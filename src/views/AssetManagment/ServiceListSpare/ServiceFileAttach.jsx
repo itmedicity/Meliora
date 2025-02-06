@@ -1,5 +1,5 @@
 import React, { memo, useCallback } from 'react'
-import { Paper, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { Box, Button, Chip, CssVarsProvider, Modal, ModalDialog } from '@mui/joy';
 import CancelIcon from '@mui/icons-material/Cancel';
 
@@ -37,7 +37,7 @@ const ServiceFileAttach = ({ imageServiceUrls, serviceimageViewOpen, servicefile
                 aria-describedby="modal-desc"
                 open={serviceimageViewOpen}
                 sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pl: 1, borderRadius: 10 }}>
-                <ModalDialog variant="outlined" sx={{ p: 0, overflow: 'auto' }}>
+                <ModalDialog variant="outlined" sx={{ p: 0, overflow: 'auto', width: '90%' }}>
                     <Box sx={{ flex: 1, display: 'flex', mt: 1, p: 1, }}>
                         <Box sx={{ flex: 1, color: 'grey', fontWeight: 600, pl: 1 }}>
                             File View
@@ -84,19 +84,40 @@ const ServiceFileAttach = ({ imageServiceUrls, serviceimageViewOpen, servicefile
                         </Box>
                     </Box>
 
-                    <Box sx={{ gap: 5 }}>
+                    <Box sx={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        gap: 1,
+                        overflow: 'auto',
+                        px: 1,
+                        height: '75vh',
+                    }}>
                         {imageServiceUrls.map((imageUrl, index) => (
-                            <Paper key={index} sx={{ bgcolor: '#EBEBE8', cursor: 'pointer', height: 700, width: 820, mb: 1, mx: 1 }}>
+                            <Box
+                                key={index}
+                                sx={{
+                                    cursor: 'pointer',
+                                    width: '49%',
+                                    height: '100%',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    border: 1,
+                                    p: 1,
+                                    borderColor: 'lightgrey'
+                                }}
+                            >
                                 <embed
                                     id="pdf-embed"
                                     src={imageUrl}
                                     type="application/pdf"
-                                    height={650}
-                                    width={'100%'} />
-
-                            </Paper>
-                        ))
-                        }
+                                    style={{
+                                        height: '100%',
+                                        width: '100%',
+                                    }}
+                                />
+                            </Box>
+                        ))}
                     </Box>
                     <Box sx={{ textAlign: 'right', pb: 1, mr: 1 }}>
                         <Button

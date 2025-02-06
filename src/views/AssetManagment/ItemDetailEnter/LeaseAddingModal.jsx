@@ -7,11 +7,11 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 const LeaseAddingModal = ({ BillArray, rowSelect }) => {
     return (
         <Box sx={{
-            borderBottom: 1, borderWidth: 0.1, borderColor: 'black', minHeight: 150, maxHeight: 200,
-            overflow: 'auto', borderLeft: 1, borderRight: 1, borderTop: 1
+            minHeight: 150, maxHeight: 200,
+            overflow: 'auto', border: 1, borderColor: 'lightgrey', px: .5
         }} >
             <CssVarsProvider>
-                <Table stickyHeader>
+                <Table stickyHeader size='sm'>
                     <thead>
                         <tr>
                             <th style={{ width: '7%', align: "center" }}>Sl No</th>

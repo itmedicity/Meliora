@@ -70,7 +70,7 @@ const ReplyModal = ({ open, setReplyOpen, setReplyflag, valuee, setTableCount, t
 
     const SubmitQuery = useCallback((e) => {
         e.preventDefault();
-        if (replies !== '') {
+        if (replies.trim() !== '') {
             const rejectTask = async (postdata) => {
                 const result = await axioslogin.post('/TmAllDeptTask/replyQuery', postdata);
                 const { success, message } = result.data;
@@ -86,7 +86,7 @@ const ReplyModal = ({ open, setReplyOpen, setReplyflag, valuee, setTableCount, t
             rejectTask(postdata);
         }
         else {
-            infoNotify('please mark Your replies')
+            infoNotify('Please mark your replies')
         }
     }, [tableCount, setTableCount, replies, postdata]);
 

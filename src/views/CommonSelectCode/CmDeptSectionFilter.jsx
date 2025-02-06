@@ -4,7 +4,7 @@ import Autocomplete from '@mui/joy/Autocomplete';
 import { CssVarsProvider } from '@mui/joy/';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
-const CmDeptSectionFilter = ({ cmSection, setCmSection, setDataa, setEmptyFlag }) => {
+const CmDeptSectionFilter = ({ cmSection, setCmSection, setDataa, }) => {
     const deptsectionList = useSelector((state) => state.getDeptsection?.deptsectionList);
     const [sectionX, setSectionX] = useState([{ sec_id: 0, sec_name: '' }]);
     const [value, setValue] = useState(sectionX[0]);
@@ -25,9 +25,9 @@ const CmDeptSectionFilter = ({ cmSection, setCmSection, setDataa, setEmptyFlag }
         } else {
             setCmSection(0);
             setDataa([])
-            setEmptyFlag(0)
+
         }
-    }, [setCmSection, setDataa, setEmptyFlag]);
+    }, [setCmSection, setDataa,]);
 
     useEffect(() => {
         if (deptsectionList.length > 0) setSectionX(deptsectionList);
@@ -40,10 +40,10 @@ const CmDeptSectionFilter = ({ cmSection, setCmSection, setDataa, setEmptyFlag }
                     sx={{
                         width: '100%',
                         minHeight: 32,
-                        borderRadius: 18
+                        borderRadius: 5
                     }}
                     value={cmSection === 0 ? sectionX : value}
-                    placeholder="Select Section"
+                    placeholder="Select Ticket Registerd Section"
                     clearOnBlur
                     onChange={(event, newValue) => {
                         setValue(newValue);

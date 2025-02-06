@@ -1,4 +1,4 @@
-import { Box, Chip, CssVarsProvider, Tooltip, Typography } from '@mui/joy'
+import { Badge, Box, Chip, CssVarsProvider, Tooltip, Typography } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import ContactSupportIcon from '@mui/icons-material/ContactSupport';
 import VerifiedSharpIcon from '@mui/icons-material/VerifiedSharp';
@@ -22,33 +22,40 @@ import ComFileView from '../../CmFileView/ComFileView';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import ViewAssetDetails from '../../ComplaintRegister/TicketLists/ViewAssetDetails';
-import InventoryIcon from '@mui/icons-material/Inventory';
+import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
+import TextComponent from 'src/views/Components/TextComponent';
+import { format } from 'date-fns';
+import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 
 const MyHoldList = () => {
 
     const [allPendingCompl, setAllPendingCompl] = useState([])
     const [count, setCount] = useState(0)
     const [assistNeed, setAssistNeed] = useState([])
-    const [assistNeedFlag, setassistNeedFlag] = useState(0)
-    const [assistOpen, setAssistOpen] = useState(true)
     const [rectfyDta, setRectfyDta] = useState([])
-    const [rectfyFlag, setrectfyFlag] = useState(0)
-    const [rectfyOpen, setrectfyOpen] = useState(true)
-    const [queryflag, setqueryflag] = useState(0)
-    const [queryOpen, setqueryOpen] = useState(false)
     const [valuee, setValuee] = useState([])
-    const [holdflag, setHoldflag] = useState(0)
-    const [holdOpen, setHoldOpen] = useState(false)
     const [holdData, setHoldData] = useState([])
-    const [assignedEmployees, setAssignedEmployees] = useState([])
     const [image, setimage] = useState(0)
     const [fileDetails, setfileDetails] = useState([])
     const [imageUrls, setImageUrls] = useState([]);
     const [selectedImages, setSelectedImages] = useState([]);
-    const [imageViewOpen, setimageViewOpen] = useState(false)
-    const [assetArray, setAssetArray] = useState([])
-    const [assetflag, setAssetflag] = useState(0)
-    const [assetOpen, setAssetOpen] = useState(false)
+
+
+    const [openStates, setOpenStates] = useState({
+        assistOpen: true,
+        rectfyOpen: true,
+        queryOpen: false,
+        holdOpen: false,
+        assetOpen: false,
+    });
+
+    const [flags, setFlags] = useState({
+        assetFlag: 0,
+        assistNeedFlag: 0,
+        rectfyFlag: 0,
+        queryFlag: 0,
+        holdFlag: 0,
+    });
 
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
 
@@ -59,19 +66,28 @@ const MyHoldList = () => {
     }, [id])
 
     useEffect(() => {
+        const controller = new AbortController();
+        const signal = controller.signal;
         const getAllPendingHoldCompalints = async () => {
-            const result = await axioslogin.post('/Rectifycomplit/getEmplHoldList', searchData);
-            const { success, data } = result.data;
-            if (success === 2) {
-                setAllPendingCompl(data)
-            } else {
-                setAllPendingCompl([])
+            try {
+                const result = await axioslogin.post('/Rectifycomplit/getEmplHoldList', searchData, { signal });
+                const { success, data } = result.data;
+                if (success === 2) {
+                    setAllPendingCompl(data);
+                } else {
+                    setAllPendingCompl([]);
+                }
+            } catch (error) {
+                if (error.name !== 'AbortError') {
+                    setAllPendingCompl([]);
+                }
             }
-
-        }
-        getAllPendingHoldCompalints(searchData)
-    }, [searchData, count])
-
+        };
+        getAllPendingHoldCompalints();
+        return () => {
+            controller.abort();
+        };
+    }, [searchData, count]);
 
 
 
@@ -82,76 +98,73 @@ const MyHoldList = () => {
 `;
 
 
-
     const RaiseQuery = useCallback((value) => {
-        setqueryflag(1)
-        setValuee(value)
-        setqueryOpen(true)
-    }, [])
+        setFlags((prevFlags) => ({
+            ...prevFlags,
+            queryFlag: 1,
+        }));
+        setValuee(value);
+        setOpenStates((prevState) => ({
+            ...prevState,
+            queryOpen: true,
+        }));
+    }, [setFlags, setValuee, setOpenStates]);
 
     const AssistanceRequest = useCallback((val) => {
-        setAssistNeed(val)
-        setassistNeedFlag(1)
-        setAssistOpen(true)
-    }, [])
+        setAssistNeed(val);
+        setFlags((prevFlags) => ({
+            ...prevFlags,
+            assistNeedFlag: 1,
+        }));
+        setOpenStates((prevState) => ({
+            ...prevState,
+            assistOpen: true,
+        }));
+    }, [setAssistNeed, setFlags, setOpenStates]);
 
     const RectifyRequest = useCallback((val) => {
-        setRectfyDta(val)
-        setrectfyFlag(1)
-        setrectfyOpen(true)
-    }, [])
+        setRectfyDta(val);
+        setFlags((prevFlags) => ({
+            ...prevFlags,
+            rectfyFlag: 1,
+        }));
+        setOpenStates((prevState) => ({
+            ...prevState,
+            rectfyOpen: true,
+        }));
+    }, [setRectfyDta, setFlags, setOpenStates]);
 
     const HoldReason = useCallback((val) => {
-        setHoldData(val)
-        setHoldflag(1)
-        setHoldOpen(true)
-    }, [])
-
-    useEffect(() => {
-        const getAssignedEmployees = async () => {
-            const updatedEmployees = {};
-            for (let complaint of allPendingCompl) {
-                const result = await axioslogin.get(`Rectifycomplit/getAssignEmps/${complaint.complaint_slno}`);
-                const { success, data } = result.data;
-                if (success === 1) {
-                    updatedEmployees[complaint.complaint_slno] = data;
-                } else {
-                    updatedEmployees[complaint.complaint_slno] = [];
-                }
-            }
-            setAssignedEmployees(updatedEmployees);
-        };
-        getAssignedEmployees();
-    }, [allPendingCompl]);
-
-    useEffect(() => {
-        const getAssetinComplaint = async () => {
-            const AssetedArray = {};
-            for (let complaint of allPendingCompl) {
-                const result = await axioslogin.get(`complaintreg/getAssetinComplaint/${complaint.complaint_slno}`);
-                const { success, data } = result.data;
-                if (success === 2) {
-                    AssetedArray[complaint.complaint_slno] = data;
-                } else {
-                    AssetedArray[complaint.complaint_slno] = [];
-                }
-            }
-            setAssetArray(AssetedArray);
-        };
-        getAssetinComplaint();
-    }, [allPendingCompl]);
-
+        setHoldData(val);
+        setFlags((prevFlags) => ({
+            ...prevFlags,
+            holdFlag: 1,
+        }));
+        setOpenStates((prevState) => ({
+            ...prevState,
+            holdOpen: true,
+        }));
+    }, [setHoldData, setFlags, setOpenStates]);
 
     const AssetView = useCallback((value) => {
-        setValuee(value)
-        setAssetflag(1)
-        setAssetOpen(true)
-    }, [setAssetflag, setAssetOpen])
+        setValuee(value);
+        setFlags((prevFlags) => ({
+            ...prevFlags,
+            assetFlag: 1,
+        }));
+        setOpenStates((prevState) => ({
+            ...prevState,
+            assetOpen: true,
+        }));
+    }, [setValuee, setFlags, setOpenStates]);
 
     const fileView = async (val) => {
         const { complaint_slno } = val;
         setimage(1);
-        setimageViewOpen(true);
+        setOpenStates((prevState) => ({
+            ...prevState,
+            imageViewOpen: true,
+        }));
         setfileDetails(val);
         try {
             const result = await axioslogin.get(`/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`);
@@ -162,8 +175,7 @@ const MyHoldList = () => {
                 const fileUrls = fileNames.map((fileName) => {
                     return `${PUBLIC_NAS_FOLDER}/ComplaintManagement/${complaint_slno}/${fileName}`;
                 });
-                setImageUrls(fileUrls);
-                // Open the modal only if there are files
+                setImageUrls(fileUrls)
                 if (fileUrls.length > 0) {
                     setSelectedImages(val);
                 } else {
@@ -175,81 +187,114 @@ const MyHoldList = () => {
         } catch (error) {
             warningNotify('Error in fetching files:', error);
         }
-    }
+    };
 
 
     return (
         <Box sx={{
             bgcolor: 'white',
             borderRadius: 0
-            , height: '70vh',
+            , height: '69vh',
             overflow: 'auto'
         }}>
-            {queryflag === 1 ?
-                <CmQuieryModal open={queryOpen} setqueryOpen={setqueryOpen} valuee={valuee}
-                    setqueryflag={setqueryflag}
-                    setCount={setCount} count={count}
+            {flags.queryFlag === 1 ? (
+                <CmQuieryModal
+                    open={openStates.queryOpen}
+                    setqueryOpen={(value) =>
+                        setOpenStates((prevState) => ({ ...prevState, queryOpen: value }))
+                    }
+                    valuee={valuee}
+                    setqueryflag={(value) =>
+                        setFlags((prevFlags) => ({ ...prevFlags, queryFlag: value }))}
+                    setCount={setCount}
+                    count={count}
                 />
-                : null}
+            ) : null}
 
             {image === 1 ?
                 <ComFileView
                     imageUrls={imageUrls}
-                    imageViewOpen={imageViewOpen}
+                    imageViewOpen={openStates.imageViewOpen}
                     selectedImages={selectedImages}
                     fileDetails={fileDetails}
                     setimage={setimage}
-                    setimageViewOpen={setimageViewOpen}
-
+                    setimageViewOpen={(value) => setOpenStates(prevState => ({ ...prevState, imageViewOpen: value }))}  // Use setOpenStates to modify imageViewOpen
                 /> : null}
-            {assetflag === 1 ?
+
+            {flags.assetFlag === 1 ? (
                 <ViewAssetDetails
-                    assetOpen={assetOpen}
-                    setAssetOpen={setAssetOpen}
-                    setAssetflag={setAssetflag}
+                    assetOpen={openStates.assetOpen}
+                    setAssetOpen={(value) =>
+                        setOpenStates((prevState) => ({ ...prevState, assetOpen: value }))
+                    }
+                    setAssetflag={(value) =>
+                        setFlags((prevFlags) => ({ ...prevFlags, assetFlag: value }))
+                    }
                     valuee={valuee}
                     count={count}
                     setCount={setCount}
                 />
-                : null}
+            ) : null}
 
-            {assistNeedFlag === 1 ?
+            {flags.assistNeedFlag === 1 ? (
                 <AssistneedModal
-                    assistOpen={assistOpen}
-                    assistNeedFlag={assistNeedFlag}
+                    assistOpen={openStates.assistOpen}
+                    assistNeedFlag={flags.assistNeedFlag}
                     assistNeed={assistNeed}
-                    setassistNeedFlag={setassistNeedFlag}
-                    setAssistOpen={setAssistOpen}
+                    setassistNeedFlag={(value) =>
+                        setFlags((prevFlags) => ({ ...prevFlags, assistNeedFlag: value }))
+                    }
+                    setAssistOpen={(value) =>
+                        setOpenStates((prevState) => ({ ...prevState, assistOpen: value }))
+                    }
                     count={count}
                     setCount={setCount}
-                /> :
-                null}
+                />
+            ) : null}
 
-            {rectfyFlag === 1 ?
+            {flags.rectfyFlag === 1 ? (
                 <NewRectifyModal
-                    rectfyOpen={rectfyOpen}
-                    setrectfyOpen={setrectfyOpen}
-                    setrectfyFlag={setrectfyFlag}
+                    rectfyOpen={openStates.rectfyOpen}
+                    setrectfyOpen={(value) =>
+                        setOpenStates((prevState) => ({ ...prevState, rectfyOpen: value }))
+                    }
+                    setrectfyFlag={(value) =>
+                        setFlags((prevFlags) => ({ ...prevFlags, rectfyFlag: value }))
+                    }
                     rectfyDta={rectfyDta}
                     count={count}
                     setCount={setCount}
                 />
-                : null}
+            ) : null}
 
-            {holdflag === 1 ?
+            {flags.holdFlag === 1 ? (
                 <HoldReasonModal
-                    holdOpen={holdOpen}
-                    setHoldOpen={setHoldOpen}
-                    setHoldflag={setHoldflag}
+                    holdOpen={openStates.holdOpen}
+                    setHoldOpen={(value) =>
+                        setOpenStates((prevState) => ({ ...prevState, holdOpen: value }))
+                    }
+                    setHoldflag={(value) =>
+                        setFlags((prevFlags) => ({ ...prevFlags, holdFlag: value }))
+                    }
                     holdData={holdData}
                     count={count}
                     setCount={setCount}
                 />
-                : null}
+            ) : null}
+
+
 
             {allPendingCompl.length !== 0 ?
                 <Box sx={{ p: .1, mb: .8 }}>
                     {allPendingCompl?.map((val, index) => {
+                        const getBadgeColor = (pending, accepted, rejected) => {
+                            if (pending > 0) return '#0458AB'
+                            if (pending === 0 && accepted > 0) return 'green'
+                            if (pending === 0 && accepted === 0 && rejected > 0) return 'red'
+                            return null
+                        };
+
+                        const badgeColor = getBadgeColor(val.pending, val.accepted, val.rejected);
                         return (
                             <Box
                                 key={val.complaint_slno}
@@ -262,13 +307,46 @@ const MyHoldList = () => {
                                     mb: .6
 
                                 }}>
+                                <Box sx={{
+                                    flex: 1, bgcolor: '#E5E8E9', borderTopRightRadius: 6, borderTopLeftRadius: 6,
+                                    mx: .1, display: 'flex',
+                                }}>
+
+                                    <CssVarsProvider>
+                                        <Tooltip title='Ticket Registered Date and time' placement='top-start' >
+                                            <Box sx={{ cursor: 'pointer' }}>
+                                                <TextComponent
+                                                    sx={{
+                                                        color: 'black',
+                                                        fontWeight: 540,
+                                                        flex: 1,
+                                                        fontSize: 15,
+                                                        pl: 1,
+                                                        py: .5,
+                                                        fontFamily: 'Arial',
+                                                    }}
+                                                    text={
+                                                        val.compalint_date
+                                                            ? format(new Date(val.compalint_date), 'dd MMM yyyy,   hh:mm a')
+                                                            : 'Invalid Date'
+                                                    }
+                                                />
+                                            </Box>
+                                        </Tooltip>
+                                    </CssVarsProvider>
+                                    <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', }}>
+                                        <Box sx={{ my: .3, mr: .1, px: 2, fontWeight: 500, fontSize: 14, cursor: 'pointer' }}>
+                                            Ticket Registered by :  {val.comp_reg_emp}
+                                        </Box>
+                                    </Box>
+                                </Box>
                                 {val.aprrox_date !== null ?
                                     <Box sx={{
-                                        flex: 1, bgcolor: '#E7D2CC', borderTopRightRadius: 5, borderTopLeftRadius: 5, mb: .1,
-                                        mx: .1, display: 'flex', py: .3,
+                                        flex: 1, bgcolor: '#E7D2CC',
+                                        display: 'flex', py: .3,
                                     }}>
                                         <Typography sx={{ color: '#026F7E', pl: 1, pt: .2, fontWeight: 700, fontSize: 13 }}>
-                                            ASSINGED BY SUPERVISOR
+                                            ASSIGNED BY {val.assinged_user}
                                         </Typography>
                                         <Typography sx={{ color: 'black', pt: .2, fontWeight: 500, fontSize: 13, ml: 3 }}>
                                             Priority :
@@ -291,10 +369,50 @@ const MyHoldList = () => {
                                             {val.complaint_remark}
                                         </Typography>
                                     </Box> : null}
+                                {val.cm_rectify_status === 'Z' && val.verify_remarks !== null ?
+                                    <Box sx={{
+                                        flex: 1, bgcolor: "#DFDACD",
+                                        display: 'flex', py: .3, flexWrap: 'wrap'
+                                    }}>
+                                        <Box sx={{ display: 'flex', pl: .5, }}>
+                                            <ReportProblemIcon sx={{ color: 'darkred', P: .1 }} />
+                                            <Box sx={{ pt: .3, color: 'darkred', fontWeight: 700, fontSize: 14, }}>
+                                                TICKET RESUBMITTED
+                                            </Box>
+                                        </Box>
+                                        <Box sx={{ display: 'flex', }}>
+                                            <Box sx={{ pl: 2, fontWeight: 600, color: 'darkred' }}>
+                                                Remarks:
+                                            </Box>
+                                            <Box sx={{ pl: 1, fontWeight: 600, color: 'darkred' }}>
+                                                {val.verify_remarks}
+                                            </Box>
+                                        </Box>
+                                    </Box> : null}
 
+                                {val.verify_spervsr_remarks !== null && val.verify_spervsr === 2 ?
+                                    <Box sx={{
+                                        flex: 1, bgcolor: "#DFDACD      ",
+                                        display: 'flex', py: .3, flexWrap: 'wrap'
+                                    }}>
+                                        <Box sx={{ display: 'flex', pl: .5, }}>
+                                            <ReportProblemIcon sx={{ color: 'darkred', P: .1 }} />
+                                            <Box sx={{ pt: .3, color: 'darkred', fontWeight: 700, fontSize: 14, }}>
+                                                RESUBMITTED BY SUPERVISOR
+                                            </Box>
+                                        </Box>
+                                        <Box sx={{ display: 'flex', }}>
+                                            <Box sx={{ pl: 2, fontWeight: 600, color: 'darkred' }}>
+                                                Remarks:
+                                            </Box>
+                                            <Box sx={{ pl: 1, fontWeight: 600, color: 'darkred' }}>
+                                                {val.verify_spervsr_remarks}
+                                            </Box>
+                                        </Box>
+                                    </Box> : null}
                                 <Box sx={{ flex: 1, display: 'flex', p: .8, }}>
                                     <Box sx={{
-                                        maxWidth: 200,
+                                        maxWidth: 210,
                                         mx: .3, pr: .5,
                                         borderRight: 1, borderColor: 'lightgrey'
                                     }}>
@@ -305,20 +423,10 @@ const MyHoldList = () => {
                                             </Typography>
                                         </Tooltip>
                                         <Box sx={{ flex: 1, display: 'flex', my: 1, justifyContent: 'center', }}>
-                                            {val.cm_file_status === 1 ?
-                                                <FilePresentRoundedIcon sx={{
-                                                    color: '#41729F',
-                                                    cursor: 'pointer',
-                                                    height: 28, width: 30,
-                                                    border: 1, borderRadius: 5, p: .1,
-                                                    '&:hover': { color: '#274472' }
-                                                }}
-                                                    onClick={() => fileView(val)}
-                                                /> :
-                                                null}
+
                                             <Tooltip title='Rectify' color='success'>
                                                 <VerifiedSharpIcon sx={{
-                                                    height: 28, width: 30, color: '#1D741B', cursor: 'pointer', border: 1, mx: .5, borderRadius: 5, p: .1,
+                                                    height: 28, width: 30, color: '#1D741B', cursor: 'pointer', border: 1, mr: .5, borderRadius: 5, p: .1,
                                                     '&:hover': { color: '#18A558' },
                                                 }}
                                                     onClick={() => RectifyRequest(val)}
@@ -326,16 +434,55 @@ const MyHoldList = () => {
 
                                                 />
                                             </Tooltip>
-                                            <Tooltip title='Need Assist' color='warning' >
-                                                <BuildRoundedIcon sx={{
-                                                    height: 28, width: 30, color: '#B68D40 ', cursor: 'pointer', border: 1, borderRadius: 5, p: .3,
-                                                    '&:hover': { color: '#D6AD60' },
-                                                }}
-                                                    onClick={() => AssistanceRequest(val)} />
-                                            </Tooltip>
+                                            {badgeColor ? (
+                                                <Badge
+                                                    badgeInset="3%"
+                                                    sx={{
+                                                        '& .MuiBadge-badge': {
+                                                            backgroundColor: badgeColor,
+                                                            mr: .7,
+                                                            cursor: 'pointer'
+                                                        },
+                                                    }}
+                                                >
+                                                    <Tooltip title="Need Assist" color="warning">
+                                                        <BuildRoundedIcon
+                                                            onClick={() => AssistanceRequest(val)}
+                                                            sx={{
+                                                                height: 28,
+                                                                width: 30,
+                                                                color: '#B68D40',
+                                                                cursor: 'pointer',
+                                                                border: 1,
+                                                                borderRadius: 5,
+                                                                p: 0.3, mr: .5,
+                                                                '&:hover': { color: '#D6AD60' },
+                                                                animation: val.assist_flag === 1 ? `${blinkAnimation} 1s infinite` : 'none',
+                                                            }}
+                                                        />
+                                                    </Tooltip>
+                                                </Badge>
+                                            ) : (
+                                                <Tooltip title="Need Assist" color="warning">
+                                                    <BuildRoundedIcon
+                                                        onClick={() => AssistanceRequest(val)}
+                                                        sx={{
+                                                            height: 28,
+                                                            width: 30,
+                                                            color: '#B68D40',
+                                                            cursor: 'pointer',
+                                                            border: 1,
+                                                            borderRadius: 5,
+                                                            p: 0.3, mr: .5,
+                                                            '&:hover': { color: '#D6AD60' },
+                                                            animation: val.assist_flag === 1 ? `${blinkAnimation} 1s infinite` : 'none',
+                                                        }}
+                                                    />
+                                                </Tooltip>
+                                            )}
                                             <Tooltip title='On Hold Reason'  >
                                                 <ArticleIcon sx={{
-                                                    height: 28, width: 30, color: '#50655B ', cursor: 'pointer', border: 1, borderRadius: 5, p: .3, ml: .5,
+                                                    height: 28, width: 30, color: '#50655B ', cursor: 'pointer', border: 1, borderRadius: 5, p: .3, mr: .5,
                                                     '&:hover': { color: 'grey' },
                                                 }}
 
@@ -346,7 +493,7 @@ const MyHoldList = () => {
                                                     <InsertCommentIcon sx={{
                                                         height: 28, width: 30,
                                                         color: '#1565B1',
-                                                        cursor: 'pointer', border: 1, mx: .5, borderRadius: 5, p: .1,
+                                                        cursor: 'pointer', border: 1, mr: .5, borderRadius: 5, p: .1,
                                                         '&:hover': { color: '#51575C' },
                                                         animation: `${blinkAnimation} 1s infinite`
                                                     }
@@ -359,7 +506,7 @@ const MyHoldList = () => {
                                                         <MarkUnreadChatAltIcon sx={{
                                                             height: 28, width: 30,
                                                             color: '#39918C',
-                                                            cursor: 'pointer', border: 1, mx: .5, borderRadius: 5, p: .1,
+                                                            cursor: 'pointer', border: 1, mr: .5, borderRadius: 5, p: .1,
                                                             '&:hover': { color: '#51575C' },
                                                             animation: `${blinkAnimation} 1s infinite`
                                                         }
@@ -370,21 +517,31 @@ const MyHoldList = () => {
                                                     :
                                                     <Tooltip title='Raise a Query' color='primary'>
                                                         <ContactSupportIcon sx={{
-                                                            height: 28, width: 30,
+                                                            height: 28, width: 30, mr: .5,
                                                             color: '#5C90FE',
-                                                            cursor: 'pointer', border: 1, mx: .5, borderRadius: 5,
+                                                            cursor: 'pointer', border: 1, borderRadius: 5,
                                                             '&:hover': { color: '#1B84FC' },
                                                         }
                                                         }
                                                             onClick={() => RaiseQuery(val)}
                                                         />
                                                     </Tooltip>}
-
-                                            {assetArray[val.complaint_slno]?.length !== 0 ?
-                                                <Tooltip title='Asset Details' sx={{ bgcolor: '#524199' }} >
-                                                    <InventoryIcon sx={{
+                                            {val.cm_file_status === 1 ?
+                                                <FilePresentRoundedIcon sx={{
+                                                    color: '#41729F',
+                                                    cursor: 'pointer',
+                                                    height: 28, width: 30,
+                                                    border: 1, borderRadius: 5, p: .1, mr: .5,
+                                                    '&:hover': { color: '#274472' }
+                                                }}
+                                                    onClick={() => fileView(val)}
+                                                /> :
+                                                null}
+                                            {val.cm_asset_status === 1 ?
+                                                <Tooltip title='Asset Details' sx={{ bgcolor: '#4C5270' }} >
+                                                    <MiscellaneousServicesIcon sx={{
                                                         height: 28, width: 30, border: 1, borderRadius: 5, mr: .5,
-                                                        p: .1, color: '#524199', cursor: 'pointer'
+                                                        p: .1, color: '#4C5270', cursor: 'pointer'
 
                                                     }} onClick={() => AssetView(val)} />
                                                 </Tooltip>
@@ -445,28 +602,27 @@ const MyHoldList = () => {
                                 </Box>
                                 <Box sx={{
                                     flex: 1, bgcolor: '#E5E8E9', borderBottomRightRadius: 5, borderBottomLeftRadius: 5, mb: .1,
-                                    mx: .1, display: 'flex',
+                                    display: 'flex',
                                 }}>
                                     <CssVarsProvider>
                                         <Tooltip title='CountUp time Starts from Ticket Registration' color='warning' variant="soft" sx={{ width: 180 }}>
-                                            <Box sx={{ textAlign: 'center', display: 'flex', cursor: 'grab', ml: .8, mr: .5, width: 115 }}>
+                                            <Box sx={{ display: 'flex', cursor: 'grab', fontSize: 13, py: .3, pl: .3, width: 125 }}>
                                                 <CountDownCm complaintDate={val.compalint_date} />
                                             </Box>
                                         </Tooltip>
                                     </CssVarsProvider>
                                     <CssVarsProvider>
-                                        <Tooltip title='Ticket Assinged Date and time' placement='right'   >
-                                            <Box sx={{ display: 'flex' }}>
-                                                <QueryBuilderRoundedIcon sx={{ color: 'black', borderRadius: 1, pt: .7 }} />
-                                                <Typography sx={{ fontSize: 12, textAlign: 'center', fontWeight: 600, color: "black", mr: .3, mt: .6, cursor: 'grab' }}>
+                                        <Tooltip title='Ticket Assigned Date and time' placement='right'   >
+                                            <Box sx={{ display: 'flex', ml: 1.5, pt: .3 }}>
+                                                <QueryBuilderRoundedIcon sx={{ color: 'black', borderRadius: 1, p: .2 }} />
+                                                <Typography sx={{ fontSize: 12, textAlign: 'center', fontWeight: 600, color: "black", mr: .3, pt: .4, cursor: 'grab' }}>
                                                     {val.assigned_date}
                                                 </Typography>
                                             </Box>
                                         </Tooltip>
                                     </CssVarsProvider>
                                     {val.priority_check === 1 ?
-                                        <Box sx={{ display: 'flex', pl: 1.3 }}>
-
+                                        <Box sx={{ display: 'flex', pl: 1 }}>
                                             <ErrorIcon
                                                 sx={{
                                                     height: 30,
@@ -482,25 +638,37 @@ const MyHoldList = () => {
 
                                         </Box> : null}
                                     <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', }}>
-                                        <Typography sx={{ fontSize: 13, fontWeight: 700, pt: .3 }}>Assingees :</Typography>&nbsp;&nbsp;
+                                        <Typography sx={{ fontSize: 13, fontWeight: 700, pt: .5 }}>Assignees :</Typography>&nbsp;&nbsp;
                                         <Box sx={{ fontWeight: 600, display: 'flex', py: .4, gap: .3 }}>
-                                            {assignedEmployees[val.complaint_slno]?.map((emp, index) => (
-                                                <Chip
-                                                    key={index}
-                                                    size="small"
-                                                    variant="outlined"
-                                                    sx={{ bgcolor: '#D3C7A1', fontSize: 13, px: .8 }}>
-                                                    {emp.em_name}
+
+                                            {val.assigned_employees === null ?
+                                                <Chip>
+                                                    Not Updated
                                                 </Chip>
-                                            ))}
-                                        </Box>&nbsp;&nbsp;
+                                                :
+                                                <>
+                                                    {val.assigned_employees.split(',').map((name, index) => (
+                                                        <Chip
+                                                            key={index}
+                                                            size="small"
+                                                            variant="outlined"
+                                                            sx={{ bgcolor: '#D3C7A1', fontSize: 13, px: 0.8, marginRight: 0.1 }}
+                                                        >
+                                                            {name.trim()}
+                                                        </Chip>
+                                                    ))}
+                                                </>}
+                                        </Box>
                                     </Box>
                                 </Box>
                             </Box>
                         )
                     })}
                 </Box> :
-                <Box sx={{ flex: 1, height: '90%', m: 1, textAlign: 'center', fontWeight: 700, fontSize: 22, color: 'lightgray', pt: 10 }}>
+                <Box sx={{
+                    flex: 1, height: '70%', margin: "auto", fontWeight: 700, fontSize: 22, color: 'lightgray', pt: 10,
+                    display: 'flex', justifyContent: 'center'
+                }}>
                     Hold List Empty
                 </Box>}
 

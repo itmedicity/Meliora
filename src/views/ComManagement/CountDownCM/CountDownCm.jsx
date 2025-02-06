@@ -4,7 +4,6 @@ import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
 import UseCountDownCm from './UseCountDownCm';
 import { Typography } from '@mui/joy';
 
-
 const CountDownCm = ({ complaintDate }) => {
     const currentTime = new Date()
     const difference = new Date(complaintDate) - currentTime
@@ -13,7 +12,7 @@ const CountDownCm = ({ complaintDate }) => {
 
     return (
         <Box sx={{ display: 'flex', }}>
-            <TimerOutlinedIcon sx={{ color: 'darkred', borderRadius: 1, p: .3 }} />
+            <TimerOutlinedIcon sx={{ color: 'darkred', borderRadius: 1, p: .2, mt: .1 }} />
             {days !== 0 ?
                 <Box sx={{ display: 'flex', pt: .3 }}>
                     <Typography sx={{ fontWeight: 600, color: 'darkred', fontSize: 13, }}>

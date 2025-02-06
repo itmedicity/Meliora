@@ -6,6 +6,14 @@ import CIcon from '@coreui/icons-react'
 const CmTransactions = [
 
     {
+        men_slno: 148,
+        component: CNavItem,
+        name: 'Dashboard',
+        to: '/Home/TicketDashboards',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
+
+    {
         men_slno: 5,
         component: CNavItem,
         name: 'Ticket Registration',
@@ -26,11 +34,50 @@ const CmTransactions = [
         to: '/Home/AssignComplaint',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
+    {
+        men_slno: 226,
+        component: CNavItem,
+        name: 'Service Request',
+        to: '/Home/AssetServiceList',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
+
+    // {
+    //     men_slno: 235,
+    //     component: CNavItem,
+    //     name: 'xx',
+    //     to: '/Home/CmComponenteptTicketAnalysisPercentage',
+    //     icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    // },
+
+    ////////////////////////////////exsisting
+
     // {
     //     men_slno: 113,
     //     component: CNavItem,
     //     name: 'Registred Complaint List',
     //     to: '/Home/RegistredCompList',
+    //     icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    // },
+    // {
+    //     men_slno: 5,
+    //     component: CNavItem,
+    //     name: 'Complaint Registration',
+    //     to: '/Home/ComplaintRegister',
+    //     icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    // },
+    // {
+    //     men_slno: 66,
+    //     component: CNavItem,
+    //     name: ' Direct Complaint',
+    //     to: '/Home/DirectComplaint',
+    //     icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    // },
+    // {
+    //     men_slno: 6,
+    //     component: CNavItem,
+    //     name: 'Complaint List ',
+    //     to: '/Home/AssignComplaint',
     //     icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     // },
     // {
@@ -63,13 +110,7 @@ const CmTransactions = [
     //     icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     // },
 
-    {
-        men_slno: 226,
-        component: CNavItem,
-        name: 'Service Request',
-        to: '/Home/AssetServiceList',
-        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
-    },
+
 ]
 
 export default CmTransactions;

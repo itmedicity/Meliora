@@ -6,31 +6,39 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 const CmComplaintLocation = ({ cmSection, setCmSection, setCmSectionName }) => {
     const deptsectionList = useSelector((state) => state.getDeptsection?.deptsectionList);
-    const [sectionX, setSectionX] = useState([{ sec_id: 0, sec_name: '' }]);
-    const [value, setValue] = useState(sectionX[0]);
+    const [sectionX, setSectionX] = useState([{ sec_id: 0, sec_name: 'Select Section' }]);
+    const [value, setValue] = useState(sectionX[0])
     const [inputValue, setInputValue] = useState('');
 
-
     useEffect(() => {
-        if (cmSection !== 0) {
-            let newObj = deptsectionList?.find((e) => e.sec_id === cmSection);
-            setValue(newObj);
-        }
-    }, [cmSection, deptsectionList]);
-
-    const Onclick = useCallback((value) => {
-        if (value !== null) {
-            setValue(value);
-            setCmSection(value.sec_id);
-            setCmSectionName(value.sec_name);
-
+        if (cmSection > 0) {
+            const selectedSection = deptsectionList?.find((e) => e.sec_id === cmSection) || sectionX[0];
+            setValue(selectedSection);
         } else {
-            setCmSection(0);
+            setValue(sectionX[0])
         }
-    }, [setCmSection, setCmSectionName]);
+    }, [cmSection, deptsectionList, sectionX]);
+
+    const Onclick = useCallback(
+        (newValue) => {
+            if (newValue) {
+                setValue(newValue);
+                setCmSection(newValue.sec_id);
+                setCmSectionName(newValue.sec_name);
+            } else {
+                setValue(sectionX[0]);
+                setCmSection(0);
+            }
+        },
+        [setCmSection, setCmSectionName, sectionX]
+    );
 
     useEffect(() => {
-        if (deptsectionList.length > 0) setSectionX(deptsectionList);
+        if (deptsectionList?.length > 0) {
+            setSectionX([{ sec_id: 0, sec_name: 'Select Section' }, ...deptsectionList]);
+        } else {
+            setSectionX([{ sec_id: 0, sec_name: 'Select Section' }]);
+        }
     }, [deptsectionList]);
 
     return (
@@ -40,22 +48,21 @@ const CmComplaintLocation = ({ cmSection, setCmSection, setCmSectionName }) => {
                     sx={{
                         width: '100%',
                         minHeight: 35,
-                        borderRadius: 0
+                        borderRadius: 0,
                     }}
-                    value={cmSection === 0 ? sectionX : value}
+                    value={value}
                     placeholder="Select Section"
                     clearOnBlur
                     onChange={(event, newValue) => {
-                        setValue(newValue);
                         Onclick(newValue);
                     }}
                     inputValue={inputValue}
                     onInputChange={(event, newInputValue) => {
                         setInputValue(newInputValue);
                     }}
-                    loading={true}
+                    loading={sectionX.length === 1}
                     freeSolo
-                    isOptionEqualToValue={(option, value) => option.sec_name === value.sec_name}
+                    isOptionEqualToValue={(option, value) => option.sec_id === value?.sec_id}
                     getOptionLabel={(option) => option.sec_name || ''}
                     options={sectionX}
                     loadingText="No data"
@@ -64,7 +71,6 @@ const CmComplaintLocation = ({ cmSection, setCmSection, setCmSectionName }) => {
             </CssVarsProvider>
         </Fragment>
     );
-}
+};
 
-
-export default memo(CmComplaintLocation)
+export default memo(CmComplaintLocation);

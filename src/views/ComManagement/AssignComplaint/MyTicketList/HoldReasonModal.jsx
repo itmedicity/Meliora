@@ -4,6 +4,7 @@ import CustomTextarea from 'src/views/Components/CustomTextarea';
 import { Box, Button, CssVarsProvider, Modal, ModalDialog } from '@mui/joy';
 import CancelIcon from '@mui/icons-material/Cancel';
 import TextFieldCustom from 'src/views/Components/TextFieldCustom';
+import { format } from 'date-fns';
 
 const HoldReasonModal = ({ holdOpen, setHoldOpen, setHoldflag, holdData }) => {
 
@@ -94,7 +95,6 @@ const HoldReasonModal = ({ holdOpen, setHoldOpen, setHoldflag, holdData }) => {
                             placeholder=""
                             value={cm_hold_reason === null ? '' : cm_hold_reason}
                             disabled
-                        // readonly
                         />
                         <Typography sx={{ fontWeight: 600, pb: .5, mt: 1, color: '#50655B' }}>
                             Holded Remarks
@@ -114,7 +114,9 @@ const HoldReasonModal = ({ holdOpen, setHoldOpen, setHoldflag, holdData }) => {
                             {holduser}
                         </Typography>
                         <Typography sx={{ pb: .3, pr: 2, fontSize: 11, fontWeight: 600, }}>
-                            {pending_onhold_time}
+                            {pending_onhold_time
+                                ? format(new Date(pending_onhold_time), 'dd MMM yyyy,  hh:mm a')
+                                : 'Invalid Date'}
                         </Typography>
                     </Box>
                     <Box sx={{ textAlign: 'right', pb: 1, mr: 1 }}>

@@ -70,12 +70,12 @@ const MarkAsHoldModal = ({ holdOpen, setHoldOpen, setHoldflag, holdData, count, 
                 Close()
             }
         }
-        if (hold === true) {
+        if (hold === true & pendholdreason !== '') {
             statusUpdate(patchData)
         } else {
-            infoNotify("Please select any status")
+            infoNotify(" Please Mark your Hold Reason/Remarks")
         }
-    }, [patchData, Close, count, setCount, hold])
+    }, [patchData, Close, count, setCount, pendholdreason, hold])
 
 
     const buttonStyle = {

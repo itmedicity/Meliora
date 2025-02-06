@@ -75,7 +75,7 @@ export default memo(ComplaintDeptSelect)
 
 //     const handleChange = (event, newValue) => {
 //         setValue(newValue); // newValue should directly give you the selected value
-//         console.log("Selected value:", newValue);
+
 //     };
 
 

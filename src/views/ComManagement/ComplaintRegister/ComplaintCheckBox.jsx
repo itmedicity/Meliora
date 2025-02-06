@@ -1,7 +1,7 @@
 import { Checkbox, CssVarsProvider, Typography } from '@mui/joy'
 import React, { Fragment, memo } from 'react'
 
-const ComplaintCheckBox = ({ value, onChange, name, label, checkedValue, onClick, setcm_am_assetmap_slno, setSelectedAsset, setItem_slno }) => {
+const ComplaintCheckBox = ({ value, onChange, name, label, checkedValue, onClick, setcm_am_assetmap_slno, setSelectedAsset, setItem_slno, setcustodianDept, cust }) => {
     return (
         <Fragment>
             <CssVarsProvider>
@@ -15,6 +15,7 @@ const ComplaintCheckBox = ({ value, onChange, name, label, checkedValue, onClick
                         setcm_am_assetmap_slno('')
                         setSelectedAsset('')
                         setItem_slno(0)
+                        setcustodianDept(cust)
                     }}
                     onClick={onClick}
                     name={name}

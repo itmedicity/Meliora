@@ -63,7 +63,7 @@ const QueryModal = ({ open, setqueryOpen, setqueryflag, valuee, settaskcount, ta
 
     const SubmitQuery = useCallback((e) => {
         e.preventDefault();
-        if (queries !== '') {
+        if (queries.trim() !== '') {
             const rejectTask = async (postdata) => {
                 const result = await axioslogin.post('/TmAllDeptTask/askQuery', postdata);
                 const { success, message } = result.data;
@@ -78,7 +78,7 @@ const QueryModal = ({ open, setqueryOpen, setqueryflag, valuee, settaskcount, ta
             rejectTask(postdata);
         }
         else {
-            infoNotify('please mark Your Queries')
+            infoNotify('Please mark your Queries')
         }
     }, [taskcount, settaskcount, queries, postdata]);
 

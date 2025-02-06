@@ -30,7 +30,7 @@ const TransferDeptmodal = ({ open, setOpen, transfer, count, setCount, setTransm
         setTransmodal(0);
         setCount(0)
         setRemark("")
-    }, [setOpen, setCount, setTransmodal, setOpen, setRemark])
+    }, [setOpen, setCount, setTransmodal, setRemark])
     // when we click on transfer function
     const Transfer = useCallback(() => {
         const TranserDept = async (patchData) => {
@@ -124,113 +124,6 @@ const TransferDeptmodal = ({ open, setOpen, transfer, count, setCount, setTransm
                     </ModalDialog>
                 </Modal>
             </CssVarsProvider>
-
-            {/* <Fragment>
-                <ToastContainer />
-                <Dialog
-                    open={open}
-                    onClose={reset}
-                    TransitionComponent={Transition}
-                    keepMounted
-                    aria-describedby="alert-dialog-slide-descriptiona"
-                >
-                    < DialogContent id="alert-dialog-slide-descriptiona"
-                        sx={{
-                            width: "100%",
-                            height: "100%"
-                        }}
-                    >
-                        < DialogContentText id="alert-dialog-slide-descriptiona">
-                            Transfer Department
-                        </DialogContentText>
-                        <Box sx={{ width: "100%", p: 1 }}>
-                            <Paper square elevation={3} sx={{ p: 2, mt: 1 }} >
-                                <Box sx={{
-                                    width: "100%",
-                                    display: "flex",
-                                    flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
-                                    p: 0.5,
-                                    mt: 1
-                                }}>
-                                    <Box sx={{
-                                        display: 'flex',
-                                        width: "100%"
-                                    }} >
-                                        <Typography sx={{ textAlign: "center" }}>Complaint Description</Typography>
-                                    </Box>
-                                </Box>
-                                <Box sx={{
-                                    width: "100%",
-                                    display: "flex",
-                                    flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
-                                    // p: 1
-                                    p: 0.5,
-                                }}>
-                                    <Box sx={{
-                                        display: 'flex',
-                                        width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%', },
-                                        mt: 0
-                                    }} >
-                                        <CustomTextarea
-                                            style={{ width: 390 }}
-                                            minRows={4}
-                                            value={complaint_desc}
-                                            disabled
-                                        />
-                                    </Box>
-                                </Box>
-                                complain dept select box
-                                <Box sx={{
-                                    width: "100%",
-                                    // display: "flex",
-                                    flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
-                                    // p: 1
-                                    p: 0.5,
-                                    mt: 0.5
-                                }}>
-                                    <Box sx={{
-                                        width: "100%"
-                                    }}>
-                                        <ComplaintDeptSelect value={cmpdept} setValue={setCmpdept} />
-                                    </Box>
-                                </Box>
-                                <Box sx={{
-                                    width: "100%",
-                                    display: "flex",
-                                    flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
-                                    // p: 1
-                                    p: 0.5,
-                                }}>
-                                    <Box sx={{
-                                        display: 'flex',
-                                        width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%', },
-                                        mt: 0
-                                    }} >
-
-                                        <CustomTextarea
-                                            style={{ width: 390 }}
-                                            minRows={4}
-                                            placeholder="Remarks"
-                                            name='remark'
-                                            value={remark}
-                                            onchange={updateRemark}
-                                        />
-
-                                    </Box>
-                                </Box>
-                            </Paper>
-                        </Box>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button color="secondary"
-                            onClick={Transfer}
-                        >Save</Button>
-                        <Button color="secondary"
-                            onClick={reset}
-                        >Cancel</Button>
-                    </DialogActions>
-                </Dialog>
-            </Fragment> */}
         </Box >
     )
 }

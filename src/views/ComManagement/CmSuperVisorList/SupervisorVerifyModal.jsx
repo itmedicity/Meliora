@@ -2,7 +2,7 @@ import { Box, Button, Checkbox, Chip, CssVarsProvider, Modal, ModalDialog, Texta
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import CancelIcon from '@mui/icons-material/Cancel';
 import { axioslogin } from 'src/views/Axios/Axios';
-import { differenceInSeconds } from 'date-fns';
+import { differenceInSeconds, format } from 'date-fns';
 import LockClockIcon from '@mui/icons-material/LockClock';
 import { useSelector } from 'react-redux';
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode';
@@ -10,12 +10,13 @@ import moment from 'moment';
 
 const SupervisorVerifyModal = ({ open, setverifyOpen, forVerifyData, setverifyFlag, count, setCount }) => {
     const { complaint_slno, complaint_desc, compalint_date, rm_roomtype_name, rm_room_name, rm_insidebuildblock_name, rm_floor_name,
-        location, complaint_type_name, priority_check, compalint_priority, assigned_date, rectify_pending_hold_remarks, cm_rectify_time, holduser } = forVerifyData
+        location, complaint_type_name, priority_check, compalint_priority, assigned_date, rectify_pending_hold_remarks, cm_rectify_time, holduser,
+        assigned_employees } = forVerifyData
 
     const empid = useSelector((state) => {
         return state.LoginUserData.empid
     })
-    const [empName, setempname] = useState([])
+
     const [verify, setVerify] = useState(false);
     const [notrectify, setNotrectify] = useState(false);
     const [flag, setFlag] = useState(0)
@@ -26,12 +27,12 @@ const SupervisorVerifyModal = ({ open, setverifyOpen, forVerifyData, setverifyFl
     const Close = useCallback(() => {
         setverifyFlag(0)
         setverifyOpen(false)
-        setempname([])
         setVerify(false)
         setNotrectify(false)
         setFlag(0)
         setMessage('')
-    }, [setverifyOpen, setverifyFlag, setempname, setVerify, setNotrectify, setFlag, setMessage])
+        setassetDetl([])
+    }, [setverifyOpen, setverifyFlag, setVerify, setNotrectify, setFlag, setMessage, setassetDetl])
 
     const updateVerify = (e) => {
         if (e.target.checked === true) {
@@ -54,35 +55,27 @@ const SupervisorVerifyModal = ({ open, setverifyOpen, forVerifyData, setverifyFl
             setNotrectify(false)
         }
     }
-
-
     useEffect(() => {
+        let isMounted = true;
         const getAssetinComplaint = async (complaint_slno) => {
             const result = await axioslogin.get(`/complaintreg/getAssetinComplaint/${complaint_slno}`);
             const { success, data } = result.data;
-            if (success === 2) {
-                setassetDetl(data)
-            }
-            else {
+            if (isMounted) {
+                if (success === 2) {
+                    setassetDetl(data);
+                } else {
+                    setassetDetl([]);
+                }
+            } else {
                 setassetDetl([])
             }
-        }
-        getAssetinComplaint(complaint_slno)
+        };
+        getAssetinComplaint(complaint_slno);
+        return () => {
+            isMounted = false
+        };
     }, [complaint_slno, count])
 
-    useEffect(() => {
-        const getEmployeees = async () => {
-            const result = await axioslogin.get(`Rectifycomplit/getAssignEmps/${complaint_slno}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                setempname(data)
-            }
-            else {
-                setempname([])
-            }
-        }
-        getEmployeees();
-    }, [complaint_slno])
 
     const updateMessage = useCallback((e) => {
         setMessage(e.target.value)
@@ -91,7 +84,6 @@ const SupervisorVerifyModal = ({ open, setverifyOpen, forVerifyData, setverifyFl
     const formatTimeDifference = (assignedDate, rectifyTime) => {
         const assigned = new Date(assignedDate);
         const rectify = new Date(rectifyTime);
-        // Calculate the difference
         const diffInSeconds = Math.abs(differenceInSeconds(rectify, assigned));
         const days = Math.floor(diffInSeconds / (24 * 60 * 60));
         const hours = Math.floor((diffInSeconds % (24 * 60 * 60)) / (60 * 60));
@@ -151,7 +143,6 @@ const SupervisorVerifyModal = ({ open, setverifyOpen, forVerifyData, setverifyFl
                 infoNotify(message)
             }
         }
-
         if (flag === 1) {
             Verified(VerifyData)
         } else if (flag === 2) {
@@ -223,7 +214,11 @@ const SupervisorVerifyModal = ({ open, setverifyOpen, forVerifyData, setverifyFl
                                                 : "Not Updated"}
                                         </Typography> : null}
                                     <Typography sx={{ pl: .5, fontSize: 13, color: 'Black', }}>
-                                        {compalint_date}
+
+
+                                        {compalint_date
+                                            ? format(new Date(compalint_date), 'dd MMM yyyy,  hh:mm a')
+                                            : 'Invalid Date'}
                                     </Typography>
                                 </Box>
                             </Box>
@@ -254,32 +249,51 @@ const SupervisorVerifyModal = ({ open, setverifyOpen, forVerifyData, setverifyFl
                                             </Chip>}
                                     </Box>
                                 </Box>
-                                <Box sx={{ flex: 1, display: 'flex', mt: 1 }}>
+                                <Box sx={{ flex: 1, display: 'flex', mt: 1, }}>
                                     <Typography sx={{ flex: 1.8, pl: 3, fontWeight: 500, fontSize: 15 }}>
-                                        Assinged Employees
+                                        Assigned Employees
                                     </Typography>
                                     <Box sx={{ flex: 3, display: 'flex', gap: .5 }}>
-                                        {empName?.map((val, index) => {
-                                            return (
-                                                <Chip
-                                                    key={index}
-                                                    size="sm"
-                                                    variant="outlined"
-                                                    sx={{ bgcolor: '#D3C7A1' }}>
-                                                    {val.em_name}
-                                                </Chip>
-                                            )
-                                        })}
+                                        {/* {assigned_employees.split(',').map((name, index) => (
+                                            <Chip
+                                                key={index}
+                                                size="small"
+                                                variant="outlined"
+                                                sx={{ bgcolor: '#D3C7A1', fontSize: 13, px: 0.8, marginRight: 0.1 }}
+                                            >
+                                                {name.trim()}
+                                            </Chip>
+                                        ))} */}
+                                        {assigned_employees === null ?
+                                            <Chip>
+                                                Not Updated
+                                            </Chip>
+                                            :
+                                            <>
+                                                {assigned_employees.split(',').map((name, index) => (
+                                                    <Chip
+                                                        key={index}
+                                                        size="small"
+                                                        variant="outlined"
+                                                        sx={{ bgcolor: '#D3C7A1', fontSize: 13, px: 0.8, marginRight: 0.1 }}
+                                                    >
+                                                        {name.trim()}
+                                                    </Chip>
+                                                ))}
+                                            </>}
                                     </Box>
                                 </Box>
 
                                 <Box sx={{ flex: 1, display: 'flex', mt: .5 }}>
                                     <Typography sx={{ flex: 1.8, pl: 3, fontWeight: 500, fontSize: 15 }}>
-                                        Assinged Date
+                                        Assigned Date
                                     </Typography>
                                     <Box sx={{ flex: 3, gap: .5 }}>
                                         <Chip sx={{ bgcolor: '#E3E7F1' }}>
-                                            {assigned_date}
+
+                                            {assigned_date
+                                                ? format(new Date(assigned_date), 'dd MMM yyyy,  hh:mm a')
+                                                : 'Invalid Date'}
                                         </Chip>
                                     </Box>
                                 </Box>
@@ -297,7 +311,9 @@ const SupervisorVerifyModal = ({ open, setverifyOpen, forVerifyData, setverifyFl
                                     </Typography>
                                     <Box sx={{ flex: 3, gap: .5 }}>
                                         <Chip sx={{ bgcolor: '#C3E0E5' }}>
-                                            {cm_rectify_time}
+                                            {cm_rectify_time
+                                                ? format(new Date(cm_rectify_time), 'dd MMM yyyy,  hh:mm a')
+                                                : 'Invalid Date'}
                                         </Chip>
                                     </Box>
                                 </Box>

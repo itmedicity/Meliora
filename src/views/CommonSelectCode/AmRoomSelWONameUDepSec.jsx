@@ -14,7 +14,7 @@ const AmRoomSelWONameUDepSec = ({ roomNo, setRoomNo }) => {
     const [value, setValue] = useState(roomList[0]);
     const [inputValue, setInputValue] = useState('');
     useEffect(() => {
-        if (value !== null) {
+        if (value?.rm_room_slno > 0) {
             setValue(value)
             setRoomNo(value.rm_room_slno)
             if (value.rm_room_slno !== 0) {

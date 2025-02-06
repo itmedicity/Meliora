@@ -31,26 +31,30 @@ const AssistneedModal = ({ assistNeed, assistOpen, setassistNeedFlag, setAssistO
         }
     }, [complaint_slno])
 
-
     useEffect(() => {
+        let isMounted = true
         const getAllassistedEmployee = async (searchData) => {
             const result = await axioslogin.post('/complaintassign/AssistReqEmployee', searchData);
             const { success, data } = result.data;
-            if (success === 2) {
-                setAssistedEmployees(data)
-            } else {
-                setAssistedEmployees([])
+            if (isMounted) {
+                if (success === 2) {
+                    setAssistedEmployees(data);
+                } else {
+                    setAssistedEmployees([]);
+                }
             }
-        }
+        };
         getAllassistedEmployee(searchData)
-
-    }, [searchData]);
+        return () => {
+            isMounted = false;
+        }
+    }, [searchData])
 
     const assistentData = assistemp && assistemp.map((val) => {
         return {
             complaint_slno: complaint_slno,
-            assigned_emp: val,  //assit employee
-            assist_assign_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'), //assist accepted time
+            assigned_emp: val,
+            assist_assign_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
             assist_flag: 1,
             assist_requested_emp: id,
             assign_rect_status: 0,
@@ -113,8 +117,7 @@ const AssistneedModal = ({ assistNeed, assistOpen, setassistNeedFlag, setAssistO
                 aria-describedby="modal-desc"
                 open={assistOpen}
                 sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pl: 1, borderRadius: 10 }}>
-                <ModalDialog variant="outlined" sx={{ width: '43vw', p: 0, overflow: 'auto' }}>
-
+                <ModalDialog variant="outlined" sx={{ width: '50vw', p: 0, overflow: 'auto', }}>
                     <Box sx={{ flex: 1, display: 'flex', mt: 1, p: 1, }}>
                         <Box sx={{ flex: 1, color: 'grey', }}>
                             Request Assistance
@@ -148,7 +151,9 @@ const AssistneedModal = ({ assistNeed, assistOpen, setassistNeedFlag, setAssistO
                                         : "Not Updated"}
                                 </Typography> : null}
                             <Typography sx={{ pl: .5, fontSize: 13, color: 'Black', }}>
-                                {compalint_date}
+                                {compalint_date
+                                    ? format(new Date(compalint_date), 'dd MMM yyyy,  hh:mm a')
+                                    : 'Invalid Date'}
                             </Typography>
                         </Box>
                     </Box>

@@ -2,7 +2,7 @@ import { Box, Button, Chip, CssVarsProvider, Modal, ModalDialog, Tooltip, Typogr
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import CancelIcon from '@mui/icons-material/Cancel';
 import { axioslogin } from 'src/views/Axios/Axios';
-import { differenceInSeconds, } from 'date-fns';
+import { differenceInSeconds, format, } from 'date-fns';
 import LockClockIcon from '@mui/icons-material/LockClock';
 
 
@@ -10,30 +10,13 @@ const RectifyDetailsModal = ({ open, setDetailsOpen, detailsData, setDetailsFlag
 
     const { complaint_slno, complaint_desc, compalint_date, rm_roomtype_name, rm_room_name, rm_insidebuildblock_name, rm_floor_name, complaint_deptslno,
         cm_rectify_status, location, complaint_type_name, priority_check, compalint_priority, assigned_date, rectify_pending_hold_remarks, verify_spervsr_name,
-        cm_rectify_time, holduser, verify_spervsr, verified_user_name, cm_verfy_time, suprvsr_verify_time } = detailsData
+        cm_rectify_time, holduser, verify_spervsr, verified_user_name, cm_verfy_time, suprvsr_verify_time, assigned_employees } = detailsData
 
-    const [empName, setempname] = useState([])
     const [assetDetl, setassetDetl] = useState([])
-
     const Close = useCallback(() => {
         setDetailsFlag(0)
         setDetailsOpen(false)
-        setempname([])
-    }, [setDetailsOpen, setDetailsFlag, setempname])
-
-    useEffect(() => {
-        const getEmployeees = async () => {
-            const result = await axioslogin.get(`Rectifycomplit/getAssignEmps/${complaint_slno}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                setempname(data)
-            }
-            else {
-                setempname([])
-            }
-        }
-        getEmployeees()
-    }, [complaint_slno, count])
+    }, [setDetailsOpen, setDetailsFlag])
 
     useEffect(() => {
         const getAssetinComplaint = async (complaint_slno) => {
@@ -52,7 +35,6 @@ const RectifyDetailsModal = ({ open, setDetailsOpen, detailsData, setDetailsFlag
     const formatTimeDifference = (assignedDate, rectifyTime) => {
         const assigned = new Date(assignedDate);
         const rectify = new Date(rectifyTime);
-        // Calculate the difference
         const diffInSeconds = Math.abs(differenceInSeconds(rectify, assigned));
         const days = Math.floor(diffInSeconds / (24 * 60 * 60));
         const hours = Math.floor((diffInSeconds % (24 * 60 * 60)) / (60 * 60));
@@ -85,7 +67,7 @@ const RectifyDetailsModal = ({ open, setDetailsOpen, detailsData, setDetailsFlag
                     open={open} >
                     < ModalDialog
                         sx={{
-                            width: '55vw',
+                            width: '65vw',
                             p: 0,
                             overflow: 'auto'
                         }}
@@ -123,7 +105,10 @@ const RectifyDetailsModal = ({ open, setDetailsOpen, detailsData, setDetailsFlag
                                                 : "Not Updated"}
                                         </Typography> : null}
                                     <Typography sx={{ pl: .5, fontSize: 13, color: 'Black', }}>
-                                        {compalint_date}
+
+                                        {compalint_date
+                                            ? format(new Date(compalint_date), 'dd MMM yyyy,  hh:mm a')
+                                            : 'Invalid Date'}
                                     </Typography>
                                 </Box>
                             </Box>
@@ -170,29 +155,39 @@ const RectifyDetailsModal = ({ open, setDetailsOpen, detailsData, setDetailsFlag
                                 </Box>
                                 <Box sx={{ flex: 1, display: 'flex', mt: 1 }}>
                                     <Typography sx={{ flex: 1.8, pl: 3, fontWeight: 500, fontSize: 15 }}>
-                                        Assinged Employees
+                                        Assigned Employees
                                     </Typography>
                                     <Box sx={{ flex: 3, display: 'flex', gap: .5 }}>
-                                        {empName?.map((val, index) => {
-                                            return (
-                                                <Chip
-                                                    key={index}
-                                                    size="sm"
-                                                    variant="outlined"
-                                                    sx={{ bgcolor: '#D3C7A1' }}>
-                                                    {val.em_name}
-                                                </Chip>
-                                            )
-                                        })}
+
+                                        {assigned_employees === null ?
+                                            <Chip>
+                                                Not Updated
+                                            </Chip>
+                                            :
+                                            <>
+                                                {assigned_employees.split(',').map((name, index) => (
+                                                    <Chip
+                                                        key={index}
+                                                        size="small"
+                                                        variant="outlined"
+                                                        sx={{ bgcolor: '#D3C7A1', fontSize: 13, px: 0.8, marginRight: 0.1 }}
+                                                    >
+                                                        {name.trim()}
+                                                    </Chip>
+                                                ))}
+                                            </>}
                                     </Box>
                                 </Box>
                                 <Box sx={{ flex: 1, display: 'flex', mt: .5 }}>
                                     <Typography sx={{ flex: 1.8, pl: 3, fontWeight: 500, fontSize: 15 }}>
-                                        Assinged Date
+                                        Assigned Date
                                     </Typography>
                                     <Box sx={{ flex: 3, gap: .5 }}>
                                         <Chip sx={{ bgcolor: '#E3E7F1' }}>
-                                            {assigned_date}
+
+                                            {assigned_date
+                                                ? format(new Date(assigned_date), 'dd MMM yyyy,  hh:mm a')
+                                                : 'Invalid Date'}
                                         </Chip>
                                     </Box>
                                 </Box>
@@ -210,7 +205,9 @@ const RectifyDetailsModal = ({ open, setDetailsOpen, detailsData, setDetailsFlag
                                     </Typography>
                                     <Box sx={{ flex: 3, gap: .5 }}>
                                         <Chip sx={{ bgcolor: '#C3E0E5' }}>
-                                            {cm_rectify_time}
+                                            {cm_rectify_time
+                                                ? format(new Date(cm_rectify_time), 'dd MMM yyyy,  hh:mm a')
+                                                : 'Invalid Date'}
                                         </Chip>
                                     </Box>
                                 </Box>
@@ -218,7 +215,7 @@ const RectifyDetailsModal = ({ open, setDetailsOpen, detailsData, setDetailsFlag
                                     <Typography sx={{ flex: 1.8, pl: 3, fontWeight: 500, fontSize: 15 }}>
                                         Complaint Rectification Duration
                                     </Typography>
-                                    <Tooltip title='Time taken to Rectify complaint (Assinged time to Rectified time)' placement='bottom' sx={{ width: 180 }}>
+                                    <Tooltip title='Time taken to Rectify complaint (Assigned time to Rectified time)' placement='bottom' sx={{ width: 180 }}>
                                         <Box sx={{ flex: 3, gap: .5, color: '#05445E', cursor: 'pointer' }}>
                                             <LockClockIcon sx={{ color: '#05445E', borderRadius: 1, pb: .4 }} />
                                             {formatTimeDifference(assigned_date, cm_rectify_time)}
@@ -270,7 +267,10 @@ const RectifyDetailsModal = ({ open, setDetailsOpen, detailsData, setDetailsFlag
                                             </Typography>
                                             <Box sx={{ flex: 3, pl: .3 }}>
                                                 <Chip sx={{ bgcolor: '#E2DFFD' }}>
-                                                    {suprvsr_verify_time}
+
+                                                    {suprvsr_verify_time
+                                                        ? format(new Date(suprvsr_verify_time), 'dd MMM yyyy,  hh:mm a')
+                                                        : 'Invalid Date'}
                                                 </Chip>
                                             </Box>
 
@@ -309,7 +309,9 @@ const RectifyDetailsModal = ({ open, setDetailsOpen, detailsData, setDetailsFlag
                                             </Typography>
                                             <Box sx={{ flex: 3, pl: .3 }}>
                                                 <Chip sx={{ bgcolor: '#E3E8E9' }}>
-                                                    {cm_verfy_time}
+                                                    {cm_verfy_time
+                                                        ? format(new Date(cm_verfy_time), 'dd MMM yyyy,  hh:mm a')
+                                                        : 'Invalid Date'}
                                                 </Chip>
                                             </Box>
 

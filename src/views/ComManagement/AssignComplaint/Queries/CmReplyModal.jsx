@@ -66,7 +66,7 @@ const CmReplyModal = ({ valuee, count, setCount, setReplyOpen, setReplyflag, ope
 
     const SubmitQuery = useCallback((e) => {
         e.preventDefault();
-        if (replies !== '') {
+        if (replies.trim() !== '') {
             const rejectTask = async (postdata) => {
                 const result = await axioslogin.post('/complaintassign/replyQuery', postdata);
                 const { success, message } = result.data;
@@ -82,7 +82,7 @@ const CmReplyModal = ({ valuee, count, setCount, setReplyOpen, setReplyflag, ope
             rejectTask(postdata);
         }
         else {
-            infoNotify('please mark Your replies')
+            infoNotify('Please mark your replies')
         }
     }, [count, setCount, replies, postdata]);
 
@@ -102,8 +102,7 @@ const CmReplyModal = ({ valuee, count, setCount, setReplyOpen, setReplyflag, ope
                 >
                     < ModalDialog
                         sx={{
-                            width: '45vw',
-
+                            width: '38vw',
                             p: 0,
                             overflow: 'auto'
                         }}
@@ -139,11 +138,13 @@ const CmReplyModal = ({ valuee, count, setCount, setReplyOpen, setReplyflag, ope
                                                 : "Not Updated"}
                                         </Typography> : null}
                                     <Typography sx={{ pl: .5, fontSize: 13, color: 'Black', }}>
-                                        {compalint_date}
+                                        {compalint_date
+                                            ? format(new Date(compalint_date), 'dd MMM yyyy,  hh:mm a')
+                                            : 'Invalid Date'}
                                     </Typography>
                                 </Box>
                             </Box>
-                            <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1, px: 3, }}>
+                            <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1, px: 3, minHeight: '44vh' }}>
                                 {rpData?.map((val) => (
                                     <React.Fragment key={val.cm_query_details_slno}>
                                         {val.cm_query_remark !== null && (
@@ -182,7 +183,7 @@ const CmReplyModal = ({ valuee, count, setCount, setReplyOpen, setReplyflag, ope
                                     </React.Fragment>
                                 ))}
                             </Box>
-                            <Box sx={{ flex: 1, ml: 5, mr: 6, mt: 1.5, display: 'flex' }}>
+                            <Box sx={{ flex: 1, ml: 5, mr: 6, mt: 2, display: 'flex' }}>
                                 <Box sx={{ flex: 1, pt: .3 }}>
                                     <Textarea
                                         minRows={1}

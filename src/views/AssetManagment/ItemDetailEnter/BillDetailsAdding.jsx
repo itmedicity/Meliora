@@ -1,15 +1,13 @@
+
 import React, { memo, useCallback, useState, useMemo, useEffect } from 'react'
-import { Box, Typography, Paper, Button } from '@mui/material'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import CusIconButton from '../../Components/CusIconButton';
-import CustomeToolTip from 'src/views/Components/CustomeToolTip'
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useSelector } from 'react-redux'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { succesNotify, warningNotify } from 'src/views/Common/CommonCode';
 import { format } from 'date-fns'
-import ImageDisplayModal from 'src/views/CentralRequestManagement/CRFRequestMaster/ImageDisplayModal';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import SupplierSelectMaster from './SupplierSelectMaster';
 import { useDispatch } from 'react-redux'
@@ -17,16 +15,21 @@ import { getSupplierList } from 'src/redux/actions/AmSupplierListSelect'
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import BillAddMaster from './BillAddMaster';
 import BillAddingModal from './BillAddingModal';
+import { Box } from '@mui/joy';
+import TextComponent from 'src/views/Components/TextComponent';
+import InsertLinkIcon from '@mui/icons-material/InsertLink';
+import CloseIcon from '@mui/icons-material/Close';
+import FileView from '../AssetFileView/FileView';
+import LinkSharpIcon from '@mui/icons-material/LinkSharp';
 
-const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare }) => {
+const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCount }) => {
     const { am_item_map_slno, am_spare_item_map_slno, } = detailArry
     const { am_bill_mast_slno, am_bill_mastslno, am_bill_no, am_bill_date, am_bill_amount, am_bill_image,
         bill_supplier_name } = grndetailarry
     const dispatch = useDispatch();
     const [supplier, setSupplier] = useState(0)
     const [billDate, setBillDate] = useState(format(new Date(), "yyyy-MM-dd"))
-    const [billDetailFlag, setBillDetailFlag] = useState(0)
-    const [billAmount, setBillAmount] = useState()
+    const [billAmount, setBillAmount] = useState(am_bill_amount !== null ? am_bill_amount : 0)
     const [BillDtl, setBillDetail] = useState({
         billNo: '',
         billdate: format(new Date(), "yyyy-MM-dd"),
@@ -60,7 +63,6 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare }) => {
 
     useEffect(() => {
         if (am_bill_mast_slno !== null && am_bill_mast_slno !== undefined) {
-            setBillDetailFlag(1)
             const fromSetting = {
                 billNo: am_bill_no,
                 billdate: am_bill_date,
@@ -119,7 +121,6 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare }) => {
 
     }, [searchdata, am_bill_mast_slno, supplier])
 
-
     const AddBillMaster = useCallback(() => {
         setBillFlg(1)
     }, [])
@@ -135,10 +136,7 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare }) => {
             billImage: am_bill_image,
             bill_mastslno: am_bill_mastslno
         }
-
         setBillDetail(fromdataset)
-        setBillDetailFlag(1)
-
     }, [])
 
 
@@ -163,6 +161,7 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare }) => {
         }
         getImage(bill_mastslno)
     }, [bill_mastslno])
+
     const handleClose = useCallback(() => {
         setImageShowFlag(0)
         setImageShow(false)
@@ -176,6 +175,7 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare }) => {
             am_item_map_slno: am_item_map_slno
         }
     }, [bill_mastslno, billAmount, id, am_item_map_slno])
+
 
     const billpatchDataSpare = useMemo(() => {
         return {
@@ -195,6 +195,8 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare }) => {
                 succesNotify(message)
                 setBillArray([]);
                 setSupplerModal(0)
+                setBillLink(0)
+                setCount(count + 1)
             }
             else {
                 warningNotify(message)
@@ -207,6 +209,8 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare }) => {
                 succesNotify(message)
                 setBillArray([]);
                 setSupplerModal(0)
+                setBillLink(0)
+                setCount(count + 1)
             }
             else {
                 warningNotify(message)
@@ -222,7 +226,7 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare }) => {
                 updateBillDetailsSpare(billpatchDataSpare)
             }
         }
-    }, [billpatchData, assetSpare, billpatchDataSpare, bill_mastslno])
+    }, [billpatchData, assetSpare, billpatchDataSpare, bill_mastslno, setCount, count])
 
     const BillReferesh = useCallback(() => {
         const resetfrm = {
@@ -235,148 +239,287 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare }) => {
         setBillDetail(resetfrm)
     }, [])
 
+    const [billLink, setBillLink] = useState(0)
+
+    const linkBill = useCallback(() => {
+        setBillLink(1)
+    }, [])
+    const CloseLink = useCallback(() => {
+        setBillLink(0)
+    }, [])
+
     return (
-        <Paper sx={{ overflow: 'auto', border: 1, mb: 1 }}>
+        <Box sx={{ overflow: 'auto', }}>
             {AddBillFlg === 1 ? <BillAddMaster setBillFlg={setBillFlg}
             /> : null}
-            {imageshowFlag === 1 ? <ImageDisplayModal open={imageshow} handleClose={handleClose}
+            {imageshowFlag === 1 ? <FileView open={imageshow} handleClose={handleClose}
                 images={imagearray} /> : null}
-            <Box sx={{
-                display: 'flex', flexDirection: 'column', flexWrap: 'wrap',
-            }} >
 
+            {billLink === 1 ?
                 <Box sx={{
-                    display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
-                }} >
-                    <Box sx={{ display: 'flex', width: '20%', p: 0.5, flexDirection: 'column' }} >
-                        <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Select Supplier</Typography>
-                        <Box>
-                            <SupplierSelectMaster
-                                supplier={supplier}
-                                setSupplier={setSupplier}
+                    flex: 1,
+                    display: 'flex',
+                    mt: 1, mb: 2,
+                }}>
+                    <Box sx={{ width: 500 }}>
+                        <Box sx={{ display: 'flex', pt: .5 }}>
+                            <TextComponent
+                                text={"Supplier"}
+                                sx={{
+                                    fontWeight: 600,
+                                    color: '#727B8C',
+                                    pt: 1,
+                                    width: 120
+
+                                }}
                             />
-                        </Box>
-                    </Box>
-                    <Box sx={{ display: 'flex', width: '15%', p: 0.5, flexDirection: 'column' }} >
-                        <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Bill Date</Typography>
-                        <Box>
-                            <TextFieldCustom
-                                type="date"
-                                size="sm"
-                                name="billDate"
-                                value={billDate}
-                                onchange={updateBillDate}
-                            ></TextFieldCustom>
-                        </Box>
-                    </Box>
-                    <Box sx={{ width: '3%', pl: 1, pt: 3, }}>
-                        <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={searchBillList} >
-                            <SearchOutlinedIcon fontSize='small' />
-                        </CusIconButton>
-                    </Box>
-
-                    {SupplerModal === 1 ? <Box sx={{ display: 'flex', width: "60%", pt: 1, pl: 3, }}>
-                        <BillAddingModal BillArray={BillArray} rowSelect={rowSelect} />
-                    </Box>
-                        :
-                        SupplerModal === 2 ?
-                            <Box sx={{ display: 'flex', width: "25%", height: 50, pt: 3, pl: 3 }}>
-                                <Button onClick={AddBillMaster} variant="contained"
-                                    size="small" color="primary">AddBill</Button>
+                            <Box sx={{ flex: 1 }}>
+                                <SupplierSelectMaster
+                                    supplier={supplier}
+                                    setSupplier={setSupplier}
+                                />
                             </Box>
-                            : <Box sx={{ display: 'flex', width: "25%", height: 50, pt: 3, pl: 3 }}>
-                                <Button onClick={AddBillMaster} variant="contained"
-                                    size="small" color="primary">AddBill</Button>
-                            </Box>
-                    }
 
-                </Box>
-
-                {billDetailFlag === 1 ?
-                    <Box sx={{
-                        display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
-                    }} >
-
-                        <Box sx={{ display: 'flex', width: '10%', p: 0.5, flexDirection: 'column' }} >
-                            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Bill No</Typography>
-                            <Box>
-                                <TextFieldCustom
-                                    type="text"
-                                    size="sm"
-                                    name="billNo"
-                                    value={billNo}
-                                    disabled={true}
-                                ></TextFieldCustom>
-                            </Box>
                         </Box>
-
-                        <Box sx={{ display: 'flex', width: '10%', p: 0.5, flexDirection: 'column' }} >
-                            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Bill Date</Typography>
-                            <Box>
+                        <Box sx={{ display: 'flex', pt: .5 }}>
+                            <TextComponent
+                                text={"Bill Date"}
+                                sx={{
+                                    fontWeight: 600,
+                                    color: '#727B8C',
+                                    width: 120
+                                }}
+                            />
+                            <Box sx={{ flex: 1 }}>
                                 <TextFieldCustom
                                     type="date"
                                     size="sm"
-                                    name="billdate"
-                                    value={billdate}
-                                    disabled={true}
+                                    name="billDate"
+                                    value={billDate}
+                                    onchange={updateBillDate}
                                 ></TextFieldCustom>
                             </Box>
                         </Box>
+                        <Box sx={{ display: 'flex', pt: .8 }}>
+                            <Box sx={{ width: 120 }}></Box>
+                            <Box sx={{ flex: 1, gap: .5, display: 'flex' }}>
+                                <Box>
+                                    <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={searchBillList} >
+                                        <SearchOutlinedIcon fontSize='small' />
+                                    </CusIconButton>
+                                </Box>
+                                <Box>
+                                    <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={AddBillMaster} >
+                                        <LinkSharpIcon fontSize='small' />
+                                    </CusIconButton>
+                                </Box>
 
-                        <Box sx={{ display: 'flex', width: '40%', p: 0.5, flexDirection: 'column' }} >
-                            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Vendor </Typography>
+                                <Box>
+                                    <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={CloseLink} >
+                                        <CloseIcon fontSize='small' />
+                                    </CusIconButton>
+                                </Box>
+                            </Box>
+                        </Box>
+                    </Box>
+                    <Box sx={{ flex: 1, py: .5, px: 1 }}>
+                        {SupplerModal === 1 ? <Box sx={{ flex: 1 }}>
+                            <BillAddingModal BillArray={BillArray} rowSelect={rowSelect} />
+                        </Box>
+                            :
+                            SupplerModal === 2 ?
+                                <Box sx={{
+                                    border: 1, borderColor: 'lightgrey', height: 120,
+                                    overflow: 'auto',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                }} >
+                                    <Box>
+                                        <TextComponent
+                                            text={"No Bills Match"}
+                                            sx={{
+                                                flex: 1, fontSize: 32,
+                                                fontWeight: 700,
+                                                color: 'lightgrey',
+                                                pt: 1
+
+                                            }}
+                                        />
+                                        <Box
+                                            sx={{
+                                                // ml: 10,
+                                                bgcolor: '#3D86D0',
+                                                width: 120,
+                                                textAlign: 'center',
+                                                margin: 'auto',
+                                                borderRadius: 4,
+                                                color: 'white',
+                                                fontWeight: 600,
+                                                cursor: 'pointer',
+                                                py: .3,
+                                                boxShadow: '2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.6)', // Outward shadow effect
+                                                transform: 'translateZ(0)', // For smoother shadow rendering
+                                                transition: 'transform 0.2s ease', // Smooth transition on hover
+                                                '&:hover': {
+                                                    boxShadow: '3px 3px 6px rgba(0, 0, 0, 0.4), -3px -3px 6px rgba(255, 255, 255, 0.7)', // Increase shadow on hover
+                                                }
+                                            }}
+                                            onClick={AddBillMaster}
+                                        >
+                                            Add New Bill
+                                        </Box>
+                                    </Box>
+                                </Box> : null}
+
+                    </Box>
+                </Box> : null}
+            <Box sx={{ flex: 1, display: 'flex' }} >
+                <Box sx={{ width: 500 }}>
+                    <Box sx={{ display: 'flex', }}>
+                        <TextComponent
+                            text={"Bill No"}
+                            sx={{
+                                fontWeight: 600,
+                                color: '#727B8C',
+                                pt: 1,
+                                width: 120
+
+                            }}
+                        />
+                        <Box sx={{ flex: 1 }}>
+                            <TextFieldCustom
+                                type="text"
+                                size="sm"
+                                name="billNo"
+                                value={billNo}
+                                disabled={true}
+                            ></TextFieldCustom>
+                        </Box>
+
+                    </Box>
+                    <Box sx={{ display: 'flex', pt: .5 }}>
+                        <TextComponent
+                            text={"Bill Date"}
+                            sx={{
+                                fontWeight: 600,
+                                color: '#727B8C',
+                                pt: 1,
+                                width: 120
+
+                            }}
+                        />
+                        <Box sx={{ flex: 1 }}>
+                            <TextFieldCustom
+                                type="date"
+                                size="sm"
+                                name="billdate"
+                                value={billdate}
+                                disabled={true}
+                            ></TextFieldCustom>
+                        </Box>
+
+                    </Box>
+                    <Box sx={{ display: 'flex', pt: .5 }}>
+                        <TextComponent
+                            text={"Vendor"}
+                            sx={{
+                                fontWeight: 600,
+                                color: '#727B8C',
+                                pt: 1,
+                                width: 120
+
+                            }}
+                        />
+                        <Box sx={{ flex: 1 }}>
+                            <TextFieldCustom
+                                type="text"
+                                size="sm"
+                                name="vendor"
+                                value={vendor}
+                                disabled={true}
+                            ></TextFieldCustom>
+                        </Box>
+
+                    </Box>
+                    <Box sx={{ display: 'flex', pt: .5 }}>
+                        <TextComponent
+                            text={assetSpare === 1 ? "Asset Value" : "Spare Value"}
+                            sx={{
+                                fontWeight: 600,
+                                color: '#727B8C',
+                                pt: 1,
+                                width: 120
+                            }}
+                        />
+                        <Box sx={{ flex: 1 }}>
+                            <TextFieldCustom
+                                type="number"
+                                size="sm"
+                                name="billAmount"
+                                value={billAmount}
+                                onchange={updateBillAmount}
+                            ></TextFieldCustom>
+                        </Box>
+
+                    </Box>
+                    <Box sx={{ display: 'flex', }}>
+                        <Box sx={{ width: 120 }}>
+                        </Box>
+                        <Box sx={{ flex: 1, my: .5 }}>
+                            {
+                                billImage === 1 ?
+                                    <Box
+                                        sx={{
+                                            bgcolor: '#7AB75E',
+                                            width: 120,
+                                            textAlign: 'center',
+                                            // margin: 'auto',
+                                            borderRadius: 4,
+                                            color: 'white',
+                                            fontWeight: 600,
+                                            cursor: 'pointer',
+                                            py: .3,
+                                            boxShadow: '2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.6)',
+                                            transform: 'translateZ(0)',
+                                            transition: 'transform 0.2s ease',
+                                            '&:hover': {
+                                                boxShadow: '3px 3px 6px rgba(0, 0, 0, 0.4), -3px -3px 6px rgba(255, 255, 255, 0.7)',
+                                            }
+                                        }}
+                                        onClick={ViewBillImage}
+                                    >
+                                        Attached Bill
+                                    </Box>
+                                    : null
+                            }
+                        </Box>
+                    </Box>
+                    <Box sx={{ display: 'flex', }}>
+                        <Box sx={{ width: 120, }}>
+                        </Box>
+                        <Box sx={{ flex: 1, display: 'flex', gap: .5 }}>
                             <Box>
-                                <TextFieldCustom
-                                    type="text"
-                                    size="sm"
-                                    name="vendor"
-                                    value={vendor}
-                                    disabled={true}
-                                ></TextFieldCustom>
+                                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={SaveBillDetails} >
+                                    <LibraryAddIcon fontSize='small' />
+                                </CusIconButton>
                             </Box>
-                        </Box>
-                        <Box sx={{ display: 'flex', width: '10%', p: 0.5, flexDirection: 'column' }} >
-                            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Bill Amount</Typography>
+                            <Box >
+                                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={BillReferesh} >
+                                    <RefreshIcon fontSize='small' />
+                                </CusIconButton>
+                            </Box>
                             <Box>
-                                <TextFieldCustom
-                                    type="number"
-                                    size="sm"
-                                    name="billAmount"
-                                    value={billAmount}
-                                    onchange={updateBillAmount}
-                                ></TextFieldCustom>
+                                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={linkBill}>
+                                    <InsertLinkIcon fontSize='small' />
+                                </CusIconButton>
                             </Box>
                         </Box>
-                        {
-                            billImage === 1 ?
-                                <Box sx={{ display: 'flex', width: "30%", height: 55, pt: 3, pl: 1 }}>
-                                    <Button onClick={ViewBillImage} variant="contained"
-                                        size="small" color="primary">View Image</Button>
-                                </Box> : null
-                        }
-                    </Box> : null}
-
-                <Box sx={{
-                    display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
-                }} >
-                    <CustomeToolTip title="Save" placement="left" >
-                        <Box sx={{ width: '3%', pl: 1, pt: 2, pb: 1 }}>
-                            <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={SaveBillDetails} >
-                                <LibraryAddIcon fontSize='small' />
-                            </CusIconButton>
-                        </Box>
-                    </CustomeToolTip>
-
-                    <CustomeToolTip title="Refresh" placement="right" >
-                        <Box sx={{ width: '3%', pl: 0.5, pt: 2, pb: 1 }}>
-                            <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={BillReferesh} >
-                                <RefreshIcon fontSize='small' />
-                            </CusIconButton>
-                        </Box>
-                    </CustomeToolTip>
+                    </Box>
+                </Box>
+                <Box sx={{ flexGrow: 1 }}>
                 </Box>
             </Box>
-        </Paper>
+        </Box >
     )
 }
 

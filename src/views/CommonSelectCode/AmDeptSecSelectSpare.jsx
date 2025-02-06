@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux'
 import { getSpareItemBasedSection } from 'src/redux/actions/AmSpareItemSelectBasedSec.action'
 
 const AmDeptSecSelectSpare = ({ deptsec, setDeptSec }) => {
+
     const dispatch = useDispatch();
     const deptsecList = useSelector((state) => state.getDeptsectionDept?.deptsectiondeptList)
     const [models, setModels] = useState([{ sec_id: 0, sec_name: '' }])
@@ -13,7 +14,7 @@ const AmDeptSecSelectSpare = ({ deptsec, setDeptSec }) => {
     const [inputValue, setInputValue] = useState('');
 
     useEffect(() => {
-        if (value !== null) {
+        if (value?.sec_id > 0) {
             dispatch(getSpareItemBasedSection(value.sec_id))
             setValue(value)
             setDeptSec(value.sec_id)
@@ -30,8 +31,6 @@ const AmDeptSecSelectSpare = ({ deptsec, setDeptSec }) => {
         deptsecList.length === 0 && setValue([{ sec_id: 0, sec_name: '' }])
         deptsecList.length === 0 && setInputValue('')
     }, [deptsecList])
-
-
 
     return (
         <Fragment >
@@ -53,7 +52,6 @@ const AmDeptSecSelectSpare = ({ deptsec, setDeptSec }) => {
                     loading={true}
                     loadingText="Loading..."
                     freeSolo
-                    // renderInput={(params) => (<Input size="sm" placeholder="Small"  {...params} />)}
                     isOptionEqualToValue={(option, value) => option.sec_name === value.sec_name}
                     getOptionLabel={option => option.sec_name || ''}
                     options={models}

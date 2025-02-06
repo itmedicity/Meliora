@@ -16,6 +16,8 @@ const CmQuieryModal = ({ open, setqueryOpen, setqueryflag, valuee, setCount, cou
     const { complaint_slno, complaint_desc, compalint_date, rm_roomtype_name, rm_room_name, rm_insidebuildblock_name, rm_floor_name,
         location, complaint_type_name } = valuee
 
+
+
     const [queries, setQueries] = useState('')
     const [qrData, setqrData] = useState([])
     let newDate = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
@@ -64,24 +66,23 @@ const CmQuieryModal = ({ open, setqueryOpen, setqueryflag, valuee, setCount, cou
 
     const SubmitQuery = useCallback((e) => {
         e.preventDefault();
-        if (queries !== '') {
+        if (queries.trim() !== '') {
             const rejectTask = async (postdata) => {
                 const result = await axioslogin.post('/complaintassign/askQuery', postdata);
                 const { success, message } = result.data;
                 if (success === 1) {
                     succesNotify(message);
                     setCount(count + 1);
-                    setQueries('')
-
+                    setQueries('');
                 } else {
                 }
             }
             rejectTask(postdata);
-        }
-        else {
-            infoNotify('please mark Your Queries')
+        } else {
+            infoNotify('Please mark your queries');
         }
     }, [count, setCount, queries, postdata]);
+
 
     const capitalizeWords = (str) => {
         return str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
@@ -138,7 +139,9 @@ const CmQuieryModal = ({ open, setqueryOpen, setqueryflag, valuee, setCount, cou
                                                 : "Not Updated"}
                                         </Typography> : null}
                                     <Typography sx={{ pl: .5, fontSize: 13, color: 'Black', }}>
-                                        {compalint_date}
+                                        {compalint_date
+                                            ? format(new Date(compalint_date), 'dd MMM yyyy,  hh:mm a')
+                                            : 'Invalid Date'}
                                     </Typography>
                                 </Box>
                             </Box>
@@ -206,7 +209,6 @@ const CmQuieryModal = ({ open, setqueryOpen, setqueryflag, valuee, setCount, cou
                         </Box>
                         <DialogActions>
                             <Box sx={{ textAlign: 'right', pb: 2, mr: 1 }}>
-
                                 <Button
                                     variant="plain"
                                     sx={{ color: "#92443A", fontSize: 16, }}

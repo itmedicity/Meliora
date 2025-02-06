@@ -10,13 +10,11 @@ import { infoNotify, succesNotify } from 'src/views/Common/CommonCode';
 const UserEndVerificationModal = ({ open, setverifyOpen, forVerifyData, setverifyFlag, count, setcount }) => {
     const { complaint_slno, complaint_desc, compalint_date, rm_roomtype_name, rm_room_name, rm_insidebuildblock_name, rm_floor_name, compalint_status, complaint_deptslno,
         location, complaint_type_name, priority_check, compalint_priority, assigned_date, rectify_pending_hold_remarks, cm_rectify_time, holduser,
-        verify_spervsr_name, verify_spervsr, suprvsr_verify_time } = forVerifyData
-
+        verify_spervsr_name, verify_spervsr, suprvsr_verify_time, assigned_employees } = forVerifyData
 
     const empid = useSelector((state) => {
         return state.LoginUserData.empid
     })
-    const [empName, setempname] = useState([])
     const [verify, setVerify] = useState(false);
     const [notrectify, setNotrectify,] = useState(false);
     const [flag, setFlag] = useState(0)
@@ -27,12 +25,11 @@ const UserEndVerificationModal = ({ open, setverifyOpen, forVerifyData, setverif
     const Close = useCallback(() => {
         setverifyFlag(0)
         setverifyOpen(false)
-        setempname([])
         setVerify(false)
         setNotrectify(false)
         setFlag(0)
         setMessage('')
-    }, [setverifyOpen, setverifyFlag, setempname, setVerify, setNotrectify, setFlag, setMessage])
+    }, [setverifyOpen, setverifyFlag, setVerify, setNotrectify, setFlag, setMessage])
 
     const updateVerify = (e) => {
         if (e.target.checked === true) {
@@ -57,20 +54,6 @@ const UserEndVerificationModal = ({ open, setverifyOpen, forVerifyData, setverif
     }
 
     useEffect(() => {
-        const getEmployeees = async () => {
-            const result = await axioslogin.get(`Rectifycomplit/getAssignEmps/${complaint_slno}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                setempname(data)
-            }
-            else {
-                setempname([])
-            }
-        }
-        getEmployeees();
-    }, [complaint_slno])
-
-    useEffect(() => {
         const getAssetinComplaint = async (complaint_slno) => {
             const result = await axioslogin.get(`/complaintreg/getAssetinComplaint/${complaint_slno}`);
             const { success, data } = result.data;
@@ -91,19 +74,17 @@ const UserEndVerificationModal = ({ open, setverifyOpen, forVerifyData, setverif
     const formatTimeDifference = (assignedDate, rectifyTime) => {
         const assigned = new Date(assignedDate);
         const rectify = new Date(rectifyTime);
-        // Calculate the difference
         const diffInSeconds = Math.abs(differenceInSeconds(rectify, assigned));
         const days = Math.floor(diffInSeconds / (24 * 60 * 60));
         const hours = Math.floor((diffInSeconds % (24 * 60 * 60)) / (60 * 60));
         const minutes = Math.floor((diffInSeconds % (60 * 60)) / 60);
         const seconds = diffInSeconds % 60;
-
         return `${days > 0 ? `${days} day${days > 1 ? 's' : ''}, ` : ''}${hours} hr : ${minutes} min : ${seconds} sec`;
     };
 
     const verifyData = useMemo(() => {
         return {
-            compalint_status: verify === true ? 3 : notrectify === true ? 0 : compalint_status,
+            compalint_status: verify === true ? 3 : notrectify === true ? 1 : compalint_status,
             cm_verfy_time: verify === true ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : null,
             cm_rectify_status: notrectify === true ? 'Z' : verify === true ? 'V' : null,
             verify_remarks: notrectify === true ? messagee : null,
@@ -113,7 +94,6 @@ const UserEndVerificationModal = ({ open, setverifyOpen, forVerifyData, setverif
         }
     }, [verify, notrectify, messagee, complaint_slno, compalint_status, empid])
 
-    // updating function to db
     const Submit = useCallback((e) => {
         e.preventDefault();
         const verified = async (verifyData) => {
@@ -135,7 +115,6 @@ const UserEndVerificationModal = ({ open, setverifyOpen, forVerifyData, setverif
             infoNotify("Please Choose Any")
         }
     }, [verifyData, verify, notrectify, setcount, count, Close])
-
 
     const buttonStyle = {
         fontSize: 16,
@@ -200,7 +179,9 @@ const UserEndVerificationModal = ({ open, setverifyOpen, forVerifyData, setverif
                                                 : "Not Updated"}
                                         </Typography> : null}
                                     <Typography sx={{ pl: .5, fontSize: 13, color: 'Black', }}>
-                                        {compalint_date}
+                                        {compalint_date
+                                            ? format(new Date(compalint_date), 'dd MMM yyyy,  hh:mm a')
+                                            : 'Invalid Date'}
                                     </Typography>
                                 </Box>
                             </Box>
@@ -251,17 +232,23 @@ const UserEndVerificationModal = ({ open, setverifyOpen, forVerifyData, setverif
                                         Assinged Employees
                                     </Typography>
                                     <Box sx={{ flex: 3, display: 'flex', gap: .5 }}>
-                                        {empName?.map((val, index) => {
-                                            return (
-                                                <Chip
-                                                    key={index}
-                                                    size="sm"
-                                                    variant="outlined"
-                                                    sx={{ bgcolor: '#D3C7A1' }}>
-                                                    {val.em_name}
-                                                </Chip>
-                                            )
-                                        })}
+                                        {assigned_employees === null ?
+                                            <Chip>
+                                                Not Updated
+                                            </Chip>
+                                            :
+                                            <>
+                                                {assigned_employees.split(',').map((name, index) => (
+                                                    <Chip
+                                                        key={index}
+                                                        size="small"
+                                                        variant="outlined"
+                                                        sx={{ bgcolor: '#D3C7A1', fontSize: 13, px: 0.8, marginRight: 0.1 }}
+                                                    >
+                                                        {name.trim()}
+                                                    </Chip>
+                                                ))}
+                                            </>}
                                     </Box>
                                 </Box>
 
@@ -271,7 +258,9 @@ const UserEndVerificationModal = ({ open, setverifyOpen, forVerifyData, setverif
                                     </Typography>
                                     <Box sx={{ flex: 3, gap: .5 }}>
                                         <Chip sx={{ bgcolor: '#E3E7F1' }}>
-                                            {assigned_date}
+                                            {assigned_date
+                                                ? format(new Date(assigned_date), 'dd MMM yyyy,  hh:mm a')
+                                                : 'Invalid Date'}
                                         </Chip>
                                     </Box>
                                 </Box>
@@ -289,7 +278,9 @@ const UserEndVerificationModal = ({ open, setverifyOpen, forVerifyData, setverif
                                     </Typography>
                                     <Box sx={{ flex: 3, gap: .5 }}>
                                         <Chip sx={{ bgcolor: '#C3E0E5' }}>
-                                            {cm_rectify_time}
+                                            {cm_rectify_time
+                                                ? format(new Date(cm_rectify_time), 'dd MMM yyyy,  hh:mm a')
+                                                : 'Invalid Date'}
                                         </Chip>
                                     </Box>
                                 </Box>
@@ -350,7 +341,9 @@ const UserEndVerificationModal = ({ open, setverifyOpen, forVerifyData, setverif
                                             </Typography>
                                             <Box sx={{ flex: 3, pl: .3 }}>
                                                 <Chip sx={{ bgcolor: '#E2DFFD' }}>
-                                                    {suprvsr_verify_time}
+                                                    {suprvsr_verify_time
+                                                        ? format(new Date(suprvsr_verify_time), 'dd MMM yyyy,  hh:mm a')
+                                                        : 'Invalid Date'}
                                                 </Chip>
                                             </Box>
 

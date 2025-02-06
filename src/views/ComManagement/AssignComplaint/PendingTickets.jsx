@@ -1,5 +1,5 @@
 import { Box, CssVarsProvider, Tooltip, Typography } from '@mui/joy'
-import React, { memo, useCallback, useEffect, useState } from 'react'
+import React, { memo, useCallback, useState } from 'react'
 import ContactSupportIcon from '@mui/icons-material/ContactSupport';
 import AssignmentTurnedInSharpIcon from '@mui/icons-material/AssignmentTurnedInSharp';
 import { useSelector } from 'react-redux';
@@ -19,10 +19,11 @@ import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
 import ComFileView from '../CmFileView/ComFileView';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import ViewAssetDetails from '../ComplaintRegister/TicketLists/ViewAssetDetails';
-import InventoryIcon from '@mui/icons-material/Inventory';
+import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
+import TextComponent from 'src/views/Components/TextComponent';
+
 
 const PendingTickets = ({ allPendingCompl, count, setCount }) => {
-
 
     const [transmodal, setTransmodal] = useState(0);
     const [open, setOpen] = useState(false)
@@ -35,7 +36,7 @@ const PendingTickets = ({ allPendingCompl, count, setCount }) => {
     const [imageUrls, setImageUrls] = useState([]);
     const [selectedImages, setSelectedImages] = useState([]);
     const [imageViewOpen, setimageViewOpen] = useState(false)
-    const [assetArray, setAssetArray] = useState([])
+    // const [assetArray, setAssetArray] = useState([])
     const [assetflag, setAssetflag] = useState(0)
     const [assetOpen, setAssetOpen] = useState(false)
     const id = useSelector((state) => state?.LoginUserData?.empid)
@@ -106,22 +107,22 @@ const PendingTickets = ({ allPendingCompl, count, setCount }) => {
         }
     }
 
-    useEffect(() => {
-        const getAssetinComplaint = async () => {
-            const AssetedArray = {};
-            for (let complaint of allPendingCompl) {
-                const result = await axioslogin.get(`complaintreg/getAssetinComplaint/${complaint.complaint_slno}`);
-                const { success, data } = result.data;
-                if (success === 2) {
-                    AssetedArray[complaint.complaint_slno] = data;
-                } else {
-                    AssetedArray[complaint.complaint_slno] = [];
-                }
-            }
-            setAssetArray(AssetedArray);
-        };
-        getAssetinComplaint();
-    }, [allPendingCompl]);
+    // useEffect(() => {
+    //     const getAssetinComplaint = async () => {
+    //         const AssetedArray = {};
+    //         for (let complaint of allPendingCompl) {
+    //             const result = await axioslogin.get(`complaintreg/getAssetinComplaint/${complaint.complaint_slno}`);
+    //             const { success, data } = result.data;
+    //             if (success === 2) {
+    //                 AssetedArray[complaint.complaint_slno] = data;
+    //             } else {
+    //                 AssetedArray[complaint.complaint_slno] = [];
+    //             }
+    //         }
+    //         setAssetArray(AssetedArray);
+    //     };
+    //     getAssetinComplaint();
+    // }, [allPendingCompl]);
 
     const AssetView = useCallback((value) => {
         setValuee(value)
@@ -153,7 +154,7 @@ const PendingTickets = ({ allPendingCompl, count, setCount }) => {
                     Empty Pending tickets
                 </Box> :
                 <Box sx={{
-                    flex: 1, bgcolor: 'white', mt: .3, px: .5, pt: .8, pb: 1.5
+                    flex: 1, bgcolor: 'white', mt: .1, px: .5, pt: .8, pb: 1.5
                 }}>
                     {
                         transmodal === 1 ? <TransferDeptmodal open={open} setOpen={setOpen} transfer={transfer} count={count} setCount={setCount}
@@ -188,8 +189,8 @@ const PendingTickets = ({ allPendingCompl, count, setCount }) => {
 
                         /> : null}
 
-                    {/* <Virtuoso
-                        style={{ height: '80vh' }}
+                    <Virtuoso
+                        style={{ height: '74vh' }}
                         totalCount={allPendingCompl?.length}
                         itemContent={(index) => {
                             const val = allPendingCompl[index];
@@ -197,220 +198,56 @@ const PendingTickets = ({ allPendingCompl, count, setCount }) => {
                                 <Box
                                     key={val.complaint_slno}
                                     sx={{
-                                        flex: 1,
                                         border: 1, borderColor: '#9F2B00',
                                         borderRadius: 8,
                                         bgcolor: 'white',
                                         mb: .5
                                     }}>
-                                    <Box sx={{ flex: 1, display: 'flex', p: .8, }}>
-                                        <Box sx={{
-                                            minWidth: 130,
-                                            mx: .3, pr: .5,
-                                            borderRight: 1, borderColor: 'lightgrey'
-                                        }}>
-                                            <Typography sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700 }}> Ticket {val.complaint_slno}</Typography>
-                                            <CssVarsProvider>
-                                                <Tooltip title='Ticket Registerd Date and time' placement='right' >
-                                                    <Typography sx={{ fontSize: 11, textAlign: 'center', fontWeight: 600, color: "black", mr: .3, cursor: 'grab' }}>
-                                                        {val.compalint_date}</Typography>
-                                                </Tooltip>
-                                            </CssVarsProvider>
-                                            <Box sx={{ flex: 1, display: 'flex', mt: 1.2, }}>
-                                                {val.cm_file_status === 1 ?
-                                                    <FilePresentRoundedIcon sx={{
-                                                        color: '#41729F',
-                                                        cursor: 'pointer',
-                                                        height: 30, width: 35,
-                                                        border: 1, borderRadius: 5, p: .1,
-                                                        '&:hover': { color: '#274472' }
-                                                    }}
-                                                        onClick={() => fileView(val)}
-                                                    /> :
-                                                    null}
-                                                <Tooltip title='Quick Assign'>
-                                                    <AssignmentTurnedInSharpIcon sx={{
-                                                        height: 30, width: 35, color: '#085090', cursor: 'pointer', border: 1, mx: .5, borderRadius: 5, p: .1,
-                                                        '&:hover': { color: '#093B8C' },
-                                                    }}
-                                                        onClick={() => quickAssign(val)}
-                                                    />
-                                                </Tooltip>
-                                                <Tooltip title='Department Transfer' color='warning'>
-                                                    <RepeatOnIcon sx={{
-                                                        height: 30, width: 35, color: '#8C5E39', cursor: 'pointer', border: 1, borderRadius: 5, p: .3,
-                                                        '&:hover': { color: '#6E412A' },
-                                                    }}
-                                                        onClick={() => TransferDepartment(val)}
-                                                    />
-                                                </Tooltip>
-
-                                                {val.cm_query_status === 1 ?
-                                                    <Tooltip title='Raised Query' >
-                                                        <InsertCommentIcon sx={{
-                                                            height: 30, width: 35,
-                                                            color: '#2D7390',
-                                                            cursor: 'pointer', border: 1, mx: .5, borderRadius: 5, p: .1,
-                                                            '&:hover': { color: '#51575C' },
-                                                            animation: `${blinkAnimation} 1s infinite`
-                                                        }
-                                                        }
-                                                            onClick={() => RaiseQuery(val)}
-                                                        />
-                                                    </Tooltip> :
-                                                    val.cm_query_status === 2 ?
-                                                        <Tooltip title='New Replies' >
-                                                            <MarkUnreadChatAltIcon sx={{
-                                                                height: 30, width: 35,
-                                                                color: '#39918C',
-                                                                cursor: 'pointer', border: 1, mx: .5, borderRadius: 5, p: .1,
-                                                                '&:hover': { color: '#51575C' },
-                                                                animation: `${blinkAnimation} 1s infinite`
-                                                            }}
-                                                                onClick={() => RaiseQuery(val)}
-                                                            />
-                                                        </Tooltip>
-                                                        :
-                                                        <Tooltip title='Raise a Query' color='primary'>
-                                                            <ContactSupportIcon sx={{
-                                                                height: 30, width: 35,
-                                                                color: '#5C90FE',
-                                                                cursor: 'pointer', border: 1, mx: .5, borderRadius: 5,
-                                                                '&:hover': { color: '#1B84FC' },
-                                                            }
-                                                            }
-                                                                onClick={() => RaiseQuery(val)}
-                                                            />
-                                                        </Tooltip>}
-                                            </Box>
-                                        </Box>
-                                        <Box sx={{
-                                            minWidth: 500,
-                                            // maxWidth: 440,
-                                            pl: .5,
-                                        }}>
-                                            <Box sx={{ flex: 1, display: 'flex', mt: .5 }}>
-                                                <Typography sx={{ flex: 1.8, fontSize: 13, fontWeight: 700 }}>
-                                                    Department Section
-                                                </Typography>
-                                                <Typography sx={{ fontSize: 14, flex: 3, textTransform: 'capitalize' }}>
-                                                    {val.location.charAt(0).toUpperCase() + val.location.slice(1).toLowerCase()}
-                                                </Typography>
-                                            </Box>
-                                            <Box sx={{ flex: 1, display: 'flex', mt: .5 }}>
-                                                <Typography sx={{ flex: 1.8, fontSize: 13, fontWeight: 700 }}>
-                                                    Location
-                                                </Typography>
-                                                <Typography sx={{ fontSize: 13, flex: 3, }}>
-                                                    {val.rm_room_name}
-                                                    {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name ?
-                                                        ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''}${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${(val.rm_insidebuildblock_name && val.rm_floor_name) ? ' - ' : ''}${val.rm_floor_name ? val.rm_floor_name : ''})`
-                                                        : "Not Updated"}
-                                                </Typography>
-                                            </Box>
-                                            <Box sx={{ flex: 1, display: 'flex', mt: .5 }}>
-                                                <Typography sx={{ flex: 1.8, fontSize: 13, fontWeight: 700 }}>
-                                                    Complaint Type
-                                                </Typography>
-                                                <Typography sx={{ fontSize: 14, flex: 3, }}>
-                                                    {val.complaint_type_name.charAt(0).toUpperCase() + val.complaint_type_name.slice(1).toLowerCase()}
-                                                </Typography>
-                                            </Box>
-                                        </Box>
-                                        < Box sx={{
-                                            flexGrow: 1,
-                                            pl: .1,
-                                        }}>
-                                            <Typography sx={{ flex: 1, fontSize: 13, fontWeight: 700 }}>
-                                                Complaint Describtion
-                                            </Typography>
-                                            <Typography sx={{
-                                                pr: .5, pt: .3, fontSize: 15,
-                                                maxHeight: 88,
-                                                overflow: 'auto'
-                                            }}>
-                                                {val.complaint_desc || 'Not Updated'}
-                                            </Typography>
-                                        </Box>
-                                    </Box>
                                     < Box sx={{
-                                        flex: 1, bgcolor: '#E5E8E9', borderBottomRightRadius: 5, borderBottomLeftRadius: 5, mb: .1,
-                                        mx: .1, display: 'flex', pl: 1.4
+                                        flex: 1, bgcolor: '#E5E8E9', borderTopRightRadius: 6, borderTopLeftRadius: 6,
+                                        mx: .1, display: 'flex',
                                     }}>
+
                                         <CssVarsProvider>
-                                            <Tooltip title='CountUp time Starts from Ticket Registration' color='warning' variant="soft" sx={{ width: 180 }}>
-                                                <Box sx={{ display: 'flex', cursor: 'grab', fontSize: 13, mt: .2, mr: 1.8 }}>
-                                                    <CountDownCm complaintDate={val.compalint_date} />
+                                            <Tooltip title='Ticket Registered Date and time' placement='top-start' >
+                                                <Box sx={{ cursor: 'pointer' }}>
+                                                    <TextComponent
+                                                        sx={{
+                                                            color: 'black',
+                                                            fontWeight: 540,
+                                                            flex: 1,
+                                                            fontSize: 15,
+                                                            pl: 1,
+                                                            py: .5,
+                                                            fontFamily: 'Arial',
+                                                        }}
+                                                        text={
+                                                            val.compalint_date
+                                                                ? format(new Date(val.compalint_date), 'dd MMM yyyy,  hh:mm a')
+                                                                : 'Invalid Date'
+                                                        }
+                                                    />
                                                 </Box>
                                             </Tooltip>
                                         </CssVarsProvider>
-                                        {val.priority_check === 1 ?
-                                            <>
-                                                <ErrorIcon
-                                                    sx={{
-                                                        height: 30,
-                                                        width: 25,
-                                                        color: val.priority_check === 1 ? '#970C10' : 'lightgrey',
-                                                        animation: val.priority_check === 1 ? `${blinkAnimation} 1s infinite` : 'none',
-                                                    }}
-                                                />
-                                                <Typography sx={{ fontWeight: 600, pl: .5, fontSize: 14, pt: .5, color: 'darkred' }}>
-                                                    {val.priority_reason}
-                                                </Typography>
-                                            </>
-                                            : null}
+                                        <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', }}>
+                                            <Box sx={{ my: .3, mr: .1, px: 2, fontWeight: 500, fontSize: 14, cursor: 'pointer' }}>
+                                                Ticket Registered by :  {val.comp_reg_emp}
+                                            </Box>
+                                        </Box>
                                     </Box>
-                                </Box>
-                            )
-                        }} /> */}
-
-                    <Virtuoso
-                        style={{ height: '75vh' }}
-                        totalCount={allPendingCompl?.length}
-                        itemContent={(index) => {
-                            const val = allPendingCompl[index];
-                            return (
-                                <Box
-                                    key={val.complaint_slno}
-                                    sx={{
-                                        // flex: 1,
-                                        border: 1, borderColor: '#9F2B00',
-                                        borderRadius: 8,
-                                        bgcolor: 'white',
-                                        mb: .5
-                                    }}>
                                     <Box sx={{
-                                        // flex: 1,
                                         display: 'flex', p: .8,
                                     }}>
                                         <Box sx={{
-                                            maxWidth: 180,
+                                            maxWidth: 215,
                                             mx: .3, pr: .5,
                                             borderRight: 1, borderColor: 'lightgrey'
                                         }}>
-                                            <Typography sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700 }}> Ticket {val.complaint_slno}</Typography>
-                                            <CssVarsProvider>
-                                                <Tooltip title='Ticket Registerd Date and time' placement='right' >
-                                                    <Typography sx={{ fontSize: 11, textAlign: 'center', fontWeight: 600, color: "black", mr: .3, cursor: 'grab' }}>
-                                                        {val.compalint_date}</Typography>
-                                                </Tooltip>
-                                            </CssVarsProvider>
+                                            <Typography sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700 }}> Ticket No.</Typography>
+                                            <Typography sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700 }}>{val.complaint_slno}</Typography>
                                             <Box sx={{ flex: 1, display: 'flex', mt: 1, }}>
-                                                {val.cm_file_status === 1 ?
-                                                    <Tooltip title='File Attached' sx={{ bgcolor: '#41729F' }}>
-                                                        <FilePresentRoundedIcon sx={{
-                                                            color: '#41729F',
-                                                            cursor: 'pointer',
-                                                            height: 28, width: 30,
-                                                            border: 1, borderRadius: 5, p: .1,
-                                                            '&:hover': { color: '#274472' }
-                                                        }}
-                                                            onClick={() => fileView(val)}
-                                                        />
-                                                    </Tooltip>
-                                                    :
-                                                    null}
-                                                <Tooltip title='Quick Assign' sx={{ bgcolor: '#085090' }}>
+                                                <Tooltip title='Quick Assign' placement='bottom-start' sx={{ bgcolor: '#085090' }}>
                                                     <AssignmentTurnedInSharpIcon sx={{
                                                         height: 28, width: 30, color: '#085090', cursor: 'pointer', border: 1, mx: .5, borderRadius: 5, p: .1,
                                                         '&:hover': { color: '#093B8C' },
@@ -418,7 +255,7 @@ const PendingTickets = ({ allPendingCompl, count, setCount }) => {
                                                         onClick={() => quickAssign(val)}
                                                     />
                                                 </Tooltip>
-                                                <Tooltip title='Department Transfer' color='warning'>
+                                                <Tooltip title='Department Transfer' color='warning'  >
                                                     <RepeatOnIcon sx={{
                                                         height: 28, width: 30, color: '#8C5E39', cursor: 'pointer', border: 1, borderRadius: 5, p: .3,
                                                         '&:hover': { color: '#6E412A' },
@@ -428,7 +265,7 @@ const PendingTickets = ({ allPendingCompl, count, setCount }) => {
                                                 </Tooltip>
 
                                                 {val.cm_query_status === 1 ?
-                                                    <Tooltip title='Raised Query' sx={{ bgcolor: '#2D7390' }} >
+                                                    <Tooltip title='Raised Query' sx={{ bgcolor: '#2D7390' }}  >
                                                         <InsertCommentIcon sx={{
                                                             height: 28, width: 30,
                                                             color: '#2D7390',
@@ -441,7 +278,7 @@ const PendingTickets = ({ allPendingCompl, count, setCount }) => {
                                                         />
                                                     </Tooltip> :
                                                     val.cm_query_status === 2 ?
-                                                        <Tooltip title='New Replies' sx={{ bgcolor: '#39918C' }} >
+                                                        <Tooltip title='New Replies' sx={{ bgcolor: '#39918C' }}  >
                                                             <MarkUnreadChatAltIcon sx={{
                                                                 height: 28, width: 30,
                                                                 color: '#39918C',
@@ -453,7 +290,7 @@ const PendingTickets = ({ allPendingCompl, count, setCount }) => {
                                                             />
                                                         </Tooltip>
                                                         :
-                                                        <Tooltip title='Raise a Query' color='primary'>
+                                                        <Tooltip title='Raise a Query' color='primary'  >
                                                             <ContactSupportIcon sx={{
                                                                 height: 28, width: 30,
                                                                 color: '#5C90FE',
@@ -465,21 +302,30 @@ const PendingTickets = ({ allPendingCompl, count, setCount }) => {
                                                             />
                                                         </Tooltip>}
 
-
-                                                {assetArray[val.complaint_slno]?.length === 0 ?
-                                                    null :
-                                                    <Tooltip title='Asset Details' sx={{ bgcolor: '#524199' }}>
-                                                        <InventoryIcon sx={{
-                                                            p: .1, color: '#939391',
+                                                {val.cm_file_status === 1 ?
+                                                    <Tooltip title='File Attached' sx={{ bgcolor: '#41729F' }}  >
+                                                        <FilePresentRoundedIcon sx={{
+                                                            color: '#41729F',
+                                                            cursor: 'pointer',
+                                                            height: 28, width: 30,
+                                                            mr: .5,
+                                                            border: 1, borderRadius: 5, p: .1,
+                                                            '&:hover': { color: '#274472' }
+                                                        }}
+                                                            onClick={() => fileView(val)}
+                                                        />
+                                                    </Tooltip>
+                                                    :
+                                                    null}
+                                                {val.cm_asset_status === 1 ?
+                                                    <Tooltip title='Asset Details' sx={{ bgcolor: '#4C5270' }} >
+                                                        <MiscellaneousServicesIcon sx={{
+                                                            p: .1, color: '#4C5270',
                                                             border: 1, borderRadius: 5,
                                                             cursor: 'pointer', height: 28, width: 30,
                                                         }} onClick={() => AssetView(val)} />
-                                                    </Tooltip>
-                                                }
-
-
-
-
+                                                    </Tooltip> :
+                                                    null}
                                             </Box>
                                         </Box>
                                         <Box sx={{
@@ -487,7 +333,7 @@ const PendingTickets = ({ allPendingCompl, count, setCount }) => {
                                             maxWidth: 500,
                                         }}>
                                             <Box sx={{
-                                                // flex: 1,
+
                                                 display: 'flex', mt: .5
                                             }}>
                                                 <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
@@ -498,7 +344,7 @@ const PendingTickets = ({ allPendingCompl, count, setCount }) => {
                                                 </Typography>
                                             </Box>
                                             <Box sx={{
-                                                // flex: 1,
+
                                                 display: 'flex', mt: .5
                                             }}>
                                                 <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
@@ -512,7 +358,6 @@ const PendingTickets = ({ allPendingCompl, count, setCount }) => {
                                                 </Typography>
                                             </Box>
                                             <Box sx={{
-                                                // flex: 1,
                                                 display: 'flex', mt: .5
                                             }}>
                                                 <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
@@ -537,31 +382,37 @@ const PendingTickets = ({ allPendingCompl, count, setCount }) => {
                                         </Box>
                                     </Box>
                                     < Box sx={{
-                                        flex: 1, bgcolor: '#E5E8E9', borderBottomRightRadius: 5, borderBottomLeftRadius: 5, mb: .1,
-                                        mx: .1, display: 'flex', pl: 1.4
+                                        flex: 1, bgcolor: '#E5E8E9', borderBottomRightRadius: 5, borderBottomLeftRadius: 5,
+                                        mx: .1, display: 'flex',
                                     }}>
-                                        <CssVarsProvider>
-                                            <Tooltip title='CountUp time Starts from Ticket Registration' color='warning' variant="soft" sx={{ width: 180 }}>
-                                                <Box sx={{ display: 'flex', cursor: 'grab', fontSize: 13, mt: .2, mr: 1.8, width: 110, }}>
-                                                    <CountDownCm complaintDate={val.compalint_date} />
+                                        <Box>
+                                            <CssVarsProvider>
+                                                <Tooltip title='CountUp time Starts from Ticket Registration'
+                                                    placement='bottom-start'
+                                                    sx={{ width: 180 }}>
+                                                    <Box sx={{ display: 'flex', cursor: 'grab', fontSize: 13, py: .3, pl: .3, width: 125 }}>
+                                                        <CountDownCm complaintDate={val.compalint_date} />
+                                                    </Box>
+                                                </Tooltip>
+                                            </CssVarsProvider>
+                                        </Box>
+                                        <Box sx={{ pl: 1 }}>
+                                            {val.priority_check === 1 ?
+                                                <Box sx={{ display: 'flex' }}>
+                                                    <ErrorIcon
+                                                        sx={{
+                                                            height: 30,
+                                                            width: 25,
+                                                            color: val.priority_check === 1 ? '#970C10' : 'lightgrey',
+                                                            animation: val.priority_check === 1 ? `${blinkAnimation} 1s infinite` : 'none',
+                                                        }}
+                                                    />
+                                                    <Typography sx={{ fontWeight: 600, pl: .2, fontSize: 14, pt: .5, color: 'darkred' }}>
+                                                        {val.priority_reason}
+                                                    </Typography>
                                                 </Box>
-                                            </Tooltip>
-                                        </CssVarsProvider>
-                                        {val.priority_check === 1 ?
-                                            <>
-                                                <ErrorIcon
-                                                    sx={{
-                                                        height: 30,
-                                                        width: 25,
-                                                        color: val.priority_check === 1 ? '#970C10' : 'lightgrey',
-                                                        animation: val.priority_check === 1 ? `${blinkAnimation} 1s infinite` : 'none',
-                                                    }}
-                                                />
-                                                <Typography sx={{ fontWeight: 600, pl: .5, fontSize: 14, pt: .5, color: 'darkred' }}>
-                                                    {val.priority_reason}
-                                                </Typography>
-                                            </>
-                                            : null}
+                                                : null}
+                                        </Box>
                                     </Box>
                                 </Box>
                             )

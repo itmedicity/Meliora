@@ -1,16 +1,21 @@
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import Autocomplete from '@mui/joy/Autocomplete';
 import { CssVarsProvider } from '@mui/joy/'
-import { axioslogin } from 'src/views/Axios/Axios';
+import { getSparesInstock } from 'src/api/AssetApis';
+import { useSelector } from 'react-redux';
+import { useQuery } from 'react-query';
 
 
-const CmSpareList = ({ sparez, setSparez, item_custodian_dept, setSpareName }) => {
+const CmSpareList = ({ sparez, setSparez, setSpareName, }) => {
 
     const [sparex, setSparex] = useState([{ am_spare_item_map_slno: 0, item_name: '', assetno: '' }])
     const [value, setValue] = useState(sparex[0]);
     const [inputValue, setInputValue] = useState('');
     const [spareList, setspareList] = useState([])
-    const [count, setcount] = useState(0)
+
+    const empDept = useSelector((state) => {
+        return state.LoginUserData.empdept
+    })
 
 
     useEffect(() => {
@@ -24,6 +29,7 @@ const CmSpareList = ({ sparez, setSparez, item_custodian_dept, setSpareName }) =
         if (value !== null) {
             setValue(value)
             setSparez(value.am_spare_item_map_slno)
+
         }
         else {
             setSparez(0)
@@ -36,35 +42,88 @@ const CmSpareList = ({ sparez, setSparez, item_custodian_dept, setSpareName }) =
     }, [spareList])
 
 
-    const getSpareCondition = useMemo(() => {
-        return {
-            spare_custodian_dept: item_custodian_dept
-        }
-    }, [item_custodian_dept])
+    // const getSpareCondition = useMemo(() => {
+    //     return {
+    //         spare_custodian_dept: item_custodian_dept
+    //     }
+    // }, [item_custodian_dept])
 
+    // useEffect(() => {
+    //     const getModelNo = async (getSpareCondition) => {
+    //         const result = await axioslogin.post('/ItemMapDetails/GetFreespareList', getSpareCondition);
+    //         const { success, data } = result.data
+    //         if (success === 1) {
+    //             const datass = data.map((val, index) => {
+    //                 const obj = {
+    //                     am_spare_item_map_slno: val.am_spare_item_map_slno,
+    //                     item_name: val.item_name,
+    //                     assetno: val.spare_asset_no + '/' + val.spare_asset_no_only.toString().padStart(6, '0'),
+    //                 }
+    //                 return obj
+    //             })
+    //             setspareList(datass);
+    //         }
+    //         else {
+    //             setspareList([])
+    //         }
+    //     }
+    //     getModelNo(getSpareCondition)
+    // }, [getSpareCondition, count])
+
+
+    const postData = useMemo(() => ({
+        spareCustodainDept: empDept === 0 ? null : empDept === null ? null : empDept,
+
+    }), [empDept]);
+
+
+
+
+    // const { data: spareData, isLoading } = useQuery({
+    //     queryKey: ['getSparesinstock', postData],
+    //     queryFn: () => getSparesInstock(postData),
+    // });
+
+    // const spareInstock = useMemo(() => spareData, [spareData])
+
+    // useEffect(() => {
+    //     if (spareInstock && spareInstock.length > 0) {
+    //         const spareInstock = spareInstock.map((val, index) => {
+    //             const obj = {
+    //                 am_spare_item_map_slno: val.am_spare_item_map_slno,
+    //                 item_name: val.item_name,
+    //                 assetno: val.spare_asset_no + '/' + val.spare_asset_no_only.toString().padStart(6, '0'),
+    //             }
+    //             return obj
+    //         })
+    //         setspareList(spareInstock);
+    //     }
+    //     else {
+    //         setspareList([])
+    //     }
+    // }, [spareInstock]);
+
+    const { data: spareData } = useQuery({
+        queryKey: ['getSparesinstock', postData],
+        queryFn: () => getSparesInstock(postData),
+    });
+
+    const spareInstock = useMemo(() => spareData, [spareData]);
 
     useEffect(() => {
-        const getModelNo = async (getSpareCondition) => {
-            const result = await axioslogin.post('/ItemMapDetails/GetFreespareList', getSpareCondition);
-            const { success, data } = result.data
-            if (success === 1) {
-                const datass = data.map((val, index) => {
-                    const obj = {
-                        am_spare_item_map_slno: val.am_spare_item_map_slno,
-                        item_name: val.item_name,
-                        assetno: val.spare_asset_no + '/' + val.spare_asset_no_only.toString().padStart(6, '0'),
-                    }
-                    return obj
-                })
-                setspareList(datass);
-            }
-            else {
-                setspareList([])
-            }
+        if (spareInstock && spareInstock.length > 0) {
+            const formattedSpareInstock = spareInstock.map((val, index) => {
+                return {
+                    am_spare_item_map_slno: val.am_spare_item_map_slno,
+                    item_name: val.item_name,
+                    assetno: val.spare_asset_no + '/' + val.spare_asset_no_only.toString().padStart(6, '0'),
+                };
+            });
+            setspareList(formattedSpareInstock);
+        } else {
+            setspareList([]);
         }
-        getModelNo(getSpareCondition)
-    }, [getSpareCondition, count])
-
+    }, [spareInstock]);
 
 
 
@@ -91,8 +150,6 @@ const CmSpareList = ({ sparez, setSparez, item_custodian_dept, setSpareName }) =
                 loading={true}
                 loadingText="Loading..."
                 freeSolo
-                // isOptionEqualToValue={(option, value) => option.item_name === value.item_name}
-                // getOptionLabel={option => option.item_name || ''}
                 isOptionEqualToValue={(option, value) =>
                     option.item_name === value.item_name && option.assetno === value.assetno
                 }

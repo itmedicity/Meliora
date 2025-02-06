@@ -127,7 +127,7 @@ const ChangeAssingeesModal = ({ empTransferOpen, setEmptransferOpen, emptransfer
                     >
                         <Box sx={{ flex: 1, display: 'flex', mt: 1, p: 1, }}>
                             <Box sx={{ flex: 1, color: 'grey', }}>
-                                Change Assingees
+                                Change Assignees
                             </Box>
                             <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
                                 <CancelIcon sx={{ color: 'darkred', cursor: 'pointer' }}
@@ -181,7 +181,7 @@ const ChangeAssingeesModal = ({ empTransferOpen, setEmptransferOpen, emptransfer
                         </Box>
                         <Box sx={{ flex: 1, display: 'flex', mx: 8, }}>
                             <Typography sx={{ flex: 1.5 }}>
-                                Change Assingees to :
+                                Change Assignees to :
                             </Typography>
                             <Box sx={{ flex: 3, }}>
                                 <AssistantEmpSelect postdata={postdata} value={assing} setValue={setAssing} />
@@ -201,9 +201,6 @@ const ChangeAssingeesModal = ({ empTransferOpen, setEmptransferOpen, emptransfer
                                 onClick={Close}
                             >Cancel</Button>
                         </Box>
-
-
-
                     </ModalDialog>
                 </Modal>
             </CssVarsProvider>

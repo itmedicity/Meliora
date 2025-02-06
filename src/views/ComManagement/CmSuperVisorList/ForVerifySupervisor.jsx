@@ -1,5 +1,5 @@
 import { Box, Chip, CssVarsProvider, Tooltip, Typography } from '@mui/joy'
-import React, { memo, useCallback, useEffect, useState } from 'react'
+import React, { memo, useCallback, useState } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios';
 import { Virtuoso } from 'react-virtuoso';
 import QuestionAnswerRoundedIcon from '@mui/icons-material/QuestionAnswerRounded';
@@ -11,13 +11,14 @@ import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import ComFileView from '../CmFileView/ComFileView';
+import TextComponent from 'src/views/Components/TextComponent';
+import { format } from 'date-fns';
 
 const ForVerifySupervisor = ({ forVerifyList, count, setCount }) => {
 
     const [queryflag, setqueryflag] = useState(0)
     const [queryOpen, setqueryOpen] = useState(false)
     const [valuee, setValuee] = useState([])
-    const [assignedEmployees, setAssignedEmployees] = useState([])
     const [verifyFlag, setverifyFlag] = useState(0)
     const [verifyOpen, setverifyOpen] = useState(false)
     const [forVerifyData, setforVerifyData] = useState([])
@@ -26,7 +27,6 @@ const ForVerifySupervisor = ({ forVerifyList, count, setCount }) => {
     const [imageUrls, setImageUrls] = useState([]);
     const [selectedImages, setSelectedImages] = useState([]);
     const [imageViewOpen, setimageViewOpen] = useState(false)
-
 
     const RaiseQuery = useCallback((value) => {
         setqueryflag(1)
@@ -39,23 +39,6 @@ const ForVerifySupervisor = ({ forVerifyList, count, setCount }) => {
         setforVerifyData(value)
         setverifyOpen(true)
     }, [])
-
-    useEffect(() => {
-        const getAssignedEmployees = async () => {
-            const updatedEmployees = {};
-            for (let complaint of forVerifyList) {
-                const result = await axioslogin.get(`Rectifycomplit/getAssignEmps/${complaint.complaint_slno}`);
-                const { success, data } = result.data;
-                if (success === 1) {
-                    updatedEmployees[complaint.complaint_slno] = data;
-                } else {
-                    updatedEmployees[complaint.complaint_slno] = [];
-                }
-            }
-            setAssignedEmployees(updatedEmployees);
-        };
-        getAssignedEmployees();
-    }, [forVerifyList]);
 
     const fileView = async (val) => {
         const { complaint_slno } = val;
@@ -72,7 +55,6 @@ const ForVerifySupervisor = ({ forVerifyList, count, setCount }) => {
                     return `${PUBLIC_NAS_FOLDER}/ComplaintManagement/${complaint_slno}/${fileName}`;
                 });
                 setImageUrls(fileUrls);
-                // Open the modal only if there are files
                 if (fileUrls.length > 0) {
                     setSelectedImages(val);
                 } else {
@@ -109,7 +91,7 @@ const ForVerifySupervisor = ({ forVerifyList, count, setCount }) => {
 
                 /> : null}
             <Virtuoso
-                style={{ height: '73vh' }}
+                style={{ height: '67vh' }}
                 totalCount={forVerifyList?.length}
                 itemContent={(index) => {
                     const val = forVerifyList[index];
@@ -123,6 +105,38 @@ const ForVerifySupervisor = ({ forVerifyList, count, setCount }) => {
                                 bgcolor: 'white',
                                 mb: .5
                             }}>
+                            <Box sx={{
+                                flex: 1, bgcolor: '#E5E8E9', borderTopRightRadius: 6, borderTopLeftRadius: 6,
+                                mx: .1, display: 'flex',
+                            }}>
+                                <CssVarsProvider>
+                                    <Tooltip title='Ticket Registered Date and time' placement='top-start' >
+                                        <Box sx={{ cursor: 'pointer' }}>
+                                            <TextComponent
+                                                sx={{
+                                                    color: 'black',
+                                                    fontWeight: 540,
+                                                    flex: 1,
+                                                    fontSize: 15,
+                                                    pl: 1,
+                                                    py: .5,
+                                                    fontFamily: 'Arial',
+                                                }}
+                                                text={
+                                                    val.compalint_date
+                                                        ? format(new Date(val.compalint_date), 'dd MMM yyyy,   hh:mm a')
+                                                        : 'Invalid Date'
+                                                }
+                                            />
+                                        </Box>
+                                    </Tooltip>
+                                </CssVarsProvider>
+                                <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', }}>
+                                    <Box sx={{ my: .3, mr: .1, px: 2, fontWeight: 500, fontSize: 14, cursor: 'pointer' }}>
+                                        Ticket Registered by :  {val.comp_reg_emp}
+                                    </Box>
+                                </Box>
+                            </Box>
                             <CssVarsProvider>
                                 <Box sx={{ flex: 1, display: 'flex', p: .8, }}>
                                     <Box sx={{
@@ -130,13 +144,8 @@ const ForVerifySupervisor = ({ forVerifyList, count, setCount }) => {
                                         mx: 1, pr: 1,
                                         borderRight: 1, borderColor: 'lightgrey'
                                     }}>
-                                        <Typography sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700 }}> Ticket No. {val.complaint_slno}</Typography>
-
-                                        <Tooltip title='Ticket Registerd Date and time' placement='right' >
-                                            <Typography sx={{ fontSize: 11, textAlign: 'center', fontWeight: 600, color: "black", mr: .3, cursor: 'grab' }}>
-                                                {val.compalint_date}
-                                            </Typography>
-                                        </Tooltip>
+                                        <Typography sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700 }}> Ticket No.</Typography>
+                                        <Typography sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700, px: 3 }}>{val.complaint_slno}</Typography>
                                         <Box sx={{ flex: 1, display: 'flex', my: .5, justifyContent: "center", }}>
                                             {val.cm_file_status === 1 ?
                                                 <Tooltip title='File View' >
@@ -195,7 +204,6 @@ const ForVerifySupervisor = ({ forVerifyList, count, setCount }) => {
                                         maxWidth: 500,
                                     }}>
                                         <Box sx={{
-                                            // flex: 1,
                                             display: 'flex', mt: .5
                                         }}>
                                             <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
@@ -206,7 +214,6 @@ const ForVerifySupervisor = ({ forVerifyList, count, setCount }) => {
                                             </Typography>
                                         </Box>
                                         <Box sx={{
-                                            // flex: 1,
                                             display: 'flex', mt: .5
                                         }}>
                                             <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
@@ -220,7 +227,6 @@ const ForVerifySupervisor = ({ forVerifyList, count, setCount }) => {
                                             </Typography>
                                         </Box>
                                         <Box sx={{
-                                            // flex: 1,
                                             display: 'flex', mt: .5
                                         }}>
                                             <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
@@ -243,10 +249,6 @@ const ForVerifySupervisor = ({ forVerifyList, count, setCount }) => {
                                             {val.complaint_desc || 'Not Updated'}
                                         </Typography>
                                     </Box>
-
-
-
-
                                 </Box>
                                 <Box sx={{
                                     flex: 1, bgcolor: '#E5E8E9', borderBottomRightRadius: 5, borderBottomLeftRadius: 5, mb: .1,
@@ -256,43 +258,43 @@ const ForVerifySupervisor = ({ forVerifyList, count, setCount }) => {
                                         <Box sx={{ display: 'flex', pl: 1.5 }}>
                                             <ErrorIcon
                                                 sx={{
-                                                    // mt: 3,
                                                     height: 30,
                                                     width: 25,
                                                     color: val.priority_check === 1 ? '#970C10' : 'lightgrey',
                                                 }}
                                             />
-
                                             <Typography sx={{ fontWeight: 600, pl: .5, fontSize: 14, pt: .5, color: 'darkred', overflow: 'auto' }}>
                                                 {val.priority_reason}
                                             </Typography>
                                         </Box> : null}
-
                                     <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', }}>
-                                        <Typography sx={{ fontSize: 13, fontWeight: 700, pt: .5 }}>Assingees :</Typography>&nbsp;&nbsp;
+                                        <Typography sx={{ fontSize: 13, fontWeight: 700, pt: .5 }}>Assignees :</Typography>&nbsp;&nbsp;
                                         <Box sx={{ fontWeight: 600, display: 'flex', py: .4, gap: .3 }}>
-                                            {assignedEmployees[val.complaint_slno]?.map((emp, index) => (
-                                                <Chip
-                                                    key={index}
-                                                    size="small"
-                                                    variant="outlined"
-                                                    sx={{ bgcolor: '#D3C7A1', fontSize: 13, px: .8 }}>
-                                                    {emp.em_name}
+                                            {val.assigned_employees === null ?
+                                                <Chip>
+                                                    Not Updated
                                                 </Chip>
-                                            ))}
-                                        </Box>&nbsp;&nbsp;
-
+                                                :
+                                                <>
+                                                    {val.assigned_employees.split(',').map((name, index) => (
+                                                        <Chip
+                                                            key={index}
+                                                            size="small"
+                                                            variant="outlined"
+                                                            sx={{ bgcolor: '#D3C7A1', fontSize: 13, px: 0.8, marginRight: 0.1 }}
+                                                        >
+                                                            {name.trim()}
+                                                        </Chip>
+                                                    ))}
+                                                </>}
+                                        </Box>
                                     </Box>
                                 </Box>
                             </CssVarsProvider>
                         </Box>
-
                     )
                 }}
             />
-
-
-
         </Box>
     )
 }

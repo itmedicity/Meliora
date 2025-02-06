@@ -10,17 +10,14 @@ import AssingedInAllList from './AssingedInAllList';
 import { useSelector } from 'react-redux';
 import { axioslogin } from 'src/views/Axios/Axios';
 
-const AllTicketList = ({ onholdCompl, holdLength, count, setCount }) => {
+const AllTicketList = ({ onholdCompl, holdLength, count, setCount, menurights }) => {
 
     const [rectifiedCheck, setRectifiedCheck] = useState(0)
     const [verifiedCheck, setVerifiedCheck] = useState(0)
     const [holdCheck, setholdCheck] = useState(1)
     const [assinged, setAssinged] = useState(0)
     const [pendingCompl, setpendingCompl] = useState([])
-    // const [onholdCompl, setOnholdCompl] = useState([])
-    // const [holdLength, setholdLength] = useState(0)
     const [pendingLength, setpendingLength] = useState(0)
-    // const [count, setCount] = useState(0)
 
     const empdept = useSelector((state) => {
         return state.LoginUserData.empdept
@@ -88,9 +85,9 @@ const AllTicketList = ({ onholdCompl, holdLength, count, setCount }) => {
                 <Badge badgeContent={pendingLength} color="warning">
                     <Box sx={{ px: 1, display: 'flex', cursor: 'pointer', }} onClick={AllAssinged}>
                         {assinged === 1 ?
-                            <RadioButtonCheckedIcon sx={{ cursor: 'pointer', color: '#CBAE11' }} />
+                            <RadioButtonCheckedIcon sx={{ cursor: 'pointer', color: '#9A5B13' }} />
                             : <RadioButtonUncheckedIcon sx={{ cursor: 'pointer' }} />}
-                        <Typography sx={{ pl: .5 }}>Assinged</Typography>
+                        <Typography sx={{ pl: .5 }}>Assigned</Typography>
                     </Box>
                 </Badge>
                 <Badge badgeContent={holdLength} color="neutral">
@@ -129,13 +126,13 @@ const AllTicketList = ({ onholdCompl, holdLength, count, setCount }) => {
                 }
                 {holdCheck === 1 ?
                     <Box>
-                        <OnholdInAllList onholdCompl={onholdCompl} setCount={setCount} count={count} />
+                        <OnholdInAllList onholdCompl={onholdCompl} setCount={setCount} count={count} menurights={menurights} />
                     </Box> :
                     <Box></Box>
                 }
                 {assinged === 1 ?
                     <Box>
-                        <AssingedInAllList pendingCompl={pendingCompl} setCount={setCount} count={count} />
+                        <AssingedInAllList pendingCompl={pendingCompl} setCount={setCount} count={count} menurights={menurights} />
                     </Box> :
                     <Box></Box>
                 }

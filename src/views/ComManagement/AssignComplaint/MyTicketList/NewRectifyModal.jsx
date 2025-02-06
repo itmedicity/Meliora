@@ -1,57 +1,45 @@
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
-import { FormControlLabel, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import CustomTextarea from 'src/views/Components/CustomTextarea';
 import { errorNotify, infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode';
 import { axioslogin } from 'src/views/Axios/Axios';
-import { Avatar, Box, Button, Checkbox, Chip, CssVarsProvider, Dropdown, Input, Menu, MenuButton, MenuItem, Modal, ModalClose, ModalDialog, Tooltip } from '@mui/joy';
-import CancelIcon from '@mui/icons-material/Cancel';
+import { Avatar, Box, Button, Checkbox, CssVarsProvider, Input, Modal, Switch, Tooltip } from '@mui/joy';
 import { useDispatch, useSelector } from 'react-redux';
 import { format } from 'date-fns';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import Done from '@mui/icons-material/Done';
-import SearchSharpIcon from '@mui/icons-material/SearchSharp';
-import ArrowDropDownSharpIcon from '@mui/icons-material/ArrowDropDownSharp';
-import ArrowDropUpSharpIcon from '@mui/icons-material/ArrowDropUpSharp';
 import CusCheckBox from 'src/views/Components/CusCheckBox';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import TripOriginIcon from '@mui/icons-material/TripOrigin';
 import BuildIcon from '@mui/icons-material/Build';
 import AssetSpareModal from '../../AssetDetailsInCompl/AssetSpareModal';
 import CmAssetList from '../../CmComponent/CmAssetList';
-import FileCopyIcon from '@mui/icons-material/FileCopy';
 import imageCompression from 'browser-image-compression';
-import CloseIcon from '@mui/icons-material/Close';
 import UploadIcon from '@mui/icons-material/Upload';
 import ManageAccountsSharpIcon from '@mui/icons-material/ManageAccountsSharp';
-import TextFieldCustom from 'src/views/Components/TextFieldCustom';
-import CusIconButton from 'src/views/Components/CusIconButton';
-import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import RefreshIcon from '@mui/icons-material/Refresh';
-import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
-import AmDepartmentSelWOName from 'src/views/CommonSelectCode/AmDepartmentSelWOName';
-import AmDeptSecSelectWOName from 'src/views/CommonSelectCode/AmDeptSecSelectWOName';
-import AmRoomSelWONameUDepSec from 'src/views/CommonSelectCode/AmRoomSelWONameUDepSec';
-import AmSubRmSelWONamURoom from 'src/views/CommonSelectCode/AmSubRmSelWONamURoom';
-import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
-import StarPurple500RoundedIcon from '@mui/icons-material/StarPurple500Rounded';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { getDepartment } from 'src/redux/actions/Department.action';
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import CmHoldReasonList from '../../CmComponent/CmHoldReasonList';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import AssetListUnderCustodian from 'src/views/CommonSelectCode/AssetListUnderCustodian';
-import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
+import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
+import ArrowDropUpOutlinedIcon from '@mui/icons-material/ArrowDropUpOutlined';
+import { getArrayOfAssetLocationDetails, getCustodianDetails } from 'src/api/AssetApis';
+import { useQuery } from 'react-query';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
+import ClearSharpIcon from '@mui/icons-material/ClearSharp';
+import AttachmentSharpIcon from '@mui/icons-material/AttachmentSharp';
+import FileViewSingle from 'src/views/Components/FileViewSingle'
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import ComplaintAttachFiles from './ComplaintAttachFiles';
+import LibraryAddSharpIcon from '@mui/icons-material/LibraryAddSharp';
 
 const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, count, setCount }) => {
 
-    const { complaint_slno, complaint_desc, compalint_date, rm_roomtype_name, rm_room_name, rm_insidebuildblock_name, em_department,
-        rm_floor_name, location, complaint_type_name, complaint_dept_secslno, complaint_deptslno, rectify_pending_hold_remarks, cm_hold_reason_slno } = rectfyDta
-
+    const { complaint_slno, complaint_desc, compalint_date, rm_roomtype_name, rm_room_name, rm_insidebuildblock_name, complaint_from_dept,
+        rm_floor_name, location, complaint_type_name, complaint_dept_secslno, complaint_deptslno, rectify_pending_hold_remarks, cm_hold_reason_slno,
+        rm_room_slno,
+    } = rectfyDta
 
     const dispatch = useDispatch();
     const [search, setSearch] = useState(0)
@@ -64,9 +52,8 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
     const [assetStatus, setAssetStatus] = useState(0)
     const [selectedAsset, setSelectedAsset] = useState('');
     const [codept, setcodept] = useState(0)
-    const [isOpen, setIsOpen] = useState(false);
-    const [pending, setPending] = useState(cm_hold_reason_slno !== 0 ? true : false);
-    const [rectified, setRectify] = useState(false);
+    const [pending, setPending] = useState(cm_hold_reason_slno !== undefined ? true : false);
+    const [rectified, setRectify] = useState(cm_hold_reason_slno === undefined ? true : false);
     const [pendholdreason, setPendhold] = useState(rectify_pending_hold_remarks !== null ? rectify_pending_hold_remarks : '')
     const [empName, setempname] = useState([])
     const [Employee, setEmployee] = useState([])
@@ -76,46 +63,27 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
     const [selectEmployeeChk, setSelectEmployeeChk] = useState(0)
     const [assetData, setassetData] = useState(0)
     const [selectFile, setSelectFile] = useState([]);
-    const [isExpanded, setIsExpanded] = useState(false);
     const emidsSet = new Set(Employee.map(item => item.emids.toString()));
     const filteredArray = empName.filter(item => !emidsSet.has(item.assigned_emp.toString()));
-    const [assetNo, setAssetNo] = useState('')
-    const [transDept, setTransDept] = useState(0)
-    const [transDeptSec, setTransDeptSec] = useState(0)
-    const [roomNo, setRoomNo] = useState(0)
-    const [subRoomNo, setSubRoomNo] = useState(0)
-    const [markAnAssetUnderCompFlag, setmarkAnAssetUnderCompFlag] = useState(0)
-    const [addAssetUnderSecFlag, setaddAssetUnderSecFlag] = useState(0)
-    const [serachFlag, setSerachFlag] = useState(0)
     const [asset_dept, setasset_dept] = useState('')
     const [holdReason, setHoldReason] = useState(cm_hold_reason_slno !== 0 ? cm_hold_reason_slno : 0)
     const [custAsset, setcustAsset] = useState(0)
-    const [asset, setAsset] = useState({});
-    const [openDropdown, setOpenDropdown] = useState(false);
-
-
-
-    console.log("newlyAddedAssets", newlyAddedAssets);
-
-
-
-    const handleDropdownToggle = () => {
-        setOpenDropdown(!openDropdown); // Toggle dropdown on input click
-    };
-
-    const [transferData, setTransferData] = useState({
-        am_item_map_slno: 0,
-        item_name: '',
-        department: '',
-        dept_sec: '',
-        custodian_dept: ''
-    })
-
-    const { am_item_map_slno, item_name, department, dept_sec, custodian_dept } = transferData
-
+    const [uploadBlink, setuploadBlink] = useState(0)
+    const [custFirstName, setcustFirstName] = useState('')
+    const [custSecName, setcustSecName] = useState('')
+    const [previewFile, setPreviewFile] = useState({ url: "", type: "" });
+    const [imageShow, setImageShow] = useState(false)
+    const [imageShowFlag, setImageShowFlag] = useState(0)
+    const [isExpanded, setIsExpanded] = useState(false);
+    const [assetDaata, setAssetDaata] = useState({})
+    const [serviceUpdateCount, setserviceUpdateCount] = useState(0)
 
     const id = useSelector((state) => {
         return state.LoginUserData.empid
+    })
+
+    const empdept = useSelector((state) => {
+        return state.LoginUserData.empdept
     })
 
     useEffect(() => {
@@ -126,27 +94,9 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
         setcodept(complaint_deptslno);
     }, [complaint_deptslno]);
 
-    const handleCheckboxChange = (value) => {
-        setcodept(value);
-    };
-
     const updatePendhold = useCallback((e) => {
         setPendhold(e.target.value)
     }, [])
-
-    const updateAssetNo = useCallback((e) => {
-        setAssetNo(e.target.value.toLocaleUpperCase())
-    }, [])
-
-    const toggleExpand = () => {
-        setIsExpanded(!isExpanded);
-    };
-
-    const toggleOpen = () => {
-        setIsOpen(!isOpen);
-    };
-
-
 
     const updateSelect = (e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -157,6 +107,7 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
         if (e.target.checked === true) {
             setRectify(true)
             setPending(false)
+            setPendhold('')
         } else {
             setRectify(false)
         }
@@ -166,6 +117,7 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
         if (e.target.checked === true) {
             setPending(true)
             setRectify(false)
+            setPendhold('')
         } else {
             setPending(false)
         }
@@ -178,8 +130,8 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
 
     useEffect(() => {
         const getAssetinComplaint = async (complaint_slno) => {
-            const result = await axioslogin.get(`/complaintreg/getAssetinComplaint/${complaint_slno}`);
-            const { success, data } = result.data;
+            const result = await axioslogin.get(`/complaintreg/getAssetinComplaint/${complaint_slno}`)
+            const { success, data } = result.data
             if (success === 2) {
                 setAssetArray(data)
             }
@@ -188,46 +140,54 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
             }
         }
         getAssetinComplaint(complaint_slno)
-    }, [complaint_slno, count])
+    }, [complaint_slno, serviceUpdateCount])
 
+    const { data: custodianDetailsVal, isSuccess } = useQuery({
+        queryKey: ['getCustodianDetails', empdept],
+        enabled: empdept !== 0,
+        queryFn: () => getCustodianDetails(empdept),
+    });
 
+    const custodianDetails = useMemo(() => custodianDetailsVal, [custodianDetailsVal])
 
-
+    useEffect(() => {
+        if (isSuccess && custodianDetails && custodianDetails.length > 0) {
+            const { am_custdn_asset_no_first, am_custdn_asset_no_second } = custodianDetails[0];
+            setcustFirstName(am_custdn_asset_no_first);
+            setcustSecName(am_custdn_asset_no_second);
+        }
+    }, [isSuccess, custodianDetails]);
 
     const searchAssetNo = useCallback((e) => {
         if (cm_am_asset_no === '') {
             infoNotify('Please Enter Asset Number');
         } else {
-            const firstname = 'TMC';
-            const Custodian =
-                codept === 1 ? 'BME' :
-                    codept === 2 ? 'MAIN' :
-                        codept === 3 ? 'IT' :
-                            codept === 4 ? 'HSK' :
-                                codept === 5 ? 'OPE' : '';
-            const starts = firstname + '/' + Custodian;
+            const starts = custFirstName + '/' + custSecName;
             const asset_number = parseInt(cm_am_asset_no);
             const postdata = {
                 item_asset_no: starts,
                 item_asset_no_only: asset_number
             };
-
             const getAssetdata = async (postdata) => {
                 const result = await axioslogin.post('/PasswordManagementMain/getAssetNo', postdata);
                 const { data, success } = result.data;
                 if (data.length !== 0) {
                     if (success === 1) {
-                        const { item_name, sec_name, am_item_map_slno, item_asset_no_only, item_asset_no, item_custodian_dept, item_custodian_dept_sec } = data[0];
-                        // Check if the asset already exists in the array
-                        const assetExists = assetArray.some(asset => asset.item_asset_no_only === item_asset_no_only);
-                        if (assetExists) {
-                            infoNotify("You already added this asset in complaint");
+                        const { item_deptsec_slno } = data[0]
+                        if (item_deptsec_slno === complaint_dept_secslno) {
+                            const { item_name, sec_name, am_item_map_slno, item_asset_no_only, item_asset_no, am_custodian_dept_slno, item_custodian_dept_sec } = data[0];
+                            const assetExists = assetArray.some(asset => asset.item_asset_no_only === item_asset_no_only);
+                            if (assetExists) {
+                                infoNotify("You already added this asset in complaint");
+                            } else {
+                                const newAsset = { item_name, sec_name, am_item_map_slno, item_asset_no_only, item_asset_no, am_custodian_dept_slno, item_custodian_dept_sec };
+                                setAssetArray((prevArray) => [...prevArray, newAsset]);
+                                setNewlyAddedAssets((prevAssets) => [...prevAssets, newAsset]);
+                                setcm_am_asset_no('');
+                                setassetData(0)
+                            }
                         } else {
-                            const newAsset = { item_name, sec_name, am_item_map_slno, item_asset_no_only, item_asset_no, item_custodian_dept, item_custodian_dept_sec };
-                            setAssetArray((prevArray) => [...prevArray, newAsset]);
-                            setNewlyAddedAssets((prevAssets) => [...prevAssets, newAsset]);
-                            setcm_am_asset_no('');
-                            setassetData(0)
+                            infoNotify("Can't find Searched Asset Under Department Section")
                         }
                     }
                     return result.data;
@@ -238,7 +198,7 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
             getAssetdata(postdata);
             setAssetStatus(1);
         }
-    }, [cm_am_asset_no, codept, assetArray,]);
+    }, [cm_am_asset_no, assetArray, custFirstName, custSecName, complaint_dept_secslno]);
 
     const searchAssetNoinMenu = useCallback((e) => {
         if (item_slno === 0) {
@@ -255,13 +215,12 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                 const { data, success } = result.data
                 if (data.length !== 0) {
                     if (success === 1) {
-                        const { item_name, sec_name, am_item_map_slno, item_asset_no_only, item_asset_no, item_custodian_dept, item_custodian_dept_sec } = data[0];
-                        // Check if the asset already exists in the array
+                        const { item_name, sec_name, am_item_map_slno, item_asset_no_only, item_asset_no, am_custodian_dept_slno, item_custodian_dept_sec } = data[0];
                         const assetExists = assetArray.some(asset => asset.item_asset_no_only === item_asset_no_only);
                         if (assetExists) {
                             infoNotify("You already added this asset in complaint");
                         } else {
-                            const newAsset = { item_name, sec_name, am_item_map_slno, item_asset_no_only, item_asset_no, item_custodian_dept, item_custodian_dept_sec };
+                            const newAsset = { item_name, sec_name, am_item_map_slno, item_asset_no_only, item_asset_no, am_custodian_dept_slno, item_custodian_dept_sec };
 
                             setAssetArray((prevArray) => [...prevArray, newAsset]);
                             setNewlyAddedAssets((prevAssets) => [...prevAssets, newAsset]);
@@ -279,7 +238,7 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
             getAssetdata(postdata)
             setAssetStatus(1)
         }
-    }, [item_slno, codept, assetArray])
+    }, [item_slno, assetArray, asset_dept])
 
     useEffect(() => {
         const getEmployeees = async () => {
@@ -294,7 +253,6 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
         }
         getEmployeees();
     }, [complaint_slno])
-
 
     const handleDelete = (indexToDelete) => {
         setAssetArray((prevArray) => {
@@ -311,24 +269,40 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
         setcm_am_asset_no('')
     };
 
-    const SearchAsset = useCallback((e) => {
-        setSearch(1)
-        setSelect(0)
-        setSelectedAsset('')
-    }, [])
+    // const SearchAsset = useCallback((e) => {
+    //     setSearch(1)
+    //     setSelect(0)
+    //     setSelectedAsset('')
+    // }, [])
 
-    const SelectAsset = useCallback((e) => {
-        setSelect(1)
-        setSearch(0)
-        setcm_am_asset_no('')
-    }, [])
+    // const SelectAsset = useCallback((e) => {
+    //     setSelect(1)
+    //     setSearch(0)
+    //     setcm_am_asset_no('')
+    // }, [])
+
+    const [isSelect, setIsSelect] = useState(true);
+    const handleAssetSelectToggle = () => {
+        setIsSelect((prev) => {
+            const newValue = !prev;
+            if (newValue) {
+                setSelect(1);
+                setSearch(0);
+                setcm_am_asset_no('');
+            } else {
+                setSearch(1);
+                setSelect(0);
+                setSelectedAsset('');
+            }
+            return newValue;
+        });
+    };
+
 
     const Close = useCallback(() => {
         setrectfyFlag(0)
         setrectfyOpen(false)
-        setmarkAnAssetUnderCompFlag(0)
-    }, [setrectfyFlag, setmarkAnAssetUnderCompFlag, setrectfyOpen])
-
+    }, [setrectfyFlag, setrectfyOpen])
 
     const AssetSpareDetailsview = useCallback((val) => {
         if (newlyAddedAssets.includes(val)) {
@@ -355,10 +329,6 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
         setassetSpareOpen(true);
     }, [newlyAddedAssets, complaint_slno, id]);
 
-
-
-
-
     const handleFileChange = useCallback((e) => {
         const newFiles = [...selectFile]
         newFiles.push(e.target.files[0])
@@ -378,16 +348,13 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
     const handleRemoveFile = (index) => {
         setSelectFile((prevFiles) => {
             const updatedFiles = [...prevFiles];
-            updatedFiles.splice(index, 1); // Remove the file at the specified index
+            updatedFiles.splice(index, 1);
             return updatedFiles;
         });
     };
 
-
-
     const servicefunctn = useCallback((val) => {
-        const { am_item_map_slno, item_custodian_dept, item_custodian_dept_sec } = val
-
+        const { am_item_map_slno, am_custodian_dept_slno, item_custodian_dept_sec } = val
         if (newlyAddedAssets.includes(val)) {
             const InsertAssetx = [{
                 cm_complait_slno: complaint_slno,
@@ -404,21 +371,26 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                     const updatedAssetsDta = newlyAddedAssets.filter(item => item !== val);
                     setNewlyAddedAssets(updatedAssetsDta);
                     const patchdata = {
-                        asset_item_service_user: id,
-                        item_dept_slno: item_custodian_dept,
+                        item_dept_slno: am_custodian_dept_slno,
                         item_deptsec_slno: item_custodian_dept_sec,
                         am_item_map_slno: am_item_map_slno,
+                        am_trans_from_dept: complaint_from_dept,
+                        am_trans_from_dept_sec: complaint_dept_secslno,
+                        am_trans_from_room: rm_room_slno,
+                        am_trans_from_subroom: null,
+                        am_custodian_trans_status: 1,
+                        asset_item_service_user: id,
+                        transfer_user: id
                     }
-
                     const ServiceUpdate = async (patchdata) => {
                         const result = await axioslogin.patch('/ItemMapDetails/AssetService', patchdata);
                         const { success, message } = result.data
                         if (success === 2) {
                             succesNotify(message)
-                            setCount(count + 1)
+                            setserviceUpdateCount(serviceUpdateCount + 1)
                         } else {
                             warningNotify(message)
-                            setCount(count + 1)
+                            setserviceUpdateCount(serviceUpdateCount + 1)
                         }
                     }
                     ServiceUpdate(patchdata)
@@ -428,29 +400,31 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
         }
         else {
             const patchdata = {
-                asset_item_service_user: id,
-                item_dept_slno: item_custodian_dept,
+                item_dept_slno: am_custodian_dept_slno,
                 item_deptsec_slno: item_custodian_dept_sec,
                 am_item_map_slno: am_item_map_slno,
+                am_trans_from_dept: complaint_from_dept,
+                am_trans_from_dept_sec: complaint_dept_secslno,
+                am_trans_from_room: rm_room_slno,
+                am_trans_from_subroom: null,
+                am_custodian_trans_status: 1,
+                asset_item_service_user: id,
+                transfer_user: id
             }
-
             const ServiceUpdate = async (patchdata) => {
                 const result = await axioslogin.patch('/ItemMapDetails/AssetService', patchdata);
                 const { success, message } = result.data
                 if (success === 2) {
                     succesNotify(message)
-                    setCount(count + 1)
+                    setserviceUpdateCount(serviceUpdateCount + 1)
                 } else {
                     warningNotify(message)
-                    setCount(count + 1)
+                    setserviceUpdateCount(serviceUpdateCount + 1)
                 }
             }
             ServiceUpdate(patchdata)
         }
-    }, [id, setCount, count, newlyAddedAssets])
-
-
-
+    }, [id, setserviceUpdateCount, serviceUpdateCount, newlyAddedAssets, complaint_dept_secslno, complaint_from_dept, complaint_slno, rm_room_slno])
 
     const reset = useCallback(() => {
         setcodept(null)
@@ -463,8 +437,9 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
         setAssetArray([])
         setNewlyAddedAssets([])
         setDeletedFiles([])
+        setserviceUpdateCount(0)
+        setassetTransCount(0)
     }, [setCount])
-
 
     const UploadFile = useCallback(async () => {
         const InsertFile = async (selectFile, complaint_slno) => {
@@ -488,18 +463,15 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                 if (success === 1) {
                     succesNotify("File Uploaded Successfully")
                     setSelectFile([])
+                    setuploadBlink(0)
                 }
                 // return uploadResult.data;
             } catch (error) {
-                console.error('An error occurred during file upload:', error);
+                errorNotify('An error occurred during file upload:', error);
             }
         };
         await InsertFile(selectFile, complaint_slno);
-    }, [complaint_slno, selectFile, handleImageUpload]);
-
-
-
-
+    }, [complaint_slno, selectFile, handleImageUpload, setuploadBlink]);
 
     const buttonStyle = {
         fontSize: 16,
@@ -543,10 +515,6 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
             create_user: id
         }
     })
-
-
-
-
     const assetinactive = deletedFiles && deletedFiles.map((val) => {
         return {
             comasset_mapping_slno: val.comasset_mapping_slno,
@@ -564,178 +532,190 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
 
     const rectifycmplt = useCallback((e) => {
         e.preventDefault();
-
-        if (Employee.length === 0) {
-            infoNotify("Please Select Employees Worked UnderComplaint")
+        if (selectFile.length !== 0) {
+            infoNotify("Click on fileUpload to upLoad file")
+            setuploadBlink(1)
         }
         else {
+            if (Employee.length === 0) {
+                infoNotify("Please Select Employees Worked UnderComplaint")
+            }
+            else {
+                if (pendholdreason === '') {
+                    infoNotify("Please Add Remarks")
+                }
+                else {
+                    if ((cm_am_asset_no !== '' && assetStatus === 0) || (selectedAsset !== '' && assetStatus === 0)) {
+                        infoNotify(
+                            <>please click on  &apos; <AddCircleIcon /> &apos;  to add Asset details</>
+                        );
+                    } else {
+                        const updateAsset = async (updateAssetz) => {
+                            const result = await axioslogin.post('/complaintreg/insertAssetArray', updateAssetz);
+                            return result.data
+                        }
+                        const updateFun = async (patchData) => {
+                            const result = await axioslogin.patch(`/Rectifycomplit/updatecmp`, patchData);
+                            return result.data
+                        }
+                        const inactiveAsset = async (assetinactive) => {
+                            const result = await axioslogin.patch('/complaintreg/assetinactive', assetinactive);
+                            return result.data
+                        }
+                        const Inactiveemp = async (inactiveEployee) => {
+                            const result = await axioslogin.post(`/complaintassign/employeeTrans/Inactive`, inactiveEployee);
+                            return result.data
+                        }
 
-            if ((cm_am_asset_no !== '' && assetStatus === 0) || (selectedAsset !== '' && assetStatus === 0)) {
-                infoNotify(
-                    <>please click on  &apos; <AddCircleIcon /> &apos;  to add Asset details</>
-                );
-            } else {
-                const updateAsset = async (updateAssetz) => {
-                    const result = await axioslogin.post('/complaintreg/insertAssetArray', updateAssetz);
-                    return result.data
-                }
-                const updateFun = async (patchData) => {
-                    const result = await axioslogin.patch(`/Rectifycomplit/updatecmp`, patchData);
-                    return result.data
-                }
-                const inactiveAsset = async (assetinactive) => {
-                    const result = await axioslogin.patch('/complaintreg/assetinactive', assetinactive);
-                    return result.data
-                }
-                const Inactiveemp = async (inactiveEployee) => {
-                    const result = await axioslogin.post(`/complaintassign/employeeTrans/Inactive`, inactiveEployee);
-                    return result.data
-                }
+                        updateFun(patchData).then((value) => {
+                            const { message, success } = value
+                            if (success === 2) {
+                                if (newlyAddedAssets.length !== 0) {
+                                    if (deletedFiles.length !== 0) {
+                                        inactiveAsset(assetinactive).then((value) => {
+                                            const { success } = value
+                                            if (success === 1) {
+                                                updateAsset(updateAssetz)
+                                                const { success } = value
+                                                if (success === 1) {
+                                                    if (filteredArray.length !== 0) {
+                                                        Inactiveemp(inactiveEployee).then((response) => {
+                                                            const { succes, message } = response;
+                                                            if (succes === 1) {
+                                                                succesNotify("Complaint Updated Successfully");
+                                                                setCount(count + 1);
+                                                                reset();
+                                                                Close();
 
-                updateFun(patchData).then((value) => {
-                    const { message, success } = value
-                    if (success === 2) {
-                        if (newlyAddedAssets.length !== 0) {
-                            if (deletedFiles.length !== 0) {
-                                inactiveAsset(assetinactive).then((value) => {
-                                    const { success } = value
-                                    if (success === 1) {
-                                        updateAsset(updateAssetz)
-                                        const { success } = value
-                                        if (success === 1) {
-                                            if (filteredArray.length !== 0) {
-                                                Inactiveemp(inactiveEployee).then((response) => {
-                                                    const { succes, message } = response;
-                                                    if (succes === 1) {
+                                                            } else {
+                                                                infoNotify(message);
+                                                            }
+                                                        }).catch((error) => {
+                                                            infoNotify("An error occurred while updating the complaint.");
+                                                        });
+                                                    } else {
                                                         succesNotify("Complaint Updated Successfully");
                                                         setCount(count + 1);
                                                         reset();
                                                         Close();
-                                                    } else {
-                                                        infoNotify(message);
+
                                                     }
-                                                }).catch((error) => {
-                                                    infoNotify("An error occurred while updating the complaint.");
-                                                });
-                                            } else {
-                                                succesNotify("Complaint Updated Successfully");
-                                                setCount(count + 1);
-                                                reset();
-                                                Close();
+                                                }
+                                                else {
+                                                    infoNotify("Unable to add asset details")
+
+                                                }
                                             }
-                                        }
-                                        else {
-                                            infoNotify("Unable to add asset details")
-
-                                        }
+                                        })
                                     }
-                                })
-                            }
-                            else {
-                                updateAsset(updateAssetz).then((value) => {
-                                    const { success } = value
-                                    if (success === 1) {
-                                        if (filteredArray.length !== 0) {
-                                            Inactiveemp(inactiveEployee).then((response) => {
-                                                const { succes, message } = response;
-                                                if (succes === 1) {
+                                    else {
+                                        updateAsset(updateAssetz).then((value) => {
+                                            const { success } = value
+                                            if (success === 1) {
+                                                if (filteredArray.length !== 0) {
+                                                    Inactiveemp(inactiveEployee).then((response) => {
+                                                        const { succes, message } = response;
+                                                        if (succes === 1) {
+                                                            succesNotify("Complaint Updated Successfully");
+                                                            setCount(count + 1);
+                                                            reset();
+                                                            Close();
+
+                                                        } else {
+                                                            infoNotify(message);
+                                                        }
+                                                    }).catch((error) => {
+                                                        infoNotify("An error occurred while updating the complaint.");
+                                                    });
+                                                } else {
                                                     succesNotify("Complaint Updated Successfully");
                                                     setCount(count + 1);
                                                     reset();
                                                     Close();
-                                                } else {
-                                                    infoNotify(message);
-                                                }
-                                            }).catch((error) => {
-                                                infoNotify("An error occurred while updating the complaint.");
-                                            });
-                                        } else {
-                                            succesNotify("Complaint Updated Successfully");
-                                            setCount(count + 1);
-                                            reset();
-                                            Close();
-                                        }
-                                    }
-                                    else {
-                                        infoNotify("Unable to add asset details")
 
-                                    }
-                                })
-                            }
-                        }
-                        else {
-                            if (deletedFiles.length !== 0) {
-                                inactiveAsset(assetinactive).then((value) => {
-                                    const { success } = value
-                                    if (success === 1) {
-                                        // succesNotify("Complaint Updated Successfully")
-                                        // setCount(count + 1);
-                                        // reset()
-                                        // Close()
-                                        if (filteredArray.length !== 0) {
-                                            Inactiveemp(inactiveEployee).then((response) => {
-                                                const { succes, message } = response;
-                                                if (succes === 1) {
-                                                    succesNotify("Complaint Updated Successfully");
-                                                    setCount(count + 1);
-                                                    reset();
-                                                    Close();
-                                                } else {
-                                                    infoNotify(message);
                                                 }
-                                            }).catch((error) => {
-                                                infoNotify("An error occurred while updating the complaint.");
-                                            });
-                                        } else {
-                                            succesNotify("Complaint Updated Successfully");
-                                            setCount(count + 1);
-                                            reset();
-                                            Close();
-                                        }
-                                    }
-                                    else {
+                                            }
+                                            else {
+                                                infoNotify("Unable to add asset details")
 
-                                        infoNotify("Unable to delete asset details")
+                                            }
+                                        })
                                     }
-                                })
-                            }
-                            else {
-                                if (filteredArray.length !== 0) {
-                                    Inactiveemp(inactiveEployee).then((response) => {
-                                        const { succes, message } = response;
-                                        if (succes === 1) {
-                                            succesNotify("Complaint Updated Successfully");
-                                            setCount(count + 1);
-                                            reset();
-                                            Close();
-                                        } else {
-                                            infoNotify(message);
-                                        }
-                                    }).catch((error) => {
-                                        infoNotify("An error occurred while updating the complaint.");
-                                    });
-                                } else {
-                                    succesNotify("Complaint Updated Successfully");
-                                    setCount(count + 1);
-                                    reset();
-                                    Close();
                                 }
+                                else {
+                                    if (deletedFiles.length !== 0) {
+                                        inactiveAsset(assetinactive).then((value) => {
+                                            const { success } = value
+                                            if (success === 1) {
+                                                if (filteredArray.length !== 0) {
+                                                    Inactiveemp(inactiveEployee).then((response) => {
+                                                        const { succes, message } = response;
+                                                        if (succes === 1) {
+                                                            succesNotify("Complaint Updated Successfully");
+                                                            setCount(count + 1);
+                                                            reset();
+                                                            Close();
+
+                                                        } else {
+                                                            infoNotify(message);
+                                                        }
+                                                    }).catch((error) => {
+                                                        infoNotify("An error occurred while updating the complaint.");
+                                                    });
+                                                } else {
+                                                    succesNotify("Complaint Updated Successfully");
+                                                    setCount(count + 1);
+                                                    reset();
+                                                    Close();
+
+                                                }
+                                            }
+                                            else {
+
+                                                infoNotify("Unable to delete asset details")
+                                            }
+                                        })
+                                    }
+                                    else {
+                                        if (filteredArray.length !== 0) {
+                                            Inactiveemp(inactiveEployee).then((response) => {
+                                                const { succes, message } = response;
+                                                if (succes === 1) {
+                                                    succesNotify("Complaint Updated Successfully");
+                                                    setCount(count + 1);
+                                                    reset();
+                                                    Close();
+
+                                                } else {
+                                                    infoNotify(message);
+                                                }
+                                            }).catch((error) => {
+                                                infoNotify("An error occurred while updating the complaint.");
+                                            });
+                                        } else {
+                                            succesNotify("Complaint Updated Successfully");
+                                            setCount(count + 1);
+                                            reset();
+                                            Close();
+
+                                        }
+
+                                    }
+                                }
+                            }
+                            else {
+                                infoNotify(message)
 
                             }
-                        }
+                        })
+                        updateFun(patchData)
                     }
-                    else {
-                        infoNotify(message)
-
-                    }
-                })
-                updateFun(patchData)
+                }
             }
         }
 
-
-    }, [patchData, count, Employee, cm_am_asset_no, assetStatus, updateAssetz, Close, assetinactive, deletedFiles,
-        newlyAddedAssets, selectedAsset, setCount, inactiveEployee, filteredArray.length, reset])
+    }, [patchData, count, Employee, cm_am_asset_no, assetStatus, updateAssetz, Close, assetinactive, deletedFiles, pendholdreason,
+        newlyAddedAssets, selectedAsset, setCount, inactiveEployee, filteredArray.length, reset, selectFile.length])
 
     const getemp = (e, v) => {
         if (e === true) {
@@ -755,91 +735,118 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
         }
     }
 
-    const refreshAssetTrans = useCallback(() => {
-        setAsset({});
-        setcustAsset(0)
-    }, [])
+    const [assetTransCount, setassetTransCount] = useState(0)
+    const [selectedAssets, setSelectedAssets] = useState([])
 
-
-
-    const patchDeptTransfer = useMemo(() => {
+    const postArrayOfAssetNo = useMemo(() => {
         return {
-            item_dept_slno: em_department,
+            AssetItemMapSlno: selectedAssets?.map((assetSlno) => assetSlno.am_item_map_slno)
+        };
+    }, [selectedAssets])
+
+    const { data: dataTransFer, } = useQuery({
+        queryKey: ['getArrayOfAssetLocationDetails', postArrayOfAssetNo],
+        queryFn: () => getArrayOfAssetLocationDetails(postArrayOfAssetNo),
+    });
+
+    const dataTrans = useMemo(() => dataTransFer, [dataTransFer])
+    const patchDeptTransfer = useMemo(() => {
+        return dataTrans?.map((asset) => ({
+            item_dept_slno: complaint_from_dept,
             item_deptsec_slno: complaint_dept_secslno,
-            item_room_slno: roomNo !== 0 ? roomNo : null,
-            item_subroom_slno: subRoomNo !== 0 ? subRoomNo : null,
-            am_item_map_slno: custAsset
-        }
-    }, [em_department, complaint_dept_secslno, roomNo, subRoomNo, custAsset])
-
-
-
-
-
-
-    // const updateDeptTransfer = useCallback(() => {
-    //     const patchDeptTrans = async (patchDeptTransfer) => {
-    //         const result = await axioslogin.patch('/assetDeptTransfer/transferDepartment', patchDeptTransfer)
-    //         const { success, message } = result.data
-    //         if (success === 1) {
-    //             succesNotify("Asset Substituted Under Section")
-    //             refreshAssetTrans()
-
-    //         } else {
-    //             warningNotify(message)
-    //         }
-    //     }
-    //     if (em_department !== 0 && complaint_dept_secslno !== 0) {
-    //         patchDeptTrans(patchDeptTransfer)
-    //     } else {
-    //         warningNotify("Select Transfering  Department and Department Section")
-    //     }
-    // }, [patchDeptTransfer, em_department, complaint_dept_secslno, refreshAssetTrans])
+            item_room_slno: rm_room_slno !== 0 ? rm_room_slno : null,
+            item_subroom_slno: null !== 0 ? null : null,
+            am_custodian_trans_status: 1,
+            am_trans_from_dept: asset.item_dept_slno || null,
+            am_trans_from_dept_sec: asset.item_deptsec_slno || null,
+            am_trans_from_room: asset.item_room_slno || null,
+            am_trans_from_subroom: asset.item_subroom_slno || null,
+            transfer_user: id,
+            am_item_map_slno: asset.am_item_map_slno
+        }));
+    }, [dataTrans, complaint_from_dept, complaint_dept_secslno, rm_room_slno, id])
 
     const updateDeptTransfer = useCallback(() => {
-        const patchDeptTrans = async (patchDeptTransfer) => {
-            try {
-                const result = await axioslogin.patch('/assetDeptTransfer/transferDepartment', patchDeptTransfer)
+        if (custAsset !== 0) {
+            infoNotify(
+                <>
+                    Click on <AddCircleIcon /> to add asset to the Transfer List.
+                </>
+            )
+        } else {
+            const patchDeptTrans = async (patchDeptTransfer) => {
+                const result = await axioslogin.patch('/assetDeptTransfer/AssetTransfer', patchDeptTransfer)
                 const { success, message } = result.data
                 if (success === 1) {
-                    succesNotify("Asset Substituted Under Section")
-                    refreshAssetTrans()
+                    succesNotify(message)
+                    setassetTransCount(assetTransCount + 1)
+                    setSelectedAssets([])
                 } else {
-                    errorNotify(message)
+                    warningNotify(message)
+                    setSelectedAssets([])
                 }
-            } catch (error) {
-                errorNotify("An error occurred while updating the department transfer.", error)
+            }
+            patchDeptTrans(patchDeptTransfer)
+        }
+    }, [patchDeptTransfer, setSelectedAssets, custAsset, setassetTransCount, assetTransCount])
+
+    const handleToggle = () => {
+        setIsExpanded((prev) => !prev);
+    };
+
+    const ViewImage = useCallback((file) => {
+        const fileType = file.url
+            ? file.url.endsWith(".pdf")
+                ? "pdf"
+                : "image"
+            : file.type.includes("application/pdf")
+                ? "pdf"
+                : "image";
+
+        const fileUrl = file.url || URL.createObjectURL(file);
+        setPreviewFile({ url: fileUrl, type: fileType });
+        setImageShow(true)
+        setImageShowFlag(1)
+    }, [])
+
+    const CloseFile = useCallback(() => {
+        setImageShowFlag(0)
+        setImageShow(false)
+    }, [])
+
+    const handleAddAsset = () => {
+        if (assetDaata) {
+            const isDuplicate = selectedAssets.some(
+                (asset) => asset.am_item_map_slno === assetDaata.am_item_map_slno
+            );
+            if (isDuplicate) {
+                infoNotify("Selected asset is already added.");
+            } else {
+                setSelectedAssets((prev) => [...prev, assetDaata]);
+                setcustAsset(0);
             }
         }
+    };
 
-        if (em_department !== 0 && complaint_dept_secslno !== 0 && custAsset !== 0) {
-            patchDeptTrans(patchDeptTransfer)
-        } else {
-            warningNotify("Select Transferring Department and Department Section")
-        }
-    }, [patchDeptTransfer, em_department, complaint_dept_secslno, refreshAssetTrans])
-
-
-    const markAnAssetUnderTicket = useCallback(() => {
-        setmarkAnAssetUnderCompFlag(prevFlag => prevFlag === 1 ? 0 : 1);
-    }, [])
-
-
-    const AssetAddUnderSec = useCallback(() => {
-        setaddAssetUnderSecFlag(prevFlag => prevFlag === 1 ? 0 : 1);
-    }, [])
-
-
-
+    const removeSlected = useCallback((indexToRemove) => {
+        setSelectedAssets((prev) => prev.filter((_, index) => index !== indexToRemove));
+    }, []);
 
     return (
         <Box>
+            {imageShowFlag === 1 ?
+                < Box >
+                    <FileViewSingle previewFile={previewFile} imageShow={imageShow} CloseFile={CloseFile} />
+                </Box> : null
+            }
+
             {assetSpareFlag === 1 ?
                 <AssetSpareModal
                     openSpare={assetSpareOpen}
                     setOpenSpare={setassetSpareOpen}
                     setassetSpareFlag={setassetSpareFlag}
                     assetSparedetails={assetSparedetails}
+                    complaint_slno={complaint_slno}
                 /> :
                 null}
             <CssVarsProvider>
@@ -864,7 +871,7 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                             <Box sx={{ flex: 1, color: 'grey', pl: .5 }}>
                                 Rectify Complaint / Service Report
                             </Box>
-                            <Box sx={{ flex: 1, display: 'flex', bgcolor: '#ECEDEF', py: .5, px: .3, mt: 1 }}>
+                            <Box sx={{ flex: 1, display: 'flex', bgcolor: '#ECEDEF', py: 1, px: .5, mt: 1 }}>
                                 <Box sx={{ flex: 1, pl: .5 }}>
                                     <Typography sx={{ pl: .5, fontWeight: 600, color: 'Black', fontSize: 18 }}>Ticket No.{complaint_slno}</Typography>
                                     <Typography sx={{ pl: .5, fontSize: 14, color: 'Black', }}>
@@ -886,118 +893,41 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                                                 : "Not Updated"}
                                         </Typography> : null}
                                     <Typography sx={{ pl: .5, fontSize: 13, color: 'Black', }}>
-                                        {compalint_date}
+                                        {compalint_date
+                                            ? format(new Date(compalint_date), 'dd MMM yyyy,  hh:mm a')
+                                            : 'Invalid Date'}
                                     </Typography>
                                 </Box>
                             </Box>
-
                         </Box>
-
                         <Box
                             sx={{
                                 flexGrow: 1,
                                 overflowY: 'auto',
-
+                                ml: 1
                             }}
                         >
-                            {/* <Typography sx={{ pl: .5, fontWeight: 600, color: 'Black', fontSize: 18 }}>Service Report</Typography> */}
-                            <Box sx={{ pl: .5, pt: 1, display: 'flex', gap: .5 }} >
 
-                                {markAnAssetUnderCompFlag === 1 ?
-                                    (<CheckBoxOutlineBlankIcon sx={{ cursor: 'pointer', color: 'black', height: 30, width: 30 }} onClick={markAnAssetUnderTicket} />)
-                                    :
-                                    (<CheckBoxIcon sx={{ cursor: 'pointer', color: 'black', height: 30, width: 30 }} onClick={markAnAssetUnderTicket} />)
-                                }
-                                <Typography sx={{ fontWeight: 600, color: 'Black', fontSize: 16, pt: .4 }}>
-                                    Mark an Asset Under the Ticket
+                            <Box sx={{ display: 'flex', gap: .5, cursor: 'pointer' }} onClick={handleToggle}>
+                                <Typography sx={{ fontWeight: 600, color: 'Black', fontSize: 17, pt: .2 }}>
+                                    Asset Details
                                 </Typography>
+                                {isExpanded || assetArray.length !== 0 ? <ArrowDropUpOutlinedIcon sx={{ width: 30, height: 25 }} />
+                                    : <ArrowDropDownOutlinedIcon sx={{ width: 30, height: 25 }} />}
                             </Box>
-                            {markAnAssetUnderCompFlag === 0 ?
-                                <>
-                                    <Box sx={{
-                                        flex: 1,
-                                        display: 'flex',
-                                        gap: 3, pt: 1, ml: 2
-                                    }}>
-
-                                        {/* <Typography sx={{ color: 'grey', fontWeight: 600, fontSize: 13, pt: .2, pl: 3 }}>
-                                            Asset From :
-                                        </Typography> */}
-                                        {/* {complaint_deptslno === 1 ?
-                                            <FormControlLabel
-                                                control={
-                                                    <Checkbox
-                                                        checked={codept === 1}
-                                                        onChange={() => handleCheckboxChange(1)}
-                                                        color="neutral"
-                                                        sx={{ mr: .5 }}
-                                                        size='sm'
-
-                                                    />
-
-                                                }
-                                                label="Biomedical"
-                                            /> : null}
-                                        {complaint_deptslno === 2 ?
-                                            <FormControlLabel
-                                                control={
-                                                    <Checkbox
-                                                        checked={codept === 2}
-                                                        onChange={() => handleCheckboxChange(2)}
-                                                        color="neutral"
-                                                        sx={{ mr: .5 }}
-                                                        size='sm'
-                                                    />
-                                                }
-                                                label="Maintainance"
-                                            /> : null}
-                                        {complaint_deptslno === 3 ?
-                                            <FormControlLabel
-                                                control={
-                                                    <Checkbox
-                                                        checked={codept === 3}
-                                                        onChange={() => handleCheckboxChange(3)}
-                                                        color="neutral"
-                                                        sx={{ mr: .5 }}
-                                                        size='sm'
-                                                    />
-                                                }
-                                                label="IT"
-                                            /> : null}
-                                        {complaint_deptslno === 4 ?
-                                            <FormControlLabel
-                                                control={
-                                                    <Checkbox
-                                                        checked={codept === 4}
-                                                        onChange={() => handleCheckboxChange(4)}
-                                                        color="neutral"
-                                                        sx={{ mr: .5 }}
-                                                        size='sm'
-                                                    />
-                                                }
-                                                label="House Keeping"
-                                            /> : null}
-                                        {complaint_deptslno === 5 ?
-                                            <FormControlLabel
-                                                control={
-                                                    <Checkbox
-                                                        checked={codept === 5}
-                                                        onChange={() => handleCheckboxChange(5)}
-                                                        color="neutral"
-                                                        sx={{ mr: .5 }}
-                                                        size='sm'
-                                                    />
-                                                }
-                                                label="Operations"
-                                            /> : null} */}
-                                    </Box>
-
-
-                                    <Box sx={{ pt: .1, display: 'flex', ml: 3.8, pb: 1, }}>
-                                        <Box
+                            {isExpanded || assetArray.length !== 0 ?
+                                <Box>
+                                    <Typography sx={{ fontWeight: 600, color: '#394E6C', fontSize: 15, pt: 1.5 }}>
+                                        Add Assets to this Ticket
+                                    </Typography>
+                                    <Typography sx={{ fontStyle: 'italic', color: '#394E6C', }}>
+                                        [you can add assets to this ticket from the ticket raised location]
+                                    </Typography>
+                                    {/* <Box sx={{ pt: 1, display: 'flex', pb: .5, gap: 1 }}> */}
+                                    {/* <Box
                                             sx={{
                                                 cursor: 'pointer',
-                                                display: 'flex', mx: .5, pt: .5
+                                                display: 'flex',
                                             }}
                                             onClick={SearchAsset}
                                         >
@@ -1010,11 +940,11 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                                                 Search
                                             </Typography>
                                         </Box>
-                                        <Typography sx={{ pt: .5, px: .5 }}>(or)</Typography>
+                                        <Typography sx={{ px: .5, fontStyle: 'italic' }}>(or)</Typography>
                                         <Box
                                             sx={{
                                                 cursor: 'pointer',
-                                                display: 'flex', mx: .5, pt: .5
+                                                display: 'flex',
                                             }}
                                             onClick={SelectAsset}
                                         >
@@ -1026,64 +956,117 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                                             <Typography sx={{ pt: .2, color: 'black', fontWeight: 600, fontSize: 14 }}>
                                                 Select
                                             </Typography>
-                                        </Box>
+                                        </Box> */}
 
+
+                                    {/* </Box> */}
+                                    <Box sx={{ pt: 1, display: 'flex', }}>
+                                        <Switch
+                                            checked={isSelect}
+                                            color="neutral"
+                                            onChange={handleAssetSelectToggle}
+                                            slotProps={{
+                                                track: {
+                                                    children: (
+                                                        <>
+                                                            {isSelect ? <Typography sx={{ ml: '15px', mr: '10px', fontSize: 13 }}>
+                                                                Select
+                                                            </Typography>
+                                                                : <Typography sx={{ ml: '30px', mr: '10px', fontSize: 13 }}>
+                                                                    Search
+                                                                </Typography>}
+                                                        </>
+                                                    ),
+                                                },
+                                            }}
+                                            sx={{
+                                                '--Switch-thumbSize': '19px',
+                                                '--Switch-trackWidth': '90px',
+                                                '--Switch-trackHeight': '29px',
+                                                '& .MuiSwitch-thumb': {
+                                                    borderRadius: '3px',
+                                                },
+                                                '& .MuiSwitch-track': {
+                                                    borderRadius: '3px',
+                                                },
+                                            }}
+
+                                        />
                                         {select === 1 && (
-                                            <Box sx={{ flex: 1, display: 'flex', ml: 1, mr: 5 }}>
+                                            <Box sx={{ flex: 1, display: 'flex', mr: 5, mt: .1 }}>
                                                 <CssVarsProvider>
-                                                    <Box sx={{ flex: 1 }}>
+                                                    <Box sx={{ flex: 1, ml: 1 }}>
                                                         <CmAssetList assetz={assetData} setAssetz={setassetData} complaint_dept_secslno={complaint_dept_secslno}
-                                                            setSelectedAsset={setSelectedAsset} setItem_slno={setItem_slno} setasset_dept={setasset_dept} />
+                                                            setSelectedAsset={setSelectedAsset} setItem_slno={setItem_slno} setasset_dept={setasset_dept}
+                                                            codept={codept} assetTransCount={assetTransCount} />
                                                     </Box>
                                                     <Box sx={{ ml: 1, }}>
                                                         <Tooltip title={'Add More Asset'}>
-                                                            <Avatar size='sm' sx={{ bgcolor: 'lightgrey' }}>
-                                                                <AddCircleIcon
-                                                                    sx={{ p: .1, color: '#523A28', cursor: 'pointer', '&:hover': { color: '#34323E' }, height: 30, width: 30 }}
-                                                                    onClick={searchAssetNoinMenu}
-                                                                />
-                                                            </Avatar>
+                                                            <LibraryAddSharpIcon
+                                                                sx={{
+                                                                    p: .1,
+                                                                    color: '#555E68', cursor: 'pointer',
+                                                                    bgcolor: '#CDD7E1',
+                                                                    '&:hover': { color: '#34323E' }, height: 31, width: 31
+                                                                }}
+                                                                onClick={searchAssetNoinMenu}
+                                                            />
                                                         </Tooltip>
                                                     </Box>
                                                 </CssVarsProvider>
                                             </Box>
                                         )}
-
                                         {search === 1 && (
-                                            <Box sx={{ flex: 1, display: 'flex', ml: 1, mr: 5 }}>
+                                            <Box sx={{ flex: 1, display: 'flex', mr: 5 }}>
                                                 <CssVarsProvider>
-                                                    <Box sx={{ flex: 1 }}>
+                                                    <Box sx={{ flex: 1, ml: 1 }}>
                                                         <Input
                                                             placeholder=" Asset Number"
-                                                            sx={{ borderRadius: 0, minHeight: 15 }}
+                                                            sx={{
+                                                                borderRadius: 0,
+                                                                minHeight: 15,
+                                                            }}
                                                             type='number'
                                                             autoComplete='off'
                                                             startDecorator={
-                                                                <Button variant="soft" color="neutral">
-                                                                    {`TMC/${codept === 1 ? 'BME/' : codept === 2 ? 'MAIN/' : codept === 3 ? 'IT/' : codept === 4 ? 'HSK/' : codept === 5 ? 'OPE/' : ''}`}
+                                                                <Button variant="soft" color="neutral" >
+                                                                    {`${custFirstName}/ ${custSecName}`}
                                                                 </Button>
                                                             }
                                                             endDecorator={
                                                                 <>
-                                                                    {cm_am_asset_no !== '' ? (
+                                                                    {cm_am_asset_no !== '' ?
                                                                         <Box
                                                                             sx={{ cursor: 'pointer', fontSize: 13, fontStyle: 'italic', mr: .3 }}
                                                                             onClick={ClearAssetSelection}
                                                                         >
                                                                             (Clear)
                                                                         </Box>
-                                                                    ) : (
-                                                                        <></>
-                                                                    )}
+                                                                        :
+                                                                        <></>}
                                                                 </>
+
                                                             }
+
                                                             name='cm_am_asset_no'
                                                             value={cm_am_asset_no || ''}
                                                             onChange={UpdateAssetNo}
                                                         />
                                                     </Box>
-
                                                     <Box sx={{ ml: 1, }}>
+                                                        <Tooltip title={'Add More Asset'}>
+                                                            <LibraryAddSharpIcon
+                                                                sx={{
+                                                                    p: .1,
+                                                                    color: '#555E68', cursor: 'pointer',
+                                                                    bgcolor: '#CDD7E1',
+                                                                    '&:hover': { color: '#34323E' }, height: 31, width: 31
+                                                                }}
+                                                                onClick={searchAssetNo}
+                                                            />
+                                                        </Tooltip>
+                                                    </Box>
+                                                    {/* <Box sx={{ ml: 1, }}>
                                                         <Tooltip title={'Add More Asset'}>
                                                             <Avatar size='sm' sx={{ bgcolor: 'lightgrey' }}>
                                                                 <AddCircleIcon
@@ -1092,379 +1075,205 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                                                                 />
                                                             </Avatar>
                                                         </Tooltip>
-                                                    </Box>
+                                                    </Box> */}
                                                 </CssVarsProvider>
                                             </Box>
                                         )}
                                     </Box>
-                                </> : null}
 
-                            {assetArray.length !== 0 && (
-                                <Box sx={{ flex: 1, mr: 4, ml: 4.8, mt: 1.5, display: 'flex', bgcolor: 'lightgrey' }}>
-                                    <Box sx={{ flex: .8, textAlign: 'center', fontSize: 15, fontWeight: 600 }}>#</Box>
-                                    <Box sx={{ flex: 2.5, fontSize: 14, fontWeight: 600 }}>Asset Number</Box>
-                                    <Box sx={{ flex: 9, fontSize: 14, fontWeight: 600 }}>Asset Name</Box>
-                                    <Box sx={{ flex: 3, textAlign: 'center', fontSize: 14, fontWeight: 600 }}>Spare Change / Details</Box>
-                                    <Box sx={{ flex: 1, textAlign: 'center', fontSize: 14, fontWeight: 600, pr: .5 }}>Service</Box>
-                                    <Box sx={{ flex: 1, textAlign: 'center', fontSize: 14, fontWeight: 600, pr: .3 }}>Action</Box>
-                                </Box>
-                            )}
-
-                            {assetArray.map((val, index) => {
-                                const formattedSlno = val.item_asset_no_only.toString().padStart(6, '0');
-                                return (
-                                    <Box key={index} sx={{ flex: 1, mr: 4, ml: 4.8, display: 'flex', borderBottom: 1, borderColor: 'lightgrey', pt: .8 }}>
-                                        <Box sx={{ flex: .8, textAlign: 'center', fontSize: 13 }}>{index + 1}</Box>
-                                        <Box sx={{ flex: 2.5, fontSize: 13 }}>{val.item_asset_no}/{formattedSlno}</Box>
-                                        <Box sx={{ flex: 9, fontSize: 13 }}>{val.item_name}</Box>
-                                        <Box sx={{ flex: 3, textAlign: 'center', fontSize: 13, }}>
-                                            <BuildIcon sx={{ color: '#488BA3', cursor: 'pointer', p: .3 }} onClick={() => AssetSpareDetailsview(val)} />
+                                    {assetArray.length !== 0 && (
+                                        <Box sx={{ flex: 1, mr: 4, mt: 1, display: 'flex', bgcolor: '#BDC4C9' }}>
+                                            <Box sx={{ flex: .8, textAlign: 'center', fontSize: 15, fontWeight: 600 }}>#</Box>
+                                            <Box sx={{ flex: 2.5, fontSize: 14, fontWeight: 600 }}>Asset Number</Box>
+                                            <Box sx={{ flex: 9, fontSize: 14, fontWeight: 600 }}>Asset Name</Box>
+                                            <Box sx={{ flex: 3, textAlign: 'center', fontSize: 14, fontWeight: 600 }}>Spare Parts Details</Box>
+                                            <Box sx={{ flex: 2, textAlign: 'center', fontSize: 14, fontWeight: 600, pr: .5 }}>For Service</Box>
+                                            <Box sx={{ flex: 1, textAlign: 'center', fontSize: 14, fontWeight: 600, pr: .3 }}>Action</Box>
                                         </Box>
-                                        <Box sx={{ flex: 1, textAlign: 'center', fontSize: 13, pr: .5, cursor: 'pointer' }}>
-                                            {val.asset_item_service === 0 ?
-                                                <Tooltip title={'Asset will be Transfer to Service List by clicking'}
-                                                    sx={{ width: 200, }} color='warning' placement='top'>
-                                                    <ManageAccountsSharpIcon sx={{
-                                                        color: '#603A70', cursor: 'pointer', p: .1,
-                                                        '&:hover': { color: '#0000FF' },
-                                                    }}
-                                                        onClick={() => servicefunctn(val)}
-                                                    />
-                                                </Tooltip>
-                                                :
-                                                val.asset_item_service === undefined ?
-                                                    <Tooltip title={'Asset will be Transfer to Service List by clicking'}
-                                                        sx={{ width: 200, }} color='warning' placement='top'>
-                                                        <ManageAccountsSharpIcon sx={{
-                                                            color: '#603A70', cursor: 'pointer', p: .1,
-                                                            '&:hover': { color: '#0000FF' },
-                                                        }}
-                                                            onClick={() => servicefunctn(val)}
-                                                        />
-                                                    </Tooltip>
-                                                    :
-                                                    val.asset_item_service === 1 ?
-                                                        <Tooltip title={'Asset Already added to service'}
-                                                            sx={{ width: 215, bgcolor: 'grey' }} placement='top'>
+                                    )}
+
+                                    {assetArray.map((val, index) => {
+                                        const formattedSlno = val.item_asset_no_only === 0 ? 0 : val.item_asset_no_only === undefined ? 0 : val.item_asset_no_only === null ? 0
+                                            : val.item_asset_no_only.toString().padStart(6, '0');
+                                        return (
+                                            <Box key={index} sx={{ flex: 1, mr: 4, display: 'flex', borderBottom: 1, borderColor: 'lightgrey', pt: .8 }}>
+                                                <Box sx={{ flex: .8, textAlign: 'center', fontSize: 13 }}>{index + 1}</Box>
+                                                <Box sx={{ flex: 2.5, fontSize: 13 }}>{val.item_asset_no}/{formattedSlno}</Box>
+                                                <Box sx={{ flex: 9, fontSize: 13, minHeight: 28 }}>{val.item_name}</Box>
+                                                <Box sx={{ flex: 3, textAlign: 'center', fontSize: 13, }}>
+                                                    {val.asset_item_service === 1 || val.asset_item_service === 2 ?
+                                                        <BuildIcon sx={{ color: 'lightgrey', cursor: 'pointer', p: .3 }} /> :
+                                                        <Tooltip title={'Click here for Spare Change'}
+                                                            sx={{ width: 200, }} placement='top'>
+                                                            <BuildIcon sx={{ color: '#488BA3', cursor: 'pointer', p: .3 }} onClick={() => AssetSpareDetailsview(val)} />
+                                                        </Tooltip>
+                                                    }
+                                                </Box>
+                                                <Box sx={{ flex: 2, textAlign: 'center', fontSize: 13, pr: .5, cursor: 'pointer' }}>
+                                                    {val.asset_item_service === 0 ?
+                                                        <Tooltip title={'Click Here for Service this Asset (this will be transfered to the service list) '}
+                                                            sx={{ width: 200, }} placement='top'>
                                                             <ManageAccountsSharpIcon sx={{
-                                                                color: 'lightgrey', cursor: 'pointer', p: .1,
+                                                                color: '#603A70', cursor: 'pointer', p: .1,
+                                                                '&:hover': { color: '#0000FF' },
                                                             }}
+                                                                onClick={() => servicefunctn(val)}
                                                             />
-                                                        </Tooltip> :
-                                                        val.asset_item_service === 2 ?
-                                                            <Tooltip title={'Asset  added to  Condem List'}
-                                                                sx={{ width: 215, bgcolor: 'grey' }} placement='top'>
-                                                                <DeleteIcon sx={{
-                                                                    color: 'lightgrey', cursor: 'pointer', p: .1,
+                                                        </Tooltip>
+                                                        :
+                                                        val.asset_item_service === undefined ?
+                                                            <Tooltip title={'Asset will be Transfer to Service List by clicking'}
+                                                                sx={{ width: 200, }} color='warning' placement='top'>
+                                                                <ManageAccountsSharpIcon sx={{
+                                                                    color: '#603A70', cursor: 'pointer', p: .1,
+                                                                    '&:hover': { color: '#0000FF' },
                                                                 }}
+                                                                    onClick={() => servicefunctn(val)}
                                                                 />
-                                                            </Tooltip> : null
+                                                            </Tooltip>
+                                                            :
+                                                            val.asset_item_service === 1 ?
+                                                                <Tooltip title={'Asset Already added to service'}
+                                                                    sx={{ width: 215, bgcolor: 'grey' }} placement='top'>
+                                                                    <ManageAccountsSharpIcon sx={{
+                                                                        color: 'lightgrey', cursor: 'pointer', p: .1,
+                                                                    }}
+                                                                    />
+                                                                </Tooltip> :
+                                                                val.asset_item_service === 2 ?
+                                                                    <Tooltip title={'Asset  added to  Condem List'}
+                                                                        sx={{ width: 215, bgcolor: 'grey' }} placement='top'>
+                                                                        <DeleteIcon sx={{
+                                                                            color: 'lightgrey', cursor: 'pointer', p: .1,
+                                                                        }}
+                                                                        />
+                                                                    </Tooltip> : null
 
-                                            }
-                                        </Box>
-                                        <Box sx={{ flex: 1, textAlign: 'center', fontSize: 13 }}>
-                                            {newlyAddedAssets.includes(val) ? (
-                                                <DeleteForeverIcon sx={{ color: 'darkred', cursor: 'pointer' }} onClick={() => handleDelete(index)} />
-                                            ) : (
-                                                <DeleteForeverIcon sx={{ color: 'lightgrey', cursor: 'pointer' }} />
-                                            )}
-                                        </Box>
-                                    </Box>
-                                );
-                            })}
+                                                    }
+                                                </Box>
+                                                <Box sx={{ flex: 1, textAlign: 'center', fontSize: 13 }}>
+                                                    {newlyAddedAssets.includes(val) ? (
+                                                        <DeleteForeverIcon sx={{ color: 'darkred', cursor: 'pointer' }} onClick={() => handleDelete(index)} />
+                                                    ) : (
+                                                        <DeleteForeverIcon sx={{ color: 'lightgrey', cursor: 'pointer' }} />
+                                                    )}
+                                                </Box>
+                                            </Box>
+                                        );
+                                    })}
 
-
-                            <Box sx={{ pl: .4, pt: 2.5, display: 'flex', gap: .5 }}>
-                                {addAssetUnderSecFlag === 1 ?
-                                    (<CheckBoxOutlineBlankIcon sx={{ cursor: 'pointer', color: 'black', height: 30, width: 30 }} onClick={AssetAddUnderSec} />)
-                                    :
-                                    (<CheckBoxIcon sx={{ cursor: 'pointer', color: 'black', height: 30, width: 30 }} onClick={AssetAddUnderSec} />)
-                                }
-                                <Typography sx={{ fontWeight: 600, color: 'Black', fontSize: 16, pt: .5 }}>
-                                    Substitute Asset Under the Section
-                                </Typography>
-                            </Box>
-                            {/* <Input
-                                placeholder="Select Asset "
-                                sx={{
-                                    borderRadius: 0,
-                                    // minWidth: selectedAsset === '' ? 320 : 500,
-                                    minHeight: 15,
-                                }}
-                                readOnly
-                                endDecorator={
-                                    <Dropdown>
-                                        <MenuButton variant='plain' sx={{ p: 0 }}>
-                                            <ArrowDropDownIcon sx={{ cursor: 'pointer', height: 25, width: 25 }} />
-                                        </MenuButton>
-                                        {assetArray.length !== 0 ?
-                                            <Menu sx={{ maxWidth: 500, maxHeight: 370, overflow: 'auto', zIndex: 1400, }}>
-                                                <MenuItem
-                                                    sx={{ borderBottom: 1, borderColor: '#F0F3F5', fontSize: 14, fontStyle: 'italic' }}
-                                                // onClick={handleClearSelection}
-                                                >
-                                                    (Clear Selected)
-                                                </MenuItem>
-                                                {assetArray.map((val, index) => (
-                                                    <MenuItem
-                                                        sx={{ borderBottom: 1, borderColor: '#F0F3F5' }}
-                                                        key={index}
-                                                    // onClick={() => handleAssetSelect(val)}
-                                                    >
-                                                        {val.item_name}({val.item_asset_no}/{val.item_asset_no_only.toString().padStart(6, '0')})
-                                                    </MenuItem>
-                                                ))}
-                                            </Menu>
-                                            :
-                                            <Menu>
-                                                <MenuItem>
-                                                    No Asset Added Under section
-                                                </MenuItem>
-                                            </Menu>}
-                                    </Dropdown>
-                                }
-                                name='assetmap_slno'
-                                value={selectedAsset || ''}
-                            // disabled={cm_am_assetmap_slno !== ''}
-                            /> */}
-                            <Box sx={{ pl: 5, pr: 3.9, pt: 1, display: 'flex', gap: 1 }}>
-                                <Box sx={{ flex: 1 }}>
-                                    <Typography sx={{ fontSize: 14, pl: .5 }}>
-                                        Department section
-                                    </Typography>
-                                    <Input
-                                        readOnly
-                                        value={location}
-                                    />
-
-                                </Box>
-                                <Box sx={{ flex: 1, mr: 1.1 }}>
-                                    <Typography sx={{ fontSize: 14, pl: .5 }}>
-                                        Location
-                                    </Typography>
-                                    <Input
-                                        readOnly
-                                        sx={{ fontSize: 14 }}
-                                        value={rm_roomtype_name || rm_insidebuildblock_name || rm_floor_name ?
-                                            ` ${rm_roomtype_name ? rm_roomtype_name : ''}${rm_roomtype_name && rm_insidebuildblock_name ? ' - ' : ''}${rm_insidebuildblock_name ? rm_insidebuildblock_name : ''}${(rm_insidebuildblock_name && rm_floor_name) ? ' - ' : ''}${rm_floor_name ? rm_floor_name : ''}`
-                                            : "Not Updated"}
-                                    />
-
-                                </Box>
-                                <Box sx={{ flex: 2.1 }}>
-                                </Box>
-
-                            </Box>
-
-                            <Box sx={{ display: 'flex', pl: 5, pr: 3.9, pt: 1.5, gap: 1 }}>
-                                <Box sx={{ flex: 1 }}>
-                                    <Typography sx={{ fontSize: 14, pl: .5 }}>
-                                        Select Asset Under Service
-                                    </Typography>
-                                    <Input
-                                        placeholder="Select Asset"
-                                        readOnly
-                                        onClick={handleDropdownToggle} // Trigger dropdown when clicking on Input
-                                        endDecorator={
-                                            <Dropdown open={openDropdown} onClose={() => setOpenDropdown(false)}> {/* Control dropdown visibility */}
-                                                <MenuButton variant='plain' sx={{ p: 0 }}>
-                                                    <ArrowDropDownIcon sx={{ cursor: 'pointer', height: 25, width: 25 }} />
-                                                </MenuButton>
-                                                {assetArray.length !== 0 ? (
-                                                    <Menu sx={{ maxWidth: 500, maxHeight: 370, overflow: 'auto', zIndex: 1400 }}>
-                                                        <MenuItem
-                                                            sx={{ borderBottom: 1, borderColor: '#F0F3F5', fontSize: 14, fontStyle: 'italic' }}
-                                                            onClick={() => setAsset({})} // Clear selection
-                                                        >
-                                                            (Clear)
-                                                        </MenuItem>
-                                                        {assetArray.map((val, index) => (
-                                                            <MenuItem
-                                                                sx={{ borderBottom: 1, borderColor: '#F0F3F5' }}
-                                                                key={index}
-                                                                onClick={() => setAsset(val)} // Update selection on click
-                                                            >
-                                                                {val.item_name} ({val.item_asset_no}/{val.item_asset_no_only.toString().padStart(6, '0')})
-                                                            </MenuItem>
-                                                        ))}
-                                                    </Menu>
-                                                ) : (
-                                                    <Menu>
-                                                        <MenuItem>No Asset Added Under Section</MenuItem>
-                                                    </Menu>
-                                                )}
-                                            </Dropdown>
-                                        }
-                                        name='assetmap_slno'
-                                        value={
-                                            asset.item_name
-                                                ? `${asset.item_asset_no}/${asset.item_asset_no_only.toString().padStart(6, '0')} - ${asset.item_name}`
-                                                : ''
-                                        }
-                                    />
-
-                                </Box>
-                                <Box sx={{ flex: 1 }}>
-                                    <Typography sx={{ fontSize: 14, pl: .5 }}>
-                                        Substitute Asset
-                                    </Typography>
-                                    <AssetListUnderCustodian custAsset={custAsset} setcustAsset={setcustAsset} />
-                                </Box>
-                                <Box sx={{ pt: 3 }}>
-                                    <Tooltip title={'Add More Asset'}>
-                                        <Avatar size='sm' sx={{ bgcolor: 'lightgrey' }}>
-                                            <AddCircleIcon
-                                                sx={{ p: .1, color: '#523A28', cursor: 'pointer', '&:hover': { color: '#34323E' }, height: 30, width: 30 }}
-                                                onClick={updateDeptTransfer}
+                                    <Box sx={{ flex: 1, pt: 1.5, }}>
+                                        <Typography sx={{ fontWeight: 600, color: '#394E6C', fontSize: 15, pt: .5 }}>
+                                            Asset Transfer
+                                        </Typography>
+                                        <Typography sx={{ fontStyle: 'italic', color: '#394E6C', }}>
+                                            [you can transfer new assets to the ticket raised department for temporary allocation / permanent transfer]
+                                        </Typography>
+                                        <Box sx={{ display: 'flex', pr: 3.9, pt: .5, gap: 1 }}>
+                                            <AssetListUnderCustodian
+                                                custAsset={custAsset}
+                                                setcustAsset={setcustAsset}
+                                                setassetData={setAssetDaata}
+                                                assetTransCount={assetTransCount}
                                             />
-                                        </Avatar>
-                                    </Tooltip>
-                                </Box>
-                            </Box>
+                                            <Box>
+                                                <Tooltip title={'Add More Asset'}>
+                                                    <Avatar size='sm' sx={{ bgcolor: 'lightgrey' }}>
+                                                        <AddCircleIcon
+                                                            sx={{ p: .1, color: '#523A28', cursor: 'pointer', '&:hover': { color: '#34323E' }, height: 30, width: 30 }}
+                                                            onClick={handleAddAsset}
+                                                        />
+                                                    </Avatar>
+                                                </Tooltip>
+                                            </Box>
 
-                            {/* {addAssetUnderSecFlag === 0 ?
-                                <Box sx={{ flex: 1 }}>
-                                    <Typography sx={{ color: 'black', fontWeight: 600, fontSize: 13, pt: 1, pl: 5 }}>
-                                        Asset Number :
-                                    </Typography>
+                                        </Box>
 
-                                    <Box sx={{ flex: 1, display: 'flex', ml: 4.8 }}>
-                                        <Box>
-                                            <Input
-                                                autoComplete="off"
-                                                type="text"
-                                                size="sm"
-                                                name="assetNo"
-                                                value={assetNo}
-                                                onChange={updateAssetNo} />
-                                        </Box>
-                                        <Box sx={{ pl: 1, }}>
-                                            <CusIconButton size="sm" variant="outlined" clickable="true" onClick={searchAssetForTrans} >
-                                                <SearchOutlinedIcon fontSize='small' sx={{ color: '#41729F' }} />
-                                            </CusIconButton>
-                                        </Box>
-                                        <Box sx={{ pl: .5 }}>
-                                            <CusIconButton size="sm" variant="outlined" clickable="true"
-                                                onClick={refreshAssetTrans}
-                                            >
-                                                <RefreshIcon fontSize='small' sx={{ color: '#41729F' }} />
-                                            </CusIconButton>
-                                        </Box>
                                     </Box>
+                                    <Box
+                                        sx={{
+                                            maxHeight: '50vh',
+                                            overflowY: 'auto',
 
-                                    {serachFlag === 1 ?
-                                        <Box sx={{ ml: 4.8, mr: 3 }}>
-                                            <Box sx={{ flex: 1, display: 'flex', gap: 1, mr: 1, mt: 1 }}>
-                                                <Box sx={{ flex: 1, }} >
-                                                    <Typography sx={{ fontFamily: 'sans-serif', color: 'black', fontWeight: 600, fontSize: 13, pl: .5 }} >Department</Typography>
-                                                    <Box>
-                                                        <TextFieldCustom
-                                                            type="text"
-                                                            size="sm"
-                                                            name="department"
-                                                            value={department}
-                                                            disabled={true}
-                                                        ></TextFieldCustom>
+                                        }}
+                                    >
+                                        {selectedAssets.length !== 0 ?
+                                            <>
+                                                <Box sx={{
+                                                    flex: 1,
+                                                    mt: 1.5,
+                                                    border: 1,
+                                                    mr: 3.6,
+                                                    borderColor: '#BDC4C9'
+                                                }}>
+                                                    <Box sx={{ flex: 1, display: 'flex', bgcolor: '#BDC4C9' }}>
+                                                        <Box sx={{ flex: .5, pl: 3, color: 'black', fontWeight: 600, fontSize: 14 }}>
+                                                            #
+                                                        </Box>
+                                                        <Box sx={{ flex: 2, color: 'black', fontWeight: 600, fontSize: 14 }}>
+                                                            Asset No.
+                                                        </Box>
+                                                        <Box sx={{ flex: 8, color: 'black', fontWeight: 600, fontSize: 14 }}>
+                                                            Asset Name
+                                                        </Box>
+                                                        <Box sx={{ flex: 1, color: 'black', fontWeight: 600, fontSize: 14 }}>
+                                                            Remove
+                                                        </Box>
                                                     </Box>
-                                                </Box>
-                                                <Box sx={{ flex: 1, }} >
-                                                    <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', color: 'black', fontWeight: 600, fontSize: 13, pl: .5 }} >Department Section</Typography>
-                                                    <Box>
-                                                        <TextFieldCustom
-                                                            type="text"
-                                                            size="sm"
-                                                            name="dept_sec"
-                                                            value={dept_sec}
-                                                            disabled={true}
-                                                        ></TextFieldCustom>
-                                                    </Box>
-                                                </Box>                                <Box sx={{ flex: 1, }} >
-                                                    <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', color: 'black', fontWeight: 600, fontSize: 13, pl: .5 }} >Custodian Department</Typography>
-                                                    <Box>
-                                                        <TextFieldCustom
-                                                            type="text"
-                                                            size="sm"
-                                                            name="custodian_dept"
-                                                            value={custodian_dept}
-                                                            disabled={true}
-                                                        ></TextFieldCustom>
-                                                    </Box>
-                                                </Box>
-                                            </Box>
-
-                                            <Box sx={{ flex: 1, mt: 1, mr: 1 }} >
-                                                <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', color: 'black', fontWeight: 600, fontSize: 13, pl: .5 }} >Asset Name</Typography>
-                                                <Box>
-                                                    <TextFieldCustom
-                                                        type="text"
-                                                        size="sm"
-                                                        name="item_name"
-                                                        value={item_name}
-                                                        disabled={true}
-                                                    ></TextFieldCustom>
-                                                </Box>
-                                            </Box>
-
-                                            <Box sx={{
-                                                display: 'flex',
-                                                flex: 1, gap: 1, mr: 1, mt: 1
-                                            }} >
-                                                <Box sx={{ flex: 1 }} >
-                                                    <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', color: 'black', fontWeight: 600, fontSize: 13, pl: .5 }} >Transfer to Department</Typography>
-                                                    <Box>
-                                                        <AmDepartmentSelWOName
-                                                            department={transDept}
-                                                            setDepartment={setTransDept}
-                                                        />
-                                                    </Box>
-                                                </Box>
-                                                <Box sx={{ flex: 1 }} >
-                                                    <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', color: 'black', fontWeight: 600, fontSize: 13, pl: .5 }} > Transfer to Department Section</Typography>
-                                                    <Box>
-                                                        <AmDeptSecSelectWOName
-                                                            deptsec={transDeptSec}
-                                                            setDeptSec={setTransDeptSec}
-                                                        />
-                                                    </Box>
-                                                </Box>
-                                                <Box sx={{ flex: 1 }} >
-                                                    <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', color: 'black', fontWeight: 600, fontSize: 13, pl: .5 }} >Transfer to Room</Typography>
-                                                    <Box>
-                                                        <AmRoomSelWONameUDepSec
-                                                            roomNo={roomNo}
-                                                            setRoomNo={setRoomNo} />
-                                                    </Box>
-                                                </Box>
-                                                <Box sx={{ flex: 1 }} >
-                                                    <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', color: 'black', fontWeight: 600, fontSize: 13, pl: .5 }} >Transfer to Sub Room</Typography>
-                                                    <Box>
-                                                        <AmSubRmSelWONamURoom
-                                                            subRoomNo={subRoomNo}
-                                                            setSubRoomNo={setSubRoomNo}
-                                                        />
-                                                    </Box>
-                                                </Box>
-                                                <Box sx={{ flex: .1, mt: 2.3 }}>
-                                                    <CusIconButton size="sm" variant="outlined" clickable="true" color="primary"
-                                                        onClick={updateDeptTransfer}
+                                                    <Box
+                                                        sx={{
+                                                            maxHeight: '50vh',
+                                                            overflowY: 'auto'
+                                                        }}
                                                     >
-                                                        <LibraryAddIcon fontSize='small' />
-                                                    </CusIconButton>
+                                                        {selectedAssets?.map((val, index) => (
+                                                            <Box
+                                                                key={index}
+                                                                sx={{
+                                                                    flex: 1,
+                                                                    display: 'flex',
+                                                                    borderTop: 1,
+                                                                    borderColor: 'lightgrey',
+                                                                }}
+                                                            >
+                                                                <Box sx={{ flex: 0.5, pl: 3, color: 'black', py: 0.5, fontSize: 14 }}>
+                                                                    {index + 1}
+                                                                </Box>
+                                                                <Box sx={{ flex: 2, color: 'black', py: 0.5, fontSize: 14 }}>
+                                                                    {val.item_asset_no}/{val.item_asset_no_only.toString().padStart(6, '0')}
+                                                                </Box>
+                                                                <Box sx={{ flex: 8, color: 'black', py: 0.5, fontSize: 14 }}>
+                                                                    {val.item_name}
+                                                                </Box>
+                                                                <Box sx={{ flex: 1, color: 'black', py: 0.2, fontSize: 14 }}>
+                                                                    <DeleteOutlineIcon onClick={() => removeSlected(index)} sx={{ cursor: 'pointer' }} />
+                                                                </Box>
+                                                            </Box>
+                                                        ))}
+                                                    </Box>
+
+
                                                 </Box>
-                                            </Box>
-                                        </Box> : null}
+                                                <Box sx={{ flex: 1, mt: .5 }}>
+                                                    <Box
+                                                        onClick={updateDeptTransfer}
+                                                        sx={{
+                                                            width: 160, bgcolor: '#8A9299', margin: 'auto', textAlign: 'center', cursor: 'pointer',
+                                                            fontWeight: 500, color: 'white', border: 1, borderColor: '#5A5F63', boxShadow: 20
+                                                        }}> Trasfer Asset</Box>
+                                                </Box>
+                                            </>
+                                            : null}
+                                    </Box>
+                                </Box>
+                                : null}
 
-
-                                </Box> : null} */}
-
-
-                            <Box sx={{ pl: .4, pt: 2.5, display: 'flex', gap: .5 }}>
-                                <CheckBoxIcon sx={{ cursor: 'pointer', color: 'black', height: 30, width: 30 }} />
+                            <Box sx={{ pl: .4, pt: 2, display: 'flex', gap: .5 }}>
                                 <Typography sx={{ fontWeight: 600, color: 'Black', fontSize: 16, pt: .2 }}>
                                     Employees Worked Under Ticket
                                 </Typography>
                             </Box>
-                            <Box sx={{ flex: 1, pl: 4.8, pt: 1 }}>
+                            <Box sx={{ flex: 1, pt: 1, pl: .5 }}>
                                 {empName?.map((val, index) => {
                                     return (
                                         <Box key={index} sx={{ flex: 1, display: 'flex', }}>
@@ -1489,7 +1298,7 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                                 display: "flex",
                                 justifyContent: 'center',
                                 flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
-                                pt: 2, gap: 3, mt: 2.5, pb: 1
+                                pt: 1, gap: 3, mt: 2.5, pb: 1
                             }}>
 
                                 <CusCheckBox
@@ -1513,10 +1322,10 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
 
                             </Box>
                             {pending === true ?
-                                <Box sx={{ mx: 2, my: 1 }}>
+                                <Box sx={{ mr: 2, my: 1 }}>
                                     <CmHoldReasonList holdReason={holdReason} setHoldReason={setHoldReason} />
                                 </Box> : null}
-                            <Box sx={{ mx: 2 }}>
+                            <Box sx={{ mr: 2 }}>
                                 <CustomTextarea
                                     style={{ width: "100%" }}
                                     minRows={3}
@@ -1525,58 +1334,154 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                                     value={pendholdreason === null ? '' : pendholdreason}
                                 />
                             </Box>
-                            <Box sx={{ flex: 1, border: 1, borderRadius: 1, display: 'flex', borderColor: '#D3D3D3', mt: 1, mx: 2, mb: 3 }}>
-                                <label htmlFor="file-input">
-                                    <Box sx={{ display: 'flex', bgcolor: '#ECEFF7', '&:hover': { bgcolor: '#E1E8F0' }, m: 0.5, px: 0.5, borderRadius: 5, cursor: 'pointer' }}>
-                                        <FileCopyIcon sx={{ p: 0.3, color: '#0B6BCB' }} />
-                                        <Typography sx={{ color: '#0B6BCB', fontSize: 13, px: 0.3, pt: 0.3 }}>
-                                            Attach File Under Ticket
-                                        </Typography>
-                                    </Box>
-                                </label>
-                                <input
-                                    id="file-input"
-                                    type="file"
-                                    accept=".jpg, .jpeg, .png, .pdf"
-                                    style={{ display: 'none' }}
-                                    onChange={handleFileChange}
-                                    name="file"
-                                    multiple
-                                />
-                                <Box sx={{ display: 'flex', flex: 1, mx: 0.5, mt: 0.5, overflow: 'auto' }}>
-                                    {selectFile && selectFile.map((file, index) => (
-                                        <Box key={index}>
-                                            <CssVarsProvider>
-                                                <Chip sx={{ bgcolor: '#BDC6D9', width: '100%', ml: 0.5 }}>
-                                                    {file.name}
-                                                    <CloseIcon
-                                                        sx={{
-                                                            pl: 0.3, pb: 0.3, height: 20, width: 20, cursor: 'pointer', color: '#4D0011',
-                                                            '&:hover': { color: '#BA0F30' },
-                                                        }}
-                                                        onClick={() => handleRemoveFile(index)}
-                                                    />
-                                                </Chip>
-                                            </CssVarsProvider>
+                            <Box sx={{ flex: 1, border: 1, borderRadius: 1, borderColor: 'lightgrey', mb: .5, mr: 1 }}>
+                                <Typography sx={{ fontWeight: 600, color: 'Black', fontSize: 16, pt: .5, pl: .8 }}>
+                                    Attachment
+                                </Typography>
+                                <ComplaintAttachFiles complaint_slno={complaint_slno} />
+                            </Box>
+                            <Box sx={{ flex: 1, border: 1, borderRadius: 1, display: 'flex', borderColor: 'lightgrey', mb: 2, mr: 1 }}>
+                                <Box sx={{ margin: "auto" }} >
+                                    <label htmlFor="file-input">
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                bgcolor: '#ECEFF7',
+                                                '&:hover': { bgcolor: '#E1E8F0' },
+                                                px: 1,
+                                                py: 0.5,
+                                                cursor: 'pointer',
+                                                textAlign: 'center',
+                                                justifyContent: 'center',
+                                                alignItems: 'center',
+                                                my: 0.9,
+                                                ml: 0.5,
+                                                height: 50,
+                                            }}
+                                        >
+                                            <AttachmentSharpIcon sx={{ color: '#0B6BCB', mr: 0.5 }} />
+                                            <Typography sx={{ color: '#0B6BCB', fontSize: 13 }}>Attach File</Typography>
                                         </Box>
-                                    ))}
+
+                                    </label>
+                                    <input
+                                        id="file-input"
+                                        type="file"
+                                        accept=".jpg, .jpeg, .png, .pdf"
+                                        style={{ display: 'none' }}
+                                        onChange={handleFileChange}
+                                        name="file"
+                                        multiple
+                                    />
                                 </Box>
-                                <Box
-                                    sx={{
-                                        bgcolor: '#0B6BCB', '&:hover': { bgcolor: '#7391C8' }, my: 0.5, mr: 1, display: 'flex', pr: 1.5, pl: 0.5, pt: .3,
-                                        borderRadius: 4, cursor: 'pointer',
-                                    }}
-                                    onClick={UploadFile}
-                                >
-                                    <UploadIcon sx={{ p: 0.1, color: 'white', height: 20, }} />
-                                    <Typography sx={{ fontSize: 13, color: 'white', mt: 0.1 }}>
-                                        Upload
-                                    </Typography>
+                                <Box sx={{ display: 'flex', flex: 1, mx: .5, overflow: 'auto' }}>
+                                    {selectFile.length !== 0 &&
+                                        selectFile.map((file, index) => (
+                                            <Box
+                                                key={index}
+                                                sx={{
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    my: 1,
+                                                    border: "1px solid #e0e0e0",
+                                                    borderRadius: "4px",
+                                                    p: 0.5, mr: .5
+                                                }}
+                                            >
+                                                {file.type.includes("image") ? (
+                                                    <img
+                                                        src={URL.createObjectURL(file)}
+                                                        alt={file.name}
+                                                        style={{
+                                                            width: "40px",
+                                                            height: "40px",
+                                                            objectFit: "cover",
+                                                            borderRadius: "4px",
+                                                            marginRight: "8px",
+                                                            cursor: "pointer",
+                                                        }}
+                                                        onClick={() => ViewImage(file)}
+                                                    />
+                                                ) : file.type === "application/pdf" ? (
+                                                    <PictureAsPdfIcon
+                                                        sx={{
+                                                            width: "40px",
+                                                            height: "40px",
+                                                            color: "#e53935",
+                                                            marginRight: "8px",
+                                                            cursor: "pointer",
+                                                        }}
+                                                        onClick={() => ViewImage(file)}
+                                                    />
+                                                ) : (
+                                                    <InsertDriveFileIcon
+                                                        sx={{
+                                                            width: "40px",
+                                                            height: "40px",
+                                                            color: "#9e9e9e",
+                                                            marginRight: "8px",
+                                                            cursor: "pointer",
+                                                        }}
+                                                        onClick={() => ViewImage(file)}
+                                                    />
+                                                )}
+                                                <Box sx={{ fontSize: 14, cursor: "pointer", flexGrow: 1 }}>{file.name}</Box>
+                                                <ClearSharpIcon
+                                                    sx={{
+                                                        pl: .3, pb: .3, height: 20, width: 20, cursor: 'pointer', color: '#4D0011', mx: .5,
+                                                        '&:hover': { color: '#BA0F30' },
+                                                    }}
+                                                    onClick={() => handleRemoveFile(index)}
+                                                />
+                                            </Box>
+                                        ))
+                                    }
+                                </Box>
+                                <Box sx={{ margin: "auto", }} >
+                                    {uploadBlink === 1 ?
+                                        <Box
+                                            sx={{
+                                                bgcolor: '#0B6BCB', '&:hover': { bgcolor: '#7391C8' }, my: 0.5, mr: 1, display: 'flex', pr: 1.5, pl: 0.5, pt: .3,
+                                                borderRadius: 4, cursor: 'pointer',
+                                                textAlign: 'center',
+                                                justifyContent: 'center',
+                                                alignItems: 'center',
+                                                animation: 'blinkAnimation 1s infinite',
+                                                height: 48,
+                                                '@keyframes blinkAnimation': {
+                                                    '0%': { opacity: 1 },
+                                                    '50%': { opacity: 0 },
+                                                    '100%': { opacity: 1 },
+                                                },
+                                            }}
+                                            onClick={UploadFile}
+                                        >
+                                            <UploadIcon sx={{ p: 0.1, color: 'white', height: 20, }} />
+                                            <Typography sx={{ fontSize: 13, color: 'white', mt: 0.1 }}>
+                                                Upload
+                                            </Typography>
+                                        </Box> : <Box
+                                            sx={{
+                                                bgcolor: '#0B6BCB', '&:hover': { bgcolor: '#7391C8' }, display: 'flex',
+                                                borderRadius: 4, cursor: 'pointer',
+                                                textAlign: 'center',
+                                                justifyContent: 'center',
+                                                alignItems: 'center', pr: 2, pl: .5, py: .5, mr: .5, my: .5,
+                                                height: 48,
+                                            }}
+                                            onClick={UploadFile}
+                                        >
+                                            <UploadIcon sx={{ p: 0.1, color: 'white', height: 20, }} />
+                                            <Typography sx={{ fontSize: 13, color: 'white', mt: 0.1 }}>
+                                                Upload
+                                            </Typography>
+                                        </Box>
+                                    }
+
                                 </Box>
                             </Box>
                         </Box>
 
-                        {/* Fixed Footer */}
                         <Box sx={{ mt: .5, flexShrink: 0, display: 'flex', justifyContent: 'flex-end' }}>
                             <Button
                                 variant='plain'

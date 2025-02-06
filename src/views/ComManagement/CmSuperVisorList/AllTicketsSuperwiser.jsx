@@ -13,7 +13,7 @@ import AssingedInAllList from '../AssignComplaint/AllTicketList/AssingedInAllLis
 
 
 
-const AllTicketsSuperwiser = ({ forVerifyList, count, setCount, forverifyLength }) => {
+const AllTicketsSuperwiser = ({ forVerifyList, count, setCount, forverifyLength, menurights }) => {
 
 
     const empdept = useSelector((state) => {
@@ -28,6 +28,7 @@ const AllTicketsSuperwiser = ({ forVerifyList, count, setCount, forverifyLength 
     const [holdLength, setholdLength] = useState(0)
     const [pendingLength, setpendingLength] = useState(0)
     const [forVerifycheck, setforVerifycheck] = useState(1)
+    const [assignFlag, setassignFlag] = useState(0)
 
 
     const RectifiedCheck = useCallback(() => {
@@ -70,24 +71,6 @@ const AllTicketsSuperwiser = ({ forVerifyList, count, setCount, forverifyLength 
         setRectifiedCheck(0)
     }, [])
 
-
-
-    // useEffect(() => {
-    //     const getPendingVerifyList = async (empdept) => {
-    //         const result = await axioslogin.get(`/complaintassign/SupervsrVerifyPending/${empdept}`);
-    //         const { success, data } = result.data
-    //         if (success === 1) {
-    //             setforVerifyList(data)
-    //             setforverifyLength(data.length)
-    //         }
-    //         else {
-    //             setforVerifyList([])
-    //             setforverifyLength(0)
-    //         }
-    //     }
-    //     getPendingVerifyList(empdept)
-    // }, [empdept, count])
-
     const searchDate = useMemo(() => {
         return {
 
@@ -122,7 +105,7 @@ const AllTicketsSuperwiser = ({ forVerifyList, count, setCount, forverifyLength 
         };
 
         getAllPendingCompalints(searchDate)
-    }, [searchDate, count]);
+    }, [searchDate, count, assignFlag]);
 
 
     return (
@@ -181,13 +164,13 @@ const AllTicketsSuperwiser = ({ forVerifyList, count, setCount, forverifyLength 
                 }
                 {holdCheck === 1 ?
                     <Box>
-                        <OnholdInAllList onholdCompl={onholdCompl} count={count} setCount={setCount} />
+                        <OnholdInAllList onholdCompl={onholdCompl} count={count} setCount={setCount} menurights={menurights} />
                     </Box> :
                     <Box></Box>
                 }
                 {assinged === 1 ?
                     <Box>
-                        <AssingedInAllList pendingCompl={pendingCompl} count={count} setCount={setCount} />
+                        <AssingedInAllList pendingCompl={pendingCompl} setassignFlag={setassignFlag} assignFlag={assignFlag} menurights={menurights} />
                     </Box> :
                     <Box></Box>
                 }
@@ -196,10 +179,7 @@ const AllTicketsSuperwiser = ({ forVerifyList, count, setCount, forverifyLength 
                         <ForVerifySupervisor forVerifyList={forVerifyList} count={count} setCount={setCount} />
                     </Box> :
                     <Box></Box>
-
                 }
-
-
             </Box>
         </Box>
     )

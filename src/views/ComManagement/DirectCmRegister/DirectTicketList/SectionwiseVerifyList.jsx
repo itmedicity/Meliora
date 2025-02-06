@@ -1,10 +1,9 @@
-import { Box, Chip, CssVarsProvider, Input, Tooltip, Typography } from '@mui/joy'
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
+import { Box, Chip, CssVarsProvider, Radio, RadioGroup, Tooltip, Typography } from '@mui/joy'
+import React, { memo, useCallback, useMemo, useState } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios';
 import { Virtuoso } from 'react-virtuoso';
 import ErrorIcon from '@mui/icons-material/Error';
 import QuestionAnswerRoundedIcon from '@mui/icons-material/QuestionAnswerRounded';
-import ReplayCircleFilledIcon from '@mui/icons-material/ReplayCircleFilled';
 import moment from 'moment';
 import ReplyModalvieww from '../../AssignComplaint/Queries/ReplyModalvieww';
 import CmDeptSectionFilter from 'src/views/CommonSelectCode/CmDeptSectionFilter';
@@ -15,20 +14,20 @@ import { format } from 'date-fns';
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import ComFileView from '../../CmFileView/ComFileView';
+import TextComponent from 'src/views/Components/TextComponent';
+import FilterAltSharpIcon from '@mui/icons-material/FilterAltSharp';
+import { FormControlLabel } from '@mui/material';
+import TextFieldCustom from 'src/views/Components/TextFieldCustom';
+import SearchSharpIcon from '@mui/icons-material/SearchSharp';
 
 const SectionwiseVerifyList = ({ count, setCount }) => {
 
-    const [fromDate, setFromDate] = useState('');
-    const [toDate, setToDate] = useState('');
     const [flagz, setflagz] = useState(0)
     const [valuee, setValuee] = useState([])
     const [replyflag, setReplyflag] = useState(0)
     const [replyOpen, setReplyOpen] = useState(false)
-    const [assignedEmployees, setAssignedEmployees] = useState([])
     const [depsec, setDepsec] = useState(0)
     const [dataa, setDataa] = useState([])
-    const [emptyFlag, setEmptyFlag] = useState(0)
-    const [rotate, setRotate] = useState(false);
     const [detailsData, setDetailsData] = useState([])
     const [detailsFlag, setDetailsFlag] = useState(0)
     const [deatilsOpen, setDetailsOpen] = useState(false)
@@ -37,18 +36,10 @@ const SectionwiseVerifyList = ({ count, setCount }) => {
     const [fileDetails, setfileDetails] = useState([])
     const [imageUrls, setImageUrls] = useState([]);
     const [selectedImages, setSelectedImages] = useState([]);
-
-    const ReplyDetails = useCallback((value) => {
-        setReplyflag(1)
-        setValuee(value)
-        setReplyOpen(true)
-    }, [])
-
-    const MoreDetails = useCallback((val) => {
-        setDetailsFlag(1)
-        setDetailsData(val)
-        setDetailsOpen(true)
-    }, [])
+    const [selectedRadio, setSelectedRadio] = useState(1);
+    const [fromDate, setFromDate] = useState(format(new Date(), 'yyyy-MM-dd'));
+    const [toDate, setToDate] = useState(format(new Date(), 'yyyy-MM-dd'));
+    const [selectDateFlag, setselectDateFlag] = useState(0)
 
     const handleFromDateChange = (event) => {
         const selectedFromDate = event.target.value;
@@ -63,6 +54,42 @@ const SectionwiseVerifyList = ({ count, setCount }) => {
         setToDate(event.target.value);
         setDataa([])
     };
+
+
+    const ReplyDetails = useCallback((value) => {
+        setReplyflag(1)
+        setValuee(value)
+        setReplyOpen(true)
+    }, [])
+
+    const MoreDetails = useCallback((val) => {
+        setDetailsFlag(1)
+        setDetailsData(val)
+        setDetailsOpen(true)
+    }, [])
+
+    const handleRadioChange = useCallback((event) => {
+        const value = Number(event.target.value);
+        setSelectedRadio(value);
+        if (value === 1) {
+            setselectDateFlag(0);
+            setFromDate(format(new Date(), 'yyyy-MM-dd'));
+            setToDate(format(new Date(), 'yyyy-MM-dd'))
+            setDataa([])
+            setflagz(0)
+
+        } else if (value === 2) {
+            setselectDateFlag(1);
+            setFromDate(format(new Date(), 'yyyy-MM-dd'));
+            setToDate(format(new Date(), 'yyyy-MM-dd'));
+            setDataa([])
+            setflagz(0)
+
+        }
+        else {
+            setDataa([])
+        }
+    }, [setToDate, setFromDate,]);
 
     const searchDate = useMemo(() => {
         if (fromDate && toDate) {
@@ -90,11 +117,8 @@ const SectionwiseVerifyList = ({ count, setCount }) => {
                     }
                 }
                 getAllPendingCompalints(depsec)
-                setRotate(true);
-                setTimeout(() => {
-                    setRotate(false);
-                }, 1500);
-                setEmptyFlag(1)
+
+
             }
             else {
                 infoNotify("Please Select a Date Range")
@@ -105,22 +129,6 @@ const SectionwiseVerifyList = ({ count, setCount }) => {
         }
     }, [searchDate, depsec])
 
-    useEffect(() => {
-        const getAssignedEmployees = async () => {
-            const updatedEmployees = {};
-            for (let complaint of dataa) {
-                const result = await axioslogin.get(`Rectifycomplit/getAssignEmps/${complaint.complaint_slno}`);
-                const { success, data } = result.data;
-                if (success === 1) {
-                    updatedEmployees[complaint.complaint_slno] = data;
-                } else {
-                    updatedEmployees[complaint.complaint_slno] = [];
-                }
-            }
-            setAssignedEmployees(updatedEmployees);
-        };
-        getAssignedEmployees();
-    }, [dataa]);
 
     const fileView = async (val) => {
         const { complaint_slno } = val;
@@ -153,120 +161,186 @@ const SectionwiseVerifyList = ({ count, setCount }) => {
 
 
     return (
-        <Box sx={{ bgcolor: 'white', }}>
-            {replyflag === 1 ?
-                <ReplyModalvieww open={replyOpen} setReplyOpen={setReplyOpen} valuee={valuee}
-                    setReplyflag={setReplyflag}
-                    setCount={setCount} count={count}
-                />
-                : null}
-            {detailsFlag === 1 ?
-                <RectifyDetailsModal
-                    open={deatilsOpen}
-                    setDetailsOpen={setDetailsOpen}
-                    detailsData={detailsData}
-                    setDetailsFlag={setDetailsFlag}
-                    setcount={setCount} count={count} />
-                : null}
-            {image === 1 ?
-                <ComFileView
-                    imageUrls={imageUrls}
-                    imageViewOpen={imageViewOpen}
-                    selectedImages={selectedImages}
-                    fileDetails={fileDetails}
-                    setimage={setimage}
-                    setimageViewOpen={setimageViewOpen}
+        <Box sx={{ bgcolor: 'white', p: .5 }}>
 
-                /> : null}
+            <Box sx={{ border: 1, borderColor: 'lightgrey' }}>
+                <Box sx={{ borderBottom: 1, borderColor: 'lightgrey', flex: 1, display: 'flex', py: .8, pl: .5 }}>
+                    <Box sx={{ display: 'flex', py: .5 }}>
+                        <FilterAltSharpIcon />
+                        <TextComponent
+                            sx={{
+                                color: '#5A676C',
+                                fontWeight: 510,
+                                fontFamily: 'Arial'
+                            }}
+                            text="filter :"
+                        />
+                    </Box>
+                    <Box sx={{ width: 290, ml: 1 }}>
+                        <CmDeptSectionFilter cmSection={depsec} setCmSection={setDepsec} setDataa={setDataa} />
+                    </Box>
+                    <RadioGroup value={selectedRadio} onChange={handleRadioChange} sx={{ display: 'flex', flexDirection: 'row', ml: 3, gap: 2 }}>
+                        <FormControlLabel
+                            sx={{ gap: .5, fontWeight: 500, }}
+                            value={1}
+                            control={<Radio color="primary" />}
+                            label="Today's"
+                        />
+                        <FormControlLabel
+                            sx={{ gap: .5, fontWeight: 500, }}
+                            value={2}
+                            control={<Radio color="primary" />}
+                            label="Select Date"
+                        />
+                    </RadioGroup>
+                    {selectDateFlag === 1 ?
+                        <Box sx={{ display: 'flex', gap: 1 }}>
+                            <TextComponent
+                                text={"From "}
+                                sx={{ fontWeight: 500, ml: 1, pt: .4 }} />
+                            <TextFieldCustom
+                                type="date"
+                                size="sm"
+                                name="fromDate"
+                                value={fromDate}
+                                onchange={handleFromDateChange}
+                            ></TextFieldCustom>
+                            <TextComponent
+                                text={"To "}
+                                sx={{ fontWeight: 500, ml: 2, pt: .4 }} />
+                            <TextFieldCustom
+                                type="date"
+                                size="sm"
+                                name="toDate"
+                                value={toDate}
+                                onchange={handleToDateChange}
+                                disabled={!fromDate}
+                                slotProps={{
+                                    input: {
+                                        min: fromDate,
+                                        max: moment().format('YYYY-MM-DD'),
+                                    },
+                                }}
+                            ></TextFieldCustom>
+                        </Box> : null}
+                    <Tooltip text="Search to Find Verified List">
+                        <Box
+                            onClick={handleClick}
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                width: 50,
+                                height: 32,
+                                backgroundColor: '#E3EFFB',
+                                color: '#205184',
+                                borderRadius: 5,
+                                cursor: 'pointer',
+                                ml: 1,
+                                fontWeight: 600,
+                                fontSize: 15,
+                                transition: 'all 0.3s ease-in-out',
+                                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                                '&:hover': {
+                                    backgroundColor: '#D0E4F7',
+                                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.15)',
+                                },
+                                '&:active': {
+                                    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.2)',
+                                }
+                            }}
+                        >
+                            <SearchSharpIcon sx={{ width: 25, height: 25, color: '#205184', }} />
 
-            <Box sx={{ display: 'flex', justifyContent: 'center', pt: 2.5, pb: 1 }}>
-                <Typography sx={{ fontWeight: 550, fontSize: 14, pt: .8, pr: 1 }}>
-                    Complaint From :
-                </Typography>
-                <Box sx={{ width: 290, }}>
-                    <CmDeptSectionFilter cmSection={depsec} setCmSection={setDepsec} setDataa={setDataa} setEmptyFlag={setEmptyFlag} />
+                        </Box>
+                    </Tooltip>
+
+
+
+
                 </Box>
-                <Typography sx={{ fontWeight: 550, fontSize: 14, pt: .8, pr: 1, pl: 2 }}>
-                    From :
-                </Typography>
-                <CssVarsProvider>
-                    <Input
-                        sx={{ borderRadius: 15, pl: 3, cursor: 'pointer', }}
-                        name="fromDate"
-                        type="date"
-                        size="sm"
-                        value={fromDate}
-                        onChange={handleFromDateChange}
+                {replyflag === 1 ?
+                    <ReplyModalvieww open={replyOpen} setReplyOpen={setReplyOpen} valuee={valuee}
+                        setReplyflag={setReplyflag}
+                        setCount={setCount} count={count}
                     />
-                </CssVarsProvider>
-                <Typography sx={{ fontWeight: 550, fontSize: 14, pt: .8, pr: 1, pl: 2 }}>
-                    To :
-                </Typography>
-                <CssVarsProvider>
-                    <Input
-                        sx={{ borderRadius: 15, pl: 3, cursor: 'pointer', }}
-                        name="toDate"
-                        type="date"
-                        size="sm"
-                        value={toDate}
-                        onChange={handleToDateChange}
-                        disabled={!fromDate}  // Disable until "From Date" is selected
-                        slotProps={{
-                            input: {
-                                min: fromDate,
-                                max: moment().format('YYYY-MM-DD'),
+                    : null}
+                {detailsFlag === 1 ?
+                    <RectifyDetailsModal
+                        open={deatilsOpen}
+                        setDetailsOpen={setDetailsOpen}
+                        detailsData={detailsData}
+                        setDetailsFlag={setDetailsFlag}
+                        setcount={setCount} count={count} />
+                    : null}
+                {image === 1 ?
+                    <ComFileView
+                        imageUrls={imageUrls}
+                        imageViewOpen={imageViewOpen}
+                        selectedImages={selectedImages}
+                        fileDetails={fileDetails}
+                        setimage={setimage}
+                        setimageViewOpen={setimageViewOpen}
 
-                            },
-                        }}
-                    />
-                </CssVarsProvider>
-                <Box
-                    onClick={handleClick}
-                    sx={{
-                        ml: 1,
-                        display: 'inline-block',
-                        transition: 'transform 2s ease-in-out', // Duration of the rotation
-                        transform: rotate ? 'rotate(-420deg)' : 'none',
-                    }}
-                >
-                    <ReplayCircleFilledIcon sx={{ width: 32, height: 33, cursor: 'pointer' }} />
-                </Box>
-            </Box>
-            {emptyFlag === 1 ?
-                <>
+                    /> : null}
+                <Box sx={{ p: .5 }}>
                     {dataa.length !== 0 ?
                         <Virtuoso
-                            style={{ height: '40vh' }}
+                            style={{ height: '65vh', overflow: 'auto' }}
                             totalCount={dataa?.length}
                             itemContent={(index) => {
                                 const val = dataa[index];
                                 return (
-
                                     <Box
                                         key={val.complaint_slno}
                                         sx={{
                                             flex: 1,
-                                            border: 1, borderColor: '#3399FF',
-                                            borderRadius: 2,
+                                            border: 1, borderColor: '#0B6BCB',
+                                            borderRadius: 8,
                                             bgcolor: 'white',
-                                            mb: .5
-
+                                            m: .5
                                         }}>
+                                        <Box sx={{
+                                            flex: 1, bgcolor: '#E5E8E9', borderTopRightRadius: 6, borderTopLeftRadius: 6,
+                                            mx: .1, display: 'flex',
+                                        }}>
+                                            <CssVarsProvider>
+                                                <Tooltip title='Ticket Registered Date and time' placement='top-start' >
+                                                    <Box sx={{ cursor: 'pointer' }}>
+                                                        <TextComponent
+                                                            sx={{
+                                                                color: 'black',
+                                                                fontWeight: 540,
+                                                                flex: 1,
+                                                                fontSize: 15,
+                                                                pl: 1,
+                                                                py: .5,
+                                                                fontFamily: 'Arial',
+                                                            }}
+                                                            text={
+                                                                val.compalint_date
+                                                                    ? format(new Date(val.compalint_date), 'dd MMM yyyy,   hh:mm a')
+                                                                    : 'Invalid Date'
+                                                            }
+                                                        />
+                                                    </Box>
+                                                </Tooltip>
+                                            </CssVarsProvider>
+                                            <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', }}>
+                                                <Box sx={{ my: .3, mr: .1, px: 2, fontWeight: 500, fontSize: 14, cursor: 'pointer' }}>
+                                                    Ticket Registered by :  {val.comp_reg_emp}
+                                                </Box>
+                                            </Box>
+                                        </Box>
                                         <CssVarsProvider>
-
                                             <Box sx={{ flex: 1, display: 'flex', p: .8, }}>
-
                                                 <Box sx={{
-                                                    // flex: 1,
-                                                    minWidth: 130,
-                                                    mx: .3, pr: .5,
+                                                    maxWidth: 200,
+                                                    mx: 1, pr: 1,
                                                     borderRight: 1, borderColor: 'lightgrey'
                                                 }}>
-                                                    <Typography sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700 }}> Ticket No. {val.complaint_slno}</Typography>
-                                                    <Tooltip title='Ticket Registerd Date and time' placement='right' >
-                                                        <Typography sx={{ fontSize: 11, textAlign: 'center', fontWeight: 600, color: "black", mr: .3, cursor: 'grab' }}>11-12-2023  11:12:56</Typography>
-                                                    </Tooltip>
-
+                                                    <Typography sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700 }}> Ticket No. </Typography>
+                                                    <Typography sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700 }}>{val.complaint_slno}</Typography>
                                                     <Box sx={{ flex: 1, display: 'flex', my: .5, justifyContent: "center", }}>
                                                         {val.cm_file_status === 1 ?
                                                             <FilePresentRoundedIcon sx={{
@@ -327,53 +401,55 @@ const SectionwiseVerifyList = ({ count, setCount }) => {
                                                     </Box>
                                                 </Box>
                                                 <Box sx={{
-                                                    minWidth: 500,
-                                                    maxWidth: 650,
                                                     pl: .5,
-
+                                                    maxWidth: 500,
                                                 }}>
-                                                    <Box sx={{ flex: 1, display: 'flex', mt: .5 }}>
-                                                        <Typography sx={{ flex: 1, fontSize: 13, fontWeight: 700 }}>
-                                                            Section
+                                                    <Box sx={{
+
+                                                        display: 'flex', mt: .5
+                                                    }}>
+                                                        <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
+                                                            Department Section
                                                         </Typography>
-                                                        <Typography sx={{ fontSize: 15, flex: 3, fontWeight: 400 }}>
-                                                            {val.location}
+                                                        <Typography sx={{ fontSize: 14, flex: 1, textTransform: 'capitalize' }}>
+                                                            {val.location.charAt(0).toUpperCase() + val.location.slice(1).toLowerCase()}
                                                         </Typography>
                                                     </Box>
-                                                    <Box sx={{ flex: 1, display: 'flex', mt: .5 }}>
-                                                        <Typography sx={{ flex: 1, fontSize: 13, fontWeight: 700 }}>
+                                                    <Box sx={{
+
+                                                        display: 'flex', mt: .5
+                                                    }}>
+                                                        <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
                                                             Location
                                                         </Typography>
-                                                        <Typography sx={{ fontSize: 14, flex: 3, fontWeight: 400 }}>
+                                                        <Typography sx={{ fontSize: 13, flex: 1, }}>
                                                             {val.rm_room_name}
                                                             {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name ?
                                                                 ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''}${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${(val.rm_insidebuildblock_name && val.rm_floor_name) ? ' - ' : ''}${val.rm_floor_name ? val.rm_floor_name : ''})`
                                                                 : "Not Updated"}
                                                         </Typography>
                                                     </Box>
-                                                    <Box sx={{ flex: 1, display: 'flex', mt: .5 }}>
-                                                        <Typography sx={{ flex: 1, fontSize: 13, fontWeight: 700 }}>
+                                                    <Box sx={{
+                                                        display: 'flex', mt: .5
+                                                    }}>
+                                                        <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
                                                             Complaint Type
                                                         </Typography>
-                                                        <Typography sx={{ fontSize: 14, flex: 3, fontWeight: 400 }}>
-                                                            {val.complaint_type_name || 'Not Updated'}
+                                                        <Typography sx={{ fontSize: 14, flex: 1, }}>
+                                                            {val.complaint_type_name.charAt(0).toUpperCase() + val.complaint_type_name.slice(1).toLowerCase()}
                                                         </Typography>
                                                     </Box>
                                                 </Box>
-                                                <Box sx={{
-                                                    flexGrow: 1,
-                                                    pl: 1,
-                                                }
-                                                }>
-                                                    <Typography sx={{ flex: 1, fontSize: 13, fontWeight: 700 }}>
+                                                <Box sx={{ flex: 1, pl: 1.5, }}>
+                                                    <Typography sx={{ fontSize: 13, fontWeight: 700 }}>
                                                         Complaint Describtion
                                                     </Typography>
                                                     <Typography sx={{
                                                         pr: .5, pt: .3, fontSize: 15,
-                                                        maxHeight: 88,
-                                                        overflow: 'auto', fontWeight: 400
+                                                        maxHeight: 50,
+                                                        overflow: 'auto'
                                                     }}>
-                                                        {val.complaint_desc}
+                                                        {val.complaint_desc || 'Not Updated'}
                                                     </Typography>
                                                 </Box>
                                             </Box>
@@ -385,7 +461,6 @@ const SectionwiseVerifyList = ({ count, setCount }) => {
                                                     <Box sx={{ display: 'flex', pl: 1.5 }}>
                                                         <ErrorIcon
                                                             sx={{
-                                                                // mt: 3,
                                                                 height: 30,
                                                                 width: 25,
                                                                 color: val.priority_check === 1 ? '#970C10' : 'lightgrey',
@@ -401,16 +476,24 @@ const SectionwiseVerifyList = ({ count, setCount }) => {
                                                 <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', }}>
                                                     <Typography sx={{ fontSize: 13, fontWeight: 700, pt: .5 }}>Assingees :</Typography>&nbsp;&nbsp;
                                                     <Box sx={{ fontWeight: 600, display: 'flex', py: .4, gap: .3 }}>
-                                                        {assignedEmployees[val.complaint_slno]?.map((emp, index) => (
-                                                            <Chip
-                                                                key={index}
-                                                                size="small"
-                                                                variant="outlined"
-                                                                sx={{ bgcolor: '#D3C7A1', fontSize: 13, px: .8 }}>
-                                                                {emp.em_name}
+                                                        {val.assinged_employees === null ?
+                                                            <Chip>
+                                                                Not Updated
                                                             </Chip>
-                                                        ))}
-                                                    </Box>&nbsp;&nbsp;
+                                                            :
+                                                            <>
+                                                                {val.assinged_employees.split(',').map((name, index) => (
+                                                                    <Chip
+                                                                        key={index}
+                                                                        size="small"
+                                                                        variant="outlined"
+                                                                        sx={{ bgcolor: '#D3C7A1', fontSize: 13, px: 0.8, marginRight: 0.1 }}
+                                                                    >
+                                                                        {name.trim()}
+                                                                    </Chip>
+                                                                ))}
+                                                            </>}
+                                                    </Box>&nbsp;
                                                 </Box>
                                             </Box>
                                         </CssVarsProvider>
@@ -419,22 +502,20 @@ const SectionwiseVerifyList = ({ count, setCount }) => {
                             }}
                         />
                         :
-                        <Box sx={{ flex: 1, m: 1, height: '20vh', textAlign: 'center', fontWeight: 700, fontSize: 22, color: 'lightgray', pt: 10 }}>
+                        <Box sx={{ flex: 1, height: '60vh', display: 'flex', justifyContent: 'center', fontWeight: 700, fontSize: 22, color: 'lightgray', pt: 15 }}>
                             {flagz === 1 ?
                                 <>
                                     Empty list Under Selected Date Range
                                 </> :
                                 <>
-                                    Select Date Range to View Verified Complaints
+                                    Search Section & Date Range to View Rectified Complaints
                                 </>}
+                        </Box>
+                    }
 
-
-                        </Box>}
-                </> :
-                <Box sx={{ fontWeight: 700, fontSize: 20, color: 'lightgrey', textAlign: 'center', my: 4 }}>
-                    Select the Section and Date Range to View Verified Complaints
-                </Box>}
-        </Box >
+                </Box>
+            </Box >
+        </Box>
     )
 }
 

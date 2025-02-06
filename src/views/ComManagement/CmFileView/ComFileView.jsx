@@ -1,5 +1,5 @@
-import React, { memo, useCallback } from 'react'
-import { Paper, Typography } from '@mui/material';
+import React, { memo, useCallback, useEffect, useState } from 'react'
+import { Typography } from '@mui/material';
 import { Box, Button, CssVarsProvider, Modal, ModalDialog } from '@mui/joy';
 import CancelIcon from '@mui/icons-material/Cancel';
 
@@ -7,6 +7,26 @@ const ComFileView = ({ imageUrls, imageViewOpen, fileDetails, setimageViewOpen, 
 
     const { complaint_slno, complaint_desc, compalint_date, rm_roomtype_name, rm_room_name, rm_insidebuildblock_name,
         rm_floor_name, location, complaint_type_name, } = fileDetails
+
+
+
+
+    const [uplodedFile, setUplodedFile] = useState([]);
+
+    useEffect(() => {
+        if (imageUrls.length > 0) {
+            const files = imageUrls.map((file) => ({
+                url: file,
+                type: file.endsWith(".pdf") ? "pdf" : "image"
+            }));
+            setUplodedFile(files);
+        } else {
+        }
+    }, [imageUrls]);
+
+
+
+
 
 
     const Close = useCallback(() => {
@@ -31,15 +51,17 @@ const ComFileView = ({ imageUrls, imageViewOpen, fileDetails, setimageViewOpen, 
         },
     }
 
+
+
     return (
         <CssVarsProvider>
             <Modal
                 aria-labelledby="modal-title"
                 aria-describedby="modal-desc"
                 open={imageViewOpen}
-                sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pl: 1, borderRadius: 10 }}>
-                <ModalDialog variant="outlined" sx={{ p: 0, overflow: 'auto' }}>
-                    <Box sx={{ flex: 1, display: 'flex', mt: 1, p: 1, }}>
+                sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pl: 1, borderRadius: 10, }}>
+                <ModalDialog variant="outlined" sx={{ p: 0, width: '98%', }}>
+                    <Box sx={{ flex: 1, display: 'flex', mt: 1, px: 1, }}>
                         <Box sx={{ flex: 1, color: 'grey', }}>
                             File View
                         </Box>
@@ -49,7 +71,7 @@ const ComFileView = ({ imageUrls, imageViewOpen, fileDetails, setimageViewOpen, 
                             />
                         </Box>
                     </Box>
-                    <Box sx={{ flex: 1, display: 'flex', bgcolor: '#ECEDEF', py: .5 }}>
+                    <Box sx={{ flex: 1, display: 'flex', bgcolor: '#ECEDEF', py: .5, px: 1 }}>
                         <Box sx={{ flex: 1, pl: .5 }}>
                             <Typography sx={{ pl: .5, fontWeight: 600, color: 'Black', }}>Ticket No.{complaint_slno}</Typography>
                             <Typography sx={{ pl: .5, fontSize: 14, color: 'Black', }}>
@@ -75,21 +97,109 @@ const ComFileView = ({ imageUrls, imageViewOpen, fileDetails, setimageViewOpen, 
                             </Typography>
                         </Box>
                     </Box>
-                    <Box sx={{ gap: 5 }}>
+                    {/* <Box sx={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        gap: 1,
+                        overflow: 'auto',
+                        px: 1,
+                        height: '70vh',
+                    }}>
                         {imageUrls.map((imageUrl, index) => (
-                            <Paper key={index} sx={{ bgcolor: '#EBEBE8', cursor: 'pointer', height: 700, width: 820, mb: 1, mx: 1 }}>
-                                <embed
-                                    id="pdf-embed"
-                                    src={imageUrl}
-                                    type="application/pdf"
-                                    height={650}
-                                    width={'100%'} />
+                            < Box
+                                key={index}
+                                sx={{
+                                    cursor: 'pointer',
+                                    width: '49%',
+                                    height: '100%',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    border: 1,
+                                    p: 1,
+                                    borderColor: 'lightgrey'
+                                }}
+                            >
+                                <Box sx={{ height: '100%', width: '100%' }}>
+                                    <embed
+                                        id="pdf-embed"
+                                        src={imageUrl}
+                                        type="application/pdf"
+                                        style={{
+                                            width: '100%', height: '100%',
+                                            borderRadius: "4px",
+                                            objectFit: 'contain'
 
-                            </Paper>
-                        ))
-                        }
+                                        }}
+                                    />
+                                </Box>
+
+
+                            </Box>
+                        ))}
+                    </Box> */}
+
+                    <Box sx={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        gap: 1,
+                        overflow: 'auto',
+                        px: 1,
+                        height: '70vh',
+                    }}>
+                        {uplodedFile.map((file, index) => (
+                            <Box
+                                key={index}
+                                sx={{
+                                    cursor: 'pointer',
+                                    width: '49%',
+                                    height: '100%',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    border: 1,
+                                    p: 1,
+                                    borderColor: 'lightgrey'
+                                }}
+                                onClick={() => setimage(file.url)}
+                            >
+                                <Box sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    width: '100%',
+                                    height: '99%'
+                                }}>
+                                    {file.type === 'image' ? (
+                                        <Box sx={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', }}>
+                                            <img
+                                                src={file.url}
+                                                alt={`Uploaded File ${index}`}
+                                                style={{
+                                                    maxWidth: '100%',
+                                                    maxHeight: '100%',
+                                                    borderRadius: '4px',
+                                                    objectFit: 'contain'
+                                                }}
+                                            />
+                                        </Box>
+                                    ) : (
+                                        <iframe
+                                            src={file.url}
+                                            title={`PDF ${index}`}
+                                            style={{
+                                                width: '100%',
+                                                height: '100%',
+                                                borderRadius: '4px'
+                                            }}
+                                        />
+                                    )}
+                                </Box>
+                            </Box>
+                        ))}
                     </Box>
-                    <Box sx={{ textAlign: 'right', pb: 1, mr: 1 }}>
+
+                    <Box sx={{ textAlign: 'right', pb: 2, mr: 2 }}>
                         <Button
                             variant='plain'
                             sx={buttonStyle}
@@ -98,7 +208,7 @@ const ComFileView = ({ imageUrls, imageViewOpen, fileDetails, setimageViewOpen, 
                     </Box>
                 </ModalDialog>
             </Modal>
-        </CssVarsProvider>
+        </CssVarsProvider >
 
     )
 }

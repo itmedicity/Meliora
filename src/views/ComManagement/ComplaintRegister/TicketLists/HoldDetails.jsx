@@ -2,6 +2,7 @@ import React, { memo, useCallback, } from 'react'
 import { Typography } from '@mui/material';
 import { Box, Button, CssVarsProvider, Modal, ModalDialog, Textarea } from '@mui/joy';
 import TextFieldCustom from 'src/views/Components/TextFieldCustom';
+import { format } from 'date-fns';
 
 const HoldDetails = ({ open, setholdOpen, setholdFlag, holdDetails }) => {
 
@@ -95,7 +96,9 @@ const HoldDetails = ({ open, setholdOpen, setholdFlag, holdDetails }) => {
                                     {holduser}
                                 </Typography>
                                 <Typography sx={{ pb: .3, pr: 2, fontSize: 12 }}>
-                                    {pending_onhold_time}
+                                    {pending_onhold_time
+                                        ? format(new Date(pending_onhold_time), 'dd MMM yyyy,  hh:mm a')
+                                        : 'Invalid Date'}
                                 </Typography>
                             </Box>
                         </Box>

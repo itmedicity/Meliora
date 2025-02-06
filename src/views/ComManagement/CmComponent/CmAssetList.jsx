@@ -1,8 +1,9 @@
-import React, { useEffect, memo, useState, useCallback, Fragment } from 'react'
+import React, { useEffect, memo, useState, useCallback, Fragment, useMemo } from 'react'
 import { axioslogin } from "src/views/Axios/Axios"
 import { Autocomplete, CssVarsProvider, Typography } from '@mui/joy';
+import { errorNotify } from 'src/views/Common/CommonCode';
 
-const CmAssetList = ({ assetz, setAssetz, complaint_dept_secslno, setItem_slno, setSelectedAsset, setasset_dept }) => {
+const CmAssetList = ({ assetz, setAssetz, complaint_dept_secslno, setItem_slno, setSelectedAsset, setasset_dept, codept, assetTransCount }) => {
 
     const [assetAry, setAssetAry] = useState([])
     const [assetX, setAssetX] = useState([{ am_item_map_slno: 0, item_name: '', item_asset_no: '', item_asset_no_only: '' }])
@@ -10,28 +11,45 @@ const CmAssetList = ({ assetz, setAssetz, complaint_dept_secslno, setItem_slno, 
     const [inputValue, setInputValue] = useState('');
 
 
+    // Memoized post data
+    const postData = useMemo(() => ({
+        codept,
+        complaintLocation: complaint_dept_secslno,
+    }), [complaint_dept_secslno, codept]);
+
+    // Fetch asset list based on department section
     useEffect(() => {
-        let isMounted = true; // Flag to check if component is mounted
-        if (complaint_dept_secslno !== '') {
-            const getAssetItembsedonLocation = async (complaint_dept_secslno) => {
-                const result = await axioslogin.get(`Rectifycomplit/getlocationbsedAsset/${complaint_dept_secslno}`);
+        let isMounted = true; // Track component mount state
+
+        const getAssetItemsBasedOnLocation = async (postData) => {
+            try {
+                const result = await axioslogin.post('/Rectifycomplit/getAssetUnderSelectedCompltDept', postData);
                 const { success, data } = result.data;
-                if (isMounted) { // Only update state if component is still mounted
+                if (isMounted) {
                     if (success === 1) {
                         setAssetAry(data);
                     } else {
                         setAssetAry([]);
                     }
                 }
-            };
-            getAssetItembsedonLocation(complaint_dept_secslno);
-        } else {
-            setAssetAry([]); // Reset asset array if no complaint_dept_secslno
-        }
-        return () => {
-            isMounted = false; // Cleanup function to prevent state updates after unmounting
+            } catch (error) {
+                errorNotify("Error fetching asset data:", error);
+                if (isMounted) {
+                    setAssetAry([]);
+                }
+            }
         };
-    }, [complaint_dept_secslno]);
+
+        if (complaint_dept_secslno !== '') {
+            getAssetItemsBasedOnLocation(postData);
+        } else {
+            setAssetAry([]);
+        }
+
+        return () => {
+            isMounted = false;
+        };
+    }, [postData, complaint_dept_secslno, assetTransCount]);
 
 
 
@@ -52,7 +70,7 @@ const CmAssetList = ({ assetz, setAssetz, complaint_dept_secslno, setItem_slno, 
             setAssetz(0)
         }
         return
-    }, [setAssetz])
+    }, [setAssetz, setasset_dept])
 
     useEffect(() => {
         assetAry.length > 0 && setAssetX(assetAry)
@@ -64,7 +82,8 @@ const CmAssetList = ({ assetz, setAssetz, complaint_dept_secslno, setItem_slno, 
         <Fragment>
             <CssVarsProvider>
                 {assetAry.length === 0 ? (
-                    <Typography sx={{ border: 1, pl: .5, mt: .2, py: .2, borderColor: '#CDD7E1', color: 'grey' }}>No Asset Added Under Department Section</Typography>
+                    <Typography sx={{ border: 1, pl: .5, mt: .2, py: .2, borderColor: '#CDD7E1', color: 'grey' }}>
+                        No asset from the selected complaint department has been added under the department section.</Typography>
                 ) : (
                     <Autocomplete
                         sx={{
@@ -96,7 +115,7 @@ const CmAssetList = ({ assetz, setAssetz, complaint_dept_secslno, setItem_slno, 
                             option.item_name === value.item_name && option.item_asset_no === value.item_asset_no
                         }
                         getOptionLabel={option =>
-                            option.item_asset_no ? `${option.item_name}(${option.item_asset_no}/${option.item_asset_no_only.toString().padStart(6, '0')})` : option.item_name || ''
+                            option.item_asset_no ? `${option.item_asset_no}/${option.item_asset_no_only.toString().padStart(6, '0')} - ${option.item_name}` : option.item_name || ''
                         }
                         options={assetX}
                     />)}

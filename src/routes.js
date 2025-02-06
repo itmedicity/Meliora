@@ -7,7 +7,7 @@ const Administrtion = React.lazy(() => import('../src/views/Administration/Test'
 const DepartmentMast = React.lazy(() => import('./views/Master/Department/DepartmentMast'))
 const DepartmentSectionMast = React.lazy(() => import('./views/Master/DepartmentSectionMast/DeptSectionMast'))
 const ComplaintDepartment = React.lazy(() => import('./views/Master/ComplaintDepartment/ComplaintDeptMast'))
-const ComplaintRegister = React.lazy(() => import('./views/ComManagement/ComplaintRegister/ComplaintRegistrMast'))
+const ComplaintRegister = React.lazy(() => import('./views/ComManagement/ComplaintRegisterMain/TicketRegisterMain'))
 const UserGroupMast = React.lazy(() => import('./views/Master/UserGroupMaster/UserGroupMast'))
 const ModuleMast = React.lazy(() => import('./views/Master/ModuleMaster/ModuleMaster'))
 const UserGroupRights = React.lazy(() => import('./views/Master/UserGroupRight/UserGroupRight'))
@@ -17,7 +17,7 @@ const ComplaintType = React.lazy(() => import('./views/Master/ComplaintType/Comp
 const HicPolicy = React.lazy(() => import('./views/Master/HicPolicy/HicPolicyMast'));
 const moduleuserRight = React.lazy(() => import('./views/Master/ModuleUserRight/ModuleUserRight'))
 const assignComplaint = React.lazy(() => import('./views/ComManagement/AssignComplaint/AssignComplaintTable'))
-const ComplaintList = React.lazy(() => import('./views/ComManagement/ComplaintList'))
+const DepartmentAssets = React.lazy(() => import('./views/AssetManagment/DepartmentalAsset/DepartmentAssetMain'))
 const AssetType = React.lazy(() => import('./views/Master/AssetMasters/AssetType/AssetTypeMaster'))
 const ItemType = React.lazy(() => import('./views/Master/AssetMasters/ItemType/ItemTypeMast'))
 const ItemCategory = React.lazy(() => import('./views/Master/AssetMasters/Category/CategoryMaster'))
@@ -55,7 +55,7 @@ const Reports = React.lazy(() => import('./Menus/Reports'))
 const DietReport = React.lazy(() => import('./views/Report/DietReport/DietTypeWise'))
 const NusrseStationReport = React.lazy(() => import('./views/Report/DietReport/NurseStationWise'))
 const PatientReport = React.lazy(() => import('./views/Report/DietReport/PatientWise'))
-const DirectComplaintReg = React.lazy(() => import('./views/ComManagement/DirectCmRegister/DirectComplaintReg'))
+const DirectComplaintReg = React.lazy(() => import('./views/ComManagement/DirectTicketRegistrationMain/DirectTicketMainTab'))
 const MonthlyReport = React.lazy(() => import('./views/Report/DietReport/MonthlyReport'))
 const TotalAdmisson = React.lazy(() => import('./views/WeWork/WeworkTaotalAdmission/TotalAdmisson'))
 const DamaCount = React.lazy(() => import('./views/WeWork/Damacount/DamaCount'))
@@ -98,9 +98,9 @@ const OMTableMast = React.lazy(() => import('./views/Master/RequestManagement/OM
 const OMEmpMapping = React.lazy(() => import('./views/Master/RequestManagement/OMEmpMap/OMEmpMapMast'))
 const ManualList = React.lazy(() => import('./views/Manual/ManualList'))
 const ComEmpMapping = React.lazy(() => import('./views/Master/ComEMPMapping/ComEmpMapping'))
-const ComListSupervisor = React.lazy(() => import('./views/ComManagement/ComplaintListSupervisor/SuperisorList'))
+const AssetStockDetails = React.lazy(() => import('./views/AssetManagment/StockDetails/StockMain'))
 const ComPriorityMast = React.lazy(() => import('./views/Master/CompPriority/ComPriorityMast'))
-const RegistredCompList = React.lazy(() => import('./views/ComManagement/RegistredComplaintList/RegistredComList'))
+const AssetDashboardMain = React.lazy(() => import('./views/AssetManagment/DasboardMain/DahboardMain'))
 const CmsReportDeptWise = React.lazy(() => import('./views/Report/ComplaintReport/DeptWiseReport'))
 const CampusMaster = React.lazy(() => import('./views/Master/RoomMasters/CampusMaster/CampusMaster'))
 const BuildingMast = React.lazy(() => import('./views/Master/RoomMasters/BuildingMast/BuildingMast'))
@@ -131,23 +131,22 @@ const UnitOfMeasurement = React.lazy(() => import('./views/Master/AssetMasters/A
 const AssetModel = React.lazy(() => import('./views/Master/AssetMasters/AssetModel/AssetModel'))
 const AssetSubModel = React.lazy(() => import('./views/Master/AssetMasters/AssetSubModel/AssetSubModel'))
 const RoomAsset = React.lazy(() => import('./views/RoomManagement/DashBoard/DashBoardRoomAsset'))
-const ItemCreation = React.lazy(() => import('./views/AssetManagment/ItemCreation/ItemCreationMast'))
+const ItemCreation = React.lazy(() => import('./views/AssetManagment/ItemOpeningEntry/OpenEntryMain'))
 const DashboardBackup = React.lazy(() => import('./views/ItManagement/DashboardBackup/Newdashboard'))
 const PasswordManagement = React.lazy(() => import('./views/ItManagement/PasswordManagement/PasswordManagement'))
 const BackupChecks = React.lazy(() => import('./views/ItManagement/BackupChecksAndMonitoring/BackupChecks'))
 const SimType = React.lazy(() => import('./views/Master/ItMasters/BillManagement/SimType/SimTypeMaster'))
 const WifiManageMenT = React.lazy(() => import('./views/ItManagement/WifiManagement/WifiManageMentMains'))
 const CustodianDeptmt = React.lazy(() => import('./views/Master/AssetMasters/CustodianDepartment/CustodianDeptMast'))
-const AssetItemListView = React.lazy(() => import('./views/AssetManagment/ItemListView/ItemListViewDept'))
+const AssetItemListView = React.lazy(() => import('./views/AssetManagment/AssetItemDetails/DetailMain'))
 const PasswordManagementCredentialType = React.lazy(() => import('./views/Master/ItMasters/passwordManagement/PasswordCredentialType'))
 const BackupScheduleType = React.lazy(() => import('./views/Master/BackupMaster/ScheduleType/ScheduleTypeMast'))
 const BackupScheduleTime = React.lazy(() => import('./views/Master/BackupMaster/ScheduleTime/ScheduleTimeMast'))
 const Backupmast = React.lazy(() => import('./views/Master/BackupMaster/BackupDetails/BackupMast'))
 const AssetRackMast = React.lazy(() => import('./views/Master/AssetMasters/AssetRackMast/AssetRackMaster'))
-const AssetDeptTransfer = React.lazy(() => import('./views/AssetManagment/DepartmentTransfer/DeptTransfer'))
 const TaskManagementMainDashboard = React.lazy(() => import('./views/TaskManagement/TaskDashboard/TmDashboardMain'))
 const ITSimDetails = React.lazy(() => import('./views/ItManagement/SimDetails/SimDetails'))
-const AssetDepartmentTransfer = React.lazy(() => import('./views/AssetManagment/DepartmentTransfer/DeptTransfer'))
+const AssetDepartmentTransfer = React.lazy(() => import('./views/AssetManagment/AssetTransfer/AssetTransferMain'))
 const AssetItemReport = React.lazy(() => import('./views/Report/AssetReport/AllItemsReports'))
 const RequestRegister = React.lazy(() => import('./views/RequestManagement/RequestRegister/ReqRegistration'))
 const CRFIncharge = React.lazy(() => import('./views/RequestManagement/InchargeApproval/InchargeApprovalTable'))
@@ -214,17 +213,17 @@ const qiWaitingTime = React.lazy(() => import('./views/QualityIndicatorNew/Waiti
 const TMOverdueCountMaster = React.lazy(() => import('./views/Master/TaskManageMaster/TaskDuedateCount'))
 const TaskPerformanceSheet = React.lazy(() => import('./views/TaskManagement/PerformanceSheet/PerformanceMain'))
 const TaskPerformanceSlide = React.lazy(() => import('./views/TaskManagement/PerformanceMenu/MainPerformane'))
-// const TaskPerformanceSlides = React.lazy(() => import('./views/TaskManagement/PerformanceMenu/MainPerformane'))
 const UserNotAcknowldged = React.lazy(() => import('./views/Report/CrmReport/UserNotAckldgedList'))
 const PurchaseCRFReport = React.lazy(() => import('./views/Report/CrmReport/PurchaseReport'))
 const AllCRFReport = React.lazy(() => import('./views/Report/CrmReport/AllCRFReport'))
 const feedbackForm = React.lazy(() => import('./views/FeedBack/Feedback'))
 const deptAcess = React.lazy(() => import('./views/Master/QualityIndicatorMaster/QIEmpDeptAccessMast/DeptAcessMast'))
-const AssetCondemnationList = React.lazy(() => import('./views/AssetManagment/CondemnationList/CondemnationList'))
 const AssetServiceList = React.lazy(() => import('./views/AssetManagment/ServiceListSpare/SpareSErviceList'))
-const AllCRFReportWithPO = React.lazy(() => import('./views/Report/CrmReport/CRFAllReportWithPO'))
+const AssetCondemnationList = React.lazy(() => import('./views/AssetManagment/CondemnationList/CondemnationList'))
 const PmDueList = React.lazy(() => import('./views/AssetManagment/PmOverDueList/PmOverdueList'))
-const CmHoldReasonMast = React.lazy(() => import('./views/Master/ComplaintHoldReason/HoldReasonMaster'))
+const AllCRFReportWithPO = React.lazy(() => import('./views/Report/CrmReport/CRFAllReportWithPO'))
+const TicketDashboardz = React.lazy(() => import('./views/ComManagement/Dashboard/TicketManagementCmDeptMain'))
+const TicketHoldReasonMast = React.lazy(() => import('./views/Master/ComplaintHoldReason/HoldReasonMaster'))
 
 
 
@@ -247,7 +246,7 @@ const routes = [
   { path: '/Home/HicPolicy', exact: true, name: 'Hic Policy', component: HicPolicy },
   { path: '/Home/ModuleUserRight', exact: true, name: 'Module User Right', component: moduleuserRight },
   { path: '/Home/AssignComplaint', exact: true, name: 'Assign Complaint', component: assignComplaint },
-  { path: '/Home/ComplaintList', exact: true, name: 'Compliant List', component: ComplaintList },
+  { path: '/Home/DepartmentAssets', exact: true, name: 'Compliant List', component: DepartmentAssets },
   { path: '/Home/AssetType', exact: true, name: 'Asset Type', component: AssetType },
   { path: '/Home/ItemType', exact: true, name: 'Item Type', component: ItemType },
   { path: '/Home/ItemCategory', exact: true, name: 'Item Category', component: ItemCategory },
@@ -329,9 +328,9 @@ const routes = [
   { path: '/Home/OMEmpMapping', exact: true, name: 'OM Emp Mapping', component: OMEmpMapping },
   { path: '/Home/Manual', exact: true, name: 'Manual List', component: ManualList },
   { path: '/Home/ComplaintEmpMap', exact: true, name: 'Compalint EMP Mapping', component: ComEmpMapping },
-  { path: '/Home/Complaint/Supervisor', exact: true, name: 'Compalint List Supervisor', component: ComListSupervisor },
+  { path: '/Home/AssetStockDetails', exact: true, name: 'Asset Stock Details', component: AssetStockDetails },
   { path: '/Home/CompPriority', exact: true, name: 'Compalint Priority Master', component: ComPriorityMast },
-  { path: '/Home/RegistredCompList', exact: true, name: 'Registred Compalint List', component: RegistredCompList },
+  { path: '/Home/AssetDashboardMain', exact: true, name: 'Registred Compalint List', component: AssetDashboardMain },
   { path: '/Home/CmsReportDeptWise', exact: true, name: 'Registred Compalint List', component: CmsReportDeptWise },
   { path: '/Home/Campus', exact: true, name: 'Campus master', component: CampusMaster },
   { path: '/Home/BuildingMast', exact: true, name: 'Building master', component: BuildingMast },
@@ -376,7 +375,6 @@ const routes = [
   { path: '/Home/BackupMast', exact: true, name: 'Backup Details', component: Backupmast },
   { path: '/Home/CredentialType', exact: true, name: 'Credential Type', component: PasswordManagementCredentialType },
   { path: '/Home/AssetRackMast', exact: true, name: 'Asset Rack Master', component: AssetRackMast },
-  { path: '/Home/DeptTransfer', exact: true, name: 'Asset Rack Master', component: AssetDeptTransfer },
   { path: '/Home/TaskManagementDashboard', exact: true, name: 'TaskManagement Dashboard', component: TaskManagementMainDashboard },
   { path: '/Home/TaskManagementCreateTask', exact: true, name: 'TaskManagement Create Task', component: TaskManagementMainCreateTask },
   { path: '/Home/ItSimdetails', exact: true, name: 'It Sim Details', component: ITSimDetails },
@@ -451,11 +449,12 @@ const routes = [
   { path: '/Home/AllCRFReport', exact: true, name: 'All CRF Report', component: AllCRFReport },
   { path: '/Home/feedback', exact: true, name: 'Feedback', component: feedbackForm },
   { path: '/Home/QIdeptAccess', exact: true, name: 'QI Department Access Mast', component: deptAcess },
-  { path: '/Home/AssetCondemnationList', exact: true, name: 'Spare Condemnation List', component: AssetCondemnationList },
   { path: '/Home/AssetServiceList', exact: true, name: 'Spare Service List', component: AssetServiceList },
-  { path: '/Home/AllCRFReportWithPO', exact: true, name: 'All CRF Report With PO', component: AllCRFReportWithPO },
+  { path: '/Home/AssetCondemnationList', exact: true, name: 'Spare Condemnation List', component: AssetCondemnationList },
   { path: '/Home/PmDueList', exact: true, name: 'PM Due List in Asset', component: PmDueList },
-  { Path: '/Home/CmHoldReasonMast', exact: true, name: 'Hold Reason Master', component: CmHoldReasonMast }
+  { path: '/Home/AllCRFReportWithPO', exact: true, name: 'All CRF Report With PO', component: AllCRFReportWithPO },
+  { path: '/Home/TicketDashboards', exact: true, name: 'Ticket Dashboards', component: TicketDashboardz },
+  { Path: '/Home/TicketHoldReason', exact: true, name: 'Ticket Hold Reason Master', component: TicketHoldReasonMast },
 
 ]
 

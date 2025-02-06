@@ -1,142 +1,142 @@
-import React, { useEffect, memo, useCallback, useState, Fragment } from 'react'
-import { Box } from '@mui/material'
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
-import CardMasterClose from 'src/views/Components/CardMasterClose';
-import { AgGridReact } from 'ag-grid-react'
-import 'ag-grid-community/dist/styles/ag-grid.css'
-import 'ag-grid-community/dist/styles/ag-theme-alpine.css'
-import { Paper } from '@mui/material'
-import CustomBackDrop from 'src/views/Components/CustomBackDrop';
-import { axioslogin } from 'src/views/Axios/Axios';
+import React, { memo, useCallback, } from 'react'
+import { Box, Paper } from '@mui/material'
 import { useSelector } from 'react-redux'
-import _ from 'underscore';
-import { warningNotify } from 'src/views/Common/CommonCode';
+import { CssVarsProvider, Tab, TabList, TabPanel, Tabs, } from '@mui/joy';
+import TextComponent from 'src/views/Components/TextComponent';
+import CusIconButton from 'src/views/Components/CusIconButton';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import CloseIcon from '@mui/icons-material/Close'
+import SpareCondemnation from './SpareCondemnation';
+import AssetCondemnation from './AssetCondemnation';
 
 const CondemnationList = () => {
-    const history = useHistory()
-    const [open, setOpen] = useState(false)
-    const [tableData, setTableData] = useState([])
-    const deptsecid = useSelector((state) => state.LoginUserData.empsecid, _.isEqual)
+    const empdept = useSelector((state) => {
+        return state.LoginUserData.empdept
+    })
 
-    useEffect(() => {
-        setOpen(true)
-        const getCondemnatnList = async (deptsecid) => {
-            const result = await axioslogin.get(`/SpareCondemService/CondemnationList/${deptsecid}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                const dataaa = data?.map((val) => {
-                    const obj = {
-                        ...val,
-                        spareNo: val.spare_asset_no + '/' + val.spare_asset_no_only.toString().padStart(6, '0'),
-                    }
-                    return obj
-                })
-                setTableData(dataaa);
-                setOpen(false)
-            }
-            else {
-                setTableData([])
-                setOpen(false)
-                warningNotify("No Spare under Condemnation!!!!")
-            }
-        }
-        getCondemnatnList(deptsecid)
-    }, [deptsecid])
-
-    //column title setting
-    const [column] = useState([
-        // {
-        //     headerName: 'Add Details', minWidth: 120, cellRenderer: (params) => {
-        //         return <IconButton onClick={() => AddDetails(params)}
-        //             sx={{ color: editicon, paddingY: 0.5 }} >
-        //             <CustomeToolTip title="Add Details">
-        //                 <DescriptionIcon />
-        //             </CustomeToolTip>
-        //         </IconButton>
-        //     }
-        // },
-        // {
-        //     headerName: 'QR Code', minWidth: 80, cellRenderer: (params) => {
-        //         return <IconButton onClick={() => modeldisplay(params)}
-        //             sx={{ color: editicon, paddingY: 0.5 }} >
-        //             <CustomeToolTip title="QR Code">
-        //                 <QrCode2Icon />
-        //             </CustomeToolTip>
-        //         </IconButton>
-        //     }
-        // },
-        { headerName: "Sl No", field: "slno", minWidth: 50 },
-        { headerName: "Item Name", field: "item_name", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
-        { headerName: "Category", field: "category_name", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
-        { headerName: "Spare No", field: "spareNo", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
-
-    ])
-
-
+    const history = useHistory();
     const backtoSetting = useCallback(() => {
-
-        history.push('/Home')
-    }, [history])
-
-    const rowHeight = 35
-    const headerHeight = 30
-    const defaultColDef = {
-    }
-    const onGridReady = (params) => {
-        params.api.sizeColumnsToFit()
-    }
-
-    const rowStyle = {
-        fontFamily: [
-            '-apple-system',
-            'BlinkMacSystemFont',
-            '"Segoe UI"',
-            'Roboto',
-            '"Helvetica Neue"',
-            'Arial',
-            'sans-serif',
-            '"Apple Color Emoji"',
-            '"Segoe UI Emoji"',
-            '"Segoe UI Symbol"',
-        ].join(','),
-    }
+        history.push('/Home');
+    }, [history]);
 
     return (
-
-
-        <Fragment>
-            <CardMasterClose
-                title="Spare Condemnation List"
-                close={backtoSetting}
-            >
-                <CustomBackDrop open={open} text="Please Wait" />
-                <Box sx={{ pt: 1 }}>
-                    <Paper elevation={0}>
-                        <Box
-                            className="ag-theme-alpine ListItemScrol"
+        <Paper sx={{ borderRadius: 0, height: '90vh' }}>
+            <Box>
+                <CssVarsProvider>
+                    <Box sx={{ flex: 1, display: 'flex', borderBottom: 1, borderColor: '#D0D0D0' }}>
+                        <TextComponent
                             sx={{
-                                height: 760,
-                                width: "100%"
+                                color: '#5A676C',
+                                fontWeight: 510,
+                                flex: 1,
+                                m: 0.5,
+                                pl: 1,
+                                fontFamily: 'Arial'
+                            }}
+                            text="Condemnation List"
+                        />
+                        <Box>
+                            <CusIconButton
+                                size="sm"
+                                variant="outlined"
+                                color="primary"
+                                onClick={backtoSetting}
+                            >
+                                <CloseIcon fontSize="small" />
+                            </CusIconButton>
+                        </Box>
+                    </Box>
+                    <Tabs
+                        size="sm"
+                        sx={{
+                            display: 'flex',
+                            bgcolor: 'white',
+                        }}
+                    >
+                        <TabList
+                            sx={{
+                                pt: 1,
+                                justifyContent: 'center',
+                                [`&& .MuiTabs-root`]: {
+                                    flex: 'initial',
+                                    bgcolor: 'white',
+                                    '&:hover': {
+                                        bgcolor: 'white',
+                                    },
+                                    [`&.Mui-selected`]: {
+                                        color: 'primary.plainColor',
+                                        borderBottom: 1.5,
+                                        '&::after': {
+                                            height: 20,
+                                            borderTopLeftRadius: 3,
+                                            borderTopRightRadius: 3,
+                                            bgcolor: 'primary.500',
+                                        },
+                                    },
+                                },
                             }}
                         >
-                            <AgGridReact
-                                columnDefs={column}
-                                rowData={tableData}
-                                defaultColDef={defaultColDef}
-                                rowHeight={rowHeight}
-                                headerHeight={headerHeight}
-                                rowDragManaged={true}
-                                animateRows={true}
-                                onGridReady={onGridReady}
-                                rowSelection="multiple"
-                                rowStyle={rowStyle}
-
-                            ></AgGridReact>
-                        </Box>
-                    </Paper>
-                </Box>
-            </CardMasterClose>
-        </Fragment>
+                            <Box sx={{ flex: 1, display: 'flex', gap: 1, mb: 1, ml: 1 }}>
+                                <Tab
+                                    label="Item Entries"
+                                    value={0}
+                                    disableIndicator
+                                    sx={{
+                                        color: '#5D6268',
+                                        fontWeight: 600,
+                                        p: 0,
+                                        border: 1,
+                                        width: 180,
+                                        borderColor: '#EAEFF2',
+                                        transition: 'all 0.3s ease',
+                                        '&.Mui-selected': {
+                                            color: 'white',
+                                            backgroundColor: '#6B5F5A ',
+                                            boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.2)',
+                                            transform: 'scale(1.02)',
+                                        },
+                                    }}
+                                >
+                                    Spare
+                                </Tab>
+                                <Tab
+                                    label="Asset"
+                                    value={1}
+                                    disableIndicator
+                                    sx={{
+                                        color: '#5D6268',
+                                        fontWeight: 600,
+                                        p: 0,
+                                        border: 1,
+                                        width: 180,
+                                        borderColor: '#EAEFF2',
+                                        transition: 'all 0.3s ease',
+                                        '&.Mui-selected': {
+                                            color: 'white',
+                                            backgroundColor: '#6B5F5A ',
+                                            boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.2)',
+                                            transform: 'scale(1.02)',
+                                        },
+                                    }}
+                                >
+                                    Asset
+                                </Tab>
+                            </Box>
+                        </TabList>
+                        <TabPanel value={0} sx={{ p: 0, flexGrow: 1, }}>
+                            <Box sx={{ flexGrow: 1, }}>
+                                < SpareCondemnation empdept={empdept} />
+                            </Box>
+                        </TabPanel>
+                        <TabPanel value={1} sx={{ p: 0, flexGrow: 1, }}>
+                            <Box sx={{ flexGrow: 1, }}>
+                                <AssetCondemnation empdept={empdept} />
+                            </Box>
+                        </TabPanel>
+                    </Tabs>
+                </CssVarsProvider>
+            </Box>
+        </Paper>
     )
 }
 

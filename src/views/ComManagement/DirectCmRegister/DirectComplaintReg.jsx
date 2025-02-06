@@ -1,46 +1,45 @@
 import { Box, Paper, Grid, Typography } from '@mui/material';
 import React, { Fragment, useCallback, useEffect, useMemo, useState, memo } from 'react'
 import { useHistory } from 'react-router-dom';
-import CardMaster from 'src/views/Components/CardMaster'
 import { useDispatch, useSelector } from 'react-redux'
 import { getComplaintDept } from 'src/redux/actions/ComplaintDept.action'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
-import { getRequesttype } from 'src/redux/actions/RequestType.action';
 import { getComplainttype } from 'src/redux/actions/ComplaintType.action';
 import CustomTextarea from 'src/views/Components/CustomTextarea'
 import { getHicpolicy } from 'src/redux/actions/HicPolicy.action'
 import ComplaintCheckBox from '../ComplaintRegister/ComplaintCheckBox'
 import DirectComplaintTable from './DirectComplaintTable';
-import { Avatar, Button, Chip, CssVarsProvider, Input, Tooltip, Typography as Typo } from '@mui/joy'
-import { getReqRegistListByDept } from 'src/redux/actions/ReqRegisterListByDept.action';
+import { Avatar, Button, CssVarsProvider, Input, Tooltip, Typography as Typo } from '@mui/joy'
 import { getCompliantRegTable } from 'src/redux/actions/ComplaintRegTable.action';
 import { getComplaintSlno } from 'src/views/Constant/Constant'
 import CustomBackDrop from 'src/views/Components/CustomBackDrop'
 import CmRoomNameTypeList from 'src/views/CommonSelectCode/CmRoomNameTypeList';
 import CmComplaintLocation from 'src/views/CommonSelectCode/CmComplaintLocation';
 import { getDeptsection } from 'src/redux/actions/DeptSection.action';
-import SearchSharpIcon from '@mui/icons-material/SearchSharp';
-import ArrowDropDownSharpIcon from '@mui/icons-material/ArrowDropDownSharp';
 import { getRoomsNameNdTypeList } from 'src/redux/actions/CmRoomNameNdTypeList.action';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import Done from '@mui/icons-material/Done';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SquareIcon from '@mui/icons-material/Square';
 import CommentIcon from '@mui/icons-material/Comment';
 import MarkUnreadChatAltIcon from '@mui/icons-material/MarkUnreadChatAlt';
-import EngineeringIcon from '@mui/icons-material/Engineering';
 import imageCompression from 'browser-image-compression';
-import FileCopyIcon from '@mui/icons-material/FileCopy';
-import CloseIcon from '@mui/icons-material/Close';
 import CmAssetList from '../CmComponent/CmAssetList';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-
+import { getCustodianDetails } from 'src/api/AssetApis';
+import { useQuery } from 'react-query';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
+import ClearSharpIcon from '@mui/icons-material/ClearSharp';
+import FileViewSingle from 'src/views/Components/FileViewSingle'
+import UploadFileRoundedIcon from '@mui/icons-material/UploadFileRounded';
+import PersonSharpIcon from '@mui/icons-material/PersonSharp';
+import CardMastComplaint from 'src/views/Components/CardMastComplaint';
+import Switch from '@mui/joy/Switch';
 
 const DirectComplaintReg = () => {
-
 
     const dispatch = useDispatch();
     /*** Initializing */
@@ -57,15 +56,11 @@ const DirectComplaintReg = () => {
     const [edit, setEdit] = useState(0);
     //state for complaintdescription
     const [desc, setdesc] = useState('')
-    //state for request type
-    const [ReqType, setReqType] = useState(false)
-    //state for complaint type
-    const [cotype, setcotype] = useState(false)
-    //state for complaint department
-    const [codept, setcodept] = useState(null)
-    //state for dep section select box
-    const [depsec, setDepsec] = useState(0)
 
+    // const [ReqType, setReqType] = useState(false)
+    const [cotype, setcotype] = useState(false)
+    const [codept, setcodept] = useState(null)
+    const [depsec, setDepsec] = useState(0)
     const [locationName, setlocationName] = useState("");
     const [complaint_slno, setComplaint] = useState(0)
     const [roomName, setRoomName] = useState(null)
@@ -80,15 +75,17 @@ const DirectComplaintReg = () => {
     const [deletedFiles, setDeletedFiles] = useState([]);
     const [newlyAddedAssets, setNewlyAddedAssets] = useState([])
     const [selectFile, setSelectFile] = useState([]);
-    const [insertId, setinsertId] = useState(complaint_slno)
     const [assetData, setassetData] = useState(0)
     const [asset_dept, setasset_dept] = useState('')
+    const [custodianDept, setcustodianDept] = useState(0)
+    const [previewFile, setPreviewFile] = useState({ url: "", type: "" });
+    const [imageShow, setImageShow] = useState(false)
+    const [imageShowFlag, setImageShowFlag] = useState(0)
 
-    //redux for geting login id
+
     const id = useSelector((state) => {
         return state.LoginUserData.empid
     })
-
 
     useEffect(() => {
         getComplaintSlno().then((val) => {
@@ -110,11 +107,10 @@ const DirectComplaintReg = () => {
         }
     }, [codept, history, logOut_time])
 
-    //dispatching redux data hic,complaintype,requestype,complaintdept
     useEffect(() => {
         dispatch(getHicpolicy());
         dispatch(getComplaintDept());
-        dispatch(getRequesttype());
+        // dispatch(getRequesttype());
         dispatch(getDeptsection())
         if (codept !== null) {
             dispatch(getComplainttype(codept));
@@ -124,7 +120,7 @@ const DirectComplaintReg = () => {
     const state = useSelector((state) => {
         return {
             complaintdeptdata: state.getComplaintDept.complaintdeptList || 0,
-            requesttypedata: state.getRequesttype.requesttypeList || 0,
+            // requesttypedata: state.getRequesttype.requesttypeList || 0,
             complainttype: state.getComplainttype.complainttypeList || 0
             // hicpolicy: state.getHicpolicy.hicpolicyList || 0,
         }
@@ -196,12 +192,13 @@ const DirectComplaintReg = () => {
         // const data = params.api.getSelectedRows()
         const { complaint_dept_secslno, complaint_hicslno,
             rm_room_slno, priority_reason, complaint_typeslno, priority_check,
-            complaint_request_slno, complaint_deptslno, complaint_slno, complaint_desc } = val
+            // complaint_request_slno,
+            complaint_deptslno, complaint_slno, complaint_desc } = val
         setComplaint(complaint_slno)
         setDepsec(complaint_dept_secslno)
-        setReqType(complaint_request_slno)
+        // setReqType(complaint_request_slno)
         setcotype(complaint_typeslno)
-        // setLocation(cm_location)
+
         setRoomName(rm_room_slno)
         setChechHic(complaint_hicslno === 1 ? true : false)
         setpriority(priority_check)
@@ -226,10 +223,11 @@ const DirectComplaintReg = () => {
             edit_user: id,
             priority_reason: priority === 1 ? priorreason : null,
             complaint_slno: complaint_slno,
-            rm_room_slno: roomName === '' ? null : roomName,
+            rm_room_slno: roomName === 0 ? null : roomName,
+            cm_asset_status: assetArray.length !== 0 ? 1 : 0
         }
-    }, [desc, depsec, codept, priorreason, cotype, priority, checkHic, complaint_slno, roomName, id])
-    //insert data
+    }, [desc, depsec, codept, priorreason, cotype, priority, checkHic, complaint_slno, roomName, assetArray, id])
+
     const postdata = useMemo(() => {
         return {
             complaint_slno: complaint_slno,
@@ -247,9 +245,10 @@ const DirectComplaintReg = () => {
             locationName: locationName,
             priority: priority === 1 ? "Priority Ticket" : "Normal Ticket",
             rm_room_slno: roomName === '' ? null : roomName,
-        }
-    }, [desc, depsec, roomName, cotype, priority, priorreason, checkHic, complaint_slno, locationName, codept, id])
+            cm_asset_status: assetArray.length !== 0 ? 1 : 0
 
+        }
+    }, [desc, depsec, roomName, cotype, priority, priorreason, checkHic, complaint_slno, locationName, codept, assetArray, id])
 
 
     useEffect(() => {
@@ -293,7 +292,6 @@ const DirectComplaintReg = () => {
 
     const reset = useCallback(() => {
         setComplaint(0)
-        setReqType(false)
         setcotype(false)
         setChechHic(false)
         setpriority(0)
@@ -319,336 +317,231 @@ const DirectComplaintReg = () => {
     }, [])
 
 
-    const submitComplaint = useCallback((e) => {
+
+    const submitComplaint = useCallback(async (e) => {
         e.preventDefault();
         if (codept === null && cotype === false) {
-            infoNotify("Please Select Complaint Department and Complaint type")
+            infoNotify("Please Select Complaint Department and Complaint type");
+            return;
         }
-        else {
-            if (depsec === 0) {
-                infoNotify("Please Select Department Section")
-            }
-            else {
-                if ((cm_am_assetmap_slno !== '' && assetStatus === 0) || (selectedAsset !== '' && assetStatus === 0)) {
-                    infoNotify(
-                        <>please click on  &apos; <AddCircleIcon /> &apos;  to add Asset details</>
-                    );
-                } else {
-                    setOpen(true)
-                    const InsertFun = async (postdata) => {
-                        const result = await axioslogin.post('/directcmreg', postdata);
-                        return result.data
-                    }
-                    const InsertAsset = async (inserAsset) => {
-                        const result = await axioslogin.post('/complaintreg/insertAssetArray', inserAsset);
-                        return result.data
-                    }
-                    const updateFun = async (patchdata) => {
-                        const result = await axioslogin.patch('/directcmreg', patchdata);
-                        return result.data
-                    }
-                    const updateAsset = async (updateAssetz) => {
-                        const result = await axioslogin.post('/complaintreg/insertAssetArray', updateAssetz);
-                        return result.data
-                    }
-                    const inactiveAsset = async (assetinactive) => {
-                        const result = await axioslogin.patch('/complaintreg/assetinactive', assetinactive);
-                        return result.data
-                    }
-                    const InsertFile = async (selectFile, insertId) => {
-                        try {
-                            const formData = new FormData();
-                            formData.append('id', insertId);
-                            for (const file of selectFile) {
-                                if (file.type.startsWith('image')) {
-                                    const compressedFile = await handleImageUpload(file);
-                                    formData.append('files', compressedFile, compressedFile.name);
-                                } else {
-                                    formData.append('files', file, file.name);
-                                }
-                            }
-                            // Use the Axios instance and endpoint that matches your server setup
-                            const uploadResult = await axioslogin.post('/complaintFileUpload/uploadFile/Complaint', formData, {
-                                headers: {
-                                    'Content-Type': 'multipart/form-data',
-                                },
-                            });
-                            return uploadResult.data;
-                        } catch (error) {
-                            warningNotify('An error occurred during file upload.');
-                        }
-                    };
+        if ((cm_am_assetmap_slno !== '' && assetStatus === 0) || (selectedAsset !== '' && assetStatus === 0)) {
+            infoNotify(
+                <>Please click on  &apos; <AddCircleIcon /> &apos;  to add Asset details</>
+            );
+            return;
+        }
 
-                    if (edit === 1) {
-                        updateFun(patchdata).then((value) => {
-                            const { message, success } = value
-                            if (success === 2) {
-                                if (newlyAddedAssets.length !== 0) {
-                                    if (deletedFiles.length !== 0) {
-                                        inactiveAsset(assetinactive).then((value) => {
-                                            const { success } = value
-                                            if (success === 1) {
-                                                updateAsset(updateAssetz)
-                                                const { success } = value
-                                                if (success === 1) {
-                                                    // succesNotify("Complaint Updated Successfully")
-                                                    // setCount(count + 1);
-                                                    // setOpen(false)
-                                                    // reset()
-                                                    if (selectFile.length !== 0) {
-                                                        InsertFile(selectFile, insertId).then((value) => {
-                                                            const { success, message } = value
-                                                            if (success === 1) {
-                                                                succesNotify("Complaint Updated Successfully")
-                                                                setCount(count + 1);
-                                                                setOpen(false)
-                                                                reset()
-                                                            }
-                                                            else {
-                                                                warningNotify(message)
-                                                            }
-                                                        })
-                                                    }
-                                                    else {
-                                                        succesNotify("Complaint Updated Successfully")
-                                                        setCount(count + 1);
-                                                        setOpen(false)
-                                                        reset()
-                                                    }
-                                                }
-                                                else {
-                                                    infoNotify("Unable to add asset details")
+        setOpen(true);
+        const InsertFun = async (postdata) => {
+            const result = await axioslogin.post('/complaintreg', postdata);
+            return result.data;
+        };
+        const InsertAsset = async (inserAsset) => {
+            const result = await axioslogin.post('/complaintreg/insertAssetArray', inserAsset);
+            return result.data;
+        };
 
-                                                }
-                                            }
-                                        })
-                                    }
-                                    else {
-                                        updateAsset(updateAssetz).then((value) => {
-                                            const { success } = value
-                                            if (success === 1) {
-                                                // succesNotify("Complaint Updated Successfully")
-                                                // setCount(count + 1);
-                                                // setOpen(false)
-                                                // reset()
-                                                if (selectFile.length !== 0) {
-                                                    InsertFile(selectFile, insertId).then((value) => {
-                                                        const { success, message } = value
-                                                        if (success === 1) {
-                                                            succesNotify("Complaint Updated Successfully")
-                                                            setCount(count + 1);
-                                                            setOpen(false)
-                                                            reset()
-                                                        }
-                                                        else {
-                                                            warningNotify(message)
-                                                        }
-                                                    })
-                                                }
-                                                else {
-                                                    succesNotify("Complaint Updated Successfully")
-                                                    setCount(count + 1);
-                                                    setOpen(false)
-                                                    reset()
-                                                }
-                                            }
-                                            else {
-                                                infoNotify("Unable to add asset details")
+        const updateAsset = async (updateAssetz) => {
+            const result = await axioslogin.post('/complaintreg/insertAssetArray', updateAssetz);
+            return result.data;
+        };
 
-                                            }
-                                        })
-                                    }
-                                }
-                                else {
-                                    if (deletedFiles.length !== 0) {
-                                        inactiveAsset(assetinactive).then((value) => {
-                                            const { success } = value
-                                            if (success === 1) {
-                                                // succesNotify("Complaint Updated Successfully")
-                                                // setCount(count + 1);
-                                                // setOpen(false)
-                                                // reset()
-                                                if (selectFile.length !== 0) {
-                                                    InsertFile(selectFile, insertId).then((value) => {
-                                                        const { success, message } = value
-                                                        if (success === 1) {
-                                                            succesNotify("Complaint Updated Successfully")
-                                                            setCount(count + 1);
-                                                            setOpen(false)
-                                                            reset()
-                                                        }
-                                                        else {
-                                                            warningNotify(message)
-                                                        }
-                                                    })
-                                                }
-                                                else {
-                                                    succesNotify("Complaint Updated Successfully")
-                                                    setCount(count + 1);
-                                                    setOpen(false)
-                                                    reset()
-                                                }
-                                            }
-                                            else {
+        const updateFun = async (patchdata) => {
+            const result = await axioslogin.patch('/complaintreg', patchdata);
+            return result.data;
+        };
 
-                                                infoNotify("Unable to delete asset details")
-                                            }
-                                        })
-                                    }
-                                    else {
-                                        // succesNotify(message)
-                                        // setCount(count + 1);
-                                        // reset()
-                                        // setOpen(false)
-                                        if (selectFile.length !== 0) {
-                                            InsertFile(selectFile, insertId).then((value) => {
-                                                const { success, message } = value
-                                                if (success === 1) {
-                                                    succesNotify("Complaint Updated Successfully")
-                                                    setCount(count + 1);
-                                                    setOpen(false)
-                                                    reset()
-                                                }
-                                                else {
-                                                    warningNotify(message)
-                                                }
-                                            })
-                                        }
-                                        else {
-                                            succesNotify("Complaint Updated Successfully")
-                                            setCount(count + 1);
-                                            setOpen(false)
-                                            reset()
-                                        }
-                                    }
+        const inactiveAsset = async (assetinactive) => {
+            const result = await axioslogin.patch('/complaintreg/assetinactive', assetinactive);
+            return result.data;
+        };
 
-                                }
-                            }
-                            else {
-                                infoNotify(message)
-                                setOpen(false)
-                            }
-                        })
-                        updateFun(patchdata)
-                    }
+        const deleteInsertedData = async (insertId) => {
+            const result = await axioslogin.delete(`/complaintreg/deleteTicket/${insertId}`);
+            return result.data;
+        };
 
-                    else {
-                        InsertFun(postdata).then((value) => {
-                            const { message, success, insertId } = value
-                            setinsertId(insertId)
-                            if (success === 1) {
-                                if (assetArray.length !== 0) {
-                                    const inserAsset = assetArray && assetArray.map((val) => {
-                                        return {
-                                            cm_complait_slno: insertId,
-                                            cm_am_assetmap_slno: val.item_asset_no_only,
-                                            cm_asset_dept: val.item_asset_no,
-                                            am_item_map_slno: val.am_item_map_slno,
-                                            asset_status: 1,
-                                            create_user: id
-                                        }
-                                    })
-                                    InsertAsset(inserAsset).then((value) => {
-                                        const { success } = value
-                                        if (success === 1) {
-                                            // succesNotify("Complaint Registered Successfully")
-                                            // setCount(count + 1);
-                                            // reset()
-                                            // setOpen(false)
-                                            if (selectFile.length !== 0) {
-                                                InsertFile(selectFile, insertId).then((value) => {
-                                                    const { success, message } = value
-                                                    if (success === 1) {
-                                                        succesNotify("Complaint Updated Successfully")
-                                                        setCount(count + 1);
-                                                        setOpen(false)
-                                                        reset()
-                                                    }
-                                                    else {
-                                                        warningNotify(message)
-                                                    }
-                                                })
-                                            }
-                                            else {
-                                                // succesNotify("Complaint Updated Successfully")
-                                                // setCount(count + 1);
-                                                // setOpen(false)
-                                                // reset()
-                                                if (selectFile.length !== 0) {
-                                                    InsertFile(selectFile, insertId).then((value) => {
-                                                        const { success, message } = value
-                                                        if (success === 1) {
-                                                            succesNotify("Complaint Updated Successfully")
-                                                            setCount(count + 1);
-                                                            setOpen(false)
-                                                            reset()
-                                                        }
-                                                        else {
-                                                            warningNotify(message)
-                                                        }
-                                                    })
-                                                }
-                                                else {
-                                                    succesNotify("Complaint Updated Successfully")
-                                                    setCount(count + 1);
-                                                    setOpen(false)
-                                                    reset()
-                                                }
-                                            }
-                                        }
-                                        else {
-                                            infoNotify("Unable to add asset details")
-                                        }
-                                    })
-                                }
-                                else {
-                                    // succesNotify(message)
-                                    // setCount(count + 1);
-                                    // reset()
-                                    // setOpen(false)
-                                    if (selectFile.length !== 0) {
-                                        InsertFile(selectFile, insertId).then((value) => {
-                                            const { success, message } = value
-                                            if (success === 1) {
-                                                succesNotify("Complaint Updated Successfully")
-                                                setCount(count + 1);
-                                                setOpen(false)
-                                                reset()
-                                            }
-                                            else {
-                                                warningNotify(message)
-                                            }
-                                        })
-                                    }
-                                    else {
-                                        succesNotify("Complaint Updated Successfully")
-                                        setCount(count + 1);
-                                        setOpen(false)
-                                        reset()
-                                    }
-                                }
-                            }
-                            else {
-                                infoNotify(message)
-                                setOpen(false)
-                            }
-                        })
-                        InsertFun(postdata)
+        const InsertFile = async (selectFile, insertId) => {
+            try {
+                const formData = new FormData();
+                formData.append('id', insertId);
+                for (const file of selectFile) {
+                    if (file.type.startsWith('image')) {
+                        const compressedFile = await handleImageUpload(file);
+                        formData.append('files', compressedFile, compressedFile.name);
+                    } else {
+                        formData.append('files', file, file.name);
                     }
                 }
+                const uploadResult = await axioslogin.post('/complaintFileUpload/uploadFile/Complaint', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                });
+                return uploadResult.data;
+            } catch (error) {
+                warningNotify('An error occurred during file upload.');
             }
+        };
 
+        try {
+            if (edit === 1) {
+                const updateResponse = await updateFun(patchdata);
+                const { message, success } = updateResponse;
+                if (success === 2) {
+                    if (newlyAddedAssets.length !== 0) {
+                        if (deletedFiles.length !== 0) {
+                            const inactiveResponse = await inactiveAsset(assetinactive);
+                            const { success } = inactiveResponse;
+                            if (success === 1) {
+                                const assetUpdateResponse = await updateAsset(updateAssetz);
+                                if (assetUpdateResponse.success === 1) {
+                                    if (selectFile.length !== 0) {
+                                        const fileUploadResponse = await InsertFile(selectFile, complaint_slno);
+                                        if (fileUploadResponse.success === 1) {
+                                            succesNotify("Complaint Updated Successfully");
+                                            setCount(count + 1);
+                                            setOpen(false);
+                                            reset();
+                                        } else {
+                                            warningNotify(fileUploadResponse.message);
+                                        }
+                                    } else {
+                                        succesNotify("Complaint Updated Successfully");
+                                        setCount(count + 1);
+                                        setOpen(false);
+                                        reset();
+                                    }
+                                } else {
+                                    infoNotify("Unable to add asset details");
+                                }
+                            }
+                        } else {
+                            const assetUpdateResponse = await updateAsset(updateAssetz);
+                            if (assetUpdateResponse.success === 1) {
+                                if (selectFile.length !== 0) {
+                                    const fileUploadResponse = await InsertFile(selectFile, complaint_slno);
+                                    if (fileUploadResponse.success === 1) {
+                                        succesNotify("Complaint Updated Successfully");
+                                        setCount(count + 1);
+                                        setOpen(false);
+                                        reset();
+                                    } else {
+                                        warningNotify(fileUploadResponse.message);
+                                    }
+                                } else {
+                                    succesNotify("Complaint Updated Successfully");
+                                    setCount(count + 1);
+                                    setOpen(false);
+                                    reset();
+                                }
+                            } else {
+                                infoNotify("Unable to add asset details");
+                            }
+                        }
+                    }
+                    else {
+                        if (deletedFiles.length !== 0) {
+                            const inactiveResponse = await inactiveAsset(assetinactive);
+                            const { success } = inactiveResponse;
+                            if (success === 1) {
+                                if (selectFile.length !== 0) {
+                                    const fileUploadResponse = await InsertFile(selectFile, complaint_slno);
+                                    if (fileUploadResponse.success === 1) {
+                                        succesNotify("Complaint Updated Successfully");
+                                        setCount(count + 1);
+                                        setOpen(false);
+                                        reset();
+                                    } else {
+                                        warningNotify(fileUploadResponse.message);
+                                    }
+                                } else {
+                                    succesNotify("Complaint Updated Successfully");
+                                    setCount(count + 1);
+                                    setOpen(false);
+                                    reset();
+                                }
+                            } else {
+                                infoNotify("Unable to delete asset details");
+                            }
+                        } else {
+
+                            if (selectFile.length !== 0) {
+                                const fileUploadResponse = await InsertFile(selectFile, complaint_slno);
+                                if (fileUploadResponse.success === 1) {
+                                    succesNotify("Complaint Updated Successfully");
+                                    setCount(count + 1);
+                                    setOpen(false);
+                                    reset();
+                                } else {
+                                    warningNotify(fileUploadResponse.message);
+                                }
+                            } else {
+                                succesNotify("Complaint Updated Successfully");
+                                setCount(count + 1);
+                                setOpen(false);
+                                reset();
+                            }
+                        }
+                    }
+                } else {
+                    infoNotify(message);
+                    setOpen(false);
+                }
+            }
+            else {
+                const insertResponse = await InsertFun(postdata);
+                const { message, success, insertId } = insertResponse;
+                if (success === 1) {
+                    try {
+                        if (assetArray.length !== 0) {
+                            const inserAsset = assetArray.map((val) => ({
+                                cm_complait_slno: insertId,
+                                cm_am_assetmap_slno: val.item_asset_no_only,
+                                cm_asset_dept: val.item_asset_no,
+                                am_item_map_slno: val.am_item_map_slno,
+                                asset_status: 1,
+                                create_user: id,
+                            }));
+                            const assetInsertResponse = await InsertAsset(inserAsset);
+                            if (assetInsertResponse.success !== 1) {
+                                throw new Error("Asset insertion failed");
+                            }
+                        }
+                        if (selectFile.length !== 0) {
+                            const fileUploadResponse = await InsertFile(selectFile, insertId);
+                            if (fileUploadResponse.success !== 1) {
+                                infoNotify(fileUploadResponse.message || "File upload failed");
+                                throw new Error("File upload failed");
+                            }
+                        }
+                        succesNotify("Complaint Registered Successfully");
+                        setCount(count + 1);
+                        setOpen(false);
+                        reset();
+                    } catch (error) {
+                        await deleteInsertedData(insertId);
+                        warningNotify(error.message || 'An error occurred during asset or file insertion.');
+                        setOpen(false);
+                    }
+                } else {
+                    infoNotify(message);
+                    setOpen(false);
+                }
+            }
+        } catch (error) {
+            infoNotify('An error occurred during complaint submission.');
+            setOpen(false);
         }
-    }, [postdata, edit, patchdata, count, cm_am_assetmap_slno, assetStatus, updateAssetz, assetArray, cotype, assetinactive, codept, deletedFiles.length,
-        depsec, handleImageUpload, insertId, newlyAddedAssets.length, reset, selectFile, selectedAsset, id])
 
+    }, [
+        postdata, edit, assetArray, patchdata, assetinactive, count, cm_am_assetmap_slno, assetStatus, updateAssetz, handleImageUpload, complaint_slno,
+        cotype, selectFile, codept, deletedFiles.length, newlyAddedAssets.length, reset, selectedAsset, id
+    ]);
 
-
-    //refersh function
     const refreshWindow = useCallback(() => {
         setComplaint(0)
         setDepsec(0)
-        setReqType(false)
         setcotype(false)
         setChechHic(false)
         setpriority(0)
@@ -676,119 +569,54 @@ const DirectComplaintReg = () => {
     const backtoSetting = useCallback(() => {
         history.push('/Home')
     }, [history])
-
-    useEffect(() => {
-        if (ReqType === 2) {
-            history.push('/Home/RequestRegister')
-        }
-    }, [ReqType, history])
     const empsecid = useSelector((state) => {
         return state.LoginUserData.empsecid
     })
 
 
     useEffect(() => {
-        if (empsecid !== 0) {
+        if (empsecid > 0) {
             dispatch(getCompliantRegTable(empsecid))
-            dispatch(getReqRegistListByDept(empsecid))
         }
     }, [count, empsecid, dispatch])
 
     useEffect(() => {
-        dispatch(getRoomsNameNdTypeList(depsec))
+        if (depsec > 0) {
+            dispatch(getRoomsNameNdTypeList(depsec))
+        }
     }, [dispatch, depsec])
-
-    const compallTable = useSelector((state) => {
-        return state.setComplaintRegTable.complaintRegTableList
-    })
-    const reqestTotal = useSelector((state) => {
-        return state.setRequestListByDeptSec.RequestListall
-    })
-
-    const pendingTckt = compallTable.filter((val) => {
-        return val.compalint_status === 0
-    })
-
-    const AssignedTckt = compallTable.filter((val) => {
-        return val.compalint_status === 1
-    })
-
-    const VerificationPendingTckt = compallTable.filter((val) => {
-        return val.compalint_status === 2
-    })
-
-    const onholdList = compallTable.filter((val) => {
-        return val.cm_rectify_status === 'O'
-
-    })
-    const reqList = reqestTotal.filter((val) => {
-        return val.rm_ndrf === 0
-    })
-
-    const reqPending = reqestTotal.filter((val) => {
-        return val.req_status === 'P'
-    })
 
     const UpdateAssetNo = useCallback((e) => {
         setcm_am_assetmap_slno(e.target.value.toLocaleUpperCase())
         setAssetStatus(0)
     }, [])
 
-    // const searchAssetNo = useCallback((e) => {
-    //     if (cm_am_assetmap_slno === '') {
-    //         infoNotify('Please Enter Asset Number')
-    //     }
-    //     else {
-    //         // const parts = cm_am_assetmap_slno.split('/');
-    //         // const assetno = parts[parts.length - 1];
-    //         // const Custodian = parts[parts.length - 2];
-    //         // const firstname = parts[parts.length - 3];
-    //         // const starts = firstname + '/' + Custodian
-    //         // const asset_number = parseInt(assetno)
+    const [custFirstName, setcustFirstName] = useState('')
+    const [custSecName, setcustSecName] = useState('')
 
-    //         const firstname = 'TMC'
-    //         const Custodian = codept === 1 ? 'BME' : codept === 2 ? 'MAIN' :
-    //             codept === 3 ? 'IT' : codept === 4 ? 'HSK' : codept === 5 ? 'OPE' : ''
-    //         const starts = firstname + '/' + Custodian
-    //         const asset_number = parseInt(cm_am_assetmap_slno)
 
-    //         const postdata = {
-    //             item_asset_no: starts,
-    //             item_asset_no_only: asset_number
-    //         }
-    //         const getAssetdata = async (postdata) => {
-    //             const result = await axioslogin.post('/PasswordManagementMain/getAssetNo', postdata)
-    //             const { data, success } = result.data
-    //             if (data.length !== 0) {
-    //                 if (success === 1) {
-    //                     const { item_name, sec_name, am_item_map_slno } = data[0]
-    //                     setlocation(sec_name)
-    //                     setdeviceName(item_name)
-    //                     setItem_slno(am_item_map_slno)
-    //                 }
-    //                 return result.data
-    //             }
-    //             else {
-    //                 warningNotify('Asset number not found')
-    //             }
-    //         }
-    //         getAssetdata(postdata)
-    //         setAssetStatus(1)
-    //     }
-    // }, [cm_am_assetmap_slno])
+    const { data: custodianDetailsDaata, isSuccess } = useQuery({
+        queryKey: ['getCustodianDetails', custodianDept],
+        enabled: custodianDept !== 0,
+        queryFn: () => getCustodianDetails(custodianDept),
+    });
+
+    const custodianDetails = useMemo(() => custodianDetailsDaata, [custodianDetailsDaata])
+
+    useEffect(() => {
+        if (isSuccess && custodianDetails?.length > 0) {
+            const { am_custdn_asset_no_first, am_custdn_asset_no_second } = custodianDetails[0];
+            setcustFirstName(am_custdn_asset_no_first);
+            setcustSecName(am_custdn_asset_no_second);
+        }
+    }, [isSuccess, custodianDetails]);
+
 
     const searchAssetNo = useCallback((e) => {
         if (cm_am_assetmap_slno === '') {
             infoNotify('Please Enter Asset Number');
         } else {
-            const firstname = 'TMC';
-            const Custodian =
-                codept === 1 ? 'BME' :
-                    codept === 2 ? 'MAIN' :
-                        codept === 3 ? 'IT' :
-                            codept === 4 ? 'HSK' :
-                                codept === 5 ? 'OPE' : '';
-            const starts = firstname + '/' + Custodian;
+            const starts = custFirstName + '/' + custSecName;
             const asset_number = parseInt(cm_am_assetmap_slno);
             const postdata = {
                 item_asset_no: starts,
@@ -800,21 +628,26 @@ const DirectComplaintReg = () => {
                 const { data, success } = result.data;
                 if (data.length !== 0) {
                     if (success === 1) {
-                        setassetData(0)
-                        const { item_name, sec_name, am_item_map_slno, item_asset_no_only, item_asset_no } = data[0];
-                        // Check if the asset already exists in the array
-                        const assetExists = assetArray.some(asset => asset.item_asset_no_only === item_asset_no_only);
-                        if (assetExists) {
-                            infoNotify("You already added this asset in complaint");
-                        } else {
-                            const newAsset = { item_name, sec_name, am_item_map_slno, item_asset_no_only, item_asset_no };
-                            setAssetArray((prevArray) => [...prevArray, newAsset]);
-                            // Condition to add to newly added assets only if edit is 1
-                            if (edit === 1) {
-                                setNewlyAddedAssets((prevAssets) => [...prevAssets, newAsset]);
-                            }
+                        const { item_deptsec_slno } = data[0]
+                        if (item_deptsec_slno === depsec) {
+                            setassetData(0)
+                            const { item_name, sec_name, am_item_map_slno, item_asset_no_only, item_asset_no } = data[0];
+                            // Check if the asset already exists in the array
+                            const assetExists = assetArray.some(asset => asset.item_asset_no_only === item_asset_no_only);
+                            if (assetExists) {
+                                infoNotify("You already added this asset in complaint");
+                            } else {
+                                const newAsset = { item_name, sec_name, am_item_map_slno, item_asset_no_only, item_asset_no };
+                                setAssetArray((prevArray) => [...prevArray, newAsset]);
+                                // Condition to add to newly added assets only if edit is 1
+                                if (edit === 1) {
+                                    setNewlyAddedAssets((prevAssets) => [...prevAssets, newAsset]);
+                                }
 
-                            setcm_am_assetmap_slno('');
+                                setcm_am_assetmap_slno('');
+                            }
+                        } else {
+                            infoNotify("Can't find Searched Asset Under Department Section")
                         }
                     }
                     return result.data;
@@ -825,54 +658,8 @@ const DirectComplaintReg = () => {
             getAssetdata(postdata);
             setAssetStatus(1);
         }
-    }, [cm_am_assetmap_slno, codept, assetArray, edit]);
+    }, [cm_am_assetmap_slno, assetArray, custFirstName, edit, custSecName, depsec]);
 
-
-    // const searchAssetNo = useCallback((e) => {
-    //     if (cm_am_assetmap_slno === '') {
-    //         infoNotify('Please Enter Asset Number');
-
-    //     } else {
-    //         const firstname = 'TMC';
-    //         const Custodian = codept === 1 ? 'BME' : codept === 2 ? 'MAIN' :
-    //             codept === 3 ? 'IT' : codept === 4 ? 'HSK' : codept === 5 ? 'OPE' : '';
-    //         const starts = firstname + '/' + Custodian;
-    //         const asset_number = parseInt(cm_am_assetmap_slno);
-    //         const postdata = {
-    //             item_asset_no: starts,
-    //             item_asset_no_only: asset_number
-    //         };
-
-    //         const getAssetdata = async (postdata) => {
-    //             const result = await axioslogin.post('/PasswordManagementMain/getAssetNo', postdata);
-    //             const { data, success } = result.data;
-    //             if (data.length !== 0) {
-    //                 if (success === 1) {
-    //                     const { item_name, sec_name, am_item_map_slno, item_asset_no } = data[0];
-    //                     // Check if the asset already exists in the array
-    //                     const assetExists = assetArray.some(asset => asset.am_item_map_slno === am_item_map_slno);
-    //                     if (assetExists) {
-    //                         infoNotify("You already added this asset in complaint");
-    //                     } else {
-    //                         setAssetArray((prevArray) => [
-    //                             ...prevArray,
-    //                             { item_name, sec_name, am_item_map_slno, item_asset_no },
-    //                         ]);
-    //                         setcm_am_assetmap_slno('')
-    //                     }
-
-    //                 }
-    //                 return result.data;
-    //             } else {
-    //                 warningNotify('Asset number not found');
-    //             }
-    //         };
-    //         getAssetdata(postdata);
-    //         setAssetStatus(1);
-    //     }
-    // }, [cm_am_assetmap_slno, assetArray]);
-
-    console.log("assetdata", assetData);
 
 
     const searchAssetNoinMenu = useCallback((e) => {
@@ -880,11 +667,6 @@ const DirectComplaintReg = () => {
             infoNotify('Please select Asset')
         }
         else {
-            // const firstname = 'TMC'
-            // const Custodian = codept === 1 ? 'BME' : codept === 2 ? 'MAIN' :
-            //     codept === 3 ? 'IT' : codept === 4 ? 'HSK' : codept === 5 ? 'OPE' : ''
-            // const starts = firstname + '/' + Custodian
-
             const asset_number = parseInt(item_slno)
             const postdata = {
                 item_asset_no: asset_dept,
@@ -922,29 +704,7 @@ const DirectComplaintReg = () => {
             getAssetdata(postdata)
             setAssetStatus(1)
         }
-    }, [item_slno, assetArray, codept, edit])
-
-    // useEffect(() => {
-    //     if (depsec !== '') {
-    //         const getAssetItembsedonLocation = async (depsec) => {
-    //             const result = await axioslogin.get(`Rectifycomplit/getlocationbsedAsset/${depsec}`)
-    //             const { success, data } = result.data
-    //             if (success === 1) {
-    //                 setMenudata(data);
-    //             }
-    //             else {
-    //                 setMenudata([])
-    //             }
-    //         }
-    //         getAssetItembsedonLocation(depsec)
-    //     }
-    //     else {
-    //         setMenudata([]);
-    //     }
-    // }, [depsec])
-
-
-
+    }, [item_slno, assetArray, asset_dept, edit])
 
 
     const ClearAssetSelection = () => {
@@ -953,21 +713,34 @@ const DirectComplaintReg = () => {
 
     };
 
-    const SearchAsset = useCallback((e) => {
-        setSearch(1)
-        setSelect(0)
-        setSelectedAsset('')
-    }, [])
+    const [isSelect, setIsSelect] = useState(true);
+    const handleToggle = () => {
+        setIsSelect((prev) => {
+            const newValue = !prev;
+            if (newValue) {
+                setSelect(1);
+                setSearch(0);
+                setcm_am_assetmap_slno('');
+            } else {
+                setSearch(1);
+                setSelect(0);
+                setSelectedAsset('');
+            }
+            return newValue;
+        });
+    };
 
-    const SelectAsset = useCallback((e) => {
-        setSelect(1)
-        setSearch(0)
-        setcm_am_assetmap_slno('')
-    }, [])
+    // const SearchAsset = useCallback((e) => {
+    //     setSearch(1)
+    //     setSelect(0)
+    //     setSelectedAsset('')
+    // }, [])
 
-    // const handleDelete = (indexToDelete) => {
-    //     setAssetArray((prevArray) => prevArray.filter((_, index) => index !== indexToDelete));
-    // };
+    // const SelectAsset = useCallback((e) => {
+    //     setSelect(1)
+    //     setSearch(0)
+    //     setcm_am_assetmap_slno('')
+    // }, [])
 
     const handleDelete = (indexToDelete) => {
         setAssetArray((prevArray) => {
@@ -982,9 +755,35 @@ const DirectComplaintReg = () => {
         });
     };
 
+    const ViewImage = useCallback((file) => {
+        const fileType = file.url
+            ? file.url.endsWith(".pdf")
+                ? "pdf"
+                : "image"
+            : file.type.includes("application/pdf")
+                ? "pdf"
+                : "image";
+
+        const fileUrl = file.url || URL.createObjectURL(file);
+        setPreviewFile({ url: fileUrl, type: fileType });
+        setImageShow(true)
+        setImageShowFlag(1)
+    }, [])
+
+    const CloseFile = useCallback(() => {
+        setImageShowFlag(0)
+        setImageShow(false)
+    }, [])
+
+
     return (
         <Fragment>
-            <CardMaster
+            {imageShowFlag === 1 ?
+                < Box >
+                    <FileViewSingle previewFile={previewFile} imageShow={imageShow} CloseFile={CloseFile} />
+                </Box> : null
+            }
+            <CardMastComplaint
                 title="Direct Complaint Registration"
                 submit={submitComplaint}
                 close={backtoSetting}
@@ -1011,7 +810,7 @@ const DirectComplaintReg = () => {
                                     </Typo>
                                 </CssVarsProvider>
                             </Box>
-                            {/* complaint department */}
+
                             <Box sx={{ display: 'flex', flex: 1, p: 1 }} >
                                 {
                                     complaintdeptdata && complaintdeptdata.map((val) => {
@@ -1025,13 +824,14 @@ const DirectComplaintReg = () => {
                                                 setcm_am_assetmap_slno={setcm_am_assetmap_slno}
                                                 setSelectedAsset={setSelectedAsset}
                                                 setItem_slno={setItem_slno}
+                                                setcustodianDept={setcustodianDept}
+                                                cust={val.department_slno}
                                             />
                                         </Grid>
                                     })
                                 }
                             </Box>
                         </Paper>
-                        {/* complaint type */}
                         {codept !== null ?
                             <Paper variant='outlined' sx={{ p: 0.5 }} square >
                                 <Box>
@@ -1057,6 +857,8 @@ const DirectComplaintReg = () => {
                                                         setcm_am_assetmap_slno={setcm_am_assetmap_slno}
                                                         setSelectedAsset={setSelectedAsset}
                                                         setItem_slno={setItem_slno}
+                                                        setcustodianDept={setcustodianDept}
+                                                        cust={val.department_slno}
                                                     />
                                                 </Grid>
                                             })
@@ -1065,9 +867,7 @@ const DirectComplaintReg = () => {
                                     </Grid>
                                 </Box>
                             </Paper> :
-                            // <CircularProgress sx={{ color: 'pink' }} />
-                            null
-                        }
+                            null}
 
 
                         <Paper variant='outlined' square >
@@ -1111,6 +911,8 @@ const DirectComplaintReg = () => {
                                         <Box sx={{ pt: .5, display: 'flex', ml: .5 }}>
                                             {codept !== null ?
                                                 <>
+
+                                                    {/* 
                                                     <Box
                                                         sx={{
                                                             cursor: 'pointer',
@@ -1143,14 +945,41 @@ const DirectComplaintReg = () => {
                                                         <Typography sx={{ pt: .3, color: 'black', fontWeight: 600, fontSize: 14 }}>
                                                             Select
                                                         </Typography>
-                                                    </Box>
+                                                    </Box> */}
+
+                                                    <Switch
+                                                        checked={isSelect}
+                                                        color="neutral"
+                                                        onChange={handleToggle}
+                                                        slotProps={{
+                                                            track: {
+                                                                children: (
+                                                                    <>
+                                                                        {isSelect ? <Typography sx={{ ml: '15px', mr: '10px', fontSize: 13 }}>
+                                                                            Select
+                                                                        </Typography>
+                                                                            : <Typography sx={{ ml: '30px', mr: '10px', fontSize: 13 }}>
+                                                                                Search
+                                                                            </Typography>}
+                                                                    </>
+                                                                ),
+                                                            },
+                                                        }}
+                                                        sx={{
+                                                            '--Switch-thumbSize': '21px',
+                                                            '--Switch-trackWidth': '90px',
+                                                            '--Switch-trackHeight': '25px',
+                                                        }}
+                                                    />
+
 
                                                     {select === 1 ?
                                                         <Box sx={{ flex: 1, display: 'flex', ml: 1 }}>
                                                             <CssVarsProvider>
                                                                 <Box sx={{ flex: 1, }}>
-                                                                    <CmAssetList assetz={assetData} setAssetz={setassetData} complaint_dept_secslno={empsecid}
+                                                                    <CmAssetList assetz={assetData} setAssetz={setassetData} complaint_dept_secslno={depsec}
                                                                         setSelectedAsset={setSelectedAsset} setItem_slno={setItem_slno} setasset_dept={setasset_dept}
+                                                                        codept={codept}
                                                                     />
                                                                 </Box>
                                                                 <Box sx={{ ml: 1, mr: 3 }}>
@@ -1175,15 +1004,13 @@ const DirectComplaintReg = () => {
                                                                         placeholder=" Asset Number"
                                                                         sx={{
                                                                             borderRadius: 0,
-                                                                            // width: 320,
                                                                             minHeight: 15,
                                                                         }}
                                                                         type='number'
                                                                         autoComplete='off'
                                                                         startDecorator={
                                                                             <Button variant="soft" color="neutral" >
-                                                                                {`TMC/${codept === 1 ? 'BME/' : codept === 2 ? 'MAIN/' :
-                                                                                    codept === 3 ? 'IT/' : codept === 4 ? 'HSK/' : codept === 5 ? 'OPE/' : ''}`}
+                                                                                {`${custFirstName}/ ${custSecName}`}
                                                                             </Button>
                                                                         }
                                                                         endDecorator={
@@ -1205,7 +1032,6 @@ const DirectComplaintReg = () => {
                                                                         value={cm_am_assetmap_slno || ''}
                                                                         onChange={UpdateAssetNo}
                                                                     />
-
                                                                 </Box>
                                                                 <Box sx={{ ml: 1, mr: 3 }}>
                                                                     <Tooltip title={'Add More Asset'}>
@@ -1269,11 +1095,11 @@ const DirectComplaintReg = () => {
                                         required
                                         type="text"
                                         size="sm"
-                                        minRows={4}
+                                        minRows={2}
                                         maxRows={10}
                                         style={{
                                             width: "100%",
-                                            // height: "100%",
+
                                         }}
                                         value={desc}
                                         onchange={complintdesc}
@@ -1289,7 +1115,6 @@ const DirectComplaintReg = () => {
                                     }} >
                                         <Grid item xs={2} sm={4} md={4} lg={2} xl={3} >
                                             <CusCheckBox
-                                                // variant="outlined"
                                                 color="danger"
                                                 size="lg"
                                                 name="crical"
@@ -1321,103 +1146,101 @@ const DirectComplaintReg = () => {
                                     }
                                 </Box>
                             </Box>
-                            <Box sx={{ flex: 1, border: 1, mx: .5, borderRadius: 1, display: 'flex', borderColor: '#5A4159' }}>
-                                <label htmlFor="file-input">
-                                    <Box sx={{ display: 'flex', bgcolor: '#ECEFF7', '&:hover': { bgcolor: '#E1E8F0', }, m: .5, px: .5, borderRadius: 5, cursor: 'pointer' }}>
-                                        <FileCopyIcon sx={{ p: .3, color: '#5A4159', }} />
-                                        <Typography sx={{ color: '#5A4159', fontSize: 13, px: .3, pt: .3 }}>
-                                            file Upload
-                                        </Typography>
-                                    </Box>
-                                </label>
-                                <input
-                                    id="file-input"
-                                    type="file"
-                                    accept=".jpg, .jpeg, .png, .pdf"
-                                    style={{ display: 'none' }}
-                                    onChange={handleFileChange}
-                                    name="file"
-                                    multiple // Add this attribute to allow multiple file selections
-                                />
-                                <Box sx={{ display: 'flex', flex: 1, mx: .5, mt: .5, overflow: 'auto' }}>
-                                    {selectFile && selectFile.map((file, index) => (
-                                        <Box key={index}>
-                                            <CssVarsProvider>
-                                                <Chip sx={{ bgcolor: '#C0B5CF', width: '100%', ml: .5 }}>
-                                                    {file.name}
-                                                    <CloseIcon sx={{
-                                                        pl: .3, pb: .3, height: 20, width: 20, cursor: 'pointer', color: '#4D0011',
+
+                            <Box sx={{ flex: 1, border: 1, mx: .5, mb: .5, borderRadius: 1, display: 'flex', borderColor: 'lightgrey', }}>
+                                <Box sx={{ margin: 'auto' }}>
+                                    <label htmlFor="file-input">
+                                        <Box sx={{
+                                            bgcolor: '#ECEFF7', '&:hover': { bgcolor: '#E1E8F0', }, border: 1, borderColor: '#E1E8F0',
+                                            m: .5, px: 1.5, cursor: 'pointer', height: 48, textAlign: 'center'
+                                        }}>
+                                            <UploadFileRoundedIcon sx={{ color: '#0B6BCB', }} />
+                                            <Typography sx={{ color: '#0B6BCB', fontSize: 13, px: .5, pt: .2 }}>
+                                                Attach File
+                                            </Typography>
+                                        </Box>
+                                    </label>
+                                    <input
+                                        id="file-input"
+                                        type="file"
+                                        accept=".jpg, .jpeg, .png, .pdf"
+                                        style={{ display: 'none' }}
+                                        onChange={handleFileChange}
+                                        name="file"
+                                        multiple
+                                    />
+                                </Box>
+                                <Box sx={{ display: 'flex', flex: 1, mx: .5, overflow: 'auto' }}>
+
+                                    {selectFile.length !== 0 &&
+                                        selectFile.map((file, index) => (
+                                            <Box
+                                                key={index}
+                                                sx={{
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    my: 1,
+                                                    border: "1px solid #e0e0e0",
+                                                    borderRadius: "4px",
+                                                    p: 0.5, mr: .5
+                                                }}
+                                            >
+                                                {file.type.includes("image") ? (
+                                                    <img
+                                                        src={URL.createObjectURL(file)}
+                                                        alt={file.name}
+                                                        style={{
+                                                            width: "40px",
+                                                            height: "40px",
+                                                            objectFit: "cover",
+                                                            borderRadius: "4px",
+                                                            marginRight: "8px",
+                                                            cursor: "pointer",
+                                                        }}
+                                                        onClick={() => ViewImage(file)}
+                                                    />
+                                                ) : file.type === "application/pdf" ? (
+                                                    <PictureAsPdfIcon
+                                                        sx={{
+                                                            width: "40px",
+                                                            height: "40px",
+                                                            color: "#e53935",
+                                                            marginRight: "8px",
+                                                            cursor: "pointer",
+                                                        }}
+                                                        onClick={() => ViewImage(file)}
+                                                    />
+                                                ) : (
+                                                    <InsertDriveFileIcon
+                                                        sx={{
+                                                            width: "40px",
+                                                            height: "40px",
+                                                            color: "#9e9e9e",
+                                                            marginRight: "8px",
+                                                            cursor: "pointer",
+                                                        }}
+                                                        onClick={() => ViewImage(file)}
+                                                    />
+                                                )}
+                                                <Box sx={{ fontSize: 14, cursor: "pointer", flexGrow: 1 }}>{file.name}</Box>
+                                                <ClearSharpIcon
+                                                    sx={{
+                                                        pl: .3, pb: .3, height: 20, width: 20, cursor: 'pointer', color: '#4D0011', mx: .5,
                                                         '&:hover': { color: '#BA0F30' },
                                                     }}
-                                                        onClick={() => handleRemoveFile(index)} />
-                                                </Chip>
-                                            </CssVarsProvider>
-                                        </Box>
-                                    ))}
+                                                    onClick={() => handleRemoveFile(index)}
+                                                />
+                                            </Box>
+                                        ))
+                                    }
                                 </Box>
                             </Box>
                         </Paper>
                     </Box>
-                    <Box sx={{ display: 'flex', width: '20%', p: 0.5, overflow: 'auto' }} >
-                        <Paper variant='outlined'
-                            sx={{
-                                display: 'flex',
-                                flex: 1, p: 1,
-                                flexDirection: 'column',
-                                justifyContent: 'space-between'
-                            }} >
-                            <CssVarsProvider>
-                                <Button
-                                    startDecorator={<h3>{pendingTckt.length}</h3>}
-                                    size="lg"
-                                    variant="outlined"
-                                    fullWidth
-                                    sx={{ my: 0.2, display: 'flex', flex: 1, justifyContent: 'space-between' }}
-                                >Pending Ticket</Button>
-                                <Button
-                                    startDecorator={<h3>{reqList.length}</h3>}
-                                    size="lg"
-                                    variant="outlined"
-                                    fullWidth
-                                    color="danger"
-                                    sx={{ my: 0.2, display: 'flex', flex: 1, justifyContent: 'space-between' }}
-                                >Request Info</Button>
-                                <Button
-                                    startDecorator={<h3>{AssignedTckt.length}</h3>}
-                                    size="lg"
-                                    variant="outlined"
-                                    fullWidth
-                                    sx={{ my: 0.2, display: 'flex', flex: 1, justifyContent: 'space-between' }}
-                                >Assigned Ticket</Button>
-                                <Button
-                                    startDecorator={<h3>{onholdList.length}</h3>}
-                                    size="lg"
-                                    variant="outlined"
-                                    fullWidth
-                                    sx={{ my: 0.2, display: 'flex', flex: 1, justifyContent: 'space-between' }}
-                                >OnHold Ticket</Button>
-                                <Button
-                                    startDecorator={<h3>{VerificationPendingTckt.length}</h3>}
-                                    size="lg"
-                                    variant="outlined"
-                                    fullWidth
-                                    sx={{ my: 0.2, display: 'flex', flex: 1, justifyContent: 'space-between' }}
-                                >Verification Pending</Button>
-                                <Button
-                                    startDecorator={<h3>{reqPending.length}</h3>}
-                                    size="lg"
-                                    variant="outlined"
-                                    fullWidth
-                                    color="danger"
-                                    sx={{ my: 0.2, display: 'flex', flex: 1, justifyContent: 'space-between' }}
-                                >OnHold/Rejected</Button>
-                            </CssVarsProvider>
-                        </Paper>
-                    </Box>
                 </Box>
 
-            </CardMaster >
 
+            </CardMastComplaint >
             < Paper square elevation={0} sx={{
                 p: 1, pt: 0
             }} >
@@ -1434,7 +1257,7 @@ const DirectComplaintReg = () => {
                 <Typography sx={{ pl: .5, pr: 2, fontSize: 13 }}>
                     Priority Critical
                 </Typography>
-                < EngineeringIcon sx={{ color: '#B68D40' }} />
+                < PersonSharpIcon sx={{ color: '#09B009' }} />
                 <Typography sx={{ pl: .5, pr: 2, fontSize: 13 }}>
                     Asssinged by Employee
                 </Typography>

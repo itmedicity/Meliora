@@ -190,8 +190,6 @@ const DEviceDetailsComp = ({ detailArry, exist, setExist, assetSpare }) => {
                         value={rackno}
                         setValue={setrackNo}
                     />
-
-
                 </Box>
 
                 <CustomeToolTip title="Save" placement="top" >

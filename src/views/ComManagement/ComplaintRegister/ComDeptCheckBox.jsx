@@ -2,7 +2,9 @@ import { Checkbox, CssVarsProvider, Typography } from '@mui/joy'
 import React, { Fragment, memo } from 'react'
 
 const ComDeptCheckBox = ({ value, onChange, name, label, checkedValue, onClick,
-    setcm_am_assetmap_slno, setSelectedAsset, setItem_slno }) => {
+    setcm_am_assetmap_slno, setSelectedAsset, setItem_slno, setcustodianDept, cust }) => {
+
+
 
     return (
         <Fragment>
@@ -16,6 +18,7 @@ const ComDeptCheckBox = ({ value, onChange, name, label, checkedValue, onClick,
                         setcm_am_assetmap_slno('')
                         setSelectedAsset('')
                         setItem_slno(0)
+                        setcustodianDept(cust)
                     }}
                     multiple
                     onClick={onClick}

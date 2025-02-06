@@ -12,7 +12,7 @@ const AmDeptSecSelectWOName = ({ deptsec, setDeptSec }) => {
     const [value, setValue] = useState(models[0]);
     const [inputValue, setInputValue] = useState('');
     useEffect(() => {
-        if (value !== null) {
+        if (value?.sec_id > 0) {
             dispatch(getItemBasedSection(value.sec_id))
             setValue(value)
             setDeptSec(value.sec_id)

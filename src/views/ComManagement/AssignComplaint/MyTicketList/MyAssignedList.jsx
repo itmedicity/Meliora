@@ -1,4 +1,4 @@
-import { Box, Chip, Tooltip, Typography } from '@mui/joy'
+import { Badge, Box, Chip, CssVarsProvider, Tooltip, Typography } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import ContactSupportIcon from '@mui/icons-material/ContactSupport';
 import VerifiedSharpIcon from '@mui/icons-material/VerifiedSharp';
@@ -21,100 +21,74 @@ import CountDownCm from '../../CountDownCM/CountDownCm';
 import QueryBuilderRoundedIcon from '@mui/icons-material/QueryBuilderRounded';
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
 import ComFileView from '../../CmFileView/ComFileView';
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
-import { warningNotify } from 'src/views/Common/CommonCode';
-import ViewAssetDetails from '../../ComplaintRegister/TicketLists/ViewAssetDetails';
-import InventoryIcon from '@mui/icons-material/Inventory';
+import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
+import { warningNotify } from 'src/views/Common/CommonCode'
+import ViewAssetDetails from '../../ComplaintRegister/TicketLists/ViewAssetDetails'
+import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices'
+import TextComponent from 'src/views/Components/TextComponent'
+import { format } from 'date-fns'
+import NotificationsIcon from '@mui/icons-material/Notifications'
+import ReportProblemIcon from '@mui/icons-material/ReportProblem'
 
 const MyAssignedList = ({ assistReq, count, setCount }) => {
 
     const [allPendingCompl, setAllPendingCompl] = useState([])
-    const [assistflag, setAssistflag] = useState(0)
-    const [asistModalOpen, setasistModalOpen] = useState(false)
     const [reqDetails, setReqDetails] = useState([])
     const [assistNeed, setAssistNeed] = useState([])
-    const [assistNeedFlag, setassistNeedFlag] = useState(0)
-    const [assistOpen, setAssistOpen] = useState(true)
     const [rectfyDta, setRectfyDta] = useState([])
-    const [rectfyFlag, setrectfyFlag] = useState(0)
-    const [rectfyOpen, setrectfyOpen] = useState(true)
-    const [queryflag, setqueryflag] = useState(0)
-    const [queryOpen, setqueryOpen] = useState(false)
     const [valuee, setValuee] = useState([])
-    const [holdflag, setHoldflag] = useState(0)
-    const [holdOpen, setHoldOpen] = useState(false)
     const [holdData, setHoldData] = useState([])
-    const [assignedEmployees, setAssignedEmployees] = useState([])
-    const [image, setimage] = useState(0)
     const [fileDetails, setfileDetails] = useState([])
     const [imageUrls, setImageUrls] = useState([]);
-    const [selectedImages, setSelectedImages] = useState([]);
-    const [imageViewOpen, setimageViewOpen] = useState(false)
-    const [assetArray, setAssetArray] = useState([])
-    const [assetflag, setAssetflag] = useState(0)
-    const [assetOpen, setAssetOpen] = useState(false)
+    const [selectedImages, setSelectedImages] = useState([])
+
+    const [state, setState] = useState({
+        assistflag: 0,
+        asistModalOpen: false,
+        assetflag: 0,
+        assetOpen: false,
+        imageViewOpen: false,
+        holdflag: 0,
+        holdOpen: false,
+        image: 0,
+        rectfyFlag: 0,
+        rectfyOpen: true,
+        queryflag: 0,
+        queryOpen: false,
+        assistNeedFlag: 0,
+        assistOpen: true
+    })
 
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
 
     const RaiseQuery = useCallback((value) => {
-        setqueryflag(1)
+        setState(prevState => ({
+            ...prevState,
+            queryflag: 1,
+            valuee: value,
+            queryOpen: true
+        }));
         setValuee(value)
-        setqueryOpen(true)
-    }, [])
+    }, []);
 
     useEffect(() => {
-        const getAllPendingCompalints = async (id) => {
+        let isMounted = true
+        const getAllPendingComplaints = async (id) => {
             const result = await axioslogin.get(`/complaintassign/user/${id}`);
             const { success, data } = result.data;
-            if (success === 1) {
-                setAllPendingCompl(data)
-            } else {
-                setAllPendingCompl([])
-            }
-        }
-        getAllPendingCompalints(id)
-    }, [id, count])
-
-    // useEffect(() => {
-    //     const getAllAssistReq = async (id) => {
-    //         const result = await axioslogin.get(`/complaintassign/individual/assist/${id}`);
-    //         const { success, data } = result.data;
-    //         if (success === 1) {
-    //             if (data.length === 0) {
-    //                 setAssistReq([])
-    //             }
-    //             else {
-    //                 if (success === 1) {
-    //                     setAssistReq(data)
-    //                 } else {
-    //                     setAssistReq([])
-    //                 }
-    //             }
-    //         }
-    //         else {
-    //             setAssistReq([])
-    //         }
-    //     }
-    //     getAllAssistReq(id)
-    // }, [id, count])
-
-    useEffect(() => {
-        const getAssignedEmployees = async () => {
-            const updatedEmployees = {};
-            for (let complaint of allPendingCompl) {
-                const result = await axioslogin.get(`Rectifycomplit/getAssignEmps/${complaint.complaint_slno}`);
-                const { success, data } = result.data;
+            if (isMounted) {
                 if (success === 1) {
-                    updatedEmployees[complaint.complaint_slno] = data;
+                    setAllPendingCompl(data);
                 } else {
-                    updatedEmployees[complaint.complaint_slno] = [];
+                    setAllPendingCompl([]);
                 }
             }
-            setAssignedEmployees(updatedEmployees);
+        }
+        getAllPendingComplaints(id)
+        return () => {
+            isMounted = false
         };
-        getAssignedEmployees();
-    }, [allPendingCompl]);
-
+    }, [id, count]);
 
 
     const blinkAnimation = keyframes`
@@ -124,40 +98,58 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
 `;
 
     const borderblinkAnimation = keyframes`
-    0% { border-color: #D85E00; }
-    50% { border-color: transparent; }
-    100% { border-color: #D85E00; }
+ 
+      0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
 `;
 
     const AssistRequ = useCallback((value) => {
-        setAssistflag(1)
+        setState(prevState => ({
+            ...prevState,
+            assistflag: 1,
+            asistModalOpen: true
+        }));
         setReqDetails(value)
-        setasistModalOpen(true)
-    }, [])
+    }, []);
 
 
     const AssistanceRequest = useCallback((val) => {
+        setState(prevState => ({
+            ...prevState,
+            assistNeedFlag: 1,
+            assistOpen: true
+        }));
         setAssistNeed(val)
-        setassistNeedFlag(1)
-        setAssistOpen(true)
-    }, [])
+    }, []);
+
 
     const RectifyRequest = useCallback((val) => {
-        setRectfyDta(val)
-        setrectfyFlag(1)
-        setrectfyOpen(true)
-    }, [])
+        setState(prevState => ({
+            ...prevState,
+            rectfyFlag: 1,
+            rectfyOpen: true
+        }));
+        setRectfyDta(val);
+    }, []);
+
 
     const HoldRequest = useCallback((val) => {
-        setHoldData(val)
-        setHoldflag(1)
-        setHoldOpen(true)
-    }, [])
+        setState(prevState => ({
+            ...prevState,
+            holdflag: 1,
+            holdOpen: true
+        }));
+        setHoldData(val);
+    }, []);
 
     const fileView = async (val) => {
         const { complaint_slno } = val;
-        setimage(1);
-        setimageViewOpen(true);
+        setState(prevState => ({
+            ...prevState,
+            image: 1,
+            imageViewOpen: true
+        }));
         setfileDetails(val);
         try {
             const result = await axioslogin.get(`/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`);
@@ -169,7 +161,6 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                     return `${PUBLIC_NAS_FOLDER}/ComplaintManagement/${complaint_slno}/${fileName}`;
                 });
                 setImageUrls(fileUrls);
-                // Open the modal only if there are files
                 if (fileUrls.length > 0) {
                     setSelectedImages(val);
                 } else {
@@ -184,144 +175,183 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
     }
 
 
-    useEffect(() => {
-        const getAssetinComplaint = async () => {
-            const AssetedArray = {};
-            for (let complaint of allPendingCompl) {
-                const result = await axioslogin.get(`complaintreg/getAssetinComplaint/${complaint.complaint_slno}`);
-                const { success, data } = result.data;
-                if (success === 2) {
-                    AssetedArray[complaint.complaint_slno] = data;
-                } else {
-                    AssetedArray[complaint.complaint_slno] = [];
-                }
-            }
-            setAssetArray(AssetedArray);
-        };
-        getAssetinComplaint();
-    }, [allPendingCompl]);
-
     const AssetView = useCallback((value) => {
+        setState(prevState => ({
+            ...prevState,
+            assetflag: 1,
+            assetOpen: true
+        }))
         setValuee(value)
-        setAssetflag(1)
-        setAssetOpen(true)
-    }, [setAssetflag, setAssetOpen])
+    }, [setState]);
+
 
     return (
         <Box sx={{
             bgcolor: 'white',
             borderRadius: 0
-            , height: '70vh',
+            , height: '69vh',
             overflow: 'auto'
         }}>
-            {queryflag === 1 ?
-                <CmQuieryModal open={queryOpen} setqueryOpen={setqueryOpen} valuee={valuee}
-                    setqueryflag={setqueryflag}
-                    setCount={setCount} count={count}
-                />
-                : null}
-            {image === 1 ?
-                <ComFileView
-                    imageUrls={imageUrls}
-                    imageViewOpen={imageViewOpen}
-                    selectedImages={selectedImages}
-                    fileDetails={fileDetails}
-                    setimage={setimage}
-                    setimageViewOpen={setimageViewOpen}
-
-                /> : null}
-
-            {assetflag === 1 ?
-                <ViewAssetDetails
-                    assetOpen={assetOpen}
-                    setAssetOpen={setAssetOpen}
-                    setAssetflag={setAssetflag}
-                    valuee={valuee}
-                    count={count}
-                    setCount={setCount}
-                />
-                : null}
+            {
+                state.queryflag === 1 && (
+                    <CmQuieryModal
+                        open={state.queryOpen}
+                        setqueryOpen={setState}
+                        valuee={valuee}
+                        setqueryflag={setState}
+                        setCount={setCount}
+                        count={count}
+                    />
+                )
+            }
 
             {
-                assistflag === 1 ?
+                state.image === 1 && (
+                    <ComFileView
+                        imageUrls={imageUrls}
+                        imageViewOpen={state.imageViewOpen}
+                        selectedImages={selectedImages}
+                        fileDetails={fileDetails}
+                        setimage={setState}
+                        setimageViewOpen={setState}
+                    />
+                )
+            }
+
+            {
+                state.assetflag === 1 && (
+                    <ViewAssetDetails
+                        assetOpen={state.assetOpen}
+                        setAssetOpen={setState}
+                        setAssetflag={setState}
+                        valuee={valuee}
+                        count={count}
+                        setCount={setCount}
+                    />
+                )
+            }
+
+            {
+                state.assistflag === 1 && (
                     <AcceptOrRejectAssistRequest
-                        open={asistModalOpen}
-                        setOpen={setasistModalOpen}
-                        assistflag={assistflag}
-                        count={count} setCount={setCount}
-                        setAssistflag={setAssistflag}
+                        open={state.asistModalOpen}
+                        setOpen={setState}
+                        assistflag={state.assistflag}
+                        count={count}
+                        setCount={setCount}
+                        setAssistflag={setState}
                         reqDetails={reqDetails}
-                    /> : null
+                    />
+                )
             }
 
-            {assistNeedFlag === 1 ?
-                <AssistneedModal
-                    assistOpen={assistOpen}
-                    assistNeedFlag={assistNeedFlag}
-                    assistNeed={assistNeed}
-                    setassistNeedFlag={setassistNeedFlag}
-                    setAssistOpen={setAssistOpen}
-                    count={count}
-                    setCount={setCount}
-
-                /> :
-                null
-            }
-            {rectfyFlag === 1 ?
-                <NewRectifyModal
-                    rectfyOpen={rectfyOpen}
-                    setrectfyOpen={setrectfyOpen}
-                    setrectfyFlag={setrectfyFlag}
-                    rectfyDta={rectfyDta}
-                    count={count}
-                    setCount={setCount}
-
-
-                />
-                : null
-            }
-            {holdflag === 1 ?
-                <MarkAsHoldModal
-                    holdOpen={holdOpen}
-                    setHoldOpen={setHoldOpen}
-                    setHoldflag={setHoldflag}
-                    holdData={holdData}
-                    count={count}
-                    setCount={setCount}
-
-
-                />
-                : null
+            {
+                state.assistNeedFlag === 1 && (
+                    <AssistneedModal
+                        assistOpen={state.assistOpen}
+                        assistNeedFlag={state.assistNeedFlag}
+                        assistNeed={assistNeed}
+                        setassistNeedFlag={setState}
+                        setAssistOpen={setState}
+                        count={count}
+                        setCount={setCount}
+                    />
+                )
             }
 
-            <Box sx={{ p: .1, mb: .8 }}>
+            {
+                state.rectfyFlag === 1 && (
+                    <NewRectifyModal
+                        rectfyOpen={state.rectfyOpen}
+                        setrectfyOpen={setState}
+                        setrectfyFlag={setState}
+                        rectfyDta={rectfyDta}
+                        count={count}
+                        setCount={setCount}
+                    />
+                )
+            }
+
+            {
+                state.holdflag === 1 && (
+                    <MarkAsHoldModal
+                        holdOpen={state.holdOpen}
+                        setHoldOpen={setState}
+                        setHoldflag={setState}
+                        holdData={holdData}
+                        count={count}
+                        setCount={setCount}
+                    />
+                )
+            }
+
+
+            <Box sx={{ p: .5, mb: .8 }}>
                 {assistReq?.map((val, index) => {
                     return (
                         <Box
                             key={val.complaint_slno}
                             sx={{
                                 flex: 1,
-                                border: 2.5, borderColor: '#D85E00',
+                                border: 1, borderColor: '#A47551',
                                 borderRadius: 8,
                                 bgcolor: 'white',
                                 mb: .6,
-                                animation: `${borderblinkAnimation} 1s infinite`,
+                                // animation: `${borderblinkAnimation} 1s infinite`,
+                            }}>
+                            <Box sx={{
+                                flex: 1, bgcolor: '#E5E8E9', borderTopRightRadius: 6, borderTopLeftRadius: 6,
+                                mx: .1, display: 'flex',
                             }}>
 
+                                <CssVarsProvider>
+                                    <Tooltip title='Ticket Registered Date and time' placement='top-start' >
+                                        <Box sx={{ cursor: 'pointer' }}>
+                                            <TextComponent
+                                                sx={{
+                                                    color: 'black',
+                                                    fontWeight: 540,
+                                                    flex: 1,
+                                                    fontSize: 15,
+                                                    pl: 1,
+                                                    py: .5,
+                                                    fontFamily: 'Arial',
+                                                }}
+                                                text={
+                                                    val.compalint_date
+                                                        ? format(new Date(val.compalint_date), 'dd MMM yyyy,   hh:mm a')
+                                                        : 'Invalid Date'
+                                                }
+                                            />
+                                        </Box>
+                                    </Tooltip>
+                                </CssVarsProvider>
+                                <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', }}>
+                                    <Box sx={{ my: .3, mr: .1, px: 2, fontWeight: 500, fontSize: 14, cursor: 'pointer' }}>
+                                        Ticket Registered by :  {val.comp_reg_emp}
+                                    </Box>
+                                </Box>
+                            </Box>
+                            <Box sx={{
+                                flex: 1, bgcolor: '#A47551',
+                                display: 'flex',
+                                // animation: `${borderblinkAnimation} 1s infinite`,
+
+                            }}>
+                                <Box sx={{ color: 'white', pl: 1, fontWeight: 600 }}>
+                                    <NotificationsIcon sx={{ color: 'white', animation: `${borderblinkAnimation} 1s infinite }}` }} /> Assist Request
+                                </Box>
+
+                            </Box>
                             <Box sx={{ flex: 1, display: 'flex', p: .8, }}>
                                 <Box sx={{
                                     maxWidth: 145,
                                     mx: .3, pr: .5,
                                     borderRight: 1, borderColor: 'lightgrey'
                                 }}>
-                                    <Typography sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700 }}> Ticket {val.complaint_slno}</Typography>
-                                    <Tooltip title='Ticket Registerd Date and time' placement='right'   >
-                                        <Typography sx={{ fontSize: 11, textAlign: 'center', fontWeight: 600, color: "black", mr: .3, cursor: 'grab' }}>
-                                            {val.compalint_date}
-                                        </Typography>
-                                    </Tooltip>
+                                    <Typography sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700 }}> Ticket No. {val.complaint_slno}</Typography>
                                     <Box sx={{ flex: 1, display: 'flex', my: 1, justifyContent: 'center', }}>
-                                        <Tooltip title='Accept / Reject  Assist Request' color='warning' variant='outlined' placement='right' >
+                                        <Tooltip title='Accept / Reject  Assist Request' color='warning' placement='right' >
                                             <EngineeringIcon sx={{
                                                 height: 28, width: 30,
                                                 bgcolor: '#A47551 ',
@@ -349,7 +379,6 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                                     maxWidth: 500,
                                 }}>
                                     <Box sx={{
-                                        // flex: 1,
                                         display: 'flex', mt: .5
                                     }}>
                                         <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
@@ -360,7 +389,6 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                                         </Typography>
                                     </Box>
                                     <Box sx={{
-                                        // flex: 1,
                                         display: 'flex', mt: .5
                                     }}>
                                         <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
@@ -374,7 +402,6 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                                         </Typography>
                                     </Box>
                                     <Box sx={{
-                                        // flex: 1,
                                         display: 'flex', mt: .5
                                     }}>
                                         <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
@@ -422,6 +449,14 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                     )
                 })}
                 {allPendingCompl?.map((val, index) => {
+                    const getBadgeColor = (pending, accepted, rejected) => {
+                        if (pending > 0) return '#0458AB'
+                        if (pending === 0 && accepted > 0) return 'green'
+                        if (pending === 0 && accepted === 0 && rejected > 0) return 'red'
+                        return null
+                    };
+
+                    const badgeColor = getBadgeColor(val.pending, val.accepted, val.rejected);
                     return (
                         <Box
                             key={val.complaint_slno}
@@ -430,23 +465,53 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                                 border: 1, borderColor: '#CBAE11',
                                 borderRadius: 8,
                                 bgcolor: 'white',
-                                mb: .6
+                                mb: .8
                             }}>
+                            <Box sx={{
+                                flex: 1, bgcolor: '#E5E8E9', borderTopRightRadius: 6, borderTopLeftRadius: 6,
+                                mx: .1, display: 'flex',
+                            }}>
+
+                                <CssVarsProvider>
+                                    <Tooltip title='Ticket Registered Date and time' placement='top-start' >
+                                        <Box sx={{ cursor: 'pointer' }}>
+                                            <TextComponent
+                                                sx={{
+                                                    color: 'black',
+                                                    fontWeight: 540,
+                                                    flex: 1,
+                                                    fontSize: 15,
+                                                    pl: 1,
+                                                    py: .5,
+                                                    fontFamily: 'Arial',
+                                                }}
+                                                text={
+                                                    val.compalint_date
+                                                        ? format(new Date(val.compalint_date), 'dd MMM yyyy,   hh:mm a')
+                                                        : 'Invalid Date'
+                                                }
+                                            />
+                                        </Box>
+                                    </Tooltip>
+                                </CssVarsProvider>
+                                <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', }}>
+                                    <Box sx={{ my: .3, mr: .1, px: 2, fontWeight: 500, fontSize: 14, cursor: 'pointer' }}>
+                                        Ticket Registered by :  {val.comp_reg_emp}
+                                    </Box>
+                                </Box>
+                            </Box>
                             {val.aprrox_date !== null ?
                                 <Box sx={{
-                                    flex: 1, bgcolor: '#E7D2CC', borderTopRightRadius: 5, borderTopLeftRadius: 5, mb: .1,
+                                    flex: 1, bgcolor: '#E7D2CC', mb: .1,
                                     mx: .1, display: 'flex', py: .3,
                                 }}>
                                     <Typography sx={{ color: '#026F7E', pl: 1, pt: .2, fontWeight: 700, fontSize: 13 }}>
-                                        ASSINGED BY SUPERVISOR
+                                        ASSIGNED BY {val.assinged_user}
                                     </Typography>
                                     <Typography sx={{ color: 'black', pt: .2, fontWeight: 500, fontSize: 13, ml: 3 }}>
                                         Priority :
                                     </Typography>
                                     <Chip sx={{ bgcolor: 'white', color: '#391306', border: 1, ml: 1, }}>
-                                        {/* {val.compalint_priority = 1 ? "Emergency" : val.compalint_priority = 2 ? 'High Priority' :
-                                            val.compalint_priority = 3 ? 'Medium Priority' : val.compalint_priority = 4 ? 'Normal' :
-                                                "Normal"} */}
                                         {val.cm_priority_desc}
                                     </Chip>
                                     <Typography sx={{ color: 'black', pt: .2, fontWeight: 500, fontSize: 13, ml: 3 }}>
@@ -462,31 +527,56 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                                         {val.complaint_remark}
                                     </Typography>
                                 </Box> : null}
+                            {val.cm_rectify_status === 'Z' && val.verify_remarks !== null ?
+                                <Box sx={{
+                                    flex: 1, bgcolor: "#DFDACD",
+                                    display: 'flex', py: .3, flexWrap: 'wrap'
+                                }}>
+                                    <Box sx={{ display: 'flex', pl: .5, }}>
+                                        <ReportProblemIcon sx={{ color: 'darkred', P: .1 }} />
+                                        <Box sx={{ pt: .3, color: 'darkred', fontWeight: 700, fontSize: 14, }}>
+                                            TICKET RESUBMITTED
+                                        </Box>
+                                    </Box>
+                                    <Box sx={{ display: 'flex', }}>
+                                        <Box sx={{ pl: 2, fontWeight: 600, color: 'darkred' }}>
+                                            Remarks:
+                                        </Box>
+                                        <Box sx={{ pl: 1, fontWeight: 600, color: 'darkred' }}>
+                                            {val.verify_remarks}
+                                        </Box>
+                                    </Box>
+                                </Box> : null}
+
+                            {val.verify_spervsr_remarks !== null && val.verify_spervsr === 2 ?
+                                <Box sx={{
+                                    flex: 1, bgcolor: "#DFDACD      ",
+                                    display: 'flex', py: .3, flexWrap: 'wrap'
+                                }}>
+                                    <Box sx={{ display: 'flex', pl: .5, }}>
+                                        <ReportProblemIcon sx={{ color: 'darkred', P: .1 }} />
+                                        <Box sx={{ pt: .3, color: 'darkred', fontWeight: 700, fontSize: 14, }}>
+                                            RESUBMITTED BY SUPERVISOR
+                                        </Box>
+                                    </Box>
+                                    <Box sx={{ display: 'flex', }}>
+                                        <Box sx={{ pl: 2, fontWeight: 600, color: 'darkred' }}>
+                                            Remarks:
+                                        </Box>
+                                        <Box sx={{ pl: 1, fontWeight: 600, color: 'darkred' }}>
+                                            {val.verify_spervsr_remarks}
+                                        </Box>
+                                    </Box>
+                                </Box> : null}
                             <Box sx={{ flex: 1, display: 'flex', pt: .8, }}>
                                 <Box sx={{
-                                    maxWidth: 200,
+                                    maxWidth: 210,
                                     mx: .3, pr: .5,
                                     borderRight: 1, borderColor: 'lightgrey'
                                 }}>
-                                    <Typography sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700 }}> Ticket {val.complaint_slno}</Typography>
-                                    <Tooltip title='Ticket Registerd Date and time' placement='right'   >
-                                        <Typography sx={{ fontSize: 11, textAlign: 'center', fontWeight: 600, color: "black", mr: .3, cursor: 'grab' }}>
-                                            {val.compalint_date}
-                                        </Typography>
-                                    </Tooltip>
+                                    <Typography sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700 }}> Ticket No.</Typography>
+                                    <Typography sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700 }}>{val.complaint_slno}</Typography>
                                     <Box sx={{ flex: 1, display: 'flex', my: 1, justifyContent: 'center', }}>
-
-                                        {val.cm_file_status === 1 ?
-                                            <FilePresentRoundedIcon sx={{
-                                                color: '#41729F',
-                                                cursor: 'pointer',
-                                                height: 28, width: 30,
-                                                border: 1, borderRadius: 5, p: .1,
-                                                '&:hover': { color: '#274472' }
-                                            }}
-                                                onClick={() => fileView(val)}
-                                            /> :
-                                            null}
                                         <Tooltip title='Rectify' color='success'>
                                             <VerifiedSharpIcon sx={{
                                                 height: 28, width: 30, color: '#1D741B', cursor: 'pointer', border: 1, mx: .5, borderRadius: 5, p: .1,
@@ -495,14 +585,52 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                                                 onClick={() => RectifyRequest(val)}
                                             />
                                         </Tooltip>
-                                        <Tooltip title='Need Assist' color='warning' >
-                                            <BuildRoundedIcon sx={{
-                                                height: 28, width: 30, color: '#B68D40 ', cursor: 'pointer', border: 1, borderRadius: 5, p: .3,
-                                                '&:hover': { color: '#D6AD60' },
-                                                animation: val.assist_flag === 1 ? `${blinkAnimation} 1s infinite` : 'none',
-                                            }}
-                                                onClick={() => AssistanceRequest(val)} />
-                                        </Tooltip>
+                                        {badgeColor ? (
+                                            <Badge
+                                                badgeInset="3%"
+                                                sx={{
+                                                    '& .MuiBadge-badge': {
+                                                        backgroundColor: badgeColor,
+                                                        mr: .7,
+                                                        cursor: 'pointer'
+                                                    },
+                                                }}
+                                            >
+                                                <Tooltip title="Need Assist" color="warning">
+                                                    <BuildRoundedIcon
+                                                        onClick={() => AssistanceRequest(val)}
+                                                        sx={{
+                                                            height: 28,
+                                                            width: 30,
+                                                            color: '#B68D40',
+                                                            cursor: 'pointer',
+                                                            border: 1,
+                                                            borderRadius: 5,
+                                                            p: 0.3,
+                                                            '&:hover': { color: '#D6AD60' },
+                                                            animation: val.assist_flag === 1 ? `${blinkAnimation} 1s infinite` : 'none',
+                                                        }}
+                                                    />
+                                                </Tooltip>
+                                            </Badge>
+                                        ) : (
+                                            <Tooltip title="Need Assist" color="warning">
+                                                <BuildRoundedIcon
+                                                    onClick={() => AssistanceRequest(val)}
+                                                    sx={{
+                                                        height: 28,
+                                                        width: 30,
+                                                        color: '#B68D40',
+                                                        cursor: 'pointer',
+                                                        border: 1,
+                                                        borderRadius: 5,
+                                                        p: 0.3,
+                                                        '&:hover': { color: '#D6AD60' },
+                                                        animation: val.assist_flag === 1 ? `${blinkAnimation} 1s infinite` : 'none',
+                                                    }}
+                                                />
+                                            </Tooltip>
+                                        )}
                                         <Tooltip title='Keep On Hold'  >
                                             <PauseCircleFilledIcon sx={{
                                                 height: 28, width: 30, color: '#50655B ', cursor: 'pointer', border: 1, borderRadius: 5, p: .3, ml: .5,
@@ -511,24 +639,12 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
 
                                                 onClick={() => HoldRequest(val)} />
                                         </Tooltip>
-                                        {val.cm_query_status === 1 ?
-                                            <Tooltip title='Raised Query' >
-                                                <InsertCommentIcon sx={{
-                                                    height: 28, width: 30,
-                                                    color: '#1565B1',
-                                                    cursor: 'pointer', border: 1, mx: .5, borderRadius: 5, p: .1,
-                                                    '&:hover': { color: '#51575C' },
-                                                    animation: `${blinkAnimation} 1s infinite`
-                                                }
-                                                }
-                                                    onClick={() => RaiseQuery(val)}
-                                                />
-                                            </Tooltip> :
-                                            val.cm_query_status === 2 ?
-                                                <Tooltip title='New Replies' >
-                                                    <MarkUnreadChatAltIcon sx={{
+                                        {
+                                            val.cm_query_status === 1 ?
+                                                <Tooltip title='Raised Query' >
+                                                    <InsertCommentIcon sx={{
                                                         height: 28, width: 30,
-                                                        color: '#39918C',
+                                                        color: '#1565B1',
                                                         cursor: 'pointer', border: 1, mx: .5, borderRadius: 5, p: .1,
                                                         '&:hover': { color: '#51575C' },
                                                         animation: `${blinkAnimation} 1s infinite`
@@ -536,30 +652,59 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                                                     }
                                                         onClick={() => RaiseQuery(val)}
                                                     />
+                                                </Tooltip> :
+                                                val.cm_query_status === 2 ?
+                                                    <Tooltip title='New Replies' >
+                                                        <MarkUnreadChatAltIcon sx={{
+                                                            height: 28, width: 30,
+                                                            color: '#39918C',
+                                                            cursor: 'pointer', border: 1, mx: .5, borderRadius: 5, p: .1,
+                                                            '&:hover': { color: '#51575C' },
+                                                            animation: `${blinkAnimation} 1s infinite`
+                                                        }
+                                                        }
+                                                            onClick={() => RaiseQuery(val)}
+                                                        />
+                                                    </Tooltip>
+                                                    :
+                                                    <Tooltip title='Raise a Query' color='primary'>
+                                                        <ContactSupportIcon sx={{
+                                                            height: 28, width: 30,
+                                                            color: '#5C90FE',
+                                                            cursor: 'pointer', border: 1, mx: .5, borderRadius: 5,
+                                                            '&:hover': { color: '#1B84FC' },
+                                                        }
+                                                        }
+                                                            onClick={() => RaiseQuery(val)}
+                                                        />
+                                                    </Tooltip>
+                                        }
+                                        {
+                                            val.cm_file_status === 1 ?
+                                                <FilePresentRoundedIcon sx={{
+                                                    color: '#41729F',
+                                                    cursor: 'pointer',
+                                                    height: 28, width: 30,
+                                                    border: 1, borderRadius: 5, p: .1,
+                                                    mr: .5,
+                                                    '&:hover': { color: '#274472' }
+                                                }}
+                                                    onClick={() => fileView(val)}
+                                                /> :
+                                                null
+                                        }
+                                        {
+                                            val.cm_asset_status === 1 ?
+                                                <Tooltip title='Asset Details' sx={{ bgcolor: '#4C5270' }} >
+                                                    <MiscellaneousServicesIcon sx={{
+                                                        height: 28, width: 30, border: 1, borderRadius: 5, mr: .5,
+                                                        p: .1, color: '#4C5270', cursor: 'pointer'
+
+                                                    }} onClick={() => AssetView(val)} />
                                                 </Tooltip>
                                                 :
-                                                <Tooltip title='Raise a Query' color='primary'>
-                                                    <ContactSupportIcon sx={{
-                                                        height: 28, width: 30,
-                                                        color: '#5C90FE',
-                                                        cursor: 'pointer', border: 1, mx: .5, borderRadius: 5,
-                                                        '&:hover': { color: '#1B84FC' },
-                                                    }
-                                                    }
-                                                        onClick={() => RaiseQuery(val)}
-                                                    />
-                                                </Tooltip>}
-
-                                        {assetArray[val.complaint_slno]?.length !== 0 ?
-                                            <Tooltip title='Asset Details' sx={{ bgcolor: '#524199' }} >
-                                                <InventoryIcon sx={{
-                                                    height: 28, width: 30, border: 1, borderRadius: 5, mr: .5,
-                                                    p: .1, color: '#524199', cursor: 'pointer'
-
-                                                }} onClick={() => AssetView(val)} />
-                                            </Tooltip>
-                                            :
-                                            null}
+                                                null
+                                        }
                                     </Box>
                                 </Box>
                                 <Box sx={{
@@ -572,7 +717,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                                         <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
                                             Department Section
                                         </Typography>
-                                        <Typography sx={{ fontSize: 14, flex: 1, textTransform: 'capitalize' }}>
+                                        <Typography sx={{ fontSize: 15, flex: 1, textTransform: 'capitalize' }}>
                                             {val.location.charAt(0).toUpperCase() + val.location.slice(1).toLowerCase()}
                                         </Typography>
                                     </Box>
@@ -595,7 +740,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                                         <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
                                             Complaint Type
                                         </Typography>
-                                        <Typography sx={{ fontSize: 14, flex: 1, }}>
+                                        <Typography sx={{ fontSize: 15, flex: 1, }}>
                                             {val.complaint_type_name.charAt(0).toUpperCase() + val.complaint_type_name.slice(1).toLowerCase()}
                                         </Typography>
                                     </Box>
@@ -605,7 +750,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                                         Complaint Describtion
                                     </Typography>
                                     <Typography sx={{
-                                        pr: .5, pt: .3, fontSize: 14,
+                                        pr: .5, pt: .3, fontSize: 15,
                                         maxHeight: 50,
                                         overflow: 'auto'
                                     }}>
@@ -614,25 +759,25 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                                 </Box>
                             </Box>
                             <Box sx={{
-                                flex: 1, bgcolor: '#E5E8E9', borderBottomRightRadius: 5, borderBottomLeftRadius: 5, mb: .1,
-                                mx: .1, display: 'flex',
+                                flex: 1, bgcolor: '#E5E8E9', borderBottomRightRadius: 5, borderBottomLeftRadius: 5,
+                                display: 'flex',
                             }}>
                                 <Tooltip title='CountUp time Starts from Ticket Registration' color='warning' variant="soft" sx={{ width: 180 }}>
-                                    <Box sx={{ textAlign: 'center', display: 'flex', cursor: 'grab', ml: .8, pt: .4, width: 115 }}>
+                                    <Box sx={{ display: 'flex', cursor: 'grab', fontSize: 13, py: .3, pl: .3, width: 125 }}>
                                         <CountDownCm complaintDate={val.compalint_date} />
                                     </Box>
                                 </Tooltip>
                                 <Tooltip title='Ticket Assinged Date and time' placement='right'   >
-                                    <Box sx={{ display: 'flex', ml: 1 }}>
-                                        <QueryBuilderRoundedIcon sx={{ color: 'black', borderRadius: 1, pt: .7 }} />
-                                        <Typography sx={{ fontSize: 12, textAlign: 'center', fontWeight: 600, color: "black", mr: .3, mt: .6, cursor: 'grab' }}>
+                                    <Box sx={{ display: 'flex', ml: 1, pt: .3 }}>
+                                        <QueryBuilderRoundedIcon sx={{ color: 'black', borderRadius: 1, p: .2 }} />
+                                        <Typography sx={{ fontSize: 12, textAlign: 'center', fontWeight: 600, color: "black", mr: .3, pt: .4, cursor: 'grab' }}>
                                             {val.assigned_date}
                                         </Typography>
                                     </Box>
                                 </Tooltip>
                                 {
                                     val.priority_check === 1 ?
-                                        <Box sx={{ display: 'flex', pl: 1.3 }}>
+                                        <Box sx={{ display: 'flex', pl: 1 }}>
                                             <ErrorIcon
                                                 sx={{
                                                     height: 30,
@@ -647,29 +792,35 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                                         </Box> : null
                                 }
                                 <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', }}>
-                                    <Typography sx={{ fontSize: 13, fontWeight: 700, pt: .3 }}>Assingees :</Typography>&nbsp;&nbsp;
+                                    <Typography sx={{ fontSize: 13, fontWeight: 700, pt: .5 }}>Assignees :</Typography>&nbsp;&nbsp;
                                     <Box sx={{ fontWeight: 600, display: 'flex', py: .4, gap: .3 }}>
-                                        {assignedEmployees[val.complaint_slno]?.map((emp, index) => (
-                                            <Chip
-                                                key={index}
-                                                size="small"
-                                                variant="outlined"
-                                                sx={{ bgcolor: '#D3C7A1', fontSize: 13, px: .8 }}>
-                                                {emp.em_name}
+
+                                        {val.assigned_employee_names === null ?
+                                            <Chip>
+                                                Not Updated
                                             </Chip>
-                                        ))}
+                                            :
+                                            <>
+                                                {val.assigned_employee_names.split(',').map((name, index) => (
+                                                    <Chip
+                                                        key={index}
+                                                        size="small"
+                                                        variant="outlined"
+                                                        sx={{ bgcolor: '#D3C7A1', fontSize: 13, px: 0.8, marginRight: 0.1 }}
+                                                    >
+                                                        {name.trim()}
+                                                    </Chip>
+                                                ))}
+                                            </>
+                                        }
                                     </Box>
-
-
-
-                                    &nbsp;&nbsp;
                                 </Box>
                             </Box>
                         </Box>
                     )
                 })}
-            </Box>
-        </Box>
+            </Box >
+        </Box >
     )
 }
 

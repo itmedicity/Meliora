@@ -90,7 +90,12 @@ const AcceptOrRejectAssistRequest = ({ open, setOpen, reqDetails, count, setCoun
                 infoNotify(message)
             }
         }
-        assistantReject(postData)
+        if (remark !== '') {
+            assistantReject(postData)
+        }
+        else {
+            infoNotify("Please Update Reason to Reject the Assist Request")
+        }
     }, [id, complaint_slno, count, Close, setCount, remark])
 
 
@@ -101,24 +106,20 @@ const AcceptOrRejectAssistRequest = ({ open, setOpen, reqDetails, count, setCoun
                 aria-describedby="modal-desc"
                 open={open}
                 sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pl: 1, borderRadius: 10 }}>
-                <ModalDialog variant="outlined" sx={{ width: '35vw', p: 0, overflow: 'auto' }}>
-
+                <ModalDialog variant="outlined" sx={{ width: '50vw', p: 0, overflow: 'auto', }}>
                     <Box sx={{ flex: 1, display: 'flex' }}>
-
                         <Typography sx={{ fontWeight: 600, pl: .8, pt: 1, color: 'grey', }}>Accept/Reject Assist Request</Typography>
-
                     </Box>
-
                     <Box sx={{ flex: 1, pl: 1, bgcolor: '#ECEDEF', display: 'flex' }}>
-
                         <Box sx={{ flex: 2 }}>
                             <Typography sx={{ pl: .5, fontWeight: 600, color: 'Black', }}>Ticket No.{complaint_slno}</Typography>
-                            <Typography sx={{ pl: .5, fontSize: 15, color: 'Black', pt: .3 }}>
-                                {complaint_desc}
-                            </Typography>
                             <Typography sx={{ pl: .5, fontSize: 13, color: 'Black', py: .5 }}>
-                                Complaint Type: {complaint_type_name}
+                                Complaint Type:
                             </Typography>
+                            <Typography sx={{ fontSize: 13, color: 'Black', pl: .5, }}>
+                                {complaint_type_name}
+                            </Typography>
+
                         </Box>
 
                         <Box sx={{ flex: 1, textAlign: 'right', pr: 1 }}>
@@ -133,12 +134,23 @@ const AcceptOrRejectAssistRequest = ({ open, setOpen, reqDetails, count, setCoun
                                         : "Not Updated"}
                                 </Typography> : null}
                             <Typography sx={{ pl: .5, fontSize: 13, color: 'Black', }}>
-                                {compalint_date}
+                                {compalint_date
+                                    ? format(new Date(compalint_date), 'dd MMM yyyy,  hh:mm a')
+                                    : 'Invalid Date'}
                             </Typography>
                         </Box>
                     </Box>
+                    <Box sx={{ flex: 1, pl: 2 }}>
+                        <Typography sx={{ pb: .3, fontWeight: 600, color: 'Black', }}>
+                            Description
+                        </Typography>
+                        <Typography sx={{ pl: .5, fontSize: 15, color: 'Black', pt: .3 }}>
+                            {complaint_desc}
+                        </Typography>
 
-                    <Box sx={{ flex: 1, pl: 1 }}>
+                    </Box>
+
+                    <Box sx={{ flex: 1, pl: 2 }}>
                         <Typography sx={{ pb: .3, fontWeight: 600, color: 'Black', }}>
                             Request From,
                         </Typography>
@@ -146,7 +158,9 @@ const AcceptOrRejectAssistRequest = ({ open, setOpen, reqDetails, count, setCoun
                             {em_name}
                         </Typography>
                         <Typography sx={{ fontSize: 13, color: 'Black', }}>
-                            {assist_assign_date}
+                            {assist_assign_date
+                                ? format(new Date(assist_assign_date), 'dd MMM yyyy,  hh:mm a')
+                                : 'Invalid Date'}
                         </Typography>
                     </Box>
 

@@ -1,8 +1,6 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { memo, useCallback, useMemo, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import CardMaster from 'src/views/Components/CardMaster'
-
-// import { Grid } from '@mui/material'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import { axioslogin } from 'src/views/Axios/Axios'
@@ -16,7 +14,9 @@ const HoldReasonMaster = () => {
     const history = useHistory()
     const [value, setValue] = useState(0)
     const [count, setCount] = useState(0)
-    const [color, setColor] = useState('#000000'); // Default color
+    const [color, setColor] = useState('#000000');
+
+
     // Get login user emp_id
     const id = useSelector((state) => {
         return state.LoginUserData.empid
@@ -192,4 +192,4 @@ const HoldReasonMaster = () => {
     )
 }
 
-export default HoldReasonMaster
+export default memo(HoldReasonMaster)
