@@ -121,7 +121,7 @@ const DepartmentWisePatientMarking = () => {
                                                 views={['year', 'month', 'day']}
                                                 size="small"
                                                 inputFormat='dd-MM-yyyy'
-                                                minDate={subDays(new Date(), 2)}
+                                                minDate={subDays(new Date(), 20)}
                                                 maxDate={new Date()}
                                                 // slotProps={{ textField: { variant: "plain" } }}
                                                 onChange={(newValue) => {

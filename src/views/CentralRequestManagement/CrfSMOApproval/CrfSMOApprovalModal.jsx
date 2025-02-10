@@ -16,17 +16,17 @@ import { useQueryClient } from 'react-query'
 import { useSelector } from 'react-redux'
 import _ from 'underscore'
 import imageCompression from 'browser-image-compression';
-import { PUBLIC_NAS_FOLDER, PUBLIC_NAS_FOLDER_KMC } from 'src/views/Constant/Static';
+import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import { format } from 'date-fns'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
-import { axioskmc, axioslogin } from 'src/views/Axios/Axios'
+import { axioslogin } from 'src/views/Axios/Axios'
 import CommonDmsApprvCmp from '../ComonComponent/ApprovalComp/CommonDmsApprvCmp'
 import CommonMsApprvCmp from '../ComonComponent/ApprovalComp/CommonMsApprvCmp'
 import CommonMoApprvlCmp from '../ComonComponent/ApprovalComp/CommonMoApprvlCmp'
 import ModalButtomCmp from '../ComonComponent/Components/ModalButtomCmp'
 
 const CrfSMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApproveTableData, approveTableData,
-    datacolflag, datacolData, imagearray, selectedCompany }) => {
+    datacolflag, datacolData, imagearray }) => {
     const { req_slno, incharge_req, incharge_remarks, hod_req, hod_approve, dms_req, dms_approve, ms_approve,
         ms_approve_req, manag_operation_approv, senior_manage_approv, senior_manage_remarks,
         smo_detial_analysis, smo_image
@@ -244,60 +244,33 @@ const CrfSMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
 
     useEffect(() => {
         isMounted.current = true;
-        if (selectedCompany === '1') {
-            const getImage = async (req_slno) => {
-                const result = await axioslogin.get(`/newCRFRegisterImages/crfSMOImageGet/${req_slno}`)
-                const { success, data } = result.data
-                if (success === 1) {
-                    const fileNames = data;
-                    const fileUrls = fileNames.map((fileName) => {
-                        return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/SMOUpload/${fileName}`;
-                    });
-                    const savedFiles = fileUrls.map((val) => {
-                        const parts = val.split('/');
-                        const fileNamePart = parts[parts.length - 1];
-                        const obj = {
-                            imageName: fileNamePart,
-                            url: val
-                        }
-                        return obj
-                    })
-                    setUploadedImages(savedFiles);
-                } else {
-                    setUploadedImages([])
-                }
+        const getImage = async (req_slno) => {
+            const result = await axioslogin.get(`/newCRFRegisterImages/crfSMOImageGet/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const fileNames = data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/SMOUpload/${fileName}`;
+                });
+                const savedFiles = fileUrls.map((val) => {
+                    const parts = val.split('/');
+                    const fileNamePart = parts[parts.length - 1];
+                    const obj = {
+                        imageName: fileNamePart,
+                        url: val
+                    }
+                    return obj
+                })
+                setUploadedImages(savedFiles);
+            } else {
+                setUploadedImages([])
             }
-            getImage(req_slno)
-
-        } else if (selectedCompany === '2') {
-            const getImage = async (req_slno) => {
-                const result = await axioskmc.get(`/newCRFRegisterImages/crfSMOImageGet/${req_slno}`)
-                const { success, data } = result.data
-                if (success === 1) {
-                    const fileNames = data;
-                    const fileUrls = fileNames.map((fileName) => {
-                        return `${PUBLIC_NAS_FOLDER_KMC}/CRF/crf_registration/${req_slno}/SMOUpload/${fileName}`;
-                    });
-                    const savedFiles = fileUrls.map((val) => {
-                        const parts = val.split('/');
-                        const fileNamePart = parts[parts.length - 1];
-                        const obj = {
-                            imageName: fileNamePart,
-                            url: val
-                        }
-                        return obj
-                    })
-                    setUploadedImages(savedFiles);
-                } else {
-                    setUploadedImages([])
-                }
-            }
-            getImage(req_slno)
         }
+        getImage(req_slno)
         return () => {
             isMounted.current = false;
         };
-    }, [req_slno, selectedCompany])
+    }, [req_slno])
 
     return (
         <Fragment>
@@ -327,7 +300,7 @@ const CrfSMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
                             }}
                         />
                         <Box sx={{ minWidth: '80vw', minHeight: '62vh', maxHeight: '85vh', overflowY: 'auto' }}>
-                            <CrfReqDetailViewCmp ApprovalData={ApprovalData} imagearray={imagearray} selectedCompany={selectedCompany} />
+                            <CrfReqDetailViewCmp ApprovalData={ApprovalData} imagearray={imagearray} />
                             <Box sx={{ overflow: 'auto', pt: 0.5, mx: 0.3 }}>
                                 {reqItems.length !== 0 ?
                                     <ReqItemDisplay reqItems={reqItems} /> : null
@@ -352,22 +325,22 @@ const CrfSMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
                                     }
                                     {hod_req === 1 && hod_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonHodApprvCmp DetailViewData={ApprovalData} selectedCompany={selectedCompany} />
+                                            <CommonHodApprvCmp DetailViewData={ApprovalData} />
                                         </Box>
                                         : null}
                                     {dms_req === 1 && dms_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonDmsApprvCmp DetailViewData={ApprovalData} selectedCompany={selectedCompany} />
+                                            <CommonDmsApprvCmp DetailViewData={ApprovalData} />
                                         </Box>
                                         : null}
                                     {ms_approve_req === 1 && ms_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonMsApprvCmp DetailViewData={ApprovalData} selectedCompany={selectedCompany} />
+                                            <CommonMsApprvCmp DetailViewData={ApprovalData} />
                                         </Box>
                                         : null}
                                     {manag_operation_approv !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonMoApprvlCmp DetailViewData={ApprovalData} selectedCompany={selectedCompany} />
+                                            <CommonMoApprvlCmp DetailViewData={ApprovalData} />
                                         </Box>
                                         : null}
                                 </Box>

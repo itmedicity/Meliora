@@ -1,52 +1,13 @@
-import React, { memo, useEffect, useMemo, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import Modal from '@mui/joy/Modal';
 import Sheet from '@mui/joy/Sheet';
 import { CssVarsProvider } from '@mui/joy';
 import { Box } from '@mui/material'
 import Button from '@mui/joy/Button';
-import { axioskmc, axioslogin } from 'src/views/Axios/Axios';
-import { PUBLIC_NAS_FOLDER, PUBLIC_NAS_FOLDER_KMC } from 'src/views/Constant/Static';
-
-
-const DataCollectnImageDis = ({ open, handleCloseCollect, dataCollSlno, req_slno, selectedCompany }) => {
-    const postdata = useMemo(() => {
-        return {
-            req_slno: req_slno,
-            crf_data_collect_slno: dataCollSlno
-        }
-    }, [req_slno, dataCollSlno])
+const DataCollectnImageDis = ({ open, handleCloseCollect, imagearray }) => {
     const [disArry, setDissArry] = useState([])
-    const [imagearray, setImageArry] = useState([])
     useEffect(() => {
-        const getImage = async (postdata) => {
-            if (selectedCompany === '1') {
-                const result = await axioslogin.post('/newCRFRegisterImages/crf/getDataCollectionImage', postdata)
-                const { success, data } = result.data
-                if (success === 1) {
-                    const fileNames = data;
-                    const fileUrls = fileNames.map((fileName) => {
-                        return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/datacollection/${dataCollSlno}/${fileName}`;
-                    });
-                    setImageArry(fileUrls);
-                }
-            }
-            else if (selectedCompany === '2') {
-                const result = await axioskmc.post('/newCRFRegisterImages/crf/getDataCollectionImage', postdata)
-                const { success, data } = result.data
-                if (success === 1) {
-                    const fileNames = data;
-                    const fileUrls = fileNames.map((fileName) => {
-                        return `${PUBLIC_NAS_FOLDER_KMC}/CRF/crf_registration/${req_slno}/datacollection/${dataCollSlno}/${fileName}`;
-                    });
-                    setImageArry(fileUrls);
-                }
-            }
-        }
-        getImage(postdata)
-    }, [postdata, dataCollSlno, req_slno, selectedCompany])
-
-    useEffect(() => {
-        if (imagearray.length !== 0) {
+        if (imagearray && imagearray.length !== 0) {
             const disimage = imagearray.map((val) => {
                 const parts = val.split('/');
                 const fileNamePart = parts[parts.length - 1];
@@ -78,9 +39,8 @@ const DataCollectnImageDis = ({ open, handleCloseCollect, dataCollSlno, req_slno
                         border: '0.1px solid #454545', minHeight: 500, margin: "auto",
                         height: window.innerHeight - 350, overflowX: "auto", '::-webkit-scrollbar': { display: "none" }
                     }}>
-                        {disArry?.map((value, index) => (
+                        {disArry && disArry.map((value, index) => (
                             <Box key={index} sx={{ display: 'flex', flexDirection: "column" }}>
-
                                 {
                                     value.imageName.endsWith('.pdf') ? (
                                         <embed

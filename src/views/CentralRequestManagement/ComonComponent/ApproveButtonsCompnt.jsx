@@ -14,18 +14,18 @@ import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import CountdownTimer from '../PurchaseProcess/Component/CountdownTimer';
 import ThumbUpAltTwoToneIcon from '@mui/icons-material/ThumbUpAltTwoTone';
 import { ToastContainer } from 'react-toastify';
-import { PUBLIC_NAS_FOLDER, PUBLIC_NAS_FOLDER_KMC } from 'src/views/Constant/Static';
-import { axioskmc, axioslogin } from 'src/views/Axios/Axios';
+import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
+import { axioslogin } from 'src/views/Axios/Axios';
 import DoDisturbOffTwoToneIcon from '@mui/icons-material/DoDisturbOffTwoTone';
 import HigherAppDoneModal from './HigherAppDoneModal';
 import { GetItemDetailsOfCRFCmp } from './GetItemDetailsOfCRFCmp';
 import ImageDisplayModal from './ImageUploadCmp/ImageDisplayModal';
-import { GetKMCItemDetails } from './ComponentsKMC/GetKMCItemDetails';
 import EventAvailableTwoToneIcon from '@mui/icons-material/EventAvailableTwoTone';
+import CustomToolTipForCRF from './Components/CustomToolTipForCRF';
 const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag, setCancelModal, setApprovalData,
     setCancelData, val, setReqItems, setApproveTableData, approveTableData, setPoDetails, reqItems, poDetails,
     setDataCollectData, setDataColFlag, setDataColData, setCollectDetailCheck, imagearray, setImageArry, datacolData,
-    crfRadioValue, radiovalue, selectedCompany }) => {
+    crfRadioValue, radiovalue }) => {
 
     const { higher, crf_close, image_status, crf_closed_one, now_who, now_who_status, dept_type,
         dept_type_name, expected_date } = val
@@ -37,417 +37,219 @@ const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag
     const [DetailViewData, setDetailViewData] = useState([])
     const Approvalfctn = useCallback(() => {
         const { req_slno } = val
-        if (selectedCompany === '1') {
-            const getImage = async (req_slno) => {
-                const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
-                const { success, data } = result.data
-                if (success === 1) {
-                    const fileNames = data;
-                    const fileUrls = fileNames.map((fileName) => {
-                        return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
-                    });
-                    const savedFiles = fileUrls.map((val) => {
-                        const parts = val.split('/');
-                        const fileNamePart = parts[parts.length - 1];
-                        const obj = {
-                            imageName: fileNamePart,
-                            url: val
-                        }
-                        return obj
-                    })
-                    setImageArry(savedFiles)
-                } else {
-                    setImageArry([])
-                }
+        const getImage = async (req_slno) => {
+            const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const fileNames = data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
+                });
+                const savedFiles = fileUrls.map((val) => {
+                    const parts = val.split('/');
+                    const fileNamePart = parts[parts.length - 1];
+                    const obj = {
+                        imageName: fileNamePart,
+                        url: val
+                    }
+                    return obj
+                })
+                setImageArry(savedFiles)
+            } else {
+                setImageArry([])
             }
-            getImage(req_slno)
-            GetItemDetailsOfCRFCmp(req_slno, setReqItems, setApproveTableData, setPoDetails)
-            const checkDataCollectComplete = async (req_slno) => {
-                const result = await axioslogin.get(`/CRFRegisterApproval/DataCollectComplete/${req_slno}`)
-                const { success, data } = result.data
-                if (success === 1) {
-                    const xx = data?.filter((val) => val.crf_dept_status !== 1)
-                    const yy = data?.filter((val) => val.crf_dept_status === 1)
-                    if (xx.length !== 0) {
-                        const datas = xx.map((val) => {
-                            const obj = {
-                                req_slno: val.crf_requst_slno,
-                                crf_dept_remarks: val.crf_dept_remarks,
-                                datagive_user: val.datagive_user,
-                                data_entered: val.data_entered !== null ? val.data_entered.toLowerCase() : '',
-                                reqest_one: val.reqest_one,
-                                req_user: val.req_user !== null ? val.req_user.toLowerCase() : '',
-                                create_date: val.create_date,
-                                update_date: val.update_date,
-                                crf_req_remark: val.crf_req_remark,
-                                data_coll_image_status: val.data_coll_image_status,
-                                crf_data_collect_slno: val.crf_data_collect_slno
-                            }
-                            return obj
-                        })
-                        setDataCollectData(datas)
-                        setApprovalFlag(2)
-                        setCollectDetailCheck(true)
-                    }
-                    else {
-                        setCollectDetailCheck(false)
-                        setDataCollectData([])
-                        setApprovalFlag(1)
-                        setApprovalModal(true)
-                    }
-                    if (yy.length !== 0) {
-                        setDataColFlag(1)
-                        const datas = yy.map((val) => {
-                            const obj = {
-                                req_slno: val.crf_requst_slno,
-                                crf_dept_remarks: val.crf_dept_remarks,
-                                datagive_user: val.datagive_user,
-                                data_entered: val.data_entered !== null ? val.data_entered.toLowerCase() : '',
-                                reqest_one: val.reqest_one,
-                                req_user: val.req_user !== null ? val.req_user.toLowerCase() : '',
-                                create_date: val.create_date,
-                                update_date: val.update_date,
-                                crf_req_remark: val.crf_req_remark,
-                                data_coll_image_status: val.data_coll_image_status,
-                                crf_data_collect_slno: val.crf_data_collect_slno
-                            }
-                            return obj
-                        })
-                        setDataColData(datas)
-                    }
-                    else {
-                        setDataColFlag(0)
-                        setDataColData([])
-                    }
-                }
-                else {
-                    setApprovalFlag(1)
-                    setApprovalModal(true)
-                    setCollectDetailCheck(false)
-                }
-            }
-            checkDataCollectComplete(req_slno)
-        } else if (selectedCompany === '2') {
-            const getImage = async (req_slno) => {
-                const result = await axioskmc.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
-                const { success, data } = result.data
-                if (success === 1) {
-                    const fileNames = data;
-                    const fileUrls = fileNames.map((fileName) => {
-                        return `${PUBLIC_NAS_FOLDER_KMC}/CRF/crf_registration/${req_slno}/${fileName}`;
-                    });
-                    const savedFiles = fileUrls.map((val) => {
-                        const parts = val.split('/');
-                        const fileNamePart = parts[parts.length - 1];
-                        const obj = {
-                            imageName: fileNamePart,
-                            url: val
-                        }
-                        return obj
-                    })
-                    setImageArry(savedFiles)
-                } else {
-                    setImageArry([])
-                }
-            }
-            getImage(req_slno)
-            GetKMCItemDetails(req_slno, setReqItems, setApproveTableData, setPoDetails)
-            const checkDataCollectComplete = async (req_slno) => {
-                const result = await axioskmc.get(`/CRFRegisterApproval/DataCollectComplete/${req_slno}`)
-                const { success, data } = result.data
-                if (success === 1) {
-                    const xx = data?.filter((val) => val.crf_dept_status !== 1)
-                    const yy = data?.filter((val) => val.crf_dept_status === 1)
-                    if (xx.length !== 0) {
-                        const datas = xx.map((val) => {
-                            const obj = {
-                                req_slno: val.crf_requst_slno,
-                                crf_dept_remarks: val.crf_dept_remarks,
-                                datagive_user: val.datagive_user,
-                                data_entered: val.data_entered !== null ? val.data_entered.toLowerCase() : '',
-                                reqest_one: val.reqest_one,
-                                req_user: val.req_user !== null ? val.req_user.toLowerCase() : '',
-                                create_date: val.create_date,
-                                update_date: val.update_date,
-                                crf_req_remark: val.crf_req_remark,
-                                data_coll_image_status: val.data_coll_image_status,
-                                crf_data_collect_slno: val.crf_data_collect_slno
-                            }
-                            return obj
-                        })
-                        setDataCollectData(datas)
-                        setApprovalFlag(2)
-                        setCollectDetailCheck(true)
-                    }
-                    else {
-                        setCollectDetailCheck(false)
-                        setDataCollectData([])
-                        setApprovalFlag(1)
-                        setApprovalModal(true)
-                    }
-                    if (yy.length !== 0) {
-                        setDataColFlag(1)
-                        const datas = yy.map((val) => {
-                            const obj = {
-                                req_slno: val.crf_requst_slno,
-                                crf_dept_remarks: val.crf_dept_remarks,
-                                datagive_user: val.datagive_user,
-                                data_entered: val.data_entered !== null ? val.data_entered.toLowerCase() : '',
-                                reqest_one: val.reqest_one,
-                                req_user: val.req_user !== null ? val.req_user.toLowerCase() : '',
-                                create_date: val.create_date,
-                                update_date: val.update_date,
-                                crf_req_remark: val.crf_req_remark,
-                                data_coll_image_status: val.data_coll_image_status,
-                                crf_data_collect_slno: val.crf_data_collect_slno
-                            }
-                            return obj
-                        })
-                        setDataColData(datas)
-                    }
-                    else {
-                        setDataColFlag(0)
-                        setDataColData([])
-                    }
-                }
-                else {
-                    setApprovalFlag(1)
-                    setApprovalModal(true)
-                    setCollectDetailCheck(false)
-                }
-            }
-            checkDataCollectComplete(req_slno)
         }
+        getImage(req_slno)
+        GetItemDetailsOfCRFCmp(req_slno, setReqItems, setApproveTableData, setPoDetails)
+        const checkDataCollectComplete = async (req_slno) => {
+            const result = await axioslogin.get(`/CRFRegisterApproval/DataCollectComplete/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const xx = data?.filter((val) => val.crf_dept_status !== 1)
+                const yy = data?.filter((val) => val.crf_dept_status === 1)
+                if (xx.length !== 0) {
+                    const datas = xx.map((val) => {
+                        const obj = {
+                            req_slno: val.crf_requst_slno,
+                            crf_dept_remarks: val.crf_dept_remarks,
+                            datagive_user: val.datagive_user,
+                            data_entered: val.data_entered !== null ? val.data_entered.toLowerCase() : '',
+                            reqest_one: val.reqest_one,
+                            req_user: val.req_user !== null ? val.req_user.toLowerCase() : '',
+                            create_date: val.create_date,
+                            update_date: val.update_date,
+                            crf_req_remark: val.crf_req_remark,
+                            data_coll_image_status: val.data_coll_image_status,
+                            crf_data_collect_slno: val.crf_data_collect_slno
+                        }
+                        return obj
+                    })
+                    setDataCollectData(datas)
+                    setApprovalFlag(2)
+                    setCollectDetailCheck(true)
+                }
+                else {
+                    setCollectDetailCheck(false)
+                    setDataCollectData([])
+                    setApprovalFlag(1)
+                    setApprovalModal(true)
+                }
+                if (yy.length !== 0) {
+                    setDataColFlag(1)
+                    const datas = yy.map((val) => {
+                        const obj = {
+                            req_slno: val.crf_requst_slno,
+                            crf_dept_remarks: val.crf_dept_remarks,
+                            datagive_user: val.datagive_user,
+                            data_entered: val.data_entered !== null ? val.data_entered.toLowerCase() : '',
+                            reqest_one: val.reqest_one,
+                            req_user: val.req_user !== null ? val.req_user.toLowerCase() : '',
+                            create_date: val.create_date,
+                            update_date: val.update_date,
+                            crf_req_remark: val.crf_req_remark,
+                            data_coll_image_status: val.data_coll_image_status,
+                            crf_data_collect_slno: val.crf_data_collect_slno
+                        }
+                        return obj
+                    })
+                    setDataColData(datas)
+                }
+                else {
+                    setDataColFlag(0)
+                    setDataColData([])
+                }
+            }
+            else {
+                setApprovalFlag(1)
+                setApprovalModal(true)
+                setCollectDetailCheck(false)
+            }
+        }
+        checkDataCollectComplete(req_slno)
         setApprovalData(val)
 
     }, [setApprovalFlag, setApprovalModal, val, setApprovalData, setPoDetails, setApproveTableData, setReqItems,
-        setDataCollectData, setDataColFlag, setDataColData, setCollectDetailCheck, setImageArry, selectedCompany
+        setDataCollectData, setDataColFlag, setDataColData, setCollectDetailCheck, setImageArry
     ])
 
     const CloseFnctn = useCallback(() => {
         const { req_slno } = val
-        if (selectedCompany === '1') {
-            const getImage = async (req_slno) => {
-                const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
-                const { success, data } = result.data
-                if (success === 1) {
-                    const fileNames = data;
-                    const fileUrls = fileNames.map((fileName) => {
-                        return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
-                    });
+        const getImage = async (req_slno) => {
+            const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const fileNames = data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
+                });
 
-                    const savedFiles = fileUrls.map((val) => {
-                        const parts = val.split('/');
-                        const fileNamePart = parts[parts.length - 1];
-                        const obj = {
-                            imageName: fileNamePart,
-                            url: val
-                        }
-                        return obj
-                    })
-                    setImageArry(savedFiles)
-                } else {
-                    setImageArry([])
-                }
+                const savedFiles = fileUrls.map((val) => {
+                    const parts = val.split('/');
+                    const fileNamePart = parts[parts.length - 1];
+                    const obj = {
+                        imageName: fileNamePart,
+                        url: val
+                    }
+                    return obj
+                })
+                setImageArry(savedFiles)
+            } else {
+                setImageArry([])
             }
-            getImage(req_slno)
-            GetItemDetailsOfCRFCmp(req_slno, setReqItems, setApproveTableData, setPoDetails)
-        } else if (selectedCompany === '2') {
-            const getImage = async (req_slno) => {
-                const result = await axioskmc.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
-                const { success, data } = result.data
-                if (success === 1) {
-                    const fileNames = data;
-                    const fileUrls = fileNames.map((fileName) => {
-                        return `${PUBLIC_NAS_FOLDER_KMC}/CRF/crf_registration/${req_slno}/${fileName}`;
-                    });
-
-                    const savedFiles = fileUrls.map((val) => {
-                        const parts = val.split('/');
-                        const fileNamePart = parts[parts.length - 1];
-                        const obj = {
-                            imageName: fileNamePart,
-                            url: val
-                        }
-                        return obj
-                    })
-                    setImageArry(savedFiles)
-                } else {
-                    setImageArry([])
-                }
-            }
-            getImage(req_slno)
-            GetKMCItemDetails(req_slno, setReqItems, setApproveTableData, setPoDetails)
         }
+        getImage(req_slno)
+        GetItemDetailsOfCRFCmp(req_slno, setReqItems, setApproveTableData, setPoDetails)
         setCancelFlag(1)
         setCancelModal(true)
         setCancelData(val)
-    }, [setCancelFlag, setCancelModal, setCancelData, val, setPoDetails, setReqItems, setImageArry, setApproveTableData,
-        selectedCompany])
+    }, [setCancelFlag, setCancelModal, setCancelData, val, setPoDetails, setReqItems, setImageArry,
+        setApproveTableData])
 
     const DataViewfnctn = useCallback(() => {
         const { req_slno } = val
 
-        // GetAllItemDetails(req_slno, setReqItems, setAllItems, setPoDetails)
-        if (selectedCompany === '1') {
-            const getImage = async (req_slno) => {
-                const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
-                const { success, data } = result.data
-                if (success === 1) {
-                    const fileNames = data;
-                    const fileUrls = fileNames.map((fileName) => {
-                        return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
-                    });
+        const getImage = async (req_slno) => {
+            const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const fileNames = data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
+                });
 
-                    const savedFiles = fileUrls.map((val) => {
-                        const parts = val.split('/');
-                        const fileNamePart = parts[parts.length - 1];
-                        const obj = {
-                            imageName: fileNamePart,
-                            url: val
-                        }
-                        return obj
-                    })
-                    setImageArry(savedFiles)
-                } else {
-                    setImageArry([])
-                }
-            }
-            getImage(req_slno)
-            GetItemDetailsOfCRFCmp(req_slno, setReqItems, setApproveTableData, setPoDetails)
-            const checkDataCollectComplete = async (req_slno) => {
-                const result = await axioslogin.get(`/CRFRegisterApproval/DataCollectComplete/${req_slno}`)
-                const { success, data } = result.data
-                if (success === 1) {
-                    const yy = data?.filter((val) => val.crf_dept_status === 1)
-                    if (yy.length !== 0) {
-                        setDataColFlag(1)
-                        const datas = yy.map((val) => {
-                            const obj = {
-                                req_slno: val.crf_requst_slno,
-                                crf_dept_remarks: val.crf_dept_remarks,
-                                datagive_user: val.datagive_user,
-                                data_entered: val.data_entered !== null ? val.data_entered.toLowerCase() : '',
-                                reqest_one: val.reqest_one,
-                                req_user: val.req_user !== null ? val.req_user.toLowerCase() : '',
-                                create_date: val.create_date,
-                                update_date: val.update_date,
-                                crf_req_remark: val.crf_req_remark,
-                                data_coll_image_status: val.data_coll_image_status,
-                                crf_data_collect_slno: val.crf_data_collect_slno,
-                            }
-                            return obj
-                        })
-                        setDataColData(datas)
+                const savedFiles = fileUrls.map((val) => {
+                    const parts = val.split('/');
+                    const fileNamePart = parts[parts.length - 1];
+                    const obj = {
+                        imageName: fileNamePart,
+                        url: val
                     }
-                }
-                else {
-                    setDataColData([])
-                }
+                    return obj
+                })
+                setImageArry(savedFiles)
+            } else {
+                setImageArry([])
             }
-            checkDataCollectComplete(req_slno)
-        } else if (selectedCompany === '2') {
-            const getImage = async (req_slno) => {
-                const result = await axioskmc.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
-                const { success, data } = result.data
-                if (success === 1) {
-                    const fileNames = data;
-                    const fileUrls = fileNames.map((fileName) => {
-                        return `${PUBLIC_NAS_FOLDER_KMC}/CRF/crf_registration/${req_slno}/${fileName}`;
-                    });
-
-                    const savedFiles = fileUrls.map((val) => {
-                        const parts = val.split('/');
-                        const fileNamePart = parts[parts.length - 1];
-                        const obj = {
-                            imageName: fileNamePart,
-                            url: val
-                        }
-                        return obj
-                    })
-                    setImageArry(savedFiles)
-                } else {
-                    setImageArry([])
-                }
-            }
-            getImage(req_slno)
-            GetKMCItemDetails(req_slno, setReqItems, setApproveTableData, setPoDetails)
-            const checkDataCollectComplete = async (req_slno) => {
-                const result = await axioskmc.get(`/CRFRegisterApproval/DataCollectComplete/${req_slno}`)
-                const { success, data } = result.data
-                if (success === 1) {
-                    const yy = data?.filter((val) => val.crf_dept_status === 1)
-                    if (yy.length !== 0) {
-                        setDataColFlag(1)
-                        const datas = yy.map((val) => {
-                            const obj = {
-                                req_slno: val.crf_requst_slno,
-                                crf_dept_remarks: val.crf_dept_remarks,
-                                datagive_user: val.datagive_user,
-                                data_entered: val.data_entered !== null ? val.data_entered.toLowerCase() : '',
-                                reqest_one: val.reqest_one,
-                                req_user: val.req_user !== null ? val.req_user.toLowerCase() : '',
-                                create_date: val.create_date,
-                                update_date: val.update_date,
-                                crf_req_remark: val.crf_req_remark,
-                                data_coll_image_status: val.data_coll_image_status,
-                                crf_data_collect_slno: val.crf_data_collect_slno,
-                            }
-                            return obj
-                        })
-                        setDataColData(datas)
-                    }
-                }
-                else {
-                    setDataColData([])
-                }
-            }
-            checkDataCollectComplete(req_slno)
         }
+        getImage(req_slno)
+        GetItemDetailsOfCRFCmp(req_slno, setReqItems, setApproveTableData, setPoDetails)
+        const checkDataCollectComplete = async (req_slno) => {
+            const result = await axioslogin.get(`/CRFRegisterApproval/DataCollectComplete/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const yy = data?.filter((val) => val.crf_dept_status === 1)
+                if (yy.length !== 0) {
+                    setDataColFlag(1)
+                    const datas = yy.map((val) => {
+                        const obj = {
+                            req_slno: val.crf_requst_slno,
+                            crf_dept_remarks: val.crf_dept_remarks,
+                            datagive_user: val.datagive_user,
+                            data_entered: val.data_entered !== null ? val.data_entered.toLowerCase() : '',
+                            reqest_one: val.reqest_one,
+                            req_user: val.req_user !== null ? val.req_user.toLowerCase() : '',
+                            create_date: val.create_date,
+                            update_date: val.update_date,
+                            crf_req_remark: val.crf_req_remark,
+                            data_coll_image_status: val.data_coll_image_status,
+                            crf_data_collect_slno: val.crf_data_collect_slno,
+                        }
+                        return obj
+                    })
+                    setDataColData(datas)
+                }
+            }
+            else {
+                setDataColData([])
+            }
+        }
+        checkDataCollectComplete(req_slno)
+
         setDetailViewFlag(1)
         setDetailViewData(val)
         setDetailViewModal(true)
-    }, [val, setPoDetails, setReqItems, setImageArry, setDataColData, setDataColFlag, setApproveTableData, selectedCompany])
+    }, [val, setPoDetails, setReqItems, setImageArry, setDataColData, setDataColFlag, setApproveTableData])
 
     const ViewImage = useCallback(() => {
         const { req_slno } = val
         const getImage = async (req_slno) => {
-
-            if (selectedCompany === '1') {
-                const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
-                const { success, data } = result.data
-                if (success === 1) {
-                    const fileNames = data;
-                    const fileUrls = fileNames.map((fileName) => {
-                        return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
-                    });
-                    setImageArry(fileUrls)
-                    setImageShowFlag(1)
-                    setImageShow(true)
-                } else {
-                    setImageShowFlag(0)
-                    setImageShow(false)
-                }
-            }
-            else if (selectedCompany === '2') {
-                const result = await axioskmc.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
-                const { success, data } = result.data
-                if (success === 1) {
-                    const fileNames = data;
-                    const fileUrls = fileNames.map((fileName) => {
-                        return `${PUBLIC_NAS_FOLDER_KMC}/CRF/crf_registration/${req_slno}/${fileName}`;
-                    });
-                    setImageArry(fileUrls)
-                    setImageShowFlag(1)
-                    setImageShow(true)
-                } else {
-                    setImageShowFlag(0)
-                    setImageShow(false)
-                }
+            const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const fileNames = data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
+                });
+                setImageArry(fileUrls)
+                setImageShowFlag(1)
+                setImageShow(true)
+            } else {
+                setImageShowFlag(0)
+                setImageShow(false)
             }
         }
         getImage(req_slno)
-    }, [val, setImageArry, selectedCompany])
+    }, [val, setImageArry])
 
     const handleClose = useCallback(() => {
         setImageShowFlag(0)
@@ -512,7 +314,7 @@ const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag
 
             {DetailViewFlag === 1 ? <HigherAppDoneModal open={DetailViewModal} closeModal={closeModal} imagearray={imagearray}
                 DetailViewData={DetailViewData} reqItems={reqItems} approveTableData={approveTableData} poDetails={poDetails}
-                datacolData={datacolData} selectedCompany={selectedCompany} /> : null}
+                datacolData={datacolData} /> : null}
             <Box sx={{
                 display: 'flex', flex: 1, bgcolor: '#e3f2fd', borderRadius: 2, borderTopLeftRadius: 0,
                 borderTopRightRadius: 0, justifyContent: 'space-between', flexWrap: 'wrap',
@@ -643,7 +445,6 @@ const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag
                                                 color: '#0277bd', bgcolor: 'white'
                                             },
                                         }}>
-
                                         Internally Arranged
 
                                     </Button>
@@ -708,18 +509,20 @@ const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag
                                 {image_status === 1 ?
                                     <Box sx={{ mr: 0.5 }}>
                                         <CssVarsProvider>
-                                            <IconButton
-                                                sx={{
-                                                    fontSize: 12, height: '30px', minHeight: '30px', lineHeight: '1.2',
-                                                    color: 'primary.main', bgcolor: 'white', width: '15px',
-                                                    '&:hover': {
-                                                        bgcolor: '#F0F4F8',
-                                                    },
-                                                    boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.16)', borderRadius: 5,
-                                                }}
-                                                onClick={ViewImage} >
-                                                <AttachFileIcon fontSize='small' sx={{ color: '#2196F3' }} />
-                                            </IconButton>
+                                            <CustomToolTipForCRF title="File View" placement='top'>
+                                                <IconButton
+                                                    sx={{
+                                                        fontSize: 12, height: '30px', minHeight: '30px', lineHeight: '1.2',
+                                                        color: 'primary.main', bgcolor: 'white', width: '15px',
+                                                        '&:hover': {
+                                                            bgcolor: '#F0F4F8',
+                                                        },
+                                                        boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.16)', borderRadius: 5,
+                                                    }}
+                                                    onClick={ViewImage} >
+                                                    <AttachFileIcon fontSize='small' sx={{ color: '#2196F3' }} />
+                                                </IconButton>
+                                            </CustomToolTipForCRF>
                                         </CssVarsProvider>
 
                                     </Box> : null
@@ -757,11 +560,8 @@ const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag
                             </Box>
                     }
                 </Box>
-
-
             </Box>
         </Fragment >
     )
 }
-
 export default memo(ApproveButtonsCompnt)

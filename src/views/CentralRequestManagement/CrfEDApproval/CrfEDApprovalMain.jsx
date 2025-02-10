@@ -52,6 +52,7 @@ const CrfEDApprovalMain = () => {
     const [toDate, setToDate] = useState(format(new Date(), "yyyy-MM-dd"));
     const [imagearray, setImageArry] = useState([])
     const [selectedCompany, setSelectedCompany] = useState('1');
+    const [pendingCount, setPendingCount] = useState(0)
     const { data: compData, isLoading: isCompLoading, error: compError } = useQuery({
         queryKey: 'getCompany',
         queryFn: () => getCompanyDetails(),
@@ -68,10 +69,12 @@ const CrfEDApprovalMain = () => {
     });
     const edData = useMemo(() => edDetails, [edDetails]);
 
+    const kmchData = useMemo(() => ({ level: 24 }), []);
+
     const { data: edKmc, isLoading: isedKmcLoading, error: kmcError } = useQuery({
-        queryKey: ['getAllKmcPending', JSON.stringify(postData)],
-        queryFn: () => getCRFPendingForAllKMC(postData),
-        enabled: !!postData.level,
+        queryKey: ['getAllKmcPending', JSON.stringify(kmchData)],
+        queryFn: () => getCRFPendingForAllKMC(kmchData),
+        enabled: !!kmchData.level,
         staleTime: Infinity
     });
     const edDataKmc = useMemo(() => edKmc, [edKmc]);
@@ -80,12 +83,16 @@ const CrfEDApprovalMain = () => {
         if (selectedCompany === '1') {
             if (radiovalue === '1' && edData) {
                 setcombinedData(edData)
+                setPendingCount(edData)
             } else if (radiovalue === '8') {
                 setcombinedData([])
             }
         } else if (selectedCompany === '2') {
             if (radiovalue === '1' && edDataKmc) {
+                const pending = edDataKmc?.filter((val) => val.ed_approve === null || val.md_approve === null)
+                setPendingCount(pending)
                 setcombinedData(edDataKmc)
+
             } else if (radiovalue === '8') {
                 setcombinedData([])
             }
@@ -301,21 +308,42 @@ const CrfEDApprovalMain = () => {
                 }
                 return obj
             })
-            if (radiovalue === '2') {
-                const newData = datas?.filter((val) => val.now_who_status !== 2 && val.now_who_status !== 3 &&
-                    (val.ed_approve !== null)
-                )
-                setDisData(newData)
-                setAllData(newData)
-            } else {
-                setDisData(datas)
-                setAllData(datas)
+            if (selectedCompany === '1') {
+                if (radiovalue === '2') {
+                    const newData = datas?.filter((val) => val.now_who_status !== 2 && val.now_who_status !== 3 &&
+                        (val.ed_approve !== null)
+                    )
+                    setDisData(newData)
+                    setAllData(newData)
+                } else {
+                    setDisData(datas)
+                    setAllData(datas)
+                }
             }
+            else {
+                if (radiovalue === '1') {
+                    const pending = datas?.filter((val) => (val.managing_director_approve === null || val.md_approve === null)
+                        && val.req_status !== 'C')
+                    setDisData(pending)
+                    setAllData(pending)
+                }
+                else if (radiovalue === '2') {
+                    const newData = datas?.filter((val) => val.managing_director_approve === 1 && val.md_approve === 1 &&
+                        val.ack_status === null && val.req_status !== 'C'
+                    )
+                    setDisData(newData)
+                    setAllData(newData)
+                } else {
+                    setDisData(datas)
+                    setAllData(datas)
+                }
+            }
+
         } else {
             setDisData([])
             setAllData([])
         }
-    }, [combinedData, radiovalue])
+    }, [combinedData, radiovalue, selectedCompany])
 
     const getPendingData = useCallback(() => {
         const pData = { level: 20 };
@@ -525,7 +553,7 @@ const CrfEDApprovalMain = () => {
                     </Box>
                 </Box>
                 <Box>
-                    <TopDesignForHigherlevel pendingData={selectedCompany === '2' ? edDataKmc : edData} radiovalue={radiovalue} setRadioValue={setRadioValue}
+                    <TopDesignForHigherlevel pendingData={pendingCount} radiovalue={radiovalue} setRadioValue={setRadioValue}
                         allData={allData} setAllData={setAllData} setDisData={setDisData} getPendingData={getPendingData}
                         getApprovalData={getApprovalData} getProcurementData={getProcurementData}
                         getInventoryData={getInventoryData} getuserAckData={getuserAckData} getHoldData={getHoldData}

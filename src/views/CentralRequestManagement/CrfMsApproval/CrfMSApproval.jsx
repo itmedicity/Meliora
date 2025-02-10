@@ -48,7 +48,6 @@ const CrfMSApproval = () => {
     const [fromDate, setFromDate] = useState(format(new Date(), "yyyy-MM-dd"));
     const [toDate, setToDate] = useState(format(new Date(), "yyyy-MM-dd"));
     const [imagearray, setImageArry] = useState([])
-    const [selectedCompany, setSelectedCompany] = useState('1');
 
     const postData = useMemo(() => ({ level: 9 }), []);
 
@@ -435,7 +434,6 @@ const CrfMSApproval = () => {
         setCancelData([])
         setCancelModal(false)
         setCancelFlag(0)
-        setSelectedCompany('1')
     }, [])
 
     if (isMsLoading) return <p>Loading...</p>;
@@ -446,14 +444,16 @@ const CrfMSApproval = () => {
                 <DataCollectnPendingModal open={colectDetlCheck} handleClose={dataCollectClose}
                     datacollectdata={datacollectdata} />
                 : ApprovalFlag === 1 ?
-                    <CrfMSApprovalModal open={ApprovalModal} ApprovalData={ApprovalData} handleClose={handleClose} reqItems={reqItems}
-                        setApproveTableData={setApproveTableData} approveTableData={approveTableData} datacolflag={datacolflag}
-                        datacolData={datacolData} imagearray={imagearray} selectedCompany={selectedCompany} />
+                    <CrfMSApprovalModal open={ApprovalModal} ApprovalData={ApprovalData} handleClose={handleClose}
+                        reqItems={reqItems} setApproveTableData={setApproveTableData} approveTableData={approveTableData}
+                        datacolflag={datacolflag} datacolData={datacolData} imagearray={imagearray} />
                     : null
             }
-            {cancelFlag === 1 ? <CrfDMSClose open={cancelModal} handleCloseCrfClose={handleCloseCrfClose} approveTableData={approveTableData}
-                reqItems={reqItems} cancelData={cancelData} cancelledOne={'MS'} setCancelModal={setCancelModal}
-                setCancelFlag={setCancelFlag} imagearray={imagearray} selectedCompany={selectedCompany} /> : null}
+            {cancelFlag === 1 ? <CrfDMSClose open={cancelModal} handleCloseCrfClose={handleCloseCrfClose}
+                approveTableData={approveTableData} reqItems={reqItems} cancelData={cancelData}
+                cancelledOne={'MS'} setCancelModal={setCancelModal}
+                setCancelFlag={setCancelFlag} imagearray={imagearray} /> : null}
+
             <Box sx={{ height: window.innerHeight - 80, flexWrap: 'wrap', bgcolor: 'white', }}>
                 <Box sx={{ display: 'flex', backgroundColor: "#f0f3f5", border: '1px solid #B4F5F0' }}>
                     <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>MS Approval</Box>
@@ -489,7 +489,7 @@ const CrfMSApproval = () => {
                                     <MasterDetailCompnt val={val} />
                                     {radiovalue === '8' ?
                                         <ClosedButtonCompnt val={val} setPoDetails={setPoDetails} setImageArry={setImageArry}
-                                            imagearray={imagearray} selectedCompany={selectedCompany} />
+                                            imagearray={imagearray} />
                                         :
                                         <ApproveButtonsCompnt val={val} setApprovalFlag={setApprovalFlag}
                                             setApprovalModal={setApprovalModal} setCancelFlag={setCancelFlag}
@@ -500,7 +500,6 @@ const CrfMSApproval = () => {
                                             setDataColFlag={setDataColFlag} setDataColData={setDataColData}
                                             setCollectDetailCheck={setCollectDetailCheck} setImageArry={setImageArry}
                                             imagearray={imagearray} crfRadioValue={crfRadioValue} radiovalue={radiovalue}
-                                            selectedCompany={selectedCompany}
                                         />
                                     }
                                 </Box>
@@ -515,10 +514,8 @@ const CrfMSApproval = () => {
                             No Report Found
                         </Box>}
                 </Box>
-
             </Box>
         </Fragment>
     )
 }
-
 export default memo(CrfMSApproval)

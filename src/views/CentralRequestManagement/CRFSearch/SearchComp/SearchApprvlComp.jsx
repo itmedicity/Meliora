@@ -12,13 +12,15 @@ import BackHandTwoToneIcon from '@mui/icons-material/BackHandTwoTone';
 import ThumbUpAltTwoToneIcon from '@mui/icons-material/ThumbUpAltTwoTone';
 import DescriptionIcon from '@mui/icons-material/Description';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
-import { axioslogin } from 'src/views/Axios/Axios';
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
+import { axioskmc, axioslogin } from 'src/views/Axios/Axios';
+import { PUBLIC_NAS_FOLDER, PUBLIC_NAS_FOLDER_KMC } from 'src/views/Constant/Static';
 import { GetItemDetailsOfCRFCmp } from '../../ComonComponent/GetItemDetailsOfCRFCmp';
-import HigherAppDoneModal from '../../ComonComponent/HigherAppDoneModal';
 import ImageDisplayModal from '../../ComonComponent/ImageUploadCmp/ImageDisplayModal';
+import { GetKMCItemDetails } from '../../ComonComponent/ComponentsKMC/GetKMCItemDetails';
+import HigherLevelApprovalView from '../../ComonComponent/HigherLevelComponents/HigherLevelApprovalView';
+import EventAvailableTwoToneIcon from '@mui/icons-material/EventAvailableTwoTone';
 
-const SearchApprvlComp = ({ val }) => {
+const SearchApprvlComp = ({ val, selectedCompany }) => {
 
     const { crf_close, crf_closed_one, now_who, now_who_status, dept_type, dept_type_name, expected_date, image_status } = val
 
@@ -36,85 +38,220 @@ const SearchApprvlComp = ({ val }) => {
 
     const DataViewfnctn = useCallback(() => {
         const { req_slno } = val
-        const getImage = async (req_slno) => {
-            const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                const fileNames = data;
-                const fileUrls = fileNames.map((fileName) => {
-                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
-                });
+        // const getImage = async (req_slno) => {
+        //     const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
+        //     const { success, data } = result.data
+        //     if (success === 1) {
+        //         const fileNames = data;
+        //         const fileUrls = fileNames.map((fileName) => {
+        //             return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
+        //         });
 
-                const savedFiles = fileUrls.map((val) => {
-                    const parts = val.split('/');
-                    const fileNamePart = parts[parts.length - 1];
-                    const obj = {
-                        imageName: fileNamePart,
-                        url: val
-                    }
-                    return obj
-                })
-                setImageArry(savedFiles)
-            } else {
-                setImageArry([])
-            }
-        }
-        getImage(req_slno)
-        GetItemDetailsOfCRFCmp(req_slno, setReqItems, setApproveTableData, setPoDetails)
-        const checkDataCollectComplete = async (req_slno) => {
-            const result = await axioslogin.get(`/CRFRegisterApproval/DataCollectComplete/${req_slno}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                const yy = data?.filter((val) => val.crf_dept_status === 1)
-                if (yy.length !== 0) {
-                    const datas = yy.map((val) => {
+        //         const savedFiles = fileUrls.map((val) => {
+        //             const parts = val.split('/');
+        //             const fileNamePart = parts[parts.length - 1];
+        //             const obj = {
+        //                 imageName: fileNamePart,
+        //                 url: val
+        //             }
+        //             return obj
+        //         })
+        //         setImageArry(savedFiles)
+        //     } else {
+        //         setImageArry([])
+        //     }
+        // }
+        // getImage(req_slno)
+        // GetItemDetailsOfCRFCmp(req_slno, setReqItems, setApproveTableData, setPoDetails)
+        // const checkDataCollectComplete = async (req_slno) => {
+        //     const result = await axioslogin.get(`/CRFRegisterApproval/DataCollectComplete/${req_slno}`)
+        //     const { success, data } = result.data
+        //     if (success === 1) {
+        //         const yy = data?.filter((val) => val.crf_dept_status === 1)
+        //         if (yy.length !== 0) {
+        //             const datas = yy.map((val) => {
+        //                 const obj = {
+        //                     req_slno: val.crf_requst_slno,
+        //                     crf_dept_remarks: val.crf_dept_remarks,
+        //                     datagive_user: val.datagive_user,
+        //                     data_entered: val.data_entered !== null ? val.data_entered.toLowerCase() : '',
+        //                     reqest_one: val.reqest_one,
+        //                     req_user: val.req_user !== null ? val.req_user.toLowerCase() : '',
+        //                     create_date: val.create_date,
+        //                     update_date: val.update_date,
+        //                     crf_req_remark: val.crf_req_remark,
+        //                     data_coll_image_status: val.data_coll_image_status,
+        //                     crf_data_collect_slno: val.crf_data_collect_slno,
+        //                 }
+        //                 return obj
+        //             })
+        //             setDataColData(datas)
+        //         }
+        //     }
+        //     else {
+        //         setDataColData([])
+        //     }
+        // }
+        // checkDataCollectComplete(req_slno)
+        // setDetailViewFlag(1)
+        // setDetailViewData(val)
+        // setDetailViewModal(true)
+        if (selectedCompany === '1') {
+            const getImage = async (req_slno) => {
+                const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
+                const { success, data } = result.data
+                if (success === 1) {
+                    const fileNames = data;
+                    const fileUrls = fileNames.map((fileName) => {
+                        return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
+                    });
+
+                    const savedFiles = fileUrls.map((val) => {
+                        const parts = val.split('/');
+                        const fileNamePart = parts[parts.length - 1];
                         const obj = {
-                            req_slno: val.crf_requst_slno,
-                            crf_dept_remarks: val.crf_dept_remarks,
-                            datagive_user: val.datagive_user,
-                            data_entered: val.data_entered !== null ? val.data_entered.toLowerCase() : '',
-                            reqest_one: val.reqest_one,
-                            req_user: val.req_user !== null ? val.req_user.toLowerCase() : '',
-                            create_date: val.create_date,
-                            update_date: val.update_date,
-                            crf_req_remark: val.crf_req_remark,
-                            data_coll_image_status: val.data_coll_image_status,
-                            crf_data_collect_slno: val.crf_data_collect_slno,
+                            imageName: fileNamePart,
+                            url: val
                         }
                         return obj
                     })
-                    setDataColData(datas)
+                    setImageArry(savedFiles)
+                } else {
+                    setImageArry([])
                 }
             }
-            else {
-                setDataColData([])
+            getImage(req_slno)
+            GetItemDetailsOfCRFCmp(req_slno, setReqItems, setApproveTableData, setPoDetails)
+            const checkDataCollectComplete = async (req_slno) => {
+                const result = await axioslogin.get(`/CRFRegisterApproval/DataCollectComplete/${req_slno}`)
+                const { success, data } = result.data
+                if (success === 1) {
+                    const yy = data?.filter((val) => val.crf_dept_status === 1)
+                    if (yy.length !== 0) {
+                        const datas = yy.map((val) => {
+                            const obj = {
+                                req_slno: val.crf_requst_slno,
+                                crf_dept_remarks: val.crf_dept_remarks,
+                                datagive_user: val.datagive_user,
+                                data_entered: val.data_entered !== null ? val.data_entered.toLowerCase() : '',
+                                reqest_one: val.reqest_one,
+                                req_user: val.req_user !== null ? val.req_user.toLowerCase() : '',
+                                create_date: val.create_date,
+                                update_date: val.update_date,
+                                crf_req_remark: val.crf_req_remark,
+                                data_coll_image_status: val.data_coll_image_status,
+                                crf_data_collect_slno: val.crf_data_collect_slno,
+                            }
+                            return obj
+                        })
+                        setDataColData(datas)
+                    }
+                }
+                else {
+                    setDataColData([])
+                }
             }
+            checkDataCollectComplete(req_slno)
+        } else if (selectedCompany === '2') {
+            const getImage = async (req_slno) => {
+                const result = await axioskmc.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
+                const { success, data } = result.data
+                if (success === 1) {
+                    const fileNames = data;
+                    const fileUrls = fileNames.map((fileName) => {
+                        return `${PUBLIC_NAS_FOLDER_KMC}/CRF/crf_registration/${req_slno}/${fileName}`;
+                    });
+
+                    const savedFiles = fileUrls.map((val) => {
+                        const parts = val.split('/');
+                        const fileNamePart = parts[parts.length - 1];
+                        const obj = {
+                            imageName: fileNamePart,
+                            url: val
+                        }
+                        return obj
+                    })
+                    setImageArry(savedFiles)
+                } else {
+                    setImageArry([])
+                }
+            }
+            getImage(req_slno)
+            GetKMCItemDetails(req_slno, setReqItems, setApproveTableData, setPoDetails)
+            const checkDataCollectComplete = async (req_slno) => {
+                const result = await axioskmc.get(`/CRFRegisterApproval/DataCollectComplete/${req_slno}`)
+                const { success, data } = result.data
+                if (success === 1) {
+                    const yy = data?.filter((val) => val.crf_dept_status === 1)
+                    if (yy.length !== 0) {
+                        const datas = yy.map((val) => {
+                            const obj = {
+                                req_slno: val.crf_requst_slno,
+                                crf_dept_remarks: val.crf_dept_remarks,
+                                datagive_user: val.datagive_user,
+                                data_entered: val.data_entered !== null ? val.data_entered.toLowerCase() : '',
+                                reqest_one: val.reqest_one,
+                                req_user: val.req_user !== null ? val.req_user.toLowerCase() : '',
+                                create_date: val.create_date,
+                                update_date: val.update_date,
+                                crf_req_remark: val.crf_req_remark,
+                                data_coll_image_status: val.data_coll_image_status,
+                                crf_data_collect_slno: val.crf_data_collect_slno,
+                            }
+                            return obj
+                        })
+                        setDataColData(datas)
+                    }
+                }
+                else {
+                    setDataColData([])
+                }
+            }
+            checkDataCollectComplete(req_slno)
         }
-        checkDataCollectComplete(req_slno)
         setDetailViewFlag(1)
         setDetailViewData(val)
         setDetailViewModal(true)
-    }, [val, setPoDetails, setApproveTableData, setReqItems, setImageArry])
+    }, [val, setPoDetails, setApproveTableData, setReqItems, setImageArry, selectedCompany])
     const ViewImage = useCallback(() => {
         const { req_slno } = val
         const getImage = async (req_slno) => {
-            const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                const fileNames = data;
-                const fileUrls = fileNames.map((fileName) => {
-                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
-                });
-                setImageArry(fileUrls);
-                setImageShowFlag(1)
-                setImageShow(true)
-            } else {
-                setImageShowFlag(0)
-                setImageShow(false)
+            if (selectedCompany === '1') {
+                const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
+                const { success, data } = result.data
+                if (success === 1) {
+                    const fileNames = data;
+                    const fileUrls = fileNames.map((fileName) => {
+                        return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
+                    });
+                    setImageArry(fileUrls)
+                    setImageShowFlag(1)
+                    setImageShow(true)
+                } else {
+                    setImageShowFlag(0)
+                    setImageShow(false)
+                }
+            }
+            else if (selectedCompany === '2') {
+                const result = await axioskmc.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
+                const { success, data } = result.data
+                if (success === 1) {
+                    const fileNames = data;
+                    const fileUrls = fileNames.map((fileName) => {
+                        return `${PUBLIC_NAS_FOLDER_KMC}/CRF/crf_registration/${req_slno}/${fileName}`;
+                    });
+                    setImageArry(fileUrls)
+                    setImageShowFlag(1)
+                    setImageShow(true)
+                } else {
+                    setImageShowFlag(0)
+                    setImageShow(false)
+                }
             }
         }
         getImage(req_slno)
-    }, [val, setImageArry])
+        getImage(req_slno)
+    }, [val, setImageArry, selectedCompany])
     const handleClose = useCallback(() => {
         setImageShowFlag(0)
         setImageShow(false)
@@ -143,15 +280,19 @@ const SearchApprvlComp = ({ val }) => {
                         <Tooltip title="On Hold" arrow color='warning' size="sm" variant="solid" placement="top">
                             <PauseCircleFilledTwoToneIcon sx={{ color: '#FF9800', height: 18, width: 18, }} /></Tooltip>
                     </CssVarsProvider>
-                    : val === 5 ?
-                        <CssVarsProvider>
-                            <Tooltip arrow color="success" size="sm" variant="solid" placement="top">
-                                <ThumbUpAltTwoToneIcon sx={{ color: '#18A558', height: 18, width: 18, }} /></Tooltip>
-                        </CssVarsProvider>
-                        : <CssVarsProvider>
-                            <Tooltip title="Pending" arrow color="neutral" size="sm" variant="solid" placement="top">
-                                < BackHandTwoToneIcon sx={{ color: '#607D8B', height: 18, width: 18, }} /></Tooltip>
-                        </CssVarsProvider>
+                    : val === 4 ? < CssVarsProvider >
+                        <Tooltip title="Internally Arranged" arrow color='primary' size="sm" variant="solid" placement="top">
+                            <EventAvailableTwoToneIcon sx={{ color: '#0d47a1', height: 20, width: 20, }} /></Tooltip>
+                    </CssVarsProvider >
+                        : val === 5 ?
+                            <CssVarsProvider>
+                                <Tooltip arrow color="success" size="sm" variant="solid" placement="top">
+                                    <ThumbUpAltTwoToneIcon sx={{ color: '#18A558', height: 18, width: 18, }} /></Tooltip>
+                            </CssVarsProvider>
+                            : <CssVarsProvider>
+                                <Tooltip title="Pending" arrow color="neutral" size="sm" variant="solid" placement="top">
+                                    < BackHandTwoToneIcon sx={{ color: '#607D8B', height: 18, width: 18, }} /></Tooltip>
+                            </CssVarsProvider>
     }
     const buttonstyle = {
         // textTransform: 'capitalize',
@@ -171,10 +312,9 @@ const SearchApprvlComp = ({ val }) => {
         <Fragment>
             {imageshowFlag === 1 ? <ImageDisplayModal open={imageshow} handleClose={handleClose} images={imagearray} /> : null}
 
-            {DetailViewFlag === 1 ? <HigherAppDoneModal open={DetailViewModal} closeModal={closeModal} imagearray={imagearray}
-                DetailViewData={DetailViewData} reqItems={reqItems} approveTableData={approveTableData}
-                poDetails={poDetails} datacolData={datacolData}
-            /> : null}
+            {DetailViewFlag === 1 ? <HigherLevelApprovalView open={DetailViewModal} closeModal={closeModal} imagearray={imagearray}
+                DetailViewData={DetailViewData} reqItems={reqItems} approveTableData={approveTableData} poDetails={poDetails}
+                datacolData={datacolData} selectedCompany={selectedCompany} /> : null}
             <Box sx={{
                 display: 'flex', flex: 1, bgcolor: '#e3f2fd', borderRadius: 2, borderTopLeftRadius: 0,
                 borderTopRightRadius: 0, justifyContent: 'space-between', flexWrap: 'wrap',
@@ -236,7 +376,7 @@ const SearchApprvlComp = ({ val }) => {
                                     <Typography sx={{ fontSize: 13, pl: 2, pr: 1, color: 'white', textTransform: 'capitalize', fontWeight: 550 }}>{now_who}</Typography>
                                     <Typography sx={{ fontSize: 13, pr: 1, color: 'white', textTransform: 'capitalize', fontWeight: 550 }}>
                                         {now_who_status === 1 ? "Approved" : now_who_status === 2 ? "Rejected" :
-                                            now_who_status === 3 ? "On-Hold" : ""
+                                            now_who_status === 3 ? "On-Hold" : now_who_status === 4 ? 'Approved' : ""
                                         }</Typography>
                                 </Button>
                                 <Box sx={{ mx: 0.3 }}>

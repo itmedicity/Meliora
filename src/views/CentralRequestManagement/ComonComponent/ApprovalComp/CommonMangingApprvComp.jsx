@@ -9,7 +9,7 @@ import AttachmentTwoToneIcon from '@mui/icons-material/AttachmentTwoTone';
 import CustomToolTipForCRF from '../Components/CustomToolTipForCRF';
 import { format } from 'date-fns'
 
-const CommonMangingApprvComp = ({ DetailViewData, selectedCompany }) => {
+const CommonMangingApprvComp = ({ DetailViewData }) => {
     const { req_slno, managing_director_approve, managing_director_remarks, managing_director_analysis,
         managing_director_approve_date, managing_director_user, managing_director_image, managing } = DetailViewData
     const [imageshowFlag, setImageShowFlag] = useState(0)
@@ -30,31 +30,29 @@ const CommonMangingApprvComp = ({ DetailViewData, selectedCompany }) => {
                 .join(' ')
             : '';
     const ViewManageUploadImage = useCallback(() => {
-        if (selectedCompany === '1') {
-        }
-        else if (selectedCompany === '2') {
-            const getImage = async (req_slno) => {
-                const result = await axioskmc.get(`/newCRFRegisterImages/crfManageImageGet/${req_slno}`)
-                const { success, data } = result.data
-                if (success === 1) {
-                    const fileNames = data;
-                    const fileUrls = fileNames.map((fileName) => {
-                        return `${PUBLIC_NAS_FOLDER_KMC}/CRF/crf_registration/${req_slno}/ManageUpload/${fileName}`;
-                    });
-                    setImageArry(fileUrls);
-                    setImageShowFlag(1)
-                    setImageShow(true)
-                } else {
-                    warningNotify("Error Occured to display image")
-                    setImageShowFlag(0)
-                    setImageShow(false)
-                    setImageArry([])
-                }
-            }
-            getImage(req_slno)
-        }
 
-    }, [req_slno, selectedCompany])
+        const getImage = async (req_slno) => {
+            const result = await axioskmc.get(`/newCRFRegisterImages/crfManageImageGet/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const fileNames = data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER_KMC}/CRF/crf_registration/${req_slno}/ManageUpload/${fileName}`;
+                });
+                setImageArry(fileUrls);
+                setImageShowFlag(1)
+                setImageShow(true)
+            } else {
+                warningNotify("Error Occured to display image")
+                setImageShowFlag(0)
+                setImageShow(false)
+                setImageArry([])
+            }
+        }
+        getImage(req_slno)
+
+
+    }, [req_slno])
 
     return (
         <Fragment>
@@ -76,8 +74,6 @@ const CommonMangingApprvComp = ({ DetailViewData, selectedCompany }) => {
                     </Box>
                 </Box>
                 <Box sx={{ pt: 0.1 }}>
-                    {/* managing_director_approve, managing_director_remarks, managing_director_analysis,
-                managing_director_approve_date, managing_director_user, managing_director_image, */}
                     {managing_director_approve === 1 && managing_director_remarks !== null ?
                         <Box sx={{ pt: 0.5 }}>
                             <Box sx={{ display: 'flex' }}>

@@ -2,14 +2,14 @@ import { Box, Chip, Typography } from '@mui/joy';
 import { Paper } from '@mui/material';
 import { format } from 'date-fns';
 import React, { Fragment, memo, useCallback, useState } from 'react'
-import { axioskmc, axioslogin } from 'src/views/Axios/Axios';
+import { axioslogin } from 'src/views/Axios/Axios';
 import AttachmentTwoToneIcon from '@mui/icons-material/AttachmentTwoTone';
-import { PUBLIC_NAS_FOLDER, PUBLIC_NAS_FOLDER_KMC } from 'src/views/Constant/Static';
+import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import ImageDisplayModal from '../ImageUploadCmp/ImageDisplayModal';
 import CustomToolTipForCRF from '../Components/CustomToolTipForCRF';
 
-const CommonSmoApprvCmp = ({ DetailViewData, selectedCompany }) => {
+const CommonSmoApprvCmp = ({ DetailViewData }) => {
     const { req_slno, senior_manage_approv, smo, senior_manage_remarks, smo_detial_analysis,
         som_aprrov_date, senior_manage_user, smo_image
     } = DetailViewData
@@ -31,49 +31,26 @@ const CommonSmoApprvCmp = ({ DetailViewData, selectedCompany }) => {
                 .join(' ')
             : '';
     const ViewSMOUploadImage = useCallback(() => {
-        if (selectedCompany === '1') {
-            const getImage = async (req_slno) => {
-                const result = await axioslogin.get(`/newCRFRegisterImages/crfSMOImageGet/${req_slno}`)
-                const { success, data } = result.data
-                if (success === 1) {
-                    const fileNames = data;
-                    const fileUrls = fileNames.map((fileName) => {
-                        return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/SMOUpload/${fileName}`;
-                    });
-                    setImageArry(fileUrls);
-                    setImageShowFlag(1)
-                    setImageShow(true)
-                } else {
-                    warningNotify("Error Occured to display image")
-                    setImageShowFlag(0)
-                    setImageShow(false)
-                    setImageArry([])
-                }
+        const getImage = async (req_slno) => {
+            const result = await axioslogin.get(`/newCRFRegisterImages/crfSMOImageGet/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const fileNames = data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/SMOUpload/${fileName}`;
+                });
+                setImageArry(fileUrls);
+                setImageShowFlag(1)
+                setImageShow(true)
+            } else {
+                warningNotify("Error Occured to display image")
+                setImageShowFlag(0)
+                setImageShow(false)
+                setImageArry([])
             }
-            getImage(req_slno)
         }
-        else if (selectedCompany === '2') {
-            const getImage = async (req_slno) => {
-                const result = await axioskmc.get(`/newCRFRegisterImages/crfSMOImageGet/${req_slno}`)
-                const { success, data } = result.data
-                if (success === 1) {
-                    const fileNames = data;
-                    const fileUrls = fileNames.map((fileName) => {
-                        return `${PUBLIC_NAS_FOLDER_KMC}/CRF/crf_registration/${req_slno}/SMOUpload/${fileName}`;
-                    });
-                    setImageArry(fileUrls);
-                    setImageShowFlag(1)
-                    setImageShow(true)
-                } else {
-                    warningNotify("Error Occured to display image")
-                    setImageShowFlag(0)
-                    setImageShow(false)
-                    setImageArry([])
-                }
-            }
-            getImage(req_slno)
-        }
-    }, [req_slno, selectedCompany])
+        getImage(req_slno)
+    }, [req_slno])
 
     return (
         <Fragment>

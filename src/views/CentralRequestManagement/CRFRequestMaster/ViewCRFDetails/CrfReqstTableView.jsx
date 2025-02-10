@@ -150,32 +150,33 @@ const CrfReqstTableView = ({ rowSelect }) => {
                     managing_director_approve_date: val.managing_director_approve_date,
                     managing_director_user: val.managing_director_username ? val.managing_director_username.toLowerCase() : '',
 
-                    now_who: val.req_status === 'C' ? "CRF Closed" :
-                        val.sub_store_recieve === 1 ? "Received in " + val.sub_store_name :
-                            // val.sub_store_recieve === 0 ? "Partial Goods Received in " + val.sub_store_name :
-                            val.store_recieve === 1 ? "Item Received in CRS" :
-                                // val.store_recieve === 0 && val.store_recieve === 1 ? "Partial Goods Received in CRS" :
-                                val.po_to_supplier === 1 ? "Waiting for Goods" :
-                                    val.approval_level === 3 ? "Director's Approved" :
-                                        val.approval_level === 2 ? 'Purchase Manager Approved' :
-                                            val.approval_level === 1 ? 'Purchase Dpt Approved' :
-                                                val.po_complete === 1 ? "PO Completed" :
-                                                    val.po_prepartion === 1 ? "PO Prepairing" :
-                                                        val.quatation_fixing === 1 ? "Quotation Fixed" :
-                                                            val.quatation_negotiation === 1 ? "Quotation Negotiation" :
-                                                                val.quatation_calling_status === 1 ? "Quotation Calling" :
-                                                                    val.ack_status === 1 ? "Puchase Acknowledged" :
-                                                                        val.managing_director_approve !== null ? "Managing Director" :
-                                                                            val.ed_approve !== null ? "ED" :
-                                                                                val.md_approve !== null ? "MD" :
-                                                                                    val.gm_approve !== null ? "GM" :
-                                                                                        val.senior_manage_approv !== null ? "SMO" :
-                                                                                            val.manag_operation_approv !== null ? "MO" :
-                                                                                                val.ms_approve !== null ? "MS" :
-                                                                                                    val.dms_approve !== null ? "DMS" :
-                                                                                                        val.hod_approve !== null ? "HOD" :
-                                                                                                            val.incharge_approve !== null ? "Incharge" :
-                                                                                                                "Not Started",
+                    now_who: (val.internally_arranged_status === 1 && val.req_status === 'C') ? 'Internally Arranged' :
+                        val.req_status === 'C' ? "CRF Closed" :
+                            val.sub_store_recieve === 1 ? "Received in " + val.sub_store_name :
+                                // val.sub_store_recieve === 0 ? "Partial Goods Received in " + val.sub_store_name :
+                                val.store_recieve === 1 ? "Item Received in CRS" :
+                                    // val.store_recieve === 0 && val.store_recieve === 1 ? "Partial Goods Received in CRS" :
+                                    val.po_to_supplier === 1 ? "Waiting for Goods" :
+                                        val.approval_level === 3 ? "Director's Approved" :
+                                            val.approval_level === 2 ? 'Purchase Manager Approved' :
+                                                val.approval_level === 1 ? 'Purchase Dpt Approved' :
+                                                    val.po_complete === 1 ? "PO Completed" :
+                                                        val.po_prepartion === 1 ? "PO Prepairing" :
+                                                            val.quatation_fixing === 1 ? "Quotation Fixed" :
+                                                                val.quatation_negotiation === 1 ? "Quotation Negotiation" :
+                                                                    val.quatation_calling_status === 1 ? "Quotation Calling" :
+                                                                        val.ack_status === 1 ? "Puchase Acknowledged" :
+                                                                            val.managing_director_approve !== null ? "Managing Director" :
+                                                                                val.ed_approve !== null ? "ED" :
+                                                                                    val.md_approve !== null ? "MD" :
+                                                                                        val.gm_approve !== null ? "GM" :
+                                                                                            val.senior_manage_approv !== null ? "SMO" :
+                                                                                                val.manag_operation_approv !== null ? "MO" :
+                                                                                                    val.ms_approve !== null ? "MS" :
+                                                                                                        val.dms_approve !== null ? "DMS" :
+                                                                                                            val.hod_approve !== null ? "HOD" :
+                                                                                                                val.incharge_approve !== null ? "Incharge" :
+                                                                                                                    "Not Started",
                     now_who_status: val.req_status === 'C' ? '' :
                         val.sub_store_recieve === 1 ? 5 :
                             val.store_receive === 1 ? 5 :

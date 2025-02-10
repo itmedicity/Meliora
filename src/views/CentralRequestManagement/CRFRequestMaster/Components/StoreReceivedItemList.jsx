@@ -4,7 +4,7 @@ import RedoOutlinedIcon from '@mui/icons-material/RedoOutlined';
 import { Box, Table, Typography } from '@mui/joy';
 import CustomToolTipForCRF from '../../ComonComponent/Components/CustomToolTipForCRF';
 import { axioslogin } from 'src/views/Axios/Axios';
-import { succesNotify, warningNotify } from 'src/views/Common/CommonCode';
+import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode';
 import { useQuery, useQueryClient } from 'react-query';
 import ReturnModal from './ReturnModal';
 import { viewItemReturnDetails } from 'src/api/CommonApiCRF';
@@ -29,27 +29,7 @@ const StoreReceivedItemList = ({ storeReceived, empId, req_slno }) => {
         staleTime: Infinity
     });
     const displayData = useMemo(() => retunDetails, [retunDetails]);
-    // && value.return_status === 0
-    // && value.store_rply_user !== null)
-    // console.log(storeReceived, "storeReceived");
-    // console.log(displayData, "displayData");
 
-    // useEffect(() => {
-    //     if (storeReceived && storeReceived.length > 0) {
-    //         if (displayData && displayData.length > 0) {
-    //             const newArray = storeReceived?.map((val) => {
-    //                 const xx = displayData?.filter((value) => value.po_itm_slno === val.po_itm_slno)
-    //                 return {
-    //                     ...val,
-    //                     returnDetails: xx ? xx : []
-    //                 }
-    //             })
-    //             setCombinedData(newArray)
-    //         } else {
-    //             setCombinedData(storeReceived)
-    //         }
-    //     }
-    // }, [storeReceived, displayData])
     useEffect(() => {
         if (storeReceived && storeReceived.length > 0) {
             if (displayData && displayData.length > 0) {
@@ -84,11 +64,16 @@ const StoreReceivedItemList = ({ storeReceived, empId, req_slno }) => {
     }, [storeReceived, displayData]);
 
     const receivedSave = useCallback(async (val) => {
-        const { po_itm_slno, item_receive_status } = val
+        const { po_itm_slno, item_receive_status, return_status } = val
         if (item_receive_status !== 1) {
-            warningNotify("Item Not Received Fully")
+            infoNotify("Item Not Received Fully")
             return;
-        } else {
+        }
+        else if (return_status === 1) {
+            infoNotify("Item Not replaced From Store.")
+            return;
+        }
+        else {
             const patchdata = {
                 user_received_status: 1,
                 po_itm_slno: po_itm_slno
@@ -113,9 +98,15 @@ const StoreReceivedItemList = ({ storeReceived, empId, req_slno }) => {
     }, [queryClient])
 
     const returnSave = useCallback(async (val) => {
-        setReturnFlag(1)
-        setReturnData(val)
-        setReturnModal(true)
+        const { item_receive_status } = val
+        if (item_receive_status !== 1) {
+            warningNotify("Item Not Received Fully")
+            return;
+        } else {
+            setReturnFlag(1)
+            setReturnData(val)
+            setReturnModal(true)
+        }
     }, [])
 
     const handleCloseReturn = useCallback(() => {

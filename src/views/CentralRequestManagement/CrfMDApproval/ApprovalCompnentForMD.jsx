@@ -22,6 +22,7 @@ import { GetKMCItemDetails } from '../ComonComponent/ComponentsKMC/GetKMCItemDet
 import ImageDisplayModal from '../ComonComponent/ImageUploadCmp/ImageDisplayModal';
 import HigherLevelApprovalView from '../ComonComponent/HigherLevelComponents/HigherLevelApprovalView';
 import CountdownTimer from '../PurchaseProcess/Component/CountdownTimer';
+import CustomToolTipForCRF from '../ComonComponent/Components/CustomToolTipForCRF';
 
 const ApprovalCompnentForMD = ({ setApprovalFlag, setApprovalModal, setCancelFlag, setCancelModal, setApprovalData,
     setCancelData, val, setReqItems, setApproveTableData, approveTableData, setPoDetails, reqItems, poDetails,
@@ -288,7 +289,6 @@ const ApprovalCompnentForMD = ({ setApprovalFlag, setApprovalModal, setCancelFla
     const DataViewfnctn = useCallback(() => {
         const { req_slno } = val
 
-        // GetAllItemDetails(req_slno, setReqItems, setAllItems, setPoDetails)
         if (selectedCompany === '1') {
             const getImage = async (req_slno) => {
                 const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
@@ -708,18 +708,20 @@ const ApprovalCompnentForMD = ({ setApprovalFlag, setApprovalModal, setCancelFla
                                 {image_status === 1 ?
                                     <Box sx={{ mr: 0.5 }}>
                                         <CssVarsProvider>
-                                            <IconButton
-                                                sx={{
-                                                    fontSize: 12, height: '30px', minHeight: '30px', lineHeight: '1.2',
-                                                    color: 'primary.main', bgcolor: 'white', width: '15px',
-                                                    '&:hover': {
-                                                        bgcolor: '#F0F4F8',
-                                                    },
-                                                    boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.16)', borderRadius: 5,
-                                                }}
-                                                onClick={ViewImage} >
-                                                <AttachFileIcon fontSize='small' sx={{ color: '#2196F3' }} />
-                                            </IconButton>
+                                            <CustomToolTipForCRF title="File View" placement='top'>
+                                                <IconButton
+                                                    sx={{
+                                                        fontSize: 12, height: '30px', minHeight: '30px', lineHeight: '1.2',
+                                                        color: 'primary.main', bgcolor: 'white', width: '15px',
+                                                        '&:hover': {
+                                                            bgcolor: '#F0F4F8',
+                                                        },
+                                                        boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.16)', borderRadius: 5,
+                                                    }}
+                                                    onClick={ViewImage} >
+                                                    <AttachFileIcon fontSize='small' sx={{ color: '#2196F3' }} />
+                                                </IconButton>
+                                            </CustomToolTipForCRF>
                                         </CssVarsProvider>
 
                                     </Box> : null

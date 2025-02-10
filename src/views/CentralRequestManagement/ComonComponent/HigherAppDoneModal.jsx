@@ -26,7 +26,7 @@ import UserReceivedItemDetails from './ApprovalComp/UserReceivedItemDetails';
 import CommonMangingApprvComp from './ApprovalComp/CommonMangingApprvComp';
 
 const HigherAppDoneModal = ({ open, closeModal, DetailViewData, reqItems, approveTableData, poDetails, imagearray,
-    datacolData, selectedCompany }) => {
+    datacolData }) => {
     const { req_slno, incharge_approve, incharge_remarks, hod_req, hod_approve, dms_req, dms_approve, ms_approve_req, ms_approve,
         manag_operation_req, manag_operation_approv, senior_manage_req, senior_manage_approv, gm_approve_req, gm_approve,
         md_approve_req, md_approve, ed_approve_req, ed_approve, managing_director_req, managing_director_approve,
@@ -72,7 +72,7 @@ const HigherAppDoneModal = ({ open, closeModal, DetailViewData, reqItems, approv
                             }}
                         />
                         <Box sx={{ minWidth: '85vw', minHeight: '65vh', maxHeight: '95vh', overflowY: 'auto' }}>
-                            <CrfReqDetailViewCmp ApprovalData={DetailViewData} imagearray={imagearray} selectedCompany={selectedCompany} />
+                            <CrfReqDetailViewCmp ApprovalData={DetailViewData} imagearray={imagearray} />
                             {reqItems.length !== 0 ?
                                 <Box sx={{ mt: 0.5, mx: 0.3 }}>
                                     <ReqItemDisplay reqItems={reqItems} />
@@ -100,55 +100,55 @@ const HigherAppDoneModal = ({ open, closeModal, DetailViewData, reqItems, approv
                                             }
                                             {hod_req === 1 && hod_approve !== null ?
                                                 <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                    <CommonHodApprvCmp DetailViewData={DetailViewData} selectedCompany={selectedCompany} />
+                                                    <CommonHodApprvCmp DetailViewData={DetailViewData} />
                                                 </Grid>
                                                 : null
                                             }
                                             {dms_req === 1 && dms_approve !== null ?
                                                 <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                    <CommonDmsApprvCmp DetailViewData={DetailViewData} selectedCompany={selectedCompany} />
+                                                    <CommonDmsApprvCmp DetailViewData={DetailViewData} />
                                                 </Grid>
                                                 : null
                                             }
                                             {ms_approve_req === 1 && ms_approve !== null ?
                                                 <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                    <CommonMsApprvCmp DetailViewData={DetailViewData} selectedCompany={selectedCompany} />
+                                                    <CommonMsApprvCmp DetailViewData={DetailViewData} />
                                                 </Grid>
                                                 : null
                                             }
                                             {manag_operation_req === 1 && manag_operation_approv !== null ?
                                                 <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                    <CommonMoApprvlCmp DetailViewData={DetailViewData} selectedCompany={selectedCompany} />
+                                                    <CommonMoApprvlCmp DetailViewData={DetailViewData} />
                                                 </Grid>
                                                 : null
                                             }
                                             {senior_manage_req === 1 && senior_manage_approv !== null ?
                                                 <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                    <CommonSmoApprvCmp DetailViewData={DetailViewData} selectedCompany={selectedCompany} />
+                                                    <CommonSmoApprvCmp DetailViewData={DetailViewData} />
                                                 </Grid>
                                                 : null
                                             }
                                             {gm_approve_req === 1 && gm_approve !== null ?
                                                 <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                    <CommonGmapprvCmp DetailViewData={DetailViewData} selectedCompany={selectedCompany} />
+                                                    <CommonGmapprvCmp DetailViewData={DetailViewData} />
                                                 </Grid>
                                                 : null
                                             }
                                             {md_approve_req === 1 && md_approve !== null ?
                                                 <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                    <CommonMdApprvCmp DetailViewData={DetailViewData} selectedCompany={selectedCompany} />
+                                                    <CommonMdApprvCmp DetailViewData={DetailViewData} />
                                                 </Grid>
                                                 : null
                                             }
                                             {ed_approve_req === 1 && ed_approve !== null ?
                                                 <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                    <CommonEdapprvCmp DetailViewData={DetailViewData} selectedCompany={selectedCompany} />
+                                                    <CommonEdapprvCmp DetailViewData={DetailViewData} />
                                                 </Grid>
                                                 : null
                                             }
                                             {(managing_director_req === 1 && managing_director_approve !== null) ?
                                                 <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                    <CommonMangingApprvComp DetailViewData={DetailViewData} selectedCompany={selectedCompany} />
+                                                    <CommonMangingApprvComp DetailViewData={DetailViewData} />
                                                 </Grid>
                                                 : null
                                             }
@@ -161,7 +161,7 @@ const HigherAppDoneModal = ({ open, closeModal, DetailViewData, reqItems, approv
                                     </Paper>
                                     {datacolData.length !== 0 ?
                                         <Box sx={{ py: 0.5, mx: 0.2 }}>
-                                            <ViewOreviousDataCollctnDetails datacolData={datacolData} selectedCompany={selectedCompany} />
+                                            <ViewOreviousDataCollctnDetails datacolData={datacolData} />
                                         </Box>
                                         : null
                                     }

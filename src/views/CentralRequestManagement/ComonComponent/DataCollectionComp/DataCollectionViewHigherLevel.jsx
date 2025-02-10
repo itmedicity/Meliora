@@ -5,10 +5,10 @@ import React, { Fragment, memo, useCallback, useState } from 'react'
 import AttachmentTwoToneIcon from '@mui/icons-material/AttachmentTwoTone';
 import DataCollectnImageDis from './DataCollectnImageDis';
 import { infoNotify } from 'src/views/Common/CommonCode';
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
-import { axioslogin } from 'src/views/Axios/Axios';
+import { PUBLIC_NAS_FOLDER, PUBLIC_NAS_FOLDER_KMC } from 'src/views/Constant/Static';
+import { axioskmc, axioslogin } from 'src/views/Axios/Axios';
 
-const ViewOreviousDataCollctnDetails = ({ datacolData }) => {
+const DataCollectionViewHigherLevel = ({ datacolData, selectedCompany }) => {
     const [collImageShowFlag, setCollImageShowFlag] = useState(0)
     const [collImageShow, setCollImageShow] = useState(false)
     const [imagearray, setImageArray] = useState([])
@@ -20,29 +20,51 @@ const ViewOreviousDataCollctnDetails = ({ datacolData }) => {
             req_slno: req_slno,
             crf_data_collect_slno: dataClno
         }
-        const getImage = async (postdata) => {
-            try {
-                const result = await axioslogin.post('/newCRFRegisterImages/crf/getDataCollectionImage', postdata);
-                const { success, data } = result.data;
 
+        if (selectedCompany === '1') {
+            const getImage = async (postdata) => {
+                try {
+                    const result = await axioslogin.post('/newCRFRegisterImages/crf/getDataCollectionImage', postdata);
+                    const { success, data } = result.data;
+
+                    if (success === 1) {
+                        const fileNames = data;
+                        const fileUrls = fileNames.map((fileName) => {
+                            return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/datacollection/${dataClno}/${fileName}`;
+                        });
+                        setImageArray(fileUrls);
+                    } else {
+                        infoNotify("No Files Found");
+                        setImageArray([]);
+                    }
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                    infoNotify('An error occurred while fetching the files.');
+                    setImageArray([]);
+                }
+            };
+            getImage(postdata);
+
+        }
+        else if (selectedCompany === '2') {
+            const getImagekmc = async (postdata) => {
+                const result = await axioskmc.post('/newCRFRegisterImages/crf/getDataCollectionImage', postdata)
+                const { success, data } = result.data
                 if (success === 1) {
                     const fileNames = data;
                     const fileUrls = fileNames.map((fileName) => {
-                        return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/datacollection/${dataClno}/${fileName}`;
+                        return `${PUBLIC_NAS_FOLDER_KMC}/CRF/crf_registration/${req_slno}/datacollection/${dataClno}/${fileName}`;
                     });
                     setImageArray(fileUrls);
                 } else {
-                    infoNotify("No Files Found");
-                    setImageArray([]);
+                    infoNotify("No Files Found")
+                    setImageArray([])
                 }
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                infoNotify('An error occurred while fetching the files.');
-                setImageArray([]);
             }
-        };
-        getImage(postdata);
-    }, [])
+            getImagekmc(postdata)
+        }
+
+    }, [selectedCompany])
 
 
 
@@ -64,7 +86,7 @@ const ViewOreviousDataCollctnDetails = ({ datacolData }) => {
     return (
         <Fragment>
             {collImageShowFlag === 1 ? <DataCollectnImageDis open={collImageShow} handleCloseCollect={handleCloseCollect}
-                imagearray={imagearray}
+                selectedCompany={selectedCompany} imagearray={imagearray}
             /> : null}
             <Paper variant="outlined" sx={{ mx: 0.5 }}>
                 <Box sx={{ display: 'flex', borderBottom: '1px solid lightgrey' }}>
@@ -142,4 +164,5 @@ const ViewOreviousDataCollctnDetails = ({ datacolData }) => {
     )
 }
 
-export default memo(ViewOreviousDataCollctnDetails)
+
+export default memo(DataCollectionViewHigherLevel)

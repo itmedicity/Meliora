@@ -3,11 +3,10 @@ import React, { useCallback, memo, Fragment, useState } from 'react'
 import SubtitlesOffIcon from '@mui/icons-material/SubtitlesOff';
 import ClosedDetailsModal from './ClosedDetailsModal';
 import { GetItemDetailsOfCRFCmp } from './GetItemDetailsOfCRFCmp';
-import { axioskmc, axioslogin } from 'src/views/Axios/Axios';
-import { PUBLIC_NAS_FOLDER, PUBLIC_NAS_FOLDER_KMC } from 'src/views/Constant/Static';
-import { GetKMCItemDetails } from './ComponentsKMC/GetKMCItemDetails';
+import { axioslogin } from 'src/views/Axios/Axios';
+import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 
-const ClosedButtonCompnt = ({ val, setPoDetails, imagearray, setImageArry, selectedCompany }) => {
+const ClosedButtonCompnt = ({ val, setPoDetails, imagearray, setImageArry }) => {
     const [closeViewFlag, setCloseViewFlag] = useState(0)
     const [closeViewModal, setCloseViewModal] = useState(false)
     const [crfClosedDetails, setCrfClosedDetails] = useState([])
@@ -16,63 +15,36 @@ const ClosedButtonCompnt = ({ val, setPoDetails, imagearray, setImageArry, selec
     const { crf_close } = val
     const ModalOpenfctn = useCallback(() => {
         const { req_slno } = val
-        if (selectedCompany === '1') {
-            const getImage = async (req_slno) => {
-                const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
-                const { success, data } = result.data
-                if (success === 1) {
-                    const fileNames = data;
-                    const fileUrls = fileNames.map((fileName) => {
-                        return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
-                    });
+        const getImage = async (req_slno) => {
+            const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const fileNames = data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
+                });
 
-                    const savedFiles = fileUrls.map((val) => {
-                        const parts = val.split('/');
-                        const fileNamePart = parts[parts.length - 1];
-                        const obj = {
-                            imageName: fileNamePart,
-                            url: val
-                        }
-                        return obj
-                    })
-                    setImageArry(savedFiles)
-                } else {
-                    setImageArry([])
-                }
+                const savedFiles = fileUrls.map((val) => {
+                    const parts = val.split('/');
+                    const fileNamePart = parts[parts.length - 1];
+                    const obj = {
+                        imageName: fileNamePart,
+                        url: val
+                    }
+                    return obj
+                })
+                setImageArry(savedFiles)
+            } else {
+                setImageArry([])
             }
-            getImage(req_slno)
-            GetItemDetailsOfCRFCmp(req_slno, setReqItems, setApproveTableData, setPoDetails)
-        } else if (selectedCompany === '2') {
-            const getImage = async (req_slno) => {
-                const result = await axioskmc.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
-                const { success, data } = result.data
-                if (success === 1) {
-                    const fileNames = data;
-                    const fileUrls = fileNames.map((fileName) => {
-                        return `${PUBLIC_NAS_FOLDER_KMC}/CRF/crf_registration/${req_slno}/${fileName}`;
-                    });
-
-                    const savedFiles = fileUrls.map((val) => {
-                        const parts = val.split('/');
-                        const fileNamePart = parts[parts.length - 1];
-                        const obj = {
-                            imageName: fileNamePart,
-                            url: val
-                        }
-                        return obj
-                    })
-                    setImageArry(savedFiles)
-                } else {
-                    setImageArry([])
-                }
-            }
-            getImage(req_slno)
-            GetKMCItemDetails(req_slno, setReqItems, setApproveTableData, setPoDetails)
         }
+        getImage(req_slno)
+        GetItemDetailsOfCRFCmp(req_slno, setReqItems, setApproveTableData, setPoDetails)
+
         setCloseViewFlag(1)
         setCloseViewModal(true)
         setCrfClosedDetails(val)
-    }, [val, setPoDetails, setImageArry, selectedCompany])
+    }, [val, setPoDetails, setImageArry])
 
     const buttonstyle = {
         px: 2,
@@ -97,7 +69,7 @@ const ClosedButtonCompnt = ({ val, setPoDetails, imagearray, setImageArry, selec
         <Fragment>
             {closeViewFlag === 1 ? <ClosedDetailsModal open={closeViewModal} crfClosedDetails={crfClosedDetails}
                 handleCloseModal={handleCloseModal} reqItems={reqItems} approveTableData={approveTableData}
-                selectedCompany={selectedCompany} imagearray={imagearray} /> : null}
+                imagearray={imagearray} /> : null}
             <Box sx={{
                 display: 'flex', flex: 1, bgcolor: '#e3f2fd', borderRadius: 2, borderTopLeftRadius: 0,
                 borderTopRightRadius: 0, justifyContent: 'space-between', flexWrap: 'wrap',

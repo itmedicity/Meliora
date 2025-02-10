@@ -4,14 +4,6 @@ import CrfReqDetailViewCmp from '../ComonComponent/CrfReqDetailViewCmp'
 import ReqItemDisplay from '../ComonComponent/ReqItemDisplay'
 import CommonInchargeReqCmp from '../ComonComponent/ApprovalComp/CommonInchargeReqCmp'
 import { Paper } from '@mui/material'
-import CommonHodApprvCmp from '../ComonComponent/ApprovalComp/CommonHodApprvCmp'
-import CommonDmsApprvCmp from '../ComonComponent/ApprovalComp/CommonDmsApprvCmp'
-import CommonMsApprvCmp from '../ComonComponent/ApprovalComp/CommonMsApprvCmp'
-import CommonMoApprvlCmp from '../ComonComponent/ApprovalComp/CommonMoApprvlCmp'
-import CommonSmoApprvCmp from '../ComonComponent/ApprovalComp/CommonSmoApprvCmp'
-import CommonGmapprvCmp from '../ComonComponent/ApprovalComp/CommonGmapprvCmp'
-import CommonMdApprvCmp from '../ComonComponent/ApprovalComp/CommonMdApprvCmp'
-import ViewOreviousDataCollctnDetails from '../ComonComponent/DataCollectionComp/ViewOreviousDataCollctnDetails'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import CustomIconButtonCmp from '../ComonComponent/Components/CustomIconButtonCmp'
 import KMCItemApprovalComponent from '../ComonComponent/ComponentsKMC/KMCItemApprovalComponent'
@@ -28,6 +20,14 @@ import _ from 'underscore'
 import { useState } from 'react'
 import imageCompression from 'browser-image-compression';
 import DataCollectDepSecSelect from '../ComonComponent/DataCollectionComp/DataCollectDepSecSelect'
+import DataCollectionViewHigherLevel from '../ComonComponent/DataCollectionComp/DataCollectionViewHigherLevel'
+import MDApproveViewHigher from '../ComonComponent/HigherLevelComponents/MDApproveViewHigher'
+import GMApproveViewForHigher from '../ComonComponent/HigherLevelComponents/GMApproveViewForHigher'
+import SMOApproveViewForHigher from '../ComonComponent/HigherLevelComponents/SMOApproveViewForHigher'
+import MOApproveViewForHigher from '../ComonComponent/HigherLevelComponents/MOApproveViewForHigher'
+import MSApproveViewForHigher from '../ComonComponent/HigherLevelComponents/MSApproveViewForHigher'
+import DMSApproveViewForHigher from '../ComonComponent/HigherLevelComponents/DMSApproveViewForHigher'
+import HODApproveViewHigher from '../ComonComponent/HigherLevelComponents/HODApproveViewHigher'
 
 const ManagingDirectorModal = ({ open, ApprovalData, reqItems, handleClose, setApproveTableData, approveTableData,
     datacolflag, datacolData, imagearray, selectedCompany }) => {
@@ -375,43 +375,43 @@ const ManagingDirectorModal = ({ open, ApprovalData, reqItems, handleClose, setA
                                     }
                                     {hod_req === 1 && hod_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonHodApprvCmp selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
+                                            <HODApproveViewHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
                                         </Box>
                                         : null}
                                     {dms_req === 1 && dms_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonDmsApprvCmp selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
+                                            <DMSApproveViewForHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
                                         </Box>
                                         : null}
                                     {ms_approve_req === 1 && ms_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonMsApprvCmp selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
+                                            <MSApproveViewForHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
                                         </Box>
                                         : null}
                                     {manag_operation_approv !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonMoApprvlCmp selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
+                                            <MOApproveViewForHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
                                         </Box>
                                         : null}
                                     {senior_manage_approv !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonSmoApprvCmp selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
+                                            <SMOApproveViewForHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
                                         </Box>
                                         : null}
                                     {gm_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonGmapprvCmp selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
+                                            <GMApproveViewForHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
                                         </Box>
                                         : null}
                                     {md_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonMdApprvCmp selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
+                                            <MDApproveViewHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
                                         </Box>
                                         : null}
                                 </Box>
                                 <Box sx={{ py: 0.5, mx: 0.2 }}>
                                     {datacolflag === 1 ?
-                                        <ViewOreviousDataCollctnDetails datacolData={datacolData} selectedCompany={selectedCompany} />
+                                        <DataCollectionViewHigherLevel datacolData={datacolData} selectedCompany={selectedCompany} />
                                         : null
                                     }
                                 </Box>

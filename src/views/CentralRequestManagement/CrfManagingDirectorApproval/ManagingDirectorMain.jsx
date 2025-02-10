@@ -52,6 +52,7 @@ const ManagingDirectorMain = () => {
     const [toDate, setToDate] = useState(format(new Date(), "yyyy-MM-dd"));
     const [imagearray, setImageArry] = useState([])
     const [selectedCompany, setSelectedCompany] = useState('1');
+    const [pendingCount, setPendingCount] = useState(0)
     const { data: compData, isLoading: isCompLoading, error: compError } = useQuery({
         queryKey: 'getCompany',
         queryFn: () => getCompanyDetails(),
@@ -59,16 +60,17 @@ const ManagingDirectorMain = () => {
     });
     const companyData = useMemo(() => compData, [compData]);
 
-    const postData = useMemo(() => ({ level: 22 }), []);
+    const tmchData = useMemo(() => ({ level: 23 }), []);
 
     const { data: manageDetails, isLoading: isManageLoading, error: manageError } = useQuery({
-        queryKey: ['getPendingAll', JSON.stringify(postData)],
-        queryFn: () => getCRFPendingAboveHOD(postData),
-        enabled: !!postData.level,
+        queryKey: ['getPendingAll', JSON.stringify(tmchData)],
+        queryFn: () => getCRFPendingAboveHOD(tmchData),
+        enabled: !!tmchData.level,
         staleTime: Infinity
     });
     const manageData = useMemo(() => manageDetails, [manageDetails]);
 
+    const postData = useMemo(() => ({ level: 22 }), []);
     const { data: manageKmc, isLoading: isedKmcLoading, error: kmcError } = useQuery({
         queryKey: ['getAllKmcPending', JSON.stringify(postData)],
         queryFn: () => getCRFPendingForAllKMC(postData),
@@ -80,13 +82,17 @@ const ManagingDirectorMain = () => {
     useEffect(() => {
         if (selectedCompany === '1') {
             if (radiovalue === '1' && manageData) {
-                setcombinedData(manageData)
-            } else if (radiovalue === '8') {
+                const pending = manageData?.filter((val) => val.ed_approve === null || val.md_approve === null)
+                setPendingCount(pending)
+                setcombinedData(pending)
+            }
+            else if (radiovalue === '8') {
                 setcombinedData([])
             }
         } else if (selectedCompany === '2') {
             if (radiovalue === '1' && manageDataKmc) {
                 setcombinedData(manageDataKmc)
+                setPendingCount(manageDataKmc)
             } else if (radiovalue === '8') {
                 setcombinedData([])
             }
@@ -303,29 +309,49 @@ const ManagingDirectorMain = () => {
                 }
                 return obj
             })
-
-            if (radiovalue === '2') {
-                const newData = datas?.filter((val) => val.now_who_status !== 2 && val.now_who_status !== 3 &&
-                    (val.managing_director_approve !== null)
-                )
-                setDisData(newData)
-                setAllData(newData)
-            } else {
-                setDisData(datas)
-                setAllData(datas)
+            if (selectedCompany === '1') {
+                if (radiovalue === '1') {
+                    const pending = datas?.filter((val) => (val.ed_approve === null || val.md_approve === null)
+                        && val.req_status !== 'C')
+                    setDisData(pending)
+                    setAllData(pending)
+                }
+                else if (radiovalue === '2') {
+                    const newData = datas?.filter((val) => val.ed_approve === 1 && val.md_approve === 1 &&
+                        val.ack_status === null && val.req_status !== 'C'
+                    )
+                    setDisData(newData)
+                    setAllData(newData)
+                } else {
+                    setDisData(datas)
+                    setAllData(datas)
+                }
+            }
+            else {
+                if (radiovalue === '2') {
+                    const newData = datas?.filter((val) => val.now_who_status !== 2 && val.now_who_status !== 3 &&
+                        (val.managing_director_approve !== null)
+                    )
+                    setDisData(newData)
+                    setAllData(newData)
+                } else {
+                    setDisData(datas)
+                    setAllData(datas)
+                }
             }
         } else {
             setDisData([])
             setAllData([])
         }
-    }, [combinedData, radiovalue])
+    }, [combinedData, radiovalue, selectedCompany])
 
     const getPendingData = useCallback(() => {
-        const pData = { level: 22 };
         const getData = async () => {
             if (selectedCompany === '1') {
+                const pData = { level: 23 };
                 await getApprovalDetails(setcombinedData, pData);
             } else if (selectedCompany === '2') {
+                const pData = { level: 22 };
                 await getApprovalKMCH(setcombinedData, pData);
             }
         };
@@ -527,7 +553,7 @@ const ManagingDirectorMain = () => {
                     </Box>
                 </Box>
                 <Box>
-                    <TopDesignForHigherlevel pendingData={selectedCompany === '2' ? manageDataKmc : manageData} radiovalue={radiovalue}
+                    <TopDesignForHigherlevel pendingData={pendingCount} radiovalue={radiovalue}
                         setRadioValue={setRadioValue}
                         allData={allData} setAllData={setAllData} setDisData={setDisData} getPendingData={getPendingData}
                         getApprovalData={getApprovalData} getProcurementData={getProcurementData}

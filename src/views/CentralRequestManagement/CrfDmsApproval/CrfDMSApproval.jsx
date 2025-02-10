@@ -44,7 +44,6 @@ const CrfDMSApproval = () => {
     // const [procureData, setProcureData] = useState([])
     const [combinedData, setcombinedData] = useState([])
     const [imagearray, setImageArry] = useState([])
-    const [selectedCompany, setSelectedCompany] = useState('1');
 
     const [fromDate, setFromDate] = useState(format(new Date(), "yyyy-MM-dd"));
     const [toDate, setToDate] = useState(format(new Date(), "yyyy-MM-dd"));
@@ -434,7 +433,6 @@ const CrfDMSApproval = () => {
         setCancelData([])
         setCancelModal(false)
         setCancelFlag(0)
-        setSelectedCompany('1')
     }, [])
 
     if (isDmsLoading) return <p>Loading...</p>;
@@ -448,13 +446,12 @@ const CrfDMSApproval = () => {
                 : ApprovalFlag === 1 ?
                     <CrfDMSApprovalModal open={ApprovalModal} ApprovalData={ApprovalData} handleClose={handleClose} reqItems={reqItems}
                         setApproveTableData={setApproveTableData} approveTableData={approveTableData} datacolflag={datacolflag}
-                        datacolData={datacolData} imagearray={imagearray} selectedCompany={selectedCompany} />
+                        datacolData={datacolData} imagearray={imagearray} />
                     : null
             }
             {cancelFlag === 1 ? <CrfDMSClose open={cancelModal} handleCloseCrfClose={handleCloseCrfClose}
                 approveTableData={approveTableData} reqItems={reqItems} cancelData={cancelData} cancelledOne={'DMS'}
                 setCancelModal={setCancelModal} setCancelFlag={setCancelFlag} imagearray={imagearray}
-                selectedCompany={selectedCompany}
             /> : null}
 
             <Box sx={{ height: window.innerHeight - 80, flexWrap: 'wrap', bgcolor: 'white', }}>
@@ -492,7 +489,7 @@ const CrfDMSApproval = () => {
                                     <MasterDetailCompnt val={val} />
                                     {radiovalue === '8' ?
                                         <ClosedButtonCompnt val={val} setPoDetails={setPoDetails} setImageArry={setImageArry}
-                                            imagearray={imagearray} selectedCompany={selectedCompany} />
+                                            imagearray={imagearray} />
                                         :
                                         <ApproveButtonsCompnt val={val} setApprovalFlag={setApprovalFlag}
                                             setApprovalModal={setApprovalModal} setCancelFlag={setCancelFlag}
@@ -503,7 +500,7 @@ const CrfDMSApproval = () => {
                                             setDataColFlag={setDataColFlag} setDataColData={setDataColData} datacolData={datacolData}
                                             setCollectDetailCheck={setCollectDetailCheck} setImageArry={setImageArry}
                                             imagearray={imagearray} crfRadioValue={crfRadioValue} radiovalue={radiovalue}
-                                            selectedCompany={selectedCompany} />
+                                        />
                                     }
                                 </Box>
                             }

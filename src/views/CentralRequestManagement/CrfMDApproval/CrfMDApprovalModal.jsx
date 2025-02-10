@@ -4,7 +4,6 @@ import CrfReqDetailViewCmp from '../ComonComponent/CrfReqDetailViewCmp'
 import ReqItemDisplay from '../ComonComponent/ReqItemDisplay'
 import CommonInchargeReqCmp from '../ComonComponent/ApprovalComp/CommonInchargeReqCmp'
 import { Paper } from '@mui/material'
-import CommonHodApprvCmp from '../ComonComponent/ApprovalComp/CommonHodApprvCmp'
 import ViewOreviousDataCollctnDetails from '../ComonComponent/DataCollectionComp/ViewOreviousDataCollctnDetails'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import DataCollectDepSecSelect from '../ComonComponent/DataCollectionComp/DataCollectDepSecSelect'
@@ -20,16 +19,17 @@ import { PUBLIC_NAS_FOLDER, PUBLIC_NAS_FOLDER_KMC } from 'src/views/Constant/Sta
 import { format } from 'date-fns'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { axioskmc, axioslogin } from 'src/views/Axios/Axios'
-import CommonDmsApprvCmp from '../ComonComponent/ApprovalComp/CommonDmsApprvCmp'
-import CommonMsApprvCmp from '../ComonComponent/ApprovalComp/CommonMsApprvCmp'
-import CommonMoApprvlCmp from '../ComonComponent/ApprovalComp/CommonMoApprvlCmp'
-import CommonSmoApprvCmp from '../ComonComponent/ApprovalComp/CommonSmoApprvCmp'
-import CommonGmapprvCmp from '../ComonComponent/ApprovalComp/CommonGmapprvCmp'
-import CommonEdapprvCmp from '../ComonComponent/ApprovalComp/CommonEdapprvCmp'
 import ModalButtomCmp from '../ComonComponent/Components/ModalButtomCmp'
 import KMCItemApprovalComponent from '../ComonComponent/ComponentsKMC/KMCItemApprovalComponent'
 import AddMoreItemsKMC from '../ComonComponent/ComponentsKMC/AddMoreItemsKMC'
-import CommonMangingApprvComp from '../ComonComponent/ApprovalComp/CommonMangingApprvComp'
+import EDApproveViewForHigher from '../ComonComponent/HigherLevelComponents/EDApproveViewForHigher'
+import ManageApproveViewHigher from '../ComonComponent/HigherLevelComponents/ManageApproveViewHigher'
+import GMApproveViewForHigher from '../ComonComponent/HigherLevelComponents/GMApproveViewForHigher'
+import SMOApproveViewForHigher from '../ComonComponent/HigherLevelComponents/SMOApproveViewForHigher'
+import MOApproveViewForHigher from '../ComonComponent/HigherLevelComponents/MOApproveViewForHigher'
+import MSApproveViewForHigher from '../ComonComponent/HigherLevelComponents/MSApproveViewForHigher'
+import DMSApproveViewForHigher from '../ComonComponent/HigherLevelComponents/DMSApproveViewForHigher'
+import HODApproveViewHigher from '../ComonComponent/HigherLevelComponents/HODApproveViewHigher'
 
 
 const CrfMDApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApproveTableData, approveTableData,
@@ -136,182 +136,6 @@ const CrfMDApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
             })
         }
     }, [approve, reject, pending, id, remark, detailAnalis, req_slno, approveTableData, internallyArr])
-
-    // const submit = useCallback(() => {
-    //     if (editEnable === 1) {
-    //         infoNotify("Ensure all other details are entered/completed before submitting");
-    //     }
-    //     else {
-    //         const updateMDApproval = async (MDPatchData) => {
-    //             const result = await axioslogin.patch('/CRFRegisterApproval/Md', MDPatchData);
-    //             return result.data
-    //         }
-    //         const updateMDApprovalKMC = async (MDPatchData) => {
-    //             const result = await axioskmc.patch('/CRFRegisterApproval/Md', MDPatchData);
-    //             return result.data
-    //         }
-    //         const DataCollRequestFnctn = async (postData) => {
-    //             try {
-    //                 const result = await axioslogin.post(`/CRFRegisterApproval/dataCollect/Insert`, postData);
-    //                 const { success, message } = result.data;
-    //                 if (success === 1) {
-    //                     succesNotify(message);
-    //                     queryClient.invalidateQueries('getPendingAll');
-    //                     reset();
-    //                 } else {
-    //                     warningNotify(message);
-    //                 }
-    //             } catch (error) {
-    //                 warningNotify('An error occurred during data collection insertion.');
-    //             }
-    //         };
-    //         const DataCollRequestKMC = async (postData) => {
-    //             try {
-    //                 const result = await axioskmc.post(`/CRFRegisterApproval/dataCollect/Insert`, postData);
-    //                 const { success, message } = result.data;
-    //                 if (success === 1) {
-    //                     succesNotify(message);
-    //                     queryClient.invalidateQueries('getPendingAll');
-    //                     reset();
-    //                 } else {
-    //                     warningNotify(message);
-    //                 }
-    //             } catch (error) {
-    //                 warningNotify('An error occurred during data collection insertion.');
-    //             }
-    //         };
-    //         const FileInsert = async (req_slno, selectFile) => {
-    //             try {
-    //                 const formData = new FormData();
-    //                 formData.append('reqslno', req_slno);
-    //                 for (const file of selectFile) {
-    //                     if (file.type.startsWith('image')) {
-    //                         const compressedFile = await handleImageUpload(file);
-    //                         formData.append('files', compressedFile, compressedFile.name);
-    //                     } else {
-    //                         formData.append('files', file, file.name);
-    //                     }
-    //                 }
-    //                 const result = await axioslogin.post('/newCRFRegisterImages/crf/ImageInsertMD', formData, {
-    //                     headers: {
-    //                         'Content-Type': 'multipart/form-data',
-    //                     },
-    //                 });
-    //                 return result.data;
-    //             } catch (error) {
-    //                 warningNotify('An error occurred during file upload.');
-    //             }
-    //         };
-    //         const FileInsertKMC = async (req_slno, selectFile) => {
-    //             try {
-    //                 const formData = new FormData();
-    //                 formData.append('reqslno', req_slno);
-    //                 for (const file of selectFile) {
-    //                     if (file.type.startsWith('image')) {
-    //                         const compressedFile = await handleImageUpload(file);
-    //                         formData.append('files', compressedFile, compressedFile.name);
-    //                     } else {
-    //                         formData.append('files', file, file.name);
-    //                     }
-    //                 }
-    //                 const result = await axioskmc.post('/newCRFRegisterImages/crf/ImageInsertMD', formData, {
-    //                     headers: {
-    //                         'Content-Type': 'multipart/form-data',
-    //                     },
-    //                 });
-    //                 return result.data;
-    //             } catch (error) {
-    //                 warningNotify('An error occurred during file upload.');
-    //             }
-    //         };
-    //         if (datacollFlag) {
-    //             if (crfdept.length === 0) {
-    //                 warningNotify("Select any data collection department");
-    //                 return;
-    //             }
-    //             if (datacolectremark === '') {
-    //                 warningNotify("Enter the remarks");
-    //                 return;
-    //             }
-    //             const postData = crfdept?.map((val) => ({
-    //                 crf_requst_slno: req_slno,
-    //                 crf_req_collect_dept: val,
-    //                 crf_req_remark: datacolectremark,
-    //                 reqest_one: 8,
-    //                 req_user: id,
-    //             }));
-    //             if (selectedCompany === '1') {
-    //                 DataCollRequestFnctn(postData);
-    //             }
-    //             else if (selectedCompany === '2') {
-    //                 DataCollRequestKMC(postData)
-    //             }
-    //             return;
-    //         }
-    //         if (!approve && !reject && !pending) {
-    //             warningNotify("Select any status");
-    //             return;
-    //         }
-    //         if (selectedCompany === '1') {
-    //             updateMDApproval(MDPatchData).then((val) => {
-    //                 const { success, message } = val;
-    //                 if (success !== 1) {
-    //                     warningNotify(message);
-    //                     return;
-    //                 }
-    //                 const onSuccess = (fileUploadMessage) => {
-    //                     const notifyMessage = approve ? "Approved Successfully" : "Status Updated";
-    //                     succesNotify(`${notifyMessage}${fileUploadMessage ? ` and ${fileUploadMessage}` : ""}`);
-    //                     reset();
-    //                     queryClient.invalidateQueries('getPendingAll');
-    //                 };
-    //                 if (selectFile.length > 0) {
-    //                     FileInsert(req_slno, selectFile).then((fileResponse) => {
-    //                         const { success: fileSuccess, message: fileMessage } = fileResponse || {};
-    //                         if (fileSuccess === 1) {
-    //                             onSuccess("file uploaded");
-    //                         } else {
-    //                             warningNotify(fileMessage);
-    //                         }
-    //                     });
-    //                 } else {
-    //                     onSuccess();
-    //                 }
-    //             });
-    //         }
-    //         else if (selectedCompany === '2') {
-    //             updateMDApprovalKMC(MDPatchData).then((val) => {
-    //                 const { success, message } = val;
-    //                 if (success !== 1) {
-    //                     warningNotify(message);
-    //                     return;
-    //                 }
-    //                 const onSuccess = (fileUploadMessage) => {
-    //                     const notifyMessage = approve ? "Approved Successfully" : "Status Updated";
-    //                     succesNotify(`${notifyMessage}${fileUploadMessage ? ` and ${fileUploadMessage}` : ""}`);
-    //                     reset();
-    //                     queryClient.invalidateQueries('getAllKmcPending')
-    //                 };
-    //                 if (selectFile.length > 0) {
-    //                     FileInsertKMC(req_slno, selectFile).then((fileResponse) => {
-    //                         const { success: fileSuccess, message: fileMessage } = fileResponse || {};
-    //                         if (fileSuccess === 1) {
-    //                             onSuccess("file uploaded");
-    //                         } else {
-    //                             warningNotify(fileMessage);
-    //                         }
-    //                     });
-    //                 } else {
-    //                     onSuccess();
-    //                 }
-    //             });
-    //         } else {
-
-    //         }
-    //     }
-
-    // }, [MDPatchData, reset, datacollFlag, datacolectremark, crfdept, id, req_slno, selectFile, queryClient,
-    //     handleImageUpload, approve, reject, pending, editEnable, selectedCompany])
 
     const closeModal = useCallback(() => {
         reset()
@@ -581,42 +405,42 @@ const CrfMDApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                                     }
                                     {hod_req === 1 && hod_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonHodApprvCmp selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
+                                            <HODApproveViewHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
                                         </Box>
                                         : null}
                                     {dms_req === 1 && dms_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonDmsApprvCmp selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
+                                            <DMSApproveViewForHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
                                         </Box>
                                         : null}
                                     {ms_approve_req === 1 && ms_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonMsApprvCmp selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
+                                            <MSApproveViewForHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
                                         </Box>
                                         : null}
                                     {manag_operation_approv !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonMoApprvlCmp selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
+                                            <MOApproveViewForHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
                                         </Box>
                                         : null}
                                     {senior_manage_approv !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonSmoApprvCmp selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
+                                            <SMOApproveViewForHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
                                         </Box>
                                         : null}
                                     {gm_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonGmapprvCmp selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
+                                            <GMApproveViewForHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
                                         </Box>
                                         : null}
                                     {ed_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonEdapprvCmp selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
+                                            <EDApproveViewForHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
                                         </Box>
                                         : null}
                                     {managing_director_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonMangingApprvComp selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
+                                            <ManageApproveViewHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
                                         </Box>
                                         : null}
                                 </Box>

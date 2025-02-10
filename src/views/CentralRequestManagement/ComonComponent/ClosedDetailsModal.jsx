@@ -16,11 +16,13 @@ import CommonGmapprvCmp from './ApprovalComp/CommonGmapprvCmp'
 import CommonMdApprvCmp from './ApprovalComp/CommonMdApprvCmp'
 import CommonEdapprvCmp from './ApprovalComp/CommonEdapprvCmp'
 import CommonCRFClosed from './ApprovalComp/CommonCRFClosed'
+import CommonMangingApprvComp from './ApprovalComp/CommonMangingApprvComp'
 
-const ClosedDetailsModal = ({ open, crfClosedDetails, handleCloseModal, reqItems, approveTableData, imagearray, selectedCompany }) => {
+const ClosedDetailsModal = ({ open, crfClosedDetails, handleCloseModal, reqItems, approveTableData, imagearray }) => {
     const { incharge_req, incharge_remarks, hod_req, hod_approve, dms_approve, ms_approve, manag_operation_approv,
         senior_manage_approv, gm_approve, md_approve, ed_approve, crf_closed_one, dms_req, ms_approve_req,
-        manag_operation_req, senior_manage_req, gm_approve_req, ed_approve_req, md_approve_req } = crfClosedDetails
+        manag_operation_req, senior_manage_req, gm_approve_req, ed_approve_req, md_approve_req,
+        managing_director_approve, managing_director_req } = crfClosedDetails
     return (
         <Fragment>
             <ToastContainer />
@@ -70,52 +72,57 @@ const ClosedDetailsModal = ({ open, crfClosedDetails, handleCloseModal, reqItems
                                         }
                                         {hod_req === 1 && hod_approve !== null ?
                                             <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                <CommonHodApprvCmp DetailViewData={crfClosedDetails} selectedCompany={selectedCompany} />
+                                                <CommonHodApprvCmp DetailViewData={crfClosedDetails} />
                                             </Grid>
                                             : null
                                         }
                                         {dms_req === 1 && dms_approve !== null ?
                                             <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                <CommonDmsApprvCmp DetailViewData={crfClosedDetails} selectedCompany={selectedCompany} />
+                                                <CommonDmsApprvCmp DetailViewData={crfClosedDetails} />
                                             </Grid>
                                             : null
                                         }
                                         {ms_approve_req === 1 && ms_approve !== null ?
                                             <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                <CommonMsApprvCmp DetailViewData={crfClosedDetails} selectedCompany={selectedCompany} />
+                                                <CommonMsApprvCmp DetailViewData={crfClosedDetails} />
                                             </Grid>
                                             : null
                                         }
                                         {manag_operation_req === 1 && manag_operation_approv !== null ?
                                             <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                <CommonMoApprvlCmp DetailViewData={crfClosedDetails} selectedCompany={selectedCompany} />
+                                                <CommonMoApprvlCmp DetailViewData={crfClosedDetails} />
                                             </Grid>
                                             : null
                                         }
                                         {senior_manage_req === 1 && senior_manage_approv !== null ?
                                             <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                <CommonSmoApprvCmp DetailViewData={crfClosedDetails} selectedCompany={selectedCompany} />
+                                                <CommonSmoApprvCmp DetailViewData={crfClosedDetails} />
                                             </Grid>
                                             : null
                                         }
                                         {gm_approve_req === 1 && gm_approve !== null ?
                                             <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                <CommonGmapprvCmp DetailViewData={crfClosedDetails} selectedCompany={selectedCompany} />
+                                                <CommonGmapprvCmp DetailViewData={crfClosedDetails} />
                                             </Grid>
                                             : null
                                         }
                                         {md_approve_req === 1 && md_approve !== null ?
                                             <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                <CommonMdApprvCmp DetailViewData={crfClosedDetails} selectedCompany={selectedCompany} />
+                                                <CommonMdApprvCmp DetailViewData={crfClosedDetails} />
                                             </Grid>
                                             : null
                                         }
                                         {ed_approve_req === 1 && ed_approve !== null ?
                                             <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                <CommonEdapprvCmp DetailViewData={crfClosedDetails} selectedCompany={selectedCompany} />
+                                                <CommonEdapprvCmp DetailViewData={crfClosedDetails} />
                                             </Grid>
                                             : null
                                         }
+                                        {managing_director_req === 1 && managing_director_approve !== null ?
+                                            <Box sx={{ pt: 0.5 }}>
+                                                <CommonMangingApprvComp DetailViewData={crfClosedDetails} />
+                                            </Box>
+                                            : null}
                                         <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                                             <CommonCRFClosed closedData={crfClosedDetails} />
                                         </Grid>

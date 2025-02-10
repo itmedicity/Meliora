@@ -6,20 +6,22 @@ import CrfReqDetailViewCmp from '../CrfReqDetailViewCmp'
 import ReqItemDisplay from '../ReqItemDisplay'
 import ApprovedItemListDis from '../ApprovedItemListDis'
 import CommonInchargeReqCmp from '../ApprovalComp/CommonInchargeReqCmp'
-import CommonHodApprvCmp from '../ApprovalComp/CommonHodApprvCmp'
-import CommonDmsApprvCmp from '../ApprovalComp/CommonDmsApprvCmp'
-import CommonMsApprvCmp from '../ApprovalComp/CommonMsApprvCmp'
-import CommonMoApprvlCmp from '../ApprovalComp/CommonMoApprvlCmp'
-import CommonSmoApprvCmp from '../ApprovalComp/CommonSmoApprvCmp'
-import CommonGmapprvCmp from '../ApprovalComp/CommonGmapprvCmp'
-import CommonMdApprvCmp from '../ApprovalComp/CommonMdApprvCmp'
-import CommonEdapprvCmp from '../ApprovalComp/CommonEdapprvCmp'
 import CommonCRFClosed from '../ApprovalComp/CommonCRFClosed'
+import HODApproveViewHigher from './HODApproveViewHigher'
+import DMSApproveViewForHigher from './DMSApproveViewForHigher'
+import MSApproveViewForHigher from './MSApproveViewForHigher'
+import MOApproveViewForHigher from './MOApproveViewForHigher'
+import SMOApproveViewForHigher from './SMOApproveViewForHigher'
+import GMApproveViewForHigher from './GMApproveViewForHigher'
+import MDApproveViewHigher from './MDApproveViewHigher'
+import EDApproveViewForHigher from './EDApproveViewForHigher'
+import ManageApproveViewHigher from './ManageApproveViewHigher'
 
 const HigherClosedDetailsView = ({ open, crfClosedDetails, handleCloseModal, reqItems, approveTableData, imagearray, selectedCompany }) => {
     const { incharge_req, incharge_remarks, hod_req, hod_approve, dms_approve, ms_approve, manag_operation_approv,
         senior_manage_approv, gm_approve, md_approve, ed_approve, crf_closed_one, dms_req, ms_approve_req,
-        manag_operation_req, senior_manage_req, gm_approve_req, ed_approve_req, md_approve_req } = crfClosedDetails
+        manag_operation_req, senior_manage_req, gm_approve_req, ed_approve_req, md_approve_req,
+        managing_director_approve, managing_director_req } = crfClosedDetails
     return (
         <Fragment>
             <ToastContainer />
@@ -69,52 +71,57 @@ const HigherClosedDetailsView = ({ open, crfClosedDetails, handleCloseModal, req
                                         }
                                         {hod_req === 1 && hod_approve !== null ?
                                             <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                <CommonHodApprvCmp DetailViewData={crfClosedDetails} selectedCompany={selectedCompany} />
+                                                <HODApproveViewHigher DetailViewData={crfClosedDetails} selectedCompany={selectedCompany} />
                                             </Grid>
                                             : null
                                         }
                                         {dms_req === 1 && dms_approve !== null ?
                                             <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                <CommonDmsApprvCmp DetailViewData={crfClosedDetails} selectedCompany={selectedCompany} />
+                                                <DMSApproveViewForHigher DetailViewData={crfClosedDetails} selectedCompany={selectedCompany} />
                                             </Grid>
                                             : null
                                         }
                                         {ms_approve_req === 1 && ms_approve !== null ?
                                             <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                <CommonMsApprvCmp DetailViewData={crfClosedDetails} selectedCompany={selectedCompany} />
+                                                <MSApproveViewForHigher DetailViewData={crfClosedDetails} selectedCompany={selectedCompany} />
                                             </Grid>
                                             : null
                                         }
                                         {manag_operation_req === 1 && manag_operation_approv !== null ?
                                             <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                <CommonMoApprvlCmp DetailViewData={crfClosedDetails} selectedCompany={selectedCompany} />
+                                                <MOApproveViewForHigher DetailViewData={crfClosedDetails} selectedCompany={selectedCompany} />
                                             </Grid>
                                             : null
                                         }
                                         {senior_manage_req === 1 && senior_manage_approv !== null ?
                                             <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                <CommonSmoApprvCmp DetailViewData={crfClosedDetails} selectedCompany={selectedCompany} />
+                                                <SMOApproveViewForHigher DetailViewData={crfClosedDetails} selectedCompany={selectedCompany} />
                                             </Grid>
                                             : null
                                         }
                                         {gm_approve_req === 1 && gm_approve !== null ?
                                             <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                <CommonGmapprvCmp DetailViewData={crfClosedDetails} selectedCompany={selectedCompany} />
+                                                <GMApproveViewForHigher DetailViewData={crfClosedDetails} selectedCompany={selectedCompany} />
                                             </Grid>
                                             : null
                                         }
                                         {md_approve_req === 1 && md_approve !== null ?
                                             <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                <CommonMdApprvCmp DetailViewData={crfClosedDetails} selectedCompany={selectedCompany} />
+                                                <MDApproveViewHigher DetailViewData={crfClosedDetails} selectedCompany={selectedCompany} />
                                             </Grid>
                                             : null
                                         }
                                         {ed_approve_req === 1 && ed_approve !== null ?
                                             <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                <CommonEdapprvCmp DetailViewData={crfClosedDetails} selectedCompany={selectedCompany} />
+                                                <EDApproveViewForHigher DetailViewData={crfClosedDetails} selectedCompany={selectedCompany} />
                                             </Grid>
                                             : null
                                         }
+                                        {managing_director_req === 1 && managing_director_approve !== null ?
+                                            <Box sx={{ pt: 0.5 }}>
+                                                <ManageApproveViewHigher DetailViewData={crfClosedDetails} selectedCompany={selectedCompany} />
+                                            </Box>
+                                            : null}
                                         <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                                             <CommonCRFClosed closedData={crfClosedDetails} />
                                         </Grid>

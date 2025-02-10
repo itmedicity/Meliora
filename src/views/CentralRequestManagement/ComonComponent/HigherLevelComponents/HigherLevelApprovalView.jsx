@@ -19,11 +19,11 @@ import PoAcknowComp from '../PurchaseComp/PoAcknowComp';
 import QuotationCallComp from '../PurchaseComp/QuotationCallComp';
 import QuotationNegoComp from '../PurchaseComp/QuotationNegoComp';
 import QuotationFinalComp from '../PurchaseComp/QuotationFinalComp';
-import ViewOreviousDataCollctnDetails from '../DataCollectionComp/ViewOreviousDataCollctnDetails';
 import ApprovalItemView from '../../CrfDatacollection/ApprovalItemView';
 import CommonCRFClosed from '../ApprovalComp/CommonCRFClosed';
 import UserReceivedItemDetails from '../ApprovalComp/UserReceivedItemDetails';
 import CommonMangingApprvComp from '../ApprovalComp/CommonMangingApprvComp';
+import DataCollectionViewHigherLevel from '../DataCollectionComp/DataCollectionViewHigherLevel';
 
 const HigherLevelApprovalView = ({ open, closeModal, DetailViewData, reqItems, approveTableData, poDetails, imagearray,
     datacolData, selectedCompany }) => {
@@ -161,7 +161,7 @@ const HigherLevelApprovalView = ({ open, closeModal, DetailViewData, reqItems, a
                                     </Paper>
                                     {datacolData.length !== 0 ?
                                         <Box sx={{ py: 0.5, mx: 0.2 }}>
-                                            <ViewOreviousDataCollctnDetails datacolData={datacolData} selectedCompany={selectedCompany} />
+                                            <DataCollectionViewHigherLevel datacolData={datacolData} selectedCompany={selectedCompany} />
                                         </Box>
                                         : null
                                     }

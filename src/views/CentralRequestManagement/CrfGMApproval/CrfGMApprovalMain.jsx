@@ -49,7 +49,6 @@ const CrfGMApprovalMain = () => {
     const [fromDate, setFromDate] = useState(format(new Date(), "yyyy-MM-dd"));
     const [toDate, setToDate] = useState(format(new Date(), "yyyy-MM-dd"));
     const [imagearray, setImageArry] = useState([])
-    const [selectedCompany, setSelectedCompany] = useState('1');
 
     const postData = useMemo(() => ({ level: 19 }), []);
     const { data: gmDetails, isLoading: isGmLoading, error: gmError } = useQuery({
@@ -431,7 +430,6 @@ const CrfGMApprovalMain = () => {
         setCancelData([])
         setCancelModal(false)
         setCancelFlag(0)
-        setSelectedCompany('1')
     }, [])
 
     if (isGmLoading) return <p>Loading...</p>;
@@ -444,12 +442,12 @@ const CrfGMApprovalMain = () => {
                 : ApprovalFlag === 1 ?
                     <CrfGMApprovalModal open={ApprovalModal} ApprovalData={ApprovalData} handleClose={handleClose} reqItems={reqItems}
                         setApproveTableData={setApproveTableData} approveTableData={approveTableData} datacolflag={datacolflag}
-                        datacolData={datacolData} imagearray={imagearray} selectedCompany={selectedCompany} />
+                        datacolData={datacolData} imagearray={imagearray} />
                     : null
             }
             {cancelFlag === 1 ? <CrfDMSClose open={cancelModal} handleCloseCrfClose={handleCloseCrfClose} approveTableData={approveTableData}
                 reqItems={reqItems} cancelData={cancelData} cancelledOne={'GM'} setCancelModal={setCancelModal}
-                setCancelFlag={setCancelFlag} imagearray={imagearray} selectedCompany={selectedCompany} /> : null}
+                setCancelFlag={setCancelFlag} imagearray={imagearray} /> : null}
             <Box sx={{ height: window.innerHeight - 80, flexWrap: 'wrap', bgcolor: 'white', }}>
                 <Box sx={{ display: 'flex', backgroundColor: "#f0f3f5", border: '1px solid #B4F5F0' }}>
                     <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>GM Approval</Box>
@@ -485,7 +483,7 @@ const CrfGMApprovalMain = () => {
                                     <MasterDetailCompnt val={val} />
                                     {radiovalue === '8' ?
                                         <ClosedButtonCompnt val={val} setPoDetails={setPoDetails} setImageArry={setImageArry}
-                                            imagearray={imagearray} selectedCompany={selectedCompany} />
+                                            imagearray={imagearray} />
                                         :
                                         <ApproveButtonsCompnt val={val} setApprovalFlag={setApprovalFlag}
                                             setApprovalModal={setApprovalModal} setCancelFlag={setCancelFlag}
@@ -496,7 +494,6 @@ const CrfGMApprovalMain = () => {
                                             setDataColFlag={setDataColFlag} setDataColData={setDataColData} datacolData={datacolData}
                                             setCollectDetailCheck={setCollectDetailCheck} setImageArry={setImageArry}
                                             imagearray={imagearray} crfRadioValue={crfRadioValue} radiovalue={radiovalue}
-                                            selectedCompany={selectedCompany}
                                         />
                                     }
                                 </Box>

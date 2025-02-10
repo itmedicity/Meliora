@@ -41,7 +41,7 @@ const CrfHodApproval = () => {
     const [datacolflag, setDataColFlag] = useState(0)
     const [datacolData, setDataColData] = useState([])
     const [imagearray, setImageArry] = useState([])
-    const [selectedCompany, setSelectedCompany] = useState('1');
+
     const history = useHistory();
     const backtoSetting = useCallback(() => {
         history.push('/Home')
@@ -91,7 +91,7 @@ const CrfHodApproval = () => {
                     image_status: val.image_status,
                     req_date: val.create_date,
                     expected_date: val.expected_date,
-                    status: val.rm_ndrf === 1 ? "NDRF" : "CRF",
+                    internally_arranged_status: val.internally_arranged_status,
                     crf_close: val.crf_close,
                     crf_close_remark: val.crf_close_remark,
                     crf_closed_one: val.crf_closed_one,
@@ -282,10 +282,10 @@ const CrfHodApproval = () => {
                 return obj
             })
             const hod = datas?.filter((val) => {
-                return val.hod_req === 1 && val.crf_close !== 1
+                return val.hod_req === 1 && val.crf_close !== 1 && val.crf_close !== 2
             })
             const closedList = datas?.filter((val) => {
-                return val.hod_req === 1 && val.crf_close === 1
+                return val.hod_req === 1 && (val.crf_close === 1 || val.crf_close === 2)
             })
             setClosedData(closedList)
             const pendingList = hod?.filter((val) => {
@@ -343,7 +343,6 @@ const CrfHodApproval = () => {
         setCancelData([]);
         setCancelModal(false);
         setCancelFlag(0);
-        setSelectedCompany('1')
     }, []);
 
     if (isInchargeLoading || isAuthLoading) return <p>Loading...</p>;
@@ -357,7 +356,7 @@ const CrfHodApproval = () => {
                 : ApprovalFlag === 1 ? <CrmHodApprovalModal open={ApprovalModal} ApprovalData={ApprovalData}
                     handleClose={handleClose} reqItems={reqItems} setApproveTableData={setApproveTableData}
                     approveTableData={approveTableData} datacolflag={datacolflag} datacolData={datacolData}
-                    deptsecArry={deptsecArry} imagearray={imagearray} selectedCompany={selectedCompany} /> : null}
+                    deptsecArry={deptsecArry} imagearray={imagearray} /> : null}
 
             {cancelFlag === 1 ? <InchargeCancel open={cancelModal} handleCloseCrfClose={handleCloseCrfClose}
                 reqItems={reqItems} cancelData={cancelData} cancelledOne={'HOD'} deptsecArry={deptsecArry}
@@ -391,7 +390,7 @@ const CrfHodApproval = () => {
                                     <MasterDetailCompnt val={val} />
                                     {radiovalue === '3' ?
                                         <ClosedButtonCompnt val={val} setPoDetails={setPoDetails} setImageArry={setImageArry}
-                                            imagearray={imagearray} selectedCompany={selectedCompany} />
+                                            imagearray={imagearray} />
                                         :
                                         <ApproveButtonHOD val={val} setApprovalFlag={setApprovalFlag}
                                             setApprovalModal={setApprovalModal} setCancelFlag={setCancelFlag}

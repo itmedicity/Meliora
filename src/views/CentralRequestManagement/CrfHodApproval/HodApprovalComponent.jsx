@@ -7,13 +7,13 @@ import { warningNotify } from 'src/views/Common/CommonCode';
 import ClearIcon from '@mui/icons-material/Clear';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
-import ReqImageDisModal from './ImageUploadCmp/ReqImageDisModal';
-import CustomToolTipForCRF from './Components/CustomToolTipForCRF';
+import ReqImageDisModal from '../ComonComponent/ImageUploadCmp/ReqImageDisModal';
+import CustomToolTipForCRF from '../ComonComponent/Components/CustomToolTipForCRF';
 
 
-const ApprovalCompntAll = ({ heading, apprvlDetails, updateOnchangeState, updateApprovalState,
+const HodApprovalComponent = ({ heading, apprvlDetails, updateOnchangeState, updateApprovalState,
     imageCheck, selectFile, setSelectFile, uploadedImages }) => {
-    const { reject, pending, remark, detailAnalis, internallyArr } = apprvlDetails
+    const { reject, pending, remark, detailAnalis } = apprvlDetails
 
     const [previewFile, setPreviewFile] = useState({ url: "", type: "" });
     const [imageshowFlag, setImageShowFlag] = useState(0)
@@ -94,11 +94,8 @@ const ApprovalCompntAll = ({ heading, apprvlDetails, updateOnchangeState, update
         } else if (pending) {
             return "Detail Justification for On-Hold";
         }
-        else if (internallyArr) {
-            return "Details Of Internally Arranged";
-        }
         return "Detail Justification/ Requirement Description";
-    }, [reject, pending, internallyArr])
+    }, [reject, pending])
 
     return (
         <Fragment>
@@ -125,7 +122,7 @@ const ApprovalCompntAll = ({ heading, apprvlDetails, updateOnchangeState, update
                         sx={{ fontSize: 14, borderRadius: 7 }}
                     />
                 </Box>
-                {!reject && !pending && !internallyArr && (
+                {!reject && !pending && (
                     <>
                         <Typography sx={{ fontSize: 14, fontWeight: 550, pl: 1 }}>
                             Detailed Analysis of Requirement
@@ -146,7 +143,7 @@ const ApprovalCompntAll = ({ heading, apprvlDetails, updateOnchangeState, update
                     </>
                 )}
                 <Box sx={{ display: "flex", flex: 1, pl: 10 }}>
-                    {["approve", "reject", "pending", "internallyArr"].map((type) => (
+                    {["approve", "reject", "pending"].map((type) => (
                         <Box key={type} sx={{ m: 1 }}>
                             <CusCheckBox
                                 label={
@@ -156,7 +153,7 @@ const ApprovalCompntAll = ({ heading, apprvlDetails, updateOnchangeState, update
                                             ? "Reject"
                                             : type === "pending"
                                                 ? "On-Hold"
-                                                : "Internally Arranged"
+                                                : ""
                                 }
                                 color="primary"
                                 size="md"
@@ -352,4 +349,4 @@ const ApprovalCompntAll = ({ heading, apprvlDetails, updateOnchangeState, update
     )
 }
 
-export default memo(ApprovalCompntAll)
+export default memo(HodApprovalComponent)

@@ -89,7 +89,7 @@ const InchargeApproval = () => {
                     image_status: val.image_status,
                     req_date: val.create_date,
                     expected_date: val.expected_date,
-                    status: val.rm_ndrf === 1 ? "NDRF" : "CRF",
+                    internally_arranged_status: val.internally_arranged_status,
                     crf_close: val.crf_close,
                     crf_close_remark: val.crf_close_remark,
                     crf_closed_one: val.crf_closed_one,
@@ -209,30 +209,31 @@ const InchargeApproval = () => {
                                                                                                                 val.incharge_approve !== null ? "Incharge" :
                                                                                                                     "Not Started",
                     //  here now_who_status =5 is used to not show approved from purchase level on status      
-                    now_who_status: val.req_status === 'C' ? '' :
-                        val.sub_store_recieve === 1 ? 5 :
-                            val.store_receive === 1 ? 5 :
-                                val.po_to_supplier === 1 ? 5 :
-                                    val.approval_level === 3 ? 5 :
-                                        val.approval_level === 2 ? 5 :
-                                            val.approval_level === 1 ? 5 :
-                                                val.po_complete === 1 ? 5 :
-                                                    val.po_prepartion === 1 ? 5 :
-                                                        val.quatation_fixing === 1 ? 5 :
-                                                            val.quatation_negotiation === 1 ? 5 :
-                                                                val.quatation_calling_status === 1 ? 5 :
-                                                                    val.ack_status === 1 ? 5 :
-                                                                        val.managing_director_approve !== null ? val.managing_director_approve :
-                                                                            val.ed_approve !== null ? val.ed_approve :
-                                                                                val.md_approve !== null ? val.md_approve :
-                                                                                    val.gm_approve !== null ? val.gm_approve :
-                                                                                        val.senior_manage_approv !== null ? val.senior_manage_approv :
-                                                                                            val.manag_operation_approv !== null ? val.manag_operation_approv :
-                                                                                                val.ms_approve !== null ? val.ms_approve :
-                                                                                                    val.dms_approve !== null ? val.dms_approve :
-                                                                                                        val.hod_approve !== null ? val.hod_approve :
-                                                                                                            val.incharge_approve !== null ? val.incharge_approve :
-                                                                                                                0,
+                    now_who_status:
+                        val.req_status === 'C' ? '' :
+                            val.sub_store_recieve === 1 ? 5 :
+                                val.store_receive === 1 ? 5 :
+                                    val.po_to_supplier === 1 ? 5 :
+                                        val.approval_level === 3 ? 5 :
+                                            val.approval_level === 2 ? 5 :
+                                                val.approval_level === 1 ? 5 :
+                                                    val.po_complete === 1 ? 5 :
+                                                        val.po_prepartion === 1 ? 5 :
+                                                            val.quatation_fixing === 1 ? 5 :
+                                                                val.quatation_negotiation === 1 ? 5 :
+                                                                    val.quatation_calling_status === 1 ? 5 :
+                                                                        val.ack_status === 1 ? 5 :
+                                                                            val.managing_director_approve !== null ? val.managing_director_approve :
+                                                                                val.ed_approve !== null ? val.ed_approve :
+                                                                                    val.md_approve !== null ? val.md_approve :
+                                                                                        val.gm_approve !== null ? val.gm_approve :
+                                                                                            val.senior_manage_approv !== null ? val.senior_manage_approv :
+                                                                                                val.manag_operation_approv !== null ? val.manag_operation_approv :
+                                                                                                    val.ms_approve !== null ? val.ms_approve :
+                                                                                                        val.dms_approve !== null ? val.dms_approve :
+                                                                                                            val.hod_approve !== null ? val.hod_approve :
+                                                                                                                val.incharge_approve !== null ? val.incharge_approve :
+                                                                                                                    0,
 
                     hod_image: val.hod_image,
                     dms_image: val.dms_image,
@@ -281,10 +282,10 @@ const InchargeApproval = () => {
                 return obj
             })
             const incharge = datas?.filter((val) => {
-                return val.incharge_req === 1 && val.crf_close !== 1
+                return val.incharge_req === 1 && val.crf_close !== 1 && val.crf_close !== 2
             })
             const closedList = datas?.filter((val) => {
-                return val.incharge_req === 1 && val.crf_close === 1
+                return val.incharge_req === 1 && (val.crf_close === 1 || val.crf_close === 2)
             })
             setClosedData(closedList)
 

@@ -422,34 +422,48 @@ const CrfStoreProcessMain = () => {
                     const { success, elliderdata } = val
                     if (success === 1) {
                         const seen = new Set();
-                        const patchQnty = elliderdata?.map(item => {
-                            const poItems = poNumber?.filter(po => po.pono === item.PO_NO && po.stcode === item.ST_CODE && po.item_code === item.IT_CODE);
-                            return poItems.map(poItem => {
-                                const uniqueKey = `${poItem.po_detail_slno}-${item.IT_CODE}-${item.PDN_SUPQTY}`;
-                                if (!seen.has(uniqueKey)) {
-                                    seen.add(uniqueKey);
-
-                                    let item_receive_status;
-                                    if (item.PDN_SUPQTY === 0) {
-                                        item_receive_status = null;
-                                    } else if (item.PDN_SUPQTY < item.PDN_QTY) {
-                                        item_receive_status = 0;
-                                    } else if (item.PDN_SUPQTY >= item.PDN_QTY) {
-                                        item_receive_status = 1;
+                        const patchQnty = poNumber.map(poItem => {
+                            const matchingItems = elliderdata.filter(item =>
+                                poItem.pono === item.PO_NO && poItem.stcode === item.ST_CODE && poItem.item_code === item.IT_CODE
+                            );
+                            if (matchingItems.length > 0) {
+                                return matchingItems.map(item => {
+                                    const uniqueKey = `${poItem.po_detail_slno}-${item.IT_CODE}-${item.PDN_SUPQTY}`;
+                                    if (!seen.has(uniqueKey)) {
+                                        seen.add(uniqueKey);
+                                        let item_receive_status;
+                                        if (item.PDN_SUPQTY === 0) {
+                                            item_receive_status = null;
+                                        } else if (item.PDN_SUPQTY < item.PDN_QTY) {
+                                            item_receive_status = 0;
+                                        } else if (item.PDN_SUPQTY >= item.PDN_QTY) {
+                                            item_receive_status = 1;
+                                        }
+                                        return {
+                                            req_slno: poItem.req_slno,
+                                            crm_purchase_slno: poItem.crm_purchase_slno,
+                                            grn_qnty: item.PDN_SUPQTY,
+                                            received_qnty: item.PDN_SUPQTY,
+                                            item_receive_status: item_receive_status,
+                                            po_detail_slno: poItem.po_detail_slno,
+                                            item_code: item.IT_CODE
+                                        };
                                     }
-                                    return {
-                                        req_slno: poItem.req_slno,
-                                        crm_purchase_slno: poItem.crm_purchase_slno,
-                                        grn_qnty: item.PDN_SUPQTY,
-                                        received_qnty: item.PDN_SUPQTY,
-                                        item_receive_status: item_receive_status,
-                                        po_detail_slno: poItem.po_detail_slno,
-                                        item_code: item.IT_CODE
-                                    };
-                                }
-                                return null;
-                            }).filter(item => item !== null);
+                                    return null;
+                                }).filter(item => item !== null);
+                            } else {
+                                return {
+                                    req_slno: poItem.req_slno,
+                                    crm_purchase_slno: poItem.crm_purchase_slno,
+                                    grn_qnty: 0,
+                                    received_qnty: 0,
+                                    item_receive_status: null,
+                                    po_detail_slno: poItem.po_detail_slno,
+                                    item_code: poItem.item_code
+                                };
+                            }
                         }).flat();
+
                         UpdateGrnItemQnty(patchQnty).then((val) => {
                             const { success } = val
                             if (success === 1) {

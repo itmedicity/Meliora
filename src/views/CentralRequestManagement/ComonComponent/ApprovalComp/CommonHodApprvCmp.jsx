@@ -1,14 +1,15 @@
-import { Box, Chip, Tooltip, Typography } from '@mui/joy';
+import { Box, Chip, Typography } from '@mui/joy';
 import { Paper } from '@mui/material';
 import { format } from 'date-fns';
 import React, { Fragment, memo, useCallback, useState } from 'react'
-import { axioskmc, axioslogin } from 'src/views/Axios/Axios';
+import { axioslogin } from 'src/views/Axios/Axios';
 import AttachmentTwoToneIcon from '@mui/icons-material/AttachmentTwoTone';
-import { PUBLIC_NAS_FOLDER, PUBLIC_NAS_FOLDER_KMC } from 'src/views/Constant/Static';
+import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import ImageDisplayModal from '../ImageUploadCmp/ImageDisplayModal';
+import CustomToolTipForCRF from '../Components/CustomToolTipForCRF';
 
-const CommonHodApprvCmp = ({ DetailViewData, selectedCompany }) => {
+const CommonHodApprvCmp = ({ DetailViewData }) => {
     const { req_slno, hod_approve, hod, hod_detial_analysis, hod_approve_date, hod_remarks, hod_user, hod_image
     } = DetailViewData
     const [imageshowFlag, setImageShowFlag] = useState(0)
@@ -30,49 +31,29 @@ const CommonHodApprvCmp = ({ DetailViewData, selectedCompany }) => {
             : '';
 
     const ViewHODUploadImage = useCallback(() => {
-        if (selectedCompany === '1') {
-            const getImage = async (req_slno) => {
-                const result = await axioslogin.get(`/newCRFRegisterImages/crfHodImageGet/${req_slno}`)
-                const { success, data } = result.data
-                if (success === 1) {
-                    const fileNames = data;
-                    const fileUrls = fileNames.map((fileName) => {
-                        return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/HodUpload/${fileName}`;
-                    });
-                    setImageArry(fileUrls);
-                    setImageShowFlag(1)
-                    setImageShow(true)
-                } else {
-                    warningNotify("Error Occured to display image")
-                    setImageShowFlag(0)
-                    setImageShow(false)
-                    setImageArry([])
-                }
+
+        const getImage = async (req_slno) => {
+            const result = await axioslogin.get(`/newCRFRegisterImages/crfHodImageGet/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const fileNames = data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/HodUpload/${fileName}`;
+                });
+                setImageArry(fileUrls);
+                setImageShowFlag(1)
+                setImageShow(true)
+            } else {
+                warningNotify("Error Occured to display image")
+                setImageShowFlag(0)
+                setImageShow(false)
+                setImageArry([])
             }
-            getImage(req_slno)
         }
-        else if (selectedCompany === '2') {
-            const getImage = async (req_slno) => {
-                const result = await axioskmc.get(`/newCRFRegisterImages/crfHodImageGet/${req_slno}`)
-                const { success, data } = result.data
-                if (success === 1) {
-                    const fileNames = data;
-                    const fileUrls = fileNames.map((fileName) => {
-                        return `${PUBLIC_NAS_FOLDER_KMC}/CRF/crf_registration/${req_slno}/HodUpload/${fileName}`;
-                    });
-                    setImageArry(fileUrls);
-                    setImageShowFlag(1)
-                    setImageShow(true)
-                } else {
-                    warningNotify("Error Occured to display image")
-                    setImageShowFlag(0)
-                    setImageShow(false)
-                    setImageArry([])
-                }
-            }
-            getImage(req_slno)
-        }
-    }, [req_slno, selectedCompany])
+        getImage(req_slno)
+
+
+    }, [req_slno])
 
     return (
         <Fragment>
@@ -144,11 +125,11 @@ const CommonHodApprvCmp = ({ DetailViewData, selectedCompany }) => {
                                         {format(new Date(hod_approve_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
                                     {hod_image === 1 ?
                                         <Box sx={{ display: 'flex', pl: 2 }} >
-                                            <Tooltip title='File View' placement='bottom' sx={{ bgcolor: '#D4F1F4', color: 'darkblue' }}>
+                                            <CustomToolTipForCRF title='File View' placement='bottom' sx={{ bgcolor: '#D4F1F4', color: 'darkblue' }}>
                                                 <AttachmentTwoToneIcon fontSize='small' sx={{ cursor: 'pointer', color: '#0277bd', width: 35, height: 25 }}
                                                     onClick={ViewHODUploadImage} >
                                                 </AttachmentTwoToneIcon>
-                                            </Tooltip>
+                                            </CustomToolTipForCRF>
                                         </Box> : null
                                     }
                                 </Box>

@@ -19,7 +19,7 @@ import 'ag-grid-community/dist/styles/ag-theme-material.css'
 import { format } from 'date-fns';
 
 
-const UserAcknldgeList = () => {
+const CRFAllReportWithPO = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const [open, setOpen] = useState(false)
@@ -44,20 +44,20 @@ const UserAcknldgeList = () => {
         { headerName: 'Req Slno', field: 'req_slno', autoHeight: true, wrapText: true, minWidth: 30 },
         { headerName: 'Department', field: 'dept_name', autoHeight: true, wrapText: true, minWidth: 90, filter: "true" },
         { headerName: 'Department Section', field: 'sec_name', autoHeight: true, wrapText: true, minWidth: 90, filter: "true" },
-        { headerName: 'Actual Requirement', field: 'actual_requirement', autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: 'Actual Requirement', field: 'actual_requirement', autoHeight: true, wrapText: true, minWidth: 150, },
         { headerName: 'Needed', field: 'needed', autoHeight: true, wrapText: true, minWidth: 150 },
         { headerName: 'Category', field: 'category', autoHeight: true, wrapText: true, minWidth: 120, filter: "true" },
         { headerName: 'Location', field: 'location', autoHeight: true, wrapText: true, minWidth: 90, filter: "true" },
         { headerName: 'Expected Date', field: 'expected_date', autoHeight: true, wrapText: true, minWidth: 90 },
-        { headerName: 'Emergency Tye', field: 'emer_type_name', autoHeight: true, wrapText: true, minWidth: 90 },
-        { headerName: 'Emergency remarks', field: 'emergeny_remarks', autoHeight: true, wrapText: true, minWidth: 90 },
-        { headerName: 'Req.DeptSec', field: 'user_deptsec', autoHeight: true, wrapText: true, minWidth: 90 },
         { headerName: 'Req.Status', field: 'req_status', autoHeight: true, wrapText: true, minWidth: 90 },
         { headerName: 'Req.User', field: 'req_user', autoHeight: true, wrapText: true, minWidth: 90 },
+        { headerName: 'PO No', field: 'po_number', autoHeight: true, wrapText: true, minWidth: 90 },
+        { headerName: 'PO Date', field: 'po_date', autoHeight: true, wrapText: true, minWidth: 90 },
         { headerName: 'Acknowledgement Remark', field: 'user_acknldge_remarks', autoHeight: true, wrapText: true, minWidth: 150 },
         { headerName: 'Acknowledgement User', field: 'ack_user', autoHeight: true, wrapText: true, minWidth: 90 },
         { headerName: 'Acknowledgement date', field: 'user_ack_date', autoHeight: true, wrapText: true, minWidth: 90 },
     ])
+
 
     const clicksearch = useCallback((e) => {
         e.preventDefault();
@@ -67,7 +67,7 @@ const UserAcknldgeList = () => {
             end_date: end_date,
         }
         const getdataUserAcknldged = async (postdata) => {
-            const result = await axioslogin.post('/CrfReports/getdataUserAcknldged', postdata)
+            const result = await axioslogin.post('/CrfReports/getdataAllCRFWithPO', postdata)
             const { success, data } = result.data;
             if (success === 1) {
                 setTableDataDis(1)
@@ -157,7 +157,7 @@ const UserAcknldgeList = () => {
 
     return (
         <CardCloseOnly
-            title='User Acknowledged CRF'
+            title='All CRF Report With PO'
             close={backToSetting}
         >
             <CustomBackDrop open={open} text="Please Wait" />
@@ -165,7 +165,7 @@ const UserAcknldgeList = () => {
                 <Paper
                     square
                     sx={{
-                        height: { xs: 750, sm: 750, md: 750, lg: 750, xl: 750 },
+                        height: { xs: 775000, sm: 750, md: 750, lg: 750, xl: 750 },
                         p: 0.5,
 
                     }}
@@ -320,11 +320,6 @@ const UserAcknldgeList = () => {
 
         </CardCloseOnly>
     )
-
-
-
-
-
 }
 
-export default memo(UserAcknldgeList)
+export default memo(CRFAllReportWithPO)

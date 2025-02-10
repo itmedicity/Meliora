@@ -24,7 +24,7 @@ import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import ModalButtomCmp from '../ComonComponent/Components/ModalButtomCmp'
 
 const CrfMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApproveTableData, approveTableData,
-    datacolflag, datacolData, imagearray, selectedCompany }) => {
+    datacolflag, datacolData, imagearray }) => {
     const { req_slno, incharge_req, incharge_remarks, hod_req, hod_approve, dms_req, dms_approve,
         ms_approve, ms_approve_remark, ms_detail_analysis, ms_image
     } = ApprovalData
@@ -297,7 +297,7 @@ const CrfMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                             }}
                         />
                         <Box sx={{ minWidth: '80vw', minHeight: '62vh', maxHeight: '85vh', overflowY: 'auto' }}>
-                            <CrfReqDetailViewCmp ApprovalData={ApprovalData} imagearray={imagearray} selectedCompany={selectedCompany} />
+                            <CrfReqDetailViewCmp ApprovalData={ApprovalData} imagearray={imagearray} />
                             <Box sx={{ overflow: 'auto', pt: 0.5, mx: 0.3 }}>
                                 {reqItems.length !== 0 ?
                                     <ReqItemDisplay reqItems={reqItems} /> : null
@@ -322,12 +322,12 @@ const CrfMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                                     }
                                     {hod_req === 1 && hod_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonHodApprvCmp DetailViewData={ApprovalData} selectedCompany={selectedCompany} />
+                                            <CommonHodApprvCmp DetailViewData={ApprovalData} />
                                         </Box>
                                         : null}
                                     {dms_req === 1 && dms_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonDmsApprvCmp DetailViewData={ApprovalData} selectedCompany={selectedCompany} />
+                                            <CommonDmsApprvCmp DetailViewData={ApprovalData} />
                                         </Box>
                                         : null}
                                 </Box>

@@ -9,7 +9,7 @@ import { warningNotify } from 'src/views/Common/CommonCode';
 import ImageDisplayModal from '../ImageUploadCmp/ImageDisplayModal';
 import CustomToolTipForCRF from '../Components/CustomToolTipForCRF';
 
-const CommonEdapprvCmp = ({ DetailViewData }) => {
+const EDApproveViewForHigher = ({ DetailViewData, selectedCompany }) => {
     const { req_slno, ed_approve, ed_approve_remarks, ed_detial_analysis,
         ed_approve_date, ed_user, ed_image, ed } = DetailViewData
     const [imageshowFlag, setImageShowFlag] = useState(0)
@@ -30,27 +30,31 @@ const CommonEdapprvCmp = ({ DetailViewData }) => {
                 .join(' ')
             : '';
     const ViewEDUploadImage = useCallback(() => {
-        const getImage = async (req_slno) => {
-            const result = await axioslogin.get(`/newCRFRegisterImages/crfEDImageGet/${req_slno}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                const fileNames = data;
-                const fileUrls = fileNames.map((fileName) => {
-                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/EDUpload/${fileName}`;
-                });
-                setImageArry(fileUrls);
-                setImageShowFlag(1)
-                setImageShow(true)
-            } else {
-                warningNotify("Error Occured to display image")
-                setImageShowFlag(0)
-                setImageShow(false)
-                setImageArry([])
+        if (selectedCompany === '1') {
+            const getImage = async (req_slno) => {
+                const result = await axioslogin.get(`/newCRFRegisterImages/crfEDImageGet/${req_slno}`)
+                const { success, data } = result.data
+                if (success === 1) {
+                    const fileNames = data;
+                    const fileUrls = fileNames.map((fileName) => {
+                        return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/EDUpload/${fileName}`;
+                    });
+                    setImageArry(fileUrls);
+                    setImageShowFlag(1)
+                    setImageShow(true)
+                } else {
+                    warningNotify("Error Occured to display image")
+                    setImageShowFlag(0)
+                    setImageShow(false)
+                    setImageArry([])
+                }
             }
+            getImage(req_slno)
         }
-        getImage(req_slno)
+        else if (selectedCompany === '2') {
+        }
 
-    }, [req_slno])
+    }, [req_slno, selectedCompany])
 
 
     return (
@@ -144,4 +148,4 @@ const CommonEdapprvCmp = ({ DetailViewData }) => {
     )
 }
 
-export default memo(CommonEdapprvCmp)
+export default memo(EDApproveViewForHigher)

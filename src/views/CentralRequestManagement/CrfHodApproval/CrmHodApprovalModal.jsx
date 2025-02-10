@@ -20,9 +20,10 @@ import CommonInchargeReqCmp from '../ComonComponent/ApprovalComp/CommonInchargeR
 import DataCollectDepSecSelect from '../ComonComponent/DataCollectionComp/DataCollectDepSecSelect';
 import ViewOreviousDataCollctnDetails from '../ComonComponent/DataCollectionComp/ViewOreviousDataCollctnDetails';
 import ModalButtomCmp from '../ComonComponent/Components/ModalButtomCmp'
+import HodApprovalComponent from './HodApprovalComponent'
 
 const CrmHodApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApproveTableData, approveTableData,
-    datacolflag, datacolData, deptsecArry, imagearray, selectedCompany }) => {
+    datacolflag, datacolData, deptsecArry, imagearray }) => {
 
     const { req_slno, incharge_req, incharge_remarks, hod_approve, hod_remarks, hod_detial_analysis, hod_image } = ApprovalData
     const queryClient = useQueryClient()
@@ -281,7 +282,7 @@ const CrmHodApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
                             }}
                         />
                         <Box sx={{ minWidth: '80vw', minHeight: '62vh', maxHeight: '85vh', overflowY: 'auto' }}>
-                            <CrfReqDetailViewCmp ApprovalData={ApprovalData} imagearray={imagearray} selectedCompany={selectedCompany} />
+                            <CrfReqDetailViewCmp ApprovalData={ApprovalData} imagearray={imagearray} />
                             <Box sx={{ overflow: 'auto', pt: 0.5, mx: 0.3 }}>
                                 {reqItems.length !== 0 ?
                                     <ReqItemDisplay reqItems={reqItems} /> : null
@@ -372,7 +373,7 @@ const CrmHodApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
                                         {addMoreItems === 1 ? <AddMoreItemDtails req_slno={req_slno}
                                             setApproveTableData={setApproveTableData} setMoreItem={setMoreItem}
                                         /> : null}
-                                        <ApprovalCompntAll
+                                        <HodApprovalComponent
                                             heading="HOD Approval"
                                             apprvlDetails={apprvlDetails}
                                             updateOnchangeState={updateOnchangeState}

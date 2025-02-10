@@ -2,14 +2,14 @@ import { Box, Chip, Typography } from '@mui/joy';
 import { Paper } from '@mui/material';
 import { format } from 'date-fns';
 import React, { Fragment, memo, useCallback, useState } from 'react'
-import { axioskmc, axioslogin } from 'src/views/Axios/Axios';
+import { axioslogin } from 'src/views/Axios/Axios';
 import AttachmentTwoToneIcon from '@mui/icons-material/AttachmentTwoTone';
-import { PUBLIC_NAS_FOLDER, PUBLIC_NAS_FOLDER_KMC } from 'src/views/Constant/Static';
+import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import ImageDisplayModal from '../ImageUploadCmp/ImageDisplayModal';
 import CustomToolTipForCRF from '../Components/CustomToolTipForCRF';
 
-const CommonMoApprvlCmp = ({ DetailViewData, selectedCompany }) => {
+const CommonMoApprvlCmp = ({ DetailViewData }) => {
     const { req_slno, manag_operation_approv, om, manag_operation_remarks, om_detial_analysis, om_approv_date,
         manag_operation_user, mo_image
     } = DetailViewData
@@ -32,50 +32,27 @@ const CommonMoApprvlCmp = ({ DetailViewData, selectedCompany }) => {
             : '';
 
     const ViewMOUploadImage = useCallback(() => {
-        if (selectedCompany === '1') {
-            const getImage = async (req_slno) => {
-                const result = await axioslogin.get(`/newCRFRegisterImages/crfMOImageGet/${req_slno}`)
-                const { success, data } = result.data
-                if (success === 1) {
-                    const fileNames = data;
-                    const fileUrls = fileNames.map((fileName) => {
-                        return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/MOUpload/${fileName}`;
-                    });
-                    setImageArry(fileUrls);
-                    setImageShowFlag(1)
-                    setImageShow(true)
-                } else {
-                    warningNotify("Error Occured to display image")
-                    setImageShowFlag(0)
-                    setImageShow(false)
-                    setImageArry([])
-                }
+        const getImage = async (req_slno) => {
+            const result = await axioslogin.get(`/newCRFRegisterImages/crfMOImageGet/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const fileNames = data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/MOUpload/${fileName}`;
+                });
+                setImageArry(fileUrls);
+                setImageShowFlag(1)
+                setImageShow(true)
+            } else {
+                warningNotify("Error Occured to display image")
+                setImageShowFlag(0)
+                setImageShow(false)
+                setImageArry([])
             }
-            getImage(req_slno)
         }
-        else if (selectedCompany === '2') {
-            const getImage = async (req_slno) => {
-                const result = await axioskmc.get(`/newCRFRegisterImages/crfMOImageGet/${req_slno}`)
-                const { success, data } = result.data
-                if (success === 1) {
-                    const fileNames = data;
-                    const fileUrls = fileNames.map((fileName) => {
-                        return `${PUBLIC_NAS_FOLDER_KMC}/CRF/crf_registration/${req_slno}/MOUpload/${fileName}`;
-                    });
-                    setImageArry(fileUrls);
-                    setImageShowFlag(1)
-                    setImageShow(true)
-                } else {
-                    warningNotify("Error Occured to display image")
-                    setImageShowFlag(0)
-                    setImageShow(false)
-                    setImageArry([])
-                }
-            }
-            getImage(req_slno)
-        }
+        getImage(req_slno)
 
-    }, [req_slno, selectedCompany])
+    }, [req_slno])
     return (
         <Fragment>
             {imageshowFlag === 1 ? <ImageDisplayModal open={imageshow} handleClose={handleClose}

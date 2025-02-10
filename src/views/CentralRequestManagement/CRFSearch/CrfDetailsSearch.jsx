@@ -2,7 +2,6 @@ import { Box, CssVarsProvider, IconButton, Typography } from '@mui/joy'
 import React, { Fragment, memo, useCallback, useMemo, useState } from 'react'
 import CustomCloseIconCmp from '../ComonComponent/Components/CustomCloseIconCmp'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import MasterDetailCompnt from '../ComonComponent/MasterDetailCompnt';
 import CustomInputDateCmp from '../ComonComponent/Components/CustomInputDateCmp';
 import moment from 'moment';
 import { format } from 'date-fns';
@@ -16,6 +15,7 @@ import CusCheckBox from 'src/views/Components/CusCheckBox';
 import { useQuery } from 'react-query';
 import { getCompanyDetails } from 'src/api/CommonApiCRF';
 import { FormControlLabel, Radio, RadioGroup } from '@mui/material';
+import MasterDetailHigherLevel from '../ComonComponent/HigherLevelComponents/MasterDetailHigherLevel';
 
 const CrfDetailsSearch = () => {
     const history = useHistory();
@@ -593,8 +593,8 @@ const CrfDetailsSearch = () => {
                                     width: "100%", flexWrap: 'wrap', mt: 0.6,
                                     border: '1px solid #21B6A8', borderRadius: 2,
                                 }}>
-                                    <MasterDetailCompnt val={val} />
-                                    <SearchApprvlComp val={val} />
+                                    <MasterDetailHigherLevel val={val} selectedCompany={selectedCompany} />
+                                    <SearchApprvlComp val={val} selectedCompany={selectedCompany} />
                                 </Box>
                             }
                         >

@@ -2,14 +2,14 @@ import { Box, Chip, Typography } from '@mui/joy';
 import { Paper } from '@mui/material';
 import { format } from 'date-fns';
 import React, { Fragment, memo, useCallback, useState } from 'react'
-import { axioskmc, axioslogin } from 'src/views/Axios/Axios';
+import { axioslogin } from 'src/views/Axios/Axios';
 import AttachmentTwoToneIcon from '@mui/icons-material/AttachmentTwoTone';
-import { PUBLIC_NAS_FOLDER, PUBLIC_NAS_FOLDER_KMC } from 'src/views/Constant/Static';
+import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import ImageDisplayModal from '../ImageUploadCmp/ImageDisplayModal';
 import CustomToolTipForCRF from '../Components/CustomToolTipForCRF';
 
-const CommonMdApprvCmp = ({ DetailViewData, selectedCompany }) => {
+const CommonMdApprvCmp = ({ DetailViewData }) => {
     const { req_slno, md_approve, md_approve_remarks, md_detial_analysis, md_approve_date, md, md_user, md_image
     } = DetailViewData
     const [imageshowFlag, setImageShowFlag] = useState(0)
@@ -31,50 +31,26 @@ const CommonMdApprvCmp = ({ DetailViewData, selectedCompany }) => {
             : '';
 
     const ViewMDUploadImage = useCallback(() => {
-        if (selectedCompany === '1') {
-            const getImage = async (req_slno) => {
-                const result = await axioslogin.get(`/newCRFRegisterImages/crfMDImageGet/${req_slno}`)
-                const { success, data } = result.data
-                if (success === 1) {
-                    const fileNames = data;
-                    const fileUrls = fileNames.map((fileName) => {
-                        return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/MDUpload/${fileName}`;
-                    });
-                    setImageArry(fileUrls);
-                    setImageShowFlag(1)
-                    setImageShow(true)
-                } else {
-                    warningNotify("Error Occured to display image")
-                    setImageShowFlag(0)
-                    setImageShow(false)
-                    setImageArry([])
-                }
+        const getImage = async (req_slno) => {
+            const result = await axioslogin.get(`/newCRFRegisterImages/crfMDImageGet/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const fileNames = data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/MDUpload/${fileName}`;
+                });
+                setImageArry(fileUrls);
+                setImageShowFlag(1)
+                setImageShow(true)
+            } else {
+                warningNotify("Error Occured to display image")
+                setImageShowFlag(0)
+                setImageShow(false)
+                setImageArry([])
             }
-            getImage(req_slno)
         }
-        else if (selectedCompany === '2') {
-            const getImage = async (req_slno) => {
-                const result = await axioskmc.get(`/newCRFRegisterImages/crfKmchMdImageGet/${req_slno}`)
-                const { success, data } = result.data
-                if (success === 1) {
-                    const fileNames = data;
-                    const fileUrls = fileNames.map((fileName) => {
-                        return `${PUBLIC_NAS_FOLDER_KMC}/CRF/crf_registration/${req_slno}/MDUpload/${fileName}`;
-                    });
-                    setImageArry(fileUrls);
-                    setImageShowFlag(1)
-                    setImageShow(true)
-                } else {
-                    warningNotify("Error Occured to display image")
-                    setImageShowFlag(0)
-                    setImageShow(false)
-                    setImageArry([])
-                }
-            }
-            getImage(req_slno)
-        }
-
-    }, [req_slno, selectedCompany])
+        getImage(req_slno)
+    }, [req_slno])
     return (
         <Fragment>
             {imageshowFlag === 1 ? <ImageDisplayModal open={imageshow} handleClose={handleClose}
@@ -94,9 +70,6 @@ const CommonMdApprvCmp = ({ DetailViewData, selectedCompany }) => {
                     </Box>
                 </Box>
 
-                {/* {(md_approve === 1 || md_approve === 2 || md_approve === 3) ?
-                    <Divider flexItem sx={{ borderBlockColor: 'grey' }}></Divider>
-                    : null} */}
                 <Box sx={{ pt: 0.1 }}>
                     {md_approve === 1 && md_approve_remarks !== null ?
                         <Box sx={{ pt: 0.5 }}>
