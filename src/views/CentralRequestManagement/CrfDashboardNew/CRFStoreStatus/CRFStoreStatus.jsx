@@ -213,7 +213,7 @@ const CRFStoreStatus = ({ storeData }) => {
         if (id === 1 || id === 2 || id === 3) {
             const getDetails = async (id) => {
                 try {
-                    const result = await axioslogin.get(`/newCRFRegister/getStore/Dashboard/${id}`,);
+                    const result = await axioslogin.get(`/CRFDashboard/getStore/Dashboard/${id}`,);
                     const { success, data, message } = result.data;
                     if (success === 1) {
                         getCRSPending(setDisData, settableData, data)
@@ -270,14 +270,25 @@ const CRFStoreStatus = ({ storeData }) => {
         <Fragment>
             <Suspense fallback={<CustomLoadComp />}>
                 {modFlag === 1 ? <ViewItemCheckingList disData={disData} handleClose={handleClose} open={modalopen} /> : null}
-                {flag === 1 ? <CrfStoreDetailedView setFlag={setFlag} disData={disData} setDisData={setDisData} tableData={tableData} /> :
-                    flag === 2 ? <DeliveryMarkingTable setFlag={setFlag} disData={disData} setDisData={setDisData} /> :
-                        flag === 3 ? <StoreAckTableView ackFlag={ackFlag} disData={disData} setAckFlag={setAckFlag} setFlag={setFlag} /> :
-                            flag === 4 ? <CompletedCRFView setFlag={setFlag} disData={disData} />
-                                : <PurcahseMainComp purchaseApprv={strApprv} viewPednigDetails={viewPednigDetails} />
-                }
             </Suspense>
-
+            {flag === 1 ?
+                <Suspense fallback={<CustomLoadComp />}>
+                    <CrfStoreDetailedView setFlag={setFlag} disData={disData} setDisData={setDisData} tableData={tableData} />
+                </Suspense> :
+                flag === 2 ?
+                    <Suspense fallback={<CustomLoadComp />}>
+                        <DeliveryMarkingTable setFlag={setFlag} disData={disData} setDisData={setDisData} />
+                    </Suspense> :
+                    flag === 3 ?
+                        <Suspense fallback={<CustomLoadComp />}>
+                            <StoreAckTableView ackFlag={ackFlag} disData={disData} setAckFlag={setAckFlag} setFlag={setFlag} />
+                        </Suspense> :
+                        flag === 4 ?
+                            <Suspense fallback={<CustomLoadComp />}>
+                                <CompletedCRFView setFlag={setFlag} disData={disData} />
+                            </Suspense>
+                            : <PurcahseMainComp purchaseApprv={strApprv} viewPednigDetails={viewPednigDetails} />
+            }
         </Fragment>
     )
 }

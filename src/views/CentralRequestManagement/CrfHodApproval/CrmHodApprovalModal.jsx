@@ -20,6 +20,7 @@ import CommonInchargeReqCmp from '../ComonComponent/ApprovalComp/CommonInchargeR
 import DataCollectDepSecSelect from '../ComonComponent/DataCollectionComp/DataCollectDepSecSelect';
 import ViewOreviousDataCollctnDetails from '../ComonComponent/DataCollectionComp/ViewOreviousDataCollctnDetails';
 import ModalButtomCmp from '../ComonComponent/Components/ModalButtomCmp'
+import HodApprovalComponent from './HodApprovalComponent'
 
 const CrmHodApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApproveTableData, approveTableData,
     datacolflag, datacolData, deptsecArry, imagearray }) => {
@@ -57,7 +58,7 @@ const CrmHodApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
             ...prev,
             approve: type === 'approve',
             reject: type === 'reject',
-            pending: type === 'pending',
+            pending: type === 'pending'
         }));
     }, []);
 
@@ -358,38 +359,30 @@ const CrmHodApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
                                     :
                                     <Box sx={{ mt: 0.5, pb: 1, flexWrap: 'wrap', mx: 0.3 }} >
                                         {approveTableData.length !== 0 ?
-                                            <>
-                                                <ItemsApprovalCompnt req_slno={req_slno} setMoreItem={setMoreItem} editEnable={editEnable}
-                                                    setEditEnable={setEditEnable} setApproveTableData={setApproveTableData}
-                                                    apprvLevel={2} header='HOD' />
-                                                <Box sx={{ pl: 0.5 }}>
-                                                    <CustomIconButtonCmp
-                                                        handleChange={AddItems}>
-                                                        Add Items
-                                                    </CustomIconButtonCmp>
-                                                </Box>
-                                                {addMoreItems === 1 ? <AddMoreItemDtails req_slno={req_slno}
-                                                    setApproveTableData={setApproveTableData} setMoreItem={setMoreItem}
-                                                /> : null}
-                                                <ApprovalCompntAll
-                                                    heading="HOD Approval"
-                                                    apprvlDetails={apprvlDetails}
-                                                    updateOnchangeState={updateOnchangeState}
-                                                    updateApprovalState={updateApprovalState}
-                                                    imageCheck={hod_image}
-                                                    selectFile={selectFile}
-                                                    setSelectFile={setSelectFile}
-                                                    uploadedImages={uploadedImages}
-                                                />
-                                            </>
+                                            <ItemsApprovalCompnt req_slno={req_slno} setMoreItem={setMoreItem} editEnable={editEnable}
+                                                setEditEnable={setEditEnable} setApproveTableData={setApproveTableData}
+                                                apprvLevel={2} header='HOD' />
                                             : null
-                                            // <Box sx={{
-                                            //     display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5,
-                                            //     pt: 10, color: 'grey'
-                                            // }}>
-                                            //     No items Approved
-                                            // </Box>
                                         }
+                                        <Box sx={{ pl: 0.5 }}>
+                                            <CustomIconButtonCmp
+                                                handleChange={AddItems}>
+                                                Add Items
+                                            </CustomIconButtonCmp>
+                                        </Box>
+                                        {addMoreItems === 1 ? <AddMoreItemDtails req_slno={req_slno}
+                                            setApproveTableData={setApproveTableData} setMoreItem={setMoreItem}
+                                        /> : null}
+                                        <HodApprovalComponent
+                                            heading="HOD Approval"
+                                            apprvlDetails={apprvlDetails}
+                                            updateOnchangeState={updateOnchangeState}
+                                            updateApprovalState={updateApprovalState}
+                                            imageCheck={hod_image}
+                                            selectFile={selectFile}
+                                            setSelectFile={setSelectFile}
+                                            uploadedImages={uploadedImages}
+                                        />
                                     </Box>
                                 }
                             </Box>

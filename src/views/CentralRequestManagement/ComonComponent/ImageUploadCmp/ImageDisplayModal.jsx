@@ -1,7 +1,6 @@
 import React, { memo, useEffect, useState } from 'react'
 import Modal from '@mui/joy/Modal';
-import Sheet from '@mui/joy/Sheet';
-import { CssVarsProvider } from '@mui/joy';
+import { CssVarsProvider, ModalClose, ModalDialog } from '@mui/joy';
 import { Box } from '@mui/material'
 import Button from '@mui/joy/Button';
 
@@ -27,19 +26,33 @@ const ImageDisplayModal = ({ open, handleClose, images }) => {
             <Modal aria-labelledby="modal-title"
                 aria-describedby="modal-desc"
                 open={open}
+                onClose={handleClose}
                 sx={{
                     display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center',
                     maxHeight: window.innerHeight - 80, pt: 10
                 }}>
-                <Sheet
+                <ModalDialog
                     variant="outlined"
                     sx={{
-                        minWidth: "50%", borderRadius: 'sm', p: 3, boxShadow: 'lg', height: window.innerHeight - 100,
+                        width: '70vw', borderRadius: 'sm', p: 4, boxShadow: 'lg', maxHeight: window.innerHeight - 100,
                     }}
                 >
+                    <ModalClose
+                        variant="outlined"
+                        sx={{
+                            m: 1,
+                            top: 'calc(-1/4 * var(--IconButton-size))',
+                            right: 'calc(-1/4 * var(--IconButton-size))',
+                            boxShadow: '0 2px 12px 0 rgba(0 0 0 / 0.2)',
+                            borderRadius: '50%',
+                            bgcolor: 'background.body',
+                            color: '#bf360c',
+                            height: 25, width: 25
+                        }}
+                    />
                     <Box sx={{
                         width: '100%', flex: 1, borderRadius: 1, border: '0.1px solid grey', margin: "auto",
-                        height: window.innerHeight - 180, overflowX: "auto", '::-webkit-scrollbar': { display: "none" },
+                        maxHeight: window.innerHeight - 180, overflow: "auto",
                     }}>
                         {disArry && disArry.map((value, index) => (
                             <Box key={index} sx={{ display: 'flex', flexDirection: "column" }}>
@@ -67,7 +80,7 @@ const ImageDisplayModal = ({ open, handleClose, images }) => {
                         <Button variant="outlined" color="secondary"
                             size="md" onClick={handleClose}>Cancel</Button>
                     </Box>
-                </Sheet>
+                </ModalDialog>
             </Modal>
         </CssVarsProvider >
     )

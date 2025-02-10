@@ -180,6 +180,7 @@ import { getEquipmentList } from './QIEquipment.Reducer';
 import { getStoreReceivePendingReducer, getStoreReceiveAllReducer, getCrfPOStorReducer } from './CrmStoreProcess.Reducer'
 import { getRoomsNameNdTypeList } from './CmRoomNameNdTypeList.Reducer';
 
+
 const reducer = combineReducers({
     changeState,
     LoginUserData,
@@ -362,7 +363,6 @@ const reducer = combineReducers({
     getprojectFrTaskCreation,
     getStoreReceivePendingReducer,
     getStoreReceiveAllReducer,
-    getCrfPOStorReducer,
     getCRFPurchaseDashboard,
     getPOStoreDashboard,
     getRoomsNameNdTypeList

@@ -8,10 +8,7 @@ const FullyReceiveTableView = ({ disData, viewGrnDetails }) => {
     const capitalizeWords = (str) => str ? str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : '';
     return (
         <Fragment>
-            <Box variant="outlined" sx={{
-                overflow: 'auto', pt: 0.4, flexWrap: 'wrap', maxHeight: window.innerHeight - 220, width: "100%",
-                '&::-webkit-scrollbar': { height: 8 }
-            }}>
+            <Box variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap', width: "100%", '&::-webkit-scrollbar': { height: 8 } }}>
                 <Paper elevation={3} sx={{ width: 1640 }}>
                     {/* < Box display="flex" flexDirection="column" sx={{ mx: 0.5, overflow: 'auto' }}> */}
                     <Box display="flex" justifyContent="space-between" padding={0.5} sx={{ bgcolor: '#41729F', color: 'white' }}>

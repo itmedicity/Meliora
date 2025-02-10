@@ -35,6 +35,7 @@ const CRFPurchaseStatus = ({ purchaseData }) => {
     })
     useEffect(() => {
         if ((purchaseDetails) && purchaseDetails.length !== 0) {
+
             const ackpendingList = purchaseDetails?.filter(
                 (val) => val.ack_status === null
             );
@@ -51,7 +52,8 @@ const CRFPurchaseStatus = ({ purchaseData }) => {
             })
 
             const poPending = purchaseDetails?.filter((val) => {
-                return val.po_complete === 0 && val.po_prepartion === 1
+                return val.ack_status === 1 && ((val.po_prepartion === 1 && val.po_complete === 0)
+                    || (val.quatation_calling_status === 1 && val.quatation_fixing === 1 && val.po_prepartion === 0))
             })
 
             const apprlvl1 = purchaseDetails?.filter((val) => {
@@ -73,7 +75,7 @@ const CRFPurchaseStatus = ({ purchaseData }) => {
             setPurchaseApprv({
                 ack: {
                     pending: ackpendingList.length,
-                    title: "PO Acknowledgement",
+                    title: "CRF Acknowledgement",
                     imageView: ackimg,
                     imName: "ack",
                     id: 1
@@ -129,7 +131,7 @@ const CRFPurchaseStatus = ({ purchaseData }) => {
                 },
                 posup: {
                     pending: posup.length,
-                    title: "CRF Acknowledgement",
+                    title: "Inform to Supplier(PO)",
                     imageView: poapprove,
                     imName: "sup",
                     id: 9
@@ -140,7 +142,7 @@ const CRFPurchaseStatus = ({ purchaseData }) => {
             setPurchaseApprv({
                 ack: {
                     pending: 0,
-                    title: "PO Acknowledgement",
+                    title: "CRF Acknowledgement",
                     imageView: ackimg,
                     imName: "ack",
                     id: 1
@@ -196,7 +198,7 @@ const CRFPurchaseStatus = ({ purchaseData }) => {
                 },
                 posup: {
                     pending: 0,
-                    title: "CRF Acknowledgement",
+                    title: "Inform to Supplier(PO)",
                     imageView: poapprove,
                     imName: "sup",
                     id: 9
@@ -208,7 +210,7 @@ const CRFPurchaseStatus = ({ purchaseData }) => {
     const viewPednigDetails = useCallback(async (id) => {
         const getDetails = async (id) => {
             try {
-                const result = await axioslogin.get(`/newCRFRegister/gePurchaseDetails/Dashboard/${id}`,);
+                const result = await axioslogin.get(`/CRFDashboard/gePurchaseDetails/Dashboard/${id}`,);
                 const { success, data, message } = result.data;
                 if (success === 1) {
                     getPurchasePending(setDisData, setTableData, data)
@@ -231,12 +233,13 @@ const CRFPurchaseStatus = ({ purchaseData }) => {
     }, []);
     return (
         <Fragment>
-            <Suspense fallback={<CustomLoadComp />}>
-                {flag === 1 ?
+            {flag === 1 ?
+                <Suspense fallback={<CustomLoadComp />}>
                     <CrfPurchaseDetailedView setFlag={setFlag} disData={disData} setDisData={setDisData} tableData={tableData} poStart={poStart} />
-                    : <PurcahseMainComp purchaseApprv={purchaseApprv} viewPednigDetails={viewPednigDetails} />
-                }
-            </Suspense>
+                </Suspense>
+                : <PurcahseMainComp purchaseApprv={purchaseApprv} viewPednigDetails={viewPednigDetails} />
+            }
+
         </Fragment>
     )
 }

@@ -126,7 +126,7 @@ const DaysVerificationModal = ({ open, handleClose, rowSelect, count, setCount }
                 due_date
             } = rowSelect
             const frmdata = {
-                backup_type: (backup_type === 1) ? 'IIS Backup' : (backup_type === 2) ? 'Database Backup' : (backup_type === 3) ? 'Share Folder Backup' : 'Scanned File Backup',
+                backup_type: (backup_type === 1) ? 'IIS Backup' : (backup_type === 2) ? 'Database Backup' : (backup_type === 3) ? 'Share Folder Backup' : (backup_type === 4) ? 'Scanned File Backup' : 'Configuration Backup',
                 backup_name: backup_name,
                 backup_location: backup_location,
                 backup_device_ip: backup_device_ip,

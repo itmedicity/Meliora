@@ -3,7 +3,7 @@ import { Paper } from '@mui/material'
 import React, { memo, Suspense, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCRFPurchaseDashboard, getCRMDashboard, getPOStoreDashboard } from 'src/redux/actions/CrmDashBoardList.action'
-import CustomLoadComp from '../ComonComponent/Components/CustomLoadComp'
+import DashboardSkeleton from './Components/DashboardSkeleton'
 
 const CRFStatusView = React.lazy(() => import("./CRFStatus/CRFStatusView"))
 const CRFPurchaseStatus = React.lazy(() => import("./CRFPurchaseStatus/CRFPurchaseStatus"))
@@ -99,17 +99,18 @@ const CrfDashboardMain = () => {
                                                */
                     }
                     <TabPanel value={0} sx={{ p: 0 }}>
-                        <Suspense fallback={<CustomLoadComp />}>
+                        <Suspense fallback={<DashboardSkeleton />}>
                             <CRFStatusView crfData={crfData} />
                         </Suspense>
                     </TabPanel>
+
                     <TabPanel value={1} sx={{ p: 0 }}>
-                        <Suspense fallback={<CustomLoadComp />}>
+                        <Suspense fallback={<DashboardSkeleton />}>
                             <CRFPurchaseStatus purchaseData={purchaseData} />
                         </Suspense>
                     </TabPanel>
                     <TabPanel value={2} sx={{ p: 0 }}>
-                        <Suspense fallback={<CustomLoadComp />}>
+                        <Suspense fallback={<DashboardSkeleton />}>
                             <CRFStoreStatus storeData={storeData} />
                         </Suspense>
                     </TabPanel>

@@ -45,12 +45,13 @@ const CrfSMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
         approve: senior_manage_approv === 1 ? true : false,
         reject: senior_manage_approv === 2 ? true : false,
         pending: senior_manage_approv === 3 ? true : false,
+        internallyArr: senior_manage_approv === 4 ? true : false,
         remark: senior_manage_remarks !== null ? senior_manage_remarks : '',
         detailAnalis: smo_detial_analysis !== null ? smo_detial_analysis : '',
         datacollFlag: false,
         datacolectremark: ''
     });
-    const { remark, detailAnalis, approve, reject, pending, datacollFlag, datacolectremark } = apprvlDetails
+    const { remark, detailAnalis, approve, reject, pending, datacollFlag, datacolectremark, internallyArr } = apprvlDetails
     const updateOnchangeState = useCallback((e) => {
         const { name, type, value, checked } = e.target;
         setApprvlDetails((prev) => ({
@@ -65,6 +66,7 @@ const CrfSMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
             approve: type === 'approve',
             reject: type === 'reject',
             pending: type === 'pending',
+            internallyArr: type === 'internallyArr'
         }));
     }, []);
 
@@ -87,6 +89,7 @@ const CrfSMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
                 approve: false,
                 reject: false,
                 pending: false,
+                internallyArr: false,
                 datacollFlag: false,
                 datacolectremark: ''
             }));
@@ -112,7 +115,7 @@ const CrfSMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
 
     const SMOPatchData = useMemo(() => {
         return {
-            senior_manage_approv: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
+            senior_manage_approv: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : internallyArr === true ? 4 : null,
             senior_manage_user: id,
             req_slno: req_slno,
             som_aprrov_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
@@ -125,7 +128,7 @@ const CrfSMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
                 }
             })
         }
-    }, [approve, reject, pending, id, remark, detailAnalis, req_slno, approveTableData])
+    }, [approve, reject, pending, id, remark, detailAnalis, req_slno, approveTableData, internallyArr])
 
     const submit = useCallback(() => {
         if (editEnable === 1) {
@@ -194,13 +197,12 @@ const CrfSMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
                 DataCollRequestFnctn(postData);
                 return;
             }
-
-            if (!approve && !reject && !pending) {
+            if (!approve && !reject && !pending && !internallyArr) {
                 warningNotify("Select any status");
                 return;
             }
 
-            if ((approve && detailAnalis && remark) || ((reject || pending) && remark)) {
+            if ((approve && detailAnalis && remark) || ((reject || pending || internallyArr) && remark)) {
                 updateSMOApproval(SMOPatchData).then((val) => {
                     const { success, message } = val;
                     if (success !== 1) {
@@ -232,7 +234,7 @@ const CrfSMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
             }
         }
     }, [
-        approve, reject, pending, remark, detailAnalis, SMOPatchData, reset, datacollFlag, editEnable,
+        approve, reject, pending, remark, detailAnalis, SMOPatchData, reset, datacollFlag, editEnable, internallyArr,
         queryClient, datacolectremark, crfdept, id, req_slno, selectFile, handleImageUpload
     ]);
 
@@ -394,38 +396,30 @@ const CrfSMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
                                     :
                                     <Box sx={{ mt: 0.5, pb: 1, flexWrap: 'wrap', }} >
                                         {approveTableData.length !== 0 ?
-                                            <>
-                                                <ItemsApprovalCompnt req_slno={req_slno} setMoreItem={setMoreItem} editEnable={editEnable}
-                                                    setEditEnable={setEditEnable} setApproveTableData={setApproveTableData}
-                                                    header='SMO' apprvLevel={6} />
-                                                <Box sx={{ pl: 0.5 }}>
-                                                    <CustomIconButtonCmp
-                                                        handleChange={AddItems}>
-                                                        Add Items
-                                                    </CustomIconButtonCmp>
-                                                </Box>
-                                                {addMoreItems === 1 ? <AddMoreItemDtails req_slno={req_slno}
-                                                    setApproveTableData={setApproveTableData} setMoreItem={setMoreItem}
-                                                /> : null}
-                                                <ApprovalCompntAll
-                                                    heading="CRF Verification"
-                                                    apprvlDetails={apprvlDetails}
-                                                    updateOnchangeState={updateOnchangeState}
-                                                    updateApprovalState={updateApprovalState}
-                                                    imageCheck={smo_image}
-                                                    selectFile={selectFile}
-                                                    setSelectFile={setSelectFile}
-                                                    uploadedImages={uploadedImages}
-                                                />
-                                            </>
+                                            <ItemsApprovalCompnt req_slno={req_slno} setMoreItem={setMoreItem} editEnable={editEnable}
+                                                setEditEnable={setEditEnable} setApproveTableData={setApproveTableData}
+                                                header='SMO' apprvLevel={6} />
                                             : null
-                                            // <Box sx={{
-                                            //     display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5,
-                                            //     pt: 10, color: 'grey'
-                                            // }}>
-                                            //     No items Approved
-                                            // </Box>
                                         }
+                                        <Box sx={{ pl: 0.5 }}>
+                                            <CustomIconButtonCmp
+                                                handleChange={AddItems}>
+                                                Add Items
+                                            </CustomIconButtonCmp>
+                                        </Box>
+                                        {addMoreItems === 1 ? <AddMoreItemDtails req_slno={req_slno}
+                                            setApproveTableData={setApproveTableData} setMoreItem={setMoreItem}
+                                        /> : null}
+                                        <ApprovalCompntAll
+                                            heading="CRF Verification"
+                                            apprvlDetails={apprvlDetails}
+                                            updateOnchangeState={updateOnchangeState}
+                                            updateApprovalState={updateApprovalState}
+                                            imageCheck={smo_image}
+                                            selectFile={selectFile}
+                                            setSelectFile={setSelectFile}
+                                            uploadedImages={uploadedImages}
+                                        />
                                     </Box>
                                 }
                             </Box>

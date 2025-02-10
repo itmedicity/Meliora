@@ -1,4 +1,4 @@
-import { Box, Button, CssVarsProvider, Modal, ModalClose, ModalDialog, Table, Textarea, Tooltip, Typography } from '@mui/joy'
+import { Box, Button, CssVarsProvider, Modal, ModalClose, ModalDialog, Textarea, Typography } from '@mui/joy'
 import { format } from 'date-fns'
 import React, { memo, useCallback, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -11,17 +11,20 @@ import { Paper } from '@mui/material'
 import ReqItemDisplay from '../../ComonComponent/ReqItemDisplay'
 import ApprovedItemListDis from '../../ComonComponent/ApprovedItemListDis'
 import { getStoreReceivedItemDetails, getUserAckDetails } from 'src/api/CommonApiCRF'
-import { useQuery } from 'react-query'
+import { useQuery, useQueryClient } from 'react-query'
+import CustomToolTipForCRF from '../../ComonComponent/Components/CustomToolTipForCRF'
+import StoreReceivedItemList from './StoreReceivedItemList'
 
 const UserAckModal = ({ req_slno, handleClose, open, approveTableData, reqItems }) => {
-    const [Acknowledgement, setAcknowledmnt] = useState(true)
+    const queryClient = useQueryClient()
+    const id = useSelector((state) => state.LoginUserData.empid)
+
+    const [acknowledgement, setAcknowledgement] = useState(true)
     const [Ackremark, setAckRemark] = useState('')
     const [expandedRow, setExpandedRow] = useState(null);
     const [expandedRowData, setExpandedRowData] = useState([])
     const [userAckReply, setUserAckReply] = useState('')
-    const [ackCount, setackCount] = useState(0)
 
-    const id = useSelector((state) => state.LoginUserData.empid)
 
     const updateAckRemark = useCallback((e) => {
         setAckRemark(e.target.value)
@@ -31,29 +34,13 @@ const UserAckModal = ({ req_slno, handleClose, open, approveTableData, reqItems 
     }, [])
     const updateAcknowldge = useCallback((e) => {
         if (e.target.checked === true) {
-            setAcknowledmnt(true)
+            setAcknowledgement(true)
         }
         else {
-            setAcknowledmnt(false)
+            setAcknowledgement(true)
         }
     }, [])
 
-    const buttonStyle = {
-        fontSize: 15,
-        color: '#455a64',
-        cursor: 'pointer',
-        boxShadow: 5,
-        border: 'none',
-        transition: 'transform 0.2s, bgcolor 0.2s',
-        '&:hover': {
-            bgcolor: 'white',
-            color: '#455a64',
-            transform: 'scale(1.1)',
-        },
-        '&:active': {
-            transform: 'scale(0.95)',
-        },
-    }
     const { data: userAck, isLoading: isUserAckLoading, error: userAckError } = useQuery({
         queryKey: ['getUserAckDetails', req_slno],
         queryFn: () => getUserAckDetails(req_slno),
@@ -63,35 +50,13 @@ const UserAckModal = ({ req_slno, handleClose, open, approveTableData, reqItems 
     const ackdata = useMemo(() => userAck, [userAck]);
 
     const { data: storeItems, isLoading: isStoreLoading, error: storeError } = useQuery({
-        queryKey: ['getCrfPoDetails', req_slno],
+        queryKey: ['getCrfItemDetails', req_slno],
         queryFn: () => getStoreReceivedItemDetails(req_slno),
         enabled: req_slno !== null,
         staleTime: Infinity
     });
     const storeReceived = useMemo(() => storeItems, [storeItems]);
 
-    // useEffect(() => {
-    //     const getackdetails = async (req_slno) => {
-    //         const result = await axioslogin.get(`/newCRFStore/viewStoreAck/${req_slno}`)
-    //         const { success, datas } = result.data
-    //         if (success === 1) {
-    //             setAckdata(datas)
-    //             const getPOItems = async (req_slno) => {
-    //                 const result = await axioslogin.get(`/newCRFStore/storeReceivedItem/${req_slno}`)
-    //                 const { success, data } = result.data
-    //                 if (success === 1) {
-    //                     setReqItems(data);
-    //                 } else {
-    //                     setReqItems([]);
-    //                 }
-    //             }
-    //             getPOItems(req_slno)
-    //         } else {
-    //             setAckdata([])
-    //         }
-    //     }
-    //     getackdetails(req_slno)
-    // }, [req_slno, ackCount])
     const ResetDetails = useCallback(() => {
         setAckRemark('')
         setExpandedRow(null)
@@ -102,86 +67,85 @@ const UserAckModal = ({ req_slno, handleClose, open, approveTableData, reqItems 
     }, [handleClose])
     const userAckPatch = useMemo(() => {
         return {
-            user_acknldge: Acknowledgement === true ? 1 : null,
+            user_acknldge: acknowledgement === true ? 1 : null,
             user_acknldge_remarks: Ackremark,
             user_ack_user: id,
             user_ack_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
-            req_slno: req_slno
+            req_slno: req_slno,
+            po_itm_slno: storeReceived?.map((val) => {
+                return {
+                    po_itm_slno: val.po_itm_slno
+                }
+            })
         }
-    }, [Acknowledgement, Ackremark, id, req_slno])
+    }, [acknowledgement, Ackremark, id, req_slno, storeReceived])
 
     const saveUserAck = useCallback(() => {
-        if (Acknowledgement === true) {
-            if (Ackremark === '') {
-                infoNotify("Enter Remarks")
-            }
-            else {
-                // const getReceiveStatus = async (req_slno) => {
-                //     const result = await axioslogin.get(`/CRFRegisterApproval/receiveStatus/${req_slno}`)
-                //     const { success, data } = result.data
-                //     if (success === 1) {
-                //         const storeReceive = data.some(item => item.store_receive === 0);
-
-
-                //         if (storeReceive) {
-                //             infoNotify("Requested Item Not Received Fully")
-                //         } else {
-                //             const updateuserAckPatch = async (userAckPatch) => {
-                //                 const result = await axioslogin.patch('/CRFRegisterApproval/userAck', userAckPatch);
-                //                 const { success, message } = result.data;
-                //                 if (success === 1) {
-                //                     succesNotify(message)
-                //                     setAcknowledmnt(false)
-                //                     setAckRemark('')
-                //                     handleClose()
-                //                 }
-                //                 else {
-                //                     warningNotify(message)
-                //                 }
-                //             }
-                //             updateuserAckPatch(userAckPatch)
-                //         }
-                //     }
-                // }
-                // getReceiveStatus(req_slno)
-                const getReceiveStatus = async (req_slno) => {
-                    try {
-                        const result = await axioslogin.get(`/CRFRegisterApproval/receiveStatus/${req_slno}`);
-                        const { success, data } = result.data;
-                        if (success === 1) {
-                            const storeReceiveIncomplete = data.some(item => item.store_receive === 0);
-                            if (storeReceiveIncomplete) {
-                                infoNotify("Requested Item Not Received Fully");
-                            } else {
-                                const updateuserAckPatch = async (userAckPatch) => {
-                                    try {
-                                        const result = await axioslogin.patch('/CRFRegisterApproval/userAck', userAckPatch);
-                                        const { success, message } = result.data;
-                                        if (success === 1) {
-                                            succesNotify(message);
-                                            setAcknowledmnt(false);
-                                            setAckRemark('');
-                                            handleClose();
-                                        } else {
-                                            warningNotify(message);
-                                        }
-                                    } catch (error) {
-                                        warningNotify("Failed to update acknowledgment");
-                                    }
-                                };
-                                updateuserAckPatch(userAckPatch);
-                            }
-                        }
-                    } catch (error) {
-                        warningNotify("Failed to fetch receive status");
+        if (acknowledgement === true) {
+            const checkReturnItems = async (req_slno) => {
+                try {
+                    const result = await axioslogin.get(`/newCRFRegister/check/${req_slno}`);
+                    const { success, message } = result.data;
+                    if (success === 1) {
+                        infoNotify("All the requested items have not been received yet; Some items are returned");
                     }
-                };
-                getReceiveStatus(req_slno);
+                    else if (success === 2) {
+                        const getReceiveStatus = async (req_slno) => {
+                            try {
+                                const result = await axioslogin.get(`/CRFRegisterApproval/receiveStatus/${req_slno}`);
+                                const { success, data } = result.data;
+                                if (success === 1) {
+                                    const storeReceiveIncomplete = data.some(item => item.store_receive === 0 &&
+                                        item.sub_store_recieve === 1);
+                                    if (storeReceiveIncomplete) {
+                                        infoNotify("All the requested items have not been received yet; you can use this afterwards");
+                                    } else {
+                                        if (Ackremark === '') {
+                                            infoNotify("Enter Remarks")
+                                            return;
+                                        }
+                                        else {
+                                            const updateuserAckPatch = async (userAckPatch) => {
+                                                try {
+                                                    const result = await axioslogin.patch('/CRFRegisterApproval/userAck', userAckPatch);
+                                                    const { success, message } = result.data;
+                                                    if (success === 1) {
+                                                        succesNotify(message);
+                                                        queryClient.invalidateQueries('getUserAckDetails');
+                                                        queryClient.invalidateQueries('crfDetailsView');
+                                                        setAcknowledgement(false);
+                                                        setAckRemark('');
+                                                        handleClose();
+                                                    } else {
+                                                        warningNotify(message);
+                                                    }
+                                                } catch (error) {
+                                                    warningNotify("Failed to update acknowledgment");
+                                                }
+                                            };
+                                            updateuserAckPatch(userAckPatch);
+                                        }
+                                    }
+                                }
+                            } catch (error) {
+                                warningNotify("Failed to fetch receive status");
+                            }
+                        };
+                        getReceiveStatus(req_slno);
+                    }
+                    else {
+                        warningNotify(message)
+                    }
+                } catch (error) {
+                    warningNotify("Failed to fetch return status");
+                }
             }
+            checkReturnItems(req_slno)
+
         } else {
             infoNotify("Check the Acknowledgement Status")
         }
-    }, [userAckPatch, Acknowledgement, handleClose, req_slno, Ackremark])
+    }, [userAckPatch, acknowledgement, handleClose, req_slno, Ackremark, queryClient])
 
     const acknowAction = useCallback((val, index) => {
         setExpandedRowData(val)
@@ -206,7 +170,8 @@ const UserAckModal = ({ req_slno, handleClose, open, approveTableData, reqItems 
                 const { success, message } = result.data;
                 if (success === 1) {
                     succesNotify(message)
-                    setackCount(ackCount + 1)
+                    queryClient.invalidateQueries('getUserAckDetails');
+                    queryClient.invalidateQueries('crfDetailsView');
                     ResetDetails()
                 }
                 else {
@@ -215,14 +180,33 @@ const UserAckModal = ({ req_slno, handleClose, open, approveTableData, reqItems 
             }
             updateUserAck(patchdata)
         }
-    }, [expandedRowData, id, userAckReply, ackCount, ResetDetails])
-    const capitalizeWords = (str) => str ? str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : '';
+    }, [expandedRowData, id, userAckReply, ResetDetails, queryClient])
 
+
+    const capitalizeWords = (str) => str ? str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : '';
 
     if (isUserAckLoading || isStoreLoading) return <p>Loading...</p>;
     if (userAckError || storeError) return <p>Error occurred.</p>;
+
+    const buttonStyle = {
+        fontSize: 15,
+        color: '#455a64',
+        cursor: 'pointer',
+        boxShadow: 5,
+        border: 'none',
+        transition: 'transform 0.2s, bgcolor 0.2s',
+        '&:hover': {
+            bgcolor: 'white',
+            color: '#455a64',
+            transform: 'scale(1.1)',
+        },
+        '&:active': {
+            transform: 'scale(0.95)',
+        },
+    }
     return (
         <Box>
+
             <CssVarsProvider>
                 <Modal
                     aria-labelledby="modal-title"
@@ -268,33 +252,9 @@ const UserAckModal = ({ req_slno, handleClose, open, approveTableData, reqItems 
                                     </Box>
                                     : null
                                 }
-                                <Box sx={{ overflow: 'auto', flexWrap: 'wrap', px: 0.5 }}>
-                                    <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14 }}>
-                                        Store Received Items</Typography>
-                                    <Table aria-label="table with sticky header" borderAxis="both" padding={"none"} stickyHeader size='sm' >
-                                        <thead style={{ height: 4 }} size='small'>
-                                            <tr style={{ height: 4 }} size='small'>
-                                                <th size='sm' style={{ borderRadius: 0, width: 50, textAlign: 'center', backgroundColor: '#e3f2fd', fontSize: 13 }}>Sl.No.</th>
-                                                <th size='sm' style={{ width: 250, backgroundColor: '#e3f2fd', fontSize: 13, ml: 2 }}>Item Description</th>
-                                                <th size='sm' style={{ width: 40, textAlign: 'center', backgroundColor: '#e3f2fd', fontSize: 13 }}>Qty</th>
-                                                <th size='sm' style={{ width: 70, textAlign: 'center', backgroundColor: '#e3f2fd', fontSize: 13 }}>Received Qty(Store)</th>
-                                                <th size='sm' style={{ borderRadius: 0, width: 70, textAlign: 'center', backgroundColor: '#e3f2fd', fontSize: 13 }}>Received Status</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {storeReceived?.map((item, ind) => (
-                                                <tr key={item.po_itm_slno}>
-                                                    <td style={{ textAlign: 'center', fontSize: 13 }}>{ind + 1}</td>
-                                                    <td style={{ fontSize: 12, pl: 1 }}>{item.item_name}</td>
-                                                    <td style={{ textAlign: 'center', fontSize: 13, fontWeight: 650 }}>{item.item_qty}</td>
-                                                    <td style={{ textAlign: 'center', color: (item.received_qnty === item.item_qty) ? '#59981A' : '#e65100', fontWeight: 650 }}>{item.received_qnty}</td>
-                                                    <td style={{ textAlign: 'center', color: (item.item_receive_status === 1) ? '#59981A' : item.item_receive_status === 0 ? '#e65100' : '#0288d1', }}>
-                                                        {item.item_receive_status === 1 ? 'Received' : item.item_receive_status === 0 ? 'Partially' : 'Pending'}</td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </Table>
-                                </Box>
+                                {storeReceived.length > 0 ?
+                                    <StoreReceivedItemList storeReceived={storeReceived} empId={id} req_slno={req_slno} />
+                                    : null}
                             </Box>
                             {ackdata.length !== 0 ?
                                 <Box sx={{ overflow: 'auto', flexWrap: 'wrap', px: 0.5 }}>
@@ -344,7 +304,7 @@ const UserAckModal = ({ req_slno, handleClose, open, approveTableData, reqItems 
                                                                     }}
                                                                 />
                                                                 :
-                                                                <Tooltip title="Edit" placement="left">
+                                                                <CustomToolTipForCRF title="Reply" placement="top">
                                                                     <CheckCircleTwoToneIcon
                                                                         sx={{
                                                                             fontSize: 'lg',
@@ -361,7 +321,8 @@ const UserAckModal = ({ req_slno, handleClose, open, approveTableData, reqItems 
                                                                         }}
                                                                         onClick={() => acknowAction(val, index)}
                                                                     />
-                                                                </Tooltip>
+
+                                                                </CustomToolTipForCRF>
                                                             }
                                                         </Box>
                                                     </Box>
@@ -418,9 +379,9 @@ const UserAckModal = ({ req_slno, handleClose, open, approveTableData, reqItems 
                                     <CusCheckBox
                                         color="primary"
                                         size="md"
-                                        name="Acknowledgement"
-                                        value={Acknowledgement}
-                                        checked={Acknowledgement}
+                                        name="acknowledgement"
+                                        value={acknowledgement}
+                                        checked={acknowledgement}
                                         onCheked={updateAcknowldge}
                                     />
                                     <Typography sx={{ fontSize: 13, fontWeight: 600, pl: 1 }}>All Item Received</Typography>

@@ -6,9 +6,9 @@ import ThumbDownTwoToneIcon from '@mui/icons-material/ThumbDownTwoTone';
 import PauseCircleFilledTwoToneIcon from '@mui/icons-material/PauseCircleFilledTwoTone';
 import BackHandTwoToneIcon from '@mui/icons-material/BackHandTwoTone';
 import DescriptionIcon from '@mui/icons-material/Description';
-import SchoolIcon from '@mui/icons-material/School';
 import PublishedWithChangesTwoToneIcon from '@mui/icons-material/PublishedWithChangesTwoTone';
 import NotInterestedOutlinedIcon from '@mui/icons-material/NotInterestedOutlined';
+import SchoolIcon from '@mui/icons-material/School';
 import BadgeIcon from '@mui/icons-material/Badge';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import CountdownTimer from '../PurchaseProcess/Component/CountdownTimer';
@@ -20,6 +20,8 @@ import DoDisturbOffTwoToneIcon from '@mui/icons-material/DoDisturbOffTwoTone';
 import HigherAppDoneModal from './HigherAppDoneModal';
 import { GetItemDetailsOfCRFCmp } from './GetItemDetailsOfCRFCmp';
 import ImageDisplayModal from './ImageUploadCmp/ImageDisplayModal';
+import EventAvailableTwoToneIcon from '@mui/icons-material/EventAvailableTwoTone';
+import CustomToolTipForCRF from './Components/CustomToolTipForCRF';
 const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag, setCancelModal, setApprovalData,
     setCancelData, val, setReqItems, setApproveTableData, approveTableData, setPoDetails, reqItems, poDetails,
     setDataCollectData, setDataColFlag, setDataColData, setCollectDetailCheck, imagearray, setImageArry, datacolData,
@@ -43,7 +45,6 @@ const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag
                 const fileUrls = fileNames.map((fileName) => {
                     return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
                 });
-
                 const savedFiles = fileUrls.map((val) => {
                     const parts = val.split('/');
                     const fileNamePart = parts[parts.length - 1];
@@ -60,7 +61,6 @@ const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag
         }
         getImage(req_slno)
         GetItemDetailsOfCRFCmp(req_slno, setReqItems, setApproveTableData, setPoDetails)
-        setApprovalData(val)
         const checkDataCollectComplete = async (req_slno) => {
             const result = await axioslogin.get(`/CRFRegisterApproval/DataCollectComplete/${req_slno}`)
             const { success, data } = result.data
@@ -126,6 +126,8 @@ const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag
             }
         }
         checkDataCollectComplete(req_slno)
+        setApprovalData(val)
+
     }, [setApprovalFlag, setApprovalModal, val, setApprovalData, setPoDetails, setApproveTableData, setReqItems,
         setDataCollectData, setDataColFlag, setDataColData, setCollectDetailCheck, setImageArry
     ])
@@ -160,10 +162,12 @@ const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag
         setCancelFlag(1)
         setCancelModal(true)
         setCancelData(val)
-    }, [setCancelFlag, setCancelModal, setCancelData, val, setPoDetails, setReqItems, setImageArry, setApproveTableData])
+    }, [setCancelFlag, setCancelModal, setCancelData, val, setPoDetails, setReqItems, setImageArry,
+        setApproveTableData])
 
     const DataViewfnctn = useCallback(() => {
         const { req_slno } = val
+
         const getImage = async (req_slno) => {
             const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
             const { success, data } = result.data
@@ -188,7 +192,6 @@ const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag
             }
         }
         getImage(req_slno)
-        // GetAllItemDetails(req_slno, setReqItems, setAllItems, setPoDetails)
         GetItemDetailsOfCRFCmp(req_slno, setReqItems, setApproveTableData, setPoDetails)
         const checkDataCollectComplete = async (req_slno) => {
             const result = await axioslogin.get(`/CRFRegisterApproval/DataCollectComplete/${req_slno}`)
@@ -221,6 +224,7 @@ const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag
             }
         }
         checkDataCollectComplete(req_slno)
+
         setDetailViewFlag(1)
         setDetailViewData(val)
         setDetailViewModal(true)
@@ -274,15 +278,19 @@ const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag
                         <Tooltip title="On Hold" arrow color='warning' size="sm" variant="solid" placement="top">
                             <PauseCircleFilledTwoToneIcon sx={{ color: '#FF9800', height: 18, width: 18, }} /></Tooltip>
                     </CssVarsProvider>
-                    : val === 5 ?
-                        <CssVarsProvider>
-                            <Tooltip arrow color="success" size="sm" variant="solid" placement="top">
-                                <ThumbUpAltTwoToneIcon sx={{ color: '#18A558', height: 18, width: 18, }} /></Tooltip>
-                        </CssVarsProvider>
-                        : <CssVarsProvider>
-                            <Tooltip title="Pending" arrow color="neutral" size="sm" variant="solid" placement="top">
-                                < BackHandTwoToneIcon sx={{ color: '#607D8B', height: 18, width: 18, }} /></Tooltip>
-                        </CssVarsProvider>
+                    : val === 4 ? < CssVarsProvider >
+                        <Tooltip title="Internally Arranged" arrow color='primary' size="sm" variant="solid" placement="top">
+                            <EventAvailableTwoToneIcon sx={{ color: '#0d47a1', height: 20, width: 20, }} /></Tooltip>
+                    </CssVarsProvider >
+                        : val === 5 ?
+                            <CssVarsProvider>
+                                <Tooltip arrow color="success" size="sm" variant="solid" placement="top">
+                                    <ThumbUpAltTwoToneIcon sx={{ color: '#18A558', height: 18, width: 18, }} /></Tooltip>
+                            </CssVarsProvider>
+                            : <CssVarsProvider>
+                                <Tooltip title="Pending" arrow color="neutral" size="sm" variant="solid" placement="top">
+                                    < BackHandTwoToneIcon sx={{ color: '#607D8B', height: 18, width: 18, }} /></Tooltip>
+                            </CssVarsProvider>
     }
 
     const buttonstyle = {
@@ -396,28 +404,6 @@ const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag
                                 </Button>
                             </Box>
                         }
-                        {/* {(radiovalue === '6' || radiovalue === '7') ?
-                            <Button
-                                variant="contained"
-                                startIcon={
-                                    <DescriptionIcon
-                                        sx={{
-                                            height: 19,
-                                            width: 19,
-                                            color: '#0277bd',
-                                            // animation: `${rotate} 2s linear infinite`
-                                        }}
-                                    />
-                                }
-                                sx={buttonstyle}
-                                onClick={DataViewfnctn}
-                            >
-                                View
-                            </Button>
-                            : <>
-                                
-                            </>
-                        } */}
                     </Box>
                 </Box>
                 <Box sx={{ display: 'flex', p: 0.5 }} >
@@ -440,12 +426,6 @@ const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag
                                 bgcolor: 'white', border: '1px solid lightblue', fontWeight: 650,
                                 color: (dept_type === 1 ? '#EF7C8E' : dept_type === 2 ? '#A16AE8' : '#29A0B1')
                             }}
-                        // endDecorator={
-                        //     dept_type === 1 ?
-                        //         <AddBusinessIcon sx={{ color: '#FB6B90', fontWeight: '650' }} />
-                        //         : dept_type === 2 ? <BadgeIcon sx={{ color: '#8155BA' }} /> :
-                        //             <SchoolIcon sx={{ color: '#29A0B1' }} />
-                        // }
                         >
                             {dept_type_name}
                         </Chip>
@@ -455,6 +435,20 @@ const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag
                     {
                         crf_close !== 1 ?
                             <Box sx={{ display: 'flex', p: 0.5 }} >
+                                {now_who_status === 4 ?
+                                    <Button variant="plain"
+                                        sx={{
+                                            px: 1, height: '30px', minHeight: '30px', lineHeight: '1.2',
+                                            color: '#0277bd', borderRadius: 1, bgcolor: 'white',
+                                            fontSize: 13, pr: 1, textTransform: 'capitalize', fontWeight: 550,
+                                            '&:hover': {
+                                                color: '#0277bd', bgcolor: 'white'
+                                            },
+                                        }}>
+                                        Internally Arranged
+
+                                    </Button>
+                                    : null}
                                 <Button variant="plain"
                                     sx={{
                                         px: 1, height: '30px', minHeight: '30px', lineHeight: '1.2',
@@ -477,7 +471,7 @@ const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag
                                             <Typography sx={{ fontSize: 13, pl: 2, pr: 1, color: 'white', textTransform: 'capitalize', fontWeight: 550 }}>{now_who}</Typography>
                                             <Typography sx={{ fontSize: 13, pr: 1, color: 'white', textTransform: 'capitalize', fontWeight: 550 }}>
                                                 {now_who_status === 1 ? "Approved" : now_who_status === 2 ? "Rejected" :
-                                                    now_who_status === 3 ? "On-Hold" : ""
+                                                    now_who_status === 3 ? "On-Hold" : now_who_status === 4 ? 'Approved' : ""
                                                 }</Typography>
                                         </>
                                     }
@@ -515,18 +509,20 @@ const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag
                                 {image_status === 1 ?
                                     <Box sx={{ mr: 0.5 }}>
                                         <CssVarsProvider>
-                                            <IconButton
-                                                sx={{
-                                                    fontSize: 12, height: '30px', minHeight: '30px', lineHeight: '1.2',
-                                                    color: 'primary.main', bgcolor: 'white', width: '15px',
-                                                    '&:hover': {
-                                                        bgcolor: '#F0F4F8',
-                                                    },
-                                                    boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.16)', borderRadius: 5,
-                                                }}
-                                                onClick={ViewImage} >
-                                                <AttachFileIcon fontSize='small' sx={{ color: '#2196F3' }} />
-                                            </IconButton>
+                                            <CustomToolTipForCRF title="File View" placement='top'>
+                                                <IconButton
+                                                    sx={{
+                                                        fontSize: 12, height: '30px', minHeight: '30px', lineHeight: '1.2',
+                                                        color: 'primary.main', bgcolor: 'white', width: '15px',
+                                                        '&:hover': {
+                                                            bgcolor: '#F0F4F8',
+                                                        },
+                                                        boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.16)', borderRadius: 5,
+                                                    }}
+                                                    onClick={ViewImage} >
+                                                    <AttachFileIcon fontSize='small' sx={{ color: '#2196F3' }} />
+                                                </IconButton>
+                                            </CustomToolTipForCRF>
                                         </CssVarsProvider>
 
                                     </Box> : null
@@ -564,11 +560,8 @@ const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag
                             </Box>
                     }
                 </Box>
-
-
             </Box>
         </Fragment >
     )
 }
-
 export default memo(ApproveButtonsCompnt)

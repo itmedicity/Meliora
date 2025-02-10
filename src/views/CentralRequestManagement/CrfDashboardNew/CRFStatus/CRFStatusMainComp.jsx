@@ -14,7 +14,6 @@ const CRFStatusMainComp = ({ viewPednigDetails, crfApprv }) => {
                         ))}
                     </Grid>
                 </Paper>
-
             </Box>
         </Fragment>
     )

@@ -1,13 +1,8 @@
-import { Box, Table, Tooltip, Typography } from '@mui/joy'
+import { Box, Table, Typography } from '@mui/joy'
 import React, { memo, Fragment } from 'react'
+import CustomToolTipForCRF from './Components/CustomToolTipForCRF';
+
 const ApprovedItemListDis = ({ approveTableData }) => {
-    // const [apprvdItem, setapprvdItem] = useState([])
-    // useEffect(() => {
-    //     if (approveTableData) {
-    //         const newData = approveTableData?.filter((val) => val.item_status_approved === 1)
-    //         setapprvdItem(newData)
-    //     }
-    // }, [approveTableData])
     return (
         <Fragment>
             {approveTableData.length !== 0 ?
@@ -26,46 +21,27 @@ const ApprovedItemListDis = ({ approveTableData }) => {
                                 <th size='sm' style={{ width: 350, textAlign: 'center', backgroundColor: '#e3f2fd' }}>Specification</th>
                                 <th size='sm' style={{ width: 100, textAlign: 'center', backgroundColor: '#e3f2fd' }}>Price</th>
                                 <th size='sm' style={{ width: 100, textAlign: 'center', backgroundColor: '#e3f2fd' }}>Approx.cost</th>
-                                <th size='sm' style={{ borderRadius: 0, width: 100, textAlign: 'center', backgroundColor: '#e3f2fd' }}>Status</th>
+                                <th size='sm' style={{ borderRadius: 0, width: 150, textAlign: 'center', backgroundColor: '#e3f2fd' }}>Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             {approveTableData?.map((item, ind) => {
                                 const rowColor = item.po_item_status === 1 ? '#1565c0' : item.item_status_approved === 1 ? '#59981A' :
                                     item.item_status_approved === 2 ? '#D13120' :
-                                        item.item_status_approved === 3 ? '#DBA40E' : null;
-
-                                const NewTooltip = ({ title, children }) => {
-                                    return (
-                                        <Tooltip
-                                            key="unique-key"
-                                            title={
-                                                <Box sx={{ bgcolor: 'white', color: '#003060', p: 1, textAlign: 'center', textTransform: 'capitalize' }}
-                                                >{title}
-                                                </Box>
-                                            }
-                                            placement="top"
-                                            arrow
-                                            sx={{
-                                                bgcolor: '#BFD7ED',
-                                                [`& .MuiTooltip-arrow`]: {
-                                                    color: 'blue',
-                                                },
-                                            }}
-                                        >
-                                            {children}
-                                        </Tooltip>
-                                    );
-                                };
+                                        item.item_status_approved === 3 ? '#DBA40E' :
+                                            item.item_status_approved === 4 ? '#009688' :
+                                                null;
 
                                 return (
-                                    <NewTooltip key={item.req_detl_slno} placement="top" title={item.po_item_status === 1 ? "PO Generated" : (item.item_status_approved === 1
+                                    <CustomToolTipForCRF key={item.req_detl_slno} placement="top" title={item.po_item_status === 1 ? "PO Generated" : (item.item_status_approved === 1
                                         ? "Approved"
                                         : item.item_status_approved === 2
                                             ? `Rejected by ${item.reject_remarks}`
                                             : item.item_status_approved === 3
                                                 ? `On-Hold by ${item.hold_remarks}`
-                                                : "")} >
+                                                : item.item_status_approved === 4
+                                                    ? `Internally Arranged By ${item.internal_remarks}`
+                                                    : "")} >
                                         <tr style={{ cursor: 'pointer' }}>
                                             <td style={{ textAlign: 'center' }}>{ind + 1}</td>
                                             <td style={{ fontSize: 13 }}>&nbsp;{item.approve_item_desc}</td>
@@ -75,12 +51,14 @@ const ApprovedItemListDis = ({ approveTableData }) => {
                                             <td>&nbsp;{item.approve_item_specification === '' ? 'Not Given' : item.approve_item_specification}</td>
                                             <td style={{ textAlign: 'center', }}>{item.approve_item_unit_price === 0 ? 'Not Given' : item.approve_item_unit_price}</td>
                                             <td style={{ textAlign: 'center', }}>{item.approve_aprox_cost === 0 ? 'Not Given' : item.approve_aprox_cost}</td>
-                                            <td style={{ textAlign: 'center', color: rowColor }}>{item.po_item_status === 1 ? "PO Generated" : (item.item_status_approved === 1
-                                                ? "Approved" : item.item_status_approved === 2
-                                                    ? "Rejected " : item.item_status_approved === 3
-                                                        ? "On-Hold " : null)}</td>
+                                            <td style={{ textAlign: 'center', color: rowColor }}>{item.po_item_status === 1 ? "PO Generated" :
+                                                (item.item_status_approved === 1 ? "Approved" :
+                                                    item.item_status_approved === 2 ? "Rejected " :
+                                                        item.item_status_approved === 3 ? "On-Hold " :
+                                                            item.item_status_approved === 4 ? "Internally Arranged" :
+                                                                null)}</td>
                                         </tr>
-                                    </NewTooltip>
+                                    </CustomToolTipForCRF>
                                 );
                             })}
                         </tbody>

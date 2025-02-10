@@ -1,7 +1,7 @@
 import { Box, CssVarsProvider, Tooltip } from '@mui/joy'
 import React, { memo } from 'react'
 
-const CustomToolTip = ({
+const CustomToolTipForCRF = ({
     title, placement, children
 }) => {
     return (
@@ -26,5 +26,4 @@ const CustomToolTip = ({
         </CssVarsProvider>
     )
 }
-
-export default memo(CustomToolTip)
+export default memo(CustomToolTipForCRF)

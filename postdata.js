@@ -38,7 +38,7 @@ item_unit: 7
 item_unit_price: "2000"
 req_slno: 58
 
-// {item_status : 0 /1,approve_item_status:0 /1 item_status_approved:1 apprvd ,2 rejected, 3 onhold }
+
 
 
 // crm_request_approval table insert
@@ -58,7 +58,7 @@ senior_manage_req: 1
 
 //------------------ inchargeApproval
 // patchdata
-// incharge_approve becomes 1->approve, 2->reject 3->on-hold
+
 inch_detial_analysis: "INCHARGE APPROVED"
 incharge_approve: 1
 incharge_apprv_date: "2024-11-23 18:04:01"
@@ -85,7 +85,7 @@ crf_req_remark: "datacollection"
 crf_requst_slno: 47
 req_user: 168
 reqest_one: 2
-// reqest_one=>2=Hod,3=DMS,4=MS,5=MO,6=SMO,7=GM,8=MD,9=ED,10=PURCHASE DPT
+
 
 
 // .............    datacollection Reply(common)
@@ -95,7 +95,7 @@ save_user: 168
 
 
 // ......................HOD approval
-// hod_approve  1->approve, 2->reject 3->on-hold
+//
 hod_approve: 1
 hod_approve_date: "2024-11-25 10:33:24"
 hod_detial_analysis: "hod approved"
@@ -105,7 +105,7 @@ req_slno: 47
 
 
 // ...................DMS Approval
-// dms_approve  1->approve, 2->reject 3->on-hold
+// 
 dms_approve: 1
 dms_approve_date: "2024-11-25 11:05:33"
 dms_detail_analysis: "dms approved"
@@ -115,7 +115,7 @@ req_slno: 58
 
 
 // ............................MS Approval
-// ms_approve  1->approve, 2->reject 3->on-hold
+// 
 ms_approve: 1
 ms_approve_date: "2024-11-25 14:44:38"
 ms_approve_remark: "ms approved"
@@ -125,7 +125,7 @@ req_slno: 58
 
 
 // .......................CRF Docuumentation
-// manag_operation_approv  1->approve, 2->reject 3->on-hold
+//
 manag_operation_approv: 1
 om_approv_date: "2024-11-25 14:51:24"
 manag_operation_remarks: "mo approved"
@@ -135,7 +135,7 @@ req_slno: 58
 
 
 //........................ CRF Verification
-// senior_manage_approv  1->approve, 2->reject 3->on-hold
+//
 req_slno: 58
 senior_manage_approv: 1
 senior_manage_remarks: "smo approved"
@@ -146,7 +146,7 @@ som_aprrov_date: "2024-11-25 14:56:11"
 
 
 // .........................GM aproval
-// gm_approve  1->approve, 2->reject 3->on-hold
+
 gm_approv_date: "2024-11-25 15:08:38"
 gm_approve: 1
 gm_approve_remarks: "Gm Approved"
@@ -156,7 +156,7 @@ req_slno: 58
 
 
 // .......................MD Approval
-// gm_approve  1->approve, 2->reject 3->on-hold
+
 md_approve: 1
 md_approve_date: "2024-11-25 15:11:23"
 md_approve_remarks: "md approved"
@@ -166,7 +166,7 @@ req_slno: 58
 
 
 // ....................ED Approval
-// gm_approve  1->approve, 2->reject 3->on-hold
+
 ed_approve: 1
 ed_approve_date: "2024-11-25 15:13:30"
 ed_approve_remarks: "ed approved"
@@ -183,7 +183,7 @@ req_slno: 58
 
 
 // ......................Quotation Call
-// quatation_calling_status = 0 or 1
+
 crm_purchase_slno: 36
 quatation_calling_date: "2024-11-25 15:25:03"
 quatation_calling_remarks: "quotation call"
@@ -192,7 +192,7 @@ quatation_calling_user: 168
 
 
 // ...................Quotation Negotiation
-// quatation_negotiation = 0 or 1
+
 crm_purchase_slno: 36
 quatation_negotiation: 1
 quatation_negotiation_date: "2024-11-25 15:27:43"
@@ -202,7 +202,7 @@ quatation_negotiation_user: 168
 
 
 // ...................Quotation Fix
-// quatation_fixing = 0 or 1
+
 crm_purchase_slno: 36
 quatation_fixing: 1
 quatation_fixing_date: "2024-11-25 15:30:43"
@@ -253,7 +253,6 @@ po_complete_user: 168
 
 
 // .......  .get Aprroval Status From Ellider Button=> patchdata
-// approval_level:null->Not Approved, 1->Purchase Dpt Apprvd , 2->Purchase Manager Apprvd, 3->Directors Approved
 {
     approval_level: null
     expected_delivery: "2022-01-27"
@@ -358,3 +357,6 @@ po_no: "004763"
 received_qty: 0
 slno: 1
 storecode: "C001"
+
+
+

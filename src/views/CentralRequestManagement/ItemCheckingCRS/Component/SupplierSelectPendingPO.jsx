@@ -1,8 +1,8 @@
 import { Autocomplete, CssVarsProvider } from '@mui/joy';
-import React, { Fragment, useCallback, useEffect, useState } from 'react'
+import React, { Fragment, memo, useCallback, useEffect, useState } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios';
 
-const SupplierSelect = ({ supCode, setSupCode }) => {
+const SupplierSelectPendingPO = ({ supCode, setSupCode }) => {
 
     const [supList, setsupList] = useState([])
     const [type, setType] = useState([{ supplier_code: 0, supplier_name: '' }])
@@ -13,10 +13,11 @@ const SupplierSelect = ({ supCode, setSupCode }) => {
     useEffect(() => {
         const getSupplierList = async () => {
             try {
-                const result = await axioslogin.get('/deliveryMarking/supplier')
+                const result = await axioslogin.get('/deliveryMarking/viewSupplier')
                 const { success, data } = result.data
                 if (success === 1) {
-                    setsupList(data)
+                    const sup = data?.filter((val) => val.po_status === 1)
+                    setsupList(sup)
                 } else {
                     setsupList([])
                 }
@@ -53,8 +54,8 @@ const SupplierSelect = ({ supCode, setSupCode }) => {
                 <Autocomplete
                     // fullWidth
                     sx={{
-                        height: 20, border: '1px solid #bbdefb', borderRadius: 10,
-                        fontSize: 14, color: '#1565c0',
+                        height: 20, border: '1px solid #bbdefb', borderRadius: 5,
+                        fontSize: 14, color: '#1D617A',
                     }}
                     value={supCode === 0 ? type : value}
                     placeholder="Select Supplier"
@@ -78,4 +79,4 @@ const SupplierSelect = ({ supCode, setSupCode }) => {
     )
 }
 
-export default SupplierSelect
+export default memo(SupplierSelectPendingPO)

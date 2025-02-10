@@ -16,7 +16,7 @@ import InchargeApprvalCmp from './InchargeComp/InchargeApprvalCmp'
 import ModalButtomCmp from '../ComonComponent/Components/ModalButtomCmp'
 
 const CrmInchargeModal = ({ open, ApprovalData, setApproveTableData, approveTableData, reqItems, handleClose,
-    deptsecArry, imagearray }) => {
+    deptsecArry, imagearray, selectedCompany }) => {
     const { req_slno, incharge_approve, incharge_remarks, inch_detial_analysis } = ApprovalData
     const queryClient = useQueryClient()
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
@@ -43,7 +43,7 @@ const CrmInchargeModal = ({ open, ApprovalData, setApproveTableData, approveTabl
             ...prev,
             approve: type === 'approve',
             reject: type === 'reject',
-            pending: type === 'pending',
+            pending: type === 'pending'
         }));
     }, []);
 
@@ -101,8 +101,7 @@ const CrmInchargeModal = ({ open, ApprovalData, setApproveTableData, approveTabl
                         warningNotify(message)
                     }
                 } catch (error) {
-                    console.error("Error in Incharge Approval:", error);
-                    warningNotify("An error occurred while processing your request.Try again.");
+                    warningNotify("An error occurred while processing your request.Try again.", error);
                 }
             }
             if (approve || reject || pending) {
@@ -148,46 +147,33 @@ const CrmInchargeModal = ({ open, ApprovalData, setApproveTableData, approveTabl
                             }}
                         />
                         <Box sx={{ minWidth: '80vw', minHeight: '62vh', maxHeight: '85vh', overflowY: 'auto' }}>
-                            <CrfReqDetailViewCmp ApprovalData={ApprovalData} imagearray={imagearray} />
+                            <CrfReqDetailViewCmp ApprovalData={ApprovalData} imagearray={imagearray} selectedCompany={selectedCompany} />
                             <Box sx={{ overflow: 'auto', pt: 0.5, mx: 0.3 }}>
                                 {reqItems.length !== 0 ?
                                     <ReqItemDisplay reqItems={reqItems} />
-                                    : <Box sx={{
-                                        display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5,
-                                        pt: 10, color: 'grey'
-                                    }}>
-                                        No Item Requested
-                                    </Box>
+                                    : null
                                 }
                                 {approveTableData.length !== 0 ?
-                                    <>
-                                        <ItemsApprovalCompnt req_slno={req_slno} setMoreItem={setMoreItem} editEnable={editEnable}
-                                            setEditEnable={setEditEnable} setApproveTableData={setApproveTableData}
-                                            apprvLevel={1} header='Incharge' />
-                                        <Box sx={{ pl: 0.5 }}>
-                                            <   CustomIconButtonCmp
-                                                handleChange={AddItems}>
-                                                Add Items
-                                            </CustomIconButtonCmp>
-                                        </Box>
-                                        {addMoreItems === 1 ? <AddMoreItemDtails req_slno={req_slno}
-                                            setApproveTableData={setApproveTableData} setMoreItem={setMoreItem}
-                                        /> : null}
-                                        <InchargeApprvalCmp
-                                            heading="Incharge Approval"
-                                            apprvlDetails={apprvlDetails}
-                                            updateOnchangeState={updateOnchangeState}
-                                            updateApprovalState={updateApprovalState}
-                                        />
-                                    </>
-                                    :
-                                    <Box sx={{
-                                        display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5,
-                                        pt: 10, color: 'grey'
-                                    }}>
-                                        No items Approved
-                                    </Box>
+                                    <ItemsApprovalCompnt req_slno={req_slno} setMoreItem={setMoreItem} editEnable={editEnable}
+                                        setEditEnable={setEditEnable} setApproveTableData={setApproveTableData}
+                                        apprvLevel={1} header='Incharge' />
+                                    : null
                                 }
+                                <Box sx={{ pl: 0.5 }}>
+                                    <   CustomIconButtonCmp
+                                        handleChange={AddItems}>
+                                        Add Items
+                                    </CustomIconButtonCmp>
+                                </Box>
+                                {addMoreItems === 1 ? <AddMoreItemDtails req_slno={req_slno}
+                                    setApproveTableData={setApproveTableData} setMoreItem={setMoreItem}
+                                /> : null}
+                                <InchargeApprvalCmp
+                                    heading="Incharge Approval"
+                                    apprvlDetails={apprvlDetails}
+                                    updateOnchangeState={updateOnchangeState}
+                                    updateApprovalState={updateApprovalState}
+                                />
                             </Box>
                         </Box>
                         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>

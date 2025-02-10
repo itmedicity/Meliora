@@ -14,6 +14,7 @@ import { warningNotify } from 'src/views/Common/CommonCode';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import { format } from 'date-fns';
 import { useQueryClient } from 'react-query';
+import CustomToolTipForCRF from '../../ComonComponent/Components/CustomToolTipForCRF';
 
 const ImageDisplayModal = React.lazy(() => import("../../ComonComponent/ImageUploadCmp/ImageDisplayModal"))
 const PurchaseModal = React.lazy(() => import("../PurchaseModal"))
@@ -487,41 +488,23 @@ const PurchaseApprovalButtonCmp = ({ val }) => {
                             </IconButton>
                         </CssVarsProvider>
                     </Box>
-                    {/* 
-                    <Box sx={{ mx: 0.3 }}>
-                        <CssVarsProvider>
-                            <IconButton
-                                sx={{
-                                    fontSize: 12, height: '30px', minHeight: '30px', lineHeight: '1.2',
-                                    width: '15px',
-                                    boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.16)', borderRadius: 5,
-                                    bgcolor: now_who_status === 1 ? '#18A558' : now_who_status === 2 ? '#F83C31' :
-                                        now_who_status === 3 ? 'warning' : '#5CACEE',
-                                    '&:hover': {
-                                        bgcolor: now_who_status === 1 ? '#18A558' : now_who_status === 2 ? '#F83C31' :
-                                            now_who_status === 3 ? 'warning' : '#5CACEE'
-                                    },
-                                }}
-                            > {approveComp(now_who_status)}
-                            </IconButton>
-                        </CssVarsProvider>
-                    </Box> */}
-
                     {image_status === 1 ?
                         <Box sx={{ mr: 0.5 }}>
                             <CssVarsProvider>
-                                <IconButton
-                                    sx={{
-                                        fontSize: 12, height: '30px', minHeight: '30px', lineHeight: '1.2',
-                                        color: 'primary.main', bgcolor: 'white', width: '15px',
-                                        '&:hover': {
-                                            bgcolor: '#F0F4F8',
-                                        },
-                                        boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.16)', borderRadius: 5,
-                                    }}
-                                    onClick={ViewImage} >
-                                    <AttachFileIcon fontSize='small' sx={{ color: '#0277bd' }} />
-                                </IconButton>
+                                <CustomToolTipForCRF title="File View" placement='top'>
+                                    <IconButton
+                                        sx={{
+                                            fontSize: 12, height: '30px', minHeight: '30px', lineHeight: '1.2',
+                                            color: 'primary.main', bgcolor: 'white', width: '15px',
+                                            '&:hover': {
+                                                bgcolor: '#F0F4F8',
+                                            },
+                                            boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.16)', borderRadius: 5,
+                                        }}
+                                        onClick={ViewImage} >
+                                        <AttachFileIcon fontSize='small' sx={{ color: '#0277bd' }} />
+                                    </IconButton>
+                                </CustomToolTipForCRF>
                             </CssVarsProvider>
 
                         </Box> : null

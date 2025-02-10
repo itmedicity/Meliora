@@ -1,5 +1,5 @@
 import { Box, CssVarsProvider, IconButton, Option, Select, Table, Textarea, Tooltip, Typography } from '@mui/joy'
-import React, { Fragment, memo, useCallback, useEffect, useState } from 'react'
+import React, { Fragment, memo, useCallback, useEffect, useMemo, useState } from 'react'
 import CustomCloseIconCmp from '../../ComonComponent/Components/CustomCloseIconCmp'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { useQuery } from 'react-query';
@@ -30,7 +30,7 @@ import CRFCategoryTypeSelect from '../Components/CRFCategoryTypeSelect';
 
 const ReqImageDisModal = React.lazy(() => import("../../ComonComponent/ImageUploadCmp/ReqImageDisModal"))
 
-const CrfRegistration = ({ editRowData, edit, setEdit, detailDataDis, setDetailDataDis, imagearray, setImageArry }) => {
+const CrfRegistration = ({ editRowData, setEditRowData, edit, setEdit, detailDataDis, setDetailDataDis, imagearray, setImageArry }) => {
     const history = useHistory();
     const backtoSetting = useCallback(() => {
         history.push('/Home')
@@ -78,26 +78,32 @@ const CrfRegistration = ({ editRowData, edit, setEdit, detailDataDis, setDetailD
     const [editIndex, setEditIndex] = useState(null)
     const [emerType, setEmerType] = useState(0)
     const [category, setCategory] = useState([])
+    const [catFlag, setcatFlag] = useState(0)
+    const [loading, setLoading] = useState(false)
 
-    const { data: authDeptSec, isLoading: isAuthDeptSecLoading, error: authDeptSecError } = useQuery({
-        queryKey: ['getAuthorization', loginId],
+    const { data: authDept, isLoading: isAuthDeptSecLoading, error: authDeptSecError } = useQuery({
+        queryKey: ['getAuthDept', loginId],
         queryFn: () => getAuthorisedDeptsec(loginId),
         enabled: loginId !== null,
         staleTime: Infinity
     });
+    const authDeptSec = useMemo(() => authDept, [authDept])
     useEffect(() => {
-        if (authDeptSec && authDeptSec.length > 0) {
+        if (authDeptSec && authDeptSec.length > 1) {
             setAuthorizDeptSec(authDeptSec)
         } else {
             setDeptSec(empdeptsec)
         }
     }, [authDeptSec, empdeptsec])
 
-    const { data: authData, isLoading: isAuthLoading, error: authError } = useQuery({
+    const { data: authLevel, isLoading: isAuthLoading, error: authError } = useQuery({
         queryKey: ['getAuthorization', deptSec],
         queryFn: () => getInchHodAuthorization(deptSec),
         enabled: deptSec !== null,
+        staleTime: Infinity
     });
+    const authData = useMemo(() => authLevel, [authLevel])
+
     useEffect(() => {
         if (authData && authData.length > 0) {
             const { level_one, level_two, dept_type } = authData[0]
@@ -116,6 +122,7 @@ const CrfRegistration = ({ editRowData, edit, setEdit, detailDataDis, setDetailD
             }));
         }
     }, [authData])
+
     const updateEmergency = (e) => {
         if (e.target.checked === true) {
             setCrfRegister(prev => ({
@@ -379,19 +386,14 @@ const CrfRegistration = ({ editRowData, edit, setEdit, detailDataDis, setDetailD
             approx_cost: 0,
             actual_require: '',
             needed: '',
-            levelOne: 0,
-            levelTwo: 0,
-            deptType: 0,
             emergency: false,
             remarks: '',
-            reqDetalSlno: 0,
             startdate: format(new Date(), "yyyy-MM-dd"),
             reqSlno: 0,
             imageshowFlag: 0,
             imageshow: false,
         }
         setCrfRegister(formData)
-        setDeptSec(0)
         setCategory([])
         setEdit(0)
         setSelectFile([])
@@ -399,10 +401,10 @@ const CrfRegistration = ({ editRowData, edit, setEdit, detailDataDis, setDetailD
         setDetailDataDis([])
         setEmerType(0)
         setcatFlag(1)
-    }, [setEdit, setImageArry, setDetailDataDis])
+        setEditRowData({})
+    }, [setEdit, setImageArry, setDetailDataDis, setEditRowData])
     const refreshWindow = useCallback(() => {
         setCategory([])
-        setcatFlag(1)
         reset()
     }, [reset])
     const handleImageUpload = useCallback(async (imageFile) => {
@@ -414,56 +416,77 @@ const CrfRegistration = ({ editRowData, edit, setEdit, detailDataDis, setDetailD
         const compressedFile = await imageCompression(imageFile, options)
         return compressedFile
     }, []);
-
-    const [catFlag, setcatFlag] = useState(0)
-
-    const submitRequest = useCallback((e) => {
-        if (detailDataDis.length !== 0 || (item_desc !== '' || item_qty !== 0 || item_qty !== '')) {
+    const submitRequest = useCallback(async (e) => {
+        const saveData = async () => {
+            if (deptSec === null || deptSec === 0 || deptSec === undefined) {
+                infoNotify("Select Department Section")
+                setDeptSec(0)
+                return;
+            }
             e.preventDefault();
-            if (category.length === 0) {
-                infoNotify("Select Any category")
-            } else {
-                const items = detailDataDis?.map((val) => {
-                    const obj = {
-                        item_slno: val.item_slno,
-                        item_desc: val.item_desc,
-                        approve_item_desc: val.item_desc,
-                        item_brand: val.item_brand,
-                        approve_item_brand: val.item_brand,
-                        item_unit: val.item_unit === 0 ? 9 : val.item_unit,
-                        approve_item_unit: val.item_unit === 0 ? 9 : val.item_unit,
-                        item_qnty: val.item_qty,
-                        item_qnty_approved: val.item_qty,
-                        item_specification: val.item_spec,
-                        approve_item_specification: val.item_spec,
-                        item_unit_price: val.item_unitprice,
-                        approve_item_unit_price: val.item_unitprice,
-                        aprox_cost: val.approx_cost,
-                        approve_aprox_cost: val.approx_cost,
-                        item_status: 1,
-                        item_status_approved: 1,
-                        approve_item_status: 1,
-                        create_user: loginId,
-                        edit_user: loginId,
-                        req_detl_slno: val.req_detl_slno
-                    }
-                    return obj
-                })
+            setLoading(true);
+            if (item_desc !== '' && item_qty !== 0 && item_qty !== '') {
+                infoNotify(
+                    <>
+                        Click on &apos;
+                        <AddCircleSharpIcon sx={{ color: '#0074B7', height: 28, width: 28, cursor: "pointer" }} />
+                        &apos; Button to Add Item Details
+                    </>
+                );
+                setLoading(false);
+            }
+            else if (detailDataDis.length === 0) {
+                infoNotify("Add Any Item Description Details");
+                setLoading(false);
+                return;
+            }
+            else if (category.length === 0) {
+                infoNotify("Select Any Category");
+                setLoading(false);
+                return;
+            }
+            else if (emergency && emerType === 0 && remarks === '') {
+                infoNotify("If it's an emergency, specify the type and provide remarks");
+                return;
+            }
+            else {
+                const items = detailDataDis.map((val) => ({
+                    item_slno: val.item_slno,
+                    item_desc: val.item_desc,
+                    approve_item_desc: val.item_desc,
+                    item_brand: val.item_brand,
+                    approve_item_brand: val.item_brand,
+                    item_unit: val.item_unit === 0 ? 9 : val.item_unit,
+                    approve_item_unit: val.item_unit === 0 ? 9 : val.item_unit,
+                    item_qnty: val.item_qty,
+                    item_qnty_approved: val.item_qty,
+                    item_specification: val.item_spec,
+                    approve_item_specification: val.item_spec,
+                    item_unit_price: val.item_unitprice,
+                    approve_item_unit_price: val.item_unitprice,
+                    aprox_cost: val.approx_cost,
+                    approve_aprox_cost: val.approx_cost,
+                    item_status: 1,
+                    item_status_approved: 1,
+                    approve_item_status: 1,
+                    create_user: loginId,
+                    edit_user: loginId,
+                    req_detl_slno: val.req_detl_slno,
+                }));
+
                 const postData = {
                     request_deptsec_slno: deptSec,
-                    actual_requirement: actual_require !== '' ? actual_require : null,
-                    needed: needed !== '' ? needed : null,
-                    category: category !== '' ? category : null,
-                    location: location !== '' ? location : null,
+                    actual_requirement: actual_require || null,
+                    needed: needed || null,
+                    category: category || null,
+                    location: location || null,
                     expected_date: format(new Date(startdate), 'yyyy-MM-dd 23:59:59'),
-                    emergency_flag: emergency === true ? 1 : 0,
-                    emer_slno: emerType !== 0 ? emerType : null,
-                    emergeny_remarks: remarks !== '' ? remarks : null,
+                    emergency_flag: emergency ? 1 : 0,
+                    emer_slno: emerType || null,
+                    emergeny_remarks: remarks || null,
                     user_deptsec: empdeptsec,
                     create_user: loginId,
                     incharge_req: levelOne === 1 ? 1 : 0,
-                    incharge_approve: levelOne === 1 ? null : null,
-                    // incharge_approve: levelOne === 1 ? null : 0,
                     hod_req: levelTwo === 1 ? 1 : 0,
                     dms_req: deptType === 1 ? 1 : 0,
                     ms_approve_req: deptType === 1 ? 1 : 0,
@@ -472,24 +495,15 @@ const CrfRegistration = ({ editRowData, edit, setEdit, detailDataDis, setDetailD
                     gm_approve_req: 1,
                     ed_approve_req: 1,
                     md_approve_req: 1,
-                    items: items
-                }
+                    managing_director_req: 1,
+                    items,
+                };
+
                 const patchData = {
-                    request_deptsec_slno: deptSec,
-                    actual_requirement: actual_require !== '' ? actual_require : null,
-                    needed: needed !== '' ? needed : null,
-                    category: category !== '' ? category : null,
-                    location: location !== '' ? location : null,
-                    expected_date: format(new Date(startdate), 'yyyy-MM-dd 23:59:59'),
-                    emergency_flag: emergency === true ? 1 : 0,
-                    emer_slno: emerType !== 0 ? emerType : null,
-                    emergeny_remarks: remarks !== '' ? remarks : null,
-                    user_deptsec: empdeptsec,
+                    ...postData,
                     edit_user: loginId,
                     req_slno: reqSlno,
-                    items: items
-
-                }
+                };
                 const ReqMasterInsert = async (postData) => {
                     const result = await axioslogin.post('/newCRFRegister/InsertRegMast', postData);
                     return result.data
@@ -517,91 +531,83 @@ const CrfRegistration = ({ editRowData, edit, setEdit, detailDataDis, setDetailD
                         });
                         return result.data
                     } catch (error) {
-                        warningNotify('An error occurred during file upload.');
+                        // console.log(error, "while file uploading");
+                        setLoading(false)
+                        warningNotify('An error occurred during file upload.', error);
                     }
                 }
                 const handleRequest = async () => {
                     try {
-                        if (emergency === true && emerType === 0 && remarks === '') {
-                            infoNotify("If it's an emergency, specify the type and provide remarks");
-                            return;
-                        }
-                        if (edit === 0) {
-                            try {
-                                const insertResponse = await ReqMasterInsert(postData);
-                                const { success, message, insertid } = insertResponse;
+                        const action = edit === 0 ? ReqMasterInsert : ReqMasterUpdate;
+                        const requestData = edit === 0 ? postData : patchData;
+                        const { success, message, insertid } = await action(requestData);
 
-                                if (success === 1) {
-                                    if (selectFile.length !== 0) {
-                                        try {
-                                            const fileInsertResponse = await FileInsert(selectFile, insertid);
-                                            const { success: fileSuccess } = fileInsertResponse;
-
-                                            if (fileSuccess === 1) {
-                                                succesNotify(message);
-                                            } else {
-                                                warningNotify("Error occurred while uploading files.");
-                                            }
-                                        } catch (error) {
-                                            warningNotify("An error occurred during file upload.");
-                                        }
-                                    } else {
-                                        succesNotify(message);
-                                    }
-                                    reset();
-                                } else {
-                                    warningNotify(message);
+                        if (success === 1) {
+                            if (selectFile.length > 0) {
+                                const fileInsertResponse = await FileInsert(selectFile, edit === 0 ? insertid : reqSlno);
+                                if (fileInsertResponse.success !== 1) {
+                                    warningNotify("Error occurred while uploading files.");
                                 }
-                            } catch (error) {
-                                warningNotify("An error occurred while inserting the request.");
                             }
+                            succesNotify(message);
+                            reset();
                         } else {
-                            try {
-                                const updateResponse = await ReqMasterUpdate(patchData);
-                                const { success, message } = updateResponse;
-
-                                if (success === 1) {
-                                    if (selectFile.length !== 0) {
-                                        try {
-                                            const fileInsertResponse = await FileInsert(selectFile, reqSlno);
-                                            const { success: fileSuccess } = fileInsertResponse;
-
-                                            if (fileSuccess === 1) {
-                                                succesNotify("Request Updated Successfully");
-                                            } else {
-                                                warningNotify("Error occurred while uploading files.");
-                                            }
-                                        } catch (error) {
-                                            warningNotify("An error occurred during file upload.");
-                                        }
-                                    } else {
-                                        succesNotify("Request Updated Successfully");
-                                    }
-                                    reset();
-                                } else {
-                                    warningNotify(message);
-                                }
-                            } catch (error) {
-                                warningNotify("An error occurred while updating the request.");
-                            }
+                            warningNotify(message);
                         }
                     } catch (error) {
-                        warningNotify("An unexpected error occurred.");
+                        warningNotify("An unexpected error occurred.", error);
+                    } finally {
+                        setLoading(false);
                     }
                 };
-                handleRequest()
+                handleRequest();
             }
-        } else {
-            infoNotify(
-                <>Click on  &apos; <AddCircleSharpIcon sx={{ color: '#0074B7', height: 28, width: 28, cursor: "pointer", }} /> &apos;Button to Add Item Details</>
-            );
         }
-    }, [detailDataDis, deptSec, actual_require, needed, category, location, startdate, emergency, remarks, empdeptsec,
-        loginId, emerType, levelOne, levelTwo, deptType, selectFile, edit, reqSlno, handleImageUpload, reset,
-        item_desc, item_qty])
+        const getAckPending = async (empdeptsec) => {
+            try {
+                const result = await axioslogin.get(`/newCRFRegister/ackPending/${empdeptsec}`);
+                const { success, data } = result.data;
+                if (success === 1) {
+                    const uniqueReqSlno = [...new Set(data?.map(item => item.req_slno))];
+
+                    const filteredData = uniqueReqSlno
+                        .map(reqSlno => {
+                            const items = data.filter(item => item.req_slno === reqSlno);
+                            return items.every(item => item.store_receive === 1) ? items : null;
+                        })
+                        .filter(group => group !== null)
+                        .flat();
+
+                    const reqSlno = filteredData?.map((val) => val.req_slno).filter(Boolean);
+                    if (reqSlno && reqSlno.length > 1) {
+                        const newReqSlno = reqSlno.join(', ');
+                        infoNotify(`Before registering a new request, you must complete the user acknowledgment for the following CRFs: ${newReqSlno}`);
+                    } else if (reqSlno && reqSlno.length === 1) {
+                        infoNotify(`Before registering a new request, you must complete the user acknowledgment for the following CRF: ${reqSlno[0]}`);
+                    }
+                    if (filteredData.length === 0) {
+                        await saveData()
+                    }
+                }
+                else if (success === 2) {
+                    await saveData()
+                }
+
+
+            }
+            catch (error) {
+                warningNotify("Failed to fetch receive status", error);
+            }
+        }
+        getAckPending(empdeptsec)
+
+    }, [detailDataDis, deptSec, actual_require, needed, category, location, startdate, emergency, remarks,
+        empdeptsec, loginId, emerType, levelOne, levelTwo, deptType, selectFile, edit, reqSlno,
+        handleImageUpload, reset, item_desc, item_qty]);
+
 
     useEffect(() => {
-        if (Object.keys(editRowData).length > 0) {
+        if (editRowData && Object.keys(editRowData).length !== 0) {
             setEdit(1)
             const { req_slno, actual_requirement, location, needed, request_deptsec_slno,
                 expected_date, emergency_flag, emer_slno, emergeny_remarks, } = editRowData
@@ -680,7 +686,7 @@ const CrfRegistration = ({ editRowData, edit, setEdit, detailDataDis, setDetailD
                 <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                     <Box sx={{ flex: 1, pl: 0.5 }}>
                         <CustomPaperTitle heading="Department Section" />
-                        {authorizeDeptSec.length !== 0 && authorizeDeptSec.length !== 1 ?
+                        {authorizeDeptSec && authorizeDeptSec.length !== 0 && authorizeDeptSec.length !== 1 ?
                             <Box sx={{ pt: 0.2, pl: 0.5 }}>
                                 <CssVarsProvider>
                                     <Select
@@ -941,7 +947,7 @@ const CrfRegistration = ({ editRowData, edit, setEdit, detailDataDis, setDetailD
                                 <Textarea
                                     required
                                     type="text" size="sm" sx={{ bgcolor: 'white' }}
-                                    minRows={3} maxRows={4}
+                                    minRows={3} maxRows={3}
                                     style={{ width: "100%", }} placeholder="type here ..."
                                     name='actual_require'
                                     value={actual_require}
@@ -957,7 +963,7 @@ const CrfRegistration = ({ editRowData, edit, setEdit, detailDataDis, setDetailD
                                 <Textarea
                                     required
                                     type="text" size="sm" sx={{ bgcolor: 'white' }}
-                                    minRows={3} maxRows={4}
+                                    minRows={3} maxRows={3}
                                     style={{ width: "100%", }} placeholder="type here ..."
                                     name='needed'
                                     value={needed}
@@ -1216,8 +1222,9 @@ const CrfRegistration = ({ editRowData, edit, setEdit, detailDataDis, setDetailD
                     <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                         <Box sx={{ py: 0.5, pr: 0.5 }}>
                             <ModalButtomCmp
+                                loading={loading}
                                 handleChange={submitRequest}
-                            > Save</ModalButtomCmp>
+                            > {loading ? "Processing" : "Save"}</ModalButtomCmp>
                         </Box>
                         <Box sx={{ py: 0.5, pr: 2 }}>
                             <ModalButtomCmp

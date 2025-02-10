@@ -1,4 +1,4 @@
-import { Box, Chip, Tooltip, Typography } from '@mui/joy';
+import { Box, Chip, Typography } from '@mui/joy';
 import { Paper } from '@mui/material';
 import { format } from 'date-fns';
 import React, { Fragment, memo, useCallback, useState } from 'react'
@@ -7,6 +7,7 @@ import AttachmentTwoToneIcon from '@mui/icons-material/AttachmentTwoTone';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import ImageDisplayModal from '../ImageUploadCmp/ImageDisplayModal';
+import CustomToolTipForCRF from '../Components/CustomToolTipForCRF';
 
 const CommonSmoApprvCmp = ({ DetailViewData }) => {
     const { req_slno, senior_manage_approv, smo, senior_manage_remarks, smo_detial_analysis,
@@ -62,8 +63,9 @@ const CommonSmoApprvCmp = ({ DetailViewData }) => {
                     </Typography>
                     <Box sx={{ flex: 1, py: 0.4, ml: 2 }}>
                         <Chip size="md" variant="outlined" sx={{
-                            color: (senior_manage_approv === 1 ? '#2e7d32' : senior_manage_approv === 2 ? '#bf360c' : senior_manage_approv === 3 ? '#FF9800' : '#607D8B'), height: 25, pb: 0.5,
-                            fontSize: 12, fontWeight: 550,
+                            color: (senior_manage_approv === 1 ? '#2e7d32' : senior_manage_approv === 2 ? '#bf360c' : senior_manage_approv === 3 ? '#FF9800'
+                                : senior_manage_approv === 4 ? '#009688' : '#607D8B'),
+                            height: 25, pb: 0.5, fontSize: 12, fontWeight: 550,
                         }}>
                             {smo}
                         </Chip>
@@ -99,11 +101,19 @@ const CommonSmoApprvCmp = ({ DetailViewData }) => {
                                     <Typography sx={{ pl: 0.5 }} >  :&nbsp;</Typography>
                                     <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
                                         {senior_manage_remarks === null ? 'Not Updated' : senior_manage_remarks}</Typography>
-                                </Box> : null}
+                                </Box>
+                                : senior_manage_approv === 4 && senior_manage_remarks !== null ?
+                                    <Box sx={{ display: 'flex', pt: 0.5 }}>
+                                        <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Remarks</Typography>
+                                        <Typography sx={{ pl: 0.5 }} >  :&nbsp;</Typography>
+                                        <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
+                                            {senior_manage_remarks === null ? 'Not Updated' : senior_manage_remarks}</Typography>
+                                    </Box>
+                                    : null}
                     {
                         som_aprrov_date !== null ?
                             <Box sx={{ display: 'flex', py: 1 }}>
-                                {senior_manage_approv === 1 ?
+                                {(senior_manage_approv === 1 || senior_manage_approv === 4) ?
                                     <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>Approved by </Typography>
                                     : senior_manage_approv === 2 ?
                                         <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>Rejected by </Typography>
@@ -118,11 +128,11 @@ const CommonSmoApprvCmp = ({ DetailViewData }) => {
                                         {format(new Date(som_aprrov_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
                                     {smo_image === 1 ?
                                         <Box sx={{ display: 'flex', pl: 2 }} >
-                                            <Tooltip title='File View' placement='bottom' sx={{ bgcolor: '#D4F1F4', color: 'darkblue' }}>
+                                            <CustomToolTipForCRF title='File View' placement='top' >
                                                 <AttachmentTwoToneIcon fontSize='small' sx={{ cursor: 'pointer', color: '#0277bd', width: 35, height: 25 }}
                                                     onClick={ViewSMOUploadImage} >
                                                 </AttachmentTwoToneIcon>
-                                            </Tooltip>
+                                            </CustomToolTipForCRF>
                                         </Box> : null
                                     }
                                 </Box>

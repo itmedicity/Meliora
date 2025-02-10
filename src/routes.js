@@ -229,7 +229,10 @@ const PmDueList = React.lazy(() => import('./views/AssetManagment/PmOverDueList/
 const deliverMarking = React.lazy(() => import('./views/CentralRequestManagement/DeliveryMarking/DeliveryMarkingStore'))
 const itemChecking = React.lazy(() => import('./views/CentralRequestManagement/ItemCheckingCRS/ItemCheckingMain'))
 const crfSearch = React.lazy(() => import('./views/CentralRequestManagement/CRFSearch/CrfDetailsSearch'))
-
+const companyName = React.lazy(() => import('./views/Master/RequestManagement/CompanyMaster/CompanyMast'))
+const crfBiomedical = React.lazy(() => import('./views/CentralRequestManagement/CRFBiomedicalView/CrfBiomedical'))
+const approvalMapping = React.lazy(() => import('./views/Master/RequestManagement/CRFApprovalMappingMaster/ApprovalMappingMaster'))
+const managingDirectorApproval = React.lazy(() => import('./views/CentralRequestManagement/CrfManagingDirectorApproval/ManagingDirectorMain'))
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/NotCorect', exact: true, name: 'NotCorect', component: NotCorect },
@@ -408,17 +411,17 @@ const routes = [
   { path: '/Home/TaskManagementTaskLists', exact: true, name: 'TaskManagement TaskList', component: TaskManagementTaskLists },
   { path: '/Home/DailyCensus', exact: true, name: 'Daily Census Entry', component: DailyCensus },
   { path: '/Home/DailyCensusReport', exact: true, name: 'Daily Census Report', component: DailyCensusReport },
-  { path: '/Home/CRFNewInchargeApproval', exact: true, name: 'CRF New Incharge Approval', component: CRFNewIncharge },
-  { path: '/Home/CRFNewHODApproval', exact: true, name: 'CRF New HOD Approval', component: CRFNewHOD },
-  { path: '/Home/CRFNewDMSApproval', exact: true, name: 'CRF New DMS Approval', component: CRFNewDMS },
-  { path: '/Home/CRFNewMSApproval', exact: true, name: 'CRF New MS Approval', component: CRFNewMS },
-  { path: '/Home/CRFNewOMApproval', exact: true, name: 'CRF New DMS Approval', component: CRFNewMO },
-  { path: '/Home/CRFNewSMOApproval', exact: true, name: 'CRF New MS Approval', component: CRFNewSMO },
-  { path: '/Home/CRFNewGMApproval', exact: true, name: 'CRF New DMS Approval', component: CRFNewGM },
-  { path: '/Home/CRFNewMDApproval', exact: true, name: 'CRF New MS Approval', component: CRFNewMD },
-  { path: '/Home/CRFNewEDApproval', exact: true, name: 'CRF New MS Approval', component: CRFNewED },
-  { path: '/Home/CrfNewDashBoard', exact: true, name: 'CRF New MS Approval', component: CRFNewDashboard },
-  { path: '/Home/CrfNewDataCollection', exact: true, name: 'CRF New Data Collection', component: CrfNewDataCollection },
+  { path: '/Home/CRFNewInchargeApproval', exact: true, name: 'Incharge Approval', component: CRFNewIncharge },
+  { path: '/Home/CRFNewHODApproval', exact: true, name: 'HOD Approval', component: CRFNewHOD },
+  { path: '/Home/CRFNewDMSApproval', exact: true, name: 'DMS Approval', component: CRFNewDMS },
+  { path: '/Home/CRFNewMSApproval', exact: true, name: 'MS Approval', component: CRFNewMS },
+  { path: '/Home/CRFNewOMApproval', exact: true, name: 'CRF Documentation', component: CRFNewMO },
+  { path: '/Home/CRFNewSMOApproval', exact: true, name: 'CRF Verification', component: CRFNewSMO },
+  { path: '/Home/CRFNewGMApproval', exact: true, name: 'GM Operations Approval', component: CRFNewGM },
+  { path: '/Home/CRFNewMDApproval', exact: true, name: 'MD Approval', component: CRFNewMD },
+  { path: '/Home/CRFNewEDApproval', exact: true, name: 'ED Approval', component: CRFNewED },
+  { path: '/Home/CrfNewDashBoard', exact: true, name: 'CRF Dashboard', component: CRFNewDashboard },
+  { path: '/Home/CrfNewDataCollection', exact: true, name: 'CRF Data Collection', component: CrfNewDataCollection },
   { path: '/Home/CRFNewPdfView', exact: true, name: 'CRF New PDF View', component: CRFNewPdfView },
   { path: '/Home/CRFNewPurchase', exact: true, name: 'CRF New Purchase', component: CRFNewPurchase },
   { path: '/Home/CRFNewCRSStore', exact: true, name: 'CRF New CRS Store', component: CRFNewCRSStore },
@@ -460,6 +463,10 @@ const routes = [
   { path: '/Home/DeliveryMarking', exact: true, name: 'CRS Delivery Marking', component: deliverMarking },
   { path: '/Home/ItemChecking', exact: true, name: 'Item Checking', component: itemChecking },
   { path: '/Home/SearchCrfDetails', exact: true, name: 'CRF Search', component: crfSearch },
+  { path: '/Home/CompanyMast', exact: true, name: 'Company Master', component: companyName },
+  { path: '/Home/CrfBiomedical', exact: true, name: 'CRF Biomedical View', component: crfBiomedical },
+  { path: '/Home/ApprovalMapping', exact: true, name: 'CRF Approval Mapping Master', component: approvalMapping },
+  { path: '/Home/CRFNewManagingDirector', exact: true, name: 'Managing Director Approval', component: managingDirectorApproval },
 ]
 
 export default routes

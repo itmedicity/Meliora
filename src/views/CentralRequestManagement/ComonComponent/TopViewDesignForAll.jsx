@@ -15,9 +15,8 @@ import moment from 'moment';
 const formatDateForInput = (date) => {
     return date.toISOString().split('T')[0];
 }
-const TopViewDesignForAll = ({
-    pendingData, radiovalue, setRadioValue, allData, setDisData, getPendingData, getApprovalData, getProcurementData,
-    getInventoryData, getuserAckData, getHoldData, getRejectData, getCloseData, fromDate, fromDateChange,
+const TopViewDesignForAll = ({ pendingData, radiovalue, setRadioValue, allData, setDisData, getPendingData, getApprovalData,
+    getProcurementData, getInventoryData, getuserAckData, getHoldData, getRejectData, getCloseData, fromDate, fromDateChange,
     toDateChange, toDate, crfRadioValue, setCrfRadioValue, getHoldItems, getRejectItem }) => {
 
     const [startDate, setStartDate] = useState(formatDateForInput(new Date()));
@@ -107,7 +106,6 @@ const TopViewDesignForAll = ({
                 const reqDate = new Date(val.req_date).setHours(0, 0, 0, 0);
                 const start = parse(startDate, 'yyyy-MM-dd', new Date()).setHours(0, 0, 0, 0);
                 const end = parse(endDate, 'yyyy-MM-dd', new Date()).setHours(0, 0, 0, 0);
-
                 return reqDate >= start && reqDate <= end;
             });
 
@@ -139,7 +137,6 @@ const TopViewDesignForAll = ({
             }
         }
     }, [startDate, endDate, searchFlag, department, searchCrf, allData, setDisData, dptSec])
-
 
     const searchClosedData = useCallback(() => {
         getCloseData()
@@ -405,7 +402,7 @@ const TopViewDesignForAll = ({
                                             <CustomInputDateCmp
                                                 StartIcon={<Box sx={{ display: 'flex', alignItems: 'center' }}>
                                                     <AlignHorizontalLeftTwoToneIcon sx={{ height: 18, width: 18, color: '#0063C5' }} />
-                                                    <Typography sx={{ fontSize: '13px', color: '#0063C5' }}>CRF/TMC/</Typography>
+                                                    <Typography sx={{ fontSize: '13px', color: '#0063C5' }}>  CRF/TMC/</Typography>
                                                 </Box>}
                                                 className={{
                                                     borderRadius: 6, border: '1px solid #bbdefb', width: 250, height: 35, color: '#1565c0'

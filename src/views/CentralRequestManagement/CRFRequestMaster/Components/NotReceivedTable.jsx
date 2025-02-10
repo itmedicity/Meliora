@@ -1,6 +1,6 @@
 
-import { Box, CssVarsProvider, IconButton, Table, Tooltip } from '@mui/joy';
-import { keyframes, Paper, useMediaQuery, } from '@mui/material';
+import { Box, CssVarsProvider, IconButton, Table } from '@mui/joy';
+import { keyframes, Paper } from '@mui/material';
 import { format } from 'date-fns';
 import React, { Fragment, memo, useCallback, useState } from 'react'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
@@ -11,6 +11,7 @@ import BeenhereTwoToneIcon from '@mui/icons-material/BeenhereTwoTone';
 import { axioslogin } from 'src/views/Axios/Axios';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import { GetItemDetailsOfCRFCmp } from '../../ComonComponent/GetItemDetailsOfCRFCmp';
+import CustomToolTipForCRF from '../../ComonComponent/Components/CustomToolTipForCRF';
 
 const NotReceivedTable = ({ disData, rowSelect }) => {
 
@@ -68,18 +69,6 @@ const NotReceivedTable = ({ disData, rowSelect }) => {
         setAckModal(true)
         setackFlag(1)
     }, [setAckModal])
-    const isXs = useMediaQuery('(max-width:600px)');
-    const isSm = useMediaQuery('(min-width:600px) and (max-width:960px)');
-    const isMd = useMediaQuery('(min-width:960px) and (max-width:1280px)');
-    const isLg = useMediaQuery('(min-width:1280px) and (max-width:1920px)');
-    const isXl = useMediaQuery('(min-width:1920px)');
-
-    // Determine font size based on the screen size
-    const newFontSize = isXs ? '10px'
-        : isSm ? '12px'
-            : isMd ? '13px'
-                : isLg ? '14px'
-                    : isXl ? '16px' : '18px'
 
     return (
         <Fragment>
@@ -100,17 +89,20 @@ const NotReceivedTable = ({ disData, rowSelect }) => {
                                     <th size='sm' style={{ width: 50, textAlign: 'center' }}></th>
                                     <th size='sm' style={{ width: 50, textAlign: 'center' }}></th>
                                     <th size='sm' style={{ width: 100, textAlign: 'left' }}>CRF No</th>
-                                    <th size='sm' style={{ width: 150, textAlign: 'left' }}>Req.Date</th>
-                                    <th size='sm' style={{ width: 300, textAlign: 'left' }}>Purpose</th>
-                                    <th size='sm' style={{ width: 300, textAlign: 'left' }}>Justification</th>
-                                    <th size='sm' style={{ width: 150, textAlign: 'left' }}>Location</th>
-                                    <th size='sm' style={{ width: 150, textAlign: 'left' }}>Expected Date</th>
+                                    <th size='sm' style={{ width: 200, textAlign: 'left' }}>Req.Dpt</th>
+                                    <th size='sm' style={{ width: 200, textAlign: 'left' }}>Req.Date</th>
+                                    <th size='sm' style={{ width: 350, textAlign: 'left' }}>Category</th>
+                                    <th size='sm' style={{ width: 200, textAlign: 'left' }}>User Dpt</th>
+                                    <th size='sm' style={{ width: 200, textAlign: 'left' }}>Location</th>
                                     <th size='sm' style={{ width: 200, textAlign: 'left' }}>Approval Status</th>
                                 </tr>
                             </thead>
                             <tbody size='small' style={{ height: 4 }}>
                                 {disData?.map((val, index) => (
-                                    <tr key={index} style={{ height: 4, background: (val.sub_store_recieve === 1) ? '#c8e6c9' : (val.store_recieve === 0 || val.store_recieve === 1) ? '#e0f2f1' : 'transparent' }} size='small' >
+                                    <tr key={index} style={{
+                                        height: 4,
+                                        background: (val.sub_store_recieve === 1) ? '#B1D8B7' : (val.store_recieve === 0 || val.store_recieve === 1) ? '#BFD7ED' : 'transparent'
+                                    }} size='small' >
                                         <td>
                                             {/* (val.hod_approve !== null || val.incharge_approve !== null) */}
                                             {val.req_status === 'C' || (val.incharge_approve === 1) ?
@@ -125,7 +117,7 @@ const NotReceivedTable = ({ disData, rowSelect }) => {
                                                     }}
                                                 />
                                                 :
-                                                <Tooltip title="Edit" placement="right">
+                                                <CustomToolTipForCRF title="Edit" placement="right">
                                                     <EditOutlinedIcon
                                                         sx={{
                                                             fontSize: 'lg',
@@ -142,13 +134,13 @@ const NotReceivedTable = ({ disData, rowSelect }) => {
                                                         }}
                                                         onClick={() => rowSelect(val)}
                                                     />
-                                                </Tooltip>
+                                                </CustomToolTipForCRF>
                                             }
 
                                         </td>
                                         <td>
                                             {val.sub_store_recieve === 1 ?
-                                                <Tooltip title="Acknowledgement From Store" placement="right">
+                                                <CustomToolTipForCRF title="Acknowledgement From Store" placement="right">
                                                     <GppGoodTwoToneIcon
                                                         sx={{
                                                             animation: `${blinkAnimation} 1s infinite`,
@@ -166,7 +158,7 @@ const NotReceivedTable = ({ disData, rowSelect }) => {
                                                         }}
                                                         onClick={() => userAcknowledge(val)}
                                                     />
-                                                </Tooltip>
+                                                </CustomToolTipForCRF>
                                                 :
                                                 <GppGoodTwoToneIcon
                                                     sx={{
@@ -181,7 +173,7 @@ const NotReceivedTable = ({ disData, rowSelect }) => {
                                             }
                                         </td>
                                         <td style={{ fontSize: 12 }}>
-                                            <Tooltip title="View Details" placement="right">
+                                            <CustomToolTipForCRF title="View Details" placement="right">
                                                 <BeenhereTwoToneIcon
                                                     sx={{
                                                         fontSize: 'lg',
@@ -198,20 +190,14 @@ const NotReceivedTable = ({ disData, rowSelect }) => {
                                                     }}
                                                     onClick={() => viewDetails(val)}
                                                 />
-                                            </Tooltip>
+                                            </CustomToolTipForCRF>
                                         </td>
                                         <td style={{ fontSize: 13 }}>CRF/TMC/{val.req_slno}</td>
+                                        <td style={{ fontSize: 13 }}>{val.req_deptsec}</td>
                                         <td style={{ fontSize: 13 }}>{format(new Date(val.req_date), 'dd-MM-yyyy hh:mm:ss a')}</td>
-                                        <td style={{
-                                            newFontSize, maxWidth: 300, wordWrap: 'break-word',
-                                            whiteSpace: 'normal',
-                                        }}>{val.actual_requirement}</td>
-                                        <td style={{
-                                            newFontSize, maxWidth: 300, wordWrap: 'break-word',
-                                            whiteSpace: 'normal',
-                                        }}>{val.needed}</td>
+                                        <td style={{ fontSize: 13 }}>{val.category_name}</td>
+                                        <td style={{ fontSize: 13 }}>{val.user_deptsection}</td>
                                         <td style={{ fontSize: 13 }}>{(val.location)}</td>
-                                        <td style={{ fontSize: 13 }}>{format(new Date(val.expected_date), 'dd-MM-yyyy')}</td>
                                         <td style={{ fontSize: 12 }}>
                                             <CssVarsProvider>
                                                 <IconButton

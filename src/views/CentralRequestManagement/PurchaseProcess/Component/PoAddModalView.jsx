@@ -325,21 +325,6 @@ const PoAddModalView = ({ poAddModalData, pomodalopen, poModalhandleClose, podet
                         sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
                     >
                         <ModalDialog variant="outlined">
-                            {/* <ModalClose
-                                variant="outlined"
-                                sx={{
-                                    m: 1,
-                                    top: 'calc(-1/4 * var(--IconButton-size))',
-                                    right: 'calc(-1/4 * var(--IconButton-size))',
-                                    boxShadow: '0 2px 12px 0 rgba(0 0 0 / 0.2)',
-                                    borderRadius: '50%',
-                                    bgcolor: 'background.body',
-                                    color: '#bf360c',
-                                    height: 25,
-                                    width: 25
-                                }}
-                            /> */}
-
                             <Typography level="h6" component="div" sx={{
                                 mt: 2, textAlign: 'center', fontSize: 15, fontWeight: 'bold', pb: 0.5, color: '#41729F'
                             }}>

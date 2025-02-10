@@ -1,17 +1,11 @@
-import { Box, Button, Checkbox, CssVarsProvider, Table, Textarea, Tooltip, Typography } from '@mui/joy'
+import { Box, Button, CssVarsProvider, IconButton, Table, Textarea, Tooltip, Typography } from '@mui/joy'
 import React, { Fragment, memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { format } from 'date-fns';
 import CrfSupplierSelect from 'src/views/CommonSelectCode/CrfSupplierSelect';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import LocalShippingTwoToneIcon from '@mui/icons-material/LocalShippingTwoTone';
-import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
 import { axiosellider, axioslogin } from 'src/views/Axios/Axios';
-import Inventory2TwoToneIcon from '@mui/icons-material/Inventory2TwoTone';
 import { getDepartSecemployee } from 'src/redux/actions/EmpNameDeptSect.action';
-import ReceiptLongTwoToneIcon from '@mui/icons-material/ReceiptLongTwoTone';
-import HistoryEduTwoToneIcon from '@mui/icons-material/HistoryEduTwoTone';
 import { useDispatch, useSelector } from 'react-redux';
 import QIEmployeeSelect from 'src/views/CommonSelectCode/QIEmployeeSelect';
 import _ from 'underscore'
@@ -20,13 +14,16 @@ import moment from 'moment';
 import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
 import CustomInputDateCmp from '../ComonComponent/Components/CustomInputDateCmp';
 import CustomCloseIconCmp from '../ComonComponent/Components/CustomCloseIconCmp';
-import CustomIconButtonCmp from '../ComonComponent/Components/CustomIconButtonCmp';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { editicon } from 'src/color/Color'
+import DeliveryMarkingView from './Components/DeliveryMarkingView';
+import CusCheckBox from 'src/views/Components/CusCheckBox';
+import { useQueryClient } from 'react-query';
 const DeliveryMarkingStore = () => {
     const history = useHistory();
     const dispatch = useDispatch()
+    const queryClient = useQueryClient()
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
     const empdeptsec = useSelector((state) => state.LoginUserData.empsecid, _.isEqual)
     const [deliveryState, setDeliveryState] = useState({
@@ -58,7 +55,7 @@ const DeliveryMarkingStore = () => {
     }, [dispatch, empdeptsec])
 
     const backtoHome = useCallback(() => {
-        history.push('/Home/CrfNewDashBoard');
+        history.push('/Home');
     }, [history]);
 
     const updateOnchangeState = useCallback((e) => {
@@ -120,7 +117,7 @@ const DeliveryMarkingStore = () => {
                         const { success, ellData } = val
                         if (success === 1) {
                             const seen = new Set();
-                            const patchQnty = ellData.map(item => {
+                            const patchQnty = ellData?.map(item => {
                                 const poItems = poNumber?.filter(po => po.pono === item.PO_NO && po.stcode === item.ST_CODE && po.item_code === item.IT_CODE);
                                 return poItems.map(poItem => {
                                     const uniqueKey = `${poItem.marking_po_slno}-${item.IT_CODE}-${item.PDN_SUPQTY}`;
@@ -128,10 +125,13 @@ const DeliveryMarkingStore = () => {
                                         seen.add(uniqueKey);
                                         let item_status;
                                         if (item.PDN_SUPQTY === 0) {
+                                            // not received
                                             item_status = null;
                                         } else if (item.PDN_SUPQTY < item.PDN_QTY) {
+                                            // partially received
                                             item_status = 0;
                                         } else if (item.PDN_SUPQTY >= item.PDN_QTY) {
+                                            // fully received
                                             item_status = 1;
                                         }
                                         return {
@@ -146,6 +146,7 @@ const DeliveryMarkingStore = () => {
                                     return null;
                                 }).filter(item => item !== null);
                             }).flat();
+
                             const poStatusArray = patchQnty.reduce((acc, curr) => {
                                 if (!acc[curr.marking_po_slno]) {
                                     acc[curr.marking_po_slno] = { marking_po_slno: curr.marking_po_slno, item_statuses: [] };
@@ -157,9 +158,11 @@ const DeliveryMarkingStore = () => {
                                 const allNull = val.item_statuses.every(status => status === null);
                                 const allOne = val.item_statuses.every(status => status === 1);
                                 let po_status;
+                                // () po_status = 1; means not received or partilly received)
                                 if (allNull) {
                                     po_status = 1;
                                 } else if (allOne) {
+                                    //   po_status = 0  means all items received
                                     po_status = 0;
                                 } else {
                                     po_status = 1;
@@ -231,7 +234,7 @@ const DeliveryMarkingStore = () => {
             getExistPoData(supCode)
             const getPOdetails = async (supCode) => {
                 try {
-                    const result = await axiosellider.get(`/crfpurchase/getpoSupplier/${supCode}`);
+                    const result = await axiosellider.get(`/crfpurchase/getPoDetails/${supCode}`);
                     return result.data;
                 } catch (error) {
                     warningNotify('Error fetching PO details:', error);
@@ -370,7 +373,43 @@ const DeliveryMarkingStore = () => {
                     main_store: newData ? newData.main_store : '',
                 }
             })
+            // const patchQnty = ellData?.map(item => {
+            //     console.log(ellData, "ellData");
+            //     const poItems = poNumber?.filter(po => po.pono === item.PO_NO && po.stcode === item.ST_CODE && po.item_code === item.IT_CODE);
+            //     return poItems.map(poItem => {
+            //         const uniqueKey = `${poItem.marking_po_slno}-${item.IT_CODE}-${item.PDN_SUPQTY}`;
+            //         if (!seen.has(uniqueKey)) {
+            //             seen.add(uniqueKey);
+            //             let item_status;
+            //             if (item.PDN_SUPQTY === 0) {
+            //                 item_status = null;
+            //             } else if (item.PDN_SUPQTY < item.PDN_QTY) {
+            //                 item_status = 0;
+            //             } else if (item.PDN_SUPQTY >= item.PDN_QTY) {
+            //                 item_status = 1;
+            //             }
+            //             return {
+            //                 marking_po_slno: poItem.marking_po_slno,
+            //                 item_code: item.IT_CODE,
+            //                 item_slno: poItem.item_slno,
+            //                 received_qty: item.PDN_SUPQTY,
+            //                 item_status: item_status,
+            //                 edit_user: id
+            //             }
+            //         }
+            //         return null;
+            //     }).filter(item => item !== null);
+            // }).flat();
+
             const poItems = insertArray?.map((val, index) => {
+                let item_status;
+                if (val.PDN_SUPQTY === 0) {
+                    item_status = null;
+                } else if (val.PDN_SUPQTY < val.PDN_QTY) {
+                    item_status = 0;
+                } else if (val.PDN_SUPQTY >= val.PDN_QTY) {
+                    item_status = 1;
+                }
                 const obj = {
                     slno: index + 1,
                     po_no: val.PO_NO,
@@ -380,7 +419,8 @@ const DeliveryMarkingStore = () => {
                     item_qty: val.PDN_QTY,
                     item_rate: (val.PDN_RATE).toFixed(2),
                     item_mrp: (val.PDN_ORIGINALMRP).toFixed(2),
-                    received_qty: val.PDN_SUPQTY
+                    received_qty: val.PDN_SUPQTY,
+                    item_status: item_status
                 }
                 return obj
             })
@@ -395,23 +435,8 @@ const DeliveryMarkingStore = () => {
         }
     }, [insertArray, storeList])
 
-    const buttonStyle = {
-        fontSize: 13,
-        color: '#0d47a1',
-        cursor: 'pointer',
-        boxShadow: 5,
-        transition: 'transform 0.2s, bgcolor 0.2s',
-        border: '1px solid lightblue', borderRadius: 10, height: 33, width: 60,
-        '&:hover': {
-            bgcolor: 'white',
-            color: '#1565c0',
-            transform: 'scale(1.01)',
-            border: '1px solid lightblue', borderRadius: 10, height: 33, width: 60
-        },
-        '&:active': {
-            transform: 'scale(0.95)',
-        },
-    }
+
+
     const ResetDetails = useCallback(() => {
         const formData = {
             receivedDate: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
@@ -449,7 +474,7 @@ const DeliveryMarkingStore = () => {
         }
     }, [supCode, supName, receivedDate, packageCount, directMode, courierMode, billDetails, remarks, empName, id, combinedPO])
 
-    const SaveDetails = useCallback(() => {
+    const SaveDetails = useCallback(async () => {
         if (supCode === 0) {
             infoNotify("Select Supplier")
         } else if (billNumber !== '' && billDetails.length === 0) {
@@ -504,6 +529,7 @@ const DeliveryMarkingStore = () => {
                                     if (success === 1) {
                                         succesNotify(message);
                                         ResetDetails();
+                                        queryClient.invalidateQueries('deliverMarking');
                                     } else {
                                         warningNotify("Error saving PO details:", message);
                                     }
@@ -525,14 +551,37 @@ const DeliveryMarkingStore = () => {
                         if (success === 1) {
                             succesNotify("Delivery Details Marked")
                             ResetDetails()
+                            queryClient.invalidateQueries('deliverMarking');
                         }
                     }).catch((error) => {
                         warningNotify("Error in insert Delivery Marking:", error);
                     });
             }
         }
-    }, [postData, id, combinedPO, ResetDetails, billNumber, supCode, empName, billDetails])
+    }, [postData, id, combinedPO, ResetDetails, billNumber, supCode, empName, billDetails, queryClient])
+    const [viewFlag, setViewFlag] = useState(0)
+    const viewDeliveryDetails = useCallback(async () => {
+        setViewFlag(1)
+        ResetDetails()
+    }, [ResetDetails])
 
+
+    const buttonStyle = {
+        px: 2,
+        width: 80,
+        fontSize: 13,
+        height: '30px',
+        minHeight: '30px',
+        lineHeight: '1.2',
+        color: 'black',
+        bgcolor: 'white',
+        border: '1px solid #bbdefb',
+        '&:hover': {
+            color: '#1e88e5',
+            bgcolor: 'white'
+        },
+        borderRadius: 5,
+    }
     return (
         <Fragment>
             <Box sx={{ height: window.innerHeight - 80 }}>
@@ -547,261 +596,280 @@ const DeliveryMarkingStore = () => {
                             </CssVarsProvider>
                         </Box>
                     </Box>
-                    <Box sx={{
-                        pt: 0.5, bgcolor: 'white', height: window.innerHeight - 135, overflow: 'auto',
-                        flexWrap: 'wrap',
-                    }}>
-                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', pt: 1 }}>
-                            <Typography sx={{ fontSize: 14, color: '#1565c0', pr: 1 }}>Delivery Chellan Marking Date &nbsp; :</Typography>
-                            <Typography sx={{ fontSize: 13, color: '#1565c0', fontWeight: 650, pr: 2 }}>{format(new Date(), 'dd-MM-yyy hh:mm a')}</Typography>
-                        </Box>
-                        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
-                            <Box sx={{ pt: 1, width: { xs: '100%', md: '60vw', lg: '50vw', xl: '50vw' } }}>
-                                <Box sx={{ px: 1 }} >
-                                    <Box sx={{ pl: 1, fontSize: 12, color: '#0d47a1' }} >DC RECEIVED DATE <KeyboardArrowDownIcon fontSize='small' /></Box>
-                                    <Box sx={{ pt: 0.5 }}>
-                                        <CustomInputDateCmp
-                                            StartIcon={<CalendarMonthIcon sx={{ color: '#0070E0' }} />}
-                                            className={{
-                                                width: '100%',
-                                                height: 35, borderRadius: 10, border: '1px solid #bbdefb',
-                                                color: '#0d47a1', fontSize: 14,
-                                            }}
-                                            slotProps={{
-                                                input: {
-                                                    max: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-                                                },
-                                            }}
-                                            size={'sm'}
-                                            type={'datetime-local'}
-                                            name={'receivedDate'}
-                                            value={receivedDate}
-                                            handleChange={updateOnchangeState}
-                                        />
-                                    </Box>
-                                </Box>
-                                <Box sx={{ display: 'flex', px: 1 }}>
-                                    <Box sx={{ pt: 1, flex: 1.5 }}>
-                                        <Box sx={{ pl: 1, fontSize: 12, color: '#0d47a1' }} >SUPPLIER <KeyboardArrowDownIcon fontSize='small' /></Box>
+                    {viewFlag === 1 ?
+                        <DeliveryMarkingView setViewFlag={setViewFlag} />
+                        :
+                        <Box sx={{
+                            pt: 0.5, bgcolor: 'white', height: window.innerHeight - 135, overflow: 'auto',
+                            flexWrap: 'wrap',
+                        }}>
+                            <Box sx={{ display: 'flex', justifyContent: 'flex-end', pt: 1 }}>
+                                <Typography sx={{ fontSize: 14, color: '#1565c0', pr: 1 }}>Delivery Chellan Marking Date &nbsp; :</Typography>
+                                <Typography sx={{ fontSize: 13, color: '#1565c0', fontWeight: 650, pr: 2 }}>{format(new Date(), 'dd-MM-yyy hh:mm a')}</Typography>
+                            </Box>
+                            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
+                                <Box sx={{ pt: 1, width: { xs: '100%', md: '60vw', lg: '50vw', xl: '50vw' } }}>
+                                    <Box sx={{ px: 1 }} >
+                                        <Box sx={{ pl: 1, fontSize: 12, }} >DC RECEIVED DATE <KeyboardArrowDownIcon fontSize='small' /></Box>
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CrfSupplierSelect supCode={supCode} setSupCode={setSupCode} setSupName={setSupName} />
+                                            <CustomInputDateCmp
+                                                // StartIcon={<CalendarMonthIcon sx={{ color: '#0070E0' }} />}
+                                                className={{
+                                                    width: '100%',
+                                                    height: 35, borderRadius: 5, border: '1px solid #bbdefb',
+                                                    fontSize: 14,
+                                                }}
+                                                slotProps={{
+                                                    input: {
+                                                        max: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+                                                    },
+                                                }}
+                                                size={'sm'}
+                                                type={'datetime-local'}
+                                                name={'receivedDate'}
+                                                value={receivedDate}
+                                                handleChange={updateOnchangeState}
+                                            />
                                         </Box>
                                     </Box>
-                                    <Box sx={{ flex: 0.3, pt: 3.7, pl: 0.5 }}>
-                                        <   CustomIconButtonCmp
-                                            handleChange={SearchData}
-                                        >
-                                            Search
-                                            <SearchTwoToneIcon sx={{ height: 22, width: 22, color: '#1565c0', ml: 1, pt: 0.2 }} />
-                                        </CustomIconButtonCmp>
-                                    </Box>
-                                </Box>
-                                {searchFlag === 1 ?
-                                    <>
-                                        <Box sx={{ pt: 1, px: 1 }}>
-                                            <Box sx={{ pl: 1, fontSize: 12, color: '#0d47a1' }} >MODE OF TRANSPORT <KeyboardArrowDownIcon fontSize='small' /></Box>
-                                            <Box sx={{ display: 'flex', pt: 0.5, pl: 1.5, borderRadius: 10 }}>
-                                                <LocalShippingTwoToneIcon sx={{ color: '#0070E0', mt: 0.2 }} />
-                                                <Box sx={{ pl: 1, pt: 0.4 }}>
-                                                    <Checkbox color="primary" variant="outlined" label="Direct" size="md"
-                                                        checked={directMode}
-                                                        value={directMode}
-                                                        name="directMode"
-                                                        onChange={updateOnchangeState}
-                                                        sx={{ color: '#1565c0' }} />
-                                                </Box>
-                                                <Box sx={{ pl: 2, pt: 0.4 }}>
-                                                    <Checkbox color="primary" variant="outlined" label="Courier" size="md"
-                                                        checked={courierMode}
-                                                        value={courierMode}
-                                                        name="courierMode"
-                                                        onChange={updateOnchangeState}
-                                                        sx={{ color: '#1565c0' }} />
-                                                </Box>
+                                    <Box sx={{ display: 'flex', px: 1 }}>
+                                        <Box sx={{ pt: 1, flex: 1.5 }}>
+                                            <Box sx={{ pl: 1, fontSize: 12, }} >SUPPLIER <KeyboardArrowDownIcon fontSize='small' /></Box>
+                                            <Box sx={{ pt: 0.5 }}>
+                                                <CrfSupplierSelect supCode={supCode} setSupCode={setSupCode} setSupName={setSupName} />
                                             </Box>
                                         </Box>
-                                        <Box sx={{ display: 'flex', flex: 1, px: 1 }}>
-                                            <Box sx={{ pt: 1, width: "48%" }}>
-                                                <Box sx={{ pl: 1, fontSize: 12, color: '#0d47a1' }} >DC/BILL NO. <KeyboardArrowDownIcon fontSize='small' /></Box>
+
+                                        <Box sx={{ flex: 0.3, pt: 3.7, pl: 0.5 }}>
+                                            <IconButton
+                                                sx={{
+                                                    border: '1px solid #bbdefb', width: '100%',
+                                                    fontSize: 13, height: 38, lineHeight: '1.2', color: '#1D617A',
+                                                    bgcolor: 'white', borderRadius: 6,
+                                                    '&:hover': {
+                                                        bgcolor: 'white',
+                                                        color: '#1976d2'
+                                                    },
+                                                }}
+                                                onClick={SearchData}
+                                            >
+                                                Search
+                                            </IconButton>
+                                        </Box>
+                                        <Box sx={{ flex: 0.3, pt: 3.7, pl: 0.5 }}>
+                                            <IconButton
+                                                sx={{
+                                                    border: '1px solid #bbdefb', width: '100%',
+                                                    fontSize: 13, height: 38, lineHeight: '1.2', color: '#1D617A',
+                                                    bgcolor: 'white', borderRadius: 6,
+                                                    '&:hover': {
+                                                        bgcolor: 'white',
+                                                        color: '#1976d2'
+                                                    },
+                                                }}
+                                                onClick={viewDeliveryDetails}
+                                            >
+                                                View
+                                            </IconButton>
+                                        </Box>
+                                    </Box>
+                                    {searchFlag === 1 ?
+                                        <>
+                                            <Box sx={{ pt: 1, px: 1 }}>
+                                                <Box sx={{ pl: 1, fontSize: 12 }} >MODE OF TRANSPORT <KeyboardArrowDownIcon fontSize='small' /></Box>
+                                                <Box sx={{ display: 'flex', pt: 0.5, pl: 1.5, borderRadius: 10 }}>
+                                                    {/* <LocalShippingTwoToneIcon sx={{ color: '#0070E0', mt: 0.2 }} /> */}
+                                                    <Box sx={{ pl: 1, pt: 0.4 }}>
+                                                        <CusCheckBox color="primary" variant="outlined" label="Direct" size="md"
+                                                            checked={directMode}
+                                                            value={directMode}
+                                                            name="directMode"
+                                                            onCheked={updateOnchangeState}
+                                                            sx={{ color: '#1565c0' }} />
+                                                    </Box>
+                                                    <Box sx={{ pl: 2, pt: 0.4 }}>
+                                                        <CusCheckBox color="primary" variant="outlined" label="Courier" size="md"
+                                                            checked={courierMode}
+                                                            value={courierMode}
+                                                            name="courierMode"
+                                                            onCheked={updateOnchangeState}
+                                                            sx={{ color: '#1565c0' }} />
+                                                    </Box>
+                                                </Box>
+                                            </Box>
+                                            <Box sx={{ display: 'flex', flex: 1, px: 1 }}>
+                                                <Box sx={{ pt: 1, width: "46%" }}>
+                                                    <Box sx={{ pl: 1, fontSize: 12 }} >DC/BILL NO. <KeyboardArrowDownIcon fontSize='small' /></Box>
+                                                    <Box sx={{ pl: 0.5, pt: 0.5, }}>
+                                                        <CustomInputDateCmp
+                                                            // StartIcon={<ReceiptLongTwoToneIcon sx={{ color: '#0070E0' }} />}
+                                                            className={{
+                                                                width: '100%', height: 35, borderRadius: 5,
+                                                                border: '1px solid #bbdefb', fontSize: 14,
+                                                            }}
+                                                            placeholder="Enter Bill No"
+                                                            autoComplete='off'
+                                                            size={'sm'}
+                                                            type='text'
+                                                            name={'billNumber'}
+                                                            value={billNumber}
+                                                            handleChange={updateOnchangeState}
+                                                        />
+                                                    </Box>
+                                                </Box>
+                                                <Box sx={{ pt: 1, pl: 0.5, width: '46%' }}>
+                                                    <Box sx={{ pl: 1, fontSize: 12 }} >DC/Bill Date <KeyboardArrowDownIcon fontSize='small' /></Box>
+                                                    <Box sx={{ pl: 0.5, pt: 0.5, }}>
+                                                        <CustomInputDateCmp
+                                                            // StartIcon={<CalendarMonthIcon sx={{ color: '#0070E0' }} />}
+                                                            className={{
+                                                                width: '100%', height: 35, borderRadius: 5,
+                                                                border: '1px solid #bbdefb', fontSize: 14,
+                                                            }}
+                                                            size={'sm'}
+                                                            type={'date'}
+                                                            name={'billDate'}
+                                                            value={billDate}
+                                                            slotProps={{
+                                                                input: {
+                                                                    max: moment(new Date()).format('YYYY-MM-DD'),
+                                                                },
+                                                            }}
+                                                            handleChange={updateOnchangeState}
+                                                        />
+                                                    </Box>
+                                                </Box>
+                                                <Box sx={{ pl: 2.5, pt: 4, width: '4%' }}>
+                                                    <Tooltip title="Add Bill Details" placement="bottom"  >
+                                                        <AddCircleTwoToneIcon
+                                                            sx={{
+                                                                height: 28, width: 28, color: '#1565c0', cursor: "pointer",
+                                                                ":hover": {
+                                                                    color: '#1976d2'
+                                                                }
+                                                            }}
+                                                            onClick={addBillDetails}
+                                                        />
+                                                    </Tooltip>
+                                                </Box>
+                                            </Box>
+                                            {billDetails.length !== 0 ?
+                                                <Box variant="outlined" sx={{ maxHeight: '50vh', pt: 0.4, mr: 3.6, ml: 2, overflow: 'auto', '&::-webkit-scrollbar': { height: 8 } }}>
+                                                    <CssVarsProvider>
+                                                        <Table aria-label="table with sticky header" borderAxis='both' padding={"none"} stickyHeader size='sm'>
+                                                            <thead style={{ alignItems: 'center' }}>
+                                                                <tr style={{ height: 0.5 }}>
+                                                                    <th size='sm' style={{ width: 60, fontSize: 14, textAlign: 'center' }}>&nbsp; Sl.No</th>
+                                                                    <th size='sm' style={{ width: 100, fontSize: 14 }}>&nbsp;Bill No.</th>
+                                                                    <th size='sm' style={{ width: 150, fontSize: 14 }}>&nbsp;Bill Date</th>
+                                                                    <th size='sm' style={{ width: 30, }}></th>
+                                                                    <th size='sm' style={{ width: 30, }}></th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody size='small'>
+                                                                {billDetails?.map((val, index) => (
+                                                                    <tr key={index} size='small' style={{ maxHeight: 2, cursor: 'pointer' }}>
+                                                                        <td size='sm' style={{ fontSize: 12, textAlign: 'center' }}>{index + 1}</td>
+                                                                        <td size='sm' style={{ fontSize: 12, }}>&nbsp;{val.delivered_bill_no}</td>
+                                                                        <td size='sm' style={{ fontSize: 12 }}>&nbsp;{format(new Date(val.delivered_bill_date), 'dd-MM-yyyy')}</td>
+                                                                        <td size='sm' style={{ fontSize: 12, textAlign: 'center' }}>
+                                                                            <EditIcon
+                                                                                sx={{
+                                                                                    color: editicon,
+                                                                                    ":hover": {
+                                                                                        color: '#1565c0'
+                                                                                    }
+                                                                                }}
+                                                                                onClick={(e) => editSelect(val, index)}
+                                                                            />
+                                                                        </td>
+                                                                        <td size='sm' style={{ textAlign: 'center', height: 5 }}>
+                                                                            <DeleteIcon
+                                                                                sx={{
+                                                                                    color: '#DC4731',
+                                                                                    ":hover": {
+                                                                                        color: '#B95C50',
+                                                                                    }
+                                                                                }}
+                                                                                onClick={(e) => deleteSelect(val, index)}
+                                                                            />
+                                                                        </td>
+                                                                    </tr>
+                                                                ))}
+                                                            </tbody>
+                                                        </Table>
+                                                    </CssVarsProvider>
+                                                </Box>
+                                                : null}
+                                            <Box sx={{ pt: 1, flex: 1, px: 1 }}>
+                                                <Box sx={{ pl: 1, fontSize: 12 }} >PACKAGE/BOX COUNT <KeyboardArrowDownIcon fontSize='small' /></Box>
                                                 <Box sx={{ pl: 0.5, pt: 0.5, }}>
                                                     <CustomInputDateCmp
-                                                        StartIcon={<ReceiptLongTwoToneIcon sx={{ color: '#0070E0' }} />}
+                                                        // StartIcon={<Inventory2TwoToneIcon sx={{ color: '#0070E0' }} />}
                                                         className={{
-                                                            width: '100%',
-                                                            height: 35, borderRadius: 10, border: '1px solid #bbdefb',
-                                                            color: '#0d47a1', fontSize: 14,
+                                                            width: '100%', height: 35, borderRadius: 5, border: '1px solid #bbdefb',
+                                                            fontSize: 14,
                                                         }}
-                                                        placeholder="Enter Bill No"
+                                                        placeholder="Enter Package Count"
                                                         autoComplete='off'
                                                         size={'sm'}
                                                         type='text'
-                                                        name={'billNumber'}
-                                                        value={billNumber}
+                                                        name={'packageCount'}
+                                                        value={packageCount}
                                                         handleChange={updateOnchangeState}
                                                     />
                                                 </Box>
                                             </Box>
-                                            <Box sx={{ pt: 1, pl: 0.5, width: '48%' }}>
-                                                <Box sx={{ pl: 1, fontSize: 12, color: '#0d47a1' }} >DC/Bill Date <KeyboardArrowDownIcon fontSize='small' /></Box>
-                                                <Box sx={{ pl: 0.5, pt: 0.5, }}>
-                                                    <CustomInputDateCmp
-                                                        StartIcon={<CalendarMonthIcon sx={{ color: '#0070E0' }} />}
-                                                        className={{
-                                                            width: '100%',
-                                                            height: 35, borderRadius: 10, border: '1px solid #bbdefb',
-                                                            color: '#0d47a1', fontSize: 14,
-                                                        }}
-                                                        size={'sm'}
-                                                        type={'date'}
-                                                        name={'billDate'}
-                                                        value={billDate}
-                                                        slotProps={{
-                                                            input: {
-                                                                max: moment(new Date()).format('YYYY-MM-DD'),
-                                                            },
-                                                        }}
-                                                        handleChange={updateOnchangeState}
-                                                    />
-                                                </Box>
-                                            </Box>
-                                            <Box sx={{ pl: 0.5, pt: 4, width: '4%' }}>
-                                                <Tooltip title="Add Bill Details" placement="bottom"  >
-                                                    <AddCircleTwoToneIcon
+                                            <Box sx={{ pt: 1, flex: 1, px: 1 }}>
+                                                <Box sx={{ pl: 1, fontSize: 12 }} >REMARKS <KeyboardArrowDownIcon fontSize='small' /></Box>
+                                                <Box sx={{ pl: 0.5, pt: 0.5 }}>
+                                                    <Textarea
+                                                        // startDecorator={<HistoryEduTwoToneIcon sx={{ color: '#0070E0' }} />}
+                                                        placeholder="Enter Remarks"
+                                                        value={remarks}
+                                                        name='remarks'
+                                                        minRows={1}
+                                                        maxRows={3}
+                                                        onChange={updateOnchangeState}
                                                         sx={{
-                                                            height: 28, width: 28, color: '#0070E0', cursor: "pointer",
-                                                            ":hover": {
-                                                                color: '#1e88e5'
-                                                            }
+                                                            border: '1px solid #bbdefb', fontSize: 14, borderRadius: 5
                                                         }}
-                                                        onClick={addBillDetails}
                                                     />
-                                                </Tooltip>
+                                                </Box>
                                             </Box>
-                                        </Box>
-                                        {billDetails.length !== 0 ?
-                                            <Box variant="outlined" sx={{ maxHeight: '50vh', pt: 0.4, mr: 3.6, ml: 2, overflow: 'auto', '&::-webkit-scrollbar': { height: 8 } }}>
-                                                <CssVarsProvider>
-                                                    <Table aria-label="table with sticky header" borderAxis='both' padding={"none"} stickyHeader size='sm'>
-                                                        <thead style={{ alignItems: 'center' }}>
-                                                            <tr style={{ height: 0.5 }}>
-                                                                <th size='sm' style={{ width: 60, fontSize: 14, textAlign: 'center', color: '#0d47a1' }}>&nbsp; Sl.No</th>
-                                                                <th size='sm' style={{ width: 100, fontSize: 14, color: '#0d47a1' }}>&nbsp;Bill No.</th>
-                                                                <th size='sm' style={{ width: 150, fontSize: 14, color: '#0d47a1' }}>&nbsp;Bill Date</th>
-                                                                <th size='sm' style={{ width: 30, }}></th>
-                                                                <th size='sm' style={{ width: 30, }}></th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody size='small'>
-                                                            {billDetails?.map((val, index) => (
-                                                                <tr key={index} size='small' style={{ maxHeight: 2, cursor: 'pointer' }}>
-                                                                    <td size='sm' style={{ fontSize: 12, textAlign: 'center', color: '#0070E0' }}>{index + 1}</td>
-                                                                    <td size='sm' style={{ fontSize: 12, color: '#0070E0' }}>&nbsp;{val.delivered_bill_no}</td>
-                                                                    <td size='sm' style={{ fontSize: 12, color: '#0070E0' }}>&nbsp;{format(new Date(val.delivered_bill_date), 'dd-MM-yyyy')}</td>
-                                                                    <td size='sm' style={{ fontSize: 12, textAlign: 'center' }}>
-                                                                        <EditIcon
-                                                                            sx={{
-                                                                                color: editicon,
-                                                                                ":hover": {
-                                                                                    color: '#1565c0'
-                                                                                }
-                                                                            }}
-                                                                            onClick={(e) => editSelect(val, index)}
-                                                                        />
-                                                                    </td>
-                                                                    <td size='sm' style={{ textAlign: 'center', height: 5 }}>
-                                                                        <DeleteIcon
-                                                                            sx={{
-                                                                                color: '#DC4731',
-                                                                                ":hover": {
-                                                                                    color: '#B95C50',
-                                                                                }
-                                                                            }}
-                                                                            onClick={(e) => deleteSelect(val, index)}
-                                                                        />
-                                                                    </td>
-                                                                </tr>
-                                                            ))}
-                                                        </tbody>
-                                                    </Table>
-                                                </CssVarsProvider>
-                                            </Box>
-                                            : null}
-                                        <Box sx={{ pt: 1, flex: 1, px: 1 }}>
-                                            <Box sx={{ pl: 1, fontSize: 12, color: '#0d47a1' }} >PACKAGE/BOX COUNT <KeyboardArrowDownIcon fontSize='small' /></Box>
-                                            <Box sx={{ pl: 0.5, pt: 0.5, }}>
-                                                <CustomInputDateCmp
-                                                    StartIcon={<Inventory2TwoToneIcon sx={{ color: '#0070E0' }} />}
-                                                    className={{
-                                                        width: '100%',
-                                                        height: 35, borderRadius: 10, border: '1px solid #bbdefb',
-                                                        color: '#0d47a1', fontSize: 14,
-                                                    }}
-                                                    placeholder="Enter Package Count"
-                                                    autoComplete='off'
-                                                    size={'sm'}
-                                                    type='text'
-                                                    name={'packageCount'}
-                                                    value={packageCount}
-                                                    handleChange={updateOnchangeState}
-                                                />
-                                            </Box>
-                                        </Box>
-                                        <Box sx={{ pt: 1, flex: 1, px: 1 }}>
-                                            <Box sx={{ pl: 1, fontSize: 12, color: '#0d47a1' }} >REMARKS <KeyboardArrowDownIcon fontSize='small' /></Box>
-                                            <Box sx={{ pl: 0.5, pt: 0.5 }}>
-                                                <Textarea
-                                                    startDecorator={<HistoryEduTwoToneIcon sx={{ color: '#0070E0' }} />}
-                                                    placeholder="Enter Remarks"
-                                                    value={remarks}
-                                                    name='remarks'
-                                                    minRows={1}
-                                                    maxRows={3}
-                                                    onChange={updateOnchangeState}
-                                                    sx={{
-                                                        border: '1px solid #bbdefb', color: '#0d47a1',
-                                                        fontSize: 14, borderRadius: 10
-                                                    }}
-                                                />
-                                            </Box>
-                                        </Box>
 
-                                        <Box sx={{ pt: 1, flex: 1, px: 1 }}>
-                                            <Box sx={{ pl: 1, fontSize: 12, color: '#0d47a1' }} >RECEIVER <KeyboardArrowDownIcon fontSize='small' /></Box>
-                                            <Box sx={{ pl: 0.5, pt: 0.5 }}>
-                                                <QIEmployeeSelect empName={empName} setempName={setempName} />
+                                            <Box sx={{ pt: 1, flex: 1, px: 1 }}>
+                                                <Box sx={{ pl: 1, fontSize: 12 }} >RECEIVER <KeyboardArrowDownIcon fontSize='small' /></Box>
+                                                <Box sx={{ pl: 0.5, pt: 0.5 }}>
+                                                    <QIEmployeeSelect empName={empName} setempName={setempName} />
+                                                </Box>
                                             </Box>
-                                        </Box>
-                                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', m: 2, textAlign: 'center', }}>
-                                            <Box sx={{
-                                                // border: '1px solid lightblue', borderRadius: 10, height: 33, width: 70
-                                            }}>
-                                                <Button
-                                                    variant="plain"
-                                                    sx={buttonStyle}
-                                                    onClick={SaveDetails}
-                                                >
-                                                    Save
-                                                </Button>
+                                            <Box sx={{ display: 'flex', justifyContent: 'flex-end', m: 2, textAlign: 'center', }}>
+                                                <Box sx={{ ml: 0.7, }}>
+                                                    <Button variant='outlined'
+                                                        sx={buttonStyle}
+                                                        onClick={SaveDetails} >
+                                                        Save
+                                                    </Button>
+                                                </Box>
+                                                <Box sx={{ ml: 0.7, mr: 1 }}>
+                                                    <Button variant='outlined'
+                                                        sx={buttonStyle}
+                                                        onClick={ResetDetails} >
+                                                        Cancel
+                                                    </Button>
+                                                </Box>
                                             </Box>
-                                            <Box sx={{ ml: 0.7, mr: 1 }}>
-                                                <Button
-                                                    variant="plain"
-                                                    sx={buttonStyle}
-                                                    onClick={ResetDetails}
-                                                >
-                                                    Cancel
-                                                </Button>
-                                            </Box>
-                                        </Box>
 
-                                    </>
-                                    : null}
+                                        </>
+                                        : null}
 
+                                </Box>
                             </Box>
+
+
                         </Box>
-
-
-                    </Box>
+                    }
                 </CssVarsProvider >
             </Box >
         </Fragment >

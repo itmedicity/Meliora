@@ -4,23 +4,51 @@ import { format } from 'date-fns';
 import React, { Fragment, memo, useCallback, useState } from 'react'
 import AttachmentTwoToneIcon from '@mui/icons-material/AttachmentTwoTone';
 import DataCollectnImageDis from './DataCollectnImageDis';
+import { infoNotify } from 'src/views/Common/CommonCode';
+import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
+import { axioslogin } from 'src/views/Axios/Axios';
 
 const ViewOreviousDataCollctnDetails = ({ datacolData }) => {
-
-    const { req_slno } = datacolData
     const [collImageShowFlag, setCollImageShowFlag] = useState(0)
     const [collImageShow, setCollImageShow] = useState(false)
-    const [dataCollSlno, setDataCollSlNo] = useState('')
+    const [imagearray, setImageArray] = useState([])
 
-    const ViewImageDataColection = useCallback((val) => {
-        setDataCollSlNo(val);
+    const ViewImageDataColection = useCallback((dataClno, req_slno) => {
         setCollImageShowFlag(1)
         setCollImageShow(true)
+        const postdata = {
+            req_slno: req_slno,
+            crf_data_collect_slno: dataClno
+        }
+        const getImage = async (postdata) => {
+            try {
+                const result = await axioslogin.post('/newCRFRegisterImages/crf/getDataCollectionImage', postdata);
+                const { success, data } = result.data;
+
+                if (success === 1) {
+                    const fileNames = data;
+                    const fileUrls = fileNames.map((fileName) => {
+                        return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/datacollection/${dataClno}/${fileName}`;
+                    });
+                    setImageArray(fileUrls);
+                } else {
+                    infoNotify("No Files Found");
+                    setImageArray([]);
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                infoNotify('An error occurred while fetching the files.');
+                setImageArray([]);
+            }
+        };
+        getImage(postdata);
     }, [])
+
+
+
     const handleCloseCollect = useCallback(() => {
         setCollImageShow(false)
         setCollImageShowFlag(1)
-        setDataCollSlNo('')
     }, [])
 
     const capitalizeWords = (str) =>
@@ -36,7 +64,7 @@ const ViewOreviousDataCollctnDetails = ({ datacolData }) => {
     return (
         <Fragment>
             {collImageShowFlag === 1 ? <DataCollectnImageDis open={collImageShow} handleCloseCollect={handleCloseCollect}
-                dataCollSlno={dataCollSlno} req_slno={req_slno}
+                imagearray={imagearray}
             /> : null}
             <Paper variant="outlined" sx={{ mx: 0.5 }}>
                 <Box sx={{ display: 'flex', borderBottom: '1px solid lightgrey' }}>
@@ -97,7 +125,7 @@ const ViewOreviousDataCollctnDetails = ({ datacolData }) => {
                                             <Box sx={{ display: 'flex', pl: 2 }} >
                                                 <Tooltip title='File View' placement='bottom' sx={{ bgcolor: '#D4F1F4', color: 'darkblue' }}>
                                                     <AttachmentTwoToneIcon fontSize='small' sx={{ cursor: 'pointer', color: '#0277bd', width: 35, height: 25 }}
-                                                        onClick={() => ViewImageDataColection(val.crf_data_collect_slno)}
+                                                        onClick={() => ViewImageDataColection(val.crf_data_collect_slno, val.req_slno)}
                                                     >
                                                     </AttachmentTwoToneIcon>
                                                 </Tooltip>

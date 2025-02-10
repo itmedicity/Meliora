@@ -3,7 +3,8 @@ import { Box, Typography } from '@mui/joy'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Virtuoso } from 'react-virtuoso';
 import { Paper } from '@mui/material';
-import CustomToolTip from '../../ComonComponent/Components/CustomToolTip';
+import CustomToolTipForCRF from '../../ComonComponent/Components/CustomToolTipForCRF';
+
 
 const CrfReqDetailCmpnt = ({ poDetails }) => {
     const [expandedRow, setExpandedRow] = useState(null);
@@ -44,7 +45,7 @@ const CrfReqDetailCmpnt = ({ poDetails }) => {
                                     <Typography sx={{ width: 200, textAlign: 'left', fontSize: 12, my: 1 }}>{val.substoreName}</Typography>
                                     <Typography sx={{ width: 90, textAlign: 'left', fontSize: 12, my: 1 }}>{'Rs. ' + val.po_amount}</Typography>
                                     < Box sx={{ width: 30, textAlign: 'center', pt: 0.5, cursor: 'pointer', mr: 2 }}>
-                                        <CustomToolTip
+                                        <CustomToolTipForCRF
                                             title={"View PO Items"}
                                             placement={"left"}
                                         >
@@ -63,11 +64,11 @@ const CrfReqDetailCmpnt = ({ poDetails }) => {
                                                     },
                                                 }}
                                                 onClick={() => viewPOItemDetails(index)} />
-                                        </CustomToolTip>
+                                        </CustomToolTipForCRF>
                                     </Box>
                                 </Box>
                                 {expandedRow === index && (
-                                    <Box sx={{ mx: 1, pr: 3, pt: 0.5, boxShadow: '0px 8px 10px rgba(0, 0, 0, 0.16)' }}>
+                                    <Box sx={{ mx: 1, pt: 0.5, boxShadow: '0px 8px 10px rgba(0, 0, 0, 0.16)' }}>
                                         <Box display="flex" justifyContent="space-between" padding={0.5} sx={{ bgcolor: '#A9D1E4' }}>
                                             <Typography sx={{ width: 40, textAlign: 'center', fontWeight: 550, fontSize: 13 }}>Sl.No</Typography>
                                             <Typography sx={{ width: 70, fontWeight: 550, fontSize: 13 }}>Item Code</Typography>

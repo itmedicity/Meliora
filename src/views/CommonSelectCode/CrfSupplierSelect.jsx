@@ -1,7 +1,6 @@
 import React, { Fragment, memo, useCallback, useEffect, useState } from 'react'
 import { axiosellider } from '../Axios/Axios'
 import { Autocomplete, CssVarsProvider } from '@mui/joy'
-import EngineeringTwoToneIcon from '@mui/icons-material/EngineeringTwoTone';
 const CrfSupplierSelect = ({ supCode, setSupCode, setSupName }) => {
 
     const [supplierList, setSupplierList] = useState([])
@@ -16,13 +15,14 @@ const CrfSupplierSelect = ({ supCode, setSupCode, setSupName }) => {
             const { success, data } = result.data
             if (success === 1) {
                 setSupplierList(data)
+                setSupCode(0)
             } else {
                 setSupplierList([])
             }
         }
         gettingOrcleData()
 
-    }, [])
+    }, [setSupCode])
 
 
     useEffect(() => {
@@ -53,11 +53,11 @@ const CrfSupplierSelect = ({ supCode, setSupCode, setSupName }) => {
         <Fragment>
             <CssVarsProvider>
                 <Autocomplete
-                    startDecorator={<EngineeringTwoToneIcon sx={{ color: '#0070E0' }} />}
+                    // startDecorator={<EngineeringTwoToneIcon sx={{ color: '#0070E0' }} />}
                     // fullWidth
                     sx={{
-                        height: 20, border: '1px solid #bbdefb', color: '#1565c0', alignItems: 'center',
-                        fontSize: 14, borderRadius: 10
+                        height: 20, border: '1px solid #bbdefb', alignItems: 'center',
+                        fontSize: 14, borderRadius: 5
                     }}
                     value={supCode === 0 ? type : value}
                     placeholder="Select Supplier"

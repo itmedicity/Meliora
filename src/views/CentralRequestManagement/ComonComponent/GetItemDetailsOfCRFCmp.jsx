@@ -47,7 +47,8 @@ export const GetItemDetailsOfCRFCmp = async (req_slno, setReqItems, setApproveTa
             if (success === 1) {
                 const poLIst = data
                     .filter((po, index, self) =>
-                        index === self.findIndex((val) => val.po_number === po.po_number && val.req_slno === po.req_slno))
+                        index === self.findIndex((val) => val.po_number === po.po_number && val.req_slno === po.req_slno &&
+                            val.crm_purchase_slno === po.crm_purchase_slno))
                     .map((po) => (
                         {
                             po_detail_slno: po.po_detail_slno,

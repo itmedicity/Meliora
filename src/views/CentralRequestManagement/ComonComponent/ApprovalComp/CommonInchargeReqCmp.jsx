@@ -22,14 +22,14 @@ const CommonInchargeReqCmp = ({ DetailViewData }) => {
         <Fragment>
             <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap', }}>
                 <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
-                    <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>
+                    <Typography sx={{ fontWeight: 'bold', ml: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.33 }}>
                         Department Approval
                     </Typography>
                     <Box sx={{ flex: 1, display: 'flex' }}>
-                        <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, }}>
+                        <Typography sx={{ fontWeight: 'bold', mr: 1, py: 0.5, color: '#145DA0', fontSize: 14, }}>
                             Incharge
                         </Typography>
-                        <Box sx={{ py: 0.4 }}>
+                        <Box sx={{ py: 0.4, pl: 1 }}>
                             <Chip size="md" variant="outlined" sx={{
                                 color: (incharge_approve === 1 ? '#2e7d32' : incharge_approve === 2 ? '#bf360c' : incharge_approve === 3 ? '#FF9800' : '#607D8B'), height: 25, pb: 0.5,
                                 fontSize: 12, fontWeight: 550,

@@ -62,7 +62,8 @@ const CompletedCRFView = ({ setFlag, disData }) => {
                     {disData.length !== 0 ?
                         <Box sx={{ width: '100%' }}>
                             <Box display="flex" justifyContent="space-between" sx={{
-                                flexWrap: 'nowrap', py: 0.5, position: 'sticky', top: 0, zIndex: 1, bgcolor: '#41729F',
+                                bgcolor: '#e3f2fd', flexWrap: 'nowrap', py: 1, position: 'sticky',
+                                top: 0, zIndex: 1, border: '1px solid #AFD8F2', borderLeft: 'none', borderRight: 'none'
                             }}>
                                 <Typography sx={{ width: 50, textAlign: 'center', fontWeight: 550, fontSize: 14, color: 'white' }}>Sl.No</Typography>
                                 <Typography sx={{ width: 80, textAlign: 'left', fontWeight: 550, fontSize: 14, color: 'white' }}>Req.No</Typography>

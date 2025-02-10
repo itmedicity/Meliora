@@ -92,7 +92,7 @@ const CrfStoreDetailedView = ({ setFlag, disData, setDisData, tableData }) => {
         }
         const getDetails = async (postData) => {
             try {
-                const result = await axioslogin.post('/newCRFRegister/storeApprvlView', postData);
+                const result = await axioslogin.post('/CRFDashboard/storeApprvlView', postData);
                 const { success, data, message } = result.data;
                 if (success === 1) {
                     const newData = data?.map((val) => {

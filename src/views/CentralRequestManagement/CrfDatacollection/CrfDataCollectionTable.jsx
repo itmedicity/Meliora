@@ -84,14 +84,17 @@ const CrfDataCollectionTable = () => {
                 return obj
             })
             const pendingList = datas.filter((val) => {
-                return val.crf_dept_status !== 1
+                return val.crf_dept_status === null
             })
             setPendingData(pendingList)
-
-            const DoneList = datas.filter((val) => {
-                return val.crf_dept_status === 1
-            })
+            const DoneList = datas
+                .filter((item, index, self) =>
+                    index === self.findIndex((val) => val.req_slno === item.req_slno && val.crf_dept_status === 1))
             setDoneData(DoneList)
+            // const DoneList = datas.filter((val) => {
+            //     return val.crf_dept_status === 1
+            // })
+
         } else {
             setPendingData([])
             setDoneData([])

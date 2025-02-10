@@ -5,9 +5,10 @@ import { useSelector } from 'react-redux'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import { useQueryClient } from 'react-query'
 
-const InfoModal = ({ handleClose, open, selectedRadio, count, setCount, storeName, infoData }) => {
-
+const InfoModal = ({ handleClose, open, selectedRadio, storeName, infoData }) => {
+    const queryClient = useQueryClient()
     const { req_slno, po_detail_slno } = infoData
     const [remarks, setRemarks] = useState('')
     const [userInfo, setUserInfo] = useState([])
@@ -39,7 +40,6 @@ const InfoModal = ({ handleClose, open, selectedRadio, count, setCount, storeNam
                 req_slno: req_slno,
                 substore_slno: selectedRadio
             }
-
             const getUserInfo = async (postdata) => {
                 const result = await axioslogin.post('/newCRFStore/getAckSave', postdata);
                 return result.data
@@ -109,11 +109,14 @@ const InfoModal = ({ handleClose, open, selectedRadio, count, setCount, storeNam
                         const { success, message } = val
                         if (success === 1) {
                             succesNotify(message)
-                            setCount(count + 1)
+                            queryClient.invalidateQueries('sustoreCRFView');
+                            queryClient.invalidateQueries('returnDetailsView');
                             ResetDetails()
                             handleClose()
                         } else {
                             warningNotify(message)
+                            queryClient.invalidateQueries('sustoreCRFView');
+                            queryClient.invalidateQueries('returnDetailsView');
                         }
                     })
                 }
@@ -126,12 +129,15 @@ const InfoModal = ({ handleClose, open, selectedRadio, count, setCount, storeNam
                 const { success, message } = result.data;
                 if (success === 1) {
                     succesNotify(message)
-                    setCount(count + 1)
+                    queryClient.invalidateQueries('sustoreCRFView');
+                    queryClient.invalidateQueries('returnDetailsView');
                     ResetDetails()
                     handleClose()
                 }
                 else {
                     warningNotify(message)
+                    queryClient.invalidateQueries('sustoreCRFView');
+                    queryClient.invalidateQueries('returnDetailsView');
                 }
             }
             if (edit === 1) {
@@ -140,7 +146,7 @@ const InfoModal = ({ handleClose, open, selectedRadio, count, setCount, storeNam
                 insertUserAck(postdata)
             }
         }
-    }, [postdata, handleClose, remarks, count, setCount, edit, patchdata, po_detail_slno, req_slno, ResetDetails])
+    }, [postdata, handleClose, remarks, edit, patchdata, po_detail_slno, req_slno, ResetDetails, queryClient])
     const capitalizeWords = (str) => str ? str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : '';
     return (
         <Box>
@@ -173,129 +179,130 @@ const InfoModal = ({ handleClose, open, selectedRadio, count, setCount, storeNam
                                 height: 25, width: 25
                             }}
                         />
-                        <Box sx={{ mx: 0.5 }}>
-                            <Typography sx={{ fontWeight: 550, fontSize: 15, fontFamily: 'system-ui' }}>
-                                User Acknowledgement</Typography>
-                        </Box>
-                        {exist === 1 ?
-                            <Box>
-                                <Typography sx={{ fontWeight: 'bold', color: '#145DA0', fontSize: 14, marginBottom: 0.5, pl: 0.5 }}>
-                                    Previous User Acknowledgement Details</Typography>
-                                <Table aria-label="table with sticky header" borderAxis="both" padding={"none"} stickyHeader size='sm' >
-                                    <thead >
-                                        <tr>
-                                            <th size='sm' style={{ borderRadius: 0, width: 40, backgroundColor: '#e3f2fd' }}></th>
-                                            <th size='sm' style={{ width: 100, textAlign: 'center', backgroundColor: '#e3f2fd' }}>CRF No.</th>
-                                            <th size='sm' style={{ width: 150, backgroundColor: '#e3f2fd' }}>Date</th>
-                                            <th size='sm' style={{ width: 150, backgroundColor: '#e3f2fd' }}>Store</th>
-                                            <th size='sm' style={{ width: 250, backgroundColor: '#e3f2fd' }}>Store Remarks</th>
-                                            <th size='sm' style={{ width: 110, backgroundColor: '#e3f2fd' }}>User</th>
-                                            <th size='sm' style={{ width: 150, backgroundColor: '#e3f2fd' }}>Date</th>
-                                            <th size='sm' style={{ width: 110, backgroundColor: '#e3f2fd' }}>Received User</th>
-                                            <th size='sm' style={{ borderRadius: 0, width: 250, backgroundColor: '#e3f2fd' }}>Remarks</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {userInfo.map((val) => (
-                                            <tr key={val.collect_slno}>
-                                                <td>
-                                                    {val.received_status === 1 ?
-                                                        <EditOutlinedIcon
-                                                            sx={{
-                                                                fontSize: 'lg',
-                                                                color: 'grey',
-                                                                height: 25,
-                                                                width: 30,
-                                                                borderRadius: 2,
-                                                                boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.1)',
-                                                            }}
-                                                        />
-                                                        :
-                                                        <Tooltip title="Edit" placement="left">
+                        <Box sx={{ flexWrap: 'wrap' }}>
+                            <Box sx={{}}>
+                                <Typography sx={{ fontWeight: 550, fontSize: 15, fontFamily: 'system-ui' }}>
+                                    User Acknowledgement</Typography>
+                            </Box>
+                            {exist === 1 ?
+                                <Box sx={{ flexWrap: 'wrap', '&::-webkit-scrollbar': { height: 8 }, overflow: 'auto' }}>
+                                    <Typography sx={{ fontWeight: 'bold', color: '#145DA0', fontSize: 14, marginBottom: 0.5, pl: 0.5 }}>
+                                        Previous User Acknowledgement Details</Typography>
+                                    <Table aria-label="table with sticky header" borderAxis="both" padding={"none"} stickyHeader size='sm' >
+                                        <thead >
+                                            <tr>
+                                                <th size='sm' style={{ borderRadius: 0, width: 40, backgroundColor: '#e3f2fd' }}></th>
+                                                <th size='sm' style={{ width: 100, textAlign: 'center', backgroundColor: '#e3f2fd' }}>CRF No.</th>
+                                                <th size='sm' style={{ width: 150, backgroundColor: '#e3f2fd' }}>Date</th>
+                                                <th size='sm' style={{ width: 200, backgroundColor: '#e3f2fd' }}>Store</th>
+                                                <th size='sm' style={{ width: 250, backgroundColor: '#e3f2fd' }}>Store Remarks</th>
+                                                <th size='sm' style={{ width: 110, backgroundColor: '#e3f2fd' }}>User</th>
+                                                <th size='sm' style={{ width: 150, backgroundColor: '#e3f2fd' }}>Date</th>
+                                                <th size='sm' style={{ width: 110, backgroundColor: '#e3f2fd' }}>Received User</th>
+                                                <th size='sm' style={{ borderRadius: 0, width: 250, backgroundColor: '#e3f2fd' }}>Remarks</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {userInfo.map((val) => (
+                                                <tr key={val.collect_slno}>
+                                                    <td>
+                                                        {val.received_status === 1 ?
                                                             <EditOutlinedIcon
                                                                 sx={{
                                                                     fontSize: 'lg',
-                                                                    color: '#3e2723',
+                                                                    color: 'grey',
                                                                     height: 25,
                                                                     width: 30,
                                                                     borderRadius: 2,
                                                                     boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.1)',
-                                                                    cursor: 'pointer',
-                                                                    transition: 'transform 0.2s',
-                                                                    '&:hover': {
-                                                                        transform: 'scale(1.1)',
-                                                                    },
                                                                 }}
-                                                                onClick={() => EditData(val)}
                                                             />
-                                                        </Tooltip>
-                                                    }
-                                                </td>
-                                                <td style={{ fontSize: 12 }}>CRF/TMC/{val.req_slno}</td>
-                                                <td style={{ fontSize: 12 }}>{format(new Date(val.substore_ack_date), 'dd-MM-yyyy hh:mm:ss a')}</td>
-                                                <td style={{ fontSize: 12 }}>{val.sub_store_name}</td>
-                                                <td style={{ fontSize: 12 }}>{val.substore_remarks}</td>
-                                                <td style={{ fontSize: 12 }}>{capitalizeWords(val.store_user)}</td>
-                                                <td style={{ fontSize: 12 }}>{val.received_status === 0 ? 'Not Updated' : format(new Date(val.received_date), 'dd-MM-yyyy hh:mm:ss a')}</td>
-                                                <td style={{ fontSize: 12 }}>{val.received_status === 0 ? 'Not Received' : capitalizeWords(val.receive_user)}</td>
-                                                <td style={{ fontSize: 12 }}>{val.received_status === 0 ? 'Not Updated' : val.received_user_remarks}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </Table>
-                            </Box> : null}
+                                                            :
+                                                            <Tooltip title="Edit" placement="left">
+                                                                <EditOutlinedIcon
+                                                                    sx={{
+                                                                        fontSize: 'lg',
+                                                                        color: '#3e2723',
+                                                                        height: 25,
+                                                                        width: 30,
+                                                                        borderRadius: 2,
+                                                                        boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.1)',
+                                                                        cursor: 'pointer',
+                                                                        transition: 'transform 0.2s',
+                                                                        '&:hover': {
+                                                                            transform: 'scale(1.1)',
+                                                                        },
+                                                                    }}
+                                                                    onClick={() => EditData(val)}
+                                                                />
+                                                            </Tooltip>
+                                                        }
+                                                    </td>
+                                                    <td style={{ fontSize: 12 }}>CRF/TMC/{val.req_slno}</td>
+                                                    <td style={{ fontSize: 12 }}>{format(new Date(val.substore_ack_date), 'dd-MM-yyyy hh:mm:ss a')}</td>
+                                                    <td style={{ fontSize: 12 }}>{val.sub_store_name}</td>
+                                                    <td style={{ fontSize: 12 }}>{val.substore_remarks}</td>
+                                                    <td style={{ fontSize: 12 }}>{capitalizeWords(val.store_user)}</td>
+                                                    <td style={{ fontSize: 12 }}>{val.received_status === 0 ? 'Not Updated' : format(new Date(val.received_date), 'dd-MM-yyyy hh:mm:ss a')}</td>
+                                                    <td style={{ fontSize: 12 }}>{val.received_status === 0 ? 'Not Received' : capitalizeWords(val.receive_user)}</td>
+                                                    <td style={{ fontSize: 12 }}>{val.received_status === 0 ? 'Not Updated' : val.received_user_remarks}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </Table>
+                                </Box> : null}
 
-                        <Box sx={{}}>
-                            <Typography sx={{ fontSize: 13, fontWeight: 650 }}>Store</Typography>
-                            <Box sx={{ pt: 0.5, fontSize: 15, }}>
-                                {storeName}
+                            <Box sx={{}}>
+                                <Typography sx={{ fontSize: 13, fontWeight: 650 }}>Store</Typography>
+                                <Box sx={{ pt: 0.5, fontSize: 15, }}>
+                                    {storeName}
+                                </Box>
                             </Box>
-                        </Box>
-                        <Box sx={{}}>
-                            <Typography sx={{ fontSize: 13, fontWeight: 650 }}>Remarks</Typography>
-                            <Box sx={{ pt: 0.5 }}>
-                                <CssVarsProvider>
-                                    <Textarea
-                                        minRows={2}
-                                        maxRows={2}
-                                        placeholder='type here ...'
-                                        type="text"
-                                        size="sm"
-                                        name={remarks}
-                                        value={remarks}
-                                        onChange={(e) => setRemarks(e.target.value)}
-                                    />
-                                </CssVarsProvider>
+                            <Box sx={{}}>
+                                <Typography sx={{ fontSize: 13, fontWeight: 650 }}>Remarks</Typography>
+                                <Box sx={{ pt: 0.5 }}>
+                                    <CssVarsProvider>
+                                        <Textarea
+                                            minRows={2}
+                                            maxRows={2}
+                                            placeholder='type here ...'
+                                            type="text"
+                                            size="sm"
+                                            name={remarks}
+                                            value={remarks}
+                                            onChange={(e) => setRemarks(e.target.value)}
+                                        />
+                                    </CssVarsProvider>
+                                </Box>
                             </Box>
-                        </Box>
-                        {/* {substore_user !== null ?
+                            {/* {substore_user !== null ?
                             <Box sx={{ display: 'flex' }}>
                                 <Typography sx={{ fontSize: 13, fontWeight: 600 }}>Last Informed User :&nbsp;</Typography>
                                 <Typography sx={{ fontSize: 11, fontWeight: 600, textTransform: 'capitalize', pt: 0.3 }}>&nbsp;&nbsp;{substore_user}</Typography>
                             </Box>
                             : null
                         } */}
-                        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                            <Box sx={{ pt: 0.4 }}>
-                                <Button
-                                    variant="plain"
-                                    sx={buttonStyle}
-                                    onClick={SaveRemarks}
-                                >
-                                    Save
-                                </Button>
-                            </Box>
-                            <Box sx={{ pr: 0.5, pt: 0.4 }}>
-                                <Button
-                                    variant="plain"
-                                    sx={buttonStyle}
-                                    onClick={ResetDetails}
-                                >
-                                    Cancel
-                                </Button>
+                            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                <Box sx={{ pt: 0.4 }}>
+                                    <Button
+                                        variant="plain"
+                                        sx={buttonStyle}
+                                        onClick={SaveRemarks}
+                                    >
+                                        Save
+                                    </Button>
+                                </Box>
+                                <Box sx={{ pr: 0.5, pt: 0.4 }}>
+                                    <Button
+                                        variant="plain"
+                                        sx={buttonStyle}
+                                        onClick={ResetDetails}
+                                    >
+                                        Cancel
+                                    </Button>
+                                </Box>
                             </Box>
                         </Box>
-
                     </ModalDialog>
                 </Modal>
             </CssVarsProvider>

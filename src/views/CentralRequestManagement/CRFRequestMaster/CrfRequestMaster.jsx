@@ -116,8 +116,9 @@ const CrfRequestMaster = () => {
                             </Tab>
                         </TabList>
                         <TabPanel value={0} sx={{ p: 0 }}>
-                            <CrfRegistration editRowData={editRowData} edit={edit} setEdit={setEdit} detailDataDis={detailDataDis}
-                                setDetailDataDis={setDetailDataDis} imagearray={imagearray} setImageArry={setImageArry} />
+                            <CrfRegistration editRowData={editRowData} setEditRowData={setEditRowData} edit={edit} setEdit={setEdit}
+                                detailDataDis={detailDataDis} setDetailDataDis={setDetailDataDis} imagearray={imagearray}
+                                setImageArry={setImageArry} />
                         </TabPanel>
                         <TabPanel value={1} sx={{ p: 0 }}>
                             <CrfReqstTableView rowSelect={rowSelect} />

@@ -1,6 +1,7 @@
-import { Box, CssVarsProvider, Modal, ModalClose, ModalDialog, Table, Tooltip } from '@mui/joy'
+import { Box, CssVarsProvider, Modal, ModalClose, ModalDialog, Table } from '@mui/joy'
 import React, { Fragment, memo, useCallback, useState } from 'react'
 import WysiwygTwoToneIcon from '@mui/icons-material/WysiwygTwoTone';
+import CustomToolTipForCRF from '../../ComonComponent/Components/CustomToolTipForCRF';
 const GrnViewModal = React.lazy(() => import("../../CrfStoreProcess/Component/GrnViewModal"))
 
 const GrnItemDetails = ({ open, grnData, handleCloseInfo, grnItem }) => {
@@ -93,7 +94,7 @@ const GrnItemDetails = ({ open, grnData, handleCloseInfo, grnItem }) => {
                                                 <td size='sm' style={{ fontSize: 12, height: 5 }}>&nbsp;{val.grn_qnty}</td>
                                                 <td size='sm' style={{ fontSize: 12, height: 5 }}>
                                                     <CssVarsProvider>
-                                                        <Tooltip title="View Grn Details" placement="left">
+                                                        <CustomToolTipForCRF title="View Grn Details" placement="left">
                                                             <WysiwygTwoToneIcon
                                                                 sx={{
                                                                     mt: 0.6,
@@ -111,7 +112,7 @@ const GrnItemDetails = ({ open, grnData, handleCloseInfo, grnItem }) => {
                                                                 }}
                                                                 onClick={() => viewDetails(val.item_code, val.item_name)}
                                                             />
-                                                        </Tooltip>
+                                                        </CustomToolTipForCRF>
                                                     </CssVarsProvider>
                                                 </td>
                                             </tr>

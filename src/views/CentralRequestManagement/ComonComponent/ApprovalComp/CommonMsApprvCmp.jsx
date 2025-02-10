@@ -1,4 +1,4 @@
-import { Box, Chip, Tooltip, Typography } from '@mui/joy';
+import { Box, Chip, Typography } from '@mui/joy';
 import { Paper } from '@mui/material';
 import { format } from 'date-fns';
 import React, { Fragment, memo, useCallback, useState } from 'react'
@@ -7,6 +7,7 @@ import AttachmentTwoToneIcon from '@mui/icons-material/AttachmentTwoTone';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import ImageDisplayModal from '../ImageUploadCmp/ImageDisplayModal';
+import CustomToolTipForCRF from '../Components/CustomToolTipForCRF';
 
 const CommonMsApprvCmp = ({ DetailViewData }) => {
     const { req_slno, ms, ms_approve, ms_approve_remark, ms_detail_analysis, ms_approve_date, ms_approve_user, ms_image
@@ -48,6 +49,7 @@ const CommonMsApprvCmp = ({ DetailViewData }) => {
             }
         }
         getImage(req_slno)
+
     }, [req_slno])
     return (
         <Fragment>
@@ -60,8 +62,8 @@ const CommonMsApprvCmp = ({ DetailViewData }) => {
                     </Typography>
                     <Box sx={{ flex: 1, py: 0.4, ml: 2 }}>
                         <Chip size="md" variant="outlined" sx={{
-                            color: (ms_approve === 1 ? '#2e7d32' : ms_approve === 2 ? '#bf360c' : ms_approve === 3 ? '#FF9800' : '#607D8B'), height: 25, pb: 0.5,
-                            fontSize: 12, fontWeight: 550,
+                            color: (ms_approve === 1 ? '#2e7d32' : ms_approve === 2 ? '#bf360c' : ms_approve === 3 ? '#FF9800' : ms_approve === 4 ? '#009688' : '#607D8B'),
+                            height: 25, pb: 0.5, fontSize: 12, fontWeight: 550,
                         }}>
                             {ms}
                         </Chip>
@@ -99,11 +101,18 @@ const CommonMsApprvCmp = ({ DetailViewData }) => {
                                     <Typography sx={{ pl: 0.5 }} >  :&nbsp;</Typography>
                                     <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
                                         {ms_approve_remark === null ? 'Not Updated' : ms_approve_remark}  </Typography>
-                                </Box> : null}
+                                </Box>
+                                : ms_approve === 4 && ms_approve_remark !== null ?
+                                    <Box sx={{ display: 'flex', pt: 0.5 }}>
+                                        <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Remarks</Typography>
+                                        <Typography sx={{ pl: 0.5 }} >  :&nbsp;</Typography>
+                                        <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
+                                            {ms_approve_remark === null ? 'Not Updated' : ms_approve_remark}  </Typography>
+                                    </Box> : null}
                     {
                         ms_approve_date !== null ?
                             <Box sx={{ display: 'flex', py: 1 }}>
-                                {ms_approve === 1 ?
+                                {(ms_approve === 1 || ms_approve === 4) ?
                                     <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>Approved by </Typography>
                                     : ms_approve === 2 ?
                                         <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>Rejected by </Typography>
@@ -118,11 +127,11 @@ const CommonMsApprvCmp = ({ DetailViewData }) => {
                                         {format(new Date(ms_approve_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
                                     {ms_image === 1 ?
                                         <Box sx={{ display: 'flex', pl: 2 }} >
-                                            <Tooltip title='File View' placement='bottom' sx={{ bgcolor: '#D4F1F4', color: 'darkblue' }}>
+                                            <CustomToolTipForCRF title='File View' placement='top' >
                                                 <AttachmentTwoToneIcon fontSize='small' sx={{ cursor: 'pointer', color: '#0277bd', width: 35, height: 25 }}
                                                     onClick={ViewMSUploadImage} >
                                                 </AttachmentTwoToneIcon>
-                                            </Tooltip>
+                                            </CustomToolTipForCRF>
                                         </Box> : null
                                     }
                                 </Box>

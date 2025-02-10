@@ -39,7 +39,7 @@ const DeptAcessMast = () => {
 
     const SearchEmployee = useCallback(() => {
         if (em_no === '') {
-            infoNotify("Please Enter Employee Number")
+            infoNotify("Enter Employee Number")
         } else {
             const getempDetails = async () => {
                 const result = await axioslogin.get(`/qideptAccess/emp/${em_no}`)
