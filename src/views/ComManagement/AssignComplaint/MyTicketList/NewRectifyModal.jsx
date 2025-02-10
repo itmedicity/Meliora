@@ -15,10 +15,8 @@ import CmAssetList from '../../CmComponent/CmAssetList';
 import imageCompression from 'browser-image-compression';
 import UploadIcon from '@mui/icons-material/Upload';
 import ManageAccountsSharpIcon from '@mui/icons-material/ManageAccountsSharp';
-import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import { getDepartment } from 'src/redux/actions/Department.action';
 import CmHoldReasonList from '../../CmComponent/CmHoldReasonList';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import AssetListUnderCustodian from 'src/views/CommonSelectCode/AssetListUnderCustodian';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
@@ -32,7 +30,7 @@ import AttachmentSharpIcon from '@mui/icons-material/AttachmentSharp';
 import FileViewSingle from 'src/views/Components/FileViewSingle'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import ComplaintAttachFiles from './ComplaintAttachFiles';
-import LibraryAddSharpIcon from '@mui/icons-material/LibraryAddSharp';
+import AddBoxIcon from '@mui/icons-material/AddBox';
 
 const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, count, setCount }) => {
 
@@ -1002,12 +1000,13 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                                                     </Box>
                                                     <Box sx={{ ml: 1, }}>
                                                         <Tooltip title={'Add More Asset'}>
-                                                            <LibraryAddSharpIcon
+                                                            <AddBoxIcon
                                                                 sx={{
-                                                                    p: .1,
-                                                                    color: '#555E68', cursor: 'pointer',
-                                                                    bgcolor: '#CDD7E1',
-                                                                    '&:hover': { color: '#34323E' }, height: 31, width: 31
+                                                                    p: .3,
+                                                                    color: '#636B74', cursor: 'pointer',
+                                                                    bgcolor: '#BDC4C9', borderRadius: 3,
+                                                                    '&:hover': { color: 'black' },
+                                                                    height: 29, width: 29
                                                                 }}
                                                                 onClick={searchAssetNoinMenu}
                                                             />
@@ -1055,12 +1054,13 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                                                     </Box>
                                                     <Box sx={{ ml: 1, }}>
                                                         <Tooltip title={'Add More Asset'}>
-                                                            <LibraryAddSharpIcon
+                                                            <AddBoxIcon
                                                                 sx={{
-                                                                    p: .1,
-                                                                    color: '#555E68', cursor: 'pointer',
-                                                                    bgcolor: '#CDD7E1',
-                                                                    '&:hover': { color: '#34323E' }, height: 31, width: 31
+                                                                    p: .3,
+                                                                    color: '#636B74', cursor: 'pointer',
+                                                                    bgcolor: '#BDC4C9', borderRadius: 3,
+                                                                    '&:hover': { color: 'black' },
+                                                                    height: 29, width: 29
                                                                 }}
                                                                 onClick={searchAssetNo}
                                                             />

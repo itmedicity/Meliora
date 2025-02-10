@@ -1,4 +1,4 @@
-import { Box, Chip, CssVarsProvider, Input, Textarea } from '@mui/joy'
+import { Box, Input, Textarea } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import TextComponent from 'src/views/Components/TextComponent'
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd'

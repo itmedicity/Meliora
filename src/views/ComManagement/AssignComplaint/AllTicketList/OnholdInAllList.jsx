@@ -284,7 +284,7 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
                                         flex: 1, bgcolor: '#E7D2CC', display: 'flex', py: .3,
                                     }}>
                                         <Typography sx={{ color: '#026F7E', pl: 1, pt: .2, fontWeight: 700, fontSize: 13 }}>
-                                            ASSIGNED BY {val.assinged_user}
+                                            DELEGATED BY {val.assinged_user}
                                         </Typography>
                                         <Typography sx={{ color: 'black', pt: .2, fontWeight: 500, fontSize: 13, ml: 3 }}>
                                             Priority :

@@ -32,8 +32,6 @@ import CommentIcon from '@mui/icons-material/Comment';
 import MarkUnreadChatAltIcon from '@mui/icons-material/MarkUnreadChatAlt';
 import imageCompression from 'browser-image-compression';
 import CmAssetList from '../CmComponent/CmAssetList'
-import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { useQuery } from 'react-query'
 import { getCustodianDetails } from 'src/api/AssetApis'
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';

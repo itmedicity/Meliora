@@ -26,8 +26,6 @@ import CommentIcon from '@mui/icons-material/Comment';
 import MarkUnreadChatAltIcon from '@mui/icons-material/MarkUnreadChatAlt';
 import imageCompression from 'browser-image-compression';
 import CmAssetList from '../CmComponent/CmAssetList';
-import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { getCustodianDetails } from 'src/api/AssetApis';
 import { useQuery } from 'react-query';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
@@ -56,8 +54,6 @@ const DirectComplaintReg = () => {
     const [edit, setEdit] = useState(0);
     //state for complaintdescription
     const [desc, setdesc] = useState('')
-
-    // const [ReqType, setReqType] = useState(false)
     const [cotype, setcotype] = useState(false)
     const [codept, setcodept] = useState(null)
     const [depsec, setDepsec] = useState(0)
@@ -189,16 +185,14 @@ const DirectComplaintReg = () => {
         setEdit(1)
         setSelect(1)
         setSearch(0)
-        // const data = params.api.getSelectedRows()
         const { complaint_dept_secslno, complaint_hicslno,
             rm_room_slno, priority_reason, complaint_typeslno, priority_check,
-            // complaint_request_slno,
             complaint_deptslno, complaint_slno, complaint_desc } = val
+
+
         setComplaint(complaint_slno)
         setDepsec(complaint_dept_secslno)
-        // setReqType(complaint_request_slno)
         setcotype(complaint_typeslno)
-
         setRoomName(rm_room_slno)
         setChechHic(complaint_hicslno === 1 ? true : false)
         setpriority(priority_check)
@@ -206,6 +200,7 @@ const DirectComplaintReg = () => {
         setdesc(complaint_desc)
         setPriorreason(priority_check === 1 ? priority_reason : null)
         setCritical(priority_check === 1 ? true : false)
+
 
     }, [])
     //update data
@@ -721,6 +716,7 @@ const DirectComplaintReg = () => {
                 setSelect(1);
                 setSearch(0);
                 setcm_am_assetmap_slno('');
+
             } else {
                 setSearch(1);
                 setSelect(0);
@@ -912,8 +908,7 @@ const DirectComplaintReg = () => {
                                             {codept !== null ?
                                                 <>
 
-                                                    {/* 
-                                                    <Box
+                                                    {/* <Box
                                                         sx={{
                                                             cursor: 'pointer',
                                                             display: 'flex', mx: .5, pt: .5
@@ -971,7 +966,6 @@ const DirectComplaintReg = () => {
                                                             '--Switch-trackHeight': '25px',
                                                         }}
                                                     />
-
 
                                                     {select === 1 ?
                                                         <Box sx={{ flex: 1, display: 'flex', ml: 1 }}>

@@ -258,7 +258,6 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                     />
                 )
             }
-
             {
                 state.rectfyFlag === 1 && (
                     <NewRectifyModal
@@ -271,7 +270,6 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                     />
                 )
             }
-
             {
                 state.holdflag === 1 && (
                     <MarkAsHoldModal
@@ -506,7 +504,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                                     mx: .1, display: 'flex', py: .3,
                                 }}>
                                     <Typography sx={{ color: '#026F7E', pl: 1, pt: .2, fontWeight: 700, fontSize: 13 }}>
-                                        ASSIGNED BY {val.assinged_user}
+                                        DELEGATED BY {val.assinged_user}
                                     </Typography>
                                     <Typography sx={{ color: 'black', pt: .2, fontWeight: 500, fontSize: 13, ml: 3 }}>
                                         Priority :
@@ -556,7 +554,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                                     <Box sx={{ display: 'flex', pl: .5, }}>
                                         <ReportProblemIcon sx={{ color: 'darkred', P: .1 }} />
                                         <Box sx={{ pt: .3, color: 'darkred', fontWeight: 700, fontSize: 14, }}>
-                                            RESUBMITTED BY SUPERVISOR
+                                            RESUBMITTED BY {val.verifyd_sprv_user}
                                         </Box>
                                     </Box>
                                     <Box sx={{ display: 'flex', }}>

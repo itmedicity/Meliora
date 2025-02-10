@@ -1465,8 +1465,8 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
         else {
             infoNotify("Enter remarks for the condemnation transfer.")
         }
-    }, [PatchData, PostData, asset_spare_slno, item_asset_no_only, formattedItemNo, selectFile, am_service_details_slno, id, count, setCount, Close,
-        am_custodian_dept_slno, am_item_map_slno, condm_transf_remarks, handleImageUpload, insertId, item_custodian_dept_sec, spare_asset_no_only]);
+    }, [PatchData, PostData, asset_spare_slno, item_asset_no_only, selectFile, am_service_details_slno, id, count, setCount, Close,
+        am_custodian_dept_slno, am_item_map_slno, condm_transf_remarks, handleImageUpload, insertId, item_custodian_dept_sec, spare_asset_no_only, am_spare_item_map_slno]);
 
     const AddNewSpare = useCallback((e) => {
         if (sparez === 0) {

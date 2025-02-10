@@ -222,7 +222,7 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
                                         display: 'flex', py: .3, flexWrap: 'wrap',
                                     }}>
                                         <Typography sx={{ color: '#026F7E', pl: 1, pt: .2, fontWeight: 700, fontSize: 13 }}>
-                                            ASSIGNED BY {val.assinged_user}
+                                            DELEGATED BY {val.assinged_user}
                                         </Typography>
                                         <Typography sx={{ color: 'black', pt: .2, fontWeight: 500, fontSize: 13, ml: 3 }}>
                                             Priority :

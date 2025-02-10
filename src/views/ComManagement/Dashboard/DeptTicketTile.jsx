@@ -164,7 +164,7 @@ const DeptTicketTile = () => {
         } else {
             return { status: 3, percentage: "0%" };
         }
-    }, [DeptOpenCount, PrevOpenCount])
+    }, [DeptOpenCount, PrevOpenCount, RegisterdFromSiXDaysListAvg, todaysTicketCount])
 
     const ClosedCount = useMemo(() => {
         const difference = ClosedFromSixDaysAvg - TodayclosedTicketCount;
