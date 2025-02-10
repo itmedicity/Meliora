@@ -170,7 +170,7 @@ const CensusDptMast = React.lazy(() => import('./views/Master/QualityIndicatorMa
 const QualityIndicator = React.lazy(() => import('./views/Master/QualityIndicatorMaster/QualityIndicatorsList/QualityIndicators'))
 const TMdepartmentReport = React.lazy(() => import('./views/Report/TaskReport/DepartmentWise/DepartmentWiseTask'))
 const TMEmployeeReport = React.lazy(() => import('./views/Report/TaskReport/EmployeeWise/EmployeeeWiseTask'))
-const CRFNewIncharge = React.lazy(() => import('./views/CentralRequestManagement/CrfInchargeApproval/CrfInchargeAppvable'))
+const CRFNewIncharge = React.lazy(() => import('./views/CentralRequestManagement/CrfInchargeApproval/InchargeApproval'))
 const CRFNewHOD = React.lazy(() => import('./views/CentralRequestManagement/CrfHodApproval/CrfHodApproval'))
 const CRFNewDMS = React.lazy(() => import('./views/CentralRequestManagement/CrfDmsApproval/CrfDMSApproval'))
 const CRFNewMS = React.lazy(() => import('./views/CentralRequestManagement/CrfMsApproval/CrfMSApproval'))
@@ -225,6 +225,10 @@ const AssetServiceList = React.lazy(() => import('./views/AssetManagment/Service
 const AllCRFReportWithPO = React.lazy(() => import('./views/Report/CrmReport/CRFAllReportWithPO'))
 const PmDueList = React.lazy(() => import('./views/AssetManagment/PmOverDueList/PmOverdueList'))
 
+// crfDelivery
+const deliverMarking = React.lazy(() => import('./views/CentralRequestManagement/DeliveryMarking/DeliveryMarkingStore'))
+const itemChecking = React.lazy(() => import('./views/CentralRequestManagement/ItemCheckingCRS/ItemCheckingMain'))
+const crfSearch = React.lazy(() => import('./views/CentralRequestManagement/CRFSearch/CrfDetailsSearch'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -453,8 +457,9 @@ const routes = [
   { path: '/Home/AssetServiceList', exact: true, name: 'Spare Service List', component: AssetServiceList },
   { path: '/Home/AllCRFReportWithPO', exact: true, name: 'All CRF Report With PO', component: AllCRFReportWithPO },
   { path: '/Home/PmDueList', exact: true, name: 'PM Due List in Asset', component: PmDueList },
-
-
+  { path: '/Home/DeliveryMarking', exact: true, name: 'CRS Delivery Marking', component: deliverMarking },
+  { path: '/Home/ItemChecking', exact: true, name: 'Item Checking', component: itemChecking },
+  { path: '/Home/SearchCrfDetails', exact: true, name: 'CRF Search', component: crfSearch },
 ]
 
 export default routes

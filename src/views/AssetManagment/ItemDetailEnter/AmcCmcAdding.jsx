@@ -15,7 +15,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import TextFieldCustom from 'src/views/Components/TextFieldCustom';
 import CardMaster from 'src/views/Components/CardMaster';
 import AmcCmcAddedTable from './AmcCmcAddedTable';
-import ImageDisplayModal from 'src/views/CentralRequestManagement/CRFRequestMaster/ImageDisplayModal';
+import ImageDisplayModal from 'src/views/CentralRequestManagement/ComonComponent/ImageUploadCmp/ImageDisplayModal';
 import { getAmcCmcMaster } from 'src/redux/actions/AmAmcCmcSlect.action';
 import { useDispatch } from 'react-redux'
 import { useMemo } from 'react';

@@ -42,7 +42,6 @@ const DataCollectedImageDispy = ({ open, handleCloseCollect, dataCollSlno, req_s
         if (imagearray.length !== 0) {
             const disimage = imagearray.map((val) => {
                 const parts = val.split('/');
-                // console.log(parts);
                 const fileNamePart = parts[parts.length - 1];
                 const obj = {
                     imageName: fileNamePart,

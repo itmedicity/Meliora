@@ -11,7 +11,8 @@ const CusCheckBox = ({
     value,
     onCheked,
     checked,
-    name
+    name,
+    className
 }) => {
     /*
         // --- varient ---  plain,outlined,soft,solid
@@ -23,6 +24,7 @@ const CusCheckBox = ({
         <Fragment>
             <CssVarsProvider>
                 <Checkbox
+                    sx={{ ...className }}
                     variant={variant}
                     color={color}
                     value={value === true ? 1 : 0}

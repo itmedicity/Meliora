@@ -15,7 +15,7 @@ import LeaseAddMast from './LeaseAddMast';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import LeaseAddingModal from './LeaseAddingModal';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
-import ImageDisplayModal from 'src/views/CentralRequestManagement/CRFRequestMaster/ImageDisplayModal';
+import ImageDisplayModal from 'src/views/CentralRequestManagement/ComonComponent/ImageUploadCmp/ImageDisplayModal';
 
 const LeaseDetailsAdd = ({ grndetailarry }) => {
     const { am_item_map_detl_slno, am_lease_mast_slno,
