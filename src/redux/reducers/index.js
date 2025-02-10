@@ -178,6 +178,7 @@ import { setAmcCmcMaster } from './AmAMCCMCSelect.Reducer'
 import { setSupplierSelect } from './AmSupplierSelect.Reducer'
 import { getEquipmentList } from './QIEquipment.Reducer';
 import { getStoreReceivePendingReducer, getStoreReceiveAllReducer, getCrfPOStorReducer } from './CrmStoreProcess.Reducer'
+import { getRoomsNameNdTypeList } from './CmRoomNameNdTypeList.Reducer';
 
 const reducer = combineReducers({
     changeState,
@@ -364,6 +365,8 @@ const reducer = combineReducers({
     getCrfPOStorReducer,
     getCRFPurchaseDashboard,
     getPOStoreDashboard,
+    getRoomsNameNdTypeList
+
 
 })
 export default reducer;

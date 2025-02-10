@@ -16,7 +16,26 @@ const PendingOnHoldList = () => {
     const [column] = useState([
         { headerName: "SlNo", field: "complaint_slno" },
         { headerName: "Complaint Desc.", field: "complaint_desc" },
-        { headerName: "Location", field: "location" },
+        { headerName: "Section", field: "location" },
+        {
+            headerName: "Location",
+            field: "rm_room_name",
+            minWidth: 350,
+            cellRendererFramework: (params) => {
+                const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } = params.data;
+                return (
+                    <div>
+                        {rm_room_name !== null ?
+                            <div>
+                                {`${rm_room_name} (${rm_roomtype_name} - ${rm_insidebuildblock_name} - ${rm_floor_name})`}
+                            </div> :
+                            <div>
+                                Location not added
+                            </div>}
+                    </div>
+                );
+            }
+        },
         { headerName: "Complaint Type", field: "complaint_type_name" },
         { headerName: "Req.Date", field: "compalint_date" },
         { headerName: "Assign.Date", field: "assigndate" },

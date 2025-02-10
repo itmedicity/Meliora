@@ -83,7 +83,26 @@ const ComplaintRegTable = ({ rowSelect, sec, setCount, count }) => {
         { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 300 },
         { headerName: "Request Type", field: "req_type_name", width: 250, autoHeight: true, wrapText: true, minWidth: 100 },
         { headerName: "Complaint Type", field: "complaint_type_name", width: 280, autoHeight: true, wrapText: true, minWidth: 100 },
-        { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 220 },
+        { headerName: "Section", field: "location", autoHeight: true, wrapText: true, minWidth: 220 },
+        {
+            headerName: "Location",
+            field: "rm_room_name",
+            minWidth: 350,
+            cellRendererFramework: (params) => {
+                const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } = params.data;
+                return (
+                    <div>
+                        {rm_room_name !== null ?
+                            <div>
+                                {`${rm_room_name} (${rm_roomtype_name} - ${rm_insidebuildblock_name} - ${rm_floor_name})`}
+                            </div> :
+                            <div>
+                                Location not added
+                            </div>}
+                    </div>
+                );
+            }
+        },
         { headerName: "Rectifystatus", field: "cm_rectify_status1", filter: "true", minWidth: 100 },
         { headerName: "Reason", field: "rectify_pending_hold_remarks1", filter: "true", minWidth: 180, autoHeight: true, wrapText: true },
     ])
@@ -96,7 +115,27 @@ const ComplaintRegTable = ({ rowSelect, sec, setCount, count }) => {
         { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 300 },
         { headerName: "Request Type", field: "req_type_name", width: 250, autoHeight: true, wrapText: true, minWidth: 100 },
         { headerName: "Complaint Type", field: "complaint_type_name", width: 280, autoHeight: true, wrapText: true, minWidth: 100 },
-        { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 220 },
+        // { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 220 },
+        { headerName: "Section", field: "location", autoHeight: true, wrapText: true, minWidth: 220 },
+        {
+            headerName: "Location",
+            field: "rm_room_name",
+            minWidth: 350,
+            cellRendererFramework: (params) => {
+                const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } = params.data;
+                return (
+                    <div>
+                        {rm_room_name !== null ?
+                            <div>
+                                {`${rm_room_name} (${rm_roomtype_name} - ${rm_insidebuildblock_name} - ${rm_floor_name})`}
+                            </div> :
+                            <div>
+                                Location not added
+                            </div>}
+                    </div>
+                );
+            }
+        },
         { headerName: "Rectifystatus", field: "cm_rectify_status1", filter: "true", minWidth: 100 },
         { headerName: "Reason", field: "rectify_pending_hold_remarks1", filter: "true", minWidth: 180, autoHeight: true, wrapText: true },
     ])
@@ -124,7 +163,27 @@ const ComplaintRegTable = ({ rowSelect, sec, setCount, count }) => {
         { headerName: "Department", field: "complaint_dept_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 150 },
         { headerName: "Request Type", field: "req_type_name", autoHeight: true, wrapText: true, minWidth: 200 },
         { headerName: "Complaint Type", field: "complaint_type_name", autoHeight: true, wrapText: true, minWidth: 150 },
-        { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 220 },
+        // { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 220 },
+        { headerName: "Section", field: "location", autoHeight: true, wrapText: true, minWidth: 220 },
+        {
+            headerName: "Location",
+            field: "rm_room_name",
+            minWidth: 350,
+            cellRendererFramework: (params) => {
+                const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } = params.data;
+                return (
+                    <div>
+                        {rm_room_name !== null ?
+                            <div>
+                                {`${rm_room_name} (${rm_roomtype_name} - ${rm_insidebuildblock_name} - ${rm_floor_name})`}
+                            </div> :
+                            <div>
+                                Location not added
+                            </div>}
+                    </div>
+                );
+            }
+        },
         { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 200 },
         { headerName: "Rectifystatus", field: "cm_rectify_status1", filter: "true", minWidth: 150 },
         { headerName: "Reason", field: "rectify_pending_hold_remarks1", filter: "true", minWidth: 180, autoHeight: true, wrapText: true },
@@ -173,7 +232,27 @@ const ComplaintRegTable = ({ rowSelect, sec, setCount, count }) => {
         { headerName: "Department", field: "complaint_dept_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 150 },
         { headerName: "Request Type", field: "req_type_name", autoHeight: true, wrapText: true, minWidth: 200 },
         { headerName: "Complaint Type", field: "complaint_type_name", autoHeight: true, wrapText: true, minWidth: 180 },
-        { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 230 },
+        // { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 230 },
+        { headerName: "Section", field: "location", autoHeight: true, wrapText: true, minWidth: 230 },
+        {
+            headerName: "Location",
+            field: "rm_room_name",
+            minWidth: 350,
+            cellRendererFramework: (params) => {
+                const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } = params.data;
+                return (
+                    <div>
+                        {rm_room_name !== null ?
+                            <div>
+                                {`${rm_room_name} (${rm_roomtype_name} - ${rm_insidebuildblock_name} - ${rm_floor_name})`}
+                            </div> :
+                            <div>
+                                Location not added
+                            </div>}
+                    </div>
+                );
+            }
+        },
         { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 250 },
         { headerName: "Status", field: "compalint_status1", filter: "true", minWidth: 100 },
         { headerName: "Rectifystatus", field: "cm_rectify_status1", filter: "true", minWidth: 150 },

@@ -79,7 +79,26 @@ const DirectComplaintTable = ({ count, rowSelect, setCount }) => {
         { headerName: "Department", field: "complaint_dept_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 150 },
         { headerName: "Request Type", field: "req_type_name", autoHeight: true, wrapText: true, minWidth: 150 },
         { headerName: "Complaint Type", field: "complaint_type_name", autoHeight: true, wrapText: true, minWidth: 180 },
-        { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 220 },
+        { headerName: "Section", field: "location", autoHeight: true, wrapText: true, minWidth: 220 },
+        {
+            headerName: "Location",
+            field: "rm_room_name",
+            minWidth: 300,
+            cellRendererFramework: (params) => {
+                const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } = params.data;
+                return (
+                    <div>
+                        {rm_room_name !== null ?
+                            <div>
+                                {`${rm_room_name} (${rm_roomtype_name} - ${rm_insidebuildblock_name} - ${rm_floor_name})`}
+                            </div> :
+                            <div>
+                                Location not added
+                            </div>}
+                    </div>
+                );
+            }
+        },
         { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 250 },
         { headerName: "Status", field: "compalint_status1", filter: "true", minWidth: 150 },
         { headerName: "Rectifystatus", field: "cm_rectify_status1", filter: "true", minWidth: 150 },
@@ -92,7 +111,26 @@ const DirectComplaintTable = ({ count, rowSelect, setCount }) => {
         { headerName: "Department", field: "complaint_dept_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 150 },
         { headerName: "Request Type", field: "req_type_name", autoHeight: true, wrapText: true, minWidth: 150 },
         { headerName: "Complaint Type", field: "complaint_type_name", autoHeight: true, wrapText: true, minWidth: 150 },
-        { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 220 },
+        { headerName: "Section", field: "location", autoHeight: true, wrapText: true, minWidth: 220 },
+        {
+            headerName: "Location",
+            field: "rm_room_name",
+            minWidth: 300,
+            cellRendererFramework: (params) => {
+                const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } = params.data;
+                return (
+                    <div>
+                        {rm_room_name !== null ?
+                            <div>
+                                {`${rm_room_name} (${rm_roomtype_name} - ${rm_insidebuildblock_name} - ${rm_floor_name})`}
+                            </div> :
+                            <div>
+                                Location not added
+                            </div>}
+                    </div>
+                );
+            }
+        },
         { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 250 },
         { headerName: "Status", field: "compalint_status1", filter: "true", minWidth: 150 },
         { headerName: "Rectifystatus", field: "cm_rectify_status1", filter: "true", minWidth: 150 },
@@ -101,7 +139,9 @@ const DirectComplaintTable = ({ count, rowSelect, setCount }) => {
 
     const [columnVerify] = useState([
         {
-            headerName: 'Verify', cellRenderer: params => {
+            headerName: 'Verify',
+            minWidth: 80,
+            cellRenderer: params => {
                 if ((params.data.compalint_status === 2) && (params.data.cm_rectify_status === 'R')) {
                     return <IconButton onClick={() => Verify(params)}
                         sx={{ color: editicon, paddingY: 0.5 }} >
@@ -121,7 +161,26 @@ const DirectComplaintTable = ({ count, rowSelect, setCount }) => {
         { headerName: "Department", field: "complaint_dept_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 150 },
         { headerName: "Request Type", field: "req_type_name", autoHeight: true, wrapText: true, minWidth: 150 },
         { headerName: "Complaint Type", field: "complaint_type_name", autoHeight: true, wrapText: true, minWidth: 200 },
-        { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 230 },
+        { headerName: "Section", field: "location", autoHeight: true, wrapText: true, minWidth: 230 },
+        {
+            headerName: "Location",
+            field: "rm_room_name",
+            minWidth: 300,
+            cellRendererFramework: (params) => {
+                const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } = params.data;
+                return (
+                    <div>
+                        {rm_room_name !== null ?
+                            <div>
+                                {`${rm_room_name} (${rm_roomtype_name} - ${rm_insidebuildblock_name} - ${rm_floor_name})`}
+                            </div> :
+                            <div>
+                                Location not added
+                            </div>}
+                    </div>
+                );
+            }
+        },
         { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 250 },
         { headerName: "Status", field: "compalint_status1", filter: "true", minWidth: 150 },
         { headerName: "Rectifystatus", field: "cm_rectify_status1", filter: "true", minWidth: 150 },
@@ -153,7 +212,9 @@ const DirectComplaintTable = ({ count, rowSelect, setCount }) => {
             }
         },
         {
-            headerName: 'Verify', cellRenderer: params => {
+            headerName: 'Verify',
+            minWidth: 80,
+            cellRenderer: params => {
                 if ((params.data.compalint_status === 2) && (params.data.cm_rectify_status === 'R')) {
                     return <IconButton onClick={() => Verify(params)}
                         sx={{ color: editicon, paddingY: 0.5 }} >
@@ -174,7 +235,26 @@ const DirectComplaintTable = ({ count, rowSelect, setCount }) => {
         { headerName: "Request Type", field: "req_type_name", minWidth: 200 },
         { headerName: "Complaint Type", field: "complaint_type_name", autoHeight: true, wrapText: true, minWidth: 150 },
         { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 250 },
-        { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 230 },
+        { headerName: "Section", field: "location", autoHeight: true, wrapText: true, minWidth: 230 },
+        {
+            headerName: "Location",
+            field: "rm_room_name",
+            minWidth: 300,
+            cellRendererFramework: (params) => {
+                const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } = params.data;
+                return (
+                    <div>
+                        {rm_room_name !== null ?
+                            <div>
+                                {`${rm_room_name} (${rm_roomtype_name} - ${rm_insidebuildblock_name} - ${rm_floor_name})`}
+                            </div> :
+                            <div>
+                                Location not added
+                            </div>}
+                    </div>
+                );
+            }
+        },
         { headerName: "Priority", field: "priority", minWidth: 150 },
     ])
     //for getting login user id
