@@ -7,13 +7,6 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 export const CrfPdfWithDetails = (val, reqDetails, dataa) => {
 
-    console.log("dataa", dataa);
-    console.log("reqDetails", reqDetails);
-    console.log("val", val);
-
-
-
-
     const { dept_name, req_deptsec, req_slno, req_date, actual_requirement, needed,
         category, location,
         md_approve, md, md_approve_remarks, md_approve_date, md_user,
