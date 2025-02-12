@@ -7,6 +7,13 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 export const CrfPdfWithDetails = (val, reqDetails, dataa) => {
 
+    console.log("dataa", dataa);
+    console.log("reqDetails", reqDetails);
+    console.log("val", val);
+
+
+
+
     const { dept_name, req_deptsec, req_slno, req_date, actual_requirement, needed,
         category, location,
         md_approve, md, md_approve_remarks, md_approve_date, md_user,
@@ -372,10 +379,7 @@ export const CrfPdfWithDetails = (val, reqDetails, dataa) => {
         ],
 
         images: {
-            // snow: 'http://192.168.22.170/NAS/logo/logo.png',
-            // pic: 'http://192.168.10.170/NAS/2119/signature/signature.jpg',
             snow: 'http://192.168.10.88:9090/Meliora/logo/logo.png',
-
             mdsign: 'http://192.168.10.88:9090/Meliora/md/signature/signature.jpg',
             edsign: 'http://192.168.10.88:9090/Meliora/ed/signature/signature.jpg',
         }
