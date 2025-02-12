@@ -39,7 +39,6 @@ const SpareCondemnation = ({ empdept }) => {
                 const unselectedData = SpareCodm.filter((item) => !newSelected.includes(item.slno));
                 setSortedData([...selectedData, ...unselectedData]);
             }, 300);
-
             return newSelected;
         });
     };

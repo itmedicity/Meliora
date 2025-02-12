@@ -187,9 +187,7 @@ const DirectComplaintReg = () => {
         setSearch(0)
         const { complaint_dept_secslno, complaint_hicslno,
             rm_room_slno, priority_reason, complaint_typeslno, priority_check,
-            complaint_deptslno, complaint_slno, complaint_desc } = val
-
-
+            complaint_deptslno, complaint_slno, complaint_desc, compl_dept } = val
         setComplaint(complaint_slno)
         setDepsec(complaint_dept_secslno)
         setcotype(complaint_typeslno)
@@ -200,7 +198,7 @@ const DirectComplaintReg = () => {
         setdesc(complaint_desc)
         setPriorreason(priority_check === 1 ? priority_reason : null)
         setCritical(priority_check === 1 ? true : false)
-
+        setcustodianDept(compl_dept)
 
     }, [])
     //update data

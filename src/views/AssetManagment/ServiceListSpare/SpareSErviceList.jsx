@@ -81,74 +81,74 @@ const SpareSErviceList = () => {
                     serviceDetails={serviceDetails} setCount={setCount} count={count} />
                 : null}
             {combinedList.length !== 0 ?
-                <Box sx={{ width: '100%', overflow: 'auto', p: 1, }}>
-                    <Box sx={{ width: 1350, }}>
-                        <Box sx={{
-                            height: 45, mt: .5, display: 'flex', borderBottom: 1, borderTop: 1, borderColor: 'lightgray', pt: 1,
-                            bgcolor: 'white'
-                        }}>
-                            <Box sx={{ width: 55, pl: 1.7, fontWeight: 600, color: '#444444', fontSize: 13, }}>#</Box>
-                            <Box sx={{ width: 50, color: '#444444', fontSize: 13 }}>Action</Box>
-                            <Box sx={{ width: 90, fontWeight: 600, color: '#444444', fontSize: 13 }}>Asset/Spare</Box>
-                            <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 13, }}>Asset/Spare No.</Box>
-                            <Box sx={{ flex: 1, fontWeight: 600, color: '#444444', fontSize: 13, }}>Category</Box>
-                            <Box sx={{ flex: 2, fontWeight: 600, color: '#444444', fontSize: 12, }}>Item Name</Box>
-                            <Box sx={{ width: 180, fontWeight: 600, color: '#444444', fontSize: 13, pl: 1.5 }}>Transfered Employee</Box>
-                        </Box>
-                        <Box sx={{ width: '100%', overflow: 'auto', }}>
-                            <Box sx={{ width: '100%' }}>
-                                <Virtuoso
-                                    style={{ height: '75vh' }}
-                                    totalCount={combinedList.length}
-                                    itemContent={(index) => {
-                                        const val = combinedList[index];
-                                        const isServiceItem = index < serviceList.length;
-                                        return (
-                                            <Box
-                                                key={val.slno}
-                                                sx={{
-                                                    flex: 1,
-                                                    display: 'flex',
-                                                    mt: .3,
-                                                    borderBottom: .5,
-                                                    borderColor: 'lightgrey',
-                                                    minHeight: 30,
-                                                    maxHeight: 80,
-                                                    background: (val.hold_color),
-                                                    pt: .5,
-                                                    alignItems: 'center',
-                                                }}
-                                            >
-                                                <Box sx={{ width: 55, pl: 1.7, color: '#444444', fontSize: 14 }}>
-                                                    {index + 1}
-                                                </Box>
-                                                <Box sx={{ width: 50, color: '#444444', fontSize: 14 }}>
-                                                    <BuildCircleIcon sx={{ color: '#4C5270', cursor: 'pointer' }} onClick={() => ServiceDetailsView(val)} />
-                                                </Box>
-                                                <Box sx={{ width: 90, color: '#444444', fontSize: 14 }}>
-                                                    {val.spare_asset_no !== undefined ? 'Spare' : 'Asset'}
-                                                </Box>
-                                                <Box sx={{ width: 150, color: '#444444', fontSize: 14 }}>
-                                                    {isServiceItem
-                                                        ? `${val.spare_asset_no}/${val.spare_asset_no_only.toString().padStart(6, '0')}`
-                                                        : `${val.item_asset_no}/${val.item_asset_no_only.toString().padStart(6, '0')}`}
-                                                </Box>
-                                                <Box sx={{ flex: 1, color: '#444444', fontSize: 14 }}>
-                                                    {val.category_name}
-                                                </Box>
-                                                <Box sx={{ flex: 2, color: '#444444', fontSize: 14, }}>
-                                                    {val.item_name}
-                                                </Box>
-                                                <Box sx={{ width: 180, color: '#444444', fontSize: 14, pl: 1.5 }}>
-                                                    {val.em_name}
-                                                </Box>
+                <Box sx={{ flex: 1, overflow: 'auto', p: 1, }}>
 
+                    <Box sx={{
+                        height: 45, mt: .5, display: 'flex', borderBottom: 1, borderTop: 1, borderColor: 'lightgray', pt: 1,
+                        bgcolor: 'white'
+                    }}>
+                        <Box sx={{ width: 55, pl: 1.7, fontWeight: 600, color: '#444444', fontSize: 13, }}>#</Box>
+                        <Box sx={{ width: 50, color: '#444444', fontSize: 13 }}>Action</Box>
+                        <Box sx={{ width: 90, fontWeight: 600, color: '#444444', fontSize: 13 }}>Asset/Spare</Box>
+                        <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 13, }}>Asset/Spare No.</Box>
+                        <Box sx={{ flex: 1, fontWeight: 600, color: '#444444', fontSize: 13, }}>Category</Box>
+                        <Box sx={{ flex: 2, fontWeight: 600, color: '#444444', fontSize: 12, }}>Item Name</Box>
+                        <Box sx={{ width: 180, fontWeight: 600, color: '#444444', fontSize: 13, pl: 1.5 }}>Transfered Employee</Box>
+                    </Box>
+                    <Box sx={{ width: '100%', overflow: 'auto', }}>
+                        <Box sx={{ width: '100%' }}>
+                            <Virtuoso
+                                style={{ height: '75vh' }}
+                                totalCount={combinedList.length}
+                                itemContent={(index) => {
+                                    const val = combinedList[index];
+                                    const isServiceItem = index < serviceList.length;
+                                    return (
+                                        <Box
+                                            key={val.slno}
+                                            sx={{
+                                                flex: 1,
+                                                display: 'flex',
+                                                mt: .3,
+                                                borderBottom: .5,
+                                                borderColor: 'lightgrey',
+                                                minHeight: 30,
+                                                maxHeight: 80,
+                                                background: (val.hold_color),
+                                                pt: .5,
+                                                alignItems: 'center',
+                                            }}
+                                        >
+                                            <Box sx={{ width: 55, pl: 1.7, color: '#444444', fontSize: 14 }}>
+                                                {index + 1}
                                             </Box>
-                                        );
-                                    }} />
-                            </Box>
+                                            <Box sx={{ width: 50, color: '#444444', fontSize: 14 }}>
+                                                <BuildCircleIcon sx={{ color: '#4C5270', cursor: 'pointer' }} onClick={() => ServiceDetailsView(val)} />
+                                            </Box>
+                                            <Box sx={{ width: 90, color: '#444444', fontSize: 14 }}>
+                                                {val.spare_asset_no !== undefined ? 'Spare' : 'Asset'}
+                                            </Box>
+                                            <Box sx={{ width: 150, color: '#444444', fontSize: 14 }}>
+                                                {isServiceItem
+                                                    ? `${val.spare_asset_no}/${val.spare_asset_no_only.toString().padStart(6, '0')}`
+                                                    : `${val.item_asset_no}/${val.item_asset_no_only.toString().padStart(6, '0')}`}
+                                            </Box>
+                                            <Box sx={{ flex: 1, color: '#444444', fontSize: 14 }}>
+                                                {val.category_name}
+                                            </Box>
+                                            <Box sx={{ flex: 2, color: '#444444', fontSize: 14, }}>
+                                                {val.item_name}
+                                            </Box>
+                                            <Box sx={{ width: 180, color: '#444444', fontSize: 14, pl: 1.5 }}>
+                                                {val.em_name}
+                                            </Box>
+
+                                        </Box>
+                                    );
+                                }} />
                         </Box>
                     </Box>
+
                 </Box>
                 :
                 <Box sx={{

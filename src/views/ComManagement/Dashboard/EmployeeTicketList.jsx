@@ -56,10 +56,12 @@ const EmployeeTicketList = ({ empdept }) => {
                 </Box>
             </Box>
             <Box sx={{
-                flex: 1,
-                height: '90vh', overflow: 'auto',
-                px: 1,
+                // flexGrow: 1,    
+                height: 550,
+                overflow: 'auto',
             }}>
+
+
                 {employeeList?.map((val, index) => {
                     return (
                         <Box key={index} sx={{

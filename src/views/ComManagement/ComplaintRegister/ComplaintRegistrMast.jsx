@@ -113,11 +113,9 @@ const ComplaintRegistrMast = () => {
         dispatch(getRoomsNameNdTypeList(empsecid))
     }, [dispatch, empsecid])
 
-    //dispatching redux data hic,complaintype,requestype,complaintdept
     useEffect(() => {
         dispatch(getHicpolicy());
         dispatch(getComplaintDept());
-        // dispatch(getRequesttype());
         if (codept !== null) {
             dispatch(getComplainttype(codept));
         }
@@ -217,14 +215,10 @@ const ComplaintRegistrMast = () => {
         setEdit(1);
         setSelect(1)
         setSearch(0)
-        const { complaint_typeslno, complaint_hicslno,
-            cm_location, priority_reason,
-            // complaint_request_slno,
-            complaint_deptslno, complaint_slno,
-            complaint_desc, priority_check, rm_room_slno } = val;
+        const { complaint_typeslno, complaint_hicslno, cm_location, priority_reason, complaint_deptslno, complaint_slno, complaint_desc, priority_check,
+            rm_room_slno, compl_dept } = val;
         setDepsec(cm_location)
         setComplaint(complaint_slno)
-        // setReqType(complaint_request_slno)
         setcotype(complaint_typeslno)
         setChechHic(complaint_hicslno === 1 ? true : false)
         setpriority(priority_check)
@@ -233,8 +227,8 @@ const ComplaintRegistrMast = () => {
         setPriorreason(priority_reason)
         setCritical(priority_check === 1 ? true : false)
         setRoomName(rm_room_slno)
+        setcustodianDept(compl_dept)
     }, [])
-    //update data
     const patchdata = useMemo(() => {
         return {
             complaint_desc: desc,
@@ -300,7 +294,6 @@ const ComplaintRegistrMast = () => {
 
     const reset = useCallback(() => {
         setComplaint(0)
-        // setReqType(false)
         setcotype(false)
         setChechHic(false)
         setpriority(0)
@@ -547,11 +540,9 @@ const ComplaintRegistrMast = () => {
 
     const refreshWindow = useCallback(() => {
         setComplaint(0)
-        // setReqType(false)
         setcotype(false)
         setChechHic(false)
         setpriority(0)
-        setcodept(null)
         setCritical(false)
         setdesc('')
         setDepsec(0)
@@ -579,12 +570,11 @@ const ComplaintRegistrMast = () => {
         }
     }, [count, empsecid, dispatch])
 
-
-
     const UpdateAssetNo = useCallback((e) => {
         setcm_am_assetmap_slno(e.target.value.toLocaleUpperCase())
         setAssetStatus(0)
     }, [])
+
     const [custFirstName, setcustFirstName] = useState('')
     const [custSecName, setcustSecName] = useState('')
 
