@@ -14,8 +14,8 @@ import AmDepartmentSelWOName from 'src/views/CommonSelectCode/AmDepartmentSelWON
 import AmDeptSecSelectWOName from 'src/views/CommonSelectCode/AmDeptSecSelectWOName'
 import { getDepartment } from 'src/redux/actions/Department.action';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import { useSelector } from 'react-redux'
-import _ from 'underscore';
+import AMCustodianDeptSelect from 'src/views/CommonSelectCode/AMCustodianDeptSelect';
+import CloseIcon from '@mui/icons-material/Close';
 
 const DeptSecBaseReport = () => {
     const history = useHistory();
@@ -24,60 +24,71 @@ const DeptSecBaseReport = () => {
     const [exports, setexport] = useState(0)
     const [department, setDepartment] = useState(0)
     const [deptsec, setDeptSec] = useState(0)
-    const deptsecid = useSelector((state) => state.LoginUserData.empsecid, _.isEqual)
+    const [selectedDept, setSelectedDept] = useState(null);
 
     useEffect(() => {
         dispatch(getDepartment())
     }, [dispatch])
 
+    // const postdata = useMemo(() => {
+    //     return {
+    //         item_dept_slno: department !== 0 ? department : 0,
+    //         item_deptsec_slno: deptsec !== 0 ? deptsec : 0,
+    //         item_custodian_dept_sec: deptsecid
+    //     }
+    // }, [department, deptsec, deptsecid])
+
     const postdata = useMemo(() => {
         return {
             item_dept_slno: department !== 0 ? department : 0,
             item_deptsec_slno: deptsec !== 0 ? deptsec : 0,
-            item_custodian_dept_sec: deptsecid
-        }
-    }, [department, deptsec, deptsecid])
+            item_custodian_slno: selectedDept?.am_custodian_slno || 0
+        };
+    }, [department, deptsec, selectedDept]);
+
+
+    const Clear = useCallback(() => {
+        setSelectedDept(null)
+        setDeptSec(0)
+        setDepartment(0)
+        setTableData([])
+    }, [])
+
 
     const search = useCallback(() => {
-
-        if (department !== 0 && deptsec !== 0) {
-
-            const getAllItems = async (postdata) => {
-                const result = await axioslogin.post(`/amReport/getItemsFronList`, postdata);
-                const { success, data } = result.data;
-                if (success === 1) {
-                    const dispalyData = data && data.map((val, index) => {
-                        const obj = {
-                            slno: index + 1,
-                            item_creation_slno: val.item_creation_slno,
-                            deptname: val.deptname,
-                            secname: val.secname,
-                            item_name: val.item_name,
-                            item_asset_no: val.item_asset_no,
-                            item_asset_no_only: val.item_asset_no_only,
-                            rm_room_name: val.rm_room_name !== null ? val.rm_room_name : "Not Given",
-                            subroom_name: val.subroom_name !== null ? val.subroom_name : "Not Given",
-                            assetno: val.item_asset_no + '/' + val.item_asset_no_only.toString().padStart(6, '0'),
-                            am_manufacture_no: val.am_manufacture_no !== null
-                                || val.am_manufacture_no !== '' ? val.am_manufacture_no : "Not Given"
-                        }
-                        return obj
-                    })
-                    setTableData(dispalyData)
-                } else {
-                    warningNotify("No Items Added")
-                    setTableData([])
-                }
+        const getAllItems = async (postdata) => {
+            const result = await axioslogin.post(`/amReport/getItemsFronList`, postdata);
+            const { success, data } = result.data;
+            if (success === 1) {
+                const dispalyData = data && data.map((val, index) => {
+                    const obj = {
+                        slno: index + 1,
+                        item_creation_slno: val.item_creation_slno,
+                        deptname: val.deptname,
+                        secname: val.secname,
+                        item_name: val.item_name,
+                        item_asset_no: val.item_asset_no,
+                        item_asset_no_only: val.item_asset_no_only,
+                        rm_room_name: val.rm_room_name !== null ? val.rm_room_name : "Not Given",
+                        subroom_name: val.subroom_name !== null ? val.subroom_name : "Not Given",
+                        assetno: val.item_asset_no + '/' + val.item_asset_no_only.toString().padStart(6, '0'),
+                        am_manufacture_no: val.am_manufacture_no !== null
+                            || val.am_manufacture_no !== '' ? val.am_manufacture_no : "Not Given"
+                    }
+                    return obj
+                })
+                setTableData(dispalyData)
+            } else {
+                warningNotify("No Items Added")
+                setTableData([])
             }
-            getAllItems(postdata)
-
-        } else {
-            warningNotify("Please Select Department And department Section")
         }
-    }, [postdata, department, deptsec])
+        getAllItems(postdata)
+    }, [postdata])
 
     const [columnDefs] = useState([
         { headerName: "SlNo", field: "slno", autoHeight: true, wrapText: true, minWidth: 70 },
+        { headerName: "Department ", field: "deptname", autoHeight: true, wrapText: true, minWidth: 300, filter: "true" },
         { headerName: "Department Section", field: "secname", autoHeight: true, wrapText: true, minWidth: 300, filter: "true" },
         { headerName: "Item Name", field: "item_name", autoHeight: true, wrapText: true, minWidth: 350 },
         { headerName: "Asset No", field: "assetno", autoHeight: true, wrapText: true, minWidth: 180, filter: "true" },
@@ -122,31 +133,33 @@ const DeptSecBaseReport = () => {
                     flexDirection: 'row',
                     m: 0
                 }} >
-                    <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
-                        <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550, pl: 1 }} >Department</Typography>
-                        <Box>
-                            <AmDepartmentSelWOName
-                                department={department}
-                                setDepartment={setDepartment}
-                            />
+                    <Box sx={{ display: 'flex', flex: 1, mt: 2, mx: 1, gap: 1 }}>
+                        <Box sx={{ flex: 1 }} >
+                            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550, pl: .5 }}> Custodian Department</Typography>
+                            <AMCustodianDeptSelect selectedDept={selectedDept} setSelectedDept={setSelectedDept} />
                         </Box>
-                    </Box>
-                    <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
-                        <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550, pl: 1 }} >Department Section</Typography>
-                        <Box>
-                            <AmDeptSecSelectWOName
-                                deptsec={deptsec}
-                                setDeptSec={setDeptSec}
-                            />
+                        <Box sx={{ flex: 1 }} >
+                            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550, pl: .5 }} >Department</Typography>
+                            <AmDepartmentSelWOName department={department} setDepartment={setDepartment} />
                         </Box>
-                    </Box>
-                    <Box sx={{ width: '3%', pl: 1, pt: 3, }}>
-                        <CusIconButton size="sm" variant="outlined" clickable="true" onClick={search} >
-                            <SearchOutlinedIcon fontSize='small' />
-                        </CusIconButton>
+                        <Box sx={{ flex: 1 }} >
+                            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550, pl: .5 }} >Department Section</Typography>
+                            <AmDeptSecSelectWOName deptsec={deptsec} setDeptSec={setDeptSec} />
+                        </Box>
+                        <Box sx={{ pt: 2.2 }} >
+                            <CusIconButton size="sm" variant="outlined" clickable="true" onClick={search} >
+                                <SearchOutlinedIcon fontSize='small' />
+                            </CusIconButton>
+                        </Box>
+                        <Box sx={{ width: 50, pt: 2.2 }} >
+                            <CusIconButton size="sm" variant="outlined" clickable="true" onClick={Clear} >
+                                <CloseIcon fontSize='small' />
+                            </CusIconButton>
+                        </Box>
+                        <Box sx={{ flex: .5 }} >
+                        </Box>
                     </Box>
                 </Box>
-
                 <Paper square sx={{ width: { md: '100%', lg: '100%', xl: '100%' }, p: 1 }}>
                     <Paper
                         square
@@ -174,6 +187,36 @@ const DeptSecBaseReport = () => {
                         tableData={TableData}
                     />
                 </Paper>
+                {/* <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
+                        <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550, pl: 1 }} >Department</Typography>
+                        <Box>
+                            <AMCustodianDeptSelect selectedDept={selectedDept} setSelectedDept={setSelectedDept} />
+                        </Box>
+                    </Box>
+
+                    <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
+                        <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550, pl: 1 }} >Department</Typography>
+                        <Box>
+                            <AmDepartmentSelWOName
+                                department={department}
+                                setDepartment={setDepartment}
+                            />
+                        </Box>
+                    </Box>
+                    <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
+                        <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550, pl: 1 }} >Department Section</Typography>
+                        <Box>
+                            <AmDeptSecSelectWOName
+                                deptsec={deptsec}
+                                setDeptSec={setDeptSec}
+                            />
+                        </Box>
+                    </Box>
+                    <Box sx={{ width: '3%', pl: 1, pt: 3, }}>
+                        <CusIconButton size="sm" variant="outlined" clickable="true" onClick={search} >
+                            <SearchOutlinedIcon fontSize='small' />
+                        </CusIconButton>
+                    </Box> */}
             </Box>
         </CardCloseOnly>
     )

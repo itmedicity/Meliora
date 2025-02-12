@@ -123,7 +123,7 @@ const BillModalTele = ({ modalOpen, setModalFlag, setModalOpen, billDatas, filez
                     const data = result.data;
                     const fileNames = data.data;
                     const fileUrls = fileNames.map((fileName) => {
-                        return `${PUBLIC_NAS_FOLDER}/Bills/Quarterly/${index_no}/${fileName}`;
+                        return `${PUBLIC_NAS_FOLDER}/Bills/QuarterlyBill/${index_no}/${fileName}`;
                     });
                     setFilezUrls(fileUrls);
                 } else {
