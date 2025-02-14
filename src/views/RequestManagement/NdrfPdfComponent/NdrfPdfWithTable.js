@@ -1324,8 +1324,9 @@ export const ndrfpdfdownloadwithtable = (data, dataPost, datacollectdata, inchar
         ],
 
         images: {
-            snow: 'http://192.168.22.170/NAS/logo/logo.png',
+            //snow: 'http://192.168.22.170/NAS/logo/logo.png',
             // pic: 'http://192.168.10.170/NAS/2119/signature/signature.jpg',
+            snow: 'http://192.168.10.88:9090/Meliora/logo/logo.png',
             inchargesign: inchargesign,
             hsign: hodsign,
             omsign: omsign,
