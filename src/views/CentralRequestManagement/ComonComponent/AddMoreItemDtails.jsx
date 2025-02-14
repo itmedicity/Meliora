@@ -1,78 +1,103 @@
-import React, { useCallback, memo, useState, useEffect } from 'react'
-import { Box, IconButton, } from '@mui/material'
+import React, { useCallback, memo, useState, useEffect, Fragment, useMemo } from 'react'
 import CustomPaperTitle from 'src/views/Components/CustomPaperTitle'
-import TextFieldCustom from 'src/views/Components/TextFieldCustom'
-import { MdOutlineAddCircleOutline } from 'react-icons/md';
 import { succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { getUOM } from 'src/redux/actions/AmUOMList.action'
 import { useDispatch, useSelector } from 'react-redux'
 import { axioslogin } from 'src/views/Axios/Axios'
 import _ from 'underscore'
-import UOMSelect from './UOMSelect';
+import CustomInputDateCmp from './Components/CustomInputDateCmp'
+import { Box, IconButton } from '@mui/joy'
+import UomApprvSelect from './Components/UomApprvSelect'
+import { useQuery, useQueryClient } from 'react-query'
+import { getApprovedCrfItems, getMaxslNoOfCrfItem } from 'src/api/CommonApiCRF'
 
-const AddMoreItemDtails = ({ req_slno, setMoreItem }) => {
+const AddMoreItemDtails = ({ req_slno, setMoreItem, setApproveTableData }) => {
     const dispatch = useDispatch();
+    const queryClient = useQueryClient()
+    const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
     //Item details initialization
-    const [itemstate, setItemState] = useState({
+    const [uom, setUOM] = useState(0)
+    const [itemDetails, setItemDetails] = useState({
+        item_qty: 0,
+        maxSlno: 0,
+        unitprice: 0,
+        approx_cost: 0,
         item_desc: '',
         item_brand: '',
-        item_qty: 0,
         item_spec: '',
     })
-    //Destructuring
-    const { item_desc, item_brand, item_qty, item_spec } = itemstate
+    const { item_qty, maxSlno, unitprice, approx_cost, item_desc, item_brand, item_spec } = itemDetails
+
     const updateItemState = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-        setItemState({ ...itemstate, [e.target.name]: value })
-    }, [itemstate])
+        setItemDetails({ ...itemDetails, [e.target.name]: value })
+    }, [itemDetails])
 
-    const [uom, setUOM] = useState(0)
-    const [uomName, setUomName] = useState('')
-    const [unitprice, setUnitPrice] = useState(0)
-    const [approx_cost, setapprox_cost] = useState(0)
-    //redux for geting login id
-    const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
+    useEffect(() => {
+        dispatch(getUOM());
+    }, [dispatch])
+
+    const onchangeQty = useCallback((e) => {
+        setItemDetails(prev => ({
+            ...prev,
+            item_qty: (e.target.value),
+            approx_cost: (unitprice !== '' || unitprice !== 0) ? (unitprice * e.target.value) : 0
+        }))
+    }, [unitprice])
 
     const updateUnitPrice = useCallback((e) => {
         if (item_qty !== 0) {
-            setUnitPrice(e.target.value)
-            setapprox_cost(item_qty * e.target.value)
+            setItemDetails(prev => ({
+                ...prev,
+                unitprice: (e.target.value),
+                approx_cost: (item_qty !== '') ? (item_qty * e.target.value) : 0
+            }))
         }
         else {
-            warningNotify("Please Enter quantity before enter unit price")
+            warningNotify("Provide the quantity before specifying the unit price")
         }
     }, [item_qty])
-
-    const [MaxSlno, setMaxSlno] = useState(0)
-
+    const { data: iteData, isLoading: isItemsLoading, error: itemsError } = useQuery({
+        queryKey: ['approvedRejholdItemList', req_slno],
+        queryFn: () => getApprovedCrfItems(req_slno),
+        staleTime: Infinity
+    });
+    const itemData = useMemo(() => iteData, [iteData])
     useEffect(() => {
-        dispatch(getUOM())
-        const getMaxItemSlno = async (req_slno) => {
-            const result = await axioslogin.get(`/CRFRegisterApproval/getMaxItemSlno/${req_slno}`)
-            const { succes, dataa } = result.data
-            if (succes === 1) {
-                const { max_slno } = dataa[0]
-                setMaxSlno(max_slno)
-            } else {
-                setMaxSlno(0)
-            }
+        if (itemData && itemData.length !== 0) {
+            setApproveTableData(itemData)
         }
-        getMaxItemSlno(req_slno)
-    }, [dispatch, req_slno])
+    }, [itemData, setApproveTableData])
+
+    const { data: maxSlnoData, isLoading: isSlnoLoading, error: slnoError } = useQuery({
+        queryKey: ['getmaxSlno', req_slno],
+        queryFn: () => getMaxslNoOfCrfItem(req_slno),
+        staleTime: Infinity
+    });
+    useEffect(() => {
+        if (maxSlnoData && maxSlnoData.length !== 0) {
+            const { maxSlno } = maxSlnoData[0];
+            setItemDetails(prev => ({
+                ...prev,
+                maxSlno: maxSlno
+            }))
+        }
+    }, [maxSlnoData])
 
     const reset = useCallback(() => {
         const frmdata = {
+            item_qty: 0,
+            maxSlno: 0,
+            unitprice: 0,
+            approx_cost: 0,
             item_desc: '',
             item_brand: '',
-            item_qty: 0,
             item_spec: '',
         }
-        setItemState(frmdata)
+        setItemDetails(frmdata)
         setUOM(0)
-        setUomName('')
-        setUnitPrice(0)
-        setMaxSlno(0)
         setMoreItem(0)
+
     }, [setMoreItem])
 
     const AddItem = useCallback(() => {
@@ -81,6 +106,8 @@ const AddMoreItemDtails = ({ req_slno, setMoreItem }) => {
             const { success, message } = result.data
             if (success === 1) {
                 succesNotify(message)
+                queryClient.invalidateQueries('approvedRejholdItemList')
+                queryClient.invalidateQueries('getmaxSlno')
                 reset()
             } else {
                 warningNotify(message)
@@ -90,12 +117,11 @@ const AddMoreItemDtails = ({ req_slno, setMoreItem }) => {
             const newdata = {
                 id: Math.ceil(Math.random() * 1000),
                 req_slno: req_slno,
-                item_slno: MaxSlno + 1,
+                item_slno: maxSlno + 1,
                 item_desc: item_desc,
                 item_brand: item_brand,
                 item_unit: uom,
                 item_qnty: parseInt(item_qty),
-                uomName: uomName,
                 item_specification: item_spec,
                 item_unit_price: unitprice,
                 aprox_cost: parseInt(approx_cost),
@@ -109,8 +135,8 @@ const AddMoreItemDtails = ({ req_slno, setMoreItem }) => {
                 item_status_approved: 1,
                 approve_item_status: 1,
                 item_add_higher: 1,
-                create_user: id
-
+                create_user: id,
+                approve_aprox_cost: parseInt(approx_cost),
             }
             AddMoreItems(newdata)
         }
@@ -118,122 +144,134 @@ const AddMoreItemDtails = ({ req_slno, setMoreItem }) => {
             warningNotify("Item Description and Quantity are mandatory and Quantity and unit price are not negative")
         }
 
-    }, [MaxSlno, item_desc, item_brand, item_qty, uom, uomName, item_spec, unitprice, approx_cost,
-        id, reset, req_slno])
+    }, [maxSlno, item_desc, item_brand, item_qty, uom, item_spec, unitprice, approx_cost, id, reset, req_slno, queryClient])
+
+    const cancelEdit = useCallback(() => {
+        reset()
+    }, [reset])
+
+    if (isItemsLoading || isSlnoLoading) return <p>Loading...</p>;
+    if (itemsError || slnoError) return <p>Error occurred.</p>;
     return (
-        <Box sx={{
-            width: "100%", display: "flex", flexDirection: "column"
-        }}>
-            <CustomPaperTitle heading="Estimate/Approximate/Requirement Details" />
-            <Box sx={{
-                width: "100%", p: 1, display: "flex", flexDirection: 'row'
-            }}>
-                <Box sx={{
-                    width: "55%", display: "flex", pr: 1, flexDirection: "column"
-                }}>
-                    <CustomPaperTitle heading="Item Description" mandtry={1} />
-                    <TextFieldCustom
-                        type="text"
-                        size="sm"
-                        name="item_desc"
-                        value={item_desc}
-                        onchange={updateItemState}
-                    />
-                </Box>
-
-                <Box sx={{
-                    width: "45%", display: "flex", flexDirection: "column",
-                    pr: 1
-                }}>
-                    <CustomPaperTitle heading="Item Brand" />
-                    <TextFieldCustom
-                        type="text"
-                        size="sm"
-                        name="item_brand"
-                        value={item_brand}
-                        onchange={updateItemState}
-                    />
-                </Box>
-
-                <Box sx={{
-                    width: "7%", display: "flex", flexDirection: "column",
-                    pr: 1
-                }}>
-                    <CustomPaperTitle heading="Quantity" mandtry={1} />
-                    <TextFieldCustom
-                        type="number"
-                        size="sm"
-                        name="item_qty"
-                        value={item_qty}
-                        onchange={updateItemState}
-                    />
-                </Box>
-                <Box sx={{
-                    width: "13%", display: "flex", flexDirection: "column",
-                    pr: 1
-                }}>
-                    <Box sx={{ pl: 0.5 }}>
-                        <CustomPaperTitle heading="Unit" />
+        <Fragment>
+            <Box sx={{ px: 0.5, pt: 0.5 }}>
+                <Box sx={{ display: 'flex', }}>
+                    <Box sx={{ flex: 1.5, }}>
+                        <CustomPaperTitle heading="Item Description" mandtry={1} />
+                        <CustomInputDateCmp
+                            className={{ height: 37, ml: 0.5 }}
+                            autoComplete='off'
+                            size={'sm'}
+                            type={'text'}
+                            name={'item_desc'}
+                            value={item_desc}
+                            handleChange={updateItemState}
+                        />
                     </Box>
+                    <Box sx={{ flex: 0.7, }}>
+                        <CustomPaperTitle heading="Item Brand" />
+                        <CustomInputDateCmp
+                            className={{ height: 37, ml: 0.5, mt: 0.3 }}
+                            autoComplete='off'
+                            size={'sm'}
+                            type={'text'}
+                            name={'item_brand'}
+                            value={item_brand}
+                            handleChange={updateItemState}
+                        />
+                    </Box>
+                    <Box sx={{ flex: 1, }}>
+                        <CustomPaperTitle heading="Specification" />
+                        <CustomInputDateCmp
+                            className={{ height: 37, mx: 0.5, mt: 0.3 }}
+                            autoComplete='off'
+                            size={'sm'}
+                            type={'text'}
+                            name={'item_spec'}
+                            value={item_spec}
+                            handleChange={updateItemState}
+                        />
+                    </Box>
+                </Box>
+                <Box sx={{ display: 'flex', pt: 0.5, pb: 1 }}>
+                    <Box sx={{ flex: 1 }}>
+                        <CustomPaperTitle heading="Quantity" mandtry={1} />
+                        <CustomInputDateCmp
+                            className={{ height: 37, ml: 0.5 }}
+                            autoComplete='off'
+                            size={'sm'}
+                            type={'number'}
+                            name={'item_qty'}
+                            value={item_qty}
+                            handleChange={onchangeQty}
+                        />
+                    </Box>
+                    <Box sx={{ flex: 0.6, pl: 0.5, mt: 0.1 }}>
+                        <CustomPaperTitle heading="Unit" />
+                        <Box sx={{ pt: 0.2 }}>
+                            <UomApprvSelect
+                                uom={uom}
+                                setUOM={setUOM}
+                            />
+                        </Box>
 
-                    <UOMSelect
-                        uom={uom}
-                        setUOM={setUOM}
-                        setName={setUomName}
-                        uomName={uomName}
-                    />
-                </Box>
-                <Box sx={{
-                    width: "60%", display: "flex", flexDirection: "column",
-                    pr: 1
-                }}>
-                    <CustomPaperTitle heading="Specification" />
-                    <TextFieldCustom
-                        type="text"
-                        size="sm"
-                        name="item_spec"
-                        value={item_spec}
-                        onchange={updateItemState}
-                    />
-                </Box>
-                <Box sx={{
-                    width: "13%", display: "flex", flexDirection: "column",
-                    pr: 1
-                }}>
-
-                    <CustomPaperTitle heading="Unit Price" />
-                    <TextFieldCustom
-                        type="number"
-                        size="sm"
-                        name="unitprice"
-                        value={unitprice}
-                        onchange={updateUnitPrice}
-                    />
-
-                </Box>
-                <Box sx={{
-                    width: "7%", display: "flex", flexDirection: "column",
-                    pr: 1
-                }}>
-                    <CustomPaperTitle heading="Approx.Cost" />
-                    <TextFieldCustom
-                        type="number"
-                        size="sm"
-                        name="approx_cost"
-                        value={approx_cost}
-                        disabled={true}
-                    />
-                </Box>
-                <Box sx={{
-                    width: "7%",
-                    pt: 2
-                }}>
-                    <IconButton variant="outlined" color="primary" onClick={AddItem}>
-                        <MdOutlineAddCircleOutline size={30} />
-                    </IconButton>
+                    </Box>
+                    <Box sx={{ flex: 1 }}>
+                        <CustomPaperTitle heading="Unit Price" />
+                        <Box sx={{ pt: 0.2 }}>
+                            <CustomInputDateCmp
+                                className={{ height: 37, ml: 0.5 }}
+                                autoComplete='off'
+                                size={'sm'}
+                                type={'number'}
+                                name={'unitprice'}
+                                value={unitprice}
+                                handleChange={updateUnitPrice}
+                            />
+                        </Box>
+                    </Box>
+                    <Box sx={{ flex: 1 }}>
+                        <CustomPaperTitle heading="Approx.Cost" />
+                        <Box sx={{ pt: 0.2 }}>
+                            <CustomInputDateCmp
+                                className={{ height: 37, ml: 0.5 }}
+                                size={'sm'}
+                                autoComplete='off'
+                                name={'approx_cost'}
+                                value={approx_cost}
+                                disabled={true}
+                            />
+                        </Box>
+                    </Box>
+                    <Box sx={{ flex: 0.7, ml: 1 }}>
+                        <IconButton
+                            sx={{
+                                fontSize: 12, height: '37px', lineHeight: '1.2', mt: 2.9, border: '1px solid #bbdefb',
+                                color: '#1565c0', bgcolor: 'white', borderRadius: 5, width: '100%',
+                                '&:hover': {
+                                    bgcolor: 'white', color: '#43B0F1'
+                                },
+                            }}
+                            onClick={AddItem} >
+                            Add
+                        </IconButton>
+                    </Box>
+                    <Box sx={{ flex: 0.5, mr: 1, ml: 0.5 }}>
+                        <IconButton
+                            sx={{
+                                fontSize: 12, height: '35px', lineHeight: '1.2', mt: 2.9, border: '1px solid #bbdefb',
+                                color: '#1565c0', bgcolor: 'white', borderRadius: 5, width: '100%',
+                                '&:hover': {
+                                    bgcolor: 'white', color: '#43B0F1'
+                                },
+                            }}
+                            onClick={cancelEdit} >
+                            Cancel
+                        </IconButton>
+                    </Box>
                 </Box>
             </Box>
-        </Box>
+        </Fragment>
     )
 }
 

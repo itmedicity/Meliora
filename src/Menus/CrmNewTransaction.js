@@ -27,7 +27,13 @@ const CrmNewTransaction = [
         to: '/Home/CRFNewInchargeApproval',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
-
+    {
+        men_slno: 233,
+        component: CNavItem,
+        name: 'CRF Search',
+        to: '/Home/SearchCrfDetails',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
     {
         men_slno: 191,
         component: CNavItem,
@@ -93,12 +99,33 @@ const CrmNewTransaction = [
         to: '/Home/CRFNewEDApproval',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
+    {
+        men_slno: 253,
+        component: CNavItem,
+        name: 'Managing Director Approval',
+        to: '/Home/CRFNewManagingDirector',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
 
     {
         men_slno: 201,
         component: CNavItem,
         name: 'CRF Purchase',
         to: '/Home/CRFNewPurchase',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
+    {
+        men_slno: 231,
+        component: CNavItem,
+        name: 'CRS Delivery Marking',
+        to: '/Home/DeliveryMarking',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
+    {
+        men_slno: 232,
+        component: CNavItem,
+        name: 'Item Checking',
+        to: '/Home/ItemChecking',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
     {
@@ -115,13 +142,15 @@ const CrmNewTransaction = [
         to: '/Home/CRFNewStore',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
-    // {
-    //     men_slno: 2,
-    //     component: CNavItem,
-    //     name: 'PDF View',
-    //     to: '/Home/CRFNewPdfView',
-    //     icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
-    // },
+
+    {
+        men_slno: 243,
+        component: CNavItem,
+        name: 'CRF Biomedical View',
+        to: '/Home/CrfBiomedical',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
+
 ]
 
 export default CrmNewTransaction;

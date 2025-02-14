@@ -58,7 +58,7 @@ const YearlyVerificationTable = ({ setYearflag }) => {
             const NewData = array?.map((val) => {
                 return {
                     backup_yearly_date: moment(val.backup_yearly_date).format('YYYY'),
-                    backup_type: (val.backup_type === 1) ? 'IIS Backup' : (val.backup_type === 2) ? 'Database Backup' : (val.backup_type === 3) ? 'Share Folder Backup' : 'Scanned File Backup',
+                    backup_type: (val.backup_type === 1) ? 'IIS Backup' : (val.backup_type === 2) ? 'Database Backup' : (val.backup_type === 3) ? 'Share Folder Backup' : (val.backup_type === 4) ? 'Scanned File Backup' : 'Configuration Backup',
                     backup_name: val.backup_name,
                     backup_location: val.backup_location,
                     schedule_type_name: val.schedule_type_name,
@@ -197,7 +197,7 @@ const YearlyVerificationTable = ({ setYearflag }) => {
                                             <tr key={val.yearly_slno} style={{ height: 8 }} size='small' >
                                                 <td style={{ textAlign: 'center' }}>{index + 1}</td>
                                                 <td>{moment(val.backup_yearly_date).format('YYYY')}</td>
-                                                <td>{(val.backup_type === 1) ? 'IIS Backup' : (val.backup_type === 2) ? 'Database Backup' : (val.backup_type === 3) ? 'Share Folder Backup' : 'Scanned File Backup'}</td>
+                                                <td>{(val.backup_type === 1) ? 'IIS Backup' : (val.backup_type === 2) ? 'Database Backup' : (val.backup_type === 3) ? 'Share Folder Backup' : (val.backup_type === 4) ? 'Scanned File Backup' : 'Configuration Backup'}</td>
                                                 <td>{val.backup_name}</td>
                                                 <td>{val.backup_location}</td>
                                                 <td>{val.schedule_type_name}</td>

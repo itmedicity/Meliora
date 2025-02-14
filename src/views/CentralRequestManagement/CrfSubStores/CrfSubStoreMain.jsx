@@ -1,161 +1,353 @@
-import React from 'react'
-import { useState, useCallback, useEffect, memo, Fragment } from 'react'
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
-import { Box, Paper } from '@mui/material'
-import CloseIcon from '@mui/icons-material/Close';
-import CusIconButton from 'src/views/Components/CusIconButton'
-import { ToastContainer } from 'react-toastify'
-import CustomPaperTitle from 'src/views/Components/CustomPaperTitle'
-import StoreSelectForStore from './StoreSelectForStore'
-import CusAgGridForMain from 'src/views/Components/CusAgGridForMain'
-import { IconButton } from '@mui/material';
-import { editicon } from 'src/color/Color';
-import CustomeToolTip from 'src/views/Components/CustomeToolTip';
-import PublishedWithChangesOutlinedIcon from '@mui/icons-material/PublishedWithChangesOutlined';
-import CrfSubStoreModal from './CrfSubStoreModal'
-import { getPOListSubStorewiseAllList, getSubStorePendingList } from '../ComonComponent/ComonFunctnFile'
-import CustomBackDrop from 'src/views/Components/CustomBackDrop'
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import { Box, Paper, Radio, RadioGroup, FormControlLabel, Tabs, Tab, tabClasses } from '@mui/material';
+import React, { Fragment, memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { axioslogin } from 'src/views/Axios/Axios';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { format } from 'date-fns';
+import { CssVarsProvider, IconButton } from '@mui/joy';
+import FilterAltTwoToneIcon from '@mui/icons-material/FilterAltTwoTone';
+import CustomCloseIconCmp from '../ComonComponent/Components/CustomCloseIconCmp';
+import { useQuery } from 'react-query';
+import { getSubStoreCrfDetails } from 'src/api/CommonApiCRF';
+
+const ReceiveSubStoreView = React.lazy(() => import("./Components/ReceiveSubStoreView"))
 
 const CrfSubStoreMain = () => {
-
-    /*** Initializing */
     const history = useHistory();
-    const [count, setCount] = useState(0)
-    const [open, setOpen] = useState(false)
-    const [radiovalue, setRadioValue] = useState('1')
-    const [disData, setDisData] = useState([])
-    const [substoreSlno, setsubStoreSlno] = useState(0)
+    const [storeList, setStoreList] = useState([]);
+    const [subStoreList, setSubStoreList] = useState([]);
+    const [selectedTab, setSelectedTab] = useState(0);
+    // const [radiovalue, setRadioValue] = useState('');
+    const [crsList, setCrsList] = useState([])
+    // const [crsSlno, setCrsSlno] = useState('1')
+    const [tableData, setTableData] = useState([])
+    const [selectedRadio, setSelectedRadio] = useState(null);
+    const [storeName, setStoreName] = useState('')
+    const [allTableData, setAllTableData] = useState([])
+    const [reqSlno, setReqSlno] = useState([])
+
+    // const [selectedStore, setSelectedStore] = useState({
+    //     main_store_slno: null,
+    //     crm_store_master_slno: null,
+    //     sub_store_name: '',
+    // });
+
+    const backtoHome = useCallback(() => {
+        history.push('/Home');
+    }, [history]);
+
+    const ClearSearch = useCallback(() => {
+        setSelectedRadio(null)
+        setTableData(allTableData)
+    }, [allTableData])
+
+
+    const { data: subStoreData, isLoading: isSubLoading, error: subError } = useQuery({
+        queryKey: 'sustoreCRFView',
+        queryFn: () => getSubStoreCrfDetails(),
+        // staleTime: Infinity
+    })
+    const storeData = useMemo(() => subStoreData, [subStoreData]);
 
     useEffect(() => {
-        if (substoreSlno !== 0) {
-            setOpen(true)
-            getSubStorePendingList(substoreSlno, setDisData, setOpen);
-        } else {
-            setOpen(false)
-        }
-    }, [substoreSlno, count])
-
-
-    //Radio button OnClick function starts
-    const updateRadioClick = useCallback(async (e) => {
-        e.preventDefault()
-        setOpen(false)
-        setRadioValue(e.target.value)
-        if (e.target.value === '1') {
-            getSubStorePendingList(substoreSlno, setDisData, setOpen);
-        } else if (e.target.value === '2') {
-            getPOListSubStorewiseAllList(substoreSlno, setDisData, setOpen)
-        }
-    }, [substoreSlno])
-
-    const [column] = useState([
-        {
-            headerName: 'Action', minWidth: 40, cellRenderer: params => {
-                return <IconButton onClick={() => rowSelect(params)}
-                    sx={{ color: editicon, paddingY: 0.5 }} >
-                    <CustomeToolTip title="Approval">
-                        <PublishedWithChangesOutlinedIcon />
-                    </CustomeToolTip>
-                </IconButton>
+        const getCRSStore = async () => {
+            const result = await axioslogin.get('/newCRFStore/getStores');
+            const { success, data } = result.data;
+            if (success === 1) {
+                const crsStore = data
+                    .filter((val, index, self) =>
+                        index === self.findIndex((value) => value.main_store_slno === val.main_store_slno))
+                    .map((val) => ({
+                        main_store_slno: val.main_store_slno,
+                        crs_store_code: val.crs_store_code,
+                        main_store: val.main_store
+                    }));
+                setCrsList(crsStore);
+                const subStore = data?.map((val) => ({
+                    crm_store_master_slno: val.crm_store_master_slno,
+                    sub_store_name: val.sub_store_name,
+                    store_code: val.store_code,
+                    main_store_slno: val.main_store_slno
+                }));
+                setSubStoreList(subStore);
+            } else {
+                setCrsList([]);
             }
-        },
-        { headerName: "Slno", field: "slno", minWidth: 30 },
-        { headerName: "PO No", field: "po_number", minWidth: 30, filter: "true" },
-        { headerName: "Req.Slno", field: "req_slno", minWidth: 30, filter: "true" },
-        { headerName: "Require Department", field: "req_deptsec", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
-        { headerName: "Requested Department", field: "user_deptsection", minWidth: 250 },
-        { headerName: "PO Date", field: "po_date", minWidth: 120, filter: "true" },
-        { headerName: "Expected Delivery", field: "expected_delivery", minWidth: 120 },
-    ])
+        };
+        getCRSStore();
+    }, []);
+    useEffect(() => {
+        if (storeData && storeData.length > 0) {
+            const newData = storeData?.filter((value, index, self) =>
+                index === self.findIndex((item) => item.req_slno === value.req_slno && item.supply_store === value.supply_store
+                    && item.crm_purchase_slno === value.crm_purchase_slno))
+            const countSet = crsList?.map((val) => {
+                const xx = newData?.filter((value) => value.supply_store === val.main_store_slno)
+                return {
+                    main_store_slno: val.main_store_slno,
+                    crs_store_code: val.crs_store_code,
+                    main_store: val.main_store,
+                    sub_store_slno: val.sub_store_slno,
+                    sub_store_name: val.sub_store_name,
+                    count: xx.length
+                }
+            })
+            setStoreList(countSet)
+        }
+    }, [crsList, storeData])
+    const updateTabChange = useCallback((e, val) => {
+        setSelectedTab(val);
+        setSelectedRadio(null);
+    }, []);
 
-    const [edit, setEdit] = useState(0)
-    const [podetldata, setPodetlData] = useState([])
-    const [okModal, setOkModal] = useState(false)
+    const subStoreDetailsView = useCallback((slno) => {
+        const xx = storeData?.filter((val) => val.supply_store === slno)
+        const reqNo = [...new Set(xx?.map(item => item.req_slno))];
+        setReqSlno(reqNo)
+        const uniquePOSlno = [...new Set(xx?.map(item => item.crm_purchase_slno))];
 
+        const mergedData = uniquePOSlno?.map(po => {
+            const filteredItems = xx?.filter(item => item.crm_purchase_slno === po);
+            const pos = filteredItems?.map(item => `${item.po_number}`);
+            const poDate = filteredItems?.map(item => `${format(new Date(item.po_date), 'dd-MM-yyyy hh:mm:ss a')}`);
+            // const grn_nos = filteredItems.flatMap(item => JSON?.parse(item.grn_no)).join(", ");
+            const grn_nos = filteredItems.flatMap(item => JSON?.parse(item.grn_no));
+            const po_detail_slno = filteredItems?.map(item => `${item.po_detail_slno}`);
+            const po_details = filteredItems?.map((item) => {
+                return {
+                    req_slno: item.req_slno,
+                    po_detail_slno: item.po_detail_slno,
+                    po_number: item.po_number,
+                    po_date: item.po_date,
+                    supplier_name: item.supplier_name,
+                    expected_delivery: item.expected_delivery,
+                    sub_store_slno: item.sub_store_slno,
+                    sub_store_name: item.sub_store_name
+                }
+            })
+            return {
+                ...filteredItems[0],
+                po_detail_slno,
+                pos,
+                poDate,
+                grn_nos,
+                po_details
+            };
+        });
+        setTableData(mergedData)
+        setAllTableData(mergedData)
 
-    //Data set for edit
-    const rowSelect = useCallback((params) => {
-        const data = params.api.getSelectedRows()
-        setEdit(1)
-        setPodetlData(data[0])
-        setOkModal(true)
-    }, [])
+    }, [storeData])
 
-    const handleClose = useCallback(() => {
-        setEdit(0)
-        setPodetlData([])
-    }, [])
+    useEffect(() => {
+        if (selectedTab === 0) {
+            if (storeData && storeData.length > 0) {
+                const xx = storeData?.filter((val) => val.supply_store === 1)
+                const reqNo = [...new Set(xx?.map(item => item.req_slno))];
+                setReqSlno(reqNo)
+                const uniquePOSlno = [...new Set(xx?.map(item => item.crm_purchase_slno))];
+                const mergedData = uniquePOSlno?.map(po => {
+                    const filteredItems = xx?.filter(item => item.crm_purchase_slno === po);
+                    const pos = filteredItems?.map(item => `${item.po_number}`);
+                    const poDate = filteredItems?.map(item => `${format(new Date(item.po_date), 'dd-MM-yyyy hh:mm:ss a')}`);
+                    const grn_nos = filteredItems.flatMap(item => JSON?.parse(item.grn_no));
+                    const po_detail_slno = filteredItems?.map(item => `${item.po_detail_slno}`);
+                    const po_details = filteredItems?.map((item) => {
+                        return {
+                            req_slno: item.req_slno,
+                            po_detail_slno: item.po_detail_slno,
+                            po_number: item.po_number,
+                            po_date: item.po_date,
+                            supplier_name: item.supplier_name,
+                            expected_delivery: item.expected_delivery,
+                            sub_store_slno: item.sub_store_slno,
+                            sub_store_name: item.sub_store_name
+                        }
+                    })
+                    return {
+                        ...filteredItems[0],
+                        po_detail_slno,
+                        pos,
+                        poDate,
+                        grn_nos,
+                        po_details
+                    };
+                });
+                setTableData(mergedData)
+                setAllTableData(mergedData)
+                // const xx = storeData?.filter((val) => val.supply_store === 1)
+                // const uniqueReqSlno = [...new Set(xx?.map(item => item.req_slno))];
 
-    //close button function
-    const backtoSetting = useCallback(() => {
-        history.push('/Home')
-    }, [history])
+                // const mergedData = uniqueReqSlno?.map(reqSlno => {
+                //     const filteredItems = xx?.filter(item => item.req_slno === reqSlno);
+                //     const pos = filteredItems?.map(item => `${item.po_number}`);
+                //     const poDate = filteredItems?.map(item => `${format(new Date(item.po_date), 'dd-MM-yyyy hh:mm:ss a')}`);
+                //     // const grn_nos = filteredItems.flatMap(item => JSON?.parse(item.grn_no)).join(", ");
+                //     const grn_nos = filteredItems.flatMap(item => JSON?.parse(item.grn_no));
 
+                //     const po_detail_slno = filteredItems?.map(item => `${item.po_detail_slno}`);
+                //     const po_details = filteredItems?.map((item) => {
+                //         return {
+                //             po_detail_slno: item.po_detail_slno,
+                //             po_number: item.po_number,
+                //             po_date: item.po_date,
+                //             supplier_name: item.supplier_name,
+                //             expected_delivery: item.expected_delivery,
+                //             sub_store_slno: item.sub_store_slno,
+                //             sub_store_name: item.sub_store_name
+                //         }
+                //     })
+                //     return {
+                //         ...filteredItems[0],
+                //         po_detail_slno,
+                //         pos,
+                //         poDate,
+                //         grn_nos,
+                //         po_details
+                //     };
+                // });
 
+            }
+        }
+    }, [storeData, selectedTab])
+
+    const handleRadioButtonChange = useCallback((e) => {
+        const selectedSlno = e.target.value;
+        const selectedSubStore = subStoreList?.find(
+            (subStore) => subStore.crm_store_master_slno.toString() === selectedSlno
+        );
+        if (selectedSubStore) {
+            setSelectedRadio(selectedSlno)
+            // setStoreName(selectedSubStore.sub_store_name)
+            const newdata = allTableData?.filter((val) => val.sub_store_slno === parseInt(selectedSlno))
+            setTableData(newdata)
+        }
+    }, [subStoreList, allTableData]);
+    if (isSubLoading) return <p>Loading...</p>;
+    if (subError) return <p>Error occurred.</p>;
     return (
         <Fragment>
-            <CustomBackDrop open={open} text="Please Wait" />
-
-            {edit === 1 ?
-                <CrfSubStoreModal open={okModal} podetldata={podetldata} handleClose={handleClose}
-                    count={count} setCount={setCount} /> : null
-            }
-            <ToastContainer />
-            <Box sx={{ height: 35, backgroundColor: "#f0f3f5", display: 'flex' }}>
-                <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>CRF Store</Box>
+            <Box sx={{ height: window.innerHeight - 90 }}>
+                <Box sx={{ display: 'flex', backgroundColor: "#f0f3f5", border: '1px solid #B4F5F0' }}>
+                    <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>Store</Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, m: 0.5 }}>
+                        <CssVarsProvider>
+                            <CustomCloseIconCmp
+                                handleChange={backtoHome}
+                            />
+                        </CssVarsProvider>
+                    </Box>
+                </Box>
                 <Box>
-                    <CusIconButton size="sm" variant="outlined" color="primary" onClick={backtoSetting} >
-                        <CloseIcon fontSize='small' />
-                    </CusIconButton>
+                    <Tabs
+                        value={selectedTab}
+                        onChange={updateTabChange}
+                        aria-label="Bottom Navigation"
+                        sx={(theme) => ({
+                            mx: 'auto',
+                            boxShadow: theme.shadows[1],
+                            [`& .${tabClasses.root}`]: {
+                                flex: 1,
+                                transition: '0.3s',
+                                fontWeight: theme.typography.fontWeightMedium,
+                                fontSize: theme.typography.fontSize,
+                                padding: theme.spacing(0.1, 1),
+                                pt: 1.5,
+                                minHeight: '30px',
+                                [`&:not(.${tabClasses.selected}):not(:hover)`]: {
+                                    opacity: 1,
+                                },
+                            },
+                        })}
+                    >
+                        {storeList?.map((val, index) => (
+                            <Tab
+                                key={index}
+                                style={{ fontWeight: 650, minHeight: '30px' }}
+                                label={val.main_store}
+                                icon={
+                                    <Box
+                                        sx={{
+                                            pl: 5,
+                                            bgcolor: '#BFD7ED',
+                                            borderRadius: '50%',
+                                            minWidth: 25,
+                                            minHeight: 25,
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            padding: 0,
+                                            ':hover': { bgcolor: '#C3CEDA' },
+                                            cursor: 'pointer',
+                                        }}
+                                    >
+                                        {val.count}
+                                    </Box>
+                                }
+                                iconPosition="end"
+                                onClick={() => subStoreDetailsView(val.main_store_slno)}
+                            />
+                        ))}
+                    </Tabs>
+
+                    {storeList?.map((store, index) => (
+                        <Box
+                            role="tabpanel"
+                            hidden={selectedTab !== index}
+                            id={`tabpanel-${index}`}
+                            key={index}
+                            sx={{ py: 0.5 }}
+                        >
+                            {selectedTab === index && (
+                                <Paper elevation={2} sx={{ pl: 4, display: 'flex' }}>
+                                    <RadioGroup
+                                        row
+                                        value={selectedRadio}
+                                        onChange={handleRadioButtonChange}
+                                        sx={{ gap: 2 }}
+                                    >
+                                        {subStoreList
+                                            .filter(subStore => subStore.main_store_slno === store.main_store_slno)
+                                            .map((subStore, subIndex) => (
+                                                <FormControlLabel
+                                                    key={subIndex}
+                                                    value={subStore.crm_store_master_slno}
+                                                    control={<Radio />}
+                                                    label={subStore.sub_store_name}
+                                                    sx={{ mr: 2 }}
+                                                />
+                                            ))}
+                                    </RadioGroup>
+                                    <Box sx={{ my: 0.5 }}>
+                                        <CssVarsProvider>
+                                            <IconButton
+                                                variant="plain"
+                                                sx={{
+                                                    color: '#616161', bgcolor: 'white', width: 150,
+                                                    fontSize: 12, borderRadius: 5, height: '19px', lineHeight: '1',
+                                                    '&:hover': {
+                                                        bgcolor: 'white', color: '#1565c0'
+                                                    },
+                                                }}
+                                                onClick={ClearSearch}
+                                            >
+                                                <FilterAltTwoToneIcon sx={{ fontWeight: 550, color: '#0d47a1', pr: 0.5, width: 30, height: 20 }} />
+                                                Clear Filter
+                                            </IconButton>
+                                        </CssVarsProvider>
+                                    </Box>
+                                </Paper>
+                            )}
+                            <React.Suspense fallback={<div>Loading...</div>}>
+                                <ReceiveSubStoreView tableData={tableData} selectedRadio={selectedRadio} storeName={storeName} setSelectedRadio={setSelectedRadio}
+                                    setStoreName={setStoreName} reqSlno={reqSlno} />
+                            </React.Suspense>
+                            {/* */}
+                        </Box>
+                    ))}
                 </Box>
             </Box>
-            <Paper >
-                <Box sx={{
-                    width: "100%",
-                    pl: 1, pt: 0.5, pr: 1, pb: 0.5, flex: 1,
-                    display: "flex",
-                    flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
-                    justifyContent: 'center',
-                }}>
-                    <Box sx={{ width: "10%", pt: 1 }}>
-                        <CustomPaperTitle heading="Select Store" />
-                    </Box>
-                    <Box sx={{ width: "30%", pt: 1 }}>
-                        <StoreSelectForStore
-                            substoreSlno={substoreSlno} setsubStoreSlno={setsubStoreSlno}
-                        />
-                    </Box>
-                    <Box sx={{ width: "30%", pl: 2 }}>
-                        <RadioGroup
-                            row
-                            aria-labelledby="demo-row-radio-buttons-group-label"
-                            name="row-radio-buttons-group"
-                            value={radiovalue}
-                            onChange={(e) => updateRadioClick(e)}
-                        >
-                            <FormControlLabel value='1' control={<Radio />} label="Pending" />
-                            <FormControlLabel sx={{ pl: 2 }} value='2' control={<Radio />} label="All List" />
-                        </RadioGroup>
-                    </Box>
-                </Box>
-            </Paper>
-            {
-                substoreSlno !== 0 ?
-                    <Box sx={{ height: window.innerHeight - 150, overflow: 'auto', }}>
-                        <Box sx={{ width: "100%", pt: 1 }}>
-                            <CusAgGridForMain
-                                columnDefs={column}
-                                tableData={disData}
-                            />
-                        </Box>
-                    </Box>
-                    : null}
+        </Fragment >
+    );
+};
 
-        </Fragment>
-    )
-}
-
-export default memo(CrfSubStoreMain)
+export default memo(CrfSubStoreMain);

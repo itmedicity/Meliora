@@ -1,9 +1,6 @@
-import React, { useEffect, memo, useState } from 'react'
-import Box from "@mui/material/Box";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
+import React, { useEffect, memo, useState, Fragment } from 'react'
 import { axioslogin } from '../Axios/Axios';
+import { CssVarsProvider, Option, Select } from '@mui/joy';
 
 const CrmEmergencySelect = ({ value, setValue }) => {
     const [crmEmerList, setCrmEmrList] = useState([])
@@ -23,27 +20,25 @@ const CrmEmergencySelect = ({ value, setValue }) => {
     }, [])
 
     return (
-        <Box >
-            <FormControl fullWidth size="small"  >
+        <Fragment>
+            <CssVarsProvider>
                 <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
+                    sx={{ height: 30, p: 0, m: 0, lineHeight: 1.200, fontSize: 13, pl: 1, bgcolor: 'white' }}
+                    slotProps={{
+                        listbox: { placement: 'bottom-start' },
+                    }}
+                    placeholder="Select"
                     value={value}
-                    onChange={(e) => setValue(e.target.value)}
-                    size="small"
-                    fullWidth
-                    variant='outlined'
-                    sx={{ height: 24, p: 0, m: 0, lineHeight: 1.200 }}
+                    onChange={(e, newValue) => setValue(newValue)}
                 >
-                    <MenuItem value={0} disabled >Select Emergency Type</MenuItem>
-                    {
-                        crmEmerList && crmEmerList.map((val, index) => {
-                            return <MenuItem key={index} value={val.emergency_slno}>{val.emer_type_name}</MenuItem>
-                        })
-                    }
+                    {crmEmerList?.map((val) => (
+                        <Option key={val.emergency_slno} value={val.emergency_slno} label={val.emer_type_name}>
+                            {val.emer_type_name}
+                        </Option>
+                    ))}
                 </Select>
-            </FormControl>
-        </Box >
+            </CssVarsProvider>
+        </Fragment>
     )
 }
 
