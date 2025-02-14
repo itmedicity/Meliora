@@ -19,7 +19,6 @@ const BackupChecksTable = () => {
                     <Table borderAxis="both" padding={"none"} stickyHeader >
                         <thead>
                             <tr style={{ height: 8 }}>
-                                {/* <th rowSpan={2} style={{ width: 70 }}>Action</th> */}
                                 <th rowSpan={2} style={{ width: 60 }}>Sl.No</th>
                                 <th rowSpan={2} style={{ width: 150 }}>Backup Type</th>
                                 <th rowSpan={2} style={{ width: 110 }}>Backup Name</th>
@@ -44,7 +43,7 @@ const BackupChecksTable = () => {
                             {backup?.map((val, index) => (
                                 <tr key={val.backup_slno} style={{ height: 8 }} size='small' >
                                     <td style={{ textAlign: 'center' }}>{index + 1}</td>
-                                    <td>{(val.backup_type === 1) ? 'IIS Backup' : (val.backup_type === 2) ? 'Database Backup' : (val.backup_type === 3) ? 'Share Folder Backup' : 'Scanned File Backup'}</td>
+                                    <td>{val.backup_type_name}</td>
                                     <td>{val.backup_name}</td>
                                     <td>{val.backup_location}</td>
                                     <td>{val.backup_device_ip}</td>
