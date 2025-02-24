@@ -86,9 +86,9 @@ const VerificationDetailTable = ({ setDayFlag }) => {
             const NewData = array?.map((val) => {
                 return {
                     backup_daily_date: val.backup_daily_date,
-                    backup_type: (val.backup_type === 1) ? 'IIS Backup' : (val.backup_type === 2) ? 'Database Backup' : (val.backup_type === 3) ? 'Share Folder Backup' : 'Scanned File Backup',
+                    backup_type: val.backup_type_name,
                     backup_name: val.backup_name,
-                    backup_location: val.backup_location,
+                    dept_name: val.dept_name,
                     schedule_type_name: val.schedule_type_name,
                     schedule_time_name: val.schedule_time_name,
                     backup_date_time: moment(val.backup_date_time).format('YYYY-MM-DD hh:mm A'),
@@ -215,9 +215,9 @@ const VerificationDetailTable = ({ setDayFlag }) => {
                                             <tr key={val.daily_slno} style={{ height: 8 }} size='small' >
                                                 <td style={{ textAlign: 'center' }}>{index + 1}</td>
                                                 <td>{moment(val.backup_daily_date).format('DD-MM-YYYY')}</td>
-                                                <td>{(val.backup_type === 1) ? 'IIS Backup' : (val.backup_type === 2) ? 'Database Backup' : (val.backup_type === 3) ? 'Share Folder Backup' : 'Scanned File Backup'}</td>
+                                                <td>{val.backup_type_name}</td>
                                                 <td>{val.backup_name}</td>
-                                                <td>{val.backup_location}</td>
+                                                <td style={{ fontSize: 12 }}>{val.dept_name}</td>
                                                 <td>{val.schedule_type_name}</td>
                                                 <td>{val.schedule_time_name}</td>
                                                 <td>{moment(val.backup_date_time).format('YYYY-MM-DD hh:mm A')}</td>

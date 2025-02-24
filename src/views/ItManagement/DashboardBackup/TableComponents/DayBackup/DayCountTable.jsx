@@ -7,13 +7,14 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import CardMasterClose from 'src/views/Components/CardMasterClose'
 import VerifiedIcon from '@mui/icons-material/Verified';
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { getEmployeeBackup } from 'src/redux/actions/BackupDetails.action'
 import { useEffect } from 'react'
 import ModalDashboardVerify from '../../ModalForVerification/ModalDay/ModalDashboardVerify'
 import ModalVerifiedDetails from '../../ModalForVerification/ModalDay/ModalVerifiedDetails'
 import moment from 'moment'
 const DayCountTable = ({ dayTabledata, dayflag, setDaytabflag, count, setCount }) => {
+
     const history = useHistory()
     const dispatch = useDispatch()
     const [flag, setflag] = useState(0)
@@ -24,9 +25,16 @@ const DayCountTable = ({ dayTabledata, dayflag, setDaytabflag, count, setCount }
         history.push('/Home/DashboardBackup')
         setDaytabflag(0)
     }, [history, setDaytabflag])
+
+    const empDept = useSelector((state) => {
+        return state.LoginUserData.empdept
+    })
+
     useEffect(() => {
-        dispatch(getEmployeeBackup())
-    }, [dispatch])
+        dispatch(getEmployeeBackup(empDept))
+    }, [dispatch, empDept])
+
+
     const handleClose = useCallback(() => {
         setModalOpen(false)
         setflag(0)
@@ -137,9 +145,9 @@ const DayCountTable = ({ dayTabledata, dayflag, setDaytabflag, count, setCount }
                                                 </td>
                                                 <td style={{ textAlign: 'center' }}>{index + 1}</td>
                                                 <td>{moment(val.backup_daily_date).format('DD-MM-YYYY')}</td>
-                                                <td>{(val.backup_type === 1) ? 'IIS Backup' : (val.backup_type === 2) ? 'Database Backup' : (val.backup_type === 3) ? 'Share Folder Backup' : 'Scanned File Backup'}</td>
+                                                <td>{val.backup_type_name}</td>
                                                 <td>{val.backup_name}</td>
-                                                <td>{val.backup_location}</td>
+                                                <td style={{ fontSize: 12 }}>{val.dept_name}</td>
                                                 <td>{val.backup_device_ip}</td>
                                                 <td>{val.backup_device_name}</td>
                                                 <td>{val.backup_device_location}</td>

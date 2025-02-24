@@ -83,22 +83,26 @@ const Newdashboard = () => {
     const id = useSelector((state) => {
         return state?.LoginUserData.empid
     })
+    const empdept = useSelector((state) => {
+        return state?.LoginUserData.empdept
+    })
+
     const backtoHome = useCallback(() => {
         history.push('/Home')
         // setBacktodash(0)
     }, [history])
     useEffect(() => {
-        dispatch(getDailyCount())
-        dispatch(getDayDetails())
-        dispatch(getMonthlyCount())
-        dispatch(getMonthDetails())
-        dispatch(getYearlyBackup())
-        dispatch(getYearDetails())
-        dispatch(getWeeklyBackup())
-        dispatch(getWeeklyDetails())
-        dispatch(getSelectedDaysDetails())
-        dispatch(getDaysDetails())
-    }, [dispatch, count, setDayData])
+        dispatch(getDailyCount(empdept))
+        dispatch(getDayDetails(empdept))
+        dispatch(getMonthlyCount(empdept))
+        dispatch(getMonthDetails(empdept))
+        dispatch(getYearlyBackup(empdept))
+        dispatch(getYearDetails(empdept))
+        dispatch(getWeeklyBackup(empdept))
+        dispatch(getWeeklyDetails(empdept))
+        dispatch(getSelectedDaysDetails(empdept))
+        dispatch(getDaysDetails(empdept))
+    }, [dispatch, count, setDayData, empdept])
     const dailycount = useSelector((state) => state?.getDailyCount?.DailyCount)
     const daysdetails = useSelector((state) => state?.getDayDetails?.dayslist)
     const monthlycount = useSelector((state) => state?.getMonthlyCount?.MonthlyCount)
@@ -128,7 +132,6 @@ const Newdashboard = () => {
                 }
                 else {
                     if (lastBackup.last_backup_date === format(new Date(), "yyyy-MM-dd")) {
-
                     }
                     else {
                         const dayrange = eachDayOfInterval({ start: addDays(new Date(lastBackup.last_backup_date), 1), end: new Date() })
@@ -195,6 +198,7 @@ const Newdashboard = () => {
             setErrorData(errordata)
         }
     }, [daysdetails, count])
+
     const DailyCountDetails = useCallback(() => {
         if (daydata.length === 0) {
             infoNotify("No Data Found")
@@ -204,6 +208,7 @@ const Newdashboard = () => {
             setDayFlag(1)
         }
     }, [daydata])
+
     const DueCountDetails = useCallback(() => {
         if (dueData.length === 0) {
             infoNotify("No Data Found")
@@ -596,8 +601,6 @@ const Newdashboard = () => {
     const YearlyVerificationReport = useCallback(() => {
         setYearflag(5)
     }, [])
-
-
 
 
     return (
