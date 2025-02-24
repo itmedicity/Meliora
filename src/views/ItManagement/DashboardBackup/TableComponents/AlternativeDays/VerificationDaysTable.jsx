@@ -66,9 +66,9 @@ const VerificationDaysTable = ({ setdaysflag }) => {
                 return {
                     backup_selected_date: val.backup_selected_date,
                     due_date: val.due_date,
-                    backup_type: (val.backup_type === 1) ? 'IIS Backup' : (val.backup_type === 2) ? 'Database Backup' : (val.backup_type === 3) ? 'Share Folder Backup' : 'Scanned File Backup',
+                    backup_type: val.backup_type_name,
                     backup_name: val.backup_name,
-                    backup_location: val.backup_location,
+                    dept_name: val.dept_name,
                     schedule_type_name: val.schedule_type_name,
                     selected_days: val.selected_days + " Days",
                     backup_date_time: moment(val.backup_date_time).format('YYYY-MM-DD hh:mm A'),
@@ -194,9 +194,9 @@ const VerificationDaysTable = ({ setdaysflag }) => {
                                                 <td style={{ textAlign: 'center' }}>{index + 1}</td>
                                                 <td>{moment(val.backup_selected_date).format('DD-MM-YYYY')}</td>
                                                 <td>{moment(val.due_date).format('DD-MM-YYYY')}</td>
-                                                <td>{(val.backup_type === 1) ? 'IIS Backup' : (val.backup_type === 2) ? 'Database Backup' : (val.backup_type === 3) ? 'Share Folder Backup' : 'Scanned File Backup'}</td>
+                                                <td>{val.backup_type_name}</td>
                                                 <td>{val.backup_name}</td>
-                                                <td>{val.backup_location}</td>
+                                                <td style={{ fontSize: 12 }}>{val.dept_name}</td>
                                                 <td>{val.schedule_type_name}</td>
                                                 <td>{val.selected_days + " Days"}</td>
                                                 <td>{moment(val.backup_date_time).format('YYYY-MM-DD hh:mm A')}</td>

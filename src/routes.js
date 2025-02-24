@@ -224,6 +224,8 @@ const AssetCondemnationList = React.lazy(() => import('./views/AssetManagment/Co
 const AssetServiceList = React.lazy(() => import('./views/AssetManagment/ServiceListSpare/SpareSErviceList'))
 const AllCRFReportWithPO = React.lazy(() => import('./views/Report/CrmReport/CRFAllReportWithPO'))
 const PmDueList = React.lazy(() => import('./views/AssetManagment/PmOverDueList/PmOverdueList'))
+const ItBackupTypeMast = React.lazy(() => import('./views/Master/ItMasters/BackUpType/BackUpTypeMaster'))
+const SimOperator = React.lazy(() => import('./views/Master/ItMasters/SimOperators/SimOperators'))
 
 
 const routes = [
@@ -453,7 +455,8 @@ const routes = [
   { path: '/Home/AssetServiceList', exact: true, name: 'Spare Service List', component: AssetServiceList },
   { path: '/Home/AllCRFReportWithPO', exact: true, name: 'All CRF Report With PO', component: AllCRFReportWithPO },
   { path: '/Home/PmDueList', exact: true, name: 'PM Due List in Asset', component: PmDueList },
-
+  { path: '/Home/ItBackupTypeMast', exact: true, name: 'ItBackupTypeMast', component: ItBackupTypeMast },
+  { path: '/Home/SimOperator', exact: true, name: 'SimOperator', component: SimOperator },
 
 ]
 

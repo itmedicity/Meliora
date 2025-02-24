@@ -80,9 +80,9 @@ const ModalMonthVerification = ({ open, handleClose, rowSelect, count, setCount 
         setRemarks(e.target.value)
     }, [])
     const [viewdata, setViewdata] = useState({
-        backup_type: '',
+        backup_type_name: '',
         backup_name: '',
-        backup_location: '',
+        dept_name: '',
         backup_device_ip: '',
         backup_device_name: '',
         backup_device_location: '',
@@ -92,9 +92,9 @@ const ModalMonthVerification = ({ open, handleClose, rowSelect, count, setCount 
         schedule_type_name: '',
     })
     const {
-        backup_type,
+        backup_type_name,
         backup_name,
-        backup_location,
+        dept_name,
         backup_device_ip,
         backup_device_name,
         backup_device_location,
@@ -108,9 +108,9 @@ const ModalMonthVerification = ({ open, handleClose, rowSelect, count, setCount 
         if (Object.keys(rowSelect).length !== 0) {
             const {
                 monthly_slno,
-                backup_type,
+                backup_type_name,
                 backup_name,
-                backup_location,
+                dept_name,
                 backup_device_ip,
                 backup_device_name,
                 backup_device_location,
@@ -123,9 +123,9 @@ const ModalMonthVerification = ({ open, handleClose, rowSelect, count, setCount 
 
             } = rowSelect
             const frmdata = {
-                backup_type: (backup_type === 1) ? 'IIS Backup' : (backup_type === 2) ? 'Database Backup' : (backup_type === 3) ? 'Share Folder Backup' : 'Scanned File Backup',
+                backup_type_name: backup_type_name,
                 backup_name: backup_name,
-                backup_location: backup_location,
+                dept_name: dept_name,
                 backup_device_ip: backup_device_ip,
                 backup_device_name: backup_device_name,
                 backup_device_location: backup_device_location,
@@ -145,9 +145,9 @@ const ModalMonthVerification = ({ open, handleClose, rowSelect, count, setCount 
     }, [rowSelect])
     const reset = useCallback(() => {
         const frmdata = {
-            backup_type: '',
+            backup_type_name: '',
             backup_name: '',
-            backup_location: '',
+            dept_name: '',
             backup_device_ip: '',
             backup_device_name: '',
             backup_device_location: '',
@@ -236,7 +236,7 @@ const ModalMonthVerification = ({ open, handleClose, rowSelect, count, setCount 
                                         <Typography sx={{ fontSize: 14, color: '#274472' }}>Backup Type </Typography>
                                     </Box>
                                     <Box sx={{ flex: 4 }}>
-                                        <Typography sx={{ fontSize: 14, color: '#274472' }}>:&nbsp; {backup_type} </Typography>
+                                        <Typography sx={{ fontSize: 14, color: '#274472' }}>:&nbsp; {backup_type_name} </Typography>
 
                                     </Box>
                                 </Box>
@@ -245,7 +245,7 @@ const ModalMonthVerification = ({ open, handleClose, rowSelect, count, setCount 
                                         <Typography sx={{ fontSize: 14, color: '#274472' }}>Backup Location </Typography>
                                     </Box>
                                     <Box sx={{ flex: 4 }}>
-                                        <Typography sx={{ fontSize: 14, color: '#274472' }}>:&nbsp; {backup_location} </Typography>
+                                        <Typography sx={{ fontSize: 14, color: '#274472' }}>:&nbsp; {dept_name} </Typography>
 
                                     </Box>
                                 </Box>

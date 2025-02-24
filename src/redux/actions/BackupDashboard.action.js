@@ -12,8 +12,8 @@ const { FETCH_BACKUP_DAILY,
     FETCH_BACKUP_DAYS } = ActionTyps
 
 
-export const getDailyCount = () => async (dispatch) => {
-    const result = await axioslogin.get('/backupdash/selectdaily')
+export const getDailyCount = (empdept) => async (dispatch) => {
+    const result = await axioslogin.get(`/backupdash/selectdaily/${empdept}`)
     const { success, data } = result.data
     if (success === 2) {
         dispatch({ type: FETCH_BACKUP_DAILY, payload: data, loadingStatus: true })
@@ -23,8 +23,8 @@ export const getDailyCount = () => async (dispatch) => {
     }
 }
 
-export const getDayDetails = () => async (dispatch) => {
-    const result = await axioslogin.get('/backupdash/daydetails')
+export const getDayDetails = (empdept) => async (dispatch) => {
+    const result = await axioslogin.get(`/backupdash/daydetails/${empdept}`)
     const { success, data } = result.data
     if (success === 2) {
         dispatch({ type: FETCH_BACKUP_DAYDETAILS, payload: data, loadingStatus: true })
@@ -35,8 +35,8 @@ export const getDayDetails = () => async (dispatch) => {
 }
 
 
-export const getMonthlyCount = () => async (dispatch) => {
-    const result = await axioslogin.get('/backupdash/monthly')
+export const getMonthlyCount = (empdept) => async (dispatch) => {
+    const result = await axioslogin.get(`/backupdash/monthly/${empdept}`)
     const { success, data } = result.data
     if (success === 2) {
         dispatch({ type: FETCH_BACKUP_MONTHLY, payload: data, loadingStatus: true })
@@ -46,8 +46,8 @@ export const getMonthlyCount = () => async (dispatch) => {
     }
 }
 
-export const getMonthDetails = () => async (dispatch) => {
-    const result = await axioslogin.get('/backupdash/monthdetails')
+export const getMonthDetails = (empdept) => async (dispatch) => {
+    const result = await axioslogin.get(`/backupdash/monthdetails/${empdept}`)
     const { success, data } = result.data
     if (success === 2) {
         dispatch({ type: FETCH_BACKUP_MONTHDETAILS, payload: data, loadingStatus: true })
@@ -58,8 +58,8 @@ export const getMonthDetails = () => async (dispatch) => {
 }
 
 
-export const getYearlyBackup = () => async (dispatch) => {
-    const result = await axioslogin.get('/backupdash/yearly')
+export const getYearlyBackup = (empdept) => async (dispatch) => {
+    const result = await axioslogin.get(`/backupdash/yearly/${empdept}`)
     const { success, data } = result.data
     if (success === 2) {
         dispatch({ type: FETCH_BACKUP_YEARLY, payload: data, loadingStatus: true })
@@ -70,8 +70,8 @@ export const getYearlyBackup = () => async (dispatch) => {
 }
 
 
-export const getYearDetails = () => async (dispatch) => {
-    const result = await axioslogin.get('/backupdash/yeardetails')
+export const getYearDetails = (empdept) => async (dispatch) => {
+    const result = await axioslogin.get(`/backupdash/yeardetails/${empdept}`)
     const { success, data } = result.data
     if (success === 2) {
         dispatch({ type: FETCH_BACKUP_YEARDETAILS, payload: data, loadingStatus: true })
@@ -82,8 +82,8 @@ export const getYearDetails = () => async (dispatch) => {
 }
 
 
-export const getWeeklyBackup = () => async (dispatch) => {
-    const result = await axioslogin.get('/backupdash/weekly')
+export const getWeeklyBackup = (empdept) => async (dispatch) => {
+    const result = await axioslogin.get(`/backupdash/weekly/${empdept}`)
     const { success, data } = result.data
     if (success === 2) {
         dispatch({ type: FETCH_BACKUP_WEEKLY, payload: data, loadingStatus: true })
@@ -92,8 +92,8 @@ export const getWeeklyBackup = () => async (dispatch) => {
         dispatch({ type: FETCH_BACKUP_WEEKLY, payload: [], loadingStatus: false })
     }
 }
-export const getWeeklyDetails = () => async (dispatch) => {
-    const result = await axioslogin.get('/backupdash/weeklydetails')
+export const getWeeklyDetails = (empdept) => async (dispatch) => {
+    const result = await axioslogin.get(`/backupdash/weeklydetails/${empdept}`)
     const { success, data } = result.data
     if (success === 2) {
         dispatch({ type: FETCH_BACKUP_WEEKDETAILS, payload: data, loadingStatus: true })
@@ -103,8 +103,8 @@ export const getWeeklyDetails = () => async (dispatch) => {
     }
 }
 
-export const getSelectedDaysDetails = () => async (dispatch) => {
-    const result = await axioslogin.get('/backupdash/select')
+export const getSelectedDaysDetails = (empdept) => async (dispatch) => {
+    const result = await axioslogin.get(`/backupdash/select/${empdept}`)
     const { success, data } = result.data
     if (success === 2) {
         dispatch({ type: FETCH_BACKUP_SELECTEDDAYS, payload: data, loadingStatus: true })
@@ -114,8 +114,8 @@ export const getSelectedDaysDetails = () => async (dispatch) => {
     }
 }
 
-export const getDaysDetails = () => async (dispatch) => {
-    const result = await axioslogin.get('/backupdash/days')
+export const getDaysDetails = (empdept) => async (dispatch) => {
+    const result = await axioslogin.get(`/backupdash/days/${empdept}`)
     const { success, data } = result.data
     if (success === 2) {
         dispatch({ type: FETCH_BACKUP_DAYS, payload: data, loadingStatus: true })

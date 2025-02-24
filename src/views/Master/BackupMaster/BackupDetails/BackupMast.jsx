@@ -21,6 +21,10 @@ import BackupMastTable from './BackupMastTable';
 import { CssVarsProvider } from '@mui/joy';
 import moment from 'moment';
 import { addDays } from 'date-fns';
+import { getDepartment } from 'src/redux/actions/Department.action';
+import AmDepartmentSelecct from 'src/views/CommonSelectCode/AmDepartmentSelecct';
+import CusCheckBox from 'src/views/Components/CusCheckBox';
+
 const BackupMast = () => {
     const history = useHistory()
     const dispatch = useDispatch()
@@ -31,6 +35,9 @@ const BackupMast = () => {
     const [scheduleTime, setScheduleTime] = useState([])
     const [editScheduleType, seteditScheduleType] = useState(0)
     const [days, setdays] = useState(0)
+    const [backupDept, setbackupDept] = useState(0)
+    const [deptName, setDeptName] = useState('')
+
     const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
     }, [history])
@@ -41,43 +48,44 @@ const BackupMast = () => {
         dispatch(getScheduleType())
         dispatch(getScheduleTime())
         dispatch(getBackupDetails())
+        dispatch(getDepartment())
     }, [dispatch])
     const [backupstore, setBackupstore] = useState({
         backup_slno: '0',
         backupname: '',
-        location: '',
         ipadd1: '',
         ipadd2: '',
         compname1: '',
         compname2: '',
         physicalLoc1: '',
         physicalLoc2: '',
-        backup_selected_date: ''
+        backup_selected_date: '',
+        backup_active_status: true
     })
     const {
         backup_slno,
         backupname,
-        location,
         ipadd1,
         ipadd2,
         compname1,
         compname2,
         physicalLoc1,
         physicalLoc2,
-        backup_selected_date
+        backup_selected_date,
+        backup_active_status
     } = backupstore
     const reset = useCallback(() => {
         const frmdata = {
             backup_slno: '0',
             backupname: '',
-            location: '',
             ipadd1: '',
             ipadd2: '',
             compname1: '',
             compname2: '',
             physicalLoc1: '',
             physicalLoc2: '',
-            backup_selected_date: ''
+            backup_selected_date: '',
+            backup_active_status: false
         }
         setBackupstore(frmdata)
         setBackupType(0)
@@ -87,7 +95,12 @@ const BackupMast = () => {
         setCount(0)
         setdays(0)
         seteditScheduleType(0)
-    }, [setBackupstore, setBackupType, setScheduleType, setScheduleTime, setEdit, setCount, setdays])
+        setbackupDept(0)
+    }, [setBackupstore, setBackupType, setScheduleType, setScheduleTime, setEdit, setCount, setdays,
+        setbackupDept
+    ])
+
+
     const UpdateBackupChecksDetails = useCallback(
         (e) => {
             const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -103,7 +116,7 @@ const BackupMast = () => {
         return {
             backup_type: backupType,
             backup_name: backupname,
-            backup_location: location,
+            backup_location: backupDept,
             backup_device_ip: ipadd1,
             backup_device_name: compname1,
             backup_device_location: physicalLoc1,
@@ -113,17 +126,18 @@ const BackupMast = () => {
             backup_schedule_type: scheduleType,
             backup_schedule_time: scheduleTime,
             selected_days: days,
-            create_user: id
+            create_user: id,
+            backup_active_status: backup_active_status === true ? 1 : 0
         }
-    }, [backupType, backupname, location, ipadd1, compname1, physicalLoc1,
-        ipadd2, compname2, physicalLoc2, scheduleType, scheduleTime, days, id])
+    }, [backupType, backupname, backupDept, ipadd1, compname1, physicalLoc1,
+        ipadd2, compname2, physicalLoc2, scheduleType, scheduleTime, days, id, backup_active_status])
 
     const patchdata = useMemo(() => {
         return {
             backup_slno: backup_slno,
             backup_type: backupType,
             backup_name: backupname,
-            backup_location: location,
+            backup_location: backupDept,
             backup_device_ip: ipadd1,
             backup_device_name: compname1,
             backup_device_location: physicalLoc1,
@@ -133,10 +147,12 @@ const BackupMast = () => {
             backup_schedule_type: scheduleType,
             backup_schedule_time: scheduleTime,
             selected_days: days,
-            edit_user: id
+            edit_user: id,
+            backup_active_status: backup_active_status === true ? 1 : 0
+
         }
-    }, [backup_slno, backupType, backupname, location, ipadd1, compname1, physicalLoc1,
-        ipadd2, compname2, physicalLoc2, scheduleType, scheduleTime, days, id])
+    }, [backup_slno, backupType, backupname, backupDept, ipadd1, compname1, physicalLoc1,
+        ipadd2, compname2, physicalLoc2, scheduleType, scheduleTime, days, id, backup_active_status])
     const inactivedatas = useMemo(() => {
         return {
             backup_slno: backup_slno,
@@ -166,28 +182,31 @@ const BackupMast = () => {
             transferred_device_location,
             backup_schedule_type,
             selected_days,
-            backup_selected_date
+            backup_selected_date,
+            backup_active_status
         } = data
         const frmdata = {
             backup_slno: backup_slno,
             backupname: backup_name,
-            location: backup_location,
             ipadd1: backup_device_ip,
             compname1: backup_device_name,
             ipadd2: transferred_device_ip,
             compname2: transferred_device_name,
             physicalLoc1: backup_device_location,
             physicalLoc2: transferred_device_location,
-            backup_selected_date: backup_selected_date
+            backup_selected_date: backup_selected_date,
+            backup_active_status: backup_active_status === 1 ? true : false
         }
+        setbackupDept(backup_location)
         setBackupstore(frmdata)
         setBackupType(backup_type)
         setScheduleType(backup_schedule_type)
         setdays(selected_days)
         seteditScheduleType(backup_schedule_type)
+
         const schdltime = JSON?.parse(data?.backup_schedule_time)
         setScheduleTime(schdltime);
-    }, [])
+    }, [setbackupDept])
 
     const BackupChecksDetails = useCallback((e) => {
         if (backupType === 0) {
@@ -297,7 +316,15 @@ const BackupMast = () => {
                     }
                 })
             }
-            else {
+            else if (backup_active_status === false) {
+                UpdateDetailsMast(patchdata).then((value) => {
+                    const { success } = value
+                    if (success === 2) {
+                        succesNotify("Status Updated")
+                    }
+                })
+            } else {
+
                 if (editScheduleType !== scheduleType) {
                     if (editScheduleType === 1) {
                         const DeleteDetails = async (deletedata) => {
@@ -512,13 +539,15 @@ const BackupMast = () => {
                         }
                     })
                 }
+
             }
         }
     }, [postdata, count, patchdata, edit, inactivedatas, scheduleType, scheduleTime, backupType,
-        backup_selected_date, days, backup_slno, id, backupname, reset, deletedata, editScheduleType])
+        backup_selected_date, days, backup_slno, id, backupname, reset, deletedata, editScheduleType, backup_active_status])
+
+
 
     return (
-        //  sx={{ height: window.innerHeight }}
         <Box >
             <CardMaster
                 title="Backup Details"
@@ -527,6 +556,7 @@ const BackupMast = () => {
                 refresh={refreshWindow}
             >
                 <Box sx={{ display: "flex", flexDirection: 'row', justifyContent: "center", }}>
+
 
                     <Box sx={{ flex: 0.5 }}>   </Box>
                     <Box sx={{ flex: 3 }}>
@@ -561,13 +591,11 @@ const BackupMast = () => {
                                 <Typography>Backup Location</Typography>
                             </Box>
                             <Box sx={{ flex: 3, pl: 2 }}>
-                                <TextFieldCustom
-                                    placeholder="Backup Location"
-                                    type="text"
-                                    size="sm"
-                                    name="location"
-                                    value={location}
-                                    onchange={UpdateBackupChecksDetails}
+                                <AmDepartmentSelecct
+                                    department={backupDept}
+                                    setDepartment={setbackupDept}
+                                    setDeptName={setDeptName}
+                                    deptName={deptName}
                                 />
                             </Box>
                         </Box>
@@ -578,9 +606,6 @@ const BackupMast = () => {
                             <Box sx={{ flex: 3, pl: 2 }}>
                                 <Box sx={{ display: "flex", }} >
                                     <Box sx={{ flex: 1 }}>
-                                        {/* <Typography align='left' sx={{ pl: 1, fontSize: '12px', }}>
-                                            IP Address
-                                        </Typography> */}
                                         <TextFieldCustom
                                             placeholder="IP Address"
                                             type="text"
@@ -591,9 +616,6 @@ const BackupMast = () => {
                                         />
                                     </Box>
                                     <Box sx={{ flex: 1, pl: 0.5 }}>
-                                        {/* <Typography align='left' sx={{ pl: 1, fontSize: '12px', }}>
-                                            Computer Name
-                                        </Typography> */}
                                         <TextFieldCustom
                                             placeholder="Computer Name"
                                             type="text"
@@ -604,9 +626,6 @@ const BackupMast = () => {
                                         />
                                     </Box>
                                     <Box sx={{ flex: 1, pl: 0.5 }}>
-                                        {/* <Typography align='left' sx={{ pl: 1, fontSize: '12px', }}>
-                                            Physical Location
-                                        </Typography> */}
                                         <TextFieldCustom
                                             placeholder="Physical Location"
                                             type="text"
@@ -626,9 +645,6 @@ const BackupMast = () => {
                             <Box sx={{ flex: 3, pl: 2 }}>
                                 <Box sx={{ display: "flex", }} >
                                     <Box sx={{ flex: 1 }}>
-                                        {/* <Typography align='left' sx={{ pl: 1, fontSize: '12px', }}>
-                                            IP Address
-                                        </Typography> */}
                                         <TextFieldCustom
                                             placeholder="IP Address"
                                             type="text"
@@ -639,9 +655,6 @@ const BackupMast = () => {
                                         />
                                     </Box>
                                     <Box sx={{ flex: 1, pl: 0.5 }}>
-                                        {/* <Typography align='left' sx={{ pl: 1, fontSize: '12px', }}>
-                                            Computer Name
-                                        </Typography> */}
                                         <TextFieldCustom
                                             placeholder="Computer Name"
                                             type="text"
@@ -652,9 +665,6 @@ const BackupMast = () => {
                                         />
                                     </Box>
                                     <Box sx={{ flex: 1, pl: 0.5 }}>
-                                        {/* <Typography align='left' sx={{ pl: 1, fontSize: '12px', }}>
-                                            Physical Location
-                                        </Typography> */}
                                         <TextFieldCustom
                                             placeholder="Physical Location"
                                             type="text"
@@ -671,32 +681,49 @@ const BackupMast = () => {
                             <Box sx={{ flex: 1, pt: 0.5, display: 'flex', justifyContent: 'flex-end' }}>
                                 <Typography> Backup Schedule</Typography>
                             </Box>
-                            <Box sx={{ display: 'flex', flex: 3, pl: 2 }}>
-                                <Box sx={{ flex: 1 }}>
-                                    <BackupScheduleSelect
-                                        scheduleType={scheduleType}
-                                        setScheduleType={setScheduleType}
-                                    />
-                                </Box>
-                                {scheduleType === 5 ?
-                                    <Box sx={{ flex: 1, pl: 0.5 }}>
-                                        <TextFieldCustom
-                                            type="text"
-                                            size="sm"
-                                            name="days"
-                                            value={days}
-                                            onchange={Selecteddayschange}
-                                        />
-                                    </Box> :
-                                    <Box sx={{ flex: 1, pl: 0.5, pt: 0.6 }}>
-                                        <BackupTimeSelect
-                                            scheduleTime={scheduleTime}
-                                            setScheduleTime={setScheduleTime}
+                            <Box sx={{ flex: 3, pl: 2 }}>
+                                <Box sx={{ display: 'flex', flex: 1, }}>
+                                    <Box sx={{ flex: 1 }}>
+                                        <BackupScheduleSelect
+                                            scheduleType={scheduleType}
+                                            setScheduleType={setScheduleType}
                                         />
                                     </Box>
-                                }
+                                    {scheduleType === 5 ?
+                                        <Box sx={{ flex: 1, pl: 0.5 }}>
+                                            <TextFieldCustom
+                                                type="text"
+                                                size="sm"
+                                                name="days"
+                                                value={days}
+                                                onchange={Selecteddayschange}
+                                            />
+                                        </Box> :
+                                        <Box sx={{ flex: 1, pl: 0.5, pt: 0.6 }}>
+                                            <BackupTimeSelect
+                                                scheduleTime={scheduleTime}
+                                                setScheduleTime={setScheduleTime}
+                                            />
+                                        </Box>
+                                    }
+                                </Box>
+                                <Box sx={{ pt: 1.5 }}>
+                                    <CusCheckBox
+                                        label="Backup Active Status"
+                                        color="primary"
+                                        size="md"
+                                        name="backup_active_status"
+                                        value={backup_active_status}
+                                        checked={backup_active_status}
+                                        onCheked={UpdateBackupChecksDetails}
+                                    ></CusCheckBox>
+                                </Box>
                             </Box>
+
                         </Box>
+
+
+
                     </Box>
                     <Box sx={{ flex: 1 }}>   </Box>
                 </Box>
