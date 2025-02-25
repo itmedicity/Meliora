@@ -12,6 +12,7 @@ import TextFieldCustom from 'src/views/Components/TextFieldCustom';
 import { ExportToExcel } from '../../OtherComponents/ExportToExcel';
 import { axioslogin } from 'src/views/Axios/Axios';
 import { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 const VerificationDetailTable = ({ setDayFlag }) => {
     const [fromdate, setFromdate] = useState('')
     const [todate, setTodate] = useState('')
@@ -33,29 +34,16 @@ const VerificationDetailTable = ({ setDayFlag }) => {
     const TodateOnChange = useCallback((e) => {
         setTodate(e.target.value)
     }, [])
-    // const AllSelectDetails = useCallback((e) => {
-    //     if (e.target.checked === true) {
-    //         setallSelect(true)
-    //         setArray(verifieddata)
-    //     } else {
-    //         setallSelect(false)
-    //     }
-    // }, [verifieddata])
-    // useEffect(() => {
-    //     if (verifieddata.length !== 0) {
-    //         setArray(verifieddata)
-    //     }
-    //     else {
-    //         setArray([])
-    //     }
-    // }, [verifieddata])
-
+    const empdept = useSelector((state) => {
+        return state?.LoginUserData.empdept
+    })
     const postdata = useMemo(() => {
         return {
             start_date: fromdate,
-            end_date: todate
+            end_date: todate,
+            empdept: empdept
         }
-    }, [fromdate, todate])
+    }, [fromdate, todate, empdept])
 
     const SearchDetails = useCallback(() => {
         if (fromdate !== '' && todate !== '') {
@@ -188,9 +176,9 @@ const VerificationDetailTable = ({ setDayFlag }) => {
                             </Box>
                         </Box>
                     </Paper>
-                    <Box variant="outlined" sx={{ overflow: 'auto', maxHeight: window.innerHeight - 220, mt: 0.5 }}>
+                    <Box variant="outlined" sx={{ overflow: 'auto', maxHeight: window.innerHeight - 220, mt: 0.5, }}>
                         <CssVarsProvider>
-                            <Table borderAxis="both" padding={"none"} stickyHeader >
+                            <Table borderAxis="both" padding={"none"} stickyHeader style={{ width: 2500 }}>
                                 <thead>
                                     <tr style={{ height: 8 }}>
                                         <th style={{ width: 50 }}>Sl.No</th>
@@ -198,6 +186,7 @@ const VerificationDetailTable = ({ setDayFlag }) => {
                                         <th style={{ width: 150, textAlign: 'center' }}>Backup Type</th>
                                         <th style={{ width: 100 }}>Backup Name</th>
                                         <th style={{ width: 150 }}>Backup Location</th>
+                                        <th style={{ width: 150 }}>Backup Path</th>
                                         <th style={{ width: 100 }}>Schedule Type</th>
                                         <th style={{ width: 100 }}>Schedule Time</th>
                                         <th style={{ width: 180 }}>Backup Taken Date & Time</th>
@@ -218,6 +207,7 @@ const VerificationDetailTable = ({ setDayFlag }) => {
                                                 <td>{val.backup_type_name}</td>
                                                 <td>{val.backup_name}</td>
                                                 <td style={{ fontSize: 12 }}>{val.dept_name}</td>
+                                                <td>{val.backup_path}</td>
                                                 <td>{val.schedule_type_name}</td>
                                                 <td>{val.schedule_time_name}</td>
                                                 <td>{moment(val.backup_date_time).format('YYYY-MM-DD hh:mm A')}</td>
