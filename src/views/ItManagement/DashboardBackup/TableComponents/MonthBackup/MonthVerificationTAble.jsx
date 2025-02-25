@@ -12,6 +12,7 @@ import TextFieldCustom from 'src/views/Components/TextFieldCustom';
 import { ExportToExcel } from '../../OtherComponents/ExportToExcel';
 import { axioslogin } from 'src/views/Axios/Axios';
 import { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 const MonthVerificationTAble = ({ setMonthflag }) => {
     const [fromdate, setFromdate] = useState('')
     const [todate, setTodate] = useState('')
@@ -30,12 +31,17 @@ const MonthVerificationTAble = ({ setMonthflag }) => {
     const TodateOnChange = useCallback((e) => {
         setTodate(e.target.value)
     }, [])
+    const empdept = useSelector((state) => {
+        return state?.LoginUserData.empdept
+    })
+
     const postdata = useMemo(() => {
         return {
             start_date: moment(new Date(fromdate)).format('YYYY-MM-01'),
-            end_date: moment(new Date(todate)).format('YYYY-MM-01')
+            end_date: moment(new Date(todate)).format('YYYY-MM-01'),
+            empdept: empdept
         }
-    }, [fromdate, todate])
+    }, [fromdate, todate, empdept])
     const SearchDetails = useCallback(() => {
         if (fromdate !== '' && todate !== '') {
             const getdata = async () => {
@@ -158,9 +164,9 @@ const MonthVerificationTAble = ({ setMonthflag }) => {
                             </Box>
                         </Box>
                     </Paper>
-                    <Box variant="outlined" sx={{ overflow: 'auto', maxHeight: window.innerHeight - 220, mt: 0.5 }}>
+                    <Box variant="outlined" sx={{ overflow: 'auto', maxHeight: window.innerHeight - 220, mt: 0.5, }}>
                         <CssVarsProvider>
-                            <Table borderAxis="both" padding={"none"} stickyHeader >
+                            <Table borderAxis="both" padding={"none"} stickyHeader style={{ width: 2500 }}>
                                 <thead>
                                     <tr style={{ height: 8 }}>
                                         <th style={{ width: 50 }}>Sl.No</th>
@@ -168,12 +174,13 @@ const MonthVerificationTAble = ({ setMonthflag }) => {
                                         <th style={{ width: 150, textAlign: 'center' }}>Backup Type</th>
                                         <th style={{ width: 100 }}>Backup Name</th>
                                         <th style={{ width: 150 }}>Backup Location</th>
+                                        <th style={{ width: 150 }}>Backup Path</th>
                                         <th style={{ width: 100 }}>Schedule Type</th>
                                         <th style={{ width: 180 }}>Backup Taken Date & Time</th>
                                         <th style={{ width: 130 }}>Backup Size Before</th>
                                         <th style={{ width: 130 }}>Backup Size After</th>
-                                        <th style={{ width: 100 }}>Employee</th>
-                                        <th style={{ width: 100 }}>Remarks</th>
+                                        <th style={{ width: 150 }}>Employee</th>
+                                        <th style={{ width: 200 }}>Remarks</th>
                                     </tr>
                                 </thead>
 
@@ -188,6 +195,7 @@ const MonthVerificationTAble = ({ setMonthflag }) => {
                                                 <td>{val.backup_type_name}</td>
                                                 <td>{val.backup_name}</td>
                                                 <td style={{ fontSize: 12 }}>{val.dept_name}</td>
+                                                <td>{val.backup_path}</td>
                                                 <td>{val.schedule_type_name}</td>
                                                 <td>{moment(val.backup_date_time).format('YYYY-MM-DD hh:mm A')}</td>
                                                 <td>{beforeSizeKB} KB</td>
