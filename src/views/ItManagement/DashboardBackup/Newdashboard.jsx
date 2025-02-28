@@ -80,6 +80,7 @@ const Newdashboard = () => {
     const history = useHistory()
 
 
+
     const id = useSelector((state) => {
         return state?.LoginUserData.empid
     })
@@ -89,7 +90,6 @@ const Newdashboard = () => {
 
     const backtoHome = useCallback(() => {
         history.push('/Home')
-        // setBacktodash(0)
     }, [history])
     useEffect(() => {
         dispatch(getDailyCount(empdept))
@@ -187,10 +187,11 @@ const Newdashboard = () => {
             const newdata = daysdetails.filter((val) => val.backup_daily_date === moment(new Date()).format('YYYY-MM-DD'))
             setDayData(newdata)
             const currentcount = daysdetails.filter((val) => val.verify_status === 0 && val.backup_daily_date === moment(new Date()).format('YYYY-MM-DD'))
-            if (currentcount.length === 0) {
-                setDayscount(0)
-            } else {
+            if (currentcount.length !== 0) {
                 setDayscount(currentcount.length)
+
+            } else {
+                setDayscount(0)
             }
             const duedata = daysdetails.filter((val) => val.verify_status === 0 && val.backup_daily_date < moment(new Date()).format('YYYY-MM-DD'))
             setDueData(duedata)
@@ -448,6 +449,7 @@ const Newdashboard = () => {
                     verify_status: 0,
                     create_user: id
                 }
+
             })
             const InsertBackupMonthly = async (postdata) => {
                 const result = await axioslogin.post('/backupdash/insertmonthly', postdata);
@@ -468,17 +470,19 @@ const Newdashboard = () => {
             const newdata = monthdetails.filter((val) => val.backup_monthly_date === moment(new Date()).format('YYYY-MM-01'))
             setMonthdata(newdata)
             const countmonth = monthdetails.filter((val) => val.verify_status === 0 && val.backup_monthly_date === moment(new Date()).format('YYYY-MM-01'))
-            if (countmonth.length === 0) {
-                setMonthcount(0)
-            } else {
+            if (countmonth.length !== 0) {
                 setMonthcount(countmonth.length)
+            } else {
+                setMonthcount(0)
             }
             const duedata = monthdetails.filter((val) => val.verify_status === 0 && val.backup_monthly_date < moment(new Date()).format('YYYY-MM-01'))
             setDueMonthdata(duedata)
             const errordata = monthdetails.filter((val) => val.verify_status === 2 && val.backup_monthly_date <= moment(new Date()).format('YYYY-MM-01'))
             setErrorMonthdata(errordata)
         }
-    }, [monthdetails, monthlycount])
+    }, [monthdetails, monthcount])
+
+
     const MonthlyDetails = useCallback(() => {
         if (monthdata.length === 0) {
             infoNotify("No Data Found")
