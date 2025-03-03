@@ -155,11 +155,8 @@ const WeekCountTable = ({ weektableData, setWeektabflag, weekflag, count, setCou
                                             </td>
                                             <td style={{ textAlign: 'center' }}>{index + 1}</td>
                                             <td>{moment(val.backup_weekly_date).format('DD-MM-YYYY')}</td>
-<<<<<<< HEAD
                                             <td>{(val.backup_type === 1) ? 'IIS Backup' : (val.backup_type === 2) ? 'Database Backup' : (val.backup_type === 3) ? 'Share Folder Backup' : (val.backup_type === 4) ? 'Scanned File Backup' : 'Configuration Backup'}</td>
-=======
                                             <td>{val.backup_type_name}</td>
->>>>>>> fdc83482264ae4151b7a62a7760b5f7457ce339a
                                             <td>{val.backup_name}</td>
                                             <td style={{ fontSize: 12 }}>{val.dept_name}</td>
                                             <td>{val.backup_device_ip}</td>
