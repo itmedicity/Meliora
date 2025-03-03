@@ -11,12 +11,9 @@ import EditIcon from '@mui/icons-material/Edit'
 
 const SimDataTable = ({ tableCount, rowSelect }) => {
 
-
     const [tabledata, setTableData] = useState([])
     const [provider, setProvider] = useState(0)
     const [searchData, setSearchData] = useState([])
-
-
 
     useEffect(() => {
         const getAllSimdetails = async () => {
@@ -31,10 +28,7 @@ const SimDataTable = ({ tableCount, rowSelect }) => {
                             it_sim_imei_no: val.it_sim_imei_no,
                             it_sim_mobile_no: val.it_sim_mobile_no,
                             it_sim_operator: val.it_sim_operator,
-                            providerName: val.it_sim_operator === 1 ? 'Vodafone Idea' : val.it_sim_operator === 2 ? 'Airtel' : val.it_sim_operator === 3 ? 'Jio' :
-                                val.it_sim_operator === 4 ? 'BSNL' : val.it_sim_operator === 5 ? 'Reliance Communications' : val.it_sim_operator === 6 ? 'Aircel' :
-                                    val.it_sim_operator === 7 ? 'Tata Docomo' : val.it_sim_operator === 8 ? 'Tata Teleservices' :
-                                        val.it_sim_operator === 9 ? 'Telenor India' : val.it_sim_operator === 10 ? 'MTS India' : 'NIL',
+                            providerName: val.sim_operator_name,
                             it_sim_tariff: val.it_sim_tariff,
                             tariffName: val.it_sim_tariff === 1 ? 'Monthly' : val.it_sim_tariff === 2 ? 'Quaterly' : val.it_sim_tariff === 3 ? 'Yearly' : 'NIL',
                             it_sim_tariff_amount: val.it_sim_tariff_amount,

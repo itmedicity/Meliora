@@ -5,7 +5,7 @@ import { memo } from 'react'
 import { Fragment } from 'react'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import CardMasterClose from 'src/views/Components/CardMasterClose'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { getEmployeeBackup } from 'src/redux/actions/BackupDetails.action'
 import { useEffect } from 'react'
 import moment from 'moment'
@@ -16,9 +16,16 @@ const SelectDaysUpcoming = ({ daysnext, setdaysflag }) => {
         history.push('/Home/DashboardBackup')
         setdaysflag(0)
     }, [history, setdaysflag])
+
+    const empDept = useSelector((state) => {
+        return state.LoginUserData.empdept
+    })
+
     useEffect(() => {
-        dispatch(getEmployeeBackup())
-    }, [dispatch])
+        dispatch(getEmployeeBackup(empDept))
+    }, [dispatch, empDept])
+
+
     return (
         <Fragment>
             <Paper>
@@ -59,8 +66,9 @@ const SelectDaysUpcoming = ({ daysnext, setdaysflag }) => {
                                             <td style={{ textAlign: 'center' }}>{index + 1}</td>
                                             <td>{moment(val.due_date).format('DD-MM-YYYY')}</td>
                                             <td>{(val.backup_type === 1) ? 'IIS Backup' : (val.backup_type === 2) ? 'Database Backup' : (val.backup_type === 3) ? 'Share Folder Backup' : (val.backup_type === 4) ? 'Scanned File Backup' : 'Configuration Backup'}</td>
+                                            <td>{val.backup_type_name}</td>
                                             <td>{val.backup_name}</td>
-                                            <td>{val.backup_location}</td>
+                                            <td style={{ fontSize: 12 }}>{val.dept_name}</td>
                                             <td>{val.backup_device_ip}</td>
                                             <td>{val.backup_device_name}</td>
                                             <td>{val.backup_device_location}</td>

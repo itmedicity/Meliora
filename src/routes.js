@@ -224,6 +224,8 @@ const AssetCondemnationList = React.lazy(() => import('./views/AssetManagment/Co
 const AssetServiceList = React.lazy(() => import('./views/AssetManagment/ServiceListSpare/SpareSErviceList'))
 const AllCRFReportWithPO = React.lazy(() => import('./views/Report/CrmReport/CRFAllReportWithPO'))
 const PmDueList = React.lazy(() => import('./views/AssetManagment/PmOverDueList/PmOverdueList'))
+const ItBackupTypeMast = React.lazy(() => import('./views/Master/ItMasters/BackUpType/BackUpTypeMaster'))
+const SimOperator = React.lazy(() => import('./views/Master/ItMasters/SimOperators/SimOperators'))
 
 // crfDelivery
 const deliverMarking = React.lazy(() => import('./views/CentralRequestManagement/DeliveryMarking/DeliveryMarkingStore'))
@@ -472,6 +474,8 @@ const routes = [
   { path: '/Home/CRFNewManagingDirector', exact: true, name: 'Managing Director Approval', component: managingDirectorApproval },
   { path: '/Home/ViewCategoryMaster', exact: true, name: 'MenuView Category Master', component: ViewCategoryMaster },
   { path: '/Home/CrfView', exact: true, name: 'Crf View', component: CrfView },
+  { path: '/Home/ItBackupTypeMast', exact: true, name: 'ItBackupTypeMast', component: ItBackupTypeMast },
+  { path: '/Home/SimOperator', exact: true, name: 'SimOperator', component: SimOperator },
 
 ]
 

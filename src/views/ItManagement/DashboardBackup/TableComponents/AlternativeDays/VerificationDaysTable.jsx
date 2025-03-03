@@ -13,6 +13,7 @@ import TextFieldCustom from 'src/views/Components/TextFieldCustom';
 import { ExportToExcel } from '../../OtherComponents/ExportToExcel';
 import { axioslogin } from 'src/views/Axios/Axios';
 import { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 const VerificationDaysTable = ({ setdaysflag }) => {
     const [fromdate, setFromdate] = useState('')
     const [todate, setTodate] = useState('')
@@ -32,12 +33,18 @@ const VerificationDaysTable = ({ setdaysflag }) => {
         setTodate(e.target.value)
     }, [])
 
+    const empdept = useSelector((state) => {
+        return state?.LoginUserData.empdept
+    })
+
     const postdata = useMemo(() => {
         return {
             start_date: fromdate,
-            end_date: todate
+            end_date: todate,
+            empdept: empdept
         }
-    }, [fromdate, todate])
+    }, [fromdate, todate, empdept])
+
     const SearchDetails = useCallback(() => {
         if (fromdate !== '' && todate !== '') {
             const getdata = async () => {
@@ -67,8 +74,9 @@ const VerificationDaysTable = ({ setdaysflag }) => {
                     backup_selected_date: val.backup_selected_date,
                     due_date: val.due_date,
                     backup_type: (val.backup_type === 1) ? 'IIS Backup' : (val.backup_type === 2) ? 'Database Backup' : (val.backup_type === 3) ? 'Share Folder Backup' : (val.backup_type === 4) ? 'Scanned File Backup' : 'Configuration Backup',
+                    backup_type: val.backup_type_name,
                     backup_name: val.backup_name,
-                    backup_location: val.backup_location,
+                    dept_name: val.dept_name,
                     schedule_type_name: val.schedule_type_name,
                     selected_days: val.selected_days + " Days",
                     backup_date_time: moment(val.backup_date_time).format('YYYY-MM-DD hh:mm A'),
@@ -163,9 +171,9 @@ const VerificationDaysTable = ({ setdaysflag }) => {
                             </Box>
                         </Box>
                     </Paper>
-                    <Box variant="outlined" sx={{ overflow: 'auto', maxHeight: window.innerHeight - 220, mt: 0.5 }}>
+                    <Box variant="outlined" sx={{ overflow: 'auto', maxHeight: window.innerHeight - 220, mt: 0.5, }}>
                         <CssVarsProvider>
-                            <Table borderAxis="both" padding={"none"} stickyHeader >
+                            <Table borderAxis="both" padding={"none"} stickyHeader style={{ width: 2500 }} >
                                 <thead>
                                     <tr style={{ height: 8 }}>
                                         <th style={{ width: 60 }}>Sl.No</th>
@@ -174,6 +182,7 @@ const VerificationDaysTable = ({ setdaysflag }) => {
                                         <th style={{ width: 150, textAlign: 'center' }}>Backup Type</th>
                                         <th style={{ width: 120 }}>Backup Name</th>
                                         <th style={{ width: 130 }}>Backup Location</th>
+                                        <th style={{ width: 150 }}>Backup Path</th>
                                         <th style={{ width: 120 }}>Schedule Type</th>
                                         <th style={{ width: 120 }}>Schedule Time</th>
                                         <th style={{ width: 200 }}>Backup Taken Date & Time</th>
@@ -195,8 +204,10 @@ const VerificationDaysTable = ({ setdaysflag }) => {
                                                 <td>{moment(val.backup_selected_date).format('DD-MM-YYYY')}</td>
                                                 <td>{moment(val.due_date).format('DD-MM-YYYY')}</td>
                                                 <td>{(val.backup_type === 1) ? 'IIS Backup' : (val.backup_type === 2) ? 'Database Backup' : (val.backup_type === 3) ? 'Share Folder Backup' : (val.backup_type === 4) ? 'Scanned File Backup' : 'Configuration Backup'}</td>
+                                                <td>{val.backup_type_name}</td>
                                                 <td>{val.backup_name}</td>
-                                                <td>{val.backup_location}</td>
+                                                <td style={{ fontSize: 12 }}>{val.dept_name}</td>
+                                                <td>{val.backup_path}</td>
                                                 <td>{val.schedule_type_name}</td>
                                                 <td>{val.selected_days + " Days"}</td>
                                                 <td>{moment(val.backup_date_time).format('YYYY-MM-DD hh:mm A')}</td>
