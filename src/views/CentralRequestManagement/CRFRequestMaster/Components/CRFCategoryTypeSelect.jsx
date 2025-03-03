@@ -15,10 +15,10 @@ const CRFCategoryTypeSelect = ({ setCategory, editRowData, catFlag }) => {
     const [itemType, setItemType] = useState([{ item_type_slno: 0, item_type_name: '' }])
     const [selectedValues, setSelectedValues] = useState([]);
     useEffect(() => {
-        if (Object.entries(editRowData).length > 0 && editRowData?.category?.length > 0) {
-            const categoryIds = JSON.parse(editRowData.category);
-            const matchedCategories = assetItemType.filter((item) =>
-                categoryIds.includes(item.item_type_slno)
+        if (Object?.entries(editRowData).length > 0 && editRowData?.category?.length > 0) {
+            const categoryIds = JSON.parse(editRowData?.category);
+            const matchedCategories = assetItemType?.filter((item) =>
+                categoryIds?.includes(item?.item_type_slno)
             );
             setSelectedValues(matchedCategories);
             setCategory((prev) => (prev.length === 0 ? categoryIds : prev));
@@ -33,7 +33,7 @@ const CRFCategoryTypeSelect = ({ setCategory, editRowData, catFlag }) => {
     const handleOnChange = useCallback(
         (values) => {
             if (values) {
-                const selectedIds = values.map((value) => value.item_type_slno);
+                const selectedIds = values?.map((value) => value?.item_type_slno);
                 setSelectedValues(values);
                 setCategory(selectedIds);
             } else {
@@ -65,11 +65,11 @@ const CRFCategoryTypeSelect = ({ setCategory, editRowData, catFlag }) => {
             loading={true}
             loadingText="Loading..."
             freeSolo
-            isOptionEqualToValue={(option, value) => option.item_type_slno === value.item_type_slno}
-            getOptionLabel={(option) => option.item_type_name || ''}
+            isOptionEqualToValue={(option, value) => option?.item_type_slno === value?.item_type_slno}
+            getOptionLabel={(option) => option?.item_type_name || ''}
             options={itemType}
-            getOptionDisabled={(option) => itemType.some(
-                (opt, index) => opt.item_type_name === option.item_type_name && itemType.indexOf(opt) !== index
+            getOptionDisabled={(option) => itemType?.some(
+                (opt, index) => opt?.item_type_name === option?.item_type_name && itemType?.indexOf(opt) !== index
             )}
         />
     )

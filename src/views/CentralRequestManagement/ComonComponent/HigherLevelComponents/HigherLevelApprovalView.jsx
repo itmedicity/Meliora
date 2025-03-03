@@ -1,7 +1,7 @@
 import React, { Fragment, memo } from 'react'
 import { ToastContainer } from 'react-toastify';
 import { Paper } from '@mui/material'
-import { Box, Chip, CssVarsProvider, Grid, Modal, ModalClose, ModalDialog, Typography } from '@mui/joy'
+import { Box, Chip, CssVarsProvider, Grid, Modal, ModalClose, ModalDialog, Textarea, Typography } from '@mui/joy'
 import { format } from 'date-fns';
 import ReqItemDisplay from '../ReqItemDisplay';
 import CrfReqDetailViewCmp from '../CrfReqDetailViewCmp';
@@ -24,8 +24,9 @@ import CommonCRFClosed from '../ApprovalComp/CommonCRFClosed';
 import UserReceivedItemDetails from '../ApprovalComp/UserReceivedItemDetails';
 import CommonMangingApprvComp from '../ApprovalComp/CommonMangingApprvComp';
 import DataCollectionViewHigherLevel from '../DataCollectionComp/DataCollectionViewHigherLevel';
+import ModalButtomCmp from '../Components/ModalButtomCmp';
 
-const HigherLevelApprovalView = ({ open, closeModal, DetailViewData, reqItems, approveTableData, poDetails, imagearray,
+const HigherLevelApprovalView = ({ open, closeModal, DetailViewData, reqItems, approveTableData, poDetails, imagearray, ViewRemark,
     datacolData, selectedCompany }) => {
     const { req_slno, incharge_approve, incharge_remarks, hod_req, hod_approve, dms_req, dms_approve, ms_approve_req, ms_approve,
         manag_operation_req, manag_operation_approv, senior_manage_req, senior_manage_approv, gm_approve_req, gm_approve,
@@ -368,11 +369,49 @@ const HigherLevelApprovalView = ({ open, closeModal, DetailViewData, reqItems, a
                                     }}>
                                         No Report Found
                                     </Box>}
+                            {/* <Paper variant="outlined" square sx={{ flexWrap: 'wrap', mt: 0.7, mx: 0.7, pb: 0.7 }}>
+                                <Box sx={{ display: 'flex', pt: 0.4, }}>
+                                    <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>Remarks</Typography>
+                                    <Typography sx={{ pt: 1 }}>  :&nbsp;</Typography>
+                                    <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
+                                        <CssVarsProvider>
+                                            <Textarea
+                                                required
+                                                type="text"
+                                                size="sm"
+                                                minRows={2}
+                                                maxRows={4}
+                                                style={{ width: "90%", }}
+                                                placeholder="Remarks"
+                                                name='datacolectremark'
+                                            // value={datacolectremark || ''}
+                                            // onChange={updateOnchangeState}
+                                            />
+                                        </CssVarsProvider>
+                                    </Box>
+                                </Box>
+                            </Paper>
+
+
+                            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1 }}>
+                                <Box sx={{ py: 0.5, pr: 0.5 }}>
+                                    <ModalButtomCmp
+                                    // handleChange={submit}
+                                    > Save</ModalButtomCmp>
+                                </Box>
+                                <Box sx={{ py: 0.5, pr: 2 }}>
+                                    <ModalButtomCmp
+                                        handleChange={closeModal}
+                                    > Cancel</ModalButtomCmp>
+                                </Box>
+                            </Box> */}
                         </Box>
                         <Box sx={{ height: 15 }}></Box>
+
                     </ModalDialog>
                 </Modal>
             </CssVarsProvider >
+
         </Fragment >
     )
 }

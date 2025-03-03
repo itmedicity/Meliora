@@ -233,6 +233,9 @@ const companyName = React.lazy(() => import('./views/Master/RequestManagement/Co
 const crfBiomedical = React.lazy(() => import('./views/CentralRequestManagement/CRFBiomedicalView/CrfBiomedical'))
 const approvalMapping = React.lazy(() => import('./views/Master/RequestManagement/CRFApprovalMappingMaster/ApprovalMappingMaster'))
 const managingDirectorApproval = React.lazy(() => import('./views/CentralRequestManagement/CrfManagingDirectorApproval/ManagingDirectorMain'))
+const ViewCategoryMaster = React.lazy(() => import('./views/Master/RequestManagement/CrfViewCategoryMaster/ViewCategoryMaster'))
+const CrfView = React.lazy(() => import('./views/CentralRequestManagement/CRFview/CrfView'))
+
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/NotCorect', exact: true, name: 'NotCorect', component: NotCorect },
@@ -467,6 +470,9 @@ const routes = [
   { path: '/Home/CrfBiomedical', exact: true, name: 'CRF Biomedical View', component: crfBiomedical },
   { path: '/Home/ApprovalMapping', exact: true, name: 'CRF Approval Mapping Master', component: approvalMapping },
   { path: '/Home/CRFNewManagingDirector', exact: true, name: 'Managing Director Approval', component: managingDirectorApproval },
+  { path: '/Home/ViewCategoryMaster', exact: true, name: 'MenuView Category Master', component: ViewCategoryMaster },
+  { path: '/Home/CrfView', exact: true, name: 'Crf View', component: CrfView },
+
 ]
 
 export default routes

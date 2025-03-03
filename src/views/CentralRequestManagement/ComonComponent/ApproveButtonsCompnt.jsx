@@ -153,6 +153,7 @@ const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag
                     return obj
                 })
                 setImageArry(savedFiles)
+
             } else {
                 setImageArry([])
             }
@@ -167,7 +168,6 @@ const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag
 
     const DataViewfnctn = useCallback(() => {
         const { req_slno } = val
-
         const getImage = async (req_slno) => {
             const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
             const { success, data } = result.data
@@ -176,7 +176,6 @@ const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag
                 const fileUrls = fileNames.map((fileName) => {
                     return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
                 });
-
                 const savedFiles = fileUrls.map((val) => {
                     const parts = val.split('/');
                     const fileNamePart = parts[parts.length - 1];
@@ -187,6 +186,7 @@ const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag
                     return obj
                 })
                 setImageArry(savedFiles)
+
             } else {
                 setImageArry([])
             }
@@ -240,6 +240,7 @@ const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag
                 const fileUrls = fileNames.map((fileName) => {
                     return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
                 });
+
                 setImageArry(fileUrls)
                 setImageShowFlag(1)
                 setImageShow(true)
@@ -321,8 +322,111 @@ const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag
             }}>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', pl: 1 }} >
                     <Box sx={{ pl: 2, p: 0.5 }}>
-                        {crfRadioValue === '1' ?
+                        {/* correct */}
+
+                        {
+                            val?.internally_arranged_status === 1 ? (
+                                <Button
+                                    variant="contained"
+                                    startIcon={
+                                        <DescriptionIcon
+                                            sx={{
+                                                height: 19,
+                                                width: 19,
+                                                color: '#0277bd',
+                                            }}
+                                        />
+                                    }
+                                    sx={buttonstyle}
+                                    onClick={DataViewfnctn}
+                                >
+                                    View
+                                </Button>
+                            ) : crfRadioValue === '1' ? (
+                                <>
+                                    {higher === 1 ? (
+                                        <Button
+                                            variant="contained"
+                                            startIcon={
+                                                <DescriptionIcon
+                                                    sx={{
+                                                        height: 19,
+                                                        width: 19,
+                                                        color: '#0277bd',
+                                                    }}
+                                                />
+                                            }
+                                            sx={buttonstyle}
+                                            onClick={DataViewfnctn}
+                                        >
+                                            View
+                                        </Button>
+                                    ) : (
+                                        <Box sx={{ display: 'flex' }}>
+                                            <Box>
+                                                <Button
+                                                    variant="contained"
+                                                    startIcon={
+                                                        <PublishedWithChangesTwoToneIcon
+                                                            sx={{
+                                                                height: 19,
+                                                                width: 19,
+                                                                color: '#0277bd',
+                                                            }}
+                                                        />
+                                                    }
+                                                    sx={buttonstyle}
+                                                    onClick={Approvalfctn}
+                                                >
+                                                    Approval
+                                                </Button>
+                                            </Box>
+                                            <Box sx={{ pl: 1 }}>
+                                                <Button
+                                                    variant="contained"
+                                                    startIcon={
+                                                        <NotInterestedOutlinedIcon
+                                                            sx={{
+                                                                height: 19,
+                                                                width: 19,
+                                                                color: '#0277bd',
+                                                            }}
+                                                        />
+                                                    }
+                                                    sx={buttonstyle}
+                                                    onClick={CloseFnctn}
+                                                >
+                                                    Close
+                                                </Button>
+                                            </Box>
+                                        </Box>
+                                    )}
+                                </>
+                            ) : (
+                                <Box>
+                                    <Button
+                                        variant="contained"
+                                        startIcon={
+                                            <PublishedWithChangesTwoToneIcon
+                                                sx={{
+                                                    height: 19,
+                                                    width: 19,
+                                                    color: '#0277bd',
+                                                }}
+                                            />
+                                        }
+                                        sx={buttonstyle}
+                                        onClick={Approvalfctn}
+                                    >
+                                        Approval
+                                    </Button>
+                                </Box>
+                            )
+                        }
+
+                        {/* {crfRadioValue === '1' ?
                             <>
+
                                 {higher === 1 ?
                                     <Button
                                         variant="contained"
@@ -362,7 +466,7 @@ const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag
                                                 Approval
                                             </Button>
                                         </Box>
-                                        <Box sx={{ pl: 1 }}>
+                                        <Box sx={{ pl: 1, }}>
                                             <Button
                                                 variant="contained"
                                                 startIcon={
@@ -403,7 +507,7 @@ const ApproveButtonsCompnt = ({ setApprovalFlag, setApprovalModal, setCancelFlag
                                     Approval
                                 </Button>
                             </Box>
-                        }
+                        } */}
                     </Box>
                 </Box>
                 <Box sx={{ display: 'flex', p: 0.5 }} >

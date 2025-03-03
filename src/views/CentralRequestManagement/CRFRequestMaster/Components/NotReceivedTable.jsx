@@ -76,7 +76,7 @@ const NotReceivedTable = ({ disData, rowSelect }) => {
                 imagearray={imagearray} poDetails={poDetails} approveTableData={approveTableData} reqItems={reqItems} /> : null}
             {ackFlag === 1 ? <UserAckModal handleClose={handleClose} open={ackModal} req_slno={req_slno}
                 approveTableData={approveTableData} reqItems={reqItems} /> : null}
-            {disData.length !== 0 ?
+            {disData?.length !== 0 ?
                 <Paper variant="outlined" sx={{
                     overflow: 'auto', height: window.innerHeight - 210, flexWrap: 'wrap',
                     '&::-webkit-scrollbar': { height: 8 }
@@ -101,11 +101,11 @@ const NotReceivedTable = ({ disData, rowSelect }) => {
                                 {disData?.map((val, index) => (
                                     <tr key={index} style={{
                                         height: 4,
-                                        background: (val.sub_store_recieve === 1) ? '#B1D8B7' : (val.store_recieve === 0 || val.store_recieve === 1) ? '#BFD7ED' : 'transparent'
+                                        background: (val?.sub_store_recieve === 1 || val?.internally_arranged_status === 1) ? '#B1D8B7' : (val?.store_recieve === 0 || val?.store_recieve === 1) ? '#BFD7ED' : 'transparent'
                                     }} size='small' >
                                         <td>
                                             {/* (val.hod_approve !== null || val.incharge_approve !== null) */}
-                                            {val.req_status === 'C' || (val.incharge_approve === 1) ?
+                                            {val?.req_status === 'C' || (val?.incharge_approve === 1) ?
                                                 <EditOutlinedIcon
                                                     sx={{
                                                         fontSize: 'lg',
@@ -139,8 +139,8 @@ const NotReceivedTable = ({ disData, rowSelect }) => {
 
                                         </td>
                                         <td>
-                                            {val.sub_store_recieve === 1 ?
-                                                <CustomToolTipForCRF title="Acknowledgement From Store" placement="right">
+                                            {val.sub_store_recieve === 1 || val?.internally_arranged_status === 1 ?
+                                                <CustomToolTipForCRF title="Acknowledgement " placement="right">
                                                     <GppGoodTwoToneIcon
                                                         sx={{
                                                             animation: `${blinkAnimation} 1s infinite`,
@@ -192,12 +192,12 @@ const NotReceivedTable = ({ disData, rowSelect }) => {
                                                 />
                                             </CustomToolTipForCRF>
                                         </td>
-                                        <td style={{ fontSize: 13 }}>CRF/TMC/{val.req_slno}</td>
-                                        <td style={{ fontSize: 13 }}>{val.req_deptsec}</td>
-                                        <td style={{ fontSize: 13 }}>{format(new Date(val.req_date), 'dd-MM-yyyy hh:mm:ss a')}</td>
-                                        <td style={{ fontSize: 13 }}>{val.category_name}</td>
-                                        <td style={{ fontSize: 13 }}>{val.user_deptsection}</td>
-                                        <td style={{ fontSize: 13 }}>{(val.location)}</td>
+                                        <td style={{ fontSize: 13 }}>CRF/TMC/{val?.req_slno}</td>
+                                        <td style={{ fontSize: 13 }}>{val?.req_deptsec}</td>
+                                        <td style={{ fontSize: 13 }}>{format(new Date(val?.req_date), 'dd-MM-yyyy hh:mm:ss a')}</td>
+                                        <td style={{ fontSize: 13 }}>{val?.category_name}</td>
+                                        <td style={{ fontSize: 13 }}>{val?.user_deptsection}</td>
+                                        <td style={{ fontSize: 13 }}>{(val?.location)}</td>
                                         <td style={{ fontSize: 12 }}>
                                             <CssVarsProvider>
                                                 <IconButton
@@ -207,8 +207,8 @@ const NotReceivedTable = ({ disData, rowSelect }) => {
                                                         boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.16)', borderRadius: 5,
                                                         bgcolor: '#D4F1F4', border: '1px solid #a5d6a7'
                                                     }}>
-                                                    {val.now_who}&nbsp;&nbsp;{val.now_who_status === 1 ? "Approved" : val.now_who_status === 2 ? "Rejected" :
-                                                        val.now_who_status === 3 ? "On-Hold" : ""}
+                                                    {val?.now_who}&nbsp;&nbsp;{val?.now_who_status === 1 ? "Approved" : val?.now_who_status === 2 ? "Rejected" :
+                                                        val?.now_who_status === 3 ? "On-Hold" : ""}&nbsp;&nbsp;{val?.req_status === 'I' ? "(Internally arranged)" : ''}
 
                                                 </IconButton>
                                             </CssVarsProvider>

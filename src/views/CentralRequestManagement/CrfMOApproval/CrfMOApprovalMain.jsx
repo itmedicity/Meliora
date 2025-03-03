@@ -25,6 +25,7 @@ const CrfMOApprovalMain = () => {
     const [radiovalue, setRadioValue] = useState('1')
     const [crfRadioValue, setCrfRadioValue] = useState('1')
     const [allData, setAllData] = useState([])
+
     const [disData, setDisData] = useState([])
     const [ApprovalFlag, setApprovalFlag] = useState(0)
     const [ApprovalModal, setApprovalModal] = useState(false)
@@ -46,7 +47,6 @@ const CrfMOApprovalMain = () => {
     const [datacolData, setDataColData] = useState([])
     // const [procureData, setProcureData] = useState([])
     const [combinedData, setcombinedData] = useState([])
-
     const [fromDate, setFromDate] = useState(format(new Date(), "yyyy-MM-dd"));
     const [toDate, setToDate] = useState(format(new Date(), "yyyy-MM-dd"));
     const [imagearray, setImageArry] = useState([])

@@ -305,6 +305,7 @@ const InchargeApproval = () => {
                 return val.incharge_approve !== null || val.hod_approve !== null
             })
             setDoneData(doneList)
+
         }
         else {
             setClosedData([])

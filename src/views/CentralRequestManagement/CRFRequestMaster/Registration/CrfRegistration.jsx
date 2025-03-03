@@ -74,6 +74,7 @@ const CrfRegistration = ({ editRowData, setEditRowData, edit, setEdit, detailDat
     const [uomName, setUomName] = useState('')
     const [previewFile, setPreviewFile] = useState({ url: "", type: "" });
     const [authorizeDeptSec, setAuthorizDeptSec] = useState([])
+
     const [selectFile, setSelectFile] = useState([])
     const [editIndex, setEditIndex] = useState(null)
     const [emerType, setEmerType] = useState(0)

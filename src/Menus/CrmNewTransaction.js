@@ -143,14 +143,20 @@ const CrmNewTransaction = [
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
 
+    // {
+    //     men_slno: 243,
+    //     component: CNavItem,
+    //     name: 'CRF View',
+    //     to: '/Home/CrfBiomedical',
+    //     icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    // },
     {
         men_slno: 243,
         component: CNavItem,
-        name: 'CRF Biomedical View',
-        to: '/Home/CrfBiomedical',
+        name: 'CRF View',
+        to: '/Home/CrfView',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
-
 ]
 
 export default CrmNewTransaction;

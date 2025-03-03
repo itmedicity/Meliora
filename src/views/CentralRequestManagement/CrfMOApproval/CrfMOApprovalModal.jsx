@@ -130,6 +130,7 @@ const CrfMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
     }, [approve, reject, pending, id, remark, detailAnalis, req_slno, approveTableData, internallyArr])
 
     const submit = useCallback(() => {
+
         if (editEnable === 1) {
             infoNotify("Ensure all other details are entered/completed before submitting");
         }
@@ -415,7 +416,7 @@ const CrfMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                             </Box>
                         </Box>
                         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                            <Box sx={{ py: 0.5, pr: 0.5 }}>
+                            <Box sx={{ py: 0.5, pr: 0.5, }}>
                                 <ModalButtomCmp
                                     handleChange={submit}
                                 > Save</ModalButtomCmp>

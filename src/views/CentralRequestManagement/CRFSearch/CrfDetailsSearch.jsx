@@ -319,7 +319,10 @@ const CrfDetailsSearch = () => {
                                 dept_type: val.dept_type,
                                 dept_type_name: val.dept_type === 1 ? 'Clinical' : val.dept_type === 2 ? 'Non Clinical' : 'Academic',
                                 po_number: val.po_number,
-                                approval_level: val.approval_level
+                                approval_level: val.approval_level,
+                                user_acknldge: val.user_acknldge,
+                                internally_arranged_status: val.internally_arranged_status,
+                                user_ack_date: val?.user_ack_date,
                             }
                             return obj
                         })

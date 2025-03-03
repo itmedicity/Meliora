@@ -82,6 +82,7 @@ const UserAckModal = ({ req_slno, handleClose, open, approveTableData, reqItems 
 
     const saveUserAck = useCallback(() => {
         if (acknowledgement === true) {
+
             const checkReturnItems = async (req_slno) => {
                 try {
                     const result = await axioslogin.get(`/newCRFRegister/check/${req_slno}`);
@@ -126,6 +127,28 @@ const UserAckModal = ({ req_slno, handleClose, open, approveTableData, reqItems 
                                             updateuserAckPatch(userAckPatch);
                                         }
                                     }
+                                } else {
+                                    //for useracknowledgement in internally arranged
+                                    const updateuserAckInternal = async (userAckPatch) => {
+                                        try {
+                                            const result = await axioslogin.patch('/CRFRegisterApproval/userAckInternally', userAckPatch);
+                                            const { success, message } = result.data;
+                                            if (success === 1) {
+                                                succesNotify(message);
+                                                queryClient.invalidateQueries('getUserAckDetails');
+                                                queryClient.invalidateQueries('crfDetailsView');
+                                                setAcknowledgement(false);
+                                                setAckRemark('');
+                                                handleClose();
+                                            } else {
+                                                warningNotify(message);
+                                            }
+                                        } catch (error) {
+                                            warningNotify("Failed to update acknowledgment");
+                                        }
+                                    };
+                                    updateuserAckInternal(userAckPatch);
+
                                 }
                             } catch (error) {
                                 warningNotify("Failed to fetch receive status");

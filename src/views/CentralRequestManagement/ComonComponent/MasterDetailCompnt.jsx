@@ -70,7 +70,7 @@ const MasterDetailCompnt = ({ val }) => {
                             <Box sx={{ display: 'flex', }}>
                                 <Typography sx={{ fontSize: 11, color: '#003060', fontWeight: 'bold', pt: 0.4 }}>CATEGORY</Typography>
                                 <Typography sx={{ fontSize: 12, color: '#003060', fontWeight: 'bold', pl: 1, }}>: </Typography>
-                                <Typography sx={{ fontSize: 13, pl: 1 }}>{category.toLowerCase().replace(/\b\w/g, char => char.toUpperCase())}</Typography>
+                                <Typography sx={{ fontSize: 13, pl: 1 }}>{category?.toLowerCase().replace(/\b\w/g, char => char.toUpperCase())}</Typography>
                             </Box>
                             <Box sx={{ display: 'flex', }}>
                                 <Typography sx={{ fontSize: 11, color: '#003060', fontWeight: 'bold', pt: 0.4 }}>REQ. DEPARTMENT</Typography>

@@ -277,13 +277,14 @@ const CrfSMOApprovalMain = () => {
                     dept_type: val.dept_type,
                     dept_type_name: val.dept_type === 1 ? 'Clinical' : val.dept_type === 2 ? 'Non Clinical' : 'Academic',
                     po_number: val.po_number,
-                    approval_level: val.approval_level
+                    approval_level: val.approval_level,
+                    internally_arranged_status: val?.internally_arranged_status
                 }
                 return obj
             })
             if (radiovalue === '2') {
                 const newData = datas?.filter((val) => val.now_who_status !== 2 && val.now_who_status !== 3 &&
-                    (val.senior_manage_approv !== null || val.gm_approve !== null ||
+                    (val.senior_manage_approv !== null || val.gm_approve !== null || val?.internally_arranged_status === 1 ||
                         val.ed_approve !== null || val.md_approve !== null)
                 )
                 setDisData(newData)

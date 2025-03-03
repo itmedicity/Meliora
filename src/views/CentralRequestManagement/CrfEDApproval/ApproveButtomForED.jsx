@@ -410,7 +410,107 @@ const ApproveButtomForED = ({ setApprovalFlag, setApprovalModal, setCancelFlag, 
                     <Box sx={{ pl: 2, p: 0.5 }}>
                         {selectedCompany === '1' ?
                             <>
-                                {crfRadioValue === '1' ?
+                                {/* edited */}
+                                {
+                                    val?.internally_arranged_status === 1 ? (
+                                        <Button
+                                            variant="contained"
+                                            startIcon={
+                                                <DescriptionIcon
+                                                    sx={{
+                                                        height: 19,
+                                                        width: 19,
+                                                        color: '#0277bd',
+                                                    }}
+                                                />
+                                            }
+                                            sx={buttonstyle}
+                                            onClick={DataViewfnctn}
+                                        >
+                                            View
+                                        </Button>
+                                    ) : crfRadioValue === '1' ? (
+                                        <>
+                                            {higher === 1 ? (
+                                                <Button
+                                                    variant="contained"
+                                                    startIcon={
+                                                        <DescriptionIcon
+                                                            sx={{
+                                                                height: 19,
+                                                                width: 19,
+                                                                color: '#0277bd',
+                                                            }}
+                                                        />
+                                                    }
+                                                    sx={buttonstyle}
+                                                    onClick={DataViewfnctn}
+                                                >
+                                                    View
+                                                </Button>
+                                            ) : (
+                                                <Box sx={{ display: 'flex' }}>
+                                                    <Box>
+                                                        <Button
+                                                            variant="contained"
+                                                            startIcon={
+                                                                <PublishedWithChangesTwoToneIcon
+                                                                    sx={{
+                                                                        height: 19,
+                                                                        width: 19,
+                                                                        color: '#0277bd',
+                                                                    }}
+                                                                />
+                                                            }
+                                                            sx={buttonstyle}
+                                                            onClick={Approvalfctn}
+                                                        >
+                                                            Approval
+                                                        </Button>
+                                                    </Box>
+                                                    <Box sx={{ pl: 1 }}>
+                                                        <Button
+                                                            variant="contained"
+                                                            startIcon={
+                                                                <NotInterestedOutlinedIcon
+                                                                    sx={{
+                                                                        height: 19,
+                                                                        width: 19,
+                                                                        color: '#0277bd',
+                                                                    }}
+                                                                />
+                                                            }
+                                                            sx={buttonstyle}
+                                                            onClick={CloseFnctn}
+                                                        >
+                                                            Close
+                                                        </Button>
+                                                    </Box>
+                                                </Box>
+                                            )}
+                                        </>
+                                    ) : (
+                                        <Box>
+                                            <Button
+                                                variant="contained"
+                                                startIcon={
+                                                    <PublishedWithChangesTwoToneIcon
+                                                        sx={{
+                                                            height: 19,
+                                                            width: 19,
+                                                            color: '#0277bd',
+                                                        }}
+                                                    />
+                                                }
+                                                sx={buttonstyle}
+                                                onClick={Approvalfctn}
+                                            >
+                                                Approval
+                                            </Button>
+                                        </Box>
+                                    )
+                                }
+                                {/* {crfRadioValue === '1' ?
                                     <>
                                         {higher === 1 ?
                                             <Button
@@ -492,7 +592,7 @@ const ApproveButtomForED = ({ setApprovalFlag, setApprovalModal, setCancelFlag, 
                                             Approval
                                         </Button>
                                     </Box>
-                                }
+                                } */}
                             </>
                             :
                             <Button

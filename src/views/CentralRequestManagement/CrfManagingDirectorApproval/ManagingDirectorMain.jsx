@@ -305,7 +305,8 @@ const ManagingDirectorMain = () => {
                     dept_type: val.dept_type,
                     dept_type_name: val.dept_type === 1 ? 'Clinical' : val.dept_type === 2 ? 'Non Clinical' : 'Academic',
                     po_number: val.po_number,
-                    approval_level: val.approval_level
+                    approval_level: val.approval_level,
+                    internally_arranged_status: val?.internally_arranged_status
                 }
                 return obj
             })

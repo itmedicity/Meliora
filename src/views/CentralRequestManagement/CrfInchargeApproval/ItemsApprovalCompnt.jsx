@@ -796,7 +796,7 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
                                 </Box>
                             </Box>
                             : rejHoldRemarkFlag === 3 ?
-                                <Box sx={{ display: 'flex' }}>
+                                <Box sx={{ display: 'flex', }}>
                                     <Box sx={{ flex: 1, m: 0.5, pl: 0.5 }}>
                                         <Textarea
                                             required
@@ -810,7 +810,7 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
                                             sx={{ fontSize: 14, borderRadius: 7 }}
                                         />
                                     </Box>
-                                    <Box sx={{ flex: 0.2, m: 0.4 }}>
+                                    <Box sx={{ flex: 0.2, m: 0.4, }}>
                                         <   CustomIconButtonCmp
                                             handleChange={internallyArrangedUpdate}
                                         >
