@@ -195,7 +195,7 @@ const DEviceDetailsComp = ({ detailArry, exist, setExist, assetSpare }) => {
                 </Box>
 
                 <CustomeToolTip title="Save" placement="top" >
-                    <Box sx={{ width: '3%', pl: 3, pt: 3, }}>
+                    <Box sx={{ width: '3%', px: 3, pt: 3, }}>
                         <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={EditDetails} >
                             <LibraryAddIcon fontSize='small' />
                         </CusIconButton>
