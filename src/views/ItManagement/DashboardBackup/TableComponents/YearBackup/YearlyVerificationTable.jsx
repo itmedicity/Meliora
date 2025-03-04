@@ -36,7 +36,8 @@ const YearlyVerificationTable = ({ setYearflag }) => {
             end_date: moment(new Date(todate)).format('YYYY-01-01'),
             empdept: empdept
         }
-    }, [fromdate, todate])
+    }, [fromdate, todate, empdept])
+
     const SearchDetails = useCallback(() => {
         if (fromdate !== '' && todate !== '') {
             const getdata = async () => {
