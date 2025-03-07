@@ -421,6 +421,7 @@ const PurchaseTablemain = () => {
             return result.data
         }
         const UpdatePOLevels = async (patchdata) => {
+
             const result = await axioslogin.post('/newCRFPurchase/updateApprovalLevel', patchdata)
             return result.data
         }
@@ -434,7 +435,7 @@ const PurchaseTablemain = () => {
                     }
                 })
                 getPOdetails(posearch).then((val) => {
-                    const { success, elliderData } = val
+                    const { success, data: elliderData } = val
                     if (success === 1) {
                         const patchdata = elliderData?.map((val) => {
                             const newData = storeList?.find((value) => (value.crs_store_code === val.ST_CODE))
@@ -531,7 +532,7 @@ const PurchaseTablemain = () => {
             {
                 radiovalue === '6' ?
                     <Box sx={{ flexWrap: 'wrap', pt: 0.5, maxHeight: window.innerHeight - 220 }}>
-                        {combinedPO.length !== 0 ?
+                        {combinedPO?.length !== 0 ?
                             <>
                                 <Box
                                     sx={{
@@ -706,7 +707,7 @@ const PurchaseTablemain = () => {
                             </Box>}
                     </Box>
                     :
-                    <Box sx={{ height: window.innerHeight - 240, overflow: 'auto', flexWrap: 'wrap' }}>
+                    <Box sx={{ height: window.innerHeight - 260, overflow: 'auto', flexWrap: 'wrap', }}>
                         {disData.length !== 0 ?
                             <Virtuoso
                                 data={disData}

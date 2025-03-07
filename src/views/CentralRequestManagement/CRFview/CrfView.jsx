@@ -68,12 +68,13 @@ const CrfView = () => {
             category: category
         }
     }, [category])
+
     const searchCRFDetails = useCallback(async (e) => {
         e.preventDefault();
-        setOpen(true)
-        if (category === null || 0) {
+        if (category === null || category === 0) {
             warningNotify("Please select the Category")
         } else {
+            setOpen(true)
             const getcrfBiomedical = async (searchCrf) => {
                 let result;
                 if (selectedCompany === '1') {

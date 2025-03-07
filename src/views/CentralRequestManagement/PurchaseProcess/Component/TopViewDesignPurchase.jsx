@@ -119,7 +119,16 @@ const TopViewDesignPurchase = ({ radiovalue, allData, setDisData, setRadioValue,
                             }
                         }}
                     >
-                        <FormControlLabel value='1' sx={{ pl: 2 }} control={
+                        <FormControlLabel value='1' sx={{
+                            pl: 2, '& .MuiFormControlLabel-label': {
+                                fontSize: {
+                                    xs: '12px',
+                                    sm: '14px',
+                                    lg: '14px',
+                                    xl: '16px'
+                                }
+                            }
+                        }} control={
                             <Radio
                                 sx={{
                                     color: 'red',
@@ -144,7 +153,16 @@ const TopViewDesignPurchase = ({ radiovalue, allData, setDisData, setRadioValue,
                             }
                         }}
                     >
-                        <FormControlLabel value='2' sx={{ pl: 1.5 }} control={
+                        <FormControlLabel value='2' sx={{
+                            pl: 1.5, '& .MuiFormControlLabel-label': {
+                                fontSize: {
+                                    xs: '12px',
+                                    sm: '14px',
+                                    lg: '14px',
+                                    xl: '16px'
+                                }
+                            }
+                        }} control={
                             <Radio
                                 sx={{
                                     color: '#E55B13',
@@ -168,7 +186,16 @@ const TopViewDesignPurchase = ({ radiovalue, allData, setDisData, setRadioValue,
                             }
                         }}
                     >
-                        <FormControlLabel value='3' sx={{ pl: 1.5 }} control={
+                        <FormControlLabel value='3' sx={{
+                            pl: 1.5, '& .MuiFormControlLabel-label': {
+                                fontSize: {
+                                    xs: '12px',
+                                    sm: '14px',
+                                    lg: '14px',
+                                    xl: '16px'
+                                }
+                            }
+                        }} control={
                             <Radio
                                 sx={{
                                     color: '#6200ea',
@@ -192,7 +219,16 @@ const TopViewDesignPurchase = ({ radiovalue, allData, setDisData, setRadioValue,
                                 transform: 'translate(70%, -10%)',
                             }
                         }}
-                    > <FormControlLabel value='4' sx={{ pl: 1.5 }} control={
+                    > <FormControlLabel value='4' sx={{
+                        pl: 1.5, '& .MuiFormControlLabel-label': {
+                            fontSize: {
+                                xs: '12px',
+                                sm: '14px',
+                                lg: '14px',
+                                xl: '16px'
+                            }
+                        }
+                    }} control={
                         <Radio
                             sx={{
                                 color: 'orange',
@@ -218,7 +254,17 @@ const TopViewDesignPurchase = ({ radiovalue, allData, setDisData, setRadioValue,
                         }}
                     >  <FormControlLabel
                             value='5'
-                            sx={{ pl: 1.5 }}
+                            sx={{
+                                pl: 1.5,
+                                '& .MuiFormControlLabel-label': {
+                                    fontSize: {
+                                        xs: '12px',
+                                        sm: '14px',
+                                        lg: '14px',
+                                        xl: '16px'
+                                    }
+                                }
+                            }}
                             control={
                                 <Radio
                                     sx={{
@@ -250,7 +296,18 @@ const TopViewDesignPurchase = ({ radiovalue, allData, setDisData, setRadioValue,
                     >
                         <FormControlLabel
                             value='6'
-                            sx={{ pl: 1.5 }}
+                            sx={{
+                                // pl: 1.5,
+                                pl: { xl: 1.5, lg: 1.7 },
+                                '& .MuiFormControlLabel-label': {
+                                    fontSize: {
+                                        xs: '12px',
+                                        sm: '14px',
+                                        lg: '14px',
+                                        xl: '16px'
+                                    }
+                                }
+                            }}
                             control={
                                 <Radio
                                     sx={{
@@ -264,7 +321,7 @@ const TopViewDesignPurchase = ({ radiovalue, allData, setDisData, setRadioValue,
                             label="PO Approvals"
                         />
                     </Badge>
-                </RadioGroup>
+                    {/* </RadioGroup>
                 <RadioGroup
                     sx={{
                         pt: 1, flex: '1 1 auto', bgcolor: '#D4F1F4', borderLeft: '1px solid lightblue',
@@ -274,7 +331,7 @@ const TopViewDesignPurchase = ({ radiovalue, allData, setDisData, setRadioValue,
                     name="row-radio-buttons-group"
                     value={radiovalue}
                     onChange={(e) => updateRadioClick(e)}
-                >
+                > */}
                     <Badge
                         badgeContent={dataCollection.length || 0}
                         anchorOrigin={{
@@ -287,16 +344,26 @@ const TopViewDesignPurchase = ({ radiovalue, allData, setDisData, setRadioValue,
                                 backgroundColor: '#0C6170',
                                 color: 'white',
                                 transform: 'translate(70%, -10%)',
-                            }
+                            }, bgcolor: '#D4F1F4'
                         }}
                     >
-                        <FormControlLabel value='7' sx={{ pl: 2, }} control={
+                        <FormControlLabel value='7' sx={{
+                            pl: 2, bgcolor: '#D4F1F4',
+                            '& .MuiFormControlLabel-label': {
+                                fontSize: {
+                                    xs: '12px',
+                                    sm: '14px',
+                                    lg: '14px',
+                                    xl: '16px'
+                                }
+                            }
+                        }} control={
                             <Radio
                                 sx={{
                                     color: '#0C6170',
                                     '&.Mui-checked': {
                                         color: '#0C6170',
-                                    },
+                                    }, bgcolor: '#D4F1F4'
                                 }}
                             />} label="Data Collection Pending" />
                     </Badge>
