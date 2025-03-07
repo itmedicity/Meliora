@@ -371,7 +371,6 @@ const TopViewDesignPurchase = ({ radiovalue, allData, setDisData, setRadioValue,
             </Box>
             {radiovalue !== '6' ?
                 <Paper sx={{ display: 'flex', justifyContent: 'flex-start', flexWrap: 'wrap', py: 0.3 }}>
-
                     <Box sx={{ m: 0.5, }}>
                         <CssVarsProvider>
                             <Select defaultValue="0" sx={{ width: 250, border: '1px solid #bbdefb', height: 20, color: '#1565c0', fontSize: 14 }}
