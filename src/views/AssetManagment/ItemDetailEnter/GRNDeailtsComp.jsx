@@ -249,7 +249,7 @@ const GRNDeailtsComp = ({ detailArry, grndetailarry, exist, setExist, assetSpare
                     </Box>
                 </Box>
                 <CustomeToolTip title="Save" placement="top" >
-                    <Box sx={{ width: '3%', pl: 5, pt: 3, }}>
+                    <Box sx={{ width: '3%', pl: 5, pr: 1, pt: 3, }}>
                         <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={EditDetails} >
                             <LibraryAddIcon fontSize='small' />
                         </CusIconButton>

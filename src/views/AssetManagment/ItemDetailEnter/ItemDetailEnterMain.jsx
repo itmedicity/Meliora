@@ -15,8 +15,6 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender,
     const { am_item_map_slno, am_spare_item_map_slno } = detailArry
     const [exist, setExist] = useState(0)
     const [grndetailarry, setGrnDetailArry] = useState({})
-    const [wargar, setWarGar] = useState(0)
-    const [warGararry, setwarGarArry] = useState({})
     const [amcPm, setAmcPm] = useState(0)
     const [amcPmarry, setAmcPmArry] = useState({})
 
@@ -33,20 +31,6 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender,
                 setGrnDetailArry([])
             }
         }
-
-        const checkinsertOrNotWarGar = async (am_item_map_slno) => {
-            const result = await axioslogin.get(`/ItemMapDetails/WarentGarantInsertOrNot/${am_item_map_slno}`);
-            const { success, data } = result.data
-            if (success === 1) {
-                setWarGar(1)
-                setwarGarArry(data[0])
-            }
-            else {
-                setWarGar(0)
-                setwarGarArry([])
-            }
-        }
-
         const checkinsertOrNotAMCPM = async (am_item_map_slno) => {
             const result = await axioslogin.get(`/ItemMapDetails/AmcPmInsertOrNot/${am_item_map_slno}`);
             const { success, data } = result.data
@@ -59,7 +43,6 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender,
                 setAmcPmArry([])
             }
         }
-
         const checkinsertOrNotDetailSpare = async (am_spare_item_map_slno) => {
             const result = await axioslogin.get(`/ItemMapDetails/checkDetailInsertOrNotSpare/${am_spare_item_map_slno}`);
             const { success, data } = result.data
@@ -72,31 +55,14 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender,
                 setGrnDetailArry([])
             }
         }
-
-        const checkinsertOrNotWarGarSpare = async (am_spare_item_map_slno) => {
-            const result = await axioslogin.get(`/ItemMapDetails/WarentGarantInsertOrNotSpare/${am_spare_item_map_slno}`);
-            const { success, data } = result.data
-            if (success === 1) {
-                setWarGar(1)
-                setwarGarArry(data[0])
-            }
-            else {
-                setWarGar(0)
-                setwarGarArry([])
-            }
-        }
-
         if (assetSpare === 1) {
             checkinsertOrNotDetail(am_item_map_slno)
-            checkinsertOrNotWarGar(am_item_map_slno)
             checkinsertOrNotAMCPM(am_item_map_slno)
         }
         else {
             checkinsertOrNotDetailSpare(am_spare_item_map_slno)
-            checkinsertOrNotWarGarSpare(am_spare_item_map_slno)
         }
-    }, [am_item_map_slno, assetSpare, am_spare_item_map_slno, setAmcPmArry, setGrnDetailArry, setwarGarArry,
-    ])
+    }, [am_item_map_slno, assetSpare, am_spare_item_map_slno, setAmcPmArry, setGrnDetailArry,])
 
 
     const BackToPage = useCallback(() => {
@@ -120,23 +86,18 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender,
                     {/* Bill Details */}
                     <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
                         Bill Details</Typography>
-
                     <BillDetailsAdding detailArry={detailArry} assetSpare={assetSpare}
                         grndetailarry={grndetailarry} />
-
                     {/* Device Details */}
                     <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
                         Device Details</Typography>
                     <DEviceDetailsComp detailArry={detailArry} assetSpare={assetSpare}
                         grndetailarry={grndetailarry} exist={exist} setExist={setExist} />
-
                     {/*  OwnerShip Details */}
                     <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
                         OwnerShip Details</Typography>
                     <OwnerShipDetailsComp detailArry={detailArry} assetSpare={assetSpare}
                         grndetailarry={grndetailarry} exist={exist} setExist={setExist} />
-
-                    {/*  Lease Details */}
                     {
                         assetSpare === 1 ?
                             <Box>
@@ -145,14 +106,10 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender,
                                 <LeaseDetailsAdd grndetailarry={grndetailarry} />
                             </Box> : null
                     }
-
-                    {/*  Warrenty/ Grarunty Details */}
                     <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
                         Warranty/Guarantee Details</Typography>
-                    <WarrentyGrauntyComp detailArry={detailArry} warGararry={warGararry}
-                        wargar={wargar} setWarGar={setWarGar} assetSpare={assetSpare} />
-
-                    {/*  AMC/PM Details */}
+                    <WarrentyGrauntyComp detailArry={detailArry}
+                        assetSpare={assetSpare} />
                     {
                         assetSpare === 1 ?
                             <Box>
@@ -163,12 +120,9 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender,
                             </Box>
                             : null
                     }
-
-                    {/*  Spec Details */}
                     <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
                         Specification  Details</Typography>
                     <SpecDetailsComp detailArry={detailArry} assetSpare={assetSpare} />
-
                 </Box>
             </Paper>
         </CardMasterClose>

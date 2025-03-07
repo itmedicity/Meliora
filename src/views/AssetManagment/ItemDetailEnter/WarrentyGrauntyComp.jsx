@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useState, useMemo, useEffect } from 'react'
-import { Box, Typography, Paper } from '@mui/material'
+import { Typography, Paper } from '@mui/material'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import CusIconButton from '../../Components/CusIconButton';
 import CustomeToolTip from 'src/views/Components/CustomeToolTip'
@@ -7,24 +7,40 @@ import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useSelector } from 'react-redux'
 import { axioslogin } from 'src/views/Axios/Axios'
-import EditIcon from '@mui/icons-material/Edit';
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode';
-// import imageCompression from 'browser-image-compression';
-// import UploadFileIcon from '@mui/icons-material/UploadFile'
-import CusCheckBox from 'src/views/Components/CusCheckBox';
-import { format } from 'date-fns'
+import { Box, Checkbox, CssVarsProvider, Table, Textarea } from '@mui/joy';
+import { useQuery } from 'react-query';
+import EditIcon from '@mui/icons-material/Edit';
 
+const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
 
-const WarrentyGrauntyComp = ({ detailArry, warGararry, wargar, setWarGar, assetSpare }) => {
     const { am_item_map_slno, am_spare_item_map_slno } = detailArry
-    const { guarenty_status, warrenty_status, from_date, to_date, troll_free, ph_one, ph_two, address } = warGararry
-    // const [selectFile, setSelectFile] = useState(null)
-    // Get login user emp_id
+
     const id = useSelector((state) => {
         return state.LoginUserData.empid
     })
+
     const [warrantyStatus, setwarrantyStatus] = useState(false)
     const [garantyStatus, setgarantyStatus] = useState(false)
+    const [editFlag, seteditFlag] = useState(0)
+    const [warGarSlno, setwarGarSlno] = useState('')
+    const [count, setcount] = useState(0)
+
+    const [userdata, setUserdata] = useState({
+        fromdate: '',
+        toDate: '',
+        trollFree: '',
+        phone1: '',
+        phone2: '',
+        adress: '',
+        remark: ''
+    })
+    const { fromdate, toDate, trollFree, phone1, phone2, adress, remark } = userdata
+
+    const updatewarrenGuranDetails = useCallback((e) => {
+        const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+        setUserdata({ ...userdata, [e.target.name]: value })
+    }, [userdata])
 
     const updatewarrantyStatus = useCallback((e) => {
         if (e.target.checked === true) {
@@ -33,17 +49,7 @@ const WarrentyGrauntyComp = ({ detailArry, warGararry, wargar, setWarGar, assetS
         } else {
             setwarrantyStatus(false)
             setgarantyStatus(false)
-            const frmdata = {
-                fromdate: '',
-                toDate: '',
-                trollFree: '',
-                phone1: '',
-                phone2: '',
-                adress: '',
-            }
-            setUserdata(frmdata)
         }
-
     }, [])
 
     const updategarantyStatus = useCallback((e) => {
@@ -53,58 +59,26 @@ const WarrentyGrauntyComp = ({ detailArry, warGararry, wargar, setWarGar, assetS
         } else {
             setgarantyStatus(false)
             setwarrantyStatus(false)
-            const frmdata = {
-                fromdate: '',
-                toDate: '',
-                trollFree: '',
-                phone1: '',
-                phone2: '',
-                adress: '',
-            }
-            setUserdata(frmdata)
         }
-
     }, [])
 
-    const [userdata, setUserdata] = useState({
-        fromdate: '',
-        toDate: '',
-        trollFree: '',
-        phone1: '',
-        phone2: '',
-        adress: '',
-    })
-
-    //Destructuring
-    const { fromdate, toDate, trollFree, phone1, phone2,
-        adress } = userdata
-    const updatewarrenGuranDetails = useCallback((e) => {
-        const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-        setUserdata({ ...userdata, [e.target.name]: value })
-    }, [userdata])
-
-    useEffect(() => {
-
+    const WarGarReferesh = useCallback(() => {
         const frmdata = {
-            fromdate: from_date,
-            toDate: to_date,
-            trollFree: troll_free,
-            phone1: ph_one,
-            phone2: ph_two,
-            adress: address,
+            fromdate: '',
+            toDate: '',
+            trollFree: '',
+            phone1: '',
+            phone2: '',
+            adress: '',
+            remark: ''
         }
-
-
         setUserdata(frmdata)
-        setwarrantyStatus(warrenty_status === 1 ? true : false)
-        setgarantyStatus(guarenty_status === 1 ? true : false)
-
-    }, [guarenty_status, warrenty_status, from_date, to_date, troll_free, ph_one, ph_two, address])
-
-
+        setwarrantyStatus(false)
+        setgarantyStatus(false)
+        seteditFlag(0)
+    }, [])
 
     const postData = useMemo(() => {
-
         return {
             am_item_map_slno: am_item_map_slno,
             warrenty_status: warrantyStatus === true ? 1 : 0,
@@ -115,15 +89,14 @@ const WarrentyGrauntyComp = ({ detailArry, warGararry, wargar, setWarGar, assetS
             ph_one: phone1,
             ph_two: phone2,
             address: adress,
+            remarks: remark,
             file_upload_status: 1,
-            // file_upload_status: selectFile !== null ? 1 : 0,
             create_user: id
         }
     }, [am_item_map_slno, warrantyStatus, garantyStatus, fromdate, toDate, trollFree, phone1,
-        phone2, adress, id])
+        phone2, adress, remark, id])
 
     const postDataSpare = useMemo(() => {
-
         return {
             am_spare_item_map_slno: am_spare_item_map_slno,
             warrenty_status: warrantyStatus === true ? 1 : 0,
@@ -134,13 +107,12 @@ const WarrentyGrauntyComp = ({ detailArry, warGararry, wargar, setWarGar, assetS
             ph_one: phone1,
             ph_two: phone2,
             address: adress,
+            remarks: remark,
             file_upload_status: 1,
-            // file_upload_status: selectFile !== null ? 1 : 0,
             create_user: id
         }
     }, [am_spare_item_map_slno, warrantyStatus, garantyStatus, fromdate, toDate, trollFree, phone1,
-        phone2, adress, id])
-
+        phone2, adress, remark, id])
 
     const patchdata = useMemo(() => {
         return {
@@ -152,13 +124,14 @@ const WarrentyGrauntyComp = ({ detailArry, warGararry, wargar, setWarGar, assetS
             ph_one: phone1,
             ph_two: phone2,
             address: adress,
+            remarks: remark,
             file_upload_status: 1,
-            // file_upload_status: selectFile !== null ? 1 : 0,
             edit_user: id,
             am_item_map_slno: am_item_map_slno,
+            am_item_wargar_slno: warGarSlno,
         }
     }, [am_item_map_slno, warrantyStatus, garantyStatus, fromdate, toDate, trollFree, phone1,
-        phone2, adress, id])
+        phone2, adress, remark, warGarSlno, id])
 
     const patchdataSpare = useMemo(() => {
         return {
@@ -170,167 +143,135 @@ const WarrentyGrauntyComp = ({ detailArry, warGararry, wargar, setWarGar, assetS
             ph_one: phone1,
             ph_two: phone2,
             address: adress,
+            remarks: remark,
             file_upload_status: 1,
-            // file_upload_status: selectFile !== null ? 1 : 0,
             edit_user: id,
             am_spare_item_map_slno: am_spare_item_map_slno,
+            am_item_wargar_slno: warGarSlno
         }
     }, [am_spare_item_map_slno, warrantyStatus, garantyStatus, fromdate, toDate, trollFree, phone1,
-        phone2, adress, id])
-    const reset = useCallback(() => {
-        const frmdata = {
-            fromdate: '',
-            toDate: '',
-            trollFree: '',
-            phone1: '',
-            phone2: '',
-            adress: '',
-        }
-        setUserdata(frmdata)
-        setwarrantyStatus(false)
-        setgarantyStatus(false)
-    }, [])
+        phone2, adress, remark, warGarSlno, id])
 
     const SaveWarGarDetails = useCallback((e) => {
         e.preventDefault()
-        const InsertItemDetail = async (postData) => {
-            const result = await axioslogin.post('/ItemMapDetails/WarentGraruntyInsert', postData)
-            const { success, message } = result.data
-            if (success === 1) {
-                succesNotify(message)
-                setWarGar(1)
-            } else {
-                infoNotify(message)
-            }
-        }
+        if (editFlag === 1) {
+            const updateWarGardetails = async (patchdata) => {
+                const result = await axioslogin.patch('/ItemMapDetails/WarentGraruntyUpdate', patchdata);
+                const { message, success } = result.data;
+                if (success === 2) {
+                    setcount(count + 1)
+                    succesNotify(message)
+                    seteditFlag(0)
+                    WarGarReferesh()
 
-        const InsertItemDetailSpare = async (postDataSpare) => {
-            const result = await axioslogin.post('/ItemMapDetails/WarentGraruntyInsertSpare', postDataSpare)
-            const { success, message } = result.data
-            if (success === 1) {
-                succesNotify(message)
-                setWarGar(1)
-            } else {
-                infoNotify(message)
+                }
+                else {
+                    warningNotify(message)
+                }
             }
-        }
-        if (assetSpare === 1) {
-            InsertItemDetail(postData);
+            const updateWarGardetailsSpare = async (patchdataSpare) => {
+                const result = await axioslogin.patch('/ItemMapDetails/WarentGraruntyUpdateSpare', patchdataSpare);
+                const { message, success } = result.data;
+                if (success === 2) {
+                    setcount(count + 1)
+                    succesNotify(message)
+                    seteditFlag(0)
+                    WarGarReferesh()
+                }
+                else {
+                    warningNotify(message)
+                }
+            }
+            if (assetSpare === 1) {
+                updateWarGardetails(patchdata)
+            } else {
+                updateWarGardetailsSpare(patchdataSpare)
+            }
         } else {
-            InsertItemDetailSpare(postDataSpare)
+            const InsertItemDetail = async (postData) => {
+                const result = await axioslogin.post('/ItemMapDetails/WarentGraruntyInsert', postData)
+                const { success, message } = result.data
+                if (success === 1) {
+                    setcount(count + 1)
+                    succesNotify(message)
+                    seteditFlag(0)
+                    WarGarReferesh()
+                } else {
+                    infoNotify(message)
+                }
+            }
+            const InsertItemDetailSpare = async (postDataSpare) => {
+                const result = await axioslogin.post('/ItemMapDetails/WarentGraruntyInsertSpare', postDataSpare)
+                const { success, message } = result.data
+                if (success === 1) {
+                    setcount(count + 1)
+                    succesNotify(message)
+                    seteditFlag(0)
+                    WarGarReferesh()
+                } else {
+                    infoNotify(message)
+                }
+            }
+            if (assetSpare === 1) {
+                InsertItemDetail(postData);
+            } else {
+                InsertItemDetailSpare(postDataSpare)
+            }
         }
 
-    }, [postData, setWarGar, assetSpare, postDataSpare])
+    }, [postData, assetSpare, postDataSpare, patchdata, patchdataSpare, count, setcount, WarGarReferesh, editFlag])
 
+    const [tableData, setTableData] = useState([]);
 
-    const EditWarGarDetails = useCallback((e) => {
-        e.preventDefault()
-        const checkinsertOrNot = async (am_item_map_slno) => {
+    const { data: AssetWarGar = [] } = useQuery(
+        ['getAllWarGarInAsset', count],
+        async () => {
             const result = await axioslogin.get(`/ItemMapDetails/WarentGarantInsertOrNot/${am_item_map_slno}`);
-            const { success, data } = result.data
-            if (success === 1) {
-                const { warrenty_status, guarenty_status, from_date, to_date, troll_free, ph_one,
-                    ph_two, address, file_upload_status } = data[0]
-                const frmdata = {
-                    warrantyStatus: warrenty_status === 1 ? setwarrantyStatus(true) : setwarrantyStatus(false),
-                    garantyStatus: guarenty_status === 1 ? setgarantyStatus(true) : setgarantyStatus(false),
-                    fromdate: from_date !== null ? format(new Date(from_date), "yyyy-MM-dd") : '',
-                    toDate: to_date !== null ? format(new Date(to_date), "yyyy-MM-dd") : '',
-                    trollFree: troll_free,
-                    phone1: ph_one,
-                    phone2: ph_two,
-                    adress: address,
-                    imageStatus: file_upload_status
-                }
-                setUserdata(frmdata);
-            }
-            else {
-                warningNotify("Data Not Saved Yet")
-            }
-        }
+            return result.data?.data || [];
+        },
+        { enabled: !!am_item_map_slno }
+    );
 
-        const checkinsertOrNotSpare = async (am_spare_item_map_slno) => {
+    const { data: SpareWarGar = [] } = useQuery(
+        ['getAllWarGarInSpare', count],
+        async () => {
             const result = await axioslogin.get(`/ItemMapDetails/WarentGarantInsertOrNotSpare/${am_spare_item_map_slno}`);
-            const { success, data } = result.data
-            if (success === 1) {
-                const { warrenty_status, guarenty_status, from_date, to_date, troll_free, ph_one,
-                    ph_two, address, file_upload_status } = data[0]
-                const frmdata = {
-                    warrantyStatus: warrenty_status === 1 ? setwarrantyStatus(true) : setwarrantyStatus(false),
-                    garantyStatus: guarenty_status === 1 ? setgarantyStatus(true) : setgarantyStatus(false),
-                    fromdate: from_date !== null ? format(new Date(from_date), "yyyy-MM-dd") : '',
-                    toDate: to_date !== null ? format(new Date(to_date), "yyyy-MM-dd") : '',
-                    trollFree: troll_free,
-                    phone1: ph_one,
-                    phone2: ph_two,
-                    adress: address,
-                    imageStatus: file_upload_status
-                }
-                setUserdata(frmdata);
-            }
-            else {
-                warningNotify("Data Not Saved Yet")
-            }
+            return result.data?.data || [];
+        },
+        { enabled: !!am_spare_item_map_slno }
+
+    );
+    useEffect(() => {
+        setTableData((prevData) => {
+            const newData =
+                AssetWarGar.length > 0 ? AssetWarGar :
+                    SpareWarGar.length > 0 ? SpareWarGar : [];
+
+            return JSON.stringify(prevData) !== JSON.stringify(newData) ? newData : prevData;
+        });
+    }, [AssetWarGar, SpareWarGar]);
+
+    const RowSelect = useCallback((val) => {
+        seteditFlag(1)
+        const {
+            address, am_item_wargar_slno, from_date, guarenty_status, ph_one, ph_two, remarks,
+            to_date, troll_free, warrenty_status
+        } = val
+        const frmdata = {
+            fromdate: from_date || '',
+            toDate: to_date || '',
+            trollFree: troll_free || '',
+            phone1: ph_one || '',
+            phone2: ph_two || '',
+            adress: address || '',
+            remark: remarks
         }
+        setUserdata(frmdata)
+        setwarrantyStatus(warrenty_status === 1 ? true : false)
+        setgarantyStatus(guarenty_status === 1 ? true : false)
+        setwarGarSlno(am_item_wargar_slno)
+    }, [])
 
-        const updateGRNDetails = async (patchdata) => {
-            const result = await axioslogin.patch('/ItemMapDetails/WarentGraruntyUpdate', patchdata);
-            const { message, success } = result.data;
-            if (success === 2) {
-                succesNotify(message)
-            }
-            else {
-                warningNotify(message)
-            }
-        }
-
-        const updateGRNDetailsSpare = async (patchdataSpare) => {
-            const result = await axioslogin.patch('/ItemMapDetails/WarentGraruntyUpdateSpare', patchdataSpare);
-            const { message, success } = result.data;
-            if (success === 2) {
-                succesNotify(message)
-            }
-            else {
-                warningNotify(message)
-            }
-        }
-        if (fromdate === '' && toDate === '' && trollFree === '' && phone1 === '' && phone2 === '' &&
-            adress === '') {
-            if (assetSpare === 1) {
-                checkinsertOrNot(am_item_map_slno)
-            } else {
-                checkinsertOrNotSpare(am_spare_item_map_slno)
-            }
-
-        }
-        else {
-            if (assetSpare === 1) {
-                updateGRNDetails(patchdata)
-            } else {
-                updateGRNDetailsSpare(patchdataSpare)
-            }
-
-        }
-    }, [am_item_map_slno, patchdata, fromdate, toDate, trollFree, phone1, phone2, adress, assetSpare,
-        am_spare_item_map_slno, patchdataSpare])
-
-    const WarGarReferesh = useCallback(() => {
-        reset()
-    }, [reset])
-    // const uploadFile = async (event) => {
-    //     const file = event.target.files[0];
-    //     setSelectFile(file);
-    //     const options = {
-    //         maxSizeMB: 1,
-    //         maxWidthOrHeight: 1920
-    //     }
-    //     const compressedFile = await imageCompression(file, options);
-    //     setSelectFile(compressedFile);
-    // };
-
-    // const ViewImage = useCallback(() => {
-
-    // }, [])
 
     return (
         <Paper sx={{ overflow: 'auto', border: 1, mb: 1 }}>
@@ -338,39 +279,40 @@ const WarrentyGrauntyComp = ({ detailArry, warGararry, wargar, setWarGar, assetS
                 display: 'flex', flexDirection: 'column', flexWrap: 'wrap',
             }} >
                 <Box sx={{
-                    display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
+                    display: 'flex', flexDirection: 'row', flexWrap: 'wrap', mx: 1, mt: 1
                 }} >
-
                     <Box sx={{ display: 'flex', width: '20%', p: 0.5, flexDirection: 'column' }} >
-                        <CusCheckBox
-                            variant="outlined"
-                            color="danger"
-                            size="md"
-                            name="warrantyStatus"
-                            label="Warranty"
-                            value={warrantyStatus}
-                            onCheked={updatewarrantyStatus}
-                            checked={warrantyStatus}
 
-                        />
+                        <CssVarsProvider>
+                            <Checkbox
+                                variant="outlined"
+                                color="danger"
+                                size="md"
+                                name="warrantyStatus"
+                                checked={warrantyStatus}
+                                onChange={updatewarrantyStatus}
+                                label="Warranty"
+                            />
+                        </CssVarsProvider>
                     </Box>
                     <Box sx={{ display: 'flex', width: '20%', p: 0.5, flexDirection: 'column' }} >
-                        <CusCheckBox
-                            variant="outlined"
-                            color="danger"
-                            size="md"
-                            name="garantyStatus"
-                            label="Guarantee"
-                            value={garantyStatus}
-                            onCheked={updategarantyStatus}
-                            checked={garantyStatus}
-                        />
+                        <CssVarsProvider>
+                            <Checkbox
+                                variant="outlined"
+                                color="danger"
+                                size="md"
+                                name="garantyStatus"
+                                checked={garantyStatus}
+                                label="Guarantee"
+                                onChange={updategarantyStatus}
+                            />
+                        </CssVarsProvider>
                     </Box>
                 </Box>
 
                 {
-                    warrantyStatus === true || garantyStatus === true || wargar === 1 ?
-                        <Box>
+                    warrantyStatus === true || garantyStatus === true ?
+                        <Box sx={{ m: 1 }}>
                             <Box sx={{
                                 display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
                             }} >
@@ -436,89 +378,47 @@ const WarrentyGrauntyComp = ({ detailArry, warGararry, wargar, setWarGar, assetS
                                     </Box>
                                 </Box>
                             </Box>
-
                             <Box sx={{
-                                display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
+                                display: 'flex', flexDirection: 'row', flexWrap: 'wrap'
                             }} >
 
                                 <Box sx={{ display: 'flex', width: '40%', p: 0.5, flexDirection: 'column' }} >
                                     <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Address</Typography>
                                     <Box>
-                                        <TextFieldCustom
-                                            type="text"
-                                            size="sm"
-                                            name="adress"
-                                            value={adress}
-                                            onchange={updatewarrenGuranDetails}
-                                        ></TextFieldCustom>
+                                        <CssVarsProvider>
+                                            <Textarea
+                                                type="text"
+                                                size="sm"
+                                                name="adress"
+                                                value={adress}
+                                                onChange={updatewarrenGuranDetails}
+                                            />
+                                        </CssVarsProvider>
                                     </Box>
                                 </Box>
-
-                                {/* <Box sx={{ display: 'flex', width: '200px', pt: 1.2 }}>
-                                    <Box sx={{ pt: 1 }}>
-                                        <label htmlFor="file-input">
-                                            <CustomeToolTip title="upload">
-                                                <IconButton color="primary" aria-label="upload file" component="span">
-                                                    <UploadFileIcon />
-                                                </IconButton>
-                                            </CustomeToolTip>
-                                        </label>
-                                        <Input
-                                            id="file-input"
-                                            type="file"
-                                            accept=".jpg, .jpeg, .png, .pdf"
-                                            style={{ display: 'none' }}
-                                            onChange={uploadFile}
-                                        />
+                                <Box sx={{ display: 'flex', width: '40%', p: 0.5, flexDirection: 'column' }} >
+                                    <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Remarks</Typography>
+                                    <Box>
+                                        <CssVarsProvider>
+                                            <Textarea
+                                                type="text"
+                                                size="sm"
+                                                name="remark"
+                                                value={remark}
+                                                onChange={updatewarrenGuranDetails}
+                                            />
+                                        </CssVarsProvider>
                                     </Box>
-                                    {selectFile !== null ?
-                                        <Box sx={{ pt: 1.5 }}>
-
-                                            <Button onClick={ViewImage} variant="contained"
-                                                size="small" color="primary">View Image</Button>
-
-                                        </Box> : null
-                                    }
-
-                                </Box> */}
-
-
-                                {
-                                    wargar === 0 ? <CustomeToolTip title="Save" placement="top" >
-                                        <Box sx={{ width: '3%', pl: 7, pt: 3, }}>
-                                            <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={SaveWarGarDetails} >
-                                                <LibraryAddIcon fontSize='small' />
-                                            </CusIconButton>
-                                        </Box>
-                                    </CustomeToolTip> :
-                                        <CustomeToolTip title="Save" placement="top" >
-                                            <Box sx={{ width: '3%', pl: 7, pt: 3, }}>
-                                                <CusIconButton size="sm" variant="outlined"  >
-                                                    <LibraryAddIcon fontSize='small' />
-                                                </CusIconButton>
-                                            </Box>
-                                        </CustomeToolTip>
-
-                                }
-                                {
-                                    wargar === 0 ?
-                                        <CustomeToolTip title="Edit" placement="top" >
-                                            <Box sx={{ width: '3%', pl: 5, pt: 3, }}>
-                                                <CusIconButton size="sm" variant="outlined" >
-                                                    <EditIcon fontSize='small' />
-                                                </CusIconButton>
-                                            </Box>
-                                        </CustomeToolTip> :
-                                        <CustomeToolTip title="Edit" placement="top" >
-                                            <Box sx={{ width: '3%', pl: 5, pt: 3, }}>
-                                                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={EditWarGarDetails} >
-                                                    <EditIcon fontSize='small' />
-                                                </CusIconButton>
-                                            </Box>
-                                        </CustomeToolTip>
-                                }
+                                </Box>
+                                <CustomeToolTip title="Save" placement="top" >
+                                    <Box sx={{ pt: 3, pl: 1 }}>
+                                        <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={SaveWarGarDetails} >
+                                            <LibraryAddIcon fontSize='small' />
+                                        </CusIconButton>
+                                    </Box>
+                                </CustomeToolTip>
                                 <CustomeToolTip title="Refresh" placement="top" >
-                                    <Box sx={{ width: '3%', pl: 5, pt: 3, }}>
+                                    <Box sx={{ pt: 3, pl: 1 }}>
                                         <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={WarGarReferesh} >
                                             <RefreshIcon fontSize='small' />
                                         </CusIconButton>
@@ -528,9 +428,69 @@ const WarrentyGrauntyComp = ({ detailArry, warGararry, wargar, setWarGar, assetS
 
                         </Box> : null
                 }
+            </Box>
+
+            <Box
+                sx={{
+                    m: 1,
+                    // flex: 1,
+                    display: 'flex',
+                    overflow: "auto",
+                    border: 1,
+                    borderColor: 'lightgray'
+                }}
+            >
+
+                <CssVarsProvider>
+                    <Table stickyHeader size="sm"
+                        sx={{
+                            flex: 1,
+                            width: '100%'
+
+                        }}>
+                        <thead>
+                            <tr>
+                                <th style={{ width: 40, textAlign: 'center' }}>#</th>
+                                <th style={{ width: 37 }}>Edit</th>
+                                <th style={{ width: 85 }}>Wrnty/Gnty </th>
+                                <th style={{ width: 90 }}>From Date</th>
+                                <th style={{ width: 90 }}>To Date</th>
+                                <th style={{ width: 130 }}>Toll-Free No.</th>
+                                <th style={{ width: 100 }}>Ph No. 1</th>
+                                <th style={{ width: 100 }}>Ph No. 2</th>
+                                <th style={{ flexGrow: 1 }}>Address</th>
+                                <th style={{ flexGrow: 1 }}>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {tableData?.length > 0 ? (
+                                tableData.map((val, index) => (
+                                    <tr key={index} >
+                                        <td style={{ textAlign: 'center' }}>{index + 1}</td>
+                                        <td><EditIcon sx={{ color: 'black', cursor: 'pointer' }} onClick={() => RowSelect(val)} /></td>
+                                        <td>{val.warrenty_status === 1 ? 'Warranty' : 'Guarantee'}</td>
+                                        <td>{val.from_date}</td>
+                                        <td>{val.to_date}</td>
+                                        <td>{val.troll_free || '-'}</td>
+                                        <td>{val.ph_one || '-'}</td>
+                                        <td>{val.ph_two || '-'}</td>
+                                        <td>{val.address || '-'}</td>
+                                        <td style={{ minHeight: 20, maxHeight: 100 }}>{val.remarks || '-'}</td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="9" style={{ textAlign: 'center', padding: '10px' }}>
+                                        No data available
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </Table>
+                </CssVarsProvider>
 
             </Box>
-        </Paper>
+        </Paper >
     )
 }
 

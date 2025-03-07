@@ -8,7 +8,6 @@ import { useSelector } from 'react-redux'
 const RackSelect = ({ value, setValue }) => {
     const rackList = useSelector((state) => state.getRackList?.AssetRackList)
 
-    console.log(value);
     return (
         <Box>
             <FormControl fullWidth size="small">
