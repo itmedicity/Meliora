@@ -1,14 +1,12 @@
-import { Box } from '@mui/joy'
+import { Box, CssVarsProvider } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import CardMaster from 'src/views/Components/CardMaster'
-import CusCheckBox from 'src/views/Components/CusCheckBox'
 // import CRFCategoryTypeSelect from '../Components/CRFCategoryTypeSelect';
 import CRFCategoryTypeSelect from '../../../../views/CentralRequestManagement/CRFRequestMaster/Components/CRFCategoryTypeSelect';
-import AssetItemSelect from 'src/views/CommonSelectCode/AssetItemSelect'
 import { useDispatch } from 'react-redux'
 import { getAmItemType } from 'src/redux/actions/AmItemTypeList.actions'
-import CardMasterJoy from 'src/views/Components/CardMasterJoy'
+// import CardMasterJoy from 'src/views/Components/CardMasterJoy'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 
@@ -17,7 +15,6 @@ const ViewCategoryMaster = () => {
     const [catFlag, setcatFlag] = useState(0)
     const [UpdateFlag, setUpdateFlag] = useState(0)
 
-    const [itemName, setItemName] = useState('')
     const dispatch = useDispatch();
     const [category, setCategory] = useState([])
     const [editRowData, setEditRowData] = useState({})
@@ -80,26 +77,29 @@ const ViewCategoryMaster = () => {
     }, [category, UpdateFlag, editRowData])
 
     return (
-        <CardMasterJoy
-            title="Common Setting CRF"
-            submit={submitComapnyName}
-            close={backtoSetting}
-            refresh={refreshWindow}
-        >
-            <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
-                <Box sx={{ width: '50%', }}>
+        <CssVarsProvider>
+            <CardMaster
+                title="Common Setting CRF"
+                submit={submitComapnyName}
+                close={backtoSetting}
+                refresh={refreshWindow}
+            >
+                <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
+                    <Box sx={{ width: '50%', }}>
 
-                    <Box sx={{
-                        mt: 0.2, overflow: 'auto', border: '1px solid lightgrey',
+                        <Box sx={{
+                            mt: 0.2, overflow: 'auto', border: '1px solid lightgrey',
 
-                    }} >
-                        <CRFCategoryTypeSelect category={category} setCategory={setCategory} editRowData={editRowData}
-                            catFlag={catFlag} />
+                        }} >
+                            <CRFCategoryTypeSelect category={category} setCategory={setCategory} editRowData={editRowData}
+                                catFlag={catFlag} />
+                        </Box>
                     </Box>
-                </Box>
 
-            </Box>
-        </CardMasterJoy>)
+                </Box>
+            </CardMaster>
+        </CssVarsProvider>
+    )
 }
 
 export default memo(ViewCategoryMaster)
