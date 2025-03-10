@@ -57,45 +57,45 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender,
             else {
                 setWarGar(0)
                 setwarGarArry([])
+            }
+        }
+        const checkinsertOrNotDetailSpare = async (am_spare_item_map_slno) => {
+            const result = await axioslogin.get(`/ItemMapDetails/checkDetailInsertOrNotSpare/${am_spare_item_map_slno}`);
+            const { success, data } = result.data
+            if (success === 1) {
+                setExist(1)
+                setGrnDetailArry(data[0])
+            }
+            else {
+                setExist(0)
+                setGrnDetailArry([])
+            }
+        }
 
-                const checkinsertOrNotAMCPM = async (am_item_map_slno) => {
-                    const result = await axioslogin.get(`/ItemMapDetails/AmcPmInsertOrNot/${am_item_map_slno}`);
-                    const { success, data } = result.data
-                    if (success === 1) {
-                        setAmcPm(1)
-                        setAmcPmArry(data[0])
-                    }
-                    else {
-                        setAmcPm(0)
-                        setAmcPmArry([])
+        const checkinsertOrNotWarGarSpare = async (am_spare_item_map_slno) => {
+            const result = await axioslogin.get(`/ItemMapDetails/WarentGarantInsertOrNotSpare/${am_spare_item_map_slno}`);
+            const { success, data } = result.data
+            if (success === 1) {
+                setWarGar(1)
+                setwarGarArry(data[0])
+            }
+            else {
+                setWarGar(0)
+                setwarGarArry([])
+            }
+        }
 
-                    }
-                }
-                const checkinsertOrNotDetailSpare = async (am_spare_item_map_slno) => {
-                    const result = await axioslogin.get(`/ItemMapDetails/checkDetailInsertOrNotSpare/${am_spare_item_map_slno}`);
-                    const { success, data } = result.data
-                    if (success === 1) {
-                        setExist(1)
-                        setGrnDetailArry(data[0])
-                    }
-                    else {
-                        setExist(0)
-                        setGrnDetailArry([])
-                    }
-                }
-                if (assetSpare === 1) {
-                    checkinsertOrNotDetail(am_item_map_slno)
+        if (assetSpare === 1) {
+            checkinsertOrNotDetail(am_item_map_slno)
+            checkinsertOrNotWarGar(am_item_map_slno)
 
-                    checkinsertOrNotWarGar(am_item_map_slno)
-
-
-                    checkinsertOrNotAMCPM(am_item_map_slno)
-
-                }
-                else {
-                    checkinsertOrNotDetailSpare(am_spare_item_map_slno)
-                }
-            }, [am_item_map_slno, assetSpare, am_spare_item_map_slno, setAmcPmArry, setGrnDetailArry,])
+        }
+        else {
+            checkinsertOrNotDetailSpare(am_spare_item_map_slno)
+            checkinsertOrNotWarGarSpare(am_spare_item_map_slno)
+        }
+    }, [am_item_map_slno, assetSpare, am_spare_item_map_slno, setGrnDetailArry, setwarGarArry, count
+    ])
 
 
 
