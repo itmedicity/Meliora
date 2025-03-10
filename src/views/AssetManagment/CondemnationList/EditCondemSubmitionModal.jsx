@@ -496,7 +496,7 @@ const EditCondemSubmitionModal = ({ modalEditOpen, setmodalEditOpen, setmodalEdi
                                                 <Box sx={{ flex: 1, display: 'flex', bgcolor: '#F7F9A7', pl: .5 }}>
                                                     <DirectionsIcon sx={{ color: 'black', }} />
                                                     <Box sx={{ fontWeight: 600, pl: .5, color: 'black' }}>
-                                                        Keeped In Scrap Store :
+                                                        Keeped In Department Scrap Store :
                                                     </Box>
 
                                                     <Box sx={{ pl: 1, fontWeight: 600, fontsize: 12, color: 'black' }}>

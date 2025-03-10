@@ -47,7 +47,6 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender,
                 setGrnDetailArry([])
             }
         }
-<<<<<<< HEAD
         const checkinsertOrNotWarGar = async (am_item_map_slno) => {
             const result = await axioslogin.get(`/ItemMapDetails/WarentGarantInsertOrNot/${am_item_map_slno}`);
             const { success, data } = result.data
@@ -58,50 +57,46 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender,
             else {
                 setWarGar(0)
                 setwarGarArry([])
-=======
-        const checkinsertOrNotAMCPM = async (am_item_map_slno) => {
-            const result = await axioslogin.get(`/ItemMapDetails/AmcPmInsertOrNot/${am_item_map_slno}`);
-            const { success, data } = result.data
-            if (success === 1) {
-                setAmcPm(1)
-                setAmcPmArry(data[0])
-            }
-            else {
-                setAmcPm(0)
-                setAmcPmArry([])
->>>>>>> 80f0a90c60c9e7d8c39dd00ff2d7488ac4edf138
-            }
-        }
-        const checkinsertOrNotDetailSpare = async (am_spare_item_map_slno) => {
-            const result = await axioslogin.get(`/ItemMapDetails/checkDetailInsertOrNotSpare/${am_spare_item_map_slno}`);
-            const { success, data } = result.data
-            if (success === 1) {
-                setExist(1)
-                setGrnDetailArry(data[0])
-            }
-            else {
-                setExist(0)
-                setGrnDetailArry([])
-            }
-        }
-        if (assetSpare === 1) {
-            checkinsertOrNotDetail(am_item_map_slno)
-<<<<<<< HEAD
-            checkinsertOrNotWarGar(am_item_map_slno)
 
-=======
-            checkinsertOrNotAMCPM(am_item_map_slno)
->>>>>>> 80f0a90c60c9e7d8c39dd00ff2d7488ac4edf138
-        }
-        else {
-            checkinsertOrNotDetailSpare(am_spare_item_map_slno)
-        }
-<<<<<<< HEAD
-    }, [am_item_map_slno, assetSpare, am_spare_item_map_slno, setGrnDetailArry, setwarGarArry, count
-    ])
-=======
-    }, [am_item_map_slno, assetSpare, am_spare_item_map_slno, setAmcPmArry, setGrnDetailArry,])
->>>>>>> 80f0a90c60c9e7d8c39dd00ff2d7488ac4edf138
+                const checkinsertOrNotAMCPM = async (am_item_map_slno) => {
+                    const result = await axioslogin.get(`/ItemMapDetails/AmcPmInsertOrNot/${am_item_map_slno}`);
+                    const { success, data } = result.data
+                    if (success === 1) {
+                        setAmcPm(1)
+                        setAmcPmArry(data[0])
+                    }
+                    else {
+                        setAmcPm(0)
+                        setAmcPmArry([])
+
+                    }
+                }
+                const checkinsertOrNotDetailSpare = async (am_spare_item_map_slno) => {
+                    const result = await axioslogin.get(`/ItemMapDetails/checkDetailInsertOrNotSpare/${am_spare_item_map_slno}`);
+                    const { success, data } = result.data
+                    if (success === 1) {
+                        setExist(1)
+                        setGrnDetailArry(data[0])
+                    }
+                    else {
+                        setExist(0)
+                        setGrnDetailArry([])
+                    }
+                }
+                if (assetSpare === 1) {
+                    checkinsertOrNotDetail(am_item_map_slno)
+
+                    checkinsertOrNotWarGar(am_item_map_slno)
+
+
+                    checkinsertOrNotAMCPM(am_item_map_slno)
+
+                }
+                else {
+                    checkinsertOrNotDetailSpare(am_spare_item_map_slno)
+                }
+            }, [am_item_map_slno, assetSpare, am_spare_item_map_slno, setAmcPmArry, setGrnDetailArry,])
+
 
 
     return (
@@ -113,7 +108,6 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender,
                 bgcolor: 'white',
             }}>
                 <Box sx={{
-<<<<<<< HEAD
                     display: 'flex',
                     borderBottom: 1, borderColor: 'lightgrey'
                 }}>
@@ -130,9 +124,6 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender,
                     </Box>
 
 
-=======
-                    display: 'flex', flex: 1, flexDirection: 'column',
-                }} >
                     {/* GRN Detail */}
                     <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
                         GRN Details</Typography>
@@ -178,7 +169,7 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender,
                     <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
                         Specification  Details</Typography>
                     <SpecDetailsComp detailArry={detailArry} assetSpare={assetSpare} />
->>>>>>> 80f0a90c60c9e7d8c39dd00ff2d7488ac4edf138
+
                 </Box>
                 <Box sx={{ flex: 1, border: 1, py: 1, borderColor: '#EFEFEF', m: .5, bgcolor: '#FBFCFE', display: 'flex' }}>
                     <Box sx={{ flex: 1, }}>
