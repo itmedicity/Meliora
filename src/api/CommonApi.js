@@ -131,8 +131,11 @@ export const getTotalCountAssetType = async () => {
     })
 }
 
-
-
-
-
-
+export const getDeptwiseBackUp = async (empDept) => {
+    return axioslogin.get(`/backupdetails/getDeptwiseBackup/${empDept}`).then((res) => {
+        const { success, data } = res.data;
+        if (success === 2) {
+            return data;
+        }
+    })
+}

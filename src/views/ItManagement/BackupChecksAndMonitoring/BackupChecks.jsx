@@ -1,11 +1,11 @@
 import { Box, Typography } from '@mui/material'
-import React, { Fragment } from 'react'
+import React, { Fragment, memo } from 'react'
 import { useCallback } from 'react'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import CardMasterClose from 'src/views/Components/CardMasterClose'
 import { useEffect } from 'react'
 import { getBackupDetails, getEmployeeBackup } from 'src/redux/actions/BackupDetails.action'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import BackupChecksTable from './BackupChecksTable'
 import { getScheduleTime } from 'src/redux/actions/BackupScheduleTime.action'
 const BackupChecks = () => {
@@ -14,11 +14,16 @@ const BackupChecks = () => {
   const backtoHome = useCallback(() => {
     history.push('/Home/DashboardBackup')
   }, [history])
+
+  const empDept = useSelector((state) => {
+    return state.LoginUserData.empdept
+  })
+
   useEffect(() => {
     dispatch(getBackupDetails())
     dispatch(getScheduleTime())
-    dispatch(getEmployeeBackup())
-  }, [dispatch])
+    dispatch(getEmployeeBackup(empDept))
+  }, [dispatch, empDept])
   return (
     <Fragment>
       <Box>
@@ -37,6 +42,6 @@ const BackupChecks = () => {
   )
 }
 
-export default BackupChecks
+export default memo(BackupChecks)
 
 

@@ -4,7 +4,12 @@ import { Autocomplete, Input } from '@mui/joy';
 import Box from '@mui/joy/Box';
 
 const RackSelect = ({ value, setValue }) => {
+<<<<<<< HEAD
     const rackList = useSelector((state) => state.getRackList?.AssetRackList);
+=======
+    const rackList = useSelector((state) => state.getRackList?.AssetRackList)
+
+>>>>>>> 80f0a90c60c9e7d8c39dd00ff2d7488ac4edf138
     return (
         <Box>
             <Autocomplete

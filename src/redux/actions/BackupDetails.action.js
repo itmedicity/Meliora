@@ -13,8 +13,19 @@ export const getBackupDetails = () => async (dispatch) => {
         dispatch({ type: FETCH_BACKUP_DETAILS, payload: [], loadingStatus: false })
     }
 }
-export const getEmployeeBackup = () => async (dispatch) => {
-    const result = await axioslogin.get('/verification/getemp');
+// export const getEmployeeBackup = () => async (dispatch) => {
+//     const result = await axioslogin.get('/verification/getemp');
+//     const { success, data } = result.data
+//     if (success === 2) {
+//         dispatch({ type: FETCH_BACKUP_EMPLOYEE, payload: data, loadingStatus: true })
+//     }
+//     else {
+//         dispatch({ type: FETCH_BACKUP_EMPLOYEE, payload: [], loadingStatus: false })
+//     }
+// }
+
+export const getEmployeeBackup = (empDept) => async (dispatch) => {
+    const result = await axioslogin.get(`/verification/getemp/${empDept}`);
     const { success, data } = result.data
     if (success === 2) {
         dispatch({ type: FETCH_BACKUP_EMPLOYEE, payload: data, loadingStatus: true })
@@ -22,4 +33,5 @@ export const getEmployeeBackup = () => async (dispatch) => {
     else {
         dispatch({ type: FETCH_BACKUP_EMPLOYEE, payload: [], loadingStatus: false })
     }
+
 }

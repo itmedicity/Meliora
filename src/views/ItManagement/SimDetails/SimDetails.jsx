@@ -470,23 +470,15 @@ const SimDetails = () => {
                             </Box>
                             <Box sx={{ flex: 2.5 }}>
                                 <Box sx={{ pt: .5 }}>
-                                    {/* <TmDepartmentSelect
-                                        department={department}
-                                        setDepartment={setDepartment} /> */}
                                     <DeptSelectAutoCompJoy
                                         department={department}
                                         setDepartment={setDepartment}
                                     />
                                 </Box>
                                 <Box sx={{ pt: .3 }}>
-                                    {/* <TmDeptSectionSelect
-                                        deptsec={deptsec}
-                                        setDeptSec={setDeptSec} /> */}
                                     <DeptSecSelectAutoCompJoy
                                         deptsec={deptsec}
                                         setDeptSec={setDeptSec} />
-
-
                                 </Box>
                                 <Box sx={{ pt: .5 }}>
                                     <TextFieldCustom

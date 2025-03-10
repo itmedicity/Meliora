@@ -28,8 +28,6 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender,
 
     const [exist, setExist] = useState(0)
     const [grndetailarry, setGrnDetailArry] = useState({})
-    const [wargar, setWarGar] = useState(0)
-    const [warGararry, setwarGarArry] = useState({})
     const [amcPm, setAmcPm] = useState(0)
 
     const BackToPage = useCallback(() => {
@@ -49,6 +47,7 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender,
                 setGrnDetailArry([])
             }
         }
+<<<<<<< HEAD
         const checkinsertOrNotWarGar = async (am_item_map_slno) => {
             const result = await axioslogin.get(`/ItemMapDetails/WarentGarantInsertOrNot/${am_item_map_slno}`);
             const { success, data } = result.data
@@ -59,6 +58,18 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender,
             else {
                 setWarGar(0)
                 setwarGarArry([])
+=======
+        const checkinsertOrNotAMCPM = async (am_item_map_slno) => {
+            const result = await axioslogin.get(`/ItemMapDetails/AmcPmInsertOrNot/${am_item_map_slno}`);
+            const { success, data } = result.data
+            if (success === 1) {
+                setAmcPm(1)
+                setAmcPmArry(data[0])
+            }
+            else {
+                setAmcPm(0)
+                setAmcPmArry([])
+>>>>>>> 80f0a90c60c9e7d8c39dd00ff2d7488ac4edf138
             }
         }
         const checkinsertOrNotDetailSpare = async (am_spare_item_map_slno) => {
@@ -73,31 +84,24 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender,
                 setGrnDetailArry([])
             }
         }
-
-        const checkinsertOrNotWarGarSpare = async (am_spare_item_map_slno) => {
-            const result = await axioslogin.get(`/ItemMapDetails/WarentGarantInsertOrNotSpare/${am_spare_item_map_slno}`);
-            const { success, data } = result.data
-            if (success === 1) {
-                setWarGar(1)
-                setwarGarArry(data[0])
-            }
-            else {
-                setWarGar(0)
-                setwarGarArry([])
-            }
-        }
-
         if (assetSpare === 1) {
             checkinsertOrNotDetail(am_item_map_slno)
+<<<<<<< HEAD
             checkinsertOrNotWarGar(am_item_map_slno)
 
+=======
+            checkinsertOrNotAMCPM(am_item_map_slno)
+>>>>>>> 80f0a90c60c9e7d8c39dd00ff2d7488ac4edf138
         }
         else {
             checkinsertOrNotDetailSpare(am_spare_item_map_slno)
-            checkinsertOrNotWarGarSpare(am_spare_item_map_slno)
         }
+<<<<<<< HEAD
     }, [am_item_map_slno, assetSpare, am_spare_item_map_slno, setGrnDetailArry, setwarGarArry, count
     ])
+=======
+    }, [am_item_map_slno, assetSpare, am_spare_item_map_slno, setAmcPmArry, setGrnDetailArry,])
+>>>>>>> 80f0a90c60c9e7d8c39dd00ff2d7488ac4edf138
 
 
     return (
@@ -109,6 +113,7 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender,
                 bgcolor: 'white',
             }}>
                 <Box sx={{
+<<<<<<< HEAD
                     display: 'flex',
                     borderBottom: 1, borderColor: 'lightgrey'
                 }}>
@@ -125,6 +130,55 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender,
                     </Box>
 
 
+=======
+                    display: 'flex', flex: 1, flexDirection: 'column',
+                }} >
+                    {/* GRN Detail */}
+                    <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
+                        GRN Details</Typography>
+                    <GRNDeailtsComp detailArry={detailArry} assetSpare={assetSpare}
+                        grndetailarry={grndetailarry} exist={exist} setExist={setExist} />
+                    {/* Bill Details */}
+                    <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
+                        Bill Details</Typography>
+                    <BillDetailsAdding detailArry={detailArry} assetSpare={assetSpare}
+                        grndetailarry={grndetailarry} />
+                    {/* Device Details */}
+                    <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
+                        Device Details</Typography>
+                    <DEviceDetailsComp detailArry={detailArry} assetSpare={assetSpare}
+                        grndetailarry={grndetailarry} exist={exist} setExist={setExist} />
+                    {/*  OwnerShip Details */}
+                    <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
+                        OwnerShip Details</Typography>
+                    <OwnerShipDetailsComp detailArry={detailArry} assetSpare={assetSpare}
+                        grndetailarry={grndetailarry} exist={exist} setExist={setExist} />
+                    {
+                        assetSpare === 1 ?
+                            <Box>
+                                <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
+                                    Lease Details</Typography>
+                                <LeaseDetailsAdd grndetailarry={grndetailarry} />
+                            </Box> : null
+                    }
+                    <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
+                        Warranty/Guarantee Details</Typography>
+                    <WarrentyGrauntyComp detailArry={detailArry}
+                        assetSpare={assetSpare} />
+                    {
+                        assetSpare === 1 ?
+                            <Box>
+                                <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
+                                    AMC/PM  Details</Typography>
+                                <AMCCMCDetailAdding detailArry={detailArry} amcPmarry={amcPmarry} assetSpare={assetSpare}
+                                    amcPm={amcPm} setAmcPm={setAmcPm} setRender={setRender} render={render} />
+                            </Box>
+                            : null
+                    }
+                    <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
+                        Specification  Details</Typography>
+                    <SpecDetailsComp detailArry={detailArry} assetSpare={assetSpare} />
+>>>>>>> 80f0a90c60c9e7d8c39dd00ff2d7488ac4edf138
                 </Box>
                 <Box sx={{ flex: 1, border: 1, py: 1, borderColor: '#EFEFEF', m: .5, bgcolor: '#FBFCFE', display: 'flex' }}>
                     <Box sx={{ flex: 1, }}>

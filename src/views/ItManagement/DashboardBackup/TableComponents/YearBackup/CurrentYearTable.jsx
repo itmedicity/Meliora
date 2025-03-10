@@ -7,7 +7,7 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import CardMasterClose from 'src/views/Components/CardMasterClose'
 import VerifiedIcon from '@mui/icons-material/Verified';
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { getEmployeeBackup } from 'src/redux/actions/BackupDetails.action'
 import { useEffect } from 'react'
 import ModalYearVerification from '../../ModalForVerification/ModalYear/ModalYearVerification'
@@ -26,13 +26,22 @@ const CurrentYearTable = ({ yeartabData, setYeartabflag, yearflag, count, setCou
         history.push('/Home/DashboardBackup')
         setYeartabflag(0)
     }, [history, setYeartabflag])
+
+    const empDept = useSelector((state) => {
+        return state.LoginUserData.empdept
+    })
+
     useEffect(() => {
-        dispatch(getEmployeeBackup())
-    }, [dispatch])
+        dispatch(getEmployeeBackup(empDept))
+    }, [dispatch, empDept])
+
+
     const handleClose = useCallback(() => {
         setModalOpen(false)
         setflag(0)
     }, [setModalOpen])
+
+
     const VerificationClick = useCallback((val) => {
         if (val.verify_status === 1) {
             setView(val)
@@ -148,9 +157,9 @@ const CurrentYearTable = ({ yeartabData, setYeartabflag, yearflag, count, setCou
                                             </td>
                                             <td style={{ textAlign: 'center' }}>{index + 1}</td>
                                             <td>{moment(val.backup_yearly_date).format('YYYY')}</td>
-                                            <td>{(val.backup_type === 1) ? 'IIS Backup' : (val.backup_type === 2) ? 'Database Backup' : (val.backup_type === 3) ? 'Share Folder Backup' : 'Scanned File Backup'}</td>
+                                            <td>{val.backup_type_name}</td>
                                             <td>{val.backup_name}</td>
-                                            <td>{val.backup_location}</td>
+                                            <td style={{ fontSize: 12 }}>{val.dept_name}</td>
                                             <td>{val.backup_device_ip}</td>
                                             <td>{val.backup_device_name}</td>
                                             <td>{val.backup_device_location}</td>

@@ -226,6 +226,9 @@ const AllCRFReportWithPO = React.lazy(() => import('./views/Report/CrmReport/CRF
 const TicketDashboardz = React.lazy(() => import('./views/ComManagement/Dashboard/TicketManagementCmDeptMain'))
 const CondemnationApproval = React.lazy(() => import('./views/AssetManagment/CondemnationApprovalMenu/CondemnationApprovalRights'))
 const TicketHoldReasonMast = React.lazy(() => import('./views/Master/ComplaintHoldReason/HoldReasonMaster'))
+const ItBackupTypeMast = React.lazy(() => import('./views/Master/ItMasters/BackUpType/BackUpTypeMaster'))
+const SimOperator = React.lazy(() => import('./views/Master/ItMasters/SimOperators/SimOperators'))
+
 
 
 const routes = [
@@ -457,6 +460,9 @@ const routes = [
   { path: '/Home/TicketDashboards', exact: true, name: 'Ticket Dashboards', component: TicketDashboardz },
   { path: '/Home/CondemnationApproval', exact: true, name: 'Condemnation Approval', component: CondemnationApproval },
   { Path: '/Home/TicketHoldReason', exact: true, name: 'Ticket Hold Reason Master', component: TicketHoldReasonMast },
+  { path: '/Home/ItBackupTypeMast', exact: true, name: 'ItBackupTypeMast', component: ItBackupTypeMast },
+  { path: '/Home/SimOperator', exact: true, name: 'SimOperator', component: SimOperator },
+
 ]
 
 export default routes
