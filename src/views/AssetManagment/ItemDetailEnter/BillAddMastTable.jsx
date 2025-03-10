@@ -72,24 +72,25 @@ const BillAddMastTable = ({ count, rowSelect }) => {
     return (
         <Box sx={{
             minHeight: 100, maxHeight: 240,
-            overflow: 'auto', border: 1, borderColor: 'lightgray'
-        }} >
+            border: 1, borderColor: 'lightgray',
+            overflow: 'auto',
+        }}>
             <CssVarsProvider>
-                <Table stickyHeader size='sm'>
+                <Table stickyHeader size='sm'  >
                     <thead>
                         <tr>
-                            <th style={{ width: '6%' }}>
+                            <th style={{ width: 50 }}>
                                 <IconButton sx={{ color: 'black', fontSize: 13 }}>
                                     Action
                                 </IconButton>
                             </th>
-                            <th style={{ width: '6%' }}>
+                            <th style={{ width: 55 }}>
                                 <IconButton sx={{ color: 'black', fontSize: 13 }}>
                                     Sl No.
                                 </IconButton>
                             </th>
                             {['billlNo', 'suppplier', 'billlDate'].map((field) => (
-                                <th key={field} style={{ width: field === 'suppplier' ? '50%' : '20%', }}>
+                                <th key={field} style={{ width: field === 'suppplier' ? 380 : 150, }}>
                                     <Menu
                                         placement="top-start"
                                         anchorEl={anchorEl[field]}
@@ -97,9 +98,7 @@ const BillAddMastTable = ({ count, rowSelect }) => {
                                         sx={{
                                             zIndex: 1301,
                                             padding: 2, border: 1, borderColor: '#055CAA',
-                                        }}
-
-                                    >
+                                        }}>
                                         <Box sx={{ display: 'flex', cursor: 'pointer', px: 0.5 }}>
                                             <Typography sx={{ flex: 1 }}>{field === 'billlNo' ? 'Bill No.' : field === 'suppplier' ? 'Supplier' : 'Bill Date'}</Typography>
                                             <CloseIcon onClick={() => handleMenuClose(field)} />
@@ -112,7 +111,6 @@ const BillAddMastTable = ({ count, rowSelect }) => {
                                             />
                                         </MenuItem>
                                     </Menu>
-
                                     <IconButton onClick={(e) => handleMenuOpen(e, field)}>
                                         <Box sx={{ display: 'flex' }}>
                                             <FilterListOutlinedIcon sx={{ py: 0.2, color: 'grey', cursor: 'pointer', width: 20, height: 20 }} />
@@ -131,10 +129,10 @@ const BillAddMastTable = ({ count, rowSelect }) => {
                                 <td>
                                     <EditIcon size={6} onClick={() => rowSelect(val)} sx={{ cursor: 'pointer', ml: 1 }} />
                                 </td>
-                                <td>&nbsp;{val.am_bill_mastslno}</td>
-                                <td>&nbsp;&nbsp;&nbsp;{val.am_bill_no}</td>
-                                <td>&nbsp;&nbsp;&nbsp;{val.it_supplier_name}</td>
-                                <td>&nbsp;&nbsp;&nbsp;{val.am_bill_date ? format(new Date(val.am_bill_date), 'dd-MM-yyyy') : ''}</td>
+                                <td style={{ paddingLeft: 10 }}>{val.am_bill_mastslno}</td>
+                                <td style={{ paddingLeft: 15 }}>{val.am_bill_no}</td>
+                                <td style={{ paddingLeft: 15 }}>{val.it_supplier_name}</td>
+                                <td style={{ paddingLeft: 15 }}>{val.am_bill_date ? format(new Date(val.am_bill_date), 'dd-MM-yyyy') : ''}</td>
                             </tr>
                         ))}
                     </tbody>

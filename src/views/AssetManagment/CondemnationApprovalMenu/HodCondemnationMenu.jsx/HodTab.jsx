@@ -1,28 +1,26 @@
-import React, { memo, useCallback, } from 'react'
-import { Box, Paper } from '@mui/material'
+import { Box, CssVarsProvider, Tab, TabList, TabPanel, Tabs } from '@mui/joy'
+import React, { memo, useCallback } from 'react'
 import { useSelector } from 'react-redux'
-import { CssVarsProvider, Tab, TabList, TabPanel, Tabs, } from '@mui/joy';
-import TextComponent from 'src/views/Components/TextComponent';
-import CusIconButton from 'src/views/Components/CusIconButton';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import TextComponent from 'src/views/Components/TextComponent'
+import CusIconButton from 'src/views/Components/CusIconButton'
 import CloseIcon from '@mui/icons-material/Close'
-import SpareCondemnation from './SpareCondemnation';
-import AssetCondemnation from './AssetCondemnation';
-import PendingCondemnationList from './PendingCondemnationList';
-import SubmittedCondemList from './DeptSubmittedList/SubmittedCondemList';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { Paper } from '@mui/material'
+import CondemListForHod from './CondemListForHod'
+import PendingApprovalsHod from './PendingApprovalsHod'
 
-const CondemnationList = () => {
+const HodTab = () => {
+    const history = useHistory();
+    const backtoSetting = useCallback(() => {
+        history.push('/Home');
+    }, [history]);
+
     const empdept = useSelector((state) => {
         return state.LoginUserData.empdept
     })
     const empId = useSelector((state) => {
         return state.LoginUserData.empid
     })
-    const history = useHistory();
-    const backtoSetting = useCallback(() => {
-        history.push('/Home');
-    }, [history]);
-
     return (
         <Paper sx={{ borderRadius: 0, height: '90vh' }}>
             <Box>
@@ -37,7 +35,7 @@ const CondemnationList = () => {
                                 pl: 1,
                                 fontFamily: 'Arial'
                             }}
-                            text="Condemnation List"
+                            text="Condemnation Approvals"
                         />
                         <Box>
                             <CusIconButton
@@ -82,7 +80,7 @@ const CondemnationList = () => {
                         >
                             <Box sx={{ flex: 1, display: 'flex', gap: 1, mb: 1, ml: 1 }}>
                                 <Tab
-                                    label="Item Entries"
+                                    label="Pending"
                                     value={0}
                                     disableIndicator
                                     sx={{
@@ -101,10 +99,10 @@ const CondemnationList = () => {
                                         },
                                     }}
                                 >
-                                    Pending List
+                                    Pending Approvals
                                 </Tab>
                                 <Tab
-                                    label="Asset"
+                                    label="Condemnation"
                                     value={1}
                                     disableIndicator
                                     sx={{
@@ -123,47 +121,21 @@ const CondemnationList = () => {
                                         },
                                     }}
                                 >
-                                    Condemnation Submitted
-                                </Tab>
-                                <Tab
-                                    label="Asset"
-                                    value={2}
-                                    disableIndicator
-                                    sx={{
-                                        color: '#5D6268',
-                                        fontWeight: 600,
-                                        p: 0,
-                                        border: 1,
-                                        width: 190,
-                                        borderColor: '#EAEFF2',
-                                        transition: 'all 0.3s ease',
-                                        '&.Mui-selected': {
-                                            color: 'white',
-                                            backgroundColor: '#6B5F5A ',
-                                            boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.2)',
-                                            transform: 'scale(1.02)',
-                                        },
-                                    }}
-                                >
-                                    Scrap Store
+                                    Condemnation List
                                 </Tab>
                             </Box>
                         </TabList>
                         <TabPanel value={0} sx={{ p: 0, flexGrow: 1, }}>
                             <Box sx={{ flexGrow: 1, }}>
-                                <PendingCondemnationList empdept={empdept} empId={empId} />
+                                <PendingApprovalsHod empdept={empdept} empId={empId} />
                             </Box>
                         </TabPanel>
                         <TabPanel value={1} sx={{ p: 0, flexGrow: 1, }}>
                             <Box sx={{ flexGrow: 1, }}>
-                                <SubmittedCondemList empdept={empdept} empId={empId} />
+                                <CondemListForHod empdept={empdept} empId={empId} />
                             </Box>
                         </TabPanel>
-                        <TabPanel value={2} sx={{ p: 0, flexGrow: 1, }}>
-                            <Box sx={{ flexGrow: 1, }}>
-                                Scrap Store
-                            </Box>
-                        </TabPanel>
+
                     </Tabs>
                 </CssVarsProvider>
             </Box>
@@ -171,4 +143,4 @@ const CondemnationList = () => {
     )
 }
 
-export default memo(CondemnationList)
+export default HodTab

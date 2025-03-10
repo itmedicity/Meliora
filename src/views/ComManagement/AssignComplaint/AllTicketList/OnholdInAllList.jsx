@@ -468,7 +468,10 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
                                             <Box sx={{ display: 'flex' }}>
                                                 <QueryBuilderRoundedIcon sx={{ color: 'black', borderRadius: 1, pt: .7 }} />
                                                 <Typography sx={{ fontSize: 12, textAlign: 'center', fontWeight: 600, color: "black", mr: .3, mt: .6, cursor: 'grab' }}>
-                                                    {val.assigned_date}
+
+                                                    {val.assigned_date
+                                                        ? format(new Date(val.assigned_date), 'dd MMM yyyy,   hh:mm a')
+                                                        : 'Not Updated'}
                                                 </Typography>
                                             </Box>
                                         </Tooltip>

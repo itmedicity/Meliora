@@ -1,7 +1,8 @@
 import React from 'react'
 
 const NotCorect = React.lazy(() => import('./views/dashboard/Home'))
-const Home = React.lazy(() => import('./views/dashboard/Home'))
+// const Home = React.lazy(() => import('./views/dashboard/Home'))
+const Home = React.lazy(() => import('./views/ComManagement/Dashboard/TicketManagementCmDeptMain'))
 const Settings = React.lazy(() => import('../src/Menus/Settings'))
 const Administrtion = React.lazy(() => import('../src/views/Administration/Test'))
 const DepartmentMast = React.lazy(() => import('./views/Master/Department/DepartmentMast'))
@@ -223,8 +224,8 @@ const AssetCondemnationList = React.lazy(() => import('./views/AssetManagment/Co
 const PmDueList = React.lazy(() => import('./views/AssetManagment/PmOverDueList/PmOverdueList'))
 const AllCRFReportWithPO = React.lazy(() => import('./views/Report/CrmReport/CRFAllReportWithPO'))
 const TicketDashboardz = React.lazy(() => import('./views/ComManagement/Dashboard/TicketManagementCmDeptMain'))
+const CondemnationApproval = React.lazy(() => import('./views/AssetManagment/CondemnationApprovalMenu/CondemnationApprovalRights'))
 const TicketHoldReasonMast = React.lazy(() => import('./views/Master/ComplaintHoldReason/HoldReasonMaster'))
-
 
 
 const routes = [
@@ -454,8 +455,8 @@ const routes = [
   { path: '/Home/PmDueList', exact: true, name: 'PM Due List in Asset', component: PmDueList },
   { path: '/Home/AllCRFReportWithPO', exact: true, name: 'All CRF Report With PO', component: AllCRFReportWithPO },
   { path: '/Home/TicketDashboards', exact: true, name: 'Ticket Dashboards', component: TicketDashboardz },
+  { path: '/Home/CondemnationApproval', exact: true, name: 'Condemnation Approval', component: CondemnationApproval },
   { Path: '/Home/TicketHoldReason', exact: true, name: 'Ticket Hold Reason Master', component: TicketHoldReasonMast },
-
 ]
 
 export default routes

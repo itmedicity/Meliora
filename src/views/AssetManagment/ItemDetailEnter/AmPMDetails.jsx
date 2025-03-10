@@ -67,14 +67,9 @@ const AmPMDetails = ({ detailArry, }) => {
         if (AmcPmdetails && AmcPmdetails.length > 0) {
             const {
                 set_up_date,
-                // pm_status,
                 am_item_amcpm_slno,
-                // due_date,
             } = AmcPmdetails[0];
-
-            // setinstalationDate(due_date);
             setSetUpDate(set_up_date);
-            // setPmStatus(pm_status === 1);
             setItemAmcCmcslno(am_item_amcpm_slno);
         }
     }, [AmcPmdetails]);
@@ -85,12 +80,9 @@ const AmPMDetails = ({ detailArry, }) => {
             set_up_date: setUpDate,
             instalation_date: instalationDate,
             due_date: dueDate,
-            // pm_status: pmStatus === true ? 1 : 0,
             create_user: id
         }
-    }, [am_item_map_slno, setUpDate, instalationDate, dueDate,
-        // pmStatus,
-        id])
+    }, [am_item_map_slno, setUpDate, instalationDate, dueDate, id])
 
     const patchData = useMemo(() => {
         return {
@@ -98,13 +90,10 @@ const AmPMDetails = ({ detailArry, }) => {
             set_up_date: setUpDate,
             instalation_date: instalationDate,
             due_date: dueDate,
-            // pm_status: pmStatus === true ? 1 : 0,
             edit_user: id,
             am_item_amcpm_slno: itemAmcCmcslno,
         }
-    }, [am_item_map_slno, setUpDate, instalationDate, dueDate, itemAmcCmcslno,
-        // pmStatus,
-        id,])
+    }, [am_item_map_slno, setUpDate, instalationDate, dueDate, itemAmcCmcslno, id,])
 
     const SavePmDetails = useCallback((e) => {
         e.preventDefault()
@@ -128,10 +117,15 @@ const AmPMDetails = ({ detailArry, }) => {
                 setaddPmFlag(0)
             }
         }
-        if (itemAmcCmcslno === null || itemAmcCmcslno === 0 || itemAmcCmcslno === undefined) {
-            InsertPMDetail(postdata)
-        } else {
-            updatePMDetails(patchData)
+        if (setUpDate === null || setUpDate === '') {
+            infoNotify("Enter Installation date")
+        }
+        else {
+            if (itemAmcCmcslno === null || itemAmcCmcslno === 0 || itemAmcCmcslno === undefined) {
+                InsertPMDetail(postdata)
+            } else {
+                updatePMDetails(patchData)
+            }
         }
     }, [postdata, patchData, count, itemAmcCmcslno, setCount])
 
@@ -399,7 +393,6 @@ const AmPMDetails = ({ detailArry, }) => {
                                 }}
                             />
                         </>}
-
                 </Box>
             </Box>
         </Box >

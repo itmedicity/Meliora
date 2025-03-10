@@ -10,8 +10,8 @@ const FileViewSingle = ({ imageShow, previewFile, CloseFile }) => {
             >
                 < ModalDialog
                     sx={{
-                        width: '50vw',
-                        height: '90vh',
+                        width: '65vw',
+                        height: '95vh',
                         p: 0
                     }}
                 >

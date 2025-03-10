@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { useQuery } from 'react-query';
 
 
-const CmSpareList = ({ sparez, setSparez, setSpareName, }) => {
+const CmSpareList = ({ sparez, setSparez, setSpareName, count }) => {
 
     const [sparex, setSparex] = useState([{ am_spare_item_map_slno: 0, item_name: '', assetno: '' }])
     const [value, setValue] = useState(sparex[0]);
@@ -41,70 +41,13 @@ const CmSpareList = ({ sparez, setSparez, setSpareName, }) => {
         spareList.length > 0 && setSparex(spareList)
     }, [spareList])
 
-
-    // const getSpareCondition = useMemo(() => {
-    //     return {
-    //         spare_custodian_dept: item_custodian_dept
-    //     }
-    // }, [item_custodian_dept])
-
-    // useEffect(() => {
-    //     const getModelNo = async (getSpareCondition) => {
-    //         const result = await axioslogin.post('/ItemMapDetails/GetFreespareList', getSpareCondition);
-    //         const { success, data } = result.data
-    //         if (success === 1) {
-    //             const datass = data.map((val, index) => {
-    //                 const obj = {
-    //                     am_spare_item_map_slno: val.am_spare_item_map_slno,
-    //                     item_name: val.item_name,
-    //                     assetno: val.spare_asset_no + '/' + val.spare_asset_no_only.toString().padStart(6, '0'),
-    //                 }
-    //                 return obj
-    //             })
-    //             setspareList(datass);
-    //         }
-    //         else {
-    //             setspareList([])
-    //         }
-    //     }
-    //     getModelNo(getSpareCondition)
-    // }, [getSpareCondition, count])
-
-
     const postData = useMemo(() => ({
         spareCustodainDept: empDept === 0 ? null : empDept === null ? null : empDept,
 
     }), [empDept]);
 
-
-
-
-    // const { data: spareData, isLoading } = useQuery({
-    //     queryKey: ['getSparesinstock', postData],
-    //     queryFn: () => getSparesInstock(postData),
-    // });
-
-    // const spareInstock = useMemo(() => spareData, [spareData])
-
-    // useEffect(() => {
-    //     if (spareInstock && spareInstock.length > 0) {
-    //         const spareInstock = spareInstock.map((val, index) => {
-    //             const obj = {
-    //                 am_spare_item_map_slno: val.am_spare_item_map_slno,
-    //                 item_name: val.item_name,
-    //                 assetno: val.spare_asset_no + '/' + val.spare_asset_no_only.toString().padStart(6, '0'),
-    //             }
-    //             return obj
-    //         })
-    //         setspareList(spareInstock);
-    //     }
-    //     else {
-    //         setspareList([])
-    //     }
-    // }, [spareInstock]);
-
     const { data: spareData } = useQuery({
-        queryKey: ['getSparesinstock', postData],
+        queryKey: ['getSparesinstock', postData, count],
         queryFn: () => getSparesInstock(postData),
     });
 

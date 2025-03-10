@@ -10,7 +10,7 @@ const RectifyDetailsModal = ({ open, setDetailsOpen, detailsData, setDetailsFlag
 
     const { complaint_slno, complaint_desc, compalint_date, rm_roomtype_name, rm_room_name, rm_insidebuildblock_name, rm_floor_name, complaint_deptslno,
         cm_rectify_status, location, complaint_type_name, priority_check, compalint_priority, assigned_date, rectify_pending_hold_remarks, verify_spervsr_name,
-        cm_rectify_time, holduser, verify_spervsr, verified_user_name, cm_verfy_time, suprvsr_verify_time, assigned_employees } = detailsData
+        cm_rectify_time, holduser, verify_spervsr, verified_user_name, cm_verfy_time, suprvsr_verify_time, assinged_employees, } = detailsData
 
     const [assetDetl, setassetDetl] = useState([])
     const Close = useCallback(() => {
@@ -159,13 +159,13 @@ const RectifyDetailsModal = ({ open, setDetailsOpen, detailsData, setDetailsFlag
                                     </Typography>
                                     <Box sx={{ flex: 3, display: 'flex', gap: .5 }}>
 
-                                        {assigned_employees === null ?
+                                        {assinged_employees === null ?
                                             <Chip>
                                                 Not Updated
                                             </Chip>
                                             :
                                             <>
-                                                {assigned_employees.split(',').map((name, index) => (
+                                                {assinged_employees.split(',').map((name, index) => (
                                                     <Chip
                                                         key={index}
                                                         size="small"
@@ -250,7 +250,7 @@ const RectifyDetailsModal = ({ open, setDetailsOpen, detailsData, setDetailsFlag
 
                                 {verify_spervsr === 1 ?
                                     <Box sx={{ pl: 3, pt: 2, }}>
-                                        <Typography sx={{ fontWeight: 600, color: '#0B6BCB' }}> Supervisor Verified Details</Typography>
+                                        <Typography sx={{ fontWeight: 600, color: '#0B6BCB' }}> Deptarment Verified Details</Typography>
                                         <Box sx={{ flex: 1, display: 'flex', mt: .5 }}>
                                             <Typography sx={{ flex: 1.8, fontWeight: 500, fontSize: 15 }}>
                                                 Verified By
@@ -277,7 +277,7 @@ const RectifyDetailsModal = ({ open, setDetailsOpen, detailsData, setDetailsFlag
                                         </Box>
                                     </Box> : verify_spervsr === 0 ?
                                         <Box sx={{ pl: 3, pt: 2, }}>
-                                            <Typography sx={{ fontWeight: 600, color: '#0B6BCB' }}> Supervisor Verified Details</Typography>
+                                            <Typography sx={{ fontWeight: 600, color: '#0B6BCB' }}> Deptarment Verified Details</Typography>
                                             <Box sx={{ flex: 1, display: 'flex', mt: .5 }}>
                                                 <Typography sx={{ flex: 1.8, fontWeight: 500, fontSize: 15 }}>
                                                     Verified Status

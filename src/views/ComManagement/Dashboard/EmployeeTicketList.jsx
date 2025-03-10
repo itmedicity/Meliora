@@ -57,7 +57,7 @@ const EmployeeTicketList = ({ empdept }) => {
             </Box>
             <Box sx={{
                 // flexGrow: 1,    
-                height: 550,
+                height: '75vh',
                 overflow: 'auto',
             }}>
 

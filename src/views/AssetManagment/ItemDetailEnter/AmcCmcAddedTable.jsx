@@ -77,16 +77,16 @@ const AmcCmcAddedTable = ({ count, rowSelect }) => {
 
                     <thead>
                         <tr>
-                            <th style={{ width: '10%', }}>
+                            <th style={{ width: 50, }}>
                                 <IconButton sx={{ fontSize: 13, color: 'black' }}>
                                     Action
                                 </IconButton> </th>
-                            <th style={{ width: '10%', }}>
+                            <th style={{ width: 55, }}>
                                 <IconButton sx={{ fontSize: 13, color: 'black' }}>
                                     Sl No
                                 </IconButton> </th>
                             {['suppplier', 'amcmc', 'frmDate', 'toDate'].map((field) => (
-                                <th key={field} style={{ width: field === 'suppplier' ? '49%' : '20%', }}>
+                                <th key={field} style={{ width: field === 'suppplier' ? 450 : 100, }}>
                                     <Menu
                                         placement="top-start"
                                         anchorEl={anchorEl[field]}
@@ -122,7 +122,7 @@ const AmcCmcAddedTable = ({ count, rowSelect }) => {
                                     </IconButton>
                                 </th>
                             ))}
-                            <th style={{ width: '10%', }}>
+                            <th style={{ width: 50 }}>
                                 <IconButton sx={{ fontSize: 13, color: 'black' }}>
                                     Status
                                 </IconButton>
@@ -136,11 +136,11 @@ const AmcCmcAddedTable = ({ count, rowSelect }) => {
                                     <EditIcon size={6} onClick={() => rowSelect(val)} sx={{ cursor: 'pointer', ml: 1 }} />
                                 </td>
                                 <td> {val.amccmc_slno}</td>
-                                <td>&nbsp; {val.it_supplier_name}</td>
-                                <td>&nbsp;&nbsp;&nbsp; {val.status}</td>
-                                <td>&nbsp;&nbsp; {val.from_date ? format(new Date(val.from_date), 'dd-MM-yyyy') : ''}</td>
-                                <td>&nbsp;&nbsp; {val.to_date ? format(new Date(val.to_date), 'dd-MM-yyyy') : ''}</td>
-                                <td>&nbsp;&nbsp;{val.amccmc_status === 1 ? "Yes" : "No"}</td>
+                                <td style={{ paddingLeft: 11 }}>&nbsp; {val.it_supplier_name}</td>
+                                <td style={{ paddingLeft: 22 }}>{val.status}</td>
+                                <td style={{ paddingLeft: 20 }}>{val.from_date ? format(new Date(val.from_date), 'dd-MM-yyyy') : ''}</td>
+                                <td style={{ paddingLeft: 20 }}>{val.to_date ? format(new Date(val.to_date), 'dd-MM-yyyy') : ''}</td>
+                                <td style={{ paddingLeft: 20 }}>{val.amccmc_status === 1 ? "Yes" : "No"}</td>
                             </tr>
                         ))}
                     </tbody>

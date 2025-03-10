@@ -63,6 +63,13 @@ const AmTransactions = [
         to: '/Home/AssetCondemnationList',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
+    {
+        men_slno: 257,
+        component: CNavItem,
+        name: 'Approve Condemnation',
+        to: '/Home/CondemnationApproval',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
 
     {
         men_slno: 228,

@@ -156,7 +156,7 @@ const SpareSErviceList = () => {
                     flex: 1,
                     justifyContent: 'center',
                     alignItems: 'center',
-                    pt: 25,
+                    pt: 8,
                     fontWeight: 800,
                     fontSize: 25,
                     color: 'lightgrey',

@@ -788,7 +788,7 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
                             </Box> : null
                     }
                 </Box>
-                <Box sx={{ flex: 1, }}>
+                <Box sx={{ flex: 1, overflow: 'auto' }}>
                     {oracleFlag !== 1 ?
                         <AmcCmcAddedTable count={count} rowSelect={rowSelect} />
                         : null}

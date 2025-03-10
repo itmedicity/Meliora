@@ -17,6 +17,7 @@ import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices
 import PersonIcon from '@mui/icons-material/Person';
 import { differenceInMinutes, format, parseISO } from 'date-fns'
 import CloseIcon from '@mui/icons-material/Close';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }) => {
 
@@ -191,17 +192,21 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                                                 anchorEl={anchorEl}
                                                 open={Boolean(anchorEl)}
                                                 placement="bottom-start"
-                                                sx={{ p: 2, width: 360 }}
+                                                sx={{ py: 1, px: 1.5, width: 360 }}
                                             >
                                                 <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                                                     <CloseIcon onClick={handleClose} sx={{ cursor: 'pointer' }} />
+                                                </Box>
+
+                                                <Box sx={{ textAlign: 'center', }}>
+                                                    <NotificationsIcon sx={{ width: 40, height: 40 }} />
                                                 </Box>
                                                 {selectedRow && (
                                                     <>
                                                         {(() => {
                                                             if (!selectedRow.aprrox_date) {
                                                                 return (
-                                                                    <Typography level="body2" sx={{ mb: .5, color: "black", fontWeight: 600 }}>
+                                                                    <Typography level="body2" sx={{ mb: .5, color: "black", fontWeight: 600, textAlign: 'center' }}>
                                                                         Not Updated
                                                                     </Typography>
                                                                 );
@@ -222,14 +227,14 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
 
                                                             if (isExceeded) {
                                                                 return (
-                                                                    <Typography level="body2" sx={{ mb: .5, color: 'Darkred' }}>
+                                                                    <Typography level="body2" sx={{ mb: .5, color: 'Darkred', fontWeight: 500, textAlign: 'center' }}>
                                                                         Time Exceeded by {formattedTime}
                                                                     </Typography>
                                                                 );
                                                             }
 
                                                             return (
-                                                                <Typography level="body2" sx={{ mb: .5, color: '#274472', fontWeight: 600 }}>
+                                                                <Typography level="body2" sx={{ mb: .5, color: '#274472', fontWeight: 600, textAlign: 'center' }}>
                                                                     Time Remaining: {formattedTime}
                                                                 </Typography>
                                                             );
@@ -241,7 +246,7 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                                                                 ? format(new Date(selectedRow.aprrox_date), 'dd MMM yyyy,  hh:mm a')
                                                                 : 'Not Updated'
                                                         }</Typography>
-                                                        <Typography level="body2" sx={{ mt: .5 }}>Assigned Employees:</Typography>
+                                                        {/* <Typography level="body2" sx={{ mt: .5 }}>Assigned Employees:</Typography>
                                                         <List>
                                                             {selectedEmployees.length > 0 ? (
                                                                 selectedEmployees.map((employee, idx) => (
@@ -255,7 +260,9 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                                                                     <Typography>No Employees</Typography>
                                                                 </ListItem>
                                                             )}
-                                                        </List>
+                                                        </List> */}
+                                                        <Box sx={{ height: 10 }}>
+                                                        </Box>
                                                     </>
                                                 )}
                                             </Menu>

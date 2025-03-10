@@ -198,3 +198,38 @@ export const getDeptSecAssetList = async (searchhData) => {
     })
 }
 
+
+export const getCondemAddedDetails = async (postCondemSlno) => {
+    return axioslogin.post('/AssetCondemnation/getItemDetails', postCondemSlno).then((res) => {
+        const { success, data } = res.data
+        if (success === 2) {
+            return data
+        }
+    })
+}
+
+export const getCondemSlno = async (postCondemMast) => {
+    return axioslogin.post('/AssetCondemnation/getItemSlno', postCondemMast).then((res) => {
+        const { success, data } = res.data
+        if (success === 2) {
+            return data
+        }
+    })
+}
+export const getCondemPendingDatas = async (postCondemDept) => {
+    return axioslogin.post('/AssetCondemnation/getpendingApprovals', postCondemDept).then((res) => {
+        const { success, data } = res.data
+        if (success === 2) {
+            return data
+        }
+    })
+}
+export const getItemUnderForm = async (postCondemSlno) => {
+    return axioslogin.post('/AssetCondemnation/getItemUnderForm', postCondemSlno).then((res) => {
+        const { success, data } = res.data
+        if (success === 2) {
+            return data
+        }
+    })
+}
+

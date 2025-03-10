@@ -1,5 +1,5 @@
 import { Box, Checkbox } from '@mui/joy';
-import React, { memo, useEffect, useMemo, useState } from 'react'
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useQuery } from 'react-query';
 import { Virtuoso } from 'react-virtuoso';
 import { getAssetUnderCondmnation } from 'src/api/AssetApis';
@@ -8,6 +8,7 @@ import CusIconButton from 'src/views/Components/CusIconButton';
 import * as XLSX from 'xlsx';
 import { format } from 'date-fns';
 import DownloadIcon from '@mui/icons-material/Download';
+import CondemSubmitionModal from './CondemSubmitionModal';
 
 const AssetCondemnation = ({ empdept }) => {
 
@@ -22,6 +23,13 @@ const AssetCondemnation = ({ empdept }) => {
     const [sortedData, setSortedData] = useState(AsssetCodm);
     const [selectAll, setSelectAll] = useState(false);
 
+    const [modalFlag, setmodalFlag] = useState(0)
+    const [modalOpen, setmodalOpen] = useState(false)
+
+    useCallback(() => {
+        setmodalFlag(1)
+        setmodalOpen(true)
+    }, [])
 
     useEffect(() => {
         setSortedData(AsssetCodm);
@@ -169,6 +177,15 @@ const AssetCondemnation = ({ empdept }) => {
         //     }
         // </Box>
         <Box>
+            {modalFlag === 1 ? <Box>
+                <CondemSubmitionModal open={modalOpen}
+                    setmodalOpen={setmodalOpen}
+                    setmodalFlag={setmodalFlag}
+
+                />
+
+            </Box> : null}
+
             <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', py: 0.5, pr: 1 }}>
                 <CusIconButton variant="outlined" size="sm" color="success" onClick={exportToExcel}>
                     <DownloadIcon />
@@ -201,6 +218,9 @@ const AssetCondemnation = ({ empdept }) => {
                             <Box sx={{ flex: 1, fontWeight: 600, color: '#444444', fontSize: 12 }}>Category</Box>
                             <Box sx={{ flex: 3, fontWeight: 600, color: '#444444', fontSize: 12, pl: 6 }}>
                                 Item Name
+                            </Box>
+                            <Box sx={{ flex: 2, fontWeight: 600, color: '#444444', fontSize: 12, pl: 6 }}>
+                                Reason
                             </Box>
                             <Box sx={{ width: 145, fontWeight: 600, color: '#444444', fontSize: 12 }}>Transfered Employee</Box>
                             <Box sx={{ width: 145, fontWeight: 600, color: '#444444', fontSize: 12 }}>Transfered Date</Box>
@@ -242,7 +262,10 @@ const AssetCondemnation = ({ empdept }) => {
                                             </Box>
                                             <Box sx={{ flex: 1, color: '#444444', fontSize: 14 }}>{val.category_name}</Box>
                                             <Box sx={{ flex: 3, color: '#444444', fontSize: 14, pl: 6 }}>{val.item_name}</Box>
-                                            <Box sx={{ width: 145, fontWeight: 600, color: '#444444', fontSize: 12, pl: .5 }}>{val.condm_trans_user}</Box>
+                                            <Box sx={{ flex: 2, color: '#444444', fontSize: 14, pl: 6 }}>
+                                                {val.condm_transf_remarks}
+                                            </Box>
+                                            <Box sx={{ width: 145, fontWeight: 600, color: '#444444', fontSize: 12, pl: .5 }}>{val.condm_trans_emp}</Box>
                                             <Box sx={{ width: 145, fontWeight: 600, color: '#444444', fontSize: 12 }}>
                                                 {val.item_condm_date
                                                     ? format(new Date(val.item_condm_date), 'dd MMM yyyy,  hh:mm a')

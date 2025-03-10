@@ -1,4 +1,4 @@
-import React, { memo, useMemo, useState, useEffect } from 'react';
+import React, { memo, useMemo, useState, useEffect, useCallback } from 'react';
 import { Box, Checkbox, } from '@mui/joy';
 import { useQuery } from 'react-query';
 import { Virtuoso } from 'react-virtuoso';
@@ -8,6 +8,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 import * as XLSX from 'xlsx';
 import { format } from 'date-fns';
 import { infoNotify } from 'src/views/Common/CommonCode';
+import CondemSubmitionModal from './CondemSubmitionModal';
 
 const SpareCondemnation = ({ empdept }) => {
 
@@ -21,6 +22,14 @@ const SpareCondemnation = ({ empdept }) => {
     const [selectedRows, setSelectedRows] = useState([]);
     const [sortedData, setSortedData] = useState(SpareCodm);
     const [selectAll, setSelectAll] = useState(false);
+
+    const [modalFlag, setmodalFlag] = useState(0)
+    const [modalOpen, setmodalOpen] = useState(false)
+
+    const SubmitForCondem = useCallback(() => {
+        setmodalFlag(1)
+        setmodalOpen(true)
+    }, [])
 
 
     useEffect(() => {
@@ -59,36 +68,45 @@ const SpareCondemnation = ({ empdept }) => {
     };
 
 
-    const exportToExcel = () => {
-        if (selectedRows.length === 0) {
 
-            infoNotify("No Data Selected for Export")
-        }
-        else {
-            const selectedData = SpareCodm.filter((item) => selectedRows.includes(item.slno));
-            const exportData = selectedData.map((item) => ({
-                'Spare No': item.spare_asset_no
-                    ? `${item.spare_asset_no}/${(item.spare_asset_no_only ?? 0).toString().padStart(6, '0')}`
-                    : `${item.item_asset_no}/${(item.item_asset_no_only ?? 0).toString().padStart(6, '0')}`,
-                Category: item.category_name,
-                'Item Name': item.item_name,
-                'Transfered User': item.sparecondm_emp,
-                'Transfered Date': item.deleted_date,
-            }));
+    // const exportToExcel = () => {
+    //     if (selectedRows.length === 0) {
 
-            const worksheet = XLSX.utils.json_to_sheet(exportData);
-            const workbook = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(workbook, worksheet, 'Selected Spares');
+    //         infoNotify("No Data Selected for Export")
+    //     }
+    //     else {
+    //         const selectedData = SpareCodm.filter((item) => selectedRows.includes(item.slno));
+    //         const exportData = selectedData.map((item) => ({
+    //             'Spare No': item.spare_asset_no
+    //                 ? `${item.spare_asset_no}/${(item.spare_asset_no_only ?? 0).toString().padStart(6, '0')}`
+    //                 : `${item.item_asset_no}/${(item.item_asset_no_only ?? 0).toString().padStart(6, '0')}`,
+    //             Category: item.category_name,
+    //             'Item Name': item.item_name,
+    //             'Transfered User': item.sparecondm_emp,
+    //             'Transfered Date': item.deleted_date,
+    //         }));
 
-            XLSX.writeFile(workbook, 'SpareCondemnationExport.xlsx');
-        }
-    };
+    //         const worksheet = XLSX.utils.json_to_sheet(exportData);
+    //         const workbook = XLSX.utils.book_new();
+    //         XLSX.utils.book_append_sheet(workbook, worksheet, 'Selected Spares');
+
+    //         XLSX.writeFile(workbook, 'SpareCondemnationExport.xlsx');
+    //     }
+    // };
 
     return (
         <Box>
+            {modalFlag === 1 ?
+                <CondemSubmitionModal open={modalOpen}
+                    setmodalOpen={setmodalOpen}
+                    setmodalFlag={setmodalFlag}
+                />
+                : null}
             <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', py: 0.5, pr: 1 }}>
-                <CusIconButton variant="outlined" size="sm" color="success" onClick={exportToExcel}>
-                    <DownloadIcon />
+                <CusIconButton variant="outlined" size="sm" color="warning" background="warning" onClick={SubmitForCondem}>
+                    <Box sx={{ px: 1 }}>
+                        Submit for Condemnation
+                    </Box>
                 </CusIconButton>
             </Box>
 
@@ -118,6 +136,9 @@ const SpareCondemnation = ({ empdept }) => {
                             <Box sx={{ flex: 1, fontWeight: 600, color: '#444444', fontSize: 12 }}>Category</Box>
                             <Box sx={{ flex: 3, fontWeight: 600, color: '#444444', fontSize: 12, pl: 6 }}>
                                 Item Name
+                            </Box>
+                            <Box sx={{ flex: 2, fontWeight: 600, color: '#444444', fontSize: 12, pl: 6 }}>
+                                Reason
                             </Box>
                             <Box sx={{ width: 145, fontWeight: 600, color: '#444444', fontSize: 12 }}>Transfered Employee</Box>
                             <Box sx={{ width: 145, fontWeight: 600, color: '#444444', fontSize: 12 }}>Transfered Date</Box>
@@ -159,7 +180,8 @@ const SpareCondemnation = ({ empdept }) => {
                                             </Box>
                                             <Box sx={{ flex: 1, color: '#444444', fontSize: 14 }}>{val.category_name}</Box>
                                             <Box sx={{ flex: 3, color: '#444444', fontSize: 14, pl: 6 }}>{val.item_name}</Box>
-                                            <Box sx={{ width: 145, fontWeight: 600, color: '#444444', fontSize: 12, pl: .5 }}>{val.sparecondm_emp}</Box>
+                                            <Box sx={{ flex: 2, color: '#444444', fontSize: 14, pl: 6 }}>{val.condm_transf_remarks}</Box>
+                                            <Box sx={{ width: 145, fontWeight: 600, color: '#444444', fontSize: 12, pl: .5 }}>{val.condm_trans_emp}</Box>
                                             <Box sx={{ width: 145, fontWeight: 600, color: '#444444', fontSize: 12 }}>
                                                 {val.deleted_date
                                                     ? format(new Date(val.deleted_date), 'dd MMM yyyy,  hh:mm a')

@@ -324,7 +324,7 @@ const UserEndVerificationModal = ({ open, setverifyOpen, forVerifyData, setverif
 
                                 {verify_spervsr === 1 ?
                                     <Box sx={{ pl: 3, pt: 2, }}>
-                                        <Typography sx={{ fontWeight: 600, color: '#0B6BCB' }}> Supervisor Verified Details</Typography>
+                                        <Typography sx={{ fontWeight: 600, color: '#0B6BCB' }}> Deptarment Verified Details</Typography>
                                         <Box sx={{ flex: 1, display: 'flex', mt: .5 }}>
                                             <Typography sx={{ flex: 1.8, fontWeight: 500, fontSize: 15 }}>
                                                 Verified By
@@ -350,7 +350,7 @@ const UserEndVerificationModal = ({ open, setverifyOpen, forVerifyData, setverif
                                         </Box>
                                     </Box> : verify_spervsr === 0 ?
                                         <Box sx={{ pl: 3, pt: 2, }}>
-                                            <Typography sx={{ fontWeight: 600, color: '#0B6BCB' }}> Supervisor Verified Details</Typography>
+                                            <Typography sx={{ fontWeight: 600, color: '#0B6BCB' }}> Deptarment Verified Details</Typography>
                                             <Box sx={{ flex: 1, display: 'flex', mt: .5 }}>
                                                 <Typography sx={{ flex: 1.8, fontWeight: 500, fontSize: 15 }}>
                                                     Verified Status

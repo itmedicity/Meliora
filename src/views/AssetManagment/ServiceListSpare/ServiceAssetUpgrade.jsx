@@ -10,7 +10,7 @@ import { axioslogin } from 'src/views/Axios/Axios';
 import { succesNotify, warningNotify } from 'src/views/Common/CommonCode';
 
 const ServiceAssetUpgrade = ({ spareDetails, serviceSparee, item_asset_no_only, item_custodian_dept, sparez, setSparez, setSpareName, count, id,
-    handleDelete, AddNewSpare, spareData, AddNewSpareUnderAsset, setCount
+    handleDelete, AddNewSpare, spareData, AddNewSpareUnderAsset, setCount, sparecount, setsparecount
 }) => {
 
     const RemoveSpare = useCallback((val) => {
@@ -26,13 +26,15 @@ const ServiceAssetUpgrade = ({ spareDetails, serviceSparee, item_asset_no_only, 
             if (success === 2) {
                 succesNotify(message)
                 setCount(count + 1)
+                setsparecount(sparecount + 1)
             } else {
                 warningNotify(message)
                 setCount(count + 1)
+                setsparecount(sparecount + 1)
             }
         }
         RemoveSpareUpdate(RemoveSparee)
-    }, [id, setCount, count])
+    }, [id, setCount, count, setsparecount, sparecount])
 
     return (
         <Box
@@ -114,7 +116,7 @@ const ServiceAssetUpgrade = ({ spareDetails, serviceSparee, item_asset_no_only, 
                                 <Box sx={{ flex: 1, }}>
                                     <CmSpareList sparez={sparez} setSparez={setSparez}
                                         item_custodian_dept={item_custodian_dept}
-                                        setSpareName={setSpareName} count={count} />
+                                        setSpareName={setSpareName} count={sparecount} />
                                 </Box>
                                 <Box sx={{ ml: 1, mr: 5, pt: .5 }}>
                                     <AddCircleIcon sx={{ height: 28, width: 28, cursor: 'pointer' }} onClick={AddNewSpare} />

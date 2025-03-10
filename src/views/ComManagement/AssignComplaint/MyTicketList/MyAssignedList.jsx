@@ -769,7 +769,9 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                                     <Box sx={{ display: 'flex', ml: 1, pt: .3 }}>
                                         <QueryBuilderRoundedIcon sx={{ color: 'black', borderRadius: 1, p: .2 }} />
                                         <Typography sx={{ fontSize: 12, textAlign: 'center', fontWeight: 600, color: "black", mr: .3, pt: .4, cursor: 'grab' }}>
-                                            {val.assigned_date}
+                                            {val.assigned_date
+                                                ? format(new Date(val.assigned_date), 'dd MMM yyyy,   hh:mm a')
+                                                : 'Not Updated'}
                                         </Typography>
                                     </Box>
                                 </Tooltip>

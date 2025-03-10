@@ -27,7 +27,7 @@ const CategoryMaster = () => {
     category_slno: '',
     category_name: '',
     category_status: false,
-    am_category_pm_days: ''
+    am_category_pm_days: '0'
   })
   const { category_slno, category_name, category_status, am_category_pm_days } = category
   const updateCategory = useCallback(
@@ -83,17 +83,6 @@ const CategoryMaster = () => {
   }, [])
 
   const [flag, setflag] = useState(0)
-  // const uploadFile = async (event) => {
-  //   setflag(1)
-  //   const file = event.target.files[0];
-  //   setSelectFile(file);
-  //   const options = {
-  //     maxSizeMB: 1,
-  //     maxWidthOrHeight: 1920
-  //   }
-  //   const compressedFile = await imageCompression(file, options);
-  //   setSelectFile(compressedFile);
-  // };
 
   const uploadFile = async (event) => {
     const file = event.target.files[0];
@@ -254,7 +243,7 @@ const CategoryMaster = () => {
                 name="am_category_pm_days"
                 value={am_category_pm_days}
                 onchange={updateCategory}
-                endDecorator={"Days"}
+                endDecorator={"PM Days"}
               ></TextFieldCustom>
             </Box>
             <Box sx={{ pt: 1 }}>
@@ -390,11 +379,7 @@ const CategoryMaster = () => {
                 style={{ display: 'none' }}
                 onChange={uploadFile}
               />
-              {/* <Box sx={{ fontWeight: 2, pt: 2, pl: 2 }}>
-                {selectFile && <p > {selectFile.name}</p>}
-              </Box> */}
             </Box>
-
           </Box>
           <Box sx={{ width: '70%' }}>
             <CategoryTable count={count} rowSelect={rowSelect} />

@@ -8,9 +8,6 @@ const ComFileView = ({ imageUrls, imageViewOpen, fileDetails, setimageViewOpen, 
     const { complaint_slno, complaint_desc, compalint_date, rm_roomtype_name, rm_room_name, rm_insidebuildblock_name,
         rm_floor_name, location, complaint_type_name, } = fileDetails
 
-
-
-
     const [uplodedFile, setUplodedFile] = useState([]);
 
     useEffect(() => {
@@ -23,11 +20,6 @@ const ComFileView = ({ imageUrls, imageViewOpen, fileDetails, setimageViewOpen, 
         } else {
         }
     }, [imageUrls]);
-
-
-
-
-
 
     const Close = useCallback(() => {
         setimageViewOpen(false)
@@ -97,48 +89,6 @@ const ComFileView = ({ imageUrls, imageViewOpen, fileDetails, setimageViewOpen, 
                             </Typography>
                         </Box>
                     </Box>
-                    {/* <Box sx={{
-                        display: 'flex',
-                        flexWrap: 'wrap',
-                        gap: 1,
-                        overflow: 'auto',
-                        px: 1,
-                        height: '70vh',
-                    }}>
-                        {imageUrls.map((imageUrl, index) => (
-                            < Box
-                                key={index}
-                                sx={{
-                                    cursor: 'pointer',
-                                    width: '49%',
-                                    height: '100%',
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    border: 1,
-                                    p: 1,
-                                    borderColor: 'lightgrey'
-                                }}
-                            >
-                                <Box sx={{ height: '100%', width: '100%' }}>
-                                    <embed
-                                        id="pdf-embed"
-                                        src={imageUrl}
-                                        type="application/pdf"
-                                        style={{
-                                            width: '100%', height: '100%',
-                                            borderRadius: "4px",
-                                            objectFit: 'contain'
-
-                                        }}
-                                    />
-                                </Box>
-
-
-                            </Box>
-                        ))}
-                    </Box> */}
-
                     <Box sx={{
                         display: 'flex',
                         flexWrap: 'wrap',

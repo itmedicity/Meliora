@@ -91,6 +91,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
         am_custodian_deptsec_slno, item_custodian_dept_sec, am_item_map_slno, am_spare_item_map_slno, am_bill_supplier, item_custodian_dept, am_category_pm_days
     } = serviceDetails
 
+
     const [supplierSelect, setsupplierSelect] = useState(am_bill_supplier || 0)
     const formattedItemNo = spare_asset_no_only !== undefined ? spare_asset_no_only : item_asset_no_only !== undefined ? item_asset_no_only : 0;
     const ItemPrefix = spare_asset_no !== undefined ? spare_asset_no : item_asset_no !== undefined ? item_asset_no : 0;
@@ -447,10 +448,13 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
             suppl_serviced_date: suppl_serviced_date === '' ? null : suppl_serviced_date,
             suppl_serviced_remarks: suppl_serviced_remarks === '' ? null : suppl_serviced_remarks,
             suppl_concted_emp: supplContctEmp === 0 ? null : supplContctEmp,
-            create_user: id
+            create_user: id,
+            am_asset_item_slno: am_item_map_slno || null,
+            am_spare_item_slno: am_spare_item_map_slno || null,
         }
     }, [formattedItemNo, ItemPrefix, service_on_hold_reason, flags, expcted_service_date, expcted_service_remarks, complDetails,
-        supplierSelect, suppl_serviced_date, suppl_serviced_remarks, supplContctEmp, currentDateAndTime, deptServiceSlno, condm_transf_remarks, id])
+        supplierSelect, suppl_serviced_date, suppl_serviced_remarks, supplContctEmp, currentDateAndTime, deptServiceSlno, condm_transf_remarks, id, am_item_map_slno,
+        am_spare_item_map_slno])
     const deptServiceValue = deptServiceSlno.length === 0 ? null : deptServiceSlno === 0 ? null : deptServiceSlno
 
 
@@ -695,7 +699,6 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
             ...prevFlags,
             editFlag: 1
         }));
-
         const {
             serviced_emp_detail_slno,
             serviced_emp,
@@ -1496,6 +1499,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
             return updatedArray;
         });
     };
+
     const SparepostData = spareData && spareData.map((val) => {
         return {
             am_item_map_slno: val.am_item_map_slno,
@@ -1505,6 +1509,8 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
         }
     })
 
+
+    const [sparecount, setsparecount] = useState(0)
     const AddNewSpareUnderAsset = useCallback((e) => {
         const SparedetailInsert = async (SparepostData) => {
             const result = await axioslogin.post(`/ItemMapDetails/SpareDetailsInsert`, SparepostData);
@@ -1512,6 +1518,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
             if (success === 1) {
                 succesNotify("New Spare Added Under Asset")
                 setCount(count + 1)
+                setsparecount(sparecount + 1)
                 setSpareData([])
             } else if (success === 0) {
                 infoNotify(message)
@@ -1520,7 +1527,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
             }
         }
         SparedetailInsert(SparepostData)
-    }, [SparepostData, count, setCount])
+    }, [SparepostData, count, setCount, sparecount, setsparecount])
 
 
     const patchDataServiceHoldAssset = useMemo(() => {
@@ -1864,7 +1871,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                             <ServiceAssetUpgrade spareDetails={spareDetails} serviceSparee={serviceSparee} item_asset_no_only={item_asset_no_only}
                                                 item_custodian_dept={item_custodian_dept} am_item_map_slno={am_item_map_slno} id={id} sparez={sparez} setSparez={setSparez}
                                                 setSpareName={setSpareName} count={count} handleDelete={handleDelete} AddNewSpare={AddNewSpare} spareData={spareData}
-                                                AddNewSpareUnderAsset={AddNewSpareUnderAsset} setCount={setCount}
+                                                AddNewSpareUnderAsset={AddNewSpareUnderAsset} setCount={setCount} setsparecount={setsparecount} sparecount={sparecount}
                                             />
                                         </Box>
                                     </TabPanel> : null}

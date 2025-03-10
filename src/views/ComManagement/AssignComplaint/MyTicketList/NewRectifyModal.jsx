@@ -921,43 +921,6 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                                     <Typography sx={{ fontStyle: 'italic', color: '#394E6C', }}>
                                         [you can add assets to this ticket from the ticket raised location]
                                     </Typography>
-                                    {/* <Box sx={{ pt: 1, display: 'flex', pb: .5, gap: 1 }}> */}
-                                    {/* <Box
-                                            sx={{
-                                                cursor: 'pointer',
-                                                display: 'flex',
-                                            }}
-                                            onClick={SearchAsset}
-                                        >
-                                            {search === 1 ?
-                                                (<CheckCircleOutlineIcon sx={{ cursor: 'pointer', color: '#394E6C' }} />)
-                                                :
-                                                (<RadioButtonUncheckedIcon sx={{ cursor: 'pointer', color: '#394E6C' }} />)
-                                            }
-                                            <Typography sx={{ pt: .2, color: 'black', fontWeight: 600, fontSize: 14 }}>
-                                                Search
-                                            </Typography>
-                                        </Box>
-                                        <Typography sx={{ px: .5, fontStyle: 'italic' }}>(or)</Typography>
-                                        <Box
-                                            sx={{
-                                                cursor: 'pointer',
-                                                display: 'flex',
-                                            }}
-                                            onClick={SelectAsset}
-                                        >
-                                            {select === 1 ?
-                                                (<CheckCircleOutlineIcon sx={{ cursor: 'pointer', color: '#394E6C' }} />)
-                                                :
-                                                (<RadioButtonUncheckedIcon sx={{ cursor: 'pointer', color: '#394E6C' }} />)
-                                            }
-                                            <Typography sx={{ pt: .2, color: 'black', fontWeight: 600, fontSize: 14 }}>
-                                                Select
-                                            </Typography>
-                                        </Box> */}
-
-
-                                    {/* </Box> */}
                                     <Box sx={{ pt: 1, display: 'flex', }}>
                                         <Switch
                                             checked={isSelect}
@@ -1002,11 +965,12 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                                                         <Tooltip title={'Add More Asset'}>
                                                             <AddBoxIcon
                                                                 sx={{
-                                                                    p: .3,
-                                                                    color: '#636B74', cursor: 'pointer',
+                                                                    p: .1,
+                                                                    color: 'black', cursor: 'pointer',
                                                                     bgcolor: '#BDC4C9', borderRadius: 3,
-                                                                    '&:hover': { color: 'black' },
-                                                                    height: 29, width: 29
+                                                                    '&:hover': { color: '#636B74' },
+                                                                    height: 30, width: 29,
+                                                                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.3)',
                                                                 }}
                                                                 onClick={searchAssetNoinMenu}
                                                             />
@@ -1056,26 +1020,17 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                                                         <Tooltip title={'Add More Asset'}>
                                                             <AddBoxIcon
                                                                 sx={{
-                                                                    p: .3,
-                                                                    color: '#636B74', cursor: 'pointer',
+                                                                    p: .1,
+                                                                    color: 'black', cursor: 'pointer',
                                                                     bgcolor: '#BDC4C9', borderRadius: 3,
-                                                                    '&:hover': { color: 'black' },
-                                                                    height: 29, width: 29
+                                                                    '&:hover': { color: '#636B74' },
+                                                                    height: 30, width: 29,
+                                                                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.3)',
                                                                 }}
                                                                 onClick={searchAssetNo}
                                                             />
                                                         </Tooltip>
                                                     </Box>
-                                                    {/* <Box sx={{ ml: 1, }}>
-                                                        <Tooltip title={'Add More Asset'}>
-                                                            <Avatar size='sm' sx={{ bgcolor: 'lightgrey' }}>
-                                                                <AddCircleIcon
-                                                                    sx={{ p: .1, color: '#523A28', cursor: 'pointer', '&:hover': { color: '#34323E' }, height: 30, width: 30 }}
-                                                                    onClick={searchAssetNo}
-                                                                />
-                                                            </Avatar>
-                                                        </Tooltip>
-                                                    </Box> */}
                                                 </CssVarsProvider>
                                             </Box>
                                         )}

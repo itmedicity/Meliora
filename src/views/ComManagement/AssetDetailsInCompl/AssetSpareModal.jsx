@@ -198,12 +198,15 @@ const AssetSpareModal = ({ openSpare, setOpenSpare, setassetSpareFlag, assetSpar
             create_user: val.create_user,
         }
     })
+
+    const [sparecount, setsparecount] = useState(0)
     const AddNewSpareUnderAsset = useCallback((e) => {
         const SparedetailInsert = async (SparepostData) => {
             const result = await axioslogin.post(`/ItemMapDetails/SpareDetailsInsert`, SparepostData);
             const { message, success } = result.data;
             if (success === 1) {
                 succesNotify("New Spare Added Under Asset")
+                setsparecount(sparecount + 1)
                 setCount(count + 1)
                 setSpareData([])
             } else if (success === 0) {
@@ -213,7 +216,7 @@ const AssetSpareModal = ({ openSpare, setOpenSpare, setassetSpareFlag, assetSpar
             }
         }
         SparedetailInsert(SparepostData)
-    }, [SparepostData, count])
+    }, [SparepostData, count, sparecount])
 
     const searchData = useMemo(() => {
         return {
@@ -648,7 +651,7 @@ const AssetSpareModal = ({ openSpare, setOpenSpare, setassetSpareFlag, assetSpar
                                                 <ServiceAssetUpgrade spareDetails={spareDetails} serviceSparee={servicefunctn} item_asset_no_only={item_asset_no_only}
                                                     item_custodian_dept={item_custodian_dept} am_item_map_slno={am_item_map_slno} id={id} sparez={sparez} setSparez={setSparez}
                                                     setSpareName={setSpareName} count={count} handleDelete={handleDelete} AddNewSpare={AddNewSpare} spareData={spareData}
-                                                    AddNewSpareUnderAsset={AddNewSpareUnderAsset} setCount={setCount}
+                                                    AddNewSpareUnderAsset={AddNewSpareUnderAsset} setCount={setCount} sparecount={sparecount} setsparecount={setsparecount}
                                                 />
                                             </Box>
                                         </Box>

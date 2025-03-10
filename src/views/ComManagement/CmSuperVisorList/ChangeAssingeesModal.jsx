@@ -136,7 +136,7 @@ const ChangeAssingeesModal = ({ empTransferOpen, setEmptransferOpen, emptransfer
                             </Box>
                         </Box>
                         <Box sx={{ flex: 1, display: 'flex', bgcolor: '#ECEDEF', py: .5 }}>
-                            <Box sx={{ flex: 1, pl: .5 }}>
+                            <Box sx={{ flex: 2, pl: .5 }}>
                                 <Typography sx={{ pl: .5, fontWeight: 600, color: 'Black', }}>Ticket No.{complaint_slno}</Typography>
                                 <Typography sx={{ pl: .5, fontSize: 14, color: 'Black', }}>
                                     {complaint_desc}
