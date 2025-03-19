@@ -25,13 +25,14 @@ const CrfMDApprovalMain = () => {
         history.push('/Home')
     }, [history])
 
-    const [radiovalue, setRadioValue] = useState('1')
+    const [radiovalue, setRadioValue] = useState('9')
     const [crfRadioValue, setCrfRadioValue] = useState('1')
     const [allData, setAllData] = useState([])
     const [disData, setDisData] = useState([])
     const [ApprovalFlag, setApprovalFlag] = useState(0)
     const [ApprovalModal, setApprovalModal] = useState(false)
     const [ApprovalData, setApprovalData] = useState([])
+    const [disDatalen, setDisDataLen] = useState([])
 
     const [cancelFlag, setCancelFlag] = useState(0)
     const [cancelModal, setCancelModal] = useState(false)
@@ -80,13 +81,13 @@ const CrfMDApprovalMain = () => {
 
     useEffect(() => {
         if (selectedCompany === '1') {
-            if (radiovalue === '1' && mdData) {
+            if (radiovalue === '9' && mdData) {
                 setcombinedData(mdData)
             } else if (radiovalue === '8') {
                 setcombinedData([])
             }
         } else if (selectedCompany === '2') {
-            if (radiovalue === '1' && mdDataKmc) {
+            if (radiovalue === '9' && mdDataKmc) {
                 setcombinedData(mdDataKmc)
             } else if (radiovalue === '8') {
                 setcombinedData([])
@@ -302,7 +303,11 @@ const CrfMDApprovalMain = () => {
                     dept_type_name: val.dept_type === 1 ? 'Clinical' : val.dept_type === 2 ? 'Non Clinical' : 'Academic',
                     po_number: val.po_number,
                     approval_level: val.approval_level,
-                    internally_arranged_status: val?.internally_arranged_status
+                    internally_arranged_status: val?.internally_arranged_status,
+                    crf_view_remark: val?.crf_view_remark,
+                    crf_view_status: val?.crf_view_status,
+                    viewDep: val?.viewDep,
+                    viewName: val?.viewName
                 }
                 return obj
             })
@@ -315,7 +320,14 @@ const CrfMDApprovalMain = () => {
                 )
                 setDisData(newData)
                 setAllData(newData)
-            } else {
+            } else if (radiovalue === '9') {
+                const newData = datas?.filter((val) => val?.gm_approve === 1 && val?.md_approve === null
+                )
+                setDisData(newData)
+                setAllData(newData)
+                setDisDataLen(newData)
+            }
+            else {
                 setDisData(datas)
                 setAllData(datas)
             }
@@ -486,9 +498,9 @@ const CrfMDApprovalMain = () => {
         const selectedCompanyName = e.target.value;
         setSelectedCompany(selectedCompanyName);
         if (selectedCompanyName === '1') {
-            setRadioValue('1')
+            setRadioValue('9')
         } else if (selectedCompanyName === '2') {
-            setRadioValue('1')
+            setRadioValue('9')
         }
     }, [])
 
@@ -542,7 +554,7 @@ const CrfMDApprovalMain = () => {
                             getRejectData={getRejectData} getCloseData={getCloseData} fromDate={fromDate}
                             toDate={toDate} fromDateChange={fromDateChange} toDateChange={toDateChange}
                             crfRadioValue={crfRadioValue} setCrfRadioValue={setCrfRadioValue} getHoldItems={getHoldItems}
-                            getRejectItem={getRejectItem} selectedCompany={selectedCompany}
+                            getRejectItem={getRejectItem} selectedCompany={selectedCompany} disData={disDatalen}
                         />
                     </Box>
                     <Box sx={{ height: window.innerHeight - 230, overflow: 'auto', flexWrap: 'wrap' }}>

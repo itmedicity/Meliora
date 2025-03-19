@@ -362,7 +362,6 @@ const NdrfFrom = () => {
     }
 
     useEffect(() => {
-        console.log(pdf);
         if (pdf !== 0 && Object.keys(dataPost).length !== 0) {
             ndrfpdfdownloadwithtable(datapdf, dataPost, datacollectdata, inchargesign, hodsign, omsign,
                 smosign, caosign, edsign)

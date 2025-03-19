@@ -236,7 +236,7 @@ const MasterComponent = ({ val, selectedCompany }) => {
 
             {DetailViewFlag === 1 ? <HigherLevelApprovalView open={DetailViewModal} closeModal={closeModal} imagearray={imagearray}
                 DetailViewData={DetailViewData} reqItems={reqItems} approveTableData={approveTableData} poDetails={poDetails}
-                datacolData={datacolData} selectedCompany={selectedCompany} ViewRemark={ViewRemark} /> : null}
+                datacolData={datacolData} selectedCompany={selectedCompany} ViewRemark={ViewRemark} setDetailViewModal={setDetailViewModal} /> : null}
 
 
 
@@ -322,7 +322,7 @@ const MasterComponent = ({ val, selectedCompany }) => {
                 display: 'flex', flex: 1, bgcolor: '#e3f2fd', borderRadius: 2, borderTopLeftRadius: 0,
                 borderTopRightRadius: 0, justifyContent: 'space-between', flexWrap: 'wrap',
             }}>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', pl: 1 }} >
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', pl: 1, }} >
                     <Box sx={{ pl: 2, p: 0.5 }}>
                         <Button
                             variant="contained"

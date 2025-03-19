@@ -116,7 +116,6 @@ const Home = () => {
         const socket = io();
         socket.connect(WS_URL)
         socket.on("message", (data) => {
-            console.log(data)
         })
 
         return () => {

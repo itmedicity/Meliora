@@ -21,10 +21,12 @@ import { GetItemDetailsOfCRFCmp } from '../ComonComponent/GetItemDetailsOfCRFCmp
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import { Box, Button } from '@mui/material'
 import CustomToolTipForCRF from '../ComonComponent/Components/CustomToolTipForCRF'
+import CampaignTwoToneIcon from '@mui/icons-material/CampaignTwoTone';
 
 const ApproveButtonHOD = ({ setApprovalFlag, setApprovalModal, setCancelFlag, setCancelModal, setApprovalData,
     setCancelData, val, setReqItems, setApproveTableData, approveTableData, setPoDetails, reqItems, poDetails,
     setDataCollectData, setDataColFlag, setDataColData, setCollectDetailCheck, imagearray, setImageArry, datacolData }) => {
+
     const { higher, crf_close, image_status, crf_closed_one, now_who, now_who_status, dept_type,
         dept_type_name, expected_date } = val
     const [imageshowFlag, setImageShowFlag] = useState(0)
@@ -313,7 +315,7 @@ const ApproveButtonHOD = ({ setApprovalFlag, setApprovalModal, setCancelFlag, se
                 borderTopRightRadius: 0, justifyContent: 'space-between', flexWrap: 'wrap',
             }}>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', pl: 1 }} >
-                    <Box sx={{ pl: 2, p: 0.5 }}>
+                    <Box sx={{ pl: 2, p: 0.5, }}>
 
                         {higher === 1 ?
                             <Button
@@ -334,7 +336,7 @@ const ApproveButtonHOD = ({ setApprovalFlag, setApprovalModal, setCancelFlag, se
                                 View
                             </Button>
                             :
-                            <Box sx={{ display: 'flex' }}>
+                            <Box sx={{ display: 'flex', }}>
                                 <Box sx={{}}>
                                     <Button
                                         variant="contained"
@@ -381,6 +383,44 @@ const ApproveButtonHOD = ({ setApprovalFlag, setApprovalModal, setCancelFlag, se
                         <CountdownTimer endDate={expected_date} />
                     </Box>
                 </Box>
+                {/* bio medical remark */}
+                {val?.crf_view_status === 1 ?
+
+                    <Box sx={{
+
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center'
+                    }}>
+                        <CampaignTwoToneIcon sx={{
+                            width: 30, height: 30,
+                            animation: 'blink 2s infinite', // Apply the blink animation
+                            '@keyframes blink': {
+                                '0%': {
+                                    opacity: 1,
+                                },
+                                '50%': {
+                                    opacity: 0,
+                                },
+                                '100%': {
+                                    opacity: 1,
+                                },
+
+                            },
+                        }} />
+                        <Typography sx={{
+                            fontFamily: 'var(--font-varient)',
+                            color: 'rgba(var(--font-primary-white))',
+                            fontWeight: 700,
+                        }}>
+
+                        </Typography>
+
+                    </Box> :
+
+                    null}
+
+
                 <Box sx={{ display: 'flex', m: 0.4, p: 0.5 }} >
                     <CssVarsProvider>
                         <Chip

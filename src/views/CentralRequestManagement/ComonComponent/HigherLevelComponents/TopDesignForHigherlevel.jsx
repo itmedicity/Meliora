@@ -17,7 +17,7 @@ const formatDateForInput = (date) => {
 }
 const TopDesignForHigherlevel = ({ pendingData, radiovalue, setRadioValue, allData, setDisData, getPendingData, getApprovalData,
     getProcurementData, getInventoryData, getuserAckData, getHoldData, getRejectData, getCloseData, fromDate, fromDateChange,
-    toDateChange, toDate, crfRadioValue, setCrfRadioValue, getHoldItems, getRejectItem, selectedCompany }) => {
+    toDateChange, toDate, crfRadioValue, setCrfRadioValue, getHoldItems, getRejectItem, selectedCompany, disData }) => {
 
     const [startDate, setStartDate] = useState(formatDateForInput(new Date()));
     const [endDate, setEndDate] = useState(formatDateForInput(new Date()));
@@ -157,6 +157,32 @@ const TopDesignForHigherlevel = ({ pendingData, radiovalue, setRadioValue, allDa
                         onChange={(e) => updateRadioClick(e)}
                     >
                         <Badge
+                            badgeContent={disData ? disData.length : 0}
+                            anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            sx={{
+                                mr: 1,
+                                '& .MuiBadge-badge': {
+                                    backgroundColor: '#FF8300',
+                                    color: 'white',
+                                    transform: 'translate(70%, -10%)',
+                                }
+                            }}
+                        >
+                            <FormControlLabel value='9' sx={{}} control={
+                                <Radio
+                                    sx={{
+                                        color: '#116530',
+                                        '&.Mui-checked': {
+                                            color: '#116530',
+                                        },
+                                    }}
+                                />
+                            } label="Approval Pending" />
+                        </Badge>
+                        <Badge
                             badgeContent={pendingData ? pendingData.length : 0}
                             anchorOrigin={{
                                 vertical: 'top',
@@ -171,7 +197,8 @@ const TopDesignForHigherlevel = ({ pendingData, radiovalue, setRadioValue, allDa
                                 }
                             }}
                         >
-                            <FormControlLabel value='1' sx={{}} control={
+
+                            <FormControlLabel value='1' sx={{ pl: 1.5 }} control={
                                 <Radio
                                     sx={{
                                         color: '#FF8300',
@@ -180,7 +207,7 @@ const TopDesignForHigherlevel = ({ pendingData, radiovalue, setRadioValue, allDa
                                         },
                                     }}
                                 />
-                            } label="Pending" />
+                            } label="Pending All" />
                         </Badge>
                         <FormControlLabel value='2' sx={{ pl: 1.5 }}
                             control={
@@ -229,6 +256,8 @@ const TopDesignForHigherlevel = ({ pendingData, radiovalue, setRadioValue, allDa
                                 }}
                             />
                         } label="User Acknowledgement Pending" />
+
+
                     </RadioGroup>
                     <RadioGroup
                         sx={{

@@ -5,7 +5,6 @@ import { CssVarsProvider, Typography } from '@mui/joy'
 
 const NoWorng = () => {
 
-    console.log("ufgkjg");
 
     return (
         <Fragment>

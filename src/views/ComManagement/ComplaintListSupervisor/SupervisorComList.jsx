@@ -82,9 +82,6 @@ const SupervisorComList = () => {
         return val.assigned_emp === id
     })
 
-    console.log(AssignList);
-
-    console.log(tabledata);
     //assigned list check box updation
     const updateAssigned = useCallback((e) => {
         if (e.target.checked === true) {
@@ -168,7 +165,6 @@ const SupervisorComList = () => {
 
 
 
-    console.log(flag);
 
     //column title setting
     const [column] = useState([

@@ -23,6 +23,7 @@ import ThumbUpAltTwoToneIcon from '@mui/icons-material/ThumbUpAltTwoTone';
 import EventAvailableTwoToneIcon from '@mui/icons-material/EventAvailableTwoTone';
 import DoDisturbOffTwoToneIcon from '@mui/icons-material/DoDisturbOffTwoTone';
 import CustomToolTipForCRF from '../ComonComponent/Components/CustomToolTipForCRF'
+import CampaignTwoToneIcon from '@mui/icons-material/CampaignTwoTone';
 
 const ApproveButtomForED = ({ setApprovalFlag, setApprovalModal, setCancelFlag, setCancelModal, setApprovalData,
     setCancelData, val, setReqItems, setApproveTableData, approveTableData, setPoDetails, reqItems, poDetails,
@@ -620,6 +621,42 @@ const ApproveButtomForED = ({ setApprovalFlag, setApprovalModal, setCancelFlag, 
                         <CountdownTimer endDate={expected_date} />
                     </Box>
                 </Box>
+                {val?.crf_view_status === 1 ?
+
+                    <Box sx={{
+
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center'
+                    }}>
+                        <CampaignTwoToneIcon sx={{
+                            width: 30, height: 30,
+                            animation: 'blink 2s infinite', // Apply the blink animation
+                            '@keyframes blink': {
+                                '0%': {
+                                    opacity: 1,
+                                },
+                                '50%': {
+                                    opacity: 0,
+                                },
+                                '100%': {
+                                    opacity: 1,
+                                },
+
+                            },
+                        }} />
+                        <Typography sx={{
+                            fontFamily: 'var(--font-varient)',
+                            color: 'rgba(var(--font-primary-white))',
+                            fontWeight: 700,
+                        }}>
+
+                        </Typography>
+
+                    </Box> :
+
+                    null
+                }
                 <Box sx={{ display: 'flex', m: 0.4, p: 0.5 }} >
                     <CssVarsProvider>
                         <Chip

@@ -237,6 +237,8 @@ const approvalMapping = React.lazy(() => import('./views/Master/RequestManagemen
 const managingDirectorApproval = React.lazy(() => import('./views/CentralRequestManagement/CrfManagingDirectorApproval/ManagingDirectorMain'))
 const ViewCategoryMaster = React.lazy(() => import('./views/Master/RequestManagement/CrfViewCategoryMaster/ViewCategoryMaster'))
 const CrfView = React.lazy(() => import('./views/CentralRequestManagement/CRFview/CrfView'))
+const CrfStoreMaster = React.lazy(() => import('./views/Master/RequestManagement/StoreMaster/StoreMaster'))
+
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -476,6 +478,9 @@ const routes = [
   { path: '/Home/CrfView', exact: true, name: 'Crf View', component: CrfView },
   { path: '/Home/ItBackupTypeMast', exact: true, name: 'ItBackupTypeMast', component: ItBackupTypeMast },
   { path: '/Home/SimOperator', exact: true, name: 'SimOperator', component: SimOperator },
+  { path: '/Home/CrfStoreMaster', exact: true, name: 'Crf StoreMaster', component: CrfStoreMaster },
+
+
 
 ]
 

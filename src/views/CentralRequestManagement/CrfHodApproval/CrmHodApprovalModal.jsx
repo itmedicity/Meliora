@@ -21,6 +21,7 @@ import DataCollectDepSecSelect from '../ComonComponent/DataCollectionComp/DataCo
 import ViewOreviousDataCollctnDetails from '../ComonComponent/DataCollectionComp/ViewOreviousDataCollctnDetails';
 import ModalButtomCmp from '../ComonComponent/Components/ModalButtomCmp'
 import HodApprovalComponent from './HodApprovalComponent'
+import CampaignTwoToneIcon from '@mui/icons-material/CampaignTwoTone';
 
 const CrmHodApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApproveTableData, approveTableData,
     datacolflag, datacolData, deptsecArry, imagearray }) => {
@@ -373,6 +374,64 @@ const CrmHodApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
                                         {addMoreItems === 1 ? <AddMoreItemDtails req_slno={req_slno}
                                             setApproveTableData={setApproveTableData} setMoreItem={setMoreItem}
                                         /> : null}
+
+                                        {/* remark from the view department  */}
+                                        {ApprovalData?.crf_view_status === 1 ?
+                                            <Box sx={{ p: .4 }}>
+                                                <Box sx={{ border: '1px solid lightgrey', mt: 1, }}>
+                                                    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                        <Box sx={{
+
+                                                            display: 'flex',
+                                                            flexDirection: 'row',
+                                                            alignItems: 'center'
+                                                        }}>
+                                                            <CampaignTwoToneIcon sx={{
+                                                                width: 30, height: 30,
+                                                                animation: 'blink 2s infinite', // Apply the blink animation
+                                                                '@keyframes blink': {
+                                                                    '0%': {
+                                                                        opacity: 1,
+                                                                    },
+                                                                    '50%': {
+                                                                        opacity: 0,
+                                                                    },
+                                                                    '100%': {
+                                                                        opacity: 1,
+                                                                    },
+
+                                                                },
+                                                            }} />
+                                                            <Typography sx={{
+                                                                fontFamily: 'var(--font-varient)',
+                                                                color: 'rgba(var(--font-primary-white))',
+                                                                fontWeight: 700,
+                                                            }}>
+
+                                                            </Typography>
+                                                            <Typography sx={{ fontWeight: 'bold', color: '#FF6868', fontSize: 14, p: 1, textTransform: 'capitalize' }}>
+                                                                Comments From {ApprovalData?.viewDep?.toLowerCase()}
+                                                            </Typography>
+                                                        </Box>
+
+                                                        <Typography sx={{ fontWeight: 'bold', color: '#145DA0', fontSize: 14, p: 1, textTransform: 'capitalize' }}>
+                                                            By:{ApprovalData?.viewName?.toLowerCase()}
+                                                        </Typography>
+                                                    </Box>
+                                                    <Box sx={{ p: 1 }}>
+                                                        <Box sx={{ border: '1px solid lightgrey', height: 50 }}>
+                                                            <Typography sx={{ fontSize: 14, fontWeight: 550, p: 1 }}>
+                                                                {ApprovalData?.crf_view_remark}
+                                                            </Typography>
+                                                        </Box>
+                                                    </Box>
+
+
+                                                </Box>
+                                            </Box>
+                                            : null
+                                        }
+
                                         <HodApprovalComponent
                                             heading="HOD Approval"
                                             apprvlDetails={apprvlDetails}

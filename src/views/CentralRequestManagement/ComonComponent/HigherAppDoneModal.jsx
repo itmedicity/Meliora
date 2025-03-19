@@ -24,6 +24,7 @@ import ApprovalItemView from '../CrfDatacollection/ApprovalItemView';
 import CommonCRFClosed from './ApprovalComp/CommonCRFClosed';
 import UserReceivedItemDetails from './ApprovalComp/UserReceivedItemDetails';
 import CommonMangingApprvComp from './ApprovalComp/CommonMangingApprvComp';
+import CampaignTwoToneIcon from '@mui/icons-material/CampaignTwoTone';
 
 const HigherAppDoneModal = ({ open, closeModal, DetailViewData, reqItems, approveTableData, poDetails, imagearray,
     datacolData }) => {
@@ -71,7 +72,7 @@ const HigherAppDoneModal = ({ open, closeModal, DetailViewData, reqItems, approv
                                 height: 25, width: 25
                             }}
                         />
-                        <Box sx={{ minWidth: '85vw', minHeight: '65vh', maxHeight: '95vh', overflowY: 'auto' }}>
+                        <Box sx={{ minWidth: '85vw', minHeight: '65vh', maxHeight: '95vh', overflowY: 'auto', }}>
                             <CrfReqDetailViewCmp ApprovalData={DetailViewData} imagearray={imagearray} />
                             {reqItems.length !== 0 ?
                                 <Box sx={{ mt: 0.5, mx: 0.3 }}>
@@ -82,6 +83,63 @@ const HigherAppDoneModal = ({ open, closeModal, DetailViewData, reqItems, approv
                             {approveTableData.length !== 0 ?
                                 <Box sx={{ mt: 0.3, mx: 0.3 }}>
                                     <ApprovalItemView approveTableData={approveTableData} />
+                                </Box>
+                                : null
+                            }
+
+                            {/* remark from the view department  */}
+                            {DetailViewData?.crf_view_status === 1 ?
+                                <Box sx={{ p: .4 }}>
+                                    <Box sx={{ border: '1px solid lightgrey', mt: 1, }}>
+                                        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                                            <Box sx={{
+
+                                                display: 'flex',
+                                                flexDirection: 'row',
+                                                alignItems: 'center'
+                                            }}>
+                                                <CampaignTwoToneIcon sx={{
+                                                    width: 30, height: 30,
+                                                    animation: 'blink 2s infinite', // Apply the blink animation
+                                                    '@keyframes blink': {
+                                                        '0%': {
+                                                            opacity: 1,
+                                                        },
+                                                        '50%': {
+                                                            opacity: 0,
+                                                        },
+                                                        '100%': {
+                                                            opacity: 1,
+                                                        },
+
+                                                    },
+                                                }} />
+                                                <Typography sx={{
+                                                    fontFamily: 'var(--font-varient)',
+                                                    color: 'rgba(var(--font-primary-white))',
+                                                    fontWeight: 700,
+                                                }}>
+
+                                                </Typography>
+                                                <Typography sx={{ fontWeight: 'bold', color: '#FF6868', fontSize: 14, p: 1, textTransform: 'capitalize' }}>
+                                                    Comments From {DetailViewData?.viewDep?.toLowerCase()}
+                                                </Typography>
+                                            </Box>
+
+                                            <Typography sx={{ fontWeight: 'bold', color: '#145DA0', fontSize: 14, p: 1, textTransform: 'capitalize' }}>
+                                                By:{DetailViewData?.viewName?.toLowerCase()}
+                                            </Typography>
+                                        </Box>
+                                        <Box sx={{ p: 1 }}>
+                                            <Box sx={{ border: '1px solid lightgrey', height: 50 }}>
+                                                <Typography sx={{ fontSize: 14, fontWeight: 550, p: 1 }}>
+                                                    {DetailViewData?.crf_view_remark}
+                                                </Typography>
+                                            </Box>
+                                        </Box>
+
+
+                                    </Box>
                                 </Box>
                                 : null
                             }

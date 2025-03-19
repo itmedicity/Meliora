@@ -34,6 +34,7 @@ export const cm_setting_three = [
 export const crm_setting_one = [
     { to: '/Home/EmergencyType', name: 'Emergency Type Mast', slno: 177 },
     { to: '/Home/CompanyMast', name: 'Company Master', slno: 234 },
+    { to: '/Home/CrfStoreMaster', name: 'Store Master Right', slno: 258 },
 ]
 
 export const crm_setting_two = [

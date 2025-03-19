@@ -279,7 +279,11 @@ const CrfGMApprovalMain = () => {
                     dept_type_name: val.dept_type === 1 ? 'Clinical' : val.dept_type === 2 ? 'Non Clinical' : 'Academic',
                     po_number: val.po_number,
                     approval_level: val.approval_level,
-                    internally_arranged_status: val?.internally_arranged_status
+                    internally_arranged_status: val?.internally_arranged_status,
+                    crf_view_remark: val?.crf_view_remark,
+                    crf_view_status: val?.crf_view_status,
+                    viewDep: val?.viewDep,
+                    viewName: val?.viewName
                 }
                 return obj
             })

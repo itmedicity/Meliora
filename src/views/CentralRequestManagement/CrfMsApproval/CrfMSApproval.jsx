@@ -280,7 +280,11 @@ const CrfMSApproval = () => {
                     crs_user: val.crs_user,
                     store_user: val.store_user,
                     substore_ack_date: val.substore_ack_date,
-                    approval_level: val.approval_level
+                    approval_level: val.approval_level,
+                    crf_view_remark: val?.crf_view_remark,
+                    crf_view_status: val?.crf_view_status,
+                    viewDep: val?.viewDep,
+                    viewName: val?.viewName
                 }
                 return obj
             })

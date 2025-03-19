@@ -23,6 +23,7 @@ import ImageDisplayModal from '../ComonComponent/ImageUploadCmp/ImageDisplayModa
 import { Box, Button } from '@mui/material';
 import HigherLevelApprovalView from '../ComonComponent/HigherLevelComponents/HigherLevelApprovalView';
 import CustomToolTipForCRF from '../ComonComponent/Components/CustomToolTipForCRF';
+import CampaignTwoToneIcon from '@mui/icons-material/CampaignTwoTone';
 
 const ApproveButtonComponentManag = ({ setApprovalFlag, setApprovalModal, setCancelFlag, setCancelModal, setApprovalData,
     setCancelData, val, setReqItems, setApproveTableData, approveTableData, setPoDetails, reqItems, poDetails,
@@ -520,6 +521,43 @@ const ApproveButtonComponentManag = ({ setApprovalFlag, setApprovalModal, setCan
                         <CountdownTimer endDate={expected_date} />
                     </Box>
                 </Box>
+                {/* bio medical remark */}
+                {val?.crf_view_status === 1 ?
+
+                    <Box sx={{
+
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center'
+                    }}>
+                        <CampaignTwoToneIcon sx={{
+                            width: 30, height: 30,
+                            animation: 'blink 2s infinite', // Apply the blink animation
+                            '@keyframes blink': {
+                                '0%': {
+                                    opacity: 1,
+                                },
+                                '50%': {
+                                    opacity: 0,
+                                },
+                                '100%': {
+                                    opacity: 1,
+                                },
+
+                            },
+                        }} />
+                        <Typography sx={{
+                            fontFamily: 'var(--font-varient)',
+                            color: 'rgba(var(--font-primary-white))',
+                            fontWeight: 700,
+                        }}>
+
+                        </Typography>
+
+                    </Box> :
+
+                    null
+                }
                 <Box sx={{ display: 'flex', m: 0.4, p: 0.5 }} >
                     <CssVarsProvider>
                         <Chip

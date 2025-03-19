@@ -1,4 +1,4 @@
-import React, { Fragment, memo } from 'react'
+import React, { Fragment, memo, useCallback, useMemo, useState } from 'react'
 import { ToastContainer } from 'react-toastify';
 import { Paper } from '@mui/material'
 import { Box, Chip, CssVarsProvider, Grid, Modal, ModalClose, ModalDialog, Textarea, Typography } from '@mui/joy'
@@ -25,8 +25,11 @@ import UserReceivedItemDetails from '../ApprovalComp/UserReceivedItemDetails';
 import CommonMangingApprvComp from '../ApprovalComp/CommonMangingApprvComp';
 import DataCollectionViewHigherLevel from '../DataCollectionComp/DataCollectionViewHigherLevel';
 import ModalButtomCmp from '../Components/ModalButtomCmp';
+import { axioslogin } from 'src/views/Axios/Axios';
+import { succesNotify, warningNotify } from 'src/views/Common/CommonCode';
+import { useSelector } from 'react-redux';
 
-const HigherLevelApprovalView = ({ open, closeModal, DetailViewData, reqItems, approveTableData, poDetails, imagearray, ViewRemark,
+const HigherLevelApprovalView = ({ open, closeModal, DetailViewData, reqItems, approveTableData, poDetails, imagearray, ViewRemark, setDetailViewModal,
     datacolData, selectedCompany }) => {
     const { req_slno, incharge_approve, incharge_remarks, hod_req, hod_approve, dms_req, dms_approve, ms_approve_req, ms_approve,
         manag_operation_req, manag_operation_approv, senior_manage_req, senior_manage_approv, gm_approve_req, gm_approve,
@@ -36,6 +39,16 @@ const HigherLevelApprovalView = ({ open, closeModal, DetailViewData, reqItems, a
         store_receive_date, substore_ack_date, crf_close, user_acknldge, acknowUser, user_ack_date, user_acknldge_remarks,
         approval_level } = DetailViewData
 
+    const [ViewCrfRemark, SetViewCrfRemark] = useState('')
+    const empdept = useSelector((state) => {
+
+        return state.LoginUserData.empdept
+
+    })
+    const empid = useSelector((state) => {
+        return state.LoginUserData.empid
+
+    })
     const capitalizeWords = (str) =>
         str ? str
             .toLowerCase()
@@ -45,6 +58,31 @@ const HigherLevelApprovalView = ({ open, closeModal, DetailViewData, reqItems, a
             .map(word => word.charAt(0).toUpperCase() + word.slice(1))
             .join(' ')
             : '';
+
+    const postData = useMemo(() => {
+        return {
+            req_slno: req_slno,
+            ViewCrfRemark: ViewCrfRemark,
+            status: 1,
+            empdept: empdept,
+            empid: empid,
+
+        };
+    }, [req_slno, ViewCrfRemark, empid, empdept])
+
+    const submit = useCallback(async () => {
+        const result = await axioslogin.post('/CRFRegisterApproval/CrfViewInsert', postData);
+        const { success } = result.data;
+        if (success === 1) {
+            succesNotify("Data Updated Successfully");
+            setDetailViewModal(false)
+        } else {
+            warningNotify('Something Went Wrong');
+            setDetailViewModal(false)
+
+        }
+    }, [postData, setDetailViewModal])
+
     return (
         <Fragment>
             <ToastContainer />
@@ -72,7 +110,7 @@ const HigherLevelApprovalView = ({ open, closeModal, DetailViewData, reqItems, a
                                 height: 25, width: 25
                             }}
                         />
-                        <Box sx={{ minWidth: '85vw', minHeight: '65vh', maxHeight: '95vh', overflowY: 'auto' }}>
+                        <Box sx={{ minWidth: '85vw', minHeight: '65vh', maxHeight: '95vh', overflowY: 'auto', }}>
                             <CrfReqDetailViewCmp ApprovalData={DetailViewData} imagearray={imagearray} selectedCompany={selectedCompany} />
                             {reqItems.length !== 0 ?
                                 <Box sx={{ mt: 0.5, mx: 0.3 }}>
@@ -369,7 +407,7 @@ const HigherLevelApprovalView = ({ open, closeModal, DetailViewData, reqItems, a
                                     }}>
                                         No Report Found
                                     </Box>}
-                            {/* <Paper variant="outlined" square sx={{ flexWrap: 'wrap', mt: 0.7, mx: 0.7, pb: 0.7 }}>
+                            <Paper variant="outlined" square sx={{ flexWrap: 'wrap', mt: 0.7, mx: 0.7, pb: 0.7 }}>
                                 <Box sx={{ display: 'flex', pt: 0.4, }}>
                                     <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>Remarks</Typography>
                                     <Typography sx={{ pt: 1 }}>  :&nbsp;</Typography>
@@ -383,9 +421,9 @@ const HigherLevelApprovalView = ({ open, closeModal, DetailViewData, reqItems, a
                                                 maxRows={4}
                                                 style={{ width: "90%", }}
                                                 placeholder="Remarks"
-                                                name='datacolectremark'
-                                            // value={datacolectremark || ''}
-                                            // onChange={updateOnchangeState}
+                                                name='ViewCrfRemark'
+                                                value={ViewCrfRemark || ''}
+                                                onChange={(e) => SetViewCrfRemark(e.target.value)}
                                             />
                                         </CssVarsProvider>
                                     </Box>
@@ -396,7 +434,7 @@ const HigherLevelApprovalView = ({ open, closeModal, DetailViewData, reqItems, a
                             <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1 }}>
                                 <Box sx={{ py: 0.5, pr: 0.5 }}>
                                     <ModalButtomCmp
-                                    // handleChange={submit}
+                                        handleChange={submit}
                                     > Save</ModalButtomCmp>
                                 </Box>
                                 <Box sx={{ py: 0.5, pr: 2 }}>
@@ -404,7 +442,7 @@ const HigherLevelApprovalView = ({ open, closeModal, DetailViewData, reqItems, a
                                         handleChange={closeModal}
                                     > Cancel</ModalButtomCmp>
                                 </Box>
-                            </Box> */}
+                            </Box>
                         </Box>
                         <Box sx={{ height: 15 }}></Box>
 

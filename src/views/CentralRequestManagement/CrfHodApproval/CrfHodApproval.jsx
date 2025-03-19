@@ -67,6 +67,7 @@ const CrfHodApproval = () => {
         staleTime: Infinity
     });
     const hodData = useMemo(() => hodDetails, [hodDetails])
+
     useEffect(() => {
         if (hodData) {
             const datas = hodData?.map((val) => {
@@ -277,7 +278,11 @@ const CrfHodApproval = () => {
                     dept_name: val.dept_name,
                     dept_type: val.dept_type,
                     dept_type_name: val.dept_type === 1 ? 'Clinical' : val.dept_type === 2 ? 'Non Clinical' : 'Academic',
-                    approval_level: val.approval_level
+                    approval_level: val.approval_level,
+                    crf_view_remark: val?.crf_view_remark,
+                    crf_view_status: val?.crf_view_status,
+                    viewDep: val?.viewDep,
+                    viewName: val?.viewName
                 }
                 return obj
             })

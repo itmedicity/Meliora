@@ -17,10 +17,10 @@ const SecondaryCustodian = () => {
   const [value, setValue] = useState(0)
   const [count, setCount] = useState(0)
   const history = useHistory()
-     // Get login user emp_id
-     const id = useSelector((state) => {
-      return state.LoginUserData.empid
-     })
+  // Get login user emp_id
+  const id = useSelector((state) => {
+    return state.LoginUserData.empid
+  })
   const [secondary, setSecondary] = useState({
     secondary_slno: '',
     secondary_name: '',
@@ -50,7 +50,7 @@ const SecondaryCustodian = () => {
       secondary_status: secondary_status === true ? 1 : 0,
       create_user: id
     }
-  }, [secondary_name, secondary_status,id])
+  }, [secondary_name, secondary_status, id])
   const patchdata = useMemo(() => {
     return {
       secondary_slno: secondary_slno,
@@ -58,7 +58,7 @@ const SecondaryCustodian = () => {
       secondary_status: secondary_status === true ? 1 : 0,
       edit_user: id
     }
-  }, [secondary_slno, secondary_name, secondary_status,id])
+  }, [secondary_slno, secondary_name, secondary_status, id])
   const rowSelect = useCallback((params) => {
     setValue(1)
     const data = params.api.getSelectedRows()
@@ -76,7 +76,6 @@ const SecondaryCustodian = () => {
 
       const InsertSecondary = async (postdata) => {
         const result = await axioslogin.post('/secondaryCustodian/insert', postdata)
-console.log(postdata);
         const { message, success } = result.data
         if (success === 1) {
           succesNotify(message)
@@ -104,17 +103,17 @@ console.log(postdata);
 
       if (value === 0) {
         if (secondary_name !== '') {
-        InsertSecondary(postdata)
+          InsertSecondary(postdata)
         }
-      
+
         else {
           infoNotify("Please Enter Secondary Custodian")
         }
-      }  else {
+      } else {
         SecondaryUpdate(patchdata)
       }
     },
-    [postdata, value, patchdata, count,secondary_name],
+    [postdata, value, patchdata, count, secondary_name],
   )
   const backtoSetting = useCallback(() => {
     history.push('/Home/Settings')

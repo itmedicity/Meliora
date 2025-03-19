@@ -11,7 +11,6 @@ import { Typography } from '@mui/joy'
 const NdrfMODashTable = ({ subDaFlag, tabledata, count, setCount }) => {
     const [omData, setOmdata] = useState([])
 
-    console.log(tabledata);
     useEffect(() => {
 
         if (tabledata.length !== 0) {

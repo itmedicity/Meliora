@@ -21,6 +21,7 @@ import DataCollectDepSecSelect from '../ComonComponent/DataCollectionComp/DataCo
 import ViewOreviousDataCollctnDetails from '../ComonComponent/DataCollectionComp/ViewOreviousDataCollctnDetails';
 import CommonHodApprvCmp from '../ComonComponent/ApprovalComp/CommonHodApprvCmp'
 import ModalButtomCmp from '../ComonComponent/Components/ModalButtomCmp'
+import CampaignTwoToneIcon from '@mui/icons-material/CampaignTwoTone';
 
 const CrfDMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApproveTableData, approveTableData,
     datacolflag, datacolData, imagearray }) => {
@@ -293,7 +294,7 @@ const CrfDMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
                                 height: 25, width: 25
                             }}
                         />
-                        <Box sx={{ minWidth: '80vw', minHeight: '62vh', maxHeight: '85vh', overflowY: 'auto' }}>
+                        <Box sx={{ minWidth: '80vw', minHeight: '62vh', maxHeight: '85vh', overflowY: 'auto', }}>
                             <CrfReqDetailViewCmp ApprovalData={ApprovalData} imagearray={imagearray} />
                             <Box sx={{ overflow: 'auto', pt: 0.5, mx: 0.3 }}>
                                 {reqItems.length !== 0 ?
@@ -324,6 +325,62 @@ const CrfDMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
                                         : null
                                     }
                                 </Box>
+                                {/* remark from the view department  */}
+                                {ApprovalData?.crf_view_status === 1 ?
+                                    <Box sx={{ p: .4 }}>
+                                        <Box sx={{ border: '1px solid lightgrey', mt: 1, }}>
+                                            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                <Box sx={{
+
+                                                    display: 'flex',
+                                                    flexDirection: 'row',
+                                                    alignItems: 'center'
+                                                }}>
+                                                    <CampaignTwoToneIcon sx={{
+                                                        width: 30, height: 30,
+                                                        animation: 'blink 2s infinite', // Apply the blink animation
+                                                        '@keyframes blink': {
+                                                            '0%': {
+                                                                opacity: 1,
+                                                            },
+                                                            '50%': {
+                                                                opacity: 0,
+                                                            },
+                                                            '100%': {
+                                                                opacity: 1,
+                                                            },
+
+                                                        },
+                                                    }} />
+                                                    <Typography sx={{
+                                                        fontFamily: 'var(--font-varient)',
+                                                        color: 'rgba(var(--font-primary-white))',
+                                                        fontWeight: 700,
+                                                    }}>
+
+                                                    </Typography>
+                                                    <Typography sx={{ fontWeight: 'bold', color: '#FF6868', fontSize: 14, p: 1, textTransform: 'capitalize' }}>
+                                                        Comments From {ApprovalData?.viewDep?.toLowerCase()}
+                                                    </Typography>
+                                                </Box>
+
+                                                <Typography sx={{ fontWeight: 'bold', color: '#145DA0', fontSize: 14, p: 1, textTransform: 'capitalize' }}>
+                                                    By:{ApprovalData?.viewName?.toLowerCase()}
+                                                </Typography>
+                                            </Box>
+                                            <Box sx={{ p: 1 }}>
+                                                <Box sx={{ border: '1px solid lightgrey', height: 50 }}>
+                                                    <Typography sx={{ fontSize: 14, fontWeight: 550, p: 1 }}>
+                                                        {ApprovalData?.crf_view_remark}
+                                                    </Typography>
+                                                </Box>
+                                            </Box>
+
+
+                                        </Box>
+                                    </Box>
+                                    : null
+                                }
                                 <Paper variant='outlined' sx={{ pb: 1, flexWrap: 'wrap', mx: 0.3 }} >
                                     <Box sx={{ mx: 1, mt: 1 }}>
                                         <CusCheckBox
@@ -339,6 +396,7 @@ const CrfDMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
                                         />
                                     </Box>
                                 </Paper>
+
                                 {datacollFlag === true ?
                                     <Box sx={{ border: '1px solid lightgrey', borderTop: 'none', pb: 1, mx: 0.3 }}>
                                         <Box sx={{ display: 'flex', pt: 1, }}>
@@ -397,7 +455,9 @@ const CrfDMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
                                     </Box>
                                 }
                             </Box>
+
                         </Box>
+
                         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                             <Box sx={{ py: 0.5, pr: 0.5 }}>
                                 <ModalButtomCmp

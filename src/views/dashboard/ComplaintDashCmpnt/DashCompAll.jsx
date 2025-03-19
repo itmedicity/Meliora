@@ -35,15 +35,15 @@ const DashCompAll = () => {
     const { pendingOnholdList, PendingOnholdStatus } = onholdcomplaint
 
     /** filter total complaint based on status get pending for assign complaint */
-    const pending = complaintList.filter((val) => {
+    const pending = complaintList?.filter((val) => {
         return val.compalint_status === 0
     })
     /** filter total complaint based on status get assigned complaint */
-    const assign = complaintList.filter((val) => {
+    const assign = complaintList?.filter((val) => {
         return val.compalint_status === 1
     })
     /** filter total complaint based on status get Verified complaint */
-    const veryfied = complaintList.filter((val) => {
+    const veryfied = complaintList?.filter((val) => {
         return val.compalint_status === 3
     })
 

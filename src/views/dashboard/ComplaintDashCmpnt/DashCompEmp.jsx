@@ -29,8 +29,8 @@ const DashCompEmp = ({ profileData }) => {
     })
     const { complaintList, loadingStatus } = total
 
-    const pending = complaintList.filter((val) => {
-        return val.compalint_status === 0
+    const pending = complaintList?.filter((val) => {
+        return val?.compalint_status === 0
     })
 
     const assigned = useSelector((state) => {
@@ -38,8 +38,8 @@ const DashCompEmp = ({ profileData }) => {
     })
 
     /** filter total complaint based on status get Verified complaint */
-    const Rectified = assigned.filter((val) => {
-        return val.compalint_status === 2
+    const Rectified = assigned?.filter((val) => {
+        return val?.compalint_status === 2
     })
 
     const pendingOnhold = useSelector((state) => {

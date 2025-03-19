@@ -8,6 +8,8 @@ import FilterAltTwoToneIcon from '@mui/icons-material/FilterAltTwoTone';
 import CustomCloseIconCmp from '../ComonComponent/Components/CustomCloseIconCmp';
 import { useQuery } from 'react-query';
 import { getSubStoreCrfDetails } from 'src/api/CommonApiCRF';
+import { warningNotify } from 'src/views/Common/CommonCode';
+import { useSelector } from 'react-redux';
 
 const ReceiveSubStoreView = React.lazy(() => import("./Components/ReceiveSubStoreView"))
 
@@ -47,34 +49,63 @@ const CrfSubStoreMain = () => {
         // staleTime: Infinity
     })
     const storeData = useMemo(() => subStoreData, [subStoreData]);
+    const empsecid = useSelector((state) => {
+        return state.LoginUserData.empid
+    })
 
     useEffect(() => {
         const getCRSStore = async () => {
             const result = await axioslogin.get('/newCRFStore/getStores');
             const { success, data } = result.data;
             if (success === 1) {
-                const crsStore = data
-                    .filter((val, index, self) =>
-                        index === self.findIndex((value) => value.main_store_slno === val.main_store_slno))
-                    .map((val) => ({
-                        main_store_slno: val.main_store_slno,
-                        crs_store_code: val.crs_store_code,
-                        main_store: val.main_store
-                    }));
-                setCrsList(crsStore);
-                const subStore = data?.map((val) => ({
-                    crm_store_master_slno: val.crm_store_master_slno,
-                    sub_store_name: val.sub_store_name,
-                    store_code: val.store_code,
-                    main_store_slno: val.main_store_slno
-                }));
-                setSubStoreList(subStore);
+
+                const postdata = {
+                    empsecid: empsecid
+                }
+                if (empsecid > 0) {
+                    const result = await axioslogin.post('/newCRFRegister/GetStoreMasterById', postdata)
+                    const { success, data: empData } = result.data;
+                    if (success === 1) {
+                        const crsStore = data
+                            .filter((val, index, self) =>
+                                index === self.findIndex((value) => value.main_store_slno === val.main_store_slno))
+                            .map((val) => ({
+                                main_store_slno: val.main_store_slno,
+                                crs_store_code: val.crs_store_code,
+                                main_store: val.main_store
+                            }));
+                        const empStoreList = JSON.parse(empData[0]?.store);
+                        const empSubStoreList = JSON.parse(empData[0]?.sub_store);
+                        const filteredCrsStore = crsStore?.filter((store) =>
+                            empStoreList?.includes(store.main_store_slno)
+                        );
+                        // setCrsList(crsStore);
+                        setCrsList(filteredCrsStore);
+
+                        const subStore = data?.map((val) => ({
+                            crm_store_master_slno: val.crm_store_master_slno,
+                            sub_store_name: val.sub_store_name,
+                            store_code: val.store_code,
+                            main_store_slno: val.main_store_slno
+                        }));
+                        const filteredCrsSubStore = subStore?.filter((store) =>
+                            empSubStoreList?.includes(store.crm_store_master_slno)
+                        );
+                        // setSubStoreList(subStore);
+                        setSubStoreList(filteredCrsSubStore);
+
+                    } else {
+                        warningNotify(" Error occured contact EDP")
+                    }
+                }
+
             } else {
                 setCrsList([]);
             }
         };
         getCRSStore();
     }, []);
+
     useEffect(() => {
         if (storeData && storeData.length > 0) {
             const newData = storeData?.filter((value, index, self) =>
@@ -98,13 +129,12 @@ const CrfSubStoreMain = () => {
         setSelectedTab(val);
         setSelectedRadio(null);
     }, []);
-
+    // by clicking crs common
     const subStoreDetailsView = useCallback((slno) => {
         const xx = storeData?.filter((val) => val.supply_store === slno)
         const reqNo = [...new Set(xx?.map(item => item.req_slno))];
         setReqSlno(reqNo)
         const uniquePOSlno = [...new Set(xx?.map(item => item.crm_purchase_slno))];
-
         const mergedData = uniquePOSlno?.map(po => {
             const filteredItems = xx?.filter(item => item.crm_purchase_slno === po);
             const pos = filteredItems?.map(item => `${item.po_number}`);
@@ -135,13 +165,15 @@ const CrfSubStoreMain = () => {
         });
         setTableData(mergedData)
         setAllTableData(mergedData)
-
     }, [storeData])
 
     useEffect(() => {
         if (selectedTab === 0) {
             if (storeData && storeData.length > 0) {
-                const xx = storeData?.filter((val) => val.supply_store === 1)
+                // const xx = storeData?.filter((val) => val.supply_store === 1)
+                const firstarray = crsList[0]
+                const xx = storeData?.filter((value) => value.supply_store === firstarray?.main_store_slno);
+
                 const reqNo = [...new Set(xx?.map(item => item.req_slno))];
                 setReqSlno(reqNo)
                 const uniquePOSlno = [...new Set(xx?.map(item => item.crm_purchase_slno))];
@@ -173,7 +205,9 @@ const CrfSubStoreMain = () => {
                     };
                 });
                 setTableData(mergedData)
+
                 setAllTableData(mergedData)
+
                 // const xx = storeData?.filter((val) => val.supply_store === 1)
                 // const uniqueReqSlno = [...new Set(xx?.map(item => item.req_slno))];
 
@@ -208,7 +242,7 @@ const CrfSubStoreMain = () => {
 
             }
         }
-    }, [storeData, selectedTab])
+    }, [storeData, selectedTab, crsList])
 
     const handleRadioButtonChange = useCallback((e) => {
         const selectedSlno = e.target.value;
@@ -220,6 +254,7 @@ const CrfSubStoreMain = () => {
             // setStoreName(selectedSubStore.sub_store_name)
             const newdata = allTableData?.filter((val) => val.sub_store_slno === parseInt(selectedSlno))
             setTableData(newdata)
+
         }
     }, [subStoreList, allTableData]);
     if (isSubLoading) return <p>Loading...</p>;
@@ -306,13 +341,13 @@ const CrfSubStoreMain = () => {
                                         sx={{ gap: 2 }}
                                     >
                                         {subStoreList
-                                            .filter(subStore => subStore.main_store_slno === store.main_store_slno)
+                                            .filter(subStore => subStore?.main_store_slno === store?.main_store_slno)
                                             .map((subStore, subIndex) => (
                                                 <FormControlLabel
                                                     key={subIndex}
-                                                    value={subStore.crm_store_master_slno}
+                                                    value={subStore?.crm_store_master_slno}
                                                     control={<Radio />}
-                                                    label={subStore.sub_store_name}
+                                                    label={subStore?.sub_store_name}
                                                     sx={{ mr: 2 }}
                                                 />
                                             ))}
