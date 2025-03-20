@@ -6,10 +6,10 @@ import { useQuery } from 'react-query';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import CondemnationApprovalModal from '../../CondemnationList/CondemnationApprovalModal';
 
-const PendingApprovalsHod = ({ empId, empdept }) => {
+const PendingApprovalsHod = ({ empId, empdept, menurights }) => {
 
     const condemStatusFrom = 3
-    const condemstatusTo = 1
+    const condemstatusTo = 0
 
     const postCondemDept = useMemo(() => {
         return {
@@ -54,6 +54,7 @@ const PendingApprovalsHod = ({ empId, empdept }) => {
                     empdept={empdept}
                     setformCount={setformCount}
                     formCount={formCount}
+                    menurights={menurights}
                 />
                 : null}
             <CssVarsProvider>

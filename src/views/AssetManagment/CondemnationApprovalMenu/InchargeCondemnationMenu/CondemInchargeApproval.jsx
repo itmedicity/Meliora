@@ -7,7 +7,7 @@ import VerifiedIcon from '@mui/icons-material/Verified';
 import CondemnationApprovalModal from '../../CondemnationList/CondemnationApprovalModal';
 
 
-const CondemInchargeApproval = ({ empId, empdept }) => {
+const CondemInchargeApproval = ({ empId, empdept, menurights }) => {
 
     const condemStatusFrom = 2
     const condemstatusTo = 0
@@ -51,6 +51,7 @@ const CondemInchargeApproval = ({ empId, empdept }) => {
                     empdept={empdept}
                     setformCount={setformCount}
                     formCount={formCount}
+                    menurights={menurights}
                 />
 
                 : null}

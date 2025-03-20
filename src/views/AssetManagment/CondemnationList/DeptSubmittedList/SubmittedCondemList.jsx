@@ -7,17 +7,21 @@ import Radio from '@mui/joy/Radio';
 import RadioGroup from '@mui/joy/RadioGroup';
 import PendingCondems from './PendingCondems';
 import ViewSubmittedModal from '../ViewSubmittedModal';
+import SelectedDeptRegReqDate from '../DepartmentCondemnation/SelectedDeptRegReqDate';
+import DepartmentcondemList from '../DepartmentCondemnation/DepartmentcondemList';
 
 
 const SubmittedCondemList = ({ empdept, empId }) => {
 
-    const condemStat = 8;
+    const condemStatusFrom = 7
+    const condemstatusTo = 0
     const postCondemDept = useMemo(() => {
         return {
             empdept: empdept,
-            condem_status: condemStat
+            condemStatusFrom: condemStatusFrom,
+            condemstatusTo: condemstatusTo
         };
-    }, [empdept, condemStat]);
+    }, [empdept, condemstatusTo, condemStatusFrom]);
 
 
     const [formDetails, setformDetails] = useState([])
@@ -40,23 +44,15 @@ const SubmittedCondemList = ({ empdept, empId }) => {
         setmodalEditOpen(true)
     }, [])
 
+    const SatusFrom = 8
+    const StatusTo = 1
     const { data: CondemSubittedData } = useQuery({
         queryKey: ['getCondemPendingData', formCount],
         queryFn: () => getCondemPendingDatas(postCondemDept),
         enabled: empdept !== undefined,
     });
 
-    // const condemStatusPending = useMemo(() => {
-    //     return CondemSubittedData?.filter(item => item.condem_status === 1) || [];
-    // }, [CondemSubittedData]);
-
-    // const condemStatusInchOrHod = useMemo(() => {
-    //     return CondemSubittedData?.filter(item => item.condem_status === 2 || item.condem_status === 3) || [];
-    // }, [CondemSubittedData]);
-
-
     const [selectedValue, setSelectedValue] = useState("1");
-
     const handleChange = (event) => {
         setSelectedValue(event.target.value);
     };
@@ -98,9 +94,22 @@ const SubmittedCondemList = ({ empdept, empId }) => {
                 </Box>
             </RadioGroup>
 
-            {selectedValue === "1" && <PendingCondems condemStatusPending={CondemSubittedData} editForm={editForm} viewForm={viewForm} />}
-
-
+            {selectedValue === "1" ?
+                <Box>
+                    <PendingCondems condemStatusPending={CondemSubittedData} editForm={editForm} viewForm={viewForm} />
+                </Box>
+                :
+                selectedValue === "2" ?
+                    <Box>
+                        <SelectedDeptRegReqDate
+                            SatusFrom={SatusFrom} StatusTo={StatusTo} empdept={empdept} viewForm={viewForm} />
+                    </Box>
+                    :
+                    selectedValue === "3" ?
+                        <Box>
+                            <DepartmentcondemList SatusFrom={SatusFrom} StatusTo={StatusTo} empdept={empdept} viewForm={viewForm} />
+                        </Box>
+                        : ''}
         </Box>
     )
 }

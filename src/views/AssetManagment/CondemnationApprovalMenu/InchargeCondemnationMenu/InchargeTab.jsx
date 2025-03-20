@@ -9,9 +9,8 @@ import { Paper } from '@mui/material'
 import CondemInchargeApproval from './CondemInchargeApproval'
 import CondemListForInchrge from './CondemListForInchrge'
 
+const InchargeTab = ({ menurights }) => {
 
-
-const InchargeTab = () => {
     const history = useHistory();
     const backtoSetting = useCallback(() => {
         history.push('/Home');
@@ -37,7 +36,7 @@ const InchargeTab = () => {
                                 pl: 1,
                                 fontFamily: 'Arial'
                             }}
-                            text="Condemnation Approvals"
+                            text="Condemnation Approvals Incharge"
                         />
                         <Box>
                             <CusIconButton
@@ -129,12 +128,12 @@ const InchargeTab = () => {
                         </TabList>
                         <TabPanel value={0} sx={{ p: 0, flexGrow: 1, }}>
                             <Box sx={{ flexGrow: 1, }}>
-                                <CondemInchargeApproval empdept={empdept} empId={empId} />
+                                <CondemInchargeApproval empdept={empdept} empId={empId} menurights={menurights} />
                             </Box>
                         </TabPanel>
                         <TabPanel value={1} sx={{ p: 0, flexGrow: 1, }}>
                             <Box sx={{ flexGrow: 1, }}>
-                                <CondemListForInchrge empdept={empdept} empId={empId} />
+                                <CondemListForInchrge empdept={empdept} empId={empId} menurights={menurights} />
                             </Box>
                         </TabPanel>
 

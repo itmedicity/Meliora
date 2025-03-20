@@ -10,6 +10,7 @@ import SpareCondemnation from './SpareCondemnation';
 import AssetCondemnation from './AssetCondemnation';
 import PendingCondemnationList from './PendingCondemnationList';
 import SubmittedCondemList from './DeptSubmittedList/SubmittedCondemList';
+import DeptScrapstoreMain from './DeptScrapstore/DeptScrapstoreMain';
 
 const CondemnationList = () => {
     const empdept = useSelector((state) => {
@@ -161,7 +162,7 @@ const CondemnationList = () => {
                         </TabPanel>
                         <TabPanel value={2} sx={{ p: 0, flexGrow: 1, }}>
                             <Box sx={{ flexGrow: 1, }}>
-                                Scrap Store
+                                <DeptScrapstoreMain empdept={empdept} />
                             </Box>
                         </TabPanel>
                     </Tabs>

@@ -9,7 +9,7 @@ import { Paper } from '@mui/material'
 import CondemListForHod from './CondemListForHod'
 import PendingApprovalsHod from './PendingApprovalsHod'
 
-const HodTab = () => {
+const HodTab = ({ menurights }) => {
     const history = useHistory();
     const backtoSetting = useCallback(() => {
         history.push('/Home');
@@ -35,7 +35,7 @@ const HodTab = () => {
                                 pl: 1,
                                 fontFamily: 'Arial'
                             }}
-                            text="Condemnation Approvals"
+                            text="Condemnation Approvals Hod"
                         />
                         <Box>
                             <CusIconButton
@@ -123,19 +123,19 @@ const HodTab = () => {
                                 >
                                     Condemnation List
                                 </Tab>
+
                             </Box>
                         </TabList>
                         <TabPanel value={0} sx={{ p: 0, flexGrow: 1, }}>
                             <Box sx={{ flexGrow: 1, }}>
-                                <PendingApprovalsHod empdept={empdept} empId={empId} />
+                                <PendingApprovalsHod empdept={empdept} empId={empId} menurights={menurights} />
                             </Box>
                         </TabPanel>
                         <TabPanel value={1} sx={{ p: 0, flexGrow: 1, }}>
                             <Box sx={{ flexGrow: 1, }}>
-                                <CondemListForHod empdept={empdept} empId={empId} />
+                                <CondemListForHod empdept={empdept} empId={empId} menurights={menurights} />
                             </Box>
                         </TabPanel>
-
                     </Tabs>
                 </CssVarsProvider>
             </Box>

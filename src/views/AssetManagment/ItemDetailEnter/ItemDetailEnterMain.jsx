@@ -28,6 +28,8 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender,
 
     const [exist, setExist] = useState(0)
     const [grndetailarry, setGrnDetailArry] = useState({})
+    const [wargar, setWarGar] = useState(0)
+    const [warGararry, setwarGarArry] = useState({})
     const [amcPm, setAmcPm] = useState(0)
 
     const BackToPage = useCallback(() => {
@@ -98,7 +100,6 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender,
     ])
 
 
-
     return (
         <CssVarsProvider >
             <Box sx={{
@@ -123,52 +124,6 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender,
                         </CusIconButton>
                     </Box>
 
-
-                    {/* GRN Detail */}
-                    <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
-                        GRN Details</Typography>
-                    <GRNDeailtsComp detailArry={detailArry} assetSpare={assetSpare}
-                        grndetailarry={grndetailarry} exist={exist} setExist={setExist} />
-                    {/* Bill Details */}
-                    <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
-                        Bill Details</Typography>
-                    <BillDetailsAdding detailArry={detailArry} assetSpare={assetSpare}
-                        grndetailarry={grndetailarry} />
-                    {/* Device Details */}
-                    <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
-                        Device Details</Typography>
-                    <DEviceDetailsComp detailArry={detailArry} assetSpare={assetSpare}
-                        grndetailarry={grndetailarry} exist={exist} setExist={setExist} />
-                    {/*  OwnerShip Details */}
-                    <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
-                        OwnerShip Details</Typography>
-                    <OwnerShipDetailsComp detailArry={detailArry} assetSpare={assetSpare}
-                        grndetailarry={grndetailarry} exist={exist} setExist={setExist} />
-                    {
-                        assetSpare === 1 ?
-                            <Box>
-                                <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
-                                    Lease Details</Typography>
-                                <LeaseDetailsAdd grndetailarry={grndetailarry} />
-                            </Box> : null
-                    }
-                    <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
-                        Warranty/Guarantee Details</Typography>
-                    <WarrentyGrauntyComp detailArry={detailArry}
-                        assetSpare={assetSpare} />
-                    {
-                        assetSpare === 1 ?
-                            <Box>
-                                <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
-                                    AMC/PM  Details</Typography>
-                                <AMCCMCDetailAdding detailArry={detailArry} amcPmarry={amcPmarry} assetSpare={assetSpare}
-                                    amcPm={amcPm} setAmcPm={setAmcPm} setRender={setRender} render={render} />
-                            </Box>
-                            : null
-                    }
-                    <Typography sx={{ fontSize: 15, fontFamily: 'sans-serif', fontWeight: 520, ml: 2 }} >
-                        Specification  Details</Typography>
-                    <SpecDetailsComp detailArry={detailArry} assetSpare={assetSpare} />
 
                 </Box>
                 <Box sx={{ flex: 1, border: 1, py: 1, borderColor: '#EFEFEF', m: .5, bgcolor: '#FBFCFE', display: 'flex' }}>
@@ -347,10 +302,12 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender,
                                     flexGrow: 1,
                                     overflowY: 'auto',
                                     maxHeight: '100%',
-                                    mt: .5
+                                    mt: .5,
+
                                 }}>
                                 <WarrentyGrauntyComp detailArry={detailArry} warGararry={warGararry} grndetailarry={grndetailarry}
                                     wargar={wargar} setWarGar={setWarGar} assetSpare={assetSpare} />
+
                             </Box>
                         </TabPanel>
                         {assetSpare === 1 ?

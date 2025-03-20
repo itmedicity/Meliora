@@ -16,10 +16,12 @@ import FileViewSingle from 'src/views/Components/FileViewSingle'
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import DirectionsIcon from '@mui/icons-material/Directions';
+import AssetDetailsModal from './AssetDetailsView/AssetDetailsModal'
 
 const EditCondemSubmitionModal = ({ modalEditOpen, setmodalEditOpen, setmodalEditFlag, empId, formDetails, empdept, setformCount, formCount }) => {
 
     const { condem_mast_slno, condem_form_prefix, condem_form_no, reg_date, } = formDetails
+
     const [condemCount, setcondemCount] = useState(0)
 
     const postCondemSlno = useMemo(() => {
@@ -75,6 +77,7 @@ const EditCondemSubmitionModal = ({ modalEditOpen, setmodalEditOpen, setmodalEdi
     const [reasons, setReasons] = useState({});
     const [deatilSlno, setDeatilSlno] = useState(0);
     const [addedCondemFiles, setaddedCondemFiles] = useState([])
+
 
     const handleCheckboxChange = (event, index, val) => {
         const { am_condem_detail_slno } = val;
@@ -268,7 +271,15 @@ const EditCondemSubmitionModal = ({ modalEditOpen, setmodalEditOpen, setmodalEdi
             }
         },
         [patchdata])
+    const [AssetOpenModal, setAssetOpenModal] = useState(false)
+    const [AssetModalFlag, setAssetModalFlag] = useState(0)
+    const [AssetDetails, setAssetDetails] = useState([])
 
+    const AssetDetailsView = useCallback((val) => {
+        setAssetOpenModal(true)
+        setAssetDetails(val)
+        setAssetModalFlag(1)
+    }, [])
 
     return (
         <CssVarsProvider>
@@ -285,6 +296,16 @@ const EditCondemSubmitionModal = ({ modalEditOpen, setmodalEditOpen, setmodalEdi
                         count={count}
                         setcondemCount={setcondemCount}
                         condemCount={condemCount}
+                    />
+                </Box> : null}
+            {AssetModalFlag === 1 ?
+                <Box>
+                    <AssetDetailsModal
+                        AssetOpenModal={AssetOpenModal}
+                        setAssetOpenModal={setAssetOpenModal}
+                        AssetModalFlag={AssetModalFlag}
+                        setAssetModalFlag={setAssetModalFlag}
+                        AssetDetails={AssetDetails}
                     />
                 </Box> : null}
             <Modal
@@ -466,7 +487,9 @@ const EditCondemSubmitionModal = ({ modalEditOpen, setmodalEditOpen, setmodalEdi
                                                         val.asset_condm_transf_remarks : val.spare_condm_transf_remarks ? val.spare_condm_transf_remarks : ''}
                                                 </Box>
                                                 <Box sx={{ width: 60, fontWeight: 600, color: '#444444', fontSize: 14, pl: 1 }}>
-                                                    <MoreIcon sx={{ cursor: 'pointer', color: '#41729F' }} />
+                                                    <MoreIcon sx={{ cursor: 'pointer', color: '#41729F' }}
+                                                        onClick={() => AssetDetailsView(val)}
+                                                    />
                                                 </Box>
                                                 <Box sx={{ width: 50, fontWeight: 600, color: '#444444', fontSize: 14, pl: 1 }}>
                                                     <AddCircleIcon sx={{ cursor: 'pointer', color: '#A45C40' }}
@@ -479,13 +502,13 @@ const EditCondemSubmitionModal = ({ modalEditOpen, setmodalEditOpen, setmodalEdi
                             </Box>
 
                         </Box>
-                        {(CondemData?.some(item => item.am_condem_reason !== null) || addedCondemFiles.length > 0) && (
+                        {(CondemData?.some(item => item.am_condem_reason !== null || item.keep_inscarp_status === 1) || addedCondemFiles.length > 0) && (
                             <Box sx={{ flex: 1, border: 1, borderColor: 'lightgray', mx: 1, mt: 1, pb: 0.5 }}>
                                 <TextComponent
                                     text={"Item Details and Attachments"}
                                     sx={{ fontWeight: 500, color: '#6A5546', pl: 0.8, pt: 0.5, fontSize: 15 }}
                                 />
-                                {CondemData?.filter(val => val.am_condem_reason !== null || (addedCondemFiles[val.am_condem_detail_slno]?.length > 0))
+                                {CondemData?.filter(val => val.am_condem_reason !== null || (addedCondemFiles[val.am_condem_detail_slno]?.length > 0) || val.keep_inscarp_status === 1)
                                     .map((val, index) => (
                                         <Box
                                             key={index}
@@ -522,6 +545,7 @@ const EditCondemSubmitionModal = ({ modalEditOpen, setmodalEditOpen, setmodalEdi
                                                     sx={{ fontWeight: 500, color: '#0C2D48', pl: 0.8, pt: 0.5, fontSize: 14 }}
                                                 />
                                             </Box>
+
                                             <Box sx={{ flex: 1, display: 'flex' }}>
                                                 <TextComponent
                                                     text={"Reason :"}

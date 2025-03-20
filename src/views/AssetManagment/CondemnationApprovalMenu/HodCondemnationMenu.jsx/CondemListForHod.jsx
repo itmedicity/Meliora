@@ -5,12 +5,14 @@ import { useQuery } from 'react-query';
 import ViewSubmittedModal from '../../CondemnationList/ViewSubmittedModal';
 import CondemnationApprovalModal from '../../CondemnationList/CondemnationApprovalModal';
 import AllPendingsHod from './AllPendingsHod';
+import SelectedDeptRegReqDate from '../../CondemnationList/DepartmentCondemnation/SelectedDeptRegReqDate';
+import DepartmentcondemList from '../../CondemnationList/DepartmentCondemnation/DepartmentcondemList';
 
 
 
-const CondemListForHod = ({ empdept, empId }) => {
+const CondemListForHod = ({ empdept, empId, menurights }) => {
 
-    const condemStatusFrom = 8
+    const condemStatusFrom = 7
     const condemstatusTo = 0
 
     const postCondemDept = useMemo(() => {
@@ -41,6 +43,8 @@ const CondemListForHod = ({ empdept, empId }) => {
         setmodalEditFlag(1)
         setmodalEditOpen(true)
     }, [])
+    const SatusFrom = 8
+    const StatusTo = 1
 
     const { data: CondemnationHodData } = useQuery({
         queryKey: ['getCondemHodPending', formCount],
@@ -50,7 +54,7 @@ const CondemListForHod = ({ empdept, empId }) => {
 
 
     const getCondemHodPending = useMemo(() => {
-        return CondemnationHodData?.filter(item => item.condem_status > 1) || [];
+        return CondemnationHodData?.filter(item => item.condem_status > 2) || [];
     }, [CondemnationHodData]);
 
 
@@ -70,6 +74,7 @@ const CondemListForHod = ({ empdept, empId }) => {
                     empdept={empdept}
                     setformCount={setformCount}
                     formCount={formCount}
+                    menurights={menurights}
                 />
                 : null}
             {modalViewFlag === 1 ?
@@ -94,9 +99,22 @@ const CondemListForHod = ({ empdept, empId }) => {
                 </Box>
             </RadioGroup>
 
-            <Box>
-                <AllPendingsHod getCondemHodPending={getCondemHodPending} editForm={editForm} viewForm={viewForm} />
-            </Box>
+            {selectedRValue === "1" ?
+                <Box>
+                    <AllPendingsHod getCondemHodPending={getCondemHodPending} editForm={editForm} viewForm={viewForm} />
+                </Box>
+                :
+                selectedRValue === "2" ?
+                    <Box>
+                        <SelectedDeptRegReqDate
+                            SatusFrom={SatusFrom} StatusTo={StatusTo} empdept={empdept} viewForm={viewForm} />
+                    </Box>
+                    :
+                    selectedRValue === "3" ?
+                        <Box>
+                            <DepartmentcondemList SatusFrom={SatusFrom} StatusTo={StatusTo} empdept={empdept} viewForm={viewForm} />
+                        </Box>
+                        : ''}
         </Box>
     )
 }

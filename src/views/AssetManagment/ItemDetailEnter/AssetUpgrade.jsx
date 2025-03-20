@@ -24,7 +24,7 @@ const AssetUpgrade = ({ am_item_map_slno, item_custodian_dept, count, setCount }
     })
 
     const { data: allSpareUnderAssetData } = useQuery({
-        queryKey: ['getSpecification', count],
+        queryKey: ['getAssetsSpecification', count],
         queryFn: () => getallSpareUnderAsset(am_item_map_slno),
     });
 

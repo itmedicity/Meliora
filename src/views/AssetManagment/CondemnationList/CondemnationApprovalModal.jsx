@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, CssVarsProvider, Grid, Modal, ModalDialog, Table, Textarea, Typography } from '@mui/joy'
+import { Box, Button, Checkbox, CssVarsProvider, Grid, Modal, ModalDialog, Table, Textarea, Tooltip, Typography } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import TextComponent from 'src/views/Components/TextComponent';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -19,6 +19,8 @@ import { Popover } from '@mui/material';
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import { format } from 'date-fns';
+import AssetDetailsModal from './AssetDetailsView/AssetDetailsModal';
+import { useSelector } from 'react-redux';
 
 const CondemnationApprovalModal = ({
     modalApproveOpen, setmodalApproveOpen,
@@ -26,18 +28,44 @@ const CondemnationApprovalModal = ({
     empId,
     formDetails,
     setformCount,
-    formCount
+    formCount,
+    menurights
+
 }) => {
     const { condem_mast_slno, condem_form_prefix, condem_form_no, reg_date, incharge_approve_status, incharge_remarks, hod_approve_status, hod_remarks,
-        gm_approve_status, gm_approve_remarks, acc_approve_status, acc_approve_remarks, material_mangmnt_mangr_apprv_status, material_mangmnt_mangr_apprv_remark,
-        inch_apprv_date, hod_apprv_date, inch_apprv_reject_date
+        gm_approve_remarks, acc_approve_status, acc_approve_remarks, material_mangmnt_mangr_apprv_status, material_mangmnt_mangr_apprv_remark,
+        inch_apprv_reject_date, incharge_employee, hod_apprv_reject_date, hod_employee, store_approve_remarks, store_approve_status, gm_approve_status,
+        gm_apprv_reject_date, gm_opr_employee, accounts_employee, acc_apprv_reject_date, store_approve_employee, store_approve_reject_date,
+        material_mange_apprv_reject_date, material_mangm_employee
+
     } = formDetails
 
+    // const empid = useSelector((state) => {
+    //     return state.LoginUserData.empid
+    // })
+    // const [menurights, setMenurights] = useState([]);
+    // const postEmp = useMemo(() => ({ empid }), [empid]);
+    // const { data: menuRightsEmployee = [] } = useQuery({
+    //     queryKey: ['getEmployeeuserrightsMenu', postEmp],
+    //     queryFn: () => getEmployeeuserrightsMen(postEmp),
+    // });
+    // const employeeMenuRights = useMemo(() => menuRightsEmployee, [menuRightsEmployee]);
+    // useEffect(() => {
+    //     let array = menuList.filter((value) =>
+    //         employeeMenuRights.find((val) => value.slno === val.menu_slno)
+    //     );
+    //     setMenurights(array);
+    // }, [menuList, employeeMenuRights]);
+
+
     const currentDate = format(new Date(), "yyyy-MM-dd HH:mm:ss");
-    console.log(currentDate);
     const [condemCount, setcondemCount] = useState(0)
-    const [inchremarks, setinchRemarks] = useState("");
-    const [hodRemarks, setHodRemarks] = useState("");
+    const [inchremarks, setinchRemarks] = useState(incharge_remarks || "");
+    const [hodRemarks, setHodRemarks] = useState(hod_remarks || "");
+    const [GmOprtnRemarks, setGmOprtnRemarks] = useState(gm_approve_remarks || '')
+    const [AccountsRemarks, setAccountsRemarks] = useState(acc_approve_remarks || "")
+    const [StoreRemarks, setStoreRemarks] = useState(store_approve_remarks || "")
+    const [MaterialsMangRemarks, setMaterialsMangRemarks] = useState(material_mangmnt_mangr_apprv_remark || "")
 
     const handleInchChange = (event) => {
         setinchRemarks(event.target.value);
@@ -45,6 +73,19 @@ const CondemnationApprovalModal = ({
     const handleHodChange = (event) => {
         setHodRemarks(event.target.value);
     };
+    const handleGMChange = (event) => {
+        setGmOprtnRemarks(event.target.value);
+    };
+    const handleAccountsChange = (event) => {
+        setAccountsRemarks(event.target.value);
+    };
+    const handleStoreChange = (event) => {
+        setStoreRemarks(event.target.value);
+    };
+    const handleMaterialMangeChange = (event) => {
+        setMaterialsMangRemarks(event.target.value);
+    };
+
     const postCondemSlno = useMemo(() => {
         return {
             condemMastslno: condem_mast_slno,
@@ -141,8 +182,6 @@ const CondemnationApprovalModal = ({
         }
         scarpStoreUpdate(singleItemData)
     };
-
-
 
     const { data: CondemData } = useQuery({
         queryKey: ['getCondemAddedDetails', count],
@@ -241,23 +280,14 @@ const CondemnationApprovalModal = ({
 
     const Approvedata = useMemo(() => {
         return {
-            condem_mast_slno: condem_mast_slno,
-            condem_form_prefix: formPrefix,
-            condem_form_no: formNumber,
             condem_status: 2,
             incharge_approve_status: 1,
             incharge_remarks: inchremarks,
             inch_apprv_reject_date: currentDate,
-            hod_approve_status: 0,
-            hod_remarks: null,
-            gm_approve_status: 0,
-            gm_approve_remarks: null,
-            acc_approve_status: 0,
-            acc_approve_remarks: null,
-            material_mangmnt_mangr_apprv_status: 0,
-            material_mangmnt_mangr_apprv_remark: null
+            inch_emp: empId,
+            condem_mast_slno: condem_mast_slno,
         }
-    }, [condem_mast_slno, inchremarks, currentDate])
+    }, [inchremarks, currentDate, empId, condem_mast_slno])
 
     const InChargeApproval = useCallback(
         (e) => {
@@ -265,7 +295,9 @@ const CondemnationApprovalModal = ({
             const FormUpdate = async (Approvedata) => {
                 const result = await axioslogin.patch('/AssetCondemnation/ApproveData', Approvedata)
                 const { message, success } = result.data
-                if (success === 2) {
+
+
+                if (success === 1) {
                     succesNotify(message)
                     setformCount(formCount + 1)
                     CloseModal()
@@ -284,23 +316,14 @@ const CondemnationApprovalModal = ({
 
     const Rejectdata = useMemo(() => {
         return {
-            condem_mast_slno: condem_mast_slno,
-            condem_form_prefix: formPrefix,
-            condem_form_no: formNumber,
             condem_status: 2,
             incharge_approve_status: 2,
             incharge_remarks: inchremarks,
             inch_apprv_reject_date: currentDate,
-            hod_approve_status: 0,
-            hod_remarks: null,
-            gm_approve_status: 0,
-            gm_approve_remarks: null,
-            acc_approve_status: 0,
-            acc_approve_remarks: null,
-            material_mangmnt_mangr_apprv_status: 0,
-            material_mangmnt_mangr_apprv_remark: null
+            inch_emp: empId,
+            condem_mast_slno: condem_mast_slno,
         }
-    }, [condem_mast_slno, formNumber, condem_mast_slno, formPrefix, inchremarks])
+    }, [inchremarks, currentDate, empId, condem_mast_slno,])
 
     const InChargeRejected = useCallback(
         (e) => {
@@ -308,7 +331,7 @@ const CondemnationApprovalModal = ({
             const FormUpdate = async (Rejectdata) => {
                 const result = await axioslogin.patch('/AssetCondemnation/ApproveData', Rejectdata)
                 const { message, success } = result.data
-                if (success === 2) {
+                if (success === 1) {
                     succesNotify("Condemnation Form Rejected")
                     setformCount(formCount + 1)
                     CloseModal()
@@ -328,24 +351,14 @@ const CondemnationApprovalModal = ({
 
     const HodApprove = useMemo(() => {
         return {
-            condem_mast_slno: condem_mast_slno,
-            condem_form_prefix: formPrefix,
-            condem_form_no: formNumber,
             condem_status: 3,
-            incharge_approve_status: incharge_approve_status,
-            incharge_remarks: incharge_remarks,
             hod_approve_status: 1,
             hod_remarks: hodRemarks,
-            inch_apprv_reject_date: inch_apprv_reject_date,
-            hod_apprv_date: currentDate,
-            gm_approve_status: 0,
-            gm_approve_remarks: null,
-            acc_approve_status: 0,
-            acc_approve_remarks: null,
-            material_mangmnt_mangr_apprv_status: 0,
-            material_mangmnt_mangr_apprv_remark: null
+            hod_apprv_reject_date: currentDate,
+            hod_emp: empId,
+            condem_mast_slno: condem_mast_slno,
         }
-    }, [condem_mast_slno, formNumber, condem_mast_slno, formPrefix, incharge_remarks, incharge_approve_status, hodRemarks])
+    }, [hodRemarks, currentDate, empId, condem_mast_slno])
 
     const HodApproval = useCallback(
         (e) => {
@@ -353,7 +366,7 @@ const CondemnationApprovalModal = ({
             const FormUpdate = async (HodApprove) => {
                 const result = await axioslogin.patch('/AssetCondemnation/ApproveData', HodApprove)
                 const { message, success } = result.data
-                if (success === 2) {
+                if (success === 1) {
                     succesNotify(message)
                     setformCount(formCount + 1)
                     CloseModal()
@@ -372,24 +385,14 @@ const CondemnationApprovalModal = ({
 
     const HodReject = useMemo(() => {
         return {
-            condem_mast_slno: condem_mast_slno,
-            condem_form_prefix: formPrefix,
-            condem_form_no: formNumber,
             condem_status: 3,
-            incharge_approve_status: incharge_approve_status,
-            incharge_remarks: incharge_remarks,
-            inch_apprv_reject_date: inch_apprv_reject_date,
-            hod_approve_status: 0,
+            hod_approve_status: 2,
             hod_remarks: hodRemarks,
-            hod_apprv_date: currentDate,
-            gm_approve_status: 0,
-            gm_approve_remarks: null,
-            acc_approve_status: 0,
-            acc_approve_remarks: null,
-            material_mangmnt_mangr_apprv_status: 0,
-            material_mangmnt_mangr_apprv_remark: null
+            hod_apprv_reject_date: currentDate,
+            hod_emp: empId,
+            condem_mast_slno: condem_mast_slno,
         }
-    }, [condem_mast_slno, formNumber, condem_mast_slno, formPrefix, incharge_approve_status, incharge_remarks, hodRemarks])
+    }, [hodRemarks, currentDate, empId, condem_mast_slno])
 
     const HodRejected = useCallback(
         (e) => {
@@ -397,7 +400,7 @@ const CondemnationApprovalModal = ({
             const FormUpdate = async (HodReject) => {
                 const result = await axioslogin.patch('/AssetCondemnation/ApproveData', HodReject)
                 const { message, success } = result.data
-                if (success === 2) {
+                if (success === 1) {
                     succesNotify("Condemnation Form Rejected")
                     setformCount(formCount + 1)
                     CloseModal()
@@ -414,6 +417,288 @@ const CondemnationApprovalModal = ({
         },
         [HodReject])
 
+    const GmOpApprove = useMemo(() => {
+        return {
+            condem_status: 4,
+            gm_approve_status: 1,
+            gm_approve_remarks: GmOprtnRemarks,
+            gm_apprv_reject_date: currentDate,
+            gm_emp: empId,
+            condem_mast_slno: condem_mast_slno,
+        }
+    }, [GmOprtnRemarks, currentDate, empId, condem_mast_slno])
+
+    const GmOprApprove = useCallback(
+        (e) => {
+            e.preventDefault()
+            const FormUpdate = async (GmOpApprove) => {
+                const result = await axioslogin.patch('/AssetCondemnation/ApproveData', GmOpApprove)
+                const { message, success } = result.data
+                if (success === 1) {
+                    succesNotify(message)
+                    setformCount(formCount + 1)
+                    CloseModal()
+                } else {
+                    infoNotify(message)
+                }
+            }
+            if (GmOprtnRemarks !== null) {
+                FormUpdate(GmOpApprove)
+            }
+            else {
+                infoNotify("Enter  Approval Remarks")
+            }
+        },
+        [GmOpApprove, GmOprtnRemarks])
+
+    const GmOprReject = useMemo(() => {
+        return {
+            condem_status: 4,
+            gm_approve_status: 2,
+            gm_approve_remarks: GmOprtnRemarks,
+            gm_apprv_reject_date: currentDate,
+            gm_emp: empId,
+            condem_mast_slno: condem_mast_slno,
+        }
+    }, [GmOprtnRemarks, currentDate, empId, condem_mast_slno])
+
+    const GmOprRejected = useCallback(
+        (e) => {
+            e.preventDefault()
+            const FormUpdate = async (GmOprReject) => {
+                const result = await axioslogin.patch('/AssetCondemnation/ApproveData', GmOprReject)
+                const { message, success } = result.data
+                if (success === 1) {
+                    succesNotify("Condemnation Form Rejected")
+                    setformCount(formCount + 1)
+                    CloseModal()
+                } else {
+                    infoNotify(message)
+                }
+            }
+            if (GmOprtnRemarks !== null) {
+                FormUpdate(GmOprReject)
+            }
+            else {
+                infoNotify("Enter Approval Remarks")
+            }
+        },
+        [GmOprReject])
+
+    const AccountApprove = useMemo(() => {
+        return {
+            condem_status: 5,
+            acc_approve_status: 1,
+            acc_approve_remarks: AccountsRemarks,
+            acc_apprv_reject_date: currentDate,
+            acc_emp: empId,
+            condem_mast_slno: condem_mast_slno,
+        }
+    }, [AccountsRemarks, currentDate, empId, condem_mast_slno])
+
+    const AccountsApprove = useCallback(
+        (e) => {
+            e.preventDefault()
+            const FormUpdate = async (AccountApprove) => {
+                const result = await axioslogin.patch('/AssetCondemnation/ApproveData', AccountApprove)
+                const { message, success } = result.data
+                if (success === 1) {
+                    succesNotify(message)
+                    setformCount(formCount + 1)
+                    CloseModal()
+                } else {
+                    infoNotify(message)
+                }
+            }
+            if (AccountsRemarks !== null) {
+                FormUpdate(AccountApprove)
+            }
+            else {
+                infoNotify("Enter  Approval Remarks")
+            }
+        },
+        [AccountApprove, AccountsRemarks])
+
+    const AccountReject = useMemo(() => {
+        return {
+            condem_status: 5,
+            acc_approve_status: 2,
+            acc_approve_remarks: AccountsRemarks,
+            acc_apprv_reject_date: currentDate,
+            acc_emp: empId,
+            condem_mast_slno: condem_mast_slno,
+        }
+    }, [AccountsRemarks, currentDate, empId, condem_mast_slno])
+
+    const AccountsRejected = useCallback(
+        (e) => {
+            e.preventDefault()
+            const FormUpdate = async (AccountReject) => {
+                const result = await axioslogin.patch('/AssetCondemnation/ApproveData', AccountReject)
+                const { message, success } = result.data
+                if (success === 1) {
+                    succesNotify("Condemnation Form Rejected")
+                    setformCount(formCount + 1)
+                    CloseModal()
+                } else {
+                    infoNotify(message)
+                }
+            }
+            if (AccountsRemarks !== null) {
+                FormUpdate(AccountReject)
+            }
+            else {
+                infoNotify("Enter Approval Remarks")
+            }
+        },
+        [GmOprReject])
+
+    const genstoreApprove = useMemo(() => {
+        return {
+            condem_status: 6,
+            store_approve_status: 1,
+            store_approve_remarks: StoreRemarks,
+            store_approve_reject_date: currentDate,
+            store_approve_emp: empId,
+            condem_mast_slno: condem_mast_slno,
+        }
+    }, [StoreRemarks, currentDate, empId, condem_mast_slno])
+
+    const StoreApprove = useCallback(
+        (e) => {
+            e.preventDefault()
+            const FormUpdate = async (genstoreApprove) => {
+                const result = await axioslogin.patch('/AssetCondemnation/ApproveData', genstoreApprove)
+                const { message, success } = result.data
+                if (success === 1) {
+                    succesNotify(message)
+                    setformCount(formCount + 1)
+                    CloseModal()
+                } else {
+                    infoNotify(message)
+                }
+            }
+            if (StoreRemarks !== null) {
+                FormUpdate(genstoreApprove)
+            }
+            else {
+                infoNotify("Enter  Approval Remarks")
+            }
+        },
+        [genstoreApprove, StoreRemarks])
+
+    const genStoreReject = useMemo(() => {
+        return {
+            condem_status: 6,
+            store_approve_status: 2,
+            store_approve_remarks: StoreRemarks,
+            store_approve_reject_date: currentDate,
+            store_approve_emp: empId,
+            condem_mast_slno: condem_mast_slno,
+        }
+    }, [StoreRemarks, currentDate, empId, condem_mast_slno])
+
+    const StoreRejected = useCallback(
+        (e) => {
+            e.preventDefault()
+            const FormUpdate = async (genStoreReject) => {
+                const result = await axioslogin.patch('/AssetCondemnation/ApproveData', genStoreReject)
+                const { message, success } = result.data
+                if (success === 1) {
+                    succesNotify("Condemnation Form Rejected")
+                    setformCount(formCount + 1)
+                    CloseModal()
+                } else {
+                    infoNotify(message)
+                }
+            }
+            if (StoreRemarks !== null) {
+                FormUpdate(genStoreReject)
+            }
+            else {
+                infoNotify("Enter Approval Remarks")
+            }
+        },
+        [GmOprReject, StoreRemarks])
+
+
+    const MaterialsManageApprove = useMemo(() => {
+        return {
+            condem_status: 7,
+            material_mangmnt_mangr_apprv_status: 1,
+            material_mangmnt_mangr_apprv_remark: MaterialsMangRemarks,
+            material_mange_apprv_reject_date: currentDate,
+            material_mang_emp: empId,
+            condem_mast_slno: condem_mast_slno,
+        }
+    }, [MaterialsMangRemarks, currentDate, empId, condem_mast_slno])
+
+    const MaterialsMangementApprove = useCallback(
+        (e) => {
+            e.preventDefault()
+            const FormUpdate = async (MaterialsManageApprove) => {
+                const result = await axioslogin.patch('/AssetCondemnation/ApproveData', MaterialsManageApprove)
+                const { message, success } = result.data
+                if (success === 1) {
+                    succesNotify(message)
+                    setformCount(formCount + 1)
+                    CloseModal()
+                } else {
+                    infoNotify(message)
+                }
+            }
+            if (MaterialsMangRemarks !== null) {
+                FormUpdate(MaterialsManageApprove)
+            }
+            else {
+                infoNotify("Enter  Approval Remarks")
+            }
+        },
+        [MaterialsManageApprove, MaterialsMangRemarks])
+
+    const MaterialsMangeReject = useMemo(() => {
+        return {
+            condem_status: 7,
+            material_mangmnt_mangr_apprv_status: 2,
+            material_mangmnt_mangr_apprv_remark: MaterialsMangRemarks,
+            material_mange_apprv_reject_date: currentDate,
+            material_mang_emp: empId,
+            condem_mast_slno: condem_mast_slno,
+        }
+    }, [MaterialsMangRemarks, currentDate, empId, condem_mast_slno])
+
+    const MaterialsMangementRejected = useCallback(
+        (e) => {
+            e.preventDefault()
+            const FormUpdate = async (MaterialsMangeReject) => {
+                const result = await axioslogin.patch('/AssetCondemnation/ApproveData', MaterialsMangeReject)
+                const { message, success } = result.data
+                if (success === 1) {
+                    succesNotify("Condemnation Form Rejected")
+                    setformCount(formCount + 1)
+                    CloseModal()
+                } else {
+                    infoNotify(message)
+                }
+            }
+            if (MaterialsMangRemarks !== null) {
+                FormUpdate(MaterialsMangeReject)
+            }
+            else {
+                infoNotify("Enter Approval Remarks")
+            }
+        },
+        [GmOprReject, MaterialsMangRemarks])
+
+    const [AssetOpenModal, setAssetOpenModal] = useState(false)
+    const [AssetModalFlag, setAssetModalFlag] = useState(0)
+    const [AssetDetails, setAssetDetails] = useState([])
+
+    const AssetDetailsView = useCallback((val) => {
+        setAssetOpenModal(true)
+        setAssetDetails(val)
+        setAssetModalFlag(1)
+    }, [])
 
 
     return (
@@ -433,12 +718,22 @@ const CondemnationApprovalModal = ({
                         condemCount={condemCount}
                     />
                 </Box> : null}
+            {AssetModalFlag === 1 ?
+                <Box>
+                    <AssetDetailsModal
+                        AssetOpenModal={AssetOpenModal}
+                        setAssetOpenModal={setAssetOpenModal}
+                        AssetModalFlag={AssetModalFlag}
+                        setAssetModalFlag={setAssetModalFlag}
+                        AssetDetails={AssetDetails}
+                    />
+                </Box> : null}
             <Modal
                 aria-labelledby="modal-title"
                 aria-describedby="modal-desc"
                 open={modalApproveOpen}
                 sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pl: 1, borderRadius: 10 }}>
-                <ModalDialog variant="outlined" sx={{ width: '95vw', p: 0, overflow: 'auto', height: '90vh' }}>
+                <ModalDialog variant="outlined" sx={{ width: '95vw', p: 0, overflow: 'auto', }}>
                     <Box sx={{ border: .1, borderColor: '#E8E6E5', m: 1, height: '100%' }}>
                         <Box sx={{ flex: 1, display: 'flex', ml: 1, }}>
                             <Box sx={{ flex: 1 }}>
@@ -600,9 +895,7 @@ const CondemnationApprovalModal = ({
                                                 <Box sx={{ width: 160, fontWeight: 600, color: '#444444', fontSize: 14, pl: 1 }}>
                                                     {
                                                         new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(billamount)
-
                                                     }
-
                                                 </Box>
                                                 <Box sx={{ width: 100, fontWeight: 600, color: '#444444', fontSize: 14 }}>{val.asset_complaint_slno ?
                                                     val.asset_complaint_slno : val.spare_complaint_slno ? val.spare_complaint_slno : ''}</Box>
@@ -611,7 +904,8 @@ const CondemnationApprovalModal = ({
                                                         val.asset_condm_transf_remarks : val.spare_condm_transf_remarks ? val.spare_condm_transf_remarks : ''}
                                                 </Box>
                                                 <Box sx={{ width: 60, fontWeight: 600, color: '#444444', fontSize: 14, pl: 1 }}>
-                                                    <MoreIcon sx={{ cursor: 'pointer', color: '#41729F' }} />
+                                                    <MoreIcon sx={{ cursor: 'pointer', color: '#41729F' }}
+                                                        onClick={() => AssetDetailsView(val)} />
                                                 </Box>
                                                 <Box sx={{ width: 50, fontWeight: 600, color: '#444444', fontSize: 14, pl: 1 }}>
                                                     <AddCircleIcon sx={{ cursor: 'pointer', color: '#A45C40' }}
@@ -624,13 +918,15 @@ const CondemnationApprovalModal = ({
                             </Box>
 
                         </Box>
-                        {(CondemData?.some(item => item.am_condem_reason !== null) || addedCondemFiles.length > 0) && (
+                        {/* {(CondemData?.some(item => item.am_condem_reason !== null) || addedCondemFiles.length > 0) && ( */}
+                        {(CondemData?.some(item => item.am_condem_reason !== null || item.keep_inscarp_status === 1) || addedCondemFiles.length > 0) && (
                             <Box sx={{ flex: 1, border: 1, borderColor: 'lightgray', mx: 1, mt: 1, pb: 0.5 }}>
                                 <TextComponent
                                     text={"Item Details and Attachments"}
                                     sx={{ fontWeight: 500, color: '#6A5546', pl: 0.8, pt: 0.5, fontSize: 15 }}
                                 />
-                                {CondemData?.filter(val => val.am_condem_reason !== null || (addedCondemFiles[val.am_condem_detail_slno]?.length > 0))
+                                {/* {CondemData?.filter(val => val.am_condem_reason !== null || (addedCondemFiles[val.am_condem_detail_slno]?.length > 0)) */}
+                                {CondemData?.filter(val => val.am_condem_reason !== null || (addedCondemFiles[val.am_condem_detail_slno]?.length > 0) || val.keep_inscarp_status === 1)
                                     .map((val, index) => (
                                         <Box
                                             key={index}
@@ -797,11 +1093,11 @@ const CondemnationApprovalModal = ({
                                 <tbody>
 
                                     <tr>
-                                        <td style={{ textAlign: 'center', }}>
-                                            {"Incharge"}
+                                        <td style={{ textAlign: 'center', fontsize: 14 }}>
+                                            Incharge
                                         </td>
-                                        <td style={{ textAlign: 'center', }}>
-                                            {hod_apprv_date || '-'}
+                                        <td style={{ textAlign: 'center', fontsize: 12 }}>
+                                            {incharge_employee || '-'}
                                         </td>
                                         <td style={{ textAlign: 'center', color: incharge_approve_status === 1 ? "green" : incharge_approve_status === 2 ? "red" : 'black' }}>
                                             {incharge_approve_status === 1 ? "Approved" : incharge_approve_status === 2 ? 'Rejected' : '-'}
@@ -810,16 +1106,18 @@ const CondemnationApprovalModal = ({
                                             {incharge_remarks || '-'}
                                         </td>
                                         <td style={{ textAlign: 'center', }}>
-                                            {inch_apprv_date || '-'}
+                                            {inch_apprv_reject_date
+                                                ? format(new Date(inch_apprv_reject_date), 'dd MMM yyyy,  hh:mm a')
+                                                : '-'}
                                         </td>
                                     </tr>
 
                                     <tr>
-                                        <td style={{ textAlign: 'center', }}>
-                                            {"Hod"}
+                                        <td style={{ textAlign: 'center', fontsize: 14 }}>
+                                            Hod
                                         </td>
                                         <td style={{ textAlign: 'center', }}>
-                                            {hod_apprv_date || '-'}
+                                            {hod_employee || '-'}
                                         </td>
                                         <td style={{ textAlign: 'center', color: hod_approve_status === 1 ? "green" : hod_approve_status === 2 ? "red" : 'black' }}>
                                             {hod_approve_status === 1 ? "Approved" : hod_approve_status === 2 ? 'Rejected' : '-'}
@@ -828,75 +1126,85 @@ const CondemnationApprovalModal = ({
                                             {hod_remarks || '-'}
                                         </td>
                                         <td style={{ textAlign: 'center', }}>
-                                            {hod_apprv_date || '-'}
+                                            {hod_apprv_reject_date
+                                                ? format(new Date(hod_apprv_reject_date), 'dd MMM yyyy,  hh:mm a')
+                                                : '-'}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style={{ textAlign: 'center', }}>
-                                            {"GM Operations"}
+                                        <td style={{ textAlign: 'center', fontsize: 14 }}>
+                                            GM Operations
                                         </td>
                                         <td style={{ textAlign: 'center', }}>
-                                            {hod_apprv_date || '-'}
+                                            {gm_opr_employee || '-'}
+                                        </td>
+                                        <td style={{ textAlign: 'center', color: gm_approve_status === 1 ? "green" : gm_approve_status === 2 ? "red" : 'black' }}>
+                                            {gm_approve_status === 1 ? "Approved" : gm_approve_status === 2 ? 'Rejected' : '-'}
                                         </td>
                                         <td style={{ textAlign: 'center', }}>
-                                            {gm_approve_status === 1 ? "Approved" : hod_approve_status === 2 ? 'Rejected' : '-'}
+                                            {gm_approve_remarks || '-'}
                                         </td>
                                         <td style={{ textAlign: 'center', }}>
-                                            {hod_remarks || '-'}
-                                        </td>
-                                        <td style={{ textAlign: 'center', }}>
-                                            {hod_apprv_date || '-'}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style={{ textAlign: 'center', }}>
-                                            {"Accounts"}
-                                        </td>
-                                        <td style={{ textAlign: 'center', }}>
-                                            {hod_apprv_date || '-'}
-                                        </td>
-                                        <td style={{ textAlign: 'center', }}>
-                                            {gm_approve_status === 1 ? "Approved" : hod_approve_status === 2 ? 'Rejected' : '-'}
-                                        </td>
-                                        <td style={{ textAlign: 'center', }}>
-                                            {hod_remarks || '-'}
-                                        </td>
-                                        <td style={{ textAlign: 'center', }}>
-                                            {hod_apprv_date || '-'}
+                                            {gm_apprv_reject_date
+                                                ? format(new Date(gm_apprv_reject_date), 'dd MMM yyyy,  hh:mm a')
+                                                : '-'}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style={{ textAlign: 'center', }}>
-                                            {"General Store"}
+                                        <td style={{ textAlign: 'center', fontsize: 14 }}>
+                                            Accounts
                                         </td>
                                         <td style={{ textAlign: 'center', }}>
-                                            {hod_apprv_date || '-'}
+                                            {accounts_employee || '-'}
+                                        </td>
+                                        <td style={{ textAlign: 'center', color: acc_approve_status === 1 ? "green" : acc_approve_status === 2 ? "red" : 'black' }}>
+                                            {acc_approve_status === 1 ? "Approved" : acc_approve_status === 2 ? 'Rejected' : '-'}
                                         </td>
                                         <td style={{ textAlign: 'center', }}>
-                                            {gm_approve_status === 1 ? "Approved" : hod_approve_status === 2 ? 'Rejected' : '-'}
+                                            {acc_approve_remarks || '-'}
                                         </td>
                                         <td style={{ textAlign: 'center', }}>
-                                            {hod_remarks || '-'}
-                                        </td>
-                                        <td style={{ textAlign: 'center', }}>
-                                            {hod_apprv_date || '-'}
+                                            {acc_apprv_reject_date
+                                                ? format(new Date(acc_apprv_reject_date), 'dd MMM yyyy,  hh:mm a')
+                                                : '-'}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style={{ textAlign: 'center', }}>
-                                            {"Materials Management Manager"}
+                                        <td style={{ textAlign: 'center', fontsize: 14 }}>
+                                            General Store
                                         </td>
                                         <td style={{ textAlign: 'center', }}>
-                                            {hod_apprv_date || '-'}
+                                            {store_approve_employee || '-'}
+                                        </td>
+                                        <td style={{ textAlign: 'center', color: store_approve_status === 1 ? "green" : store_approve_status === 2 ? "red" : 'black' }}>
+                                            {store_approve_status === 1 ? "Approved" : store_approve_status === 2 ? 'Rejected' : '-'}
                                         </td>
                                         <td style={{ textAlign: 'center', }}>
-                                            {gm_approve_status === 1 ? "Approved" : hod_approve_status === 2 ? 'Rejected' : '-'}
+                                            {store_approve_remarks || '-'}
                                         </td>
                                         <td style={{ textAlign: 'center', }}>
-                                            {hod_remarks || '-'}
+                                            {store_approve_reject_date
+                                                ? format(new Date(store_approve_reject_date), 'dd MMM yyyy,  hh:mm a')
+                                                : '-'}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style={{ textAlign: 'center', fontsize: 14 }}>
+                                            Materials Management Manager
                                         </td>
                                         <td style={{ textAlign: 'center', }}>
-                                            {hod_apprv_date || '-'}
+                                            {material_mangm_employee || '-'}
+                                        </td>
+                                        <td style={{ textAlign: 'center', color: material_mangmnt_mangr_apprv_status === 1 ? "green" : material_mangmnt_mangr_apprv_status === 2 ? "red" : 'black' }}>
+                                            {material_mangmnt_mangr_apprv_status === 1 ? "Approved" : material_mangmnt_mangr_apprv_status === 2 ? 'Rejected' : '-'}
+                                        </td>
+                                        <td style={{ textAlign: 'center', }}>
+                                            {material_mangmnt_mangr_apprv_remark || '-'}
+                                        </td>
+                                        <td style={{ textAlign: 'center', }}>
+                                            {material_mange_apprv_reject_date
+                                                ? format(new Date(material_mange_apprv_reject_date), 'dd MMM yyyy,  hh:mm a')
+                                                : '-'}
                                         </td>
                                     </tr>
 
@@ -907,83 +1215,286 @@ const CondemnationApprovalModal = ({
 
 
                         </Box>
-                        <Box sx={{ m: 1, pt: 1, pl: 1 }}>
-                            <Box sx={{ flex: 1, display: 'flex' }} >
-                                <Checkbox variant="soft" defaultChecked size="lg" readOnly />
-                                <TextComponent
-                                    sx={{ color: '#0C4160', fontWeight: 500, pl: 1 }}
-                                    text={"Incharge Approval"}
-                                />
-                            </Box>
-                            <Textarea
-                                sx={{ mt: 1 }}
-                                minRows={2}
-                                placeholder="Enter your remarks..."
-                                variant="outlined"
-                                value={inchremarks}
-                                name='inchremarks'
-                                onChange={handleInchChange}
-                            />
-                            <Box sx={{ flex: 1, display: 'flex', gap: 1, pt: 1, pb: 5 }} >
-                                <Button
-                                    size='sm'
-                                    variant='outlined'
-                                    color="success"
-                                    startDecorator={<ThumbUpIcon />}
-                                    onClick={InChargeApproval}
-                                >
-                                    Approve
-                                </Button>
-                                <Button
-                                    size='sm'
-                                    variant="outlined"
-                                    color="danger"
-                                    startDecorator={<ThumbDownIcon />}
-                                    onClick={InChargeRejected}
-                                >
-                                    Reject
-                                </Button>
-                            </Box>
-                        </Box>
 
-                        <Box sx={{ m: 1, pt: 1, pl: 1 }}>
-                            <Box sx={{ flex: 1, display: 'flex' }} >
-                                <Checkbox variant="soft" defaultChecked size="lg" readOnly />
-                                <TextComponent
-                                    sx={{ color: '#0C4160', fontWeight: 500, pl: 1 }}
-                                    text={"Hod Approval"}
-                                />
-                            </Box>
-                            <Textarea
-                                sx={{ mt: 1 }}
-                                minRows={2}
-                                placeholder="Enter your remarks..."
-                                variant="outlined"
-                                value={hodRemarks}
-                                name='hodRemarks'
-                                onChange={handleHodChange}
-                            />
-                            <Box sx={{ flex: 1, display: 'flex', gap: 1, pt: 1, pb: 5 }} >
-                                <Button
-                                    size='sm'
-                                    variant='outlined'
-                                    color="success"
-                                    startDecorator={<ThumbUpIcon />}
-                                    onClick={HodApproval}
-                                >
-                                    Approve
-                                </Button>
-                                <Button
-                                    size='sm'
-                                    variant="outlined"
-                                    color="danger"
-                                    startDecorator={<ThumbDownIcon />}
-                                    onClick={HodRejected}
-                                >
-                                    Reject
-                                </Button>
-                            </Box>
-                        </Box>
+                        {
+                            menurights.find((menu) => menu.slno === 260) ? (
+                                <Box sx={{ m: 1, pt: 1, pl: 1 }}>
+                                    <Box sx={{ flex: 1, display: 'flex' }} >
+                                        <Checkbox variant="soft" defaultChecked size="lg" readOnly />
+                                        <TextComponent
+                                            sx={{ color: '#0C4160', fontWeight: 500, pl: 1 }}
+                                            text={"Incharge Approval"}
+                                        />
+                                    </Box>
+                                    <Textarea
+                                        sx={{ mt: 1 }}
+                                        minRows={2}
+                                        placeholder="Enter your remarks..."
+                                        variant="outlined"
+                                        value={inchremarks}
+                                        name='inchremarks'
+                                        onChange={handleInchChange}
+                                    />
+                                    <Box sx={{ flex: 1, display: 'flex', gap: 1, pt: 1, pb: 5 }} >
+                                        <Button
+                                            size='sm'
+                                            variant='outlined'
+                                            color="success"
+                                            startDecorator={<ThumbUpIcon />}
+                                            onClick={InChargeApproval}
+                                        >
+                                            Approve
+                                        </Button>
+                                        <Button
+                                            size='sm'
+                                            variant="outlined"
+                                            color="danger"
+                                            startDecorator={<ThumbDownIcon />}
+                                            onClick={InChargeRejected}
+                                        >
+                                            Reject
+                                        </Button>
+                                    </Box>
+                                </Box>
+                            ) : null
+                        }
+
+                        {
+                            menurights.find((menu) => menu.slno === 261) ? (
+                                <Box sx={{ m: 1, pt: 1, pl: 1 }}>
+                                    <Box sx={{ flex: 1, display: 'flex' }} >
+                                        <Checkbox variant="soft" defaultChecked size="lg" readOnly />
+                                        <TextComponent
+                                            sx={{ color: '#0C4160', fontWeight: 500, pl: 1 }}
+                                            text={"Hod Approval"}
+                                        />
+                                    </Box>
+                                    <Textarea
+                                        sx={{ mt: 1 }}
+                                        minRows={2}
+                                        placeholder="Enter your remarks..."
+                                        variant="outlined"
+                                        value={hodRemarks}
+                                        name='hodRemarks'
+                                        onChange={handleHodChange}
+                                    />
+                                    <Box sx={{ flex: 1, display: 'flex', gap: 1, pt: 1, pb: 5 }} >
+                                        <Button
+                                            size='sm'
+                                            variant='outlined'
+                                            color="success"
+                                            startDecorator={<ThumbUpIcon />}
+                                            onClick={HodApproval}
+                                        >
+                                            Approve
+                                        </Button>
+                                        <Button
+                                            size='sm'
+                                            variant="outlined"
+                                            color="danger"
+                                            startDecorator={<ThumbDownIcon />}
+                                            onClick={HodRejected}
+                                        >
+                                            Reject
+                                        </Button>
+                                    </Box>
+                                </Box>
+                            ) : null
+                        }
+
+                        {
+                            menurights.find((menu) => menu.slno === 262) ? (
+                                <Box sx={{ m: 1, pt: 1, pl: 1 }}>
+                                    <Box sx={{ flex: 1, display: 'flex' }} >
+                                        <Checkbox variant="soft" defaultChecked size="lg" readOnly />
+                                        <TextComponent
+                                            sx={{ color: '#0C4160', fontWeight: 500, pl: 1 }}
+                                            text={"GM Operations Approval"}
+                                        />
+                                    </Box>
+                                    <Textarea
+                                        sx={{ mt: 1 }}
+                                        minRows={2}
+                                        placeholder="Enter your remarks..."
+                                        variant="outlined"
+                                        value={GmOprtnRemarks}
+                                        name='GmOprtnRemarks'
+                                        onChange={handleGMChange}
+                                    />
+                                    <Box sx={{ flex: 1, display: 'flex', gap: 1, pt: 1, pb: 5 }} >
+                                        <Button
+                                            size='sm'
+                                            variant='outlined'
+                                            color="success"
+                                            startDecorator={<ThumbUpIcon />}
+                                            onClick={GmOprApprove}
+                                        >
+                                            Approve
+                                        </Button>
+                                        <Button
+                                            size='sm'
+                                            variant="outlined"
+                                            color="danger"
+                                            startDecorator={<ThumbDownIcon />}
+                                            onClick={GmOprRejected}
+                                        >
+                                            Reject
+                                        </Button>
+                                    </Box>
+                                </Box>
+                            ) : null
+                        }
+
+                        {
+                            menurights.find((menu) => menu.slno === 263) ? (
+                                <Box sx={{ m: 1, pt: 1, pl: 1 }}>
+                                    <Box sx={{ flex: 1, display: 'flex' }} >
+                                        <Checkbox variant="soft" defaultChecked size="lg" readOnly />
+                                        <TextComponent
+                                            sx={{ color: '#0C4160', fontWeight: 500, pl: 1 }}
+                                            text={"Accounts Approval"}
+                                        />
+                                    </Box>
+                                    <Textarea
+                                        sx={{ mt: 1 }}
+                                        minRows={2}
+                                        placeholder="Enter your remarks..."
+                                        variant="outlined"
+                                        value={AccountsRemarks}
+                                        name='AccountsRemarks'
+                                        onChange={handleAccountsChange}
+                                    />
+                                    <Box sx={{ flex: 1, display: 'flex', gap: 1, pt: 1, pb: 5 }} >
+                                        <Button
+                                            size='sm'
+                                            variant='outlined'
+                                            color="success"
+                                            startDecorator={<ThumbUpIcon />}
+                                            onClick={AccountsApprove}
+                                        >
+                                            Approve
+                                        </Button>
+                                        <Button
+                                            size='sm'
+                                            variant="outlined"
+                                            color="danger"
+                                            startDecorator={<ThumbDownIcon />}
+                                            onClick={AccountsRejected}
+                                        >
+                                            Reject
+                                        </Button>
+                                    </Box>
+                                </Box>
+                            ) : null
+                        }
+
+                        {
+                            menurights.find((menu) => menu.slno === 264) ? (
+                                <Box sx={{ m: 1, pt: 1, pl: 1 }}>
+                                    <Box sx={{ flex: 1, display: 'flex' }} >
+                                        <Checkbox variant="soft" defaultChecked size="lg" readOnly />
+                                        <TextComponent
+                                            sx={{ color: '#0C4160', fontWeight: 500, pl: 1 }}
+                                            text={"General store Approval"}
+                                        />
+                                    </Box>
+                                    <Textarea
+                                        sx={{ mt: 1 }}
+                                        minRows={2}
+                                        placeholder="Enter your remarks..."
+                                        variant="outlined"
+                                        value={StoreRemarks}
+                                        name='StoreRemarks'
+                                        onChange={handleStoreChange}
+                                    />
+
+
+                                    <Box sx={{ flex: 1, display: 'flex', gap: 1, pt: 1, pb: 5 }} >
+                                        {
+                                            acc_approve_status === 1 && gm_approve_status === 1 ?
+                                                <Button
+                                                    size='sm'
+                                                    variant='outlined'
+                                                    color="success"
+                                                    startDecorator={<ThumbUpIcon />}
+                                                    onClick={StoreApprove}
+                                                >
+                                                    Approve
+                                                </Button> :
+                                                <Tooltip title="Approval Status Pending from GM Operations Or Accounts" placement="top-end" >
+                                                    <Box>
+                                                        <Button
+                                                            size='sm'
+                                                            variant='outlined'
+                                                            color="neutral"
+                                                            startDecorator={<ThumbUpIcon />}
+                                                            onClick={StoreApprove}
+                                                            disabled
+                                                        >
+                                                            Approve
+                                                        </Button>
+                                                    </Box>
+                                                </Tooltip>
+                                        }
+                                        <Button
+                                            size='sm'
+                                            variant="outlined"
+                                            color="danger"
+                                            startDecorator={<ThumbDownIcon />}
+                                            onClick={StoreRejected}
+                                        >
+                                            Reject
+                                        </Button>
+                                    </Box>
+
+                                </Box>
+                            ) : null
+                        }
+
+
+                        {
+                            menurights.find((menu) => menu.slno === 265) ? (
+                                <Box sx={{ m: 1, pt: 1, pl: 1 }}>
+                                    <Box sx={{ flex: 1, display: 'flex' }} >
+                                        <Checkbox variant="soft" defaultChecked size="lg" readOnly />
+                                        <TextComponent
+                                            sx={{ color: '#0C4160', fontWeight: 500, pl: 1 }}
+                                            text={"Materials Management Approval"}
+                                        />
+                                    </Box>
+                                    <Textarea
+                                        sx={{ mt: 1 }}
+                                        minRows={2}
+                                        placeholder="Enter your remarks..."
+                                        variant="outlined"
+                                        value={MaterialsMangRemarks}
+                                        name='MaterialsMangRemarks'
+                                        onChange={handleMaterialMangeChange}
+                                    />
+                                    <Box sx={{ flex: 1, display: 'flex', gap: 1, pt: 1, pb: 5 }} >
+                                        <Button
+                                            size='sm'
+                                            variant='outlined'
+                                            color="success"
+                                            startDecorator={<ThumbUpIcon />}
+                                            onClick={MaterialsMangementApprove}
+                                        >
+                                            Approve
+                                        </Button>
+                                        <Button
+                                            size='sm'
+                                            variant="outlined"
+                                            color="danger"
+                                            startDecorator={<ThumbDownIcon />}
+                                            onClick={MaterialsMangementRejected}
+                                        >
+                                            Reject
+                                        </Button>
+                                    </Box>
+                                </Box>
+                            ) : null
+                        }
+
                     </Box>
                 </ModalDialog>
             </Modal >

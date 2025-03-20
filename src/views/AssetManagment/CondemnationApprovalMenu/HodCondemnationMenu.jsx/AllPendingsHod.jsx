@@ -85,14 +85,32 @@ const AllPendingsHod = ({ getCondemHodPending, editForm, viewForm }) => {
                                                     val.condem_status === 2 && val.incharge_approve_status === 1 ? "#7AC7AD" :
                                                         val.condem_status === 2 && val.incharge_approve_status === 2 ? "#F4A3A3" :
                                                             val.condem_status === 3 && val.hod_approve_status === 1 ? "#7AC7AD" :
-                                                                val.condem_status === 3 && val.hod_approve_status === 2 ? "#F4A3A3 " : '#EFF4F0',
+                                                                val.condem_status === 3 && val.hod_approve_status === 2 ? "#F4A3A3 " :
+                                                                    val.condem_status === 4 && val.gm_approve_status === 1 ? "#7AC7AD" :
+                                                                        val.condem_status === 4 && val.gm_approve_status === 2 ? "#F4A3A3 " :
+                                                                            val.condem_status === 5 && val.acc_approve_status === 1 ? "#7AC7AD" :
+                                                                                val.condem_status === 5 && val.acc_approve_status === 2 ? "#F4A3A3 " :
+                                                                                    val.condem_status === 6 && val.store_approve_status === 1 ? "#7AC7AD" :
+                                                                                        val.condem_status === 6 && val.store_approve_status === 2 ? "#F4A3A3 " :
+                                                                                            val.condem_status === 7 && val.material_mangmnt_mangr_apprv_status === 1 ? "#7AC7AD" :
+                                                                                                val.condem_status === 7 && val.material_mangmnt_mangr_apprv_status === 2 ? "#F4A3A3 "
+                                                                                                    : '#EFF4F0',
                                                 textAlign: 'center', justifyContent: 'center', fontWeight: 700, cursor: 'pointer',
                                                 fontSize: 13, py: .2
                                             }}>
                                                 {val.condem_status === 2 && val.incharge_approve_status === 1 ? "Incharge Approved" :
                                                     val.condem_status === 2 && val.incharge_approve_status === 2 ? "Incharge Rejected" :
                                                         val.condem_status === 3 && val.hod_approve_status === 1 ? "Hod Approved" :
-                                                            val.condem_status === 3 && val.hod_approve_status === 2 ? "Hod Rejected" : 'Pending Approval'}
+                                                            val.condem_status === 3 && val.hod_approve_status === 2 ? "Hod Rejected" :
+                                                                val.condem_status === 4 && val.gm_approve_status === 1 ? "GM Operations Approved" :
+                                                                    val.condem_status === 4 && val.gm_approve_status === 2 ? "GM Operations Rejected" :
+                                                                        val.condem_status === 5 && val.acc_approve_status === 1 ? "Accounts Approved" :
+                                                                            val.condem_status === 5 && val.acc_approve_status === 2 ? "Accounts Rejected" :
+                                                                                val.condem_status === 6 && val.store_approve_status === 1 ? "Store Approved" :
+                                                                                    val.condem_status === 6 && val.store_approve_status === 2 ? "Store Rejected" :
+                                                                                        val.condem_status === 7 && val.material_mangmnt_mangr_apprv_status === 1 ? "Condemnation Approved" :
+                                                                                            val.condem_status === 7 && val.material_mangmnt_mangr_apprv_status === 2 ? "Condemnation Rejected" :
+                                                                                                'Pending Approval'}
                                             </Box>
                                         </td>
                                         <td style={{ textAlign: 'center', }}>{val.condem_form_prefix}/{val.condem_form_no}</td>

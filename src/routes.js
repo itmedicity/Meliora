@@ -225,9 +225,10 @@ const PmDueList = React.lazy(() => import('./views/AssetManagment/PmOverDueList/
 const AllCRFReportWithPO = React.lazy(() => import('./views/Report/CrmReport/CRFAllReportWithPO'))
 const TicketDashboardz = React.lazy(() => import('./views/ComManagement/Dashboard/TicketManagementCmDeptMain'))
 const CondemnationApproval = React.lazy(() => import('./views/AssetManagment/CondemnationApprovalMenu/CondemnationApprovalRights'))
-const TicketHoldReasonMast = React.lazy(() => import('./views/Master/ComplaintHoldReason/HoldReasonMaster'))
+// const TicketHoldReasonMast = React.lazy(() => import('./views/Master/ComplaintHoldReason/HoldReasonMaster'))
 const ItBackupTypeMast = React.lazy(() => import('./views/Master/ItMasters/BackUpType/BackUpTypeMaster'))
 const SimOperator = React.lazy(() => import('./views/Master/ItMasters/SimOperators/SimOperators'))
+const AllDeptCondemList = React.lazy(() => import('./views/AssetManagment/AllDeptRegCondemList/AllDeptRegcondemMain'))
 
 
 
@@ -459,9 +460,11 @@ const routes = [
   { path: '/Home/AllCRFReportWithPO', exact: true, name: 'All CRF Report With PO', component: AllCRFReportWithPO },
   { path: '/Home/TicketDashboards', exact: true, name: 'Ticket Dashboards', component: TicketDashboardz },
   { path: '/Home/CondemnationApproval', exact: true, name: 'Condemnation Approval', component: CondemnationApproval },
-  { Path: '/Home/TicketHoldReason', exact: true, name: 'Ticket Hold Reason Master', component: TicketHoldReasonMast },
+  // { Path: '/Home/TicketHoldReason', exact: true, name: 'Ticket Hold Reason Master', component: TicketHoldReasonMast },
   { path: '/Home/ItBackupTypeMast', exact: true, name: 'ItBackupTypeMast', component: ItBackupTypeMast },
   { path: '/Home/SimOperator', exact: true, name: 'SimOperator', component: SimOperator },
+  { path: '/Home/AllDeptCondemList', exact: true, name: 'AllDeptCondemList', component: AllDeptCondemList },
+
 
 ]
 

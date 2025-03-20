@@ -233,3 +233,37 @@ export const getItemUnderForm = async (postCondemSlno) => {
     })
 }
 
+export const getAllDeptCondemPendingDatas = async (postCondemAllDept) => {
+    return axioslogin.post('/AssetCondemnation/getAllpendingApprovals', postCondemAllDept).then((res) => {
+        const { success, data } = res.data
+        if (success === 2) {
+            return data
+        }
+    })
+}
+export const getAllDeptCondemList = async (postAllDeptcondemList) => {
+    return axioslogin.post('/AssetCondemnation/getCondemnationList', postAllDeptcondemList).then((res) => {
+        const { success, data } = res.data
+        if (success === 1) {
+            return data
+        }
+    })
+}
+export const getDeptCondemnationList = async (postDeptcondemList) => {
+    return axioslogin.post('/AssetCondemnation/getDeptCondemnationList', postDeptcondemList).then((res) => {
+        const { success, data } = res.data
+        if (success === 1) {
+            return data
+        }
+    })
+}
+
+export const getDeptScrapStore = async (postDept) => {
+    return axioslogin.post('/AssetCondemnation/getDeptScrapStore', postDept).then((res) => {
+        const { success, data } = res.data
+        if (success === 2) {
+            return data
+        }
+    })
+}
+

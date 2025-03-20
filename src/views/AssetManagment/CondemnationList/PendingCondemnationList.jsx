@@ -3,11 +3,9 @@ import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useQuery } from 'react-query';
 import { Virtuoso } from 'react-virtuoso';
 import { getAssetUnderCondmnation, getSpareUnderCondmnation } from 'src/api/AssetApis';
-import { infoNotify } from 'src/views/Common/CommonCode';
 import CusIconButton from 'src/views/Components/CusIconButton';
 import { format } from 'date-fns';
 import CondemSubmitionModal from './CondemSubmitionModal';
-import { useSelector } from 'react-redux';
 import { axioslogin } from 'src/views/Axios/Axios';
 
 const PendingCondemnationList = ({ empdept, empId }) => {
@@ -42,12 +40,12 @@ const PendingCondemnationList = ({ empdept, empId }) => {
     const [itemList, setitemList] = useState([])
     const [condemMastslno, setcondemMastslno] = useState(0)
 
-
-
     const SubmitForCondem = useCallback(() => {
+
         const selectedItems = CombinedCodm.filter((item) =>
             selectedRows.includes(`${item.slno}-${item.type}`)
         );
+
         setitemList(selectedItems);
         const PostForm = {
             create_user: empId,
@@ -55,9 +53,9 @@ const PendingCondemnationList = ({ empdept, empId }) => {
         };
         CreateForm(PostForm);
 
-        console.log("PostForm", PostForm);
-
     }, [CombinedCodm, selectedRows, empId]);
+
+
 
     const CreateForm = async (PostForm) => {
         try {
@@ -67,7 +65,7 @@ const PendingCondemnationList = ({ empdept, empId }) => {
                 setcondemMastslno(condem_mast_slno)
                 setmodalFlag(1);
                 setmodalOpen(true);
-
+                setSelectedRows([])
             } else {
 
             }
@@ -75,6 +73,90 @@ const PendingCondemnationList = ({ empdept, empId }) => {
 
         }
     };
+
+
+
+    // const SubmitForCondem = useCallback(async () => {
+    //     const selectedItems = CombinedCodm.filter((item) =>
+    //         selectedRows.includes(`${item.slno}-${item.type}`)
+    //     );
+
+    //     const spareItems = selectedItems.filter(item => item.am_spare_item_map_slno !== undefined);
+    //     const assetItems = selectedItems.filter(item => item.am_item_map_slno !== undefined);
+
+    //     setitemList(selectedItems);
+    //     const PostForm = {
+    //         create_user: empId,
+    //         deatilData: selectedItems
+    //     };
+    //     await CreateForm(PostForm);
+
+    //     if (assetItems.length > 0) {
+    //         const assetPostForm = {
+    //             assetItems: assetItems.map(item => ({
+    //                 am_item_map_slno: item.am_item_map_slno,
+    //                 submited_condemnation: 1
+    //             }))
+    //         };
+    //         await UpdateAssetSatus(assetPostForm);
+    //     }
+    //     if (spareItems.length > 0) {
+    //         const assetPostForm = {
+    //             spareItems: spareItems.map(item => ({
+    //                 am_spare_item_map_slno: item.am_spare_item_map_slno,
+    //                 submited_condemnation: 1
+    //             }))
+    //         };
+    //         await UpdateSpareSatus(assetPostForm);
+    //     }
+    // }, [CombinedCodm, selectedRows, empId]);
+
+    // const CreateForm = async (PostForm) => {
+    //     try {
+    //         const result = await axioslogin.post('/AssetCondemnation/insertCondemMasterData', PostForm);
+    //         const { success, condem_mast_slno } = result.data;
+    //         if (success === 1) {
+    //             setcondemMastslno(condem_mast_slno);
+    //             setmodalFlag(1);
+    //             setmodalOpen(true);
+    //         }
+    //     } catch (error) {
+    //     }
+    // };
+
+    // const UpdateAssetSatus = async (PostForm) => {
+    //     try {
+    //         const result = await axioslogin.patch('/AssetCondemnation/UpdateAssetStatus', PostForm);
+    //         const { success } = result.data;
+    //         if (success === 1) {
+    //         }
+    //     } catch (error) {
+    //     }
+    // };
+    // const UpdateSpareSatus = async (PostForm) => {
+    //     try {
+    //         const result = await axioslogin.patch('/AssetCondemnation/UpdateSpareStatus', PostForm);
+    //         const { success } = result.data;
+    //         if (success === 1) {
+    //         }
+    //     } catch (error) {
+    //     }
+    // };
+
+
+
+
+
+    const handleSelectAllChange = () => {
+        setSelectAll((prev) => {
+            const newSelectAll = !prev;
+            const newSelectedRows = newSelectAll ? CombinedCodm.map((item) => `${item.slno}-${item.type}`) : [];
+            setSelectedRows(newSelectedRows);
+            setSortedData([...CombinedCodm]);
+            return newSelectAll;
+        });
+    };
+
 
     const handleRowSelection = (slno, type) => {
         setSelectedRows((prevSelected) => {
@@ -84,19 +166,10 @@ const PendingCondemnationList = ({ empdept, empId }) => {
                 : [...prevSelected, identifier];
             const selectedData = CombinedCodm.filter((item) => newSelected.includes(`${item.slno}-${item.type}`));
             const unselectedData = CombinedCodm.filter((item) => !newSelected.includes(`${item.slno}-${item.type}`));
-            setSortedData([...selectedData, ...unselectedData]);
-
+            setTimeout(() => {
+                setSortedData([...selectedData, ...unselectedData]);
+            }, 400);
             return newSelected;
-        });
-    };
-
-    const handleSelectAllChange = () => {
-        setSelectAll((prev) => {
-            const newSelectAll = !prev;
-            const newSelectedRows = newSelectAll ? CombinedCodm.map((item) => `${item.slno}-${item.type}`) : [];
-            setSelectedRows(newSelectedRows);
-            setSortedData([...CombinedCodm]);
-            return newSelectAll;
         });
     };
 
@@ -130,9 +203,9 @@ const PendingCondemnationList = ({ empdept, empId }) => {
             {
                 CombinedCodm.length !== 0 ? (
                     <Box sx={{
-                        width: '100% ', px: 1, overflow: 'auto', flex: 1
+                        width: "100%", px: 1, flex: 1
                     }}>
-                        <Box >
+                        <Box sx={{ overflow: 'auto', }}>
                             <Box
                                 sx={{
                                     height: 45,
@@ -150,7 +223,7 @@ const PendingCondemnationList = ({ empdept, empId }) => {
                                     onChange={handleSelectAllChange}
                                     sx={{ pl: 1, pr: 2 }}
                                 />
-                                <Box sx={{ width: 110, fontWeight: 600, color: '#444444', fontSize: 12 }}>Asset No.</Box>
+                                <Box sx={{ width: 120, fontWeight: 600, color: '#444444', fontSize: 12 }}>Asset No.</Box>
                                 <Box sx={{ flex: 1, fontWeight: 600, color: '#444444', fontSize: 12 }}>Category</Box>
                                 <Box sx={{ flex: 3, fontWeight: 600, color: '#444444', fontSize: 12, pl: 6 }}>
                                     Item Name
@@ -192,7 +265,7 @@ const PendingCondemnationList = ({ empdept, empId }) => {
                                                     onChange={() => handleRowSelection(val.slno, val.type)}
                                                     sx={{ pl: 1, pr: 2 }}
                                                 />
-                                                < Box sx={{ width: 110, color: '#444444', fontSize: 14, }}>
+                                                < Box sx={{ width: 120, color: '#444444', fontSize: 14, }}>
                                                     {val.spare_asset_no
                                                         ? `${val.spare_asset_no}/${(val.spare_asset_no_only ?? 0).toString().padStart(6, '0')}`
                                                         : `${val.item_asset_no}/${(val.item_asset_no_only ?? 0).toString().padStart(6, '0')}`}
@@ -238,4 +311,4 @@ const PendingCondemnationList = ({ empdept, empId }) => {
     )
 }
 
-export default PendingCondemnationList
+export default memo(PendingCondemnationList)

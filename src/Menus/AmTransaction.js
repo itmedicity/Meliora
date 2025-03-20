@@ -12,7 +12,7 @@ const AmTransactions = [
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
     {
-        men_slno: 113,
+        men_slno: 266,
         component: CNavItem,
         name: 'Asset Overview',
         to: '/Home/AssetDashboardMain',
@@ -64,10 +64,17 @@ const AmTransactions = [
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
     {
-        men_slno: 257,
+        men_slno: 259,
         component: CNavItem,
         name: 'Approve Condemnation',
         to: '/Home/CondemnationApproval',
+        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    },
+    {
+        men_slno: 268,
+        component: CNavItem,
+        name: 'All Condemnation List ',
+        to: '/Home/AllDeptCondemList',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
 
@@ -79,7 +86,7 @@ const AmTransactions = [
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
     {
-        men_slno: 84,
+        men_slno: 267,
         component: CNavItem,
         name: 'Asset List',
         to: '/Home/DepartmentAssets',
