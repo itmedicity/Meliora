@@ -29,7 +29,7 @@ import { axioslogin } from 'src/views/Axios/Axios';
 import { succesNotify, warningNotify } from 'src/views/Common/CommonCode';
 import { useSelector } from 'react-redux';
 
-const HigherLevelApprovalView = ({ open, closeModal, DetailViewData, reqItems, approveTableData, poDetails, imagearray, ViewRemark, setDetailViewModal,
+const CommentView = ({ open, closeModal, DetailViewData, reqItems, approveTableData, poDetails, imagearray, ViewRemark, setDetailViewModal,
     datacolData, selectedCompany }) => {
     const { req_slno, incharge_approve, incharge_remarks, hod_req, hod_approve, dms_req, dms_approve, ms_approve_req, ms_approve,
         manag_operation_req, manag_operation_approv, senior_manage_req, senior_manage_approv, gm_approve_req, gm_approve,
@@ -82,7 +82,6 @@ const HigherLevelApprovalView = ({ open, closeModal, DetailViewData, reqItems, a
 
         }
     }, [postData, setDetailViewModal])
-
     return (
         <Fragment>
             <ToastContainer />
@@ -274,11 +273,11 @@ const HigherLevelApprovalView = ({ open, closeModal, DetailViewData, reqItems, a
                                                     : &nbsp;
                                                     <Box sx={{ flex: 1, display: 'flex' }}>
                                                         {/* <Chip size="md" variant="outlined" sx={{
-                                                                color: '#2e7d32', height: 25, pb: 0.5,
-                                                                fontSize: 12, fontWeight: 550,
-                                                            }}>
-                                                                Yes
-                                                            </Chip> */}
+                                                            color: '#2e7d32', height: 25, pb: 0.5,
+                                                            fontSize: 12, fontWeight: 550,
+                                                        }}>
+                                                            Yes
+                                                        </Chip> */}
                                                         <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pl: 0.5, pt: 0.4, color: '#1b5e20' }}>
                                                             {approval_level === 1 ? "Purchase Dpt Approved" :
                                                                 approval_level === 2 ? "Purchase Department Approved, Purchase Manager Approved" :
@@ -407,7 +406,7 @@ const HigherLevelApprovalView = ({ open, closeModal, DetailViewData, reqItems, a
                                     }}>
                                         No Report Found
                                     </Box>}
-                            {/* <Paper variant="outlined" square sx={{ flexWrap: 'wrap', mt: 0.7, mx: 0.7, pb: 0.7 }}>
+                            <Paper variant="outlined" square sx={{ flexWrap: 'wrap', mt: 0.7, mx: 0.7, pb: 0.7 }}>
                                 <Box sx={{ display: 'flex', pt: 0.4, }}>
                                     <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>Remarks</Typography>
                                     <Typography sx={{ pt: 1 }}>  :&nbsp;</Typography>
@@ -442,7 +441,7 @@ const HigherLevelApprovalView = ({ open, closeModal, DetailViewData, reqItems, a
                                         handleChange={closeModal}
                                     > Cancel</ModalButtomCmp>
                                 </Box>
-                            </Box> */}
+                            </Box>
                         </Box>
                         <Box sx={{ height: 15 }}></Box>
 
@@ -450,8 +449,7 @@ const HigherLevelApprovalView = ({ open, closeModal, DetailViewData, reqItems, a
                 </Modal>
             </CssVarsProvider >
 
-        </Fragment >
-    )
+        </Fragment >)
 }
 
-export default memo(HigherLevelApprovalView)
+export default memo(CommentView)

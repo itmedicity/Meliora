@@ -7,17 +7,15 @@ import { keyframes } from '@mui/system';
 import { PUBLIC_NAS_FOLDER, PUBLIC_NAS_FOLDER_KMC } from 'src/views/Constant/Static';
 import { axioskmc, axioslogin } from 'src/views/Axios/Axios';
 import DescriptionIcon from '@mui/icons-material/Description';
-import { warningNotify } from 'src/views/Common/CommonCode';
 import SchoolIcon from '@mui/icons-material/School';
 import BadgeIcon from '@mui/icons-material/Badge';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-import ModalToViewDetails from './ModalToViewDetails';
 import DoDisturbOffTwoToneIcon from '@mui/icons-material/DoDisturbOffTwoTone';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import { GetItemDetailsOfCRFCmp } from '../../ComonComponent/GetItemDetailsOfCRFCmp';
 import { GetKMCItemDetails } from '../../ComonComponent/ComponentsKMC/GetKMCItemDetails';
-import HigherLevelApprovalView from '../../ComonComponent/HigherLevelComponents/HigherLevelApprovalView';
 import ImageDisplayModal from '../../ComonComponent/ImageUploadCmp/ImageDisplayModal';
+import CommentView from '../../ComonComponent/HigherLevelComponents/CommentView';
 
 const MasterComponent = ({ val, selectedCompany }) => {
     const { req_slno, req_date, req_deptsec, user_deptsection, actual_requirement, needed, dept_name, category, now_who_status, now_who, user_acknldge,
@@ -234,7 +232,7 @@ const MasterComponent = ({ val, selectedCompany }) => {
         <Fragment>
             {imageshowFlag === 1 ? <ImageDisplayModal open={imageshow} handleClose={handleClose} images={imagearray} /> : null}
 
-            {DetailViewFlag === 1 ? <HigherLevelApprovalView open={DetailViewModal} closeModal={closeModal} imagearray={imagearray}
+            {DetailViewFlag === 1 ? <CommentView open={DetailViewModal} closeModal={closeModal} imagearray={imagearray}
                 DetailViewData={DetailViewData} reqItems={reqItems} approveTableData={approveTableData} poDetails={poDetails}
                 datacolData={datacolData} selectedCompany={selectedCompany} ViewRemark={ViewRemark} setDetailViewModal={setDetailViewModal} /> : null}
 

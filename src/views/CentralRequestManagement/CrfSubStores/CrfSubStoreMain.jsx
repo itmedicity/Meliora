@@ -107,23 +107,23 @@ const CrfSubStoreMain = () => {
     }, []);
 
     useEffect(() => {
-        if (storeData && storeData.length > 0) {
-            const newData = storeData?.filter((value, index, self) =>
-                index === self.findIndex((item) => item.req_slno === value.req_slno && item.supply_store === value.supply_store
-                    && item.crm_purchase_slno === value.crm_purchase_slno))
-            const countSet = crsList?.map((val) => {
-                const xx = newData?.filter((value) => value.supply_store === val.main_store_slno)
-                return {
-                    main_store_slno: val.main_store_slno,
-                    crs_store_code: val.crs_store_code,
-                    main_store: val.main_store,
-                    sub_store_slno: val.sub_store_slno,
-                    sub_store_name: val.sub_store_name,
-                    count: xx.length
-                }
-            })
-            setStoreList(countSet)
-        }
+        // if (storeData && storeData.length > 0) {
+        const newData = storeData?.filter((value, index, self) =>
+            index === self.findIndex((item) => item.req_slno === value.req_slno && item.supply_store === value.supply_store
+                && item.crm_purchase_slno === value.crm_purchase_slno))
+        const countSet = crsList?.map((val) => {
+            const xx = newData?.filter((value) => value.supply_store === val.main_store_slno)
+            return {
+                main_store_slno: val.main_store_slno,
+                crs_store_code: val.crs_store_code,
+                main_store: val.main_store,
+                sub_store_slno: val.sub_store_slno,
+                sub_store_name: val.sub_store_name,
+                count: xx.length
+            }
+        })
+        setStoreList(countSet)
+        // }
     }, [crsList, storeData])
     const updateTabChange = useCallback((e, val) => {
         setSelectedTab(val);

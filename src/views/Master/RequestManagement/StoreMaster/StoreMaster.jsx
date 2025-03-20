@@ -41,37 +41,42 @@ const StoreMaster = () => {
 
     }, [])
     const submitStore = useCallback(async (val) => {
-        const postData = {
-            subStoreList: subStoreList,
-            crsstore: crsstore,
-            dept: dept,
-            empId: empname,
-            deptsec: deptsec,
-
-        }
-        if (UpdateFlag === 1) {
-            const result = await axioslogin.post('/newCRFRegister/StoreMaster/update', postData);
-            const { success } = result.data
-            if (success === 1) {
-                succesNotify("Data Updated Sucessfully")
-                setCount(1)
-            }
-            else {
-                warningNotify("Something Went Wrong")
-
-            }
+        if (dept === 0) {
+            warningNotify("Select Department")
         } else {
-            const result = await axioslogin.post('/newCRFRegister/StoreMaster', postData);
-            const { success } = result.data
-            if (success === 1) {
-                succesNotify("Data Inserted Sucessfully")
-                setCount(1)
-            }
-            else {
-                warningNotify("Something Went Wrong")
+            const postData = {
+                subStoreList: subStoreList,
+                crsstore: crsstore,
+                dept: dept,
+                empId: empname,
+                deptsec: deptsec,
 
             }
+            if (UpdateFlag === 1) {
+                const result = await axioslogin.post('/newCRFRegister/StoreMaster/update', postData);
+                const { success } = result.data
+                if (success === 1) {
+                    succesNotify("Data Updated Sucessfully")
+                    setCount(1)
+                }
+                else {
+                    warningNotify("Something Went Wrong")
+
+                }
+            } else {
+                const result = await axioslogin.post('/newCRFRegister/StoreMaster', postData);
+                const { success } = result.data
+                if (success === 1) {
+                    succesNotify("Data Inserted Sucessfully")
+                    setCount(1)
+                }
+                else {
+                    warningNotify("Something Went Wrong")
+
+                }
+            }
         }
+
     }, [subStoreList, deptsec, empname, dept, crsstore, editRowData])
 
     const refreshWindow = useCallback(() => {
