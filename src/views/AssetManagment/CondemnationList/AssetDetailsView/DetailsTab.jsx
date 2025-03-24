@@ -3,7 +3,6 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useQuery } from 'react-query';
 import { getallSpareUnderAsset, getSpecification } from 'src/api/AssetApis';
 import TextComponent from 'src/views/Components/TextComponent';
-import TextFieldCustom from 'src/views/Components/TextFieldCustom';
 
 const DetailsTab = ({ AssetDetails }) => {
 
@@ -11,7 +10,6 @@ const DetailsTab = ({ AssetDetails }) => {
 
     const [specificationTabledata, setspecificationTabledata] = useState([])
     const [spareDetails, setSpareDetails] = useState([])
-
 
     const { data: specificationDetailsData } = useQuery({
         queryKey: ['getAssetSpecification'],
@@ -33,6 +31,7 @@ const DetailsTab = ({ AssetDetails }) => {
     useEffect(() => {
         setSpareDetails(allSpareUnderAsset || []);
     }, [allSpareUnderAsset]);
+
 
     return (
         <Box>

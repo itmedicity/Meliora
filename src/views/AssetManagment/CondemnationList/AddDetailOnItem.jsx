@@ -13,8 +13,7 @@ import { axioslogin } from 'src/views/Axios/Axios';
 import { getCondemSlno } from 'src/api/AssetApis';
 import { useQuery } from 'react-query';
 
-const AddDetailOnItem = ({ addModalOpen, setaddModalFlag, setaddModalOpen, itemDetails, empId, condemMastslno, count, setcount, setcondemCount,
-    condemCount }) => {
+const AddDetailOnItem = ({ addModalOpen, setaddModalFlag, setaddModalOpen, itemDetails, empId, condemMastslno, count, setcount, }) => {
 
     const { category_name, item_name, item_asset_no, item_asset_no_only, spare_asset_no, spare_asset_no_only, am_item_map_slno, am_spare_item_map_slno,
         am_condem_reason } = itemDetails
@@ -167,7 +166,6 @@ const AddDetailOnItem = ({ addModalOpen, setaddModalFlag, setaddModalOpen, itemD
                 if (selectFile.length !== 0) {
                     const fileUploadResponse = await InsertFile(selectFile, condemMastslno, amCondemDetailSlno);
                     if (fileUploadResponse.success === 1) {
-                        setcondemCount = (condemCount + 1)
                         succesNotify('Details Added With File Attach Successfully');
                         setcount(count + 1)
                         CloseAddModal()
@@ -175,7 +173,6 @@ const AddDetailOnItem = ({ addModalOpen, setaddModalFlag, setaddModalOpen, itemD
                         warningNotify(fileUploadResponse.message);
                     }
                 } else {
-                    setcondemCount = (condemCount + 1)
                     succesNotify('Details Added Successfully');
                     setcount(count + 1)
                     CloseAddModal()
@@ -184,7 +181,7 @@ const AddDetailOnItem = ({ addModalOpen, setaddModalFlag, setaddModalOpen, itemD
                 infoNotify('Unable to Add Details');
             }
         },
-        [patchdata, selectFile, setcondemCount, condemCount]);
+        [patchdata, selectFile, CloseAddModal, amCondemDetailSlno, condemMastslno, count, handleImageUpload, setcount]);
 
     return (
 

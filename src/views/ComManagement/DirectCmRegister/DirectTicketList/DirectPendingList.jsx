@@ -1,5 +1,5 @@
 import CmReplyModal from '../../AssignComplaint/Queries/CmReplyModal';
-import { Box, CircularProgress, CssVarsProvider, List, ListItem, Menu, Tooltip, Typography } from '@mui/joy'
+import { Box, CircularProgress, CssVarsProvider, Menu, Tooltip, Typography } from '@mui/joy'
 import React, { memo, useCallback, useState } from 'react'
 import { Virtuoso } from 'react-virtuoso';
 import EditIcon from '@mui/icons-material/Edit';
@@ -84,19 +84,19 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedRow, setSelectedRow] = useState(null);
-    const [selectedEmployees, setSelectedEmployees] = useState([]);
 
-    const handleClick = (event, employees, row) => {
+
+    const handleClick = (event, val) => {
         setAnchorEl(event.currentTarget);
-        setSelectedRow(row);
-        setSelectedEmployees(employees);
+        setSelectedRow(val);
     };
 
     const handleClose = () => {
         setAnchorEl(null);
         setSelectedRow(null);
-        setSelectedEmployees([]);
     }
+
+
 
     return (
         <Box>
@@ -176,7 +176,7 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                                             {val.compalint_status === 1 ? (
                                                 <Box
                                                     sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', p: 0.5, mb: 0.5, boxShadow: '0px 4px 10px rgba(138, 148, 148, 0.2)', borderRadius: '50%', cursor: 'pointer', height: 28 }}
-                                                    onClick={(event) => handleClick(event, val.assigned_employees ? val.assigned_employees.split(', ') : [], val)}
+                                                    onClick={(event) => handleClick(event, val)}
                                                 >
                                                     <PersonIcon sx={{ color: '#09B009', fontSize: 20 }} />
                                                 </Box>

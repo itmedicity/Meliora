@@ -71,7 +71,7 @@ const DeptScrapstoreMain = ({ empdept }) => {
                         <tr key={index} >
                             <td style={{ textAlign: 'center', }}>{index + 1}</td>
                             <td style={{ textAlign: 'center', }}>
-                                {val.file_status == 1 ?
+                                {val.file_status === 1 ?
                                     <Box>
                                         <FilePresentRoundedIcon sx={{ color: '#004369', cursor: 'pointer' }} onClick={() => FileView(val)} />
                                     </Box>

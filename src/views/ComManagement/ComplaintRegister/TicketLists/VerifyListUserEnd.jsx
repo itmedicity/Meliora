@@ -459,13 +459,13 @@ const VerifyListUserEnd = ({ count, setCount }) => {
                                                 <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', }}>
                                                     <Typography sx={{ fontSize: 13, fontWeight: 700, pt: .5 }}>Assingees :</Typography>&nbsp;&nbsp;
                                                     <Box sx={{ fontWeight: 600, display: 'flex', py: .4, gap: .3 }}>
-                                                        {val.assinged_employees === null ?
+                                                        {val.assigned_employees === null ?
                                                             <Chip>
                                                                 Not Updated
                                                             </Chip>
                                                             :
                                                             <>
-                                                                {val.assinged_employees.split(',').map((name, index) => (
+                                                                {val.assigned_employees.split(',').map((name, index) => (
                                                                     <Chip
                                                                         key={index}
                                                                         size="small"

@@ -5,51 +5,42 @@ import { Paper } from '@mui/material';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import { axioslogin } from 'src/views/Axios/Axios';
 
-
 const FileViews = ({ fileModalOpen, fileData, setfileOpenFlag, setfileModalOpen }) => {
-
 
     const { condem_mast_slno, am_condem_detail_slno } = fileData
 
     const [filePaths, setFilePaths] = useState({});
 
-    const fetchCondemFiles = async () => {
+    const fetchCondemFiles = useCallback(async () => {
         if (!condem_mast_slno || !am_condem_detail_slno) return;
-
-        const postData = {
-            id: condem_mast_slno || null,
-            detailId: am_condem_detail_slno || null
-        };
-
         try {
-            const { data } = await axioslogin.post("/AssetFileUpload/uploadFile/getCondemnation", postData);
+            const { data } = await axioslogin.post("/AssetFileUpload/uploadFile/getCondemnation", {
+                id: condem_mast_slno,
+                detailId: am_condem_detail_slno
+            });
             const { success, data: files } = data;
+            const paths = (success === 1 && Array.isArray(files))
+                ? files.map(fileName =>
+                    `${PUBLIC_NAS_FOLDER}/AssetCondemDetails/${condem_mast_slno}/${am_condem_detail_slno}/${fileName}`
+                )
+                : [];
 
-            if (success === 1 && Array.isArray(files)) {
-                const paths = files.map(fileName =>
-                    `${PUBLIC_NAS_FOLDER}/AssetCondemDetails/${postData.id}/${postData.detailId}/${fileName}`
-                );
-                setFilePaths({ [am_condem_detail_slno]: paths });
-            } else {
-                setFilePaths({ [am_condem_detail_slno]: [] });
-            }
-        } catch (error) {
-            if (error.response?.data?.message?.includes("ENOENT")) {
-                setFilePaths({ [am_condem_detail_slno]: null });
-            } else {
-                setFilePaths({ [am_condem_detail_slno]: [] });
-            }
+            setFilePaths({ [am_condem_detail_slno]: paths });
+        } catch {
+            setFilePaths({ [am_condem_detail_slno]: [] });
+        } finally {
         }
-    };
+    }, [condem_mast_slno, am_condem_detail_slno]);
 
     useEffect(() => {
         fetchCondemFiles();
-    }, [condem_mast_slno, am_condem_detail_slno]);
+    }, [fetchCondemFiles]);
+
 
     const CloseFile = useCallback(() => {
         setfileOpenFlag(0)
         setfileModalOpen(false)
-    }, [])
+    }, [setfileModalOpen, setfileOpenFlag])
 
 
     return (
@@ -82,18 +73,21 @@ const FileViews = ({ fileModalOpen, fileData, setfileOpenFlag, setfileModalOpen 
                             </Tooltip>
                         </Box>
                         <Box sx={{ gap: 2, }}>
-                            {filePaths.map((Url, index) => (
-                                <Paper key={index} sx={{ bgcolor: '#EBEBE8', cursor: 'pointer', height: 800, width: 1000, mb: .5, }}>
+
+                            {filePaths[am_condem_detail_slno]?.map((Url, index) => (
+                                <Paper
+                                    key={index}
+                                    sx={{ bgcolor: '#EBEBE8', cursor: 'pointer', height: 800, width: 1000, mb: 0.5 }}
+                                >
                                     <embed
-                                        id="pdf-embed"
+                                        id={`pdf-embed-${index}`}
                                         src={Url}
                                         type="application/pdf"
                                         height={800}
-                                        width={'100%'}
+                                        width="100%"
                                     />
                                 </Paper>
-                            ))
-                            }
+                            ))}
                         </Box>
                         <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', }}>
                             <Box sx={{
@@ -116,4 +110,4 @@ const FileViews = ({ fileModalOpen, fileData, setfileOpenFlag, setfileModalOpen 
 }
 
 
-export default FileViews
+export default memo(FileViews)

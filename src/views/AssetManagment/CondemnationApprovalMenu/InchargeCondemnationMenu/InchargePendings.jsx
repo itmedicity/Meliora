@@ -1,5 +1,5 @@
 import { Box, CssVarsProvider, IconButton, Table } from '@mui/joy'
-import React, { memo, useCallback, useState } from 'react'
+import React, { memo, } from 'react'
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { format } from 'date-fns';
 
@@ -144,4 +144,4 @@ const InchargePendings = ({ condemInchargePending, editForm, viewForm }) => {
     )
 }
 
-export default InchargePendings
+export default memo(InchargePendings)

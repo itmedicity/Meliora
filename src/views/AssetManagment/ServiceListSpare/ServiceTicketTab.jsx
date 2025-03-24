@@ -176,7 +176,7 @@ const ServiceTicketTab = ({ complDetails, }) => {
                                         }}
                                     />
                                     <Box sx={{ flex: 1, fontWeight: 400, color: 'Black', fontSize: 13, pt: 1, }}>
-                                        {val.worked_employees?.split(',').filter(Boolean).map((name, index) => (
+                                        {val.assigned_employees?.split(',').filter(Boolean).map((name, index) => (
                                             <Chip
                                                 key={index}
                                                 size="small"

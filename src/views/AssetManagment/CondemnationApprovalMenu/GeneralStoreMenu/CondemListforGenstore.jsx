@@ -1,13 +1,12 @@
 import { Box, Radio, RadioGroup } from '@mui/joy'
 import React, { memo, useCallback, useMemo, useState } from 'react'
-import { getAllDeptCondemPendingDatas, getCondemPendingDatas } from 'src/api/AssetApis';
+import { getAllDeptCondemPendingDatas } from 'src/api/AssetApis';
 import { useQuery } from 'react-query';
 import ViewSubmittedModal from '../../CondemnationList/ViewSubmittedModal';
 import CondemnationApprovalModal from '../../CondemnationList/CondemnationApprovalModal';
 import AllPendingsGenStore from './AllPendingsGenStore';
 import SelectedRegDate from '../../CondemnationList/AllDeptcondemnation/SelectedRegDate';
 import AllDeptRegistrdList from '../../CondemnationList/AllDeptcondemnation/AllDeptRegistrdList';
-
 
 const CondemListforGenstore = ({ empId, menurights }) => {
 
@@ -119,4 +118,4 @@ const CondemListforGenstore = ({ empId, menurights }) => {
         </Box>
     )
 }
-export default CondemListforGenstore
+export default memo(CondemListforGenstore)

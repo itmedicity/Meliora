@@ -1,5 +1,5 @@
 import { Box, Chip, Typography } from '@mui/joy';
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
 import { axioslogin } from 'src/views/Axios/Axios';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
@@ -10,9 +10,7 @@ import ServiceFileAttach from '../../ServiceListSpare/ServiceFileAttach';
 
 const ServiceDetailsCondemnation = ({ AssetDetails }) => {
 
-
-    const { spare_asset_no_only, item_asset_no_only, item_asset_no, spare_asset_no, item_asset_name, item_spare_name, cat_asset_name,
-        cat_spare_name, } = AssetDetails
+    const { spare_asset_no_only, item_asset_no_only, item_asset_no, spare_asset_no, item_asset_name, item_spare_name, cat_asset_name, cat_spare_name, } = AssetDetails
 
     const item_name = item_asset_name !== null ? item_asset_name : item_spare_name
     const category_name = cat_asset_name !== null ? cat_asset_name : cat_spare_name
@@ -45,7 +43,6 @@ const ServiceDetailsCondemnation = ({ AssetDetails }) => {
         imageViewOpen: false,
         serviceimageViewOpen: false,
     })
-
 
     useEffect(() => {
         const getServiceDetailsAll = async () => {

@@ -8,8 +8,6 @@ import AllPendingsHod from './AllPendingsHod';
 import SelectedDeptRegReqDate from '../../CondemnationList/DepartmentCondemnation/SelectedDeptRegReqDate';
 import DepartmentcondemList from '../../CondemnationList/DepartmentCondemnation/DepartmentcondemList';
 
-
-
 const CondemListForHod = ({ empdept, empId, menurights }) => {
 
     const condemStatusFrom = 7
@@ -119,4 +117,4 @@ const CondemListForHod = ({ empdept, empId, menurights }) => {
     )
 }
 
-export default CondemListForHod
+export default memo(CondemListForHod)

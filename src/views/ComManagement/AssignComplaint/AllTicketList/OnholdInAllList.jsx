@@ -7,7 +7,6 @@ import QuestionAnswerRoundedIcon from '@mui/icons-material/QuestionAnswerRounded
 import ArticleIcon from '@mui/icons-material/Article';
 import HoldReasonModal from '../MyTicketList/HoldReasonModal';
 import CountDownCm from '../../CountDownCM/CountDownCm';
-import QueryBuilderRoundedIcon from '@mui/icons-material/QueryBuilderRounded';
 import QueryModalview from '../Queries/QueryModalview';
 import DetailAssingModal from '../../CmSuperVisorList/DetailAssingModal';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
@@ -231,6 +230,28 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
                                             </Box>
                                         </Tooltip>
                                     </CssVarsProvider>
+                                    <CssVarsProvider>
+                                        <Tooltip title='Ticket Assigned Date and time' placement='top-start' >
+                                            <Box sx={{ cursor: 'pointer' }}>
+                                                <TextComponent
+                                                    sx={{
+                                                        color: 'black',
+                                                        fontWeight: 540,
+                                                        flex: 1,
+                                                        fontSize: 15,
+                                                        pl: 2,
+                                                        py: .5,
+                                                        fontFamily: 'Arial',
+                                                    }}
+                                                    text={
+                                                        val.assigned_date
+                                                            ? format(new Date(val.assigned_date), 'dd MMM yyyy,   hh:mm a')
+                                                            : 'Invalid Date'
+                                                    }
+                                                />
+                                            </Box>
+                                        </Tooltip>
+                                    </CssVarsProvider>
                                     <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', }}>
                                         <Box sx={{ my: .3, mr: .1, px: 2, fontWeight: 500, fontSize: 14, cursor: 'pointer' }}>
                                             Ticket Registered by :  {val.comp_reg_emp}
@@ -298,7 +319,9 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
                                             Aprox Date :
                                         </Typography>
                                         <Chip sx={{ bgcolor: 'white', color: '#391306', border: 1, ml: 1, }}>
-                                            {val.aprrox_date}
+                                            {val.aprrox_date
+                                                ? format(new Date(val.aprrox_date), 'dd MM yyyy,  hh:mm a')
+                                                : 'Invalid Date'}
                                         </Chip>
                                         <Typography sx={{ color: 'black', pt: .2, fontWeight: 500, fontSize: 13, ml: 3 }}>
                                             Remarks :
@@ -457,22 +480,9 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
                                     mx: .1, display: 'flex',
                                 }}>
                                     <CssVarsProvider>
-                                        <Tooltip title='CountUp time Starts from Ticket Registration' color='warning' variant="soft" sx={{ width: 180 }}>
-                                            <Box sx={{ textAlign: 'center', display: 'flex', cursor: 'grab', ml: .8, mr: .5 }}>
+                                        <Tooltip title='CountUp time Starts from Ticket Registration' color='neutral' placement='right' sx={{ width: 300 }}>
+                                            <Box sx={{ textAlign: 'center', display: 'flex', cursor: 'grab', }}>
                                                 <CountDownCm complaintDate={val.compalint_date} />
-                                            </Box>
-                                        </Tooltip>
-                                    </CssVarsProvider>
-                                    <CssVarsProvider>
-                                        <Tooltip title='Ticket Assigned Date and time' placement='right'   >
-                                            <Box sx={{ display: 'flex' }}>
-                                                <QueryBuilderRoundedIcon sx={{ color: 'black', borderRadius: 1, pt: .7 }} />
-                                                <Typography sx={{ fontSize: 12, textAlign: 'center', fontWeight: 600, color: "black", mr: .3, mt: .6, cursor: 'grab' }}>
-
-                                                    {val.assigned_date
-                                                        ? format(new Date(val.assigned_date), 'dd MMM yyyy,   hh:mm a')
-                                                        : 'Not Updated'}
-                                                </Typography>
                                             </Box>
                                         </Tooltip>
                                     </CssVarsProvider>
@@ -491,9 +501,8 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
                                             </Typography>
                                         </Box> : null}
                                     <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', }}>
-                                        <Typography sx={{ fontSize: 13, fontWeight: 700, pt: .3 }}>Assignees :</Typography>&nbsp;&nbsp;
-                                        <Box sx={{ fontWeight: 600, display: 'flex', py: .4, gap: .3 }}>
-
+                                        <Typography sx={{ fontSize: 13, fontWeight: 700, pt: .4 }}>Assignees :</Typography>&nbsp;
+                                        <Box sx={{ fontWeight: 600, display: 'flex', pt: .3, gap: .3, pb: .2 }}>
                                             {val.assigned_employees === null ?
                                                 <Chip>
                                                     Not Updated

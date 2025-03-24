@@ -71,30 +71,74 @@ const EditCondemSubmitionModal = ({ modalEditOpen, setmodalEditOpen, setmodalEdi
     }
 
 
-    const [checkPopover, setCheckPopover] = useState(null);
-    const [uncheckPopover, setUncheckPopover] = useState(null);
+    // const [checkPopover, setCheckPopover] = useState(null);
+    // const [uncheckPopover, setUncheckPopover] = useState(null);
+    // const [checkedItems, setCheckedItems] = useState({});
+    // const [reasons, setReasons] = useState({});
+    // const [deatilSlno, setDeatilSlno] = useState(0);
+    // const [addedCondemFiles, setaddedCondemFiles] = useState([])
+
+    // const handleCheckboxChange = (event, index, val) => {
+    //     const { am_condem_detail_slno } = val;
+    //     const isChecked = event.target.checked;
+    //     setCheckedItems((prev) => ({ ...prev, [index]: isChecked }));
+    //     if (isChecked) {
+    //         setDeatilSlno(am_condem_detail_slno);
+    //         setCheckPopover(event.currentTarget);
+    //         setUncheckPopover(null);
+    //     } else {
+    //         setDeatilSlno(am_condem_detail_slno);
+    //         setUncheckPopover(event.currentTarget);
+    //         setCheckPopover(null);
+    //     }
+    // };
+
+    // const handleCloseCheck = () => setCheckPopover(null);
+
+    // const handleCloseUncheck = () => setUncheckPopover(null);
+
     const [checkedItems, setCheckedItems] = useState({});
     const [reasons, setReasons] = useState({});
+    const [checkPopover, setCheckPopover] = useState(null);
+    const [uncheckPopover, setUncheckPopover] = useState(null);
+    const [currentIndex, setCurrentIndex] = useState(null);
     const [deatilSlno, setDeatilSlno] = useState(0);
     const [addedCondemFiles, setaddedCondemFiles] = useState([])
-
 
     const handleCheckboxChange = (event, index, val) => {
         const { am_condem_detail_slno } = val;
         const isChecked = event.target.checked;
         setCheckedItems((prev) => ({ ...prev, [index]: isChecked }));
+        setCurrentIndex(index);
+
         if (isChecked) {
-            setDeatilSlno(am_condem_detail_slno);
             setCheckPopover(event.currentTarget);
             setUncheckPopover(null);
-        } else {
             setDeatilSlno(am_condem_detail_slno);
+        } else {
             setUncheckPopover(event.currentTarget);
             setCheckPopover(null);
+            setDeatilSlno(am_condem_detail_slno);
         }
     };
-    const handleCloseCheck = () => setCheckPopover(null);
-    const handleCloseUncheck = () => setUncheckPopover(null);
+
+    const handleCloseCheck = () => {
+        setCheckPopover(null);
+        if (currentIndex !== null) {
+            setCheckedItems((prev) => ({ ...prev, [currentIndex]: false }));
+            setCurrentIndex(null);
+        }
+    };
+
+    const handleCloseUncheck = () => {
+        setUncheckPopover(null);
+        if (currentIndex !== null) {
+            setCheckedItems((prev) => ({ ...prev, [currentIndex]: false }));
+            setCurrentIndex(null);
+        }
+    };
+
+    const handleCloseCheckWithData = () => setCheckPopover(null);
 
 
     const handleAddReason = (index) => {
@@ -110,7 +154,7 @@ const EditCondemSubmitionModal = ({ modalEditOpen, setmodalEditOpen, setmodalEdi
             const { message, success } = result.data
             if (success === 2) {
                 succesNotify(message)
-                handleCloseCheck()
+                handleCloseCheckWithData()
                 setReasons({})
             } else {
                 infoNotify(message)
@@ -127,7 +171,7 @@ const EditCondemSubmitionModal = ({ modalEditOpen, setmodalEditOpen, setmodalEdi
         };
         const scarpStoreUpdate = async (singleItemData) => {
             const result = await axioslogin.patch('/AssetCondemnation/updateScarpStoreData', singleItemData)
-            const { message, success } = result.data
+            const { success } = result.data
             if (success === 2) {
                 succesNotify("Item Removed From Keeping in Scapstore and Submitted for Condemnation ")
                 handleCloseUncheck()
@@ -146,6 +190,7 @@ const EditCondemSubmitionModal = ({ modalEditOpen, setmodalEditOpen, setmodalEdi
         queryFn: () => getCondemAddedDetails(postCondemSlno),
         enabled: condem_mast_slno !== undefined,
     })
+
 
     const [formPrefix, setFormPrefix] = useState(condem_form_prefix || '');
     const [formNumber, setFormNumber] = useState(condem_form_no || '');
@@ -166,46 +211,45 @@ const EditCondemSubmitionModal = ({ modalEditOpen, setmodalEditOpen, setmodalEdi
         setReqRegDate(event.target.value);
     };
 
-    const fetchCondemFiles = async () => {
-        try {
-            if (CondemData?.length > 0) {
-                const requests = CondemData.map(async (row) => {
-                    const postData = {
-                        id: row.condem_mast_slno || null,
-                        detailId: row.am_condem_detail_slno || null
-                    };
-                    try {
-                        const result = await axioslogin.post("/AssetFileUpload/uploadFile/getCondemnation", postData);
-                        const { success, data } = result.data;
-                        if (success === 1 && data && Array.isArray(data)) {
-                            return {
-                                [row.am_condem_detail_slno]: data.map(fileName =>
-                                    `${PUBLIC_NAS_FOLDER}/AssetCondemDetails/${postData.id}/${postData.detailId}/${fileName}`
-                                )
-                            };
-                        } else {
-                            return { [row.am_condem_detail_slno]: [] };
-                        }
-                    } catch (error) {
-                        if (error.response?.data?.message?.includes("ENOENT")) {
-                            return { [row.am_condem_detail_slno]: null };
-                        }
+
+    const fetchCondemFiles = useCallback(async () => {
+        if (CondemData?.length > 0) {
+            const requests = CondemData.map(async (row) => {
+                const postData = {
+                    id: row.condem_mast_slno || null,
+                    detailId: row.am_condem_detail_slno || null
+                };
+                try {
+                    const result = await axioslogin.post("/AssetFileUpload/uploadFile/getCondemnation", postData);
+                    const { success, data } = result.data;
+                    if (success === 1 && data && Array.isArray(data)) {
+                        return {
+                            [row.am_condem_detail_slno]: data.map(fileName =>
+                                `${PUBLIC_NAS_FOLDER}/AssetCondemDetails/${postData.id}/${postData.detailId}/${fileName}`
+                            )
+                        };
+                    } else {
                         return { [row.am_condem_detail_slno]: [] };
                     }
-                });
+                } catch (error) {
+                    if (error.response?.data?.message?.includes("ENOENT")) {
+                        return { [row.am_condem_detail_slno]: null };
+                    }
+                    return { [row.am_condem_detail_slno]: [] };
+                }
+            });
 
-                const resultsArray = await Promise.all(requests);
-                const filesMap = resultsArray.reduce((acc, curr) => ({ ...acc, ...curr }), {});
-                setaddedCondemFiles(filesMap);
-            }
-        } catch (error) {
+            const resultsArray = await Promise.all(requests);
+            const filesMap = resultsArray.reduce((acc, curr) => ({ ...acc, ...curr }), {});
+            setaddedCondemFiles(filesMap);
+        } else {
             setaddedCondemFiles({});
         }
-    };
+    }, [CondemData]);
 
     useEffect(() => {
         fetchCondemFiles();
-    }, [CondemData]);
+    }, [fetchCondemFiles]);
 
     const [imageShowsingleFlag, setImagesingle] = useState(0)
     const [imageShowSingle, setImageShowSingle] = useState(false)
@@ -246,7 +290,7 @@ const EditCondemSubmitionModal = ({ modalEditOpen, setmodalEditOpen, setmodalEdi
             condem_status: 1,
             req_dept: empdept
         }
-    }, [condem_mast_slno, formNumber, reqRegDate, condem_mast_slno, empId, formPrefix, empdept])
+    }, [condem_mast_slno, formNumber, reqRegDate, empId, formPrefix, empdept])
 
 
     const submitForm = useCallback(
@@ -270,7 +314,8 @@ const EditCondemSubmitionModal = ({ modalEditOpen, setmodalEditOpen, setmodalEdi
                 infoNotify("Enter From Number")
             }
         },
-        [patchdata])
+        [patchdata, CloseModal, setformCount, formCount, formNumber, formPrefix])
+
     const [AssetOpenModal, setAssetOpenModal] = useState(false)
     const [AssetModalFlag, setAssetModalFlag] = useState(0)
     const [AssetDetails, setAssetDetails] = useState([])
@@ -443,7 +488,9 @@ const EditCondemSubmitionModal = ({ modalEditOpen, setmodalEditOpen, setmodalEdi
                                                                     <Button variant="outlined" color="neutral" onClick={() => handleAddReason(index, val)}>
                                                                         Add
                                                                     </Button>
-                                                                    <Button variant="outlined" color="neutral" onClick={handleCloseCheck}>
+                                                                    <Button variant="outlined" color="neutral"
+                                                                        onClick={handleCloseCheck}
+                                                                    >
                                                                         Close
                                                                     </Button>
                                                                 </Box>

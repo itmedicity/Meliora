@@ -2,7 +2,6 @@ import React, { useCallback, useMemo, useState, memo } from 'react'
 import { useHistory } from 'react-router-dom'
 import CardMaster from 'src/views/Components/CardMaster'
 import { Box } from '@mui/system'
-import { Grid } from '@mui/material'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { axioslogin } from 'src/views/Axios/Axios'
@@ -212,94 +211,9 @@ const ComPriorityMast = () => {
                         />
                     </Box>
                 </Box>
-
-
                 <Box sx={{ flex: 2, pl: 1 }}>
                     <ComProirityMastTable count={count} rowSelect={rowSelect} />
                 </Box>
-
-                {/* <Grid container spacing={1} >
-                    <Grid item xl={4} lg={4}  >
-                        <Grid container spacing={1} >
-                            <Grid item xl={12} lg={12} >
-                                <TextFieldCustom
-                                    placeholder="Priority Name"
-                                    type="text"
-                                    size="sm"
-                                    name="cm_priority_desc"
-                                    value={cm_priority_desc}
-                                    onchange={updatepriority}
-                                />
-                            </Grid>
-                            <Grid item xl={12} lg={12} >
-                                <Box sx={{
-                                    display: 'flex',
-                                    wdith: '100%',
-                                }}>
-                                    <Box sx={{
-                                        width: 125,
-                                        pt: .5
-                                    }}>
-                                        Escalation Min
-                                    </Box>
-                                    <Box sx={{
-                                        width: '30%',
-                                    }}>
-                                        <TextFieldCustom
-                                            placeholder=" Escalation Min"
-                                            type="text"
-                                            size="sm"
-                                            name="escalation_min"
-                                            value={escalation_min}
-                                            onchange={updatepriority}
-                                        />
-                                    </Box>
-                                </Box>
-                            </Grid>
-
-                            <Grid item xl={12} lg={12} >
-                                <Box sx={{
-                                    display: 'flex',
-                                    wdith: '100%',
-                                }}>
-                                    <Box sx={{
-                                        width: 125,
-                                        pt: .5
-                                    }}>
-                                        Escalation Max
-                                    </Box>
-                                    <Box sx={{
-                                        width: '30%',
-                                    }}>
-                                        <TextFieldCustom
-                                            placeholder="Escalation Max"
-                                            type="text"
-                                            size="sm"
-                                            name="escalation_max"
-                                            value={escalation_max}
-                                            onchange={updatepriority}
-                                        />
-                                    </Box>
-                                </Box>
-                            </Grid>
-
-                            <Grid item lg={2} xl={2}>
-                                <CusCheckBox
-                                    label="Status"
-                                    color="primary"
-                                    size="md"
-                                    name="cm_priority_status"
-                                    value={cm_priority_status}
-                                    checked={cm_priority_status}
-                                    onCheked={updatepriority}
-                                />
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                    <Grid item lg={8} xl={8} >
-                        <ComProirityMastTable count={count} rowSelect={rowSelect} />
-                    </Grid>
-                </Grid> */}
             </Box>
         </CardMaster>
     )

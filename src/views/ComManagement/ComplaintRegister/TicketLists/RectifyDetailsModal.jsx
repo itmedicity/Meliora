@@ -10,7 +10,7 @@ const RectifyDetailsModal = ({ open, setDetailsOpen, detailsData, setDetailsFlag
 
     const { complaint_slno, complaint_desc, compalint_date, rm_roomtype_name, rm_room_name, rm_insidebuildblock_name, rm_floor_name, complaint_deptslno,
         cm_rectify_status, location, complaint_type_name, priority_check, compalint_priority, assigned_date, rectify_pending_hold_remarks, verify_spervsr_name,
-        cm_rectify_time, holduser, verify_spervsr, verified_user_name, cm_verfy_time, suprvsr_verify_time, assinged_employees, } = detailsData
+        cm_rectify_time, holduser, verify_spervsr, verified_user_name, cm_verfy_time, suprvsr_verify_time, assigned_employees, } = detailsData
 
     const [assetDetl, setassetDetl] = useState([])
     const Close = useCallback(() => {
@@ -159,13 +159,13 @@ const RectifyDetailsModal = ({ open, setDetailsOpen, detailsData, setDetailsFlag
                                     </Typography>
                                     <Box sx={{ flex: 3, display: 'flex', gap: .5 }}>
 
-                                        {assinged_employees === null ?
+                                        {assigned_employees === null || assigned_employees === undefined ?
                                             <Chip>
                                                 Not Updated
                                             </Chip>
                                             :
                                             <>
-                                                {assinged_employees.split(',').map((name, index) => (
+                                                {assigned_employees.split(',').map((name, index) => (
                                                     <Chip
                                                         key={index}
                                                         size="small"

@@ -4,10 +4,7 @@ import { useQuery } from 'react-query';
 import { Virtuoso } from 'react-virtuoso';
 import { getSpareUnderCondmnation } from 'src/api/AssetApis';
 import CusIconButton from 'src/views/Components/CusIconButton';
-import DownloadIcon from '@mui/icons-material/Download';
-import * as XLSX from 'xlsx';
 import { format } from 'date-fns';
-import { infoNotify } from 'src/views/Common/CommonCode';
 import CondemSubmitionModal from './CondemSubmitionModal';
 
 const SpareCondemnation = ({ empdept }) => {

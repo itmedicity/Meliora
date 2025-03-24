@@ -231,8 +231,8 @@ const PendingCondemnationList = ({ empdept, empId }) => {
                                 <Box sx={{ flex: 2, fontWeight: 600, color: '#444444', fontSize: 12, pl: 6 }}>
                                     Reason
                                 </Box>
-                                <Box sx={{ width: 145, fontWeight: 600, color: '#444444', fontSize: 12 }}>Transfered Employee</Box>
-                                <Box sx={{ width: 145, fontWeight: 600, color: '#444444', fontSize: 12 }}>Transfered Date</Box>
+                                <Box sx={{ width: 135, fontWeight: 600, color: '#444444', fontSize: 12 }}>Transfered Employee</Box>
+                                <Box sx={{ width: 140, fontWeight: 600, color: '#444444', fontSize: 12 }}>Transfered Date</Box>
                             </Box>
 
                             <Box sx={{ width: '100%', overflow: 'auto' }}>
@@ -275,8 +275,8 @@ const PendingCondemnationList = ({ empdept, empId }) => {
                                                 <Box sx={{ flex: 2, color: '#444444', fontSize: 14, pl: 6 }}>
                                                     {val.condm_transf_remarks}
                                                 </Box>
-                                                <Box sx={{ width: 145, fontWeight: 600, color: '#444444', fontSize: 12, pl: .5 }}>{val.condm_trans_emp}</Box>
-                                                <Box sx={{ width: 145, fontWeight: 600, color: '#444444', fontSize: 12 }}>
+                                                <Box sx={{ width: 135, fontWeight: 600, color: '#444444', fontSize: 12, pl: .5 }}>{val.condm_trans_emp}</Box>
+                                                <Box sx={{ width: 140, fontWeight: 600, color: '#444444', fontSize: 12 }}>
                                                     {val.item_condm_date
                                                         ? format(new Date(val.item_condm_date), 'dd MMM yyyy,  hh:mm a')
                                                         : ''}

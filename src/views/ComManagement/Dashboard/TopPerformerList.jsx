@@ -5,7 +5,6 @@ import DateRangeIcon from '@mui/icons-material/DateRange';
 import { getAllDeptemployeeList } from 'src/api/TicketApi';
 import { useQuery } from 'react-query';
 import { BarChart, } from '@mui/x-charts';
-import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 
 const TopPerformerList = ({ PostDate }) => {
 

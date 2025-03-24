@@ -15,7 +15,6 @@ import NewRectifyModal from './NewRectifyModal';
 import InsertCommentIcon from '@mui/icons-material/InsertComment';
 import MarkUnreadChatAltIcon from '@mui/icons-material/MarkUnreadChatAlt';
 import HoldReasonModal from './HoldReasonModal';
-import QueryBuilderRoundedIcon from '@mui/icons-material/QueryBuilderRounded';
 import CountDownCm from '../../CountDownCM/CountDownCm';
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
 import ComFileView from '../../CmFileView/ComFileView';
@@ -328,7 +327,29 @@ const MyHoldList = () => {
                                                     text={
                                                         val.compalint_date
                                                             ? format(new Date(val.compalint_date), 'dd MMM yyyy,   hh:mm a')
-                                                            : 'Invalid Date'
+                                                            : 'Not Updated'
+                                                    }
+                                                />
+                                            </Box>
+                                        </Tooltip>
+                                    </CssVarsProvider>
+                                    <CssVarsProvider>
+                                        <Tooltip title='Ticket Assigned Date and time' placement='top-start' >
+                                            <Box sx={{ cursor: 'pointer' }}>
+                                                <TextComponent
+                                                    sx={{
+                                                        color: 'black',
+                                                        fontWeight: 540,
+                                                        flex: 1,
+                                                        fontSize: 15,
+                                                        pl: 2,
+                                                        py: .5,
+                                                        fontFamily: 'Arial',
+                                                    }}
+                                                    text={
+                                                        val.assigned_date
+                                                            ? format(new Date(val.assigned_date), 'dd MMM yyyy,   hh:mm a')
+                                                            : 'Not Updated'
                                                     }
                                                 />
                                             </Box>
@@ -360,7 +381,9 @@ const MyHoldList = () => {
                                             Aprox Date :
                                         </Typography>
                                         <Chip sx={{ bgcolor: 'white', color: '#391306', border: 1, ml: 1, }}>
-                                            {val.aprrox_date}
+                                            {val.aprrox_date
+                                                ? format(new Date(val.aprrox_date), 'dd MM yyyy,  hh:mm a')
+                                                : 'Not Updated'}
                                         </Chip>
                                         <Typography sx={{ color: 'black', pt: .2, fontWeight: 500, fontSize: 13, ml: 3 }}>
                                             Remarks :
@@ -605,24 +628,13 @@ const MyHoldList = () => {
                                     display: 'flex',
                                 }}>
                                     <CssVarsProvider>
-                                        <Tooltip title='CountUp time Starts from Ticket Registration' color='warning' variant="soft" sx={{ width: 180 }}>
-                                            <Box sx={{ display: 'flex', cursor: 'grab', fontSize: 13, py: .3, pl: .3, width: 125 }}>
+                                        <Tooltip title='CountUp time Starts from Ticket Registration' color='neutral' placement='right' sx={{ width: 300 }}>
+                                            <Box sx={{ display: 'flex', cursor: 'grab', fontSize: 13, width: 125 }}>
                                                 <CountDownCm complaintDate={val.compalint_date} />
                                             </Box>
                                         </Tooltip>
                                     </CssVarsProvider>
-                                    <CssVarsProvider>
-                                        <Tooltip title='Ticket Assigned Date and time' placement='right'   >
-                                            <Box sx={{ display: 'flex', ml: 1.5, pt: .3 }}>
-                                                <QueryBuilderRoundedIcon sx={{ color: 'black', borderRadius: 1, p: .2 }} />
-                                                <Typography sx={{ fontSize: 12, textAlign: 'center', fontWeight: 600, color: "black", mr: .3, pt: .4, cursor: 'grab' }}>
-                                                    {val.assigned_date
-                                                        ? format(new Date(val.assigned_date), 'dd MMM yyyy,   hh:mm a')
-                                                        : 'Not Updated'}
-                                                </Typography>
-                                            </Box>
-                                        </Tooltip>
-                                    </CssVarsProvider>
+
                                     {val.priority_check === 1 ?
                                         <Box sx={{ display: 'flex', pl: 1 }}>
                                             <ErrorIcon

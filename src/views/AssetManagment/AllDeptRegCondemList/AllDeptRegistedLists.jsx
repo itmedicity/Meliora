@@ -70,6 +70,11 @@ const AllDeptRegistedLists = ({ viewForm }) => {
                                     </th>
                                     <th style={{ textAlign: 'center', width: 22 }}>
                                         <IconButton sx={{ color: 'black', fontSize: 13 }}>
+                                            Request Department
+                                        </IconButton>
+                                    </th>
+                                    <th style={{ textAlign: 'center', width: 22 }}>
+                                        <IconButton sx={{ color: 'black', fontSize: 13 }}>
                                             Form Number
                                         </IconButton>
                                     </th>
@@ -141,6 +146,7 @@ const AllDeptRegistedLists = ({ viewForm }) => {
                                                                                                     'Pending Approval'}
                                                 </Box>
                                             </td>
+                                            <td style={{ textAlign: 'center', }}>{val.dept_name}</td>
                                             <td style={{ textAlign: 'center', }}>{val.condem_form_prefix}/{val.condem_form_no}</td>
                                             <td style={{ textAlign: 'center', }}>{val.reg_date ? format(new Date(val.reg_date), 'dd-MMM-yyyy') : 'N/A'}</td>
                                             <td style={{ textAlign: 'center', }}>{val.count_of_asset || '-'}</td>

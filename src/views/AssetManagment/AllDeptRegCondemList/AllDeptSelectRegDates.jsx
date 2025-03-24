@@ -146,12 +146,12 @@ const AllDeptSelectRegDates = ({ viewForm }) => {
                             sx={{ borderRadius: 2 }} borderAxis='both' >
                             <thead>
                                 <tr>
-                                    <th style={{ textAlign: 'center', width: 12 }}>
+                                    <th style={{ textAlign: 'center', width: 10 }}>
                                         <IconButton sx={{ color: 'black', fontSize: 13 }}>
                                             Serial No.
                                         </IconButton>
                                     </th>
-                                    <th style={{ textAlign: 'center', width: 12 }}>
+                                    <th style={{ textAlign: 'center', width: 13 }}>
                                         <IconButton sx={{ color: 'black', fontSize: 13 }}>
                                             Action
                                         </IconButton>
@@ -159,6 +159,11 @@ const AllDeptSelectRegDates = ({ viewForm }) => {
                                     <th style={{ textAlign: 'center', width: 20 }}>
                                         <IconButton sx={{ color: 'black', fontSize: 13 }}>
                                             Status
+                                        </IconButton>
+                                    </th>
+                                    <th style={{ textAlign: 'center', width: 22 }}>
+                                        <IconButton sx={{ color: 'black', fontSize: 13 }}>
+                                            Request Department
                                         </IconButton>
                                     </th>
                                     <th style={{ textAlign: 'center', width: 22 }}>
@@ -234,6 +239,7 @@ const AllDeptSelectRegDates = ({ viewForm }) => {
                                                                                                     'Pending Approval'}
                                                 </Box>
                                             </td>
+                                            <td style={{ textAlign: 'center', }}>{val.dept_name}</td>
                                             <td style={{ textAlign: 'center', }}>{val.condem_form_prefix}/{val.condem_form_no}</td>
                                             <td style={{ textAlign: 'center', }}>{val.reg_date ? format(new Date(val.reg_date), 'dd-MMM-yyyy') : 'N/A'}</td>
                                             <td style={{ textAlign: 'center', }}>{val.count_of_asset || '-'}</td>

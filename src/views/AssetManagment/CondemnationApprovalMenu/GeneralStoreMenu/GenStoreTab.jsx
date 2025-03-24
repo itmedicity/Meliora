@@ -142,4 +142,4 @@ const GenStoreTab = ({ menurights }) => {
     )
 }
 
-export default GenStoreTab
+export default memo(GenStoreTab)

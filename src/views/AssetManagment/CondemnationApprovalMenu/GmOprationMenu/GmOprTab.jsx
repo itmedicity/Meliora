@@ -142,5 +142,4 @@ const GmOprTab = ({ menurights }) => {
     )
 }
 
-
-export default GmOprTab
+export default memo(GmOprTab)

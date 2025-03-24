@@ -142,4 +142,4 @@ const MaterialManagementTab = ({ menurights }) => {
     )
 }
 
-export default MaterialManagementTab
+export default memo(MaterialManagementTab)

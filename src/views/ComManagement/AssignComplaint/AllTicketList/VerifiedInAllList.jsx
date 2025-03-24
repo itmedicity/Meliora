@@ -312,7 +312,7 @@ const VerifiedInAllList = () => {
                                                         text={
                                                             val.compalint_date
                                                                 ? format(new Date(val.compalint_date), 'dd MMM yyyy,   hh:mm a')
-                                                                : 'Invalid Date'
+                                                                : 'Not Updated'
                                                         }
                                                     />
                                                 </Box>
@@ -471,13 +471,13 @@ const VerifiedInAllList = () => {
                                             </Box> : null}
                                         <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', }}>
                                             <Typography sx={{ fontSize: 13, fontWeight: 700, pt: .5 }}>Assignees :</Typography>&nbsp;&nbsp;
-                                            {val.worked_employees === null ?
+                                            {val.assigned_employees === null ?
                                                 <Chip>
                                                     Not Updated
                                                 </Chip>
                                                 :
                                                 <>
-                                                    {val.worked_employees.split(',').map((name, index) => (
+                                                    {val.assigned_employees.split(',').map((name, index) => (
                                                         <Chip
                                                             key={index}
                                                             size="small"

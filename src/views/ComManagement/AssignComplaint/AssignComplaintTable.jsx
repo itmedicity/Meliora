@@ -74,7 +74,7 @@ const AssignComplaintTable = () => {
         getPendingVerifyList(empdept)
     }, [empdept, count])
 
-    const searchDate = useMemo(() => {
+    const searchEmpDept = useMemo(() => {
         return {
             complaint_deptslno: empdept,
         };
@@ -82,7 +82,7 @@ const AssignComplaintTable = () => {
 
     useEffect(() => {
         const getAllHoldCompalints = async () => {
-            const result = await axioslogin.post('/Rectifycomplit/getDepartmentPendingList', searchDate);
+            const result = await axioslogin.post('/Rectifycomplit/getDepartmentPendingList', searchEmpDept);
             const { success, data } = result.data;
             if (success === 2) {
                 const OnholdCompl = data.filter(complaint =>
@@ -98,8 +98,8 @@ const AssignComplaintTable = () => {
                 setholdLength(0)
             }
         };
-        getAllHoldCompalints(searchDate)
-    }, [searchDate, count]);
+        getAllHoldCompalints(searchEmpDept)
+    }, [searchEmpDept, count]);
 
     const [loading, setLoading] = useState(true);
     const [allPendingCompl, setAllPendingCompl] = useState([]);
@@ -159,7 +159,6 @@ const AssignComplaintTable = () => {
         let array = menuList.filter((value) =>
             employeeMenuRight.find((val) => value.slno === val.menu_slno)
         );
-
         setMenurights(array);
     }, [menuList, employeeMenuRight]);
 
@@ -354,3 +353,5 @@ const AssignComplaintTable = () => {
     )
 }
 export default memo(AssignComplaintTable)
+
+

@@ -243,7 +243,6 @@ const DirectComplaintReg = () => {
         }
     }, [desc, depsec, roomName, cotype, priority, priorreason, checkHic, complaint_slno, locationName, codept, assetArray, id])
 
-
     useEffect(() => {
         if (edit === 1) {
             const getAssetinComplaint = async (complaint_slno) => {

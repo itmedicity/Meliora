@@ -15,7 +15,6 @@ import AssingedInAllList from '../AssignComplaint/AllTicketList/AssingedInAllLis
 
 const AllTicketsSuperwiser = ({ forVerifyList, count, setCount, forverifyLength, menurights }) => {
 
-
     const empdept = useSelector((state) => {
         return state.LoginUserData.empdept
     })

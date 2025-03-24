@@ -13,7 +13,6 @@ import AmSpareItemListDeptSecBsed from 'src/views/CommonSelectCode/AmSpareItemLi
 import CusIconButton from 'src/views/Components/CusIconButton'
 import TextComponent from 'src/views/Components/TextComponent'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
-import _ from 'underscore'
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import { getCustodianDetails } from 'src/api/AssetApis'
 import { useQuery } from 'react-query'
@@ -31,7 +30,6 @@ const ItemDetailSearch = ({ assetSpare, AddDetails, count }) => {
     const [Assetno, setAssetno] = useState('')
     const [flag, setFlag] = useState(0)
     const [displayarry, setDisArry] = useState([])
-    const deptsecid = useSelector((state) => state.LoginUserData.empsecid, _.isEqual)
     const [custFirstName, setcustFirstName] = useState('')
     const [custSecName, setcustSecName] = useState('')
     const [spareNo, setspareNo] = useState('')
@@ -153,7 +151,7 @@ const ItemDetailSearch = ({ assetSpare, AddDetails, count }) => {
             getdataSpareItem(postdataSpare)
         }
 
-    }, [postdata, postdataSpare, serialno, assetSpare, deptsecid])
+    }, [postdata, postdataSpare, assetSpare])
 
 
 

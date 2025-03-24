@@ -564,7 +564,7 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
                                         sx={{
                                             "--Button-gap": "8px", width: '100%'
                                         }}
-                                    >Search Supplier From Oracle </Button>
+                                    >Search Supplier From Ellider </Button>
                                 </Box>
                             </Box>
                         </> : null}

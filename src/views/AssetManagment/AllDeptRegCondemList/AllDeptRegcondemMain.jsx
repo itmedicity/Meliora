@@ -158,4 +158,4 @@ const AllDeptRegcondemMain = () => {
     )
 }
 
-export default AllDeptRegcondemMain
+export default memo(AllDeptRegcondemMain)

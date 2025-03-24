@@ -143,4 +143,4 @@ const HodTab = ({ menurights }) => {
     )
 }
 
-export default HodTab
+export default memo(HodTab)

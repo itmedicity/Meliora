@@ -8,10 +8,8 @@ import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import InsertPhotoSharpIcon from '@mui/icons-material/InsertPhotoSharp';
 
-const DocumentsList = ({ serviceDetails, flags }) => {
-    const { am_bill_no, am_bill_date, am_bill_amount, address, ph_two, ph_one, troll_free, wargar_to_date, wargar_from_date, bill_supplier_name,
-        lease_suppliername, lease_amount, lease_todate, amc_cmc_suppliername, to_date, from_date, lease_fromdate, guarenty_status, warrenty_status,
-        am_lease_mast_slno, am_bill_mastslno, item_asset_no, amccmc_slno, am_item_wargar_slno } = serviceDetails
+const DocumentsList = ({ serviceDetails, }) => {
+    const { am_lease_mast_slno, am_bill_mastslno, item_asset_no, amccmc_slno, am_item_wargar_slno } = serviceDetails
 
     const [leaseDocuments, setleaseDocuments] = useState([])
     const [billdetailsView, setBilldetailsView] = useState([])
@@ -160,15 +158,30 @@ const DocumentsList = ({ serviceDetails, flags }) => {
             mt: 1
         }}>
 
-            <Box sx={{ flex: 1, border: 1, borderRadius: 3, borderColor: '#EBEFFB', p: 1, display: 'flex' }}>
-                <Box sx={{ height: 100, width: 100, cursor: 'pointer', border: 1, borderRadius: 4, borderColor: '#E0E1E3', p: .5 }} >
+            <Box sx={{ flex: 1, border: 1, borderRadius: 3, borderColor: '#EBEFFB', p: 1, }}>
+                <Typography
+                    sx={{
+                        flex: 1,
+                        fontWeight: 600,
+                        color: '#394060',
+                        fontSize: 16,
+                        mb: .5, pl: .5
+                    }}
+                >
+                    Purchase Bills
+                </Typography>
+                <Box sx={{
+                    cursor: 'pointer',
+
+                    p: .5
+                }} >
                     {imageShowsingleFlag === 1 ?
                         < Box >
                             <FileViewSingle previewFile={uploadedFile} imageShow={imageShowSingle} CloseFile={CloseSingleFile} />
                         </Box> : null
                     }
                     {billdetailsView.length !== 0 ? (
-                        <Grid container spacing={.5}>
+                        <Box sx={{ display: 'flex', gap: .8 }}>
                             {billdetailsView.map((url, index) => {
                                 const isPdf = url.toLowerCase().endsWith('.pdf');
                                 const isImage = /\.(jpeg|jpg|png|gif|bmp|webp)$/i.test(url);
@@ -176,8 +189,9 @@ const DocumentsList = ({ serviceDetails, flags }) => {
                                     <Box
                                         key={index}
                                         sx={{
-                                            flex: 1,
-                                            pb: 1
+                                            p: .5,
+                                            border: 1, borderRadius: 4, borderColor: '#E0E1E3',
+
                                         }}
                                     >
                                         {isImage ? (
@@ -185,8 +199,8 @@ const DocumentsList = ({ serviceDetails, flags }) => {
                                                 src={url}
                                                 alt={`Complaint file ${index}`}
                                                 style={{
-                                                    width: 85,
-                                                    height: 70,
+                                                    width: 75,
+                                                    height: 50,
                                                     color: "#e53935",
                                                     cursor: "pointer",
                                                 }}
@@ -195,8 +209,8 @@ const DocumentsList = ({ serviceDetails, flags }) => {
                                         ) : isPdf ? (
                                             <PictureAsPdfIcon
                                                 sx={{
-                                                    width: 85,
-                                                    height: 70,
+                                                    width: 75,
+                                                    height: 50,
                                                     color: "#e53935",
                                                     cursor: "pointer",
                                                 }}
@@ -205,8 +219,8 @@ const DocumentsList = ({ serviceDetails, flags }) => {
                                         ) : (
                                             <InsertDriveFileIcon
                                                 sx={{
-                                                    width: 85,
-                                                    height: 70,
+                                                    width: 75,
+                                                    height: 50,
                                                     color: "#e53935",
                                                     cursor: "pointer",
                                                 }}
@@ -215,12 +229,12 @@ const DocumentsList = ({ serviceDetails, flags }) => {
                                         )}
                                         <Box
                                             sx={{
-                                                fontSize: 14,
+                                                fontSize: 13,
                                                 color: "#333",
                                                 overflow: "hidden",
                                                 textOverflow: "ellipsis",
                                                 whiteSpace: "nowrap",
-                                                width: 90,
+                                                width: 75,
                                             }}
                                         >
                                             {url.split('/').pop() || "N/A"}
@@ -229,7 +243,7 @@ const DocumentsList = ({ serviceDetails, flags }) => {
                                     </Box>
                                 )
                             })}
-                        </Grid>
+                        </Box>
                     )
                         : (
                             <Box
@@ -239,8 +253,8 @@ const DocumentsList = ({ serviceDetails, flags }) => {
                             >
                                 <InsertPhotoSharpIcon
                                     sx={{
-                                        width: 85,
-                                        height: 85,
+                                        width: 75,
+                                        height: 75,
                                         color: '#E3E8F0',
                                         cursor: "default",
                                     }}
@@ -250,17 +264,8 @@ const DocumentsList = ({ serviceDetails, flags }) => {
 
 
                 </Box>
-                <Box sx={{ flex: 1, pl: 1 }}>
-                    <Typography
-                        sx={{
-                            flex: 1,
-                            fontWeight: 600,
-                            color: '#394060',
-                            fontSize: 13
-                        }}
-                    >
-                        Purchase Bills
-                    </Typography>
+                {/* <Box sx={{ flex: 1, pl: 1 }}>
+
                     <Box sx={{ display: 'flex', flex: 1, }}>
                         <Typography sx={{ width: 100, fontSize: 13 }}>
                             Bill No.
@@ -293,107 +298,113 @@ const DocumentsList = ({ serviceDetails, flags }) => {
                             {bill_supplier_name || "Not Updated"}
                         </Typography>
                     </Box>
-                </Box>
+                </Box> */}
             </Box>
 
 
             {item_asset_no !== undefined ?
-                <Box sx={{ flex: 1, border: 1, borderRadius: 3, borderColor: '#EBEFFB', p: 1, display: 'flex' }}>
-                    <Box sx={{ height: 100, width: 100, cursor: 'pointer', border: 1, borderRadius: 4, borderColor: '#E0E1E3', p: .5 }}>
-                        <Box sx={{ flex: 1, mr: 1, my: .5, ml: .5 }}>
-                            {imageShowsingleFlag === 1 ?
-                                < Box >
-                                    <FileViewSingle previewFile={uploadedFile} imageShow={imageShowSingle} CloseFile={CloseSingleFile} />
-                                </Box> : null
-                            }
-                            {amcCmcDocuments.length !== 0 ? (
-                                <Grid container spacing={.5}>
-                                    {amcCmcDocuments.map((url, index) => {
-                                        const isPdf = url.toLowerCase().endsWith('.pdf');
-                                        const isImage = /\.(jpeg|jpg|png|gif|bmp|webp)$/i.test(url);
-                                        return (
-                                            <Box key={index} sx={{
-                                                flex: 1,
-                                                pb: 1
-                                            }}>
-                                                {isImage ? (
-                                                    <img
-                                                        src={url}
-                                                        alt={`Complaint file ${index}`}
-                                                        style={{
-                                                            width: 85,
-                                                            height: 70,
-                                                            color: "#e53935",
-                                                            cursor: "pointer",
-                                                        }}
-                                                        onClick={() => SingleView({ url })}
-                                                    />
-                                                ) : isPdf ? (
-                                                    <PictureAsPdfIcon
-                                                        sx={{
-                                                            width: 85,
-                                                            height: 70,
-                                                            color: "#e53935",
-                                                            cursor: "pointer",
-                                                        }}
-                                                        onClick={() => SingleView({ url })}
-                                                    />
-                                                ) : (
-                                                    <InsertDriveFileIcon
-                                                        sx={{
-                                                            width: 85,
-                                                            height: 70,
-                                                            color: "#e53935",
-                                                            cursor: "pointer",
-                                                        }}
-                                                        onClick={() => SingleView({ url })}
-                                                    />
-                                                )}
-                                                <Box
-                                                    sx={{
-                                                        fontSize: 14,
-                                                        color: "#333",
-                                                        overflow: "hidden",
-                                                        textOverflow: "ellipsis",
-                                                        whiteSpace: "nowrap",
-                                                        width: 90,
-                                                    }}
-                                                >
-                                                    {url.split('/').pop() || "N/A"}
-                                                </Box>
-                                            </Box>
-                                        );
-                                    })}
-                                </Grid>
-                            )
-                                : (
-                                    <Box sx={{
-                                        alignItems: "center",
-                                    }}>
-                                        <InsertPhotoSharpIcon
-                                            sx={{
-                                                width: 85,
-                                                height: 85,
-                                                color: '#E3E8F0',
-                                                cursor: "default",
-                                            }}
-                                        />
-                                    </Box>
-                                )}
-                        </Box>
-                    </Box>
-                    <Box sx={{ flex: 1, pl: 1 }}>
-                        <Box
-                            sx={{
-                                flex: 1,
-                                fontWeight: 600,
-                                color: '#394060',
-                                fontSize: 13
-                            }}
-                        >
-                            AMC/CMC Details
+                <Box sx={{ flex: 1, border: 1, borderRadius: 3, borderColor: '#EBEFFB', p: 1, }}>
+                    <Box
+                        sx={{
+                            flex: 1,
+                            fontWeight: 600,
+                            color: '#394060',
+                            fontSize: 16,
+                            mb: .5, pl: .5
+                        }}
+                    >
+                        AMC/CMC Details
 
-                        </Box>
+                    </Box>
+                    <Box sx={{
+                        cursor: 'pointer',
+                        p: .5
+                    }}>
+
+                        {imageShowsingleFlag === 1 ?
+                            < Box >
+                                <FileViewSingle previewFile={uploadedFile} imageShow={imageShowSingle} CloseFile={CloseSingleFile} />
+                            </Box> : null
+                        }
+                        {amcCmcDocuments.length !== 0 ? (
+                            <Box sx={{ display: 'flex', gap: .8 }}>
+                                {amcCmcDocuments.map((url, index) => {
+                                    const isPdf = url.toLowerCase().endsWith('.pdf');
+                                    const isImage = /\.(jpeg|jpg|png|gif|bmp|webp)$/i.test(url);
+                                    return (
+                                        <Box key={index} sx={{
+
+                                            p: .5,
+                                            border: 1, borderRadius: 4, borderColor: '#E0E1E3',
+                                        }}>
+                                            {isImage ? (
+                                                <img
+                                                    src={url}
+                                                    alt={`Complaint file ${index}`}
+                                                    style={{
+                                                        width: 75,
+                                                        height: 50,
+                                                        color: "#e53935",
+                                                        cursor: "pointer",
+                                                    }}
+                                                    onClick={() => SingleView({ url })}
+                                                />
+                                            ) : isPdf ? (
+                                                <PictureAsPdfIcon
+                                                    sx={{
+                                                        width: 75,
+                                                        height: 50,
+                                                        color: "#e53935",
+                                                        cursor: "pointer",
+                                                    }}
+                                                    onClick={() => SingleView({ url })}
+                                                />
+                                            ) : (
+                                                <InsertDriveFileIcon
+                                                    sx={{
+                                                        width: 75,
+                                                        height: 50,
+                                                        color: "#e53935",
+                                                        cursor: "pointer",
+                                                    }}
+                                                    onClick={() => SingleView({ url })}
+                                                />
+                                            )}
+                                            <Box
+                                                sx={{
+                                                    fontSize: 13,
+                                                    color: "#333",
+                                                    overflow: "hidden",
+                                                    textOverflow: "ellipsis",
+                                                    whiteSpace: "nowrap",
+                                                    width: 75,
+                                                }}
+                                            >
+                                                {url.split('/').pop() || "N/A"}
+                                            </Box>
+                                        </Box>
+                                    );
+                                })}
+                            </Box>
+                        )
+                            : (
+                                <Box sx={{
+                                    alignItems: "center",
+                                }}>
+                                    <InsertPhotoSharpIcon
+                                        sx={{
+                                            width: 75,
+                                            height: 75,
+                                            color: '#E3E8F0',
+                                            cursor: "default",
+                                        }}
+                                    />
+                                </Box>
+                            )}
+
+                    </Box>
+                    {/* <Box sx={{ flex: 1, pl: 1 }}>
+
                         <Box sx={{ fontSize: 13, color: '#0B6BCB', fontWeight: 600 }}>
                             {flags.amc_status === 1 ? "AMC" : flags.cmc_status === 1 ? "CMC" : "Not Updated"}
                         </Box>
@@ -421,260 +432,219 @@ const DocumentsList = ({ serviceDetails, flags }) => {
                                 {amc_cmc_suppliername || 'Not Updated'}
                             </Typography>
                         </Box>
-                    </Box>
+                    </Box> */}
                 </Box>
                 : null}
 
             {
                 item_asset_no !== undefined ?
-                    <Box sx={{ flex: 1, border: 1, borderRadius: 3, borderColor: '#EBEFFB', p: 1, display: 'flex' }}>
-                        <Box sx={{ height: 100, width: 100, cursor: 'pointer', border: 1, borderRadius: 4, borderColor: '#E0E1E3', p: .5 }}>
-                            <Box sx={{ flex: 1, mr: 1, my: .5, ml: .5 }}>
-                                {imageShowsingleFlag === 1 ?
-                                    < Box >
-                                        <FileViewSingle previewFile={uploadedFile} imageShow={imageShowSingle} CloseFile={CloseSingleFile} />
-                                    </Box> : null
-                                }
-                                {leaseDocuments.length !== 0 ? (
-                                    <Grid container spacing={.5}>
-                                        {leaseDocuments.map((url, index) => {
-                                            const isPdf = url.toLowerCase().endsWith('.pdf');
-                                            const isImage = /\.(jpeg|jpg|png|gif|bmp|webp)$/i.test(url);
+                    <Box sx={{ flex: 1, border: 1, borderRadius: 3, borderColor: '#EBEFFB', p: 1, }}>
+                        <Typography
+                            sx={{
+                                flex: 1,
+                                fontWeight: 600,
+                                color: '#394060',
+                                fontSize: 16,
+                                mb: .5, pl: .5
+                            }}
+                        >
+                            Lease Details
+                        </Typography>
+                        <Box sx={{ cursor: 'pointer', p: .5 }}>
 
-                                            return (
+                            {imageShowsingleFlag === 1 ?
+                                < Box >
+                                    <FileViewSingle previewFile={uploadedFile} imageShow={imageShowSingle} CloseFile={CloseSingleFile} />
+                                </Box> : null
+                            }
+                            {leaseDocuments.length !== 0 ? (
+                                <Box sx={{ display: 'flex', gap: .8 }}>
+                                    {leaseDocuments.map((url, index) => {
+                                        const isPdf = url.toLowerCase().endsWith('.pdf');
+                                        const isImage = /\.(jpeg|jpg|png|gif|bmp|webp)$/i.test(url);
 
-                                                <Box key={index} sx={{
-                                                    flex: 1,
-                                                    pb: 1
-                                                }}>
-                                                    {isImage ? (
-                                                        <img
-                                                            src={url}
-                                                            alt={`Complaint file ${index}`}
-                                                            style={{
-                                                                width: 85,
-                                                                height: 70,
-                                                                color: "#e53935",
-                                                                cursor: "pointer",
-                                                            }}
-                                                            onClick={() => SingleView({ url })}
-                                                        />
-                                                    ) : isPdf ? (
-                                                        <PictureAsPdfIcon
-                                                            sx={{
-                                                                width: 85,
-                                                                height: 70,
-                                                                color: "#e53935",
-                                                                cursor: "pointer",
-                                                            }}
-                                                            onClick={() => SingleView({ url })}
-                                                        />
-                                                    ) : (
-                                                        <InsertDriveFileIcon
-                                                            sx={{
-                                                                width: 85,
-                                                                height: 70,
-                                                                color: "#e53935",
-                                                                cursor: "pointer",
-                                                            }}
-                                                            onClick={() => SingleView({ url })}
-                                                        />
-                                                    )}
+                                        return (
 
-                                                    <Box
-                                                        sx={{
-                                                            fontSize: 14,
-                                                            color: "#333",
-                                                            overflow: "hidden",
-                                                            textOverflow: "ellipsis",
-                                                            whiteSpace: "nowrap",
-                                                            width: 90,
+                                            <Box key={index} sx={{
+                                                p: .5,
+                                                border: 1, borderRadius: 4, borderColor: '#E0E1E3',
+                                            }}>
+                                                {isImage ? (
+                                                    <img
+                                                        src={url}
+                                                        alt={`Complaint file ${index}`}
+                                                        style={{
+                                                            width: 75,
+                                                            height: 50,
+                                                            color: "#e53935",
+                                                            cursor: "pointer",
                                                         }}
-                                                    >
-                                                        {url.split('/').pop() || "N/A"}
-                                                    </Box>
+                                                        onClick={() => SingleView({ url })}
+                                                    />
+                                                ) : isPdf ? (
+                                                    <PictureAsPdfIcon
+                                                        sx={{
+                                                            width: 75,
+                                                            height: 50,
+                                                            color: "#e53935",
+                                                            cursor: "pointer",
+                                                        }}
+                                                        onClick={() => SingleView({ url })}
+                                                    />
+                                                ) : (
+                                                    <InsertDriveFileIcon
+                                                        sx={{
+                                                            width: 75,
+                                                            height: 50,
+                                                            color: "#e53935",
+                                                            cursor: "pointer",
+                                                        }}
+                                                        onClick={() => SingleView({ url })}
+                                                    />
+                                                )}
+
+                                                <Box
+                                                    sx={{
+                                                        fontSize: 13,
+                                                        color: "#333",
+                                                        overflow: "hidden",
+                                                        textOverflow: "ellipsis",
+                                                        whiteSpace: "nowrap",
+                                                        width: 75,
+                                                    }}
+                                                >
+                                                    {url.split('/').pop() || "N/A"}
                                                 </Box>
+                                            </Box>
 
-                                            );
-                                        })}
-                                    </Grid>
-                                )
-                                    : (
+                                        );
+                                    })}
+                                </Box>
+                            )
+                                : (
 
-                                        <Box
+                                    <Box
+                                        sx={{
+                                            alignItems: "center",
+                                        }}
+                                    >
+                                        <InsertPhotoSharpIcon
                                             sx={{
-                                                alignItems: "center",
-
-
+                                                width: 75,
+                                                height: 75,
+                                                color: '#E3E8F0',
+                                                cursor: "default",
                                             }}
-                                        >
-                                            <InsertPhotoSharpIcon
-                                                sx={{
-                                                    width: 85,
-                                                    height: 85,
-                                                    color: '#E3E8F0',
-                                                    cursor: "default",
-                                                }}
-                                            />
-                                        </Box>
-
-                                    )}
-                            </Box>
-
-                        </Box>
-
-                        <Box sx={{ flex: 1, pl: 1 }}>
-                            <Typography
-                                sx={{
-                                    flex: 1,
-                                    fontWeight: 600,
-                                    color: '#394060',
-                                    fontSize: 13
-                                }}
-                            >
-                                Lease Details
-                            </Typography>
-                            <Box sx={{ display: 'flex', flex: 1, }}>
-                                <Typography sx={{ width: 100, fontSize: 13 }}>
-                                    From Date
-                                </Typography>
-                                <Typography sx={{ flex: 1, fontSize: 13 }}>
-                                    {lease_fromdate || 'Not Updated'}
-                                </Typography>
-                            </Box>
-                            <Box sx={{ display: 'flex', flex: 1, }}>
-                                <Typography sx={{ width: 100, fontSize: 13 }}>
-                                    To Date
-                                </Typography>
-                                <Typography sx={{ flex: 1, fontSize: 13 }}>
-                                    {lease_todate || 'Not Updated'}
-                                </Typography>
-                            </Box>
-                            <Box sx={{ display: 'flex', flex: 1, }}>
-                                <Typography sx={{ width: 100, fontSize: 13 }}>
-                                    Lease Amount
-                                </Typography>
-                                <Typography sx={{ flex: 1, fontSize: 13 }}>
-                                    {lease_amount || 'Not Updated'}
-                                </Typography>
-                            </Box>
-                            <Box sx={{ display: 'flex', flex: 1, }}>
-                                <Typography sx={{ width: 100, fontSize: 13 }}>
-                                    Supplier
-                                </Typography>
-                                <Typography sx={{ flex: 1, fontSize: 13 }}>
-                                    {lease_suppliername || 'Not Updated'}
-                                </Typography>
-                            </Box>
-
+                                        />
+                                    </Box>
+                                )}
                         </Box>
 
                     </Box> : null
             }
 
-            <Box sx={{ flex: 1, border: 1, borderRadius: 3, borderColor: '#EBEFFB', p: 1, display: 'flex' }}>
-                <Box sx={{ height: 100, width: 100, cursor: 'pointer', border: 1, borderRadius: 4, borderColor: '#E0E1E3', p: .5 }}>
-                    <Box sx={{ flex: 1, mr: 1, my: .5, ml: .5 }}>
-                        {imageShowsingleFlag === 1 ?
-                            < Box >
-                                <FileViewSingle previewFile={uploadedFile} imageShow={imageShowSingle} CloseFile={CloseSingleFile} />
-                            </Box> : null
-                        }
-                        {wargarDocument.length !== 0 ? (
-                            <Grid container spacing={.5}>
-                                {wargarDocument.map((url, index) => {
-                                    const isPdf = url.toLowerCase().endsWith('.pdf');
-                                    const isImage = /\.(jpeg|jpg|png|gif|bmp|webp)$/i.test(url)
-                                    return (
-                                        <Box key={index} sx={{
-                                            flex: 1,
-                                            pb: 1,
-                                        }}>
-                                            {isImage ? (
-                                                <img
-                                                    src={url}
-                                                    alt={`Complaint file ${index}`}
-                                                    style={{
-                                                        width: 85,
-                                                        height: 70,
-                                                        color: "#e53935",
-                                                        cursor: "pointer",
-                                                    }}
-                                                    onClick={() => SingleView({ url })}
-                                                />
-                                            ) : isPdf ? (
-                                                <PictureAsPdfIcon
-                                                    sx={{
-                                                        width: 85,
-                                                        height: 70,
-                                                        color: "#e53935",
-                                                        cursor: "pointer",
-                                                    }}
-                                                    onClick={() => SingleView({ url })}
-                                                />
-                                            ) : (
-                                                <InsertDriveFileIcon
-                                                    sx={{
-                                                        width: 85,
-                                                        height: 70,
-                                                        color: "#e53935",
-                                                        cursor: "pointer",
-                                                    }}
-                                                    onClick={() => SingleView({ url })}
-                                                />
-                                            )}
-                                            <Box
-                                                sx={{
-                                                    fontSize: 14,
-                                                    color: "#333",
-                                                    overflow: "hidden",
-                                                    textOverflow: "ellipsis",
-                                                    whiteSpace: "nowrap",
-                                                    width: 90,
+            <Box sx={{ flex: 1, border: 1, borderRadius: 3, borderColor: '#EBEFFB', p: 1, }}>
+                <Typography
+                    sx={{
+                        flex: 1,
+                        fontWeight: 600,
+                        color: '#394060',
+                        fontSize: 16,
+                        mb: .5, pl: .5
+                    }}
+                >
+                    Warrenty/Guarantee Details
+                </Typography>
+                <Box sx={{ display: 'flex', gap: .8 }}>
+
+                    {imageShowsingleFlag === 1 ?
+                        < Box >
+                            <FileViewSingle previewFile={uploadedFile} imageShow={imageShowSingle} CloseFile={CloseSingleFile} />
+                        </Box> : null
+                    }
+                    {wargarDocument.length !== 0 ? (
+                        <Grid container spacing={.5}>
+                            {wargarDocument.map((url, index) => {
+                                const isPdf = url.toLowerCase().endsWith('.pdf');
+                                const isImage = /\.(jpeg|jpg|png|gif|bmp|webp)$/i.test(url)
+                                return (
+                                    <Box key={index} sx={{
+                                        p: .5,
+                                        border: 1, borderRadius: 4, borderColor: '#E0E1E3',
+                                    }}>
+                                        {isImage ? (
+                                            <img
+                                                src={url}
+                                                alt={`Complaint file ${index}`}
+                                                style={{
+                                                    width: 75,
+                                                    height: 50,
+                                                    color: "#e53935",
+                                                    cursor: "pointer",
                                                 }}
-                                            >
-                                                {url.split('/').pop()}
-                                            </Box>
+                                                onClick={() => SingleView({ url })}
+                                            />
+                                        ) : isPdf ? (
+                                            <PictureAsPdfIcon
+                                                sx={{
+                                                    width: 75,
+                                                    height: 50,
+                                                    color: "#e53935",
+                                                    cursor: "pointer",
+                                                }}
+                                                onClick={() => SingleView({ url })}
+                                            />
+                                        ) : (
+                                            <InsertDriveFileIcon
+                                                sx={{
+                                                    width: 75,
+                                                    height: 50,
+                                                    color: "#e53935",
+                                                    cursor: "pointer",
+                                                }}
+                                                onClick={() => SingleView({ url })}
+                                            />
+                                        )}
+                                        <Box
+                                            sx={{
+                                                fontSize: 13,
+                                                color: "#333",
+                                                overflow: "hidden",
+                                                textOverflow: "ellipsis",
+                                                whiteSpace: "nowrap",
+                                                width: 90,
+                                            }}
+                                        >
+                                            {url.split('/').pop()}
                                         </Box>
+                                    </Box>
 
-                                    );
-                                })}
-                            </Grid>
-                        )
-                            : (
-
-                                <Box
+                                );
+                            })}
+                        </Grid>)
+                        : (
+                            <Box
+                                sx={{
+                                    alignItems: "center",
+                                    p: .5,
+                                    border: 1, borderRadius: 4, borderColor: '#E0E1E3',
+                                }}
+                            >
+                                <InsertPhotoSharpIcon
                                     sx={{
-                                        alignItems: "center",
-
-
+                                        width: 75,
+                                        height: 75,
+                                        color: '#E3E8F0',
+                                        cursor: "default",
                                     }}
-                                >
-                                    <InsertPhotoSharpIcon
-                                        sx={{
-                                            width: 85,
-                                            height: 85,
-                                            color: '#E3E8F0',
-                                            cursor: "default",
-                                        }}
-                                    />
-                                </Box>
+                                />
+                            </Box>
+                        )}
 
-                            )}
-
-                    </Box>
                 </Box>
                 <Box sx={{ flex: 1, pl: 1 }}>
-                    <Typography
-                        sx={{
-                            flex: 1,
-                            fontWeight: 600,
-                            color: '#394060',
-                        }}
-                    >
-                        Warrenty/Guarantee Details
-                    </Typography>
-                    <Box sx={{ fontSize: 13, color: '#0B6BCB', fontWeight: 600 }}>
+
+                    {/* <Box sx={{ fontSize: 13, color: '#0B6BCB', fontWeight: 600 }}>
                         {warrenty_status === 1 ? "Warrenty" : guarenty_status === 1 ? "Guarentee" : "Not Updated"}
                     </Box>
                     <Box sx={{ display: 'flex', flex: 1, }}>
@@ -730,10 +700,9 @@ const DocumentsList = ({ serviceDetails, flags }) => {
                                 </Typography>
                             </Box>
                         </Box>
-                    </Box>
+                    </Box> */}
                 </Box>
             </Box>
-
         </Box >
     )
 }

@@ -5,7 +5,6 @@ import ErrorIcon from '@mui/icons-material/Error';
 import { keyframes } from '@mui/system';
 import QuestionAnswerRoundedIcon from '@mui/icons-material/QuestionAnswerRounded';
 import CountDownCm from '../../CountDownCM/CountDownCm';
-import QueryBuilderRoundedIcon from '@mui/icons-material/QueryBuilderRounded';
 import QueryModalview from '../Queries/QueryModalview';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import DetailAssingModal from '../../CmSuperVisorList/DetailAssingModal';
@@ -20,6 +19,7 @@ import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices
 import TextComponent from 'src/views/Components/TextComponent';
 import { format } from 'date-fns';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
+
 
 const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights }) => {
 
@@ -209,6 +209,28 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
                                             </Box>
                                         </Tooltip>
                                     </CssVarsProvider>
+                                    <CssVarsProvider>
+                                        <Tooltip title='Ticket Assigned Date and time' placement='top-start' >
+                                            <Box sx={{ cursor: 'pointer' }}>
+                                                <TextComponent
+                                                    sx={{
+                                                        color: 'black',
+                                                        fontWeight: 540,
+                                                        flex: 1,
+                                                        fontSize: 15,
+                                                        pl: 2,
+                                                        py: .5,
+                                                        fontFamily: 'Arial',
+                                                    }}
+                                                    text={
+                                                        val.assigned_date
+                                                            ? format(new Date(val.assigned_date), 'dd MMM yyyy,   hh:mm a')
+                                                            : 'Invalid Date'
+                                                    }
+                                                />
+                                            </Box>
+                                        </Tooltip>
+                                    </CssVarsProvider>
                                     <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', }}>
                                         <Box sx={{ my: .3, mr: .1, px: 2, fontWeight: 500, fontSize: 14, cursor: 'pointer' }}>
                                             Ticket Registered by :  {val.comp_reg_emp}
@@ -236,7 +258,9 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
                                             Aprox Date :
                                         </Typography>
                                         <Chip sx={{ bgcolor: 'white', color: '#391306', border: 1, ml: 1, }}>
-                                            {val.aprrox_date}
+                                            {val.aprrox_date
+                                                ? format(new Date(val.aprrox_date), 'dd MM yyyy,  hh:mm a')
+                                                : 'Invalid Date'}
                                         </Chip>
                                         <Box sx={{ display: 'flex' }}>
                                             <Typography sx={{ color: 'black', pt: .2, fontWeight: 500, fontSize: 13, ml: 3 }}>
@@ -450,24 +474,14 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
                                     display: 'flex',
                                 }}>
                                     <CssVarsProvider>
-                                        <Tooltip title='CountUp time Starts from Ticket Registration' color='warning' variant="soft" sx={{ width: 180 }}>
-                                            <Box sx={{ display: 'flex', cursor: 'grab', fontSize: 13, py: .3, pl: .3, width: 125 }}>
+                                        <Tooltip title='CountUp time Starts from Ticket Registration' color='neutral' placement='right' sx={{ width: 300 }}>
+                                            <Box sx={{ display: 'flex', cursor: 'grab', fontSize: 13, width: 125 }}>
                                                 <CountDownCm complaintDate={val.compalint_date} />
-                                            </Box>
-                                        </Tooltip>
-                                        <Tooltip title='Ticket Assinged Date and time' placement='right'   >
-                                            <Box sx={{ display: 'flex', ml: 1, pt: .3 }}>
-                                                <QueryBuilderRoundedIcon sx={{ color: 'black', borderRadius: 1, p: .2 }} />
-                                                <Typography sx={{ fontSize: 12, textAlign: 'center', fontWeight: 600, color: "black", mr: .3, pt: .4, cursor: 'grab' }}>
-                                                    {val.assigned_date
-                                                        ? format(new Date(val.assigned_date), 'dd MMM yyyy,   hh:mm a')
-                                                        : 'Not Updated'}
-                                                </Typography>
                                             </Box>
                                         </Tooltip>
                                     </CssVarsProvider>
                                     {val.priority_check === 1 ?
-                                        <Box sx={{ display: 'flex', pl: 1 }}>
+                                        <Box sx={{ display: 'flex', pl: 2.5 }}>
                                             <ErrorIcon
                                                 sx={{
                                                     height: 30,

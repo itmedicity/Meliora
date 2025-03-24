@@ -20,43 +20,15 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import { format } from 'date-fns';
 import AssetDetailsModal from './AssetDetailsView/AssetDetailsModal';
-import { useSelector } from 'react-redux';
 
-const CondemnationApprovalModal = ({
-    modalApproveOpen, setmodalApproveOpen,
-    setmodalApproveFlag,
-    empId,
-    formDetails,
-    setformCount,
-    formCount,
-    menurights
 
-}) => {
+const CondemnationApprovalModal = ({ modalApproveOpen, setmodalApproveOpen, setmodalApproveFlag, empId, formDetails, setformCount, formCount, menurights }) => {
+
     const { condem_mast_slno, condem_form_prefix, condem_form_no, reg_date, incharge_approve_status, incharge_remarks, hod_approve_status, hod_remarks,
-        gm_approve_remarks, acc_approve_status, acc_approve_remarks, material_mangmnt_mangr_apprv_status, material_mangmnt_mangr_apprv_remark,
-        inch_apprv_reject_date, incharge_employee, hod_apprv_reject_date, hod_employee, store_approve_remarks, store_approve_status, gm_approve_status,
-        gm_apprv_reject_date, gm_opr_employee, accounts_employee, acc_apprv_reject_date, store_approve_employee, store_approve_reject_date,
-        material_mange_apprv_reject_date, material_mangm_employee
-
+        gm_approve_remarks, acc_approve_status, acc_approve_remarks, material_mangmnt_mangr_apprv_status, material_mangmnt_mangr_apprv_remark, inch_apprv_reject_date,
+        incharge_employee, hod_apprv_reject_date, hod_employee, store_approve_remarks, store_approve_status, gm_approve_status, gm_apprv_reject_date, gm_opr_employee,
+        accounts_employee, acc_apprv_reject_date, store_approve_employee, store_approve_reject_date, material_mange_apprv_reject_date, material_mangm_employee
     } = formDetails
-
-    // const empid = useSelector((state) => {
-    //     return state.LoginUserData.empid
-    // })
-    // const [menurights, setMenurights] = useState([]);
-    // const postEmp = useMemo(() => ({ empid }), [empid]);
-    // const { data: menuRightsEmployee = [] } = useQuery({
-    //     queryKey: ['getEmployeeuserrightsMenu', postEmp],
-    //     queryFn: () => getEmployeeuserrightsMen(postEmp),
-    // });
-    // const employeeMenuRights = useMemo(() => menuRightsEmployee, [menuRightsEmployee]);
-    // useEffect(() => {
-    //     let array = menuList.filter((value) =>
-    //         employeeMenuRights.find((val) => value.slno === val.menu_slno)
-    //     );
-    //     setMenurights(array);
-    // }, [menuList, employeeMenuRights]);
-
 
     const currentDate = format(new Date(), "yyyy-MM-dd HH:mm:ss");
     const [condemCount, setcondemCount] = useState(0)
@@ -115,7 +87,6 @@ const CondemnationApprovalModal = ({
         setmodalApproveFlag(0)
     }, [setmodalApproveOpen, setmodalApproveFlag])
 
-
     const [checkPopover, setCheckPopover] = useState(null);
     const [uncheckPopover, setUncheckPopover] = useState(null);
     const [checkedItems, setCheckedItems] = useState({});
@@ -139,7 +110,6 @@ const CondemnationApprovalModal = ({
     };
     const handleCloseCheck = () => setCheckPopover(null);
     const handleCloseUncheck = () => setUncheckPopover(null);
-
 
     const handleAddReason = (index) => {
         const singleItemData = {
@@ -171,7 +141,7 @@ const CondemnationApprovalModal = ({
         };
         const scarpStoreUpdate = async (singleItemData) => {
             const result = await axioslogin.patch('/AssetCondemnation/updateScarpStoreData', singleItemData)
-            const { message, success } = result.data
+            const { success } = result.data
             if (success === 2) {
                 succesNotify("Item Removed From Keeping in Scapstore and Submitted for Condemnation ")
                 handleCloseUncheck()
@@ -208,46 +178,45 @@ const CondemnationApprovalModal = ({
         setReqRegDate(event.target.value);
     };
 
-    const fetchCondemFiles = async () => {
-        try {
-            if (CondemData?.length > 0) {
-                const requests = CondemData.map(async (row) => {
-                    const postData = {
-                        id: row.condem_mast_slno || null,
-                        detailId: row.am_condem_detail_slno || null
-                    };
-                    try {
-                        const result = await axioslogin.post("/AssetFileUpload/uploadFile/getCondemnation", postData);
-                        const { success, data } = result.data;
-                        if (success === 1 && data && Array.isArray(data)) {
-                            return {
-                                [row.am_condem_detail_slno]: data.map(fileName =>
-                                    `${PUBLIC_NAS_FOLDER}/AssetCondemDetails/${postData.id}/${postData.detailId}/${fileName}`
-                                )
-                            };
-                        } else {
-                            return { [row.am_condem_detail_slno]: [] };
-                        }
-                    } catch (error) {
-                        if (error.response?.data?.message?.includes("ENOENT")) {
-                            return { [row.am_condem_detail_slno]: null };
-                        }
+
+    const fetchCondemFiles = useCallback(async () => {
+        if (CondemData?.length > 0) {
+            const requests = CondemData.map(async (row) => {
+                const postData = {
+                    id: row.condem_mast_slno || null,
+                    detailId: row.am_condem_detail_slno || null
+                };
+                try {
+                    const result = await axioslogin.post("/AssetFileUpload/uploadFile/getCondemnation", postData);
+                    const { success, data } = result.data;
+                    if (success === 1 && data && Array.isArray(data)) {
+                        return {
+                            [row.am_condem_detail_slno]: data.map(fileName =>
+                                `${PUBLIC_NAS_FOLDER}/AssetCondemDetails/${postData.id}/${postData.detailId}/${fileName}`
+                            )
+                        };
+                    } else {
                         return { [row.am_condem_detail_slno]: [] };
                     }
-                });
+                } catch (error) {
+                    if (error.response?.data?.message?.includes("ENOENT")) {
+                        return { [row.am_condem_detail_slno]: null };
+                    }
+                    return { [row.am_condem_detail_slno]: [] };
+                }
+            });
 
-                const resultsArray = await Promise.all(requests);
-                const filesMap = resultsArray.reduce((acc, curr) => ({ ...acc, ...curr }), {});
-                setaddedCondemFiles(filesMap);
-            }
-        } catch (error) {
+            const resultsArray = await Promise.all(requests);
+            const filesMap = resultsArray.reduce((acc, curr) => ({ ...acc, ...curr }), {});
+            setaddedCondemFiles(filesMap);
+        } else {
             setaddedCondemFiles({});
         }
-    };
+    }, [CondemData]);
 
     useEffect(() => {
         fetchCondemFiles();
-    }, [CondemData]);
+    }, [fetchCondemFiles]);
 
     const [imageShowsingleFlag, setImagesingle] = useState(0)
     const [imageShowSingle, setImageShowSingle] = useState(false)
@@ -312,7 +281,7 @@ const CondemnationApprovalModal = ({
                 infoNotify("Enter From Approval Remarks")
             }
         },
-        [Approvedata])
+        [Approvedata, CloseModal, formCount, inchremarks, setformCount])
 
     const Rejectdata = useMemo(() => {
         return {
@@ -346,7 +315,7 @@ const CondemnationApprovalModal = ({
                 infoNotify("Enter From Approval Remarks")
             }
         },
-        [Rejectdata])
+        [Rejectdata, CloseModal, formCount, inchremarks, setformCount])
 
 
     const HodApprove = useMemo(() => {
@@ -381,7 +350,7 @@ const CondemnationApprovalModal = ({
                 infoNotify("Enter  Approval Remarks")
             }
         },
-        [HodApprove])
+        [HodApprove, CloseModal, formCount, setformCount, hodRemarks])
 
     const HodReject = useMemo(() => {
         return {
@@ -415,7 +384,7 @@ const CondemnationApprovalModal = ({
                 infoNotify("Enter Approval Remarks")
             }
         },
-        [HodReject])
+        [HodReject, CloseModal, hodRemarks, formCount, setformCount])
 
     const GmOpApprove = useMemo(() => {
         return {
@@ -449,7 +418,7 @@ const CondemnationApprovalModal = ({
                 infoNotify("Enter  Approval Remarks")
             }
         },
-        [GmOpApprove, GmOprtnRemarks])
+        [GmOpApprove, GmOprtnRemarks, CloseModal, formCount, setformCount])
 
     const GmOprReject = useMemo(() => {
         return {
@@ -483,7 +452,7 @@ const CondemnationApprovalModal = ({
                 infoNotify("Enter Approval Remarks")
             }
         },
-        [GmOprReject])
+        [GmOprReject, CloseModal, formCount, setformCount, GmOprtnRemarks])
 
     const AccountApprove = useMemo(() => {
         return {
@@ -517,7 +486,7 @@ const CondemnationApprovalModal = ({
                 infoNotify("Enter  Approval Remarks")
             }
         },
-        [AccountApprove, AccountsRemarks])
+        [AccountApprove, AccountsRemarks, CloseModal, formCount, setformCount])
 
     const AccountReject = useMemo(() => {
         return {
@@ -551,7 +520,7 @@ const CondemnationApprovalModal = ({
                 infoNotify("Enter Approval Remarks")
             }
         },
-        [GmOprReject])
+        [CloseModal, formCount, setformCount, AccountsRemarks, AccountReject])
 
     const genstoreApprove = useMemo(() => {
         return {
@@ -585,7 +554,7 @@ const CondemnationApprovalModal = ({
                 infoNotify("Enter  Approval Remarks")
             }
         },
-        [genstoreApprove, StoreRemarks])
+        [genstoreApprove, StoreRemarks, CloseModal, formCount, setformCount])
 
     const genStoreReject = useMemo(() => {
         return {
@@ -619,7 +588,7 @@ const CondemnationApprovalModal = ({
                 infoNotify("Enter Approval Remarks")
             }
         },
-        [GmOprReject, StoreRemarks])
+        [genStoreReject, StoreRemarks, CloseModal, formCount, setformCount])
 
 
     const MaterialsManageApprove = useMemo(() => {
@@ -654,7 +623,7 @@ const CondemnationApprovalModal = ({
                 infoNotify("Enter  Approval Remarks")
             }
         },
-        [MaterialsManageApprove, MaterialsMangRemarks])
+        [MaterialsManageApprove, MaterialsMangRemarks, CloseModal, formCount, setformCount])
 
     const MaterialsMangeReject = useMemo(() => {
         return {
@@ -688,7 +657,7 @@ const CondemnationApprovalModal = ({
                 infoNotify("Enter Approval Remarks")
             }
         },
-        [GmOprReject, MaterialsMangRemarks])
+        [MaterialsMangeReject, MaterialsMangRemarks, CloseModal, formCount, setformCount])
 
     const [AssetOpenModal, setAssetOpenModal] = useState(false)
     const [AssetModalFlag, setAssetModalFlag] = useState(0)
@@ -916,16 +885,14 @@ const CondemnationApprovalModal = ({
                                     </Box>
                                 </Box>
                             </Box>
-
                         </Box>
-                        {/* {(CondemData?.some(item => item.am_condem_reason !== null) || addedCondemFiles.length > 0) && ( */}
+
                         {(CondemData?.some(item => item.am_condem_reason !== null || item.keep_inscarp_status === 1) || addedCondemFiles.length > 0) && (
                             <Box sx={{ flex: 1, border: 1, borderColor: 'lightgray', mx: 1, mt: 1, pb: 0.5 }}>
                                 <TextComponent
                                     text={"Item Details and Attachments"}
                                     sx={{ fontWeight: 500, color: '#6A5546', pl: 0.8, pt: 0.5, fontSize: 15 }}
                                 />
-                                {/* {CondemData?.filter(val => val.am_condem_reason !== null || (addedCondemFiles[val.am_condem_detail_slno]?.length > 0)) */}
                                 {CondemData?.filter(val => val.am_condem_reason !== null || (addedCondemFiles[val.am_condem_detail_slno]?.length > 0) || val.keep_inscarp_status === 1)
                                     .map((val, index) => (
                                         <Box
@@ -1211,11 +1178,7 @@ const CondemnationApprovalModal = ({
                                 </tbody>
 
                             </Table>
-
-
-
                         </Box>
-
                         {
                             menurights.find((menu) => menu.slno === 260) ? (
                                 <Box sx={{ m: 1, pt: 1, pl: 1 }}>
@@ -1450,7 +1413,6 @@ const CondemnationApprovalModal = ({
                                 </Box>
                             ) : null
                         }
-
 
                         {
                             menurights.find((menu) => menu.slno === 265) ? (

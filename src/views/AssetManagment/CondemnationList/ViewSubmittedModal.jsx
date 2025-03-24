@@ -83,47 +83,45 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
         setCheckedItems((prev) => ({ ...prev, [index]: isChecked }));
     };
 
-
-    const fetchCondemFiles = async () => {
-        try {
-            if (CondemData?.length > 0) {
-                const requests = CondemData.map(async (row) => {
-                    const postData = {
-                        id: row.condem_mast_slno || null,
-                        detailId: row.am_condem_detail_slno || null
-                    };
-                    try {
-                        const result = await axioslogin.post("/AssetFileUpload/uploadFile/getCondemnation", postData);
-                        const { success, data } = result.data;
-                        if (success === 1 && data && Array.isArray(data)) {
-                            return {
-                                [row.am_condem_detail_slno]: data.map(fileName =>
-                                    `${PUBLIC_NAS_FOLDER}/AssetCondemDetails/${postData.id}/${postData.detailId}/${fileName}`
-                                )
-                            };
-                        } else {
-                            return { [row.am_condem_detail_slno]: [] };
-                        }
-                    } catch (error) {
-                        if (error.response?.data?.message?.includes("ENOENT")) {
-                            return { [row.am_condem_detail_slno]: null };
-                        }
+    const fetchCondemFiles = useCallback(async () => {
+        if (CondemData?.length > 0) {
+            const requests = CondemData.map(async (row) => {
+                const postData = {
+                    id: row.condem_mast_slno || null,
+                    detailId: row.am_condem_detail_slno || null
+                };
+                try {
+                    const result = await axioslogin.post("/AssetFileUpload/uploadFile/getCondemnation", postData);
+                    const { success, data } = result.data;
+                    if (success === 1 && data && Array.isArray(data)) {
+                        return {
+                            [row.am_condem_detail_slno]: data.map(fileName =>
+                                `${PUBLIC_NAS_FOLDER}/AssetCondemDetails/${postData.id}/${postData.detailId}/${fileName}`
+                            )
+                        };
+                    } else {
                         return { [row.am_condem_detail_slno]: [] };
                     }
-                });
+                } catch (error) {
+                    if (error.response?.data?.message?.includes("ENOENT")) {
+                        return { [row.am_condem_detail_slno]: null };
+                    }
+                    return { [row.am_condem_detail_slno]: [] };
+                }
+            });
 
-                const resultsArray = await Promise.all(requests);
-                const filesMap = resultsArray.reduce((acc, curr) => ({ ...acc, ...curr }), {});
-                setaddedCondemFiles(filesMap);
-            }
-        } catch (error) {
+            const resultsArray = await Promise.all(requests);
+            const filesMap = resultsArray.reduce((acc, curr) => ({ ...acc, ...curr }), {});
+            setaddedCondemFiles(filesMap);
+        } else {
             setaddedCondemFiles({});
         }
-    };
+    }, [CondemData]);
 
     useEffect(() => {
         fetchCondemFiles();
-    }, [CondemData]);
+    }, [fetchCondemFiles]);
+
 
     const CloseSingleFile = useCallback(() => {
         setImagesingle(0)

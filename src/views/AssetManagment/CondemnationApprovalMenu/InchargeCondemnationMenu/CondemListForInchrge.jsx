@@ -117,4 +117,4 @@ const CondemListForInchrge = ({ empdept, empId, menurights }) => {
     )
 }
 
-export default CondemListForInchrge
+export default memo(CondemListForInchrge)

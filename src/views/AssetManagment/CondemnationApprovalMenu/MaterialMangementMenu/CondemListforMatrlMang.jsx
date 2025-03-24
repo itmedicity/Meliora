@@ -23,29 +23,8 @@ const CondemListforMatrlMang = ({ empId, menurights }) => {
         setmodalViewOpen(true)
     }, [])
 
-    // const editForm = useCallback((val) => {
-    //     setformDetails(val)
-    //     setmodalEditFlag(1)
-    //     setmodalEditOpen(true)
-    // }, [])
-
     const SatusFrom = 8
     const SatusTo = 6
-
-    // const condemStatusFrom = 7
-    // const condemstatusTo = 6
-
-    // const postCondemAllDept = useMemo(() => {
-    //     return {
-
-    //         condemStatusFrom: condemStatusFrom,
-    //         condemstatusTo: condemstatusTo
-    //     }
-    // }, [condemStatusFrom, condemstatusTo])
-    // const { data: AllDeptCondemPendingMaterials } = useQuery({
-    //     queryKey: ['getAllDeptCondemPendingMaterails', formCount],
-    //     queryFn: () => getAllDeptCondemPendingDatas(postCondemAllDept),
-    // })
 
     const [selectedRValue, setSelectedRValue] = useState("1");
     const handleInchChange = (event) => {
@@ -85,12 +64,6 @@ const CondemListforMatrlMang = ({ empId, menurights }) => {
                 </Box>
             </RadioGroup>
 
-
-            {/* {selectedRValue === "1" ? */}
-            {/* // <Box>
-                //     <AllPendingsMaterialMange AllDeptCondemPendingMaterials={AllDeptCondemPendingMaterials} editForm={editForm} viewForm={viewForm} />
-                // </Box>
-                // : */}
             {selectedRValue === "1" ?
                 <Box>
                     <SelectedRegDate SatusFrom={SatusFrom} SatusTo={SatusTo} viewForm={viewForm} />
@@ -103,4 +76,4 @@ const CondemListforMatrlMang = ({ empId, menurights }) => {
         </Box>
     )
 }
-export default CondemListforMatrlMang
+export default memo(CondemListforMatrlMang)

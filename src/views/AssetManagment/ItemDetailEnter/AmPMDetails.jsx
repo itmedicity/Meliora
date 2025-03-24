@@ -127,7 +127,7 @@ const AmPMDetails = ({ detailArry, }) => {
                 updatePMDetails(patchData)
             }
         }
-    }, [postdata, patchData, count, itemAmcCmcslno, setCount])
+    }, [postdata, patchData, count, itemAmcCmcslno, setCount, setUpDate])
 
 
     const [addPmFlag, setaddPmFlag] = useState(0)

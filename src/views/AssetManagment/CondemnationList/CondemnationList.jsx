@@ -6,8 +6,6 @@ import TextComponent from 'src/views/Components/TextComponent';
 import CusIconButton from 'src/views/Components/CusIconButton';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import CloseIcon from '@mui/icons-material/Close'
-import SpareCondemnation from './SpareCondemnation';
-import AssetCondemnation from './AssetCondemnation';
 import PendingCondemnationList from './PendingCondemnationList';
 import SubmittedCondemList from './DeptSubmittedList/SubmittedCondemList';
 import DeptScrapstoreMain from './DeptScrapstore/DeptScrapstoreMain';

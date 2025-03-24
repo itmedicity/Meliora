@@ -1,16 +1,14 @@
-import { Box, Modal, ModalDialog, Chip, CssVarsProvider, Tab, tabClasses, TabList, TabPanel, Tabs } from '@mui/joy'
-import React, { useCallback } from 'react'
+import { Box, Modal, ModalDialog, Chip, Tab, tabClasses, TabList, TabPanel, Tabs } from '@mui/joy'
+import React, { memo, useCallback } from 'react'
 import CusIconButton from 'src/views/Components/CusIconButton'
 import CloseIcon from '@mui/icons-material/Close'
 import TextComponent from 'src/views/Components/TextComponent'
 import DriveFileRenameOutlineOutlinedIcon from '@mui/icons-material/DriveFileRenameOutlineOutlined';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
-import UnarchiveOutlinedIcon from '@mui/icons-material/UnarchiveOutlined';
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
 import TextSnippetOutlinedIcon from '@mui/icons-material/TextSnippetOutlined';
 import TimelapseIcon from '@mui/icons-material/Timelapse';
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
-import BuildOutlinedIcon from '@mui/icons-material/BuildOutlined';
 import DetailsTab from './DetailsTab'
 import PurchaseDetails from './PurchaseDetails'
 import WarrentyGaurenteeDetails from './WarrentyGaurenteeDetails'
@@ -22,24 +20,21 @@ import ServiceDetailsCondemnation from './ServiceDetailsCondemnation'
 
 const AssetDetailsModal = ({ AssetOpenModal, AssetDetails, setAssetOpenModal, setAssetModalFlag, }) => {
 
-
-    const { am_condem_detail_slno, am_condem_reason, am_item_map_slno, am_spare_item_map_slno, asset_bill_amount, asset_complaint_slno, asset_condm_transf_remarks,
-        cat_asset_name, cat_spare_name, condem_form_no, condem_form_prefix, condem_mast_slno, item_asset_name, item_asset_no, item_asset_no_only, item_spare_name,
-        item_status, keep_in_srap_store_reason, keep_inscarp_status, scarp_store_emp, spare_asset_no, spare_asset_no_only, spare_bill_amount, spare_complaint_slno,
-        spare_condm_transf_remarks,
+    const { cat_asset_name, cat_spare_name, item_asset_name, item_asset_no, item_asset_no_only, item_spare_name, spare_asset_no, spare_asset_no_only,
+        category_name, item_name
     } = AssetDetails
 
-    const spareAssetNo = item_asset_no !== null ? item_asset_no : spare_asset_no !== null ? spare_asset_no : "Not Found"
-    const FormatedNo = item_asset_no_only !== null
-        ? String(item_asset_no_only).padStart(6, '0')
-        : spare_asset_no_only !== null
-            ? String(spare_asset_no_only).padStart(6, '0')
-            : "Not Found";
+    const spareAssetNo = spare_asset_no ?? item_asset_no ?? "Not Found";
+    const formatNumber = (num) =>
+        num != null ? String(num).padStart(6, '0') : "Not Found";
+    const FormatedNo = formatNumber(spare_asset_no_only ?? item_asset_no_only);
+
+
 
     const CloseModal = useCallback(() => {
         setAssetModalFlag(0)
         setAssetOpenModal(true)
-    }, [])
+    }, [setAssetModalFlag, setAssetOpenModal])
 
 
     return (
@@ -82,14 +77,14 @@ const AssetDetailsModal = ({ AssetOpenModal, AssetDetails, setAssetOpenModal, se
                                     text="Category"
                                     sx={{ pl: 2, fontWeight: 600, pt: .4, fontSize: 14, width: 170 }}
                                 />
-                                <Chip sx={{ bgcolor: '#EBEFFB', fontWeight: 500, fontSize: 14 }}>{cat_asset_name || cat_spare_name}</Chip>
+                                <Chip sx={{ bgcolor: '#EBEFFB', fontWeight: 500, fontSize: 14 }}>{cat_asset_name || cat_spare_name || category_name}</Chip>
                             </Box>
                             <Box sx={{ flex: 1, display: 'flex', my: .5 }}>
                                 <TextComponent
                                     text="  Item Name"
                                     sx={{ pl: 2, fontWeight: 600, pt: .4, fontSize: 14, width: 170 }}
                                 />
-                                <Chip sx={{ bgcolor: '#EBEFFB', fontWeight: 500, fontSize: 14 }}>{item_asset_name || item_spare_name}</Chip>
+                                <Chip sx={{ bgcolor: '#EBEFFB', fontWeight: 500, fontSize: 14 }}>{item_asset_name || item_spare_name || item_name}</Chip>
                             </Box>
                         </Box>
                     </Box >
@@ -292,4 +287,4 @@ const AssetDetailsModal = ({ AssetOpenModal, AssetDetails, setAssetOpenModal, se
     )
 }
 
-export default AssetDetailsModal
+export default memo(AssetDetailsModal)

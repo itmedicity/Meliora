@@ -254,16 +254,6 @@ const SupervisorVerifyModal = ({ open, setverifyOpen, forVerifyData, setverifyFl
                                         Assigned Employees
                                     </Typography>
                                     <Box sx={{ flex: 3, display: 'flex', gap: .5 }}>
-                                        {/* {assigned_employees.split(',').map((name, index) => (
-                                            <Chip
-                                                key={index}
-                                                size="small"
-                                                variant="outlined"
-                                                sx={{ bgcolor: '#D3C7A1', fontSize: 13, px: 0.8, marginRight: 0.1 }}
-                                            >
-                                                {name.trim()}
-                                            </Chip>
-                                        ))} */}
                                         {assigned_employees === null ?
                                             <Chip>
                                                 Not Updated

@@ -12,40 +12,40 @@ const CountDownCm = ({ complaintDate }) => {
 
     return (
         <Box sx={{ display: 'flex', }}>
-            <TimerOutlinedIcon sx={{ color: 'darkred', borderRadius: 1, p: .2, mt: .1 }} />
+            <TimerOutlinedIcon sx={{ color: 'darkred', borderRadius: 1, p: .2, mt: .3 }} />
             {days !== 0 ?
-                <Box sx={{ display: 'flex', pt: .3 }}>
-                    <Typography sx={{ fontWeight: 600, color: 'darkred', fontSize: 13, }}>
+                <Box sx={{ display: 'flex', pt: .4 }}>
+                    <Typography sx={{ fontWeight: 600, color: 'darkred', fontSize: 14, }}>
                         {days}
                     </Typography>
-                    <Typography sx={{ fontWeight: 600, color: 'darkred', fontSize: 13, pl: .3 }}>
+                    <Typography sx={{ fontWeight: 600, color: 'darkred', fontSize: 14, pl: .3 }}>
                         Days&nbsp;
                     </Typography>
                 </Box>
                 : null}
 
-            <Box sx={{ display: 'flex', pt: .3 }}>
-                <Typography sx={{ fontWeight: 600, color: 'darkred', fontSize: 13, }}>
+            <Box sx={{ display: 'flex', pt: .4 }}>
+                <Typography sx={{ fontWeight: 600, color: 'darkred', fontSize: 14, }}>
                     {hours}
                 </Typography>
-                <Typography sx={{ fontWeight: 600, color: 'darkred', fontSize: 13, pl: .3 }}>
+                <Typography sx={{ fontWeight: 600, color: 'darkred', fontSize: 14, pl: .2 }}>
                     h&nbsp;:&nbsp;
                 </Typography>
             </Box>
-            <Box sx={{ display: 'flex', pt: .3 }}>
-                <Typography sx={{ fontWeight: 600, color: 'darkred', fontSize: 13, }}>
+            <Box sx={{ display: 'flex', pt: .4 }}>
+                <Typography sx={{ fontWeight: 600, color: 'darkred', fontSize: 14, }}>
                     {minutes}
                 </Typography>
-                <Typography sx={{ fontWeight: 600, color: 'darkred', fontSize: 13, pl: .3 }}>
+                <Typography sx={{ fontWeight: 600, color: 'darkred', fontSize: 14, pl: .3 }}>
                     m
                 </Typography>
             </Box>
             {days === 0 ?
-                <Box sx={{ display: 'flex', pt: .3 }}>
-                    <Typography sx={{ fontWeight: 600, color: 'darkred', fontSize: 13, }}>
+                <Box sx={{ display: 'flex', pt: .4 }}>
+                    <Typography sx={{ fontWeight: 600, color: 'darkred', fontSize: 14, }}>
                         &nbsp;:&nbsp;{seconds}
                     </Typography>
-                    <Typography sx={{ fontWeight: 600, color: 'darkred', fontSize: 13, pl: .3 }}>
+                    <Typography sx={{ fontWeight: 600, color: 'darkred', fontSize: 14, pl: .3 }}>
                         s
                     </Typography>
                 </Box> : null}

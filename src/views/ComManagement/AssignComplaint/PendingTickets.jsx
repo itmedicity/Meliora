@@ -36,7 +36,6 @@ const PendingTickets = ({ allPendingCompl, count, setCount }) => {
     const [imageUrls, setImageUrls] = useState([]);
     const [selectedImages, setSelectedImages] = useState([]);
     const [imageViewOpen, setimageViewOpen] = useState(false)
-    // const [assetArray, setAssetArray] = useState([])
     const [assetflag, setAssetflag] = useState(0)
     const [assetOpen, setAssetOpen] = useState(false)
     const id = useSelector((state) => state?.LoginUserData?.empid)
@@ -387,10 +386,8 @@ const PendingTickets = ({ allPendingCompl, count, setCount }) => {
                                     }}>
                                         <Box>
                                             <CssVarsProvider>
-                                                <Tooltip title='CountUp time Starts from Ticket Registration'
-                                                    placement='bottom-start'
-                                                    sx={{ width: 180 }}>
-                                                    <Box sx={{ display: 'flex', cursor: 'grab', fontSize: 13, py: .3, pl: .3, width: 125 }}>
+                                                <Tooltip title='CountUp time Starts from Ticket Registration' color='neutral' placement='right' sx={{ width: 300 }}>
+                                                    <Box sx={{ display: 'flex', cursor: 'grab', fontSize: 13, width: 125 }}>
                                                         <CountDownCm complaintDate={val.compalint_date} />
                                                     </Box>
                                                 </Tooltip>

@@ -1,5 +1,5 @@
 import { Box, CssVarsProvider, IconButton, Table } from '@mui/joy'
-import React, { memo, useCallback, useState } from 'react'
+import React, { memo } from 'react'
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { format } from 'date-fns';
 const AllPendingsGmOpertions = ({ filteredPendingCondemAllDeptGmOpr, editForm, viewForm }) => {
@@ -140,4 +140,4 @@ const AllPendingsGmOpertions = ({ filteredPendingCondemAllDeptGmOpr, editForm, v
         </Box>
     )
 }
-export default AllPendingsGmOpertions
+export default memo(AllPendingsGmOpertions)

@@ -1,6 +1,6 @@
 import { Box, Radio, RadioGroup } from '@mui/joy'
 import React, { memo, useCallback, useMemo, useState } from 'react'
-import { getAllDeptCondemPendingDatas, getCondemPendingDatas } from 'src/api/AssetApis';
+import { getAllDeptCondemPendingDatas } from 'src/api/AssetApis';
 import { useQuery } from 'react-query';
 import ViewSubmittedModal from '../../CondemnationList/ViewSubmittedModal';
 import CondemnationApprovalModal from '../../CondemnationList/CondemnationApprovalModal';
@@ -117,4 +117,4 @@ const CondemListForAccounts = ({ empId, menurights }) => {
     )
 }
 
-export default CondemListForAccounts
+export default memo(CondemListForAccounts)
