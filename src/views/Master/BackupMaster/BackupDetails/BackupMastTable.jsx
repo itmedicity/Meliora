@@ -53,6 +53,7 @@ const BackupMastTable = ({ count, EditBackup }) => {
                                             }}
                                             onClick={(e) => EditBackup(val)} />
                                     </Box> </td>
+                                <td size='sm' style={{ fontSize: 14, height: 13 }}>{(val.backup_type === 1) ? 'IIS Backup' : (val.backup_type === 2) ? 'Database Backup' : (val.backup_type === 3) ? 'Share Folder Backup' : (val.backup_type === 4) ? 'Scanned File Backup' : 'Configuration Backup'}</td>
                                 <td size='sm' style={{ fontSize: 14, height: 13 }}>{val.backup_type_name}</td>
                                 <td size='sm' style={{ fontSize: 14, height: 13 }}>{val.backup_name}</td>
                                 <td size='sm' style={{ fontSize: 12, height: 13 }}>{val.backup_dept}</td>

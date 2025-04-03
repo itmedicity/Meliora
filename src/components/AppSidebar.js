@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { CSidebar, CSidebarBrand, CSidebarNav, CSidebarToggler } from '@coreui/react'
 import { AppSidebarNav } from './AppSidebarNav'
@@ -28,6 +28,8 @@ import QualityTransactions from 'src/Menus/QualityTransaction'
 import DailyCensusTransactions from 'src/Menus/CensusTransaction'
 import IncidentTransactions from 'src/Menus/IncidentTransaction'
 import FeedbackTransactions from 'src/Menus/FeddbackTransaction'
+import { getDefaultCompany } from 'src/api/CommonApiCRF'
+import { useQuery } from 'react-query'
 
 
 const AppSidebar = () => {
@@ -53,6 +55,58 @@ const AppSidebar = () => {
 
   const [count, setCount] = useState(0)
   const [menu, setMenu] = useState([])
+
+  const { data: companyData, isLoading: isCompLoading, error: compError } = useQuery({
+    queryKey: 'getdefaultCompany',
+    queryFn: () => getDefaultCompany(),
+    staleTime: Infinity
+  });
+  const company = useMemo(() => companyData, [companyData]);
+  //for name change in the crm menus 
+  useEffect(() => {
+    if (companyData) {
+      // Dynamically update the name fields in CrmNewTransaction
+      const updatedCrmNewTransaction = CrmNewTransaction?.map(item => {
+        switch (item.men_slno) {
+          case 190:
+            item.name = company?.incharge_name ? company?.incharge_name : 'Incharge Approval';
+            break;
+          case 191:
+            item.name = company?.hod_name ? company?.hod_name : 'HOD Approval';
+            break;
+          case 192:
+            item.name = company?.dms_name ? company?.dms_name : 'DMS Approval';
+            break;
+          case 193:
+            item.name = company?.ms_name ? company?.ms_name : 'MS Approval';
+            break;
+          case 194:
+            item.name = company?.mo_name ? company?.mo_name : "CRF Documentation";
+            break;
+          case 195:
+            item.name = company?.smo_name ? company?.smo_name : "CRF Verification";
+            break;
+          case 196:
+            item.name = company?.gmo_name ? company?.gmo_name : 'GM Operations Approval';
+            break;
+          case 197:
+            item.name = company?.md_name ? company?.md_name : 'MD Approval';
+            break;
+          case 198:
+            item.name = company?.ed_name ? company?.ed_name : 'ED Approval';
+            break;
+          case 253:
+            item.name = company?.managing_director ? company?.managing_director : 'Managing Director Approval';
+            break;
+          default:
+            break;
+        }
+        return item;
+      });
+
+      setCrmNewTransact(updatedCrmNewTransaction); // Set the updated array
+    }
+  }, [companyData]); // Re-run when companyData changes
 
   //Side bar menus array
   const navigation = [
@@ -259,7 +313,8 @@ const AppSidebar = () => {
   const section = useSelector((state) => {
     return state.LoginUserData.empdeptsec
   })
-
+  if (isCompLoading) return <p>Loading...</p>;
+  if (compError) return <p>Error occurred.</p>;
   return (
     <CSidebar
       position="fixed"

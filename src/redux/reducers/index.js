@@ -169,7 +169,7 @@ import { getSupplierList } from './ItBillsupplierList.Reducer'
 import { setCRMPurchase } from './CrmPurchaseLista.Reducer'
 import { setCRMOthers } from './CrmOtherList.Reducer'
 import { setCRMInchargeHod } from './CrmInchHodList.Reducer'
-import { setCRMDashBoard } from './CrmDashBoardList.Reducer'
+import { setCRMDashBoard, getCRFPurchaseDashboard, getPOStoreDashboard } from './CrmDashBoardList.Reducer'
 import { setCRMPurchaseAckPending } from './CrmPurchaseAckPendg.Reducer'
 import { setCRMPurchDataCollPending } from './CrmPurchaDetacollPend.Reducer'
 import { getMultDepSection } from './TmMultipleDepSectList.Reducer'
@@ -177,6 +177,7 @@ import { getMultHodInCharge } from './TmMultHodInchargeList.Reducer';
 import { setAmcCmcMaster } from './AmAMCCMCSelect.Reducer'
 import { setSupplierSelect } from './AmSupplierSelect.Reducer'
 import { getEquipmentList } from './QIEquipment.Reducer';
+import { getStoreReceivePendingReducer, getStoreReceiveAllReducer } from './CrmStoreProcess.Reducer'
 import { getRoomsNameNdTypeList } from './CmRoomNameNdTypeList.Reducer';
 
 
@@ -359,6 +360,10 @@ const reducer = combineReducers({
     setAmcCmcMaster,
     setSupplierSelect,
     getEquipmentList,
+    getStoreReceivePendingReducer,
+    getStoreReceiveAllReducer,
+    getCRFPurchaseDashboard,
+    getPOStoreDashboard,
     getRoomsNameNdTypeList,
     getprojectFrTaskCreation
 

@@ -64,7 +64,6 @@ const DietOderTaking = () => {
                     dmenu_slno: dmenuslno,
                     type_slno: typeslno
                 }
-                console.log(postdata);
 
 
 

@@ -22,19 +22,6 @@ const ComplaintDeptMastTable = ({ rowSelect }) => {
         queryFn: getComplaintDepartmentData
     })
 
-    // useEffect(() => {
-    //     const getComplaintDept = async () => {
-    //         const result = await axioslogin.get('/complaintdept')
-    //         const { success, data } = result.data
-    //         if (success === 1) {
-    //             setTabledata(data)
-    //         } else {
-    //             warningNotify("Error occured contact EDP")
-    //         }
-    //     }
-    //     getComplaintDept();
-    // }, [count])
-
     if (error) warningNotify(error)
 
     return (

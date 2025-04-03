@@ -68,12 +68,12 @@ const VerificationDetailTable = ({ setDayFlag }) => {
         }
 
     }, [postdata, fromdate, todate])
-
     const ExcelReportDetails = useCallback(() => {
         if (array.length !== 0) {
             const NewData = array?.map((val) => {
                 return {
                     backup_daily_date: val.backup_daily_date,
+                    backup_type: (val.backup_type === 1) ? 'IIS Backup' : (val.backup_type === 2) ? 'Database Backup' : (val.backup_type === 3) ? 'Share Folder Backup' : (val.backup_type === 4) ? 'Scanned File Backup' : 'Configuration Backup',
                     backup_type: val.backup_type_name,
                     backup_name: val.backup_name,
                     dept_name: val.dept_name,
@@ -204,6 +204,7 @@ const VerificationDetailTable = ({ setDayFlag }) => {
                                             <tr key={val.daily_slno} style={{ height: 8 }} size='small' >
                                                 <td style={{ textAlign: 'center' }}>{index + 1}</td>
                                                 <td>{moment(val.backup_daily_date).format('DD-MM-YYYY')}</td>
+                                                <td>{(val.backup_type === 1) ? 'IIS Backup' : (val.backup_type === 2) ? 'Database Backup' : (val.backup_type === 3) ? 'Share Folder Backup' : (val.backup_type === 4) ? 'Scanned File Backup' : 'Configuration Backup'}</td>
                                                 <td>{val.backup_type_name}</td>
                                                 <td>{val.backup_name}</td>
                                                 <td style={{ fontSize: 12 }}>{val.dept_name}</td>
@@ -215,16 +216,16 @@ const VerificationDetailTable = ({ setDayFlag }) => {
                                                 <td>{afterSizeKB} KB</td>
                                                 <td>{val.em_name}</td>
                                                 <td>{(val.remarks === '') ? 'Nil' : val.remarks}</td>
-                                            </tr>
+                                            </tr >
                                         )
                                     })}
-                                </tbody>
-                            </Table>
-                        </CssVarsProvider>
-                    </Box>
-                </CardMasterClose>
-            </Box>
-        </Fragment>
+                                </tbody >
+                            </Table >
+                        </CssVarsProvider >
+                    </Box >
+                </CardMasterClose >
+            </Box >
+        </Fragment >
     )
 }
 export default memo(VerificationDetailTable)

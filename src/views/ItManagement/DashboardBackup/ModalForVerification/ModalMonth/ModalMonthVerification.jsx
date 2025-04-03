@@ -115,6 +115,7 @@ const ModalMonthVerification = ({ open, handleClose, rowSelect, count, setCount 
         if (Object.keys(rowSelect).length !== 0) {
             const {
                 monthly_slno,
+                backup_type,
                 backup_type_name,
                 backup_name,
                 dept_name,
@@ -130,6 +131,7 @@ const ModalMonthVerification = ({ open, handleClose, rowSelect, count, setCount 
 
             } = rowSelect
             const frmdata = {
+                backup_type: (backup_type === 1) ? 'IIS Backup' : (backup_type === 2) ? 'Database Backup' : (backup_type === 3) ? 'Share Folder Backup' : (backup_type === 4) ? 'Scanned File Backup' : 'Configuration Backup',
                 backup_type_name: backup_type_name,
                 backup_name: backup_name,
                 dept_name: dept_name,

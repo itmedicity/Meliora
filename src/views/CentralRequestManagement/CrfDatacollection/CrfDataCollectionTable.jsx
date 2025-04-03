@@ -1,245 +1,402 @@
-import React from 'react'
-import { useState, useCallback, useEffect, memo, Fragment } from 'react'
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
-import { axioslogin } from 'src/views/Axios/Axios'
-import { useSelector } from 'react-redux'
-import { Box, Paper } from '@mui/material'
-import CusCheckBox from 'src/views/Components/CusCheckBox'
-import CusIconButton from 'src/views/Components/CusIconButton'
-import CloseIcon from '@mui/icons-material/Close';
-import _ from 'underscore'
-import MasterDetailCompnt from '../ComonComponent/MasterDetailCompnt'
-import DataCollectionSave from '../ComonComponent/DataCollectionSave'
-import DataCollectnEntryModal from './DataCollectnEntryModal'
-import DataCollectnEntryView from './DataCollectnEntryView'
+import { Box, CssVarsProvider, IconButton, Option, Select, Typography } from '@mui/joy'
+import React, { Fragment, memo, useCallback, useEffect, useMemo, useState } from 'react'
+import CustomCloseIconCmp from '../ComonComponent/Components/CustomCloseIconCmp'
+import { useHistory } from 'react-router-dom';
+import { Badge, FormControlLabel, Radio, RadioGroup } from '@mui/material';
+import { useQuery } from 'react-query';
+import { getDataCollectionDetails, getDefaultCompany } from 'src/api/CommonApiCRF';
+import _ from 'underscore';
+import { useSelector } from 'react-redux';
+import { Virtuoso } from 'react-virtuoso';
+import MasterDetailCompnt from '../ComonComponent/MasterDetailCompnt';
+import DataCollectionSave from '../ComonComponent/DataCollectionComp/DataCollectionSave';
+import FilterAltTwoToneIcon from '@mui/icons-material/FilterAltTwoTone';
+import AlignHorizontalLeftTwoToneIcon from '@mui/icons-material/AlignHorizontalLeftTwoTone';
+import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
+import CustomInputDateCmp from '../ComonComponent/Components/CustomInputDateCmp';
+import CustomIconButtonCmp from '../ComonComponent/Components/CustomIconButtonCmp';
+import { parse } from 'date-fns';
+import { infoNotify } from 'src/views/Common/CommonCode';
+
+const formatDateForInput = (date) => {
+    return date.toISOString().split('T')[0];
+}
 
 const CrfDataCollectionTable = () => {
-
-    /*** Initializing */
     const history = useHistory();
-
-    const [done, setDone] = useState(false)
-    const [pending, setPending] = useState(true)
-    const [check, setCheck] = useState(0)
-    const [count, setCount] = useState(0)
-
-    const updatedone = useCallback((e) => {
-        if (e.target.checked === true) {
-            setDone(true)
-            setCheck(2)
-            setPending(false)
-        }
-        else {
-            setDone(false)
-            setCheck(0)
-            setPending(false)
-        }
-    }, [])
-    const updatependng = useCallback((e) => {
-        if (e.target.checked === true) {
-            setPending(true)
-            setCheck(1)
-            setDone(false)
-        }
-        else {
-            setDone(false)
-            setCheck(0)
-            setPending(false)
-        }
-    }, [])
-
-    const empdeptsec = useSelector((state) => state.LoginUserData.empsecid, _.isEqual)
-    const [pendingData, setPendingData] = useState([])
-    const [donedata, setDoneData] = useState([])
-
-    useEffect(() => {
-        const getdataCollReq = async (empdeptsec) => {
-            const result = await axioslogin.get(`/CRFRegisterApproval/getDataCollectList/${empdeptsec}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                const datas = data.map((val) => {
-                    const obj = {
-                        req_slno: val.req_slno,
-                        actual_requirement: val.actual_requirement,
-                        needed: val.needed,
-                        request_deptsec_slno: val.request_deptsec_slno,
-                        req_deptsec: val.req_deptsec.toLowerCase(),
-                        user_deptsection: val.user_deptsection.toLowerCase(),
-                        em_name: val.create_user.toLowerCase(),
-                        category: val.category,
-                        location: val.location,
-                        emergency_flag: val.emergency_flag,
-                        emer_type_name: val.emer_type_name,
-                        emer_slno: val.emer_slno,
-                        emer_type_escalation: val.emer_type_escalation,
-                        emergeny_remarks: val.emergeny_remarks,
-                        total_approx_cost: val.total_approx_cost,
-                        image_status: val.image_status,
-                        req_date: val.create_date,
-                        expected_date: val.expected_date,
-                        status: val.rm_ndrf === 1 ? "NDRF" : "CRF",
-
-                        crf_dept_remarks: val.crf_dept_remarks,
-                        data_entered: val.data_entered !== null ? val.data_entered.toLowerCase() : '',
-                        reqest_one: val.reqest_one,
-                        req_user: val.requser !== null ? val.requser.toLowerCase() : '',
-                        datagive_user: val.saveuser !== null ? val.saveuser.toLowerCase() : '',
-                        create_date: val.create_date,
-                        update_date: val.update_date,
-                        crf_req_remark: val.crf_req_remark,
-                        data_coll_image_status: val.data_coll_image_status,
-                        crf_data_collect_slno: val.crf_data_collect_slno,
-                        crf_requst_slno: val.crf_requst_slno,
-                        requser: val.requser.toLowerCase(),
-                        crf_dept_status: val.crf_dept_status
-                    }
-                    return obj
-                })
-                const pendingList = datas.filter((val) => {
-                    return val.crf_dept_status !== 1
-                })
-                setPendingData(pendingList)
-
-                const DoneList = datas.filter((val) => {
-                    return val.crf_dept_status === 1
-                })
-                setDoneData(DoneList)
-            }
-        }
-        getdataCollReq(empdeptsec)
-    }, [empdeptsec, count])
-
-    const [dtaEnterFlag, setDataEnterFlag] = useState(0)
-    const [dtaEnterModal, setDataEnterModal] = useState(false)
-    const [dtaEnterData, setDataEnterData] = useState([])
-
-    const [dtaEnterViewFlag, setDataEnterViewFlag] = useState(0)
-    const [dtaEnterViewModal, setDataEnterViewModal] = useState(false)
-    const [dtaEnterViewData, setDataEnterViewData] = useState([])
-
-    //close button function
     const backtoSetting = useCallback(() => {
-        setDone(false)
-        setPending(true)
-        setCheck(0)
-        setCount(0)
-        setPendingData([])
-        setDoneData([])
-        setDataEnterFlag(0)
-        setDataEnterModal(false)
-        setDataEnterData([])
-        setDataEnterViewFlag(0)
-        setDataEnterViewModal(false)
-        setDataEnterViewData([])
         history.push('/Home')
     }, [history])
+    const empdeptsec = useSelector((state) => state.LoginUserData.empsecid, _.isEqual)
+
+    const [pendingData, setPendingData] = useState([])
+    const [doneData, setDoneData] = useState([])
+    const [allData, setAllData] = useState([])
+    const [disData, setDisData] = useState([])
+    const [radiovalue, setRadioValue] = useState('1')
+    const [startDate, setStartDate] = useState(formatDateForInput(new Date()));
+    const [endDate, setEndDate] = useState(formatDateForInput(new Date()));
+    const [searchCrf, setsearchCrf] = useState('')
+    const [searchFlag, setSearchFlag] = useState(0)
+
+    const { data: dataCollection, isLoading: isDCLoading, error: dcError } = useQuery({
+        queryKey: ['dataCollection', empdeptsec],
+        queryFn: () => getDataCollectionDetails(empdeptsec),
+        enabled: empdeptsec !== null,
+    });
+
+    const { data: companyData, isLoading: isCompLoading, error: compError } = useQuery({
+        queryKey: 'getdefaultCompany',
+        queryFn: () => getDefaultCompany(),
+        staleTime: Infinity
+    });
+    const company = useMemo(() => companyData, [companyData]);
 
 
-    return (
-        <Fragment >
-            {dtaEnterFlag === 1 ? <DataCollectnEntryModal
-                open={dtaEnterModal} setDataEnterFlag={setDataEnterFlag} setDataEnterModal={setDataEnterModal}
-                dtaEnterData={dtaEnterData} setDataEnterData={setDataEnterData} setCount={setCount}
-                count={count} /> : null
-            }
-
-            {dtaEnterViewFlag === 1 ? <DataCollectnEntryView open={dtaEnterViewModal}
-                setDataEnterViewFlag={setDataEnterViewFlag} setDataEnterViewModal={setDataEnterViewModal}
-                dtaEnterViewData={dtaEnterViewData} setDataEnterViewData={setDataEnterViewData}
-                setCount={setCount} count={count} /> : null
-            }
-            <Box sx={{ height: 35, backgroundColor: "#f0f3f5", display: 'flex' }}>
-                <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>Data Collection For CRF</Box>
-                <Box>
-                    <CusIconButton size="sm" variant="outlined" color="primary" onClick={backtoSetting} >
-                        <CloseIcon fontSize='small' />
-                    </CusIconButton>
-                </Box>
-            </Box>
-            <Paper >
-                <Box sx={{
-                    width: "100%",
-                    pl: 1, pt: 0.5, pr: 1, pb: 0.5, flex: 1,
-                    display: "flex",
-                    flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
-                    justifyContent: 'center',
-                }}>
-                    <Box sx={{ width: "13%", pr: 1, mt: 1 }}>
-                        <CusCheckBox
-                            label="Pending"
-                            color="danger"
-                            size="md"
-                            name="pending"
-                            value={pending}
-                            checked={pending}
-                            onCheked={updatependng}
-                        />
-                    </Box>
-                    <Box sx={{ width: "13%", mt: 1 }}>
-                        <CusCheckBox
-                            label="Data Collection Given"
-                            color="danger"
-                            size="md"
-                            name="done"
-                            value={done}
-                            checked={done}
-                            onCheked={updatedone}
-                        />
-                    </Box>
-                </Box>
-            </Paper>
-
-            <Box sx={{ height: window.innerHeight - 150, overflow: 'auto', }}>
-                {check === 2 ?
-                    <Box sx={{ width: "100%" }}>
-                        {donedata && donedata.map((val) => {
-                            return <Box key={val.crf_data_collect_slno} sx={{ width: "100%", }}>
-                                <Paper sx={{
-                                    width: '100%',
-                                    mt: 0.8,
-                                    border: "2 solid #272b2f",
-                                    borderRadius: 3,
-                                    overflow: 'hidden',
-                                    boxShadow: 1,
-                                    backgroundColor: '#BBBCBC'
-                                }} variant='outlined'>
-                                    <MasterDetailCompnt val={val} />
-                                    <DataCollectionSave setDataEnterFlag={setDataEnterFlag}
-                                        setDataEnterModal={setDataEnterModal} setDataEnterData={setDataEnterData}
-                                        val={val} flag={0}
-                                        setDataEnterViewFlag={setDataEnterViewFlag} setDataEnterViewModal={setDataEnterViewModal}
-                                        setDataEnterViewData={setDataEnterViewData}
-
-
-                                    />
-                                </Paper>
-                            </Box>
-                        })}
-                    </Box>
-                    : <Box>
-
-                        {pendingData && pendingData.map((val) => {
-                            return <Box key={val.crf_data_collect_slno} sx={{ width: "100%", }}>
-                                <Paper sx={{
-                                    width: '100%',
-                                    mt: 0.8,
-                                    border: "2 solid #272b2f",
-                                    borderRadius: 3,
-                                    overflow: 'hidden',
-                                    boxShadow: 1,
-                                    backgroundColor: '#BBBCBC'
-                                }} variant='outlined'>
-                                    <MasterDetailCompnt val={val} />
-                                    <DataCollectionSave setDataEnterFlag={setDataEnterFlag}
-                                        setDataEnterModal={setDataEnterModal} setDataEnterData={setDataEnterData}
-                                        val={val} flag={1}
-                                        setDataEnterViewFlag={setDataEnterViewFlag} setDataEnterViewModal={setDataEnterViewModal}
-                                        setDataEnterViewData={setDataEnterViewData} />
-                                </Paper>
-                            </Box>
-                        })}
-                    </Box>
+    useEffect(() => {
+        if (dataCollection && dataCollection.length > 0) {
+            const datas = dataCollection?.map((val) => {
+                const obj = {
+                    req_slno: val.req_slno,
+                    actual_requirement: val.actual_requirement,
+                    needed: val.needed,
+                    request_deptsec_slno: val.request_deptsec_slno,
+                    req_deptsec: val.req_deptsec.toLowerCase(),
+                    user_deptsection: val.user_deptsection.toLowerCase(),
+                    em_name: val.create_user.toLowerCase(),
+                    category: val.category,
+                    location: val.location,
+                    emergency_flag: val.emergency_flag,
+                    emer_type_name: val.emer_type_name,
+                    emer_slno: val.emer_slno,
+                    emer_type_escalation: val.emer_type_escalation,
+                    emergeny_remarks: val.emergeny_remarks,
+                    total_approx_cost: val.total_approx_cost,
+                    image_status: val.image_status,
+                    req_date: val.req_date,
+                    expected_date: val.expected_date,
+                    crf_dept_remarks: val.crf_dept_remarks,
+                    data_entered: val.data_entered !== null ? val.data_entered.toLowerCase() : '',
+                    reqest_one: val.reqest_one,
+                    req_user: val.requser !== null ? val.requser.toLowerCase() : '',
+                    datagive_user: val.saveuser !== null ? val.saveuser.toLowerCase() : '',
+                    dc_req_date: val.dc_req_date,
+                    update_date: val.update_date,
+                    crf_req_remark: val.crf_req_remark,
+                    data_coll_image_status: val.data_coll_image_status,
+                    crf_data_collect_slno: val.crf_data_collect_slno,
+                    crf_requst_slno: val.crf_requst_slno,
+                    requser: val.requser.toLowerCase(),
+                    crf_dept_status: val.crf_dept_status,
+                    company_name: val?.company_name
                 }
+                return obj
+            })
+            const pendingList = datas.filter((val) => {
+                return val.crf_dept_status === null
+            })
+            setPendingData(pendingList)
+            const DoneList = datas
+                .filter((item, index, self) =>
+                    index === self.findIndex((val) => val.req_slno === item.req_slno && val.crf_dept_status === 1))
+            setDoneData(DoneList)
+            // const DoneList = datas.filter((val) => {
+            //     return val.crf_dept_status === 1
+            // })
+
+        } else {
+            setPendingData([])
+            setDoneData([])
+        }
+    }, [dataCollection])
+
+    useEffect(() => {
+        if (radiovalue === '1') {
+            setDisData(pendingData)
+            setAllData(pendingData)
+        }
+    }, [radiovalue, pendingData])
+
+    const updateRadioClick = useCallback(async (e) => {
+        e.preventDefault()
+        setRadioValue(e.target.value)
+        if (e.target.value === '1') {
+            setAllData(pendingData)
+            setDisData(pendingData)
+        } else if (e.target.value === '2') {
+            setAllData(doneData)
+            setDisData(doneData)
+        }
+    }, [doneData, pendingData])
+
+    const ClearSearch = useCallback(() => {
+        setSearchFlag(0)
+        setStartDate(formatDateForInput(new Date()))
+        setEndDate(formatDateForInput(new Date()))
+        setsearchCrf('')
+        setDisData(allData)
+    }, [allData, setDisData])
+    const changeSearchSelect = useCallback((e, newValue) => {
+        setSearchFlag(newValue);
+    }, [])
+
+    const startDateChange = useCallback((e) => {
+        setStartDate(e.target.value)
+    }, [])
+    const endDateChange = useCallback((e) => {
+        setEndDate(e.target.value)
+    }, [])
+    const changeCrfNo = useCallback((e) => {
+        setsearchCrf(e.target.value)
+    }, [])
+
+    const SearchData = useCallback(() => {
+
+        if (searchFlag === '1') {
+            const newData = allData?.filter((val) => {
+                const reqDate = new Date(val.req_date).setHours(0, 0, 0, 0);
+                const start = parse(startDate, 'yyyy-MM-dd', new Date()).setHours(0, 0, 0, 0);
+                const end = parse(endDate, 'yyyy-MM-dd', new Date()).setHours(0, 0, 0, 0);
+
+                return reqDate >= start && reqDate <= end;
+            });
+
+            if (newData.length !== 0) {
+                setDisData(newData)
+            } else {
+                setDisData([])
+            }
+        }
+        else if (searchFlag === '2') {
+            if (searchCrf === '') {
+                infoNotify("Enter CRF No.")
+            } else {
+                const newData = allData?.filter((val) => val.req_slno === parseInt(searchCrf))
+                setDisData(newData)
+            }
+        }
+
+    }, [startDate, endDate, searchFlag, searchCrf, allData, setDisData])
+
+    if (isDCLoading || isCompLoading) return <p>Loading...</p>;
+    if (dcError || compError) return <p>Error occurred.</p>;
+    return (
+        <Fragment>
+            <Box sx={{ height: window.innerHeight - 80, flexWrap: 'wrap', bgcolor: 'white', }}>
+                <Box sx={{ display: 'flex', backgroundColor: "#f0f3f5", border: '1px solid #B4F5F0' }}>
+                    <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>Data Collection For CRF</Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, m: 0.5 }}>
+                        <CssVarsProvider>
+                            <CustomCloseIconCmp
+                                handleChange={backtoSetting}
+                            />
+                        </CssVarsProvider>
+                    </Box>
+                </Box>
+                <Box sx={{ display: 'flex', bgcolor: '#E3EFF9', py: 0.5, flexWrap: 'wrap', }}>
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', pr: 1 }}>
+                        <RadioGroup
+                            sx={{ pt: 1, flex: '1 1 auto', px: 3 }}
+                            row
+                            aria-labelledby="demo-row-radio-buttons-group-label"
+                            name="row-radio-buttons-group"
+                            value={radiovalue}
+                            onChange={(e) => updateRadioClick(e)}
+                        >
+                            <Badge
+                                badgeContent={pendingData.length}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                sx={{
+                                    mr: 1,
+                                    '& .MuiBadge-badge': {
+                                        backgroundColor: 'orange',
+                                        color: 'white',
+                                        transform: 'translate(70%, -10%)',
+                                    }
+                                }}
+                            >
+                                <FormControlLabel value='1' sx={{}} control={
+                                    <Radio
+                                        sx={{
+                                            color: 'orange',
+                                            '&.Mui-checked': {
+                                                color: 'orange',
+                                            },
+                                        }} />
+                                } label="Pending" />
+                            </Badge>
+                            <Badge
+                                badgeContent={doneData.length}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                sx={{
+                                    mr: 1,
+                                    '& .MuiBadge-badge': {
+                                        backgroundColor: '#0d47a1',
+                                        color: 'white',
+                                        transform: 'translate(70%, -10%)',
+                                    }
+                                }}
+                            >
+                                <FormControlLabel
+                                    value='2' sx={{ pl: 3 }}
+                                    control={
+                                        <Radio
+                                            sx={{
+                                                color: '#0d47a1',
+                                                '&.Mui-checked': {
+                                                    color: '#0d47a1',
+                                                },
+                                            }}
+                                        />
+                                    }
+                                    label="All List"
+                                />
+                            </Badge>
+                        </RadioGroup>
+                    </Box>
+
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-start', flexWrap: 'wrap', }}>
+                        <Box sx={{ m: 0.5, pt: 0.5, flex: '1 1 auto', pl: 0.5 }}>
+                            <CssVarsProvider>
+                                <Select defaultValue="0" sx={{ width: 200, border: '1px solid #bbdefb', height: 20, color: '#1565c0', fontSize: 14 }}
+                                    slotProps={{
+                                        listbox: { placement: 'bottom-start' },
+                                    }}
+                                    placeholder="Search By"
+                                    value={searchFlag}
+                                    onChange={changeSearchSelect}
+                                >
+                                    <Option value="1">Req. Date</Option>
+                                    <Option value="2">CRF No.</Option>
+                                </Select>
+                            </CssVarsProvider>
+                        </Box>
+                        <Box sx={{ my: 0.7, pr: 1, }}>
+                            <CssVarsProvider>
+                                <IconButton
+                                    variant="plain"
+                                    sx={{
+                                        color: '#0277bd',
+                                        width: '100%',
+                                        fontSize: 12,
+                                        borderRadius: 5,
+                                        height: '19px',
+                                        lineHeight: '1',
+                                    }}
+                                    onClick={ClearSearch}
+                                >
+                                    <FilterAltTwoToneIcon sx={{ fontWeight: 550, color: '#0277bd', pr: 0.5, width: 30, height: 20 }} />
+                                    Clear Filter
+                                </IconButton>
+                            </CssVarsProvider>
+                        </Box>
+                        {searchFlag === '1' ?
+                            <Box sx={{ display: 'flex', pl: 0.5, flex: '1 1 auto' }}>
+                                <Box sx={{ pt: 0.9, flex: '1 1 auto' }}>
+                                    <CssVarsProvider>
+                                        <CustomInputDateCmp
+                                            StartIcon={<Typography sx={{ fontSize: 14, color: '#0d47a1', fontWeight: 550, pr: 0.5 }}>Start Date </Typography>}
+                                            className={{
+                                                height: 25, borderRadius: 5, border: '1px solid #bbdefb',
+                                                color: '#0d47a1', fontSize: 14, width: 200,
+                                            }}
+                                            size={'md'}
+                                            type='date'
+                                            name={'startDate'}
+                                            value={startDate}
+                                            handleChange={startDateChange}
+                                        />
+                                    </CssVarsProvider>
+                                </Box>
+                                <Box sx={{ pt: 0.9, pl: 0.5, flex: '1 1 auto' }}>
+                                    <CssVarsProvider>
+                                        <CustomInputDateCmp
+                                            StartIcon={<Typography sx={{ fontSize: 14, color: '#0d47a1', fontWeight: 550, pr: 0.5 }}>Start Date </Typography>}
+                                            className={{
+                                                height: 35, borderRadius: 5, border: '1px solid #bbdefb',
+                                                color: '#0d47a1', fontSize: 14, width: 200,
+                                            }}
+                                            size={'md'}
+                                            type='date'
+                                            name={'endDate'}
+                                            value={endDate}
+                                            handleChange={endDateChange}
+                                        />
+                                    </CssVarsProvider>
+                                </Box>
+                            </Box>
+                            : searchFlag === '2' ?
+                                <Box sx={{ flex: '1 1 auto', pt: 0.9, pl: 0.5 }}>
+                                    <CssVarsProvider>
+                                        <CustomInputDateCmp
+                                            StartIcon={<Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                                <AlignHorizontalLeftTwoToneIcon sx={{ height: 18, width: 18, color: '#0063C5' }} />
+                                                <Typography sx={{ fontSize: '13px', color: '#0063C5' }}>CRF/{company?.company_name}/</Typography>
+                                            </Box>}
+                                            className={{
+                                                borderRadius: 6, border: '1px solid #bbdefb', width: 250, height: 35, color: '#1565c0'
+                                            }}
+                                            autoComplete={'off'}
+                                            size={'md'}
+                                            type='text'
+                                            name={'searchCrf'}
+                                            value={searchCrf}
+                                            handleChange={changeCrfNo}
+                                        />
+
+                                    </CssVarsProvider>
+                                </Box>
+                                : null}
+                        {(searchFlag === '1' || searchFlag === '2') ?
+                            <Box sx={{ pt: 0.9, pl: 0.5, flex: '1 1 auto' }}>
+                                <CssVarsProvider>
+                                    <   CustomIconButtonCmp
+                                        handleChange={SearchData}
+                                    >
+                                        Search
+                                        <SearchTwoToneIcon sx={{
+                                            height: 22, width: 22, color: '#1565c0', ml: 1, pt: 0.2,
+                                            '&:hover': {
+                                                color: '#43B0F1'
+                                            },
+                                        }} />
+                                    </CustomIconButtonCmp>
+                                </CssVarsProvider>
+                            </Box>
+                            : null
+                        }
+                    </Box>
+                </Box>
+                <Box sx={{ height: window.innerHeight - 230, overflow: 'auto', flexWrap: 'wrap' }}>
+                    {disData.length !== 0 ?
+                        <Virtuoso
+                            data={disData}
+                            totalCount={disData?.length}
+                            itemContent={(index, val) =>
+                                <Box key={index} sx={{
+                                    width: "100%", mt: 0.8, flexWrap: 'wrap',
+                                    border: '1px solid #21B6A8', borderRadius: 2,
+                                }}>
+                                    <MasterDetailCompnt val={val} />
+                                    <DataCollectionSave flag={radiovalue === '1' ? 1 : 0} val={val} empdeptsec={empdeptsec} />
+                                </Box>
+                            }
+                        >
+                        </Virtuoso>
+                        :
+                        <Box sx={{
+                            display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5,
+                            pt: 10, color: 'grey'
+                        }}>
+                            No Report Found
+                        </Box>}
+                </Box>
             </Box>
         </Fragment>
     )

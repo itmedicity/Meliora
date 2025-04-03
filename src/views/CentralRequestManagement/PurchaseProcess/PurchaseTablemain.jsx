@@ -1,327 +1,765 @@
-import React, { useMemo } from 'react'
-import { useState, useCallback, useEffect, memo, Fragment } from 'react'
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
-import { axioslogin } from 'src/views/Axios/Axios'
-import { Box, Paper } from '@mui/material'
-import CloseIcon from '@mui/icons-material/Close';
-import MasterDetailCompnt from '../ComonComponent/MasterDetailCompnt'
-import CusIconButton from 'src/views/Components/CusIconButton'
-import PurchaseApprovalButton from './PurchaseApprovalButton'
-import PurchaseModal from './PurchaseModal'
-import { ToastContainer } from 'react-toastify'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
-import ReqImageDisModal from '../ComonComponent/ReqImageDisModal'
-import { useDispatch, useSelector } from 'react-redux'
-import { getCRMPurchase } from 'src/redux/actions/CrmPurchaseList.action'
-import CustomBackDrop from 'src/views/Components/CustomBackDrop'
-import { PurchAckMapList, PurchDataCollPendingList, PurchaseAckDoneList, PurchaseQuatanNegotain, QuatationFinal, getData, getpurchDataCollPending, getpurchaseAckPending, poClose, potoSupp } from 'src/redux/ReduxhelperFun/reduxhelperfun'
-import { warningNotify } from 'src/views/Common/CommonCode'
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import { Virtuoso } from 'react-virtuoso'
-import { getCRMPurchaseAckPending } from 'src/redux/actions/CrmPurchaseACKList.action'
-import { getCRMPurchDataCollPending } from 'src/redux/actions/CrmPurchaseDatacollPend.action'
 
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
+import CustomCloseIconCmp from '../ComonComponent/Components/CustomCloseIconCmp'
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { Box } from '@mui/material';
+import { CssVarsProvider, IconButton } from '@mui/joy';
+import TopViewDesignPurchase from './Component/TopViewDesignPurchase';
+import { useQuery, useQueryClient } from 'react-query';
+import { getCompanyDetails, getCrfPoApprovals, getCRFPurchaseAck, getCRFQuotationDetails, getDefaultCompany, getPurchaseDataCollection, getStoreList } from 'src/api/CommonApiCRF';
+import { Virtuoso } from 'react-virtuoso';
+import ReqMastMainViewCmp from './Component/ReqMastMainViewCmp';
+import PurchaseApprovalButtonCmp from './Component/PurchaseApprovalButtonCmp';
+import { format } from 'date-fns';
+import POPendingDetailTable from './Component/POPendingDetailTable';
+import { axiosellider, axioslogin } from 'src/views/Axios/Axios';
+import { infoNotify, succesNotify } from 'src/views/Common/CommonCode';
+import DataCollectionSave from '../ComonComponent/DataCollectionComp/DataCollectionSave';
+import _ from 'underscore';
+import { useSelector } from 'react-redux';
 
 const PurchaseTablemain = () => {
-
-    const dispatch = useDispatch();
-    /*** Initializing */
     const history = useHistory();
-    const [count, setCount] = useState(0)
-    const [open, setOpen] = useState(false)
-    const [DisArray, setDisArray] = useState([])
+    const queryClient = useQueryClient()
+    const empdeptsec = useSelector((state) => state.LoginUserData.empsecid, _.isEqual)
     const [radiovalue, setRadioValue] = useState('1')
-    const [puchaseFlag, setpuchaseFlag] = useState(0)
-    const [puchaseModal, setpuchaseModal] = useState(false)
-    const [puchaseData, setpuchaseData] = useState([])
-    const [imageshowFlag, setImageShowFlag] = useState(0)
-    const [imageshow, setImageShow] = useState(false)
-    const [imageSlno, setImageSlno] = useState(0)
-    const [imagearray, setImageArry] = useState([])
+    const [allData, setAllData] = useState([])
+    const [disData, setDisData] = useState([])
+    const [combinedData, setcombinedData] = useState([])
+    const [crfProcess, setCrfProcess] = useState([])
+    const [quoNego, setQuoNego] = useState([])
+    const [quoFinal, setQuoFinal] = useState([])
+    const [poProcess, setPoProcess] = useState([])
+    const [pendingPOList, setPendingPOList] = useState([])
+    const [combinedPO, setCombinedPO] = useState([])
 
-    useEffect(() => {
-        dispatch(getCRMPurchaseAckPending())
-        dispatch(getCRMPurchase())
-        dispatch(getCRMPurchDataCollPending())
-    }, [dispatch, count])
-    //data list after ed,md Approval
-    const purchaseAckPending = useSelector((state) => getpurchaseAckPending(state))
-    const CRMPurchaseAckPendingListAry = useMemo(() => purchaseAckPending, [purchaseAckPending])
-    //List of After ack
-    const PurchaseArryList = useSelector((state) => getData(state))
-    const tabledata = useMemo(() => PurchaseArryList, [PurchaseArryList])
-    //Data Collection pending array
-    const purchdataCollPendng = useSelector((state) => getpurchDataCollPending(state))
-    const datacollPendng = useMemo(() => purchdataCollPendng, [purchdataCollPendng])
+    const capitalizeWords = (str) =>
+        str ? str
+            .toLowerCase()
+            .trim()
+            .replace(/\s+/g, ' ')
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ')
+            : '';
 
-    useEffect(() => {
-        setOpen(true)
-        const getPending = async (CRMPurchaseAckPendingListAry) => {
-            const firstFilter = await PurchAckMapList(CRMPurchaseAckPendingListAry)
-            const { status, data } = firstFilter
-            if (status === true) {
-                setDisArray(data)
-                setOpen(false)
-            } else {
-                setDisArray([])
-                warningNotify("No CRF for Purchase Acknowledgement")
-                setOpen(false)
-            }
-        }
-
-        const getPurcAckDone = async (tabledata) => {
-            const PurchaseAckDoneListArry = await PurchaseAckDoneList(tabledata);
-            const { status, data } = PurchaseAckDoneListArry
-            if (status === true) {
-                if (data.length !== 0) {
-                    setDisArray(data)
-                    setOpen(false)
-                }
-                else {
-                    setDisArray([])
-                    warningNotify("No CRF for Process Pending ")
-                    setOpen(false)
-                }
-            } else {
-                setDisArray([])
-                warningNotify("Error Occured")
-                setOpen(false)
-            }
-        }
-
-        const getQuatNegotaton = async (tabledata) => {
-            const QuatatnNegoPending = await PurchaseQuatanNegotain(tabledata);
-            const { status, data } = QuatatnNegoPending
-            if (status === true) {
-                if (data.length !== 0) {
-                    setDisArray(data)
-                    setOpen(false)
-                }
-                else {
-                    setDisArray([])
-                    warningNotify("No CRF for Quatation Negotation Pending ")
-                    setOpen(false)
-                }
-            } else {
-                setDisArray([])
-                warningNotify("Error Occured")
-                setOpen(false)
-            }
-        }
-
-        const getQuatatnFinaling = async (tabledata) => {
-            const QuatatnFinalingPending = await QuatationFinal(tabledata);
-            const { status, data } = QuatatnFinalingPending
-            if (status === true) {
-                if (data.length !== 0) {
-                    setDisArray(data)
-                    setOpen(false)
-                }
-                else {
-                    setDisArray([])
-                    warningNotify("No CRF for Quatation Finalization Pending ")
-                    setOpen(false)
-                }
-            } else {
-                setDisArray([])
-                warningNotify("Error Occured")
-                setOpen(false)
-            }
-        }
-
-        const getPoClose = async (tabledata) => {
-            const PoCloseList = await poClose(tabledata);
-            const { status, data } = PoCloseList
-            if (status === true) {
-                if (data.length !== 0) {
-                    setDisArray(data)
-                    setOpen(false)
-                } else {
-                    setDisArray([])
-                    warningNotify("No CRF for PO Close Pending")
-                    setOpen(false)
-                }
-            } else {
-                setDisArray([])
-                warningNotify("Error Occured")
-                setOpen(false)
-            }
-        }
-
-        const getPOtoSupplier = async (tabledata) => {
-            const dataPoSupply = await potoSupp(tabledata);
-            const { status, data } = dataPoSupply
-            if (status === true) {
-                if (data.length !== 0) {
-                    setDisArray(data)
-                    setOpen(false)
-                } else {
-                    setDisArray([])
-                    warningNotify("No CRF for Po to Supplier Pending")
-                    setOpen(false)
-                }
-            } else {
-                setDisArray([])
-                warningNotify("Error Occured")
-                setOpen(false)
-            }
-        }
-
-        const getDataCollPening = async (tabledata) => {
-            const DataCollPening = await PurchDataCollPendingList(tabledata);
-            const { status, data } = DataCollPening
-            if (status === true) {
-                if (data.length !== 0) {
-                    setDisArray(data)
-                    setOpen(false)
-                } else {
-                    setDisArray([])
-                    warningNotify("No CRF for Po to Supplier Pending")
-                    setOpen(false)
-                }
-            } else {
-                setDisArray([])
-                warningNotify("Error Occured")
-                setOpen(false)
-            }
-        }
-
-        if (radiovalue === '1') {
-            getPending(CRMPurchaseAckPendingListAry)
-        } else if (radiovalue === '2') {
-            getPurcAckDone(tabledata)
-        } else if (radiovalue === '3') {
-            getQuatNegotaton(tabledata)
-        } else if (radiovalue === '4') {
-            getQuatatnFinaling(tabledata)
-        } else if (radiovalue === '5') {
-            getPoClose(tabledata)
-        } else if (radiovalue === '6') {
-            getPOtoSupplier(tabledata)
-        } else if (radiovalue === '7') {
-            getDataCollPening(datacollPendng)
-        }
-    }, [CRMPurchaseAckPendingListAry, radiovalue, tabledata, datacollPendng])
-
-    //Radio button OnClick function starts
-    const updateRadioClick = useCallback(async (e) => {
-        e.preventDefault()
-        setOpen(false)
-        setRadioValue(e.target.value)
-
-        //     // potoSupp(tabledata).then((e) => {
-        //     //     setDisArray(e)
-        //     //     setOpen(false)
-        //     // })
-        // }
-    }, [])
-
-    useEffect(() => {
-        const getImage = async (req_slno) => {
-            const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                const fileNames = data;
-                const fileUrls = fileNames.map((fileName) => {
-                    return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`;
-                });
-                setImageArry(fileUrls);
-            }
-        }
-        if (imageshowFlag === 1) {
-            getImage(imageSlno)
-        }
-    }, [imageshowFlag, imageSlno])
-
-    const handleClose = useCallback(() => {
-        setImageShowFlag(0)
-        setImageShow(false)
-        setImageSlno(0)
-        setImageArry([])
-    }, [])
-
-    //close button function
     const backtoSetting = useCallback(() => {
-        history.push('/Home/CrfNewDashBoard')
+        history.push('/Home')
     }, [history])
 
+    const { data: ackDetails, isLoading: isAckLoading, error: ackError } = useQuery({
+        queryKey: 'getPurchaseAck',
+        queryFn: () => getCRFPurchaseAck(),
+        staleTime: Infinity
+    });
+
+    const ackData = useMemo(() => ackDetails, [ackDetails]);
+    const { data: quoDetails, isLoading: isQuoLoading, error: quoError } = useQuery({
+        queryKey: 'getQuotationData',
+        queryFn: () => getCRFQuotationDetails(),
+        staleTime: Infinity
+    });
+
+    const quoData = useMemo(() => quoDetails, [quoDetails]);
+    const { data: apprvDetails, isLoading: isApprvLoading, error: apprvError } = useQuery({
+        queryKey: 'getAprrovalData',
+        queryFn: () => getCrfPoApprovals(),
+        staleTime: Infinity
+    });
+    const apprvData = useMemo(() => apprvDetails, [apprvDetails]);
+
+    const { data: storeDetails, isLoading: isStoreLoading, error: storeError } = useQuery({
+        queryKey: 'getStoreName',
+        queryFn: () => getStoreList(),
+        staleTime: Infinity
+    });
+    const storeList = useMemo(() => storeDetails, [storeDetails]);
+    const { data: dataColleDetails, isLoading: isDcLoading, error: dcError } = useQuery({
+        queryKey: 'purchaseDataCollection',
+        queryFn: () => getPurchaseDataCollection(),
+        staleTime: Infinity
+    });
+    const dataCollection = useMemo(() => dataColleDetails, [dataColleDetails]);
+    const { data: compData, isLoading: isCompLoading, error: compError } = useQuery({
+        queryKey: 'getCompany',
+        queryFn: () => getCompanyDetails(),
+        staleTime: Infinity
+    });
+    const companyData = useMemo(() => compData, [compData]);
+    useEffect(() => {
+        if (quoData && quoData.length > 0) {
+            const procCrf = quoData?.filter((val) => val.ack_status === 1 && val.quatation_calling_status === 0 &&
+                val.po_prepartion === 0 && val.po_complete === 0)
+            setCrfProcess(procCrf)
+
+            const nego = quoData?.filter((val) => val.quatation_calling_status === 1 && val.quatation_negotiation === 0)
+            setQuoNego(nego)
+
+            const final = quoData?.filter((val) => val.quatation_calling_status === 1 && val.quatation_negotiation === 1
+                && val.quatation_fixing === 0)
+            setQuoFinal(final)
+
+            const po = quoData?.filter((val) => val.ack_status === 1 &&
+                ((val.quatation_calling_status === 1 && val.quatation_fixing === 1 && val.po_prepartion === 0)
+                    || (val.po_prepartion === 1 && val.po_complete === 0)))
+            setPoProcess(po)
+        }
+
+    }, [quoData]);
+
+    useEffect(() => {
+        if (radiovalue === '2') {
+            setcombinedData(crfProcess)
+        } else if (radiovalue === '3') {
+            setcombinedData(quoNego)
+        } else if (radiovalue === '4') {
+            setcombinedData(quoFinal)
+        } else if (radiovalue === '5') {
+            setcombinedData(poProcess)
+        }
+    }, [ackData, crfProcess, quoNego, quoFinal, poProcess, radiovalue, dataCollection])
+
+    useEffect(() => {
+        if (radiovalue === '1') {
+            if (ackData && ackData.length > 0) {
+                const datas = ackData?.map((val) => {
+                    const obj = {
+                        req_status: val.req_status,
+                        req_slno: val.req_slno,
+                        actual_requirement: val.actual_requirement !== null ? val.actual_requirement : 'Nil',
+                        needed: val.needed !== null ? val.needed : 'Nil',
+                        request_deptsec_slno: val.request_deptsec_slno,
+                        req_deptsec: val.req_deptsec.toLowerCase(),
+                        user_deptsection: val.user_deptsection.toLowerCase(),
+                        user_deptsec: val.user_deptsec,
+                        em_name: val.create_user.toLowerCase(),
+                        category: val.category,
+                        location: val.location,
+                        emergency_flag: val.emergency_flag,
+                        emer_type_name: val.emer_type_name,
+                        emer_slno: val.emer_slno,
+                        emer_type_escalation: val.emer_type_escalation,
+                        emergeny_remarks: val.emergeny_remarks,
+                        image_status: val.image_status,
+                        req_date: val.create_date,
+                        expected_date: val.expected_date,
+                        dept_id: val.dept_id,
+                        dept_name: val.dept_name,
+                        dept_type: val.dept_type,
+                        dept_type_name: val.dept_type === 1 ? 'Clinical' : val.dept_type === 2 ? 'Non Clinical' : 'Academic',
+                        md_approve_req: val.md_approve_req,
+                        md_approve: val.md_approve,
+                        md: val.md_approve === 1 ? "Approved" : val.md_approve === 2 ? "Rejected" :
+                            val.md_approve === 3 ? "On-Hold" : "Not Done",
+                        md_approve_remarks: val.md_approve_remarks !== null ? val.md_approve_remarks : "Not Updated",
+                        md_detial_analysis: val.md_detial_analysis,
+                        md_approve_date: val.md_approve_date,
+                        md_user: val.md_user !== null ? val.md_user.toLowerCase() : '',
+                        ed_approve_req: val.ed_approve_req,
+                        ed_approve: val.ed_approve,
+                        ed: val.ed_approve === 1 ? "Approved" : val.ed_approve === 2 ? "Rejected" :
+                            val.ed_approve === 3 ? "On-Hold" : "Not Done",
+                        ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : "",
+                        ed_detial_analysis: val.ed_detial_analysis,
+                        ed_approve_date: val.ed_approve_date,
+                        ed_user: val.ed_user ? val.ed_user.toLowerCase() : '',
+                        md_image: val.md_image,
+                        ed_image: val.ed_image,
+                        managing_director_req: val.managing_director_req,
+                        managing_director_approve: val.managing_director_approve,
+                        managing: val.managing_director_approve === 1 ? "Approved" : val.managing_director_approve === 2 ? "Rejected" :
+                            val.managing_director_approve === 3 ? "On-Hold" : val.managing_director_approve === 4 ? "Approved" : "Not Done",
+                        managing_director_remarks: val.managing_director_remarks !== null ? val.managing_director_remarks : "",
+                        managing_director_analysis: val.managing_director_analysis,
+                        managing_director_approve_date: val.managing_director_approve_date,
+                        managing_director_user: val.managing_director_username ? val.managing_director_username.toLowerCase() : '',
+                        now_who: "Not Started Purchase Process",
+                        now_who_status: 0,
+                        ack_status: val.ack_status,
+                        company_name: val?.company_name
+
+                    }
+                    return obj
+                })
+                setDisData(datas)
+                setAllData(datas)
+            } else {
+                setDisData([])
+                setAllData([])
+            }
+        } else if (radiovalue === '6') {
+            if (apprvData) {
+                const poLIst = apprvData
+                    .filter((po, index, self) =>
+                        index === self.findIndex((val) => val.po_number === po.po_number && val.req_slno === po.req_slno))
+                    .map((po, ind) => (
+                        {
+                            slno: ind + 1,
+                            po_detail_slno: po.po_detail_slno,
+                            req_slno: po.req_slno,
+                            po_no: po.po_number,
+                            po_date: format(new Date(po.po_date), 'dd-MM-yyyy hh:mm:ss a'),
+                            supplier_name: capitalizeWords(po.supplier_name),
+                            storeName: capitalizeWords(po.main_store),
+                            po_delivery: capitalizeWords(po.po_delivery),
+                            po_types: po.po_type === 'S' ? 'Stock Order' : 'Specific',
+                            po_amount: po.po_amount,
+                            po_expiry: po.po_expiry ? format(new Date(po.po_expiry), 'dd-MM-yyyy') : 'Not Updated',
+                            expected_delvery: po.expected_delivery ? format(new Date(po.expected_delivery), 'dd-MM-yyyy') : 'Not Updated',
+                            // approval: po.approval_level === 1 ? 'Level 1 ' :
+                            //     po.APPROVAL === 2 ? 'Level 2' :
+                            //         po.APPROVAL === 3 ? 'Level 3' : 'Not Approved',
+                            approval: po.approval_level === 1 ? 'Purchase Dept Approved' :
+                                po.approval_level === 2 ? 'Purchase Manager Approved' :
+                                    po.approval_level === 3 ? "Director's Approved" : 'Not Approved',
+                            aprv_status: po.approval_level,
+                            company_name: po.company_name
+                        }));
+                const poItems = apprvData?.map((val) => {
+                    const obj = {
+                        po_detail_slno: val.po_detail_slno,
+                        po_no: val.po_number,
+                        item_code: val.item_code,
+                        item_name: val.item_name,
+                        item_qty: val.item_qty !== null ? val.item_qty : 0,
+                        item_rate: val.item_rate !== null ? (val.item_rate) : 0,
+                        item_mrp: val.item_mrp !== null ? (val.item_mrp) : 0,
+                        tax: val.tax !== null ? val.tax : 'Nil',
+                        tax_amount: val.tax_amount !== null ? (val.tax_amount) : 0,
+                        net_amount: val.net_amount !== 0 ? (val.net_amount) : 0
+                    }
+                    return obj
+                })
+                const mergedData = poLIst?.map(po => {
+                    const details = poItems?.filter(item => item.po_no === po.po_no && item.po_detail_slno === po.po_detail_slno);
+                    return {
+                        ...po,
+                        items: details
+                    };
+                });
+                setCombinedPO(mergedData)
+                setPendingPOList(mergedData)
+            } else {
+                setCombinedPO([])
+                setPendingPOList([])
+            }
+        }
+        else if (radiovalue === '7') {
+            if (dataCollection) {
+                const newData = dataCollection?.map((val) => {
+                    const obj = {
+                        req_slno: val.req_slno,
+                        actual_requirement: val.actual_requirement,
+                        needed: val.needed,
+                        request_deptsec_slno: val.request_deptsec_slno,
+                        req_deptsec: val.req_deptsec.toLowerCase(),
+                        user_deptsection: val.user_deptsection.toLowerCase(),
+                        em_name: val.create_user.toLowerCase(),
+                        category: val.category,
+                        location: val.location,
+                        emergency_flag: val.emergency_flag,
+                        emer_type_name: val.emer_type_name,
+                        emer_slno: val.emer_slno,
+                        emer_type_escalation: val.emer_type_escalation,
+                        emergeny_remarks: val.emergeny_remarks,
+                        total_approx_cost: val.total_approx_cost,
+                        image_status: val.image_status,
+                        req_date: val.req_date,
+                        expected_date: val.expected_date,
+                        crf_dept_remarks: val.crf_dept_remarks,
+                        data_entered: val.data_entered !== null ? val.data_entered.toLowerCase() : '',
+                        reqest_one: val.reqest_one,
+                        req_user: val.requser !== null ? val.requser.toLowerCase() : '',
+                        datagive_user: val.saveuser !== null ? val.saveuser.toLowerCase() : '',
+                        dc_req_date: val.dc_req_date,
+                        update_date: val.update_date,
+                        crf_req_remark: val.crf_req_remark,
+                        data_coll_image_status: val.data_coll_image_status,
+                        crf_data_collect_slno: val.crf_data_collect_slno,
+                        crf_requst_slno: val.crf_requst_slno,
+                        requser: val.requser.toLowerCase(),
+                        crf_dept_status: val.crf_dept_status,
+                        crm_purchase_slno: val.crm_purchase_slno,
+                        ack_status: val.ack_status,
+                        ack_remarks: val.ack_remarks,
+                        purchase_ackuser: val.purchase_ackuser,
+                        ack_date: val.ack_date,
+                        quatation_calling_status: val.quatation_calling_status,
+                        quatation_calling_remarks: val.quatation_calling_remarks,
+                        quatation_calling_date: val.quatation_calling_date,
+                        quatation_user: val.quatation_user,
+                        quatation_negotiation: val.quatation_negotiation,
+                        quatation_negotiation_remarks: val.quatation_negotiation_remarks,
+                        quatation_negotiation_date: val.quatation_negotiation_date,
+                        quatation_neguser: val.quatation_neguser,
+                        quatation_fixing: val.quatation_fixing,
+                        quatation_fixing_remarks: val.quatation_fixing_remarks,
+                        quatation_fixing_date: val.quatation_fixing_date,
+                        quatation_fixuser: val.quatation_fixuser,
+                        po_prepartion: val.po_prepartion,
+                        company_name: val?.company_name
+
+                    }
+                    return obj
+                })
+                setDisData(newData)
+            } else {
+                setDisData([])
+            }
+        }
+        else {
+            if (combinedData && combinedData.length > 0) {
+
+                const datas = combinedData?.map((val) => {
+                    const obj = {
+                        req_status: val.req_status,
+                        req_slno: val.req_slno,
+                        actual_requirement: val.actual_requirement !== null ? val.actual_requirement : 'Nil',
+                        needed: val.needed !== null ? val.needed : 'Nil',
+                        request_deptsec_slno: val.request_deptsec_slno,
+                        req_deptsec: val.req_deptsec.toLowerCase(),
+                        user_deptsection: val.user_deptsection.toLowerCase(),
+                        user_deptsec: val.user_deptsec,
+                        em_name: val.create_user.toLowerCase(),
+                        category: val.category,
+                        location: val.location,
+                        emergency_flag: val.emergency_flag,
+                        emer_type_name: val.emer_type_name,
+                        emer_slno: val.emer_slno,
+                        emer_type_escalation: val.emer_type_escalation,
+                        emergeny_remarks: val.emergeny_remarks,
+                        image_status: val.image_status,
+                        req_date: val.create_date,
+                        expected_date: val.expected_date,
+                        dept_id: val.dept_id,
+                        dept_name: val.dept_name,
+                        dept_type: val.dept_type,
+                        dept_type_name: val.dept_type === 1 ? 'Clinical' : val.dept_type === 2 ? 'Non Clinical' : 'Academic',
+                        md_approve_req: val.md_approve_req,
+                        md_approve: val.md_approve,
+                        md: val.md_approve === 1 ? "Approved" : val.md_approve === 2 ? "Rejected" :
+                            val.md_approve === 3 ? "On-Hold" : "Not Done",
+                        md_approve_remarks: val.md_approve_remarks !== null ? val.md_approve_remarks : "Not Updated",
+                        md_detial_analysis: val.md_detial_analysis,
+                        md_approve_date: val.md_approve_date,
+                        md_user: val.md_user !== null ? val.md_user.toLowerCase() : '',
+                        ed_approve_req: val.ed_approve_req,
+                        ed_approve: val.ed_approve,
+                        ed: val.ed_approve === 1 ? "Approved" : val.ed_approve === 2 ? "Rejected" :
+                            val.ed_approve === 3 ? "On-Hold" : "Not Done",
+                        ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : "",
+                        ed_detial_analysis: val.ed_detial_analysis,
+                        ed_approve_date: val.ed_approve_date,
+                        ed_user: val.ed_user ? val.ed_user.toLowerCase() : '',
+                        managing_director_req: val.managing_director_req,
+                        managing_director_approve: val.managing_director_approve,
+                        managing: val.managing_director_approve === 1 ? "Approved" : val.managing_director_approve === 2 ? "Rejected" :
+                            val.managing_director_approve === 3 ? "On-Hold" : val.managing_director_approve === 4 ? "Approved" : "Not Done",
+                        managing_director_remarks: val.managing_director_remarks !== null ? val.managing_director_remarks : "",
+                        managing_director_analysis: val.managing_director_analysis,
+                        managing_director_approve_date: val.managing_director_approve_date,
+                        managing_director_user: val.managing_director_username ? val.managing_director_username.toLowerCase() : '',
+                        managing_director_image: val.managing_director_image,
+                        md_image: val.md_image,
+                        ed_image: val.ed_image,
+                        crm_purchase_slno: val.crm_purchase_slno,
+                        ack_status: val.ack_status,
+                        ack_remarks: val.ack_remarks,
+                        purchase_ackuser: val.purchase_ackuser,
+                        ack_date: val.ack_date,
+                        quatation_calling_status: val.quatation_calling_status,
+                        quatation_calling_remarks: val.quatation_calling_remarks,
+                        quatation_calling_date: val.quatation_calling_date,
+                        quatation_user: val.quatation_user,
+                        quatation_negotiation: val.quatation_negotiation,
+                        quatation_negotiation_remarks: val.quatation_negotiation_remarks,
+                        quatation_negotiation_date: val.quatation_negotiation_date,
+                        quatation_neguser: val.quatation_neguser,
+                        quatation_fixing: val.quatation_fixing,
+                        quatation_fixing_remarks: val.quatation_fixing_remarks,
+                        quatation_fixing_date: val.quatation_fixing_date,
+                        quatation_fixuser: val.quatation_fixuser,
+                        po_prepartion: val.po_prepartion,
+                        po_complete: val.po_complete,
+                        po_complete_date: val.po_complete_date,
+                        po_to_supplier: val.po_to_supplier,
+                        po_to_supplier_date: val.po_to_supplier_date,
+                        store_recieve: val.store_recieve,
+                        sub_store_recieve: val.sub_store_recieve,
+                        now_who: val.approval_level === 3 ? "Director's Approved" :
+                            val.approval_level === 2 ? 'Purchase Manager Approved' :
+                                val.approval_level === 1 ? 'Purchase Dpt Approved' :
+                                    val.po_complete === 1 ? "PO Completed" :
+                                        val.po_prepartion === 1 ? "PO Prepairing" :
+                                            val.quatation_fixing === 1 ? "Quotation Fixed" :
+                                                val.quatation_negotiation === 1 ? "Quotation Negotiation" :
+                                                    val.quatation_calling_status === 1 ? "Quotation Calling" :
+                                                        val.ack_status === 1 ? "Puchase Acknowledged" :
+                                                            "Not Started Purchase Process",
+
+                        now_who_status: val.po_to_supplier === 5 ? val.po_to_supplier :
+                            val.po_approva_level_two === 5 ? val.po_approva_level_two :
+                                val.po_approva_level_one === 5 ? val.po_approva_level_one :
+                                    val.po_complete === 5 ? val.po_complete :
+                                        val.po_prepartion === 5 ? val.po_prepartion :
+                                            val.quatation_fixing === 5 ? val.quatation_fixing :
+                                                val.quatation_negotiation === 5 ? val.quatation_negotiation :
+                                                    val.quatation_calling_status === 5 ? val.quatation_calling_status :
+                                                        val.ack_status === 5 ? val.ack_status :
+                                                            0,
+                        company_name: val?.company_name
+
+                    }
+                    return obj
+                })
+                setDisData(datas)
+                setAllData(datas)
+            }
+            else {
+                setDisData([])
+                setAllData([])
+            }
+        }
+
+    }, [combinedData, radiovalue, apprvData, dataCollection, ackData])
+
+    const RefreshData = useCallback(() => {
+        const getPendingPODetails = async () => {
+            const result = await axioslogin.get('/newCRFPurchase/getPO');
+            return result.data
+        }
+        const getPOdetails = async (posearch) => {
+            const result = await axiosellider.post('/crfpurchase/getpendingpo', posearch);
+            return result.data
+        }
+        const UpdatePOLevels = async (patchdata) => {
+
+            const result = await axioslogin.post('/newCRFPurchase/updateApprovalLevel', patchdata)
+            return result.data
+        }
+        getPendingPODetails().then((val) => {
+            const { success, data } = val
+            if (success === 1) {
+                const posearch = data?.map((val) => {
+                    return {
+                        pono: val.po_number,
+                        stcode: val.crs_store_code
+                    }
+                })
+                getPOdetails(posearch).then((val) => {
+                    const { success, data: elliderData } = val
+                    if (success === 1) {
+                        const patchdata = elliderData?.map((val) => {
+                            const newData = storeList?.find((value) => (value.crs_store_code === val.ST_CODE))
+                            return {
+                                approval_level: (typeof val.APPROVAL === 'number' && val.APPROVAL > 3) ? 3 : val.APPROVAL || null,
+                                po_expiry: val.PO_EXPIRY !== null ? format(new Date(val.PO_EXPIRY), 'yyyy-MM-dd') : null,
+                                expected_delivery: val.EXPECTED_DATE !== null ? format(new Date(val.EXPECTED_DATE), 'yyyy-MM-dd') : null,
+                                po_number: val.PO_NO,
+                                supply_store: newData ? newData.main_store_slno : 0
+                            }
+                        })
+                        UpdatePOLevels(patchdata).then((val) => {
+                            const { success, message } = val
+                            if (success === 1) {
+                                queryClient.invalidateQueries('getAprrovalData')
+                                // setOpen(false)
+                                succesNotify(message)
+                            }
+                            else {
+                                queryClient.invalidateQueries('getAprrovalData')
+                                // setOpen(false)
+                            }
+                        })
+                    }
+                    else if (success === 2) {
+                        queryClient.invalidateQueries('getAprrovalData')
+                        // setOpen(false)
+                        // succesNotify("Updated")
+                    }
+                })
+            } else {
+                queryClient.invalidateQueries('getAprrovalData')
+                // setOpen(false)
+            }
+        })
+    }, [storeList, queryClient])
+
+    const viewAllData = useCallback(() => {
+        setPendingPOList(combinedPO)
+    }, [combinedPO])
+    const getNotApproved = useCallback(() => {
+        const newData = combinedPO?.filter(val => val.aprv_status === null);
+        if (newData.length === 0) {
+            infoNotify("Selected Report Not Found")
+        } else {
+            setPendingPOList(newData)
+        }
+    }, [combinedPO])
+    const purchaseDeptApproved = useCallback(() => {
+        const newData = combinedPO?.filter(val => val.aprv_status === 1);
+        if (newData.length === 0) {
+            infoNotify("Selected Report Not Found")
+        } else {
+            setPendingPOList(newData)
+        }
+    }, [combinedPO])
+    const purchaseManagerApproved = useCallback(() => {
+        const newData = combinedPO?.filter(val => val.aprv_status === 2);
+        if (newData.length === 0) {
+            infoNotify("Selected Report Not Found")
+        } else {
+            setPendingPOList(newData)
+        }
+    }, [combinedPO])
+    const directorsApproved = useCallback(() => {
+        const newData = combinedPO?.filter(val => val.aprv_status === 3);
+        if (newData.length === 0) {
+            infoNotify("Selected Report Not Found")
+        } else {
+            setPendingPOList(newData)
+        }
+    }, [combinedPO])
+
+    const { data: companyViewData, isLoading: isviewCompLoading, error: viewcompError } = useQuery({
+        queryKey: 'getdefaultCompany',
+        queryFn: () => getDefaultCompany(),
+        staleTime: Infinity
+    });
+    const company = useMemo(() => companyViewData, [companyViewData]);
+
+    if (isAckLoading || isQuoLoading || isApprvLoading || isStoreLoading || isDcLoading || isCompLoading || isviewCompLoading) return <p>Loading...</p>;
+    if (ackError || quoError || apprvError || storeError || dcError || compError || viewcompError) return <p>Error occurred.</p>;
 
     return (
-        <Fragment>
-            <ToastContainer />
-            <CustomBackDrop open={open} text="Please Wait" />
-            {
-                puchaseFlag === 1 ? <PurchaseModal open={puchaseModal}
-                    setpuchaseFlag={setpuchaseFlag} setpuchaseModal={setpuchaseModal}
-                    puchaseData={puchaseData} setpuchaseData={setpuchaseData}
-                    count={count} setCount={setCount} /> : null
-            }
-            {imageshowFlag === 1 ? <ReqImageDisModal open={imageshow} handleClose={handleClose}
-                images={imagearray} /> : null}
-
-            <Box sx={{ height: 35, backgroundColor: "#f0f3f5", display: 'flex' }}>
+        <Box sx={{ height: window.innerHeight - 80, flexWrap: 'wrap', bgcolor: 'white', }}>
+            <Box sx={{ display: 'flex', backgroundColor: "#f0f3f5", border: '1px solid #B4F5F0' }}>
                 <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>CRF Purchase</Box>
-                <Box>
-                    <CusIconButton size="sm" variant="outlined" color="primary" onClick={backtoSetting} >
-                        <CloseIcon fontSize='small' />
-                    </CusIconButton>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, m: 0.5 }}>
+                    <CssVarsProvider>
+                        <CustomCloseIconCmp
+                            handleChange={backtoSetting}
+                        />
+                    </CssVarsProvider>
                 </Box>
             </Box>
-
-            <Paper >
-                <Box sx={{
-                    width: "100%",
-                    pl: 1, pt: 0.5, pr: 1, pb: 0.5, flex: 1,
-                    display: "flex",
-                    flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
-                    justifyContent: 'center',
-                }}>
-                    <RadioGroup
-                        row
-                        aria-labelledby="demo-row-radio-buttons-group-label"
-                        name="row-radio-buttons-group"
-                        value={radiovalue}
-                        onChange={(e) => updateRadioClick(e)}
-                    >
-                        <FormControlLabel value='1' control={<Radio />} label="Acknowledgement Pending" />
-                        <FormControlLabel value='2' control={<Radio />} label="Processing CRF " />
-                        <FormControlLabel value='3' control={<Radio />} label="Quatation Negotiation " />
-                        <FormControlLabel value='4' control={<Radio />} label="Quatation Finalizing" />
-                        <FormControlLabel value='5' control={<Radio />} label="PO Processing" />
-                        <FormControlLabel value='6' control={<Radio />} label="PO to Supplier Pending" />
-                        <FormControlLabel value='7' control={<Radio />} label="Data Collection Pending" />
-                    </RadioGroup>
-                </Box>
-            </Paper>
-
-
-            <Box sx={{ height: window.innerHeight - 150, overflow: 'auto', }}>
-                <Virtuoso
-                    // style={{ height: '400px' }}
-                    data={DisArray}
-                    totalCount={DisArray?.length}
-                    itemContent={(index, val) => <Box key={val.req_slno} sx={{ width: "100%", }}>
-                        <Paper sx={{
-                            width: '100%',
-                            mt: 0.8,
-                            border: "2 solid #272b2f",
-                            borderRadius: 3,
-                            overflow: 'hidden',
-                            boxShadow: 1,
-                            backgroundColor: '#BBBCBC'
-                        }} variant='outlined'>
-                            <MasterDetailCompnt val={val} />
-                            <PurchaseApprovalButton val={val}
-                                setpuchaseFlag={setpuchaseFlag} setpuchaseModal={setpuchaseModal}
-                                setpuchaseData={setpuchaseData} setImageShowFlag={setImageShowFlag}
-                                setImageShow={setImageShow} setImageSlno={setImageSlno} />
-
-                        </Paper>
-                    </Box>} />
+            <Box>
+                <TopViewDesignPurchase radiovalue={radiovalue} setRadioValue={setRadioValue} ackPending={ackData}
+                    crfProcess={crfProcess} quoNego={quoNego} quoFinal={quoFinal} poProcess={poProcess} allData={allData}
+                    setDisData={setDisData} apprvCount={pendingPOList} dataCollection={dataCollection} />
             </Box>
-        </Fragment >
+            {
+                radiovalue === '6' ?
+                    <Box sx={{ flexWrap: 'wrap', pt: 0.5, maxHeight: window.innerHeight - 220 }}>
+                        {combinedPO?.length !== 0 ?
+                            <>
+                                <Box
+                                    sx={{
+                                        bgcolor: '#eeeeee',
+                                        display: 'flex',
+                                        justifyContent: 'flex-end',
+                                        flexWrap: 'wrap',
+                                        padding: '0 16px',
+                                        gap: 0.5, p: 0.7
+                                    }}
+                                >
+                                    <Box sx={{ flex: '1 1 auto', minWidth: '100px', }}>
+                                        <CssVarsProvider>
+                                            <IconButton
+                                                variant="outlined"
+                                                sx={{
+                                                    backgroundColor: '#ADD8E6',
+                                                    width: '100%',
+                                                    fontSize: 12,
+                                                    '&:hover': {
+                                                        bgcolor: '#fafafa',
+                                                        color: '#003B73',
+                                                        transform: 'scale(0.98)',
+                                                    },
+                                                    boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.16)',
+                                                    borderRadius: 5,
+                                                    height: '30px',
+                                                    lineHeight: '1',
+                                                }}
+                                                onClick={getNotApproved}
+                                            >
+                                                Not Approved
+                                            </IconButton>
+                                        </CssVarsProvider>
+                                    </Box>
+                                    <Box sx={{ flex: '1 1 auto', minWidth: '100px' }}>
+                                        <CssVarsProvider>
+                                            <IconButton
+                                                variant="outlined"
+                                                sx={{
+                                                    backgroundColor: '#5CACEE',
+                                                    color: 'white',
+                                                    width: '100%',
+                                                    fontSize: 12,
+                                                    '&:hover': {
+                                                        bgcolor: '#fafafa',
+                                                        color: '#003B73',
+                                                        transform: 'scale(0.98)',
+                                                    },
+                                                    boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.16)',
+                                                    borderRadius: 5,
+                                                    height: '30px',
+                                                    lineHeight: '1',
+                                                }}
+                                                onClick={purchaseDeptApproved}
+                                            >
+                                                Purchase Dept Approved
+                                            </IconButton>
+                                        </CssVarsProvider>
+                                    </Box>
+                                    <Box sx={{ flex: '1 1 auto', minWidth: '100px' }}>
+                                        <CssVarsProvider>
+                                            <IconButton
+                                                variant="outlined"
+                                                sx={{
+                                                    backgroundColor: '#0277bd',
+                                                    color: 'white',
+                                                    width: '100%',
+                                                    fontSize: 12,
+                                                    '&:hover': {
+                                                        bgcolor: '#fafafa',
+                                                        color: '#003B73',
+                                                        transform: 'scale(0.98)',
+                                                    },
+                                                    boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.16)',
+                                                    borderRadius: 5,
+                                                    height: '30px',
+                                                    lineHeight: '1',
+                                                }}
+                                                onClick={purchaseManagerApproved}
+                                            >
+                                                Purchase Manager Approved
+                                            </IconButton>
+                                        </CssVarsProvider>
+                                    </Box>
+                                    <Box sx={{ flex: '1 1 auto', minWidth: '100px' }}>
+                                        <CssVarsProvider>
+                                            <IconButton
+                                                variant="outlined"
+                                                sx={{
+                                                    backgroundColor: '#32CD32',
+                                                    color: 'white',
+                                                    width: '100%',
+                                                    fontSize: 12,
+                                                    '&:hover': {
+                                                        bgcolor: '#fafafa',
+                                                        color: '#003B73',
+                                                        transform: 'scale(0.98)',
+                                                    },
+                                                    boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.16)',
+                                                    borderRadius: 5,
+                                                    height: '30px',
+                                                    lineHeight: '1',
+                                                }}
+                                                onClick={directorsApproved}
+                                            >
+                                                Director&apos;s Approved
+                                            </IconButton>
+                                        </CssVarsProvider>
+                                    </Box>
+
+                                    <Box sx={{ flex: '1 1 auto', minWidth: '100px' }}>
+                                        <CssVarsProvider>
+                                            <IconButton
+                                                variant="outlined"
+                                                sx={{
+                                                    backgroundColor: '#00695c',
+                                                    color: 'white',
+                                                    width: '100%',
+                                                    fontSize: 12,
+                                                    '&:hover': {
+                                                        bgcolor: '#fafafa',
+                                                        color: '#003B73',
+                                                        transform: 'scale(0.98)',
+                                                    },
+                                                    boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.16)',
+                                                    borderRadius: 5,
+                                                    height: '30px',
+                                                    lineHeight: '1',
+                                                }}
+                                                onClick={viewAllData}
+                                            >
+                                                View All
+                                            </IconButton>
+                                        </CssVarsProvider>
+                                    </Box>
+
+                                    <Box sx={{ flex: '1 1 auto', minWidth: '100px' }}>
+                                        <CssVarsProvider>
+                                            <IconButton
+                                                variant="outlined"
+                                                sx={{
+                                                    backgroundColor: 'white',
+                                                    width: '100%',
+                                                    fontSize: 12,
+                                                    '&:hover': {
+                                                        bgcolor: '#fafafa',
+                                                        color: '#003B73',
+                                                        transform: 'scale(0.98)',
+                                                    },
+                                                    boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.16)',
+                                                    borderRadius: 5,
+                                                    height: '30px',
+                                                    lineHeight: '1',
+                                                }}
+                                                onClick={RefreshData}
+                                            >
+                                                Get Approval Status From Ellider
+                                            </IconButton>
+                                        </CssVarsProvider>
+                                    </Box>
+                                </Box>
+                                <Box>
+                                    <POPendingDetailTable pendingPOList={pendingPOList} companyData={companyData} />
+                                </Box>
+                            </>
+                            : <Box sx={{
+                                display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5,
+                                pt: 10, color: 'grey'
+                            }}>
+                                No PO Approvals Are Pending
+                            </Box>}
+                    </Box>
+                    :
+                    <Box sx={{ height: window.innerHeight - 260, overflow: 'auto', flexWrap: 'wrap', }}>
+                        {disData.length !== 0 ?
+                            <Virtuoso
+                                data={disData}
+                                totalCount={disData?.length}
+                                itemContent={(index, val) =>
+                                    <Box key={index} sx={{
+                                        width: "100%", mt: 0.8, flexWrap: 'wrap',
+                                        border: '1px solid #21B6A8', borderRadius: 2,
+                                    }}>
+                                        <ReqMastMainViewCmp val={val} />
+                                        {radiovalue === '7' ?
+                                            <DataCollectionSave flag={5} val={val} empdeptsec={empdeptsec} />
+                                            :
+                                            <PurchaseApprovalButtonCmp val={val} company={company} />
+                                        }
+                                        {/* <PurchaseApprovalButtonCmp val={val}
+                                            setpuchaseFlag={setpuchaseFlag} setpuchaseModal={setpuchaseModal}
+                                            puchaseData={puchaseData} setpuchaseData={setpuchaseData} setImageShowFlag={setImageShowFlag}
+                                            setImageShow={setImageShow} setImageSlno={setImageSlno} /> */}
+                                    </Box>
+                                }
+                            >
+                            </Virtuoso>
+                            :
+                            <Box sx={{
+                                display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5,
+                                pt: 10, color: 'grey'
+                            }}>
+                                No Report Found
+                            </Box>}
+                    </Box>
+            }
+        </Box>
     )
 }
 

@@ -35,7 +35,7 @@ const DeptSectionSelectMulti = ({ deptSec, SetDeptSec }) => {
     return (
 
         <Box >
-            <CustomeToolTip title="Select Employee">
+            <CustomeToolTip title="Select Department">
                 <FormControl fullWidth >
                     <Select
                         labelId="demo-multiple-name-label"

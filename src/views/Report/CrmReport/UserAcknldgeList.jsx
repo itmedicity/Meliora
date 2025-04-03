@@ -1,70 +1,48 @@
-import React, { useCallback, useState, memo, useEffect, useRef } from 'react'
-import CardCloseOnly from 'src/views/Components/CardCloseOnly'
-import { useHistory } from 'react-router-dom';
-import CustomBackDrop from 'src/views/Components/CustomBackDrop';
-import { Paper, Box } from '@mui/material';
-import TextFieldCustom from 'src/views/Components/TextFieldCustom';
-import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import CusIconButton from '../../Components/CusIconButton';
-import { warningNotify } from 'src/views/Common/CommonCode';
+import { Box, CssVarsProvider, IconButton, Typography } from '@mui/joy'
+import { format } from 'date-fns';
+import moment from 'moment';
+import React, { Fragment, memo, useCallback, useEffect, useRef, useState } from 'react'
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { axioslogin } from 'src/views/Axios/Axios';
-import { Typography } from '@mui/joy'
-import { useDispatch, useSelector } from 'react-redux';
-import { ActionTyps } from 'src/redux/constants/action.type'
-import CustomeToolTip from '../../Components/CustomeToolTip'
+import CustomCloseIconCmp from 'src/views/CentralRequestManagement/ComonComponent/Components/CustomCloseIconCmp'
+import CustomInputDateCmp from 'src/views/CentralRequestManagement/ComonComponent/Components/CustomInputDateCmp';
+import { warningNotify } from 'src/views/Common/CommonCode';
+import CusIconButton from 'src/views/Components/CusIconButton';
+import CustomBackDrop from 'src/views/Components/CustomBackDrop';
 import DownloadIcon from '@mui/icons-material/Download'
-import { AgGridReact } from 'ag-grid-react'
+import { AgGridReact } from 'ag-grid-react';
+import { useDispatch, useSelector } from 'react-redux';
+import CustomeToolTip from 'src/views/Components/CustomeToolTip';
+import { ActionTyps } from 'src/redux/constants/action.type'
 import 'ag-grid-community/dist/styles/ag-grid.css'
 import 'ag-grid-community/dist/styles/ag-theme-material.css'
-import { format } from 'date-fns';
-
 
 const UserAcknldgeList = () => {
-    const dispatch = useDispatch();
     const history = useHistory();
+    const dispatch = useDispatch();
+    const backToSetting = useCallback(() => {
+        history.push(`/Home/Reports`)
+    }, [history])
+
     const [open, setOpen] = useState(false)
     const [TableData, setTableData] = useState([]);
-    const [TableDataDis, setTableDataDis] = useState(0);
+    const [TableDataDis, setTableDataDis] = useState(0)
     const [exports, setexport] = useState(0)
-    const [dateset, SetDate] = useState({
-        start_date: '',
-        end_date: ''
+    const [crfSearch, setCrfSearch] = useState({
+        startDate: format(new Date(), "yyyy-MM-dd"),
+        endDate: format(new Date(), "yyyy-MM-dd"),
     })
-
-
-    const { start_date, end_date } = dateset;
-    const getDate = useCallback((e) => {
+    const { startDate, endDate } = crfSearch
+    const updateOnchange = useCallback((e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-        SetDate({ ...dateset, [e.target.name]: value })
-
-    }, [dateset])
-
-    const [columnDefForTable] = useState([
-        { headerName: 'Sl No ', field: 'slno', autoHeight: true, wrapText: true, minWidth: 30 },
-        { headerName: 'Req Slno', field: 'req_slno', autoHeight: true, wrapText: true, minWidth: 30 },
-        { headerName: 'Department', field: 'dept_name', autoHeight: true, wrapText: true, minWidth: 90, filter: "true" },
-        { headerName: 'Department Section', field: 'sec_name', autoHeight: true, wrapText: true, minWidth: 90, filter: "true" },
-        { headerName: 'Actual Requirement', field: 'actual_requirement', autoHeight: true, wrapText: true, minWidth: 150 },
-        { headerName: 'Needed', field: 'needed', autoHeight: true, wrapText: true, minWidth: 150 },
-        { headerName: 'Category', field: 'category', autoHeight: true, wrapText: true, minWidth: 120, filter: "true" },
-        { headerName: 'Location', field: 'location', autoHeight: true, wrapText: true, minWidth: 90, filter: "true" },
-        { headerName: 'Expected Date', field: 'expected_date', autoHeight: true, wrapText: true, minWidth: 90 },
-        { headerName: 'Emergency Tye', field: 'emer_type_name', autoHeight: true, wrapText: true, minWidth: 90 },
-        { headerName: 'Emergency remarks', field: 'emergeny_remarks', autoHeight: true, wrapText: true, minWidth: 90 },
-        { headerName: 'Req.DeptSec', field: 'user_deptsec', autoHeight: true, wrapText: true, minWidth: 90 },
-        { headerName: 'Req.Status', field: 'req_status', autoHeight: true, wrapText: true, minWidth: 90 },
-        { headerName: 'Req.User', field: 'req_user', autoHeight: true, wrapText: true, minWidth: 90 },
-        { headerName: 'Acknowledgement Remark', field: 'user_acknldge_remarks', autoHeight: true, wrapText: true, minWidth: 150 },
-        { headerName: 'Acknowledgement User', field: 'ack_user', autoHeight: true, wrapText: true, minWidth: 90 },
-        { headerName: 'Acknowledgement date', field: 'user_ack_date', autoHeight: true, wrapText: true, minWidth: 90 },
-    ])
-
-    const clicksearch = useCallback((e) => {
+        setCrfSearch({ ...crfSearch, [e.target.name]: value })
+    }, [crfSearch])
+    const searchCRFDetails = useCallback(async (e) => {
         e.preventDefault();
         setOpen(true)
         const postdata = {
-            start_date: start_date,
-            end_date: end_date,
+            startDate: format(new Date(startDate), 'yyyy-MM-dd 00:00:00'),
+            endDate: format(new Date(endDate), 'yyyy-MM-dd 23:59:59')
         }
         const getdataUserAcknldged = async (postdata) => {
             const result = await axioslogin.post('/CrfReports/getdataUserAcknldged', postdata)
@@ -74,56 +52,48 @@ const UserAcknldgeList = () => {
                 setTableData(data)
                 setOpen(false)
             } else {
-                warningNotify("No data under selected condition")
+                warningNotify("No Report Found")
                 setOpen(false)
+                setTableDataDis(0)
+                setTableData([])
             }
         }
-
-        if (start_date !== '' && end_date !== '') {
+        if (startDate !== '' && endDate !== '') {
             getdataUserAcknldged(postdata)
         } else {
-            warningNotify("Please Select start date and end date before search")
+            warningNotify("Select Start date and End date before Click Search Button")
             setOpen(false)
         }
-
-
-    }, [start_date, end_date])
-
-
-
-    const onExportClick = () => {
-        if (TableData.length === 0) {
-            warningNotify("Please Click The Search Button")
-            setexport(0)
-        }
-        else {
-            setexport(1)
-        }
-    }
-
-    useEffect(() => {
-        if (exports === 1) {
-            dispatch({ type: ActionTyps.FETCH_CHANGE_STATE, aggridstate: 1 })
-            setexport(0)
-        }
-        else {
-            dispatch({ type: ActionTyps.FETCH_CHANGE_STATE, aggridstate: 0 })
-        }
-    }, [exports, setexport, dispatch])
+    }, [endDate, startDate])
+    const [columnDefForTable] = useState([
+        { headerName: 'Sl No ', field: 'slno', autoHeight: true, wrapText: true, minWidth: 20 },
+        { headerName: 'Req Slno', field: 'req_slno', autoHeight: true, wrapText: true, minWidth: 20 },
+        { headerName: 'Req Date', field: 'req_date', autoHeight: true, wrapText: true, minWidth: 30 },
+        { headerName: 'Department', field: 'dept_name', autoHeight: true, wrapText: true, minWidth: 90, filter: "true" },
+        { headerName: 'Department Section', field: 'req_deptsec', autoHeight: true, wrapText: true, minWidth: 90, filter: "true" },
+        { headerName: 'Actual Requirement', field: 'actual_requirement', autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: 'Needed', field: 'needed', autoHeight: true, wrapText: true, minWidth: 150 },
+        { headerName: 'Category', field: 'category_name', autoHeight: true, wrapText: true, minWidth: 120, filter: "true" },
+        { headerName: 'Location', field: 'location', autoHeight: true, wrapText: true, minWidth: 90, filter: "true" },
+        { headerName: 'Expected Date', field: 'expected_date', autoHeight: true, wrapText: true, minWidth: 90 },
+        { headerName: 'Emergency Tye', field: 'emer_type_name', autoHeight: true, wrapText: true, minWidth: 90 },
+        { headerName: 'Emergency remarks', field: 'emergeny_remarks', autoHeight: true, wrapText: true, minWidth: 80 },
+        { headerName: 'Req.DeptSec', field: 'user_deptsection', autoHeight: true, wrapText: true, minWidth: 90 },
+        { headerName: 'Req.User', field: 'req_user', autoHeight: true, wrapText: true, minWidth: 90 },
+        { headerName: 'Acknowledgement Remark', field: 'user_acknldge_remarks', autoHeight: true, wrapText: true, minWidth: 80 },
+        { headerName: 'Acknowledgement User', field: 'acknowUser', autoHeight: true, wrapText: true, minWidth: 90 },
+        { headerName: 'Acknowledgement date', field: 'user_ack_date', autoHeight: true, wrapText: true, minWidth: 90 },
+    ])
 
 
     const apiRef = useRef();
-    /** useSelector is used for get aggrid download button state */
     const exportState = useSelector((state) => {
         return state.changeStateAggrid.aggridstate
     })
 
-    /** To download report as excel */
     if (exportState > 0 && TableData.length > 0) {
         apiRef.current.api.exportDataAsCsv();
     }
-
-    /** Ag grid report row and column formatting */
     const rowHeight = 25
     const headerHeight = 30
     const defaultColDef = {
@@ -149,182 +119,146 @@ const UserAcknldgeList = () => {
         params.columnApi.autoSizeAllColumns();
     };
 
-
-    const backToSetting = useCallback(() => {
-        history.push(`/Home/Reports`)
-    }, [history])
-
-
+    const onExportClick = () => {
+        if (TableData.length === 0) {
+            warningNotify("Please Click The Search Button")
+            setexport(0)
+        }
+        else {
+            setexport(1)
+        }
+    }
+    useEffect(() => {
+        if (exports === 1) {
+            dispatch({ type: ActionTyps.FETCH_CHANGE_STATE, aggridstate: 1 })
+            setexport(0)
+        }
+        else {
+            dispatch({ type: ActionTyps.FETCH_CHANGE_STATE, aggridstate: 0 })
+        }
+    }, [exports, setexport, dispatch])
     return (
-        <CardCloseOnly
-            title='User Acknowledged CRF'
-            close={backToSetting}
-        >
+        <Fragment>
             <CustomBackDrop open={open} text="Please Wait" />
-            <Box sx={{ width: "100%", p: 1 }}>
-                <Paper
-                    square
-                    sx={{
-                        height: { xs: 750, sm: 750, md: 750, lg: 750, xl: 750 },
-                        p: 0.5,
+            <Box sx={{ height: window.innerHeight - 80, flexWrap: 'wrap', bgcolor: 'white', }}>
+                <Box sx={{ border: '1px solid #B4F5F0' }}>
+                    <Box sx={{ display: 'flex', }}>
+                        <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>
+                            User Acknowledgement Report</Box>
+                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, m: 0.5 }}>
+                            <CssVarsProvider>
+                                <CustomCloseIconCmp handleChange={backToSetting} />
+                            </CssVarsProvider>
+                        </Box>
+                    </Box>
+                </Box>
 
-                    }}
-                >
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                        }}
-                    >
-                        <Paper square elevation={2} sx={{ p: 2 }} >
-                            <Box sx={{
-                                width: "100%",
-                                display: "flex",
-                                flexDirection: 'row',
-                                justifyContent: 'center'
-                            }}>
-                                <Box sx={{
-                                    width: '10%',
-                                    ml: 0.5, mt: 0.5
-                                }}>
-                                    <Typography>Start Date</Typography>
-                                </Box>
-                                <Box sx={{
-                                    width: '20%',
-                                    // height: 15,
-                                    mb: 1, pr: 3
-                                }}>
-                                    <TextFieldCustom
-                                        type="date"
-                                        size="sm"
-                                        name="start_date"
-                                        value={start_date}
-                                        onchange={getDate}
+                <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', flexWrap: 'wrap', pb: 1, border: '1px solid lightgrey' }}>
+                    <Box sx={{ pt: 1, width: { xs: '100%', md: '60vw', lg: '50vw', xl: '50vw', } }}>
+                        <Box sx={{ px: 1, display: 'flex' }} >
+                            <Box sx={{ flex: 1, px: 0.3 }}>
+                                <Typography sx={{ fontSize: 13, color: '#1D617A', px: 1, pt: 0.1, fontWeight: 550 }} >Start Date</Typography>
+                                <CssVarsProvider>
+                                    <CustomInputDateCmp
+                                        className={{
+                                            height: 25, borderRadius: 5, border: '1px solid #bbdefb',
+                                            color: '#1D617A', fontSize: 14, width: '100%'
+                                        }}
+                                        size={'md'}
+                                        type='date'
+                                        value={startDate}
+                                        name="startDate"
+                                        handleChange={updateOnchange}
                                         slotProps={{
-                                            input: {
-                                                min: format(new Date("2023-12-27"), "yyyy-MM-dd")
+                                            input: { max: moment(new Date()).format('YYYY-MM-DD') }
+                                        }}
+                                    />
+                                </CssVarsProvider>
+                            </Box>
+                            <Box sx={{ flex: 1, px: 0.3 }}>
+                                <Typography sx={{ fontSize: 13, color: '#1D617A', px: 1, pt: 0.1, fontWeight: 550 }} >End Date</Typography>
+                                <CssVarsProvider>
+                                    <CustomInputDateCmp
+                                        className={{
+                                            height: 25, borderRadius: 5, border: '1px solid #bbdefb',
+                                            color: '#1D617A', fontSize: 14, width: '100%'
+                                        }}
+                                        size={'md'}
+                                        type='date'
+                                        value={endDate}
+                                        name="endDate"
+                                        handleChange={updateOnchange}
+                                        slotProps={{
+                                            input: { max: moment(new Date()).format('YYYY-MM-DD') }
+                                        }}
+                                    />
+                                </CssVarsProvider>
+                            </Box>
+                            <Box sx={{ flex: 0.5, px: 0.3, pt: 2.5 }}>
+                                <CssVarsProvider>
+                                    <IconButton
+                                        sx={{
+                                            border: '1px solid #bbdefb', width: '100%',
+                                            fontSize: 13, height: 38, lineHeight: '1.2', color: '#1D617A',
+                                            bgcolor: 'white', borderRadius: 6,
+                                            '&:hover': {
+                                                bgcolor: 'white',
+                                                color: '#1976d2'
                                             },
                                         }}
-
-                                    />
-                                </Box>
-                                <Box sx={{
-                                    width: '10%',
-                                    ml: 0.5, mt: 0.5
-                                }}>
-                                    <Typography>End Date</Typography>
-                                </Box>
-                                <Box sx={{
-                                    width: '20%',
-                                    // height: 15,
-                                    mb: 1, pr: 3
-                                }}>
-                                    <TextFieldCustom
-                                        type="date"
-                                        size="sm"
-                                        name="end_date"
-                                        value={end_date}
-                                        onchange={getDate}
-                                    />
-                                </Box>
-
-
-                                <Box sx={{
-                                    width: '20%',
-
-                                }}>
-                                    <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={clicksearch} >
-                                        <SearchOutlinedIcon fontSize='small' />
+                                        onClick={searchCRFDetails}
+                                    >
+                                        Search
+                                    </IconButton>
+                                </CssVarsProvider>
+                            </Box>
+                        </Box>
+                    </Box>
+                    {TableDataDis === 1 ?
+                        <Box sx={{ pt: 3.9, display: 'flex', justifyContent: 'flex-end' }}>
+                            <CustomeToolTip title="Download" placement="bottom">
+                                <Box>
+                                    <CusIconButton variant="outlined" size="sm" color="success" onClick={onExportClick}>
+                                        <DownloadIcon />
                                     </CusIconButton>
                                 </Box>
-                            </Box>
-                        </Paper>
-                        {TableDataDis === 1 ?
-
-                            <Paper
-                                square
-                                sx={{
-                                    backgroundColor: 'black',
-                                    width: { md: '100%', lg: '100%', xl: '100%' },
-                                }}
-                            >
-                                {/* Rigth Side Menu  */}
-                                <Paper
-                                    square
-                                    sx={{
-                                        backgroundColor: '#f0f3f5',
-                                        display: 'flex',
-                                        flexWrap: 'wrap',
-                                        flexDirection: 'row-reverse',
-                                        gap: 0.1,
-                                        p: 0.3,
-                                        borderLeft: 2,
-                                        borderColor: '#d3d3d3',
-                                    }}
-                                >
-                                    <CustomeToolTip title="Download" placement="bottom">
-                                        <Box>
-                                            <CusIconButton variant="outlined" size="sm" color="success" onClick={onExportClick}>
-                                                <DownloadIcon />
-                                            </CusIconButton>
-                                        </Box>
-                                    </CustomeToolTip>
-                                </Paper>
-                                <Box
-                                    className="ag-theme-material ListItemScrol"
-                                    sx={{
-                                        height: { xs: 475, sm: 475, md: 565, lg: 582, xl: 582 },
-                                        width: '100%',
-                                    }}
-                                >
-                                    <AgGridReact
-                                        ref={apiRef}
-                                        columnDefs={columnDefForTable}
-                                        rowData={TableData}
-                                        defaultColDef={defaultColDef}
-                                        rowHeight={rowHeight}
-                                        headerHeight={headerHeight}
-                                        rowDragManaged={true}
-                                        animateRows={true}
-                                        onGridReady={onGridReady}
-                                        rowSelection="multiple"
-                                        rowStyle={rowStyle}
-                                        suppressColumnVirtualisation={true}
-                                        suppressRowVirtualisation={true}
-                                        suppressRowClickSelection={true}
-                                        groupSelectsChildren={true}
-                                        rowGroupPanelShow={'always'}
-                                        pivotPanelShow={'always'}
-                                        enableRangeSelection={true}
-                                    ></AgGridReact>
-                                </Box>
-                            </Paper>
-                            : null}
-                        {TableDataDis === 1 ?
-                            <Box sx={{
-                                width: "100%", display: "flex", flexDirection: 'row', pt: 2
-                            }}>
-                                <Typography sx={{ pl: 5 }}>A -</Typography>
-                                <Typography>Approved</Typography>
-                                <Typography sx={{ pl: 5 }}>R -</Typography>
-                                <Typography>Rejected</Typography>
-                                <Typography sx={{ pl: 5 }}>P -</Typography>
-                                <Typography>On-Hold</Typography>
-                                <Typography sx={{ pl: 5 }}>C -</Typography>
-                                <Typography>Closed</Typography>
-                            </Box>
-                            : null}
+                            </CustomeToolTip>
+                        </Box> : null
+                    }
+                </Box>
+                {TableDataDis === 1 ?
+                    <Box
+                        className="ag-theme-material ListItemScrol"
+                        sx={{
+                            height: window.innerHeight - 200, flexWrap: 'wrap', bgcolor: 'white',
+                            width: '100%', '&::-webkit-scrollbar': { height: 10 }
+                        }}
+                    >
+                        <AgGridReact
+                            ref={apiRef}
+                            columnDefs={columnDefForTable}
+                            rowData={TableData}
+                            defaultColDef={defaultColDef}
+                            rowHeight={rowHeight}
+                            headerHeight={headerHeight}
+                            rowDragManaged={true}
+                            animateRows={true}
+                            onGridReady={onGridReady}
+                            rowSelection="multiple"
+                            rowStyle={rowStyle}
+                            suppressColumnVirtualisation={true}
+                            suppressRowVirtualisation={true}
+                            suppressRowClickSelection={true}
+                            groupSelectsChildren={true}
+                            rowGroupPanelShow={'always'}
+                            pivotPanelShow={'always'}
+                            enableRangeSelection={true}
+                        ></AgGridReact>
                     </Box>
-                </Paper>
+                    : null}
             </Box>
-
-        </CardCloseOnly>
+        </Fragment >
     )
-
-
-
-
-
 }
 
 export default memo(UserAcknldgeList)
