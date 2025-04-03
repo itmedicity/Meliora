@@ -13,7 +13,7 @@ import { Virtuoso } from 'react-virtuoso';
 import SearchApprvlComp from './SearchComp/SearchApprvlComp';
 import CusCheckBox from 'src/views/Components/CusCheckBox';
 import { useQuery } from 'react-query';
-import { getCompanyDetails } from 'src/api/CommonApiCRF';
+import { getCompanyDetails, getDefaultCompany } from 'src/api/CommonApiCRF';
 import { FormControlLabel, Radio, RadioGroup } from '@mui/material';
 import MasterDetailHigherLevel from '../ComonComponent/HigherLevelComponents/MasterDetailHigherLevel';
 
@@ -49,6 +49,13 @@ const CrfDetailsSearch = () => {
         staleTime: Infinity
     });
     const companyData = useMemo(() => compData, [compData]);
+
+    const { data: companydefData, isLoading: isdefCompLoading, error: compdefError } = useQuery({
+        queryKey: 'getdefaultCompany',
+        queryFn: () => getDefaultCompany(),
+        staleTime: Infinity
+    });
+    const company = useMemo(() => companydefData, [companydefData]);
 
     const clearSearch = useCallback(() => {
         const formData = {
@@ -240,16 +247,16 @@ const CrfDetailsSearch = () => {
                                                                             val.quatation_negotiation === 1 ? "Quotation Negotiation" :
                                                                                 val.quatation_calling_status === 1 ? "Quotation Calling" :
                                                                                     val.ack_status === 1 ? "Puchase Acknowledged" :
-                                                                                        val.managing_director_approve !== null ? 'Managing Director' :
-                                                                                            val.ed_approve !== null ? "ED " :
-                                                                                                val.md_approve !== null ? "MD" :
-                                                                                                    val.gm_approve !== null ? "GM" :
-                                                                                                        val.senior_manage_approv !== null ? "SMO" :
-                                                                                                            val.manag_operation_approv !== null ? "MO" :
-                                                                                                                val.ms_approve !== null ? "MS" :
-                                                                                                                    val.dms_approve !== null ? "DMS" :
-                                                                                                                        val.hod_approve !== null ? "HOD" :
-                                                                                                                            val.incharge_approve !== null ? "Incharge" :
+                                                                                        val.managing_director_approve !== null ? company?.managing_director_name :
+                                                                                            val.ed_approve !== null ? company?.ed_status_name :
+                                                                                                val.md_approve !== null ? company?.md_status_name :
+                                                                                                    val.gm_approve !== null ? company?.gmo_status_name :
+                                                                                                        val.senior_manage_approv !== null ? company?.smo_status_name :
+                                                                                                            val.manag_operation_approv !== null ? company?.mo_status_name :
+                                                                                                                val.ms_approve !== null ? company?.ms_status_name :
+                                                                                                                    val.dms_approve !== null ? company?.dms_status_name :
+                                                                                                                        val.hod_approve !== null ? company?.hod_status_name :
+                                                                                                                            val.incharge_approve !== null ? company?.incharge_status_name :
                                                                                                                                 "Not Started",
                                 //  here now_who_status =5 is used to not show approved from purchase level on status
                                 now_who_status: val.req_status === 'C' ? '' :
@@ -323,6 +330,7 @@ const CrfDetailsSearch = () => {
                                 user_acknldge: val.user_acknldge,
                                 internally_arranged_status: val.internally_arranged_status,
                                 user_ack_date: val?.user_ack_date,
+                                company_name: val?.company_name
                             }
                             return obj
                         })
@@ -340,10 +348,10 @@ const CrfDetailsSearch = () => {
             getCrfDetailbySearch(searchData);
         }
     }, [searchData, searchCrf, department, dptSec, reqCheck, closeCheck, itemName, requirement, need, selectedCompany])
+    const { company_name } = company
 
-
-    if (isCompLoading) return <p>Loading...</p>;
-    if (compError) return <p>Error Occurred.</p>;
+    if (isCompLoading || isdefCompLoading) return <p>Loading...</p>;
+    if (compError || compdefError) return <p>Error Occurred.</p>;
     return (
         <Fragment>
             <Box sx={{ height: window.innerHeight - 80, flexWrap: 'wrap', bgcolor: 'white', }}>
@@ -378,7 +386,9 @@ const CrfDetailsSearch = () => {
                             <Typography sx={{ fontSize: 13, color: '#1D617A', pl: 1, }} >CRF No.</Typography>
                             <CssVarsProvider>
                                 <CustomInputDateCmp
-                                    StartIcon={<Typography sx={{ fontSize: '13px', color: '#0063C5' }}>{selectedCompany === '2' ? 'CRF/KMC/' : 'CRF/TMC/'}</Typography>}
+                                    StartIcon={<Typography sx={{ fontSize: '13px', color: '#0063C5' }}>
+                                        {selectedCompany === '2' ? `CRF/KMC/` : `CRF/${company_name}/`}
+                                    </Typography>}
                                     className={{
                                         borderRadius: 6, border: '1px solid #bbdefb', height: 35, color: '#1565c0'
                                     }}
@@ -597,7 +607,7 @@ const CrfDetailsSearch = () => {
                                     border: '1px solid #21B6A8', borderRadius: 2,
                                 }}>
                                     <MasterDetailHigherLevel val={val} selectedCompany={selectedCompany} />
-                                    <SearchApprvlComp val={val} selectedCompany={selectedCompany} />
+                                    <SearchApprvlComp val={val} selectedCompany={selectedCompany} company={company} />
                                 </Box>
                             }
                         >

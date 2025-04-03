@@ -9,7 +9,7 @@ import { Virtuoso } from 'react-virtuoso'
 import MasterDetailCompnt from '../ComonComponent/MasterDetailCompnt'
 import ClosedButtonCompnt from '../ComonComponent/ClosedButtonCompnt'
 import ApproveButtonsCompnt from '../ComonComponent/ApproveButtonsCompnt'
-import { getCRFPendingAboveHOD } from 'src/api/CommonApiCRF'
+import { getCRFPendingAboveHOD, getDefaultCompany } from 'src/api/CommonApiCRF'
 import { format } from 'date-fns'
 import { useQuery } from 'react-query'
 import { useHistory } from 'react-router-dom';
@@ -73,7 +73,12 @@ const CrfMOApprovalMain = () => {
             setcombinedData([])
         }
     }, [moData, radiovalue]);
-
+    const { data: companyData, isLoading: isCompLoading, error: compError } = useQuery({
+        queryKey: 'getdefaultCompany',
+        queryFn: () => getDefaultCompany(),
+        staleTime: Infinity
+    });
+    const company = useMemo(() => companyData, [companyData]);
     useEffect(() => {
         if (combinedData.length !== 0) {
             const datas = combinedData?.map((val) => {
@@ -201,16 +206,16 @@ const CrfMOApprovalMain = () => {
                                                                 val.quatation_negotiation === 1 ? "Quotation Negotiation" :
                                                                     val.quatation_calling_status === 1 ? "Quotation Calling" :
                                                                         val.ack_status === 1 ? "Puchase Acknowledged" :
-                                                                            val.managing_director_approve !== null ? val.managing_director_approve :
-                                                                                val.ed_approve !== null ? "ED " :
-                                                                                    val.md_approve !== null ? "MD" :
-                                                                                        val.gm_approve !== null ? "GM" :
-                                                                                            val.senior_manage_approv !== null ? "SMO" :
-                                                                                                val.manag_operation_approv !== null ? "MO" :
-                                                                                                    val.ms_approve !== null ? "MS" :
-                                                                                                        val.dms_approve !== null ? "DMS" :
-                                                                                                            val.hod_approve !== null ? "HOD" :
-                                                                                                                val.incharge_approve !== null ? "Incharge" :
+                                                                            val.managing_director_approve !== null ? company.managing_director_name :
+                                                                                val.ed_approve !== null ? company?.ed_status_name :
+                                                                                    val.md_approve !== null ? company?.md_status_name :
+                                                                                        val.gm_approve !== null ? company?.gmo_status_name :
+                                                                                            val.senior_manage_approv !== null ? company?.smo_status_name :
+                                                                                                val.manag_operation_approv !== null ? company?.mo_status_name :
+                                                                                                    val.ms_approve !== null ? company?.ms_status_name :
+                                                                                                        val.dms_approve !== null ? company?.dms_status_name :
+                                                                                                            val.hod_approve !== null ? company?.hod_status_name :
+                                                                                                                val.incharge_approve !== null ? company?.incharge_status_name :
                                                                                                                     "Not Started",
                     //  here now_who_status =5 is used to not show approved from purchase level on status
                     now_who_status: val.req_status === 'C' ? '' :
@@ -285,7 +290,9 @@ const CrfMOApprovalMain = () => {
                     crf_view_remark: val?.crf_view_remark,
                     crf_view_status: val?.crf_view_status,
                     viewDep: val?.viewDep,
-                    viewName: val?.viewName
+                    viewName: val?.viewName,
+                    company_name: val?.company_name
+
                 }
                 return obj
             })
@@ -441,8 +448,8 @@ const CrfMOApprovalMain = () => {
         setCancelFlag(0)
     }, [])
 
-    if (isMoLoading) return <p>Loading...</p>;
-    if (moError) return <p>Error occurred.</p>;
+    if (isMoLoading || isCompLoading) return <p>Loading...</p>;
+    if (moError || compError) return <p>Error occurred.</p>;
     return (
         <Fragment>
             {ApprovalFlag === 2 ?
@@ -451,7 +458,7 @@ const CrfMOApprovalMain = () => {
                 : ApprovalFlag === 1 ?
                     <CrfMOApprovalModal open={ApprovalModal} ApprovalData={ApprovalData} handleClose={handleClose} reqItems={reqItems}
                         setApproveTableData={setApproveTableData} approveTableData={approveTableData} datacolflag={datacolflag}
-                        datacolData={datacolData} imagearray={imagearray} />
+                        datacolData={datacolData} imagearray={imagearray} company={company} />
                     : null
             }
             {cancelFlag === 1 ? <CrfDMSClose open={cancelModal} handleCloseCrfClose={handleCloseCrfClose} approveTableData={approveTableData}
@@ -460,7 +467,7 @@ const CrfMOApprovalMain = () => {
 
             <Box sx={{ height: window.innerHeight - 80, flexWrap: 'wrap', bgcolor: 'white', }}>
                 <Box sx={{ display: 'flex', backgroundColor: "#f0f3f5", border: '1px solid #B4F5F0' }}>
-                    <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>CRF Documentation</Box>
+                    <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: .5, color: '#385E72', }}> {company?.mo_status_name} Approval</Box>
                     <Box sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, m: 0.5 }}>
                         <CssVarsProvider>
                             <CustomCloseIconCmp

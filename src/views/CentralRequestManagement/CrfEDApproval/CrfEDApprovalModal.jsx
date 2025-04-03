@@ -32,7 +32,7 @@ import GMApproveViewForHigher from '../ComonComponent/HigherLevelComponents/GMAp
 import MDApproveViewHigher from '../ComonComponent/HigherLevelComponents/MDApproveViewHigher'
 import CampaignTwoToneIcon from '@mui/icons-material/CampaignTwoTone';
 
-const CrfEDApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApproveTableData, approveTableData,
+const CrfEDApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApproveTableData, approveTableData, company,
     datacolflag, datacolData, imagearray, selectedCompany }) => {
     const { req_slno, incharge_req, incharge_remarks, hod_req, hod_approve, dms_req, dms_approve, ms_approve,
         ms_approve_req, manag_operation_approv, senior_manage_approv, gm_approve, md_approve, ed_approve,
@@ -405,37 +405,37 @@ const CrfEDApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                                     }
                                     {hod_req === 1 && hod_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <HODApproveViewHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
+                                            <HODApproveViewHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} company={company} />
                                         </Box>
                                         : null}
                                     {dms_req === 1 && dms_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <DMSApproveViewForHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
+                                            <DMSApproveViewForHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} company={company} />
                                         </Box>
                                         : null}
                                     {ms_approve_req === 1 && ms_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <MSApproveViewForHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
+                                            <MSApproveViewForHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} company={company} />
                                         </Box>
                                         : null}
                                     {manag_operation_approv !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <MOApproveViewForHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
+                                            <MOApproveViewForHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} company={company} />
                                         </Box>
                                         : null}
                                     {senior_manage_approv !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <SMOApproveViewForHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
+                                            <SMOApproveViewForHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} company={company} />
                                         </Box>
                                         : null}
                                     {gm_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <GMApproveViewForHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
+                                            <GMApproveViewForHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} company={company} />
                                         </Box>
                                         : null}
                                     {md_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <MDApproveViewHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
+                                            <MDApproveViewHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} company={company} />
                                         </Box>
                                         : null}
                                 </Box>
@@ -582,7 +582,7 @@ const CrfEDApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                                                 </>
                                                 : null}
                                         <ApprovalCompntAll
-                                            heading="Executive Director Approval"
+                                            heading={`${company?.ed_status_name} Approval`}
                                             apprvlDetails={apprvlDetails}
                                             updateOnchangeState={updateOnchangeState}
                                             updateApprovalState={updateApprovalState}

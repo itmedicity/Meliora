@@ -20,7 +20,7 @@ import { GetKMCItemDetails } from '../../ComonComponent/ComponentsKMC/GetKMCItem
 import HigherLevelApprovalView from '../../ComonComponent/HigherLevelComponents/HigherLevelApprovalView';
 import EventAvailableTwoToneIcon from '@mui/icons-material/EventAvailableTwoTone';
 
-const SearchApprvlComp = ({ val, selectedCompany }) => {
+const SearchApprvlComp = ({ val, selectedCompany, company }) => {
 
     const { crf_close, crf_closed_one, now_who, now_who_status, dept_type, dept_type_name, expected_date, image_status, user_acknldge } = val
 
@@ -314,7 +314,7 @@ const SearchApprvlComp = ({ val, selectedCompany }) => {
 
             {DetailViewFlag === 1 ? <HigherLevelApprovalView open={DetailViewModal} closeModal={closeModal} imagearray={imagearray}
                 DetailViewData={DetailViewData} reqItems={reqItems} approveTableData={approveTableData} poDetails={poDetails}
-                datacolData={datacolData} selectedCompany={selectedCompany} /> : null}
+                datacolData={datacolData} selectedCompany={selectedCompany} company={company} /> : null}
             <Box sx={{
                 display: 'flex', flex: 1, bgcolor: '#e3f2fd', borderRadius: 2, borderTopLeftRadius: 0,
                 borderTopRightRadius: 0, justifyContent: 'space-between', flexWrap: 'wrap',

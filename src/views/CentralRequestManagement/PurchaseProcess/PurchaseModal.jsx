@@ -31,8 +31,9 @@ const CommonEdapprvCmp = React.lazy(() => import("../ComonComponent/ApprovalComp
 const ViewOreviousDataCollctnDetails = React.lazy(() => import("../ComonComponent/DataCollectionComp/ViewOreviousDataCollctnDetails"))
 const CrfReqDetailCmpnt = React.lazy(() => import("../CRFRequestMaster/Components/CrfReqDetailCmpnt"))
 
-const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClose, puchaseData,
+const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClose, puchaseData, company,
     datacolflag, datacolData, imagearray, newlyApprvdItems }) => {
+
     const { req_slno, md_approve, ed_approve, ack_status, quatation_calling_status, quatation_negotiation,
         quatation_fixing, po_prepartion, po_complete, crm_purchase_slno } = puchaseData
 
@@ -558,21 +559,21 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
                                     <Box sx={{ flex: 1, }}>
                                         {md_approve !== null ?
                                             <Box sx={{ pt: 0.5, }}>
-                                                <CommonMdApprvCmp DetailViewData={puchaseData} />
+                                                <CommonMdApprvCmp DetailViewData={puchaseData} company={company} />
                                             </Box>
                                             : null}
                                     </Box>
                                     <Box sx={{}}>
                                         {ed_approve !== null ?
                                             <Box sx={{ pt: 0.5, }}>
-                                                <CommonEdapprvCmp DetailViewData={puchaseData} />
+                                                <CommonEdapprvCmp DetailViewData={puchaseData} company={company} />
                                             </Box>
                                             : null}
                                     </Box>
                                 </Box>
                                 <Box sx={{ py: 0.5, mx: 0.2 }}>
                                     {datacolflag === 1 ?
-                                        <ViewOreviousDataCollctnDetails datacolData={datacolData} />
+                                        <ViewOreviousDataCollctnDetails datacolData={datacolData} company={company} />
                                         : null
                                     }
                                 </Box>

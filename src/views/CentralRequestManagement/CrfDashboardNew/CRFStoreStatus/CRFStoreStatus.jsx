@@ -21,7 +21,7 @@ const CompletedCRFView = React.lazy(() => import("./Components/CompletedCRFView"
 const PurcahseMainComp = React.lazy(() => import("../CRFPurchaseStatus/PurcahseMainComp"))
 const CustomLoadComp = React.lazy(() => import("../../ComonComponent/Components/CustomLoadComp"))
 
-const CRFStoreStatus = ({ storeData }) => {
+const CRFStoreStatus = ({ storeData, companyData }) => {
     const storeDetails = useMemo(() => storeData, [storeData])
 
     const [modalopen, setModalOpen] = useState(false)
@@ -273,7 +273,7 @@ const CRFStoreStatus = ({ storeData }) => {
             </Suspense>
             {flag === 1 ?
                 <Suspense fallback={<CustomLoadComp />}>
-                    <CrfStoreDetailedView setFlag={setFlag} disData={disData} setDisData={setDisData} tableData={tableData} />
+                    <CrfStoreDetailedView setFlag={setFlag} disData={disData} setDisData={setDisData} tableData={tableData} companyData={companyData} />
                 </Suspense> :
                 flag === 2 ?
                     <Suspense fallback={<CustomLoadComp />}>
@@ -281,13 +281,13 @@ const CRFStoreStatus = ({ storeData }) => {
                     </Suspense> :
                     flag === 3 ?
                         <Suspense fallback={<CustomLoadComp />}>
-                            <StoreAckTableView ackFlag={ackFlag} disData={disData} setAckFlag={setAckFlag} setFlag={setFlag} />
+                            <StoreAckTableView ackFlag={ackFlag} disData={disData} setAckFlag={setAckFlag} setFlag={setFlag} companyData={companyData} />
                         </Suspense> :
                         flag === 4 ?
                             <Suspense fallback={<CustomLoadComp />}>
-                                <CompletedCRFView setFlag={setFlag} disData={disData} />
+                                <CompletedCRFView setFlag={setFlag} disData={disData} companyData={companyData} />
                             </Suspense>
-                            : <PurcahseMainComp purchaseApprv={strApprv} viewPednigDetails={viewPednigDetails} />
+                            : <PurcahseMainComp purchaseApprv={strApprv} viewPednigDetails={viewPednigDetails} companyData={companyData} />
             }
         </Fragment>
     )

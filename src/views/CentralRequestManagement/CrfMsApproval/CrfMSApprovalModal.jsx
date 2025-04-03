@@ -25,7 +25,7 @@ import ModalButtomCmp from '../ComonComponent/Components/ModalButtomCmp'
 import CampaignTwoToneIcon from '@mui/icons-material/CampaignTwoTone';
 
 const CrfMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApproveTableData, approveTableData,
-    datacolflag, datacolData, imagearray }) => {
+    datacolflag, datacolData, imagearray, company }) => {
     const { req_slno, incharge_req, incharge_remarks, hod_req, hod_approve, dms_req, dms_approve,
         ms_approve, ms_approve_remark, ms_detail_analysis, ms_image
     } = ApprovalData
@@ -323,7 +323,7 @@ const CrfMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                                     }
                                     {hod_req === 1 && hod_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonHodApprvCmp DetailViewData={ApprovalData} />
+                                            <CommonHodApprvCmp DetailViewData={ApprovalData} company={company} />
                                         </Box>
                                         : null}
                                     {dms_req === 1 && dms_approve !== null ?
@@ -455,7 +455,7 @@ const CrfMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                                             setApproveTableData={setApproveTableData} setMoreItem={setMoreItem}
                                         /> : null}
                                         <ApprovalCompntAll
-                                            heading="MS Approval"
+                                            heading={`${company?.ms_status_name} Approval`}
                                             apprvlDetails={apprvlDetails}
                                             updateOnchangeState={updateOnchangeState}
                                             updateApprovalState={updateApprovalState}

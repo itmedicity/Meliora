@@ -1,7 +1,7 @@
 import { CssVarsProvider, IconButton, Option, Select, Typography } from '@mui/joy';
 import { Badge, Box, FormControlLabel, Paper, Radio, RadioGroup } from '@mui/material'
 import { parse } from 'date-fns';
-import React, { memo, useCallback, useState } from 'react'
+import React, { memo, useCallback, useMemo, useState } from 'react'
 import FilterAltTwoToneIcon from '@mui/icons-material/FilterAltTwoTone';
 import { infoNotify } from 'src/views/Common/CommonCode';
 import CustomInputDateCmp from '../../ComonComponent/Components/CustomInputDateCmp';
@@ -11,6 +11,8 @@ import CRFDashboardDptSecSelect from 'src/views/CommonSelectCode/CRFDashboardDpt
 import AlignHorizontalLeftTwoToneIcon from '@mui/icons-material/AlignHorizontalLeftTwoTone';
 import CustomIconButtonCmp from '../../ComonComponent/Components/CustomIconButtonCmp';
 import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
+import { getDefaultCompany } from 'src/api/CommonApiCRF';
+import { useQuery } from 'react-query';
 
 const formatDateForInput = (date) => {
     return date.toISOString().split('T')[0];
@@ -92,7 +94,15 @@ const TopViewDesignPurchase = ({ radiovalue, allData, setDisData, setRadioValue,
         }
     }, [startDate, endDate, searchFlag, department, searchCrf, allData, setDisData, dptSec])
 
+    const { data: companyData, isLoading: isCompLoading, error: compError } = useQuery({
+        queryKey: 'getdefaultCompany',
+        queryFn: () => getDefaultCompany(),
+        staleTime: Infinity
+    });
+    const company = useMemo(() => companyData, [companyData]);
 
+    if (isCompLoading) return <p>Loading...</p>;
+    if (compError) return <p>Error occurred.</p>;
     return (
         <Box sx={{ flexWrap: 'wrap', }}>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', bgcolor: '#E3EFF9', border: '0.4px solid #B4F5F0', borderTop: 'none' }}>
@@ -432,7 +442,7 @@ const TopViewDesignPurchase = ({ radiovalue, allData, setDisData, setRadioValue,
                                     <CustomInputDateCmp
                                         StartIcon={<Box sx={{ display: 'flex', alignItems: 'center' }}>
                                             <AlignHorizontalLeftTwoToneIcon sx={{ height: 18, width: 18, color: '#0063C5' }} />
-                                            <Typography sx={{ fontSize: '13px', color: '#0063C5' }}>CRF/TMC/</Typography>
+                                            <Typography sx={{ fontSize: '13px', color: '#0063C5' }}>CRF/{company?.company_name}/</Typography>
                                         </Box>}
                                         className={{
                                             borderRadius: 6, border: '1px solid #bbdefb', width: 250, height: 35, color: '#1565c0'

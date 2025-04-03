@@ -1,9 +1,11 @@
 import { CssVarsProvider, Tab, tabClasses, TabList, TabPanel, Tabs } from '@mui/joy'
 import { Paper } from '@mui/material'
-import React, { memo, Suspense, useEffect } from 'react'
+import React, { memo, Suspense, useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCRFPurchaseDashboard, getCRMDashboard, getPOStoreDashboard } from 'src/redux/actions/CrmDashBoardList.action'
 import DashboardSkeleton from './Components/DashboardSkeleton'
+import { getDefaultCompany } from 'src/api/CommonApiCRF'
+import { useQuery } from 'react-query'
 
 const CRFStatusView = React.lazy(() => import("./CRFStatus/CRFStatusView"))
 const CRFPurchaseStatus = React.lazy(() => import("./CRFPurchaseStatus/CRFPurchaseStatus"))
@@ -31,7 +33,23 @@ const CrfDashboardMain = () => {
         return state.getPOStoreDashboard.setPoStoreList
     })
     // const storeData = useMemo(() => storeStatus, [storeStatus])
+    // const { data: compData, isLoading: isCompLoading, error: compError } = useQuery({
+    //     queryKey: 'getCompany',
+    //     queryFn: () => getCompanyDetails(),
+    //     staleTime: Infinity
+    // });
+    // const companyData = useMemo(() => compData, [compData]);
 
+
+    const { data: companyData, isLoading: isCompLoading, error: compError } = useQuery({
+        queryKey: 'getdefaultCompany',
+        queryFn: () => getDefaultCompany(),
+        staleTime: Infinity
+    });
+    const company = useMemo(() => companyData, [companyData]);
+
+    if (isCompLoading) return <p>Loading...</p>;
+    if (compError) return <p>Error Occurred.</p>;
     return (
         <Paper variant="outlined" sx={{ bgcolor: '#F8F8F8' }}>
             <CssVarsProvider>
@@ -100,18 +118,18 @@ const CrfDashboardMain = () => {
                     }
                     <TabPanel value={0} sx={{ p: 0 }}>
                         <Suspense fallback={<DashboardSkeleton />}>
-                            <CRFStatusView crfData={crfData} />
+                            <CRFStatusView crfData={crfData} companyData={company} />
                         </Suspense>
                     </TabPanel>
 
                     <TabPanel value={1} sx={{ p: 0 }}>
                         <Suspense fallback={<DashboardSkeleton />}>
-                            <CRFPurchaseStatus purchaseData={purchaseData} />
+                            <CRFPurchaseStatus purchaseData={purchaseData} companyData={company} />
                         </Suspense>
                     </TabPanel>
                     <TabPanel value={2} sx={{ p: 0 }}>
                         <Suspense fallback={<DashboardSkeleton />}>
-                            <CRFStoreStatus storeData={storeData} />
+                            <CRFStoreStatus storeData={storeData} companyData={company} />
                         </Suspense>
                     </TabPanel>
                 </Tabs>

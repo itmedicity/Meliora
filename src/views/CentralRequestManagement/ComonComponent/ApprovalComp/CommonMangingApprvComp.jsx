@@ -9,7 +9,7 @@ import AttachmentTwoToneIcon from '@mui/icons-material/AttachmentTwoTone';
 import CustomToolTipForCRF from '../Components/CustomToolTipForCRF';
 import { format } from 'date-fns'
 
-const CommonMangingApprvComp = ({ DetailViewData }) => {
+const CommonMangingApprvComp = ({ DetailViewData, company }) => {
     const { req_slno, managing_director_approve, managing_director_remarks, managing_director_analysis,
         managing_director_approve_date, managing_director_user, managing_director_image, managing } = DetailViewData
     const [imageshowFlag, setImageShowFlag] = useState(0)
@@ -61,7 +61,7 @@ const CommonMangingApprvComp = ({ DetailViewData }) => {
             <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
                 <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                     <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>
-                        Managing Director
+                        {company?.managing_director_name}
                     </Typography>
                     <Box sx={{ flex: 1, py: 0.4, ml: 2 }}>
                         <Chip size="md" variant="outlined" sx={{

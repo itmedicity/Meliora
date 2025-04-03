@@ -12,7 +12,7 @@ import ApprovalCompntAll from '../ComonComponent/ApprovalCompntAll'
 import ModalButtomCmp from '../ComonComponent/Components/ModalButtomCmp'
 import { useQueryClient } from 'react-query'
 import { format } from 'date-fns'
-import { axioskmc } from 'src/views/Axios/Axios'
+import { axioskmc, axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { PUBLIC_NAS_FOLDER_KMC } from 'src/views/Constant/Static'
 import { useSelector } from 'react-redux'
@@ -30,7 +30,7 @@ import DMSApproveViewForHigher from '../ComonComponent/HigherLevelComponents/DMS
 import HODApproveViewHigher from '../ComonComponent/HigherLevelComponents/HODApproveViewHigher'
 import CampaignTwoToneIcon from '@mui/icons-material/CampaignTwoTone';
 
-const ManagingDirectorModal = ({ open, ApprovalData, reqItems, handleClose, setApproveTableData, approveTableData,
+const ManagingDirectorModal = ({ open, ApprovalData, reqItems, handleClose, setApproveTableData, approveTableData, company,
     datacolflag, datacolData, imagearray, selectedCompany }) => {
     const { req_slno, incharge_req, incharge_remarks, hod_req, hod_approve, dms_req, dms_approve, ms_approve,
         ms_approve_req, manag_operation_approv, senior_manage_approv, gm_approve, md_approve,
@@ -144,8 +144,10 @@ const ManagingDirectorModal = ({ open, ApprovalData, reqItems, handleClose, setA
             //     const result = await axioslogin.patch('/CRFRegisterApproval/Manag', managPatchData);
             //     return result.data;
             // };
+
             const updateManagApprovalKMC = async (managPatchData) => {
-                const result = await axioskmc.patch('/CRFRegisterApproval/Manag', managPatchData);
+
+                const result = await axioslogin.patch('/CRFRegisterApproval/Manag', managPatchData);
                 return result.data;
             };
 
@@ -244,6 +246,8 @@ const ManagingDirectorModal = ({ open, ApprovalData, reqItems, handleClose, setA
                 }));
                 if (selectedCompany === '1') {
                     // DataCollRequestFnctn(postData);
+                    DataCollRequestKMC(postData);
+
                 } else if (selectedCompany === '2') {
                     DataCollRequestKMC(postData);
                 }
@@ -281,6 +285,8 @@ const ManagingDirectorModal = ({ open, ApprovalData, reqItems, handleClose, setA
             if ((approve && detailAnalis && remark) || ((reject || pending || internallyArr) && remark)) {
                 if (selectedCompany === '1') {
                     // handleApproval(updateManagApproval, FileInsert, 'getPendingAll');
+                    handleApproval(updateManagApprovalKMC, FileInsertKMC, 'getAllKmcPending');
+
                 } else if (selectedCompany === '2') {
                     handleApproval(updateManagApprovalKMC, FileInsertKMC, 'getAllKmcPending');
                 }
@@ -298,6 +304,29 @@ const ManagingDirectorModal = ({ open, ApprovalData, reqItems, handleClose, setA
     useEffect(() => {
         isMounted.current = true;
         if (selectedCompany === '1') {
+            const getImage = async (req_slno) => {
+                const result = await axioslogin.get(`/newCRFRegisterImages/crfManageImageGet/${req_slno}`)
+                const { success, data } = result.data
+                if (success === 1) {
+                    const fileNames = data;
+                    const fileUrls = fileNames.map((fileName) => {
+                        return `${PUBLIC_NAS_FOLDER_KMC}/CRF/crf_registration/${req_slno}/ManageUpload/${fileName}`;
+                    });
+                    const savedFiles = fileUrls.map((val) => {
+                        const parts = val.split('/');
+                        const fileNamePart = parts[parts.length - 1];
+                        const obj = {
+                            imageName: fileNamePart,
+                            url: val
+                        }
+                        return obj
+                    })
+                    setUploadedImages(savedFiles);
+                } else {
+                    setUploadedImages([])
+                }
+            }
+            getImage(req_slno)
         }
         else if (selectedCompany === '2') {
             const getImage = async (req_slno) => {
@@ -376,37 +405,37 @@ const ManagingDirectorModal = ({ open, ApprovalData, reqItems, handleClose, setA
                                     }
                                     {hod_req === 1 && hod_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <HODApproveViewHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
+                                            <HODApproveViewHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} company={company} />
                                         </Box>
                                         : null}
                                     {dms_req === 1 && dms_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <DMSApproveViewForHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
+                                            <DMSApproveViewForHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} company={company} />
                                         </Box>
                                         : null}
                                     {ms_approve_req === 1 && ms_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <MSApproveViewForHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
+                                            <MSApproveViewForHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} company={company} />
                                         </Box>
                                         : null}
                                     {manag_operation_approv !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <MOApproveViewForHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
+                                            <MOApproveViewForHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} company={company} />
                                         </Box>
                                         : null}
                                     {senior_manage_approv !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <SMOApproveViewForHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
+                                            <SMOApproveViewForHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} company={company} />
                                         </Box>
                                         : null}
                                     {gm_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <GMApproveViewForHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
+                                            <GMApproveViewForHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} company={company} />
                                         </Box>
                                         : null}
                                     {md_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <MDApproveViewHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} />
+                                            <MDApproveViewHigher selectedCompany={selectedCompany} DetailViewData={ApprovalData} company={company} />
                                         </Box>
                                         : null}
                                 </Box>
@@ -539,7 +568,7 @@ const ManagingDirectorModal = ({ open, ApprovalData, reqItems, handleClose, setA
                                                 </>
                                                 : null}
                                         <ApprovalCompntAll
-                                            heading="Managing Director Approval"
+                                            heading={`${company?.managing_director_name} Approval`}
                                             apprvlDetails={apprvlDetails}
                                             updateOnchangeState={updateOnchangeState}
                                             updateApprovalState={updateApprovalState}

@@ -16,7 +16,8 @@ import InchargeApprvalCmp from './InchargeComp/InchargeApprvalCmp'
 import ModalButtomCmp from '../ComonComponent/Components/ModalButtomCmp'
 
 const CrmInchargeModal = ({ open, ApprovalData, setApproveTableData, approveTableData, reqItems, handleClose,
-    deptsecArry, imagearray, selectedCompany }) => {
+    deptsecArry, imagearray, selectedCompany, company }) => {
+
     const { req_slno, incharge_approve, incharge_remarks, inch_detial_analysis } = ApprovalData
     const queryClient = useQueryClient()
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
@@ -169,7 +170,7 @@ const CrmInchargeModal = ({ open, ApprovalData, setApproveTableData, approveTabl
                                     setApproveTableData={setApproveTableData} setMoreItem={setMoreItem}
                                 /> : null}
                                 <InchargeApprvalCmp
-                                    heading="Incharge Approval"
+                                    heading={`${company?.incharge_status_name} Approval`}
                                     apprvlDetails={apprvlDetails}
                                     updateOnchangeState={updateOnchangeState}
                                     updateApprovalState={updateApprovalState}

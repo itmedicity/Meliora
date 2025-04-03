@@ -1,4 +1,4 @@
-import React, { Fragment, memo, useCallback, useState } from 'react'
+import React, { Fragment, memo, useCallback, useMemo, useState } from 'react'
 import FilterAltTwoToneIcon from '@mui/icons-material/FilterAltTwoTone';
 import CustomInputDateCmp from './Components/CustomInputDateCmp'
 import AlignHorizontalLeftTwoToneIcon from '@mui/icons-material/AlignHorizontalLeftTwoTone';
@@ -8,6 +8,8 @@ import { CssVarsProvider, IconButton, Option, Select, Typography } from '@mui/jo
 import { Badge, Box, FormControlLabel, Radio, RadioGroup } from '@mui/material'
 import { parse } from 'date-fns';
 import { infoNotify } from 'src/views/Common/CommonCode';
+import { useQuery } from 'react-query';
+import { getDefaultCompany } from 'src/api/CommonApiCRF';
 
 const formatDateForInput = (date) => {
     return date.toISOString().split('T')[0];
@@ -23,6 +25,14 @@ const TopDesignComp = ({ pendingData, donedata, closedData, authorizeDeptSec, al
     const [searchFlag, setSearchFlag] = useState(0)
     const [deptSec, setdeptSec] = useState(0)
 
+    // for default company master 
+
+    const { data: companyData, isLoading: isCompLoading, error: compError } = useQuery({
+        queryKey: 'getdefaultCompany',
+        queryFn: () => getDefaultCompany(),
+        staleTime: Infinity
+    });
+    const company = useMemo(() => companyData, [companyData]);
 
     const ClearSearch = useCallback(() => {
         setSearchFlag(0)
@@ -103,6 +113,8 @@ const TopDesignComp = ({ pendingData, donedata, closedData, authorizeDeptSec, al
 
     }, [startDate, endDate, searchFlag, deptSec, searchCrf, allData, setDisData])
 
+    if (isCompLoading) return <p>Loading...</p>;
+    if (compError) return <p>Error occurred.</p>;
     return (
         <Fragment>
             <Box sx={{ display: 'flex', bgcolor: '#E3EFF9', py: 0.5, flexWrap: 'wrap', border: '0.4px solid #B4F5F0', borderTop: 'none' }}>
@@ -279,7 +291,7 @@ const TopDesignComp = ({ pendingData, donedata, closedData, authorizeDeptSec, al
                                     <CustomInputDateCmp
                                         StartIcon={<Box sx={{ display: 'flex', alignItems: 'center' }}>
                                             <AlignHorizontalLeftTwoToneIcon sx={{ height: 18, width: 18, color: '#0063C5' }} />
-                                            <Typography sx={{ fontSize: '13px', color: '#0063C5' }}>CRF/TMC/</Typography>
+                                            <Typography sx={{ fontSize: '13px', color: '#0063C5' }}>CRF/{company?.company_name}/</Typography>
                                         </Box>}
                                         className={{
                                             borderRadius: 6, border: '1px solid #bbdefb', width: 250, height: 35, color: '#1565c0'

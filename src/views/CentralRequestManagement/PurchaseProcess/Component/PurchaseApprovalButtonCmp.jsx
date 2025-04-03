@@ -29,7 +29,7 @@ const rotate = keyframes`
   }
 `;
 
-const PurchaseApprovalButtonCmp = ({ val }) => {
+const PurchaseApprovalButtonCmp = ({ val, company }) => {
 
     const { ack_status, image_status, now_who, now_who_status, expected_date } = val
     const queryClient = useQueryClient()
@@ -401,7 +401,7 @@ const PurchaseApprovalButtonCmp = ({ val }) => {
                 : puchaseFlag === 1 ? <PurchaseModal open={puchaseModal} puchaseData={puchaseData} poModalClose={poModalClose}
                     setpuchaseData={setpuchaseData} approveTableData={approveTableData}
                     poDetails={poDetails} reqItems={reqItems} datacolflag={datacolflag} datacolData={datacolData}
-                    imagearray={imagearray} newlyApprvdItems={newlyApprvdItems} /> : null
+                    imagearray={imagearray} newlyApprvdItems={newlyApprvdItems} company={company} /> : null
             }
 
             {imageshowFlag === 1 ? <ImageDisplayModal open={imageshow} handleClose={handleClose} images={allImageList} /> : null}

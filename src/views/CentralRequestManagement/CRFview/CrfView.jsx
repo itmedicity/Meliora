@@ -7,7 +7,7 @@ import { axioskmc, axioslogin } from 'src/views/Axios/Axios';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import { Virtuoso } from 'react-virtuoso';
 import MasterComponent from '../CRFBiomedicalView/Components/MasterComponent';
-import { getCompanyDetails } from 'src/api/CommonApiCRF';
+import { getCompanyDetails, getDefaultCompany } from 'src/api/CommonApiCRF';
 import { useQuery } from 'react-query';
 import { FormControlLabel } from '@mui/material';
 import { useSelector } from 'react-redux';
@@ -72,7 +72,7 @@ const CrfView = () => {
                     warningNotify("Please select a valid company.");
 
                 }
-                const { data: ViewData, success: ViewSuccess, message } = resultdata.data;
+                const { data: ViewData, success: ViewSuccess } = resultdata.data;
                 // const resultdata = await axioslogin.post('/newCRFRegister/searchCrf', searchCrfData);
                 // const { success: ViewSuccess, data: ViewData } = resultdata.data;
                 if (ViewSuccess === 1) {
@@ -92,7 +92,12 @@ const CrfView = () => {
         fetchData();
 
     }, [selectedCompany]);
-
+    const { data: companyView, isLoading: isCompanyLoading, error: companyError } = useQuery({
+        queryKey: 'getdefaultCompany',
+        queryFn: () => getDefaultCompany(),
+        staleTime: Infinity
+    });
+    const company = useMemo(() => companyView, [companyView]);
     const transformCrfData = (data) => {
         return data?.map((val) => {
             const obj = {
@@ -216,16 +221,16 @@ const CrfView = () => {
                                                             val.quatation_negotiation === 1 ? "Quotation Negotiation" :
                                                                 val.quatation_calling_status === 1 ? "Quotation Calling" :
                                                                     val.ack_status === 1 ? "Puchase Acknowledged" :
-                                                                        val.managing_director_approve !== null ? 'Managing Director' :
-                                                                            val.ed_approve !== null ? "ED " :
-                                                                                val.md_approve !== null ? "MD" :
-                                                                                    val.gm_approve !== null ? "GM" :
-                                                                                        val.senior_manage_approv !== null ? "SMO" :
-                                                                                            val.manag_operation_approv !== null ? "MO" :
-                                                                                                val.ms_approve !== null ? "MS" :
-                                                                                                    val.dms_approve !== null ? "DMS" :
-                                                                                                        val.hod_approve !== null ? "HOD" :
-                                                                                                            val.incharge_approve !== null ? "Incharge" :
+                                                                        val.managing_director_approve !== null ? company?.managing_director_name :
+                                                                            val.ed_approve !== null ? company?.ed_status_name :
+                                                                                val.md_approve !== null ? company?.md_status_name :
+                                                                                    val.gm_approve !== null ? company?.gmo_status_name :
+                                                                                        val.senior_manage_approv !== null ? company?.smo_status_name :
+                                                                                            val.manag_operation_approv !== null ? company?.mo_status_name :
+                                                                                                val.ms_approve !== null ? company?.ms_status_name :
+                                                                                                    val.dms_approve !== null ? company?.dms_status_name :
+                                                                                                        val.hod_approve !== null ? company?.hod_status_name :
+                                                                                                            val.incharge_approve !== null ? company?.incharge_status_name :
                                                                                                                 "Not Started",
                 //  here now_who_status =5 is used to not show approved from purchase level on status
                 now_who_status: val.req_status === 'C' ? '' :
@@ -299,6 +304,8 @@ const CrfView = () => {
                 user_acknldge: val.user_acknldge,
                 internally_arranged_status: val.internally_arranged_status,
                 user_ack_date: val?.user_ack_date,
+                company_name: val?.company_name
+
             };
             return obj;
         });
@@ -350,6 +357,9 @@ const CrfView = () => {
     });
     const companyData = useMemo(() => compData, [compData]);
 
+
+
+
     const handleRadioChange = useCallback(async (e) => {
         const selectedCompanyName = e.target.value;
         setSelectedCompany(selectedCompanyName);
@@ -358,8 +368,8 @@ const CrfView = () => {
 
     }, [])
 
-    if (isCompLoading) return <p>Loading...</p>;
-    if (compError) return <p>Error Occurred.</p>;
+    if (isCompLoading || isCompanyLoading) return <p>Loading...</p>;
+    if (compError || companyError) return <p>Error Occurred.</p>;
     return (
         <>
             <CustomBackDrop open={open} text="Please Wait" />
@@ -436,7 +446,7 @@ const CrfView = () => {
                                     mb: 0.4,
                                     width: "100%", flexWrap: 'wrap', border: '1px solid #21B6A8', borderRadius: 2,
                                 }}>
-                                    <MasterComponent val={val} selectedCompany={selectedCompany} />
+                                    <MasterComponent val={val} selectedCompany={selectedCompany} companyData={company} />
                                 </Box>
                             }
                         >

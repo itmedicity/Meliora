@@ -4,7 +4,7 @@ import { Box, CssVarsProvider } from '@mui/joy'
 import CustomCloseIconCmp from '../ComonComponent/Components/CustomCloseIconCmp'
 import { Virtuoso } from 'react-virtuoso'
 import { getApprovalDetails, getApprovalKMCH, getOnholdRejectIemDetails, getOnholdRejectKMCH } from '../ComonComponent/CommonApiCallFuctn'
-import { getCompanyDetails, getCRFPendingAboveHOD } from 'src/api/CommonApiCRF'
+import { getCompanyDetails, getCRFPendingAboveHOD, getDefaultCompany } from 'src/api/CommonApiCRF'
 import { format } from 'date-fns'
 import { useQuery } from 'react-query'
 import { useHistory } from 'react-router-dom';
@@ -99,7 +99,12 @@ const CrfEDApprovalMain = () => {
             }
         }
     }, [edData, radiovalue, selectedCompany, edDataKmc]);
-
+    const { data: companydefData, isLoading: isCompLoadingdef, error: compErrordef } = useQuery({
+        queryKey: 'getdefaultCompany',
+        queryFn: () => getDefaultCompany(),
+        staleTime: Infinity
+    });
+    const company = useMemo(() => companydefData, [companydefData]);
     useEffect(() => {
         if (combinedData.length !== 0) {
             const datas = combinedData?.map((val) => {
@@ -227,16 +232,16 @@ const CrfEDApprovalMain = () => {
                                                                 val.quatation_negotiation === 1 ? "Quotation Negotiation" :
                                                                     val.quatation_calling_status === 1 ? "Quotation Calling" :
                                                                         val.ack_status === 1 ? "Puchase Acknowledged" :
-                                                                            val.managing_director_approve !== null ? 'Managing Director' :
-                                                                                val.ed_approve !== null ? "ED " :
-                                                                                    val.md_approve !== null ? "MD" :
-                                                                                        val.gm_approve !== null ? "GM" :
-                                                                                            val.senior_manage_approv !== null ? "SMO" :
-                                                                                                val.manag_operation_approv !== null ? "MO" :
-                                                                                                    val.ms_approve !== null ? "MS" :
-                                                                                                        val.dms_approve !== null ? "DMS" :
-                                                                                                            val.hod_approve !== null ? "HOD" :
-                                                                                                                val.incharge_approve !== null ? "Incharge" :
+                                                                            val.managing_director_approve !== null ? company?.managing_director_name :
+                                                                                val.ed_approve !== null ? company?.ed_status_name :
+                                                                                    val.md_approve !== null ? company?.md_status_name :
+                                                                                        val.gm_approve !== null ? company?.gmo_status_name :
+                                                                                            val.senior_manage_approv !== null ? company?.smo_status_name :
+                                                                                                val.manag_operation_approv !== null ? company?.mo_status_name :
+                                                                                                    val.ms_approve !== null ? company?.ms_status_name :
+                                                                                                        val.dms_approve !== null ? company?.dms_status_name :
+                                                                                                            val.hod_approve !== null ? company?.hod_status_name :
+                                                                                                                val.incharge_approve !== null ? company?.incharge_status_name :
                                                                                                                     "Not Started",
                     now_who_status: val.req_status === 'C' ? '' :
                         val.sub_store_recieve === 1 ? 5 :
@@ -310,7 +315,9 @@ const CrfEDApprovalMain = () => {
                     crf_view_remark: val?.crf_view_remark,
                     crf_view_status: val?.crf_view_status,
                     viewDep: val?.viewDep,
-                    viewName: val?.viewName
+                    viewName: val?.viewName,
+                    company_name: val?.company_name
+
                 }
                 return obj
             })
@@ -534,8 +541,8 @@ const CrfEDApprovalMain = () => {
         }
     }, [])
 
-    if (isEdLoading || isCompLoading || isedKmcLoading) return <p>Loading...</p>;
-    if (edError || compError || kmcError) return <p>Error Occurred.</p>;
+    if (isEdLoading || isCompLoading || isedKmcLoading || isCompLoadingdef) return <p>Loading...</p>;
+    if (edError || compError || kmcError || compErrordef) return <p>Error Occurred.</p>;
     return (
         <Fragment>
             {ApprovalFlag === 2 ?
@@ -544,7 +551,7 @@ const CrfEDApprovalMain = () => {
                 : ApprovalFlag === 1 ?
                     <CrfEDApprovalModal open={ApprovalModal} ApprovalData={ApprovalData} handleClose={handleClose} reqItems={reqItems}
                         setApproveTableData={setApproveTableData} approveTableData={approveTableData} datacolflag={datacolflag}
-                        datacolData={datacolData} imagearray={imagearray} selectedCompany={selectedCompany} />
+                        datacolData={datacolData} imagearray={imagearray} selectedCompany={selectedCompany} company={company} />
                     : null}
 
             {cancelFlag === 1 ? <CloseCRFED open={cancelModal} handleCloseCrfClose={handleCloseCrfClose} reqItems={reqItems}
@@ -553,7 +560,7 @@ const CrfEDApprovalMain = () => {
             <Box sx={{ height: window.innerHeight - 80, flexWrap: 'wrap', bgcolor: 'white', }}>
                 <Box sx={{ backgroundColor: "#f0f3f5", border: '1px solid #B4F5F0' }}>
                     <Box sx={{ display: 'flex', }}>
-                        <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>ED Approval</Box>
+                        <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>{company?.ed_status_name} Approval</Box>
                         <Box sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, m: 0.5 }}>
                             <CssVarsProvider>
                                 <CustomCloseIconCmp handleChange={backtoSetting} />
@@ -581,7 +588,7 @@ const CrfEDApprovalMain = () => {
                         getRejectData={getRejectData} getCloseData={getCloseData} fromDate={fromDate}
                         toDate={toDate} fromDateChange={fromDateChange} toDateChange={toDateChange}
                         crfRadioValue={crfRadioValue} setCrfRadioValue={setCrfRadioValue} getHoldItems={getHoldItems}
-                        getRejectItem={getRejectItem} disData={disDatalen}
+                        getRejectItem={getRejectItem} disData={disDatalen} selectedCompany={selectedCompany}
                     />
                 </Box>
                 <Box sx={{ height: window.innerHeight - 230, overflow: 'auto', flexWrap: 'wrap' }}>
@@ -594,7 +601,7 @@ const CrfEDApprovalMain = () => {
                                     width: "100%", flexWrap: 'wrap', mt: 0.6,
                                     border: '1px solid #21B6A8', borderRadius: 2,
                                 }}>
-                                    <MasterDetailHigherLevel val={val} selectedCompany={selectedCompany} />
+                                    <MasterDetailHigherLevel val={val} selectedCompany={selectedCompany} companyData={companyData} />
                                     {radiovalue === '8' ?
                                         <ClosedButtonManage val={val} setPoDetails={setPoDetails} setImageArry={setImageArry}
                                             imagearray={imagearray} selectedCompany={selectedCompany} />

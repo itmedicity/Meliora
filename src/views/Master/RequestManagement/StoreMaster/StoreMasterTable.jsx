@@ -44,4 +44,4 @@ const StoreMasterTable = ({ count, rowSelect, setCount, setSubStoreList, setDept
         />)
 }
 
-export default StoreMasterTable
+export default memo(StoreMasterTable)

@@ -5,10 +5,10 @@ import { memo } from 'react'
 import ErrorIcon from '@mui/icons-material/Error';
 import { keyframes } from '@mui/system';
 
-const ReqMastMainViewCmp = ({ val }) => {
+const ReqMastMainViewCmp = ({ val, }) => {
 
     const { req_slno, req_date, em_name, dept_name, user_deptsection, actual_requirement, needed, category,
-        req_deptsec, location, expected_date, emergency_flag, emer_type_name, emergeny_remarks, po_prepartion, po_number } = val
+        req_deptsec, location, expected_date, emergency_flag, emer_type_name, emergeny_remarks, po_prepartion, po_number, company_name } = val
 
     const expdate = expected_date !== null && isValid(new Date(expected_date)) ? format(new Date(expected_date), 'dd-MM-yyyy') : "Not Updated"
 
@@ -24,7 +24,7 @@ const ReqMastMainViewCmp = ({ val }) => {
                 }}>
                     <Box sx={{ flex: 1, borderRight: '1px solid lightgray' }}>
                         <Box sx={{ ml: 1, mt: 0.5 }}>
-                            <Typography sx={{ fontSize: 15, color: '#003060', fontWeight: 'bold' }}>CRF/TMC/{req_slno}</Typography>
+                            <Typography sx={{ fontSize: 15, color: '#003060', fontWeight: 'bold' }}>CRF/{company_name}/{req_slno}</Typography>
                         </Box>
                         <Box sx={{ ml: 1, mt: 0.5 }}>
                             <Typography sx={{ fontSize: 12, color: '#003060' }}>{format(new Date(req_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>

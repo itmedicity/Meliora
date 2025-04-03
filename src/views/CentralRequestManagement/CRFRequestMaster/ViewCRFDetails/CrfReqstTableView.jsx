@@ -1,13 +1,13 @@
 
 import { Box, Divider, FormControl, Radio, RadioGroup } from '@mui/joy'
 import { keyframes, Paper } from '@mui/material'
-import React, { memo, useCallback, useEffect, useState } from 'react'
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import ReceivedTable from '../Components/ReceivedTable'
 import NotReceivedTable from '../Components/NotReceivedTable'
 import ItemReceivedInStoreTable from '../Components/ItemReceivedInStoreTable'
 import { useSelector } from 'react-redux'
 import { useQuery } from 'react-query'
-import { getCrfRegDetailByDepSec } from 'src/api/CommonApiCRF'
+import { getCrfRegDetailByDepSec, getDefaultCompany } from 'src/api/CommonApiCRF'
 import GppGoodTwoToneIcon from '@mui/icons-material/GppGoodTwoTone';
 
 const CrfReqstTableView = ({ rowSelect }) => {
@@ -29,6 +29,15 @@ const CrfReqstTableView = ({ rowSelect }) => {
         queryFn: () => getCrfRegDetailByDepSec(empsecid),
         enabled: empsecid !== null,
     });
+
+
+    const { data: companyData, isLoading: isCompLoading, error: compError } = useQuery({
+        queryKey: 'getdefaultCompany',
+        queryFn: () => getDefaultCompany(),
+        staleTime: Infinity
+    });
+    const company = useMemo(() => companyData, [companyData]);
+
     useEffect(() => {
         if (crfDetails && crfDetails.length > 0) {
             // const datas = crfDetails?.map((val) => {
@@ -166,16 +175,16 @@ const CrfReqstTableView = ({ rowSelect }) => {
                                                                 val.quatation_negotiation === 1 ? "Quotation Negotiation" :
                                                                     val.quatation_calling_status === 1 ? "Quotation Calling" :
                                                                         val.ack_status === 1 ? "Puchase Acknowledged" :
-                                                                            val.managing_director_approve !== null ? "Managing Director" :
-                                                                                val.ed_approve !== null ? "ED" :
-                                                                                    val.md_approve !== null ? "MD" :
-                                                                                        val.gm_approve !== null ? "GM" :
-                                                                                            val.senior_manage_approv !== null ? "SMO" :
-                                                                                                val.manag_operation_approv !== null ? "MO" :
-                                                                                                    val.ms_approve !== null ? "MS" :
-                                                                                                        val.dms_approve !== null ? "DMS" :
-                                                                                                            val.hod_approve !== null ? "HOD" :
-                                                                                                                val.incharge_approve !== null ? "Incharge" :
+                                                                            val.managing_director_approve !== null ? company?.managing_director_name :
+                                                                                val.ed_approve !== null ? company?.ed_status_name :
+                                                                                    val.md_approve !== null ? company?.md_status_name :
+                                                                                        val.gm_approve !== null ? company?.gmo_status_name :
+                                                                                            val.senior_manage_approv !== null ? company?.smo_status_name :
+                                                                                                val.manag_operation_approv !== null ? company?.mo_status_name :
+                                                                                                    val.ms_approve !== null ? company?.ms_status_name :
+                                                                                                        val.dms_approve !== null ? company?.dms_status_name :
+                                                                                                            val.hod_approve !== null ? company?.hod_status_name :
+                                                                                                                val.incharge_approve !== null ? company?.incharge_status_name :
                                                                                                                     "Not Started",
                     now_who_status: val.req_status === 'C' ? '' :
                         val.sub_store_recieve === 1 ? 5 :
@@ -270,8 +279,8 @@ const CrfReqstTableView = ({ rowSelect }) => {
 
     }, [])
 
-    if (isCrfDetailsLoading) return <p>Loading...</p>;
-    if (crfDetailsError) return <p>Error occurred.</p>;
+    if (isCrfDetailsLoading || isCompLoading) return <p>Loading...</p>;
+    if (crfDetailsError || compError) return <p>Error occurred.</p>;
 
     return (
         <Box sx={{ height: window.innerHeight - 150, bgcolor: 'white' }}>
@@ -334,9 +343,9 @@ const CrfReqstTableView = ({ rowSelect }) => {
             <Box sx={{}}>
 
                 {radiovalue === '1' ? <NotReceivedTable disData={disData}
-                    rowSelect={rowSelect} />
-                    : radiovalue === '2' ? <ItemReceivedInStoreTable storeData={storeData} />
-                        : radiovalue === '3' ? <ReceivedTable receivedData={receivedData} />
+                    rowSelect={rowSelect} company={company} />
+                    : radiovalue === '2' ? <ItemReceivedInStoreTable storeData={storeData} company={company} />
+                        : radiovalue === '3' ? <ReceivedTable receivedData={receivedData} company={company} />
                             : null}
             </Box>
         </Box>

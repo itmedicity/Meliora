@@ -2,6 +2,7 @@
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import { format } from 'date-fns'
+import { edsign, mdsign, snow } from "src/views/Constant/Static";
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 
@@ -10,11 +11,11 @@ export const CrfPdfWithDetails = (val, reqDetails, dataa) => {
     const { dept_name, req_deptsec, req_slno, req_date, actual_requirement, needed,
         category, location,
         md_approve, md, md_approve_remarks, md_approve_date, md_user,
-        ed_approve, ed, ed_approve_remarks, ed_approve_date, ed_user,
+        ed_approve, ed, ed_approve_remarks, ed_approve_date, ed_user, company_name
 
     } = val
 
-    const reqno = 'CRF/TMC/' + req_slno.toString().padStart(6, '0')
+    const reqno = `CRF/${company_name}/` + req_slno.toString().padStart(6, '0');
     const reqdate = req_date !== null ? format(new Date(req_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated"
     // const expdate = expected_date !== null ? format(new Date(expected_date), 'dd-MM-yyyy') : "Not Updated"
     const mddate = md_approve_date !== null ? format(new Date(md_approve_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated"
@@ -367,9 +368,9 @@ export const CrfPdfWithDetails = (val, reqDetails, dataa) => {
         ],
 
         images: {
-            snow: 'http://192.168.10.88:9090/Meliora/logo/logo.png',
-            mdsign: 'http://192.168.10.88:9090/Meliora/md/signature/signature.jpg',
-            edsign: 'http://192.168.10.88:9090/Meliora/ed/signature/signature.jpg',
+            snow: snow,
+            mdsign: mdsign,
+            edsign: edsign
         }
     }
 

@@ -1,5 +1,5 @@
 import { Box, CssVarsProvider, Input, Tooltip } from '@mui/joy'
-import React, { Fragment, memo, useEffect } from 'react'
+import React, { Fragment, memo, useEffect, useMemo } from 'react'
 import { useCallback } from 'react'
 import { useState } from 'react'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
@@ -19,6 +19,8 @@ import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import _ from 'underscore'
 import FeaturedPlayListTwoToneIcon from '@mui/icons-material/FeaturedPlayListTwoTone';
 import CustomCloseIconCmp from '../ComonComponent/Components/CustomCloseIconCmp'
+import { getDefaultCompany } from 'src/api/CommonApiCRF'
+import { useQuery } from 'react-query'
 
 const FullyReceiveTableView = React.lazy(() => import("./Component/FullyReceiveTableView"))
 const GrnDetailsViewModal = React.lazy(() => import("./Component/GrnDetailsViewModal"))
@@ -646,6 +648,26 @@ const CrfStoreProcessMain = () => {
         }
 
     }, [])
+
+    // const { data: compData, isLoading: isCompLoading, error: compError } = useQuery({
+    //     queryKey: 'getCompany',
+    //     queryFn: () => getCompanyDetails(),
+    //     staleTime: Infinity
+    // });
+    // const companyData = useMemo(() => compData, [compData]);
+
+
+    const { data: companyData, isLoading: isCompLoading, error: compError } = useQuery({
+        queryKey: 'getdefaultCompany',
+        queryFn: () => getDefaultCompany(),
+        staleTime: Infinity
+    });
+    const company = useMemo(() => companyData, [companyData]);
+
+    if (isCompLoading) return <p>Loading...</p>;
+    if (compError) return <p>Error Occurred.</p>;
+
+
     const capitalizeWords = (str) => str ? str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : '';
     return (
         <Fragment>
@@ -759,7 +781,7 @@ const CrfStoreProcessMain = () => {
                                         startDecorator={
                                             <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                                 <AlignHorizontalLeftTwoToneIcon sx={{ height: 18, width: 18, color: '#0063C5' }} />
-                                                <Typography sx={{ ml: 1, fontSize: '13px', color: '#0063C5' }}>CRF/TMC/</Typography>
+                                                <Typography sx={{ ml: 1, fontSize: '13px', color: '#0063C5' }}>CRF/{company?.company_name}/</Typography>
                                             </Box>
                                         }
                                         size="sm" placeholder="Search By CRF No."
@@ -855,7 +877,7 @@ const CrfStoreProcessMain = () => {
                                                         <React.Fragment key={index}>
                                                             <Box display="flex" justifyContent="space-between" sx={{ borderBottom: '1px solid #b0bec5', color: (val.store_recieve === 0) ? '#E55B13' : 'black' }} >
                                                                 <Typography sx={{ width: 60, textAlign: 'center', fontSize: 12, my: 1 }}>{index + 1}</Typography>
-                                                                <Typography sx={{ width: 100, textAlign: 'center', fontSize: 12, my: 1 }}>CRF/TMC/{val.req_slno}</Typography>
+                                                                <Typography sx={{ width: 100, textAlign: 'center', fontSize: 12, my: 1 }}>{`CRF/${company?.company_name}//${val?.req_slno}`}</Typography>
                                                                 <Typography sx={{ width: 60, textAlign: 'center', fontSize: 12, my: 1 }}>{val.po_number}</Typography>
                                                                 <Typography sx={{ width: 150, textAlign: 'center', fontSize: 12, my: 1 }}>{format(new Date(val.po_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
                                                                 <Typography sx={{ width: 150, textAlign: 'center', fontSize: 12, my: 1 }}>{format(new Date(val.po_to_supplier_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
@@ -906,7 +928,7 @@ const CrfStoreProcessMain = () => {
                             </>
                             : <>
                                 {fullyReceived.length !== 0 ?
-                                    <FullyReceiveTableView disData={fullyReceived} viewGrnDetails={viewGrnDetails} />
+                                    <FullyReceiveTableView disData={fullyReceived} viewGrnDetails={viewGrnDetails} company={company} />
                                     :
                                     <Box sx={{
                                         display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5,

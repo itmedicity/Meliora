@@ -40,6 +40,8 @@ export const crm_setting_one = [
 export const crm_setting_two = [
     { to: '/Home/OMTableMast', name: 'OM Table Mast', slno: 107 },
     { to: '/Home/ApprovalMapping', name: 'CRF Approval Mapping Master', slno: 252 },
+    { to: '/Home/CrfCommon', name: 'CRF Common Master', slno: 269 },
+
 ]
 
 export const crm_setting_three = [

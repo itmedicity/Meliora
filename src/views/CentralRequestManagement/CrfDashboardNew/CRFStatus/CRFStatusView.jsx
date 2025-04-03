@@ -9,12 +9,12 @@ import smoimg from '../../../../assets/images/CRF/SMO.png'
 import gmimg from '../../../../assets/images/CRF/GM.png'
 import edimg from '../../../../assets/images/CRF/ED.png'
 import mdimg from '../../../../assets/images/CRF/MD.png'
-import { getAllApprovalPending } from '../../ComonComponent/CommonApiCallFuctn';
 import CustomLoadComp from '../../ComonComponent/Components/CustomLoadComp';
 const DetailedViewofCRF = React.lazy(() => import("./DetailedViewofCRF"))
 const CRFStatusMainComp = React.lazy(() => import("./CRFStatusMainComp"))
 
-const CRFStatusView = ({ crfData }) => {
+const CRFStatusView = ({ crfData, companyData }) => {
+
     const [flag, setFlag] = useState(0)
     const [tableData, setTableData] = useState([])
     const [disData, setDisData] = useState([])
@@ -284,7 +284,92 @@ const CRFStatusView = ({ crfData }) => {
                 const result = await axioslogin.get(`/CRFDashboard/getApprvPending/Dashboard/${id}`,);
                 const { success, data, message } = result.data;
                 if (success === 1) {
-                    getAllApprovalPending(setDisData, setTableData, data)
+                    // getAllApprovalPending(setDisData, setTableData, data)
+                    const newData = data?.map((val) => {
+                        const obj = {
+                            req_slno: val.req_slno,
+                            actual_requirement: val.actual_requirement !== null ? val.actual_requirement : 'Nil',
+                            needed: val.needed !== null ? val.needed : 'Nil',
+                            req_deptsec: val.req_deptsec.toLowerCase(),
+                            user_deptsection: val.user_deptsection.toLowerCase(),
+                            em_name: val.create_user.toLowerCase(),
+                            request_deptsec_slno: val.request_deptsec_slno,
+                            location: val.location,
+                            expected_date: val.expected_date,
+                            category: val.category,
+                            req_date: val.create_date,
+                            user_deptsec: val.user_deptsec,
+
+                            incharge_req: val.incharge_req,
+                            incharge_approve: val.incharge_approve,
+                            incharge: val.incharge_approve === 1 ? "Approved" : val.incharge_approve === 2 ? "Rejected" :
+                                val.incharge_approve === 3 ? "On-Hold" : "Not Done",
+                            hod_req: val.hod_req,
+                            hod_approve: val.hod_approve,
+                            hod: val.hod_approve === 1 ? "Approved" : val.hod_approve === 2 ? "Rejected" :
+                                val.hod_approve === 3 ? "On-Hold" : "Not Done",
+                            dms_req: val.dms_req,
+                            dms_approve: val.dms_approve,
+                            dms: val.dms_approve === 1 ? "Approved" : val.dms_approve === 2 ? "Rejected" :
+                                val.dms_approve === 3 ? "On-Hold" : val.dms_approve === 4 ? "Approved" : "Not Done",
+                            ms_approve_req: val.ms_approve_req,
+                            ms_approve: val.ms_approve,
+                            ms: val.ms_approve === 1 ? "Approved" : val.ms_approve === 2 ? "Rejected" :
+                                val.ms_approve === 3 ? "On-Hold" : val.ms_approve === 4 ? "Approved" : "Not Done",
+                            manag_operation_req: val.manag_operation_req,
+                            manag_operation_approv: val.manag_operation_approv,
+                            om: val.manag_operation_approv === 1 ? "Approved" : val.manag_operation_approv === 2 ? "Rejected" :
+                                val.manag_operation_approv === 3 ? "On-Hold" : val.manag_operation_approv === 4 ? "Approved"
+                                    : "Not Done",
+                            senior_manage_req: val.senior_manage_req,
+                            senior_manage_approv: val.senior_manage_approv,
+                            smo: val.senior_manage_approv === 1 ? "Approved" : val.senior_manage_approv === 2 ? "Rejected" :
+                                val.senior_manage_approv === 3 ? "On-Hold" : val.senior_manage_approv === 4 ? "Approved" : "Not Done",
+                            gm_approve_req: val.gm_approve_req,
+                            gm_approve: val.gm_approve,
+                            gm: val.gm_approve === 1 ? "Approved" : val.gm_approve === 2 ? "Rejected" :
+                                val.gm_approve === 3 ? "On-Hold" : val.gm_approve === 4 ? "Approved" : "Not Done",
+                            md_approve_req: val.md_approve_req,
+                            md_approve: val.md_approve,
+                            md: val.md_approve === 1 ? "Approved" : val.md_approve === 2 ? "Rejected" :
+                                val.md_approve === 3 ? "On-Hold" : val.md_approve === 4 ? "Approved" : "Not Done",
+                            ed_approve_req: val.ed_approve_req,
+                            ed_approve: val.ed_approve,
+                            ed: val.ed_approve === 1 ? "Approved" : val.ed_approve === 2 ? "Rejected" :
+                                val.ed_approve === 3 ? "On-Hold" : val.ed_approve === 4 ? "Approved" : "Not Done",
+                            managing: val.managing_director_approve === 1 ? "Approved" : val.managing_director_approve === 2 ? "Rejected" :
+                                val.managing_director_approve === 3 ? "On-Hold" : val.managing_director_approve === 4 ? "Approved" : "Not Done",
+
+                            now_who: val.managing_director_approve !== null ? companyData?.managing_director_name :
+                                val.ed_approve !== null ? companyData?.ed_status_name :
+                                    val.md_approve !== null ? companyData?.md_status_name :
+                                        val.gm_approve !== null ? companyData?.gmo_status_name :
+                                            val.senior_manage_approv !== null ? companyData?.smo_status_name :
+                                                val.manag_operation_approv !== null ? companyData?.mo_status_name :
+                                                    val.ms_approve !== null ? companyData?.ms_status_name :
+                                                        val.dms_approve !== null ? companyData?.dms_status_name :
+                                                            val.hod_approve !== null ? companyData?.hod_status_name :
+                                                                val.incharge_approve !== null ? companyData?.incharge_status_name :
+                                                                    "Not Started",
+                            now_who_status: val.managing_director_approve !== null ? val.managing_director_approve :
+                                val.ed_approve !== null ? val.ed_approve :
+                                    val.md_approve !== null ? val.md_approve :
+                                        val.gm_approve !== null ? val.gm_approve :
+                                            val.senior_manage_approv !== null ? val.senior_manage_approv :
+                                                val.manag_operation_approv !== null ? val.manag_operation_approv :
+                                                    val.ms_approve !== null ? val.ms_approve :
+                                                        val.dms_approve !== null ? val.dms_approve :
+                                                            val.hod_approve !== null ? val.hod_approve :
+                                                                val.incharge_approve !== null ? val.incharge_approve :
+                                                                    0,
+
+                            dept_id: val.dept_id,
+                            dept_name: val.dept_name
+                        }
+                        return obj
+                    })
+                    setDisData(newData)
+                    setTableData(newData)
                     setFlag(1)
                 } else if (success === 2) {
                     infoNotify(message)
@@ -305,7 +390,7 @@ const CRFStatusView = ({ crfData }) => {
         <Fragment>
             {flag === 1 ?
                 <Suspense fallback={<CustomLoadComp />}>
-                    <DetailedViewofCRF setFlag={setFlag} disData={disData} setDisData={setDisData} tableData={tableData} />
+                    <DetailedViewofCRF setFlag={setFlag} disData={disData} setDisData={setDisData} tableData={tableData} companyData={companyData} />
                 </Suspense>
                 :
                 <CRFStatusMainComp crfApprv={crfApprv} viewPednigDetails={viewPednigDetails} />

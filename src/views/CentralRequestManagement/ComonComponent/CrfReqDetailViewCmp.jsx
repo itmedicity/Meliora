@@ -9,7 +9,7 @@ import ReqImageDisModal from './ImageUploadCmp/ReqImageDisModal'
 import CustomLoadComp from './Components/CustomLoadComp'
 const CrfReqDetailViewCmp = ({ ApprovalData, imagearray }) => {
 
-    const { req_slno, req_date, actual_requirement, needed, expected_date, image_status } = ApprovalData
+    const { req_slno, req_date, actual_requirement, needed, expected_date, image_status, company_name, } = ApprovalData
 
     const [imageshowFlag, setImageShowFlag] = useState(0)
     const [imageshow, setImageShow] = useState(false)
@@ -69,7 +69,7 @@ const CrfReqDetailViewCmp = ({ ApprovalData, imagearray }) => {
                 <Paper variant="outlined" sx={{ flexWrap: 'wrap', mx: 0.6 }}>
                     <Box sx={{ padding: 1, borderRadius: 2, }}>
                         <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: 0.5, color: '#145DA0', fontSize: 14 }}>
-                            {'CRF/TMC/' + req_slno}
+                            {`CRF/${company_name}/${req_slno}`}
                         </Typography>
                         <Box sx={{ display: 'flex' }}>
                             <Box sx={{ display: 'flex', pt: 0.4, flex: 1 }}>

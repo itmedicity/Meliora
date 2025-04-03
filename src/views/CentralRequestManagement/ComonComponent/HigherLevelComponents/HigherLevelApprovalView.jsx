@@ -1,7 +1,7 @@
-import React, { Fragment, memo, useCallback, useMemo, useState } from 'react'
+import React, { Fragment, memo, } from 'react'
 import { ToastContainer } from 'react-toastify';
 import { Paper } from '@mui/material'
-import { Box, Chip, CssVarsProvider, Grid, Modal, ModalClose, ModalDialog, Textarea, Typography } from '@mui/joy'
+import { Box, Chip, CssVarsProvider, Grid, Modal, ModalClose, ModalDialog, Typography } from '@mui/joy'
 import { format } from 'date-fns';
 import ReqItemDisplay from '../ReqItemDisplay';
 import CrfReqDetailViewCmp from '../CrfReqDetailViewCmp';
@@ -24,13 +24,13 @@ import CommonCRFClosed from '../ApprovalComp/CommonCRFClosed';
 import UserReceivedItemDetails from '../ApprovalComp/UserReceivedItemDetails';
 import CommonMangingApprvComp from '../ApprovalComp/CommonMangingApprvComp';
 import DataCollectionViewHigherLevel from '../DataCollectionComp/DataCollectionViewHigherLevel';
-import ModalButtomCmp from '../Components/ModalButtomCmp';
-import { axioslogin } from 'src/views/Axios/Axios';
-import { succesNotify, warningNotify } from 'src/views/Common/CommonCode';
-import { useSelector } from 'react-redux';
+// import ModalButtomCmp from '../Components/ModalButtomCmp';
+// import { axioslogin } from 'src/views/Axios/Axios';
+// import { succesNotify, warningNotify } from 'src/views/Common/CommonCode';
+// import { useSelector } from 'react-redux';
 
 const HigherLevelApprovalView = ({ open, closeModal, DetailViewData, reqItems, approveTableData, poDetails, imagearray, ViewRemark, setDetailViewModal,
-    datacolData, selectedCompany }) => {
+    datacolData, selectedCompany, company }) => {
     const { req_slno, incharge_approve, incharge_remarks, hod_req, hod_approve, dms_req, dms_approve, ms_approve_req, ms_approve,
         manag_operation_req, manag_operation_approv, senior_manage_req, senior_manage_approv, gm_approve_req, gm_approve,
         md_approve_req, md_approve, ed_approve_req, ed_approve, managing_director_req, managing_director_approve, ack_status,
@@ -39,16 +39,16 @@ const HigherLevelApprovalView = ({ open, closeModal, DetailViewData, reqItems, a
         store_receive_date, substore_ack_date, crf_close, user_acknldge, acknowUser, user_ack_date, user_acknldge_remarks,
         approval_level } = DetailViewData
 
-    const [ViewCrfRemark, SetViewCrfRemark] = useState('')
-    const empdept = useSelector((state) => {
+    // const [ViewCrfRemark, SetViewCrfRemark] = useState('')
+    // const empdept = useSelector((state) => {
 
-        return state.LoginUserData.empdept
+    //     return state.LoginUserData.empdept
 
-    })
-    const empid = useSelector((state) => {
-        return state.LoginUserData.empid
+    // })
+    // const empid = useSelector((state) => {
+    //     return state.LoginUserData.empid
 
-    })
+    // })
     const capitalizeWords = (str) =>
         str ? str
             .toLowerCase()
@@ -59,29 +59,29 @@ const HigherLevelApprovalView = ({ open, closeModal, DetailViewData, reqItems, a
             .join(' ')
             : '';
 
-    const postData = useMemo(() => {
-        return {
-            req_slno: req_slno,
-            ViewCrfRemark: ViewCrfRemark,
-            status: 1,
-            empdept: empdept,
-            empid: empid,
+    // const postData = useMemo(() => {
+    //     return {
+    //         req_slno: req_slno,
+    //         ViewCrfRemark: ViewCrfRemark,
+    //         status: 1,
+    //         empdept: empdept,
+    //         empid: empid,
 
-        };
-    }, [req_slno, ViewCrfRemark, empid, empdept])
+    //     };
+    // }, [req_slno, ViewCrfRemark, empid, empdept])
 
-    const submit = useCallback(async () => {
-        const result = await axioslogin.post('/CRFRegisterApproval/CrfViewInsert', postData);
-        const { success } = result.data;
-        if (success === 1) {
-            succesNotify("Data Updated Successfully");
-            setDetailViewModal(false)
-        } else {
-            warningNotify('Something Went Wrong');
-            setDetailViewModal(false)
+    // const submit = useCallback(async () => {
+    //     const result = await axioslogin.post('/CRFRegisterApproval/CrfViewInsert', postData);
+    //     const { success } = result.data;
+    //     if (success === 1) {
+    //         succesNotify("Data Updated Successfully");
+    //         setDetailViewModal(false)
+    //     } else {
+    //         warningNotify('Something Went Wrong');
+    //         setDetailViewModal(false)
 
-        }
-    }, [postData, setDetailViewModal])
+    //     }
+    // }, [postData, setDetailViewModal])
 
     return (
         <Fragment>
@@ -133,61 +133,61 @@ const HigherLevelApprovalView = ({ open, closeModal, DetailViewData, reqItems, a
                                         <Grid container spacing={0.5} sx={{ flexGrow: 1, }}>
                                             {incharge_approve === 1 && incharge_remarks !== null ?
                                                 <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                    <CommonInchargeReqCmp DetailViewData={DetailViewData} />
+                                                    <CommonInchargeReqCmp DetailViewData={DetailViewData} company={company} />
                                                 </Grid>
                                                 : null
                                             }
                                             {hod_req === 1 && hod_approve !== null ?
                                                 <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                    <CommonHodApprvCmp DetailViewData={DetailViewData} selectedCompany={selectedCompany} />
+                                                    <CommonHodApprvCmp DetailViewData={DetailViewData} selectedCompany={selectedCompany} company={company} />
                                                 </Grid>
                                                 : null
                                             }
                                             {dms_req === 1 && dms_approve !== null ?
                                                 <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                    <CommonDmsApprvCmp DetailViewData={DetailViewData} selectedCompany={selectedCompany} />
+                                                    <CommonDmsApprvCmp DetailViewData={DetailViewData} selectedCompany={selectedCompany} company={company} />
                                                 </Grid>
                                                 : null
                                             }
                                             {ms_approve_req === 1 && ms_approve !== null ?
                                                 <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                    <CommonMsApprvCmp DetailViewData={DetailViewData} selectedCompany={selectedCompany} />
+                                                    <CommonMsApprvCmp DetailViewData={DetailViewData} selectedCompany={selectedCompany} company={company} />
                                                 </Grid>
                                                 : null
                                             }
                                             {manag_operation_req === 1 && manag_operation_approv !== null ?
                                                 <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                    <CommonMoApprvlCmp DetailViewData={DetailViewData} selectedCompany={selectedCompany} />
+                                                    <CommonMoApprvlCmp DetailViewData={DetailViewData} selectedCompany={selectedCompany} company={company} />
                                                 </Grid>
                                                 : null
                                             }
                                             {senior_manage_req === 1 && senior_manage_approv !== null ?
                                                 <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                    <CommonSmoApprvCmp DetailViewData={DetailViewData} selectedCompany={selectedCompany} />
+                                                    <CommonSmoApprvCmp DetailViewData={DetailViewData} selectedCompany={selectedCompany} company={company} />
                                                 </Grid>
                                                 : null
                                             }
                                             {gm_approve_req === 1 && gm_approve !== null ?
                                                 <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                    <CommonGmapprvCmp DetailViewData={DetailViewData} selectedCompany={selectedCompany} />
+                                                    <CommonGmapprvCmp DetailViewData={DetailViewData} selectedCompany={selectedCompany} company={company} />
                                                 </Grid>
                                                 : null
                                             }
                                             {md_approve_req === 1 && md_approve !== null ?
                                                 <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                    <CommonMdApprvCmp DetailViewData={DetailViewData} selectedCompany={selectedCompany} />
+                                                    <CommonMdApprvCmp DetailViewData={DetailViewData} selectedCompany={selectedCompany} company={company} />
                                                 </Grid>
                                                 : null
                                             }
                                             {ed_approve_req === 1 && ed_approve !== null ?
                                                 <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                    <CommonEdapprvCmp DetailViewData={DetailViewData} selectedCompany={selectedCompany} />
+                                                    <CommonEdapprvCmp DetailViewData={DetailViewData} selectedCompany={selectedCompany} company={company} />
                                                 </Grid>
                                                 : null
                                             }
                                             {(managing_director_req === 1 && managing_director_approve !== null) ?
                                                 <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                    <CommonMangingApprvComp DetailViewData={DetailViewData} selectedCompany={selectedCompany} />
+                                                    <CommonMangingApprvComp DetailViewData={DetailViewData} selectedCompany={selectedCompany} company={company} />
                                                 </Grid>
                                                 : null
                                             }

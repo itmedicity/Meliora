@@ -1,5 +1,5 @@
 import { Box, CssVarsProvider } from '@mui/joy';
-import React, { Fragment, useCallback, useEffect, useState } from 'react'
+import React, { Fragment, useCallback, useEffect, useMemo, useState } from 'react'
 import { useQuery } from 'react-query';
 import { useSelector } from 'react-redux'
 import { ToastContainer } from 'react-toastify';
@@ -11,7 +11,7 @@ import { useHistory } from 'react-router-dom';
 import CrmInchargeModal from './CrmInchargeModal';
 import InchargeCancel from './InchargeCancel';
 import ClosedButtonCompnt from '../ComonComponent/ClosedButtonCompnt';
-import { getCRFInchargeHodData, getDptSecIcharge } from 'src/api/CommonApiCRF';
+import { getCRFInchargeHodData, getDefaultCompany, getDptSecIcharge } from 'src/api/CommonApiCRF';
 import ApproveButtonComponentIncharge from './InchargeComp/ApproveButtonComponentIncharge';
 
 
@@ -65,6 +65,12 @@ const InchargeApproval = () => {
         staleTime: Infinity
     });
 
+    const { data: companyData, isLoading: isCompLoading, error: compError } = useQuery({
+        queryKey: 'getdefaultCompany',
+        queryFn: () => getDefaultCompany(),
+        staleTime: Infinity
+    });
+    const company = useMemo(() => companyData, [companyData]);
     useEffect(() => {
         if (inchargeData) {
             const datas = inchargeData?.map((val) => {
@@ -197,16 +203,16 @@ const InchargeApproval = () => {
                                                                 val.quatation_negotiation === 1 ? "Quotation Negotiation" :
                                                                     val.quatation_calling_status === 1 ? "Quotation Calling" :
                                                                         val.ack_status === 1 ? "Puchase Acknowledged" :
-                                                                            val.managing_director_approve !== null ? val.managing_director_approve :
-                                                                                val.ed_approve !== null ? "ED " :
-                                                                                    val.md_approve !== null ? "MD" :
-                                                                                        val.gm_approve !== null ? "GM" :
-                                                                                            val.senior_manage_approv !== null ? "SMO" :
-                                                                                                val.manag_operation_approv !== null ? "MO" :
-                                                                                                    val.ms_approve !== null ? "MS" :
-                                                                                                        val.dms_approve !== null ? "DMS" :
-                                                                                                            val.hod_approve !== null ? "HOD" :
-                                                                                                                val.incharge_approve !== null ? "Incharge" :
+                                                                            val.managing_director_approve !== null ? company.managing_director_name :
+                                                                                val.ed_approve !== null ? company?.ed_status_name :
+                                                                                    val.md_approve !== null ? company?.md_status_name :
+                                                                                        val.gm_approve !== null ? company?.gmo_status_name :
+                                                                                            val.senior_manage_approv !== null ? company?.smo_status_name :
+                                                                                                val.manag_operation_approv !== null ? company?.mo_status_name :
+                                                                                                    val.ms_approve !== null ? company?.ms_status_name :
+                                                                                                        val.dms_approve !== null ? company?.dms_status_name :
+                                                                                                            val.hod_approve !== null ? company?.hod_status_name :
+                                                                                                                val.incharge_approve !== null ? company?.incharge_status_name :
                                                                                                                     "Not Started",
                     //  here now_who_status =5 is used to not show approved from purchase level on status      
                     now_who_status:
@@ -277,7 +283,8 @@ const InchargeApproval = () => {
                     dept_name: val.dept_name,
                     dept_type: val.dept_type,
                     dept_type_name: val.dept_type === 1 ? 'Clinical' : val.dept_type === 2 ? 'Non Clinical' : 'Academic',
-                    approval_level: val.approval_level
+                    approval_level: val.approval_level,
+                    company_name: val?.company_name
                 }
                 return obj
             })
@@ -312,7 +319,7 @@ const InchargeApproval = () => {
             setPendingData([])
             setDoneData([])
         }
-    }, [inchargeData]);
+    }, [inchargeData, company]);
 
     useEffect(() => {
         if (radiovalue === '1') {
@@ -335,8 +342,8 @@ const InchargeApproval = () => {
     }, []);
 
 
-    if (isInchargeLoading || isAuthLoading) return <p>Loading...</p>;
-    if (inchargeError || authError) return <p>Error occurred.</p>;
+    if (isInchargeLoading || isAuthLoading || isCompLoading) return <p>Loading...</p>;
+    if (inchargeError || authError || compError) return <p>Error occurred.</p>;
 
     return (
         <Fragment>
@@ -347,12 +354,12 @@ const InchargeApproval = () => {
                 imagearray={imagearray} deptsecArry={deptsecArry} /> : null}
 
             {ApprovalFlag === 1 ? <CrmInchargeModal open={ApprovalModal} ApprovalData={ApprovalData}
-                handleClose={handleClose} reqItems={reqItems} setApproveTableData={setApproveTableData}
+                handleClose={handleClose} reqItems={reqItems} setApproveTableData={setApproveTableData} company={company}
                 approveTableData={approveTableData} deptsecArry={deptsecArry} imagearray={imagearray} selectedCompany={selectedCompany} /> : null}
 
             <Box sx={{ height: window.innerHeight - 80, flexWrap: 'wrap', bgcolor: 'white', }}>
                 <Box sx={{ display: 'flex', backgroundColor: "#f0f3f5", border: '1px solid #B4F5F0' }}>
-                    <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>  Incharge Approval</Box>
+                    <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: .5, color: '#385E72', }}>  {company?.incharge_status_name} Approval</Box>
                     <Box sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, m: 0.5 }}>
                         <CssVarsProvider>
                             <CustomCloseIconCmp

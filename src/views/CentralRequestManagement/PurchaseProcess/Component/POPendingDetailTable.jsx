@@ -11,7 +11,8 @@ import TelegramIcon from '@mui/icons-material/Telegram';
 import { format } from 'date-fns';
 import { useQueryClient } from 'react-query';
 
-const POPendingDetailTable = ({ pendingPOList }) => {
+const POPendingDetailTable = ({ pendingPOList, }) => {
+
     const queryClient = useQueryClient()
     const [expandedRow, setExpandedRow] = useState(null);
 
@@ -86,7 +87,7 @@ const POPendingDetailTable = ({ pendingPOList }) => {
                                     <React.Fragment key={val.slno}>
                                         <Box display="flex" justifyContent="space-between" sx={{ borderBottom: '1px solid lightgrey', flexWrap: 'nowrap' }}>
                                             <Typography sx={{ width: 50, textAlign: 'center', fontSize: 12, my: 1 }}>{val.slno}</Typography>
-                                            <Typography sx={{ width: 100, textAlign: 'left', fontSize: 12, my: 1 }}>{"CRF/TMC/" + val.req_slno}</Typography>
+                                            <Typography sx={{ width: 100, textAlign: 'left', fontSize: 12, my: 1 }}>{`CRF/${val?.company_name}/${val?.req_slno}`}</Typography>
                                             <Typography sx={{ width: 80, textAlign: 'left', fontSize: 12, my: 1 }}>{val.po_no}</Typography>
                                             <Typography sx={{ width: 170, textAlign: 'left', fontSize: 12, my: 1 }}>{val.po_date}</Typography>
                                             <Typography sx={{ width: 200, textAlign: 'left', fontSize: 12, my: 1 }}>{val.supplier_name}</Typography>

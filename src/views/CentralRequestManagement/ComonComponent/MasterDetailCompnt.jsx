@@ -5,10 +5,10 @@ import { format, isValid } from 'date-fns';
 import ErrorIcon from '@mui/icons-material/Error';
 import { keyframes } from '@mui/system';
 
-const MasterDetailCompnt = ({ val }) => {
-
+const MasterDetailCompnt = ({ val, }) => {
     const { req_slno, req_date, req_deptsec, user_deptsection, actual_requirement, needed, dept_name, po_number,
-        category, location, expected_date, emergency_flag, em_name, emer_type_name, emergeny_remarks, po_prepartion } = val
+        category, location, expected_date, emergency_flag, em_name, emer_type_name, emergeny_remarks, po_prepartion, company_name } = val
+
     const expdate = expected_date !== null && isValid(new Date(expected_date)) ? format(new Date(expected_date), 'dd-MM-yyyy') : "Not Updated"
     const capitalizeWords = (str) => str ? str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : '';
     const blinkAnimation = keyframes`0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; }`;
@@ -22,7 +22,7 @@ const MasterDetailCompnt = ({ val }) => {
                     <Box sx={{ flex: 0.7, borderRight: '1px solid lightgray', flexWrap: 'wrap' }}>
                         <Box sx={{ ml: 1, mt: 0.5 }}>
                             <Typography sx={{ fontSize: 15, color: '#003060', fontWeight: 'bold' }}>
-                                {'CRF/TMC/' + req_slno}</Typography>
+                                {`CRF/${company_name}/${req_slno}`}</Typography>
                         </Box>
                         <Box sx={{ ml: 1, mt: 0.5 }}>
                             <Typography sx={{ fontSize: 12, color: '#003060' }}>{format(new Date(req_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>

@@ -8,7 +8,7 @@ import { PUBLIC_NAS_FOLDER, PUBLIC_NAS_FOLDER_KMC } from 'src/views/Constant/Sta
 import { warningNotify } from 'src/views/Common/CommonCode';
 import ImageDisplayModal from '../ImageUploadCmp/ImageDisplayModal';
 import CustomToolTipForCRF from '../Components/CustomToolTipForCRF';
-const MOApproveViewForHigher = ({ DetailViewData, selectedCompany }) => {
+const MOApproveViewForHigher = ({ DetailViewData, selectedCompany, company }) => {
     const { req_slno, manag_operation_approv, om, manag_operation_remarks, om_detial_analysis, om_approv_date,
         manag_operation_user, mo_image
     } = DetailViewData
@@ -82,7 +82,7 @@ const MOApproveViewForHigher = ({ DetailViewData, selectedCompany }) => {
             <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
                 <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                     <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>
-                        CRF Documentaion
+                        {company?.mo_status_name}
                     </Typography>
                     <Box sx={{ flex: 1, py: 0.4, ml: 2 }}>
                         <Chip size="md" variant="outlined" sx={{

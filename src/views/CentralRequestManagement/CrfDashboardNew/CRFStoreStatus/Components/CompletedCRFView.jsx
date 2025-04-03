@@ -9,10 +9,11 @@ import { format } from 'date-fns';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import CustomCloseIconCmp from 'src/views/CentralRequestManagement/ComonComponent/Components/CustomCloseIconCmp';
 
-const CompletedCRFView = ({ setFlag, disData }) => {
+const CompletedCRFView = ({ setFlag, disData, companyData }) => {
     const [reqItems, setReqItems] = useState([])
     const [modalopen, setModalOpen] = useState(false)
     const [modFlag, setModFlag] = useState(0)
+    const { company_name } = companyData
 
     const backtoHome = useCallback(() => {
         setFlag(0)
@@ -83,7 +84,7 @@ const CompletedCRFView = ({ setFlag, disData }) => {
                                     <React.Fragment key={index}>
                                         <Box display="flex" justifyContent="space-between" sx={{ borderBottom: '1px solid lightgrey', flexWrap: 'nowrap' }}>
                                             <Typography sx={{ width: 50, textAlign: 'center', fontSize: 12, my: 1 }}>{index + 1}</Typography>
-                                            <Typography sx={{ width: 80, textAlign: 'left', fontSize: 12, my: 1 }}>{"CRF/TMC/" + val.req_slno}</Typography>
+                                            <Typography sx={{ width: 80, textAlign: 'left', fontSize: 12, my: 1 }}>CRF / {company_name} + {val.req_slno}</Typography>
                                             <Typography sx={{ width: 150, textAlign: 'left', fontSize: 12, my: 1 }}>{format(new Date(val.create_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
                                             <Typography sx={{ width: 150, textAlign: 'left', fontSize: 12, my: 1, textTransform: 'capitalize' }}>{val.user_deptsection.toLowerCase()}</Typography>
                                             <Typography sx={{ width: 150, textAlign: 'left', fontSize: 12, my: 1, textTransform: 'capitalize' }}>{val.req_deptsec.toLowerCase()}</Typography>

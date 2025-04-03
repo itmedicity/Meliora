@@ -9,7 +9,7 @@ import { warningNotify } from 'src/views/Common/CommonCode';
 import ImageDisplayModal from '../ImageUploadCmp/ImageDisplayModal';
 import CustomToolTipForCRF from '../Components/CustomToolTipForCRF';
 
-const MDApproveViewHigher = ({ DetailViewData, selectedCompany }) => {
+const MDApproveViewHigher = ({ DetailViewData, selectedCompany, company }) => {
     const { req_slno, md_approve, md_approve_remarks, md_detial_analysis, md_approve_date, md, md_user, md_image
     } = DetailViewData
     const [imageshowFlag, setImageShowFlag] = useState(0)
@@ -82,7 +82,7 @@ const MDApproveViewHigher = ({ DetailViewData, selectedCompany }) => {
             <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
                 <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                     <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>
-                        Medical Director
+                        {company?.md_status_name}
                     </Typography>
                     <Box sx={{ flex: 1, py: 0.4, ml: 2 }}>
                         <Chip size="md" variant="outlined" sx={{

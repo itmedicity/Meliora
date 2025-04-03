@@ -8,7 +8,7 @@ import { Box, Chip, Typography } from '@mui/joy'
 import { format } from 'date-fns'
 import CustomToolTipForCRF from '../Components/CustomToolTipForCRF'
 import AttachmentTwoToneIcon from '@mui/icons-material/AttachmentTwoTone';
-const DMSApproveViewForHigher = ({ DetailViewData, selectedCompany }) => {
+const DMSApproveViewForHigher = ({ DetailViewData, selectedCompany, company }) => {
     const { req_slno, dms_approve, dms, dms_remarks, dms_detail_analysis, dms_approve_date, dms_user, dms_image
     } = DetailViewData
     const [imageshowFlag, setImageShowFlag] = useState(0)
@@ -80,7 +80,7 @@ const DMSApproveViewForHigher = ({ DetailViewData, selectedCompany }) => {
             <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
                 <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                     <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>
-                        DMS
+                        {company?.dms_status_name}
                     </Typography>
                     <Box sx={{ flex: 1, py: 0.4, ml: 2 }}>
                         <Chip size="md" variant="outlined" sx={{

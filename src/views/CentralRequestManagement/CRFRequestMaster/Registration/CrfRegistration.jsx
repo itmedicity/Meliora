@@ -3,7 +3,7 @@ import React, { Fragment, memo, useCallback, useEffect, useMemo, useState } from
 import CustomCloseIconCmp from '../../ComonComponent/Components/CustomCloseIconCmp'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { useQuery } from 'react-query';
-import { getAuthorisedDeptsec, getInchHodAuthorization } from 'src/api/CommonApiCRF';
+import { getAuthorisedDeptsec, getDefaultCompany, getInchHodAuthorization } from 'src/api/CommonApiCRF';
 import _ from 'underscore';
 import { useSelector } from 'react-redux';
 import CustomPaperTitle from 'src/views/Components/CustomPaperTitle';
@@ -104,6 +104,15 @@ const CrfRegistration = ({ editRowData, setEditRowData, edit, setEdit, detailDat
         staleTime: Infinity
     });
     const authData = useMemo(() => authLevel, [authLevel])
+
+    // for default company master 
+
+    const { data: companyData, isLoading: isCompLoading, error: compError } = useQuery({
+        queryKey: 'getdefaultCompany',
+        queryFn: () => getDefaultCompany(),
+        staleTime: Infinity
+    });
+    const company = useMemo(() => companyData, [companyData]);
 
     useEffect(() => {
         if (authData && authData.length > 0) {
@@ -498,6 +507,7 @@ const CrfRegistration = ({ editRowData, setEditRowData, edit, setEdit, detailDat
                     md_approve_req: 1,
                     managing_director_req: 1,
                     items,
+                    company_slno: company?.company_slno
                 };
 
                 const patchData = {
@@ -603,7 +613,7 @@ const CrfRegistration = ({ editRowData, setEditRowData, edit, setEdit, detailDat
         getAckPending(empdeptsec)
 
     }, [detailDataDis, deptSec, actual_require, needed, category, location, startdate, emergency, remarks,
-        empdeptsec, loginId, emerType, levelOne, levelTwo, deptType, selectFile, edit, reqSlno,
+        empdeptsec, loginId, emerType, levelOne, levelTwo, deptType, selectFile, edit, reqSlno, company,
         handleImageUpload, reset, item_desc, item_qty]);
 
 
@@ -664,8 +674,8 @@ const CrfRegistration = ({ editRowData, setEditRowData, edit, setEdit, detailDat
         }))
     }, [])
 
-    if (isAuthLoading || isAuthDeptSecLoading) return <p>Loading...</p>;
-    if (authError || authDeptSecError) return <p>Error occurred.</p>;
+    if (isAuthLoading || isAuthDeptSecLoading || isCompLoading) return <p>Loading...</p>;
+    if (authError || authDeptSecError || compError) return <p>Error occurred.</p>;
 
     return (
         <Fragment>

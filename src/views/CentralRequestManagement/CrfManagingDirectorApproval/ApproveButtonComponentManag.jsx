@@ -27,8 +27,9 @@ import CampaignTwoToneIcon from '@mui/icons-material/CampaignTwoTone';
 
 const ApproveButtonComponentManag = ({ setApprovalFlag, setApprovalModal, setCancelFlag, setCancelModal, setApprovalData,
     setCancelData, val, setReqItems, setApproveTableData, approveTableData, setPoDetails, reqItems, poDetails,
-    setDataCollectData, setDataColFlag, setDataColData, setCollectDetailCheck, imagearray, setImageArry, datacolData,
-    crfRadioValue, radiovalue, selectedCompany }) => {
+    setDataCollectData, setDataColFlag, setDataColData, setCollectDetailCheck, imagearray, setImageArry, datacolData, company,
+    crfRadioValue, radiovalue, selectedCompany, companyData }) => {
+
     const { higher, crf_close, image_status, crf_closed_one, now_who, now_who_status, dept_type,
         dept_type_name, expected_date } = val
     const [imageshowFlag, setImageShowFlag] = useState(0)
@@ -38,99 +39,99 @@ const ApproveButtonComponentManag = ({ setApprovalFlag, setApprovalModal, setCan
     const [DetailViewData, setDetailViewData] = useState([])
     const Approvalfctn = useCallback(() => {
         const { req_slno } = val
-        if (selectedCompany === '1') {
+        // if (selectedCompany === '1') {
 
-        } else if (selectedCompany === '2') {
-            const getImage = async (req_slno) => {
-                const result = await axioskmc.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
-                const { success, data } = result.data
-                if (success === 1) {
-                    const fileNames = data;
-                    const fileUrls = fileNames.map((fileName) => {
-                        return `${PUBLIC_NAS_FOLDER_KMC}/CRF/crf_registration/${req_slno}/${fileName}`;
-                    });
-                    const savedFiles = fileUrls.map((val) => {
-                        const parts = val.split('/');
-                        const fileNamePart = parts[parts.length - 1];
+        // } else if (selectedCompany === '2') {
+        const getImage = async (req_slno) => {
+            const result = await axioskmc.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const fileNames = data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER_KMC}/CRF/crf_registration/${req_slno}/${fileName}`;
+                });
+                const savedFiles = fileUrls.map((val) => {
+                    const parts = val.split('/');
+                    const fileNamePart = parts[parts.length - 1];
+                    const obj = {
+                        imageName: fileNamePart,
+                        url: val
+                    }
+                    return obj
+                })
+                setImageArry(savedFiles)
+            } else {
+                setImageArry([])
+            }
+        }
+        getImage(req_slno)
+        GetKMCItemDetails(req_slno, setReqItems, setApproveTableData, setPoDetails)
+        const checkDataCollectComplete = async (req_slno) => {
+            const result = await axioskmc.get(`/CRFRegisterApproval/DataCollectComplete/${req_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const xx = data?.filter((val) => val.crf_dept_status !== 1)
+                const yy = data?.filter((val) => val.crf_dept_status === 1)
+                if (xx.length !== 0) {
+                    const datas = xx.map((val) => {
                         const obj = {
-                            imageName: fileNamePart,
-                            url: val
+                            req_slno: val.crf_requst_slno,
+                            crf_dept_remarks: val.crf_dept_remarks,
+                            datagive_user: val.datagive_user,
+                            data_entered: val.data_entered !== null ? val.data_entered.toLowerCase() : '',
+                            reqest_one: val.reqest_one,
+                            req_user: val.req_user !== null ? val.req_user.toLowerCase() : '',
+                            create_date: val.create_date,
+                            update_date: val.update_date,
+                            crf_req_remark: val.crf_req_remark,
+                            data_coll_image_status: val.data_coll_image_status,
+                            crf_data_collect_slno: val.crf_data_collect_slno
                         }
                         return obj
                     })
-                    setImageArry(savedFiles)
-                } else {
-                    setImageArry([])
-                }
-            }
-            getImage(req_slno)
-            GetKMCItemDetails(req_slno, setReqItems, setApproveTableData, setPoDetails)
-            const checkDataCollectComplete = async (req_slno) => {
-                const result = await axioskmc.get(`/CRFRegisterApproval/DataCollectComplete/${req_slno}`)
-                const { success, data } = result.data
-                if (success === 1) {
-                    const xx = data?.filter((val) => val.crf_dept_status !== 1)
-                    const yy = data?.filter((val) => val.crf_dept_status === 1)
-                    if (xx.length !== 0) {
-                        const datas = xx.map((val) => {
-                            const obj = {
-                                req_slno: val.crf_requst_slno,
-                                crf_dept_remarks: val.crf_dept_remarks,
-                                datagive_user: val.datagive_user,
-                                data_entered: val.data_entered !== null ? val.data_entered.toLowerCase() : '',
-                                reqest_one: val.reqest_one,
-                                req_user: val.req_user !== null ? val.req_user.toLowerCase() : '',
-                                create_date: val.create_date,
-                                update_date: val.update_date,
-                                crf_req_remark: val.crf_req_remark,
-                                data_coll_image_status: val.data_coll_image_status,
-                                crf_data_collect_slno: val.crf_data_collect_slno
-                            }
-                            return obj
-                        })
-                        setDataCollectData(datas)
-                        setApprovalFlag(2)
-                        setCollectDetailCheck(true)
-                    }
-                    else {
-                        setCollectDetailCheck(false)
-                        setDataCollectData([])
-                        setApprovalFlag(1)
-                        setApprovalModal(true)
-                    }
-                    if (yy.length !== 0) {
-                        setDataColFlag(1)
-                        const datas = yy.map((val) => {
-                            const obj = {
-                                req_slno: val.crf_requst_slno,
-                                crf_dept_remarks: val.crf_dept_remarks,
-                                datagive_user: val.datagive_user,
-                                data_entered: val.data_entered !== null ? val.data_entered.toLowerCase() : '',
-                                reqest_one: val.reqest_one,
-                                req_user: val.req_user !== null ? val.req_user.toLowerCase() : '',
-                                create_date: val.create_date,
-                                update_date: val.update_date,
-                                crf_req_remark: val.crf_req_remark,
-                                data_coll_image_status: val.data_coll_image_status,
-                                crf_data_collect_slno: val.crf_data_collect_slno
-                            }
-                            return obj
-                        })
-                        setDataColData(datas)
-                    }
-                    else {
-                        setDataColFlag(0)
-                        setDataColData([])
-                    }
+                    setDataCollectData(datas)
+                    setApprovalFlag(2)
+                    setCollectDetailCheck(true)
                 }
                 else {
+                    setCollectDetailCheck(false)
+                    setDataCollectData([])
                     setApprovalFlag(1)
                     setApprovalModal(true)
-                    setCollectDetailCheck(false)
+                }
+                if (yy.length !== 0) {
+                    setDataColFlag(1)
+                    const datas = yy.map((val) => {
+                        const obj = {
+                            req_slno: val.crf_requst_slno,
+                            crf_dept_remarks: val.crf_dept_remarks,
+                            datagive_user: val.datagive_user,
+                            data_entered: val.data_entered !== null ? val.data_entered.toLowerCase() : '',
+                            reqest_one: val.reqest_one,
+                            req_user: val.req_user !== null ? val.req_user.toLowerCase() : '',
+                            create_date: val.create_date,
+                            update_date: val.update_date,
+                            crf_req_remark: val.crf_req_remark,
+                            data_coll_image_status: val.data_coll_image_status,
+                            crf_data_collect_slno: val.crf_data_collect_slno
+                        }
+                        return obj
+                    })
+                    setDataColData(datas)
+                }
+                else {
+                    setDataColFlag(0)
+                    setDataColData([])
                 }
             }
-            checkDataCollectComplete(req_slno)
+            else {
+                setApprovalFlag(1)
+                setApprovalModal(true)
+                setCollectDetailCheck(false)
+            }
         }
+        checkDataCollectComplete(req_slno)
+        // }
         setApprovalData(val)
 
     }, [setApprovalFlag, setApprovalModal, val, setApprovalData, setPoDetails, setApproveTableData, setReqItems,
@@ -401,7 +402,7 @@ const ApproveButtonComponentManag = ({ setApprovalFlag, setApprovalModal, setCan
 
             {DetailViewFlag === 1 ? <HigherLevelApprovalView open={DetailViewModal} closeModal={closeModal} imagearray={imagearray}
                 DetailViewData={DetailViewData} reqItems={reqItems} approveTableData={approveTableData} poDetails={poDetails}
-                datacolData={datacolData} selectedCompany={selectedCompany} /> : null}
+                datacolData={datacolData} selectedCompany={selectedCompany} company={company} /> : null}
 
             <Box sx={{
                 display: 'flex', flex: 1, bgcolor: '#e3f2fd', borderRadius: 2, borderTopLeftRadius: 0,
@@ -409,25 +410,26 @@ const ApproveButtonComponentManag = ({ setApprovalFlag, setApprovalModal, setCan
             }}>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', pl: 1 }} >
                     <Box sx={{ pl: 2, p: 0.5 }}>
-                        {selectedCompany === '1' ?
-                            <Button
-                                variant="contained"
-                                startIcon={
-                                    <DescriptionIcon
-                                        sx={{
-                                            height: 19,
-                                            width: 19,
-                                            color: '#0277bd',
-                                            // animation: `${rotate} 2s linear infinite`
-                                        }}
-                                    />
-                                }
-                                sx={buttonstyle}
-                                onClick={DataViewfnctn}
-                            >
-                                View
-                            </Button>
-                            :
+                        {
+                            // selectedCompany === '1' ?
+                            // <Button
+                            //     variant="contained"
+                            //     startIcon={
+                            //         <DescriptionIcon
+                            //             sx={{
+                            //                 height: 19,
+                            //                 width: 19,
+                            //                 color: '#0277bd',
+                            //                 // animation: `${rotate} 2s linear infinite`
+                            //             }}
+                            //         />
+                            //     }
+                            //     sx={buttonstyle}
+                            //     onClick={DataViewfnctn}
+                            // >
+                            //     View
+                            // </Button>
+                            // :
                             <>
                                 {crfRadioValue === '1' ?
                                     <>

@@ -8,7 +8,7 @@ import { GetItemDetailsOfCRFCmp } from '../../ComonComponent/GetItemDetailsOfCRF
 import BeenhereTwoToneIcon from '@mui/icons-material/BeenhereTwoTone';
 import CRFApprovalView from './CRFApprovalView'
 
-const ReceivedTable = ({ receivedData }) => {
+const ReceivedTable = ({ receivedData, company }) => {
 
     const [modalData, setModalData] = useState([])
     const [modalopen, setModalOpen] = useState(false)
@@ -17,6 +17,7 @@ const ReceivedTable = ({ receivedData }) => {
     const [poDetails, setPoDetails] = useState([])
     const [reqItems, setReqItems] = useState([])
     const [approveTableData, setApproveTableData] = useState([])
+    const { company_name } = company
 
     const viewDetails = useCallback((val) => {
         setModalData(val)
@@ -102,7 +103,7 @@ const ReceivedTable = ({ receivedData }) => {
                                                     />
                                                 </Tooltip>
                                             </td>
-                                            <td style={{ fontSize: 13 }}>CRF/TMC/{val.req_slno}</td>
+                                            <td style={{ fontSize: 13 }}>CRF/{company_name}/{val.req_slno}</td>
                                             <td style={{ fontSize: 13 }}>{val.req_deptsec}</td>
                                             <td style={{ fontSize: 13 }}>{format(new Date(val.req_date), 'dd-MM-yyyy hh:mm:ss a')}</td>
                                             <td style={{ fontSize: 13 }}>{val.category_name}</td>

@@ -58,6 +58,7 @@ const ViewCategoryMaster = () => {
             const { success } = result.data
             if (success === 1) {
                 succesNotify("Data Updated Sucessfully")
+                setUpdateFlag(0)
             }
             else {
                 warningNotify("Something Went Wrong")
@@ -68,6 +69,7 @@ const ViewCategoryMaster = () => {
             const { success } = result.data
             if (success === 1) {
                 succesNotify("Data Inserted Sucessfully")
+                setUpdateFlag(0)
             }
             else {
                 warningNotify("Something Went Wrong")
@@ -79,7 +81,7 @@ const ViewCategoryMaster = () => {
     return (
         <CssVarsProvider>
             <CardMaster
-                title="Common Setting CRF"
+                title="Category Master"
                 submit={submitComapnyName}
                 close={backtoSetting}
                 refresh={refreshWindow}
@@ -92,7 +94,7 @@ const ViewCategoryMaster = () => {
 
                         }} >
                             <CRFCategoryTypeSelect category={category} setCategory={setCategory} editRowData={editRowData}
-                                catFlag={catFlag} />
+                                catFlag={catFlag} setcatFlag={setcatFlag} />
                         </Box>
                     </Box>
 

@@ -9,7 +9,8 @@ import { GetItemDetailsOfCRFCmp } from '../../../ComonComponent/GetItemDetailsOf
 import StoreModalView from '../StoreModalView'
 const CrfDetailSearchComp = React.lazy(() => import("../../Components/CrfDetailSearchComp"))
 
-const CrfStoreDetailedView = ({ setFlag, disData, setDisData, tableData }) => {
+const CrfStoreDetailedView = ({ setFlag, disData, setDisData, tableData, companyData }) => {
+    const { company_name } = companyData
 
     const [modalData, setModalData] = useState([])
     const [modalopen, setModalOpen] = useState(false)
@@ -263,6 +264,7 @@ const CrfStoreDetailedView = ({ setFlag, disData, setDisData, tableData }) => {
                             store_recieve: val.store_recieve,
                             store_receive_date: val.store_receive_date,
                             crs_user: val.crs_user,
+                            company_name: val?.company_name
                         }
                     })
                     setModalData(newData[0])
@@ -288,11 +290,11 @@ const CrfStoreDetailedView = ({ setFlag, disData, setDisData, tableData }) => {
     }, [setModalOpen])
     return (
         <Fragment>
-            {modFlag === 1 ? <StoreModalView modalData={modalData} handleClose={handleClose} open={modalopen}
+            {modFlag === 1 ? <StoreModalView modalData={modalData} handleClose={handleClose} open={modalopen} companyData={companyData}
                 datacolData={datacolData} imagearray={imagearray} reqItems={reqItems} approveTableData={approveTableData}
                 poDetails={poDetails} /> : null}
             <Box sx={{ height: window.innerHeight - 160, flexWrap: 'wrap', bgcolor: 'white' }}>
-                <CrfDetailSearchComp setFlag={setFlag} setDisData={setDisData} tableData={tableData} />
+                <CrfDetailSearchComp setFlag={setFlag} setDisData={setDisData} tableData={tableData} companyData={companyData} />
                 <Box sx={{ bgcolor: 'white', pt: 0.5, overflow: 'auto' }}>
                     {disData.length !== 0 ?
                         <Box sx={{ width: '100%' }}>
@@ -318,7 +320,7 @@ const CrfStoreDetailedView = ({ setFlag, disData, setDisData, tableData }) => {
                                     <React.Fragment key={index}>
                                         <Box display="flex" justifyContent="space-between" sx={{ borderBottom: '1px solid lightgrey', flexWrap: 'nowrap' }}>
                                             <Typography sx={{ width: 40, textAlign: 'center', fontSize: 12, my: 1 }}>{index + 1}</Typography>
-                                            <Typography sx={{ width: 80, textAlign: 'left', fontSize: 12, my: 1 }}>{"CRF/TMC/" + val.req_slno}</Typography>
+                                            <Typography sx={{ width: 80, textAlign: 'left', fontSize: 12, my: 1 }}>CRF/{company_name}/{val.req_slno}</Typography>
                                             <Typography sx={{ width: 150, textAlign: 'left', fontSize: 12, my: 1 }}>{format(new Date(val.req_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
                                             <Typography sx={{ width: 150, textAlign: 'left', fontSize: 12, my: 1, textTransform: 'capitalize' }}>{val.req_deptsec}</Typography>
                                             <Typography sx={{ width: 250, textAlign: 'left', fontSize: 12, my: 1 }}>{val.actual_requirement}</Typography>
@@ -328,7 +330,7 @@ const CrfStoreDetailedView = ({ setFlag, disData, setDisData, tableData }) => {
                                             <Typography sx={{ width: 80, textAlign: 'left', fontSize: 12, my: 1 }}>{val.po_number}</Typography>
                                             <Box sx={{
                                                 width: 200, cursor: 'pointer', m: 0.5, display: 'flex',
-                                                alignItems: 'center', justifyContent: 'center', pr: 0.5
+                                                alignItems: 'center', justifyContent: 'center', pr: 0.5,
                                             }} >
                                                 < CssVarsProvider >
                                                     <IconButton

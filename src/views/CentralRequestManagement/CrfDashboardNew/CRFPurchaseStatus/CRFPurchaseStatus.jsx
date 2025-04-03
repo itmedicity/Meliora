@@ -15,7 +15,7 @@ import CustomLoadComp from '../../ComonComponent/Components/CustomLoadComp'
 const CrfPurchaseDetailedView = React.lazy(() => import("./CrfPurchaseDetailedView"))
 const PurcahseMainComp = React.lazy(() => import("./PurcahseMainComp"))
 
-const CRFPurchaseStatus = ({ purchaseData }) => {
+const CRFPurchaseStatus = ({ purchaseData, companyData }) => {
     const purchaseDetails = useMemo(() => purchaseData, [purchaseData])
 
     const [flag, setFlag] = useState(0)
@@ -235,7 +235,7 @@ const CRFPurchaseStatus = ({ purchaseData }) => {
         <Fragment>
             {flag === 1 ?
                 <Suspense fallback={<CustomLoadComp />}>
-                    <CrfPurchaseDetailedView setFlag={setFlag} disData={disData} setDisData={setDisData} tableData={tableData} poStart={poStart} />
+                    <CrfPurchaseDetailedView setFlag={setFlag} disData={disData} setDisData={setDisData} tableData={tableData} poStart={poStart} companyData={companyData} />
                 </Suspense>
                 : <PurcahseMainComp purchaseApprv={purchaseApprv} viewPednigDetails={viewPednigDetails} />
             }

@@ -2,6 +2,7 @@
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import { format } from 'date-fns'
+import { edsign, mdsign, snow } from "src/views/Constant/Static";
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 
@@ -352,9 +353,9 @@ export const CrfPdfWithOutDetails = (val) => {
         images: {
             // snow: 'http://192.168.22.170/NAS/logo/logo.png',
             // pic: 'http://192.168.10.170/NAS/2119/signature/signature.jpg',
-            snow: 'http://192.168.10.88:9090/Meliora/logo/logo.png',
-            mdsign: 'http://192.168.10.88:9090/Meliora/md/signature/signature.jpg',
-            edsign: 'http://192.168.10.88:9090/Meliora/ed/signature/signature.jpg',
+            snow: snow,
+            mdsign: mdsign,
+            edsign: edsign
         }
 
 

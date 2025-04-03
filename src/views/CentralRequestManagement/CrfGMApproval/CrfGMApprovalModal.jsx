@@ -27,7 +27,7 @@ import CommonSmoApprvCmp from '../ComonComponent/ApprovalComp/CommonSmoApprvCmp'
 import ModalButtomCmp from '../ComonComponent/Components/ModalButtomCmp'
 import CampaignTwoToneIcon from '@mui/icons-material/CampaignTwoTone';
 
-const CrfGMApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApproveTableData, approveTableData,
+const CrfGMApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApproveTableData, approveTableData, company,
     datacolflag, datacolData, imagearray }) => {
     const { req_slno, incharge_req, incharge_remarks, hod_req, hod_approve, dms_req, dms_approve, ms_approve,
         ms_approve_req, manag_operation_approv, senior_manage_approv, gm_approve, gm_approve_remarks, gm_detial_analysis,
@@ -325,27 +325,27 @@ const CrfGMApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                                     }
                                     {hod_req === 1 && hod_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonHodApprvCmp DetailViewData={ApprovalData} />
+                                            <CommonHodApprvCmp DetailViewData={ApprovalData} company={company} />
                                         </Box>
                                         : null}
                                     {dms_req === 1 && dms_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonDmsApprvCmp DetailViewData={ApprovalData} />
+                                            <CommonDmsApprvCmp DetailViewData={ApprovalData} company={company} />
                                         </Box>
                                         : null}
                                     {ms_approve_req === 1 && ms_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonMsApprvCmp DetailViewData={ApprovalData} />
+                                            <CommonMsApprvCmp DetailViewData={ApprovalData} company={company} />
                                         </Box>
                                         : null}
                                     {manag_operation_approv !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonMoApprvlCmp DetailViewData={ApprovalData} />
+                                            <CommonMoApprvlCmp DetailViewData={ApprovalData} company={company} />
                                         </Box>
                                         : null}
                                     {senior_manage_approv !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonSmoApprvCmp DetailViewData={ApprovalData} />
+                                            <CommonSmoApprvCmp DetailViewData={ApprovalData} company={company} />
                                         </Box>
                                         : null}
                                 </Box>
@@ -472,7 +472,7 @@ const CrfGMApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                                             setApproveTableData={setApproveTableData} setMoreItem={setMoreItem}
                                         /> : null}
                                         <ApprovalCompntAll
-                                            heading="GM Operation / Senior Manager Approval"
+                                            heading={`${company?.gmo_status_name} Approval`}
                                             apprvlDetails={apprvlDetails}
                                             updateOnchangeState={updateOnchangeState}
                                             updateApprovalState={updateApprovalState}

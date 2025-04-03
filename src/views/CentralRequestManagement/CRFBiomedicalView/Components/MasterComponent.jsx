@@ -1,6 +1,6 @@
 import { Box, Button } from '@mui/material'
 import React, { Fragment, memo, useCallback, useState } from 'react'
-import { Chip, CssVarsProvider, IconButton, Textarea, Tooltip, Typography } from '@mui/joy'
+import { Chip, CssVarsProvider, IconButton, Tooltip, Typography } from '@mui/joy'
 import { format, isValid } from 'date-fns';
 import ErrorIcon from '@mui/icons-material/Error';
 import { keyframes } from '@mui/system';
@@ -17,7 +17,7 @@ import { GetKMCItemDetails } from '../../ComonComponent/ComponentsKMC/GetKMCItem
 import ImageDisplayModal from '../../ComonComponent/ImageUploadCmp/ImageDisplayModal';
 import CommentView from '../../ComonComponent/HigherLevelComponents/CommentView';
 
-const MasterComponent = ({ val, selectedCompany }) => {
+const MasterComponent = ({ val, selectedCompany, companyData }) => {
     const { req_slno, req_date, req_deptsec, user_deptsection, actual_requirement, needed, dept_name, category, now_who_status, now_who, user_acknldge,
         location, expected_date, emergency_flag, em_name, emer_type_name, emergeny_remarks, dept_type, dept_type_name, crf_close, crf_closed_one, image_status
     } = val
@@ -28,9 +28,9 @@ const MasterComponent = ({ val, selectedCompany }) => {
     const [imagearray, setImageArry] = useState([])
     const [reqItems, setReqItems] = useState([])
     const [approveTableData, setApproveTableData] = useState([])
-    const [modalFlag, setmodalFlag] = useState(0)
-    const [modalData, setModalData] = useState([])
-    const [modalOpen, setModalOpen] = useState(false)
+    // const [modalFlag, setmodalFlag] = useState(0)
+    // const [modalData, setModalData] = useState([])
+    // const [modalOpen, setModalOpen] = useState(false)
     const [imageshowFlag, setImageShowFlag] = useState(0)
     const [poDetails, setPoDetails] = useState([])
     const [datacolData, setDataColData] = useState([])
@@ -162,10 +162,10 @@ const MasterComponent = ({ val, selectedCompany }) => {
     }, [val, setPoDetails, setApproveTableData, setReqItems, setImageArry, selectedCompany])
 
     const handleClose = useCallback(() => {
-        setmodalFlag(0)
+        // setmodalFlag(0)
         SetViewRemark(0)
-        setModalData([])
-        setModalOpen(false)
+        // setModalData([])
+        // setModalOpen(false)
         setImageShow(false)
 
     }, [])
@@ -234,7 +234,7 @@ const MasterComponent = ({ val, selectedCompany }) => {
 
             {DetailViewFlag === 1 ? <CommentView open={DetailViewModal} closeModal={closeModal} imagearray={imagearray}
                 DetailViewData={DetailViewData} reqItems={reqItems} approveTableData={approveTableData} poDetails={poDetails}
-                datacolData={datacolData} selectedCompany={selectedCompany} ViewRemark={ViewRemark} setDetailViewModal={setDetailViewModal} /> : null}
+                datacolData={datacolData} selectedCompany={selectedCompany} ViewRemark={ViewRemark} setDetailViewModal={setDetailViewModal} companyData={companyData} /> : null}
 
 
 
@@ -246,8 +246,7 @@ const MasterComponent = ({ val, selectedCompany }) => {
                     <Box sx={{ flex: 0.7, borderRight: '1px solid lightgray', flexWrap: 'wrap' }}>
                         <Box sx={{ ml: 1, mt: 0.5 }}>
                             <Typography sx={{ fontSize: 15, color: '#003060', fontWeight: 'bold' }}>
-                                {selectedCompany === '2' ? 'CRF/KMC/' : 'CRF/TMC/' + req_slno}
-                            </Typography>
+                                {selectedCompany === '2' ? `CRF/KMC/${req_slno}` : `CRF/${companyData?.company_name}/${req_slno}`}                            </Typography>
                         </Box>
                         <Box sx={{ ml: 1, mt: 0.5 }}>
                             <Typography sx={{ fontSize: 12, color: '#003060' }}>{format(new Date(req_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>

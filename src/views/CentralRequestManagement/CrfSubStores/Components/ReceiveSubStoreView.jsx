@@ -19,7 +19,7 @@ const InfoModal = React.lazy(() => import("./InfoModal"))
 const CRFDetailsView = React.lazy(() => import("./CRFDetailsView"))
 const ReturnViewDetails = React.lazy(() => import("./ReturnViewDetails"))
 
-const ReceiveSubStoreView = ({ tableData, selectedRadio, storeName, setSelectedRadio, setStoreName,
+const ReceiveSubStoreView = ({ tableData, selectedRadio, storeName, setSelectedRadio, setStoreName, company,
     reqSlno }) => {
 
     const [displayList, setDisplayList] = useState([])
@@ -230,7 +230,7 @@ const ReceiveSubStoreView = ({ tableData, selectedRadio, storeName, setSelectedR
         <Fragment>
             {grnFlag === 1 ? <GrnItemDetails open={grnItemModal} grnData={grnData} handleCloseInfo={handleCloseInfo} grnItem={grnItem} /> : null}
             {modFlag === 1 ? <PODetailsView handleClose={handleClose} open={modalopen} poItems={poItems} poDetails={poDetails} /> : null}
-            {crfFlag === 1 ? <CRFDetailsView handleClose={handleClose} open={crfModal} crfData={crfData} /> : null}
+            {crfFlag === 1 ? <CRFDetailsView handleClose={handleClose} open={crfModal} crfData={crfData} company={company} /> : null}
             {infoFlag === 1 ? <InfoModal handleClose={handleCloseInfo} open={informModal} selectedRadio={selectedRadio}
                 storeName={storeName} infoData={infoData} /> : null}
             {returnFlag === 1 ? <ReturnViewDetails setReturnModalData={setReturnModalData} returnModalData={returnModalData}
@@ -271,12 +271,12 @@ const ReceiveSubStoreView = ({ tableData, selectedRadio, storeName, setSelectedR
                                     <React.Fragment key={index}>
                                         <Box display="flex" justifyContent="space-between" sx={{ borderBottom: '1px solid lightgrey', cursor: 'pointer' }} >
                                             <Typography sx={{ width: 60, textAlign: 'center', fontSize: 12, my: 1 }}>{index + 1}</Typography>
-                                            <Typography sx={{ width: 120, textAlign: 'left', fontSize: 12, my: 1 }}>CRF/TMC/{val.req_slno}</Typography>
-                                            <Typography sx={{ width: 200, textAlign: 'left', fontSize: 12, my: 1 }}>{capitalizeWords(val.user_deptsection)}</Typography>
-                                            <Typography sx={{ width: 120, textAlign: 'left', fontSize: 12, my: 1 }}>{capitalizeWords(val.create_user)}</Typography>
-                                            <Typography sx={{ width: 200, textAlign: 'left', fontSize: 12, my: 1 }}>{format(new Date(val.req_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
-                                            <Typography sx={{ width: 200, textAlign: 'left', fontSize: 12, my: 1 }}>{capitalizeWords(val.req_deptsec)}</Typography>
-                                            <Typography sx={{ width: 200, textAlign: 'left', fontSize: 12, my: 1 }}>{capitalizeWords(val.sub_store_name)}</Typography>
+                                            <Typography sx={{ width: 120, textAlign: 'left', fontSize: 12, my: 1 }}>`CRF/{company?.company_name}/{val?.req_slno}</Typography>
+                                            <Typography sx={{ width: 200, textAlign: 'left', fontSize: 12, my: 1 }}>{capitalizeWords(val?.user_deptsection)}</Typography>
+                                            <Typography sx={{ width: 120, textAlign: 'left', fontSize: 12, my: 1 }}>{capitalizeWords(val?.create_user)}</Typography>
+                                            <Typography sx={{ width: 200, textAlign: 'left', fontSize: 12, my: 1 }}>{format(new Date(val?.req_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
+                                            <Typography sx={{ width: 200, textAlign: 'left', fontSize: 12, my: 1 }}>{capitalizeWords(val?.req_deptsec)}</Typography>
+                                            <Typography sx={{ width: 200, textAlign: 'left', fontSize: 12, my: 1 }}>{capitalizeWords(val?.sub_store_name)}</Typography>
                                             <Box sx={{ width: 40, textAlign: 'center', cursor: 'pointer', display: 'flex' }}>
                                                 <CustomToolTipForCRF title="PO Details" placement="left">
                                                     <InventoryTwoToneIcon

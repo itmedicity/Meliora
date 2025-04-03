@@ -1,10 +1,10 @@
 import { Box, CssVarsProvider, IconButton, Option, Select, Typography } from '@mui/joy'
-import React, { Fragment, memo, useCallback, useEffect, useState } from 'react'
+import React, { Fragment, memo, useCallback, useEffect, useMemo, useState } from 'react'
 import CustomCloseIconCmp from '../ComonComponent/Components/CustomCloseIconCmp'
 import { useHistory } from 'react-router-dom';
 import { Badge, FormControlLabel, Radio, RadioGroup } from '@mui/material';
 import { useQuery } from 'react-query';
-import { getDataCollectionDetails } from 'src/api/CommonApiCRF';
+import { getDataCollectionDetails, getDefaultCompany } from 'src/api/CommonApiCRF';
 import _ from 'underscore';
 import { useSelector } from 'react-redux';
 import { Virtuoso } from 'react-virtuoso';
@@ -45,6 +45,14 @@ const CrfDataCollectionTable = () => {
         enabled: empdeptsec !== null,
     });
 
+    const { data: companyData, isLoading: isCompLoading, error: compError } = useQuery({
+        queryKey: 'getdefaultCompany',
+        queryFn: () => getDefaultCompany(),
+        staleTime: Infinity
+    });
+    const company = useMemo(() => companyData, [companyData]);
+
+
     useEffect(() => {
         if (dataCollection && dataCollection.length > 0) {
             const datas = dataCollection?.map((val) => {
@@ -79,7 +87,8 @@ const CrfDataCollectionTable = () => {
                     crf_data_collect_slno: val.crf_data_collect_slno,
                     crf_requst_slno: val.crf_requst_slno,
                     requser: val.requser.toLowerCase(),
-                    crf_dept_status: val.crf_dept_status
+                    crf_dept_status: val.crf_dept_status,
+                    company_name: val?.company_name
                 }
                 return obj
             })
@@ -169,8 +178,8 @@ const CrfDataCollectionTable = () => {
 
     }, [startDate, endDate, searchFlag, searchCrf, allData, setDisData])
 
-    if (isDCLoading) return <p>Loading...</p>;
-    if (dcError) return <p>Error occurred.</p>;
+    if (isDCLoading || isCompLoading) return <p>Loading...</p>;
+    if (dcError || compError) return <p>Error occurred.</p>;
     return (
         <Fragment>
             <Box sx={{ height: window.innerHeight - 80, flexWrap: 'wrap', bgcolor: 'white', }}>
@@ -328,7 +337,7 @@ const CrfDataCollectionTable = () => {
                                         <CustomInputDateCmp
                                             StartIcon={<Box sx={{ display: 'flex', alignItems: 'center' }}>
                                                 <AlignHorizontalLeftTwoToneIcon sx={{ height: 18, width: 18, color: '#0063C5' }} />
-                                                <Typography sx={{ fontSize: '13px', color: '#0063C5' }}>CRF/TMC/</Typography>
+                                                <Typography sx={{ fontSize: '13px', color: '#0063C5' }}>CRF/{company?.company_name}/</Typography>
                                             </Box>}
                                             className={{
                                                 borderRadius: 6, border: '1px solid #bbdefb', width: 250, height: 35, color: '#1565c0'

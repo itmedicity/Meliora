@@ -9,7 +9,7 @@ import { warningNotify } from 'src/views/Common/CommonCode';
 import ImageDisplayModal from '../ImageUploadCmp/ImageDisplayModal';
 import CustomToolTipForCRF from '../Components/CustomToolTipForCRF';
 
-const CommonMoApprvlCmp = ({ DetailViewData }) => {
+const CommonMoApprvlCmp = ({ DetailViewData, company }) => {
     const { req_slno, manag_operation_approv, om, manag_operation_remarks, om_detial_analysis, om_approv_date,
         manag_operation_user, mo_image
     } = DetailViewData
@@ -60,8 +60,7 @@ const CommonMoApprvlCmp = ({ DetailViewData }) => {
             <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
                 <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                     <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>
-                        CRF Documentaion
-                    </Typography>
+                        {company?.mo_status_name}                    </Typography>
                     <Box sx={{ flex: 1, py: 0.4, ml: 2 }}>
                         <Chip size="md" variant="outlined" sx={{
                             color: (manag_operation_approv === 1 ? '#2e7d32' : manag_operation_approv === 2 ? '#bf360c' : manag_operation_approv === 3 ? '#FF9800' : manag_operation_approv === 4 ? '#009688' : '#607D8B'),

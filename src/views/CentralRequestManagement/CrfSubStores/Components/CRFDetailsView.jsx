@@ -4,7 +4,7 @@ import React, { memo, useEffect, useState } from 'react'
 import ErrorIcon from '@mui/icons-material/Error';
 import { format } from 'date-fns';
 
-const CRFDetailsView = ({ open, handleClose, crfData }) => {
+const CRFDetailsView = ({ open, handleClose, crfData, company }) => {
     const { req_slno, actual_requirement, needed, expected_date, emergency_flag, emer_type_name } = crfData[0]
     const capitalizeWords = (str) => str ? str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : '';
     const blinkAnimation = keyframes`0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; }`;
@@ -83,7 +83,7 @@ const CRFDetailsView = ({ open, handleClose, crfData }) => {
                                         backgroundColor: '#ffffff',
                                     }}>
                                     <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: 0.5, color: '#145DA0', fontSize: 14 }}>
-                                        CRF/TMC/  {req_slno}
+                                        CRF/{company?.company_name}/  {req_slno}
                                     </Typography>
                                     <Box sx={{ display: 'flex' }}>
                                         {emergency_flag === 1 ?

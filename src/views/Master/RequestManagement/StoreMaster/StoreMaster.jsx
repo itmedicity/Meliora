@@ -1,5 +1,5 @@
 import { Box, CssVarsProvider } from '@mui/joy'
-import React, { memo, useCallback, useEffect, useState } from 'react'
+import React, { memo, useCallback, useState } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios';
 import CRFstoreView from 'src/views/CentralRequestManagement/CRFRequestMaster/Components/CRFstoreView';
 import CRFsubStoreView from 'src/views/CentralRequestManagement/CRFRequestMaster/Components/CRFsubStoreView';
@@ -7,7 +7,6 @@ import CardMaster from 'src/views/Components/CardMaster'
 import DepartmentSelect from 'src/views/CommonSelectCode/DepartmentSelect'
 import DeptSecUnderDept from 'src/views/CommonSelectCode/DeptSecUnderDept'
 import EmpNameDeptSecSelect from 'src/views/CommonSelectCode/EmpNameDeptSecSelect'
-import CusCheckBox from 'src/views/Components/CusCheckBox'
 import StoreMasterTable from './StoreMasterTable';
 import { succesNotify, warningNotify } from 'src/views/Common/CommonCode';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
@@ -77,7 +76,7 @@ const StoreMaster = () => {
             }
         }
 
-    }, [subStoreList, deptsec, empname, dept, crsstore, editRowData])
+    }, [subStoreList, deptsec, empname, dept, crsstore, editRowData, UpdateFlag])
 
     const refreshWindow = useCallback(() => {
         // setCategory([])

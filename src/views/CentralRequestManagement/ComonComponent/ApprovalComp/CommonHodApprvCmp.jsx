@@ -9,7 +9,7 @@ import { warningNotify } from 'src/views/Common/CommonCode';
 import ImageDisplayModal from '../ImageUploadCmp/ImageDisplayModal';
 import CustomToolTipForCRF from '../Components/CustomToolTipForCRF';
 
-const CommonHodApprvCmp = ({ DetailViewData }) => {
+const CommonHodApprvCmp = ({ DetailViewData, company }) => {
     const { req_slno, hod_approve, hod, hod_detial_analysis, hod_approve_date, hod_remarks, hod_user, hod_image
     } = DetailViewData
     const [imageshowFlag, setImageShowFlag] = useState(0)
@@ -65,7 +65,7 @@ const CommonHodApprvCmp = ({ DetailViewData }) => {
             }}>
                 <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                     <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>
-                        HOD
+                        {company?.hod_status_name}
                     </Typography>
                     <Box sx={{ flex: 1, py: 0.4, ml: 2 }}>
                         <Chip size="md" variant="outlined" sx={{

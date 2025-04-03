@@ -22,7 +22,7 @@ import QuotationNegoComp from '../../ComonComponent/PurchaseComp/QuotationNegoCo
 import QuotationFinalComp from '../../ComonComponent/PurchaseComp/QuotationFinalComp'
 import CrfReqDetailCmpnt from '../../CRFRequestMaster/Components/CrfReqDetailCmpnt'
 
-const StoreModalView = ({ modalData, handleClose, open, datacolData, imagearray, reqItems, approveTableData,
+const StoreModalView = ({ modalData, handleClose, open, datacolData, imagearray, reqItems, approveTableData, companyData,
     poDetails }) => {
 
     const { incharge_approve, incharge_remarks, hod_req, hod_approve, dms_req, dms_approve,
@@ -108,49 +108,49 @@ const StoreModalView = ({ modalData, handleClose, open, datacolData, imagearray,
                                             }
                                             {hod_req === 1 && hod_approve !== null ?
                                                 <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                    <CommonHodApprvCmp DetailViewData={modalData} />
+                                                    <CommonHodApprvCmp DetailViewData={modalData} company={companyData} />
                                                 </Grid>
                                                 : null
                                             }
                                             {dms_req === 1 && dms_approve !== null ?
                                                 <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                    <CommonDmsApprvCmp DetailViewData={modalData} />
+                                                    <CommonDmsApprvCmp DetailViewData={modalData} company={companyData} />
                                                 </Grid>
                                                 : null
                                             }
                                             {ms_approve_req === 1 && ms_approve !== null ?
                                                 <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                    <CommonMsApprvCmp DetailViewData={modalData} />
+                                                    <CommonMsApprvCmp DetailViewData={modalData} company={companyData} />
                                                 </Grid>
                                                 : null
                                             }
                                             {manag_operation_req === 1 && manag_operation_approv !== null ?
                                                 <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                    <CommonMoApprvlCmp DetailViewData={modalData} />
+                                                    <CommonMoApprvlCmp DetailViewData={modalData} company={companyData} />
                                                 </Grid>
                                                 : null
                                             }
                                             {senior_manage_req === 1 && senior_manage_approv !== null ?
                                                 <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                    <CommonSmoApprvCmp DetailViewData={modalData} />
+                                                    <CommonSmoApprvCmp DetailViewData={modalData} company={companyData} />
                                                 </Grid>
                                                 : null
                                             }
                                             {gm_approve_req === 1 && gm_approve !== null ?
                                                 <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                    <CommonGmapprvCmp DetailViewData={modalData} />
+                                                    <CommonGmapprvCmp DetailViewData={modalData} company={companyData} />
                                                 </Grid>
                                                 : null
                                             }
                                             {md_approve_req === 1 && md_approve !== null ?
                                                 <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                    <CommonMdApprvCmp DetailViewData={modalData} />
+                                                    <CommonMdApprvCmp DetailViewData={modalData} company={companyData} />
                                                 </Grid>
                                                 : null
                                             }
                                             {ed_approve_req === 1 && ed_approve !== null ?
                                                 <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                    <CommonEdapprvCmp DetailViewData={modalData} />
+                                                    <CommonEdapprvCmp DetailViewData={modalData} company={companyData} />
                                                 </Grid>
                                                 : null
                                             }

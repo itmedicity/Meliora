@@ -17,7 +17,9 @@ const CRFDashboardDptSelect = React.lazy(() => import("src/views/CommonSelectCod
 const formatDateForInput = (date) => {
     return date.toISOString().split('T')[0];
 };
-const CrfDetailSearchComp = ({ setFlag, setDisData, tableData }) => {
+const CrfDetailSearchComp = ({ setFlag, setDisData, tableData, companyData }) => {
+    const { company_name } = companyData
+
     const [department, setDepartment] = useState(0)
     const [dptSec, setdptSec] = useState(0)
     const [state, setState] = useState({
@@ -217,7 +219,9 @@ const CrfDetailSearchComp = ({ setFlag, setDisData, tableData }) => {
                                         <CustomInputDateCmp
                                             StartIcon={<Box sx={{ display: 'flex', alignItems: 'center' }}>
                                                 <AlignHorizontalLeftTwoToneIcon sx={{ height: 18, width: 18, color: '#0063C5' }} />
-                                                <Typography sx={{ ml: 1, fontSize: '13px', color: '#0063C5' }}>CRF/TMC/</Typography>
+                                                <Typography sx={{ ml: 1, fontSize: '13px', color: '#0063C5' }}>  CRF/{company_name}
+
+                                                </Typography>
                                             </Box>}
                                             className={{
                                                 borderRadius: 6, border: '1px solid #bbdefb', width: 250, height: 35, color: '#1565c0'

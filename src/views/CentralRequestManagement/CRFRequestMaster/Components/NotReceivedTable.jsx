@@ -13,7 +13,8 @@ import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import { GetItemDetailsOfCRFCmp } from '../../ComonComponent/GetItemDetailsOfCRFCmp';
 import CustomToolTipForCRF from '../../ComonComponent/Components/CustomToolTipForCRF';
 
-const NotReceivedTable = ({ disData, rowSelect }) => {
+
+const NotReceivedTable = ({ disData, rowSelect, company }) => {
 
     const [modalData, setModalData] = useState([])
     const [modalopen, setModalOpen] = useState(false)
@@ -26,6 +27,8 @@ const NotReceivedTable = ({ disData, rowSelect }) => {
     const [reqItems, setReqItems] = useState([])
     const [approveTableData, setApproveTableData] = useState([])
 
+
+    const { company_name } = company
     const blinkAnimation = keyframes`0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; }`;
     const viewDetails = useCallback((val) => {
         setModalData(val)
@@ -192,7 +195,7 @@ const NotReceivedTable = ({ disData, rowSelect }) => {
                                                 />
                                             </CustomToolTipForCRF>
                                         </td>
-                                        <td style={{ fontSize: 13 }}>CRF/TMC/{val?.req_slno}</td>
+                                        <td style={{ fontSize: 13 }}>CRF/{company_name}/{val?.req_slno}</td>
                                         <td style={{ fontSize: 13 }}>{val?.req_deptsec}</td>
                                         <td style={{ fontSize: 13 }}>{format(new Date(val?.req_date), 'dd-MM-yyyy hh:mm:ss a')}</td>
                                         <td style={{ fontSize: 13 }}>{val?.category_name}</td>

@@ -9,7 +9,7 @@ import { warningNotify } from 'src/views/Common/CommonCode';
 import ImageDisplayModal from '../ImageUploadCmp/ImageDisplayModal';
 import CustomToolTipForCRF from '../Components/CustomToolTipForCRF';
 
-const CommonMsApprvCmp = ({ DetailViewData }) => {
+const CommonMsApprvCmp = ({ DetailViewData, company }) => {
     const { req_slno, ms, ms_approve, ms_approve_remark, ms_detail_analysis, ms_approve_date, ms_approve_user, ms_image
     } = DetailViewData
     const [imageshowFlag, setImageShowFlag] = useState(0)
@@ -58,7 +58,7 @@ const CommonMsApprvCmp = ({ DetailViewData }) => {
             <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
                 <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                     <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>
-                        MS
+                        {company?.ms_status_name}
                     </Typography>
                     <Box sx={{ flex: 1, py: 0.4, ml: 2 }}>
                         <Chip size="md" variant="outlined" sx={{

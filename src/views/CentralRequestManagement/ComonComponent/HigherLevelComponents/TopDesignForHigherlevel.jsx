@@ -1,4 +1,4 @@
-import React, { Fragment, memo, useCallback, useState } from 'react'
+import React, { Fragment, memo, useCallback, useMemo, useState } from 'react'
 import { Badge, Box, FormControlLabel, Paper, Radio, RadioGroup } from '@mui/material'
 import { CssVarsProvider, IconButton, Option, Select, Typography } from '@mui/joy'
 import FilterAltTwoToneIcon from '@mui/icons-material/FilterAltTwoTone';
@@ -11,6 +11,8 @@ import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
 import moment from 'moment';
 import CustomIconButtonCmp from '../Components/CustomIconButtonCmp';
 import CustomInputDateCmp from '../Components/CustomInputDateCmp';
+import { getDefaultCompany } from 'src/api/CommonApiCRF';
+import { useQuery } from 'react-query';
 
 const formatDateForInput = (date) => {
     return date.toISOString().split('T')[0];
@@ -36,6 +38,13 @@ const TopDesignForHigherlevel = ({ pendingData, radiovalue, setRadioValue, allDa
         setDisData(allData)
         setCrfRadioValue('1')
     }, [allData, setDisData, setCrfRadioValue])
+
+    const { data: companyData, isLoading: isCompLoading, error: compError } = useQuery({
+        queryKey: 'getdefaultCompany',
+        queryFn: () => getDefaultCompany(),
+        staleTime: Infinity
+    });
+    const company = useMemo(() => companyData, [companyData]);
 
     const updateRadioClick = useCallback(async (e) => {
         e.preventDefault()
@@ -144,6 +153,8 @@ const TopDesignForHigherlevel = ({ pendingData, radiovalue, setRadioValue, allDa
         getCloseData()
     }, [getCloseData])
 
+    if (isCompLoading) return <p>Loading...</p>;
+    if (compError) return <p>Error occurred.</p>;
     return (
         <Fragment>
             <Box sx={{ flexWrap: 'wrap', }}>
@@ -433,7 +444,7 @@ const TopDesignForHigherlevel = ({ pendingData, radiovalue, setRadioValue, allDa
                                             <CustomInputDateCmp
                                                 StartIcon={<Box sx={{ display: 'flex', alignItems: 'center' }}>
                                                     <AlignHorizontalLeftTwoToneIcon sx={{ height: 18, width: 18, color: '#0063C5' }} />
-                                                    <Typography sx={{ fontSize: '13px', color: '#0063C5' }}>  {selectedCompany === '2' ? 'CRF/KMC/' : 'CRF/TMC/'}</Typography>
+                                                    <Typography sx={{ fontSize: '13px', color: '#0063C5' }}>  {selectedCompany === '2' ? 'CRF/KMC/' : `CRF/${company?.company_name}/`}                                                    </Typography>
                                                 </Box>}
                                                 className={{
                                                     borderRadius: 6, border: '1px solid #bbdefb', width: 250, height: 35, color: '#1565c0'

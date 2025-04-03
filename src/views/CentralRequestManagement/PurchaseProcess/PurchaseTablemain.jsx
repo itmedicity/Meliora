@@ -6,7 +6,7 @@ import { Box } from '@mui/material';
 import { CssVarsProvider, IconButton } from '@mui/joy';
 import TopViewDesignPurchase from './Component/TopViewDesignPurchase';
 import { useQuery, useQueryClient } from 'react-query';
-import { getCrfPoApprovals, getCRFPurchaseAck, getCRFQuotationDetails, getPurchaseDataCollection, getStoreList } from 'src/api/CommonApiCRF';
+import { getCompanyDetails, getCrfPoApprovals, getCRFPurchaseAck, getCRFQuotationDetails, getDefaultCompany, getPurchaseDataCollection, getStoreList } from 'src/api/CommonApiCRF';
 import { Virtuoso } from 'react-virtuoso';
 import ReqMastMainViewCmp from './Component/ReqMastMainViewCmp';
 import PurchaseApprovalButtonCmp from './Component/PurchaseApprovalButtonCmp';
@@ -80,7 +80,12 @@ const PurchaseTablemain = () => {
         staleTime: Infinity
     });
     const dataCollection = useMemo(() => dataColleDetails, [dataColleDetails]);
-
+    const { data: compData, isLoading: isCompLoading, error: compError } = useQuery({
+        queryKey: 'getCompany',
+        queryFn: () => getCompanyDetails(),
+        staleTime: Infinity
+    });
+    const companyData = useMemo(() => compData, [compData]);
     useEffect(() => {
         if (quoData && quoData.length > 0) {
             const procCrf = quoData?.filter((val) => val.ack_status === 1 && val.quatation_calling_status === 0 &&
@@ -171,6 +176,8 @@ const PurchaseTablemain = () => {
                         now_who: "Not Started Purchase Process",
                         now_who_status: 0,
                         ack_status: val.ack_status,
+                        company_name: val?.company_name
+
                     }
                     return obj
                 })
@@ -205,7 +212,8 @@ const PurchaseTablemain = () => {
                             approval: po.approval_level === 1 ? 'Purchase Dept Approved' :
                                 po.approval_level === 2 ? 'Purchase Manager Approved' :
                                     po.approval_level === 3 ? "Director's Approved" : 'Not Approved',
-                            aprv_status: po.approval_level
+                            aprv_status: po.approval_level,
+                            company_name: po.company_name
                         }));
                 const poItems = apprvData?.map((val) => {
                     const obj = {
@@ -288,7 +296,9 @@ const PurchaseTablemain = () => {
                         quatation_fixing_remarks: val.quatation_fixing_remarks,
                         quatation_fixing_date: val.quatation_fixing_date,
                         quatation_fixuser: val.quatation_fixuser,
-                        po_prepartion: val.po_prepartion
+                        po_prepartion: val.po_prepartion,
+                        company_name: val?.company_name
+
                     }
                     return obj
                 })
@@ -299,6 +309,7 @@ const PurchaseTablemain = () => {
         }
         else {
             if (combinedData && combinedData.length > 0) {
+
                 const datas = combinedData?.map((val) => {
                     const obj = {
                         req_status: val.req_status,
@@ -396,6 +407,7 @@ const PurchaseTablemain = () => {
                                                     val.quatation_calling_status === 5 ? val.quatation_calling_status :
                                                         val.ack_status === 5 ? val.ack_status :
                                                             0,
+                        company_name: val?.company_name
 
                     }
                     return obj
@@ -509,8 +521,15 @@ const PurchaseTablemain = () => {
         }
     }, [combinedPO])
 
-    if (isAckLoading || isQuoLoading || isApprvLoading || isStoreLoading || isDcLoading) return <p>Loading...</p>;
-    if (ackError || quoError || apprvError || storeError || dcError) return <p>Error occurred.</p>;
+    const { data: companyViewData, isLoading: isviewCompLoading, error: viewcompError } = useQuery({
+        queryKey: 'getdefaultCompany',
+        queryFn: () => getDefaultCompany(),
+        staleTime: Infinity
+    });
+    const company = useMemo(() => companyViewData, [companyViewData]);
+
+    if (isAckLoading || isQuoLoading || isApprvLoading || isStoreLoading || isDcLoading || isCompLoading || isviewCompLoading) return <p>Loading...</p>;
+    if (ackError || quoError || apprvError || storeError || dcError || compError || viewcompError) return <p>Error occurred.</p>;
 
     return (
         <Box sx={{ height: window.innerHeight - 80, flexWrap: 'wrap', bgcolor: 'white', }}>
@@ -696,7 +715,7 @@ const PurchaseTablemain = () => {
                                     </Box>
                                 </Box>
                                 <Box>
-                                    <POPendingDetailTable pendingPOList={pendingPOList} />
+                                    <POPendingDetailTable pendingPOList={pendingPOList} companyData={companyData} />
                                 </Box>
                             </>
                             : <Box sx={{
@@ -721,7 +740,7 @@ const PurchaseTablemain = () => {
                                         {radiovalue === '7' ?
                                             <DataCollectionSave flag={5} val={val} empdeptsec={empdeptsec} />
                                             :
-                                            <PurchaseApprovalButtonCmp val={val} />
+                                            <PurchaseApprovalButtonCmp val={val} company={company} />
                                         }
                                         {/* <PurchaseApprovalButtonCmp val={val}
                                             setpuchaseFlag={setpuchaseFlag} setpuchaseModal={setpuchaseModal}

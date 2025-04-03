@@ -9,7 +9,7 @@ import { warningNotify } from 'src/views/Common/CommonCode';
 import ImageDisplayModal from '../ImageUploadCmp/ImageDisplayModal';
 import CustomToolTipForCRF from '../Components/CustomToolTipForCRF';
 
-const CommonEdapprvCmp = ({ DetailViewData }) => {
+const CommonEdapprvCmp = ({ DetailViewData, company }) => {
     const { req_slno, ed_approve, ed_approve_remarks, ed_detial_analysis,
         ed_approve_date, ed_user, ed_image, ed } = DetailViewData
     const [imageshowFlag, setImageShowFlag] = useState(0)
@@ -60,8 +60,7 @@ const CommonEdapprvCmp = ({ DetailViewData }) => {
             <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
                 <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                     <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>
-                        Executive Director
-                    </Typography>
+                        {company?.ed_status_name}                    </Typography>
                     <Box sx={{ flex: 1, py: 0.4, ml: 2 }}>
                         <Chip size="md" variant="outlined" sx={{
                             color: (ed_approve === 1 ? '#2e7d32' : ed_approve === 2 ? '#bf360c' : ed_approve === 3 ? '#FF9800' : ed_approve === 4 ? '#009688' : '#607D8B'),

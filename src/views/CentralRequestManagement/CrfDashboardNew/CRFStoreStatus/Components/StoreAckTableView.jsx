@@ -10,10 +10,11 @@ import CustomCloseIconCmp from 'src/views/CentralRequestManagement/ComonComponen
 import CRFReqItemDetails from '../CRFReqItemDetails';
 
 
-const StoreAckTableView = ({ ackFlag, disData, setAckFlag, setFlag }) => {
+const StoreAckTableView = ({ ackFlag, disData, setAckFlag, setFlag, companyData }) => {
     const [reqItems, setReqItems] = useState([])
     const [modalopen, setModalOpen] = useState(false)
     const [modFlag, setModFlag] = useState(0)
+    const { company_name } = companyData
 
     const backtoHome = useCallback(() => {
         setFlag(0)
@@ -95,7 +96,7 @@ const StoreAckTableView = ({ ackFlag, disData, setAckFlag, setFlag }) => {
                                         <React.Fragment key={index}>
                                             <Box display="flex" justifyContent="space-between" sx={{ borderBottom: '1px solid lightgrey', flexWrap: 'nowrap' }}>
                                                 <Typography sx={{ width: 50, textAlign: 'center', fontSize: 12, my: 1 }}>{index + 1}</Typography>
-                                                <Typography sx={{ width: 80, textAlign: 'left', fontSize: 12, my: 1 }}>{"CRF/TMC/" + val.req_slno}</Typography>
+                                                <Typography sx={{ width: 80, textAlign: 'left', fontSize: 12, my: 1 }}>CRF/{company_name}/ + {val.req_slno}</Typography>
                                                 <Typography sx={{ width: 200, textAlign: 'left', fontSize: 12, my: 1, textTransform: 'capitalize' }}>{val.req_deptsec.toLowerCase()}</Typography>
                                                 <Typography sx={{ width: 150, textAlign: 'left', fontSize: 12, my: 1 }}>{val.sub_store_name}</Typography>
                                                 {ackFlag === 1 ?

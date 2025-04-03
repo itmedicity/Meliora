@@ -10,7 +10,9 @@ const CustomLoadComp = React.lazy(() => import("../../ComonComponent/Components/
 const CrfDetailSearchComp = React.lazy(() => import("../Components/CrfDetailSearchComp"))
 const PurchaseStatusModalView = React.lazy(() => import("./PurchaseStatusModalView"))
 
-const CrfPurchaseDetailedView = ({ setFlag, disData, setDisData, tableData, poStart }) => {
+const CrfPurchaseDetailedView = ({ setFlag, disData, setDisData, tableData, poStart, companyData }) => {
+    const { company_name } = companyData
+
     const [modalData, setModalData] = useState([])
     const [modalopen, setModalOpen] = useState(false)
     const [modFlag, setModFlag] = useState(0)
@@ -258,6 +260,7 @@ const CrfPurchaseDetailedView = ({ setFlag, disData, setDisData, tableData, poSt
                             pocomplete_user: val.pocomplete_user,
                             po_to_supplier: val.po_to_supplier,
                             po_to_supplier_date: val.po_to_supplier_date,
+                            company_name: val?.company_name
                         }
                     })
                     setModalData(newData[0])
@@ -286,10 +289,10 @@ const CrfPurchaseDetailedView = ({ setFlag, disData, setDisData, tableData, poSt
             <Suspense fallback={<CustomLoadComp />}>
                 {modFlag === 1 ? <PurchaseStatusModalView modalData={modalData} handleClose={handleClose} open={modalopen}
                     datacolData={datacolData} imagearray={imagearray} reqItems={reqItems} approveTableData={approveTableData}
-                    poDetails={poDetails} /> : null}
+                    poDetails={poDetails} companyData={companyData} /> : null}
             </Suspense>
             <Box sx={{ height: window.innerHeight - 160, flexWrap: 'wrap', bgcolor: 'white' }}>
-                <CrfDetailSearchComp setFlag={setFlag} setDisData={setDisData} tableData={tableData} />
+                <CrfDetailSearchComp setFlag={setFlag} setDisData={setDisData} tableData={tableData} companyData={companyData} />
                 <Box sx={{ bgcolor: 'white', pt: 0.5, overflow: 'auto' }}>
                     {disData.length !== 0 ?
                         <Box sx={{ width: '100%' }}>
@@ -313,7 +316,7 @@ const CrfPurchaseDetailedView = ({ setFlag, disData, setDisData, tableData, poSt
                                     <React.Fragment key={index}>
                                         <Box display="flex" justifyContent="space-between" sx={{ borderBottom: '1px solid lightgrey', flexWrap: 'nowrap' }}>
                                             <Typography sx={{ width: 40, textAlign: 'center', fontSize: 12, my: 1 }}>{index + 1}</Typography>
-                                            <Typography sx={{ width: 80, textAlign: 'left', fontSize: 12, my: 1 }}>{"CRF/TMC/" + val.req_slno}</Typography>
+                                            <Typography sx={{ width: 80, textAlign: 'left', fontSize: 12, my: 1 }}>CRF/{company_name}/{val.req_slno}</Typography>
                                             <Typography sx={{ width: 200, textAlign: 'left', fontSize: 12, my: 1 }}>{format(new Date(val.req_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
                                             <Typography sx={{ width: 150, textAlign: 'left', fontSize: 12, my: 1, textTransform: 'capitalize' }}>{val.req_deptsec}</Typography>
                                             <Typography sx={{ width: 200, textAlign: 'left', fontSize: 12, my: 1 }}>{val.location}</Typography>

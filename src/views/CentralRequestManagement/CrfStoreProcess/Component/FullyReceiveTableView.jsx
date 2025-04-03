@@ -4,7 +4,7 @@ import { Paper, Tooltip, Typography } from '@mui/material'
 import { Virtuoso } from 'react-virtuoso'
 import { format } from 'date-fns'
 import FeaturedPlayListTwoToneIcon from '@mui/icons-material/FeaturedPlayListTwoTone';
-const FullyReceiveTableView = ({ disData, viewGrnDetails }) => {
+const FullyReceiveTableView = ({ disData, viewGrnDetails, company }) => {
     const capitalizeWords = (str) => str ? str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : '';
     return (
         <Fragment>
@@ -29,7 +29,7 @@ const FullyReceiveTableView = ({ disData, viewGrnDetails }) => {
                             <React.Fragment key={index}>
                                 <Box display="flex" justifyContent="space-between" sx={{ borderBottom: '1px solid lightgrey' }} >
                                     <Typography sx={{ width: 60, textAlign: 'center', fontSize: 12, my: 1 }}>{index + 1}</Typography>
-                                    <Typography sx={{ width: 100, textAlign: 'left', fontSize: 12, my: 1 }}>CRF/TMC/{val.req_slno}</Typography>
+                                    <Typography sx={{ width: 100, textAlign: 'left', fontSize: 12, my: 1 }}>{`CRF/${company?.company_name}/${val?.req_slno}`}</Typography>
                                     <Typography sx={{ width: 80, textAlign: 'left', fontSize: 12, my: 1 }}>{val.po_number}</Typography>
                                     <Typography sx={{ width: 150, textAlign: 'left', fontSize: 12, my: 1 }}>{format(new Date(val.po_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
                                     <Typography sx={{ width: 150, textAlign: 'left', fontSize: 12, my: 1 }}>{format(new Date(val.po_to_supplier_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>

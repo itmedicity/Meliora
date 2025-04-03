@@ -4,7 +4,6 @@ import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { Box, CssVarsProvider, Modal, ModalClose, ModalDialog, Textarea, Typography } from '@mui/joy'
 import ReqItemDisplay from '../ComonComponent/ReqItemDisplay';
-import ApprovalCompntAll from '../ComonComponent/ApprovalCompntAll';
 import _ from 'underscore'
 import { useSelector } from 'react-redux'
 import { format } from 'date-fns';
@@ -24,7 +23,7 @@ import HodApprovalComponent from './HodApprovalComponent'
 import CampaignTwoToneIcon from '@mui/icons-material/CampaignTwoTone';
 
 const CrmHodApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApproveTableData, approveTableData,
-    datacolflag, datacolData, deptsecArry, imagearray }) => {
+    datacolflag, datacolData, deptsecArry, imagearray, company }) => {
 
     const { req_slno, incharge_req, incharge_remarks, hod_approve, hod_remarks, hod_detial_analysis, hod_image } = ApprovalData
     const queryClient = useQueryClient()
@@ -433,7 +432,7 @@ const CrmHodApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
                                         }
 
                                         <HodApprovalComponent
-                                            heading="HOD Approval"
+                                            heading={`${company?.hod_status_name} Approval`}
                                             apprvlDetails={apprvlDetails}
                                             updateOnchangeState={updateOnchangeState}
                                             updateApprovalState={updateApprovalState}

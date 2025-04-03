@@ -9,7 +9,7 @@ import { warningNotify } from 'src/views/Common/CommonCode';
 import ImageDisplayModal from '../ImageUploadCmp/ImageDisplayModal';
 import CustomToolTipForCRF from '../Components/CustomToolTipForCRF';
 
-const CommonSmoApprvCmp = ({ DetailViewData }) => {
+const CommonSmoApprvCmp = ({ DetailViewData, company }) => {
     const { req_slno, senior_manage_approv, smo, senior_manage_remarks, smo_detial_analysis,
         som_aprrov_date, senior_manage_user, smo_image
     } = DetailViewData
@@ -59,7 +59,7 @@ const CommonSmoApprvCmp = ({ DetailViewData }) => {
             <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
                 <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                     <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>
-                        CRF Verification
+                        {company?.smo_status_name}
                     </Typography>
                     <Box sx={{ flex: 1, py: 0.4, ml: 2 }}>
                         <Chip size="md" variant="outlined" sx={{

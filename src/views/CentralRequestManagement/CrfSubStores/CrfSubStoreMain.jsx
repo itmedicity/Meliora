@@ -7,7 +7,7 @@ import { CssVarsProvider, IconButton } from '@mui/joy';
 import FilterAltTwoToneIcon from '@mui/icons-material/FilterAltTwoTone';
 import CustomCloseIconCmp from '../ComonComponent/Components/CustomCloseIconCmp';
 import { useQuery } from 'react-query';
-import { getSubStoreCrfDetails } from 'src/api/CommonApiCRF';
+import { getDefaultCompany, getSubStoreCrfDetails } from 'src/api/CommonApiCRF';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import { useSelector } from 'react-redux';
 
@@ -52,6 +52,19 @@ const CrfSubStoreMain = () => {
     const empsecid = useSelector((state) => {
         return state.LoginUserData.empid
     })
+    // const { data: compData, isLoading: isCompLoading, error: compError } = useQuery({
+    //     queryKey: 'getCompany',
+    //     queryFn: () => getCompanyDetails(),
+    //     staleTime: Infinity
+    // });
+    // const companyData = useMemo(() => compData, [compData]);
+
+    const { data: companyData, isLoading: isCompLoading, error: compError } = useQuery({
+        queryKey: 'getdefaultCompany',
+        queryFn: () => getDefaultCompany(),
+        staleTime: Infinity
+    });
+    const company = useMemo(() => companyData, [companyData]);
 
     useEffect(() => {
         const getCRSStore = async () => {
@@ -257,8 +270,8 @@ const CrfSubStoreMain = () => {
 
         }
     }, [subStoreList, allTableData]);
-    if (isSubLoading) return <p>Loading...</p>;
-    if (subError) return <p>Error occurred.</p>;
+    if (isSubLoading || isCompLoading) return <p>Loading...</p>;
+    if (subError || compError) return <p>Error occurred.</p>;
     return (
         <Fragment>
             <Box sx={{ height: window.innerHeight - 90 }}>
@@ -374,7 +387,7 @@ const CrfSubStoreMain = () => {
                             )}
                             <React.Suspense fallback={<div>Loading...</div>}>
                                 <ReceiveSubStoreView tableData={tableData} selectedRadio={selectedRadio} storeName={storeName} setSelectedRadio={setSelectedRadio}
-                                    setStoreName={setStoreName} reqSlno={reqSlno} />
+                                    setStoreName={setStoreName} reqSlno={reqSlno} company={company} />
                             </React.Suspense>
                             {/* */}
                         </Box>
