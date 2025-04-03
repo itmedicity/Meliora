@@ -374,7 +374,7 @@ const ManagingDirectorMain = () => {
             setDisData([])
             setAllData([])
         }
-    }, [combinedData, radiovalue, selectedCompany])
+    }, [combinedData, radiovalue, selectedCompany, company])
 
     const getPendingData = useCallback(() => {
         const getData = async () => {

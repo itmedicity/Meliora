@@ -313,7 +313,7 @@ const CrfDMSApproval = () => {
             setDisData([])
             setAllData([])
         }
-    }, [combinedData, radiovalue, crfRadioValue])
+    }, [combinedData, radiovalue, crfRadioValue, company])
 
     const getPendingData = useCallback(() => {
         const pData = {

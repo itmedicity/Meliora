@@ -371,7 +371,7 @@ const CrfEDApprovalMain = () => {
             setDisData([])
             setAllData([])
         }
-    }, [combinedData, radiovalue, selectedCompany])
+    }, [combinedData, radiovalue, selectedCompany, company])
 
     const getPendingData = useCallback(() => {
         const pData = { level: 20 };

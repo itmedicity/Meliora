@@ -347,7 +347,7 @@ const CrfDetailsSearch = () => {
             };
             getCrfDetailbySearch(searchData);
         }
-    }, [searchData, searchCrf, department, dptSec, reqCheck, closeCheck, itemName, requirement, need, selectedCompany])
+    }, [searchData, searchCrf, department, dptSec, reqCheck, closeCheck, itemName, requirement, need, selectedCompany, company])
     const { company_name } = company
 
     if (isCompLoading || isdefCompLoading) return <p>Loading...</p>;

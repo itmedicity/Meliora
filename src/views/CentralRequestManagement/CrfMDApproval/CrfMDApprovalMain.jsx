@@ -344,7 +344,7 @@ const CrfMDApprovalMain = () => {
             setDisData([])
             setAllData([])
         }
-    }, [combinedData, radiovalue])
+    }, [combinedData, radiovalue, company])
 
     const getPendingData = useCallback(() => {
         const pData = { level: 20 };

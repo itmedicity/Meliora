@@ -308,7 +308,7 @@ const CrfGMApprovalMain = () => {
             setDisData([])
             setAllData([])
         }
-    }, [combinedData, radiovalue])
+    }, [combinedData, radiovalue, company])
 
     const getPendingData = useCallback(() => {
         const pData = {

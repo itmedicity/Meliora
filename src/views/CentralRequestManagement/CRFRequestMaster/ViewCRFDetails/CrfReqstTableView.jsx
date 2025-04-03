@@ -272,7 +272,7 @@ const CrfReqstTableView = ({ rowSelect }) => {
             const storeReceive = datas?.filter((val) => val.sub_store_recieve === 1 && val.user_acknldge === null)
             setStoreData(storeReceive)
         }
-    }, [crfDetails])
+    }, [crfDetails, company])
 
     const updateRadioClick = useCallback(async (e) => {
         setRadioValue(e.target.value)

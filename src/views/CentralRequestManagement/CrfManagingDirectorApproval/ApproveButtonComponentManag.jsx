@@ -135,7 +135,7 @@ const ApproveButtonComponentManag = ({ setApprovalFlag, setApprovalModal, setCan
         setApprovalData(val)
 
     }, [setApprovalFlag, setApprovalModal, val, setApprovalData, setPoDetails, setApproveTableData, setReqItems,
-        setDataCollectData, setDataColFlag, setDataColData, setCollectDetailCheck, setImageArry, selectedCompany
+        setDataCollectData, setDataColFlag, setDataColData, setCollectDetailCheck, setImageArry
     ])
 
     const CloseFnctn = useCallback(() => {

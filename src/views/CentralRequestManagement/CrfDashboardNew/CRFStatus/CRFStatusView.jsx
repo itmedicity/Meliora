@@ -385,7 +385,7 @@ const CRFStatusView = ({ crfData, companyData }) => {
             }
         };
         getDetails(id)
-    }, []);
+    }, [companyData]);
     return (
         <Fragment>
             {flag === 1 ?
