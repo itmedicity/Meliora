@@ -1,540 +1,456 @@
-import React, { memo, useCallback, useState, useEffect } from 'react'
-import { Box, Paper, IconButton, Tooltip } from '@mui/material'
+import { Box, Table, Tooltip } from '@mui/joy'
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
-import CusIconButton from '../../Components/CusIconButton';
-import CustomeToolTip from 'src/views/Components/CustomeToolTip'
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
+import { useDispatch, useSelector } from 'react-redux'
+import TextComponent from 'src/views/Components/TextComponent'
+import AddIcon from '@mui/icons-material/Add';
+import { axioslogin } from 'src/views/Axios/Axios'
+import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
+import { getSpecification } from 'src/api/AssetApis'
+import { useQuery } from 'react-query'
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import CusIconButton from 'src/views/Components/CusIconButton'
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { useSelector } from 'react-redux'
-import { axioslogin } from 'src/views/Axios/Axios'
-import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode';
-import CusCheckBox from 'src/views/Components/CusCheckBox';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
-import { CssVarsProvider } from '@mui/joy/'
-import Table from '@mui/joy/Table';
-import ReqRegistItemCmpt from 'src/views/RequestManagement/RequestRegister/ReqRegistItemCmpt';
-import { editicon } from 'src/color/Color'
-import DeleteIcon from '@mui/icons-material/Delete';
-import SpareListSelect from './SpareListSelect';
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import BlockIcon from '@mui/icons-material/Block';
-const SpecDetailsComp = ({ detailArry, assetSpare }) => {
-    const { am_item_map_slno, item_custodian_dept } = detailArry
+import { getRackList } from 'src/redux/actions/AmRackList.action'
+import RackSelect from './RackSelect'
 
-    // Get login user emp_id
+const SpecDetailsComp = ({ detailArry, assetSpare }) => {
+    const { am_item_map_slno, am_spare_item_map_slno, assetno, } = detailArry
+
+    const dispatch = useDispatch();
+    const [isOpen, setIsOpen] = useState(false);
+    const [specific, setSpecific] = useState('')
+    const [specSlno, setspecSlno] = useState(0)
+    const [editSpec, seteditSpec] = useState(0)
+    const [specificationTabledata, setspecificationTabledata] = useState([])
+    const [count, setCount] = useState(0)
+    const [rackno, setrackNo] = useState(0)
+    const [userdata, setUserdata] = useState({
+        manufacturslno: '',
+        asset_no: assetno,
+        asset_noold: '',
+    })
+    const { manufacturslno, asset_no, asset_noold } = userdata
+    const updateDeviceDetails = useCallback((e) => {
+        const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+        setUserdata({ ...userdata, [e.target.name]: value })
+    }, [userdata])
+
     const id = useSelector((state) => {
         return state.LoginUserData.empid
     })
 
-    const [secFlag, setSpecFlag] = useState(0)
-    const [spareFlag, setSpareFlag] = useState(false)
-    const [SpecificationFlag, setSpecificationFlag] = useState(false)
-
-    const [specific, setSpecific] = useState('')
-    const [specificTable, setSpecificTable] = useState(0)
-    const [specificData, setSpecificData] = useState([])
-    const [already, setAlready] = useState(0)
-    const [alreadyData, setAlreadyData] = useState([])
-
-    const [spare, setSpare] = useState(0)
-    const [spareTable, setSpareTable] = useState(0)
-    const [spareData, setSpareData] = useState([])
-    const [spareNo, setSpareNo] = useState('')
-
-    const updateSpareFlag = useCallback((e) => {
-        if (e.target.checked === true) {
-            setSpareFlag(true)
-            setSpecificationFlag(false)
-            setSpecFlag(1)
-        } else {
-            setSpareFlag(false)
-            setSpecificationFlag(false)
-            setSpecFlag(0)
-        }
-
-    }, [])
-
-    const updateSpecFlag = useCallback((e) => {
-        if (e.target.checked === true) {
-            setSpecificationFlag(true)
-            setSpareFlag(false)
-            setSpecFlag(2)
-        } else {
-            setSpecificationFlag(false)
-            setSpareFlag(false)
-            setSpecFlag(0)
-        }
-
-    }, [])
+    const toggleOpen = () => {
+        setIsOpen(prev => !prev);
+    };
 
     const updateSpecific = useCallback((e) => {
         setSpecific(e.target.value)
     }, [setSpecific])
 
-    const AddSpecification = useCallback(() => {
-
-        const newdata = {
-            id: Math.ceil(Math.random() * 1000),
+    const postSpec = useMemo(() => {
+        return {
             am_item_map_slno: am_item_map_slno,
             specifications: specific,
-            create_user: id
+            status: 1,
+            create_user: id,
         }
-        const datass = [...specificData, newdata]
+    }, [am_item_map_slno, specific, id,])
 
-        if (datass.length !== 0) {
-            setSpecificData(datass)
-            setSpecificTable(1)
-            setSpecific('')
+    const updateSpec = useMemo(() => {
+        return {
+            am_item_map_slno: am_item_map_slno,
+            specifications: specific,
+            status: 1,
+            delete_user: id,
+            am_sec_detal_slno: specSlno,
         }
+    }, [am_item_map_slno, specific, id, specSlno])
 
-    }, [id, am_item_map_slno, specificData, specific])
-
-    const [count, setCount] = useState(0)
-    const [alreadytSpare, setAlreadySpare] = useState(0)
-    const [alreadytSpareData, setAlreadySpareData] = useState([])
-    useEffect(() => {
-        const checkinsertOrNotSpeciali = async (am_item_map_slno) => {
-            const result = await axioslogin.get(`/ItemMapDetails/SpecificationInsertOrNot/${am_item_map_slno}`);
-            const { success, data } = result.data
-            if (success === 1) {
-                setAlready(1)
-                setAlreadyData(data)
-            }
-            else {
-                setAlready(0)
-                setAlreadyData([])
-            }
-        }
-
-
-        const checkinsertOrNotSpareDetails = async (am_item_map_slno) => {
-            const result = await axioslogin.get(`/ItemMapDetails/SpareDetailsInsertOrNot/${am_item_map_slno}`);
-            const { success, data } = result.data
-            if (success === 1) {
-                const datass = data.map((val, index) => {
-                    const obj = {
-                        slno: index + 1,
-                        asset_spare_slno: val.asset_spare_slno,
-                        am_item_map_slno: val.am_item_map_slno,
-                        am_spare_item_map_slno: val.am_spare_item_map_slno,
-                        item_name: val.item_name,
-                        assetno: val.spare_asset_no + '/' + val.spare_asset_no_only.toString().padStart(6, '0')
-
-                    }
-                    return obj
-                })
-                setAlreadySpare(1)
-                setAlreadySpareData(datass)
-                setCount(0)
-            }
-            else {
-                setSpareTable(0)
-                setAlreadySpareData([])
-                setCount(0)
-            }
-        }
-
-        checkinsertOrNotSpeciali(am_item_map_slno)
-        checkinsertOrNotSpareDetails(am_item_map_slno)
-    }, [am_item_map_slno, setAlready, setAlreadyData, count, setSpareTable, setSpareData])
-
-
-    const SaveSpecDetails = useCallback((e) => {
-
-        const postData = specificData && specificData.map((val) => {
-            return {
-                am_item_map_slno: val.am_item_map_slno,
-                specifications: val.specifications,
-                status: 1,
-                create_user: val.create_user,
-            }
-        })
-
-        const detailInsert = async (postData) => {
-            const result = await axioslogin.post(`/ItemMapDetails/SpecificationInsert`, postData);
-            const { message, success } = result.data;
-            if (success === 1) {
-                succesNotify(message)
-                setCount(count + 1)
-                setSpecificData([]);
-                setSpecificTable(0)
-            } else if (success === 0) {
-                infoNotify(message)
-            } else {
-                infoNotify(message)
-            }
-        }
-
-
-        const SparepostData = spareData && spareData.map((val) => {
-            return {
-                am_item_map_slno: val.am_item_map_slno,
-                am_spare_item_map_slno: val.am_spare_item_map_slno,
-                spare_status: 1,
-                create_user: val.create_user,
-            }
-        })
-
-
-        const SparedetailInsert = async (SparepostData) => {
-            const result = await axioslogin.post(`/ItemMapDetails/SpareDetailsInsert`, SparepostData);
-            const { message, success } = result.data;
-            if (success === 1) {
-                succesNotify(message)
-                setCount(count + 1)
-                setSpareData([]);
-                setSpareTable(0)
-            } else if (success === 0) {
-                infoNotify(message)
-            } else {
-                infoNotify(message)
-            }
-        }
-
-
-        if (secFlag === 1) {
-            SparedetailInsert(SparepostData)
-
-        } else if (secFlag === 2) {
-            detailInsert(postData)
-        }
-
-
-
-    }, [specificData, spareData, setCount, count, secFlag])
-
-
-    const SpecReferesh = useCallback(() => {
-        setSpecific('')
-
+    const rowSelect = useCallback((val) => {
+        const { am_sec_detal_slno, specifications } = val
+        setspecSlno(am_sec_detal_slno)
+        setSpecific(specifications)
+        seteditSpec(1)
+        setIsOpen(true)
     }, [])
 
-    //column title setting
-    const [column] = useState([
-        { headerName: "Slno", field: "am_sec_detal_slno" },
-        { headerName: "Specifications", field: "specifications", autoHeight: true, wrapText: true, width: 250, filter: "true" },
-
-        {
-            headerName: 'Delete', width: 80, cellRenderer: params =>
-                <IconButton onClick={() => deleteSelect(params)}
-                    sx={{ color: editicon, pt: 0 }} >
-                    <CustomeToolTip title="Edit">
-                        <DeleteIcon size={15} />
-                    </CustomeToolTip>
-                </IconButton>
-        },
-    ])
-
-    //column title setting
-    const [columnSpare] = useState([
-        { headerName: "Slno", field: "slno" },
-        { headerName: "Item Name", field: "item_name", autoHeight: true, wrapText: true, width: 250, filter: "true" },
-        { headerName: "Spare No", field: "assetno", autoHeight: true, wrapText: true, width: 250, filter: "true" },
-        {
-            headerName: 'Condemnation', width: 120, cellRenderer: params =>
-                <IconButton onClick={() => contaminationfunctn(params)}
-                    sx={{ color: editicon, pt: 0 }} >
-                    <CustomeToolTip title="contamination">
-                        <BlockIcon size={15} />
-                    </CustomeToolTip>
-                </IconButton>
-        },
-        {
-            headerName: 'Service', width: 80, cellRenderer: params =>
-                <IconButton onClick={() => servicefunctn(params)}
-                    sx={{ color: editicon, pt: 0 }} >
-                    <CustomeToolTip title="Service">
-                        <ManageAccountsIcon size={15} />
-                    </CustomeToolTip>
-                </IconButton>
-        },
-    ])
-
-
-    const contaminationfunctn = useCallback((params) => {
-        const data = params.api.getSelectedRows()
-        const { am_spare_item_map_slno, asset_spare_slno } = data[0]
-
-        const patchdata = {
-            delete_user: id,
-            asset_spare_slno: asset_spare_slno,
-            am_spare_item_map_slno: am_spare_item_map_slno
+    const reset = useCallback(() => {
+        const frmdata = {
+            manufacturslno: '',
+            asset_no: '',
+            asset_noold: '',
         }
+        setUserdata(frmdata)
+    }, [setUserdata])
 
-        const contaminatnUpdate = async (patchdata) => {
-            const result = await axioslogin.patch('/ItemMapDetails/spareContamination', patchdata);
-            const { success, message } = result.data
+    const DeviceRefresh = useCallback(() => {
+        reset()
+    }, [reset])
+
+    const SaveEditSpecDetails = useCallback((e) => {
+        const SpecInsert = async () => {
+            const result = await axioslogin.post(`/ItemMapDetails/SpecificationInsert`, postSpec);
+            const { message, success } = result.data;
             if (success === 1) {
                 succesNotify(message)
                 setCount(count + 1)
+                setSpecific('')
+            } else if (success === 0) {
+                infoNotify(message)
             } else {
-                warningNotify(message)
-                setCount(count + 1)
+                infoNotify(message)
             }
         }
-
-        contaminatnUpdate(patchdata)
-    }, [id, setCount, count])
-
-    const servicefunctn = useCallback((params) => {
-        const data = params.api.getSelectedRows()
-        const { am_spare_item_map_slno, asset_spare_slno } = data[0]
-
-        const patchdata = {
-            delete_user: id,
-            asset_spare_slno: asset_spare_slno,
-            am_spare_item_map_slno: am_spare_item_map_slno
-        }
-
-        const ServiceUpdate = async (patchdata) => {
-            const result = await axioslogin.patch('/ItemMapDetails/spareService', patchdata);
-            const { success, message } = result.data
+        const SpecUpdate = async () => {
+            const result = await axioslogin.patch(`/ItemMapDetails/SepcUpdate`, updateSpec);
+            const { success, message } = result.data;
             if (success === 1) {
-                succesNotify(message)
+                succesNotify("Specification Updated Successfully")
                 setCount(count + 1)
+                setSpecific('')
+                seteditSpec(0)
+            } else if (success === 0) {
+                infoNotify(message)
             } else {
-                warningNotify(message)
-                setCount(count + 1)
+                infoNotify(message)
             }
         }
-        ServiceUpdate(patchdata)
-    }, [id, setCount, count])
-
-
-    const deleteSelect = useCallback((params) => {
-        const data = params.api.getSelectedRows()
-        const { am_sec_detal_slno } = data[0]
-
-
-        const patchdata = {
-            delete_user: id,
-            am_sec_detal_slno: am_sec_detal_slno
-
+        if (editSpec === 1) {
+            SpecUpdate(updateSpec)
         }
-        const deleteItem = async (patchdata) => {
-            const result = await axioslogin.patch('/ItemMapDetails/SepcifiDelete', patchdata);
-            const { success, message } = result.data
-            if (success === 1) {
-                succesNotify(message)
-                setCount(count + 1)
-            }
+
+        else {
+            SpecInsert(updateSpec)
         }
-        deleteItem(patchdata)
 
-    }, [id, setCount, count])
+    }, [postSpec, updateSpec, count, setCount, editSpec])
 
-    const AddSpares = useCallback(() => {
+    const DeleteSlect = useCallback((val) => {
+        const { am_sec_detal_slno, specifications } = val;
 
-        const newdata = {
-            id: Math.ceil(Math.random() * 1000),
+        const DeleteSlected = {
             am_item_map_slno: am_item_map_slno,
-            am_spare_item_map_slno: spare,
-            spare_status: 1,
-            name: spareNo,
-            create_user: id
+            specifications: specifications,
+            status: 0,
+            delete_user: id,
+            am_sec_detal_slno: am_sec_detal_slno,
+        };
+
+        const SpecDelete = async () => {
+            const result = await axioslogin.patch(`/ItemMapDetails/SepcUpdate`, DeleteSlected);
+            const { success, message } = result.data;
+            if (success === 1) {
+                succesNotify("Specification Deleted");
+                setCount(count + 1);
+            } else {
+                infoNotify(message);
+            }
+        };
+
+        SpecDelete();
+    }, [am_item_map_slno, id, setCount, count]);
+
+    const { data: specificationDetailsData } = useQuery({
+        queryKey: ['getSpecification', count],
+        queryFn: () => getSpecification(am_item_map_slno),
+        enabled: am_item_map_slno !== undefined,
+    });
+
+    const specificationDetails = useMemo(() => specificationDetailsData, [specificationDetailsData])
+
+    useEffect(() => {
+        setspecificationTabledata(specificationDetails || []);
+    }, [specificationDetails]);
+
+    const patchData = useMemo(() => {
+        return {
+            am_manufacture_no: manufacturslno,
+            am_asset_no: asset_no,
+            am_asset_old_no: asset_noold,
+            edit_user: id,
+            am_item_map_slno: am_item_map_slno,
+            item_rack_slno: (rackno !== 0 && rackno !== undefined) ? rackno : null
         }
-        const datass = [...spareData, newdata]
+    }, [am_item_map_slno, manufacturslno, asset_no, asset_noold, id, rackno])
 
-        if (datass.length !== 0) {
-            setSpareData(datass)
-            setSpareTable(1)
-            setSpare('')
+    const patchadataSpare = useMemo(() => {
+        return {
+            am_manufacture_no: manufacturslno,
+            am_asset_no: asset_no,
+            am_asset_old_no: asset_noold,
+            edit_user: id,
+            am_spare_item_map_slno: am_spare_item_map_slno,
+            spare_rack_slno: (rackno !== 0 && rackno !== undefined) ? rackno : null
+        }
+    }, [am_spare_item_map_slno, manufacturslno, asset_no, asset_noold, id, rackno])
+
+    useEffect(() => {
+        const checkinsertOrNotDetail = async (am_item_map_slno) => {
+            const result = await axioslogin.get(`/ItemMapDetails/checkDetailInsertOrNot/${am_item_map_slno}`);
+            const { success, data } = result.data;
+            if (success === 1) {
+                const { am_manufacture_no, am_asset_old_no, rack } = data[0];
+                const frmdata = {
+                    manufacturslno: am_manufacture_no ?? '',
+                    asset_no: assetno ?? '',
+                    asset_noold: am_asset_old_no ?? '',
+                };
+                setUserdata(frmdata);
+                setrackNo(rack ?? 0);
+            }
+        };
+
+        const checkinsertOrNotDetailSpare = async (am_spare_item_map_slno) => {
+            const result = await axioslogin.get(`/ItemMapDetails/checkDetailInsertOrNotSpare/${am_spare_item_map_slno}`);
+            const { success, data } = result.data;
+            if (success === 1) {
+                const { am_manufacture_no, am_asset_old_no, rack } = data[0];
+                const frmdata = {
+                    manufacturslno: am_manufacture_no ?? '',
+                    asset_no: assetno ?? '',
+                    asset_noold: am_asset_old_no ?? '',
+                };
+                setUserdata(frmdata);
+                setrackNo(rack ?? 0);
+            }
+        };
+
+        if (assetSpare === 1) {
+            checkinsertOrNotDetail(am_item_map_slno);
+        } else {
+            checkinsertOrNotDetailSpare(am_spare_item_map_slno);
         }
 
-    }, [id, am_item_map_slno, spareData, spare, spareNo])
+        dispatch(getRackList());
+    }, [am_item_map_slno, am_spare_item_map_slno, assetSpare, assetno, dispatch]);
 
+    const EditDetails = useCallback((e) => {
+        e.preventDefault()
+        const updateGRNDetails = async (patchData) => {
+            const result = await axioslogin.patch('/ItemMapDetails/DeviceDetailsUpdate', patchData);
+            const { message, success } = result.data;
+            if (success === 2) {
+                succesNotify(message)
+            }
+            else {
+                warningNotify(message)
+            }
+        }
+
+        const updateGRNDetailsSpare = async (patchadataSpare) => {
+            const result = await axioslogin.patch('/ItemMapDetails/DeviceDetailsUpdateSpare', patchadataSpare);
+            const { message, success } = result.data;
+            if (success === 2) {
+                succesNotify(message)
+            }
+            else {
+                warningNotify(message)
+            }
+        }
+
+        if (assetSpare === 1) {
+            updateGRNDetails(patchData)
+        } else {
+            updateGRNDetailsSpare(patchadataSpare)
+        }
+
+    }, [patchData, assetSpare, patchadataSpare])
+
+    const [previousValues, setPreviousValues] = useState([]);
+
+    const handleEnter = (inputValue) => {
+        if (inputValue && !previousValues.includes(inputValue)) {
+            setPreviousValues((prev) => [...prev, inputValue]);
+        }
+        setUserdata('');
+    };
 
     return (
-        <Paper sx={{ overflow: 'auto', border: 1, mb: 1 }}>
-            <Box sx={{
-                display: 'flex', flexDirection: 'column', flexWrap: 'wrap',
-            }} >
-                <Box sx={{
-                    display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
-                }} >
-                    {
-                        assetSpare === 1 ?
-                            <Box sx={{ display: 'flex', width: '20%', p: 0.5, flexDirection: 'column' }} >
-                                <CusCheckBox
-                                    variant="outlined"
-                                    color="danger"
-                                    size="md"
-                                    name="spareFlag"
-                                    label="Spare"
-                                    value={spareFlag}
-                                    onCheked={updateSpareFlag}
-                                    checked={spareFlag}
-                                />
-                            </Box> : null
-                    }
+        <Box>
+            <Box sx={{ border: 1, borderColor: '#E0E1E3', py: 1, pl: 2 }}>
+                <TextComponent
+                    text={"DETAILS"}
+                    sx={{
+                        flex: 1,
+                        fontWeight: 500,
+                        color: 'black',
+                        fontSize: 15,
+                    }}
+                />
+                <Box sx={{ flex: 1, display: 'flex' }} >
+                    <Box sx={{ width: 500 }}>
+                        <Box sx={{ display: 'flex', pt: .5 }}>
+                            <TextComponent
+                                text={"Manufacture Slno"}
+                                sx={{
+                                    fontWeight: 600,
+                                    color: '#727B8C',
+                                    pt: 1,
+                                    width: 130
 
-                    <Box sx={{ display: 'flex', width: '20%', p: 0.5, flexDirection: 'column' }} >
-                        <CusCheckBox
-                            variant="outlined"
-                            color="danger"
-                            size="md"
-                            name="SpecificationFlag"
-                            label="Specification"
-                            value={SpecificationFlag}
-                            onCheked={updateSpecFlag}
-                            checked={SpecificationFlag}
-                        />
-                    </Box>
-                </Box>
-                {
-                    secFlag === 2 ?
-                        <Box sx={{
-                            display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
-                        }} >
-                            <Box sx={{ width: '70%', p: 1 }}>
+                                }}
+                            />
+                            <Box sx={{ flex: 1 }}>
                                 <TextFieldCustom
                                     type="text"
+                                    size="sm"
+                                    name="manufacturslno"
+                                    value={manufacturslno}
+                                    onchange={updateDeviceDetails}
+                                    onEnter={handleEnter}
+
+                                ></TextFieldCustom>
+                            </Box>
+
+                        </Box>
+                        <Box sx={{ display: 'flex', pt: .5 }}>
+                            <TextComponent
+                                text={"Asset Old No."}
+                                sx={{
+                                    fontWeight: 600,
+                                    color: '#727B8C',
+                                    pt: 1,
+                                    width: 130
+
+                                }}
+                            />
+                            <Box sx={{ flex: 1 }}>
+                                <TextFieldCustom
+                                    type="text"
+                                    size="sm"
+                                    name="asset_noold"
+                                    value={asset_noold}
+                                    onchange={updateDeviceDetails}
+                                ></TextFieldCustom>
+                            </Box>
+
+                        </Box>
+                        <Box sx={{ display: 'flex', pt: .5 }}>
+                            <TextComponent
+                                text={"Select Rack"}
+                                sx={{
+                                    fontWeight: 600,
+                                    color: '#727B8C',
+                                    pt: 1,
+                                    width: 130
+
+                                }}
+                            />
+                            <Box sx={{ flex: 1 }}>
+                                <RackSelect
+                                    value={rackno}
+                                    setValue={setrackNo}
+                                />
+                            </Box>
+
+                        </Box>
+                        <Box sx={{ display: 'flex', pt: .5 }}>
+                            <Box sx={{ width: 130 }}>
+                            </Box>
+                            <Box sx={{ flex: 1, gap: .5, display: 'flex' }}>
+                                <Box>
+                                    <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={EditDetails} >
+                                        <LibraryAddIcon fontSize='small' />
+                                    </CusIconButton>
+                                </Box>
+                                <Box>
+                                    <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={DeviceRefresh} >
+                                        <RefreshIcon fontSize='small' />
+                                    </CusIconButton>
+                                </Box>
+                            </Box>
+                        </Box>
+                    </Box>
+                    <Box sx={{ flexGrow: 1 }}>
+                    </Box>
+                </Box>
+            </Box>
+            {am_item_map_slno !== undefined ?
+                <Box sx={{ border: 1, borderColor: '#E0E1E3', py: 1, pl: 2, mt: .5 }}>
+                    <TextComponent
+                        text={"SPECIFICATIONS"}
+                        sx={{
+                            fontWeight: 500,
+                            color: 'black',
+                            fontSize: 15,
+                            py: .5
+                        }}
+                    />
+                    <Box sx={{ display: 'flex', pt: .5, pl: .8, cursor: 'pointer', border: 1, width: 100, borderColor: '#0B6BCB', borderRadius: 5 }} onClick={toggleOpen}>
+                        <TextComponent
+                            text={"Add New"}
+                            sx={{
+                                color: '#0B6BCB',
+                                fontSize: 14,
+                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3), -1px -1px 2px rgba(255, 255, 255, 0.7)',
+                                transform: 'translateZ(0)',
+                                '&:hover': { color: '#263F60' },
+                            }}
+                        />
+
+                        <AddIcon sx={{ p: .2, color: '#0B6BCB', '&:hover': { color: '#263F60' }, }} />
+                    </Box>
+                    {isOpen && (
+                        <Box sx={{ flex: 1, display: 'flex', pt: .8, pr: 1.5, pb: .5 }}>
+                            <Box sx={{ flex: 1 }}>
+                                <TextFieldCustom
+                                    type="text"
+                                    placeholder={"Add Specification"}
                                     size="sm"
                                     name="specific"
                                     value={specific}
                                     onchange={updateSpecific}
                                 ></TextFieldCustom>
                             </Box>
-
-                            <Box sx={{ width: '5%', pl: 1, pt: 1, cursor: "pointer" }} >
+                            <Box sx={{ pl: .5 }}>
                                 <Tooltip title="Add  " placement="top">
-                                    <AddCircleOutlineIcon onClick={() => AddSpecification()} />
+                                    <AddCircleOutlineIcon onClick={() => SaveEditSpecDetails()} sx={{ width: 30, height: 30, cursor: 'pointer' }} />
                                 </Tooltip>
                             </Box>
-
                         </Box>
-                        : secFlag === 1 ?
+                    )}
 
-                            <Box sx={{
-                                display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
-                            }} >
-
-                                <Box sx={{ width: '70%', p: 1 }}>
-                                    <SpareListSelect spare={spare} setSpare={setSpare}
-                                        item_custodian_dept={item_custodian_dept}
-                                        setSpareNo={setSpareNo} />
-                                </Box>
-                                <Box sx={{ width: '5%', pl: 1, pt: 1, cursor: "pointer" }} >
-                                    <Tooltip title="Add  " placement="top">
-                                        <AddCircleOutlineIcon onClick={() => AddSpares()} />
-                                    </Tooltip>
-                                </Box>
-                            </Box> :
-                            null
-                }
-
-                {specificTable === 1 ?
-                    <Box sx={{ width: '70%', p: 1 }}>
-
-                        <CssVarsProvider>
-                            <Table stickyHeader>
+                    {specificationTabledata.length > 0 ?
+                        <Box sx={{ flex: 1, border: 1, borderColor: 'lightgrey', mr: 1.5, mb: 1 }}>
+                            <Table stickyHeader >
                                 <thead>
                                     <tr>
-                                        <th style={{ width: '20%', align: "center" }}>Sl No</th>
-                                        <th style={{ width: '60%', align: "center" }}>Specifications</th>
+                                        <th style={{ width: 40, align: "center" }}>#</th>
+                                        <th style={{ width: 50, align: "center" }}>Edit</th>
+                                        <th style={{ flexGrow: 1, align: "center" }}>Specifications</th>
+                                        <th style={{ width: 80, }}>Delete</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {specificData && specificData.map((val, index) => {
+                                    {specificationTabledata && specificationTabledata.map((val, index) => {
                                         return <tr
                                             key={index}
                                             sx={{
-                                                '&:last-child td, &:last-child th': { border: 0 }, maxHeight: 60,
-                                                minHeight: 5
+                                                '&:last-child td, &:last-child th': { border: 0, },
+                                                maxHeight: 60,
+                                                minHeight: 2,
+
+
                                             }}
                                         >
                                             <td> {index + 1}</td>
+                                            <td> <EditOutlinedIcon onClick={() => rowSelect(val)} sx={{ cursor: 'pointer', '&:hover': { color: '#0000FF' }, }} /></td>
                                             <td> {val.specifications}</td>
+                                            <td><DeleteOutlineIcon onClick={() => DeleteSlect(val)} sx={{ cursor: 'pointer', '&:hover': { color: '#0000FF' }, }} /></td>
 
                                         </tr>
                                     })}
                                 </tbody>
                             </Table>
-                        </CssVarsProvider>
-                    </Box> : null
-                }
-
-                {spareTable === 1 ?
-                    <Box sx={{ width: '70%', p: 1 }}>
-
-                        <CssVarsProvider>
-                            <Table stickyHeader>
-                                <thead>
-                                    <tr>
-                                        <th style={{ width: '20%', align: "center" }}>Sl No</th>
-                                        <th style={{ width: '60%', align: "center" }}>Spare Sl no</th>
-                                        <th style={{ width: '60%', align: "center" }}>Spare Name</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {spareData && spareData.map((val, index) => {
-                                        return <tr
-                                            key={index}
-                                            sx={{
-                                                '&:last-child td, &:last-child th': { border: 0 }, maxHeight: 60,
-                                                minHeight: 5
-                                            }}
-                                        >
-                                            <td> {index + 1}</td>
-                                            <td> {val.am_spare_item_map_slno}</td>
-                                            <td> {val.name}</td>
-                                        </tr>
-                                    })}
-                                </tbody>
-                            </Table>
-                        </CssVarsProvider>
-                    </Box> : null
-
-
-                }
-
-                {
-                    already === 1 ?
-                        <Box sx={{ width: '70%', p: 1 }}>
-
-                            <ReqRegistItemCmpt
-                                columnDefs={column}
-                                tableData={alreadyData}
-
-                            />
                         </Box> : null
-
-                }
-
-                {alreadytSpare === 1 ?
-                    <Box sx={{ width: '100%', p: 1 }}>
-
-                        <ReqRegistItemCmpt
-                            columnDefs={columnSpare}
-                            tableData={alreadytSpareData}
-
-                        />
-                    </Box> : null
-                }
-                <Box sx={{
-                    display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
-                }}>
-
-                    <CustomeToolTip title="Save" placement="bottom" >
-                        <Box sx={{ width: '3%', pl: 7, pt: 3, }}>
-                            <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={SaveSpecDetails} >
-                                <LibraryAddIcon fontSize='small' />
-                            </CusIconButton>
-                        </Box>
-                    </CustomeToolTip>
-
-                    <CustomeToolTip title="Refresh" placement="bottom" >
-                        <Box sx={{ width: '3%', pl: 5, pt: 3, }}>
-                            <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={SpecReferesh} >
-                                <RefreshIcon fontSize='small' />
-                            </CusIconButton>
-                        </Box>
-                    </CustomeToolTip>
-                </Box>
-
-            </Box>
-        </Paper>
+                    }
+                </Box> : null}
+        </Box >
     )
 }
-
 export default memo(SpecDetailsComp)
+

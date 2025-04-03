@@ -205,7 +205,6 @@ const HallbookingReg = ({ open, setOpen, setModal }) => {
                 is_hod_req: ishod === 1 ? 0 : 1,
                 is_ceo_req: 1
             }
-
             const result = await axioslogin.post('/hallBooking/hDept', postData)
             const { message, success } = result.data;
             if (success === 1) {

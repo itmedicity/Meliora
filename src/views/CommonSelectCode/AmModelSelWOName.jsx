@@ -12,7 +12,7 @@ const AmModelSelWOName = ({ model, setModel }) => {
     const [inputValue, setInputValue] = useState('');
 
     useEffect(() => {
-        if (value !== null) {
+        if (value?.model_slno > 0) {
             setValue(value)
             dispatch(getSubmodel(value.model_slno))
             setModel(value.model_slno)

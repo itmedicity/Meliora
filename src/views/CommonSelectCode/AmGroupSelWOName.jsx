@@ -11,16 +11,17 @@ const AmGroupSelWOName = ({ group, setGroup }) => {
     const [value, setValue] = useState(grps[0]);
     const [inputValue, setInputValue] = useState('');
 
+
     useEffect(() => {
-        if (value !== null) {
-            setValue(value)
-            dispatch(getAmSubGroupList(value.group_slno))
-            setGroup(value.group_slno)
+        if (value?.group_slno > 0) {
+            setValue(value);
+            dispatch(getAmSubGroupList(value.group_slno));
+            setGroup(value.group_slno);
         } else {
-            setGroup(0)
+            setGroup(0);
         }
-        return
-    }, [value, setGroup, dispatch])
+    }, [value, setGroup, dispatch]);
+
 
 
     useEffect(() => {

@@ -2,7 +2,6 @@ import React, { useCallback, useMemo, useState, memo } from 'react'
 import { useHistory } from 'react-router-dom'
 import CardMaster from 'src/views/Components/CardMaster'
 import { Box } from '@mui/system'
-import { Grid } from '@mui/material'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { axioslogin } from 'src/views/Axios/Axios'
@@ -146,87 +145,75 @@ const ComPriorityMast = () => {
             submit={submitHicpolicy}
             refresh={refreshWindow}
         >
-            <Box sx={{ p: 1 }}>
-                <Grid container spacing={1} >
-                    <Grid item xl={4} lg={4}  >
-                        <Grid container spacing={1} >
-                            <Grid item xl={12} lg={12} >
-                                <TextFieldCustom
-                                    placeholder="Priority Name"
-                                    type="text"
-                                    size="sm"
-                                    name="cm_priority_desc"
-                                    value={cm_priority_desc}
-                                    onchange={updatepriority}
-                                />
-                            </Grid>
-                            <Grid item xl={12} lg={12} >
-                                <Box sx={{
-                                    display: 'flex',
-                                    wdith: '100%',
-                                }}>
-                                    <Box sx={{
-                                        width: '25%',
-                                    }}>
-                                        Escalation Min
-                                    </Box>
-                                    <Box sx={{
-                                        width: '30%',
-                                    }}>
-                                        <TextFieldCustom
-                                            placeholder=" Escalation Min"
-                                            type="text"
-                                            size="sm"
-                                            name="escalation_min"
-                                            value={escalation_min}
-                                            onchange={updatepriority}
-                                        />
-                                    </Box>
-                                </Box>
-                            </Grid>
+            <Box sx={{ flex: 1, display: 'flex' }}>
 
-                            <Grid item xl={12} lg={12} >
-                                <Box sx={{
-                                    display: 'flex',
-                                    wdith: '100%',
-                                }}>
-                                    <Box sx={{
-                                        width: '25%',
-                                    }}>
-                                        Escalation Max
-                                    </Box>
-                                    <Box sx={{
-                                        width: '30%',
-                                    }}>
-                                        <TextFieldCustom
-                                            placeholder="Escalation Max"
-                                            type="text"
-                                            size="sm"
-                                            name="escalation_max"
-                                            value={escalation_max}
-                                            onchange={updatepriority}
-                                        />
-                                    </Box>
-                                </Box>
-                            </Grid>
+                <Box sx={{ flex: 1, }}>
+                    <TextFieldCustom
+                        placeholder="Priority Name"
+                        type="text"
+                        size="sm"
+                        name="cm_priority_desc"
+                        value={cm_priority_desc}
+                        onchange={updatepriority}
+                    />
+                    <Box sx={{ display: 'flex', pt: 1, pl: .5 }}>
+                        <Box sx={{
+                            width: 125,
+                            pt: .5
+                        }}>
+                            Escalation Min
+                        </Box>
+                        <Box sx={{
+                            width: 125,
+                        }}>
+                            <TextFieldCustom
+                                placeholder=" Escalation Min"
+                                type="text"
+                                size="sm"
+                                name="escalation_min"
+                                value={escalation_min}
+                                onchange={updatepriority}
+                            />
+                        </Box>
+                    </Box>
 
-                            <Grid item lg={2} xl={2}>
-                                <CusCheckBox
-                                    label="Status"
-                                    color="primary"
-                                    size="md"
-                                    name="cm_priority_status"
-                                    value={cm_priority_status}
-                                    checked={cm_priority_status}
-                                    onCheked={updatepriority}
-                                />
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                    <Grid item lg={8} xl={8} >
-                        <ComProirityMastTable count={count} rowSelect={rowSelect} />
-                    </Grid>
-                </Grid>
+                    <Box sx={{ display: 'flex', pt: .5, pl: .5 }}>
+                        <Box sx={{
+                            width: 125,
+                            pt: .5
+                        }}>
+                            Escalation Max
+                        </Box>
+                        <Box sx={{
+                            width: 125,
+                        }}>
+                            <TextFieldCustom
+                                placeholder="Escalation Max"
+                                type="text"
+                                size="sm"
+                                name="escalation_max"
+                                value={escalation_max}
+                                onchange={updatepriority}
+                            />
+                        </Box>
+                    </Box>
+
+                    <Box sx={{ m: .5, }}>
+                        <CusCheckBox
+
+                            label="Status"
+                            color="primary"
+                            size="md"
+                            name="cm_priority_status"
+                            value={cm_priority_status}
+                            checked={cm_priority_status}
+                            onCheked={updatepriority}
+                        />
+                    </Box>
+                </Box>
+                <Box sx={{ flex: 2, pl: 1 }}>
+                    <ComProirityMastTable count={count} rowSelect={rowSelect} />
+                </Box>
             </Box>
         </CardMaster>
     )

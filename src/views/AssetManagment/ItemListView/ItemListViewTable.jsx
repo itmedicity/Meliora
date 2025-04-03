@@ -4,21 +4,21 @@ import QrCode2Icon from '@mui/icons-material/QrCode2';
 import DescriptionIcon from '@mui/icons-material/Description';
 import { Box } from '@mui/material'
 import CusAgGridForMain from 'src/views/Components/CusAgGridForMain';
-import { IconButton } from '@mui/material';
 import { editicon } from 'src/color/Color';
-import CustomeToolTip from 'src/views/Components/CustomeToolTip';
 
-const ItemListViewTable = ({ asset, displayarry, AddDetails }) => {
+
+const ItemListViewTable = ({ assetSpare, displayarry, AddDetails }) => {
 
     const [disArry, setDisArry] = useState([])
 
     useEffect(() => {
         if (displayarry.length !== 0) {
-            if (asset === true) {
-                const xx = displayarry.map((val, index) => {
+            if (assetSpare === 1) {
+                const dataaa = displayarry.map((val, index) => {
                     const obj = {
                         slno: index + 1,
                         am_item_map_slno: val.am_item_map_slno,
+                        am_category_pm_days: val.am_category_pm_days,
                         item_creation_slno: val.item_creation_slno,
                         item_dept_slno: val.item_dept_slno,
                         item_deptsec_slno: val.item_deptsec_slno,
@@ -37,10 +37,10 @@ const ItemListViewTable = ({ asset, displayarry, AddDetails }) => {
                     }
                     return obj
                 })
-                setDisArry(xx)
+                setDisArry(dataaa)
             }
             else {
-                const xx = displayarry.map((val, index) => {
+                const dataaa = displayarry.map((val, index) => {
                     const obj = {
                         slno: index + 1,
                         am_spare_item_map_slno: val.am_spare_item_map_slno,
@@ -62,10 +62,10 @@ const ItemListViewTable = ({ asset, displayarry, AddDetails }) => {
                     }
                     return obj
                 })
-                setDisArry(xx)
+                setDisArry(dataaa)
             }
         }
-    }, [displayarry, asset])
+    }, [displayarry, assetSpare])
 
     const [flag, setFlag] = useState(0)
     const [selectedData, setSelectedData] = useState([])
@@ -85,39 +85,38 @@ const ItemListViewTable = ({ asset, displayarry, AddDetails }) => {
 
     //column title setting
     const [column] = useState([
+        { headerName: "#", field: "slno", width: 70 },
         {
-            headerName: 'Add Details', minWidth: 120, cellRenderer: (params) => {
-                return <IconButton onClick={() => AddDetails(params)}
-                    sx={{ color: editicon, paddingY: 0.5 }} >
-                    <CustomeToolTip title="Add Details">
-                        <DescriptionIcon />
-                    </CustomeToolTip>
-                </IconButton>
+            headerName: 'Add Details', width: 110, cellRenderer: (params) => {
+                return <Box onClick={() => AddDetails(params)}
+                    sx={{ color: editicon, cursor: 'pointer' }} >
+                    <DescriptionIcon />
+
+                </Box>
             }
         },
         {
-            headerName: 'QR Code', minWidth: 80, cellRenderer: (params) => {
-                return <IconButton onClick={() => modeldisplay(params)}
-                    sx={{ color: editicon, paddingY: 0.5 }} >
-                    <CustomeToolTip title="QR Code">
-                        <QrCode2Icon />
-                    </CustomeToolTip>
-                </IconButton>
+            headerName: 'QR Code', width: 90, cellRenderer: (params) => {
+                return <Box onClick={() => modeldisplay(params)}
+                    sx={{ color: editicon, cursor: 'pointer' }} >
+
+                    <QrCode2Icon />
+
+                </Box>
             }
         },
-        { headerName: "Sl No", field: "slno", minWidth: 100 },
-        // { headerName: "Department", field: "deptname", minWidth: 250 },
-        { headerName: "Department Section", field: "secname", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
-        { headerName: "Category", field: "category_name", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
-        { headerName: "Asset No", field: "assetno", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
-        { headerName: "Serial No", field: "serialno", autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
-        { headerName: "Item Name", field: "item_name", autoHeight: true, wrapText: true, minWidth: 350, filter: "true" },
+
+        { headerName: "Department Section", field: "secname", autoHeight: true, wrapText: true, width: 250, filter: "true" },
+        { headerName: "Category", field: "category_name", autoHeight: true, wrapText: true, width: 200, filter: "true" },
+        { headerName: "Asset No", field: "assetno", autoHeight: true, wrapText: true, width: 250, filter: "true" },
+        { headerName: "Serial No", field: "serialno", autoHeight: true, wrapText: true, width: 250, filter: "true" },
+        { headerName: "Item Name", field: "item_name", autoHeight: true, wrapText: true, width: 500, filter: "true" },
     ])
     return (
         <Fragment>
             {flag === 1 ? <ItemQrDisplayModel open={open} handleClose={handleClose} selectedData={selectedData}
             /> : null}
-            <Box sx={{ pt: 1 }}>
+            <Box sx={{}}>
                 <CusAgGridForMain
                     columnDefs={column}
                     tableData={disArry}
@@ -127,3 +126,4 @@ const ItemListViewTable = ({ asset, displayarry, AddDetails }) => {
     )
 }
 export default memo(ItemListViewTable)
+

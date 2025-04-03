@@ -14,7 +14,7 @@ const AmDepartmentSelWOName = ({ department, setDepartment }) => {
     const [inputValue, setInputValue] = useState('');
 
     useEffect(() => {
-        if (value !== null) {
+        if (value?.dept_id > 0) {
             setValue(value)
             dispatch(getDesignation(value.dept_id))
             setDepartment(value.dept_id)
@@ -54,7 +54,6 @@ const AmDepartmentSelWOName = ({ department, setDepartment }) => {
                     loading={true}
                     loadingText="Loading..."
                     freeSolo
-                    // renderInput={(params) => (<Input size="sm" placeholder="Small"  {...params} />)}
                     isOptionEqualToValue={(option, value) => option.dept_name === value.dept_name}
                     getOptionLabel={option => option.dept_name || ''}
                     options={models}

@@ -68,7 +68,6 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
         }
     }
 
-    //setting data to be displayed in modal
     useEffect(() => {
         const rectifyfunction = () => {
             const { complaint_slno, complaint_desc, req_type_name, complaint_dept_name, complaint_type_name,
@@ -95,7 +94,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
             setrectify(frmdata)
             setHold(cm_rectify_status === 'O' ? true : false);
             setPendhold(rectify_pending_hold_remarks)
-            setPending(cm_rectify_status === 'P' ? true : false);
+            // setPending(cm_rectify_status === 'P' ? true : false);
             SetAssignRemark(complaint_remark === null ? "Not Given" : complaint_remark)
         }
         rectifyfunction()
@@ -121,31 +120,15 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
 
     }, [complaint_slno])
 
-    //pending checkbox
-    const [pending, setPending] = useState(false);
-    //hold check box
+
     const [hold, setHold] = useState(false);
-    //rectified check box
     const [rectified, setRectify] = useState(false);
-    //flag for remark description
     const [flag, setFlag] = useState(0);
-    //pending check box function
-    const updatePending = useCallback((e) => {
-        if (e.target.checked === true) {
-            setPending(true)
-            setHold(false)
-            setRectify(false)
-            setFlag(1)
-        } else {
-            setFlag(0)
-            setPending(false)
-        }
-    }, [])
-    //hold check box function
+
     const updateHold = useCallback((e) => {
         if (e.target.checked === true) {
             setHold(true)
-            setPending(false)
+            // setPending(false)
             setRectify(false)
             setFlag(2)
         } else {
@@ -153,19 +136,19 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
             setHold(false)
         }
     }, [])
-    //rectified check box function
+
     const updateRectified = useCallback((e) => {
         if (e.target.checked === true) {
             setRectify(true)
             setHold(false)
-            setPending(false)
+            // setPending(false)
             setFlag(0)
         } else {
             setFlag(0)
             setRectify(false)
         }
     }, [])
-    //state for  holdinpending reason
+
     const [pendholdreason, setPendhold] = useState("")
     const updatePendhold = useCallback((e) => {
         setPendhold(e.target.value)
@@ -173,12 +156,12 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
     // data setting to update the complaint mast table and complaint detail table
     const patchData = Employee && Employee.map((val) => {
         return {
-            compalint_status: rectified === true ? 2 : compalint_status, // when we click on rectifi status becom 2 other wise status is 1
-            cm_rectify_status: pending === true ? 'P' : hold === true ? 'O' : rectified === true ? 'R' : null, //we click pending rectify status becom P so onn
+            compalint_status: rectified === true ? 2 : compalint_status,
+            cm_rectify_status: hold === true ? 'O' : rectified === true ? 'R' : null,
             cm_rectify_time: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
-            rectify_pending_hold_remarks: pending === true ? pendholdreason : hold === true ?
+            rectify_pending_hold_remarks: hold === true ?
                 pendholdreason : rectified === true ? pendholdreason : null,
-            pending_onhold_time: pending === true ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : hold === true ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : null,
+            pending_onhold_time: hold === true ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : null,
             pending_onhold_user: id,
             assigned_emp: val.emids,
             verify_spervsr: 0,
@@ -204,7 +187,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                 setCount(count + 1);
                 setOpen(false)
                 setrectify(resetFrmdata)
-                setPending(false)
+                // setPending(false)
                 setHold(false)
                 setRectify(false)
                 setSelect(false)
@@ -217,19 +200,19 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                 errorNotify("Error Occured")
             }
         }
-        if (pending === true || hold === true || rectified === true && Employee.length !== 0) {
+        if (hold === true || rectified === true && Employee.length !== 0) {
             updateFun(patchData)
         }
         else {
             infoNotify("Please Select any employee Or Choose Any Option")
         }
-    }, [patchData, count, setCount, setOpen, hold, pending, rectified, Employee, setempname])
+    }, [patchData, count, setCount, setOpen, hold, rectified, Employee, setempname])
     //modal close function
     const handleClose = () => {
         setOpen(false);
         setFlag(0);
         setRectify(false);
-        setPending(false);
+        // setPending(false);
         setHold(false);
         setPendhold('');
         setSelect(false)
@@ -238,6 +221,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
 
     const [assetAddFls, setAssetAddFlag] = useState(0)
     const [cmAssetSlno, setCmAssetSlno] = useState(0)
+
     const AddAssetDetaiils = useCallback(() => {
         setAssetAddFlag(1)
     }, [])
@@ -250,9 +234,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
         }
     }, [complaint_slno, cmAssetSlno, id])
 
-
     const AddAssetToComplaint = useCallback(() => {
-
         const InsertFun = async (postdata) => {
             const result = await axioslogin.post('Rectifycomplit/AssetMappComplaint', postdata);
             const { message, success } = result.data;
@@ -386,9 +368,6 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                                     <Box>
                                     </Box>
                                 </Box>
-
-
-
                                 <Box sx={{
                                     width: "100%",
                                     display: "flex",
@@ -443,10 +422,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                                         />
                                     </Box>
                                 </Box>
-
-
                                 {
-
                                     assetDetalDataFlag === 1 ? <Box sx={{
                                         width: "100%",
                                         display: "flex",
@@ -527,10 +503,6 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                                             <Box sx={{ width: '40%', p: 1 }}>
                                                 <AssetListUnderDeptSec cm_location={cm_location}
                                                     cmAssetSlno={cmAssetSlno} setCmAssetSlno={setCmAssetSlno} />
-
-                                                {/* <SpareListSelect spare={spare} setSpare={setSpare}
-                                                    item_custodian_dept={item_custodian_dept}
-                                                    setSpareNo={setSpareNo} /> */}
                                             </Box>
                                             <Box sx={{ width: '5%', pl: 1, pt: 1, cursor: "pointer" }} >
                                                 <Tooltip title="Add Asset" placement="top" >
@@ -540,55 +512,24 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                                             </Box>
                                         </Box>
 
-                                        // <Box sx={{
-                                        //     width: "100%",
-                                        //     display: "flex",
-                                        //     flexDirection: "row",
-                                        //     pl: 2, pt: 2
-                                        // }}>
-
-                                        //     <Box sx={{
-                                        //         display: 'flex', width: "50%", pl: 3,
-                                        //         backgroundColor: 'red'
-                                        //     }}>
-
-                                        //         <AssetListUnderDeptSec cm_location={cm_location}
-                                        //             cmAssetSlno={cmAssetSlno} setCmAssetSlno={setCmAssetSlno} />
-                                        //     </Box>
-
-
-                                        // </Box>
                                         : null}
                                 </Box>
-
-
-
-
-
-
-
-
-
                                 <Box sx={{
                                     width: "100%",
                                     display: "flex",
                                     flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
                                     p: 0.5,
                                 }}>
-
                                     <Box sx={{
                                         display: 'flex',
                                         width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%', },
                                     }} >
                                         <Typography>Actual Assigned</Typography>
-
                                     </Box>
-
                                     <Box sx={{
                                         display: 'flex',
                                         width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%', },
                                     }} >
-
                                         {
                                             empName && empName.map((val) => {
                                                 return <Box key={val.assigned_emp} sx={{
@@ -597,12 +538,8 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                                                     flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
                                                 }}>
 
-                                                    {/* <CssVarsProvider> */}
                                                     <Checkbox
                                                         color="primary"
-
-                                                        // defaultChecked={false}
-                                                        // disabled={disabled}
                                                         label={val.em_name}
                                                         value={val.assigned_emp}
                                                         name={val.em_name}
@@ -611,23 +548,13 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                                                             getemp(e.target.checked, e.target.value)
                                                         }}
                                                         checked={val.check === 1 ? true : select.check}
-
                                                     />
-
                                                     <Typography sx={{ pt: 1 }}>{val.em_name}</Typography>
-
-                                                    {/* </CssVarsProvider> */}
-
                                                 </Box>
                                             })
                                         }
-
                                     </Box>
-
-
-
                                 </Box>
-
                                 <Box sx={{
                                     width: "100%",
                                     display: "flex",
@@ -635,20 +562,6 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                                     p: 0.5,
                                     mt: 1, mb: 1
                                 }}>
-                                    <Box sx={{
-                                        display: 'flex',
-                                        width: "40%"
-                                    }} >
-                                        <CusCheckBox
-                                            label="On Progress"
-                                            color="primary"
-                                            size="md"
-                                            name="pending"
-                                            value={pending}
-                                            checked={pending}
-                                            onCheked={updatePending}
-                                        />
-                                    </Box>
                                     <Box sx={{
                                         display: 'flex',
                                         width: "30%"

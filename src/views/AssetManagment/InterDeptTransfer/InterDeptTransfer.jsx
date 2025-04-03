@@ -116,7 +116,6 @@ const InterDeptTransfer = () => {
                 <CusAgGridForMain
                     columnDefs={column}
                     tableData={tabledata}
-                // getRowStyle={getRowStyle}
                 />
             </Box>
         </CardCloseOnly>

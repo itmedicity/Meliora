@@ -73,7 +73,6 @@ const SecondaryCustodian = () => {
   const submitSecondary = useCallback(
     (e) => {
       e.preventDefault()
-
       const InsertSecondary = async (postdata) => {
         const result = await axioslogin.post('/secondaryCustodian/insert', postdata)
         const { message, success } = result.data

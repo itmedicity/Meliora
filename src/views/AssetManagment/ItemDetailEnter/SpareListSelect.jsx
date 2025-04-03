@@ -1,5 +1,6 @@
 import { Box, FormControl, MenuItem, Select } from '@mui/material'
 import React, { memo, useEffect, useState, useMemo } from 'react'
+import { getSparesInstock } from 'src/api/AssetApis';
 import { axioslogin } from 'src/views/Axios/Axios';
 
 
@@ -7,36 +8,27 @@ const SpareListSelect = ({ spare, setSpare, setSpareNo, item_custodian_dept }) =
 
     const [tabledata, setTabledata] = useState([])
 
+    const { data: spareData, isLoading } = useQuery({
+        queryKey: ['getSparesinstock', postData],
+        queryFn: () => getSparesInstock(postData),
+    });
 
-
-    const getSpareCondition = useMemo(() => {
-        return {
-            spare_custodian_dept: item_custodian_dept
-        }
-    }, [item_custodian_dept])
-
+    const spareInstock = useMemo(() => spareData, [spareData]);
 
     useEffect(() => {
-        const getModelNo = async (getSpareCondition) => {
-            const result = await axioslogin.post('/ItemMapDetails/GetFreespareList', getSpareCondition);
-            const { success, data } = result.data
-            if (success === 1) {
-                const datass = data.map((val, index) => {
-                    const obj = {
-                        am_spare_item_map_slno: val.am_spare_item_map_slno,
-                        item_name: val.item_name,
-                        assetno: val.spare_asset_no + '/' + val.spare_asset_no_only.toString().padStart(6, '0'),
-                    }
-                    return obj
-                })
-                setTabledata(datass);
-            }
-            else {
-                setTabledata([])
-            }
+        if (spareInstock && spareInstock.length > 0) {
+            const formattedSpareInstock = spareInstock.map((val, index) => {
+                return {
+                    am_spare_item_map_slno: val.am_spare_item_map_slno,
+                    item_name: val.item_name,
+                    assetno: val.spare_asset_no + '/' + val.spare_asset_no_only.toString().padStart(6, '0'),
+                };
+            });
+            setTabledata(formattedSpareInstock);
+        } else {
+            setTabledata([]);
         }
-        getModelNo(getSpareCondition)
-    }, [getSpareCondition])
+    }, [spareInstock]);
 
     return (
         <Box>

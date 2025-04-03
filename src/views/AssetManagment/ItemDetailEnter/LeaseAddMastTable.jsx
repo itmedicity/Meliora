@@ -7,6 +7,7 @@ import { Box } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit';
 
 const LeaseAddMastTable = ({ count, rowSelect }) => {
+
     const [tabledata, setTabledata] = useState([])
     useEffect(() => {
         const getAMCCMC = async () => {
@@ -21,14 +22,13 @@ const LeaseAddMastTable = ({ count, rowSelect }) => {
         getAMCCMC()
     }, [count])
 
-
     return (
         <Box sx={{
-            borderBottom: 1, borderWidth: 0.1, borderColor: 'black', minHeight: 80, maxHeight: 200,
-            overflow: 'auto', borderLeft: 1, borderRight: 1, borderTop: 1
+            minHeight: 220, maxHeight: 220, border: 1, borderColor: 'lightgrey', px: .5,
+            overflow: 'auto',
         }} >
             <CssVarsProvider>
-                <Table stickyHeader>
+                <Table stickyHeader size='sm'>
                     <thead>
                         <tr>
                             <th style={{ width: '7%', align: "center" }}>Action</th>
@@ -49,7 +49,7 @@ const LeaseAddMastTable = ({ count, rowSelect }) => {
                                     minHeight: 5
                                 }}
                             > <td>
-                                    <EditIcon size={6} onClick={() => rowSelect(val)} />
+                                    <EditIcon size={6} onClick={() => rowSelect(val)} sx={{ cursor: 'pointer' }} />
                                 </td>
                                 <td> {val.am_lease_mastslno}</td>
                                 <td> {val.it_supplier_name}</td>

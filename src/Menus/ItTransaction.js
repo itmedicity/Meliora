@@ -9,7 +9,6 @@ const ITTransactions = [
         component: CNavItem,
         name: 'DashBoard',
         to: '/Home/DashboardBackup',
-        // to: '/Home/newDash',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
 
@@ -20,13 +19,7 @@ const ITTransactions = [
         to: '/Home/PasswordManagement',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
-    {
-        men_slno: 148,
-        component: CNavItem,
-        name: 'Communication Device',
-        to: '/Home/CommunicationDevice',
-        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
-    },
+
     {
         men_slno: 149,
         component: CNavItem,

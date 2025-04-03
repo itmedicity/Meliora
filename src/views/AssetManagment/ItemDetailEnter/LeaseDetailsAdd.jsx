@@ -1,39 +1,47 @@
-import React, { memo, useCallback, useState, useMemo, useEffect } from 'react'
-import { Box, Typography, Paper, Button } from '@mui/material'
-import TextFieldCustom from 'src/views/Components/TextFieldCustom'
-import CusIconButton from '../../Components/CusIconButton';
-import CustomeToolTip from 'src/views/Components/CustomeToolTip'
-import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
-import RefreshIcon from '@mui/icons-material/Refresh';
+import { Box } from '@mui/joy'
+import { format } from 'date-fns'
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { succesNotify, warningNotify } from 'src/views/Common/CommonCode';
-import CusCheckBox from 'src/views/Components/CusCheckBox';
-import { format } from 'date-fns'
-import SupplierSelectMaster from './SupplierSelectMaster';
-import LeaseAddMast from './LeaseAddMast';
+import { succesNotify, warningNotify } from 'src/views/Common/CommonCode'
+import CusIconButton from 'src/views/Components/CusIconButton'
+import TextComponent from 'src/views/Components/TextComponent'
+import TextFieldCustom from 'src/views/Components/TextFieldCustom'
+import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
+import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
+import { getLeaseDetailList } from 'src/api/AssetApis'
+import { useQuery } from 'react-query'
+import LeaseAddMast from './LeaseAddMast'
+import SupplierSelectMaster from './SupplierSelectMaster'
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import LeaseAddingModal from './LeaseAddingModal';
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
-import ImageDisplayModal from 'src/views/CentralRequestManagement/ComonComponent/ImageUploadCmp/ImageDisplayModal';
+import CloseIcon from '@mui/icons-material/Close';
+import LeaseAddingModal from './LeaseAddingModal'
+import AddIcon from '@mui/icons-material/Add';
+import { Virtuoso } from 'react-virtuoso'
+import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
+import FileView from '../AssetFileView/FileView'
+import LinkSharpIcon from '@mui/icons-material/LinkSharp';
 
-const LeaseDetailsAdd = ({ grndetailarry }) => {
-    const { am_item_map_detl_slno, am_lease_mast_slno,
-        am_lease_mastslno, lease_suppliername, lease_fromdate, lease_todate, lease_image, lease_amount
-    } = grndetailarry
-    // const [leaseFile, setLeaseFile] = useState(null)
-    // Get login user emp_id
+const LeaseDetailsAdd = ({ grndetailarry, detailArry }) => {
+
+    const { am_item_map_slno } = detailArry
+    const { am_item_map_detl_slno, } = grndetailarry
+
     const id = useSelector((state) => {
         return state.LoginUserData.empid
     })
 
-    const [LeaseStatus, setLeaseStatus] = useState(false)
+    const [leaseLinkflag, setleaseLinkflag] = useState(0)
     const [supplier, setSupplier] = useState(0)
     const [billDate, setBillDate] = useState(format(new Date(), "yyyy-MM-dd"))
     const [SupplerModal, setSupplerModal] = useState(0)
     const [BillArray, setBillArray] = useState([])
-
-
+    const [count, setCount] = useState(0)
+    const [addLeaseFlag, setaddLeaseFlag] = useState(0)
+    const [imageshowFlag, setImageShowFlag] = useState(0)
+    const [imagearray, setImageArry] = useState([])
+    const [imageshow, setImageShow] = useState(false)
+    const [leaseAllDetails, setleaseAllDetails] = useState([])
     const [leaseDetail, setLeaseDetal] = useState({
         sup_name: '',
         lease_from: '',
@@ -44,36 +52,9 @@ const LeaseDetailsAdd = ({ grndetailarry }) => {
     })
     const { sup_name, lease_from, lease_to, lease_Amount, leaseImage, leaseSlno } = leaseDetail
 
-    const updateLeaseStatus = useCallback((e) => {
-        if (e.target.checked === true) {
-            setLeaseStatus(true)
-        } else {
-            setLeaseStatus(false)
-        }
-
-    }, [])
-
     const updateBillDate = useCallback((e) => {
         setBillDate(e.target.value)
     }, [])
-
-    useEffect(() => {
-        if (am_lease_mast_slno !== null && am_lease_mast_slno !== undefined) {
-            setLeaseDetailFlag(1)
-            const fromSetting = {
-                sup_name: lease_suppliername,
-                lease_from: lease_fromdate,
-                lease_to: lease_todate,
-                lease_Amount: lease_amount,
-                leaseImage: lease_image,
-                leaseSlno: am_lease_mastslno
-            }
-            setLeaseDetal(fromSetting)
-            setLeaseStatus(true)
-        }
-
-    }, [lease_suppliername, lease_fromdate, lease_todate, lease_amount, am_lease_mastslno, lease_image, am_lease_mast_slno])
-
 
     const searchdata = useMemo(() => {
         return {
@@ -105,12 +86,8 @@ const LeaseDetailsAdd = ({ grndetailarry }) => {
         }
     }, [searchdata, supplier])
 
-    const [LeaseDetailFlag, setLeaseDetailFlag] = useState(0)
-
     const rowSelect = useCallback((value) => {
-
         const { it_supplier_name, lease_fromdate, lease_todate, lease_amount, lease_image, am_lease_mastslno } = value
-
         const frmdataset = {
             sup_name: it_supplier_name,
             lease_from: lease_fromdate,
@@ -120,7 +97,9 @@ const LeaseDetailsAdd = ({ grndetailarry }) => {
             leaseSlno: am_lease_mastslno
         }
         setLeaseDetal(frmdataset)
-        setLeaseDetailFlag(1)
+        setaddLeaseFlag(1)
+        setleaseLinkflag(0)
+        setLeaseFlg(0)
     }, [])
 
     const [AddLeaseFlg, setLeaseFlg] = useState(0)
@@ -129,9 +108,6 @@ const LeaseDetailsAdd = ({ grndetailarry }) => {
         setLeaseFlg(1)
     }, [])
 
-    const [imageshowFlag, setImageShowFlag] = useState(0)
-    const [imagearray, setImageArry] = useState([])
-    const [imageshow, setImageShow] = useState(false)
     const ViewLeaseImage = useCallback(() => {
         const getImage = async (leaseSlno) => {
             const result = await axioslogin.get(`/AssetFileUpload/LeaseMasterImageView/${leaseSlno}`)
@@ -152,8 +128,30 @@ const LeaseDetailsAdd = ({ grndetailarry }) => {
             }
         }
         getImage(leaseSlno)
-
     }, [leaseSlno])
+
+    const ViewLeaseDetailFile = useCallback((val) => {
+        const { am_lease_mast_slno } = val
+        const getImage = async (am_lease_mast_slno) => {
+            const result = await axioslogin.get(`/AssetFileUpload/LeaseMasterImageView/${am_lease_mast_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const fileNames = data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER}/Asset/LeaseMaster/${am_lease_mast_slno}/${fileName}`;
+                });
+                setImageArry(fileUrls);
+                setImageShowFlag(1)
+                setImageShow(true)
+            } else {
+                warningNotify("Error Occured to display image")
+                setImageShowFlag(0)
+                setImageShow(false)
+                setImageArry([])
+            }
+        }
+        getImage(am_lease_mast_slno)
+    }, [])
 
     const handleClose = useCallback(() => {
         setImageShowFlag(0)
@@ -164,9 +162,10 @@ const LeaseDetailsAdd = ({ grndetailarry }) => {
         return {
             am_lease_mast_slno: leaseSlno,
             edit_user: id,
-            am_item_map_detl_slno: am_item_map_detl_slno
+            am_item_map_detl_slno: am_item_map_detl_slno,
+            am_item_map_slno: am_item_map_slno,
         }
-    }, [am_item_map_detl_slno, id, leaseSlno])
+    }, [am_item_map_detl_slno, id, leaseSlno, am_item_map_slno])
 
 
     const SaveLeaseDetails = useCallback((e) => {
@@ -178,6 +177,8 @@ const LeaseDetailsAdd = ({ grndetailarry }) => {
                 succesNotify(message)
                 setBillArray([]);
                 setSupplerModal(0)
+                setCount(count + 1)
+                setaddLeaseFlag(0)
             }
             else {
                 warningNotify(message)
@@ -188,71 +189,115 @@ const LeaseDetailsAdd = ({ grndetailarry }) => {
         } else {
             warningNotify("Please select Lease before save")
         }
-    }, [LeasepatchData, leaseSlno])
+    }, [LeasepatchData, leaseSlno, count])
 
-    const LeaseReferesh = useCallback(() => {
-        const fromSetting = {
-            sup_name: '',
-            lease_from: '',
-            lease_to: '',
-            lease_Amount: '',
-            leaseImage: '',
-            leaseSlno: ''
-        }
-        setLeaseDetal(fromSetting)
-        setLeaseDetailFlag(0)
-        setLeaseStatus(false)
-        setSupplier(0)
-        setBillDate(format(new Date(), "yyyy-MM-dd"))
-        setSupplerModal(0)
-        setBillArray([])
-        setLeaseFlg(0)
-        setImageShowFlag(0)
-        setImageArry([])
-        setImageShow(false)
+
+    const linkLease = useCallback(() => {
+        setleaseLinkflag(1)
+    }, [])
+    const CloseLease = useCallback(() => {
+        setleaseLinkflag(0)
+    }, [])
+    const CloseLeaseFlag = useCallback(() => {
+        setaddLeaseFlag(0)
     }, [])
 
 
+    const { data: LeaseDetailListData } = useQuery({
+        queryKey: ['getLeaseDetailList', count],
+        enabled: am_item_map_slno !== undefined,
+        queryFn: () => getLeaseDetailList(am_item_map_slno),
+    });
+
+    const LeaseDetailList = useMemo(() => LeaseDetailListData, [LeaseDetailListData])
+
+
+    useEffect(() => {
+        if (LeaseDetailList) {
+            setleaseAllDetails(LeaseDetailList);
+        } else {
+            setleaseAllDetails([]);
+        }
+    }, [LeaseDetailList]);
+
+
     return (
-        <Paper sx={{ overflow: 'auto', border: 1, mb: 1 }}>
-            {AddLeaseFlg === 1 ? <LeaseAddMast setLeaseFlg={setLeaseFlg}
-            /> : null}
-            {imageshowFlag === 1 ? <ImageDisplayModal open={imageshow} handleClose={handleClose}
-                images={imagearray} /> : null}
-            <Box sx={{
-                display: 'flex', flexDirection: 'column', flexWrap: 'wrap',
-            }} >
-                <Box sx={{ display: 'flex', width: '7%', p: 0.5, py: 2, flexDirection: 'column' }} >
-                    <CusCheckBox
-                        variant="outlined"
-                        color="danger"
-                        size="md"
-                        name="LeaseStatus"
-                        label="Lease"
-                        value={LeaseStatus}
-                        onCheked={updateLeaseStatus}
-                        checked={LeaseStatus}
+        <Box>
+            <Box sx={{ border: 1, borderColor: '#E0E1E3', py: 1, pl: 2, }}>
+                <TextComponent
+                    text={"LEASE DETAILS"}
+                    sx={{
+                        flex: 1,
+                        fontWeight: 500,
+                        color: 'black',
+                        fontSize: 15,
+                    }}
+                />
+                <Box sx={{
+                    display: 'flex', pt: .1, pl: .8, mt: .5,
+                    cursor: 'pointer',
+                    border: 1, width: 100,
+                    justifyContent: 'center',
+                    borderRadius: 4, borderColor: '#0B6BCB',
+                }}
+                    onClick={linkLease}
+                >
+                    <TextComponent
+                        text={"Add New "}
+                        sx={{
+                            fontSize: 14,
+                            color: '#0B6BCB',
+                            textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3), -1px -1px 2px rgba(255, 255, 255, 0.7)',
+                            transform: 'translateZ(0)',
+
+                        }}
                     />
+
+                    <AddIcon sx={{
+                        p: .2, color: '#0B6BCB',
+                    }} />
                 </Box>
 
-                {
-                    LeaseStatus === true ?
-                        <Box sx={{
-                            display: 'flex', width: '100%', flexDirection: 'row', flexWrap: 'wrap',
-                        }}>
 
-                            <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
-                                <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Select Supplier</Typography>
-                                <Box>
+
+                {AddLeaseFlg === 1 ? <LeaseAddMast setLeaseFlg={setLeaseFlg}
+                /> : null}
+                {imageshowFlag === 1 ? <FileView open={imageshow} handleClose={handleClose}
+                    images={imagearray} /> : null}
+                {leaseLinkflag === 1 ?
+                    <Box sx={{
+                        flex: 1,
+                        display: 'flex',
+                        mt: 1, mb: 2,
+                    }}>
+                        <Box sx={{ width: 500 }}>
+                            <Box sx={{ display: 'flex', pt: .5 }}>
+                                <TextComponent
+                                    text={"Supplier"}
+                                    sx={{
+                                        fontWeight: 600,
+                                        color: '#727B8C',
+                                        pt: 1,
+                                        width: 120
+                                    }}
+                                />
+                                <Box sx={{ flex: 1 }}>
                                     <SupplierSelectMaster
                                         supplier={supplier}
                                         setSupplier={setSupplier}
                                     />
                                 </Box>
                             </Box>
-                            <Box sx={{ display: 'flex', width: '12%', p: 0.5, flexDirection: 'column' }} >
-                                <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Bill Date</Typography>
-                                <Box>
+                            <Box sx={{ display: 'flex', pt: .5 }}>
+                                <TextComponent
+                                    text={"Bill Date"}
+                                    sx={{
+                                        fontWeight: 600,
+                                        color: '#727B8C',
+                                        width: 120
+                                    }}
+                                />
+                                <Box sx={{ flex: 1 }}>
                                     <TextFieldCustom
                                         type="date"
                                         size="sm"
@@ -262,36 +307,93 @@ const LeaseDetailsAdd = ({ grndetailarry }) => {
                                     ></TextFieldCustom>
                                 </Box>
                             </Box>
-                            <Box sx={{ width: '3%', pl: 1, pt: 3, }}>
-                                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={searchLease} >
-                                    <SearchOutlinedIcon fontSize='small' />
-                                </CusIconButton>
+                            <Box sx={{ display: 'flex', pt: 1, }}>
+                                <Box sx={{ width: 120 }}></Box>
+                                <Box sx={{ flex: 1, gap: .5, display: 'flex' }}>
+                                    <Box>
+                                        <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={searchLease} >
+                                            <SearchOutlinedIcon fontSize='small' />
+                                        </CusIconButton>
+                                    </Box>
+                                    <Box>
+                                        <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={AddLeaseMaster} >
+                                            <LinkSharpIcon fontSize='small' />
+                                        </CusIconButton>
+                                    </Box>
+                                    <Box>
+                                        <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={CloseLease} >
+                                            <CloseIcon fontSize='small' />
+                                        </CusIconButton>
+                                    </Box>
+                                </Box>
                             </Box>
-
-                            {SupplerModal === 1 ? <Box sx={{ display: 'flex', width: "60%", pt: 1, pl: 1, pb: 1 }}>
+                        </Box>
+                        <Box sx={{ flex: 1, py: .5, px: 1 }}>
+                            {SupplerModal === 1 ? <Box sx={{ flex: 1 }}>
                                 <LeaseAddingModal BillArray={BillArray} rowSelect={rowSelect} />
                             </Box>
                                 :
                                 SupplerModal === 2 ?
-                                    <Box sx={{ display: 'flex', width: "25%", height: 50, pt: 3, pl: 3 }}>
-                                        <Button onClick={AddLeaseMaster} variant="contained"
-                                            size="small" color="primary">Add Lease</Button>
-                                    </Box>
-                                    : null
-                            }
+                                    <Box sx={{
+                                        border: 1, borderColor: 'lightgrey', height: 120,
+                                        overflow: 'auto',
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                    }} >
+                                        <Box>
+                                            <TextComponent
+                                                text={"No  Matched Leased Details"}
+                                                sx={{
+                                                    flex: 1, fontSize: 32,
+                                                    fontWeight: 700,
+                                                    color: 'lightgrey',
+                                                    pt: 1
 
-                        </Box> : null
-                }
+                                                }}
+                                            />
+                                            <Box
+                                                sx={{
+                                                    bgcolor: '#3D86D0',
+                                                    width: 120,
+                                                    textAlign: 'center',
+                                                    margin: 'auto',
+                                                    borderRadius: 4,
+                                                    color: 'white',
+                                                    fontWeight: 600,
+                                                    cursor: 'pointer',
+                                                    py: .3,
+                                                    boxShadow: '2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.6)', // Outward shadow effect
+                                                    transform: 'translateZ(0)', // For smoother shadow rendering
+                                                    transition: 'transform 0.2s ease', // Smooth transition on hover
+                                                    '&:hover': {
+                                                        boxShadow: '3px 3px 6px rgba(0, 0, 0, 0.4), -3px -3px 6px rgba(255, 255, 255, 0.7)', // Increase shadow on hover
+                                                    }
+                                                }}
+                                                onClick={AddLeaseMaster}
+                                            >
+                                                Add New Lease
+                                            </Box>
+                                        </Box>
+                                    </Box> : null}
 
-                {
-                    LeaseDetailFlag === 1 ?
-                        <Box sx={{
-                            display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
-                        }} >
+                        </Box>
+                    </Box> : null}
 
-                            <Box sx={{ display: 'flex', width: '30%', p: 0.5, flexDirection: 'column' }} >
-                                <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Supplier Name</Typography>
-                                <Box>
+                {addLeaseFlag === 1 ?
+                    <Box sx={{ flex: 1, display: 'flex' }} >
+                        <Box sx={{ width: 500 }}>
+                            <Box sx={{ display: 'flex', pt: .5 }}>
+                                <TextComponent
+                                    text={"Supplier Name"}
+                                    sx={{
+                                        fontWeight: 600,
+                                        color: '#727B8C',
+                                        pt: 1,
+                                        width: 120
+
+                                    }}
+                                />
+                                <Box sx={{ flex: 1 }}>
                                     <TextFieldCustom
                                         type="text"
                                         size="sm"
@@ -300,10 +402,20 @@ const LeaseDetailsAdd = ({ grndetailarry }) => {
                                         disabled={true}
                                     ></TextFieldCustom>
                                 </Box>
+
                             </Box>
-                            <Box sx={{ display: 'flex', width: '15%', p: 0.5, flexDirection: 'column' }} >
-                                <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >From Date</Typography>
-                                <Box>
+                            <Box sx={{ display: 'flex', pt: .5 }}>
+                                <TextComponent
+                                    text={"From Date"}
+                                    sx={{
+                                        fontWeight: 600,
+                                        color: '#727B8C',
+                                        pt: 1,
+                                        width: 120
+
+                                    }}
+                                />
+                                <Box sx={{ flex: 1 }}>
                                     <TextFieldCustom
                                         type="date"
                                         size="sm"
@@ -312,10 +424,20 @@ const LeaseDetailsAdd = ({ grndetailarry }) => {
                                         disabled={true}
                                     ></TextFieldCustom>
                                 </Box>
+
                             </Box>
-                            <Box sx={{ display: 'flex', width: '15%', p: 0.5, flexDirection: 'column' }} >
-                                <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >To Date</Typography>
-                                <Box>
+                            <Box sx={{ display: 'flex', pt: .5 }}>
+                                <TextComponent
+                                    text={"To Date"}
+                                    sx={{
+                                        fontWeight: 600,
+                                        color: '#727B8C',
+                                        pt: 1,
+                                        width: 120
+
+                                    }}
+                                />
+                                <Box sx={{ flex: 1 }}>
                                     <TextFieldCustom
                                         type="date"
                                         size="sm"
@@ -324,10 +446,19 @@ const LeaseDetailsAdd = ({ grndetailarry }) => {
                                         disabled={true}
                                     ></TextFieldCustom>
                                 </Box>
+
                             </Box>
-                            <Box sx={{ display: 'flex', width: '15%', p: 0.5, flexDirection: 'column' }} >
-                                <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Lease Amount</Typography>
-                                <Box>
+                            <Box sx={{ display: 'flex', pt: .5 }}>
+                                <TextComponent
+                                    text={"Lease Amount"}
+                                    sx={{
+                                        fontWeight: 600,
+                                        color: '#727B8C',
+                                        pt: 1,
+                                        width: 120
+                                    }}
+                                />
+                                <Box sx={{ flex: 1 }}>
                                     <TextFieldCustom
                                         type="text"
                                         size="sm"
@@ -336,40 +467,153 @@ const LeaseDetailsAdd = ({ grndetailarry }) => {
                                         disabled={true}
                                     ></TextFieldCustom>
                                 </Box>
+
                             </Box>
-                            {
-                                leaseImage === 1 ?
-                                    <Box sx={{ display: 'flex', width: "20%", height: 55, pt: 3, pl: 1 }}>
-                                        <Button onClick={ViewLeaseImage} variant="contained"
-                                            size="small" color="primary">View Image</Button>
-                                    </Box> : null
-                            }
+                            <Box sx={{ display: 'flex', }}>
+                                <Box sx={{ width: 120 }}>
+                                </Box>
+                                <Box sx={{ flex: 1, my: .5 }}>
+                                    {
+                                        leaseImage === 1 ?
+                                            <Box
+                                                sx={{
+                                                    bgcolor: '#7AB75E',
+                                                    width: 120,
+                                                    textAlign: 'center',
+                                                    // margin: 'auto',
+                                                    borderRadius: 4,
+                                                    color: 'white',
+                                                    fontWeight: 600,
+                                                    cursor: 'pointer',
+                                                    py: .3,
+                                                    boxShadow: '2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.6)',
+                                                    transform: 'translateZ(0)',
+                                                    transition: 'transform 0.2s ease',
+                                                    '&:hover': {
+                                                        boxShadow: '3px 3px 6px rgba(0, 0, 0, 0.4), -3px -3px 6px rgba(255, 255, 255, 0.7)',
+                                                    }
+                                                }}
+                                                onClick={ViewLeaseImage}
+                                            >
+                                                Attached Bill
+                                            </Box>
+                                            : null
+                                    }
+                                </Box>
 
-                        </Box> : null
-
-                }
-                <Box sx={{
-                    display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
-                }} >
-                    <CustomeToolTip title="Save" placement="left" >
-                        <Box sx={{ width: '3%', pl: 1, pt: 2, pb: 1 }}>
-                            <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={SaveLeaseDetails} >
-                                <LibraryAddIcon fontSize='small' />
-                            </CusIconButton>
+                            </Box>
+                            <Box sx={{ display: 'flex', }}>
+                                <Box sx={{ width: 120, }}>
+                                </Box>
+                                <Box sx={{ flex: 1, display: 'flex', gap: .5 }}>
+                                    <Box>
+                                        <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={SaveLeaseDetails} >
+                                            <LibraryAddIcon fontSize='small' />
+                                        </CusIconButton>
+                                    </Box>
+                                    <Box >
+                                        <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={CloseLeaseFlag} >
+                                            <CloseIcon fontSize='small' />
+                                        </CusIconButton>
+                                    </Box>
+                                </Box>
+                            </Box>
                         </Box>
-                    </CustomeToolTip>
-
-                    <CustomeToolTip title="Refresh" placement="right" >
-                        <Box sx={{ width: '3%', pl: 0.5, pt: 2, pb: 1 }}>
-                            <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={LeaseReferesh} >
-                                <RefreshIcon fontSize='small' />
-                            </CusIconButton>
+                        <Box sx={{ flexGrow: 1 }}>
                         </Box>
-                    </CustomeToolTip>
-                </Box>
+                    </Box> : null}
             </Box>
-        </Paper>
+            <Box sx={{ border: 1, borderColor: '#E0E1E3', py: 1, px: 2, mt: .5 }}>
+                <TextComponent
+                    text={"LEASE DETAILS LIST"}
+                    sx={{
+                        flex: 1,
+                        fontWeight: 500,
+                        color: 'black',
+                        fontSize: 15,
+                    }}
+                />
+                {leaseAllDetails.length === 0 ?
+                    <Box sx={{ height: 160, fontSize: 24, fontWeight: 600, color: 'lightgrey', textAlign: 'center', pt: 5 }}>
+                        Empty Lease Details
+                    </Box>
+                    :
+                    <Box sx={{ flex: 1, pr: 1, pt: 1 }}>
+                        <Box sx={{ flex: 1, display: 'flex', borderTop: 1, borderBottom: 1, borderColor: 'lightgrey', pl: 1, py: .5, gap: .5 }}>
+                            <Box sx={{ flex: .1, }}>
+                                #
+                            </Box>
+                            <Box sx={{ flex: .3, }}>
+                                Attachments
+                            </Box>
+                            <Box sx={{ flex: 1, }}>
+                                Supplier
+                            </Box>
+                            <Box sx={{ flex: .4, }}>
+                                From Date
+                            </Box>
+                            <Box sx={{ flex: .4, }}>
+                                To Date
+                            </Box>
+                            <Box sx={{ flex: .4, }}>
+                                Amount
+                            </Box>
+                            <Box sx={{ flex: .3, }}>
+                                Status
+                            </Box>
+                        </Box>
+                        <Virtuoso
+                            style={{ height: '28vh' }}
+                            totalCount={leaseAllDetails?.length}
+                            itemContent={(index) => {
+                                const sortedList = [...leaseAllDetails].sort((a, b) => (b.status === 1 ? 1 : 0) - (a.status === 1 ? 1 : 0));
+                                const val = sortedList[index];
+
+                                return (
+                                    <Box key={index} sx={{ flex: 1, display: 'flex', borderBottom: 1, borderColor: 'lightgrey', pl: 1, py: .6 }}>
+                                        <Box sx={{ flex: .1, fontWeight: 600 }}>
+                                            {index + 1}
+                                        </Box>
+                                        <Box sx={{ flex: .3, fontWeight: 600, display: 'flex' }}>
+                                            {val.lease_image === 1 ? (
+                                                <FilePresentRoundedIcon sx={{ color: '#41729F', cursor: 'pointer' }}
+                                                    onClick={() => ViewLeaseDetailFile(val)}
+                                                />
+                                            ) : (
+                                                <FilePresentRoundedIcon sx={{ color: 'grey', cursor: 'pointer' }} />
+                                            )}
+                                        </Box>
+                                        <Box sx={{ flex: 1, fontWeight: 600 }}>
+                                            {val.it_supplier_name}
+                                        </Box>
+                                        <Box sx={{ flex: .4, fontWeight: 600 }}>
+                                            {val.lease_fromdate ? format(new Date(val.lease_fromdate), 'dd MMM yyyy') : ''}
+                                        </Box>
+                                        <Box sx={{ flex: .4, fontWeight: 600 }}>
+                                            {val.lease_todate ? format(new Date(val.lease_todate), 'dd MMM yyyy') : ''}
+                                        </Box>
+                                        <Box sx={{ flex: .4, fontWeight: 600 }}>
+                                            {val.lease_amount}
+                                        </Box>
+                                        <Box
+                                            sx={{
+                                                flex: 0.3,
+                                                fontWeight: 600,
+                                                color: val.status === 1 ? 'darkgreen' : val.status === 0 ? '#523A28' : 'black'
+                                            }}
+                                        >
+                                            {val.status === 1 ? "Active *" : val.status === 2 ? "Inactive" : val.status === 0 ? "Expired" : "NotUpdated"}
+                                        </Box>
+                                    </Box>
+                                );
+                            }}
+                        />
+
+                    </Box>}
+            </Box>
+        </Box>
     )
 }
 
 export default memo(LeaseDetailsAdd)
+
