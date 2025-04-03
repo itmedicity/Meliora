@@ -267,3 +267,28 @@ export const getDeptScrapStore = async (postDept) => {
     })
 }
 
+export const getCondemnationApprovalRights = async (postDept) => {
+    return axioslogin.post('/condemApprovalLevel/getCondemnationApprovalRights', postDept).then((res) => {
+        const { success, data } = res.data
+        if (success === 1) {
+            return data
+        }
+    })
+}
+export const getCondemnationAllDetails = async (postCondemSlno) => {
+    return axioslogin.post('/condemApprovalLevel/getCondemnationAllDetails', postCondemSlno).then((res) => {
+        const { success, data } = res.data
+        if (success === 1) {
+            return data
+        }
+    })
+}
+export const getActiveCondemnationLevel = async () => {
+    return axioslogin.get(`/condemApprovalLevel/getActiveCondemnationLevel`).then((res) => {
+        const { success, data } = res.data
+        if (success === 2) {
+            return data
+        }
+    })
+}
+

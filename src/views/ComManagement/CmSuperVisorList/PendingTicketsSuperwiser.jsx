@@ -150,7 +150,8 @@ const PendingTicketsSuperwiser = ({ allPendingCompl, count, setCount }) => {
                     flex: 1, bgcolor: 'white', mt: .1, px: .5, pt: .8, pb: 1.5
                 }}>
                     {
-                        transmodal === 1 ? <TransferDeptmodal open={open} setOpen={setOpen} transfer={transfer} count={count} setCount={setCount} setTransmodal={setTransmodal} /> : null
+                        transmodal === 1 ? <TransferDeptmodal open={open} setOpen={setOpen} transfer={transfer}
+                            count={count} setCount={setCount} setTransmodal={setTransmodal} /> : null
                     }
                     {queryflag === 1 ?
                         <CmQuieryModal open={queryOpen} setqueryOpen={setqueryOpen} valuee={valuee}
@@ -354,10 +355,16 @@ const PendingTicketsSuperwiser = ({ allPendingCompl, count, setCount }) => {
                                                     Location
                                                 </Typography>
                                                 <Typography sx={{ fontSize: 13, flex: 1, }}>
-                                                    {val.rm_room_name}
+                                                    {/* {val.rm_room_name}
                                                     {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name ?
                                                         ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''}${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${(val.rm_insidebuildblock_name && val.rm_floor_name) ? ' - ' : ''}${val.rm_floor_name ? val.rm_floor_name : ''})`
-                                                        : "Not Updated"}
+                                                        : "Not Updated"} */}
+                                                    {val.rm_room_name}
+                                                    {(val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name) ? (
+                                                        ` (${val.rm_roomtype_name || ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''}${val.rm_insidebuildblock_name || ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''}${val.rm_floor_name || ''})`
+                                                    ) : (
+                                                        val.cm_complaint_location || "Not Updated"
+                                                    )}
                                                 </Typography>
                                             </Box>
                                             <Box sx={{

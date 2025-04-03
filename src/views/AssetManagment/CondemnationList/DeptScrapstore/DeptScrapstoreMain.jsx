@@ -1,5 +1,5 @@
 import { Box, Table } from '@mui/joy'
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { memo, useCallback, useMemo, useState } from 'react'
 import { useQuery } from 'react-query'
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
 import { getDeptScrapStore } from 'src/api/AssetApis'
@@ -98,4 +98,4 @@ const DeptScrapstoreMain = ({ empdept }) => {
     )
 }
 
-export default DeptScrapstoreMain
+export default memo(DeptScrapstoreMain)

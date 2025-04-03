@@ -1,6 +1,6 @@
 
 
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { memo, useCallback, useMemo, useState } from 'react'
 import { Box, CssVarsProvider, IconButton, Table } from '@mui/joy'
 import { format } from 'date-fns';
 import { useQuery } from 'react-query';
@@ -184,4 +184,4 @@ const PendingApprovGenStore = ({ empId, menurights }) => {
     )
 }
 
-export default PendingApprovGenStore
+export default memo(PendingApprovGenStore)

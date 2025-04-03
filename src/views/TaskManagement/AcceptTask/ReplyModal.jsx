@@ -95,7 +95,7 @@ const ReplyModal = ({ open, setReplyOpen, setReplyflag, valuee, setTableCount, t
     };
     const formatDate = (dateStr) => {
         const date = new Date(dateStr);
-        return format(date, 'MMMM d, yyyy HH:mm');
+        return format(date, 'MMM d, yyyy  hh:mm a');
     };
 
     return (

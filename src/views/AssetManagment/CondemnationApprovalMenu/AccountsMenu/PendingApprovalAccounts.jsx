@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { memo, useCallback, useMemo, useState } from 'react'
 import { Box, CssVarsProvider, IconButton, Table } from '@mui/joy'
 import { format } from 'date-fns';
 import { useQuery } from 'react-query';
@@ -39,9 +39,6 @@ const PendingApprovalAccounts = ({ empId, menurights }) => {
         [PendingCondemAllDeptAcc]
     );
 
-
-
-
     return (
         <Box sx={{ py: 1, px: .5 }}>
             {modalApproveFlag === 1 ?
@@ -72,12 +69,6 @@ const PendingApprovalAccounts = ({ empId, menurights }) => {
                                         Action
                                     </IconButton>
                                 </th>
-                                {/* <th style={{ textAlign: 'center', width: 12 }}>
-                                    <IconButton sx={{ color: 'black', fontSize: 13 }}>
-                                        Status
-                                    </IconButton>
-                                </th> */}
-
                                 <th style={{ textAlign: 'center', width: 22 }}>
                                     <IconButton sx={{ color: 'black', fontSize: 13 }}>
                                         Form Number
@@ -148,4 +139,4 @@ const PendingApprovalAccounts = ({ empId, menurights }) => {
         </Box>
     )
 }
-export default PendingApprovalAccounts
+export default memo(PendingApprovalAccounts)

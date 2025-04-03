@@ -7,8 +7,8 @@ import CusIconButton from 'src/views/Components/CusIconButton';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import CloseIcon from '@mui/icons-material/Close'
 import PendingCondemnationList from './PendingCondemnationList';
-import SubmittedCondemList from './DeptSubmittedList/SubmittedCondemList';
-import DeptScrapstoreMain from './DeptScrapstore/DeptScrapstoreMain';
+// import SubmittedCondemList from './DeptSubmittedList/SubmittedCondemList';
+// import DeptScrapstoreMain from './DeptScrapstore/DeptScrapstoreMain';
 
 const CondemnationList = () => {
     const empdept = useSelector((state) => {
@@ -102,7 +102,7 @@ const CondemnationList = () => {
                                 >
                                     Pending List
                                 </Tab>
-                                <Tab
+                                {/* <Tab
                                     label="Asset"
                                     value={1}
                                     disableIndicator
@@ -145,7 +145,7 @@ const CondemnationList = () => {
                                     }}
                                 >
                                     Scrap Store
-                                </Tab>
+                                </Tab> */}
                             </Box>
                         </TabList>
                         <TabPanel value={0} sx={{ p: 0, flexGrow: 1, }}>
@@ -153,7 +153,7 @@ const CondemnationList = () => {
                                 <PendingCondemnationList empdept={empdept} empId={empId} />
                             </Box>
                         </TabPanel>
-                        <TabPanel value={1} sx={{ p: 0, flexGrow: 1, }}>
+                        {/* <TabPanel value={1} sx={{ p: 0, flexGrow: 1, }}>
                             <Box sx={{ flexGrow: 1, }}>
                                 <SubmittedCondemList empdept={empdept} empId={empId} />
                             </Box>
@@ -162,7 +162,7 @@ const CondemnationList = () => {
                             <Box sx={{ flexGrow: 1, }}>
                                 <DeptScrapstoreMain empdept={empdept} />
                             </Box>
-                        </TabPanel>
+                        </TabPanel> */}
                     </Tabs>
                 </CssVarsProvider>
             </Box>

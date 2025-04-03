@@ -77,6 +77,7 @@ const DirectComplaintReg = () => {
     const [previewFile, setPreviewFile] = useState({ url: "", type: "" });
     const [imageShow, setImageShow] = useState(false)
     const [imageShowFlag, setImageShowFlag] = useState(0)
+    const [locationDetails, setlocationDetails] = useState('')
 
 
     const id = useSelector((state) => {
@@ -180,6 +181,10 @@ const DirectComplaintReg = () => {
         });
     };
 
+    const LocationDetailz = useCallback((e) => {
+        setlocationDetails(e.target.value)
+    }, [])
+
     //Data set for edit
     const rowSelect = useCallback((val) => {
         setEdit(1)
@@ -187,7 +192,7 @@ const DirectComplaintReg = () => {
         setSearch(0)
         const { complaint_dept_secslno, complaint_hicslno,
             rm_room_slno, priority_reason, complaint_typeslno, priority_check,
-            complaint_deptslno, complaint_slno, complaint_desc, compl_dept } = val
+            complaint_deptslno, complaint_slno, complaint_desc, compl_dept, cm_complaint_location } = val
         setComplaint(complaint_slno)
         setDepsec(complaint_dept_secslno)
         setcotype(complaint_typeslno)
@@ -199,9 +204,10 @@ const DirectComplaintReg = () => {
         setPriorreason(priority_check === 1 ? priority_reason : null)
         setCritical(priority_check === 1 ? true : false)
         setcustodianDept(compl_dept)
+        setlocationDetails(cm_complaint_location)
 
     }, [])
-    //update data
+
     const patchdata = useMemo(() => {
         return {
             complaint_desc: desc,
@@ -217,9 +223,10 @@ const DirectComplaintReg = () => {
             priority_reason: priority === 1 ? priorreason : null,
             complaint_slno: complaint_slno,
             rm_room_slno: roomName === 0 ? null : roomName,
-            cm_asset_status: assetArray.length !== 0 ? 1 : 0
+            cm_asset_status: assetArray.length !== 0 ? 1 : 0,
+            cm_complaint_location: locationDetails === '' ? null : locationDetails
         }
-    }, [desc, depsec, codept, priorreason, cotype, priority, checkHic, complaint_slno, roomName, assetArray, id])
+    }, [desc, depsec, codept, priorreason, cotype, priority, checkHic, complaint_slno, roomName, assetArray, id, locationDetails])
 
     const postdata = useMemo(() => {
         return {
@@ -238,10 +245,11 @@ const DirectComplaintReg = () => {
             locationName: locationName,
             priority: priority === 1 ? "Priority Ticket" : "Normal Ticket",
             rm_room_slno: roomName === '' ? null : roomName,
-            cm_asset_status: assetArray.length !== 0 ? 1 : 0
+            cm_asset_status: assetArray.length !== 0 ? 1 : 0,
+            cm_complaint_location: locationDetails === '' ? null : locationDetails
 
         }
-    }, [desc, depsec, roomName, cotype, priority, priorreason, checkHic, complaint_slno, locationName, codept, assetArray, id])
+    }, [desc, depsec, roomName, cotype, priority, priorreason, checkHic, complaint_slno, locationName, codept, assetArray, id, locationDetails])
 
     useEffect(() => {
         if (edit === 1) {
@@ -306,8 +314,8 @@ const DirectComplaintReg = () => {
         setNewlyAddedAssets([])
         setDeletedFiles([])
         setSelectFile([])
+        setlocationDetails("")
     }, [])
-
 
 
     const submitComplaint = useCallback(async (e) => {
@@ -316,13 +324,16 @@ const DirectComplaintReg = () => {
             infoNotify("Please Select Complaint Department and Complaint type");
             return;
         }
+        if (!roomName && !locationDetails) {
+            infoNotify("Please Select Location or Mark Location Details");
+            return;
+        }
         if ((cm_am_assetmap_slno !== '' && assetStatus === 0) || (selectedAsset !== '' && assetStatus === 0)) {
             infoNotify(
                 <>Please click on  &apos; <AddCircleIcon /> &apos;  to add Asset details</>
             );
             return;
         }
-
         setOpen(true);
         const InsertFun = async (postdata) => {
             const result = await axioslogin.post('/complaintreg', postdata);
@@ -528,7 +539,8 @@ const DirectComplaintReg = () => {
 
     }, [
         postdata, edit, assetArray, patchdata, assetinactive, count, cm_am_assetmap_slno, assetStatus, updateAssetz, handleImageUpload, complaint_slno,
-        cotype, selectFile, codept, deletedFiles.length, newlyAddedAssets.length, reset, selectedAsset, id
+        cotype, selectFile, codept, deletedFiles.length, newlyAddedAssets.length, reset, selectedAsset, id, roomName, locationDetails
+
     ]);
 
     const refreshWindow = useCallback(() => {
@@ -555,6 +567,7 @@ const DirectComplaintReg = () => {
         setNewlyAddedAssets([])
         setDeletedFiles([])
         setSelectFile([])
+        setlocationDetails("")
     }, [])
 
     //close button function
@@ -723,18 +736,6 @@ const DirectComplaintReg = () => {
         });
     };
 
-    // const SearchAsset = useCallback((e) => {
-    //     setSearch(1)
-    //     setSelect(0)
-    //     setSelectedAsset('')
-    // }, [])
-
-    // const SelectAsset = useCallback((e) => {
-    //     setSelect(1)
-    //     setSearch(0)
-    //     setcm_am_assetmap_slno('')
-    // }, [])
-
     const handleDelete = (indexToDelete) => {
         setAssetArray((prevArray) => {
             const itemToDelete = prevArray[indexToDelete];
@@ -874,6 +875,17 @@ const DirectComplaintReg = () => {
                                 <Box sx={{ flex: .6, px: 0.5, pt: .7 }} >
                                     <CmRoomNameTypeList roomName={roomName} setRoomName={setRoomName} />
                                 </Box>
+                                <Box sx={{ flex: .6, px: 0.5, pt: .7 }} >
+                                    <Input
+                                        sx={{ borderRadius: 0 }}
+                                        name="locationDetails"
+                                        placeholder="Type location details here..."
+                                        type="text"
+                                        value={locationDetails}
+                                        onChange={LocationDetailz}
+                                        autoComplete="off"
+                                    />
+                                </Box>
                                 <Box sx={{ flex: .2, display: 'flex', alignItems: 'center', justifyContent: 'center', pt: 0.8 }} >
                                     <CssVarsProvider>
                                         <Tooltip title="Infection Control Risk Assessment (ICRA) Recommended" size="md" variant="outlined" placement="top">
@@ -904,41 +916,6 @@ const DirectComplaintReg = () => {
                                         <Box sx={{ pt: .5, display: 'flex', ml: .5 }}>
                                             {codept !== null ?
                                                 <>
-
-                                                    {/* <Box
-                                                        sx={{
-                                                            cursor: 'pointer',
-                                                            display: 'flex', mx: .5, pt: .5
-                                                        }}
-                                                        onClick={SearchAsset}
-                                                    >
-                                                        {search === 1 ?
-                                                            (<CheckCircleIcon sx={{ cursor: 'pointer', color: '#523A28' }} />)
-                                                            :
-                                                            (<RadioButtonUncheckedIcon sx={{ cursor: 'pointer', color: '#523A28' }} />)
-                                                        }
-                                                        <Typography sx={{ pt: .3, color: 'black', fontWeight: 600, fontSize: 14 }}>
-                                                            Search
-                                                        </Typography>
-                                                    </Box>
-                                                    <Typography sx={{ pt: .5, px: .5 }}>(or)</Typography>
-                                                    <Box
-                                                        sx={{
-                                                            cursor: 'pointer',
-                                                            display: 'flex', mx: .5, pt: .5
-                                                        }}
-                                                        onClick={SelectAsset}
-                                                    >
-                                                        {select === 1 ?
-                                                            (<CheckCircleIcon sx={{ cursor: 'pointer', color: '#523A28' }} />)
-                                                            :
-                                                            (<RadioButtonUncheckedIcon sx={{ cursor: 'pointer', color: '#523A28' }} />)
-                                                        }
-                                                        <Typography sx={{ pt: .3, color: 'black', fontWeight: 600, fontSize: 14 }}>
-                                                            Select
-                                                        </Typography>
-                                                    </Box> */}
-
                                                     <Switch
                                                         checked={isSelect}
                                                         color="neutral"

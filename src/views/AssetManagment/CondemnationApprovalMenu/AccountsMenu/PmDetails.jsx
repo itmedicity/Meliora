@@ -1,6 +1,6 @@
 import { Box } from '@mui/joy';
 import { format } from 'date-fns';
-import React, { useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import { useQuery } from 'react-query';
 import { Virtuoso } from 'react-virtuoso';
 import { getPMDetailList } from 'src/api/AssetApis';
@@ -97,4 +97,4 @@ const PmDetails = ({ AssetDetails }) => {
     )
 }
 
-export default PmDetails
+export default memo(PmDetails)

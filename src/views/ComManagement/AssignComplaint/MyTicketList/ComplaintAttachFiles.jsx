@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { memo, useCallback, useEffect, useState } from 'react'
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import FileViewSingle from 'src/views/Components/FileViewSingle'
@@ -153,4 +153,4 @@ const ComplaintAttachFiles = ({ complaint_slno }) => {
     )
 }
 
-export default ComplaintAttachFiles
+export default memo(ComplaintAttachFiles)

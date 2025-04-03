@@ -1,5 +1,5 @@
 import { Box, Input, IconButton, Menu, MenuItem, Typography, } from '@mui/joy'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { memo, useEffect, useMemo, useState } from 'react'
 import { useQuery } from 'react-query'
 import { useSelector } from 'react-redux'
 import { Virtuoso } from 'react-virtuoso'
@@ -232,4 +232,4 @@ const AssetInStock = () => {
     )
 }
 
-export default AssetInStock
+export default memo(AssetInStock)

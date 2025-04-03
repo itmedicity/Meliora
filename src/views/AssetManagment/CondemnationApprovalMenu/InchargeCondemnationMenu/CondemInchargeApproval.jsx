@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { memo, useCallback, useMemo, useState } from 'react'
 import { getCondemPendingDatas } from 'src/api/AssetApis'
 import { Box, CssVarsProvider, IconButton, Table } from '@mui/joy'
 import { format } from 'date-fns';
@@ -143,4 +143,4 @@ const CondemInchargeApproval = ({ empId, empdept, menurights }) => {
     )
 }
 
-export default CondemInchargeApproval
+export default memo(CondemInchargeApproval)

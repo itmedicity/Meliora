@@ -10,9 +10,9 @@ const SupplierDetailsAutoComplte = ({ value, setValue }) => {
 
     useEffect(() => {
         const getSupplierDetails = async () => {
-            const result = await axioslogin.get('/ItBillType/itBillSupplierList');
+            const result = await axioslogin.get('/ItemMapDetails/GetSupplierSelect');
             const { success, data } = result.data;
-            if (success === 1) {
+            if (success === 2) {
                 SetSupplierList(data);
             } else {
                 SetSupplierList([]);
@@ -27,11 +27,10 @@ const SupplierDetailsAutoComplte = ({ value, setValue }) => {
         }
     }, [SupplierList]);
 
-    // Set the selected value when editing (based on the `value` prop)
     useEffect(() => {
         if (value !== 0) {
             const selectedSupplier = SupplierList.find((sup) => sup.it_supplier_slno === value);
-            setSelectedValue(selectedSupplier || null); // Set selected value based on existing supplier
+            setSelectedValue(selectedSupplier || null);
         } else {
             setSelectedValue(null);
         }
@@ -39,8 +38,8 @@ const SupplierDetailsAutoComplte = ({ value, setValue }) => {
 
     const onClick = useCallback((newValue) => {
         if (newValue !== null) {
-            setSelectedValue(newValue); // Set selected supplier
-            setValue(newValue.it_supplier_slno); // Update the parent with supplier ID
+            setSelectedValue(newValue);
+            setValue(newValue.it_supplier_slno);
         } else {
             setSelectedValue(null);
         }
@@ -50,10 +49,10 @@ const SupplierDetailsAutoComplte = ({ value, setValue }) => {
         <Autocomplete
             placeholder="Select Supplier"
             style={{ minHeight: 35 }}
-            value={selectedValue} // Bind to the selected supplier object
+            value={selectedValue}
             clearOnBlur
             onChange={(_, newValue) => {
-                onClick(newValue); // Handle the selection
+                onClick(newValue);
             }}
             inputValue={inputValue}
             onInputChange={(_, newInputValue) => {

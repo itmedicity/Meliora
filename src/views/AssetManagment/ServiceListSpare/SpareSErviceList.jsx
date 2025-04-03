@@ -88,9 +88,9 @@ const SpareSErviceList = () => {
                         bgcolor: 'white'
                     }}>
                         <Box sx={{ width: 55, pl: 1.7, fontWeight: 600, color: '#444444', fontSize: 13, }}>#</Box>
-                        <Box sx={{ width: 50, color: '#444444', fontSize: 13 }}>Action</Box>
-                        <Box sx={{ width: 90, fontWeight: 600, color: '#444444', fontSize: 13 }}>Asset/Spare</Box>
-                        <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 13, }}>Asset/Spare No.</Box>
+                        <Box sx={{ width: 50, color: '#444444', fontSize: 13, fontWeight: 600, }}>Action</Box>
+                        <Box sx={{ width: 90, fontWeight: 600, color: '#444444', fontSize: 13 }}>Item</Box>
+                        <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 13, }}>Item Number</Box>
                         <Box sx={{ flex: 1, fontWeight: 600, color: '#444444', fontSize: 13, }}>Category</Box>
                         <Box sx={{ flex: 2, fontWeight: 600, color: '#444444', fontSize: 12, }}>Item Name</Box>
                         <Box sx={{ width: 180, fontWeight: 600, color: '#444444', fontSize: 13, pl: 1.5 }}>Transfered Employee</Box>
@@ -142,13 +142,11 @@ const SpareSErviceList = () => {
                                             <Box sx={{ width: 180, color: '#444444', fontSize: 14, pl: 1.5 }}>
                                                 {val.em_name}
                                             </Box>
-
                                         </Box>
                                     );
                                 }} />
                         </Box>
                     </Box>
-
                 </Box>
                 :
                 <Box sx={{
@@ -175,9 +173,8 @@ const SpareSErviceList = () => {
                         </Box>
                     ))
                 }
-            </Box >
-
-        </Box >
+            </Box>
+        </Box>
     )
 }
 

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { Virtuoso } from 'react-virtuoso'
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
 import { getLeaseDetailList } from 'src/api/AssetApis';
@@ -158,4 +158,4 @@ const LeaseDetailsinCondem = ({ AssetDetails }) => {
     )
 }
 
-export default LeaseDetailsinCondem
+export default memo(LeaseDetailsinCondem)

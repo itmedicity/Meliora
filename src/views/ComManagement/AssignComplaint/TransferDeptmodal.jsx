@@ -6,7 +6,6 @@ import { axioslogin } from 'src/views/Axios/Axios';
 import { Box, Button, CssVarsProvider, Modal, ModalDialog, Textarea } from '@mui/joy';
 import ComDepartmentSelect from '../CmComponent/ComDepartmentSelect';
 
-
 const TransferDeptmodal = ({ open, setOpen, transfer, count, setCount, setTransmodal }) => {
     const [cmpdept, setCmpdept] = useState(0);
     const { complaint_slno, complaint_desc } = transfer
@@ -24,13 +23,16 @@ const TransferDeptmodal = ({ open, setOpen, transfer, count, setCount, setTransm
         }
     }, [cmpdept, complaint_slno, remark])
     //reset function for to intial state
-    const reset = useCallback(() => {
+
+    const CloseModaal = useCallback(() => {
+        setRemark('')
+        setCmpdept(0)
         setOpen(false);
-        setCmpdept(0);
         setTransmodal(0);
-        setCount(0)
-        setRemark("")
-    }, [setOpen, setCount, setTransmodal, setRemark])
+    }, [setRemark, setCmpdept, setOpen, setTransmodal,])
+
+
+
     // when we click on transfer function
     const Transfer = useCallback(() => {
         const TranserDept = async (patchData) => {
@@ -39,7 +41,6 @@ const TransferDeptmodal = ({ open, setOpen, transfer, count, setCount, setTransm
             if (success === 1) {
                 succesNotify(message)
                 setCount(count + 1)
-                reset();
             } else if (success === 0) {
                 infoNotify(message)
             } else {
@@ -51,7 +52,7 @@ const TransferDeptmodal = ({ open, setOpen, transfer, count, setCount, setTransm
         } else {
             infoNotify("Please Choose the Complaint Department")
         }
-    }, [patchData, count, reset, setCount, cmpdept])
+    }, [patchData, count, setCount, cmpdept])
 
     const buttonStyle = {
         fontSize: 16,
@@ -117,7 +118,7 @@ const TransferDeptmodal = ({ open, setOpen, transfer, count, setCount, setTransm
                             <Button
                                 variant='plain'
                                 sx={buttonStyle}
-                                onClick={reset}
+                                onClick={CloseModaal}
                             >Cancel</Button>
                         </Box>
 

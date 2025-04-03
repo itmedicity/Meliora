@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/joy'
-import React, { useCallback, useState } from 'react'
+import React, { memo, useCallback, useState } from 'react'
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import RectifyListUseEnd from '../ComplaintRegister/TicketLists/RectifyListUseEnd';
@@ -57,4 +57,4 @@ const ResolvedTickets = () => {
     )
 }
 
-export default ResolvedTickets
+export default memo(ResolvedTickets)

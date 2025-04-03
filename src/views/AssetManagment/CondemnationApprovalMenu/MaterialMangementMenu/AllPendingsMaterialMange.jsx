@@ -142,4 +142,4 @@ const AllPendingsMaterialMange = ({ AllDeptCondemPendingMaterials, viewForm, edi
     )
 }
 
-export default AllPendingsMaterialMange
+export default memo(AllPendingsMaterialMange)

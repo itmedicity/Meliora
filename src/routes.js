@@ -224,10 +224,12 @@ const AssetCondemnationList = React.lazy(() => import('./views/AssetManagment/Co
 const PmDueList = React.lazy(() => import('./views/AssetManagment/PmOverDueList/PmOverdueList'))
 const AllCRFReportWithPO = React.lazy(() => import('./views/Report/CrmReport/CRFAllReportWithPO'))
 const TicketDashboardz = React.lazy(() => import('./views/ComManagement/Dashboard/TicketManagementCmDeptMain'))
-const CondemnationApproval = React.lazy(() => import('./views/AssetManagment/CondemnationApprovalMenu/CondemnationApprovalRights'))
+// const CondemnationApproval = React.lazy(() => import('./views/AssetManagment/CondemnationApprovalMenu/CondemnationApprovalRights'))
+// const CondemnationApproval = React.lazy(() => import('./views/AssetManagment/CondemnationApproveMenu/CondemnationApproveMenu'))
 const ItBackupTypeMast = React.lazy(() => import('./views/Master/ItMasters/BackUpType/BackUpTypeMaster'))
 const SimOperator = React.lazy(() => import('./views/Master/ItMasters/SimOperators/SimOperators'))
 const AllDeptCondemList = React.lazy(() => import('./views/AssetManagment/AllDeptRegCondemList/AllDeptRegcondemMain'))
+// const AssetCondemApprovalLevels = React.lazy(() => import('./views/Master/AssetMasters/CondemnationApprovalLevelMaster/CondemApprovalLevelMast'))
 const TicketHoldReasonMast = React.lazy(() => import('./views/Master/ComplaintHoldReason/HoldReasonMaster'))
 
 
@@ -459,10 +461,11 @@ const routes = [
   { path: '/Home/PmDueList', exact: true, name: 'PM Due List in Asset', component: PmDueList },
   { path: '/Home/AllCRFReportWithPO', exact: true, name: 'All CRF Report With PO', component: AllCRFReportWithPO },
   { path: '/Home/TicketDashboards', exact: true, name: 'Ticket Dashboards', component: TicketDashboardz },
-  { path: '/Home/CondemnationApproval', exact: true, name: 'Condemnation Approval', component: CondemnationApproval },
+  // { path: '/Home/CondemnationApproval', exact: true, name: 'Condemnation Approval', component: CondemnationApproval },
   { path: '/Home/AllDeptCondemList', exact: true, name: 'AllDeptCondemList', component: AllDeptCondemList },
   { path: '/Home/ItBackupTypeMast', exact: true, name: 'ItBackupTypeMast', component: ItBackupTypeMast },
   { path: '/Home/SimOperator', exact: true, name: 'SimOperator', component: SimOperator },
+  // { path: '/Home/AssetCondemApprovalLevels', exact: true, name: 'AssetCondemApprovalLevels', component: AssetCondemApprovalLevels },
   { Path: '/Home/TicketHoldReason', exact: true, name: 'Ticket Hold Reason Master', component: TicketHoldReasonMast },
 
 

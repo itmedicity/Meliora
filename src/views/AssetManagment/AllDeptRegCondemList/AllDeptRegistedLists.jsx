@@ -1,5 +1,5 @@
 import { Box, CircularProgress, CssVarsProvider, IconButton, Table } from '@mui/joy'
-import React, { useMemo } from 'react'
+import React, { memo, useMemo } from 'react'
 import { format } from 'date-fns';
 import { useQuery } from 'react-query';
 import { getAllDeptCondemList } from 'src/api/AssetApis';
@@ -22,8 +22,6 @@ const AllDeptRegistedLists = ({ viewForm }) => {
         enabled: !!SatusFrom && !!SatusTo
     });
     const AllDeptCondemnation = useMemo(() => AllDeptCondemList ?? [], [AllDeptCondemList]);
-
-
 
     return (
         <Box sx={{ border: 1, borderColor: '#e0e1e3' }}>
@@ -163,4 +161,4 @@ const AllDeptRegistedLists = ({ viewForm }) => {
     )
 }
 
-export default AllDeptRegistedLists
+export default memo(AllDeptRegistedLists)

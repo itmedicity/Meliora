@@ -74,7 +74,7 @@ const FileViews = ({ fileModalOpen, fileData, setfileOpenFlag, setfileModalOpen 
                         </Box>
                         <Box sx={{ gap: 2, }}>
 
-                            {filePaths[am_condem_detail_slno]?.map((Url, index) => (
+                            {/* {filePaths[am_condem_detail_slno]?.map((Url, index) => (
                                 <Paper
                                     key={index}
                                     sx={{ bgcolor: '#EBEBE8', cursor: 'pointer', height: 800, width: 1000, mb: 0.5 }}
@@ -87,7 +87,49 @@ const FileViews = ({ fileModalOpen, fileData, setfileOpenFlag, setfileModalOpen 
                                         width="100%"
                                     />
                                 </Paper>
-                            ))}
+                            ))} */}
+                            {filePaths[am_condem_detail_slno]?.map((Url, index) => {
+                                const isPdf = Url.toLowerCase().endsWith('.pdf');
+
+                                return (
+                                    <Paper
+                                        key={index}
+                                        sx={{
+                                            bgcolor: '#EBEBE8',
+                                            cursor: 'pointer',
+                                            height: 800,
+                                            width: 1000,
+                                            mb: 0.5,
+                                            display: 'flex',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            overflow: 'hidden'
+                                        }}
+                                    >
+                                        {isPdf ? (
+                                            <embed
+                                                id={`pdf-embed-${index}`}
+                                                src={Url}
+                                                type="application/pdf"
+                                                height="100%"
+                                                width="100%"
+                                            />
+                                        ) : (
+                                            <img
+                                                src={Url}
+                                                alt={`File ${index}`}
+                                                style={{
+                                                    maxWidth: '100%',
+                                                    maxHeight: '100%',
+                                                    objectFit: 'contain'
+                                                }}
+                                            />
+
+                                        )}
+                                    </Paper>
+                                );
+                            })}
+
                         </Box>
                         <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', }}>
                             <Box sx={{

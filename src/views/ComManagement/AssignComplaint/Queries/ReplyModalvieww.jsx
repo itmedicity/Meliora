@@ -56,7 +56,7 @@ const ReplyModalvieww = ({ valuee, count, setReplyOpen, setReplyflag, open }) =>
     };
     const formatDate = (dateStr) => {
         const date = new Date(dateStr);
-        return format(date, 'MMM d, yyyy HH:mm');
+        return format(date, 'MMM d, yyyy  hh:mm a');
     };
 
     return (

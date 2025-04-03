@@ -1,5 +1,5 @@
 import { Box, Button, CircularProgress, CssVarsProvider, IconButton, Input, Table } from '@mui/joy'
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { memo, useCallback, useMemo, useState } from 'react'
 import SearchIcon from '@mui/icons-material/Search';
 import { format } from 'date-fns';
 import { axioslogin } from 'src/views/Axios/Axios';
@@ -37,7 +37,6 @@ const AllDeptSelectRegDates = ({ viewForm }) => {
         setToDate(event.target.value)
     }, [])
 
-
     const Search = useCallback(async () => {
         setLoading(true);
         setCondemnationList([]);
@@ -52,7 +51,6 @@ const AllDeptSelectRegDates = ({ viewForm }) => {
             setLoading(false);
         }
     }, [postAllDeptcondemList]);
-
 
     const Clear = useCallback(() => {
         setCondemnationList([])
@@ -76,7 +74,6 @@ const AllDeptSelectRegDates = ({ viewForm }) => {
                             },
                         }}
                         onChange={handleFromDateChange}
-
                     />
                 </Box>
 
@@ -96,7 +93,6 @@ const AllDeptSelectRegDates = ({ viewForm }) => {
                             },
                         }} />
                 </Box>
-
                 <Box sx={{ pt: 3 }}>
                     <Button
                         sx={{ py: .2, px: .6, ml: 1 }}
@@ -258,4 +254,4 @@ const AllDeptSelectRegDates = ({ viewForm }) => {
     )
 }
 
-export default AllDeptSelectRegDates
+export default memo(AllDeptSelectRegDates)

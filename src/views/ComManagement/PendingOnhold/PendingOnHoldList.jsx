@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback, useEffect, memo } from 'react'
 import { useHistory } from 'react-router-dom'
 import CardCloseOnly from 'src/views/Components/CardCloseOnly'
 import { useDispatch, useSelector } from 'react-redux';
@@ -118,4 +118,4 @@ const PendingOnHoldList = () => {
     )
 }
 
-export default PendingOnHoldList
+export default memo(PendingOnHoldList)

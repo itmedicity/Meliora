@@ -2002,9 +2002,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                                                 <Box sx={{ flex: 5 }} >
                                                                     {val.serviced_issue_remarks}
                                                                 </Box>
-
                                                             </Box>
-
                                                         )
                                                     })}
                                                 </Box> : null}
@@ -2046,7 +2044,6 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                                     fontSize: 15,
                                                 }}
                                             />
-
                                             <TextComponent
                                                 text={"Select Supplier"}
                                                 sx={{
@@ -2063,6 +2060,30 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                                 supplierSelect !== 0 ?
                                                     <>
                                                         {SupplierDetails?.map((val, index) => {
+                                                            const numbers = [
+                                                                val.it_supplier_mob_one,
+                                                                val.it_supplier_mob_two,
+                                                                val.it_supplier_land_one,
+                                                                val.it_supplier_land_two,
+                                                                val.it_supplier_escl_mob_one,
+                                                                val.it_supplier_escl_mob_two,
+                                                                val.it_supplier_escl_land_one,
+                                                                val.it_supplier_escl_land_two,
+                                                                val.it_supplier_servperson_land_one,
+                                                                val.it_supplier_servperson_land_two,
+                                                                val.it_supplier_servperson_mob_one,
+                                                                val.it_supplier_servperson_mob_two,
+                                                                val.it_supplier_saleperson_land_one,
+                                                                val.it_supplier_saleperson_land_two,
+                                                                val.it_supplier_saleperson_mob_one,
+                                                                val.it_supplier_saleperson_mob_two,
+                                                                val.it_supplier_saleperson_second_land_one,
+                                                                val.it_supplier_saleperson_second_land_two,
+                                                                val.it_supplier_saleperson_second_mob_one,
+                                                                val.it_supplier_saleperson_second_mob_two
+                                                            ];
+
+                                                            const uniqueNumbers = [...new Set(numbers.filter(num => num))];
                                                             return (
                                                                 <Box
                                                                     key={index}>
@@ -2070,74 +2091,11 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                                                         <Typography sx={{ width: 100, ml: 1, fontSize: 14, fontWeight: 600 }}>
                                                                             Contact No.
                                                                         </Typography>
-                                                                        <Box sx={{
-                                                                            flex: 3,
-                                                                            borderRadius: 5,
-                                                                            pt: .2,
-
-                                                                        }}>
-                                                                            {val.it_supplier_mob_one !== null ? <Chip>
-                                                                                <PhoneIcon /> {val.it_supplier_mob_one}
-                                                                            </Chip> : null}
-                                                                            {val.it_supplier_mob_two !== null ? <Chip>
-                                                                                <PhoneIcon /> {val.it_supplier_mob_two}
-                                                                            </Chip> : null}
-                                                                            {val.it_supplier_land_one !== null ? <Chip>
-                                                                                <PhoneIcon /> {val.it_supplier_land_one}
-                                                                            </Chip> : null}
-                                                                            {val.it_supplier_land_two !== null ? <Chip>
-                                                                                <PhoneIcon /> {val.it_supplier_land_two}
-                                                                            </Chip> : null}
-                                                                            {val.it_supplier_escl_mob_one !== null &&
-                                                                                val.it_supplier_escl_mob_one !== val.it_supplier_mob_one ? <Chip>
-                                                                                <PhoneIcon /> {val.it_supplier_escl_mob_one}
-                                                                            </Chip> : null}
-                                                                            {val.it_supplier_escl_mob_two !== null && val.it_supplier_escl_mob_two !== val.it_supplier_mob_two ? <Chip>
-                                                                                <PhoneIcon /> {val.it_supplier_escl_mob_two}
-                                                                            </Chip> : null}
-                                                                            {val.it_supplier_escl_land_one !== null && val.it_supplier_escl_land_one !== val.it_supplier_land_one ? <Chip>
-                                                                                <PhoneIcon /> {val.it_supplier_escl_land_one}
-                                                                            </Chip> : null}
-                                                                            {val.it_supplier_escl_land_two !== null && val.it_supplier_escl_land_two !== val.it_supplier_land_two ? <Chip>
-                                                                                <PhoneIcon /> {val.it_supplier_escl_land_two}
-                                                                            </Chip> : null}
-                                                                            {val.it_supplier_servperson_land_one !== null && val.it_supplier_servperson_land_one !== val.it_supplier_land_one ? <Chip>
-                                                                                <PhoneIcon /> {val.it_supplier_servperson_land_one}
-                                                                            </Chip> : null}
-                                                                            {val.it_supplier_servperson_land_two !== null && val.it_supplier_servperson_land_two !== val.it_supplier_land_two ? <Chip>
-                                                                                <PhoneIcon /> {val.it_supplier_servperson_land_two}
-                                                                            </Chip> : null}
-                                                                            {val.it_supplier_servperson_mob_one !== null && val.it_supplier_servperson_mob_one !== val.it_supplier_mob_one ? <Chip>
-                                                                                <PhoneIcon /> {val.it_supplier_servperson_mob_one}
-                                                                            </Chip> : null}
-                                                                            {val.it_supplier_servperson_mob_two !== null && val.it_supplier_servperson_mob_two !== val.it_supplier_mob_two ? <Chip>
-                                                                                <PhoneIcon /> {val.it_supplier_servperson_mob_two}
-                                                                            </Chip> : null}
-                                                                            {val.it_supplier_saleperson_land_one !== null && val.it_supplier_saleperson_land_one !== val.it_supplier_land_one ? <Chip>
-                                                                                <PhoneIcon /> {val.it_supplier_saleperson_land_one}
-                                                                            </Chip> : null}
-                                                                            {val.it_supplier_saleperson_land_two !== null && val.it_supplier_saleperson_land_two !== val.it_supplier_land_two ? <Chip>
-                                                                                <PhoneIcon /> {val.it_supplier_saleperson_land_two}
-                                                                            </Chip> : null}
-                                                                            {val.it_supplier_saleperson_mob_one !== null && val.it_supplier_saleperson_mob_one !== val.it_supplier_mob_one ? <Chip>
-                                                                                <PhoneIcon /> {val.it_supplier_saleperson_mob_one}
-                                                                            </Chip> : null}
-                                                                            {val.it_supplier_saleperson_mob_two !== null && val.it_supplier_saleperson_mob_two !== val.it_supplier_mob_two ? <Chip>
-                                                                                <PhoneIcon /> {val.it_supplier_saleperson_mob_two}
-                                                                            </Chip> : null}
-                                                                            {val.it_supplier_saleperson_second_land_one !== null && val.it_supplier_saleperson_second_land_one !== val.it_supplier_land_one ? <Chip>
-                                                                                <PhoneIcon /> {val.it_supplier_saleperson_second_land_one}
-                                                                            </Chip> : null}
-                                                                            {val.it_supplier_saleperson_second_land_two !== null && val.it_supplier_saleperson_second_land_two !== val.it_supplier_land_two ? <Chip>
-                                                                                <PhoneIcon /> {val.it_supplier_saleperson_second_land_two}
-                                                                            </Chip> : null}
-                                                                            {val.it_supplier_saleperson_second_mob_one !== null && val.it_supplier_saleperson_second_mob_one !== val.it_supplier_mob_one ? <Chip>
-                                                                                <PhoneIcon /> {val.it_supplier_saleperson_second_mob_one}
-                                                                            </Chip> : null}
-                                                                            {val.it_supplier_saleperson_second_mob_two !== null && val.it_supplier_saleperson_second_mob_two !== val.it_supplier_mob_two ? <Chip>
-                                                                                <PhoneIcon /> {val.it_supplier_saleperson_second_mob_two}
-                                                                            </Chip> : null}
-                                                                        </Box>
+                                                                        {uniqueNumbers.map((phone, index) => (
+                                                                            <Chip key={index} clickable>
+                                                                                <PhoneIcon /> {phone}
+                                                                            </Chip>
+                                                                        ))}
                                                                     </Box>
                                                                     <Box sx={{ flex: 1, mt: 1, display: 'flex' }}>
                                                                         <Typography sx={{ width: 100, ml: 1, fontSize: 14, fontWeight: 600 }}>
@@ -2151,7 +2109,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                                                                 <Chip
                                                                                     component="a"
                                                                                     href={`mailto:${val.it_supplier_email_one}`}
-                                                                                    clickable
+                                                                                    clickable="true"
                                                                                     label={<u>{val.it_supplier_email_one}</u>}
                                                                                 >
                                                                                     <u style={{ color: '#005BEA' }}>{val.it_supplier_email_one}</u>
@@ -2162,7 +2120,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                                                                 <Chip
                                                                                     component="a"
                                                                                     href={`mailto:${val.it_supplier_email_two}`}
-                                                                                    clickable
+                                                                                    clickable="true"
                                                                                     label={<u>{val.it_supplier_email_two}</u>}
                                                                                 >
                                                                                     <u style={{ color: '#005BEA' }}>{val.it_supplier_email_two}</u>
@@ -2173,7 +2131,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                                                                 <Chip
                                                                                     component="a"
                                                                                     href={`mailto:${val.it_supplier_servperson_email_one}`}
-                                                                                    clickable
+                                                                                    clickable="true"
                                                                                     label={<u>{val.it_supplier_servperson_email_one}</u>}
                                                                                 >
                                                                                     <u style={{ color: '#005BEA' }}>{val.it_supplier_servperson_email_one}</u>
@@ -2184,7 +2142,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                                                                 <Chip
                                                                                     component="a"
                                                                                     href={`mailto:${val.it_supplier_servperson_email_two}`}
-                                                                                    clickable
+                                                                                    clickable="true"
                                                                                     label={<u>{val.it_supplier_servperson_email_two}</u>}
                                                                                 >
                                                                                     <u style={{ color: '#005BEA' }}>{val.it_supplier_servperson_email_two}</u>
@@ -2195,7 +2153,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                                                                 <Chip
                                                                                     component="a"
                                                                                     href={`mailto:${val.it_supplier_saleperson_email_one}`}
-                                                                                    clickable
+                                                                                    clickable="true"
                                                                                     label={<u>{val.it_supplier_saleperson_email_one}</u>}
                                                                                 >
                                                                                     <u style={{ color: '#005BEA' }}>{val.it_supplier_saleperson_email_one}</u>
@@ -2206,7 +2164,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                                                                 <Chip
                                                                                     component="a"
                                                                                     href={`mailto:${val.it_supplier_saleperson_email_two}`}
-                                                                                    clickable
+                                                                                    clickable="true"
                                                                                     label={<u>{val.it_supplier_saleperson_email_two}</u>}
                                                                                 >
                                                                                     <u style={{ color: '#005BEA' }}>{val.it_supplier_saleperson_email_two}</u>
@@ -2217,7 +2175,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                                                                 <Chip
                                                                                     component="a"
                                                                                     href={`mailto:${val.it_supplier_saleperson_second_email_one}`}
-                                                                                    clickable
+                                                                                    clickable="true"
                                                                                     label={<u>{val.it_supplier_saleperson_second_email_one}</u>}
                                                                                 >
                                                                                     <u style={{ color: '#005BEA' }}>{val.it_supplier_saleperson_second_email_one}</u>
@@ -2228,7 +2186,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                                                                 <Chip
                                                                                     component="a"
                                                                                     href={`mailto:${val.it_supplier_saleperson_second_email_two}`}
-                                                                                    clickable
+                                                                                    clickable="true"
                                                                                     label={<u>{val.it_supplier_saleperson_second_email_two}</u>}
                                                                                 >
                                                                                     <u style={{ color: '#005BEA' }}>{val.it_supplier_saleperson_second_email_two}</u>
@@ -2236,7 +2194,6 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                                                             ) : null}
                                                                         </Box>
                                                                     </Box>
-
                                                                 </Box>
                                                             )
                                                         })}
@@ -2246,7 +2203,6 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                                 supplierSelect !== 0 ?
                                                     <Box>
                                                         <Box sx={{ flex: 1, mt: 2 }}>
-
                                                             <Typography
                                                                 sx={{
                                                                     fontWeight: 600,
@@ -2300,12 +2256,8 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                                                     </Box>
                                                                 </Box> : null}
                                                         </Box>
-
-
                                                     </Box> :
                                                     null}
-
-
                                         </Box>
                                         <Box sx={{ border: 1, borderColor: '#E0E1E3', py: 1, pl: 2, mt: .5 }}>
                                             <TextComponent
@@ -2384,7 +2336,6 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                                     </Box>
                                                 </Box>
                                                 : null}
-
                                             <Box sx={{ display: 'flex', flex: 1, mt: 1 }}>
                                                 <Box sx={{ pt: .4 }}>
                                                     <Checkbox
@@ -2398,13 +2349,11 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                                             }))
                                                         }
                                                     />
-
                                                 </Box>
                                                 <Typography sx={{ color: '#394060', fontWeight: 600, pl: 1, }}>
                                                     Not Serviceable / Not Repairable
                                                 </Typography>
                                             </Box>
-
                                             {flags.notserviceCheck === 1 ?
                                                 <Box sx={{ pt: 1, pr: 1.5, mb: 3 }}>
                                                     <Textarea type="text"
@@ -2438,7 +2387,6 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                                         ml: 1
                                                     }}
                                                 />
-
                                                 <Box sx={{ flex: 1, mr: 1, my: .5 }}>
                                                     {UploadedFiles.length !== 0 && (
                                                         <Grid container spacing={.5}>
@@ -2616,7 +2564,6 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                         </Box>
                                     </Box>
                                 </TabPanel>
-
                                 {spare_asset_no === undefined ?
                                     <TabPanel value={3} sx={{
                                         p: 0,
@@ -2636,7 +2583,6 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                                 item_asset_no_only={item_asset_no_only} am_category_pm_days={am_category_pm_days} />
                                         </Box>
                                     </TabPanel> : null}
-
                                 <TabPanel value={4} sx={{
                                     p: 0,
                                     flexGrow: 1,
@@ -2655,7 +2601,6 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                             fileViewAssetService={fileViewAssetService} />
                                     </Box>
                                 </TabPanel>
-
                                 <TabPanel value={5} sx={{
                                     p: 0,
                                     flexGrow: 1,
@@ -2663,10 +2608,8 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                     maxHeight: 'calc(90vh - 230px)',
                                 }}>
                                     <Box>
-
                                         <DocumentsList serviceDetails={serviceDetails} setFlags={setFlags}
                                             setViewStates={setViewStates} flags={flags} viewStates={viewStates} />
-
                                     </Box>
                                 </TabPanel>
                             </Tabs>

@@ -1,5 +1,5 @@
 import { Modal, ModalDialog } from '@mui/joy';
-import React, { useCallback } from 'react'
+import React, { memo, useCallback } from 'react'
 
 const ViewAssetDetailsModal = ({ ViewDetails, AssetOpenModal,
     setAssetOpenModal,
@@ -247,4 +247,4 @@ const ViewAssetDetailsModal = ({ ViewDetails, AssetOpenModal,
     )
 }
 
-export default ViewAssetDetailsModal
+export default memo(ViewAssetDetailsModal)

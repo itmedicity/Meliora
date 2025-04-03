@@ -1,5 +1,5 @@
 import { Box, Chip, Typography } from '@mui/joy';
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { memo, useEffect, useMemo, useState } from 'react'
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
 import { axioslogin } from 'src/views/Axios/Axios';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
@@ -475,4 +475,4 @@ const ServiceDetailsCondemnation = ({ AssetDetails }) => {
     )
 }
 
-export default ServiceDetailsCondemnation
+export default memo(ServiceDetailsCondemnation)

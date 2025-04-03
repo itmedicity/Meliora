@@ -50,12 +50,12 @@ export const am_setting_one = [
     { to: '/Home/SubCategory', name: 'Sub Category', slno: 26 },
     { to: '/Home/Manufacture', name: 'Manufacture', slno: 29 },
     { to: '/Home/UnitOfMeasurement', name: 'Unit Of Measurement', slno: 137 },
+    // { to: '/Home/AssetCondemApprovalLevels', name: 'Condemnation Approval Levels', slno: 270 },
 ]
 
 export const am_setting_two = [
     { to: '/Home/ItemType', name: 'Item Type', slno: 24 },
     { to: '/Home/AssetGroup', name: 'Group ', slno: 27 },
-    // { to: '/Home/PrimaryCustodian', name: 'Primary Custodian ', slno: 129 },
     { to: '/Home/AssetModel', name: 'Model', slno: 138 },
     { to: '/Home/AssetRackMast', name: 'Asset Rack Master', slno: 161 },
 ]
@@ -63,7 +63,6 @@ export const am_setting_two = [
 export const am_setting_three = [
     { to: '/Home/ItemCategory', name: 'Category ', slno: 25 },
     { to: '/Home/SubGroup', name: 'Sub Group', slno: 28 },
-    // { to: '/Home/SecondaryCustodian', name: 'Secondary Custodian', slno: 130 },
     { to: '/Home/AssetSubModel', name: 'SubModel ', slno: 139 },
     { to: '/Home/CusodianDepartment', name: 'Custodian Department', slno: 154 },
 ]

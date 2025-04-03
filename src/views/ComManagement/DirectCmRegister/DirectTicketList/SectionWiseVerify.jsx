@@ -122,6 +122,7 @@ const SectionWiseVerify = ({ count, setCount, forVerify, loading }) => {
                                 <Box sx={{ width: 180, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1.2 }}>Complaint To</Box>
                                 <Box sx={{ width: 220, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1.3 }}>Complaint From</Box>
                                 <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1.3 }}>Location</Box>
+                                <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12, }}>Location Details</Box>
                                 <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1.4 }}>Complaint Date</Box>
                             </Box>
                             <Virtuoso
@@ -148,7 +149,7 @@ const SectionWiseVerify = ({ count, setCount, forVerify, loading }) => {
                                                             <FilePresentRoundedIcon sx={{
                                                                 border: 1,
                                                                 borderRadius: 3,
-                                                                p: .1,
+                                                                p: .4,
                                                                 width: 28, height: 28,
                                                                 color: '#41729F',
                                                                 cursor: 'pointer',
@@ -162,7 +163,7 @@ const SectionWiseVerify = ({ count, setCount, forVerify, loading }) => {
                                                     <FilePresentRoundedIcon sx={{
                                                         border: 1,
                                                         borderRadius: 1,
-                                                        p: .1,
+                                                        p: .4,
                                                         width: 28, height: 28,
                                                         color: 'lightgrey',
                                                     }}
@@ -174,20 +175,20 @@ const SectionWiseVerify = ({ count, setCount, forVerify, loading }) => {
                                                                 <MarkUnreadChatAltIcon sx={{
                                                                     border: 1,
                                                                     borderRadius: 3,
-                                                                    p: .1,
+                                                                    p: .4,
                                                                     width: 28, height: 28, color: '#BF4A32', animation: `${blinkAnimation} 1s infinite`
                                                                 }} /> :
                                                                 val.cm_query_status === 2 ?
                                                                     <CommentIcon sx={{
                                                                         border: 1,
                                                                         borderRadius: 3,
-                                                                        p: .1,
+                                                                        p: .4,
                                                                         width: 28, height: 28, color: '#2B82BF', animation: `${blinkAnimation} 1s infinite`,
                                                                     }} /> :
                                                                     <TextsmsIcon sx={{
                                                                         border: 1,
                                                                         borderRadius: 3,
-                                                                        p: .1,
+                                                                        p: .4,
                                                                         width: 28, height: 28, color: '#647C90'
                                                                     }} />
                                                             }
@@ -199,7 +200,7 @@ const SectionWiseVerify = ({ count, setCount, forVerify, loading }) => {
                                                         <VerifiedUserSharpIcon sx={{
                                                             border: 1,
                                                             borderRadius: 3,
-                                                            p: .1,
+                                                            p: .4,
                                                             width: 28, height: 28, color: '#0B6BCB', cursor: 'pointer'
                                                         }} onClick={() => ForVerifyModal(val)} />
                                                     </Tooltip>
@@ -225,6 +226,9 @@ const SectionWiseVerify = ({ count, setCount, forVerify, loading }) => {
                                                 {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name ?
                                                     ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''}${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${(val.rm_insidebuildblock_name && val.rm_floor_name) ? ' - ' : ''}${val.rm_floor_name ? val.rm_floor_name : ''})`
                                                     : "Not Updated"}
+                                            </Box>
+                                            <Box sx={{ width: 300, fontSize: 13, }}>
+                                                {val.cm_complaint_location || "Not Updated"}
                                             </Box>
                                             <Box sx={{ width: 150, fontSize: 13, }}>
                                                 {val.compalint_date

@@ -1,5 +1,5 @@
 import { Box, CssVarsProvider, Table } from '@mui/joy';
-import React, { useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import { useQuery } from 'react-query';
 import { axioslogin } from 'src/views/Axios/Axios';
 import TextComponent from 'src/views/Components/TextComponent';
@@ -102,4 +102,4 @@ const WarrentyGaurenteeDetails = ({ AssetDetails }) => {
     )
 }
 
-export default WarrentyGaurenteeDetails
+export default memo(WarrentyGaurenteeDetails)

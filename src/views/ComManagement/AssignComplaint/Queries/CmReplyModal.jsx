@@ -91,7 +91,7 @@ const CmReplyModal = ({ valuee, count, setCount, setReplyOpen, setReplyflag, ope
     };
     const formatDate = (dateStr) => {
         const date = new Date(dateStr);
-        return format(date, 'MMM d, yyyy HH:mm');
+        return format(date, 'MMM d, yyyy  hh:mm a');
     };
 
     return (

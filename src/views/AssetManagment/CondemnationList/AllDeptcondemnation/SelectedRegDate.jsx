@@ -1,5 +1,5 @@
 import { Box, Button, CircularProgress, CssVarsProvider, IconButton, Input, Table } from '@mui/joy'
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { memo, useCallback, useMemo, useState } from 'react'
 import SearchIcon from '@mui/icons-material/Search';
 import { format } from 'date-fns';
 import { axioslogin } from 'src/views/Axios/Axios';
@@ -263,4 +263,4 @@ const SelectedRegDate = ({ SatusFrom, SatusTo, viewForm }) => {
     )
 }
 
-export default SelectedRegDate
+export default memo(SelectedRegDate)

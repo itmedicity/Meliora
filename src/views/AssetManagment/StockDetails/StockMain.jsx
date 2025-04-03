@@ -1,6 +1,6 @@
 import { Box, CssVarsProvider, Tab, TabList, TabPanel, Tabs } from '@mui/joy'
 import { Paper } from '@mui/material'
-import React, { useCallback } from 'react'
+import React, { memo, useCallback } from 'react'
 import CusIconButton from 'src/views/Components/CusIconButton'
 import TextComponent from 'src/views/Components/TextComponent'
 import CloseIcon from '@mui/icons-material/Close'
@@ -141,4 +141,4 @@ const StockMain = () => {
     )
 }
 
-export default StockMain
+export default memo(StockMain)

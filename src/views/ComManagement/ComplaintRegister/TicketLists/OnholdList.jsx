@@ -130,7 +130,7 @@ const OnholdList = ({ onholdCompl, count, setCount, loading }) => {
                 </Box>
             ) : (
                 onholdCompl.length !== 0 ?
-                    <Box sx={{ width: 1900, }}>
+                    <Box sx={{ width: 2100, }}>
                         <Box sx={{
                             height: 40, mt: .5, mx: .5, display: 'flex', borderBottom: 1, borderTop: 1, borderColor: 'lightgray', pt: 1.5,
                             bgcolor: 'white'
@@ -139,10 +139,11 @@ const OnholdList = ({ onholdCompl, count, setCount, loading }) => {
                             <Box sx={{ width: 143, fontWeight: 600, color: '#444444', fontSize: 12, textAlign: 'center' }}>Action</Box>
                             <Box sx={{ width: 160, fontWeight: 600, color: '#444444', fontSize: 12, pl: .5 }}>Complaint Type</Box>
                             <Box sx={{ width: 610, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1.5 }}>Describtion</Box>
-                            <Box sx={{ width: 180, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1.2 }}>Complaint To</Box>
-                            <Box sx={{ width: 220, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1.3 }}>Complaint From</Box>
-                            <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1.3 }}>Location</Box>
-                            <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1.4 }}>Complaint Date</Box>
+                            <Box sx={{ width: 180, fontWeight: 600, color: '#444444', fontSize: 12, pl: .5 }}>Complaint To</Box>
+                            <Box sx={{ width: 220, fontWeight: 600, color: '#444444', fontSize: 12, pl: .5 }}>Complaint From</Box>
+                            <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12, pl: .5 }}>Location</Box>
+                            <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12, pl: .5 }}>Location Details</Box>
+                            <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12, }}>Complaint Date</Box>
                         </Box>
                         <Virtuoso
                             style={{ height: '28vh' }}
@@ -168,7 +169,7 @@ const OnholdList = ({ onholdCompl, count, setCount, loading }) => {
                                                         <FilePresentRoundedIcon sx={{
                                                             border: 1,
                                                             borderRadius: 3,
-                                                            p: .1,
+                                                            p: .4,
                                                             width: 28, height: 28,
                                                             color: '#41729F',
                                                             cursor: 'pointer',
@@ -182,7 +183,7 @@ const OnholdList = ({ onholdCompl, count, setCount, loading }) => {
                                                 <FilePresentRoundedIcon sx={{
                                                     border: 1,
                                                     borderRadius: 3,
-                                                    p: .1,
+                                                    p: .4,
                                                     width: 28, height: 28,
                                                     color: 'lightgrey',
                                                 }}
@@ -194,20 +195,20 @@ const OnholdList = ({ onholdCompl, count, setCount, loading }) => {
                                                             <MarkUnreadChatAltIcon sx={{
                                                                 border: 1,
                                                                 borderRadius: 3,
-                                                                p: .1,
+                                                                p: .4,
                                                                 width: 28, height: 28, color: '#BF4A32', animation: `${blinkAnimation} 1s infinite`
                                                             }} /> :
                                                             val.cm_query_status === 2 ?
                                                                 <CommentIcon sx={{
                                                                     border: 1,
                                                                     borderRadius: 3,
-                                                                    p: .1,
+                                                                    p: .4,
                                                                     width: 28, height: 28, color: '#2B82BF', animation: `${blinkAnimation} 1s infinite`,
                                                                 }} /> :
                                                                 <TextsmsIcon sx={{
                                                                     border: 1,
                                                                     borderRadius: 3,
-                                                                    p: .1,
+                                                                    p: .4,
                                                                     width: 28, height: 28, color: '#647C90'
                                                                 }} />
                                                         }
@@ -219,7 +220,7 @@ const OnholdList = ({ onholdCompl, count, setCount, loading }) => {
                                                     <ArticleRoundedIcon sx={{
                                                         border: 1,
                                                         borderRadius: 3,
-                                                        p: .1,
+                                                        p: .4,
                                                         width: 28, height: 28, color: '#50655B', cursor: 'pointer'
                                                     }} onClick={() => HoldDetailsView(val)} />
                                                 </Tooltip>
@@ -230,7 +231,7 @@ const OnholdList = ({ onholdCompl, count, setCount, loading }) => {
                                                         <MiscellaneousServicesIcon sx={{
                                                             border: 1,
                                                             borderRadius: 3,
-                                                            p: .1,
+                                                            p: .4,
                                                             width: 28, height: 28, color: '#4C5270', cursor: 'pointer'
                                                         }} onClick={() => AssetView(val)} />
                                                     </Tooltip>
@@ -240,7 +241,7 @@ const OnholdList = ({ onholdCompl, count, setCount, loading }) => {
                                                         <MiscellaneousServicesIcon sx={{
                                                             border: 1,
                                                             borderRadius: 3,
-                                                            p: .1,
+                                                            p: .4,
                                                             width: 28, height: 28,
                                                             color: 'lightgrey', cursor: 'pointer'
 
@@ -266,6 +267,9 @@ const OnholdList = ({ onholdCompl, count, setCount, loading }) => {
                                             {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name ?
                                                 ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''}${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${(val.rm_insidebuildblock_name && val.rm_floor_name) ? ' - ' : ''}${val.rm_floor_name ? val.rm_floor_name : ''})`
                                                 : "Not Updated"}
+                                        </Box>
+                                        <Box sx={{ width: 300, fontSize: 13, }}>
+                                            {val.cm_complaint_location || "Not Updated"}
                                         </Box>
                                         <Box sx={{ width: 150, fontSize: 13, }}>
                                             {val.compalint_date

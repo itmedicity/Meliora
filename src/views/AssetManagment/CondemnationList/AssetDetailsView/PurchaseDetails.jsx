@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { memo, useCallback, useState } from 'react'
 import TextComponent from 'src/views/Components/TextComponent'
 import { Box, Input } from '@mui/joy'
 import { format } from 'date-fns'
@@ -269,4 +269,4 @@ const PurchaseDetails = ({ AssetDetails }) => {
     )
 }
 
-export default PurchaseDetails
+export default memo(PurchaseDetails)

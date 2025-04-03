@@ -63,20 +63,20 @@ const AmTransactions = [
         to: '/Home/AssetCondemnationList',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
     },
-    {
-        men_slno: 259,
-        component: CNavItem,
-        name: 'Approve Condemnation',
-        to: '/Home/CondemnationApproval',
-        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
-    },
-    {
-        men_slno: 268,
-        component: CNavItem,
-        name: 'All Condemnation List ',
-        to: '/Home/AllDeptCondemList',
-        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
-    },
+    // {
+    //     men_slno: 259,
+    //     component: CNavItem,
+    //     name: 'Approve Condemnation',
+    //     to: '/Home/CondemnationApproval',
+    //     icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    // },
+    // {
+    //     men_slno: 268,
+    //     component: CNavItem,
+    //     name: 'All Condemnation List ',
+    //     to: '/Home/AllDeptCondemList',
+    //     icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+    // },
 
     {
         men_slno: 228,

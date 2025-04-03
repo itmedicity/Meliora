@@ -141,7 +141,7 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                 ) : (
 
                     pendingCompl.length !== 0 ?
-                        <Box sx={{ width: 2000, pb: 1 }}>
+                        <Box sx={{ width: 2100, pb: 1 }}>
                             <Box sx={{
                                 height: 40, mt: .5, mx: .5, display: 'flex', borderBottom: 1, borderTop: 1, borderColor: 'lightgray', pt: 1.5,
                                 bgcolor: 'white'
@@ -151,11 +151,12 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                                 <Box sx={{ minWidth: 80, fontWeight: 600, color: '#444444', fontSize: 12, pl: 2 }}>Ticket No.</Box>
                                 <Box sx={{ width: 155, fontWeight: 600, color: '#444444', fontSize: 12, textAlign: 'center' }}>Action</Box>
                                 <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12, ml: .5 }}>Complaint Type</Box>
-                                <Box sx={{ width: 610, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1.5 }}>Describtion</Box>
-                                <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1.2 }}>Complaint To</Box>
+                                <Box sx={{ width: 580, fontWeight: 600, color: '#444444', fontSize: 12, }}>Describtion</Box>
+                                <Box sx={{ width: 130, fontWeight: 600, color: '#444444', fontSize: 12, }}>Complaint To</Box>
                                 <Box sx={{ width: 220, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1.3 }}>Complaint From</Box>
-                                <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1.3 }}>Location</Box>
-                                <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12, pl: 3 }}>Complaint Date</Box>
+                                <Box sx={{ width: 283, fontWeight: 600, color: '#444444', fontSize: 12, }}>Location</Box>
+                                <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12, }}>Location Details</Box>
+                                <Box sx={{ width: 130, fontWeight: 600, color: '#444444', fontSize: 12, }}>Complaint Date</Box>
                             </Box>
                             <Virtuoso
                                 style={{ height: '28vh' }}
@@ -246,21 +247,6 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                                                                 ? format(new Date(selectedRow.aprrox_date), 'dd MMM yyyy,  hh:mm a')
                                                                 : 'Not Updated'
                                                         }</Typography>
-                                                        {/* <Typography level="body2" sx={{ mt: .5 }}>Assigned Employees:</Typography>
-                                                        <List>
-                                                            {selectedEmployees.length > 0 ? (
-                                                                selectedEmployees.map((employee, idx) => (
-                                                                    <ListItem key={idx}>
-                                                                        <PersonIcon />
-                                                                        <Typography level="body2" sx={{ pl: 0.5 }}>{employee}</Typography>
-                                                                    </ListItem>
-                                                                ))
-                                                            ) : (
-                                                                <ListItem>
-                                                                    <Typography>No Employees</Typography>
-                                                                </ListItem>
-                                                            )}
-                                                        </List> */}
                                                         <Box sx={{ height: 10 }}>
                                                         </Box>
                                                     </>
@@ -276,7 +262,7 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                                                         sx={{
                                                             border: 1,
                                                             borderRadius: 3,
-                                                            p: .1,
+                                                            p: .4,
                                                             width: 28, height: 28,
                                                             color: 'lightgrey',
                                                         }}
@@ -285,7 +271,7 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                                                         sx={{
                                                             border: 1,
                                                             borderRadius: 3,
-                                                            p: .1,
+                                                            p: .4,
                                                             width: 28, height: 28,
                                                             cursor: 'pointer', color: '#145DA0',
                                                             '&:hover': { color: '#0C2D48' }
@@ -298,7 +284,7 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                                                             <FilePresentRoundedIcon sx={{
                                                                 border: 1,
                                                                 borderRadius: 3,
-                                                                p: .1,
+                                                                p: .4,
                                                                 width: 28, height: 28,
                                                                 color: '#41729F',
                                                                 cursor: 'pointer',
@@ -312,7 +298,7 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                                                     <FilePresentRoundedIcon sx={{
                                                         border: 1,
                                                         borderRadius: 3,
-                                                        p: .1,
+                                                        p: .4,
                                                         width: 28, height: 28,
                                                         color: 'lightgrey',
                                                     }}
@@ -324,20 +310,20 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                                                                 <MarkUnreadChatAltIcon sx={{
                                                                     border: 1,
                                                                     borderRadius: 3,
-                                                                    p: .1,
+                                                                    p: .4,
                                                                     width: 28, height: 28, color: '#BF4A32', animation: `${blinkAnimation} 1s infinite`
                                                                 }} /> :
                                                                 val.cm_query_status === 2 ?
                                                                     <CommentIcon sx={{
                                                                         border: 1,
                                                                         borderRadius: 3,
-                                                                        p: .1,
+                                                                        p: .4,
                                                                         width: 28, height: 28, color: '#2B82BF', animation: `${blinkAnimation} 1s infinite`,
                                                                     }} /> :
                                                                     <TextsmsIcon sx={{
                                                                         border: 1,
                                                                         borderRadius: 3,
-                                                                        p: .1,
+                                                                        p: .4,
                                                                         width: 28, height: 28, color: '#647C90',
                                                                     }} />
                                                             }
@@ -350,7 +336,7 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                                                             <MiscellaneousServicesIcon sx={{
                                                                 border: 1,
                                                                 borderRadius: 3,
-                                                                p: .1,
+                                                                p: .4,
                                                                 width: 28, height: 28, color: '#4C5270', cursor: 'pointer'
                                                             }} onClick={() => AssetView(val)} />
                                                         </Tooltip>
@@ -361,7 +347,7 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                                                                 border: 1,
                                                                 borderRadius: 3,
                                                                 width: 28, height: 28,
-                                                                p: .1, color: 'lightgrey', cursor: 'pointer'
+                                                                p: .4, color: 'lightgrey', cursor: 'pointer'
                                                             }} />
                                                         </Tooltip>
                                                     </CssVarsProvider>
@@ -385,7 +371,10 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                                                     ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''}${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${(val.rm_insidebuildblock_name && val.rm_floor_name) ? ' - ' : ''}${val.rm_floor_name ? val.rm_floor_name : ''})`
                                                     : "Not Updated"}
                                             </Box>
-                                            <Box sx={{ width: 150, fontSize: 13, pl: 1.5 }}>
+                                            <Box sx={{ width: 300, fontSize: 13, }}>
+                                                {val.cm_complaint_location || "Not Updated"}
+                                            </Box>
+                                            <Box sx={{ width: 180, fontSize: 13, pl: 1.5 }}>
                                                 {val.compalint_date
                                                     ? format(new Date(val.compalint_date), 'dd MMM yyyy,  hh:mm a')
                                                     : 'Invalid Date'}

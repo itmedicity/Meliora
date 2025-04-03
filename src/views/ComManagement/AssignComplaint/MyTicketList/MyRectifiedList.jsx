@@ -442,10 +442,16 @@ const MyRectifiedList = () => {
                                                     Location
                                                 </Typography>
                                                 <Typography sx={{ fontSize: 13, flex: 1, }}>
-                                                    {val.rm_room_name}
+                                                    {/* {val.rm_room_name}
                                                     {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name ?
                                                         ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''}${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${(val.rm_insidebuildblock_name && val.rm_floor_name) ? ' - ' : ''}${val.rm_floor_name ? val.rm_floor_name : ''})`
-                                                        : "Not Updated"}
+                                                        : "Not Updated"} */}
+                                                    {val.rm_room_name}
+                                                    {(val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name) ? (
+                                                        ` (${val.rm_roomtype_name || ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''}${val.rm_insidebuildblock_name || ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''}${val.rm_floor_name || ''})`
+                                                    ) : (
+                                                        val.cm_complaint_location || "Not Updated"
+                                                    )}
                                                 </Typography>
                                             </Box>
                                             <Box sx={{

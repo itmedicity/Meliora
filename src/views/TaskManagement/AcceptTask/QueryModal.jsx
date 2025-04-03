@@ -87,7 +87,7 @@ const QueryModal = ({ open, setqueryOpen, setqueryflag, valuee, settaskcount, ta
     };
     const formatDate = (dateStr) => {
         const date = new Date(dateStr);
-        return format(date, 'MMMM d, yyyy HH:mm');
+        return format(date, 'MMM d, yyyy  hh:mm a');
     };
 
     return (

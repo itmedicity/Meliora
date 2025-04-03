@@ -1,5 +1,5 @@
 import { Box, Input, Table } from '@mui/joy';
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { memo, useEffect, useMemo, useState } from 'react'
 import { useQuery } from 'react-query';
 import { getallSpareUnderAsset, getSpecification } from 'src/api/AssetApis';
 import TextComponent from 'src/views/Components/TextComponent';
@@ -193,4 +193,4 @@ const DetailsTab = ({ AssetDetails }) => {
     )
 }
 
-export default DetailsTab
+export default memo(DetailsTab)

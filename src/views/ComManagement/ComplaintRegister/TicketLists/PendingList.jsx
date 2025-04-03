@@ -133,21 +133,22 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
             ) : (
                 pendingCompl.length !== 0 ?
 
-                    <Box sx={{ width: 1900, pb: 1 }}>
+                    <Box sx={{ width: 2100, pb: 1 }}>
                         <Box sx={{
                             height: 40, mt: .5, mx: .5, display: 'flex', borderBottom: 1, borderTop: 1, borderColor: 'lightgray', pt: 1.5,
                             bgcolor: 'white'
                         }}>
                             < Box sx={{ width: 25, fontWeight: 600, color: '#444444', fontSize: 12, pl: 2 }}>
                             </Box>
-                            <Box sx={{ minWidth: 90, fontWeight: 600, color: '#444444', fontSize: 12, pl: 2 }}>Ticket No.</Box>
-                            <Box sx={{ width: 160, fontWeight: 600, color: '#444444', fontSize: 12, textAlign: 'center' }}>Action</Box>
-                            <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12, }}>Complaint Type</Box>
-                            <Box sx={{ width: 610, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1.5 }}>Describtion</Box>
-                            <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1.2 }}>Complaint To</Box>
-                            <Box sx={{ width: 220, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1.3 }}>Complaint From</Box>
-                            <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1.3 }}>Location</Box>
-                            <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12, pl: 3 }}>Complaint Date</Box>
+                            <Box sx={{ width: 80, fontWeight: 600, color: '#444444', fontSize: 12, pl: 2 }}>Ticket No.</Box>
+                            <Box sx={{ width: 170, fontWeight: 600, color: '#444444', fontSize: 12, textAlign: 'center' }}>Action</Box>
+                            <Box sx={{ width: 170, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>Complaint Type</Box>
+                            <Box sx={{ width: 610, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>Describtion</Box>
+                            <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12, }}>Complaint To</Box>
+                            <Box sx={{ width: 220, fontWeight: 600, color: '#444444', fontSize: 12, }}>Complaint From</Box>
+                            <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12, }}>Location</Box>
+                            <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12, }}>Location Details</Box>
+                            <Box sx={{ width: 180, fontWeight: 600, color: '#444444', fontSize: 12, }}>Complaint Date</Box>
                         </Box>
                         <Virtuoso
                             style={{ height: '23vh', overflow: 'auto' }}
@@ -251,38 +252,23 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                                                             ? format(new Date(selectedRow.aprrox_date), 'dd MMM yyyy,  hh:mm a')
                                                             : 'Not Updated'
                                                     }</Typography>
-                                                    {/* <Typography level="body2" sx={{ mt: .5 }}>Assigned Employees:</Typography>
-                                                    <List>
-                                                        {selectedEmployees.length > 0 ? (
-                                                            selectedEmployees.map((employee, idx) => (
-                                                                <ListItem key={idx}>
-                                                                    <PersonIcon />
-                                                                    <Typography level="body2" sx={{ pl: 0.5 }}>{employee}</Typography>
-                                                                </ListItem>
-                                                            ))
-                                                        ) : (
-                                                            <ListItem>
-                                                                <Typography>No Employees</Typography>
-                                                            </ListItem>
-                                                        )}
-                                                    </List> */}
                                                     <Box sx={{ height: 10 }}>
                                                     </Box>
                                                 </>
                                             )}
                                         </Menu>
 
-                                        <Box sx={{ pl: 2, minWidth: 100, fontWeight: 600, fontSize: 14 }}>
+                                        <Box sx={{ pl: 1.5, width: 90, fontWeight: 600, fontSize: 14 }}>
                                             {val.complaint_slno}
                                         </Box>
-                                        <Box sx={{ width: 150, display: 'flex', gap: .5, textAlign: 'center' }}>
+                                        <Box sx={{ width: 160, display: 'flex', gap: .5, textAlign: 'center' }}>
                                             {val.compalint_status === 1 ?
                                                 <EditIcon
                                                     sx={{
                                                         color: 'lightgrey',
                                                         border: 1,
                                                         borderRadius: 3,
-                                                        p: .1,
+                                                        p: .4,
                                                         width: 28, height: 28
                                                     }}
                                                 /> :
@@ -291,7 +277,7 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                                                         cursor: 'pointer', color: '#145DA0',
                                                         border: 1,
                                                         borderRadius: 3,
-                                                        p: .1,
+                                                        p: .4,
                                                         width: 28, height: 28,
                                                         '&:hover': { color: '#0C2D48' }
                                                     }}
@@ -307,7 +293,7 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                                                             '&:hover': { color: '#274472' },
                                                             border: 1,
                                                             borderRadius: 3,
-                                                            p: .1,
+                                                            p: .4,
                                                             width: 28, height: 28
                                                         }}
                                                             onClick={() => fileView(val)}
@@ -318,7 +304,7 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                                                 <FilePresentRoundedIcon sx={{
                                                     border: 1,
                                                     borderRadius: 3,
-                                                    p: .1,
+                                                    p: .4,
                                                     width: 28, height: 28,
                                                     color: 'lightgrey',
                                                 }}
@@ -330,7 +316,7 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                                                             <MarkUnreadChatAltIcon sx={{
                                                                 border: 1,
                                                                 borderRadius: 3,
-                                                                p: .1,
+                                                                p: .4,
                                                                 width: 28, height: 28,
                                                                 color: '#BF4A32', animation: `${blinkAnimation} 1s infinite`
                                                             }} /> :
@@ -338,14 +324,14 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                                                                 <CommentIcon sx={{
                                                                     border: 1,
                                                                     borderRadius: 3,
-                                                                    p: .1,
+                                                                    p: .4,
                                                                     width: 28, height: 28,
                                                                     color: '#2B82BF', animation: `${blinkAnimation} 1s infinite`,
                                                                 }} /> :
                                                                 <TextsmsIcon sx={{
                                                                     border: 1,
                                                                     borderRadius: 3,
-                                                                    p: .1,
+                                                                    p: .4,
                                                                     width: 28, height: 28,
                                                                     color: '#647C90',
                                                                 }} />
@@ -360,7 +346,7 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                                                         <MiscellaneousServicesIcon sx={{
                                                             border: 1,
                                                             borderRadius: 3,
-                                                            p: .1,
+                                                            p: .4,
                                                             width: 28, height: 28,
                                                             color: '#524199', cursor: 'pointer'
                                                         }} onClick={() => AssetView(val)} />
@@ -372,7 +358,7 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                                                         <MiscellaneousServicesIcon sx={{
                                                             border: 1,
                                                             borderRadius: 3,
-                                                            p: .1,
+                                                            p: .4,
                                                             width: 28, height: 28, color: 'lightgrey', cursor: 'pointer'
 
                                                         }} />
@@ -380,7 +366,7 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                                                 </CssVarsProvider>
                                             }
                                         </Box>
-                                        <Box sx={{ width: 160, fontSize: 13, }}>
+                                        <Box sx={{ width: 170, fontSize: 13, }}>
                                             {val.complaint_type_name}
                                         </Box>
                                         <Box sx={{ width: 610, fontSize: 14, }}>
@@ -398,7 +384,10 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                                                 ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''}${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${(val.rm_insidebuildblock_name && val.rm_floor_name) ? ' - ' : ''}${val.rm_floor_name ? val.rm_floor_name : ''})`
                                                 : "Not Updated"}
                                         </Box>
-                                        <Box sx={{ width: 150, fontSize: 13, pl: 1.5 }}>
+                                        <Box sx={{ width: 300, fontSize: 13, }}>
+                                            {val.cm_complaint_location || "Not Updated"}
+                                        </Box>
+                                        <Box sx={{ width: 180, fontSize: 13, pl: 1.5 }}>
                                             {val.compalint_date
                                                 ? format(new Date(val.compalint_date), 'dd MMM yyyy,  hh:mm a')
                                                 : 'Invalid Date'}

@@ -1,5 +1,5 @@
 import { Box } from '@mui/joy'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { memo, useCallback, useEffect, useState } from 'react'
 import { Virtuoso } from 'react-virtuoso'
 import { axioslogin } from 'src/views/Axios/Axios'
 import TextComponent from 'src/views/Components/TextComponent'
@@ -158,4 +158,4 @@ const AmcCmcDetails = ({ AssetDetails }) => {
     )
 }
 
-export default AmcCmcDetails
+export default memo(AmcCmcDetails)

@@ -1,5 +1,5 @@
 import { Box, CircularProgress, CssVarsProvider, IconButton, Table } from '@mui/joy'
-import React, { useMemo } from 'react'
+import React, { memo, useMemo } from 'react'
 import { format } from 'date-fns';
 import { useQuery } from 'react-query';
 import { getDeptCondemnationList } from 'src/api/AssetApis';
@@ -152,4 +152,4 @@ const DepartmentcondemList = ({ SatusFrom, StatusTo, viewForm, empdept }) => {
         </Box >
     )
 }
-export default DepartmentcondemList
+export default memo(DepartmentcondemList)
