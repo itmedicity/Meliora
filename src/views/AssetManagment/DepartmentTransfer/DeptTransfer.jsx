@@ -18,6 +18,7 @@ import AmSubRmSelWONamURoom from 'src/views/CommonSelectCode/AmSubRmSelWONamURoo
 import { getRoomBasedOnDeptSec } from 'src/redux/actions/AmRoomDeptSecBased.action';
 
 const DeptTransfer = () => {
+
     const history = useHistory()
     const dispatch = useDispatch();
     const [assetNo, setAssetNo] = useState('')
@@ -90,12 +91,13 @@ const DeptTransfer = () => {
             item_deptsec_slno: transDeptSec,
             item_room_slno: roomNo !== 0 ? roomNo : null,
             item_subroom_slno: subRoomNo !== 0 ? subRoomNo : null,
+            am_custodian_trans_status: 0,
+            transfer_user: empid,
             am_item_map_slno: am_item_map_slno
         }
-    }, [transDept, transDeptSec, roomNo, subRoomNo, am_item_map_slno])
+    }, [transDept, transDeptSec, roomNo, subRoomNo, empid, am_item_map_slno])
 
     const reset = useCallback(() => {
-
         const restdata = {
             am_item_map_slno: 0,
             item_name: '',
@@ -143,6 +145,7 @@ const DeptTransfer = () => {
             dispatch(getRoomBasedOnDeptSec(transDeptSec))
         }
     }, [transDeptSec, dispatch])
+
     return (
         <CardMasterClose
             title="Department Transfer"
@@ -178,7 +181,6 @@ const DeptTransfer = () => {
                         </CusIconButton>
                     </Box>
                 </Box>
-
                 <Box sx={{
                     display: 'flex',
                     flexDirection: 'row',
@@ -222,7 +224,6 @@ const DeptTransfer = () => {
                         </Box>
                     </Box>
                 </Box>
-
                 <Box sx={{
                     display: 'flex',
                     flexDirection: 'column',
@@ -242,8 +243,6 @@ const DeptTransfer = () => {
                         ></TextFieldCustom>
                     </Box>
                 </Box>
-
-
                 <Box sx={{
                     display: 'flex',
                     flexDirection: 'row',
@@ -291,7 +290,6 @@ const DeptTransfer = () => {
                         </CusIconButton>
                     </Box>
                 </Box>
-
             </Box>
         </CardMasterClose>
     )

@@ -1,321 +1,157 @@
-import React, { useEffect, useState, memo, useCallback, Fragment } from 'react'
-import CusAgGridMast from 'src/views/Components/CusAgGridMast';
-import { useDispatch, useSelector } from 'react-redux';
-import { IconButton } from '@mui/material';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import { editicon } from 'src/color/Color';
-import VerifiedUserOutlinedIcon from '@mui/icons-material/VerifiedUserOutlined';
-import VerifyModal from './VerifyModal';
-import { Box } from '@mui/system'
-import CustomeToolTip from 'src/views/Components/CustomeToolTip';
-import CusCheckBox from 'src/views/Components/CusCheckBox'
-import { getCompliantRegTable } from 'src/redux/actions/ComplaintRegTable.action';
-import { io } from "socket.io-client";
-import { WS_URL } from '../../Constant/Static';
+import { Badge, Box, CssVarsProvider, Typography } from '@mui/joy'
+import React, { memo, useCallback, useEffect, useState } from 'react'
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+import PendingList from './TicketLists/PendingList';
+import { useSelector } from 'react-redux';
+import { axioslogin } from 'src/views/Axios/Axios';
+import OnholdList from './TicketLists/OnholdList';
+import ForVerify from './TicketLists/ForVerify';
+import { errorNotify } from 'src/views/Common/CommonCode';
 
-const ComplaintRegTable = ({ rowSelect, sec, setCount, count }) => {
-    //state for modal open
-    const [open, setOpen] = useState(false);
-    //state for modal render
-    const [mdopen, setMdopen] = useState(0);
-    //state for passing data to modal
-    const [mddata, setMddata] = useState({})
-    //checkboxes for table data selection
-    const [pending, setPending] = useState(false)
-    const [onhold, setOnhold] = useState(false)
-    const [verify, setVerify] = useState(false)
-    const [selectbase, setSelect] = useState(0);
-    const dispatch = useDispatch();
-    const updatePending = useCallback((e) => {
-        if (e.target.checked === true) {
-            setSelect(1)
-            setPending(true)
-            setVerify(false)
-            setOnhold(false)
-        }
-        else {
-            setSelect(0)
-            setPending(false)
-            setVerify(false)
-            setOnhold(false)
-        }
+
+const ComplaintRegTable = ({ count, setCount, rowSelect }) => {
+
+    const [pending, setpending] = useState(1)
+    const [verifiedCheck, setVerifiedCheck] = useState(0)
+    const [holdCheck, setholdCheck] = useState(0)
+    const [pendingCompl, setpendingCompl] = useState([])
+    const [onholdCompl, setOnholdCompl] = useState([])
+    const [holdLength, setholdLength] = useState(0)
+    const [pendingLength, setpendingLength] = useState(0)
+    const [forVerify, setforVerify] = useState([])
+    const [verifyLength, setverifyLength] = useState(0)
+    const [loading, setLoading] = useState(false);
+
+    const empsecid = useSelector((state) => {
+        return state.LoginUserData.empsecid
+    })
+
+    const PendingCheck = useCallback(() => {
+        setholdCheck(0)
+        setVerifiedCheck(0)
+        setpending(1)
     }, [])
 
-    const updateOnhold = useCallback((e) => {
-        if (e.target.checked === true) {
-            setSelect(2)
-            setOnhold(true)
-            setPending(false)
-            setVerify(false)
-        }
-        else {
-            setSelect(0)
-            setPending(false)
-            setVerify(false)
-            setOnhold(false)
-        }
+    const VerifiedCheck = useCallback(() => {
+        setholdCheck(0)
+        setVerifiedCheck(1)
+        setpending(0)
     }, [])
 
-    const updateVerify = useCallback((e) => {
-        if (e.target.checked === true) {
-            setSelect(3)
-            setVerify(true)
-            setPending(false)
-            setOnhold(false)
-        }
-        else {
-            setSelect(0)
-            setPending(false)
-            setVerify(false)
-            setOnhold(false)
-        }
+    const HoldCheck = useCallback(() => {
+        setholdCheck(1)
+        setVerifiedCheck(0)
+        setpending(0)
     }, [])
-
-
-
-
-    //column title setting for pending
-    const [columnpending] = useState([
-        { headerName: "Slno", field: "complaint_slno", autoHeight: true, wrapText: true, minWidth: 80 },
-        { headerName: "Status", field: "compalint_status1", filter: "true", minWidth: 100 },
-        { headerName: "Date", field: "compalint_date", autoHeight: true, wrapText: true, minWidth: 180 },
-        { headerName: "Department", field: "complaint_dept_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 180 },
-        { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 300 },
-        { headerName: "Request Type", field: "req_type_name", width: 250, autoHeight: true, wrapText: true, minWidth: 100 },
-        { headerName: "Complaint Type", field: "complaint_type_name", width: 280, autoHeight: true, wrapText: true, minWidth: 100 },
-        { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 220 },
-        { headerName: "Rectifystatus", field: "cm_rectify_status1", filter: "true", minWidth: 100 },
-        { headerName: "Reason", field: "rectify_pending_hold_remarks1", filter: "true", minWidth: 180, autoHeight: true, wrapText: true },
-    ])
-
-    const [columnonhold] = useState([
-        { headerName: "No", field: "complaint_slno", autoHeight: true, wrapText: true, minWidth: 80 },
-        { headerName: "Status", field: "compalint_status1", filter: "true", minWidth: 100 },
-        { headerName: "Date", field: "compalint_date", autoHeight: true, wrapText: true, minWidth: 180 },
-        { headerName: "Department", field: "complaint_dept_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 180 },
-        { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 300 },
-        { headerName: "Request Type", field: "req_type_name", width: 250, autoHeight: true, wrapText: true, minWidth: 100 },
-        { headerName: "Complaint Type", field: "complaint_type_name", width: 280, autoHeight: true, wrapText: true, minWidth: 100 },
-        { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 220 },
-        { headerName: "Rectifystatus", field: "cm_rectify_status1", filter: "true", minWidth: 100 },
-        { headerName: "Reason", field: "rectify_pending_hold_remarks1", filter: "true", minWidth: 180, autoHeight: true, wrapText: true },
-    ])
-
-    const [columnVerify] = useState([
-        {
-            headerName: 'Verify', minWidth: 10, cellRenderer: params => {
-                if ((params.data.compalint_status === 2) && (params.data.cm_rectify_status === 'R')) {
-                    return <IconButton onClick={() => Verify(params)}
-                        sx={{ color: editicon, paddingY: 0.5 }} >
-                        <CustomeToolTip title="Verify">
-                            <VerifiedUserOutlinedIcon />
-                        </CustomeToolTip>
-                    </IconButton>
-                } else {
-                    return <IconButton sx={{ color: editicon, paddingY: 0.5 }} disabled>
-                        <VerifiedUserOutlinedIcon />
-                    </IconButton>
-                }
-            }
-        },
-        { headerName: "Status", field: "compalint_status1", filter: "true", minWidth: 100 },
-        { headerName: "No", field: "complaint_slno", autoHeight: true, wrapText: true, minWidth: 100 },
-        { headerName: "Date", field: "compalint_date", autoHeight: true, wrapText: true, minWidth: 250 },
-        { headerName: "Department", field: "complaint_dept_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 150 },
-        { headerName: "Request Type", field: "req_type_name", autoHeight: true, wrapText: true, minWidth: 200 },
-        { headerName: "Complaint Type", field: "complaint_type_name", autoHeight: true, wrapText: true, minWidth: 150 },
-        { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 220 },
-        { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 200 },
-        { headerName: "Rectifystatus", field: "cm_rectify_status1", filter: "true", minWidth: 150 },
-        { headerName: "Reason", field: "rectify_pending_hold_remarks1", filter: "true", minWidth: 180, autoHeight: true, wrapText: true },
-
-    ])
-
-    const [column] = useState([
-        {
-            headerName: 'Edit', minWidth: 80,
-            cellRenderer: params => {
-                if (params.data.compalint_status === 1 || params.data.compalint_status === 2 || params.data.compalint_status === 3
-                    || params.data.cm_rectify_status === "Z"
-                ) {
-                    return <IconButton disabled
-                        sx={{ color: editicon, paddingY: 0.5 }}>
-                        <EditOutlinedIcon />
-                    </IconButton>
-                } else {
-                    return <IconButton sx={{ color: editicon, paddingY: 0.5 }}
-                        onClick={() => rowSelect(params)}>
-                        <CustomeToolTip title="Edit">
-                            <EditOutlinedIcon />
-                        </CustomeToolTip>
-                    </IconButton>
-                }
-            }
-        },
-        {
-            headerName: 'Verify', minWidth: 80, cellRenderer: params => {
-                if ((params.data.compalint_status === 2) && (params.data.cm_rectify_status === 'R')) {
-                    return <IconButton onClick={() => Verify(params)}
-                        sx={{ color: editicon, paddingY: 0.5 }} >
-                        <CustomeToolTip title="Verify">
-                            <VerifiedUserOutlinedIcon />
-                        </CustomeToolTip>
-                    </IconButton>
-                } else {
-                    return <IconButton sx={{ color: editicon, paddingY: 0.5 }} disabled>
-                        <VerifiedUserOutlinedIcon />
-                    </IconButton>
-                }
-            }
-        },
-        { headerName: "Slno", field: "complaint_slno", autoHeight: true, wrapText: true, minWidth: 100 },
-        { headerName: "Date", field: "compalint_date", autoHeight: true, wrapText: true, minWidth: 180 },
-        { headerName: "Department", field: "complaint_dept_name", filter: "true", autoHeight: true, wrapText: true, minWidth: 150 },
-        { headerName: "Request Type", field: "req_type_name", autoHeight: true, wrapText: true, minWidth: 200 },
-        { headerName: "Complaint Type", field: "complaint_type_name", autoHeight: true, wrapText: true, minWidth: 180 },
-        { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 230 },
-        { headerName: "Complaint Description", field: "complaint_desc", autoHeight: true, wrapText: true, minWidth: 250 },
-        { headerName: "Status", field: "compalint_status1", filter: "true", minWidth: 100 },
-        { headerName: "Rectifystatus", field: "cm_rectify_status1", filter: "true", minWidth: 150 },
-        { headerName: "Reason", field: "rectify_pending_hold_remarks1", filter: "true", autoHeight: true, wrapText: true, minWidth: 180 },
-
-    ])
-
-    // const socket = io.connect(WS_URL)
-
-    // useEffect(() => {
-    //     socket.on("message", () => {
-    //         dispatch(getCompliantRegTable(sec))
-    //     })
-    // }, [socket, dispatch, sec])
 
     useEffect(() => {
-        const socket = io();
-        socket.connect(WS_URL)
-        socket.on("message", () => {
-            dispatch(getCompliantRegTable(sec))
-        })
-        return () => {
-            socket.disconnect()
-        }
-    }, [count, sec, dispatch])
+        const getAllPendingComplaints = async () => {
+            setLoading(true)
+            try {
+                const result = await axioslogin.get(`/complaintreg/loginbysec/${empsecid}`);
+                const { success, data } = result.data;
+                if (success === 1) {
+                    const PendingCompl = data.filter(complaint =>
+                        complaint.compalint_status !== 2 &&
+                        complaint.compalint_status !== 3 &&
+                        complaint.cm_rectify_status !== 'O'
+                    );
+
+                    const OnholdCompl = data.filter(complaint =>
+                        complaint.compalint_status !== 2 &&
+                        complaint.compalint_status !== 3 &&
+                        complaint.cm_rectify_status === 'O'
+                    );
+
+                    const ForVerify = data.filter(complaint =>
+                        complaint.compalint_status === 2 &&
+                        complaint.compalint_status !== 3 &&
+                        complaint.cm_rectify_status === 'R'
+                    );
+
+                    setpendingCompl(PendingCompl);
+                    setOnholdCompl(OnholdCompl);
+                    setforVerify(ForVerify);
+                    setholdLength(OnholdCompl.length);
+                    setpendingLength(PendingCompl.length);
+                    setverifyLength(ForVerify.length);
+                } else {
+                    setpendingCompl([]);
+                    setOnholdCompl([]);
+                    setforVerify([]);
+                }
+            } catch (error) {
+                errorNotify("Error fetching complaints:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        getAllPendingComplaints();
+    }, [empsecid, count]);
 
 
-    //dispalying complaints against the users deptsection
-    useEffect(() => {
-        if (sec !== 0) {
-            dispatch(getCompliantRegTable(sec))
-        }
-    }, [count, sec, dispatch])
 
-    const compallTable = useSelector((state) => {
-        return state.setComplaintRegTable.complaintRegTableList
-    })
-
-    const forVerify = compallTable.filter((val) => {
-        return val.compalint_status === 2
-    })
-
-    const pendingList = compallTable.filter((val) => {
-        return val.cm_rectify_status === 'P'
-    })
-
-    const onholdList = compallTable.filter((val) => {
-        return val.cm_rectify_status === 'O'
-
-    })
-
-    //when user clicks on verify icon this function will work
-    const Verify = useCallback((params) => {
-        const data = params.data
-        setMddata(data)
-        setOpen(true)
-        setMdopen(1)
-    }, [])
-    const getRowStyle = params => {
-        if (params.data.compalint_priority === 1) {
-            return { background: '#ef5350' };
-        }
-    };
     return (
-        <Fragment>
+        <Box sx={{ flex: 1 }}>
+            <Box sx={{ flex: 1, display: 'flex', px: 3, pt: 2.5, pb: .5, justifyContent: 'center', gap: 3 }}>
+                <CssVarsProvider>
+                    <Badge badgeContent={pendingLength} color="danger">
+                        <Box sx={{ px: 2, display: 'flex', cursor: 'pointer', }} onClick={PendingCheck}>
+                            {pending === 1 ?
+                                <RadioButtonCheckedIcon sx={{ cursor: 'pointer', color: '#F44336' }} />
+                                : <RadioButtonUncheckedIcon sx={{ cursor: 'pointer' }} />}
+                            <Typography sx={{ pl: .5 }}>Pending</Typography>
+                        </Box>
+                    </Badge>
+                </CssVarsProvider>
 
-            <Box sx={{
-                width: "100%",
-                pl: 1, pt: 0.5, pr: 1, pb: 0.5, flex: 1,
-                display: "flex",
-                flexDirection: { xl: "row", lg: "row", md: "row", sm: 'column', xs: "column" },
-
-            }}>
-                <Box sx={{ width: "13%", pr: 1, mt: 1 }}>
-                    <CusCheckBox
-                        label="Pending"
-                        color="danger"
-                        size="md"
-                        name="pending"
-                        value={pending}
-                        checked={pending}
-                        onCheked={updatePending}
-                    />
-                </Box>
-                <Box sx={{ width: "13%", mt: 1 }}>
-                    <CusCheckBox
-                        label="On-Hold"
-                        color="danger"
-                        size="md"
-                        name="onhold"
-                        value={onhold}
-                        checked={onhold}
-                        onCheked={updateOnhold}
-                    />
-                </Box>
-                <Box sx={{ width: "13%", mt: 1 }}>
-                    <CusCheckBox
-                        label="For Verify"
-                        color="danger"
-                        size="md"
-                        name="verify"
-                        value={verify}
-                        checked={verify}
-                        onCheked={updateVerify}
-                    />
-                </Box>
+                <CssVarsProvider>
+                    <Badge badgeContent={holdLength} color="neutral">
+                        <Box sx={{ px: 2, display: 'flex', cursor: 'pointer', }} onClick={HoldCheck}>
+                            {holdCheck === 1 ?
+                                <RadioButtonCheckedIcon sx={{ cursor: 'pointer', color: '#50655B' }} />
+                                : <RadioButtonUncheckedIcon sx={{ cursor: 'pointer' }} />}
+                            <Typography sx={{ pl: .5 }}>On Hold</Typography>
+                        </Box>
+                    </Badge>
+                </CssVarsProvider>
+                <CssVarsProvider>
+                    <Badge badgeContent={verifyLength} color="primary">
+                        <Box sx={{ px: 2, display: 'flex', cursor: 'pointer', }} onClick={VerifiedCheck}>
+                            {verifiedCheck === 1 ?
+                                <RadioButtonCheckedIcon sx={{ cursor: 'pointer', color: '#3399FF' }} />
+                                : <RadioButtonUncheckedIcon sx={{ cursor: 'pointer' }} />}
+                            <Typography sx={{ pl: .5 }}>For Verify</Typography>
+                        </Box>
+                    </Badge>
+                </CssVarsProvider>
             </Box>
-            {
-                selectbase === 1 ?
-                    <CusAgGridMast
-                        columnDefs={columnpending}
-                        tableData={pendingList}
-                        onClick={rowSelect}
-                        getRowStyle={getRowStyle}
-                    /> :
-                    selectbase === 2 ?
-                        <CusAgGridMast
-                            columnDefs={columnonhold}
-                            tableData={onholdList}
-                            onClick={rowSelect}
-                            getRowStyle={getRowStyle}
-                        /> :
-                        selectbase === 3 ?
-                            <CusAgGridMast
-                                columnDefs={columnVerify}
-                                tableData={forVerify}
-                                onClick={rowSelect}
-                                getRowStyle={getRowStyle}
-                            /> :
+            <Box sx={{ flex: 1, }}>
+                {pending === 1 ?
+                    <Box>
+                        <PendingList pendingCompl={pendingCompl} count={count} setCount={setCount} rowSelect={rowSelect} loading={loading} />
+                    </Box> :
+                    <Box></Box>
+                }
+                {verifiedCheck === 1 ?
+                    <Box>
+                        <ForVerify forVerify={forVerify} count={count} setCount={setCount} loading={loading} />
+                    </Box> :
+                    <Box></Box>
+                }
+                {holdCheck === 1 ?
+                    <Box>
+                        <OnholdList onholdCompl={onholdCompl} count={count} setCount={setCount} loading={loading} />
+                    </Box> :
+                    <Box></Box>
+                }
 
-                            <CusAgGridMast
-                                columnDefs={column}
-                                tableData={compallTable}
-                                onClick={rowSelect}
-                                getRowStyle={getRowStyle}
-                            />
-            }
-
-            {
-                mdopen === 1 ? <VerifyModal open={open} setOpen={setOpen} mddata={mddata} count={count} setCount={setCount} /> : null
-            }
-        </Fragment>
+            </Box>
+        </Box>
     )
 }
+
 export default memo(ComplaintRegTable)
+

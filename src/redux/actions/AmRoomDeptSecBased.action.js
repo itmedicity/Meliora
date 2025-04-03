@@ -1,6 +1,5 @@
 import { axioslogin } from "src/views/Axios/Axios"
 import { ActionTyps } from "../constants/action.type"
-import { warningNotify } from "src/views/Common/CommonCode"
 const { FETCH_ROOM_DEPTSEC_BASED } = ActionTyps
 /*** when call dispatch function call aa api 
  * success is '1'  retrun data set to payload and status set to true otherwise set null array and status false
@@ -12,7 +11,6 @@ export const getRoomBasedOnDeptSec = (deptsec) => async (dispatch) => {
         dispatch({ type: FETCH_ROOM_DEPTSEC_BASED, payload: data, loadingStatus: true })
     }
     else {
-        warningNotify("No Room Under selected Location")
         dispatch({ type: FETCH_ROOM_DEPTSEC_BASED, payload: [], loadingStatus: false })
     }
 

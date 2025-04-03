@@ -177,6 +177,8 @@ import { getMultHodInCharge } from './TmMultHodInchargeList.Reducer';
 import { setAmcCmcMaster } from './AmAMCCMCSelect.Reducer'
 import { setSupplierSelect } from './AmSupplierSelect.Reducer'
 import { getEquipmentList } from './QIEquipment.Reducer';
+import { getRoomsNameNdTypeList } from './CmRoomNameNdTypeList.Reducer';
+
 
 const reducer = combineReducers({
     changeState,
@@ -357,7 +359,9 @@ const reducer = combineReducers({
     setAmcCmcMaster,
     setSupplierSelect,
     getEquipmentList,
+    getRoomsNameNdTypeList,
     getprojectFrTaskCreation
+
 
 })
 export default reducer;

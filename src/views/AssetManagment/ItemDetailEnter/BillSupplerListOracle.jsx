@@ -1,16 +1,15 @@
 import React, { memo } from 'react'
-import { CssVarsProvider } from '@mui/joy/'
+import { Box, CssVarsProvider } from '@mui/joy/'
 import Table from '@mui/joy/Table';
-import { Box } from '@mui/material'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 const BillSupplerListOracle = ({ OracleList, SuppAddMeliora }) => {
     return (
         <Box sx={{
-            borderBottom: 1, borderWidth: 0.1, borderColor: 'black', minHeight: 80, maxHeight: 200,
-            overflow: 'auto', borderLeft: 1, borderRight: 1, borderTop: 1, width: '100%'
+            minHeight: 250, maxHeight: 300,
+            overflow: 'auto', border: 1, borderColor: 'brown', px: 1
         }} >
             <CssVarsProvider>
-                <Table stickyHeader>
+                <Table stickyHeader size='sm'>
                     <thead>
                         <tr>
                             <th style={{ width: '5%', align: "center" }}>#</th>
@@ -38,7 +37,7 @@ const BillSupplerListOracle = ({ OracleList, SuppAddMeliora }) => {
                                 <td> {val.SUC_PERSON}</td>
 
                                 <td>
-                                    <AddCircleOutlineIcon size={6} color='primary' onClick={() => SuppAddMeliora(val)} />
+                                    <AddCircleOutlineIcon size={6} sx={{ color: 'brown' }} onClick={() => SuppAddMeliora(val)} />
                                 </td>
                             </tr>
                         })}

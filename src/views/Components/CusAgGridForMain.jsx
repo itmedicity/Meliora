@@ -35,8 +35,10 @@ const CusAgGridForMain = ({ columnDefs, tableData, onSelectionChanged, columnTyp
                 <Box
                     className="ag-theme-alpine ListItemScrol"
                     sx={{
-                        height: 650,
-                        width: "100%"
+                        height: '67vh',
+                        width: "100%",
+                        overflow: 'auto'
+
                     }}
                 >
                     <AgGridReact

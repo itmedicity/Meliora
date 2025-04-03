@@ -14,7 +14,7 @@ const ItemCreateMapping = ({ itemList, rowSelect }) => {
                     id: index + 1,
                     slno: val.item_creation_slno,
                     Item_name: val.item_name,
-                    Item_types: val.asset_spare === 1 ? "Asset" : "Spare",
+                    Item_types: val.asset_spare === 1 ? "ASSET" : "SPARE",
                     type: val.asset_spare
                 }
                 return obj
@@ -24,17 +24,19 @@ const ItemCreateMapping = ({ itemList, rowSelect }) => {
     }, [itemList])
     return (
         <Box sx={{
-            borderBottom: 1, borderWidth: 0.1, borderColor: 'black', minHeight: 80, maxHeight: 200,
-            overflow: 'auto'
+            minHeight: 80, maxHeight: 300,
+            overflow: 'auto',
+            mt: 2
         }} >
             <CssVarsProvider>
-                <Table stickyHeader>
+                <Table stickyHeader size='sm' borderAxis='x' >
                     <thead>
                         <tr>
-                            <th style={{ width: '20%', align: "center" }}>Sl No</th>
+                            <th style={{ width: '1%', align: "center" }}></th>
+                            <th style={{ width: '5%', align: "center" }}>Sl No</th>
                             <th style={{ width: '60%', align: "center" }}>Item Name</th>
-                            <th style={{ width: '60%', align: "center" }}>Item Type</th>
-                            <th style={{ width: '10%', align: "center" }}>Add</th>
+                            <th style={{ width: '10%', align: "center" }}>Item Type</th>
+                            <th style={{ width: '5%', align: "center" }}>Add</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -46,11 +48,12 @@ const ItemCreateMapping = ({ itemList, rowSelect }) => {
                                     minHeight: 5
                                 }}
                             >
-                                <td> {val.id}</td>
+                                <td></td>
+                                <td>{val.id}</td>
                                 <td> {val.Item_name}</td>
                                 <td> {val.Item_types}</td>
                                 <td>
-                                    <AddCircleOutlineIcon size={6} onClick={() => rowSelect(val)} />
+                                    <AddCircleOutlineIcon size={6} onClick={() => rowSelect(val)} sx={{ color: '#5A5F63', cursor: 'pointer' }} />
                                 </td>
                             </tr>
                         })}
