@@ -158,4 +158,4 @@ const SubmittedListMain = ({ menuRightsList, empId, empdept }) => {
     )
 }
 
-export default SubmittedListMain
+export default memo(SubmittedListMain)
