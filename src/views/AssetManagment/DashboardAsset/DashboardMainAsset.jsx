@@ -2,16 +2,14 @@
 import React, { memo, useEffect, useMemo, useState } from 'react'
 import { Box, CssVarsProvider, Grid, } from '@mui/joy'
 import { useSelector } from 'react-redux';
-import TextComponent from 'src/views/Components/TextComponent';
 import { useQuery } from 'react-query';
 import { getAssetCount, getAssetValue, getCategoryDetails, getCategoryDetailsSpare, getSpareCount, getSpareValue } from 'src/api/CommonApi';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
-import hosptl from '../../../assets/images/assetservice/hosp.png'
-import spareimage from '../../../assets/images/assetservice/money-manag.png'
-import assetimage from '../../../assets/images/assetservice/assetNW.png'
-import ruppeeImage from '../../../assets/images/assetservice/rupee.png'
 import PhotoIcon from '@mui/icons-material/Photo';
 import DashBoadTile from './DashBoadTile';
+import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
+import FitbitIcon from '@mui/icons-material/Fitbit';
+import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
 
 const DashboardMainAsset = () => {
     const [categoryDetails, setcategoryDetails] = useState([])
@@ -135,126 +133,92 @@ const DashboardMainAsset = () => {
 
     return (
         <Box sx={{
-            height: '88vh',
+            minHeight: '88vh',
             borderRadius: 1, boxShadow: 2, border: 1, borderColor: '#BDC6D9',
-            bgcolor: 'white',
         }}>
             <CssVarsProvider>
-                <Box sx={{ flex: 1, textAlign: 'center', pt: 1 }}>
-                    <img src={hosptl} alt='Asset' width={80} height={55} />
-                    <TextComponent
-                        text={`ASSET & SPARE  OVERVIEW - ${empdeptname}`}
-                        sx={{ color: '#474B4F', fontWeight: 600, fontSize: 16, pt: 1 }}
-                    />
+                <Box sx={{ flex: 1, height: 25, m: 1, fontSize: 14, p: .5, fontWeight: 600, color: '#636b74' }}>
+                    ASSET & SPARE OVERVIEW - {empdeptname}
                 </Box>
-                <Box sx={{ display: 'flex', flexGrow: 1, mt: 1, justifyContent: 'center' }}>
-                    <Grid container spacing={.5} sx={{ flexWrap: { xs: 'wrap', md: 'nowrap' } }}>
-                        <Grid xs={12} sm={12} md={6} >
-                            <Box
-                                sx={{
-                                    display: 'flex',
-                                    border: 2,
-                                    borderColor: '#b0bec5',
-                                    flexGrow: 1,
-                                    height: 100,
-                                    borderRadius: 12,
-                                    p: 2,
-                                    justifyContent: 'space-evenly',
-                                    alignItems: 'center',
-                                    boxShadow: 2,
-                                    bgcolor: '#fff',
-                                    transition: '0.3s',
-                                    '&:hover': {
-                                        boxShadow: 4,
-                                        borderColor: '#e0e0e0'
-                                    }
-                                }}
-                            >
-                                <Box sx={{ bgcolor: 'transparent' }}>
-                                    <img src={ruppeeImage} alt='Asset' width={80} height={70} />
-                                </Box>
-                                <Box sx={{ mr: 1.5 }}>
-                                    <Box sx={{ fontSize: 16, fontWeight: 700, pl: 1 }}>Total Asset Value</Box>
-                                    <Box sx={{ fontSize: 24, fontWeight: 900 }}>
-                                        {new Intl.NumberFormat('en-IN', {
-                                            style: 'currency',
-                                            currency: 'INR',
-                                            currencyDisplay: 'code'
-                                        })
-                                            .format(TotalAssetValue)
-                                            .replace('INR', '')}
-                                    </Box>
-                                </Box>
+                <Box sx={{ flex: 1, height: 64, mx: 1, display: 'flex', gap: .5, mb: .5 }}>
+                    <Box sx={{
+                        display: 'flex',
+                        border: 1, borderColor: '#d0d6e5',
+                        flex: 1, bgcolor: 'white', borderRadius: 5
+                    }}>
+                        <Box sx={{
+                            width: 60, m: .5, display: 'flex', justifyContent: 'center',
+                            alignItems: 'center', border: 1, borderColor: '#d0d6e5', bgcolor: '#f5fcf5'
+
+                        }}>
+                            <CurrencyRupeeIcon sx={{ width: 35, height: 35, color: 'darkgreen' }} />
+                        </Box>
+                        <Box sx={{ flex: 1, }}>
+                            <Box sx={{ fontSize: 14, fontWeight: 600, color: '#636b74', pl: .8, pt: .5 }}>
+                                Total Asset Value
                             </Box>
-                        </Grid>
-                        <Grid xs={12} sm={12} md={6} >
-                            <Box
-                                sx={{
-                                    display: 'flex',
-                                    border: 2,
-                                    borderColor: '#b0bec5',
-                                    flexGrow: 1,
-                                    height: 100,
-                                    borderRadius: 12,
-                                    p: 2,
-                                    alignItems: 'center',
-                                    boxShadow: 2,
-                                    bgcolor: '#fff',
-                                    transition: '0.3s',
-                                    '&:hover': {
-                                        boxShadow: 4,
-                                        borderColor: '#e0e0e0'
-                                    }
-                                }}
-                            >
-                                <Box sx={{ bgcolor: 'transparent' }}>
-                                    <img src={assetimage} alt='Asset' width={80} height={70} />
-                                </Box>
-                                <Box sx={{ mx: 1 }}>
-                                    <Box sx={{ fontSize: 16, fontWeight: 700 }}>Total Asset Count</Box>
-                                    <Box sx={{ fontSize: 24, fontWeight: 900 }}>{totAssetcount}</Box>
-                                </Box>
+                            <Box sx={{ fontSize: 20, fontWeight: 600, color: 'darkgreen', pt: .1 }} >
+                                {new Intl.NumberFormat('en-IN', {
+                                    style: 'currency',
+                                    currency: 'INR',
+                                    currencyDisplay: 'code'
+                                })
+                                    .format(TotalAssetValue)
+                                    .replace('INR', '')}
                             </Box>
-                        </Grid>
-                        <Grid xs={12} sm={12} md={6} >
-                            <Box
-                                sx={{
-                                    display: 'flex',
-                                    border: 2,
-                                    borderColor: '#b0bec5',
-                                    flexGrow: 1,
-                                    height: 100,
-                                    borderRadius: 12,
-                                    p: 2,
-                                    alignItems: 'center',
-                                    boxShadow: 2,
-                                    bgcolor: '#fff',
-                                    transition: '0.3s',
-                                    '&:hover': {
-                                        boxShadow: 4,
-                                        borderColor: '#e0e0e0'
-                                    }
-                                }}
-                            >
-                                <Box sx={{ bgcolor: 'transparent' }}>
-                                    <img src={spareimage} alt='Spare' width={80} height={70} />
-                                </Box>
-                                <Box sx={{ mx: 1 }}>
-                                    <Box sx={{ fontSize: 16, fontWeight: 700 }}>Total Spare Count</Box>
-                                    <Box sx={{ fontSize: 24, fontWeight: 900 }}>{spareCount}</Box>
-                                </Box>
+                        </Box>
+                    </Box>
+                    <Box sx={{
+                        display: 'flex',
+                        border: 1, borderColor: '#d0d6e5',
+                        flex: 1, bgcolor: 'white', borderRadius: 5
+                    }}>
+                        <Box sx={{
+                            width: 60, m: .5, display: 'flex', justifyContent: 'center',
+                            alignItems: 'center', border: 1, borderColor: '#d0d6e5', bgcolor: '#fafcfe'
+
+                        }}>
+                            <FitbitIcon sx={{ width: 35, height: 35, color: '#41729F' }} />
+                        </Box>
+                        <Box sx={{ flex: 1, }}>
+                            <Box sx={{ fontSize: 14, fontWeight: 600, color: '#636b74', pl: .8, pt: .5 }}>
+                                Total Asset Count
                             </Box>
-                        </Grid>
-                    </Grid>
+                            <Box sx={{ fontSize: 20, fontWeight: 600, color: '#41729F', pt: .1, pl: 1 }} >
+                                {totAssetcount}
+                            </Box>
+                        </Box>
+
+                    </Box >
+                    <Box sx={{
+                        display: 'flex',
+                        border: 1, borderColor: 'lightgrey',
+                        flex: 1, bgcolor: 'white', borderRadius: 5
+                    }}>
+                        <Box sx={{
+                            width: 60, m: .5, display: 'flex', justifyContent: 'center',
+                            alignItems: 'center', border: 1, borderColor: '#d0d6e5', bgcolor: '#fef5f5'
+                        }}>
+                            <MiscellaneousServicesIcon sx={{ width: 35, height: 35, color: '#a31545' }} />
+                        </Box>
+                        <Box sx={{ flex: 1, }}>
+                            <Box sx={{ fontSize: 14, fontWeight: 600, color: '#636b74', pl: .8, pt: .5 }}>
+                                Total Spare Count
+                            </Box>
+                            <Box sx={{ fontSize: 20, fontWeight: 600, color: '#a31545', pt: .1, pl: 1 }} >
+                                {spareCount}
+                            </Box>
+                        </Box>
+                    </Box >
                 </Box>
 
-                <Box sx={{ flex: 1, mx: .5, height: '59vh', mt: .6, overflowY: 'auto', overflowX: 'hidden' }}>
-                    <Box sx={{ pb: 1, }}>
+                <Box sx={{ flex: 1, mx: .5, overflowY: 'auto', overflowX: 'hidden', height: '80%' }}>
+                    <Box sx={{ pb: 1, px: .5 }}>
                         <Grid container spacing={0.5} sx={{ flex: 1, }}>
                             {AllCategory?.map((val) => {
                                 const imageUrl = val.file_name ? `${PUBLIC_NAS_FOLDER}/AssetName/Category/${val.category_slno}/${val.file_name}` : null
                                 return (
-                                    <Grid xs={12} sm={12} md={6} lg={3} xl={3} key={val.category_slno}>
+                                    <Grid xs={12} sm={12} md={6} lg={4} xl={3} key={val.category_slno}>
                                         <DashBoadTile
                                             imageUrl={imageUrl}
                                             Name={val.category_name}
@@ -271,7 +235,6 @@ const DashboardMainAsset = () => {
                         </Grid>
                     </Box>
                 </Box>
-
             </CssVarsProvider>
         </Box>
     )

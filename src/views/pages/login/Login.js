@@ -67,7 +67,8 @@ const Login = () => {
           empdept: data.emp_dept,
           empdeptname: data.dept_name,
           apptoken: data.app_token,
-          logOut: data.logOutTime
+          logOut: data.logOutTime,
+          designation: data.desg_name
         }
         if (loggedDetl.empname !== null) {
           dispatch({ type: FETCH_LOGIN, payload: loggedDetl })
