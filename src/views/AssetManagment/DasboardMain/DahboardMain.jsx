@@ -1,10 +1,5 @@
-import { Avatar, Box, CssVarsProvider, Divider, Grid, Typography } from '@mui/joy'
+import { Avatar, Box, CssVarsProvider, Grid, } from '@mui/joy'
 import React, { memo, useMemo } from 'react'
-import hosptl from '../../../assets/images/assetservice/hosp.png'
-import TextComponent from 'src/views/Components/TextComponent';
-import spareimage from '../../../assets/images/assetservice/money-manag.png'
-import assetimage from '../../../assets/images/assetservice/assetNW.png'
-import ruppeeImage from '../../../assets/images/assetservice/rupee.png'
 import { getTotalCountAssetType, getTotalCountItemType, getTotAssetCount, getTotAssetValue, getTotSpareCount, getTotSpareValue } from 'src/api/CommonApi';
 import { useQuery } from 'react-query';
 import EquipmentIcon from '@mui/icons-material/Construction';
@@ -15,11 +10,18 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 import ChairIcon from '@mui/icons-material/Chair';
 import CheckroomIcon from '@mui/icons-material/Checkroom';
 import BiotechIcon from '@mui/icons-material/Biotech';
-import SpaIcon from '@mui/icons-material/Spa';
 import BubbleChartIcon from '@mui/icons-material/BubbleChart';
 import HiveIcon from '@mui/icons-material/Hive';
-import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
 import WebhookIcon from '@mui/icons-material/Webhook';
+import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
+import FitbitIcon from '@mui/icons-material/Fitbit';
+import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
+import ApiIcon from '@mui/icons-material/Api';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import PixIcon from '@mui/icons-material/Pix';
+import ScatterPlotIcon from '@mui/icons-material/ScatterPlot';
+import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
+
 
 const DahboardMain = () => {
 
@@ -64,6 +66,7 @@ const DahboardMain = () => {
     const TotalAssetValue = (assetTotVal + spareTotVal)
     const assetcount = totAssetCount?.[0]?.asset_count || 0;
 
+
     const iconMap = {
         1: < KeyboardHideIcon />,
         2: <EquipmentIcon />,
@@ -72,7 +75,11 @@ const DahboardMain = () => {
         5: <ChairIcon />,
         6: <CheckroomIcon />,
         7: <BiotechIcon />,
-        8: <WebhookIcon />
+        8: <WebhookIcon />,
+        9: <ApiIcon />,
+        10: <PixIcon />,
+        11: <ScatterPlotIcon />,
+        12: <TipsAndUpdatesIcon />
     };
 
     const AssetTypeIcon = {
@@ -83,291 +90,215 @@ const DahboardMain = () => {
 
     return (
         <Box sx={{
-            height: '88vh',
+            minHeight: '88vh',
             borderRadius: 1, boxShadow: 2, border: 1, borderColor: '#BDC6D9',
-            bgcolor: 'white',
         }}>
             <CssVarsProvider>
-                <Box sx={{ flex: 1, textAlign: 'center', pt: .5 }}>
-                    <img src={hosptl} alt='Asset' width={80} height={55} />
-                    <TextComponent
-                        text="ASSET & SPARE  OVERVIEW"
-                        sx={{ color: '#474B4F', fontWeight: 600, fontSize: 16, pt: 1 }}
-                    />
+                <Box sx={{ flex: 1, height: 25, m: 1, fontSize: 14, p: .5, fontWeight: 600, color: '#636b74' }}>
+                    ASSET & SPARE OVERVIEW
                 </Box>
-                <Box sx={{ display: 'flex', flexGrow: 1, mt: 1, justifyContent: 'center' }}>
-                    <Grid container spacing={1} sx={{ flexWrap: { xs: 'wrap', md: 'nowrap' } }}>
-                        <Grid xs={12} sm={12} md={6}>
-                            <Box
-                                sx={{
-                                    display: 'flex',
-                                    border: 2,
-                                    borderColor: '#b0bec5',
-                                    flexGrow: 2,
-                                    height: 100,
-                                    borderRadius: 12,
-                                    p: 2,
-                                    justifyContent: 'space-evenly',
-                                    alignItems: 'center',
-                                    boxShadow: 2,
-                                    bgcolor: '#fff',
-                                    transition: '0.3s',
-                                    '&:hover': {
-                                        boxShadow: 4,
-                                        borderColor: '#e0e0e0'
-                                    }
-                                }}
-                            >
-                                <Box sx={{ bgcolor: 'transparent' }}>
-                                    <img src={ruppeeImage} alt='Asset' width={80} height={70} />
-                                </Box>
-                                <Box sx={{ mr: 1.5 }}>
-                                    <Box sx={{ fontSize: 16, fontWeight: 700, pl: 1, color: '#455a64' }}>Total Asset Value</Box>
-                                    <Box sx={{ fontSize: 24, fontWeight: 900 }}>
-                                        {new Intl.NumberFormat('en-IN', {
-                                            style: 'currency',
-                                            currency: 'INR',
-                                            currencyDisplay: 'code'
-                                        })
-                                            .format(TotalAssetValue)
-                                            .replace('INR', '')}
-                                    </Box>
-                                </Box>
-                            </Box>
-                        </Grid>
-                        <Grid xs={12} sm={12} md={6} >
-                            <Box
-                                sx={{
-                                    display: 'flex',
-                                    border: 2,
-                                    borderColor: '#b0bec5',
-                                    flexGrow: 1,
-                                    height: 100,
-                                    borderRadius: 12,
-                                    p: 2,
-                                    alignItems: 'center',
-                                    boxShadow: 2,
-                                    bgcolor: '#fff',
-                                    transition: '0.3s',
-                                    '&:hover': {
-                                        boxShadow: 4,
-                                        borderColor: '#e0e0e0'
-                                    }
-                                }}
-                            >
-                                <Box sx={{ bgcolor: 'transparent' }}>
-                                    <img src={assetimage} alt='Asset' width={80} height={70} />
-                                </Box>
-                                <Box sx={{ mx: 1 }}>
-                                    <Box sx={{ fontSize: 16, fontWeight: 700, color: '#455a64' }}>Total Asset Count</Box>
-                                    <Box sx={{ fontSize: 24, fontWeight: 900 }}>{assetcount}</Box>
-                                </Box>
-                            </Box>
-                        </Grid>
-                        <Grid xs={12} sm={12} md={6} >
-                            <Box
-                                sx={{
-                                    display: 'flex',
-                                    border: 2,
-                                    borderColor: '#b0bec5',
-                                    flexGrow: 1,
-                                    height: 100,
-                                    borderRadius: 12,
-                                    p: 2,
-                                    alignItems: 'center',
-                                    boxShadow: 2,
-                                    bgcolor: '#fff',
-                                    transition: '0.3s',
-                                    '&:hover': {
-                                        boxShadow: 4,
-                                        borderColor: '#e0e0e0'
-                                    }
-                                }}
-                            >
-                                <Box sx={{ bgcolor: 'transparent' }}>
-                                    <img src={spareimage} alt='Spare' width={80} height={70} />
-                                </Box>
-                                <Box sx={{ mx: 1 }}>
-                                    <Box sx={{ fontSize: 16, fontWeight: 700, color: '#455a64' }}>Total Spare Count</Box>
-                                    <Box sx={{ fontSize: 24, fontWeight: 900 }}>{spareCount}</Box>
-                                </Box>
-                            </Box>
-                        </Grid>
-                    </Grid>
-                </Box>
-                <Box
-                    sx={{ height: '59vh', overflow: 'auto', mt: 1.5 }}
-                >
+                <Box sx={{ flex: 1, height: 64, mx: 1, display: 'flex', gap: .5, mb: .5 }}>
                     <Box sx={{
-                        m: .5,
-                        px: 1
+                        display: 'flex',
+                        border: 1, borderColor: '#d0d6e5',
+                        flex: 1, bgcolor: 'white', borderRadius: 5
                     }}>
-                        <TextComponent
-                            text="Asset type"
-                            sx={{ color: '#6C7074', fontWeight: 600, fontSize: 16, pl: 1, }}
-                        />
-                        <Box sx={{ display: 'grid', flexGrow: 1, }}>
-                            <Grid container spacing={.5} sx={{ flexWrap: { xs: 'wrap', md: 'wrap', lg: 'wrap' } }}>
-                                {assetType?.map((val) => (
-                                    <Grid xs={12} sm={12} md={6} lg={3} xl={3} key={val.asset_type_slno}>
+                        <Box sx={{
+                            width: 60, m: .5, display: 'flex', justifyContent: 'center',
+                            alignItems: 'center', border: 1, borderColor: '#d0d6e5', bgcolor: '#f5fcf5'
+                        }}>
+                            <CurrencyRupeeIcon sx={{ width: 35, height: 35, color: 'darkgreen' }} />
+                        </Box>
+                        <Box sx={{ flex: 1, }}>
+                            <Box sx={{ fontSize: 14, fontWeight: 600, color: '#636b74', pl: .8, pt: .5 }}>
+                                Total Asset Value
+                            </Box>
+                            <Box sx={{ fontSize: 20, fontWeight: 600, color: 'darkgreen', pt: .1 }} >
+                                {new Intl.NumberFormat('en-IN', {
+                                    style: 'currency',
+                                    currency: 'INR',
+                                    currencyDisplay: 'code'
+                                })
+                                    .format(TotalAssetValue)
+                                    .replace('INR', '')}
+                            </Box>
+                        </Box>
+                    </Box >
+                    <Box sx={{
+                        display: 'flex',
+                        border: 1, borderColor: '#d0d6e5',
+                        flex: 1, bgcolor: 'white', borderRadius: 5
+                    }}>
+                        <Box sx={{
+                            width: 60, m: .5, display: 'flex', justifyContent: 'center',
+                            alignItems: 'center', border: 1, borderColor: '#d0d6e5', bgcolor: '#fafcfe'
+
+                        }}>
+                            <FitbitIcon sx={{ width: 35, height: 35, color: '#41729F' }} />
+                        </Box>
+                        <Box sx={{ flex: 1, }}>
+                            <Box sx={{ fontSize: 14, fontWeight: 600, color: '#636b74', pl: .8, pt: .5 }}>
+                                Total Asset Count
+                            </Box>
+                            <Box sx={{ fontSize: 20, fontWeight: 600, color: '#41729F', pt: .1, pl: 1 }} >
+                                {assetcount}
+                            </Box>
+                        </Box>
+
+                    </Box >
+                    <Box sx={{
+                        display: 'flex',
+                        border: 1, borderColor: '#d0d6e5',
+                        flex: 1, bgcolor: 'white', borderRadius: 5
+                    }}>
+                        <Box sx={{
+                            width: 60, m: .5, display: 'flex', justifyContent: 'center',
+                            alignItems: 'center', border: 1, borderColor: '#d0d6e5', bgcolor: '#fef5f5'
+
+                        }}>
+                            <MiscellaneousServicesIcon sx={{ width: 35, height: 35, color: '#a31545' }} />
+                        </Box>
+                        <Box sx={{ flex: 1, }}>
+                            <Box sx={{ fontSize: 14, fontWeight: 600, color: '#636b74', pl: .8, pt: .5 }}>
+                                Total Spare Count
+                            </Box>
+                            <Box sx={{ fontSize: 20, fontWeight: 600, color: '#a31545', pt: .1, pl: 1 }} >
+                                {spareCount}
+                            </Box>
+                        </Box>
+                    </Box >
+                </Box>
+                <Box sx={{ flex: 1, mx: 1, mt: 1, fontSize: 14, p: .5, fontWeight: 600, color: '#636b74' }}>
+                    Asset Type
+                </Box>
+                <Box sx={{ flex: 1, mx: .5, overflowY: 'auto', overflowX: 'hidden', }}>
+                    <Box sx={{ pb: 1, px: .5 }}>
+                        <Grid container spacing={0.5} sx={{ flex: 1, }}>
+                            {assetType?.map((val) => {
+                                return (
+                                    <Grid xs={12} sm={12} md={6} lg={4} xl={3} key={val.asset_type_slno}>
 
                                         <Box sx={{
                                             display: 'flex',
-                                            border: 1,
-                                            borderColor: '#e0e0e0',
-                                            flex: 1,
-                                            flexDirection: 'column',
-                                            height: 100,
-                                            borderRadius: 12,
-                                            p: 0.5,
-                                            alignItems: 'center',
-                                            boxShadow: 2,
-                                            background: 'linear-gradient(90deg, #6A6E72, #8A8E92, #B0B3B6)',
-                                            transition: '0.3s',
-                                            cursor: 'pointer',
-                                            '&:hover': {
-                                                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)',
-                                                borderColor: '#b0bec5'
-                                            },
-                                            overflow: 'hidden'
+                                            border: 1, borderColor: '#d0d6e5',
+                                            flex: 1, bgcolor: 'white', borderRadius: 5,
+                                            height: 70,
                                         }}>
-                                            <Box
-                                                sx={{ display: 'flex', width: `calc(100% - 5px)`, height: 65, justifyContent: 'space-between' }}
-                                            >
-                                                <Box sx={{ width: `calc(100% - 5px)`, flexDirection: 'column', display: 'flex', pl: 1, justifyContent: 'space-evenly', transition: 'all 0.5s ease' }}>
-                                                    <Typography
-                                                        sx={{
-                                                            fontSize: '0.875rem',
-                                                            lineHeight: 1.5,
-                                                            textTransform: 'capitalize',
-                                                            fontWeight: 400,
-                                                            opacity: 0.6,
-                                                            color: 'black',
-                                                            transition: 'all 0.5s ease'
-                                                        }}
-                                                    >Assets</Typography>
-                                                    <Typography variant="h5" sx={{ fontWeight: 800, color: 'white' }}>
-                                                        {val.asset_item_service_0_count + val.asset_item_service_1_count}
-                                                    </Typography>
-
+                                            <Box sx={{ flex: 1, pl: 1.5, }}>
+                                                <Box sx={{ fontSize: 20, fontWeight: 600, color: '#41729F', pt: 1.5 }} >
+                                                    {val.asset_item_service_0_count + val.asset_item_service_1_count}
                                                 </Box>
-                                                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', px: 1, }} >
+                                                <Box sx={{ fontSize: 13, fontWeight: 600, color: '#636b74' }}>
+                                                    {val.asset_type_name}
+                                                </Box>
+                                            </Box>
+                                            <Box sx={{
+                                                width: 60, m: .5, display: 'flex', justifyContent: 'center',
+                                                alignItems: 'center',
+
+                                            }}>
+                                                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', }} >
                                                     <Avatar size='lg'
-                                                        alt='pics' sx={{ bgcolor: 'white', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)' }}
+                                                        alt='pics' sx={{ bgcolor: 'white', boxShadow: '0px 4px 10px rgba(123, 147, 202, 0.25)' }}
                                                     >
                                                         {AssetTypeIcon[val.asset_type_slno] || <BubbleChartIcon />}
 
                                                     </Avatar>
                                                 </Box>
                                             </Box>
-                                            <Divider sx={{ backgroundColor: '#4F5255', height: 2 }} />
-                                            <Box sx={{ display: 'flex', width: `calc(100% - 5px)`, alignItems: 'center', height: 35, pl: 1 }}>
-                                                <Typography
-                                                    level='title-sm'
-                                                    sx={{
-                                                        color: 'white',
-                                                        opacity: 0.8,
-                                                        transition: 'all 0.5s ease'
-                                                    }}
-                                                    fontFamily={'inherit'}
-                                                    fontWeight={600}
-                                                    fontSize={'.875rem'}
-                                                    lineHeight={1.5}
-                                                >{val.asset_type_name}</Typography>
-                                            </Box>
-                                        </Box>
+                                        </Box >
                                     </Grid>
-                                ))}
-                            </Grid>
-                        </Box>
-                    </Box>
-                    <Box sx={{
-                        m: .5,
-                        px: 1,
-                    }}>
-                        <TextComponent
-                            text="Item type"
-                            sx={{ color: 'grey', fontWeight: 600, fontSize: 16, pl: 1, pt: .5 }}
-                        />
-                        <Box sx={{ display: 'grid', flexGrow: 1, }}>
-                            <Grid container spacing={.5} sx={{ flexWrap: { xs: 'wrap', md: 'wrap', lg: 'wrap' } }}>
-                                {itemType?.map((val) => (
-                                    <Grid xs={12} sm={12} md={6} lg={3} xl={3} key={val.item_type_slno}>
-
-                                        <Box sx={{
-                                            display: 'flex',
-                                            border: 1,
-                                            borderColor: '#e0e0e0',
-                                            flex: 1,
-                                            flexDirection: 'column',
-                                            height: 100,
-                                            borderRadius: 12,
-                                            p: 0.5,
-                                            alignItems: 'center',
-                                            boxShadow: 2,
-                                            background: 'linear-gradient(90deg, #6A6E72, #8A8E92, #B0B3B6)',
-                                            transition: '0.3s',
-                                            cursor: 'pointer',
-                                            '&:hover': {
-                                                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)',
-                                                borderColor: '#b0bec5'
-                                            },
-                                            overflow: 'hidden'
-                                        }}>
-                                            <Box
-                                                sx={{ display: 'flex', width: `calc(100% - 5px)`, height: 65, justifyContent: 'space-between' }}
-                                            >
-                                                <Box sx={{ width: `calc(100% - 5px)`, flexDirection: 'column', display: 'flex', pl: 1, justifyContent: 'space-evenly', transition: 'all 0.5s ease' }}>
-                                                    <Typography
-                                                        sx={{
-                                                            fontSize: '0.875rem',
-                                                            lineHeight: 1.5,
-                                                            textTransform: 'capitalize',
-                                                            fontWeight: 400,
-                                                            opacity: 0.6,
-                                                            color: 'black',
-                                                            transition: 'all 0.5s ease'
-                                                        }}
-                                                    >Assets</Typography>
-                                                    <Typography variant="h5" sx={{ fontWeight: 800, color: 'white' }}>
-                                                        {val.asset_item_service_0_count + val.asset_item_service_1_count}
-                                                    </Typography>
-                                                </Box>
-                                                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', px: 1, }} >
-                                                    <Avatar size='lg'
-                                                        alt='pics' sx={{ bgcolor: 'white', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)' }}
-                                                    >
-                                                        {iconMap[val.item_type_slno] || <SpaIcon />}
-
-                                                    </Avatar>
-                                                </Box>
-                                            </Box>
-                                            <Divider sx={{ backgroundColor: '#4F5255', height: 2 }} />
-                                            <Box sx={{ display: 'flex', width: `calc(100% - 5px)`, alignItems: 'center', height: 35, pl: 1 }}>
-                                                <Typography
-                                                    level='title-sm'
-                                                    sx={{
-                                                        color: 'white',
-                                                        opacity: 0.8,
-                                                        transition: 'all 0.5s ease'
-                                                    }}
-                                                    fontFamily={'inherit'}
-                                                    fontWeight={600}
-                                                    fontSize={'.875rem'}
-                                                    lineHeight={1.5}
-                                                >{val.item_type_name}</Typography>
-                                            </Box>
-                                        </Box>
-                                    </Grid>
-                                ))}
-                            </Grid>
-                        </Box>
+                                );
+                            })}
+                        </Grid>
                     </Box>
                 </Box>
-            </CssVarsProvider >
-        </Box >
+                <Box sx={{ flex: 1, mx: 1, fontSize: 14, p: .5, fontWeight: 600, color: '#636b74' }}>
+                    Item Type
+                </Box>
+                <Box sx={{ flex: 1, mx: .5, pb: 1, px: .5 }}>
+                    <Grid container spacing={0.5} sx={{ flex: 1, }}>
+                        {itemType?.map((val) => {
+                            return (
+                                <Grid xs={12} sm={12} md={6} lg={4} xl={3} key={val.item_type_slno}>
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            border: 1,
+                                            borderColor: '#d0d6e5',
+                                            bgcolor: 'white',
+                                            borderRadius: 5,
+                                            height: 70,
+                                            overflow: 'hidden',
+                                        }}
+                                    >
+
+                                        <Box
+                                            sx={{
+                                                flexGrow: 1,
+                                                pl: 1.5,
+                                                pr: 1,
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                justifyContent: 'center',
+                                                overflow: 'hidden',
+                                            }}
+                                        >
+                                            <Box
+                                                sx={{
+                                                    fontSize: 20,
+                                                    fontWeight: 600,
+                                                    color: '#41729F',
+                                                    lineHeight: 1.2,
+                                                }}
+                                            >
+                                                {val.asset_item_service_0_count + val.asset_item_service_1_count}
+                                            </Box>
+
+                                            {/* <Tooltip title={val.item_type_name} variant='plain' sx={{ width: 200 }}> */}
+                                            <Box
+                                                sx={{
+                                                    fontSize: 13,
+                                                    fontWeight: 600,
+                                                    color: '#636b74',
+                                                    whiteSpace: 'nowrap',
+                                                    overflow: 'hidden',
+                                                    textOverflow: 'ellipsis',
+                                                    lineHeight: 1.2,
+                                                }}
+                                            >
+                                                {val.item_type_name}
+                                            </Box>
+                                            {/* </Tooltip> */}
+                                        </Box>
+                                        <Box
+                                            sx={{
+                                                width: 60,
+                                                display: 'flex',
+                                                justifyContent: 'center',
+                                                alignItems: 'center',
+                                                flexShrink: 0,
+                                            }}
+                                        >
+                                            <Avatar
+                                                alt="pics"
+                                                sx={{
+                                                    bgcolor: 'white',
+                                                    boxShadow: '0px 4px 10px rgba(123, 147, 202, 0.25)',
+                                                }}
+                                            >
+                                                {iconMap[val.item_type_slno] || <LightModeIcon />}
+                                            </Avatar>
+                                        </Box>
+                                    </Box>
+                                </Grid>
+                            );
+                        })}
+                    </Grid>
+                </Box>
+            </CssVarsProvider>
+        </Box>
     )
 }
-
 export default memo(DahboardMain)
 

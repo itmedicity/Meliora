@@ -78,18 +78,28 @@ const AssetInStock = () => {
             itemName: ''
         });
     };
-
-
     const filteredAssetListInstock = useMemo(() => {
         return assetListInstock.filter((item) => {
-            const fullAssetNo = `${item.item_asset_no}/${item.item_asset_no_only.toString().padStart(6, '0')}`;
+            const fullAssetNo = `${item?.item_asset_no || ''}/${(item?.item_asset_no_only || 0).toString().padStart(6, '0')}`;
             return (
                 fullAssetNo.toLowerCase().includes(filters.AssetNo.toLowerCase()) &&
-                item.category_name.toLowerCase().includes(filters.category.toLowerCase()) &&
-                item.item_name.toLowerCase().includes(filters.itemName.toLowerCase())
+                (item?.category_name || '').toLowerCase().includes(filters.category.toLowerCase()) &&
+                (item?.item_name || '').toLowerCase().includes(filters.itemName.toLowerCase())
             );
         });
     }, [assetListInstock, filters]);
+
+
+    // const filteredAssetListInstock = useMemo(() => {
+    //     return assetListInstock.filter((item) => {
+    //         const fullAssetNo = `${item.item_asset_no}/${item.item_asset_no_only.toString().padStart(6, '0')}`;
+    //         return (
+    //             fullAssetNo.toLowerCase().includes(filters.AssetNo.toLowerCase()) &&
+    //             item.category_name.toLowerCase().includes(filters.category.toLowerCase()) &&
+    //             item.item_name.toLowerCase().includes(filters.itemName.toLowerCase())
+    //         );
+    //     });
+    // }, [assetListInstock, filters]);
 
     return (
         <Box sx={{ flex: 1, p: 1 }}>
@@ -222,8 +232,8 @@ const AssetInStock = () => {
                                 <Box sx={{ width: 150, pl: 1.5, fontWeight: 400, color: 'black', fontSize: 14, }}>
                                     {val.item_asset_no + '/' + val.item_asset_no_only.toString().padStart(6, '0')}
                                 </Box>
-                                <Box sx={{ flex: 2, fontWeight: 400, color: 'black', fontSize: 14, pl: .5 }}>{val.category_name}</Box>
-                                <Box sx={{ flex: 4, fontWeight: 400, color: 'black', fontSize: 14, pl: 1 }}>{val.item_name}</Box>
+                                <Box sx={{ flex: 2, fontWeight: 400, color: 'black', fontSize: 14, pl: .5 }}>{val.category_name || "-"}</Box>
+                                <Box sx={{ flex: 4, fontWeight: 400, color: 'black', fontSize: 14, pl: 1 }}>{val.item_name || "-"}</Box>
                             </Box>
                         )
                     }} />

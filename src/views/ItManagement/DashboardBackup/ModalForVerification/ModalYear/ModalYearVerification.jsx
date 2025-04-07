@@ -116,7 +116,6 @@ const ModalYearVerification = ({ open, handleClose, rowSelect, count, setCount }
             const {
                 yearly_slno,
                 backup_type_name,
-                backup_type,
                 backup_name,
                 dept_name,
                 backup_device_ip,
@@ -130,7 +129,6 @@ const ModalYearVerification = ({ open, handleClose, rowSelect, count, setCount }
                 schedule_time_name
             } = rowSelect
             const frmdata = {
-                backup_type: (backup_type === 1) ? 'IIS Backup' : (backup_type === 2) ? 'Database Backup' : (backup_type === 3) ? 'Share Folder Backup' : (backup_type === 4) ? 'Scanned File Backup' : 'Configuration Backup',
                 backup_type_name: backup_type_name,
                 backup_name: backup_name,
                 dept_name: dept_name,

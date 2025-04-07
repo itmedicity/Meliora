@@ -73,7 +73,6 @@ const VerificationDaysTable = ({ setdaysflag }) => {
                 return {
                     backup_selected_date: val.backup_selected_date,
                     due_date: val.due_date,
-                    backup_type: (val.backup_type === 1) ? 'IIS Backup' : (val.backup_type === 2) ? 'Database Backup' : (val.backup_type === 3) ? 'Share Folder Backup' : (val.backup_type === 4) ? 'Scanned File Backup' : 'Configuration Backup',
                     backup_type: val.backup_type_name,
                     backup_name: val.backup_name,
                     dept_name: val.dept_name,
@@ -203,7 +202,6 @@ const VerificationDaysTable = ({ setdaysflag }) => {
                                                 <td style={{ textAlign: 'center' }}>{index + 1}</td>
                                                 <td>{moment(val.backup_selected_date).format('DD-MM-YYYY')}</td>
                                                 <td>{moment(val.due_date).format('DD-MM-YYYY')}</td>
-                                                <td>{(val.backup_type === 1) ? 'IIS Backup' : (val.backup_type === 2) ? 'Database Backup' : (val.backup_type === 3) ? 'Share Folder Backup' : (val.backup_type === 4) ? 'Scanned File Backup' : 'Configuration Backup'}</td>
                                                 <td>{val.backup_type_name}</td>
                                                 <td>{val.backup_name}</td>
                                                 <td style={{ fontSize: 12 }}>{val.dept_name}</td>
