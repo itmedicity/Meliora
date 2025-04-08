@@ -285,15 +285,15 @@ const CrfMDApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                     onSuccess();
                 }
             };
-            if ((approve && detailAnalis && remark) || ((reject || pending || internallyArr) && remark)) {
-                if (selectedCompany === '1') {
-                    handleApproval(updateMDApproval, FileInsert, 'getPendingAll');
-                } else if (selectedCompany === '2') {
-                    handleApproval(updateMDApprovalKMC, FileInsertKMC, 'getAllKmcPending');
-                }
-            } else {
-                warningNotify("Justification is required");
+            // if ((approve && detailAnalis) || ((reject || pending || internallyArr) && remark)) {
+            if (selectedCompany === '1') {
+                handleApproval(updateMDApproval, FileInsert, 'getPendingAll');
+            } else if (selectedCompany === '2') {
+                handleApproval(updateMDApprovalKMC, FileInsertKMC, 'getAllKmcPending');
             }
+            // } else {
+            //     warningNotify("Justification is required");
+            // }
         }
     }, [MDPatchData, reset, datacollFlag, datacolectremark, crfdept, id, req_slno, selectFile, queryClient, internallyArr,
         handleImageUpload, approve, reject, pending, editEnable, selectedCompany, detailAnalis, remark]);
