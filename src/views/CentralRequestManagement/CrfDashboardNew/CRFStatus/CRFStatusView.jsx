@@ -14,7 +14,6 @@ const DetailedViewofCRF = React.lazy(() => import("./DetailedViewofCRF"))
 const CRFStatusMainComp = React.lazy(() => import("./CRFStatusMainComp"))
 
 const CRFStatusView = ({ crfData, companyData }) => {
-
     const [flag, setFlag] = useState(0)
     const [tableData, setTableData] = useState([])
     const [disData, setDisData] = useState([])
