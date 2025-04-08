@@ -10,7 +10,6 @@ import CustomLoadComp from './Components/CustomLoadComp'
 const CrfReqDetailViewCmp = ({ ApprovalData, imagearray }) => {
 
     const { req_slno, req_date, actual_requirement, needed, expected_date, image_status, company_name, } = ApprovalData
-
     const [imageshowFlag, setImageShowFlag] = useState(0)
     const [imageshow, setImageShow] = useState(false)
     const [previewFile, setPreviewFile] = useState({ url: "", type: "" });

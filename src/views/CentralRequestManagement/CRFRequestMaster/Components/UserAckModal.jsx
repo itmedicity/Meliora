@@ -15,7 +15,7 @@ import { useQuery, useQueryClient } from 'react-query'
 import CustomToolTipForCRF from '../../ComonComponent/Components/CustomToolTipForCRF'
 import StoreReceivedItemList from './StoreReceivedItemList'
 
-const UserAckModal = ({ req_slno, handleClose, open, approveTableData, reqItems }) => {
+const UserAckModal = ({ req_slno, handleClose, open, approveTableData, reqItems, company }) => {
     const queryClient = useQueryClient()
     const id = useSelector((state) => state.LoginUserData.empid)
 
@@ -25,7 +25,7 @@ const UserAckModal = ({ req_slno, handleClose, open, approveTableData, reqItems 
     const [expandedRowData, setExpandedRowData] = useState([])
     const [userAckReply, setUserAckReply] = useState('')
 
-
+    const { company_name } = company
     const updateAckRemark = useCallback((e) => {
         setAckRemark(e.target.value)
     }, [])
@@ -264,7 +264,7 @@ const UserAckModal = ({ req_slno, handleClose, open, approveTableData, reqItems 
                             </Box>
                             <Box>
                                 <Typography sx={{ fontWeight: 550, fontSize: 14, fontFamily: 'system-ui', pl: 1 }}>
-                                    CRF/TMC/{req_slno}</Typography>
+                                    CRF/{company_name}/{req_slno}</Typography>
                                 {reqItems.length !== 0 ?
                                     <ReqItemDisplay reqItems={reqItems} />
                                     : null
