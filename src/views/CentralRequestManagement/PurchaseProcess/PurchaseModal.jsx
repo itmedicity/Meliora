@@ -1,4 +1,4 @@
-import { Box, CssVarsProvider, Modal, ModalClose, ModalDialog, Textarea, Tooltip, Typography } from '@mui/joy'
+import { Box, Checkbox, CssVarsProvider, Modal, ModalClose, ModalDialog, Textarea, Tooltip, Typography } from '@mui/joy'
 import React, { Fragment, memo, useCallback, useMemo, useState } from 'react'
 import { Paper } from '@mui/material'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
@@ -22,6 +22,9 @@ import PoAcknowComp from '../ComonComponent/PurchaseComp/PoAcknowComp'
 import QuotationCallComp from '../ComonComponent/PurchaseComp/QuotationCallComp'
 import QuotationNegoComp from '../ComonComponent/PurchaseComp/QuotationNegoComp'
 import QuotationFinalComp from '../ComonComponent/PurchaseComp/QuotationFinalComp'
+import PurchaseWoImg from './Component/PurchaseWoImg'
+import imageCompression from 'browser-image-compression';
+
 const PoAddModalView = React.lazy(() => import("./Component/PoAddModalView"))
 const CrfReqDetailViewCmp = React.lazy(() => import("../ComonComponent/CrfReqDetailViewCmp"))
 const ReqItemDisplay = React.lazy(() => import("../ComonComponent/ReqItemDisplay"))
@@ -56,17 +59,21 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
         pomodalopen: false,
         poDetlDis: 0,
         po_number: '',
-        po_date: ''
+        po_date: '',
+        work_orderNo: '',
+        order_date: "",
+        order_remark: ""
     })
     const { datacollFlag, datacolectremark, poadding, poComplete, acknowledgemnet, ackRemark, quotationCall, poDetlDis,
         quotationCallRemark, quotationNego, quotationNegoRemark, quotationFix, quotationFixRemark, pomodalflag, pomodalopen,
-        po_number, po_date
+        po_number, po_date, work_orderNo, order_date, order_remark
     } = purchaseState
-
+    const [selectFile, setSelectFile] = useState([])
     const [crfdept, serCrfDept] = useState([])
     const [substoreSlno, setsubStoreSlno] = useState(0)
     const [substoreName, setsubStoreName] = useState('')
     const [storeSlno, setStoreSlno] = useState(0)
+    const [WorkOrder, setWorkOrder] = useState(false)
     const [storeCode, setStoreCode] = useState('')
     const [storeName, setStoreName] = useState('')
     const [podetailData, setpodetailData] = useState([])
@@ -237,6 +244,17 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
         }
     }, [req_slno, ackRemark, id])
 
+    const workorder = useMemo(() => {
+        return {
+            req_slno: req_slno,
+            ack_status: 1,
+            ack_remarks: order_remark,
+            create_user: id,
+            work_orderNo: work_orderNo,
+            order_date: order_date
+        }
+    }, [req_slno, order_remark, id, work_orderNo, order_date])
+
     const QuatationCallPatch = useMemo(() => {
         return {
             quatation_calling_status: quotationCall === true ? 1 : 0,
@@ -284,7 +302,15 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
         }
     }, [crm_purchase_slno, id, poComplete, newlyApprvdItems, poDetails])
 
-
+    const handleImageUpload = useCallback(async (imageFile) => {
+        const options = {
+            maxSizeMB: 25,
+            maxWidthOrHeight: 1920,
+            useWebWorker: true,
+        }
+        const compressedFile = await imageCompression(imageFile, options)
+        return compressedFile
+    }, []);
     const submit = useCallback(async () => {
         const purchaseInsert = async (postAck) => {
             try {
@@ -428,7 +454,46 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
                 warningNotify("An error occurred while processing your request. Try again.", error);
             }
         }
+        const WorkOrderInsert = async (workorder) => {
+            try {
+                const result = await axioslogin.post('/newCRFPurchase/InsertWorkOrder', workorder);
+                const { success, message } = result.data;
+                if (success === 1) {
+                    queryClient.invalidateQueries('getQuotationData')
+                    succesNotify(message);
+                    reset();
+                } else {
+                    warningNotify(message);
+                }
+            } catch (error) {
+                warningNotify("An error occurred while processing your request.Try again.", error);
+            }
+        };
 
+        const FileInsert = async (selectFile, insertid) => {
+            try {
+                const formData = new FormData();
+                formData.append('id', insertid);
+                for (const file of selectFile) {
+                    if (file.type.startsWith('image')) {
+                        const compressedFile = await handleImageUpload(file);
+                        formData.append('files', compressedFile, compressedFile.name);
+                    } else {
+                        formData.append('files', file, file.name);
+                    }
+                }
+                const result = await axioslogin.post('/newCRFRegisterImages/InsertRegisterImage', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                });
+                return result.data
+            } catch (error) {
+                // console.log(error, "while file uploading");
+                // setLoading(false)
+                warningNotify('An error occurred during file upload.', error);
+            }
+        }
         if (datacollFlag === true) {
             if (crfdept.length !== 0) {
                 if (datacolectremark !== '') {
@@ -457,7 +522,6 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
             }
         } else if (ack_status === 1) {
             if (quatation_calling_status !== 1 && quotationCall === true) {
-
                 updateQuatationCalling(QuatationCallPatch)
             } else if (quatation_negotiation !== 1 && quotationNego === true) {
                 updateQuatationNegotiatn(QuatationNegotnPatch)
@@ -473,10 +537,25 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
             else if (poComplete === true) {
                 updatePOComplete(PoCompletePatch)
             }
+            else if (WorkOrder === true) {
+                if (selectFile.length > 0) {
+                    WorkOrderInsert(workorder)
+                    // FileInsert(selectFile, req_slno)
+                    const fileInsertResponse = await FileInsert(selectFile, req_slno);
+                    if (fileInsertResponse.success !== 1) {
+                        warningNotify("Error occurred while uploading files.");
+
+                    }
+                } else {
+                    warningNotify("Please Attach File");
+
+                }
+
+            }
         }
-    }, [queryClient, acknowledgemnet, ack_status, ackRemark, postAck, QuatationCallPatch, quatation_calling_status,
-        quotationCall, quatation_negotiation, quotationNego, quatation_fixing, quotationFix, poadding, QuatationNegotnPatch,
-        poComplete, QuatationFixingPatch, datacollFlag, crfdept, id, datacolectremark, req_slno, podetailData, PoCompletePatch,
+    }, [queryClient, acknowledgemnet, ack_status, ackRemark, postAck, QuatationCallPatch, quatation_calling_status, selectFile,
+        quotationCall, quatation_negotiation, quotationNego, quatation_fixing, quotationFix, poadding, QuatationNegotnPatch, workorder,
+        poComplete, QuatationFixingPatch, datacollFlag, crfdept, id, datacolectremark, req_slno, podetailData, PoCompletePatch, WorkOrder,
         reset])
 
     const closeModal = useCallback(() => {
@@ -521,7 +600,7 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
                                 height: 25, width: 25
                             }}
                         />
-                        <Box sx={{ minWidth: '80vw', minHeight: '62vh', maxHeight: '85vh', overflowY: 'auto' }}>
+                        <Box sx={{ minWidth: '80vw', minHeight: '62vh', maxHeight: '85vh', overflowY: 'auto', }}>
                             <CrfReqDetailViewCmp ApprovalData={puchaseData} imagearray={imagearray} />
                             <Box sx={{ overflow: 'auto', pt: 0.1, mx: 0.3 }}>
                                 {reqItems.length !== 0 ?
@@ -825,12 +904,95 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
                                                 value={poadding}
                                                 checked={poadding}
                                                 onCheked={checkNewPo}
-                                                disabled={(quotationCall === true || datacollFlag === true
+                                                disabled={(quotationCall === true || datacollFlag === true || WorkOrder === true
                                                     || poComplete === true) ? true : false}
                                             />
                                         </Box>
                                     </Paper>
                                     : null}
+
+                                {ack_status === 1 && po_complete !== 1 && ((quatation_calling_status !== 1 && quatation_fixing === 1) ||
+                                    (quatation_calling_status === 1 && quatation_fixing === 1)) ?
+                                    <Paper variant='outlined' sx={{ flexWrap: 'wrap', mx: 0.2, mt: 0.3 }} >
+                                        <Box sx={{ p: 0.8, mt: 0.3 }}>
+                                            {/* <CusCheckBox
+                                                className={{ color: '#145DA0', fontSize: 14, fontWeight: 'bold' }}
+                                                variant="outlined"
+                                                color="primary"
+                                                size="md"
+                                                label="Work Order Details"
+                                                name="WorkOrder"
+                                                value={WorkOrder}
+                                                checked={WorkOrder}
+                                                onCheked={setWorkOrder}
+                                                disabled={(quotationCall === true || datacollFlag === true
+                                                    || poComplete === true) ? true : false}
+                                            /> */}
+                                            <Checkbox
+                                                sx={{ color: '#145DA0', fontSize: 14, fontWeight: 'bold' }}
+                                                variant="outlined"
+                                                color="primary"
+                                                size="md"
+                                                label="Work Order Details"
+                                                name="WorkOrder"
+                                                // value={WorkOrder}
+                                                checked={WorkOrder}
+                                                onChange={(e) => setWorkOrder(e.target.checked)}
+                                                disabled={quotationCall || datacollFlag || poComplete || poadding}
+                                            />
+                                        </Box>
+                                    </Paper>
+                                    : null}
+                                {/* work order details */}
+                                {WorkOrder === true ?
+                                    <Box>
+                                        <Box sx={{ flex: 1, display: "flex", pt: 0.5 }}>
+                                            <Box sx={{ flex: 1, }}>
+                                                <CustomPaperTitle heading="Work Order No" mandtry={1} />
+                                                <CustomInputDateCmp
+                                                    className={{ ml: 1 }}
+                                                    autoComplete='off'
+                                                    size={'sm'}
+                                                    type={'number'}
+                                                    name={'work_orderNo'}
+                                                    value={work_orderNo}
+                                                    handleChange={updatePoDetails}
+                                                />
+                                            </Box>
+                                            <Box sx={{ flex: 1, }}>
+                                                <CustomPaperTitle heading="Work Order Date" mandtry={1} />
+                                                <CustomInputDateCmp
+                                                    className={{ ml: 0.5 }}
+                                                    size={'sm'}
+                                                    type='date'
+                                                    name={'order_date'}
+                                                    value={order_date}
+                                                    handleChange={updatePoDetails}
+                                                    slotProps={{
+                                                        input: { max: moment(new Date()).format('YYYY-MM-DD') }
+                                                    }}
+                                                />
+                                            </Box>
+                                            <Box sx={{ flex: 1, }}>
+                                                <CustomPaperTitle heading="Remark" mandtry={1} />
+                                                <CustomInputDateCmp
+                                                    className={{ ml: 1 }}
+                                                    autoComplete='off'
+                                                    size={'sm'}
+                                                    type={'text'}
+                                                    name={'order_remark'}
+                                                    value={order_remark}
+                                                    handleChange={updatePoDetails}
+                                                />
+                                            </Box>
+
+                                        </Box>
+                                        {/* purchase modal image upload */}
+                                        <PurchaseWoImg selectFile={selectFile} setSelectFile={setSelectFile} />
+                                    </Box>
+                                    : null}
+
+
                                 {poadding === true ?
                                     <Box sx={{ flex: 1, display: "flex", pt: 0.5 }}>
                                         <Box sx={{ flex: 1, }}>

@@ -122,7 +122,7 @@ const CrfSubStoreMain = () => {
     useEffect(() => {
         // if (storeData && storeData.length > 0) {
         const newData = storeData?.filter((value, index, self) =>
-            index === self.findIndex((item) => item.req_slno === value.req_slno && item.supply_store === value.supply_store
+            index === self?.findIndex((item) => item.req_slno === value.req_slno && item.supply_store === value.supply_store
                 && item.crm_purchase_slno === value.crm_purchase_slno))
         const countSet = crsList?.map((val) => {
             const xx = newData?.filter((value) => value.supply_store === val.main_store_slno)
@@ -132,7 +132,7 @@ const CrfSubStoreMain = () => {
                 main_store: val.main_store,
                 sub_store_slno: val.sub_store_slno,
                 sub_store_name: val.sub_store_name,
-                count: xx.length
+                count: xx?.length
             }
         })
         setStoreList(countSet)
@@ -153,7 +153,7 @@ const CrfSubStoreMain = () => {
             const pos = filteredItems?.map(item => `${item.po_number}`);
             const poDate = filteredItems?.map(item => `${format(new Date(item.po_date), 'dd-MM-yyyy hh:mm:ss a')}`);
             // const grn_nos = filteredItems.flatMap(item => JSON?.parse(item.grn_no)).join(", ");
-            const grn_nos = filteredItems.flatMap(item => JSON?.parse(item.grn_no));
+            const grn_nos = filteredItems?.flatMap(item => JSON?.parse(item.grn_no));
             const po_detail_slno = filteredItems?.map(item => `${item.po_detail_slno}`);
             const po_details = filteredItems?.map((item) => {
                 return {

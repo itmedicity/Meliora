@@ -28,6 +28,7 @@ import ModalButtomCmp from '../Components/ModalButtomCmp';
 import { axioslogin } from 'src/views/Axios/Axios';
 import { succesNotify, warningNotify } from 'src/views/Common/CommonCode';
 import { useSelector } from 'react-redux';
+import CampaignTwoToneIcon from '@mui/icons-material/CampaignTwoTone';
 
 const CommentView = ({ open, closeModal, DetailViewData, reqItems, approveTableData, poDetails, imagearray, ViewRemark, setDetailViewModal,
     datacolData, selectedCompany, companyData }) => {
@@ -408,42 +409,104 @@ const CommentView = ({ open, closeModal, DetailViewData, reqItems, approveTableD
                                     }}>
                                         No Report Found
                                     </Box>}
-                            <Paper variant="outlined" square sx={{ flexWrap: 'wrap', mt: 0.7, mx: 0.7, pb: 0.7 }}>
-                                <Box sx={{ display: 'flex', pt: 0.4, }}>
-                                    <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>Remarks</Typography>
-                                    <Typography sx={{ pt: 1 }}>  :&nbsp;</Typography>
-                                    <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
-                                        <CssVarsProvider>
-                                            <Textarea
-                                                required
-                                                type="text"
-                                                size="sm"
-                                                minRows={2}
-                                                maxRows={4}
-                                                style={{ width: "90%", }}
-                                                placeholder="Remarks"
-                                                name='ViewCrfRemark'
-                                                value={ViewCrfRemark || ''}
-                                                onChange={(e) => SetViewCrfRemark(e.target.value)}
-                                            />
-                                        </CssVarsProvider>
+
+                            {DetailViewData?.crf_view_status === 1 ?
+                                <Box sx={{ p: .4 }}>
+                                    <Box sx={{ border: '1px solid lightgrey', mt: 1, }}>
+                                        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                                            <Box sx={{
+
+                                                display: 'flex',
+                                                flexDirection: 'row',
+                                                alignItems: 'center'
+                                            }}>
+                                                <CampaignTwoToneIcon sx={{
+                                                    width: 30, height: 30,
+                                                    animation: 'blink 2s infinite', // Apply the blink animation
+                                                    '@keyframes blink': {
+                                                        '0%': {
+                                                            opacity: 1,
+                                                        },
+                                                        '50%': {
+                                                            opacity: 0,
+                                                        },
+                                                        '100%': {
+                                                            opacity: 1,
+                                                        },
+
+                                                    },
+                                                }} />
+                                                <Typography sx={{
+                                                    fontFamily: 'var(--font-varient)',
+                                                    color: 'rgba(var(--font-primary-white))',
+                                                    fontWeight: 700,
+                                                }}>
+
+                                                </Typography>
+                                                <Typography sx={{ fontWeight: 'bold', color: '#FF6868', fontSize: 14, p: 1, textTransform: 'capitalize' }}>
+                                                    Comments
+                                                </Typography>
+                                            </Box>
+
+                                            <Typography sx={{ fontWeight: 'bold', color: '#145DA0', fontSize: 14, p: 1, textTransform: 'capitalize' }}>
+                                                By:{DetailViewData?.viewName?.toLowerCase()}
+                                            </Typography>
+                                        </Box>
+                                        <Box sx={{ p: 1 }}>
+                                            <Box sx={{ border: '1px solid lightgrey', height: 50 }}>
+                                                <Typography sx={{ fontSize: 14, fontWeight: 550, p: 1 }}>
+                                                    {DetailViewData?.crf_view_remark}
+                                                </Typography>
+                                            </Box>
+                                        </Box>
+
+
                                     </Box>
                                 </Box>
-                            </Paper>
+                                : null
+                            }
+                            {user_acknldge === 1 ? null :
+                                <Box>
+                                    <Paper variant="outlined" square sx={{ flexWrap: 'wrap', mt: 0.7, mx: 0.7, pb: 0.7 }}>
+                                        <Box sx={{ display: 'flex', pt: 0.4, }}>
+                                            <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>Remarks</Typography>
+                                            <Typography sx={{ pt: 1 }}>  :&nbsp;</Typography>
+                                            <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
+                                                <CssVarsProvider>
+                                                    <Textarea
+                                                        required
+                                                        type="text"
+                                                        size="sm"
+                                                        minRows={2}
+                                                        maxRows={4}
+                                                        style={{ width: "90%", }}
+                                                        placeholder="Remarks"
+                                                        name='ViewCrfRemark'
+                                                        value={ViewCrfRemark || ''}
+                                                        onChange={(e) => SetViewCrfRemark(e.target.value)}
+                                                    />
+                                                </CssVarsProvider>
+                                            </Box>
+                                        </Box>
+                                    </Paper>
 
 
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1 }}>
-                                <Box sx={{ py: 0.5, pr: 0.5 }}>
-                                    <ModalButtomCmp
-                                        handleChange={submit}
-                                    > Save</ModalButtomCmp>
+                                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1 }}>
+                                        <Box sx={{ py: 0.5, pr: 0.5 }}>
+                                            <ModalButtomCmp
+                                                handleChange={submit}
+                                            > Save</ModalButtomCmp>
+                                        </Box>
+                                        <Box sx={{ py: 0.5, pr: 2 }}>
+                                            <ModalButtomCmp
+                                                handleChange={closeModal}
+                                            > Cancel</ModalButtomCmp>
+                                        </Box>
+                                    </Box>
                                 </Box>
-                                <Box sx={{ py: 0.5, pr: 2 }}>
-                                    <ModalButtomCmp
-                                        handleChange={closeModal}
-                                    > Cancel</ModalButtomCmp>
-                                </Box>
-                            </Box>
+                            }
+
+
                         </Box>
                         <Box sx={{ height: 15 }}></Box>
 
