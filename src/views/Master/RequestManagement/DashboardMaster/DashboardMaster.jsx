@@ -1,58 +1,53 @@
-import { Box, CssVarsProvider } from '@mui/joy'
+import { Autocomplete, Box, CssVarsProvider, } from '@mui/joy'
 import React, { memo, useCallback, useState } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios';
-import CRFstoreView from 'src/views/CentralRequestManagement/CRFRequestMaster/Components/CRFstoreView';
-import CRFsubStoreView from 'src/views/CentralRequestManagement/CRFRequestMaster/Components/CRFsubStoreView';
 import CardMaster from 'src/views/Components/CardMaster'
 import DepartmentSelect from 'src/views/CommonSelectCode/DepartmentSelect'
 import DeptSecUnderDept from 'src/views/CommonSelectCode/DeptSecUnderDept'
 import EmpNameDeptSecSelect from 'src/views/CommonSelectCode/EmpNameDeptSecSelect'
-import StoreMasterTable from './StoreMasterTable';
 import { succesNotify, warningNotify } from 'src/views/Common/CommonCode';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+import DashBoardTable from './DashBoardTable';
 
 
-const StoreMaster = () => {
-    const [subStoreList, setSubStoreList] = useState([]);
-    // const [radiovalue, setRadioValue] = useState('');
-    const [crsstore, setCrsList] = useState([])
-    const [editRowData, setEditRowData] = useState({})
+const DashboardMaster = () => {
+
     const [dept, setDept] = useState(0)
     const [deptsec, setDeptsec] = useState(0)
     const [empname, setEmpname] = useState(0)
-    const [count, setCount] = useState(0)
-    const history = useHistory()
+    const [selectedValues, setSelectedValues] = useState([]);
+    const [inputValue, setInputValue] = useState('');
     const [UpdateFlag, setUpdateFlag] = useState(0)
+    const [count, setCount] = useState(0)
+
+    const history = useHistory()
+
     const rowSelect = useCallback((params) => {
         // setValue(1)
         const data = params.api.getSelectedRows();
-        const { store, sub_store, emid,
+        const { dash_view, emid,
             department, dp_section } = data[0]
-        const parsedStore = JSON.parse(store);
-        const parsedSubStore = JSON.parse(sub_store);
-        setEditRowData(data[0])
-        setSubStoreList(parsedSubStore)
         setDept(department)
         setDeptsec(dp_section)
         setEmpname(emid)
-        setCrsList(parsedStore)
+        setSelectedValues(dash_view)
         setUpdateFlag(1)
 
     }, [])
-    const submitStore = useCallback(async (val) => {
+
+    const submitDashBoard = useCallback(async (val) => {
         if (dept === 0) {
             warningNotify("Select Department")
         } else {
             const postData = {
-                subStoreList: subStoreList,
-                crsstore: crsstore,
+                selectedValues: selectedValues,
                 dept: dept,
                 empId: empname,
                 deptsec: deptsec,
 
             }
             if (UpdateFlag === 1) {
-                const result = await axioslogin.post('/newCRFRegister/StoreMaster/update', postData);
+                const result = await axioslogin.post('/newCRFRegister/DashBoardMaster/update', postData);
                 const { success } = result.data
                 if (success === 1) {
                     succesNotify("Data Updated Sucessfully")
@@ -63,7 +58,7 @@ const StoreMaster = () => {
 
                 }
             } else {
-                const result = await axioslogin.post('/newCRFRegister/StoreMaster', postData);
+                const result = await axioslogin.post('/newCRFRegister/DashBoardMaster', postData);
                 const { success } = result.data
                 if (success === 1) {
                     succesNotify("Data Inserted Sucessfully")
@@ -75,8 +70,7 @@ const StoreMaster = () => {
                 }
             }
         }
-
-    }, [subStoreList, deptsec, empname, dept, crsstore, UpdateFlag])
+    }, [dept, empname, deptsec, selectedValues, UpdateFlag])
 
     const refreshWindow = useCallback(() => {
         // setCategory([])
@@ -84,11 +78,18 @@ const StoreMaster = () => {
     const backtoSetting = useCallback(() => {
         history.push('/Home/Settings')
     }, [history])
+
+    const dashboards = [
+        { id: 1, name: 'CRF Status' },
+        { id: 2, name: 'CRF Purchase Status' },
+        { id: 3, name: 'CRF Store Status' },
+    ];
+
     return (
         <CssVarsProvider>
             <CardMaster
                 title="Store Right Master"
-                submit={submitStore}
+                submit={submitDashBoard}
                 close={backtoSetting}
                 refresh={refreshWindow}
             >
@@ -104,36 +105,44 @@ const StoreMaster = () => {
                             <EmpNameDeptSecSelect value={empname} setValue={setEmpname} deptsec={deptsec} />
                         </Box>
                         <Box sx={{ mt: 1, overflow: 'auto', border: '1px solid lightgrey', }} >
-                            <CRFstoreView crsList={crsstore} setList={setCrsList} editRowData={editRowData} />
-                        </Box>
-                        <Box sx={{ mt: 1, overflow: 'auto', border: '1px solid lightgrey', }} >
-                            <CRFsubStoreView crsList={subStoreList} setList={setSubStoreList} editRowData={editRowData} />
+                            <Autocomplete
+                                multiple
+                                placeholder="Select Dashboard"
+                                variant="plain"
+                                style={{
+                                    height: 'auto',
+                                    padding: 0,
+                                    margin: 0,
+                                    lineHeight: 1.2,
+                                    width: '100%',
+                                    backgroundColor: 'white',
+                                    fontSize: 14,
+                                }}
+                                value={dashboards.filter(d => selectedValues.includes(d.id))}
+                                onChange={(_, newValue) => {
+                                    const ids = newValue.map(item => item.id);
+                                    setSelectedValues(ids);
+                                }}
+                                inputValue={inputValue}
+                                onInputChange={(_, newInputValue) => setInputValue(newInputValue)}
+                                options={dashboards}
+                                getOptionLabel={(option) => option?.name || ''}
+                                isOptionEqualToValue={(option, value) => option?.id === value?.id}
+                            />
                         </Box>
 
-                        <Box sx={{ mt: 1.5, }} >
-                            {/* <CusCheckBox
-                                label="Status"
-                                color="primary"
-                                size="md"
-                                name="status"
-                                variant="outlined"
-                            value={status}
-                            checked={status}
-                            onCheked={updateModule}
-                            /> */}
-                        </Box>
 
 
                     </Box>
 
                 </Box>
                 <Box sx={{ width: '100%', p: 1 }}>
-                    <StoreMasterTable count={count} setCount={setCount} rowSelect={rowSelect} setSubStoreList={setSubStoreList}
-                        setDept={setDept} setDeptsec={setDeptsec} setEmpname={setEmpname} setCrsList={setCrsList} />
+                    <DashBoardTable count={count} setCount={setCount} rowSelect={rowSelect}
+                        setDept={setDept} setDeptsec={setDeptsec} setEmpname={setEmpname} />
                 </Box>
             </CardMaster>
         </CssVarsProvider>
     )
 }
 
-export default memo(StoreMaster)
+export default memo(DashboardMaster)

@@ -245,6 +245,7 @@ const ViewCategoryMaster = React.lazy(() => import('./views/Master/RequestManage
 const CrfView = React.lazy(() => import('./views/CentralRequestManagement/CRFview/CrfView'))
 const CrfStoreMaster = React.lazy(() => import('./views/Master/RequestManagement/StoreMaster/StoreMaster'))
 const CrfCommon = React.lazy(() => import('./views/Master/RequestManagement/CrfCommon/CrfCommonMaster'))
+const CrfDashboardMaster = React.lazy(() => import('./views/Master/RequestManagement/DashboardMaster/DashboardMaster'))
 
 
 const routes = [
@@ -490,6 +491,7 @@ const routes = [
   { path: '/Home/ItBackupTypeMast', exact: true, name: 'ItBackupTypeMast', component: ItBackupTypeMast },
   { path: '/Home/SimOperator', exact: true, name: 'SimOperator', component: SimOperator },
   // { path: '/Home/AssetCondemApprovalLevels', exact: true, name: 'AssetCondemApprovalLevels', component: AssetCondemApprovalLevels },
+  { Path: '/Home/DashBoardMaster', exact: true, name: 'DashBoardMaster', component: CrfDashboardMaster },
   { Path: '/Home/TicketHoldReason', exact: true, name: 'Ticket Hold Reason Master', component: TicketHoldReasonMast },
 
 

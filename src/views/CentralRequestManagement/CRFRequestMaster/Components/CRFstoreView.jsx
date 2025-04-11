@@ -74,7 +74,7 @@ const CRFstoreView = ({ setList, editRowData }) => {
     }, [crsList]);
     return (
         <Autocomplete
-            placeholder="Select Category"
+            placeholder="Select Main Store"
             variant='plain'
             multiple
             style={{ height: 'auto', p: 0, m: 0, lineHeight: 1.200, width: '100%', backgroundColor: 'white', fontSize: 14 }}

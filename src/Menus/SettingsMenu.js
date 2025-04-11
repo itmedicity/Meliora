@@ -48,6 +48,8 @@ export const crm_setting_two = [
 export const crm_setting_three = [
     { to: '/Home/OMEmpMapping', name: 'OM-Emp Mapping', slno: 108 },
     { to: '/Home/ViewCategoryMaster', name: 'MenuView Category Master', slno: 257 },
+    { to: '/Home/DashBoardMaster', name: 'DashBoard Master', slno: 270 },
+
 ]
 
 //Asset Master Menu
