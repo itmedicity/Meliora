@@ -15,7 +15,6 @@ import CustomToolTipForCRF from '../../ComonComponent/Components/CustomToolTipFo
 
 
 const NotReceivedTable = ({ disData, rowSelect, company }) => {
-
     const [modalData, setModalData] = useState([])
     const [modalopen, setModalOpen] = useState(false)
     const [modFlag, setModFlag] = useState(0)
@@ -104,7 +103,7 @@ const NotReceivedTable = ({ disData, rowSelect, company }) => {
                                 {disData?.map((val, index) => (
                                     <tr key={index} style={{
                                         height: 4,
-                                        background: (val?.sub_store_recieve === 1 || val?.internally_arranged_status === 1) ? '#B1D8B7' : (val?.store_recieve === 0 || val?.store_recieve === 1) ? '#BFD7ED' : 'transparent'
+                                        background: (val?.sub_store_recieve === 1 || val?.internally_arranged_status === 1 || val?.work_order_status === 1) ? '#B1D8B7' : (val?.store_recieve === 0 || val?.store_recieve === 1) ? '#BFD7ED' : 'transparent'
                                     }} size='small' >
                                         <td>
                                             {/* (val.hod_approve !== null || val.incharge_approve !== null) */}
@@ -142,7 +141,7 @@ const NotReceivedTable = ({ disData, rowSelect, company }) => {
 
                                         </td>
                                         <td>
-                                            {val.sub_store_recieve === 1 || val?.internally_arranged_status === 1 ?
+                                            {val.sub_store_recieve === 1 || val?.internally_arranged_status === 1 || val?.work_order_status === 1 ?
                                                 <CustomToolTipForCRF title="Acknowledgement " placement="right">
                                                     <GppGoodTwoToneIcon
                                                         sx={{

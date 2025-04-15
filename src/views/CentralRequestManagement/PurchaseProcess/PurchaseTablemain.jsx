@@ -99,7 +99,7 @@ const PurchaseTablemain = () => {
                 && val.quatation_fixing === 0)
             setQuoFinal(final)
 
-            const po = quoData?.filter((val) => val.ack_status === 1 &&
+            const po = quoData?.filter((val) => val.ack_status === 1 && val.work_order_status === 0 &&
                 ((val.quatation_calling_status === 1 && val.quatation_fixing === 1 && val.po_prepartion === 0)
                     || (val.po_prepartion === 1 && val.po_complete === 0)))
             setPoProcess(po)

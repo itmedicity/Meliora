@@ -304,7 +304,11 @@ const CrfView = () => {
                 user_acknldge: val.user_acknldge,
                 internally_arranged_status: val.internally_arranged_status,
                 user_ack_date: val?.user_ack_date,
-                company_name: val?.company_name
+                company_name: val?.company_name,
+                user_acknldge_remarks: val?.user_acknldge_remarks,
+                crf_view_remark: val?.crf_view_remark,
+                crf_view_status: val?.crf_view_status,
+                viewName: val?.viewName
 
             };
             return obj;
