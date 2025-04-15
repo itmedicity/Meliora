@@ -254,11 +254,9 @@ const ComplaintRegistrMast = () => {
             complaint_slno: complaint_slno,
             rm_room_slno: roomName === 0 ? null : roomName,
             cm_asset_status: assetArray.length !== 0 ? 1 : 0,
-            cm_complaint_location: locationDetails === '' ? null : locationDetails
+            cm_complaint_location: locationDetails === null ? '' : locationDetails
         }
     }, [desc, empsecid, depsec, codept, cotype, priority, priorreason, complaint_slno, id, roomName, checkHic, assetArray, locationDetails])
-
-
 
 
 
@@ -760,6 +758,8 @@ const ComplaintRegistrMast = () => {
         setImageShow(false)
     }, [])
 
+
+    
 
     return (
         <Fragment>

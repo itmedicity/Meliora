@@ -163,7 +163,7 @@ const ChangeAssingeesModal = ({ empTransferOpen, setEmptransferOpen, emptransfer
                         </Box>
                         <Box sx={{ flex: 1, display: 'flex', mt: 2, mx: 8, }}>
                             <Typography sx={{ flex: 1.5 }}>
-                                Assingees :
+                                Assignees :
                             </Typography>
                             <Box sx={{
                                 flex: 3,

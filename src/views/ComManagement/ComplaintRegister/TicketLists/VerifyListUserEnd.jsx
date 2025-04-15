@@ -463,7 +463,7 @@ const VerifyListUserEnd = ({ count, setCount }) => {
                                                         </Typography>
                                                     </Box> : null}
                                                 <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', }}>
-                                                    <Typography sx={{ fontSize: 13, fontWeight: 700, pt: .5 }}>Assingees :</Typography>&nbsp;&nbsp;
+                                                    <Typography sx={{ fontSize: 13, fontWeight: 700, pt: .5 }}>Assignees :</Typography>&nbsp;&nbsp;
                                                     <Box sx={{ fontWeight: 600, display: 'flex', py: .4, gap: .3 }}>
                                                         {val.assigned_employees === null ?
                                                             <Chip>

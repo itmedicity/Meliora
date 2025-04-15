@@ -77,7 +77,7 @@ const BreakDownDetails = ({ alldetailsService, fileView, deptServiceempList, fil
                                         </Box>
                                         <Box sx={{ flex: 1, display: 'flex' }}>
                                             <Typography sx={{ flex: 1, fontSize: 15, }}>
-                                                Assingees
+                                                Assignees
                                             </Typography>
                                             <Box sx={{ flex: 4, fontWeight: 600, color: 'Black', fontSize: 13, }}>
                                                 {val.assigned_employees?.split(',').filter(Boolean).map((name, index) => (

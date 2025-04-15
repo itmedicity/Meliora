@@ -7,7 +7,7 @@ const DashBoadTile = ({ imageUrl, Name, totalCount, icon }) => {
         <Box sx={{
             display: 'flex',
             border: 1, borderColor: '#d0d6e5',
-            flex: 1, bgcolor: 'white', borderRadius: 5,
+            flex: 1, bgcolor: '#fafbfd', borderRadius: 5,
             height: 75,
         }}>
             <Box sx={{ flex: 1, pl: 1.5, }}>
@@ -28,7 +28,9 @@ const DashBoadTile = ({ imageUrl, Name, totalCount, icon }) => {
                         src={imageUrl}
                         alt='pics' sx={{
                             width: 50, height: 50,
-                            bgcolor: 'white', boxShadow: '0px 4px 10px rgba(123, 147, 202, 0.25)'
+                            bgcolor: 'white',
+
+                            // boxShadow: '0px 4px 10px rgba(123, 147, 202, 0.25)'
                         }} >
                         {icon}
                     </Avatar>

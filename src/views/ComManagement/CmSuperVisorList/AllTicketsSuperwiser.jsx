@@ -123,7 +123,7 @@ const AllTicketsSuperwiser = ({ forVerifyList, count, setCount, forverifyLength,
                         {assinged === 1 ?
                             <RadioButtonCheckedIcon sx={{ cursor: 'pointer', color: '#9A5B13' }} />
                             : <RadioButtonUncheckedIcon sx={{ cursor: 'pointer' }} />}
-                        <Typography sx={{ pl: .5 }}>Assinged</Typography>
+                        <Typography sx={{ pl: .5 }}>Assigned </Typography>
                     </Box>
                 </Badge>
                 <Badge badgeContent={holdLength} color="neutral">
