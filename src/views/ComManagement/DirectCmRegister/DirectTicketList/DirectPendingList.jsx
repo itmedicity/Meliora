@@ -150,13 +150,13 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                                 </Box>
                                 <Box sx={{ minWidth: 80, fontWeight: 600, color: '#444444', fontSize: 12, pl: 2 }}>Ticket No.</Box>
                                 <Box sx={{ width: 155, fontWeight: 600, color: '#444444', fontSize: 12, textAlign: 'center' }}>Action</Box>
-                                <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12, ml: .5 }}>Complaint Type</Box>
+                                <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12,  }}>Complaint Type</Box>
                                 <Box sx={{ width: 580, fontWeight: 600, color: '#444444', fontSize: 12, }}>Describtion</Box>
                                 <Box sx={{ width: 130, fontWeight: 600, color: '#444444', fontSize: 12, }}>Complaint To</Box>
-                                <Box sx={{ width: 220, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1.3 }}>Complaint From</Box>
-                                <Box sx={{ width: 283, fontWeight: 600, color: '#444444', fontSize: 12, }}>Location</Box>
-                                <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12, }}>Location Details</Box>
-                                <Box sx={{ width: 130, fontWeight: 600, color: '#444444', fontSize: 12, }}>Complaint Date</Box>
+                                <Box sx={{ width: 220, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1.8 }}>Complaint From</Box>
+                                <Box sx={{ width: 283, fontWeight: 600, color: '#444444', fontSize: 12, pl:.5}}>Location</Box>
+                                <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12,pl:.5 }}>Location Details</Box>
+                                <Box sx={{ width: 130, fontWeight: 600, color: '#444444', fontSize: 12,pl:.5 }}>Complaint Date</Box>
                             </Box>
                             <Virtuoso
                                 style={{ height: '28vh' }}
@@ -359,7 +359,7 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                                             <Box sx={{ width: 610, fontSize: 14, }}>
                                                 {val.complaint_desc}
                                             </Box>
-                                            <Box sx={{ width: 150, fontSize: 13, }}>
+                                            <Box sx={{ width: 150, fontSize: 13,pl:.5 }}>
                                                 {val.complaint_dept_name}
                                             </Box>
                                             <Box sx={{ width: 220, fontSize: 13, }}>

@@ -15,7 +15,7 @@ import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import ComFileView from '../../CmFileView/ComFileView';
 import { format } from 'date-fns';
 
-const SectionWiseVerify = ({ count, setCount, forVerify, loading }) => {
+const SectionWiseVerify = ({ count, setCount,  loading,verficationPending }) => {
 
     const [replyflag, setReplyflag] = useState(0)
     const [replyOpen, setReplyOpen] = useState(false)
@@ -109,8 +109,8 @@ const SectionWiseVerify = ({ count, setCount, forVerify, loading }) => {
                         </CssVarsProvider>
                     </Box>
                 ) : (
-                    forVerify.length !== 0 ?
-                        <Box sx={{ width: 2100, }}>
+                    verficationPending.length !== 0 ?
+                        <Box sx={{ width: 2150, }}>
                             <Box sx={{
                                 height: 40, mt: .5, mx: .5, display: 'flex', borderBottom: 1, borderTop: 1, borderColor: 'lightgray', pt: 1.5,
                                 bgcolor: 'white'
@@ -118,18 +118,18 @@ const SectionWiseVerify = ({ count, setCount, forVerify, loading }) => {
                                 <Box sx={{ width: 100, fontWeight: 600, color: '#444444', fontSize: 12, pl: 2 }}>Ticket No.</Box>
                                 <Box sx={{ width: 130, fontWeight: 600, color: '#444444', fontSize: 12, pl: 3 }}>Action</Box>
                                 <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12, }}>Complaint Type</Box>
-                                <Box sx={{ width: 610, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1.5 }}>Describtion</Box>
-                                <Box sx={{ width: 180, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1.2 }}>Complaint To</Box>
-                                <Box sx={{ width: 220, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1.3 }}>Complaint From</Box>
-                                <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1.3 }}>Location</Box>
-                                <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12, }}>Location Details</Box>
-                                <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1.4 }}>Complaint Date</Box>
+                                <Box sx={{ width: 610, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>Describtion</Box>
+                                <Box sx={{ width: 180, fontWeight: 600, color: '#444444', fontSize: 12, pl:.2 }}>Complaint To</Box>
+                                <Box sx={{ width: 220, fontWeight: 600, color: '#444444', fontSize: 12, pl: .3 }}>Complaint From</Box>
+                                <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12,pl:.3}}>Location</Box>
+                                <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12, pl:.5}}>Location Details</Box>
+                                <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12, pl:.8 }}>Complaint Date</Box>
                             </Box>
                             <Virtuoso
                                 style={{ height: '35vh' }}
-                                totalCount={forVerify?.length}
+                                totalCount={verficationPending?.length}
                                 itemContent={(index) => {
-                                    const val = forVerify[index];
+                                    const val = verficationPending[index];
                                     return (
                                         <Box key={val.complaint_slno}
                                             sx={{
@@ -227,10 +227,10 @@ const SectionWiseVerify = ({ count, setCount, forVerify, loading }) => {
                                                     ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''}${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${(val.rm_insidebuildblock_name && val.rm_floor_name) ? ' - ' : ''}${val.rm_floor_name ? val.rm_floor_name : ''})`
                                                     : "Not Updated"}
                                             </Box>
-                                            <Box sx={{ width: 300, fontSize: 13, }}>
+                                            <Box sx={{ width: 300, fontSize: 13,pl:.5 }}>
                                                 {val.cm_complaint_location || "Not Updated"}
                                             </Box>
-                                            <Box sx={{ width: 150, fontSize: 13, }}>
+                                            <Box sx={{ width: 150, fontSize: 13, pl:1}}>
                                                 {val.compalint_date
                                                     ? format(new Date(val.compalint_date), 'dd MMM yyyy,  hh:mm a')
                                                     : 'Invalid Date'}

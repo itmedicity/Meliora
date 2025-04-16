@@ -43,13 +43,13 @@ import PersonSharpIcon from '@mui/icons-material/PersonSharp';
 import CardMastComplaint from 'src/views/Components/CardMastComplaint'
 import Switch from '@mui/joy/Switch';
 
-const ComplaintRegistrMast = () => {
+const ComplaintRegistrMast = ({verficationPending,count,setCount}) => {
 
     const dispatch = useDispatch();
     const history = useHistory();
     const [crical, setCritical] = useState(false)
     const [priority, setpriority] = useState(0)
-    const [count, setCount] = useState(0)
+
     const [edit, setEdit] = useState(0)
     const [desc, setdesc] = useState('')
     const [priorreason, setPriorreason] = useState('')
@@ -99,10 +99,10 @@ const ComplaintRegistrMast = () => {
 
     }, [codept, history, logOut_time])
 
-    //redux for geting login id
     const id = useSelector((state) => {
         return state.LoginUserData.empid
     })
+
     const secName = useSelector((state) => {
         return state.LoginUserData.empdeptsec
     })
@@ -327,15 +327,6 @@ const ComplaintRegistrMast = () => {
     }, [])
 
 
-    const { data: verficationPending = [], } = useQuery({
-        queryKey: ['getVerificationPendingTickets', empsecid, count],
-        queryFn: async () => {        
-            const result = await axioslogin.get(`/complaintreg/getVerificationPending/${empsecid}`);
-            const { success, data } = result.data;
-            return success === 1 ? data : [];
-        },
-        enabled: !!empsecid,
-    });
 
 
     const submitComplaint = useCallback(async (e) => {
@@ -354,7 +345,7 @@ const ComplaintRegistrMast = () => {
             infoNotify("Please Select Location or Mark Location Details");
             return;
         }
-        if(verficationPending.length>5){
+        if(verficationPending.length>2){
             infoNotify("New tickets can only be registered after verifying the verification pending tickets");
             return;
         }
@@ -772,12 +763,12 @@ const ComplaintRegistrMast = () => {
         setImageShow(false)
     }, [])
 
-    useEffect(() => {     
-       if(verficationPending.length>5)
-        {
-        infoNotify("New Tickets can only be registered after verifying the verification pending tickets");    
-       }
-      }, []) 
+    // useEffect(() => {     
+    //    if(verficationPending.length>2)
+    //     {
+    //     infoNotify("New Tickets can only be registered after verifying the verification pending tickets");    
+    //    }
+    //   }, []) 
 
     return (        
         <Fragment>
@@ -1238,7 +1229,7 @@ const ComplaintRegistrMast = () => {
                 p: 1, pt: 0
             }} >
                 <ComplaintRegTable
-                    rowSelect={rowSelect} sec={empsecid} count={count} setCount={setCount} />
+                    rowSelect={rowSelect} sec={empsecid} count={count} setCount={setCount}  verficationPending={verficationPending}/>
             </Paper>
             <Paper square sx={{
                 display: "flex",

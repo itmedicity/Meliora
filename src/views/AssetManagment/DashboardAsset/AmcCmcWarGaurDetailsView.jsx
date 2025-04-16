@@ -13,7 +13,7 @@ const AmcCmcWarGaurDetailsView = ({ setDetailOpen, detailArray, setDetailArray }
 
 
     return (
-        <Box>
+        <Box >
             <Box sx={{ flex: 1, display: 'flex', borderBottom: 1, borderColor: 'lightgrey' }}  >
                 <Box sx={{ flex: 1, pt: .5, pl: 1, fontWeight: 550, color: 'grey' }}>
                     Details
@@ -22,8 +22,9 @@ const AmcCmcWarGaurDetailsView = ({ setDetailOpen, detailArray, setDetailArray }
                     <CloseIcon fontSize='small' sx={{ color: '#055C9D' }} />
                 </CusIconButton>
             </Box>
+            <Box sx={{height:'85vh' ,overflow:'auto',m:1}}>
             <Table stickyHeader size='sm'
-                sx={{ borderRadius: 2, ml: 1, my: 1.5, width: '99%' }} borderAxis='both' >
+                sx={{ borderRadius: 2,  }} borderAxis='both' >
                 <thead>
                     <tr>
                         <th style={{ textAlign: 'center', width: 10 }}>
@@ -67,15 +68,10 @@ const AmcCmcWarGaurDetailsView = ({ setDetailOpen, detailArray, setDetailArray }
                                 <td style={{ textAlign: 'center', }}>
                                     {assetNo}
                                 </td>
-                                <td style={{ textAlign: 'center', }}>
-                                    {val.item_name !== undefined ?
-                                        <>
-                                            {val.item_name}
-                                        </> :
-                                        <>
-                                            {val.item_spare}
-                                        </>}
+                                <td style={{ textAlign: 'center' }}>
+                                {val.item_name ?? val.item_spare}
                                 </td>
+
                                 <td style={{ textAlign: 'center', }}>
                                     {val.it_supplier_name || val.address}
                                 </td>
@@ -96,6 +92,7 @@ const AmcCmcWarGaurDetailsView = ({ setDetailOpen, detailArray, setDetailArray }
                     })}
                 </tbody>
             </Table>
+            </Box>
 
 
 

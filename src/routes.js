@@ -230,9 +230,6 @@ const ItBackupTypeMast = React.lazy(() => import('./views/Master/ItMasters/BackU
 const SimOperator = React.lazy(() => import('./views/Master/ItMasters/SimOperators/SimOperators'))
 const AllDeptCondemList = React.lazy(() => import('./views/AssetManagment/AllDeptRegCondemList/AllDeptRegcondemMain'))
 // const AssetCondemApprovalLevels = React.lazy(() => import('./views/Master/AssetMasters/CondemnationApprovalLevelMaster/CondemApprovalLevelMast'))
-const TicketHoldReasonMast = React.lazy(() => import('./views/Master/ComplaintHoldReason/HoldReasonMaster'))
-
-
 // crfDelivery
 const deliverMarking = React.lazy(() => import('./views/CentralRequestManagement/DeliveryMarking/DeliveryMarkingStore'))
 const itemChecking = React.lazy(() => import('./views/CentralRequestManagement/ItemCheckingCRS/ItemCheckingMain'))
@@ -245,8 +242,8 @@ const ViewCategoryMaster = React.lazy(() => import('./views/Master/RequestManage
 const CrfView = React.lazy(() => import('./views/CentralRequestManagement/CRFview/CrfView'))
 const CrfStoreMaster = React.lazy(() => import('./views/Master/RequestManagement/StoreMaster/StoreMaster'))
 const CrfCommon = React.lazy(() => import('./views/Master/RequestManagement/CrfCommon/CrfCommonMaster'))
-const CrfDashboardMaster = React.lazy(() => import('./views/Master/RequestManagement/DashboardMaster/DashboardMaster'))
-
+// const CrfDashboardMaster = React.lazy(() => import('./views/Master/RequestManagement/DashboardMaster/DashboardMaster'))
+const TicketHoldReasonMast = React.lazy(() => import('./views/Master/ComplaintHoldReason/HoldReasonMaster'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -491,7 +488,7 @@ const routes = [
   { path: '/Home/ItBackupTypeMast', exact: true, name: 'ItBackupTypeMast', component: ItBackupTypeMast },
   { path: '/Home/SimOperator', exact: true, name: 'SimOperator', component: SimOperator },
   // { path: '/Home/AssetCondemApprovalLevels', exact: true, name: 'AssetCondemApprovalLevels', component: AssetCondemApprovalLevels },
-  { Path: '/Home/DashBoardMaster', exact: true, name: 'DashBoardMaster', component: CrfDashboardMaster },
+  // { Path: '/Home/DashBoardMaster', exact: true, name: 'DashBoardMaster', component: CrfDashboardMaster },
   { Path: '/Home/TicketHoldReason', exact: true, name: 'Ticket Hold Reason Master', component: TicketHoldReasonMast },
 
 

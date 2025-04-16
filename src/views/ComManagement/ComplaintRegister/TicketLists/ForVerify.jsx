@@ -17,7 +17,7 @@ import ViewAssetDetails from './ViewAssetDetails';
 import { format } from 'date-fns';
 
 
-const ForVerify = ({ forVerify, count, setCount, loading }) => {
+const ForVerify = ({  count, setCount, loading ,verficationPending}) => {
 
     const [replyflag, setReplyflag] = useState(0)
     const [replyOpen, setReplyOpen] = useState(false)
@@ -127,14 +127,14 @@ const ForVerify = ({ forVerify, count, setCount, loading }) => {
                 </Box>
             ) : (
 
-                forVerify.length !== 0 ?
+                verficationPending.length !== 0 ?
                     <Box sx={{ width: 2100, }}>
                         <Box sx={{
                             height: 40, mt: .5, mx: .5, display: 'flex', borderBottom: 1, borderTop: 1, borderColor: 'lightgray', pt: 1,
                             bgcolor: 'white'
                         }}>
                             <Box sx={{ width: 100, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1.5, }}>Ticket No.</Box>
-                            <Box sx={{ width: 125, fontWeight: 600, color: '#444444', fontSize: 12, }}>Action</Box>
+                            <Box sx={{ width: 125, fontWeight: 600, color: '#444444', fontSize: 12, textAlign:'center'}}>Action</Box>
                             <Box sx={{ width: 155, fontWeight: 600, color: '#444444', fontSize: 12, }}>Complaint Type</Box>
                             <Box sx={{ width: 610, fontWeight: 600, color: '#444444', fontSize: 12, }}>Describtion</Box>
                             <Box sx={{ width: 180, fontWeight: 600, color: '#444444', fontSize: 12, }}>Complaint To</Box>
@@ -145,9 +145,9 @@ const ForVerify = ({ forVerify, count, setCount, loading }) => {
                         </Box>
                         <Virtuoso
                             style={{ height: '28vh' }}
-                            totalCount={forVerify?.length}
+                            totalCount={verficationPending?.length}
                             itemContent={(index) => {
-                                const val = forVerify[index];
+                                const val = verficationPending[index];
                                 return (
                                     <Box key={val.complaint_slno}
                                         sx={{
@@ -229,7 +229,7 @@ const ForVerify = ({ forVerify, count, setCount, loading }) => {
                                         <Box sx={{ width: 150, fontSize: 13, }}>
                                             {val.complaint_type_name}
                                         </Box>
-                                        <Box sx={{ width: 620, fontSize: 14, }}>
+                                        <Box sx={{ width: 620, fontSize: 14,pl:1 }}>
                                             {val.complaint_desc}
                                         </Box>
                                         <Box sx={{ width: 175, fontSize: 13, }}>

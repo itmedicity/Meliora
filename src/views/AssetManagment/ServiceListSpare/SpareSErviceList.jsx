@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/joy'
+import { Box, CssVarsProvider, Table, Typography } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Virtuoso } from 'react-virtuoso'
@@ -70,7 +70,7 @@ const SpareSErviceList = () => {
         <Box sx={{
             flex: 1,
             border: 2, borderColor: '#F0F3F5',
-            height: '85vh',
+            height: '90vh',
         }}>
             <Box sx={{ flex: 1, height: 28, bgcolor: '#F0F3F5', color: 'grey', fontWeight: 550, py: .5, pl: 2 }}>
                 Service List
@@ -80,7 +80,7 @@ const SpareSErviceList = () => {
                     setFlag={setFlag}
                     serviceDetails={serviceDetails} setCount={setCount} count={count} />
                 : null}
-            {combinedList.length !== 0 ?
+            {/* {combinedList.length !== 0 ?
                 <Box sx={{ flex: 1, overflow: 'auto', p: 1, }}>
 
                     <Box sx={{
@@ -147,7 +147,80 @@ const SpareSErviceList = () => {
                                 }} />
                         </Box>
                     </Box>
-                </Box>
+                </Box> */}
+                {combinedList.length !== 0 ?
+                            <Box sx={{height:'80vh' ,overflow:'auto',m:1}}>
+                                <CssVarsProvider>
+                            <Table stickyHeader size='sm'
+                                sx={{ borderRadius: 2,  }} borderAxis='both' >
+                                <thead>
+                                    <tr>
+                                        <th style={{ textAlign: 'center', width: 5 }}>
+                                            #
+                                        </th>
+                                        <th style={{ textAlign: 'center', width: 10 }}>
+                                           Action
+                                        </th>
+                                        <th style={{ textAlign: 'center', width: 10 }}>
+                                        Item
+                                        </th>
+                                        <th style={{ textAlign: 'center', width: 15 }}>
+                                            Item No.
+                                        </th>
+                                        <th style={{ textAlign: 'center', width: 25 }}>
+                                            Serial No.
+                                        </th>
+                                        <th style={{ textAlign: 'center', width: 30 }}>
+                                        Category
+                                        </th>
+                                        <th style={{ textAlign: 'center', width: 40 }}>
+                                        Item Name
+                                        </th>
+                                        <th style={{ textAlign: 'center', width: 25 }}>
+                                        Transfered Employee
+                                        </th>                
+                                    </tr>
+                                </thead>
+                                <tbody >
+                                    {combinedList?.map((val, index) => {
+                                                  const isServiceItem = index < serviceList.length;
+                                        return (
+                                            <tr
+                                                key={index} style={{background: (val.hold_color),}}>
+                                                <td style={{ textAlign: 'center', }}>{index + 1}</td>
+                
+                                                <td style={{ textAlign: 'center', }}>
+                                                <BuildCircleIcon sx={{ color: '#4C5270', cursor: 'pointer' }} onClick={() => ServiceDetailsView(val)} />
+                                                </td>
+                                                <td style={{ textAlign: 'center', }}>
+                                                {val.spare_asset_no !== undefined ? 'Spare' : 'Asset'}
+                                                </td>
+                                                <td style={{ textAlign: 'center' }}>
+                                                {isServiceItem
+                                                    ? `${val.spare_asset_no}/${val.spare_asset_no_only.toString().padStart(6, '0')}`
+                                                    : `${val.item_asset_no}/${val.item_asset_no_only.toString().padStart(6, '0')}`}
+                                                </td>
+                
+                                                <td style={{ textAlign: 'center', }}>
+                                                    {val.am_manufacture_no}
+                                                </td>
+                                                <td style={{ textAlign: 'center', }}>
+                                                {val.category_name}
+                                                </td>
+                                                <td style={{ textAlign: 'center', }}>
+                                                {val.item_name}
+                                                </td>
+                                                <td style={{ textAlign: 'center', }}>                
+                                                {val.em_name}
+                                                </td>
+                
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
+                            </Table>
+                            </CssVarsProvider>
+                            </Box>
                 :
                 <Box sx={{
                     display: 'flex',

@@ -6,7 +6,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 const CmComplaintLocation = ({ cmSection, setCmSection, setCmSectionName }) => {
     const deptsectionList = useSelector((state) => state.getDeptsection?.deptsectionList);
-    const [sectionX, setSectionX] = useState([{ sec_id: 0, sec_name: 'Select Section' }]);
+    const [sectionX, setSectionX] = useState([{ sec_id: 0, sec_name: '' }]);
     const [value, setValue] = useState(sectionX[0])
     const [inputValue, setInputValue] = useState('');
 
@@ -35,9 +35,9 @@ const CmComplaintLocation = ({ cmSection, setCmSection, setCmSectionName }) => {
 
     useEffect(() => {
         if (deptsectionList?.length > 0) {
-            setSectionX([{ sec_id: 0, sec_name: 'Select Section' }, ...deptsectionList]);
+            setSectionX([{ sec_id: 0, sec_name: '' }, ...deptsectionList]);
         } else {
-            setSectionX([{ sec_id: 0, sec_name: 'Select Section' }]);
+            setSectionX([{ sec_id: 0, sec_name: '' }]);
         }
     }, [deptsectionList]);
 

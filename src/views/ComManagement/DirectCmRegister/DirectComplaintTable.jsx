@@ -8,17 +8,17 @@ import SectionwiseHoldList from './DirectTicketList/SectionwiseHoldList';
 import SectionWiseVerify from './DirectTicketList/SectionWiseVerify';
 import { errorNotify } from 'src/views/Common/CommonCode';
 
-const DirectComplaintTable = ({ count, setCount, rowSelect }) => {
+const DirectComplaintTable = ({ count, setCount, rowSelect ,verficationPending}) => {
 
     const [pending, setpending] = useState(1)
     const [verifiedCheck, setVerifiedCheck] = useState(0)
     const [holdCheck, setholdCheck] = useState(0)
     const [holdLength, setholdLength] = useState(0)
     const [pendingLength, setpendingLength] = useState(0)
-    const [verifyLength, setverifyLength] = useState(0)
+    // const [verifyLength, setverifyLength] = useState(0)
     const [pendingCompl, setpendingCompl] = useState([])
     const [onholdCompl, setOnholdCompl] = useState([])
-    const [forVerify, setforVerify] = useState([])
+    // const [forVerify, setforVerify] = useState([])
     const [loading, setLoading] = useState(false);
 
 
@@ -58,17 +58,17 @@ const DirectComplaintTable = ({ count, setCount, rowSelect }) => {
                         complaint.compalint_status !== 3 &&
                         complaint.cm_rectify_status === 'O'
                     )
-                    const ForVerify = data.filter(complaint =>
-                        complaint.compalint_status === 2 &&
-                        complaint.compalint_status !== 3 &&
-                        complaint.cm_rectify_status === 'R'
-                    )
+                    // const ForVerify = data.filter(complaint =>
+                    //     complaint.compalint_status === 2 &&
+                    //     complaint.compalint_status !== 3 &&
+                    //     complaint.cm_rectify_status === 'R'
+                    // )
                     setpendingCompl(PendingCompl);
                     setOnholdCompl(OnholdCompl);
-                    setforVerify(ForVerify);
+                    // setforVerify(ForVerify);
                     setholdLength(OnholdCompl.length || 0);
                     setpendingLength(PendingCompl.length || 0);
-                    setverifyLength(ForVerify.length || 0);
+                    // setverifyLength(ForVerify.length || 0);
                 } else if (isMounted) {
                     setpendingCompl([])
                 }
@@ -115,7 +115,7 @@ const DirectComplaintTable = ({ count, setCount, rowSelect }) => {
                     </Badge>
                 </CssVarsProvider>
                 <CssVarsProvider>
-                    <Badge badgeContent={verifyLength} color="primary">
+                    <Badge badgeContent={verficationPending.length||0} color="primary">
                         <Box sx={{ px: 2, display: 'flex', cursor: 'pointer', }} onClick={VerifiedCheck}>
                             {verifiedCheck === 1 ?
                                 <RadioButtonCheckedIcon sx={{ cursor: 'pointer', color: '#3399FF' }} />
@@ -134,7 +134,9 @@ const DirectComplaintTable = ({ count, setCount, rowSelect }) => {
                 }
                 {verifiedCheck === 1 ?
                     <Box>
-                        <SectionWiseVerify count={count} setCount={setCount} forVerify={forVerify} loading={loading} />
+                        <SectionWiseVerify count={count} setCount={setCount}
+                        //  forVerify={forVerify} 
+                         loading={loading}  verficationPending={verficationPending}/>
                     </Box> :
                     <Box></Box>
                 }

@@ -10,7 +10,7 @@ import ForVerify from './TicketLists/ForVerify';
 import { errorNotify } from 'src/views/Common/CommonCode';
 
 
-const ComplaintRegTable = ({ count, setCount, rowSelect }) => {
+const ComplaintRegTable = ({ count, setCount, rowSelect,verficationPending }) => {
 
     const [pending, setpending] = useState(1)
     const [verifiedCheck, setVerifiedCheck] = useState(0)
@@ -19,7 +19,7 @@ const ComplaintRegTable = ({ count, setCount, rowSelect }) => {
     const [onholdCompl, setOnholdCompl] = useState([])
     const [holdLength, setholdLength] = useState(0)
     const [pendingLength, setpendingLength] = useState(0)
-    const [forVerify, setforVerify] = useState([])
+    // const [forVerify, setforVerify] = useState([])
     const [verifyLength, setverifyLength] = useState(0)
     const [loading, setLoading] = useState(false);
 
@@ -64,22 +64,22 @@ const ComplaintRegTable = ({ count, setCount, rowSelect }) => {
                         complaint.cm_rectify_status === 'O'
                     );
 
-                    const ForVerify = data.filter(complaint =>
-                        complaint.compalint_status === 2 &&
-                        complaint.compalint_status !== 3 &&
-                        complaint.cm_rectify_status === 'R'
-                    );
+                    // const ForVerify = data.filter(complaint =>
+                    //     complaint.compalint_status === 2 &&
+                    //     complaint.compalint_status !== 3 &&
+                    //     complaint.cm_rectify_status === 'R'
+                    // );
 
-                    setpendingCompl(PendingCompl);
-                    setOnholdCompl(OnholdCompl);
-                    setforVerify(ForVerify);
+                    // setpendingCompl(PendingCompl);
+                    // setOnholdCompl(OnholdCompl);
+                    // setforVerify(ForVerify);
                     setholdLength(OnholdCompl.length);
                     setpendingLength(PendingCompl.length);
-                    setverifyLength(ForVerify.length);
+                    // setverifyLength(ForVerify.length);
                 } else {
                     setpendingCompl([]);
                     setOnholdCompl([]);
-                    setforVerify([]);
+                    // setforVerify([]);
                 }
             } catch (error) {
                 errorNotify("Error fetching complaints:", error);
@@ -118,7 +118,7 @@ const ComplaintRegTable = ({ count, setCount, rowSelect }) => {
                     </Badge>
                 </CssVarsProvider>
                 <CssVarsProvider>
-                    <Badge badgeContent={verifyLength} color="primary">
+                    <Badge badgeContent={verficationPending.length||0} color="primary">
                         <Box sx={{ px: 2, display: 'flex', cursor: 'pointer', }} onClick={VerifiedCheck}>
                             {verifiedCheck === 1 ?
                                 <RadioButtonCheckedIcon sx={{ cursor: 'pointer', color: '#3399FF' }} />
@@ -137,7 +137,9 @@ const ComplaintRegTable = ({ count, setCount, rowSelect }) => {
                 }
                 {verifiedCheck === 1 ?
                     <Box>
-                        <ForVerify forVerify={forVerify} count={count} setCount={setCount} loading={loading} />
+                        <ForVerify 
+                        // forVerify={forVerify} 
+                        count={count} setCount={setCount} loading={loading} verficationPending={verficationPending} />
                     </Box> :
                     <Box></Box>
                 }

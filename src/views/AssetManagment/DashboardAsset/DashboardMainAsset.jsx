@@ -191,9 +191,6 @@ const DashboardMainAsset = () => {
     const [detailOpen, setDetailOpen] = useState(0)
     const [detailArray, setDetailArray] = useState([])
 
-    const DetailView = useCallback(() => {
-        setDetailOpen(1)
-    }, [])
 
     const DetailViewAcmCmcActive = useCallback(() => {
         setDetailOpen(1)

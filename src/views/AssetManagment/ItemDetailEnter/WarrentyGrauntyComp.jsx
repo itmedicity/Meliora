@@ -311,7 +311,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
                 <Box sx={{
                     display: 'flex', mt: 2,
                 }} >
-                    <Box sx={{ width: 120 }}></Box>
+                    <Box sx={{         width: 150 }}></Box>
                     <Box sx={{ display: 'flex', gap: 2 }}>
                         <Box sx={{ display: 'flex', p: 0.5, flexDirection: 'column' }} >
                             <CusCheckBox
@@ -350,7 +350,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
                                     fontWeight: 600,
                                     color: '#727B8C',
                                     pt: 1,
-                                    width: 120
+                                    width: 150
 
                                 }}
                             />
@@ -372,7 +372,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
                                     fontWeight: 600,
                                     color: '#727B8C',
                                     pt: 1,
-                                    width: 120
+                                    width: 150
 
                                 }}
                             />
@@ -396,7 +396,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
                                     fontWeight: 600,
                                     color: '#727B8C',
                                     pt: 1,
-                                    width: 120
+                                    width: 150
 
                                 }}
                             />
@@ -417,7 +417,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
                                     fontWeight: 600,
                                     color: '#727B8C',
                                     pt: 1,
-                                    width: 120
+                                    width: 150
 
                                 }}
                             />
@@ -444,7 +444,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
                                     fontWeight: 600,
                                     color: '#727B8C',
                                     pt: 1,
-                                    width: 120
+                                    width: 150
 
                                 }}
                             />
@@ -466,12 +466,12 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
                         </Box>
                         <Box sx={{ display: 'flex', pt: .5 }}>
                             <TextComponent
-                                text={"Supplier"}
+                                text={"Supplier & Address"}
                                 sx={{
                                     fontWeight: 600,
                                     color: '#727B8C',
                                     pt: 1,
-                                    width: 120
+                                    width: 150
 
                                 }}
                             />
@@ -493,7 +493,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
                                     fontWeight: 600,
                                     color: '#727B8C',
                                     pt: 1,
-                                    width: 120
+                                    width: 150
 
                                 }}
                             />
@@ -509,7 +509,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
                         </Box>
 
                         <Box sx={{ display: 'flex', pt: .5 }}>
-                            <Box sx={{ width: 120 }}>
+                            <Box sx={{ width: 150 }}>
                             </Box>
                             <Box sx={{ flex: 1, gap: .5, display: 'flex' }}>
                                 <Box>

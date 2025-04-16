@@ -345,7 +345,7 @@ const DirectComplaintReg = () => {
             );
             return;
         }
-        if(verficationPending.length>5){
+        if(verficationPending.length>2){
                     infoNotify("New tickets can only be registered after verifying the verification pending tickets");
                     return;
          }
@@ -785,7 +785,7 @@ const DirectComplaintReg = () => {
     }, [])
 
     useEffect(() => {     
-       if(verficationPending.length>5)
+       if(verficationPending.length>2)
         {
         infoNotify("New Tickets can only be registered after verifying the verification pending tickets");    
        }
@@ -1235,7 +1235,7 @@ const DirectComplaintReg = () => {
                 p: 1, pt: 0
             }} >
                 <DirectComplaintTable
-                    rowSelect={rowSelect} count={count} setCount={setCount} />
+                    rowSelect={rowSelect} count={count} setCount={setCount}  verficationPending={verficationPending}/>
             </Paper >
 
             <Paper square sx={{
