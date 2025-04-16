@@ -326,6 +326,18 @@ const ComplaintRegistrMast = () => {
         setlocationDetails("")
     }, [])
 
+
+    const { data: verficationPending = [], } = useQuery({
+        queryKey: ['getVerificationPendingTickets', empsecid, count],
+        queryFn: async () => {        
+            const result = await axioslogin.get(`/complaintreg/getVerificationPending/${empsecid}`);
+            const { success, data } = result.data;
+            return success === 1 ? data : [];
+        },
+        enabled: !!empsecid,
+    });
+
+
     const submitComplaint = useCallback(async (e) => {
         e.preventDefault();
         if (codept === null && cotype === false) {
@@ -342,8 +354,10 @@ const ComplaintRegistrMast = () => {
             infoNotify("Please Select Location or Mark Location Details");
             return;
         }
-
-
+        if(verficationPending.length>5){
+            infoNotify("New tickets can only be registered after verifying the verification pending tickets");
+            return;
+        }
         setOpen(true);
         const InsertFun = async (postdata) => {
             const result = await axioslogin.post('/complaintreg', postdata);
@@ -758,10 +772,14 @@ const ComplaintRegistrMast = () => {
         setImageShow(false)
     }, [])
 
+    useEffect(() => {     
+       if(verficationPending.length>5)
+        {
+        infoNotify("New Tickets can only be registered after verifying the verification pending tickets");    
+       }
+      }, []) 
 
-    
-
-    return (
+    return (        
         <Fragment>
             {imageShowFlag === 1 ?
                 < Box >

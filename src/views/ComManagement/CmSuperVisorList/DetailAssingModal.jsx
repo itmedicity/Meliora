@@ -4,10 +4,10 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import { format } from 'date-fns';
 import { axioslogin } from 'src/views/Axios/Axios';
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode';
-import AssistantEmpSelect from 'src/views/CommonSelectCode/AssistantEmpSelect';
 import { useSelector } from 'react-redux';
 import ComPrioritySelect from 'src/views/CommonSelectCode/ComPrioritySelect';
 import moment from 'moment';
+import CmDeptEmployee from 'src/views/CommonSelectCode/CmDeptEmployee';
 
 const DetailAssingModal = ({ open, setdetailAssingOpen, detailAssingData, setdetailAssingFlag, setCount, count }) => {
 
@@ -40,10 +40,9 @@ const DetailAssingModal = ({ open, setdetailAssingOpen, detailAssingData, setdet
 
     const postdata = useMemo(() => {
         return {
-            em_department: empdept,
-            em_id: id
+            em_department: empdept     
         }
-    }, [empdept, id])
+    }, [empdept])
 
     const reset = useCallback(() => {
         setAssing([])
@@ -221,7 +220,7 @@ const DetailAssingModal = ({ open, setdetailAssingOpen, detailAssingData, setdet
                                     </Typography> : <Typography sx={{ fontWeight: 500, pl: .5, fontSize: 14 }}>
                                         Select Assignees :
                                     </Typography>}
-                                <AssistantEmpSelect postdata={postdata} value={assing} setValue={setAssing} />
+                                <CmDeptEmployee postdata={postdata} value={assing} setValue={setAssing} />
                                 <Box sx={{ flex: 1, display: 'flex', mt: 1, gap: 1.5 }}>
                                     <Box sx={{ flex: 1, }}>
                                         <Typography sx={{ fontWeight: 500, pl: .5, fontSize: 14 }}>

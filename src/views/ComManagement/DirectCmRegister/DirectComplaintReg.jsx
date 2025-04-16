@@ -318,6 +318,17 @@ const DirectComplaintReg = () => {
     }, [])
 
 
+    const { data: verficationPending = [], } = useQuery({
+        queryKey: ['getVerificationPendingTickets', depsec, count],
+        queryFn: async () => {        
+            const result = await axioslogin.get(`/complaintreg/getVerificationPending/${depsec}`);
+            const { success, data } = result.data;
+            return success === 1 ? data : [];
+        },
+        enabled: !!depsec,
+    });
+
+
     const submitComplaint = useCallback(async (e) => {
         e.preventDefault();
         if (codept === null && cotype === false) {
@@ -334,6 +345,10 @@ const DirectComplaintReg = () => {
             );
             return;
         }
+        if(verficationPending.length>5){
+                    infoNotify("New tickets can only be registered after verifying the verification pending tickets");
+                    return;
+         }
         setOpen(true);
         const InsertFun = async (postdata) => {
             const result = await axioslogin.post('/complaintreg', postdata);
@@ -768,6 +783,13 @@ const DirectComplaintReg = () => {
         setImageShowFlag(0)
         setImageShow(false)
     }, [])
+
+    useEffect(() => {     
+       if(verficationPending.length>5)
+        {
+        infoNotify("New Tickets can only be registered after verifying the verification pending tickets");    
+       }
+      }, []) 
 
 
     return (
