@@ -19,7 +19,6 @@ const CrfReqstTableView = ({ rowSelect }) => {
     const [radiovalue, setRadioValue] = useState('1')
     const [storeData, setStoreData] = useState([])
 
-
     const empsecid = useSelector((state) => {
         return state.LoginUserData.empsecid
     })
@@ -254,7 +253,9 @@ const CrfReqstTableView = ({ rowSelect }) => {
                     store_receive: val.store_receive,
                     crs_user: val.crs_user,
                     store_user: val.store_user,
-                    substore_ack_date: val.substore_ack_date
+                    substore_ack_date: val.substore_ack_date,
+                    company_name: val.company_name,
+                    work_order_status: val?.work_order_status
                 })).sort((a, b) => {
                     if (a.sub_store_recieve !== b.sub_store_recieve) {
                         return b.sub_store_recieve - a.sub_store_recieve;

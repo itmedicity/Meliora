@@ -56,7 +56,7 @@ const ReceivedTable = ({ receivedData, company }) => {
     return (
         <Fragment>
             {modFlag === 1 ? <CRFApprovalView modalData={modalData} handleClose={handleClose} open={modalopen}
-                imagearray={imagearray} poDetails={poDetails} approveTableData={approveTableData} reqItems={reqItems} /> : null}
+                imagearray={imagearray} poDetails={poDetails} approveTableData={approveTableData} reqItems={reqItems} company={company} /> : null}
             {receivedData.length !== 0 ?
                 <Paper variant="outlined" sx={{
                     overflowX: 'auto', height: window.innerHeight - 210, flexWrap: 'wrap',

@@ -84,7 +84,7 @@ const ItemReceivedInStoreTable = ({ storeData, company }) => {
     return (
         <Fragment>
             {modFlag === 1 ? <CRFApprovalView modalData={modalData} handleClose={handleClose} open={modalopen}
-                imagearray={imagearray} poDetails={poDetails} approveTableData={approveTableData} reqItems={reqItems} /> : null}
+                imagearray={imagearray} poDetails={poDetails} approveTableData={approveTableData} reqItems={reqItems} company={company} /> : null}
             {ackFlag === 1 ? <UserAckModal handleClose={handleClose} open={ackModal} req_slno={req_slno}
                 approveTableData={approveTableData} reqItems={reqItems} /> : null}
             {storeData.length !== 0 ?
