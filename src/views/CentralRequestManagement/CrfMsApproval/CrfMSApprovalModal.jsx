@@ -328,7 +328,7 @@ const CrfMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                                         : null}
                                     {dms_req === 1 && dms_approve !== null ?
                                         <Box sx={{ pt: 0.5 }}>
-                                            <CommonDmsApprvCmp DetailViewData={ApprovalData} />
+                                            <CommonDmsApprvCmp DetailViewData={ApprovalData} company={company} />
                                         </Box>
                                         : null}
                                 </Box>

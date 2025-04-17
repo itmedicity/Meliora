@@ -615,7 +615,7 @@ const CrfEDApprovalMain = () => {
                                             setDataColFlag={setDataColFlag} setDataColData={setDataColData} datacolData={datacolData}
                                             setCollectDetailCheck={setCollectDetailCheck} setImageArry={setImageArry}
                                             imagearray={imagearray} crfRadioValue={crfRadioValue} radiovalue={radiovalue}
-                                            selectedCompany={selectedCompany}
+                                            selectedCompany={selectedCompany} company={company}
                                         />
                                     }
                                 </Box>

@@ -414,7 +414,7 @@ const CrfHodApproval = () => {
                                             poDetails={poDetails} setDataCollectData={setDataCollectData}
                                             setDataColFlag={setDataColFlag} setDataColData={setDataColData} datacolData={datacolData}
                                             setCollectDetailCheck={setCollectDetailCheck} setImageArry={setImageArry}
-                                            imagearray={imagearray}
+                                            imagearray={imagearray} company={company}
                                         />
                                     }
                                 </Box>
