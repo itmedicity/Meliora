@@ -911,8 +911,8 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
                                     </Paper>
                                     : null}
 
-                                {ack_status === 1 && po_complete !== 1 && ((quatation_calling_status !== 1 && quatation_fixing === 1) ||
-                                    (quatation_calling_status === 1 && quatation_fixing === 1)) ?
+                                {ack_status === 1 && po_complete !== 1 && ((quatation_calling_status !== 1 || (quatation_calling_status === 1 && quatation_fixing === 1)))
+                                    ?
                                     <Paper variant='outlined' sx={{ flexWrap: 'wrap', mx: 0.2, mt: 0.3 }} >
                                         <Box sx={{ p: 0.8, mt: 0.3 }}>
                                             {/* <CusCheckBox

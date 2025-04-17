@@ -22,7 +22,7 @@ import EventAvailableTwoToneIcon from '@mui/icons-material/EventAvailableTwoTone
 
 const SearchApprvlComp = ({ val, selectedCompany, company }) => {
 
-    const { crf_close, crf_closed_one, now_who, now_who_status, dept_type, dept_type_name, expected_date, image_status, user_acknldge } = val
+    const { crf_close, crf_closed_one, now_who, now_who_status, dept_type, dept_type_name, expected_date, image_status, user_acknldge, work_order_status } = val
 
     const [imageshowFlag, setImageShowFlag] = useState(0)
     const [imageshow, setImageShow] = useState(false)
@@ -377,7 +377,7 @@ const SearchApprvlComp = ({ val, selectedCompany, company }) => {
                                     {
                                         user_acknldge === 1 ? <Typography sx={{ fontSize: 13, pl: 2, pr: 1, color: 'white', textTransform: 'capitalize', fontWeight: 550 }}>User Received</Typography>
                                             :
-                                            <Typography sx={{ fontSize: 13, pl: 2, pr: 1, color: 'white', textTransform: 'capitalize', fontWeight: 550 }}>{now_who}</Typography>
+                                            <Typography sx={{ fontSize: 13, pl: 2, pr: 1, color: 'white', textTransform: 'capitalize', fontWeight: 550 }}>{now_who}{work_order_status === 1 && now_who === "Purchase Acknowledged" ? "(Quotation Fixed)" : ''} </Typography>
                                     }
                                     {/* <Typography sx={{ fontSize: 13, pl: 2, pr: 1, color: 'white', textTransform: 'capitalize', fontWeight: 550 }}>{now_who}</Typography> */}
                                     <Typography sx={{ fontSize: 13, pr: 1, color: 'white', textTransform: 'capitalize', fontWeight: 550 }}>

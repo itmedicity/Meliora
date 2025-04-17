@@ -10,7 +10,28 @@ const DashBoardTable = ({ count, rowSelect, setCount, setDept, setDeptsec, setEm
         { headerName: 'Employee Name', field: 'em_name', filter: "true", width: 100 },
         { headerName: 'Department', field: 'dept_name', filter: "true", width: 100 },
         { headerName: 'Department Section', field: 'sec_name', filter: "true", width: 100 },
-        { headerName: 'DashBoard', field: 'dash_view', width: 200 },
+        {
+            headerName: 'DashBoard',
+            field: 'dash_view',
+            valueGetter: params => {
+                const viewMap = {
+                    1: 'CRF Status',
+                    2: 'CRF Purchase Status',
+                    3: 'CRF Store Status'
+
+                };
+
+                let parsed = [];
+                try {
+                    parsed = JSON.parse(params.data?.dash_view || '[]');
+                } catch (e) {
+                    console.error('Invalid JSON in dash_view:', params.data?.dash_view);
+                }
+
+                return parsed.map(v => viewMap[v] || `Unknown (${v})`).join(' ,  ');
+            },
+            width: 200
+        },
         { headerName: 'Action', cellRenderer: params => <EditButton onClick={() => rowSelect(params)} /> },
     ])
 

@@ -107,7 +107,7 @@ const NotReceivedTable = ({ disData, rowSelect, company }) => {
                                     }} size='small' >
                                         <td>
                                             {/* (val.hod_approve !== null || val.incharge_approve !== null) */}
-                                            {val?.req_status === 'C' || (val?.incharge_approve === 1) ?
+                                            {val?.req_status === 'C' || (val?.incharge_approve === 1 || val?.dms_approve === 1 || val?.ms_approve === 1) ?
                                                 <EditOutlinedIcon
                                                     sx={{
                                                         fontSize: 'lg',
@@ -211,6 +211,7 @@ const NotReceivedTable = ({ disData, rowSelect, company }) => {
                                                     }}>
                                                     {val?.now_who}&nbsp;&nbsp;{val?.now_who_status === 1 ? "Approved" : val?.now_who_status === 2 ? "Rejected" :
                                                         val?.now_who_status === 3 ? "On-Hold" : ""}&nbsp;&nbsp;{val?.req_status === 'I' ? "(Internally arranged)" : ''}
+                                                    &nbsp;{val?.work_order_status === 1 && val?.now_who === "Purchase Acknowledged" ? "(Quotation Fixed)" : ''}
 
                                                 </IconButton>
                                             </CssVarsProvider>

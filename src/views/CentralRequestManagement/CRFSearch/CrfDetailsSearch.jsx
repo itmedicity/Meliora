@@ -123,7 +123,6 @@ const CrfDetailsSearch = () => {
                         return;
                     }
                     const { data, success, message } = result.data;
-
                     if (success === 1) {
                         const datas = data?.map((val) => {
                             const obj = {
@@ -246,7 +245,7 @@ const CrfDetailsSearch = () => {
                                                                         val.quatation_fixing === 1 ? "Quotation Fixed" :
                                                                             val.quatation_negotiation === 1 ? "Quotation Negotiation" :
                                                                                 val.quatation_calling_status === 1 ? "Quotation Calling" :
-                                                                                    val.ack_status === 1 ? "Puchase Acknowledged" :
+                                                                                    val.ack_status === 1 ? "Purchase Acknowledged" :
                                                                                         val.managing_director_approve !== null ? company?.managing_director_name :
                                                                                             val.ed_approve !== null ? company?.ed_status_name :
                                                                                                 val.md_approve !== null ? company?.md_status_name :
@@ -330,7 +329,8 @@ const CrfDetailsSearch = () => {
                                 user_acknldge: val.user_acknldge,
                                 internally_arranged_status: val.internally_arranged_status,
                                 user_ack_date: val?.user_ack_date,
-                                company_name: val?.company_name
+                                company_name: val?.company_name,
+                                work_order_status: val?.work_order_status
                             }
                             return obj
                         })

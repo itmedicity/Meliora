@@ -330,7 +330,7 @@ const CrfEDApprovalMain = () => {
                     setAllData(newData)
                 }
                 else if (radiovalue === '9') {
-                    const newData = datas?.filter((val) => val?.gm_approve === 1
+                    const newData = datas?.filter((val) => val?.gm_approve === 1 || val?.md_approve === 1
                     )
                     setDisData(newData)
 
