@@ -394,7 +394,7 @@ const InchargeApproval = () => {
                                             setCancelData={setCancelData} setReqItems={setReqItems} setApproveTableData={setApproveTableData}
                                             setPoDetails={setPoDetails} reqItems={reqItems} approveTableData={approveTableData}
                                             poDetails={poDetails} deptsecArry={deptsecArry} setImageArry={setImageArry}
-                                            imagearray={imagearray}
+                                            imagearray={imagearray} company={company}
 
 
                                         />

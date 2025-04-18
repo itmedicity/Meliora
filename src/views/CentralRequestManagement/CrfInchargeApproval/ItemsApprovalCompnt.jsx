@@ -16,14 +16,16 @@ import { getApprovedCrfItems, getApprovedStatus, getMaxslNoOfCrfItem } from 'src
 import CustomToolTipForCRF from '../ComonComponent/Components/CustomToolTipForCRF';
 
 
-const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editEnable,
+const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editEnable, crf_data_collect_status,
     setEditEnable, header, apprvLevel }) => {
+
     const queryClient = useQueryClient()
     const dispatch = useDispatch();
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
     const [uom, setUOM] = useState(0)
     const [lastSlno, setLastSlno] = useState(0)
     const [apprvdItems, setApprvdItems] = useState([])
+
     const [checkStatus, setCheckStatus] = useState([])
     const [itemstate, setItemState] = useState({
         reqDetailslno: 0,
@@ -115,6 +117,7 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
                     }
                 })
                 setCheckStatus(newData)
+
             }
             else if (apprvLevel === 3) {
                 // dms
@@ -184,7 +187,9 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
 
     useEffect(() => {
         if (itemData && itemData.length !== 0) {
+
             if (checkStatus && checkStatus.length !== 0) {
+
                 const newData = itemData?.map((val) => {
                     const itstatus = checkStatus?.find(item => item.req_detl_slno === val.req_detl_slno)
                     return {
@@ -348,6 +353,7 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
     }, [])
 
     const RejectfctnUpdate = useCallback(() => {
+
         if (rejHoldRemark === '') {
             infoNotify("Enter Remarks")
         } else {
@@ -370,9 +376,12 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
             }
 
             const updateDetalReqApprov = async (rejectedata) => {
+
                 const result = await axioslogin.patch('/CRFRegisterApproval/DetailItemReject', rejectedata);
                 const { success, message } = result.data;
+
                 if (success === 1) {
+
                     succesNotify(message)
                     queryClient.invalidateQueries('approvedRejholdItemList')
                     queryClient.invalidateQueries('getmaxSlno')
@@ -527,7 +536,7 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
                                                             : "")} >
                                                 <tr style={{ cursor: 'pointer' }}>
                                                     <td>
-                                                        {(item.po_item_status === 1 || item.higher === 1 || item.item_status_approved === 4) ? (
+                                                        {(item.po_item_status === 1 || item.item_status_approved === 4) ? (
                                                             <CustomToolTipForCRF title={item.po_item_status === 1 ? "PO Generated" : 'Cant Edit'} placement="right">
                                                                 <EditOutlinedIcon
                                                                     disabled
@@ -677,73 +686,92 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
                                         disabled={true}
                                     />
                                 </Box>
-                                <Box sx={{ flex: 0.5, px: 1 }}>
-                                    <IconButton
-                                        sx={{
-                                            fontSize: 12, height: '35px', lineHeight: '1.2', mt: 3,
-                                            color: 'white', bgcolor: '#59981A', borderRadius: 5, width: '100%',
-                                            '&:hover': {
-                                                bgcolor: '#59981A', color: 'white',
-                                            },
-                                        }}
-                                        onClick={Approvefctn} >
-                                        Approve
-                                    </IconButton>
-                                </Box>
-                                <Box sx={{ flex: 0.5, mr: 1 }}>
-                                    <IconButton
-                                        sx={{
-                                            fontSize: 12, height: '35px', lineHeight: '1.2', mt: 3,
-                                            color: 'white', bgcolor: '#f44336', borderRadius: 5, width: '100%',
-                                            '&:hover': {
-                                                bgcolor: '#f44336', color: 'white',
-                                            },
-                                        }}
-                                        onClick={Rejectfctn} >
-                                        Reject
-                                    </IconButton>
-                                </Box>
-                                <Box sx={{ flex: 0.5, mr: 1 }}>
-                                    <IconButton
-                                        sx={{
-                                            fontSize: 12, height: '35px', lineHeight: '1.2', mt: 3,
-                                            color: 'white', bgcolor: '#DBA40E', borderRadius: 5, width: '100%',
-                                            '&:hover': {
-                                                bgcolor: '#DBA40E', color: 'white',
-                                            },
-                                        }}
-                                        onClick={onHoldfctn} >
-                                        On-Hold
-                                    </IconButton>
-                                </Box>
-                                {apprvLevel > 2 ?
-                                    <Box sx={{ flex: 0.55, mr: 1 }}>
-                                        <IconButton
-                                            sx={{
-                                                fontSize: 12, height: '35px', lineHeight: '1.2', mt: 3,
-                                                color: 'white', bgcolor: '#009688', borderRadius: 5, width: '100%',
-                                                '&:hover': {
-                                                    bgcolor: '#009688', color: 'white',
-                                                },
-                                            }}
-                                            onClick={internallyFctn} >
-                                            Internally Arranged
-                                        </IconButton>
-                                    </Box>
-                                    : null}
-                                <Box sx={{ flex: 0.5, mr: 2 }}>
-                                    <IconButton
-                                        sx={{
-                                            fontSize: 12, height: '35px', lineHeight: '1.2', mt: 3, border: '1px solid #bbdefb',
-                                            color: '#1565c0', bgcolor: 'white', borderRadius: 5, width: '100%',
-                                            '&:hover': {
-                                                bgcolor: 'white', color: '#43B0F1'
-                                            },
-                                        }}
-                                        onClick={cancelEdit} >
-                                        Cancel
-                                    </IconButton>
-                                </Box>
+                                {
+                                    crf_data_collect_status === null || crf_data_collect_status === undefined ?
+                                        <>
+                                            <Box sx={{ flex: 0.5, px: 1 }}>
+                                                <IconButton
+                                                    sx={{
+                                                        fontSize: 12, height: '35px', lineHeight: '1.2', mt: 3,
+                                                        color: 'white', bgcolor: '#59981A', borderRadius: 5, width: '100%',
+                                                        '&:hover': {
+                                                            bgcolor: '#59981A', color: 'white',
+                                                        },
+                                                    }}
+                                                    onClick={Approvefctn} >
+                                                    Approve
+                                                </IconButton>
+                                            </Box>
+                                            <Box sx={{ flex: 0.5, mr: 1 }}>
+                                                <IconButton
+                                                    sx={{
+                                                        fontSize: 12, height: '35px', lineHeight: '1.2', mt: 3,
+                                                        color: 'white', bgcolor: '#f44336', borderRadius: 5, width: '100%',
+                                                        '&:hover': {
+                                                            bgcolor: '#f44336', color: 'white',
+                                                        },
+                                                    }}
+                                                    onClick={Rejectfctn} >
+                                                    Reject
+                                                </IconButton>
+                                            </Box>
+                                            <Box sx={{ flex: 0.5, mr: 1 }}>
+                                                <IconButton
+                                                    sx={{
+                                                        fontSize: 12, height: '35px', lineHeight: '1.2', mt: 3,
+                                                        color: 'white', bgcolor: '#DBA40E', borderRadius: 5, width: '100%',
+                                                        '&:hover': {
+                                                            bgcolor: '#DBA40E', color: 'white',
+                                                        },
+                                                    }}
+                                                    onClick={onHoldfctn} >
+                                                    On-Hold
+                                                </IconButton>
+                                            </Box>
+                                            {apprvLevel > 2 ?
+                                                <Box sx={{ flex: 0.55, mr: 1 }}>
+                                                    <IconButton
+                                                        sx={{
+                                                            fontSize: 12, height: '35px', lineHeight: '1.2', mt: 3,
+                                                            color: 'white', bgcolor: '#009688', borderRadius: 5, width: '100%',
+                                                            '&:hover': {
+                                                                bgcolor: '#009688', color: 'white',
+                                                            },
+                                                        }}
+                                                        onClick={internallyFctn} >
+                                                        Internally Arranged
+                                                    </IconButton>
+                                                </Box>
+                                                : null}
+                                            <Box sx={{ flex: 0.5, mr: 2 }}>
+                                                <IconButton
+                                                    sx={{
+                                                        fontSize: 12, height: '35px', lineHeight: '1.2', mt: 3, border: '1px solid #bbdefb',
+                                                        color: '#1565c0', bgcolor: 'white', borderRadius: 5, width: '100%',
+                                                        '&:hover': {
+                                                            bgcolor: 'white', color: '#43B0F1'
+                                                        },
+                                                    }}
+                                                    onClick={cancelEdit} >
+                                                    Cancel
+                                                </IconButton>
+                                            </Box>
+                                        </>
+                                        : <Box sx={{ flex: 0.5, px: 1 }}>
+                                            <IconButton
+                                                sx={{
+                                                    fontSize: 12, height: '35px', lineHeight: '1.2', mt: 3,
+                                                    color: 'white', bgcolor: '#59981A', borderRadius: 5, width: '100%',
+                                                    '&:hover': {
+                                                        bgcolor: '#59981A', color: 'white',
+                                                    },
+                                                }}
+                                                onClick={Approvefctn} >
+                                                Save
+                                            </IconButton>
+                                        </Box>
+                                }
+
                             </Box>
                         </Box>
                         : null

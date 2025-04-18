@@ -25,7 +25,7 @@ import CustomToolTipForCRF from '../../ComonComponent/Components/CustomToolTipFo
 
 const ApproveButtonComponentIncharge = ({ setApprovalFlag, setApprovalModal, setCancelFlag, setCancelModal, setApprovalData,
     setCancelData, val, setReqItems, setApproveTableData, approveTableData, setPoDetails, reqItems, poDetails, deptsecArry,
-    imagearray, setImageArry }) => {
+    imagearray, setImageArry, company }) => {
 
     const { higher, crf_close, image_status, crf_closed_one, now_who, now_who_status, dept_type,
         dept_type_name, expected_date } = val
@@ -251,7 +251,7 @@ const ApproveButtonComponentIncharge = ({ setApprovalFlag, setApprovalModal, set
 
             {DetailViewFlag === 1 ? <HigherAppDoneModal open={DetailViewModal} closeModal={closeModal} imagearray={imagearray}
                 DetailViewData={DetailViewData} reqItems={reqItems} approveTableData={approveTableData} poDetails={poDetails}
-                datacolData={datacolData} /> : null}
+                datacolData={datacolData} company={company} /> : null}
             <Box sx={{
                 display: 'flex', flex: 1, bgcolor: '#e3f2fd', borderRadius: 2, borderTopLeftRadius: 0,
                 borderTopRightRadius: 0, justifyContent: 'space-between', flexWrap: 'wrap',

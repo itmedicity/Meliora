@@ -89,7 +89,7 @@ const PurchaseTablemain = () => {
     useEffect(() => {
         if (quoData && quoData.length > 0) {
             const procCrf = quoData?.filter((val) => val.ack_status === 1 && val.quatation_calling_status === 0 &&
-                val.po_prepartion === 0 && val.po_complete === 0)
+                val.po_prepartion === 0 && val.po_complete === 0 && val.work_order_status === 0)
             setCrfProcess(procCrf)
 
             const nego = quoData?.filter((val) => val.quatation_calling_status === 1 && val.quatation_negotiation === 0)

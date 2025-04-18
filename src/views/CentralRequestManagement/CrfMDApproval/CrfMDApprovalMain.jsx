@@ -590,7 +590,7 @@ const CrfMDApprovalMain = () => {
                                                 setDataColFlag={setDataColFlag} setDataColData={setDataColData}
                                                 setCollectDetailCheck={setCollectDetailCheck} setImageArry={setImageArry}
                                                 imagearray={imagearray} crfRadioValue={crfRadioValue} radiovalue={radiovalue}
-                                                selectedCompany={selectedCompany}
+                                                selectedCompany={selectedCompany} company={company}
                                             />
                                         }
                                     </Box>

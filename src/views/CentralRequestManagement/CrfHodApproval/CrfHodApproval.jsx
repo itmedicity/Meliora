@@ -24,6 +24,7 @@ const CrfHodApproval = () => {
     const [closedData, setClosedData] = useState([])
     const [allData, setAllData] = useState([])
     const [disData, setDisData] = useState([])
+
     const [radiovalue, setRadioValue] = useState('1')
     const [ApprovalFlag, setApprovalFlag] = useState(0)
     const [ApprovalModal, setApprovalModal] = useState(false)
@@ -321,7 +322,7 @@ const CrfHodApproval = () => {
             const doneList = hod?.filter((val) => {
                 return val.hod_approve !== null || val.manag_operation_approv !== null ||
                     val.senior_manage_approv !== null || val.gm_approve !== null ||
-                    val.ed_approve !== null || val.md_approve !== null
+                    val.ed_approve !== null || val.md_approve !== null || val.dms_req === 1 || val.ms_approve_req === 1
                 // || val.hod_approve === null
             })
             setDoneData(doneList)
@@ -413,7 +414,7 @@ const CrfHodApproval = () => {
                                             poDetails={poDetails} setDataCollectData={setDataCollectData}
                                             setDataColFlag={setDataColFlag} setDataColData={setDataColData} datacolData={datacolData}
                                             setCollectDetailCheck={setCollectDetailCheck} setImageArry={setImageArry}
-                                            imagearray={imagearray}
+                                            imagearray={imagearray} company={company}
                                         />
                                     }
                                 </Box>

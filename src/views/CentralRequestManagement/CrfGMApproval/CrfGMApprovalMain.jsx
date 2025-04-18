@@ -505,7 +505,7 @@ const CrfGMApprovalMain = () => {
                                             poDetails={poDetails} setDataCollectData={setDataCollectData}
                                             setDataColFlag={setDataColFlag} setDataColData={setDataColData} datacolData={datacolData}
                                             setCollectDetailCheck={setCollectDetailCheck} setImageArry={setImageArry}
-                                            imagearray={imagearray} crfRadioValue={crfRadioValue} radiovalue={radiovalue}
+                                            imagearray={imagearray} crfRadioValue={crfRadioValue} radiovalue={radiovalue} company={company}
                                         />
                                     }
                                 </Box>

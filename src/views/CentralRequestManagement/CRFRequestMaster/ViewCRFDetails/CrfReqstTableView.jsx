@@ -173,7 +173,7 @@ const CrfReqstTableView = ({ rowSelect }) => {
                                                             val.quatation_fixing === 1 ? "Quotation Fixed" :
                                                                 val.quatation_negotiation === 1 ? "Quotation Negotiation" :
                                                                     val.quatation_calling_status === 1 ? "Quotation Calling" :
-                                                                        val.ack_status === 1 ? "Puchase Acknowledged" :
+                                                                        val.ack_status === 1 ? "Purchase Acknowledged" :
                                                                             val.managing_director_approve !== null ? company?.managing_director_name :
                                                                                 val.ed_approve !== null ? company?.ed_status_name :
                                                                                     val.md_approve !== null ? company?.md_status_name :

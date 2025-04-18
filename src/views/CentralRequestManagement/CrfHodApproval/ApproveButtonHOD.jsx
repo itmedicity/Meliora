@@ -25,7 +25,7 @@ import CampaignTwoToneIcon from '@mui/icons-material/CampaignTwoTone';
 
 const ApproveButtonHOD = ({ setApprovalFlag, setApprovalModal, setCancelFlag, setCancelModal, setApprovalData,
     setCancelData, val, setReqItems, setApproveTableData, approveTableData, setPoDetails, reqItems, poDetails,
-    setDataCollectData, setDataColFlag, setDataColData, setCollectDetailCheck, imagearray, setImageArry, datacolData }) => {
+    setDataCollectData, setDataColFlag, setDataColData, setCollectDetailCheck, imagearray, setImageArry, datacolData, company }) => {
 
     const { higher, crf_close, image_status, crf_closed_one, now_who, now_who_status, dept_type,
         dept_type_name, expected_date } = val
@@ -308,7 +308,7 @@ const ApproveButtonHOD = ({ setApprovalFlag, setApprovalModal, setCancelFlag, se
             {
                 DetailViewFlag === 1 ? <HigherAppDoneModal open={DetailViewModal} closeModal={closeModal} imagearray={imagearray}
                     DetailViewData={DetailViewData} reqItems={reqItems} approveTableData={approveTableData} poDetails={poDetails}
-                    datacolData={datacolData} /> : null
+                    datacolData={datacolData} company={company} /> : null
             }
             <Box sx={{
                 display: 'flex', flex: 1, bgcolor: '#e3f2fd', borderRadius: 2, borderTopLeftRadius: 0,
