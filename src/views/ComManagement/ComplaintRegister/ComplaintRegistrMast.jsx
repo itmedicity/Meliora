@@ -49,7 +49,6 @@ const ComplaintRegistrMast = ({verficationPending,count,setCount}) => {
     const history = useHistory();
     const [crical, setCritical] = useState(false)
     const [priority, setpriority] = useState(0)
-
     const [edit, setEdit] = useState(0)
     const [desc, setdesc] = useState('')
     const [priorreason, setPriorreason] = useState('')
@@ -110,6 +109,8 @@ const ComplaintRegistrMast = ({verficationPending,count,setCount}) => {
     const empsecid = useSelector((state) => {
         return state.LoginUserData.empsecid
     })
+
+    
 
     useEffect(() => {
         dispatch(getRoomsNameNdTypeList(empsecid))
@@ -326,21 +327,31 @@ const ComplaintRegistrMast = ({verficationPending,count,setCount}) => {
         setlocationDetails("")
     }, [])
 
-
-
+    
 
     const submitComplaint = useCallback(async (e) => {
         e.preventDefault();
-        if (codept === null && cotype === false) {
-            infoNotify("Please Select Complaint Department and Complaint type");
-            return;
-        }
+           if (codept === null ) {
+               infoNotify("Please Select Complaint Department");
+               return;
+           }
+           if (cotype === false ) {
+               infoNotify("Please Select Complaint Type");
+               return;
+           }
         if ((cm_am_assetmap_slno !== '' && assetStatus === 0) || (selectedAsset !== '' && assetStatus === 0)) {
             infoNotify(
                 <>Please click on  &apos; <AddCircleIcon /> &apos;  to add Asset details</>
             );
             return;
         }
+        if(priority===1 && (priorreason === ''||priorreason === null)){
+                            infoNotify(
+                                <>Please Add Priority Reason</>
+                            );
+                            return;
+                 }
+        
         if (!roomName && !locationDetails) {
             infoNotify("Please Select Location or Mark Location Details");
             return;
@@ -762,13 +773,6 @@ const ComplaintRegistrMast = ({verficationPending,count,setCount}) => {
         setImageShowFlag(0)
         setImageShow(false)
     }, [])
-
-    // useEffect(() => {     
-    //    if(verficationPending.length>2)
-    //     {
-    //     infoNotify("New Tickets can only be registered after verifying the verification pending tickets");    
-    //    }
-    //   }, []) 
 
     return (        
         <Fragment>
@@ -1252,6 +1256,11 @@ const ComplaintRegistrMast = ({verficationPending,count,setCount}) => {
                 <Typography sx={{ pl: .5, pr: 2, fontSize: 13 }}>
                     New Message
                 </Typography>
+                <SquareIcon sx={{ color: '#FFF387',}} />
+                <Typography sx={{ pl: .5, pr: 2, fontSize: 13 }}>
+                    Need Emergency Verification
+                </Typography>
+                
             </Paper>
         </Fragment >
     )

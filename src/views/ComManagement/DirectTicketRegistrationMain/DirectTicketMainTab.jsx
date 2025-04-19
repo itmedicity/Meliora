@@ -1,5 +1,5 @@
 import { Box, CssVarsProvider, Tab, TabList, TabPanel, Tabs } from '@mui/joy'
-import { Paper } from '@mui/material';
+import { keyframes, Paper } from '@mui/material';
 import React, { memo, useCallback, useState } from 'react'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import CusIconButton from 'src/views/Components/CusIconButton';
@@ -7,11 +7,16 @@ import TextComponent from 'src/views/Components/TextComponent';
 import CloseIcon from '@mui/icons-material/Close'
 import DirectComplaintReg from '../DirectCmRegister/DirectComplaintReg';
 import ResolvedDirectTickets from './ResolvedDirectTickets';
+import { useSelector } from 'react-redux';
+import { useQuery } from 'react-query';
+import { axioslogin } from 'src/views/Axios/Axios';
+import InfoIcon from '@mui/icons-material/Info';
 
 const DirectTicketMainTab = () => {
     const history = useHistory();
     const [selectedTab, setSelectedTab] = useState(0);
-
+    const [count, setCount] = useState(0)
+    const [depsec, setDepsec] = useState(0)
 
     const handleTabChange = (event, newValue) => {
         setSelectedTab(newValue);
@@ -20,6 +25,24 @@ const DirectTicketMainTab = () => {
     const backtoSetting = useCallback(() => {
         history.push('/Home');
     }, [history]);
+
+
+            
+        const { data: verficationPending = [], } = useQuery({
+        queryKey: ['getVerificationPendingTickets', depsec, count],
+        queryFn: async () => {        
+        const result = await axioslogin.get(`/complaintreg/getVerificationPending/${depsec}`);
+        const { success, data } = result.data;
+         return success === 1 ? data : [];
+         },
+        nabled: !!depsec,
+          });
+    
+    
+          const blink = keyframes`
+                50% {
+                opacity: 20%;
+            }`;
 
     return (
         <Paper sx={{ borderRadius: 0 }}>
@@ -126,12 +149,34 @@ const DirectTicketMainTab = () => {
                             >
                                 Resolved Tickets
                             </Tab>
+                            {verficationPending.length>2?
+                                                    <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
+                                                    <Box
+                                                        sx={{
+                                                            display: 'flex',
+                                                            alignItems: 'center',
+                                                            backgroundColor: '#FFF387', 
+                                                            color: 'darkred',
+                                                            fontWeight: 600,
+                                                            borderTopLeftRadius:15,
+                                                            borderBottomLeftRadius:15,
+                                                            px:1,
+                                                            boxShadow: 1,
+                                                             animation: `${blink} 1.2s infinite`
+                                                            
+                                                        }}
+                                                        >
+                                                        <InfoIcon sx={{ fontSize: 22, mr: 1 ,  color: 'darkred',}} />
+                                                        Verify rectified tickets before registering new tickets.
+                                                    </Box>
+                            </Box>  :null}
+
                         </Box>
                     </TabList>
 
                     <TabPanel value={0} sx={{ p: 0, flexGrow: 1, }}>
                         <Box sx={{ flexGrow: 1, }}>
-                            <DirectComplaintReg />
+                            <DirectComplaintReg verficationPending = {verficationPending} count={count} setCount={setCount}  depsec={depsec} setDepsec={setDepsec}/>
                         </Box>
                     </TabPanel>
                     <TabPanel value={1} sx={{ p: 0, flexGrow: 1, }}>

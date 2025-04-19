@@ -96,7 +96,6 @@ const AllTicketsSuperwiser = ({ forVerifyList, count, setCount, forverifyLength,
                 setOnholdCompl(OnholdCompl)
                 setholdLength(OnholdCompl.length === 0 ? 0 : OnholdCompl.length)
                 setpendingLength(PendingCompl.length === 0 ? 0 : PendingCompl.length)
-
             }
             else {
                 setpendingCompl([])

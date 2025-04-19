@@ -19,7 +19,7 @@ const ComplaintRegTable = ({ count, setCount, rowSelect,verficationPending }) =>
     const [onholdCompl, setOnholdCompl] = useState([])
     const [holdLength, setholdLength] = useState(0)
     const [pendingLength, setpendingLength] = useState(0)
-    // const [forVerify, setforVerify] = useState([])
+    const [forVerify, setforVerify] = useState([])
     const [verifyLength, setverifyLength] = useState(0)
     const [loading, setLoading] = useState(false);
 
@@ -64,22 +64,22 @@ const ComplaintRegTable = ({ count, setCount, rowSelect,verficationPending }) =>
                         complaint.cm_rectify_status === 'O'
                     );
 
-                    // const ForVerify = data.filter(complaint =>
-                    //     complaint.compalint_status === 2 &&
-                    //     complaint.compalint_status !== 3 &&
-                    //     complaint.cm_rectify_status === 'R'
-                    // );
+                    const ForVerify = data.filter(complaint =>
+                        complaint.compalint_status === 2 &&
+                        complaint.compalint_status !== 3 &&
+                        complaint.cm_rectify_status === 'R'
+                    );
 
-                    // setpendingCompl(PendingCompl);
-                    // setOnholdCompl(OnholdCompl);
-                    // setforVerify(ForVerify);
+                    setpendingCompl(PendingCompl);
+                    setOnholdCompl(OnholdCompl);
+                    setforVerify(ForVerify);
                     setholdLength(OnholdCompl.length);
                     setpendingLength(PendingCompl.length);
-                    // setverifyLength(ForVerify.length);
+                    setverifyLength(ForVerify.length);
                 } else {
                     setpendingCompl([]);
                     setOnholdCompl([]);
-                    // setforVerify([]);
+                    setforVerify([]);
                 }
             } catch (error) {
                 errorNotify("Error fetching complaints:", error);
@@ -106,7 +106,6 @@ const ComplaintRegTable = ({ count, setCount, rowSelect,verficationPending }) =>
                         </Box>
                     </Badge>
                 </CssVarsProvider>
-
                 <CssVarsProvider>
                     <Badge badgeContent={holdLength} color="neutral">
                         <Box sx={{ px: 2, display: 'flex', cursor: 'pointer', }} onClick={HoldCheck}>
@@ -118,7 +117,7 @@ const ComplaintRegTable = ({ count, setCount, rowSelect,verficationPending }) =>
                     </Badge>
                 </CssVarsProvider>
                 <CssVarsProvider>
-                    <Badge badgeContent={verficationPending.length||0} color="primary">
+                    <Badge badgeContent={verifyLength} color="primary">
                         <Box sx={{ px: 2, display: 'flex', cursor: 'pointer', }} onClick={VerifiedCheck}>
                             {verifiedCheck === 1 ?
                                 <RadioButtonCheckedIcon sx={{ cursor: 'pointer', color: '#3399FF' }} />
@@ -138,7 +137,7 @@ const ComplaintRegTable = ({ count, setCount, rowSelect,verficationPending }) =>
                 {verifiedCheck === 1 ?
                     <Box>
                         <ForVerify 
-                        // forVerify={forVerify} 
+                        forVerify={forVerify} 
                         count={count} setCount={setCount} loading={loading} verficationPending={verficationPending} />
                     </Box> :
                     <Box></Box>

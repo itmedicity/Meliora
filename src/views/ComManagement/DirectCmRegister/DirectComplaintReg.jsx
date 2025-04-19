@@ -37,7 +37,7 @@ import PersonSharpIcon from '@mui/icons-material/PersonSharp';
 import CardMastComplaint from 'src/views/Components/CardMastComplaint';
 import Switch from '@mui/joy/Switch';
 
-const DirectComplaintReg = () => {
+const DirectComplaintReg = ({verficationPending,count,setCount,depsec, setDepsec}) => {
 
     const dispatch = useDispatch();
     /*** Initializing */
@@ -48,15 +48,12 @@ const DirectComplaintReg = () => {
     const [priority, setpriority] = useState(0)
     //state for Priority Reson
     const [priorreason, setPriorreason] = useState('')
-    //state for table rendering
-    const [count, setCount] = useState(0)
     //state for knowing insert or edit to database
     const [edit, setEdit] = useState(0);
     //state for complaintdescription
     const [desc, setdesc] = useState('')
     const [cotype, setcotype] = useState(false)
     const [codept, setcodept] = useState(null)
-    const [depsec, setDepsec] = useState(0)
     const [locationName, setlocationName] = useState("");
     const [complaint_slno, setComplaint] = useState(0)
     const [roomName, setRoomName] = useState(null)
@@ -317,28 +314,31 @@ const DirectComplaintReg = () => {
         setlocationDetails("")
     }, [])
 
-
-    const { data: verficationPending = [], } = useQuery({
-        queryKey: ['getVerificationPendingTickets', depsec, count],
-        queryFn: async () => {        
-            const result = await axioslogin.get(`/complaintreg/getVerificationPending/${depsec}`);
-            const { success, data } = result.data;
-            return success === 1 ? data : [];
-        },
-        enabled: !!depsec,
-    });
-
-
     const submitComplaint = useCallback(async (e) => {
         e.preventDefault();
-        if (codept === null && cotype === false) {
-            infoNotify("Please Select Complaint Department and Complaint type");
+        if (codept === null ) {
+            infoNotify("Please Select Complaint Department");
+            return;
+        }
+        if (cotype === false ) {
+            infoNotify("Please Select Complaint Type");
+            return;
+        }
+        if (depsec === 0 ) {
+            infoNotify("Please Select Complaint Department Section");
             return;
         }
         if (!roomName && !locationDetails) {
             infoNotify("Please Select Location or Mark Location Details");
             return;
         }
+        if(priority===1 && (priorreason === ''||priorreason === null)){
+                    infoNotify(
+                        <>Please Add Priority Reason</>
+                    );
+                    return;
+         }
+
         if ((cm_am_assetmap_slno !== '' && assetStatus === 0) || (selectedAsset !== '' && assetStatus === 0)) {
             infoNotify(
                 <>Please click on  &apos; <AddCircleIcon /> &apos;  to add Asset details</>
@@ -783,13 +783,6 @@ const DirectComplaintReg = () => {
         setImageShowFlag(0)
         setImageShow(false)
     }, [])
-
-    useEffect(() => {     
-       if(verficationPending.length>2)
-        {
-        infoNotify("New Tickets can only be registered after verifying the verification pending tickets");    
-       }
-      }, []) 
 
 
     return (
@@ -1259,6 +1252,10 @@ const DirectComplaintReg = () => {
                 <Typography sx={{ pl: .5, pr: 2, fontSize: 13 }}>
                     New Message
                 </Typography>
+                 <SquareIcon sx={{ color: '#FFF387',}} />
+                <Typography sx={{ pl: .5, pr: 2, fontSize: 13 }}>
+                 Need Emergency Verification
+                 </Typography>
             </Paper>
         </Fragment >
     )

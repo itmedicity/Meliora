@@ -215,11 +215,6 @@ const CategoryMaster = () => {
 
   const imageUrl = `${PUBLIC_NAS_FOLDER}/AssetName/Category/${category_slno}/${categoryImg}`;
 
-console.log("imageUrl",imageUrl);
-console.log("PUBLIC_NAS_FOLDER",PUBLIC_NAS_FOLDER);
-
-
-
   return (
     <CardMaster
       title="Category Master"

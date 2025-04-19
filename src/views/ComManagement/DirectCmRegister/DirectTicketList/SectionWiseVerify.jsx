@@ -1,5 +1,5 @@
 import { Box, CircularProgress, CssVarsProvider, Tooltip, Typography } from '@mui/joy'
-import React, { memo, useCallback, useState } from 'react'
+import React, { memo, useCallback, useMemo, useState } from 'react'
 import { Virtuoso } from 'react-virtuoso';
 import MarkUnreadChatAltIcon from '@mui/icons-material/MarkUnreadChatAlt';
 import CommentIcon from '@mui/icons-material/Comment';
@@ -15,7 +15,7 @@ import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import ComFileView from '../../CmFileView/ComFileView';
 import { format } from 'date-fns';
 
-const SectionWiseVerify = ({ count, setCount,  loading,verficationPending }) => {
+const SectionWiseVerify = ({ count, setCount,  loading,verficationPending,forVerify }) => {
 
     const [replyflag, setReplyflag] = useState(0)
     const [replyOpen, setReplyOpen] = useState(false)
@@ -77,6 +77,16 @@ const SectionWiseVerify = ({ count, setCount,  loading,verficationPending }) => 
         setverifyOpen(true)
     }, [])
 
+    const sortedForVerify = useMemo(() => {
+        const verificationSlnoSet = new Set((verficationPending || []).map(item => item.complaint_slno));      
+        return [...(forVerify || [])].sort((a, b) => {
+          const aIsCommon = verificationSlnoSet.has(a.complaint_slno);
+          const bIsCommon = verificationSlnoSet.has(b.complaint_slno);
+          return bIsCommon - aIsCommon;
+        });
+      }, [forVerify, verficationPending]);
+      
+
     return (
         <Box>
             <Box sx={{ width: '100%', overflow: 'auto' }}>
@@ -109,7 +119,7 @@ const SectionWiseVerify = ({ count, setCount,  loading,verficationPending }) => 
                         </CssVarsProvider>
                     </Box>
                 ) : (
-                    verficationPending.length !== 0 ?
+                    forVerify.length !== 0 ?
                         <Box sx={{ width: 2150, }}>
                             <Box sx={{
                                 height: 40, mt: .5, mx: .5, display: 'flex', borderBottom: 1, borderTop: 1, borderColor: 'lightgray', pt: 1.5,
@@ -125,17 +135,22 @@ const SectionWiseVerify = ({ count, setCount,  loading,verficationPending }) => 
                                 <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12, pl:.5}}>Location Details</Box>
                                 <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12, pl:.8 }}>Complaint Date</Box>
                             </Box>
-                            <Virtuoso
-                                style={{ height: '35vh' }}
-                                totalCount={verficationPending?.length}
+                            <Virtuoso                            
+                                style={{ height: '28vh' }}
+                                totalCount={sortedForVerify.length}
                                 itemContent={(index) => {
-                                    const val = verficationPending[index];
+                                    const val = sortedForVerify[index];
+                                    if (!val) return null;
+
+                                    const verificationSlnoSet = new Set((verficationPending || []).map(item => item.complaint_slno));
+                                    const isCommon = verificationSlnoSet.has(val.complaint_slno);
                                     return (
                                         <Box key={val.complaint_slno}
                                             sx={{
                                                 display: 'flex', mt: .3,
                                                 borderBottom: .1, mx: 1,
                                                 borderColor: 'lightgrey', minHeight: 35,
+                                                bgcolor: isCommon ? '#FFF387' : 'white', 
                                                 pt: .5,
                                             }}
                                         >

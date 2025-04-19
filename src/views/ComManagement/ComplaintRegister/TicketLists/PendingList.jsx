@@ -149,6 +149,7 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                             <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12, }}>Location</Box>
                             <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12, }}>Location Details</Box>
                             <Box sx={{ width: 180, fontWeight: 600, color: '#444444', fontSize: 12,pl:.5 }}>Complaint Date</Box>
+                            
                         </Box>
                         <Virtuoso
                             style={{ height: '23vh', overflow: 'auto' }}
@@ -372,22 +373,22 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                                         <Box sx={{ width: 610, fontSize: 14, }}>
                                             {val.complaint_desc}
                                         </Box>
-                                        <Box sx={{ width: 150, fontSize: 13, pl:.5}}>
+                                        <Box sx={{ width: 150, fontSize: 13, }}>
                                             {val.complaint_dept_name}
                                         </Box>
-                                        <Box sx={{ width: 220, fontSize: 13,pl:.4 }}>
+                                        <Box sx={{ width: 220, fontSize: 13,}}>
                                             {val.location}
                                         </Box>
-                                        <Box sx={{ width: 300, fontSize: 13,pl:.5 }}>
+                                        <Box sx={{ width: 300, fontSize: 13,}}>
                                             {val.rm_room_name}
                                             {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name ?
                                                 ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''}${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${(val.rm_insidebuildblock_name && val.rm_floor_name) ? ' - ' : ''}${val.rm_floor_name ? val.rm_floor_name : ''})`
                                                 : "Not Updated"}
                                         </Box>
-                                        <Box sx={{ width: 300, fontSize: 13,pl:.8 }}>
+                                        <Box sx={{ width: 300, fontSize: 13,pl:.4}}>
                                             {val.cm_complaint_location || "Not Updated"}
                                         </Box>
-                                        <Box sx={{ width: 180, fontSize: 13, pl: 1.5 }}>
+                                        <Box sx={{ width: 180, fontSize: 13, pl: 1}}>
                                             {val.compalint_date
                                                 ? format(new Date(val.compalint_date), 'dd MMM yyyy,  hh:mm a')
                                                 : 'Invalid Date'}
