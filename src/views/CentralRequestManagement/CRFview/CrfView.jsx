@@ -35,8 +35,11 @@ const CrfView = () => {
     }
     const empdept = useSelector((state) => {
         return state.LoginUserData.empdept
-
     })
+    const empID = useSelector((state) => {
+        return state.LoginUserData.empid
+    })
+
     const searchCrfData = useMemo(() => {
         return {
             dept_id: empdept
@@ -45,7 +48,10 @@ const CrfView = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const result = await axioslogin.post('/newCRFRegister/CommonMasterGet');
+                const id = {
+                    id: empID
+                }
+                const result = await axioslogin.post('/newCRFRegister/CommonMasterGetByID', id);
                 const { success, data } = result.data;
                 if (success === 1 && data.length > 0) {
                     const postdata = {

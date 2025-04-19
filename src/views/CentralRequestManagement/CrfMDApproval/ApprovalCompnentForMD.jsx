@@ -28,7 +28,7 @@ import CampaignTwoToneIcon from '@mui/icons-material/CampaignTwoTone';
 const ApprovalCompnentForMD = ({ setApprovalFlag, setApprovalModal, setCancelFlag, setCancelModal, setApprovalData,
     setCancelData, val, setReqItems, setApproveTableData, approveTableData, setPoDetails, reqItems, poDetails,
     setDataCollectData, setDataColFlag, setDataColData, setCollectDetailCheck, imagearray, setImageArry, datacolData,
-    crfRadioValue, radiovalue, selectedCompany }) => {
+    crfRadioValue, radiovalue, selectedCompany, company }) => {
     const { higher, crf_close, image_status, crf_closed_one, now_who, now_who_status, dept_type,
         dept_type_name, expected_date } = val
 
@@ -513,7 +513,7 @@ const ApprovalCompnentForMD = ({ setApprovalFlag, setApprovalModal, setCancelFla
 
             {DetailViewFlag === 1 ? <HigherLevelApprovalView open={DetailViewModal} closeModal={closeModal} imagearray={imagearray}
                 DetailViewData={DetailViewData} reqItems={reqItems} approveTableData={approveTableData} poDetails={poDetails}
-                datacolData={datacolData} selectedCompany={selectedCompany} /> : null}
+                datacolData={datacolData} selectedCompany={selectedCompany} company={company} /> : null}
             <Box sx={{
                 display: 'flex', flex: 1, bgcolor: '#e3f2fd', borderRadius: 2, borderTopLeftRadius: 0,
                 borderTopRightRadius: 0, justifyContent: 'space-between', flexWrap: 'wrap',

@@ -88,7 +88,7 @@ const DashboardMaster = () => {
     return (
         <CssVarsProvider>
             <CardMaster
-                title="Store Right Master"
+                title="DashBoard  Master"
                 submit={submitDashBoard}
                 close={backtoSetting}
                 refresh={refreshWindow}
@@ -118,7 +118,7 @@ const DashboardMaster = () => {
                                     backgroundColor: 'white',
                                     fontSize: 14,
                                 }}
-                                value={dashboards.filter(d => selectedValues.includes(d.id))}
+                                value={dashboards?.filter(d => selectedValues.includes(d.id))}
                                 onChange={(_, newValue) => {
                                     const ids = newValue.map(item => item.id);
                                     setSelectedValues(ids);

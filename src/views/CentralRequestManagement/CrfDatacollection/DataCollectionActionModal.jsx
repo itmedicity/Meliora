@@ -294,7 +294,7 @@ const DataCollectionActionModal = ({ open, handleClose, reqItems, approveTableDa
                                 {approveTableData.length !== 0 ?
                                     <ItemsApprovalCompnt req_slno={req_slno} setMoreItem={setMoreItem} editEnable={editEnable}
                                         setEditEnable={setEditEnable} setApproveTableData={setApproveTableData}
-                                        approveTableData={approveTableData} />
+                                        approveTableData={approveTableData} crf_data_collect_status={crf_data_collect_slno} />
                                     :
                                     null
                                 }
