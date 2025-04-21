@@ -150,6 +150,10 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
 
     const SaveWarGarDetails = useCallback((e) => {
         e.preventDefault()
+                if (adress===''||adress===null) {
+                       infoNotify("Please Add Supllier Details");
+                       return;
+                   }
 
         if (editFlag === 1) {
             const updateWarGardetails = async (patchdata) => {
@@ -220,9 +224,6 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
     }, [postData, assetSpare, postDataSpare, patchdata, patchdataSpare, count, setcount, WarGarReferesh, editFlag])
 
 
-
-
-
     const [tableData, setTableData] = useState([]);
 
     const { data: AssetWarGar = [] } = useQuery(
@@ -291,11 +292,6 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
     }, [])
 
 
-
-
-
-
-
     return (
         <Box>
             <Box sx={{ border: 1, borderColor: '#E0E1E3', py: 1, pl: 2 }}>
@@ -339,7 +335,6 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
                             />
                         </Box>
                     </Box>
-
                 </Box>
                 <Box sx={{ flex: 1, display: 'flex', }} >
                     <Box sx={{ width: 500 }}>
@@ -363,7 +358,6 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
                                     onchange={updatewarrenGuranDetails}
                                 ></TextFieldCustom>
                             </Box>
-
                         </Box>
                         <Box sx={{ display: 'flex', pt: .5 }}>
                             <TextComponent
@@ -385,10 +379,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
                                     onchange={updatewarrenGuranDetails}
                                 ></TextFieldCustom>
                             </Box>
-
-
                         </Box>
-
                         <Box sx={{ display: 'flex', pt: .5 }}>
                             <TextComponent
                                 text={" Toll-free No."}
@@ -466,7 +457,10 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
                         </Box>
                         <Box sx={{ display: 'flex', pt: .5 }}>
                             <TextComponent
-                                text={"Supplier & Address"}
+                                text={ 
+                                <>
+                                    Supplier & Address <span style={{ color: '#74112F' }}>*</span>
+                                  </>}
                                 sx={{
                                     fontWeight: 600,
                                     color: '#727B8C',

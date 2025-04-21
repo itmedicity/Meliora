@@ -2,7 +2,6 @@ import { Autocomplete } from '@mui/joy';
 import React, { useEffect, memo, useState, useCallback } from 'react'
 import { axioslogin } from '../Axios/Axios';
 
-
 const CmDeptEmployee =({ postdata, setValue }) => {
 
     const [inputValue, setInputValue] = useState('');   
@@ -20,7 +19,7 @@ const CmDeptEmployee =({ postdata, setValue }) => {
                 }
             };
             getEmployeeDetails();
-        }, []);
+        }, [postdata]);
     
     const Onclick = useCallback((values) => {
         if (values !== null) {
@@ -42,7 +41,6 @@ const CmDeptEmployee =({ postdata, setValue }) => {
         bgcolor: 'transparent'
     }}
     multiple
-
     value={selectedValues}
     clearOnBlur
     onChange={(_, newValue) => {

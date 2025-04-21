@@ -92,6 +92,8 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
         setAnchorEl(null);
         setSelectedRow(null);
     }
+ 
+    
 
     return (
         <Box sx={{ width: '100%', overflow: 'auto' }}>
@@ -149,7 +151,7 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                             <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12, }}>Location</Box>
                             <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12, }}>Location Details</Box>
                             <Box sx={{ width: 180, fontWeight: 600, color: '#444444', fontSize: 12,pl:.5 }}>Complaint Date</Box>
-                            
+                            <Box sx={{ width: 180, fontWeight: 600, color: '#444444', fontSize: 12,pl:.5 }}>Registered Employee</Box>
                         </Box>
                         <Virtuoso
                             style={{ height: '23vh', overflow: 'auto' }}
@@ -392,9 +394,10 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                                             {val.compalint_date
                                                 ? format(new Date(val.compalint_date), 'dd MMM yyyy,  hh:mm a')
                                                 : 'Invalid Date'}
-
-
                                         </Box>
+                                        <Box sx={{ width: 180, fontSize: 12,pl:1.5}}>
+                                            {val.ticket_reg_employee || "Not Updated"}
+                                        </Box>                                       
                                     </Box>
                                 );
                             }}

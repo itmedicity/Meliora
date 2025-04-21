@@ -76,7 +76,6 @@ const DirectComplaintReg = ({verficationPending,count,setCount,depsec, setDepsec
     const [imageShowFlag, setImageShowFlag] = useState(0)
     const [locationDetails, setlocationDetails] = useState('')
 
-
     const id = useSelector((state) => {
         return state.LoginUserData.empid
     })
@@ -202,8 +201,7 @@ const DirectComplaintReg = ({verficationPending,count,setCount,depsec, setDepsec
         setCritical(priority_check === 1 ? true : false)
         setcustodianDept(compl_dept)
         setlocationDetails(cm_complaint_location)
-
-    }, [])
+    }, [setDepsec])
 
     const patchdata = useMemo(() => {
         return {
@@ -267,7 +265,6 @@ const DirectComplaintReg = ({verficationPending,count,setCount,depsec, setDepsec
         }
     }, [complaint_slno, edit])
 
-
     const updateAssetz = newlyAddedAssets && newlyAddedAssets.map((val) => {
         return {
             cm_complait_slno: complaint_slno,
@@ -312,7 +309,7 @@ const DirectComplaintReg = ({verficationPending,count,setCount,depsec, setDepsec
         setDeletedFiles([])
         setSelectFile([])
         setlocationDetails("")
-    }, [])
+    }, [setCount,setDepsec])
 
     const submitComplaint = useCallback(async (e) => {
         e.preventDefault();
@@ -554,8 +551,8 @@ const DirectComplaintReg = ({verficationPending,count,setCount,depsec, setDepsec
 
     }, [
         postdata, edit, assetArray, patchdata, assetinactive, count, cm_am_assetmap_slno, assetStatus, updateAssetz, handleImageUpload, complaint_slno,
-        cotype, selectFile, codept, deletedFiles.length, newlyAddedAssets.length, reset, selectedAsset, id, roomName, locationDetails
-
+        cotype, selectFile, codept, deletedFiles.length, newlyAddedAssets.length, reset, selectedAsset, id, roomName, locationDetails,depsec,priority,priorreason,
+        setCount,verficationPending.length
     ]);
 
     const refreshWindow = useCallback(() => {
@@ -583,7 +580,7 @@ const DirectComplaintReg = ({verficationPending,count,setCount,depsec, setDepsec
         setDeletedFiles([])
         setSelectFile([])
         setlocationDetails("")
-    }, [])
+    }, [setDepsec,setCount])
 
     //close button function
     const backtoSetting = useCallback(() => {
@@ -783,7 +780,7 @@ const DirectComplaintReg = ({verficationPending,count,setCount,depsec, setDepsec
         setImageShowFlag(0)
         setImageShow(false)
     }, [])
-
+  
 
     return (
         <Fragment>

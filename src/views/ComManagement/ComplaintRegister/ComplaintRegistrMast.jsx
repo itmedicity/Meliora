@@ -325,7 +325,7 @@ const ComplaintRegistrMast = ({verficationPending,count,setCount}) => {
         setDeletedFiles([])
         setSelectFile([])
         setlocationDetails("")
-    }, [])
+    }, [setCount])
 
     
 
@@ -565,7 +565,8 @@ const ComplaintRegistrMast = ({verficationPending,count,setCount}) => {
 
     }, [
         postdata, edit, assetArray, patchdata, assetinactive, count, cm_am_assetmap_slno, assetStatus, updateAssetz, handleImageUpload, complaint_slno,
-        cotype, selectFile, codept, deletedFiles.length, newlyAddedAssets.length, reset, selectedAsset, id, roomName, locationDetails
+        cotype, selectFile, codept, deletedFiles.length, newlyAddedAssets.length, reset, selectedAsset, id, roomName, locationDetails,priority,priorreason,setCount,
+        verficationPending.length
     ]);
 
     const refreshWindow = useCallback(() => {
@@ -592,8 +593,7 @@ const ComplaintRegistrMast = ({verficationPending,count,setCount}) => {
         setDeletedFiles([])
         setSelectFile([])
         setlocationDetails("")
-
-    }, [])
+    }, [setCount])
 
     useEffect(() => {
         if (empsecid !== 0) {

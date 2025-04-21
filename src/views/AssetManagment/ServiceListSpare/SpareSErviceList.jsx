@@ -1,7 +1,6 @@
 import { Box, CssVarsProvider, Table, Typography } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Virtuoso } from 'react-virtuoso'
 import { axioslogin } from 'src/views/Axios/Axios'
 import BuildCircleIcon from '@mui/icons-material/BuildCircle'
 import ServiceDetailsModal from './ServiceDetailsModal'
@@ -79,7 +78,7 @@ const SpareSErviceList = () => {
         flex: 1,
         border: 2,
         borderColor: '#F0F3F5',
-        height: '90vh',
+        // height: '90vh',
       }}
     >
       <Box
@@ -106,7 +105,7 @@ const SpareSErviceList = () => {
         />
       ) : null}
       {combinedList.length !== 0 ? (
-        <Box sx={{ height: '80vh', overflow: 'auto', m: 1 }}>
+        <Box sx={{ height: '75vh', overflow: 'auto', m: 1 }}>
           <CssVarsProvider>
             <Table stickyHeader size="sm" sx={{ borderRadius: 2 }} borderAxis="both">
               <thead>

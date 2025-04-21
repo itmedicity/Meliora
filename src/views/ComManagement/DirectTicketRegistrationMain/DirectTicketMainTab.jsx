@@ -7,7 +7,6 @@ import TextComponent from 'src/views/Components/TextComponent';
 import CloseIcon from '@mui/icons-material/Close'
 import DirectComplaintReg from '../DirectCmRegister/DirectComplaintReg';
 import ResolvedDirectTickets from './ResolvedDirectTickets';
-import { useSelector } from 'react-redux';
 import { useQuery } from 'react-query';
 import { axioslogin } from 'src/views/Axios/Axios';
 import InfoIcon from '@mui/icons-material/Info';

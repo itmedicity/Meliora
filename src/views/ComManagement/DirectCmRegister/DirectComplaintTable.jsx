@@ -39,6 +39,7 @@ const DirectComplaintTable = ({ count, setCount, rowSelect ,verficationPending})
         setVerifiedCheck(0)
         setpending(0)
     }, [])
+   
 
     useEffect(() => {
         let isMounted = true;

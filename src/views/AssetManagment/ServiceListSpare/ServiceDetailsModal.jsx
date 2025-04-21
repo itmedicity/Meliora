@@ -18,8 +18,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getDepartSecemployee } from 'src/redux/actions/EmpNameDeptSect.action'
 import SupplierDetailsAutoComplte from '../ItemDetailEnter/SupplierDetailsAutoComplte'
 import PhoneIcon from '@mui/icons-material/Phone'
-import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined'
-import CheckBoxIcon from '@mui/icons-material/CheckBox'
 import TimelapseIcon from '@mui/icons-material/Timelapse'
 import Tabs from '@mui/joy/Tabs'
 import TabList from '@mui/joy/TabList'
@@ -74,6 +72,8 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
   const [supplierSelect, setsupplierSelect] = useState(0)
   const [supplContctEmp, setsupplContctEmp] = useState(0)
   const [servicedSuppl, setServicedSuppl] = useState(0)
+  const [editSupp, setEditSupp] = useState(0)
+
 
   const [flags, setFlags] = useState({
     addToStockFlag: 0,
@@ -116,7 +116,6 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
     item_custodian_dept_sec,
     am_item_map_slno,
     am_spare_item_map_slno,
-    am_bill_supplier,
     item_custodian_dept,
     am_category_pm_days,
   } = serviceDetails
@@ -490,11 +489,9 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
     ItemPrefix,
     service_on_hold_reason,
     flags,
-    complDetails,
-    supplierSelect,
+    complDetails,    
     suppl_serviced_date,
-    suppl_serviced_remarks,
-    supplContctEmp,
+    suppl_serviced_remarks,    
     currentDateAndTime,
     deptServiceSlno,
     condm_transf_remarks,
@@ -535,11 +532,9 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
     ItemPrefix,
     service_on_hold_reason,
     condm_transf_remarks,
-    flags,
-    supplierSelect,
+    flags,    
     suppl_serviced_date,
-    suppl_serviced_remarks,
-    supplContctEmp,
+    suppl_serviced_remarks,    
     currentDateAndTime,
     deptServiceValue,
     id,
@@ -1053,13 +1048,12 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
       }
     }
   }, [
-    am_service_details_slno,
-    supplier_service_slno,
+    am_service_details_slno,    
     InsertSuppContactDetails,
     UpdateSuppContactDetails,
+    PostData,ResetSuppl,count,editSupp,setCount
   ])
 
-  const [editSupp, setEditSupp] = useState(0)
 
   const EditRow = useCallback((val) => {
     setEditSupp(1)
