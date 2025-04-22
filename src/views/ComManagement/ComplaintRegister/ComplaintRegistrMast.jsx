@@ -357,7 +357,7 @@ const ComplaintRegistrMast = ({verficationPending,count,setCount}) => {
             return;
         }
         if(verficationPending.length>2){
-            infoNotify("New tickets can only be registered after verifying the verification pending tickets");
+            infoNotify("Please verify all resolved tickets before registering new ticket.");
             return;
         }
         setOpen(true);

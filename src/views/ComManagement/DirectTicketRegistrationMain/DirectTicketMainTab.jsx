@@ -166,7 +166,7 @@ const DirectTicketMainTab = () => {
                                                         }}
                                                         >
                                                         <InfoIcon sx={{ fontSize: 22, mr: 1 ,  color: 'darkred',}} />
-                                                        Verify rectified tickets before registering new tickets.
+                                                        Ensure all rectified tickets are verified prior to registering any new tickets.
                                                     </Box>
                             </Box>  :null}
 
