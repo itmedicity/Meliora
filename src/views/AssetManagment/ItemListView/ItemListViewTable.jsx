@@ -85,9 +85,9 @@ const ItemListViewTable = ({ assetSpare, displayarry, AddDetails }) => {
 
     //column title setting
     const [column] = useState([
-        { headerName: "#", field: "slno", width: 70 },
+        { headerName: "#", field: "slno", width: 110 },
         {
-            headerName: 'Add Details', width: 110, cellRenderer: (params) => {
+            headerName: 'Add Details', width: 90, cellRenderer: (params) => {
                 return <Box onClick={() => AddDetails(params)}
                     sx={{ color: editicon, cursor: 'pointer' }} >
                     <DescriptionIcon />
@@ -98,14 +98,11 @@ const ItemListViewTable = ({ assetSpare, displayarry, AddDetails }) => {
         {
             headerName: 'QR Code', width: 90, cellRenderer: (params) => {
                 return <Box onClick={() => modeldisplay(params)}
-                    sx={{ color: editicon, cursor: 'pointer' }} >
-
+                    sx={{ color: editicon, cursor: 'pointer' }}>
                     <QrCode2Icon />
-
                 </Box>
             }
         },
-
         { headerName: "Department Section", field: "secname", autoHeight: true, wrapText: true, width: 250, filter: "true" },
         { headerName: "Category", field: "category_name", autoHeight: true, wrapText: true, width: 200, filter: "true" },
         { headerName: "Asset No", field: "assetno", autoHeight: true, wrapText: true, width: 250, filter: "true" },

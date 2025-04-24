@@ -130,7 +130,7 @@ const OnholdList = ({ onholdCompl, count, setCount, loading }) => {
                 </Box>
             ) : (
                 onholdCompl.length !== 0 ?
-                    <Box sx={{ width: 2100, }}>
+                    <Box sx={{ width: 2150, }}>
                         <Box sx={{
                             height: 40, mt: .5, mx: .5, display: 'flex', borderBottom: 1, borderTop: 1, borderColor: 'lightgray', pt: 1.5,
                             bgcolor: 'white'

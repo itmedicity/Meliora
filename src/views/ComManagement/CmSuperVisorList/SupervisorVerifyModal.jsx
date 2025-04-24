@@ -311,7 +311,7 @@ const SupervisorVerifyModal = ({ open, setverifyOpen, forVerifyData, setverifyFl
                                     <Typography sx={{ flex: 1.8, pl: 3, fontWeight: 500, fontSize: 15 }}>
                                         Complaint Rectification Duration
                                     </Typography>
-                                    <Tooltip title='Time taken to Rectify complaint (Assinged time to Rectified time)' placement='bottom' sx={{ width: 180 }}>
+                                    <Tooltip title='Time taken to Rectify complaint (Assigned time to Rectified time)' placement='bottom' sx={{ width: 180 }}>
                                         <Box sx={{ flex: 3, gap: .5, color: '#05445E', cursor: 'pointer' }}>
                                             <LockClockIcon sx={{ color: '#05445E', borderRadius: 1, pb: .4 }} />
                                             {formatTimeDifference(assigned_date, cm_rectify_time)}

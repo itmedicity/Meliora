@@ -8,7 +8,7 @@ import SectionwiseHoldList from './DirectTicketList/SectionwiseHoldList';
 import SectionWiseVerify from './DirectTicketList/SectionWiseVerify';
 import { errorNotify } from 'src/views/Common/CommonCode';
 
-const DirectComplaintTable = ({ count, setCount, rowSelect }) => {
+const DirectComplaintTable = ({ count, setCount, rowSelect ,verficationPending}) => {
 
     const [pending, setpending] = useState(1)
     const [verifiedCheck, setVerifiedCheck] = useState(0)
@@ -39,6 +39,7 @@ const DirectComplaintTable = ({ count, setCount, rowSelect }) => {
         setVerifiedCheck(0)
         setpending(0)
     }, [])
+   
 
     useEffect(() => {
         let isMounted = true;
@@ -134,7 +135,9 @@ const DirectComplaintTable = ({ count, setCount, rowSelect }) => {
                 }
                 {verifiedCheck === 1 ?
                     <Box>
-                        <SectionWiseVerify count={count} setCount={setCount} forVerify={forVerify} loading={loading} />
+                        <SectionWiseVerify count={count} setCount={setCount}
+                         forVerify={forVerify} 
+                         loading={loading}  verficationPending={verficationPending}/>
                     </Box> :
                     <Box></Box>
                 }

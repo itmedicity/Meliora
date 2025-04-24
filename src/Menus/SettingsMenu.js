@@ -26,8 +26,10 @@ export const cm_setting_two = [
 ]
 
 export const cm_setting_three = [
-    { to: '/Home/HicPolicy', name: 'Hic Policy', slno: 14 },
-    { to: '/Home/TicketHoldReason', name: 'Hold Reasons', slno: 254 },
+    { to: '/Home/HicPolicy', name: 'Hic Policy', slno: 254 },
+    { to: '/Home/holdReasonsinTicket', name: 'Hold Reason', slno: 14 },
+   
+    // { to: '/Home/HicPolicy', name: 'Hic Policy', slno: 14 },
 ]
 
 

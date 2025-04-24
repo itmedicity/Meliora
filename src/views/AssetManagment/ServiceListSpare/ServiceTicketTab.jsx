@@ -166,7 +166,7 @@ const ServiceTicketTab = ({ complDetails, }) => {
                                 </Box>
                                 <Box sx={{ display: 'flex', }}>
                                     <TextComponent
-                                        text={"Assingees"}
+                                        text={"Assignees"}
                                         sx={{
                                             fontWeight: 600,
                                             color: '#727B8C',

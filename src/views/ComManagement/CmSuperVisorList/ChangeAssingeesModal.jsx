@@ -3,9 +3,9 @@ import React, { memo, useCallback, useEffect, useState } from 'react'
 import CancelIcon from '@mui/icons-material/Cancel';
 import { axioslogin } from 'src/views/Axios/Axios';
 import { useSelector } from 'react-redux';
-import AssistantEmpSelect from 'src/views/CommonSelectCode/AssistantEmpSelect';
 import { format } from 'date-fns';
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode';
+import CmDeptEmployee from 'src/views/CommonSelectCode/CmDeptEmployee';
 
 const ChangeAssingeesModal = ({ empTransferOpen, setEmptransferOpen, emptransferData, setEmptransferFlag, setCount, count }) => {
 
@@ -93,8 +93,8 @@ const ChangeAssingeesModal = ({ empTransferOpen, setEmptransferOpen, emptransfer
     }, [postData, inactive, count, setCount, Close, empName])
 
     const postdata = {
-        em_department: empdept,
-        em_id: id
+        em_department: empdept
+       
     }
     const buttonStyle = {
         fontSize: 16,
@@ -163,7 +163,7 @@ const ChangeAssingeesModal = ({ empTransferOpen, setEmptransferOpen, emptransfer
                         </Box>
                         <Box sx={{ flex: 1, display: 'flex', mt: 2, mx: 8, }}>
                             <Typography sx={{ flex: 1.5 }}>
-                                Assingees :
+                                Assignees :
                             </Typography>
                             <Box sx={{
                                 flex: 3,
@@ -184,7 +184,7 @@ const ChangeAssingeesModal = ({ empTransferOpen, setEmptransferOpen, emptransfer
                                 Change Assignees to :
                             </Typography>
                             <Box sx={{ flex: 3, }}>
-                                <AssistantEmpSelect postdata={postdata} value={assing} setValue={setAssing} />
+                                <CmDeptEmployee postdata={postdata} value={assing} setValue={setAssing} />
                             </Box>
 
                         </Box>

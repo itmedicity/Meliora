@@ -7,11 +7,18 @@ import TextComponent from 'src/views/Components/TextComponent';
 import CloseIcon from '@mui/icons-material/Close'
 import ComplaintRegistrMast from '../ComplaintRegister/ComplaintRegistrMast';
 import ResolvedTickets from './ResolvedTickets';
+import { useSelector } from 'react-redux';
+import { useQuery } from 'react-query';
+import { axioslogin } from 'src/views/Axios/Axios';
+import { keyframes } from '@emotion/react';
+import InfoIcon from '@mui/icons-material/Info';
+
 
 const TicketRegisterMain = () => {
 
     const history = useHistory();
     const [selectedTab, setSelectedTab] = useState(0);
+    const [count, setCount] = useState(0)
 
 
     const handleTabChange = (event, newValue) => {
@@ -21,6 +28,28 @@ const TicketRegisterMain = () => {
     const backtoSetting = useCallback(() => {
         history.push('/Home');
     }, [history]);
+
+    const empsecid = useSelector((state) => {
+    return state.LoginUserData.empsecid
+     })
+
+        
+    const { data: verficationPending = [], } = useQuery({
+    queryKey: ['getVerificationPendingTickets', empsecid, count],
+    queryFn: async () => {        
+    const result = await axioslogin.get(`/complaintreg/getVerificationPending/${empsecid}`);
+    const { success, data } = result.data;
+     return success === 1 ? data : [];
+     },
+    nabled: !!empsecid,
+      });
+
+
+      const blink = keyframes`
+            50% {
+            opacity: 20%;
+        }`;
+
 
     return (
         <Paper sx={{ borderRadius: 0 }}>
@@ -48,7 +77,6 @@ const TicketRegisterMain = () => {
                         </CusIconButton>
                     </Box>
                 </Box>
-
                 <Tabs
                     value={selectedTab}
                     onChange={handleTabChange}
@@ -76,11 +104,8 @@ const TicketRegisterMain = () => {
                                         borderTopLeftRadius: 3,
                                         borderTopRightRadius: 3,
                                         bgcolor: 'primary.500',
-                                    },
-                                },
-                            },
-                        }}
-                    >
+                                    },},},}}>
+
                         <Box sx={{ flex: 1, display: 'flex', gap: 1, mb: 1, ml: 1 }}>
                             <Tab
                                 label="Asset"
@@ -104,7 +129,6 @@ const TicketRegisterMain = () => {
                             >
                                 Ticket Registration
                             </Tab>
-
                             <Tab
                                 label="Spare"
                                 value={1}
@@ -126,21 +150,43 @@ const TicketRegisterMain = () => {
                                 }}
                             >
                                 Resolved Tickets
-                            </Tab>
+                            </Tab>    
+                        {verficationPending.length>2?
+                        <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                backgroundColor: '#FFF387', 
+                                color: 'darkred',
+                                fontWeight: 600,
+                                borderTopLeftRadius:15,
+                                borderBottomLeftRadius:15,
+                                px:1,
+                                boxShadow: 1,
+                                 animation: `${blink} 1.2s infinite`
+                                
+                            }}
+                            >
+                            <InfoIcon sx={{ fontSize: 22, mr: 1 ,  color: 'darkred',}} />
+                            Ensure all rectified tickets are verified prior to registering any new tickets.
+                        </Box>
+                        </Box>  :null}
                         </Box>
                     </TabList>
-
                     <TabPanel value={0} sx={{ p: 0, flexGrow: 1, }}>
                         <Box sx={{ flexGrow: 1, }}>
-                            <ComplaintRegistrMast />
+                            <ComplaintRegistrMast  verficationPending = {verficationPending} count={count} setCount={setCount}/>
                         </Box>
                     </TabPanel>
                     <TabPanel value={1} sx={{ p: 0, flexGrow: 1, }}>
                         <Box sx={{ flexGrow: 1, }}>
                             <ResolvedTickets />
                         </Box>
-                    </TabPanel>
+                    </TabPanel>                   
                 </Tabs>
+                <Box>                    
+                </Box>
             </CssVarsProvider>
         </Paper>
 

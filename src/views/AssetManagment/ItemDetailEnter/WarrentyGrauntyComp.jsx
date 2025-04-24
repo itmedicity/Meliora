@@ -150,6 +150,10 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
 
     const SaveWarGarDetails = useCallback((e) => {
         e.preventDefault()
+                if (adress===''||adress===null) {
+                       infoNotify("Please Add Supllier Details");
+                       return;
+                   }
 
         if (editFlag === 1) {
             const updateWarGardetails = async (patchdata) => {
@@ -220,9 +224,6 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
     }, [postData, assetSpare, postDataSpare, patchdata, patchdataSpare, count, setcount, WarGarReferesh, editFlag])
 
 
-
-
-
     const [tableData, setTableData] = useState([]);
 
     const { data: AssetWarGar = [] } = useQuery(
@@ -291,21 +292,8 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
     }, [])
 
 
-
-
-
-
-
     return (
         <Box>
-            {/* {imageshowFlag === 1 ? <FileView open={imageshow} handleClose={handleClose}
-                images={imagearray} />
-                : null}
-            {imageShowsingle === 1 ?
-                < Box >
-                    <FileViewSingle previewFile={previewFile} imageShow={imageShowSingle} CloseFile={CloseFile} />
-                </Box> :
-                null} */}
             <Box sx={{ border: 1, borderColor: '#E0E1E3', py: 1, pl: 2 }}>
                 <TextComponent
                     text={"WARRENTY/GAURANTEE DETAILS"}
@@ -319,7 +307,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
                 <Box sx={{
                     display: 'flex', mt: 2,
                 }} >
-                    <Box sx={{ width: 120 }}></Box>
+                    <Box sx={{         width: 150 }}></Box>
                     <Box sx={{ display: 'flex', gap: 2 }}>
                         <Box sx={{ display: 'flex', p: 0.5, flexDirection: 'column' }} >
                             <CusCheckBox
@@ -347,7 +335,6 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
                             />
                         </Box>
                     </Box>
-
                 </Box>
                 <Box sx={{ flex: 1, display: 'flex', }} >
                     <Box sx={{ width: 500 }}>
@@ -358,7 +345,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
                                     fontWeight: 600,
                                     color: '#727B8C',
                                     pt: 1,
-                                    width: 120
+                                    width: 150
 
                                 }}
                             />
@@ -371,7 +358,6 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
                                     onchange={updatewarrenGuranDetails}
                                 ></TextFieldCustom>
                             </Box>
-
                         </Box>
                         <Box sx={{ display: 'flex', pt: .5 }}>
                             <TextComponent
@@ -380,7 +366,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
                                     fontWeight: 600,
                                     color: '#727B8C',
                                     pt: 1,
-                                    width: 120
+                                    width: 150
 
                                 }}
                             />
@@ -393,10 +379,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
                                     onchange={updatewarrenGuranDetails}
                                 ></TextFieldCustom>
                             </Box>
-
-
                         </Box>
-
                         <Box sx={{ display: 'flex', pt: .5 }}>
                             <TextComponent
                                 text={" Toll-free No."}
@@ -404,7 +387,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
                                     fontWeight: 600,
                                     color: '#727B8C',
                                     pt: 1,
-                                    width: 120
+                                    width: 150
 
                                 }}
                             />
@@ -425,7 +408,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
                                     fontWeight: 600,
                                     color: '#727B8C',
                                     pt: 1,
-                                    width: 120
+                                    width: 150
 
                                 }}
                             />
@@ -452,7 +435,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
                                     fontWeight: 600,
                                     color: '#727B8C',
                                     pt: 1,
-                                    width: 120
+                                    width: 150
 
                                 }}
                             />
@@ -474,12 +457,15 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
                         </Box>
                         <Box sx={{ display: 'flex', pt: .5 }}>
                             <TextComponent
-                                text={"Address"}
+                                text={ 
+                                <>
+                                    Supplier & Address <span style={{ color: '#74112F' }}>*</span>
+                                  </>}
                                 sx={{
                                     fontWeight: 600,
                                     color: '#727B8C',
                                     pt: 1,
-                                    width: 120
+                                    width: 150
 
                                 }}
                             />
@@ -501,7 +487,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
                                     fontWeight: 600,
                                     color: '#727B8C',
                                     pt: 1,
-                                    width: 120
+                                    width: 150
 
                                 }}
                             />
@@ -516,144 +502,8 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
                             </Box>
                         </Box>
 
-                        {/* 
-                        {attachFile === 1 ?
-                            <>
-                                {selectFile.length !== 0 ?
-                                    <Box sx={{ display: 'flex', pt: .5 }}>
-                                        <Box sx={{ width: 120 }}>
-                                        </Box>
-                                        <Box sx={{ display: 'flex', flex: 1, overflowY: 'auto', border: 1, borderColor: 'lightgrey', p: .4, }}>
-                                            {selectFile.length !== 0 &&
-                                                selectFile.map((file, index) => (
-                                                    <Box
-                                                        key={index}
-                                                        sx={{
-                                                            display: "flex",
-                                                            alignItems: "center",
-                                                            border: "1px solid #e0e0e0",
-                                                            borderRadius: "4px",
-                                                            p: 0.5, mr: .5
-                                                        }}
-                                                    >
-                                                        {file.type.includes("image") ? (
-                                                            <img
-                                                                src={URL.createObjectURL(file)}
-                                                                alt={file.name}
-                                                                style={{
-                                                                    width: "40px",
-                                                                    height: "40px",
-                                                                    objectFit: "cover",
-                                                                    borderRadius: "4px",
-                                                                    marginRight: "8px",
-                                                                    cursor: "pointer",
-                                                                }}
-                                                                onClick={() => ViewImage(file)}
-                                                            />
-                                                        ) : file.type === "application/pdf" ? (
-                                                            <PictureAsPdfIcon
-                                                                sx={{
-                                                                    width: "40px",
-                                                                    height: "40px",
-                                                                    color: "#e53935",
-                                                                    marginRight: "8px",
-                                                                    cursor: "pointer",
-                                                                }}
-                                                                onClick={() => ViewImage(file)}
-                                                            />
-                                                        ) : (
-                                                            <InsertDriveFileIcon
-                                                                sx={{
-                                                                    width: "40px",
-                                                                    height: "40px",
-                                                                    color: "#9e9e9e",
-                                                                    marginRight: "8px",
-                                                                    cursor: "pointer",
-                                                                }}
-                                                                onClick={() => ViewImage(file)}
-                                                            />
-                                                        )}
-                                                        <Box sx={{ fontSize: 14, cursor: "pointer", flexGrow: 1 }}>{file.name}</Box>
-                                                        <ClearSharpIcon
-                                                            sx={{
-                                                                pl: .3, pb: .3, height: 20, width: 20, cursor: 'pointer', color: '#4D0011', mx: .5,
-                                                                '&:hover': { color: '#BA0F30' },
-                                                            }}
-                                                            onClick={() => handleRemoveFile(index)}
-                                                        />
-                                                    </Box>
-                                                ))
-                                            }
-                                        </Box>
-                                    </Box>
-                                    : null}
-
-                                <Box sx={{ flex: 1, display: 'flex' }}>
-                                    <Box sx={{
-                                        width: 120
-                                    }}>
-                                    </Box>
-                                    <Box sx={{
-                                        flex: 1, border: .1, borderRadius: 3, borderStyle: 'dashed', mt: .8, textAlign: 'center', borderColor: '#0B6BCB',
-                                        bgcolor: '#F3F5F7', pt: 1, cursor: 'pointer'
-                                    }} >
-                                        <label htmlFor="file-input">
-                                            <UploadFileIcon sx={{ color: '#0B6BCB', cursor: 'pointer' }} />
-                                            <TextComponent
-                                                text={"Attach Bill"}
-                                                sx={{
-                                                    fontWeight: 600,
-                                                    color: '#0B6BCB',
-                                                    pb: 1, cursor: 'pointer'
-                                                }}
-                                            />
-                                        </label>
-                                        <Input
-                                            id="file-input"
-                                            type="file"
-                                            accept=".jpg, .jpeg, .png, .pdf"
-                                            style={{ display: 'none' }}
-                                            onChange={uploadFile}
-                                        />
-                                    </Box>
-                                </Box>
-                            </> : null}
-
-                        <Box sx={{ display: 'flex', }}>
-                            <Box sx={{ width: 120 }}>
-                            </Box>
-                            <Box sx={{ flex: 1, my: .5 }}>
-                                {
-                                    fileUploadStatus === 1 ?
-                                        <Box
-                                            sx={{
-                                                bgcolor: '#7AB75E',
-                                                width: 120,
-                                                textAlign: 'center',
-                                                borderRadius: 4,
-                                                color: 'white',
-                                                fontWeight: 600,
-                                                cursor: 'pointer',
-                                                py: .3,
-                                                boxShadow: '2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.6)',
-                                                transform: 'translateZ(0)',
-                                                transition: 'transform 0.2s ease',
-                                                '&:hover': {
-                                                    boxShadow: '3px 3px 6px rgba(0, 0, 0, 0.4), -3px -3px 6px rgba(255, 255, 255, 0.7)',
-                                                }
-                                            }}
-                                            onClick={ViewWarrentyImage}
-                                        >
-                                            Attached File
-                                        </Box>
-                                        : null
-                                }
-                            </Box>
-                        </Box> */}
-
-
                         <Box sx={{ display: 'flex', pt: .5 }}>
-                            <Box sx={{ width: 120 }}>
+                            <Box sx={{ width: 150 }}>
                             </Box>
                             <Box sx={{ flex: 1, gap: .5, display: 'flex' }}>
                                 <Box>
@@ -668,12 +518,6 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
                                         <RefreshIcon fontSize='small' />
                                     </CusIconButton>
                                 </Box>
-                                {/* <Box >
-                                    <CusIconButton size="sm" variant="outlined" color="primary" clickable="true"
-                                        onClick={Attachfile}>
-                                        <AttachmentSharpIcon fontSize='small' />
-                                    </CusIconButton>
-                                </Box> */}
                             </Box>
                         </Box>
                     </Box>
