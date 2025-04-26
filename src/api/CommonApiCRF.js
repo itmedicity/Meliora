@@ -323,3 +323,17 @@ export const getDefaultCompany = async () => {
         }
     })
 }
+
+
+
+
+export const getdefaultRights = async (id) => {
+    return axioslogin.get(`/newCRFRegister/datacollectionRights/${id}`).then((result) => {
+        const { success, data } = result.data
+        if (success === 1) {
+            return data
+        } else {
+            return []
+        }
+    })
+}

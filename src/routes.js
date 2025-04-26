@@ -246,7 +246,8 @@ const CrfView = React.lazy(() => import('./views/CentralRequestManagement/CRFvie
 const CrfStoreMaster = React.lazy(() => import('./views/Master/RequestManagement/StoreMaster/StoreMaster'))
 const CrfCommon = React.lazy(() => import('./views/Master/RequestManagement/CrfCommon/CrfCommonMaster'))
 const CrfDashboardMaster = React.lazy(() => import('./views/Master/RequestManagement/DashboardMaster/DashboardMaster'))
-
+// const Datacollection = React.lazy(() => import('./views/CentralRequestManagement/DataCollectionMaster/DataCollectionMaster'))
+const DataCollectionMaster = React.lazy(() => import('./views/Master/RequestManagement/DataCollectionMaster/DataCollection'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -490,12 +491,10 @@ const routes = [
   { path: '/Home/AllDeptCondemList', exact: true, name: 'AllDeptCondemList', component: AllDeptCondemList },
   { path: '/Home/ItBackupTypeMast', exact: true, name: 'ItBackupTypeMast', component: ItBackupTypeMast },
   { path: '/Home/SimOperator', exact: true, name: 'SimOperator', component: SimOperator },
-  // { path: '/Home/AssetCondemApprovalLevels', exact: true, name: 'AssetCondemApprovalLevels', component: AssetCondemApprovalLevels },
+  // { Path: '/Home/Datacollection', exact: true, name: 'Data Collection Master', component: Datacollection },
+  { path: '/Home/DataCollectionMaster', exact: true, name: 'DataCollectionMaster', component: DataCollectionMaster },
   { Path: '/Home/DashBoardMaster', exact: true, name: 'DashBoardMaster', component: CrfDashboardMaster },
   { Path: '/Home/TicketHoldReason', exact: true, name: 'Ticket Hold Reason Master', component: TicketHoldReasonMast },
-
-
-
 
 ]
 

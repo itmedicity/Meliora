@@ -3,15 +3,16 @@ import CustomPaperTitle from 'src/views/Components/CustomPaperTitle'
 import { succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { getUOM } from 'src/redux/actions/AmUOMList.action'
 import { useDispatch, useSelector } from 'react-redux'
-import { axioslogin } from 'src/views/Axios/Axios'
+import { axioskmc, axioslogin } from 'src/views/Axios/Axios'
 import _ from 'underscore'
 import CustomInputDateCmp from './Components/CustomInputDateCmp'
 import { Box, IconButton } from '@mui/joy'
 import UomApprvSelect from './Components/UomApprvSelect'
 import { useQuery, useQueryClient } from 'react-query'
 import { getApprovedCrfItems, getMaxslNoOfCrfItem } from 'src/api/CommonApiCRF'
+import { getApprovedCrfItemskmc, getMaxslNoOfCrfItemkmc } from 'src/api/CommonApiCRFKmc'
 
-const AddMoreItemDtails = ({ req_slno, setMoreItem, setApproveTableData }) => {
+const AddMoreItemDtails = ({ req_slno, setMoreItem, setApproveTableData, selectedCompany }) => {
     const dispatch = useDispatch();
     const queryClient = useQueryClient()
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
@@ -63,26 +64,59 @@ const AddMoreItemDtails = ({ req_slno, setMoreItem, setApproveTableData }) => {
         staleTime: Infinity
     });
     const itemData = useMemo(() => iteData, [iteData])
+
+    const { data: kmciteData, isLoading: isItemskmcLoading, error: kmcitemsError } = useQuery({
+        queryKey: ['approvedRejholdItemListkmc', req_slno],
+        queryFn: () => getApprovedCrfItemskmc(req_slno),
+        staleTime: Infinity
+    });
+    const kmcitemData = useMemo(() => kmciteData, [kmciteData])
+
+
     useEffect(() => {
-        if (itemData && itemData.length !== 0) {
-            setApproveTableData(itemData)
+        if (selectedCompany === "1") {
+            if (itemData && itemData.length !== 0) {
+                setApproveTableData(itemData)
+            }
+        } else if (selectedCompany === "2") {
+            if (kmcitemData && kmcitemData.length !== 0) {
+                setApproveTableData(kmcitemData)
+            }
         }
-    }, [itemData, setApproveTableData])
+
+    }, [itemData, setApproveTableData, kmcitemData, selectedCompany])
 
     const { data: maxSlnoData, isLoading: isSlnoLoading, error: slnoError } = useQuery({
         queryKey: ['getmaxSlno', req_slno],
         queryFn: () => getMaxslNoOfCrfItem(req_slno),
         staleTime: Infinity
     });
+    const { data: kmcmaxSlnoData, isLoading: kmcisSlnoLoading, error: kmcslnoError } = useQuery({
+        queryKey: ['getmaxSlnokmc', req_slno],
+        queryFn: () => getMaxslNoOfCrfItemkmc(req_slno),
+        staleTime: Infinity
+    });
+
     useEffect(() => {
-        if (maxSlnoData && maxSlnoData.length !== 0) {
-            const { maxSlno } = maxSlnoData[0];
-            setItemDetails(prev => ({
-                ...prev,
-                maxSlno: maxSlno
-            }))
+        if (selectedCompany === "1") {
+            if (maxSlnoData && maxSlnoData.length !== 0) {
+                const { maxSlno } = maxSlnoData[0];
+                setItemDetails(prev => ({
+                    ...prev,
+                    maxSlno: maxSlno
+                }))
+            }
+        } else if (selectedCompany === "2") {
+            if (kmcmaxSlnoData && kmcmaxSlnoData.length !== 0) {
+                const { maxSlno } = kmcmaxSlnoData[0];
+                setItemDetails(prev => ({
+                    ...prev,
+                    maxSlno: maxSlno
+                }))
+            }
         }
-    }, [maxSlnoData])
+
+    }, [maxSlnoData, selectedCompany, kmcmaxSlnoData])
 
     const reset = useCallback(() => {
         const frmdata = {
@@ -103,6 +137,18 @@ const AddMoreItemDtails = ({ req_slno, setMoreItem, setApproveTableData }) => {
     const AddItem = useCallback(() => {
         const AddMoreItems = async (newdata) => {
             const result = await axioslogin.post('/CRFRegisterApproval/AddMoreItemsDetails', newdata);
+            const { success, message } = result.data
+            if (success === 1) {
+                succesNotify(message)
+                queryClient.invalidateQueries('approvedRejholdItemList')
+                queryClient.invalidateQueries('getmaxSlno')
+                reset()
+            } else {
+                warningNotify(message)
+            }
+        }
+        const AddMoreItemskmc = async (newdata) => {
+            const result = await axioskmc.post('/CRFRegisterApproval/AddMoreItemsDetails', newdata);
             const { success, message } = result.data
             if (success === 1) {
                 succesNotify(message)
@@ -138,20 +184,24 @@ const AddMoreItemDtails = ({ req_slno, setMoreItem, setApproveTableData }) => {
                 create_user: id,
                 approve_aprox_cost: parseInt(approx_cost),
             }
-            AddMoreItems(newdata)
+            if (selectedCompany === "1") {
+                AddMoreItems(newdata)
+            } else if (selectedCompany === "2") {
+                AddMoreItemskmc(newdata)
+            }
         }
         else {
             warningNotify("Item Description and Quantity are mandatory and Quantity and unit price are not negative")
         }
 
-    }, [maxSlno, item_desc, item_brand, item_qty, uom, item_spec, unitprice, approx_cost, id, reset, req_slno, queryClient])
+    }, [maxSlno, item_desc, item_brand, item_qty, uom, item_spec, unitprice, approx_cost, id, reset, req_slno, queryClient, selectedCompany])
 
     const cancelEdit = useCallback(() => {
         reset()
     }, [reset])
 
-    if (isItemsLoading || isSlnoLoading) return <p>Loading...</p>;
-    if (itemsError || slnoError) return <p>Error occurred.</p>;
+    if (isItemsLoading || isSlnoLoading || kmcisSlnoLoading || isItemskmcLoading) return <p>Loading...</p>;
+    if (itemsError || slnoError || kmcslnoError || kmcitemsError) return <p>Error occurred.</p>;
     return (
         <Fragment>
             <Box sx={{ px: 0.5, pt: 0.5 }}>
