@@ -139,3 +139,40 @@ export const getDeptwiseBackUp = async (empDept) => {
         }
     })
 }
+
+export const getAllAmcCmcUnderCustodian = async (postData) => {
+    return axioslogin.post('/Amdashboard/getAllAmcCmcUnderCustodian', postData).then((res) => {
+        const { success, data } = res.data
+        if (success === 2) {
+            return data
+        }
+    })
+}
+
+export const getExpiredAmcCmc = async (postData) => {
+    return axioslogin.post('/Amdashboard/getExpiredAmcCmc', postData).then((res) => {
+        const { success, data } = res.data
+        if (success === 2) {
+            return data
+        }
+    })
+}
+
+export const getActiveItemsWarrentyGaurentee = async (postData) => {
+    return axioslogin.post('/Amdashboard/getActveitemsWarrentyGaurentee', postData).then((res) => {
+        const { success, data } = res.data
+        if (success === 2) {
+            return data
+        }
+    })
+}
+export const getExpiredWarGaur = async (postData) => {
+    return axioslogin.post('/Amdashboard/getExpiredWarGaur', postData).then((res) => {
+        const { success, data } = res.data
+        if (success === 2) {
+            return data
+        }
+    })
+}
+
+

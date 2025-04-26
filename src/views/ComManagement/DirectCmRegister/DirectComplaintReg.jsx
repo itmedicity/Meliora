@@ -37,7 +37,7 @@ import PersonSharpIcon from '@mui/icons-material/PersonSharp';
 import CardMastComplaint from 'src/views/Components/CardMastComplaint';
 import Switch from '@mui/joy/Switch';
 
-const DirectComplaintReg = () => {
+const DirectComplaintReg = ({verficationPending,count,setCount,depsec, setDepsec}) => {
 
     const dispatch = useDispatch();
     /*** Initializing */
@@ -48,15 +48,12 @@ const DirectComplaintReg = () => {
     const [priority, setpriority] = useState(0)
     //state for Priority Reson
     const [priorreason, setPriorreason] = useState('')
-    //state for table rendering
-    const [count, setCount] = useState(0)
     //state for knowing insert or edit to database
     const [edit, setEdit] = useState(0);
     //state for complaintdescription
     const [desc, setdesc] = useState('')
     const [cotype, setcotype] = useState(false)
     const [codept, setcodept] = useState(null)
-    const [depsec, setDepsec] = useState(0)
     const [locationName, setlocationName] = useState("");
     const [complaint_slno, setComplaint] = useState(0)
     const [roomName, setRoomName] = useState(null)
@@ -78,7 +75,6 @@ const DirectComplaintReg = () => {
     const [imageShow, setImageShow] = useState(false)
     const [imageShowFlag, setImageShowFlag] = useState(0)
     const [locationDetails, setlocationDetails] = useState('')
-
 
     const id = useSelector((state) => {
         return state.LoginUserData.empid
@@ -205,8 +201,7 @@ const DirectComplaintReg = () => {
         setCritical(priority_check === 1 ? true : false)
         setcustodianDept(compl_dept)
         setlocationDetails(cm_complaint_location)
-
-    }, [])
+    }, [setDepsec])
 
     const patchdata = useMemo(() => {
         return {
@@ -270,7 +265,6 @@ const DirectComplaintReg = () => {
         }
     }, [complaint_slno, edit])
 
-
     const updateAssetz = newlyAddedAssets && newlyAddedAssets.map((val) => {
         return {
             cm_complait_slno: complaint_slno,
@@ -315,25 +309,43 @@ const DirectComplaintReg = () => {
         setDeletedFiles([])
         setSelectFile([])
         setlocationDetails("")
-    }, [])
-
+    }, [setCount,setDepsec])
 
     const submitComplaint = useCallback(async (e) => {
         e.preventDefault();
-        if (codept === null && cotype === false) {
-            infoNotify("Please Select Complaint Department and Complaint type");
+        if (codept === null ) {
+            infoNotify("Please Select Complaint Department");
+            return;
+        }
+        if (cotype === false ) {
+            infoNotify("Please Select Complaint Type");
+            return;
+        }
+        if (depsec === 0 ) {
+            infoNotify("Please Select Complaint Department Section");
             return;
         }
         if (!roomName && !locationDetails) {
             infoNotify("Please Select Location or Mark Location Details");
             return;
         }
+        if(priority===1 && (priorreason === ''||priorreason === null)){
+                    infoNotify(
+                        <>Please Add Priority Reason</>
+                    );
+                    return;
+         }
+
         if ((cm_am_assetmap_slno !== '' && assetStatus === 0) || (selectedAsset !== '' && assetStatus === 0)) {
             infoNotify(
                 <>Please click on  &apos; <AddCircleIcon /> &apos;  to add Asset details</>
             );
             return;
         }
+        if(verficationPending.length>2){
+                    infoNotify("Please verify all resolved tickets before registering new ticket.");
+                    return;
+         }
         setOpen(true);
         const InsertFun = async (postdata) => {
             const result = await axioslogin.post('/complaintreg', postdata);
@@ -539,8 +551,8 @@ const DirectComplaintReg = () => {
 
     }, [
         postdata, edit, assetArray, patchdata, assetinactive, count, cm_am_assetmap_slno, assetStatus, updateAssetz, handleImageUpload, complaint_slno,
-        cotype, selectFile, codept, deletedFiles.length, newlyAddedAssets.length, reset, selectedAsset, id, roomName, locationDetails
-
+        cotype, selectFile, codept, deletedFiles.length, newlyAddedAssets.length, reset, selectedAsset, id, roomName, locationDetails,depsec,priority,priorreason,
+        setCount,verficationPending.length
     ]);
 
     const refreshWindow = useCallback(() => {
@@ -568,7 +580,7 @@ const DirectComplaintReg = () => {
         setDeletedFiles([])
         setSelectFile([])
         setlocationDetails("")
-    }, [])
+    }, [setDepsec,setCount])
 
     //close button function
     const backtoSetting = useCallback(() => {
@@ -768,7 +780,7 @@ const DirectComplaintReg = () => {
         setImageShowFlag(0)
         setImageShow(false)
     }, [])
-
+  
 
     return (
         <Fragment>
@@ -1213,7 +1225,7 @@ const DirectComplaintReg = () => {
                 p: 1, pt: 0
             }} >
                 <DirectComplaintTable
-                    rowSelect={rowSelect} count={count} setCount={setCount} />
+                    rowSelect={rowSelect} count={count} setCount={setCount}  verficationPending={verficationPending}/>
             </Paper >
 
             <Paper square sx={{
@@ -1237,6 +1249,10 @@ const DirectComplaintReg = () => {
                 <Typography sx={{ pl: .5, pr: 2, fontSize: 13 }}>
                     New Message
                 </Typography>
+                 <SquareIcon sx={{ color: '#FFF387',}} />
+                <Typography sx={{ pl: .5, pr: 2, fontSize: 13 }}>
+                 Need Emergency Verification
+                 </Typography>
             </Paper>
         </Fragment >
     )

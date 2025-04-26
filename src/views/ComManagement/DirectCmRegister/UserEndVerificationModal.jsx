@@ -229,7 +229,7 @@ const UserEndVerificationModal = ({ open, setverifyOpen, forVerifyData, setverif
                                 </Box>
                                 <Box sx={{ flex: 1, display: 'flex', mt: 1 }}>
                                     <Typography sx={{ flex: 1.8, pl: 3, fontWeight: 500, fontSize: 15 }}>
-                                        Assinged Employees
+                                        Assigned  Employees
                                     </Typography>
                                     <Box sx={{ flex: 3, display: 'flex', gap: .5 }}>
                                         {assigned_employees === null ?
@@ -254,7 +254,7 @@ const UserEndVerificationModal = ({ open, setverifyOpen, forVerifyData, setverif
 
                                 <Box sx={{ flex: 1, display: 'flex', mt: .5 }}>
                                     <Typography sx={{ flex: 1.8, pl: 3, fontWeight: 500, fontSize: 15 }}>
-                                        Assinged Date
+                                        Assigned  Date
                                     </Typography>
                                     <Box sx={{ flex: 3, gap: .5 }}>
                                         <Chip sx={{ bgcolor: '#E3E7F1' }}>
@@ -288,7 +288,7 @@ const UserEndVerificationModal = ({ open, setverifyOpen, forVerifyData, setverif
                                     <Typography sx={{ flex: 1.8, pl: 3, fontWeight: 500, fontSize: 15 }}>
                                         Complaint Rectification Duration
                                     </Typography>
-                                    <Tooltip title='Time taken to Rectify complaint (Assinged time to Rectified time)' placement='bottom' sx={{ width: 180 }}>
+                                    <Tooltip title='Time taken to Rectify complaint (Assigned time to Rectified time)' placement='bottom' sx={{ width: 180 }}>
                                         <Box sx={{ flex: 3, gap: .5, color: '#05445E', cursor: 'pointer' }}>
                                             <LockClockIcon sx={{ color: '#05445E', borderRadius: 1, pb: .4 }} />
                                             {formatTimeDifference(assigned_date, cm_rectify_time)}

@@ -43,13 +43,12 @@ import PersonSharpIcon from '@mui/icons-material/PersonSharp';
 import CardMastComplaint from 'src/views/Components/CardMastComplaint'
 import Switch from '@mui/joy/Switch';
 
-const ComplaintRegistrMast = () => {
+const ComplaintRegistrMast = ({verficationPending,count,setCount}) => {
 
     const dispatch = useDispatch();
     const history = useHistory();
     const [crical, setCritical] = useState(false)
     const [priority, setpriority] = useState(0)
-    const [count, setCount] = useState(0)
     const [edit, setEdit] = useState(0)
     const [desc, setdesc] = useState('')
     const [priorreason, setPriorreason] = useState('')
@@ -99,10 +98,10 @@ const ComplaintRegistrMast = () => {
 
     }, [codept, history, logOut_time])
 
-    //redux for geting login id
     const id = useSelector((state) => {
         return state.LoginUserData.empid
     })
+
     const secName = useSelector((state) => {
         return state.LoginUserData.empdeptsec
     })
@@ -110,6 +109,8 @@ const ComplaintRegistrMast = () => {
     const empsecid = useSelector((state) => {
         return state.LoginUserData.empsecid
     })
+
+    
 
     useEffect(() => {
         dispatch(getRoomsNameNdTypeList(empsecid))
@@ -254,11 +255,9 @@ const ComplaintRegistrMast = () => {
             complaint_slno: complaint_slno,
             rm_room_slno: roomName === 0 ? null : roomName,
             cm_asset_status: assetArray.length !== 0 ? 1 : 0,
-            cm_complaint_location: locationDetails === '' ? null : locationDetails
+            cm_complaint_location: locationDetails === null ? '' : locationDetails
         }
     }, [desc, empsecid, depsec, codept, cotype, priority, priorreason, complaint_slno, id, roomName, checkHic, assetArray, locationDetails])
-
-
 
 
 
@@ -326,26 +325,41 @@ const ComplaintRegistrMast = () => {
         setDeletedFiles([])
         setSelectFile([])
         setlocationDetails("")
-    }, [])
+    }, [setCount])
+
+    
 
     const submitComplaint = useCallback(async (e) => {
         e.preventDefault();
-        if (codept === null && cotype === false) {
-            infoNotify("Please Select Complaint Department and Complaint type");
-            return;
-        }
+           if (codept === null ) {
+               infoNotify("Please Select Complaint Department");
+               return;
+           }
+           if (cotype === false ) {
+               infoNotify("Please Select Complaint Type");
+               return;
+           }
         if ((cm_am_assetmap_slno !== '' && assetStatus === 0) || (selectedAsset !== '' && assetStatus === 0)) {
             infoNotify(
                 <>Please click on  &apos; <AddCircleIcon /> &apos;  to add Asset details</>
             );
             return;
         }
+        if(priority===1 && (priorreason === ''||priorreason === null)){
+                            infoNotify(
+                                <>Please Add Priority Reason</>
+                            );
+                            return;
+                 }
+        
         if (!roomName && !locationDetails) {
             infoNotify("Please Select Location or Mark Location Details");
             return;
         }
-
-
+        if(verficationPending.length>2){
+            infoNotify("Please verify all resolved tickets before registering new ticket.");
+            return;
+        }
         setOpen(true);
         const InsertFun = async (postdata) => {
             const result = await axioslogin.post('/complaintreg', postdata);
@@ -551,7 +565,8 @@ const ComplaintRegistrMast = () => {
 
     }, [
         postdata, edit, assetArray, patchdata, assetinactive, count, cm_am_assetmap_slno, assetStatus, updateAssetz, handleImageUpload, complaint_slno,
-        cotype, selectFile, codept, deletedFiles.length, newlyAddedAssets.length, reset, selectedAsset, id, roomName, locationDetails
+        cotype, selectFile, codept, deletedFiles.length, newlyAddedAssets.length, reset, selectedAsset, id, roomName, locationDetails,priority,priorreason,setCount,
+        verficationPending.length
     ]);
 
     const refreshWindow = useCallback(() => {
@@ -578,8 +593,7 @@ const ComplaintRegistrMast = () => {
         setDeletedFiles([])
         setSelectFile([])
         setlocationDetails("")
-
-    }, [])
+    }, [setCount])
 
     useEffect(() => {
         if (empsecid !== 0) {
@@ -760,8 +774,7 @@ const ComplaintRegistrMast = () => {
         setImageShow(false)
     }, [])
 
-
-    return (
+    return (        
         <Fragment>
             {imageShowFlag === 1 ?
                 < Box >
@@ -1220,7 +1233,7 @@ const ComplaintRegistrMast = () => {
                 p: 1, pt: 0
             }} >
                 <ComplaintRegTable
-                    rowSelect={rowSelect} sec={empsecid} count={count} setCount={setCount} />
+                    rowSelect={rowSelect} sec={empsecid} count={count} setCount={setCount}  verficationPending={verficationPending}/>
             </Paper>
             <Paper square sx={{
                 display: "flex",
@@ -1243,6 +1256,11 @@ const ComplaintRegistrMast = () => {
                 <Typography sx={{ pl: .5, pr: 2, fontSize: 13 }}>
                     New Message
                 </Typography>
+                <SquareIcon sx={{ color: '#FFF387',}} />
+                <Typography sx={{ pl: .5, pr: 2, fontSize: 13 }}>
+                    Need Emergency Verification
+                </Typography>
+                
             </Paper>
         </Fragment >
     )

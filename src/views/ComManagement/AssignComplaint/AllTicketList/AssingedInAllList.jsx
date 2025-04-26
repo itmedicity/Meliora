@@ -373,7 +373,7 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
 
                                             {
                                                 menurights.find((menu) => menu.slno === 251) ? (
-                                                    <Tooltip title='Add Assingees' color='warning' >
+                                                    <Tooltip title='Add Assignees' color='warning' >
                                                         <PersonAddIcon key="tab-251" sx={{
                                                             height: 28, width: 30, color: '#CBAE77', cursor: 'pointer', border: 1, borderRadius: 5, p: .3,
                                                             '&:hover': { color: '#CBAE77' },
@@ -385,7 +385,7 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
                                             }
                                             {
                                                 menurights.find((menu) => menu.slno === 251) ? (
-                                                    <Tooltip title='Change Assingees'  >
+                                                    <Tooltip title='Change Assignees'  >
                                                         <SettingsAccessibilityIcon key="tab-251" sx={{
                                                             height: 28, width: 30, color: '#603F8B', cursor: 'pointer', border: 1, borderRadius: 5, p: .3, mx: .5,
                                                             '&:hover': { color: '#A16AE8' },
@@ -435,10 +435,6 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
                                                 Location
                                             </Typography>
                                             <Typography sx={{ fontSize: 13, flex: 1, }}>
-                                                {/* {val.rm_room_name}
-                                                {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name ?
-                                                    ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''}${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${(val.rm_insidebuildblock_name && val.rm_floor_name) ? ' - ' : ''}${val.rm_floor_name ? val.rm_floor_name : ''})`
-                                                    : "Not Updated"} */}
                                                 {val.rm_room_name}
                                                 {(val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name) ? (
                                                     ` (${val.rm_roomtype_name || ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''}${val.rm_insidebuildblock_name || ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''}${val.rm_floor_name || ''})`

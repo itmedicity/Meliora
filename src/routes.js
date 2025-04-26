@@ -15,7 +15,8 @@ const UserGroupRights = React.lazy(() => import('./views/Master/UserGroupRight/U
 const ModuleGroupMast = React.lazy(() => import('./views/Master/ModuleGroupMaster/ModuleGroupMast'))
 const RequestType = React.lazy(() => import('./views/Master/RequestType/RequestTypeMast'))
 const ComplaintType = React.lazy(() => import('./views/Master/ComplaintType/ComplaintTypeMast'))
-const HicPolicy = React.lazy(() => import('./views/Master/HicPolicy/HicPolicyMast'));
+const HicPolicy = React.lazy(() => import('./views/Master/HicPolicy/HicPolicyMast'))
+const holdReason = React.lazy(() => import('./views/Master/ComplaintHoldReason/HoldReasonMaster'))
 const moduleuserRight = React.lazy(() => import('./views/Master/ModuleUserRight/ModuleUserRight'))
 const assignComplaint = React.lazy(() => import('./views/ComManagement/AssignComplaint/AssignComplaintTable'))
 const DepartmentAssets = React.lazy(() => import('./views/AssetManagment/DepartmentalAsset/DepartmentAssetMain'))
@@ -224,16 +225,9 @@ const AssetCondemnationList = React.lazy(() => import('./views/AssetManagment/Co
 const PmDueList = React.lazy(() => import('./views/AssetManagment/PmOverDueList/PmOverdueList'))
 const AllCRFReportWithPO = React.lazy(() => import('./views/Report/CrmReport/CRFAllReportWithPO'))
 const TicketDashboardz = React.lazy(() => import('./views/ComManagement/Dashboard/TicketManagementCmDeptMain'))
-// const CondemnationApproval = React.lazy(() => import('./views/AssetManagment/CondemnationApprovalMenu/CondemnationApprovalRights'))
-// const CondemnationApproval = React.lazy(() => import('./views/AssetManagment/CondemnationApproveMenu/CondemnationApproveMenu'))
 const ItBackupTypeMast = React.lazy(() => import('./views/Master/ItMasters/BackUpType/BackUpTypeMaster'))
 const SimOperator = React.lazy(() => import('./views/Master/ItMasters/SimOperators/SimOperators'))
 const AllDeptCondemList = React.lazy(() => import('./views/AssetManagment/AllDeptRegCondemList/AllDeptRegcondemMain'))
-// const AssetCondemApprovalLevels = React.lazy(() => import('./views/Master/AssetMasters/CondemnationApprovalLevelMaster/CondemApprovalLevelMast'))
-const TicketHoldReasonMast = React.lazy(() => import('./views/Master/ComplaintHoldReason/HoldReasonMaster'))
-
-
-// crfDelivery
 const deliverMarking = React.lazy(() => import('./views/CentralRequestManagement/DeliveryMarking/DeliveryMarkingStore'))
 const itemChecking = React.lazy(() => import('./views/CentralRequestManagement/ItemCheckingCRS/ItemCheckingMain'))
 const crfSearch = React.lazy(() => import('./views/CentralRequestManagement/CRFSearch/CrfDetailsSearch'))
@@ -248,6 +242,8 @@ const CrfCommon = React.lazy(() => import('./views/Master/RequestManagement/CrfC
 const CrfDashboardMaster = React.lazy(() => import('./views/Master/RequestManagement/DashboardMaster/DashboardMaster'))
 // const Datacollection = React.lazy(() => import('./views/CentralRequestManagement/DataCollectionMaster/DataCollectionMaster'))
 const DataCollectionMaster = React.lazy(() => import('./views/Master/RequestManagement/DataCollectionMaster/DataCollection'))
+
+
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -266,6 +262,7 @@ const routes = [
   { path: '/Home/RequestType', exact: true, name: 'Request Type', component: RequestType },
   { path: '/Home/ComplaintType', exact: true, name: 'Complaint Type', component: ComplaintType },
   { path: '/Home/HicPolicy', exact: true, name: 'Hic Policy', component: HicPolicy },
+  { path: '/Home/holdReasonsinTicket', exact: true, name: 'hold Reasons in Ticket', component: holdReason },
   { path: '/Home/ModuleUserRight', exact: true, name: 'Module User Right', component: moduleuserRight },
   { path: '/Home/AssignComplaint', exact: true, name: 'Assign Complaint', component: assignComplaint },
   { path: '/Home/DepartmentAssets', exact: true, name: 'Compliant List', component: DepartmentAssets },
@@ -487,14 +484,16 @@ const routes = [
   { path: '/Home/CrfCommon', exact: true, name: 'Crf Common Master', component: CrfCommon },
   { path: '/Home/AllCRFReportWithPO', exact: true, name: 'All CRF Report With PO', component: AllCRFReportWithPO },
   { path: '/Home/TicketDashboards', exact: true, name: 'Ticket Dashboards', component: TicketDashboardz },
-  // { path: '/Home/CondemnationApproval', exact: true, name: 'Condemnation Approval', component: CondemnationApproval },
   { path: '/Home/AllDeptCondemList', exact: true, name: 'AllDeptCondemList', component: AllDeptCondemList },
   { path: '/Home/ItBackupTypeMast', exact: true, name: 'ItBackupTypeMast', component: ItBackupTypeMast },
-  { path: '/Home/SimOperator', exact: true, name: 'SimOperator', component: SimOperator },
   // { Path: '/Home/Datacollection', exact: true, name: 'Data Collection Master', component: Datacollection },
   { path: '/Home/DataCollectionMaster', exact: true, name: 'DataCollectionMaster', component: DataCollectionMaster },
+  { path: '/Home/SimOperator', exact: true, name: 'SimOperator', component: SimOperator },
   { Path: '/Home/DashBoardMaster', exact: true, name: 'DashBoardMaster', component: CrfDashboardMaster },
-  { Path: '/Home/TicketHoldReason', exact: true, name: 'Ticket Hold Reason Master', component: TicketHoldReasonMast },
+
+
+
+
 
 ]
 

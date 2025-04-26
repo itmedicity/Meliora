@@ -389,11 +389,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                                         <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
                                             Location
                                         </Typography>
-                                        <Typography sx={{ fontSize: 13, flex: 1, }}>
-                                            {/* {val.rm_room_name}
-                                            {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name ?
-                                                ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''}${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${(val.rm_insidebuildblock_name && val.rm_floor_name) ? ' - ' : ''}${val.rm_floor_name ? val.rm_floor_name : ''})`
-                                                : "Not Updated"} */}
+                                        <Typography sx={{ fontSize: 13, flex: 1, }}>                                 
                                             {val.rm_room_name}
                                             {(val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name) ? (
                                                 ` (${val.rm_roomtype_name || ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''}${val.rm_insidebuildblock_name || ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''}${val.rm_floor_name || ''})`
@@ -752,11 +748,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                                         <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
                                             Location
                                         </Typography>
-                                        <Typography sx={{ fontSize: 13, flex: 1, }}>
-                                            {/* {val.rm_room_name}
-                                            {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name ?
-                                                ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''}${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${(val.rm_insidebuildblock_name && val.rm_floor_name) ? ' - ' : ''}${val.rm_floor_name ? val.rm_floor_name : ''})`
-                                                : "Not Updated"} */}
+                                        <Typography sx={{ fontSize: 13, flex: 1, }}>                                        
                                             {val.rm_room_name}
                                             {(val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name) ? (
                                                 ` (${val.rm_roomtype_name || ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''}${val.rm_insidebuildblock_name || ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''}${val.rm_floor_name || ''})`

@@ -262,7 +262,7 @@ const PendingTicketsSuperwiser = ({ allPendingCompl, count, setCount }) => {
                                                         onClick={() => TransferDepartment(val)}
                                                     />
                                                 </Tooltip>
-                                                <Tooltip title='Direct Assing' sx={{ bgcolor: "#CBAE77", color: 'black' }}  >
+                                                <Tooltip title='Direct Assign' sx={{ bgcolor: "#CBAE77", color: 'black' }}  >
                                                     <AccessibilityNewSharpIcon sx={{
                                                         height: 28, width: 30, color: '#CBAE77', cursor: 'pointer', border: 1, borderRadius: 5, p: .3, ml: .5,
                                                         '&:hover': { color: '#CBAE77' },
@@ -355,13 +355,10 @@ const PendingTicketsSuperwiser = ({ allPendingCompl, count, setCount }) => {
                                                     Location
                                                 </Typography>
                                                 <Typography sx={{ fontSize: 13, flex: 1, }}>
-                                                    {/* {val.rm_room_name}
-                                                    {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name ?
-                                                        ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''}${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${(val.rm_insidebuildblock_name && val.rm_floor_name) ? ' - ' : ''}${val.rm_floor_name ? val.rm_floor_name : ''})`
-                                                        : "Not Updated"} */}
+
                                                     {val.rm_room_name}
                                                     {(val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name) ? (
-                                                        ` (${val.rm_roomtype_name || ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''}${val.rm_insidebuildblock_name || ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''}${val.rm_floor_name || ''})`
+                                                        `(${val.rm_roomtype_name || ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''}${val.rm_insidebuildblock_name || ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''}${val.rm_floor_name || ''})`
                                                     ) : (
                                                         val.cm_complaint_location || "Not Updated"
                                                     )}
