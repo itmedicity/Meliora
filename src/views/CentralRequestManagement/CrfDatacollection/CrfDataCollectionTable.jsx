@@ -47,12 +47,19 @@ const CrfDataCollectionTable = () => {
     const { data: dataCollection, isLoading: isDCLoading, error: dcError } = useQuery({
         queryKey: ['dataCollection', empdeptsec],
         queryFn: () => getDataCollectionDetails(empdeptsec),
+        queryFn: async () => {
+            const data = await getDataCollectionDetails(empdeptsec);
+            return data.filter(item => item.tmc_data_collection_status === 0);
+        },
         enabled: empdeptsec !== null,
     });
 
     const { data: dataCollectionkmc, isLoading: iskmcDCLoading, error: kmcdcError } = useQuery({
         queryKey: ['dataCollectionkmc', empdeptsec],
-        queryFn: () => getDatakmcCollectionDetails(empdeptsec),
+        queryFn: async () => {
+            const data = await getDatakmcCollectionDetails(empdeptsec);
+            return data.filter(item => item.tmc_data_collection_status === 1);
+        },
         enabled: empdeptsec !== null,
     });
 
@@ -72,6 +79,7 @@ const CrfDataCollectionTable = () => {
         return datarights?.[0] || null;
     }, [datarights]);
 
+
     useEffect(() => {
         if (selectedCompany === "1") {
             if (radiovalue === '1') {
@@ -84,6 +92,7 @@ const CrfDataCollectionTable = () => {
                 setDisData(pendingData)
                 setAllData(pendingData)
                 setcombinedData(dataCollectionkmc)
+
             }
         }
     }, [radiovalue, pendingData, selectedCompany, dataCollection, dataCollectionkmc])
@@ -96,7 +105,7 @@ const CrfDataCollectionTable = () => {
                     actual_requirement: val.actual_requirement,
                     needed: val.needed,
                     request_deptsec_slno: val.request_deptsec_slno,
-                    req_deptsec: val.req_deptsec.toLowerCase(),
+                    req_deptsec: val.req_deptsec?.toLowerCase(),
                     user_deptsection: val.user_deptsection.toLowerCase(),
                     em_name: val.create_user.toLowerCase(),
                     category: val.category,

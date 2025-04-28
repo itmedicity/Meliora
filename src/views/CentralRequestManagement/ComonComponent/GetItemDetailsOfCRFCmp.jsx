@@ -47,13 +47,32 @@ export const GetItemDetailsOfCRFCmp = async (req_slno, setReqItems, setApproveTa
     }
     const getApproItemDetails = async (req_slno) => {
         try {
-            const result = await axioslogin.get(`/CRFRegisterApproval/getItemListApproval/${req_slno}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                setApproveTableData(data)
+            if (selectedCompany === "1") {
+                const result = await axioslogin.get(`/CRFRegisterApproval/getItemListApproval/${req_slno}`)
+                const { success, data } = result.data
+                if (success === 1) {
+                    setApproveTableData(data)
+                } else {
+                    setApproveTableData([])
+                }
+            } else if (selectedCompany === "2") {
+                const result = await axioskmc.get(`/CRFRegisterApproval/getItemListApproval/${req_slno}`)
+                const { success, data } = result.data
+                if (success === 1) {
+                    setApproveTableData(data)
+                } else {
+                    setApproveTableData([])
+                }
             } else {
-                setApproveTableData([])
+                const result = await axioslogin.get(`/CRFRegisterApproval/getItemListApproval/${req_slno}`)
+                const { success, data } = result.data
+                if (success === 1) {
+                    setApproveTableData(data)
+                } else {
+                    setApproveTableData([])
+                }
             }
+
         } catch (error) {
             warningNotify("Error to fetch Data:", error);
             setApproveTableData([])

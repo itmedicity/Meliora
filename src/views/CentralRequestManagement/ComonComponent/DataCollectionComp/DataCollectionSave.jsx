@@ -82,7 +82,7 @@ const DataCollectionSave = ({ flag, val, empdeptsec, selectedCompany }) => {
             }
         }
         getImage(req_slno)
-        GetItemDetailsOfCRFCmp(req_slno, setReqItems, setApproveTableData, setPoDetails)
+        GetItemDetailsOfCRFCmp(req_slno, setReqItems, setApproveTableData, setPoDetails, selectedCompany)
         setDataEnterViewFlag(1)
         setDataEnterViewModal(true)
 
