@@ -10,6 +10,7 @@ import ResolvedDirectTickets from './ResolvedDirectTickets';
 import { useQuery } from 'react-query';
 import { axioslogin } from 'src/views/Axios/Axios';
 import InfoIcon from '@mui/icons-material/Info';
+import { useSelector } from 'react-redux';
 
 const DirectTicketMainTab = () => {
     const history = useHistory();
@@ -25,7 +26,9 @@ const DirectTicketMainTab = () => {
         history.push('/Home');
     }, [history]);
 
-
+    const empsecid = useSelector((state) => {
+        return state.LoginUserData.empsecid
+    })
             
         const { data: verficationPending = [], } = useQuery({
         queryKey: ['getVerificationPendingTickets', depsec, count],
@@ -148,7 +151,7 @@ const DirectTicketMainTab = () => {
                             >
                                 Resolved Tickets
                             </Tab>
-                            {verficationPending.length>2?
+                            {verficationPending.length>2  && empsecid===depsec?
                                                     <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
                                                     <Box
                                                         sx={{
@@ -175,7 +178,7 @@ const DirectTicketMainTab = () => {
 
                     <TabPanel value={0} sx={{ p: 0, flexGrow: 1, }}>
                         <Box sx={{ flexGrow: 1, }}>
-                            <DirectComplaintReg verficationPending = {verficationPending} count={count} setCount={setCount}  depsec={depsec} setDepsec={setDepsec}/>
+                            <DirectComplaintReg verficationPending = {verficationPending} count={count} setCount={setCount}  depsec={depsec} setDepsec={setDepsec} empsecid={empsecid}/>
                         </Box>
                     </TabPanel>
                     <TabPanel value={1} sx={{ p: 0, flexGrow: 1, }}>

@@ -221,7 +221,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
             }
         }
 
-    }, [postData, assetSpare, postDataSpare, patchdata, patchdataSpare, count, setcount, WarGarReferesh, editFlag])
+    }, [postData, assetSpare, postDataSpare, patchdata, patchdataSpare, count, setcount, WarGarReferesh, editFlag,adress])
 
 
     const [tableData, setTableData] = useState([]);
