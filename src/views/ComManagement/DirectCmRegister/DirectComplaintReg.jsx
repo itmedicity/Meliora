@@ -37,7 +37,7 @@ import PersonSharpIcon from '@mui/icons-material/PersonSharp';
 import CardMastComplaint from 'src/views/Components/CardMastComplaint';
 import Switch from '@mui/joy/Switch';
 
-const DirectComplaintReg = ({verficationPending,count,setCount,depsec, setDepsec}) => {
+const DirectComplaintReg = ({verficationPending,count,setCount,depsec, setDepsec,empsecid}) => {
 
     const dispatch = useDispatch();
     /*** Initializing */
@@ -342,7 +342,7 @@ const DirectComplaintReg = ({verficationPending,count,setCount,depsec, setDepsec
             );
             return;
         }
-        if(verficationPending.length>2){
+        if(verficationPending.length>2 && empsecid===depsec){
                     infoNotify("Please verify all resolved tickets before registering new ticket.");
                     return;
          }
@@ -552,7 +552,7 @@ const DirectComplaintReg = ({verficationPending,count,setCount,depsec, setDepsec
     }, [
         postdata, edit, assetArray, patchdata, assetinactive, count, cm_am_assetmap_slno, assetStatus, updateAssetz, handleImageUpload, complaint_slno,
         cotype, selectFile, codept, deletedFiles.length, newlyAddedAssets.length, reset, selectedAsset, id, roomName, locationDetails,depsec,priority,priorreason,
-        setCount,verficationPending.length
+        setCount,verficationPending.length,empsecid
     ]);
 
     const refreshWindow = useCallback(() => {
@@ -586,9 +586,7 @@ const DirectComplaintReg = ({verficationPending,count,setCount,depsec, setDepsec
     const backtoSetting = useCallback(() => {
         history.push('/Home')
     }, [history])
-    const empsecid = useSelector((state) => {
-        return state.LoginUserData.empsecid
-    })
+
 
 
     useEffect(() => {
