@@ -55,6 +55,7 @@ const RectifyComplaint = React.lazy(() => import('./views/ComManagement/RectifyC
 const WeWorkInpatient = React.lazy(() => import('./views/WeWork/InPatientList'))
 const Reports = React.lazy(() => import('./Menus/Reports'))
 const DietReport = React.lazy(() => import('./views/Report/DietReport/DietTypeWise'))
+const DoctorAttendaceReport = React.lazy(() => import('./views/Report/DoctorsAttendanceReport/DoctorAttendance'))
 const NusrseStationReport = React.lazy(() => import('./views/Report/DietReport/NurseStationWise'))
 const PatientReport = React.lazy(() => import('./views/Report/DietReport/PatientWise'))
 const DirectComplaintReg = React.lazy(() => import('./views/ComManagement/DirectTicketRegistrationMain/DirectTicketMainTab'))
@@ -300,6 +301,7 @@ const routes = [
   { path: '/Home/WeWork/InpatientList', exact: true, name: 'WeWork Inpatient', component: WeWorkInpatient },
   { path: '/Home/Reports', exact: true, name: 'Reports', component: Reports },
   { path: '/Home/Report/Diet', exact: true, name: 'Diet Report', component: DietReport },
+  { path: '/Home/Report/DoctorAttendance', exact: true, name: 'Doctor Attendance Report', component: DoctorAttendaceReport },
   { path: '/Home/Report/NurseStation', exact: true, name: 'Nuse Station Wise Report', component: NusrseStationReport },
   { path: '/Home/Report/Pateintwise', exact: true, name: 'Pateint wise Report', component: PatientReport },
   { path: '/Home/DirectComplaint', exact: true, name: 'Direct Complaint Register', component: DirectComplaintReg },
@@ -482,15 +484,15 @@ const routes = [
   { path: '/Home/CrfStoreMaster', exact: true, name: 'Crf StoreMaster', component: CrfStoreMaster },
   { path: '/Home/CrfCommon', exact: true, name: 'Crf Common Master', component: CrfCommon },
   { path: '/Home/AllCRFReportWithPO', exact: true, name: 'All CRF Report With PO', component: AllCRFReportWithPO },
-  { path: '/Home/TicketDashboards', exact: true, name: 'Ticket Dashboards', component: TicketDashboardz }, 
+  { path: '/Home/TicketDashboards', exact: true, name: 'Ticket Dashboards', component: TicketDashboardz },
   { path: '/Home/AllDeptCondemList', exact: true, name: 'AllDeptCondemList', component: AllDeptCondemList },
   { path: '/Home/ItBackupTypeMast', exact: true, name: 'ItBackupTypeMast', component: ItBackupTypeMast },
-  { path: '/Home/SimOperator', exact: true, name: 'SimOperator', component: SimOperator },   
+  { path: '/Home/SimOperator', exact: true, name: 'SimOperator', component: SimOperator },
   { Path: '/Home/DashBoardMaster', exact: true, name: 'DashBoardMaster', component: CrfDashboardMaster },
- 
 
 
-  
+
+
 
 
 

@@ -212,6 +212,21 @@ const Reports = () => {
                     </div>
                 </div>
             </CardContent>
+            <CardHeader title={"Doctor Attendance Report"}
+                titleTypographyProps={{ variant: "subtitle1", color: titleTypography }}
+                sx={{
+                    backgroundColor: cardActionBgClr,
+                    paddingY: 0.5,
+                }} />
+            <CardContent>
+                <div className="row" >
+                    <div className="col-4">
+                        <ul className="list-group list-group-flush">
+                            <Link to={'/Home/Report/DoctorAttendance'} className="list-group-item pt-1 pb-1" key={"name"}  > Attendacne Report</Link>
+                        </ul>
+                    </div>
+                </div>
+            </CardContent>
         </Card>
     )
 }
