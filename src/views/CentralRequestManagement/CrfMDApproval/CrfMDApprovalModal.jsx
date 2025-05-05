@@ -35,6 +35,7 @@ import CampaignTwoToneIcon from '@mui/icons-material/CampaignTwoTone';
 
 const CrfMDApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApproveTableData, approveTableData,
     datacolflag, datacolData, imagearray, selectedCompany, company }) => {
+
     const { req_slno, incharge_req, incharge_remarks, hod_req, hod_approve, dms_req, dms_approve, ms_approve,
         ms_approve_req, manag_operation_approv, senior_manage_approv, gm_approve, md_approve, md_approve_remarks,
         md_detial_analysis, md_image, ed_approve, managing_director_approve,
@@ -42,6 +43,32 @@ const CrfMDApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
 
     const queryClient = useQueryClient()
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
+    const emno = useSelector((state) => state.LoginUserData.empno, _.isEqual)
+
+    const [emid, setKmcid] = useState(0)
+
+    useEffect(() => {
+        const fetchEmpDetails = async () => {
+            if (selectedCompany === '2' && emno) {
+                try {
+                    const result = await axioskmc.get(`/CRFRegisterApproval/getemno/${emno}`);
+                    const { success, data } = result.data;
+                    if (success === 1) {
+                        setKmcid(data[0]?.em_id)
+                    } else {
+                    }
+                } catch (error) {
+                    console.error("API call failed", error);
+                }
+            } else {
+                setKmcid(id)
+            }
+        };
+
+        fetchEmpDetails();
+    }, [emno, selectedCompany, id])
+
+
 
     const [crfdept, setCrfDept] = useState(0)
     const [editEnable, setEditEnable] = useState(0)
@@ -124,7 +151,7 @@ const CrfMDApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
     const MDPatchData = useMemo(() => {
         return {
             md_approve: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : internallyArr === true ? 4 : null,
-            md_user: id,
+            md_user: emid,
             req_slno: req_slno,
             md_approve_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
             md_approve_remarks: remark,
@@ -136,7 +163,9 @@ const CrfMDApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                 }
             })
         }
-    }, [approve, reject, pending, id, remark, detailAnalis, req_slno, approveTableData, internallyArr])
+    }, [approve, reject, pending, emid, remark, detailAnalis, req_slno, approveTableData, internallyArr])
+
+
 
     const closeModal = useCallback(() => {
         reset()
