@@ -32,7 +32,7 @@ const CrfGMApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
     datacolflag, datacolData, imagearray }) => {
     const { req_slno, incharge_req, incharge_remarks, hod_req, hod_approve, dms_req, dms_approve, ms_approve,
         ms_approve_req, manag_operation_approv, senior_manage_approv, gm_approve, gm_approve_remarks, gm_detial_analysis,
-        gm_image
+        gm_image, company_slno
     } = ApprovalData
 
     const queryClient = useQueryClient()
@@ -56,7 +56,7 @@ const CrfGMApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
         datacollFlagKMC: false
 
     });
-    const { remark, detailAnalis, approve, reject, pending, datacollFlag, datacolectremark, internallyArr, datacollFlagKMC, company_slno } = apprvlDetails
+    const { remark, detailAnalis, approve, reject, pending, datacollFlag, datacolectremark, internallyArr, datacollFlagKMC, } = apprvlDetails
     const updateOnchangeState = useCallback((e) => {
         const { name, type, value, checked } = e.target;
         setApprvlDetails((prev) => ({

@@ -30,7 +30,7 @@ const CrfMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
     datacolflag, datacolData, imagearray, company }) => {
 
     const { req_slno, incharge_req, incharge_remarks, hod_req, hod_approve, dms_req, dms_approve, ms_approve,
-        ms_approve_req, manag_operation_approv, manag_operation_remarks, om_detial_analysis, mo_image
+        ms_approve_req, manag_operation_approv, manag_operation_remarks, om_detial_analysis, mo_image, company_slno
     } = ApprovalData
 
     const queryClient = useQueryClient()
@@ -53,7 +53,8 @@ const CrfMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
         datacolectremark: '',
         datacollFlagKMC: false
     });
-    const { remark, detailAnalis, approve, reject, pending, datacollFlag, datacolectremark, internallyArr, datacollFlagKMC, company_slno } = apprvlDetails
+    const { remark, detailAnalis, approve, reject, pending, datacollFlag, datacolectremark, internallyArr, datacollFlagKMC } = apprvlDetails
+
     const updateOnchangeState = useCallback((e) => {
         const { name, type, value, checked } = e.target;
         setApprvlDetails((prev) => ({
