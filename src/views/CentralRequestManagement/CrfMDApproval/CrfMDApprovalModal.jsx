@@ -202,7 +202,21 @@ const CrfMDApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                     warningNotify('An error occurred during data collection insertion.');
                 }
             };
-
+            const DataCollRequestFnctntmc = async (postData) => {
+                try {
+                    const result = await axioslogin.post(`/CRFRegisterApproval/dataCollect/Insert/tmc`, postData);
+                    const { success, message } = result.data;
+                    if (success === 1) {
+                        succesNotify(message);
+                        queryClient.invalidateQueries('getPendingAll');
+                        reset();
+                    } else {
+                        warningNotify(message);
+                    }
+                } catch (error) {
+                    warningNotify('An error occurred during data collection insertion.');
+                }
+            };
             const DataCollRequestKMC = async (postData) => {
                 try {
                     const result = await axioskmc.post('/CRFRegisterApproval/dataCollect/Insert', postData);
@@ -287,6 +301,27 @@ const CrfMDApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                 }
                 return;
             }
+
+            if (datacollFlagKMC) {
+                if (crfdept.length === 0) {
+                    warningNotify("Select any data collection department");
+                    return;
+                }
+                if (datacolectremark === '') {
+                    warningNotify("Enter the remarks");
+                    return;
+                }
+                const postData = crfdept?.map((val) => ({
+                    crf_requst_slno: req_slno,
+                    crf_req_collect_dept: val,
+                    crf_req_remark: datacolectremark,
+                    reqest_one: 3,
+                    req_user: id,
+                    tmc_status: 1
+                }));
+                DataCollRequestFnctntmc(postData);
+                return;
+            }
             if (!approve && !reject && !pending && !internallyArr) {
                 warningNotify("Select any status");
                 return;
@@ -326,7 +361,7 @@ const CrfMDApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
             //     warningNotify("Justification is required");
             // }
         }
-    }, [MDPatchData, reset, datacollFlag, datacolectremark, crfdept, id, req_slno, selectFile, queryClient, internallyArr,
+    }, [MDPatchData, reset, datacollFlag, datacolectremark, crfdept, id, req_slno, selectFile, queryClient, internallyArr, datacollFlagKMC,
         handleImageUpload, approve, reject, pending, editEnable, selectedCompany, detailAnalis, remark]);
 
     useEffect(() => {

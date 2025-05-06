@@ -270,7 +270,7 @@ const CrfDMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
         }
     }, [
         approve, reject, pending, internallyArr, remark, detailAnalis, DMSPatchData, reset, datacollFlag, editEnable,
-        queryClient, datacolectremark, crfdept, id, req_slno, selectFile, handleImageUpload
+        queryClient, datacolectremark, crfdept, id, req_slno, selectFile, handleImageUpload, datacollFlagKMC
     ]);
     const closeModal = useCallback(() => {
         reset()

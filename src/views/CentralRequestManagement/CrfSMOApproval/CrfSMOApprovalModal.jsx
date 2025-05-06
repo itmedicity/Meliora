@@ -158,7 +158,21 @@ const CrfSMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
                     warningNotify('An error occurred during data collection insertion.');
                 }
             };
-
+            const DataCollRequestFnctntmc = async (postData) => {
+                try {
+                    const result = await axioslogin.post(`/CRFRegisterApproval/dataCollect/Insert/tmc`, postData);
+                    const { success, message } = result.data;
+                    if (success === 1) {
+                        succesNotify(message);
+                        queryClient.invalidateQueries('getPendingAll');
+                        reset();
+                    } else {
+                        warningNotify(message);
+                    }
+                } catch (error) {
+                    warningNotify('An error occurred during data collection insertion.');
+                }
+            };
             const FileInsert = async (req_slno, selectFile) => {
                 try {
                     const formData = new FormData();
@@ -201,6 +215,26 @@ const CrfSMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
                 DataCollRequestFnctn(postData);
                 return;
             }
+            if (datacollFlagKMC) {
+                if (crfdept.length === 0) {
+                    warningNotify("Select any data collection department");
+                    return;
+                }
+                if (datacolectremark === '') {
+                    warningNotify("Enter the remarks");
+                    return;
+                }
+                const postData = crfdept?.map((val) => ({
+                    crf_requst_slno: req_slno,
+                    crf_req_collect_dept: val,
+                    crf_req_remark: datacolectremark,
+                    reqest_one: 3,
+                    req_user: id,
+                    tmc_status: 1
+                }));
+                DataCollRequestFnctntmc(postData);
+                return;
+            }
             if (!approve && !reject && !pending && !internallyArr) {
                 warningNotify("Select any status");
                 return;
@@ -239,7 +273,7 @@ const CrfSMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
         }
     }, [
         approve, reject, pending, remark, detailAnalis, SMOPatchData, reset, datacollFlag, editEnable, internallyArr,
-        queryClient, datacolectremark, crfdept, id, req_slno, selectFile, handleImageUpload
+        queryClient, datacolectremark, crfdept, id, req_slno, selectFile, handleImageUpload, datacollFlagKMC
     ]);
 
     const closeModal = useCallback(() => {

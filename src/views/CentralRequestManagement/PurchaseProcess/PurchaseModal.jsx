@@ -399,6 +399,24 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
                 warningNotify("An error occurred while processing your request. Try again.", error);
             }
         }
+        const DataCollRequestFnctntmc = async (postData) => {
+            try {
+                const result = await axioslogin.post(`/CRFRegisterApproval/dataCollect/Insert/tmc`, postData);
+                const { success, message } = result.data;
+                if (success === 1) {
+                    succesNotify(message);
+                    await Promise.all([
+                        queryClient.invalidateQueries('getQuotationData'),
+                        queryClient.invalidateQueries('purchaseDataCollection'),
+                    ]); reset();
+                } else {
+                    warningNotify(message);
+                }
+            } catch (error) {
+                warningNotify('An error occurred during data collection insertion.');
+            }
+        };
+
         const postdataDetl = podetailData?.map((val) => {
             return {
                 crm_purchase_slno: val.crm_purchase_slno,
@@ -555,10 +573,29 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
                 }
 
             }
+        } else if (datacollFlagKMC === true) {
+            if (crfdept.length === 0) {
+                warningNotify("Select any data collection department");
+                return;
+            }
+            if (datacolectremark === '') {
+                warningNotify("Enter the remarks");
+                return;
+            }
+            const postData = crfdept?.map((val) => ({
+                crf_requst_slno: req_slno,
+                crf_req_collect_dept: val,
+                crf_req_remark: datacolectremark,
+                reqest_one: 3,
+                req_user: id,
+                tmc_status: 1
+            }));
+            DataCollRequestFnctntmc(postData);
+            return;
         }
     }, [queryClient, acknowledgemnet, ack_status, ackRemark, postAck, QuatationCallPatch, quatation_calling_status, selectFile,
         quotationCall, quatation_negotiation, quotationNego, quatation_fixing, quotationFix, poadding, QuatationNegotnPatch, workorder,
-        poComplete, QuatationFixingPatch, datacollFlag, crfdept, id, datacolectremark, req_slno, podetailData, PoCompletePatch, WorkOrder,
+        poComplete, QuatationFixingPatch, datacollFlag, crfdept, id, datacolectremark, req_slno, podetailData, PoCompletePatch, WorkOrder, datacollFlagKMC,
         reset])
 
     const closeModal = useCallback(() => {
