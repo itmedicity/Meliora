@@ -30,6 +30,7 @@ import IncidentTransactions from 'src/Menus/IncidentTransaction'
 import FeedbackTransactions from 'src/Menus/FeddbackTransaction'
 import { getDefaultCompany } from 'src/api/CommonApiCRF'
 import { useQuery } from 'react-query'
+import NotificationTransaction from 'src/Menus/NotificationTransaction'
 
 
 const AppSidebar = () => {
@@ -52,6 +53,8 @@ const AppSidebar = () => {
   const [censusTransact, setCensusTransact] = useState()
   const [incidentTransact, setIncidentTransact] = useState()
   const [feedbackTransact, setFeedbackTransact] = useState()
+  const [NotificationTransact, setNotificationTransact] = useState()
+ 
 
   const [count, setCount] = useState(0)
   const [menu, setMenu] = useState([])
@@ -225,6 +228,12 @@ const AppSidebar = () => {
       name: 'Feedback Management',
       items: feedbackTransact
     },
+    {
+      slno: 24,
+      component: CNavGroup,
+      name: 'Notification',
+      items: NotificationTransact
+    },
   ]
 
   useEffect(() => {
@@ -270,6 +279,10 @@ const AppSidebar = () => {
 
         const FeedbackTransact = FeedbackTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
         setFeedbackTransact(FeedbackTransact)
+
+        const NotificationTransact = NotificationTransaction.filter(val => menuSlnoAry.includes(val.men_slno));
+        setNotificationTransact(NotificationTransact)
+        
 
         setCount(1)
       }
