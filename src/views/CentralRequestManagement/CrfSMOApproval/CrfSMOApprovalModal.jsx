@@ -25,6 +25,7 @@ import CommonMsApprvCmp from '../ComonComponent/ApprovalComp/CommonMsApprvCmp'
 import CommonMoApprvlCmp from '../ComonComponent/ApprovalComp/CommonMoApprvlCmp'
 import ModalButtomCmp from '../ComonComponent/Components/ModalButtomCmp'
 import CampaignTwoToneIcon from '@mui/icons-material/CampaignTwoTone';
+import DataCollectDepSecSelectTmc from '../ComonComponent/DataCollectionComp/DataCollectDepSecSelectTmc'
 
 const CrfSMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApproveTableData, approveTableData, company,
     datacolflag, datacolData, imagearray }) => {
@@ -50,9 +51,11 @@ const CrfSMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
         remark: senior_manage_remarks !== null ? senior_manage_remarks : '',
         detailAnalis: smo_detial_analysis !== null ? smo_detial_analysis : '',
         datacollFlag: false,
-        datacolectremark: ''
+        datacolectremark: '',
+        datacollFlagKMC: false
+
     });
-    const { remark, detailAnalis, approve, reject, pending, datacollFlag, datacolectremark, internallyArr } = apprvlDetails
+    const { remark, detailAnalis, approve, reject, pending, datacollFlag, datacolectremark, internallyArr, datacollFlagKMC, company_slno } = apprvlDetails
     const updateOnchangeState = useCallback((e) => {
         const { name, type, value, checked } = e.target;
         setApprvlDetails((prev) => ({
@@ -419,9 +422,59 @@ const CrfSMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
                                             value={datacollFlag}
                                             onCheked={updateOnchangeState}
                                             checked={datacollFlag}
+                                            disabled={datacollFlagKMC === true}
+
                                         />
                                     </Box>
                                 </Paper>
+
+                                {
+                                    company_slno === 2 ?
+                                        <Paper variant='outlined' sx={{ pb: 1, flexWrap: 'wrap', mx: 0.3 }} >
+                                            <Box sx={{ mx: 1, mt: 1 }}>
+                                                <CusCheckBox
+                                                    className={{ color: '#145DA0', fontSize: 14, fontWeight: 'bold' }}
+                                                    variant="outlined"
+                                                    color="primary"
+                                                    size="md"
+                                                    name="datacollFlagKMC"
+                                                    label="TMC Data Collection Required"
+                                                    value={datacollFlagKMC}
+                                                    onCheked={updateOnchangeState}
+                                                    checked={datacollFlagKMC}
+                                                    disabled={datacollFlag === true}
+                                                />
+                                            </Box>
+                                        </Paper>
+                                        : null
+                                }
+                                {datacollFlagKMC === true ? <Box sx={{ border: '1px solid lightgrey', borderTop: 'none', pb: 1, mx: 0.3 }}>
+                                    <Box sx={{ display: 'flex', pt: 1, }}>
+                                        <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 0.5 }}>Departments for Data Collection</Typography>
+                                        <Typography sx={{ pt: 0.5 }}>  :&nbsp;</Typography>
+                                        <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
+                                            <DataCollectDepSecSelectTmc SetDeptSec={setCrfDept} />
+                                        </Box>
+                                    </Box>
+                                    <Box sx={{ display: 'flex', pt: 0.4 }}>
+                                        <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 1 }}>Remarks</Typography>
+                                        <Typography sx={{ pt: 1 }}>  :&nbsp;</Typography>
+                                        <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
+                                            <Textarea
+                                                required
+                                                type="text"
+                                                size="sm"
+                                                minRows={2}
+                                                maxRows={4}
+                                                style={{ width: "90%", }}
+                                                placeholder="Remarks"
+                                                name='datacolectremark'
+                                                value={datacolectremark}
+                                                onChange={updateOnchangeState}
+                                            />
+                                        </Box>
+                                    </Box>
+                                </Box> : null}
                                 {datacollFlag === true ?
                                     <Box sx={{ border: '1px solid lightgrey', borderTop: 'none', pb: 1, mx: 0.3 }}>
                                         <Box sx={{ display: 'flex', pt: 1, }}>
@@ -450,7 +503,8 @@ const CrfSMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
                                             </Box>
                                         </Box>
                                     </Box>
-                                    :
+                                    : null}
+                                {datacollFlag === false && datacollFlagKMC === false ?
                                     <Box sx={{ mt: 0.5, pb: 1, flexWrap: 'wrap', }} >
                                         {approveTableData.length !== 0 ?
                                             <ItemsApprovalCompnt req_slno={req_slno} setMoreItem={setMoreItem} editEnable={editEnable}
@@ -477,7 +531,7 @@ const CrfSMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
                                             setSelectFile={setSelectFile}
                                             uploadedImages={uploadedImages}
                                         />
-                                    </Box>
+                                    </Box> : null
                                 }
                             </Box>
                         </Box>

@@ -36,7 +36,7 @@ const DataCollectionViewModal = ({ open, handleClose, reqData, dtaEnterViewData,
                             height: 35, width: 35
                         }}
                     />
-                    <Box sx={{ minWidth: '65vw', minHeight: '62vh', maxHeight: '85vh', overflowY: 'auto', px: 0.5, backgroundColor: 'red' }}>
+                    <Box sx={{ minWidth: '65vw', minHeight: '62vh', maxHeight: '85vh', overflowY: 'auto', px: 0.5, }}>
                         <CrfReqDetailViewCmp ApprovalData={reqData} imagearray={imagearray} />
                         <Box sx={{ pt: 0.5 }}>
                             {reqItems.length !== 0 ?

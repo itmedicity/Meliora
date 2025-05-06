@@ -242,6 +242,7 @@ const CrfCommon = React.lazy(() => import('./views/Master/RequestManagement/CrfC
 const CrfDashboardMaster = React.lazy(() => import('./views/Master/RequestManagement/DashboardMaster/DashboardMaster'))
 // const Datacollection = React.lazy(() => import('./views/CentralRequestManagement/DataCollectionMaster/DataCollectionMaster'))
 const DataCollectionMaster = React.lazy(() => import('./views/Master/RequestManagement/DataCollectionMaster/DataCollection'))
+const DepartmentMapping = React.lazy(() => import('./views/Master/RequestManagement/DepartmentMapping/DepartmentMaping'))
 
 
 
@@ -489,6 +490,8 @@ const routes = [
   // { Path: '/Home/Datacollection', exact: true, name: 'Data Collection Master', component: Datacollection },
   { path: '/Home/DataCollectionMaster', exact: true, name: 'DataCollectionMaster', component: DataCollectionMaster },
   { path: '/Home/SimOperator', exact: true, name: 'SimOperator', component: SimOperator },
+  { Path: '/Home/DepartmentMapping', exact: true, name: 'DashBoardMaster', component: DepartmentMapping },
+
   { Path: '/Home/DashBoardMaster', exact: true, name: 'DashBoardMaster', component: CrfDashboardMaster },
 
 

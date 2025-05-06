@@ -29,12 +29,13 @@ import MSApproveViewForHigher from '../ComonComponent/HigherLevelComponents/MSAp
 import DMSApproveViewForHigher from '../ComonComponent/HigherLevelComponents/DMSApproveViewForHigher'
 import HODApproveViewHigher from '../ComonComponent/HigherLevelComponents/HODApproveViewHigher'
 import CampaignTwoToneIcon from '@mui/icons-material/CampaignTwoTone';
+import DataCollectDepSecSelectTmc from '../ComonComponent/DataCollectionComp/DataCollectDepSecSelectTmc'
 
 const ManagingDirectorModal = ({ open, ApprovalData, reqItems, handleClose, setApproveTableData, approveTableData, company,
     datacolflag, datacolData, imagearray, selectedCompany }) => {
     const { req_slno, incharge_req, incharge_remarks, hod_req, hod_approve, dms_req, dms_approve, ms_approve,
         ms_approve_req, manag_operation_approv, senior_manage_approv, gm_approve, md_approve,
-        managing_director_approve, managing_director_remarks, managing_director_analysis, managing_director_image
+        managing_director_approve, managing_director_remarks, managing_director_analysis, managing_director_image, company_slno
     } = ApprovalData
     const queryClient = useQueryClient()
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
@@ -53,9 +54,10 @@ const ManagingDirectorModal = ({ open, ApprovalData, reqItems, handleClose, setA
         remark: managing_director_remarks !== null ? managing_director_remarks : '',
         detailAnalis: managing_director_analysis !== null ? managing_director_analysis : '',
         datacollFlag: false,
-        datacolectremark: ''
+        datacolectremark: '',
+        datacollFlagKMC: false
     });
-    const { remark, detailAnalis, approve, reject, pending, datacollFlag, datacolectremark, internallyArr } = apprvlDetails
+    const { remark, detailAnalis, approve, reject, pending, datacollFlag, datacolectremark, internallyArr, datacollFlagKMC } = apprvlDetails
     const updateOnchangeState = useCallback((e) => {
         const { name, type, value, checked } = e.target;
         setApprvlDetails((prev) => ({
@@ -290,9 +292,10 @@ const ManagingDirectorModal = ({ open, ApprovalData, reqItems, handleClose, setA
                 } else if (selectedCompany === '2') {
                     handleApproval(updateManagApprovalKMC, FileInsertKMC, 'getAllKmcPending');
                 }
-            } else {
-                warningNotify("Justification is required");
             }
+            // else {
+            //     warningNotify("Justification is required");
+            // }
         }
     }, [managPatchData, reset, datacollFlag, datacolectremark, crfdept, id, req_slno, selectFile, queryClient, internallyArr,
         handleImageUpload, approve, reject, pending, editEnable, selectedCompany, detailAnalis, remark]);
@@ -516,6 +519,54 @@ const ManagingDirectorModal = ({ open, ApprovalData, reqItems, handleClose, setA
                                         />
                                     </Box>
                                 </Paper>
+                                {
+                                    company_slno === 2 ?
+                                        <Paper variant='outlined' sx={{ pb: 1, flexWrap: 'wrap', mx: 0.3 }} >
+                                            <Box sx={{ mx: 1, mt: 1 }}>
+                                                <CusCheckBox
+                                                    className={{ color: '#145DA0', fontSize: 14, fontWeight: 'bold' }}
+                                                    variant="outlined"
+                                                    color="primary"
+                                                    size="md"
+                                                    name="datacollFlagKMC"
+                                                    label="TMC Data Collection Required"
+                                                    value={datacollFlagKMC}
+                                                    onCheked={updateOnchangeState}
+                                                    checked={datacollFlagKMC}
+                                                    disabled={datacollFlag === true}
+                                                />
+                                            </Box>
+                                        </Paper>
+                                        : null
+                                }
+
+                                {datacollFlagKMC === true ? <Box sx={{ border: '1px solid lightgrey', borderTop: 'none', pb: 1, mx: 0.3 }}>
+                                    <Box sx={{ display: 'flex', pt: 1, }}>
+                                        <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 0.5 }}>Departments for Data Collection</Typography>
+                                        <Typography sx={{ pt: 0.5 }}>  :&nbsp;</Typography>
+                                        <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
+                                            <DataCollectDepSecSelectTmc SetDeptSec={setCrfDept} />
+                                        </Box>
+                                    </Box>
+                                    <Box sx={{ display: 'flex', pt: 0.4 }}>
+                                        <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 1 }}>Remarks</Typography>
+                                        <Typography sx={{ pt: 1 }}>  :&nbsp;</Typography>
+                                        <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
+                                            <Textarea
+                                                required
+                                                type="text"
+                                                size="sm"
+                                                minRows={2}
+                                                maxRows={4}
+                                                style={{ width: "90%", }}
+                                                placeholder="Remarks"
+                                                name='datacolectremark'
+                                                value={datacolectremark}
+                                                onChange={updateOnchangeState}
+                                            />
+                                        </Box>
+                                    </Box>
+                                </Box> : null}
                                 {datacollFlag === true ?
                                     <Box sx={{ border: '1px solid lightgrey', borderTop: 'none', pb: 1, mx: 0.3 }}>
                                         <Box sx={{ display: 'flex', pt: 1, }}>
@@ -544,7 +595,8 @@ const ManagingDirectorModal = ({ open, ApprovalData, reqItems, handleClose, setA
                                             </Box>
                                         </Box>
                                     </Box>
-                                    :
+                                    : null}
+                                {datacollFlag === false && datacollFlagKMC === false ?
                                     <Box sx={{ mt: 0.5, pb: 1, flexWrap: 'wrap', mx: 0.3 }} >
                                         {selectedCompany === '1' ?
                                             <>
@@ -577,7 +629,7 @@ const ManagingDirectorModal = ({ open, ApprovalData, reqItems, handleClose, setA
                                             setSelectFile={setSelectFile}
                                             uploadedImages={uploadedImages}
                                         />
-                                    </Box>
+                                    </Box> : null
                                 }
                             </Box>
                         </Box>

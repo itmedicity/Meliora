@@ -24,6 +24,7 @@ import QuotationNegoComp from '../ComonComponent/PurchaseComp/QuotationNegoComp'
 import QuotationFinalComp from '../ComonComponent/PurchaseComp/QuotationFinalComp'
 import PurchaseWoImg from './Component/PurchaseWoImg'
 import imageCompression from 'browser-image-compression';
+import DataCollectDepSecSelectTmc from '../ComonComponent/DataCollectionComp/DataCollectDepSecSelectTmc'
 
 const PoAddModalView = React.lazy(() => import("./Component/PoAddModalView"))
 const CrfReqDetailViewCmp = React.lazy(() => import("../ComonComponent/CrfReqDetailViewCmp"))
@@ -39,7 +40,7 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
 
     const { req_slno, md_approve, ed_approve, ack_status, quatation_calling_status, quatation_negotiation,
         quatation_fixing, po_prepartion, po_complete, crm_purchase_slno } = puchaseData
-
+    const { company_slno } = company
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
     const queryClient = useQueryClient()
     const [purchaseState, setPurchaseState] = useState({
@@ -62,11 +63,12 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
         po_date: '',
         work_orderNo: '',
         order_date: "",
-        order_remark: ""
+        order_remark: "",
+        datacollFlagKMC: false,
     })
     const { datacollFlag, datacolectremark, poadding, poComplete, acknowledgemnet, ackRemark, quotationCall, poDetlDis,
         quotationCallRemark, quotationNego, quotationNegoRemark, quotationFix, quotationFixRemark, pomodalflag, pomodalopen,
-        po_number, po_date, work_orderNo, order_date, order_remark
+        po_number, po_date, work_orderNo, order_date, order_remark, datacollFlagKMC
     } = purchaseState
     const [selectFile, setSelectFile] = useState([])
     const [crfdept, serCrfDept] = useState([])
@@ -121,7 +123,8 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
             datacollFlag: e.target.checked,
             quotationCall: false,
             quotationNego: false,
-            quotationFix: false
+            quotationFix: false,
+            datacollFlagKMC: false,
         }));
     }, []);
     const updatePoDetails = useCallback((e) => {
@@ -709,13 +712,63 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
                                                 value={datacollFlag}
                                                 onCheked={updateDataCollFlag}
                                                 checked={datacollFlag}
-                                                disabled={(quotationCall === true || poadding === true ||
+                                                disabled={(quotationCall === true || poadding === true || datacollFlagKMC === true ||
                                                     quotationNego === true || quotationFix === true) ? true : false}
                                             />
                                         </Box>
                                     </Paper>
                                     : null}
 
+                                {
+                                    company_slno === 2 && ack_status === 1 && po_prepartion !== 1 && po_complete !== 1 ?
+                                        <Paper variant='outlined' sx={{ pb: 1, flexWrap: 'wrap', mx: 0.3 }} >
+                                            <Box sx={{ mx: 1, mt: 1 }}>
+                                                <CusCheckBox
+                                                    className={{ color: '#145DA0', fontSize: 14, fontWeight: 'bold' }}
+                                                    variant="outlined"
+                                                    color="primary"
+                                                    size="md"
+                                                    name="datacollFlagKMC"
+                                                    label="TMC Data Collection Required"
+                                                    value={datacollFlagKMC}
+                                                    onCheked={handleCheckboxChange('datacollFlagKMC')}
+
+                                                    checked={purchaseState.datacollFlagKMC}
+                                                    disabled={(quotationCall === true || poadding === true || datacollFlag === true ||
+                                                        quotationNego === true || quotationFix === true) ? true : false}
+                                                />
+
+                                            </Box>
+                                        </Paper>
+                                        : null
+                                }
+                                {datacollFlagKMC === true ? <Box sx={{ border: '1px solid lightgrey', borderTop: 'none', pb: 1, mx: 0.3 }}>
+                                    <Box sx={{ display: 'flex', pt: 1, }}>
+                                        <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 0.5 }}>Departments for Data Collection</Typography>
+                                        <Typography sx={{ pt: 0.5 }}>  :&nbsp;</Typography>
+                                        <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
+                                            <DataCollectDepSecSelectTmc SetDeptSec={serCrfDept} />
+                                        </Box>
+                                    </Box>
+                                    <Box sx={{ display: 'flex', pt: 0.4 }}>
+                                        <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 1 }}>Remarks</Typography>
+                                        <Typography sx={{ pt: 1 }}>  :&nbsp;</Typography>
+                                        <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
+                                            <Textarea
+                                                required
+                                                type="text"
+                                                size="sm"
+                                                minRows={2}
+                                                maxRows={4}
+                                                style={{ width: "90%", }}
+                                                placeholder="Remarks"
+                                                name='datacolectremark'
+                                                value={datacolectremark}
+                                                onChange={updatePoDetails}
+                                            />
+                                        </Box>
+                                    </Box>
+                                </Box> : null}
                                 {/* datacollection */}
                                 {datacollFlag === true ?
                                     <Box sx={{ border: '1px solid lightgrey', borderTop: 'none', pb: 1, mx: 0.2 }}>
@@ -760,7 +813,7 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
                                                 value={quotationCall}
                                                 checked={purchaseState.quotationCall}
                                                 onCheked={handleCheckboxChange('quotationCall')}
-                                                disabled={(datacollFlag === true || poadding === true) ? true : false}
+                                                disabled={(datacollFlag === true || poadding === true || datacollFlagKMC === true) ? true : false}
                                             />
                                         </Box>
                                         {quotationCall === true ?
@@ -804,7 +857,7 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
                                                 value={quotationNego}
                                                 checked={purchaseState.quotationNego}
                                                 onCheked={handleCheckboxChange('quotationNego')}
-                                                disabled={datacollFlag === true ? true : false}
+                                                disabled={datacollFlag === true || datacollFlagKMC === true ? true : false}
                                             />
                                         </Box>
                                         {quotationNego === true ?
@@ -904,7 +957,7 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
                                                 value={poadding}
                                                 checked={poadding}
                                                 onCheked={checkNewPo}
-                                                disabled={(quotationCall === true || datacollFlag === true || WorkOrder === true
+                                                disabled={(quotationCall === true || datacollFlag === true || WorkOrder === true || datacollFlagKMC === true
                                                     || poComplete === true) ? true : false}
                                             />
                                         </Box>
@@ -938,7 +991,7 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
                                                 // value={WorkOrder}
                                                 checked={WorkOrder}
                                                 onChange={(e) => setWorkOrder(e.target.checked)}
-                                                disabled={quotationCall || datacollFlag || poComplete || poadding}
+                                                disabled={quotationCall || datacollFlag || poComplete || poadding || datacollFlagKMC === true}
                                             />
                                         </Box>
                                     </Paper>

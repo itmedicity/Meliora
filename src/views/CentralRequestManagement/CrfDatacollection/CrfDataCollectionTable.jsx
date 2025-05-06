@@ -4,7 +4,7 @@ import CustomCloseIconCmp from '../ComonComponent/Components/CustomCloseIconCmp'
 import { useHistory } from 'react-router-dom';
 import { Badge, FormControlLabel, Radio, RadioGroup } from '@mui/material';
 import { useQuery } from 'react-query';
-import { getDataCollectionDetails, getDefaultCompany, getCompanyDetails, getdefaultRights } from 'src/api/CommonApiCRF';
+import { getDataCollectionDetails, getDefaultCompany, getCompanyDetails, getdefaultRights, getDatakmcDep } from 'src/api/CommonApiCRF';
 
 import _ from 'underscore';
 import { useSelector } from 'react-redux';
@@ -54,14 +54,30 @@ const CrfDataCollectionTable = () => {
         enabled: empdeptsec !== null,
     });
 
+    const { data: depkmc, isLoading: iskmcDepLoading, error: kmcdepError } = useQuery({
+        queryKey: ['dataDepkmc', empdeptsec],
+        queryFn: () => getDatakmcDep(empdeptsec),
+        staleTime: Infinity
+    });
+
     const { data: dataCollectionkmc, isLoading: iskmcDCLoading, error: kmcdcError } = useQuery({
-        queryKey: ['dataCollectionkmc', empdeptsec],
+        queryKey: ['dataCollectionkmc', empdeptsec, depkmc?.kmc_dept], // safer caching
         queryFn: async () => {
-            const data = await getDatakmcCollectionDetails(empdeptsec);
+            const payload = depkmc?.kmc_dept;
+            const data = await getDatakmcCollectionDetails(payload);
             return data.filter(item => item.tmc_data_collection_status === 1);
         },
-        enabled: empdeptsec !== null,
+        enabled: empdeptsec !== null && depkmc !== undefined,
     });
+    // const { data: dataCollectionkmc, isLoading: iskmcDCLoading, error: kmcdcError } = useQuery({
+    //     queryKey: ['dataCollectionkmc', empdeptsec],
+    //     queryFn: async () => {
+    //         const data = await getDatakmcCollectionDetails(depkmc);
+    //         return data.filter(item => item.tmc_data_collection_status === 1);
+    //     },
+
+    //     enabled: empdeptsec !== null,
+    // });
 
     const { data: companyData, isLoading: isCompLoading, error: compError } = useQuery({
         queryKey: 'getdefaultCompany',
@@ -228,8 +244,8 @@ const CrfDataCollectionTable = () => {
     });
     const comData = useMemo(() => compData, [compData]);
 
-    if (isDCLoading || isCompLoading || iskmcDCLoading || isCompLoad || isdataLoading) return <p>Loading...</p>;
-    if (dcError || compError || kmcdcError || comError || dataError) return <p>Error occurred.</p>;
+    if (isDCLoading || isCompLoading || iskmcDCLoading || isCompLoad || isdataLoading || iskmcDepLoading) return <p>Loading...</p>;
+    if (dcError || compError || kmcdcError || comError || dataError || kmcdepError) return <p>Error occurred.</p>;
     return (
         <Fragment>
             <Box sx={{ height: window.innerHeight - 80, flexWrap: 'wrap', bgcolor: 'white', }}>
