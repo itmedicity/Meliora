@@ -282,17 +282,18 @@ const ManagingDirectorModal = ({ open, ApprovalData, reqItems, handleClose, setA
                     onSuccess();
                 }
             };
-            if ((approve && detailAnalis && remark) || ((reject || pending || internallyArr) && remark)) {
-                if (selectedCompany === '1') {
-                    // handleApproval(updateManagApproval, FileInsert, 'getPendingAll');
-                    handleApproval(updateManagApprovalKMC, FileInsertKMC, 'getAllKmcPending');
+            // if ((approve && detailAnalis && remark) || ((reject || pending || internallyArr) && remark)) {
+            if (selectedCompany === '1') {
+                // handleApproval(updateManagApproval, FileInsert, 'getPendingAll');
+                handleApproval(updateManagApprovalKMC, FileInsertKMC, 'getPendingAll');
 
-                } else if (selectedCompany === '2') {
-                    handleApproval(updateManagApprovalKMC, FileInsertKMC, 'getAllKmcPending');
-                }
-            } else {
-                warningNotify("Justification is required");
+            } else if (selectedCompany === '2') {
+                handleApproval(updateManagApprovalKMC, FileInsertKMC, 'getAllKmcPending');
             }
+            // }
+            // else {
+            //     warningNotify("Justification is required");
+            // }
         }
     }, [managPatchData, reset, datacollFlag, datacolectremark, crfdept, id, req_slno, selectFile, queryClient, internallyArr,
         handleImageUpload, approve, reject, pending, editEnable, selectedCompany, detailAnalis, remark]);
