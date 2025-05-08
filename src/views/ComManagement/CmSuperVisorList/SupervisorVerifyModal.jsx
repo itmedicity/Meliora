@@ -229,7 +229,7 @@ const SupervisorVerifyModal = ({ open, setverifyOpen, forVerifyData, setverifyFl
                                     </Typography>
                                     <Box sx={{ flex: 3, }}>
                                         {compalint_priority === 1 ?
-                                            < Chip sx={{ bgcolor: '#FBAA60' }}>
+                                            <Chip sx={{ bgcolor: '#FBAA60' }}>
                                                 Level 1
                                             </Chip>
                                             : compalint_priority === 2 ?
@@ -320,7 +320,7 @@ const SupervisorVerifyModal = ({ open, setverifyOpen, forVerifyData, setverifyFl
                                 </Box>
                                 <Box sx={{ flex: 1, display: 'flex', mt: .5 }}>
                                     <Typography sx={{ flex: 1.8, pl: 3, fontWeight: 500, fontSize: 15 }}>
-                                        Rectified By
+                                    Rectification Marked By
                                     </Typography>
                                     <Box sx={{ flex: 3, gap: .5 }}>
                                         <Chip sx={{ bgcolor: '#ADC9C5' }}>
@@ -341,8 +341,9 @@ const SupervisorVerifyModal = ({ open, setverifyOpen, forVerifyData, setverifyFl
                                                 </Box>
                                             );
                                         })}
-                                    </Box> : null}
-
+                                    </Box> : 
+                                    null
+                                    }
                                 <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center', mt: 3.5, gap: 2.5 }}>
                                     <Checkbox
                                         label="Verified"
@@ -351,7 +352,6 @@ const SupervisorVerifyModal = ({ open, setverifyOpen, forVerifyData, setverifyFl
                                         checked={verify}
                                         onChange={updateVerify}
                                     />
-
                                     <Checkbox
                                         label="Not Verified"
                                         color="danger"
@@ -360,7 +360,6 @@ const SupervisorVerifyModal = ({ open, setverifyOpen, forVerifyData, setverifyFl
                                         onChange={updateNotrectify}
                                     />
                                 </Box>
-
                                 <Textarea
                                     minRows={2}
                                     placeholder='Remarks...'
@@ -381,7 +380,6 @@ const SupervisorVerifyModal = ({ open, setverifyOpen, forVerifyData, setverifyFl
                                     onClick={Close}
                                 >Cancel</Button>
                             </Box>
-
                         </Box>
                     </ModalDialog>
                 </Modal>

@@ -111,8 +111,8 @@ const ComplaintAttachFiles = ({ complaint_slno }) => {
                                     ) : isPdf ? (
                                         <PictureAsPdfIcon
                                             sx={{
-                                                width: "60px",
-                                                height: "60px",
+                                                width: "50px",
+                                                height: "50px",
                                                 color: "#e53935",
                                                 marginRight: "8px",
                                                 cursor: "pointer",

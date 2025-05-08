@@ -12,12 +12,12 @@ const EmployeeTicketList = ({ empdept }) => {
 
     const [sevenDaysbefore, setSevenDaysbefore] = useState("")
     const [currentDateAndTime, setCurrentDateAndTime] = useState('')
-
+    
     const postdata = useMemo(() => {
-        return {
-            empdept,
+        return {          
             fromDate: sevenDaysbefore,
-            toDate: currentDateAndTime
+            toDate: currentDateAndTime,
+            empdept,
         }
     }, [empdept, sevenDaysbefore, currentDateAndTime])
 
@@ -26,6 +26,7 @@ const EmployeeTicketList = ({ empdept }) => {
         queryFn: () => getAllemployeesUnderDepartment(postdata),
     });
     const employeeList = useMemo(() => AllEmployees, [AllEmployees])
+   
 
     useEffect(() => {
         const updateDateTimes = () => {
@@ -55,12 +56,10 @@ const EmployeeTicketList = ({ empdept }) => {
                     </Typography>
                 </Box>
             </Box>
-            <Box sx={{
-                // flexGrow: 1,    
+            <Box sx={{                
                 height: '75vh',
                 overflow: 'auto',
             }}>
-
 
                 {employeeList?.map((val, index) => {
                     return (
@@ -87,20 +86,20 @@ const EmployeeTicketList = ({ empdept }) => {
                             </Box>
                             <Box sx={{ display: 'flex', width: 50, overflow: 'hidden', flexDirection: 'column' }} >
                                 <Box sx={{
-                                    display: 'flex', flex: 1, color: 'green', fontWeight: 750, fontSize: 15, opacity: 0.8,
-                                    justifyContent: 'start', alignItems: 'center'
+                                    display: 'flex', flex: 1, color: 'red', fontWeight: 750, fontSize: 15,
+                                    justifyContent: 'start', alignItems: 'center',opacity: .5
                                 }}>
-                                    <CallMadeOutlinedIcon sx={{ display: 'flex', fontSize: 14, color: 'green', opacity: 0.8, }} />
-                                    <Box sx={{ display: 'flex', ml: 0.1 }} >
+                                    <CallMadeOutlinedIcon sx={{ display: 'flex', fontSize: 14, color: 'red', }} />
+                                    <Box sx={{ display: 'flex', ml: 0.1 ,}} >
                                         {val.complaint_count}
                                     </Box>
                                 </Box>
                                 <Divider sx={{ backgroundColor: 'black', mr: 1 }} />
                                 <Box sx={{
-                                    display: 'flex', flex: 1, color: 'red', fontWeight: 750, fontSize: 15, opacity: 0.5, justifyContent: 'start', alignItems: 'center',
+                                    display: 'flex', flex: 1, color: 'green', fontWeight: 750, fontSize: 15, justifyContent: 'start', alignItems: 'center',opacity: .5
                                 }}>
-                                    <CallReceivedOutlinedIcon sx={{ display: 'flex', fontSize: 14, color: 'red', opacity: 0.8 }} />
-                                    <Box sx={{ display: 'flex', color: 'red', opacity: 0.8 }} >
+                                    <CallReceivedOutlinedIcon sx={{ display: 'flex', fontSize: 14, color: 'green',  }} />
+                                    <Box sx={{ display: 'flex',   }} >
                                         {val.closed_count}
                                     </Box>
                                 </Box>

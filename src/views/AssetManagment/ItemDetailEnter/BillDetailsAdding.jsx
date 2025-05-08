@@ -6,7 +6,7 @@ import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useSelector } from 'react-redux'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { succesNotify, warningNotify } from 'src/views/Common/CommonCode';
+import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode';
 import { format } from 'date-fns'
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import SupplierSelectMaster from './SupplierSelectMaster';
@@ -26,6 +26,7 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
     const { am_item_map_slno, am_spare_item_map_slno, } = detailArry
     const { am_bill_mast_slno, am_bill_mastslno, am_bill_no, am_bill_date, am_bill_amount, am_bill_image,
         bill_supplier_name } = grndetailarry
+
     const dispatch = useDispatch();
     const [supplier, setSupplier] = useState(0)
     const [billDate, setBillDate] = useState(format(new Date(), "yyyy-MM-dd"))
@@ -188,6 +189,8 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
 
     const SaveBillDetails = useCallback((e) => {
         e.preventDefault()
+       
+
         const updateBillDetails = async (billpatchData) => {
             const result = await axioslogin.patch('/ItemMapDetails/BillDetailsUpdate', billpatchData);
             const { message, success } = result.data;
@@ -217,6 +220,9 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
             }
         }
 
+        if(billAmount === 0){
+            infoNotify(`Enter ${assetSpare === 1 ? "Asset Value" : "Spare Value"}`);
+        }else{
         if (bill_mastslno === '') {
             warningNotify("Please Select Any Bill before save")
         } else {
@@ -226,7 +232,8 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
                 updateBillDetailsSpare(billpatchDataSpare)
             }
         }
-    }, [billpatchData, assetSpare, billpatchDataSpare, bill_mastslno, setCount, count])
+    }
+    }, [billpatchData, assetSpare, billpatchDataSpare, bill_mastslno, setCount, count,billAmount])
 
     const BillReferesh = useCallback(() => {
         const resetfrm = {

@@ -16,6 +16,7 @@ const DocumentsList = ({ serviceDetails, }) => {
     const [amcCmcDocuments, setamcCmcDocuments] = useState([])
     const [wargarDocument, setwargarDocument] = useState([])
 
+
     useEffect(() => {
         const getleaseDocuments = async () => {
             try {
@@ -57,16 +58,15 @@ const DocumentsList = ({ serviceDetails, }) => {
                         setBilldetailsView([]);
                     }
                 } else {
-
                 }
             } catch (error) {
                 warningNotify(error);
                 setBilldetailsView([]);
             }
         };
-
         getDocumentViewBill();
-    }, [am_bill_mastslno]);
+    }, [am_bill_mastslno])
+    
 
     useEffect(() => {
         const getamcCmcDocuments = async () => {
@@ -89,10 +89,8 @@ const DocumentsList = ({ serviceDetails, }) => {
                 setamcCmcDocuments([]);
             }
         };
-
         getamcCmcDocuments();
     }, [amccmc_slno]);
-
 
 
     useEffect(() => {
@@ -116,10 +114,10 @@ const DocumentsList = ({ serviceDetails, }) => {
                 setwargarDocument([]);
             }
         };
-
         getWarrentyImage();
     }, [am_item_wargar_slno]);
 
+       
     const [imageShowsingleFlag, setImagesingle] = useState(0)
     const [imageShowSingle, setImageShowSingle] = useState(false)
     const [uploadedFile, setUplodedFile] = useState({ url: "", type: "" });
@@ -145,10 +143,12 @@ const DocumentsList = ({ serviceDetails, }) => {
         }
     }, []);
 
+
     const CloseSingleFile = useCallback(() => {
         setImagesingle(0)
         setImageShowSingle(false)
     }, [])
+
 
     return (
         <Box sx={{
@@ -157,7 +157,6 @@ const DocumentsList = ({ serviceDetails, }) => {
             gap: .5,
             mt: 1
         }}>
-
             <Box sx={{ flex: 1, border: 1, borderRadius: 3, borderColor: '#EBEFFB', p: 1, }}>
                 <Typography
                     sx={{
@@ -172,13 +171,13 @@ const DocumentsList = ({ serviceDetails, }) => {
                 </Typography>
                 <Box sx={{
                     cursor: 'pointer',
-
                     p: .5
                 }} >
                     {imageShowsingleFlag === 1 ?
                         < Box >
-                            <FileViewSingle previewFile={uploadedFile} imageShow={imageShowSingle} CloseFile={CloseSingleFile} />
-                        </Box> : null
+                            <FileViewSingle previewFile={uploadedFile} imageShow={imageShowSingle} CloseFile = {CloseSingleFile} />
+                        </Box> 
+                        : null
                     }
                     {billdetailsView.length !== 0 ? (
                         <Box sx={{ display: 'flex', gap: .8 }}>
@@ -239,88 +238,40 @@ const DocumentsList = ({ serviceDetails, }) => {
                                         >
                                             {url.split('/').pop() || "N/A"}
                                         </Box>
-
                                     </Box>
                                 )
                             })}
-                        </Box>
-                    )
+                        </Box>)
                         : (
-                            <Box
-                                sx={{
+                            <Box sx={{
                                     alignItems: "center",
-                                }}
-                            >
+                                }}>
                                 <InsertPhotoSharpIcon
                                     sx={{
                                         width: 75,
                                         height: 75,
                                         color: '#E3E8F0',
                                         cursor: "default",
-                                    }}
-                                />
+                                    }} />
                             </Box>
                         )}
-
-
                 </Box>
-                {/* <Box sx={{ flex: 1, pl: 1 }}>
-
-                    <Box sx={{ display: 'flex', flex: 1, }}>
-                        <Typography sx={{ width: 100, fontSize: 13 }}>
-                            Bill No.
-                        </Typography>
-                        <Typography sx={{ flex: 1, fontSize: 13 }}>
-                            {am_bill_no || "Not Updated"}
-                        </Typography>
-                    </Box>
-                    <Box sx={{ display: 'flex', flex: 1, }}>
-                        <Typography sx={{ width: 100, fontSize: 13 }}>
-                            Bill Date
-                        </Typography>
-                        <Typography sx={{ flex: 1, fontSize: 13 }}>
-                            {am_bill_date || "Not Updated"}
-                        </Typography>
-                    </Box>
-                    <Box sx={{ display: 'flex', flex: 1, }}>
-                        <Typography sx={{ width: 100, fontSize: 13 }}>
-                            Bill Amount
-                        </Typography>
-                        <Typography sx={{ flex: 1, fontSize: 13 }}>
-                            {am_bill_amount || "Not Updated"}
-                        </Typography>
-                    </Box>
-                    <Box sx={{ display: 'flex', flex: 1, }}>
-                        <Typography sx={{ width: 100, fontSize: 13 }}>
-                            Supplier
-                        </Typography>
-                        <Typography sx={{ flex: 1, fontSize: 13 }}>
-                            {bill_supplier_name || "Not Updated"}
-                        </Typography>
-                    </Box>
-                </Box> */}
             </Box>
-
-
             {item_asset_no !== undefined ?
                 <Box sx={{ flex: 1, border: 1, borderRadius: 3, borderColor: '#EBEFFB', p: 1, }}>
-                    <Box
-                        sx={{
+                    <Box sx={{
                             flex: 1,
                             fontWeight: 600,
                             color: '#394060',
                             fontSize: 16,
                             mb: .5, pl: .5
-                        }}
-                    >
+                        }}  >
                         AMC/CMC Details
-
                     </Box>
                     <Box sx={{
                         cursor: 'pointer',
                         p: .5
                     }}>
-
                         {imageShowsingleFlag === 1 ?
                             < Box >
                                 <FileViewSingle previewFile={uploadedFile} imageShow={imageShowSingle} CloseFile={CloseSingleFile} />
@@ -333,7 +284,6 @@ const DocumentsList = ({ serviceDetails, }) => {
                                     const isImage = /\.(jpeg|jpg|png|gif|bmp|webp)$/i.test(url);
                                     return (
                                         <Box key={index} sx={{
-
                                             p: .5,
                                             border: 1, borderRadius: 4, borderColor: '#E0E1E3',
                                         }}>
@@ -386,7 +336,7 @@ const DocumentsList = ({ serviceDetails, }) => {
                                     );
                                 })}
                             </Box>
-                        )
+                             )
                             : (
                                 <Box sx={{
                                     alignItems: "center",
@@ -401,41 +351,9 @@ const DocumentsList = ({ serviceDetails, }) => {
                                     />
                                 </Box>
                             )}
-
                     </Box>
-                    {/* <Box sx={{ flex: 1, pl: 1 }}>
-
-                        <Box sx={{ fontSize: 13, color: '#0B6BCB', fontWeight: 600 }}>
-                            {flags.amc_status === 1 ? "AMC" : flags.cmc_status === 1 ? "CMC" : "Not Updated"}
-                        </Box>
-                        <Box sx={{ display: 'flex', flex: 1, }}>
-                            <Typography sx={{ width: 100, fontSize: 13 }}>
-                                From Date
-                            </Typography>
-                            <Typography sx={{ flex: 1, fontSize: 13 }}>
-                                {from_date || 'Not Updated'}
-                            </Typography>
-                        </Box>
-                        <Box sx={{ display: 'flex', flex: 1, }}>
-                            <Typography sx={{ width: 100, fontSize: 13 }}>
-                                To Date
-                            </Typography>
-                            <Typography sx={{ flex: 1, fontSize: 13 }}>
-                                {to_date || 'Not Updated'}
-                            </Typography>
-                        </Box>
-                        <Box sx={{ display: 'flex', flex: 1, }}>
-                            <Typography sx={{ width: 100, fontSize: 13 }}>
-                                Supplier
-                            </Typography>
-                            <Typography sx={{ flex: 1, fontSize: 13 }}>
-                                {amc_cmc_suppliername || 'Not Updated'}
-                            </Typography>
-                        </Box>
-                    </Box> */}
                 </Box>
                 : null}
-
             {
                 item_asset_no !== undefined ?
                     <Box sx={{ flex: 1, border: 1, borderRadius: 3, borderColor: '#EBEFFB', p: 1, }}>
@@ -451,7 +369,6 @@ const DocumentsList = ({ serviceDetails, }) => {
                             Lease Details
                         </Typography>
                         <Box sx={{ cursor: 'pointer', p: .5 }}>
-
                             {imageShowsingleFlag === 1 ?
                                 < Box >
                                     <FileViewSingle previewFile={uploadedFile} imageShow={imageShowSingle} CloseFile={CloseSingleFile} />
@@ -462,9 +379,7 @@ const DocumentsList = ({ serviceDetails, }) => {
                                     {leaseDocuments.map((url, index) => {
                                         const isPdf = url.toLowerCase().endsWith('.pdf');
                                         const isImage = /\.(jpeg|jpg|png|gif|bmp|webp)$/i.test(url);
-
                                         return (
-
                                             <Box key={index} sx={{
                                                 p: .5,
                                                 border: 1, borderRadius: 4, borderColor: '#E0E1E3',
@@ -502,7 +417,6 @@ const DocumentsList = ({ serviceDetails, }) => {
                                                         onClick={() => SingleView({ url })}
                                                     />
                                                 )}
-
                                                 <Box
                                                     sx={{
                                                         fontSize: 13,
@@ -516,13 +430,11 @@ const DocumentsList = ({ serviceDetails, }) => {
                                                     {url.split('/').pop() || "N/A"}
                                                 </Box>
                                             </Box>
-
                                         );
                                     })}
                                 </Box>
                             )
                                 : (
-
                                     <Box
                                         sx={{
                                             alignItems: "center",
@@ -539,10 +451,8 @@ const DocumentsList = ({ serviceDetails, }) => {
                                     </Box>
                                 )}
                         </Box>
-
                     </Box> : null
             }
-
             <Box sx={{ flex: 1, border: 1, borderRadius: 3, borderColor: '#EBEFFB', p: 1, }}>
                 <Typography
                     sx={{
@@ -556,7 +466,6 @@ const DocumentsList = ({ serviceDetails, }) => {
                     Warrenty/Guarantee Details
                 </Typography>
                 <Box sx={{ display: 'flex', gap: .8 }}>
-
                     {imageShowsingleFlag === 1 ?
                         < Box >
                             <FileViewSingle previewFile={uploadedFile} imageShow={imageShowSingle} CloseFile={CloseSingleFile} />
@@ -618,93 +527,30 @@ const DocumentsList = ({ serviceDetails, }) => {
                                             {url.split('/').pop()}
                                         </Box>
                                     </Box>
-
                                 );
                             })}
                         </Grid>)
                         : (
                             <Box
+                            sx={{
+                                alignItems: "center",
+                            }}
+                        >
+                            <InsertPhotoSharpIcon
                                 sx={{
-                                    alignItems: "center",
-                                    p: .5,
-                                    border: 1, borderRadius: 4, borderColor: '#E0E1E3',
+                                    width: 75,
+                                    height: 75,
+                                    color: '#E3E8F0',
+                                    cursor: "default",
                                 }}
-                            >
-                                <InsertPhotoSharpIcon
-                                    sx={{
-                                        width: 75,
-                                        height: 75,
-                                        color: '#E3E8F0',
-                                        cursor: "default",
-                                    }}
-                                />
-                            </Box>
+                            />
+                        </Box>
                         )}
-
                 </Box>
                 <Box sx={{ flex: 1, pl: 1 }}>
-
-                    {/* <Box sx={{ fontSize: 13, color: '#0B6BCB', fontWeight: 600 }}>
-                        {warrenty_status === 1 ? "Warrenty" : guarenty_status === 1 ? "Guarentee" : "Not Updated"}
-                    </Box>
-                    <Box sx={{ display: 'flex', flex: 1, }}>
-                        <Box sx={{ flex: 1 }}>
-                            <Box sx={{ display: 'flex', flex: 1, }}>
-                                <Typography sx={{ width: 100, fontSize: 13, }}>
-                                    From Date
-                                </Typography>
-                                <Typography sx={{ flex: 1, fontSize: 13, }}>
-                                    {wargar_from_date || "Not Updated"}
-                                </Typography>
-                            </Box>
-                            <Box sx={{ display: 'flex', flex: 1, }}>
-                                <Typography sx={{ width: 100, fontSize: 13, }}>
-                                    To Date
-                                </Typography>
-                                <Typography sx={{ flex: 1, fontSize: 13, }}>
-                                    {wargar_to_date || "Not Updated"}
-                                </Typography>
-                            </Box>
-                            <Box sx={{ display: 'flex', flex: 1, }}>
-                                <Typography sx={{ width: 100, fontSize: 13, }}>
-                                    Toll Free No.
-                                </Typography>
-                                <Typography sx={{ flex: 1, fontSize: 13, }}>
-                                    {troll_free || "Not Updated"}
-                                </Typography>
-                            </Box>
-                        </Box>
-                        <Box sx={{ flex: 1 }}>
-                            <Box sx={{ display: 'flex', flex: 1, }}>
-                                <Typography sx={{ width: 100, fontSize: 13, }}>
-                                    Contact No. 1
-                                </Typography>
-                                <Typography sx={{ flex: 1, fontSize: 13, }}>
-                                    {ph_one || "Not Updated"}
-                                </Typography>
-                            </Box>
-                            <Box sx={{ display: 'flex', flex: 1, }}>
-                                <Typography sx={{ width: 100, fontSize: 13, }}>
-                                    Contact No. 2
-                                </Typography>
-                                <Typography sx={{ flex: 1, fontSize: 13, }}>
-                                    {ph_two || "Not Updated"}
-                                </Typography>
-                            </Box>
-                            <Box sx={{ display: 'flex', flex: 1, }}>
-                                <Typography sx={{ width: 100, fontSize: 13, }}>
-                                    Address
-                                </Typography>
-                                <Typography sx={{ flex: 1, fontSize: 13, }}>
-                                    {address || "Not Updated"}
-                                </Typography>
-                            </Box>
-                        </Box>
-                    </Box> */}
                 </Box>
             </Box>
         </Box >
     )
 }
-
 export default memo(DocumentsList)

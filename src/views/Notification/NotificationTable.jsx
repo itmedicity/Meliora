@@ -9,13 +9,13 @@ const NotificationTable = ({ count, rowSelect }) => {
   const [tabledata, setTabledata] = useState([])
   const [column] = useState([
     {
-      headerName: 'Action', width: 10,
+      headerName: 'Action', 
       cellRenderer: (params) => <EditButton onClick={() => rowSelect(params)} />,
     },
-    { headerName: 'SlNo', field: 'notification_slno', width:10 },
-    { headerName: 'Heading', field: 'notification_heading', width: 80 },
-    { headerName: 'Remarks', field: 'notification_remarks', flex:1},
-    { headerName: 'Status', field: 'status', width: 30 },
+    { headerName: 'SlNo', field: 'notification_slno',  },
+    { headerName: 'Heading', field: 'notification_heading', },
+    { headerName: 'Remarks', field: 'notification_remarks', },
+    { headerName: 'Status', field: 'status', },
 
   ])
   useEffect(() => {
@@ -32,4 +32,4 @@ const NotificationTable = ({ count, rowSelect }) => {
   }, [count])
   return <CusAgGridMast columnDefs={column} tableData={tabledata} />
 }
-export default NotificationTable
+export default memo(NotificationTable)

@@ -10,7 +10,8 @@ import { infoNotify, succesNotify } from 'src/views/Common/CommonCode';
 const UserEndVerificationModal = ({ open, setverifyOpen, forVerifyData, setverifyFlag, count, setcount }) => {
     const { complaint_slno, complaint_desc, compalint_date, rm_roomtype_name, rm_room_name, rm_insidebuildblock_name, rm_floor_name, compalint_status, complaint_deptslno,
         location, complaint_type_name, priority_check, compalint_priority, assigned_date, rectify_pending_hold_remarks, cm_rectify_time, holduser,
-        verify_spervsr_name, verify_spervsr, suprvsr_verify_time, assigned_employees } = forVerifyData
+        verify_spervsr_name, verify_spervsr, suprvsr_verify_time, assigned_employees,ticket_reg_employee } = forVerifyData
+       
 
     const empid = useSelector((state) => {
         return state.LoginUserData.empid
@@ -156,15 +157,17 @@ const UserEndVerificationModal = ({ open, setverifyOpen, forVerifyData, setverif
                                         onClick={Close}
                                     />
                                 </Box>
-                            </Box>
-                            <Box sx={{ flex: 1, display: 'flex', bgcolor: '#ECEDEF', py: .5 }}>
-                                <Box sx={{ flex: 1, pl: .5 }}>
+                            </Box>                          
+                            <Box sx={{ flex: 1,
+                                 display: 'flex',
+                                  bgcolor: '#ECEDEF', py: .5 }}>
+                                <Box sx={{ flex: 2, pl: .5 }}>
                                     <Typography sx={{ pl: .5, fontWeight: 600, color: 'Black', }}>Ticket No.{complaint_slno}</Typography>
                                     <Typography sx={{ pl: .5, fontSize: 14, color: 'Black', }}>
                                         {complaint_desc}
                                     </Typography>
                                     <Typography sx={{ pl: .5, fontSize: 13, color: 'Black', py: .5 }}>
-                                        Complaint Type: {complaint_type_name}
+                                        Complaint Type : {complaint_type_name}
                                     </Typography>
                                 </Box>
                                 <Box sx={{ flex: 1, textAlign: 'right', pr: 1.5 }}>
@@ -183,6 +186,10 @@ const UserEndVerificationModal = ({ open, setverifyOpen, forVerifyData, setverif
                                             ? format(new Date(compalint_date), 'dd MMM yyyy,  hh:mm a')
                                             : 'Invalid Date'}
                                     </Typography>
+                                    <Typography sx={{ pl: .5, fontSize: 13, color: 'Black', }}>
+                                       Ticket Registed by : {ticket_reg_employee}
+                                    </Typography>
+                                 
                                 </Box>
                             </Box>
                             <Box sx={{ flex: 1, pb: 3, pt: 2 }}>
@@ -297,7 +304,7 @@ const UserEndVerificationModal = ({ open, setverifyOpen, forVerifyData, setverif
                                 </Box>
                                 <Box sx={{ flex: 1, display: 'flex', mt: .5 }}>
                                     <Typography sx={{ flex: 1.8, pl: 3, fontWeight: 500, fontSize: 15 }}>
-                                        Rectified By
+                                    Rectification Marked By
                                     </Typography>
                                     <Box sx={{ flex: 3, gap: .5 }}>
                                         <Chip sx={{ bgcolor: '#ADC9C5' }}>
@@ -305,7 +312,6 @@ const UserEndVerificationModal = ({ open, setverifyOpen, forVerifyData, setverif
                                         </Chip>
                                     </Box>
                                 </Box>
-
                                 {assetDetl.length !== 0 ?
                                     < Box sx={{ py: 2, }}>
                                         <Typography sx={{ fontWeight: 600, color: '#0B6BCB', pl: 3, }}> Asset Detail</Typography>
@@ -320,8 +326,6 @@ const UserEndVerificationModal = ({ open, setverifyOpen, forVerifyData, setverif
                                             );
                                         })}
                                     </Box> : null}
-
-
                                 {verify_spervsr === 1 ?
                                     <Box sx={{ pl: 3, pt: 2, }}>
                                         <Typography sx={{ fontWeight: 600, color: '#0B6BCB' }}> Deptarment Verified Details</Typography>

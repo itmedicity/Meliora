@@ -184,4 +184,4 @@ const NotificationMainMenu = () => {
  }
  
 
-export default NotificationMainMenu
+export default memo(NotificationMainMenu)

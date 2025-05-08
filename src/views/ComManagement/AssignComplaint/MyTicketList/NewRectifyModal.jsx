@@ -16,7 +16,6 @@ import imageCompression from 'browser-image-compression';
 import UploadIcon from '@mui/icons-material/Upload';
 import ManageAccountsSharpIcon from '@mui/icons-material/ManageAccountsSharp';
 import { getDepartment } from 'src/redux/actions/Department.action';
-import CmHoldReasonList from '../../CmComponent/CmHoldReasonList';
 import AssetListUnderCustodian from 'src/views/CommonSelectCode/AssetListUnderCustodian';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
@@ -31,6 +30,7 @@ import FileViewSingle from 'src/views/Components/FileViewSingle'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import ComplaintAttachFiles from './ComplaintAttachFiles';
 import AddBoxIcon from '@mui/icons-material/AddBox';
+import CmHoldReasonList from '../../CmComponent/CmHoldReasonList';
 
 const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, count, setCount }) => {
 
@@ -111,15 +111,15 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
         }
     }, [])
 
-    const updateOnHold = useCallback((e) => {
-        if (e.target.checked === true) {
-            setPending(true)
-            setRectify(false)
-            setPendhold('')
-        } else {
-            setPending(false)
-        }
-    }, [])
+    // const updateOnHold = useCallback((e) => {
+    //     if (e.target.checked === true) {
+    //         setPending(true)
+    //         setRectify(false)
+    //         setPendhold('')
+    //     } else {
+    //         setPending(false)
+    //     }
+    // }, [])
 
     const UpdateAssetNo = useCallback((e) => {
         setcm_am_asset_no(e.target.value.toLocaleUpperCase())
@@ -266,18 +266,6 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
         setItem_slno(0);
         setcm_am_asset_no('')
     };
-
-    // const SearchAsset = useCallback((e) => {
-    //     setSearch(1)
-    //     setSelect(0)
-    //     setSelectedAsset('')
-    // }, [])
-
-    // const SelectAsset = useCallback((e) => {
-    //     setSelect(1)
-    //     setSearch(0)
-    //     setcm_am_asset_no('')
-    // }, [])
 
     const [isSelect, setIsSelect] = useState(true);
     const handleAssetSelectToggle = () => {
@@ -855,7 +843,7 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                     sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pl: 1, borderRadius: 10 }}>
                     <Box
                         sx={{
-                            width: '80vw',
+                            width: '70vw',
                             height: '95vh',
                             bgcolor: 'background.body',
                             borderRadius: 'md',
@@ -1265,7 +1253,7 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                                     checked={rectified}
                                     onCheked={updateRectified}
                                 />
-                                <CusCheckBox
+                                {/* <CusCheckBox
                                     label="On Hold"
                                     color="neutral"
                                     size="md"
@@ -1273,7 +1261,7 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                                     value={pending}
                                     checked={pending}
                                     onCheked={updateOnHold}
-                                />
+                                /> */}
 
                             </Box>
                             {pending === true ?
