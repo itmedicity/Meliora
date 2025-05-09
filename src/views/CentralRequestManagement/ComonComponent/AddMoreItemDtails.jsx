@@ -152,8 +152,8 @@ const AddMoreItemDtails = ({ req_slno, setMoreItem, setApproveTableData, selecte
             const { success, message } = result.data
             if (success === 1) {
                 succesNotify(message)
-                queryClient.invalidateQueries('approvedRejholdItemList')
-                queryClient.invalidateQueries('getmaxSlno')
+                queryClient.invalidateQueries('approvedRejholdItemListkmc')
+                queryClient.invalidateQueries('getmaxSlnokmc')
                 reset()
             } else {
                 warningNotify(message)
