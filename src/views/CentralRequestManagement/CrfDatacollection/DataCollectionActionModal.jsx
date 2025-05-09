@@ -22,7 +22,7 @@ import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import ReqImageDisModal from '../ComonComponent/ImageUploadCmp/ReqImageDisModal'
 
 const DataCollectionActionModal = ({ open, handleClose, reqItems, approveTableData, dcData, setApproveTableData,
-    empdeptsec, imagearray, selectedCompany }) => {
+    empdeptsec, imagearray, selectedCompany, depkmc }) => {
 
     const { crf_req_remark, dc_req_date, requser, req_slno, crf_data_collect_slno } = dcData
     const queryClient = useQueryClient()
@@ -132,14 +132,22 @@ const DataCollectionActionModal = ({ open, handleClose, reqItems, approveTableDa
             crf_data_collect_slno: crf_data_collect_slno
         }
     }, [remark, crf_data_collect_slno, id])
+
+    const patchdatakmc = useMemo(() => {
+        return {
+            crf_dept_remarks: remark,
+            save_user: depkmc?.kmc_hod,
+            crf_data_collect_slno: crf_data_collect_slno
+        }
+    }, [remark, crf_data_collect_slno, depkmc])
     const submit = useCallback((e) => {
         e.preventDefault();
         const DataCollectnGiven = async (patchdata) => {
             const result = await axioslogin.patch('/CRFRegisterApproval/CrfDataCollactnSave', patchdata);
             return result.data
         }
-        const DataCollectnKMCGiven = async (patchdata) => {
-            const result = await axioskmc.patch('/CRFRegisterApproval/CrfDataCollactnSave', patchdata);
+        const DataCollectnKMCGiven = async (patchdatakmc) => {
+            const result = await axioskmc.patch('/CRFRegisterApproval/CrfDataCollactnSave', patchdatakmc);
             return result.data
         }
         const FileInsert = async (crf_data_collect_slno, req_slno, selectFile) => {
@@ -219,7 +227,7 @@ const DataCollectionActionModal = ({ open, handleClose, reqItems, approveTableDa
                     }
                 })
             } else {
-                DataCollectnKMCGiven(patchdata).then((value) => {
+                DataCollectnKMCGiven(patchdatakmc).then((value) => {
                     const { success, message } = value
                     if (success === 1) {
                         if (selectFile?.length !== 0) {
@@ -250,7 +258,7 @@ const DataCollectionActionModal = ({ open, handleClose, reqItems, approveTableDa
             warningNotify("Enter remarks Before Save")
         }
 
-    }, [patchdata, remark, crf_data_collect_slno, req_slno, selectFile, handleImageUpload, reset, empdeptsec, queryClient, selectedCompany])
+    }, [patchdata, remark, crf_data_collect_slno, req_slno, selectFile, handleImageUpload, reset, empdeptsec, queryClient, selectedCompany, patchdatakmc])
 
     const closeModal = useCallback(() => {
         setRemark('')

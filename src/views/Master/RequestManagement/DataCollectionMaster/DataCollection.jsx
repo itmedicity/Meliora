@@ -1,5 +1,4 @@
-import { Box, Checkbox, CssVarsProvider, Typography } from '@mui/joy'
-import { Paper } from '@mui/material'
+import { Box, Checkbox, CssVarsProvider } from '@mui/joy'
 import React, { memo, useCallback, useState } from 'react'
 import DepartmentSelect from 'src/views/CommonSelectCode/DepartmentSelect'
 import DeptSecUnderDept from 'src/views/CommonSelectCode/DeptSecUnderDept'
@@ -18,6 +17,7 @@ const DataCollection = () => {
     const history = useHistory()
     const [UpdateFlag, setUpdateFlag] = useState(0)
     const [count, setCount] = useState(0)
+
     const rowSelect = useCallback((params) => {
         // setValue(1)
         const data = params.api.getSelectedRows();
@@ -65,7 +65,7 @@ const DataCollection = () => {
                 }
             }
         }
-    }, [View_Status, dept, empname, deptsec])
+    }, [View_Status, dept, empname, deptsec, UpdateFlag])
 
     const refreshWindow = useCallback(() => {
         // setCategory([])

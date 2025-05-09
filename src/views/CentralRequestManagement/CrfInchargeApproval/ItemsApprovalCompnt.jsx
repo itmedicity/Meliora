@@ -437,7 +437,7 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
             }
         }
     }, [reqDetailslno, req_slno, lastSlno, item_desc_actl, item_desc, item_brand, uom, item_qty,
-        item_slno, item_spec, approx_cost, unitprice, reset, id, queryClient, apprvLevel])
+        item_slno, item_spec, approx_cost, unitprice, reset, id, queryClient, apprvLevel, selectedCompany])
 
     const Rejectfctn = useCallback(() => {
         setRejHoldRemarkFlag(1)
@@ -579,8 +579,8 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
         reset, approx_cost, rejHoldRemark, id, header, queryClient, apprvLevel, req_slno])
 
 
-    if (isItemsLoading || isSlnoLoading || isStatusLoading || kmcisSlnoLoading || kmcisStatusLoading) return <p>Loading...</p>;
-    if (itemsError || slnoError || statusError || kmcslnoError || kmcstatusError) return <p>Error occurred.</p>;
+    if (isItemsLoading || isSlnoLoading || isStatusLoading || kmcisSlnoLoading || kmcisStatusLoading || isItemskmcLoading) return <p>Loading...</p>;
+    if (itemsError || slnoError || statusError || kmcslnoError || kmcstatusError || kmcitemsError) return <p>Error occurred.</p>;
     return (
         <Fragment>
             <Box sx={{ flexWrap: 'wrap', my: 0.5 }}>

@@ -362,7 +362,7 @@ const CrfMDApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
             // }
         }
     }, [MDPatchData, reset, datacollFlag, datacolectremark, crfdept, id, req_slno, selectFile, queryClient, internallyArr, datacollFlagKMC,
-        handleImageUpload, approve, reject, pending, editEnable, selectedCompany, detailAnalis, remark]);
+        handleImageUpload, approve, reject, pending, editEnable, selectedCompany,]);
 
     useEffect(() => {
         isMounted.current = true;

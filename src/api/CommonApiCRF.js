@@ -1,4 +1,4 @@
-import { axioslogin } from "src/views/Axios/Axios"
+import { axioskmc, axioslogin } from "src/views/Axios/Axios"
 
 export const getDptSecIcharge = async (id) => {
     return axioslogin.get(`/InchHODAuthorization/getDeptSeconIncharge/${id}`).then((result) => {
@@ -340,6 +340,28 @@ export const getDatakmcDep = async (id) => {
         const { success, data } = result.data
         if (success === 1) {
             return data[0]
+        } else {
+            return []
+        }
+    })
+}
+
+export const getDptSecHodbyDep = async (id) => {
+    return axioslogin.get(`/InchHODAuthorization/getDeptSeconHodbyDep/${id}`).then((result) => {
+        const { success, data } = result.data
+        if (success === 1) {
+            return data
+        } else {
+            return []
+        }
+    })
+}
+
+export const getDptSecHodbyDepkmc = async (id) => {
+    return axioskmc.get(`/InchHODAuthorization/getDeptSeconHodbyDep/${id}`).then((result) => {
+        const { success, data } = result.data
+        if (success === 1) {
+            return data
         } else {
             return []
         }

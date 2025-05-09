@@ -65,7 +65,7 @@ const CrfDataCollectionTable = () => {
         queryFn: async () => {
             const payload = depkmc?.kmc_dept;
             const data = await getDatakmcCollectionDetails(payload);
-            return data.filter(item => item.tmc_data_collection_status === 1);
+            return data?.filter(item => item.tmc_data_collection_status === 1);
         },
         enabled: empdeptsec !== null && depkmc !== undefined,
     });
@@ -466,7 +466,7 @@ const CrfDataCollectionTable = () => {
                                     border: '1px solid #21B6A8', borderRadius: 2,
                                 }}>
                                     <MasterDetailCompnt val={val} />
-                                    <DataCollectionSave selectedCompany={selectedCompany} flag={radiovalue === '1' ? 1 : 0} val={val} empdeptsec={empdeptsec} />
+                                    <DataCollectionSave selectedCompany={selectedCompany} flag={radiovalue === '1' ? 1 : 0} val={val} empdeptsec={empdeptsec} depkmc={depkmc} />
                                 </Box>
                             }
                         >
