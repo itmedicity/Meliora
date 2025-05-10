@@ -356,7 +356,7 @@ const DataCollectionActionModal = ({ open, handleClose, reqItems, approveTableDa
                             <Box sx={{ mt: 0.5, pb: 1, flexWrap: 'wrap' }} >
                                 {approveTableData.length !== 0 ?
                                     <ItemsApprovalCompnt req_slno={req_slno} setMoreItem={setMoreItem} editEnable={editEnable}
-                                        setEditEnable={setEditEnable} setApproveTableData={setApproveTableData}
+                                        setEditEnable={setEditEnable} setApproveTableData={setApproveTableData} depkmc={depkmc}
                                         approveTableData={approveTableData} crf_data_collect_status={crf_data_collect_slno} selectedCompany={selectedCompany} />
                                     :
                                     null
@@ -368,7 +368,7 @@ const DataCollectionActionModal = ({ open, handleClose, reqItems, approveTableDa
                                     </CustomIconButtonCmp>
                                 </Box>
                                 {addMoreItems === 1 ? <AddMoreItemDtails req_slno={req_slno}
-                                    setApproveTableData={setApproveTableData} setMoreItem={setMoreItem} selectedCompany={selectedCompany}
+                                    setApproveTableData={setApproveTableData} setMoreItem={setMoreItem} selectedCompany={selectedCompany} depkmc={depkmc}
                                 /> : null}
                                 <Box sx={{ pt: 0.4 }}>
                                     <Typography sx={{ fontSize: 15, fontWeight: 600, flex: 1, pl: 1, pt: 0.5 }}>Remarks</Typography>

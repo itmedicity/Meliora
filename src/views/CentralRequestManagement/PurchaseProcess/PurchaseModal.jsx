@@ -25,6 +25,14 @@ import QuotationFinalComp from '../ComonComponent/PurchaseComp/QuotationFinalCom
 import PurchaseWoImg from './Component/PurchaseWoImg'
 import imageCompression from 'browser-image-compression';
 import DataCollectDepSecSelectTmc from '../ComonComponent/DataCollectionComp/DataCollectDepSecSelectTmc'
+import CommonInchargeReqCmp from '../ComonComponent/ApprovalComp/CommonInchargeReqCmp'
+import CommonHodApprvCmp from '../ComonComponent/ApprovalComp/CommonHodApprvCmp'
+import CommonDmsApprvCmp from '../ComonComponent/ApprovalComp/CommonDmsApprvCmp'
+import CommonMsApprvCmp from '../ComonComponent/ApprovalComp/CommonMsApprvCmp'
+import CommonMoApprvlCmp from '../ComonComponent/ApprovalComp/CommonMoApprvlCmp'
+import CommonSmoApprvCmp from '../ComonComponent/ApprovalComp/CommonSmoApprvCmp'
+import CommonGmapprvCmp from '../ComonComponent/ApprovalComp/CommonGmapprvCmp'
+import CommonMangingApprvComp from '../ComonComponent/ApprovalComp/CommonMangingApprvComp'
 
 const PoAddModalView = React.lazy(() => import("./Component/PoAddModalView"))
 const CrfReqDetailViewCmp = React.lazy(() => import("../ComonComponent/CrfReqDetailViewCmp"))
@@ -39,7 +47,9 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
     datacolflag, datacolData, imagearray, newlyApprvdItems }) => {
 
     const { req_slno, md_approve, ed_approve, ack_status, quatation_calling_status, quatation_negotiation,
-        quatation_fixing, po_prepartion, po_complete, crm_purchase_slno } = puchaseData
+        quatation_fixing, po_prepartion, po_complete, crm_purchase_slno, incharge_approve, incharge_remarks, hod_req, hod_approve,
+        dms_req, dms_approve, ms_approve_req, ms_approve, manag_operation_req, manag_operation_approv,
+        senior_manage_req, senior_manage_approv, gm_approve_req, gm_approve, managing_director_req, managing_director_approve } = puchaseData
     const { company_slno } = company
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
     const queryClient = useQueryClient()
@@ -678,6 +688,64 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
                                 }
                                 <Box sx={{ px: 0.4 }}>
                                     <Box sx={{ flex: 1, }}>
+                                        {incharge_approve === 1 && incharge_remarks !== null ?
+                                            <Box sx={{ pt: 0.5, }}>
+                                                <CommonInchargeReqCmp DetailViewData={puchaseData} company={company} />
+                                            </Box>
+                                            : null
+                                        }
+                                    </Box>
+                                    <Box sx={{ flex: 1, }}>
+                                        {hod_req === 1 && hod_approve !== null ?
+                                            <Box sx={{ pt: 0.5, }}>
+                                                <CommonHodApprvCmp DetailViewData={puchaseData} company={company} />
+                                            </Box>
+                                            : null
+                                        }
+                                    </Box>
+                                    <Box sx={{ flex: 1, }}>
+                                        {dms_req === 1 && dms_approve !== null ?
+                                            <Box sx={{ pt: 0.5, }}>
+                                                <CommonDmsApprvCmp DetailViewData={puchaseData} company={company} />
+                                            </Box>
+                                            : null
+                                        }
+                                    </Box>
+                                    <Box sx={{ flex: 1, }}>
+                                        {ms_approve_req === 1 && ms_approve !== null ?
+                                            <Box sx={{ pt: 0.5, }}>
+                                                <CommonMsApprvCmp DetailViewData={puchaseData} company={company} />
+                                            </Box>
+                                            : null
+                                        }
+                                    </Box>
+                                    <Box sx={{ flex: 1, }}>
+                                        {manag_operation_req === 1 && manag_operation_approv !== null ?
+                                            <Box sx={{ pt: 0.5, }}>
+                                                <CommonMoApprvlCmp DetailViewData={puchaseData} company={company} />
+                                            </Box>
+                                            : null
+                                        }
+                                    </Box>
+                                    <Box sx={{ flex: 1, }}>
+                                        {senior_manage_req === 1 && senior_manage_approv !== null ?
+                                            <Box sx={{ pt: 0.5, }}>
+                                                <CommonSmoApprvCmp DetailViewData={puchaseData} company={company} />
+                                            </Box>
+                                            : null
+                                        }
+                                    </Box>
+
+                                    <Box sx={{ flex: 1, }}>
+                                        {gm_approve_req === 1 && gm_approve !== null ?
+                                            <Box sx={{ pt: 0.5, }}>
+                                                <CommonGmapprvCmp DetailViewData={puchaseData} company={company} />
+                                            </Box>
+                                            : null
+                                        }
+                                    </Box>
+
+                                    <Box sx={{ flex: 1, }}>
                                         {md_approve !== null ?
                                             <Box sx={{ pt: 0.5, }}>
                                                 <CommonMdApprvCmp DetailViewData={puchaseData} company={company} />
@@ -691,6 +759,15 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
                                             </Box>
                                             : null}
                                     </Box>
+                                    <Box sx={{}}>
+                                        {(managing_director_req === 1 && managing_director_approve !== null) ?
+                                            <Box sx={{ pt: 0.5, }}>
+                                                <CommonMangingApprvComp DetailViewData={puchaseData} company={company} />
+                                            </Box>
+                                            : null
+                                        }
+                                    </Box>
+
                                 </Box>
                                 <Box sx={{ py: 0.5, mx: 0.2 }}>
                                     {datacolflag === 1 ?

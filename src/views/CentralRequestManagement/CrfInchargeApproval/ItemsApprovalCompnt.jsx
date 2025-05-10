@@ -18,7 +18,7 @@ import { getApprovedCrfItemskmc, getApprovedStatuskmc, getMaxslNoOfCrfItemkmc } 
 
 
 const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editEnable, crf_data_collect_status, selectedCompany,
-    setEditEnable, header, apprvLevel }) => {
+    setEditEnable, header, apprvLevel, depkmc }) => {
 
     const queryClient = useQueryClient()
     const dispatch = useDispatch();
@@ -334,6 +334,23 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
                 apprv_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
                 apprvLevel: apprvLevel
             }
+            const approvedatakmc = {
+                approve_item_desc: item_desc,
+                approve_item_brand: item_brand,
+                approve_item_unit: uom,
+                item_qnty_approved: item_qty,
+                approve_item_specification: item_spec,
+                approve_item_unit_price: unitprice,
+                approve_aprox_cost: approx_cost,
+                approve_item_status: 1,
+                item_status_approved: 1,// appvd
+                edit_user: depkmc?.kmc_hod,
+                req_detl_slno: reqDetailslno,
+                req_slno: req_slno,
+                apprv_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+                apprvLevel: apprvLevel
+            }
+
             const updateDetalReqApprov = async (approvedata) => {
 
                 const result = await axioslogin.patch('/CRFRegisterApproval/itemsApproval', approvedata);
@@ -349,8 +366,8 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
                     warningNotify(message)
                 }
             }
-            const updatekmcDetalReqApprov = async (approvedata) => {
-                const result = await axioskmc.patch('/CRFRegisterApproval/itemsApproval', approvedata);
+            const updatekmcDetalReqApprov = async (approvedatakmc) => {
+                const result = await axioskmc.patch('/CRFRegisterApproval/itemsApproval', approvedatakmc);
                 const { success, message } = result.data;
                 if (success === 1) {
                     succesNotify(message)
@@ -367,7 +384,7 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
                 updateDetalReqApprov(approvedata)
 
             } else if (selectedCompany === "2") {
-                updatekmcDetalReqApprov(approvedata)
+                updatekmcDetalReqApprov(approvedatakmc)
             } else {
                 updateDetalReqApprov(approvedata)
 
@@ -397,6 +414,31 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
                 create_user: id,
                 req_detl_slno: reqDetailslno
             }
+
+            const approvedataInsertkmc = {
+                req_slno: req_slno,
+                item_slno: lastSlno + 1,
+                item_desc: item_desc,
+                item_brand: item_brand,
+                item_unit: uom,
+                item_qnty: item_qty,
+                item_specification: item_spec,
+                item_unit_price: unitprice,
+                aprox_cost: approx_cost,
+                item_status: 0,
+                approve_item_desc: item_desc,
+                approve_item_brand: item_brand,
+                approve_item_unit: uom,
+                item_qnty_approved: item_qty,
+                approve_item_specification: item_spec,
+                approve_item_unit_price: unitprice,
+                approve_aprox_cost: approx_cost,
+                approve_item_status: 1,
+                item_status_approved: 1,
+                old_item_slno: item_slno,
+                create_user: depkmc?.kmc_hod,
+                req_detl_slno: reqDetailslno
+            }
             const DetailApprvInsert = async (reqDataPost) => {
                 const result = await axioslogin.post('/CRFRegisterApproval/DetailApprvInsert', reqDataPost);
                 const { success, message } = result.data;
@@ -411,8 +453,8 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
                     warningNotify(message)
                 }
             }
-            const DetailkmcApprvInsert = async (reqDataPost) => {
-                const result = await axioskmc.post('/CRFRegisterApproval/DetailApprvInsert', reqDataPost);
+            const DetailkmcApprvInsert = async (approvedataInsertkmc) => {
+                const result = await axioskmc.post('/CRFRegisterApproval/DetailApprvInsert', approvedataInsertkmc);
                 const { success, message } = result.data;
 
 
@@ -431,13 +473,13 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
             if (selectedCompany === "1") {
                 DetailApprvInsert(approvedataInsert)
             } else if (selectedCompany === "2") {
-                DetailkmcApprvInsert(approvedataInsert)
+                DetailkmcApprvInsert(approvedataInsertkmc)
             } else {
                 DetailApprvInsert(approvedataInsert)
             }
         }
     }, [reqDetailslno, req_slno, lastSlno, item_desc_actl, item_desc, item_brand, uom, item_qty,
-        item_slno, item_spec, approx_cost, unitprice, reset, id, queryClient, apprvLevel, selectedCompany])
+        item_slno, item_spec, approx_cost, unitprice, reset, id, queryClient, apprvLevel, selectedCompany, depkmc])
 
     const Rejectfctn = useCallback(() => {
         setRejHoldRemarkFlag(1)
@@ -583,7 +625,7 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
     if (itemsError || slnoError || statusError || kmcslnoError || kmcstatusError || kmcitemsError) return <p>Error occurred.</p>;
     return (
         <Fragment>
-            <Box sx={{ flexWrap: 'wrap', my: 0.5 }}>
+            <Box sx={{ flexWrap: 'wrap', my: 0.5, }}>
                 {apprvdItems.length !== 0 ?
                     <Box sx={{}}>
                         <Box sx={{ display: 'flex', }}>

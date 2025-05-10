@@ -12,7 +12,7 @@ import { useQuery, useQueryClient } from 'react-query'
 import { getApprovedCrfItems, getMaxslNoOfCrfItem } from 'src/api/CommonApiCRF'
 import { getApprovedCrfItemskmc, getMaxslNoOfCrfItemkmc } from 'src/api/CommonApiCRFKmc'
 
-const AddMoreItemDtails = ({ req_slno, setMoreItem, setApproveTableData, selectedCompany }) => {
+const AddMoreItemDtails = ({ req_slno, setMoreItem, setApproveTableData, selectedCompany, depkmc }) => {
     const dispatch = useDispatch();
     const queryClient = useQueryClient()
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
@@ -147,8 +147,8 @@ const AddMoreItemDtails = ({ req_slno, setMoreItem, setApproveTableData, selecte
                 warningNotify(message)
             }
         }
-        const AddMoreItemskmc = async (newdata) => {
-            const result = await axioskmc.post('/CRFRegisterApproval/AddMoreItemsDetails', newdata);
+        const AddMoreItemskmc = async (newdatakmc) => {
+            const result = await axioskmc.post('/CRFRegisterApproval/AddMoreItemsDetails', newdatakmc);
             const { success, message } = result.data
             if (success === 1) {
                 succesNotify(message)
@@ -184,17 +184,43 @@ const AddMoreItemDtails = ({ req_slno, setMoreItem, setApproveTableData, selecte
                 create_user: id,
                 approve_aprox_cost: parseInt(approx_cost),
             }
+
+            const newdatakmc = {
+                id: Math.ceil(Math.random() * 1000),
+                req_slno: req_slno,
+                item_slno: maxSlno + 1,
+                item_desc: item_desc,
+                item_brand: item_brand,
+                item_unit: uom,
+                item_qnty: parseInt(item_qty),
+                item_specification: item_spec,
+                item_unit_price: unitprice,
+                aprox_cost: parseInt(approx_cost),
+                item_status: 1,
+                approve_item_desc: item_desc,
+                approve_item_brand: item_brand,
+                approve_item_unit: uom,
+                item_qnty_approved: parseInt(item_qty),
+                approve_item_specification: item_spec,
+                approve_item_unit_price: unitprice,
+                item_status_approved: 1,
+                approve_item_status: 1,
+                item_add_higher: 1,
+                create_user: depkmc?.kmc_hod,
+                approve_aprox_cost: parseInt(approx_cost),
+            }
             if (selectedCompany === "1") {
                 AddMoreItems(newdata)
             } else if (selectedCompany === "2") {
-                AddMoreItemskmc(newdata)
+                AddMoreItemskmc(newdatakmc)
+
             }
         }
         else {
             warningNotify("Item Description and Quantity are mandatory and Quantity and unit price are not negative")
         }
 
-    }, [maxSlno, item_desc, item_brand, item_qty, uom, item_spec, unitprice, approx_cost, id, reset, req_slno, queryClient, selectedCompany])
+    }, [maxSlno, item_desc, item_brand, item_qty, uom, item_spec, unitprice, approx_cost, id, reset, req_slno, queryClient, selectedCompany, depkmc])
 
     const cancelEdit = useCallback(() => {
         reset()
