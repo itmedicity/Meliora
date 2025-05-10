@@ -28,7 +28,7 @@ export const cm_setting_two = [
 export const cm_setting_three = [
     { to: '/Home/HicPolicy', name: 'Hic Policy', slno: 254 },
     { to: '/Home/holdReasonsinTicket', name: 'Hold Reason', slno: 14 },
-   
+
     // { to: '/Home/HicPolicy', name: 'Hic Policy', slno: 14 },
 ]
 
@@ -38,13 +38,15 @@ export const crm_setting_one = [
     { to: '/Home/EmergencyType', name: 'Emergency Type Mast', slno: 177 },
     { to: '/Home/CompanyMast', name: 'Company Master', slno: 234 },
     { to: '/Home/CrfStoreMaster', name: 'Store Master Right', slno: 258 },
+    { to: '/Home/DataCollectionMaster', name: 'Data Collection Master', slno: 271 },
+
 ]
 
 export const crm_setting_two = [
-    { to: '/Home/OMTableMast', name: 'OM Table Mast', slno: 107 },
+    { to: '/Home/OMTableMast', name: 'OM Table Mast', slno: 272 },
     { to: '/Home/ApprovalMapping', name: 'CRF Approval Mapping Master', slno: 252 },
     { to: '/Home/CrfCommon', name: 'CRF Common Master', slno: 269 },
-
+    { to: '/Home/DepartmentMapping', name: 'DepartmentMapping', slno: 107 }
 ]
 
 export const crm_setting_three = [

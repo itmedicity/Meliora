@@ -240,7 +240,9 @@ const CrfView = React.lazy(() => import('./views/CentralRequestManagement/CRFvie
 const CrfStoreMaster = React.lazy(() => import('./views/Master/RequestManagement/StoreMaster/StoreMaster'))
 const CrfCommon = React.lazy(() => import('./views/Master/RequestManagement/CrfCommon/CrfCommonMaster'))
 const CrfDashboardMaster = React.lazy(() => import('./views/Master/RequestManagement/DashboardMaster/DashboardMaster'))
-
+// const Datacollection = React.lazy(() => import('./views/CentralRequestManagement/DataCollectionMaster/DataCollectionMaster'))
+const DataCollectionMaster = React.lazy(() => import('./views/Master/RequestManagement/DataCollectionMaster/DataCollection'))
+const DepartmentMapping = React.lazy(() => import('./views/Master/RequestManagement/DepartmentMapping/DepartmentMaping'))
 
 
 
@@ -482,15 +484,16 @@ const routes = [
   { path: '/Home/CrfStoreMaster', exact: true, name: 'Crf StoreMaster', component: CrfStoreMaster },
   { path: '/Home/CrfCommon', exact: true, name: 'Crf Common Master', component: CrfCommon },
   { path: '/Home/AllCRFReportWithPO', exact: true, name: 'All CRF Report With PO', component: AllCRFReportWithPO },
-  { path: '/Home/TicketDashboards', exact: true, name: 'Ticket Dashboards', component: TicketDashboardz }, 
+  { path: '/Home/TicketDashboards', exact: true, name: 'Ticket Dashboards', component: TicketDashboardz },
   { path: '/Home/AllDeptCondemList', exact: true, name: 'AllDeptCondemList', component: AllDeptCondemList },
   { path: '/Home/ItBackupTypeMast', exact: true, name: 'ItBackupTypeMast', component: ItBackupTypeMast },
-  { path: '/Home/SimOperator', exact: true, name: 'SimOperator', component: SimOperator },   
+  // { Path: '/Home/Datacollection', exact: true, name: 'Data Collection Master', component: Datacollection },
+  { path: '/Home/DataCollectionMaster', exact: true, name: 'DataCollectionMaster', component: DataCollectionMaster },
+  { path: '/Home/SimOperator', exact: true, name: 'SimOperator', component: SimOperator },
+  { Path: '/Home/DepartmentMapping', exact: true, name: 'DashBoardMaster', component: DepartmentMapping },
+
   { Path: '/Home/DashBoardMaster', exact: true, name: 'DashBoardMaster', component: CrfDashboardMaster },
- 
 
-
-  
 
 
 

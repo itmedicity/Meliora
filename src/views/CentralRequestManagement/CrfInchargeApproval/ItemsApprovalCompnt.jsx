@@ -1,5 +1,5 @@
 import React, { Fragment, useCallback, useState, memo, useEffect, useMemo } from 'react'
-import { axioslogin } from 'src/views/Axios/Axios';
+import { axioskmc, axioslogin } from 'src/views/Axios/Axios';
 import _ from 'underscore'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import CustomPaperTitle from 'src/views/Components/CustomPaperTitle'
@@ -14,10 +14,11 @@ import CustomIconButtonCmp from '../ComonComponent/Components/CustomIconButtonCm
 import { useQuery, useQueryClient } from 'react-query';
 import { getApprovedCrfItems, getApprovedStatus, getMaxslNoOfCrfItem } from 'src/api/CommonApiCRF';
 import CustomToolTipForCRF from '../ComonComponent/Components/CustomToolTipForCRF';
+import { getApprovedCrfItemskmc, getApprovedStatuskmc, getMaxslNoOfCrfItemkmc } from 'src/api/CommonApiCRFKmc';
 
 
-const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editEnable, crf_data_collect_status,
-    setEditEnable, header, apprvLevel }) => {
+const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editEnable, crf_data_collect_status, selectedCompany,
+    setEditEnable, header, apprvLevel, depkmc }) => {
 
     const queryClient = useQueryClient()
     const dispatch = useDispatch();
@@ -25,6 +26,9 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
     const [uom, setUOM] = useState(0)
     const [lastSlno, setLastSlno] = useState(0)
     const [apprvdItems, setApprvdItems] = useState([])
+    const [combaineditem, setcombaineditem] = useState([])
+    const [combainedslno, setcombainedslno] = useState([])
+    const [Statusdatamain, setstatusdata] = useState([])
 
     const [checkStatus, setCheckStatus] = useState([])
     const [itemstate, setItemState] = useState({
@@ -84,6 +88,13 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
     });
     const itemData = useMemo(() => iteData, [iteData])
 
+    const { data: kmciteData, isLoading: isItemskmcLoading, error: kmcitemsError } = useQuery({
+        queryKey: ['approvedRejholdItemListkmc', req_slno],
+        queryFn: () => getApprovedCrfItemskmc(req_slno),
+        staleTime: Infinity
+    });
+    const kmcitemData = useMemo(() => kmciteData, [kmciteData])
+
     const { data: statData, isLoading: isStatusLoading, error: statusError } = useQuery({
         queryKey: ['itemStatus', req_slno],
         queryFn: () => getApprovedStatus(req_slno),
@@ -91,11 +102,24 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
     });
     const statusData = useMemo(() => statData, [statData])
 
+    const { data: kmcstatData, isLoading: kmcisStatusLoading, error: kmcstatusError } = useQuery({
+        queryKey: ['itemStatuskmc', req_slno],
+        queryFn: () => getApprovedStatuskmc(req_slno),
+        staleTime: Infinity
+    });
+    const statusDatakmc = useMemo(() => kmcstatData, [kmcstatData])
     useEffect(() => {
-        if (statusData && statusData.length !== 0) {
+        if (selectedCompany === "1") {
+            setstatusdata(statusData)
+        } else if (selectedCompany === "2") {
+            setstatusdata(statusDatakmc)
+        } else {
+            setstatusdata(statusData)
+        }
+        if (Statusdatamain && Statusdatamain.length !== 0) {
             if (apprvLevel === 1) {
                 // incharge
-                const newData = statusData?.map((val) => {
+                const newData = Statusdatamain?.map((val) => {
                     return {
                         req_detl_slno: val.req_detl_slno,
                         higher: val.item_hod_approve !== 0 || val.item_dms_approve !== 0 || val.item_ms_approve !== 0 ||
@@ -108,7 +132,7 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
             }
             else if (apprvLevel === 2) {
                 // hod
-                const newData = statusData?.map((val) => {
+                const newData = Statusdatamain?.map((val) => {
                     return {
                         req_detl_slno: val.req_detl_slno,
                         higher: val.item_dms_approve !== 0 || val.item_ms_approve !== 0 ||
@@ -121,7 +145,7 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
             }
             else if (apprvLevel === 3) {
                 // dms
-                const newData = statusData?.map((val) => {
+                const newData = Statusdatamain?.map((val) => {
                     return {
                         req_detl_slno: val.req_detl_slno,
                         higher: val.item_ms_approve !== 0 || val.item_mo_approve !== 0 || val.item_smo_approve !== 0 ||
@@ -132,7 +156,7 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
             }
             else if (apprvLevel === 4) {
                 // ms
-                const newData = statusData?.map((val) => {
+                const newData = Statusdatamain?.map((val) => {
                     return {
                         req_detl_slno: val.req_detl_slno,
                         higher: val.item_mo_approve !== 0 || val.item_smo_approve !== 0 || val.item_gm_approve !== 0 ||
@@ -143,7 +167,7 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
             }
             else if (apprvLevel === 5) {
                 // mo
-                const newData = statusData?.map((val) => {
+                const newData = Statusdatamain?.map((val) => {
                     return {
                         req_detl_slno: val.req_detl_slno,
                         higher: val.item_smo_approve !== 0 || val.item_gm_approve !== 0 ||
@@ -154,7 +178,7 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
             }
             else if (apprvLevel === 6) {
                 // smo
-                const newData = statusData?.map((val) => {
+                const newData = Statusdatamain?.map((val) => {
                     return {
                         req_detl_slno: val.req_detl_slno,
                         higher: val.item_gm_approve !== 0 || val.item_md_approve !== 0 || val.item_ed_approve !== 0 ? 1 : 0
@@ -164,7 +188,7 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
             }
             else if (apprvLevel === 7) {
                 // gm
-                const newData = statusData?.map((val) => {
+                const newData = Statusdatamain?.map((val) => {
                     return {
                         req_detl_slno: val.req_detl_slno,
                         higher: val.item_md_approve !== 0 || val.item_ed_approve !== 0 ? 1 : 0
@@ -174,7 +198,7 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
             }
             else if (apprvLevel === 8 || apprvLevel === 9 || apprvLevel === 10) {
                 // md and ed
-                const newData = statusData?.map((val) => {
+                const newData = Statusdatamain?.map((val) => {
                     return {
                         req_detl_slno: val.req_detl_slno,
                         higher: 0
@@ -183,14 +207,20 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
                 setCheckStatus(newData)
             }
         }
-    }, [statusData, apprvLevel])
+    }, [Statusdatamain, apprvLevel])
 
     useEffect(() => {
-        if (itemData && itemData.length !== 0) {
-
+        if (selectedCompany === "1") {
+            setcombaineditem(itemData)
+        } else if (selectedCompany === "2") {
+            setcombaineditem(kmcitemData)
+        }
+        else {
+            setcombaineditem(itemData)
+        }
+        if (combaineditem && combaineditem.length !== 0) {
             if (checkStatus && checkStatus.length !== 0) {
-
-                const newData = itemData?.map((val) => {
+                const newData = combaineditem?.map((val) => {
                     const itstatus = checkStatus?.find(item => item.req_detl_slno === val.req_detl_slno)
                     return {
                         ...val,
@@ -201,7 +231,7 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
                 setApprvdItems(newData)
             }
             else {
-                const newData = itemData?.map((val) => {
+                const newData = combaineditem?.map((val) => {
                     return {
                         ...val,
                         higher: 1
@@ -211,20 +241,35 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
                 setApprvdItems(newData)
             }
         }
-    }, [itemData, setApproveTableData, checkStatus])
+    }, [combaineditem, setApproveTableData, checkStatus, selectedCompany, itemData, kmcitemData])
     const { data: maxSlnoData, isLoading: isSlnoLoading, error: slnoError } = useQuery({
         queryKey: ['getmaxSlno', req_slno],
         queryFn: () => getMaxslNoOfCrfItem(req_slno),
         staleTime: Infinity
     });
+    const { data: kmcmaxSlnoData, isLoading: kmcisSlnoLoading, error: kmcslnoError } = useQuery({
+        queryKey: ['getmaxSlnokmc', req_slno],
+        queryFn: () => getMaxslNoOfCrfItemkmc(req_slno),
+        staleTime: Infinity
+    });
+
     useEffect(() => {
-        if (maxSlnoData && maxSlnoData.length !== 0) {
-            const { maxSlno } = maxSlnoData[0];
+        if (selectedCompany === "1") {
+            setcombainedslno(maxSlnoData)
+
+        } else if (selectedCompany === "2") {
+            setcombainedslno(kmcmaxSlnoData)
+
+        } else {
+            setcombainedslno(maxSlnoData)
+        }
+        if (combainedslno && combainedslno.length !== 0) {
+            const { maxSlno } = combainedslno[0];
             setLastSlno(maxSlno);
         } else {
             setLastSlno(0);
         }
-    }, [maxSlnoData])
+    }, [combainedslno, kmcmaxSlnoData, maxSlnoData])
 
     const editSelect = useCallback((val) => {
         const { req_detl_slno, approve_aprox_cost, item_slno, approve_item_desc, approve_item_brand,
@@ -289,7 +334,25 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
                 apprv_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
                 apprvLevel: apprvLevel
             }
+            const approvedatakmc = {
+                approve_item_desc: item_desc,
+                approve_item_brand: item_brand,
+                approve_item_unit: uom,
+                item_qnty_approved: item_qty,
+                approve_item_specification: item_spec,
+                approve_item_unit_price: unitprice,
+                approve_aprox_cost: approx_cost,
+                approve_item_status: 1,
+                item_status_approved: 1,// appvd
+                edit_user: depkmc?.kmc_hod,
+                req_detl_slno: reqDetailslno,
+                req_slno: req_slno,
+                apprv_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+                apprvLevel: apprvLevel
+            }
+
             const updateDetalReqApprov = async (approvedata) => {
+
                 const result = await axioslogin.patch('/CRFRegisterApproval/itemsApproval', approvedata);
                 const { success, message } = result.data;
                 if (success === 1) {
@@ -303,7 +366,29 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
                     warningNotify(message)
                 }
             }
-            updateDetalReqApprov(approvedata)
+            const updatekmcDetalReqApprov = async (approvedatakmc) => {
+                const result = await axioskmc.patch('/CRFRegisterApproval/itemsApproval', approvedatakmc);
+                const { success, message } = result.data;
+                if (success === 1) {
+                    succesNotify(message)
+                    queryClient.invalidateQueries('approvedRejholdItemListkmc')
+                    queryClient.invalidateQueries('getmaxSlnokmc')
+                    queryClient.invalidateQueries('itemStatuskmc')
+                    reset()
+                }
+                else {
+                    warningNotify(message)
+                }
+            }
+            if (selectedCompany === "1") {
+                updateDetalReqApprov(approvedata)
+
+            } else if (selectedCompany === "2") {
+                updatekmcDetalReqApprov(approvedatakmc)
+            } else {
+                updateDetalReqApprov(approvedata)
+
+            }
         } else {
             const approvedataInsert = {
                 req_slno: req_slno,
@@ -329,6 +414,31 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
                 create_user: id,
                 req_detl_slno: reqDetailslno
             }
+
+            const approvedataInsertkmc = {
+                req_slno: req_slno,
+                item_slno: lastSlno + 1,
+                item_desc: item_desc,
+                item_brand: item_brand,
+                item_unit: uom,
+                item_qnty: item_qty,
+                item_specification: item_spec,
+                item_unit_price: unitprice,
+                aprox_cost: approx_cost,
+                item_status: 0,
+                approve_item_desc: item_desc,
+                approve_item_brand: item_brand,
+                approve_item_unit: uom,
+                item_qnty_approved: item_qty,
+                approve_item_specification: item_spec,
+                approve_item_unit_price: unitprice,
+                approve_aprox_cost: approx_cost,
+                approve_item_status: 1,
+                item_status_approved: 1,
+                old_item_slno: item_slno,
+                create_user: depkmc?.kmc_hod,
+                req_detl_slno: reqDetailslno
+            }
             const DetailApprvInsert = async (reqDataPost) => {
                 const result = await axioslogin.post('/CRFRegisterApproval/DetailApprvInsert', reqDataPost);
                 const { success, message } = result.data;
@@ -343,10 +453,33 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
                     warningNotify(message)
                 }
             }
-            DetailApprvInsert(approvedataInsert)
+            const DetailkmcApprvInsert = async (approvedataInsertkmc) => {
+                const result = await axioskmc.post('/CRFRegisterApproval/DetailApprvInsert', approvedataInsertkmc);
+                const { success, message } = result.data;
+
+
+                if (success === 1) {
+                    succesNotify(message)
+                    queryClient.invalidateQueries('approvedRejholdItemListkmc')
+                    queryClient.invalidateQueries('getmaxSlnokmc')
+                    queryClient.invalidateQueries('itemStatuskmc')
+                    reset()
+                }
+                else {
+                    warningNotify(message)
+                }
+            }
+
+            if (selectedCompany === "1") {
+                DetailApprvInsert(approvedataInsert)
+            } else if (selectedCompany === "2") {
+                DetailkmcApprvInsert(approvedataInsertkmc)
+            } else {
+                DetailApprvInsert(approvedataInsert)
+            }
         }
     }, [reqDetailslno, req_slno, lastSlno, item_desc_actl, item_desc, item_brand, uom, item_qty,
-        item_slno, item_spec, approx_cost, unitprice, reset, id, queryClient, apprvLevel])
+        item_slno, item_spec, approx_cost, unitprice, reset, id, queryClient, apprvLevel, selectedCompany, depkmc])
 
     const Rejectfctn = useCallback(() => {
         setRejHoldRemarkFlag(1)
@@ -488,11 +621,11 @@ const ItemsApprovalCompnt = ({ req_slno, setMoreItem, setApproveTableData, editE
         reset, approx_cost, rejHoldRemark, id, header, queryClient, apprvLevel, req_slno])
 
 
-    if (isItemsLoading || isSlnoLoading || isStatusLoading) return <p>Loading...</p>;
-    if (itemsError || slnoError || statusError) return <p>Error occurred.</p>;
+    if (isItemsLoading || isSlnoLoading || isStatusLoading || kmcisSlnoLoading || kmcisStatusLoading || isItemskmcLoading) return <p>Loading...</p>;
+    if (itemsError || slnoError || statusError || kmcslnoError || kmcstatusError || kmcitemsError) return <p>Error occurred.</p>;
     return (
         <Fragment>
-            <Box sx={{ flexWrap: 'wrap', my: 0.5 }}>
+            <Box sx={{ flexWrap: 'wrap', my: 0.5, }}>
                 {apprvdItems.length !== 0 ?
                     <Box sx={{}}>
                         <Box sx={{ display: 'flex', }}>

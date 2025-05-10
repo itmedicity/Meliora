@@ -10,7 +10,7 @@ import { axioslogin } from 'src/views/Axios/Axios';
 import DataCollectionViewModal from '../../CrfDatacollection/DataCollectionViewModal';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 
-const DataCollectionSave = ({ flag, val, empdeptsec }) => {
+const DataCollectionSave = ({ flag, val, empdeptsec, selectedCompany, depkmc }) => {
 
     const [dcReplyModal, setDcReplyModal] = useState(false)
     const [dcReplyFlag, setdcReplyFlag] = useState(0)
@@ -50,11 +50,11 @@ const DataCollectionSave = ({ flag, val, empdeptsec }) => {
             }
         }
         getImage(req_slno)
-        GetItemDetailsOfCRFCmp(req_slno, setReqItems, setApproveTableData, setPoDetails)
+        GetItemDetailsOfCRFCmp(req_slno, setReqItems, setApproveTableData, setPoDetails, selectedCompany)
         setDcReplyModal(true)
         setdcReplyFlag(1)
         setDcData(val)
-    }, [val])
+    }, [val, selectedCompany])
 
     const ViewFctn = useCallback(() => {
         const { req_slno } = val
@@ -82,7 +82,7 @@ const DataCollectionSave = ({ flag, val, empdeptsec }) => {
             }
         }
         getImage(req_slno)
-        GetItemDetailsOfCRFCmp(req_slno, setReqItems, setApproveTableData, setPoDetails)
+        GetItemDetailsOfCRFCmp(req_slno, setReqItems, setApproveTableData, setPoDetails, selectedCompany)
         setDataEnterViewFlag(1)
         setDataEnterViewModal(true)
 
@@ -113,7 +113,7 @@ const DataCollectionSave = ({ flag, val, empdeptsec }) => {
             }
         }
         checkDataCollectComplete(req_slno)
-    }, [setDataEnterViewFlag, setDataEnterViewModal, setDataEnterViewData, val])
+    }, [setDataEnterViewFlag, setDataEnterViewModal, setDataEnterViewData, val, selectedCompany])
 
     const buttonstyle = {
         // textTransform: 'capitalize',
@@ -142,7 +142,7 @@ const DataCollectionSave = ({ flag, val, empdeptsec }) => {
 
             {dcReplyFlag === 1 ? <DataCollectionActionModal open={dcReplyModal} handleClose={handleClose} reqItems={reqItems}
                 approveTableData={approveTableData} poDetails={poDetails} dcData={dcData} setApproveTableData={setApproveTableData}
-                empdeptsec={empdeptsec} imagearray={imagearray} /> : null}
+                empdeptsec={empdeptsec} imagearray={imagearray} selectedCompany={selectedCompany} depkmc={depkmc} /> : null}
 
             {dtaEnterViewFlag === 1 ? <DataCollectionViewModal open={dtaEnterViewModal} handleClose={handleClose} flag={flag}
                 dtaEnterViewData={dtaEnterViewData} reqItems={reqItems} approveTableData={approveTableData} reqData={val}

@@ -29,12 +29,13 @@ import MSApproveViewForHigher from '../ComonComponent/HigherLevelComponents/MSAp
 import DMSApproveViewForHigher from '../ComonComponent/HigherLevelComponents/DMSApproveViewForHigher'
 import HODApproveViewHigher from '../ComonComponent/HigherLevelComponents/HODApproveViewHigher'
 import CampaignTwoToneIcon from '@mui/icons-material/CampaignTwoTone';
+import DataCollectDepSecSelectTmc from '../ComonComponent/DataCollectionComp/DataCollectDepSecSelectTmc'
 
 const ManagingDirectorModal = ({ open, ApprovalData, reqItems, handleClose, setApproveTableData, approveTableData, company,
     datacolflag, datacolData, imagearray, selectedCompany }) => {
     const { req_slno, incharge_req, incharge_remarks, hod_req, hod_approve, dms_req, dms_approve, ms_approve,
         ms_approve_req, manag_operation_approv, senior_manage_approv, gm_approve, md_approve,
-        managing_director_approve, managing_director_remarks, managing_director_analysis, managing_director_image
+        managing_director_approve, managing_director_remarks, managing_director_analysis, managing_director_image, company_slno
     } = ApprovalData
     const queryClient = useQueryClient()
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
@@ -53,9 +54,10 @@ const ManagingDirectorModal = ({ open, ApprovalData, reqItems, handleClose, setA
         remark: managing_director_remarks !== null ? managing_director_remarks : '',
         detailAnalis: managing_director_analysis !== null ? managing_director_analysis : '',
         datacollFlag: false,
-        datacolectremark: ''
+        datacolectremark: '',
+        datacollFlagKMC: false
     });
-    const { remark, detailAnalis, approve, reject, pending, datacollFlag, datacolectremark, internallyArr } = apprvlDetails
+    const { remark, detailAnalis, approve, reject, pending, datacollFlag, datacolectremark, internallyArr, datacollFlagKMC } = apprvlDetails
     const updateOnchangeState = useCallback((e) => {
         const { name, type, value, checked } = e.target;
         setApprvlDetails((prev) => ({
@@ -182,7 +184,21 @@ const ManagingDirectorModal = ({ open, ApprovalData, reqItems, handleClose, setA
                     warningNotify('An error occurred during data collection insertion.');
                 }
             };
-
+            const DataCollRequestFnctntmc = async (postData) => {
+                try {
+                    const result = await axioslogin.post(`/CRFRegisterApproval/dataCollect/Insert/tmc`, postData);
+                    const { success, message } = result.data;
+                    if (success === 1) {
+                        succesNotify(message);
+                        queryClient.invalidateQueries('getPendingAll');
+                        reset();
+                    } else {
+                        warningNotify(message);
+                    }
+                } catch (error) {
+                    warningNotify('An error occurred during data collection insertion.');
+                }
+            };
             // const FileInsert = async (req_slno, selectFile) => {
             //     try {
             //         const formData = new FormData();
@@ -253,6 +269,26 @@ const ManagingDirectorModal = ({ open, ApprovalData, reqItems, handleClose, setA
                 }
                 return;
             }
+            if (datacollFlagKMC) {
+                if (crfdept.length === 0) {
+                    warningNotify("Select any data collection department");
+                    return;
+                }
+                if (datacolectremark === '') {
+                    warningNotify("Enter the remarks");
+                    return;
+                }
+                const postData = crfdept?.map((val) => ({
+                    crf_requst_slno: req_slno,
+                    crf_req_collect_dept: val,
+                    crf_req_remark: datacolectremark,
+                    reqest_one: 3,
+                    req_user: id,
+                    tmc_status: 1
+                }));
+                DataCollRequestFnctntmc(postData);
+                return;
+            }
             if (!approve && !reject && !pending && !internallyArr) {
                 warningNotify("Select any status");
                 return;
@@ -286,16 +322,14 @@ const ManagingDirectorModal = ({ open, ApprovalData, reqItems, handleClose, setA
             if (selectedCompany === '1') {
                 // handleApproval(updateManagApproval, FileInsert, 'getPendingAll');
                 handleApproval(updateManagApprovalKMC, FileInsertKMC, 'getPendingAll');
-
             } else if (selectedCompany === '2') {
                 handleApproval(updateManagApprovalKMC, FileInsertKMC, 'getAllKmcPending');
             }
-            // }
             // else {
             //     warningNotify("Justification is required");
             // }
         }
-    }, [managPatchData, reset, datacollFlag, datacolectremark, crfdept, id, req_slno, selectFile, queryClient, internallyArr,
+    }, [managPatchData, reset, datacollFlag, datacolectremark, crfdept, id, req_slno, selectFile, queryClient, internallyArr, datacollFlagKMC,
         handleImageUpload, approve, reject, pending, editEnable, selectedCompany, detailAnalis, remark]);
 
     const closeModal = useCallback(() => {
@@ -517,6 +551,54 @@ const ManagingDirectorModal = ({ open, ApprovalData, reqItems, handleClose, setA
                                         />
                                     </Box>
                                 </Paper>
+                                {
+                                    company_slno === 2 ?
+                                        <Paper variant='outlined' sx={{ pb: 1, flexWrap: 'wrap', mx: 0.3 }} >
+                                            <Box sx={{ mx: 1, mt: 1 }}>
+                                                <CusCheckBox
+                                                    className={{ color: '#145DA0', fontSize: 14, fontWeight: 'bold' }}
+                                                    variant="outlined"
+                                                    color="primary"
+                                                    size="md"
+                                                    name="datacollFlagKMC"
+                                                    label="TMC Data Collection Required"
+                                                    value={datacollFlagKMC}
+                                                    onCheked={updateOnchangeState}
+                                                    checked={datacollFlagKMC}
+                                                    disabled={datacollFlag === true}
+                                                />
+                                            </Box>
+                                        </Paper>
+                                        : null
+                                }
+
+                                {datacollFlagKMC === true ? <Box sx={{ border: '1px solid lightgrey', borderTop: 'none', pb: 1, mx: 0.3 }}>
+                                    <Box sx={{ display: 'flex', pt: 1, }}>
+                                        <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 0.5 }}>Departments for Data Collection</Typography>
+                                        <Typography sx={{ pt: 0.5 }}>  :&nbsp;</Typography>
+                                        <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
+                                            <DataCollectDepSecSelectTmc SetDeptSec={setCrfDept} />
+                                        </Box>
+                                    </Box>
+                                    <Box sx={{ display: 'flex', pt: 0.4 }}>
+                                        <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 1 }}>Remarks</Typography>
+                                        <Typography sx={{ pt: 1 }}>  :&nbsp;</Typography>
+                                        <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
+                                            <Textarea
+                                                required
+                                                type="text"
+                                                size="sm"
+                                                minRows={2}
+                                                maxRows={4}
+                                                style={{ width: "90%", }}
+                                                placeholder="Remarks"
+                                                name='datacolectremark'
+                                                value={datacolectremark}
+                                                onChange={updateOnchangeState}
+                                            />
+                                        </Box>
+                                    </Box>
+                                </Box> : null}
                                 {datacollFlag === true ?
                                     <Box sx={{ border: '1px solid lightgrey', borderTop: 'none', pb: 1, mx: 0.3 }}>
                                         <Box sx={{ display: 'flex', pt: 1, }}>
@@ -545,7 +627,8 @@ const ManagingDirectorModal = ({ open, ApprovalData, reqItems, handleClose, setA
                                             </Box>
                                         </Box>
                                     </Box>
-                                    :
+                                    : null}
+                                {datacollFlag === false && datacollFlagKMC === false ?
                                     <Box sx={{ mt: 0.5, pb: 1, flexWrap: 'wrap', mx: 0.3 }} >
                                         {selectedCompany === '1' ?
                                             <>
@@ -578,7 +661,7 @@ const ManagingDirectorModal = ({ open, ApprovalData, reqItems, handleClose, setA
                                             setSelectFile={setSelectFile}
                                             uploadedImages={uploadedImages}
                                         />
-                                    </Box>
+                                    </Box> : null
                                 }
                             </Box>
                         </Box>

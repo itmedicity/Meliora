@@ -1,8 +1,8 @@
 import { format } from "date-fns"
-import { axioslogin } from "src/views/Axios/Axios"
+import { axioskmc, axioslogin } from "src/views/Axios/Axios"
 import { warningNotify } from "src/views/Common/CommonCode"
 
-export const GetItemDetailsOfCRFCmp = async (req_slno, setReqItems, setApproveTableData, setPoDetails) => {
+export const GetItemDetailsOfCRFCmp = async (req_slno, setReqItems, setApproveTableData, setPoDetails, selectedCompany) => {
     const capitalizeWords = (str) =>
         str ? str
             .toLowerCase()
@@ -14,13 +14,32 @@ export const GetItemDetailsOfCRFCmp = async (req_slno, setReqItems, setApproveTa
             : '';
     const getItemDetails = async (req_slno) => {
         try {
-            const result = await axioslogin.get(`/newCRFRegister/getDetailItemList/${req_slno}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                setReqItems(data)
+            if (selectedCompany === "1") {
+                const result = await axioslogin.get(`/newCRFRegister/getDetailItemList/${req_slno}`)
+                const { success, data } = result.data
+                if (success === 1) {
+                    setReqItems(data)
+                } else {
+                    setReqItems([])
+                }
+            } else if (selectedCompany === "2") {
+                const result = await axioskmc.get(`/newCRFRegister/getDetailItemList/${req_slno}`)
+                const { success, data } = result.data
+                if (success === 1) {
+                    setReqItems(data)
+                } else {
+                    setReqItems([])
+                }
             } else {
-                setReqItems([])
+                const result = await axioslogin.get(`/newCRFRegister/getDetailItemList/${req_slno}`)
+                const { success, data } = result.data
+                if (success === 1) {
+                    setReqItems(data)
+                } else {
+                    setReqItems([])
+                }
             }
+
         } catch (error) {
             warningNotify("Error to fetch Data:", error);
             setReqItems([])
@@ -28,13 +47,32 @@ export const GetItemDetailsOfCRFCmp = async (req_slno, setReqItems, setApproveTa
     }
     const getApproItemDetails = async (req_slno) => {
         try {
-            const result = await axioslogin.get(`/CRFRegisterApproval/getItemListApproval/${req_slno}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                setApproveTableData(data)
+            if (selectedCompany === "1") {
+                const result = await axioslogin.get(`/CRFRegisterApproval/getItemListApproval/${req_slno}`)
+                const { success, data } = result.data
+                if (success === 1) {
+                    setApproveTableData(data)
+                } else {
+                    setApproveTableData([])
+                }
+            } else if (selectedCompany === "2") {
+                const result = await axioskmc.get(`/CRFRegisterApproval/getItemListApproval/${req_slno}`)
+                const { success, data } = result.data
+                if (success === 1) {
+                    setApproveTableData(data)
+                } else {
+                    setApproveTableData([])
+                }
             } else {
-                setApproveTableData([])
+                const result = await axioslogin.get(`/CRFRegisterApproval/getItemListApproval/${req_slno}`)
+                const { success, data } = result.data
+                if (success === 1) {
+                    setApproveTableData(data)
+                } else {
+                    setApproveTableData([])
+                }
             }
+
         } catch (error) {
             warningNotify("Error to fetch Data:", error);
             setApproveTableData([])

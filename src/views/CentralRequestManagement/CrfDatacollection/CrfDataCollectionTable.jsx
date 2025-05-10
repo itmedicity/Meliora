@@ -4,7 +4,8 @@ import CustomCloseIconCmp from '../ComonComponent/Components/CustomCloseIconCmp'
 import { useHistory } from 'react-router-dom';
 import { Badge, FormControlLabel, Radio, RadioGroup } from '@mui/material';
 import { useQuery } from 'react-query';
-import { getDataCollectionDetails, getDefaultCompany } from 'src/api/CommonApiCRF';
+import { getDataCollectionDetails, getDefaultCompany, getCompanyDetails, getdefaultRights, getDatakmcDep } from 'src/api/CommonApiCRF';
+
 import _ from 'underscore';
 import { useSelector } from 'react-redux';
 import { Virtuoso } from 'react-virtuoso';
@@ -17,6 +18,7 @@ import CustomInputDateCmp from '../ComonComponent/Components/CustomInputDateCmp'
 import CustomIconButtonCmp from '../ComonComponent/Components/CustomIconButtonCmp';
 import { parse } from 'date-fns';
 import { infoNotify } from 'src/views/Common/CommonCode';
+import { getDatakmcCollectionDetails } from 'src/api/CommonApiCRFKmc';
 
 const formatDateForInput = (date) => {
     return date.toISOString().split('T')[0];
@@ -28,6 +30,7 @@ const CrfDataCollectionTable = () => {
         history.push('/Home')
     }, [history])
     const empdeptsec = useSelector((state) => state.LoginUserData.empsecid, _.isEqual)
+    const empid = useSelector((state) => state.LoginUserData.empid, _.isEqual)
 
     const [pendingData, setPendingData] = useState([])
     const [doneData, setDoneData] = useState([])
@@ -38,12 +41,43 @@ const CrfDataCollectionTable = () => {
     const [endDate, setEndDate] = useState(formatDateForInput(new Date()));
     const [searchCrf, setsearchCrf] = useState('')
     const [searchFlag, setSearchFlag] = useState(0)
+    const [selectedCompany, setSelectedCompany] = useState('1');
+    const [combinedData, setcombinedData] = useState([])
 
     const { data: dataCollection, isLoading: isDCLoading, error: dcError } = useQuery({
         queryKey: ['dataCollection', empdeptsec],
         queryFn: () => getDataCollectionDetails(empdeptsec),
+        queryFn: async () => {
+            const data = await getDataCollectionDetails(empdeptsec);
+            return data.filter(item => item.tmc_data_collection_status === 0);
+        },
         enabled: empdeptsec !== null,
     });
+
+    const { data: depkmc, isLoading: iskmcDepLoading, error: kmcdepError } = useQuery({
+        queryKey: ['dataDepkmc', empdeptsec],
+        queryFn: () => getDatakmcDep(empdeptsec),
+        staleTime: Infinity
+    });
+
+    const { data: dataCollectionkmc, isLoading: iskmcDCLoading, error: kmcdcError } = useQuery({
+        queryKey: ['dataCollectionkmc', empdeptsec, depkmc?.kmc_dept], // safer caching
+        queryFn: async () => {
+            const payload = depkmc?.kmc_dept;
+            const data = await getDatakmcCollectionDetails(payload);
+            return data?.filter(item => item.tmc_data_collection_status === 1);
+        },
+        enabled: empdeptsec !== null && depkmc !== undefined,
+    });
+    // const { data: dataCollectionkmc, isLoading: iskmcDCLoading, error: kmcdcError } = useQuery({
+    //     queryKey: ['dataCollectionkmc', empdeptsec],
+    //     queryFn: async () => {
+    //         const data = await getDatakmcCollectionDetails(depkmc);
+    //         return data.filter(item => item.tmc_data_collection_status === 1);
+    //     },
+
+    //     enabled: empdeptsec !== null,
+    // });
 
     const { data: companyData, isLoading: isCompLoading, error: compError } = useQuery({
         queryKey: 'getdefaultCompany',
@@ -52,16 +86,42 @@ const CrfDataCollectionTable = () => {
     });
     const company = useMemo(() => companyData, [companyData]);
 
+    const { data: datarights, isLoading: isdataLoading, error: dataError } = useQuery({
+        queryKey: 'getdefaultRights',
+        queryFn: () => getdefaultRights(empid),
+        staleTime: Infinity
+    });
+    const Right = useMemo(() => {
+        return datarights?.[0] || null;
+    }, [datarights]);
+
 
     useEffect(() => {
-        if (dataCollection && dataCollection.length > 0) {
-            const datas = dataCollection?.map((val) => {
+        if (selectedCompany === "1") {
+            if (radiovalue === '1') {
+                setDisData(pendingData)
+                setAllData(pendingData)
+                setcombinedData(dataCollection)
+            }
+        } else if (selectedCompany === "2") {
+            if (radiovalue === '1') {
+                setDisData(pendingData)
+                setAllData(pendingData)
+                setcombinedData(dataCollectionkmc)
+
+            }
+        }
+    }, [radiovalue, pendingData, selectedCompany, dataCollection, dataCollectionkmc])
+
+    useEffect(() => {
+        if (combinedData && combinedData.length > 0) {
+            const datas = combinedData?.map((val) => {
                 const obj = {
                     req_slno: val.req_slno,
                     actual_requirement: val.actual_requirement,
                     needed: val.needed,
                     request_deptsec_slno: val.request_deptsec_slno,
-                    req_deptsec: val.req_deptsec.toLowerCase(),
+                    req_deptsec: val.req_deptsec?.toLowerCase(),
                     user_deptsection: val.user_deptsection.toLowerCase(),
                     em_name: val.create_user.toLowerCase(),
                     category: val.category,
@@ -108,14 +168,9 @@ const CrfDataCollectionTable = () => {
             setPendingData([])
             setDoneData([])
         }
-    }, [dataCollection])
+    }, [combinedData])
 
-    useEffect(() => {
-        if (radiovalue === '1') {
-            setDisData(pendingData)
-            setAllData(pendingData)
-        }
-    }, [radiovalue, pendingData])
+
 
     const updateRadioClick = useCallback(async (e) => {
         e.preventDefault()
@@ -178,8 +233,19 @@ const CrfDataCollectionTable = () => {
 
     }, [startDate, endDate, searchFlag, searchCrf, allData, setDisData])
 
-    if (isDCLoading || isCompLoading) return <p>Loading...</p>;
-    if (dcError || compError) return <p>Error occurred.</p>;
+    const handleRadioChange = useCallback(async (e) => {
+        const selectedCompanyName = e.target.value;
+        setSelectedCompany(selectedCompanyName);
+    }, [])
+    const { data: compData, isLoading: isCompLoad, error: comError } = useQuery({
+        queryKey: 'getCompany',
+        queryFn: () => getCompanyDetails(),
+        staleTime: Infinity
+    });
+    const comData = useMemo(() => compData, [compData]);
+
+    if (isDCLoading || isCompLoading || iskmcDCLoading || isCompLoad || isdataLoading || iskmcDepLoading) return <p>Loading...</p>;
+    if (dcError || compError || kmcdcError || comError || dataError || kmcdepError) return <p>Error occurred.</p>;
     return (
         <Fragment>
             <Box sx={{ height: window.innerHeight - 80, flexWrap: 'wrap', bgcolor: 'white', }}>
@@ -193,7 +259,23 @@ const CrfDataCollectionTable = () => {
                         </CssVarsProvider>
                     </Box>
                 </Box>
+                {Right?.status === 1 ?
+                    <Box sx={{ height: 40, display: 'flex', alignItems: 'center', padding: '8px', justifyContent: 'center', bgcolor: 'white' }}>
+                        <RadioGroup row value={selectedCompany} onChange={handleRadioChange}>
+                            {comData?.map((val) => (
+                                <FormControlLabel
+                                    key={val.company_slno}
+                                    value={val.company_slno}
+                                    control={<Radio />}
+                                    label={val.company_name}
+                                />
+                            ))}
+                        </RadioGroup>
+                    </Box>
+                    : null}
+
                 <Box sx={{ display: 'flex', bgcolor: '#E3EFF9', py: 0.5, flexWrap: 'wrap', }}>
+
                     <Box sx={{ display: 'flex', flexWrap: 'wrap', pr: 1 }}>
                         <RadioGroup
                             sx={{ pt: 1, flex: '1 1 auto', px: 3 }}
@@ -374,7 +456,7 @@ const CrfDataCollectionTable = () => {
                     </Box>
                 </Box>
                 <Box sx={{ height: window.innerHeight - 230, overflow: 'auto', flexWrap: 'wrap' }}>
-                    {disData.length !== 0 ?
+                    {disData?.length !== 0 ?
                         <Virtuoso
                             data={disData}
                             totalCount={disData?.length}
@@ -384,7 +466,7 @@ const CrfDataCollectionTable = () => {
                                     border: '1px solid #21B6A8', borderRadius: 2,
                                 }}>
                                     <MasterDetailCompnt val={val} />
-                                    <DataCollectionSave flag={radiovalue === '1' ? 1 : 0} val={val} empdeptsec={empdeptsec} />
+                                    <DataCollectionSave selectedCompany={selectedCompany} flag={radiovalue === '1' ? 1 : 0} val={val} empdeptsec={empdeptsec} depkmc={depkmc} />
                                 </Box>
                             }
                         >

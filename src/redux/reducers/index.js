@@ -179,6 +179,7 @@ import { setSupplierSelect } from './AmSupplierSelect.Reducer'
 import { getEquipmentList } from './QIEquipment.Reducer';
 import { getStoreReceivePendingReducer, getStoreReceiveAllReducer } from './CrmStoreProcess.Reducer'
 import { getRoomsNameNdTypeList } from './CmRoomNameNdTypeList.Reducer';
+import { getDeptsectionTmc } from './DeptSection.Reducer'
 
 
 const reducer = combineReducers({
@@ -365,8 +366,8 @@ const reducer = combineReducers({
     getCRFPurchaseDashboard,
     getPOStoreDashboard,
     getRoomsNameNdTypeList,
-    getprojectFrTaskCreation
-
+    getprojectFrTaskCreation,
+    getDeptsectionTmc,
 
 })
 export default reducer;
