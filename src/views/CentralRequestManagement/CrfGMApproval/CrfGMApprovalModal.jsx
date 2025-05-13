@@ -26,12 +26,13 @@ import CommonMoApprvlCmp from '../ComonComponent/ApprovalComp/CommonMoApprvlCmp'
 import CommonSmoApprvCmp from '../ComonComponent/ApprovalComp/CommonSmoApprvCmp'
 import ModalButtomCmp from '../ComonComponent/Components/ModalButtomCmp'
 import CampaignTwoToneIcon from '@mui/icons-material/CampaignTwoTone';
+import DataCollectDepSecSelectTmc from '../ComonComponent/DataCollectionComp/DataCollectDepSecSelectTmc'
 
 const CrfGMApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApproveTableData, approveTableData, company,
     datacolflag, datacolData, imagearray }) => {
     const { req_slno, incharge_req, incharge_remarks, hod_req, hod_approve, dms_req, dms_approve, ms_approve,
         ms_approve_req, manag_operation_approv, senior_manage_approv, gm_approve, gm_approve_remarks, gm_detial_analysis,
-        gm_image
+        gm_image, company_slno
     } = ApprovalData
 
     const queryClient = useQueryClient()
@@ -51,9 +52,11 @@ const CrfGMApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
         remark: gm_approve_remarks !== null ? gm_approve_remarks : '',
         detailAnalis: gm_detial_analysis !== null ? gm_detial_analysis : '',
         datacollFlag: false,
-        datacolectremark: ''
+        datacolectremark: '',
+        datacollFlagKMC: false
+
     });
-    const { remark, detailAnalis, approve, reject, pending, datacollFlag, datacolectremark, internallyArr } = apprvlDetails
+    const { remark, detailAnalis, approve, reject, pending, datacollFlag, datacolectremark, internallyArr, datacollFlagKMC, } = apprvlDetails
     const updateOnchangeState = useCallback((e) => {
         const { name, type, value, checked } = e.target;
         setApprvlDetails((prev) => ({
@@ -156,7 +159,21 @@ const CrfGMApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                     warningNotify('An error occurred during data collection insertion.');
                 }
             };
-
+            const DataCollRequestFnctntmc = async (postData) => {
+                try {
+                    const result = await axioslogin.post(`/CRFRegisterApproval/dataCollect/Insert/tmc`, postData);
+                    const { success, message } = result.data;
+                    if (success === 1) {
+                        succesNotify(message);
+                        queryClient.invalidateQueries('getPendingAll');
+                        reset();
+                    } else {
+                        warningNotify(message);
+                    }
+                } catch (error) {
+                    warningNotify('An error occurred during data collection insertion.');
+                }
+            };
             const FileInsert = async (req_slno, selectFile) => {
                 try {
                     const formData = new FormData();
@@ -199,6 +216,27 @@ const CrfGMApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                 DataCollRequestFnctn(postData);
                 return;
             }
+
+            if (datacollFlagKMC) {
+                if (crfdept.length === 0) {
+                    warningNotify("Select any data collection department");
+                    return;
+                }
+                if (datacolectremark === '') {
+                    warningNotify("Enter the remarks");
+                    return;
+                }
+                const postData = crfdept?.map((val) => ({
+                    crf_requst_slno: req_slno,
+                    crf_req_collect_dept: val,
+                    crf_req_remark: datacolectremark,
+                    reqest_one: 3,
+                    req_user: id,
+                    tmc_status: 1
+                }));
+                DataCollRequestFnctntmc(postData);
+                return;
+            }
             if (!approve && !reject && !pending && !internallyArr) {
                 warningNotify("Select any status");
                 return;
@@ -236,7 +274,7 @@ const CrfGMApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
         }
     }, [
         approve, reject, pending, remark, detailAnalis, GMPatchData, reset, datacollFlag, editEnable, internallyArr,
-        queryClient, datacolectremark, crfdept, id, req_slno, selectFile, handleImageUpload
+        queryClient, datacolectremark, crfdept, id, req_slno, selectFile, handleImageUpload, datacollFlagKMC
     ]);
 
     const closeModal = useCallback(() => {
@@ -423,9 +461,59 @@ const CrfGMApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                                             value={datacollFlag}
                                             onCheked={updateOnchangeState}
                                             checked={datacollFlag}
+                                            disabled={datacollFlagKMC === true}
+
                                         />
                                     </Box>
                                 </Paper>
+
+                                {
+                                    company_slno === 2 ?
+                                        <Paper variant='outlined' sx={{ pb: 1, flexWrap: 'wrap', mx: 0.3 }} >
+                                            <Box sx={{ mx: 1, mt: 1 }}>
+                                                <CusCheckBox
+                                                    className={{ color: '#145DA0', fontSize: 14, fontWeight: 'bold' }}
+                                                    variant="outlined"
+                                                    color="primary"
+                                                    size="md"
+                                                    name="datacollFlagKMC"
+                                                    label="TMC Data Collection Required"
+                                                    value={datacollFlagKMC}
+                                                    onCheked={updateOnchangeState}
+                                                    checked={datacollFlagKMC}
+                                                    disabled={datacollFlag === true}
+                                                />
+                                            </Box>
+                                        </Paper>
+                                        : null
+                                }
+                                {datacollFlagKMC === true ? <Box sx={{ border: '1px solid lightgrey', borderTop: 'none', pb: 1, mx: 0.3 }}>
+                                    <Box sx={{ display: 'flex', pt: 1, }}>
+                                        <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 0.5 }}>Departments for Data Collection</Typography>
+                                        <Typography sx={{ pt: 0.5 }}>  :&nbsp;</Typography>
+                                        <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
+                                            <DataCollectDepSecSelectTmc SetDeptSec={setCrfDept} />
+                                        </Box>
+                                    </Box>
+                                    <Box sx={{ display: 'flex', pt: 0.4 }}>
+                                        <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 1 }}>Remarks</Typography>
+                                        <Typography sx={{ pt: 1 }}>  :&nbsp;</Typography>
+                                        <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
+                                            <Textarea
+                                                required
+                                                type="text"
+                                                size="sm"
+                                                minRows={2}
+                                                maxRows={4}
+                                                style={{ width: "90%", }}
+                                                placeholder="Remarks"
+                                                name='datacolectremark'
+                                                value={datacolectremark}
+                                                onChange={updateOnchangeState}
+                                            />
+                                        </Box>
+                                    </Box>
+                                </Box> : null}
                                 {datacollFlag === true ?
                                     <Box sx={{ border: '1px solid lightgrey', borderTop: 'none', pb: 1 }}>
                                         <Box sx={{ display: 'flex', pt: 1, }}>
@@ -454,7 +542,8 @@ const CrfGMApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                                             </Box>
                                         </Box>
                                     </Box>
-                                    :
+                                    : null}
+                                {datacollFlag === false && datacollFlagKMC === false ?
                                     <Box sx={{ mt: 0.5, pb: 1, flexWrap: 'wrap' }} >
                                         {approveTableData.length !== 0 ?
                                             <ItemsApprovalCompnt req_slno={req_slno} setMoreItem={setMoreItem} editEnable={editEnable}
@@ -481,7 +570,7 @@ const CrfGMApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                                             setSelectFile={setSelectFile}
                                             uploadedImages={uploadedImages}
                                         />
-                                    </Box>
+                                    </Box> : null
                                 }
                             </Box>
                         </Box>

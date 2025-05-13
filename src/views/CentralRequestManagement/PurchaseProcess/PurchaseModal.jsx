@@ -24,6 +24,14 @@ import QuotationNegoComp from '../ComonComponent/PurchaseComp/QuotationNegoComp'
 import QuotationFinalComp from '../ComonComponent/PurchaseComp/QuotationFinalComp'
 import PurchaseWoImg from './Component/PurchaseWoImg'
 import imageCompression from 'browser-image-compression';
+import DataCollectDepSecSelectTmc from '../ComonComponent/DataCollectionComp/DataCollectDepSecSelectTmc'
+import CommonMangingApprvComp from '../ComonComponent/ApprovalComp/CommonMangingApprvComp'
+import CommonHodApprvCmppurchase from './Component/CommonHodApprvCmppurchase'
+import CommonDmsApprvCmpPurchase from './Component/CommonDmsApprvCmpPurchase'
+import CommonMsApprvCmpPurchase from './Component/CommonMsApprvCmpPurchase'
+import CommonMoApprvlCmpPurchase from './Component/CommonMoApprvlCmpPurchase'
+import CommonSmoApprvCmpPurchase from './Component/CommonSmoApprvCmpPurchase'
+import CommonGmapprvCmpPurchase from './Component/CommonGmapprvCmpPurchase'
 
 const PoAddModalView = React.lazy(() => import("./Component/PoAddModalView"))
 const CrfReqDetailViewCmp = React.lazy(() => import("../ComonComponent/CrfReqDetailViewCmp"))
@@ -38,8 +46,10 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
     datacolflag, datacolData, imagearray, newlyApprvdItems }) => {
 
     const { req_slno, md_approve, ed_approve, ack_status, quatation_calling_status, quatation_negotiation,
-        quatation_fixing, po_prepartion, po_complete, crm_purchase_slno } = puchaseData
-
+        quatation_fixing, po_prepartion, po_complete, crm_purchase_slno, hod_req, hod_approve,
+        dms_req, dms_approve, ms_approve_req, ms_approve, manag_operation_req, manag_operation_approv,
+        senior_manage_req, senior_manage_approv, gm_approve_req, gm_approve, managing_director_req, managing_director_approve } = puchaseData
+    const { company_slno } = company
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
     const queryClient = useQueryClient()
     const [purchaseState, setPurchaseState] = useState({
@@ -62,12 +72,14 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
         po_date: '',
         work_orderNo: '',
         order_date: "",
-        order_remark: ""
+        order_remark: "",
+        datacollFlagKMC: false,
     })
     const { datacollFlag, datacolectremark, poadding, poComplete, acknowledgemnet, ackRemark, quotationCall, poDetlDis,
         quotationCallRemark, quotationNego, quotationNegoRemark, quotationFix, quotationFixRemark, pomodalflag, pomodalopen,
-        po_number, po_date, work_orderNo, order_date, order_remark
+        po_number, po_date, work_orderNo, order_date, order_remark, datacollFlagKMC
     } = purchaseState
+
     const [selectFile, setSelectFile] = useState([])
     const [crfdept, serCrfDept] = useState([])
     const [substoreSlno, setsubStoreSlno] = useState(0)
@@ -121,7 +133,8 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
             datacollFlag: e.target.checked,
             quotationCall: false,
             quotationNego: false,
-            quotationFix: false
+            quotationFix: false,
+            datacollFlagKMC: false,
         }));
     }, []);
     const updatePoDetails = useCallback((e) => {
@@ -396,6 +409,24 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
                 warningNotify("An error occurred while processing your request. Try again.", error);
             }
         }
+        const DataCollRequestFnctntmc = async (postData) => {
+            try {
+                const result = await axioslogin.post(`/CRFRegisterApproval/dataCollect/Insert/tmc`, postData);
+                const { success, message } = result.data;
+                if (success === 1) {
+                    succesNotify(message);
+                    await Promise.all([
+                        queryClient.invalidateQueries('getQuotationData'),
+                        queryClient.invalidateQueries('purchaseDataCollection'),
+                    ]); reset();
+                } else {
+                    warningNotify(message);
+                }
+            } catch (error) {
+                warningNotify('An error occurred during data collection insertion.');
+            }
+        };
+
         const postdataDetl = podetailData?.map((val) => {
             return {
                 crm_purchase_slno: val.crm_purchase_slno,
@@ -551,11 +582,31 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
 
                 }
 
+            } else if (datacollFlagKMC === true) {
+
+                if (crfdept.length === 0) {
+                    warningNotify("Select any data collection department");
+                    return;
+                }
+                if (datacolectremark === '') {
+                    warningNotify("Enter the remarks");
+                    return;
+                }
+                const postData = crfdept?.map((val) => ({
+                    crf_requst_slno: req_slno,
+                    crf_req_collect_dept: val,
+                    crf_req_remark: datacolectremark,
+                    reqest_one: 3,
+                    req_user: id,
+                    tmc_status: 1
+                }));
+                DataCollRequestFnctntmc(postData);
+                return;
             }
         }
     }, [queryClient, acknowledgemnet, ack_status, ackRemark, postAck, QuatationCallPatch, quatation_calling_status, selectFile,
         quotationCall, quatation_negotiation, quotationNego, quatation_fixing, quotationFix, poadding, QuatationNegotnPatch, workorder,
-        poComplete, QuatationFixingPatch, datacollFlag, crfdept, id, datacolectremark, req_slno, podetailData, PoCompletePatch, WorkOrder,
+        poComplete, QuatationFixingPatch, datacollFlag, crfdept, id, datacolectremark, req_slno, podetailData, PoCompletePatch, WorkOrder, datacollFlagKMC,
         reset])
 
     const closeModal = useCallback(() => {
@@ -635,6 +686,57 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
                                     // </Box>
                                 }
                                 <Box sx={{ px: 0.4 }}>
+
+                                    <Box sx={{ flex: 1, }}>
+                                        {hod_req === 1 && hod_approve !== null ?
+                                            <Box sx={{ pt: 0.5, }}>
+                                                <CommonHodApprvCmppurchase DetailViewData={puchaseData} company={company} />
+                                            </Box>
+                                            : null
+                                        }
+                                    </Box>
+                                    <Box sx={{ flex: 1, }}>
+                                        {dms_req === 1 && dms_approve !== null ?
+                                            <Box sx={{ pt: 0.5, }}>
+                                                <CommonDmsApprvCmpPurchase DetailViewData={puchaseData} company={company} />
+                                            </Box>
+                                            : null
+                                        }
+                                    </Box>
+                                    <Box sx={{ flex: 1, }}>
+                                        {ms_approve_req === 1 && ms_approve !== null ?
+                                            <Box sx={{ pt: 0.5, }}>
+                                                <CommonMsApprvCmpPurchase DetailViewData={puchaseData} company={company} />
+                                            </Box>
+                                            : null
+                                        }
+                                    </Box>
+                                    <Box sx={{ flex: 1, }}>
+                                        {manag_operation_req === 1 && manag_operation_approv !== null ?
+                                            <Box sx={{ pt: 0.5, }}>
+                                                <CommonMoApprvlCmpPurchase DetailViewData={puchaseData} company={company} />
+                                            </Box>
+                                            : null
+                                        }
+                                    </Box>
+                                    <Box sx={{ flex: 1, }}>
+                                        {senior_manage_req === 1 && senior_manage_approv !== null ?
+                                            <Box sx={{ pt: 0.5, }}>
+                                                <CommonSmoApprvCmpPurchase DetailViewData={puchaseData} company={company} />
+                                            </Box>
+                                            : null
+                                        }
+                                    </Box>
+
+                                    <Box sx={{ flex: 1, }}>
+                                        {gm_approve_req === 1 && gm_approve !== null ?
+                                            <Box sx={{ pt: 0.5, }}>
+                                                <CommonGmapprvCmpPurchase DetailViewData={puchaseData} company={company} />
+                                            </Box>
+                                            : null
+                                        }
+                                    </Box>
+
                                     <Box sx={{ flex: 1, }}>
                                         {md_approve !== null ?
                                             <Box sx={{ pt: 0.5, }}>
@@ -649,6 +751,15 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
                                             </Box>
                                             : null}
                                     </Box>
+                                    <Box sx={{}}>
+                                        {(managing_director_req === 1 && managing_director_approve !== null) ?
+                                            <Box sx={{ pt: 0.5, }}>
+                                                <CommonMangingApprvComp DetailViewData={puchaseData} company={company} />
+                                            </Box>
+                                            : null
+                                        }
+                                    </Box>
+
                                 </Box>
                                 <Box sx={{ py: 0.5, mx: 0.2 }}>
                                     {datacolflag === 1 ?
@@ -709,13 +820,63 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
                                                 value={datacollFlag}
                                                 onCheked={updateDataCollFlag}
                                                 checked={datacollFlag}
-                                                disabled={(quotationCall === true || poadding === true ||
+                                                disabled={(quotationCall === true || poadding === true || datacollFlagKMC === true ||
                                                     quotationNego === true || quotationFix === true) ? true : false}
                                             />
                                         </Box>
                                     </Paper>
                                     : null}
 
+                                {
+                                    company_slno === 2 && ack_status === 1 && po_prepartion !== 1 && po_complete !== 1 ?
+                                        <Paper variant='outlined' sx={{ pb: 1, flexWrap: 'wrap', mx: 0.3 }} >
+                                            <Box sx={{ mx: 1, mt: 1 }}>
+                                                <CusCheckBox
+                                                    className={{ color: '#145DA0', fontSize: 14, fontWeight: 'bold' }}
+                                                    variant="outlined"
+                                                    color="primary"
+                                                    size="md"
+                                                    name="datacollFlagKMC"
+                                                    label="TMC Data Collection Required"
+                                                    value={datacollFlagKMC}
+                                                    onCheked={handleCheckboxChange('datacollFlagKMC')}
+
+                                                    checked={purchaseState.datacollFlagKMC}
+                                                    disabled={(quotationCall === true || poadding === true || datacollFlag === true ||
+                                                        quotationNego === true || quotationFix === true) ? true : false}
+                                                />
+
+                                            </Box>
+                                        </Paper>
+                                        : null
+                                }
+                                {datacollFlagKMC === true ? <Box sx={{ border: '1px solid lightgrey', borderTop: 'none', pb: 1, mx: 0.3 }}>
+                                    <Box sx={{ display: 'flex', pt: 1, }}>
+                                        <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 0.5 }}>Departments for Data Collection</Typography>
+                                        <Typography sx={{ pt: 0.5 }}>  :&nbsp;</Typography>
+                                        <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
+                                            <DataCollectDepSecSelectTmc SetDeptSec={serCrfDept} />
+                                        </Box>
+                                    </Box>
+                                    <Box sx={{ display: 'flex', pt: 0.4 }}>
+                                        <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 1 }}>Remarks</Typography>
+                                        <Typography sx={{ pt: 1 }}>  :&nbsp;</Typography>
+                                        <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
+                                            <Textarea
+                                                required
+                                                type="text"
+                                                size="sm"
+                                                minRows={2}
+                                                maxRows={4}
+                                                style={{ width: "90%", }}
+                                                placeholder="Remarks"
+                                                name='datacolectremark'
+                                                value={datacolectremark}
+                                                onChange={updatePoDetails}
+                                            />
+                                        </Box>
+                                    </Box>
+                                </Box> : null}
                                 {/* datacollection */}
                                 {datacollFlag === true ?
                                     <Box sx={{ border: '1px solid lightgrey', borderTop: 'none', pb: 1, mx: 0.2 }}>
@@ -760,7 +921,7 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
                                                 value={quotationCall}
                                                 checked={purchaseState.quotationCall}
                                                 onCheked={handleCheckboxChange('quotationCall')}
-                                                disabled={(datacollFlag === true || poadding === true) ? true : false}
+                                                disabled={(datacollFlag === true || poadding === true || datacollFlagKMC === true) ? true : false}
                                             />
                                         </Box>
                                         {quotationCall === true ?
@@ -804,7 +965,7 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
                                                 value={quotationNego}
                                                 checked={purchaseState.quotationNego}
                                                 onCheked={handleCheckboxChange('quotationNego')}
-                                                disabled={datacollFlag === true ? true : false}
+                                                disabled={datacollFlag === true || datacollFlagKMC === true ? true : false}
                                             />
                                         </Box>
                                         {quotationNego === true ?
@@ -904,7 +1065,7 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
                                                 value={poadding}
                                                 checked={poadding}
                                                 onCheked={checkNewPo}
-                                                disabled={(quotationCall === true || datacollFlag === true || WorkOrder === true
+                                                disabled={(quotationCall === true || datacollFlag === true || WorkOrder === true || datacollFlagKMC === true
                                                     || poComplete === true) ? true : false}
                                             />
                                         </Box>
@@ -938,7 +1099,7 @@ const PurchaseModal = ({ approveTableData, poDetails, reqItems, open, poModalClo
                                                 // value={WorkOrder}
                                                 checked={WorkOrder}
                                                 onChange={(e) => setWorkOrder(e.target.checked)}
-                                                disabled={quotationCall || datacollFlag || poComplete || poadding}
+                                                disabled={quotationCall || datacollFlag || poComplete || poadding || datacollFlagKMC === true}
                                             />
                                         </Box>
                                     </Paper>

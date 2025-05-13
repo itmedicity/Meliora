@@ -291,7 +291,9 @@ const CrfMSApproval = () => {
                     crf_view_status: val?.crf_view_status,
                     viewDep: val?.viewDep,
                     viewName: val?.viewName,
-                    company_name: val?.company_name
+                    company_name: val?.company_name,
+                    company_slno: val?.company_slno
+
 
                 }
                 return obj

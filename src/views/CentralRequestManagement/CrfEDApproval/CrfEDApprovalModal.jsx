@@ -289,7 +289,7 @@ const CrfEDApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
             // }
         }
     }, [EDPatchData, reset, datacollFlag, datacolectremark, crfdept, id, req_slno, selectFile, queryClient, internallyArr,
-        handleImageUpload, approve, reject, pending, editEnable, selectedCompany, detailAnalis, remark]);
+        handleImageUpload, approve, reject, pending, editEnable, selectedCompany]);
 
     const closeModal = useCallback(() => {
         handleClose()

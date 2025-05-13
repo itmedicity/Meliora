@@ -22,7 +22,8 @@ const MasterDetailCompnt = ({ val, }) => {
                     <Box sx={{ flex: 0.7, borderRight: '1px solid lightgray', flexWrap: 'wrap' }}>
                         <Box sx={{ ml: 1, mt: 0.5 }}>
                             <Typography sx={{ fontSize: 15, color: '#003060', fontWeight: 'bold' }}>
-                                {`CRF/${company_name}/${req_slno}`}</Typography>
+                                {`CRF/${company_name ? company_name : "KMCH"}/${req_slno}`}
+                            </Typography>
                         </Box>
                         <Box sx={{ ml: 1, mt: 0.5 }}>
                             <Typography sx={{ fontSize: 12, color: '#003060' }}>{format(new Date(req_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
@@ -70,7 +71,7 @@ const MasterDetailCompnt = ({ val, }) => {
                             <Box sx={{ display: 'flex', }}>
                                 <Typography sx={{ fontSize: 11, color: '#003060', fontWeight: 'bold', pt: 0.4 }}>CATEGORY</Typography>
                                 <Typography sx={{ fontSize: 12, color: '#003060', fontWeight: 'bold', pl: 1, }}>: </Typography>
-                                <Typography sx={{ fontSize: 13, pl: 1 }}>{category?.toLowerCase().replace(/\b\w/g, char => char.toUpperCase())}</Typography>
+                                <Typography sx={{ fontSize: 13, pl: 1 }}>{category?.toLowerCase().replace(/\b\w/g, char => char?.toUpperCase())}</Typography>
                             </Box>
                             <Box sx={{ display: 'flex', }}>
                                 <Typography sx={{ fontSize: 11, color: '#003060', fontWeight: 'bold', pt: 0.4 }}>REQ. DEPARTMENT</Typography>

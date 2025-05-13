@@ -68,7 +68,7 @@ const CrfReqDetailViewCmp = ({ ApprovalData, imagearray }) => {
                 <Paper variant="outlined" sx={{ flexWrap: 'wrap', mx: 0.6 }}>
                     <Box sx={{ padding: 1, borderRadius: 2, }}>
                         <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: 0.5, color: '#145DA0', fontSize: 14 }}>
-                            {`CRF/${company_name}/${req_slno}`}
+                            CRF/{company_name || 'KMCH'}/{req_slno}
                         </Typography>
                         <Box sx={{ display: 'flex' }}>
                             <Box sx={{ display: 'flex', pt: 0.4, flex: 1 }}>

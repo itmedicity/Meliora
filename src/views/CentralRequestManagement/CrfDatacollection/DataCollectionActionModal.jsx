@@ -10,7 +10,7 @@ import AddMoreItemDtails from '../ComonComponent/AddMoreItemDtails'
 import CloudUploadTwoToneIcon from '@mui/icons-material/CloudUploadTwoTone';
 import _ from 'underscore'
 import { useSelector } from 'react-redux'
-import { axioslogin } from 'src/views/Axios/Axios'
+import { axioskmc, axioslogin } from 'src/views/Axios/Axios'
 import { succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import imageCompression from 'browser-image-compression';
 import { useQueryClient } from 'react-query'
@@ -22,7 +22,7 @@ import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import ReqImageDisModal from '../ComonComponent/ImageUploadCmp/ReqImageDisModal'
 
 const DataCollectionActionModal = ({ open, handleClose, reqItems, approveTableData, dcData, setApproveTableData,
-    empdeptsec, imagearray }) => {
+    empdeptsec, imagearray, selectedCompany, depkmc }) => {
 
     const { crf_req_remark, dc_req_date, requser, req_slno, crf_data_collect_slno } = dcData
     const queryClient = useQueryClient()
@@ -132,13 +132,24 @@ const DataCollectionActionModal = ({ open, handleClose, reqItems, approveTableDa
             crf_data_collect_slno: crf_data_collect_slno
         }
     }, [remark, crf_data_collect_slno, id])
+
+    const patchdatakmc = useMemo(() => {
+        return {
+            crf_dept_remarks: remark,
+            save_user: depkmc?.kmc_hod,
+            crf_data_collect_slno: crf_data_collect_slno
+        }
+    }, [remark, crf_data_collect_slno, depkmc])
     const submit = useCallback((e) => {
         e.preventDefault();
         const DataCollectnGiven = async (patchdata) => {
             const result = await axioslogin.patch('/CRFRegisterApproval/CrfDataCollactnSave', patchdata);
             return result.data
         }
-
+        const DataCollectnKMCGiven = async (patchdatakmc) => {
+            const result = await axioskmc.patch('/CRFRegisterApproval/CrfDataCollactnSave', patchdatakmc);
+            return result.data
+        }
         const FileInsert = async (crf_data_collect_slno, req_slno, selectFile) => {
             try {
                 const formData = new FormData();
@@ -163,39 +174,91 @@ const DataCollectionActionModal = ({ open, handleClose, reqItems, approveTableDa
                 warningNotify('An error occurred during file upload.');
             }
         }
-
-        if (remark !== '') {
-            DataCollectnGiven(patchdata).then((value) => {
-                const { success, message } = value
-                if (success === 1) {
-                    if (selectFile.length !== 0) {
-                        FileInsert(crf_data_collect_slno, req_slno, selectFile).then((val) => {
-                            const { success, message } = val
-                            if (success === 1) {
-                                succesNotify("Data Collection Details Updated")
-                                queryClient.invalidateQueries(['dataCollection', empdeptsec]);
-                                reset()
-                            }
-                            else {
-                                warningNotify(message)
-                            }
-                        })
+        const FileInsertkmc = async (crf_data_collect_slno, req_slno, selectFile) => {
+            try {
+                const formData = new FormData();
+                formData.append('id', crf_data_collect_slno);
+                formData.append('reqslno', req_slno);
+                for (const file of selectFile) {
+                    if (file.type.startsWith('image')) {
+                        const compressedFile = await handleImageUpload(file);
+                        formData.append('files', compressedFile, compressedFile.name);
                     } else {
-                        succesNotify("Data Collection Details Updated")
-                        queryClient.invalidateQueries(['dataCollection', empdeptsec]);
-                        reset()
+                        formData.append('files', file, file.name);
                     }
                 }
-                else {
-                    warningNotify(message)
-                }
-            })
+                // Use the Axios instance and endpoint that matches your server setup
+                const result = await axioskmc.post('/newCRFRegisterImages/crf/DataCollection', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                });
+                return result.data
+            } catch (error) {
+                warningNotify('An error occurred during file upload.');
+            }
+        }
+
+        if (remark !== '') {
+            if (selectedCompany === '1') {
+                DataCollectnGiven(patchdata).then((value) => {
+                    const { success, message } = value
+                    if (success === 1) {
+                        if (selectFile?.length !== 0) {
+                            FileInsert(crf_data_collect_slno, req_slno, selectFile).then((val) => {
+                                const { success, message } = val
+                                if (success === 1) {
+                                    succesNotify("Data Collection Details Updated")
+                                    queryClient.invalidateQueries(['dataCollection', empdeptsec]);
+                                    reset()
+                                }
+                                else {
+                                    warningNotify(message)
+                                }
+                            })
+                        } else {
+                            succesNotify("Data Collection Details Updated")
+                            queryClient.invalidateQueries(['dataCollection', empdeptsec]);
+                            reset()
+                        }
+                    }
+                    else {
+                        warningNotify(message)
+                    }
+                })
+            } else {
+                DataCollectnKMCGiven(patchdatakmc).then((value) => {
+                    const { success, message } = value
+                    if (success === 1) {
+                        if (selectFile?.length !== 0) {
+                            FileInsertkmc(crf_data_collect_slno, req_slno, selectFile).then((val) => {
+                                const { success, message } = val
+                                if (success === 1) {
+                                    succesNotify("Data Collection Details Updated")
+                                    queryClient.invalidateQueries(['dataCollectionkmc', empdeptsec]);
+                                    reset()
+                                }
+                                else {
+                                    warningNotify(message)
+                                }
+                            })
+                        } else {
+                            succesNotify("Data Collection Details Updated")
+                            queryClient.invalidateQueries(['dataCollectionkmc', empdeptsec]);
+                            reset()
+                        }
+                    }
+                    else {
+                        warningNotify(message)
+                    }
+                })
+            }
         }
         else {
             warningNotify("Enter remarks Before Save")
         }
 
-    }, [patchdata, remark, crf_data_collect_slno, req_slno, selectFile, handleImageUpload, reset, empdeptsec, queryClient])
+    }, [patchdata, remark, crf_data_collect_slno, req_slno, selectFile, handleImageUpload, reset, empdeptsec, queryClient, selectedCompany, patchdatakmc])
 
     const closeModal = useCallback(() => {
         setRemark('')
@@ -293,8 +356,8 @@ const DataCollectionActionModal = ({ open, handleClose, reqItems, approveTableDa
                             <Box sx={{ mt: 0.5, pb: 1, flexWrap: 'wrap' }} >
                                 {approveTableData.length !== 0 ?
                                     <ItemsApprovalCompnt req_slno={req_slno} setMoreItem={setMoreItem} editEnable={editEnable}
-                                        setEditEnable={setEditEnable} setApproveTableData={setApproveTableData}
-                                        approveTableData={approveTableData} crf_data_collect_status={crf_data_collect_slno} />
+                                        setEditEnable={setEditEnable} setApproveTableData={setApproveTableData} depkmc={depkmc}
+                                        approveTableData={approveTableData} crf_data_collect_status={crf_data_collect_slno} selectedCompany={selectedCompany} />
                                     :
                                     null
                                 }
@@ -305,7 +368,7 @@ const DataCollectionActionModal = ({ open, handleClose, reqItems, approveTableDa
                                     </CustomIconButtonCmp>
                                 </Box>
                                 {addMoreItems === 1 ? <AddMoreItemDtails req_slno={req_slno}
-                                    setApproveTableData={setApproveTableData} setMoreItem={setMoreItem}
+                                    setApproveTableData={setApproveTableData} setMoreItem={setMoreItem} selectedCompany={selectedCompany} depkmc={depkmc}
                                 /> : null}
                                 <Box sx={{ pt: 0.4 }}>
                                     <Typography sx={{ fontSize: 15, fontWeight: 600, flex: 1, pl: 1, pt: 0.5 }}>Remarks</Typography>
