@@ -34,8 +34,6 @@ const ItemDetailSearch = ({ assetSpare, AddDetails, count }) => {
     const [custSecName, setcustSecName] = useState('')
     const [spareNo, setspareNo] = useState('')
 
-
-
     const updateSerialno = useCallback((e) => {
         setSerailno(e.target.value)
     }, [])
@@ -63,6 +61,7 @@ const ItemDetailSearch = ({ assetSpare, AddDetails, count }) => {
     const ItemSpare = `SP/${custSecName}`
     const [custodianSlno, setcustodianSlno] = useState(0)
 
+
     useEffect(() => {
         if (isSuccess && custodianDetails && custodianDetails.length > 0) {
             const { am_custdn_asset_no_first, am_custdn_asset_no_second, am_custodian_slno } = custodianDetails[0];
@@ -81,10 +80,8 @@ const ItemDetailSearch = ({ assetSpare, AddDetails, count }) => {
             item_creation_slno: item !== undefined ? item : 0,
             am_manufacture_no: serialno !== undefined ? serialno : null,
             custodianSlno: custodianSlno
-
         }
     }, [department, deptsec, item, itemNo, Assetno, serialno, custodianSlno])
-
 
 
     const postdataSpare = useMemo(() => {
@@ -99,6 +96,7 @@ const ItemDetailSearch = ({ assetSpare, AddDetails, count }) => {
         }
     }, [department, deptsec, item, spareNo, serialno, custodianSlno, ItemSpare])
 
+
     useEffect(() => {
         dispatch(getDepartment())
     }, [dispatch])
@@ -112,7 +110,7 @@ const ItemDetailSearch = ({ assetSpare, AddDetails, count }) => {
         setAssetno('')
         setDisArry([])
         setspareNo('')
-    }, [setDisArry])
+    }, [])
 
     const search = useCallback(() => {
         const getdata = async (postdata) => {
@@ -152,10 +150,7 @@ const ItemDetailSearch = ({ assetSpare, AddDetails, count }) => {
         }
 
     }, [postdata, postdataSpare, assetSpare])
-
-
-
-
+ 
     return (
         <Box>
             <Box sx={{ m: 1, border: 1, p: 1, borderColor: '#D0D0D0', }}>

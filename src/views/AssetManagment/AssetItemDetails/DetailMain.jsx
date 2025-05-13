@@ -16,6 +16,7 @@ const DetailMain = () => {
     const [assetSpare, setAssetSpare] = useState(0);
     const [detailArry, setDetailArry] = useState([])
     const [detailflag, setDetailflag] = useState(0)
+    const [modalOpwn, setmodalOpwn] = useState(false)
     const [count, setCount] = useState(0)
     const history = useHistory();
     const [pendingDetailFlag, setpendingDetailFlag] = useState(0)
@@ -33,6 +34,7 @@ const DetailMain = () => {
         const data = params.api.getSelectedRows()
         setDetailArry(data[0])
         setDetailflag(1)
+        setmodalOpwn(true)
     }, [])
 
     const enterDetails = useCallback((val) => {
@@ -42,10 +44,10 @@ const DetailMain = () => {
 
     return (
         <Paper sx={{ borderRadius: 0, height: '90vh' }}>
-            {
-                detailflag === 1 ?
-                    <ItemDetailAdd detailArry={detailArry} setDetailflag={setDetailflag} assetSpare={assetSpare} setCount={setCount} count={count} />
-                    :
+            {detailflag === 1 ?
+                    <ItemDetailAdd detailArry={detailArry} setDetailflag={setDetailflag} assetSpare={assetSpare} setCount={setCount} count={count} 
+                    modalOpwn={modalOpwn} setmodalOpwn={setmodalOpwn}/>:null}
+                    {                    
                     pendingDetailFlag === 1 ?
                         <PendingDetailEntry detailArry={detailArry} setpendingDetailFlag={setpendingDetailFlag} setCount={setCount} count={count} />
                         :
