@@ -57,6 +57,9 @@ const AMCCMCDetailAdding = ({ detailArry, }) => {
     const [amccmcAddFlag, setamccmcAddFlag] = useState(0)
     const [imageshowFlag, setImageShowFlag] = useState(0)
 
+
+
+
     const reset = useCallback(() => {
         setSupplier(0)
         setBillDate(format(new Date(), "yyyy-MM-dd"))

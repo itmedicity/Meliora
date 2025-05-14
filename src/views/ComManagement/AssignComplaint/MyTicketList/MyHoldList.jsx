@@ -1,4 +1,4 @@
-import { Badge, Box, Chip, CssVarsProvider, Tooltip, Typography } from '@mui/joy'
+import { Badge, Box, Chip, CircularProgress, CssVarsProvider, Tooltip, Typography } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import ContactSupportIcon from '@mui/icons-material/ContactSupport';
 import VerifiedSharpIcon from '@mui/icons-material/VerifiedSharp';
@@ -38,6 +38,7 @@ const MyHoldList = () => {
     const [fileDetails, setfileDetails] = useState([])
     const [imageUrls, setImageUrls] = useState([]);
     const [selectedImages, setSelectedImages] = useState([]);
+    const [loading, setLoading] = useState(true);
 
 
     const [openStates, setOpenStates] = useState({
@@ -64,13 +65,41 @@ const MyHoldList = () => {
         }
     }, [id])
 
+    // useEffect(() => {
+    //     const controller = new AbortController();
+    //     const signal = controller.signal;
+    //     const getAllPendingHoldCompalints = async () => {
+    //         try {
+    //             const result = await axioslogin.post('/Rectifycomplit/getEmplHoldList', searchData, { signal });
+    //             const { success, data } = result.data;
+    //             if (success === 2) {
+    //                 setAllPendingCompl(data);
+    //             } else {
+    //                 setAllPendingCompl([]);
+    //             }
+    //         } catch (error) {
+    //             if (error.name !== 'AbortError') {
+    //                 setAllPendingCompl([]);
+    //             }
+    //         }
+    //     };
+    //     getAllPendingHoldCompalints();
+    //     return () => {
+    //         controller.abort();
+    //     };
+    // }, [searchData, count]);
+
     useEffect(() => {
         const controller = new AbortController();
         const signal = controller.signal;
+    
         const getAllPendingHoldCompalints = async () => {
+            // Start loading
+            setLoading(true);
             try {
                 const result = await axioslogin.post('/Rectifycomplit/getEmplHoldList', searchData, { signal });
                 const { success, data } = result.data;
+    
                 if (success === 2) {
                     setAllPendingCompl(data);
                 } else {
@@ -80,15 +109,19 @@ const MyHoldList = () => {
                 if (error.name !== 'AbortError') {
                     setAllPendingCompl([]);
                 }
+            } finally {
+                // Stop loading
+                setLoading(false);
             }
         };
+    
         getAllPendingHoldCompalints();
+    
         return () => {
             controller.abort();
         };
     }, [searchData, count]);
-
-
+    
 
     const blinkAnimation = keyframes`
     0% { opacity: 1; }
@@ -282,9 +315,22 @@ const MyHoldList = () => {
             ) : null}
 
 
+        {loading ? (
+                <div style={{ display: 'flex', height: '100%',pl:.5 }}>
+                        <CircularProgress
+                        color="neutral"
+                        sx={{
+                            "--CircularProgress-size": "51px",
+                            "--CircularProgress-trackThickness": "5px",
+                            "--CircularProgress-progressThickness": "2px"
+                        }}
+                        />
+                </div>
+            ) : (
+                <>
 
             {allPendingCompl.length !== 0 ?
-                <Box sx={{ p: .1, mb: .8 }}>
+                <Box sx={{ p: .5, mb: .8 }}>
                     {allPendingCompl?.map((val, index) => {
                         const getBadgeColor = (pending, accepted, rejected) => {
                             if (pending > 0) return '#0458AB'
@@ -592,11 +638,7 @@ const MyHoldList = () => {
                                             <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
                                                 Location
                                             </Typography>
-                                            <Typography sx={{ fontSize: 13, flex: 1, }}>
-                                                {/* {val.rm_room_name}
-                                                {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name ?
-                                                    ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''}${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${(val.rm_insidebuildblock_name && val.rm_floor_name) ? ' - ' : ''}${val.rm_floor_name ? val.rm_floor_name : ''})`
-                                                    : "Not Updated"} */}
+                                            <Typography sx={{ fontSize: 13, flex: 1, }}>                                           
                                                 {val.rm_room_name}
                                                 {(val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name) ? (
                                                     ` (${val.rm_roomtype_name || ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''}${val.rm_insidebuildblock_name || ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''}${val.rm_floor_name || ''})`
@@ -691,6 +733,7 @@ const MyHoldList = () => {
                 }}>
                     Hold List Empty
                 </Box>}
+                </>)}
 
         </Box >
     )

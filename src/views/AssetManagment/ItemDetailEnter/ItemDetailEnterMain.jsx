@@ -1,4 +1,4 @@
-import { Box, Chip, CssVarsProvider, Tab, tabClasses, TabList, TabPanel, Tabs } from '@mui/joy'
+import { Box, Chip, CssVarsProvider, Modal, ModalDialog, Tab, tabClasses, TabList, TabPanel, Tabs } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import TextComponent from 'src/views/Components/TextComponent';
 import DriveFileRenameOutlineOutlinedIcon from '@mui/icons-material/DriveFileRenameOutlineOutlined';
@@ -20,13 +20,12 @@ import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 import LeaseDetailsAdd from './LeaseDetailsAdd';
 
 
-const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender, render, count, setCount, }) => {
+const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender, render, count, setCount,setmodalOpwn,modalOpwn }) => {
 
     const { assetno, item_name, category_name, item_asset_no, am_custodian_name, deptname, secname, am_item_map_slno,
         am_spare_item_map_slno, item_custodian_dept
     } = detailArry
 
-    const [exist, setExist] = useState(0)
     const [grndetailarry, setGrnDetailArry] = useState({})
     const [wargar, setWarGar] = useState(0)
     const [warGararry, setwarGarArry] = useState({})
@@ -34,18 +33,17 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender,
 
     const BackToPage = useCallback(() => {
         setDetailflag(0)
-    }, [setDetailflag])
+        setmodalOpwn(false)
+    }, [setDetailflag,setmodalOpwn])
 
     useEffect(() => {
         const checkinsertOrNotDetail = async (am_item_map_slno) => {
             const result = await axioslogin.get(`/ItemMapDetails/checkDetailInsertOrNot/${am_item_map_slno}`);
             const { success, data } = result.data
-            if (success === 1) {
-                setExist(1)
+            if (success === 1) {            
                 setGrnDetailArry(data[0])
             }
-            else {
-                setExist(0)
+            else {       
                 setGrnDetailArry([])
             }
         }
@@ -64,12 +62,10 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender,
         const checkinsertOrNotDetailSpare = async (am_spare_item_map_slno) => {
             const result = await axioslogin.get(`/ItemMapDetails/checkDetailInsertOrNotSpare/${am_spare_item_map_slno}`);
             const { success, data } = result.data
-            if (success === 1) {
-                setExist(1)
+            if (success === 1) {     
                 setGrnDetailArry(data[0])
             }
-            else {
-                setExist(0)
+            else {        
                 setGrnDetailArry([])
             }
         }
@@ -102,6 +98,13 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender,
 
     return (
         <CssVarsProvider >
+                <Modal
+                    aria-labelledby="modal-title"
+                    aria-describedby="modal-desc"
+                    open={modalOpwn}
+                    sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pl: 1, borderRadius: 10 }}>
+                    <ModalDialog variant="outlined" sx={{ width: '95vw', height:'90vh',p: 0, overflow: 'auto', }}>
+
             <Box sx={{
                 height: '100%',
                 flex: 1,
@@ -285,7 +288,8 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender,
                                     mt: .5
 
                                 }}>
-                                <ItemGRNandBill grndetailarry={grndetailarry} detailArry={detailArry} exist={exist} setExist={setExist} assetSpare={assetSpare}
+                                <ItemGRNandBill grndetailarry={grndetailarry} detailArry={detailArry}                               
+                                  assetSpare={assetSpare}
                                     count={count} setCount={setCount}
                                 />
                             </Box>
@@ -373,6 +377,8 @@ const ItemDetailEnterMain = ({ detailArry, setDetailflag, assetSpare, setRender,
                     </Tabs>
                 </Box>
             </Box >
+            </ModalDialog>
+            </Modal>
         </CssVarsProvider >
     )
 }

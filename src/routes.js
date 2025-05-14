@@ -1,7 +1,6 @@
 import React from 'react'
 
 const NotCorect = React.lazy(() => import('./views/dashboard/Home'))
-// const Home = React.lazy(() => import('./views/dashboard/Home'))
 const Home = React.lazy(() => import('./views/ComManagement/Dashboard/TicketManagementCmDeptMain'))
 const Settings = React.lazy(() => import('../src/Menus/Settings'))
 const Administrtion = React.lazy(() => import('../src/views/Administration/Test'))
@@ -31,6 +30,7 @@ const Building = React.lazy(() => import('./views/Master/RoomMasters/BuildingMas
 const Floor = React.lazy(() => import('./views/Master/RoomMasters/FloorMaster/FloorMaster'))
 const RoomType = React.lazy(() => import('./views/Master/RoomMasters/RoomType/RoomTypeMast'))
 const RoomCategory = React.lazy(() => import('./views/Master/RoomMasters/RoomCategory/RoomCategoryMast'))
+const NotificationMainMeNu = React.lazy(() => import('./views/Notification/NotificationMainMenu'))
 const NursingStation = React.lazy(() => import('./views/Master/NursingStation/NursingStationMast'))
 const DietCategory = React.lazy(() => import('./views/Master/DietMasters/Diet/DietMaster'))
 const DietType = React.lazy(() => import('./views/Master/DietMasters/DietType/DietTypeMast'))
@@ -246,6 +246,8 @@ const DepartmentMapping = React.lazy(() => import('./views/Master/RequestManagem
 
 
 
+
+
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/NotCorect', exact: true, name: 'NotCorect', component: NotCorect },
@@ -278,7 +280,8 @@ const routes = [
   { path: '/Home/Floor', exact: true, name: 'Floor', component: Floor },
   { path: '/Home/RoomType', exact: true, name: 'RoomType', component: RoomType },
   { path: '/Home/RoomCategory', exact: true, name: 'RoomCategory', component: RoomCategory },
-  { path: '/Home/NursingStation', exact: true, name: 'NursingStation', component: NursingStation },
+  { path: '/Home/NotificationMainMeNu', exact: true, name: 'NotificationMainMeNu', component : NotificationMainMeNu },
+  { path: '/Home/NursingStation', exact: true, name: 'NursingStation', component : NursingStation }, 
   { path: '/Home/Diet', exact: true, name: 'DietCategory', component: DietCategory },
   { path: '/Home/DietIssue', exact: true, name: 'DietIssue', component: DietIssue },
   { path: '/Home/DietType', exact: true, name: 'DietType', component: DietType },
@@ -493,9 +496,6 @@ const routes = [
   { Path: '/Home/DepartmentMapping', exact: true, name: 'DashBoardMaster', component: DepartmentMapping },
 
   { Path: '/Home/DashBoardMaster', exact: true, name: 'DashBoardMaster', component: CrfDashboardMaster },
-
-
-
 
 
 ]
