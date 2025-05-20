@@ -161,8 +161,10 @@ export const userManagement_three = [
 //TaskManagement Menu
 export const taskManagement_one = [
     { to: '/Home/TMOverdueCountMaster', name: 'TaskMaster Duedate Count', slno: 218 },
+]
 
-
+export const ams_one = [
+    { to: '/Home/AmsMaster', name: 'Antibiotic Master', slno: 275 }
 ]
 
 
