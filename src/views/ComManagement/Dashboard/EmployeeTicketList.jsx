@@ -22,7 +22,7 @@ const EmployeeTicketList = ({ empdept }) => {
     }, [empdept, sevenDaysbefore, currentDateAndTime])
 
     const { data: AllEmployees } = useQuery({
-        queryKey: ['getAllemployee', postdata],
+        queryKey: ['getAllemployeeData', postdata],
         queryFn: () => getAllemployeesUnderDepartment(postdata),
     });
     const employeeList = useMemo(() => AllEmployees, [AllEmployees])
