@@ -560,7 +560,7 @@ const CrfEDApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                                                     </CustomIconButtonCmp>
                                                 </Box>
                                                 {addMoreItems === 1 ? <AddMoreItemDtails req_slno={req_slno}
-                                                    setApproveTableData={setApproveTableData} setMoreItem={setMoreItem}
+                                                    setApproveTableData={setApproveTableData} setMoreItem={setMoreItem} selectedCompany={selectedCompany}
                                                 /> : null}
                                             </>
                                             : selectedCompany === '2' ?
