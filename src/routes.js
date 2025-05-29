@@ -240,10 +240,10 @@ const CrfView = React.lazy(() => import('./views/CentralRequestManagement/CRFvie
 const CrfStoreMaster = React.lazy(() => import('./views/Master/RequestManagement/StoreMaster/StoreMaster'))
 const CrfCommon = React.lazy(() => import('./views/Master/RequestManagement/CrfCommon/CrfCommonMaster'))
 const CrfDashboardMaster = React.lazy(() => import('./views/Master/RequestManagement/DashboardMaster/DashboardMaster'))
-// const Datacollection = React.lazy(() => import('./views/CentralRequestManagement/DataCollectionMaster/DataCollectionMaster'))
 const DataCollectionMaster = React.lazy(() => import('./views/Master/RequestManagement/DataCollectionMaster/DataCollection'))
 const DepartmentMapping = React.lazy(() => import('./views/Master/RequestManagement/DepartmentMapping/DepartmentMaping'))
-
+const AmsMaster=React.lazy(()=>import('./views/Master/AmsMaster/AmsMaster'))
+const AmsPatientDetails=React.lazy(()=>import('./views/Ams/AmsMain'))
 
 
 
@@ -294,8 +294,8 @@ const routes = [
   { path: '/Home/SubRoomCreation', exact: true, name: ' Sub Room Creation', component: SubRoomCreation },
   { path: '/Home/DietMenuSetting', exact: true, name: 'Diet Plan', component: DietMenuSetting },
   { path: '/Home/ItemGroup', exact: true, name: 'Item Group', component: ItemGroup },
-  { path: '/Home/ItemMaster', exact: true, name: ' Item Master', component: ItemMaster },
-  { path: '/Home/DietDetail', exact: true, name: 'Diet Detail', component: DietDetail },
+  { path: '/Home/ItemMaster', exact: true, name: ' Item Master', component: ItemMaster },  
+  { path: '/Home/DietDetail', exact: true, name: 'Diet Detail', component: DietDetail },  
   { path: '/Home/DietApproval', exact: true, name: ' Diet Approval', component: DietApproval },
   { path: '/Home/DietPlanList', exact: true, name: ' Diet Approval', component: DietPlanList },
   { path: '/Home/DietOrderList', exact: true, name: ' Diet Order List', component: DietOrderList },
@@ -490,12 +490,13 @@ const routes = [
   { path: '/Home/TicketDashboards', exact: true, name: 'Ticket Dashboards', component: TicketDashboardz },
   { path: '/Home/AllDeptCondemList', exact: true, name: 'AllDeptCondemList', component: AllDeptCondemList },
   { path: '/Home/ItBackupTypeMast', exact: true, name: 'ItBackupTypeMast', component: ItBackupTypeMast },
-  // { Path: '/Home/Datacollection', exact: true, name: 'Data Collection Master', component: Datacollection },
-  { path: '/Home/DataCollectionMaster', exact: true, name: 'DataCollectionMaster', component: DataCollectionMaster },
   { path: '/Home/SimOperator', exact: true, name: 'SimOperator', component: SimOperator },
-  { Path: '/Home/DepartmentMapping', exact: true, name: 'DashBoardMaster', component: DepartmentMapping },
-
-  { Path: '/Home/DashBoardMaster', exact: true, name: 'DashBoardMaster', component: CrfDashboardMaster },
+  { path: '/Home/DashBoardMaster', exact: true, name: 'DashBoardMaster', component: CrfDashboardMaster },
+  { path: '/Home/DataCollectionMaster', exact: true, name: 'DataCollectionMaster', component: DataCollectionMaster },
+  { path: '/Home/DepartmentMapping', exact: true, name: 'DashBoardMaster', component: DepartmentMapping }, 
+  { path: '/Home/AmsMaster', exact: true, name: 'AmsMaster', component: AmsMaster },
+  { path: '/Home/AmsPatientDetails', exact: true, name: 'Ams Patient Details', component: AmsPatientDetails },
+  
 
 
 ]

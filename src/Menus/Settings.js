@@ -6,7 +6,7 @@ import {
     crm_setting_one, crm_setting_two, crm_setting_three, userManagement_one, userManagement_two,
     userManagement_three, am_setting_one, am_setting_two, am_setting_three, rm_setting_one,
     rm_setting_two, rm_setting_three, it_setting_one, it_setting_two, it_setting_three,
-    qi_setting_one, qi_setting_two, dc_setting_one, taskManagement_one
+    qi_setting_one, qi_setting_two, dc_setting_one, taskManagement_one,ams_one
 } from './SettingsMenu';
 import { Card, CardContent, CardHeader } from '@mui/material';
 import { titleTypography, cardActionBgClr } from 'src/color/Color';
@@ -45,6 +45,7 @@ const Settings = () => {
     // const [qiMast_secThree, setqiMast_secThree] = useState();
     const [dcMast_secOne, setdcMast_secOne] = useState();
     const [taskManagment_secOne, setTaskManagment_secOne] = useState();
+    const [ams_secone, setams_secOne] = useState()
 
 
     const [count, setCount] = useState(0)
@@ -149,6 +150,12 @@ const Settings = () => {
             const task_setting_section_one = taskManagement_one.filter(val => menuSlnoArray.includes(val.slno));
             setTaskManagment_secOne(task_setting_section_one)
 
+            //AMS Master
+            const ams_setting_section_one = ams_one.filter(val => menuSlnoArray.includes(val.slno));
+            setams_secOne(ams_setting_section_one)
+
+             
+
         })
     }, [count])
 
@@ -229,6 +236,40 @@ const Settings = () => {
                     </div>
                 </div>
             </CardContent>
+             <CardHeader title={"AMS "}
+                titleTypographyProps={{ variant: "subtitle1", color: titleTypography }}
+                sx={{
+                    backgroundColor: cardActionBgClr,
+                    paddingY: 0.5,
+                }} />
+            <CardContent>
+                <div className="row" >
+                    <div className="col-4">
+                        <ul className="list-group list-group-flush">
+                            {
+                                ams_one && ams_one.map((val) => {
+                                    return <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}  >{val.name}</Link>;
+                                })
+                            }
+                        </ul>
+                    </div>
+                    <div className="col-4">
+                        <ul className="list-group list-group-flush">
+                            {
+                                
+                            }
+                        </ul>
+                    </div>
+                    <div className="col-4">
+                        <ul className="list-group list-group-flush">
+                            {
+                              
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </CardContent>
+
             <CardHeader title={"CRF Master"}
                 titleTypographyProps={{ variant: "subtitle1", color: titleTypography }}
                 sx={{

@@ -31,6 +31,7 @@ import FeedbackTransactions from 'src/Menus/FeddbackTransaction'
 import { getDefaultCompany } from 'src/api/CommonApiCRF'
 import { useQuery } from 'react-query'
 import NotificationTransaction from 'src/Menus/NotificationTransaction'
+import AmsTransaction from 'src/Menus/AmsTransaction'
 
 
 const AppSidebar = () => {
@@ -54,6 +55,7 @@ const AppSidebar = () => {
   const [incidentTransact, setIncidentTransact] = useState()
   const [feedbackTransact, setFeedbackTransact] = useState()
   const [NotificationTransact, setNotificationTransact] = useState()
+  const [AmsTransact, setAmsTransact] = useState()
  
 
   const [count, setCount] = useState(0)
@@ -234,6 +236,12 @@ const AppSidebar = () => {
       name: 'Notification',
       items: NotificationTransact
     },
+        {
+      slno: 25,
+      component: CNavGroup,
+      name: 'Ams',
+      items: AmsTransact
+    },
   ]
 
   useEffect(() => {
@@ -276,12 +284,14 @@ const AppSidebar = () => {
         setCensusTransact(DailyCensusTransact)
         const IncidentTransact = IncidentTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
         setIncidentTransact(IncidentTransact)
-
         const FeedbackTransact = FeedbackTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
         setFeedbackTransact(FeedbackTransact)
-
         const NotificationTransact = NotificationTransaction.filter(val => menuSlnoAry.includes(val.men_slno));
-        setNotificationTransact(NotificationTransact)
+        setNotificationTransact(NotificationTransact)    
+        
+        
+        const AmsTransact = AmsTransaction.filter(val => menuSlnoAry.includes(val.men_slno));
+        setAmsTransact(AmsTransact)
         
 
         setCount(1)
