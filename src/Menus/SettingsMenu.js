@@ -1,7 +1,7 @@
 //Common Master Menu
 export const co_setting_one = [
     { to: '/Home/Department', name: 'Department', slno: 1 },
-    { to: '/Home/NursingStation', name: 'Nursing Station', slno: 273 },
+    { to: '/Home/NursingStation', name: 'Nursing Station', slno: 34 },
 ]
 
 export const co_setting_two = [

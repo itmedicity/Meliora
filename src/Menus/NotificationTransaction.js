@@ -7,7 +7,7 @@ const NotificationTransaction = [
 
     
     {
-        men_slno: 34,
+        men_slno: 273,
         component: CNavItem,
         name: 'Notification',
         to: '/Home/NotificationMainMeNu',
