@@ -126,7 +126,7 @@ const CommentView = ({ open, closeModal, DetailViewData, reqItems, approveTableD
                                 </Box>
                                 : null
                             }
-                            {(hod_approve !== null || incharge_approve !== null) ?
+                            {(hod_approve !== null || incharge_approve !== null || dms_approve === 1 || ms_approve === 1) ?
                                 <>
                                     <Paper variant="outlined" square sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.7, mx: 0.7, pb: 0.7 }}>
                                         <Typography sx={{ fontWeight: 'bold', px: 1, py: 0.7, color: '#145DA0', fontSize: 14 }}>
