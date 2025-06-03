@@ -144,7 +144,6 @@ const MyRectifiedList = () => {
 
     const fileView = async (val) => {
         const { complaint_slno } = val;
-
         setState((prevState) => ({
             ...prevState,
             image: 1,
@@ -441,7 +440,7 @@ const MyRectifiedList = () => {
                                                 <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
                                                     Location
                                                 </Typography>
-                                                <Typography sx={{ fontSize: 13, flex: 1, }}>                                               
+                                                <Typography sx={{ fontSize: 13, flex: 1, }}>
                                                     {val.rm_room_name}
                                                     {(val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name) ? (
                                                         ` (${val.rm_roomtype_name || ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''}${val.rm_insidebuildblock_name || ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''}${val.rm_floor_name || ''})`
