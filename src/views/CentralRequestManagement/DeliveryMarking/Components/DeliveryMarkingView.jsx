@@ -7,20 +7,24 @@ import { infoNotify, warningNotify } from 'src/views/Common/CommonCode';
 import { Virtuoso } from 'react-virtuoso';
 import moment from 'moment';
 import ReceiptLongSharpIcon from '@mui/icons-material/ReceiptLongSharp';
+import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import CusCheckBox from 'src/views/Components/CusCheckBox';
 import { getDeliveryMarking } from 'src/api/CommonApiCRF';
 import { useQuery } from 'react-query';
+import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 
 const formatDateForInput = (date) => {
     return date.toISOString().split('T')[0];
 };
-const DeliveryMarkingView = ({ setViewFlag }) => {
+const DeliveryMarkingView = ({ setViewFlag, setimageshowFlag, setimageshow, setPreviewFile }) => {
     const [tableData, setTableData] = useState([])
     const [supCode, setSupCode] = useState(0)
     const [startDate, setStartDate] = useState(formatDateForInput(new Date()));
     const [endDate, setEndDate] = useState(formatDateForInput(new Date()));
     const [billList, setBillList] = useState([])
     const [reqCheck, setReqCheck] = useState(false)
+    const [imagearray, setImageArry] = useState([])
+    const [openDropdown, setOpenDropdown] = useState({ index: null, type: null });
 
     const searchToday = useMemo(() => {
         return {
@@ -153,6 +157,52 @@ const DeliveryMarkingView = ({ setViewFlag }) => {
         setBillList([])
         setReqCheck(false)
     }, [])
+    //show image
+    const viewimage = useCallback(async (val) => {
+        const getImage = async (delivery_mark_slno) => {
+            const result = await axioslogin.get(`/newCRFRegisterImages/crfDMimageGet/${delivery_mark_slno}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const fileNames = data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER}/CRF/DeliveryMarking/${delivery_mark_slno}/${fileName}`;
+                });
+                const savedFiles = fileUrls.map((val) => {
+                    const parts = val.split('/');
+                    const fileNamePart = parts[parts.length - 1];
+                    const obj = {
+                        imageName: fileNamePart,
+                        url: val
+                    }
+                    return obj
+                })
+                setImageArry(savedFiles)
+
+
+            } else {
+                setImageArry([])
+                warningNotify("No Image to Show")
+            }
+        }
+        getImage(val?.delivery_mark_slno)
+
+
+    }, [])
+
+    const ViewImage = useCallback((file) => {
+        const fileType = file.imageName
+            ? file.imageName.toLowerCase().endsWith(".pdf")
+                ? "pdf"
+                : "image"
+            : file.type.includes("application/pdf")
+                ? "pdf"
+                : "image";
+
+        const fileUrl = file.url || URL.createObjectURL(file);
+        setPreviewFile({ url: fileUrl, type: fileType });
+        setimageshow(true);
+        setimageshowFlag(1);
+    }, []);
 
     const menuIconStyle = {
         bgcolor: 'white',
@@ -290,7 +340,8 @@ const DeliveryMarkingView = ({ setViewFlag }) => {
                                 <Typography sx={{ width: 150, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>DC Received Date</Typography>
                                 <Typography sx={{ width: 170, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>Mode Of Transport</Typography>
                                 <Typography sx={{ width: 150, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>Package Count</Typography>
-                                <Typography sx={{ width: 100, textAlign: 'left', fontWeight: 550, fontSize: 12, }}>Bill Details</Typography>
+                                <Typography sx={{ width: 100, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>Bill Details</Typography>
+                                <Typography sx={{ width: 120, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>Image</Typography>
                                 <Typography sx={{ width: 150, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>Remarks</Typography>
                                 <Typography sx={{ width: 120, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>Receiver</Typography>
 
@@ -363,6 +414,105 @@ const DeliveryMarkingView = ({ setViewFlag }) => {
                                                         : null}
                                                 </Dropdown>
                                             </Box>
+                                            <Box sx={{ width: 100, display: 'flex', textAlign: 'center', cursor: 'pointer', }}>
+                                                <Dropdown
+                                                    open={openDropdown.index === index && openDropdown.type === 'image'}
+                                                    onOpenChange={() => {
+                                                        if (openDropdown.index === index && openDropdown.type === 'image') {
+                                                            setOpenDropdown({ index: null, type: null });
+                                                        } else {
+                                                            setOpenDropdown({ index, type: 'image' });
+                                                        }
+                                                    }}
+                                                >
+                                                    <MenuButton sx={{ border: 0, p: 0 }}>
+                                                        <Tooltip
+                                                            key="unique-key"
+                                                            title={
+                                                                <Box sx={{ bgcolor: 'white', color: '#003060', textAlign: 'center', textTransform: 'capitalize' }}>
+                                                                    View image
+                                                                </Box>
+                                                            }
+                                                            placement="top"
+                                                            arrow
+                                                            sx={{
+                                                                bgcolor: '#BFD7ED',
+                                                                [`& .MuiTooltip-arrow`]: {
+                                                                    color: 'blue',
+                                                                },
+                                                            }}
+                                                        >
+                                                            <ImageOutlinedIcon
+                                                                sx={{
+                                                                    color: '#1976d2',
+                                                                    height: 23,
+                                                                    width: 23,
+                                                                    '&:hover': {
+                                                                        bgcolor: 'white',
+                                                                    },
+                                                                }}
+                                                                onClick={() => viewimage(val)}
+                                                            />
+                                                        </Tooltip>
+                                                    </MenuButton>
+
+                                                    {imagearray && imagearray.length > 0 ? (
+                                                        <Menu
+                                                            sx={{
+                                                                width: 500,
+                                                                maxHeight: 300,
+                                                                overflowY: 'auto',
+                                                                borderRadius: 2,
+                                                                boxShadow: 'md',
+                                                                p: 1,
+                                                                bgcolor: 'background.surface',
+                                                            }}
+                                                        >
+                                                            <MenuItem
+                                                                sx={{
+                                                                    display: 'flex',
+                                                                    flexDirection: 'column',
+                                                                    gap: 1,
+                                                                    px: 1,
+                                                                    py: 0.5,
+                                                                    alignItems: 'flex-start',
+                                                                    bgcolor: 'rgba(25, 118, 210, 0.08)',
+                                                                    '&:hover': {
+                                                                        bgcolor: 'transparent', // avoid hover effect on whole item
+                                                                    },
+                                                                }}
+                                                            >
+                                                                {imagearray.map((img, index) => (
+                                                                    <Box
+                                                                        key={index}
+                                                                        onClick={() => ViewImage(img)}
+                                                                        sx={{
+                                                                            width: '100%',
+                                                                            fontSize: 13,
+                                                                            color: '#1976d2',
+                                                                            cursor: 'pointer',
+                                                                            px: 1,
+                                                                            py: 0.5,
+                                                                            borderRadius: 1,
+                                                                            transition: 'background-color 0.2s',
+                                                                            '&:hover': {
+                                                                                color: '#0d47a1',
+                                                                                backgroundColor: 'rgba(25, 118, 210, 0.08)',
+                                                                            },
+                                                                        }}
+                                                                    >
+                                                                        {img.imageName}
+                                                                    </Box>
+                                                                ))}
+                                                            </MenuItem>
+                                                        </Menu>
+                                                    ) : null}
+
+
+                                                </Dropdown>
+                                            </Box>
+
+
                                             <Typography sx={{ width: 150, textAlign: 'left', fontSize: 12, my: 1 }}>{val.remarks ? val.remarks : 'Not Updated'}</Typography>
                                             <Typography sx={{ width: 120, textAlign: 'left', fontSize: 12, my: 1 }}>{val.received_user}</Typography>
 
