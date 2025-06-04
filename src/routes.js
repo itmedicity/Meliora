@@ -242,8 +242,9 @@ const CrfCommon = React.lazy(() => import('./views/Master/RequestManagement/CrfC
 const CrfDashboardMaster = React.lazy(() => import('./views/Master/RequestManagement/DashboardMaster/DashboardMaster'))
 const DataCollectionMaster = React.lazy(() => import('./views/Master/RequestManagement/DataCollectionMaster/DataCollection'))
 const DepartmentMapping = React.lazy(() => import('./views/Master/RequestManagement/DepartmentMapping/DepartmentMaping'))
-const AmsMaster=React.lazy(()=>import('./views/Master/AmsMaster/AmsMaster'))
-const AmsPatientDetails=React.lazy(()=>import('./views/Ams/AmsMain'))
+const AmsMaster = React.lazy(() => import('./views/Master/AmsMaster/AmsMaster'))
+const AmsPatientDetails = React.lazy(() => import('./views/Ams/AmsMain'))
+const DcReport = React.lazy(() => import('./views/Report/DailyCensus/DailyCensus'))
 
 
 
@@ -280,8 +281,8 @@ const routes = [
   { path: '/Home/Floor', exact: true, name: 'Floor', component: Floor },
   { path: '/Home/RoomType', exact: true, name: 'RoomType', component: RoomType },
   { path: '/Home/RoomCategory', exact: true, name: 'RoomCategory', component: RoomCategory },
-  { path: '/Home/NotificationMainMeNu', exact: true, name: 'NotificationMainMeNu', component : NotificationMainMeNu },
-  { path: '/Home/NursingStation', exact: true, name: 'NursingStation', component : NursingStation }, 
+  { path: '/Home/NotificationMainMeNu', exact: true, name: 'NotificationMainMeNu', component: NotificationMainMeNu },
+  { path: '/Home/NursingStation', exact: true, name: 'NursingStation', component: NursingStation },
   { path: '/Home/Diet', exact: true, name: 'DietCategory', component: DietCategory },
   { path: '/Home/DietIssue', exact: true, name: 'DietIssue', component: DietIssue },
   { path: '/Home/DietType', exact: true, name: 'DietType', component: DietType },
@@ -294,8 +295,8 @@ const routes = [
   { path: '/Home/SubRoomCreation', exact: true, name: ' Sub Room Creation', component: SubRoomCreation },
   { path: '/Home/DietMenuSetting', exact: true, name: 'Diet Plan', component: DietMenuSetting },
   { path: '/Home/ItemGroup', exact: true, name: 'Item Group', component: ItemGroup },
-  { path: '/Home/ItemMaster', exact: true, name: ' Item Master', component: ItemMaster },  
-  { path: '/Home/DietDetail', exact: true, name: 'Diet Detail', component: DietDetail },  
+  { path: '/Home/ItemMaster', exact: true, name: ' Item Master', component: ItemMaster },
+  { path: '/Home/DietDetail', exact: true, name: 'Diet Detail', component: DietDetail },
   { path: '/Home/DietApproval', exact: true, name: ' Diet Approval', component: DietApproval },
   { path: '/Home/DietPlanList', exact: true, name: ' Diet Approval', component: DietPlanList },
   { path: '/Home/DietOrderList', exact: true, name: ' Diet Order List', component: DietOrderList },
@@ -493,10 +494,11 @@ const routes = [
   { path: '/Home/SimOperator', exact: true, name: 'SimOperator', component: SimOperator },
   { path: '/Home/DashBoardMaster', exact: true, name: 'DashBoardMaster', component: CrfDashboardMaster },
   { path: '/Home/DataCollectionMaster', exact: true, name: 'DataCollectionMaster', component: DataCollectionMaster },
-  { path: '/Home/DepartmentMapping', exact: true, name: 'DashBoardMaster', component: DepartmentMapping }, 
+  { path: '/Home/DepartmentMapping', exact: true, name: 'DashBoardMaster', component: DepartmentMapping },
   { path: '/Home/AmsMaster', exact: true, name: 'AmsMaster', component: AmsMaster },
   { path: '/Home/AmsPatientDetails', exact: true, name: 'Ams Patient Details', component: AmsPatientDetails },
-  
+  { path: '/Home/DcReport', exact: true, name: 'DcReport', component: DcReport },
+
 
 
 ]
