@@ -9,10 +9,10 @@ const NotificationTable = ({ count, rowSelect }) => {
   const [tabledata, setTabledata] = useState([])
   const [column] = useState([
     {
-      headerName: 'Action', 
+      headerName: 'Action',
       cellRenderer: (params) => <EditButton onClick={() => rowSelect(params)} />,
     },
-    { headerName: 'SlNo', field: 'notification_slno',  },
+    { headerName: 'SlNo', field: 'notification_slno', },
     { headerName: 'Heading', field: 'notification_heading', },
     { headerName: 'Remarks', field: 'notification_remarks', },
     { headerName: 'Status', field: 'status', },
