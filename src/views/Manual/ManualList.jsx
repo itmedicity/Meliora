@@ -58,19 +58,19 @@ const ManualList = () => {
                                 display: "flex", width: "30%", flex: 1,
                             }}>
                                 <Button size="small" sx={{ pt: 1.5, pl: 2, pb: 1, fontSize: 15, font: 'Roboto', textTransform: "capitalize" }}
-                                    onClick={() => lasa2023()}> LASA 2023</Button>
+                                    onClick={() => lasa2023()}> LASA </Button>
                             </Box>
                             <Box sx={{
                                 display: "flex", width: "30%", flex: 1,
                             }}>
                                 <Button size="small" sx={{ pt: 1.5, pl: 2, pb: 1, fontSize: 15, font: 'Roboto', textTransform: "capitalize" }}
-                                    onClick={() => sradhapolicy()}>Sradha Antibiotic Policy 2024</Button>
+                                    onClick={() => sradhapolicy()}>Sradha Antibiotic Policy </Button>
                             </Box>
                             <Box sx={{
                                 display: "flex", width: "30%", flex: 1,
                             }}>
                                 <Button size="small" sx={{ pt: 1.5, pl: 2, pb: 1, fontSize: 15, font: 'Roboto', textTransform: "capitalize" }}
-                                    onClick={() => safety()}>MSDS Handbook_E1 2023</Button>
+                                    onClick={() => safety()}>MSDS Handbook_E1 </Button>
                             </Box>
                         </Box>
                         <Box sx={{
@@ -80,7 +80,7 @@ const ManualList = () => {
                                 display: "flex", width: "30%", flex: 1,
                             }}>
                                 <Button size="small" sx={{ pt: 1.5, pl: 2, pb: 1, fontSize: 15, font: 'Roboto', textTransform: "capitalize" }}
-                                    onClick={() => meddef()}>2023-MEDF</Button>
+                                    onClick={() => meddef()}>MEDF</Button>
                             </Box>
                             <Box sx={{
                                 display: "flex", width: "30%", flex: 1,
