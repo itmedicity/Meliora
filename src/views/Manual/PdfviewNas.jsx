@@ -21,46 +21,82 @@ const PdfviewNas = ({ pdfDis }) => {
                         />
 
                         :
-                        pdfDis === 2 ?
+                        // pdfDis === 2 ?
+                        //     <embed
+                        //         id="pdf-embed"
+                        //         src={`${PUBLIC_NAS_FOLDER}/fileshows/LASA.pdf#toolbar=0&navpanes=0&view=FitH`}
+                        //         type="application/pdf"
+                        //         height={850}
+                        //         width="100%" />
+                        //     :
+                        pdfDis === 3 ?
                             <embed
                                 id="pdf-embed"
-                                src={`${PUBLIC_NAS_FOLDER}/fileshows/LASA.pdf#toolbar=0&navpanes=0&view=FitH`}
+                                src={`${PUBLIC_NAS_FOLDER}/fileshows/SRADHA.pdf#toolbar=0&navpanes=0&view=FitH`}
                                 type="application/pdf"
                                 height={850}
                                 width="100%" />
                             :
-                            pdfDis === 3 ?
+                            pdfDis === 4 ?
                                 <embed
                                     id="pdf-embed"
-                                    src={`${PUBLIC_NAS_FOLDER}/fileshows/SRADHA.pdf#toolbar=0&navpanes=0&view=FitH`}
+                                    src={`${PUBLIC_NAS_FOLDER}/fileshows/MSDS.pdf#toolbar=0&navpanes=0&view=FitH`}
                                     type="application/pdf"
                                     height={850}
                                     width="100%" />
+
                                 :
-                                pdfDis === 4 ?
+                                pdfDis === 5 ?
                                     <embed
                                         id="pdf-embed"
-                                        src={`${PUBLIC_NAS_FOLDER}/fileshows/MSDS.pdf#toolbar=0&navpanes=0&view=FitH`}
+                                        src={`${PUBLIC_NAS_FOLDER}/fileshows/2023_MEDEF.pdf#toolbar=0&navpanes=0&view=FitH`}
                                         type="application/pdf"
                                         height={850}
                                         width="100%" />
-
-                                    :
-                                    pdfDis === 5 ?
+                                    : pdfDis === 6 ?
                                         <embed
                                             id="pdf-embed"
-                                            src={`${PUBLIC_NAS_FOLDER}/fileshows/2023_MEDEF.pdf#toolbar=0&navpanes=0&view=FitH`}
+                                            src={`${PUBLIC_NAS_FOLDER}/fileshows/Abbreviation.pdf#toolbar=0&navpanes=0&view=FitH`}
                                             type="application/pdf"
                                             height={850}
                                             width="100%" />
-                                        : pdfDis === 6 ?
+                                        : pdfDis === 7 ?
                                             <embed
                                                 id="pdf-embed"
-                                                src={`${PUBLIC_NAS_FOLDER}/fileshows/Abbreviation.pdf#toolbar=0&navpanes=0&view=FitH`}
+                                                src={`${PUBLIC_NAS_FOLDER}/fileshows/Fridge Medicines.pdf#toolbar=0&navpanes=0&view=FitH`}
                                                 type="application/pdf"
                                                 height={850}
                                                 width="100%" />
-                                            : null
+                                            :
+                                            pdfDis === 8 ?
+                                                <embed
+                                                    id="pdf-embed"
+                                                    src={`${PUBLIC_NAS_FOLDER}/fileshows/High Risk Drugs.pdf#toolbar=0&navpanes=0&view=FitH`}
+                                                    type="application/pdf"
+                                                    height={850}
+                                                    width="100%" />
+                                                : pdfDis === 9 ?
+                                                    <embed
+                                                        id="pdf-embed"
+                                                        src={`${PUBLIC_NAS_FOLDER}/fileshows/Look Alike.pdf#toolbar=0&navpanes=0&view=FitH`}
+                                                        type="application/pdf"
+                                                        height={850}
+                                                        width="100%" />
+                                                    : pdfDis === 10 ?
+                                                        <embed
+                                                            id="pdf-embed"
+                                                            src={`${PUBLIC_NAS_FOLDER}/fileshows/Psychotropic Drugs.pdf#toolbar=0&navpanes=0&view=FitH`}
+                                                            type="application/pdf"
+                                                            height={850}
+                                                            width="100%" />
+                                                        : pdfDis === 11 ?
+                                                            <embed
+                                                                id="pdf-embed"
+                                                                src={`${PUBLIC_NAS_FOLDER}/fileshows/Sound Alike Drugs.pdf#toolbar=0&navpanes=0&view=FitH`}
+                                                                type="application/pdf"
+                                                                height={850}
+                                                                width="100%" />
+                                                            : null
                 }
             </Box>
         </Fragment>

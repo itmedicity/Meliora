@@ -30,6 +30,22 @@ const ManualList = () => {
     const Abbreviation = () => {
         setPdfDis(6)
     }
+    const Fridge = () => {
+        setPdfDis(7)
+    }
+    const High = () => {
+        setPdfDis(8)
+    }
+    const Alike = () => {
+        setPdfDis(9)
+    }
+    const Psychotropic = () => {
+        setPdfDis(10)
+    }
+    const Sound = () => {
+        setPdfDis(11)
+    }
+
     const backToSettings = useCallback(() => {
         history.push(`/Home/Manual`)
         setPdfDis(0)
@@ -57,8 +73,10 @@ const ManualList = () => {
                             <Box sx={{
                                 display: "flex", width: "30%", flex: 1,
                             }}>
+                                {/* <Button size="small" sx={{ pt: 1.5, pl: 2, pb: 1, fontSize: 15, font: 'Roboto', textTransform: "capitalize" }}
+                                    onClick={() => lasa2023()}> LASA </Button> */}
                                 <Button size="small" sx={{ pt: 1.5, pl: 2, pb: 1, fontSize: 15, font: 'Roboto', textTransform: "capitalize" }}
-                                    onClick={() => lasa2023()}> LASA </Button>
+                                    onClick={() => Sound()}>Sound Alike Drugs</Button>
                             </Box>
                             <Box sx={{
                                 display: "flex", width: "30%", flex: 1,
@@ -87,6 +105,35 @@ const ManualList = () => {
                             }}>
                                 <Button size="small" sx={{ pt: 1.5, pl: 2, pb: 1, fontSize: 15, font: 'Roboto', textTransform: "capitalize" }}
                                     onClick={() => Abbreviation()}>Abbreviation</Button>
+                            </Box>
+                            <Box sx={{
+                                display: "flex", width: "30%", flex: 1,
+                            }}>
+                                <Button size="small" sx={{ pt: 1.5, pl: 2, pb: 1, fontSize: 15, font: 'Roboto', textTransform: "capitalize" }}
+                                    onClick={() => Fridge()}>Fridge Medicines</Button>
+                            </Box>
+                            <Box sx={{
+                                display: "flex", width: "30%", flex: 1,
+                            }}>
+                                <Button size="small" sx={{ pt: 1.5, pl: 2, pb: 1, fontSize: 15, font: 'Roboto', textTransform: "capitalize" }}
+                                    onClick={() => High()}>High Risk Drugs</Button>
+                            </Box>
+                        </Box>
+
+                        <Box sx={{
+                            display: "flex", width: "100%", flex: 1,
+                        }}>
+                            <Box sx={{
+                                display: "flex", width: "30%", flex: 1,
+                            }}>
+                                <Button size="small" sx={{ pt: 1.5, pl: 2, pb: 1, fontSize: 15, font: 'Roboto', textTransform: "capitalize" }}
+                                    onClick={() => Alike()}>Look Alike</Button>
+                            </Box>
+                            <Box sx={{
+                                display: "flex", width: "30%", flex: 1,
+                            }}>
+                                <Button size="small" sx={{ pt: 1.5, pl: 2, pb: 1, fontSize: 15, font: 'Roboto', textTransform: "capitalize" }}
+                                    onClick={() => Psychotropic()}>Psychotropic Drugs</Button>
                             </Box>
                             <Box sx={{
                                 display: "flex", width: "30%", flex: 1,
