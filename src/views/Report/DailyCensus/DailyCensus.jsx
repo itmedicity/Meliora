@@ -55,6 +55,8 @@ const DailyCensus = () => {
         }
         GetCensusDetails(searchdata).then((value) => {
             const { data, success, message } = value
+            console.log(data);
+
             if (success === 1) {
                 setTableData(data)
             } else {
@@ -67,6 +69,13 @@ const DailyCensus = () => {
 
     useEffect(() => {
         if (tableData.length !== 0) {
+            const totyes = tableData?.map(val => val.yesterday_census).reduce((prev, next) => Number(prev) + Number(next));
+            const totad = tableData?.map(val => val.total_admission).reduce((prev, next) => Number(prev) + Number(next));
+            const totdis = tableData?.map(val => val.total_discharge).reduce((prev, next) => Number(prev) + Number(next));
+            const totin = tableData?.map(val => val.transfer_in).reduce((prev, next) => Number(prev) + Number(next));
+            const totout = tableData?.map(val => val.transfer_out).reduce((prev, next) => Number(prev) + Number(next));
+            const totdeath = tableData?.map(val => val.total_death).reduce((prev, next) => Number(prev) + Number(next));
+            const tot = tableData?.map(val => val.census_total).reduce((prev, next) => Number(prev) + Number(next));
             const oraadm = tableData?.map(val => val.ora_admission).reduce((prev, next) => Number(prev) + Number(next));
             const oradis = tableData?.map(val => val.ora_discharge).reduce((prev, next) => Number(prev) + Number(next));
             const oradeath = tableData?.map(val => val.ora_death).reduce((prev, next) => Number(prev) + Number(next));
@@ -76,6 +85,13 @@ const DailyCensus = () => {
             const lamatot = tableData?.map(val => val.ora_lama).reduce((prev, next) => Number(prev) + Number(next));
             const fromdata = {
 
+                totYesterday: totyes,
+                totAdmission: totad,
+                totDischarge: totdis,
+                totTransIn: totin,
+                totTransOut: totout,
+                totDeath: totdeath,
+                totalcensus: tot,
                 oraTotAdm: oraadm,
                 oraTotDis: oradis,
                 oraTotDeath: oradeath,
@@ -107,7 +123,15 @@ const DailyCensus = () => {
                         ora_death: 0,
                         ora_dama: 0,
                         ora_lama: 0,
-                        ora_census_total: 0
+                        ora_census_total: 0,
+                        census_total: 0,
+                        total_admission: 0,
+                        total_death: 0,
+                        total_discharge: 0,
+                        transfer_in: 0,
+                        transfer_out: 0,
+                        yesterday_census: 0
+
                     }
                 };
             }
@@ -121,6 +145,15 @@ const DailyCensus = () => {
             group[dayKey].totals.ora_dama += Number(item.ora_dama || 0);
             group[dayKey].totals.ora_lama += Number(item.ora_lama || 0);
             group[dayKey].totals.ora_census_total += Number(item.ora_census_total || 0);
+            group[dayKey].totals.census_total += Number(item.census_total || 0);
+            group[dayKey].totals.total_admission += Number(item.total_admission || 0);
+            group[dayKey].totals.total_death += Number(item.total_death || 0);
+            group[dayKey].totals.total_discharge += Number(item.total_discharge || 0);
+            group[dayKey].totals.transfer_in += Number(item.transfer_in || 0);
+            group[dayKey].totals.transfer_out += Number(item.transfer_out || 0);
+            group[dayKey].totals.yesterday_census += Number(item.yesterday_census || 0);
+
+
         });
 
         return group;
@@ -139,6 +172,13 @@ const DailyCensus = () => {
             'Sl.No',
             'Nursing Station',
             'Date',
+            'Yesterday Census',
+            'Admissions',
+            'Discharge',
+            'Transfer In',
+            'Transfer Out',
+            'Death',
+            'Total',
             'HIS Admissions',
             'HIS Discharge',
             'HIS Death',
@@ -153,7 +193,14 @@ const DailyCensus = () => {
             ora_death: 0,
             ora_dama: 0,
             ora_lama: 0,
-            ora_census_total: 0
+            ora_census_total: 0,
+            census_total: 0,
+            total_admission: 0,
+            total_death: 0,
+            total_discharge: 0,
+            transfer_in: 0,
+            transfer_out: 0,
+            yesterday_census: 0
         };
 
         Object.entries(groupedMonthlyData).forEach(([date, { rows, totals }]) => {
@@ -166,6 +213,13 @@ const DailyCensus = () => {
                     index + 1,
                     row.census_ns_name,
                     row.census_date,
+                    row.yesterday_census,
+                    row.total_admission,
+                    row.total_discharge,
+                    row.transfer_in,
+                    row.transfer_out,
+                    row.total_death,
+                    row.census_total,
                     row.ora_admission,
                     row.ora_discharge,
                     row.ora_death,
@@ -178,26 +232,47 @@ const DailyCensus = () => {
             // Add totals for the date
             flattenedData.push([
                 '', 'Total', '',
+                totals.yesterday_census,
+                totals.total_admission,
+                totals.total_discharge,
+                totals.transfer_in,
+                totals.transfer_out,
+                totals.total_death,
+                totals.census_total,
                 totals.ora_admission,
                 totals.ora_discharge,
                 totals.ora_death,
                 totals.ora_dama,
                 totals.ora_lama,
-                totals.ora_census_total
+                totals.ora_census_total,
+
             ]);
 
             // Update grand totals
+            grandTotals.yesterday_census += totals.yesterday_census;
+            grandTotals.total_admission += totals.total_admission;
+            grandTotals.total_discharge += totals.total_discharge;
+            grandTotals.transfer_in += totals.transfer_in;
+            grandTotals.transfer_out += totals.transfer_out;
+            grandTotals.total_death += totals.total_death;
             grandTotals.ora_admission += totals.ora_admission;
             grandTotals.ora_discharge += totals.ora_discharge;
             grandTotals.ora_death += totals.ora_death;
             grandTotals.ora_dama += totals.ora_dama;
             grandTotals.ora_lama += totals.ora_lama;
             grandTotals.ora_census_total += totals.ora_census_total;
+
         });
 
         // Add grand total footer (like <tfoot>)
         flattenedData.push([
             '', 'Grand Total', '',
+            grandTotals.yesterday_census,
+            grandTotals.total_admission,
+            grandTotals.total_discharge,
+            grandTotals.transfer_in,
+            grandTotals.transfer_out,
+            grandTotals.total_death,
             grandTotals.ora_admission,
             grandTotals.ora_discharge,
             grandTotals.ora_death,
