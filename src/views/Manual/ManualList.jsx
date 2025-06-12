@@ -4,10 +4,14 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import CardCloseOnly from 'src/views/Components/CardCloseOnly'
 import Button from '@mui/material/Button';
 import PdfviewNas from './PdfviewNas'
+import { axioslogin } from '../Axios/Axios';
+import { PUBLIC_NAS_FOLDER } from '../Constant/Static';
 
 const ManualList = () => {
     const history = useHistory()
     const [pdfDis, setPdfDis] = useState(0)
+    const [uploadedImages, setUploadedImages] = useState([])
+
     const employeeGuide = () => {
         setPdfDis(1)
     }
@@ -45,7 +49,58 @@ const ManualList = () => {
     const Sound = () => {
         setPdfDis(11)
     }
-
+    const Hospital = () => {
+        setPdfDis(12)
+        const getImage = async () => {
+            const result = await axioslogin.get(`/newCRFRegisterImages/crfNabhImageGet`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const fileNames = data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER}/fileshows/HOSPITAL MANUAL/${fileName}`;
+                });
+                const savedFiles = fileUrls.map((val) => {
+                    const parts = val.split('/');
+                    const fileNamePart = parts[parts.length - 1];
+                    const obj = {
+                        imageName: fileNamePart,
+                        url: val
+                    }
+                    return obj
+                })
+                setUploadedImages(savedFiles);
+            } else {
+                setUploadedImages([])
+            }
+        }
+        getImage()
+    }
+    const Standard = () => {
+        setPdfDis(13)
+        const getImage = async () => {
+            const result = await axioslogin.get(`/newCRFRegisterImages/crfNabhGuidImageGet`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const fileNames = data;
+                const fileUrls = fileNames.map((fileName) => {
+                    return `${PUBLIC_NAS_FOLDER}/fileshows/STANDARD TREATMENT GUIDLINE/${fileName}`;
+                });
+                const savedFiles = fileUrls.map((val) => {
+                    const parts = val.split('/');
+                    const fileNamePart = parts[parts.length - 1];
+                    const obj = {
+                        imageName: fileNamePart,
+                        url: val
+                    }
+                    return obj
+                })
+                setUploadedImages(savedFiles);
+            } else {
+                setUploadedImages([])
+            }
+        }
+        getImage()
+    }
     const backToSettings = useCallback(() => {
         history.push(`/Home/Manual`)
         setPdfDis(0)
@@ -138,17 +193,19 @@ const ManualList = () => {
                             <Box sx={{
                                 display: "flex", width: "30%", flex: 1,
                             }}>
-
+                                <Button size="small" sx={{ pt: 1.5, pl: 2, pb: 1, fontSize: 15, font: 'Roboto', textTransform: "capitalize" }}
+                                    onClick={() => Hospital()}>Hospital Manual</Button>
                             </Box>
                             <Box sx={{
                                 display: "flex", width: "30%", flex: 1,
                             }}>
-
+                                <Button size="small" sx={{ pt: 1.5, pl: 2, pb: 1, fontSize: 15, font: 'Roboto', textTransform: "capitalize" }}
+                                    onClick={() => Standard()}>Standard Treatment Guidline</Button>
                             </Box>
                         </Box>
                     </Box >
                     :
-                    <PdfviewNas pdfDis={pdfDis} />
+                    <PdfviewNas pdfDis={pdfDis} uploadedImages={uploadedImages} />
             }
         </CardCloseOnly >
     )
