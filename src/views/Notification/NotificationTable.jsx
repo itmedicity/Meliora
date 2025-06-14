@@ -18,6 +18,7 @@ const NotificationTable = ({ count, rowSelect }) => {
     { headerName: 'Status', field: 'status', },
 
   ])
+
   useEffect(() => {
     const getAssetType = async () => {
       const result = await axioslogin.get('notificationMenu/view')

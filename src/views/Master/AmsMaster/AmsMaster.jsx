@@ -13,7 +13,6 @@ import { useSelector } from 'react-redux'
 import { useQueryClient } from 'react-query'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 
-
 const AmsMaster = () => {
 
   const id = useSelector((state) => {
@@ -38,7 +37,6 @@ const AmsMaster = () => {
     storageCondition: '',
     mrp: '',
     manufacturer: '',
-
   })
 
   const {
@@ -301,7 +299,7 @@ const AmsMaster = () => {
     <CardMasterClose title={'Antibiotic Register'} close={backtoSetting} >
       <CssVarsProvider>
         <Box sx={{ display: 'flex', gap: 3 }}>
-          <Box sx={{ width: 450 }}>
+          <Box sx={{ width: 405 }}>
             <Box sx={{ display: 'flex', flex: 1, gap: 0.5 }}>
               <Box sx={{ flex: 1 }}>
                 <TextFieldCustom
@@ -531,7 +529,7 @@ const AmsMaster = () => {
               </Button>
             </Box>
           </Box>
-          <Box sx={{ flex: 1, overflowX: 'scroll', height: '100%' }}>
+          <Box sx={{ flex: 1, overflow: 'scroll', height: '70vh' }}>
             <AntibioticMasterTable editMast={editMast} />
           </Box>
         </Box>
