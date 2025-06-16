@@ -18,7 +18,7 @@ import CommonEdapprvCmp from './ApprovalComp/CommonEdapprvCmp'
 import CommonCRFClosed from './ApprovalComp/CommonCRFClosed'
 import CommonMangingApprvComp from './ApprovalComp/CommonMangingApprvComp'
 
-const ClosedDetailsModal = ({ open, crfClosedDetails, handleCloseModal, reqItems, approveTableData, imagearray }) => {
+const ClosedDetailsModal = ({ open, crfClosedDetails, handleCloseModal, reqItems, approveTableData, imagearray, company }) => {
     const { incharge_req, incharge_remarks, hod_req, hod_approve, dms_approve, ms_approve, manag_operation_approv,
         senior_manage_approv, gm_approve, md_approve, ed_approve, crf_closed_one, dms_req, ms_approve_req,
         manag_operation_req, senior_manage_req, gm_approve_req, ed_approve_req, md_approve_req,
@@ -66,55 +66,55 @@ const ClosedDetailsModal = ({ open, crfClosedDetails, handleCloseModal, reqItems
                                     <Grid container spacing={0.5} sx={{ flexGrow: 1, py: 0.5 }}>
                                         {incharge_req === 1 && incharge_remarks !== null && crf_closed_one !== 'Incharge' ?
                                             <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                <CommonInchargeReqCmp DetailViewData={crfClosedDetails} />
+                                                <CommonInchargeReqCmp DetailViewData={crfClosedDetails} company={company} />
                                             </Grid>
                                             : null
                                         }
                                         {hod_req === 1 && hod_approve !== null ?
                                             <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                <CommonHodApprvCmp DetailViewData={crfClosedDetails} />
+                                                <CommonHodApprvCmp DetailViewData={crfClosedDetails} company={company} />
                                             </Grid>
                                             : null
                                         }
                                         {dms_req === 1 && dms_approve !== null ?
                                             <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                <CommonDmsApprvCmp DetailViewData={crfClosedDetails} />
+                                                <CommonDmsApprvCmp DetailViewData={crfClosedDetails} company={company} />
                                             </Grid>
                                             : null
                                         }
                                         {ms_approve_req === 1 && ms_approve !== null ?
                                             <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                <CommonMsApprvCmp DetailViewData={crfClosedDetails} />
+                                                <CommonMsApprvCmp DetailViewData={crfClosedDetails} company={company} />
                                             </Grid>
                                             : null
                                         }
                                         {manag_operation_req === 1 && manag_operation_approv !== null ?
                                             <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                <CommonMoApprvlCmp DetailViewData={crfClosedDetails} />
+                                                <CommonMoApprvlCmp DetailViewData={crfClosedDetails} company={company} />
                                             </Grid>
                                             : null
                                         }
                                         {senior_manage_req === 1 && senior_manage_approv !== null ?
                                             <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                <CommonSmoApprvCmp DetailViewData={crfClosedDetails} />
+                                                <CommonSmoApprvCmp DetailViewData={crfClosedDetails} company={company} />
                                             </Grid>
                                             : null
                                         }
                                         {gm_approve_req === 1 && gm_approve !== null ?
                                             <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                <CommonGmapprvCmp DetailViewData={crfClosedDetails} />
+                                                <CommonGmapprvCmp DetailViewData={crfClosedDetails} company={company} />
                                             </Grid>
                                             : null
                                         }
                                         {md_approve_req === 1 && md_approve !== null ?
                                             <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                <CommonMdApprvCmp DetailViewData={crfClosedDetails} />
+                                                <CommonMdApprvCmp DetailViewData={crfClosedDetails} company={company} />
                                             </Grid>
                                             : null
                                         }
                                         {ed_approve_req === 1 && ed_approve !== null ?
                                             <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                                                <CommonEdapprvCmp DetailViewData={crfClosedDetails} />
+                                                <CommonEdapprvCmp DetailViewData={crfClosedDetails} company={company} />
                                             </Grid>
                                             : null
                                         }

@@ -475,9 +475,12 @@ const DeliveryMarkingStore = () => {
     }, [supCode, supName, receivedDate, packageCount, directMode, courierMode, billDetails, remarks, empName, id, combinedPO])
 
     const SaveDetails = useCallback(async () => {
+
         if (supCode === 0) {
             infoNotify("Select Supplier")
-        } else if (billNumber !== '' && billDetails.length === 0) {
+
+        } else if (billNumber !== '' || billDetails.length === 0) {
+
             infoNotify("Add Bill Details Before Save")
         }
         else if (empName === 0) {

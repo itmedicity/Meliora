@@ -5,11 +5,11 @@ import { getModuleName } from '../reducers/Module.Reducer'
 import { getUserGroup } from '../reducers/UserGroup.Reducer'
 import { setMenuName } from '../reducers/MenuName.Reducer'
 import { getDepartment } from './Department.Reducer';
-import { getComplaintDept } from './ComplaintDepartment.Reducer'
+import { getComplaintDept, getComplaintDeptIT } from './ComplaintDepartment.Reducer'
 import { getHicpolicy } from './HicPolicy.Reducer'
 import { getRequesttype } from './RequestType.reducer'
 import { getDeptsection } from './DeptSection.Reducer'
-import { getComplainttype } from './ComplaintType.Reducer'
+import { getComplainttype, getComplainttypeMain, getComplainttypeIT, getComplainttypeHouse, getComplainttypeOpera } from './ComplaintType.Reducer'
 import { getEmployeeName } from '../reducers/EmpName.Reducer'
 import { getModuleGroup } from '../reducers/ModuleGroup.Reducer'
 import { getAssetType } from '../reducers/AssetType.Reducer'
@@ -180,6 +180,7 @@ import { getEquipmentList } from './QIEquipment.Reducer';
 import { getStoreReceivePendingReducer, getStoreReceiveAllReducer } from './CrmStoreProcess.Reducer'
 import { getRoomsNameNdTypeList } from './CmRoomNameNdTypeList.Reducer';
 import { getDeptsectionTmc } from './DeptSection.Reducer'
+import { getComplaintDeptKmc } from './ComplaintDepartment.Reducer'
 
 
 const reducer = combineReducers({
@@ -368,6 +369,12 @@ const reducer = combineReducers({
     getRoomsNameNdTypeList,
     getprojectFrTaskCreation,
     getDeptsectionTmc,
+    getComplainttypeMain,
+    getComplainttypeIT,
+    getComplainttypeHouse,
+    getComplainttypeOpera,
+    getComplaintDeptIT,
+    getComplaintDeptKmc
 
 })
 export default reducer;

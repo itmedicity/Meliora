@@ -8,6 +8,7 @@ import { useQuery } from 'react-query'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import CommonNameStatus from './CommonNameStatus'
+import CommonCmpltType from './CommonCmpltType'
 
 
 const CommonName = lazy(() => import('./CommonName'))
@@ -17,6 +18,18 @@ const CrfCommonMaster = () => {
     const [companyslno, setCompanySlno] = useState(0)
     const [UpdateFlag, setUpdateFlag] = useState(0)
     const [Count, setCount] = useState(0)
+    const [deptbio, setCrfDeptbio] = useState(0)
+    const [deptbiotype, setCrfDeptbiotype] = useState(0)
+    const [deptMain, setCrfDeptMain] = useState(0)
+    const [deptMaintype, setCrfDeptMaintype] = useState(0)
+    const [deptIt, setCrfDeptIt] = useState(0)
+    const [deptItType, setCrfDeptItType] = useState(0)
+    const [deptHouse, setCrfDeptHouse] = useState(0)
+    const [deptHouseitm, setCrfDeptHouseitm] = useState(0)
+    const [deptOpe, setCrfDeptope] = useState(0)
+    const [deptOpeitm, setCrfDeptopeitm] = useState(0)
+
+
 
     const [editRowData, setEditRowData] = useState([])
     const [crfName, setCrfName] = useState({
@@ -54,8 +67,7 @@ const CrfCommonMaster = () => {
             try {
                 const result = await axioslogin.post('/newCRFRegister/CommonMasterSettingGet');
                 const { success, data } = result.data;
-
-                if (success === 1 && data.length > 0) {
+                if (success === 1 && data?.length > 0) {
                     setEditRowData(data[0]);
                     setCompanySlno(data[0]?.company_slno)
                     setUpdateFlag(1)
@@ -82,6 +94,17 @@ const CrfCommonMaster = () => {
                         ed_name: data[0]?.ed_status_name || 'ED',
                         managing_director_name: data[0]?.managing_director_name || 'Managing Director',
                     });
+
+                    setCrfDeptbio(data[0]?.item_dp_Bio)
+                    setCrfDeptbiotype(data[0]?.itemType_dp_Bio)
+                    setCrfDeptMain(data[0]?.item_dp_Main)
+                    setCrfDeptMaintype(data[0]?.itemType_dp_Main)
+                    setCrfDeptIt(data[0]?.item_dp_IT)
+                    setCrfDeptItType(data[0]?.itemType_dp_IT)
+                    setCrfDeptHouse(data[0]?.item_dp_Hou)
+                    setCrfDeptHouseitm(data[0]?.itemType_dp_Hou)
+                    setCrfDeptope(data[0]?.item_dp_Ope)
+                    setCrfDeptopeitm(data[0]?.itemType_dp_Ope)
                 } else {
                     setEditRowData([]);
                 }
@@ -131,7 +154,17 @@ const CrfCommonMaster = () => {
             gmo_name: gmo_name,
             md_name: md_name,
             ed_name: ed_name,
-            managing_director_name: managing_director_name
+            managing_director_name: managing_director_name,
+            deptbio: deptbio,
+            deptbiotype: deptbiotype,
+            deptMain: deptMain,
+            deptMaintype: deptMaintype,
+            deptIt: deptIt,
+            deptItType: deptItType,
+            deptHouse: deptHouse,
+            deptHouseitm: deptHouseitm,
+            deptOpe: deptOpe,
+            deptOpeitm: deptOpeitm,
 
         }
         if (UpdateFlag === 1) {
@@ -160,7 +193,8 @@ const CrfCommonMaster = () => {
             }
         }
     }, [companyslno, UpdateFlag, Hod_approval, Incharge_approval, DMS_approval, MS_approval, MO_approval, SMO_approval, GMO_approval,
-        MD_approval, ED_approval, Managing_Director_approval, hod_name, incharge_name, dms_name, ms_name, mo_name, smo_name, gmo_name, md_name, ed_name, managing_director_name
+        MD_approval, ED_approval, Managing_Director_approval, hod_name, incharge_name, dms_name, ms_name, mo_name, smo_name, gmo_name,
+        md_name, ed_name, managing_director_name, deptbio, deptbiotype, deptMain, deptMaintype, deptIt, deptItType, deptHouse, deptHouseitm, deptOpe, deptOpeitm,
     ])
     if (isCompLoading) return <p>Loading...</p>;
     if (compError) return <p>Error Occurred.</p>;
@@ -172,7 +206,7 @@ const CrfCommonMaster = () => {
                 close={backtoSetting}
                 refresh={refreshWindow}
             >
-                <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
+                <Box sx={{ width: '100%', display: 'flex', overflow: 'auto', height: window.innerHeight - 170, }}>
                     <Box sx={{ width: '50%', p: 1 }}>
                         <Box sx={{
                             mt: 0.2, overflow: 'auto',
@@ -202,9 +236,16 @@ const CrfCommonMaster = () => {
                         </Box>
                         {/* default name component */}
                         <CommonName crfName={crfName} setCrfName={setCrfName} />
+                        <CommonCmpltType deptbio={deptbio} setCrfDeptbio={setCrfDeptbio} deptbiotype={deptbiotype} setCrfDeptbiotype={setCrfDeptbiotype}
+                            deptMain={deptMain} setCrfDeptMain={setCrfDeptMain} deptMaintype={deptMaintype} setCrfDeptMaintype={setCrfDeptMaintype} deptIt={deptIt} setCrfDeptIt={setCrfDeptIt}
+                            deptItType={deptItType} setCrfDeptItType={setCrfDeptItType} deptHouse={deptHouse} setCrfDeptHouse={setCrfDeptHouse} deptHouseitm={deptHouseitm}
+                            setCrfDeptHouseitm={setCrfDeptHouseitm} deptOpe={deptOpe} setCrfDeptope={setCrfDeptope} deptOpeitm={deptOpeitm} setCrfDeptopeitm={setCrfDeptopeitm} />
+
+
                     </Box>
                     <Box sx={{ width: '50%', p: 1 }}>
                         <CommonNameStatus crfName={crfName} setCrfName={setCrfName} editRowData={editRowData} />
+
                     </Box>
                 </Box>
             </CardMaster>

@@ -54,7 +54,7 @@ const AppSidebar = () => {
   const [incidentTransact, setIncidentTransact] = useState()
   const [feedbackTransact, setFeedbackTransact] = useState()
   const [NotificationTransact, setNotificationTransact] = useState()
- 
+
 
   const [count, setCount] = useState(0)
   const [menu, setMenu] = useState([])
@@ -282,7 +282,7 @@ const AppSidebar = () => {
 
         const NotificationTransact = NotificationTransaction.filter(val => menuSlnoAry.includes(val.men_slno));
         setNotificationTransact(NotificationTransact)
-        
+
 
         setCount(1)
       }

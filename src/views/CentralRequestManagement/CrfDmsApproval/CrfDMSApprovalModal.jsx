@@ -23,13 +23,15 @@ import CommonHodApprvCmp from '../ComonComponent/ApprovalComp/CommonHodApprvCmp'
 import ModalButtomCmp from '../ComonComponent/Components/ModalButtomCmp'
 import CampaignTwoToneIcon from '@mui/icons-material/CampaignTwoTone';
 import DataCollectDepSecSelectTmc from '../ComonComponent/DataCollectionComp/DataCollectDepSecSelectTmc'
+import { getComplaintSlno } from 'src/views/Constant/Constant';
 
 const CrfDMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApproveTableData, approveTableData,
     datacolflag, datacolData, imagearray, company }) => {
 
-    const { req_slno, incharge_req, incharge_remarks, hod_req, hod_approve, dms_approve,
-        dms_remarks, dms_detail_analysis, dms_image, company_slno
+    const { req_slno, incharge_req, incharge_remarks, hod_req, hod_approve, dms_approve, expected_date, needed,
+        dms_remarks, dms_detail_analysis, dms_image, company_slno, req_deptsec, request_deptsec_slno, actual_requirement,
     } = ApprovalData
+
 
     const queryClient = useQueryClient()
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
@@ -38,6 +40,22 @@ const CrfDMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
     const [addMoreItems, setMoreItem] = useState(0)
     const [selectFile, setSelectFile] = useState([])
     const [uploadedImages, setUploadedImages] = useState([])
+    const [crfdeptInternal, setCrfDeptinternal] = useState(0)
+    const [complaint, setcomplaint] = useState(true)
+    const [task, settask] = useState(true)
+    const [crfHod, setCrfHod] = useState([])
+    const [complaint_slno, setComplaint] = useState(0)
+    const [count, setCount] = useState(0)
+
+    const { department_slno } = crfdeptInternal
+
+
+    useEffect(() => {
+        getComplaintSlno().then((val) => {
+            setComplaint(val);
+            setCount(0)
+        })
+    }, [count])
 
     const [apprvlDetails, setApprvlDetails] = useState({
         approve: dms_approve === 1 ? true : false,
@@ -130,6 +148,61 @@ const CrfDMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
         }
     }, [approve, reject, pending, id, remark, detailAnalis, req_slno, approveTableData, internallyArr])
 
+    const postdata = {
+
+        complaint_slno: complaint_slno,
+        // complaint_desc: " testing :  CRF NO : " + req_slno,
+        complaint_desc: "The complaint was raised by DMS with the remark \"" + remark + "\" under CRF No: " + req_slno + " regarding the items , which has to be internally arranged.",
+        complaint_dept_secslno: request_deptsec_slno,
+        complaint_request_slno: 1,
+        complaint_deptslno: crfdeptInternal?.complaint_dept_slno,
+        complaint_typeslno: crfdeptInternal?.complaint_dept_slno === 1 ? company?.itemType_dp_Bio : crfdeptInternal?.complaint_dept_slno === 2 ? company?.itemType_dp_Main : crfdeptInternal?.complaint_dept_slno === 3 ? company?.itemType_dp_IT :
+            crfdeptInternal?.complaint_dept_slno === 4 ? company?.itemType_dp_Hou : crfdeptInternal?.complaint_dept_slno === 5 ? company?.itemType_dp_Ope : 0,
+        priority_check: 0,
+        complaint_hicslno: 0,
+        compalint_status: 0,
+        cm_location: request_deptsec_slno,
+        create_user: id,
+        priority_reason: null,
+        locationName: req_deptsec,
+        priority: "Normal Ticket",
+        rm_room_slno: null,
+        cm_asset_status: 0,
+        cm_complaint_location: req_deptsec
+    }
+
+    const insertMastTask = {
+        tm_task_name: actual_requirement + " :  CRF NO : " + req_slno,
+        tm_task_dept: department_slno,
+        tm_task_dept_sec: department_slno,
+        tm_task_due_date: expected_date === '' ? null : expected_date,
+        // tm_task_description: needed + ":  Description :" + item_desc + ": Brand :" + item_brand,
+        tm_task_description: "The task is to arrange for \"" + needed + "\"concerning the items metioned in CRF No :" + req_slno + " By DMS",
+        tm_project_slno: null,
+        tm_pending_remark: null,
+        tm_onhold_remarks: null,
+        tm_completed_remarks: null,
+        tm_task_status: 0,
+        tm_complete_date: null,
+        create_user: id,
+        main_task_slno: null,
+    }
+    useEffect(() => {
+        if (department_slno !== 0 || department_slno !== null) {
+            const getHod = async (department_slno) => {
+                const result = await axioslogin.get(`/CRFRegisterApproval/crfGetHod/${department_slno}`)
+                const { success, data } = result.data
+                if (success === 1) {
+                    setCrfHod([data[0]?.emp_id])
+                } else {
+                    setCrfHod(0)
+                }
+            }
+            getHod(department_slno)
+        } else {
+            setCrfHod(0)
+        }
+    }, [department_slno])
     const submit = useCallback(() => {
         if (editEnable === 1) {
             infoNotify("Ensure all other details are entered/completed before submitting");
@@ -139,6 +212,19 @@ const CrfDMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
                 const result = await axioslogin.patch('/CRFRegisterApproval/Dms', DMSPatchData);
                 return result.data;
             };
+            //for task and complaint managment
+            const InsertMastTask = async (insertMastTask) => {
+                const result = await axioslogin.post('/taskManagement/insertTask', insertMastTask)
+                return result.data
+            }
+            const InsertDetailTask = async (insertTaskDetail) => {
+                const result = await axioslogin.post('/taskManagement/insertDetail', insertTaskDetail)
+                return result.data
+            }
+            const InsertComplaint = async (postdata) => {
+                const result = await axioslogin.post('/complaintreg', postdata)
+                return result.data
+            }
             const DataCollRequestFnctn = async (postData) => {
                 try {
                     const result = await axioslogin.post(`/CRFRegisterApproval/dataCollect/Insert`, postData);
@@ -169,7 +255,6 @@ const CrfDMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
                     warningNotify('An error occurred during data collection insertion.');
                 }
             };
-
             const FileInsert = async (req_slno, selectFile) => {
                 try {
                     const formData = new FormData();
@@ -236,7 +321,6 @@ const CrfDMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
                 warningNotify("Select any status");
                 return;
             }
-
             if ((approve && detailAnalis && remark) || ((reject || pending || internallyArr) && remark)) {
                 updateDMSApproval(DMSPatchData).then((val) => {
                     const { success, message } = val;
@@ -245,12 +329,53 @@ const CrfDMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
                         return;
                     }
                     const onSuccess = (fileUploadMessage) => {
+                        InsertComplaint(postdata).then((value) => {
+                            const { message, success } = value
+                            if (success === 1) {
+                                succesNotify("Complaint Registered Successfully")
+
+                                // task and complaint
+                                InsertMastTask(insertMastTask).then((value) => {
+                                    const { message, success, insertId } = value
+                                    if (success === 1) {
+                                        // setInsertId(insertId)
+                                        //check employee assigned
+                                        if (crfHod.length !== 0) {
+                                            const insertTaskDetail = crfHod && crfHod?.map((val) => {
+                                                return {
+                                                    tm_task_slno: insertId,
+                                                    tm_assigne_emp: val,
+                                                    tm_detail_status: 1,
+                                                    tm_detl_create: id
+                                                }
+                                            })
+                                            InsertDetailTask(insertTaskDetail).then((value) => {
+                                                const { message, success } = value
+                                                if (success === 1) {
+                                                    succesNotify("Task Created Successfully")
+                                                    // setTableCount(tableCount + 1)
+                                                    // handleClose()
+                                                }
+                                                else {
+                                                    warningNotify(message)
+                                                }
+                                            })
+                                        }
+                                    }
+                                    else {
+                                        warningNotify(message)
+                                    }
+                                })
+                            }
+                            else {
+                                warningNotify(message)
+                            }
+                        })
                         const notifyMessage = approve ? "Approved Successfully" : "Status Updated";
                         succesNotify(`${notifyMessage}${fileUploadMessage ? ` and ${fileUploadMessage}` : ""}`);
                         reset();
                         queryClient.invalidateQueries('getPendingAll');
                     };
-
                     if (selectFile.length > 0) {
                         FileInsert(req_slno, selectFile).then((fileResponse) => {
                             const { success: fileSuccess, message: fileMessage } = fileResponse || {};
@@ -270,7 +395,7 @@ const CrfDMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
         }
     }, [
         approve, reject, pending, internallyArr, remark, detailAnalis, DMSPatchData, reset, datacollFlag, editEnable,
-        queryClient, datacolectremark, crfdept, id, req_slno, selectFile, handleImageUpload, datacollFlagKMC
+        queryClient, datacolectremark, crfdept, id, req_slno, selectFile, handleImageUpload, datacollFlagKMC, postdata
     ]);
     const closeModal = useCallback(() => {
         reset()
@@ -305,6 +430,7 @@ const CrfDMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
             isMounted.current = false;
         };
     }, [req_slno])
+
     return (
         <Fragment>
             <CssVarsProvider>
@@ -517,7 +643,7 @@ const CrfDMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
                                         {approveTableData.length !== 0 ?
                                             <ItemsApprovalCompnt req_slno={req_slno} setMoreItem={setMoreItem}
                                                 editEnable={editEnable} setEditEnable={setEditEnable}
-                                                setApproveTableData={setApproveTableData} header='DMS' apprvLevel={3} />
+                                                setApproveTableData={setApproveTableData} header='DMS' apprvLevel={3} ApprovalData={ApprovalData} />
                                             : null
                                         }
                                         <Box sx={{ pl: 0.5 }}>
@@ -538,6 +664,12 @@ const CrfDMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
                                             selectFile={selectFile}
                                             setSelectFile={setSelectFile}
                                             uploadedImages={uploadedImages}
+                                            crfdeptInternal={crfdeptInternal}
+                                            setCrfDeptinternal={setCrfDeptinternal}
+                                            complaint={complaint}
+                                            setcomplaint={setcomplaint}
+                                            task={task}
+                                            settask={settask}
                                         />
                                     </Box> : null
                                 }

@@ -356,7 +356,7 @@ const DataCollectionActionModal = ({ open, handleClose, reqItems, approveTableDa
                             <Box sx={{ mt: 0.5, pb: 1, flexWrap: 'wrap' }} >
                                 {approveTableData.length !== 0 ?
                                     <ItemsApprovalCompnt req_slno={req_slno} setMoreItem={setMoreItem} editEnable={editEnable}
-                                        setEditEnable={setEditEnable} setApproveTableData={setApproveTableData} depkmc={depkmc}
+                                        setEditEnable={setEditEnable} setApproveTableData={setApproveTableData} depkmc={depkmc} ApprovalData={dcData}
                                         approveTableData={approveTableData} crf_data_collect_status={crf_data_collect_slno} selectedCompany={selectedCompany} />
                                     :
                                     null

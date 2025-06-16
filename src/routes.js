@@ -280,8 +280,8 @@ const routes = [
   { path: '/Home/Floor', exact: true, name: 'Floor', component: Floor },
   { path: '/Home/RoomType', exact: true, name: 'RoomType', component: RoomType },
   { path: '/Home/RoomCategory', exact: true, name: 'RoomCategory', component: RoomCategory },
-  { path: '/Home/NotificationMainMeNu', exact: true, name: 'NotificationMainMeNu', component : NotificationMainMeNu },
-  { path: '/Home/NursingStation', exact: true, name: 'NursingStation', component : NursingStation }, 
+  { path: '/Home/NotificationMainMeNu', exact: true, name: 'NotificationMainMeNu', component: NotificationMainMeNu },
+  { path: '/Home/NursingStation', exact: true, name: 'NursingStation', component: NursingStation },
   { path: '/Home/Diet', exact: true, name: 'DietCategory', component: DietCategory },
   { path: '/Home/DietIssue', exact: true, name: 'DietIssue', component: DietIssue },
   { path: '/Home/DietType', exact: true, name: 'DietType', component: DietType },
@@ -493,9 +493,9 @@ const routes = [
   // { Path: '/Home/Datacollection', exact: true, name: 'Data Collection Master', component: Datacollection },
   { path: '/Home/DataCollectionMaster', exact: true, name: 'DataCollectionMaster', component: DataCollectionMaster },
   { path: '/Home/SimOperator', exact: true, name: 'SimOperator', component: SimOperator },
-  { Path: '/Home/DepartmentMapping', exact: true, name: 'DashBoardMaster', component: DepartmentMapping },
-
-  { Path: '/Home/DashBoardMaster', exact: true, name: 'DashBoardMaster', component: CrfDashboardMaster },
+  { path: '/Home/DepartmentMapping', exact: true, name: 'DashBoardMaster', component: DepartmentMapping },
+  { path: '/Home/DashBoardMaster', exact: true, name: 'DashBoardMaster', component: CrfDashboardMaster },
+  { path: '/Home/DashBoardMaster', exact: true, name: 'DashBoardMaster', component: CrfDashboardMaster },
 
 
 ]

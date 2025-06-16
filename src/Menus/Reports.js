@@ -20,6 +20,8 @@ const Reports = () => {
     const [crm_report_one, setcrm_report_one] = useState();
     const [crm_report_two, setcrm_report_two] = useState();
     const [crm_report_three, setcrm_report_three] = useState();
+    const [dc_report_one, setdc_report_one] = useState();
+
     const [count, setCount] = useState(0)
     useEffect(() => {
         getMenuSlno().then((val) => {
@@ -56,6 +58,8 @@ const Reports = () => {
             setcrm_report_two(crm_report_two)
             const crm_report_three = crm_three.filter(val => menuSlnoArray.includes(val.slno));
             setcrm_report_three(crm_report_three)
+
+
             setCount(1)
         })
     }, [count])
@@ -212,6 +216,8 @@ const Reports = () => {
                     </div>
                 </div>
             </CardContent>
+
+
         </Card>
     )
 }

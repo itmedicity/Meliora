@@ -14,14 +14,22 @@ import CustomIconButtonCmp from '../Components/CustomIconButtonCmp';
 import _ from 'underscore';
 import { format } from 'date-fns';
 import CustomToolTipForCRF from '../Components/CustomToolTipForCRF';
+import CusCheckBox from 'src/views/Components/CusCheckBox';
+import CrfComplaintdepKmc from 'src/views/CommonSelectCode/CrfComplaintdepKmc';
+import { getComplaintSlnokmc } from 'src/views/Constant/Constant';
+import { getDefaultCompanyKMC } from 'src/api/CommonApiCRF';
 
 const KMCItemApprovalComponent = ({ req_slno, setMoreItem, setApproveTableData, editEnable,
-    setEditEnable, header, apprvLevel }) => {
+    setEditEnable, header, apprvLevel, ApprovalData }) => {
+
+    const { req_deptsec, request_deptsec_slno, actual_requirement, expected_date, needed } = ApprovalData
+
     const queryClient = useQueryClient()
     const dispatch = useDispatch();
     const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
     const [uom, setUOM] = useState(0)
     const [lastSlno, setLastSlno] = useState(0)
+
     const [apprvdItems, setApprvdItems] = useState([])
     const [itemstate, setItemState] = useState({
         reqDetailslno: 0,
@@ -43,8 +51,24 @@ const KMCItemApprovalComponent = ({ req_slno, setMoreItem, setApproveTableData, 
     }, [itemstate])
 
     const [rejHoldRemarkFlag, setRejHoldRemarkFlag] = useState(0)
+    const [crfdept, setCrfDept] = useState(0)
+    const [complaint, setcomplaint] = useState(true)
+    const [task, settask] = useState(true)
+    const [crfHod, setCrfHod] = useState([])
     const [rejHoldRemark, setRejHoldRemark] = useState('')
     const [checkStatus, setCheckStatus] = useState([])
+    const [count, setCount] = useState(0)
+    const [insertId, setInsertId] = useState(0)
+    const { department_slno } = crfdept
+    const [complaint_slno, setComplaint] = useState(0)
+
+
+    useEffect(() => {
+        getComplaintSlnokmc().then((val) => {
+            setComplaint(val);
+            setCount(0)
+        })
+    }, [count])
     const updateRemark = useCallback((e) => {
         setRejHoldRemark(e.target.value)
     }, [])
@@ -53,6 +77,26 @@ const KMCItemApprovalComponent = ({ req_slno, setMoreItem, setApproveTableData, 
         dispatch(getUOM())
     }, [dispatch])
 
+    useEffect(() => {
+        if (department_slno !== 0 || department_slno !== null) {
+            const getHod = async (department_slno) => {
+                const result = await axioskmc.get(`/CRFRegisterApproval/crfGetHod/${department_slno}`)
+                const { success, data } = result.data
+                if (success === 1) {
+                    setCrfHod([data[0]?.emp_id])
+                } else {
+                    setCrfHod(0)
+
+                }
+            }
+            getHod(department_slno)
+        } else {
+            setCrfHod(0)
+
+        }
+
+
+    }, [department_slno])
     const OnchangeQty = useCallback((e) => {
         setItemState(prev => ({
             ...prev,
@@ -393,6 +437,10 @@ const KMCItemApprovalComponent = ({ req_slno, setMoreItem, setApproveTableData, 
     const onHoldfctn = useCallback(() => {
         setRejHoldRemarkFlag(2)
     }, [])
+    const internallyFctn = useCallback(() => {
+        setRejHoldRemarkFlag(3)
+    }, [])
+
     const cancelEdit = useCallback(() => {
         reset()
     }, [reset])
@@ -438,6 +486,146 @@ const KMCItemApprovalComponent = ({ req_slno, setMoreItem, setApproveTableData, 
         reset, approx_cost, rejHoldRemark, id, header, queryClient, apprvLevel, req_slno])
 
 
+    const { data: companyData, isLoading: isCompLoading, error: compError } = useQuery({
+        queryKey: 'getdefaultCompanyKMC',
+        queryFn: () => getDefaultCompanyKMC(),
+        staleTime: Infinity
+    });
+    const company = useMemo(() => companyData, [companyData]);
+
+    //for internaly arranged
+    const internallyArrangedUpdate = useCallback(() => {
+        if (rejHoldRemark === '') {
+            infoNotify("Enter Remarks")
+        } else {
+            const internaldata = {
+                approve_item_desc: item_desc,
+                approve_item_brand: item_brand,
+                approve_item_unit: uom,
+                item_qnty_approved: item_qty,
+                approve_item_specification: item_spec,
+                approve_item_unit_price: unitprice,
+                approve_aprox_cost: approx_cost,
+                approve_item_status: 1,
+                item_status_approved: 4,// internally Arranged
+                internal_remarks: header + " ;  Remarks : " + rejHoldRemark,
+                internal_user: 804,
+                internal_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+                req_detl_slno: reqDetailslno,
+                apprvLevel: apprvLevel,
+                req_slno: req_slno,
+                crfdept: crfdept?.department_slno,
+            }
+            //insert data
+            const postdata = {
+
+                complaint_slno: complaint_slno,
+                complaint_desc: header + " :  Remarks : " + rejHoldRemark + " :  CRF NO : " + req_slno + ":   Description :" + item_desc + ": Brand :" + item_brand,
+                complaint_desc: "The complaint was raised by " + header + " with the remark \"" + rejHoldRemark + "\" under CRF No: " + req_slno + " regarding the item described as " + item_desc + ", which has to be internally arranged.",
+                complaint_dept_secslno: request_deptsec_slno,
+                complaint_request_slno: 1,
+                complaint_deptslno: crfdept?.complaint_dept_slno,
+                complaint_typeslno: crfdept?.complaint_dept_slno === 1 ? company?.itemType_dp_Bio : crfdept?.complaint_dept_slno === 2 ? company?.itemType_dp_Main : crfdept?.complaint_dept_slno === 3 ? company?.itemType_dp_IT :
+                    crfdept?.complaint_dept_slno === 4 ? company?.itemType_dp_Hou : crfdept?.complaint_dept_slno === 5 ? company?.itemType_dp_Ope : 0,
+                priority_check: 0,
+                complaint_hicslno: 0,
+                compalint_status: 0,
+                cm_location: request_deptsec_slno,
+                create_user: 804,
+                priority_reason: null,
+                locationName: req_deptsec,
+                priority: "Normal Ticket",
+                rm_room_slno: null,
+                cm_asset_status: 0,
+                cm_complaint_location: req_deptsec
+            }
+            const insertMastTask = {
+                tm_task_name: actual_requirement + " :  CRF NO : " + req_slno,
+                tm_task_dept: department_slno,
+                tm_task_dept_sec: department_slno,
+                tm_task_due_date: expected_date === '' ? null : expected_date,
+                // tm_task_description: needed + ":  Description :" + item_desc + ": Brand :" + item_brand,
+                tm_task_description: "The task is to arrange for \"" + needed + "\"concerning the item described as \"" + item_desc + "\"with the brand \"" + item_brand + "\" By " + header,
+                tm_project_slno: null,
+                tm_pending_remark: null,
+                tm_onhold_remarks: null,
+                tm_completed_remarks: null,
+                tm_task_status: 0,
+                tm_complete_date: null,
+                create_user: 804,
+                main_task_slno: null,
+            }
+
+
+            const updateDetalReqApprov = async (internaldata) => {
+                const result = await axioskmc.patch('/CRFRegisterApproval/internallyArranged', internaldata);
+                const { success, message: msginternal } = result.data;
+                if (success === 1) {
+                    succesNotify(msginternal)
+                    queryClient.invalidateQueries('approvedRejholdItemKMC')
+                    queryClient.invalidateQueries('getmaxSlnoKMC')
+                    queryClient.invalidateQueries('itemStatusKMC')
+                    reset()
+                    const result = await axioskmc.post('/complaintreg', postdata);
+                    const { success: comsuccess, message: msgcomp } = result.data;
+
+                    if (comsuccess === 1) {
+                        succesNotify(msgcomp)
+                        setCount(1)
+                        const InsertMastTask = async (insertMastTask) => {
+                            const result = await axioskmc.post('/taskManagement/insertTask', insertMastTask)
+                            return result.data
+                        }
+                        const InsertDetailTask = async (insertTaskDetail) => {
+                            const result = await axioskmc.post('/taskManagement/insertDetail', insertTaskDetail)
+                            return result.data
+                        }
+                        InsertMastTask(insertMastTask).then((value) => {
+                            const { message, success, insertId } = value
+                            if (success === 1) {
+                                setInsertId(insertId)
+                                //check employee assigned
+                                if (crfHod.length !== 0) {
+                                    const insertTaskDetail = crfHod && crfHod?.map((val) => {
+                                        return {
+                                            tm_task_slno: insertId,
+                                            tm_assigne_emp: val,
+                                            tm_detail_status: 1,
+                                            tm_detl_create: 804
+                                        }
+                                    })
+                                    InsertDetailTask(insertTaskDetail).then((value) => {
+                                        const { message, success } = value
+                                        if (success === 1) {
+                                            succesNotify("Task Created Successfully")
+                                            // setTableCount(tableCount + 1)
+                                            // handleClose()
+
+                                        }
+                                        else {
+                                            warningNotify(message)
+                                        }
+                                    })
+                                }
+
+                            }
+                            else {
+                                warningNotify(message)
+                            }
+                        })
+                    }
+
+                }
+                else {
+                    warningNotify(msginternal)
+                }
+            }
+            updateDetalReqApprov(internaldata)
+
+        }
+    }, [reqDetailslno, item_desc, item_brand, uom, item_qty, item_spec, unitprice, crfdept, crfHod,
+        reset, approx_cost, rejHoldRemark, id, header, queryClient, apprvLevel, req_slno])
+
     if (isItemsLoading || isSlnoLoading || isStatusLoading) return <p>Loading...</p>;
     if (itemsError || slnoError || statusError) return <p>Error occurred.</p>;
     return (
@@ -470,7 +658,9 @@ const KMCItemApprovalComponent = ({ req_slno, setMoreItem, setApproveTableData, 
                                     {apprvdItems?.map((item, ind) => {
                                         const rowColor = item.po_item_status === 1 ? '#1565c0' : item.item_status_approved === 1 ? '#59981A' :
                                             item.item_status_approved === 2 ? '#D13120' :
-                                                item.item_status_approved === 3 ? '#DBA40E' : null;
+                                                item.item_status_approved === 3 ? '#DBA40E' :
+                                                    item.item_status_approved === 4 ? '#009688'
+                                                        : null;
 
 
                                         return (
@@ -480,10 +670,12 @@ const KMCItemApprovalComponent = ({ req_slno, setMoreItem, setApproveTableData, 
                                                     ? `Rejected by ${item.reject_remarks}`
                                                     : item.item_status_approved === 3
                                                         ? `On-Hold by ${item.hold_remarks}`
-                                                        : "")} >
+                                                        : item.item_status_approved === 4
+                                                            ? `Internally Arranged By ${item.internal_remarks}`
+                                                            : "")} >
                                                 <tr style={{ cursor: 'pointer' }}>
                                                     <td>
-                                                        {item.po_item_status === 1 || item.higher === 1 ? (
+                                                        {item.po_item_status === 1 || item.higher === 1 || item.item_status_approved === 4 ? (
                                                             <CustomToolTipForCRF title={item.po_item_status === 1 ? "PO generated" : 'Cant Edit'} placement="right" sx={{ bgcolor: 'white', color: '#003060' }}>
                                                                 <EditOutlinedIcon
                                                                     disabled
@@ -529,7 +721,9 @@ const KMCItemApprovalComponent = ({ req_slno, setMoreItem, setApproveTableData, 
                                                     <td style={{ textAlign: 'center', color: rowColor }}>{item.po_item_status === 1 ? "PO Generated" : (item.item_status_approved === 1
                                                         ? "Approved" : item.item_status_approved === 2
                                                             ? "Rejected " : item.item_status_approved === 3
-                                                                ? "On-Hold " : null)}</td>
+                                                                ? "On-Hold "
+                                                                : item.item_status_approved === 4 ? "Internally Arranged"
+                                                                    : null)}</td>
                                                 </tr>
                                             </CustomToolTipForCRF>
                                         );
@@ -671,6 +865,20 @@ const KMCItemApprovalComponent = ({ req_slno, setMoreItem, setApproveTableData, 
                                         On-Hold
                                     </IconButton>
                                 </Box>
+                                <Box sx={{ flex: 0.55, mr: 1 }}>
+                                    <IconButton
+                                        sx={{
+                                            fontSize: 12, height: '35px', lineHeight: '1.2', mt: 3,
+                                            color: 'white', bgcolor: '#009688', borderRadius: 5, width: '100%',
+                                            '&:hover': {
+                                                bgcolor: '#009688', color: 'white',
+                                            },
+                                        }}
+                                        onClick={internallyFctn}
+                                    >
+                                        Internally Arranged
+                                    </IconButton>
+                                </Box>
                                 <Box sx={{ flex: 0.5, mr: 2 }}>
                                     <IconButton
                                         sx={{
@@ -735,7 +943,67 @@ const KMCItemApprovalComponent = ({ req_slno, setMoreItem, setApproveTableData, 
                                     </CustomIconButtonCmp>
                                 </Box>
                             </Box>
-                            : null
+                            : rejHoldRemarkFlag === 3 ?
+                                <Box sx={{}}>
+                                    <Box sx={{ flex: 1, m: 0.5, pl: 0.5 }}>
+                                        <Textarea
+                                            required
+                                            placeholder="Internally Arranged Remarks"
+                                            value={rejHoldRemark}
+                                            autoComplete='off'
+                                            name='remarks'
+                                            minRows={1}
+                                            maxRows={3}
+                                            onChange={updateRemark}
+                                            sx={{ fontSize: 14, borderRadius: 7 }}
+                                        />
+                                    </Box>
+                                    {/* for internally arrange department select */}
+                                    <Box sx={{ display: 'flex' }}>
+                                        <Box sx={{ px: 1, pt: 0.2, flex: 1, }}>
+                                            <CrfComplaintdepKmc value={crfdept} setValue={setCrfDept} />
+                                        </Box>
+                                        <Box sx={{ mx: 1, mt: 1 }}>
+                                            <CusCheckBox
+                                                className={{ color: '#145DA0', fontSize: 14, fontWeight: 'bold' }}
+                                                variant="outlined"
+                                                color="primary"
+                                                size="md"
+                                                name="complaint"
+                                                label="create complaint"
+                                                value={complaint}
+                                                onCheked={setcomplaint}
+                                                checked={complaint}
+                                                disabled={complaint === true}
+
+                                            />
+                                        </Box>
+                                        <Box sx={{ mx: 1, mt: 1 }}>
+                                            <CusCheckBox
+                                                className={{ color: '#145DA0', fontSize: 14, fontWeight: 'bold' }}
+                                                variant="outlined"
+                                                color="primary"
+                                                size="md"
+                                                name="task"
+                                                label="create task"
+                                                value={task}
+                                                onCheked={settask}
+                                                checked={task}
+                                                disabled={task === true}
+
+                                            />
+                                        </Box>
+                                        <Box sx={{ flex: 0.2, m: 0.4, }}>
+                                            <   CustomIconButtonCmp
+                                                handleChange={internallyArrangedUpdate}
+                                            >
+                                                Update
+                                            </CustomIconButtonCmp>
+                                        </Box>
+                                    </Box>
+
+                                </Box>
+                                : null
                 }
 
             </Box >
