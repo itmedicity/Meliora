@@ -7,16 +7,13 @@ import React, {
 } from 'react'
 import { useQuery, useQueryClient } from 'react-query';
 import { getAssetUnderCondmnation, getSpareUnderCondmnation } from 'src/api/AssetApis';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { errorNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode';
 import * as XLSX from 'xlsx';
 import { useDispatch } from 'react-redux';
 import { ActionTyps } from 'src/redux/constants/action.type'
 import { axioslogin } from 'src/views/Axios/Axios';
 
-
 const PendingCondemnationList = ({ empdept }) => {
-
 
     const dispatch = useDispatch();
     const [exports, setexport] = useState(0)
@@ -94,15 +91,20 @@ const PendingCondemnationList = ({ empdept }) => {
                     : `${val.item_asset_no}/${(val.item_asset_no_only ?? 0).toString().padStart(6, '0')}`,
                 Category: val.category_name,
                 'Item Name': val.item_name,
-                Location: val.ticket_reg_location,
+                'Department Location': val.ticket_reg_location,
+                'Location': val.rm_room_name
+                    ? `${val.rm_room_name}${(val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name)
+                        ? ` (${val.rm_roomtype_name || ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''}${val.rm_insidebuildblock_name || ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''}${val.rm_floor_name || ''})`
+                        : ''}`
+                    : (val.cm_complaint_location || ''),
                 'Ticket Id': val.complaint_slno,
                 Reason: val.condm_transf_remarks,
                 'Transferred Employee': val.condm_trans_emp,
-                'Transferred Date': val.item_condm_date
-                    ? format(new Date(val.item_condm_date), 'dd MMM yyyy, hh:mm a')
-                    : ''
+                'Transferred Date': (() => {
+                    const date = val.item_condm_date || val.deleted_date;
+                    return date ? format(new Date(date), 'dd MMM yyyy, hh:mm a') : '';
+                })()
             }));
-
             const worksheet = XLSX.utils.json_to_sheet(exportData);
             const workbook = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(workbook, worksheet, 'Condemnation');
@@ -121,7 +123,7 @@ const PendingCondemnationList = ({ empdept }) => {
             selectedRows.includes(`${item.slno}-${item.type}`)
         );
         if (filteredData.length === 0) {
-            warningNotify("No Data To Remove, Please select the items");
+            warningNotify("No data to remove, Please select the items");
             return;
         }
         try {
@@ -138,12 +140,7 @@ const PendingCondemnationList = ({ empdept }) => {
         } catch (error) {
             errorNotify("An error occurred while updating data.");
         }
-    }, [CombinedCodm, selectedRows]);
-
-
-
-
-
+    }, [CombinedCodm, selectedRows, queryClient]);
 
     const onExportClick = () => {
         if (sortedData?.length === 0) {
@@ -169,7 +166,7 @@ const PendingCondemnationList = ({ empdept }) => {
             </Box>
             {
                 CombinedCodm?.length !== 0 ? (
-                    <Box sx={{ flex: 1, flex: 1, height: '80vh', overflow: 'auto', mx: 1 }}>
+                    <Box sx={{ flex: 1, height: '80vh', overflow: 'auto', mx: 1, mb: 2 }}>
                         <Table
                             variant="plain"
                             borderAxis="both"
@@ -189,6 +186,7 @@ const PendingCondemnationList = ({ empdept }) => {
                                     <th style={{ width: 120, textAlign: 'center' }}>Asset No.</th>
                                     <th style={{ width: 'auto', textAlign: 'center' }}>Category</th>
                                     <th style={{ width: 'auto', textAlign: 'center' }}>Item Name</th>
+                                    <th style={{ width: 'auto', textAlign: 'center' }}>Department Section</th>
                                     <th style={{ width: 'auto', textAlign: 'center' }}>Location</th>
                                     <th style={{ width: 80, textAlign: 'center' }}>Ticket Id</th>
                                     <th style={{ width: 'auto', textAlign: 'center' }}>Reason</th>
@@ -224,13 +222,22 @@ const PendingCondemnationList = ({ empdept }) => {
                                             <td style={{ textAlign: 'center' }}>{val.category_name}</td>
                                             <td style={{ textAlign: 'center' }}>{val.item_name}</td>
                                             <td style={{ textAlign: 'center' }}>{val.ticket_reg_location}</td>
+                                            <td style={{ textAlign: 'center' }}>
+                                                {val.rm_room_name}
+                                                {(val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name) ? (
+                                                    ` (${val.rm_roomtype_name || ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''}${val.rm_insidebuildblock_name || ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''}${val.rm_floor_name || ''})`
+                                                ) : (
+                                                    val.cm_complaint_location || " "
+                                                )}
+                                            </td>
                                             <td style={{ textAlign: 'center' }}>{val.complaint_slno}</td>
                                             <td style={{ textAlign: 'center' }}>{val.condm_transf_remarks}</td>
                                             <td style={{ textAlign: 'center' }}>{val.condm_trans_emp}</td>
                                             <td style={{ textAlign: 'center' }}>
-                                                {val.item_condm_date
-                                                    ? format(new Date(val.item_condm_date), 'dd MMM yyyy,  hh:mm a')
+                                                {val.item_condm_date || val.deleted_date
+                                                    ? format(new Date(val.item_condm_date || val.deleted_date), 'dd MMM yyyy, hh:mm a')
                                                     : ''}
+
                                             </td>
                                         </tr>
                                     );
