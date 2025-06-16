@@ -80,12 +80,12 @@ const AllDeptticketTile = () => {
         queryKey: ['getAllDeptRegistrdFromSixDays', PostDatee],
         queryFn: () => getallDeptRegistrdFromSixDays(PostDatee),
         enabled: !!sevenDaysbefore && !!yesterdayEndTime,
-    });
+    })
     const { data: AllDeptClosedFromSixDays } = useQuery({
         queryKey: ['getAllDeptClosedFromSixDays', PostDatee],
         queryFn: () => getallDeptClosedFromSixDays(PostDatee),
         enabled: !!sevenDaysbefore && !!yesterdayEndTime,
-    });
+    })
     const { data: AllDepttRegTodayAssignToday } = useQuery({
         queryKey: ['getAllDepttRegTodayAssignToday'],
         queryFn: () => getallDepttRegTodayAssignToday(),
@@ -95,32 +95,33 @@ const AllDeptticketTile = () => {
         queryFn: () => getallDeptPevAssingTodayRect(),
     })
 
-    const AllDeptPendingCount = useMemo(() => (AllDeptPending?.length ?? 0), [AllDeptPending]);
-    const AllDeptTodaysTicketsCount = useMemo(() => (AllDeptTodaysTickets?.length ?? 0), [AllDeptTodaysTickets]);
-    const AllDeptOpenTicketCount = useMemo(() => (AllDeptOpenTicketsCount?.length ?? 0), [AllDeptOpenTicketsCount]);
-    const AllDeptClosedTodayTicketCount = useMemo(() => (AllDeptClosedTodayTicket?.length ?? 0), [AllDeptClosedTodayTicket]);
-    const AllDeptRegTodayInPendCount = useMemo(() => (AllDeptRegTodayInPend?.length ?? 0), [AllDeptRegTodayInPend]);
-    const AllDeptPevRegTodayAssingCount = useMemo(() => (AllDeptPevRegTodayAssing?.length ?? 0), [AllDeptPevRegTodayAssing]);
-    const AllDeptRegistrdFromSixDaysCount = useMemo(() => (AllDeptRegistrdFromSixDays?.length ?? 0), [AllDeptRegistrdFromSixDays]);
+
+
+
+    const AllDeptPendingCount = useMemo(() => AllDeptPending?.[0]?.alldept_new_ticket_count ?? 0, [AllDeptPending]);
+    const AllDeptTodaysTicketsCount = useMemo(() => AllDeptTodaysTickets?.[0]?.alldept_today_reg_ticket_count ?? 0, [AllDeptTodaysTickets]);
+    const AllDeptOpenTicketCount = useMemo(() => AllDeptOpenTicketsCount?.[0]?.alldept_open_ticket_count ?? 0, [AllDeptOpenTicketsCount]);
+    const AllDeptClosedTodayTicketCount = useMemo(() => AllDeptClosedTodayTicket?.[0]?.alldept_today_closed_ticket_count ?? 0, [AllDeptClosedTodayTicket]);
+    const AllDeptRegTodayInPendCount = useMemo(() => AllDeptRegTodayInPend?.[0]?.alldept_reg_today_inpend_ticket_count ?? 0, [AllDeptRegTodayInPend]);
+    const AllDeptPevRegTodayAssingCount = useMemo(() => AllDeptPevRegTodayAssing?.[0]?.alldept_prev_reg_today_assing_ticket_count ?? 0, [AllDeptPevRegTodayAssing]);
+    const AllDeptRegistrdFromSixDaysCount = useMemo(() => AllDeptRegistrdFromSixDays?.[0]?.alldept_reg_from_six_days_ticket_count ?? 0, [AllDeptRegistrdFromSixDays]);
+    const AllDeptClosedFromSixDaysCount = useMemo(() => AllDeptClosedFromSixDays?.[0]?.alldept_closed_from_sixdays_ticket_count ?? 0, [AllDeptClosedFromSixDays]);
+    const AllDepttRegTodayAssignTodayCount = useMemo(() => AllDepttRegTodayAssignToday?.[0]?.alldept_regtoday_assingtoday_ticket_count ?? 0, [AllDepttRegTodayAssignToday]);
+    const AllDeptPevAssingTodayRectCount = useMemo(() => AllDeptPevAssingTodayRect?.[0]?.alldept_prevassing_recttoday_ticket_count ?? 0, [AllDeptPevAssingTodayRect]);
     const AllDeptRegistrdFromSixDaysAvg = AllDeptRegistrdFromSixDaysCount > 0 ? (AllDeptRegistrdFromSixDaysCount / 6) : 0
     const AllPendingPrev = (AllDeptPendingCount - AllDeptRegTodayInPendCount) + AllDeptPevRegTodayAssingCount
-    const AllDeptClosedFromSixDaysCount = useMemo(() => (AllDeptClosedFromSixDays?.length ?? 0), [AllDeptClosedFromSixDays]);
     const AllDeptClosedFromSixDaysCountAvg = AllDeptClosedFromSixDaysCount > 0 ? (AllDeptClosedFromSixDaysCount / 6) : 0
-    const AllDepttRegTodayAssignTodayCount = useMemo(() => (AllDepttRegTodayAssignToday?.length ?? 0), [AllDepttRegTodayAssignToday]);
-    const AllDeptPevAssingTodayRectCount = useMemo(() => (AllDeptPevAssingTodayRect?.length ?? 0), [AllDeptPevAssingTodayRect]);
-    const AllPrevOpenCount = (AllDeptOpenTicketCount - AllDepttRegTodayAssignTodayCount) + AllDeptPevAssingTodayRectCount
 
-    // const AllPendingPrevCount = useMemo(() => {
-    //     const difference = AllPendingPrev - AllDeptPendingCount;
-    //     const percentage = ((Math.abs(difference) / AllPendingPrev) * 100).toFixed(0);
-    //     if (difference > 0) {
-    //         return { status: 1, percentage: `-${percentage}%` };
-    //     } else if (difference < 0) {
-    //         return { status: 2, percentage: `+${percentage}%` };
-    //     } else {
-    //         return { status: 3, percentage: "0%" };
-    //     }
-    // }, [AllPendingPrev, AllDeptPendingCount]);
+    const AllPrevOpenCount = useMemo(() => {
+        const isValid =
+            AllDeptOpenTicketCount !== undefined &&
+            AllDepttRegTodayAssignTodayCount !== undefined &&
+            AllDeptPevAssingTodayRectCount !== undefined;
+
+        return isValid
+            ? (AllDeptOpenTicketCount - AllDepttRegTodayAssignTodayCount) + AllDeptPevAssingTodayRectCount
+            : 0;
+    }, [AllDeptOpenTicketCount, AllDepttRegTodayAssignTodayCount, AllDeptPevAssingTodayRectCount]);
 
     const AllPendingPrevCount = useMemo(() => {
         const safePrev = AllPendingPrev || 0;
@@ -129,119 +130,87 @@ const AllDeptticketTile = () => {
             return { status: 3, percentage: "0%" };
         }
         const difference = safePrev - safeCurrent;
-        const base = Math.max(safePrev, safeCurrent);
-        const percentage = ((Math.abs(difference) / base) * 100).toFixed(0);
-
+        const base = Math.max(safePrev, safeCurrent, 1);
+        const rawPercentage = (Math.abs(difference) / base) * 100;
+        const percentageStr = rawPercentage % 1 === 0
+            ? `${rawPercentage.toFixed(0)}%`
+            : `${rawPercentage.toFixed(1)}%`;
         if (difference > 0) {
-            return { status: 1, percentage: `-${percentage}%` };
+            return { status: 1, percentage: `-${percentageStr}` };
         } else if (difference < 0) {
-            return { status: 2, percentage: `+${percentage}%` };
+            return { status: 2, percentage: `+${percentageStr}` };
         } else {
             return { status: 3, percentage: "0%" };
         }
     }, [AllPendingPrev, AllDeptPendingCount]);
 
 
-    // const AllDeptRegisterdCount = useMemo(() => {
-    //     const difference = AllDeptRegistrdFromSixDaysAvg - AllDeptTodaysTicketsCount;
-    //     const percentage = ((Math.abs(difference) / AllDeptRegistrdFromSixDaysAvg) * 100).toFixed(0);
-    //     if (difference > 0) {
-    //         return { status: 1, percentage: `-${percentage}%` };
-    //     } else if (difference < 0) {
-    //         return { status: 2, percentage: `+${percentage}%` };
-    //     } else {
-    //         return { status: 3, percentage: "0%" };
-    //     }
-    // }, [AllDeptRegistrdFromSixDaysAvg, AllDeptTodaysTicketsCount]);
     const AllDeptRegisterdCount = useMemo(() => {
         const safeAvg = AllDeptRegistrdFromSixDaysAvg || 0;
         const safeToday = AllDeptTodaysTicketsCount || 0;
-
         if (safeAvg === 0 && safeToday === 0) {
             return { status: 3, percentage: "0%" };
         }
-
         const difference = safeAvg - safeToday;
-        const base = Math.max(safeAvg, safeToday);
-        const percentage = ((Math.abs(difference) / base) * 100).toFixed(0);
+        const base = Math.max(safeAvg, safeToday, 1); // avoid division by 0
+        const rawPercentage = (Math.abs(difference) / base) * 100;
+        const percentageStr = rawPercentage % 1 === 0
+            ? `${rawPercentage.toFixed(0)}%`
+            : `${rawPercentage.toFixed(1)}%`;
 
         if (difference > 0) {
-            return { status: 1, percentage: `-${percentage}%` };
+            return { status: 1, percentage: `-${percentageStr}` };
         } else if (difference < 0) {
-            return { status: 2, percentage: `+${percentage}%` };
+            return { status: 2, percentage: `+${percentageStr}` };
         } else {
             return { status: 3, percentage: "0%" };
         }
     }, [AllDeptRegistrdFromSixDaysAvg, AllDeptTodaysTicketsCount]);
 
 
-    // const AllDeptClosedCount = useMemo(() => {
-    //     const difference = AllDeptClosedFromSixDaysCountAvg - AllDeptClosedTodayTicketCount;
-    //     const percentage = ((Math.abs(difference) / AllDeptClosedFromSixDaysCountAvg) * 100).toFixed(0);
-    //     if (difference > 0) {
-    //         return { status: 1, percentage: `-${percentage}%` };
-    //     } else if (difference < 0) {
-    //         return { status: 2, percentage: `+${percentage}%` };
-    //     } else {
-    //         return { status: 3, percentage: "0%" };
-    //     }
-    // }, [AllDeptClosedFromSixDaysCountAvg, AllDeptClosedTodayTicketCount]);
-
     const AllDeptClosedCount = useMemo(() => {
         const safeAvg = AllDeptClosedFromSixDaysCountAvg || 0;
         const safeToday = AllDeptClosedTodayTicketCount || 0;
-
         if (safeAvg === 0 && safeToday === 0) {
             return { status: 3, percentage: "0%" };
         }
-
         const difference = safeAvg - safeToday;
-        const base = Math.max(safeAvg, safeToday); // ensures denominator is not smaller
-        const percentage = ((Math.abs(difference) / base) * 100).toFixed(0);
+        const base = Math.max(safeAvg, safeToday, 1); // prevent division by 0
+        const rawPercentage = (Math.abs(difference) / base) * 100;
+        const percentageStr = rawPercentage % 1 === 0
+            ? `${rawPercentage.toFixed(0)}%`
+            : `${rawPercentage.toFixed(1)}%`;
 
         if (difference > 0) {
-            return { status: 1, percentage: `-${percentage}%` };
+            return { status: 1, percentage: `-${percentageStr}` };
         } else if (difference < 0) {
-            return { status: 2, percentage: `+${percentage}%` };
+            return { status: 2, percentage: `+${percentageStr}` };
         } else {
             return { status: 3, percentage: "0%" };
         }
     }, [AllDeptClosedFromSixDaysCountAvg, AllDeptClosedTodayTicketCount]);
 
 
-    // const AllDeptOpenedCount = useMemo(() => {
-    //     const difference = AllPrevOpenCount - AllDeptOpenTicketCount;
-    //     const percentage = ((Math.abs(difference) / AllPrevOpenCount) * 100).toFixed(0);
-    //     if (difference > 0) {
-    //         return { status: 1, percentage: `+${percentage}%` };
-    //     } else if (difference < 0) {
-    //         return { status: 2, percentage: `-${percentage}%` };
-    //     } else {
-    //         return { status: 3, percentage: "0%" };
-    //     }
-    // }, [AllDeptOpenTicketCount, AllPrevOpenCount]);
-
     const AllDeptOpenedCount = useMemo(() => {
         const safePrev = AllPrevOpenCount || 0;
         const safeToday = AllDeptOpenTicketCount || 0;
-
         if (safePrev === 0 && safeToday === 0) {
             return { status: 3, percentage: "0%" };
         }
-
         const difference = safePrev - safeToday;
-        const base = Math.max(safePrev, safeToday); // pick the larger one as base
-        const percentage = ((Math.abs(difference) / base) * 100).toFixed(0);
-
+        const base = Math.max(safePrev, safeToday, 1); // Prevent divide-by-zero
+        const rawPercentage = (Math.abs(difference) / base) * 100;
+        const percentageStr = rawPercentage % 1 === 0
+            ? `${rawPercentage.toFixed(0)}%`
+            : `${rawPercentage.toFixed(1)}%`;
         if (difference > 0) {
-            return { status: 1, percentage: `+${percentage}%` };
+            return { status: 1, percentage: `+${percentageStr}` };
         } else if (difference < 0) {
-            return { status: 2, percentage: `-${percentage}%` };
+            return { status: 2, percentage: `-${percentageStr}` };
         } else {
             return { status: 3, percentage: "0%" };
         }
     }, [AllDeptOpenTicketCount, AllPrevOpenCount]);
-
 
     return (
         <Box sx={{ flex: 1, display: 'flex', gap: .5, my: .5 }}>

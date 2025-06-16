@@ -240,10 +240,11 @@ const CrfView = React.lazy(() => import('./views/CentralRequestManagement/CRFvie
 const CrfStoreMaster = React.lazy(() => import('./views/Master/RequestManagement/StoreMaster/StoreMaster'))
 const CrfCommon = React.lazy(() => import('./views/Master/RequestManagement/CrfCommon/CrfCommonMaster'))
 const CrfDashboardMaster = React.lazy(() => import('./views/Master/RequestManagement/DashboardMaster/DashboardMaster'))
-// const Datacollection = React.lazy(() => import('./views/CentralRequestManagement/DataCollectionMaster/DataCollectionMaster'))
 const DataCollectionMaster = React.lazy(() => import('./views/Master/RequestManagement/DataCollectionMaster/DataCollection'))
 const DepartmentMapping = React.lazy(() => import('./views/Master/RequestManagement/DepartmentMapping/DepartmentMaping'))
-
+const AmsMaster = React.lazy(() => import('./views/Master/AmsMaster/AmsMaster'))
+const AmsPatientDetails = React.lazy(() => import('./views/Ams/AmsMain'))
+const DcReport = React.lazy(() => import('./views/Report/DailyCensus/DailyCensus'))
 
 
 
@@ -490,12 +491,14 @@ const routes = [
   { path: '/Home/TicketDashboards', exact: true, name: 'Ticket Dashboards', component: TicketDashboardz },
   { path: '/Home/AllDeptCondemList', exact: true, name: 'AllDeptCondemList', component: AllDeptCondemList },
   { path: '/Home/ItBackupTypeMast', exact: true, name: 'ItBackupTypeMast', component: ItBackupTypeMast },
-  // { Path: '/Home/Datacollection', exact: true, name: 'Data Collection Master', component: Datacollection },
-  { path: '/Home/DataCollectionMaster', exact: true, name: 'DataCollectionMaster', component: DataCollectionMaster },
   { path: '/Home/SimOperator', exact: true, name: 'SimOperator', component: SimOperator },
   { path: '/Home/DepartmentMapping', exact: true, name: 'DashBoardMaster', component: DepartmentMapping },
   { path: '/Home/DashBoardMaster', exact: true, name: 'DashBoardMaster', component: CrfDashboardMaster },
-  { path: '/Home/DashBoardMaster', exact: true, name: 'DashBoardMaster', component: CrfDashboardMaster },
+  { path: '/Home/DataCollectionMaster', exact: true, name: 'DataCollectionMaster', component: DataCollectionMaster },
+  { path: '/Home/AmsMaster', exact: true, name: 'AmsMaster', component: AmsMaster },
+  { path: '/Home/AmsPatientDetails', exact: true, name: 'Ams Patient Details', component: AmsPatientDetails },
+  { path: '/Home/DcReport', exact: true, name: 'DcReport', component: DcReport },
+
 
 
 ]

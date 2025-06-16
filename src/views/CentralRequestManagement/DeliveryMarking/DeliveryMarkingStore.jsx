@@ -20,6 +20,13 @@ import { editicon } from 'src/color/Color'
 import DeliveryMarkingView from './Components/DeliveryMarkingView';
 import CusCheckBox from 'src/views/Components/CusCheckBox';
 import { useQueryClient } from 'react-query';
+import CloudUploadTwoToneIcon from '@mui/icons-material/CloudUploadTwoTone';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
+import imageCompression from 'browser-image-compression';
+import ClearIcon from '@mui/icons-material/Clear';
+import ReqImageDisModal from '../ComonComponent/ImageUploadCmp/ReqImageDisModal';
+
 const DeliveryMarkingStore = () => {
     const history = useHistory();
     const dispatch = useDispatch()
@@ -38,6 +45,10 @@ const DeliveryMarkingStore = () => {
         editIndex: null
     })
     const { receivedDate, directMode, courierMode, packageCount, billNumber, billDate, remarks, searchFlag, editIndex } = deliveryState
+    const [selectFile, setSelectFile] = useState([])
+    const [previewFile, setPreviewFile] = useState({ url: "", type: "" });
+    const [imageshowFlag, setimageshowFlag] = useState(0)
+    const [imageshow, setimageshow] = useState(false)
 
     const [supName, setSupName] = useState('')
     const [supCode, setSupCode] = useState(0)
@@ -474,11 +485,67 @@ const DeliveryMarkingStore = () => {
         }
     }, [supCode, supName, receivedDate, packageCount, directMode, courierMode, billDetails, remarks, empName, id, combinedPO])
 
+    //file upload
+    const uploadFile = useCallback(
+        (e) => {
+            const files = Array.from(e.target.files);
+            setSelectFile((prevFiles) => {
+                const duplicateFiles = [];
+                const validFiles = files?.filter((file) => {
+                    if (
+                        file.type === "application/pdf" ||
+                        file.type === "image/png" ||
+                        file.type === "image/jpeg" ||
+                        file.type === "image/jpg"
+                    ) {
+                        if (file.size > 26214400) {
+                            warningNotify(`The file "${file.name}" exceeds the 25MB size limit`);
+                            return false;
+                        }
+                        const isDuplicate = prevFiles.some(
+                            (prevFile) => prevFile.name === file.name && prevFile.size === file.size
+                        );
+                        // const duplicates = prevFiles?.filter(
+                        //     (prevFile) => prevFile.name === file.name && prevFile.size === file.size
+                        // );
+                        // if (duplicates.length > 0) {
+                        //     duplicateFiles.push(file.name);
+                        //     return false;
+                        // }
+
+                        if (isDuplicate) {
+                            duplicateFiles.push(file.name);
+                            return false;
+                        }
+                        return true;
+                    } else {
+                        warningNotify(
+                            `The file "${file.name}" is not a supported format! Only .png, .jpeg, and .pdf are allowed.`
+                        );
+                        return false;
+                    }
+                });
+                if (duplicateFiles.length > 0) {
+                    warningNotify(
+                        `The following files are duplicates and were not added: ${duplicateFiles.join(", ")}`
+                    );
+                }
+                return [...prevFiles, ...validFiles];
+            });
+        }, [setSelectFile]);
+    const handleImageUpload = useCallback(async (imageFile) => {
+        const options = {
+            maxSizeMB: 25,
+            maxWidthOrHeight: 1920,
+            useWebWorker: true,
+        }
+        const compressedFile = await imageCompression(imageFile, options)
+        return compressedFile
+    }, []);
     const SaveDetails = useCallback(async () => {
 
         if (supCode === 0) {
             infoNotify("Select Supplier")
-
         } else if (billNumber !== '' || billDetails.length === 0) {
 
             infoNotify("Add Bill Details Before Save")
@@ -505,11 +572,55 @@ const DeliveryMarkingStore = () => {
                 //     return { success: 0, message: "Failed to save PO details" };
                 // }
             };
+
+            const FileInsert = async (selectFile, insertid) => {
+                try {
+                    const formData = new FormData();
+                    formData.append('id', insertid);
+                    for (const file of selectFile) {
+                        if (file.type.startsWith('image')) {
+                            const compressedFile = await handleImageUpload(file);
+                            formData.append('files', compressedFile, compressedFile.name);
+                        } else {
+                            formData.append('files', file, file.name);
+                        }
+                    }
+                    const result = await axioslogin.post('/newCRFRegisterImages/InsertDMimage', formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                        },
+                    });
+                    return result.data
+                } catch (error) {
+                    // console.log(error, "while file uploading");
+                    // setLoading(false)
+                    warningNotify('An error occurred during file upload.', error);
+                }
+            }
             if (combinedPO.length !== 0) {
                 insertDeliveryMarking(postData)
                     .then((val) => {
                         const { success, insert_id } = val;
                         if (success === 1) {
+                            if (selectFile.length > 0) {
+                                //file upload
+                                FileInsert(selectFile, insert_id)
+                                    .then((val) => {
+                                        const { status, message } = val;
+
+                                        if (status === 1) {
+                                            setSelectFile([])
+                                            succesNotify(message);
+
+                                        } else {
+                                            warningNotify("Error upload file:", message);
+                                        }
+                                    })
+                                    .catch((error) => {
+                                        warningNotify("Error upload file:", error);
+                                    });
+                            }
+
                             const postdataDetl = combinedPO?.map((val) => {
                                 return {
                                     delivery_mark_slno: insert_id,
@@ -540,6 +651,7 @@ const DeliveryMarkingStore = () => {
                                 .catch((error) => {
                                     warningNotify("Error in save Po Details:", error);
                                 });
+
                         } else {
                             warningNotify("Error inserting delivery marking:", val.message);
                         }
@@ -550,8 +662,24 @@ const DeliveryMarkingStore = () => {
             } else {
                 insertDeliveryMarking(postData)
                     .then((val) => {
-                        const { success } = val;
+                        const { success, insert_id } = val;
                         if (success === 1) {
+                            if (selectFile.length > 0) {
+                                //file upload
+                                FileInsert(selectFile, insert_id)
+                                    .then((val) => {
+                                        const { status, message } = val;
+                                        if (status === 1) {
+                                            succesNotify(message);
+                                            setSelectFile([])
+                                        } else {
+                                            warningNotify("Error upload file:", message);
+                                        }
+                                    })
+                                    .catch((error) => {
+                                        warningNotify("Error upload file:", error);
+                                    });
+                            }
                             succesNotify("Delivery Details Marked")
                             ResetDetails()
                             queryClient.invalidateQueries('deliverMarking');
@@ -559,16 +687,40 @@ const DeliveryMarkingStore = () => {
                     }).catch((error) => {
                         warningNotify("Error in insert Delivery Marking:", error);
                     });
+
             }
         }
-    }, [postData, id, combinedPO, ResetDetails, billNumber, supCode, empName, billDetails, queryClient])
+    }, [postData, id, combinedPO, ResetDetails, billNumber, supCode, empName, billDetails, queryClient, selectFile])
     const [viewFlag, setViewFlag] = useState(0)
     const viewDeliveryDetails = useCallback(async () => {
         setViewFlag(1)
         ResetDetails()
     }, [ResetDetails])
+    const ViewImage = useCallback((file) => {
+        const fileType = file.imageName
+            ? file.imageName.endsWith(".pdf")
+                ? "pdf"
+                : "image"
+            : file.type.includes("application/pdf")
+                ? "pdf"
+                : "image";
 
-
+        const fileUrl = file.url || URL.createObjectURL(file);
+        setPreviewFile({ url: fileUrl, type: fileType });
+        setimageshow(true)
+        setimageshowFlag(1)
+    }, [])
+    const handleRemoveFile = (index) => {
+        setSelectFile((prevFiles) => {
+            const updatedFiles = [...prevFiles];
+            updatedFiles.splice(index, 1);
+            return updatedFiles;
+        });
+    };
+    const handleClose = useCallback(() => {
+        setimageshow(false)
+        setimageshowFlag(0)
+    }, [])
     const buttonStyle = {
         px: 2,
         width: 80,
@@ -587,6 +739,8 @@ const DeliveryMarkingStore = () => {
     }
     return (
         <Fragment>
+            {imageshowFlag === 1 ? <ReqImageDisModal open={imageshow} handleClose={handleClose}
+                previewFile={previewFile} /> : null}
             <Box sx={{ height: window.innerHeight - 80 }}>
                 <CssVarsProvider>
                     <Box sx={{ display: 'flex', backgroundColor: "#f0f3f5", border: '1px solid #B4F5F0' }}>
@@ -600,7 +754,7 @@ const DeliveryMarkingStore = () => {
                         </Box>
                     </Box>
                     {viewFlag === 1 ?
-                        <DeliveryMarkingView setViewFlag={setViewFlag} />
+                        <DeliveryMarkingView setViewFlag={setViewFlag} setimageshow={setimageshow} setimageshowFlag={setimageshowFlag} setPreviewFile={setPreviewFile} />
                         :
                         <Box sx={{
                             pt: 0.5, bgcolor: 'white', height: window.innerHeight - 135, overflow: 'auto',
@@ -804,6 +958,123 @@ const DeliveryMarkingStore = () => {
                                                     </CssVarsProvider>
                                                 </Box>
                                                 : null}
+
+                                            <Box sx={{ p: 0.5 }}>
+                                                <label htmlFor="file-input">
+                                                    <Tooltip title="Upload File" placement="bottom" sx={{ bgcolor: "#e8eaf6", color: "#283593" }}>
+                                                        <IconButton
+                                                            aria-label="upload file"
+                                                            variant="soft"
+                                                            component="span"
+                                                            sx={{
+                                                                bgcolor: "white",
+                                                                "&:hover": {
+                                                                    bgcolor: "white",
+                                                                },
+                                                            }}
+                                                        >
+                                                            <CloudUploadTwoToneIcon
+                                                                fontSize="small"
+                                                                sx={{
+                                                                    width: 35,
+                                                                    height: 25,
+                                                                    color: "#3949ab",
+                                                                    "&:hover": {
+                                                                        color: "#5c6bc0",
+                                                                    },
+                                                                }}
+                                                            />
+                                                            <Typography
+                                                                sx={{
+                                                                    fontSize: 12,
+                                                                    color: "#3949ab",
+                                                                    "&:hover": {
+                                                                        color: "#5c6bc0",
+                                                                    },
+                                                                }}
+                                                            >
+                                                                Maximum Size 25MB
+                                                            </Typography>
+                                                        </IconButton>
+                                                    </Tooltip>
+                                                </label>
+                                                <input
+                                                    multiple
+                                                    id="file-input"
+                                                    type="file"
+                                                    accept=".jpg, .jpeg, .png, .pdf"
+                                                    style={{ display: "none" }}
+                                                    onChange={uploadFile}
+                                                />
+                                            </Box>
+                                            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.2, width: "100%" }}>
+
+                                                {selectFile.length !== 0 &&
+                                                    selectFile.map((file, index) => (
+                                                        <Box
+                                                            key={index}
+                                                            sx={{
+                                                                display: "flex",
+                                                                alignItems: "center",
+                                                                m: 0.3,
+                                                                border: "1px solid #e0e0e0",
+                                                                borderRadius: "4px",
+                                                                p: 0.5,
+                                                            }}
+                                                        >
+                                                            {file.type.includes("image") ? (
+                                                                <img
+                                                                    src={URL.createObjectURL(file)}
+                                                                    alt={file.name}
+                                                                    style={{
+                                                                        width: "40px",
+                                                                        height: "40px",
+                                                                        objectFit: "cover",
+                                                                        borderRadius: "4px",
+                                                                        marginRight: "8px",
+                                                                        cursor: "pointer",
+                                                                    }}
+                                                                    // onClick={() => ViewImage(URL.createObjectURL(file))}
+                                                                    onClick={() => ViewImage(file)}
+                                                                />
+                                                            ) : file.type === "application/pdf" ? (
+                                                                <PictureAsPdfIcon
+                                                                    sx={{
+                                                                        width: "40px",
+                                                                        height: "40px",
+                                                                        color: "#e53935",
+                                                                        marginRight: "8px",
+                                                                        cursor: "pointer",
+                                                                    }}
+                                                                    onClick={() => ViewImage(file)}
+                                                                />
+                                                            ) : (
+                                                                <InsertDriveFileIcon
+                                                                    sx={{
+                                                                        width: "40px",
+                                                                        height: "40px",
+                                                                        color: "#9e9e9e",
+                                                                        marginRight: "8px",
+                                                                        cursor: "pointer",
+                                                                    }}
+                                                                    onClick={() => ViewImage(file)}
+                                                                />
+                                                            )}
+                                                            <Box sx={{ fontSize: 14, cursor: "pointer", flexGrow: 1 }}>{file.name}</Box>
+                                                            <ClearIcon
+                                                                sx={{
+                                                                    height: "16px",
+                                                                    width: "16px",
+                                                                    cursor: "pointer",
+                                                                    color: "red",
+                                                                    marginLeft: "8px",
+                                                                }}
+                                                                onClick={() => handleRemoveFile(index)}
+                                                            />
+                                                        </Box>
+                                                    ))
+                                                }
+                                            </Box>
                                             <Box sx={{ pt: 1, flex: 1, px: 1 }}>
                                                 <Box sx={{ pl: 1, fontSize: 12 }} >PACKAGE/BOX COUNT <KeyboardArrowDownIcon fontSize='small' /></Box>
                                                 <Box sx={{ pl: 0.5, pt: 0.5, }}>

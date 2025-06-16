@@ -73,6 +73,7 @@ const CrfMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
             setCrfHod(0)
         }
     }, [department_slno])
+    const [selectedCompany, setSelectedCompany] = useState('1');
 
     const [apprvlDetails, setApprvlDetails] = useState({
         approve: manag_operation_approv === 1 ? true : false,
@@ -107,7 +108,9 @@ const CrfMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
 
     const AddItems = useCallback(() => {
         setMoreItem(1)
-    }, [])
+        setSelectedCompany(company?.company_slno === 1 ? "1" : "2");
+
+    }, [company])
     const isMounted = useRef(true);
     useEffect(() => {
         isMounted.current = true;
@@ -669,7 +672,7 @@ const CrfMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                                             </CustomIconButtonCmp>
                                         </Box>
                                         {addMoreItems === 1 ? <AddMoreItemDtails req_slno={req_slno}
-                                            setApproveTableData={setApproveTableData} setMoreItem={setMoreItem}
+                                            setApproveTableData={setApproveTableData} setMoreItem={setMoreItem} selectedCompany={selectedCompany}
                                         /> : null}
                                         <ApprovalCompntAll
                                             heading={`${company?.mo_status_name} Approval`}

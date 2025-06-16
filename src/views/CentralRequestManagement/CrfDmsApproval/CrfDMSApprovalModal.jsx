@@ -56,6 +56,7 @@ const CrfDMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
             setCount(0)
         })
     }, [count])
+    const [selectedCompany, setSelectedCompany] = useState('1');
 
     const [apprvlDetails, setApprvlDetails] = useState({
         approve: dms_approve === 1 ? true : false,
@@ -90,7 +91,9 @@ const CrfDMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
 
     const AddItems = useCallback(() => {
         setMoreItem(1)
-    }, [])
+        setSelectedCompany(company?.company_slno === 1 ? "1" : "2");
+
+    }, [company])
     const isMounted = useRef(true);
     useEffect(() => {
         isMounted.current = true;
@@ -653,7 +656,7 @@ const CrfDMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
                                             </CustomIconButtonCmp>
                                         </Box>
                                         {addMoreItems === 1 ? <AddMoreItemDtails req_slno={req_slno}
-                                            setApproveTableData={setApproveTableData} setMoreItem={setMoreItem}
+                                            setApproveTableData={setApproveTableData} setMoreItem={setMoreItem} selectedCompany={selectedCompany}
                                         /> : null}
                                         <ApprovalCompntAll
                                             heading={`${company?.dms_status_name} Approval`}

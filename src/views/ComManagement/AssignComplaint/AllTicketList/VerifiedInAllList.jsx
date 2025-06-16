@@ -400,7 +400,7 @@ const VerifiedInAllList = () => {
                                             pl: .5,
                                             maxWidth: 500,
                                         }}>
-                                            <Box sx={{                                       
+                                            <Box sx={{
                                                 display: 'flex', mt: .5
                                             }}>
                                                 <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
@@ -410,13 +410,13 @@ const VerifiedInAllList = () => {
                                                     {val.location.charAt(0).toUpperCase() + val.location.slice(1).toLowerCase()}
                                                 </Typography>
                                             </Box>
-                                            <Box sx={{                                      
+                                            <Box sx={{
                                                 display: 'flex', mt: .5
                                             }}>
                                                 <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
                                                     Location
                                                 </Typography>
-                                                <Typography sx={{ fontSize: 13, flex: 1, }}>                                                  
+                                                <Typography sx={{ fontSize: 13, flex: 1, }}>
                                                     {val.rm_room_name}
                                                     {(val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name) ? (
                                                         ` (${val.rm_roomtype_name || ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''}${val.rm_insidebuildblock_name || ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''}${val.rm_floor_name || ''})`

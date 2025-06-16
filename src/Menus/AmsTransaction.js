@@ -3,18 +3,18 @@ import React from 'react'
 import { cilCircle } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
-const NotificationTransaction = [
+const AmsTransaction = [
 
     
     {
-        men_slno: 273,
+        men_slno: 276,
         component: CNavItem,
-        name: 'Notification',
-        to: '/Home/NotificationMainMeNu',
+        name: 'Ams Patient Details',
+        to: '/Home/AmsPatientDetails',
         icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
         
     },
 
 ]
 
-export default NotificationTransaction;
+export default AmsTransaction;

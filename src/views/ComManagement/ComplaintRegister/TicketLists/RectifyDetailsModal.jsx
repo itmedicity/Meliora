@@ -224,7 +224,7 @@ const RectifyDetailsModal = ({ open, setDetailsOpen, detailsData, setDetailsFlag
                                 </Box>
                                 <Box sx={{ flex: 1, display: 'flex', mt: .5 }}>
                                     <Typography sx={{ flex: 1.8, pl: 3, fontWeight: 500, fontSize: 15 }}>
-                                    Rectification Marked By
+                                        Rectification Marked By
                                     </Typography>
                                     <Box sx={{ flex: 3, gap: .5 }}>
                                         <Chip sx={{ bgcolor: '#ADC9C5' }}>

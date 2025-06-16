@@ -58,6 +58,7 @@ const InterDeptTransfer = () => {
 
     const reset = useCallback(() => {
         setcustAsset(0)
+        setselectedDept(0)
         setselectedDeptSec(0)
         setTransDept(0)
         setTransDeptSec(0)

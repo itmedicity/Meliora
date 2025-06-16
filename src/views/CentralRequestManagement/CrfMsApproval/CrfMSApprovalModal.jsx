@@ -47,6 +47,7 @@ const CrfMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
     const [crfHod, setCrfHod] = useState([])
     const [complaint_slno, setComplaint] = useState(0)
     const [count, setCount] = useState(0)
+    const [selectedCompany, setSelectedCompany] = useState('1');
 
     const { department_slno } = crfdeptInternal
 
@@ -105,7 +106,9 @@ const CrfMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
 
     const AddItems = useCallback(() => {
         setMoreItem(1)
-    }, [])
+        setSelectedCompany(company?.company_slno === 1 ? "1" : "2");
+
+    }, [company])
     const isMounted = useRef(true);
     useEffect(() => {
         isMounted.current = true;
@@ -667,7 +670,7 @@ const CrfMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                                             </CustomIconButtonCmp>
                                         </Box>
                                         {addMoreItems === 1 ? <AddMoreItemDtails req_slno={req_slno}
-                                            setApproveTableData={setApproveTableData} setMoreItem={setMoreItem}
+                                            setApproveTableData={setApproveTableData} setMoreItem={setMoreItem} selectedCompany={selectedCompany}
                                         /> : null}
                                         <ApprovalCompntAll
                                             heading={`${company?.ms_status_name} Approval`}
