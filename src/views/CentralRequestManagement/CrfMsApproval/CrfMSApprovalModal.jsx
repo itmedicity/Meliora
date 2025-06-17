@@ -166,28 +166,47 @@ const CrfMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
         }
     }, [approve, reject, pending, id, remark, detailAnalis, req_slno, approveTableData, internallyArr])
 
-    const postdata = {
 
-        complaint_slno: complaint_slno,
-        // complaint_desc: " testing :  CRF NO : " + req_slno,
-        complaint_desc: "The complaint was raised by MS with the remark \"" + remark + "\" under CRF No: " + req_slno + " regarding the items , which has to be internally arranged.",
-        complaint_dept_secslno: request_deptsec_slno,
-        complaint_request_slno: 1,
-        complaint_deptslno: crfdeptInternal?.complaint_dept_slno,
-        complaint_typeslno: crfdeptInternal?.complaint_dept_slno === 1 ? company?.itemType_dp_Bio : crfdeptInternal?.complaint_dept_slno === 2 ? company?.itemType_dp_Main : crfdeptInternal?.complaint_dept_slno === 3 ? company?.itemType_dp_IT :
-            crfdeptInternal?.complaint_dept_slno === 4 ? company?.itemType_dp_Hou : crfdeptInternal?.complaint_dept_slno === 5 ? company?.itemType_dp_Ope : 0,
-        priority_check: 0,
-        complaint_hicslno: 0,
-        compalint_status: 0,
-        cm_location: request_deptsec_slno,
-        create_user: id,
-        priority_reason: null,
-        locationName: req_deptsec,
-        priority: "Normal Ticket",
-        rm_room_slno: null,
-        cm_asset_status: 0,
-        cm_complaint_location: req_deptsec
-    }
+    const postdata = useMemo(() => {
+        return {
+            complaint_slno: complaint_slno,
+            complaint_desc: `The complaint was raised by MS with the remark "${remark}" under CRF No: ${req_slno} regarding the items, which has to be internally arranged.`,
+            complaint_dept_secslno: request_deptsec_slno,
+            complaint_request_slno: 1,
+            complaint_deptslno: crfdeptInternal?.complaint_dept_slno,
+            complaint_typeslno: crfdeptInternal?.complaint_dept_slno === 1
+                ? company?.itemType_dp_Bio
+                : crfdeptInternal?.complaint_dept_slno === 2
+                    ? company?.itemType_dp_Main
+                    : crfdeptInternal?.complaint_dept_slno === 3
+                        ? company?.itemType_dp_IT
+                        : crfdeptInternal?.complaint_dept_slno === 4
+                            ? company?.itemType_dp_Hou
+                            : crfdeptInternal?.complaint_dept_slno === 5
+                                ? company?.itemType_dp_Ope
+                                : 0,
+            priority_check: 0,
+            complaint_hicslno: 0,
+            compalint_status: 0,
+            cm_location: request_deptsec_slno,
+            create_user: id,
+            priority_reason: null,
+            locationName: req_deptsec,
+            priority: "Normal Ticket",
+            rm_room_slno: null,
+            cm_asset_status: 0,
+            cm_complaint_location: req_deptsec,
+        };
+    }, [
+        complaint_slno,
+        remark,
+        req_slno,
+        request_deptsec_slno,
+        crfdeptInternal,
+        company,
+        id,
+        req_deptsec,
+    ]);
 
     const insertMastTask = {
         tm_task_name: actual_requirement + " :  CRF NO : " + req_slno,
@@ -353,7 +372,8 @@ const CrfMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                                                     tm_detl_create: id
                                                 }
                                             })
-                                            InsertDetailTask(insertTaskDetail).then((value) => {
+
+                                            InsertDetailTask(insertTaskDetail)?.then((value) => {
                                                 const { message, success } = value
                                                 if (success === 1) {
                                                     succesNotify("Task Created Successfully")
@@ -400,7 +420,7 @@ const CrfMSApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
         }
     }, [
         approve, reject, pending, remark, detailAnalis, MSPatchData, reset, datacollFlag, editEnable, internallyArr,
-        queryClient, datacolectremark, crfdept, id, req_slno, selectFile, handleImageUpload, datacollFlagKMC
+        queryClient, datacolectremark, crfdept, id, req_slno, selectFile, handleImageUpload, datacollFlagKMC, postdata, crfHod
     ]);
 
     useEffect(() => {

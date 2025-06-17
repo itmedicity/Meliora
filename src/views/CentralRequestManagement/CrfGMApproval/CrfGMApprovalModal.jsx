@@ -400,7 +400,7 @@ const CrfGMApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
         }
     }, [
         approve, reject, pending, remark, detailAnalis, GMPatchData, reset, datacollFlag, editEnable, internallyArr,
-        queryClient, datacolectremark, crfdept, id, req_slno, selectFile, handleImageUpload, datacollFlagKMC
+        queryClient, datacolectremark, crfdept, id, req_slno, selectFile, handleImageUpload, datacollFlagKMC, postdata, crfHod
     ]);
 
     const closeModal = useCallback(() => {

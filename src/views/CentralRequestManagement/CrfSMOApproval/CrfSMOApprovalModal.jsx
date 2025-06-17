@@ -399,7 +399,7 @@ const CrfSMOApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
         }
     }, [
         approve, reject, pending, remark, detailAnalis, SMOPatchData, reset, datacollFlag, editEnable, internallyArr,
-        queryClient, datacolectremark, crfdept, id, req_slno, selectFile, handleImageUpload, datacollFlagKMC
+        queryClient, datacolectremark, crfdept, id, req_slno, selectFile, handleImageUpload, datacollFlagKMC, postdata, crfHod
     ]);
 
     const closeModal = useCallback(() => {
