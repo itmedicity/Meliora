@@ -487,7 +487,7 @@ const CrfMDApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setAppr
                     return;
                 }
                 const onSuccess = (fileUploadMessage) => {
-                    if (selectedCompany === 1) {
+                    if (selectedCompany === '1') {
                         InsertComplaint(postdata).then((value) => {
                             const { message, success } = value
                             if (success === 1) {
