@@ -367,3 +367,16 @@ export const getDptSecHodbyDepkmc = async (id) => {
         }
     })
 }
+
+
+export const getDefaultCompanyKMC = async () => {
+    return axioskmc.post('/newCRFRegister/CommonMasterSettingGet').then((res) => {
+        const { success, data } = res.data
+        if (success === 1 && data.length > 0) {
+            return data[0]
+        } else {
+            return []
+        }
+    })
+}
+

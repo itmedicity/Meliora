@@ -1,6 +1,6 @@
 import { axioslogin } from "src/views/Axios/Axios"
 import { ActionTyps } from "../constants/action.type"
-const { FETCH_COMPLAINT_TYPE } = ActionTyps
+const { FETCH_COMPLAINT_TYPE, FETCH_COMPLAINT_TYPE_main, FETCH_COMPLAINT_TYPE_IT, FETCH_COMPLAINT_TYPE_House, FETCH_COMPLAINT_TYPE_Opera } = ActionTyps
 /*** when call dispatch function call aa api 
  * success is '1'  retrun data set to payload and status set to true otherwise set null array and status false
  */
@@ -13,5 +13,50 @@ export const getComplainttype = (comdept) => async (dispatch) => {
     }
     else {
         dispatch({ type: FETCH_COMPLAINT_TYPE, payload: [], loadingStatus: false })
+    }
+}
+
+
+export const getComplainttypeMain = (comdept) => async (dispatch) => {
+    const result = await axioslogin.get(`/complainttype/${comdept}`);
+    const { success, data } = result.data
+    if (success === 1) {
+        dispatch({ type: FETCH_COMPLAINT_TYPE_main, payload: data, loadingStatusmain: true })
+    }
+    else {
+        dispatch({ type: FETCH_COMPLAINT_TYPE_main, payload: [], loadingStatusmain: false })
+    }
+}
+
+export const getComplainttypeIT = (comdept) => async (dispatch) => {
+    const result = await axioslogin.get(`/complainttype/${comdept}`);
+    const { success, data } = result.data
+    if (success === 1) {
+        dispatch({ type: FETCH_COMPLAINT_TYPE_IT, payload: data, loadingStatusmain: true })
+    }
+    else {
+        dispatch({ type: FETCH_COMPLAINT_TYPE_IT, payload: [], loadingStatusmain: false })
+    }
+}
+
+export const getComplainttypeHouse = (comdept) => async (dispatch) => {
+    const result = await axioslogin.get(`/complainttype/${comdept}`);
+    const { success, data } = result.data
+    if (success === 1) {
+        dispatch({ type: FETCH_COMPLAINT_TYPE_House, payload: data, loadingStatusmain: true })
+    }
+    else {
+        dispatch({ type: FETCH_COMPLAINT_TYPE_House, payload: [], loadingStatusmain: false })
+    }
+}
+
+export const getComplainttypeOpera = (comdept) => async (dispatch) => {
+    const result = await axioslogin.get(`/complainttype/${comdept}`);
+    const { success, data } = result.data
+    if (success === 1) {
+        dispatch({ type: FETCH_COMPLAINT_TYPE_Opera, payload: data, loadingStatusmain: true })
+    }
+    else {
+        dispatch({ type: FETCH_COMPLAINT_TYPE_Opera, payload: [], loadingStatusmain: false })
     }
 }

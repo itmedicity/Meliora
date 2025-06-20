@@ -543,9 +543,11 @@ const DeliveryMarkingStore = () => {
         return compressedFile
     }, []);
     const SaveDetails = useCallback(async () => {
+
         if (supCode === 0) {
             infoNotify("Select Supplier")
         } else if (billNumber !== '' || billDetails.length === 0) {
+
             infoNotify("Add Bill Details Before Save")
         }
         else if (empName === 0) {

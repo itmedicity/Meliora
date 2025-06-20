@@ -1,6 +1,6 @@
-import { axioslogin } from "src/views/Axios/Axios";
+import { axioskmc, axioslogin } from "src/views/Axios/Axios";
 import { ActionTyps } from "../constants/action.type";
-const { FETCH_COMPLAINT_DEPARTMENT } = ActionTyps
+const { FETCH_COMPLAINT_DEPARTMENT, FETCH_COMPLAINT_DEPARTMENT_IT, FETCH_COMPLAINT_DEPARTMENT_KMC } = ActionTyps
 /*** when call dispatch function call aa api 
  * success is '1'  retrun data set to payload and status set to true otherwise set null array and status false
  */
@@ -12,5 +12,27 @@ export const getComplaintDept = () => async (dispatch) => {
     }
     else {
         dispatch({ type: FETCH_COMPLAINT_DEPARTMENT, payload: [], loadingStatus: false })
+    }
+}
+
+export const getComplaintDeptIt = () => async (dispatch) => {
+    const result = await axioslogin.get('/complaintdept/status');
+    const { success, data } = result.data
+    if (success === 1) {
+        dispatch({ type: FETCH_COMPLAINT_DEPARTMENT_IT, payload: data, loadingStatusIT: true })
+    }
+    else {
+        dispatch({ type: FETCH_COMPLAINT_DEPARTMENT_IT, payload: [], loadingStatusIT: false })
+    }
+}
+
+export const getComplaintDeptKmc = () => async (dispatch) => {
+    const result = await axioskmc.get('/complaintdept/status');
+    const { success, data } = result.data
+    if (success === 1) {
+        dispatch({ type: FETCH_COMPLAINT_DEPARTMENT_KMC, payload: data, loadingStatusKMC: true })
+    }
+    else {
+        dispatch({ type: FETCH_COMPLAINT_DEPARTMENT_KMC, payload: [], loadingStatusKMC: false })
     }
 }

@@ -9,10 +9,12 @@ import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import ReqImageDisModal from './ImageUploadCmp/ReqImageDisModal';
 import CustomToolTipForCRF from './Components/CustomToolTipForCRF';
+import CrfComplaintdep from 'src/views/CommonSelectCode/CrfComplaintdep';
+import CrfComplaintdepKmc from 'src/views/CommonSelectCode/CrfComplaintdepKmc';
 
 
-const ApprovalCompntAll = ({ heading, apprvlDetails, updateOnchangeState, updateApprovalState,
-    imageCheck, selectFile, setSelectFile, uploadedImages }) => {
+const ApprovalCompntAll = ({ heading, apprvlDetails, updateOnchangeState, updateApprovalState, selectedCompany,
+    imageCheck, selectFile, setSelectFile, uploadedImages, setCrfDeptinternal, crfdeptInternal, complaint, setcomplaint, task, settask }) => {
     const { reject, pending, remark, detailAnalis, internallyArr } = apprvlDetails
 
     const [previewFile, setPreviewFile] = useState({ url: "", type: "" });
@@ -145,6 +147,53 @@ const ApprovalCompntAll = ({ heading, apprvlDetails, updateOnchangeState, update
                         </Box>
                     </>
                 )}
+                {/* for internally arranged */}
+                {internallyArr === true ?
+                    <Box sx={{ display: 'flex' }}>
+                        <Box sx={{ px: 1, pt: 0.2, flex: 1, }}>
+                            {selectedCompany === '1' ? (
+                                <CrfComplaintdep value={crfdeptInternal} setValue={setCrfDeptinternal} />
+                            ) : selectedCompany === '2' ? (
+                                <CrfComplaintdepKmc value={crfdeptInternal} setValue={setCrfDeptinternal} />
+                            ) : (
+                                <CrfComplaintdep value={crfdeptInternal} setValue={setCrfDeptinternal} />
+                            )}
+
+                        </Box>
+                        <Box sx={{ mx: 1, mt: 1 }}>
+                            <CusCheckBox
+                                className={{ color: '#145DA0', fontSize: 14, fontWeight: 'bold' }}
+                                variant="outlined"
+                                color="primary"
+                                size="md"
+                                name="complaint"
+                                label="create complaint"
+                                value={complaint}
+                                onCheked={setcomplaint}
+                                checked={complaint}
+                                disabled={complaint === true}
+
+                            />
+                        </Box>
+                        <Box sx={{ mx: 1, mt: 1 }}>
+                            <CusCheckBox
+                                className={{ color: '#145DA0', fontSize: 14, fontWeight: 'bold' }}
+                                variant="outlined"
+                                color="primary"
+                                size="md"
+                                name="task"
+                                label="create task"
+                                value={task}
+                                onCheked={settask}
+                                checked={task}
+                                disabled={task === true}
+
+                            />
+                        </Box>
+
+                    </Box>
+
+                    : null}
                 <Box sx={{ display: "flex", flex: 1, pl: 10 }}>
                     {["approve", "reject", "pending", "internallyArr"].map((type) => (
                         <Box key={type} sx={{ m: 1 }}>

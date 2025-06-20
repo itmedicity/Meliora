@@ -563,6 +563,7 @@ const PurchaseTablemain = () => {
             const result = await axioslogin.post('/newCRFPurchase/updateApprovalLevel', patchdata)
             return result.data
         }
+
         getPendingPODetails().then((val) => {
             const { success, data } = val
             if (success === 1) {
@@ -585,6 +586,7 @@ const PurchaseTablemain = () => {
                                 supply_store: newData ? newData.main_store_slno : 0
                             }
                         })
+
                         UpdatePOLevels(patchdata).then((val) => {
                             const { success, message } = val
                             if (success === 1) {

@@ -238,7 +238,7 @@ const Reports = () => {
 
                 </div>
             </CardContent>
-        </Card>
+        </Card >
     )
 }
 

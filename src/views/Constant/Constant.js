@@ -1,4 +1,4 @@
-import { axioslogin } from "../Axios/Axios"
+import { axioskmc, axioslogin } from "../Axios/Axios"
 
 //Get login employee No
 export const employeeNumber = () => {
@@ -66,7 +66,15 @@ export const getComplaintSlno = async () => {
         return serial_current.serial_current
     }
 }
-
+//Get compliant slno kmc
+export const getComplaintSlnokmc = async () => {
+    const result = await axioskmc.get('/common/getCompSerialno')
+    const { success } = result.data;
+    if (success === 1) {
+        const [serial_current] = result.data.data
+        return serial_current.serial_current
+    }
+}
 //URL EXSIT CHECK FUNCTION
 
 export const urlExist = (url, callBack) => {

@@ -1,0 +1,41 @@
+import React, { useEffect, memo } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import FormControl from "@mui/material/FormControl";
+import { getComplaintDept } from 'src/redux/actions/ComplaintDept.action'
+import { Box, Option, Select } from '@mui/joy';
+
+const CrfComplaintdepMain = ({ value, setValue }) => {
+    const dispatch = useDispatch();
+
+    const complaintdeptdata = useSelector((state) => {
+        return state.getComplaintDept.complaintdeptList || 0
+    })
+
+    //getComplaintdept function is used to update data in complaintdepartment redux
+    useEffect(() => {
+        dispatch(getComplaintDept())
+    }, [dispatch])
+
+    return (
+        < >
+            <FormControl fullWidth size="small"  >
+                <Select
+                    id="demo-simple-select"
+                    value={complaintdeptdata.some(item => item.complaint_dept_slno === value) ? value : 0}
+                    onChange={(e, newValue) => setValue(newValue)}
+                    size="sm"
+                    variant='outlined'
+                >
+                    <Option value={0} disabled  >Select Complaint Department</Option>
+                    {
+                        complaintdeptdata && complaintdeptdata.map((val, index) => {
+                            return <Option key={index} value={val.complaint_dept_slno}>{val.complaint_dept_name}</Option>
+                        })
+                    }
+                </Select>
+            </FormControl>
+        </ >
+    )
+}
+
+export default memo(CrfComplaintdepMain)

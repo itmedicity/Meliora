@@ -292,7 +292,8 @@ const CrfMOApprovalMain = () => {
                     viewDep: val?.viewDep,
                     viewName: val?.viewName,
                     company_name: val?.company_name,
-                    company_slno: val?.company_slno
+                    company_slno: val?.company_slno,
+                    internally_arranged_status: val?.internally_arranged_status
 
                 }
                 return obj

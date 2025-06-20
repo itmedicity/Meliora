@@ -360,7 +360,7 @@ const CrmHodApprovalModal = ({ open, ApprovalData, reqItems, handleClose, setApp
                                     <Box sx={{ mt: 0.5, pb: 1, flexWrap: 'wrap', mx: 0.3 }} >
                                         {approveTableData.length !== 0 ?
                                             <ItemsApprovalCompnt req_slno={req_slno} setMoreItem={setMoreItem} editEnable={editEnable}
-                                                setEditEnable={setEditEnable} setApproveTableData={setApproveTableData}
+                                                setEditEnable={setEditEnable} setApproveTableData={setApproveTableData} ApprovalData={ApprovalData}
                                                 apprvLevel={2} header='HOD' />
                                             : null
                                         }

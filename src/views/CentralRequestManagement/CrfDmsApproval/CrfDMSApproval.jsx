@@ -43,6 +43,7 @@ const CrfDMSApproval = () => {
     const [datacolData, setDataColData] = useState([])
     // const [procureData, setProcureData] = useState([])
     const [combinedData, setcombinedData] = useState([])
+
     const [imagearray, setImageArry] = useState([])
 
     const [fromDate, setFromDate] = useState(format(new Date(), "yyyy-MM-dd"));
@@ -67,6 +68,9 @@ const CrfDMSApproval = () => {
                 // setcombinedData([])
             }
         } else if (radiovalue === '8') {
+            setcombinedData([])
+        }
+        else if (radiovalue === '9') {
             setcombinedData([])
         }
     }, [dmsData, radiovalue]);
@@ -292,7 +296,8 @@ const CrfDMSApproval = () => {
                     viewDep: val?.viewDep,
                     viewName: val?.viewName,
                     company_name: val?.company_name,
-                    company_slno: val?.company_slno
+                    company_slno: val?.company_slno,
+                    internally_arranged_status: val?.internally_arranged_status
                 }
                 return obj
             })
@@ -502,7 +507,7 @@ const CrfDMSApproval = () => {
                                     <MasterDetailCompnt val={val} />
                                     {radiovalue === '8' ?
                                         <ClosedButtonCompnt val={val} setPoDetails={setPoDetails} setImageArry={setImageArry}
-                                            imagearray={imagearray} />
+                                            imagearray={imagearray} company={company} />
                                         :
                                         <ApproveButtonsCompnt val={val} setApprovalFlag={setApprovalFlag}
                                             setApprovalModal={setApprovalModal} setCancelFlag={setCancelFlag}
