@@ -1,5 +1,5 @@
 
-import { endOfMonth, startOfMonth } from 'date-fns'
+import { endOfMonth } from 'date-fns'
 import moment from 'moment'
 import React from 'react'
 import { useMemo } from 'react'
@@ -312,7 +312,7 @@ const ModalMonthVerification = ({ open, handleClose, rowSelect, count, setCount 
                                 <TextFieldCustom
                                     slotProps={{
                                         input: {
-                                            min: moment(startOfMonth(new Date())).format('YYYY-MM-DD HH:mm:ss'),
+                                            // min: moment(startOfMonth(new Date())).format('YYYY-MM-DD HH:mm:ss'),
                                             max: moment(endOfMonth(new Date())).format('YYYY-MM-DD HH:mm:ss'),
                                         },
                                     }}
@@ -340,12 +340,9 @@ const ModalMonthVerification = ({ open, handleClose, rowSelect, count, setCount 
                                             </Option>
                                         ))}
                                     </Select>
-
                                 </Box>
                             </Box>
-
                         </Box>
-
                         <Box sx={{ flex: 1, display: 'flex', pt: 2, pl: .5, gap: 3 }}>
                             <Box sx={{ flex: 1, }}>
                                 <Typography sx={{ pl: .5, fontWeight: 500, fontSize: 14 }} >  Backup Size Before Compression</Typography>
@@ -372,7 +369,6 @@ const ModalMonthVerification = ({ open, handleClose, rowSelect, count, setCount 
                                     />
                                 </Box>
                             </Box>
-
                             <Box sx={{ flex: 1, }}>
                                 <Typography sx={{ pl: .5, fontWeight: 500, fontSize: 14 }} >  Backup Size After Compression</Typography>
                                 <Box sx={{ display: 'flex', flex: 1, gap: .5 }}>
@@ -413,7 +409,6 @@ const ModalMonthVerification = ({ open, handleClose, rowSelect, count, setCount 
                                 onchange={PathonChangeOnchange}
                             />
                         </Box>
-
                         <Box sx={{ flex: 1, pt: 2 }}>
                             <Typography sx={{ pl: .5, fontWeight: 500, fontSize: 14 }} > Backup Status & Remarks</Typography>
                             <Box sx={{ flex: 1, }}>
