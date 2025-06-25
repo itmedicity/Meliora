@@ -6,7 +6,7 @@ import CusCheckBox from 'src/views/Components/CusCheckBox'
 import RoomNewCreationTable from './RoomNewCreationTable'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+// import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import FloorSelectBasedBuild from 'src/views/CommonSelectCode/FloorSelectBasedBuild'
 import RmRoomTypeSelect from 'src/views/CommonSelectCode/RmRoomTypeSelect'
 import RmRoomCategorySelect from 'src/views/CommonSelectCode/RmRoomCategorySelect'
@@ -16,9 +16,10 @@ import BuildingSelectWithoutName from 'src/views/CommonSelectCode/BuildingSelect
 import BuildBlockSelect from 'src/views/CommonSelectCode/BuildBlockSelect'
 import DeptSectionSelect from 'src/views/CommonSelectCode/DeptSectionSelect'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const RoomCreation = () => {
-  const history = useHistory()
+  const history = useNavigate()
   const [count, setCount] = useState(0)
   const [value, setValue] = useState(0)
   const [building, setBuilding] = useState(0)
@@ -41,14 +42,17 @@ const RoomCreation = () => {
     rm_room_name: '',
     rm_room_status: false,
     rm_room_no_dis: '',
-    rm_old_roomno: ''
+    rm_old_roomno: '',
   })
 
   const { rm_room_slno, rm_room_name, rm_room_status, rm_room_no_dis, rm_old_roomno } = room
-  const updateRoom = useCallback((e) => {
-    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
-    setRoom({ ...room, [e.target.name]: value })
-  }, [room])
+  const updateRoom = useCallback(
+    (e) => {
+      const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
+      setRoom({ ...room, [e.target.name]: value })
+    },
+    [room],
+  )
 
   // Get login user emp_id
   const id = useSelector((state) => {
@@ -74,10 +78,25 @@ const RoomCreation = () => {
       actual_rm_no: lastRoom + 1,
       rm_room_no_dis: rm_room_no_dis,
       rm_old_roomno: rm_old_roomno,
-      create_user: id
+      create_user: id,
     }
-  }, [rm_room_name, building, buildingBlock, floorData, insideBuildBlock, floorShort, BlockName,
-    roomType, roomCategory, outlet, rm_room_status, lastRoom, rm_room_no_dis, rm_old_roomno, id])
+  }, [
+    rm_room_name,
+    building,
+    buildingBlock,
+    floorData,
+    insideBuildBlock,
+    floorShort,
+    BlockName,
+    roomType,
+    roomCategory,
+    outlet,
+    rm_room_status,
+    lastRoom,
+    rm_room_no_dis,
+    rm_old_roomno,
+    id,
+  ])
 
   const patchdata = useMemo(() => {
     return {
@@ -95,10 +114,25 @@ const RoomCreation = () => {
       rm_room_status: rm_room_status === true ? 1 : 0,
       rm_room_no_dis: rm_room_no_dis,
       rm_old_roomno: rm_old_roomno,
-      edit_user: id
+      edit_user: id,
     }
-  }, [rm_room_slno, rm_room_name, building, buildingBlock, floorData, insideBuildBlock, BlockName,
-    floorShort, roomType, roomCategory, outlet, rm_room_status, rm_room_no_dis, rm_old_roomno, id])
+  }, [
+    rm_room_slno,
+    rm_room_name,
+    building,
+    buildingBlock,
+    floorData,
+    insideBuildBlock,
+    BlockName,
+    floorShort,
+    roomType,
+    roomCategory,
+    outlet,
+    rm_room_status,
+    rm_room_no_dis,
+    rm_old_roomno,
+    id,
+  ])
 
   const reset = async () => {
     const frmdata = {
@@ -106,7 +140,7 @@ const RoomCreation = () => {
       rm_room_name: '',
       rm_room_status: false,
       rm_room_no_dis: '',
-      rm_old_roomno: ''
+      rm_old_roomno: '',
     }
     setRoom(frmdata)
     setFloorData(0)
@@ -181,53 +215,66 @@ const RoomCreation = () => {
     reset()
   }, [])
 
-  const sumbitRoom = useCallback((e) => {
-    e.preventDefault()
-    const InsertRoom = async (postdata) => {
-      const result = await axioslogin.post('/roomnewcreation/insert', postdata)
-      return result.data
-    }
-    const UpdateRoom = async (patchdata) => {
-      const result = await axioslogin.patch('/roomnewcreation/update', patchdata)
-      const { message, success } = result.data
-      if (success === 2) {
-        succesNotify(message)
-        setCount(count + 1)
-        reset()
-      } else if (success === 0) {
-        infoNotify(message)
-      } else {
-        infoNotify(message)
+  const sumbitRoom = useCallback(
+    (e) => {
+      e.preventDefault()
+      const InsertRoom = async (postdata) => {
+        const result = await axioslogin.post('/roomnewcreation/insert', postdata)
+        return result.data
       }
-    }
-    if (value === 0) {
-      if (start <= lastRoom && lastRoom <= end) {
-        InsertRoom(postdata).then((val) => {
-          const { success } = val
-          if (success === 1) {
-            succesNotify("Room created successfully")
-            setCount(count + 1)
-            reset()
-          } else if (success === 0) {
-            infoNotify("Error Occured")
-          } else {
-            infoNotify("Error Occured")
-          }
-        })
-      } else {
-        infoNotify('No Room Available in Selected Floor')
+      const UpdateRoom = async (patchdata) => {
+        const result = await axioslogin.patch('/roomnewcreation/update', patchdata)
+        const { message, success } = result.data
+        if (success === 2) {
+          succesNotify(message)
+          setCount(count + 1)
+          reset()
+        } else if (success === 0) {
+          infoNotify(message)
+        } else {
+          infoNotify(message)
+        }
       }
-    } else {
-      UpdateRoom(patchdata)
-    }
-  }, [postdata, value, count, patchdata, start, lastRoom, end],)
+      if (value === 0) {
+        if (start <= lastRoom && lastRoom <= end) {
+          InsertRoom(postdata).then((val) => {
+            const { success } = val
+            if (success === 1) {
+              succesNotify('Room created successfully')
+              setCount(count + 1)
+              reset()
+            } else if (success === 0) {
+              infoNotify('Error Occured')
+            } else {
+              infoNotify('Error Occured')
+            }
+          })
+        } else {
+          infoNotify('No Room Available in Selected Floor')
+        }
+      } else {
+        UpdateRoom(patchdata)
+      }
+    },
+    [postdata, value, count, patchdata, start, lastRoom, end],
+  )
   const rowSelect = useCallback((params) => {
     setValue(1)
 
     const data = params.api.getSelectedRows()
-    const { rm_room_slno, rm_build_slno, rm_building_block_slno, rm_room_floor_slno, rm_insidebuilldblock_slno,
-      rm_room_name, rm_roomtype_slno, rm_room_status, rm_category_slno, rm_outlet_slno, rm_room_no_dis,
-      rm_old_roomno
+    const {
+      rm_room_slno,
+      rm_build_slno,
+      rm_building_block_slno,
+      rm_room_floor_slno,
+      rm_insidebuilldblock_slno,
+      rm_room_name,
+      rm_roomtype_slno,
+      rm_room_status,
+      rm_category_slno,
+      rm_outlet_slno,
+      rm_room_no_dis,
+      rm_old_roomno,
     } = data[0]
 
     const frmdata = {
@@ -235,7 +282,7 @@ const RoomCreation = () => {
       rm_room_name: rm_room_name,
       rm_room_status: rm_room_status === 1 ? true : false,
       rm_room_no_dis: rm_room_no_dis,
-      rm_old_roomno: rm_old_roomno
+      rm_old_roomno: rm_old_roomno,
     }
     setRoom(frmdata)
     setFloorData(rm_room_floor_slno)
@@ -245,10 +292,9 @@ const RoomCreation = () => {
     setRoomType(rm_roomtype_slno)
     setCategory(rm_category_slno)
     setOutlet(rm_outlet_slno)
-
   }, [])
   const backtoSetting = useCallback(() => {
-    history.push('/Home')
+    history('/Home')
   }, [history])
 
   return (

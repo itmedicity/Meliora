@@ -10,13 +10,14 @@ import CardMaster from 'src/views/Components/CardMaster'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import SecondaryTable from './SecondaryTable'
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+// import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const SecondaryCustodian = () => {
   const [value, setValue] = useState(0)
   const [count, setCount] = useState(0)
-  const history = useHistory()
+  const history = useNavigate()
   // Get login user emp_id
   const id = useSelector((state) => {
     return state.LoginUserData.empid
@@ -48,7 +49,7 @@ const SecondaryCustodian = () => {
     return {
       secondary_name: secondary_name,
       secondary_status: secondary_status === true ? 1 : 0,
-      create_user: id
+      create_user: id,
     }
   }, [secondary_name, secondary_status, id])
   const patchdata = useMemo(() => {
@@ -56,7 +57,7 @@ const SecondaryCustodian = () => {
       secondary_slno: secondary_slno,
       secondary_name: secondary_name,
       secondary_status: secondary_status === true ? 1 : 0,
-      edit_user: id
+      edit_user: id,
     }
   }, [secondary_slno, secondary_name, secondary_status, id])
   const rowSelect = useCallback((params) => {
@@ -103,10 +104,8 @@ const SecondaryCustodian = () => {
       if (value === 0) {
         if (secondary_name !== '') {
           InsertSecondary(postdata)
-        }
-
-        else {
-          infoNotify("Please Enter Secondary Custodian")
+        } else {
+          infoNotify('Please Enter Secondary Custodian')
         }
       } else {
         SecondaryUpdate(patchdata)
@@ -115,7 +114,7 @@ const SecondaryCustodian = () => {
     [postdata, value, patchdata, count, secondary_name],
   )
   const backtoSetting = useCallback(() => {
-    history.push('/Home/Settings')
+    history('/Home/Settings')
   }, [history])
   const refreshWindow = useCallback(() => {
     const frmdata = {

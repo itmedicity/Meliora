@@ -1,20 +1,13 @@
-import { CNavItem } from "@coreui/react";
 import React from 'react'
-import { cilCircle } from '@coreui/icons'
-import CIcon from '@coreui/icons-react'
-
+import { CiStop1 } from 'react-icons/ci'
 
 const IncidentTransactions = [
-
-    {
-        men_slno: 207,
-        component: CNavItem,
-        name: 'Incident List View',
-        to: '/Home/IncidentList',
-        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
-    },
-
-
+  {
+    men_slno: 207,
+    name: 'Incident List View',
+    to: '/Home/IncidentList',
+    icon: <CiStop1 />,
+  },
 ]
 
-export default IncidentTransactions;
+export default IncidentTransactions

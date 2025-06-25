@@ -1,34 +1,35 @@
-import TextareaAutosize from '@mui/base/TextareaAutosize'
+import { TextareaAutosize } from '@mui/base/TextareaAutosize'
 import React, { Fragment } from 'react'
 
 const CustomTextarea = ({
-    minRows,
-    style,
-    placeholder,
-    onchange,
-    value,
-    disabled,
-    size, maxRows, name
-
+  minRows,
+  style,
+  placeholder,
+  onchange,
+  value,
+  disabled,
+  size,
+  maxRows,
+  name,
 }) => {
-    // const textStyle = { width: "100%", height: "100%" }
+  // const textStyle = { width: "100%", height: "100%" }
 
-    return (
-        <Fragment>
-            <TextareaAutosize
-                color='red'
-                size={size}
-                placeholder={placeholder}
-                minRows={minRows}
-                maxRows={maxRows}
-                style={{ ...style, borderRadius: 5, borderColor: "#A9A9A9", padding: 5 }}
-                value={value}
-                name={name}
-                disabled={disabled}
-                onChange={(e) => onchange(e)}
-            />
-        </Fragment>
-    )
+  return (
+    <Fragment>
+      <TextareaAutosize
+        color="red"
+        size={size}
+        placeholder={placeholder}
+        minRows={minRows}
+        maxRows={maxRows}
+        style={{ ...style, borderRadius: 5, borderColor: '#A9A9A9', padding: 5 }}
+        value={value}
+        name={name}
+        disabled={disabled}
+        onChange={(e) => onchange(e)}
+      />
+    </Fragment>
+  )
 }
 
 export default CustomTextarea

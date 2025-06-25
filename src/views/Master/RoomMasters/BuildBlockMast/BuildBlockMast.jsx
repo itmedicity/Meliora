@@ -7,11 +7,12 @@ import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import BuildBlockMastTable from './BuildBlockMastTable'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+// import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const BuildBlockMast = () => {
-  const history = useHistory()
+  const history = useNavigate()
   const [count, setCount] = useState(0)
   const [value, setValue] = useState(0)
   const [buildBlock, setbuildBlock] = useState({
@@ -21,12 +22,20 @@ const BuildBlockMast = () => {
     rm_buildblock_no: '',
     rm_buildblock_status: false,
   })
-  const { rm_buildblock_slno, rm_buildblock_name, rm_buildblock_alias, rm_buildblock_no, rm_buildblock_status,
+  const {
+    rm_buildblock_slno,
+    rm_buildblock_name,
+    rm_buildblock_alias,
+    rm_buildblock_no,
+    rm_buildblock_status,
   } = buildBlock
-  const updateBuildBlock = useCallback((e) => {
-    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
-    setbuildBlock({ ...buildBlock, [e.target.name]: value })
-  }, [buildBlock],)
+  const updateBuildBlock = useCallback(
+    (e) => {
+      const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
+      setbuildBlock({ ...buildBlock, [e.target.name]: value })
+    },
+    [buildBlock],
+  )
   // Get login user emp_id
   const id = useSelector((state) => {
     return state.LoginUserData.empid
@@ -37,7 +46,7 @@ const BuildBlockMast = () => {
       rm_buildblock_alias: rm_buildblock_alias,
       rm_buildblock_no: rm_buildblock_no,
       rm_buildblock_status: rm_buildblock_status === true ? 1 : 0,
-      create_user: id
+      create_user: id,
     }
   }, [rm_buildblock_name, rm_buildblock_alias, rm_buildblock_no, rm_buildblock_status, id])
   const patchdata = useMemo(() => {
@@ -47,9 +56,16 @@ const BuildBlockMast = () => {
       rm_buildblock_alias: rm_buildblock_alias,
       rm_buildblock_no: rm_buildblock_no,
       rm_buildblock_status: rm_buildblock_status === true ? 1 : 0,
-      edit_user: id
+      edit_user: id,
     }
-  }, [rm_buildblock_slno, rm_buildblock_name, rm_buildblock_alias, rm_buildblock_no, rm_buildblock_status, id])
+  }, [
+    rm_buildblock_slno,
+    rm_buildblock_name,
+    rm_buildblock_alias,
+    rm_buildblock_no,
+    rm_buildblock_status,
+    id,
+  ])
   const reset = () => {
     const frmdata = {
       rm_buildblock_slno: '',
@@ -63,14 +79,19 @@ const BuildBlockMast = () => {
     setValue(0)
   }
   const backtoSetting = useCallback(() => {
-    history.push('/Home/Settings')
+    history('/Home/Settings')
   }, [history])
   const rowSelect = useCallback((params) => {
     setValue(1)
 
     const data = params.api.getSelectedRows()
-    const { rm_buildblock_slno, rm_buildblock_name, rm_buildblock_alias,
-      rm_buildblock_no, rm_buildblock_status, } = data[0]
+    const {
+      rm_buildblock_slno,
+      rm_buildblock_name,
+      rm_buildblock_alias,
+      rm_buildblock_no,
+      rm_buildblock_status,
+    } = data[0]
     const frmdata = {
       rm_buildblock_slno: rm_buildblock_slno,
       rm_buildblock_name: rm_buildblock_name,
@@ -80,40 +101,43 @@ const BuildBlockMast = () => {
     }
     setbuildBlock(frmdata)
   }, [])
-  const sumbitBuildBlock = useCallback((e) => {
-    e.preventDefault()
-    const InsertBuildBlock = async (postdata) => {
-      const result = await axioslogin.post('/buildblock/insert', postdata)
-      const { message, success } = result.data
-      if (success === 1) {
-        succesNotify(message)
-        setCount(count + 1)
-        reset()
-      } else if (success === 0) {
-        infoNotify(message)
-      } else {
-        infoNotify(message)
+  const sumbitBuildBlock = useCallback(
+    (e) => {
+      e.preventDefault()
+      const InsertBuildBlock = async (postdata) => {
+        const result = await axioslogin.post('/buildblock/insert', postdata)
+        const { message, success } = result.data
+        if (success === 1) {
+          succesNotify(message)
+          setCount(count + 1)
+          reset()
+        } else if (success === 0) {
+          infoNotify(message)
+        } else {
+          infoNotify(message)
+        }
       }
-    }
-    const UpdateBuildBlock = async (patchdata) => {
-      const result = await axioslogin.patch('/buildblock/update', patchdata)
-      const { message, success } = result.data
-      if (success === 2) {
-        succesNotify(message)
-        setCount(count + 1)
-        reset()
-      } else if (success === 0) {
-        infoNotify(message)
-      } else {
-        infoNotify(message)
+      const UpdateBuildBlock = async (patchdata) => {
+        const result = await axioslogin.patch('/buildblock/update', patchdata)
+        const { message, success } = result.data
+        if (success === 2) {
+          succesNotify(message)
+          setCount(count + 1)
+          reset()
+        } else if (success === 0) {
+          infoNotify(message)
+        } else {
+          infoNotify(message)
+        }
       }
-    }
-    if (value === 0) {
-      InsertBuildBlock(postdata)
-    } else {
-      UpdateBuildBlock(patchdata)
-    }
-  }, [postdata, value, patchdata, count])
+      if (value === 0) {
+        InsertBuildBlock(postdata)
+      } else {
+        UpdateBuildBlock(patchdata)
+      }
+    },
+    [postdata, value, patchdata, count],
+  )
   const refreshWindow = useCallback(() => {
     const frmdata = {
       rm_buildblock_slno: '',

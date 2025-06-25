@@ -10,11 +10,12 @@ import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { useMemo } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+// import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const FloorCreation = () => {
-  const history = useHistory()
+  const history = useNavigate()
   const [value, setValue] = useState(0)
   const [count, setCount] = useState(0)
   const [campus, setCampus] = useState(0)
@@ -32,13 +33,22 @@ const FloorCreation = () => {
     rm_floor_room_ends: '',
     rm_floor_status: false,
   })
-  const { rm_floor_slno, rm_floor_name, rm_floor_status, floor_order, rm_floor_room_starts,
-    rm_floor_room_ends, } = floor
+  const {
+    rm_floor_slno,
+    rm_floor_name,
+    rm_floor_status,
+    floor_order,
+    rm_floor_room_starts,
+    rm_floor_room_ends,
+  } = floor
 
-  const updateFloor = useCallback((e) => {
-    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
-    setFloor({ ...floor, [e.target.name]: value })
-  }, [floor])
+  const updateFloor = useCallback(
+    (e) => {
+      const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
+      setFloor({ ...floor, [e.target.name]: value })
+    },
+    [floor],
+  )
 
   // Get login user emp_id
   const id = useSelector((state) => {
@@ -57,10 +67,22 @@ const FloorCreation = () => {
       rm_floor_room_starts: rm_floor_room_starts,
       rm_floor_room_ends: rm_floor_room_ends,
       rm_floor_status: rm_floor_status === true ? 1 : 0,
-      create_user: id
+      create_user: id,
     }
-  }, [campus, building, buildBlock, rm_floor_name, floor_order, rm_floor_room_starts, rm_floor_room_ends,
-    rm_floor_status, campusshort, buildingShort, buildBlockShort, id])
+  }, [
+    campus,
+    building,
+    buildBlock,
+    rm_floor_name,
+    floor_order,
+    rm_floor_room_starts,
+    rm_floor_room_ends,
+    rm_floor_status,
+    campusshort,
+    buildingShort,
+    buildBlockShort,
+    id,
+  ])
 
   const patchdata = useMemo(() => {
     return {
@@ -75,10 +97,23 @@ const FloorCreation = () => {
       rm_floor_room_starts: rm_floor_room_starts,
       rm_floor_room_ends: rm_floor_room_ends,
       rm_floor_status: rm_floor_status === true ? 1 : 0,
-      edit_user: id
+      edit_user: id,
     }
-  }, [rm_floor_slno, campus, building, buildBlock, rm_floor_name, floor_order, rm_floor_room_starts,
-    rm_floor_room_ends, rm_floor_status, campusshort, buildingShort, buildBlockShort, id])
+  }, [
+    rm_floor_slno,
+    campus,
+    building,
+    buildBlock,
+    rm_floor_name,
+    floor_order,
+    rm_floor_room_starts,
+    rm_floor_room_ends,
+    rm_floor_status,
+    campusshort,
+    buildingShort,
+    buildBlockShort,
+    id,
+  ])
   const reset = async () => {
     const frmdata = {
       rm_floor_slno: '',
@@ -107,47 +142,59 @@ const FloorCreation = () => {
     reset()
   }, [setFloor])
 
-  const sumbitFloor = useCallback((e) => {
-    e.preventDefault()
-    const InsertFloor = async (postdata) => {
-      const result = await axioslogin.post('/floorcreation/insert', postdata)
-      const { message, success } = result.data
-      if (success === 1) {
-        succesNotify(message)
-        setCount(count + 1)
-        reset()
-      } else if (success === 0) {
-        infoNotify(message)
-      } else {
-        infoNotify(message)
+  const sumbitFloor = useCallback(
+    (e) => {
+      e.preventDefault()
+      const InsertFloor = async (postdata) => {
+        const result = await axioslogin.post('/floorcreation/insert', postdata)
+        const { message, success } = result.data
+        if (success === 1) {
+          succesNotify(message)
+          setCount(count + 1)
+          reset()
+        } else if (success === 0) {
+          infoNotify(message)
+        } else {
+          infoNotify(message)
+        }
       }
-    }
-    const UpdateFloor = async (patchdata) => {
-      const result = await axioslogin.patch('/floorcreation/updatee', patchdata)
-      const { message, success } = result.data
-      if (success === 2) {
-        succesNotify(message)
+      const UpdateFloor = async (patchdata) => {
+        const result = await axioslogin.patch('/floorcreation/updatee', patchdata)
+        const { message, success } = result.data
+        if (success === 2) {
+          succesNotify(message)
 
-        reset()
-        setCount(count + 1)
-      } else if (success === 0) {
-        infoNotify(message)
-      } else {
-        infoNotify(message)
+          reset()
+          setCount(count + 1)
+        } else if (success === 0) {
+          infoNotify(message)
+        } else {
+          infoNotify(message)
+        }
       }
-    }
-    if (value === 0) {
-      InsertFloor(postdata)
-    } else {
-      UpdateFloor(patchdata)
-    }
-  }, [postdata, value, count, patchdata])
+      if (value === 0) {
+        InsertFloor(postdata)
+      } else {
+        UpdateFloor(patchdata)
+      }
+    },
+    [postdata, value, count, patchdata],
+  )
   const rowSelect = useCallback((params) => {
     setValue(1)
 
     const data = params.api.getSelectedRows()
-    const { rm_floor_campus_slno, rm_floor_building_slno, rm_floor_build_block_slno, rm_floor_name,
-      rm_floor_status, rm_floor_slno, floor_order, rm_floor_room_starts, rm_floor_room_ends } = data[0]
+    const {
+      rm_floor_campus_slno,
+      rm_floor_building_slno,
+      rm_floor_build_block_slno,
+      rm_floor_name,
+      rm_floor_status,
+      rm_floor_slno,
+      floor_order,
+      rm_floor_room_starts,
+      rm_floor_room_ends,
+    } = data[0]
 
     const frmdata = {
       rm_floor_slno: rm_floor_slno,
@@ -163,7 +210,7 @@ const FloorCreation = () => {
     setbuildBlock(rm_floor_build_block_slno)
   }, [])
   const backtoSetting = useCallback(() => {
-    history.push('/Home/Settings')
+    history('/Home/Settings')
   }, [history])
 
   return (

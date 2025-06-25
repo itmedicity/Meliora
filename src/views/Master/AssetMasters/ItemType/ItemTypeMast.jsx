@@ -1,25 +1,25 @@
 import { Box } from '@mui/system'
-import React, { memo, useCallback, useState ,useMemo} from 'react'
+import React, { memo, useCallback, useState, useMemo } from 'react'
 import CardMaster from 'src/views/Components/CardMaster'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import ItemTypeTable from './ItemTypeTable'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+// import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { useSelector } from 'react-redux'
-
+import { useNavigate } from 'react-router-dom'
 
 const ItemTypeMast = () => {
-  const history = useHistory()
+  const history = useNavigate()
 
   const [value, setValue] = useState(0)
   const [count, setCount] = useState(0)
-   // Get login user emp_id
-   const id = useSelector((state) => {
+  // Get login user emp_id
+  const id = useSelector((state) => {
     return state.LoginUserData.empid
-   })
-    const [itemType, setItemType] = useState({
+  })
+  const [itemType, setItemType] = useState({
     item_type_slno: '',
     item_type_name: '',
     item_type_status: false,
@@ -29,7 +29,6 @@ const ItemTypeMast = () => {
     (e) => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setItemType({ ...itemType, [e.target.name]: value })
-  
     },
     [itemType],
   )
@@ -42,23 +41,22 @@ const ItemTypeMast = () => {
     setItemType(frmdata)
     setCount(0)
     setValue(0)
-  
   }
   const postdata = useMemo(() => {
     return {
       item_type_name: item_type_name,
       item_type_status: item_type_status === true ? 1 : 0,
-      create_user: id
+      create_user: id,
     }
-  }, [item_type_name, item_type_status,id])
+  }, [item_type_name, item_type_status, id])
   const patchdata = useMemo(() => {
     return {
       item_type_slno: item_type_slno,
       item_type_name: item_type_name,
       item_type_status: item_type_status === true ? 1 : 0,
-      edit_user: id
+      edit_user: id,
     }
-  }, [item_type_slno, item_type_name, item_type_status,id])
+  }, [item_type_slno, item_type_name, item_type_status, id])
   const sumbitItemType = useCallback(
     (e) => {
       e.preventDefault()
@@ -91,16 +89,14 @@ const ItemTypeMast = () => {
       if (value === 0) {
         if (item_type_name !== '') {
           InsertItemType(postdata)
+        } else {
+          infoNotify('Please Enter Item type')
         }
-        else {
-          infoNotify("Please Enter Item type") 
-        }
-      }
-        else {
+      } else {
         ItemTypeUpdate(patchdata)
       }
     },
-    [postdata, value, patchdata, count,item_type_name],
+    [postdata, value, patchdata, count, item_type_name],
   )
   const rowSelect = useCallback((params) => {
     setValue(1)
@@ -114,7 +110,7 @@ const ItemTypeMast = () => {
     setItemType(frmdata)
   }, [])
   const backtoSetting = useCallback(() => {
-    history.push('/Home/Settings')
+    history('/Home/Settings')
   }, [history])
   const refreshWindow = useCallback(() => {
     const frmdata = {
@@ -124,8 +120,7 @@ const ItemTypeMast = () => {
     }
     setItemType(frmdata)
     setValue(0)
-    
-  }, [setItemType,])
+  }, [setItemType])
   return (
     <CardMaster
       title="Item Type Master"
@@ -144,7 +139,6 @@ const ItemTypeMast = () => {
                 name="item_type_name"
                 value={item_type_name}
                 onchange={updateItemType}
-               
               ></TextFieldCustom>
             </Box>
             <Box sx={{ p: 1.5 }}>

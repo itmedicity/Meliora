@@ -1,13 +1,11 @@
-import { CNavItem } from "@coreui/react";
-
+import { CiStop1 } from 'react-icons/ci'
 
 const RmUtilities = [
-    {
-        men_slno: 22,
-        component: CNavItem,
-        name: 'Utility1',
-        to: '/Home',
-    },
+  {
+    men_slno: 22,
+    name: 'Utility1',
+    to: '/Home',
+  },
 ]
 
-export default RmUtilities;
+export default RmUtilities
