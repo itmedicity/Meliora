@@ -1,80 +1,60 @@
-import { CNavItem } from "@coreui/react";
 import React from 'react'
-import { cilCircle } from '@coreui/icons'
-import CIcon from '@coreui/icons-react'
+import { CiStop1 } from 'react-icons/ci'
 
 const TaskTransaction = [
+  {
+    men_slno: 169,
+    name: 'Dashboard',
+    to: '/Home/TaskManagementDashboard',
+    icon: <CiStop1 />,
+  },
+  {
+    men_slno: 170,
+    name: 'Directors Desk',
+    to: '/Home/TaskManagementCreateTask',
+    icon: <CiStop1 />,
+  },
+  {
+    men_slno: 185,
+    name: 'Create New',
+    to: '/Home/TaskManagementTaskLists',
+    icon: <CiStop1 />,
+  },
+  {
+    men_slno: 176,
+    name: 'My Tasks',
+    to: '/Home/TaskManagementEmployeeTask',
+    icon: <CiStop1 />,
+  },
 
-    {
-        men_slno: 169,
-        component: CNavItem,
-        name: 'Dashboard',
-        to: '/Home/TaskManagementDashboard',
-        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
-    },
-    {
-        men_slno: 170,
-        component: CNavItem,
-        name: 'Directors Desk',
-        to: '/Home/TaskManagementCreateTask',
-        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
-    },
-    {
-        men_slno: 185,
-        component: CNavItem,
-        name: 'Create New',
-        to: '/Home/TaskManagementTaskLists',
-        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
-    },
-    {
-        men_slno: 176,
-        component: CNavItem,
-        name: 'My Tasks',
-        to: '/Home/TaskManagementEmployeeTask',
-        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
-    },
+  {
+    men_slno: 171,
+    name: 'Task In Queue',
+    to: '/Home/AcceptTask',
+    icon: <CiStop1 />,
+  },
 
-    {
-        men_slno: 171,
-        component: CNavItem,
-        name: 'Task In Queue',
-        to: '/Home/AcceptTask',
-        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
-    },
+  {
+    men_slno: 172,
+    name: 'Performance Sheet',
+    to: '/Home/TaskPerformanceSheet',
+    icon: <CiStop1 />,
+  },
 
-    {
-        men_slno: 172,
-        component: CNavItem,
-        name: 'Performance Sheet',
-        to: '/Home/TaskPerformanceSheet',
-        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
-    },
+  {
+    men_slno: 173,
+    name: 'Performance Slides',
+    to: '/Home/TaskPerformanceSlide',
+    icon: <CiStop1 />,
+  },
 
-    {
-        men_slno: 173,
-        component: CNavItem,
-        name: 'Performance Slides',
-        to: '/Home/TaskPerformanceSlide',
-        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
-    },
-
-
-    // {
-    //     men_slno: 174,
-    //     component: CNavItem,
-    //     name: 'Projects',
-    //     to: '/Home/TaskManagementDeptProjects',
-    //     icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
-    // },
-
-
-
-
-
-
-
-
-
+  // {
+  //     men_slno: 174,
+  //     component: CNavItem,
+  //     name: 'Projects',
+  //     to: '/Home/TaskManagementDeptProjects',
+  //     icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
+  // },
 ]
 
-export default TaskTransaction;
+export default TaskTransaction

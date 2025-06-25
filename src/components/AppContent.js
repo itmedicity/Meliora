@@ -1,38 +1,26 @@
-import React, { Suspense } from 'react'
-import { Redirect, Route, Switch } from 'react-router-dom'
-import { CContainer } from '@coreui/react'
+import React, { Suspense, memo } from 'react'
+import { Navigate, Route, Routes } from 'react-router-dom'
 
 // routes config
 import routes from '../routes'
 import BackDrop from 'src/views/Components/BackDrop'
+import { Box } from '@mui/material'
 
 const AppContent = () => {
   return (
-    <CContainer fluid>
+    <Box sx={{ display: 'flex', flexGrow: 1 }}>
       <Suspense fallback={<BackDrop />}>
-        <Switch>
-          {routes.map((route, idx) => {
-            return (
-              route.component && (
-                <Route
-                  key={idx}
-                  path={route.path}
-                  exact={route.exact}
-                  name={route.name}
-                  render={(props) => (
-                    <>
-                      <route.component {...props} />
-                    </>
-                  )}
-                />
-              )
-            )
-          })}
-          <Redirect from="/" to="/Home" />
-        </Switch>
+        <Routes>
+          {/* {routes.map((route, idx) => {
+            return route.component && <Route key={idx} path={route.path} element={route.element} />
+          })} */}
+          {routes.map((route, idx) => (
+            <Route key={idx} path={route.path} element={route.element} />
+          ))}
+        </Routes>
       </Suspense>
-    </CContainer>
+    </Box>
   )
 }
 
-export default React.memo(AppContent)
+export default memo(AppContent)

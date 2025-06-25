@@ -8,7 +8,6 @@ import CardMaster from 'src/views/Components/CardMaster'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import ItemNameCreationTable from './ItemNameCreationTable'
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import AssetItemSelect from 'src/views/CommonSelectCode/AssetItemSelect'
 import AssetSubcategorySelect from 'src/views/CommonSelectCode/AssetSubcategorySelect'
 import AssetSubGroupSelect from 'src/views/CommonSelectCode/AssetSubGroupSelect'
@@ -18,7 +17,7 @@ import AssetModelSelect from 'src/views/CommonSelectCode/AssetModelSelect'
 // import AmSubmodelSelect from 'src/views/CommonSelectCode/AmSubmodelSelect'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 // import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined'
-import imageCompression from 'browser-image-compression';
+import imageCompression from 'browser-image-compression'
 import UploadFileIcon from '@mui/icons-material/UploadFile'
 import CustomeToolTip from 'src/views/Components/CustomeToolTip'
 import AmAssetTypeSelect from 'src/views/CommonSelectCode/AmAssetTypeSelect'
@@ -41,13 +40,13 @@ import ModelModal from './ModelForAssetItemAdd/ModelModal'
 import SubGroupModal from './ModelForAssetItemAdd/SubGroupModal'
 // import SubModelModal from './ModelForAssetItemAdd/SubModelModal'
 import { CssVarsProvider } from '@mui/joy'
-import Textarea from '@mui/joy/Textarea';
+import Textarea from '@mui/joy/Textarea'
 import ModelForItemExistOrNot from './ModelForItemExistOrNot'
-
+import { useNavigate } from 'react-router-dom'
 
 const ItemNameCreation = () => {
-  const dispatch = useDispatch();
-  const history = useHistory()
+  const dispatch = useDispatch()
+  const history = useNavigate()
   const [selectFile, setSelectFile] = useState(null)
   const [value, setValue] = useState(0)
   const [count, setCount] = useState(0)
@@ -108,15 +107,8 @@ const ItemNameCreation = () => {
     item_specific_two: '',
     item_creation_status: true,
   })
-  const {
-    item_creation_slno,
-    item_specific_one,
-    item_specific_two,
-    item_creation_status,
-  } = item
+  const { item_creation_slno, item_specific_one, item_specific_two, item_creation_status } = item
   const [item_base_name, setitem_base_name] = useState('')
-
-
 
   const updateAsset = useCallback((e) => {
     if (e.target.checked === true) {
@@ -141,70 +133,91 @@ const ItemNameCreation = () => {
     }
   }, [])
 
-  const updateAssetTypeStatus = useCallback((e) => {
-    if (e.target.checked === true) {
-      setAssetTypeStatus(true)
-      setAssetNameDis(assetName)
-    } else if (e.target.checked === false) {
-      setAssetTypeStatus(false)
-      setAssetNameDis('')
-    }
-  }, [assetName])
+  const updateAssetTypeStatus = useCallback(
+    (e) => {
+      if (e.target.checked === true) {
+        setAssetTypeStatus(true)
+        setAssetNameDis(assetName)
+      } else if (e.target.checked === false) {
+        setAssetTypeStatus(false)
+        setAssetNameDis('')
+      }
+    },
+    [assetName],
+  )
 
-  const updateItemStatus = useCallback((e) => {
-    if (e.target.checked === true) {
-      setItemTypeSatus(true)
-      setItemNameDis(itemName)
-    } else if (e.target.checked === false) {
-      setItemTypeSatus(false)
-      setItemNameDis('')
-    }
-  }, [itemName])
-  const updateCategoryStatus = useCallback((e) => {
-    if (e.target.checked === true) {
-      setCategorySatus(true)
-      setCategoryDis(categoryName)
-    } else if (e.target.checked === false) {
-      setCategorySatus(false)
-      setCategoryDis('')
-    }
-  }, [categoryName])
-  const updateSubcatStatus = useCallback((e) => {
-    if (e.target.checked === true) {
-      setSubcatSatus(true)
-      setSubcatDis(subcatName)
-    } else if (e.target.checked === false) {
-      setSubcatSatus(false)
-      setSubcatDis('')
-    }
-  }, [subcatName])
-  const updateGroupStatus = useCallback((e) => {
-    if (e.target.checked === true) {
-      setGroupStatus(true)
-      setGroupDis(groupName)
-    } else if (e.target.checked === false) {
-      setGroupStatus(false)
-      setGroupDis('')
-    }
-  }, [groupName])
-  const updateSubGroupStatus = useCallback((e) => {
-    if (e.target.checked === true) {
-      setSubGroupStatus(true)
-      setSubGroupDis(subgroupName)
-    } else if (e.target.checked === false) {
-      setSubGroupStatus(false)
-      setSubGroupDis('')
-    }
-  }, [subgroupName])
-  const updateModelStatus = useCallback((e) => {
-    if (e.target.checked === true) {
-      setModelStatus(true)
-      setModelDis(modelName)
-    } else if (e.target.checked === false) {
-      setModelStatus(false)
-      setModelDis('')
-    }
-  }, [modelName])
+  const updateItemStatus = useCallback(
+    (e) => {
+      if (e.target.checked === true) {
+        setItemTypeSatus(true)
+        setItemNameDis(itemName)
+      } else if (e.target.checked === false) {
+        setItemTypeSatus(false)
+        setItemNameDis('')
+      }
+    },
+    [itemName],
+  )
+  const updateCategoryStatus = useCallback(
+    (e) => {
+      if (e.target.checked === true) {
+        setCategorySatus(true)
+        setCategoryDis(categoryName)
+      } else if (e.target.checked === false) {
+        setCategorySatus(false)
+        setCategoryDis('')
+      }
+    },
+    [categoryName],
+  )
+  const updateSubcatStatus = useCallback(
+    (e) => {
+      if (e.target.checked === true) {
+        setSubcatSatus(true)
+        setSubcatDis(subcatName)
+      } else if (e.target.checked === false) {
+        setSubcatSatus(false)
+        setSubcatDis('')
+      }
+    },
+    [subcatName],
+  )
+  const updateGroupStatus = useCallback(
+    (e) => {
+      if (e.target.checked === true) {
+        setGroupStatus(true)
+        setGroupDis(groupName)
+      } else if (e.target.checked === false) {
+        setGroupStatus(false)
+        setGroupDis('')
+      }
+    },
+    [groupName],
+  )
+  const updateSubGroupStatus = useCallback(
+    (e) => {
+      if (e.target.checked === true) {
+        setSubGroupStatus(true)
+        setSubGroupDis(subgroupName)
+      } else if (e.target.checked === false) {
+        setSubGroupStatus(false)
+        setSubGroupDis('')
+      }
+    },
+    [subgroupName],
+  )
+  const updateModelStatus = useCallback(
+    (e) => {
+      if (e.target.checked === true) {
+        setModelStatus(true)
+        setModelDis(modelName)
+      } else if (e.target.checked === false) {
+        setModelStatus(false)
+        setModelDis('')
+      }
+    },
+    [modelName],
+  )
   // const updateSubModelStatus = useCallback((e) => {
   //   if (e.target.checked === true) {
   //     setSubModelstatus(true)
@@ -214,35 +227,43 @@ const ItemNameCreation = () => {
   //     setSubModelDis('')
   //   }
   // }, [submodelName])
-  const updateUOMsatus = useCallback((e) => {
-    if (e.target.checked === true) {
-      setUOMstatus(true)
-      setUOMdis(uomName)
-    } else if (e.target.checked === false) {
-      setUOMstatus(false)
-      setUOMdis('')
-    }
-  }, [uomName])
+  const updateUOMsatus = useCallback(
+    (e) => {
+      if (e.target.checked === true) {
+        setUOMstatus(true)
+        setUOMdis(uomName)
+      } else if (e.target.checked === false) {
+        setUOMstatus(false)
+        setUOMdis('')
+      }
+    },
+    [uomName],
+  )
 
-
-  const updateManufactureStatus = useCallback((e) => {
-    if (e.target.checked === true) {
-      setManufactureStatus(true)
-      setManufactureDis(manufactureName)
-    } else if (e.target.checked === false) {
-      setManufactureStatus(false)
-      setManufactureDis('')
-    }
-  }, [manufactureName])
-  const updateModelNoStatus = useCallback((e) => {
-    if (e.target.checked === true) {
-      setModelNoStatus(true)
-      setModelNoDis(modelNo)
-    } else if (e.target.checked === false) {
-      setModelNoStatus(false)
-      setModelNoDis('')
-    }
-  }, [modelNo])
+  const updateManufactureStatus = useCallback(
+    (e) => {
+      if (e.target.checked === true) {
+        setManufactureStatus(true)
+        setManufactureDis(manufactureName)
+      } else if (e.target.checked === false) {
+        setManufactureStatus(false)
+        setManufactureDis('')
+      }
+    },
+    [manufactureName],
+  )
+  const updateModelNoStatus = useCallback(
+    (e) => {
+      if (e.target.checked === true) {
+        setModelNoStatus(true)
+        setModelNoDis(modelNo)
+      } else if (e.target.checked === false) {
+        setModelNoStatus(false)
+        setModelNoDis('')
+      }
+    },
+    [modelNo],
+  )
 
   const updateModelNo = useCallback((e) => {
     setModelNo(e.target.value.toLocaleUpperCase())
@@ -264,10 +285,13 @@ const ItemNameCreation = () => {
   //   setBasedis(e.target.value.toLocaleUpperCase())
   // }, [])
 
-  const updateItemCreation = useCallback((e) => {
-    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
-    setItem({ ...item, [e.target.name]: value })
-  }, [item],)
+  const updateItemCreation = useCallback(
+    (e) => {
+      const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
+      setItem({ ...item, [e.target.name]: value })
+    },
+    [item],
+  )
 
   const [order, setOrder] = useState({
     asset_order: '',
@@ -282,8 +306,18 @@ const ItemNameCreation = () => {
     uom_order: '',
   })
 
-  const { asset_order, item_oder, category_order, subCat_order, group_order, subGrup_order, manufct_order,
-    model_order, modelNo_order, uom_order } = order
+  const {
+    asset_order,
+    item_oder,
+    category_order,
+    subCat_order,
+    group_order,
+    subGrup_order,
+    manufct_order,
+    model_order,
+    modelNo_order,
+    uom_order,
+  } = order
 
   useEffect(() => {
     if (assettype !== 0) {
@@ -317,40 +351,91 @@ const ItemNameCreation = () => {
       setManufactureDis(manufactureName)
     }
     setModelNoDis(modelNo)
-
-  }, [assettype, itemtype, category, subcategory, group, subgroup, model, submodel, uom, manufacture, modelNo, assetName,
-    itemName, categoryName, subcatName, groupName, subgroupName, modelName, submodelName, uomName, manufactureName])
+  }, [
+    assettype,
+    itemtype,
+    category,
+    subcategory,
+    group,
+    subgroup,
+    model,
+    submodel,
+    uom,
+    manufacture,
+    modelNo,
+    assetName,
+    itemName,
+    categoryName,
+    subcatName,
+    groupName,
+    subgroupName,
+    modelName,
+    submodelName,
+    uomName,
+    manufactureName,
+  ])
 
   const [itemNamee, setItemNamee] = useState('')
 
   useEffect(() => {
-
     // if(subCat_order===)
-    let arrayys = [{ order: asset_order, status: assetTypeStatus, name: assetNameDis },
-    { order: item_oder, status: itemTypeStatus, name: itemNameDis },
-    { order: category_order, status: categoryStatus, name: categoryDis },
-    { order: subCat_order, status: subcatStatus, name: subcatDis },
-    { order: group_order, status: groupStatus, name: groupDis },
-    { order: subGrup_order, status: subgroupStatus, name: subgroupDis },
-    { order: manufct_order, status: manufactureStatus, name: manufactureDis },
-    { order: model_order, status: modelStatus, name: modelDis },
-    // { order: asset_order, status: submodelStatus, name: submodelDis },
-    { order: modelNo_order, status: modelNoStatus, name: modelNoDis },
-    { order: uom_order, status: uomStatus, name: uomDis },
+    let arrayys = [
+      { order: asset_order, status: assetTypeStatus, name: assetNameDis },
+      { order: item_oder, status: itemTypeStatus, name: itemNameDis },
+      { order: category_order, status: categoryStatus, name: categoryDis },
+      { order: subCat_order, status: subcatStatus, name: subcatDis },
+      { order: group_order, status: groupStatus, name: groupDis },
+      { order: subGrup_order, status: subgroupStatus, name: subgroupDis },
+      { order: manufct_order, status: manufactureStatus, name: manufactureDis },
+      { order: model_order, status: modelStatus, name: modelDis },
+      // { order: asset_order, status: submodelStatus, name: submodelDis },
+      { order: modelNo_order, status: modelNoStatus, name: modelNoDis },
+      { order: uom_order, status: uomStatus, name: uomDis },
       // { order: asset_order, status: baseStatus, name: baseDis }
     ]
     //Remove Unchecked feilds
-    let filterName = arrayys?.filter((e) => e.name !== null && e.status === true);
+    let filterName = arrayys?.filter((e) => e.name !== null && e.status === true)
     //Sort By given Order
     let sortArry = filterName.sort((a, b) => a.order - b.order)
     //Joining
     let stringName = sortArry?.map((e) => e.name).join(' ')
     setItemNamee(stringName)
-  }, [assetTypeStatus, assetNameDis, itemTypeStatus, itemNameDis, categoryStatus, categoryDis,
-    subcatStatus, subcatDis, groupStatus, groupDis, subgroupStatus, subgroupDis, manufactureStatus,
-    manufactureDis, modelStatus, modelDis, submodelStatus, submodelDis, modelNoStatus, modelNoDis,
-    uomStatus, uomDis, baseStatus, baseDis, asset_order, item_oder, category_order, subCat_order,
-    group_order, subGrup_order, manufct_order, model_order, modelNo_order, uom_order])
+  }, [
+    assetTypeStatus,
+    assetNameDis,
+    itemTypeStatus,
+    itemNameDis,
+    categoryStatus,
+    categoryDis,
+    subcatStatus,
+    subcatDis,
+    groupStatus,
+    groupDis,
+    subgroupStatus,
+    subgroupDis,
+    manufactureStatus,
+    manufactureDis,
+    modelStatus,
+    modelDis,
+    submodelStatus,
+    submodelDis,
+    modelNoStatus,
+    modelNoDis,
+    uomStatus,
+    uomDis,
+    baseStatus,
+    baseDis,
+    asset_order,
+    item_oder,
+    category_order,
+    subCat_order,
+    group_order,
+    subGrup_order,
+    manufct_order,
+    model_order,
+    modelNo_order,
+    uom_order,
+  ])
 
   const postdata = useMemo(() => {
     return {
@@ -370,10 +455,28 @@ const ItemNameCreation = () => {
       item_specific_one: item_specific_one,
       item_specific_two: item_specific_two,
       item_creation_status: item_creation_status === true ? 1 : 0,
-      asset_spare: asset === true ? 1 : spare === true ? 2 : 0
+      asset_spare: asset === true ? 1 : spare === true ? 2 : 0,
     }
-  }, [assettype, itemtype, category, subcategory, group, uom, model, subgroup, submodel, manufacture, itemNamee,
-    item_base_name, modelNo, item_specific_one, item_specific_two, item_creation_status, asset, spare])
+  }, [
+    assettype,
+    itemtype,
+    category,
+    subcategory,
+    group,
+    uom,
+    model,
+    subgroup,
+    submodel,
+    manufacture,
+    itemNamee,
+    item_base_name,
+    modelNo,
+    item_specific_one,
+    item_specific_two,
+    item_creation_status,
+    asset,
+    spare,
+  ])
 
   const patchdata = useMemo(() => {
     return {
@@ -394,11 +497,28 @@ const ItemNameCreation = () => {
       item_specific_one: item_specific_one,
       item_specific_two: item_specific_two,
       item_creation_status: item_creation_status === true ? 1 : 0,
-      asset_spare: asset === true ? 1 : spare === true ? 2 : 0
+      asset_spare: asset === true ? 1 : spare === true ? 2 : 0,
     }
-  }, [item_creation_slno, assettype, itemtype, category, subcategory, group, subgroup, uom, model, submodel,
-    manufacture, itemNamee, item_base_name, modelNo, item_specific_one, item_specific_two,
-    item_creation_status, asset, spare
+  }, [
+    item_creation_slno,
+    assettype,
+    itemtype,
+    category,
+    subcategory,
+    group,
+    subgroup,
+    uom,
+    model,
+    submodel,
+    manufacture,
+    itemNamee,
+    item_base_name,
+    modelNo,
+    item_specific_one,
+    item_specific_two,
+    item_creation_status,
+    asset,
+    spare,
   ])
 
   const reset = useCallback(() => {
@@ -485,24 +605,82 @@ const ItemNameCreation = () => {
       uom_order: '',
     }
     setOrder(orderReset)
-  }, [setItem, setCount, setValue, setItemtype, setAssetType, setCategory, setSubcategory, setGroup, setSubGroup, setManufacture, setUOM,
-    setModel, setSubmodel, setModelNo, setItemNamee, setAssetName, setItemName, setCategoryName, setSubcatName, setGroupName,
-    setSubgroupName, setModelName, setSubmodelName, setUomName, setManufactureName, setAssetTypeStatus, setItemTypeSatus, setCategorySatus,
-    setSubcatSatus, setGroupStatus, setSubGroupStatus, setModelStatus, setSubModelstatus, setUOMstatus, setManufactureStatus,
-    setModelNoStatus, setAssetNameDis, setItemNameDis, setCategoryDis, setSubcatDis, setGroupDis, setSubGroupDis, setModelDis, setSubModelDis,
-    setUOMdis, setManufactureDis, setModelNoDis, assetName, itemName, categoryName, subcatName, groupName, setCheckexist, setCheckExsitOpen,
-    subgroupName, modelName, submodelName, uomName, manufactureName, modelNo, dispatch, setasset, setSpare])
+  }, [
+    setItem,
+    setCount,
+    setValue,
+    setItemtype,
+    setAssetType,
+    setCategory,
+    setSubcategory,
+    setGroup,
+    setSubGroup,
+    setManufacture,
+    setUOM,
+    setModel,
+    setSubmodel,
+    setModelNo,
+    setItemNamee,
+    setAssetName,
+    setItemName,
+    setCategoryName,
+    setSubcatName,
+    setGroupName,
+    setSubgroupName,
+    setModelName,
+    setSubmodelName,
+    setUomName,
+    setManufactureName,
+    setAssetTypeStatus,
+    setItemTypeSatus,
+    setCategorySatus,
+    setSubcatSatus,
+    setGroupStatus,
+    setSubGroupStatus,
+    setModelStatus,
+    setSubModelstatus,
+    setUOMstatus,
+    setManufactureStatus,
+    setModelNoStatus,
+    setAssetNameDis,
+    setItemNameDis,
+    setCategoryDis,
+    setSubcatDis,
+    setGroupDis,
+    setSubGroupDis,
+    setModelDis,
+    setSubModelDis,
+    setUOMdis,
+    setManufactureDis,
+    setModelNoDis,
+    assetName,
+    itemName,
+    categoryName,
+    subcatName,
+    groupName,
+    setCheckexist,
+    setCheckExsitOpen,
+    subgroupName,
+    modelName,
+    submodelName,
+    uomName,
+    manufactureName,
+    modelNo,
+    dispatch,
+    setasset,
+    setSpare,
+  ])
 
   const uploadFile = async (event) => {
-    const file = event.target.files[0];
-    setSelectFile(file);
+    const file = event.target.files[0]
+    setSelectFile(file)
     const options = {
       maxSizeMB: 1,
-      maxWidthOrHeight: 1920
+      maxWidthOrHeight: 1920,
     }
-    const compressedFile = await imageCompression(file, options);
-    setSelectFile(compressedFile);
-  };
+    const compressedFile = await imageCompression(file, options)
+    setSelectFile(compressedFile)
+  }
 
   const sumbitItemCreation = useCallback(
     (e) => {
@@ -511,7 +689,6 @@ const ItemNameCreation = () => {
         const result = await axioslogin.post('/itemNameCreation/insert', postdata)
         reset()
         return result.data
-
       }
 
       const UpdateItem = async (patchdata) => {
@@ -534,84 +711,96 @@ const ItemNameCreation = () => {
           succesNotify(message)
           setCount(count + 1)
           reset()
-        }
-        else {
+        } else {
           infoNotify(message)
         }
       }
 
       if (value === 0) {
         if (assetName !== '' && itemName !== '') {
-
           InsertItem(postdata).then((val) => {
             const { message, success, insertid } = val
             if (success === 1) {
-
               if (selectFile !== null) {
                 //File upload Api and post data
                 const formData = new FormData()
                 formData.append('id', insertid)
                 formData.append('file', selectFile, selectFile.name)
                 FileInsert(formData)
-              }
-              else {
+              } else {
                 succesNotify(message)
                 setCount(count + 1)
                 reset()
               }
-            }
-            else if (success === 0) {
+            } else if (success === 0) {
               infoNotify(message)
             } else {
               infoNotify(message)
             }
           })
+        } else {
+          infoNotify('please fill fields')
         }
-        else {
-          infoNotify("please fill fields")
-
-        }
-      }
-      else UpdateItem(patchdata)
+      } else UpdateItem(patchdata)
       reset()
-    }, [postdata, value, count, patchdata, reset, selectFile, assetName, itemName],)
+    },
+    [postdata, value, count, patchdata, reset, selectFile, assetName, itemName],
+  )
 
-  const rowSelect = useCallback((params) => {
-    setValue(1)
-    const data = params.api.getSelectedRows()
-    const { item_creation_slno, item_asset_type_slno, item_type_slno, item_category_slno,
-      item_subcategory_slno, item_group_slno, item_subgroup_slno, item_model_slno, item_submodel_slno,
-      item_uom_slno, item_manufactures_slno, item_name, item_base_name, item_model_num,
-      item_specific_one, item_specific_two, item_creation_status, asset_spare
-    } = data[0]
+  const rowSelect = useCallback(
+    (params) => {
+      setValue(1)
+      const data = params.api.getSelectedRows()
+      const {
+        item_creation_slno,
+        item_asset_type_slno,
+        item_type_slno,
+        item_category_slno,
+        item_subcategory_slno,
+        item_group_slno,
+        item_subgroup_slno,
+        item_model_slno,
+        item_submodel_slno,
+        item_uom_slno,
+        item_manufactures_slno,
+        item_name,
+        item_base_name,
+        item_model_num,
+        item_specific_one,
+        item_specific_two,
+        item_creation_status,
+        asset_spare,
+      } = data[0]
 
-    const frmdata = {
-      item_creation_slno: item_creation_slno,
-      item_specific_one: item_specific_one,
-      item_specific_two: item_specific_two,
-      item_creation_status: item_creation_status === 1 ? true : false,
-    }
+      const frmdata = {
+        item_creation_slno: item_creation_slno,
+        item_specific_one: item_specific_one,
+        item_specific_two: item_specific_two,
+        item_creation_status: item_creation_status === 1 ? true : false,
+      }
 
-    setItem(frmdata)
-    setAssetType(item_asset_type_slno)
-    setItemtype(item_type_slno)
-    setCategory(item_category_slno === null ? 0 : item_category_slno)
-    setSubcategory(item_subcategory_slno === null ? 0 : item_subcategory_slno)
-    setGroup(item_group_slno === null ? 0 : item_group_slno)
-    setSubGroup(item_subgroup_slno === null ? 0 : item_subgroup_slno)
-    setManufacture(item_manufactures_slno === null ? 0 : item_manufactures_slno)
-    setUOM(item_uom_slno === null ? 0 : item_uom_slno)
-    setModel(item_model_slno === null ? 0 : item_model_slno)
-    setSubmodel(item_submodel_slno === null ? 0 : item_submodel_slno)
-    setItemNamee(item_name)
-    setModelNo(item_model_num !== null ? item_model_num : '')
-    setasset(asset_spare === 1 ? true : false)
-    setSpare(asset_spare === 2 ? true : false)
-    setitem_base_name(item_base_name)
-  }, [setAssetType, setItemtype, setCategory])
+      setItem(frmdata)
+      setAssetType(item_asset_type_slno)
+      setItemtype(item_type_slno)
+      setCategory(item_category_slno === null ? 0 : item_category_slno)
+      setSubcategory(item_subcategory_slno === null ? 0 : item_subcategory_slno)
+      setGroup(item_group_slno === null ? 0 : item_group_slno)
+      setSubGroup(item_subgroup_slno === null ? 0 : item_subgroup_slno)
+      setManufacture(item_manufactures_slno === null ? 0 : item_manufactures_slno)
+      setUOM(item_uom_slno === null ? 0 : item_uom_slno)
+      setModel(item_model_slno === null ? 0 : item_model_slno)
+      setSubmodel(item_submodel_slno === null ? 0 : item_submodel_slno)
+      setItemNamee(item_name)
+      setModelNo(item_model_num !== null ? item_model_num : '')
+      setasset(asset_spare === 1 ? true : false)
+      setSpare(asset_spare === 2 ? true : false)
+      setitem_base_name(item_base_name)
+    },
+    [setAssetType, setItemtype, setCategory],
+  )
 
   const backtoSetting = useCallback(() => {
-    history.push('/Home/Settings')
+    history('/Home/Settings')
   }, [history])
 
   const refreshWindow = useCallback(() => {
@@ -638,8 +827,6 @@ const ItemNameCreation = () => {
   const [SubGroupFlag, setSubGroupFlag] = useState(0)
   // const [SubModelOpen, setSubModelOpen] = useState(false)
   // const [SubModelFlag, setSubModelFlag] = useState(0)
-
-
 
   const modelAsset = () => {
     setAssetTypeFlag(1)
@@ -720,32 +907,49 @@ const ItemNameCreation = () => {
     setCheckExsitOpen(true)
   }, [])
 
-  const updateOrder = useCallback((e) => {
-    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
-    if (/[0-9]/.test(value) === true) {
-      if (value > 0 && value <= 10) {
-        const newValue = parseInt(value)
-        if (asset_order !== newValue && item_oder !== newValue && category_order !== newValue
-          && subCat_order !== newValue && group_order !== newValue && subGrup_order !== newValue &&
-          manufct_order !== newValue && model_order !== newValue && modelNo_order !== newValue &&
-          uom_order !== newValue) {
-          setOrder({ ...order, [e.target.name]: newValue })
+  const updateOrder = useCallback(
+    (e) => {
+      const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
+      if (/[0-9]/.test(value) === true) {
+        if (value > 0 && value <= 10) {
+          const newValue = parseInt(value)
+          if (
+            asset_order !== newValue &&
+            item_oder !== newValue &&
+            category_order !== newValue &&
+            subCat_order !== newValue &&
+            group_order !== newValue &&
+            subGrup_order !== newValue &&
+            manufct_order !== newValue &&
+            model_order !== newValue &&
+            modelNo_order !== newValue &&
+            uom_order !== newValue
+          ) {
+            setOrder({ ...order, [e.target.name]: newValue })
+          } else {
+            warningNotify('Do Not enter same values')
+          }
+        } else {
+          warningNotify('Enter number In Between 1 and 10')
         }
-        else {
-          warningNotify("Do Not enter same values")
-        }
+      } else {
+        warningNotify('Please Enter number')
       }
-      else {
-        warningNotify("Enter number In Between 1 and 10")
-      }
-    }
-    else {
-      warningNotify("Please Enter number")
-    }
-
-  }, [order, asset_order, item_oder, category_order, subCat_order, group_order, subGrup_order,
-    manufct_order, model_order, modelNo_order, uom_order])
-
+    },
+    [
+      order,
+      asset_order,
+      item_oder,
+      category_order,
+      subCat_order,
+      group_order,
+      subGrup_order,
+      manufct_order,
+      model_order,
+      modelNo_order,
+      uom_order,
+    ],
+  )
 
   return (
     <Box>
@@ -755,19 +959,46 @@ const ItemNameCreation = () => {
         close={backtoSetting}
         refresh={refreshWindow}
       >
-        {checkExist === 1 ? <ModelForItemExistOrNot assetOrSpare={assetOrSpare} open={checkExistOpen} handleClose={handleClose} /> : null}
-        {AssetTypeFlag === 1 ? <AssetTypeAddModel open={AssetTypeOpen} handleClose={handleClose} /> : null}
-        {ItemTypeFlag === 1 ? <ItemTypeAddModel open={ItemTypeOpen} handleClose={handleClose} /> : null}
+        {checkExist === 1 ? (
+          <ModelForItemExistOrNot
+            assetOrSpare={assetOrSpare}
+            open={checkExistOpen}
+            handleClose={handleClose}
+          />
+        ) : null}
+        {AssetTypeFlag === 1 ? (
+          <AssetTypeAddModel open={AssetTypeOpen} handleClose={handleClose} />
+        ) : null}
+        {ItemTypeFlag === 1 ? (
+          <ItemTypeAddModel open={ItemTypeOpen} handleClose={handleClose} />
+        ) : null}
         {UOMflag === 1 ? <UomAddmodal open={UOMopen} handleClose={handleClose} /> : null}
-        {ManufactureFlag === 1 ? <Manufacture open={ManufactureOpen} handleClose={handleClose} /> : null}
-        {CategoryFlag === 1 ? <CategoryModal open={CategoryOpen} handleClose={handleClose} /> : null}
-        {SubCategoryFlag === 1 ? <SubcategoryModal open={SubCategoryOpen} handleClose={handleClose} /> : null}
+        {ManufactureFlag === 1 ? (
+          <Manufacture open={ManufactureOpen} handleClose={handleClose} />
+        ) : null}
+        {CategoryFlag === 1 ? (
+          <CategoryModal open={CategoryOpen} handleClose={handleClose} />
+        ) : null}
+        {SubCategoryFlag === 1 ? (
+          <SubcategoryModal open={SubCategoryOpen} handleClose={handleClose} />
+        ) : null}
         {GroupFlag === 1 ? <GroupModal open={GroupOpen} handleClose={handleClose} /> : null}
         {ModelFlag === 1 ? <ModelModal open={ModelOpen} handleClose={handleClose} /> : null}
-        {SubGroupFlag === 1 ? <SubGroupModal open={SubGroupOpen} handleClose={handleClose} /> : null}
+        {SubGroupFlag === 1 ? (
+          <SubGroupModal open={SubGroupOpen} handleClose={handleClose} />
+        ) : null}
         {/* {SubModelFlag === 1 ? <SubModelModal open={SubModelOpen} handleClose={handleClose} /> : null} */}
 
-        <Box sx={{ width: { sm: "100%", md: "80%", lg: "80%", xl: "50%", xxl: "50%" }, display: 'flex', pt: 2.5, margin: 'auto ', pl: 13, flexDirection: 'column' }}>
+        <Box
+          sx={{
+            width: { sm: '100%', md: '80%', lg: '80%', xl: '50%', xxl: '50%' },
+            display: 'flex',
+            pt: 2.5,
+            margin: 'auto ',
+            pl: 13,
+            flexDirection: 'column',
+          }}
+        >
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 0 }}>
             <Box sx={{ pl: 10, width: '20%' }}>
               <CusCheckBox
@@ -792,13 +1023,22 @@ const ItemNameCreation = () => {
               ></CusCheckBox>
             </Box>
             <Box sx={{ pl: 10, width: '50%', pb: 1 }}>
-              <Button onClick={checkExistOtNot} variant="contained"
-                size="small" color="primary">Search</Button>
+              <Button onClick={checkExistOtNot} variant="contained" size="small" color="primary">
+                Search
+              </Button>
             </Box>
           </Box>
 
-          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
-            <Box sx={{ pl: 0.8, width: { sm: "12%", md: "12%", lg: "10%" }, height: "1%", pt: 0.1, textAlign: "center" }}>
+          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
+            <Box
+              sx={{
+                pl: 0.8,
+                width: { sm: '12%', md: '12%', lg: '10%' },
+                height: '1%',
+                pt: 0.1,
+                textAlign: 'center',
+              }}
+            >
               <TextFieldCustom
                 type="text"
                 size="sm"
@@ -817,7 +1057,7 @@ const ItemNameCreation = () => {
                 onCheked={updateAssetTypeStatus}
               ></CusCheckBox>
             </Box>
-            <Box sx={{ width: '20%', pl: 1, pt: 0.6 }} >
+            <Box sx={{ width: '20%', pl: 1, pt: 0.6 }}>
               <Typography>Asset type</Typography>
             </Box>
             <Box sx={{ width: '55%', pt: 0.5 }}>
@@ -828,15 +1068,15 @@ const ItemNameCreation = () => {
                 assetName={assetName}
               />
             </Box>
-            <Box sx={{ width: '5%', pl: 1, pt: 0.5, cursor: "pointer" }} >
-              <Tooltip title="Add" placement="top"  >
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5, cursor: 'pointer' }}>
+              <Tooltip title="Add" placement="top">
                 <AddCircleOutlineIcon onClick={() => modelAsset()} />
               </Tooltip>
             </Box>
           </Box>
 
-          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
-            <Box sx={{ pl: 0.8, width: { sm: "12%", md: "12%", lg: "10%" }, pt: 0.1 }}>
+          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
+            <Box sx={{ pl: 0.8, width: { sm: '12%', md: '12%', lg: '10%' }, pt: 0.1 }}>
               <TextFieldCustom
                 type="text"
                 size="sm"
@@ -855,7 +1095,7 @@ const ItemNameCreation = () => {
                 onCheked={updateItemStatus}
               ></CusCheckBox>
             </Box>
-            <Box sx={{ width: '20%', pl: 1, pt: 0.6 }} >
+            <Box sx={{ width: '20%', pl: 1, pt: 0.6 }}>
               <Typography>Item Type</Typography>
             </Box>
             <Box sx={{ width: '55%', pt: 0.5 }}>
@@ -863,17 +1103,18 @@ const ItemNameCreation = () => {
                 itemtype={itemtype}
                 setItemtype={setItemtype}
                 setName={setItemName}
-                itemName={itemName} />
+                itemName={itemName}
+              />
             </Box>
-            <Box sx={{ width: '5%', pl: 1, pt: 0.5, cursor: "pointer" }} >
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5, cursor: 'pointer' }}>
               <Tooltip title="Add " placement="top">
                 <AddCircleOutlineIcon onClick={() => modelItem()} />
               </Tooltip>
             </Box>
           </Box>
 
-          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
-            <Box sx={{ pl: 0.8, width: { sm: "12%", md: "12%", lg: "10%" }, pt: 0.1 }}>
+          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
+            <Box sx={{ pl: 0.8, width: { sm: '12%', md: '12%', lg: '10%' }, pt: 0.1 }}>
               <TextFieldCustom
                 type="text"
                 size="sm"
@@ -892,7 +1133,7 @@ const ItemNameCreation = () => {
                 onCheked={updateCategoryStatus}
               ></CusCheckBox>
             </Box>
-            <Box sx={{ width: '20%', pl: 1, pt: 0.6 }} >
+            <Box sx={{ width: '20%', pl: 1, pt: 0.6 }}>
               <Typography>Category</Typography>
             </Box>
             <Box sx={{ width: '55%', pt: 0.5 }}>
@@ -903,7 +1144,7 @@ const ItemNameCreation = () => {
                 categoryName={categoryName}
               />
             </Box>
-            <Box sx={{ width: '5%', pl: 1, pt: 0.5, cursor: "pointer" }} >
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5, cursor: 'pointer' }}>
               <Tooltip title="Add " placement="top">
                 <AddCircleOutlineIcon onClick={() => modelCategory()} />
               </Tooltip>
@@ -914,8 +1155,8 @@ const ItemNameCreation = () => {
               <RemoveRedEyeOutlinedIcon />
             </Tooltip>
           </Box> */}
-          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around", }}>
-            <Box sx={{ pl: 0.8, width: { sm: "12%", md: "12%", lg: "10%" }, pt: 0.1 }}>
+          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
+            <Box sx={{ pl: 0.8, width: { sm: '12%', md: '12%', lg: '10%' }, pt: 0.1 }}>
               <TextFieldCustom
                 type="text"
                 size="sm"
@@ -934,7 +1175,7 @@ const ItemNameCreation = () => {
                 onCheked={updateSubcatStatus}
               ></CusCheckBox>
             </Box>
-            <Box sx={{ width: '20%', pl: 1, pt: 0.6 }} >
+            <Box sx={{ width: '20%', pl: 1, pt: 0.6 }}>
               <Typography>Subcategory</Typography>
             </Box>
             <Box sx={{ width: '55%', pt: 0.5 }}>
@@ -945,15 +1186,15 @@ const ItemNameCreation = () => {
                 setName={setSubcatName}
               />
             </Box>
-            <Box sx={{ width: '5%', pl: 1, pt: 0.5, cursor: "pointer" }} >
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5, cursor: 'pointer' }}>
               <Tooltip title="Add " placement="top">
                 <AddCircleOutlineIcon onClick={() => modelSubCategory()} />
               </Tooltip>
             </Box>
           </Box>
 
-          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
-            <Box sx={{ pl: 0.8, width: { sm: "12%", md: "12%", lg: "10%" }, pt: 0.1 }}>
+          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
+            <Box sx={{ pl: 0.8, width: { sm: '12%', md: '12%', lg: '10%' }, pt: 0.1 }}>
               <TextFieldCustom
                 type="text"
                 size="sm"
@@ -972,7 +1213,7 @@ const ItemNameCreation = () => {
                 onCheked={updateGroupStatus}
               ></CusCheckBox>
             </Box>
-            <Box sx={{ width: '20%', pl: 1, pt: 0.6 }} >
+            <Box sx={{ width: '20%', pl: 1, pt: 0.6 }}>
               <Typography>Group</Typography>
             </Box>
             <Box sx={{ width: '55%', pt: 0.5 }}>
@@ -980,16 +1221,17 @@ const ItemNameCreation = () => {
                 group={group}
                 setGroup={setGroup}
                 groupName={groupName}
-                setName={setGroupName} />
+                setName={setGroupName}
+              />
             </Box>
-            <Box sx={{ width: '5%', pl: 1, pt: 0.5, cursor: "pointer" }} >
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5, cursor: 'pointer' }}>
               <Tooltip title="Add  " placement="top">
                 <AddCircleOutlineIcon onClick={() => modelGroup()} />
               </Tooltip>
             </Box>
           </Box>
-          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
-            <Box sx={{ pl: 0.8, width: { sm: "12%", md: "12%", lg: "10%" }, pt: 0.1 }}>
+          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
+            <Box sx={{ pl: 0.8, width: { sm: '12%', md: '12%', lg: '10%' }, pt: 0.1 }}>
               <TextFieldCustom
                 type="text"
                 size="sm"
@@ -1008,7 +1250,7 @@ const ItemNameCreation = () => {
                 onCheked={updateSubGroupStatus}
               ></CusCheckBox>
             </Box>
-            <Box sx={{ width: '20%', pl: 1, pt: 0.6 }} >
+            <Box sx={{ width: '20%', pl: 1, pt: 0.6 }}>
               <Typography>Subgroup</Typography>
             </Box>
             <Box sx={{ width: '55%', pt: 0.5 }}>
@@ -1020,15 +1262,15 @@ const ItemNameCreation = () => {
                 subgroupName={subgroupName}
               />
             </Box>
-            <Box sx={{ width: '5%', pl: 1, pt: 0.5, cursor: "pointer" }} >
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5, cursor: 'pointer' }}>
               <Tooltip title="Add " placement="top">
                 <AddCircleOutlineIcon onClick={() => SubgroupModal()} />
               </Tooltip>
             </Box>
           </Box>
 
-          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
-            <Box sx={{ pl: 0.8, width: { sm: "12%", md: "12%", lg: "10%" }, pt: 0.1 }}>
+          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
+            <Box sx={{ pl: 0.8, width: { sm: '12%', md: '12%', lg: '10%' }, pt: 0.1 }}>
               <TextFieldCustom
                 type="text"
                 size="sm"
@@ -1047,7 +1289,7 @@ const ItemNameCreation = () => {
                 onCheked={updateManufactureStatus}
               ></CusCheckBox>
             </Box>
-            <Box sx={{ width: '20%', pl: 1, pt: 0.6 }} >
+            <Box sx={{ width: '20%', pl: 1, pt: 0.6 }}>
               <Typography>Manufacture</Typography>
             </Box>
             <Box sx={{ width: '55%', pt: 0.5 }}>
@@ -1058,15 +1300,15 @@ const ItemNameCreation = () => {
                 manufactureName={manufactureName}
               />
             </Box>
-            <Box sx={{ width: '5%', pl: 1, pt: 0.5, cursor: "pointer" }} >
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5, cursor: 'pointer' }}>
               <Tooltip title="Add " placement="top">
                 <AddCircleOutlineIcon onClick={() => modelManufacture()} />
               </Tooltip>
             </Box>
           </Box>
 
-          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
-            <Box sx={{ pl: 0.8, width: { sm: "12%", md: "12%", lg: "10%" }, pt: 0.1 }}>
+          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
+            <Box sx={{ pl: 0.8, width: { sm: '12%', md: '12%', lg: '10%' }, pt: 0.1 }}>
               <TextFieldCustom
                 type="text"
                 size="sm"
@@ -1085,7 +1327,7 @@ const ItemNameCreation = () => {
                 onCheked={updateModelStatus}
               ></CusCheckBox>
             </Box>
-            <Box sx={{ width: '20%', pl: 1, pt: 0.6 }} >
+            <Box sx={{ width: '20%', pl: 1, pt: 0.6 }}>
               <Typography>Model</Typography>
             </Box>
             <Box sx={{ width: '55%', pt: 0.5 }}>
@@ -1093,9 +1335,10 @@ const ItemNameCreation = () => {
                 model={model}
                 setModel={setModel}
                 setName={setModelName}
-                modelName={modelName} />
+                modelName={modelName}
+              />
             </Box>
-            <Box sx={{ width: '5%', pl: 1, pt: 0.5, cursor: "pointer" }} >
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5, cursor: 'pointer' }}>
               <Tooltip title="Add " placement="top">
                 <AddCircleOutlineIcon onClick={() => modelModal()} />
               </Tooltip>
@@ -1140,8 +1383,8 @@ const ItemNameCreation = () => {
             </Box>
           </Box> */}
 
-          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
-            <Box sx={{ pl: 0.8, width: { sm: "12%", md: "12%", lg: "10%" }, pt: 0.1 }}>
+          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
+            <Box sx={{ pl: 0.8, width: { sm: '12%', md: '12%', lg: '10%' }, pt: 0.1 }}>
               <TextFieldCustom
                 type="text"
                 size="sm"
@@ -1160,7 +1403,7 @@ const ItemNameCreation = () => {
                 onCheked={updateModelNoStatus}
               ></CusCheckBox>
             </Box>
-            <Box sx={{ width: '20%', pl: 1, pt: 0.6 }} >
+            <Box sx={{ width: '20%', pl: 1, pt: 0.6 }}>
               <Typography>Model No.</Typography>
             </Box>
             <Box sx={{ width: '55%', pt: 0.5 }}>
@@ -1173,12 +1416,11 @@ const ItemNameCreation = () => {
                 onchange={updateModelNo}
               ></TextFieldCustom>
             </Box>
-            <Box sx={{ width: '5%', pl: 1, pt: 0.5 }} >
-            </Box>
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5 }}></Box>
           </Box>
 
-          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: "space-around" }}>
-            <Box sx={{ pl: 0.8, width: { sm: "12%", md: "12%", lg: "10%" }, pt: 0.1 }}>
+          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
+            <Box sx={{ pl: 0.8, width: { sm: '12%', md: '12%', lg: '10%' }, pt: 0.1 }}>
               <TextFieldCustom
                 type="text"
                 size="sm"
@@ -1197,17 +1439,13 @@ const ItemNameCreation = () => {
                 onCheked={updateUOMsatus}
               ></CusCheckBox>
             </Box>
-            <Box sx={{ width: '20%', pl: 1, pt: 0.6 }} >
+            <Box sx={{ width: '20%', pl: 1, pt: 0.6 }}>
               <Typography>U.O.M</Typography>
             </Box>
             <Box sx={{ width: '55%', pt: 0.5 }}>
-              <AssetUOMSelect
-                uom={uom}
-                setUOM={setUOM}
-                setName={setUomName}
-                uomName={uomName} />
+              <AssetUOMSelect uom={uom} setUOM={setUOM} setName={setUomName} uomName={uomName} />
             </Box>
-            <Box sx={{ width: '5%', pl: 1, pt: 0.5, cursor: "pointer" }} >
+            <Box sx={{ width: '5%', pl: 1, pt: 0.5, cursor: 'pointer' }}>
               <Tooltip title="Add " placement="top">
                 <AddCircleOutlineIcon onClick={() => modelUOM()} />
               </Tooltip>
@@ -1240,11 +1478,20 @@ const ItemNameCreation = () => {
             </Box>
           </Box> */}
         </Box>
-        <Box sx={{ display: 'flex', flexDirection: 'row', width: '85%', pl: 19, pt: 1, justifyContent: "space-evenly" }}>
-          <Box sx={{ width: "12%", }}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            width: '85%',
+            pl: 19,
+            pt: 1,
+            justifyContent: 'space-evenly',
+          }}
+        >
+          <Box sx={{ width: '12%' }}>
             <Typography>Asset Name</Typography>
           </Box>
-          <Box sx={{ width: "80%", pl: 2.3 }}>
+          <Box sx={{ width: '80%', pl: 2.3 }}>
             <TextFieldCustom
               type="text"
               size="sm"
@@ -1254,11 +1501,20 @@ const ItemNameCreation = () => {
           </Box>
         </Box>
 
-        <Box sx={{ display: 'flex', flexDirection: 'row', width: '85%', pl: 20, pt: 1, justifyContent: "space-evenly" }}>
-          <Box sx={{ width: "15%", }}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            width: '85%',
+            pl: 20,
+            pt: 1,
+            justifyContent: 'space-evenly',
+          }}
+        >
+          <Box sx={{ width: '15%' }}>
             <Typography>Specification 1</Typography>
           </Box>
-          <Box sx={{ width: "80%", }}>
+          <Box sx={{ width: '80%' }}>
             <CssVarsProvider>
               <Textarea
                 type="text"
@@ -1270,16 +1526,24 @@ const ItemNameCreation = () => {
                 name="item_specific_one"
                 value={item_specific_one}
                 onChange={(e) => updateItemCreation(e)}
-              >
-              </Textarea>
+              ></Textarea>
             </CssVarsProvider>
           </Box>
         </Box>
-        <Box sx={{ display: 'flex', flexDirection: 'row', width: '85%', pl: 20, pt: 1, justifyContent: "space-evenly" }}>
-          <Box sx={{ width: "15%", }}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            width: '85%',
+            pl: 20,
+            pt: 1,
+            justifyContent: 'space-evenly',
+          }}
+        >
+          <Box sx={{ width: '15%' }}>
             <Typography>Specification 2</Typography>
           </Box>
-          <Box sx={{ width: "80%", }}>
+          <Box sx={{ width: '80%' }}>
             <CssVarsProvider>
               <Textarea
                 type="text"
@@ -1291,16 +1555,22 @@ const ItemNameCreation = () => {
                 name="item_specific_two"
                 value={item_specific_two}
                 onChange={(e) => updateItemCreation(e)}
-              >
-              </Textarea>
+              ></Textarea>
             </CssVarsProvider>
           </Box>
-
-
         </Box>
 
-        <Box sx={{ display: 'flex', flexDirection: 'row', width: '70%', pl: 15, pt: 1, justifyContent: "space-evenly" }}>
-          <Box sx={{ width: '15%', margin: 'auto', pl: 2.3 }}      >
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            width: '70%',
+            pl: 15,
+            pt: 1,
+            justifyContent: 'space-evenly',
+          }}
+        >
+          <Box sx={{ width: '15%', margin: 'auto', pl: 2.3 }}>
             <CusCheckBox
               label="Status"
               color="primary"
@@ -1311,7 +1581,7 @@ const ItemNameCreation = () => {
               onCheked={updateItemCreation}
             ></CusCheckBox>
           </Box>
-          <Box sx={{ display: 'flex', width: "75%" }}>
+          <Box sx={{ display: 'flex', width: '75%' }}>
             <Box sx={{}}>
               <label htmlFor="file-input">
                 <CustomeToolTip title="upload">
@@ -1328,17 +1598,14 @@ const ItemNameCreation = () => {
                 onChange={uploadFile}
               />
             </Box>
-            <Box sx={{ pt: 2 }}>
-              {selectFile && <p>{selectFile.name}</p>}
-            </Box>
+            <Box sx={{ pt: 2 }}>{selectFile && <p>{selectFile.name}</p>}</Box>
           </Box>
         </Box>
-
-      </CardMaster >
+      </CardMaster>
       <Box sx={{ width: '100%' }}>
         <ItemNameCreationTable count={count} rowSelect={rowSelect} />
       </Box>
-    </Box >
+    </Box>
   )
 }
 export default memo(ItemNameCreation)

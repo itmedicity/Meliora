@@ -1,20 +1,14 @@
-import { CNavItem } from "@coreui/react";
 import React from 'react'
-import { cilCircle } from '@coreui/icons'
-import CIcon from '@coreui/icons-react'
+import { CiStop1 } from 'react-icons/ci'
 
 const AmsTransaction = [
-
-    
-    {
-        men_slno: 276,
-        component: CNavItem,
-        name: 'Ams Patient Details',
-        to: '/Home/AmsPatientDetails',
-        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
-        
-    },
-
+  {
+    men_slno: 276,
+    // component: CNavItem,
+    name: 'Ams Patient Details',
+    to: '/Home/AmsPatientDetails',
+    icon: <CiStop1 />,
+  },
 ]
 
-export default AmsTransaction;
+export default AmsTransaction

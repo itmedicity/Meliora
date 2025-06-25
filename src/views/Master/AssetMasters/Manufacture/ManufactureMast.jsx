@@ -7,18 +7,19 @@ import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { useMemo } from 'react'
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+// import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { memo } from 'react'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const ManufactureMast = () => {
-  const history = useHistory()
+  const history = useNavigate()
   const [value, setValue] = useState(0)
   const [count, setCount] = useState(0)
-    // Get login user emp_id
-    const id = useSelector((state) => {
-      return state.LoginUserData.empid
-     })
+  // Get login user emp_id
+  const id = useSelector((state) => {
+    return state.LoginUserData.empid
+  })
   const [manufacture, setManufacture] = useState({
     manufacture_slno: '',
     manufacture_name: '',
@@ -36,18 +37,18 @@ const ManufactureMast = () => {
     return {
       manufacture_name: manufacture_name,
       manufacture_status: manufacture_status === true ? 1 : 0,
-      create_user: id
+      create_user: id,
     }
-  }, [manufacture_name, manufacture_status,id])
+  }, [manufacture_name, manufacture_status, id])
 
   const patchdata = useMemo(() => {
     return {
       manufacture_slno: manufacture_slno,
       manufacture_name: manufacture_name,
       manufacture_status: manufacture_status === true ? 1 : 0,
-      edit_user: id
+      edit_user: id,
     }
-  }, [manufacture_slno, manufacture_name, manufacture_status,id])
+  }, [manufacture_slno, manufacture_name, manufacture_status, id])
 
   const rowSelect = useCallback((params) => {
     setValue(1)
@@ -104,20 +105,17 @@ const ManufactureMast = () => {
       if (value === 0) {
         if (manufacture_name !== '') {
           InsertManufacture(postdata)
+        } else {
+          infoNotify('Please Enter Manufacture')
         }
-     
-        else {
-          infoNotify("Please Enter Manufacture")
-        }
-      }
-        else {
+      } else {
         ManufactureUpdate(patchdata)
       }
     },
-    [postdata, value, patchdata, count,manufacture_name],
+    [postdata, value, patchdata, count, manufacture_name],
   )
   const backtoSetting = useCallback(() => {
-    history.push('/Home/Settings')
+    history('/Home/Settings')
   }, [history])
   const refreshWindow = useCallback(() => {
     const frmdata = {
@@ -127,7 +125,6 @@ const ManufactureMast = () => {
     }
     setManufacture(frmdata)
     setValue(0)
-
   }, [setManufacture])
   return (
     <CardMaster

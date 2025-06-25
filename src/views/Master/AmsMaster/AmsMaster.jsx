@@ -11,16 +11,15 @@ import { axiosellider, axioslogin } from 'src/views/Axios/Axios'
 import { errorNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { useSelector } from 'react-redux'
 import { useQueryClient } from 'react-query'
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
-
+import { useNavigate } from 'react-router-dom'
+// import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 
 const AmsMaster = () => {
-
   const id = useSelector((state) => {
     return state.LoginUserData.empid
   })
   const queryClient = useQueryClient()
-  const history = useHistory()
+  const history = useNavigate()
   const [antibioticSearch, setAntibioticSearch] = useState('')
   const [antibioticOpen, setantibioticOpen] = useState(0)
   const [antibioticList, setAntibioticList] = useState([])
@@ -38,7 +37,6 @@ const AmsMaster = () => {
     storageCondition: '',
     mrp: '',
     manufacturer: '',
-
   })
 
   const {
@@ -52,7 +50,7 @@ const AmsMaster = () => {
     storageCondition,
     mrp,
     manufacturer,
-    ams_mast_slno
+    ams_mast_slno,
   } = formData
 
   const [checkboxState, setCheckboxState] = useState({
@@ -62,22 +60,17 @@ const AmsMaster = () => {
     stoppedMedicine: false,
     highRisk: false,
     status: true,
-  });
+  })
 
-  const { antibiotic,
-    inactive,
-    restricted,
-    stoppedMedicine,
-    highRisk,
-    status } = checkboxState
+  const { antibiotic, inactive, restricted, stoppedMedicine, highRisk, status } = checkboxState
 
   const handleCheckboxChange = (event) => {
-    const { name, checked } = event.target;
+    const { name, checked } = event.target
     setCheckboxState((prev) => ({
       ...prev,
       [name]: checked,
-    }));
-  };
+    }))
+  }
 
   const handleInputChange = useCallback((e) => {
     const { name, value } = e.target
@@ -103,7 +96,7 @@ const AmsMaster = () => {
       pregnancyCategory: '',
       storageCondition: '',
       mrp: '',
-      manufacturer: ''
+      manufacturer: '',
     })
     setCheckboxState({
       antibiotic: true,
@@ -137,20 +130,37 @@ const AmsMaster = () => {
 
   const editMast = useCallback((val) => {
     setEditFlag(1)
-    const { ams_mast_slno, antibiotic, composition_volume, dosage_form, high_risk, inactive, itc_desc, item_code, item_mrp, manufacturer, pregnancy_category,
-      restricted, status, stopped_medicine, storage_condition, strip, vital_essential, } = val
+    const {
+      ams_mast_slno,
+      antibiotic,
+      composition_volume,
+      dosage_form,
+      high_risk,
+      inactive,
+      itc_desc,
+      item_code,
+      item_mrp,
+      manufacturer,
+      pregnancy_category,
+      restricted,
+      status,
+      stopped_medicine,
+      storage_condition,
+      strip,
+      vital_essential,
+    } = val
     setFormData({
-      ams_mast_slno: ams_mast_slno || "",
-      itemCode: item_code || "",
-      itemDescription: itc_desc || "",
-      composition: composition_volume || "",
-      vedAnalysis: vital_essential || "",
-      dosageForm: dosage_form || "",
-      itemStrip: strip || "",
-      pregnancyCategory: pregnancy_category || "",
-      storageCondition: storage_condition || "",
-      mrp: item_mrp || "",
-      manufacturer: manufacturer || "",
+      ams_mast_slno: ams_mast_slno || '',
+      itemCode: item_code || '',
+      itemDescription: itc_desc || '',
+      composition: composition_volume || '',
+      vedAnalysis: vital_essential || '',
+      dosageForm: dosage_form || '',
+      itemStrip: strip || '',
+      pregnancyCategory: pregnancy_category || '',
+      storageCondition: storage_condition || '',
+      mrp: item_mrp || '',
+      manufacturer: manufacturer || '',
     })
     setCheckboxState({
       antibiotic: antibiotic === 1 ? true : false,
@@ -159,7 +169,6 @@ const AmsMaster = () => {
       stoppedMedicine: stopped_medicine === 1 ? true : false,
       highRisk: high_risk === 1 ? true : false,
       status: status === 1 ? true : false,
-
     })
   }, [])
 
@@ -212,9 +221,10 @@ const AmsMaster = () => {
       high_risk: highRisk === true ? 1 : 0,
       antibiotic: antibiotic === true ? 1 : 0,
       status: status === true ? 1 : 0,
-      create_user: id
+      create_user: id,
     }
-  }, [itemCode,
+  }, [
+    itemCode,
     itemDescription,
     composition,
     vedAnalysis,
@@ -230,7 +240,8 @@ const AmsMaster = () => {
     stoppedMedicine,
     highRisk,
     status,
-    id])
+    id,
+  ])
 
   const updateData = useMemo(() => {
     return {
@@ -253,7 +264,8 @@ const AmsMaster = () => {
       edit_user: id,
       ams_mast_slno: ams_mast_slno,
     }
-  }, [itemCode,
+  }, [
+    itemCode,
     itemDescription,
     composition,
     vedAnalysis,
@@ -270,35 +282,36 @@ const AmsMaster = () => {
     highRisk,
     status,
     id,
-    ams_mast_slno])
+    ams_mast_slno,
+  ])
 
   const SubmitAntibiotic = useCallback(async () => {
     try {
-      let result;
+      let result
       if (editFlag === 1) {
-        result = await axioslogin.patch('/amsAntibiotic/update', updateData);
+        result = await axioslogin.patch('/amsAntibiotic/update', updateData)
       } else {
-        result = await axioslogin.post('/amsAntibiotic/insert', insertData);
+        result = await axioslogin.post('/amsAntibiotic/insert', insertData)
       }
-      const { success, message } = result.data;
+      const { success, message } = result.data
       if (success === 1 || success === 2) {
-        succesNotify(message);
+        succesNotify(message)
         queryClient.invalidateQueries('getAllAntibioticList')
-        RefreshAntibiotic();
+        RefreshAntibiotic()
       } else {
-        warningNotify(message || 'Not Updated');
+        warningNotify(message || 'Not Updated')
       }
     } catch (error) {
-      errorNotify("An error occurred while saving data.");
+      errorNotify('An error occurred while saving data.')
     }
-  }, [insertData, updateData, editFlag, RefreshAntibiotic, queryClient]);
+  }, [insertData, updateData, editFlag, RefreshAntibiotic, queryClient])
 
   const backtoSetting = useCallback(() => {
-    history.push('/Home/Settings')
+    history('/Home/Settings')
   }, [history])
 
   return (
-    <CardMasterClose title={'Antibiotic Register'} close={backtoSetting} >
+    <CardMasterClose title={'Antibiotic Register'} close={backtoSetting}>
       <CssVarsProvider>
         <Box sx={{ display: 'flex', gap: 3 }}>
           <Box sx={{ width: 450 }}>
@@ -332,8 +345,9 @@ const AmsMaster = () => {
                 <RefreshIcon fontSize="small" />
               </CusIconButton>
             </Box>
-            {loading === true ?
-              <CircularProgress thickness={2} sx={{ mt: 1 }} /> :
+            {loading === true ? (
+              <CircularProgress thickness={2} sx={{ mt: 1 }} />
+            ) : (
               <>
                 {antibioticOpen === 1 ? (
                   <Box sx={{ flex: 1, mt: 0.5 }}>
@@ -343,7 +357,8 @@ const AmsMaster = () => {
                     />
                   </Box>
                 ) : null}
-              </>}
+              </>
+            )}
             <Box sx={{ flex: 1, display: 'flex', mt: 2, pl: 0.5 }}>
               <Box sx={{ width: 150, fontSize: 15, pt: 0.5 }}>Item code</Box>
               <Box sx={{ flex: 1 }}>
@@ -363,7 +378,7 @@ const AmsMaster = () => {
                   type="text"
                   size="sm"
                   name="itemDescription"
-                  value={itemDescription || ""}
+                  value={itemDescription || ''}
                   onchange={handleInputChange}
                 ></TextFieldCustom>
               </Box>
@@ -375,7 +390,7 @@ const AmsMaster = () => {
                   type="text"
                   size="sm"
                   name="composition"
-                  value={composition || ""}
+                  value={composition || ''}
                   onchange={handleInputChange}
                 ></TextFieldCustom>
               </Box>
@@ -386,12 +401,12 @@ const AmsMaster = () => {
                 <Select
                   size="sm"
                   name="vedAnalysis"
-                  value={vedAnalysis || ""}
+                  value={vedAnalysis || ''}
                   onChange={(e, newValue) => {
-                    setFormData(prev => ({
+                    setFormData((prev) => ({
                       ...prev,
                       vedAnalysis: newValue,
-                    }));
+                    }))
                   }}
                 >
                   <Option value="Vital">Vital</Option>
@@ -407,7 +422,7 @@ const AmsMaster = () => {
                   type="text"
                   size="sm"
                   name="dosageForm"
-                  value={dosageForm || ""}
+                  value={dosageForm || ''}
                   onchange={handleInputChange}
                 ></TextFieldCustom>
               </Box>
@@ -419,7 +434,7 @@ const AmsMaster = () => {
                   type="text"
                   size="sm"
                   name="itemStrip"
-                  value={itemStrip || ""}
+                  value={itemStrip || ''}
                   onchange={handleInputChange}
                 ></TextFieldCustom>
               </Box>
@@ -431,7 +446,7 @@ const AmsMaster = () => {
                   type="text"
                   size="sm"
                   name="pregnancyCategory"
-                  value={pregnancyCategory || ""}
+                  value={pregnancyCategory || ''}
                   onchange={handleInputChange}
                 ></TextFieldCustom>
               </Box>
@@ -443,7 +458,7 @@ const AmsMaster = () => {
                   type="text"
                   size="sm"
                   name="storageCondition"
-                  value={storageCondition || ""}
+                  value={storageCondition || ''}
                   onchange={handleInputChange}
                 ></TextFieldCustom>
               </Box>
@@ -455,7 +470,7 @@ const AmsMaster = () => {
                   type="number"
                   size="sm"
                   name="mrp"
-                  value={mrp || ""}
+                  value={mrp || ''}
                   startDecorator="₹"
                   onchange={handleInputChange}
                 ></TextFieldCustom>
@@ -468,7 +483,7 @@ const AmsMaster = () => {
                   type="text"
                   size="sm"
                   name="manufacturer"
-                  value={manufacturer || ""}
+                  value={manufacturer || ''}
                   onchange={handleInputChange}
                 ></TextFieldCustom>
               </Box>

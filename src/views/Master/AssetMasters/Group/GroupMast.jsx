@@ -1,26 +1,27 @@
 import React, { memo, useCallback, useMemo, useState } from 'react'
 import GroupTable from './GroupTable'
 import CardMaster from 'src/views/Components/CardMaster'
-import { Box,IconButton, Input   } from '@mui/material'
+import { Box, IconButton, Input } from '@mui/material'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
-import imageCompression from 'browser-image-compression';
-import UploadFileIcon from '@mui/icons-material/UploadFile';
+// import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+import imageCompression from 'browser-image-compression'
+import UploadFileIcon from '@mui/icons-material/UploadFile'
 import { CssVarsProvider, Typography } from '@mui/joy'
 import CustomeToolTip from 'src/views/Components/CustomeToolTip'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 const GroupMast = () => {
-  const history = useHistory()
+  const history = useNavigate()
   const [selectFile, setSelectFile] = useState(null)
   const [value, setValue] = useState(0)
   const [count, setCount] = useState(0)
-   // Get login user emp_id
-   const id = useSelector((state) => {
+  // Get login user emp_id
+  const id = useSelector((state) => {
     return state.LoginUserData.empid
-   })
+  })
   const [group, setGroup] = useState({
     group_slno: '',
     group_name: '',
@@ -49,17 +50,17 @@ const GroupMast = () => {
     return {
       group_name: group_name,
       group_status: group_status === true ? 1 : 0,
-      create_user: id
+      create_user: id,
     }
-  }, [group_name, group_status,id])
+  }, [group_name, group_status, id])
   const patchdata = useMemo(() => {
     return {
       group_slno: group_slno,
       group_name: group_name,
       group_status: group_status === true ? 1 : 0,
-      edit_user: id
+      edit_user: id,
     }
-  }, [group_slno, group_name, group_status,id])
+  }, [group_slno, group_name, group_status, id])
 
   const rowSelect = useCallback((params) => {
     setValue(1)
@@ -73,21 +74,21 @@ const GroupMast = () => {
     setGroup(frmdata)
   }, [])
   const uploadFile = async (event) => {
-    const file = event.target.files[0];
-    setSelectFile(file);
+    const file = event.target.files[0]
+    setSelectFile(file)
     const options = {
       maxSizeMB: 1,
-      maxWidthOrHeight: 1920
+      maxWidthOrHeight: 1920,
     }
-    const compressedFile = await imageCompression(file, options);
-    setSelectFile(compressedFile);
-  };
+    const compressedFile = await imageCompression(file, options)
+    setSelectFile(compressedFile)
+  }
   const submitGroup = useCallback(
     (e) => {
       e.preventDefault()
       const InsertGroup = async (postdata) => {
         const result = await axioslogin.post('/amgroup/insert', postdata)
-        return result.data        
+        return result.data
       }
       const GroupUpdate = async (patchdata) => {
         const result = await axioslogin.patch('/amgroup/update', patchdata)
@@ -102,7 +103,7 @@ const GroupMast = () => {
           infoNotify(message)
         }
       }
-      
+
       const FileInsert = async (fileData) => {
         const result = await axioslogin.post('/fileupload/uploadFile/Group', fileData)
         const { message, success } = result.data
@@ -110,49 +111,43 @@ const GroupMast = () => {
           succesNotify(message)
           setCount(count + 1)
           reset()
-        }
-        else {
+        } else {
           infoNotify(message)
         }
       }
       if (value === 0) {
-        if ( group_name !== '') {
+        if (group_name !== '') {
           InsertGroup(postdata).then((val) => {
             const { message, success, insertid } = val
             if (success === 1) {
-              
               if (selectFile !== null) {
                 //File upload Api and post data
-              const formData = new FormData()
-              formData.append('id', insertid)
-              formData.append('file', selectFile, selectFile.name)
+                const formData = new FormData()
+                formData.append('id', insertid)
+                formData.append('file', selectFile, selectFile.name)
                 FileInsert(formData)
-              }
-              else {
+              } else {
                 succesNotify(message)
                 setCount(count + 1)
                 reset()
               }
-            }
-            else if (success === 0) {
+            } else if (success === 0) {
               infoNotify(message)
             } else {
               infoNotify(message)
             }
-          }) 
+          })
+        } else {
+          infoNotify('Please Enter Group')
         }
-        else {
-          infoNotify("Please Enter Group") 
-        }     
-      } 
-      else {
+      } else {
         GroupUpdate(patchdata)
       }
     },
-    [postdata, value, patchdata, count,selectFile,group_name],
+    [postdata, value, patchdata, count, selectFile, group_name],
   )
   const backtoSetting = useCallback(() => {
-    history.push('/Home/Settings')
+    history('/Home/Settings')
   }, [history])
   const refreshWindow = useCallback(() => {
     const frmdata = {
@@ -196,28 +191,25 @@ const GroupMast = () => {
               ></CusCheckBox>
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <CssVarsProvider>
-              <Typography  >Upload file</Typography>
-            </CssVarsProvider>
-            <label htmlFor="file-input">
-              <CustomeToolTip title="upload">
-                <IconButton color="primary" aria-label="upload file" component="span">
-                  <UploadFileIcon />
-                </IconButton>
-              </CustomeToolTip>
-            </label>
-            <Input
-              id="file-input"
-              type="file"
-              accept=".jpg, .jpeg, .png, .pdf"
-              style={{ display: 'none' }}
+              <CssVarsProvider>
+                <Typography>Upload file</Typography>
+              </CssVarsProvider>
+              <label htmlFor="file-input">
+                <CustomeToolTip title="upload">
+                  <IconButton color="primary" aria-label="upload file" component="span">
+                    <UploadFileIcon />
+                  </IconButton>
+                </CustomeToolTip>
+              </label>
+              <Input
+                id="file-input"
+                type="file"
+                accept=".jpg, .jpeg, .png, .pdf"
+                style={{ display: 'none' }}
                 onChange={uploadFile}
-               
               />
-                <Box sx={{ pt:2,fontWeight:2}}>
-            {selectFile && <p > {selectFile.name}</p>}
+              <Box sx={{ pt: 2, fontWeight: 2 }}>{selectFile && <p> {selectFile.name}</p>}</Box>
             </Box>
-          </Box> 
           </Box>
           <Box sx={{ width: '70%' }}>
             <GroupTable count={count} rowSelect={rowSelect} />

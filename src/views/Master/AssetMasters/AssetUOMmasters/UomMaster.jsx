@@ -9,13 +9,14 @@ import CardMaster from 'src/views/Components/CardMaster'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import UomTable from './UomTable'
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+// import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const UomMaster = () => {
   const [value, setValue] = useState(0)
   const [count, setCount] = useState(0)
-  const history = useHistory()
+  const history = useNavigate()
   // Get login user emp_id
   const id = useSelector((state) => {
     return state.LoginUserData.empid
@@ -37,7 +38,7 @@ const UomMaster = () => {
     return {
       uom_name: uom_name,
       uom_status: uom_status === true ? 1 : 0,
-      create_user: id
+      create_user: id,
     }
   }, [uom_name, uom_status, id])
   const patchdata = useMemo(() => {
@@ -45,8 +46,7 @@ const UomMaster = () => {
       uom_slno: uom_slno,
       uom_name: uom_name,
       uom_status: uom_status === true ? 1 : 0,
-      edit_user: id
-
+      edit_user: id,
     }
   }, [uom_slno, uom_name, uom_status, id])
   const rowSelect = useCallback((params) => {
@@ -105,12 +105,10 @@ const UomMaster = () => {
       if (value === 0) {
         if (uom_name !== '') {
           InsertUom(postdata)
+        } else {
+          infoNotify('Please Enter Uinit of Measurement')
         }
-        else {
-          infoNotify("Please Enter Uinit of Measurement")
-        }
-      }
-      else {
+      } else {
         UomUpdate(patchdata)
       }
     },
@@ -118,7 +116,7 @@ const UomMaster = () => {
   )
 
   const backtoSetting = useCallback(() => {
-    history.push('/Home/Settings')
+    history('/Home/Settings')
   }, [history])
   const refreshWindow = useCallback(() => {
     const frmdata = {

@@ -7,10 +7,11 @@ import CardMaster from 'src/views/Components/CardMaster'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import FloorTable from './FloorTable'
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+import { useNavigate } from 'react-router-dom'
+// import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 
 const FloorMast = () => {
-  const history = useHistory()
+  const history = useNavigate()
   const [value, setValue] = useState(0)
   const [count, setCount] = useState(0)
   const [floor, setFloor] = useState({
@@ -73,7 +74,7 @@ const FloorMast = () => {
     setFloor(frmdata)
   }, [])
   const backtoSetting = useCallback(() => {
-    history.push('/Home/Settings')
+    history('/Home/Settings')
   }, [history])
 
   const refreshWindow = useCallback(() => {

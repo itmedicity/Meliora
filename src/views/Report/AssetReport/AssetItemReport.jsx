@@ -8,7 +8,6 @@
 
 // export default AssetItemReport
 
-
 // import React, { memo, useCallback, useEffect, useState, useMemo } from 'react'
 // import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 // import { Box, Typography, } from '@mui/material'
@@ -32,9 +31,7 @@
 // import AmModelNumberSelect from 'src/views/CommonSelectCode/AmModelNumberSelect'
 // import CusCheckBox from 'src/views/Components/CusCheckBox'
 
-
 // const AssetItemReport = () => {
-//     const history = useHistory()
 //     const dispatch = useDispatch();
 //     const [category, setCategory] = useState(0)
 //     const [subcategory, setSubcategory] = useState(0)
@@ -87,7 +84,6 @@
 //         dispatch(getAmManufacture())
 //         dispatch(getAmModel())
 //     }, [dispatch])
-
 
 //     const postdata = useMemo(() => {
 //         return {
@@ -147,7 +143,6 @@
 //         history.push('/Home')
 //         resetAll()
 //     }, [history, resetAll])
-
 
 //     return (
 //         <Box sx={{
@@ -278,10 +273,6 @@
 
 //                     </Box>
 //                 </Box>
-
-
-
-
 
 //             </CardMasterClose>
 

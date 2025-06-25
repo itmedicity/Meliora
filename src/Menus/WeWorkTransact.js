@@ -1,17 +1,14 @@
-import { CNavItem } from "@coreui/react";
 import React from 'react'
-import { cilCircle } from '@coreui/icons'
-import CIcon from '@coreui/icons-react'
+import { CiStop1 } from 'react-icons/ci'
 
 const WeWorkTransact = [
-    {
-        men_slno: 62,
-        component: CNavItem,
-        name: 'In-Patient List',
-        to: '/Home/WeWork/InpatientList',
-        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
-    },
+  {
+    men_slno: 62,
 
+    name: 'In-Patient List',
+    to: '/Home/WeWork/InpatientList',
+    icon: <CiStop1 />,
+  },
 ]
 
-export default WeWorkTransact;
+export default WeWorkTransact

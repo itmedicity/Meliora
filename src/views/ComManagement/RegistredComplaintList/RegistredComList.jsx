@@ -1,9 +1,7 @@
 import React from 'react'
 
 const RegistredComList = () => {
-    return (
-        <div>RegistredComList</div>
-    )
+  return <div>RegistredComList</div>
 }
 
 export default RegistredComList
@@ -17,7 +15,6 @@ export default RegistredComList
 // import CustomeToolTip from 'src/views/Components/CustomeToolTip';
 // import CusCheckBox from 'src/views/Components/CusCheckBox'
 // import { getCompliantRegTable } from 'src/redux/actions/ComplaintRegTable.action';
-// import { useHistory } from 'react-router-dom';
 // import CardCloseOnly from 'src/views/Components/CardCloseOnly';
 // // import VerifyModal from '../ComplaintRegister/VerifyModal';
 // import ModelMessageRead from './ModelMessageRead';
@@ -26,7 +23,6 @@ export default RegistredComList
 // import CropSquareIcon from '@mui/icons-material/CropSquare';
 // import OnHoldMsgRead from './OnHoldMsgRead';
 // const RegistredComList = () => {
-//     const history = useHistory();
 //     const dispatch = useDispatch();
 //     //state for modal open
 //     const [open, setOpen] = useState(false);
@@ -139,7 +135,6 @@ export default RegistredComList
 //     const MessageList = compallTable.filter((val) => {
 //         return val.compdept_message_flag !== 0
 //     })
-
 
 //     //column title setting for pending
 //     const [columnpending] = useState([

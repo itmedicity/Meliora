@@ -7,11 +7,12 @@ import CardMaster from 'src/views/Components/CardMaster'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import InsideBuildBlockTable from './InsideBuildBlockTable'
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+// import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const InsideBuildBlockMast = () => {
-  const history = useHistory()
+  const history = useNavigate()
   const [value, setValue] = useState(0)
   const [count, setCount] = useState(0)
   const [insidebuild, setInsideBuild] = useState({
@@ -21,12 +22,20 @@ const InsideBuildBlockMast = () => {
     rm_insidebuildblock_no: '',
     rm_insidebuildblock_status: false,
   })
-  const { rm_insidebluidblock_slno, rm_insidebuildblock_name, rm_insidebuildblock_alias,
-    rm_insidebuildblock_no, rm_insidebuildblock_status, } = insidebuild
-  const updateInsideBuild = useCallback((e) => {
-    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
-    setInsideBuild({ ...insidebuild, [e.target.name]: value })
-  }, [insidebuild])
+  const {
+    rm_insidebluidblock_slno,
+    rm_insidebuildblock_name,
+    rm_insidebuildblock_alias,
+    rm_insidebuildblock_no,
+    rm_insidebuildblock_status,
+  } = insidebuild
+  const updateInsideBuild = useCallback(
+    (e) => {
+      const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
+      setInsideBuild({ ...insidebuild, [e.target.name]: value })
+    },
+    [insidebuild],
+  )
   const reset = () => {
     const frmdata = {
       rm_insidebluidblock_slno: '',
@@ -49,10 +58,15 @@ const InsideBuildBlockMast = () => {
       rm_insidebuildblock_alias: rm_insidebuildblock_alias,
       rm_insidebuildblock_no: rm_insidebuildblock_no,
       rm_insidebuildblock_status: rm_insidebuildblock_status === true ? 1 : 0,
-      create_user: id
+      create_user: id,
     }
-  }, [rm_insidebuildblock_name, rm_insidebuildblock_alias, rm_insidebuildblock_no,
-    rm_insidebuildblock_status, id])
+  }, [
+    rm_insidebuildblock_name,
+    rm_insidebuildblock_alias,
+    rm_insidebuildblock_no,
+    rm_insidebuildblock_status,
+    id,
+  ])
   const patchdata = useMemo(() => {
     return {
       rm_insidebuildblock_slno: rm_insidebluidblock_slno,
@@ -60,63 +74,76 @@ const InsideBuildBlockMast = () => {
       rm_insidebuildblock_alias: rm_insidebuildblock_alias,
       rm_insidebuildblock_no: rm_insidebuildblock_no,
       rm_insidebuildblock_status: rm_insidebuildblock_status === true ? 1 : 0,
-      edit_user: id
+      edit_user: id,
     }
-  }, [rm_insidebluidblock_slno, rm_insidebuildblock_name, rm_insidebuildblock_alias, rm_insidebuildblock_no,
-    rm_insidebuildblock_status, id])
+  }, [
+    rm_insidebluidblock_slno,
+    rm_insidebuildblock_name,
+    rm_insidebuildblock_alias,
+    rm_insidebuildblock_no,
+    rm_insidebuildblock_status,
+    id,
+  ])
 
   const backtoSetting = useCallback(() => {
-    history.push('/Home/Settings')
+    history('/Home/Settings')
   }, [history])
-  const sumbitInsideBuild = useCallback((e) => {
-    e.preventDefault()
-    const InsertInsideBuild = async (postdata) => {
-      const result = await axioslogin.post('/insidebuildblock/insert', postdata)
-      const { message, success } = result.data
-      if (success === 1) {
-        succesNotify(message)
-        setCount(count + 1)
-        reset()
-      } else if (success === 0) {
-        infoNotify(message)
-      } else {
-        infoNotify(message)
+  const sumbitInsideBuild = useCallback(
+    (e) => {
+      e.preventDefault()
+      const InsertInsideBuild = async (postdata) => {
+        const result = await axioslogin.post('/insidebuildblock/insert', postdata)
+        const { message, success } = result.data
+        if (success === 1) {
+          succesNotify(message)
+          setCount(count + 1)
+          reset()
+        } else if (success === 0) {
+          infoNotify(message)
+        } else {
+          infoNotify(message)
+        }
       }
-    }
-    const UpdateInsideBuild = async (patchdata) => {
-      const result = await axioslogin.patch('/insidebuildblock/update', patchdata)
-      const { message, success } = result.data
-      if (success === 2) {
-        succesNotify(message)
-        setCount(count + 1)
-        reset()
-      } else if (success === 0) {
-        infoNotify(message)
-      } else {
-        infoNotify(message)
+      const UpdateInsideBuild = async (patchdata) => {
+        const result = await axioslogin.patch('/insidebuildblock/update', patchdata)
+        const { message, success } = result.data
+        if (success === 2) {
+          succesNotify(message)
+          setCount(count + 1)
+          reset()
+        } else if (success === 0) {
+          infoNotify(message)
+        } else {
+          infoNotify(message)
+        }
       }
-    }
-    if (value === 0) {
-      if (rm_insidebuildblock_name !== '') {
-        InsertInsideBuild(postdata)
+      if (value === 0) {
+        if (rm_insidebuildblock_name !== '') {
+          InsertInsideBuild(postdata)
+        } else {
+          warningNotify('Please Enter Inside Building Block Name')
+        }
       } else {
-        warningNotify("Please Enter Inside Building Block Name")
+        if (rm_insidebuildblock_name !== '') {
+          UpdateInsideBuild(patchdata)
+        } else {
+          warningNotify('Please Enter Inside Building Block Name')
+        }
       }
-
-    } else {
-      if (rm_insidebuildblock_name !== '') {
-        UpdateInsideBuild(patchdata)
-      } else {
-        warningNotify("Please Enter Inside Building Block Name")
-      }
-    }
-  }, [postdata, value, patchdata, count, rm_insidebuildblock_name])
+    },
+    [postdata, value, patchdata, count, rm_insidebuildblock_name],
+  )
   const rowSelect = useCallback((params) => {
     setValue(1)
 
     const data = params.api.getSelectedRows()
-    const { rm_insidebuildblock_slno, rm_insidebuildblock_name, rm_insidebuildblock_alias,
-      rm_insidebuildblock_no, rm_insidebuildblock_status, } = data[0]
+    const {
+      rm_insidebuildblock_slno,
+      rm_insidebuildblock_name,
+      rm_insidebuildblock_alias,
+      rm_insidebuildblock_no,
+      rm_insidebuildblock_status,
+    } = data[0]
 
     const frmdata = {
       rm_insidebluidblock_slno: rm_insidebuildblock_slno,

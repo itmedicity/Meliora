@@ -10,17 +10,18 @@ import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { useMemo } from 'react'
 import PrimaryTable from './PrimaryTable'
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+// import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const PrimaryCustodianMast = () => {
   const [value, setValue] = useState(0)
   const [count, setCount] = useState(0)
-  const history = useHistory()
-     // Get login user emp_id
-     const id = useSelector((state) => {
-      return state.LoginUserData.empid
-     })
+  const history = useNavigate()
+  // Get login user emp_id
+  const id = useSelector((state) => {
+    return state.LoginUserData.empid
+  })
   const [primary, setPrimary] = useState({
     primary_slno: '',
     primary_name: '',
@@ -48,17 +49,17 @@ const PrimaryCustodianMast = () => {
     return {
       primary_name: primary_name,
       primary_status: primary_status === true ? 1 : 0,
-      create_user: id
+      create_user: id,
     }
-  }, [primary_name, primary_status,id])
+  }, [primary_name, primary_status, id])
   const patchdata = useMemo(() => {
     return {
       primary_slno: primary_slno,
       primary_name: primary_name,
       primary_status: primary_status === true ? 1 : 0,
-      edit_user: id
+      edit_user: id,
     }
-  }, [primary_slno, primary_name, primary_status,id])
+  }, [primary_slno, primary_name, primary_status, id])
   const rowSelect = useCallback((params) => {
     setValue(1)
     const data = params.api.getSelectedRows()
@@ -105,20 +106,17 @@ const PrimaryCustodianMast = () => {
       if (value === 0) {
         if (primary_name !== '') {
           InsertPrimary(postdata)
-          
+        } else {
+          infoNotify('Please Enter Primary Custodian')
         }
-        else {
-          infoNotify("Please Enter Primary Custodian")
-        }
-      }
-        else {
+      } else {
         PrimaryUpdate(patchdata)
       }
     },
-    [postdata, value, patchdata, count,primary_name],
+    [postdata, value, patchdata, count, primary_name],
   )
   const backtoSetting = useCallback(() => {
-    history.push('/Home/Settings')
+    history('/Home/Settings')
   }, [history])
   const refreshWindow = useCallback(() => {
     const frmdata = {

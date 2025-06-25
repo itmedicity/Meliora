@@ -7,11 +7,12 @@ import BuildingMastTable from './BuildingMastTable'
 import { useState, memo, useCallback, useMemo } from 'react'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+// import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const BuildingMast = () => {
-  const history = useHistory()
+  const history = useNavigate()
   const [value, setValue] = useState(0)
   const [count, setCount] = useState(0)
   const [building, setBuilding] = useState({
@@ -21,11 +22,20 @@ const BuildingMast = () => {
     rm_building_no: '',
     rm_building_status: false,
   })
-  const { rm_building_slno, rm_building_name, rm_building_alias, rm_building_no, rm_building_status } = building
-  const updateBuilding = useCallback((e) => {
-    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
-    setBuilding({ ...building, [e.target.name]: value })
-  }, [building],)
+  const {
+    rm_building_slno,
+    rm_building_name,
+    rm_building_alias,
+    rm_building_no,
+    rm_building_status,
+  } = building
+  const updateBuilding = useCallback(
+    (e) => {
+      const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
+      setBuilding({ ...building, [e.target.name]: value })
+    },
+    [building],
+  )
   const reset = () => {
     const frmdata = {
       rm_building_slno: '',
@@ -48,7 +58,7 @@ const BuildingMast = () => {
       rm_building_alias: rm_building_alias,
       rm_building_no: rm_building_no,
       rm_building_status: rm_building_status === true ? 1 : 0,
-      create_user: id
+      create_user: id,
     }
   }, [rm_building_name, rm_building_alias, rm_building_no, rm_building_status, id])
   const patchdata = useMemo(() => {
@@ -58,52 +68,67 @@ const BuildingMast = () => {
       rm_building_alias: rm_building_alias,
       rm_building_no: rm_building_no,
       rm_building_status: rm_building_status === true ? 1 : 0,
-      edit_user: id
+      edit_user: id,
     }
-  }, [rm_building_slno, rm_building_name, rm_building_alias, rm_building_no, rm_building_status, id])
+  }, [
+    rm_building_slno,
+    rm_building_name,
+    rm_building_alias,
+    rm_building_no,
+    rm_building_status,
+    id,
+  ])
 
   const backtoSetting = useCallback(() => {
-    history.push('/Home/Settings')
+    history('/Home/Settings')
   }, [history])
-  const sumbitBuilding = useCallback((e) => {
-    e.preventDefault()
-    const InsertBuilding = async (postdata) => {
-      const result = await axioslogin.post('/building/insert', postdata)
-      const { message, success } = result.data
-      if (success === 1) {
-        succesNotify(message)
-        setCount(count + 1)
-        reset()
-      } else if (success === 0) {
-        infoNotify(message)
-      } else {
-        infoNotify(message)
+  const sumbitBuilding = useCallback(
+    (e) => {
+      e.preventDefault()
+      const InsertBuilding = async (postdata) => {
+        const result = await axioslogin.post('/building/insert', postdata)
+        const { message, success } = result.data
+        if (success === 1) {
+          succesNotify(message)
+          setCount(count + 1)
+          reset()
+        } else if (success === 0) {
+          infoNotify(message)
+        } else {
+          infoNotify(message)
+        }
       }
-    }
-    const UpdateBuilding = async (patchdata) => {
-      const result = await axioslogin.patch('/building/update', patchdata)
-      const { message, success } = result.data
-      if (success === 2) {
-        succesNotify(message)
-        setCount(count + 1)
-        reset()
-      } else if (success === 0) {
-        infoNotify(message)
-      } else {
-        infoNotify(message)
+      const UpdateBuilding = async (patchdata) => {
+        const result = await axioslogin.patch('/building/update', patchdata)
+        const { message, success } = result.data
+        if (success === 2) {
+          succesNotify(message)
+          setCount(count + 1)
+          reset()
+        } else if (success === 0) {
+          infoNotify(message)
+        } else {
+          infoNotify(message)
+        }
       }
-    }
-    if (value === 0) {
-      InsertBuilding(postdata)
-    } else {
-      UpdateBuilding(patchdata)
-    }
-  }, [postdata, value, patchdata, count],)
+      if (value === 0) {
+        InsertBuilding(postdata)
+      } else {
+        UpdateBuilding(patchdata)
+      }
+    },
+    [postdata, value, patchdata, count],
+  )
   const rowSelect = useCallback((params) => {
     setValue(1)
 
     const data = params.api.getSelectedRows()
-    const { rm_building_slno, rm_building_name, rm_building_alias, rm_building_no, rm_building_status,
+    const {
+      rm_building_slno,
+      rm_building_name,
+      rm_building_alias,
+      rm_building_no,
+      rm_building_status,
     } = data[0]
 
     const frmdata = {
