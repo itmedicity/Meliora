@@ -72,7 +72,7 @@ const ModelPaswdChange = ({ open, handleClose }) => {
         history('/')
         handleClose()
         reset()
-        sessionStorage.clear()
+        localStorage.clear()
       } else if (success === 0) {
         infoNotify(message)
       } else {

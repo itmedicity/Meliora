@@ -15,7 +15,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const ModelMessage = ({ open, handleClose }) => {
   const history = useNavigate()
   const logoutmodel = () => {
-    sessionStorage.clear()
+    localStorage.clear()
     infoNotify('You Are Logged Out Successfully')
     history('/')
   }

@@ -16,7 +16,7 @@ const Protected = (props) => {
   let history = useNavigate()
   const { FETCH_LOGIN } = ActionTyps
   useEffect(() => {
-    const loginDetl = sessionStorage.getItem('userDetl')
+    const loginDetl = localStorage.getItem('app_auth')
     const login = JSON.parse(loginDetl)
     if (!loginDetl) {
       history('/')

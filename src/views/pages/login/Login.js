@@ -1,9 +1,7 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined'
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { errorNotify, infoNotify, succesNotify } from 'src/views/Common/CommonCode'
+import { errorNotify, infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { useDispatch } from 'react-redux'
 import { ActionTyps } from 'src/redux/constants/action.type'
 import { ToastContainer } from 'react-toastify'
@@ -21,13 +19,12 @@ import Typography from '@mui/material/Typography'
 import InputAdornment from '@mui/material/InputAdornment'
 
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined'
-import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined'
 
 const val = false
 
 const Login = () => {
   const { FETCH_LOGIN } = ActionTyps
-  const history = useNavigate()
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const [emp_username, setUsername] = useState('')
   const [emp_password, setPassword] = useState('')
@@ -36,56 +33,155 @@ const Login = () => {
     emp_username: emp_username,
     emp_password: emp_password,
   }
+
+  const postData = useMemo(() => {
+    return {
+      userName: emp_username,
+      passWord: emp_password,
+      method: 1,
+    }
+  }, [emp_username, emp_password])
+
   const [flag, setFlag] = useState(0)
+
   const submitLoginDetl = async (e) => {
     e.preventDefault()
-    if (emp_username === '') {
-      infoNotify('Username Feild Is Blank')
-    } else if (emp_password === '') {
-      infoNotify('Password Feild Is Blank')
-    } else {
-      const result = await axioslogin
-        .post('/employee/login', useLoginDetl)
-        .then((response) => {
-          return response
-        })
-        .catch((error) => {
-          return error
-        })
-      const data = result.data
 
-      if (data.success === 0) {
-        errorNotify('User does not exsit')
+    try {
+      if (emp_username === '') {
+        infoNotify('Username Feild Is Blank')
+      } else if (emp_password === '') {
+        infoNotify('Password Feild Is Blank')
       } else {
-        succesNotify('Loggined successfully')
-        const loggedDetl = {
-          user: data.user,
-          token: data.token,
-          empno: data.emp_no,
-          empid: data.emp_id,
-          empname: data.emp_name,
-          empdeptsec: data.emp_sec,
-          empsecid: data.emp_secid,
-          empdept: data.emp_dept,
-          empdeptname: data.dept_name,
-          apptoken: data.app_token,
-          logOut: data.logOutTime,
-          designation: data.desg_name,
-        }
-        if (loggedDetl.empname !== null) {
-          dispatch({ type: FETCH_LOGIN, payload: loggedDetl })
-          const loggedCredential = sessionStorage.setItem('userDetl', JSON.stringify(loggedDetl))
-          dispatch(setLoginProfileData(data.emp_id))
-          if (loggedCredential !== null) {
-            history('/Home')
+        // const result = await axioslogin.post('/user/checkUserCres', postData, {
+        //   withCredentials: true,
+        // })
+        // const { message, success, userInfo } = result?.data;
+
+        const result = await axioslogin.post('/user/checkUserCres', postData, {
+          withCredentials: true,
+        })
+        const { message, success, userInfo } = result?.data
+        console.log(JSON.parse(userInfo))
+        if (success === 0) {
+          errorNotify(message) // database error
+        } else if (success === 1) {
+          warningNotify(message) // incorrected credientials
+        } else if (success === 2) {
+          succesNotify(message) // credential verified
+          const {
+            empdtl_slno,
+            login_method_allowed,
+            em_id,
+            emp_no,
+            user,
+            token,
+            emp_id,
+            emp_name,
+            emp_sec,
+            emp_secid,
+            emp_dept,
+            dept_name,
+            app_token,
+            logOutTime,
+            desg_name,
+          } = JSON.parse(userInfo)
+          const authData = {
+            authNo: btoa(empdtl_slno), //btoa() encodes a string into Base64 format.
+            authType: btoa(login_method_allowed),
+            authId: btoa(em_id),
+            authEmpNo: btoa(emp_no),
+            user: btoa(user),
+            token: btoa(token),
+            empno: btoa(emp_no),
+            empid: btoa(emp_id),
+            empname: btoa(emp_name),
+            empdeptsec: btoa(emp_sec),
+            empsecid: btoa(emp_secid),
+            empdept: btoa(emp_dept),
+            empdeptname: btoa(dept_name),
+            apptoken: btoa(app_token),
+            logOut: btoa(logOutTime),
+            designation: btoa(desg_name),
           }
+
+          const loggedDetl = {
+            user: user,
+            token: token,
+            empno: emp_no,
+            empid: emp_id,
+            empname: emp_name,
+            empdeptsec: emp_sec,
+            empsecid: emp_secid,
+            empdept: emp_dept,
+            empdeptname: dept_name,
+            apptoken: app_token,
+            logOut: logOutTime,
+            designation: desg_name,
+          }
+          dispatch({ type: FETCH_LOGIN, payload: loggedDetl })
+          localStorage.setItem('app_auth', JSON.stringify(authData))
+          setTimeout(() => {
+            navigate('/Home', { replace: true })
+          }, 2000)
         } else {
-          setFlag(1)
-          //history.push("/NotCorect")
+          errorNotify(message)
         }
       }
+    } catch (error) {
+      warningNotify(error)
     }
   }
+
+  // const submitLoginDetl = async (e) => {
+  //   e.preventDefault()
+  //   if (emp_username === '') {
+  //     infoNotify('Username Feild Is Blank')
+  //   } else if (emp_password === '') {
+  //     infoNotify('Password Feild Is Blank')
+  //   } else {
+  //     const result = await axioslogin
+  //       .post('/employee/login', useLoginDetl)
+  //       .then((response) => {
+  //         return response
+  //       })
+  //       .catch((error) => {
+  //         return error
+  //       })
+  //     const data = result.data
+
+  //     if (data.success === 0) {
+  //       errorNotify('User does not exsit')
+  //     } else {
+  //       succesNotify('Loggined successfully')
+  //       const loggedDetl = {
+  //         user: data.user,
+  //         token: data.token,
+  //         empno: data.emp_no,
+  //         empid: data.emp_id,
+  //         empname: data.emp_name,
+  //         empdeptsec: data.emp_sec,
+  //         empsecid: data.emp_secid,
+  //         empdept: data.emp_dept,
+  //         empdeptname: data.dept_name,
+  //         apptoken: data.app_token,
+  //         logOut: data.logOutTime,
+  //         designation: data.desg_name,
+  //       }
+  //       if (loggedDetl.empname !== null) {
+  //         dispatch({ type: FETCH_LOGIN, payload: loggedDetl })
+  //         const loggedCredential = sessionStorage.setItem('userDetl', JSON.stringify(loggedDetl))
+  //         dispatch(setLoginProfileData(data.emp_id))
+  //         if (loggedCredential !== null) {
+  //           history('/Home')
+  //         }
+  //       } else {
+  //         setFlag(1)
+  //         //history.push("/NotCorect")
+  //       }
+  //     }
+  //   }
+  // }
 
   return (
     // <div

@@ -9,7 +9,7 @@ const ValidateSession = () => {
   useEffect(() => {
     axioslogin.get('/user').then((response) => {
       if (response.data.status !== 200) {
-        sessionStorage.clear()
+        localStorage.clear()
         infoNotify('session timed out...Please Login')
         history('/')
       }

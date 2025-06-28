@@ -27,7 +27,7 @@ const DefaultLayout = () => {
       </Box>
       {/* content */}
       <Box sx={{ flex: 1, bgcolor: '#FBFBFB', padding: 2, paddingTop: 8 }}>
-        <AppContent />
+        {/* <AppContent /> */}
       </Box>
     </Box>
     // <div

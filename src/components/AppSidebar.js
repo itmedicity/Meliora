@@ -393,8 +393,8 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
     const module_rights = []
     /***get modules based on login user's rights */
     const getModuleUserRight = async () => {
-      const userinfo = sessionStorage.getItem('userDetl')
-      const emp_no = userinfo ? JSON.parse(sessionStorage.getItem('userDetl')).empno : 0
+      const userinfo = localStorage.getItem('app_auth')
+      const emp_no = userinfo ? atob(JSON.parse(localStorage.getItem('app_auth'))?.authEmpNo) : 0
       const result = await axioslogin.get(`/common/getempid/${emp_no}`)
       const { success, data } = result.data
       if (success === 1) {
