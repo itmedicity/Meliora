@@ -7,7 +7,7 @@ const AmsTransaction = [
 
     
     {
-        men_slno: 276,
+        men_slno: 277,
         component: CNavItem,
         name: 'Ams Patient Details',
         to: '/Home/AmsPatientDetails',

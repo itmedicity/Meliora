@@ -1,5 +1,5 @@
 
-import { endOfWeek, startOfWeek } from 'date-fns'
+import { endOfWeek } from 'date-fns'
 import moment from 'moment'
 import React from 'react'
 import { useMemo } from 'react'
@@ -306,7 +306,7 @@ const ModalWeeklyVerification = ({ open, handleClose, rowSelect, count, setCount
                                 <TextFieldCustom
                                     slotProps={{
                                         input: {
-                                            min: moment(startOfWeek(new Date())).format('YYYY-MM-DD HH:mm:ss'),
+                                            // min: moment(startOfWeek(new Date())).format('YYYY-MM-DD HH:mm:ss'),
                                             max: moment(endOfWeek(new Date())).format('YYYY-MM-DD HH:mm:ss'),
                                         },
                                     }}

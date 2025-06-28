@@ -139,11 +139,11 @@ const SpareSErviceList = () => {
                       <td style={{ textAlign: 'center' }}>
                         {isServiceItem
                           ? `${val.spare_asset_no}/${val.spare_asset_no_only
-                              .toString()
-                              .padStart(6, '0')}`
+                            .toString()
+                            .padStart(6, '0')}`
                           : `${val.item_asset_no}/${val.item_asset_no_only
-                              .toString()
-                              .padStart(6, '0')}`}
+                            .toString()
+                            .padStart(6, '0')}`}
                       </td>
 
                       <td style={{ textAlign: 'center' }}>{val.am_manufacture_no}</td>
