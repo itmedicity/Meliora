@@ -36,7 +36,7 @@ const EndoscopyIPPatients = ({
     setSearchFlag(0)
   }, [history, setSearchFlag])
 
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state?.LoginUserData.empid
   })
   useEffect(() => {
@@ -55,20 +55,20 @@ const EndoscopyIPPatients = ({
     if (ipNumber === '') {
       infoNotify('Enter IP Number')
     } else {
-      const getdata = async (ipNumber) => {
+      const getdata = async ipNumber => {
         const result = await axiosellider.get(`/qualityIndicator/getEndoIp/${ipNumber}`)
         return result.data
       }
-      const InsertEndoData = async (insertarray) => {
+      const InsertEndoData = async insertarray => {
         const result = await axioslogin.post('/qiendoscopy/saveIp', insertarray)
         return result.data
       }
       let pattern = /^[0-9]{10}$/
       if (pattern.test(ipNumber) === true) {
-        getdata(ipNumber).then((val) => {
+        getdata(ipNumber).then(val => {
           const { success, data } = val
           if (success === 1) {
-            const insertarray = data?.map((val) => {
+            const insertarray = data?.map(val => {
               return {
                 ip_no: val.IP_NO,
                 ipd_date: format(new Date(val.IPD_DATE), 'yyyy-MM-dd HH:mm:ss'),
@@ -89,7 +89,7 @@ const EndoscopyIPPatients = ({
                 endo_arrival_time: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
               }
             })
-            InsertEndoData(insertarray).then((val) => {
+            InsertEndoData(insertarray).then(val => {
               const { success, message } = val
               if (success === 1) {
                 setCount(count + 1)
@@ -108,7 +108,7 @@ const EndoscopyIPPatients = ({
       }
     }
   }, [ipNumber, qidept, id, count])
-  const IndicatorsView = useCallback((val) => {
+  const IndicatorsView = useCallback(val => {
     setModalOpen(true)
     setrowSelect(val)
     setQiflag(1)
@@ -196,7 +196,7 @@ const EndoscopyIPPatients = ({
             size="md"
             name="ipNumber"
             value={ipNumber}
-            onchange={(e) => setipNumber(e.target.value)}
+            onchange={e => setipNumber(e.target.value)}
           />
         </Box>
         <Box sx={{ flex: 0.7, pl: 1 }}>
@@ -374,7 +374,7 @@ const EndoscopyIPPatients = ({
                                   color: '#263238',
                                 },
                               }}
-                              onClick={(e) => IndicatorsView(val)}
+                              onClick={e => IndicatorsView(val)}
                             />
                           </Tooltip>
                         </CssVarsProvider>

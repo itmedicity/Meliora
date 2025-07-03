@@ -26,11 +26,11 @@ const RoomTypeMast = () => {
   //destructuring
   const { rmc_desc, rmc_status, rmc_type } = room
   const updateRoomtype = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setRoom({ ...room, [e.target.name]: value })
     },
-    [room],
+    [room]
   )
   //insert data
   const postdata = useMemo(() => {
@@ -42,7 +42,7 @@ const RoomTypeMast = () => {
     }
   }, [rmc_desc, value, rmc_status])
   //data set for edit
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setEdit(1)
     const data = params.api.getSelectedRows()
     const { rmc_desc, status, rt_code, rmc_type } = data[0]
@@ -68,7 +68,7 @@ const RoomTypeMast = () => {
     setValue(0)
   }
   const submitRoomtype = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
       const formreset = {
         rmc_desc: '',
@@ -76,7 +76,7 @@ const RoomTypeMast = () => {
         rmc_type: '',
       }
       /*** * insert function for use call back     */
-      const InsertFun = async (postdata) => {
+      const InsertFun = async postdata => {
         const result = await axioslogin.post('/roomtype', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -91,7 +91,7 @@ const RoomTypeMast = () => {
         }
       }
       /***  * update function for use call back     */
-      const updateFun = async (patchdata) => {
+      const updateFun = async patchdata => {
         const result = await axioslogin.patch('/roomtype', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -115,7 +115,7 @@ const RoomTypeMast = () => {
         updateFun(patchdata)
       }
     },
-    [edit, postdata, patchdata, count],
+    [edit, postdata, patchdata, count]
   )
   //refresh func
   const refreshWindow = useCallback(() => {

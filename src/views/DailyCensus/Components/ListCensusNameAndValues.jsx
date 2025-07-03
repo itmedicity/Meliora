@@ -1,4 +1,3 @@
-
 // import { TableBody, TableCell, TableRow } from '@mui/material'
 // import { subDays } from 'date-fns'
 // import moment from 'moment'
@@ -91,7 +90,6 @@
 //                     sx={{ borderRight: '1px solid lightgrey', textAlign: 'center', height: 25 }}>
 //                     {yesterday}</TableCell>
 
-
 //                 {/* {censusData?.map((val) => {
 //                     <>
 //                         <TableCell
@@ -105,9 +103,6 @@
 //                                            </>
 //                 })}
 //  */}
-
-
-
 
 //                 {/*
 

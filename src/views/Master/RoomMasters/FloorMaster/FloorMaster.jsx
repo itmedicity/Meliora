@@ -27,11 +27,11 @@ const FloorMaster = () => {
   //destructuring
   const { floor_desc, floor_number, floor_status, floor_code } = floor
   const updateFloor = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setFloor({ ...floor, [e.target.name]: value })
     },
-    [floor],
+    [floor]
   )
   //insert data
   const postdata = useMemo(() => {
@@ -44,7 +44,7 @@ const FloorMaster = () => {
     }
   }, [floor_desc, value, floor_number, floor_status])
   //data set for edit
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setEdit(1)
     const data = params.api.getSelectedRows()
     const { floor_desc, build_code, floor_number, status, floor_code } = data[0]
@@ -72,7 +72,7 @@ const FloorMaster = () => {
     setValue(0)
   }
   const submitFloor = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
       const formreset = {
         floor_desc: '',
@@ -81,7 +81,7 @@ const FloorMaster = () => {
         floor_code: '',
       }
       /*** * insert function for use call back     */
-      const InsertFun = async (postdata) => {
+      const InsertFun = async postdata => {
         const result = await axioslogin.post('/floor', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -96,7 +96,7 @@ const FloorMaster = () => {
         }
       }
       /***  * update function for use call back     */
-      const updateFun = async (patchdata) => {
+      const updateFun = async patchdata => {
         const result = await axioslogin.patch('/floor', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -120,7 +120,7 @@ const FloorMaster = () => {
         updateFun(patchdata)
       }
     },
-    [edit, postdata, patchdata, count],
+    [edit, postdata, patchdata, count]
   )
   //refresh func
   const refreshWindow = useCallback(() => {

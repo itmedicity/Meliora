@@ -61,7 +61,7 @@ const CrfSubStoreMain = () => {
     // staleTime: Infinity
   })
   const storeData = useMemo(() => subStoreData, [subStoreData])
-  const empsecid = useSelector((state) => {
+  const empsecid = useSelector(state => {
     return state.LoginUserData.empid
   })
   // const { data: compData, isLoading: isCompLoading, error: compError } = useQuery({
@@ -97,30 +97,29 @@ const CrfSubStoreMain = () => {
             const crsStore = data
               .filter(
                 (val, index, self) =>
-                  index ===
-                  self.findIndex((value) => value.main_store_slno === val.main_store_slno),
+                  index === self.findIndex(value => value.main_store_slno === val.main_store_slno)
               )
-              .map((val) => ({
+              .map(val => ({
                 main_store_slno: val.main_store_slno,
                 crs_store_code: val.crs_store_code,
                 main_store: val.main_store,
               }))
             const empStoreList = JSON.parse(empData[0]?.store)
             const empSubStoreList = JSON.parse(empData[0]?.sub_store)
-            const filteredCrsStore = crsStore?.filter((store) =>
-              empStoreList?.includes(store.main_store_slno),
+            const filteredCrsStore = crsStore?.filter(store =>
+              empStoreList?.includes(store.main_store_slno)
             )
             // setCrsList(crsStore);
             setCrsList(filteredCrsStore)
 
-            const subStore = data?.map((val) => ({
+            const subStore = data?.map(val => ({
               crm_store_master_slno: val.crm_store_master_slno,
               sub_store_name: val.sub_store_name,
               store_code: val.store_code,
               main_store_slno: val.main_store_slno,
             }))
-            const filteredCrsSubStore = subStore?.filter((store) =>
-              empSubStoreList?.includes(store.crm_store_master_slno),
+            const filteredCrsSubStore = subStore?.filter(store =>
+              empSubStoreList?.includes(store.crm_store_master_slno)
             )
             // setSubStoreList(subStore);
             setSubStoreList(filteredCrsSubStore)
@@ -141,14 +140,14 @@ const CrfSubStoreMain = () => {
       (value, index, self) =>
         index ===
         self?.findIndex(
-          (item) =>
+          item =>
             item.req_slno === value.req_slno &&
             item.supply_store === value.supply_store &&
-            item.crm_purchase_slno === value.crm_purchase_slno,
-        ),
+            item.crm_purchase_slno === value.crm_purchase_slno
+        )
     )
-    const countSet = crsList?.map((val) => {
-      const xx = newData?.filter((value) => value.supply_store === val.main_store_slno)
+    const countSet = crsList?.map(val => {
+      const xx = newData?.filter(value => value.supply_store === val.main_store_slno)
       return {
         main_store_slno: val.main_store_slno,
         crs_store_code: val.crs_store_code,
@@ -167,21 +166,21 @@ const CrfSubStoreMain = () => {
   }, [])
   // by clicking crs common
   const subStoreDetailsView = useCallback(
-    (slno) => {
-      const xx = storeData?.filter((val) => val.supply_store === slno)
-      const reqNo = [...new Set(xx?.map((item) => item.req_slno))]
+    slno => {
+      const xx = storeData?.filter(val => val.supply_store === slno)
+      const reqNo = [...new Set(xx?.map(item => item.req_slno))]
       setReqSlno(reqNo)
-      const uniquePOSlno = [...new Set(xx?.map((item) => item.crm_purchase_slno))]
-      const mergedData = uniquePOSlno?.map((po) => {
-        const filteredItems = xx?.filter((item) => item.crm_purchase_slno === po)
-        const pos = filteredItems?.map((item) => `${item.po_number}`)
+      const uniquePOSlno = [...new Set(xx?.map(item => item.crm_purchase_slno))]
+      const mergedData = uniquePOSlno?.map(po => {
+        const filteredItems = xx?.filter(item => item.crm_purchase_slno === po)
+        const pos = filteredItems?.map(item => `${item.po_number}`)
         const poDate = filteredItems?.map(
-          (item) => `${format(new Date(item.po_date), 'dd-MM-yyyy hh:mm:ss a')}`,
+          item => `${format(new Date(item.po_date), 'dd-MM-yyyy hh:mm:ss a')}`
         )
         // const grn_nos = filteredItems.flatMap(item => JSON?.parse(item.grn_no)).join(", ");
-        const grn_nos = filteredItems?.flatMap((item) => JSON?.parse(item.grn_no))
-        const po_detail_slno = filteredItems?.map((item) => `${item.po_detail_slno}`)
-        const po_details = filteredItems?.map((item) => {
+        const grn_nos = filteredItems?.flatMap(item => JSON?.parse(item.grn_no))
+        const po_detail_slno = filteredItems?.map(item => `${item.po_detail_slno}`)
+        const po_details = filteredItems?.map(item => {
           return {
             req_slno: item.req_slno,
             po_detail_slno: item.po_detail_slno,
@@ -205,7 +204,7 @@ const CrfSubStoreMain = () => {
       setTableData(mergedData)
       setAllTableData(mergedData)
     },
-    [storeData],
+    [storeData]
   )
 
   useEffect(() => {
@@ -213,20 +212,20 @@ const CrfSubStoreMain = () => {
       if (storeData && storeData.length > 0) {
         // const xx = storeData?.filter((val) => val.supply_store === 1)
         const firstarray = crsList[0]
-        const xx = storeData?.filter((value) => value.supply_store === firstarray?.main_store_slno)
+        const xx = storeData?.filter(value => value.supply_store === firstarray?.main_store_slno)
 
-        const reqNo = [...new Set(xx?.map((item) => item.req_slno))]
+        const reqNo = [...new Set(xx?.map(item => item.req_slno))]
         setReqSlno(reqNo)
-        const uniquePOSlno = [...new Set(xx?.map((item) => item.crm_purchase_slno))]
-        const mergedData = uniquePOSlno?.map((po) => {
-          const filteredItems = xx?.filter((item) => item.crm_purchase_slno === po)
-          const pos = filteredItems?.map((item) => `${item.po_number}`)
+        const uniquePOSlno = [...new Set(xx?.map(item => item.crm_purchase_slno))]
+        const mergedData = uniquePOSlno?.map(po => {
+          const filteredItems = xx?.filter(item => item.crm_purchase_slno === po)
+          const pos = filteredItems?.map(item => `${item.po_number}`)
           const poDate = filteredItems?.map(
-            (item) => `${format(new Date(item.po_date), 'dd-MM-yyyy hh:mm:ss a')}`,
+            item => `${format(new Date(item.po_date), 'dd-MM-yyyy hh:mm:ss a')}`
           )
-          const grn_nos = filteredItems.flatMap((item) => JSON?.parse(item.grn_no))
-          const po_detail_slno = filteredItems?.map((item) => `${item.po_detail_slno}`)
-          const po_details = filteredItems?.map((item) => {
+          const grn_nos = filteredItems.flatMap(item => JSON?.parse(item.grn_no))
+          const po_detail_slno = filteredItems?.map(item => `${item.po_detail_slno}`)
+          const po_details = filteredItems?.map(item => {
             return {
               req_slno: item.req_slno,
               po_detail_slno: item.po_detail_slno,
@@ -287,19 +286,19 @@ const CrfSubStoreMain = () => {
   }, [storeData, selectedTab, crsList])
 
   const handleRadioButtonChange = useCallback(
-    (e) => {
+    e => {
       const selectedSlno = e.target.value
       const selectedSubStore = subStoreList?.find(
-        (subStore) => subStore.crm_store_master_slno.toString() === selectedSlno,
+        subStore => subStore.crm_store_master_slno.toString() === selectedSlno
       )
       if (selectedSubStore) {
         setSelectedRadio(selectedSlno)
         // setStoreName(selectedSubStore.sub_store_name)
-        const newdata = allTableData?.filter((val) => val.sub_store_slno === parseInt(selectedSlno))
+        const newdata = allTableData?.filter(val => val.sub_store_slno === parseInt(selectedSlno))
         setTableData(newdata)
       }
     },
-    [subStoreList, allTableData],
+    [subStoreList, allTableData]
   )
   if (isSubLoading || isCompLoading) return <p>Loading...</p>
   if (subError || compError) return <p>Error occurred.</p>
@@ -319,7 +318,7 @@ const CrfSubStoreMain = () => {
             value={selectedTab}
             onChange={updateTabChange}
             aria-label="Bottom Navigation"
-            sx={(theme) => ({
+            sx={theme => ({
               mx: 'auto',
               boxShadow: theme.shadows[1],
               [`& .${tabClasses.root}`]: {
@@ -383,7 +382,7 @@ const CrfSubStoreMain = () => {
                     sx={{ gap: 2 }}
                   >
                     {subStoreList
-                      .filter((subStore) => subStore?.main_store_slno === store?.main_store_slno)
+                      .filter(subStore => subStore?.main_store_slno === store?.main_store_slno)
                       .map((subStore, subIndex) => (
                         <FormControlLabel
                           key={subIndex}

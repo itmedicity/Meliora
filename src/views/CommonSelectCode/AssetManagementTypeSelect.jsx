@@ -6,7 +6,7 @@ import { getAmAssetType } from 'src/redux/actions/AmAssetTypeList.actions'
 
 const AssetManagementTypeSelect = ({ value, setValue, setName }) => {
   const dispatch = useDispatch()
-  const assettype = useSelector((state) => {
+  const assettype = useSelector(state => {
     return state.getAmAssetType.AssetTypeList || 0
   })
   useEffect(() => {

@@ -22,18 +22,18 @@ const InchargeApprovalTable = () => {
   const dispatch = useDispatch()
   const [count, setCount] = useState(0)
   //redux for geting login id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
 
   const [deptsecArry, setdeptSecArry] = useState([])
 
   useEffect(() => {
-    const getdetptsections = async (id) => {
+    const getdetptsections = async id => {
       const result = await axioslogin.get(`/common/getdeptInchargedeptsec/${id}`)
       const { success, data } = result.data
       if (success === 1) {
-        const xx = data.map((val) => {
+        const xx = data.map(val => {
           return val.dept_section
         })
         setdeptSecArry(xx)
@@ -47,14 +47,14 @@ const InchargeApprovalTable = () => {
     dispatch(getReqApprovDept(deptsecArry))
   }, [dispatch, id, deptsecArry, count])
 
-  const HodIncharge = useSelector((state) => {
+  const HodIncharge = useSelector(state => {
     return state.setInchargeHodData.InchargeHoddata
   })
 
   const [isIncharge, setincharge] = useState(0)
   const [ishod, setHod] = useState(0)
 
-  const tabledata = useSelector((state) => {
+  const tabledata = useSelector(state => {
     return state.setReqApprvDept.ReqApprvDeptdata
   })
 
@@ -68,11 +68,11 @@ const InchargeApprovalTable = () => {
 
   const [InchargeData, setInchargeData] = useState([])
   useEffect(() => {
-    const incharge = tabledata.filter((val) => {
+    const incharge = tabledata.filter(val => {
       return val.incharge_req === 1
     })
     if (incharge.length !== 0) {
-      const datas = incharge.map((val) => {
+      const datas = incharge.map(val => {
         const obj = {
           req_slno: val.req_slno,
           actual_requirement:
@@ -212,7 +212,7 @@ const InchargeApprovalTable = () => {
     {
       headerName: 'Action',
       minWidth: 100,
-      cellRenderer: (params) => {
+      cellRenderer: params => {
         if (params.data.hod_approve !== null && params.data.hod_req === 1) {
           return (
             <IconButton sx={{ color: editicon, paddingY: 0.5 }} disabled>
@@ -239,7 +239,7 @@ const InchargeApprovalTable = () => {
     {
       headerName: 'View',
       minWidth: 100,
-      cellRenderer: (params) => {
+      cellRenderer: params => {
         if (params.data.crf_close === 1) {
           return (
             <IconButton onClick={() => CloseReason(params)} sx={{ color: editicon, paddingY: 0.5 }}>
@@ -309,7 +309,7 @@ const InchargeApprovalTable = () => {
   const [datas, setdatas] = useState([])
 
   //Data set for edit
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setOpen(true)
     const data = params.api.getSelectedRows()
     setdatas(data)
@@ -320,7 +320,7 @@ const InchargeApprovalTable = () => {
   const [CloseModalFlag, setCloseModalFlag] = useState(0)
   const [closeData, setCloseData] = useState([])
 
-  const CloseReason = useCallback((params) => {
+  const CloseReason = useCallback(params => {
     const data = params.api.getSelectedRows()
     setCloseModal(true)
     setCloseModalFlag(1)
@@ -331,7 +331,7 @@ const InchargeApprovalTable = () => {
     history('/Home')
   }, [history])
 
-  const getRowStyle = (params) => {
+  const getRowStyle = params => {
     if (params.data.req_status === 'R') {
       return { background: '#81d4fa' }
     } else if (params.data.req_status === 'P') {

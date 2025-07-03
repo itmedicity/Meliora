@@ -30,11 +30,11 @@ const BuildingMast = () => {
     rm_building_status,
   } = building
   const updateBuilding = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setBuilding({ ...building, [e.target.name]: value })
     },
-    [building],
+    [building]
   )
   const reset = () => {
     const frmdata = {
@@ -49,7 +49,7 @@ const BuildingMast = () => {
     setValue(0)
   }
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   const postdata = useMemo(() => {
@@ -83,9 +83,9 @@ const BuildingMast = () => {
     history('/Home/Settings')
   }, [history])
   const sumbitBuilding = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const InsertBuilding = async (postdata) => {
+      const InsertBuilding = async postdata => {
         const result = await axioslogin.post('/building/insert', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -98,7 +98,7 @@ const BuildingMast = () => {
           infoNotify(message)
         }
       }
-      const UpdateBuilding = async (patchdata) => {
+      const UpdateBuilding = async patchdata => {
         const result = await axioslogin.patch('/building/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -117,9 +117,9 @@ const BuildingMast = () => {
         UpdateBuilding(patchdata)
       }
     },
-    [postdata, value, patchdata, count],
+    [postdata, value, patchdata, count]
   )
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
 
     const data = params.api.getSelectedRows()

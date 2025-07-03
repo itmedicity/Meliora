@@ -26,7 +26,7 @@ const SelectedDaysTable = ({ alternativedata, daysflag, setAltflag, count, setCo
     setAltflag(0)
   }, [history, setAltflag])
 
-  const empDept = useSelector((state) => {
+  const empDept = useSelector(state => {
     return state.LoginUserData.empdept
   })
 
@@ -38,7 +38,7 @@ const SelectedDaysTable = ({ alternativedata, daysflag, setAltflag, count, setCo
     setflag(0)
   }, [setModalOpen])
   const VerificationClick = useCallback(
-    (val) => {
+    val => {
       if (val.verify_status === 1) {
         setView(val)
         setModalOpen(true)
@@ -49,7 +49,7 @@ const SelectedDaysTable = ({ alternativedata, daysflag, setAltflag, count, setCo
         setflag(1)
       }
     },
-    [setflag],
+    [setflag]
   )
   return (
     <Fragment>
@@ -212,7 +212,7 @@ const SelectedDaysTable = ({ alternativedata, daysflag, setAltflag, count, setCo
                                       boxShadow: 10,
                                     },
                                   }}
-                                  onClick={(e) => VerificationClick(val)}
+                                  onClick={e => VerificationClick(val)}
                                 />
                               ) : (
                                 <VerifiedIcon
@@ -225,7 +225,7 @@ const SelectedDaysTable = ({ alternativedata, daysflag, setAltflag, count, setCo
                                       boxShadow: 10,
                                     },
                                   }}
-                                  onClick={(e) => VerificationClick(val)}
+                                  onClick={e => VerificationClick(val)}
                                 />
                               )}
                             </Box>

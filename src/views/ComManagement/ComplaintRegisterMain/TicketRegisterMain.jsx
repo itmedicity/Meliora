@@ -26,7 +26,7 @@ const TicketRegisterMain = () => {
     history('/Home')
   }, [history])
 
-  const empsecid = useSelector((state) => {
+  const empsecid = useSelector(state => {
     return state.LoginUserData.empsecid
   })
 

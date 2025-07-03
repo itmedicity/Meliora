@@ -19,7 +19,7 @@ import { useNavigate } from 'react-router-dom'
 
 const ApprovalMappingMaster = () => {
   const history = useNavigate()
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state?.LoginUserData.empid
   })
   const [edit, setEdit] = useState(0)
@@ -74,11 +74,11 @@ const ApprovalMappingMaster = () => {
     manageFlag,
   } = approvalState
   const updateApproval = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setApprovalState({ ...approvalState, [e.target.name]: value })
     },
-    [approvalState],
+    [approvalState]
   )
 
   const searchMD = useCallback(() => {
@@ -94,7 +94,7 @@ const ApprovalMappingMaster = () => {
         const { success, data, message } = result.data
         if (success === 1) {
           const { em_id, em_name } = data[0]
-          setApprovalState((prev) => ({
+          setApprovalState(prev => ({
             ...prev,
             mdEmpId: em_id,
             mdName: em_name,
@@ -121,7 +121,7 @@ const ApprovalMappingMaster = () => {
         const { success, data, message } = result.data
         if (success === 1) {
           const { em_id, em_name } = data[0]
-          setApprovalState((prev) => ({
+          setApprovalState(prev => ({
             ...prev,
             edEmpId: em_id,
             edName: em_name,
@@ -148,7 +148,7 @@ const ApprovalMappingMaster = () => {
         const { success, data, message } = result.data
         if (success === 1) {
           const { em_id, em_name } = data[0]
-          setApprovalState((prev) => ({
+          setApprovalState(prev => ({
             ...prev,
             manageEmpId: em_id,
             manageName: em_name,
@@ -224,13 +224,13 @@ const ApprovalMappingMaster = () => {
   }, [])
 
   const submitCompanyName = useCallback(
-    (e) => {
+    e => {
       if (selectedCompany === 0) {
         infoNotify('Select Company')
         return
       } else {
         e.preventDefault()
-        const insertApprovalDetails = async (postdata) => {
+        const insertApprovalDetails = async postdata => {
           const result = await axioslogin.post('/approvalMapping/insert', postdata)
           const { message, success } = result.data
           if (success === 1) {
@@ -243,7 +243,7 @@ const ApprovalMappingMaster = () => {
             infoNotify(message)
           }
         }
-        const updateApprovalDetails = async (patchdata) => {
+        const updateApprovalDetails = async patchdata => {
           const result = await axioslogin.patch('/approvalMapping/update/edit', patchdata)
           const { message, success } = result.data
           if (success === 1) {
@@ -263,7 +263,7 @@ const ApprovalMappingMaster = () => {
         }
       }
     },
-    [selectedCompany, postdata, reset, count, patchdata, edit],
+    [selectedCompany, postdata, reset, count, patchdata, edit]
   )
 
   const backtoSetting = useCallback(() => {
@@ -273,7 +273,7 @@ const ApprovalMappingMaster = () => {
     reset()
   }, [reset])
 
-  const rowSelect = useCallback((val) => {
+  const rowSelect = useCallback(val => {
     setEdit(1)
     const {
       approval_slno,

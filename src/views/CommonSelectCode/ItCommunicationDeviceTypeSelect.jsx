@@ -1,11 +1,11 @@
-import React, { memo, useEffect, } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { FormControl, MenuItem, Select } from '@mui/material';
-import { getDeviceType } from 'src/redux/actions/ItCommunicationdevice.action';
+import React, { memo, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { FormControl, MenuItem, Select } from '@mui/material'
+import { getDeviceType } from 'src/redux/actions/ItCommunicationdevice.action'
 
 const ItCommunicationDeviceTypeSelect = ({ value, setValue }) => {
   const dispatch = useDispatch()
-  const deviceType = useSelector((state) => {
+  const deviceType = useSelector(state => {
     return state.getDeviceType.deviceTypeList || 0
   })
   useEffect(() => {
@@ -13,13 +13,12 @@ const ItCommunicationDeviceTypeSelect = ({ value, setValue }) => {
   }, [dispatch])
 
   return (
-
     <FormControl fullWidth size="small">
       <Select
         labelId="demo-simple-select-label"
         id="demo-simple-select"
         value={value}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={e => setValue(e.target.value)}
         size="small"
         fullWidth
         variant="outlined"
@@ -38,7 +37,7 @@ const ItCommunicationDeviceTypeSelect = ({ value, setValue }) => {
           })}
       </Select>
     </FormControl>
-  );
+  )
 }
 
 export default memo(ItCommunicationDeviceTypeSelect)

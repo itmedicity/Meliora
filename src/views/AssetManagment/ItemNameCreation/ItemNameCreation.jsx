@@ -110,7 +110,7 @@ const ItemNameCreation = () => {
   const { item_creation_slno, item_specific_one, item_specific_two, item_creation_status } = item
   const [item_base_name, setitem_base_name] = useState('')
 
-  const updateAsset = useCallback((e) => {
+  const updateAsset = useCallback(e => {
     if (e.target.checked === true) {
       setasset(true)
       setSpare(false)
@@ -121,7 +121,7 @@ const ItemNameCreation = () => {
       setAssetOrSpare(0)
     }
   }, [])
-  const updateSpare = useCallback((e) => {
+  const updateSpare = useCallback(e => {
     if (e.target.checked === true) {
       setSpare(true)
       setasset(false)
@@ -134,7 +134,7 @@ const ItemNameCreation = () => {
   }, [])
 
   const updateAssetTypeStatus = useCallback(
-    (e) => {
+    e => {
       if (e.target.checked === true) {
         setAssetTypeStatus(true)
         setAssetNameDis(assetName)
@@ -143,11 +143,11 @@ const ItemNameCreation = () => {
         setAssetNameDis('')
       }
     },
-    [assetName],
+    [assetName]
   )
 
   const updateItemStatus = useCallback(
-    (e) => {
+    e => {
       if (e.target.checked === true) {
         setItemTypeSatus(true)
         setItemNameDis(itemName)
@@ -156,10 +156,10 @@ const ItemNameCreation = () => {
         setItemNameDis('')
       }
     },
-    [itemName],
+    [itemName]
   )
   const updateCategoryStatus = useCallback(
-    (e) => {
+    e => {
       if (e.target.checked === true) {
         setCategorySatus(true)
         setCategoryDis(categoryName)
@@ -168,10 +168,10 @@ const ItemNameCreation = () => {
         setCategoryDis('')
       }
     },
-    [categoryName],
+    [categoryName]
   )
   const updateSubcatStatus = useCallback(
-    (e) => {
+    e => {
       if (e.target.checked === true) {
         setSubcatSatus(true)
         setSubcatDis(subcatName)
@@ -180,10 +180,10 @@ const ItemNameCreation = () => {
         setSubcatDis('')
       }
     },
-    [subcatName],
+    [subcatName]
   )
   const updateGroupStatus = useCallback(
-    (e) => {
+    e => {
       if (e.target.checked === true) {
         setGroupStatus(true)
         setGroupDis(groupName)
@@ -192,10 +192,10 @@ const ItemNameCreation = () => {
         setGroupDis('')
       }
     },
-    [groupName],
+    [groupName]
   )
   const updateSubGroupStatus = useCallback(
-    (e) => {
+    e => {
       if (e.target.checked === true) {
         setSubGroupStatus(true)
         setSubGroupDis(subgroupName)
@@ -204,10 +204,10 @@ const ItemNameCreation = () => {
         setSubGroupDis('')
       }
     },
-    [subgroupName],
+    [subgroupName]
   )
   const updateModelStatus = useCallback(
-    (e) => {
+    e => {
       if (e.target.checked === true) {
         setModelStatus(true)
         setModelDis(modelName)
@@ -216,7 +216,7 @@ const ItemNameCreation = () => {
         setModelDis('')
       }
     },
-    [modelName],
+    [modelName]
   )
   // const updateSubModelStatus = useCallback((e) => {
   //   if (e.target.checked === true) {
@@ -228,7 +228,7 @@ const ItemNameCreation = () => {
   //   }
   // }, [submodelName])
   const updateUOMsatus = useCallback(
-    (e) => {
+    e => {
       if (e.target.checked === true) {
         setUOMstatus(true)
         setUOMdis(uomName)
@@ -237,11 +237,11 @@ const ItemNameCreation = () => {
         setUOMdis('')
       }
     },
-    [uomName],
+    [uomName]
   )
 
   const updateManufactureStatus = useCallback(
-    (e) => {
+    e => {
       if (e.target.checked === true) {
         setManufactureStatus(true)
         setManufactureDis(manufactureName)
@@ -250,10 +250,10 @@ const ItemNameCreation = () => {
         setManufactureDis('')
       }
     },
-    [manufactureName],
+    [manufactureName]
   )
   const updateModelNoStatus = useCallback(
-    (e) => {
+    e => {
       if (e.target.checked === true) {
         setModelNoStatus(true)
         setModelNoDis(modelNo)
@@ -262,10 +262,10 @@ const ItemNameCreation = () => {
         setModelNoDis('')
       }
     },
-    [modelNo],
+    [modelNo]
   )
 
-  const updateModelNo = useCallback((e) => {
+  const updateModelNo = useCallback(e => {
     setModelNo(e.target.value.toLocaleUpperCase())
     setModelNoDis(e.target.value.toLocaleUpperCase())
   }, [])
@@ -286,11 +286,11 @@ const ItemNameCreation = () => {
   // }, [])
 
   const updateItemCreation = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setItem({ ...item, [e.target.name]: value })
     },
-    [item],
+    [item]
   )
 
   const [order, setOrder] = useState({
@@ -394,11 +394,11 @@ const ItemNameCreation = () => {
       // { order: asset_order, status: baseStatus, name: baseDis }
     ]
     //Remove Unchecked feilds
-    let filterName = arrayys?.filter((e) => e.name !== null && e.status === true)
+    let filterName = arrayys?.filter(e => e.name !== null && e.status === true)
     //Sort By given Order
     let sortArry = filterName.sort((a, b) => a.order - b.order)
     //Joining
-    let stringName = sortArry?.map((e) => e.name).join(' ')
+    let stringName = sortArry?.map(e => e.name).join(' ')
     setItemNamee(stringName)
   }, [
     assetTypeStatus,
@@ -671,7 +671,7 @@ const ItemNameCreation = () => {
     setSpare,
   ])
 
-  const uploadFile = async (event) => {
+  const uploadFile = async event => {
     const file = event.target.files[0]
     setSelectFile(file)
     const options = {
@@ -683,15 +683,15 @@ const ItemNameCreation = () => {
   }
 
   const sumbitItemCreation = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const InsertItem = async (postdata) => {
+      const InsertItem = async postdata => {
         const result = await axioslogin.post('/itemNameCreation/insert', postdata)
         reset()
         return result.data
       }
 
-      const UpdateItem = async (patchdata) => {
+      const UpdateItem = async patchdata => {
         const result = await axioslogin.patch('/itemNameCreation/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -704,7 +704,7 @@ const ItemNameCreation = () => {
           infoNotify(message)
         }
       }
-      const FileInsert = async (fileData) => {
+      const FileInsert = async fileData => {
         const result = await axioslogin.post('/fileupload/uploadFile/Item', fileData)
         const { message, success } = result.data
         if (success === 1) {
@@ -718,7 +718,7 @@ const ItemNameCreation = () => {
 
       if (value === 0) {
         if (assetName !== '' && itemName !== '') {
-          InsertItem(postdata).then((val) => {
+          InsertItem(postdata).then(val => {
             const { message, success, insertid } = val
             if (success === 1) {
               if (selectFile !== null) {
@@ -744,11 +744,11 @@ const ItemNameCreation = () => {
       } else UpdateItem(patchdata)
       reset()
     },
-    [postdata, value, count, patchdata, reset, selectFile, assetName, itemName],
+    [postdata, value, count, patchdata, reset, selectFile, assetName, itemName]
   )
 
   const rowSelect = useCallback(
-    (params) => {
+    params => {
       setValue(1)
       const data = params.api.getSelectedRows()
       const {
@@ -796,7 +796,7 @@ const ItemNameCreation = () => {
       setSpare(asset_spare === 2 ? true : false)
       setitem_base_name(item_base_name)
     },
-    [setAssetType, setItemtype, setCategory],
+    [setAssetType, setItemtype, setCategory]
   )
 
   const backtoSetting = useCallback(() => {
@@ -908,7 +908,7 @@ const ItemNameCreation = () => {
   }, [])
 
   const updateOrder = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       if (/[0-9]/.test(value) === true) {
         if (value > 0 && value <= 10) {
@@ -948,7 +948,7 @@ const ItemNameCreation = () => {
       model_order,
       modelNo_order,
       uom_order,
-    ],
+    ]
   )
 
   return (
@@ -1525,7 +1525,7 @@ const ItemNameCreation = () => {
                 maxRows={4}
                 name="item_specific_one"
                 value={item_specific_one}
-                onChange={(e) => updateItemCreation(e)}
+                onChange={e => updateItemCreation(e)}
               ></Textarea>
             </CssVarsProvider>
           </Box>
@@ -1554,7 +1554,7 @@ const ItemNameCreation = () => {
                 maxRows={4}
                 name="item_specific_two"
                 value={item_specific_two}
-                onChange={(e) => updateItemCreation(e)}
+                onChange={e => updateItemCreation(e)}
               ></Textarea>
             </CssVarsProvider>
           </Box>

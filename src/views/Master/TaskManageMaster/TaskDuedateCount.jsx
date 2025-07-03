@@ -19,16 +19,16 @@ const TaskDuedateCount = () => {
     tm_duedate_count: '',
   })
   const [cutoffPercentages, setCutoffPercentages] = useState([])
-  const id = useSelector((state) => state.LoginUserData.empid)
+  const id = useSelector(state => state.LoginUserData.empid)
   const { tm_duedate_count } = duecount
 
   const updateDuecount = useCallback(
-    (e) => {
+    e => {
       const value = e.target.value
       const name = e.target.name
       setDuecount({ ...duecount, [name]: value })
     },
-    [duecount],
+    [duecount]
   )
 
   useEffect(() => {
@@ -39,11 +39,11 @@ const TaskDuedateCount = () => {
         const { co_setting_slno, tm_count_slno, tm_duedate_count } = data[0]
         setDuecount({ co_setting_slno, tm_count_slno, tm_duedate_count })
         const percentagesResult = await axioslogin.get(
-          `/TmAllDeptTask/getCutoffPercentages/${tm_count_slno}`,
+          `/TmAllDeptTask/getCutoffPercentages/${tm_count_slno}`
         )
         const { data: percentagesData } = percentagesResult.data
         if (percentagesData.length !== 0) {
-          setCutoffPercentages(percentagesData.map((item) => item.reschedule_pecent))
+          setCutoffPercentages(percentagesData.map(item => item.reschedule_pecent))
         }
       }
     }
@@ -54,7 +54,7 @@ const TaskDuedateCount = () => {
     if (tm_duedate_count !== '') {
       const newCutoffPercentages = Array.from(
         { length: parseInt(tm_duedate_count) || 0 },
-        (_, i) => cutoffPercentages[i] || '',
+        (_, i) => cutoffPercentages[i] || ''
       )
       setCutoffPercentages(newCutoffPercentages)
     }
@@ -72,7 +72,7 @@ const TaskDuedateCount = () => {
       tm_duedate_count: tm_duedate_count,
       create_user: id,
     }),
-    [tm_duedate_count, id],
+    [tm_duedate_count, id]
   )
 
   const percentageData = cutoffPercentages.map((val, index) => ({
@@ -88,7 +88,7 @@ const TaskDuedateCount = () => {
   }
 
   const submit = useCallback(
-    async (e) => {
+    async e => {
       e.preventDefault()
 
       const insertDueCount = async () => {
@@ -120,14 +120,14 @@ const TaskDuedateCount = () => {
         infoNotify('Please enter Due date count')
       }
     },
-    [postdata, percentageData, tm_duedate_count, count],
+    [postdata, percentageData, tm_duedate_count, count]
   )
 
   const backtoSetting = useCallback(() => {
     history('/Home/Settings')
   }, [history])
 
-  const getOrdinalLabel = (n) => {
+  const getOrdinalLabel = n => {
     const suffixes = ['th', 'st', 'nd', 'rd']
     const v = n % 100
     return `${n}${suffixes[(v - 20) % 10] || suffixes[v] || suffixes[0]} time`
@@ -193,7 +193,7 @@ const TaskDuedateCount = () => {
                             value={cutoff}
                             size="sm"
                             sx={{ width: 40, height: 20, pl: 1.5 }}
-                            onChange={(e) => {
+                            onChange={e => {
                               const newValue = e.target.value
                               if (newValue.length <= 2) {
                                 updateCutoffPercentage(index, newValue)

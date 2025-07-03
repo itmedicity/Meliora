@@ -14,7 +14,7 @@ const HicComplaintList = () => {
     dispatch(getHiccomplaintsall())
   }, [dispatch])
 
-  const compall = useSelector((state) => {
+  const compall = useSelector(state => {
     return state.setHICComplaintLists.HiccomplaintsLists
   })
 
@@ -40,7 +40,7 @@ const HicComplaintList = () => {
       headerName: 'Location',
       field: 'rm_room_name',
       minWidth: 350,
-      cellRendererFramework: (params) => {
+      cellRendererFramework: params => {
         const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } =
           params.data
         return (

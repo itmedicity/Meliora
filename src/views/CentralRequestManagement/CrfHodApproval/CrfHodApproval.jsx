@@ -1,5 +1,5 @@
 import { Box, CssVarsProvider } from '@mui/joy'
-import React, { Fragment, memo, use, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { Fragment, memo, useCallback, useEffect, useMemo, useState } from 'react'
 import CustomCloseIconCmp from '../ComonComponent/Components/CustomCloseIconCmp'
 import TopDesignComp from '../ComonComponent/TopDesignComp'
 import { Virtuoso } from 'react-virtuoso'
@@ -15,7 +15,7 @@ import InchargeCancel from '../CrfInchargeApproval/InchargeCancel'
 import ApproveButtonHOD from './ApproveButtonHOD'
 
 const CrfHodApproval = () => {
-  const loginId = useSelector((state) => state?.LoginUserData?.empid)
+  const loginId = useSelector(state => state?.LoginUserData?.empid)
 
   const [authorizeDeptSec, setAuthorizDeptSec] = useState([])
   const [deptsecArry, setDeptsecArry] = useState([])
@@ -60,7 +60,7 @@ const CrfHodApproval = () => {
   useEffect(() => {
     if (authData) {
       setAuthorizDeptSec(authData)
-      const inchdeptsec = authData.map((val) => val.dept_section)
+      const inchdeptsec = authData.map(val => val.dept_section)
       setDeptsecArry(inchdeptsec)
     }
   }, [authData])
@@ -89,7 +89,7 @@ const CrfHodApproval = () => {
   const company = useMemo(() => companyData, [companyData])
   useEffect(() => {
     if (hodData) {
-      const datas = hodData?.map((val) => {
+      const datas = hodData?.map(val => {
         const obj = {
           req_status: val.req_status,
           req_slno: val.req_slno,
@@ -447,14 +447,14 @@ const CrfHodApproval = () => {
         }
         return obj
       })
-      const hod = datas?.filter((val) => {
+      const hod = datas?.filter(val => {
         return val.hod_req === 1 && val.crf_close !== 1 && val.crf_close !== 2
       })
-      const closedList = datas?.filter((val) => {
+      const closedList = datas?.filter(val => {
         return val.hod_req === 1 && (val.crf_close === 1 || val.crf_close === 2)
       })
       setClosedData(closedList)
-      const pendingList = hod?.filter((val) => {
+      const pendingList = hod?.filter(val => {
         return (
           val.hod_approve === null &&
           val.manag_operation_approv === null &&
@@ -475,7 +475,7 @@ const CrfHodApproval = () => {
         setPendingData([])
         //warningNotify("No CRF For Pending")
       }
-      const doneList = hod?.filter((val) => {
+      const doneList = hod?.filter(val => {
         return (
           val.hod_approve !== null ||
           val.manag_operation_approv !== null ||

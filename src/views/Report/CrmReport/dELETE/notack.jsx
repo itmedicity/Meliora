@@ -32,11 +32,11 @@ const CRFAllReportWithPO = () => {
 
   const { start_date, end_date } = dateset
   const getDate = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       SetDate({ ...dateset, [e.target.name]: value })
     },
-    [dateset],
+    [dateset]
   )
 
   const [columnDefForTable] = useState([
@@ -123,14 +123,14 @@ const CRFAllReportWithPO = () => {
   ])
 
   const clicksearch = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
       setOpen(true)
       const postdata = {
         start_date: start_date,
         end_date: end_date,
       }
-      const getdataUserAcknldged = async (postdata) => {
+      const getdataUserAcknldged = async postdata => {
         const result = await axioslogin.post('/CrfReports/getdataAllCRFWithPO', postdata)
         const { success, data } = result.data
         if (success === 1) {
@@ -150,7 +150,7 @@ const CRFAllReportWithPO = () => {
         setOpen(false)
       }
     },
-    [start_date, end_date],
+    [start_date, end_date]
   )
 
   const onExportClick = () => {
@@ -173,7 +173,7 @@ const CRFAllReportWithPO = () => {
 
   const apiRef = useRef()
   /** useSelector is used for get aggrid download button state */
-  const exportState = useSelector((state) => {
+  const exportState = useSelector(state => {
     return state.changeStateAggrid.aggridstate
   })
 
@@ -204,7 +204,7 @@ const CRFAllReportWithPO = () => {
       '"Segoe UI Symbol"',
     ].join(','),
   }
-  const onGridReady = (params) => {
+  const onGridReady = params => {
     params.columnApi.autoSizeAllColumns()
   }
 

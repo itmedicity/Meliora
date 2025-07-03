@@ -78,10 +78,10 @@ const Newdashboard = () => {
   const [yearcount, setyearcount] = useState(0)
   const history = useNavigate()
 
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state?.LoginUserData.empid
   })
-  const empdept = useSelector((state) => {
+  const empdept = useSelector(state => {
     return state?.LoginUserData.empdept
   })
 
@@ -100,16 +100,16 @@ const Newdashboard = () => {
     dispatch(getSelectedDaysDetails(empdept))
     dispatch(getDaysDetails(empdept))
   }, [dispatch, count, setDayData, empdept])
-  const dailycount = useSelector((state) => state?.getDailyCount?.DailyCount)
-  const daysdetails = useSelector((state) => state?.getDayDetails?.dayslist)
-  const monthlycount = useSelector((state) => state?.getMonthlyCount?.MonthlyCount)
-  const monthdetails = useSelector((state) => state?.getMonthDetails?.Monthdata)
-  const yearlycounts = useSelector((state) => state?.getYearlyBackup?.YearlyInitial)
-  const yeardetails = useSelector((state) => state?.getYearDetails?.Yearlydata)
-  const weeklycount = useSelector((state) => state?.getWeeklyBackup?.Weekinitial)
-  const weekdetails = useSelector((state) => state?.getWeeklyDetails?.WeekInit)
-  const selecteddays = useSelector((state) => state?.getSelectedDaysDetails?.Daysinitial)
-  const daysdata = useSelector((state) => state?.getDaysDetails?.DaysData)
+  const dailycount = useSelector(state => state?.getDailyCount?.DailyCount)
+  const daysdetails = useSelector(state => state?.getDayDetails?.dayslist)
+  const monthlycount = useSelector(state => state?.getMonthlyCount?.MonthlyCount)
+  const monthdetails = useSelector(state => state?.getMonthDetails?.Monthdata)
+  const yearlycounts = useSelector(state => state?.getYearlyBackup?.YearlyInitial)
+  const yeardetails = useSelector(state => state?.getYearDetails?.Yearlydata)
+  const weeklycount = useSelector(state => state?.getWeeklyBackup?.Weekinitial)
+  const weekdetails = useSelector(state => state?.getWeeklyDetails?.WeekInit)
+  const selecteddays = useSelector(state => state?.getSelectedDaysDetails?.Daysinitial)
+  const daysdata = useSelector(state => state?.getDaysDetails?.DaysData)
 
   // for daily update
   useEffect(() => {
@@ -120,7 +120,7 @@ const Newdashboard = () => {
         const lastBackup = data[0]
         if (lastBackup.last_backup_date === null) {
           const dayrange = eachDayOfInterval({ start: new Date(), end: new Date() })
-          const newdata = dayrange?.map((val) => {
+          const newdata = dayrange?.map(val => {
             return {
               backup_date: moment(new Date(val)).format('YYYY-MM-DD'),
             }
@@ -133,7 +133,7 @@ const Newdashboard = () => {
               start: addDays(new Date(lastBackup.last_backup_date), 1),
               end: new Date(),
             })
-            const newdata = dayrange?.map((val) => {
+            const newdata = dayrange?.map(val => {
               return {
                 backup_date: moment(new Date(val)).format('YYYY-MM-DD'),
               }
@@ -147,8 +147,8 @@ const Newdashboard = () => {
   }, [])
   useEffect(() => {
     if (dailycount.length !== 0) {
-      const postdata = dailycount?.map((val) => {
-        const item = daysList?.map((value) => {
+      const postdata = dailycount?.map(val => {
+        const item = daysList?.map(value => {
           return {
             time_slno: val.time_slno,
             backup_slno: val.backup_slno,
@@ -166,7 +166,7 @@ const Newdashboard = () => {
           InsertArry.push(obj)
         }
       }
-      const InsertBackupDaily = async (InsertArry) => {
+      const InsertBackupDaily = async InsertArry => {
         const result = await axioslogin.post('/backupdash/insertdaily', InsertArry)
         const { success } = result.data
         if (success === 1) {
@@ -182,13 +182,13 @@ const Newdashboard = () => {
   useEffect(() => {
     if (daysdetails.length !== 0 || count !== 0) {
       const newdata = daysdetails.filter(
-        (val) => val.backup_daily_date === moment(new Date()).format('YYYY-MM-DD'),
+        val => val.backup_daily_date === moment(new Date()).format('YYYY-MM-DD')
       )
       setDayData(newdata)
       const currentcount = daysdetails.filter(
-        (val) =>
+        val =>
           val.verify_status === 0 &&
-          val.backup_daily_date === moment(new Date()).format('YYYY-MM-DD'),
+          val.backup_daily_date === moment(new Date()).format('YYYY-MM-DD')
       )
       if (currentcount.length !== 0) {
         setDayscount(currentcount.length)
@@ -196,15 +196,14 @@ const Newdashboard = () => {
         setDayscount(0)
       }
       const duedata = daysdetails.filter(
-        (val) =>
-          val.verify_status === 0 &&
-          val.backup_daily_date < moment(new Date()).format('YYYY-MM-DD'),
+        val =>
+          val.verify_status === 0 && val.backup_daily_date < moment(new Date()).format('YYYY-MM-DD')
       )
       setDueData(duedata)
       const errordata = daysdetails.filter(
-        (val) =>
+        val =>
           val.verify_status === 2 &&
-          val.backup_daily_date <= moment(new Date()).format('YYYY-MM-DD'),
+          val.backup_daily_date <= moment(new Date()).format('YYYY-MM-DD')
       )
       setErrorData(errordata)
     }
@@ -251,7 +250,7 @@ const Newdashboard = () => {
   useEffect(() => {
     if (weeklycount.length !== 0) {
       const getendOfWeek = endOfWeek(new Date())
-      const postdata = weeklycount?.map((val) => {
+      const postdata = weeklycount?.map(val => {
         return {
           time_slno: val.time_slno,
           backup_slno: val.backup_slno,
@@ -261,7 +260,7 @@ const Newdashboard = () => {
           create_user: id,
         }
       })
-      const InsertBackupWeekly = async (postdata) => {
+      const InsertBackupWeekly = async postdata => {
         const result = await axioslogin.post('/backupdash/insertweek', postdata)
         const { success } = result.data
         if (success === 1) {
@@ -277,7 +276,7 @@ const Newdashboard = () => {
     if (weekdetails.length !== 0) {
       const getstartOfWeek = startOfWeek(new Date())
       const getendOfWeek = endOfWeek(new Date())
-      const newdata = weekdetails.filter((val) => {
+      const newdata = weekdetails.filter(val => {
         if (
           moment(new Date(getstartOfWeek)).format('YYYY-MM-DD') <= val.backup_weekly_date &&
           val.backup_weekly_date <= moment(new Date(getendOfWeek)).format('YYYY-MM-DD')
@@ -288,7 +287,7 @@ const Newdashboard = () => {
         }
       })
       setWeeklydata(newdata)
-      const countdata = weekdetails.filter((val) => {
+      const countdata = weekdetails.filter(val => {
         if (
           moment(new Date(getstartOfWeek)).format('YYYY-MM-DD') <= val.backup_weekly_date &&
           val.backup_weekly_date <= moment(new Date(getendOfWeek)).format('YYYY-MM-DD') &&
@@ -305,15 +304,15 @@ const Newdashboard = () => {
         setweekcount(countdata.length)
       }
       const duedata = weekdetails.filter(
-        (val) =>
+        val =>
           val.verify_status === 0 &&
-          val.backup_weekly_date < moment(new Date(getstartOfWeek)).format('YYYY-MM-DD'),
+          val.backup_weekly_date < moment(new Date(getstartOfWeek)).format('YYYY-MM-DD')
       )
       setWeekduedata(duedata)
       const errordata = weekdetails.filter(
-        (val) =>
+        val =>
           val.verify_status === 2 &&
-          val.backup_weekly_date <= moment(new Date()).format('YYYY-MM-DD'),
+          val.backup_weekly_date <= moment(new Date()).format('YYYY-MM-DD')
       )
       setWeekerrordata(errordata)
     }
@@ -362,19 +361,19 @@ const Newdashboard = () => {
         const { success } = result.data
         if (success === 1) {
           const startdate = moment(new Date()).format('YYYY-MM-DD')
-          const postdata = daysdata?.map((val) => {
+          const postdata = daysdata?.map(val => {
             return {
               backup_slno: val.backup_slno,
               selected_days: val.selected_days,
               backup_selected_date: startdate,
               due_date: moment(addDays(new Date(startdate), val.selected_days)).format(
-                'YYYY-MM-DD',
+                'YYYY-MM-DD'
               ),
               verify_status: 0,
               create_user: val.create_user,
             }
           })
-          const InsertSelectedDays = async (postdata) => {
+          const InsertSelectedDays = async postdata => {
             const result = await axioslogin.post('/backupdash/add', postdata)
             const { success } = result.data
             if (success === 1) {
@@ -393,14 +392,12 @@ const Newdashboard = () => {
   useEffect(() => {
     if (selecteddays.length !== 0) {
       const newdata = selecteddays.filter(
-        (val) =>
-          (val.verify_status === 0 || 1) &&
-          val.due_date === moment(new Date()).format('YYYY-MM-DD'),
+        val =>
+          (val.verify_status === 0 || 1) && val.due_date === moment(new Date()).format('YYYY-MM-DD')
       )
       setdaysNow(newdata)
       const countdata = selecteddays.filter(
-        (val) =>
-          val.verify_status === 0 && val.due_date === moment(new Date()).format('YYYY-MM-DD'),
+        val => val.verify_status === 0 && val.due_date === moment(new Date()).format('YYYY-MM-DD')
       )
       if (countdata.length === 0) {
         setAltcount(0)
@@ -408,15 +405,15 @@ const Newdashboard = () => {
         setAltcount(countdata.length)
       }
       const duedata = selecteddays.filter(
-        (val) => val.verify_status === 0 && val.due_date < moment(new Date()).format('YYYY-MM-DD'),
+        val => val.verify_status === 0 && val.due_date < moment(new Date()).format('YYYY-MM-DD')
       )
       setdaysdue(duedata)
       const errordata = selecteddays.filter(
-        (val) => val.verify_status === 2 && val.due_date <= moment(new Date()).format('YYYY-MM-DD'),
+        val => val.verify_status === 2 && val.due_date <= moment(new Date()).format('YYYY-MM-DD')
       )
       setDayserror(errordata)
       const nextdata = selecteddays.filter(
-        (val) => val.verify_status === 0 && val.due_date > moment(new Date()).format('YYYY-MM-DD'),
+        val => val.verify_status === 0 && val.due_date > moment(new Date()).format('YYYY-MM-DD')
       )
       setDaysnext(nextdata)
     }
@@ -460,7 +457,7 @@ const Newdashboard = () => {
   // for month
   useEffect(() => {
     if (monthlycount.length !== 0) {
-      const postdata = monthlycount?.map((val) => {
+      const postdata = monthlycount?.map(val => {
         return {
           time_slno: val.time_slno,
           backup_slno: val.backup_slno,
@@ -470,7 +467,7 @@ const Newdashboard = () => {
           create_user: id,
         }
       })
-      const InsertBackupMonthly = async (postdata) => {
+      const InsertBackupMonthly = async postdata => {
         const result = await axioslogin.post('/backupdash/insertmonthly', postdata)
         const { success } = result.data
         if (success === 1) {
@@ -486,13 +483,13 @@ const Newdashboard = () => {
   useEffect(() => {
     if (monthdetails.length !== 0) {
       const newdata = monthdetails.filter(
-        (val) => val.backup_monthly_date === moment(new Date()).format('YYYY-MM-01'),
+        val => val.backup_monthly_date === moment(new Date()).format('YYYY-MM-01')
       )
       setMonthdata(newdata)
       const countmonth = monthdetails.filter(
-        (val) =>
+        val =>
           val.verify_status === 0 &&
-          val.backup_monthly_date === moment(new Date()).format('YYYY-MM-01'),
+          val.backup_monthly_date === moment(new Date()).format('YYYY-MM-01')
       )
       if (countmonth.length !== 0) {
         setMonthcount(countmonth.length)
@@ -500,15 +497,15 @@ const Newdashboard = () => {
         setMonthcount(0)
       }
       const duedata = monthdetails.filter(
-        (val) =>
+        val =>
           val.verify_status === 0 &&
-          val.backup_monthly_date < moment(new Date()).format('YYYY-MM-01'),
+          val.backup_monthly_date < moment(new Date()).format('YYYY-MM-01')
       )
       setDueMonthdata(duedata)
       const errordata = monthdetails.filter(
-        (val) =>
+        val =>
           val.verify_status === 2 &&
-          val.backup_monthly_date <= moment(new Date()).format('YYYY-MM-01'),
+          val.backup_monthly_date <= moment(new Date()).format('YYYY-MM-01')
       )
       setErrorMonthdata(errordata)
     }
@@ -553,7 +550,7 @@ const Newdashboard = () => {
   // for year
   useEffect(() => {
     if (yearlycounts.length !== 0) {
-      const postdata = yearlycounts?.map((val) => {
+      const postdata = yearlycounts?.map(val => {
         return {
           time_slno: val.time_slno,
           backup_slno: val.backup_slno,
@@ -563,7 +560,7 @@ const Newdashboard = () => {
           create_user: id,
         }
       })
-      const InsertBackupYearly = async (postdata) => {
+      const InsertBackupYearly = async postdata => {
         const result = await axioslogin.post('/backupdash/insertyearly', postdata)
         const { success } = result.data
         if (success === 1) {
@@ -579,13 +576,13 @@ const Newdashboard = () => {
   useEffect(() => {
     if (yeardetails.length !== 0) {
       const newdata = yeardetails.filter(
-        (val) => val.backup_yearly_date === moment(new Date()).format('YYYY-01-01'),
+        val => val.backup_yearly_date === moment(new Date()).format('YYYY-01-01')
       )
       setYeardata(newdata)
       const countyear = yeardetails.filter(
-        (val) =>
+        val =>
           val.verify_status === 0 &&
-          val.backup_yearly_date === moment(new Date()).format('YYYY-01-01'),
+          val.backup_yearly_date === moment(new Date()).format('YYYY-01-01')
       )
       if (countyear.length === 0) {
         setyearcount(0)
@@ -593,15 +590,15 @@ const Newdashboard = () => {
         setyearcount(countyear.length)
       }
       const duedata = yeardetails.filter(
-        (val) =>
+        val =>
           val.verify_status === 0 &&
-          val.backup_yearly_date < moment(new Date()).format('YYYY-01-01'),
+          val.backup_yearly_date < moment(new Date()).format('YYYY-01-01')
       )
       setdueYearData(duedata)
       const errordata = yeardetails.filter(
-        (val) =>
+        val =>
           val.verify_status === 2 &&
-          val.backup_yearly_date <= moment(new Date()).format('YYYY-01-01'),
+          val.backup_yearly_date <= moment(new Date()).format('YYYY-01-01')
       )
       setErrorYearData(errordata)
     }

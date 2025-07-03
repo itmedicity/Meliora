@@ -1,4 +1,4 @@
-import { Box, CssVarsProvider } from '@mui/joy'
+import { Box } from '@mui/joy'
 import React, { memo, useEffect, useMemo, useState } from 'react'
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined'
 import { useSelector } from 'react-redux'
@@ -20,12 +20,14 @@ const AllDeptOpenTicketProgressBar = React.lazy(() => import('./AllDeptOpenTicke
 const AllDeptClosedProgressBar = React.lazy(() => import('./AllDeptClosedProgressBar'))
 
 const TicketManagementCmDeptMain = () => {
-  const empdept = useSelector((state) => {
+  const empdept = useSelector(state => {
     return state.LoginUserData.empdept
   })
-  const empid = useSelector((state) => {
+  const empid = useSelector(state => {
     return state.LoginUserData.empid
   })
+
+  console.log(empid)
   const [sevenDaysbefore, setSevenDaysbefore] = useState('')
   const [currentDateAndTime, setCurrentDateAndTime] = useState('')
   const [yesterdayEndTime, setYesterdayEndTime] = useState('')
@@ -133,7 +135,7 @@ const TicketManagementCmDeptMain = () => {
 
   const postEmp = useMemo(() => ({ empid }), [empid])
 
-  const { data: menuRightsEmployee = [] } = useQuery({
+  const { data: menuRightsEmployee = [], isSuccess } = useQuery({
     queryKey: ['getEmployeeuserrightsMenu', postEmp],
     queryFn: () => getEmployeeuserrightsMenu(postEmp),
   })
@@ -142,10 +144,12 @@ const TicketManagementCmDeptMain = () => {
     console.log(menuList)
     console.log(employeeMenuRights)
 
-    let array = menuList.filter((value) =>
-      employeeMenuRights.find((val) => value.slno === val.menu_slno),
-    )
-    setMenurights(array)
+    if (isSuccess && employeeMenuRights?.length > 0) {
+      let array = menuList.filter(value =>
+        employeeMenuRights.find(val => value.slno === val.menu_slno)
+      )
+      setMenurights(array)
+    }
   }, [menuList, employeeMenuRights])
 
   return (
@@ -172,43 +176,43 @@ const TicketManagementCmDeptMain = () => {
       </Box>
       <Box sx={{ flex: 1, display: 'flex', p: 0.5, gap: 0.5 }}>
         <Box sx={{ flex: 1 }}>
-          {menurights.find((menu) => menu.slno === 236)?.component || null}
+          {menurights.find(menu => menu.slno === 236)?.component || null}
           <Box sx={{ flex: 1, display: 'flex', gap: 0.5 }}>
             <Box sx={{ flex: 1 }}>
-              {menurights.find((menu) => menu.slno === 237)?.component || null}
+              {menurights.find(menu => menu.slno === 237)?.component || null}
             </Box>
-            <Box>{menurights.find((menu) => menu.slno === 238)?.component || null}</Box>
+            <Box>{menurights.find(menu => menu.slno === 238)?.component || null}</Box>
           </Box>
           <Box sx={{ flex: 1, display: 'flex', gap: 0.5 }}>
             <Box sx={{ flex: 1 }}>
-              {menurights.find((menu) => menu.slno === 239)?.component || null}
+              {menurights.find(menu => menu.slno === 239)?.component || null}
             </Box>
             <Box sx={{ flex: 1 }}>
-              {menurights.find((menu) => menu.slno === 240)?.component || null}
+              {menurights.find(menu => menu.slno === 240)?.component || null}
             </Box>
           </Box>
           <Box sx={{ flex: 1 }}>
-            {menurights.find((menu) => menu.slno === 235)?.component || null}
+            {menurights.find(menu => menu.slno === 235)?.component || null}
           </Box>
           <Box sx={{ flex: 1, display: 'flex', gap: 0.5 }}>
             <Box sx={{ flex: 1 }}>
-              {menurights.find((menu) => menu.slno === 241)?.component || null}
+              {menurights.find(menu => menu.slno === 241)?.component || null}
             </Box>
-            <Box>{menurights.find((menu) => menu.slno === 242)?.component || null}</Box>
+            <Box>{menurights.find(menu => menu.slno === 242)?.component || null}</Box>
           </Box>
           <Box sx={{ flex: 1, display: 'flex', gap: 0.5 }}>
             <Box sx={{ flex: 1 }}>
-              {menurights.find((menu) => menu.slno === 244)?.component || null}
+              {menurights.find(menu => menu.slno === 244)?.component || null}
             </Box>
             <Box sx={{ flex: 1 }}>
-              {menurights.find((menu) => menu.slno === 245)?.component || null}
+              {menurights.find(menu => menu.slno === 245)?.component || null}
             </Box>
           </Box>
           <Box sx={{ flex: 1 }}>
-            {menurights.find((menu) => menu.slno === 246)?.component || null}
+            {menurights.find(menu => menu.slno === 246)?.component || null}
           </Box>
         </Box>
-        <Box>{menurights.find((menu) => menu.slno === 247)?.component || null}</Box>
+        <Box>{menurights.find(menu => menu.slno === 247)?.component || null}</Box>
       </Box>
       {/* </CssVarsProvider> */}
     </Box>

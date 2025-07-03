@@ -27,15 +27,15 @@ const TeamMast = () => {
   const [value, setValue] = useState(0)
   const [slno, setSlno] = useState(0)
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
 
-  const updateTeamMast = (e) => {
+  const updateTeamMast = e => {
     setTeamMast(e.target.value)
   }
 
-  const updateStatus = (e) => {
+  const updateStatus = e => {
     if (e.target.checked === true) {
       setStatus(true)
     } else {
@@ -55,7 +55,7 @@ const TeamMast = () => {
   }
 
   //data for edit
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const {
@@ -104,9 +104,9 @@ const TeamMast = () => {
   }, [teamdept, teamMast, dept, deptsec, employe, status, id])
 
   const Submitfunction = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const insertfun = async (postData) => {
+      const insertfun = async postData => {
         const result = await axioslogin.post('/teammaster/insert', postData)
         const { message, success } = result.data
         if (success === 1) {
@@ -120,7 +120,7 @@ const TeamMast = () => {
         }
       }
 
-      const updatefun = async (patchData) => {
+      const updatefun = async patchData => {
         const result = await axioslogin.patch('/teammaster/update', patchData)
         const { message, success } = result.data
         if (success === 1) {
@@ -139,7 +139,7 @@ const TeamMast = () => {
         updatefun(patchData)
       }
     },
-    [postData, patchData, count, value],
+    [postData, patchData, count, value]
   )
 
   //back to home

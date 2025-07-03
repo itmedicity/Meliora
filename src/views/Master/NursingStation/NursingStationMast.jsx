@@ -31,15 +31,15 @@ const NursingStationMast = () => {
   //destructuring
   const { nurse_station, status, nurse_slno } = nursstation
   const updateDiet = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setNursStation({ ...nursstation, [e.target.name]: value })
     },
-    [nursstation],
+    [nursstation]
   )
 
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
 
@@ -57,7 +57,7 @@ const NursingStationMast = () => {
   }, [nurse_station, oranurse, status, id, building, floor, outlet])
 
   //data set for edit
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const {
@@ -97,7 +97,7 @@ const NursingStationMast = () => {
 
   //Submit function for insert and update
   const submitNursestation = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
       const formReset = {
         nurse_station: '',
@@ -106,7 +106,7 @@ const NursingStationMast = () => {
       }
 
       /*** * insert function for use call back     */
-      const InsertData = async (postdata) => {
+      const InsertData = async postdata => {
         const result = await axioslogin.post(`/nursestation`, postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -125,7 +125,7 @@ const NursingStationMast = () => {
       }
 
       /***  * update function for use call back     */
-      const updateData = async (patchdata) => {
+      const updateData = async patchdata => {
         const result = await axioslogin.patch('/nursestation', patchdata)
 
         const { message, success } = result.data
@@ -151,7 +151,7 @@ const NursingStationMast = () => {
         updateData(patchdata)
       }
     },
-    [value, postdata, count, patchdata],
+    [value, postdata, count, patchdata]
   )
 
   //Refresh function

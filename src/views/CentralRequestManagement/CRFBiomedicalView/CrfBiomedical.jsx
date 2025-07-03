@@ -22,7 +22,7 @@ const CrfBiomedical = () => {
   }, [history])
 
   const handleStartDateChange = useCallback(
-    (e) => {
+    e => {
       const newStartDate = e.target.value
       setStartDate(newStartDate)
       if (endDate && new Date(endDate) < new Date(newStartDate)) {
@@ -34,10 +34,10 @@ const CrfBiomedical = () => {
         return
       }
     },
-    [endDate],
+    [endDate]
   )
 
-  const handleEndDateChange = useCallback((e) => {
+  const handleEndDateChange = useCallback(e => {
     setEndDate(e.target.value)
   }, [])
 
@@ -48,14 +48,14 @@ const CrfBiomedical = () => {
     }
   }, [startDate, endDate])
   const searchCRFDetails = useCallback(
-    async (e) => {
+    async e => {
       e.preventDefault()
       setOpen(true)
-      const getcrfBiomedical = async (searchCrf) => {
+      const getcrfBiomedical = async searchCrf => {
         const result = await axioslogin.post('/newCRFRegister/biomedicalView', searchCrf)
         const { success, data, message } = result.data
         if (success === 1) {
-          const datas = data?.map((val) => {
+          const datas = data?.map(val => {
             const obj = {
               req_status: val.req_status,
               req_slno: val.req_slno,
@@ -97,7 +97,7 @@ const CrfBiomedical = () => {
       }
       getcrfBiomedical(searchCrf)
     },
-    [searchCrf],
+    [searchCrf]
   )
 
   const buttonStyle = {

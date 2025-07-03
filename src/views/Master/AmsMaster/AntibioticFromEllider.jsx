@@ -1,4 +1,4 @@
-import { Box, CssVarsProvider, Table, } from '@mui/joy'
+import { Box, CssVarsProvider, Table } from '@mui/joy'
 import React from 'react'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 
@@ -13,7 +13,6 @@ const AntibioticFromEllider = ({ antibioticList, antibioticData }) => {
               <th style={{ width: 'auto', textAlign: 'center' }}>Item Describtion</th>
               <th style={{ width: 60, textAlign: 'center' }}>Add</th>
             </tr>
-
           </thead>
           <tbody>
             {antibioticList.map((val, index) => (

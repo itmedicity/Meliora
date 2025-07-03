@@ -110,6 +110,7 @@ const CrfMDApprovalMain = () => {
         setcombinedData([])
       }
     } else {
+      return
     }
   }, [mdData, radiovalue, selectedCompany, mdDataKmc])
 
@@ -126,7 +127,7 @@ const CrfMDApprovalMain = () => {
 
   useEffect(() => {
     if (combinedData.length !== 0) {
-      const datas = combinedData?.map((val) => {
+      const datas = combinedData?.map(val => {
         const obj = {
           req_status: val.req_status,
           req_slno: val.req_slno,
@@ -484,15 +485,15 @@ const CrfMDApprovalMain = () => {
 
       if (radiovalue === '2') {
         const newData = datas?.filter(
-          (val) =>
+          val =>
             val.now_who_status !== 2 &&
             val.now_who_status !== 3 &&
-            (val.md_approve !== null || val?.internally_arranged_status === 1),
+            (val.md_approve !== null || val?.internally_arranged_status === 1)
         )
         setDisData(newData)
         setAllData(newData)
       } else if (radiovalue === '9') {
-        const newData = datas?.filter((val) => val?.gm_approve === 1 && val?.md_approve === null)
+        const newData = datas?.filter(val => val?.gm_approve === 1 && val?.md_approve === null)
         setDisData(newData)
         setAllData(newData)
         setDisDataLen(newData)
@@ -612,16 +613,16 @@ const CrfMDApprovalMain = () => {
   }, [selectedCompany])
 
   const fromDateChange = useCallback(
-    (e) => {
+    e => {
       setFromDate(e.target.value)
     },
-    [setFromDate],
+    [setFromDate]
   )
   const toDateChange = useCallback(
-    (e) => {
+    e => {
       setToDate(e.target.value)
     },
-    [setToDate],
+    [setToDate]
   )
 
   const closedData = useMemo(
@@ -630,7 +631,7 @@ const CrfMDApprovalMain = () => {
       from: `${fromDate} 00:00:00`,
       to: `${toDate} 23:59:59`,
     }),
-    [fromDate, toDate],
+    [fromDate, toDate]
   )
 
   const getCloseData = useCallback(() => {
@@ -669,7 +670,7 @@ const CrfMDApprovalMain = () => {
     setCancelFlag(0)
   }, [])
 
-  const handleRadioChange = useCallback(async (e) => {
+  const handleRadioChange = useCallback(async e => {
     const selectedCompanyName = e.target.value
     setSelectedCompany(selectedCompanyName)
     if (selectedCompanyName === '1') {
@@ -744,7 +745,7 @@ const CrfMDApprovalMain = () => {
               }}
             >
               <RadioGroup row value={selectedCompany} onChange={handleRadioChange}>
-                {companyData?.map((val) => (
+                {companyData?.map(val => (
                   <FormControlLabel
                     key={val.company_slno}
                     value={val.company_slno}

@@ -32,11 +32,11 @@ const MonthlyReport = () => {
 
   const { start_date, end_date } = dateset
   const getDate = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       SetDate({ ...dateset, [e.target.name]: value })
     },
-    [dateset],
+    [dateset]
   )
 
   const [columnDefForTable] = useState([
@@ -54,7 +54,7 @@ const MonthlyReport = () => {
   ])
 
   const [checking, setchecking] = useState(0)
-  const updateaddm = (e) => {
+  const updateaddm = e => {
     if (e.target.checked === true) {
       Setadd(true)
       setchecking(1)
@@ -66,7 +66,7 @@ const MonthlyReport = () => {
       setTableData([])
     }
   }
-  const updateDisc = (e) => {
+  const updateDisc = e => {
     if (e.target.checked === true) {
       setDischarged(true)
       setchecking(2)
@@ -85,21 +85,21 @@ const MonthlyReport = () => {
     if (checking === 1) {
       const arry =
         dataset &&
-        dataset.filter((val) => {
+        dataset.filter(val => {
           return val.discharge === 'N' ? val : null
         })
       setTableData(arry)
     } else if (checking === 2) {
       const arrys =
         dataset &&
-        dataset.filter((val) => {
+        dataset.filter(val => {
           return val.discharge === 'Y' ? val : null
         })
       setTableData(arrys)
     } else {
       const arrys =
         dataset &&
-        dataset.filter((val) => {
+        dataset.filter(val => {
           return val
         })
       setTableData(arrys)
@@ -114,10 +114,10 @@ const MonthlyReport = () => {
   }, [start_date, end_date])
 
   const clicksearch = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
       dispatch({ type: ActionTyps.FETCH_CHANGE_STATE, aggridstate: 0 })
-      const getdatareport = async (postdata) => {
+      const getdatareport = async postdata => {
         const result = await axioslogin.post('/dietReport/getPatientReport/Monthly', postdata)
         const { success, data } = result.data
         if (success === 1) {
@@ -125,7 +125,7 @@ const MonthlyReport = () => {
         }
       }
       getdatareport(postdata)
-      const getExtraOrder = async (postdata) => {
+      const getExtraOrder = async postdata => {
         const result = await axioslogin.post('/dietReport/getPatientReport/Monthly/Extra', postdata)
         const { success, data } = result.data
         if (success === 1) {
@@ -134,7 +134,7 @@ const MonthlyReport = () => {
       }
       getExtraOrder(postdata)
     },
-    [postdata, dispatch],
+    [postdata, dispatch]
   )
 
   const [exports, setexport] = useState(0)
@@ -160,15 +160,15 @@ const MonthlyReport = () => {
   useEffect(() => {
     const newarrt =
       total &&
-      total.map((val) => {
-        const a1 = extra.find((ele) => ele.proc_slno === val.proc_slno)
+      total.map(val => {
+        const a1 = extra.find(ele => ele.proc_slno === val.proc_slno)
         return {
           ...val,
           extraAmnt: a1?.exhossum ?? 0,
           extracantAmt: a1?.excantsum ?? 0,
         }
       })
-    const newhos = newarrt.map((val) => {
+    const newhos = newarrt.map(val => {
       const obj = {
         ...val,
         totalsum: val.hossum + val.extraAmnt,
@@ -186,7 +186,7 @@ const MonthlyReport = () => {
 
   const apiRef = useRef()
   /** useSelector is used for get aggrid download button state */
-  const exportState = useSelector((state) => {
+  const exportState = useSelector(state => {
     return state.changeStateAggrid.aggridstate
   })
 
@@ -217,7 +217,7 @@ const MonthlyReport = () => {
       '"Segoe UI Symbol"',
     ].join(','),
   }
-  const onGridReady = (params) => {
+  const onGridReady = params => {
     params.columnApi.autoSizeAllColumns()
   }
 

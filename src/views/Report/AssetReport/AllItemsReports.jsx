@@ -38,7 +38,7 @@ const AllItemsReports = () => {
       const result = await axioslogin.get('/amReport/getAllItemList')
       return result.data
     },
-    { enabled: !!selectedDept || allDetailsCheck },
+    { enabled: !!selectedDept || allDetailsCheck }
   )
 
   useEffect(() => {
@@ -54,12 +54,12 @@ const AllItemsReports = () => {
     if (data?.success === 1) {
       const filteredData = custodian
         ? data.data.filter(
-            (item) =>
-              item.item_custodian_dept === custodian || item.spare_custodian_dept === custodian,
+            item =>
+              item.item_custodian_dept === custodian || item.spare_custodian_dept === custodian
           )
         : data.data
 
-      const tableDataa = filteredData.map((val) => ({
+      const tableDataa = filteredData.map(val => ({
         item_creation_slno: val.item_creation_slno,
         asset_spare: val.asset_spare === 1 ? 'Asset' : 'Spare',
         am_item_map_slno: val.am_item_map_slno ?? 'Not Given',
@@ -225,13 +225,13 @@ const AllItemsReports = () => {
     history(`/Home/Reports`)
   }, [history])
 
-  const handleCheckboxAll = useCallback((event) => {
+  const handleCheckboxAll = useCallback(event => {
     setallDetailsCheck(event.target.checked)
     setSortDetailsCheck(false)
     setSelectedDept(null)
   }, [])
 
-  const handleCheckboxSort = useCallback((event) => {
+  const handleCheckboxSort = useCallback(event => {
     setSortDetailsCheck(event.target.checked)
     setallDetailsCheck(false)
   }, [])

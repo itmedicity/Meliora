@@ -36,11 +36,11 @@ const NewSubRoomMast = () => {
 
   const { subRoom_slno, subRoom_name, subRoom_status, subRoom_no_dis, subRoom_oldno } = subroom
   const updateSubRoom = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setSubRoom({ ...subroom, [e.target.name]: value })
     },
-    [subroom],
+    [subroom]
   )
 
   useEffect(() => {
@@ -48,7 +48,7 @@ const NewSubRoomMast = () => {
   }, [dispatch])
 
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   const PostData = useMemo(() => {
@@ -101,7 +101,7 @@ const NewSubRoomMast = () => {
     location,
   ])
 
-  const reset = useCallback((e) => {
+  const reset = useCallback(e => {
     setValue(0)
     setCount(0)
     setLocation(0)
@@ -119,8 +119,8 @@ const NewSubRoomMast = () => {
   }, [])
 
   const sumbitsubRoom = useCallback(
-    (e) => {
-      const InsertRoom = async (postdata) => {
+    e => {
+      const InsertRoom = async postdata => {
         const result = await axioslogin.post('/subRoomMaster/insert', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -133,7 +133,7 @@ const NewSubRoomMast = () => {
           infoNotify(message)
         }
       }
-      const UpdateRoom = async (patchdata) => {
+      const UpdateRoom = async patchdata => {
         const result = await axioslogin.patch('/subRoomMaster/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -153,10 +153,10 @@ const NewSubRoomMast = () => {
         UpdateRoom(PatchData)
       }
     },
-    [value, PostData, PatchData, setCount, count, reset],
+    [value, PostData, PatchData, setCount, count, reset]
   )
 
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const {

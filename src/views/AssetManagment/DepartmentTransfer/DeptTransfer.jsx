@@ -35,7 +35,7 @@ const DeptTransfer = () => {
 
   const { am_item_map_slno, item_name, department, dept_sec, custodian_dept } = transferData
 
-  const updateAssetNo = useCallback((e) => {
+  const updateAssetNo = useCallback(e => {
     setAssetNo(e.target.value.toLocaleUpperCase())
   }, [])
 
@@ -44,7 +44,7 @@ const DeptTransfer = () => {
   }, [dispatch])
 
   const search = useCallback(() => {
-    const getdata = async (postdata) => {
+    const getdata = async postdata => {
       const result = await axioslogin.post('/assetDeptTransfer/getAssetBasedOnLocation', postdata)
       const { data, success } = result.data
       if (success === 1) {
@@ -111,7 +111,7 @@ const DeptTransfer = () => {
   }, [])
 
   const updateDeptTransfer = useCallback(() => {
-    const patchDeptTrans = async (patchData) => {
+    const patchDeptTrans = async patchData => {
       const result = await axioslogin.patch('/assetDeptTransfer/transferDepartment', patchData)
       const { success, message } = result.data
       if (success === 1) {

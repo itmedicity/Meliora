@@ -172,11 +172,11 @@ const PatientDetailsView = ({ nsName, setListFlag }) => {
       feedback: 0,
     },
   ]
-  const capitalizeWords = (str) =>
+  const capitalizeWords = str =>
     str
       .toLowerCase()
       .split(' ')
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ')
   const iconStyle = {
     height: 25,
@@ -241,7 +241,7 @@ const PatientDetailsView = ({ nsName, setListFlag }) => {
       transform: 'translateX(-50%)',
     },
   }
-  const AddDetails = useCallback((val) => {
+  const AddDetails = useCallback(val => {
     const { ptid } = val
     if (ptid === '') {
       infoNotify('Room Is vacant')
@@ -251,23 +251,23 @@ const PatientDetailsView = ({ nsName, setListFlag }) => {
     }
   }, [])
 
-  const RoomChecklistDetails = useCallback((val) => {
+  const RoomChecklistDetails = useCallback(val => {
     setformFlag(1)
     setptDetails(val)
     setRegFormFlag(1)
   }, [])
-  const RegComplaintDetails = useCallback((val) => {
+  const RegComplaintDetails = useCallback(val => {
     setformFlag(1)
     setptDetails(val)
     setRegFormFlag(2)
   }, [])
-  const RegIncidentDetails = useCallback((val) => {
+  const RegIncidentDetails = useCallback(val => {
     setformFlag(1)
     setptDetails(val)
     setModalOpen(true)
     setRegFormFlag(3)
   }, [])
-  const FeedbackDetails = useCallback((val) => {
+  const FeedbackDetails = useCallback(val => {
     setformFlag(1)
     setptDetails(val)
     setRegFormFlag(4)
@@ -277,7 +277,7 @@ const PatientDetailsView = ({ nsName, setListFlag }) => {
     setformFlag(0)
   }, [setModalOpen])
 
-  const DetailedView = useCallback((val) => {
+  const DetailedView = useCallback(val => {
     const { ptid, room, complnt, incident, feedback } = val
     if (ptid === '') {
       infoNotify('Room Is vacant')

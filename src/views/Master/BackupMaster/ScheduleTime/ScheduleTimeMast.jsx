@@ -17,7 +17,7 @@ const ScheduleTimeMast = () => {
   const backtoSetting = useCallback(() => {
     history('/Home/Settings')
   }, [history])
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state?.LoginUserData.empid
   })
   const [scheduleTime, setScheduleTime] = useState({
@@ -37,11 +37,11 @@ const ScheduleTimeMast = () => {
   }, [setScheduleTime])
   const { schedule_time_name, schedule_time_status, schedule_time_id } = scheduleTime
   const updateScheduleTime = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setScheduleTime({ ...scheduleTime, [e.target.name]: value })
     },
-    [scheduleTime],
+    [scheduleTime]
   )
   const postdata = useMemo(() => {
     return {
@@ -60,9 +60,9 @@ const ScheduleTimeMast = () => {
     }
   }, [schedule_time_name, schedule_time_status, schedule_time_id, id])
   const submitSheduleTime = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const InsertType = async (postdata) => {
+      const InsertType = async postdata => {
         const result = await axioslogin.post('/scheduletime/insert', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -75,7 +75,7 @@ const ScheduleTimeMast = () => {
           infoNotify(message)
         }
       }
-      const updateType = async (patchdata) => {
+      const updateType = async patchdata => {
         const result = await axioslogin.patch('/scheduletime/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -94,9 +94,9 @@ const ScheduleTimeMast = () => {
         updateType(patchdata)
       }
     },
-    [postdata, count, patchdata, value, refreshWindow],
+    [postdata, count, patchdata, value, refreshWindow]
   )
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const { schedule_time_id, schedule_time_name, status } = data[0]

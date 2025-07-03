@@ -19,20 +19,20 @@ const ComplaintList = () => {
     dispatch(getTotalcomplaintsall())
   }, [dispatch])
 
-  const compall = useSelector((state) => {
+  const compall = useSelector(state => {
     return state.setCompListAllForMenu.complaintList
   })
 
   /** filter total complaint based on status get assigned complaint */
-  const assignall = compall?.filter((val) => {
+  const assignall = compall?.filter(val => {
     return val.compalint_status === 1
   })
   /** filter total complaint based on status get Verified complaint */
-  const rectifyall = compall?.filter((val) => {
+  const rectifyall = compall?.filter(val => {
     return val.compalint_status === 2
   })
   /** filter total complaint based on status get Verified complaint */
-  const verifyall = compall?.filter((val) => {
+  const verifyall = compall?.filter(val => {
     return val.compalint_status === 3
   })
 
@@ -59,7 +59,7 @@ const ComplaintList = () => {
       headerName: 'Location',
       field: 'rm_room_name',
       minWidth: 350,
-      cellRendererFramework: (params) => {
+      cellRendererFramework: params => {
         const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } =
           params.data
         return (
@@ -111,7 +111,7 @@ const ComplaintList = () => {
       headerName: 'Location',
       field: 'rm_room_name',
       minWidth: 350,
-      cellRendererFramework: (params) => {
+      cellRendererFramework: params => {
         const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } =
           params.data
         return (
@@ -163,7 +163,7 @@ const ComplaintList = () => {
       headerName: 'Location',
       field: 'rm_room_name',
       minWidth: 350,
-      cellRendererFramework: (params) => {
+      cellRendererFramework: params => {
         const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } =
           params.data
         return (
@@ -216,7 +216,7 @@ const ComplaintList = () => {
       headerName: 'Location',
       field: 'rm_room_name',
       minWidth: 350,
-      cellRendererFramework: (params) => {
+      cellRendererFramework: params => {
         const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } =
           params.data
         return (
@@ -253,7 +253,7 @@ const ComplaintList = () => {
   }, [history])
   const [flag, setFlag] = useState(1)
 
-  const totalcmp = useCallback((e) => {
+  const totalcmp = useCallback(e => {
     if (e.target.checked === true) {
       setFlag(1)
       settotal(true)
@@ -269,7 +269,7 @@ const ComplaintList = () => {
     }
   }, [])
 
-  const assigncmp = useCallback((e) => {
+  const assigncmp = useCallback(e => {
     if (e.target.checked === true) {
       setFlag(2)
       setassign(true)
@@ -284,7 +284,7 @@ const ComplaintList = () => {
       setrectify(false)
     }
   }, [])
-  const rectifycmp = useCallback((e) => {
+  const rectifycmp = useCallback(e => {
     if (e.target.checked === true) {
       setFlag(3)
       setrectify(true)
@@ -299,7 +299,7 @@ const ComplaintList = () => {
       setrectify(false)
     }
   }, [])
-  const verifycmp = useCallback((e) => {
+  const verifycmp = useCallback(e => {
     if (e.target.checked === true) {
       setFlag(4)
       setverify(true)

@@ -23,11 +23,11 @@ const FloorMast = () => {
   })
   const { rm_floor_slno, rm_floor_name, rm_floor_alias, rm_floor_no, rm_floor_status } = floor
   const updateFloor = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setFloor({ ...floor, [e.target.name]: value })
     },
-    [floor],
+    [floor]
   )
   const reset = () => {
     const frmdata = {
@@ -59,7 +59,7 @@ const FloorMast = () => {
       rm_floor_status: rm_floor_status === true ? 1 : 0,
     }
   }, [rm_floor_slno, rm_floor_name, rm_floor_alias, rm_floor_no, rm_floor_status])
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
 
     const data = params.api.getSelectedRows()
@@ -89,9 +89,9 @@ const FloorMast = () => {
     setValue(0)
   }, [setFloor])
   const sumbitFloor = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const InsertFloor = async (postdata) => {
+      const InsertFloor = async postdata => {
         const result = await axioslogin.post('/floormaster/insert', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -104,7 +104,7 @@ const FloorMast = () => {
           infoNotify(message)
         }
       }
-      const UpdateFloor = async (patchdata) => {
+      const UpdateFloor = async patchdata => {
         const result = await axioslogin.patch('/floormaster/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -123,7 +123,7 @@ const FloorMast = () => {
         UpdateFloor(patchdata)
       }
     },
-    [postdata, value, patchdata, count],
+    [postdata, value, patchdata, count]
   )
   return (
     <CardMaster

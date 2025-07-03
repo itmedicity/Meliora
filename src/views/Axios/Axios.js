@@ -28,17 +28,17 @@ export const axioslogin = Axios.create({
 // )
 
 axioslogin.interceptors.request.use(
-  (config) => {
+  config => {
     return config
   },
-  (error) => Promise.reject(error),
+  error => Promise.reject(error)
 )
 
 axioslogin.interceptors.response.use(
-  (response) => {
+  response => {
     return response
   },
-  async (error) => {
+  async error => {
     const localData = localStorage.getItem('app_auth')
     const userSlno = atob(JSON.parse(localData)?.authNo)
     const originalRequest = error.config
@@ -77,7 +77,7 @@ axioslogin.interceptors.response.use(
     }
 
     return Promise.reject(error)
-  },
+  }
 )
 
 // CONNECTION TO THE ELLIDER MYSQL DATABASE
@@ -100,7 +100,7 @@ axiosellider.interceptors.request.use(
   },
   function (err) {
     console.log(err)
-  },
+  }
 )
 
 // CONNECTION TO THE KMC MYSQL DATABASE
@@ -123,5 +123,5 @@ axioskmc.interceptors.request.use(
   },
   function (err) {
     console.log(err)
-  },
+  }
 )

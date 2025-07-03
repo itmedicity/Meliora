@@ -1,5 +1,5 @@
 import React, { Fragment, memo, useEffect, useMemo, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 // import { AppSidebarNav } from './AppSidebarNav'
 // import SimpleBar from 'simplebar-react'
 // import 'simplebar/dist/simplebar.min.css'
@@ -55,7 +55,7 @@ import Typography from '@mui/joy/Typography'
 // import Done from '@mui/icons-material/Done'
 
 // import { IoReturnDownBack } from 'react-icons/io5'
-import { CssVarsProvider, IconButton, Tooltip } from '@mui/joy'
+import { IconButton, Tooltip } from '@mui/joy'
 import MLogoIcon from 'src/assets/MLogoIcon'
 import { ListItemIcon, ListItemText, MenuItem } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
@@ -80,13 +80,13 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
   const navigation = useNavigate()
   const [openMenuIndex, setOpenMenuIndex] = useState(null)
 
-  const [open, setOpen] = useState(true)
-  const [type, setType] = useState('Guesthouse')
-  const [amenities, setAmenities] = useState([0, 6])
+  // const [open, setOpen] = useState(true)
+  // const [type, setType] = useState('Guesthouse')
+  // const [amenities, setAmenities] = useState([0, 6])
 
-  const dispatch = useDispatch()
-  const unfoldable = useSelector((state) => state.changeState.sidebarUnfoldable)
-  const sidebarShow = useSelector((state) => state.changeState.sidebarShow)
+  // const dispatch = useDispatch()
+  // const unfoldable = useSelector(state => state.changeState.sidebarUnfoldable)
+  // const sidebarShow = useSelector(state => state.changeState.sidebarShow)
   // const [nurseStation, setNurseStation] = useState()
   const [cmtransact, setCmTransact] = useState()
   // const [crmtransact, setCrmTransact] = useState()
@@ -107,7 +107,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
   const [AmsTransact, setAmsTransact] = useState()
 
   const [count, setCount] = useState(0)
-  const [menu, setMenu] = useState([])
+  const [setMenu] = useState([])
 
   const {
     data: companyData,
@@ -123,7 +123,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
   useEffect(() => {
     if (companyData) {
       // Dynamically update the name fields in CrmNewTransaction
-      const updatedCrmNewTransaction = CrmNewTransaction?.map((item) => {
+      const updatedCrmNewTransaction = CrmNewTransaction?.map(item => {
         switch (item.men_slno) {
           case 190:
             item.name = company?.incharge_name ? company?.incharge_name : 'Incharge Approval'
@@ -326,29 +326,29 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
 
   useEffect(() => {
     /*** get menus based on user rights */
-    getMenuSlno().then((val) => {
+    getMenuSlno().then(val => {
       const resultLength = Object.keys(val[0])?.length ?? 0
       if (resultLength > 0) {
         const menuRitSlno = val[0]
-        const menuSlnoAry = menuRitSlno.map((menu) => {
+        const menuSlnoAry = menuRitSlno.map(menu => {
           return menu.menu_slno
         })
         /*** check menus array and getMenuSlno array and returnuser rights given menus */
         // const newNurseStation = NurseStation.filter(val => menuSlnoAry.includes(val.men_slno));
         // setNurseStation(newNurseStation)
-        const newCmTransaction = CmTransactions.filter((val) => menuSlnoAry.includes(val.men_slno))
+        const newCmTransaction = CmTransactions.filter(val => menuSlnoAry.includes(val.men_slno))
         setCmTransact(newCmTransaction)
         // const newCrmTransaction = CrmTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
         // setCrmTransact(newCrmTransaction)
-        const newCrmNewTransaction = CrmNewTransaction.filter((val) =>
-          menuSlnoAry.includes(val.men_slno),
+        const newCrmNewTransaction = CrmNewTransaction.filter(val =>
+          menuSlnoAry.includes(val.men_slno)
         )
         setCrmNewTransact(newCrmNewTransaction)
         // const newDietTransaction = DietTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
         // setDietTransact(newDietTransaction)
-        const newRmTransaction = RmTransactions.filter((val) => menuSlnoAry.includes(val.men_slno))
+        const newRmTransaction = RmTransactions.filter(val => menuSlnoAry.includes(val.men_slno))
         setRmTransact(newRmTransaction)
-        const newAmTransaction = AmTransactions.filter((val) => menuSlnoAry.includes(val.men_slno))
+        const newAmTransaction = AmTransactions.filter(val => menuSlnoAry.includes(val.men_slno))
         setAmTransact(newAmTransaction)
         // const weworkTransact = WeWorkTransact.filter(val => menuSlnoAry.includes(val.men_slno));
         // setweworktransact(weworkTransact)
@@ -356,34 +356,32 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
         // setescalation(escalationTransact)
         // const hallBookingTransact = HallBookingTrans.filter(val => menuSlnoAry.includes(val.men_slno));
         // setHallBooking(hallBookingTransact)
-        const TaskManageTransact = TaskTransaction.filter((val) =>
-          menuSlnoAry.includes(val.men_slno),
-        )
+        const TaskManageTransact = TaskTransaction.filter(val => menuSlnoAry.includes(val.men_slno))
         setTaskTransact(TaskManageTransact)
-        const ItManageTransact = ITTransactions.filter((val) => menuSlnoAry.includes(val.men_slno))
+        const ItManageTransact = ITTransactions.filter(val => menuSlnoAry.includes(val.men_slno))
         setItManagement(ItManageTransact)
-        const QualityIndTransact = QualityTransactions.filter((val) =>
-          menuSlnoAry.includes(val.men_slno),
+        const QualityIndTransact = QualityTransactions.filter(val =>
+          menuSlnoAry.includes(val.men_slno)
         )
         setQualityTransact(QualityIndTransact)
-        const DailyCensusTransact = DailyCensusTransactions.filter((val) =>
-          menuSlnoAry.includes(val.men_slno),
+        const DailyCensusTransact = DailyCensusTransactions.filter(val =>
+          menuSlnoAry.includes(val.men_slno)
         )
         setCensusTransact(DailyCensusTransact)
-        const IncidentTransact = IncidentTransactions.filter((val) =>
-          menuSlnoAry.includes(val.men_slno),
+        const IncidentTransact = IncidentTransactions.filter(val =>
+          menuSlnoAry.includes(val.men_slno)
         )
         setIncidentTransact(IncidentTransact)
-        const FeedbackTransact = FeedbackTransactions.filter((val) =>
-          menuSlnoAry.includes(val.men_slno),
+        const FeedbackTransact = FeedbackTransactions.filter(val =>
+          menuSlnoAry.includes(val.men_slno)
         )
         setFeedbackTransact(FeedbackTransact)
-        const NotificationTransact = NotificationTransaction.filter((val) =>
-          menuSlnoAry.includes(val.men_slno),
+        const NotificationTransact = NotificationTransaction.filter(val =>
+          menuSlnoAry.includes(val.men_slno)
         )
         setNotificationTransact(NotificationTransact)
 
-        const AmsTransact = AmsTransaction.filter((val) => menuSlnoAry.includes(val.men_slno))
+        const AmsTransact = AmsTransaction.filter(val => menuSlnoAry.includes(val.men_slno))
         setAmsTransact(AmsTransact)
 
         setCount(1)
@@ -408,22 +406,24 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
           if (success === 1) {
             const moduleDetl = await JSON.parse(data[0].module_slno)
             const moduleSlno = Object.values(moduleDetl)
-            moduleSlno.map((val) => module_rights.push(val))
-            const menus = navigationMenus.filter((element, index, array) => {
+            moduleSlno.map(val => module_rights.push(val))
+            const menus = navigationMenus.filter(element => {
               return module_rights.includes(element.slno)
             })
             setMenu(menus)
           }
-        } catch (err) {}
+        } catch (err) {
+          console.log(err)
+        }
       }
     }
     getModuleUserRight()
   }, [count])
 
-  const empname = useSelector((state) => {
+  const empname = useSelector(state => {
     return state.LoginUserData.empname
   })
-  const section = useSelector((state) => {
+  const section = useSelector(state => {
     return state.LoginUserData.empdeptsec
   })
   if (isCompLoading) return <p>Loading...</p>
@@ -431,7 +431,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
 
   // ----------------------
 
-  const handleMenuClick = (index) => {
+  const handleMenuClick = index => {
     if (openMenuIndex === index) {
       setOpenMenuIndex(null) // collapse if already open
     } else {
@@ -541,7 +541,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
                   {empname
                     ?.toLowerCase()
                     .split(' ')
-                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
                     .join(' ')}
                 </Typography>
                 <Typography
@@ -555,7 +555,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
                   {section
                     ?.toLowerCase()
                     .split(' ')
-                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
                     .join(' ')}
                 </Typography>
               </Box>

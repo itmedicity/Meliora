@@ -302,12 +302,12 @@ const CustomAgGridRptFormatOne = () => {
   }
 
   let gridApi
-  const onGridReady = (params) => {
+  const onGridReady = params => {
     gridApi = params.api
     gridApi.sizeColumnsToFit()
   }
   //--- For Get the Selected Row Values
-  const onSelectionChanged = (event) => {
+  const onSelectionChanged = event => {
     event.api.getSelectedRows()
   }
 

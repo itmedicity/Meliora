@@ -19,7 +19,7 @@ const PrimaryCustodianMast = () => {
   const [count, setCount] = useState(0)
   const history = useNavigate()
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   const [primary, setPrimary] = useState({
@@ -29,11 +29,11 @@ const PrimaryCustodianMast = () => {
   })
   const { primary_slno, primary_name, primary_status } = primary
   const UpdatePrimary = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setPrimary({ ...primary, [e.target.name]: value })
     },
-    [primary],
+    [primary]
   )
   const reset = () => {
     const frmdata = {
@@ -60,7 +60,7 @@ const PrimaryCustodianMast = () => {
       edit_user: id,
     }
   }, [primary_slno, primary_name, primary_status, id])
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const { primary_slno, primary_name, primary_status } = data[0]
@@ -72,10 +72,10 @@ const PrimaryCustodianMast = () => {
     setPrimary(frmdata)
   }, [])
   const submitPrimary = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
 
-      const InsertPrimary = async (postdata) => {
+      const InsertPrimary = async postdata => {
         const result = await axioslogin.post('/primaryCustodian/insert', postdata)
 
         const { message, success } = result.data
@@ -89,7 +89,7 @@ const PrimaryCustodianMast = () => {
           infoNotify(message)
         }
       }
-      const PrimaryUpdate = async (patchdata) => {
+      const PrimaryUpdate = async patchdata => {
         const result = await axioslogin.patch('/primaryCustodian/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -113,7 +113,7 @@ const PrimaryCustodianMast = () => {
         PrimaryUpdate(patchdata)
       }
     },
-    [postdata, value, patchdata, count, primary_name],
+    [postdata, value, patchdata, count, primary_name]
   )
   const backtoSetting = useCallback(() => {
     history('/Home/Settings')

@@ -26,13 +26,13 @@ const MonthVerificationTAble = ({ setMonthflag }) => {
     setMonthflag(0)
     setExcelflag(0)
   }, [history, setMonthflag])
-  const fromdateOnChange = useCallback((e) => {
+  const fromdateOnChange = useCallback(e => {
     setFromdate(e.target.value)
   }, [])
-  const TodateOnChange = useCallback((e) => {
+  const TodateOnChange = useCallback(e => {
     setTodate(e.target.value)
   }, [])
-  const empdept = useSelector((state) => {
+  const empdept = useSelector(state => {
     return state?.LoginUserData.empdept
   })
 
@@ -65,7 +65,7 @@ const MonthVerificationTAble = ({ setMonthflag }) => {
   }, [postdata, fromdate, todate])
   const ExcelReportDetails = useCallback(() => {
     if (array.length !== 0) {
-      const NewData = array?.map((val) => {
+      const NewData = array?.map(val => {
         return {
           backup_monthly_date: moment(val.backup_monthly_date).format('MMM YYYY'),
           backup_type: val.backup_type_name,

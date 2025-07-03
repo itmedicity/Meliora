@@ -27,18 +27,18 @@ const OMTableMast = () => {
   })
 
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
 
   //Destructuring
   const { table_name, table_status, tableno } = omTable
   const updateOmTable = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setOmTable({ ...omTable, [e.target.name]: value })
     },
-    [omTable],
+    [omTable]
   )
   // data for insert
   const postdata = useMemo(() => {
@@ -53,7 +53,7 @@ const OMTableMast = () => {
   }, [table_name, dept, deptsec, empname, table_status, id])
 
   //data for edit
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const {
@@ -105,10 +105,10 @@ const OMTableMast = () => {
 
   /*** usecallback function for form submitting form */
   const submitOMTable = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
 
-      const InsertFun = async (postdata) => {
+      const InsertFun = async postdata => {
         const result = await axioslogin.post('/omtableMast', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -122,7 +122,7 @@ const OMTableMast = () => {
         }
       }
 
-      const updateFun = async (patchdata) => {
+      const updateFun = async patchdata => {
         const result = await axioslogin.patch('/omtableMast', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -142,7 +142,7 @@ const OMTableMast = () => {
         updateFun(patchdata)
       }
     },
-    [value, postdata, patchdata, count],
+    [value, postdata, patchdata, count]
   )
 
   //back to home

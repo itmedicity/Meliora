@@ -15,7 +15,7 @@ import { getCRFInchargeHodData, getDefaultCompany, getDptSecIcharge } from 'src/
 import ApproveButtonComponentIncharge from './InchargeComp/ApproveButtonComponentIncharge'
 
 const InchargeApproval = () => {
-  const loginId = useSelector((state) => state?.LoginUserData?.empid)
+  const loginId = useSelector(state => state?.LoginUserData?.empid)
   const [authorizeDeptSec, setAuthorizDeptSec] = useState([])
   const [deptsecArry, setDeptsecArry] = useState([])
   const [pendingData, setPendingData] = useState([])
@@ -55,7 +55,7 @@ const InchargeApproval = () => {
   useEffect(() => {
     if (authData) {
       setAuthorizDeptSec(authData)
-      const inchdeptsec = authData.map((val) => val.dept_section)
+      const inchdeptsec = authData.map(val => val.dept_section)
       setDeptsecArry(inchdeptsec)
     }
   }, [authData])
@@ -82,7 +82,7 @@ const InchargeApproval = () => {
   const company = useMemo(() => companyData, [companyData])
   useEffect(() => {
     if (inchargeData) {
-      const datas = inchargeData?.map((val) => {
+      const datas = inchargeData?.map(val => {
         const obj = {
           req_status: val.req_status,
           req_slno: val.req_slno,
@@ -438,15 +438,15 @@ const InchargeApproval = () => {
         }
         return obj
       })
-      const incharge = datas?.filter((val) => {
+      const incharge = datas?.filter(val => {
         return val.incharge_req === 1 && val.crf_close !== 1 && val.crf_close !== 2
       })
-      const closedList = datas?.filter((val) => {
+      const closedList = datas?.filter(val => {
         return val.incharge_req === 1 && (val.crf_close === 1 || val.crf_close === 2)
       })
       setClosedData(closedList)
 
-      const pendingList = incharge?.filter((val) => {
+      const pendingList = incharge?.filter(val => {
         return (
           val.incharge_approve === null &&
           val.hod_approve === null &&
@@ -463,7 +463,7 @@ const InchargeApproval = () => {
       })
       setPendingData(pendingList)
 
-      const doneList = incharge?.filter((val) => {
+      const doneList = incharge?.filter(val => {
         return val.incharge_approve !== null || val.hod_approve !== null
       })
       setDoneData(doneList)

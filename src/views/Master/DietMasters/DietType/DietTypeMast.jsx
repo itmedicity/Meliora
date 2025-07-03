@@ -28,14 +28,14 @@ const DietTypeMast = () => {
   //destructuring
   const { type_slno, type_desc, start_time, end_time, status } = diettype
   const updateDiettype = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setDiettype({ ...diettype, [e.target.name]: value })
     },
-    [diettype],
+    [diettype]
   )
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   //insert data
@@ -49,7 +49,7 @@ const DietTypeMast = () => {
     }
   }, [type_desc, start_time, end_time, status, id])
   //data set for edit
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const { type_slno, type_desc, start_time, end_time, status } = data[0]
@@ -79,7 +79,7 @@ const DietTypeMast = () => {
   }, [type_desc, start_time, end_time, status, type_slno, id])
   /*** usecallback function for form submitting */
   const submitDiettype = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
       const formReset = {
         type_desc: '',
@@ -88,7 +88,7 @@ const DietTypeMast = () => {
         status: false,
       }
       /*** * insert function for use call back     */
-      const InsertData = async (postData) => {
+      const InsertData = async postData => {
         const result = await axioslogin.post(`/diettype`, postData)
         const { message, success } = result.data
         if (success === 1) {
@@ -102,7 +102,7 @@ const DietTypeMast = () => {
         }
       }
       /***  * update function for use call back     */
-      const updateData = async (patchdata) => {
+      const updateData = async patchdata => {
         const result = await axioslogin.patch('/diettype', patchdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -122,7 +122,7 @@ const DietTypeMast = () => {
         updateData(patchdata)
       }
     },
-    [value, postData, count, patchdata],
+    [value, postData, count, patchdata]
   )
   //Close function
   const backToSettings = useCallback(() => {

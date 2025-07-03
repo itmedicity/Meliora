@@ -1,5 +1,5 @@
 import { CssVarsProvider, FormControl } from '@mui/joy'
-import Input from "@mui/joy/Input"
+import Input from '@mui/joy/Input'
 import React, { Fragment, memo } from 'react'
 
 const TextFieldCustom = ({
@@ -11,15 +11,16 @@ const TextFieldCustom = ({
   style,
   onchange,
   value,
-  min, slotProps,
-  defaultValue, name, disabled
+  min,
+  slotProps,
+  defaultValue,
+  name,
+  disabled,
 }) => {
   // --- size --> sm,lg,md Default medium Size
 
-  // Text Feild Custome Style 
-  const textStyle = { width: "100%", height: "100%" }
-
-
+  // Text Feild Custome Style
+  const textStyle = { width: '100%', height: '100%' }
 
   return (
     <Fragment>
@@ -32,18 +33,18 @@ const TextFieldCustom = ({
             startDecorator={startDecorator}
             endDecorator={endDecorator}
             sx={{ ...textStyle, ...style }}
-            onChange={(e) => onchange(e)}
+            onChange={e => onchange(e)}
             min={min}
             value={value}
             defaultValue={defaultValue}
             name={name}
             autoComplete="off"
-            disabled={disabled} />
-
+            disabled={disabled}
+          />
         </FormControl>
       </CssVarsProvider>
-    </Fragment >
-  );
+    </Fragment>
+  )
 }
 
 export default memo(TextFieldCustom)

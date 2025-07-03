@@ -55,14 +55,14 @@ const UserCreation = () => {
   //Destructuring
   const { em_name, em_mobile, em_email, em_status, mod_grp_user_slno } = userdata
   const updateUserCreation = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setUserdata({ ...userdata, [e.target.name]: value })
     },
-    [userdata],
+    [userdata]
   )
 
-  const UpdateSupervis = (e) => {
+  const UpdateSupervis = e => {
     if (e.target.checked === true) {
       setSupervise(true)
     } else {
@@ -71,30 +71,30 @@ const UserCreation = () => {
   }
 
   useEffect(() => {
-    getempid().then((val) => {
+    getempid().then(val => {
       const empid = val
       setemId(empid)
       setemno(empid.toString())
     })
-    getEmpSlno().then((value) => {
+    getEmpSlno().then(value => {
       const empdetlSlno = value
       setDetlSlno(empdetlSlno)
     })
   }, [count])
 
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
 
-  const getdob = (e) => {
+  const getdob = e => {
     setdob(e.target.value)
   }
-  const getdoj = (e) => {
+  const getdoj = e => {
     setdoj(e.target.value)
   }
   //data set for edit
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     setemId(0)
     const data = params.api.getSelectedRows()
@@ -285,11 +285,11 @@ const UserCreation = () => {
   }
 
   const submitUserCreation = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
 
       /***    * insert function for use call back   */
-      const InsertFun = async (postdata) => {
+      const InsertFun = async postdata => {
         const result = await axioslogin.post('/employee/empInsert', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -302,7 +302,7 @@ const UserCreation = () => {
           infoNotify(message)
         }
       }
-      const UpdateFun = async (patchdata) => {
+      const UpdateFun = async patchdata => {
         const result = await axioslogin.patch('/employee/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -321,7 +321,7 @@ const UserCreation = () => {
         UpdateFun(patchdata)
       }
     },
-    [postdata, patchdata, value, count],
+    [postdata, patchdata, value, count]
   )
 
   //referesh func
@@ -414,7 +414,7 @@ const UserCreation = () => {
                     id="demo-simple-select"
                     name="gender"
                     value={gender}
-                    onChange={(e) => setGender(e.target.value)}
+                    onChange={e => setGender(e.target.value)}
                     size="small"
                     fullWidth
                     variant="outlined"

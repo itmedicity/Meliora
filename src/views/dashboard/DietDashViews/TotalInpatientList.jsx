@@ -14,7 +14,7 @@ const TotalInpatientList = () => {
     dispatch(getTotalInPateint())
   }, [dispatch])
 
-  const TotalIpPatient = useSelector((state) => {
+  const TotalIpPatient = useSelector(state => {
     return state.setTotalInPateint.InPateintList
   })
 

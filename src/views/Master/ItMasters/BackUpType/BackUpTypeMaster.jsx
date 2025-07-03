@@ -15,7 +15,7 @@ const BackUpTypeMaster = () => {
   const [count, setCount] = useState(0)
   const history = useNavigate()
 
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   const [backupType, setbackupType] = useState({
@@ -25,11 +25,11 @@ const BackUpTypeMaster = () => {
   })
   const { backup_type_id, backup_type_name, backup_type_status } = backupType
   const UpdatebackupType = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setbackupType({ ...backupType, [e.target.name]: value })
     },
-    [backupType],
+    [backupType]
   )
   const postdata = useMemo(() => {
     return {
@@ -46,7 +46,7 @@ const BackUpTypeMaster = () => {
       edit_user: id,
     }
   }, [backup_type_id, backup_type_name, backup_type_status, id])
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const { backup_type_id, backup_type_name, backup_type_status } = data[0]
@@ -68,10 +68,10 @@ const BackUpTypeMaster = () => {
     setValue(0)
   }
   const submitbackupType = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
 
-      const InsertbackupType = async (postdata) => {
+      const InsertbackupType = async postdata => {
         const result = await axioslogin.post('/backuptypemast/insert', postdata)
 
         const { message, success } = result.data
@@ -85,7 +85,7 @@ const BackUpTypeMaster = () => {
           infoNotify(message)
         }
       }
-      const backupTypeUpdate = async (patchdata) => {
+      const backupTypeUpdate = async patchdata => {
         const result = await axioslogin.patch('/backuptypemast/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -109,7 +109,7 @@ const BackUpTypeMaster = () => {
         backupTypeUpdate(patchdata)
       }
     },
-    [postdata, value, patchdata, count, backup_type_name],
+    [postdata, value, patchdata, count, backup_type_name]
   )
 
   const backtoSetting = useCallback(() => {

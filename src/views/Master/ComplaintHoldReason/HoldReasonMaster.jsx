@@ -16,7 +16,7 @@ const HoldReasonMaster = () => {
   const [color, setColor] = useState('#000000')
 
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   const [holdReason, setholdReason] = useState({
@@ -27,11 +27,11 @@ const HoldReasonMaster = () => {
   const { cm_hold_id, cm_hold_reason, hold_reason_status } = holdReason
 
   const updateholdReason = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setholdReason({ ...holdReason, [e.target.name]: value })
     },
-    [holdReason],
+    [holdReason]
   )
   const reset = () => {
     const frmdata = {
@@ -63,9 +63,9 @@ const HoldReasonMaster = () => {
   }, [cm_hold_id, cm_hold_reason, hold_reason_status, color, id])
 
   const sumbitholdReason = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const InsertholdReason = async (postdata) => {
+      const InsertholdReason = async postdata => {
         const result = await axioslogin.post('/complaintHoldReason/holdInsert', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -78,7 +78,7 @@ const HoldReasonMaster = () => {
           infoNotify(message)
         }
       }
-      const holdReasonUpdate = async (patchdata) => {
+      const holdReasonUpdate = async patchdata => {
         const result = await axioslogin.patch('/complaintHoldReason/updateHold', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -101,9 +101,9 @@ const HoldReasonMaster = () => {
         holdReasonUpdate(patchdata)
       }
     },
-    [postdata, value, patchdata, count, cm_hold_reason],
+    [postdata, value, patchdata, count, cm_hold_reason]
   )
-  const rowSelect = useCallback((row) => {
+  const rowSelect = useCallback(row => {
     setValue(1)
     const { cm_hold_id, cm_hold_reason, hold_reason_status, hold_color } = row
     // const data = params.api.getSelectedRows()
@@ -151,7 +151,7 @@ const HoldReasonMaster = () => {
               <Input
                 type="color"
                 value={color}
-                onChange={(e) => setColor(e.target.value)}
+                onChange={e => setColor(e.target.value)}
                 sx={{ width: 40, padding: '5px', my: 1 }}
               />
             </CssVarsProvider>

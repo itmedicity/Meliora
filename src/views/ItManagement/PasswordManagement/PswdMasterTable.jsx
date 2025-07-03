@@ -26,7 +26,7 @@ const PswdMasterTable = ({ rowSelect, tabledata, setTabledata, searchData }) => 
       setTabledata(searchData)
     } else {
       if (searchData.length !== 0) {
-        const newData = searchData.filter((val) => val.pswd_mast_location === deptsecs)
+        const newData = searchData.filter(val => val.pswd_mast_location === deptsecs)
         setTabledata(newData)
       } else {
         infoNotify('No data found')

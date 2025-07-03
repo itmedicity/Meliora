@@ -15,7 +15,7 @@ const PasswordCredentialType = () => {
   const [count, setCount] = useState(0)
   const history = useNavigate()
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   const [credential, setcredential] = useState({
@@ -25,11 +25,11 @@ const PasswordCredentialType = () => {
   })
   const { credential_slno, credential_name, credential_status } = credential
   const updatecredential = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setcredential({ ...credential, [e.target.name]: value })
     },
-    [credential],
+    [credential]
   )
   const postdata = useMemo(() => {
     return {
@@ -46,7 +46,7 @@ const PasswordCredentialType = () => {
       edit_user: id,
     }
   }, [credential_slno, credential_name, credential_status, id])
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const { credential_slno, credential_name, credential_status } = data[0]
@@ -69,9 +69,9 @@ const PasswordCredentialType = () => {
   }, [setcredential, setCount, setValue])
 
   const submitcredential = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const Insertcredential = async (postdata) => {
+      const Insertcredential = async postdata => {
         const result = await axioslogin.post('/PasswordCredentialType/insert', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -84,7 +84,7 @@ const PasswordCredentialType = () => {
           infoNotify(message)
         }
       }
-      const credentialUpdate = async (patchdata) => {
+      const credentialUpdate = async patchdata => {
         const result = await axioslogin.patch('/PasswordCredentialType/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -107,7 +107,7 @@ const PasswordCredentialType = () => {
         credentialUpdate(patchdata)
       }
     },
-    [postdata, value, patchdata, reset, count, credential_name],
+    [postdata, value, patchdata, reset, count, credential_name]
   )
   const backtoSetting = useCallback(() => {
     history('/Home/Settings')

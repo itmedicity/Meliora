@@ -1,13 +1,10 @@
 import React from 'react'
 
 const CondemnationApproveModal = () => {
-    return (
-        <div>CondemnationApproveModal</div>
-    )
+  return <div>CondemnationApproveModal</div>
 }
 
 export default CondemnationApproveModal
-
 
 // import { Box, Button, Checkbox, CssVarsProvider, Grid, Modal, ModalDialog, Table, Textarea, Tooltip, Typography } from '@mui/joy'
 // import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
@@ -33,8 +30,6 @@ export default CondemnationApproveModal
 // import AddDetailOnItem from '../CondemnationList/AddDetailOnItem';
 // import { useSelector } from 'react-redux';
 
-
-
 // const CondemnationApproveModal = ({ modalApproveOpen, setmodalApproveOpen, setmodalApproveFlag, empId, formDetails, setformCount, formCount, menuRightsList }) => {
 
 //     const { condem_mast_slno, condem_form_prefix, condem_form_no, reg_date, } = formDetails
@@ -47,12 +42,10 @@ export default CondemnationApproveModal
 //     const currentDate = format(new Date(), "yyyy-MM-dd HH:mm:ss");
 //     const [condemCount, setcondemCount] = useState(0)
 
-
 //     const [remarks, setremarks] = useState('')
 //     const handleRemarks = (event) => {
 //         setremarks(event.target.value);
 //     };
-
 
 //     const postCondemSlno = useMemo(() => {
 //         return {
@@ -180,7 +173,6 @@ export default CondemnationApproveModal
 //         setReqRegDate(event.target.value);
 //     };
 
-
 //     const fetchCondemFiles = useCallback(async () => {
 //         if (CondemData?.length > 0) {
 //             const requests = CondemData.map(async (row) => {
@@ -249,7 +241,6 @@ export default CondemnationApproveModal
 //         setImageShowSingle(false)
 //     }, [])
 
-
 //     const ApproveData = useMemo(() => {
 //         return {
 //             condem_status: level_no + 1,
@@ -262,14 +253,12 @@ export default CondemnationApproveModal
 //         };
 //     }, [level_no, remarks, currentDate, empname, condem_mast_slno]);
 
-
 //     const Approve = useCallback(
 //         (e) => {
 //             e.preventDefault()
 //             const FormUpdate = async (ApproveData) => {
 //                 const result = await axioslogin.patch('/AssetCondemnation/ApproveData', ApproveData)
 //                 const { message, success } = result.data
-
 
 //                 if (success === 1) {
 //                     succesNotify(message)
@@ -287,7 +276,6 @@ export default CondemnationApproveModal
 //             }
 //         },
 //         [ApproveData, CloseModal, formCount, remarks, setformCount])
-
 
 //     const RejectData = useMemo(() => {
 //         return {
@@ -324,7 +312,6 @@ export default CondemnationApproveModal
 //         },
 //         [RejectData, CloseModal, formCount, remarks, setformCount])
 
-
 //     const [AssetOpenModal, setAssetOpenModal] = useState(false)
 //     const [AssetModalFlag, setAssetModalFlag] = useState(0)
 //     const [AssetDetails, setAssetDetails] = useState([])
@@ -334,7 +321,6 @@ export default CondemnationApproveModal
 //         setAssetDetails(val)
 //         setAssetModalFlag(1)
 //     }, [])
-
 
 //     return (
 //         <CssVarsProvider>
@@ -457,7 +443,6 @@ export default CondemnationApproveModal
 //                                                 : val.spare_bill_amount
 //                                                     ? val.spare_bill_amount
 //                                                     : '';
-
 
 //                                             return (<Box
 //                                                 key={index}

@@ -5,7 +5,7 @@ import { getCampus } from 'src/redux/actions/CampusSelect.action'
 
 const CampusSelect = ({ value, setValue, setName }) => {
   const dispatch = useDispatch()
-  const campusdata = useSelector((state) => {
+  const campusdata = useSelector(state => {
     return state.getCampus.campusList || 0
   })
 
@@ -20,7 +20,7 @@ const CampusSelect = ({ value, setValue, setName }) => {
           id="demo-simple-select"
           value={value}
           onChange={(e, { props }) => {
-            setValue(e.target.value);
+            setValue(e.target.value)
             setName(props.name)
           }}
           size="small"

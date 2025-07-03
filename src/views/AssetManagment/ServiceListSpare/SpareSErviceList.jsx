@@ -15,18 +15,18 @@ const SpareSErviceList = () => {
   const [count, setCount] = useState(0)
   const combinedList = [...serviceList, ...assetServiceListt]
 
-  const empsecid = useSelector((state) => {
+  const empsecid = useSelector(state => {
     return state.LoginUserData.empsecid
   })
 
-  const ServiceDetailsView = useCallback((val) => {
+  const ServiceDetailsView = useCallback(val => {
     setFlag(1)
     setOpen(true)
     setserviceDetails(val)
   }, [])
 
   useEffect(() => {
-    const getServiceList = async (empsecid) => {
+    const getServiceList = async empsecid => {
       const result = await axioslogin.get(`/SpareCondemService/ServiceList/${empsecid}`)
       const { success, data } = result.data
       if (success === 1) {
@@ -39,7 +39,7 @@ const SpareSErviceList = () => {
   }, [empsecid, count])
 
   useEffect(() => {
-    const getAssetServiceList = async (empsecid) => {
+    const getAssetServiceList = async empsecid => {
       const result = await axioslogin.get(`/SpareCondemService/AssetServiceList/${empsecid}`)
       const { success, data } = result.data
       if (success === 1) {
@@ -55,20 +55,20 @@ const SpareSErviceList = () => {
     ...new Map(
       [
         ...serviceList
-          .map((item) => ({
+          .map(item => ({
             holdId: item.spare_service_hold,
             reason: item.cm_hold_reason,
             holdColor: item.hold_color,
           }))
-          .filter((item) => item.holdId && item.reason && item.holdColor),
+          .filter(item => item.holdId && item.reason && item.holdColor),
         ...assetServiceListt
-          .map((item) => ({
+          .map(item => ({
             holdId: item.asset_item_service_hold,
             reason: item.cm_hold_reason,
             holdColor: item.hold_color,
           }))
-          .filter((item) => item.holdId && item.reason && item.holdColor),
-      ].map((item) => [item.holdId, item]),
+          .filter(item => item.holdId && item.reason && item.holdColor),
+      ].map(item => [item.holdId, item])
     ).values(),
   ]
 

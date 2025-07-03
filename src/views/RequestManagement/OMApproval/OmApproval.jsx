@@ -65,7 +65,7 @@ const OmApproval = () => {
     // dispatch(getNdrfList())
   }, [dispatch, count])
 
-  const tabledata = useSelector((state) => {
+  const tabledata = useSelector(state => {
     return state.setReqApprovOthers.ReqApprovOthersList
   })
 
@@ -75,9 +75,9 @@ const OmApproval = () => {
 
   useEffect(() => {
     if (tabledata.length !== 0) {
-      const MOPending = tabledata && tabledata.filter((val) => val.manag_operation_approv === null)
+      const MOPending = tabledata && tabledata.filter(val => val.manag_operation_approv === null)
 
-      const datas = MOPending.map((val) => {
+      const datas = MOPending.map(val => {
         const obj = {
           req_slno: val.req_slno,
           actual_requirement:
@@ -422,7 +422,7 @@ const OmApproval = () => {
     {
       headerName: 'Action',
       minWidth: 150,
-      cellRenderer: (params) => {
+      cellRenderer: params => {
         if (params.data.crf_close === 1) {
           return (
             <IconButton onClick={() => CloseReason(params)} sx={{ color: editicon, paddingY: 0.5 }}>
@@ -606,28 +606,28 @@ const OmApproval = () => {
   // const [NdrfDetlModalFlag, setNdrfDetlModalFlag] = useState(0)
   // const [NdrfDetlModalData, setNdrfDetlModalData] = useState([])
 
-  const OMApproval = useCallback((params) => {
+  const OMApproval = useCallback(params => {
     const data = params.api.getSelectedRows()
     setomApproveData(data)
     setomapprovModall(true)
     setomApproveModalFlag(1)
   }, [])
 
-  const MessageSend = useCallback((params) => {
+  const MessageSend = useCallback(params => {
     const data = params.api.getSelectedRows()
     setmsgSendData(data)
     setMsgSendModal(true)
     setmsgSendModalFlag(1)
   }, [])
 
-  const CloseReason = useCallback((params) => {
+  const CloseReason = useCallback(params => {
     const data = params.api.getSelectedRows()
     setCloseModal(true)
     setCloseModalFlag(1)
     setCloseData(data)
   }, [])
 
-  const HigherDone = useCallback((params) => {
+  const HigherDone = useCallback(params => {
     const data = params.api.getSelectedRows()
     setHigherModal(true)
     setHigherModalFlag(1)
@@ -661,7 +661,7 @@ const OmApproval = () => {
     history('/Home')
   }, [history])
 
-  const getRowStyle = (params) => {
+  const getRowStyle = params => {
     if (params.data.req_status === 'R') {
       return { background: '#81d4fa' }
     } else if (params.data.req_status === 'P') {

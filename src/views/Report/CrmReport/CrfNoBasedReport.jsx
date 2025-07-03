@@ -40,24 +40,24 @@ const CrfNoBasedReport = () => {
   const [previewFile, setPreviewFile] = useState({ url: '', type: '' })
 
   const searchCRFDetails = useCallback(
-    async (e) => {
+    async e => {
       e.preventDefault()
       setOpen(true)
 
-      const getCrfDetails = async (req_slno) => {
+      const getCrfDetails = async req_slno => {
         const result = await axioslogin.get(`/CrfReports/getCRFNoBased/${req_slno}`)
         return result.data
       }
 
-      const getImage = async (req_slno) => {
+      const getImage = async req_slno => {
         const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
         const { success, data } = result.data
         if (success === 1) {
           const fileNames = data
-          const fileUrls = fileNames.map((fileName) => {
+          const fileUrls = fileNames.map(fileName => {
             return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`
           })
-          const savedFiles = fileUrls.map((val) => {
+          const savedFiles = fileUrls.map(val => {
             const parts = val.split('/')
             const fileNamePart = parts[parts.length - 1]
             const obj = {
@@ -70,7 +70,7 @@ const CrfNoBasedReport = () => {
         }
       }
 
-      const getItemDetails = async (req_slno) => {
+      const getItemDetails = async req_slno => {
         try {
           const result = await axioslogin.get(`/newCRFRegister/getDetailItemList/${req_slno}`)
           const { success, data } = result.data
@@ -84,10 +84,10 @@ const CrfNoBasedReport = () => {
           setReqItems([])
         }
       }
-      const getApproItemDetails = async (req_slno) => {
+      const getApproItemDetails = async req_slno => {
         try {
           const result = await axioslogin.get(
-            `/CRFRegisterApproval/getItemListApproval/${req_slno}`,
+            `/CRFRegisterApproval/getItemListApproval/${req_slno}`
           )
           const { success, data } = result.data
           if (success === 1) {
@@ -100,7 +100,7 @@ const CrfNoBasedReport = () => {
           setApproveTableData([])
         }
       }
-      const getPODetails = async (req_slno) => {
+      const getPODetails = async req_slno => {
         try {
           const result = await axioslogin.get(`/newCRFPurchase/getPoDetails/${req_slno}`)
           const { success, data } = result.data
@@ -110,13 +110,13 @@ const CrfNoBasedReport = () => {
                 (po, index, self) =>
                   index ===
                   self.findIndex(
-                    (val) =>
+                    val =>
                       val.po_number === po.po_number &&
                       val.req_slno === po.req_slno &&
-                      val.crm_purchase_slno === po.crm_purchase_slno,
-                  ),
+                      val.crm_purchase_slno === po.crm_purchase_slno
+                  )
               )
-              .map((po) => ({
+              .map(po => ({
                 po_detail_slno: po.po_detail_slno,
                 req_slno: po.req_slno,
                 po_number: po.po_number,
@@ -140,7 +140,7 @@ const CrfNoBasedReport = () => {
                   ? format(new Date(po.po_expiry), 'dd-MM-yyyy')
                   : 'Not Updated',
               }))
-            const poItems = data?.map((val) => {
+            const poItems = data?.map(val => {
               const obj = {
                 po_detail_slno: val.po_detail_slno,
                 po_number: val.po_number,
@@ -155,10 +155,9 @@ const CrfNoBasedReport = () => {
               }
               return obj
             })
-            const combinedData = poLIst?.map((po) => {
+            const combinedData = poLIst?.map(po => {
               const details = poItems?.filter(
-                (item) =>
-                  item.po_number === po.po_number && item.po_detail_slno === po.po_detail_slno,
+                item => item.po_number === po.po_number && item.po_detail_slno === po.po_detail_slno
               )
               return {
                 ...po,
@@ -176,7 +175,7 @@ const CrfNoBasedReport = () => {
       }
 
       if (req_slno !== '') {
-        getCrfDetails(req_slno).then((val) => {
+        getCrfDetails(req_slno).then(val => {
           const { success, data } = val
           if (success === 1) {
             setOpen(false)
@@ -184,9 +183,9 @@ const CrfNoBasedReport = () => {
             const crfDetails = data
               .filter(
                 (val, index, self) =>
-                  index === self.findIndex((value) => value.req_slno === val.req_slno),
+                  index === self.findIndex(value => value.req_slno === val.req_slno)
               )
-              .map((val) => ({
+              .map(val => ({
                 req_status: val.req_status,
                 req_slno: val.req_slno,
                 actual_requirement:
@@ -618,14 +617,14 @@ const CrfNoBasedReport = () => {
         warningNotify('Please enter CRF Number before search')
       }
     },
-    [req_slno],
+    [req_slno]
   )
 
   const handleClose = useCallback(() => {
     setImageShowFlag(0)
     setImageShow(false)
   }, [])
-  const fileLIst = imagearray?.filter((file) => {
+  const fileLIst = imagearray?.filter(file => {
     return (
       file.imageName.endsWith('.png') ||
       file.imageName.endsWith('.jpg') ||
@@ -634,7 +633,7 @@ const CrfNoBasedReport = () => {
       file.imageName.endsWith('.jfif')
     )
   })
-  const ViewImage = useCallback((file) => {
+  const ViewImage = useCallback(file => {
     const fileType = file.imageName
       ? file.imageName.endsWith('.pdf')
         ? 'pdf'
@@ -649,14 +648,15 @@ const CrfNoBasedReport = () => {
     setImageShowFlag(1)
   }, [])
 
-  const capitalizeWords = (str) =>
+  const capitalizeWords = str =>
     str
       ? str
+
         .toLowerCase()
         .trim()
         .replace(/\s+/g, ' ')
         .split(' ')
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
         .join(' ')
       : ''
   return (
@@ -707,7 +707,7 @@ const CrfNoBasedReport = () => {
                     size="sm"
                     name="req_slno"
                     value={req_slno}
-                    handleChange={(e) => setReq_slno(e.target.value)}
+                    handleChange={e => setReq_slno(e.target.value)}
                   />
                 </CssVarsProvider>
               </Box>

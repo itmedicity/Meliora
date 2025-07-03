@@ -1,16 +1,16 @@
-import { ActionTyps } from '../constants/action.type';
+import { ActionTyps } from '../constants/action.type'
 
-const { APP_SIDEBAR_SHOW } = ActionTyps;
+const { APP_SIDEBAR_SHOW } = ActionTyps
 
 const initialState = {
-    sidebarShow: true,
+  sidebarShow: true,
 }
 
 export const changeState = (state = initialState, { type, ...rest }) => {
-    switch (type) {
-        case APP_SIDEBAR_SHOW:
-            return { ...state, ...rest }
-        default:
-            return state
-    }
+  switch (type) {
+    case APP_SIDEBAR_SHOW:
+      return { ...state, ...rest }
+    default:
+      return state
+  }
 }

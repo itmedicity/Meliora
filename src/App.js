@@ -1,4 +1,4 @@
-import { CssBaseline, ThemeProvider, createTheme } from '@mui/material'
+import { CssBaseline } from '@mui/material'
 import React, { Suspense } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './scss/style.scss'
@@ -18,6 +18,7 @@ import '@fontsource/roboto/700.css' // Bold
 import '@fontsource/roboto/800.css' // Bold
 import '@fontsource/roboto/900.css' // Bold
 import { ToastContainer } from 'react-toastify'
+import ErrorPage from './NotFound/ErrorPage'
 
 const queryClient = new QueryClient()
 
@@ -35,20 +36,13 @@ function App() {
         <ToastContainer />
         <Suspense fallback={<BackDrop />}>
           <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/Home/*" element={<DefaultLayout />} />
-            <Route path="*" element={<NotFound />} />
+            <Route path="/" element={<Login />} errorElement={<ErrorPage />} />
+            <Route element={<Protected />}>
+              <Route path="/Home/*" element={<DefaultLayout />} errorElement={<ErrorPage />} />
+            </Route>
+            <Route path="*" element={<NotFound />} errorElement={<ErrorPage />} />
           </Routes>
         </Suspense>
-        {/* <React.Suspense fallback={<BackDrop />}>
-          <Switch>
-            <Route exact path="/" name="Login Page" render={(props) => <Login {...props} />} />
-            <Route path="/Home">
-              <Protected cmp={DefaultLayout} />
-            </Route>
-            <Route path="/NotCorect"></Route>
-          </Switch>
-        </React.Suspense> */}
       </QueryClientProvider>
     </BrowserRouter>
   )

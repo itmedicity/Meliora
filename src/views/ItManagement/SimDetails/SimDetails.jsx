@@ -39,7 +39,7 @@ const SimDetails = () => {
     dispatch(getSimType())
   }, [dispatch])
 
-  const recieverBox = useCallback((e) => {
+  const recieverBox = useCallback(e => {
     if (e.target.checked === true) {
       setRecieverCheck(true)
       setRecieverFlag(1)
@@ -49,7 +49,7 @@ const SimDetails = () => {
     }
   }, [])
 
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
 
@@ -79,11 +79,11 @@ const SimDetails = () => {
   } = simMast
 
   const SimMastUpdate = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setSimMast({ ...simMast, [e.target.name]: value })
     },
-    [simMast],
+    [simMast]
   )
   const reset = () => {
     const form = {
@@ -145,7 +145,7 @@ const SimDetails = () => {
   ])
 
   const rowSelect = useCallback(
-    (data) => {
+    data => {
       const { it_sim_dept } = data
       setvalue(1)
       if (it_sim_dept === 0 || it_sim_dept === null) {
@@ -221,16 +221,7 @@ const SimDetails = () => {
         setDeptSec(it_sim_deptsec)
       }
     },
-    [
-      setSimMast,
-      setProvider,
-      setTarrif,
-      setSimType,
-      setDepartment,
-      setDeptSec,
-      department,
-      deptsec,
-    ],
+    [setSimMast, setProvider, setTarrif, setSimType, setDepartment, setDeptSec, department, deptsec]
   )
 
   const patchData = useMemo(() => {
@@ -272,9 +263,9 @@ const SimDetails = () => {
   ])
 
   const InsertSimDetails = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const isValidMobileNumber = (number) => /^\d{10}$/.test(number)
+      const isValidMobileNumber = number => /^\d{10}$/.test(number)
       if (it_sim_mobile_no !== '') {
         if (!isValidMobileNumber(it_sim_mobile_no)) {
           infoNotify('Please enter a valid 10-digit SiM mobile number')
@@ -282,7 +273,7 @@ const SimDetails = () => {
         }
       }
       if (it_sim_mobile_no !== '' && provider !== 0 && tarrif !== 0) {
-        const InsertMastSim = async (postData) => {
+        const InsertMastSim = async postData => {
           const result = await axioslogin.post('/communicationDeviceDetails/siminsert', postData)
           const { message, success } = result.data
           if (success === 1) {
@@ -300,13 +291,13 @@ const SimDetails = () => {
         infoNotify('Please fill the mandatory feilds')
       }
     },
-    [postData, tableCount, settableCount, it_sim_mobile_no, provider, tarrif],
+    [postData, tableCount, settableCount, it_sim_mobile_no, provider, tarrif]
   )
 
   const UpdateSimDetails = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const isValidMobileNumber = (number) => /^\d{10}$/.test(number)
+      const isValidMobileNumber = number => /^\d{10}$/.test(number)
       if (it_sim_mobile_no !== '') {
         if (!isValidMobileNumber(it_sim_mobile_no)) {
           infoNotify('Please enter a valid 10-digit SiM mobile number')
@@ -314,7 +305,7 @@ const SimDetails = () => {
         }
       }
       if (it_sim_mobile_no !== '' && provider !== 0 && tarrif !== 0) {
-        const UpdateMastSim = async (patchData) => {
+        const UpdateMastSim = async patchData => {
           const result = await axioslogin.patch('/communicationDeviceDetails/simUpdate', patchData)
           const { message, success } = result.data
           if (success === 2) {
@@ -333,7 +324,7 @@ const SimDetails = () => {
         infoNotify('Please fill the mandatory feilds')
       }
     },
-    [patchData, tableCount, it_sim_mobile_no, settableCount, provider, tarrif],
+    [patchData, tableCount, it_sim_mobile_no, settableCount, provider, tarrif]
   )
 
   const backtoHome = useCallback(() => {

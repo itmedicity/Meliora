@@ -5,7 +5,7 @@ import { getFloorData } from 'src/redux/actions/FloorRoomManagementSelect.action
 
 const FloorRmSelect = ({ value, setValue }) => {
   const dispatch = useDispatch()
-  const floorData = useSelector((state) => {
+  const floorData = useSelector(state => {
     return state.getFloorData.floorList || 0
   })
   useEffect(() => {
@@ -18,7 +18,7 @@ const FloorRmSelect = ({ value, setValue }) => {
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={e => setValue(e.target.value)}
           size="small"
           fullWidth
           variant="outlined"

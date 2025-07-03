@@ -19,7 +19,7 @@ const SecondaryCustodian = () => {
   const [count, setCount] = useState(0)
   const history = useNavigate()
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   const [secondary, setSecondary] = useState({
@@ -29,11 +29,11 @@ const SecondaryCustodian = () => {
   })
   const { secondary_slno, secondary_name, secondary_status } = secondary
   const UpdateSecondary = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setSecondary({ ...secondary, [e.target.name]: value })
     },
-    [secondary],
+    [secondary]
   )
   const reset = () => {
     const frmdata = {
@@ -60,7 +60,7 @@ const SecondaryCustodian = () => {
       edit_user: id,
     }
   }, [secondary_slno, secondary_name, secondary_status, id])
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const { secondary_slno, secondary_name, secondary_status } = data[0]
@@ -72,9 +72,9 @@ const SecondaryCustodian = () => {
     setSecondary(frmdata)
   }, [])
   const submitSecondary = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const InsertSecondary = async (postdata) => {
+      const InsertSecondary = async postdata => {
         const result = await axioslogin.post('/secondaryCustodian/insert', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -87,7 +87,7 @@ const SecondaryCustodian = () => {
           infoNotify(message)
         }
       }
-      const SecondaryUpdate = async (patchdata) => {
+      const SecondaryUpdate = async patchdata => {
         const result = await axioslogin.patch('/secondaryCustodian/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -111,7 +111,7 @@ const SecondaryCustodian = () => {
         SecondaryUpdate(patchdata)
       }
     },
-    [postdata, value, patchdata, count, secondary_name],
+    [postdata, value, patchdata, count, secondary_name]
   )
   const backtoSetting = useCallback(() => {
     history('/Home/Settings')

@@ -16,7 +16,7 @@ import SupplierDetailTable from './SupplierDetailTable'
 import { useNavigate } from 'react-router-dom'
 // import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 const SupplierDetails = () => {
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   const [value, setValue] = useState(0)
@@ -106,21 +106,21 @@ const SupplierDetails = () => {
   } = supplierDetl
 
   const UpdateSupplierDetl = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setSupplierDetl({ ...supplierDetl, [e.target.name]: value })
     },
-    [supplierDetl],
+    [supplierDetl]
   )
 
-  const CheckImmediate = useCallback((e) => {
+  const CheckImmediate = useCallback(e => {
     if (e.target.checked === true) {
       setimdCheck(true)
     } else {
       setimdCheck(false)
     }
   }, [])
-  const CheckService = useCallback((e) => {
+  const CheckService = useCallback(e => {
     if (e.target.checked === true) {
       setServiceCheck(true)
     } else {
@@ -128,7 +128,7 @@ const SupplierDetails = () => {
     }
   }, [])
 
-  const CheckSales = useCallback((e) => {
+  const CheckSales = useCallback(e => {
     if (e.target.checked === true) {
       setSaleCheck(true)
     } else {
@@ -136,7 +136,7 @@ const SupplierDetails = () => {
     }
   }, [])
 
-  const CheckSalesSec = useCallback((e) => {
+  const CheckSalesSec = useCallback(e => {
     if (e.target.checked === true) {
       setSaleSecCheck(true)
     } else {
@@ -369,7 +369,7 @@ const SupplierDetails = () => {
   ])
 
   const rowSelect = useCallback(
-    (data) => {
+    data => {
       setValue(1)
 
       const {
@@ -491,7 +491,7 @@ const SupplierDetails = () => {
       }
       setSupplierDetl(frmdata)
     },
-    [id],
+    [id]
   )
 
   const reset = useCallback(() => {
@@ -542,10 +542,10 @@ const SupplierDetails = () => {
   }, [])
 
   const submitSupplierDetails = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const isValidMobileNumber = (number) => /^\d{10}$/.test(number)
-      const isEmail = (email) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)
+      const isValidMobileNumber = number => /^\d{10}$/.test(number)
+      const isEmail = email => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)
 
       if (it_supplier_mob_one !== '') {
         if (!isValidMobileNumber(it_supplier_mob_one)) {
@@ -562,7 +562,7 @@ const SupplierDetails = () => {
       if (it_supplier_escl_mob_one !== '') {
         if (!isValidMobileNumber(it_supplier_escl_mob_one)) {
           infoNotify(
-            'Please enter a valid 10-digit  mobile number in Immediate Contact Person Details',
+            'Please enter a valid 10-digit  mobile number in Immediate Contact Person Details'
           )
           return
         }
@@ -570,7 +570,7 @@ const SupplierDetails = () => {
       if (it_supplier_escl_mob_two !== '') {
         if (!isValidMobileNumber(it_supplier_escl_mob_two)) {
           infoNotify(
-            'Please enter a valid 10-digit  mobile number(additional) in Immediate Contact Person Details',
+            'Please enter a valid 10-digit  mobile number(additional) in Immediate Contact Person Details'
           )
           return
         }
@@ -578,7 +578,7 @@ const SupplierDetails = () => {
       if (it_supplier_servperson_mob_one !== '') {
         if (!isValidMobileNumber(it_supplier_servperson_mob_one)) {
           infoNotify(
-            'Please enter a valid 10-digit  mobile number in Service Contact Person Details',
+            'Please enter a valid 10-digit  mobile number in Service Contact Person Details'
           )
           return
         }
@@ -586,7 +586,7 @@ const SupplierDetails = () => {
       if (it_supplier_servperson_mob_two !== '') {
         if (!isValidMobileNumber(it_supplier_servperson_mob_two)) {
           infoNotify(
-            'Please enter a valid 10-digit  mobile number (additional) in Service Contact Person Details',
+            'Please enter a valid 10-digit  mobile number (additional) in Service Contact Person Details'
           )
           return
         }
@@ -600,7 +600,7 @@ const SupplierDetails = () => {
       if (it_supplier_saleperson_mob_two !== '') {
         if (!isValidMobileNumber(it_supplier_saleperson_mob_two)) {
           infoNotify(
-            'Please enter a valid 10-digit  mobile number(additional) in Sales Contact Person Details',
+            'Please enter a valid 10-digit  mobile number(additional) in Sales Contact Person Details'
           )
           return
         }
@@ -608,7 +608,7 @@ const SupplierDetails = () => {
       if (it_supplier_saleperson_second_mob_one !== '') {
         if (!isValidMobileNumber(it_supplier_saleperson_second_mob_one)) {
           infoNotify(
-            'Please enter a valid 10-digit  mobile number in Secondary Sales Contact Person Details',
+            'Please enter a valid 10-digit  mobile number in Secondary Sales Contact Person Details'
           )
           return
         }
@@ -616,7 +616,7 @@ const SupplierDetails = () => {
       if (it_supplier_saleperson_second_mob_two !== '') {
         if (!isValidMobileNumber(it_supplier_saleperson_second_mob_two)) {
           infoNotify(
-            'Please enter a valid 10-digit  mobile number (additional) in Secondary Sales Contact Person Details',
+            'Please enter a valid 10-digit  mobile number (additional) in Secondary Sales Contact Person Details'
           )
           return
         }
@@ -642,7 +642,7 @@ const SupplierDetails = () => {
       if (it_supplier_escl_email_two !== '') {
         if (!isEmail(it_supplier_escl_email_two)) {
           infoNotify(
-            'Please enter a valid email address (additional) in immediate contact person Details',
+            'Please enter a valid email address (additional) in immediate contact person Details'
           )
           return
         }
@@ -656,7 +656,7 @@ const SupplierDetails = () => {
       if (it_supplier_servperson_email_two !== '') {
         if (!isEmail(it_supplier_servperson_email_two)) {
           infoNotify(
-            'Please enter a valid email address (additional) in immediate contact person Details',
+            'Please enter a valid email address (additional) in immediate contact person Details'
           )
           return
         }
@@ -670,7 +670,7 @@ const SupplierDetails = () => {
       if (it_supplier_saleperson_email_two !== '') {
         if (!isEmail(it_supplier_saleperson_email_two)) {
           infoNotify(
-            'Please enter a valid email address(additional) in immediate contact person Details',
+            'Please enter a valid email address(additional) in immediate contact person Details'
           )
           return
         }
@@ -684,12 +684,12 @@ const SupplierDetails = () => {
       if (it_supplier_saleperson_email_two !== '') {
         if (!isEmail(it_supplier_saleperson_second_email_two)) {
           infoNotify(
-            'Please enter a valid email address(additional) in immediate contact person Details',
+            'Please enter a valid email address(additional) in immediate contact person Details'
           )
           return
         }
       }
-      const InsertSupplierDetails = async (postdata) => {
+      const InsertSupplierDetails = async postdata => {
         const result = await axioslogin.post('/ItBillSuppDetails/insert', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -702,7 +702,7 @@ const SupplierDetails = () => {
           infoNotify(message)
         }
       }
-      const UpdateSupplierDetails = async (patchdata) => {
+      const UpdateSupplierDetails = async patchdata => {
         const result = await axioslogin.patch('/ItBillSuppDetails/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -831,7 +831,7 @@ const SupplierDetails = () => {
       it_supplier_escl_name,
       it_supplier_land_one,
       saleCheck,
-    ],
+    ]
   )
 
   const backtoHome = useCallback(() => {

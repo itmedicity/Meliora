@@ -15,7 +15,7 @@ import { useNavigate } from 'react-router-dom'
 // import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 
 const AmsMaster = () => {
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   const queryClient = useQueryClient()
@@ -64,23 +64,23 @@ const AmsMaster = () => {
 
   const { antibiotic, inactive, restricted, stoppedMedicine, highRisk, status } = checkboxState
 
-  const handleCheckboxChange = (event) => {
+  const handleCheckboxChange = event => {
     const { name, checked } = event.target
-    setCheckboxState((prev) => ({
+    setCheckboxState(prev => ({
       ...prev,
       [name]: checked,
     }))
   }
 
-  const handleInputChange = useCallback((e) => {
+  const handleInputChange = useCallback(e => {
     const { name, value } = e.target
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
       [name]: value,
     }))
   }, [])
 
-  const updateAntibioticSearch = useCallback((e) => {
+  const updateAntibioticSearch = useCallback(e => {
     setAntibioticSearch(e.target.value.toUpperCase())
   }, [])
 
@@ -117,7 +117,7 @@ const AmsMaster = () => {
     }
   }, [antibioticSearch])
 
-  const antibioticData = useCallback((val) => {
+  const antibioticData = useCallback(val => {
     const { ITC_DESC, ITN_ORIGINALMRP, ITN_STRIP, IT_CODE, MFC_DESC } = val
     setFormData({
       itemCode: IT_CODE,
@@ -128,7 +128,7 @@ const AmsMaster = () => {
     })
   }, [])
 
-  const editMast = useCallback((val) => {
+  const editMast = useCallback(val => {
     setEditFlag(1)
     const {
       ams_mast_slno,
@@ -173,7 +173,7 @@ const AmsMaster = () => {
   }, [])
 
   const SearchAntibiotic = useCallback(() => {
-    const getAntibioticData = async (searchdata) => {
+    const getAntibioticData = async searchdata => {
       setLoading(true)
       try {
         const result = await axiosellider.post('/amsAntibiotic/getAntibiotic', searchdata)
@@ -403,7 +403,7 @@ const AmsMaster = () => {
                   name="vedAnalysis"
                   value={vedAnalysis || ''}
                   onChange={(e, newValue) => {
-                    setFormData((prev) => ({
+                    setFormData(prev => ({
                       ...prev,
                       vedAnalysis: newValue,
                     }))

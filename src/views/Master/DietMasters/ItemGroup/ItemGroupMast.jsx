@@ -23,14 +23,14 @@ const ItemGroupMast = () => {
   //Destructuring
   const { group_name, status, grp_slno } = itemgroup
   const updateitemgroup = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setItemgrp({ ...itemgroup, [e.target.name]: value })
     },
-    [itemgroup],
+    [itemgroup]
   )
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   //data for insert
@@ -42,7 +42,7 @@ const ItemGroupMast = () => {
     }
   }, [group_name, status, id])
   //edit data setting on textfields
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const { group_name, status, grp_slno } = data[0]
@@ -64,7 +64,7 @@ const ItemGroupMast = () => {
   }, [group_name, status, grp_slno, id])
   /*** usecallback function for form submitting */
   const submititemgrp = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
       const formreset = {
         group_name: '',
@@ -72,7 +72,7 @@ const ItemGroupMast = () => {
         grp_slno: '',
       }
       /***    * insert function for use call back     */
-      const Insertitemgroup = async (postdata) => {
+      const Insertitemgroup = async postdata => {
         const result = await axioslogin.post('/itemgrp/insert', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -86,7 +86,7 @@ const ItemGroupMast = () => {
         }
       }
       /***  * update function for use call back     */
-      const updateitemgrp = async (patchdata) => {
+      const updateitemgrp = async patchdata => {
         const result = await axioslogin.patch('/itemgrp/itemgrp/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -109,7 +109,7 @@ const ItemGroupMast = () => {
         updateitemgrp(patchdata)
       }
     },
-    [value, postdata, patchdata, count],
+    [value, postdata, patchdata, count]
   )
   //close button function
   const backtoSetting = useCallback(() => {

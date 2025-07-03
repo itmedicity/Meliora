@@ -30,7 +30,7 @@ const MDApprovalTable = () => {
   const [mdData, setMDdata] = useState([])
   const [ndrfData, setNdrfData] = useState([])
 
-  const updateNdrf = useCallback((e) => {
+  const updateNdrf = useCallback(e => {
     if (e.target.checked === true) {
       setNdrf(true)
       setRequest(false)
@@ -41,7 +41,7 @@ const MDApprovalTable = () => {
       setReqNdrf(0)
     }
   }, [])
-  const updateRequest = useCallback((e) => {
+  const updateRequest = useCallback(e => {
     if (e.target.checked === true) {
       setRequest(true)
       setNdrf(false)
@@ -58,20 +58,20 @@ const MDApprovalTable = () => {
     dispatch(getNdrfList())
   }, [dispatch, count, reqNdrf])
 
-  const tabledata = useSelector((state) => {
+  const tabledata = useSelector(state => {
     return state.setReqApprovOthers.ReqApprovOthersList
   })
 
-  const ndrftable = useSelector((state) => {
+  const ndrftable = useSelector(state => {
     return state.setNdrfList.NdrfListdata
   })
 
   useEffect(() => {
     if (tabledata.length !== 0) {
-      const mddata = tabledata.filter((val) => {
+      const mddata = tabledata.filter(val => {
         return val.md_approve_req === 1 && val.req_status !== 'C' && val.rm_ndrf === 0
       })
-      const datas = mddata.map((val) => {
+      const datas = mddata.map(val => {
         const obj = {
           req_slno: val.req_slno,
           actual_requirement:
@@ -252,8 +252,8 @@ const MDApprovalTable = () => {
       setMDdata(datas)
     }
     if (ndrftable.length !== 0) {
-      const MDNDRFPending = ndrftable && ndrftable.filter((val) => val.ndrf_md_approve !== 1)
-      const datas = MDNDRFPending.map((val) => {
+      const MDNDRFPending = ndrftable && ndrftable.filter(val => val.ndrf_md_approve !== 1)
+      const datas = MDNDRFPending.map(val => {
         const obj = {
           ndrf_mast_slno: val.ndrf_mast_slno,
           req_slno: val.req_slno,
@@ -514,7 +514,7 @@ const MDApprovalTable = () => {
     {
       headerName: 'Action',
       minWidth: 100,
-      cellRenderer: (params) => {
+      cellRenderer: params => {
         if (params.data.crf_close === 1) {
           return (
             <IconButton onClick={() => CloseReason(params)} sx={{ color: editicon, paddingY: 0.5 }}>
@@ -603,7 +603,7 @@ const MDApprovalTable = () => {
     {
       headerName: 'Action',
       minWidth: 120,
-      cellRenderer: (params) => {
+      cellRenderer: params => {
         return (
           <IconButton onClick={() => ndrfSelect(params)} sx={{ color: editicon, paddingY: 0.5 }}>
             <CustomeToolTip title="Approval">
@@ -689,28 +689,28 @@ const MDApprovalTable = () => {
   const [mdNdrfAppModalFlag, setMDNdrfAppModalFlag] = useState(0)
   const [mdNdrfAppModalData, setMDNdrfAppModalData] = useState([])
 
-  const MDApproval = useCallback((params) => {
+  const MDApproval = useCallback(params => {
     const data = params.api.getSelectedRows()
     setMDApproveData(data)
     setMDapprovModall(true)
     setMDApproveModalFlag(1)
   }, [])
 
-  const MessageSend = useCallback((params) => {
+  const MessageSend = useCallback(params => {
     const data = params.api.getSelectedRows()
     setmsgSendData(data)
     setMsgSendModal(true)
     setmsgSendModalFlag(1)
   }, [])
 
-  const CloseReason = useCallback((params) => {
+  const CloseReason = useCallback(params => {
     const data = params.api.getSelectedRows()
     setCloseModal(true)
     setCloseModalFlag(1)
     setCloseData(data)
   }, [])
 
-  const ndrfSelect = useCallback((params) => {
+  const ndrfSelect = useCallback(params => {
     const data = params.api.getSelectedRows()
     setMDNdrfAppModal(true)
     setMDNdrfAppModalData(data)
@@ -721,7 +721,7 @@ const MDApprovalTable = () => {
     history('/Home')
   }, [history])
 
-  const getRowStyle = (params) => {
+  const getRowStyle = params => {
     if (params.data.ndrf_md_approve === 2) {
       return { background: '#81d4fa' }
     } else if (params.data.ndrf_md_approve === 3) {

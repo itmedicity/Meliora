@@ -22,14 +22,14 @@ const UserGroupMast = () => {
   //Destructuring
   const { usergrp_name, usergrp_status, user_grp_slno } = usergrp
   const updateUsergrp = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setUsergrp({ ...usergrp, [e.target.name]: value })
     },
-    [usergrp],
+    [usergrp]
   )
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   //data for insert
@@ -41,7 +41,7 @@ const UserGroupMast = () => {
     }
   }, [usergrp_name, usergrp_status, id])
   //data set for edit
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setvalue(1)
     const data = params.api.getSelectedRows()
     const { user_grp_name, status, user_grp_slno } = data[0]
@@ -63,7 +63,7 @@ const UserGroupMast = () => {
   }, [usergrp_name, usergrp_status, user_grp_slno, id])
   /*** usecallback function for form submitting */
   const submitUserGroup = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
       /*** reset from */
       const formreset = {
@@ -72,7 +72,7 @@ const UserGroupMast = () => {
         user_grp_slno: '',
       }
       /***     * insert function for use call back     */
-      const InsertFun = async (postdata) => {
+      const InsertFun = async postdata => {
         const result = await axioslogin.post('/usergroup', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -86,7 +86,7 @@ const UserGroupMast = () => {
         }
       }
       /***  * update function for use call back     */
-      const updateFun = async (patchdata) => {
+      const updateFun = async patchdata => {
         const result = await axioslogin.patch('/usergroup', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -110,7 +110,7 @@ const UserGroupMast = () => {
         updateFun(patchdata)
       }
     },
-    [value, postdata, patchdata, count],
+    [value, postdata, patchdata, count]
   )
   //back to home
   const backtoSetting = useCallback(() => {

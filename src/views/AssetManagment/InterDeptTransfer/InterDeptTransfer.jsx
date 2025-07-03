@@ -16,8 +16,8 @@ import InterDeptTransModal from './InterDeptTransModal'
 const InterDeptTransfer = () => {
   const history = useNavigate()
   const [tabledata, setTabledata] = useState([])
-  const deptsec = useSelector((state) => state.LoginUserData.empsecid, _.isEqual)
-  const empdept = useSelector((state) => state.LoginUserData.empdept, _.isEqual)
+  const deptsec = useSelector(state => state.LoginUserData.empsecid, _.isEqual)
+  const empdept = useSelector(state => state.LoginUserData.empdept, _.isEqual)
 
   const [column] = useState([
     { headerName: 'Sl No', field: 'slno', minWidth: 80, wrapText: true },
@@ -57,7 +57,7 @@ const InterDeptTransfer = () => {
     {
       headerName: 'Transfer',
       minWidth: 120,
-      cellRenderer: (params) => (
+      cellRenderer: params => (
         <Fragment>
           <IconButton
             sx={{ color: editicon, paddingY: 0.5 }}
@@ -83,7 +83,7 @@ const InterDeptTransfer = () => {
     const getDepartmentAsset = async () => {
       const result = await axioslogin.post(
         `/assetInternalTrans/getdataForInternalTrans`,
-        postdatagetItem,
+        postdatagetItem
       )
       const { success, data } = result.data
       if (success === 1) {
@@ -122,7 +122,7 @@ const InterDeptTransfer = () => {
   const [transFlagModal, setTransFlagModal] = useState(false)
   const [transFlagData, setTransFlagData] = useState([])
 
-  const TransferLocation = useCallback((params) => {
+  const TransferLocation = useCallback(params => {
     const data = params.api.getSelectedRows()
     setTransFlagModal(true)
     setTransFlag(1)

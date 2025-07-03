@@ -85,7 +85,7 @@ const CrfSMOApprovalMain = () => {
   const company = useMemo(() => companyData, [companyData])
   useEffect(() => {
     if (combinedData.length !== 0) {
-      const datas = combinedData?.map((val) => {
+      const datas = combinedData?.map(val => {
         const obj = {
           req_status: val.req_status,
           req_slno: val.req_slno,
@@ -442,14 +442,14 @@ const CrfSMOApprovalMain = () => {
       })
       if (radiovalue === '2') {
         const newData = datas?.filter(
-          (val) =>
+          val =>
             val.now_who_status !== 2 &&
             val.now_who_status !== 3 &&
             (val.senior_manage_approv !== null ||
               val.gm_approve !== null ||
               val?.internally_arranged_status === 1 ||
               val.ed_approve !== null ||
-              val.md_approve !== null),
+              val.md_approve !== null)
         )
         setDisData(newData)
         setAllData(newData)
@@ -551,16 +551,16 @@ const CrfSMOApprovalMain = () => {
   }, [])
 
   const fromDateChange = useCallback(
-    (e) => {
+    e => {
       setFromDate(e.target.value)
     },
-    [setFromDate],
+    [setFromDate]
   )
   const toDateChange = useCallback(
-    (e) => {
+    e => {
       setToDate(e.target.value)
     },
-    [setToDate],
+    [setToDate]
   )
 
   const closedData = useMemo(
@@ -569,7 +569,7 @@ const CrfSMOApprovalMain = () => {
       from: `${fromDate} 00:00:00`,
       to: `${toDate} 23:59:59`,
     }),
-    [fromDate, toDate],
+    [fromDate, toDate]
   )
 
   const getCloseData = useCallback(() => {

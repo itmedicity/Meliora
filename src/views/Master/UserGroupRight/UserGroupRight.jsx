@@ -11,7 +11,7 @@ import ModuleSelect from 'src/views/CommonSelectCode/ModuleSelect'
 import { useCallback } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
-import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined'
+import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined'
 import SubModuleGroup from 'src/views/CommonSelectCode/SubModuleGroup'
 import CusAgGridForMain from 'src/views/Components/CusAgGridForMain'
 
@@ -38,12 +38,12 @@ const UserGroupRight = () => {
     {
       headerName: 'Action',
       width: 2,
-      cellRenderer: (dataa) => {
+      cellRenderer: dataa => {
         return (
           <CheckCircleOutlinedIcon
             size="small"
             color={dataa.data.menu_view === 1 ? 'primary' : 'secondary'}
-            onClick={(e) => onclickk(dataa.data)}
+            onClick={e => onclickk(dataa.data)}
           />
         )
       },
@@ -51,7 +51,7 @@ const UserGroupRight = () => {
   ])
 
   /***When icon click the corresponding feild data get in click function and then destructure it for further update */
-  const onclickk = (e) => {
+  const onclickk = e => {
     const { menu_slno, group_right_slno, menu_view } = e
     const frm = {
       menu_slno: menu_slno,
@@ -80,7 +80,7 @@ const UserGroupRight = () => {
       /*** first check menu is insert into table user_group_right if it is inserted return menus
        * otherwise first menu inserted into table. Newly inserted datas menu_view set as 0
        */
-      const getmeus = async (postdata) => {
+      const getmeus = async postdata => {
         const result = await axioslogin.post('/usergroup/rights/getMenu', postdata)
         const { success, data } = result.data
         if (success === 1) {
@@ -98,7 +98,7 @@ const UserGroupRight = () => {
 
   /*** get menus from table its under selected module */
   const search = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
       if (usergp !== 0 && modulename !== 0 && subModule !== 0) {
         setRender(1)
@@ -106,7 +106,7 @@ const UserGroupRight = () => {
         warningNotify('Please Select User Group And Module')
       }
     },
-    [usergp, modulename, subModule],
+    [usergp, modulename, subModule]
   )
   // update data
   const patchdata = useMemo(() => {
@@ -127,7 +127,7 @@ const UserGroupRight = () => {
         menu_view: 0,
         user_group_slno: 0,
       }
-      const updatefunc = async (patchdata) => {
+      const updatefunc = async patchdata => {
         const result = await axioslogin.patch('/usergroup/rights', patchdata)
         const { message, success } = result.data
         if (success === 1) {

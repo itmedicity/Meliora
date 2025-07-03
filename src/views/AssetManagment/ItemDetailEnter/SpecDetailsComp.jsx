@@ -35,26 +35,26 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
   })
   const { manufacturslno, asset_no, asset_noold } = userdata
   const updateDeviceDetails = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setUserdata({ ...userdata, [e.target.name]: value })
     },
-    [userdata],
+    [userdata]
   )
 
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
 
   const toggleOpen = () => {
-    setIsOpen((prev) => !prev)
+    setIsOpen(prev => !prev)
   }
 
   const updateSpecific = useCallback(
-    (e) => {
+    e => {
       setSpecific(e.target.value)
     },
-    [setSpecific],
+    [setSpecific]
   )
 
   const postSpec = useMemo(() => {
@@ -76,7 +76,7 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
     }
   }, [am_item_map_slno, specific, id, specSlno])
 
-  const rowSelect = useCallback((val) => {
+  const rowSelect = useCallback(val => {
     const { am_sec_detal_slno, specifications } = val
     setspecSlno(am_sec_detal_slno)
     setSpecific(specifications)
@@ -98,7 +98,7 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
   }, [reset])
 
   const SaveEditSpecDetails = useCallback(
-    (e) => {
+    e => {
       const SpecInsert = async () => {
         const result = await axioslogin.post(`/ItemMapDetails/SpecificationInsert`, postSpec)
         const { message, success } = result.data
@@ -132,11 +132,11 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
         SpecInsert(updateSpec)
       }
     },
-    [postSpec, updateSpec, count, setCount, editSpec],
+    [postSpec, updateSpec, count, setCount, editSpec]
   )
 
   const DeleteSlect = useCallback(
-    (val) => {
+    val => {
       const { am_sec_detal_slno, specifications } = val
 
       const DeleteSlected = {
@@ -160,7 +160,7 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
 
       SpecDelete()
     },
-    [am_item_map_slno, id, setCount, count],
+    [am_item_map_slno, id, setCount, count]
   )
 
   const { data: specificationDetailsData } = useQuery({
@@ -198,9 +198,9 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
   }, [am_spare_item_map_slno, manufacturslno, asset_no, asset_noold, id, rackno])
 
   useEffect(() => {
-    const checkinsertOrNotDetail = async (am_item_map_slno) => {
+    const checkinsertOrNotDetail = async am_item_map_slno => {
       const result = await axioslogin.get(
-        `/ItemMapDetails/checkDetailInsertOrNot/${am_item_map_slno}`,
+        `/ItemMapDetails/checkDetailInsertOrNot/${am_item_map_slno}`
       )
       const { success, data } = result.data
       if (success === 1) {
@@ -215,9 +215,9 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
       }
     }
 
-    const checkinsertOrNotDetailSpare = async (am_spare_item_map_slno) => {
+    const checkinsertOrNotDetailSpare = async am_spare_item_map_slno => {
       const result = await axioslogin.get(
-        `/ItemMapDetails/checkDetailInsertOrNotSpare/${am_spare_item_map_slno}`,
+        `/ItemMapDetails/checkDetailInsertOrNotSpare/${am_spare_item_map_slno}`
       )
       const { success, data } = result.data
       if (success === 1) {
@@ -242,9 +242,9 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
   }, [am_item_map_slno, am_spare_item_map_slno, assetSpare, assetno, dispatch])
 
   const EditDetails = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const updateGRNDetails = async (patchData) => {
+      const updateGRNDetails = async patchData => {
         const result = await axioslogin.patch('/ItemMapDetails/DeviceDetailsUpdate', patchData)
         const { message, success } = result.data
         if (success === 2) {
@@ -254,10 +254,10 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
         }
       }
 
-      const updateGRNDetailsSpare = async (patchadataSpare) => {
+      const updateGRNDetailsSpare = async patchadataSpare => {
         const result = await axioslogin.patch(
           '/ItemMapDetails/DeviceDetailsUpdateSpare',
-          patchadataSpare,
+          patchadataSpare
         )
         const { message, success } = result.data
         if (success === 2) {
@@ -273,14 +273,14 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
         updateGRNDetailsSpare(patchadataSpare)
       }
     },
-    [patchData, assetSpare, patchadataSpare],
+    [patchData, assetSpare, patchadataSpare]
   )
 
   const [previousValues, setPreviousValues] = useState([])
 
-  const handleEnter = (inputValue) => {
+  const handleEnter = inputValue => {
     if (inputValue && !previousValues.includes(inputValue)) {
-      setPreviousValues((prev) => [...prev, inputValue])
+      setPreviousValues(prev => [...prev, inputValue])
     }
     setUserdata('')
   }

@@ -42,10 +42,10 @@ const PatientsListView = ({
     setQidept(0)
   }, [history, setSearchFlag, setQidept])
 
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state?.LoginUserData.empid
   })
-  const ChangeOPList = useCallback((e) => {
+  const ChangeOPList = useCallback(e => {
     if (e.target.checked === true) {
       setOpCheck(true)
       setIpCheck(false)
@@ -54,7 +54,7 @@ const PatientsListView = ({
       setIpCheck(true)
     }
   }, [])
-  const ChangeIPList = useCallback((e) => {
+  const ChangeIPList = useCallback(e => {
     if (e.target.checked === true) {
       setIpCheck(true)
       setOpCheck(false)
@@ -70,11 +70,11 @@ const PatientsListView = ({
         from: format(new Date(dailyDate), 'yyyy-MM-dd 00:00:00'),
         to: format(new Date(dailyDate), 'yyyy-MM-dd 23:59:59'),
       }
-      const getEndoscopyData = async (viewdata) => {
+      const getEndoscopyData = async viewdata => {
         const result = await axioslogin.post('/qiendoscopy/viewList', viewdata)
         return result.data
       }
-      getEndoscopyData(viewdata).then((val) => {
+      getEndoscopyData(viewdata).then(val => {
         const { success, data } = val
         if (success === 1) {
           setpatientlist(data)
@@ -84,7 +84,7 @@ const PatientsListView = ({
   }, [dailyDate, count, qitype, setpatientlist])
 
   const UpdateDetails = useCallback(
-    (data) => {
+    data => {
       if (qitype === 1) {
         const { qi_slno } = data
         const updateArray = {
@@ -92,25 +92,25 @@ const PatientsListView = ({
           edit_user: id,
           qi_slno: qi_slno,
         }
-        const UpdatePatients = async (setCount) => {
+        const UpdatePatients = async setCount => {
           await AddorRemovePatients(updateArray, qitype, count, setCount)
         }
         UpdatePatients(setCount)
       }
     },
-    [count, id, setCount, qitype],
+    [count, id, setCount, qitype]
   )
 
   useEffect(() => {
     if (patientlist.length !== 0) {
-      const newdata = patientlist.filter((val) => val.qi_status === 0)
+      const newdata = patientlist.filter(val => val.qi_status === 0)
       if (newdata.length !== 0) {
         setTableData(newdata)
         setTabFlag(1)
       } else {
         setTabFlag(0)
       }
-      const qidata = patientlist.filter((val) => val.qi_status === 1)
+      const qidata = patientlist.filter(val => val.qi_status === 1)
       if (qidata.length !== 0) {
         setqiMarkedList(qidata)
         // setTabFlag(1)
@@ -121,14 +121,14 @@ const PatientsListView = ({
     }
   }, [patientlist, count])
   const RefreshData = useCallback(() => {
-    const RefreshPatients = async (setCount) => {
+    const RefreshPatients = async setCount => {
       await RefreshEndoscopy(qidept, count, setCount, depCode, id, dailyDate)
     }
     RefreshPatients(setCount)
     setSearchPat('')
   }, [qidept, depCode, count, id, setCount, dailyDate])
 
-  const ChangePatient = useCallback((e) => {
+  const ChangePatient = useCallback(e => {
     setSearchPat(e.target.value)
   }, [])
 
@@ -138,11 +138,11 @@ const PatientsListView = ({
       to: format(new Date(dailyDate), 'yyyy-MM-dd 23:59:59'),
       ptname: searchPat,
     }
-    const getSearchDetails = async (searchData) => {
+    const getSearchDetails = async searchData => {
       const result = await axioslogin.post('/qiendoscopy/searchbyPatient', searchData)
       return result.data
     }
-    getSearchDetails(searchData).then((val) => {
+    getSearchDetails(searchData).then(val => {
       const { success, data } = val
       if (success === 1) {
         setTableData(data)
@@ -440,7 +440,7 @@ const PatientsListView = ({
                                           color: '#37474f',
                                         },
                                       }}
-                                      onClick={(e) => UpdateDetails(val)}
+                                      onClick={e => UpdateDetails(val)}
                                     />
                                   </Tooltip>
                                 </CssVarsProvider>

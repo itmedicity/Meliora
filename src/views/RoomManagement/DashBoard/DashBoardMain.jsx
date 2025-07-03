@@ -23,54 +23,54 @@ const DashBoardMain = () => {
   const [buildNo, setBuildNo] = useState(0)
   const [campusName, setCampusName] = useState('')
 
-  const floorTMCH = useCallback((e) => {
+  const floorTMCH = useCallback(e => {
     setBuildNo(1)
     setCampusName(' Travancore Medicity')
     setFoolrList(1)
   }, [])
 
-  const floorTMC = useCallback((e) => {
+  const floorTMC = useCallback(e => {
     setBuildNo(2)
     setCampusName('  Travancore Medical College ')
     setFoolrList(1)
   }, [])
-  const floorTNC = useCallback((e) => {
+  const floorTNC = useCallback(e => {
     setBuildNo(3)
     setCampusName('   Travancore Nursing College ')
     setFoolrList(1)
   }, [])
-  const floorDNTL = useCallback((e) => {
+  const floorDNTL = useCallback(e => {
     setBuildNo(4)
     setCampusName('  Travancore Dental College ')
     setFoolrList(1)
   }, [])
 
-  const floorSTFC = useCallback((e) => {
+  const floorSTFC = useCallback(e => {
     setBuildNo(5)
     setCampusName('Staff cotters')
     setFoolrList(1)
   }, [])
-  const floorDC = useCallback((e) => {
+  const floorDC = useCallback(e => {
     setBuildNo(6)
     setCampusName('  Doctors cotters ')
     setFoolrList(1)
   }, [])
-  const floorPG = useCallback((e) => {
+  const floorPG = useCallback(e => {
     setBuildNo(7)
     setCampusName('  PG Cottage ')
     setFoolrList(1)
   }, [])
-  const floorMBBSM = useCallback((e) => {
+  const floorMBBSM = useCallback(e => {
     setBuildNo(8)
     setCampusName('  MBBS Boys Hostel ')
     setFoolrList(1)
   }, [])
-  const floorMBBSL = useCallback((e) => {
+  const floorMBBSL = useCallback(e => {
     setBuildNo(9)
     setCampusName('  MBBs Girls Hostel ')
     setFoolrList(1)
   }, [])
-  const floorNS = useCallback((e) => {
+  const floorNS = useCallback(e => {
     setBuildNo(10)
     setCampusName('  Bsc Nursing and Staff Hostel ')
     setFoolrList(1)

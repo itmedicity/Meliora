@@ -5,7 +5,7 @@ import { infoNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { IconButton } from '@mui/material'
 import { editicon } from 'src/color/Color'
 import { Box, Paper } from '@mui/material'
-import { Tooltip } from '@material-ui/core'
+import { Tooltip } from '@mui/material'
 import WheelchairPickupIcon from '@mui/icons-material/WheelchairPickup'
 import CoPresentOutlinedIcon from '@mui/icons-material/CoPresentOutlined'
 import DifferenceOutlinedIcon from '@mui/icons-material/DifferenceOutlined'
@@ -98,7 +98,7 @@ const InPatientList = ({ close, refresh, submit }) => {
     },
     {
       headerName: 'Action',
-      cellRenderer: (params) => (
+      cellRenderer: params => (
         <IconButton sx={{ color: editicon, paddingY: 0.5 }} onClick={() => gotoform(params)}>
           <NextPlanIcon />
         </IconButton>
@@ -106,7 +106,7 @@ const InPatientList = ({ close, refresh, submit }) => {
     },
   ])
   const [closebtn, setclosebtn] = useState(0)
-  const gotoform = useCallback((params) => {
+  const gotoform = useCallback(params => {
     // setflag(1)
     setclosebtn(1)
     const dataa = params.api.getSelectedRows()
@@ -149,34 +149,34 @@ const InPatientList = ({ close, refresh, submit }) => {
     history('/Home/WeWork/InpatientList')
   }
 
-  const patient = (e) => {
+  const patient = e => {
     setcheckIcon(1)
   }
 
-  const Activity = (e) => {
+  const Activity = e => {
     setcheckIcon(2)
   }
 
-  const Interaction = (e) => {
+  const Interaction = e => {
     setcheckIcon(3)
   }
 
-  const bedTracking = (e) => {
+  const bedTracking = e => {
     setcheckIcon(4)
   }
 
-  const discharge = (e) => {
+  const discharge = e => {
     setcheckIcon(5)
   }
 
   const submited = useCallback(
-    (insertdata) => {
-      const insert = (insertdata) => {}
+    insertdata => {
+      const insert = insertdata => {}
       if (checkIcon === 1 || checkIcon === 0) {
         insert(insertdata)
       }
     },
-    [checkIcon],
+    [checkIcon]
   )
 
   return (

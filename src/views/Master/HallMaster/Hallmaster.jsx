@@ -26,11 +26,11 @@ const Hallmaster = () => {
 
   const { hall_slno, hall_name, hall_alias, hall_status } = hall
   const updatehall = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       sethall({ ...hall, [e.target.name]: value })
     },
-    [hall],
+    [hall]
   )
 
   const refereshWindow = useCallback(() => {
@@ -43,7 +43,7 @@ const Hallmaster = () => {
     sethall(reset)
   }, [])
 
-  const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
+  const id = useSelector(state => state.LoginUserData.empid, _.isEqual)
 
   const formreset = useMemo(() => {
     return {
@@ -74,9 +74,9 @@ const Hallmaster = () => {
   }, [hall_slno, hall_name, hall_alias, hall_status, id])
 
   const submit = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const InsertData = async (postdata) => {
+      const InsertData = async postdata => {
         const result = await axioslogin.post(`/hallmaster/inserthall`, postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -90,7 +90,7 @@ const Hallmaster = () => {
         }
       }
 
-      const updateData = async (patchdata) => {
+      const updateData = async patchdata => {
         const result = await axioslogin.patch('/hallmaster/updatehall', patchdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -109,10 +109,10 @@ const Hallmaster = () => {
         updateData(patchdata)
       }
     },
-    [value, postdata, count, patchdata, formreset],
+    [value, postdata, count, patchdata, formreset]
   )
 
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setvalue(1)
     const data = params.api.getSelectedRows()
     const { hall_slno, hall_name, hall_alias, hall_status } = data[0]

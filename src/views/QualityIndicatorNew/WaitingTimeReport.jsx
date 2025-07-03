@@ -31,7 +31,7 @@ const WaitingTimeReport = () => {
   const dispatch = useDispatch()
   const history = useNavigate()
 
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state?.LoginUserData.empid
   })
   useEffect(() => {
@@ -41,7 +41,7 @@ const WaitingTimeReport = () => {
   const backtoHome = useCallback(() => {
     history('/Home')
   }, [history])
-  const OnchangeDate = useCallback((newValue) => {
+  const OnchangeDate = useCallback(newValue => {
     setSearchDate(newValue)
     setsearchFlag(0)
   }, [])
@@ -81,14 +81,14 @@ const WaitingTimeReport = () => {
         to: format(new Date(searchDate), 'yyyy-MM-dd 23:59:59'),
         dpt: qidept,
       }
-      const getOpData = async (searchOPDatas) => {
+      const getOpData = async searchOPDatas => {
         const result = await axioslogin.post('/InitialAsessment/view', searchOPDatas)
         return result.data
       }
-      getOpData(searchOPDatas).then((val) => {
+      getOpData(searchOPDatas).then(val => {
         const { success, data, message } = val
         if (success === 1) {
-          const newArray = data?.map((val) => {
+          const newArray = data?.map(val => {
             const patientArrivedDate = val.patient_arrived_date
               ? new Date(val.patient_arrived_date)
               : null
@@ -126,7 +126,7 @@ const WaitingTimeReport = () => {
               investigationReqDate,
               prescriptionReqDate,
               referenceReqDate,
-            ].filter((date) => date !== null)
+            ].filter(date => date !== null)
             const endTimeofConsult =
               endConsult.length > 0
                 ? endConsult.reduce((max, date) => (date > max ? date : max))
@@ -242,7 +242,7 @@ const WaitingTimeReport = () => {
                   size="sm"
                   inputFormat="dd-MM-yyyy"
                   maxDate={new Date()}
-                  onChange={(e) => OnchangeDate(e)}
+                  onChange={e => OnchangeDate(e)}
                   renderInput={({ inputRef, inputProps, InputProps }) => (
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                       <CssVarsProvider>

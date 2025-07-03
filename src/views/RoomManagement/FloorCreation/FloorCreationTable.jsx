@@ -10,13 +10,20 @@ const FloorCreationTable = ({ count, rowSelect }) => {
 
   const [column] = useState([
     {
-      headerName: 'Action', minWidth: 100,
-      cellRenderer: (params) => <EditButton onClick={() => rowSelect(params)} />,
+      headerName: 'Action',
+      minWidth: 100,
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
     },
     { headerName: 'SlNo', field: 'rm_floor_slno', wrapText: true, minWidth: 70 },
-    { headerName: 'Floor ', field: 'rm_floor_name', wrapText: true, minWidth: 200, filter: "true" },
-    { headerName: 'Alias', field: 'rm_floor_alias', wrapText: true, minWidth: 100, filter: "true" },
-    { headerName: 'Block', field: 'rm_buildblock_name', wrapText: true, minWidth: 200, filter: "true" },
+    { headerName: 'Floor ', field: 'rm_floor_name', wrapText: true, minWidth: 200, filter: 'true' },
+    { headerName: 'Alias', field: 'rm_floor_alias', wrapText: true, minWidth: 100, filter: 'true' },
+    {
+      headerName: 'Block',
+      field: 'rm_buildblock_name',
+      wrapText: true,
+      minWidth: 200,
+      filter: 'true',
+    },
     { headerName: 'Building', field: 'rm_building_name', wrapText: true, minWidth: 300 },
     { headerName: 'Campus', field: 'rm_campus_name', wrapText: true, minWidth: 250 },
     { headerName: 'floor Number', field: 'rm_floor_no', wrapText: true, minWidth: 200 },

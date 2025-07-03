@@ -13,7 +13,7 @@ const OnPendingComDept = () => {
   const dispatch = useDispatch()
 
   /**reducer function for getting login employees id */
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   /**redux function for getting login employees all details */
@@ -22,7 +22,7 @@ const OnPendingComDept = () => {
   }, [dispatch, id])
 
   //redux for getting employee data
-  const profileData = useSelector((state) => {
+  const profileData = useSelector(state => {
     return state.getLoginProfileData.loginProfiledata
   })
 
@@ -35,7 +35,7 @@ const OnPendingComDept = () => {
   }, [profileData, dispatch])
 
   /**reducer function for Pending and onhold complaints */
-  const onhold = useSelector((state) => {
+  const onhold = useSelector(state => {
     return state.getOnholdList.onHoldList
   })
 

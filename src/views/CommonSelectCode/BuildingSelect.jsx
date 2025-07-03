@@ -11,7 +11,7 @@ const BuildingSelect = ({ value, setValue }) => {
    * buildingList- initial state of reducer function
    *buildingdata is used to list select box items by using map
    */
-  const buildingdata = useSelector((state) => {
+  const buildingdata = useSelector(state => {
     return state.getBuilding.buildingList || 0
   })
 
@@ -27,7 +27,7 @@ const BuildingSelect = ({ value, setValue }) => {
           id="demo-simple-select"
           // disabled={disabled}
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={e => setValue(e.target.value)}
           size="small"
           fullWidth
           variant="outlined"

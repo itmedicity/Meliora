@@ -18,7 +18,7 @@ const UomMaster = () => {
   const [count, setCount] = useState(0)
   const history = useNavigate()
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   const [uom, setUom] = useState({
@@ -28,11 +28,11 @@ const UomMaster = () => {
   })
   const { uom_slno, uom_name, uom_status } = uom
   const UpdateUom = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setUom({ ...uom, [e.target.name]: value })
     },
-    [uom],
+    [uom]
   )
   const postdata = useMemo(() => {
     return {
@@ -49,7 +49,7 @@ const UomMaster = () => {
       edit_user: id,
     }
   }, [uom_slno, uom_name, uom_status, id])
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const { uom_slno, uom_name, uom_status } = data[0]
@@ -71,10 +71,10 @@ const UomMaster = () => {
     setValue(0)
   }
   const submitUom = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
 
-      const InsertUom = async (postdata) => {
+      const InsertUom = async postdata => {
         const result = await axioslogin.post('/uom/insert', postdata)
 
         const { message, success } = result.data
@@ -88,7 +88,7 @@ const UomMaster = () => {
           infoNotify(message)
         }
       }
-      const UomUpdate = async (patchdata) => {
+      const UomUpdate = async patchdata => {
         const result = await axioslogin.patch('/uom/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -112,7 +112,7 @@ const UomMaster = () => {
         UomUpdate(patchdata)
       }
     },
-    [postdata, value, patchdata, count, uom_name],
+    [postdata, value, patchdata, count, uom_name]
   )
 
   const backtoSetting = useCallback(() => {

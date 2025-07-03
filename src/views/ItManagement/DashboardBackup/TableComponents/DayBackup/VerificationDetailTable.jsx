@@ -29,13 +29,13 @@ const VerificationDetailTable = ({ setDayFlag }) => {
     setDayFlag(0)
     setExcelflag(0)
   }, [history, setDayFlag])
-  const fromdateOnChange = useCallback((e) => {
+  const fromdateOnChange = useCallback(e => {
     setFromdate(e.target.value)
   }, [])
-  const TodateOnChange = useCallback((e) => {
+  const TodateOnChange = useCallback(e => {
     setTodate(e.target.value)
   }, [])
-  const empdept = useSelector((state) => {
+  const empdept = useSelector(state => {
     return state?.LoginUserData.empdept
   })
   const postdata = useMemo(() => {
@@ -68,7 +68,7 @@ const VerificationDetailTable = ({ setDayFlag }) => {
   }, [postdata, fromdate, todate])
   const ExcelReportDetails = useCallback(() => {
     if (array.length !== 0) {
-      const NewData = array?.map((val) => {
+      const NewData = array?.map(val => {
         return {
           backup_daily_date: val.backup_daily_date,
           backup_type: val.backup_type_name,

@@ -1,44 +1,43 @@
 import React, { useEffect, memo, useState, useCallback, Fragment } from 'react'
 import { useSelector } from 'react-redux'
-import Autocomplete from '@mui/joy/Autocomplete';
+import Autocomplete from '@mui/joy/Autocomplete'
 import { CssVarsProvider } from '@mui/joy/'
 
-
 const ItPasswordCredentialType = ({ credential, setCredential, setName }) => {
+  const passwordCredential = useSelector(state => state?.getPasswordCredential?.credentialList)
 
-    const passwordCredential = useSelector((state) => state?.getPasswordCredential?.credentialList)
+  const [credentials, setCredentials] = useState([{ credential_slno: 0, credential_name: '' }])
 
-    const [credentials, setCredentials] = useState([{ credential_slno: 0, credential_name: '' }])
+  const [value, setValue] = useState(credentials[0])
+  const [inputValue, setInputValue] = useState('')
 
-    const [value, setValue] = useState(credentials[0]);
-    const [inputValue, setInputValue] = useState('');
+  useEffect(() => {
+    if (credential !== 0) {
+      let newObj = passwordCredential?.find(e => e.credential_slno === credential)
+      setValue(newObj)
+    }
+  }, [credential, passwordCredential])
 
-    useEffect(() => {
-        if (credential !== 0) {
-            let newObj = passwordCredential?.find((e) => e.credential_slno === credential)
-            setValue(newObj)
-        }
-    }, [credential, passwordCredential])
+  const ClickFunction = useCallback(
+    newValue => {
+      if (newValue !== null) {
+        setCredential(newValue.credential_slno)
+        setName(newValue.credential_name)
+      } else {
+        setCredential(0)
+        setName('')
+      }
+    },
+    [setCredential, setName]
+  )
 
-    const ClickFunction = useCallback((newValue) => {
-        if (newValue !== null) {
-            setCredential(newValue.credential_slno)
-            setName(newValue.credential_name)
-        }
-        else {
-            setCredential(0)
-            setName('')
-        }
-    }, [setCredential, setName])
+  useEffect(() => {
+    passwordCredential.length > 0 && setCredentials(passwordCredential)
+  }, [passwordCredential])
 
-    useEffect(() => {
-        passwordCredential.length > 0 && setCredentials(passwordCredential)
-    }, [passwordCredential])
-
-    return (
-        <Fragment>
-
-            {/* <Select
+  return (
+    <Fragment>
+      {/* <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={value}
@@ -60,33 +59,31 @@ const ItPasswordCredentialType = ({ credential, setCredential, setName }) => {
                         )
                     })}
             </Select> */}
-            <CssVarsProvider>
-                <Autocomplete
-                    sx={{
-                        "--Input-minHeight": "29px"
-                    }}
-                    value={credential === 0 ? credentials : value}
-                    placeholder="Select Credentials"
-                    clearOnBlur
-                    onChange={(event, newValue) => {
-                        ClickFunction(newValue);
-                    }}
-                    inputValue={inputValue}
-                    onInputChange={(event, newInputValue) => {
-                        setInputValue(newInputValue);
-                    }}
-                    loading={true}
-                    loadingText="Loading..."
-                    freeSolo
-                    isOptionEqualToValue={(option, value) => option.credential_name === value.credential_name}
-                    getOptionLabel={option => option.credential_name || ''}
-                    options={credentials}
-                />
-            </CssVarsProvider>
-        </Fragment>
-
-
-    )
+      <CssVarsProvider>
+        <Autocomplete
+          sx={{
+            '--Input-minHeight': '29px',
+          }}
+          value={credential === 0 ? credentials : value}
+          placeholder="Select Credentials"
+          clearOnBlur
+          onChange={(event, newValue) => {
+            ClickFunction(newValue)
+          }}
+          inputValue={inputValue}
+          onInputChange={(event, newInputValue) => {
+            setInputValue(newInputValue)
+          }}
+          loading={true}
+          loadingText="Loading..."
+          freeSolo
+          isOptionEqualToValue={(option, value) => option.credential_name === value.credential_name}
+          getOptionLabel={option => option.credential_name || ''}
+          options={credentials}
+        />
+      </CssVarsProvider>
+    </Fragment>
+  )
 }
 
 export default memo(ItPasswordCredentialType)

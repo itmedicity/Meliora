@@ -36,11 +36,11 @@ const CrfDetailsSearch = () => {
   const { searchCrf, reqDate, userAckDate, reqCheck, closeCheck, itemName, requirement, need } =
     crfSearch
   const updateOnchange = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setCrfSearch({ ...crfSearch, [e.target.name]: value })
     },
-    [crfSearch],
+    [crfSearch]
   )
   const [dptSec, setdptSec] = useState(0)
   const [department, setDepartment] = useState(0)
@@ -86,12 +86,12 @@ const CrfDetailsSearch = () => {
     setDisData([])
   }, [])
   const handleRadioChange = useCallback(
-    async (e) => {
+    async e => {
       const selectedCompanyName = e.target.value
       setSelectedCompany(selectedCompanyName)
       clearSearch()
     },
-    [clearSearch],
+    [clearSearch]
   )
   const searchData = useMemo(() => {
     const obj = {}
@@ -142,7 +142,7 @@ const CrfDetailsSearch = () => {
     ) {
       infoNotify('Search parameters must be at least 4 characters long')
     } else {
-      const getCrfDetailbySearch = async (searchData) => {
+      const getCrfDetailbySearch = async searchData => {
         try {
           let result
           if (selectedCompany === '1') {
@@ -155,7 +155,7 @@ const CrfDetailsSearch = () => {
           }
           const { data, success, message } = result.data
           if (success === 1) {
-            const datas = data?.map((val) => {
+            const datas = data?.map(val => {
               const obj = {
                 req_status: val.req_status,
                 req_slno: val.req_slno,
@@ -554,7 +554,7 @@ const CrfDetailsSearch = () => {
             }}
           >
             <RadioGroup row value={selectedCompany} onChange={handleRadioChange}>
-              {companyData?.map((val) => (
+              {companyData?.map(val => (
                 <FormControlLabel
                   key={val.company_slno}
                   value={val.company_slno}

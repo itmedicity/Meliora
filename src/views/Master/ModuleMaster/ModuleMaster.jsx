@@ -22,14 +22,14 @@ const ModuleMaster = () => {
   //Destructuring
   const { module_name, module_status, module_slno } = module
   const updateModule = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setModule({ ...module, [e.target.name]: value })
     },
-    [module],
+    [module]
   )
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   // data for insert
@@ -42,7 +42,7 @@ const ModuleMaster = () => {
   }, [module_name, module_status, id])
 
   //data for edit
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setvalue(1)
     const data = params.api.getSelectedRows()
     const { module_name, module_slno, status } = data[0]
@@ -64,7 +64,7 @@ const ModuleMaster = () => {
   }, [module_name, module_status, module_slno, id])
   /*** usecallback function for form submitting form */
   const submitModule = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
       //reset from
       const formreset = {
@@ -72,7 +72,7 @@ const ModuleMaster = () => {
         module_status: false,
         module_slno: '',
       }
-      const InsertFun = async (postdata) => {
+      const InsertFun = async postdata => {
         const result = await axioslogin.post('/modulemaster', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -86,7 +86,7 @@ const ModuleMaster = () => {
           infoNotify(message)
         }
       }
-      const updateFun = async (patchdata) => {
+      const updateFun = async patchdata => {
         const result = await axioslogin.patch('/modulemaster', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -109,7 +109,7 @@ const ModuleMaster = () => {
         updateFun(patchdata)
       }
     },
-    [value, postdata, patchdata, count],
+    [value, postdata, patchdata, count]
   )
 
   //back to home

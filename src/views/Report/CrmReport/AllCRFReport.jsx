@@ -35,21 +35,21 @@ const AllCRFReport = () => {
   })
   const { startDate, endDate } = crfSearch
   const updateOnchange = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setCrfSearch({ ...crfSearch, [e.target.name]: value })
     },
-    [crfSearch],
+    [crfSearch]
   )
   const searchCRFDetails = useCallback(
-    async (e) => {
+    async e => {
       e.preventDefault()
       setOpen(true)
       const postdata = {
         startDate: format(new Date(startDate), 'yyyy-MM-dd 00:00:00'),
         endDate: format(new Date(endDate), 'yyyy-MM-dd 23:59:59'),
       }
-      const getData = async (postdata) => {
+      const getData = async postdata => {
         const result = await axioslogin.post('/CrfReports/getdataAllCRF', postdata)
         const { success, data } = result.data
         if (success === 1) {
@@ -70,7 +70,7 @@ const AllCRFReport = () => {
         setOpen(false)
       }
     },
-    [endDate, startDate],
+    [endDate, startDate]
   )
   const onExportClick = () => {
     if (TableData.length === 0) {
@@ -91,7 +91,7 @@ const AllCRFReport = () => {
   }, [exports, setexport, dispatch])
 
   const apiRef = useRef()
-  const exportState = useSelector((state) => {
+  const exportState = useSelector(state => {
     return state.changeStateAggrid.aggridstate
   })
 
@@ -120,7 +120,7 @@ const AllCRFReport = () => {
       '"Segoe UI Symbol"',
     ].join(','),
   }
-  const onGridReady = (params) => {
+  const onGridReady = params => {
     params.columnApi.autoSizeAllColumns()
   }
   const [columnDefForTable] = useState([

@@ -48,14 +48,14 @@ const DietMenuSetting = () => {
   const { order_req, status } = dietmenu
   const { qty, unit, rate_hos, rate_cant } = dataset
   const updateDietmenu = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setDietmenu({ ...dietmenu, [e.target.name]: value })
     },
-    [dietmenu],
+    [dietmenu]
   )
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
 
@@ -161,7 +161,7 @@ const DietMenuSetting = () => {
 
   /*** usecallback function for form submitting */
   const submitDiettype = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
       const formReset = {
         order_req: false,
@@ -175,13 +175,13 @@ const DietMenuSetting = () => {
         rate_cant: '',
       }
       /*** * insert function for use call back     */
-      const InsertData = async (dmenuPost) => {
+      const InsertData = async dmenuPost => {
         const result = await axioslogin.post(`/dietmenudtl/dmenu`, dmenuPost)
         return result.data
       }
 
       /*** * insert function for use call back     */
-      const menudetailInsert = async (postMenuDetal) => {
+      const menudetailInsert = async postMenuDetal => {
         const result = await axioslogin.post(`/dietmenudtl/detailInsert`, postMenuDetal)
         const { message, success } = result.data
         if (success === 1) {
@@ -198,12 +198,12 @@ const DietMenuSetting = () => {
         }
       }
 
-      InsertData(dmenuPost).then((value) => {
+      InsertData(dmenuPost).then(value => {
         const { success, insetid, data } = value
         if (success === 1) {
           const postMenuDetal =
             dataPost &&
-            dataPost.map((val) => {
+            dataPost.map(val => {
               return {
                 dmenu_slno: insetid,
                 grp_slno: val.grp_slno,
@@ -223,7 +223,7 @@ const DietMenuSetting = () => {
           const { dmenu_slno } = data[0]
           const postMenuDetal =
             dataPost &&
-            dataPost.map((val) => {
+            dataPost.map(val => {
               return {
                 dmenu_slno: dmenu_slno,
                 grp_slno: val.grp_slno,
@@ -242,7 +242,7 @@ const DietMenuSetting = () => {
         }
       })
     },
-    [count, dmenuPost, dataPost, id],
+    [count, dmenuPost, dataPost, id]
   )
 
   //Close function

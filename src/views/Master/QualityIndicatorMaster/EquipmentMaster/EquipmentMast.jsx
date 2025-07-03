@@ -34,13 +34,13 @@ const EquipmentMast = () => {
   })
   const { equip_no, equip_name, assetno, equip_status } = equipmentData
   const UpdateEquipmentDetails = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setEquipmentData({ ...equipmentData, [e.target.name]: value })
     },
-    [equipmentData],
+    [equipmentData]
   )
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state?.LoginUserData.empid
   })
   const backtoSetting = useCallback(() => {
@@ -49,7 +49,7 @@ const EquipmentMast = () => {
   useEffect(() => {
     dispatch(getQltyDept(id))
   }, [dispatch, id])
-  const OnChangeProc = useCallback((e) => {
+  const OnChangeProc = useCallback(e => {
     setproSearch(e.target.value)
     setproFlag(0)
   }, [])
@@ -58,11 +58,11 @@ const EquipmentMast = () => {
     const postdata = {
       PDC_DESC: proSearch.toUpperCase(),
     }
-    const GetElliderData = async (postdata) => {
+    const GetElliderData = async postdata => {
       const result = await axiosellider.post('/procedureList/procedure', postdata)
       return result.data
     }
-    GetElliderData(postdata).then((value) => {
+    GetElliderData(postdata).then(value => {
       const { success, data, message } = value
       if (success === 1) {
         setproFlag(1)
@@ -109,9 +109,9 @@ const EquipmentMast = () => {
     }
   }, [equip_name, ProcedureArray, assetno, equip_status, id, equip_no, qidept])
   const SaveDetails = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const InsertEquipmentDetails = async (postdata) => {
+      const InsertEquipmentDetails = async postdata => {
         const result = await axioslogin.post('/equipMast/insert', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -122,7 +122,7 @@ const EquipmentMast = () => {
           infoNotify(message)
         }
       }
-      const updateEquipmentDetails = async (patchdata) => {
+      const updateEquipmentDetails = async patchdata => {
         const result = await axioslogin.patch('/equipMast/update', patchdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -139,12 +139,12 @@ const EquipmentMast = () => {
         updateEquipmentDetails(patchdata)
       }
     },
-    [postdata, reset, count, edit, patchdata],
+    [postdata, reset, count, edit, patchdata]
   )
   const refreshWindow = useCallback(() => {
     reset()
   }, [reset])
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setEdit(1)
     const data = params.api.getSelectedRows()
     const { equip_no, equip_name, asset_no, status, qi_dept_no } = data[0]
@@ -156,7 +156,7 @@ const EquipmentMast = () => {
       equip_status: status === 'Yes' ? true : false,
     }
     setEquipmentData(frmdata)
-    const newData = data?.map((val) => {
+    const newData = data?.map(val => {
       return {
         procedure_names: val.procedure_names,
       }

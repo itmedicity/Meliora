@@ -19,10 +19,10 @@ const CrfPdfViewMain = () => {
       const result = await axioslogin.get('/CRFRegisterApproval/getAllForPdfView')
       const { success, data } = result.data
       if (success === 1) {
-        const incharge = data.filter((val) => {
+        const incharge = data.filter(val => {
           return val.hod_req === 1 && val.crf_close !== 1 && val.incharge_approve === 1
         })
-        const datas = incharge.map((val) => {
+        const datas = incharge.map(val => {
           const obj = {
             req_slno: val.req_slno,
             actual_requirement: val.actual_requirement,
@@ -214,7 +214,7 @@ const CrfPdfViewMain = () => {
       </Box>
       <Box sx={{ height: window.innerHeight - 150, overflow: 'auto' }}>
         {disData &&
-          disData.map((val) => {
+          disData.map(val => {
             return (
               <Box key={val.req_slno} sx={{ width: '100%' }}>
                 <Paper

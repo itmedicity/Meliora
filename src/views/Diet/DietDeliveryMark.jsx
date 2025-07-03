@@ -90,13 +90,13 @@ const DietDeliveryMark = () => {
     setDispaly(reset)
   }, [])
 
-  const onSelectionChanged = (event) => {
+  const onSelectionChanged = event => {
     setFinal(event.api.getSelectedRows())
   }
   const patchdata = useMemo(() => {
     const procd =
       final &&
-      final.map((val) => {
+      final.map(val => {
         return val.prod_slno
       })
     return {
@@ -106,9 +106,9 @@ const DietDeliveryMark = () => {
     }
   }, [final])
   const submitDelivery = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const deliveryUpdate = async (patchdata) => {
+      const deliveryUpdate = async patchdata => {
         const result = await axioslogin.patch('/delivery/status', patchdata)
         const { success, message } = result.data
         if (success === 2) {
@@ -121,7 +121,7 @@ const DietDeliveryMark = () => {
       }
       deliveryUpdate(patchdata)
     },
-    [patchdata, count, cleardata],
+    [patchdata, count, cleardata]
   )
 
   //Refresh function

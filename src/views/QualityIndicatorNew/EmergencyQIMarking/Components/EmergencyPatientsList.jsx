@@ -31,7 +31,7 @@ const EmergencyPatientsList = ({
   const [tabFlag, setTabFlag] = useState(0)
   const history = useNavigate()
 
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state?.LoginUserData.empid
   })
   const backtoHome = useCallback(() => {
@@ -45,11 +45,11 @@ const EmergencyPatientsList = ({
         from: format(new Date(dailyDate), 'yyyy-MM-dd 00:00:00'),
         to: format(new Date(dailyDate), 'yyyy-MM-dd 23:59:59'),
       }
-      const getEmergencyData = async (viewdata) => {
+      const getEmergencyData = async viewdata => {
         const result = await axioslogin.post('/qiemergency/viewList', viewdata)
         return result.data
       }
-      getEmergencyData(viewdata).then((val) => {
+      getEmergencyData(viewdata).then(val => {
         const { success, data } = val
         if (success === 1) {
           setpatientlist(data)
@@ -61,7 +61,7 @@ const EmergencyPatientsList = ({
     }
   }, [dailyDate, count, qitype, setpatientlist])
 
-  const IndicatorsView = useCallback((val) => {
+  const IndicatorsView = useCallback(val => {
     setModalOpen(true)
     setrowSelect(val)
     setQiflag(1)
@@ -72,13 +72,13 @@ const EmergencyPatientsList = ({
   }, [setModalOpen])
 
   const RefreshData = useCallback(() => {
-    const RefreshPatients = async (setCount) => {
+    const RefreshPatients = async setCount => {
       await RefreshEmergency(qidept, count, setCount, depCode, id, dailyDate)
     }
     RefreshPatients(setCount)
     setSearchPat('')
   }, [qidept, depCode, count, id, setCount, dailyDate])
-  const ChangePatient = useCallback((e) => {
+  const ChangePatient = useCallback(e => {
     setSearchPat(e.target.value)
   }, [])
 
@@ -88,11 +88,11 @@ const EmergencyPatientsList = ({
       to: format(new Date(dailyDate), 'yyyy-MM-dd 23:59:59'),
       ptname: searchPat,
     }
-    const getSearchDetails = async (searchData) => {
+    const getSearchDetails = async searchData => {
       const result = await axioslogin.post('/qiemergency/searchbyPatient', searchData)
       return result.data
     }
-    getSearchDetails(searchData).then((val) => {
+    getSearchDetails(searchData).then(val => {
       const { success, data } = val
       if (success === 1) {
         setpatientlist(data)
@@ -357,7 +357,7 @@ const EmergencyPatientsList = ({
                                       color: '#263238',
                                     },
                                   }}
-                                  onClick={(e) => IndicatorsView(val)}
+                                  onClick={e => IndicatorsView(val)}
                                 />
                               </Tooltip>
                             </CssVarsProvider>

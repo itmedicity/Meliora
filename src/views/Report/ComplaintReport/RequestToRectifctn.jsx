@@ -27,11 +27,11 @@ const RequestToRectifctn = () => {
 
   const { start_date, end_date } = dateset
   const getDate = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       SetDate({ ...dateset, [e.target.name]: value })
     },
-    [dateset],
+    [dateset]
   )
 
   const postdata = useMemo(() => {
@@ -48,7 +48,7 @@ const RequestToRectifctn = () => {
   const [tabledata, setTableData] = useState([])
 
   const clicksearch = useCallback(
-    (e) => {
+    e => {
       setOpen(true)
       e.preventDefault()
 
@@ -58,7 +58,7 @@ const RequestToRectifctn = () => {
         if (success === 1) {
           const dispalyData =
             data &&
-            data.map((val) => {
+            data.map(val => {
               const obj = {
                 slno: val.complaint_slno,
                 date: format(new Date(val.compalint_date), 'dd-MM-yyyy'),
@@ -90,7 +90,7 @@ const RequestToRectifctn = () => {
       getdatas()
       // dispatch(getRequestToRectfyList(postdata))
     },
-    [postdata],
+    [postdata]
   )
 
   // useEffect(() => {

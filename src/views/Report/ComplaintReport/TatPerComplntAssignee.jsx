@@ -27,11 +27,11 @@ const TatPerComplntAssignee = () => {
 
   const { start_date, end_date } = dateset
   const getDate = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       SetDate({ ...dateset, [e.target.name]: value })
     },
-    [dateset],
+    [dateset]
   )
 
   const postdata = useMemo(() => {
@@ -44,7 +44,7 @@ const TatPerComplntAssignee = () => {
 
   const [getDataList, setGetDataList] = useState(0)
   const clicksearch = useCallback(
-    async (e) => {
+    async e => {
       e.preventDefault()
       const result = await axioslogin.post(`/getTatReports/ReqTatPerComAssignee`, postdata)
       const { success, data } = result.data
@@ -52,7 +52,7 @@ const TatPerComplntAssignee = () => {
         setGetDataList(data)
       }
     },
-    [postdata],
+    [postdata]
   )
 
   const [tabledata, setTableData] = useState([])
@@ -60,7 +60,7 @@ const TatPerComplntAssignee = () => {
   useEffect(() => {
     const dispalyData =
       getDataList &&
-      getDataList.map((val) => {
+      getDataList.map(val => {
         const obj = {
           slno: val.complaint_slno,
           date: format(new Date(val.compalint_date), 'dd-MM-yyyy'),

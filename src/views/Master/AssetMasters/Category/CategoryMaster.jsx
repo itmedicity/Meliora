@@ -20,7 +20,7 @@ const CategoryMaster = () => {
   const [selectFile, setSelectFile] = useState(null)
   const [categoryImg, setCategoryImg] = useState('')
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   const [category, setCategory] = useState({
@@ -31,11 +31,11 @@ const CategoryMaster = () => {
   })
   const { category_slno, category_name, category_status, am_category_pm_days } = category
   const updateCategory = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setCategory({ ...category, [e.target.name]: value })
     },
-    [category],
+    [category]
   )
   const reset = () => {
     const frmdata = {
@@ -68,7 +68,7 @@ const CategoryMaster = () => {
       edit_user: id,
     }
   }, [category_slno, category_name, category_status, am_category_pm_days, id])
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const { category_slno, category_name, category_status, am_category_pm_days, file_name } =
@@ -85,7 +85,7 @@ const CategoryMaster = () => {
 
   const [flag, setflag] = useState(0)
 
-  const uploadFile = async (event) => {
+  const uploadFile = async event => {
     const file = event.target.files[0]
     if (!file) return
     const validImageTypes = ['image/jpeg', 'image/png', 'image/jpg']
@@ -109,18 +109,18 @@ const CategoryMaster = () => {
   }
 
   const submitCategory = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
 
-      const InsertCategory = async (postdata) => {
+      const InsertCategory = async postdata => {
         const result = await axioslogin.post('/amcategory/insert', postdata)
         return result.data
       }
-      const CategoryUpdate = async (patchdata) => {
+      const CategoryUpdate = async patchdata => {
         const result = await axioslogin.patch('/amcategory/update', patchdata)
         return result.data
       }
-      const FileInsert = async (fileData) => {
+      const FileInsert = async fileData => {
         const result = await axioslogin.post('/fileupload/uploadFile/Category', fileData)
         const { message, success } = result.data
         if (success === 1) {
@@ -134,7 +134,7 @@ const CategoryMaster = () => {
       if (value === 0) {
         if (category_name !== '') {
           if (am_category_pm_days !== '') {
-            InsertCategory(postdata).then((val) => {
+            InsertCategory(postdata).then(val => {
               const { message, success, insertid } = val
               if (success === 1) {
                 if (selectFile !== null) {
@@ -162,7 +162,7 @@ const CategoryMaster = () => {
       } else {
         if (category_name !== '') {
           if (am_category_pm_days !== '') {
-            CategoryUpdate(patchdata).then((val) => {
+            CategoryUpdate(patchdata).then(val => {
               const { message, success } = val
               if (success === 2) {
                 if (selectFile !== null) {
@@ -196,7 +196,7 @@ const CategoryMaster = () => {
       category_name,
       category_slno,
       am_category_pm_days,
-    ],
+    ]
   )
   const backtoSetting = useCallback(() => {
     history('/Home/Settings')

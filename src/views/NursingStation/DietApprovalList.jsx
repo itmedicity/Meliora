@@ -30,7 +30,7 @@ const DietApprovalList = () => {
   const [consulRequ, setConsulRequ] = useState(false)
   const [consul, setCounsult] = useState(0)
   const [counsultData, setCousultData] = useState([])
-  const updateApprove = useCallback((e) => {
+  const updateApprove = useCallback(e => {
     if (e.target.checked === true) {
       setApprov(true)
       setNotApprov(false)
@@ -39,7 +39,7 @@ const DietApprovalList = () => {
       setNotApprov(false)
     }
   }, [])
-  const updateNotApprov = useCallback((e) => {
+  const updateNotApprov = useCallback(e => {
     if (e.target.checked === true) {
       setNotApprov(true)
       setApprov(false)
@@ -48,7 +48,7 @@ const DietApprovalList = () => {
       setNotApprov(false)
     }
   }, [])
-  const updateConsult = useCallback((e) => {
+  const updateConsult = useCallback(e => {
     if (e.target.checked === true) {
       setConsulRequ(true)
       setCounsult(1)
@@ -68,7 +68,7 @@ const DietApprovalList = () => {
     { headerName: 'Diet Approval', field: 'plan status', filter: 'true' },
     {
       headerName: 'Diet Approval',
-      cellRenderer: (params) => (
+      cellRenderer: params => (
         <IconButton sx={{ color: editicon, paddingY: 0.5 }} onClick={() => dietApproval(params)}>
           <CheckCircleOutlineIcon />
         </IconButton>
@@ -87,7 +87,7 @@ const DietApprovalList = () => {
     { headerName: 'Diet Approval', field: 'plan status', filter: 'true' },
     {
       headerName: 'Diet Approval',
-      cellRenderer: (params) => (
+      cellRenderer: params => (
         <IconButton sx={{ color: editicon, paddingY: 0.5 }} onClick={() => dietApproval(params)}>
           <CheckCircleOutlineIcon />
         </IconButton>
@@ -102,7 +102,7 @@ const DietApprovalList = () => {
       setDisCheck(0)
     }
   }, [nurse])
-  const dietApproval = (params) => {
+  const dietApproval = params => {
     const data = params.data
     setData(data)
     setApproval(1)

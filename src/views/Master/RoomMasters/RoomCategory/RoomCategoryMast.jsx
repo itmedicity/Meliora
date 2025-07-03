@@ -17,11 +17,11 @@ const RoomCategoryMast = () => {
   //destructuring
   const { rmname, rmshort, status } = roomcat
   const updatehicRoomcategory = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setRoomcat({ ...roomcat, [e.target.name]: value })
     },
-    [roomcat],
+    [roomcat]
   )
   //close button function
   const backtoSetting = useCallback(() => {

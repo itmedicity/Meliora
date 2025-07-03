@@ -28,7 +28,7 @@ const CurrentMonthTable = ({ monthtabdata, setMonthtabflag, monthflag, count, se
     setMonthtabflag(0)
   }, [history, setMonthtabflag])
 
-  const empDept = useSelector((state) => {
+  const empDept = useSelector(state => {
     return state.LoginUserData.empdept
   })
 
@@ -41,7 +41,7 @@ const CurrentMonthTable = ({ monthtabdata, setMonthtabflag, monthflag, count, se
     setflag(0)
   }, [setModalOpen])
   const VerificationClick = useCallback(
-    (val) => {
+    val => {
       if (val.verify_status === 1) {
         setView(val)
         setModalOpen(true)
@@ -63,7 +63,7 @@ const CurrentMonthTable = ({ monthtabdata, setMonthtabflag, monthflag, count, se
         }
       }
     },
-    [setflag, monthflag],
+    [setflag, monthflag]
   )
   return (
     <Fragment>
@@ -212,7 +212,7 @@ const CurrentMonthTable = ({ monthtabdata, setMonthtabflag, monthflag, count, se
                                   boxShadow: 10,
                                 },
                               }}
-                              onClick={(e) => VerificationClick(val)}
+                              onClick={e => VerificationClick(val)}
                             />
                           ) : (
                             <VerifiedIcon
@@ -225,7 +225,7 @@ const CurrentMonthTable = ({ monthtabdata, setMonthtabflag, monthflag, count, se
                                   boxShadow: 10,
                                 },
                               }}
-                              onClick={(e) => VerificationClick(val)}
+                              onClick={e => VerificationClick(val)}
                             />
                           )}
                         </Box>

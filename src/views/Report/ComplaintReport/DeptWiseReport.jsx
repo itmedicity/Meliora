@@ -27,14 +27,14 @@ const DeptWiseReport = () => {
 
   const { start_date, end_date } = dateset
   const getDate = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       SetDate({ ...dateset, [e.target.name]: value })
     },
-    [dateset],
+    [dateset]
   )
 
-  const dept_slno = useSelector((state) => {
+  const dept_slno = useSelector(state => {
     return state.LoginUserData.empdept
   })
 
@@ -49,7 +49,7 @@ const DeptWiseReport = () => {
   const [tabledata, setTableData] = useState([])
 
   const clicksearch = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
       setOpen(true)
       const getdataFromDatabase = async () => {
@@ -67,7 +67,7 @@ const DeptWiseReport = () => {
 
       getdataFromDatabase(postdata)
     },
-    [postdata],
+    [postdata]
   )
 
   //column title setting

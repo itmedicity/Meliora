@@ -65,7 +65,7 @@ const BillDashBoardMain = () => {
           aria-label="Bottom Navigation"
           value={index}
           onChange={(event, value) => setIndex(value)}
-          sx={(theme) => ({
+          sx={theme => ({
             // p: 1,
             pt: 0.5,
             mx: 'auto',

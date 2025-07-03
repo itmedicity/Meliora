@@ -14,7 +14,7 @@ const ItemCountWiseMap = ({
   disArry,
 }) => {
   useEffect(() => {
-    const getData = async (getPostData) => {
+    const getData = async getPostData => {
       const result = await axioslogin.post(`/itemCreationDeptmap/getInsertData`, getPostData)
       const { success, data } = result.data
       if (success === 1) {
@@ -39,10 +39,10 @@ const ItemCountWiseMap = ({
         setDisArry([])
       }
     }
-    const getDataSpare = async (getPostDataSpare) => {
+    const getDataSpare = async getPostDataSpare => {
       const result = await axioslogin.post(
         `/itemCreationDeptmap/getInsertSpareData`,
-        getPostDataSpare,
+        getPostDataSpare
       )
       const { success, data } = result.data
       if (success === 1) {

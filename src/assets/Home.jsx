@@ -1,6 +1,6 @@
 import React from 'react'
 
-const HomeIcons = (props) => {
+const HomeIcons = props => {
   return (
     <svg
       baseProfile="tiny"

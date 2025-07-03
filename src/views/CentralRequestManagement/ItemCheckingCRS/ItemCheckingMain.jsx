@@ -18,7 +18,7 @@ import SupplierSelectPendingPO from './Component/SupplierSelectPendingPO'
 const ItemCheckingMain = () => {
   const history = useNavigate()
   const dispatch = useDispatch()
-  const empdeptsec = useSelector((state) => state.LoginUserData.empsecid, _.isEqual)
+  const empdeptsec = useSelector(state => state.LoginUserData.empsecid, _.isEqual)
 
   const [tableData, setTableData] = useState([])
   const [supCode, setSupCode] = useState(0)
@@ -44,7 +44,7 @@ const ItemCheckingMain = () => {
         return
       }
       const newValue = parsedValue || 0
-      const updatedTableData = tableData?.map((item) => {
+      const updatedTableData = tableData?.map(item => {
         if (item.item_slno === item_slno) {
           return { ...item, delivered_qty: newValue }
         }
@@ -52,7 +52,7 @@ const ItemCheckingMain = () => {
       })
       setTableData(updatedTableData)
     },
-    [tableData],
+    [tableData]
   )
 
   const changeDamageQty = useCallback(
@@ -68,7 +68,7 @@ const ItemCheckingMain = () => {
       }
       const newValue = parsedValue || 0
 
-      const updatedTableData = tableData?.map((item) => {
+      const updatedTableData = tableData?.map(item => {
         if (item.item_slno === item_slno) {
           return { ...item, damage_qty: newValue }
         }
@@ -76,18 +76,18 @@ const ItemCheckingMain = () => {
       })
       setTableData(updatedTableData)
     },
-    [tableData],
+    [tableData]
   )
   const changeRemarks = useCallback((itemSlno, value) => {
-    setTableData((prevData) =>
-      prevData.map((item) => (item.item_slno === itemSlno ? { ...item, remarks: value } : item)),
+    setTableData(prevData =>
+      prevData.map(item => (item.item_slno === itemSlno ? { ...item, remarks: value } : item))
     )
   }, [])
-  const handleDamageChange = useCallback((index) => {
-    setTableData((prevData) =>
+  const handleDamageChange = useCallback(index => {
+    setTableData(prevData =>
       prevData.map((item, idx) =>
-        idx === index ? { ...item, damage: !item.damage, checked: !item.checked } : item,
-      ),
+        idx === index ? { ...item, damage: !item.damage, checked: !item.checked } : item
+      )
     )
   }, [])
 
@@ -101,12 +101,12 @@ const ItemCheckingMain = () => {
       infoNotify('Select Supplier')
     } else {
       setOpen(true)
-      const getItemDetails = async (supCode) => {
+      const getItemDetails = async supCode => {
         try {
           const result = await axioslogin.get(`/deliveryMarking/getitem/${supCode}`)
           const { success, data } = result.data
           if (success === 1) {
-            const poItems = data?.map((val) => {
+            const poItems = data?.map(val => {
               // const it_qty = (data?.filter(value => value.item_code === val.item_code)
               //     .reduce((acc, curr) => acc + (curr.item_qty), 0))
               // const rec_qty = (data?.filter(value => value.item_code === val.item_code)
@@ -304,7 +304,7 @@ const ItemCheckingMain = () => {
   const [saveModal, setSaveModal] = useState(false)
   const [saveFlag, setSaveFlag] = useState(0)
   const SaveData = useCallback(() => {
-    const allZero = tableData.every((item) => item.delivered_qty === 0)
+    const allZero = tableData.every(item => item.delivered_qty === 0)
     if (allZero) {
       infoNotify('You have not entered any delivered quantities.')
     } else {
@@ -560,7 +560,7 @@ const ItemCheckingMain = () => {
                                 type="text"
                                 autoComplete="off"
                                 value={val.delivered_qty}
-                                onChange={(e) => changeReceivedQty(val.item_slno, e.target.value)}
+                                onChange={e => changeReceivedQty(val.item_slno, e.target.value)}
                                 style={{
                                   textAlign: 'center',
                                   height: 25,
@@ -579,7 +579,7 @@ const ItemCheckingMain = () => {
                                   variant="outlined"
                                   size="md"
                                   checked={val.damage}
-                                  onChange={(e) => handleDamageChange(index)}
+                                  onChange={e => handleDamageChange(index)}
                                   sx={{ color: 'blue' }}
                                 />
                               </Box>
@@ -588,7 +588,7 @@ const ItemCheckingMain = () => {
                                   type="text"
                                   autoComplete="off"
                                   value={val.damage ? val.damage_qty : ''}
-                                  onChange={(e) => changeDamageQty(val.item_slno, e.target.value)}
+                                  onChange={e => changeDamageQty(val.item_slno, e.target.value)}
                                   disabled={!val.damage}
                                   style={{
                                     textAlign: 'center',
@@ -606,7 +606,7 @@ const ItemCheckingMain = () => {
                                   type="text"
                                   autoComplete="off"
                                   value={val.damage ? val.remarks : ''}
-                                  onChange={(e) => {
+                                  onChange={e => {
                                     changeRemarks(val.item_slno, e.target.value)
                                   }}
                                   disabled={!val.damage}

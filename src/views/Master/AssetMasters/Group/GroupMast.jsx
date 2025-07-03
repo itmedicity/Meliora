@@ -19,7 +19,7 @@ const GroupMast = () => {
   const [value, setValue] = useState(0)
   const [count, setCount] = useState(0)
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   const [group, setGroup] = useState({
@@ -29,11 +29,11 @@ const GroupMast = () => {
   })
   const { group_slno, group_name, group_status } = group
   const updateGroup = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setGroup({ ...group, [e.target.name]: value })
     },
-    [group],
+    [group]
   )
   const reset = () => {
     const frmdata = {
@@ -62,7 +62,7 @@ const GroupMast = () => {
     }
   }, [group_slno, group_name, group_status, id])
 
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const { group_slno, group_name, group_status } = data[0]
@@ -73,7 +73,7 @@ const GroupMast = () => {
     }
     setGroup(frmdata)
   }, [])
-  const uploadFile = async (event) => {
+  const uploadFile = async event => {
     const file = event.target.files[0]
     setSelectFile(file)
     const options = {
@@ -84,13 +84,13 @@ const GroupMast = () => {
     setSelectFile(compressedFile)
   }
   const submitGroup = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const InsertGroup = async (postdata) => {
+      const InsertGroup = async postdata => {
         const result = await axioslogin.post('/amgroup/insert', postdata)
         return result.data
       }
-      const GroupUpdate = async (patchdata) => {
+      const GroupUpdate = async patchdata => {
         const result = await axioslogin.patch('/amgroup/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -104,7 +104,7 @@ const GroupMast = () => {
         }
       }
 
-      const FileInsert = async (fileData) => {
+      const FileInsert = async fileData => {
         const result = await axioslogin.post('/fileupload/uploadFile/Group', fileData)
         const { message, success } = result.data
         if (success === 1) {
@@ -117,7 +117,7 @@ const GroupMast = () => {
       }
       if (value === 0) {
         if (group_name !== '') {
-          InsertGroup(postdata).then((val) => {
+          InsertGroup(postdata).then(val => {
             const { message, success, insertid } = val
             if (success === 1) {
               if (selectFile !== null) {
@@ -144,7 +144,7 @@ const GroupMast = () => {
         GroupUpdate(patchdata)
       }
     },
-    [postdata, value, patchdata, count, selectFile, group_name],
+    [postdata, value, patchdata, count, selectFile, group_name]
   )
   const backtoSetting = useCallback(() => {
     history('/Home/Settings')

@@ -12,7 +12,7 @@ import { format } from 'date-fns'
 import moment from 'moment'
 const EscalationTimeMast = () => {
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   const history = useNavigate()
@@ -46,11 +46,11 @@ const EscalationTimeMast = () => {
   } = escalation
   //state updation
   const updateEscalation = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setEscalation({ ...escalation, [e.target.name]: value })
     },
-    [escalation],
+    [escalation]
   )
   //  data for insert
   const postdata = useMemo(() => {
@@ -79,7 +79,7 @@ const EscalationTimeMast = () => {
     esc_status,
   ])
   //data set for edit
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setEdit(1)
     const data = params.api.getSelectedRows()
     const {
@@ -138,7 +138,7 @@ const EscalationTimeMast = () => {
   ])
 
   const submitEscalation = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
       const formreset = {
         esc_activity: '',
@@ -151,7 +151,7 @@ const EscalationTimeMast = () => {
         esc_top_lvl: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
         esc_status: false,
       }
-      const InsertFun = async (postdata) => {
+      const InsertFun = async postdata => {
         const result = await axioslogin.post('/escalation', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -165,7 +165,7 @@ const EscalationTimeMast = () => {
         }
       }
       /***  * update function for use call back     */
-      const updateFun = async (patchdata) => {
+      const updateFun = async patchdata => {
         const result = await axioslogin.patch('/escalation', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -188,7 +188,7 @@ const EscalationTimeMast = () => {
         updateFun(patchdata)
       }
     },
-    [postdata, patchdata, count, edit],
+    [postdata, patchdata, count, edit]
   )
   //refresh func
   const refreshWindow = useCallback(() => {

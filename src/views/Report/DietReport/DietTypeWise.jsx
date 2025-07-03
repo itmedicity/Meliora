@@ -18,7 +18,7 @@ const DietTypeWise = () => {
   const [startdate, setstartDate] = useState(new Date())
   const [daySelect, setdayselect] = useState(0)
 
-  const dietdata = useSelector((state) => {
+  const dietdata = useSelector(state => {
     return state.getDiet.dietList || 0
   })
   useEffect(() => {
@@ -53,7 +53,7 @@ const DietTypeWise = () => {
   ])
 
   const FilterSelect = useCallback(
-    (event) => {
+    event => {
       dispatch({ type: ActionTyps.FETCH_CHANGE_STATE, aggridstate: 0 })
       if (event.api.getSelectedRows() === 0) {
         setDiet([])
@@ -61,13 +61,13 @@ const DietTypeWise = () => {
         setDiet(event.api.getSelectedRows())
       }
     },
-    [dispatch],
+    [dispatch]
   )
 
   useEffect(() => {
     const slno =
       diet &&
-      diet.map((val) => {
+      diet.map(val => {
         return val.diet_slno
       })
     setDietslno(slno)
@@ -84,10 +84,10 @@ const DietTypeWise = () => {
   }, [daySelect, startdate, dietslno])
 
   const onclickreport = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
       dispatch({ type: ActionTyps.FETCH_CHANGE_STATE, aggridstate: 0 })
-      const getdatafromtable = async (postdata) => {
+      const getdatafromtable = async postdata => {
         const result = await axioslogin.post('/dietReport/getdietReport', postdata)
         const { success, data } = result.data
         if (success === 1) {
@@ -103,7 +103,7 @@ const DietTypeWise = () => {
         warningNotify('Please Select Diet')
       }
     },
-    [postdata, dietslno.length, dispatch],
+    [postdata, dietslno.length, dispatch]
   )
 
   const backToSetting = useCallback(() => {

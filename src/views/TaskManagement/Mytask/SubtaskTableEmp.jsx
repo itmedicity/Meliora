@@ -15,7 +15,7 @@ const SubtaskTableEmp = ({
   subTask,
   setViewSubTask,
 }) => {
-  const empsecid = useSelector((state) => {
+  const empsecid = useSelector(state => {
     return state.LoginUserData.empsecid
   })
 
@@ -33,7 +33,7 @@ const SubtaskTableEmp = ({
       if (success === 2) {
         const subtaskData =
           data &&
-          data.map((val) => {
+          data.map(val => {
             return {
               tm_task_slno: val.tm_task_slno,
               tm_task_name: val.tm_task_name,
@@ -58,19 +58,19 @@ const SubtaskTableEmp = ({
                 val.tm_task_status === 1
                   ? 'Completed'
                   : val.tm_task_status === 2
-                    ? 'On Progress'
-                    : val.tm_task_status === 3
-                      ? 'On Hold'
-                      : val.tm_task_status === 4
-                        ? 'Pending'
-                        : val.tm_task_status === 0
-                          ? 'Not Started'
-                          : 'Not Started',
+                  ? 'On Progress'
+                  : val.tm_task_status === 3
+                  ? 'On Hold'
+                  : val.tm_task_status === 4
+                  ? 'Pending'
+                  : val.tm_task_status === 0
+                  ? 'Not Started'
+                  : 'Not Started',
             }
           })
         setSubTask(subtaskData)
         setViewSubTask(1)
-        const filterData = data && data.filter((val) => val.tm_task_status !== 1)
+        const filterData = data && data.filter(val => val.tm_task_status !== 1)
         setCompleteFlag(filterData)
       } else {
         setCompleteFlag([])
@@ -127,16 +127,16 @@ const SubtaskTableEmp = ({
                               val.tm_task_status === null
                                 ? 'darkred'
                                 : val.tm_task_status === 0
-                                  ? 'darkred'
-                                  : val.tm_task_status === 1
-                                    ? '#94C973'
-                                    : val.tm_task_status === 2
-                                      ? '#EFD593'
-                                      : val.tm_task_status === 3
-                                        ? '#67595E'
-                                        : val.tm_task_status === 4
-                                          ? '#5885AF'
-                                          : 'transparent',
+                                ? 'darkred'
+                                : val.tm_task_status === 1
+                                ? '#94C973'
+                                : val.tm_task_status === 2
+                                ? '#EFD593'
+                                : val.tm_task_status === 3
+                                ? '#67595E'
+                                : val.tm_task_status === 4
+                                ? '#5885AF'
+                                : 'transparent',
                           }}
                         >
                           {val.TaskStatus}

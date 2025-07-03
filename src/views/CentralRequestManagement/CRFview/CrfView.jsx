@@ -38,10 +38,10 @@ const CrfView = () => {
       color: '#1976d2',
     },
   }
-  const empdept = useSelector((state) => {
+  const empdept = useSelector(state => {
     return state.LoginUserData.empdept
   })
-  const empID = useSelector((state) => {
+  const empID = useSelector(state => {
     return state.LoginUserData.empid
   })
 
@@ -107,8 +107,8 @@ const CrfView = () => {
     staleTime: Infinity,
   })
   const company = useMemo(() => companyView, [companyView])
-  const transformCrfData = (data) => {
-    return data?.map((val) => {
+  const transformCrfData = data => {
+    return data?.map(val => {
       const obj = {
         req_status: val.req_status,
         req_slno: val.req_slno,
@@ -452,13 +452,13 @@ const CrfView = () => {
   }, [category])
 
   const searchCRFDetails = useCallback(
-    async (e) => {
+    async e => {
       e.preventDefault()
       if (category === null || category === 0) {
         warningNotify('Please select the Category')
       } else {
         setOpen(true)
-        const getcrfBiomedical = async (searchCrf) => {
+        const getcrfBiomedical = async searchCrf => {
           let result
           if (selectedCompany === '1') {
             result = await axioslogin.post('/newCRFRegister/searchCrf', searchCrf)
@@ -483,7 +483,7 @@ const CrfView = () => {
         getcrfBiomedical(searchCrf)
       }
     },
-    [searchCrf, category, selectedCompany],
+    [searchCrf, category, selectedCompany]
   )
 
   const {
@@ -497,7 +497,7 @@ const CrfView = () => {
   })
   const companyData = useMemo(() => compData, [compData])
 
-  const handleRadioChange = useCallback(async (e) => {
+  const handleRadioChange = useCallback(async e => {
     const selectedCompanyName = e.target.value
     setSelectedCompany(selectedCompanyName)
     setcategory(0)
@@ -537,7 +537,7 @@ const CrfView = () => {
           <CssVarsProvider>
             <RadioGroup value={selectedCompany} onChange={handleRadioChange}>
               <Box sx={{ display: 'flex', flexDirection: 'row', p: 1 }}>
-                {companyData?.map((val) => (
+                {companyData?.map(val => (
                   <FormControlLabel
                     key={val.company_slno}
                     value={val.company_slno}
@@ -573,7 +573,7 @@ const CrfView = () => {
               value={category}
               onChange={(e, newValue) => setcategory(newValue)}
             >
-              {editRowData?.map((val) => (
+              {editRowData?.map(val => (
                 <Option
                   key={val.item_type_slno}
                   value={val.item_type_slno}

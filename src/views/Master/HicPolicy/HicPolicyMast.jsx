@@ -24,14 +24,14 @@ const HicPolicyMast = () => {
   //destructuring
   const { hic_policy_name, hic_policy_status, hic_policy_slno } = hic
   const updatehicPolicy = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setHic({ ...hic, [e.target.name]: value })
     },
-    [hic],
+    [hic]
   )
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   //data for insert
@@ -43,7 +43,7 @@ const HicPolicyMast = () => {
     }
   }, [hic_policy_name, hic_policy_status, id])
   //data set for edit
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setEdit(1)
     const data = params.api.getSelectedRows()
     const { hic_policy_name, status, hic_policy_slno } = data[0]
@@ -65,7 +65,7 @@ const HicPolicyMast = () => {
   }, [hic_policy_name, hic_policy_status, hic_policy_slno, id])
   /*** usecallback function for form submitting */
   const submitHicpolicy = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
       const formreset = {
         hic_policy_name: '',
@@ -73,7 +73,7 @@ const HicPolicyMast = () => {
         hic_policy_slno: '',
       }
       /*** * insert function for use call back     */
-      const InsertFun = async (postdata) => {
+      const InsertFun = async postdata => {
         const result = await axioslogin.post('/hicpolicy', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -87,7 +87,7 @@ const HicPolicyMast = () => {
         }
       }
       /***  * update function for use call back     */
-      const updateFun = async (patchdata) => {
+      const updateFun = async patchdata => {
         const result = await axioslogin.patch('/hicpolicy', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -110,7 +110,7 @@ const HicPolicyMast = () => {
         updateFun(patchdata)
       }
     },
-    [edit, postdata, patchdata, count],
+    [edit, postdata, patchdata, count]
   )
   //close button function
   const backtoSetting = useCallback(() => {

@@ -28,11 +28,11 @@ const ComplaintCategoryWise = () => {
   const [category, setCategory] = useState(0)
   const { start_date, end_date } = dateset
   const getDate = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       SetDate({ ...dateset, [e.target.name]: value })
     },
-    [dateset],
+    [dateset]
   )
 
   const postdata = useMemo(() => {
@@ -46,7 +46,7 @@ const ComplaintCategoryWise = () => {
   const [tabledata, setTableData] = useState([])
 
   const clicksearch = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
       setOpen(true)
       const getdatas = async () => {
@@ -55,7 +55,7 @@ const ComplaintCategoryWise = () => {
         if (success === 1) {
           const dispalyData =
             data &&
-            data.map((val) => {
+            data.map(val => {
               const assignedDate = val.assigned_date ? new Date(val.assigned_date) : null
               const complaintDate = val.compalint_date ? new Date(val.compalint_date) : null
               const rectifiedDate = val.cm_rectify_time ? new Date(val.cm_rectify_time) : null
@@ -139,7 +139,7 @@ const ComplaintCategoryWise = () => {
       }
       getdatas()
     },
-    [postdata],
+    [postdata]
   )
 
   const [columnDefs] = useState([

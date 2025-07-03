@@ -30,7 +30,7 @@ const DepartmentWisePatientMarking = () => {
   const [dailyDate, setDailyDate] = useState(format(new Date(), 'yyyy-MM-dd'))
   const [count, setCount] = useState(0)
   const history = useNavigate()
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state?.LoginUserData.empid
   })
   const backtoHome = useCallback(() => {
@@ -42,32 +42,32 @@ const DepartmentWisePatientMarking = () => {
   }, [dispatch, id])
 
   const SearchDetails = useCallback(
-    (e) => {
+    e => {
       if (qitype === 0) {
         infoNotify('Select Department')
         setSearchFlag(0)
       } else {
         if (qitype === 1) {
-          const RefreshPatients = async (setCount) => {
+          const RefreshPatients = async setCount => {
             await RefreshEndoscopy(qidept, count, setCount, depCode, id, dailyDate)
           }
           RefreshPatients(setCount)
           setSearchFlag(1)
         } else if (qitype === 2) {
-          const RefreshPatients = async (setCount) => {
+          const RefreshPatients = async setCount => {
             await RefreshEmergency(qidept, count, setCount, depCode, id, dailyDate)
           }
           RefreshPatients(setCount)
           setSearchFlag(2)
         } else if (qitype === 3) {
-          const RefreshPatients = async (setCount) => {
+          const RefreshPatients = async setCount => {
             await RefreshDialysisList(qidept, count, setCount, depCode, id, dailyDate)
           }
           RefreshPatients(setCount)
           setSearchFlag(3)
         } else if (qitype === 4) {
         } else if (qitype === 5) {
-          const RefreshPatients = async (setCount) => {
+          const RefreshPatients = async setCount => {
             await RefreshIpPatients(qidept, count, setCount, depCode, id, dailyDate)
           }
           RefreshPatients(setCount)
@@ -75,7 +75,7 @@ const DepartmentWisePatientMarking = () => {
         }
       }
     },
-    [qitype, depCode, dailyDate, id, count, qidept],
+    [qitype, depCode, dailyDate, id, count, qidept]
   )
 
   return (
@@ -187,10 +187,10 @@ const DepartmentWisePatientMarking = () => {
                   minDate={subDays(new Date(), 20)}
                   maxDate={new Date()}
                   // slotProps={{ textField: { variant: "plain" } }}
-                  onChange={(newValue) => {
+                  onChange={newValue => {
                     setDailyDate(newValue)
                   }}
-                  renderInput={(params) => (
+                  renderInput={params => (
                     <TextField
                       {...params}
                       helperText={null}

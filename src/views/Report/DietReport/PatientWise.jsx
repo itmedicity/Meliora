@@ -30,11 +30,11 @@ const PatientWise = () => {
 
   const { pname, start_date, end_date } = ptname
   const getPtname = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setPtname({ ...ptname, [e.target.name]: value })
     },
-    [ptname],
+    [ptname]
   )
 
   const [columnDefForTable] = useState([
@@ -76,10 +76,10 @@ const PatientWise = () => {
   }, [pname, start_date, end_date])
 
   const clicksearch = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
       dispatch({ type: ActionTyps.FETCH_CHANGE_STATE, aggridstate: 0 })
-      const getdatareport = async (postdata) => {
+      const getdatareport = async postdata => {
         const result = await axioslogin.post('/dietReport/getPatientReport', postdata)
         const { success, data } = result.data
         if (success === 1) {
@@ -88,7 +88,7 @@ const PatientWise = () => {
         }
       }
       getdatareport(postdata)
-      const getExtraOrder = async (postdata) => {
+      const getExtraOrder = async postdata => {
         const result = await axioslogin.post('/dietReport/getPatientReport/ExtraOrder', postdata)
         const { success, data } = result.data
         if (success === 1) {
@@ -97,7 +97,7 @@ const PatientWise = () => {
       }
       getExtraOrder(postdata)
     },
-    [postdata, dispatch],
+    [postdata, dispatch]
   )
 
   useEffect(() => {
@@ -105,15 +105,15 @@ const PatientWise = () => {
     if (total.length !== 0 && extra.length !== 0) {
       const newarrt =
         total &&
-        total.map((val) => {
-          const a1 = extra.find((ele) => ele.proc_slno === val.proc_slno)
+        total.map(val => {
+          const a1 = extra.find(ele => ele.proc_slno === val.proc_slno)
           return {
             ...val,
             extraAmnt: a1?.exhossum ?? 0,
           }
         })
       // actual and extra amount are added and assign in aa field
-      const newhos = newarrt.map((val) => {
+      const newhos = newarrt.map(val => {
         const obj = {
           ...val,
           totalsum: val.hossum + val.extraAmnt,
@@ -124,14 +124,14 @@ const PatientWise = () => {
     } else if (total.length !== 0 && extra.length === 0) {
       const newarrt2 =
         total &&
-        total.map((val) => {
+        total.map(val => {
           const obj = {
             ...val,
             extraAmnt: 0,
           }
           return obj
         })
-      const newhos2 = newarrt2.map((val) => {
+      const newhos2 = newarrt2.map(val => {
         const obj = {
           ...val,
           totalsum: val.hossum + val.extraAmnt,
@@ -148,7 +148,7 @@ const PatientWise = () => {
 
   const apiRef = useRef()
   /** useSelector is used for get aggrid download button state */
-  const exportState = useSelector((state) => {
+  const exportState = useSelector(state => {
     return state.changeStateAggrid.aggridstate
   })
 
@@ -179,7 +179,7 @@ const PatientWise = () => {
       '"Segoe UI Symbol"',
     ].join(','),
   }
-  const onGridReady = (params) => {
+  const onGridReady = params => {
     params.columnApi.autoSizeAllColumns()
   }
 

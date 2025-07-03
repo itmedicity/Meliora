@@ -22,7 +22,7 @@ const AssetSubModel = () => {
   const [selectFile, setSelectFile] = useState(null)
   const [model, setModel] = useState(0)
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   const [submodel, setsubmodel] = useState({
@@ -32,11 +32,11 @@ const AssetSubModel = () => {
   })
   const { submodel_slno, submodel_name, submodel_status } = submodel
   const Updatesubmodel = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setsubmodel({ ...submodel, [e.target.name]: value })
     },
-    [submodel],
+    [submodel]
   )
   const reset = () => {
     const frmdata = {
@@ -67,7 +67,7 @@ const AssetSubModel = () => {
       edit_user: id,
     }
   }, [submodel_slno, submodel_name, model, submodel_status, id])
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const { submodel_slno, submodel_name, submodel_status, model_slno } = data[0]
@@ -79,7 +79,7 @@ const AssetSubModel = () => {
     setsubmodel(frmdata)
     setModel(model_slno)
   }, [])
-  const uploadFile = async (event) => {
+  const uploadFile = async event => {
     const file = event.target.files[0]
     setSelectFile(file)
     const options = {
@@ -90,13 +90,13 @@ const AssetSubModel = () => {
     setSelectFile(compressedFile)
   }
   const submitSubmodel = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const InsertSubmodel = async (postdata) => {
+      const InsertSubmodel = async postdata => {
         const result = await axioslogin.post('/submodel/insert', postdata)
         return result.data
       }
-      const SubmodelUpdate = async (patchdata) => {
+      const SubmodelUpdate = async patchdata => {
         const result = await axioslogin.patch('/submodel/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -109,7 +109,7 @@ const AssetSubModel = () => {
           infoNotify(message)
         }
       }
-      const FileInsert = async (fileData) => {
+      const FileInsert = async fileData => {
         const result = await axioslogin.post('/fileupload/uploadFile/SubModel', fileData)
         const { message, success } = result.data
         if (success === 1) {
@@ -122,7 +122,7 @@ const AssetSubModel = () => {
       }
       if (value === 0) {
         if (submodel_name !== '' && model !== 0) {
-          InsertSubmodel(postdata).then((val) => {
+          InsertSubmodel(postdata).then(val => {
             const { message, success, insertid } = val
             if (success === 1) {
               if (selectFile !== null) {
@@ -151,7 +151,7 @@ const AssetSubModel = () => {
         SubmodelUpdate(patchdata)
       }
     },
-    [postdata, value, patchdata, count, selectFile, submodel_name, model],
+    [postdata, value, patchdata, count, selectFile, submodel_name, model]
   )
   const backtoSetting = useCallback(() => {
     history('/Home/Settings')

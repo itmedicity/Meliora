@@ -6,7 +6,7 @@ import { getBuildingdata } from 'src/redux/actions/BuildingSelect.action'
 
 const BuildingRoomManagement = ({ value, setValue, setName }) => {
   const dispatch = useDispatch()
-  const buildingdata = useSelector((state) => {
+  const buildingdata = useSelector(state => {
     return state.getBuildingdata.buildingList || 0
   })
 
@@ -21,7 +21,7 @@ const BuildingRoomManagement = ({ value, setValue, setName }) => {
           id="demo-simple-select"
           value={value}
           onChange={(e, { props }) => {
-            setValue(e.target.value);
+            setValue(e.target.value)
             setName(props.name)
           }}
           size="small"

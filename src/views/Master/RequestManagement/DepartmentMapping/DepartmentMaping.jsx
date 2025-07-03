@@ -31,7 +31,7 @@ const DepartmentMaping = () => {
 
   // submit data
   const submit = useCallback(
-    async (val) => {
+    async val => {
       const postData = {
         dept: crfdept,
         crfdeptKmc: crfdeptKmc,
@@ -57,7 +57,7 @@ const DepartmentMaping = () => {
         warningNotify('Something Went Wrong')
       }
     },
-    [crfdept, crfdeptKmc, HodId, InchargeId, HodIdkmc, InchargeIdkmc, setCount],
+    [crfdept, crfdeptKmc, HodId, InchargeId, HodIdkmc, InchargeIdkmc, setCount]
   )
   const {
     data: authData,
@@ -80,13 +80,13 @@ const DepartmentMaping = () => {
 
   useEffect(() => {
     if (authData && authData.length > 0) {
-      const defaultHod = authData.find((item) => item.auth_post === 2)
+      const defaultHod = authData.find(item => item.auth_post === 2)
       if (defaultHod) {
         setHodId(defaultHod?.emp_id)
       } else {
         setHodId(0)
       }
-      const defaultincharge = authData.find((item) => item.auth_post === 1)
+      const defaultincharge = authData.find(item => item.auth_post === 1)
       if (defaultincharge) {
         setInchargeId(defaultincharge?.emp_id)
       } else {
@@ -95,13 +95,13 @@ const DepartmentMaping = () => {
     }
 
     if (authDatakmc && authDatakmc.length > 0) {
-      const defaultHod = authDatakmc.find((item) => item.auth_post === 2)
+      const defaultHod = authDatakmc.find(item => item.auth_post === 2)
       if (defaultHod) {
         setHodIdkmc(defaultHod?.emp_id)
       } else {
         setHodIdkmc(0)
       }
-      const defaultincharge = authDatakmc.find((item) => item.auth_post === 1)
+      const defaultincharge = authDatakmc.find(item => item.auth_post === 1)
       if (defaultincharge) {
         setInchargeIdkmc(defaultincharge?.emp_id)
       } else {

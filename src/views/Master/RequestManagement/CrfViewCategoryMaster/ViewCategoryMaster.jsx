@@ -24,7 +24,7 @@ const ViewCategoryMaster = () => {
   const [empname, setEmpname] = useState(0)
   const [count, setCount] = useState(0)
 
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     // setValue(1)
     const data = params.api.getSelectedRows()
     const { emid, department, dp_section } = data[0]
@@ -43,7 +43,7 @@ const ViewCategoryMaster = () => {
   }, [history])
 
   const submitComapnyName = useCallback(
-    async (val) => {
+    async val => {
       const postData = {
         category: category,
         id: editRowData?.common_master_slno,
@@ -79,7 +79,7 @@ const ViewCategoryMaster = () => {
         }
       }
     },
-    [category, UpdateFlag, editRowData, dept, deptsec, empname],
+    [category, UpdateFlag, editRowData, dept, deptsec, empname]
   )
 
   return (

@@ -15,7 +15,7 @@ const DietPlanPendingList = () => {
     dispatch(getDietPlanPending())
   }, [dispatch])
 
-  const dietPlanPending = useSelector((state) => {
+  const dietPlanPending = useSelector(state => {
     return state.setDietPlanPending.planPendingList
   })
 

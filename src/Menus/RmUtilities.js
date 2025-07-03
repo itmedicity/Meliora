@@ -1,5 +1,3 @@
-import { CiStop1 } from 'react-icons/ci'
-
 const RmUtilities = [
   {
     men_slno: 22,

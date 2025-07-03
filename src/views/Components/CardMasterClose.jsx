@@ -13,12 +13,14 @@ const CardMasterClose = ({ children, title, close, contentStyle }) => {
   return (
     <Fragment>
       <ThemeProvider theme={theme}>
-        <Card sx={{
-          display: 'flex',
-          flexGrow: 1,
-          borderRadius: 0,
-          flexDirection: 'column'
-        }}>
+        <Card
+          sx={{
+            display: 'flex',
+            flexGrow: 1,
+            borderRadius: 0,
+            flexDirection: 'column',
+          }}
+        >
           <CustomCardHeaderOne title={title} onClickClose={close} cardStyle={{}} />
           <CardContent sx={{ ...contentStyle, height: window.innerHeight - 150, overflow: 'auto' }}>
             {children}

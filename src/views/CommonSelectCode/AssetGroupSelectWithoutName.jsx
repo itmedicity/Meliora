@@ -1,11 +1,11 @@
 import { Box, FormControl, MenuItem, Select } from '@mui/material'
-import React, { memo,useEffect } from 'react'
+import React, { memo, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getGroup } from 'src/redux/actions/AmGroupList.action'
 
-const AssetGroupSelectWithoutName = ({ value, setValue,  }) => {
+const AssetGroupSelectWithoutName = ({ value, setValue }) => {
   const dispatch = useDispatch()
-  const group = useSelector((state) => {
+  const group = useSelector(state => {
     return state.getGroup.AssetGroupList || 0
   })
   useEffect(() => {
@@ -18,7 +18,7 @@ const AssetGroupSelectWithoutName = ({ value, setValue,  }) => {
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={e => setValue(e.target.value)}
           size="small"
           fullWidth
           variant="outlined"
@@ -41,4 +41,4 @@ const AssetGroupSelectWithoutName = ({ value, setValue,  }) => {
   )
 }
 
-export default memo( AssetGroupSelectWithoutName)
+export default memo(AssetGroupSelectWithoutName)

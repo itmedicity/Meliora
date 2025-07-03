@@ -31,7 +31,7 @@ const CusReportDownloadClose = ({
   const headerHeight = 30
   const defaultColDef = {}
 
-  const onGridReady = (params) => {
+  const onGridReady = params => {
     params.api.sizeColumnsToFit()
   }
 
@@ -74,7 +74,7 @@ const CusReportDownloadClose = ({
   }
   const apiRef = useRef()
   /** useSelector is used for get aggrid download button state */
-  const exportState = useSelector((state) => {
+  const exportState = useSelector(state => {
     return state.changeStateAggrid.aggridstate
   })
 

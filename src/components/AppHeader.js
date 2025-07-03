@@ -1,59 +1,21 @@
-import React, { Fragment, useState } from 'react'
-import { NavLink } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded'
-import SettingsIcon from '@mui/icons-material/Settings'
-import SummarizeIcon from '@mui/icons-material/Summarize'
-import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew'
-import MenuBookIcon from '@mui/icons-material/MenuBook'
-import BookmarksIcon from '@mui/icons-material/Bookmarks'
+import React, { Fragment } from 'react'
 import { AppHeaderDropdown } from './header/index'
-import { logo } from 'src/assets/brand/logo'
-import CustomeToolTip from '../views/Components/CustomeToolTip'
-import { iconHome, iconPowerOff, iconSettings, iconReport, iconManual } from 'src/color/Color'
-import { ActionTyps } from 'src/redux/constants/action.type'
-import { ToastContainer } from 'react-toastify'
-import ModelMessage from 'src/views/Components/ModelMessage'
 import { TiThMenuOutline } from 'react-icons/ti'
 
 // import { Box } from '@mui/material'
-import { useId } from 'react'
 
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
-import MenuIcon from '@mui/icons-material/Menu'
 
-import Menu from '@mui/joy/Menu'
-import MenuItem from '@mui/joy/MenuItem'
-import ListItemDecorator from '@mui/joy/ListItemDecorator'
-import ListDivider from '@mui/joy/ListDivider'
-import MoreVert from '@mui/icons-material/MoreVert'
-import Edit from '@mui/icons-material/Edit'
-import DeleteForever from '@mui/icons-material/DeleteForever'
 import MenuButton from '@mui/joy/MenuButton'
 import Dropdown from '@mui/joy/Dropdown'
 
 import { IoPersonOutline } from 'react-icons/io5'
-import { IoIosLogOut } from 'react-icons/io'
-import { RiLogoutCircleLine } from 'react-icons/ri'
-import { FcSettings } from 'react-icons/fc'
-import { FcLock } from 'react-icons/fc'
-import { FcEditImage } from 'react-icons/fc'
-import { CssVarsProvider } from '@mui/joy'
 
 const AppHeader = ({ collapsed, setCollapsed }) => {
-  const dispatch = useDispatch()
-  const sidebarShow = useSelector((state) => state.changeState.sidebarShow)
-  const [open, setOpen] = useState(false)
-  const cmsLogout = () => {
-    setOpen(true)
-  }
-  const handleClose = () => {
-    setOpen(false)
-  }
   // // Get login user emp_id
   // const id = useSelector((state) => {
   //   return state.LoginUserData.empid

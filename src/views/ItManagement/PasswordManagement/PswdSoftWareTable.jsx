@@ -15,7 +15,7 @@ const PswdSoftWareTable = ({ swTableCount, rowSelectForSw }) => {
       const result = await axioslogin.get('PasswordManagementMain/SoftwareView')
       const { success, data } = result.data
       if (success === 2) {
-        const arr = data?.map((val) => {
+        const arr = data?.map(val => {
           const obj = {
             paswd_soft_slno: val.paswd_soft_slno,
             paswd_soft_webname: val.paswd_soft_webname,

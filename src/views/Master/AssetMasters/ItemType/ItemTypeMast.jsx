@@ -16,7 +16,7 @@ const ItemTypeMast = () => {
   const [value, setValue] = useState(0)
   const [count, setCount] = useState(0)
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   const [itemType, setItemType] = useState({
@@ -26,11 +26,11 @@ const ItemTypeMast = () => {
   })
   const { item_type_slno, item_type_name, item_type_status } = itemType
   const updateItemType = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setItemType({ ...itemType, [e.target.name]: value })
     },
-    [itemType],
+    [itemType]
   )
   const reset = () => {
     const frmdata = {
@@ -58,9 +58,9 @@ const ItemTypeMast = () => {
     }
   }, [item_type_slno, item_type_name, item_type_status, id])
   const sumbitItemType = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const InsertItemType = async (postdata) => {
+      const InsertItemType = async postdata => {
         const result = await axioslogin.post('/itemtype/insert', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -73,7 +73,7 @@ const ItemTypeMast = () => {
           infoNotify(message)
         }
       }
-      const ItemTypeUpdate = async (patchdata) => {
+      const ItemTypeUpdate = async patchdata => {
         const result = await axioslogin.patch('/itemtype/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -96,9 +96,9 @@ const ItemTypeMast = () => {
         ItemTypeUpdate(patchdata)
       }
     },
-    [postdata, value, patchdata, count, item_type_name],
+    [postdata, value, patchdata, count, item_type_name]
   )
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const { item_type_slno, item_type_name, item_type_status } = data[0]

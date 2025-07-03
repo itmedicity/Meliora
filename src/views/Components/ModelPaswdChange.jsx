@@ -22,32 +22,32 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 })
 
 const ModelPaswdChange = ({ open, handleClose }) => {
-  const em_no = useSelector((state) => {
+  const em_no = useSelector(state => {
     return state.LoginUserData.empno
   })
   const [showPassword, setShowPassword] = useState(false)
   const [showConfmPassword, setConfmShowPassword] = useState(false)
 
-  const empid = useSelector((state) => {
+  const empid = useSelector(state => {
     return state.LoginUserData.empid
   })
   const history = useNavigate()
 
   const [newPswd, setNewpswd] = useState('')
   const [conNewPswd, setConNewpswd] = useState('')
-  const updateNewpswd = useCallback((e) => {
+  const updateNewpswd = useCallback(e => {
     setNewpswd(e.target.value)
   }, [])
-  const updateConNewpswd = useCallback((e) => {
+  const updateConNewpswd = useCallback(e => {
     setConNewpswd(e.target.value)
   }, [])
-  const handleMouseDownPassword = (event) => {
+  const handleMouseDownPassword = event => {
     event.preventDefault()
   }
-  const handleClickShowConfmPassword = useCallback((e) => {
+  const handleClickShowConfmPassword = useCallback(e => {
     setConfmShowPassword(true)
   }, [])
-  const handleClickShowPassword = useCallback((e) => {
+  const handleClickShowPassword = useCallback(e => {
     setShowPassword(true)
   }, [])
 

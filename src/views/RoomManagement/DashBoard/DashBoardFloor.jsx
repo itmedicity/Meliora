@@ -14,12 +14,12 @@ const DashBoardFloor = ({ buildNo, setFoolrList, campusName }) => {
   const [floormain, setFloor] = useState([])
   const [floorArry, setFloorArry] = useState([])
   useEffect(() => {
-    const getFloorDash = async (buildNo) => {
+    const getFloorDash = async buildNo => {
       const result = await axioslogin.get(`/getDashboardData/getfloorbsedoncampus/${buildNo}`)
       const { success, data } = result.data
       if (success === 2) {
         setFloorArry(data)
-        const a = data.map((val) => {
+        const a = data.map(val => {
           const obj = {
             blockno: val.rm_floor_build_block_slno,
             blockname: val.rm_buildblock_name,
@@ -27,7 +27,7 @@ const DashBoardFloor = ({ buildNo, setFoolrList, campusName }) => {
           return obj
         })
         const insideBuild = Object.values(
-          a.reduce((acc, cur) => Object.assign(acc, { [cur.blockno]: cur }), {}),
+          a.reduce((acc, cur) => Object.assign(acc, { [cur.blockno]: cur }), {})
         )
         setFloor(insideBuild)
       } else {
@@ -60,7 +60,7 @@ const DashBoardFloor = ({ buildNo, setFoolrList, campusName }) => {
           >
             <Paper sx={{ overflow: 'hidden', px: 1 }} variant="outlined">
               {floormain &&
-                floormain.map((val) => {
+                floormain.map(val => {
                   return (
                     <Paper
                       variant="outlined"

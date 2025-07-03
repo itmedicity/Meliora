@@ -20,7 +20,7 @@ const EscalationMapping = () => {
   const [escalation1, setEscalation1] = useState(0)
   const [count, setCount] = useState(0)
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   const postData1 = useMemo(() => {

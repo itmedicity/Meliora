@@ -28,18 +28,18 @@ const ModuleUserRight = () => {
   const [count, setCount] = useState(0)
 
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
 
   //Destructuring
   const { status, mod_grp_user_slno } = ModRightStatus
   const updateModule = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setModRightStatus({ ...ModRightStatus, [e.target.name]: value })
     },
-    [ModRightStatus],
+    [ModRightStatus]
   )
   // data for insert
   const postdata = useMemo(() => {
@@ -54,7 +54,7 @@ const ModuleUserRight = () => {
     }
   }, [empname, modulegroup, usergroup, status, id, deptsec, dept])
   //data set for edit
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const {
@@ -100,7 +100,7 @@ const ModuleUserRight = () => {
   }
   /*** usecallback function for form submitting form */
   const submitModuleUserGroupRight = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
       /*** Reset fromdata */
       const resetfrm = {
@@ -108,7 +108,7 @@ const ModuleUserRight = () => {
         mod_grp_user_slno: 0,
       }
       /*** Insert Function */
-      const InsertFun = async (postdata) => {
+      const InsertFun = async postdata => {
         const result = await axioslogin.post('/modulegroupright', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -122,7 +122,7 @@ const ModuleUserRight = () => {
           infoNotify(message)
         }
       }
-      const updateFun = async (patchdata) => {
+      const updateFun = async patchdata => {
         const result = await axioslogin.patch('/modulegroupright', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -145,7 +145,7 @@ const ModuleUserRight = () => {
         updateFun(patchdata)
       }
     },
-    [postdata, count, patchdata, value],
+    [postdata, count, patchdata, value]
   )
   //back to home
   const backtoSetting = useCallback(() => {

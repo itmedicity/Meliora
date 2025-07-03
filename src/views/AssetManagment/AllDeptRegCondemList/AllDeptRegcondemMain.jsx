@@ -19,7 +19,7 @@ const AllDeptRegcondemMain = () => {
   const [modalViewFlag, setmodalViewFlag] = useState(0)
   const [modalViewOpen, setmodalViewOpen] = useState(false)
 
-  const viewForm = useCallback((val) => {
+  const viewForm = useCallback(val => {
     setformDetails(val)
     setmodalViewFlag(1)
     setmodalViewOpen(true)

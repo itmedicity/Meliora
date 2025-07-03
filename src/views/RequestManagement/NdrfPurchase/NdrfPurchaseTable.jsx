@@ -31,13 +31,13 @@ const NdrfPurchaseTable = () => {
     dispatch(getNdrfList())
   }, [dispatch, count])
 
-  const ndrftable = useSelector((state) => {
+  const ndrftable = useSelector(state => {
     return state.setNdrfList.NdrfListdata
   })
 
   useEffect(() => {
     if (ndrftable.length !== 0) {
-      const datas = ndrftable.map((val) => {
+      const datas = ndrftable.map(val => {
         const obj = {
           ndrf_mast_slno: val.ndrf_mast_slno,
           req_slno: val.req_slno,
@@ -311,7 +311,7 @@ const NdrfPurchaseTable = () => {
     {
       headerName: 'Action',
       minWidth: 100,
-      cellRenderer: (params) => {
+      cellRenderer: params => {
         if (
           params.data.ndrf_po_add !== 1 &&
           params.data.ndrf_md_approve === 1 &&
@@ -337,7 +337,7 @@ const NdrfPurchaseTable = () => {
     {
       headerName: 'Pdf',
       minWidth: 80,
-      cellRenderer: (params) => {
+      cellRenderer: params => {
         if (params.data.ndrf_purchase === 1) {
           return (
             <IconButton onClick={() => getPdfData(params)} sx={{ color: editicon, paddingY: 0.5 }}>
@@ -358,7 +358,7 @@ const NdrfPurchaseTable = () => {
     {
       headerName: 'PO Add',
       minWidth: 100,
-      cellRenderer: (params) => {
+      cellRenderer: params => {
         if (params.data.ndrf_purchase === 1) {
           return (
             <IconButton onClick={() => POAdding(params)} sx={{ color: editicon, paddingY: 0.5 }}>
@@ -447,7 +447,7 @@ const NdrfPurchaseTable = () => {
   const [CloseModalFlag, setCloseModalFlag] = useState(0)
   const [closeData, setCloseData] = useState([])
 
-  const ndrfSelect = useCallback((params) => {
+  const ndrfSelect = useCallback(params => {
     const data = params.api.getSelectedRows()
     setCloseModal(true)
     setCloseModalFlag(1)
@@ -458,7 +458,7 @@ const NdrfPurchaseTable = () => {
   const [POAddModalFlag, setPOAddModalFlag] = useState(0)
   const [POAddData, setPoAddDAta] = useState([])
 
-  const POAdding = useCallback((params) => {
+  const POAdding = useCallback(params => {
     const data = params.api.getSelectedRows()
     setPOAddModal(true)
     setPOAddModalFlag(1)
@@ -476,12 +476,12 @@ const NdrfPurchaseTable = () => {
   const [datapdf, setDataPdf] = useState([])
   const [datacollectdata, setDataCollectData] = useState([])
 
-  const getPdfData = useCallback((params) => {
+  const getPdfData = useCallback(params => {
     const data = params.api.getSelectedRows()
     pdfselect(data)
   }, [])
 
-  const pdfselect = async (datas) => {
+  const pdfselect = async datas => {
     const {
       req_slno,
       ndrf_mast_slno,
@@ -496,9 +496,9 @@ const NdrfPurchaseTable = () => {
     const getInchargeSign = async () => {
       if (incharge_user > 0) {
         const profilePic = JSON.stringify(
-          `${PUBLIC_NAS_FOLDER + incharge_user}/signature/signature.jpg`,
+          `${PUBLIC_NAS_FOLDER + incharge_user}/signature/signature.jpg`
         )
-        urlExist(profilePic, (status) => {
+        urlExist(profilePic, status => {
           if (status === true) {
             const picUrl = JSON.parse(profilePic)
             setInchargeSign(picUrl)
@@ -511,7 +511,7 @@ const NdrfPurchaseTable = () => {
     const gethodSign = async () => {
       if (hod_user > 0) {
         const profilePic = JSON.stringify(`${PUBLIC_NAS_FOLDER + hod_user}/signature/signature.jpg`)
-        urlExist(profilePic, (status) => {
+        urlExist(profilePic, status => {
           if (status === true) {
             const picUrl = JSON.parse(profilePic)
             setHodSign(picUrl)
@@ -524,9 +524,9 @@ const NdrfPurchaseTable = () => {
     const getOmSign = async () => {
       if (ndrf_om_user > 0) {
         const profilePic = JSON.stringify(
-          `${PUBLIC_NAS_FOLDER + ndrf_om_user}/signature/signature.jpg`,
+          `${PUBLIC_NAS_FOLDER + ndrf_om_user}/signature/signature.jpg`
         )
-        urlExist(profilePic, (status) => {
+        urlExist(profilePic, status => {
           if (status === true) {
             const picUrl = JSON.parse(profilePic)
             setOmSign(picUrl)
@@ -539,9 +539,9 @@ const NdrfPurchaseTable = () => {
     const getSMOSign = async () => {
       if (ndrf_smo_user > 0) {
         const profilePic = JSON.stringify(
-          `${PUBLIC_NAS_FOLDER + ndrf_smo_user}/signature/signature.jpg`,
+          `${PUBLIC_NAS_FOLDER + ndrf_smo_user}/signature/signature.jpg`
         )
-        urlExist(profilePic, (status) => {
+        urlExist(profilePic, status => {
           if (status === true) {
             const picUrl = JSON.parse(profilePic)
             setSmoSign(picUrl)
@@ -554,9 +554,9 @@ const NdrfPurchaseTable = () => {
     const getCAOSign = async () => {
       if (ndrf_cao_user > 0) {
         const profilePic = JSON.stringify(
-          `${PUBLIC_NAS_FOLDER + ndrf_cao_user}/signature/signature.jpg`,
+          `${PUBLIC_NAS_FOLDER + ndrf_cao_user}/signature/signature.jpg`
         )
-        urlExist(profilePic, (status) => {
+        urlExist(profilePic, status => {
           if (status === true) {
             const picUrl = JSON.parse(profilePic)
             setCaoSign(picUrl)
@@ -569,9 +569,9 @@ const NdrfPurchaseTable = () => {
     const getEDSign = async () => {
       if (ndrf_ed_user > 0) {
         const profilePic = JSON.stringify(
-          `${PUBLIC_NAS_FOLDER + ndrf_ed_user}/signature/signature.jpg`,
+          `${PUBLIC_NAS_FOLDER + ndrf_ed_user}/signature/signature.jpg`
         )
-        urlExist(profilePic, (status) => {
+        urlExist(profilePic, status => {
           if (status === true) {
             const picUrl = JSON.parse(profilePic)
             setEdSign(picUrl)
@@ -582,7 +582,7 @@ const NdrfPurchaseTable = () => {
       }
     }
 
-    const InsertFun = async (req_slno) => {
+    const InsertFun = async req_slno => {
       const result = await axioslogin.get(`/requestRegister/getItemList/${req_slno}`)
       const { success, data } = result.data
       if (success === 1) {
@@ -592,7 +592,7 @@ const NdrfPurchaseTable = () => {
       }
     }
 
-    const getDataCollectCompleteDetails = async (ndrf_mast_slno) => {
+    const getDataCollectCompleteDetails = async ndrf_mast_slno => {
       const result = await axioslogin.get(`/ndrf/getItemListDataCollect/${ndrf_mast_slno}`)
       const { success, data } = result.data
       if (success === 1) {
@@ -632,7 +632,7 @@ const NdrfPurchaseTable = () => {
         omsign,
         smosign,
         caosign,
-        edsign,
+        edsign
       )
       setPdf(0)
     } else if (pdf !== 0) {

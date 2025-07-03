@@ -18,7 +18,7 @@ const NurseStationWise = () => {
   const [startdate, setstartDate] = useState(new Date())
   const [daySelect, setdayselect] = useState(0)
 
-  const nursestationdata = useSelector((state) => {
+  const nursestationdata = useSelector(state => {
     return state.getNusringStationMeli.nusreStationList || 0
   })
   useEffect(() => {
@@ -53,7 +53,7 @@ const NurseStationWise = () => {
   ])
 
   const FilterSelect = useCallback(
-    (event) => {
+    event => {
       dispatch({ type: ActionTyps.FETCH_CHANGE_STATE, aggridstate: 0 })
       if (event.api.getSelectedRows() === 0) {
         setNurse([])
@@ -61,13 +61,13 @@ const NurseStationWise = () => {
         setNurse(event.api.getSelectedRows())
       }
     },
-    [dispatch],
+    [dispatch]
   )
 
   useEffect(() => {
     const slno =
       nurse &&
-      nurse.map((val) => {
+      nurse.map(val => {
         return val.co_ora_nurse
       })
     setnurseslno(slno)
@@ -84,10 +84,10 @@ const NurseStationWise = () => {
   }, [daySelect, startdate, nurseslno])
 
   const onclickreport = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
       dispatch({ type: ActionTyps.FETCH_CHANGE_STATE, aggridstate: 0 })
-      const getdatafromtable = async (postdata) => {
+      const getdatafromtable = async postdata => {
         const result = await axioslogin.post('/dietReport/getNurseStatntReport', postdata)
         const { success, data } = result.data
         if (success === 1) {
@@ -103,7 +103,7 @@ const NurseStationWise = () => {
         warningNotify('Please Select Diet')
       }
     },
-    [postdata, dispatch, nurseslno.length],
+    [postdata, dispatch, nurseslno.length]
   )
 
   const backToSetting = useCallback(() => {

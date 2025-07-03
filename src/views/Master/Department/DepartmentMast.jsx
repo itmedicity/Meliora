@@ -24,7 +24,7 @@ const DepartmentMast = () => {
   const [type, setType] = useState(0)
   const [departmentId, setDepartmentId] = useState(0)
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   //intilizing
@@ -37,14 +37,14 @@ const DepartmentMast = () => {
   //Destructuring
   const { dept_name, dept_alias, dept_status, dept_id } = department
   const updateDepartment = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setDepartment({ ...department, [e.target.name]: value })
     },
-    [department],
+    [department]
   )
   useEffect(() => {
-    getDepartmentId().then((val) => {
+    getDepartmentId().then(val => {
       setDepartmentId(val)
     })
   }, [count])
@@ -60,7 +60,7 @@ const DepartmentMast = () => {
     }
   }, [dept_name, dept_alias, dept_status, id, type, departmentId])
   //edit data setting on textfields
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const { dept_name, dept_alias, status, dept_type, dept_id } = data[0]
@@ -87,7 +87,7 @@ const DepartmentMast = () => {
   }, [dept_name, dept_alias, dept_status, type, dept_id, id])
   /*** usecallback function for form submitting */
   const submitDepartment = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
       const formreset = {
         dept_name: '',
@@ -96,7 +96,7 @@ const DepartmentMast = () => {
         dept_id: '',
       }
       /***    * insert function for use call back     */
-      const InsertFun = async (postdata) => {
+      const InsertFun = async postdata => {
         const result = await axioslogin.post('/deptmaster', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -111,7 +111,7 @@ const DepartmentMast = () => {
         }
       }
       /***  * update function for use call back     */
-      const updateFun = async (patchdata) => {
+      const updateFun = async patchdata => {
         const result = await axioslogin.patch('/deptmaster', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -135,7 +135,7 @@ const DepartmentMast = () => {
         updateFun(patchdata)
       }
     },
-    [value, postdata, patchdata, count],
+    [value, postdata, patchdata, count]
   )
   //close button function
   const backtoSetting = useCallback(() => {
@@ -191,7 +191,7 @@ const DepartmentMast = () => {
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={type}
-                    onChange={(e) => setType(e.target.value)}
+                    onChange={e => setType(e.target.value)}
                     size="small"
                     fullWidth
                     variant="outlined"

@@ -41,10 +41,10 @@ const ItemCreationMast = () => {
   const [assetOrSpare, setAssetOrSpare] = useState(1)
   const [assetName, setAssetName] = useState('')
 
-  const updateAssetName = useCallback((e) => {
+  const updateAssetName = useCallback(e => {
     setAssetName(e.target.value.toLocaleUpperCase())
   }, [])
-  const updateAsset = useCallback((e) => {
+  const updateAsset = useCallback(e => {
     if (e.target.checked === true) {
       setasset(true)
       setSpare(false)
@@ -57,7 +57,7 @@ const ItemCreationMast = () => {
       setFlag(0)
     }
   }, [])
-  const updateSpare = useCallback((e) => {
+  const updateSpare = useCallback(e => {
     if (e.target.checked === true) {
       setSpare(true)
       setasset(false)
@@ -103,7 +103,7 @@ const ItemCreationMast = () => {
   ])
 
   const search = useCallback(() => {
-    const getItemdata = async (postdata) => {
+    const getItemdata = async postdata => {
       const result = await axioslogin.post('/itemNameCreation/getItem', postdata)
       const { data, success } = result.data
       if (success === 1) {
@@ -202,13 +202,13 @@ const ItemCreationMast = () => {
   }, [category, subcategory, group, subgroup, model, submodel, manufacture, modelNumber])
 
   const rowSelect = useCallback(
-    (val) => {
+    val => {
       reset()
       setSelectData([])
       setSelectData(val)
       setDataAdd(dataAdd + 1)
     },
-    [dataAdd, setDataAdd, reset],
+    [dataAdd, setDataAdd, reset]
   )
 
   const postByItem = useMemo(() => {
@@ -218,7 +218,7 @@ const ItemCreationMast = () => {
     }
   }, [assetName, assetOrSpare])
   const nameSearch = useCallback(() => {
-    const getItemdata = async (postByItem) => {
+    const getItemdata = async postByItem => {
       const result = await axioslogin.post('/itemNameCreation/getItemByName', postByItem)
       const { data, success } = result.data
       if (success === 1) {

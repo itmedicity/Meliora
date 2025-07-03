@@ -28,11 +28,11 @@ const SubRoomCreation = () => {
   //destructuring
   const { subrm_desc, status, subrm_slno } = subroom
   const updateSubroomcreation = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setSubroom({ ...subroom, [e.target.name]: value })
     },
-    [subroom],
+    [subroom]
   )
   //insert data
   const postdata = useMemo(() => {
@@ -45,7 +45,7 @@ const SubRoomCreation = () => {
     }
   }, [subrm_desc, value1, value2, status])
   //data set for edit
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setEdit(1)
     const data = params.api.getSelectedRows()
     const { subrm_desc, rmc_slno, status, rmc_type, subrm_slno } = data[0]
@@ -70,7 +70,7 @@ const SubRoomCreation = () => {
   }, [subrm_desc, value1, value2, status, subrm_slno])
   /*** usecallback function for form submitting */
   const submitSubroomcreation = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
       const formreset = {
         subrm_desc: '',
@@ -78,7 +78,7 @@ const SubRoomCreation = () => {
         subrm_slno: '',
       }
       /*** * insert function for use call back     */
-      const InsertFun = async (postdata) => {
+      const InsertFun = async postdata => {
         const result = await axioslogin.post('/subroomcreation', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -93,7 +93,7 @@ const SubRoomCreation = () => {
         }
       }
       /***  * update function for use call back     */
-      const updateFun = async (patchdata) => {
+      const updateFun = async patchdata => {
         const result = await axioslogin.patch('/subroomcreation', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -117,7 +117,7 @@ const SubRoomCreation = () => {
         updateFun(patchdata)
       }
     },
-    [edit, postdata, patchdata, count],
+    [edit, postdata, patchdata, count]
   )
 
   //reset select box

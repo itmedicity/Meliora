@@ -31,7 +31,7 @@ const DialysisPatientListTable = ({
   const [tabFlag, setTabFlag] = useState(0)
   const history = useNavigate()
 
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state?.LoginUserData.empid
   })
   const backtoHome = useCallback(() => {
@@ -45,11 +45,11 @@ const DialysisPatientListTable = ({
         from: format(new Date(dailyDate), 'yyyy-MM-dd 00:00:00'),
         to: format(new Date(dailyDate), 'yyyy-MM-dd 23:59:59'),
       }
-      const getDialysisData = async (viewdata) => {
+      const getDialysisData = async viewdata => {
         const result = await axioslogin.post('/qidialysis/viewList', viewdata)
         return result.data
       }
-      getDialysisData(viewdata).then((val) => {
+      getDialysisData(viewdata).then(val => {
         const { success, data } = val
         if (success === 1) {
           setpatientlist(data)
@@ -61,7 +61,7 @@ const DialysisPatientListTable = ({
     }
   }, [dailyDate, count, qitype, setpatientlist])
 
-  const IndicatorsView = useCallback((val) => {
+  const IndicatorsView = useCallback(val => {
     setModalOpen(true)
     setrowSelect(val)
     setQiflag(1)
@@ -72,13 +72,13 @@ const DialysisPatientListTable = ({
   }, [setModalOpen])
 
   const RefreshData = useCallback(() => {
-    const RefreshPatients = async (setCount) => {
+    const RefreshPatients = async setCount => {
       await RefreshDialysisList(qidept, count, setCount, depCode, id, dailyDate)
     }
     RefreshPatients(setCount)
     setSearchPat('')
   }, [qidept, depCode, count, id, setCount, dailyDate])
-  const ChangePatient = useCallback((e) => {
+  const ChangePatient = useCallback(e => {
     setSearchPat(e.target.value)
   }, [])
 
@@ -359,7 +359,7 @@ const DialysisPatientListTable = ({
                                       color: '#263238',
                                     },
                                   }}
-                                  onClick={(e) => IndicatorsView(val)}
+                                  onClick={e => IndicatorsView(val)}
                                 />
                               </Tooltip>
                             </CssVarsProvider>

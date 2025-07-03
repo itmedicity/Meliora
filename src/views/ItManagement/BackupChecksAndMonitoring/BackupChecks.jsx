@@ -16,7 +16,7 @@ const BackupChecks = () => {
     history('/Home/DashboardBackup')
   }, [history])
 
-  const empDept = useSelector((state) => {
+  const empDept = useSelector(state => {
     return state.LoginUserData.empdept
   })
 

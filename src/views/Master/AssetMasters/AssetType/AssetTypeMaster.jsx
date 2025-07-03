@@ -16,7 +16,7 @@ const AssetTypeMaster = () => {
   const [value, setValue] = useState(0)
   const [count, setCount] = useState(0)
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   const [assetType, setAssetType] = useState({
@@ -27,11 +27,11 @@ const AssetTypeMaster = () => {
   const { asset_type_slno, asset_type_name, asset_type_status } = assetType
 
   const updateAssetType = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setAssetType({ ...assetType, [e.target.name]: value })
     },
-    [assetType],
+    [assetType]
   )
   const reset = () => {
     const frmdata = {
@@ -59,9 +59,9 @@ const AssetTypeMaster = () => {
     }
   }, [asset_type_slno, asset_type_name, asset_type_status, id])
   const sumbitAssetType = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const InsertAssetType = async (postdata) => {
+      const InsertAssetType = async postdata => {
         const result = await axioslogin.post('/assettypee/insert', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -74,7 +74,7 @@ const AssetTypeMaster = () => {
           infoNotify(message)
         }
       }
-      const AssetTypeUpdate = async (patchdata) => {
+      const AssetTypeUpdate = async patchdata => {
         const result = await axioslogin.patch('/assettypee/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -97,9 +97,9 @@ const AssetTypeMaster = () => {
         AssetTypeUpdate(patchdata)
       }
     },
-    [postdata, value, patchdata, count, asset_type_name],
+    [postdata, value, patchdata, count, asset_type_name]
   )
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
 
     const data = params.api.getSelectedRows()

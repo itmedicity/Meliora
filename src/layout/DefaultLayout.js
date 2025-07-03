@@ -16,7 +16,6 @@ const DefaultLayout = () => {
           zIndex: 998,
           display: { xs: 'none', md: 'block' },
           borderRight: '1px solid',
-          // borderRightColor: 'var(--rose-pink-400)',
           borderRightColor: 'var(--royal-purple-100)',
           height: '100vh',
           paddingTop: 10,
@@ -30,16 +29,6 @@ const DefaultLayout = () => {
         <AppContent />
       </Box>
     </Box>
-    // <div
-    //   style={{ display: 'flex', backgroundColor: 'green', flexDirection: 'row', height: '100vh' }}
-    // >
-    //   <div style={{ backgroundColor: 'yellow' }}>
-    //     <div style={{ backgroundColor: 'orange' }}>
-    //       <AppContent />
-    //     </div>
-    //     <AppFooter />
-    //   </div>
-    // </div>
   )
 }
 

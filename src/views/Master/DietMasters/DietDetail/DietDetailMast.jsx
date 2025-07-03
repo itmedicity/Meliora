@@ -31,19 +31,19 @@ const DietDetailMast = () => {
   //destructuring
   const { status, diet_dtslno } = dietdetl
   const updateDiettype = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setdietdetl({ ...dietdetl, [e.target.name]: value })
     },
-    [dietdetl],
+    [dietdetl]
   )
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   useEffect(() => {
     if (diettype !== 0) {
-      const getdate = async (diettype) => {
+      const getdate = async diettype => {
         const result = await axioslogin.get(`/dietdetl/date/${diettype}`)
         const { data, success } = result.data
         if (success === 1) {
@@ -67,7 +67,7 @@ const DietDetailMast = () => {
     }
   }, [diet, diettype, status, diet_dtslno, id])
   //data set for edit
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const { diet_dtslno, diet_slno, type_slno, start_time, end_time, status, em_id } = data[0]
@@ -98,14 +98,14 @@ const DietDetailMast = () => {
 
   /*** usecallback function for form submitting */
   const submitDiettype = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
       const formReset = {
         status: false,
         em_id: '',
       }
       /*** * insert function for use call back     */
-      const Insertdietdetl = async (postData) => {
+      const Insertdietdetl = async postData => {
         const result = await axioslogin.post(`/dietdetl/insert`, postData)
         const { message, success } = result.data
         if (success === 1) {
@@ -123,7 +123,7 @@ const DietDetailMast = () => {
         }
       }
       /***  * update function for use call back     */
-      const updatedietdetl = async (patchdata) => {
+      const updatedietdetl = async patchdata => {
         const result = await axioslogin.patch('/dietdetl/update/dietdetl', patchdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -147,7 +147,7 @@ const DietDetailMast = () => {
         updatedietdetl(patchdata)
       }
     },
-    [value, postData, count, patchdata],
+    [value, postData, count, patchdata]
   )
   //Close function
   const backToSettings = useCallback(() => {
