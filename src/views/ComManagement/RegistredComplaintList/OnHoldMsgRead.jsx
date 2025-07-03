@@ -1,5 +1,5 @@
 import React, { Fragment, memo, useCallback } from 'react'
-import { ToastContainer } from 'react-toastify'
+// import { ToastContainer } from 'react-toastify'
 import Dialog from '@mui/material/Dialog';
 import Slide from '@mui/material/Slide';
 import DialogContent from '@mui/material/DialogContent'
@@ -28,7 +28,7 @@ const OnHoldMsgRead = ({ open, setOpen, complaint }) => {
 
     return (
         <Fragment>
-            <ToastContainer />
+            {/* <ToastContainer /> */}
             <Dialog
                 open={open}
                 TransitionComponent={Transition}

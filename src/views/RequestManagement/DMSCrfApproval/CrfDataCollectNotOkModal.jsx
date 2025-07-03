@@ -1,6 +1,6 @@
 import React, { Fragment, memo, useEffect, useState } from 'react'
 import Slide from '@mui/material/Slide';
-import { ToastContainer } from 'react-toastify';
+// import { ToastContainer } from 'react-toastify';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
@@ -37,7 +37,7 @@ const CrfDataCollectNotOkModal = ({ open, setOpen, req_slno, setEnable, }) => {
 
     return (
         <Fragment>
-            <ToastContainer />
+            {/* <ToastContainer /> */}
 
             <Dialog
                 open={open}

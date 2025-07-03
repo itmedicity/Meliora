@@ -4,7 +4,7 @@ import { GetKMCItemDetails } from '../ComonComponent/ComponentsKMC/GetKMCItemDet
 import { PUBLIC_NAS_FOLDER, PUBLIC_NAS_FOLDER_KMC } from 'src/views/Constant/Static'
 import { axioskmc, axioslogin } from 'src/views/Axios/Axios'
 import { Chip, CssVarsProvider, IconButton, Tooltip, Typography } from '@mui/joy'
-import { ToastContainer } from 'react-toastify'
+// import { ToastContainer } from 'react-toastify'
 import ImageDisplayModal from '../ComonComponent/ImageUploadCmp/ImageDisplayModal'
 import HigherLevelApprovalView from '../ComonComponent/HigherLevelComponents/HigherLevelApprovalView'
 import { Box, Button } from '@mui/material'
@@ -396,7 +396,7 @@ const ApproveButtomForED = ({ setApprovalFlag, setApprovalModal, setCancelFlag, 
     }
     return (
         <Fragment>
-            <ToastContainer />
+            {/* <ToastContainer /> */}
             {imageshowFlag === 1 ? <ImageDisplayModal open={imageshow} handleClose={handleClose} images={imagearray} /> : null}
 
             {DetailViewFlag === 1 ? <HigherLevelApprovalView open={DetailViewModal} closeModal={closeModal} imagearray={imagearray}

@@ -5,7 +5,7 @@ import { succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { useNavigate } from 'react-router-dom'
 import CloseIcon from '@mui/icons-material/Close'
 import CusIconButton from 'src/views/Components/CusIconButton'
-import { ToastContainer } from 'react-toastify'
+// import { ToastContainer } from 'react-toastify'
 import CustomBackDrop from 'src/views/Components/CustomBackDrop'
 import { CssVarsProvider, Typography } from '@mui/joy'
 
@@ -133,7 +133,7 @@ const DataImportHR = () => {
 
   return (
     <Fragment>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <CustomBackDrop open={open} text="Please Wait" />
       <Box sx={{ height: 35, backgroundColor: '#f0f3f5', display: 'flex' }}>
         <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: 0.5, color: '#385E72' }}>

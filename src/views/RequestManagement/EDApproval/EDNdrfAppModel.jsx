@@ -1,6 +1,6 @@
 import React, { Fragment, useCallback, useState, memo, useEffect, useMemo } from 'react'
 import Slide from '@mui/material/Slide';
-import { ToastContainer } from 'react-toastify';
+// import { ToastContainer } from 'react-toastify';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
@@ -243,7 +243,7 @@ const EDNdrfAppModel = ({ open, setOpen, datas, count, setCount }) => {
 
     return (
         <Fragment>
-            <ToastContainer />
+            {/* <ToastContainer /> */}
             <Box>
                 {imageshowFlag === 1 ? <ReqImageDisplayModal open={imageshow} handleClose={handleClose} images={imagearray} /> : null}
 

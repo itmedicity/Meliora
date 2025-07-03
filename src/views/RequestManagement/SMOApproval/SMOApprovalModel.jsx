@@ -1,6 +1,6 @@
 import React, { Fragment, useCallback, useState, memo, useEffect, useMemo } from 'react'
 import Slide from '@mui/material/Slide';
-import { ToastContainer } from 'react-toastify';
+// import { ToastContainer } from 'react-toastify';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
@@ -346,7 +346,7 @@ const SMOApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
 
 
         <Fragment>
-            <ToastContainer />
+            {/* <ToastContainer /> */}
             {
                 enable === 1 ? <CrfDataCollectNotOkModal open={open} setOpen={setOpen} setEnable={setEnable}
                     req_slno={req_slno} />

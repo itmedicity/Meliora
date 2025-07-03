@@ -92,8 +92,8 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
         setAnchorEl(null);
         setSelectedRow(null);
     }
- 
-    
+
+
 
     return (
         <Box sx={{ width: '100%', overflow: 'auto' }}>
@@ -135,23 +135,23 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
             ) : (
                 pendingCompl.length !== 0 ?
 
-                    <Box sx={{ width: 2150, pb: 1 }}>
+                    <Box sx={{ pb: 1, overflow: "auto", width: '100%' }}>
                         <Box sx={{
                             height: 40, mt: .5, mx: .5, display: 'flex', borderBottom: 1, borderTop: 1, borderColor: 'lightgray', pt: 1.5,
                             bgcolor: 'white'
                         }}>
-                            < Box sx={{ width: 25, fontWeight: 600, color: '#444444', fontSize: 12, pl: 2 }}>
+                            < Box sx={{ width: "2%", fontWeight: 600, color: '#444444', fontSize: 12, }}>
                             </Box>
-                            <Box sx={{ width: 80, fontWeight: 600, color: '#444444', fontSize: 12, pl: 2 }}>Ticket No.</Box>
-                            <Box sx={{ width: 170, fontWeight: 600, color: '#444444', fontSize: 12, textAlign: 'center' }}>Action</Box>
-                            <Box sx={{ width: 170, fontWeight: 600, color: '#444444', fontSize: 12, pl: .6}}>Complaint Type</Box>
-                            <Box sx={{ width: 610, fontWeight: 600, color: '#444444', fontSize: 12, pl: .5}}>Describtion</Box>
-                            <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12, }}>Complaint To</Box>
-                            <Box sx={{ width: 220, fontWeight: 600, color: '#444444', fontSize: 12, }}>Complaint From</Box>
-                            <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12, }}>Location</Box>
-                            <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12, }}>Location Details</Box>
-                            <Box sx={{ width: 180, fontWeight: 600, color: '#444444', fontSize: 12,pl:.5 }}>Complaint Date</Box>
-                            <Box sx={{ width: 180, fontWeight: 600, color: '#444444', fontSize: 12,pl:.5 }}>Registered Employee</Box>
+                            <Box sx={{ width: "5%", fontWeight: 600, color: '#444444', fontSize: 12, }}>Ticket No.</Box>
+                            <Box sx={{ width: "10%", fontWeight: 600, color: '#444444', fontSize: 12, textAlign: 'center' }}>Action</Box>
+                            <Box sx={{ width: "10%", fontWeight: 600, color: '#444444', fontSize: 12, }}>Complaint Type</Box>
+                            <Box sx={{ width: "25%", fontWeight: 600, color: '#444444', fontSize: 12, }}>Describtion</Box>
+                            <Box sx={{ width: "10%", fontWeight: 600, color: '#444444', fontSize: 12, }}>Complaint To</Box>
+                            <Box sx={{ width: "10%", fontWeight: 600, color: '#444444', fontSize: 12, }}>Complaint From</Box>
+                            <Box sx={{ width: "10%", fontWeight: 600, color: '#444444', fontSize: 12, }}>Location</Box>
+                            <Box sx={{ width: "10%", fontWeight: 600, color: '#444444', fontSize: 12, }}>Location Details</Box>
+                            <Box sx={{ width: "10%", fontWeight: 600, color: '#444444', fontSize: 12, }}>Complaint Date</Box>
+                            <Box sx={{ width: "10%", fontWeight: 600, color: '#444444', fontSize: 12, }}>Registered Employee</Box>
                         </Box>
                         <Virtuoso
                             style={{ height: '23vh', overflow: 'auto' }}
@@ -261,10 +261,10 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                                             )}
                                         </Menu>
 
-                                        <Box sx={{ pl: 1.5, width: 90, fontWeight: 600, fontSize: 14 }}>
+                                        <Box sx={{ pl: 1.5, width: "5%", fontWeight: 600, fontSize: 14 }}>
                                             {val.complaint_slno}
                                         </Box>
-                                        <Box sx={{ width: 160, display: 'flex', gap: .5, textAlign: 'center' }}>
+                                        <Box sx={{ width: "10%", display: 'flex', gap: .5, textAlign: 'center' }}>
                                             {val.compalint_status === 1 ?
                                                 <EditIcon
                                                     sx={{
@@ -369,35 +369,35 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                                                 </CssVarsProvider>
                                             }
                                         </Box>
-                                        <Box sx={{ width: 170, fontSize: 13, }}>
+                                        <Box sx={{ width: "10%", fontSize: 13, }}>
                                             {val.complaint_type_name}
                                         </Box>
-                                        <Box sx={{ width: 610, fontSize: 14, }}>
+                                        <Box sx={{ width: "25%", fontSize: 14, }}>
                                             {val.complaint_desc}
                                         </Box>
-                                        <Box sx={{ width: 150, fontSize: 13, }}>
+                                        <Box sx={{ width: "10%", fontSize: 13, }}>
                                             {val.complaint_dept_name}
                                         </Box>
-                                        <Box sx={{ width: 220, fontSize: 13,}}>
+                                        <Box sx={{ width: "10%", fontSize: 13, }}>
                                             {val.location}
                                         </Box>
-                                        <Box sx={{ width: 300, fontSize: 13,}}>
+                                        <Box sx={{ width: "10%", fontSize: 13, }}>
                                             {val.rm_room_name}
                                             {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name ?
                                                 ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''}${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${(val.rm_insidebuildblock_name && val.rm_floor_name) ? ' - ' : ''}${val.rm_floor_name ? val.rm_floor_name : ''})`
                                                 : "Not Updated"}
                                         </Box>
-                                        <Box sx={{ width: 300, fontSize: 13,pl:.4}}>
+                                        <Box sx={{ width: "10%", fontSize: 13, pl: .4 }}>
                                             {val.cm_complaint_location || "Not Updated"}
                                         </Box>
-                                        <Box sx={{ width: 180, fontSize: 13, pl: 1}}>
+                                        <Box sx={{ width: "10%", fontSize: 13, pl: 1 }}>
                                             {val.compalint_date
                                                 ? format(new Date(val.compalint_date), 'dd MMM yyyy,  hh:mm a')
                                                 : 'Invalid Date'}
                                         </Box>
-                                        <Box sx={{ width: 180, fontSize: 12,pl:1.5}}>
+                                        <Box sx={{ width: "10%", fontSize: 12, pl: 1.5 }}>
                                             {val.ticket_reg_employee || "Not Updated"}
-                                        </Box>                                       
+                                        </Box>
                                     </Box>
                                 );
                             }}

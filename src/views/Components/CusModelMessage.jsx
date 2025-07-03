@@ -5,7 +5,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import Slide from '@mui/material/Slide';
-import { ToastContainer } from 'react-toastify';
+// import { ToastContainer } from 'react-toastify';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
 });
@@ -14,7 +14,7 @@ const CusModelMessage = ({ open, handleClose, message, submitDiettype }) => {
 
     return (
         <Fragment>
-            <ToastContainer />
+            {/* <ToastContainer /> */}
 
             <Dialog
                 open={open}

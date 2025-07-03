@@ -10,7 +10,7 @@ import ForVerify from './TicketLists/ForVerify';
 import { errorNotify } from 'src/views/Common/CommonCode';
 
 
-const ComplaintRegTable = ({ count, setCount, rowSelect,verficationPending }) => {
+const ComplaintRegTable = ({ count, setCount, rowSelect, verficationPending }) => {
 
     const [pending, setpending] = useState(1)
     const [verifiedCheck, setVerifiedCheck] = useState(0)
@@ -94,7 +94,7 @@ const ComplaintRegTable = ({ count, setCount, rowSelect,verficationPending }) =>
 
 
     return (
-        <Box sx={{ flex: 1 }}>
+        <Box sx={{ flex: 1, }}>
             <Box sx={{ flex: 1, display: 'flex', px: 3, pt: 2.5, pb: .5, justifyContent: 'center', gap: 3 }}>
                 <CssVarsProvider>
                     <Badge badgeContent={pendingLength} color="danger">
@@ -136,16 +136,17 @@ const ComplaintRegTable = ({ count, setCount, rowSelect,verficationPending }) =>
                 }
                 {verifiedCheck === 1 ?
                     <Box>
-                        <ForVerify 
-                        forVerify={forVerify} 
-                        count={count} setCount={setCount} loading={loading} verficationPending={verficationPending} />
+                        <ForVerify
+                            forVerify={forVerify}
+                            count={count} setCount={setCount} loading={loading} verficationPending={verficationPending} />
                     </Box> :
                     <Box></Box>
                 }
                 {holdCheck === 1 ?
                     <Box>
                         <OnholdList onholdCompl={onholdCompl} count={count} setCount={setCount} loading={loading} />
-                    </Box> :
+                    </Box>
+                    :
                     <Box></Box>
                 }
 

@@ -1,5 +1,5 @@
 import React, { Fragment, memo, } from 'react'
-import { ToastContainer } from 'react-toastify';
+// import { ToastContainer } from 'react-toastify';
 import { Paper } from '@mui/material'
 import { Box, Chip, CssVarsProvider, Grid, Modal, ModalClose, ModalDialog, Typography } from '@mui/joy'
 import { format } from 'date-fns';
@@ -85,7 +85,7 @@ const HigherLevelApprovalView = ({ open, closeModal, DetailViewData, reqItems, a
 
     return (
         <Fragment>
-            <ToastContainer />
+            {/* <ToastContainer /> */}
             <CssVarsProvider>
                 <Modal
                     aria-labelledby="modal-title"

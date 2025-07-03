@@ -1,5 +1,5 @@
 import React, { Fragment, memo, useCallback, useMemo, useState } from 'react'
-import { ToastContainer } from 'react-toastify'
+// import { ToastContainer } from 'react-toastify'
 import Dialog from '@mui/material/Dialog';
 import Slide from '@mui/material/Slide';
 import DialogContent from '@mui/material/DialogContent';
@@ -176,7 +176,7 @@ const HallBookModal = ({ open, setOpen, count, setCount, setModal }) => {
     }, [postData, count, dept, resetForm, setCount, reset])
     return (
         <Fragment>
-            <ToastContainer />
+            {/* <ToastContainer /> */}
             <Dialog
                 open={open}
                 onClose={reset}

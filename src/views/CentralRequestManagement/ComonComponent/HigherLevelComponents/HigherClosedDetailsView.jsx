@@ -1,6 +1,6 @@
 import { Box, CssVarsProvider, Grid, Modal, ModalClose, ModalDialog, Typography } from '@mui/joy'
 import React, { Fragment, memo } from 'react'
-import { ToastContainer } from 'react-toastify'
+// import { ToastContainer } from 'react-toastify'
 import { Paper } from '@mui/material'
 import CrfReqDetailViewCmp from '../CrfReqDetailViewCmp'
 import ReqItemDisplay from '../ReqItemDisplay'
@@ -24,7 +24,7 @@ const HigherClosedDetailsView = ({ open, crfClosedDetails, handleCloseModal, req
         managing_director_approve, managing_director_req } = crfClosedDetails
     return (
         <Fragment>
-            <ToastContainer />
+            {/* <ToastContainer /> */}
             <CssVarsProvider>
                 <Modal
                     aria-labelledby="modal-title"

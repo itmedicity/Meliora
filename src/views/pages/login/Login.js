@@ -397,7 +397,7 @@ const Login = () => {
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton onClick={() => {}} edge="start">
+                  <IconButton onClick={() => { }} edge="start">
                     <RemoveRedEyeOutlinedIcon fontSize="small" />
                   </IconButton>
                 </InputAdornment>

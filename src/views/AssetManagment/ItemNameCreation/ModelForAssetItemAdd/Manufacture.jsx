@@ -5,7 +5,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import Slide from '@mui/material/Slide';
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
-import { ToastContainer } from 'react-toastify';
+// import { ToastContainer } from 'react-toastify';
 import { Box } from '@mui/material'
 import { CssVarsProvider, Typography } from '@mui/joy'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
@@ -83,7 +83,7 @@ const Manufacture = ({ open, handleClose }) => {
 
     return (
         <Fragment>
-            <ToastContainer />
+            {/* <ToastContainer /> */}
             <Dialog
                 open={open}
                 onClose={handleClose}

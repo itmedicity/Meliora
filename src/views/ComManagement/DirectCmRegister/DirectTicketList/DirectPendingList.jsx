@@ -1,5 +1,5 @@
 import CmReplyModal from '../../AssignComplaint/Queries/CmReplyModal';
-import { Box, CircularProgress, CssVarsProvider, Menu,  Tooltip, Typography } from '@mui/joy'
+import { Box, CircularProgress, CssVarsProvider, Menu, Tooltip, Typography } from '@mui/joy'
 import React, { memo, useCallback, useState } from 'react'
 import { Virtuoso } from 'react-virtuoso';
 import EditIcon from '@mui/icons-material/Edit';
@@ -141,26 +141,27 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                 ) : (
 
                     pendingCompl.length !== 0 ?
-                        <Box sx={{ width: 2150, pb: 1 }}>
+                        <Box sx={{ pb: 1, width: '100%' }}>
                             <Box sx={{
                                 height: 40, mt: .5, mx: 1, display: 'flex', borderBottom: 1, borderTop: 1, borderColor: 'lightgray', pt: 1.5,
-                                bgcolor: 'white',gap:1
+                                bgcolor: 'white', gap: 1,
                             }}>
-                                < Box sx={{ width: 50, fontWeight: 600, color: '#444444', fontSize: 12, }}>
+                                < Box sx={{ width: "2.5%", fontWeight: 600, color: '#444444', fontSize: 12, }}>
                                 </Box>
-                                <Box sx={{ width: 90, fontWeight: 600, color: '#444444', fontSize: 12, }}>Ticket No.</Box>
-                                <Box sx={{ width: 155, fontWeight: 600, color: '#444444', fontSize: 12, textAlign: 'center' }}>Action</Box>
-                                <Box sx={{ width: 160, fontWeight: 600, color: '#444444', fontSize: 12,  }}>Complaint Type</Box>
-                                <Box sx={{ width: 590, fontWeight: 600, color: '#444444', fontSize: 12, }}>Describtion</Box>
-                                <Box sx={{ width: 178, fontWeight: 600, color: '#444444', fontSize: 12,}}>Complaint To</Box>
-                                <Box sx={{ width: 220, fontWeight: 600, color: '#444444', fontSize: 12, }}>Complaint From</Box>
-                                <Box sx={{ width: 283, fontWeight: 600, color: '#444444', fontSize: 12,}}>Location</Box>
-                                <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12,}}>Location Details</Box>
-                                <Box sx={{ width: 200, fontWeight: 600, color: '#444444', fontSize: 12,}}>Complaint Date</Box>
-                                 <Box sx={{ width: 180, fontWeight: 600, color: '#444444', fontSize: 12,}}>Registered Employee</Box>
+                                <Box sx={{ width: "5%", fontWeight: 600, color: '#444444', fontSize: 12, }}>Ticket No.</Box>
+                                <Box sx={{ width: "15%", fontWeight: 600, color: '#444444', fontSize: 12, textAlign: 'center' }}>Action</Box>
+                                <Box sx={{ width: "10%", fontWeight: 600, color: '#444444', fontSize: 12, }}>Complaint Type</Box>
+                                <Box sx={{ width: "20%", fontWeight: 600, color: '#444444', fontSize: 12, }}>Describtion</Box>
+                                <Box sx={{ width: "10%", fontWeight: 600, color: '#444444', fontSize: 12, }}>Complaint To</Box>
+                                <Box sx={{ width: "15%", fontWeight: 600, color: '#444444', fontSize: 12, }}>Complaint From</Box>
+                                <Box sx={{ width: "25%", fontWeight: 600, color: '#444444', fontSize: 12, }}>Location</Box>
+                                <Box sx={{ width: "10%", fontWeight: 600, color: '#444444', fontSize: 12, }}>Location Details</Box>
+                                <Box sx={{ width: "15%", fontWeight: 600, color: '#444444', fontSize: 12, }}>Complaint Date</Box>
+                                <Box sx={{ width: "15%", fontWeight: 600, color: '#444444', fontSize: 12, }}>Registered Employee</Box>
                             </Box>
                             <Virtuoso
-                                style={{ height: '28vh' }}
+                                style={{ height: '25vh', }}
+
                                 totalCount={pendingCompl?.length}
                                 itemContent={(index) => {
                                     const val = pendingCompl[index];
@@ -171,23 +172,27 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                                                 borderBottom: .1, mx: 1,
                                                 borderColor: 'lightgrey', minHeight: 35,
                                                 bgcolor: val.priority_check === 1 ? '#B7CFDC' : 'white',
-                                                pt: .5,gap:1
+                                                pt: .5, gap: 1
                                             }}
                                         >
 
                                             {val.compalint_status === 1 ? (
                                                 <Box
-                                                    sx={{ mx:1,display: 'inline-flex', alignItems: 'center', justifyContent: 'center', p: 0.5, mb: 0.5,  width: 35, 
-                                                        boxShadow: '0px 4px 10px rgba(138, 148, 148, 0.2)', borderRadius: '50%', cursor: 'pointer', height: 28 }}
+                                                    sx={{
+                                                        display: 'inline-flex', alignItems: 'center', justifyContent: 'center', p: 0.5, mb: 0.5, width: 25,
+                                                        boxShadow: '0px 4px 10px rgba(138, 148, 148, 0.2)', borderRadius: '50%', cursor: 'pointer', height: 28
+                                                    }}
                                                     onClick={(event) => handleClick(event, val)}
                                                 >
                                                     <PersonIcon sx={{ color: '#09B009', fontSize: 20 }} />
                                                 </Box>
                                             ) : (
                                                 <Tooltip title='Ticket is in Pending List' placement='top-start'>
-                                                    <Box sx={{ display: 'inline-flex', alignItems: 'center',  width: 35, mx:1,
+                                                    <Box sx={{
+                                                        display: 'inline-flex', alignItems: 'center', width: 25,
                                                         justifyContent: 'center', p: 0.5, mb: 0.5, boxShadow: '0px 4px 10px rgba(138, 148, 148, 0.2)',
-                                                         borderRadius: '50%', cursor: 'pointer', height: 28 }}>
+                                                        borderRadius: '50%', cursor: 'pointer', height: 28
+                                                    }}>
                                                         <PersonIcon sx={{ color: 'lightgrey', fontSize: 20 }} />
                                                     </Box>
                                                 </Tooltip>
@@ -257,10 +262,10 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                                                 )}
                                             </Menu>
 
-                                            <Box sx={{fontWeight: 600, fontSize: 14 ,width:90}}>
+                                            <Box sx={{ fontWeight: 600, fontSize: 14, width: "5%" }}>
                                                 {val.complaint_slno}
                                             </Box>
-                                            <Box sx={{ width: 165, display: 'flex', gap: .5, justifyContent: 'center' }}>
+                                            <Box sx={{ width: "15%", display: 'flex', gap: .5, justifyContent: 'center' }}>
                                                 {val.compalint_status === 1 ?
                                                     <EditIcon
                                                         sx={{
@@ -357,34 +362,34 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                                                     </CssVarsProvider>
                                                 }
                                             </Box>
-                                            <Box sx={{ width: 170, fontSize: 13, }}>
+                                            <Box sx={{ width: "10%", fontSize: 13, }}>
                                                 {val.complaint_type_name}
                                             </Box>
-                                            <Box sx={{ width: 620, fontSize: 14,}}>
+                                            <Box sx={{ width: "20%", fontSize: 14, }}>
                                                 {val.complaint_desc}
                                             </Box>
-                                            <Box sx={{ width: 184, fontSize: 13,}}>
+                                            <Box sx={{ width: "10%", fontSize: 13, }}>
                                                 {val.complaint_dept_name}
                                             </Box>
-                                            <Box sx={{ width: 230, fontSize: 13,}}>
+                                            <Box sx={{ width: "15%", fontSize: 13, }}>
                                                 {val.location}
                                             </Box>
-                                            <Box sx={{ width: 295, fontSize: 13,pl:.5}}>
+                                            <Box sx={{ width: "25%", fontSize: 13, pl: .5 }}>
                                                 {val.rm_room_name}
                                                 {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name ?
                                                     ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''}${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${(val.rm_insidebuildblock_name && val.rm_floor_name) ? ' - ' : ''}${val.rm_floor_name ? val.rm_floor_name : ''})`
                                                     : "Not Updated"}
                                             </Box>
-                                            <Box sx={{ width: 300, fontSize: 13,pl:1}}>
+                                            <Box sx={{ width: "10%", fontSize: 13, pl: 1 }}>
                                                 {val.cm_complaint_location || "Not Updated"}
                                             </Box>
-                                            <Box sx={{ width: 235, fontSize: 13,pl:2}}>
+                                            <Box sx={{ width: "15%", fontSize: 13, pl: 2 }}>
                                                 {val.compalint_date
                                                     ? format(new Date(val.compalint_date), 'dd MMM yyyy,  hh:mm a')
                                                     : 'Invalid Date'}
                                             </Box>
-                                             <Box sx={{ width: 172, fontSize: 12,}}>
-                                               {val.ticket_reg_employee || "Not Updated"}
+                                            <Box sx={{ width: "15%", fontSize: 12, }}>
+                                                {val.ticket_reg_employee || "Not Updated"}
                                             </Box>
                                         </Box>
                                     );

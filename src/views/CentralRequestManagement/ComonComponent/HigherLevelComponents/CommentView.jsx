@@ -1,5 +1,5 @@
 import React, { Fragment, memo, useCallback, useMemo, useState } from 'react'
-import { ToastContainer } from 'react-toastify';
+// import { ToastContainer } from 'react-toastify';
 import { Paper } from '@mui/material'
 import { Box, Chip, CssVarsProvider, Grid, Modal, ModalClose, ModalDialog, Textarea, Typography } from '@mui/joy'
 import { format } from 'date-fns';
@@ -87,7 +87,7 @@ const CommentView = ({ open, closeModal, DetailViewData, reqItems, approveTableD
     }, [postData, setDetailViewModal])
     return (
         <Fragment>
-            <ToastContainer />
+            {/* <ToastContainer /> */}
             <CssVarsProvider>
                 <Modal
                     aria-labelledby="modal-title"

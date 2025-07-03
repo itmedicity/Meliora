@@ -10,7 +10,7 @@ import { axioslogin } from '../Axios/Axios';
 import Dialog from '@mui/material/Dialog';
 import { infoNotify, succesNotify } from '../Common/CommonCode';
 import { useSelector } from 'react-redux';
-import { ToastContainer } from 'react-toastify';
+// import { ToastContainer } from 'react-toastify';
 import CustomTextarea from '../Components/CustomTextarea';
 import { format } from 'date-fns'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
@@ -86,7 +86,7 @@ const DietPlan = ({ open, data, setOpen }) => {
     }, [postdata, diet, reset])
     return (
         <Fragment>
-            <ToastContainer />
+            {/* <ToastContainer /> */}
             <Dialog
                 open={open}
                 onClose={reset}

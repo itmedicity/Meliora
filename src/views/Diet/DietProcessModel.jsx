@@ -5,7 +5,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
-import { ToastContainer } from 'react-toastify';
+// import { ToastContainer } from 'react-toastify';
 import { Box, Paper } from '@mui/material'
 import { Typography } from "@material-ui/core";
 import { useCallback } from 'react';
@@ -151,7 +151,7 @@ const DietProcessModel = ({ open, handleClose, setOpen, detail, startdate, count
 
     return (
         <Fragment>
-            <ToastContainer />
+            {/* <ToastContainer /> */}
             <Dialog
                 open={open}
                 onClose={handleClose}

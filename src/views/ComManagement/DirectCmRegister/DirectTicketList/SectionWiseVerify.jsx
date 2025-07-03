@@ -15,7 +15,7 @@ import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import ComFileView from '../../CmFileView/ComFileView';
 import { format } from 'date-fns';
 
-const SectionWiseVerify = ({ count, setCount,  loading,verficationPending,forVerify }) => {
+const SectionWiseVerify = ({ count, setCount, loading, verficationPending, forVerify }) => {
 
     const [replyflag, setReplyflag] = useState(0)
     const [replyOpen, setReplyOpen] = useState(false)
@@ -78,14 +78,14 @@ const SectionWiseVerify = ({ count, setCount,  loading,verficationPending,forVer
     }, [])
 
     const sortedForVerify = useMemo(() => {
-        const verificationSlnoSet = new Set((verficationPending || []).map(item => item.complaint_slno));      
+        const verificationSlnoSet = new Set((verficationPending || []).map(item => item.complaint_slno));
         return [...(forVerify || [])].sort((a, b) => {
-          const aIsCommon = verificationSlnoSet.has(a.complaint_slno);
-          const bIsCommon = verificationSlnoSet.has(b.complaint_slno);
-          return bIsCommon - aIsCommon;
+            const aIsCommon = verificationSlnoSet.has(a.complaint_slno);
+            const bIsCommon = verificationSlnoSet.has(b.complaint_slno);
+            return bIsCommon - aIsCommon;
         });
-      }, [forVerify, verficationPending]);
-      
+    }, [forVerify, verficationPending]);
+
 
     return (
         <Box>
@@ -120,23 +120,26 @@ const SectionWiseVerify = ({ count, setCount,  loading,verficationPending,forVer
                     </Box>
                 ) : (
                     forVerify.length !== 0 ?
-                        <Box sx={{ width: 2150, }}>
+                        <Box sx={{}}>
                             <Box sx={{
-                                height: 40, mt: .5, mx: .5, display: 'flex', borderBottom: 1, borderTop: 1, borderColor: 'lightgray', pt: 1.5,
-                                bgcolor: 'white'
+                                height: 40,
+                                display: 'flex',
+                                borderBottom: 1, borderTop: 1,
+                                borderColor: 'lightgray', pt: 1.5,
+                                bgcolor: 'white',
                             }}>
-                                <Box sx={{ width: 100, fontWeight: 600, color: '#444444', fontSize: 12, pl: 2 }}>Ticket No.</Box>
-                                <Box sx={{ width: 130, fontWeight: 600, color: '#444444', fontSize: 12, pl: 3 }}>Action</Box>
-                                <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12, }}>Complaint Type</Box>
-                                <Box sx={{ width: 610, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>Describtion</Box>
-                                <Box sx={{ width: 180, fontWeight: 600, color: '#444444', fontSize: 12, pl:.2 }}>Complaint To</Box>
-                                <Box sx={{ width: 220, fontWeight: 600, color: '#444444', fontSize: 12, pl: .3 }}>Complaint From</Box>
-                                <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12,pl:.3}}>Location</Box>
-                                <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12, pl:.5}}>Location Details</Box>
-                                <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12, pl:.8 }}>Complaint Date</Box>
+                                <Box sx={{ width: "6%", fontWeight: 600, color: '#444444', fontSize: 12, }}>Ticket No.</Box>
+                                <Box sx={{ width: "10%", fontWeight: 600, color: '#444444', fontSize: 12, }}>Action</Box>
+                                <Box sx={{ width: "10%", fontWeight: 600, color: '#444444', fontSize: 12, }}>Complaint Type</Box>
+                                <Box sx={{ width: "25%", fontWeight: 600, color: '#444444', fontSize: 12, }}>Describtion</Box>
+                                <Box sx={{ width: "8%", fontWeight: 600, color: '#444444', fontSize: 12, }}>Complaint To</Box>
+                                <Box sx={{ width: "10%", fontWeight: 600, color: '#444444', fontSize: 12, }}>Complaint From</Box>
+                                <Box sx={{ width: "10%", fontWeight: 600, color: '#444444', fontSize: 12, }}>Location</Box>
+                                <Box sx={{ width: "10%", fontWeight: 600, color: '#444444', fontSize: 12, }}>Location Details</Box>
+                                <Box sx={{ width: "10%", fontWeight: 600, color: '#444444', fontSize: 12, }}>Complaint Date</Box>
                             </Box>
-                            <Virtuoso                            
-                                style={{ height: '28vh' }}
+                            <Virtuoso
+                                style={{ height: '26vh' }}
                                 totalCount={sortedForVerify.length}
                                 itemContent={(index) => {
                                     const val = sortedForVerify[index];
@@ -147,17 +150,18 @@ const SectionWiseVerify = ({ count, setCount,  loading,verficationPending,forVer
                                     return (
                                         <Box key={val.complaint_slno}
                                             sx={{
-                                                display: 'flex', mt: .3,
-                                                borderBottom: .1, mx: 1,
+                                                display: 'flex',
+                                                mt: .3,
+                                                borderBottom: .1,
                                                 borderColor: 'lightgrey', minHeight: 35,
-                                                bgcolor: isCommon ? '#FFF387' : 'white', 
+                                                bgcolor: isCommon ? '#FFF387' : 'white',
                                                 pt: .5,
                                             }}
                                         >
-                                            <Box sx={{ pl: 2, width: 93, fontWeight: 600, fontSize: 14 }}>
+                                            <Box sx={{ width: "6%", fontWeight: 600, fontSize: 14, }}>
                                                 {val.complaint_slno}
                                             </Box>
-                                            <Box sx={{ width: 135, display: 'flex', gap: .5, textAlign: 'center' }}>
+                                            <Box sx={{ width: "10%", display: 'flex', gap: .5, textAlign: 'center', }}>
                                                 {val.cm_file_status === 1 ?
                                                     <CssVarsProvider>
                                                         <Tooltip title='Attached File' placement='top-start' >
@@ -224,28 +228,28 @@ const SectionWiseVerify = ({ count, setCount,  loading,verficationPending,forVer
 
 
                                             </Box>
-                                            <Box sx={{ width: 160, fontSize: 13, }}>
+                                            <Box sx={{ width: "10%", fontSize: 13, }}>
                                                 {val.complaint_type_name}
                                             </Box>
-                                            <Box sx={{ width: 610, fontSize: 14, }}>
+                                            <Box sx={{ width: "25%", fontSize: 14, }}>
                                                 {val.complaint_desc}
                                             </Box>
-                                            <Box sx={{ width: 180, fontSize: 13, }}>
+                                            <Box sx={{ width: "8%", fontSize: 13, }}>
                                                 {val.complaint_dept_name}
                                             </Box>
-                                            <Box sx={{ width: 220, fontSize: 13, }}>
+                                            <Box sx={{ width: "10%", fontSize: 13, }}>
                                                 {val.location}
                                             </Box>
-                                            <Box sx={{ width: 300, fontSize: 13, }}>
+                                            <Box sx={{ width: "10%", fontSize: 13, }}>
                                                 {val.rm_room_name}
                                                 {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name ?
                                                     ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''}${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${(val.rm_insidebuildblock_name && val.rm_floor_name) ? ' - ' : ''}${val.rm_floor_name ? val.rm_floor_name : ''})`
                                                     : "Not Updated"}
                                             </Box>
-                                            <Box sx={{ width: 300, fontSize: 13,pl:.5 }}>
+                                            <Box sx={{ width: "10%", fontSize: 13, pl: .5 }}>
                                                 {val.cm_complaint_location || "Not Updated"}
                                             </Box>
-                                            <Box sx={{ width: 150, fontSize: 13, pl:1}}>
+                                            <Box sx={{ width: "10%", fontSize: 13, pl: 1 }}>
                                                 {val.compalint_date
                                                     ? format(new Date(val.compalint_date), 'dd MMM yyyy,  hh:mm a')
                                                     : 'Invalid Date'}

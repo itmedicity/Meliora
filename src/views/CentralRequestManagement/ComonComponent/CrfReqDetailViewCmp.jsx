@@ -2,7 +2,7 @@ import React, { Fragment, memo, Suspense, useCallback, useState } from 'react'
 import { Box, Typography } from '@mui/joy'
 import { Paper } from '@mui/material'
 import { format } from 'date-fns'
-import { ToastContainer } from 'react-toastify'
+// import { ToastContainer } from 'react-toastify'
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import ReqImageDisModal from './ImageUploadCmp/ReqImageDisModal'
@@ -55,7 +55,7 @@ const CrfReqDetailViewCmp = ({ ApprovalData, imagearray }) => {
             : '';
     return (
         <Fragment>
-            <ToastContainer />
+            {/* <ToastContainer /> */}
             <Suspense fallback={<CustomLoadComp />}>
                 {imageshowFlag === 1 ? <ReqImageDisModal open={imageshow} handleClose={handleClose}
                     previewFile={previewFile} /> : null}</Suspense>

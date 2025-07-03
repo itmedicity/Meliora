@@ -12,7 +12,7 @@ import SchoolIcon from '@mui/icons-material/School';
 import BadgeIcon from '@mui/icons-material/Badge';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import ThumbUpAltTwoToneIcon from '@mui/icons-material/ThumbUpAltTwoTone';
-import { ToastContainer } from 'react-toastify';
+// import { ToastContainer } from 'react-toastify';
 import { PUBLIC_NAS_FOLDER, PUBLIC_NAS_FOLDER_KMC } from 'src/views/Constant/Static';
 import { axioskmc, axioslogin } from 'src/views/Axios/Axios';
 import DoDisturbOffTwoToneIcon from '@mui/icons-material/DoDisturbOffTwoTone';
@@ -508,7 +508,7 @@ const ApprovalCompnentForMD = ({ setApprovalFlag, setApprovalModal, setCancelFla
     }
     return (
         <Fragment>
-            <ToastContainer />
+            {/* <ToastContainer /> */}
             {imageshowFlag === 1 ? <ImageDisplayModal open={imageshow} handleClose={handleClose} images={imagearray} /> : null}
 
             {DetailViewFlag === 1 ? <HigherLevelApprovalView open={DetailViewModal} closeModal={closeModal} imagearray={imagearray}

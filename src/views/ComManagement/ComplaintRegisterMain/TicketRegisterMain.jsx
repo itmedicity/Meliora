@@ -46,7 +46,7 @@ const TicketRegisterMain = () => {
         }`
 
   return (
-    <Paper sx={{ borderRadius: 0 }}>
+    <Paper sx={{ borderRadius: 0, width: '100%' }}>
       <CssVarsProvider>
         <Box sx={{ flex: 1, display: 'flex', borderBottom: 1, borderColor: '#D0D0D0' }}>
           <TextComponent

@@ -1,6 +1,6 @@
 import { Card, CardActions, CardContent } from '@mui/material';
 import React, { Fragment, memo } from 'react';
-import { ToastContainer } from 'react-toastify';
+// import { ToastContainer } from 'react-toastify';
 import ValidateSession from '../Axios/ValidateSession';
 import CustomCardHeader from './CustomCardHeader';
 import CancelButton from './CancelButton';
@@ -8,7 +8,7 @@ import CancelButton from './CancelButton';
 const CardThree = (props) => {
     return (
         <Fragment>
-            <ToastContainer />
+            {/* <ToastContainer /> */}
             <ValidateSession />
             <Card>
                 <CustomCardHeader title={"Card Three"} />

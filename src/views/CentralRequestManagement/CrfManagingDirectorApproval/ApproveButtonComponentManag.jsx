@@ -18,7 +18,7 @@ import EventAvailableTwoToneIcon from '@mui/icons-material/EventAvailableTwoTone
 import { Chip, CssVarsProvider, IconButton, Tooltip, Typography } from '@mui/joy';
 import { GetKMCItemDetails } from '../ComonComponent/ComponentsKMC/GetKMCItemDetails';
 import { GetItemDetailsOfCRFCmp } from '../ComonComponent/GetItemDetailsOfCRFCmp';
-import { ToastContainer } from 'react-toastify';
+// import { ToastContainer } from 'react-toastify';
 import ImageDisplayModal from '../ComonComponent/ImageUploadCmp/ImageDisplayModal';
 import { Box, Button } from '@mui/material';
 import HigherLevelApprovalView from '../ComonComponent/HigherLevelComponents/HigherLevelApprovalView';
@@ -397,7 +397,7 @@ const ApproveButtonComponentManag = ({ setApprovalFlag, setApprovalModal, setCan
     }
     return (
         <Fragment>
-            <ToastContainer />
+            {/* <ToastContainer /> */}
             {imageshowFlag === 1 ? <ImageDisplayModal open={imageshow} handleClose={handleClose} images={imagearray} /> : null}
 
             {DetailViewFlag === 1 ? <HigherLevelApprovalView open={DetailViewModal} closeModal={closeModal} imagearray={imagearray}
