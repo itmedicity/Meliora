@@ -16,6 +16,7 @@ import Typography from '@mui/material/Typography'
 import InputAdornment from '@mui/material/InputAdornment'
 
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined'
+import TMCHLogo from '../../../assets/Svg/Medicity_Logo.svg'
 
 const val = false
 
@@ -26,10 +27,10 @@ const Login = () => {
   const [emp_username, setUsername] = useState('')
   const [emp_password, setPassword] = useState('')
 
-  const useLoginDetl = {
-    emp_username: emp_username,
-    emp_password: emp_password,
-  }
+  // const useLoginDetl = {
+  //   emp_username: emp_username,
+  //   emp_password: emp_password,
+  // }
 
   const postData = useMemo(() => {
     return {
@@ -39,7 +40,7 @@ const Login = () => {
     }
   }, [emp_username, emp_password])
 
-  const [flag, setFlag] = useState(0)
+  // const [flag, setFlag] = useState(0)
 
   const submitLoginDetl = async e => {
     e.preventDefault()
@@ -251,13 +252,15 @@ const Login = () => {
           </Button>
         </Box>
 
-        <Divider sx={{ my: 3, '&::before, &::after': { borderTopStyle: 'dashed' } }}>
-          <Typography
+        <Divider
+          sx={{ my: 3, '&::before, &::after': { borderTopStyle: 'dashed' }, color: 'transparent' }}
+        >
+          {/* <Typography
             variant="overline"
             sx={{ color: 'text.secondary', fontWeight: 'fontWeightMedium' }}
           >
             OR
-          </Typography>
+          </Typography> */}
         </Divider>
         <Box
           sx={{
@@ -266,9 +269,12 @@ const Login = () => {
             justifyContent: 'center',
           }}
         >
-          <Link variant="body2" color="inherit" sx={{ mb: 1.5 }}>
+          {/* <Link variant="body2" color="inherit" sx={{ mb: 1.5 }}>
             Forgot password?
-          </Link>
+          </Link> */}
+          <Box>
+            <img src={TMCHLogo} alt="logo" width={168} height={90} style={{ opacity: 0.6 }} />
+          </Box>
           {/* 
           <IconButton color="inherit">
             <PersonOutlineOutlinedIcon style={{ color: '#71c142' }} />
