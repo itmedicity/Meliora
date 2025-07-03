@@ -1,2 +1,3 @@
 npm run lint:fix
 npx prettier --write "src/**/*.{js,jsx}"
+npx eslint "src/**/*.{js,jsx}" --fix

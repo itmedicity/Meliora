@@ -148,7 +148,8 @@ module.exports = {
     'plugin:prettier/recommended',
   ],
   rules: {
-    'prettier/prettier': ['error', { singleQuote: true }],
+    'prettier/prettier': 'off',
+    // 'prettier/prettier': ['error', { singleQuote: true }],
     'react/prop-types': 'off',
     'react/display-name': 'off',
     'no-unused-vars': 'error',

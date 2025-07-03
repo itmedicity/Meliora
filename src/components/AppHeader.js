@@ -80,6 +80,10 @@ const AppHeader = ({ collapsed, setCollapsed }) => {
               </Typography>
             </Box>
             <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end' }}>
+              <Box sx={{display: 'flex',alignItems:'end', flexDirection: 'column'}} >
+                <Box sx={{ fontWeight: 600,fontSize:12,fontFamily: 'var(--roboto-font)'  }} >Travancore Medicity</Box>
+                <Box sx={{ fontWeight: 600,fontSize:12,fontFamily: 'var(--roboto-font)'  }} >Meliora - Hospital Administration System</Box>
+              </Box>
               <Dropdown>
                 <MenuButton
                   sx={{ ml: 2, background: 'var(--royal-purple-100)' }}
@@ -94,67 +98,6 @@ const AppHeader = ({ collapsed, setCollapsed }) => {
           </Toolbar>
         </AppBar>
       </Box>
-
-      {/* <ModelMessage open={open} handleClose={handleClose} />
-      <ToastContainer />
-      <CHeader
-        position="sticky"
-        className="mb-0"
-        style={{ padding: 0, backgroundColor: '#474b4f' }}
-      >
-        <CContainer fluid>
-          <CHeaderToggler
-            className="ps-1"
-            onClick={() =>
-              dispatch({ type: ActionTyps.APP_SIDEBAR_SHOW, sidebarShow: !sidebarShow })
-            }
-          >
-            <CIcon icon={cilMenu} size="lg" style={{ color: iconSettings }} />
-          </CHeaderToggler>
-          <CHeaderBrand className="mx-auto d-md-none" to="/">
-            <CIcon icon={logo} height={48} alt="Logo" />
-          </CHeaderBrand>
-          <CHeaderNav className="d-none d-md-flex me-auto">
-            <CNavItem>
-              <CNavLink to="/Home" component={NavLink}>
-                <HomeRoundedIcon sx={{ color: iconHome }} />
-              </CNavLink>
-            </CNavItem>
-            <CNavItem>
-              <CNavLink to="/Home/Settings" component={NavLink}>
-                <SettingsIcon sx={{ color: iconSettings }} />
-              </CNavLink>
-            </CNavItem>
-            <CNavItem>
-              <CNavLink to="/Home/Reports" component={NavLink}>
-                <SummarizeIcon sx={{ color: iconReport }} />
-              </CNavLink>
-            </CNavItem>
-            <CNavItem>
-              <CNavLink to="/Home/Manual" component={NavLink}>
-                <MenuBookIcon sx={{ color: iconManual }} />
-              </CNavLink>
-            </CNavItem>
-            <CNavItem>
-              <CNavLink to="#" component={NavLink} onClick={cmsLogout}>
-                <PowerSettingsNewIcon sx={{ color: iconPowerOff }} />
-              </CNavLink>
-            </CNavItem>
-          </CHeaderNav>
-          <CustomeToolTip title="Complaint Register" placement="top">
-            <CHeaderNav className="ms-3">
-              <CNavItem>
-                <CNavLink to="/Home/ComplaintRegister" component={NavLink}>
-                  <BookmarksIcon sx={{ color: iconManual }} />
-                </CNavLink>
-              </CNavItem>
-            </CHeaderNav>
-          </CustomeToolTip>
-          <CHeaderNav className="ms-3">
-            <AppHeaderDropdown sx={{ paddingX: 0 }} />
-          </CHeaderNav>
-        </CContainer>
-      </CHeader> */}
     </Fragment>
   )
 }
