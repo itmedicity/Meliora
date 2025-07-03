@@ -76,6 +76,8 @@ import { FcAdvertising } from 'react-icons/fc'
 import { GiMedicines } from 'react-icons/gi'
 import { VscSignOut } from 'react-icons/vsc'
 
+import TMCHLogo from '../assets/Svg/tmch_logo.svg'
+
 const AppSidebar = ({ collapsed, setCollapsed }) => {
   const navigation = useNavigate()
   const [openMenuIndex, setOpenMenuIndex] = useState(null)
@@ -567,7 +569,19 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
           </Box>
           {/* <ModalClose /> */}
           <Divider sx={{ mt: 'auto', bgcolor: 'var(--royal-purple-400)' }} />
-          <DialogContent sx={{ gap: 2 }}>
+          <DialogContent sx={{ gap: 2 }} >
+             <Box
+              sx={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                opacity: 0.1, // make it subtle
+                zIndex: 1,
+              }}
+            >
+              <img src={TMCHLogo} alt="logo" width={300} height={300} />
+            </Box>
             {/* Menu list content here */}
             {/* <MLogoIcon width={50} height={50} /> */}
             {navigationMenus.map((item, index) => (
