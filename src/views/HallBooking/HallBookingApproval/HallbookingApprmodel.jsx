@@ -1,11 +1,10 @@
-import { Box, Button, Dialog, DialogActions, Grid, Typography } from '@mui/material'
+import { Box, Button, Dialog, DialogActions, Grid, Paper, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import { Fragment } from 'react'
 // import { ToastContainer } from 'react-toastify'
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import Slide from '@mui/material/Slide';
-import { Paper } from '@material-ui/core';
 import { useCallback } from 'react';
 import { useEffect } from 'react';
 import HallApprovalcmpnt from './HallApprovalcmpnt';

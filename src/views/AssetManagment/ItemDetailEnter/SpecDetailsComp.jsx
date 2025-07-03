@@ -98,7 +98,7 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
   }, [reset])
 
   const SaveEditSpecDetails = useCallback(
-    e => {
+    () => {
       const SpecInsert = async () => {
         const result = await axioslogin.post(`/ItemMapDetails/SpecificationInsert`, postSpec)
         const { message, success } = result.data
@@ -463,12 +463,12 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
                       return (
                         <tr
                           key={index}
-                          // sx={{
-                          //     '&:last-child td, &:last-child th': { border: 0, },
-                          //     maxHeight: 60,
-                          //     minHeight: 2,
+                        // sx={{
+                        //     '&:last-child td, &:last-child th': { border: 0, },
+                        //     maxHeight: 60,
+                        //     minHeight: 2,
 
-                          // }}
+                        // }}
                         >
                           <td> {index + 1}</td>
                           <td>

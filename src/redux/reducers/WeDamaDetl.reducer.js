@@ -6,7 +6,7 @@ const WeDamaDetl = {
   loadingStatus: false,
 }
 
-export const getDamaDetl = (state = WeDamaDetl, { type, payload, count }) => {
+export const getDamaDetl = (state = WeDamaDetl, { type, payload }) => {
   switch (type) {
     case FETCH_DAMA_DETAIL:
       return { ...state, damaList: payload, loadingStatus: true, count: WeDamaDetl.length }
