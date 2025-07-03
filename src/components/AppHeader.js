@@ -14,6 +14,7 @@ import MenuButton from '@mui/joy/MenuButton'
 import Dropdown from '@mui/joy/Dropdown'
 
 import { IoPersonOutline } from 'react-icons/io5'
+import LiveClock from 'src/views/Components/LiveClock'
 
 const AppHeader = ({ collapsed, setCollapsed }) => {
   // // Get login user emp_id
@@ -82,7 +83,8 @@ const AppHeader = ({ collapsed, setCollapsed }) => {
             <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end' }}>
               <Box sx={{display: 'flex',alignItems:'end', flexDirection: 'column'}} >
                 <Box sx={{ fontWeight: 600,fontSize:12,fontFamily: 'var(--roboto-font)'  }} >Travancore Medicity</Box>
-                <Box sx={{ fontWeight: 600,fontSize:12,fontFamily: 'var(--roboto-font)'  }} >Meliora - Hospital Administration System</Box>
+                <LiveClock/>
+                {/* <Box sx={{ fontWeight: 600,fontSize:12,fontFamily: 'var(--roboto-font)'  }} >Hospital Administration System</Box> */}
               </Box>
               <Dropdown>
                 <MenuButton
