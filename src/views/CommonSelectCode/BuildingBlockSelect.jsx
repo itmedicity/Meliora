@@ -7,7 +7,7 @@ import { getBuildingBlock } from 'src/redux/actions/BuildingBlockSelect.action'
 
 const BuildingBlockSelect = ({ value, setValue, setName }) => {
   const dispatch = useDispatch()
-  const buildingBlock = useSelector((state) => {
+  const buildingBlock = useSelector(state => {
     return state.getBuildingBlock.buildingBlockList || 0
   })
   useEffect(() => {
@@ -21,7 +21,7 @@ const BuildingBlockSelect = ({ value, setValue, setName }) => {
           id="demo-simple-select"
           value={value}
           onChange={(e, { props }) => {
-            setValue(e.target.value);
+            setValue(e.target.value)
             setName(props.name)
           }}
           size="small"

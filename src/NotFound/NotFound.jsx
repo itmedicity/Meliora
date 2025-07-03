@@ -1,8 +1,8 @@
 import React, { memo } from 'react'
-import NotFoundIcon from '../assets/illustration-404.svg'
 import { Box } from '@mui/system'
 import HomeIcons from 'src/assets/Home'
 import { useNavigate } from 'react-router-dom'
+import Error404 from '../assets/Svg/error_404.svg'
 
 const NotFound = () => {
   const navigation = useNavigate()
@@ -13,11 +13,11 @@ const NotFound = () => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'var(--sky-blue-100)',
+        // backgroundColor: 'var(--sky-blue-100)',
         flexDirection: 'column',
       }}
     >
-      <img src={NotFoundIcon} alt="404" />
+      <img src={Error404} alt="404" width={700} height={700} />
       <Box
         sx={{
           fontSize: 20,

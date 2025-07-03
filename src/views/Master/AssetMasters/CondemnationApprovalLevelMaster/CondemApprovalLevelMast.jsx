@@ -1,4 +1,4 @@
-import { Box, CssVarsProvider, Input, Typography } from '@mui/joy'
+import { Box, CssVarsProvider } from '@mui/joy'
 import React, { memo, useCallback, useMemo, useState } from 'react'
 import CardMaster from 'src/views/Components/CardMaster'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
@@ -15,7 +15,7 @@ const CondemApprovalLevelMast = () => {
   const [count, setCount] = useState(0)
   const history = useNavigate()
 
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
 
@@ -28,11 +28,11 @@ const CondemApprovalLevelMast = () => {
   const { level_slno, level_no, level_name, level_status } = approvalLevels
 
   const updateApprovalLevels = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setApprovalLevels({ ...approvalLevels, [e.target.name]: value })
     },
-    [approvalLevels],
+    [approvalLevels]
   )
 
   const postdata = useMemo(() => {
@@ -53,7 +53,7 @@ const CondemApprovalLevelMast = () => {
     }
   }, [level_no, level_slno, level_name, level_status, id])
 
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const { level_slno, level_no, level_name, level_status } = data[0]
@@ -79,10 +79,10 @@ const CondemApprovalLevelMast = () => {
   }
 
   const submitapprovalLevels = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
 
-      const InsertapprovalLevels = async (postdata) => {
+      const InsertapprovalLevels = async postdata => {
         const result = await axioslogin.post('/condemApprovalLevel/insertLevel', postdata)
 
         const { message, success } = result.data
@@ -96,7 +96,7 @@ const CondemApprovalLevelMast = () => {
           infoNotify(message)
         }
       }
-      const approvalLevelsUpdate = async (patchdata) => {
+      const approvalLevelsUpdate = async patchdata => {
         const result = await axioslogin.patch('/condemApprovalLevel/updateLevel', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -120,7 +120,7 @@ const CondemApprovalLevelMast = () => {
         approvalLevelsUpdate(patchdata)
       }
     },
-    [postdata, value, patchdata, count, level_name, level_no],
+    [postdata, value, patchdata, count, level_name, level_no]
   )
 
   const backtoSetting = useCallback(() => {

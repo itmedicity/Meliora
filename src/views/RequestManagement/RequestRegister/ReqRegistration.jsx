@@ -35,27 +35,27 @@ const ReqRegistration = () => {
   //state for Actual requirement
   const [actual_require, setActual_require] = useState('')
   const [selectFile, setSelectFile] = useState([])
-  const updateactual_require = useCallback((e) => {
+  const updateactual_require = useCallback(e => {
     setActual_require(e.target.value)
   }, [])
   //state for Needed
   const [needed, setNeeded] = useState('')
-  const updateNeeded = useCallback((e) => {
+  const updateNeeded = useCallback(e => {
     setNeeded(e.target.value)
   }, [])
   //state for location
   const [category, setCategory] = useState('')
-  const updateCategory = useCallback((e) => {
+  const updateCategory = useCallback(e => {
     setCategory(e.target.value)
   }, [])
   //state for location
   const [location, setLocation] = useState('')
-  const updateLocation = useCallback((e) => {
+  const updateLocation = useCallback(e => {
     setLocation(e.target.value)
   }, [])
   //state for Remarks
   const [remarks, setRemarks] = useState('')
-  const updateRemarks = useCallback((e) => {
+  const updateRemarks = useCallback(e => {
     setRemarks(e.target.value)
   }, [])
   // Intializing variables
@@ -80,21 +80,21 @@ const ReqRegistration = () => {
   //Destructuring
   const { item_desc, item_brand, item_qty, item_unit, item_spec, approx_cost } = itemstate
   const updateItemState = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setItemState({ ...itemstate, [e.target.name]: value })
     },
-    [itemstate],
+    [itemstate]
   )
   //redux for geting login id
-  const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
-  const deptsec = useSelector((state) => state.LoginUserData.empsecid, _.isEqual)
-  const empdept = useSelector((state) => state.LoginUserData.empdept, _.isEqual)
+  const id = useSelector(state => state.LoginUserData.empid, _.isEqual)
+  const deptsec = useSelector(state => state.LoginUserData.empsecid, _.isEqual)
+  const empdept = useSelector(state => state.LoginUserData.empdept, _.isEqual)
 
   const [detldept, setDetldept] = useState(0)
   const [depttype, setDeptType] = useState(0)
   useEffect(() => {
-    const deptCheck = async (empdept) => {
+    const deptCheck = async empdept => {
       const result = await axioslogin.get(`/common/crfdept/${empdept}`)
       const { success } = result.data
       if (success === 1) {
@@ -103,7 +103,7 @@ const ReqRegistration = () => {
         setDetldept(0)
       }
     }
-    const deptTypeget = async (empdept) => {
+    const deptTypeget = async empdept => {
       const result = await axioslogin.get(`/common/deptType/${empdept}`)
       const { success, data } = result.data
       if (success === 1) {
@@ -123,7 +123,7 @@ const ReqRegistration = () => {
     dispatch(getDeptSecInchHod(deptsec))
   }, [dispatch, id, deptsec])
 
-  const HodIncharge = useSelector((state) => state.setInchargeHodData.InchargeHoddata, _.isEqual)
+  const HodIncharge = useSelector(state => state.setInchargeHodData.InchargeHoddata, _.isEqual)
   const [isIncharge, setincharge] = useState(0)
   const [ishod, setHod] = useState(0)
 
@@ -135,29 +135,26 @@ const ReqRegistration = () => {
     }
   }, [HodIncharge])
 
-  const deptsecHodInch = useSelector(
-    (state) => state.setDeptSecInchHod.deptSecInchHodList,
-    _.isEqual,
-  )
+  const deptsecHodInch = useSelector(state => state.setDeptSecInchHod.deptSecInchHodList, _.isEqual)
   //HOD
-  const object1 = deptsecHodInch.filter((obj) => (obj.auth_post === 1 ? obj.emp_id : null))
+  const object1 = deptsecHodInch.filter(obj => (obj.auth_post === 1 ? obj.emp_id : null))
   //Incharge
-  const object2 = deptsecHodInch.filter((obj) => (obj.auth_post === 2 ? obj.emp_id : null))
+  const object2 = deptsecHodInch.filter(obj => (obj.auth_post === 2 ? obj.emp_id : null))
 
-  const updateExpectedDate = (e) => {
+  const updateExpectedDate = e => {
     setStartdate(e.target.value)
   }
   const [disEstimate, setDisEstimate] = useState(0)
   const [emergency, setEmergency] = useState(false)
 
-  const updateEmergency = (e) => {
+  const updateEmergency = e => {
     if (e.target.checked === true) {
       setEmergency(true)
     } else {
       setEmergency(false)
     }
   }
-  const updateEstimate = (e) => {
+  const updateEstimate = e => {
     if (e.target.checked === true) {
       setEstimate(true)
       setDisEstimate(1)
@@ -193,7 +190,7 @@ const ReqRegistration = () => {
     {
       headerName: 'Edit',
       width: 80,
-      cellRenderer: (params) => (
+      cellRenderer: params => (
         <IconButton onClick={() => editSelect(params)} sx={{ color: editicon, pt: 0 }}>
           <CustomeToolTip title="Edit">
             <EditIcon size={15} />
@@ -204,7 +201,7 @@ const ReqRegistration = () => {
     {
       headerName: 'Delete',
       width: 80,
-      cellRenderer: (params) => (
+      cellRenderer: params => (
         <IconButton onClick={() => deleteSelect(params)} sx={{ color: editicon, pt: 0 }}>
           <CustomeToolTip title="Edit">
             <DeleteIcon size={15} />
@@ -260,7 +257,7 @@ const ReqRegistration = () => {
     {
       headerName: 'Edit',
       width: 80,
-      cellRenderer: (params) => (
+      cellRenderer: params => (
         <IconButton onClick={() => editSelect(params)} sx={{ color: editicon, pt: 0 }}>
           <CustomeToolTip title="Edit">
             <EditIcon size={15} />
@@ -271,7 +268,7 @@ const ReqRegistration = () => {
     {
       headerName: 'Delete',
       width: 80,
-      cellRenderer: (params) => (
+      cellRenderer: params => (
         <IconButton onClick={() => deleteSelect(params)} sx={{ color: editicon, pt: 0 }}>
           <CustomeToolTip title="Edit">
             <DeleteIcon size={15} />
@@ -356,8 +353,8 @@ const ReqRegistration = () => {
             item_status: 1,
           }
           setItemState(frmset)
-          const result = dataPost.map((val) =>
-            val.item_slno === frmset.item_slno ? { ...val, ...frmset } : val,
+          const result = dataPost.map(val =>
+            val.item_slno === frmset.item_slno ? { ...val, ...frmset } : val
           )
           setdataPost(result)
           setEditdata([])
@@ -414,8 +411,8 @@ const ReqRegistration = () => {
             aprox_cost: parseInt(approx_cost),
           }
           setItemState(frmset)
-          const result = dataPost.map((val) =>
-            val.item_slno === frmset.item_slno ? { ...val, ...frmset } : val,
+          const result = dataPost.map(val =>
+            val.item_slno === frmset.item_slno ? { ...val, ...frmset } : val
           )
           setdataPost(result)
           setEditdata([])
@@ -498,8 +495,8 @@ const ReqRegistration = () => {
             aprox_cost: parseInt(approx_cost),
           }
           setItemState(frmset)
-          const result = dataPost.map((val) =>
-            val.item_slno === frmset.item_slno ? { ...val, ...frmset } : val,
+          const result = dataPost.map(val =>
+            val.item_slno === frmset.item_slno ? { ...val, ...frmset } : val
           )
           setdataPost(result)
           const resetarrray = {
@@ -562,8 +559,8 @@ const ReqRegistration = () => {
             aprox_cost: parseInt(approx_cost),
           }
           setItemState(frmset)
-          const result = dataPost.map((val) =>
-            val.item_slno === frmset.item_slno ? { ...val, ...frmset } : val,
+          const result = dataPost.map(val =>
+            val.item_slno === frmset.item_slno ? { ...val, ...frmset } : val
           )
           setdataPost(result)
           const resetarrray = {
@@ -601,7 +598,7 @@ const ReqRegistration = () => {
   ])
   //itemm array delete button click item delete
   const deleteSelect = useCallback(
-    (params) => {
+    params => {
       const data = params.api.getSelectedRows()
       setDelete(data)
       const { req_detl_slno } = data[0]
@@ -610,7 +607,7 @@ const ReqRegistration = () => {
         req_detl_slno: req_detl_slno,
         delete_user: id,
       }
-      const deleteItem = async (patchdata) => {
+      const deleteItem = async patchdata => {
         const result = await axioslogin.patch('/requestRegister/DeleteItemList', patchdata)
         const { success, message } = result.data
         if (success === 1) {
@@ -619,23 +616,23 @@ const ReqRegistration = () => {
       }
       deleteItem(patchdata)
     },
-    [id],
+    [id]
   )
 
   //itemm array edit button click item edit and save
   const editSelect = useCallback(
-    (params) => {
+    params => {
       const data = params.api.getSelectedRows()
       setEditdata(data)
       setArryUpdate(1)
     },
-    [setArryUpdate],
+    [setArryUpdate]
   )
 
   useEffect(() => {
     if (Object.keys(deletedata).length > 0) {
       const { item_slno } = deletedata[0]
-      const newdata = dataPost.filter((val) => {
+      const newdata = dataPost.filter(val => {
         return val.item_slno !== item_slno
       })
       setdataPost(newdata)
@@ -660,7 +657,7 @@ const ReqRegistration = () => {
   }, [editdata, dataPost])
 
   //redux for geting login emp secid
-  const empsecid = useSelector((state) => {
+  const empsecid = useSelector(state => {
     return state.LoginUserData.empsecid
   })
 
@@ -782,7 +779,7 @@ const ReqRegistration = () => {
   }, [dispatch, id, deptsec])
 
   const uploadFile = useCallback(
-    async (e) => {
+    async e => {
       if (e.target.files[0].type === 'application/pdf') {
         if (e.target.files[0].size > 2000000) {
           warningNotify('File Size Is to Large')
@@ -797,10 +794,10 @@ const ReqRegistration = () => {
         setSelectFile(newFiles)
       }
     },
-    [selectFile, setSelectFile],
+    [selectFile, setSelectFile]
   )
 
-  const handleImageUpload = useCallback(async (imageFile) => {
+  const handleImageUpload = useCallback(async imageFile => {
     const options = {
       maxSizeMB: 2,
       maxWidthOrHeight: 1920,
@@ -810,8 +807,8 @@ const ReqRegistration = () => {
     return compressedFile
   }, [])
 
-  const handleRemoveFile = (index) => {
-    setSelectFile((prevFiles) => {
+  const handleRemoveFile = index => {
+    setSelectFile(prevFiles => {
       const updatedFiles = [...prevFiles]
       updatedFiles.splice(index, 1) // Remove the file at the specified index
       return updatedFiles
@@ -830,19 +827,19 @@ const ReqRegistration = () => {
 
   /*** usecallback function for form submitting */
   const submitComplaint = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
 
       /**** insert function for use call back     */
-      const InsertFun = async (postData) => {
+      const InsertFun = async postData => {
         const result = await axioslogin.post('/requestRegister', postData)
         return result.data
       }
       //** Inset api for detail */
-      const InsertFundetl = async (insertid) => {
+      const InsertFundetl = async insertid => {
         const postdataDetl =
           dataPost &&
-          dataPost.map((val) => {
+          dataPost.map(val => {
             return {
               req_slno: insertid,
               item_slno: val.item_slno,
@@ -861,7 +858,7 @@ const ReqRegistration = () => {
       }
 
       //** Inset api for Approval */
-      const InsertApproval = async (reqno) => {
+      const InsertApproval = async reqno => {
         //Postdata department have incharge and Hod then check isicharge or ishod
         const ApprovalData = {
           req_slno: reqno,
@@ -926,7 +923,7 @@ const ReqRegistration = () => {
         if (isIncharge === 0 && ishod === 0) {
           const result = await axioslogin.post(
             '/requestRegister/postReqApproval',
-            ApprovalDataNoInch,
+            ApprovalDataNoInch
           )
           return result.data
         } else if (isIncharge === 1) {
@@ -939,11 +936,11 @@ const ReqRegistration = () => {
       }
 
       //** Inset api for detail */
-      const PatchInsertFundetl = async (insertid) => {
+      const PatchInsertFundetl = async insertid => {
         if (dataPost.length !== 0) {
           const postdataDetl =
             editAddArry &&
-            editAddArry.map((val) => {
+            editAddArry.map(val => {
               return {
                 req_slno: insertid,
                 item_slno: val.item_slno,
@@ -970,16 +967,16 @@ const ReqRegistration = () => {
       }
 
       /***  update function for use call back     */
-      const updateFun = async (patchData) => {
+      const updateFun = async patchData => {
         const result = await axioslogin.patch('/requestRegister', patchData)
         return result.data
       }
 
       /***  update function for use call back     */
-      const updateReqDetl = async (dataPost) => {
+      const updateReqDetl = async dataPost => {
         if (getDataDetl.length === dataPost.length) {
           dataPost &&
-            dataPost.map((val) => {
+            dataPost.map(val => {
               const getdmenu = async () => {
                 const dataaas = {
                   req_slno: val.req_slno,
@@ -1033,18 +1030,18 @@ const ReqRegistration = () => {
       //** Call insert and detail api by using then. for getting insert id */
       if (value === 0) {
         if (emergency === true && remarks !== '') {
-          InsertFun(postData).then((values) => {
+          InsertFun(postData).then(values => {
             const { success, message, insetid } = values
             if (success === 1) {
-              InsertApproval(insetid).then((value) => {
+              InsertApproval(insetid).then(value => {
                 const { success, message } = value
                 if (success === 1) {
                   if (dataPost.length !== 0) {
-                    InsertFundetl(insetid).then((valu) => {
+                    InsertFundetl(insetid).then(valu => {
                       const { success } = valu
                       if (success === 1) {
                         if (selectFile.length !== 0) {
-                          FileInsert(selectFile, insetid).then((val) => {
+                          FileInsert(selectFile, insetid).then(val => {
                             const { success, message } = val
                             if (success === 1) {
                               succesNotify('Request Registred successfully ans also File uploaded')
@@ -1065,7 +1062,7 @@ const ReqRegistration = () => {
                     })
                   } else {
                     if (selectFile.length !== 0) {
-                      FileInsert(selectFile, insetid).then((val) => {
+                      FileInsert(selectFile, insetid).then(val => {
                         const { success, message } = val
                         if (success === 1) {
                           succesNotify('Request Registred successfully ans also File uploaded')
@@ -1090,18 +1087,18 @@ const ReqRegistration = () => {
             }
           })
         } else if (emergency === false) {
-          InsertFun(postData).then((values) => {
+          InsertFun(postData).then(values => {
             const { success, message, insetid } = values
             if (success === 1) {
-              InsertApproval(insetid).then((value) => {
+              InsertApproval(insetid).then(value => {
                 const { success, message } = value
                 if (success === 1) {
                   if (dataPost.length !== 0) {
-                    InsertFundetl(insetid).then((valu) => {
+                    InsertFundetl(insetid).then(valu => {
                       const { success } = valu
                       if (success === 1) {
                         if (selectFile.length !== 0) {
-                          FileInsert(selectFile, insetid).then((val) => {
+                          FileInsert(selectFile, insetid).then(val => {
                             const { success, message } = val
                             if (success === 1) {
                               succesNotify('Request Registred successfully ans also File uploaded')
@@ -1122,7 +1119,7 @@ const ReqRegistration = () => {
                     })
                   } else {
                     if (selectFile.length !== 0) {
-                      FileInsert(selectFile, insetid).then((val) => {
+                      FileInsert(selectFile, insetid).then(val => {
                         const { success, message } = val
                         if (success === 1) {
                           succesNotify('Request Registred successfully ans also File uploaded')
@@ -1150,7 +1147,7 @@ const ReqRegistration = () => {
           warningNotify('Plase Eneter Emergency Remarks')
         }
       } else {
-        updateFun(patchData).then((values) => {
+        updateFun(patchData).then(values => {
           const { success, message } = values
           if (success === 2) {
             if (editAddArry.length !== 0) {
@@ -1192,7 +1189,7 @@ const ReqRegistration = () => {
       selectFile,
       emergency,
       remarks,
-    ],
+    ]
   )
 
   const [imageshowFlag, setImageShowFlag] = useState(0)
@@ -1201,7 +1198,7 @@ const ReqRegistration = () => {
   const [imagearray, setImageArry] = useState([])
 
   //Data set for edit
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const {
@@ -1229,7 +1226,7 @@ const ReqRegistration = () => {
     setCategory(category)
     setReqSlno(req_slno)
     setEmergency(emergency === 1 ? true : false)
-    const InsertFun = async (req_slno) => {
+    const InsertFun = async req_slno => {
       const result = await axioslogin.get(`/requestRegister/getItemList/${req_slno}`)
       const { success, data } = result.data
       if (success === 1) {
@@ -1238,7 +1235,7 @@ const ReqRegistration = () => {
         setTableDis(1)
         setEstimate(true)
         setDisEstimate(1)
-        const yy = data.map((val) => val.item_slno)
+        const yy = data.map(val => val.item_slno)
         let maximum = Math.max(...yy)
         setAlreadyItem(maximum + 1)
       } else {
@@ -1246,12 +1243,12 @@ const ReqRegistration = () => {
       }
     }
 
-    const getImage = async (req_slno) => {
+    const getImage = async req_slno => {
       const result = await axioslogin.get(`/CrfImageUpload/crfRegimageGet/${req_slno}`)
       const { success, data } = result.data
       if (success === 1) {
         const fileNames = data
-        const fileUrls = fileNames.map((fileName) => {
+        const fileUrls = fileNames.map(fileName => {
           return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`
         })
         setImageArry(fileUrls)

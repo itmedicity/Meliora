@@ -11,7 +11,7 @@ import { useQuery } from 'react-query'
 const BackupChecksTable = () => {
   // const backup = useSelector((state) => state?.getBackupDetails.backupList)
   const dispatch = useDispatch()
-  const empDept = useSelector((state) => {
+  const empDept = useSelector(state => {
     return state.LoginUserData.empdept
   })
 

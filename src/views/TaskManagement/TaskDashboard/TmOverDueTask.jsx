@@ -21,12 +21,12 @@ const TmOverDueTask = ({ tableCount, setTableCount, tabledata, setDueFlag, overD
     setDueFlag(0)
   }, [history, setDueFlag])
 
-  const rowSelectModal = useCallback((value) => {
+  const rowSelectModal = useCallback(value => {
     setEditModalFlag(1)
     setEditModalOpen(true)
     setMasterData(value)
   }, [])
-  const isPastDue = (tm_task_due_date) => {
+  const isPastDue = tm_task_due_date => {
     const today = new Date()
     const due = new Date(tm_task_due_date)
     return due < today

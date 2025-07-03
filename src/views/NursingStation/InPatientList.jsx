@@ -37,7 +37,7 @@ const InPatientList = () => {
 
     {
       headerName: 'Diet Plan',
-      cellRenderer: (params) => {
+      cellRenderer: params => {
         if (params.data.plan_status === 1) {
           return (
             <IconButton disabled sx={{ color: editicon, paddingY: 0.5 }}>
@@ -55,7 +55,7 @@ const InPatientList = () => {
     },
   ])
   //modal open and pass data when clicked on diet plan button
-  const dietPlan = useCallback((params) => {
+  const dietPlan = useCallback(params => {
     const data = params.api.getSelectedRows()
     setAb(1)
     setOpen(true)

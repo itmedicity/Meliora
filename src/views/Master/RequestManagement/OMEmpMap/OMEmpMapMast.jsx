@@ -24,11 +24,11 @@ const OMEmpMapMast = () => {
   const [status, setStatus] = useState(false)
   const [slno, setslno] = useState(0)
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
 
-  const updatestatus = useCallback((e) => {
+  const updatestatus = useCallback(e => {
     if (e.target.checked === true) {
       setStatus(true)
     } else {
@@ -49,7 +49,7 @@ const OMEmpMapMast = () => {
   }, [omTable, dept, deptsec, empname, status, id])
 
   //data for edit
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const {
@@ -95,10 +95,10 @@ const OMEmpMapMast = () => {
 
   /*** usecallback function for form submitting form */
   const submitOMTable = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
 
-      const InsertFun = async (postdata) => {
+      const InsertFun = async postdata => {
         const result = await axioslogin.post('/omempmapping', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -112,7 +112,7 @@ const OMEmpMapMast = () => {
         }
       }
 
-      const updateFun = async (patchdata) => {
+      const updateFun = async patchdata => {
         const result = await axioslogin.patch('/omempmapping', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -132,7 +132,7 @@ const OMEmpMapMast = () => {
         updateFun(patchdata)
       }
     },
-    [value, postdata, patchdata, count],
+    [value, postdata, patchdata, count]
   )
 
   //back to home

@@ -43,15 +43,15 @@ const FloorCreation = () => {
   } = floor
 
   const updateFloor = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setFloor({ ...floor, [e.target.name]: value })
     },
-    [floor],
+    [floor]
   )
 
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
 
@@ -143,9 +143,9 @@ const FloorCreation = () => {
   }, [setFloor])
 
   const sumbitFloor = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const InsertFloor = async (postdata) => {
+      const InsertFloor = async postdata => {
         const result = await axioslogin.post('/floorcreation/insert', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -158,7 +158,7 @@ const FloorCreation = () => {
           infoNotify(message)
         }
       }
-      const UpdateFloor = async (patchdata) => {
+      const UpdateFloor = async patchdata => {
         const result = await axioslogin.patch('/floorcreation/updatee', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -178,9 +178,9 @@ const FloorCreation = () => {
         UpdateFloor(patchdata)
       }
     },
-    [postdata, value, count, patchdata],
+    [postdata, value, count, patchdata]
   )
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
 
     const data = params.api.getSelectedRows()

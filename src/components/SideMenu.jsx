@@ -1,6 +1,5 @@
 import React, { memo } from 'react'
 import { Box } from '@mui/system'
-import { TiHomeOutline } from 'react-icons/ti'
 import { HiHome } from 'react-icons/hi2'
 import { HiTicket } from 'react-icons/hi2'
 import { RiDashboardHorizontalFill } from 'react-icons/ri'

@@ -1,7 +1,7 @@
 import { IconButton, Tooltip } from '@mui/material'
 import React, { memo } from 'react'
 import { editicon } from 'src/color/Color'
-import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 const EditButton = ({ onClick }) => {
   return (
     <Tooltip title="Edit" arrow>

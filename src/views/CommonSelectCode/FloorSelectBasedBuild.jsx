@@ -8,7 +8,7 @@ import { getFloorBasedOnBuild } from 'src/redux/actions/FloorSelectBAsedBuild.ac
 
 const FloorSelectBasedBuild = ({ value, setValue, buildno, setName, insertdata }) => {
   const dispatch = useDispatch()
-  const FloorData = useSelector((state) => {
+  const FloorData = useSelector(state => {
     return state.getFloorBasedOnBuild.FloorBasedOnBuildList || 0
   })
 

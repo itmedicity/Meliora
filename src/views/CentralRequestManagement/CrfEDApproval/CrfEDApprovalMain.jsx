@@ -107,9 +107,7 @@ const CrfEDApprovalMain = () => {
       }
     } else if (selectedCompany === '2') {
       if (radiovalue === '9' && edDataKmc) {
-        const pending = edDataKmc?.filter(
-          (val) => val.ed_approve === null || val.md_approve === null,
-        )
+        const pending = edDataKmc?.filter(val => val.ed_approve === null || val.md_approve === null)
         setPendingCount(pending)
         setcombinedData(edDataKmc)
       } else if (radiovalue === '8') {
@@ -129,7 +127,7 @@ const CrfEDApprovalMain = () => {
   const company = useMemo(() => companydefData, [companydefData])
   useEffect(() => {
     if (combinedData.length !== 0) {
-      const datas = combinedData?.map((val) => {
+      const datas = combinedData?.map(val => {
         const obj = {
           req_status: val.req_status,
           req_slno: val.req_slno,
@@ -485,15 +483,15 @@ const CrfEDApprovalMain = () => {
       if (selectedCompany === '1') {
         if (radiovalue === '2') {
           const newData = datas?.filter(
-            (val) =>
+            val =>
               val.now_who_status !== 2 &&
               val.now_who_status !== 3 &&
-              (val.ed_approve !== null || val?.internally_arranged_status === 1),
+              (val.ed_approve !== null || val?.internally_arranged_status === 1)
           )
           setDisData(newData)
           setAllData(newData)
         } else if (radiovalue === '9') {
-          const newData = datas?.filter((val) => val?.gm_approve === 1 || val?.md_approve === 1)
+          const newData = datas?.filter(val => val?.gm_approve === 1 || val?.md_approve === 1)
           setDisData(newData)
 
           setAllData(newData)
@@ -505,24 +503,24 @@ const CrfEDApprovalMain = () => {
       } else {
         if (radiovalue === '1') {
           const pending = datas?.filter(
-            (val) =>
+            val =>
               (val.managing_director_approve === null || val.md_approve === null) &&
-              val.req_status !== 'C',
+              val.req_status !== 'C'
           )
           setDisData(pending)
           setAllData(pending)
         } else if (radiovalue === '2') {
           const newData = datas?.filter(
-            (val) =>
+            val =>
               val.managing_director_approve === 1 &&
               val.md_approve === 1 &&
               val.ack_status === null &&
-              val.req_status !== 'C',
+              val.req_status !== 'C'
           )
           setDisData(newData)
           setAllData(newData)
         } else if (radiovalue === '9') {
-          const newData = datas?.filter((val) => val?.gm_approve === 1 && val?.md_approve === null)
+          const newData = datas?.filter(val => val?.gm_approve === 1 && val?.md_approve === null)
           setDisData(newData)
           setAllData(newData)
           setDisDataLen(newData)
@@ -643,16 +641,16 @@ const CrfEDApprovalMain = () => {
   }, [selectedCompany])
 
   const fromDateChange = useCallback(
-    (e) => {
+    e => {
       setFromDate(e.target.value)
     },
-    [setFromDate],
+    [setFromDate]
   )
   const toDateChange = useCallback(
-    (e) => {
+    e => {
       setToDate(e.target.value)
     },
-    [setToDate],
+    [setToDate]
   )
 
   const closedData = useMemo(
@@ -661,7 +659,7 @@ const CrfEDApprovalMain = () => {
       from: `${fromDate} 00:00:00`,
       to: `${toDate} 23:59:59`,
     }),
-    [fromDate, toDate],
+    [fromDate, toDate]
   )
 
   const getCloseData = useCallback(() => {
@@ -700,7 +698,7 @@ const CrfEDApprovalMain = () => {
     setCancelFlag(0)
   }, [])
 
-  const handleRadioChange = useCallback(async (e) => {
+  const handleRadioChange = useCallback(async e => {
     const selectedCompanyName = e.target.value
     setSelectedCompany(selectedCompanyName)
     if (selectedCompanyName === '1') {
@@ -773,7 +771,7 @@ const CrfEDApprovalMain = () => {
             }}
           >
             <RadioGroup row value={selectedCompany} onChange={handleRadioChange}>
-              {companyData?.map((val) => (
+              {companyData?.map(val => (
                 <FormControlLabel
                   key={val.company_slno}
                   value={val.company_slno}

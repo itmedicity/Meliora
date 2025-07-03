@@ -28,7 +28,7 @@ import { useSelector } from 'react-redux'
 const PurchaseTablemain = () => {
   const history = useNavigate()
   const queryClient = useQueryClient()
-  const empdeptsec = useSelector((state) => state.LoginUserData.empsecid, _.isEqual)
+  const empdeptsec = useSelector(state => state.LoginUserData.empsecid, _.isEqual)
   const [radiovalue, setRadioValue] = useState('1')
   const [allData, setAllData] = useState([])
   const [disData, setDisData] = useState([])
@@ -40,14 +40,14 @@ const PurchaseTablemain = () => {
   const [pendingPOList, setPendingPOList] = useState([])
   const [combinedPO, setCombinedPO] = useState([])
 
-  const capitalizeWords = (str) =>
+  const capitalizeWords = str =>
     str
       ? str
           .toLowerCase()
           .trim()
           .replace(/\s+/g, ' ')
           .split(' ')
-          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
           .join(' ')
       : ''
 
@@ -121,36 +121,36 @@ const PurchaseTablemain = () => {
   useEffect(() => {
     if (quoData && quoData.length > 0) {
       const procCrf = quoData?.filter(
-        (val) =>
+        val =>
           val.ack_status === 1 &&
           val.quatation_calling_status === 0 &&
           val.po_prepartion === 0 &&
           val.po_complete === 0 &&
-          val.work_order_status === 0,
+          val.work_order_status === 0
       )
       setCrfProcess(procCrf)
 
       const nego = quoData?.filter(
-        (val) => val.quatation_calling_status === 1 && val.quatation_negotiation === 0,
+        val => val.quatation_calling_status === 1 && val.quatation_negotiation === 0
       )
       setQuoNego(nego)
 
       const final = quoData?.filter(
-        (val) =>
+        val =>
           val.quatation_calling_status === 1 &&
           val.quatation_negotiation === 1 &&
-          val.quatation_fixing === 0,
+          val.quatation_fixing === 0
       )
       setQuoFinal(final)
 
       const po = quoData?.filter(
-        (val) =>
+        val =>
           val.ack_status === 1 &&
           val.work_order_status === 0 &&
           ((val.quatation_calling_status === 1 &&
             val.quatation_fixing === 1 &&
             val.po_prepartion === 0) ||
-            (val.po_prepartion === 1 && val.po_complete === 0)),
+            (val.po_prepartion === 1 && val.po_complete === 0))
       )
       setPoProcess(po)
     }
@@ -171,7 +171,7 @@ const PurchaseTablemain = () => {
   useEffect(() => {
     if (radiovalue === '1') {
       if (ackData && ackData.length > 0) {
-        const datas = ackData?.map((val) => {
+        const datas = ackData?.map(val => {
           const obj = {
             req_status: val.req_status,
             req_slno: val.req_slno,
@@ -377,9 +377,7 @@ const PurchaseTablemain = () => {
           .filter(
             (po, index, self) =>
               index ===
-              self.findIndex(
-                (val) => val.po_number === po.po_number && val.req_slno === po.req_slno,
-              ),
+              self.findIndex(val => val.po_number === po.po_number && val.req_slno === po.req_slno)
           )
           .map((po, ind) => ({
             slno: ind + 1,
@@ -410,7 +408,7 @@ const PurchaseTablemain = () => {
             aprv_status: po.approval_level,
             company_name: po.company_name,
           }))
-        const poItems = apprvData?.map((val) => {
+        const poItems = apprvData?.map(val => {
           const obj = {
             po_detail_slno: val.po_detail_slno,
             po_no: val.po_number,
@@ -425,9 +423,9 @@ const PurchaseTablemain = () => {
           }
           return obj
         })
-        const mergedData = poLIst?.map((po) => {
+        const mergedData = poLIst?.map(po => {
           const details = poItems?.filter(
-            (item) => item.po_no === po.po_no && item.po_detail_slno === po.po_detail_slno,
+            item => item.po_no === po.po_no && item.po_detail_slno === po.po_detail_slno
           )
           return {
             ...po,
@@ -442,7 +440,7 @@ const PurchaseTablemain = () => {
       }
     } else if (radiovalue === '7') {
       if (dataCollection) {
-        const newData = dataCollection?.map((val) => {
+        const newData = dataCollection?.map(val => {
           const obj = {
             req_slno: val.req_slno,
             actual_requirement: val.actual_requirement,
@@ -503,7 +501,7 @@ const PurchaseTablemain = () => {
       }
     } else {
       if (combinedData && combinedData.length > 0) {
-        const datas = combinedData?.map((val) => {
+        const datas = combinedData?.map(val => {
           const obj = {
             req_status: val.req_status,
             req_slno: val.req_slno,
@@ -756,7 +754,7 @@ const PurchaseTablemain = () => {
             mo_image: val.mo_image,
             smo_image: val.smo_image,
             gm_image: val.gm_image,
-            managing_director_image: val.managing_director_image,
+            // managing_director_image: val.managing_director_image,
           }
           return obj
         })
@@ -774,28 +772,28 @@ const PurchaseTablemain = () => {
       const result = await axioslogin.get('/newCRFPurchase/getPO')
       return result.data
     }
-    const getPOdetails = async (posearch) => {
+    const getPOdetails = async posearch => {
       const result = await axiosellider.post('/crfpurchase/getpendingpo', posearch)
       return result.data
     }
-    const UpdatePOLevels = async (patchdata) => {
+    const UpdatePOLevels = async patchdata => {
       const result = await axioslogin.post('/newCRFPurchase/updateApprovalLevel', patchdata)
       return result.data
     }
-    getPendingPODetails().then((val) => {
+    getPendingPODetails().then(val => {
       const { success, data } = val
       if (success === 1) {
-        const posearch = data?.map((val) => {
+        const posearch = data?.map(val => {
           return {
             pono: val.po_number,
             stcode: val.crs_store_code,
           }
         })
-        getPOdetails(posearch).then((val) => {
+        getPOdetails(posearch).then(val => {
           const { success, data: elliderData } = val
           if (success === 1) {
-            const patchdata = elliderData?.map((val) => {
-              const newData = storeList?.find((value) => value.crs_store_code === val.ST_CODE)
+            const patchdata = elliderData?.map(val => {
+              const newData = storeList?.find(value => value.crs_store_code === val.ST_CODE)
               return {
                 approval_level:
                   typeof val.APPROVAL === 'number' && val.APPROVAL > 3 ? 3 : val.APPROVAL || null,
@@ -809,7 +807,7 @@ const PurchaseTablemain = () => {
                 supply_store: newData ? newData.main_store_slno : 0,
               }
             })
-            UpdatePOLevels(patchdata).then((val) => {
+            UpdatePOLevels(patchdata).then(val => {
               const { success, message } = val
               if (success === 1) {
                 queryClient.invalidateQueries('getAprrovalData')
@@ -837,7 +835,7 @@ const PurchaseTablemain = () => {
     setPendingPOList(combinedPO)
   }, [combinedPO])
   const getNotApproved = useCallback(() => {
-    const newData = combinedPO?.filter((val) => val.aprv_status === null)
+    const newData = combinedPO?.filter(val => val.aprv_status === null)
     if (newData.length === 0) {
       infoNotify('Selected Report Not Found')
     } else {
@@ -845,7 +843,7 @@ const PurchaseTablemain = () => {
     }
   }, [combinedPO])
   const purchaseDeptApproved = useCallback(() => {
-    const newData = combinedPO?.filter((val) => val.aprv_status === 1)
+    const newData = combinedPO?.filter(val => val.aprv_status === 1)
     if (newData.length === 0) {
       infoNotify('Selected Report Not Found')
     } else {
@@ -853,7 +851,7 @@ const PurchaseTablemain = () => {
     }
   }, [combinedPO])
   const purchaseManagerApproved = useCallback(() => {
-    const newData = combinedPO?.filter((val) => val.aprv_status === 2)
+    const newData = combinedPO?.filter(val => val.aprv_status === 2)
     if (newData.length === 0) {
       infoNotify('Selected Report Not Found')
     } else {
@@ -861,7 +859,7 @@ const PurchaseTablemain = () => {
     }
   }, [combinedPO])
   const directorsApproved = useCallback(() => {
-    const newData = combinedPO?.filter((val) => val.aprv_status === 3)
+    const newData = combinedPO?.filter(val => val.aprv_status === 3)
     if (newData.length === 0) {
       infoNotify('Selected Report Not Found')
     } else {

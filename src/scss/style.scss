@@ -1,8 +1,12 @@
 // // If you want to override variables do it here
-@import 'variables';
 
 // @import 'layout';
 // @import 'example';
 
 // // If you want to add custom CSS you can put it here.
-@import 'custom';
+// @import 'variables';
+// @import 'custom';
+
+
+@use 'variables';
+@use 'custom';

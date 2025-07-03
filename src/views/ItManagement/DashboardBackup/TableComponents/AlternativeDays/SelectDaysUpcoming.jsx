@@ -18,7 +18,7 @@ const SelectDaysUpcoming = ({ daysnext, setdaysflag }) => {
     setdaysflag(0)
   }, [history, setdaysflag])
 
-  const empDept = useSelector((state) => {
+  const empDept = useSelector(state => {
     return state.LoginUserData.empdept
   })
 

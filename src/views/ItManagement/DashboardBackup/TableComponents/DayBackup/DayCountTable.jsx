@@ -26,7 +26,7 @@ const DayCountTable = ({ dayTabledata, dayflag, setDaytabflag, count, setCount }
     setDaytabflag(0)
   }, [history, setDaytabflag])
 
-  const empDept = useSelector((state) => {
+  const empDept = useSelector(state => {
     return state.LoginUserData.empdept
   })
 
@@ -39,7 +39,7 @@ const DayCountTable = ({ dayTabledata, dayflag, setDaytabflag, count, setCount }
     setflag(0)
   }, [setModalOpen])
   const VerificationClick = useCallback(
-    (val) => {
+    val => {
       if (val.verify_status === 1) {
         setView(val)
         setModalOpen(true)
@@ -50,7 +50,7 @@ const DayCountTable = ({ dayTabledata, dayflag, setDaytabflag, count, setCount }
         setflag(1)
       }
     },
-    [setflag, setVerifyflag],
+    [setflag, setVerifyflag]
   )
   return (
     <Fragment>
@@ -207,7 +207,7 @@ const DayCountTable = ({ dayTabledata, dayflag, setDaytabflag, count, setCount }
                                     boxShadow: 10,
                                   },
                                 }}
-                                onClick={(e) => VerificationClick(val)}
+                                onClick={e => VerificationClick(val)}
                               />
                             ) : (
                               <VerifiedIcon
@@ -220,7 +220,7 @@ const DayCountTable = ({ dayTabledata, dayflag, setDaytabflag, count, setCount }
                                     boxShadow: 10,
                                   },
                                 }}
-                                onClick={(e) => VerificationClick(val)}
+                                onClick={e => VerificationClick(val)}
                               />
                             )}
                           </Box>

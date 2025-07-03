@@ -19,7 +19,7 @@ const BillCategoryMaster = () => {
   const dispatch = useDispatch()
   const history = useNavigate()
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   useEffect(() => {
@@ -33,11 +33,11 @@ const BillCategoryMaster = () => {
   })
   const { it_bill_category_slno, it_bill_category_name, it_bill_category_status } = billCategory
   const updateBillCategory = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setBillCategory({ ...billCategory, [e.target.name]: value })
     },
-    [billCategory],
+    [billCategory]
   )
   const postdata = useMemo(() => {
     return {
@@ -57,7 +57,7 @@ const BillCategoryMaster = () => {
       edit_user: id,
     }
   }, [it_bill_category_slno, it_bill_category_name, billType, it_bill_category_status, id])
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const {
@@ -87,9 +87,9 @@ const BillCategoryMaster = () => {
     setBillType(0)
   }, [])
   const submitBillCat = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const InsertBillCategory = async (postdata) => {
+      const InsertBillCategory = async postdata => {
         const result = await axioslogin.post('/billCategory/insert', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -102,7 +102,7 @@ const BillCategoryMaster = () => {
           infoNotify(message)
         }
       }
-      const billCatUpdate = async (patchdata) => {
+      const billCatUpdate = async patchdata => {
         const result = await axioslogin.patch('/billCategory/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -126,7 +126,7 @@ const BillCategoryMaster = () => {
         billCatUpdate(patchdata)
       }
     },
-    [postdata, value, patchdata, count, it_bill_category_name, reset],
+    [postdata, value, patchdata, count, it_bill_category_name, reset]
   )
 
   const backtoSetting = useCallback(() => {

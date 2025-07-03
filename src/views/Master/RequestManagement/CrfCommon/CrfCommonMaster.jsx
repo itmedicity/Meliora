@@ -128,7 +128,7 @@ const CrfCommonMaster = () => {
 
   // submit data
   const submitComapnyName = useCallback(
-    async (val) => {
+    async val => {
       const postData = {
         companyslno: companyslno,
         Hod_approval: Hod_approval,
@@ -196,7 +196,7 @@ const CrfCommonMaster = () => {
       md_name,
       ed_name,
       managing_director_name,
-    ],
+    ]
   )
   if (isCompLoading) return <p>Loading...</p>
   if (compError) return <p>Error Occurred.</p>
@@ -232,7 +232,7 @@ const CrfCommonMaster = () => {
                   value={companyslno}
                   onChange={(e, newValue) => setCompanySlno(newValue)}
                 >
-                  {companyData?.map((val) => (
+                  {companyData?.map(val => (
                     <Option
                       key={val.company_slno}
                       value={val.company_slno}

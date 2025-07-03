@@ -42,7 +42,7 @@ const BackupMast = () => {
   const backtoSetting = useCallback(() => {
     history('/Home/Settings')
   }, [history])
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state?.LoginUserData.empid
   })
   useEffect(() => {
@@ -109,13 +109,13 @@ const BackupMast = () => {
   ])
 
   const UpdateBackupChecksDetails = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setBackupstore({ ...backupstore, [e.target.name]: value })
     },
-    [backupstore],
+    [backupstore]
   )
-  const Selecteddayschange = useCallback((e) => {
+  const Selecteddayschange = useCallback(e => {
     setdays(e.target.value)
   }, [])
   const refreshWindow = useCallback(() => {
@@ -205,7 +205,7 @@ const BackupMast = () => {
   }, [backup_slno])
 
   const rowSelect = useCallback(
-    (data) => {
+    data => {
       setEdit(1)
       const {
         backup_slno,
@@ -245,11 +245,11 @@ const BackupMast = () => {
       const schdltime = JSON?.parse(data?.backup_schedule_time)
       setScheduleTime(schdltime)
     },
-    [setbackupDept],
+    [setbackupDept]
   )
 
   const BackupChecksDetails = useCallback(
-    (e) => {
+    e => {
       if (backupType === 0) {
         infoNotify('Please Select Valid Backup Type')
       } else if (scheduleType !== 5 && scheduleTime.length === 0) {
@@ -258,19 +258,19 @@ const BackupMast = () => {
         infoNotify('Enter Number Of Days')
       } else {
         e.preventDefault()
-        const InsertDetailsMast = async (postdata) => {
+        const InsertDetailsMast = async postdata => {
           const result = await axioslogin.post('/backupdetails/insertMast', postdata)
           return result.data
         }
-        const UpdateDetailsMast = async (patchdata) => {
+        const UpdateDetailsMast = async patchdata => {
           const result = await axioslogin.patch('/backupdetails/updateMast', patchdata)
           return result.data
         }
         if (edit === 0) {
-          InsertDetailsMast(postdata).then((value) => {
+          InsertDetailsMast(postdata).then(value => {
             const { message, success, insert_id } = value
             if (success === 1) {
-              const postdatas = scheduleTime?.map((val) => {
+              const postdatas = scheduleTime?.map(val => {
                 return {
                   backup_slno: insert_id,
                   backup_name: backupname,
@@ -282,14 +282,14 @@ const BackupMast = () => {
               })
 
               if (scheduleType === 1) {
-                const InsertScheduleTime = async (postdatas) => {
+                const InsertScheduleTime = async postdatas => {
                   const result = await axioslogin.post('/backupdetails/detailInsert', postdatas)
                   return result.data
                 }
-                InsertScheduleTime(postdatas).then((item) => {
+                InsertScheduleTime(postdatas).then(item => {
                   const { success, time_id } = item
                   if (success === 1) {
-                    const dailydata = scheduleTime?.map((val) => {
+                    const dailydata = scheduleTime?.map(val => {
                       return {
                         time_slno: time_id,
                         backup_slno: insert_id,
@@ -299,7 +299,7 @@ const BackupMast = () => {
                         create_user: id,
                       }
                     })
-                    const InsertBackupDaily = async (dailydata) => {
+                    const InsertBackupDaily = async dailydata => {
                       const result = await axioslogin.post('/backupdetails/daydetails', dailydata)
                       const { message, success } = result.data
                       if (success === 1) {
@@ -321,7 +321,7 @@ const BackupMast = () => {
                   verify_status: 0,
                   create_user: id,
                 }
-                const InsertSelectedDays = async (insertdata) => {
+                const InsertSelectedDays = async insertdata => {
                   const result = await axioslogin.post('/backupdetails/add', insertdata)
                   const { message, success } = result.data
                   if (success === 1) {
@@ -332,7 +332,7 @@ const BackupMast = () => {
                 }
                 InsertSelectedDays(insertdata)
               } else {
-                const InsertScheduleTime = async (postdatas) => {
+                const InsertScheduleTime = async postdatas => {
                   const result = await axioslogin.post('/backupdetails/detailInsert', postdatas)
                   const { message, success } = result.data
                   if (success === 1) {
@@ -350,7 +350,7 @@ const BackupMast = () => {
             }
           })
         } else if (backup_active_status === false) {
-          UpdateDetailsMast(patchdata).then((value) => {
+          UpdateDetailsMast(patchdata).then(value => {
             const { success } = value
             if (success === 2) {
               succesNotify('Status Updated')
@@ -359,7 +359,7 @@ const BackupMast = () => {
         } else {
           if (editScheduleType !== scheduleType) {
             if (editScheduleType === 1) {
-              const DeleteDetails = async (deletedata) => {
+              const DeleteDetails = async deletedata => {
                 const result = await axioslogin.post('/backupdetails/daydelete', deletedata)
                 const { success } = result.data
                 if (success === 2) {
@@ -367,7 +367,7 @@ const BackupMast = () => {
               }
               DeleteDetails(deletedata)
             } else if (editScheduleType === 2) {
-              const DeleteDetails = async (deletedata) => {
+              const DeleteDetails = async deletedata => {
                 const result = await axioslogin.post('/backupdetails/monthdelete', deletedata)
                 const { success } = result.data
                 if (success === 2) {
@@ -375,7 +375,7 @@ const BackupMast = () => {
               }
               DeleteDetails(deletedata)
             } else if (editScheduleType === 3) {
-              const DeleteDetails = async (deletedata) => {
+              const DeleteDetails = async deletedata => {
                 const result = await axioslogin.post('/backupdetails/weekdelete', deletedata)
                 const { success } = result.data
                 if (success === 2) {
@@ -383,7 +383,7 @@ const BackupMast = () => {
               }
               DeleteDetails(deletedata)
             } else if (editScheduleType === 4) {
-              const DeleteDetails = async (deletedata) => {
+              const DeleteDetails = async deletedata => {
                 const result = await axioslogin.post('/backupdetails/yeardelete', deletedata)
                 const { success } = result.data
                 if (success === 2) {
@@ -391,7 +391,7 @@ const BackupMast = () => {
               }
               DeleteDetails(deletedata)
             } else {
-              const DeleteDetails = async (deletedata) => {
+              const DeleteDetails = async deletedata => {
                 const result = await axioslogin.post('/backupdetails/seldaysdelete', deletedata)
                 const { success } = result.data
                 if (success === 2) {
@@ -401,17 +401,17 @@ const BackupMast = () => {
             }
           }
           if (scheduleType === 1) {
-            const inactiveScheduleTime = async (inactivedatas) => {
+            const inactiveScheduleTime = async inactivedatas => {
               const result = await axioslogin.patch('/backupdetails/inactive', inactivedatas)
               return result.data
             }
-            inactiveScheduleTime(inactivedatas).then((val) => {
+            inactiveScheduleTime(inactivedatas).then(val => {
               const { message, success } = val
               if (success === 2) {
-                UpdateDetailsMast(patchdata).then((value) => {
+                UpdateDetailsMast(patchdata).then(value => {
                   const { success } = value
                   if (success === 2) {
-                    const patchdatas = scheduleTime?.map((val) => {
+                    const patchdatas = scheduleTime?.map(val => {
                       return {
                         backup_slno: backup_slno,
                         backup_name: backupname,
@@ -421,17 +421,17 @@ const BackupMast = () => {
                         create_user: id,
                       }
                     })
-                    const InsertScheduleTime = async (patchdatas) => {
+                    const InsertScheduleTime = async patchdatas => {
                       const result = await axioslogin.post(
                         '/backupdetails/detailInsert',
-                        patchdatas,
+                        patchdatas
                       )
                       return result.data
                     }
-                    InsertScheduleTime(patchdatas).then((item) => {
+                    InsertScheduleTime(patchdatas).then(item => {
                       const { success, time_id } = item
                       if (success === 1) {
-                        const dailydata = scheduleTime?.map((val) => {
+                        const dailydata = scheduleTime?.map(val => {
                           return {
                             time_slno: time_id,
                             backup_slno: backup_slno,
@@ -441,10 +441,10 @@ const BackupMast = () => {
                             create_user: id,
                           }
                         })
-                        const InsertBackupDaily = async (dailydata) => {
+                        const InsertBackupDaily = async dailydata => {
                           const result = await axioslogin.post(
                             '/backupdetails/daydetails',
-                            dailydata,
+                            dailydata
                           )
                           const { message, success } = result.data
                           if (success === 1) {
@@ -465,15 +465,15 @@ const BackupMast = () => {
               }
             })
           } else if (scheduleType === 5) {
-            UpdateDetailsMast(patchdata).then((value) => {
+            UpdateDetailsMast(patchdata).then(value => {
               const { success, message } = value
               if (success === 2) {
                 if (editScheduleType !== 5) {
-                  const inactiveScheduleTime = async (inactivedatas) => {
+                  const inactiveScheduleTime = async inactivedatas => {
                     const result = await axioslogin.patch('/backupdetails/inactive', inactivedatas)
                     return result.data
                   }
-                  inactiveScheduleTime(inactivedatas).then((val) => {
+                  inactiveScheduleTime(inactivedatas).then(val => {
                     const { success } = val
                     if (success === 2) {
                       const startdate = moment(new Date()).format('YYYY-MM-DD')
@@ -482,12 +482,12 @@ const BackupMast = () => {
                         selected_days: days,
                         backup_selected_date: startdate,
                         due_date: moment(addDays(new Date(startdate), days - 1)).format(
-                          'YYYY-MM-DD',
+                          'YYYY-MM-DD'
                         ),
                         verify_status: 0,
                         create_user: id,
                       }
-                      const InsertSelectedDays = async (insertdata) => {
+                      const InsertSelectedDays = async insertdata => {
                         const result = await axioslogin.post('/backupdetails/add', insertdata)
                         const { message, success } = result.data
                         if (success === 1) {
@@ -504,11 +504,11 @@ const BackupMast = () => {
                     backup_slno: backup_slno,
                     selected_days: days,
                     due_date: moment(addDays(new Date(backup_selected_date), days - 1)).format(
-                      'YYYY-MM-DD',
+                      'YYYY-MM-DD'
                     ),
                     edit_user: id,
                   }
-                  const updateSelectedDays = async (updatedata) => {
+                  const updateSelectedDays = async updatedata => {
                     const result = await axioslogin.patch('/backupdetails/updatedays', updatedata)
                     const { message, success } = result.data
                     if (success === 2) {
@@ -526,17 +526,17 @@ const BackupMast = () => {
               }
             })
           } else {
-            const inactiveScheduleTime = async (inactivedatas) => {
+            const inactiveScheduleTime = async inactivedatas => {
               const result = await axioslogin.patch('/backupdetails/inactive', inactivedatas)
               return result.data
             }
-            inactiveScheduleTime(inactivedatas).then((val) => {
+            inactiveScheduleTime(inactivedatas).then(val => {
               const { message, success } = val
               if (success === 2) {
-                UpdateDetailsMast(patchdata).then((value) => {
+                UpdateDetailsMast(patchdata).then(value => {
                   const { success } = value
                   if (success === 2) {
-                    const patchdatas = scheduleTime?.map((val) => {
+                    const patchdatas = scheduleTime?.map(val => {
                       return {
                         backup_slno: backup_slno,
                         backup_name: backupname,
@@ -546,10 +546,10 @@ const BackupMast = () => {
                         create_user: id,
                       }
                     })
-                    const InsertScheduleTime = async (patchdatas) => {
+                    const InsertScheduleTime = async patchdatas => {
                       const result = await axioslogin.post(
                         '/backupdetails/detailInsert',
-                        patchdatas,
+                        patchdatas
                       )
                       const { message, success } = result.data
                       if (success === 1) {
@@ -589,7 +589,7 @@ const BackupMast = () => {
       deletedata,
       editScheduleType,
       backup_active_status,
-    ],
+    ]
   )
 
   return (

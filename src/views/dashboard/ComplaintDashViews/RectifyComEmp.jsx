@@ -12,7 +12,7 @@ const RectifyComEmp = () => {
   const dispatch = useDispatch()
 
   /**reducer function for getting login employees id */
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
 
@@ -22,12 +22,12 @@ const RectifyComEmp = () => {
   }, [dispatch, id])
 
   /**reducer function for total complaints */
-  const total = useSelector((state) => {
+  const total = useSelector(state => {
     return state.setAssitRectEmpWise.assitEmpList
   })
 
   /** filter total complaint based on status get assigned complaint */
-  const rectify = total.filter((val) => {
+  const rectify = total.filter(val => {
     return val.compalint_status === 2
   })
 

@@ -29,14 +29,14 @@ const DetailMain = () => {
     history('/Home')
   }, [history])
 
-  const AddDetails = useCallback((params) => {
+  const AddDetails = useCallback(params => {
     const data = params.api.getSelectedRows()
     setDetailArry(data[0])
     setDetailflag(1)
     setmodalOpwn(true)
   }, [])
 
-  const enterDetails = useCallback((val) => {
+  const enterDetails = useCallback(val => {
     setDetailArry(val)
     setpendingDetailFlag(1)
   }, [])

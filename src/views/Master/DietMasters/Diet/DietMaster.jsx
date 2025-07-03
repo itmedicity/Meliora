@@ -27,14 +27,14 @@ const DietMaster = () => {
   //object Destructuring
   const { diet_name, diet_status, order_req, diet_type_choose, diet_slno } = diet
   const updateDiet = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setDiet({ ...diet, [e.target.name]: value })
     },
-    [diet],
+    [diet]
   )
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   //Assigning data to postData for insertion
@@ -48,7 +48,7 @@ const DietMaster = () => {
     }
   }, [diet_name, diet_status, order_req, diet_type_choose, id])
   //Data set to textfields for editing
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const { diet_slno, diet_name, diet_status, order_req, diet_type_choose } = data[0]
@@ -72,7 +72,7 @@ const DietMaster = () => {
     }
   }, [diet_name, diet_status, order_req, diet_type_choose, diet_slno, id])
   const submitDiet = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
       const formReset = {
         diet_name: '',
@@ -80,7 +80,7 @@ const DietMaster = () => {
         order_req: false,
         diet_type_choose: false,
       }
-      const InsertData = async (postData) => {
+      const InsertData = async postData => {
         const result = await axioslogin.post(`/diet`, postData)
         const { message, success } = result.data
         if (success === 1) {
@@ -93,7 +93,7 @@ const DietMaster = () => {
           infoNotify(message)
         }
       }
-      const updateData = async (patchdata) => {
+      const updateData = async patchdata => {
         const result = await axioslogin.patch(`/diet`, patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -113,7 +113,7 @@ const DietMaster = () => {
         updateData(patchdata)
       }
     },
-    [value, postData, count, patchdata],
+    [value, postData, count, patchdata]
   )
 
   //Close function

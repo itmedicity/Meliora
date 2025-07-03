@@ -20,7 +20,7 @@ const CeoApproval = () => {
     dispatch(getHallbookDeotApprove())
   }, [dispatch, count])
 
-  const tabledata = useSelector((state) => {
+  const tabledata = useSelector(state => {
     return state.setdepthallbookApproval.HallbookApproveList
   })
 
@@ -29,7 +29,7 @@ const CeoApproval = () => {
   const [datas, setdatas] = useState([])
 
   //Data set for edit
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setOpen(true)
     const data = params.api.getSelectedRows()
     setdatas(data)
@@ -40,7 +40,7 @@ const CeoApproval = () => {
     {
       headerName: 'Action',
       minWidth: 100,
-      cellRenderer: (params) => {
+      cellRenderer: params => {
         if (params.data.is_ceo_approved === 1) {
           return (
             <IconButton sx={{ color: editicon, paddingY: 0.5 }} disabled>

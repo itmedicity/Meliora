@@ -26,7 +26,7 @@ const CustomTextarea = ({
         value={value}
         name={name}
         disabled={disabled}
-        onChange={(e) => onchange(e)}
+        onChange={e => onchange(e)}
       />
     </Fragment>
   )

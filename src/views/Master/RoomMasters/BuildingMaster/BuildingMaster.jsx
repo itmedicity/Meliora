@@ -26,11 +26,11 @@ const BuildingMaster = () => {
   //destructuring
   const { build_name, build_alias, build_no, status, build_code } = build
   const updateBuilding = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setBuild({ ...build, [e.target.name]: value })
     },
-    [build],
+    [build]
   )
   //data for insert
   const postdata = useMemo(() => {
@@ -43,7 +43,7 @@ const BuildingMaster = () => {
     }
   }, [build_name, build_alias, build_no, status])
   //data set for edit
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setEdit(1)
     const data = params.api.getSelectedRows()
     const { build_name, build_alias, status, build_no, build_code } = data[0]
@@ -67,7 +67,7 @@ const BuildingMaster = () => {
     }
   }, [build_name, build_alias, build_no, status, build_code])
   const submitBuilding = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
       const formreset = {
         build_name: '',
@@ -77,7 +77,7 @@ const BuildingMaster = () => {
         build_code: '',
       }
       /*** * insert function for use call back */
-      const InsertFun = async (postdata) => {
+      const InsertFun = async postdata => {
         const result = await axioslogin.post('/building', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -91,7 +91,7 @@ const BuildingMaster = () => {
         }
       }
       /***  * update function for use call back     */
-      const updateFun = async (patchdata) => {
+      const updateFun = async patchdata => {
         const result = await axioslogin.patch('/building', patchdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -114,7 +114,7 @@ const BuildingMaster = () => {
         updateFun(patchdata)
       }
     },
-    [edit, postdata, patchdata, count],
+    [edit, postdata, patchdata, count]
   )
   //close button function
   const backtoSetting = useCallback(() => {

@@ -57,10 +57,10 @@ const ManualList = () => {
       const { success, data } = result.data
       if (success === 1) {
         const fileNames = data
-        const fileUrls = fileNames.map((fileName) => {
+        const fileUrls = fileNames.map(fileName => {
           return `${PUBLIC_NAS_FOLDER}/fileshows/HOSPITAL MANUAL/${fileName}`
         })
-        const savedFiles = fileUrls.map((val) => {
+        const savedFiles = fileUrls.map(val => {
           const parts = val.split('/')
           const fileNamePart = parts[parts.length - 1]
           const obj = {
@@ -83,10 +83,10 @@ const ManualList = () => {
       const { success, data } = result.data
       if (success === 1) {
         const fileNames = data
-        const fileUrls = fileNames.map((fileName) => {
+        const fileUrls = fileNames.map(fileName => {
           return `${PUBLIC_NAS_FOLDER}/fileshows/STANDARD TREATMENT GUIDLINE/${fileName}`
         })
-        const savedFiles = fileUrls.map((val) => {
+        const savedFiles = fileUrls.map(val => {
           const parts = val.split('/')
           const fileNamePart = parts[parts.length - 1]
           const obj = {

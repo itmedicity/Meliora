@@ -17,7 +17,7 @@ const VeriftComDept = () => {
   const dispatch = useDispatch()
 
   /**reducer function for getting login employees id */
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   /**redux function for getting login employees all details */
@@ -26,7 +26,7 @@ const VeriftComDept = () => {
   }, [dispatch, id])
 
   //redux for getting employee data
-  const profileData = useSelector((state) => {
+  const profileData = useSelector(state => {
     return state.getLoginProfileData.loginProfiledata
   })
 
@@ -41,11 +41,11 @@ const VeriftComDept = () => {
   }, [profileData, dispatch])
 
   /**reducer function for total complaints */
-  const total = useSelector((state) => {
+  const total = useSelector(state => {
     return state.getComplaintList.complaintList
   })
   /** filter total complaint based on status get Verified complaint */
-  const veryfied = total.filter((val) => {
+  const veryfied = total.filter(val => {
     return val.compalint_status === 3
   })
 

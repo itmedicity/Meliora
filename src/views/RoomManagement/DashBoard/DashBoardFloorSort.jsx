@@ -13,21 +13,21 @@ const DashBoardFloorSort = ({
 }) => {
   const [floorArry, setFloorArry] = useState([])
   useEffect(() => {
-    const all = data.filter((val) => {
+    const all = data.filter(val => {
       return val.rm_floor_build_block_slno === blockno
     }, [])
     setFloorArry(all)
   }, [blockno, data])
 
   const ground = useCallback(
-    (data) => {
+    data => {
       const { rm_floor_slno, rm_buildblock_name, rm_floor_name } = data
       setFloorNo(rm_floor_slno)
       setFloorNAme(rm_floor_name)
       setRoomList(1)
       setbuildblockname(rm_buildblock_name)
     },
-    [setFloorNo, setFloorNAme, setRoomList, setbuildblockname],
+    [setFloorNo, setFloorNAme, setRoomList, setbuildblockname]
   )
 
   return (
@@ -35,7 +35,7 @@ const DashBoardFloorSort = ({
       <Box sx={{ py: 3, width: '100%' }}>
         <Box sx={{ margin: 'auto' }}>
           {floorArry &&
-            floorArry.map((val) => {
+            floorArry.map(val => {
               return (
                 <Paper
                   variant="outlined"

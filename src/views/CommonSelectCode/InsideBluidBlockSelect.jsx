@@ -7,7 +7,7 @@ import { getInsideBuildingBlock } from 'src/redux/actions/InsideBuildBlockSelect
 
 const InsideBluidBlockSelect = ({ value, setValue, setName }) => {
   const dispatch = useDispatch()
-  const insideBuilding = useSelector((state) => {
+  const insideBuilding = useSelector(state => {
     return state.getInsideBuildingBlock.insideBuildList || 0
   })
 
@@ -22,7 +22,7 @@ const InsideBluidBlockSelect = ({ value, setValue, setName }) => {
           id="demo-simple-select"
           value={value}
           onChange={(e, { props }) => {
-            setValue(e.target.value);
+            setValue(e.target.value)
             setName(props.name)
           }}
           size="small"
@@ -36,7 +36,11 @@ const InsideBluidBlockSelect = ({ value, setValue, setName }) => {
           {insideBuilding &&
             insideBuilding.map((val, index) => {
               return (
-                <MenuItem key={index} value={val.rm_insidebuildblock_slno} name={val.rm_insidebuildblock_alias}>
+                <MenuItem
+                  key={index}
+                  value={val.rm_insidebuildblock_slno}
+                  name={val.rm_insidebuildblock_alias}
+                >
                   {val.rm_insidebuildblock_name}
                 </MenuItem>
               )

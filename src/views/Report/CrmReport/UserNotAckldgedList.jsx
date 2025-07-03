@@ -34,21 +34,21 @@ const UserNotAckldgedList = () => {
   })
   const { startDate, endDate } = crfSearch
   const updateOnchange = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setCrfSearch({ ...crfSearch, [e.target.name]: value })
     },
-    [crfSearch],
+    [crfSearch]
   )
   const searchCRFDetails = useCallback(
-    async (e) => {
+    async e => {
       e.preventDefault()
       setOpen(true)
       const postdata = {
         startDate: format(new Date(startDate), 'yyyy-MM-dd 00:00:00'),
         endDate: format(new Date(endDate), 'yyyy-MM-dd 23:59:59'),
       }
-      const getdataUserAcknldged = async (postdata) => {
+      const getdataUserAcknldged = async postdata => {
         const result = await axioslogin.post('/CrfReports/getdataUserNotAcknldged', postdata)
         const { success, data } = result.data
         if (success === 1) {
@@ -69,7 +69,7 @@ const UserNotAckldgedList = () => {
         setOpen(false)
       }
     },
-    [endDate, startDate],
+    [endDate, startDate]
   )
   const [columnDefForTable] = useState([
     { headerName: 'Sl No ', field: 'slno', autoHeight: true, wrapText: true, minWidth: 20 },
@@ -147,7 +147,7 @@ const UserNotAckldgedList = () => {
   ])
 
   const apiRef = useRef()
-  const exportState = useSelector((state) => {
+  const exportState = useSelector(state => {
     return state.changeStateAggrid.aggridstate
   })
 
@@ -175,7 +175,7 @@ const UserNotAckldgedList = () => {
       '"Segoe UI Symbol"',
     ].join(','),
   }
-  const onGridReady = (params) => {
+  const onGridReady = params => {
     params.columnApi.autoSizeAllColumns()
   }
 

@@ -10,45 +10,51 @@ import { useSelector } from 'react-redux'
 import { useQuery } from 'react-query'
 import { getEmployeeuserrightsMenu } from 'src/api/TicketApi'
 
-
 const CondemnationApprovalRights = () => {
-    const empid = useSelector((state) => state.LoginUserData.empid);
-    const [menurights, setMenurights] = useState([]);
+  const empid = useSelector(state => state.LoginUserData.empid)
+  const [menurights, setMenurights] = useState([])
 
-    const menuListData = useMemo(() => [
-        { slno: 260, name: 'Condemnation Incharge Approval', component: InchargeTab },
-        { slno: 261, name: 'Condemnation HOD Approval', component: HodTab },
-        { slno: 262, name: 'Condemnation GM Operations Approval', component: GmOprTab },
-        { slno: 263, name: 'Condemnation Accounts Approval', component: AccountsTab },
-        { slno: 264, name: 'Condemnation General Store Approval', component: GenStoreTab },
-        { slno: 265, name: 'Condemnation Materials Management Approval', component: MaterialManagementTab },
-    ], []);
+  const menuListData = useMemo(
+    () => [
+      { slno: 260, name: 'Condemnation Incharge Approval', component: InchargeTab },
+      { slno: 261, name: 'Condemnation HOD Approval', component: HodTab },
+      { slno: 262, name: 'Condemnation GM Operations Approval', component: GmOprTab },
+      { slno: 263, name: 'Condemnation Accounts Approval', component: AccountsTab },
+      { slno: 264, name: 'Condemnation General Store Approval', component: GenStoreTab },
+      {
+        slno: 265,
+        name: 'Condemnation Materials Management Approval',
+        component: MaterialManagementTab,
+      },
+    ],
+    []
+  )
 
-    const postEmp = useMemo(() => ({ empid }), [empid]);
+  const postEmp = useMemo(() => ({ empid }), [empid])
 
-    const { data: menuRightsEmployee = [] } = useQuery({
-        queryKey: ['getEmployeeuserrightsMenu', postEmp],
-        queryFn: () => getEmployeeuserrightsMenu(postEmp),
-    });
+  const { data: menuRightsEmployee = [] } = useQuery({
+    queryKey: ['getEmployeeuserrightsMenu', postEmp],
+    queryFn: () => getEmployeeuserrightsMenu(postEmp),
+  })
 
-    useEffect(() => {
-        if (menuRightsEmployee.length > 0) {
-            const filteredMenus = menuListData.filter((menu) =>
-                menuRightsEmployee.some((val) => menu.slno === val.menu_slno)
-            );
+  useEffect(() => {
+    if (menuRightsEmployee.length > 0) {
+      const filteredMenus = menuListData.filter(menu =>
+        menuRightsEmployee.some(val => menu.slno === val.menu_slno)
+      )
 
-            setMenurights(filteredMenus);
-        }
-    }, [menuRightsEmployee, menuListData]);
+      setMenurights(filteredMenus)
+    }
+  }, [menuRightsEmployee, menuListData])
 
-    return (
-        <Box>
-            <Box sx={{ flex: 1 }}>
-                {menurights.map(({ slno, component: Component }) => (
-                    <Component key={slno} menurights={menurights} />
-                ))}
-            </Box>
-        </Box>
-    );
-};
+  return (
+    <Box>
+      <Box sx={{ flex: 1 }}>
+        {menurights.map(({ slno, component: Component }) => (
+          <Component key={slno} menurights={menurights} />
+        ))}
+      </Box>
+    </Box>
+  )
+}
 export default memo(CondemnationApprovalRights)

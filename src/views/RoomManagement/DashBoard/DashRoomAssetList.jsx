@@ -6,76 +6,97 @@ import { Paper } from '@mui/material'
 import { Box } from '@mui/system'
 
 const DashRoomAssetList = ({ RoomAssetList }) => {
+  const rowHeight = 35
+  const headerHeight = 30
+  const defaultColDef = {}
+  const onGridReady = params => {
+    params.api.sizeColumnsToFit()
+  }
 
-    const rowHeight = 35
-    const headerHeight = 30
-    const defaultColDef = {
-    }
-    const onGridReady = (params) => {
-        params.api.sizeColumnsToFit()
-    }
+  const rowStyle = {
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+  }
 
-    const rowStyle = {
-        fontFamily: [
-            '-apple-system',
-            'BlinkMacSystemFont',
-            '"Segoe UI"',
-            'Roboto',
-            '"Helvetica Neue"',
-            'Arial',
-            'sans-serif',
-            '"Apple Color Emoji"',
-            '"Segoe UI Emoji"',
-            '"Segoe UI Symbol"',
-        ].join(','),
-    }
-
-
-    const [column] = useState([
-        { headerName: 'SlNo', field: 'slno', minWidth: 10 },
-        { headerName: 'Category', field: 'category_name', autoHeight: true, wrapText: true, minWidth: 100, filter: "true" },
-        { headerName: 'Item Name', field: 'item_name', autoHeight: true, wrapText: true, minWidth: 400, filter: "true" },
-        { headerName: 'Primary Custodian', field: 'cus_primary', autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
-        { headerName: 'Secondary Custodian', field: 'cus_second', autoHeight: true, wrapText: true, minWidth: 250, filter: "true" },
-        { headerName: 'Room', field: 'rm_room_name', minWidth: 70, filter: "true" },
-        { headerName: 'Sub Room', field: 'subroom_name', minWidth: 70, filter: "true" },
-    ])
-    return (
-
-        <Fragment>
-            <Paper elevation={0}>
-                <Box
-                    className="ag-theme-alpine ListItemScrol"
-                    sx={{
-                        height: 550,
-                        width: "100%"
-                    }}
-                >
-                    <AgGridReact
-                        columnDefs={column}
-                        rowData={RoomAssetList}
-                        defaultColDef={defaultColDef}
-                        rowHeight={rowHeight}
-                        headerHeight={headerHeight}
-                        rowDragManaged={true}
-                        animateRows={true}
-                        onGridReady={onGridReady}
-                        rowSelection="multiple"
-                        // onSelectionChanged={onSelectionChanged}
-                        rowStyle={rowStyle}
-                    // columnTypes={columnTypes}
-                    // getRowStyle={getRowStyle}
-                    ></AgGridReact>
-                </Box>
-            </Paper>
-        </Fragment>
-
-    )
+  const [column] = useState([
+    { headerName: 'SlNo', field: 'slno', minWidth: 10 },
+    {
+      headerName: 'Category',
+      field: 'category_name',
+      autoHeight: true,
+      wrapText: true,
+      minWidth: 100,
+      filter: 'true',
+    },
+    {
+      headerName: 'Item Name',
+      field: 'item_name',
+      autoHeight: true,
+      wrapText: true,
+      minWidth: 400,
+      filter: 'true',
+    },
+    {
+      headerName: 'Primary Custodian',
+      field: 'cus_primary',
+      autoHeight: true,
+      wrapText: true,
+      minWidth: 250,
+      filter: 'true',
+    },
+    {
+      headerName: 'Secondary Custodian',
+      field: 'cus_second',
+      autoHeight: true,
+      wrapText: true,
+      minWidth: 250,
+      filter: 'true',
+    },
+    { headerName: 'Room', field: 'rm_room_name', minWidth: 70, filter: 'true' },
+    { headerName: 'Sub Room', field: 'subroom_name', minWidth: 70, filter: 'true' },
+  ])
+  return (
+    <Fragment>
+      <Paper elevation={0}>
+        <Box
+          className="ag-theme-alpine ListItemScrol"
+          sx={{
+            height: 550,
+            width: '100%',
+          }}
+        >
+          <AgGridReact
+            columnDefs={column}
+            rowData={RoomAssetList}
+            defaultColDef={defaultColDef}
+            rowHeight={rowHeight}
+            headerHeight={headerHeight}
+            rowDragManaged={true}
+            animateRows={true}
+            onGridReady={onGridReady}
+            rowSelection="multiple"
+            // onSelectionChanged={onSelectionChanged}
+            rowStyle={rowStyle}
+            // columnTypes={columnTypes}
+            // getRowStyle={getRowStyle}
+          ></AgGridReact>
+        </Box>
+      </Paper>
+    </Fragment>
+  )
 }
 
 export default memo(DashRoomAssetList)
-
-
 
 // import React, { memo } from 'react'
 // import { CssVarsProvider } from '@mui/joy/'

@@ -38,7 +38,7 @@ const CustomAgGrid = () => {
   }
 
   let gridApi
-  const onGridReady = (params) => {
+  const onGridReady = params => {
     gridApi = params.api
   }
 
@@ -46,7 +46,7 @@ const CustomAgGrid = () => {
     gridApi.exportDataAsCsv()
   }, [gridApi])
 
-  const onSelectionChanged = (event) => {
+  const onSelectionChanged = event => {
     console.log(event.api.getSelectedRows())
   }
 

@@ -11,10 +11,10 @@ import PendingCondemnationList from './PendingCondemnationList'
 // import DeptScrapstoreMain from './DeptScrapstore/DeptScrapstoreMain';
 
 const CondemnationList = () => {
-  const empdept = useSelector((state) => {
+  const empdept = useSelector(state => {
     return state.LoginUserData.empdept
   })
-  const empId = useSelector((state) => {
+  const empId = useSelector(state => {
     return state.LoginUserData.empid
   })
   const history = useNavigate()

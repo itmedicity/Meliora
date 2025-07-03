@@ -40,8 +40,8 @@ const DeliveryMarkingStore = () => {
   const history = useNavigate()
   const dispatch = useDispatch()
   const queryClient = useQueryClient()
-  const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
-  const empdeptsec = useSelector((state) => state.LoginUserData.empsecid, _.isEqual)
+  const id = useSelector(state => state.LoginUserData.empid, _.isEqual)
+  const empdeptsec = useSelector(state => state.LoginUserData.empsecid, _.isEqual)
   const [deliveryState, setDeliveryState] = useState({
     receivedDate: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
     directMode: false,
@@ -89,51 +89,49 @@ const DeliveryMarkingStore = () => {
   }, [history])
 
   const updateOnchangeState = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setDeliveryState({ ...deliveryState, [e.target.name]: value })
     },
-    [deliveryState],
+    [deliveryState]
   )
 
   const SearchData = useCallback(() => {
     if (supCode === 0) {
       infoNotify('Select Supplier Name')
-      setDeliveryState((prev) => ({
+      setDeliveryState(prev => ({
         ...prev,
         searchFlag: 0,
       }))
     } else {
-      setDeliveryState((prev) => ({
+      setDeliveryState(prev => ({
         ...prev,
         searchFlag: 1,
       }))
 
-      const getPendingPODetails = async (supCode) => {
+      const getPendingPODetails = async supCode => {
         const result = await axioslogin.get(`/deliveryMarking/pendingPo/${supCode}`)
         return result.data
       }
-      const getItemDetailsEllider = async (posearch) => {
+      const getItemDetailsEllider = async posearch => {
         const result = await axiosellider.post('/crfpurchase/items', posearch)
         return result.data
       }
-      const updateItemqty = async (patchQnty) => {
+      const updateItemqty = async patchQnty => {
         const result = await axioslogin.post('/deliveryMarking/updateqty', patchQnty)
         return result.data
       }
-      const updatepoStatusDetails = async (poStatusResult) => {
+      const updatepoStatusDetails = async poStatusResult => {
         const result = await axioslogin.post('/deliveryMarking/updatePoStatus', poStatusResult)
         return result.data
       }
       getPendingPODetails(supCode)
-        .then((val) => {
+        .then(val => {
           const { success, data } = val
           if (success === 1) {
             const posearch = data?.reduce((acc, val) => {
               if (
-                !acc.some(
-                  (item) => item.pono === val.po_number && item.stcode === val.crs_store_code,
-                )
+                !acc.some(item => item.pono === val.po_number && item.stcode === val.crs_store_code)
               ) {
                 acc.push({
                   pono: val.po_number,
@@ -142,7 +140,7 @@ const DeliveryMarkingStore = () => {
               }
               return acc
             }, [])
-            const poNumber = data?.map((val) => {
+            const poNumber = data?.map(val => {
               return {
                 pono: val.po_number,
                 stcode: val.crs_store_code,
@@ -151,20 +149,20 @@ const DeliveryMarkingStore = () => {
                 item_slno: val.item_slno,
               }
             })
-            getItemDetailsEllider(posearch).then((val) => {
+            getItemDetailsEllider(posearch).then(val => {
               const { success, ellData } = val
               if (success === 1) {
                 const seen = new Set()
                 const patchQnty = ellData
-                  ?.map((item) => {
+                  ?.map(item => {
                     const poItems = poNumber?.filter(
-                      (po) =>
+                      po =>
                         po.pono === item.PO_NO &&
                         po.stcode === item.ST_CODE &&
-                        po.item_code === item.IT_CODE,
+                        po.item_code === item.IT_CODE
                     )
                     return poItems
-                      .map((poItem) => {
+                      .map(poItem => {
                         const uniqueKey = `${poItem.marking_po_slno}-${item.IT_CODE}-${item.PDN_SUPQTY}`
                         if (!seen.has(uniqueKey)) {
                           seen.add(uniqueKey)
@@ -190,7 +188,7 @@ const DeliveryMarkingStore = () => {
                         }
                         return null
                       })
-                      .filter((item) => item !== null)
+                      .filter(item => item !== null)
                   })
                   .flat()
 
@@ -204,9 +202,9 @@ const DeliveryMarkingStore = () => {
                   acc[curr.marking_po_slno].item_statuses.push(curr.item_status)
                   return acc
                 }, {})
-                const poStatusResult = Object.values(poStatusArray).map((val) => {
-                  const allNull = val.item_statuses.every((status) => status === null)
-                  const allOne = val.item_statuses.every((status) => status === 1)
+                const poStatusResult = Object.values(poStatusArray).map(val => {
+                  const allNull = val.item_statuses.every(status => status === null)
+                  const allOne = val.item_statuses.every(status => status === 1)
                   let po_status
                   // () po_status = 1; means not received or partilly received)
                   if (allNull) {
@@ -224,32 +222,33 @@ const DeliveryMarkingStore = () => {
                   }
                 })
                 updateItemqty(patchQnty)
-                  .then((val) => {
+                  .then(val => {
                     const { success } = val
                     if (success === 1) {
                       updatepoStatusDetails(poStatusResult)
-                        .then((val) => {
+                        .then(val => {
                           const { success, message } = val
                           if (success === 1) {
+                            return
                           } else {
                             warningNotify(message)
                           }
                         })
-                        .catch((error) => {
+                        .catch(error => {
                           warningNotify('Error in save Po Status:', error)
                         })
                     } else {
                       warningNotify('Error Occured while update item qty')
                     }
                   })
-                  .catch((error) => {
+                  .catch(error => {
                     warningNotify('Error Occured while update item qty:', error)
                   })
               }
             })
           }
         })
-        .catch((error) => {
+        .catch(error => {
           warningNotify('Error in getting Po List:', error)
         })
 
@@ -270,7 +269,7 @@ const DeliveryMarkingStore = () => {
       }
       getCRSStore()
 
-      const getExistPoData = async (supCode) => {
+      const getExistPoData = async supCode => {
         try {
           const result = await axioslogin.get(`/deliveryMarking/existPo/${supCode}`)
           const { success, data } = result.data
@@ -285,7 +284,7 @@ const DeliveryMarkingStore = () => {
         }
       }
       getExistPoData(supCode)
-      const getPOdetails = async (supCode) => {
+      const getPOdetails = async supCode => {
         try {
           const result = await axiosellider.get(`/crfpurchase/getPoDetails/${supCode}`)
           return result.data
@@ -294,7 +293,7 @@ const DeliveryMarkingStore = () => {
           return { success: 0, data: [] }
         }
       }
-      getPOdetails(supCode).then((val) => {
+      getPOdetails(supCode).then(val => {
         const { success, data } = val
         if (success === 1) {
           setElliderPoList(data)
@@ -314,7 +313,7 @@ const DeliveryMarkingStore = () => {
         delivered_bill_no: billNumber,
         delivered_bill_date: billDate,
       }
-      const isDuplicate = billDetails?.some((val) => val.delivered_bill_no === billNumber)
+      const isDuplicate = billDetails?.some(val => val.delivered_bill_no === billNumber)
       if (isDuplicate) {
         warningNotify('Bill Details Already Exists!')
         return
@@ -330,7 +329,7 @@ const DeliveryMarkingStore = () => {
           return obj
         })
         setBillDetails(datas)
-        setDeliveryState((prev) => ({
+        setDeliveryState(prev => ({
           ...prev,
           editIndex: null,
         }))
@@ -346,7 +345,7 @@ const DeliveryMarkingStore = () => {
         })
         setBillDetails(datas)
       }
-      setDeliveryState((prev) => ({
+      setDeliveryState(prev => ({
         ...prev,
         billNumber: '',
         billDate: format(new Date(), 'yyyy-MM-dd'),
@@ -356,7 +355,7 @@ const DeliveryMarkingStore = () => {
 
   const editSelect = useCallback((val, index) => {
     const { delivered_bill_no, delivered_bill_date } = val
-    setDeliveryState((prev) => ({
+    setDeliveryState(prev => ({
       ...prev,
       billNumber: delivered_bill_no,
       billDate: format(new Date(delivered_bill_date), 'yyyy-MM-dd'),
@@ -365,21 +364,21 @@ const DeliveryMarkingStore = () => {
   }, [])
 
   const deleteSelect = useCallback(
-    (val) => {
+    val => {
       if (billDetails.length !== 0) {
-        const array = billDetails?.filter((value) => value.bill_slno !== val.bill_slno)
+        const array = billDetails?.filter(value => value.bill_slno !== val.bill_slno)
         setBillDetails(array)
       }
     },
-    [billDetails],
+    [billDetails]
   )
 
   useEffect(() => {
     if (elliderPoList.length !== 0) {
       if (existPo.length !== 0) {
-        const insertNew = elliderPoList?.filter((val) => {
+        const insertNew = elliderPoList?.filter(val => {
           return !existPo?.find(
-            (value) => value.po_number === val.PO_NO && value.crs_store_code === val.ST_CODE,
+            value => value.po_number === val.PO_NO && value.crs_store_code === val.ST_CODE
           )
         })
         setinsertArray(insertNew)
@@ -411,11 +410,11 @@ const DeliveryMarkingStore = () => {
     if (insertArray.length !== 0) {
       const array = insertArray.filter(
         (po, index, self) =>
-          index === self.findIndex((val) => val.ST_CODE === po.ST_CODE && val.PO_NO === po.PO_NO),
+          index === self.findIndex(val => val.ST_CODE === po.ST_CODE && val.PO_NO === po.PO_NO)
       )
 
-      const newArray = array?.map((po) => {
-        const newData = storeList?.find((value) => value.crs_store_code === po.ST_CODE)
+      const newArray = array?.map(po => {
+        const newData = storeList?.find(value => value.crs_store_code === po.ST_CODE)
         return {
           po_no: po.PO_NO,
           storecode: po.ST_CODE,
@@ -478,9 +477,9 @@ const DeliveryMarkingStore = () => {
         }
         return obj
       })
-      const combinedData = newArray?.map((po) => {
+      const combinedData = newArray?.map(po => {
         const details = poItems?.filter(
-          (item) => item.po_no === po.po_no && item.storecode === po.storecode,
+          item => item.po_no === po.po_no && item.storecode === po.storecode
         )
         return {
           ...po,
@@ -541,11 +540,11 @@ const DeliveryMarkingStore = () => {
 
   //file upload
   const uploadFile = useCallback(
-    (e) => {
+    e => {
       const files = Array.from(e.target.files)
-      setSelectFile((prevFiles) => {
+      setSelectFile(prevFiles => {
         const duplicateFiles = []
-        const validFiles = files?.filter((file) => {
+        const validFiles = files?.filter(file => {
           if (
             file.type === 'application/pdf' ||
             file.type === 'image/png' ||
@@ -557,7 +556,7 @@ const DeliveryMarkingStore = () => {
               return false
             }
             const isDuplicate = prevFiles.some(
-              (prevFile) => prevFile.name === file.name && prevFile.size === file.size,
+              prevFile => prevFile.name === file.name && prevFile.size === file.size
             )
             // const duplicates = prevFiles?.filter(
             //     (prevFile) => prevFile.name === file.name && prevFile.size === file.size
@@ -574,22 +573,22 @@ const DeliveryMarkingStore = () => {
             return true
           } else {
             warningNotify(
-              `The file "${file.name}" is not a supported format! Only .png, .jpeg, and .pdf are allowed.`,
+              `The file "${file.name}" is not a supported format! Only .png, .jpeg, and .pdf are allowed.`
             )
             return false
           }
         })
         if (duplicateFiles.length > 0) {
           warningNotify(
-            `The following files are duplicates and were not added: ${duplicateFiles.join(', ')}`,
+            `The following files are duplicates and were not added: ${duplicateFiles.join(', ')}`
           )
         }
         return [...prevFiles, ...validFiles]
       })
     },
-    [setSelectFile],
+    [setSelectFile]
   )
-  const handleImageUpload = useCallback(async (imageFile) => {
+  const handleImageUpload = useCallback(async imageFile => {
     const options = {
       maxSizeMB: 25,
       maxWidthOrHeight: 1920,
@@ -606,7 +605,7 @@ const DeliveryMarkingStore = () => {
     } else if (empName === 0) {
       infoNotify('Select Receiver')
     } else {
-      const insertDeliveryMarking = async (postData) => {
+      const insertDeliveryMarking = async postData => {
         // try {
         const result = await axioslogin.post('/deliveryMarking/delMarkInsert', postData)
         return result.data
@@ -615,7 +614,7 @@ const DeliveryMarkingStore = () => {
         //     return { success: 0, message: "Failed to insert delivery marking" };
         // }
       }
-      const savePoDetails = async (postdataDetl) => {
+      const savePoDetails = async postdataDetl => {
         // try {
         const result = await axioslogin.post('/deliveryMarking/insertPo', postdataDetl)
         return result.data
@@ -651,13 +650,13 @@ const DeliveryMarkingStore = () => {
       }
       if (combinedPO.length !== 0) {
         insertDeliveryMarking(postData)
-          .then((val) => {
+          .then(val => {
             const { success, insert_id } = val
             if (success === 1) {
               if (selectFile.length > 0) {
                 //file upload
                 FileInsert(selectFile, insert_id)
-                  .then((val) => {
+                  .then(val => {
                     const { status, message } = val
 
                     if (status === 1) {
@@ -667,12 +666,12 @@ const DeliveryMarkingStore = () => {
                       warningNotify('Error upload file:', message)
                     }
                   })
-                  .catch((error) => {
+                  .catch(error => {
                     warningNotify('Error upload file:', error)
                   })
               }
 
-              const postdataDetl = combinedPO?.map((val) => {
+              const postdataDetl = combinedPO?.map(val => {
                 return {
                   delivery_mark_slno: insert_id,
                   supplier_code: supCode,
@@ -693,7 +692,7 @@ const DeliveryMarkingStore = () => {
                 }
               })
               savePoDetails(postdataDetl)
-                .then((val) => {
+                .then(val => {
                   const { success, message } = val
                   if (success === 1) {
                     succesNotify(message)
@@ -703,25 +702,25 @@ const DeliveryMarkingStore = () => {
                     warningNotify('Error saving PO details:', message)
                   }
                 })
-                .catch((error) => {
+                .catch(error => {
                   warningNotify('Error in save Po Details:', error)
                 })
             } else {
               warningNotify('Error inserting delivery marking:', val.message)
             }
           })
-          .catch((error) => {
+          .catch(error => {
             warningNotify('Error in insert Delivery Marking:', error)
           })
       } else {
         insertDeliveryMarking(postData)
-          .then((val) => {
+          .then(val => {
             const { success, insert_id } = val
             if (success === 1) {
               if (selectFile.length > 0) {
                 //file upload
                 FileInsert(selectFile, insert_id)
-                  .then((val) => {
+                  .then(val => {
                     const { status, message } = val
                     if (status === 1) {
                       succesNotify(message)
@@ -730,7 +729,7 @@ const DeliveryMarkingStore = () => {
                       warningNotify('Error upload file:', message)
                     }
                   })
-                  .catch((error) => {
+                  .catch(error => {
                     warningNotify('Error upload file:', error)
                   })
               }
@@ -739,7 +738,7 @@ const DeliveryMarkingStore = () => {
               queryClient.invalidateQueries('deliverMarking')
             }
           })
-          .catch((error) => {
+          .catch(error => {
             warningNotify('Error in insert Delivery Marking:', error)
           })
       }
@@ -761,7 +760,7 @@ const DeliveryMarkingStore = () => {
     setViewFlag(1)
     ResetDetails()
   }, [ResetDetails])
-  const ViewImage = useCallback((file) => {
+  const ViewImage = useCallback(file => {
     const fileType = file.imageName
       ? file.imageName.endsWith('.pdf')
         ? 'pdf'
@@ -775,8 +774,8 @@ const DeliveryMarkingStore = () => {
     setimageshow(true)
     setimageshowFlag(1)
   }, [])
-  const handleRemoveFile = (index) => {
-    setSelectFile((prevFiles) => {
+  const handleRemoveFile = index => {
+    setSelectFile(prevFiles => {
       const updatedFiles = [...prevFiles]
       updatedFiles.splice(index, 1)
       return updatedFiles
@@ -1103,7 +1102,7 @@ const DeliveryMarkingStore = () => {
                                             color: '#1565c0',
                                           },
                                         }}
-                                        onClick={(e) => editSelect(val, index)}
+                                        onClick={e => editSelect(val, index)}
                                       />
                                     </td>
                                     <td size="sm" style={{ textAlign: 'center', height: 5 }}>
@@ -1114,7 +1113,7 @@ const DeliveryMarkingStore = () => {
                                             color: '#B95C50',
                                           },
                                         }}
-                                        onClick={(e) => deleteSelect(val, index)}
+                                        onClick={e => deleteSelect(val, index)}
                                       />
                                     </td>
                                   </tr>

@@ -22,11 +22,11 @@ const DepartmentAssetMain = () => {
   const dispatch = useDispatch()
   const [selectedDept, setSelectedDept] = useState(null)
 
-  const secName = useSelector((state) => {
+  const secName = useSelector(state => {
     return state.LoginUserData.empdeptsec
   })
 
-  const empsecid = useSelector((state) => {
+  const empsecid = useSelector(state => {
     return state.LoginUserData.empsecid
   })
 
@@ -48,7 +48,7 @@ const DepartmentAssetMain = () => {
     5: <SettingsSuggestIcon sx={{ height: '100%', width: '100%', color: '#2C2743' }} />,
   }
 
-  const handleSelect = (deptSlno) => {
+  const handleSelect = deptSlno => {
     setSelectedDept(deptSlno === selectedDept ? null : deptSlno)
   }
   useEffect(() => {
@@ -62,7 +62,7 @@ const DepartmentAssetMain = () => {
       item_custodian_dept: selectedDept,
       item_deptsec_slno: empsecid,
     }),
-    [selectedDept, empsecid],
+    [selectedDept, empsecid]
   )
 
   const { data: getCustAssetInSec = [] } = useQuery({
@@ -100,7 +100,7 @@ const DepartmentAssetMain = () => {
         </Box>
         <Box sx={{ m: 0.5, border: 1, borderColor: '#D0D0D0', p: 1, borderRadius: 2, flex: 1 }}>
           <Box sx={{ flex: 1, display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-            {CustDept.map((dept) => {
+            {CustDept.map(dept => {
               const icon = departmentIcons[dept.am_custodian_slno] || (
                 <HiveIcon sx={{ height: '100%', width: '100%', color: '#2C2743' }} />
               )
@@ -159,7 +159,7 @@ const DepartmentAssetMain = () => {
             <Virtuoso
               style={{ height: '68vh' }}
               totalCount={AssetList.length}
-              itemContent={(index) => {
+              itemContent={index => {
                 const val = AssetList[index]
                 return (
                   <Box

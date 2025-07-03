@@ -15,10 +15,10 @@ const InchargeTab = ({ menurights }) => {
     history('/Home')
   }, [history])
 
-  const empdept = useSelector((state) => {
+  const empdept = useSelector(state => {
     return state.LoginUserData.empdept
   })
-  const empId = useSelector((state) => {
+  const empId = useSelector(state => {
     return state.LoginUserData.empid
   })
   return (

@@ -37,7 +37,7 @@ const DeptSectionMast = () => {
   })
   //destructuring
   const { general, ot, icu, er } = deptsubtype
-  const updateSectionStatus = async (e) => {
+  const updateSectionStatus = async e => {
     const ob1 = {
       general: false,
       ot: false,
@@ -47,34 +47,34 @@ const DeptSectionMast = () => {
     const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
     setdeptsubtype({ ...ob1, [e.target.name]: value })
   }
-  const updatesecNames = useCallback((e) => {
+  const updatesecNames = useCallback(e => {
     const value = e.target.value
     updatesecName(value)
   }, [])
-  const updatesecStatus = useCallback((e) => {
+  const updatesecStatus = useCallback(e => {
     const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
     setsecStatus(value)
   }, [])
 
   const [levelOneStatus, setLevelOne] = useState(false)
-  const updateLevelOne = useCallback((e) => {
+  const updateLevelOne = useCallback(e => {
     const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
     setLevelOne(value)
   }, [])
   const [levelTwoStatus, setLevelTwoStatus] = useState(false)
-  const updateLevelTwo = useCallback((e) => {
+  const updateLevelTwo = useCallback(e => {
     const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
     setLevelTwoStatus(value)
   }, [])
 
   const [departmentsectionId, setDeptsectionId] = useState(0)
   useEffect(() => {
-    getDepartmentsectionId().then((val) => {
+    getDepartmentsectionId().then(val => {
       setDeptsectionId(val)
     })
   }, [count])
   // Get login user emp_id
-  const loginid = useSelector((state) => {
+  const loginid = useSelector(state => {
     return state.LoginUserData.empid
   })
   //general-1,ot-2,icu-3,er-4
@@ -133,7 +133,7 @@ const DeptSectionMast = () => {
     loginid,
   ])
   //data set for edit
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setEdit(1)
     const data = params.api.getSelectedRows()
     const { sec_name, dept_id, status, sec_id, dept_sub_sect, ou_code, level_one, level_two } =
@@ -171,10 +171,10 @@ const DeptSectionMast = () => {
   }, [setdeptsubtype])
   /*** usecallback function for form submitting */
   const submitDepartsection = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
       /*** * insert function for use call back     */
-      const InsertFun = async (postdata) => {
+      const InsertFun = async postdata => {
         const result = await axioslogin.post('/deptsecmaster', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -188,7 +188,7 @@ const DeptSectionMast = () => {
         }
       }
       /***  * update function for use call back     */
-      const updateFun = async (patchdata) => {
+      const updateFun = async patchdata => {
         const result = await axioslogin.patch('/deptsecmaster', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -211,7 +211,7 @@ const DeptSectionMast = () => {
         updateFun(patchdata)
       }
     },
-    [edit, postdata, patchdata, count, reset],
+    [edit, postdata, patchdata, count, reset]
   )
   //close button function
   const backtoSetting = useCallback(() => {

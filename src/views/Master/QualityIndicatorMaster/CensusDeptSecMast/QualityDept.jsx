@@ -18,7 +18,7 @@ const QualityDept = () => {
     history('/Home/Settings')
   }, [history])
 
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state?.LoginUserData.empid
   })
   const [censusNurs, setCensusNurs] = useState({
@@ -31,11 +31,11 @@ const QualityDept = () => {
   const { census_ns_code, census_ns_name, census_ou_code, nursing_status, census_ns_slno } =
     censusNurs
   const updateCensusNurs = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setCensusNurs({ ...censusNurs, [e.target.name]: value })
     },
-    [censusNurs],
+    [censusNurs]
   )
   const reset = () => {
     const formreset = {
@@ -74,9 +74,9 @@ const QualityDept = () => {
   }, [census_ns_slno, census_ns_code, census_ou_code, nursing_status, id, census_ns_name])
 
   const submitQualityDept = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const InsertDepartment = async (postdata) => {
+      const InsertDepartment = async postdata => {
         const result = await axioslogin.post('/censusNursingStat/insert', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -89,7 +89,7 @@ const QualityDept = () => {
           infoNotify(message)
         }
       }
-      const updateDepartment = async (patchdata) => {
+      const updateDepartment = async patchdata => {
         const result = await axioslogin.patch('/censusNursingStat/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -108,9 +108,9 @@ const QualityDept = () => {
         updateDepartment(patchdata)
       }
     },
-    [postdata, count, patchdata, value],
+    [postdata, count, patchdata, value]
   )
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const { census_ns_slno, census_ns_name, census_ns_code, census_ou_code, status } = data[0]

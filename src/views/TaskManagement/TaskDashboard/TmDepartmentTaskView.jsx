@@ -24,11 +24,11 @@ const TmDepartmentTaskView = ({
   const history = useNavigate()
   const dispatch = useDispatch()
   //redux for geting login emp secid
-  const empsecid = useSelector((state) => {
+  const empsecid = useSelector(state => {
     return state.LoginUserData.empsecid
   })
 
-  const rowSelectModal = useCallback((value) => {
+  const rowSelectModal = useCallback(value => {
     setEditModalFlag(1)
     setEditModalOpen(true)
     setMasterData(value)
@@ -41,7 +41,7 @@ const TmDepartmentTaskView = ({
     history('/Home/TaskManagementDashboard')
     setdeptFlag(0)
   }, [history, setdeptFlag])
-  const isPastDue = (tm_task_due_date) => {
+  const isPastDue = tm_task_due_date => {
     const today = new Date()
     const due = new Date(tm_task_due_date)
     return due < today

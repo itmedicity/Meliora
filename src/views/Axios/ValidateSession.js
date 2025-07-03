@@ -7,7 +7,7 @@ const ValidateSession = () => {
   const history = useNavigate()
 
   useEffect(() => {
-    axioslogin.get('/user').then((response) => {
+    axioslogin.get('/user').then(response => {
       if (response.data.status !== 200) {
         localStorage.clear()
         infoNotify('session timed out...Please Login')

@@ -20,7 +20,7 @@ const PendingOnHoldList = () => {
       headerName: 'Location',
       field: 'rm_room_name',
       minWidth: 350,
-      cellRendererFramework: (params) => {
+      cellRendererFramework: params => {
         const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } =
           params.data
         return (
@@ -43,12 +43,12 @@ const PendingOnHoldList = () => {
     { headerName: 'Complaint Status', field: 'cm_rectify_status' },
     { headerName: 'Remarks', field: 'rectify_pending_hold_remarks' },
   ])
-  const getRowStyle = (params) => {
+  const getRowStyle = params => {
     if (params.data.compalint_priority === 1) {
       return { background: '#f44336' }
     }
   }
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
 
@@ -57,7 +57,7 @@ const PendingOnHoldList = () => {
   }, [dispatch, id])
 
   //redux for getting employee data
-  const profileData = useSelector((state) => {
+  const profileData = useSelector(state => {
     return state.getLoginProfileData.loginProfiledata
   })
 
@@ -68,7 +68,7 @@ const PendingOnHoldList = () => {
     }
   }, [profileData, dispatch])
 
-  const tabledata = useSelector((state) => {
+  const tabledata = useSelector(state => {
     return state.getOnholdList.onHoldList
   })
 

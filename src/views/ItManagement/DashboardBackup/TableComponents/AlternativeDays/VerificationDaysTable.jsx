@@ -27,14 +27,14 @@ const VerificationDaysTable = ({ setdaysflag }) => {
     setdaysflag(0)
     setExcelflag(0)
   }, [history, setdaysflag])
-  const fromdateOnChange = useCallback((e) => {
+  const fromdateOnChange = useCallback(e => {
     setFromdate(e.target.value)
   }, [])
-  const TodateOnChange = useCallback((e) => {
+  const TodateOnChange = useCallback(e => {
     setTodate(e.target.value)
   }, [])
 
-  const empdept = useSelector((state) => {
+  const empdept = useSelector(state => {
     return state?.LoginUserData.empdept
   })
 
@@ -68,7 +68,7 @@ const VerificationDaysTable = ({ setdaysflag }) => {
   }, [postdata, fromdate, todate])
   const ExcelReportDetails = useCallback(() => {
     if (array.length !== 0) {
-      const NewData = array?.map((val) => {
+      const NewData = array?.map(val => {
         return {
           backup_selected_date: val.backup_selected_date,
           due_date: val.due_date,

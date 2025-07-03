@@ -30,12 +30,12 @@ const EmpTaskView = ({ tableCount, setTableCount, setflag, tableDataEmployee, em
     setflag(0)
   }, [history, setflag])
 
-  const rowSelectModal = useCallback((value) => {
+  const rowSelectModal = useCallback(value => {
     setEditModalFlag(1)
     setEditModalOpen(true)
     setMasterData(value)
   }, [])
-  const isPastDue = (tm_task_due_date) => {
+  const isPastDue = tm_task_due_date => {
     const today = new Date()
     const due = new Date(tm_task_due_date)
     return due < today
@@ -47,7 +47,7 @@ const EmpTaskView = ({ tableCount, setTableCount, setflag, tableDataEmployee, em
     setimageViewModalOpen(false)
     setImageUrls([])
   }, [setimageViewModalOpen, setEditModalOpen, setImageUrls, setimage])
-  const fileView = async (val) => {
+  const fileView = async val => {
     const { tm_task_slno } = val
     setgetarry(val)
     setEditModalOpen(false)
@@ -62,7 +62,7 @@ const EmpTaskView = ({ tableCount, setTableCount, setflag, tableDataEmployee, em
 
         const fileNames = data.data
 
-        const fileUrls = fileNames.map((fileName) => {
+        const fileUrls = fileNames.map(fileName => {
           return `${PUBLIC_NAS_FOLDER}/TaskManagement/${tm_task_slno}/${fileName}`
         })
         setImageUrls(fileUrls)
@@ -195,7 +195,7 @@ const EmpTaskView = ({ tableCount, setTableCount, setflag, tableDataEmployee, em
                 <Virtuoso
                   style={{ height: '80vh' }}
                   totalCount={tableDataEmployee?.length}
-                  itemContent={(index) => {
+                  itemContent={index => {
                     const val = tableDataEmployee[index]
                     return (
                       <Box

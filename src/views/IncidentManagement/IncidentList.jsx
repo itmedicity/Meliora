@@ -32,7 +32,7 @@ const IncidentList = () => {
       const result = await axioslogin.post('/incidentMaster/search', searchData)
       return result.data
     }
-    searchDetails().then((value) => {
+    searchDetails().then(value => {
       const { success, data, message } = value
       if (success === 1) {
         setTableData(data)
@@ -80,11 +80,11 @@ const IncidentList = () => {
                 size="sm"
                 inputFormat="dd-MM-yyyy"
                 maxDate={new Date()}
-                onChange={(newValue) => {
+                onChange={newValue => {
                   setFromDate(newValue)
                   setTabFlag(0)
                 }}
-                renderInput={(params) => (
+                renderInput={params => (
                   <TextField
                     {...params}
                     helperText={null}
@@ -109,11 +109,11 @@ const IncidentList = () => {
                 size="sm"
                 inputFormat="dd-MM-yyyy"
                 maxDate={new Date()}
-                onChange={(newValue) => {
+                onChange={newValue => {
                   setToDate(newValue)
                   setTabFlag(0)
                 }}
-                renderInput={(params) => (
+                renderInput={params => (
                   <TextField
                     {...params}
                     helperText={null}

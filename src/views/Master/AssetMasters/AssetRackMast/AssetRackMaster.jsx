@@ -17,7 +17,7 @@ const AssetRackMaster = () => {
   const [count, setCount] = useState(0)
   const [deptsec, setDeptSec] = useState(0)
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
 
@@ -30,11 +30,11 @@ const AssetRackMaster = () => {
   const { rack_name, rack_status, rack_slno } = rackdata
 
   const updateRack = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setRackdata({ ...rackdata, [e.target.name]: value })
     },
-    [rackdata],
+    [rackdata]
   )
 
   const postdata = useMemo(() => {
@@ -67,9 +67,9 @@ const AssetRackMaster = () => {
   }, [])
 
   const submitAssetRack = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const Insertrack = async (postdata) => {
+      const Insertrack = async postdata => {
         const result = await axioslogin.post('/assetRackMast/insert', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -83,7 +83,7 @@ const AssetRackMaster = () => {
         }
       }
 
-      const UpdateRackMaster = async (patchdata) => {
+      const UpdateRackMaster = async patchdata => {
         const result = await axioslogin.patch('/assetRackMast/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -102,10 +102,10 @@ const AssetRackMaster = () => {
         UpdateRackMaster(patchdata)
       }
     },
-    [postdata, patchdata, setCount, reset, count, value],
+    [postdata, patchdata, setCount, reset, count, value]
   )
 
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const { am_rack_slno, am_rack_name, am_rack_status, am_rack_deptsec } = data[0]

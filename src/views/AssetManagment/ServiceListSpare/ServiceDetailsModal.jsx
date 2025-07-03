@@ -53,7 +53,7 @@ import BreakDownDetails from './BreakDownDetails'
 import DocumentsList from './DocumentsList'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import { useQuery } from 'react-query'
-import EmailIcon from '@mui/icons-material/Email';
+import EmailIcon from '@mui/icons-material/Email'
 
 const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, setCount }) => {
   const dispatch = useDispatch()
@@ -73,7 +73,6 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
   const [supplContctEmp, setsupplContctEmp] = useState(0)
   const [servicedSuppl, setServicedSuppl] = useState(0)
   const [editSupp, setEditSupp] = useState(0)
-
 
   const [flags, setFlags] = useState({
     addToStockFlag: 0,
@@ -128,7 +127,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
       : 0
   const ItemPrefix =
     spare_asset_no !== undefined ? spare_asset_no : item_asset_no !== undefined ? item_asset_no : 0
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
 
@@ -162,14 +161,13 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
     const fetchComplaintFiles = async () => {
       try {
         const result = await axioslogin.get(
-          `/AmServiceFileUpload/uploadFile/getAssetServiceFile/${am_service_details_slno}`,
+          `/AmServiceFileUpload/uploadFile/getAssetServiceFile/${am_service_details_slno}`
         )
         const { success } = result.data
         if (success === 1) {
           const fileNames = result.data.data
           const fileUrls = fileNames.map(
-            (fileName) =>
-              `${PUBLIC_NAS_FOLDER}/AssetService/${am_service_details_slno}/${fileName}`,
+            fileName => `${PUBLIC_NAS_FOLDER}/AssetService/${am_service_details_slno}/${fileName}`
           )
           if (fileUrls.length > 0) {
             setUploadedFiles(fileUrls)
@@ -216,11 +214,11 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
   }, [])
 
   const UpdateServiceDeptDetails = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setdeptServiceDetails({ ...deptServiceDetails, [e.target.name]: value })
     },
-    [deptServiceDetails],
+    [deptServiceDetails]
   )
 
   const Close = useCallback(() => {
@@ -248,13 +246,13 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
     setsupplierSelect(0)
     setSupplierDetails([])
     setSpareDetails([])
-    setFlags((prevFlags) => ({
+    setFlags(prevFlags => ({
       ...prevFlags,
       addToStockFlag: 0,
       transfrToCondmflag: 0,
       image: 0,
     }))
-    setViewStates((prev) => ({
+    setViewStates(prev => ({
       ...prev,
       imageViewOpen: false,
     }))
@@ -265,14 +263,14 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
   }, [setFlag, setOpen, setFlags, setViewStates])
 
   const UpdateServicedtl = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       SetService({ ...servicee, [e.target.name]: value })
     },
-    [servicee],
+    [servicee]
   )
 
-  const empsecid = useSelector((state) => {
+  const empsecid = useSelector(state => {
     return state.LoginUserData.empsecid
   })
 
@@ -312,9 +310,9 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
 
   useEffect(() => {
     if (am_item_map_slno !== undefined) {
-      const getAllSpare = async (am_item_map_slno) => {
+      const getAllSpare = async am_item_map_slno => {
         const result = await axioslogin.get(
-          `/complaintreg/SpareDetailsUndercomplaint/${am_item_map_slno}`,
+          `/complaintreg/SpareDetailsUndercomplaint/${am_item_map_slno}`
         )
         const { success, data } = result.data
         if (success === 1) {
@@ -348,7 +346,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
       try {
         const result = await axioslogin.post(
           '/assetSpareDetails/getAssetcomplaintDetails',
-          AssetData,
+          AssetData
         )
         const { success, data } = result.data
         if (success === 2 && data.length > 0) {
@@ -373,7 +371,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
 
   const complaint_slno = complDetails?.[0]?.complaint_slno || null
   const serviceSparee = useCallback(
-    async (val) => {
+    async val => {
       const { am_spare_item_map_slno, asset_spare_slno, spare_asset_no, spare_asset_no_only } = val
 
       const patchdata = {
@@ -390,15 +388,15 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
         create_user: id,
       }
 
-      const ServiceUpdate = async (patchdata) => {
+      const ServiceUpdate = async patchdata => {
         const result = await axioslogin.patch('/ItemMapDetails/spareService', patchdata)
         return result.data
       }
 
-      const SpareComplaintInsert = async (postSpareData) => {
+      const SpareComplaintInsert = async postSpareData => {
         const result = await axioslogin.post(
           '/assetSpareDetails/CmSpareComplaintService',
-          postSpareData,
+          postSpareData
         )
         return result.data
       }
@@ -424,19 +422,19 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
         warningNotify('Something went wrong!')
       }
     },
-    [id, setCount, count, complaint_slno],
+    [id, setCount, count, complaint_slno]
   )
 
   const handleFileChange = useCallback(
-    (e) => {
+    e => {
       const newFiles = [...selectFile]
       newFiles.push(e.target.files[0])
       setSelectFile(newFiles)
     },
-    [selectFile, setSelectFile],
+    [selectFile, setSelectFile]
   )
 
-  const handleImageUpload = useCallback(async (imageFile) => {
+  const handleImageUpload = useCallback(async imageFile => {
     const options = {
       maxSizeMB: 1,
       maxWidthOrHeight: 1920,
@@ -452,8 +450,8 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
     }
   }, [])
 
-  const handleRemoveFile = (index) => {
-    setSelectFile((prevFiles) => {
+  const handleRemoveFile = index => {
+    setSelectFile(prevFiles => {
       const updatedFiles = [...prevFiles]
       updatedFiles.splice(index, 1)
       return updatedFiles
@@ -489,9 +487,9 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
     ItemPrefix,
     service_on_hold_reason,
     flags,
-    complDetails,    
+    complDetails,
     suppl_serviced_date,
-    suppl_serviced_remarks,    
+    suppl_serviced_remarks,
     currentDateAndTime,
     deptServiceSlno,
     condm_transf_remarks,
@@ -532,16 +530,15 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
     ItemPrefix,
     service_on_hold_reason,
     condm_transf_remarks,
-    flags,    
+    flags,
     suppl_serviced_date,
-    suppl_serviced_remarks,    
+    suppl_serviced_remarks,
     currentDateAndTime,
     deptServiceValue,
     id,
     complDetails,
     servicedSuppl,
   ])
-
 
   const PostDeptServiceDetails = useMemo(() => {
     return {
@@ -578,7 +575,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
     const formattedNow = format(now, "yyyy-MM-dd'T'HH:mm")
     setCurrentDateAndTime(formattedNow)
     if (!deptServiceDetails.serviced_date) {
-      setdeptServiceDetails((prev) => ({
+      setdeptServiceDetails(prev => ({
         ...prev,
         serviced_date: formattedNow,
       }))
@@ -586,7 +583,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
   }, [deptServiceDetails.serviced_date])
 
   const AddDeptServiceDetails = useCallback(
-    async (e) => {
+    async e => {
       e.preventDefault()
       if (
         !spareCheckEmp ||
@@ -599,16 +596,16 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
       }
       const { editFlag } = flags
       if (editFlag === 1 && serviced_emp_detail_slno !== '') {
-        const UpdateDeptServiceDetails = async (PatchDeptServiceDetails) => {
+        const UpdateDeptServiceDetails = async PatchDeptServiceDetails => {
           const result = await axioslogin.patch(
             `/assetSpareDetails/servicedEmpDetailsUpdate`,
-            PatchDeptServiceDetails,
+            PatchDeptServiceDetails
           )
           const { message, success } = result.data
           if (success === 2) {
             succesNotify(message)
             setCount(count + 1)
-            setFlags((prevFlags) => ({
+            setFlags(prevFlags => ({
               ...prevFlags,
               editFlag: 0,
             }))
@@ -621,14 +618,14 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
           try {
             const result = await axioslogin.post(
               `/assetSpareDetails/servicedEmpDetailsInsert`,
-              PostDeptServiceDetails,
+              PostDeptServiceDetails
             )
             return result.data
           } catch (error) {
             return { success: 0, message: 'Failed to insert service employee details' }
           }
         }
-        const UpdateServiceDetails = async (newServicedEmpId) => {
+        const UpdateServiceDetails = async newServicedEmpId => {
           let currentServicedEmpIdSlno = deptServiceSlno || []
           if (typeof currentServicedEmpIdSlno === 'string') {
             currentServicedEmpIdSlno = JSON.parse(currentServicedEmpIdSlno)
@@ -645,7 +642,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
           try {
             const result = await axioslogin.patch(
               `/assetSpareDetails/serviceDetailsUpdate`,
-              updatedServiceDetails,
+              updatedServiceDetails
             )
             return result.data
           } catch (error) {
@@ -653,7 +650,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
           }
         }
 
-        const AddDetails = async (insertId) => {
+        const AddDetails = async insertId => {
           const PostServiceDetails = {
             ...PostData,
             serviced_emp_details_slno: insertId === 0 ? null : JSON.stringify([insertId]),
@@ -662,7 +659,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
           try {
             const result = await axioslogin.post(
               `/assetSpareDetails/serviceDetailsInsert`,
-              PostServiceDetails,
+              PostServiceDetails
             )
             return result.data
           } catch (error) {
@@ -680,7 +677,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
             if (updateSuccess === 2) {
               succesNotify('Department Service Details Added Successfully')
               setCount(count + 1)
-              setFlags((prevFlags) => ({
+              setFlags(prevFlags => ({
                 ...prevFlags,
                 editFlag: 0,
               }))
@@ -694,7 +691,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
             if (serviceSuccess === 1) {
               succesNotify('Department Service Details Added Successfully')
               setCount(count + 1)
-              setFlags((prevFlags) => ({
+              setFlags(prevFlags => ({
                 ...prevFlags,
                 editFlag: 0,
               }))
@@ -724,7 +721,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
       serviced_date,
       serviced_issue_remarks,
       spareCheckEmp,
-    ],
+    ]
   )
 
   const searchDeptServiceData = useMemo(() => {
@@ -738,7 +735,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
       const getDeptServDetailsData = async () => {
         const result = await axioslogin.post(
           `assetSpareDetails/getDeptServiceDetailsData`,
-          searchDeptServiceData,
+          searchDeptServiceData
         )
         const { success, data } = result.data
         if (success === 1) {
@@ -764,7 +761,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
           try {
             const result = await axioslogin.post(
               `assetSpareDetails/getDeptServiceDetailsData`,
-              searchDeptServiceData,
+              searchDeptServiceData
             )
             const { success, data } = result.data
             if (success === 1) {
@@ -784,8 +781,8 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
   }, [alldetailsService])
 
   const rowSelect = useCallback(
-    (val) => {
-      setFlags((prevFlags) => ({
+    val => {
+      setFlags(prevFlags => ({
         ...prevFlags,
         editFlag: 1,
       }))
@@ -807,11 +804,11 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
       setdeptServiceDetails(frmdata)
       setspareCheckEmp(serviced_emp === null ? '' : serviced_emp)
     },
-    [setFlags],
+    [setFlags]
   )
 
   const AddServiceDetails = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
       const InsertFile = async (selectFile, insertId) => {
         try {
@@ -832,7 +829,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
               headers: {
                 'Content-Type': 'multipart/form-data',
               },
-            },
+            }
           )
           return uploadResult.data
         } catch (error) {
@@ -840,21 +837,21 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
         }
       }
 
-      const AddDetails = async (PostData) => {
+      const AddDetails = async PostData => {
         const result = await axioslogin.post(`/assetSpareDetails/serviceDetailsInsert`, PostData)
         return result.data
       }
 
-      const UpdateDetails = async (PatchData) => {
+      const UpdateDetails = async PatchData => {
         const result = await axioslogin.patch(`/assetSpareDetails/serviceDetailsUpdate`, PatchData)
         return result.data
       }
       if (am_service_details_slno !== '') {
-        UpdateDetails(PatchData).then((value) => {
+        UpdateDetails(PatchData).then(value => {
           const { success, message } = value
           if (success === 2) {
             if (selectFile.length !== 0) {
-              InsertFile(selectFile, insertId).then((value) => {
+              InsertFile(selectFile, insertId).then(value => {
                 const { success, message } = value
                 if (success === 1) {
                   succesNotify('Service Details Added With File Attach Successfully')
@@ -869,15 +866,14 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
               setCount(count + 1)
               Close()
             }
-          } else {
           }
         })
       } else {
-        AddDetails(PostData).then((value) => {
+        AddDetails(PostData).then(value => {
           const { success, insertId, message } = value
           if (success === 1) {
             if (selectFile.length !== 0) {
-              InsertFile(selectFile, insertId).then((value) => {
+              InsertFile(selectFile, insertId).then(value => {
                 const { success, message } = value
                 if (success === 1) {
                   succesNotify('Service Details Added With File Attach Successfully')
@@ -892,7 +888,6 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
               setCount(count + 1)
               Close()
             }
-          } else {
           }
         })
       }
@@ -907,7 +902,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
       count,
       handleImageUpload,
       setCount,
-    ],
+    ]
   )
 
   const [insertedId, setInsertedId] = useState(0)
@@ -921,9 +916,9 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
   const { supplier_service_slno, contacted_date, expected_service_vists, supplier_response } =
     supplierContact
 
-  const UpdateSupplcontact = useCallback((e) => {
+  const UpdateSupplcontact = useCallback(e => {
     const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
-    setSupplierContact((prev) => ({ ...prev, [e.target.name]: value }))
+    setSupplierContact(prev => ({ ...prev, [e.target.name]: value }))
   }, [])
   const ResetSuppl = useCallback(() => {
     const frmdata = {
@@ -988,7 +983,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
     queryKey: ['getserviceSupplDetails', am_service_details_slno, count],
     queryFn: async () => {
       const result = await axioslogin.get(
-        `/assetSpareDetails/viewSupplierContactDetails/${am_service_details_slno}`,
+        `/assetSpareDetails/viewSupplierContactDetails/${am_service_details_slno}`
       )
       const { success, data } = result.data
       return success === 1 ? data : []
@@ -997,23 +992,23 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
   })
 
   const AddSupplierContactDetails = useCallback(() => {
-    const AddDetails = async (PostData) => {
+    const AddDetails = async PostData => {
       const result = await axioslogin.post(`/assetSpareDetails/serviceDetailsInsert`, PostData)
       return result.data
     }
 
-    const InsertSupplierContact = async (data) => {
+    const InsertSupplierContact = async data => {
       const result = await axioslogin.post(`/assetSpareDetails/InsertSupplierContactDetails`, data)
       return result.data
     }
 
-    const UpdateSupplierContact = async (data) => {
+    const UpdateSupplierContact = async data => {
       const result = await axioslogin.patch(`/assetSpareDetails/UpdateSupplierContactDetails`, data)
       return result.data
     }
 
     if (!am_service_details_slno) {
-      AddDetails(PostData).then((value) => {
+      AddDetails(PostData).then(value => {
         const { success, insertId } = value
         if (success === 1) {
           setInsertedId(insertId)
@@ -1022,7 +1017,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
             service_details_slno: insertId,
           }
 
-          InsertSupplierContact(newInsertData).then((value) => {
+          InsertSupplierContact(newInsertData).then(value => {
             const { success, message } = value
             success === 1 ? succesNotify(message) : warningNotify(message)
             setCount(count + 1)
@@ -1032,14 +1027,14 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
       })
     } else {
       if (editSupp === 1) {
-        UpdateSupplierContact(UpdateSuppContactDetails).then((value) => {
+        UpdateSupplierContact(UpdateSuppContactDetails).then(value => {
           const { success, message } = value
           success === 2 ? succesNotify(message) : warningNotify(message)
           setCount(count + 1)
           ResetSuppl()
         })
       } else {
-        InsertSupplierContact(InsertSuppContactDetails).then((value) => {
+        InsertSupplierContact(InsertSuppContactDetails).then(value => {
           const { success, message } = value
           success === 1 ? succesNotify(message) : warningNotify(message)
           setCount(count + 1)
@@ -1048,14 +1043,17 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
       }
     }
   }, [
-    am_service_details_slno,    
+    am_service_details_slno,
     InsertSuppContactDetails,
     UpdateSuppContactDetails,
-    PostData,ResetSuppl,count,editSupp,setCount
+    PostData,
+    ResetSuppl,
+    count,
+    editSupp,
+    setCount,
   ])
 
-
-  const EditRow = useCallback((val) => {
+  const EditRow = useCallback(val => {
     setEditSupp(1)
     const {
       supplier_service_slno,
@@ -1132,15 +1130,15 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
             setinsertId(am_service_details_slno)
             setServicedSuppl(serviced_supplier)
             setDeptServiceSlno(serviced_emp_details_slno === null ? 0 : serviced_emp_details_slno)
-            setFlags((prevFlags) => ({
+            setFlags(prevFlags => ({
               ...prevFlags,
               serviceStatus: service_hold,
             }))
-          } else {
           }
-        } else {
         }
-      } catch (error) {}
+      } catch (error) {
+        errorNotify('Error in getallServiceDetails:', error)
+      }
     }
     getallServiceDetails()
   }, [searchData, count, dept_service_date])
@@ -1162,27 +1160,27 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
     getServiceDetailsAll()
   }, [searchData, count])
 
-  const fileView = async (val) => {
+  const fileView = async val => {
     const { complaint_slno } = val
-    setFlags((prevState) => ({
+    setFlags(prevState => ({
       ...prevState,
       image: 1,
     }))
     setfileDetails(val)
     try {
       const result = await axioslogin.get(
-        `/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`,
+        `/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`
       )
       const { success } = result.data
       if (success === 1) {
         const data = result.data
         const fileNames = data.data
-        const fileUrls = fileNames.map((fileName) => {
+        const fileUrls = fileNames.map(fileName => {
           return `${PUBLIC_NAS_FOLDER}/ComplaintManagement/${complaint_slno}/${fileName}`
         })
         setImageUrls(fileUrls)
         if (fileUrls.length > 0) {
-          setViewStates((prevState) => ({
+          setViewStates(prevState => ({
             ...prevState,
             image: 1,
             imageViewOpen: true,
@@ -1190,14 +1188,14 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
           setSelectedImages(val)
         } else {
           warningNotify('No Image attached')
-          setViewStates((prevState) => ({
+          setViewStates(prevState => ({
             ...prevState,
             image: 0,
             imageViewOpen: false,
           }))
         }
       } else {
-        setViewStates((prevState) => ({
+        setViewStates(prevState => ({
           ...prevState,
           image: 0,
           imageViewOpen: false,
@@ -1209,28 +1207,28 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
     }
   }
 
-  const fileViewAssetService = async (val) => {
+  const fileViewAssetService = async val => {
     const { am_service_details_slno } = val
     setServicefileDetails(val)
     try {
       const result = await axioslogin.get(
-        `/AmServiceFileUpload/uploadFile/getAssetServiceFile/${am_service_details_slno}`,
+        `/AmServiceFileUpload/uploadFile/getAssetServiceFile/${am_service_details_slno}`
       )
       const { success } = result.data
       if (success === 1) {
         const data = result.data
         const fileNames = data.data
-        const fileUrls = fileNames.map((fileName) => {
+        const fileUrls = fileNames.map(fileName => {
           return `${PUBLIC_NAS_FOLDER}/AssetService/${am_service_details_slno}/${fileName}`
         })
         setImageServiceUrls(fileUrls)
         if (fileUrls.length > 0) {
           setSelectedImages(val)
-          setFlags((prevState) => ({
+          setFlags(prevState => ({
             ...prevState,
             imageServiceFlag: 1,
           }))
-          setViewStates((prevState) => ({
+          setViewStates(prevState => ({
             ...prevState,
             serviceimageViewOpen: true,
           }))
@@ -1244,12 +1242,11 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
       warningNotify('Error in fetching files:', error)
     }
   }
- 
 
   const AddTostock = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      setFlags((prevFlags) => ({
+      setFlags(prevFlags => ({
         ...prevFlags,
         addToStockFlag: 1,
       }))
@@ -1319,7 +1316,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
               headers: {
                 'Content-Type': 'multipart/form-data',
               },
-            },
+            }
           )
           return uploadResult.data
         } catch (error) {
@@ -1327,53 +1324,53 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
         }
       }
 
-      const AddtoStockSpareUpdate = async (AddtoStockSpare) => {
+      const AddtoStockSpareUpdate = async AddtoStockSpare => {
         const result = await axioslogin.patch(
           '/assetSpareDetails/SpareDetailsUpdate',
-          AddtoStockSpare,
+          AddtoStockSpare
         )
         return result.data
       }
 
-      const AddDetails = async (PostData) => {
+      const AddDetails = async PostData => {
         const result = await axioslogin.post(`/assetSpareDetails/serviceDetailsInsert`, PostData)
         return result.data
       }
 
-      const UpdateDetails = async (PatchData) => {
+      const UpdateDetails = async PatchData => {
         const result = await axioslogin.patch(`/assetSpareDetails/serviceDetailsUpdate`, PatchData)
         return result.data
       }
 
-      const AddtoStockAssetUpdate = async (AddtoStockAsset) => {
+      const AddtoStockAssetUpdate = async AddtoStockAsset => {
         const result = await axioslogin.patch(
           '/assetSpareDetails/AssetDetailsUpdate',
-          AddtoStockAsset,
+          AddtoStockAsset
         )
         return result.data
       }
-      const serviceSpareUpdate = async (servicespareUpdate) => {
+      const serviceSpareUpdate = async servicespareUpdate => {
         const result = await axioslogin.patch(
           '/assetSpareDetails/spareServiceUpdate',
-          servicespareUpdate,
+          servicespareUpdate
         )
         return result.data
       }
 
       if (spare_asset_no_only !== undefined) {
         AddtoStockSpareUpdate(AddtoStockSpare)
-          .then((value) => {
+          .then(value => {
             const { success } = value
             if (success === 2) {
-              serviceSpareUpdate(servicespareUpdate).then((response) => {
+              serviceSpareUpdate(servicespareUpdate).then(response => {
                 const { success } = response
                 if (success === 2) {
                   if (am_service_details_slno !== '') {
-                    UpdateDetails(updatedPatchData).then((response) => {
+                    UpdateDetails(updatedPatchData).then(response => {
                       const { success } = response
                       if (success === 2) {
                         if (selectFile.length !== 0) {
-                          InsertFile(selectFile, insertId).then((value) => {
+                          InsertFile(selectFile, insertId).then(value => {
                             const { success, message } = value
                             if (success === 1) {
                               succesNotify('Item added to stock list With File Attach Successfully')
@@ -1393,11 +1390,11 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                       }
                     })
                   } else {
-                    AddDetails(updatedPostData).then((response) => {
+                    AddDetails(updatedPostData).then(response => {
                       const { success } = response
                       if (success === 1) {
                         if (selectFile.length !== 0) {
-                          InsertFile(selectFile, insertId).then((value) => {
+                          InsertFile(selectFile, insertId).then(value => {
                             const { success, message } = value
                             if (success === 1) {
                               succesNotify('Item added to stock list With File Attach Successfully')
@@ -1425,24 +1422,24 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
               errorNotify('Failed to add to stock.')
             }
           })
-          .catch((error) => {
+          .catch(error => {
             errorNotify('Error during add to stock:', error)
           })
       } else if (item_asset_no_only !== undefined) {
         AddtoStockAssetUpdate(AddtoStockAsset)
-          .then((value) => {
+          .then(value => {
             const { success } = value
             if (success === 2) {
               if (am_service_details_slno !== '') {
-                UpdateDetails(updatedPatchData).then((response) => {
+                UpdateDetails(updatedPatchData).then(response => {
                   const { success } = response
                   if (success === 2) {
                     if (selectFile.length !== 0) {
-                      InsertFile(selectFile, insertId).then((value) => {
+                      InsertFile(selectFile, insertId).then(value => {
                         const { success, message } = value
                         if (success === 1) {
                           succesNotify(
-                            'Service Completed,Item transferred With File Attach Successfully',
+                            'Service Completed,Item transferred With File Attach Successfully'
                           )
                           setCount(count + 1)
                           Close()
@@ -1460,15 +1457,15 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                   }
                 })
               } else {
-                AddDetails(updatedPostData).then((response) => {
+                AddDetails(updatedPostData).then(response => {
                   const { success } = response
                   if (success === 1) {
                     if (selectFile.length !== 0) {
-                      InsertFile(selectFile, insertId).then((value) => {
+                      InsertFile(selectFile, insertId).then(value => {
                         const { success, message } = value
                         if (success === 1) {
                           succesNotify(
-                            'Service Completed,Item transferred With File Attach Successfully',
+                            'Service Completed,Item transferred With File Attach Successfully'
                           )
                           setCount(count + 1)
                           Close()
@@ -1490,10 +1487,9 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
               errorNotify('Failed to update Service Details.')
             }
           })
-          .catch((error) => {
+          .catch(error => {
             errorNotify('Error during update Service Details:', error)
           })
-      } else {
       }
     },
     [
@@ -1516,13 +1512,13 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
       insertId,
       spare_asset_no_only,
       servicedSuppl,
-    ],
+    ]
   )
 
   const TransferToCondmination = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      setFlags((prevFlags) => ({
+      setFlags(prevFlags => ({
         ...prevFlags,
         transfrToCondmflag: 1,
       }))
@@ -1585,7 +1581,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
               headers: {
                 'Content-Type': 'multipart/form-data',
               },
-            },
+            }
           )
           return uploadResult.data
         } catch (error) {
@@ -1593,57 +1589,57 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
         }
       }
 
-      const CondmtransfrSpareUpdate = async (CondmtransfrSpare) => {
+      const CondmtransfrSpareUpdate = async CondmtransfrSpare => {
         const result = await axioslogin.patch(
           '/ItemMapDetails/spareContamination',
-          CondmtransfrSpare,
+          CondmtransfrSpare
         )
         return result.data
       }
 
-      const AddDetails = async (PostData) => {
+      const AddDetails = async PostData => {
         const result = await axioslogin.post(`/assetSpareDetails/serviceDetailsInsert`, PostData)
         return result.data
       }
 
-      const UpdateDetails = async (PatchData) => {
+      const UpdateDetails = async PatchData => {
         const result = await axioslogin.patch(`/assetSpareDetails/serviceDetailsUpdate`, PatchData)
         return result.data
       }
 
-      const CondmtransfrAssetUpdate = async (CondmtransfrAsset) => {
+      const CondmtransfrAssetUpdate = async CondmtransfrAsset => {
         const result = await axioslogin.patch(
           '/assetSpareDetails/AssetDetailsUpdate',
-          CondmtransfrAsset,
+          CondmtransfrAsset
         )
         return result.data
       }
-      const serviceSpareUpdate = async (servicespareUpdate) => {
+      const serviceSpareUpdate = async servicespareUpdate => {
         const result = await axioslogin.patch(
           '/assetSpareDetails/spareServiceUpdate',
-          servicespareUpdate,
+          servicespareUpdate
         )
         return result.data
       }
       if (condm_transf_remarks !== '') {
         if (spare_asset_no_only !== undefined) {
           CondmtransfrSpareUpdate(CondmtransfrSpare)
-            .then((value) => {
+            .then(value => {
               const { success } = value
               if (success === 1) {
-                serviceSpareUpdate(servicespareUpdate).then((response) => {
+                serviceSpareUpdate(servicespareUpdate).then(response => {
                   const { success } = response
                   if (success === 2) {
                     if (am_service_details_slno !== '') {
-                      UpdateDetails(updatedPatchData).then((response) => {
+                      UpdateDetails(updatedPatchData).then(response => {
                         const { success } = response
                         if (success === 2) {
                           if (selectFile.length !== 0) {
-                            InsertFile(selectFile, insertId).then((value) => {
+                            InsertFile(selectFile, insertId).then(value => {
                               const { success, message } = value
                               if (success === 1) {
                                 succesNotify(
-                                  'Item transferred to condemnation list With File Attach Successfully',
+                                  'Item transferred to condemnation list With File Attach Successfully'
                                 )
                                 setCount(count + 1)
                                 Close()
@@ -1661,15 +1657,15 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                         }
                       })
                     } else {
-                      AddDetails(updatedPostData).then((response) => {
+                      AddDetails(updatedPostData).then(response => {
                         const { success } = response
                         if (success === 1) {
                           if (selectFile.length !== 0) {
-                            InsertFile(selectFile, insertId).then((value) => {
+                            InsertFile(selectFile, insertId).then(value => {
                               const { success, message } = value
                               if (success === 1) {
                                 succesNotify(
-                                  'Item transferred to condemnation list With File Attach Successfully',
+                                  'Item transferred to condemnation list With File Attach Successfully'
                                 )
                                 setCount(count + 1)
                                 Close()
@@ -1687,31 +1683,30 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                         }
                       })
                     }
-                  } else {
                   }
                 })
               } else {
                 errorNotify('Failed to update contamination.')
               }
             })
-            .catch((error) => {
+            .catch(error => {
               errorNotify('Error during contamination update:', error)
             })
         } else if (item_asset_no_only !== undefined) {
           CondmtransfrAssetUpdate(CondmtransfrAsset)
-            .then((value) => {
+            .then(value => {
               const { success } = value
               if (success === 2) {
                 if (am_service_details_slno !== '') {
-                  UpdateDetails(updatedPatchData).then((response) => {
+                  UpdateDetails(updatedPatchData).then(response => {
                     const { success } = response
                     if (success === 2) {
                       if (selectFile.length !== 0) {
-                        InsertFile(selectFile, insertId).then((value) => {
+                        InsertFile(selectFile, insertId).then(value => {
                           const { success, message } = value
                           if (success === 1) {
                             succesNotify(
-                              'Item transferred to condemnation list  With File Attach Successfully',
+                              'Item transferred to condemnation list  With File Attach Successfully'
                             )
                             setCount(count + 1)
                             Close()
@@ -1729,15 +1724,15 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                     }
                   })
                 } else {
-                  AddDetails(updatedPostData).then((response) => {
+                  AddDetails(updatedPostData).then(response => {
                     const { success } = response
                     if (success === 1) {
                       if (selectFile.length !== 0) {
-                        InsertFile(selectFile, insertId).then((value) => {
+                        InsertFile(selectFile, insertId).then(value => {
                           const { success, message } = value
                           if (success === 1) {
                             succesNotify(
-                              'Item transferred to condemnation list With File Attach Successfully',
+                              'Item transferred to condemnation list With File Attach Successfully'
                             )
                             setCount(count + 1)
                             Close()
@@ -1759,10 +1754,9 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                 errorNotify('Failed to update contamination.')
               }
             })
-            .catch((error) => {
+            .catch(error => {
               errorNotify('Error during contamination update:', error)
             })
-        } else {
         }
       } else {
         infoNotify('Enter remarks for the condemnation transfer.')
@@ -1787,15 +1781,15 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
       item_custodian_dept_sec,
       spare_asset_no_only,
       am_spare_item_map_slno,
-    ],
+    ]
   )
 
   const AddNewSpare = useCallback(
-    (e) => {
+    e => {
       if (sparez === 0) {
         infoNotify('Please select Spare')
       } else {
-        const isAlreadyAdded = spareData.some((item) => item.spare_asset_no_only === sparez)
+        const isAlreadyAdded = spareData.some(item => item.spare_asset_no_only === sparez)
         if (isAlreadyAdded) {
           infoNotify('Spare already added')
           setSparez(0)
@@ -1813,10 +1807,10 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
         }
       }
     },
-    [am_item_map_slno, spareData, sparez, spareName, id],
+    [am_item_map_slno, spareData, sparez, spareName, id]
   )
-  const handleDelete = (indexToDelete) => {
-    setSpareData((prevArray) => {
+  const handleDelete = indexToDelete => {
+    setSpareData(prevArray => {
       const updatedArray = prevArray.filter((_, index) => index !== indexToDelete)
       return updatedArray
     })
@@ -1824,7 +1818,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
 
   const SparepostData =
     spareData &&
-    spareData.map((val) => {
+    spareData.map(val => {
       return {
         am_item_map_slno: val.am_item_map_slno,
         am_spare_item_map_slno: val.spare_asset_no_only,
@@ -1835,8 +1829,8 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
 
   const [sparecount, setsparecount] = useState(0)
   const AddNewSpareUnderAsset = useCallback(
-    (e) => {
-      const SparedetailInsert = async (SparepostData) => {
+    e => {
+      const SparedetailInsert = async SparepostData => {
         const result = await axioslogin.post(`/ItemMapDetails/SpareDetailsInsert`, SparepostData)
         const { message, success } = result.data
         if (success === 1) {
@@ -1852,7 +1846,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
       }
       SparedetailInsert(SparepostData)
     },
-    [SparepostData, count, setCount, sparecount, setsparecount],
+    [SparepostData, count, setCount, sparecount, setsparecount]
   )
 
   const patchDataServiceHoldAssset = useMemo(() => {
@@ -1870,82 +1864,75 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
   }, [flags.serviceStatus, am_spare_item_map_slno])
 
   const ServiceStatus = useCallback(() => {
-    const updateServiceHoldAsset = async (patchDataServiceHoldAssset) => {
+    const updateServiceHoldAsset = async patchDataServiceHoldAssset => {
       const result = await axioslogin.patch(
         `/assetSpareDetails/AssetServiceHoldUpdate`,
-        patchDataServiceHoldAssset,
+        patchDataServiceHoldAssset
       )
       return result.data
     }
-    const updateServiceHoldSpare = async (patchDataServiceHoldSpare) => {
+    const updateServiceHoldSpare = async patchDataServiceHoldSpare => {
       const result = await axioslogin.patch(
         `/assetSpareDetails/SpareServiceHoldUpdate`,
-        patchDataServiceHoldSpare,
+        patchDataServiceHoldSpare
       )
       return result.data
     }
 
-    const AddServiceDetils = async (PostData) => {
+    const AddServiceDetils = async PostData => {
       const result = await axioslogin.post(`/assetSpareDetails/serviceDetailsInsert`, PostData)
       return result.data
     }
 
-    const UpdateServiceDetils = async (PatchData) => {
+    const UpdateServiceDetils = async PatchData => {
       const result = await axioslogin.patch(`/assetSpareDetails/serviceDetailsUpdate`, PatchData)
       return result.data
     }
 
     if (am_service_details_slno !== '') {
-      UpdateServiceDetils(PatchData).then((value) => {
+      UpdateServiceDetils(PatchData).then(value => {
         const { success } = value
         if (success === 2) {
           if (item_asset_no_only !== undefined) {
-            updateServiceHoldAsset(patchDataServiceHoldAssset).then((value) => {
+            updateServiceHoldAsset(patchDataServiceHoldAssset).then(value => {
               const { success } = value
               if (success === 2) {
                 succesNotify('Service Status Updated Successfully')
                 setCount(count + 1)
-              } else {
               }
             })
           } else if (spare_asset_no_only !== undefined) {
-            updateServiceHoldSpare(patchDataServiceHoldSpare).then((value) => {
+            updateServiceHoldSpare(patchDataServiceHoldSpare).then(value => {
               const { success } = value
               if (success === 2) {
                 succesNotify('Service Status Updated Successfully')
                 setCount(count + 1)
-              } else {
               }
             })
-          } else {
           }
-        } else {
         }
       })
     } else {
-      AddServiceDetils(PostData).then((value) => {
+      AddServiceDetils(PostData).then(value => {
         const { success } = value
         if (success === 1) {
           if (item_asset_no_only !== undefined) {
-            updateServiceHoldAsset(patchDataServiceHoldAssset).then((value) => {
+            updateServiceHoldAsset(patchDataServiceHoldAssset).then(value => {
               const { success } = value
               if (success === 2) {
                 succesNotify('Service Status Updated Successfully')
                 setCount(count + 1)
-              } else {
               }
             })
           } else if (spare_asset_no_only !== undefined) {
-            updateServiceHoldSpare(patchDataServiceHoldSpare).then((value) => {
+            updateServiceHoldSpare(patchDataServiceHoldSpare).then(value => {
               const { success } = value
               if (success === 2) {
                 succesNotify('Service Status Updated Successfully')
                 setCount(count + 1)
-              } else {
               }
             })
           }
-        } else {
         }
       })
     }
@@ -1981,7 +1968,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
   const [imageShowSingle, setImageShowSingle] = useState(false)
   const [previewFile, setPreviewFile] = useState({ url: '', type: '' })
 
-  const SingleView = useCallback((file) => {
+  const SingleView = useCallback(file => {
     const fileType = file.url
       ? file.url.endsWith('.pdf')
         ? 'pdf'
@@ -2004,7 +1991,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
     }
   }, [])
 
-  const ViewImage = useCallback((file) => {
+  const ViewImage = useCallback(file => {
     const fileType = file.url
       ? file.url.endsWith('.pdf')
         ? 'pdf'
@@ -2024,7 +2011,6 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
   }, [])
 
   const currentDateTime = moment().format('YYYY-MM-DDTHH:mm')
-
 
   return (
     <Box>
@@ -2081,9 +2067,9 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                   imageViewOpen={viewStates.imageViewOpen}
                   selectedImages={selectedImages}
                   fileDetails={fileDetails}
-                  setimage={(value) => setFlags((prevFlags) => ({ ...prevFlags, image: value }))}
-                  setimageViewOpen={(value) =>
-                    setViewStates((prevViewStates) => ({ ...prevViewStates, imageViewOpen: value }))
+                  setimage={value => setFlags(prevFlags => ({ ...prevFlags, image: value }))}
+                  setimageViewOpen={value =>
+                    setViewStates(prevViewStates => ({ ...prevViewStates, imageViewOpen: value }))
                   }
                 />
               ) : null}
@@ -2093,11 +2079,11 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                   imageServiceUrls={imageServiceUrls}
                   serviceimageViewOpen={viewStates.serviceimageViewOpen}
                   servicefileDetails={servicefileDetails}
-                  setimageServiceFlag={(value) =>
-                    setFlags((prevFlags) => ({ ...prevFlags, imageServiceFlag: value }))
+                  setimageServiceFlag={value =>
+                    setFlags(prevFlags => ({ ...prevFlags, imageServiceFlag: value }))
                   }
-                  setServiceimageViewOpen={(value) =>
-                    setViewStates((prevViewStates) => ({
+                  setServiceimageViewOpen={value =>
+                    setViewStates(prevViewStates => ({
                       ...prevViewStates,
                       serviceimageViewOpen: value,
                     }))
@@ -2412,7 +2398,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                       {val.serviced_date
                                         ? format(
                                             new Date(val.serviced_date),
-                                            'dd MMM yyyy,  hh:mm a',
+                                            'dd MMM yyyy,  hh:mm a'
                                           )
                                         : 'Invalid Date'}
                                     </td>
@@ -2444,8 +2430,8 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                         <Box sx={{ flex: 0.8 }}>
                           <AmServiceStatus
                             holdReason={flags.serviceStatus}
-                            setHoldReason={(value) =>
-                              setFlags((prevFlags) => ({ ...prevFlags, serviceStatus: value }))
+                            setHoldReason={value =>
+                              setFlags(prevFlags => ({ ...prevFlags, serviceStatus: value }))
                             }
                           />
                         </Box>
@@ -2484,7 +2470,6 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                       {supplierSelect !== 0 ? (
                         <>
                           {SupplierDetails?.map((val, index) => {
-
                             const numbers = [
                               val.it_supplier_mob_one,
                               val.it_supplier_mob_two,
@@ -2508,7 +2493,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                               val.it_supplier_saleperson_second_mob_two,
                             ]
 
-                            const uniqueNumbers = [...new Set(numbers.filter((num) => num))]
+                            const uniqueNumbers = [...new Set(numbers.filter(num => num))]
                             const allEmails = [
                               val.it_supplier_email_one,
                               val.it_supplier_email_two,
@@ -2517,10 +2502,10 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                               val.it_supplier_saleperson_email_one,
                               val.it_supplier_saleperson_email_two,
                               val.it_supplier_saleperson_second_email_one,
-                              val.it_supplier_saleperson_second_email_two
+                              val.it_supplier_saleperson_second_email_two,
                             ]
-                            const uniqueEmails = [...new Set(allEmails.filter(email => email))];
-                                                      return (
+                            const uniqueEmails = [...new Set(allEmails.filter(email => email))]
+                            return (
                               <Box key={index}>
                                 <Box sx={{ flex: 1, mt: 1.5, display: 'flex' }}>
                                   <Typography
@@ -2539,22 +2524,21 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                   <Typography
                                     sx={{ width: 100, ml: 1, fontSize: 14, fontWeight: 600 }}
                                   >
-                                     Email id
-                                  </Typography>                          
+                                    Email id
+                                  </Typography>
                                   {uniqueEmails.map((email, index) => (
                                     <Chip
                                       key={index}
                                       component="a"
                                       href={`mailto:${email}`}
                                       clickable
-                                      label={<u style={{ color: '#005BEA' }}>{email}</u>}   
+                                      label={<u style={{ color: '#005BEA' }}>{email}</u>}
                                       sx={{ mx: 0.5 }}
                                     >
                                       <EmailIcon /> {email}
-                                      </Chip>
+                                    </Chip>
                                   ))}
                                 </Box>
-                              
                               </Box>
                             )
                           })}
@@ -2693,8 +2677,8 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                             size="md"
                             color="primary"
                             checked={flags.serviceCheck === 1}
-                            onChange={(event) =>
-                              setFlags((prevFlags) => ({
+                            onChange={event =>
+                              setFlags(prevFlags => ({
                                 ...prevFlags,
                                 serviceCheck: event.target.checked ? 1 : 0,
                               }))
@@ -2793,8 +2777,8 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                             size="md"
                             checked={flags.notserviceCheck === 1}
                             color="danger"
-                            onChange={(event) =>
-                              setFlags((prevFlags) => ({
+                            onChange={event =>
+                              setFlags(prevFlags => ({
                                 ...prevFlags,
                                 notserviceCheck: event.target.checked ? 1 : 0,
                               }))

@@ -29,18 +29,18 @@ const ComEmpMapping = () => {
   })
 
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
 
   //Destructuring
   const { co_emp_section, co_emp_status, co_emp_slno } = coEmpMap
   const updateCoEmpMap = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setCoEmpMap({ ...coEmpMap, [e.target.name]: value })
     },
-    [coEmpMap],
+    [coEmpMap]
   )
 
   const postData = useMemo(() => {
@@ -83,7 +83,7 @@ const ComEmpMapping = () => {
   }
 
   //data for edit
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const {
@@ -109,9 +109,9 @@ const ComEmpMapping = () => {
   }, [])
 
   const Submitfunction = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const insertfun = async (postData) => {
+      const insertfun = async postData => {
         const result = await axioslogin.post('/comempmapping/insertEmp', postData)
         const { message, success } = result.data
         if (success === 1) {
@@ -124,7 +124,7 @@ const ComEmpMapping = () => {
           infoNotify(message)
         }
       }
-      const updatefun = async (patchdata) => {
+      const updatefun = async patchdata => {
         const result = await axioslogin.patch('/comempmapping/update', patchdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -146,7 +146,7 @@ const ComEmpMapping = () => {
         infoNotify('Please select all details')
       }
     },
-    [postData, patchdata, count, value],
+    [postData, patchdata, count, value]
   )
 
   //back to home

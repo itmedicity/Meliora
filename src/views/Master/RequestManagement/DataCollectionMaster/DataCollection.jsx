@@ -19,7 +19,7 @@ const DataCollection = () => {
   const [UpdateFlag, setUpdateFlag] = useState(0)
   const [count, setCount] = useState(0)
 
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     // setValue(1)
     const data = params.api.getSelectedRows()
     const { empid, Depid, Depsec, status } = data[0]
@@ -32,7 +32,7 @@ const DataCollection = () => {
 
   // submit data
   const submitComapnyName = useCallback(
-    async (val) => {
+    async val => {
       if (dept === 0) {
         warningNotify('Select Department')
       } else {
@@ -45,7 +45,7 @@ const DataCollection = () => {
         if (UpdateFlag === 1) {
           const result = await axioslogin.post(
             '/newCRFRegister/DataCollectionMaster/update',
-            postData,
+            postData
           )
           const { success } = result.data
           if (success === 1) {
@@ -66,7 +66,7 @@ const DataCollection = () => {
         }
       }
     },
-    [View_Status, dept, empname, deptsec, UpdateFlag],
+    [View_Status, dept, empname, deptsec, UpdateFlag]
   )
 
   const refreshWindow = useCallback(() => {
@@ -104,7 +104,7 @@ const DataCollection = () => {
                 name="View_Status"
                 // value={WorkOrder}
                 checked={View_Status}
-                onChange={(e) => SetViewStatus(e.target.checked)}
+                onChange={e => SetViewStatus(e.target.checked)}
                 // disabled={quotationCall || datacollFlag || poComplete || poadding}
               />
             </Box>

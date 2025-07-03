@@ -34,7 +34,7 @@ const ViewAllPatientsInOneTable = ({
   const [searchPat, setSearchPat] = useState('')
   const history = useNavigate()
 
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state?.LoginUserData.empid
   })
   const backtoHome = useCallback(() => {
@@ -43,7 +43,7 @@ const ViewAllPatientsInOneTable = ({
   }, [history, setSearchFlag])
 
   const IndicatorsView = useCallback(
-    (val) => {
+    val => {
       setModalOpen(true)
       setrowSelect(val)
       if (qitype === 2) {
@@ -53,7 +53,7 @@ const ViewAllPatientsInOneTable = ({
       } else {
       }
     },
-    [qitype],
+    [qitype]
   )
   const handleClose = useCallback(() => {
     setModalOpen(false)
@@ -61,13 +61,13 @@ const ViewAllPatientsInOneTable = ({
   }, [setModalOpen])
 
   const RefreshData = useCallback(() => {
-    const RefreshPatients = async (setCount) => {
+    const RefreshPatients = async setCount => {
       await RefreshPatientList(qidept, count, setCount, qitype, depCode, id)
     }
     RefreshPatients(setCount)
     setSearchPat('')
   }, [qidept, depCode, count, id, setCount, qitype])
-  const ChangePatient = useCallback((e) => {
+  const ChangePatient = useCallback(e => {
     setSearchPat(e.target.value)
   }, [])
 
@@ -77,11 +77,11 @@ const ViewAllPatientsInOneTable = ({
       to: format(new Date(dailyDate), 'yyyy-MM-dd 23:59:59'),
       ptname: searchPat,
     }
-    const getSearchDetails = async (searchData) => {
+    const getSearchDetails = async searchData => {
       const result = await axioslogin.post('/qiemergency/searchbyPatient', searchData)
       return result.data
     }
-    getSearchDetails(searchData).then((val) => {
+    getSearchDetails(searchData).then(val => {
       const { success, data } = val
       if (success === 1) {
         setqiMarkedList(data)
@@ -321,7 +321,7 @@ const ViewAllPatientsInOneTable = ({
                                   color: '#263238',
                                 },
                               }}
-                              onClick={(e) => IndicatorsView(val)}
+                              onClick={e => IndicatorsView(val)}
                             />
                           </Tooltip>
                         </CssVarsProvider>

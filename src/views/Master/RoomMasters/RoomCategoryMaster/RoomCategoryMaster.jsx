@@ -31,15 +31,15 @@ const RoomCategoryMaster = () => {
   } = roomCategory
 
   const updateRoomCategory = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setRoomCategory({ ...roomCategory, [e.target.name]: value })
     },
-    [roomCategory],
+    [roomCategory]
   )
 
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
 
@@ -84,7 +84,7 @@ const RoomCategoryMaster = () => {
     rm_roomcategory_status,
     id,
   ])
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
 
     const data = params.api.getSelectedRows()
@@ -107,9 +107,9 @@ const RoomCategoryMaster = () => {
   }, [])
 
   const sumbitRoomCategory = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const InsertRoomCategory = async (postdata) => {
+      const InsertRoomCategory = async postdata => {
         const result = await axioslogin.post('/roomcategory/insert', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -122,7 +122,7 @@ const RoomCategoryMaster = () => {
           infoNotify(message)
         }
       }
-      const UpdateRoomCategory = async (patchdata) => {
+      const UpdateRoomCategory = async patchdata => {
         const result = await axioslogin.patch('/roomcategory/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -141,7 +141,7 @@ const RoomCategoryMaster = () => {
         UpdateRoomCategory(patchdata)
       }
     },
-    [postdata, value, patchdata, count],
+    [postdata, value, patchdata, count]
   )
   const refreshWindow = useCallback(() => {
     const frmdata = {

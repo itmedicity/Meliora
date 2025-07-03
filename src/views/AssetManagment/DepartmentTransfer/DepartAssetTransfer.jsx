@@ -29,11 +29,11 @@ const DepartAssetTransfer = () => {
   const [tableshow, setTableShow] = useState(0)
 
   // Get login user emp_id
-  const sec_name = useSelector((state) => {
+  const sec_name = useSelector(state => {
     return state.LoginUserData.empdeptsec
   })
 
-  const sec_id = useSelector((state) => {
+  const sec_id = useSelector(state => {
     return state.LoginUserData.empsecid
   })
 
@@ -45,7 +45,7 @@ const DepartAssetTransfer = () => {
   }, [dispatch, sec_id])
 
   const search = useCallback(() => {
-    const getRoomAsset = async (roomNo) => {
+    const getRoomAsset = async roomNo => {
       const result = await axioslogin.get(`/getDashboardData/getRoomAsset/${roomNo}`)
       const { success, data } = result.data
       if (success === 2) {
@@ -61,7 +61,7 @@ const DepartAssetTransfer = () => {
 
   useEffect(() => {
     if (subRoomNo !== 0) {
-      const newArry = RoomAssetList.filter((value) => value.item_subroom_slno === subRoomNo)
+      const newArry = RoomAssetList.filter(value => value.item_subroom_slno === subRoomNo)
       setRoomAsset(newArry)
     }
   }, [subRoomNo, RoomAssetList])

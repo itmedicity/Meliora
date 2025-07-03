@@ -43,11 +43,11 @@ const PurchaseReport = () => {
     viewFlag,
   } = crfSearch
   const updateOnchange = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setCrfSearch({ ...crfSearch, [e.target.name]: value })
     },
-    [crfSearch],
+    [crfSearch]
   )
   const {
     data: dataColleDetails,
@@ -61,14 +61,14 @@ const PurchaseReport = () => {
   const dataCollection = useMemo(() => dataColleDetails, [dataColleDetails])
 
   const searchCRFDetails = useCallback(
-    async (e) => {
+    async e => {
       e.preventDefault()
       setOpen(true)
       const postdata = {
         startDate: format(new Date(startDate), 'yyyy-MM-dd 00:00:00'),
         endDate: format(new Date(endDate), 'yyyy-MM-dd 23:59:59'),
       }
-      const getPurchaseData = async (postdata) => {
+      const getPurchaseData = async postdata => {
         const result = await axioslogin.post('/CrfReports/getPurchaseCRFData', postdata)
         return result.data
       }
@@ -76,24 +76,24 @@ const PurchaseReport = () => {
         const result = await axioslogin.get('/CrfReports/ackPending')
         return result.data
       }
-      getPurchaseData(postdata).then((val) => {
+      getPurchaseData(postdata).then(val => {
         const { success, data } = val
         if (success === 1) {
           setOpen(false)
-          const quotPending = data?.filter((val) => {
+          const quotPending = data?.filter(val => {
             return (
               val.quatation_calling_status === 0 && val.ack_status === 1 && val.po_prepartion !== 1
             )
           })
-          const quotNego = data?.filter((val) => {
+          const quotNego = data?.filter(val => {
             return val.quatation_negotiation === 0 && val.quatation_calling_status === 1
           })
 
-          const quotFinal = data?.filter((val) => {
+          const quotFinal = data?.filter(val => {
             return val.quatation_fixing === 0 && val.quatation_negotiation === 1
           })
 
-          const poPending = data?.filter((val) => {
+          const poPending = data?.filter(val => {
             return (
               val.ack_status === 1 &&
               ((val.po_prepartion === 1 && val.po_complete === 0) ||
@@ -102,10 +102,10 @@ const PurchaseReport = () => {
                   val.po_prepartion === 0))
             )
           })
-          const posup = data?.filter((val) => {
+          const posup = data?.filter(val => {
             return val.po_complete === 1 && val.po_to_supplier === 0 && val.approval_level === 3
           })
-          setCrfSearch((prev) => ({
+          setCrfSearch(prev => ({
             ...prev,
             purchaseTot: data.length,
             quotation: quotPending.length,
@@ -117,7 +117,7 @@ const PurchaseReport = () => {
           }))
         } else {
           setOpen(false)
-          setCrfSearch((prev) => ({
+          setCrfSearch(prev => ({
             ...prev,
             purchaseTot: 0,
             quotation: 0,
@@ -128,26 +128,26 @@ const PurchaseReport = () => {
           }))
         }
       })
-      getAckPurchaseData().then((val) => {
+      getAckPurchaseData().then(val => {
         const { success, data } = val
         if (success === 1) {
           setOpen(false)
-          const ackpendingList = data?.filter((val) => val.ack_status === null)
+          const ackpendingList = data?.filter(val => val.ack_status === null)
 
-          setCrfSearch((prev) => ({
+          setCrfSearch(prev => ({
             ...prev,
             ackPending: ackpendingList.length,
           }))
         } else {
           setOpen(false)
-          setCrfSearch((prev) => ({
+          setCrfSearch(prev => ({
             ...prev,
             ackPending: 0,
           }))
         }
       })
     },
-    [endDate, startDate],
+    [endDate, startDate]
   )
 
   const boxStyle = {

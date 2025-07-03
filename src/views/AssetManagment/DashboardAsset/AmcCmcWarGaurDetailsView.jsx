@@ -5,11 +5,10 @@ import CusIconButton from 'src/views/Components/CusIconButton'
 import { format } from 'date-fns'
 
 const AmcCmcWarGaurDetailsView = ({ setDetailOpen, detailArray, setDetailArray }) => {
-
   const DetailViewClose = useCallback(() => {
     setDetailOpen(0)
     setDetailArray([])
-  }, [setDetailOpen,setDetailArray])
+  }, [setDetailOpen, setDetailArray])
 
   return (
     <Box>

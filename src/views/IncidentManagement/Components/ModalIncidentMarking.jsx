@@ -39,13 +39,13 @@ const ModalIncidentMarking = ({ modalData, open, handleClose, SearchReport }) =>
       { id: 4, label: 'SENTINEL' },
     ]
   }, [])
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state?.LoginUserData.empid
   })
-  const ChangeRemarks = useCallback((e) => {
+  const ChangeRemarks = useCallback(e => {
     setRemarks(e.target.value)
   }, [])
-  const ChangeIncidentMark = useCallback((e) => {
+  const ChangeIncidentMark = useCallback(e => {
     if (e.target.checked === true) {
       setIncidentMark(true)
     } else {
@@ -72,7 +72,7 @@ const ModalIncidentMarking = ({ modalData, open, handleClose, SearchReport }) =>
       setIncType(final_incident_type)
       setRemarks(incident_mark_remarks)
       setverifyDate(
-        verified_date === null ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : verified_date,
+        verified_date === null ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : verified_date
       )
     }
   }, [modalData])
@@ -101,7 +101,7 @@ const ModalIncidentMarking = ({ modalData, open, handleClose, SearchReport }) =>
         const result = await axioslogin.patch('/incidentMaster/markIncident', inpatchdata)
         return result.data
       }
-      updateIncidentTable(inpatchdata).then((value) => {
+      updateIncidentTable(inpatchdata).then(value => {
         const { success, message } = value
         if (success === 1) {
           SearchReport()
@@ -161,7 +161,7 @@ const ModalIncidentMarking = ({ modalData, open, handleClose, SearchReport }) =>
                         {qi_dept_desc
                           .toLowerCase()
                           .split(' ')
-                          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
                           .join(' ')}
                       </Typography>
                     </Box>
@@ -231,7 +231,7 @@ const ModalIncidentMarking = ({ modalData, open, handleClose, SearchReport }) =>
                         }}
                         name="incType"
                         value={incType}
-                        onChange={(e) => {
+                        onChange={e => {
                           setIncType(e.target.value)
                         }}
                       >
@@ -258,12 +258,12 @@ const ModalIncidentMarking = ({ modalData, open, handleClose, SearchReport }) =>
                           {initial_incident_type === 1
                             ? 'GENERAL'
                             : initial_incident_type === 2
-                              ? 'NEAR MISSESS'
-                              : initial_incident_type === 3
-                                ? 'HARMFUL'
-                                : initial_incident_type === 4
-                                  ? 'SENTINEL'
-                                  : 'Nil'}
+                            ? 'NEAR MISSESS'
+                            : initial_incident_type === 3
+                            ? 'HARMFUL'
+                            : initial_incident_type === 4
+                            ? 'SENTINEL'
+                            : 'Nil'}
                         </Chip>
                       </CssVarsProvider>
                     </Box>

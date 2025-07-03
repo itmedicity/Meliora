@@ -26,7 +26,7 @@ const CustomReportOne = ({
   const history = useNavigate()
   const dispatch = useDispatch()
   //month format
-  const updatedate = (e) => {
+  const updatedate = e => {
     setdayselect(1)
     setstartDate(e.target.value)
   }

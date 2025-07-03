@@ -4,9 +4,6 @@ import { axioslogin } from 'src/views/Axios/Axios'
 import { errorNotify, infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { useDispatch } from 'react-redux'
 import { ActionTyps } from 'src/redux/constants/action.type'
-import { ToastContainer } from 'react-toastify'
-import { setLoginProfileData } from 'src/redux/actions/LoginProfile.action'
-import DetailWorng from 'src/views/dashboard/DetailWorng'
 // import { Box } from '@mui/material'
 
 import Box from '@mui/material/Box'
@@ -44,7 +41,7 @@ const Login = () => {
 
   const [flag, setFlag] = useState(0)
 
-  const submitLoginDetl = async (e) => {
+  const submitLoginDetl = async e => {
     e.preventDefault()
 
     try {
@@ -61,8 +58,8 @@ const Login = () => {
         const result = await axioslogin.post('/user/checkUserCres', postData, {
           withCredentials: true,
         })
-        const { message, success, userInfo } = result?.data
-        console.log(JSON.parse(userInfo))
+        const { message, success, userInfo } = result?.data || {}
+
         if (success === 0) {
           errorNotify(message) // database error
         } else if (success === 1) {
@@ -92,17 +89,8 @@ const Login = () => {
             authId: btoa(em_id),
             authEmpNo: btoa(emp_no),
             user: btoa(user),
-            token: btoa(token),
             empno: btoa(emp_no),
             empid: btoa(emp_id),
-            empname: btoa(emp_name),
-            empdeptsec: btoa(emp_sec),
-            empsecid: btoa(emp_secid),
-            empdept: btoa(emp_dept),
-            empdeptname: btoa(dept_name),
-            apptoken: btoa(app_token),
-            logOut: btoa(logOutTime),
-            designation: btoa(desg_name),
           }
 
           const loggedDetl = {
@@ -123,7 +111,7 @@ const Login = () => {
           localStorage.setItem('app_auth', JSON.stringify(authData))
           setTimeout(() => {
             navigate('/Home', { replace: true })
-          }, 2000)
+          }, 1000)
         } else {
           errorNotify(message)
         }
@@ -133,169 +121,12 @@ const Login = () => {
     }
   }
 
-  // const submitLoginDetl = async (e) => {
-  //   e.preventDefault()
-  //   if (emp_username === '') {
-  //     infoNotify('Username Feild Is Blank')
-  //   } else if (emp_password === '') {
-  //     infoNotify('Password Feild Is Blank')
-  //   } else {
-  //     const result = await axioslogin
-  //       .post('/employee/login', useLoginDetl)
-  //       .then((response) => {
-  //         return response
-  //       })
-  //       .catch((error) => {
-  //         return error
-  //       })
-  //     const data = result.data
-
-  //     if (data.success === 0) {
-  //       errorNotify('User does not exsit')
-  //     } else {
-  //       succesNotify('Loggined successfully')
-  //       const loggedDetl = {
-  //         user: data.user,
-  //         token: data.token,
-  //         empno: data.emp_no,
-  //         empid: data.emp_id,
-  //         empname: data.emp_name,
-  //         empdeptsec: data.emp_sec,
-  //         empsecid: data.emp_secid,
-  //         empdept: data.emp_dept,
-  //         empdeptname: data.dept_name,
-  //         apptoken: data.app_token,
-  //         logOut: data.logOutTime,
-  //         designation: data.desg_name,
-  //       }
-  //       if (loggedDetl.empname !== null) {
-  //         dispatch({ type: FETCH_LOGIN, payload: loggedDetl })
-  //         const loggedCredential = sessionStorage.setItem('userDetl', JSON.stringify(loggedDetl))
-  //         dispatch(setLoginProfileData(data.emp_id))
-  //         if (loggedCredential !== null) {
-  //           history('/Home')
-  //         }
-  //       } else {
-  //         setFlag(1)
-  //         //history.push("/NotCorect")
-  //       }
-  //     }
-  //   }
-  // }
-
   return (
-    // <div
-    //   className=" min-vh-100 d-flex flex-row align-items-center"
-    //   style={{ backgroundColor: '#e0f2f1' }}
-    // >
-    //   <ToastContainer />
-
-    //   {flag === 1 ? (
-    //     <DetailWorng />
-    //   ) : (
-    //     <CContainer>
-    //       <CRow className="justify-content-center">
-    //         <CCol md={8} sm={12}>
-    //           <CCardGroup>
-    //             <CCard
-    //               className="p-4"
-    //               style={{ borderTopLeftRadius: 15, borderBottomLeftRadius: 15 }}
-    //             >
-    //               <CCardBody>
-    //                 <CForm onSubmit={submitLoginDetl}>
-    //                   <h1 style={{ fontFamily: 'cursive', color: '#71c142' }}>Login</h1>
-    //                   <p className="text-medium-emphasis" style={{ fontFamily: 'monospace' }}>
-    //                     Sign In to your account
-    //                   </p>
-    //                   <CInputGroup className="mb-3" style={{ borderColor: '#71c142' }}>
-    //                     <CInputGroupText
-    //                       style={{ backgroundColor: '#707377', borderColor: '#71c142' }}
-    //                     >
-    //                       <PersonOutlineOutlinedIcon style={{ color: '#71c142' }} />
-    //                     </CInputGroupText>
-    //                     <CFormInput
-    //                       placeholder="Username"
-    //                       autoComplete="username"
-    //                       name="username"
-    //                       onChange={(e) => {
-    //                         setUsername(e.target.value)
-    //                       }}
-    //                       style={{ fontFamily: 'cursive', borderColor: '#71c142' }}
-    //                     />
-    //                   </CInputGroup>
-    //                   <CInputGroup className="mb-4" style={{ borderColor: '#71c142' }}>
-    //                     <CInputGroupText
-    //                       style={{ backgroundColor: '#707377', borderColor: '#71c142' }}
-    //                     >
-    //                       <LockOutlinedIcon style={{ color: '#71c142', borderColor: '#71c142' }} />
-    //                     </CInputGroupText>
-    //                     <CFormInput
-    //                       type="password"
-    //                       placeholder="Password"
-    //                       autoComplete="current-password"
-    //                       name="password"
-    //                       onChange={(e) => {
-    //                         setPassword(e.target.value)
-    //                       }}
-    //                       style={{ fontFamily: 'cursive', borderColor: '#71c142' }}
-    //                     />
-    //                   </CInputGroup>
-    //                   <CRow>
-    //                     <CCol xs={6}>
-    //                       <CButton
-    //                         className="px-4"
-    //                         type="submit"
-    //                         style={{
-    //                           backgroundColor: '#71c142',
-    //                           fontFamily: 'cursive',
-    //                           borderColor: '#71c142',
-    //                         }}
-    //                       >
-    //                         Login
-    //                       </CButton>
-    //                     </CCol>
-    //                     <CCol xs={6} className="text-right">
-    //                       <CButton
-    //                         color="link"
-    //                         className="px-0"
-    //                         style={{ color: '#71c142', fontFamily: 'cursive' }}
-    //                       >
-    //                         Forgot password?
-    //                       </CButton>
-    //                     </CCol>
-    //                   </CRow>
-    //                 </CForm>
-    //               </CCardBody>
-    //             </CCard>
-    //             <CCard
-    //               className="text-white py-5"
-    //               style={{
-    //                 width: '100%',
-    //                 backgroundColor: '#494c4f',
-    //                 borderTopRightRadius: 15,
-    //                 borderBottomRightRadius: 15,
-    //               }}
-    //             >
-    //               <CCardBody className="text-center">
-    //                 <div style={{ fontFamily: 'monospace' }}>
-    //                   <h2>Meliora</h2>
-    //                   <h6>Hospital Administration Management System </h6>
-    //                   <h6>Hi, Welcome Back</h6>
-    //                   <p>Enter your credentials to continue</p>
-    //                 </div>
-    //               </CCardBody>
-    //             </CCard>
-    //           </CCardGroup>
-    //         </CCol>
-    //       </CRow>
-    //     </CContainer>
-    //   )}
-    // </div>
     <Box
       sx={{
         height: '100vh',
         width: '100%',
-        backgroundColor: 'var(--royal-purple-50)',
+        // backgroundColor: 'var(--royal-purple-50)',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -309,8 +140,11 @@ const Login = () => {
           padding: 5,
           flexDirection: 'column',
           alignItems: 'center',
-          backgroundColor: '#f2f2f2',
           borderRadius: 5,
+          borderWidth: 1,
+          borderStyle: 'solid',
+          borderColor: 'var(--royal-purple-200)',
+          boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
         }}
       >
         <Box
@@ -376,7 +210,7 @@ const Login = () => {
             autoComplete="off"
             defaultValue=""
             sx={{ mb: 3 }}
-            onChange={(e) => {
+            onChange={e => {
               setUsername(e.target.value)
             }}
             InputLabelProps={{ shrink: true }}
@@ -389,7 +223,7 @@ const Login = () => {
             size="small"
             defaultValue=""
             autoComplete="off"
-            onChange={(e) => {
+            onChange={e => {
               setPassword(e.target.value)
             }}
             type={val ? 'text' : 'password'}

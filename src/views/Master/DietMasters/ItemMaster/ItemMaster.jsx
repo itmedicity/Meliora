@@ -29,14 +29,14 @@ const ItemMaster = () => {
   //Destructuring
   const { item_name, rate, rate_hosp, qty, unit, diet_item, status, item_slno } = item
   const updateitem = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setItem({ ...item, [e.target.name]: value })
     },
-    [item],
+    [item]
   )
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   //data for insert
@@ -55,7 +55,7 @@ const ItemMaster = () => {
   }, [item_name, rate, rate_hosp, qty, unit, diet_item, status, grpslno, id])
 
   //edit data setting on textfields
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const { item_name, grp_slno, rate, rate_hosp, qty, unit, diet_item, status, item_slno } =
@@ -92,7 +92,7 @@ const ItemMaster = () => {
 
   /*** usecallback function for form submitting */
   const submititem = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
       const formreset = {
         item_name: '',
@@ -108,7 +108,7 @@ const ItemMaster = () => {
         item_slno: '',
       }
       /***    * insert function for use call back     */
-      const Insertitem = async (postdata) => {
+      const Insertitem = async postdata => {
         const result = await axioslogin.post('/kotitem/insert', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -123,7 +123,7 @@ const ItemMaster = () => {
         }
       }
       /***  * update function for use call back     */
-      const updateitem = async (patchdata) => {
+      const updateitem = async patchdata => {
         const result = await axioslogin.patch('/kotitem/update/kotitem', patchdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -147,7 +147,7 @@ const ItemMaster = () => {
         updateitem(patchdata)
       }
     },
-    [value, postdata, patchdata, count],
+    [value, postdata, patchdata, count]
   )
   //close button function
   const backtoSetting = useCallback(() => {

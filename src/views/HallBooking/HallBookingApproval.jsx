@@ -18,7 +18,7 @@ const HallBookingApproval = () => {
 
   const [count, setCount] = useState(0)
   //redux for geting login id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   const backtoSetting = useCallback(() => {
@@ -30,7 +30,7 @@ const HallBookingApproval = () => {
     dispatch(getHallbookDeotApprove())
   }, [dispatch, id, count])
 
-  const HodIncharge = useSelector((state) => {
+  const HodIncharge = useSelector(state => {
     return state.setInchargeHodData.InchargeHoddata
   })
   const [isIncharge, setincharge] = useState(0)
@@ -45,15 +45,15 @@ const HallBookingApproval = () => {
     }
   }, [HodIncharge])
 
-  const tabledata = useSelector((state) => {
+  const tabledata = useSelector(state => {
     return state.setdepthallbookApproval.HallbookApproveList
   })
 
-  const icharge = tabledata.filter((val) => {
+  const icharge = tabledata.filter(val => {
     return val.is_incharge_req === 1
   })
 
-  const hod = tabledata.filter((val) => {
+  const hod = tabledata.filter(val => {
     return val.is_hod_req === 1
   })
 
@@ -111,7 +111,7 @@ const HallBookingApproval = () => {
     {
       headerName: 'Action',
       minWidth: 100,
-      cellRenderer: (params) => {
+      cellRenderer: params => {
         if (params.data.is_icharge_approve === 1) {
           return (
             <IconButton sx={{ color: editicon, paddingY: 0.5 }} disabled>
@@ -185,7 +185,7 @@ const HallBookingApproval = () => {
     {
       headerName: 'Action',
       minWidth: 100,
-      cellRenderer: (params) => {
+      cellRenderer: params => {
         if (params.data.is_hod_approve === 1) {
           return (
             <IconButton sx={{ color: editicon, paddingY: 0.5 }} disabled>
@@ -275,7 +275,7 @@ const HallBookingApproval = () => {
   const [datas, setdatas] = useState([])
 
   //Data set for edit
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setOpen(true)
     const data = params.api.getSelectedRows()
     setdatas(data)

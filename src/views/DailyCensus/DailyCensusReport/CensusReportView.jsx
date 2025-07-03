@@ -29,7 +29,7 @@ const CensusReportView = () => {
     history('/Home/DailyCensus')
   }, [history])
 
-  const QIDateChange = useCallback((e) => {
+  const QIDateChange = useCallback(e => {
     setDailyDate(e.target.value)
     setsearchFlag(0)
   }, [])
@@ -76,24 +76,24 @@ const CensusReportView = () => {
     getNursingStation()
   }, [])
   const SearchDetails = useCallback(
-    (e) => {
-      const nsSlno = nursList?.map((val) => val.census_ns_slno)
+    e => {
+      const nsSlno = nursList?.map(val => val.census_ns_slno)
       const getYesterday = {
         census_ns_slno: nsSlno,
         census_date: moment(subDays(new Date(dailyDate), 1)).format('YYYY-MM-DD'),
       }
-      const getYesterdayData = async (getYesterday) => {
+      const getYesterdayData = async getYesterday => {
         const result = await axioslogin.post('/qidailycensus/yesterday', getYesterday)
         return result.data
       }
-      const GetCensusDetails = async (searchdata) => {
+      const GetCensusDetails = async searchdata => {
         const result = await axioslogin.post('/qidailycensus/view', searchdata)
         return result.data
       }
-      getYesterdayData(getYesterday).then((val) => {
+      getYesterdayData(getYesterday).then(val => {
         const { yestdata } = val
-        const yesterData = nursList?.map((item) => {
-          const yest = yestdata?.find((val) => val.census_ns_slno === item.census_ns_slno)
+        const yesterData = nursList?.map(item => {
+          const yest = yestdata?.find(val => val.census_ns_slno === item.census_ns_slno)
           return {
             census_ns_slno: item.census_ns_slno,
             census_ns_name: item.census_ns_name,
@@ -101,11 +101,11 @@ const CensusReportView = () => {
             ora_yesterday: yest ? yest.ora_census_total : 0,
           }
         })
-        GetCensusDetails(searchdata).then((value) => {
+        GetCensusDetails(searchdata).then(value => {
           const { data, success, message } = value
           if (success === 1) {
-            const resultArray = yesterData?.map((item) => {
-              const newArray = data.find((val) => val.census_ns_slno === item.census_ns_slno)
+            const resultArray = yesterData?.map(item => {
+              const newArray = data.find(val => val.census_ns_slno === item.census_ns_slno)
               return {
                 census_ns_slno: item.census_ns_slno,
                 census_ns_name: item.census_ns_name,
@@ -135,52 +135,52 @@ const CensusReportView = () => {
         })
       })
     },
-    [searchdata, nursList, dailyDate],
+    [searchdata, nursList, dailyDate]
   )
 
   useEffect(() => {
     if (tableData.length !== 0) {
       const totyes = tableData
-        ?.map((val) => val.yesterday_census)
+        ?.map(val => val.yesterday_census)
         .reduce((prev, next) => Number(prev) + Number(next))
       const totad = tableData
-        ?.map((val) => val.total_admission)
+        ?.map(val => val.total_admission)
         .reduce((prev, next) => Number(prev) + Number(next))
       const totdis = tableData
-        ?.map((val) => val.total_discharge)
+        ?.map(val => val.total_discharge)
         .reduce((prev, next) => Number(prev) + Number(next))
       const totin = tableData
-        ?.map((val) => val.transfer_in)
+        ?.map(val => val.transfer_in)
         .reduce((prev, next) => Number(prev) + Number(next))
       const totout = tableData
-        ?.map((val) => val.transfer_out)
+        ?.map(val => val.transfer_out)
         .reduce((prev, next) => Number(prev) + Number(next))
       const totdeath = tableData
-        ?.map((val) => val.total_death)
+        ?.map(val => val.total_death)
         .reduce((prev, next) => Number(prev) + Number(next))
       const tot = tableData
-        ?.map((val) => val.census_total)
+        ?.map(val => val.census_total)
         .reduce((prev, next) => Number(prev) + Number(next))
       const oraadm = tableData
-        ?.map((val) => val.ora_admission)
+        ?.map(val => val.ora_admission)
         .reduce((prev, next) => Number(prev) + Number(next))
       const oradis = tableData
-        ?.map((val) => val.ora_discharge)
+        ?.map(val => val.ora_discharge)
         .reduce((prev, next) => Number(prev) + Number(next))
       const oradeath = tableData
-        ?.map((val) => val.ora_death)
+        ?.map(val => val.ora_death)
         .reduce((prev, next) => Number(prev) + Number(next))
       const oraTotalCount = tableData
-        ?.map((val) => val.ora_census_total)
+        ?.map(val => val.ora_census_total)
         .reduce((prev, next) => Number(prev) + Number(next))
       const oraYesterday = tableData
-        ?.map((val) => val.ora_yesterday)
+        ?.map(val => val.ora_yesterday)
         .reduce((prev, next) => Number(prev) + Number(next))
       const damatot = tableData
-        ?.map((val) => val.ora_dama)
+        ?.map(val => val.ora_dama)
         .reduce((prev, next) => Number(prev) + Number(next))
       const lamatot = tableData
-        ?.map((val) => val.ora_lama)
+        ?.map(val => val.ora_lama)
         .reduce((prev, next) => Number(prev) + Number(next))
       const fromdata = {
         totYesterday: totyes,
@@ -204,28 +204,28 @@ const CensusReportView = () => {
   }, [tableData])
 
   const pdfDownlloadView = useCallback(
-    (e) => {
+    e => {
       if (tableData.length !== 0) {
         CensusReportPdfView(tableData, dailyDate, calculateTotal)
       } else {
         infoNotify('No Report Found')
       }
     },
-    [dailyDate, tableData, calculateTotal],
+    [dailyDate, tableData, calculateTotal]
   )
 
   useEffect(() => {
     const dateRange = eachDayOfInterval({ start: new Date(startDate), end: new Date(endDate) })
-    const getGraphView = async (barGraphSearch) => {
+    const getGraphView = async barGraphSearch => {
       const result = await axioslogin.post('/qidailycensus/viewgraph', barGraphSearch)
       const { success, data } = result.data
       if (success === 1) {
-        const newAdmis = dateRange?.map((val) => {
+        const newAdmis = dateRange?.map(val => {
           const tadmis = data
             ?.filter(
-              (item) =>
+              item =>
                 moment(new Date(val)).format('DD-MM-YYYY') ===
-                moment(new Date(item.census_date)).format('DD-MM-YYYY'),
+                moment(new Date(item.census_date)).format('DD-MM-YYYY')
             )
             .reduce((acc, curr) => acc + curr.total_admission, 0)
           return {
@@ -235,12 +235,12 @@ const CensusReportView = () => {
         })
         setadmissionData(newAdmis)
 
-        const newDischrg = dateRange?.map((val) => {
+        const newDischrg = dateRange?.map(val => {
           const tdisch = data
             .filter(
-              (item) =>
+              item =>
                 moment(new Date(val)).format('DD-MM-YYYY') ===
-                moment(new Date(item.census_date)).format('DD-MM-YYYY'),
+                moment(new Date(item.census_date)).format('DD-MM-YYYY')
             )
             .reduce((acc, curr) => acc + curr.total_discharge, 0)
           return {
@@ -250,12 +250,12 @@ const CensusReportView = () => {
         })
         setDischargeData(newDischrg)
 
-        const newTotal = dateRange?.map((val) => {
+        const newTotal = dateRange?.map(val => {
           const tcensus = data
             ?.filter(
-              (item) =>
+              item =>
                 moment(new Date(val)).format('DD-MM-YYYY') ===
-                moment(new Date(item.census_date)).format('DD-MM-YYYY'),
+                moment(new Date(item.census_date)).format('DD-MM-YYYY')
             )
             .reduce((acc, curr) => acc + curr.census_total, 0)
           return {
@@ -271,7 +271,7 @@ const CensusReportView = () => {
     }
     getGraphView(barGraphSearch)
   }, [barGraphSearch, startDate, endDate])
-  const valueFormatter = (value) => `${value}`
+  const valueFormatter = value => `${value}`
   return (
     <Fragment>
       <Paper variant="outlined" square>

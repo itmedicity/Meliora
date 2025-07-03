@@ -54,7 +54,7 @@ const DeptSecBaseReport = () => {
   }, [])
 
   const search = useCallback(() => {
-    const getAllItems = async (postdata) => {
+    const getAllItems = async postdata => {
       const result = await axioslogin.post(`/amReport/getItemsFronList`, postdata)
       const { success, data } = result.data
       if (success === 1) {

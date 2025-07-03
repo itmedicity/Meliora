@@ -8,13 +8,13 @@ const ManufactureTable = ({ count, rowSelect }) => {
   const [tabledata, setTabledata] = useState([])
   const [column] = useState([
     {
-      headerName: 'Action', minWidth: 20,
-      cellRenderer: (params) => <EditButton onClick={() => rowSelect(params)} />,
+      headerName: 'Action',
+      minWidth: 20,
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
     },
     { headerName: 'SlNo', field: 'manufacture_slno', minWidth: 50 },
     { headerName: 'Manufacture', field: 'manufacture_name', minWidth: 50 },
     { headerName: 'Status', field: 'status', minWidth: 50 },
-
   ])
   useEffect(() => {
     const getManufacture = async () => {

@@ -1,19 +1,18 @@
 import React from 'react'
-import { Navigate } from 'react-router-dom'
 
 const NotCorect = React.lazy(() => import('./views/dashboard/Home'))
 const Home = React.lazy(() => import('./views/ComManagement/Dashboard/TicketManagementCmDeptMain'))
 const Settings = React.lazy(() => import('../src/Menus/Settings'))
 const Administrtion = React.lazy(() => import('../src/views/Administration/Test'))
 const DepartmentMast = React.lazy(() => import('./views/Master/Department/DepartmentMast'))
-const DepartmentSectionMast = React.lazy(
-  () => import('./views/Master/DepartmentSectionMast/DeptSectionMast'),
+const DepartmentSectionMast = React.lazy(() =>
+  import('./views/Master/DepartmentSectionMast/DeptSectionMast')
 )
-const ComplaintDepartment = React.lazy(
-  () => import('./views/Master/ComplaintDepartment/ComplaintDeptMast'),
+const ComplaintDepartment = React.lazy(() =>
+  import('./views/Master/ComplaintDepartment/ComplaintDeptMast')
 )
-const ComplaintRegister = React.lazy(
-  () => import('./views/ComManagement/ComplaintRegisterMain/TicketRegisterMain'),
+const ComplaintRegister = React.lazy(() =>
+  import('./views/ComManagement/ComplaintRegisterMain/TicketRegisterMain')
 )
 const UserGroupMast = React.lazy(() => import('./views/Master/UserGroupMaster/UserGroupMast'))
 const ModuleMast = React.lazy(() => import('./views/Master/ModuleMaster/ModuleMaster'))
@@ -24,49 +23,49 @@ const ComplaintType = React.lazy(() => import('./views/Master/ComplaintType/Comp
 const HicPolicy = React.lazy(() => import('./views/Master/HicPolicy/HicPolicyMast'))
 const HoldReason = React.lazy(() => import('./views/Master/ComplaintHoldReason/HoldReasonMaster'))
 const ModuleuserRight = React.lazy(() => import('./views/Master/ModuleUserRight/ModuleUserRight'))
-const AssignComplaint = React.lazy(
-  () => import('./views/ComManagement/AssignComplaint/AssignComplaintTable'),
+const AssignComplaint = React.lazy(() =>
+  import('./views/ComManagement/AssignComplaint/AssignComplaintTable')
 )
-const DepartmentAssets = React.lazy(
-  () => import('./views/AssetManagment/DepartmentalAsset/DepartmentAssetMain'),
+const DepartmentAssets = React.lazy(() =>
+  import('./views/AssetManagment/DepartmentalAsset/DepartmentAssetMain')
 )
 const AssetType = React.lazy(() => import('./views/Master/AssetMasters/AssetType/AssetTypeMaster'))
 const ItemType = React.lazy(() => import('./views/Master/AssetMasters/ItemType/ItemTypeMast'))
 const ItemCategory = React.lazy(() => import('./views/Master/AssetMasters/Category/CategoryMaster'))
-const SubCategory = React.lazy(
-  () => import('./views/Master/AssetMasters/SubCategory/SubCategoryMast'),
+const SubCategory = React.lazy(() =>
+  import('./views/Master/AssetMasters/SubCategory/SubCategoryMast')
 )
 const AssetGroup = React.lazy(() => import('./views/Master/AssetMasters/Group/GroupMast'))
 const SubGroup = React.lazy(() => import('./views/Master/AssetMasters/SubGroup/SubGroupMast'))
-const Manufacture = React.lazy(
-  () => import('./views/Master/AssetMasters/Manufacture/ManufactureMast'),
+const Manufacture = React.lazy(() =>
+  import('./views/Master/AssetMasters/Manufacture/ManufactureMast')
 )
-const Building = React.lazy(
-  () => import('./views/Master/RoomMasters/BuildingMaster/BuildingMaster'),
+const Building = React.lazy(() =>
+  import('./views/Master/RoomMasters/BuildingMaster/BuildingMaster')
 )
 const Floor = React.lazy(() => import('./views/Master/RoomMasters/FloorMaster/FloorMaster'))
 const RoomType = React.lazy(() => import('./views/Master/RoomMasters/RoomType/RoomTypeMast'))
-const RoomCategory = React.lazy(
-  () => import('./views/Master/RoomMasters/RoomCategory/RoomCategoryMast'),
+const RoomCategory = React.lazy(() =>
+  import('./views/Master/RoomMasters/RoomCategory/RoomCategoryMast')
 )
 const NotificationMainMeNu = React.lazy(() => import('./views/Notification/NotificationMainMenu'))
 const NursingStation = React.lazy(() => import('./views/Master/NursingStation/NursingStationMast'))
 const DietCategory = React.lazy(() => import('./views/Master/DietMasters/Diet/DietMaster'))
 const DietType = React.lazy(() => import('./views/Master/DietMasters/DietType/DietTypeMast'))
 const RateList = React.lazy(() => import('./views/Master/DietMasters/RateList/RateListMast'))
-const DietIssue = React.lazy(
-  () => import('./views/Master/DietMasters/DietIssueSchedule/DietIssueScheduleMast'),
+const DietIssue = React.lazy(() =>
+  import('./views/Master/DietMasters/DietIssueSchedule/DietIssueScheduleMast')
 )
 const InpatientList = React.lazy(() => import('./views/NursingStation/InPatientList'))
 const DietProcess = React.lazy(() => import('./views/Diet/DietProcess'))
 const UserCreation = React.lazy(() => import('./views/Master/UserCreation/UserCreation'))
 const UserCreationTable = React.lazy(() => import('./views/Master/UserCreation/UserCreationTable'))
 const RoomCreation = React.lazy(() => import('./views/RoomManagement/Roomcreation/RoomCreation'))
-const SubRoomCreation = React.lazy(
-  () => import('./views/RoomManagement/NewSubRoomCreation/NewSubRoomMast'),
+const SubRoomCreation = React.lazy(() =>
+  import('./views/RoomManagement/NewSubRoomCreation/NewSubRoomMast')
 )
-const DietMenuSetting = React.lazy(
-  () => import('./views/Master/DietMasters/DietMenuSetting/DietMenuSetting'),
+const DietMenuSetting = React.lazy(() =>
+  import('./views/Master/DietMasters/DietMenuSetting/DietMenuSetting')
 )
 const ItemGroup = React.lazy(() => import('./views/Master/DietMasters/ItemGroup/ItemGroupMast'))
 const ItemMaster = React.lazy(() => import('./views/Master/DietMasters/ItemMaster/ItemMaster'))
@@ -76,91 +75,91 @@ const DietPlanList = React.lazy(() => import('./views/NursingStation/DietPlanLis
 const DietOrderList = React.lazy(() => import('./views/Diet/DietOrder/DietOderTaking'))
 const DietExtraOrder = React.lazy(() => import('./views/Diet/DietExtraOrder/ExtraOrder'))
 const DietDelivery = React.lazy(() => import('./views/Diet/DietDeliveryMark'))
-const RectifyComplaint = React.lazy(
-  () => import('./views/ComManagement/RectifyComplaint/RectifyCompalint'),
+const RectifyComplaint = React.lazy(() =>
+  import('./views/ComManagement/RectifyComplaint/RectifyCompalint')
 )
 const WeWorkInpatient = React.lazy(() => import('./views/WeWork/InPatientList'))
 const Reports = React.lazy(() => import('./Menus/Reports'))
 const DietReport = React.lazy(() => import('./views/Report/DietReport/DietTypeWise'))
 const NusrseStationReport = React.lazy(() => import('./views/Report/DietReport/NurseStationWise'))
 const PatientReport = React.lazy(() => import('./views/Report/DietReport/PatientWise'))
-const DirectComplaintReg = React.lazy(
-  () => import('./views/ComManagement/DirectTicketRegistrationMain/DirectTicketMainTab'),
+const DirectComplaintReg = React.lazy(() =>
+  import('./views/ComManagement/DirectTicketRegistrationMain/DirectTicketMainTab')
 )
 const MonthlyReport = React.lazy(() => import('./views/Report/DietReport/MonthlyReport'))
 const TotalAdmisson = React.lazy(() => import('./views/WeWork/WeworkTaotalAdmission/TotalAdmisson'))
 const DamaCount = React.lazy(() => import('./views/WeWork/Damacount/DamaCount'))
 const BhrcCount = React.lazy(() => import('./views/WeWork/BhrcList/BhrcCount'))
-const RoundsAfternoonList = React.lazy(
-  () => import('./views/WeWork/RoundsAfterNoon/RoundsAfternoonList'),
+const RoundsAfternoonList = React.lazy(() =>
+  import('./views/WeWork/RoundsAfterNoon/RoundsAfternoonList')
 )
 const DischargeList = React.lazy(() => import('./views/WeWork/DischrgeafternoonList/DischargeList'))
-const HighAntibiotic = React.lazy(
-  () => import('./views/Master/WEWorkMaster/HighAntibiotic/HighAntibioMast'),
+const HighAntibiotic = React.lazy(() =>
+  import('./views/Master/WEWorkMaster/HighAntibiotic/HighAntibioMast')
 )
-const PatSurvillenceView = React.lazy(
-  () => import('./views/WeWork/Patienntsurvillence/PatSurvillenceView'),
+const PatSurvillenceView = React.lazy(() =>
+  import('./views/WeWork/Patienntsurvillence/PatSurvillenceView')
 )
 const NoshiftReport = React.lazy(() => import('./views/Report/WeworkReport/NoshiftReport'))
-const HighAntiBioticReport = React.lazy(
-  () => import('./views/Report/WeworkReport/HighAntiBioticReport'),
+const HighAntiBioticReport = React.lazy(() =>
+  import('./views/Report/WeworkReport/HighAntiBioticReport')
 )
-const EmpNsWiseMaping = React.lazy(
-  () => import('./views/Master/WEWorkMaster/EmpNSWiseMapp/NSWiseMAppingMast'),
+const EmpNsWiseMaping = React.lazy(() =>
+  import('./views/Master/WEWorkMaster/EmpNSWiseMapp/NSWiseMAppingMast')
 )
 const ExtraOrderView = React.lazy(() => import('./views/Diet/DietExtraOrder/ExtraOrderView'))
-const EscalationTime = React.lazy(
-  () => import('./views/Master/EscalationTimeMast/EscalationTimeMast'),
+const EscalationTime = React.lazy(() =>
+  import('./views/Master/EscalationTimeMast/EscalationTimeMast')
 )
-const EscalationLevel1 = React.lazy(
-  () => import('./views/TimeEscalation/Level1Escalation/Level1escalation'),
+const EscalationLevel1 = React.lazy(() =>
+  import('./views/TimeEscalation/Level1Escalation/Level1escalation')
 )
-const EscalationLevel2 = React.lazy(
-  () => import('./views/TimeEscalation/Level2Escalation/Level2escalation'),
+const EscalationLevel2 = React.lazy(() =>
+  import('./views/TimeEscalation/Level2Escalation/Level2escalation')
 )
-const EscalationLevel3 = React.lazy(
-  () => import('./views/TimeEscalation/Level3Escalation/Level3escalation'),
+const EscalationLevel3 = React.lazy(() =>
+  import('./views/TimeEscalation/Level3Escalation/Level3escalation')
 )
-const EscalationLevel4 = React.lazy(
-  () => import('./views/TimeEscalation/Level4Escalation/Level4escalation'),
+const EscalationLevel4 = React.lazy(() =>
+  import('./views/TimeEscalation/Level4Escalation/Level4escalation')
 )
-const TopLevelED = React.lazy(
-  () => import('./views/TimeEscalation/TopLevelEscalationED/TopelevelED'),
+const TopLevelED = React.lazy(() =>
+  import('./views/TimeEscalation/TopLevelEscalationED/TopelevelED')
 )
-const EscalationMapping = React.lazy(
-  () => import('./views/Master/EscalationMapping/EscalationMapping'),
+const EscalationMapping = React.lazy(() =>
+  import('./views/Master/EscalationMapping/EscalationMapping')
 )
-const PendingOnholdList = React.lazy(
-  () => import('./views/ComManagement/PendingOnhold/PendingOnHoldList'),
+const PendingOnholdList = React.lazy(() =>
+  import('./views/ComManagement/PendingOnhold/PendingOnHoldList')
 )
-const TotalDeptWiseList = React.lazy(
-  () => import('./views/dashboard/ComplaintDashViews/ComDashDeptAllTable'),
+const TotalDeptWiseList = React.lazy(() =>
+  import('./views/dashboard/ComplaintDashViews/ComDashDeptAllTable')
 )
-const PendingDeptWiseList = React.lazy(
-  () => import('./views/dashboard/ComplaintDashViews/PendingAssignDept'),
+const PendingDeptWiseList = React.lazy(() =>
+  import('./views/dashboard/ComplaintDashViews/PendingAssignDept')
 )
-const AssignDeptWiseList = React.lazy(
-  () => import('./views/dashboard/ComplaintDashViews/AssignComDept'),
+const AssignDeptWiseList = React.lazy(() =>
+  import('./views/dashboard/ComplaintDashViews/AssignComDept')
 )
-const VerifyDeptWiseList = React.lazy(
-  () => import('./views/dashboard/ComplaintDashViews/VeriftComDept'),
+const VerifyDeptWiseList = React.lazy(() =>
+  import('./views/dashboard/ComplaintDashViews/VeriftComDept')
 )
-const OnHoldPendingDeptWiseList = React.lazy(
-  () => import('./views/dashboard/ComplaintDashViews/OnPendingComDept'),
+const OnHoldPendingDeptWiseList = React.lazy(() =>
+  import('./views/dashboard/ComplaintDashViews/OnPendingComDept')
 )
-const AssignEmpWiseList = React.lazy(
-  () => import('./views/dashboard/ComplaintDashViews/AssignComEmp'),
+const AssignEmpWiseList = React.lazy(() =>
+  import('./views/dashboard/ComplaintDashViews/AssignComEmp')
 )
-const VerifyEmpWiseList = React.lazy(
-  () => import('./views/dashboard/ComplaintDashViews/RectifyComEmp'),
+const VerifyEmpWiseList = React.lazy(() =>
+  import('./views/dashboard/ComplaintDashViews/RectifyComEmp')
 )
-const OnHoldPendingEmpWiseList = React.lazy(
-  () => import('./views/dashboard/ComplaintDashViews/PendingOnholdEmp'),
+const OnHoldPendingEmpWiseList = React.lazy(() =>
+  import('./views/dashboard/ComplaintDashViews/PendingOnholdEmp')
 )
 const InPatientList = React.lazy(() => import('./views/dashboard/DietDashViews/TotalInpatientList'))
 const DietPlannedList = React.lazy(() => import('./views/dashboard/DietDashViews/DietPalnnedList'))
-const DietPlanPending = React.lazy(
-  () => import('./views/dashboard/DietDashViews/DietPlanPendingList'),
+const DietPlanPending = React.lazy(() =>
+  import('./views/dashboard/DietDashViews/DietPlanPendingList')
 )
 const NDRFform = React.lazy(() => import('./views/RequestManagement/NdrfFrorm/NdrfFrom'))
 const HallBooking = React.lazy(() => import('./views/HallBooking/HallBookingRegister'))
@@ -168,352 +167,352 @@ const Hallmaster = React.lazy(() => import('./views/Master/HallMaster/Hallmaster
 const HallbookingReg = React.lazy(() => import('./views/HallBooking/HallbookingReg'))
 const HallBookingApproval = React.lazy(() => import('./views/HallBooking/HallBookingApproval'))
 const CAoApproval = React.lazy(() => import('./views/HallBooking/CeoApproval/CeoApproval'))
-const HicComplaint = React.lazy(
-  () => import('./views/ComManagement/HICComplaintList/HicComplaintList'),
+const HicComplaint = React.lazy(() =>
+  import('./views/ComManagement/HICComplaintList/HicComplaintList')
 )
-const OMTableMast = React.lazy(
-  () => import('./views/Master/RequestManagement/OMTableMast/OMTableMast'),
+const OMTableMast = React.lazy(() =>
+  import('./views/Master/RequestManagement/OMTableMast/OMTableMast')
 )
-const OMEmpMapping = React.lazy(
-  () => import('./views/Master/RequestManagement/OMEmpMap/OMEmpMapMast'),
+const OMEmpMapping = React.lazy(() =>
+  import('./views/Master/RequestManagement/OMEmpMap/OMEmpMapMast')
 )
 const ManualList = React.lazy(() => import('./views/Manual/ManualList'))
 const ComEmpMapping = React.lazy(() => import('./views/Master/ComEMPMapping/ComEmpMapping'))
 const AssetStockDetails = React.lazy(() => import('./views/AssetManagment/StockDetails/StockMain'))
 const ComPriorityMast = React.lazy(() => import('./views/Master/CompPriority/ComPriorityMast'))
-const AssetDashboardMain = React.lazy(
-  () => import('./views/AssetManagment/DasboardMain/DahboardMain'),
+const AssetDashboardMain = React.lazy(() =>
+  import('./views/AssetManagment/DasboardMain/DahboardMain')
 )
 const CmsReportDeptWise = React.lazy(() => import('./views/Report/ComplaintReport/DeptWiseReport'))
-const CampusMaster = React.lazy(
-  () => import('./views/Master/RoomMasters/CampusMaster/CampusMaster'),
+const CampusMaster = React.lazy(() =>
+  import('./views/Master/RoomMasters/CampusMaster/CampusMaster')
 )
-const BuildingMast = React.lazy(
-  () => import('./views/Master/RoomMasters/BuildingMast/BuildingMast'),
+const BuildingMast = React.lazy(() =>
+  import('./views/Master/RoomMasters/BuildingMast/BuildingMast')
 )
-const BluidBlockMast = React.lazy(
-  () => import('./views/Master/RoomMasters/BuildBlockMast/BuildBlockMast'),
+const BluidBlockMast = React.lazy(() =>
+  import('./views/Master/RoomMasters/BuildBlockMast/BuildBlockMast')
 )
-const InsideBuildBlock = React.lazy(
-  () => import('./views/Master/RoomMasters/InsideBulidBlock/InsideBuildBlockMast'),
+const InsideBuildBlock = React.lazy(() =>
+  import('./views/Master/RoomMasters/InsideBulidBlock/InsideBuildBlockMast')
 )
 const FloorMaster = React.lazy(() => import('./views/Master/RoomMasters/FloorMast/FloorMast'))
-const RoomTypeMaster = React.lazy(
-  () => import('./views/Master/RoomMasters/RoomTypeMaster/RoomTypeMaster'),
+const RoomTypeMaster = React.lazy(() =>
+  import('./views/Master/RoomMasters/RoomTypeMaster/RoomTypeMaster')
 )
-const RoomCategoryMaster = React.lazy(
-  () => import('./views/Master/RoomMasters/RoomCategoryMaster/RoomCategoryMaster'),
+const RoomCategoryMaster = React.lazy(() =>
+  import('./views/Master/RoomMasters/RoomCategoryMaster/RoomCategoryMaster')
 )
 const FloorCreation = React.lazy(() => import('./views/RoomManagement/FloorCreation/FloorCreation'))
-const RoomNewCreation = React.lazy(
-  () => import('./views/RoomManagement/RoomNewCreation/RoomCreation'),
+const RoomNewCreation = React.lazy(() =>
+  import('./views/RoomManagement/RoomNewCreation/RoomCreation')
 )
 const TeamMaster = React.lazy(() => import('./views/Master/TaskManagement/TaskTeamMaster/TeamMast'))
-const CRFDataCollection = React.lazy(
-  () => import('./views/RequestManagement/CRFDataCollection/CrfDataCollectnTable'),
+const CRFDataCollection = React.lazy(() =>
+  import('./views/RequestManagement/CRFDataCollection/CrfDataCollectnTable')
 )
 const RoomDashBoard = React.lazy(() => import('./views/RoomManagement/DashBoard/DashBoardMain'))
 const RequstToAssign = React.lazy(() => import('./views/Report/ComplaintReport/RequstToAssign'))
-const RequestToRectify = React.lazy(
-  () => import('./views/Report/ComplaintReport/RequestToRectifctn'),
+const RequestToRectify = React.lazy(() =>
+  import('./views/Report/ComplaintReport/RequestToRectifctn')
 )
 const RequestToVerify = React.lazy(() => import('./views/Report/ComplaintReport/RequestToVerfy'))
 const AssignToRectify = React.lazy(() => import('./views/Report/ComplaintReport/AssignToRectify'))
 const AssignToVerify = React.lazy(() => import('./views/Report/ComplaintReport/AssignToVerify'))
 const RectifyToVerify = React.lazy(() => import('./views/Report/ComplaintReport/RectfyToVerify'))
-const ComplaintCategoryRprt = React.lazy(
-  () => import('./views/Report/ComplaintReport/ComplaintCategoryWise'),
+const ComplaintCategoryRprt = React.lazy(() =>
+  import('./views/Report/ComplaintReport/ComplaintCategoryWise')
 )
 const AreaWiseCompReport = React.lazy(() => import('./views/Report/ComplaintReport/AreaWiseReport'))
-const CompPerAssignee = React.lazy(
-  () => import('./views/Report/ComplaintReport/ComplaintPerAssignee'),
+const CompPerAssignee = React.lazy(() =>
+  import('./views/Report/ComplaintReport/ComplaintPerAssignee')
 )
-const TATCompPerAssignee = React.lazy(
-  () => import('./views/Report/ComplaintReport/TatPerComplntAssignee'),
+const TATCompPerAssignee = React.lazy(() =>
+  import('./views/Report/ComplaintReport/TatPerComplntAssignee')
 )
-const ItemNameCreation = React.lazy(
-  () => import('./views/AssetManagment/ItemNameCreation/ItemNameCreation'),
+const ItemNameCreation = React.lazy(() =>
+  import('./views/AssetManagment/ItemNameCreation/ItemNameCreation')
 )
-const PrimaryCustodian = React.lazy(
-  () => import('./views/Master/AssetMasters/PrimaryCustodian/PrimaryCustodianMast'),
+const PrimaryCustodian = React.lazy(() =>
+  import('./views/Master/AssetMasters/PrimaryCustodian/PrimaryCustodianMast')
 )
-const SecondaryCustodian = React.lazy(
-  () => import('./views/Master/AssetMasters/SecondaryCustodian/SecondaryCustodian'),
+const SecondaryCustodian = React.lazy(() =>
+  import('./views/Master/AssetMasters/SecondaryCustodian/SecondaryCustodian')
 )
-const UnitOfMeasurement = React.lazy(
-  () => import('./views/Master/AssetMasters/AssetUOMmasters/UomMaster'),
+const UnitOfMeasurement = React.lazy(() =>
+  import('./views/Master/AssetMasters/AssetUOMmasters/UomMaster')
 )
 const AssetModel = React.lazy(() => import('./views/Master/AssetMasters/AssetModel/AssetModel'))
-const AssetSubModel = React.lazy(
-  () => import('./views/Master/AssetMasters/AssetSubModel/AssetSubModel'),
+const AssetSubModel = React.lazy(() =>
+  import('./views/Master/AssetMasters/AssetSubModel/AssetSubModel')
 )
 const RoomAsset = React.lazy(() => import('./views/RoomManagement/DashBoard/DashBoardRoomAsset'))
-const ItemCreation = React.lazy(
-  () => import('./views/AssetManagment/ItemOpeningEntry/OpenEntryMain'),
+const ItemCreation = React.lazy(() =>
+  import('./views/AssetManagment/ItemOpeningEntry/OpenEntryMain')
 )
-const DashboardBackup = React.lazy(
-  () => import('./views/ItManagement/DashboardBackup/Newdashboard'),
+const DashboardBackup = React.lazy(() =>
+  import('./views/ItManagement/DashboardBackup/Newdashboard')
 )
-const PasswordManagement = React.lazy(
-  () => import('./views/ItManagement/PasswordManagement/PasswordManagement'),
+const PasswordManagement = React.lazy(() =>
+  import('./views/ItManagement/PasswordManagement/PasswordManagement')
 )
-const BackupChecks = React.lazy(
-  () => import('./views/ItManagement/BackupChecksAndMonitoring/BackupChecks'),
+const BackupChecks = React.lazy(() =>
+  import('./views/ItManagement/BackupChecksAndMonitoring/BackupChecks')
 )
-const SimType = React.lazy(
-  () => import('./views/Master/ItMasters/BillManagement/SimType/SimTypeMaster'),
+const SimType = React.lazy(() =>
+  import('./views/Master/ItMasters/BillManagement/SimType/SimTypeMaster')
 )
-const WifiManageMenT = React.lazy(
-  () => import('./views/ItManagement/WifiManagement/WifiManageMentMains'),
+const WifiManageMenT = React.lazy(() =>
+  import('./views/ItManagement/WifiManagement/WifiManageMentMains')
 )
-const CustodianDeptmt = React.lazy(
-  () => import('./views/Master/AssetMasters/CustodianDepartment/CustodianDeptMast'),
+const CustodianDeptmt = React.lazy(() =>
+  import('./views/Master/AssetMasters/CustodianDepartment/CustodianDeptMast')
 )
-const AssetItemListView = React.lazy(
-  () => import('./views/AssetManagment/AssetItemDetails/DetailMain'),
+const AssetItemListView = React.lazy(() =>
+  import('./views/AssetManagment/AssetItemDetails/DetailMain')
 )
-const PasswordManagementCredentialType = React.lazy(
-  () => import('./views/Master/ItMasters/passwordManagement/PasswordCredentialType'),
+const PasswordManagementCredentialType = React.lazy(() =>
+  import('./views/Master/ItMasters/passwordManagement/PasswordCredentialType')
 )
-const BackupScheduleType = React.lazy(
-  () => import('./views/Master/BackupMaster/ScheduleType/ScheduleTypeMast'),
+const BackupScheduleType = React.lazy(() =>
+  import('./views/Master/BackupMaster/ScheduleType/ScheduleTypeMast')
 )
-const BackupScheduleTime = React.lazy(
-  () => import('./views/Master/BackupMaster/ScheduleTime/ScheduleTimeMast'),
+const BackupScheduleTime = React.lazy(() =>
+  import('./views/Master/BackupMaster/ScheduleTime/ScheduleTimeMast')
 )
 const Backupmast = React.lazy(() => import('./views/Master/BackupMaster/BackupDetails/BackupMast'))
-const AssetRackMast = React.lazy(
-  () => import('./views/Master/AssetMasters/AssetRackMast/AssetRackMaster'),
+const AssetRackMast = React.lazy(() =>
+  import('./views/Master/AssetMasters/AssetRackMast/AssetRackMaster')
 )
-const TaskManagementMainDashboard = React.lazy(
-  () => import('./views/TaskManagement/TaskDashboard/TmDashboardMain'),
+const TaskManagementMainDashboard = React.lazy(() =>
+  import('./views/TaskManagement/TaskDashboard/TmDashboardMain')
 )
 const ITSimDetails = React.lazy(() => import('./views/ItManagement/SimDetails/SimDetails'))
-const AssetDepartmentTransfer = React.lazy(
-  () => import('./views/AssetManagment/AssetTransfer/AssetTransferMain'),
+const AssetDepartmentTransfer = React.lazy(() =>
+  import('./views/AssetManagment/AssetTransfer/AssetTransferMain')
 )
 const AssetItemReport = React.lazy(() => import('./views/Report/AssetReport/AllItemsReports'))
-const RequestRegister = React.lazy(
-  () => import('./views/RequestManagement/RequestRegister/ReqRegistration'),
+const RequestRegister = React.lazy(() =>
+  import('./views/RequestManagement/RequestRegister/ReqRegistration')
 )
-const CRFIncharge = React.lazy(
-  () => import('./views/RequestManagement/InchargeApproval/InchargeApprovalTable'),
+const CRFIncharge = React.lazy(() =>
+  import('./views/RequestManagement/InchargeApproval/InchargeApprovalTable')
 )
-const ReqDepartmentApproval = React.lazy(
-  () => import('./views/RequestManagement/DepartmentApprovals/HodApprovalTable'),
+const ReqDepartmentApproval = React.lazy(() =>
+  import('./views/RequestManagement/DepartmentApprovals/HodApprovalTable')
 )
 const DMSApproval = React.lazy(() => import('./views/RequestManagement/DMSCrfApproval/DMSCrfTable'))
-const CRFMSApproval = React.lazy(
-  () => import('./views/RequestManagement/MSApproval/MSApprovalTable'),
+const CRFMSApproval = React.lazy(() =>
+  import('./views/RequestManagement/MSApproval/MSApprovalTable')
 )
 const ReqOMApproval = React.lazy(() => import('./views/RequestManagement/OMApproval/OmApproval'))
 const ReqSMOApproval = React.lazy(() => import('./views/RequestManagement/SMOApproval/SmoApproval'))
 const ReqCAOApproval = React.lazy(() => import('./views/RequestManagement/CAOApproval/CAOApproval'))
 const ReqEDApproval = React.lazy(() => import('./views/RequestManagement/EDApproval/EDApproval'))
-const ReqMDApproval = React.lazy(
-  () => import('./views/RequestManagement/MDApproval/MDApprovalTable'),
+const ReqMDApproval = React.lazy(() =>
+  import('./views/RequestManagement/MDApproval/MDApprovalTable')
 )
-const NdrfPurchase = React.lazy(
-  () => import('./views/RequestManagement/NdrfPurchase/NdrfPurchaseTable'),
+const NdrfPurchase = React.lazy(() =>
+  import('./views/RequestManagement/NdrfPurchase/NdrfPurchaseTable')
 )
-const CRFDashboard = React.lazy(
-  () => import('./views/RequestManagement/CRFDashboard/CrdDashboardMain'),
+const CRFDashboard = React.lazy(() =>
+  import('./views/RequestManagement/CRFDashboard/CrdDashboardMain')
 )
-const DeptSecBasedItemReport = React.lazy(
-  () => import('./views/Report/AssetReport/DeptSecBaseReport'),
+const DeptSecBasedItemReport = React.lazy(() =>
+  import('./views/Report/AssetReport/DeptSecBaseReport')
 )
-const TaskManagementEmployeeTask = React.lazy(
-  () => import('./views/TaskManagement/Mytask/EmpTaskDash'),
+const TaskManagementEmployeeTask = React.lazy(() =>
+  import('./views/TaskManagement/Mytask/EmpTaskDash')
 )
-const EmergencyTypeMast = React.lazy(
-  () => import('./views/Master/RequestManagement/EmergencyTypeMast/EmergencyTypeMast'),
+const EmergencyTypeMast = React.lazy(() =>
+  import('./views/Master/RequestManagement/EmergencyTypeMast/EmergencyTypeMast')
 )
-const CrfNewReqRegister = React.lazy(
-  () => import('./views/CentralRequestManagement/CRFRequestMaster/CrfRequestMaster'),
+const CrfNewReqRegister = React.lazy(() =>
+  import('./views/CentralRequestManagement/CRFRequestMaster/CrfRequestMaster')
 )
-const AssetDashboardM = React.lazy(
-  () => import('./views/AssetManagment/DashboardAsset/DashboardMainAsset'),
+const AssetDashboardM = React.lazy(() =>
+  import('./views/AssetManagment/DashboardAsset/DashboardMainAsset')
 )
-const CensusDptMast = React.lazy(
-  () => import('./views/Master/QualityIndicatorMaster/CensusDeptSecMast/QualityDept'),
+const CensusDptMast = React.lazy(() =>
+  import('./views/Master/QualityIndicatorMaster/CensusDeptSecMast/QualityDept')
 )
-const QualityIndicator = React.lazy(
-  () => import('./views/Master/QualityIndicatorMaster/QualityIndicatorsList/QualityIndicators'),
+const QualityIndicator = React.lazy(() =>
+  import('./views/Master/QualityIndicatorMaster/QualityIndicatorsList/QualityIndicators')
 )
-const TMdepartmentReport = React.lazy(
-  () => import('./views/Report/TaskReport/DepartmentWise/DepartmentWiseTask'),
+const TMdepartmentReport = React.lazy(() =>
+  import('./views/Report/TaskReport/DepartmentWise/DepartmentWiseTask')
 )
-const TMEmployeeReport = React.lazy(
-  () => import('./views/Report/TaskReport/EmployeeWise/EmployeeeWiseTask'),
+const TMEmployeeReport = React.lazy(() =>
+  import('./views/Report/TaskReport/EmployeeWise/EmployeeeWiseTask')
 )
-const CRFNewIncharge = React.lazy(
-  () => import('./views/CentralRequestManagement/CrfInchargeApproval/InchargeApproval'),
+const CRFNewIncharge = React.lazy(() =>
+  import('./views/CentralRequestManagement/CrfInchargeApproval/InchargeApproval')
 )
-const CRFNewHOD = React.lazy(
-  () => import('./views/CentralRequestManagement/CrfHodApproval/CrfHodApproval'),
+const CRFNewHOD = React.lazy(() =>
+  import('./views/CentralRequestManagement/CrfHodApproval/CrfHodApproval')
 )
-const CRFNewDMS = React.lazy(
-  () => import('./views/CentralRequestManagement/CrfDmsApproval/CrfDMSApproval'),
+const CRFNewDMS = React.lazy(() =>
+  import('./views/CentralRequestManagement/CrfDmsApproval/CrfDMSApproval')
 )
-const CRFNewMS = React.lazy(
-  () => import('./views/CentralRequestManagement/CrfMsApproval/CrfMSApproval'),
+const CRFNewMS = React.lazy(() =>
+  import('./views/CentralRequestManagement/CrfMsApproval/CrfMSApproval')
 )
-const CRFNewMO = React.lazy(
-  () => import('./views/CentralRequestManagement/CrfMOApproval/CrfMOApprovalMain'),
+const CRFNewMO = React.lazy(() =>
+  import('./views/CentralRequestManagement/CrfMOApproval/CrfMOApprovalMain')
 )
-const CRFNewSMO = React.lazy(
-  () => import('./views/CentralRequestManagement/CrfSMOApproval/CrfSMOApprovalMain'),
+const CRFNewSMO = React.lazy(() =>
+  import('./views/CentralRequestManagement/CrfSMOApproval/CrfSMOApprovalMain')
 )
-const CRFNewGM = React.lazy(
-  () => import('./views/CentralRequestManagement/CrfGMApproval/CrfGMApprovalMain'),
+const CRFNewGM = React.lazy(() =>
+  import('./views/CentralRequestManagement/CrfGMApproval/CrfGMApprovalMain')
 )
-const CRFNewMD = React.lazy(
-  () => import('./views/CentralRequestManagement/CrfMDApproval/CrfMDApprovalMain'),
+const CRFNewMD = React.lazy(() =>
+  import('./views/CentralRequestManagement/CrfMDApproval/CrfMDApprovalMain')
 )
-const CRFNewED = React.lazy(
-  () => import('./views/CentralRequestManagement/CrfEDApproval/CrfEDApprovalMain'),
+const CRFNewED = React.lazy(() =>
+  import('./views/CentralRequestManagement/CrfEDApproval/CrfEDApprovalMain')
 )
-const CRFNewDashboard = React.lazy(
-  () => import('./views/CentralRequestManagement/CrfDashboardNew/CrfDashboardMain'),
+const CRFNewDashboard = React.lazy(() =>
+  import('./views/CentralRequestManagement/CrfDashboardNew/CrfDashboardMain')
 )
-const TaskManagementMainCreateTask = React.lazy(
-  () => import('./views/TaskManagement/AllDepartmentsTaskZ/AllDepartmentMain'),
+const TaskManagementMainCreateTask = React.lazy(() =>
+  import('./views/TaskManagement/AllDepartmentsTaskZ/AllDepartmentMain')
 )
 const DailyCensus = React.lazy(() => import('./views/DailyCensus/DailyCensusCreate/CensusCreate'))
-const DailyCensusReport = React.lazy(
-  () => import('./views/DailyCensus/DailyCensusReport/CensusReportView'),
+const DailyCensusReport = React.lazy(() =>
+  import('./views/DailyCensus/DailyCensusReport/CensusReportView')
 )
-const CrfNewDataCollection = React.lazy(
-  () => import('./views/CentralRequestManagement/CrfDatacollection/CrfDataCollectionTable'),
+const CrfNewDataCollection = React.lazy(() =>
+  import('./views/CentralRequestManagement/CrfDatacollection/CrfDataCollectionTable')
 )
-const CRFNewPdfView = React.lazy(
-  () => import('./views/CentralRequestManagement/CrfPdfView/CrfPdfViewMain'),
+const CRFNewPdfView = React.lazy(() =>
+  import('./views/CentralRequestManagement/CrfPdfView/CrfPdfViewMain')
 )
-const CRFNewPurchase = React.lazy(
-  () => import('./views/CentralRequestManagement/PurchaseProcess/PurchaseTablemain'),
+const CRFNewPurchase = React.lazy(() =>
+  import('./views/CentralRequestManagement/PurchaseProcess/PurchaseTablemain')
 )
-const CRFNewCRSStore = React.lazy(
-  () => import('./views/CentralRequestManagement/CrfStoreProcess/CrfStoreProcessMain'),
+const CRFNewCRSStore = React.lazy(() =>
+  import('./views/CentralRequestManagement/CrfStoreProcess/CrfStoreProcessMain')
 )
-const CRFNewStore = React.lazy(
-  () => import('./views/CentralRequestManagement/CrfSubStores/CrfSubStoreMain'),
+const CRFNewStore = React.lazy(() =>
+  import('./views/CentralRequestManagement/CrfSubStores/CrfSubStoreMain')
 )
 const BillAdds = React.lazy(() => import('./views/ItManagement/BillAdd/BillDashBoardMain'))
-const IncHodAuthorization = React.lazy(
-  () => import('./views/Master/AuthorizationMaster/AuthorizationMast'),
+const IncHodAuthorization = React.lazy(() =>
+  import('./views/Master/AuthorizationMaster/AuthorizationMast')
 )
-const BillCategory = React.lazy(
-  () => import('./views/Master/ItMasters/BillManagement/BillCategory/BillCategoryMaster'),
+const BillCategory = React.lazy(() =>
+  import('./views/Master/ItMasters/BillManagement/BillCategory/BillCategoryMaster')
 )
-const BillType = React.lazy(
-  () => import('./views/Master/ItMasters/BillManagement/BillType/BillTypeMaster'),
+const BillType = React.lazy(() =>
+  import('./views/Master/ItMasters/BillManagement/BillType/BillTypeMaster')
 )
-const BillSupplierDetailsMast = React.lazy(
-  () => import('./views/Master/ItMasters/BillManagement/SupplierDetailsMast/SupplierDetails'),
+const BillSupplierDetailsMast = React.lazy(() =>
+  import('./views/Master/ItMasters/BillManagement/SupplierDetailsMast/SupplierDetails')
 )
-const QIdept = React.lazy(
-  () => import('./views/Master/QualityIndicatorMaster/QIDeptMast/QualityIndDeptMast'),
+const QIdept = React.lazy(() =>
+  import('./views/Master/QualityIndicatorMaster/QIDeptMast/QualityIndDeptMast')
 )
-const QIPatientMarking = React.lazy(
-  () => import('./views/QualityIndicatorNew/DepartmentWisePatientMarking'),
+const QIPatientMarking = React.lazy(() =>
+  import('./views/QualityIndicatorNew/DepartmentWisePatientMarking')
 )
 const Incident = React.lazy(() => import('./views/IncidentManagement/IncidentList'))
 const QIMonthlyReport = React.lazy(() => import('./views/QualityIndicatorNew/MonthlyReport'))
 const QIValidation = React.lazy(() => import('./views/QualityIndicatorNew/QIValidation'))
-const TimeReport = React.lazy(
-  () => import('./views/QualityIndicatorNew/InitialAssessmentTimeReport'),
+const TimeReport = React.lazy(() =>
+  import('./views/QualityIndicatorNew/InitialAssessmentTimeReport')
 )
-const QIListType = React.lazy(
-  () => import('./views/Master/QualityIndicatorMaster/QIListTypeMast/QIListType'),
+const QIListType = React.lazy(() =>
+  import('./views/Master/QualityIndicatorMaster/QIListTypeMast/QIListType')
 )
 const DayWiseQiReport = React.lazy(() => import('./views/QualityIndicatorNew/DaywiseQiReport'))
 const DataTransferHRM = React.lazy(() => import('./views/Master/DataImportFrmHR/DataImportHR'))
-const TaskManagementTaskLists = React.lazy(
-  () => import('./views/TaskManagement/DepartmentTask/DepartmentMain'),
+const TaskManagementTaskLists = React.lazy(() =>
+  import('./views/TaskManagement/DepartmentTask/DepartmentMain')
 )
 const AcceptTask = React.lazy(() => import('./views/TaskManagement/AcceptTask/AcceptTaskFromDir'))
 const AmcCmcAdding = React.lazy(() => import('./views/AssetManagment/ItemDetailEnter/AmcCmcAdding'))
 const QiInchargeApr = React.lazy(() => import('./views/QualityIndicatorNew/InchargeApproval'))
-const QiEquipment = React.lazy(
-  () => import('./views/Master/QualityIndicatorMaster/EquipmentMaster/EquipmentMast'),
+const QiEquipment = React.lazy(() =>
+  import('./views/Master/QualityIndicatorMaster/EquipmentMaster/EquipmentMast')
 )
 const QiHodAprv = React.lazy(() => import('./views/QualityIndicatorNew/HODApproval'))
 const CrfNoBased = React.lazy(() => import('./views/Report/CrmReport/CrfNoBasedReport'))
 const UserAcknowldged = React.lazy(() => import('./views/Report/CrmReport/UserAcknldgeList'))
 const QiWaitingTime = React.lazy(() => import('./views/QualityIndicatorNew/WaitingTimeReport'))
-const TMOverdueCountMaster = React.lazy(
-  () => import('./views/Master/TaskManageMaster/TaskDuedateCount'),
+const TMOverdueCountMaster = React.lazy(() =>
+  import('./views/Master/TaskManageMaster/TaskDuedateCount')
 )
-const TaskPerformanceSheet = React.lazy(
-  () => import('./views/TaskManagement/PerformanceSheet/PerformanceMain'),
+const TaskPerformanceSheet = React.lazy(() =>
+  import('./views/TaskManagement/PerformanceSheet/PerformanceMain')
 )
-const TaskPerformanceSlide = React.lazy(
-  () => import('./views/TaskManagement/PerformanceMenu/MainPerformane'),
+const TaskPerformanceSlide = React.lazy(() =>
+  import('./views/TaskManagement/PerformanceMenu/MainPerformane')
 )
 const UserNotAcknowldged = React.lazy(() => import('./views/Report/CrmReport/UserNotAckldgedList'))
 const PurchaseCRFReport = React.lazy(() => import('./views/Report/CrmReport/PurchaseReport'))
 const AllCRFReport = React.lazy(() => import('./views/Report/CrmReport/AllCRFReport'))
 const FeedbackForm = React.lazy(() => import('./views/FeedBack/Feedback'))
-const DeptAcess = React.lazy(
-  () => import('./views/Master/QualityIndicatorMaster/QIEmpDeptAccessMast/DeptAcessMast'),
+const DeptAcess = React.lazy(() =>
+  import('./views/Master/QualityIndicatorMaster/QIEmpDeptAccessMast/DeptAcessMast')
 )
-const AssetServiceList = React.lazy(
-  () => import('./views/AssetManagment/ServiceListSpare/SpareSErviceList'),
+const AssetServiceList = React.lazy(() =>
+  import('./views/AssetManagment/ServiceListSpare/SpareSErviceList')
 )
-const AssetCondemnationList = React.lazy(
-  () => import('./views/AssetManagment/CondemnationList/CondemnationList'),
+const AssetCondemnationList = React.lazy(() =>
+  import('./views/AssetManagment/CondemnationList/CondemnationList')
 )
 const PmDueList = React.lazy(() => import('./views/AssetManagment/PmOverDueList/PmOverdueList'))
 const AllCRFReportWithPO = React.lazy(() => import('./views/Report/CrmReport/CRFAllReportWithPO'))
-const TicketDashboardz = React.lazy(
-  () => import('./views/ComManagement/Dashboard/TicketManagementCmDeptMain'),
+const TicketDashboardz = React.lazy(() =>
+  import('./views/ComManagement/Dashboard/TicketManagementCmDeptMain')
 )
-const ItBackupTypeMast = React.lazy(
-  () => import('./views/Master/ItMasters/BackUpType/BackUpTypeMaster'),
+const ItBackupTypeMast = React.lazy(() =>
+  import('./views/Master/ItMasters/BackUpType/BackUpTypeMaster')
 )
 const SimOperator = React.lazy(() => import('./views/Master/ItMasters/SimOperators/SimOperators'))
-const AllDeptCondemList = React.lazy(
-  () => import('./views/AssetManagment/AllDeptRegCondemList/AllDeptRegcondemMain'),
+const AllDeptCondemList = React.lazy(() =>
+  import('./views/AssetManagment/AllDeptRegCondemList/AllDeptRegcondemMain')
 )
-const DeliverMarking = React.lazy(
-  () => import('./views/CentralRequestManagement/DeliveryMarking/DeliveryMarkingStore'),
+const DeliverMarking = React.lazy(() =>
+  import('./views/CentralRequestManagement/DeliveryMarking/DeliveryMarkingStore')
 )
-const ItemChecking = React.lazy(
-  () => import('./views/CentralRequestManagement/ItemCheckingCRS/ItemCheckingMain'),
+const ItemChecking = React.lazy(() =>
+  import('./views/CentralRequestManagement/ItemCheckingCRS/ItemCheckingMain')
 )
-const CrfSearch = React.lazy(
-  () => import('./views/CentralRequestManagement/CRFSearch/CrfDetailsSearch'),
+const CrfSearch = React.lazy(() =>
+  import('./views/CentralRequestManagement/CRFSearch/CrfDetailsSearch')
 )
-const CompanyName = React.lazy(
-  () => import('./views/Master/RequestManagement/CompanyMaster/CompanyMast'),
+const CompanyName = React.lazy(() =>
+  import('./views/Master/RequestManagement/CompanyMaster/CompanyMast')
 )
-const CrfBiomedical = React.lazy(
-  () => import('./views/CentralRequestManagement/CRFBiomedicalView/CrfBiomedical'),
+const CrfBiomedical = React.lazy(() =>
+  import('./views/CentralRequestManagement/CRFBiomedicalView/CrfBiomedical')
 )
-const ApprovalMapping = React.lazy(
-  () => import('./views/Master/RequestManagement/CRFApprovalMappingMaster/ApprovalMappingMaster'),
+const ApprovalMapping = React.lazy(() =>
+  import('./views/Master/RequestManagement/CRFApprovalMappingMaster/ApprovalMappingMaster')
 )
-const ManagingDirectorApproval = React.lazy(
-  () => import('./views/CentralRequestManagement/CrfManagingDirectorApproval/ManagingDirectorMain'),
+const ManagingDirectorApproval = React.lazy(() =>
+  import('./views/CentralRequestManagement/CrfManagingDirectorApproval/ManagingDirectorMain')
 )
-const ViewCategoryMaster = React.lazy(
-  () => import('./views/Master/RequestManagement/CrfViewCategoryMaster/ViewCategoryMaster'),
+const ViewCategoryMaster = React.lazy(() =>
+  import('./views/Master/RequestManagement/CrfViewCategoryMaster/ViewCategoryMaster')
 )
 const CrfView = React.lazy(() => import('./views/CentralRequestManagement/CRFview/CrfView'))
-const CrfStoreMaster = React.lazy(
-  () => import('./views/Master/RequestManagement/StoreMaster/StoreMaster'),
+const CrfStoreMaster = React.lazy(() =>
+  import('./views/Master/RequestManagement/StoreMaster/StoreMaster')
 )
-const CrfCommon = React.lazy(
-  () => import('./views/Master/RequestManagement/CrfCommon/CrfCommonMaster'),
+const CrfCommon = React.lazy(() =>
+  import('./views/Master/RequestManagement/CrfCommon/CrfCommonMaster')
 )
-const CrfDashboardMaster = React.lazy(
-  () => import('./views/Master/RequestManagement/DashboardMaster/DashboardMaster'),
+const CrfDashboardMaster = React.lazy(() =>
+  import('./views/Master/RequestManagement/DashboardMaster/DashboardMaster')
 )
-const DataCollectionMaster = React.lazy(
-  () => import('./views/Master/RequestManagement/DataCollectionMaster/DataCollection'),
+const DataCollectionMaster = React.lazy(() =>
+  import('./views/Master/RequestManagement/DataCollectionMaster/DataCollection')
 )
-const DepartmentMapping = React.lazy(
-  () => import('./views/Master/RequestManagement/DepartmentMapping/DepartmentMaping'),
+const DepartmentMapping = React.lazy(() =>
+  import('./views/Master/RequestManagement/DepartmentMapping/DepartmentMaping')
 )
 const AmsMaster = React.lazy(() => import('./views/Master/AmsMaster/AmsMaster'))
 const AmsPatientDetails = React.lazy(() => import('./views/Ams/AmsMain'))

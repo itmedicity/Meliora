@@ -13,7 +13,7 @@ const AssignComDept = () => {
   const dispatch = useDispatch()
 
   /**reducer function for getting login employees id */
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   /**redux function for getting login employees all details */
@@ -22,7 +22,7 @@ const AssignComDept = () => {
   }, [dispatch, id])
 
   //redux for getting employee data
-  const profileData = useSelector((state) => {
+  const profileData = useSelector(state => {
     return state.getLoginProfileData.loginProfiledata
   })
 
@@ -35,12 +35,12 @@ const AssignComDept = () => {
   }, [profileData, dispatch])
 
   /**reducer function for total complaints */
-  const total = useSelector((state) => {
+  const total = useSelector(state => {
     return state.getComplaintList.complaintList
   })
 
   /** filter total complaint based on status get assigned complaint */
-  const assign = total.filter((val) => {
+  const assign = total.filter(val => {
     return val.compalint_status === 1
   })
 

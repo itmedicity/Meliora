@@ -69,7 +69,7 @@ const ModelForItemExistOrNot = ({ open, handleClose, assetOrSpare }) => {
   ])
 
   const search = useCallback(() => {
-    const getItemdata = async (postdata) => {
+    const getItemdata = async postdata => {
       const result = await axioslogin.post('/itemNameCreation/getItem', postdata)
       const { data, success } = result.data
       if (success === 1) {
@@ -245,8 +245,8 @@ const ModelForItemExistOrNot = ({ open, handleClose, assetOrSpare }) => {
                                   {val.asset_spare === 1
                                     ? 'Asset'
                                     : val.asset_spare === 2
-                                      ? 'Spare'
-                                      : 'Not Given'}
+                                    ? 'Spare'
+                                    : 'Not Given'}
                                 </td>
                               </tr>
                             )

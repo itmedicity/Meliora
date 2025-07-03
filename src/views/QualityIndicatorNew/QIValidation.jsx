@@ -26,7 +26,7 @@ const QIValidation = () => {
   }, [history])
 
   const dispatch = useDispatch()
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state?.LoginUserData.empid
   })
   useEffect(() => {
@@ -37,11 +37,11 @@ const QIValidation = () => {
     if (qidept === 0) {
       infoNotify('Select Department')
     } else if (qidept === 1) {
-      const getqiList = async (qidept) => {
+      const getqiList = async qidept => {
         const result = await axioslogin.get(`/qualityindicator/getqi/${qidept}`)
         return result.data
       }
-      getqiList(qidept).then((val) => {
+      getqiList(qidept).then(val => {
         const { success, message } = val
         if (success === 1) {
           // setQiList(data)
@@ -104,10 +104,10 @@ const QIValidation = () => {
                     views={['year', 'month']}
                     size="sm"
                     inputFormat="MMM-yyyy"
-                    onChange={(newValue) => {
+                    onChange={newValue => {
                       setSearchDate(newValue)
                     }}
-                    renderInput={(params) => (
+                    renderInput={params => (
                       <TextField
                         {...params}
                         helperText={null}

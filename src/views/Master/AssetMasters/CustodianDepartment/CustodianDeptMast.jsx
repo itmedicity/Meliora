@@ -26,20 +26,20 @@ const CustodianDeptMast = () => {
   const [status, setStatus] = useState(false)
   const [slno, setSlno] = useState(0)
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
-  const UpdateCuDepartment = useCallback((e) => {
+  const UpdateCuDepartment = useCallback(e => {
     setCusDeptName(e.target.value)
   }, [])
-  const UpdateassetNameFirst = useCallback((e) => {
+  const UpdateassetNameFirst = useCallback(e => {
     setAssetNameFirst(e.target.value)
   }, [])
 
-  const UpdateassetNameSecond = useCallback((e) => {
+  const UpdateassetNameSecond = useCallback(e => {
     setAssetNameSecond(e.target.value)
   }, [])
-  const Updatestatus = useCallback((e) => {
+  const Updatestatus = useCallback(e => {
     if (e.target.checked === true) {
       setStatus(true)
     } else {
@@ -74,7 +74,7 @@ const CustodianDeptMast = () => {
     }
   }, [cusDeptName, dept, deptsec, empName, assetNameFirst, assetNameSecond, id, status, slno])
 
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const {
@@ -110,9 +110,9 @@ const CustodianDeptMast = () => {
     setStatus(false)
   }, [])
   const submitCustodianDept = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const InsertCustodiandept = async (postdata) => {
+      const InsertCustodiandept = async postdata => {
         const result = await axioslogin.post('/CustodianDeptMast/insert', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -125,7 +125,7 @@ const CustodianDeptMast = () => {
           infoNotify(message)
         }
       }
-      const UpdateCustodiandept = async (patch) => {
+      const UpdateCustodiandept = async patch => {
         const result = await axioslogin.patch('/CustodianDeptMast/update', patch)
         const { message, success } = result.data
         if (success === 2) {
@@ -144,7 +144,7 @@ const CustodianDeptMast = () => {
         UpdateCustodiandept(patch)
       }
     },
-    [postdata, patch, reset, count, setCount, value],
+    [postdata, patch, reset, count, setCount, value]
   )
 
   const backtoSetting = useCallback(() => {

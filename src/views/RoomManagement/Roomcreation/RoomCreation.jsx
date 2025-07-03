@@ -28,11 +28,11 @@ const RoomCreation = () => {
   //destructuring
   const { rmc_name, rmc_status, rmc_slno } = rmcreation
   const updateRoomcreation = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setRmcreation({ ...rmcreation, [e.target.name]: value })
     },
-    [rmcreation],
+    [rmcreation]
   )
   //insert data
   const postdata = useMemo(() => {
@@ -45,7 +45,7 @@ const RoomCreation = () => {
     }
   }, [rmc_name, roomType, oracleRoom, rmc_status])
   //data set for edit
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setEdit(1)
     const data = params.api.getSelectedRows()
     const { rmc_name, rmc_slno, status, rm_code, rmc_type } = data[0]
@@ -75,7 +75,7 @@ const RoomCreation = () => {
   }
   /*** usecallback function for form submitting */
   const submitRoomcreation = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
       const formreset = {
         rmc_name: '',
@@ -83,7 +83,7 @@ const RoomCreation = () => {
         rmc_slno: '',
       }
       /*** * insert function for use call back     */
-      const InsertFun = async (postdata) => {
+      const InsertFun = async postdata => {
         const result = await axioslogin.post('/roomcreation', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -98,7 +98,7 @@ const RoomCreation = () => {
         }
       }
       /***  * update function for use call back     */
-      const updateFun = async (patchdata) => {
+      const updateFun = async patchdata => {
         const result = await axioslogin.patch('/roomcreation', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -122,7 +122,7 @@ const RoomCreation = () => {
         updateFun(patchdata)
       }
     },
-    [edit, postdata, patchdata, count],
+    [edit, postdata, patchdata, count]
   )
   //refresh func
   const refreshWindow = useCallback(() => {

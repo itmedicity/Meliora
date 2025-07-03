@@ -24,11 +24,11 @@ const HighAntibioMast = () => {
   })
   const { high_item_code, high_item_desc, high_item_alias, high_item_status } = highRiskMed
   const gethighdesc = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       sethighRiskMed({ ...highRiskMed, [e.target.name]: value })
     },
-    [highRiskMed],
+    [highRiskMed]
   )
 
   const refreshWindow = useCallback(() => {
@@ -68,7 +68,7 @@ const HighAntibioMast = () => {
       high_item_status: false,
     }
   }, [])
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const { high_item_code, high_item_desc, high_item_alias, high_item_status } = data[0]
@@ -82,9 +82,9 @@ const HighAntibioMast = () => {
   }, [])
 
   const submitanyibiotic = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const insertfun = async (postdata) => {
+      const insertfun = async postdata => {
         const result = await axioslogin.post('/highBioticMast/antibiotic', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -97,7 +97,7 @@ const HighAntibioMast = () => {
           infoNotify(message)
         }
       }
-      const updatefun = async (patchdata) => {
+      const updatefun = async patchdata => {
         const result = await axioslogin.patch('/highBioticMast/updatehighbio', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -117,7 +117,7 @@ const HighAntibioMast = () => {
         updatefun(patchdata)
       }
     },
-    [postdata, patchdata, count, value, formrset],
+    [postdata, patchdata, count, value, formrset]
   )
 
   const backToSettings = useCallback(() => {

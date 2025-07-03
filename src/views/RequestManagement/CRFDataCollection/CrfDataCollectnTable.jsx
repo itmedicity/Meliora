@@ -24,13 +24,13 @@ const CrfDataCollectnTable = () => {
   const [open, setOpen] = useState(false)
   const [datas, setdatas] = useState([])
 
-  const empdeptsec = useSelector((state) => state.LoginUserData.empsecid, _.isEqual)
+  const empdeptsec = useSelector(state => state.LoginUserData.empsecid, _.isEqual)
 
   useEffect(() => {
     dispatch(getdataCollectionCRF(empdeptsec))
   }, [dispatch, count, empdeptsec])
 
-  const tabledata = useSelector((state) => {
+  const tabledata = useSelector(state => {
     return state.setdataCollectionCRF.dataCollectionCrfList
   })
   //column title setting
@@ -38,7 +38,7 @@ const CrfDataCollectnTable = () => {
     {
       headerName: 'Action',
       minWidth: 80,
-      cellRenderer: (params) => {
+      cellRenderer: params => {
         if (params.data.crf_dept_status === 1) {
           return (
             <IconButton sx={{ color: editicon, paddingY: 0.5 }} disabled>
@@ -208,7 +208,7 @@ const CrfDataCollectnTable = () => {
     },
   ])
 
-  const DataEntry = useCallback((params) => {
+  const DataEntry = useCallback(params => {
     setOpen(true)
     const data = params.api.getSelectedRows()
     setdatas(data)
@@ -220,7 +220,7 @@ const CrfDataCollectnTable = () => {
     history('/Home')
   }, [history])
 
-  const getRowStyle = (params) => {
+  const getRowStyle = params => {
     if (params.data.crf_dept_status === 1) {
       return { background: '#81d4fa' }
     } else {

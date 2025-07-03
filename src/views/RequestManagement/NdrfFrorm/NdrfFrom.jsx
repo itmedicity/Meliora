@@ -36,13 +36,13 @@ const NdrfFrom = () => {
     dispatch(getNdrfList())
   }, [dispatch])
 
-  const ndrftable = useSelector((state) => {
+  const ndrftable = useSelector(state => {
     return state.setNdrfList.NdrfListdata
   })
 
   useEffect(() => {
     if (ndrftable.length !== 0) {
-      const datas = ndrftable.map((val) => {
+      const datas = ndrftable.map(val => {
         const obj = {
           ndrf_mast_slno: val.ndrf_mast_slno,
           req_slno: val.req_slno,
@@ -306,7 +306,7 @@ const NdrfFrom = () => {
     {
       headerName: 'Action',
       minWidth: 100,
-      cellRenderer: (params) => {
+      cellRenderer: params => {
         if (params.data.ndrf_ed_approve !== null && params.data.ndrf_md_approve !== null) {
           return (
             <IconButton onClick={() => pdfselect(params)} sx={{ color: editicon, paddingY: 0.5 }}>
@@ -391,7 +391,7 @@ const NdrfFrom = () => {
     },
   ])
 
-  const pdfselect = async (params) => {
+  const pdfselect = async params => {
     const data = params.api.getSelectedRows()
     const {
       req_slno,
@@ -407,9 +407,9 @@ const NdrfFrom = () => {
     const getInchargeSign = async () => {
       if (incharge_user > 0) {
         const profilePic = JSON.stringify(
-          `${PUBLIC_NAS_FOLDER + incharge_user}/signature/signature.jpg`,
+          `${PUBLIC_NAS_FOLDER + incharge_user}/signature/signature.jpg`
         )
-        urlExist(profilePic, (status) => {
+        urlExist(profilePic, status => {
           if (status === true) {
             const picUrl = JSON.parse(profilePic)
             setInchargeSign(picUrl)
@@ -422,7 +422,7 @@ const NdrfFrom = () => {
     const gethodSign = async () => {
       if (hod_user > 0) {
         const profilePic = JSON.stringify(`${PUBLIC_NAS_FOLDER + hod_user}/signature/signature.jpg`)
-        urlExist(profilePic, (status) => {
+        urlExist(profilePic, status => {
           if (status === true) {
             const picUrl = JSON.parse(profilePic)
             setHodSign(picUrl)
@@ -435,9 +435,9 @@ const NdrfFrom = () => {
     const getOmSign = async () => {
       if (ndrf_om_user > 0) {
         const profilePic = JSON.stringify(
-          `${PUBLIC_NAS_FOLDER + ndrf_om_user}/signature/signature.jpg`,
+          `${PUBLIC_NAS_FOLDER + ndrf_om_user}/signature/signature.jpg`
         )
-        urlExist(profilePic, (status) => {
+        urlExist(profilePic, status => {
           if (status === true) {
             const picUrl = JSON.parse(profilePic)
             setOmSign(picUrl)
@@ -450,9 +450,9 @@ const NdrfFrom = () => {
     const getSMOSign = async () => {
       if (ndrf_smo_user > 0) {
         const profilePic = JSON.stringify(
-          `${PUBLIC_NAS_FOLDER + ndrf_smo_user}/signature/signature.jpg`,
+          `${PUBLIC_NAS_FOLDER + ndrf_smo_user}/signature/signature.jpg`
         )
-        urlExist(profilePic, (status) => {
+        urlExist(profilePic, status => {
           if (status === true) {
             const picUrl = JSON.parse(profilePic)
             setSmoSign(picUrl)
@@ -465,9 +465,9 @@ const NdrfFrom = () => {
     const getCAOSign = async () => {
       if (ndrf_cao_user > 0) {
         const profilePic = JSON.stringify(
-          `${PUBLIC_NAS_FOLDER + ndrf_cao_user}/signature/signature.jpg`,
+          `${PUBLIC_NAS_FOLDER + ndrf_cao_user}/signature/signature.jpg`
         )
-        urlExist(profilePic, (status) => {
+        urlExist(profilePic, status => {
           if (status === true) {
             const picUrl = JSON.parse(profilePic)
             setCaoSign(picUrl)
@@ -480,9 +480,9 @@ const NdrfFrom = () => {
     const getEDSign = async () => {
       if (ndrf_ed_user > 0) {
         const profilePic = JSON.stringify(
-          `${PUBLIC_NAS_FOLDER + ndrf_ed_user}/signature/signature.jpg`,
+          `${PUBLIC_NAS_FOLDER + ndrf_ed_user}/signature/signature.jpg`
         )
-        urlExist(profilePic, (status) => {
+        urlExist(profilePic, status => {
           if (status === true) {
             const picUrl = JSON.parse(profilePic)
             setEdSign(picUrl)
@@ -499,12 +499,12 @@ const NdrfFrom = () => {
       getSMOSign()
       getCAOSign()
       getEDSign()
-      const InsertFun = async (req_slno) => {
+      const InsertFun = async req_slno => {
         const result = await axioslogin.get(`/requestRegister/getItemList/${req_slno}`)
         return result.data
       }
 
-      const getDataCollectCompleteDetails = async (ndrf_mast_slno) => {
+      const getDataCollectCompleteDetails = async ndrf_mast_slno => {
         const result = await axioslogin.get(`/ndrf/getItemListDataCollect/${ndrf_mast_slno}`)
         const { success, data } = result.data
         if (success === 1) {
@@ -516,7 +516,7 @@ const NdrfFrom = () => {
         }
       }
 
-      InsertFun(req_slno).then((value) => {
+      InsertFun(req_slno).then(value => {
         const { success, data } = value
         if (success === 1) {
           setdataPost(data)
@@ -540,7 +540,7 @@ const NdrfFrom = () => {
         omsign,
         smosign,
         caosign,
-        edsign,
+        edsign
       )
       setPdf(0)
     } else if (pdf !== 0) {

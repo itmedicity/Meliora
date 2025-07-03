@@ -67,11 +67,11 @@ const ModuleGroupMast = () => {
 
   /***Get values from the component */
   const updateModuleGroup = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setModuleGroup({ ...moduleGroup, [e.target.name]: value })
     },
-    [moduleGroup],
+    [moduleGroup]
   )
 
   /*** data for insert to module_group_mast table */
@@ -185,7 +185,7 @@ const ModuleGroupMast = () => {
   ])
 
   // data setting for edit
-  const rowSelect = useCallback((data) => {
+  const rowSelect = useCallback(data => {
     setvalue(1)
     const datas = data.api.getSelectedRows()
     const { mod_grp_slno, mod_grp_name, module_slno } = datas[0]
@@ -219,7 +219,7 @@ const ModuleGroupMast = () => {
   }, [])
   /*** usecallback function for form submitting */
   const submitModuleGroup = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
       /*** form reset after insert or update */
       const formreset = {
@@ -246,7 +246,7 @@ const ModuleGroupMast = () => {
         amsModule: false,
       }
       /***     * insert function for use call back     */
-      const InsertFun = async (postdata) => {
+      const InsertFun = async postdata => {
         const result = await axioslogin.post('/modulegroup', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -261,7 +261,7 @@ const ModuleGroupMast = () => {
         }
       }
       /*** * update function for use call back     */
-      const updateFun = async (patchdata) => {
+      const updateFun = async patchdata => {
         const result = await axioslogin.patch('/modulegroup', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -284,7 +284,7 @@ const ModuleGroupMast = () => {
         updateFun(patchdata)
       }
     },
-    [postdata, patchdata, value, count],
+    [postdata, patchdata, value, count]
   )
   //back to home
   const backtoSetting = useCallback(() => {

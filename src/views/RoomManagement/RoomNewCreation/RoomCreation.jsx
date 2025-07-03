@@ -47,15 +47,15 @@ const RoomCreation = () => {
 
   const { rm_room_slno, rm_room_name, rm_room_status, rm_room_no_dis, rm_old_roomno } = room
   const updateRoom = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setRoom({ ...room, [e.target.name]: value })
     },
-    [room],
+    [room]
   )
 
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
 
@@ -171,7 +171,7 @@ const RoomCreation = () => {
   }, [building, buildingBlock])
 
   useEffect(() => {
-    const getRoomStart = async (floorData) => {
+    const getRoomStart = async floorData => {
       const result = await axioslogin.get(`/roomnewcreation/byid/${floorData}`)
       const { success, data } = result.data
       if (success === 2) {
@@ -186,7 +186,7 @@ const RoomCreation = () => {
   }, [floorData])
 
   useEffect(() => {
-    const getlastUpdateRoom = async (floorData) => {
+    const getlastUpdateRoom = async floorData => {
       const result = await axioslogin.get(`/roomnewcreation/lastupdatebyid/${floorData}`)
       const { success, data } = result.data
       if (success === 2) {
@@ -216,13 +216,13 @@ const RoomCreation = () => {
   }, [])
 
   const sumbitRoom = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const InsertRoom = async (postdata) => {
+      const InsertRoom = async postdata => {
         const result = await axioslogin.post('/roomnewcreation/insert', postdata)
         return result.data
       }
-      const UpdateRoom = async (patchdata) => {
+      const UpdateRoom = async patchdata => {
         const result = await axioslogin.patch('/roomnewcreation/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -237,7 +237,7 @@ const RoomCreation = () => {
       }
       if (value === 0) {
         if (start <= lastRoom && lastRoom <= end) {
-          InsertRoom(postdata).then((val) => {
+          InsertRoom(postdata).then(val => {
             const { success } = val
             if (success === 1) {
               succesNotify('Room created successfully')
@@ -256,9 +256,9 @@ const RoomCreation = () => {
         UpdateRoom(patchdata)
       }
     },
-    [postdata, value, count, patchdata, start, lastRoom, end],
+    [postdata, value, count, patchdata, start, lastRoom, end]
   )
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
 
     const data = params.api.getSelectedRows()

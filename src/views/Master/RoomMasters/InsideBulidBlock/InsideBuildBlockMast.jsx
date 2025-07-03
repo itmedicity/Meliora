@@ -30,11 +30,11 @@ const InsideBuildBlockMast = () => {
     rm_insidebuildblock_status,
   } = insidebuild
   const updateInsideBuild = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setInsideBuild({ ...insidebuild, [e.target.name]: value })
     },
-    [insidebuild],
+    [insidebuild]
   )
   const reset = () => {
     const frmdata = {
@@ -49,7 +49,7 @@ const InsideBuildBlockMast = () => {
     setValue(0)
   }
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   const postdata = useMemo(() => {
@@ -89,9 +89,9 @@ const InsideBuildBlockMast = () => {
     history('/Home/Settings')
   }, [history])
   const sumbitInsideBuild = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const InsertInsideBuild = async (postdata) => {
+      const InsertInsideBuild = async postdata => {
         const result = await axioslogin.post('/insidebuildblock/insert', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -104,7 +104,7 @@ const InsideBuildBlockMast = () => {
           infoNotify(message)
         }
       }
-      const UpdateInsideBuild = async (patchdata) => {
+      const UpdateInsideBuild = async patchdata => {
         const result = await axioslogin.patch('/insidebuildblock/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -131,9 +131,9 @@ const InsideBuildBlockMast = () => {
         }
       }
     },
-    [postdata, value, patchdata, count, rm_insidebuildblock_name],
+    [postdata, value, patchdata, count, rm_insidebuildblock_name]
   )
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
 
     const data = params.api.getSelectedRows()

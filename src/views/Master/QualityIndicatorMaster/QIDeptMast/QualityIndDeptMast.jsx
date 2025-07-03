@@ -26,11 +26,11 @@ const QualityIndDeptMast = () => {
   })
   const { qi_dept_no, qi_dept_code, qi_dept_desc, qi_dept_status } = qidepartment
   const updateDepartment = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setQiDepartment({ ...qidepartment, [e.target.name]: value })
     },
-    [qidepartment],
+    [qidepartment]
   )
   const history = useNavigate()
   const dispatch = useDispatch()
@@ -38,7 +38,7 @@ const QualityIndDeptMast = () => {
     history('/Home/Settings')
   }, [history])
 
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state?.LoginUserData.empid
   })
   useEffect(() => {
@@ -83,9 +83,9 @@ const QualityIndDeptMast = () => {
     setEdit(0)
   }
   const submitQualityDept = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const InsertDepartment = async (postdata) => {
+      const InsertDepartment = async postdata => {
         const result = await axioslogin.post('/qidepartment/insert', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -98,7 +98,7 @@ const QualityIndDeptMast = () => {
           infoNotify(message)
         }
       }
-      const updateDepartment = async (patchdata) => {
+      const updateDepartment = async patchdata => {
         const result = await axioslogin.patch('/qidepartment/update', patchdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -117,14 +117,14 @@ const QualityIndDeptMast = () => {
         updateDepartment(patchdata)
       }
     },
-    [postdata, count, patchdata, edit],
+    [postdata, count, patchdata, edit]
   )
 
   const refreshWindow = useCallback(() => {
     reset()
   }, [])
 
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setEdit(1)
     const data = params.api.getSelectedRows()
     const { qi_dept_no, qi_dept_desc, qi_dept_code, qi_co_deptsec_slno, status, qi_list_type } =

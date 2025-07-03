@@ -26,13 +26,13 @@ const CensusCreate = () => {
     history('/Home')
   }, [history])
 
-  const QIDateChange = useCallback((e) => {
+  const QIDateChange = useCallback(e => {
     setDailyDate(e.target.value)
     setsearchFlag(0)
     setCensusData([])
     setTabFlag(0)
   }, [])
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state?.LoginUserData.empid
   })
   useEffect(() => {
@@ -40,7 +40,7 @@ const CensusCreate = () => {
       const result = await axioslogin.get('/censusNursingStat/active')
       return result.data
     }
-    getNursingStation().then((value) => {
+    getNursingStation().then(value => {
       const { success, nurslist } = value
       if (success === 2) {
         setNurstation(nurslist)
@@ -49,7 +49,7 @@ const CensusCreate = () => {
     })
   }, [count])
   const SearchDetails = useCallback(
-    (e) => {
+    e => {
       if (
         moment(new Date(dailyDate)).format('YYYY-MM-DD') >= moment(new Date()).format('YYYY-MM-DD')
       ) {
@@ -60,19 +60,19 @@ const CensusCreate = () => {
           from: moment(dailyDate).format('DD/MM/yyyy 00:00:00'),
           to: moment(dailyDate).format('DD/MM/yyyy 23:59:59'),
         }
-        const GetElliderData = async (elliderSearch) => {
+        const GetElliderData = async elliderSearch => {
           const result = await axiosellider.post('/dailyCensus/elliderData', elliderSearch)
           return result.data
         }
-        const InsertData = async (insertArray) => {
+        const InsertData = async insertArray => {
           const result = await axioslogin.post('/qidailycensus/save', insertArray)
           return result.data
         }
-        GetElliderData(elliderSearch).then((value) => {
+        GetElliderData(elliderSearch).then(value => {
           const { success, data } = value
           if (success === 1) {
-            const insertArray = nurstation?.map((val) => {
-              const newData = data.find((item) => item.NS_CODE === val.census_ns_code)
+            const insertArray = nurstation?.map(val => {
+              const newData = data.find(item => item.NS_CODE === val.census_ns_code)
               return {
                 census_ns_slno: val.census_ns_slno,
                 census_ns_code: val.census_ns_code,
@@ -94,7 +94,7 @@ const CensusCreate = () => {
                 update_status: 0,
               }
             })
-            InsertData(insertArray).then((val) => {
+            InsertData(insertArray).then(val => {
               const { success } = val
               if (success === 1) {
                 setCount(count + 1)
@@ -106,28 +106,28 @@ const CensusCreate = () => {
         })
       }
     },
-    [dailyDate, nurstation, id, count],
+    [dailyDate, nurstation, id, count]
   )
 
   useEffect(() => {
     if (searchFlag === 1) {
-      const getYesterdayData = async (getYesterday) => {
+      const getYesterdayData = async getYesterday => {
         const result = await axioslogin.post('/qidailycensus/yesterday', getYesterday)
         return result.data
       }
-      const GetExistData = async (existSearch) => {
+      const GetExistData = async existSearch => {
         const result = await axioslogin.post('/qidailycensus/exist', existSearch)
         return result.data
       }
-      const nsSlno = nurstation?.map((val) => val.census_ns_slno)
+      const nsSlno = nurstation?.map(val => val.census_ns_slno)
       const getYesterday = {
         census_ns_slno: nsSlno,
         census_date: moment(subDays(new Date(dailyDate), 1)).format('YYYY-MM-DD'),
       }
-      getYesterdayData(getYesterday).then((val) => {
+      getYesterdayData(getYesterday).then(val => {
         const { yestdata } = val
-        const newData = nurstation?.map((item) => {
-          const yest = yestdata?.find((val) => val.census_ns_slno === item.census_ns_slno)
+        const newData = nurstation?.map(item => {
+          const yest = yestdata?.find(val => val.census_ns_slno === item.census_ns_slno)
           return {
             census_ns_slno: item.census_ns_slno,
             census_ns_code: item.census_ns_code,
@@ -140,11 +140,11 @@ const CensusCreate = () => {
           census_ns_slno: nsSlno,
           census_date: moment(new Date(dailyDate)).format('YYYY-MM-DD'),
         }
-        GetExistData(existSearch).then((items) => {
+        GetExistData(existSearch).then(items => {
           const { success, data } = items
           if (success === 1) {
-            const resultArray = newData?.map((item) => {
-              const reportArray = data.find((val) => val.census_ns_slno === item.census_ns_slno)
+            const resultArray = newData?.map(item => {
+              const reportArray = data.find(val => val.census_ns_slno === item.census_ns_slno)
               return {
                 census_slno: reportArray ? reportArray.census_slno : 0,
                 census_ns_slno: item.census_ns_slno,
@@ -186,11 +186,11 @@ const CensusCreate = () => {
     ) {
       infoNotify('The Day Is Not Yet Ended')
     } else {
-      const GetElliderData = async (elliderSearch) => {
+      const GetElliderData = async elliderSearch => {
         const result = await axiosellider.post('/dailyCensus/elliderData', elliderSearch)
         return result.data
       }
-      const UpdateDetails = async (updateArray) => {
+      const UpdateDetails = async updateArray => {
         const result = await axioslogin.patch('/qidailycensus/hisupdate', updateArray)
         return result.data
       }
@@ -198,11 +198,11 @@ const CensusCreate = () => {
         from: moment(dailyDate).format('DD/MM/yyyy 00:00:00'),
         to: moment(dailyDate).format('DD/MM/yyyy 23:59:59'),
       }
-      GetElliderData(elliderSearch).then((value) => {
+      GetElliderData(elliderSearch).then(value => {
         const { success, data } = value
         if (success === 1) {
-          const updateArray = censusData?.map((val) => {
-            const newData = data.find((item) => item.NS_CODE === val.census_ns_code)
+          const updateArray = censusData?.map(val => {
+            const newData = data.find(item => item.NS_CODE === val.census_ns_code)
             return {
               // census_slno: val.census_slno,
               census_ns_slno: val.census_ns_slno,
@@ -217,7 +217,7 @@ const CensusCreate = () => {
               ora_lama: newData ? newData.LAMA : 0,
             }
           })
-          UpdateDetails(updateArray).then((val) => {
+          UpdateDetails(updateArray).then(val => {
             const { success } = val
             if (success === 1) {
               setCount(count + 1)

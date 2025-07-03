@@ -1,24 +1,35 @@
-import { Modal, ModalDialog } from '@mui/joy';
+import { Modal, ModalDialog } from '@mui/joy'
 import React, { memo, useCallback } from 'react'
 
-const ViewAssetDetailsModal = ({ ViewDetails, AssetOpenModal,
-    setAssetOpenModal,
-    setAssetModalFlag }) => {
+const ViewAssetDetailsModal = ({
+  ViewDetails,
+  AssetOpenModal,
+  setAssetOpenModal,
+  setAssetModalFlag,
+}) => {
+  const CloseModal = useCallback(() => {
+    setAssetModalFlag(0)
+    setAssetOpenModal(true)
+  }, [])
 
-
-    const CloseModal = useCallback(() => {
-        setAssetModalFlag(0)
-        setAssetOpenModal(true)
-    }, [])
-
-    return (
-        <Modal
-            aria-labelledby="modal-title"
-            aria-describedby="modal-desc"
-            open={AssetOpenModal}
-            sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pl: 1, borderRadius: 10 }}>
-            <ModalDialog variant="outlined" sx={{ width: '95vw', p: 0, overflow: 'auto', height: '95vh' }}>
-                {/* <Box sx={{ flex: 1, }}>
+  return (
+    <Modal
+      aria-labelledby="modal-title"
+      aria-describedby="modal-desc"
+      open={AssetOpenModal}
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        pl: 1,
+        borderRadius: 10,
+      }}
+    >
+      <ModalDialog
+        variant="outlined"
+        sx={{ width: '95vw', p: 0, overflow: 'auto', height: '95vh' }}
+      >
+        {/* <Box sx={{ flex: 1, }}>
                     <Box sx={{
                         display: 'flex',
                         borderBottom: 1, borderColor: 'lightgrey'
@@ -242,9 +253,9 @@ const ViewAssetDetailsModal = ({ ViewDetails, AssetOpenModal,
                         </Tabs>
                     </Box>
                 </Box> */}
-            </ModalDialog>
-        </Modal>
-    )
+      </ModalDialog>
+    </Modal>
+  )
 }
 
 export default memo(ViewAssetDetailsModal)

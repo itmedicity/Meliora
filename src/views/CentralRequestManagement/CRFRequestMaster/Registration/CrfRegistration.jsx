@@ -43,7 +43,7 @@ import ModalButtomCmp from '../../ComonComponent/Components/ModalButtomCmp'
 import CRFCategoryTypeSelect from '../Components/CRFCategoryTypeSelect'
 
 const ReqImageDisModal = React.lazy(() =>
-  import('../../ComonComponent/ImageUploadCmp/ReqImageDisModal'),
+  import('../../ComonComponent/ImageUploadCmp/ReqImageDisModal')
 )
 
 const CrfRegistration = ({
@@ -60,9 +60,9 @@ const CrfRegistration = ({
   const backtoSetting = useCallback(() => {
     history('/Home')
   }, [history])
-  const loginId = useSelector((state) => state.LoginUserData.empid, _.isEqual)
-  const empdeptsec = useSelector((state) => state.LoginUserData.empsecid, _.isEqual)
-  const deptsecName = useSelector((state) => state.LoginUserData.empdeptsec, _.isEqual)
+  const loginId = useSelector(state => state.LoginUserData.empid, _.isEqual)
+  const empdeptsec = useSelector(state => state.LoginUserData.empsecid, _.isEqual)
+  const deptsecName = useSelector(state => state.LoginUserData.empdeptsec, _.isEqual)
 
   const [crfRegister, setCrfRegister] = useState({
     location: '',
@@ -108,11 +108,11 @@ const CrfRegistration = ({
     item_spec,
   } = crfRegister
   const updateOnchangeState = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setCrfRegister({ ...crfRegister, [e.target.name]: value })
     },
-    [crfRegister],
+    [crfRegister]
   )
 
   const [deptSec, setDeptSec] = useState(0)
@@ -175,14 +175,14 @@ const CrfRegistration = ({
   useEffect(() => {
     if (authData && authData.length > 0) {
       const { level_one, level_two, dept_type } = authData[0]
-      setCrfRegister((prev) => ({
+      setCrfRegister(prev => ({
         ...prev,
         levelOne: level_one,
         levelTwo: level_two,
         deptType: dept_type,
       }))
     } else {
-      setCrfRegister((prev) => ({
+      setCrfRegister(prev => ({
         ...prev,
         levelOne: 0,
         levelTwo: 0,
@@ -191,14 +191,14 @@ const CrfRegistration = ({
     }
   }, [authData])
 
-  const updateEmergency = (e) => {
+  const updateEmergency = e => {
     if (e.target.checked === true) {
-      setCrfRegister((prev) => ({
+      setCrfRegister(prev => ({
         ...prev,
         emergency: true,
       }))
     } else {
-      setCrfRegister((prev) => ({
+      setCrfRegister(prev => ({
         ...prev,
         emergency: false,
         remarks: '',
@@ -207,20 +207,20 @@ const CrfRegistration = ({
     }
   }
   const onchangeQty = useCallback(
-    (e) => {
-      setCrfRegister((prev) => ({
+    e => {
+      setCrfRegister(prev => ({
         ...prev,
         item_qty: e.target.value,
         approx_cost: unitprice !== '' || unitprice !== 0 ? unitprice * e.target.value : 0,
       }))
     },
-    [unitprice],
+    [unitprice]
   )
 
   const updateUnitPrice = useCallback(
-    (e) => {
+    e => {
       if (item_qty !== 0) {
-        setCrfRegister((prev) => ({
+        setCrfRegister(prev => ({
           ...prev,
           unitprice: e.target.value,
           approx_cost: item_qty !== '' ? item_qty * e.target.value : 0,
@@ -229,10 +229,10 @@ const CrfRegistration = ({
         warningNotify('Provide the quantity before specifying the unit price')
       }
     },
-    [item_qty],
+    [item_qty]
   )
   const clearData = useCallback(() => {
-    setCrfRegister((prev) => ({
+    setCrfRegister(prev => ({
       ...prev,
       item_desc: '',
       item_brand: '',
@@ -245,7 +245,7 @@ const CrfRegistration = ({
     setEditIndex(null)
   }, [])
   const AddItem = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
       if (item_desc !== '' && item_qty > 0 && unitprice >= 0) {
         const newdata = {
@@ -260,7 +260,7 @@ const CrfRegistration = ({
           req_detl_slno: reqDetalSlno,
         }
         const isDuplicate = detailDataDis?.some(
-          (val, index) => val.item_desc === item_desc && index !== editIndex,
+          (val, index) => val.item_desc === item_desc && index !== editIndex
         )
         if (isDuplicate) {
           warningNotify('Item Details Already Exists!')
@@ -268,7 +268,7 @@ const CrfRegistration = ({
         }
         if (editIndex !== null) {
           const updatedData = detailDataDis.map((val, index) =>
-            index === editIndex ? newdata : val,
+            index === editIndex ? newdata : val
           )
           const datas = updatedData?.map((val, index) => {
             const obj = {
@@ -306,7 +306,7 @@ const CrfRegistration = ({
           })
           setDetailDataDis(datas)
         }
-        setCrfRegister((prev) => ({
+        setCrfRegister(prev => ({
           ...prev,
           item_desc: '',
           item_brand: '',
@@ -319,7 +319,7 @@ const CrfRegistration = ({
         setUOM(0)
       } else {
         warningNotify(
-          'Item Description and Quantity are mandatory and Quantity and unit price are not negative',
+          'Item Description and Quantity are mandatory and Quantity and unit price are not negative'
         )
       }
     },
@@ -336,7 +336,7 @@ const CrfRegistration = ({
       reqDetalSlno,
       detailDataDis,
       setDetailDataDis,
-    ],
+    ]
   )
 
   const editSelect = useCallback((val, index) => {
@@ -351,7 +351,7 @@ const CrfRegistration = ({
       item_unitprice,
     } = val
 
-    setCrfRegister((prev) => ({
+    setCrfRegister(prev => ({
       ...prev,
       item_desc: item_desc,
       item_brand: item_brand,
@@ -366,7 +366,7 @@ const CrfRegistration = ({
   }, [])
 
   const deleteSelect = useCallback(
-    (val) => {
+    val => {
       if (detailDataDis.length !== 0) {
         if (edit === 1) {
           const { req_detl_slno } = val
@@ -377,26 +377,25 @@ const CrfRegistration = ({
             req_slno: reqSlno,
             req_detl_slno: req_detl_slno,
           }
-          const deleteItemDetails = async (deleteData) => {
+          const deleteItemDetails = async deleteData => {
             const result = await axioslogin.patch('/newCRFRegister/deleteItemList', deleteData)
             return result.data
           }
-          deleteItemDetails(deleteData).then((val) => {
+          deleteItemDetails(deleteData).then(val => {
             const { success } = val
             if (success === 1) {
               succesNotify('Selected Item Deleted')
-            } else {
             }
           })
-          const array = detailDataDis?.filter((value) => value.item_slno !== val.item_slno)
+          const array = detailDataDis?.filter(value => value.item_slno !== val.item_slno)
           setDetailDataDis(array)
         } else {
-          const array = detailDataDis?.filter((value) => value.item_slno !== val.item_slno)
+          const array = detailDataDis?.filter(value => value.item_slno !== val.item_slno)
           setDetailDataDis(array)
         }
       }
     },
-    [detailDataDis, edit, reqSlno, loginId, setDetailDataDis],
+    [detailDataDis, edit, reqSlno, loginId, setDetailDataDis]
   )
 
   // const uploadFile = useCallback(async (e) => {
@@ -419,11 +418,11 @@ const CrfRegistration = ({
   // }, [selectFile, setSelectFile])
 
   const uploadFile = useCallback(
-    (e) => {
+    e => {
       const files = Array.from(e.target.files)
-      setSelectFile((prevFiles) => {
+      setSelectFile(prevFiles => {
         const duplicateFiles = []
-        const validFiles = files?.filter((file) => {
+        const validFiles = files?.filter(file => {
           if (
             file.type === 'application/pdf' ||
             file.type === 'image/png' ||
@@ -435,7 +434,7 @@ const CrfRegistration = ({
               return false
             }
             const isDuplicate = prevFiles.some(
-              (prevFile) => prevFile.name === file.name && prevFile.size === file.size,
+              prevFile => prevFile.name === file.name && prevFile.size === file.size
             )
             // const duplicates = prevFiles?.filter(
             //     (prevFile) => prevFile.name === file.name && prevFile.size === file.size
@@ -452,24 +451,24 @@ const CrfRegistration = ({
             return true
           } else {
             warningNotify(
-              `The file "${file.name}" is not a supported format! Only .png, .jpeg, and .pdf are allowed.`,
+              `The file "${file.name}" is not a supported format! Only .png, .jpeg, and .pdf are allowed.`
             )
             return false
           }
         })
         if (duplicateFiles.length > 0) {
           warningNotify(
-            `The following files are duplicates and were not added: ${duplicateFiles.join(', ')}`,
+            `The following files are duplicates and were not added: ${duplicateFiles.join(', ')}`
           )
         }
         return [...prevFiles, ...validFiles]
       })
     },
-    [setSelectFile],
+    [setSelectFile]
   )
 
-  const handleRemoveFile = (index) => {
-    setSelectFile((prevFiles) => {
+  const handleRemoveFile = index => {
+    setSelectFile(prevFiles => {
       const updatedFiles = [...prevFiles]
       updatedFiles.splice(index, 1)
       return updatedFiles
@@ -508,7 +507,7 @@ const CrfRegistration = ({
     setCategory([])
     reset()
   }, [reset])
-  const handleImageUpload = useCallback(async (imageFile) => {
+  const handleImageUpload = useCallback(async imageFile => {
     const options = {
       maxSizeMB: 25,
       maxWidthOrHeight: 1920,
@@ -518,7 +517,7 @@ const CrfRegistration = ({
     return compressedFile
   }, [])
   const submitRequest = useCallback(
-    async (e) => {
+    async e => {
       const saveData = async () => {
         if (deptSec === null || deptSec === 0 || deptSec === undefined) {
           infoNotify('Select Department Section')
@@ -535,7 +534,7 @@ const CrfRegistration = ({
                 sx={{ color: '#0074B7', height: 28, width: 28, cursor: 'pointer' }}
               />
               &apos; Button to Add Item Details
-            </>,
+            </>
           )
           setLoading(false)
         } else if (detailDataDis.length === 0) {
@@ -550,7 +549,7 @@ const CrfRegistration = ({
           infoNotify("If it's an emergency, specify the type and provide remarks")
           return
         } else {
-          const items = detailDataDis.map((val) => ({
+          const items = detailDataDis.map(val => ({
             item_slno: val.item_slno,
             item_desc: val.item_desc,
             approve_item_desc: val.item_desc,
@@ -605,11 +604,11 @@ const CrfRegistration = ({
             edit_user: loginId,
             req_slno: reqSlno,
           }
-          const ReqMasterInsert = async (postData) => {
+          const ReqMasterInsert = async postData => {
             const result = await axioslogin.post('/newCRFRegister/InsertRegMast', postData)
             return result.data
           }
-          const ReqMasterUpdate = async (patchData) => {
+          const ReqMasterUpdate = async patchData => {
             const result = await axioslogin.patch('/newCRFRegister/UpdateReqMaster', patchData)
             return result.data
           }
@@ -632,7 +631,7 @@ const CrfRegistration = ({
                   headers: {
                     'Content-Type': 'multipart/form-data',
                   },
-                },
+                }
               )
               return result.data
             } catch (error) {
@@ -651,7 +650,7 @@ const CrfRegistration = ({
                 if (selectFile.length > 0) {
                   const fileInsertResponse = await FileInsert(
                     selectFile,
-                    edit === 0 ? insertid : reqSlno,
+                    edit === 0 ? insertid : reqSlno
                   )
                   if (fileInsertResponse.success !== 1) {
                     warningNotify('Error occurred while uploading files.')
@@ -671,30 +670,30 @@ const CrfRegistration = ({
           handleRequest()
         }
       }
-      const getAckPending = async (empdeptsec) => {
+      const getAckPending = async empdeptsec => {
         try {
           const result = await axioslogin.get(`/newCRFRegister/ackPending/${empdeptsec}`)
           const { success, data } = result.data
           if (success === 1) {
-            const uniqueReqSlno = [...new Set(data?.map((item) => item.req_slno))]
+            const uniqueReqSlno = [...new Set(data?.map(item => item.req_slno))]
 
             const filteredData = uniqueReqSlno
-              .map((reqSlno) => {
-                const items = data.filter((item) => item.req_slno === reqSlno)
-                return items.every((item) => item.store_receive === 1) ? items : null
+              .map(reqSlno => {
+                const items = data.filter(item => item.req_slno === reqSlno)
+                return items.every(item => item.store_receive === 1) ? items : null
               })
-              .filter((group) => group !== null)
+              .filter(group => group !== null)
               .flat()
 
-            const reqSlno = filteredData?.map((val) => val.req_slno).filter(Boolean)
+            const reqSlno = filteredData?.map(val => val.req_slno).filter(Boolean)
             if (reqSlno && reqSlno.length > 1) {
               const newReqSlno = reqSlno.join(', ')
               infoNotify(
-                `Before registering a new request, you must complete the user acknowledgment for the following CRFs: ${newReqSlno}`,
+                `Before registering a new request, you must complete the user acknowledgment for the following CRFs: ${newReqSlno}`
               )
             } else if (reqSlno && reqSlno.length === 1) {
               infoNotify(
-                `Before registering a new request, you must complete the user acknowledgment for the following CRF: ${reqSlno[0]}`,
+                `Before registering a new request, you must complete the user acknowledgment for the following CRF: ${reqSlno[0]}`
               )
             }
             if (filteredData.length === 0) {
@@ -733,7 +732,7 @@ const CrfRegistration = ({
       reset,
       item_desc,
       item_qty,
-    ],
+    ]
   )
 
   useEffect(() => {
@@ -750,7 +749,7 @@ const CrfRegistration = ({
         emer_slno,
         emergeny_remarks,
       } = editRowData
-      setCrfRegister((prev) => ({
+      setCrfRegister(prev => ({
         ...prev,
         location: location,
         actual_require: actual_requirement === null ? '' : actual_requirement,
@@ -775,7 +774,7 @@ const CrfRegistration = ({
       setUomName('')
     }
   }, [editRowData, setEdit])
-  const ViewImage = useCallback((file) => {
+  const ViewImage = useCallback(file => {
     const fileType = file.imageName
       ? file.imageName.endsWith('.pdf')
         ? 'pdf'
@@ -786,7 +785,7 @@ const CrfRegistration = ({
 
     const fileUrl = file.url || URL.createObjectURL(file)
     setPreviewFile({ url: fileUrl, type: fileType })
-    setCrfRegister((prev) => ({
+    setCrfRegister(prev => ({
       ...prev,
       imageshow: true,
       imageshowFlag: 1,
@@ -794,7 +793,7 @@ const CrfRegistration = ({
   }, [])
 
   const handleClose = useCallback(() => {
-    setCrfRegister((prev) => ({
+    setCrfRegister(prev => ({
       ...prev,
       imageshow: false,
       imageshowFlag: 0,
@@ -839,7 +838,7 @@ const CrfRegistration = ({
                     value={deptSec}
                     onChange={(e, newValue) => setDeptSec(newValue)}
                   >
-                    {authorizeDeptSec?.map((val) => (
+                    {authorizeDeptSec?.map(val => (
                       <Option
                         key={val.dept_section}
                         value={val.dept_section}
@@ -1140,7 +1139,7 @@ const CrfRegistration = ({
                                 color: '#1565c0',
                               },
                             }}
-                            onClick={(e) => editSelect(val, index)}
+                            onClick={e => editSelect(val, index)}
                           />
                         </td>
                         <td size="sm" style={{ textAlign: 'center', height: 5 }}>
@@ -1151,7 +1150,7 @@ const CrfRegistration = ({
                                 color: '#B95C50',
                               },
                             }}
-                            onClick={(e) => deleteSelect(val, index)}
+                            onClick={e => deleteSelect(val, index)}
                           />
                         </td>
                       </tr>

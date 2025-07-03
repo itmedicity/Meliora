@@ -22,11 +22,11 @@ const CompanyMast = () => {
 
   const { company_slno, company_name, comp_status } = companyType
   const updateCompanyType = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setCompanyType({ ...companyType, [e.target.name]: value })
     },
-    [companyType],
+    [companyType]
   )
 
   const postdata = useMemo(() => {
@@ -43,7 +43,7 @@ const CompanyMast = () => {
     }
   }, [company_slno, company_name, comp_status])
 
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const { company_slno, company_name, comp_status } = data[0]
@@ -66,9 +66,9 @@ const CompanyMast = () => {
   }, [setCompanyType, setCount, setValue])
 
   const submitComapnyName = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const insertCompanyDetails = async (postdata) => {
+      const insertCompanyDetails = async postdata => {
         const result = await axioslogin.post('/companyMast/insert', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -81,7 +81,7 @@ const CompanyMast = () => {
           infoNotify(message)
         }
       }
-      const updateCompanyDetails = async (patchdata) => {
+      const updateCompanyDetails = async patchdata => {
         const result = await axioslogin.patch('/companyMast/update', patchdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -104,7 +104,7 @@ const CompanyMast = () => {
         updateCompanyDetails(patchdata)
       }
     },
-    [postdata, value, patchdata, reset, count, company_name],
+    [postdata, value, patchdata, reset, count, company_name]
   )
   const backtoSetting = useCallback(() => {
     history('/Home/Settings')

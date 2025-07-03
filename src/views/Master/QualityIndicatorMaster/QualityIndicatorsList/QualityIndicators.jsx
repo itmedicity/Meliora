@@ -21,7 +21,7 @@ const QualityIndicators = () => {
     history('/Home/Settings')
   }, [history])
 
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state?.LoginUserData.empid
   })
 
@@ -32,11 +32,11 @@ const QualityIndicators = () => {
   })
   const { qi_name, qi_status, qi_slno } = qualityIndicator
   const updateQtIndicator = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setQualityIndicator({ ...qualityIndicator, [e.target.name]: value })
     },
-    [qualityIndicator],
+    [qualityIndicator]
   )
 
   useEffect(() => {
@@ -71,9 +71,9 @@ const QualityIndicators = () => {
     }
   }, [qi_slno, qltyDept, qi_name, qi_status, id])
   const submitQualityIndicator = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const InsertQI = async (postdata) => {
+      const InsertQI = async postdata => {
         const result = await axioslogin.post('/qualityindicator/insert', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -84,7 +84,7 @@ const QualityIndicators = () => {
           infoNotify(message)
         }
       }
-      const updateQI = async (patchdata) => {
+      const updateQI = async patchdata => {
         const result = await axioslogin.patch('/qualityindicator/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -103,10 +103,10 @@ const QualityIndicators = () => {
         updateQI(patchdata)
       }
     },
-    [postdata, count, patchdata, value],
+    [postdata, count, patchdata, value]
   )
 
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const { qi_slno, qi_name, qi_dept_slno, status } = data[0]

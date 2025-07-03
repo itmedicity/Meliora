@@ -1,9 +1,7 @@
 import React from 'react'
 
 const ApprovalPendingMainList = () => {
-    return (
-        <div>ApprovalPendingMainList</div>
-    )
+  return <div>ApprovalPendingMainList</div>
 }
 
 export default ApprovalPendingMainList

@@ -1,9 +1,7 @@
 import React from 'react'
 
 const AmsMain = () => {
-  return (
-    <div>AmsMain</div>
-  )
+  return <div>AmsMain</div>
 }
 
 export default AmsMain
@@ -23,7 +21,6 @@ export default AmsMain
 //       return response.data.data;
 //     }
 //   );
-
 
 //   return (
 //     <Paper sx={{ pb: .5 }}>

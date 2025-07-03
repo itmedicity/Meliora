@@ -23,14 +23,14 @@ const CampusMaster = () => {
   })
   const { rm_campus_slno, rm_campus_name, rm_campus_alias, rm_campus_no, rm_campus_status } = campus
   const updateCampus = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setCampus({ ...campus, [e.target.name]: value })
     },
-    [campus],
+    [campus]
   )
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   const postdata = useMemo(() => {
@@ -70,7 +70,7 @@ const CampusMaster = () => {
     history('/Home/Settings')
   }, [history])
 
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const { rm_campus_slno, rm_campus_name, rm_campus_alias, rm_campus_no, rm_campus_status } =
@@ -87,9 +87,9 @@ const CampusMaster = () => {
   }, [])
 
   const sumbitCampus = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const InsertCampus = async (postdata) => {
+      const InsertCampus = async postdata => {
         const result = await axioslogin.post('/campus/insert', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -102,7 +102,7 @@ const CampusMaster = () => {
           infoNotify(message)
         }
       }
-      const UpdateCampus = async (patchdata) => {
+      const UpdateCampus = async patchdata => {
         const result = await axioslogin.patch('/campus/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -121,7 +121,7 @@ const CampusMaster = () => {
         UpdateCampus(patchdata)
       }
     },
-    [postdata, value, patchdata, count],
+    [postdata, value, patchdata, count]
   )
   const refreshWindow = useCallback(() => {
     const frmdata = {

@@ -43,12 +43,12 @@ const CustomAgGridMenuSelection = () => {
   }
 
   let gridApi
-  const onGridReady = (params) => {
+  const onGridReady = params => {
     gridApi = params.api
     gridApi.sizeColumnsToFit()
   }
 
-  const onSelectionChanged = (event) => {
+  const onSelectionChanged = event => {
     console.log(event.api.getSelectedRows())
   }
 

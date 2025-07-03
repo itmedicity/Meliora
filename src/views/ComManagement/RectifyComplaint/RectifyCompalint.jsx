@@ -25,13 +25,13 @@ const RectifyCompalint = () => {
   //state for table render
   const [count, setCount] = useState(0)
   //for getting login id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   const [rectify, setRectify] = useState(false)
   const [notRecty, setNotRectify] = useState(false)
   const [check, setCheck] = useState(0)
-  const updateRecty = useCallback((e) => {
+  const updateRecty = useCallback(e => {
     if (e.target.checked === true) {
       setRectify(true)
       setCheck(1)
@@ -42,7 +42,7 @@ const RectifyCompalint = () => {
       setNotRectify(false)
     }
   }, [])
-  const updateNotRecty = useCallback((e) => {
+  const updateNotRecty = useCallback(e => {
     if (e.target.checked === true) {
       setNotRectify(true)
       setCheck(2)
@@ -58,7 +58,7 @@ const RectifyCompalint = () => {
     {
       headerName: 'Rectify',
       minWidth: 100,
-      cellRenderer: (params) => {
+      cellRenderer: params => {
         if (params.data.compalint_status === 2 || params.data.compalint_status === 3) {
           return (
             <IconButton disabled sx={{ color: editicon, paddingY: 0.5 }}>
@@ -119,7 +119,7 @@ const RectifyCompalint = () => {
       headerName: 'Location',
       field: 'rm_room_name',
       minWidth: 300,
-      cellRendererFramework: (params) => {
+      cellRendererFramework: params => {
         const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } =
           params.data
         return (
@@ -168,7 +168,7 @@ const RectifyCompalint = () => {
   const [empName, setempname] = useState([])
 
   //rectify complaint  click function on click model open and pass data
-  const Rectifycomplaintdept = useCallback((params) => {
+  const Rectifycomplaintdept = useCallback(params => {
     const data = params.api.getSelectedRows()
     const { complaint_slno } = data[0]
     const getEmployeees = async () => {
@@ -190,14 +190,14 @@ const RectifyCompalint = () => {
     if (check === 1) {
       const arry =
         getdata &&
-        getdata.filter((val) => {
+        getdata.filter(val => {
           return val.compalint_status === 2 ? val : null
         })
       setTabledata(arry)
     } else {
       const arrys =
         getdata &&
-        getdata.filter((val) => {
+        getdata.filter(val => {
           return val.compalint_status === 1 ? val : null
         })
       setTabledata(arrys)
@@ -206,7 +206,7 @@ const RectifyCompalint = () => {
 
   //get assigned complaint
   useEffect(() => {
-    const getRectifycomplit = async (id) => {
+    const getRectifycomplit = async id => {
       const result = await axioslogin.get(`Rectifycomplit/getRectifycomplit/${id}`)
       const { success, data } = result.data
       if (success === 1) {

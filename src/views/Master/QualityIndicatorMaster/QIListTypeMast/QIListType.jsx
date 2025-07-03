@@ -20,18 +20,18 @@ const QIListType = () => {
   })
   const { qi_list_type, qi_list_type_name, qi_type_status } = qidepartment
   const updateDepartment = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setQiDepartment({ ...qidepartment, [e.target.name]: value })
     },
-    [qidepartment],
+    [qidepartment]
   )
 
   const history = useNavigate()
   const backtoSetting = useCallback(() => {
     history('/Home/Settings')
   }, [history])
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state?.LoginUserData.empid
   })
   const reset = () => {
@@ -61,9 +61,9 @@ const QIListType = () => {
     }
   }, [qi_list_type, qi_list_type_name, id, qi_type_status])
   const submitQualityDept = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const InsertDepartment = async (postdata) => {
+      const InsertDepartment = async postdata => {
         const result = await axioslogin.post('/qiTypeList/insert', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -76,7 +76,7 @@ const QIListType = () => {
           infoNotify(message)
         }
       }
-      const updateDepartment = async (patchdata) => {
+      const updateDepartment = async patchdata => {
         const result = await axioslogin.patch('/qiTypeList/update', patchdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -95,14 +95,14 @@ const QIListType = () => {
         updateDepartment(patchdata)
       }
     },
-    [postdata, count, patchdata, edit],
+    [postdata, count, patchdata, edit]
   )
 
   const refreshWindow = useCallback(() => {
     reset()
   }, [])
 
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setEdit(1)
     const data = params.api.getSelectedRows()
     const { qi_list_type, qi_list_type_name, status } = data[0]

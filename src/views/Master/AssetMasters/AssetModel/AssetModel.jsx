@@ -20,7 +20,7 @@ const AssetModel = () => {
   const history = useNavigate()
   const [selectFile, setSelectFile] = useState(null)
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   const [model, setModel] = useState({
@@ -30,11 +30,11 @@ const AssetModel = () => {
   })
   const { model_slno, model_name, model_status } = model
   const UpdateModel = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setModel({ ...model, [e.target.name]: value })
     },
-    [model],
+    [model]
   )
   const postdata = useMemo(() => {
     return {
@@ -51,7 +51,7 @@ const AssetModel = () => {
       edit_user: id,
     }
   }, [model_slno, model_name, model_status, id])
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const { model_slno, model_name, model_status } = data[0]
@@ -63,7 +63,7 @@ const AssetModel = () => {
     setModel(frmdata)
   }, [])
 
-  const uploadFile = async (event) => {
+  const uploadFile = async event => {
     const file = event.target.files[0]
     setSelectFile(file)
     const options = {
@@ -86,13 +86,13 @@ const AssetModel = () => {
   }
 
   const submitModel = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const InsertModel = async (postdata) => {
+      const InsertModel = async postdata => {
         const result = await axioslogin.post('/model/insert', postdata)
         return result.data
       }
-      const ModelUpdate = async (patchdata) => {
+      const ModelUpdate = async patchdata => {
         const result = await axioslogin.patch('/model/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -105,7 +105,7 @@ const AssetModel = () => {
           infoNotify(message)
         }
       }
-      const FileInsert = async (fileData) => {
+      const FileInsert = async fileData => {
         const result = await axioslogin.post('/fileupload/uploadFile/Model', fileData)
         const { message, success } = result.data
         if (success === 1) {
@@ -118,7 +118,7 @@ const AssetModel = () => {
       }
       if (value === 0) {
         if (model_name !== '') {
-          InsertModel(postdata).then((val) => {
+          InsertModel(postdata).then(val => {
             const { message, success, insertid } = val
             if (success === 1) {
               if (selectFile !== null) {
@@ -145,7 +145,7 @@ const AssetModel = () => {
         ModelUpdate(patchdata)
       }
     },
-    [postdata, value, patchdata, count, selectFile, model_name],
+    [postdata, value, patchdata, count, selectFile, model_name]
   )
   const backtoSetting = useCallback(() => {
     history('/Home/Settings')

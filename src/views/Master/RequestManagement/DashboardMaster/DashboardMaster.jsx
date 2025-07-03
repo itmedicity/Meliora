@@ -21,7 +21,7 @@ const DashboardMaster = () => {
 
   const history = useNavigate()
 
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     // setValue(1)
     const data = params.api.getSelectedRows()
     const { dash_view, emid, department, dp_section } = data[0]
@@ -33,7 +33,7 @@ const DashboardMaster = () => {
   }, [])
 
   const submitDashBoard = useCallback(
-    async (val) => {
+    async val => {
       if (dept === 0) {
         warningNotify('Select Department')
       } else {
@@ -64,7 +64,7 @@ const DashboardMaster = () => {
         }
       }
     },
-    [dept, empname, deptsec, selectedValues, UpdateFlag],
+    [dept, empname, deptsec, selectedValues, UpdateFlag]
   )
 
   const refreshWindow = useCallback(() => {
@@ -113,15 +113,15 @@ const DashboardMaster = () => {
                   backgroundColor: 'white',
                   fontSize: 14,
                 }}
-                value={dashboards?.filter((d) => selectedValues.includes(d.id))}
+                value={dashboards?.filter(d => selectedValues.includes(d.id))}
                 onChange={(_, newValue) => {
-                  const ids = newValue.map((item) => item.id)
+                  const ids = newValue.map(item => item.id)
                   setSelectedValues(ids)
                 }}
                 inputValue={inputValue}
                 onInputChange={(_, newInputValue) => setInputValue(newInputValue)}
                 options={dashboards}
-                getOptionLabel={(option) => option?.name || ''}
+                getOptionLabel={option => option?.name || ''}
                 isOptionEqualToValue={(option, value) => option?.id === value?.id}
               />
             </Box>

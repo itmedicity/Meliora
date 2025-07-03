@@ -28,14 +28,14 @@ const ComplaintDeptMast = () => {
   //Destructuring
   const { complaint_dept_name, complaint_dept_status, complaint_dept_slno } = complaint
   const updateDepartment = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setComplaint({ ...complaint, [e.target.name]: value })
     },
-    [complaint],
+    [complaint]
   )
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   //data for insert
@@ -48,7 +48,7 @@ const ComplaintDeptMast = () => {
     }
   }, [complaint_dept_name, complaint_dept_status, department, id])
   //data setting  for edit
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setEdit(1)
     const data = params.api.getSelectedRows()
     const { complaint_dept_name, status, complaint_dept_slno, department_slno } = data[0]
@@ -72,7 +72,7 @@ const ComplaintDeptMast = () => {
   }, [complaint_dept_name, complaint_dept_status, complaint_dept_slno, department, id])
   /*** usecallback function for form submitting */
   const submitComplaintdept = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
       const formreset = {
         complaint_dept_name: '',
@@ -80,7 +80,7 @@ const ComplaintDeptMast = () => {
         complaint_dept_slno: '',
       }
       /***     * insert function for use call back     */
-      const InsertFun = async (postdata) => {
+      const InsertFun = async postdata => {
         const result = await axioslogin.post('/complaintdept', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -96,7 +96,7 @@ const ComplaintDeptMast = () => {
         }
       }
       /***  * update function for use call back     */
-      const updateFun = async (patchdata) => {
+      const updateFun = async patchdata => {
         const result = await axioslogin.patch('/complaintdept', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -121,7 +121,7 @@ const ComplaintDeptMast = () => {
         updateFun(patchdata)
       }
     },
-    [edit, postdata, patchdata, queryClient],
+    [edit, postdata, patchdata, queryClient]
   )
 
   //close button function

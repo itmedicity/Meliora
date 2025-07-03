@@ -22,7 +22,7 @@ const PmOverdueList = () => {
   const [TableData, setTableData] = useState([])
   const [department, setDepartment] = useState(0)
   const [deptsec, setDeptSec] = useState(0)
-  const deptsecid = useSelector((state) => state.LoginUserData.empsecid, _.isEqual)
+  const deptsecid = useSelector(state => state.LoginUserData.empsecid, _.isEqual)
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
@@ -31,13 +31,13 @@ const PmOverdueList = () => {
 
   useEffect(() => {
     if (deptsecid > 0) {
-      const getCondemnatnList = async (deptsecid) => {
+      const getCondemnatnList = async deptsecid => {
         setLoading(true)
         try {
           const result = await axioslogin.get(`/SpareCondemService/pmDueOverList/${deptsecid}`)
           const { success, data } = result.data
           if (success === 1 && data.length > 0) {
-            const dataaa = data.map((val) => ({
+            const dataaa = data.map(val => ({
               ...val,
               assetNo: val.item_asset_no + '/' + val.item_asset_no_only.toString().padStart(6, '0'),
               roomname: val.rm_room_name !== null ? val.rm_room_name : 'Not Updated',
@@ -64,20 +64,20 @@ const PmOverdueList = () => {
   }, [history])
 
   const search = useCallback(() => {
-    const getdeptDeptsecArry = (TableData) => {
-      const deptDeptsecArry = TableData.filter((val) => {
+    const getdeptDeptsecArry = TableData => {
+      const deptDeptsecArry = TableData.filter(val => {
         return val.item_dept_slno === department && val.item_deptsec_slno === deptsec
       })
       setTableData(deptDeptsecArry)
     }
-    const getdeptArry = (TableData) => {
-      const deptArry = TableData.filter((val) => {
+    const getdeptArry = TableData => {
+      const deptArry = TableData.filter(val => {
         return val.item_dept_slno === department
       })
       setTableData(deptArry)
     }
-    const getDeptsecArry = (TableData) => {
-      const DeptsecArry = TableData.filter((val) => {
+    const getDeptsecArry = TableData => {
+      const DeptsecArry = TableData.filter(val => {
         return val.item_deptsec_slno === deptsec
       })
       setTableData(DeptsecArry)
@@ -95,14 +95,14 @@ const PmOverdueList = () => {
 
   useEffect(() => {
     let isMounted = true
-    const getCondemnatnList = async (deptsecid) => {
+    const getCondemnatnList = async deptsecid => {
       setLoading(true)
       try {
         const result = await axioslogin.get(`/SpareCondemService/pmDueOverList/${deptsecid}`)
         const { success, data } = result.data
         if (isMounted) {
           if (success === 1 && data.length > 0) {
-            const dataaa = data.map((val) => ({
+            const dataaa = data.map(val => ({
               ...val,
               assetNo: val.item_asset_no + '/' + val.item_asset_no_only.toString().padStart(6, '0'),
               roomname: val.rm_room_name !== null ? val.rm_room_name : 'Not Updated',

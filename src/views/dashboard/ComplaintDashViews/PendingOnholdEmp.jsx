@@ -12,7 +12,7 @@ const PendingOnholdEmp = () => {
   const dispatch = useDispatch()
 
   /**reducer function for getting login employees id */
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
 
@@ -21,7 +21,7 @@ const PendingOnholdEmp = () => {
     dispatch(getPendingOnholdbasedOnEmp(id))
   }, [dispatch, id])
 
-  const pendingOnhold = useSelector((state) => {
+  const pendingOnhold = useSelector(state => {
     return state.setPendingOnholEmpWise.pendOnholdEmpList
   })
 

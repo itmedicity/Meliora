@@ -25,14 +25,14 @@ const ComPriorityMast = () => {
   })
   const { cm_priority_desc, cm_priority_status, cm_priority_slno } = priority
   const updatepriority = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setpriority({ ...priority, [e.target.name]: value })
     },
-    [priority],
+    [priority]
   )
 
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
 
@@ -46,7 +46,7 @@ const ComPriorityMast = () => {
     }
   }, [cm_priority_desc, escalationMax, escalationMin, cm_priority_status, id])
 
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setEdit(1)
     const data = params.api.getSelectedRows()
     const { cm_priority_desc, status, escalation_min, escalation_max, cm_priority_slno } = data[0]
@@ -84,9 +84,9 @@ const ComPriorityMast = () => {
   }, [setpriority])
 
   const submitHicpolicy = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const InsertFun = async (postdata) => {
+      const InsertFun = async postdata => {
         const result = await axioslogin.post('/compriority', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -100,7 +100,7 @@ const ComPriorityMast = () => {
         }
       }
 
-      const updateFun = async (patchdata) => {
+      const updateFun = async patchdata => {
         const result = await axioslogin.patch('/compriority', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -121,7 +121,7 @@ const ComPriorityMast = () => {
         updateFun(patchdata)
       }
     },
-    [edit, postdata, patchdata, count, refreshWindow],
+    [edit, postdata, patchdata, count, refreshWindow]
   )
 
   const backtoSetting = useCallback(() => {

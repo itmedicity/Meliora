@@ -15,7 +15,7 @@ const GenStoreTab = ({ menurights }) => {
     history('/Home')
   }, [history])
 
-  const empId = useSelector((state) => {
+  const empId = useSelector(state => {
     return state.LoginUserData.empid
   })
 

@@ -28,14 +28,14 @@ const ComplaintTypeMast = () => {
   //destructuring
   const { complaint_type_name, complaint_type_status, complaint_type_slno } = complainttype
   const updateComplaintType = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       SetType({ ...complainttype, [e.target.name]: value })
     },
-    [complainttype],
+    [complainttype]
   )
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   //data for insert
@@ -48,7 +48,7 @@ const ComplaintTypeMast = () => {
     }
   }, [complaint_type_name, complaint_type_status, compdept, id])
   //data set for edit
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setEdit(1)
     const data = params.api.getSelectedRows()
     const { complaint_type_name, complaint_dept_slno, status, complaint_type_slno } = data[0]
@@ -76,7 +76,7 @@ const ComplaintTypeMast = () => {
   }
   /*** usecallback function for form submitting */
   const submitComplaintType = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
       const formreset = {
         complaint_type_name: '',
@@ -84,7 +84,7 @@ const ComplaintTypeMast = () => {
         complaint_type_slno: '',
       }
       /***  * insert function for use call back     */
-      const InsertFun = async (postdata) => {
+      const InsertFun = async postdata => {
         const result = await axioslogin.post('/complainttype', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -99,7 +99,7 @@ const ComplaintTypeMast = () => {
         }
       }
       /***  * update function for use call back     */
-      const updateFun = async (patchdata) => {
+      const updateFun = async patchdata => {
         const result = await axioslogin.patch('/complainttype', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -122,7 +122,7 @@ const ComplaintTypeMast = () => {
         updateFun(patchdata)
       }
     },
-    [edit, postdata, patchdata, count],
+    [edit, postdata, patchdata, count]
   )
   //close button function
   const backtoSetting = useCallback(() => {

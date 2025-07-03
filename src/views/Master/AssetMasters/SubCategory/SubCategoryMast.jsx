@@ -21,7 +21,7 @@ const SubCategoryMast = () => {
   const [category, setCategory] = useState(0)
   const [selectFile, setSelectFile] = useState(null)
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   const [subcategory, setSubCategory] = useState({
@@ -31,11 +31,11 @@ const SubCategoryMast = () => {
   })
   const { subcategory_slno, subcategory_name, subcategory_status } = subcategory
   const updateSubCategory = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setSubCategory({ ...subcategory, [e.target.name]: value })
     },
-    [subcategory],
+    [subcategory]
   )
   const reset = () => {
     const frmdata = {
@@ -67,7 +67,7 @@ const SubCategoryMast = () => {
       edit_user: id,
     }
   }, [subcategory_slno, subcategory_name, category, subcategory_status, id])
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const { subcategory_slno, subcategory_name, category_slno, subcategory_status } = data[0]
@@ -80,7 +80,7 @@ const SubCategoryMast = () => {
     setSubCategory(frmdata)
     setCategory(category_slno)
   }, [])
-  const uploadFile = async (event) => {
+  const uploadFile = async event => {
     const file = event.target.files[0]
     setSelectFile(file)
     const options = {
@@ -91,13 +91,13 @@ const SubCategoryMast = () => {
     setSelectFile(compressedFile)
   }
   const submitSubCategory = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const InsertSubCategory = async (postdata) => {
+      const InsertSubCategory = async postdata => {
         const result = await axioslogin.post('/subcategory/insert', postdata)
         return result.data
       }
-      const SubCategoryUpdate = async (patchdata) => {
+      const SubCategoryUpdate = async patchdata => {
         const result = await axioslogin.patch('/subcategory/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -110,7 +110,7 @@ const SubCategoryMast = () => {
           infoNotify(message)
         }
       }
-      const FileInsert = async (fileData) => {
+      const FileInsert = async fileData => {
         const result = await axioslogin.post('/fileupload/uploadFile/SubCategory', fileData)
         const { message, success } = result.data
         if (success === 1) {
@@ -123,7 +123,7 @@ const SubCategoryMast = () => {
       }
       if (value === 0) {
         if (subcategory_name !== '' && category !== 0) {
-          InsertSubCategory(postdata).then((val) => {
+          InsertSubCategory(postdata).then(val => {
             const { message, success, insertid } = val
             if (success === 1) {
               if (selectFile !== null) {
@@ -152,7 +152,7 @@ const SubCategoryMast = () => {
         SubCategoryUpdate(patchdata)
       }
     },
-    [postdata, value, patchdata, count, selectFile, subcategory_name, category],
+    [postdata, value, patchdata, count, selectFile, subcategory_name, category]
   )
   const backtoSetting = useCallback(() => {
     history('/Home/Settings')

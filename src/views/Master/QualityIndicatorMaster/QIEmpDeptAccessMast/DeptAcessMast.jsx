@@ -20,7 +20,7 @@ const DeptAcessMast = () => {
   const [count, setCount] = useState(0)
   const history = useNavigate()
 
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state?.LoginUserData.empid
   })
   // access_slno, em_id, dpt_access_list,access_status
@@ -31,11 +31,11 @@ const DeptAcessMast = () => {
   })
   const { access_slno, em_no, access_status } = dptAccess
   const updateDeptAcess = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setdptAccess({ ...dptAccess, [e.target.name]: value })
     },
-    [dptAccess],
+    [dptAccess]
   )
   const backtoSetting = useCallback(() => {
     history('/Home/Settings')
@@ -99,14 +99,14 @@ const DeptAcessMast = () => {
   }, [empId, qidept, access_status, id, access_slno])
 
   const submitAcessDetails = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
       if (em_no === '') {
         infoNotify('Please Enter Employee Number')
       } else if (qidept.length === 0) {
         infoNotify('Please Select Any Department')
       } else {
-        const InsertDetails = async (postdata) => {
+        const InsertDetails = async postdata => {
           const result = await axioslogin.post('/qideptAccess/insert', postdata)
           const { message, success } = result.data
           if (success === 1) {
@@ -117,7 +117,7 @@ const DeptAcessMast = () => {
             infoNotify(message)
           }
         }
-        const updateDetails = async (patchdata) => {
+        const updateDetails = async patchdata => {
           const result = await axioslogin.patch('/qideptAccess/update', patchdata)
           const { message, success } = result.data
           if (success === 1) {
@@ -135,9 +135,9 @@ const DeptAcessMast = () => {
         }
       }
     },
-    [postdata, count, edit, patchdata, reset, em_no, qidept.length],
+    [postdata, count, edit, patchdata, reset, em_no, qidept.length]
   )
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setEdit(1)
     setemflag(1)
     const data = params.api.getSelectedRows()

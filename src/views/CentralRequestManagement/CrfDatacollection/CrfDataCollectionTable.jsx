@@ -26,7 +26,7 @@ import { parse } from 'date-fns'
 import { infoNotify } from 'src/views/Common/CommonCode'
 import { getDatakmcCollectionDetails } from 'src/api/CommonApiCRFKmc'
 
-const formatDateForInput = (date) => {
+const formatDateForInput = date => {
   return date.toISOString().split('T')[0]
 }
 
@@ -35,8 +35,8 @@ const CrfDataCollectionTable = () => {
   const backtoSetting = useCallback(() => {
     history('/Home')
   }, [history])
-  const empdeptsec = useSelector((state) => state.LoginUserData.empsecid, _.isEqual)
-  const empid = useSelector((state) => state.LoginUserData.empid, _.isEqual)
+  const empdeptsec = useSelector(state => state.LoginUserData.empsecid, _.isEqual)
+  const empid = useSelector(state => state.LoginUserData.empid, _.isEqual)
 
   const [pendingData, setPendingData] = useState([])
   const [doneData, setDoneData] = useState([])
@@ -56,10 +56,10 @@ const CrfDataCollectionTable = () => {
     error: dcError,
   } = useQuery({
     queryKey: ['dataCollection', empdeptsec],
-    queryFn: () => getDataCollectionDetails(empdeptsec),
+    // queryFn: () => getDataCollectionDetails(empdeptsec),
     queryFn: async () => {
       const data = await getDataCollectionDetails(empdeptsec)
-      return data.filter((item) => item.tmc_data_collection_status === 0)
+      return data.filter(item => item.tmc_data_collection_status === 0)
     },
     enabled: empdeptsec !== null,
   })
@@ -83,7 +83,7 @@ const CrfDataCollectionTable = () => {
     queryFn: async () => {
       const payload = depkmc?.kmc_dept
       const data = await getDatakmcCollectionDetails(payload)
-      return data?.filter((item) => item.tmc_data_collection_status === 1)
+      return data?.filter(item => item.tmc_data_collection_status === 1)
     },
     enabled: empdeptsec !== null && depkmc !== undefined,
   })
@@ -139,7 +139,7 @@ const CrfDataCollectionTable = () => {
 
   useEffect(() => {
     if (combinedData && combinedData.length > 0) {
-      const datas = combinedData?.map((val) => {
+      const datas = combinedData?.map(val => {
         const obj = {
           req_slno: val.req_slno,
           actual_requirement: val.actual_requirement,
@@ -176,14 +176,14 @@ const CrfDataCollectionTable = () => {
         }
         return obj
       })
-      const pendingList = datas.filter((val) => {
+      const pendingList = datas.filter(val => {
         return val.crf_dept_status === null
       })
       setPendingData(pendingList)
       const DoneList = datas.filter(
         (item, index, self) =>
           index ===
-          self.findIndex((val) => val.req_slno === item.req_slno && val.crf_dept_status === 1),
+          self.findIndex(val => val.req_slno === item.req_slno && val.crf_dept_status === 1)
       )
       setDoneData(DoneList)
       // const DoneList = datas.filter((val) => {
@@ -196,7 +196,7 @@ const CrfDataCollectionTable = () => {
   }, [combinedData])
 
   const updateRadioClick = useCallback(
-    async (e) => {
+    async e => {
       e.preventDefault()
       setRadioValue(e.target.value)
       if (e.target.value === '1') {
@@ -207,7 +207,7 @@ const CrfDataCollectionTable = () => {
         setDisData(doneData)
       }
     },
-    [doneData, pendingData],
+    [doneData, pendingData]
   )
 
   const ClearSearch = useCallback(() => {
@@ -221,19 +221,19 @@ const CrfDataCollectionTable = () => {
     setSearchFlag(newValue)
   }, [])
 
-  const startDateChange = useCallback((e) => {
+  const startDateChange = useCallback(e => {
     setStartDate(e.target.value)
   }, [])
-  const endDateChange = useCallback((e) => {
+  const endDateChange = useCallback(e => {
     setEndDate(e.target.value)
   }, [])
-  const changeCrfNo = useCallback((e) => {
+  const changeCrfNo = useCallback(e => {
     setsearchCrf(e.target.value)
   }, [])
 
   const SearchData = useCallback(() => {
     if (searchFlag === '1') {
-      const newData = allData?.filter((val) => {
+      const newData = allData?.filter(val => {
         const reqDate = new Date(val.req_date).setHours(0, 0, 0, 0)
         const start = parse(startDate, 'yyyy-MM-dd', new Date()).setHours(0, 0, 0, 0)
         const end = parse(endDate, 'yyyy-MM-dd', new Date()).setHours(0, 0, 0, 0)
@@ -250,13 +250,13 @@ const CrfDataCollectionTable = () => {
       if (searchCrf === '') {
         infoNotify('Enter CRF No.')
       } else {
-        const newData = allData?.filter((val) => val.req_slno === parseInt(searchCrf))
+        const newData = allData?.filter(val => val.req_slno === parseInt(searchCrf))
         setDisData(newData)
       }
     }
   }, [startDate, endDate, searchFlag, searchCrf, allData, setDisData])
 
-  const handleRadioChange = useCallback(async (e) => {
+  const handleRadioChange = useCallback(async e => {
     const selectedCompanyName = e.target.value
     setSelectedCompany(selectedCompanyName)
   }, [])
@@ -307,7 +307,7 @@ const CrfDataCollectionTable = () => {
             }}
           >
             <RadioGroup row value={selectedCompany} onChange={handleRadioChange}>
-              {comData?.map((val) => (
+              {comData?.map(val => (
                 <FormControlLabel
                   key={val.company_slno}
                   value={val.company_slno}
@@ -327,7 +327,7 @@ const CrfDataCollectionTable = () => {
               aria-labelledby="demo-row-radio-buttons-group-label"
               name="row-radio-buttons-group"
               value={radiovalue}
-              onChange={(e) => updateRadioClick(e)}
+              onChange={e => updateRadioClick(e)}
             >
               <Badge
                 badgeContent={pendingData.length}

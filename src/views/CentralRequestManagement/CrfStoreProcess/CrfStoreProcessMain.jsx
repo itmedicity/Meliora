@@ -69,7 +69,7 @@ const CrfStoreProcessMain = () => {
   })
   const { notReceiveCount, fullyCount, searchSup, searchPo, searchCrf, modalopen, modFlag } =
     storeState
-  const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
+  const id = useSelector(state => state.LoginUserData.empid, _.isEqual)
   const backtoHome = useCallback(() => {
     history('/Home')
   }, [history])
@@ -80,29 +80,29 @@ const CrfStoreProcessMain = () => {
   }, [dispatch, count])
 
   const storeReceivePending = useSelector(
-    (state) => state?.getStoreReceivePendingReducer?.setCRMStorePendingList,
+    state => state?.getStoreReceivePendingReducer?.setCRMStorePendingList
   )
   const stroreReceiveAll = useSelector(
-    (state) => state?.getStoreReceiveAllReducer?.setCRMStoreAllList,
+    state => state?.getStoreReceiveAllReducer?.setCRMStoreAllList
   )
-  const changeSupplier = useCallback((e) => {
-    setStoreState((prev) => ({
+  const changeSupplier = useCallback(e => {
+    setStoreState(prev => ({
       ...prev,
       searchSup: e.target.value,
       searchPo: '',
       searchCrf: '',
     }))
   }, [])
-  const changePo = useCallback((e) => {
-    setStoreState((prev) => ({
+  const changePo = useCallback(e => {
+    setStoreState(prev => ({
       ...prev,
       searchSup: '',
       searchPo: e.target.value,
       searchCrf: '',
     }))
   }, [])
-  const changeCrfNo = useCallback((e) => {
-    setStoreState((prev) => ({
+  const changeCrfNo = useCallback(e => {
+    setStoreState(prev => ({
       ...prev,
       searchSup: '',
       searchPo: '',
@@ -115,18 +115,18 @@ const CrfStoreProcessMain = () => {
         (val, index, self) =>
           index ===
           self.findIndex(
-            (value) =>
+            value =>
               value.po_number === val.po_number &&
               value.req_slno === val.req_slno &&
-              value.crm_purchase_slno === val.crm_purchase_slno,
-          ),
+              value.crm_purchase_slno === val.crm_purchase_slno
+          )
       )
-      setStoreState((prev) => ({
+      setStoreState(prev => ({
         ...prev,
         notReceiveCount: newArray.length,
       }))
     } else {
-      setStoreState((prev) => ({
+      setStoreState(prev => ({
         ...prev,
         notReceiveCount: 0,
       }))
@@ -137,18 +137,18 @@ const CrfStoreProcessMain = () => {
         (val, index, self) =>
           index ===
           self.findIndex(
-            (value) =>
+            value =>
               value.po_number === val.po_number &&
               value.req_slno === val.req_slno &&
-              value.crm_purchase_slno === val.crm_purchase_slno,
-          ),
+              value.crm_purchase_slno === val.crm_purchase_slno
+          )
       )
-      setStoreState((prev) => ({
+      setStoreState(prev => ({
         ...prev,
         fullyCount: fCount.length,
       }))
     } else {
-      setStoreState((prev) => ({
+      setStoreState(prev => ({
         ...prev,
         fullyCount: 0,
       }))
@@ -162,13 +162,13 @@ const CrfStoreProcessMain = () => {
           (val, index, self) =>
             index ===
             self.findIndex(
-              (value) =>
+              value =>
                 value.po_number === val.po_number &&
                 value.req_slno === val.req_slno &&
-                value.crm_purchase_slno === val.crm_purchase_slno,
-            ),
+                value.crm_purchase_slno === val.crm_purchase_slno
+            )
         )
-        .map((val) => ({
+        .map(val => ({
           crm_purchase_slno: val.crm_purchase_slno,
           po_detail_slno: val.po_detail_slno,
           req_slno: val.req_slno,
@@ -187,7 +187,7 @@ const CrfStoreProcessMain = () => {
           checked: false,
         }))
 
-      const poItems = storeReceivePending?.map((val) => {
+      const poItems = storeReceivePending?.map(val => {
         const obj = {
           po_detail_slno: val.po_detail_slno,
           item_code: val.item_code,
@@ -202,8 +202,8 @@ const CrfStoreProcessMain = () => {
         return obj
       })
 
-      const combinedData = newArray?.map((po) => {
-        const details = poItems?.filter((item) => item.po_detail_slno === po.po_detail_slno)
+      const combinedData = newArray?.map(po => {
+        const details = poItems?.filter(item => item.po_detail_slno === po.po_detail_slno)
         return {
           ...po,
           items: details,
@@ -213,17 +213,19 @@ const CrfStoreProcessMain = () => {
       setDisData(combinedData)
       setInitialData(combinedData)
     } else if (radiovalue === '2') {
+      return
     }
   }, [radiovalue, storeReceivePending, stroreReceiveAll, count])
 
   //Radio button OnClick function starts
 
   const updateRadioClick = useCallback(
-    async (e) => {
+    async e => {
       e.preventDefault()
       setOpen(false)
       setRadioValue(e.target.value)
       if (e.target.value === '1') {
+        return
       } else if (e.target.value === '2') {
         if (stroreReceiveAll.length !== 0) {
           const newArray = stroreReceiveAll
@@ -231,13 +233,13 @@ const CrfStoreProcessMain = () => {
               (val, index, self) =>
                 index ===
                 self.findIndex(
-                  (value) =>
+                  value =>
                     value.po_number === val.po_number &&
                     value.req_slno === val.req_slno &&
-                    value.crm_purchase_slno === val.crm_purchase_slno,
-                ),
+                    value.crm_purchase_slno === val.crm_purchase_slno
+                )
             )
-            .map((val) => ({
+            .map(val => ({
               crm_purchase_slno: val.crm_purchase_slno,
               po_detail_slno: val.po_detail_slno,
               req_slno: val.req_slno,
@@ -250,7 +252,7 @@ const CrfStoreProcessMain = () => {
               sub_store_name: val.sub_store_name,
             }))
 
-          const poItems = stroreReceiveAll?.map((val) => {
+          const poItems = stroreReceiveAll?.map(val => {
             const obj = {
               po_detail_slno: val.po_detail_slno,
               item_code: val.item_code,
@@ -264,8 +266,8 @@ const CrfStoreProcessMain = () => {
             }
             return obj
           })
-          const combinedData = newArray?.map((po) => {
-            const details = poItems?.filter((item) => item.po_detail_slno === po.po_detail_slno)
+          const combinedData = newArray?.map(po => {
+            const details = poItems?.filter(item => item.po_detail_slno === po.po_detail_slno)
             return {
               ...po,
               items: details,
@@ -276,7 +278,7 @@ const CrfStoreProcessMain = () => {
         }
       }
     },
-    [stroreReceiveAll],
+    [stroreReceiveAll]
   )
 
   const SearchData = useCallback(() => {
@@ -287,11 +289,11 @@ const CrfStoreProcessMain = () => {
         po_number: searchPo,
       }
       if (radiovalue === '1') {
-        const getSearchDetails = async (searchData) => {
+        const getSearchDetails = async searchData => {
           const result = await axioslogin.post('/newCRFStore/searchData', searchData)
           return result.data
         }
-        getSearchDetails(searchData).then((val) => {
+        getSearchDetails(searchData).then(val => {
           const { success, data, message } = val
           if (success === 1) {
             const newArray = data
@@ -299,13 +301,13 @@ const CrfStoreProcessMain = () => {
                 (val, index, self) =>
                   index ===
                   self.findIndex(
-                    (value) =>
+                    value =>
                       value.po_number === val.po_number &&
                       value.req_slno === val.req_slno &&
-                      value.crm_purchase_slno === val.crm_purchase_slno,
-                  ),
+                      value.crm_purchase_slno === val.crm_purchase_slno
+                  )
               )
-              .map((val) => ({
+              .map(val => ({
                 crm_purchase_slno: val.crm_purchase_slno,
                 po_detail_slno: val.po_detail_slno,
                 req_slno: val.req_slno,
@@ -323,7 +325,7 @@ const CrfStoreProcessMain = () => {
                 store_recieve: val.store_recieve,
                 checked: false,
               }))
-            const poItems = data?.map((val) => {
+            const poItems = data?.map(val => {
               const obj = {
                 po_detail_slno: val.po_detail_slno,
                 item_code: val.item_code,
@@ -337,8 +339,8 @@ const CrfStoreProcessMain = () => {
               }
               return obj
             })
-            const combinedData = newArray?.map((po) => {
-              const details = poItems?.filter((item) => item.po_detail_slno === po.po_detail_slno)
+            const combinedData = newArray?.map(po => {
+              const details = poItems?.filter(item => item.po_detail_slno === po.po_detail_slno)
               return {
                 ...po,
                 items: details,
@@ -350,11 +352,11 @@ const CrfStoreProcessMain = () => {
           }
         })
       } else if (radiovalue === '2') {
-        const getSearchDetails = async (searchData) => {
+        const getSearchDetails = async searchData => {
           const result = await axioslogin.post('/newCRFStore/searchFullReceive', searchData)
           return result.data
         }
-        getSearchDetails(searchData).then((val) => {
+        getSearchDetails(searchData).then(val => {
           const { success, data, message } = val
           if (success === 1) {
             const newArray = data
@@ -362,13 +364,13 @@ const CrfStoreProcessMain = () => {
                 (val, index, self) =>
                   index ===
                   self.findIndex(
-                    (value) =>
+                    value =>
                       value.po_number === val.po_number &&
                       value.req_slno === val.req_slno &&
-                      value.crm_purchase_slno === val.crm_purchase_slno,
-                  ),
+                      value.crm_purchase_slno === val.crm_purchase_slno
+                  )
               )
-              .map((val) => ({
+              .map(val => ({
                 crm_purchase_slno: val.crm_purchase_slno,
                 po_detail_slno: val.po_detail_slno,
                 req_slno: val.req_slno,
@@ -381,7 +383,7 @@ const CrfStoreProcessMain = () => {
                 sub_store_name: val.sub_store_name,
               }))
 
-            const poItems = data?.map((val) => {
+            const poItems = data?.map(val => {
               const obj = {
                 po_detail_slno: val.po_detail_slno,
                 item_code: val.item_code,
@@ -395,8 +397,8 @@ const CrfStoreProcessMain = () => {
               }
               return obj
             })
-            const combinedData = newArray?.map((po) => {
-              const details = poItems?.filter((item) => item.po_detail_slno === po.po_detail_slno)
+            const combinedData = newArray?.map(po => {
+              const details = poItems?.filter(item => item.po_detail_slno === po.po_detail_slno)
               return {
                 ...po,
                 items: details,
@@ -422,37 +424,37 @@ const CrfStoreProcessMain = () => {
       const result = await axioslogin.get('/newCRFStore/getGrnPO')
       return result.data
     }
-    const getGrnItemDetailsEllider = async (posearch) => {
+    const getGrnItemDetailsEllider = async posearch => {
       const result = await axiosellider.post('/crfpurchase/getGrnDetails', posearch)
       return result.data
     }
-    const UpdateGrnItemQnty = async (patchQnty) => {
+    const UpdateGrnItemQnty = async patchQnty => {
       const result = await axioslogin.post('/newCRFStore/updateQty', patchQnty)
       return result.data
     }
-    const updateStoreReceiveStatus = async (updateStatus) => {
+    const updateStoreReceiveStatus = async updateStatus => {
       const result = await axioslogin.post('/newCRFStore/storeReceive', updateStatus)
       return result.data
     }
-    const existCheck = async (posearch) => {
+    const existCheck = async posearch => {
       const result = await axioslogin.post('/newCRFStore/existPO', posearch)
       return result.data
     }
-    const insertGrnDetails = async (postdata) => {
+    const insertGrnDetails = async postdata => {
       const result = await axioslogin.post('/newCRFStore/grnInsert', postdata)
       return result.data
     }
-    const updateGrnDetails = async (patchdata) => {
+    const updateGrnDetails = async patchdata => {
       const result = await axioslogin.post('/newCRFStore/grnUpdate', patchdata)
       return result.data
     }
-    getPendingPODetails().then((val) => {
+    getPendingPODetails().then(val => {
       setOpen(true)
       const { success, data, message } = val
       if (success === 1) {
         const posearch = data?.reduce((acc, val) => {
           if (
-            !acc.some((item) => item.pono === val.po_number && item.stcode === val.crs_store_code)
+            !acc.some(item => item.pono === val.po_number && item.stcode === val.crs_store_code)
           ) {
             acc.push({
               pono: val.po_number,
@@ -462,7 +464,7 @@ const CrfStoreProcessMain = () => {
           return acc
         }, [])
 
-        const poNumber = data?.map((val) => {
+        const poNumber = data?.map(val => {
           return {
             req_slno: val.req_slno,
             crm_purchase_slno: val.crm_purchase_slno,
@@ -473,21 +475,21 @@ const CrfStoreProcessMain = () => {
           }
         })
         setOpen(false)
-        getGrnItemDetailsEllider(posearch).then((val) => {
+        getGrnItemDetailsEllider(posearch).then(val => {
           const { success, elliderdata } = val
           if (success === 1) {
             const seen = new Set()
             const patchQnty = poNumber
-              .map((poItem) => {
+              .map(poItem => {
                 const matchingItems = elliderdata.filter(
-                  (item) =>
+                  item =>
                     poItem.pono === item.PO_NO &&
                     poItem.stcode === item.ST_CODE &&
-                    poItem.item_code === item.IT_CODE,
+                    poItem.item_code === item.IT_CODE
                 )
                 if (matchingItems.length > 0) {
                   return matchingItems
-                    .map((item) => {
+                    .map(item => {
                       const uniqueKey = `${poItem.po_detail_slno}-${item.IT_CODE}-${item.PDN_SUPQTY}`
                       if (!seen.has(uniqueKey)) {
                         seen.add(uniqueKey)
@@ -511,7 +513,7 @@ const CrfStoreProcessMain = () => {
                       }
                       return null
                     })
-                    .filter((item) => item !== null)
+                    .filter(item => item !== null)
                 } else {
                   return {
                     req_slno: poItem.req_slno,
@@ -526,7 +528,7 @@ const CrfStoreProcessMain = () => {
               })
               .flat()
 
-            UpdateGrnItemQnty(patchQnty).then((val) => {
+            UpdateGrnItemQnty(patchQnty).then(val => {
               const { success } = val
               if (success === 1) {
                 const groupedBySlno = patchQnty.reduce((acc, curr) => {
@@ -547,10 +549,10 @@ const CrfStoreProcessMain = () => {
 
                     let store_recieve, sub_store_recieve
 
-                    if (statuses.every((status) => status === 1)) {
+                    if (statuses.every(status => status === 1)) {
                       store_recieve = 1
                       sub_store_recieve = 0
-                    } else if (statuses.every((status) => status === null)) {
+                    } else if (statuses.every(status => status === null)) {
                       store_recieve = null
                       sub_store_recieve = null
                     } else {
@@ -566,21 +568,21 @@ const CrfStoreProcessMain = () => {
                       req_slno: req_slno,
                       crm_purchase_slno: crm_purchase_slno,
                     }
-                  },
+                  }
                 )
 
-                updateStoreReceiveStatus(updateStatus).then((val) => {
+                updateStoreReceiveStatus(updateStatus).then(val => {
                   const { success } = val
                   if (success === 1) {
                     setCount(count + 1)
                     const finalData = elliderdata
-                      ?.map((item) => `${item.PO_NO}-${item.ST_CODE}`)
+                      ?.map(item => `${item.PO_NO}-${item.ST_CODE}`)
                       .filter((value, index, self) => self.indexOf(value) === index)
-                      .map((key) => {
+                      .map(key => {
                         const [PO_NO, ST_CODE] = key.split('-')
                         const GR_NO = elliderdata
-                          ?.filter((item) => item.PO_NO === PO_NO && item.ST_CODE === ST_CODE)
-                          .map((item) => {
+                          ?.filter(item => item.PO_NO === PO_NO && item.ST_CODE === ST_CODE)
+                          .map(item => {
                             return {
                               GR_NO: item.GR_NO,
                               IT_CODE: item.IT_CODE,
@@ -590,22 +592,22 @@ const CrfStoreProcessMain = () => {
                           .filter((value, index, self) => self.indexOf(value) === index)
                         return { PO_NO, ST_CODE, GR_NO }
                       })
-                    existCheck(posearch).then((val) => {
+                    existCheck(posearch).then(val => {
                       const { success, existdata } = val
                       if (success === 1) {
                         setOpen(false)
                         // update
                         const patchdata = finalData
-                          .filter((grn) =>
+                          .filter(grn =>
                             existdata?.find(
-                              (exist) =>
-                                exist.po_number === grn.PO_NO && exist.store_code === grn.ST_CODE,
-                            ),
+                              exist =>
+                                exist.po_number === grn.PO_NO && exist.store_code === grn.ST_CODE
+                            )
                           )
-                          .map((grn) => {
+                          .map(grn => {
                             const upadteArry = existdata.find(
-                              (exist) =>
-                                exist.po_number === grn.PO_NO && exist.store_code === grn.ST_CODE,
+                              exist =>
+                                exist.po_number === grn.PO_NO && exist.store_code === grn.ST_CODE
                             )
                             return {
                               grn_slno: upadteArry.grn_slno,
@@ -617,13 +619,13 @@ const CrfStoreProcessMain = () => {
                           })
                         const postdata = finalData
                           .filter(
-                            (grn) =>
+                            grn =>
                               !existdata.find(
-                                (exist) =>
-                                  exist.po_number === grn.PO_NO && exist.store_code === grn.ST_CODE,
-                              ),
+                                exist =>
+                                  exist.po_number === grn.PO_NO && exist.store_code === grn.ST_CODE
+                              )
                           )
-                          .map((grn) => ({
+                          .map(grn => ({
                             store_code: grn.ST_CODE,
                             po_number: grn.PO_NO,
                             grn_no: grn.GR_NO,
@@ -631,7 +633,7 @@ const CrfStoreProcessMain = () => {
                           }))
 
                         if (patchdata.length !== 0) {
-                          updateGrnDetails(patchdata).then((value) => {
+                          updateGrnDetails(patchdata).then(value => {
                             const { success } = value
                             if (success === 1) {
                               setOpen(false)
@@ -640,7 +642,7 @@ const CrfStoreProcessMain = () => {
                           })
                         }
                         if (postdata.length !== 0) {
-                          insertGrnDetails(postdata).then((val) => {
+                          insertGrnDetails(postdata).then(val => {
                             const { success } = val
                             if (success === 1) {
                               setOpen(false)
@@ -651,7 +653,7 @@ const CrfStoreProcessMain = () => {
                         succesNotify('Updated Successfully')
                       } else if (success === 2) {
                         // insert
-                        const postdata = finalData?.map((val) => {
+                        const postdata = finalData?.map(val => {
                           return {
                             store_code: val.ST_CODE,
                             po_number: val.PO_NO,
@@ -659,7 +661,7 @@ const CrfStoreProcessMain = () => {
                             create_user: id,
                           }
                         })
-                        insertGrnDetails(postdata).then((val) => {
+                        insertGrnDetails(postdata).then(val => {
                           const { success, message } = val
                           if (success === 1) {
                             setOpen(false)
@@ -689,7 +691,7 @@ const CrfStoreProcessMain = () => {
   }, [id, count])
 
   const handleCloseGrn = useCallback(() => {
-    setStoreState((prev) => ({
+    setStoreState(prev => ({
       ...prev,
       modalopen: false,
       modFlag: 0,
@@ -701,14 +703,14 @@ const CrfStoreProcessMain = () => {
     if (items.length !== 0) {
       setPoNumber(pos)
       setgrnDetailsView(items)
-      setStoreState((prev) => ({
+      setStoreState(prev => ({
         ...prev,
         modalopen: true,
         modFlag: 1,
       }))
     } else {
       setgrnDetailsView([])
-      setStoreState((prev) => ({
+      setStoreState(prev => ({
         ...prev,
         modalopen: false,
         modFlag: 0,
@@ -738,12 +740,12 @@ const CrfStoreProcessMain = () => {
   if (isCompLoading) return <p>Loading...</p>
   if (compError) return <p>Error Occurred.</p>
 
-  const capitalizeWords = (str) =>
+  const capitalizeWords = str =>
     str
       ? str
           .toLowerCase()
           .split(' ')
-          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
           .join(' ')
       : ''
   return (
@@ -785,7 +787,7 @@ const CrfStoreProcessMain = () => {
                 aria-labelledby="demo-row-radio-buttons-group-label"
                 name="row-radio-buttons-group"
                 value={radiovalue}
-                onChange={(e) => updateRadioClick(e)}
+                onChange={e => updateRadioClick(e)}
               >
                 <Badge
                   badgeContent={notReceiveCount}

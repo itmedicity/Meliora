@@ -34,14 +34,14 @@ const NSWiseMAppingMast = () => {
   const history = useNavigate()
   const { map_slno, map_status } = empMap
   const updatemapEmp = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setEmpMap({ ...empMap, [e.target.name]: value })
     },
-    [empMap],
+    [empMap]
   )
 
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
 
@@ -79,7 +79,7 @@ const NSWiseMAppingMast = () => {
     }
   }, [dept, sec, building, floor, nursfloor, map_status, empname, id, map_slno])
 
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const {
@@ -107,9 +107,9 @@ const NSWiseMAppingMast = () => {
   }, [])
 
   const Submitfunction = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const insertfun = async (postData) => {
+      const insertfun = async postData => {
         const result = await axioslogin.post('/weEmpMap/insertWeEmp', postData)
         const { message, success } = result.data
         if (success === 1) {
@@ -128,7 +128,7 @@ const NSWiseMAppingMast = () => {
           infoNotify(message)
         }
       }
-      const updatefun = async (patchdata) => {
+      const updatefun = async patchdata => {
         const result = await axioslogin.patch('/weEmpMap/update', patchdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -156,7 +156,7 @@ const NSWiseMAppingMast = () => {
         infoNotify('Please select all details')
       }
     },
-    [postData, patchdata, count, value, reset, nursfloor.length],
+    [postData, patchdata, count, value, reset, nursfloor.length]
   )
 
   const refreshWindow = useCallback(() => {

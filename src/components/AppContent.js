@@ -1,10 +1,11 @@
 import React, { Suspense, memo } from 'react'
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 
 // routes config
 import routes from '../routes'
 import BackDrop from 'src/views/Components/BackDrop'
 import { Box } from '@mui/material'
+import ErrorPage from 'src/NotFound/ErrorPage'
 
 const AppContent = () => {
   return (
@@ -15,7 +16,12 @@ const AppContent = () => {
             return route.component && <Route key={idx} path={route.path} element={route.element} />
           })} */}
           {routes.map((route, idx) => (
-            <Route key={idx} path={route.path} element={route.element} />
+            <Route
+              key={idx}
+              path={route.path}
+              element={route.element}
+              errorElement={<ErrorPage />}
+            />
           ))}
         </Routes>
       </Suspense>

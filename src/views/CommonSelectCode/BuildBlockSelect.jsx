@@ -6,7 +6,7 @@ import { getBuildingBlock } from 'src/redux/actions/BuildingBlockSelect.action'
 const BuildBlockSelect = ({ value, setValue }) => {
   const dispatch = useDispatch()
 
-  const buildingBlock = useSelector((state) => {
+  const buildingBlock = useSelector(state => {
     return state.getBuildingBlock.buildingBlockList || 0
   })
   useEffect(() => {
@@ -19,7 +19,7 @@ const BuildBlockSelect = ({ value, setValue }) => {
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={e => setValue(e.target.value)}
           size="small"
           fullWidth
           variant="outlined"

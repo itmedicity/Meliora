@@ -40,7 +40,7 @@ const ComplaintDashboard = ({ widgetName, count, status, slno }) => {
     history('/Home/ComplaintList')
   }
 
-  const DashboardClick = (slno) => {
+  const DashboardClick = slno => {
     return (
       (slno === 1 && TotalComplaintsDept()) ||
       (slno === 2 && PendingComplaintsDept()) ||
@@ -83,7 +83,7 @@ const ComplaintDashboard = ({ widgetName, count, status, slno }) => {
                 variant="outlined"
                 size="lg"
                 color="primary"
-                onClick={(e) => DashboardClick(slno)}
+                onClick={e => DashboardClick(slno)}
               >
                 {status === false ? <CircularProgress sx={{ color: 'pink' }} /> : count}
               </IconButton>

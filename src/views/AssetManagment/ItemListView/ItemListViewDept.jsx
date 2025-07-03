@@ -23,7 +23,7 @@ const ItemListViewDept = ({ assetSpare }) => {
   const [department, setDepartment] = useState(0)
   const [deptsec, setDeptSec] = useState(0)
   const [item, setItem] = useState(0)
-  const deptsecid = useSelector((state) => state.LoginUserData.empsecid, _.isEqual)
+  const deptsecid = useSelector(state => state.LoginUserData.empsecid, _.isEqual)
   const [count, setCount] = useState(0)
   const [detailArry, setDetailArry] = useState([])
   const [detailflag, setDetailflag] = useState(0)
@@ -50,7 +50,7 @@ const ItemListViewDept = ({ assetSpare }) => {
   }, [dispatch])
 
   const search = useCallback(() => {
-    const getdata = async (postdata) => {
+    const getdata = async postdata => {
       const result = await axioslogin.post(`/itemCreationDeptmap/getItemsFronList`, postdata)
       const { success, data } = result.data
       if (success === 1) {
@@ -62,10 +62,10 @@ const ItemListViewDept = ({ assetSpare }) => {
         setFlag(0)
       }
     }
-    const getdataSpareItem = async (postdataSpare) => {
+    const getdataSpareItem = async postdataSpare => {
       const result = await axioslogin.post(
         `/itemCreationDeptmap/getSpareItemsFronList`,
-        postdataSpare,
+        postdataSpare
       )
       const { success, data } = result.data
       if (success === 1) {
@@ -90,12 +90,12 @@ const ItemListViewDept = ({ assetSpare }) => {
 
   const [serialno, setSerailno] = useState('')
 
-  const updateSerialno = useCallback((e) => {
+  const updateSerialno = useCallback(e => {
     setSerailno(e.target.value)
   }, [])
 
   const SearchbySerialNo = useCallback(() => {
-    const getdataBySerailByAsset = async (postdata) => {
+    const getdataBySerailByAsset = async postdata => {
       const result = await axioslogin.post(`/itemCreationDeptmap/getDataBySerialNoAsset`, postdata)
       const { success, data } = result.data
       if (success === 1) {
@@ -108,7 +108,7 @@ const ItemListViewDept = ({ assetSpare }) => {
         setFlag(0)
       }
     }
-    const getdataBySerailSpare = async (postdata) => {
+    const getdataBySerailSpare = async postdata => {
       const result = await axioslogin.post(`/itemCreationDeptmap/getdataBySerailNoSpare`, postdata)
       const { success, data } = result.data
       if (success === 1) {
@@ -137,7 +137,7 @@ const ItemListViewDept = ({ assetSpare }) => {
     }
   }, [serialno, assetSpare, deptsecid])
 
-  const AddDetails = useCallback((params) => {
+  const AddDetails = useCallback(params => {
     const data = params.api.getSelectedRows()
     setDetailArry(data[0])
     setDetailflag(1)

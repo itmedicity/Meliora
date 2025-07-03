@@ -1,9 +1,7 @@
 import React from 'react'
 
 const LicenseDetails = () => {
-  return (
-    <div>LicenseDetails</div>
-  )
+  return <div>LicenseDetails</div>
 }
 
 export default LicenseDetails

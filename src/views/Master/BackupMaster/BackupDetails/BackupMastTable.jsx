@@ -9,7 +9,7 @@ const BackupMastTable = ({ count, EditBackup }) => {
   useEffect(() => {
     dispatch(getBackupDetails())
   }, [dispatch, count])
-  const backup = useSelector((state) => state?.getBackupDetails.backupList)
+  const backup = useSelector(state => state?.getBackupDetails.backupList)
   return (
     <Fragment>
       <Box sx={{ width: 2000, maxHeight: 420, overflow: 'auto' }}>
@@ -57,7 +57,7 @@ const BackupMastTable = ({ count, EditBackup }) => {
             </tr>
           </thead>
           <tbody size="small" style={{ height: 8 }}>
-            {backup.map((val) => (
+            {backup.map(val => (
               <tr key={val.backup_slno} style={{ height: 8 }} size="small">
                 <td size="sm" style={{ textAlign: 'center', fontSize: 13, height: 13 }}>
                   <Box>
@@ -71,7 +71,7 @@ const BackupMastTable = ({ count, EditBackup }) => {
                           boxShadow: 5,
                         },
                       }}
-                      onClick={(e) => EditBackup(val)}
+                      onClick={e => EditBackup(val)}
                     />
                   </Box>{' '}
                 </td>
@@ -79,12 +79,12 @@ const BackupMastTable = ({ count, EditBackup }) => {
                   {val.backup_type === 1
                     ? 'IIS Backup'
                     : val.backup_type === 2
-                      ? 'Database Backup'
-                      : val.backup_type === 3
-                        ? 'Share Folder Backup'
-                        : val.backup_type === 4
-                          ? 'Scanned File Backup'
-                          : 'Configuration Backup'}
+                    ? 'Database Backup'
+                    : val.backup_type === 3
+                    ? 'Share Folder Backup'
+                    : val.backup_type === 4
+                    ? 'Scanned File Backup'
+                    : 'Configuration Backup'}
                 </td>
                 <td size="sm" style={{ fontSize: 14, height: 13 }}>
                   {val.backup_type_name}

@@ -31,7 +31,7 @@ const InpatientTableView = ({
   const [tabFlag, setTabFlag] = useState(0)
   const history = useNavigate()
 
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state?.LoginUserData.empid
   })
   const backtoHome = useCallback(() => {
@@ -46,11 +46,11 @@ const InpatientTableView = ({
       to: format(new Date(dailyDate), 'yyyy-MM-dd 23:59:59'),
       qidept: qidept,
     }
-    const getDialysisData = async (viewdata) => {
+    const getDialysisData = async viewdata => {
       const result = await axioslogin.post('/qiInpatients/view', viewdata)
       return result.data
     }
-    getDialysisData(viewdata).then((val) => {
+    getDialysisData(viewdata).then(val => {
       const { success, data } = val
       if (success === 1) {
         setpatientlist(data)
@@ -62,13 +62,13 @@ const InpatientTableView = ({
   }, [dailyDate, count, setpatientlist, qidept])
 
   const RefreshData = useCallback(() => {
-    const RefreshPatients = async (setCount) => {
+    const RefreshPatients = async setCount => {
       await RefreshIpPatients(qidept, count, setCount, depCode, id, dailyDate)
     }
     RefreshPatients(setCount)
     setSearchPat('')
   }, [qidept, depCode, count, id, setCount, dailyDate])
-  const ChangePatient = useCallback((e) => {
+  const ChangePatient = useCallback(e => {
     setSearchPat(e.target.value)
   }, [])
 
@@ -79,11 +79,11 @@ const InpatientTableView = ({
       qidept: qidept,
       ptname: searchPat,
     }
-    const getSearchDetails = async (searchData) => {
+    const getSearchDetails = async searchData => {
       const result = await axioslogin.post('/qiInpatients/searchbyPatient', searchData)
       return result.data
     }
-    getSearchDetails(searchData).then((val) => {
+    getSearchDetails(searchData).then(val => {
       const { success, data } = val
       if (success === 1) {
         setpatientlist(data)
@@ -92,7 +92,7 @@ const InpatientTableView = ({
     })
   }, [dailyDate, searchPat, count, qidept])
 
-  const IndicatorsView = useCallback((val) => {
+  const IndicatorsView = useCallback(val => {
     setModalOpen(true)
     setrowSelect(val)
     setQiflag(1)
@@ -122,7 +122,7 @@ const InpatientTableView = ({
               {depName
                 .toLowerCase()
                 .split(' ')
-                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
                 .join(' ')}{' '}
               Inpatient&apos;s List
             </Typography>
@@ -359,7 +359,7 @@ const InpatientTableView = ({
                                       color: '#263238',
                                     },
                                   }}
-                                  onClick={(e) => IndicatorsView(val)}
+                                  onClick={e => IndicatorsView(val)}
                                 />
                               </Tooltip>
                             </CssVarsProvider>

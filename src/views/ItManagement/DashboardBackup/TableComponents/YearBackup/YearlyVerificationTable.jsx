@@ -27,7 +27,7 @@ const YearlyVerificationTable = ({ setYearflag }) => {
     setExcelflag(0)
   }, [history, setYearflag])
 
-  const empdept = useSelector((state) => {
+  const empdept = useSelector(state => {
     return state?.LoginUserData.empdept
   })
 
@@ -61,7 +61,7 @@ const YearlyVerificationTable = ({ setYearflag }) => {
   }, [postdata, fromdate, todate])
   const ExcelReportDetails = useCallback(() => {
     if (array.length !== 0) {
-      const NewData = array?.map((val) => {
+      const NewData = array?.map(val => {
         return {
           backup_yearly_date: moment(val.backup_yearly_date).format('YYYY'),
           backup_type: val.backup_type_name,
@@ -98,7 +98,7 @@ const YearlyVerificationTable = ({ setYearflag }) => {
                   <DatePicker
                     views={['year']}
                     value={fromdate}
-                    onChange={(newValue) => {
+                    onChange={newValue => {
                       setFromdate(newValue)
                     }}
                     renderInput={({ inputRef, inputProps, InputProps }) => (
@@ -125,7 +125,7 @@ const YearlyVerificationTable = ({ setYearflag }) => {
                   <DatePicker
                     views={['year']}
                     value={todate}
-                    onChange={(newValue) => {
+                    onChange={newValue => {
                       setTodate(newValue)
                     }}
                     renderInput={({ inputRef, inputProps, InputProps }) => (

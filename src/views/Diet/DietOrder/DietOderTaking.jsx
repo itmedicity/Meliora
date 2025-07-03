@@ -23,17 +23,17 @@ const DietOderTaking = () => {
   const [dietType, setDietType] = useState([])
   const [tabledis, setTabledis] = useState(0)
 
-  const updateDate = (e) => {
+  const updateDate = e => {
     setDate(e.target.value)
   }
 
   const clicksearch = useCallback(
-    (e) => {
+    e => {
       const postdata = {
         process_date: selectDate,
         rm_code: room,
       }
-      const gettypeDmenu = async (postdata) => {
+      const gettypeDmenu = async postdata => {
         const result = await axioslogin.post('/dietorder/getproslno/typeslno', postdata)
         const { message, success, data } = result.data
         if (success === 1) {
@@ -45,7 +45,7 @@ const DietOderTaking = () => {
       }
       gettypeDmenu(postdata)
     },
-    [selectDate, room],
+    [selectDate, room]
   )
 
   useEffect(() => {
@@ -55,12 +55,12 @@ const DietOderTaking = () => {
         let day = d.getDay()
         const typeslno =
           dietType &&
-          dietType.map((val) => {
+          dietType.map(val => {
             return val.type_slno
           })
         const dmenuslno =
           dietType &&
-          dietType.map((val) => {
+          dietType.map(val => {
             return val.dmenu_slno
           })
 
@@ -276,7 +276,7 @@ const DietOderTaking = () => {
         {tabledis !== 0 ? (
           <Fragment>
             {dietType &&
-              dietType.map((val) => {
+              dietType.map(val => {
                 return (
                   <Paper square elevation={3} sx={{ pt: 2, mt: 1 }} key={val.type_slno}>
                     <Box

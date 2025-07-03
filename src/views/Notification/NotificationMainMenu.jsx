@@ -17,7 +17,7 @@ const NotificationMainMenu = () => {
   const [value, setValue] = useState(0)
   const [count, setCount] = useState(0)
 
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   const [notification, setNotification] = useState({
@@ -30,11 +30,11 @@ const NotificationMainMenu = () => {
     notification
 
   const updateNotification = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setNotification({ ...notification, [e.target.name]: value })
     },
-    [notification],
+    [notification]
   )
   const reset = () => {
     const frmdata = {
@@ -65,9 +65,9 @@ const NotificationMainMenu = () => {
     }
   }, [notification_slno, notification_heading, notification_remarks, notification_status, id])
   const sumbitNotification = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const Insertnotification = async (postdata) => {
+      const Insertnotification = async postdata => {
         const result = await axioslogin.post('/notificationMenu/insert', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -80,7 +80,7 @@ const NotificationMainMenu = () => {
           infoNotify(message)
         }
       }
-      const notificationUpdate = async (patchdata) => {
+      const notificationUpdate = async patchdata => {
         const result = await axioslogin.patch('/notificationMenu/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -103,9 +103,9 @@ const NotificationMainMenu = () => {
         notificationUpdate(patchdata)
       }
     },
-    [postdata, value, patchdata, count, notification_heading, notification_remarks],
+    [postdata, value, patchdata, count, notification_heading, notification_remarks]
   )
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
 
     const data = params.api.getSelectedRows()

@@ -37,7 +37,7 @@ const InchargeApproval = () => {
     history('/Home')
   }, [history])
 
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state?.LoginUserData.empid
   })
   useEffect(() => {
@@ -58,7 +58,7 @@ const InchargeApproval = () => {
           start: startOfMonth(new Date(searchDate)),
           end: endOfMonth(new Date(searchDate)),
         })
-        const days = dayList?.map((val) => {
+        const days = dayList?.map(val => {
           return {
             day: format(new Date(val), 'dd-MM-yyyy'),
           }
@@ -68,25 +68,23 @@ const InchargeApproval = () => {
         }
         ViewReport(setviewData, setIpViewReport)
 
-        const getTestCount = async (searchDatas) => {
+        const getTestCount = async searchDatas => {
           const result = await axioslogin.post('/qiendoscopy/testCount', searchDatas)
           return result.data
         }
-        getTestCount(searchDatas).then((value) => {
+        getTestCount(searchDatas).then(value => {
           const { success, data } = value
           if (success === 1) {
             setTestCount(data)
             // for number of working days
-            const noEndos = days.filter((val) => {
-              return data.find(
-                (value) => format(new Date(value.endo_date), 'dd-MM-yyyy') === val.day,
-              )
+            const noEndos = days.filter(val => {
+              return data.find(value => format(new Date(value.endo_date), 'dd-MM-yyyy') === val.day)
             })
             setEndoDays(noEndos)
           }
         })
         // for taking equpimnent count
-        const getEquipment = async (qidept) => {
+        const getEquipment = async qidept => {
           const result = await axioslogin.get(`/equipMast/active/${qidept}`)
           const { success, data } = result.data
           if (success === 1) {
@@ -95,7 +93,7 @@ const InchargeApproval = () => {
         }
         getEquipment(qidept)
       } else if (qitype === 2) {
-        const ViewReport = async (setviewData) => {
+        const ViewReport = async setviewData => {
           await MonthlyReportEmer(searchDatas, setviewData, setsearchFlag)
         }
         ViewReport(setviewData)
@@ -147,7 +145,7 @@ const InchargeApproval = () => {
                 size="sm"
                 inputFormat="dd-MM-yyyy"
                 maxDate={new Date()}
-                onChange={(newValue) => {
+                onChange={newValue => {
                   setSearchDate(newValue)
                   setsearchFlag(0)
                 }}

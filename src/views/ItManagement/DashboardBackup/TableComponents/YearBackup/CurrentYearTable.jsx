@@ -28,7 +28,7 @@ const CurrentYearTable = ({ yeartabData, setYeartabflag, yearflag, count, setCou
     setYeartabflag(0)
   }, [history, setYeartabflag])
 
-  const empDept = useSelector((state) => {
+  const empDept = useSelector(state => {
     return state.LoginUserData.empdept
   })
 
@@ -42,7 +42,7 @@ const CurrentYearTable = ({ yeartabData, setYeartabflag, yearflag, count, setCou
   }, [setModalOpen])
 
   const VerificationClick = useCallback(
-    (val) => {
+    val => {
       if (val.verify_status === 1) {
         setView(val)
         setModalOpen(true)
@@ -64,7 +64,7 @@ const CurrentYearTable = ({ yeartabData, setYeartabflag, yearflag, count, setCou
         }
       }
     },
-    [setflag, yearflag],
+    [setflag, yearflag]
   )
   return (
     <Fragment>
@@ -213,7 +213,7 @@ const CurrentYearTable = ({ yeartabData, setYeartabflag, yearflag, count, setCou
                                   boxShadow: 10,
                                 },
                               }}
-                              onClick={(e) => VerificationClick(val)}
+                              onClick={e => VerificationClick(val)}
                             />
                           ) : (
                             <VerifiedIcon
@@ -226,7 +226,7 @@ const CurrentYearTable = ({ yeartabData, setYeartabflag, yearflag, count, setCou
                                   boxShadow: 10,
                                 },
                               }}
-                              onClick={(e) => VerificationClick(val)}
+                              onClick={e => VerificationClick(val)}
                             />
                           )}
                         </Box>

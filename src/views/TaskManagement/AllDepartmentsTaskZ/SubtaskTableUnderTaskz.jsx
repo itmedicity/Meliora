@@ -19,13 +19,13 @@ const SubtaskTableUnderTaskz = ({ tm_task_slno, selectForEditsSubTask, tableRend
   const [getarry, setgetarry] = useState([])
 
   useEffect(() => {
-    const getSubTask = async (tm_task_slno) => {
+    const getSubTask = async tm_task_slno => {
       const result = await axioslogin.get(`/taskManagement/subtaskviewByid/${tm_task_slno}`)
       const { success, data } = result.data
       if (success === 2) {
         const subtaskData =
           data &&
-          data.map((val) => {
+          data.map(val => {
             return {
               tm_task_slno: val.tm_task_slno,
               tm_task_name: val.tm_task_name,
@@ -43,16 +43,16 @@ const SubtaskTableUnderTaskz = ({ tm_task_slno, selectForEditsSubTask, tableRend
                 val.tm_task_status === 1
                   ? 'Completed'
                   : val.tm_task_status === 1
-                    ? 'Completed'
-                    : val.tm_task_status === 2
-                      ? 'On Progress'
-                      : val.tm_task_status === 3
-                        ? 'On Hold'
-                        : val.tm_task_status === 4
-                          ? 'Pending'
-                          : val.tm_task_status === 0
-                            ? 'Not Started'
-                            : 'Not Started',
+                  ? 'Completed'
+                  : val.tm_task_status === 2
+                  ? 'On Progress'
+                  : val.tm_task_status === 3
+                  ? 'On Hold'
+                  : val.tm_task_status === 4
+                  ? 'Pending'
+                  : val.tm_task_status === 0
+                  ? 'Not Started'
+                  : 'Not Started',
             }
           })
         setSubTask(subtaskData)
@@ -69,7 +69,7 @@ const SubtaskTableUnderTaskz = ({ tm_task_slno, selectForEditsSubTask, tableRend
     setImageUrls([])
   }, [setimageViewModalOpen, setImageUrls, setimage])
 
-  const fileView = async (val) => {
+  const fileView = async val => {
     const { tm_task_slno } = val
     setgetarry(val)
     setimage(0) // Initialize imageViewModalFlag to 0 initially
@@ -80,7 +80,7 @@ const SubtaskTableUnderTaskz = ({ tm_task_slno, selectForEditsSubTask, tableRend
       if (success === 1) {
         const data = result.data
         const fileNames = data.data
-        const fileUrls = fileNames.map((fileName) => {
+        const fileUrls = fileNames.map(fileName => {
           return `${PUBLIC_NAS_FOLDER}/TaskManagement/${tm_task_slno}/${fileName}`
         })
         setImageUrls(fileUrls)
@@ -191,16 +191,16 @@ const SubtaskTableUnderTaskz = ({ tm_task_slno, selectForEditsSubTask, tableRend
                                 val.tm_task_status === null
                                   ? 'darkred'
                                   : val.tm_task_status === 0
-                                    ? 'darkred'
-                                    : val.tm_task_status === 1
-                                      ? '#94C973'
-                                      : val.tm_task_status === 2
-                                        ? '#EFD593'
-                                        : val.tm_task_status === 3
-                                          ? '#67595E'
-                                          : val.tm_task_status === 4
-                                            ? '#5885AF'
-                                            : 'transparent',
+                                  ? 'darkred'
+                                  : val.tm_task_status === 1
+                                  ? '#94C973'
+                                  : val.tm_task_status === 2
+                                  ? '#EFD593'
+                                  : val.tm_task_status === 3
+                                  ? '#67595E'
+                                  : val.tm_task_status === 4
+                                  ? '#5885AF'
+                                  : 'transparent',
                             }}
                           >
                             {val.TaskStatus}

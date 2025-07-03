@@ -26,11 +26,11 @@ const RateListMast = () => {
   })
   const { drate_slno, hosp_rate, cant_rate, status } = ratelist
   const updateRatelist = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setRatelist({ ...ratelist, [e.target.name]: value })
     },
-    [ratelist],
+    [ratelist]
   )
   const postData = useMemo(() => {
     return {
@@ -42,7 +42,7 @@ const RateListMast = () => {
       status: status,
     }
   }, [hosp_rate, cant_rate, status, value1, value2, value3])
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setEdit(1)
     const data = params.api.getSelectedRows()
     const { drate_slno, diet_slno, rc_code, type_slno, hosp_rate, cant_rate, status } = data[0]
@@ -75,14 +75,14 @@ const RateListMast = () => {
     setValue3(0)
   }
   const submitRatelist = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
       const frmdata = {
         hosp_rate: '',
         cant_rate: '',
         status: false,
       }
-      const insertData = async (postData) => {
+      const insertData = async postData => {
         const result = await axioslogin.post(`/ratelist`, postData)
         const { success, message } = result.data
         if (success === 1) {
@@ -96,7 +96,7 @@ const RateListMast = () => {
           infoNotify(message)
         }
       }
-      const updateData = async (patchdata) => {
+      const updateData = async patchdata => {
         const result = await axioslogin.patch(`/ratelist`, patchdata)
         const { success, message } = result.data
         if (success === 1) {
@@ -117,7 +117,7 @@ const RateListMast = () => {
         updateData(patchdata)
       }
     },
-    [postData, edit, count, patchdata],
+    [postData, edit, count, patchdata]
   )
 
   //Close function

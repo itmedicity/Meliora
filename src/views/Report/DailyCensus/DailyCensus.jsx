@@ -48,12 +48,12 @@ const DailyCensus = () => {
   }, [dailyDateFrom, dailyDateTo])
 
   const SearchDetails = useCallback(
-    (e) => {
-      const GetCensusDetails = async (searchdata) => {
+    e => {
+      const GetCensusDetails = async searchdata => {
         const result = await axioslogin.post('/qidailycensus/viewReport', searchdata)
         return result.data
       }
-      GetCensusDetails(searchdata).then((value) => {
+      GetCensusDetails(searchdata).then(value => {
         const { data, success, message } = value
         console.log(data)
 
@@ -66,52 +66,52 @@ const DailyCensus = () => {
       })
       // })
     },
-    [searchdata],
+    [searchdata]
   )
 
   useEffect(() => {
     if (tableData.length !== 0) {
       const totyes = tableData
-        ?.map((val) => val.yesterday_census)
+        ?.map(val => val.yesterday_census)
         .reduce((prev, next) => Number(prev) + Number(next))
       const totad = tableData
-        ?.map((val) => val.total_admission)
+        ?.map(val => val.total_admission)
         .reduce((prev, next) => Number(prev) + Number(next))
       const totdis = tableData
-        ?.map((val) => val.total_discharge)
+        ?.map(val => val.total_discharge)
         .reduce((prev, next) => Number(prev) + Number(next))
       const totin = tableData
-        ?.map((val) => val.transfer_in)
+        ?.map(val => val.transfer_in)
         .reduce((prev, next) => Number(prev) + Number(next))
       const totout = tableData
-        ?.map((val) => val.transfer_out)
+        ?.map(val => val.transfer_out)
         .reduce((prev, next) => Number(prev) + Number(next))
       const totdeath = tableData
-        ?.map((val) => val.total_death)
+        ?.map(val => val.total_death)
         .reduce((prev, next) => Number(prev) + Number(next))
       const tot = tableData
-        ?.map((val) => val.census_total)
+        ?.map(val => val.census_total)
         .reduce((prev, next) => Number(prev) + Number(next))
       const oraadm = tableData
-        ?.map((val) => val.ora_admission)
+        ?.map(val => val.ora_admission)
         .reduce((prev, next) => Number(prev) + Number(next))
       const oradis = tableData
-        ?.map((val) => val.ora_discharge)
+        ?.map(val => val.ora_discharge)
         .reduce((prev, next) => Number(prev) + Number(next))
       const oradeath = tableData
-        ?.map((val) => val.ora_death)
+        ?.map(val => val.ora_death)
         .reduce((prev, next) => Number(prev) + Number(next))
       const oraTotalCount = tableData
-        ?.map((val) => val.ora_census_total)
+        ?.map(val => val.ora_census_total)
         .reduce((prev, next) => Number(prev) + Number(next))
       const oraYesterday = tableData
-        ?.map((val) => val.ora_yesterday)
+        ?.map(val => val.ora_yesterday)
         .reduce((prev, next) => Number(prev) + Number(next))
       const damatot = tableData
-        ?.map((val) => val.ora_dama)
+        ?.map(val => val.ora_dama)
         .reduce((prev, next) => Number(prev) + Number(next))
       const lamatot = tableData
-        ?.map((val) => val.ora_lama)
+        ?.map(val => val.ora_lama)
         .reduce((prev, next) => Number(prev) + Number(next))
       const fromdata = {
         totYesterday: totyes,
@@ -136,7 +136,7 @@ const DailyCensus = () => {
 
   const groupedMonthlyData = useMemo(() => {
     const group = {}
-    tableData?.forEach((item) => {
+    tableData?.forEach(item => {
       const dayKey = dayjs(item.census_date).format('YYYY-MM-DD')
 
       if (!group[dayKey]) {
@@ -329,7 +329,7 @@ const DailyCensus = () => {
               type="date"
               name="dailyDateFrom"
               value={dailyDateFrom}
-              onChange={(e) => setDailyDateFrom(e.target.value)}
+              onChange={e => setDailyDateFrom(e.target.value)}
             />
           </CssVarsProvider>
         </Box>
@@ -347,7 +347,7 @@ const DailyCensus = () => {
               type="date"
               name="dailyDateTo"
               value={dailyDateTo}
-              onChange={(e) => setDailyDateTo(e.target.value)}
+              onChange={e => setDailyDateTo(e.target.value)}
             />
           </CssVarsProvider>
         </Box>

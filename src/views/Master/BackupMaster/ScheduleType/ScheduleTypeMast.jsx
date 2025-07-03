@@ -17,7 +17,7 @@ const ScheduleTypeMast = () => {
   const backtoSetting = useCallback(() => {
     history('/Home/Settings')
   }, [history])
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state?.LoginUserData.empid
   })
   const [scheduleType, setScheduleType] = useState({
@@ -27,11 +27,11 @@ const ScheduleTypeMast = () => {
   })
   const { schedule_type_name, schedule_type_status, schedule_type_id } = scheduleType
   const updateScheduleType = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setScheduleType({ ...scheduleType, [e.target.name]: value })
     },
-    [scheduleType],
+    [scheduleType]
   )
   const postdata = useMemo(() => {
     return {
@@ -60,9 +60,9 @@ const ScheduleTypeMast = () => {
     }
   }, [schedule_type_id, schedule_type_name, schedule_type_status, id])
   const submitSheduleType = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const InsertType = async (postdata) => {
+      const InsertType = async postdata => {
         const result = await axioslogin.post('/scheduletype/insert', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -75,7 +75,7 @@ const ScheduleTypeMast = () => {
           infoNotify(message)
         }
       }
-      const updateType = async (patchdata) => {
+      const updateType = async patchdata => {
         const result = await axioslogin.patch('/scheduletype/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -94,9 +94,9 @@ const ScheduleTypeMast = () => {
         updateType(patchdata)
       }
     },
-    [postdata, count, patchdata, value],
+    [postdata, count, patchdata, value]
   )
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const { schedule_type_id, schedule_type_name, status } = data[0]

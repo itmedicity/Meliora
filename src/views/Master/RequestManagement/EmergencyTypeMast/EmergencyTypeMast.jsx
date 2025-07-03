@@ -16,7 +16,7 @@ const EmergencyTypeMast = () => {
   const [count, setCount] = useState(0)
   const history = useNavigate()
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   const [emergncyType, setemergncyType] = useState({
@@ -28,11 +28,11 @@ const EmergencyTypeMast = () => {
   const { emergncyType_slno, emergncyType_name, escalation_time, emergncyType_status } =
     emergncyType
   const updateemergncyType = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setemergncyType({ ...emergncyType, [e.target.name]: value })
     },
-    [emergncyType],
+    [emergncyType]
   )
   const postdata = useMemo(() => {
     return {
@@ -51,7 +51,7 @@ const EmergencyTypeMast = () => {
       edit_user: id,
     }
   }, [emergncyType_slno, emergncyType_name, escalation_time, emergncyType_status, id])
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const { emergency_slno, emer_type_name, emer_type_escalation, emer_type_status } = data[0]
@@ -76,9 +76,9 @@ const EmergencyTypeMast = () => {
   }, [setemergncyType, setCount, setValue])
 
   const submitEmergency = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const InsertemergncyType = async (postdata) => {
+      const InsertemergncyType = async postdata => {
         const result = await axioslogin.post('/crmEmergncyType/insert', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -91,7 +91,7 @@ const EmergencyTypeMast = () => {
           infoNotify(message)
         }
       }
-      const credentialemergncyType = async (patchdata) => {
+      const credentialemergncyType = async patchdata => {
         const result = await axioslogin.patch('/crmEmergncyType/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -114,7 +114,7 @@ const EmergencyTypeMast = () => {
         credentialemergncyType(patchdata)
       }
     },
-    [postdata, value, patchdata, reset, count, emergncyType_name],
+    [postdata, value, patchdata, reset, count, emergncyType_name]
   )
   const backtoSetting = useCallback(() => {
     history('/Home/Settings')

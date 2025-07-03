@@ -43,11 +43,11 @@ const WifiManageMentMains = () => {
   })
   const { patient, bystander, extra, disbleP, disbleB } = ipNumber
   const updateWifiManagement = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setipNumber({ ...ipNumber, [e.target.name]: value })
     },
-    [ipNumber],
+    [ipNumber]
   )
   const resetData = useCallback(() => {
     const frmdata = {
@@ -65,14 +65,14 @@ const WifiManageMentMains = () => {
   }, [])
 
   const onChangeIPnumber = useCallback(
-    (e) => {
+    e => {
       setIn_patient_no(e.target.value)
       resetData()
     },
-    [resetData],
+    [resetData]
   )
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   const patchdata = useMemo(() => {
@@ -98,15 +98,15 @@ const WifiManageMentMains = () => {
     getAlloteedWiFi()
   }, [dashChange])
   useEffect(() => {
-    const getExpiredWiFi = async (in_patient_no) => {
+    const getExpiredWiFi = async in_patient_no => {
       const result = await axioslogin.get(`/wifiManagement/expiredData/${in_patient_no}`)
       const { success, data } = result.data
       if (success === 1) {
         const newData = data?.filter(
           (value, index, self) =>
-            index === self.findIndex((item) => item.updated_date === value.updated_date),
+            index === self.findIndex(item => item.updated_date === value.updated_date)
         )
-        const getData = newData?.map((val) => {
+        const getData = newData?.map(val => {
           return {
             in_patient_no: val.in_patient_no,
             patient: val.patient,
@@ -126,7 +126,7 @@ const WifiManageMentMains = () => {
     }
   }, [in_patient_no, count])
   useEffect(() => {
-    const getUpdatedDate = async (in_patient_no) => {
+    const getUpdatedDate = async in_patient_no => {
       const result = await axioslogin.get(`/wifiManagement/getDate/${in_patient_no}`)
       const { success, data } = result.data
       if (success === 1) {
@@ -152,7 +152,7 @@ const WifiManageMentMains = () => {
         setDateOver(0)
       }
     }
-    const getdataMeliora = async (in_patient_no) => {
+    const getdataMeliora = async in_patient_no => {
       const result = await axioslogin.get(`/wifiManagement/viewbyid/${in_patient_no}`)
       const { success, data } = result.data
       if (success === 2) {
@@ -167,30 +167,30 @@ const WifiManageMentMains = () => {
   }, [in_patient_no, count, setAllowted])
 
   const searchIP = useCallback(() => {
-    const getdata = async (in_patient_no) => {
+    const getdata = async in_patient_no => {
       const result = await axiosellider.get(`/admission/getIpadmissChecks/${in_patient_no}`)
       return result.data
     }
-    const insertdata = async (postdata) => {
+    const insertdata = async postdata => {
       const result = await axioslogin.post('/wifiManagement/insert', postdata)
       return result.data
     }
 
-    const getdataMeliora = async (in_patient_no) => {
+    const getdataMeliora = async in_patient_no => {
       const result = await axioslogin.get(`/wifiManagement/viewbyid/${in_patient_no}`)
       return result.data
     }
 
     let pattern = /^[0-9]{10}$/
     if (pattern.test(in_patient_no) === true) {
-      getdata(in_patient_no).then((val) => {
+      getdata(in_patient_no).then(val => {
         const { success } = val
         if (success === 1) {
-          const getUpdatedDate = async (in_patient_no) => {
+          const getUpdatedDate = async in_patient_no => {
             const result = await axioslogin.get(`/wifiManagement/getDate/${in_patient_no}`)
             return result.data
           }
-          getUpdatedDate(in_patient_no).then((values) => {
+          getUpdatedDate(in_patient_no).then(values => {
             const { success, data } = values
             if (success === 1) {
               const { updated_date } = data[0]
@@ -222,7 +222,7 @@ const WifiManageMentMains = () => {
             extra: 0,
             create_user: id,
           }
-          getdataMeliora(in_patient_no).then((values) => {
+          getdataMeliora(in_patient_no).then(values => {
             const { success, data } = values
             if (success === 2) {
               const { ip_slno, in_patient_no, patient, bystander, extra } = data[0]
@@ -240,10 +240,10 @@ const WifiManageMentMains = () => {
               setSearchFlag(1)
             } else {
               setDateOver(0)
-              insertdata(postdata).then((values) => {
+              insertdata(postdata).then(values => {
                 const { success } = values
                 if (success === 1) {
-                  getdataMeliora(in_patient_no).then((values) => {
+                  getdataMeliora(in_patient_no).then(values => {
                     const { success, data } = values
                     if (success === 2) {
                       const { ip_slno, in_patient_no, patient, bystander, extra } = data[0]
@@ -274,7 +274,7 @@ const WifiManageMentMains = () => {
   }, [in_patient_no, id])
 
   const submitWifiManagement = useCallback(() => {
-    const UpdateWifiManagement = async (patchdata) => {
+    const UpdateWifiManagement = async patchdata => {
       const result = await axioslogin.patch('/wifiManagement/update', patchdata)
       const { message, success } = result.data
       if (success === 2) {
@@ -337,7 +337,7 @@ const WifiManageMentMains = () => {
 
   useEffect(() => {
     if (selectedRow.length !== 0) {
-      const arr = selectedRow?.map((val) => {
+      const arr = selectedRow?.map(val => {
         const obj = {
           in_patient_no: val.in_patient_no,
           patient: val.patient === 1 ? 'Issued' : 'Not Issued',
@@ -371,14 +371,14 @@ const WifiManageMentMains = () => {
   }, [setipNumber])
 
   const QrModelPateint = useCallback(
-    (val) => {
+    val => {
       const { in_patient_no } = val
 
       const checking = {
         it_wifi_ipno: in_patient_no,
         it_wifi_flg: 'P',
       }
-      const getdata = async (checking) => {
+      const getdata = async checking => {
         const result = await axioslogin.post(`/wifiManagement/checkCodeNdGet`, checking)
         const { success, data } = result.data
         if (success === 2) {
@@ -411,18 +411,18 @@ const WifiManageMentMains = () => {
       }
       getdata(checking)
     },
-    [setQrModelFlag, SetQrModelOpen, setDashChange, dashChange, count],
+    [setQrModelFlag, SetQrModelOpen, setDashChange, dashChange, count]
   )
 
   const QrModelByStander = useCallback(
-    (val) => {
+    val => {
       const { in_patient_no } = val
 
       const checking = {
         it_wifi_ipno: in_patient_no,
         it_wifi_flg: 'B',
       }
-      const getdata = async (checking) => {
+      const getdata = async checking => {
         const result = await axioslogin.post(`/wifiManagement/checkCodeNdGet`, checking)
         const { success, data } = result.data
         if (success === 2) {
@@ -455,16 +455,16 @@ const WifiManageMentMains = () => {
       }
       getdata(checking)
     },
-    [setQrModelFlag, SetQrModelOpen, setDashChange, dashChange, count],
+    [setQrModelFlag, SetQrModelOpen, setDashChange, dashChange, count]
   )
 
   const deletewifiCode = useCallback(
-    (val) => {
+    val => {
       const { in_patient_no } = val
       const ipno = {
         it_wifi_ipno: in_patient_no,
       }
-      const deleteCode = async (ipno) => {
+      const deleteCode = async ipno => {
         const result = await axioslogin.patch('/wifiManagement/delete', ipno)
         const { success, message } = result.data
         if (success === 1) {
@@ -478,7 +478,7 @@ const WifiManageMentMains = () => {
       }
       deleteCode(ipno)
     },
-    [count, resetData, searchIP],
+    [count, resetData, searchIP]
   )
 
   // const QrModelExtra = useCallback((val) => {
@@ -804,7 +804,7 @@ const WifiManageMentMains = () => {
                                     color: '#0d47a1',
                                   },
                                 }}
-                                onClick={(e) => deletewifiCode(val)}
+                                onClick={e => deletewifiCode(val)}
                               />
                             </Tooltip>
                           </CssVarsProvider>

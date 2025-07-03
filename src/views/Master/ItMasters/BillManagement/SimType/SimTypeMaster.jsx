@@ -15,7 +15,7 @@ const SimTypeMaster = () => {
   const [count, setCount] = useState(0)
   const history = useNavigate()
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   const [simType, setSimType] = useState({
@@ -25,11 +25,11 @@ const SimTypeMaster = () => {
   })
   const { it_sim_type_slno, it_sim_type_name, it_sim_type_status } = simType
   const updateSimType = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setSimType({ ...simType, [e.target.name]: value })
     },
-    [simType],
+    [simType]
   )
   const postdata = useMemo(() => {
     return {
@@ -46,7 +46,7 @@ const SimTypeMaster = () => {
       edit_user: id,
     }
   }, [it_sim_type_slno, it_sim_type_name, it_sim_type_status, id])
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const { it_sim_type_slno, it_sim_type_name, it_sim_type_status } = data[0]
@@ -68,10 +68,10 @@ const SimTypeMaster = () => {
     setValue(0)
   }
   const submitSimType = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
 
-      const InsertSimType = async (postdata) => {
+      const InsertSimType = async postdata => {
         const result = await axioslogin.post('/simType/insert', postdata)
 
         const { message, success } = result.data
@@ -85,7 +85,7 @@ const SimTypeMaster = () => {
           infoNotify(message)
         }
       }
-      const simTypeUpdate = async (patchdata) => {
+      const simTypeUpdate = async patchdata => {
         const result = await axioslogin.patch('/simType/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -109,7 +109,7 @@ const SimTypeMaster = () => {
         simTypeUpdate(patchdata)
       }
     },
-    [postdata, value, patchdata, count, it_sim_type_name],
+    [postdata, value, patchdata, count, it_sim_type_name]
   )
 
   const backtoSetting = useCallback(() => {

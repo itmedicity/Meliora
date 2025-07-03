@@ -82,17 +82,17 @@ const DirectComplaintReg = ({
   const [imageShowFlag, setImageShowFlag] = useState(0)
   const [locationDetails, setlocationDetails] = useState('')
 
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
 
   useEffect(() => {
-    getComplaintSlno().then((val) => {
+    getComplaintSlno().then(val => {
       setComplaint(val)
     })
   }, [count])
 
-  const logOut_time = useSelector((state) => {
+  const logOut_time = useSelector(state => {
     return state.LoginUserData.logOut
   })
 
@@ -115,7 +115,7 @@ const DirectComplaintReg = ({
     }
   }, [dispatch, codept])
   // getting redux data state
-  const state = useSelector((state) => {
+  const state = useSelector(state => {
     return {
       complaintdeptdata: state.getComplaintDept.complaintdeptList || 0,
       // requesttypedata: state.getRequesttype.requesttypeList || 0,
@@ -127,15 +127,15 @@ const DirectComplaintReg = ({
   const { complaintdeptdata, complainttype } = state
 
   //function for complaint description state updation
-  const complintdesc = useCallback((e) => {
+  const complintdesc = useCallback(e => {
     setdesc(e.target.value)
   }, [])
-  const updatePriorreason = useCallback((e) => {
+  const updatePriorreason = useCallback(e => {
     setPriorreason(e.target.value)
   }, [])
   /*** Priority seting Check box */
   //fn for critical state updation
-  const getCritical = useCallback((e) => {
+  const getCritical = useCallback(e => {
     if (e.target.checked === true) {
       setCritical(true)
       setpriority(1)
@@ -148,7 +148,7 @@ const DirectComplaintReg = ({
   //state for hic
   const [checkHic, setChechHic] = useState(false)
   //fn for hic state updation
-  const getHicCheck = useCallback((e) => {
+  const getHicCheck = useCallback(e => {
     if (e.target.checked === true) {
       setChechHic(true)
     } else {
@@ -157,15 +157,15 @@ const DirectComplaintReg = ({
   }, [])
 
   const handleFileChange = useCallback(
-    (e) => {
+    e => {
       const newFiles = [...selectFile]
       newFiles.push(e.target.files[0])
       setSelectFile(newFiles)
     },
-    [selectFile, setSelectFile],
+    [selectFile, setSelectFile]
   )
 
-  const handleImageUpload = useCallback(async (imageFile) => {
+  const handleImageUpload = useCallback(async imageFile => {
     const options = {
       maxSizeMB: 1,
       maxWidthOrHeight: 1920,
@@ -175,21 +175,21 @@ const DirectComplaintReg = ({
     return compressedFile
   }, [])
 
-  const handleRemoveFile = (index) => {
-    setSelectFile((prevFiles) => {
+  const handleRemoveFile = index => {
+    setSelectFile(prevFiles => {
       const updatedFiles = [...prevFiles]
       updatedFiles.splice(index, 1) // Remove the file at the specified index
       return updatedFiles
     })
   }
 
-  const LocationDetailz = useCallback((e) => {
+  const LocationDetailz = useCallback(e => {
     setlocationDetails(e.target.value)
   }, [])
 
   //Data set for edit
   const rowSelect = useCallback(
-    (val) => {
+    val => {
       setEdit(1)
       setSelect(1)
       setSearch(0)
@@ -219,7 +219,7 @@ const DirectComplaintReg = ({
       setcustodianDept(compl_dept)
       setlocationDetails(cm_complaint_location)
     },
-    [setDepsec],
+    [setDepsec]
   )
 
   const patchdata = useMemo(() => {
@@ -293,7 +293,7 @@ const DirectComplaintReg = ({
 
   useEffect(() => {
     if (edit === 1) {
-      const getAssetinComplaint = async (complaint_slno) => {
+      const getAssetinComplaint = async complaint_slno => {
         const result = await axioslogin.get(`/complaintreg/getAssetinComplaint/${complaint_slno}`)
         const { success, data } = result.data
         if (success === 2) {
@@ -309,7 +309,7 @@ const DirectComplaintReg = ({
 
   const updateAssetz =
     newlyAddedAssets &&
-    newlyAddedAssets.map((val) => {
+    newlyAddedAssets.map(val => {
       return {
         cm_complait_slno: complaint_slno,
         cm_am_assetmap_slno: val.item_asset_no_only,
@@ -322,7 +322,7 @@ const DirectComplaintReg = ({
 
   const assetinactive =
     deletedFiles &&
-    deletedFiles.map((val) => {
+    deletedFiles.map(val => {
       return {
         comasset_mapping_slno: val.comasset_mapping_slno,
         asset_status: 0,
@@ -358,7 +358,7 @@ const DirectComplaintReg = ({
   }, [setCount, setDepsec])
 
   const submitComplaint = useCallback(
-    async (e) => {
+    async e => {
       e.preventDefault()
       if (codept === null) {
         infoNotify('Please Select Complaint Department')
@@ -388,7 +388,7 @@ const DirectComplaintReg = ({
         infoNotify(
           <>
             Please click on &apos; <AddCircleIcon /> &apos; to add Asset details
-          </>,
+          </>
         )
         return
       }
@@ -397,31 +397,31 @@ const DirectComplaintReg = ({
         return
       }
       setOpen(true)
-      const InsertFun = async (postdata) => {
+      const InsertFun = async postdata => {
         const result = await axioslogin.post('/complaintreg', postdata)
         return result.data
       }
-      const InsertAsset = async (inserAsset) => {
+      const InsertAsset = async inserAsset => {
         const result = await axioslogin.post('/complaintreg/insertAssetArray', inserAsset)
         return result.data
       }
 
-      const updateAsset = async (updateAssetz) => {
+      const updateAsset = async updateAssetz => {
         const result = await axioslogin.post('/complaintreg/insertAssetArray', updateAssetz)
         return result.data
       }
 
-      const updateFun = async (patchdata) => {
+      const updateFun = async patchdata => {
         const result = await axioslogin.patch('/complaintreg', patchdata)
         return result.data
       }
 
-      const inactiveAsset = async (assetinactive) => {
+      const inactiveAsset = async assetinactive => {
         const result = await axioslogin.patch('/complaintreg/assetinactive', assetinactive)
         return result.data
       }
 
-      const deleteInsertedData = async (insertId) => {
+      const deleteInsertedData = async insertId => {
         const result = await axioslogin.delete(`/complaintreg/deleteTicket/${insertId}`)
         return result.data
       }
@@ -445,7 +445,7 @@ const DirectComplaintReg = ({
               headers: {
                 'Content-Type': 'multipart/form-data',
               },
-            },
+            }
           )
           return uploadResult.data
         } catch (error) {
@@ -561,7 +561,7 @@ const DirectComplaintReg = ({
           if (success === 1) {
             try {
               if (assetArray.length !== 0) {
-                const inserAsset = assetArray.map((val) => ({
+                const inserAsset = assetArray.map(val => ({
                   cm_complait_slno: insertId,
                   cm_am_assetmap_slno: val.item_asset_no_only,
                   cm_asset_dept: val.item_asset_no,
@@ -628,7 +628,7 @@ const DirectComplaintReg = ({
       setCount,
       verficationPending.length,
       empsecid,
-    ],
+    ]
   )
 
   const refreshWindow = useCallback(() => {
@@ -675,7 +675,7 @@ const DirectComplaintReg = ({
     }
   }, [dispatch, depsec])
 
-  const UpdateAssetNo = useCallback((e) => {
+  const UpdateAssetNo = useCallback(e => {
     setcm_am_assetmap_slno(e.target.value.toLocaleUpperCase())
     setAssetStatus(0)
   }, [])
@@ -700,7 +700,7 @@ const DirectComplaintReg = ({
   }, [isSuccess, custodianDetails])
 
   const searchAssetNo = useCallback(
-    (e) => {
+    e => {
       if (cm_am_assetmap_slno === '') {
         infoNotify('Please Enter Asset Number')
       } else {
@@ -711,7 +711,7 @@ const DirectComplaintReg = ({
           item_asset_no_only: asset_number,
         }
 
-        const getAssetdata = async (postdata) => {
+        const getAssetdata = async postdata => {
           const result = await axioslogin.post('/PasswordManagementMain/getAssetNo', postdata)
           const { data, success } = result.data
           if (data.length !== 0) {
@@ -723,7 +723,7 @@ const DirectComplaintReg = ({
                   data[0]
                 // Check if the asset already exists in the array
                 const assetExists = assetArray.some(
-                  (asset) => asset.item_asset_no_only === item_asset_no_only,
+                  asset => asset.item_asset_no_only === item_asset_no_only
                 )
                 if (assetExists) {
                   infoNotify('You already added this asset in complaint')
@@ -735,10 +735,10 @@ const DirectComplaintReg = ({
                     item_asset_no_only,
                     item_asset_no,
                   }
-                  setAssetArray((prevArray) => [...prevArray, newAsset])
+                  setAssetArray(prevArray => [...prevArray, newAsset])
                   // Condition to add to newly added assets only if edit is 1
                   if (edit === 1) {
-                    setNewlyAddedAssets((prevAssets) => [...prevAssets, newAsset])
+                    setNewlyAddedAssets(prevAssets => [...prevAssets, newAsset])
                   }
 
                   setcm_am_assetmap_slno('')
@@ -756,11 +756,11 @@ const DirectComplaintReg = ({
         setAssetStatus(1)
       }
     },
-    [cm_am_assetmap_slno, assetArray, custFirstName, edit, custSecName, depsec],
+    [cm_am_assetmap_slno, assetArray, custFirstName, edit, custSecName, depsec]
   )
 
   const searchAssetNoinMenu = useCallback(
-    (e) => {
+    e => {
       if (item_slno === 0) {
         infoNotify('Please select Asset')
       } else {
@@ -770,7 +770,7 @@ const DirectComplaintReg = ({
           item_asset_no_only: asset_number,
         }
 
-        const getAssetdata = async (postdata) => {
+        const getAssetdata = async postdata => {
           const result = await axioslogin.post('/PasswordManagementMain/getAssetNo', postdata)
           const { data, success } = result.data
           if (data.length !== 0) {
@@ -780,7 +780,7 @@ const DirectComplaintReg = ({
                 data[0]
               // Check if the asset already exists in the array
               const assetExists = assetArray.some(
-                (asset) => asset.item_asset_no_only === item_asset_no_only,
+                asset => asset.item_asset_no_only === item_asset_no_only
               )
               if (assetExists) {
                 infoNotify('You already added this asset in complaint')
@@ -792,10 +792,10 @@ const DirectComplaintReg = ({
                   item_asset_no_only,
                   item_asset_no,
                 }
-                setAssetArray((prevArray) => [...prevArray, newAsset])
+                setAssetArray(prevArray => [...prevArray, newAsset])
                 // Condition to add to newly added assets only if edit is 1
                 if (edit === 1) {
-                  setNewlyAddedAssets((prevAssets) => [...prevAssets, newAsset])
+                  setNewlyAddedAssets(prevAssets => [...prevAssets, newAsset])
                 }
                 setSelectedAsset(0)
               }
@@ -809,7 +809,7 @@ const DirectComplaintReg = ({
         setAssetStatus(1)
       }
     },
-    [item_slno, assetArray, asset_dept, edit],
+    [item_slno, assetArray, asset_dept, edit]
   )
 
   const ClearAssetSelection = () => {
@@ -819,7 +819,7 @@ const DirectComplaintReg = ({
 
   const [isSelect, setIsSelect] = useState(true)
   const handleToggle = () => {
-    setIsSelect((prev) => {
+    setIsSelect(prev => {
       const newValue = !prev
       if (newValue) {
         setSelect(1)
@@ -834,20 +834,20 @@ const DirectComplaintReg = ({
     })
   }
 
-  const handleDelete = (indexToDelete) => {
-    setAssetArray((prevArray) => {
+  const handleDelete = indexToDelete => {
+    setAssetArray(prevArray => {
       const itemToDelete = prevArray[indexToDelete]
       const updatedArray = prevArray.filter((_, index) => index !== indexToDelete)
 
       if (edit === 1) {
-        setDeletedFiles((prevDeletedFiles) => [...prevDeletedFiles, itemToDelete])
+        setDeletedFiles(prevDeletedFiles => [...prevDeletedFiles, itemToDelete])
       }
 
       return updatedArray
     })
   }
 
-  const ViewImage = useCallback((file) => {
+  const ViewImage = useCallback(file => {
     const fileType = file.url
       ? file.url.endsWith('.pdf')
         ? 'pdf'
@@ -906,7 +906,7 @@ const DirectComplaintReg = ({
 
               <Box sx={{ display: 'flex', flex: 1, p: 1 }}>
                 {complaintdeptdata &&
-                  complaintdeptdata.map((val) => {
+                  complaintdeptdata.map(val => {
                     return (
                       <Grid
                         item
@@ -948,7 +948,7 @@ const DirectComplaintReg = ({
                 <Box sx={{ display: 'flex', flex: 1, p: 1 }}>
                   <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                     {complainttype &&
-                      complainttype.map((val) => {
+                      complainttype.map(val => {
                         return (
                           <Grid
                             item

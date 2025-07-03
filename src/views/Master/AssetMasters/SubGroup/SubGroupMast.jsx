@@ -21,7 +21,7 @@ const SubGroupMast = () => {
   const [group, setGroup] = useState(0)
   const [selectFile, setSelectFile] = useState(null)
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   const [subGroup, setsubGroup] = useState({
@@ -31,11 +31,11 @@ const SubGroupMast = () => {
   })
   const { subgroup_slno, sub_group_name, sub_group_status } = subGroup
   const updateSubGroup = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setsubGroup({ ...subGroup, [e.target.name]: value })
     },
-    [subGroup],
+    [subGroup]
   )
   const reset = () => {
     const frmdata = {
@@ -66,7 +66,7 @@ const SubGroupMast = () => {
       edit_user: id,
     }
   }, [subgroup_slno, sub_group_name, group, sub_group_status, id])
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const { subgroup_slno, sub_group_name, sub_group_status, group_slno } = data[0]
@@ -79,7 +79,7 @@ const SubGroupMast = () => {
     setsubGroup(frmdata)
     setGroup(group_slno)
   }, [])
-  const uploadFile = async (event) => {
+  const uploadFile = async event => {
     const file = event.target.files[0]
     setSelectFile(file)
     const options = {
@@ -90,13 +90,13 @@ const SubGroupMast = () => {
     setSelectFile(compressedFile)
   }
   const submitGroup = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const InsertGroup = async (postdata) => {
+      const InsertGroup = async postdata => {
         const result = await axioslogin.post('/subgroup/insert', postdata)
         return result.data
       }
-      const SubGroupUpdate = async (patchdata) => {
+      const SubGroupUpdate = async patchdata => {
         const result = await axioslogin.patch('/subgroup/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -109,7 +109,7 @@ const SubGroupMast = () => {
           infoNotify(message)
         }
       }
-      const FileInsert = async (fileData) => {
+      const FileInsert = async fileData => {
         const result = await axioslogin.post('/fileupload/uploadFile/SubGroup', fileData)
         const { message, success } = result.data
         if (success === 1) {
@@ -122,7 +122,7 @@ const SubGroupMast = () => {
       }
       if (value === 0) {
         if (sub_group_name !== '' && group !== 0) {
-          InsertGroup(postdata).then((val) => {
+          InsertGroup(postdata).then(val => {
             const { message, success, insertid } = val
             if (success === 1) {
               if (selectFile !== null) {
@@ -151,7 +151,7 @@ const SubGroupMast = () => {
         SubGroupUpdate(patchdata)
       }
     },
-    [postdata, value, patchdata, count, selectFile, sub_group_name, group],
+    [postdata, value, patchdata, count, selectFile, sub_group_name, group]
   )
   const backtoSetting = useCallback(() => {
     history('/Home/Settings')

@@ -35,7 +35,7 @@ const CEOApproval = () => {
   const [cooData, setCOOdata] = useState([])
   const [ndrfData, setNdrfData] = useState([])
 
-  const updateNdrf = useCallback((e) => {
+  const updateNdrf = useCallback(e => {
     if (e.target.checked === true) {
       setNdrf(true)
       setRequest(false)
@@ -46,7 +46,7 @@ const CEOApproval = () => {
       setReqNdrf(0)
     }
   }, [])
-  const updateRequest = useCallback((e) => {
+  const updateRequest = useCallback(e => {
     if (e.target.checked === true) {
       setRequest(true)
       setNdrf(false)
@@ -63,18 +63,18 @@ const CEOApproval = () => {
     dispatch(getNdrfList())
   }, [dispatch, count, reqNdrf])
 
-  const tabledata = useSelector((state) => {
+  const tabledata = useSelector(state => {
     return state.setReqApprovOthers.ReqApprovOthersList
   })
 
-  const ndrftable = useSelector((state) => {
+  const ndrftable = useSelector(state => {
     return state.setNdrfList.NdrfListdata
   })
   useEffect(() => {
     if (tabledata.length !== 0) {
       const COOPending =
-        tabledata && tabledata.filter((val) => val.req_status !== 'C' && val.rm_ndrf === 0)
-      const datas = COOPending.map((val) => {
+        tabledata && tabledata.filter(val => val.req_status !== 'C' && val.rm_ndrf === 0)
+      const datas = COOPending.map(val => {
         const obj = {
           req_slno: val.req_slno,
           actual_requirement:
@@ -258,8 +258,8 @@ const CEOApproval = () => {
       setCOOdata(datas)
     }
     if (ndrftable.length !== 0) {
-      const COOPending = ndrftable && ndrftable.filter((val) => val.ndrf_cao_approve === null)
-      const datas = COOPending.map((val) => {
+      const COOPending = ndrftable && ndrftable.filter(val => val.ndrf_cao_approve === null)
+      const datas = COOPending.map(val => {
         const obj = {
           ndrf_mast_slno: val.ndrf_mast_slno,
           req_slno: val.req_slno,
@@ -520,7 +520,7 @@ const CEOApproval = () => {
     {
       headerName: 'Action',
       minWidth: 100,
-      cellRenderer: (params) => {
+      cellRenderer: params => {
         if (params.data.crf_close === 1) {
           return (
             <IconButton onClick={() => CloseReason(params)} sx={{ color: editicon, paddingY: 0.5 }}>
@@ -564,7 +564,7 @@ const CEOApproval = () => {
     {
       headerName: 'NDRF',
       minWidth: 50,
-      cellRenderer: (params) => {
+      cellRenderer: params => {
         if (params.data.cao_approve === 1 && params.data.ed_approve_req === 0) {
           return (
             <IconButton onClick={() => ndrfconvert(params)} sx={{ color: editicon, paddingY: 0.5 }}>
@@ -647,7 +647,7 @@ const CEOApproval = () => {
     {
       headerName: 'Action',
       minWidth: 100,
-      cellRenderer: (params) => {
+      cellRenderer: params => {
         if (params.data.ndrf_ed_approve !== null || params.data.ndrf_md_approve !== null) {
           return (
             <IconButton
@@ -758,49 +758,49 @@ const CEOApproval = () => {
   const [NdrfDetlModalFlag, setNdrfDetlModalFlag] = useState(0)
   const [NdrfDetlModalData, setNdrfDetlModalData] = useState([])
 
-  const OMApproval = useCallback((params) => {
+  const OMApproval = useCallback(params => {
     const data = params.api.getSelectedRows()
     setCOOApproveData(data)
     setCOOapprovModall(true)
     setCOOApproveModalFlag(1)
   }, [])
 
-  const MessageSend = useCallback((params) => {
+  const MessageSend = useCallback(params => {
     const data = params.api.getSelectedRows()
     setmsgSendData(data)
     setMsgSendModal(true)
     setmsgSendModalFlag(1)
   }, [])
 
-  const CloseReason = useCallback((params) => {
+  const CloseReason = useCallback(params => {
     const data = params.api.getSelectedRows()
     setCloseModal(true)
     setCloseModalFlag(1)
     setCloseData(data)
   }, [])
 
-  const HigherDone = useCallback((params) => {
+  const HigherDone = useCallback(params => {
     const data = params.api.getSelectedRows()
     setHigherModal(true)
     setHigherModalFlag(1)
     setHigherData(data)
   }, [])
 
-  const ndrfconvert = useCallback((params) => {
+  const ndrfconvert = useCallback(params => {
     const data = params.api.getSelectedRows()
     setCOONdrfModal(true)
     setCOONdrfModalFlag(1)
     setCOONdrfModalData(data)
   }, [])
 
-  const ndrfSelect = useCallback((params) => {
+  const ndrfSelect = useCallback(params => {
     const data = params.api.getSelectedRows()
     setCOONdrfAppModal(true)
     setCOONdrfAppModalData(data)
     setCOONdrfAppModalFlag(1)
   }, [])
 
-  const ndrfApovDetal = useCallback((params) => {
+  const ndrfApovDetal = useCallback(params => {
     const data = params.api.getSelectedRows()
     setNdrfDetlModal(true)
     setNdrfDetlModalFlag(1)
@@ -811,7 +811,7 @@ const CEOApproval = () => {
     history('/Home')
   }, [history])
 
-  const getRowStyle = (params) => {
+  const getRowStyle = params => {
     if (params.data.req_status === 'R') {
       return { background: '#81d4fa' }
     } else if (params.data.req_status === 'P') {

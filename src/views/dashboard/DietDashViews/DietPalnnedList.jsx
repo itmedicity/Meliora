@@ -15,7 +15,7 @@ const DietPalnnedList = () => {
     dispatch(getDietPlanned())
   }, [dispatch])
 
-  const dietPlannedList = useSelector((state) => {
+  const dietPlannedList = useSelector(state => {
     return state.setDietPlaned.plannedList
   })
 

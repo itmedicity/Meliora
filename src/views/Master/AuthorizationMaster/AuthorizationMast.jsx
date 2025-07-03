@@ -20,7 +20,7 @@ const AuthorizationMast = () => {
   const [hod, sethod] = useState(false)
   const [post, setPost] = useState(0)
 
-  const updateIncharge = (e) => {
+  const updateIncharge = e => {
     if (e.target.checked === true) {
       setIncharge(true)
       sethod(false)
@@ -31,7 +31,7 @@ const AuthorizationMast = () => {
       setPost(0)
     }
   }
-  const updateHod = (e) => {
+  const updateHod = e => {
     if (e.target.checked === true) {
       sethod(true)
       setIncharge(false)
@@ -44,7 +44,7 @@ const AuthorizationMast = () => {
   }
 
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
 
@@ -69,8 +69,8 @@ const AuthorizationMast = () => {
   }, [])
 
   const submit = useCallback(
-    (e) => {
-      const InsertAuthorization = async (postData) => {
+    e => {
+      const InsertAuthorization = async postData => {
         const result = await axioslogin.post('/InchHODAuthorization', postData)
         const { message, success } = result.data
         if (success === 1) {
@@ -89,7 +89,7 @@ const AuthorizationMast = () => {
         warningNotify('Please Check any post before save')
       }
     },
-    [post, postData, reset, count, setCount],
+    [post, postData, reset, count, setCount]
   )
 
   //close button function
@@ -102,7 +102,7 @@ const AuthorizationMast = () => {
   }, [reset])
 
   const rowSelect = useCallback(
-    (params) => {
+    params => {
       const data = params.api.getSelectedRows()
       const { authorization_slno } = data[0]
 
@@ -111,7 +111,7 @@ const AuthorizationMast = () => {
         delete_user: id,
       }
 
-      const UpdateAuthorization = async (patchdata) => {
+      const UpdateAuthorization = async patchdata => {
         const result = await axioslogin.patch('/InchHODAuthorization', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -126,7 +126,7 @@ const AuthorizationMast = () => {
       }
       UpdateAuthorization(patchdata)
     },
-    [id, count, setCount, reset],
+    [id, count, setCount, reset]
   )
 
   return (

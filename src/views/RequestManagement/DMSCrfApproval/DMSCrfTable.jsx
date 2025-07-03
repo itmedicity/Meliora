@@ -1,6 +1,6 @@
 import { Box } from '@mui/material'
 import React, { useCallback, memo, useState, useEffect, Fragment } from 'react'
-import { useHistory, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import CusAgGridForMain from 'src/views/Components/CusAgGridForMain'
 import CardCloseOnly from 'src/views/Components/CardCloseOnly'
@@ -29,7 +29,7 @@ const DMSCrfTable = () => {
     dispatch(getReqApprovDMS())
   }, [dispatch, count])
 
-  const tabledata = useSelector((state) => {
+  const tabledata = useSelector(state => {
     return state.setReqApprovDMS.ReqApprovDMSList
   })
 
@@ -37,8 +37,8 @@ const DMSCrfTable = () => {
 
   useEffect(() => {
     if (tabledata.length !== 0) {
-      const DMSPending = tabledata && tabledata.filter((val) => val.dms_approve === null)
-      const datas = DMSPending.map((val) => {
+      const DMSPending = tabledata && tabledata.filter(val => val.dms_approve === null)
+      const datas = DMSPending.map(val => {
         const obj = {
           req_slno: val.req_slno,
           actual_requirement:
@@ -224,7 +224,7 @@ const DMSCrfTable = () => {
     {
       headerName: 'Action',
       minWidth: 150,
-      cellRenderer: (params) => {
+      cellRenderer: params => {
         if (params.data.crf_close === 1) {
           return (
             <IconButton onClick={() => CloseReason(params)} sx={{ color: editicon, paddingY: 0.5 }}>
@@ -338,28 +338,28 @@ const DMSCrfTable = () => {
   const [HigherModalFlag, setHigherModalFlag] = useState(0)
   const [HigherData, setHigherData] = useState([])
 
-  const DMSApproval = useCallback((params) => {
+  const DMSApproval = useCallback(params => {
     const data = params.api.getSelectedRows()
     setdmsApproveData(data)
     setDmsapprovModall(true)
     setdmsApproveModalFlag(1)
   }, [])
 
-  const MessageSend = useCallback((params) => {
+  const MessageSend = useCallback(params => {
     const data = params.api.getSelectedRows()
     setmsgSendData(data)
     setMsgSendModal(true)
     setmsgSendModalFlag(1)
   }, [])
 
-  const CloseReason = useCallback((params) => {
+  const CloseReason = useCallback(params => {
     const data = params.api.getSelectedRows()
     setCloseModal(true)
     setCloseModalFlag(1)
     setCloseData(data)
   }, [])
 
-  const HigherDone = useCallback((params) => {
+  const HigherDone = useCallback(params => {
     const data = params.api.getSelectedRows()
     setHigherModal(true)
     setHigherModalFlag(1)
@@ -369,7 +369,7 @@ const DMSCrfTable = () => {
   const backtoSetting = useCallback(() => {
     history('/Home')
   }, [history])
-  const getRowStyle = (params) => {
+  const getRowStyle = params => {
     if (params.data.req_status === 'R') {
       return { background: '#81d4fa' }
     } else if (params.data.req_status === 'P') {

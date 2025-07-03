@@ -31,13 +31,13 @@ const InitialAssessmentTimeReport = () => {
   const backtoHome = useCallback(() => {
     history('/Home')
   }, [history])
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state?.LoginUserData.empid
   })
   useEffect(() => {
     dispatch(getQltyDept(id))
   }, [dispatch, id])
-  const OnchangeDate = useCallback((newValue) => {
+  const OnchangeDate = useCallback(newValue => {
     setSearchDate(newValue)
     setsearchFlag(0)
   }, [])
@@ -51,11 +51,11 @@ const InitialAssessmentTimeReport = () => {
         to: format(endOfMonth(new Date(searchDate)), 'yyyy-MM-dd 23:59:59'),
         dpt: qidept,
       }
-      const getOpData = async (searchOPDatas) => {
+      const getOpData = async searchOPDatas => {
         const result = await axioslogin.post('/InitialAsessment/view', searchOPDatas)
         return result.data
       }
-      getOpData(searchOPDatas).then((val) => {
+      getOpData(searchOPDatas).then(val => {
         const { success, data, message } = val
         if (success === 1) {
           setviewData(data)
@@ -146,7 +146,7 @@ const InitialAssessmentTimeReport = () => {
                       size="sm"
                       inputFormat="MMM-yyyy"
                       maxDate={new Date()}
-                      onChange={(e) => OnchangeDate(e)}
+                      onChange={e => OnchangeDate(e)}
                       renderInput={({ inputRef, inputProps, InputProps }) => (
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
                           <CssVarsProvider>

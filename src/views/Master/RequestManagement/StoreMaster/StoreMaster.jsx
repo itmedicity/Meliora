@@ -23,7 +23,7 @@ const StoreMaster = () => {
   const [count, setCount] = useState(0)
   const history = useNavigate()
   const [UpdateFlag, setUpdateFlag] = useState(0)
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     // setValue(1)
     const data = params.api.getSelectedRows()
     const { store, sub_store, emid, department, dp_section } = data[0]
@@ -38,7 +38,7 @@ const StoreMaster = () => {
     setUpdateFlag(1)
   }, [])
   const submitStore = useCallback(
-    async (val) => {
+    async val => {
       if (dept === 0) {
         warningNotify('Select Department')
       } else {
@@ -70,7 +70,7 @@ const StoreMaster = () => {
         }
       }
     },
-    [subStoreList, deptsec, empname, dept, crsstore, UpdateFlag],
+    [subStoreList, deptsec, empname, dept, crsstore, UpdateFlag]
   )
 
   const refreshWindow = useCallback(() => {

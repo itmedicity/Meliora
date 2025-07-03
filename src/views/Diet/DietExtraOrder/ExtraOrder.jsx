@@ -46,11 +46,11 @@ const ExtraOrder = () => {
   const { process_date, pt_no, ptc_ptname } = order
   const [process, setProcess] = useState('')
   const updateOrder = useCallback(
-    (e) => {
+    e => {
       const value = e.target.value
       setOrder({ ...order, [e.target.name]: value })
     },
-    [order],
+    [order]
   )
 
   const post = useMemo(() => {
@@ -220,15 +220,15 @@ const ExtraOrder = () => {
   const handleClose = () => {
     setOpen(false)
   }
-  const submitExtraorder = useCallback((e) => {
+  const submitExtraorder = useCallback(e => {
     setOpen(true)
   }, [])
 
   const submitDiettype = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
       /***    * insert function for extra order detail table    */
-      const InsertExtra = async (extraOrder) => {
+      const InsertExtra = async extraOrder => {
         const result = await axioslogin.post('/extraorder/insertextra', extraOrder)
         const { message, success } = result.data
         if (success === 1) {
@@ -243,7 +243,7 @@ const ExtraOrder = () => {
       }
 
       /***    * insert function for use call back     */
-      const InsertFunc = async (Insert) => {
+      const InsertFunc = async Insert => {
         if (process === '') {
           infoNotify('Please Choose the Room')
         } else {
@@ -252,7 +252,7 @@ const ExtraOrder = () => {
           if (success === 1) {
             const extraOrder =
               newfood &&
-              newfood.map((val) => {
+              newfood.map(val => {
                 return {
                   prod_slno: insertId,
                   item_slno: val.item_slno,
@@ -271,13 +271,13 @@ const ExtraOrder = () => {
         }
       }
       /** Extra order update function */
-      const UpdateFunc = async (update) => {
+      const UpdateFunc = async update => {
         const result = await axioslogin.patch('/extraorder/updateExta', update)
         const { message, success } = result.data
         if (success === 1) {
           const extraOrder =
             newfood &&
-            newfood.map((val) => {
+            newfood.map(val => {
               return {
                 prod_slno: procsdetl_slno,
                 item_slno: val.item_slno,
@@ -302,13 +302,13 @@ const ExtraOrder = () => {
         UpdateFunc(update)
       }
     },
-    [Insert, process, newfood, checkAction, refreshWindow, update, procsdetl_slno],
+    [Insert, process, newfood, checkAction, refreshWindow, update, procsdetl_slno]
   )
   /** Extra order list view button function */
-  const dietExtraViews = useCallback((params) => {
+  const dietExtraViews = useCallback(params => {
     setDisview(0)
     setCheckaction(1)
-    const getItemArry = async (prod_slno) => {
+    const getItemArry = async prod_slno => {
       const result = await axioslogin.get(`/extraorder/getExtraOrderDetail/${prod_slno}`)
       const { success, data } = result.data
       if (success === 1) {
@@ -351,7 +351,7 @@ const ExtraOrder = () => {
   const [editCount, setEditCount] = useState(0)
   const [editArry, setEditArry] = useState([])
   // in item list edit icon taken button functon
-  const editdatas = useCallback((value) => {
+  const editdatas = useCallback(value => {
     const { item_slno, count } = value
     setEditArry(value)
     setItem(item_slno)
@@ -364,7 +364,7 @@ const ExtraOrder = () => {
   const setForUpdate = useCallback(() => {
     if (Count !== editCount && Count !== 1) {
       const { item_slno, rate_hos, rate_cant, item_name, type_slno } = editArry
-      const newarry = newfood.filter((val) => {
+      const newarry = newfood.filter(val => {
         return val.item_slno !== item_slno
       })
       const newdata = {
@@ -736,7 +736,7 @@ const ExtraOrder = () => {
                       size="sm"
                       name="Count"
                       value={Count}
-                      onchange={(e) => {
+                      onchange={e => {
                         setCount(e.target.value)
                       }}
                     />

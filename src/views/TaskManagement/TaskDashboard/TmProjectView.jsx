@@ -20,13 +20,13 @@ const TmProjectView = ({ setprjFlag, projectHead, ProjTable, tableCount, setTabl
     setprjFlag(0)
   }, [history, setprjFlag])
 
-  const rowSelectModal = useCallback((value) => {
+  const rowSelectModal = useCallback(value => {
     setEditProjectFlag(1)
     setEditProjectModalOpen(true)
     setMasterData(value)
   }, [])
 
-  const isPastDue = (tm_task_due_date) => {
+  const isPastDue = tm_task_due_date => {
     const today = new Date()
     const due = new Date(tm_task_due_date)
     return due < today
