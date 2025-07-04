@@ -1,6 +1,5 @@
 import React, { Fragment, memo, } from 'react'
 // import { ToastContainer } from 'react-toastify';
-import { ToastContainer } from 'react-toastify'
 import { Paper } from '@mui/material'
 import {
   Box,
@@ -47,8 +46,6 @@ const HigherLevelApprovalView = ({
   approveTableData,
   poDetails,
   imagearray,
-  ViewRemark,
-  setDetailViewModal,
   datacolData,
   selectedCompany,
   company,

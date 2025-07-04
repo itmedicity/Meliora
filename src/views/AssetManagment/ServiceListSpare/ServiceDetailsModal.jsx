@@ -123,8 +123,8 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
     spare_asset_no_only !== undefined
       ? spare_asset_no_only
       : item_asset_no_only !== undefined
-      ? item_asset_no_only
-      : 0
+        ? item_asset_no_only
+        : 0
   const ItemPrefix =
     spare_asset_no !== undefined ? spare_asset_no : item_asset_no !== undefined ? item_asset_no : 0
   const id = useSelector(state => {
@@ -1785,7 +1785,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
   )
 
   const AddNewSpare = useCallback(
-    e => {
+    () => {
       if (sparez === 0) {
         infoNotify('Please select Spare')
       } else {
@@ -1829,7 +1829,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
 
   const [sparecount, setsparecount] = useState(0)
   const AddNewSpareUnderAsset = useCallback(
-    e => {
+    () => {
       const SparedetailInsert = async SparepostData => {
         const result = await axioslogin.post(`/ItemMapDetails/SpareDetailsInsert`, SparepostData)
         const { message, success } = result.data
@@ -1974,8 +1974,8 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
         ? 'pdf'
         : 'image'
       : file.type && file.type.includes('application/pdf')
-      ? 'image'
-      : 'pdf'
+        ? 'image'
+        : 'pdf'
 
     const fileUrl = file.url || URL.createObjectURL(file)
     setPreviewFile({ url: fileUrl, type: fileType })
@@ -1997,8 +1997,8 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
         ? 'pdf'
         : 'image'
       : file.type.includes('application/pdf')
-      ? 'pdf'
-      : 'image'
+        ? 'pdf'
+        : 'image'
 
     const fileUrl = file.url || URL.createObjectURL(file)
     setPreviewFile({ url: fileUrl, type: fileType })
@@ -2397,9 +2397,9 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                     <td style={{ textAlign: 'center' }}>
                                       {val.serviced_date
                                         ? format(
-                                            new Date(val.serviced_date),
-                                            'dd MMM yyyy,  hh:mm a'
-                                          )
+                                          new Date(val.serviced_date),
+                                          'dd MMM yyyy,  hh:mm a'
+                                        )
                                         : 'Invalid Date'}
                                     </td>
                                     <td style={{ textAlign: 'center' }}>

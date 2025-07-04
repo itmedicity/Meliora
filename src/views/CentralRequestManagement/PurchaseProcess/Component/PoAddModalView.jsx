@@ -403,7 +403,7 @@ const PoAddModalView = ({
                                         color: '#DC4731',
                                       },
                                     }}
-                                    onClick={e => DeleteItems(val)}
+                                    onClick={() => DeleteItems(val)}
                                   />
                                 </Tooltip>
                               </CssVarsProvider>

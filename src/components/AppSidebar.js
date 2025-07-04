@@ -570,7 +570,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
           {/* <ModalClose /> */}
           <Divider sx={{ mt: 'auto', bgcolor: 'var(--royal-purple-400)' }} />
           <DialogContent sx={{ gap: 2 }} >
-             <Box
+            <Box
               sx={{
                 position: 'absolute',
                 top: '50%',
@@ -648,7 +648,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
               <IconButton
                 variant="outlined"
                 sx={{ color: 'var(--rose-pink-400)' }}
-                onClick={() => {}}
+                onClick={() => { }}
               >
                 <VscSignOut size={20} />
               </IconButton>

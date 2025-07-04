@@ -291,7 +291,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
       )}
 
       <Box sx={{ p: 0.5, mb: 0.8 }}>
-        {assistReq?.map((val, index) => {
+        {assistReq?.map((val,) => {
           return (
             <Box
               key={val.complaint_slno}
@@ -453,11 +453,9 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                     <Typography sx={{ fontSize: 13, flex: 1 }}>
                       {val.rm_room_name}
                       {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name
-                        ? ` (${val.rm_roomtype_name || ''}${
-                            val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
-                          }${val.rm_insidebuildblock_name || ''}${
-                            val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
-                          }${val.rm_floor_name || ''})`
+                        ? ` (${val.rm_roomtype_name || ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
+                        }${val.rm_insidebuildblock_name || ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
+                        }${val.rm_floor_name || ''})`
                         : val.cm_complaint_location || 'Not Updated'}
                     </Typography>
                   </Box>
@@ -540,7 +538,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
           </div>
         ) : (
           <>
-            {allPendingCompl?.map((val, index) => {
+            {allPendingCompl?.map((val,) => {
               const getBadgeColor = (pending, accepted, rejected) => {
                 if (pending > 0) return '#0458AB'
                 if (pending === 0 && accepted > 0) return 'green'
@@ -942,11 +940,9 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                         <Typography sx={{ fontSize: 13, flex: 1 }}>
                           {val.rm_room_name}
                           {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name
-                            ? ` (${val.rm_roomtype_name || ''}${
-                                val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
-                              }${val.rm_insidebuildblock_name || ''}${
-                                val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
-                              }${val.rm_floor_name || ''})`
+                            ? ` (${val.rm_roomtype_name || ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
+                            }${val.rm_insidebuildblock_name || ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
+                            }${val.rm_floor_name || ''})`
                             : val.cm_complaint_location || 'Not Updated'}
                         </Typography>
                       </Box>

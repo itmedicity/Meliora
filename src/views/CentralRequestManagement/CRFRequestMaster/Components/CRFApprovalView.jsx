@@ -40,7 +40,6 @@ const CRFApprovalView = ({
   poDetails,
   reqItems,
   approveTableData,
-  selectedCompany,
   company,
 }) => {
   const {
@@ -94,12 +93,12 @@ const CRFApprovalView = ({
   const capitalizeWords = str =>
     str
       ? str
-          .toLowerCase()
-          .trim()
-          .replace(/\s+/g, ' ')
-          .split(' ')
-          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(' ')
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, ' ')
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
       : ''
 
   return (
@@ -340,10 +339,10 @@ const CRFApprovalView = ({
                               {approval_level === 1
                                 ? 'Purchase Dpt Approved'
                                 : approval_level === 2
-                                ? 'Purchase Department Approved, Purchase Manager Approved'
-                                : approval_level === 3
-                                ? 'Purchase Department Approved, Purchase Manager Approved, Directors Approved'
-                                : null}{' '}
+                                  ? 'Purchase Department Approved, Purchase Manager Approved'
+                                  : approval_level === 3
+                                    ? 'Purchase Department Approved, Purchase Manager Approved, Directors Approved'
+                                    : null}{' '}
                             </Typography>
                           </Box>
                         </Box>

@@ -48,7 +48,6 @@ const CommentView = ({
   approveTableData,
   poDetails,
   imagearray,
-  ViewRemark,
   setDetailViewModal,
   datacolData,
   selectedCompany,

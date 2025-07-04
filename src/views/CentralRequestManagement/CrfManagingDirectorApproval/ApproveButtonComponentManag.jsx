@@ -50,7 +50,6 @@ const ApproveButtonComponentManag = ({
   crfRadioValue,
   radiovalue,
   selectedCompany,
-  companyData,
 }) => {
   const {
     higher,
@@ -468,7 +467,7 @@ const ApproveButtonComponentManag = ({
   }
   return (
     <Fragment>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       {imageshowFlag === 1 ? (
         <ImageDisplayModal open={imageshow} handleClose={handleClose} images={imagearray} />
       ) : null}

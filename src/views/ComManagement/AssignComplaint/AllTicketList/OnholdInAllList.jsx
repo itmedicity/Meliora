@@ -192,7 +192,7 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
 
       {onholdCompl.length !== 0 ? (
         <Box sx={{ p: 0.1, mb: 0.8 }}>
-          {onholdCompl?.map((val, index) => {
+          {onholdCompl?.map((val,) => {
             return (
               <Box
                 key={val.complaint_slno}
@@ -347,12 +347,12 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
                       {val.compalint_priority === 1
                         ? 'Emergency'
                         : val.compalint_priority === 2
-                        ? 'High Priority'
-                        : val.compalint_priority === 3
-                        ? 'Medium Priority'
-                        : val.compalint_priority === 4
-                        ? 'Normal'
-                        : 'Normal'}
+                          ? 'High Priority'
+                          : val.compalint_priority === 3
+                            ? 'Medium Priority'
+                            : val.compalint_priority === 4
+                              ? 'Normal'
+                              : 'Normal'}
                     </Chip>
                     <Typography
                       sx={{ color: 'black', pt: 0.2, fontWeight: 500, fontSize: 13, ml: 3 }}
@@ -560,11 +560,9 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
                                                     : "Not Updated"} */}
                         {val.rm_room_name}
                         {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name
-                          ? ` (${val.rm_roomtype_name || ''}${
-                              val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
-                            }${val.rm_insidebuildblock_name || ''}${
-                              val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
-                            }${val.rm_floor_name || ''})`
+                          ? ` (${val.rm_roomtype_name || ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
+                          }${val.rm_insidebuildblock_name || ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
+                          }${val.rm_floor_name || ''})`
                           : val.cm_complaint_location || 'Not Updated'}
                       </Typography>
                     </Box>
