@@ -104,7 +104,7 @@ export const CensusReportPdfView = async (tableData, dailyDate, calculateTotal) 
           ],
         },
         layout: {
-          fillColor: function (rowIndex, node, columnIndex) {
+          fillColor: function (rowIndex,) {
             return rowIndex % 2 === 0 ? '#bdbdbd' : null
           },
         },

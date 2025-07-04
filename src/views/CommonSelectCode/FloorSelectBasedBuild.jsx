@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import MenuItem from '@mui/material/MenuItem'
 import { getFloorBasedOnBuild } from 'src/redux/actions/FloorSelectBAsedBuild.action'
 
-const FloorSelectBasedBuild = ({ value, setValue, buildno, setName, insertdata }) => {
+const FloorSelectBasedBuild = ({ value, setValue, setName, insertdata }) => {
   const dispatch = useDispatch()
   const FloorData = useSelector(state => {
     return state.getFloorBasedOnBuild.FloorBasedOnBuildList || 0

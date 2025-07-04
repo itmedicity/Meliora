@@ -64,7 +64,7 @@ const ProcedureTableSave = ({ ProcedureArray, setProcedureArray }) => {
                               color: '#DC4731',
                             },
                           }}
-                          onClick={e => DeleteProcedures(val)}
+                          onClick={() => DeleteProcedures(val)}
                         />
                       </Tooltip>
                     </CssVarsProvider>

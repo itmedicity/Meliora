@@ -72,10 +72,10 @@ const TeleMain = ({ billCount, setbillCount }) => {
     const currentQuarter = isAfter(new Date(), startOfOct)
       ? `${currentYear}-10-01`
       : isAfter(new Date(), startOfJul)
-      ? `${currentYear}-07-01`
-      : isAfter(new Date(), startOfApr)
-      ? `${currentYear}-04-01`
-      : `${currentYear}-01-01`
+        ? `${currentYear}-07-01`
+        : isAfter(new Date(), startOfApr)
+          ? `${currentYear}-04-01`
+          : `${currentYear}-01-01`
     const currentYearz = format(new Date(startOfYear(new Date())), 'yyyy-MM-dd')
 
     //getMonthlyTarrif to get all monthly tariff bills from the bill add table
@@ -154,7 +154,7 @@ const TeleMain = ({ billCount, setbillCount }) => {
                 create_user: id,
               }
             })
-            insertMonthlyData(insertData).then(val => {
+            insertMonthlyData(insertData).then(() => {
               getUnpaidBillsTeleMonthly()
             })
           } else if (success === 2) {
@@ -169,7 +169,7 @@ const TeleMain = ({ billCount, setbillCount }) => {
                   create_user: id,
                 }
               })
-              insertMonthlyData(insertData).then(val => {
+              insertMonthlyData(insertData).then(() => {
                 getUnpaidBillsTeleMonthly()
               })
             }
@@ -190,7 +190,7 @@ const TeleMain = ({ billCount, setbillCount }) => {
                 create_user: id,
               }
             })
-            insertDataQuarter(insertQuarterData).then(val => {
+            insertDataQuarter(insertQuarterData).then(() => {
               getUnpaidBillsTeleQuarter()
             })
           } else if (success === 2) {
@@ -205,7 +205,7 @@ const TeleMain = ({ billCount, setbillCount }) => {
                   create_user: id,
                 }
               })
-              insertDataQuarter(insertQuarterData).then(val => {
+              insertDataQuarter(insertQuarterData).then(() => {
                 getUnpaidBillsTeleQuarter()
               })
             }
@@ -226,7 +226,7 @@ const TeleMain = ({ billCount, setbillCount }) => {
                 create_user: id,
               }
             })
-            insertYearlyData(insertYearData).then(val => {
+            insertYearlyData(insertYearData).then(() => {
               getUnpaidBillsTeleYear()
             })
           } else if (success === 2) {
@@ -241,7 +241,7 @@ const TeleMain = ({ billCount, setbillCount }) => {
                   create_user: id,
                 }
               })
-              insertYearlyData(insertYearData).then(val => {
+              insertYearlyData(insertYearData).then(() => {
                 getUnpaidBillsTeleYear()
               })
             }

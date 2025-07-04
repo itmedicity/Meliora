@@ -128,7 +128,7 @@ const CrfCommonMaster = () => {
 
   // submit data
   const submitComapnyName = useCallback(
-    async val => {
+    async () => {
       const postData = {
         companyslno: companyslno,
         Hod_approval: Hod_approval,

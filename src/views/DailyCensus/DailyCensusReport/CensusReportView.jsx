@@ -76,7 +76,7 @@ const CensusReportView = () => {
     getNursingStation()
   }, [])
   const SearchDetails = useCallback(
-    e => {
+    () => {
       const nsSlno = nursList?.map(val => val.census_ns_slno)
       const getYesterday = {
         census_ns_slno: nsSlno,
@@ -204,7 +204,7 @@ const CensusReportView = () => {
   }, [tableData])
 
   const pdfDownlloadView = useCallback(
-    e => {
+    () => {
       if (tableData.length !== 0) {
         CensusReportPdfView(tableData, dailyDate, calculateTotal)
       } else {

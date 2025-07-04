@@ -7,7 +7,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import { cardActionBgClr } from 'src/color/Color';
 import { Box, Card, CardActions, CardContent, ThemeProvider } from '@mui/joy';
 
-const CardMastComplaint = ({ children, title, close, submit, refresh, contentStyle }) => {
+const CardMastComplaint = ({ children, submit, refresh, contentStyle }) => {
   return (
     <Fragment>
       <ThemeProvider theme={theme}>

@@ -25,7 +25,7 @@ const AssetListUnderDeptSec = ({ cm_location, cmAssetSlno, setCmAssetSlno }) => 
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={cmAssetSlno}
-          onChange={(e, val) => {
+          onChange={(e,) => {
             setCmAssetSlno(e.target.value)
             // setSpareNo(val.props.children.join(" "))
           }}

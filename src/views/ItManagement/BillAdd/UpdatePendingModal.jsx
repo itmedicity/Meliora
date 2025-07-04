@@ -254,7 +254,7 @@ const UpdatePendingModal = ({
   }, [])
 
   const searchAssetNo = useCallback(
-    e => {
+    () => {
       if (pswd_mast_asset_no === '') {
         infoNotify('Please Enter Asset Number')
       } else {
@@ -685,10 +685,10 @@ const UpdatePendingModal = ({
                     {bill_tariff === 1
                       ? 'Monthly'
                       : bill_tariff === 2
-                      ? 'Quarterly'
-                      : bill_tariff === 3
-                      ? 'Yearly'
-                      : 'others'}
+                        ? 'Quarterly'
+                        : bill_tariff === 3
+                          ? 'Yearly'
+                          : 'others'}
                   </Box>
                 </Box>
                 <Box sx={{ flex: 1, mt: 0.5, ml: 2, fontWeight: 600, display: 'flex' }}>
@@ -700,7 +700,7 @@ const UpdatePendingModal = ({
                   <Box sx={{ flex: 4.5 }}>{bill_name}</Box>
                 </Box>
                 {it_sim_type_name !== null &&
-                (bill_tariff === 1 || bill_tariff === 2 || bill_tariff === 3) ? (
+                  (bill_tariff === 1 || bill_tariff === 2 || bill_tariff === 3) ? (
                   <Box sx={{ flex: 1, mt: 0.5, ml: 2, fontWeight: 600, display: 'flex' }}>
                     <Box sx={{ flex: 1 }}>
                       <SimCardIcon sx={{ pb: 0.5, fontSize: 20 }} />
@@ -720,7 +720,7 @@ const UpdatePendingModal = ({
                   }}
                 >
                   {billType === 3 &&
-                  (bill_tariff !== 1 || bill_tariff !== 2 || bill_tariff !== 3) ? (
+                    (bill_tariff !== 1 || bill_tariff !== 2 || bill_tariff !== 3) ? (
                     <Box>
                       <Paper
                         sx={{

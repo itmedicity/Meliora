@@ -679,7 +679,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
   }, [isSuccess, custodianDetails])
 
   const searchAssetNo = useCallback(
-    e => {
+    () => {
       if (cm_am_assetmap_slno === '') {
         infoNotify('Please Enter Asset Number')
       } else {
@@ -736,7 +736,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
   )
 
   const searchAssetNoinMenu = useCallback(
-    e => {
+    () => {
       if (item_slno === 0) {
         infoNotify('Please select Asset')
       } else {

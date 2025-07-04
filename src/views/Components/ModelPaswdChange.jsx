@@ -44,10 +44,10 @@ const ModelPaswdChange = ({ open, handleClose }) => {
   const handleMouseDownPassword = event => {
     event.preventDefault()
   }
-  const handleClickShowConfmPassword = useCallback(e => {
+  const handleClickShowConfmPassword = useCallback(() => {
     setConfmShowPassword(true)
   }, [])
-  const handleClickShowPassword = useCallback(e => {
+  const handleClickShowPassword = useCallback(() => {
     setShowPassword(true)
   }, [])
 

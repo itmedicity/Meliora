@@ -192,7 +192,7 @@ const DayWisePatientsListTable = ({ viewData, ipViewReport, qitype }) => {
                                   color: '#384910',
                                 },
                               }}
-                              onClick={e => IndicatorsView(val)}
+                              onClick={() => IndicatorsView(val)}
                             />
                           </Tooltip>
                         </CssVarsProvider>

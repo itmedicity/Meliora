@@ -222,7 +222,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
   }
 
   const searchAssetNo = useCallback(
-    e => {
+    () => {
       if (pswd_mast_asset_no === '') {
         infoNotify('Please Enter Asset Number')
       } else {

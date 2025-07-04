@@ -33,7 +33,7 @@ const DashboardMaster = () => {
   }, [])
 
   const submitDashBoard = useCallback(
-    async val => {
+    async () => {
       if (dept === 0) {
         warningNotify('Select Department')
       } else {

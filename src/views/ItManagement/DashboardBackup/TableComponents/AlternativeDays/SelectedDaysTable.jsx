@@ -212,7 +212,7 @@ const SelectedDaysTable = ({ alternativedata, daysflag, setAltflag, count, setCo
                                       boxShadow: 10,
                                     },
                                   }}
-                                  onClick={e => VerificationClick(val)}
+                                  onClick={() => VerificationClick(val)}
                                 />
                               ) : (
                                 <VerifiedIcon
@@ -225,7 +225,7 @@ const SelectedDaysTable = ({ alternativedata, daysflag, setAltflag, count, setCo
                                       boxShadow: 10,
                                     },
                                   }}
-                                  onClick={e => VerificationClick(val)}
+                                  onClick={() => VerificationClick(val)}
                                 />
                               )}
                             </Box>
@@ -253,8 +253,8 @@ const SelectedDaysTable = ({ alternativedata, daysflag, setAltflag, count, setCo
                             {val.verify_status === 1
                               ? 'Successfull'
                               : val.verify_status === 2
-                              ? 'Not Successfull'
-                              : 'Not Updated'}
+                                ? 'Not Successfull'
+                                : 'Not Updated'}
                           </td>
                         ) : null}
                         {daysflag === 3 ? (

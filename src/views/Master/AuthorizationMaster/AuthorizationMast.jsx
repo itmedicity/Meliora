@@ -69,7 +69,7 @@ const AuthorizationMast = () => {
   }, [])
 
   const submit = useCallback(
-    e => {
+    () => {
       const InsertAuthorization = async postData => {
         const result = await axioslogin.post('/InchHODAuthorization', postData)
         const { message, success } = result.data

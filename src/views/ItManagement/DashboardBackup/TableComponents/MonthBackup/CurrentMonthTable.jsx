@@ -212,7 +212,7 @@ const CurrentMonthTable = ({ monthtabdata, setMonthtabflag, monthflag, count, se
                                   boxShadow: 10,
                                 },
                               }}
-                              onClick={e => VerificationClick(val)}
+                              onClick={() => VerificationClick(val)}
                             />
                           ) : (
                             <VerifiedIcon
@@ -225,7 +225,7 @@ const CurrentMonthTable = ({ monthtabdata, setMonthtabflag, monthflag, count, se
                                   boxShadow: 10,
                                 },
                               }}
-                              onClick={e => VerificationClick(val)}
+                              onClick={() => VerificationClick(val)}
                             />
                           )}
                         </Box>
@@ -236,12 +236,12 @@ const CurrentMonthTable = ({ monthtabdata, setMonthtabflag, monthflag, count, se
                         {val.backup_type === 1
                           ? 'IIS Backup'
                           : val.backup_type === 2
-                          ? 'Database Backup'
-                          : val.backup_type === 3
-                          ? 'Share Folder Backup'
-                          : val.backup_type === 4
-                          ? 'Scanned File Backup'
-                          : 'Configuration Backup'}
+                            ? 'Database Backup'
+                            : val.backup_type === 3
+                              ? 'Share Folder Backup'
+                              : val.backup_type === 4
+                                ? 'Scanned File Backup'
+                                : 'Configuration Backup'}
                       </td>
                       <td>{val.backup_type_name}</td>
                       <td>{val.backup_name}</td>
@@ -262,8 +262,8 @@ const CurrentMonthTable = ({ monthtabdata, setMonthtabflag, monthflag, count, se
                           {val.verify_status === 1
                             ? 'Successfull'
                             : val.verify_status === 2
-                            ? 'Not Successfull'
-                            : 'Not Updated'}
+                              ? 'Not Successfull'
+                              : 'Not Updated'}
                         </td>
                       ) : null}
                       {monthflag === 3 ? (

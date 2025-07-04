@@ -38,7 +38,7 @@ const StoreMaster = () => {
     setUpdateFlag(1)
   }, [])
   const submitStore = useCallback(
-    async val => {
+    async () => {
       if (dept === 0) {
         warningNotify('Select Department')
       } else {

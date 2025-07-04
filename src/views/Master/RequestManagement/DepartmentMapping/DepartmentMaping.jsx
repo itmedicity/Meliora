@@ -31,7 +31,7 @@ const DepartmentMaping = () => {
 
   // submit data
   const submit = useCallback(
-    async val => {
+    async () => {
       const postData = {
         dept: crfdept,
         crfdeptKmc: crfdeptKmc,

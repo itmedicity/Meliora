@@ -735,11 +735,11 @@ const WifiManageMentMains = () => {
                   return (
                     <tr
                       key={index}
-                      // sx={{
-                      //   '&:last-child td, &:last-child th': { border: 0 },
-                      //   maxHeight: 50,
-                      //   minHeight: 5,
-                      // }}
+                    // sx={{
+                    //   '&:last-child td, &:last-child th': { border: 0 },
+                    //   maxHeight: 50,
+                    //   minHeight: 5,
+                    // }}
                     >
                       <td style={{ textAlign: 'center', width: 150 }}> {val.in_patient_no}</td>
                       {dateOver === 1 ? (
@@ -804,7 +804,7 @@ const WifiManageMentMains = () => {
                                     color: '#0d47a1',
                                   },
                                 }}
-                                onClick={e => deletewifiCode(val)}
+                                onClick={() => deletewifiCode(val)}
                               />
                             </Tooltip>
                           </CssVarsProvider>
@@ -854,11 +854,11 @@ const WifiManageMentMains = () => {
                     return (
                       <tr
                         key={index}
-                        // sx={{
-                        //   '&:last-child td, &:last-child th': { border: 0 },
-                        //   maxHeight: 50,
-                        //   minHeight: 5,
-                        // }}
+                      // sx={{
+                      //   '&:last-child td, &:last-child th': { border: 0 },
+                      //   maxHeight: 50,
+                      //   minHeight: 5,
+                      // }}
                       >
                         <td style={{ textAlign: 'center', width: 150 }}> {val.in_patient_no}</td>
                         <td style={{ textAlign: 'center', width: 100, cursor: 'pointer' }}>

@@ -40,7 +40,7 @@ const NursingStationsFeedback = () => {
     setnsName(census_ns_name)
   }, [])
 
-  const FeedbackDetails = useCallback((index, val) => {
+  const FeedbackDetails = useCallback(() => {
     // setformFlag(1)
     // setptDetails(val)
     // setRegFormFlag(4)

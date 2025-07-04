@@ -207,7 +207,7 @@ const DayCountTable = ({ dayTabledata, dayflag, setDaytabflag, count, setCount }
                                     boxShadow: 10,
                                   },
                                 }}
-                                onClick={e => VerificationClick(val)}
+                                onClick={() => VerificationClick(val)}
                               />
                             ) : (
                               <VerifiedIcon
@@ -220,7 +220,7 @@ const DayCountTable = ({ dayTabledata, dayflag, setDaytabflag, count, setCount }
                                     boxShadow: 10,
                                   },
                                 }}
-                                onClick={e => VerificationClick(val)}
+                                onClick={() => VerificationClick(val)}
                               />
                             )}
                           </Box>
@@ -247,8 +247,8 @@ const DayCountTable = ({ dayTabledata, dayflag, setDaytabflag, count, setCount }
                             {val.verify_status === 1
                               ? 'Successfull'
                               : val.verify_status === 2
-                              ? 'Not Successfull'
-                              : 'Not Updated'}
+                                ? 'Not Successfull'
+                                : 'Not Updated'}
                           </td>
                         ) : null}
                         {dayflag === 3 ? (

@@ -24,7 +24,7 @@ import { useDispatch } from 'react-redux'
 //     return <Slide direction="left" ref={ref} {...props} />;
 // });
 
-const HallbookingReg = ({ open, setOpen, setModal }) => {
+const HallbookingReg = () => {
   const dispatch = useDispatch()
   //redux for geting login id
   const id = useSelector(state => {

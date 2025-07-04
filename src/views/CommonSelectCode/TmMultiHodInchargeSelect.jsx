@@ -2,7 +2,7 @@ import { Autocomplete } from '@mui/joy'
 import React, { memo } from 'react'
 import { useSelector } from 'react-redux'
 
-const TmMultiHodInchargeSelect = ({ value, setValue }) => {
+const TmMultiHodInchargeSelect = ({ setValue }) => {
   const HodInchargeList = useSelector(state => state.getMultHodInCharge?.HodInchargeList)
 
   const handleChange = (event, value) => {

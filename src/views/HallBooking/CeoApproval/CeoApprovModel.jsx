@@ -17,7 +17,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="left" ref={ref} {...props} />
 })
 
-const CEOApprovalModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCount }) => {
+const CEOApprovalModel = ({ open, setOpen, datas, count, setCount }) => {
   const [ceodate, setceodate] = useState('')
   const [remark, setRemark] = useState('')
   const updateRemark = useCallback(e => {

@@ -150,7 +150,7 @@ const ModalForDailyCensusEntry = ({
     census_slno,
   ])
   const SaveDetails = useCallback(
-    e => {
+    () => {
       if (total < 0) {
         infoNotify('Total No.Of Patients Not Lessthan zero')
       } else {

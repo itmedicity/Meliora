@@ -46,7 +46,7 @@ const ExtraOrderTable = ({
           </TableHead>
           <TableBody>
             {newfood &&
-              newfood.map((val, index) => {
+              newfood.map((val,) => {
                 return (
                   <TableRow
                     key={val.item_slno}

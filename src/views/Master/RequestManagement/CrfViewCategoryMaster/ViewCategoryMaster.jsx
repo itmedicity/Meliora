@@ -43,7 +43,7 @@ const ViewCategoryMaster = () => {
   }, [history])
 
   const submitComapnyName = useCallback(
-    async val => {
+    async () => {
       const postData = {
         category: category,
         id: editRowData?.common_master_slno,

@@ -190,7 +190,7 @@ const EditingOtherBillModal = ({
   ])
 
   const searchAssetNo = useCallback(
-    e => {
+    () => {
       if (pswd_mast_asset_no === '') {
         infoNotify('Please Enter Asset Number')
       } else {

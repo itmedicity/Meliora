@@ -49,7 +49,7 @@ const CensusCreate = () => {
     })
   }, [count])
   const SearchDetails = useCallback(
-    e => {
+    () => {
       if (
         moment(new Date(dailyDate)).format('YYYY-MM-DD') >= moment(new Date()).format('YYYY-MM-DD')
       ) {

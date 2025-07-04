@@ -64,7 +64,7 @@ const ComplaintListTable = ({ complaintList, EditData }) => {
                                     color: '#424242',
                                   },
                                 }}
-                                onClick={e => EditData(val, index)}
+                                onClick={() => EditData(val, index)}
                               />
                             </Tooltip>
                           </CssVarsProvider>

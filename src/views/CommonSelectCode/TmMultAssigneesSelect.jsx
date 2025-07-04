@@ -2,7 +2,7 @@ import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Autocomplete } from '@mui/joy'
 
-const TmMultAssigneesSelect = ({ value, setValue }) => {
+const TmMultAssigneesSelect = ({ setValue }) => {
   const [inputValue, setInputValue] = useState('')
   const empnameselect = useSelector(state => {
     return state.getDepartSecemployee.departsecempList || 0

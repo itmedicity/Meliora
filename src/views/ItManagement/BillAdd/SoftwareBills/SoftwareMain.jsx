@@ -72,10 +72,10 @@ const SoftwareMain = ({ billCount, setbillCount }) => {
     const currentQuarter = isAfter(new Date(), startOfOct)
       ? `${currentYear}-10-01`
       : isAfter(new Date(), startOfJul)
-      ? `${currentYear}-07-01`
-      : isAfter(new Date(), startOfApr)
-      ? `${currentYear}-04-01`
-      : `${currentYear}-01-01`
+        ? `${currentYear}-07-01`
+        : isAfter(new Date(), startOfApr)
+          ? `${currentYear}-04-01`
+          : `${currentYear}-01-01`
     const currentYearz = format(new Date(startOfYear(new Date())), 'yyyy-MM-dd')
     //getMonthlyTarrif to get all monthly tariff bills from the bill add table
     const getMonthlyTarrif = async () => {
@@ -150,7 +150,7 @@ const SoftwareMain = ({ billCount, setbillCount }) => {
                 create_user: id,
               }
             })
-            insertMonthlyData(insertData).then(val => {
+            insertMonthlyData(insertData).then(() => {
               getUnpaidBillsSoftMonthly()
             })
           } else if (success === 2) {
@@ -165,7 +165,7 @@ const SoftwareMain = ({ billCount, setbillCount }) => {
                   create_user: id,
                 }
               })
-              insertMonthlyData(insertData).then(val => {
+              insertMonthlyData(insertData).then(() => {
                 getUnpaidBillsSoftMonthly()
               })
             }
@@ -186,7 +186,7 @@ const SoftwareMain = ({ billCount, setbillCount }) => {
                 create_user: id,
               }
             })
-            insertDataQuarter(insertQuarterData).then(val => {
+            insertDataQuarter(insertQuarterData).then(() => {
               getUnpaidBillsSoftQuarter()
             })
           } else if (success === 2) {
@@ -201,7 +201,7 @@ const SoftwareMain = ({ billCount, setbillCount }) => {
                   create_user: id,
                 }
               })
-              insertDataQuarter(insertQuarterData).then(val => {
+              insertDataQuarter(insertQuarterData).then(() => {
                 getUnpaidBillsSoftQuarter()
               })
             }
@@ -222,7 +222,7 @@ const SoftwareMain = ({ billCount, setbillCount }) => {
                 create_user: id,
               }
             })
-            insertYearlyData(insertYearData).then(val => {
+            insertYearlyData(insertYearData).then(() => {
               getUnpaidBillsSoftYear()
             })
           } else if (success === 2) {
@@ -237,7 +237,7 @@ const SoftwareMain = ({ billCount, setbillCount }) => {
                   create_user: id,
                 }
               })
-              insertYearlyData(insertYearData).then(val => {
+              insertYearlyData(insertYearData).then(() => {
                 getUnpaidBillsSoftYear()
               })
             }

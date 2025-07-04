@@ -239,7 +239,7 @@ const IncidentListTableView = ({ tableData, SearchReport }) => {
                                   boxShadow: 2,
                                 },
                               }}
-                              onClick={e => IncidentMarkingDetails(val)}
+                              onClick={() => IncidentMarkingDetails(val)}
                             />
                           </Tooltip>
                         </CssVarsProvider>
@@ -257,7 +257,7 @@ const IncidentListTableView = ({ tableData, SearchReport }) => {
                                   boxShadow: 2,
                                 },
                               }}
-                              onClick={e => IncidentMarkingDetails(val)}
+                              onClick={() => IncidentMarkingDetails(val)}
                             />
                           </Tooltip>
                         </CssVarsProvider>
@@ -288,12 +288,12 @@ const IncidentListTableView = ({ tableData, SearchReport }) => {
                       {val.initial_incident_type === 1
                         ? 'GENERAL'
                         : val.initial_incident_type === 2
-                        ? 'NEAR MISSESS'
-                        : val.initial_incident_type === 3
-                        ? 'HARMFUL'
-                        : val.initial_incident_type === 4
-                        ? 'SENTINEL'
-                        : 'Nil'}
+                          ? 'NEAR MISSESS'
+                          : val.initial_incident_type === 3
+                            ? 'HARMFUL'
+                            : val.initial_incident_type === 4
+                              ? 'SENTINEL'
+                              : 'Nil'}
                     </td>
                     <td size="sm" style={{ fontSize: 13, height: 15 }}>
                       {val.incident_flag === 1 ? 'Reported as Incident' : 'Not Updated'}
@@ -305,12 +305,12 @@ const IncidentListTableView = ({ tableData, SearchReport }) => {
                       {val.final_incident_type === 1
                         ? 'GENERAL'
                         : val.final_incident_type === 2
-                        ? 'NEAR MISSESS'
-                        : val.final_incident_type === 3
-                        ? 'HARMFUL'
-                        : val.final_incident_type === 4
-                        ? 'SENTINEL'
-                        : 'Nil'}
+                          ? 'NEAR MISSESS'
+                          : val.final_incident_type === 3
+                            ? 'HARMFUL'
+                            : val.final_incident_type === 4
+                              ? 'SENTINEL'
+                              : 'Nil'}
                     </td>
                     <td size="sm" style={{ fontSize: 13, height: 15 }}>
                       {val.verify_emp === null ? 'Not Verified' : val.verify_emp}

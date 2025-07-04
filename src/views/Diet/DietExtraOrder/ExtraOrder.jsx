@@ -220,7 +220,7 @@ const ExtraOrder = () => {
   const handleClose = () => {
     setOpen(false)
   }
-  const submitExtraorder = useCallback(e => {
+  const submitExtraorder = useCallback(() => {
     setOpen(true)
   }, [])
 

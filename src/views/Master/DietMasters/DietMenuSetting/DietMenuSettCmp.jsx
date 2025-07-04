@@ -36,7 +36,7 @@ const DietMenuSettCmp = ({ dataPost, setdataPost }) => {
           </TableHead>
           <TableBody>
             {dataPost &&
-              dataPost.map((val, index) => {
+              dataPost.map((val,) => {
                 return (
                   <TableRow key={val.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                     <TableCell align="center">{val.dietname}</TableCell>

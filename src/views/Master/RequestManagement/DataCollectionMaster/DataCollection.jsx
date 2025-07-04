@@ -32,7 +32,7 @@ const DataCollection = () => {
 
   // submit data
   const submitComapnyName = useCallback(
-    async val => {
+    async () => {
       if (dept === 0) {
         warningNotify('Select Department')
       } else {
@@ -105,7 +105,7 @@ const DataCollection = () => {
                 // value={WorkOrder}
                 checked={View_Status}
                 onChange={e => SetViewStatus(e.target.checked)}
-                // disabled={quotationCall || datacollFlag || poComplete || poadding}
+              // disabled={quotationCall || datacollFlag || poComplete || poadding}
               />
             </Box>
           </Box>

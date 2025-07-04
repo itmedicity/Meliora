@@ -285,7 +285,7 @@ const PasswordManagement = () => {
     setPswd_mast_asset_no(e.target.value.toLocaleUpperCase())
   }, [])
   const searchAssetNo = useCallback(
-    e => {
+    () => {
       if (pswd_mast_asset_no === '') {
         infoNotify('Please Enter Asset Number')
       } else {

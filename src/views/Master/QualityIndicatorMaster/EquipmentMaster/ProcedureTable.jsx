@@ -74,7 +74,7 @@ const ProcedureTable = ({ ProcedureNames, ProcedureArray, setProcedureArray }) =
                               color: '#1863D6',
                             },
                           }}
-                          onClick={e => AddProcedures(val)}
+                          onClick={() => AddProcedures(val)}
                         />
                       </Tooltip>
                     </CssVarsProvider>

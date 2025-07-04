@@ -13,7 +13,7 @@ import { infoNotify } from 'src/views/Common/CommonCode'
 import DietOrderItems from './DietOrderItems'
 import CustomPaperTitle from 'src/views/Components/CustomPaperTitle'
 import { Fragment } from 'react'
-import { useEffect } from 'react'
+// import { useEffect } from 'react'
 
 const DietOderTaking = () => {
   const history = useNavigate()
@@ -28,7 +28,7 @@ const DietOderTaking = () => {
   }
 
   const clicksearch = useCallback(
-    e => {
+    () => {
       const postdata = {
         process_date: selectDate,
         rm_code: room,
@@ -48,32 +48,32 @@ const DietOderTaking = () => {
     [selectDate, room]
   )
 
-  useEffect(() => {
-    const getSearch = async () => {
-      if (tabledis !== 0) {
-        const d = new Date(selectDate)
-        let day = d.getDay()
-        const typeslno =
-          dietType &&
-          dietType.map(val => {
-            return val.type_slno
-          })
-        const dmenuslno =
-          dietType &&
-          dietType.map(val => {
-            return val.dmenu_slno
-          })
+  // useEffect(() => {
+  //   const getSearch = async () => {
+  //     if (tabledis !== 0) {
+  //       const d = new Date(selectDate)
+  //       let day = d.getDay()
+  //       const typeslno =
+  //         dietType &&
+  //         dietType.map(val => {
+  //           return val.type_slno
+  //         })
+  //       const dmenuslno =
+  //         dietType &&
+  //         dietType.map(val => {
+  //           return val.dmenu_slno
+  //         })
 
-        const postdata = {
-          days: day,
-          dmenu_slno: dmenuslno,
-          type_slno: typeslno,
-        }
-      }
-    }
+  //       const postdata = {
+  //         days: day,
+  //         dmenu_slno: dmenuslno,
+  //         type_slno: typeslno,
+  //       }
+  //     }
+  //   }
 
-    getSearch()
-  }, [tabledis, dietType, selectDate])
+  //   getSearch()
+  // }, [tabledis, dietType, selectDate])
 
   // const clicksearch = useCallback((e) => {
 

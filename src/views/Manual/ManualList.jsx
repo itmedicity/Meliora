@@ -17,9 +17,9 @@ const ManualList = () => {
     setPdfDis(1)
   }
 
-  const lasa2023 = () => {
-    setPdfDis(2)
-  }
+  // const lasa2023 = () => {
+  //   setPdfDis(2)
+  // }
   const sradhapolicy = () => {
     setPdfDis(3)
   }

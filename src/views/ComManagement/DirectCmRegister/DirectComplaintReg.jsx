@@ -700,7 +700,7 @@ const DirectComplaintReg = ({
   }, [isSuccess, custodianDetails])
 
   const searchAssetNo = useCallback(
-    e => {
+    () => {
       if (cm_am_assetmap_slno === '') {
         infoNotify('Please Enter Asset Number')
       } else {
@@ -760,7 +760,7 @@ const DirectComplaintReg = ({
   )
 
   const searchAssetNoinMenu = useCallback(
-    e => {
+    () => {
       if (item_slno === 0) {
         infoNotify('Please select Asset')
       } else {
