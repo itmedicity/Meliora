@@ -2,7 +2,7 @@ import React, { Fragment, memo, Suspense, useCallback, useState } from 'react'
 import { Box, Typography } from '@mui/joy'
 import { Paper } from '@mui/material'
 import { format } from 'date-fns'
-import { ToastContainer } from 'react-toastify'
+// import { ToastContainer } from 'react-toastify'
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf'
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile'
 import ReqImageDisModal from './ImageUploadCmp/ReqImageDisModal'
@@ -28,6 +28,7 @@ const CrfReqDetailViewCmp = ({ ApprovalData, imagearray }) => {
   const fileLIst = imagearray?.filter(file => {
     const lowerCaseName = file.imageName.toLowerCase()
     return (
+
       lowerCaseName.endsWith('.png') ||
       lowerCaseName.endsWith('.jpg') ||
       lowerCaseName.endsWith('.jpeg') ||
@@ -41,8 +42,8 @@ const CrfReqDetailViewCmp = ({ ApprovalData, imagearray }) => {
         ? 'pdf'
         : 'image'
       : file.type.includes('application/pdf')
-      ? 'pdf'
-      : 'image'
+        ? 'pdf'
+        : 'image'
 
     const fileUrl = file.url || URL.createObjectURL(file)
     setPreviewFile({ url: fileUrl, type: fileType })
@@ -53,16 +54,16 @@ const CrfReqDetailViewCmp = ({ ApprovalData, imagearray }) => {
   const capitalizeWords = str =>
     str
       ? str
-          .toLowerCase()
-          .trim()
-          .replace(/\s+/g, ' ')
-          .split(' ')
-          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(' ')
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, ' ')
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
       : ''
   return (
     <Fragment>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <Suspense fallback={<CustomLoadComp />}>
         {imageshowFlag === 1 ? (
           <ReqImageDisModal open={imageshow} handleClose={handleClose} previewFile={previewFile} />
@@ -147,8 +148,8 @@ const CrfReqDetailViewCmp = ({ ApprovalData, imagearray }) => {
                       }}
                     >
                       {file.imageName.endsWith('.png') ||
-                      file.imageName.endsWith('.jpg') ||
-                      file.imageName.endsWith('.jpeg') ? (
+                        file.imageName.endsWith('.jpg') ||
+                        file.imageName.endsWith('.jpeg') ? (
                         <img
                           src={file.url}
                           alt={file.imageName}

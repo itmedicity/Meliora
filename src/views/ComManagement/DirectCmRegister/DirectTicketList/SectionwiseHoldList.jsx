@@ -123,7 +123,6 @@ const SectionwiseHoldList = ({ count, setCount, onholdCompl, loading }) => {
             setimageViewOpen={setimageViewOpen}
           />
         ) : null}
-
         {assetflag === 1 ? (
           <ViewAssetDetails
             assetOpen={assetOpen}
@@ -346,11 +345,9 @@ const SectionwiseHoldList = ({ count, setCount, onholdCompl, loading }) => {
                     <Box sx={{ width: 300, fontSize: 13 }}>
                       {val.rm_room_name}
                       {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name
-                        ? ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${
-                            val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
-                          }${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${
-                            val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
-                          }${val.rm_floor_name ? val.rm_floor_name : ''})`
+                        ? ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
+                        }${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
+                        }${val.rm_floor_name ? val.rm_floor_name : ''})`
                         : 'Not Updated'}
                     </Box>
                     <Box sx={{ width: 300, fontSize: 13 }}>

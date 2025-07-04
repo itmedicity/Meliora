@@ -185,7 +185,7 @@ const AssetSpareModal = ({
   )
 
   const AddNewSpare = useCallback(
-    e => {
+    () => {
       if (sparez === 0) {
         infoNotify('Please select Spare')
       } else {
@@ -228,7 +228,7 @@ const AssetSpareModal = ({
 
   const [sparecount, setsparecount] = useState(0)
   const AddNewSpareUnderAsset = useCallback(
-    e => {
+    () => {
       const SparedetailInsert = async SparepostData => {
         const result = await axioslogin.post(`/ItemMapDetails/SpareDetailsInsert`, SparepostData)
         const { message, success } = result.data
@@ -871,27 +871,23 @@ const AssetSpareModal = ({
                                       >
                                         : {val.rm_room_name}
                                         {val.rm_roomtype_name ||
-                                        val.rm_insidebuildblock_name ||
-                                        val.rm_floor_name
-                                          ? ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${
-                                              val.rm_roomtype_name && val.rm_insidebuildblock_name
-                                                ? ' - '
-                                                : ''
-                                            }
-                                                                ${
-                                                                  val.rm_insidebuildblock_name
-                                                                    ? val.rm_insidebuildblock_name
-                                                                    : ''
-                                                                }${
-                                              val.rm_insidebuildblock_name && val.rm_floor_name
-                                                ? ' - '
-                                                : ''
-                                            }
-                                                                ${
-                                                                  val.rm_floor_name
-                                                                    ? val.rm_floor_name
-                                                                    : ''
-                                                                })`
+                                          val.rm_insidebuildblock_name ||
+                                          val.rm_floor_name
+                                          ? ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name
+                                            ? ' - '
+                                            : ''
+                                          }
+                                                                ${val.rm_insidebuildblock_name
+                                            ? val.rm_insidebuildblock_name
+                                            : ''
+                                          }${val.rm_insidebuildblock_name && val.rm_floor_name
+                                            ? ' - '
+                                            : ''
+                                          }
+                                                                ${val.rm_floor_name
+                                            ? val.rm_floor_name
+                                            : ''
+                                          })`
                                           : 'Not Updated'}
                                       </Typography>
                                     </Box>
@@ -1265,8 +1261,8 @@ const AssetSpareModal = ({
                                 {item.amc_status === 1
                                   ? 'AMC'
                                   : item.cmc_status === 1
-                                  ? 'CMC'
-                                  : 'not Updated'}
+                                    ? 'CMC'
+                                    : 'not Updated'}
                               </Chip>
                               <Box sx={{ display: 'flex', flex: 1 }}>
                                 <Typography sx={{ width: 110 }}>From Date</Typography>
@@ -1375,8 +1371,8 @@ const AssetSpareModal = ({
                                 {item.warrenty_status === 1
                                   ? 'Warrenty'
                                   : item.guarenty_status === 1
-                                  ? 'Guarentee'
-                                  : 'Not Updated'}
+                                    ? 'Guarentee'
+                                    : 'Not Updated'}
                               </Chip>
                               <Box sx={{ display: 'flex', flex: 1 }}>
                                 <Typography sx={{ width: 110 }}>From Date</Typography>

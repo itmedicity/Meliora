@@ -82,7 +82,7 @@ const AssetUpgrade = ({ am_item_map_slno, item_custodian_dept, count, setCount }
   )
 
   const AddNewSpare = useCallback(
-    e => {
+    () => {
       if (sparez === 0) {
         infoNotify('Please select Spare')
       } else {
@@ -125,7 +125,7 @@ const AssetUpgrade = ({ am_item_map_slno, item_custodian_dept, count, setCount }
       }
     })
   const AddNewSpareUnderAsset = useCallback(
-    e => {
+    () => {
       const SparedetailInsert = async SparepostData => {
         const result = await axioslogin.post(`/ItemMapDetails/SpareDetailsInsert`, SparepostData)
         const { message, success } = result.data

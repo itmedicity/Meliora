@@ -1,4 +1,4 @@
-import { Box, Grid, Paper, Typography } from '@mui/material'
+import { Paper } from '@mui/material'
 import React, { useCallback, useEffect, useState, useMemo, Fragment } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -12,7 +12,7 @@ import { getHicpolicy } from 'src/redux/actions/HicPolicy.action'
 import ComplaintRegTable from './ComplaintRegTable'
 import { setLoginProfileData } from 'src/redux/actions/LoginProfile.action'
 import ComplaintCheckBox from './ComplaintCheckBox'
-import { Avatar, Button, CssVarsProvider, Input, Tooltip, Typography as Typo } from '@mui/joy'
+import { Avatar, Box, Button, CssVarsProvider, Grid, Input, Tooltip, Typography } from '@mui/joy'
 import { memo } from 'react'
 import { getCompliantRegTable } from 'src/redux/actions/ComplaintRegTable.action'
 import ComDeptCheckBox from './ComDeptCheckBox'
@@ -826,8 +826,8 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
         ? 'pdf'
         : 'image'
       : file.type.includes('application/pdf')
-      ? 'pdf'
-      : 'image'
+        ? 'pdf'
+        : 'image'
 
     const fileUrl = file.url || URL.createObjectURL(file)
     setPreviewFile({ url: fileUrl, type: fileType })
@@ -839,7 +839,6 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
     setImageShowFlag(0)
     setImageShow(false)
   }, [])
-
   return (
     <Fragment>
       {imageShowFlag === 1 ? (
@@ -871,9 +870,9 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
             <Paper variant="outlined" sx={{ p: 0.5 }} square>
               <Box>
                 <CssVarsProvider>
-                  <Typo sx={{ color: '#9FA6AD', fontWeight: 800, fontSize: 13, pl: 0.3, pb: 0.5 }}>
+                  <Typography sx={{ color: '#9FA6AD', fontWeight: 800, fontSize: 13, pl: 0.3, pb: 0.5 }}>
                     COMPLAINT DEPARTMENT
-                  </Typo>
+                  </Typography>
                 </CssVarsProvider>
               </Box>
               <Box sx={{ display: 'flex', flex: 1, p: 1 }}>
@@ -882,11 +881,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
                     return (
                       <Grid
                         item
-                        xs={2}
-                        sm={4}
-                        md={4}
-                        lg={2}
-                        xl={3}
+
                         key={val.complaint_dept_slno}
                         sx={{ width: '100%' }}
                       >
@@ -912,15 +907,15 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
               <Paper variant="outlined" sx={{ p: 0.5 }} square>
                 <Box>
                   <CssVarsProvider>
-                    <Typo
+                    <Typography
                       sx={{ color: '#9FA6AD', fontWeight: 800, fontSize: 13, pl: 0.3, pb: 0.5 }}
                     >
                       COMPLAINT TYPE
-                    </Typo>
+                    </Typography>
                   </CssVarsProvider>
                 </Box>
-                <Box sx={{ display: 'flex', flex: 1, p: 1 }}>
-                  <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                <Box sx={{ display: 'flex', flex: 1, p: 1, }}>
+                  <Grid container spacing={{ xs: 1, md: 1 }} columns={{}} sx={{ width: '100%' }}>
                     {complainttype &&
                       complainttype.map(val => {
                         return (
@@ -929,7 +924,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
                             xs={2}
                             sm={4}
                             md={4}
-                            lg={2}
+                            lg={3}
                             xl={3}
                             key={val.complaint_type_slno}
                             sx={{ width: '100%' }}
@@ -1371,7 +1366,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
           </Box>
         </Box>
       </CardMastComplaint>
-      <Paper
+      <Box
         square
         elevation={0}
         sx={{
@@ -1386,8 +1381,8 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
           setCount={setCount}
           verficationPending={verficationPending}
         />
-      </Paper>
-      <Paper
+      </Box>
+      <Box
         square
         sx={{
           display: 'flex',
@@ -1405,7 +1400,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
         <Typography sx={{ pl: 0.5, pr: 2, fontSize: 13 }}>New Message</Typography>
         <SquareIcon sx={{ color: '#FFF387' }} />
         <Typography sx={{ pl: 0.5, pr: 2, fontSize: 13 }}>Need Emergency Verification</Typography>
-      </Paper>
+      </Box>
     </Fragment>
   )
 }

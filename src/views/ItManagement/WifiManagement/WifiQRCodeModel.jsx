@@ -1,10 +1,10 @@
 import React, { Fragment, memo, useEffect, useRef, useState } from 'react'
-import Button from '@mui/material/Button'
-import Dialog from '@mui/material/Dialog'
-import DialogActions from '@mui/material/DialogActions'
-import DialogContent from '@mui/material/DialogContent'
-import Slide from '@mui/material/Slide'
-import { ToastContainer } from 'react-toastify'
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import Slide from '@mui/material/Slide';
+// import { ToastContainer } from 'react-toastify';
 import { Box, Typography } from '@mui/material'
 import { useReactToPrint } from 'react-to-print'
 import { QRCodeSVG } from 'qrcode.react'
@@ -38,7 +38,7 @@ const WifiQRCodeModel = ({ open, handleClose, qrCodeDis, qrCodeUserName }) => {
 
   return (
     <Fragment>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <Dialog
         open={open}
         onClose={handleClose}

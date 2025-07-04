@@ -18,7 +18,7 @@ import EventAvailableTwoToneIcon from '@mui/icons-material/EventAvailableTwoTone
 import { Chip, CssVarsProvider, IconButton, Tooltip, Typography } from '@mui/joy'
 import { GetKMCItemDetails } from '../ComonComponent/ComponentsKMC/GetKMCItemDetails'
 import { GetItemDetailsOfCRFCmp } from '../ComonComponent/GetItemDetailsOfCRFCmp'
-import { ToastContainer } from 'react-toastify'
+// import { ToastContainer } from 'react-toastify'
 import ImageDisplayModal from '../ComonComponent/ImageUploadCmp/ImageDisplayModal'
 import { Box, Button } from '@mui/material'
 import HigherLevelApprovalView from '../ComonComponent/HigherLevelComponents/HigherLevelApprovalView'
@@ -50,7 +50,6 @@ const ApproveButtonComponentManag = ({
   crfRadioValue,
   radiovalue,
   selectedCompany,
-  companyData,
 }) => {
   const {
     higher,
@@ -158,6 +157,7 @@ const ApproveButtonComponentManag = ({
         setCollectDetailCheck(false)
       }
     }
+
     checkDataCollectComplete(req_slno)
     // }
     setApprovalData(val)
@@ -467,7 +467,7 @@ const ApproveButtonComponentManag = ({
   }
   return (
     <Fragment>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       {imageshowFlag === 1 ? (
         <ImageDisplayModal open={imageshow} handleClose={handleClose} images={imagearray} />
       ) : null}
@@ -773,12 +773,12 @@ const ApproveButtonComponentManag = ({
                       {now_who_status === 1
                         ? 'Approved'
                         : now_who_status === 2
-                        ? 'Rejected'
-                        : now_who_status === 3
-                        ? 'On-Hold'
-                        : now_who_status === 4
-                        ? 'Approved'
-                        : ''}
+                          ? 'Rejected'
+                          : now_who_status === 3
+                            ? 'On-Hold'
+                            : now_who_status === 4
+                              ? 'Approved'
+                              : ''}
                     </Typography>
                   </>
                 )}
@@ -805,8 +805,8 @@ const ApproveButtonComponentManag = ({
                         {radiovalue === '6'
                           ? approveComp(3)
                           : radiovalue === '7'
-                          ? approveComp(2)
-                          : null}
+                            ? approveComp(2)
+                            : null}
                       </>
                     ) : (
                       approveComp(now_who_status)

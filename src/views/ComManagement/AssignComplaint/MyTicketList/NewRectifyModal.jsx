@@ -187,7 +187,7 @@ const NewRectifyModal = ({
   }, [isSuccess, custodianDetails])
 
   const searchAssetNo = useCallback(
-    e => {
+    () => {
       if (cm_am_asset_no === '') {
         infoNotify('Please Enter Asset Number')
       } else {
@@ -250,7 +250,7 @@ const NewRectifyModal = ({
   )
 
   const searchAssetNoinMenu = useCallback(
-    e => {
+    () => {
       if (item_slno === 0) {
         infoNotify('Please select Asset')
       } else {
@@ -683,7 +683,7 @@ const NewRectifyModal = ({
                                     infoNotify(message)
                                   }
                                 })
-                                .catch(error => {
+                                .catch(() => {
                                   infoNotify('An error occurred while updating the complaint.')
                                 })
                             } else {
@@ -714,7 +714,7 @@ const NewRectifyModal = ({
                                   infoNotify(message)
                                 }
                               })
-                              .catch(error => {
+                              .catch(() => {
                                 infoNotify('An error occurred while updating the complaint.')
                               })
                           } else {
@@ -746,7 +746,7 @@ const NewRectifyModal = ({
                                   infoNotify(message)
                                 }
                               })
-                              .catch(error => {
+                              .catch(() => {
                                 infoNotify('An error occurred while updating the complaint.')
                               })
                           } else {
@@ -773,7 +773,7 @@ const NewRectifyModal = ({
                               infoNotify(message)
                             }
                           })
-                          .catch(error => {
+                          .catch(() => {
                             infoNotify('An error occurred while updating the complaint.')
                           })
                       } else {
@@ -897,8 +897,8 @@ const NewRectifyModal = ({
         ? 'pdf'
         : 'image'
       : file.type.includes('application/pdf')
-      ? 'pdf'
-      : 'image'
+        ? 'pdf'
+        : 'image'
 
     const fileUrl = file.url || URL.createObjectURL(file)
     setPreviewFile({ url: fileUrl, type: fileType })
@@ -992,11 +992,9 @@ const NewRectifyModal = ({
                     <Typography sx={{ pl: 0.5, fontSize: 13, color: 'Black' }}>
                       {rm_room_name}
                       {rm_roomtype_name || rm_insidebuildblock_name || rm_floor_name
-                        ? ` (${rm_roomtype_name ? rm_roomtype_name : ''}${
-                            rm_roomtype_name && rm_insidebuildblock_name ? ' - ' : ''
-                          }${rm_insidebuildblock_name ? rm_insidebuildblock_name : ''}${
-                            rm_insidebuildblock_name && rm_floor_name ? ' - ' : ''
-                          }${rm_floor_name ? rm_floor_name : ''})`
+                        ? ` (${rm_roomtype_name ? rm_roomtype_name : ''}${rm_roomtype_name && rm_insidebuildblock_name ? ' - ' : ''
+                        }${rm_insidebuildblock_name ? rm_insidebuildblock_name : ''}${rm_insidebuildblock_name && rm_floor_name ? ' - ' : ''
+                        }${rm_floor_name ? rm_floor_name : ''})`
                         : 'Not Updated'}
                     </Typography>
                   ) : null}
@@ -1207,10 +1205,10 @@ const NewRectifyModal = ({
                       val.item_asset_no_only === 0
                         ? 0
                         : val.item_asset_no_only === undefined
-                        ? 0
-                        : val.item_asset_no_only === null
-                        ? 0
-                        : val.item_asset_no_only.toString().padStart(6, '0')
+                          ? 0
+                          : val.item_asset_no_only === null
+                            ? 0
+                            : val.item_asset_no_only.toString().padStart(6, '0')
                     return (
                       <Box
                         key={index}

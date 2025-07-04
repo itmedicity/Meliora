@@ -7,7 +7,7 @@ import DialogContentText from '@mui/material/DialogContentText'
 import Slide from '@mui/material/Slide'
 import { useNavigate } from 'react-router-dom'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
-import { ToastContainer } from 'react-toastify'
+// import { ToastContainer } from 'react-toastify'
 import { Box } from '@mui/material'
 import { CssVarsProvider, Typography } from '@mui/joy'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
@@ -87,7 +87,7 @@ const ModelPaswdChange = ({ open, handleClose }) => {
 
   return (
     <Fragment>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <div>
         <Dialog
           open={open}

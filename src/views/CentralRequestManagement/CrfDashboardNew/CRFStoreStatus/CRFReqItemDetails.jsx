@@ -83,7 +83,7 @@ const CRFReqItemDetails = ({ handleClose, open, reqItems }) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {reqItems.map((item, ind) => (
+                    {reqItems.map((item,) => (
                       <tr key={item.po_itm_slno}>
                         <td style={{ textAlign: 'center' }}>{item.item_code}</td>
                         <td style={{ fontSize: 12 }}>{item.item_name}</td>

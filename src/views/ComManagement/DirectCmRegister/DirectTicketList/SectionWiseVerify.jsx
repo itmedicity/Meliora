@@ -197,6 +197,7 @@ const SectionWiseVerify = ({ count, setCount, loading, verficationPending, forVe
                     <Box sx={{ pl: 2, width: 93, fontWeight: 600, fontSize: 14 }}>
                       {val.complaint_slno}
                     </Box>
+
                     <Box sx={{ width: 135, display: 'flex', gap: 0.5, textAlign: 'center' }}>
                       {val.cm_file_status === 1 ? (
                         <CssVarsProvider>
@@ -294,11 +295,9 @@ const SectionWiseVerify = ({ count, setCount, loading, verficationPending, forVe
                     <Box sx={{ width: 300, fontSize: 13 }}>
                       {val.rm_room_name}
                       {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name
-                        ? ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${
-                            val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
-                          }${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${
-                            val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
-                          }${val.rm_floor_name ? val.rm_floor_name : ''})`
+                        ? ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
+                        }${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
+                        }${val.rm_floor_name ? val.rm_floor_name : ''})`
                         : 'Not Updated'}
                     </Box>
                     <Box sx={{ width: 300, fontSize: 13, pl: 0.5 }}>

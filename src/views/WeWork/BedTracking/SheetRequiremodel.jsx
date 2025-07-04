@@ -4,7 +4,7 @@ import React, { memo } from 'react'
 import { useCallback } from 'react'
 import { useState } from 'react'
 import { Fragment } from 'react'
-import { ToastContainer } from 'react-toastify'
+// import { ToastContainer } from 'react-toastify'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import Button from '@mui/material/Button'
 import { useMemo } from 'react'
@@ -67,7 +67,7 @@ const SheetRequiremodel = ({ open, setopen, rmSlno, count, setcount, shift }) =>
 
   return (
     <Fragment>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <Dialog open={open}>
         <DialogContent
           id="alert-dialog-slide-descriptiona"
@@ -77,7 +77,6 @@ const SheetRequiremodel = ({ open, setopen, rmSlno, count, setcount, shift }) =>
           }}
         >
           <DialogContentText id="alert-dialog-slide-descriptiona">sheet require</DialogContentText>
-
           <Box sx={{ width: 300, p: 1, display: 'flex', flexDirection: 'row' }}>
             <Box sx={{ width: '50%' }}>
               <CusCheckBox

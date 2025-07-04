@@ -5,9 +5,9 @@ const Home = React.lazy(() => import('./views/ComManagement/Dashboard/TicketMana
 const Settings = React.lazy(() => import('../src/Menus/Settings'))
 const Administrtion = React.lazy(() => import('../src/views/Administration/Test'))
 const DepartmentMast = React.lazy(() => import('./views/Master/Department/DepartmentMast'))
-const DepartmentSectionMast = React.lazy(() =>
-  import('./views/Master/DepartmentSectionMast/DeptSectionMast')
-)
+// const DepartmentSectionMast = React.lazy(() =>
+//   import('./views/Master/DepartmentSectionMast/DeptSectionMast')
+// )
 const ComplaintDepartment = React.lazy(() =>
   import('./views/Master/ComplaintDepartment/ComplaintDeptMast')
 )

@@ -1,6 +1,6 @@
 import { Chip, CssVarsProvider, IconButton, Tooltip, Typography } from '@mui/joy'
 import React, { Fragment, memo, useCallback, useState } from 'react'
-import { ToastContainer } from 'react-toastify'
+// import { ToastContainer } from 'react-toastify'
 import ImageDisplayModal from '../ComonComponent/ImageUploadCmp/ImageDisplayModal'
 import HigherAppDoneModal from '../ComonComponent/HigherAppDoneModal'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
@@ -300,6 +300,7 @@ const ApproveButtonHOD = ({
     getImage(req_slno)
   }, [val, setImageArry])
 
+
   const handleClose = useCallback(() => {
     setImageShowFlag(0)
     setImageShow(false)
@@ -363,7 +364,7 @@ const ApproveButtonHOD = ({
   }
   return (
     <Fragment>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       {imageshowFlag === 1 ? (
         <ImageDisplayModal open={imageshow} handleClose={handleClose} images={imagearray} />
       ) : null}
@@ -519,12 +520,12 @@ const ApproveButtonHOD = ({
                 fontWeight: 650,
                 color: dept_type === 1 ? '#EF7C8E' : dept_type === 2 ? '#A16AE8' : '#29A0B1',
               }}
-              // endDecorator={
-              //     dept_type === 1 ?
-              //         <AddBusinessIcon sx={{ color: '#FB6B90', fontWeight: '650' }} />
-              //         : dept_type === 2 ? <BadgeIcon sx={{ color: '#8155BA' }} /> :
-              //             <SchoolIcon sx={{ color: '#29A0B1' }} />
-              // }
+            // endDecorator={
+            //     dept_type === 1 ?
+            //         <AddBusinessIcon sx={{ color: '#FB6B90', fontWeight: '650' }} />
+            //         : dept_type === 2 ? <BadgeIcon sx={{ color: '#8155BA' }} /> :
+            //             <SchoolIcon sx={{ color: '#29A0B1' }} />
+            // }
             >
               {dept_type_name}
             </Chip>
@@ -571,10 +572,10 @@ const ApproveButtonHOD = ({
                   {now_who_status === 1
                     ? 'Approved'
                     : now_who_status === 2
-                    ? 'Rejected'
-                    : now_who_status === 3
-                    ? 'On-Hold'
-                    : ''}
+                      ? 'Rejected'
+                      : now_who_status === 3
+                        ? 'On-Hold'
+                        : ''}
                 </Typography>
               </Button>
               <Box sx={{ mx: 0.3 }}>

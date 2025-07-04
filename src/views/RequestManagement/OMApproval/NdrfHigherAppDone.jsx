@@ -1,9 +1,9 @@
 import React, { Fragment, useCallback, useState, memo, useEffect } from 'react'
-import Slide from '@mui/material/Slide'
-import { ToastContainer } from 'react-toastify'
-import Dialog from '@mui/material/Dialog'
-import DialogActions from '@mui/material/DialogActions'
-import Button from '@mui/material/Button'
+import Slide from '@mui/material/Slide';
+// import { ToastContainer } from 'react-toastify';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
 import { Box, Paper } from '@mui/material'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
@@ -272,7 +272,7 @@ const NdrfHigherAppDone = ({ open, setOpen, datas }) => {
 
   return (
     <Fragment>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <Box>
         {collImageShowFlag === 1 ? (
           <DataCollectedImageDispy

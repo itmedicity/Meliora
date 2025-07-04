@@ -22,6 +22,7 @@ const HigherLevelCrfDetailsView = ({ ApprovalData, imagearray, selectedCompany }
   const fileLIst = imagearray?.filter(file => {
     const lowerCaseName = file.imageName.toLowerCase()
     return (
+
       lowerCaseName.endsWith('.png') ||
       lowerCaseName.endsWith('.jpg') ||
       lowerCaseName.endsWith('.jpeg') ||
@@ -35,8 +36,8 @@ const HigherLevelCrfDetailsView = ({ ApprovalData, imagearray, selectedCompany }
         ? 'pdf'
         : 'image'
       : file.type.includes('application/pdf')
-      ? 'pdf'
-      : 'image'
+        ? 'pdf'
+        : 'image'
 
     const fileUrl = file.url || URL.createObjectURL(file)
     setPreviewFile({ url: fileUrl, type: fileType })
@@ -47,12 +48,12 @@ const HigherLevelCrfDetailsView = ({ ApprovalData, imagearray, selectedCompany }
   const capitalizeWords = str =>
     str
       ? str
-          .toLowerCase()
-          .trim()
-          .replace(/\s+/g, ' ')
-          .split(' ')
-          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(' ')
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, ' ')
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
       : ''
   return (
     <Fragment>
@@ -141,8 +142,8 @@ const HigherLevelCrfDetailsView = ({ ApprovalData, imagearray, selectedCompany }
                       }}
                     >
                       {file.imageName.endsWith('.png') ||
-                      file.imageName.endsWith('.jpg') ||
-                      file.imageName.endsWith('.jpeg') ? (
+                        file.imageName.endsWith('.jpg') ||
+                        file.imageName.endsWith('.jpeg') ? (
                         <img
                           src={file.url}
                           alt={file.imageName}

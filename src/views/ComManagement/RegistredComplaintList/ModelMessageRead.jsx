@@ -94,7 +94,6 @@ const ModelMessageRead = ({ open, setOpen, complaint, count, setCount, id }) => 
           <DialogContentText id="alert-dialog-slide-descriptiona">
             Message Send to User
           </DialogContentText>
-
           <Box sx={{ width: '100%', mt: 0 }}>
             <Paper variant="outlined" sx={{ p: 0, mt: 1 }}>
               <Box

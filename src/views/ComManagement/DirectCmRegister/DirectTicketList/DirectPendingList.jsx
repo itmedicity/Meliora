@@ -1,3 +1,4 @@
+
 import CmReplyModal from '../../AssignComplaint/Queries/CmReplyModal'
 import { Box, CircularProgress, CssVarsProvider, Menu, Tooltip, Typography } from '@mui/joy'
 import React, { memo, useCallback, useState } from 'react'
@@ -318,7 +319,6 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                                 </Typography>
                               )
                             }
-
                             return (
                               <Typography
                                 level="body2"
@@ -494,11 +494,9 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                     <Box sx={{ width: 295, fontSize: 13, pl: 0.5 }}>
                       {val.rm_room_name}
                       {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name
-                        ? ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${
-                            val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
-                          }${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${
-                            val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
-                          }${val.rm_floor_name ? val.rm_floor_name : ''})`
+                        ? ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
+                        }${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
+                        }${val.rm_floor_name ? val.rm_floor_name : ''})`
                         : 'Not Updated'}
                     </Box>
                     <Box sx={{ width: 300, fontSize: 13, pl: 1 }}>

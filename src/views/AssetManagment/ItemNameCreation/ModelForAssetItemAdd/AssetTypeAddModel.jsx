@@ -5,7 +5,6 @@ import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import Slide from '@mui/material/Slide'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
-import { ToastContainer } from 'react-toastify'
 import { Box } from '@mui/material'
 import { CssVarsProvider, Typography } from '@mui/joy'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
@@ -81,9 +80,10 @@ const AssetTypeAddModel = ({ open, handleClose }) => {
     [postdata, handleClose, asset_type_name, dispatch]
   )
 
+
   return (
     <Fragment>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
 
       <Dialog
         open={open}
@@ -94,7 +94,7 @@ const AssetTypeAddModel = ({ open, handleClose }) => {
       >
         <DialogContent
           id="alert-dialog-slide-descriptiona"
-          //    sx={{ border: '5px solid #474b4f' ,borderRadius:.5}}
+        //    sx={{ border: '5px solid #474b4f' ,borderRadius:.5}}
         >
           <Box
             sx={{ width: '100%', height: '90%', borderRadius: 1, border: '0.1px solid #454545' }}

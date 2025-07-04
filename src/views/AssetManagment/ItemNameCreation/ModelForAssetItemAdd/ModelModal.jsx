@@ -5,7 +5,7 @@ import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import Slide from '@mui/material/Slide'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
-import { ToastContainer } from 'react-toastify'
+// import { ToastContainer } from 'react-toastify';
 import { Box } from '@mui/material'
 import { CssVarsProvider, Typography } from '@mui/joy'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
@@ -82,7 +82,7 @@ const ModelModal = ({ open, handleClose }) => {
 
   return (
     <Fragment>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <Dialog
         open={open}
         onClose={handleClose}
@@ -92,7 +92,7 @@ const ModelModal = ({ open, handleClose }) => {
       >
         <DialogContent
           id="alert-dialog-slide-descriptiona"
-          //    sx={{ border: '5px solid #0E4C92' ,borderRadius:1}}
+        //    sx={{ border: '5px solid #0E4C92' ,borderRadius:1}}
         >
           <Box
             sx={{ width: '100%', height: '90%', borderRadius: 1, border: '0.1px solid #454545' }}

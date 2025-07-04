@@ -17,6 +17,7 @@ import '@fontsource/roboto/600.css' // Bold
 import '@fontsource/roboto/700.css' // Bold
 import '@fontsource/roboto/800.css' // Bold
 import '@fontsource/roboto/900.css' // Bold
+import { ToastContainer } from 'react-toastify'
 import ErrorPage from './NotFound/ErrorPage'
 
 const queryClient = new QueryClient()
@@ -32,6 +33,7 @@ function App() {
     <BrowserRouter basename="/" future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <CssBaseline />
       <QueryClientProvider client={queryClient}>
+        <ToastContainer />
         <Suspense fallback={<BackDrop />}>
           <Routes>
             <Route path="/" element={<Login />} errorElement={<ErrorPage />} />

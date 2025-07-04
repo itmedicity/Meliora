@@ -1,6 +1,6 @@
-import React, { Fragment } from 'react'
-import IconButton from '@mui/joy/IconButton'
-import { CssVarsProvider } from '@mui/joy/styles'
+import React, { Fragment } from 'react';
+import { CssVarsProvider, IconButton } from '@mui/joy';
+
 
 const CusIconButton = ({ children, size, variant, onClick, style, color }) => {
   const cmpstyle = {}

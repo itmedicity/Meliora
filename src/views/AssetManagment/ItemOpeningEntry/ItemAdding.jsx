@@ -73,7 +73,7 @@ const ItemAdding = ({
 
   const postData =
     mapArry &&
-    mapArry.map(val => {
+    mapArry.map(() => {
       return {
         item_creation_slno: slno,
         item_dept_slno: am_custodian_dept_slno,
@@ -90,7 +90,7 @@ const ItemAdding = ({
     })
   const sparepostData =
     mapArry &&
-    mapArry.map(val => {
+    mapArry.map(() => {
       return {
         spare_creation_slno: slno,
         spare_dept_slno: am_custodian_dept_slno,

@@ -1,24 +1,27 @@
-import { Card, CardActions, CardContent } from '@mui/material'
-import React, { Fragment, memo } from 'react'
-import { ToastContainer } from 'react-toastify'
-import ValidateSession from '../Axios/ValidateSession'
-import CustomCardHeader from './CustomCardHeader'
-import CancelButton from './CancelButton'
+import { Card, CardActions, CardContent } from '@mui/material';
+import React, { Fragment, memo } from 'react';
+// import { ToastContainer } from 'react-toastify';
+import ValidateSession from '../Axios/ValidateSession';
+import CustomCardHeader from './CustomCardHeader';
+import CancelButton from './CancelButton';
 
-const CardThree = props => {
+const CardThree = (props) => {
   return (
     <Fragment>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <ValidateSession />
       <Card>
-        <CustomCardHeader title={'Card Three'} />
-        <CardContent>{props.children}</CardContent>
+        <CustomCardHeader title={"Card Three"} />
+        <CardContent>
+          {props.children}
+        </CardContent>
         <CardActions disableSpacing sx={{ paddingY: 0 }}>
           <CancelButton />
         </CardActions>
       </Card>
     </Fragment>
   )
+
 }
 
 export default memo(CardThree)

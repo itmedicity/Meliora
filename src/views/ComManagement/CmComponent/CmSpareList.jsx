@@ -55,7 +55,7 @@ const CmSpareList = ({ sparez, setSparez, setSpareName, count }) => {
 
   useEffect(() => {
     if (spareInstock && spareInstock.length > 0) {
-      const formattedSpareInstock = spareInstock.map((val, index) => {
+      const formattedSpareInstock = spareInstock.map((val,) => {
         return {
           am_spare_item_map_slno: val.am_spare_item_map_slno,
           item_name: val.item_name,

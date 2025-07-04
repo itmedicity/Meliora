@@ -1,9 +1,9 @@
 import React, { Fragment, useCallback, useState, memo, useMemo, useEffect } from 'react'
-import Slide from '@mui/material/Slide'
-import { ToastContainer } from 'react-toastify'
-import Dialog from '@mui/material/Dialog'
-import DialogActions from '@mui/material/DialogActions'
-import Button from '@mui/material/Button'
+import Slide from '@mui/material/Slide';
+// import { ToastContainer } from 'react-toastify';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
 import { Box, Paper, IconButton, Input } from '@mui/material'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
@@ -207,7 +207,6 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
           warningNotify('An error occurred during file upload.')
         }
       }
-
       if (remark !== '') {
         updateInchApproval(patchdata).then(value => {
           const { success, message } = value
@@ -262,7 +261,7 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
 
   return (
     <Fragment>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <Box>
         {imageshowFlag === 1 ? (
           <ReqImageDisplayModal open={imageshow} handleClose={handleClose} images={imagearray} />

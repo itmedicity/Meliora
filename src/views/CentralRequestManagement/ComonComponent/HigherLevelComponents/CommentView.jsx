@@ -1,5 +1,5 @@
 import React, { Fragment, memo, useCallback, useMemo, useState } from 'react'
-import { ToastContainer } from 'react-toastify'
+// import { ToastContainer } from 'react-toastify';
 import { Paper } from '@mui/material'
 import {
   Box,
@@ -48,7 +48,6 @@ const CommentView = ({
   approveTableData,
   poDetails,
   imagearray,
-  ViewRemark,
   setDetailViewModal,
   datacolData,
   selectedCompany,
@@ -110,12 +109,12 @@ const CommentView = ({
   const capitalizeWords = str =>
     str
       ? str
-          .toLowerCase()
-          .trim()
-          .replace(/\s+/g, ' ')
-          .split(' ')
-          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(' ')
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, ' ')
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
       : ''
 
   const postData = useMemo(() => {
@@ -141,7 +140,7 @@ const CommentView = ({
   }, [postData, setDetailViewModal])
   return (
     <Fragment>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <CssVarsProvider>
         <Modal
           aria-labelledby="modal-title"
@@ -182,9 +181,9 @@ const CommentView = ({
                 </Box>
               ) : null}
               {hod_approve !== null ||
-              incharge_approve !== null ||
-              dms_approve === 1 ||
-              ms_approve === 1 ? (
+                incharge_approve !== null ||
+                dms_approve === 1 ||
+                ms_approve === 1 ? (
                 <>
                   <Paper
                     variant="outlined"
@@ -434,10 +433,10 @@ const CommentView = ({
                               {approval_level === 1
                                 ? 'Purchase Dpt Approved'
                                 : approval_level === 2
-                                ? 'Purchase Department Approved, Purchase Manager Approved'
-                                : approval_level === 3
-                                ? 'Purchase Department Approved, Purchase Manager Approved, Directors Approved'
-                                : null}{' '}
+                                  ? 'Purchase Department Approved, Purchase Manager Approved'
+                                  : approval_level === 3
+                                    ? 'Purchase Department Approved, Purchase Manager Approved, Directors Approved'
+                                    : null}{' '}
                             </Typography>
                           </Box>
                         </Box>

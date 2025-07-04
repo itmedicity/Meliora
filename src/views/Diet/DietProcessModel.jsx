@@ -1,11 +1,11 @@
 import React, { Fragment, memo, useEffect, useMemo, useState } from 'react'
-import Button from '@mui/material/Button'
-import Dialog from '@mui/material/Dialog'
-import DialogActions from '@mui/material/DialogActions'
-import DialogContent from '@mui/material/DialogContent'
-import DialogTitle from '@mui/material/DialogTitle'
-import Slide from '@mui/material/Slide'
-import { ToastContainer } from 'react-toastify'
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import Slide from '@mui/material/Slide';
+// import { ToastContainer } from 'react-toastify';
 import { Box, Paper } from '@mui/material'
 import { Typography } from '@mui/material'
 import { useCallback } from 'react'
@@ -182,7 +182,7 @@ const DietProcessModel = ({
 
   return (
     <Fragment>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <Dialog
         open={open}
         onClose={handleClose}

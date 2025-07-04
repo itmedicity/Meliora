@@ -1,7 +1,7 @@
-import React, { Fragment } from 'react'
-import { styled } from '@mui/material/styles'
-import Tooltip, { tooltipClasses } from '@mui/material/Tooltip'
-import { CssVarsProvider, Typography } from '@mui/joy'
+import React, { Fragment } from 'react';
+import { styled } from '@mui/material/styles';
+import { CssVarsProvider, Tooltip, tooltipClasses, Typography } from '@mui/joy';
+
 
 const CuatomTooltip = styled(({ className, ...props }) => (
   <Tooltip arrow {...props} classes={{ popper: className }} />

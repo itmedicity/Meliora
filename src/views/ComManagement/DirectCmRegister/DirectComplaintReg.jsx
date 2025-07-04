@@ -853,8 +853,8 @@ const DirectComplaintReg = ({
         ? 'pdf'
         : 'image'
       : file.type.includes('application/pdf')
-      ? 'pdf'
-      : 'image'
+        ? 'pdf'
+        : 'image'
 
     const fileUrl = file.url || URL.createObjectURL(file)
     setPreviewFile({ url: fileUrl, type: fileType })
@@ -1400,7 +1400,7 @@ const DirectComplaintReg = ({
           </Box>
         </Box>
       </CardMastComplaint>
-      <Paper
+      <Box
         square
         elevation={0}
         sx={{
@@ -1414,9 +1414,9 @@ const DirectComplaintReg = ({
           setCount={setCount}
           verficationPending={verficationPending}
         />
-      </Paper>
+      </Box>
 
-      <Paper
+      <Box
         square
         sx={{
           display: 'flex',
@@ -1434,7 +1434,7 @@ const DirectComplaintReg = ({
         <Typography sx={{ pl: 0.5, pr: 2, fontSize: 13 }}>New Message</Typography>
         <SquareIcon sx={{ color: '#FFF387' }} />
         <Typography sx={{ pl: 0.5, pr: 2, fontSize: 13 }}>Need Emergency Verification</Typography>
-      </Paper>
+      </Box>
     </Fragment>
   )
 }

@@ -766,8 +766,8 @@ const DeliveryMarkingStore = () => {
         ? 'pdf'
         : 'image'
       : file.type.includes('application/pdf')
-      ? 'pdf'
-      : 'image'
+        ? 'pdf'
+        : 'image'
 
     const fileUrl = file.url || URL.createObjectURL(file)
     setPreviewFile({ url: fileUrl, type: fileType })
@@ -1102,7 +1102,7 @@ const DeliveryMarkingStore = () => {
                                             color: '#1565c0',
                                           },
                                         }}
-                                        onClick={e => editSelect(val, index)}
+                                        onClick={() => editSelect(val, index)}
                                       />
                                     </td>
                                     <td size="sm" style={{ textAlign: 'center', height: 5 }}>
@@ -1113,7 +1113,7 @@ const DeliveryMarkingStore = () => {
                                             color: '#B95C50',
                                           },
                                         }}
-                                        onClick={e => deleteSelect(val, index)}
+                                        onClick={() => deleteSelect(val, index)}
                                       />
                                     </td>
                                   </tr>

@@ -1,18 +1,17 @@
-import { Box, Button, Dialog, DialogActions, Grid, Typography } from '@mui/material'
+import { Box, Button, Dialog, DialogActions, Grid, Paper, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import { Fragment } from 'react'
-import { ToastContainer } from 'react-toastify'
-import DialogContent from '@mui/material/DialogContent'
-import DialogContentText from '@mui/material/DialogContentText'
-import Slide from '@mui/material/Slide'
-import { Paper } from '@mui/material'
-import { useCallback } from 'react'
-import { useEffect } from 'react'
-import HallApprovalcmpnt from './HallApprovalcmpnt'
-import { axioslogin } from 'src/views/Axios/Axios'
-import { succesNotify } from 'src/views/Common/CommonCode'
-import TextFieldCustom from 'src/views/Components/TextFieldCustom'
-import { useSelector } from 'react-redux'
+// import { ToastContainer } from 'react-toastify'
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import Slide from '@mui/material/Slide';
+import { useCallback } from 'react';
+import { useEffect } from 'react';
+import HallApprovalcmpnt from './HallApprovalcmpnt';
+import { axioslogin } from 'src/views/Axios/Axios';
+import { succesNotify } from 'src/views/Common/CommonCode';
+import TextFieldCustom from 'src/views/Components/TextFieldCustom';
+import { useSelector } from 'react-redux';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="left" ref={ref} {...props} />
@@ -157,7 +156,7 @@ const HallbookingApprmodel = ({ open, setOpen, isIncharge, ishod, datas, count, 
 
   return (
     <Fragment>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <Dialog
         open={open}
         TransitionComponent={Transition}

@@ -254,6 +254,7 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                       <CloseIcon onClick={handleClose} sx={{ cursor: 'pointer' }} />
                     </Box>
 
+
                     <Box sx={{ textAlign: 'center' }}>
                       <NotificationsIcon sx={{ width: 40, height: 40 }} />
                     </Box>
@@ -275,7 +276,6 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                               </Typography>
                             )
                           }
-
                           const approxTime = parseISO(selectedRow.aprrox_date)
                           const now = new Date()
 
@@ -373,7 +373,6 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                         onClick={() => rowSelect(val)}
                       />
                     )}
-
                     {val.cm_file_status === 1 ? (
                       <CssVarsProvider>
                         <Tooltip title="Attached File" placement="top-start">
@@ -488,11 +487,9 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                   <Box sx={{ width: 300, fontSize: 13 }}>
                     {val.rm_room_name}
                     {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name
-                      ? ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${
-                          val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
-                        }${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${
-                          val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
-                        }${val.rm_floor_name ? val.rm_floor_name : ''})`
+                      ? ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
+                      }${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
+                      }${val.rm_floor_name ? val.rm_floor_name : ''})`
                       : 'Not Updated'}
                   </Box>
                   <Box sx={{ width: 300, fontSize: 13, pl: 0.4 }}>

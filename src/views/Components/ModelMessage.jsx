@@ -7,7 +7,7 @@ import DialogContentText from '@mui/material/DialogContentText'
 import Slide from '@mui/material/Slide'
 import { useNavigate } from 'react-router-dom'
 import { infoNotify } from 'src/views/Common/CommonCode'
-import { ToastContainer } from 'react-toastify'
+// import { ToastContainer } from 'react-toastify'
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="left" ref={ref} {...props} />
 })
@@ -21,7 +21,7 @@ const ModelMessage = ({ open, handleClose }) => {
   }
   return (
     <Fragment>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       {/* <div> */}
       <Dialog
         open={open}

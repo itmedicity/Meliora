@@ -1,5 +1,5 @@
-import React, { Fragment, memo } from 'react'
-import { ToastContainer } from 'react-toastify'
+import React, { Fragment, memo, } from 'react'
+// import { ToastContainer } from 'react-toastify';
 import { Paper } from '@mui/material'
 import {
   Box,
@@ -46,8 +46,6 @@ const HigherLevelApprovalView = ({
   approveTableData,
   poDetails,
   imagearray,
-  ViewRemark,
-  setDetailViewModal,
   datacolData,
   selectedCompany,
   company,
@@ -111,12 +109,12 @@ const HigherLevelApprovalView = ({
   const capitalizeWords = str =>
     str
       ? str
-          .toLowerCase()
-          .trim()
-          .replace(/\s+/g, ' ')
-          .split(' ')
-          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(' ')
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, ' ')
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
       : ''
 
   // const postData = useMemo(() => {
@@ -143,9 +141,10 @@ const HigherLevelApprovalView = ({
   //     }
   // }, [postData, setDetailViewModal])
 
+
   return (
     <Fragment>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <CssVarsProvider>
         <Modal
           aria-labelledby="modal-title"
@@ -435,10 +434,10 @@ const HigherLevelApprovalView = ({
                               {approval_level === 1
                                 ? 'Purchase Dpt Approved'
                                 : approval_level === 2
-                                ? 'Purchase Department Approved, Purchase Manager Approved'
-                                : approval_level === 3
-                                ? 'Purchase Department Approved, Purchase Manager Approved, Directors Approved'
-                                : null}{' '}
+                                  ? 'Purchase Department Approved, Purchase Manager Approved'
+                                  : approval_level === 3
+                                    ? 'Purchase Department Approved, Purchase Manager Approved, Directors Approved'
+                                    : null}{' '}
                             </Typography>
                           </Box>
                         </Box>

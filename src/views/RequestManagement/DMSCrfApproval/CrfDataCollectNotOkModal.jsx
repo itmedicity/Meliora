@@ -1,9 +1,9 @@
 import React, { Fragment, memo, useEffect, useState } from 'react'
-import Slide from '@mui/material/Slide'
-import { ToastContainer } from 'react-toastify'
-import Dialog from '@mui/material/Dialog'
-import DialogActions from '@mui/material/DialogActions'
-import Button from '@mui/material/Button'
+import Slide from '@mui/material/Slide';
+// import { ToastContainer } from 'react-toastify';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
 import { Box, Paper } from '@mui/material'
 import DialogContent from '@mui/material/DialogContent'
 import { CssVarsProvider, Typography } from '@mui/joy'
@@ -33,8 +33,7 @@ const CrfDataCollectNotOkModal = ({ open, setOpen, req_slno, setEnable }) => {
 
   return (
     <Fragment>
-      <ToastContainer />
-
+      {/* <ToastContainer /> */}
       <Dialog
         open={open}
         TransitionComponent={Transition}

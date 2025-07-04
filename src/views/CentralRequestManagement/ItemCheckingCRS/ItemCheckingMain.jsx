@@ -579,7 +579,7 @@ const ItemCheckingMain = () => {
                                   variant="outlined"
                                   size="md"
                                   checked={val.damage}
-                                  onChange={e => handleDamageChange(index)}
+                                  onChange={() => handleDamageChange(index)}
                                   sx={{ color: 'blue' }}
                                 />
                               </Box>

@@ -1,12 +1,11 @@
 import React, { Fragment } from 'react'
-import { Card, CardActions, CardContent, ThemeProvider } from '@mui/material'
-import CusIconButton from './CusIconButton'
-import theme from './MuiTheme'
-import { Box } from '@mui/system'
-import CustomeToolTip from './CustomeToolTip'
+import CusIconButton from './CusIconButton';
+import theme from './MuiTheme';
+import CustomeToolTip from './CustomeToolTip';
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
-import RefreshIcon from '@mui/icons-material/Refresh'
-import { cardActionBgClr } from 'src/color/Color'
+import RefreshIcon from '@mui/icons-material/Refresh';
+import { cardActionBgClr } from 'src/color/Color';
+import { Box, Card, CardActions, CardContent, ThemeProvider } from '@mui/joy';
 
 const CardMastComplaint = ({ children, title, close, submit, refresh, contentStyle }) => {
   return (

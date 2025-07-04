@@ -159,6 +159,7 @@ const TicketManagementCmDeptMain = () => {
         borderRadius: 1,
         boxShadow: 2,
         bgcolor: '#F8F9FD',
+        width: '100%'
       }}
     >
       {/* <CssVarsProvider> */}

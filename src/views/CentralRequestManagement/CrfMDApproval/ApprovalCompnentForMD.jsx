@@ -12,7 +12,7 @@ import SchoolIcon from '@mui/icons-material/School'
 import BadgeIcon from '@mui/icons-material/Badge'
 import AddBusinessIcon from '@mui/icons-material/AddBusiness'
 import ThumbUpAltTwoToneIcon from '@mui/icons-material/ThumbUpAltTwoTone'
-import { ToastContainer } from 'react-toastify'
+// import { ToastContainer } from 'react-toastify'
 import { PUBLIC_NAS_FOLDER, PUBLIC_NAS_FOLDER_KMC } from 'src/views/Constant/Static'
 import { axioskmc, axioslogin } from 'src/views/Axios/Axios'
 import DoDisturbOffTwoToneIcon from '@mui/icons-material/DoDisturbOffTwoTone'
@@ -317,6 +317,7 @@ const ApprovalCompnentForMD = ({
       getImage(req_slno)
       GetKMCItemDetails(req_slno, setReqItems, setApproveTableData, setPoDetails)
     }
+
     setCancelFlag(1)
     setCancelModal(true)
     setCancelData(val)
@@ -576,7 +577,7 @@ const ApprovalCompnentForMD = ({
   }
   return (
     <Fragment>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       {imageshowFlag === 1 ? (
         <ImageDisplayModal open={imageshow} handleClose={handleClose} images={imagearray} />
       ) : null}
@@ -955,12 +956,12 @@ const ApprovalCompnentForMD = ({
                       {now_who_status === 1
                         ? 'Approved'
                         : now_who_status === 2
-                        ? 'Rejected'
-                        : now_who_status === 3
-                        ? 'On-Hold'
-                        : now_who_status === 4
-                        ? 'Approved'
-                        : ''}
+                          ? 'Rejected'
+                          : now_who_status === 3
+                            ? 'On-Hold'
+                            : now_who_status === 4
+                              ? 'Approved'
+                              : ''}
                     </Typography>
                   </>
                 )}
@@ -987,8 +988,8 @@ const ApprovalCompnentForMD = ({
                         {radiovalue === '6'
                           ? approveComp(3)
                           : radiovalue === '7'
-                          ? approveComp(2)
-                          : null}
+                            ? approveComp(2)
+                            : null}
                       </>
                     ) : (
                       approveComp(now_who_status)

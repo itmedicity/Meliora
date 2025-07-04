@@ -2,7 +2,7 @@ import { Box, Button, Dialog, DialogActions, DialogContent, Typography } from '@
 import React, { Fragment, memo } from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
-import { ToastContainer } from 'react-toastify'
+// import { ToastContainer } from 'react-toastify'
 const ModalVerifiedDetails = ({ open, handleClose, rowSelect }) => {
   const [viewdata, setViewdata] = useState({
     backup_date_time: '',
@@ -43,7 +43,7 @@ const ModalVerifiedDetails = ({ open, handleClose, rowSelect }) => {
   }, [rowSelect])
   return (
     <Fragment>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <Dialog
         open={open}
         keepMounted

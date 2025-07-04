@@ -1,16 +1,16 @@
 import React, { Fragment, memo, useCallback, useMemo, useState } from 'react'
-import { ToastContainer } from 'react-toastify'
-import Dialog from '@mui/material/Dialog'
-import Slide from '@mui/material/Slide'
-import DialogContent from '@mui/material/DialogContent'
-import DialogContentText from '@mui/material/DialogContentText'
-import DialogActions from '@mui/material/DialogActions'
-import Button from '@mui/material/Button'
-import TextFieldCustom from '../Components/TextFieldCustom'
-import { Paper, Typography } from '@mui/material'
-import { Box } from '@mui/system'
-import CustomeToolTip from '../Components/CustomeToolTip'
-import DepartmentSelect from '../CommonSelectCode/DepartmentSelect'
+// import { ToastContainer } from 'react-toastify'
+import Dialog from '@mui/material/Dialog';
+import Slide from '@mui/material/Slide';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
+import TextFieldCustom from '../Components/TextFieldCustom';
+import { Paper, Typography } from '@mui/material';
+import { Box } from '@mui/system';
+import CustomeToolTip from '../Components/CustomeToolTip';
+import DepartmentSelect from '../CommonSelectCode/DepartmentSelect';
 // import { format } from 'date-fns'
 import moment from 'moment'
 import { axioslogin } from '../Axios/Axios'
@@ -207,7 +207,7 @@ const HallBookModal = ({ open, setOpen, count, setCount, setModal }) => {
   )
   return (
     <Fragment>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <Dialog
         open={open}
         onClose={reset}

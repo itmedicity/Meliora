@@ -20,7 +20,6 @@ const ComplaintRegTable = ({ count, setCount, rowSelect, verficationPending }) =
   const [forVerify, setforVerify] = useState([])
   const [verifyLength, setverifyLength] = useState(0)
   const [loading, setLoading] = useState(false)
-
   const empsecid = useSelector(state => {
     return state.LoginUserData.empsecid
   })
@@ -91,6 +90,7 @@ const ComplaintRegTable = ({ count, setCount, rowSelect, verficationPending }) =
 
     getAllPendingComplaints()
   }, [empsecid, count])
+
 
   return (
     <Box sx={{ flex: 1 }}>

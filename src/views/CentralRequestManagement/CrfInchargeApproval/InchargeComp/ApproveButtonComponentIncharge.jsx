@@ -13,7 +13,7 @@ import BadgeIcon from '@mui/icons-material/Badge'
 import AddBusinessIcon from '@mui/icons-material/AddBusiness'
 import CountdownTimer from '../../PurchaseProcess/Component/CountdownTimer'
 import ThumbUpAltTwoToneIcon from '@mui/icons-material/ThumbUpAltTwoTone'
-import { ToastContainer } from 'react-toastify'
+// import { ToastContainer } from 'react-toastify'
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import { axioslogin } from 'src/views/Axios/Axios'
 import DoDisturbOffTwoToneIcon from '@mui/icons-material/DoDisturbOffTwoTone'
@@ -235,6 +235,7 @@ const ApproveButtonComponentIncharge = ({
     getImage(req_slno)
   }, [val, setImageArry])
 
+
   const handleClose = useCallback(() => {
     setImageShowFlag(0)
     setImageShow(false)
@@ -298,7 +299,7 @@ const ApproveButtonComponentIncharge = ({
   }
   return (
     <Fragment>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       {imageshowFlag === 1 ? (
         <ImageDisplayModal open={imageshow} handleClose={handleClose} images={imagearray} />
       ) : null}
@@ -463,10 +464,10 @@ const ApproveButtonComponentIncharge = ({
                   {now_who_status === 1
                     ? 'Approved'
                     : now_who_status === 2
-                    ? 'Rejected'
-                    : now_who_status === 3
-                    ? 'On-Hold'
-                    : ''}
+                      ? 'Rejected'
+                      : now_who_status === 3
+                        ? 'On-Hold'
+                        : ''}
                 </Typography>
               </Button>
               <Box sx={{ mx: 0.3 }}>

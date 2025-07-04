@@ -29,7 +29,7 @@ const ItemSaveModal = ({ open, handleClose, tableData, reset, supCode }) => {
       const result = await axioslogin.post('/deliveryMarking/insertCheckItems', inserItems)
       return result.data
     }
-    const inserItems = tableData?.map((val, ind) => {
+    const inserItems = tableData?.map((val,) => {
       let pending_status
       if (val.delivered_qty === 0) {
         // notdelivered

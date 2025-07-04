@@ -195,7 +195,6 @@ const ForVerify = ({ count, setCount, loading, verficationPending, forVerify }) 
             itemContent={index => {
               const val = sortedForVerify[index]
               if (!val) return null
-
               const verificationSlnoSet = new Set(
                 (verficationPending || []).map(item => item.complaint_slno)
               )
@@ -316,11 +315,9 @@ const ForVerify = ({ count, setCount, loading, verficationPending, forVerify }) 
                   <Box sx={{ width: 300, fontSize: 13 }}>
                     {val.rm_room_name}
                     {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name
-                      ? ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${
-                          val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
-                        }${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${
-                          val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
-                        }${val.rm_floor_name ? val.rm_floor_name : ''})`
+                      ? ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
+                      }${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
+                      }${val.rm_floor_name ? val.rm_floor_name : ''})`
                       : 'Not Updated'}
                   </Box>
                   <Box sx={{ width: 300, fontSize: 13 }}>

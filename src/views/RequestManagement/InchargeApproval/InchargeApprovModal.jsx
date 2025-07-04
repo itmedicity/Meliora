@@ -1,9 +1,9 @@
 import React, { Fragment, useCallback, useState, memo } from 'react'
-import Slide from '@mui/material/Slide'
-import { ToastContainer } from 'react-toastify'
-import Dialog from '@mui/material/Dialog'
-import DialogActions from '@mui/material/DialogActions'
-import Button from '@mui/material/Button'
+import Slide from '@mui/material/Slide';
+// import { ToastContainer } from 'react-toastify';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
 import { Box, Paper } from '@mui/material'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
@@ -183,7 +183,6 @@ const InchargeApprovModal = ({ open, setOpen, isIncharge, ishod, datas, count, s
           warningNotify(message)
         }
       }
-
       const updateClosedCrf = async crfClosePatch => {
         const result = await axioslogin.patch('/requestRegister/crfClose', crfClosePatch)
         const { success, message } = result.data
@@ -195,7 +194,6 @@ const InchargeApprovModal = ({ open, setOpen, isIncharge, ishod, datas, count, s
           warningNotify(message)
         }
       }
-
       const patchdatainch = {
         incharge_approve: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : null,
         incharge_remarks: reject === true || pending === true || approve === true ? remark : null,
@@ -282,7 +280,7 @@ const InchargeApprovModal = ({ open, setOpen, isIncharge, ishod, datas, count, s
 
   return (
     <Fragment>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       {imageshowFlag === 1 ? (
         <ReqImageDisplayModal open={imageshow} handleClose={handleClose} images={imagearray} />
       ) : null}

@@ -1,6 +1,6 @@
 import { Box, CssVarsProvider, Grid, Modal, ModalClose, ModalDialog, Typography } from '@mui/joy'
 import React, { Fragment, memo } from 'react'
-import { ToastContainer } from 'react-toastify'
+// import { ToastContainer } from 'react-toastify'
 import CrfReqDetailViewCmp from './CrfReqDetailViewCmp'
 import ReqItemDisplay from './ReqItemDisplay'
 import ApprovedItemListDis from './ApprovedItemListDis'
@@ -51,7 +51,7 @@ const ClosedDetailsModal = ({
   } = crfClosedDetails
   return (
     <Fragment>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <CssVarsProvider>
         <Modal
           aria-labelledby="modal-title"
@@ -94,8 +94,8 @@ const ClosedDetailsModal = ({
                   </Typography>
                   <Grid container spacing={0.5} sx={{ flexGrow: 1, py: 0.5 }}>
                     {incharge_req === 1 &&
-                    incharge_remarks !== null &&
-                    crf_closed_one !== 'Incharge' ? (
+                      incharge_remarks !== null &&
+                      crf_closed_one !== 'Incharge' ? (
                       <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                         <CommonInchargeReqCmp DetailViewData={crfClosedDetails} />
                       </Grid>

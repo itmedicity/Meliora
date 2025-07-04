@@ -305,7 +305,7 @@ const MyHoldList = () => {
         <>
           {allPendingCompl.length !== 0 ? (
             <Box sx={{ p: 0.5, mb: 0.8 }}>
-              {allPendingCompl?.map((val, index) => {
+              {allPendingCompl?.map((val,) => {
                 const getBadgeColor = (pending, accepted, rejected) => {
                   if (pending > 0) return '#0458AB'
                   if (pending === 0 && accepted > 0) return 'green'
@@ -419,12 +419,12 @@ const MyHoldList = () => {
                           {val.compalint_priority === 1
                             ? 'Emergency'
                             : val.compalint_priority === 2
-                            ? 'High Priority'
-                            : val.compalint_priority === 3
-                            ? 'Medium Priority'
-                            : val.compalint_priority === 4
-                            ? 'Normal'
-                            : 'Normal'}
+                              ? 'High Priority'
+                              : val.compalint_priority === 3
+                                ? 'Medium Priority'
+                                : val.compalint_priority === 4
+                                  ? 'Normal'
+                                  : 'Normal'}
                         </Chip>
                         <Typography
                           sx={{ color: 'black', pt: 0.2, fontWeight: 500, fontSize: 13, ml: 3 }}
@@ -730,13 +730,11 @@ const MyHoldList = () => {
                           <Typography sx={{ fontSize: 13, flex: 1 }}>
                             {val.rm_room_name}
                             {val.rm_roomtype_name ||
-                            val.rm_insidebuildblock_name ||
-                            val.rm_floor_name
-                              ? ` (${val.rm_roomtype_name || ''}${
-                                  val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
-                                }${val.rm_insidebuildblock_name || ''}${
-                                  val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
-                                }${val.rm_floor_name || ''})`
+                              val.rm_insidebuildblock_name ||
+                              val.rm_floor_name
+                              ? ` (${val.rm_roomtype_name || ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
+                              }${val.rm_insidebuildblock_name || ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
+                              }${val.rm_floor_name || ''})`
                               : val.cm_complaint_location || 'Not Updated'}
                           </Typography>
                         </Box>

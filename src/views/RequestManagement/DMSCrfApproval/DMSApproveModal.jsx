@@ -1,9 +1,9 @@
 import React, { Fragment, useCallback, useState, memo, useEffect, useMemo } from 'react'
-import Slide from '@mui/material/Slide'
-import { ToastContainer } from 'react-toastify'
-import Dialog from '@mui/material/Dialog'
-import DialogActions from '@mui/material/DialogActions'
-import Button from '@mui/material/Button'
+import Slide from '@mui/material/Slide';
+// import { ToastContainer } from 'react-toastify';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
 import { Box, Paper } from '@mui/material'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
@@ -211,6 +211,7 @@ const DMSApproveModal = ({ open, setOpen, datas, count, setCount }) => {
   const [collImageShow, setCollImageShow] = useState(false)
   const [dataCollSlno, setDataCollSlNo] = useState('')
 
+
   const ViewImage = useCallback(() => {
     setImageShowFlag(1)
     setImageShow(true)
@@ -363,7 +364,7 @@ const DMSApproveModal = ({ open, setOpen, datas, count, setCount }) => {
 
   return (
     <Fragment>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
 
       {enable === 1 ? (
         <CrfDataCollectNotOkModal

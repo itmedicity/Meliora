@@ -15,7 +15,6 @@ const CommonMoApprvlCmpPurchase = ({ DetailViewData, company }) => {
     manag_operation_approv,
     om,
     manag_operation_remarks,
-    om_detial_analysis,
     om_approv_date,
     manag_operation_user,
     mo_image,
@@ -30,12 +29,12 @@ const CommonMoApprvlCmpPurchase = ({ DetailViewData, company }) => {
   const capitalizeWords = str =>
     str
       ? str
-          .toLowerCase()
-          .trim()
-          .replace(/\s+/g, ' ')
-          .split(' ')
-          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(' ')
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, ' ')
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
       : ''
 
   const ViewMOUploadImage = useCallback(() => {
@@ -80,12 +79,12 @@ const CommonMoApprvlCmpPurchase = ({ DetailViewData, company }) => {
                   manag_operation_approv === 1
                     ? '#2e7d32'
                     : manag_operation_approv === 2
-                    ? '#bf360c'
-                    : manag_operation_approv === 3
-                    ? '#FF9800'
-                    : manag_operation_approv === 4
-                    ? '#009688'
-                    : '#607D8B',
+                      ? '#bf360c'
+                      : manag_operation_approv === 3
+                        ? '#FF9800'
+                        : manag_operation_approv === 4
+                          ? '#009688'
+                          : '#607D8B',
                 height: 25,
                 pb: 0.5,
                 fontSize: 12,

@@ -1,9 +1,9 @@
 import React, { Fragment, useCallback, useState, memo } from 'react'
-import Slide from '@mui/material/Slide'
-import { ToastContainer } from 'react-toastify'
-import Dialog from '@mui/material/Dialog'
-import DialogActions from '@mui/material/DialogActions'
-import Button from '@mui/material/Button'
+import Slide from '@mui/material/Slide';
+// import { ToastContainer } from 'react-toastify';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
 import { Box, Paper } from '@mui/material'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
@@ -213,6 +213,7 @@ const CrfInchargeDshModal = ({ open, setOpen, datas, count, setCount }) => {
   const [imageshow, setImageShow] = useState(false)
   const [imagearray, setImageArry] = useState([])
 
+
   const ViewImage = useCallback(() => {
     setImageShowFlag(1)
     setImageShow(true)
@@ -225,7 +226,7 @@ const CrfInchargeDshModal = ({ open, setOpen, datas, count, setCount }) => {
 
   return (
     <Fragment>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       {imageshowFlag === 1 ? (
         <ReqImageDisplayModal open={imageshow} handleClose={handleClose} images={imagearray} />
       ) : null}

@@ -54,7 +54,6 @@ const OnHoldMsgRead = ({ open, setOpen, complaint }) => {
           <DialogContentText id="alert-dialog-slide-descriptiona">
             Pending/On-Hold Reason
           </DialogContentText>
-
           <Box sx={{ width: '100%', mt: 0 }}>
             <Paper variant="outlined" sx={{ p: 0, mt: 1 }}>
               <Box
