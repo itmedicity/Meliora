@@ -80,7 +80,7 @@ const AppHeaderDropdown = () => {
           sx={{
             minWidth: 300,
             borderRadius: '20px',
-            padding: '10px',
+            padding: '10px'
           }}
         >
           <MenuItem>

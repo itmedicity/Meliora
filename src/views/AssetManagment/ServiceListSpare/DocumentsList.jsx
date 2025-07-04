@@ -9,8 +9,7 @@ import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile'
 import InsertPhotoSharpIcon from '@mui/icons-material/InsertPhotoSharp'
 
 const DocumentsList = ({ serviceDetails }) => {
-  const { am_lease_mast_slno, am_bill_mastslno, item_asset_no, amccmc_slno, am_item_wargar_slno } =
-    serviceDetails
+  const { am_lease_mast_slno, am_bill_mastslno, item_asset_no, amccmc_slno, am_item_wargar_slno } = serviceDetails
 
   const [leaseDocuments, setleaseDocuments] = useState([])
   const [billdetailsView, setBilldetailsView] = useState([])
@@ -21,9 +20,7 @@ const DocumentsList = ({ serviceDetails }) => {
     const getleaseDocuments = async () => {
       try {
         if (am_lease_mast_slno) {
-          const result = await axioslogin.get(
-            `/AssetFileUpload/LeaseMasterImageView/${am_lease_mast_slno}`
-          )
+          const result = await axioslogin.get(`/AssetFileUpload/LeaseMasterImageView/${am_lease_mast_slno}`)
           const { success, data } = result.data
           if (success === 1 && data && Array.isArray(data)) {
             const fileNames = data
@@ -47,9 +44,7 @@ const DocumentsList = ({ serviceDetails }) => {
     const getDocumentViewBill = async () => {
       try {
         if (am_bill_mastslno) {
-          const result = await axioslogin.get(
-            `/AssetFileUpload/BillMasterImageView/${am_bill_mastslno}`
-          )
+          const result = await axioslogin.get(`/AssetFileUpload/BillMasterImageView/${am_bill_mastslno}`)
           const { success, data } = result.data
           if (success === 1 && data && Array.isArray(data)) {
             const fileNames = data
@@ -97,9 +92,7 @@ const DocumentsList = ({ serviceDetails }) => {
     const getWarrentyImage = async () => {
       try {
         if (am_item_wargar_slno) {
-          const result = await axioslogin.get(
-            `/AssetFileUpload/GaurenteeWarrenteefileView/${am_item_wargar_slno}`
-          )
+          const result = await axioslogin.get(`/AssetFileUpload/GaurenteeWarrenteefileView/${am_item_wargar_slno}`)
           const { success, data } = result.data
           if (success === 1 && data && Array.isArray(data)) {
             const fileNames = data
@@ -158,7 +151,7 @@ const DocumentsList = ({ serviceDetails }) => {
         display: 'grid',
         gridTemplateColumns: 'repeat(1, 1fr)',
         gap: 0.5,
-        mt: 1,
+        mt: 1
       }}
     >
       <Box sx={{ flex: 1, border: 1, borderRadius: 3, borderColor: '#EBEFFB', p: 1 }}>
@@ -169,7 +162,7 @@ const DocumentsList = ({ serviceDetails }) => {
             color: '#394060',
             fontSize: 16,
             mb: 0.5,
-            pl: 0.5,
+            pl: 0.5
           }}
         >
           Purchase Bills
@@ -177,16 +170,12 @@ const DocumentsList = ({ serviceDetails }) => {
         <Box
           sx={{
             cursor: 'pointer',
-            p: 0.5,
+            p: 0.5
           }}
         >
           {imageShowsingleFlag === 1 ? (
             <Box>
-              <FileViewSingle
-                previewFile={uploadedFile}
-                imageShow={imageShowSingle}
-                CloseFile={CloseSingleFile}
-              />
+              <FileViewSingle previewFile={uploadedFile} imageShow={imageShowSingle} CloseFile={CloseSingleFile} />
             </Box>
           ) : null}
           {billdetailsView.length !== 0 ? (
@@ -201,7 +190,7 @@ const DocumentsList = ({ serviceDetails }) => {
                       p: 0.5,
                       border: 1,
                       borderRadius: 4,
-                      borderColor: '#E0E1E3',
+                      borderColor: '#E0E1E3'
                     }}
                   >
                     {isImage ? (
@@ -212,7 +201,7 @@ const DocumentsList = ({ serviceDetails }) => {
                           width: 75,
                           height: 50,
                           color: '#e53935',
-                          cursor: 'pointer',
+                          cursor: 'pointer'
                         }}
                         onClick={() => SingleView({ url })}
                       />
@@ -222,7 +211,7 @@ const DocumentsList = ({ serviceDetails }) => {
                           width: 75,
                           height: 50,
                           color: '#e53935',
-                          cursor: 'pointer',
+                          cursor: 'pointer'
                         }}
                         onClick={() => SingleView({ url })}
                       />
@@ -232,7 +221,7 @@ const DocumentsList = ({ serviceDetails }) => {
                           width: 75,
                           height: 50,
                           color: '#e53935',
-                          cursor: 'pointer',
+                          cursor: 'pointer'
                         }}
                         onClick={() => SingleView({ url })}
                       />
@@ -244,7 +233,7 @@ const DocumentsList = ({ serviceDetails }) => {
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap',
-                        width: 75,
+                        width: 75
                       }}
                     >
                       {url.split('/').pop() || 'N/A'}
@@ -256,7 +245,7 @@ const DocumentsList = ({ serviceDetails }) => {
           ) : (
             <Box
               sx={{
-                alignItems: 'center',
+                alignItems: 'center'
               }}
             >
               <InsertPhotoSharpIcon
@@ -264,7 +253,7 @@ const DocumentsList = ({ serviceDetails }) => {
                   width: 75,
                   height: 75,
                   color: '#E3E8F0',
-                  cursor: 'default',
+                  cursor: 'default'
                 }}
               />
             </Box>
@@ -280,7 +269,7 @@ const DocumentsList = ({ serviceDetails }) => {
               color: '#394060',
               fontSize: 16,
               mb: 0.5,
-              pl: 0.5,
+              pl: 0.5
             }}
           >
             AMC/CMC Details
@@ -288,16 +277,12 @@ const DocumentsList = ({ serviceDetails }) => {
           <Box
             sx={{
               cursor: 'pointer',
-              p: 0.5,
+              p: 0.5
             }}
           >
             {imageShowsingleFlag === 1 ? (
               <Box>
-                <FileViewSingle
-                  previewFile={uploadedFile}
-                  imageShow={imageShowSingle}
-                  CloseFile={CloseSingleFile}
-                />
+                <FileViewSingle previewFile={uploadedFile} imageShow={imageShowSingle} CloseFile={CloseSingleFile} />
               </Box>
             ) : null}
             {amcCmcDocuments.length !== 0 ? (
@@ -312,7 +297,7 @@ const DocumentsList = ({ serviceDetails }) => {
                         p: 0.5,
                         border: 1,
                         borderRadius: 4,
-                        borderColor: '#E0E1E3',
+                        borderColor: '#E0E1E3'
                       }}
                     >
                       {isImage ? (
@@ -323,7 +308,7 @@ const DocumentsList = ({ serviceDetails }) => {
                             width: 75,
                             height: 50,
                             color: '#e53935',
-                            cursor: 'pointer',
+                            cursor: 'pointer'
                           }}
                           onClick={() => SingleView({ url })}
                         />
@@ -333,7 +318,7 @@ const DocumentsList = ({ serviceDetails }) => {
                             width: 75,
                             height: 50,
                             color: '#e53935',
-                            cursor: 'pointer',
+                            cursor: 'pointer'
                           }}
                           onClick={() => SingleView({ url })}
                         />
@@ -343,7 +328,7 @@ const DocumentsList = ({ serviceDetails }) => {
                             width: 75,
                             height: 50,
                             color: '#e53935',
-                            cursor: 'pointer',
+                            cursor: 'pointer'
                           }}
                           onClick={() => SingleView({ url })}
                         />
@@ -355,7 +340,7 @@ const DocumentsList = ({ serviceDetails }) => {
                           overflow: 'hidden',
                           textOverflow: 'ellipsis',
                           whiteSpace: 'nowrap',
-                          width: 75,
+                          width: 75
                         }}
                       >
                         {url.split('/').pop() || 'N/A'}
@@ -367,7 +352,7 @@ const DocumentsList = ({ serviceDetails }) => {
             ) : (
               <Box
                 sx={{
-                  alignItems: 'center',
+                  alignItems: 'center'
                 }}
               >
                 <InsertPhotoSharpIcon
@@ -375,7 +360,7 @@ const DocumentsList = ({ serviceDetails }) => {
                     width: 75,
                     height: 75,
                     color: '#E3E8F0',
-                    cursor: 'default',
+                    cursor: 'default'
                   }}
                 />
               </Box>
@@ -392,7 +377,7 @@ const DocumentsList = ({ serviceDetails }) => {
               color: '#394060',
               fontSize: 16,
               mb: 0.5,
-              pl: 0.5,
+              pl: 0.5
             }}
           >
             Lease Details
@@ -400,11 +385,7 @@ const DocumentsList = ({ serviceDetails }) => {
           <Box sx={{ cursor: 'pointer', p: 0.5 }}>
             {imageShowsingleFlag === 1 ? (
               <Box>
-                <FileViewSingle
-                  previewFile={uploadedFile}
-                  imageShow={imageShowSingle}
-                  CloseFile={CloseSingleFile}
-                />
+                <FileViewSingle previewFile={uploadedFile} imageShow={imageShowSingle} CloseFile={CloseSingleFile} />
               </Box>
             ) : null}
             {leaseDocuments.length !== 0 ? (
@@ -419,7 +400,7 @@ const DocumentsList = ({ serviceDetails }) => {
                         p: 0.5,
                         border: 1,
                         borderRadius: 4,
-                        borderColor: '#E0E1E3',
+                        borderColor: '#E0E1E3'
                       }}
                     >
                       {isImage ? (
@@ -430,7 +411,7 @@ const DocumentsList = ({ serviceDetails }) => {
                             width: 75,
                             height: 50,
                             color: '#e53935',
-                            cursor: 'pointer',
+                            cursor: 'pointer'
                           }}
                           onClick={() => SingleView({ url })}
                         />
@@ -440,7 +421,7 @@ const DocumentsList = ({ serviceDetails }) => {
                             width: 75,
                             height: 50,
                             color: '#e53935',
-                            cursor: 'pointer',
+                            cursor: 'pointer'
                           }}
                           onClick={() => SingleView({ url })}
                         />
@@ -450,7 +431,7 @@ const DocumentsList = ({ serviceDetails }) => {
                             width: 75,
                             height: 50,
                             color: '#e53935',
-                            cursor: 'pointer',
+                            cursor: 'pointer'
                           }}
                           onClick={() => SingleView({ url })}
                         />
@@ -462,7 +443,7 @@ const DocumentsList = ({ serviceDetails }) => {
                           overflow: 'hidden',
                           textOverflow: 'ellipsis',
                           whiteSpace: 'nowrap',
-                          width: 75,
+                          width: 75
                         }}
                       >
                         {url.split('/').pop() || 'N/A'}
@@ -474,7 +455,7 @@ const DocumentsList = ({ serviceDetails }) => {
             ) : (
               <Box
                 sx={{
-                  alignItems: 'center',
+                  alignItems: 'center'
                 }}
               >
                 <InsertPhotoSharpIcon
@@ -482,7 +463,7 @@ const DocumentsList = ({ serviceDetails }) => {
                     width: 75,
                     height: 75,
                     color: '#E3E8F0',
-                    cursor: 'default',
+                    cursor: 'default'
                   }}
                 />
               </Box>
@@ -498,7 +479,7 @@ const DocumentsList = ({ serviceDetails }) => {
             color: '#394060',
             fontSize: 16,
             mb: 0.5,
-            pl: 0.5,
+            pl: 0.5
           }}
         >
           Warrenty/Guarantee Details
@@ -506,11 +487,7 @@ const DocumentsList = ({ serviceDetails }) => {
         <Box sx={{ display: 'flex', gap: 0.8 }}>
           {imageShowsingleFlag === 1 ? (
             <Box>
-              <FileViewSingle
-                previewFile={uploadedFile}
-                imageShow={imageShowSingle}
-                CloseFile={CloseSingleFile}
-              />
+              <FileViewSingle previewFile={uploadedFile} imageShow={imageShowSingle} CloseFile={CloseSingleFile} />
             </Box>
           ) : null}
           {wargarDocument.length !== 0 ? (
@@ -525,7 +502,7 @@ const DocumentsList = ({ serviceDetails }) => {
                       p: 0.5,
                       border: 1,
                       borderRadius: 4,
-                      borderColor: '#E0E1E3',
+                      borderColor: '#E0E1E3'
                     }}
                   >
                     {isImage ? (
@@ -536,7 +513,7 @@ const DocumentsList = ({ serviceDetails }) => {
                           width: 75,
                           height: 50,
                           color: '#e53935',
-                          cursor: 'pointer',
+                          cursor: 'pointer'
                         }}
                         onClick={() => SingleView({ url })}
                       />
@@ -546,7 +523,7 @@ const DocumentsList = ({ serviceDetails }) => {
                           width: 75,
                           height: 50,
                           color: '#e53935',
-                          cursor: 'pointer',
+                          cursor: 'pointer'
                         }}
                         onClick={() => SingleView({ url })}
                       />
@@ -556,7 +533,7 @@ const DocumentsList = ({ serviceDetails }) => {
                           width: 75,
                           height: 50,
                           color: '#e53935',
-                          cursor: 'pointer',
+                          cursor: 'pointer'
                         }}
                         onClick={() => SingleView({ url })}
                       />
@@ -568,7 +545,7 @@ const DocumentsList = ({ serviceDetails }) => {
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap',
-                        width: 90,
+                        width: 90
                       }}
                     >
                       {url.split('/').pop()}
@@ -580,7 +557,7 @@ const DocumentsList = ({ serviceDetails }) => {
           ) : (
             <Box
               sx={{
-                alignItems: 'center',
+                alignItems: 'center'
               }}
             >
               <InsertPhotoSharpIcon
@@ -588,7 +565,7 @@ const DocumentsList = ({ serviceDetails }) => {
                   width: 75,
                   height: 75,
                   color: '#E3E8F0',
-                  cursor: 'default',
+                  cursor: 'default'
                 }}
               />
             </Box>

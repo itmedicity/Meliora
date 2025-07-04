@@ -21,58 +21,58 @@ const SideMenu = () => {
     {
       path: '/Home',
       name: 'Home',
-      icon: <HiHome size={35} color="var(--royal-purple-300)" />,
+      icon: <HiHome size={35} color="var(--royal-purple-300)" />
     },
     {
       path: '/dashboard',
       name: 'Dashboard',
-      icon: <RiDashboardHorizontalFill size={35} color="var(--royal-purple-300)" />,
+      icon: <RiDashboardHorizontalFill size={35} color="var(--royal-purple-300)" />
     },
     {
       path: '/devices',
       name: 'Devices',
-      icon: <MdDevicesOther size={35} color="var(--royal-purple-300)" />,
+      icon: <MdDevicesOther size={35} color="var(--royal-purple-300)" />
     },
     {
       path: '/imacs',
       name: 'Imacs',
-      icon: <TbDeviceImacCog size={35} color="var(--royal-purple-300)" />,
+      icon: <TbDeviceImacCog size={35} color="var(--royal-purple-300)" />
     },
     {
       path: '/tickets',
       name: 'Tickets',
-      icon: <HiTicket size={35} color="var(--royal-purple-300)" />,
+      icon: <HiTicket size={35} color="var(--royal-purple-300)" />
     },
     {
       path: '/genealogy',
       name: 'Genealogy',
-      icon: <FcGenealogy size={35} color="var(--royal-purple-300)" />,
+      icon: <FcGenealogy size={35} color="var(--royal-purple-300)" />
     },
     {
       path: '/charts',
       name: 'Charts',
-      icon: <FcComboChart size={35} color="var(--royal-purple-300)" />,
+      icon: <FcComboChart size={35} color="var(--royal-purple-300)" />
     },
     {
       path: '/engineering',
       name: 'Engineering',
-      icon: <FcEngineering size={35} color="var(--royal-purple-300)" />,
+      icon: <FcEngineering size={35} color="var(--royal-purple-300)" />
     },
     {
       path: '/multiple',
       name: 'Multiple',
-      icon: <FcMultipleDevices size={35} color="var(--royal-purple-300)" />,
+      icon: <FcMultipleDevices size={35} color="var(--royal-purple-300)" />
     },
     {
       path: '/inspection',
       name: 'Inspection',
-      icon: <FcInspection size={35} color="var(--royal-purple-300)" />,
+      icon: <FcInspection size={35} color="var(--royal-purple-300)" />
     },
     {
       path: '/bullish',
       name: 'Bullish',
-      icon: <FcBullish size={35} color="var(--royal-purple-300)" />,
-    },
+      icon: <FcBullish size={35} color="var(--royal-purple-300)" />
+    }
   ]
 
   return (
@@ -81,7 +81,7 @@ const SideMenu = () => {
         display: 'flex',
         flexDirection: 'column',
         gap: 2.5,
-        alignItems: 'center',
+        alignItems: 'center'
       }}
     >
       {dashBoardRoute.map((item, index) => {
@@ -101,7 +101,7 @@ const SideMenu = () => {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                cursor: 'pointer',
+                cursor: 'pointer'
               }}
             >
               {item.icon}

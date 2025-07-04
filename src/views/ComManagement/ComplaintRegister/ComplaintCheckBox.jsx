@@ -12,7 +12,7 @@ const ComplaintCheckBox = ({
   setSelectedAsset,
   setItem_slno,
   setcustodianDept,
-  cust,
+  cust
 }) => {
   return (
     <Fragment>

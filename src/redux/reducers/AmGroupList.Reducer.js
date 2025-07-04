@@ -3,7 +3,7 @@ const { FETCH_ASSET_GROUP } = ActionTyps
 //intial state
 const AssetGroup = {
   AssetGroupList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Building action type check then payload set to the state and loading status set as true */
 export const getGroup = (state = AssetGroup, { type, payload }) => {

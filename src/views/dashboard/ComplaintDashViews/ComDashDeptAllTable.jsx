@@ -2,10 +2,7 @@ import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import CardCloseOnly from 'src/views/Components/CardCloseOnly'
 import { setLoginProfileData } from 'src/redux/actions/LoginProfile.action'
-import {
-  getOnholdcomplaints,
-  getTotalcomplaints,
-} from 'src/redux/actions/ComplaintDashboard.action'
+import { getOnholdcomplaints, getTotalcomplaints } from 'src/redux/actions/ComplaintDashboard.action'
 import { getDepartemployee } from 'src/redux/actions/DeptwiseEmp.action'
 import { useNavigate } from 'react-router-dom'
 import CusAgGridForMain from 'src/views/Components/CusAgGridForMain'
@@ -53,7 +50,7 @@ const ComDashDeptAllTable = () => {
       field: 'complaint_desc',
       autoHeight: true,
       wrapText: true,
-      width: 450,
+      width: 450
     },
     {
       headerName: 'Req.Department',
@@ -61,14 +58,14 @@ const ComDashDeptAllTable = () => {
       autoHeight: true,
       filter: 'true',
       wrapText: true,
-      width: 280,
+      width: 280
     },
     {
       headerName: 'Request Type',
       field: 'req_type_name',
       autoHeight: true,
       wrapText: true,
-      width: 280,
+      width: 280
     },
     {
       headerName: 'Complaint Type',
@@ -76,7 +73,7 @@ const ComDashDeptAllTable = () => {
       filter: 'true',
       autoHeight: true,
       wrapText: true,
-      width: 280,
+      width: 280
     },
     {
       headerName: 'Location',
@@ -84,7 +81,7 @@ const ComDashDeptAllTable = () => {
       width: 200,
       filter: 'true',
       autoHeight: true,
-      wrapText: true,
+      wrapText: true
     },
     { headerName: 'Priority', field: 'priority', autoHeight: true, wrapText: true, width: 200 },
     {
@@ -92,7 +89,7 @@ const ComDashDeptAllTable = () => {
       field: 'compalint_date',
       autoHeight: true,
       wrapText: true,
-      width: 300,
+      width: 300
     },
     {
       headerName: 'Assign.Emp',
@@ -100,14 +97,14 @@ const ComDashDeptAllTable = () => {
       filter: 'true',
       autoHeight: true,
       wrapText: true,
-      width: 250,
+      width: 250
     },
     {
       headerName: 'Assign.Date',
       field: 'assigned_date',
       autoHeight: true,
       wrapText: true,
-      width: 200,
+      width: 200
     },
     {
       headerName: 'Complaint status',
@@ -115,8 +112,8 @@ const ComDashDeptAllTable = () => {
       filter: 'true',
       autoHeight: true,
       wrapText: true,
-      width: 300,
-    },
+      width: 300
+    }
   ])
 
   //Close function

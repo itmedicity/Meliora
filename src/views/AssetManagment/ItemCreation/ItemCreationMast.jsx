@@ -88,19 +88,9 @@ const ItemCreationMast = () => {
       item_submodel_slno: submodel,
       item_manufactures_slno: manufacture,
       item_model_num: modelNumber !== '' ? modelNumber : null,
-      asset_spare: assetOrSpare,
+      asset_spare: assetOrSpare
     }
-  }, [
-    category,
-    subcategory,
-    group,
-    subgroup,
-    model,
-    submodel,
-    manufacture,
-    modelNumber,
-    assetOrSpare,
-  ])
+  }, [category, subcategory, group, subgroup, model, submodel, manufacture, modelNumber, assetOrSpare])
 
   const search = useCallback(() => {
     const getItemdata = async postdata => {
@@ -214,7 +204,7 @@ const ItemCreationMast = () => {
   const postByItem = useMemo(() => {
     return {
       item_name: assetName,
-      asset_spare: assetOrSpare,
+      asset_spare: assetOrSpare
     }
   }, [assetName, assetOrSpare])
   const nameSearch = useCallback(() => {
@@ -245,7 +235,7 @@ const ItemCreationMast = () => {
         flexGrow: 1,
         width: '100%',
         height: window.innerHeight - 85,
-        bgcolor: 'green',
+        bgcolor: 'green'
       }}
     >
       <CardMasterClose title="Asset Opening" close={backtoSetting}>
@@ -253,7 +243,7 @@ const ItemCreationMast = () => {
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            m: -1,
+            m: -1
           }}
         >
           <Box sx={{ width: '40%', display: 'flex', pt: 2.5, margin: 'auto ', pl: 13 }}>
@@ -283,69 +273,53 @@ const ItemCreationMast = () => {
 
           <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
             <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }}>
-              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-                Category
-              </Typography>
+              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Category</Typography>
               <Box>
                 <AmCategorySelWOName category={category} setCategory={setCategory} />
               </Box>
             </Box>
             <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }}>
-              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-                Sub Category
-              </Typography>
+              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Sub Category</Typography>
               <Box sx={{ width: '100%' }}>
                 <AmSubCategryWOName subcategory={subcategory} setSubcategory={setSubcategory} />
               </Box>
             </Box>
             <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }}>
-              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-                Group
-              </Typography>
+              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Group</Typography>
               <Box sx={{ width: '100%' }}>
                 <AmGroupSelWOName group={group} setGroup={setGroup} />
               </Box>
             </Box>
 
             <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }}>
-              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-                Sub Group
-              </Typography>
+              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Sub Group</Typography>
               <Box sx={{ width: '100%' }}>
                 <AmSubGroupWOName subgroup={subgroup} setSubGroup={setSubGroup} />
               </Box>
             </Box>
             <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }}>
-              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-                Model
-              </Typography>
+              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Model</Typography>
               <Box sx={{ width: '100%' }}>
                 <AmModelSelWOName model={model} setModel={setModel} />
               </Box>
             </Box>
 
             <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }}>
-              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-                Sub Model
-              </Typography>
+              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Sub Model</Typography>
               <Box sx={{ width: '100%' }}>
                 <AmSubModelWOName submodel={submodel} setSubmodel={setSubmodel} />
               </Box>
             </Box>
 
             <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }}>
-              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-                Manufacture
-              </Typography>
+              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Manufacture</Typography>
               <Box sx={{ width: '100%' }}>
                 <AmManufacWOName manufacture={manufacture} setManufacture={setManufacture} />
               </Box>
             </Box>
 
             <Box sx={{ display: 'flex', width: '22%', p: 0.5, flexDirection: 'column' }}>
-              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-                Model No
-              </Typography>
+              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Model No</Typography>
               <Box sx={{ width: '100%' }}>
                 <AmModelNumberSelect modelNumber={modelNumber} setModelNumber={setModelNumber} />
               </Box>
@@ -367,13 +341,11 @@ const ItemCreationMast = () => {
               borderBottom: 1,
               borderWidth: 0.1,
               borderColor: 'black',
-              pb: 1,
+              pb: 1
             }}
           >
             <Box sx={{ pl: 0.8, width: '10%', cursor: 'pointer' }}>
-              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-                Asset Name
-              </Typography>
+              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Asset Name</Typography>
             </Box>
             <Box sx={{ pl: 0.8, width: '70%', cursor: 'pointer' }}>
               <TextFieldCustom

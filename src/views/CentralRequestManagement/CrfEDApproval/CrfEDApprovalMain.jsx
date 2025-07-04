@@ -7,7 +7,7 @@ import {
   getApprovalDetails,
   getApprovalKMCH,
   getOnholdRejectIemDetails,
-  getOnholdRejectKMCH,
+  getOnholdRejectKMCH
 } from '../ComonComponent/CommonApiCallFuctn'
 import { getCompanyDetails, getCRFPendingAboveHOD, getDefaultCompany } from 'src/api/CommonApiCRF'
 import { format } from 'date-fns'
@@ -62,11 +62,11 @@ const CrfEDApprovalMain = () => {
   const {
     data: compData,
     isLoading: isCompLoading,
-    error: compError,
+    error: compError
   } = useQuery({
     queryKey: 'getCompany',
     queryFn: () => getCompanyDetails(),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const companyData = useMemo(() => compData, [compData])
 
@@ -74,12 +74,12 @@ const CrfEDApprovalMain = () => {
   const {
     data: edDetails,
     isLoading: isEdLoading,
-    error: edError,
+    error: edError
   } = useQuery({
     queryKey: ['getPendingAll', JSON.stringify(postData)],
     queryFn: () => getCRFPendingAboveHOD(postData),
     enabled: !!postData.level,
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const edData = useMemo(() => edDetails, [edDetails])
 
@@ -88,12 +88,12 @@ const CrfEDApprovalMain = () => {
   const {
     data: edKmc,
     isLoading: isedKmcLoading,
-    error: kmcError,
+    error: kmcError
   } = useQuery({
     queryKey: ['getAllKmcPending', JSON.stringify(kmchData)],
     queryFn: () => getCRFPendingForAllKMC(kmchData),
     enabled: !!kmchData.level,
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const edDataKmc = useMemo(() => edKmc, [edKmc])
 
@@ -118,11 +118,11 @@ const CrfEDApprovalMain = () => {
   const {
     data: companydefData,
     isLoading: isCompLoadingdef,
-    error: compErrordef,
+    error: compErrordef
   } = useQuery({
     queryKey: 'getdefaultCompany',
     queryFn: () => getDefaultCompany(),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const company = useMemo(() => companydefData, [companydefData])
   useEffect(() => {
@@ -226,12 +226,10 @@ const CrfEDApprovalMain = () => {
               : val.manag_operation_approv === 4
               ? 'Approved'
               : 'Not Done',
-          manag_operation_remarks:
-            val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
+          manag_operation_remarks: val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
           om_detial_analysis: val.om_detial_analysis,
           om_approv_date: val.om_approv_date,
-          manag_operation_user:
-            val.manag_operation_user !== null ? val.manag_operation_user.toLowerCase() : '',
+          manag_operation_user: val.manag_operation_user !== null ? val.manag_operation_user.toLowerCase() : '',
           senior_manage_req: val.senior_manage_req,
           senior_manage_approv: val.senior_manage_approv,
           smo:
@@ -244,12 +242,10 @@ const CrfEDApprovalMain = () => {
               : val.senior_manage_approv === 4
               ? 'Approved'
               : 'Not Done',
-          senior_manage_remarks:
-            val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
+          senior_manage_remarks: val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
           smo_detial_analysis: val.smo_detial_analysis,
           som_aprrov_date: val.som_aprrov_date,
-          senior_manage_user:
-            val.senior_manage_user !== null ? val.senior_manage_user.toLowerCase() : '',
+          senior_manage_user: val.senior_manage_user !== null ? val.senior_manage_user.toLowerCase() : '',
           gm_approve_req: val.gm_approve_req,
           gm_approve: val.gm_approve,
           gm:
@@ -262,8 +258,7 @@ const CrfEDApprovalMain = () => {
               : val.gm_approve === 4
               ? 'Approved'
               : 'Not Done',
-          gm_approve_remarks:
-            val.gm_approve_remarks !== null ? val.gm_approve_remarks : 'Not Updated',
+          gm_approve_remarks: val.gm_approve_remarks !== null ? val.gm_approve_remarks : 'Not Updated',
           gm_detial_analysis: val.gm_detial_analysis,
           gm_approv_date: val.gm_approv_date,
           gm_user: val.gm_user !== null ? val.gm_user.toLowerCase() : '',
@@ -279,8 +274,7 @@ const CrfEDApprovalMain = () => {
               : val.md_approve === 4
               ? 'Approved'
               : 'Not Done',
-          md_approve_remarks:
-            val.md_approve_remarks !== null ? val.md_approve_remarks : 'Not Updated',
+          md_approve_remarks: val.md_approve_remarks !== null ? val.md_approve_remarks : 'Not Updated',
           md_detial_analysis: val.md_detial_analysis,
           md_approve_date: val.md_approve_date,
           md_user: val.md_user !== null ? val.md_user.toLowerCase() : '',
@@ -316,9 +310,7 @@ const CrfEDApprovalMain = () => {
             val.managing_director_remarks !== null ? val.managing_director_remarks : 'Not Updated',
           managing_director_analysis: val.managing_director_analysis,
           managing_director_approve_date: val.managing_director_approve_date,
-          managing_director_user: val.managing_director_username
-            ? val.managing_director_username.toLowerCase()
-            : '',
+          managing_director_user: val.managing_director_username ? val.managing_director_username.toLowerCase() : '',
 
           higher:
             val.ed_approve === null ||
@@ -467,8 +459,7 @@ const CrfEDApprovalMain = () => {
           dept_id: val.dept_id,
           dept_name: val.dept_name,
           dept_type: val.dept_type,
-          dept_type_name:
-            val.dept_type === 1 ? 'Clinical' : val.dept_type === 2 ? 'Non Clinical' : 'Academic',
+          dept_type_name: val.dept_type === 1 ? 'Clinical' : val.dept_type === 2 ? 'Non Clinical' : 'Academic',
           po_number: val.po_number,
           approval_level: val.approval_level,
           internally_arranged_status: val?.internally_arranged_status,
@@ -476,7 +467,7 @@ const CrfEDApprovalMain = () => {
           crf_view_status: val?.crf_view_status,
           viewDep: val?.viewDep,
           viewName: val?.viewName,
-          company_name: val?.company_name,
+          company_name: val?.company_name
         }
         return obj
       })
@@ -503,9 +494,7 @@ const CrfEDApprovalMain = () => {
       } else {
         if (radiovalue === '1') {
           const pending = datas?.filter(
-            val =>
-              (val.managing_director_approve === null || val.md_approve === null) &&
-              val.req_status !== 'C'
+            val => (val.managing_director_approve === null || val.md_approve === null) && val.req_status !== 'C'
           )
           setDisData(pending)
           setAllData(pending)
@@ -657,7 +646,7 @@ const CrfEDApprovalMain = () => {
     () => ({
       level: 17,
       from: `${fromDate} 00:00:00`,
-      to: `${toDate} 23:59:59`,
+      to: `${toDate} 23:59:59`
     }),
     [fromDate, toDate]
   )
@@ -752,9 +741,7 @@ const CrfEDApprovalMain = () => {
             <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: 0.5, color: '#385E72' }}>
               {company?.ed_status_name} Approval
             </Box>
-            <Box
-              sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, m: 0.5 }}
-            >
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, m: 0.5 }}>
               <CssVarsProvider>
                 <CustomCloseIconCmp handleChange={backtoSetting} />
               </CssVarsProvider>
@@ -767,7 +754,7 @@ const CrfEDApprovalMain = () => {
               alignItems: 'center',
               padding: '8px',
               justifyContent: 'center',
-              bgcolor: 'white',
+              bgcolor: 'white'
             }}
           >
             <RadioGroup row value={selectedCompany} onChange={handleRadioChange}>
@@ -823,14 +810,10 @@ const CrfEDApprovalMain = () => {
                     flexWrap: 'wrap',
                     mt: 0.6,
                     border: '1px solid #21B6A8',
-                    borderRadius: 2,
+                    borderRadius: 2
                   }}
                 >
-                  <MasterDetailHigherLevel
-                    val={val}
-                    selectedCompany={selectedCompany}
-                    companyData={companyData}
-                  />
+                  <MasterDetailHigherLevel val={val} selectedCompany={selectedCompany} companyData={companyData} />
                   {radiovalue === '8' ? (
                     <ClosedButtonManage
                       val={val}
@@ -878,7 +861,7 @@ const CrfEDApprovalMain = () => {
                 fontSize: 25,
                 opacity: 0.5,
                 pt: 10,
-                color: 'grey',
+                color: 'grey'
               }}
             >
               No Report Found

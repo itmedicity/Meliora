@@ -43,7 +43,7 @@ const TmMultAssigneesSelect = ({ value, setValue }) => {
         borderBottom: '2px solid',
         borderColor: 'neutral.outlinedBorder',
         '&:hover': {
-          borderColor: 'neutral.outlinedHoverBorder',
+          borderColor: 'neutral.outlinedHoverBorder'
         },
         '&::before': {
           border: '1px solid var(--Input-focusedHighlight)',
@@ -53,11 +53,11 @@ const TmMultAssigneesSelect = ({ value, setValue }) => {
           bottom: '-2px',
           top: 'unset',
           transition: 'transform .15s cubic-bezier(0.1,0.9,0.2,1)',
-          borderRadius: 0,
+          borderRadius: 0
         },
         '&:focus-within::before': {
-          transform: 'scaleX(1)',
-        },
+          transform: 'scaleX(1)'
+        }
       }}
       multiple
       value={selectedValues}

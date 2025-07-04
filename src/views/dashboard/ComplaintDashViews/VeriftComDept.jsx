@@ -2,10 +2,7 @@ import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import CardCloseOnly from 'src/views/Components/CardCloseOnly'
 import { setLoginProfileData } from 'src/redux/actions/LoginProfile.action'
-import {
-  getOnholdcomplaints,
-  getTotalcomplaints,
-} from 'src/redux/actions/ComplaintDashboard.action'
+import { getOnholdcomplaints, getTotalcomplaints } from 'src/redux/actions/ComplaintDashboard.action'
 import { getDepartemployee } from 'src/redux/actions/DeptwiseEmp.action'
 import { useNavigate } from 'react-router-dom'
 import CusAgGridForMain from 'src/views/Components/CusAgGridForMain'
@@ -57,7 +54,7 @@ const VeriftComDept = () => {
       field: 'complaint_desc',
       autoHeight: true,
       wrapText: true,
-      width: 450,
+      width: 450
     },
     {
       headerName: 'Req.Department',
@@ -65,7 +62,7 @@ const VeriftComDept = () => {
       filter: 'true',
       autoHeight: true,
       wrapText: true,
-      width: 280,
+      width: 280
     },
     {
       headerName: 'Request Type',
@@ -73,14 +70,14 @@ const VeriftComDept = () => {
       filter: 'true',
       autoHeight: true,
       wrapText: true,
-      width: 280,
+      width: 280
     },
     {
       headerName: 'Complaint Type',
       field: 'complaint_type_name',
       autoHeight: true,
       wrapText: true,
-      width: 280,
+      width: 280
     },
     {
       headerName: 'Location',
@@ -88,7 +85,7 @@ const VeriftComDept = () => {
       filter: 'true',
       width: 200,
       autoHeight: true,
-      wrapText: true,
+      wrapText: true
     },
     {
       headerName: 'Priority',
@@ -96,14 +93,14 @@ const VeriftComDept = () => {
       filter: 'true',
       autoHeight: true,
       wrapText: true,
-      width: 200,
+      width: 200
     },
     {
       headerName: 'Req.Date',
       field: 'compalint_date',
       autoHeight: true,
       wrapText: true,
-      width: 300,
+      width: 300
     },
     {
       headerName: 'Assign.Emp',
@@ -111,28 +108,28 @@ const VeriftComDept = () => {
       filter: 'true',
       autoHeight: true,
       wrapText: true,
-      width: 250,
+      width: 250
     },
     {
       headerName: 'Assign.Date',
       field: 'assigned_date',
       autoHeight: true,
       wrapText: true,
-      width: 230,
+      width: 230
     },
     {
       headerName: 'Recty.Date',
       field: 'cm_rectify_time',
       autoHeight: true,
       wrapText: true,
-      width: 230,
+      width: 230
     },
     {
       headerName: 'Very.Date',
       field: 'cm_verfy_time',
       autoHeight: true,
       wrapText: true,
-      width: 230,
+      width: 230
     },
     {
       headerName: 'complaint status',
@@ -140,8 +137,8 @@ const VeriftComDept = () => {
       filter: 'true',
       autoHeight: true,
       wrapText: true,
-      width: 300,
-    },
+      width: 300
+    }
   ])
 
   //Close function

@@ -36,7 +36,7 @@ const ReceivedTable = ({ receivedData, company }) => {
           const fileNamePart = parts[parts.length - 1]
           const obj = {
             imageName: fileNamePart,
-            url: val,
+            url: val
           }
           return obj
         })
@@ -73,7 +73,7 @@ const ReceivedTable = ({ receivedData, company }) => {
             overflowX: 'auto',
             height: window.innerHeight - 210,
             flexWrap: 'wrap',
-            '&::-webkit-scrollbar': { height: 8 },
+            '&::-webkit-scrollbar': { height: 8 }
           }}
         >
           <Box sx={{ pb: 0.5, px: 0.5 }}>
@@ -132,8 +132,8 @@ const ReceivedTable = ({ receivedData, company }) => {
                               cursor: 'pointer',
                               transition: 'transform 0.2s',
                               '&:hover': {
-                                transform: 'scale(1.1)',
-                              },
+                                transform: 'scale(1.1)'
+                              }
                             }}
                             onClick={() => viewDetails(val)}
                           />
@@ -143,16 +143,12 @@ const ReceivedTable = ({ receivedData, company }) => {
                         CRF/{company_name}/{val.req_slno}
                       </td>
                       <td style={{ fontSize: 13 }}>{val.req_deptsec}</td>
-                      <td style={{ fontSize: 13 }}>
-                        {format(new Date(val.req_date), 'dd-MM-yyyy hh:mm:ss a')}
-                      </td>
+                      <td style={{ fontSize: 13 }}>{format(new Date(val.req_date), 'dd-MM-yyyy hh:mm:ss a')}</td>
                       <td style={{ fontSize: 13 }}>{val.category_name}</td>
                       <td style={{ fontSize: 13 }}>{val.user_deptsection}</td>
                       <td style={{ fontSize: 13 }}>{val.location}</td>
                       <td style={{ fontSize: 13 }}>{val.acknowUser}</td>
-                      <td style={{ fontSize: 13 }}>
-                        {format(new Date(val.user_ack_date), 'dd-MM-yyyy hh:mm:ss a')}
-                      </td>
+                      <td style={{ fontSize: 13 }}>{format(new Date(val.user_ack_date), 'dd-MM-yyyy hh:mm:ss a')}</td>
                       <td style={{ fontSize: 13 }}>{val.user_acknldge_remarks}</td>
                     </tr>
                   ))}
@@ -169,7 +165,7 @@ const ReceivedTable = ({ receivedData, company }) => {
             fontSize: 25,
             opacity: 0.5,
             pt: 10,
-            color: 'grey',
+            color: 'grey'
           }}
         >
           No Report Found

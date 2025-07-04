@@ -3,7 +3,7 @@ const { FETCH_LOGIN_PROFILE_DATA } = ActionTyps
 //intial state
 const loginProfile = {
   loginProfiledata: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Deptsection action type check then payload set to the state and loading status set as true */
 export const getLoginProfileData = (state = loginProfile, { type, payload }) => {

@@ -30,7 +30,7 @@ const EmployeeeWiseTask = () => {
 
   const searchData = useMemo(() => {
     return {
-      tm_assigne_emp: employee,
+      tm_assigne_emp: employee
     }
   }, [employee])
 
@@ -71,7 +71,7 @@ const EmployeeeWiseTask = () => {
                 ? 'Pending'
                 : val.tm_task_status === 0
                 ? 'Incompleted'
-                : 'Incompleted',
+                : 'Incompleted'
           }
           return obj
         })
@@ -109,7 +109,7 @@ const EmployeeeWiseTask = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 300,
-      filter: 'true',
+      filter: 'true'
     },
     { headerName: 'Section', field: 'sec_name', autoHeight: true, wrapText: true, minWidth: 300 },
     {
@@ -118,7 +118,7 @@ const EmployeeeWiseTask = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 200,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Assignee',
@@ -126,7 +126,7 @@ const EmployeeeWiseTask = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 200,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Due Date',
@@ -134,7 +134,7 @@ const EmployeeeWiseTask = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 200,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Description',
@@ -142,8 +142,8 @@ const EmployeeeWiseTask = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 300,
-      filter: 'true',
-    },
+      filter: 'true'
+    }
   ])
   const backToSetting = useCallback(() => {
     history(`/Home/Reports`)
@@ -180,7 +180,7 @@ const EmployeeeWiseTask = () => {
           bgcolor: '#f0f3f5',
           height: 35,
           display: 'flex',
-          justifyContent: 'flex-end',
+          justifyContent: 'flex-end'
         }}
       >
         <CusIconButton variant="outlined" size="sm" color="success" onClick={onExportClick}>

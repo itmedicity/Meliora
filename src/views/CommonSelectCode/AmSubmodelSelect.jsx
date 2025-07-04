@@ -39,7 +39,7 @@ const AmSubmodelSelect = ({ submodel, setSubmodel, setName }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '29px',
+            '--Input-minHeight': '29px'
           }}
           value={submodel === 0 ? submodels : value}
           placeholder="Select Submodel"

@@ -16,8 +16,8 @@ const ModalButtomCmp = ({ handleChange, children, loading }) => {
         borderRadius: 6,
         '&:hover': {
           bgcolor: '#68BBE3',
-          color: 'black',
-        },
+          color: 'black'
+        }
       }}
       disabled={loading}
       onClick={handleChange}

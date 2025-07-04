@@ -60,7 +60,7 @@ const InPatientList = ({ close, refresh, submit }) => {
       wrapText: true,
       autoHeight: true,
       sortable: true,
-      width: 150,
+      width: 150
     },
     {
       headerName: 'OP No',
@@ -68,7 +68,7 @@ const InPatientList = ({ close, refresh, submit }) => {
       wrapText: true,
       autoHeight: true,
       filter: true,
-      width: 150,
+      width: 150
     },
     {
       headerName: 'Name',
@@ -76,7 +76,7 @@ const InPatientList = ({ close, refresh, submit }) => {
       filter: true,
       width: 300,
       wrapText: true,
-      autoHeight: true,
+      autoHeight: true
     },
     { headerName: 'Age', field: 'age' },
     {
@@ -85,7 +85,7 @@ const InPatientList = ({ close, refresh, submit }) => {
       width: 350,
       filter: true,
       wrapText: true,
-      autoHeight: true,
+      autoHeight: true
     },
     { headerName: 'Room', field: 'rmc_desc' },
     {
@@ -94,7 +94,7 @@ const InPatientList = ({ close, refresh, submit }) => {
       width: 350,
       wrapText: true,
       autoHeight: true,
-      sortable: true,
+      sortable: true
     },
     {
       headerName: 'Action',
@@ -102,16 +102,15 @@ const InPatientList = ({ close, refresh, submit }) => {
         <IconButton sx={{ color: editicon, paddingY: 0.5 }} onClick={() => gotoform(params)}>
           <NextPlanIcon />
         </IconButton>
-      ),
-    },
+      )
+    }
   ])
   const [closebtn, setclosebtn] = useState(0)
   const gotoform = useCallback(params => {
     // setflag(1)
     setclosebtn(1)
     const dataa = params.api.getSelectedRows()
-    const { ip_no, pt_no, ptc_ptname, doc_name, DOA, rmc_desc, age, ptc_sex, bd_code, nsc_desc } =
-      dataa[0]
+    const { ip_no, pt_no, ptc_ptname, doc_name, DOA, rmc_desc, age, ptc_sex, bd_code, nsc_desc } = dataa[0]
     setname(ptc_ptname)
     setipno(ip_no)
     setptno(pt_no)
@@ -185,11 +184,7 @@ const InPatientList = ({ close, refresh, submit }) => {
         {closebtn === 0 ? (
           <ThemeProvider theme={theme}>
             <Card sx={{ borderRadius: 0, boxShadow: 1 }}>
-              <CustomCardHeaderOne
-                title="In Pateint List"
-                onClickClose={backtoSetting}
-                cardStyle={{}}
-              />
+              <CustomCardHeaderOne title="In Pateint List" onClickClose={backtoSetting} cardStyle={{}} />
               <CardContent sx={{ p: 0 }}>
                 <Box sx={{ width: '100%', pl: 1, pt: 1, pr: 1, pb: 1 }}>
                   <Paper square elevation={3} sx={{ pl: 1, pt: 1, pr: 1, pb: 1 }}>
@@ -200,9 +195,7 @@ const InPatientList = ({ close, refresh, submit }) => {
                     </Box>
                   </Paper>
                   <Box sx={{ mt: 1, width: { xl: '100%', lg: '100%', md: '100%', sm: '100%' } }}>
-                    {table === 1 ? (
-                      <ComplistAgGridcmp columnDefs={column} tableData={tabledata} />
-                    ) : null}
+                    {table === 1 ? <ComplistAgGridcmp columnDefs={column} tableData={tabledata} /> : null}
                   </Box>
                 </Box>
               </CardContent>
@@ -212,7 +205,7 @@ const InPatientList = ({ close, refresh, submit }) => {
           <Box
             sx={{
               pt: 1,
-              flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' },
+              flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' }
             }}
           >
             <Box
@@ -221,7 +214,7 @@ const InPatientList = ({ close, refresh, submit }) => {
                 width: '100%',
                 alignContent: 'center',
                 justifyContent: 'right',
-                cursor: 'pointer',
+                cursor: 'pointer'
               }}
             >
               <Box sx={{ dispaly: 'flex', width: { xl: '5%', lg: '5%', md: '10%', sm: '10%' } }}>
@@ -281,13 +274,7 @@ const InPatientList = ({ close, refresh, submit }) => {
               ) : checkIcon === 3 ? (
                 <PatientIntractionLazy ipno={ipno} doa={doa} setclosebtn={setclosebtn} />
               ) : checkIcon === 4 ? (
-                <BedTracking
-                  ipno={ipno}
-                  setclosebtn={setclosebtn}
-                  nsdesc={nsdesc}
-                  nurse={nurse}
-                  bedcode={bedcode}
-                />
+                <BedTracking ipno={ipno} setclosebtn={setclosebtn} nsdesc={nsdesc} nurse={nurse} bedcode={bedcode} />
               ) : checkIcon === 5 ? (
                 <DischargeEvent ipno={ipno} setclosebtn={setclosebtn} />
               ) : (

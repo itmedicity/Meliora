@@ -13,7 +13,7 @@ const EmpTaskUderProject = ({ val }) => {
   const [otherempTask, setOtherempTask] = useState([])
   const searchData = useMemo(() => {
     return {
-      tm_project_slno: tm_project_slno,
+      tm_project_slno: tm_project_slno
     }
   }, [tm_project_slno])
 
@@ -61,7 +61,7 @@ const EmpTaskUderProject = ({ val }) => {
                     borderLeft: 1,
                     borderTopRightRadius: 2,
                     borderTopLeftRadius: 2,
-                    borderColor: '#ADC9C5',
+                    borderColor: '#ADC9C5'
                   }}
                 >
                   <Box
@@ -74,7 +74,7 @@ const EmpTaskUderProject = ({ val }) => {
                       display: 'flex',
                       justifyContent: 'center',
                       pt: 0.3,
-                      fontWeight: 800,
+                      fontWeight: 800
                     }}
                   >
                     {index + 1}
@@ -86,7 +86,7 @@ const EmpTaskUderProject = ({ val }) => {
                           fontSize: 13,
                           flex: 4,
                           textTransform: 'capitalize',
-                          cursor: 'grab',
+                          cursor: 'grab'
                         }}
                       >
                         {val.tm_task_name}
@@ -98,7 +98,7 @@ const EmpTaskUderProject = ({ val }) => {
                           flex: 4,
                           textTransform: 'capitalize',
                           cursor: 'grab',
-                          color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black',
+                          color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black'
                         }}
                       >
                         {val.tm_task_name}
@@ -114,7 +114,7 @@ const EmpTaskUderProject = ({ val }) => {
                         display: 'flex',
                         justifyContent: 'center',
                         color: '#3B0404',
-                        textTransform: 'capitalize',
+                        textTransform: 'capitalize'
                       }}
                     >
                       {create_empnamee}
@@ -128,7 +128,7 @@ const EmpTaskUderProject = ({ val }) => {
                           borderStyle: 'dashed',
                           borderColor: '#C3CEDA',
                           p: 0.5,
-                          flex: 1,
+                          flex: 1
                         }}
                       >
                         <CountDowncomponent DueDates={val.tm_task_due_date} />
@@ -142,7 +142,7 @@ const EmpTaskUderProject = ({ val }) => {
                           borderColor: '#C3CEDA',
                           p: 0.5,
                           flex: 1,
-                          justifyContent: 'center',
+                          justifyContent: 'center'
                         }}
                       >
                         completed
@@ -156,12 +156,10 @@ const EmpTaskUderProject = ({ val }) => {
                           fontSize: 13,
                           flex: 1,
                           textTransform: 'capitalize',
-                          cursor: 'grab',
+                          cursor: 'grab'
                         }}
                       >
-                        <EventNoteRoundedIcon
-                          sx={{ width: 20, height: 20, mt: 0.2, mr: 0.2, color: '#435D84' }}
-                        />{' '}
+                        <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: 0.2, mr: 0.2, color: '#435D84' }} />{' '}
                         {val.create_date}
                       </FormLabel>
                     ) : (
@@ -172,12 +170,10 @@ const EmpTaskUderProject = ({ val }) => {
                           textTransform: 'capitalize',
                           cursor: 'grab',
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black',
-                          display: 'flex',
+                          display: 'flex'
                         }}
                       >
-                        <EventNoteRoundedIcon
-                          sx={{ width: 20, height: 20, mt: 0.2, mr: 0.2, color: '#435D84' }}
-                        />{' '}
+                        <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: 0.2, mr: 0.2, color: '#435D84' }} />{' '}
                         {val.create_date}
                       </FormLabel>
                     )}
@@ -189,12 +185,10 @@ const EmpTaskUderProject = ({ val }) => {
                           fontSize: 13,
                           flex: 1,
                           textTransform: 'capitalize',
-                          cursor: 'grab',
+                          cursor: 'grab'
                         }}
                       >
-                        <EventNoteRoundedIcon
-                          sx={{ width: 20, height: 20, mt: 0.2, mr: 0.2, color: '#435D84' }}
-                        />{' '}
+                        <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: 0.2, mr: 0.2, color: '#435D84' }} />{' '}
                         {val.tm_task_due_date}
                       </FormLabel>
                     ) : (
@@ -204,12 +198,10 @@ const EmpTaskUderProject = ({ val }) => {
                           flex: 1,
                           textTransform: 'capitalize',
                           cursor: 'grab',
-                          color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black',
+                          color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black'
                         }}
                       >
-                        <EventNoteRoundedIcon
-                          sx={{ width: 20, height: 20, mt: 0.2, mr: 0.2, color: '#435D84' }}
-                        />{' '}
+                        <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: 0.2, mr: 0.2, color: '#435D84' }} />{' '}
                         {val.tm_task_due_date}
                       </FormLabel>
                     )}

@@ -18,7 +18,7 @@ const HodApprovalComponent = ({
   imageCheck,
   selectFile,
   setSelectFile,
-  uploadedImages,
+  uploadedImages
 }) => {
   const { reject, pending, remark, detailAnalis } = apprvlDetails
 
@@ -42,25 +42,19 @@ const HodApprovalComponent = ({
               warningNotify(`The file "${file.name}" exceeds the 25MB size limit`)
               return false
             }
-            const isDuplicate = prevFiles.some(
-              prevFile => prevFile.name === file.name && prevFile.size === file.size
-            )
+            const isDuplicate = prevFiles.some(prevFile => prevFile.name === file.name && prevFile.size === file.size)
             if (isDuplicate) {
               duplicateFiles.push(file.name)
               return false
             }
             return true
           } else {
-            warningNotify(
-              `The file "${file.name}" is not a supported format! Only .png, .jpeg, and .pdf are allowed.`
-            )
+            warningNotify(`The file "${file.name}" is not a supported format! Only .png, .jpeg, and .pdf are allowed.`)
             return false
           }
         })
         if (duplicateFiles.length > 0) {
-          warningNotify(
-            `The following files are duplicates and were not added: ${duplicateFiles.join(', ')}`
-          )
+          warningNotify(`The following files are duplicates and were not added: ${duplicateFiles.join(', ')}`)
         }
         return [...prevFiles, ...validFiles]
       })
@@ -107,17 +101,11 @@ const HodApprovalComponent = ({
   return (
     <Fragment>
       {imageshowFlag === 1 ? (
-        <ReqImageDisModal
-          open={imageshow}
-          handleClose={handleCloseImageView}
-          previewFile={previewFile}
-        />
+        <ReqImageDisModal open={imageshow} handleClose={handleCloseImageView} previewFile={previewFile} />
       ) : null}
 
       <Paper variant="outlined" sx={{ flexWrap: 'wrap', my: 0.5, pb: 1, mx: 0.3 }}>
-        <Typography sx={{ fontWeight: 'bold', m: 1, color: '#145DA0', fontSize: 14 }}>
-          {heading}
-        </Typography>
+        <Typography sx={{ fontWeight: 'bold', m: 1, color: '#145DA0', fontSize: 14 }}>{heading}</Typography>
         <Typography sx={{ fontSize: 14, fontWeight: 550, pl: 1 }}>{remarkBox()}</Typography>
         <Box sx={{ flex: 1, m: 0.5, px: 0.5 }}>
           <Textarea
@@ -134,9 +122,7 @@ const HodApprovalComponent = ({
         </Box>
         {!reject && !pending && (
           <>
-            <Typography sx={{ fontSize: 14, fontWeight: 550, pl: 1 }}>
-              Detailed Analysis of Requirement
-            </Typography>
+            <Typography sx={{ fontSize: 14, fontWeight: 550, pl: 1 }}>Detailed Analysis of Requirement</Typography>
             <Box sx={{ flex: 1, m: 0.5, px: 0.5 }}>
               <Textarea
                 required
@@ -157,13 +143,7 @@ const HodApprovalComponent = ({
             <Box key={type} sx={{ m: 1 }}>
               <CusCheckBox
                 label={
-                  type === 'approve'
-                    ? 'Approve'
-                    : type === 'reject'
-                    ? 'Reject'
-                    : type === 'pending'
-                    ? 'On-Hold'
-                    : ''
+                  type === 'approve' ? 'Approve' : type === 'reject' ? 'Reject' : type === 'pending' ? 'On-Hold' : ''
                 }
                 color="primary"
                 size="md"
@@ -187,8 +167,8 @@ const HodApprovalComponent = ({
                   sx={{
                     bgcolor: 'white',
                     '&:hover': {
-                      bgcolor: 'white',
-                    },
+                      bgcolor: 'white'
+                    }
                   }}
                 >
                   <CloudUploadTwoToneIcon
@@ -198,8 +178,8 @@ const HodApprovalComponent = ({
                       height: 25,
                       color: '#3949ab',
                       '&:hover': {
-                        color: '#5c6bc0',
-                      },
+                        color: '#5c6bc0'
+                      }
                     }}
                   />
                   <Typography
@@ -207,8 +187,8 @@ const HodApprovalComponent = ({
                       fontSize: 12,
                       color: '#3949ab',
                       '&:hover': {
-                        color: '#5c6bc0',
-                      },
+                        color: '#5c6bc0'
+                      }
                     }}
                   >
                     Maximum Size 25MB
@@ -239,7 +219,7 @@ const HodApprovalComponent = ({
                     border: '1px solid #e0e0e0',
                     borderRadius: '4px',
                     p: 0.5,
-                    pr: 1,
+                    pr: 1
                   }}
                 >
                   {file.imageName.endsWith('.png') ||
@@ -254,7 +234,7 @@ const HodApprovalComponent = ({
                         objectFit: 'cover',
                         borderRadius: '4px',
                         marginRight: '8px',
-                        cursor: 'pointer',
+                        cursor: 'pointer'
                       }}
                       onClick={() => viewUploadedFile(file)}
                     />
@@ -265,7 +245,7 @@ const HodApprovalComponent = ({
                         height: '40px',
                         color: '#e53935',
                         marginRight: '8px',
-                        cursor: 'pointer',
+                        cursor: 'pointer'
                       }}
                       onClick={() => viewUploadedFile(file)}
                     />
@@ -276,7 +256,7 @@ const HodApprovalComponent = ({
                         height: '40px',
                         color: '#9e9e9e',
                         marginRight: '8px',
-                        cursor: 'pointer',
+                        cursor: 'pointer'
                       }}
                       onClick={() => viewUploadedFile(file)}
                     />
@@ -294,7 +274,7 @@ const HodApprovalComponent = ({
                     ml: 1,
                     border: '1px solid #e0e0e0',
                     borderRadius: '4px',
-                    p: 0.5,
+                    p: 0.5
                   }}
                 >
                   {file.type.includes('image') ? (
@@ -307,7 +287,7 @@ const HodApprovalComponent = ({
                         objectFit: 'cover',
                         borderRadius: '4px',
                         marginRight: '8px',
-                        cursor: 'pointer',
+                        cursor: 'pointer'
                       }}
                       onClick={() => viewUploadedFile(file)}
                     />
@@ -318,7 +298,7 @@ const HodApprovalComponent = ({
                         height: '40px',
                         color: '#e53935',
                         marginRight: '8px',
-                        cursor: 'pointer',
+                        cursor: 'pointer'
                       }}
                       onClick={() => viewUploadedFile(file)}
                     />
@@ -329,7 +309,7 @@ const HodApprovalComponent = ({
                         height: '40px',
                         color: '#9e9e9e',
                         marginRight: '8px',
-                        cursor: 'pointer',
+                        cursor: 'pointer'
                       }}
                       onClick={() => viewUploadedFile(file)}
                     />
@@ -341,7 +321,7 @@ const HodApprovalComponent = ({
                       width: '16px',
                       cursor: 'pointer',
                       color: 'red',
-                      marginLeft: '8px',
+                      marginLeft: '8px'
                     }}
                     onClick={() => handleRemoveFile(index)}
                   />

@@ -3,17 +3,7 @@ import { Typography } from '@mui/material'
 import CustomTextarea from 'src/views/Components/CustomTextarea'
 import { errorNotify, infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { axioslogin } from 'src/views/Axios/Axios'
-import {
-  Avatar,
-  Box,
-  Button,
-  Checkbox,
-  CssVarsProvider,
-  Input,
-  Modal,
-  Switch,
-  Tooltip,
-} from '@mui/joy'
+import { Avatar, Box, Button, Checkbox, CssVarsProvider, Input, Modal, Switch, Tooltip } from '@mui/joy'
 import { useDispatch, useSelector } from 'react-redux'
 import { format } from 'date-fns'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
@@ -42,14 +32,7 @@ import ComplaintAttachFiles from './ComplaintAttachFiles'
 import AddBoxIcon from '@mui/icons-material/AddBox'
 import CmHoldReasonList from '../../CmComponent/CmHoldReasonList'
 
-const NewRectifyModal = ({
-  rectfyOpen,
-  setrectfyOpen,
-  setrectfyFlag,
-  rectfyDta,
-  count,
-  setCount,
-}) => {
+const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, count, setCount }) => {
   const {
     complaint_slno,
     complaint_desc,
@@ -65,7 +48,7 @@ const NewRectifyModal = ({
     complaint_deptslno,
     rectify_pending_hold_remarks,
     cm_hold_reason_slno,
-    rm_room_slno,
+    rm_room_slno
   } = rectfyDta
 
   const dispatch = useDispatch()
@@ -173,7 +156,7 @@ const NewRectifyModal = ({
   const { data: custodianDetailsVal, isSuccess } = useQuery({
     queryKey: ['getCustodianDetails', empdept],
     enabled: empdept !== 0,
-    queryFn: () => getCustodianDetails(empdept),
+    queryFn: () => getCustodianDetails(empdept)
   })
 
   const custodianDetails = useMemo(() => custodianDetailsVal, [custodianDetailsVal])
@@ -186,84 +169,23 @@ const NewRectifyModal = ({
     }
   }, [isSuccess, custodianDetails])
 
-  const searchAssetNo = useCallback(
-    () => {
-      if (cm_am_asset_no === '') {
-        infoNotify('Please Enter Asset Number')
-      } else {
-        const starts = custFirstName + '/' + custSecName
-        const asset_number = parseInt(cm_am_asset_no)
-        const postdata = {
-          item_asset_no: starts,
-          item_asset_no_only: asset_number,
-        }
-        const getAssetdata = async postdata => {
-          const result = await axioslogin.post('/PasswordManagementMain/getAssetNo', postdata)
-          const { data, success } = result.data
-          if (data.length !== 0) {
-            if (success === 1) {
-              const { item_deptsec_slno } = data[0]
-              if (item_deptsec_slno === complaint_dept_secslno) {
-                const {
-                  item_name,
-                  sec_name,
-                  am_item_map_slno,
-                  item_asset_no_only,
-                  item_asset_no,
-                  am_custodian_dept_slno,
-                  item_custodian_dept_sec,
-                } = data[0]
-                const assetExists = assetArray.some(
-                  asset => asset.item_asset_no_only === item_asset_no_only
-                )
-                if (assetExists) {
-                  infoNotify('You already added this asset in complaint')
-                } else {
-                  const newAsset = {
-                    item_name,
-                    sec_name,
-                    am_item_map_slno,
-                    item_asset_no_only,
-                    item_asset_no,
-                    am_custodian_dept_slno,
-                    item_custodian_dept_sec,
-                  }
-                  setAssetArray(prevArray => [...prevArray, newAsset])
-                  setNewlyAddedAssets(prevAssets => [...prevAssets, newAsset])
-                  setcm_am_asset_no('')
-                  setassetData(0)
-                }
-              } else {
-                infoNotify("Can't find Searched Asset Under Department Section")
-              }
-            }
-            return result.data
-          } else {
-            warningNotify('Asset number not found')
-          }
-        }
-        getAssetdata(postdata)
-        setAssetStatus(1)
+  const searchAssetNo = useCallback(() => {
+    if (cm_am_asset_no === '') {
+      infoNotify('Please Enter Asset Number')
+    } else {
+      const starts = custFirstName + '/' + custSecName
+      const asset_number = parseInt(cm_am_asset_no)
+      const postdata = {
+        item_asset_no: starts,
+        item_asset_no_only: asset_number
       }
-    },
-    [cm_am_asset_no, assetArray, custFirstName, custSecName, complaint_dept_secslno]
-  )
-
-  const searchAssetNoinMenu = useCallback(
-    () => {
-      if (item_slno === 0) {
-        infoNotify('Please select Asset')
-      } else {
-        const asset_number = parseInt(item_slno)
-        const postdata = {
-          item_asset_no: asset_dept,
-          item_asset_no_only: asset_number,
-        }
-        const getAssetdata = async postdata => {
-          const result = await axioslogin.post('/PasswordManagementMain/getAssetNo', postdata)
-          const { data, success } = result.data
-          if (data.length !== 0) {
-            if (success === 1) {
+      const getAssetdata = async postdata => {
+        const result = await axioslogin.post('/PasswordManagementMain/getAssetNo', postdata)
+        const { data, success } = result.data
+        if (data.length !== 0) {
+          if (success === 1) {
+            const { item_deptsec_slno } = data[0]
+            if (item_deptsec_slno === complaint_dept_secslno) {
               const {
                 item_name,
                 sec_name,
@@ -271,11 +193,9 @@ const NewRectifyModal = ({
                 item_asset_no_only,
                 item_asset_no,
                 am_custodian_dept_slno,
-                item_custodian_dept_sec,
+                item_custodian_dept_sec
               } = data[0]
-              const assetExists = assetArray.some(
-                asset => asset.item_asset_no_only === item_asset_no_only
-              )
+              const assetExists = assetArray.some(asset => asset.item_asset_no_only === item_asset_no_only)
               if (assetExists) {
                 infoNotify('You already added this asset in complaint')
               } else {
@@ -286,26 +206,79 @@ const NewRectifyModal = ({
                   item_asset_no_only,
                   item_asset_no,
                   am_custodian_dept_slno,
-                  item_custodian_dept_sec,
+                  item_custodian_dept_sec
                 }
-
                 setAssetArray(prevArray => [...prevArray, newAsset])
                 setNewlyAddedAssets(prevAssets => [...prevAssets, newAsset])
-                setSelectedAsset(0)
+                setcm_am_asset_no('')
                 setassetData(0)
               }
+            } else {
+              infoNotify("Can't find Searched Asset Under Department Section")
             }
-            return result.data
-          } else {
-            warningNotify('Asset  not found')
           }
+          return result.data
+        } else {
+          warningNotify('Asset number not found')
         }
-        getAssetdata(postdata)
-        setAssetStatus(1)
       }
-    },
-    [item_slno, assetArray, asset_dept]
-  )
+      getAssetdata(postdata)
+      setAssetStatus(1)
+    }
+  }, [cm_am_asset_no, assetArray, custFirstName, custSecName, complaint_dept_secslno])
+
+  const searchAssetNoinMenu = useCallback(() => {
+    if (item_slno === 0) {
+      infoNotify('Please select Asset')
+    } else {
+      const asset_number = parseInt(item_slno)
+      const postdata = {
+        item_asset_no: asset_dept,
+        item_asset_no_only: asset_number
+      }
+      const getAssetdata = async postdata => {
+        const result = await axioslogin.post('/PasswordManagementMain/getAssetNo', postdata)
+        const { data, success } = result.data
+        if (data.length !== 0) {
+          if (success === 1) {
+            const {
+              item_name,
+              sec_name,
+              am_item_map_slno,
+              item_asset_no_only,
+              item_asset_no,
+              am_custodian_dept_slno,
+              item_custodian_dept_sec
+            } = data[0]
+            const assetExists = assetArray.some(asset => asset.item_asset_no_only === item_asset_no_only)
+            if (assetExists) {
+              infoNotify('You already added this asset in complaint')
+            } else {
+              const newAsset = {
+                item_name,
+                sec_name,
+                am_item_map_slno,
+                item_asset_no_only,
+                item_asset_no,
+                am_custodian_dept_slno,
+                item_custodian_dept_sec
+              }
+
+              setAssetArray(prevArray => [...prevArray, newAsset])
+              setNewlyAddedAssets(prevAssets => [...prevAssets, newAsset])
+              setSelectedAsset(0)
+              setassetData(0)
+            }
+          }
+          return result.data
+        } else {
+          warningNotify('Asset  not found')
+        }
+      }
+      getAssetdata(postdata)
+      setAssetStatus(1)
+    }
+  }, [item_slno, assetArray, asset_dept])
 
   useEffect(() => {
     const getEmployeees = async () => {
@@ -367,8 +340,8 @@ const NewRectifyModal = ({
             cm_asset_dept: val.item_asset_no,
             am_item_map_slno: val.am_item_map_slno,
             asset_status: 1,
-            create_user: id,
-          },
+            create_user: id
+          }
         ]
         const InsertAsset = async InsertAssetx => {
           const result = await axioslogin.post('/complaintreg/insertAssetArray', InsertAssetx)
@@ -400,7 +373,7 @@ const NewRectifyModal = ({
     const options = {
       maxSizeMB: 1,
       maxWidthOrHeight: 1920,
-      useWebWorker: true,
+      useWebWorker: true
     }
     const compressedFile = await imageCompression(imageFile, options)
     return compressedFile
@@ -425,8 +398,8 @@ const NewRectifyModal = ({
             cm_asset_dept: val.item_asset_no,
             am_item_map_slno: val.am_item_map_slno,
             asset_status: 1,
-            create_user: id,
-          },
+            create_user: id
+          }
         ]
         const InsertAsset = async InsertAssetx => {
           const result = await axioslogin.post('/complaintreg/insertAssetArray', InsertAssetx)
@@ -444,7 +417,7 @@ const NewRectifyModal = ({
               am_trans_from_subroom: null,
               am_custodian_trans_status: 1,
               asset_item_service_user: id,
-              transfer_user: id,
+              transfer_user: id
             }
             const ServiceUpdate = async patchdata => {
               const result = await axioslogin.patch('/ItemMapDetails/AssetService', patchdata)
@@ -472,7 +445,7 @@ const NewRectifyModal = ({
           am_trans_from_subroom: null,
           am_custodian_trans_status: 1,
           asset_item_service_user: id,
-          transfer_user: id,
+          transfer_user: id
         }
         const ServiceUpdate = async patchdata => {
           const result = await axioslogin.patch('/ItemMapDetails/AssetService', patchdata)
@@ -496,7 +469,7 @@ const NewRectifyModal = ({
       complaint_dept_secslno,
       complaint_from_dept,
       complaint_slno,
-      rm_room_slno,
+      rm_room_slno
     ]
   )
 
@@ -528,15 +501,11 @@ const NewRectifyModal = ({
             formData.append('files', file, file.name)
           }
         }
-        const uploadResult = await axioslogin.post(
-          '/complaintFileUpload/uploadFile/Complaint',
-          formData,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
+        const uploadResult = await axioslogin.post('/complaintFileUpload/uploadFile/Complaint', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
           }
-        )
+        })
         const { success } = uploadResult.data
         if (success === 1) {
           succesNotify('File Uploaded Successfully')
@@ -561,11 +530,11 @@ const NewRectifyModal = ({
     '&:hover': {
       bgcolor: 'white',
       color: '#523A28',
-      transform: 'scale(1.1)',
+      transform: 'scale(1.1)'
     },
     '&:active': {
-      transform: 'scale(0.95)',
-    },
+      transform: 'scale(0.95)'
+    }
   }
 
   const patchData =
@@ -575,14 +544,13 @@ const NewRectifyModal = ({
         compalint_status: rectified === true ? 2 : 1, // when we click on rectifi status become 2 other wise status is 1
         cm_rectify_status: rectified === true ? 'R' : pending === true ? 'O' : null,
         cm_rectify_time: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
-        rectify_pending_hold_remarks:
-          pending === true ? pendholdreason : rectified === true ? pendholdreason : null,
+        rectify_pending_hold_remarks: pending === true ? pendholdreason : rectified === true ? pendholdreason : null,
         pending_onhold_time: pending === true ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : null,
         pending_onhold_user: id,
         assigned_emp: val.emids,
         verify_spervsr: 0,
         cm_hold_reason_slno: holdReason,
-        complaint_slno: complaint_slno,
+        complaint_slno: complaint_slno
       }
     })
   const updateAssetz =
@@ -594,7 +562,7 @@ const NewRectifyModal = ({
         cm_asset_dept: val.item_asset_no,
         am_item_map_slno: val.am_item_map_slno,
         asset_status: 1,
-        create_user: id,
+        create_user: id
       }
     })
   const assetinactive =
@@ -603,7 +571,7 @@ const NewRectifyModal = ({
       return {
         comasset_mapping_slno: val.comasset_mapping_slno,
         asset_status: 0,
-        edit_user: id,
+        edit_user: id
       }
     })
 
@@ -612,7 +580,7 @@ const NewRectifyModal = ({
     filteredArray.map(value => {
       return {
         complaint_slno: complaint_slno,
-        assigned_emp: value.assigned_emp,
+        assigned_emp: value.assigned_emp
       }
     })
 
@@ -629,10 +597,7 @@ const NewRectifyModal = ({
           if (pendholdreason === '') {
             infoNotify('Please Add Remarks')
           } else {
-            if (
-              (cm_am_asset_no !== '' && assetStatus === 0) ||
-              (selectedAsset !== '' && assetStatus === 0)
-            ) {
+            if ((cm_am_asset_no !== '' && assetStatus === 0) || (selectedAsset !== '' && assetStatus === 0)) {
               infoNotify(
                 <>
                   please click on &apos; <AddCircleIcon /> &apos; to add Asset details
@@ -652,10 +617,7 @@ const NewRectifyModal = ({
                 return result.data
               }
               const Inactiveemp = async inactiveEployee => {
-                const result = await axioslogin.post(
-                  `/complaintassign/employeeTrans/Inactive`,
-                  inactiveEployee
-                )
+                const result = await axioslogin.post(`/complaintassign/employeeTrans/Inactive`, inactiveEployee)
                 return result.data
               }
 
@@ -811,19 +773,19 @@ const NewRectifyModal = ({
       inactiveEployee,
       filteredArray.length,
       reset,
-      selectFile.length,
+      selectFile.length
     ]
   )
 
   const getemp = (e, v) => {
     if (e === true) {
       const obj = {
-        emids: v,
+        emids: v
       }
       setEmployee([...Employee, obj])
     } else {
       const obj = {
-        emids: v,
+        emids: v
       }
       const newarry = Employee.filter(val => {
         return val.emids !== obj.emids
@@ -837,13 +799,13 @@ const NewRectifyModal = ({
 
   const postArrayOfAssetNo = useMemo(() => {
     return {
-      AssetItemMapSlno: selectedAssets?.map(assetSlno => assetSlno.am_item_map_slno),
+      AssetItemMapSlno: selectedAssets?.map(assetSlno => assetSlno.am_item_map_slno)
     }
   }, [selectedAssets])
 
   const { data: dataTransFer } = useQuery({
     queryKey: ['getArrayOfAssetLocationDetails', postArrayOfAssetNo],
-    queryFn: () => getArrayOfAssetLocationDetails(postArrayOfAssetNo),
+    queryFn: () => getArrayOfAssetLocationDetails(postArrayOfAssetNo)
   })
 
   const dataTrans = useMemo(() => dataTransFer, [dataTransFer])
@@ -859,7 +821,7 @@ const NewRectifyModal = ({
       am_trans_from_room: asset.item_room_slno || null,
       am_trans_from_subroom: asset.item_subroom_slno || null,
       transfer_user: id,
-      am_item_map_slno: asset.am_item_map_slno,
+      am_item_map_slno: asset.am_item_map_slno
     }))
   }, [dataTrans, complaint_from_dept, complaint_dept_secslno, rm_room_slno, id])
 
@@ -897,8 +859,8 @@ const NewRectifyModal = ({
         ? 'pdf'
         : 'image'
       : file.type.includes('application/pdf')
-        ? 'pdf'
-        : 'image'
+      ? 'pdf'
+      : 'image'
 
     const fileUrl = file.url || URL.createObjectURL(file)
     setPreviewFile({ url: fileUrl, type: fileType })
@@ -913,9 +875,7 @@ const NewRectifyModal = ({
 
   const handleAddAsset = () => {
     if (assetDaata) {
-      const isDuplicate = selectedAssets.some(
-        asset => asset.am_item_map_slno === assetDaata.am_item_map_slno
-      )
+      const isDuplicate = selectedAssets.some(asset => asset.am_item_map_slno === assetDaata.am_item_map_slno)
       if (isDuplicate) {
         infoNotify('Selected asset is already added.')
       } else {
@@ -956,7 +916,7 @@ const NewRectifyModal = ({
             justifyContent: 'center',
             alignItems: 'center',
             pl: 1,
-            borderRadius: 10,
+            borderRadius: 10
           }}
         >
           <Box
@@ -969,7 +929,7 @@ const NewRectifyModal = ({
               display: 'flex',
               flexDirection: 'column',
               py: 2,
-              px: 3,
+              px: 3
             }}
           >
             <Box sx={{ mb: 2, flexShrink: 0 }}>
@@ -979,9 +939,7 @@ const NewRectifyModal = ({
                   <Typography sx={{ pl: 0.5, fontWeight: 600, color: 'Black', fontSize: 18 }}>
                     Ticket No.{complaint_slno}
                   </Typography>
-                  <Typography sx={{ pl: 0.5, fontSize: 14, color: 'Black' }}>
-                    {complaint_desc}
-                  </Typography>
+                  <Typography sx={{ pl: 0.5, fontSize: 14, color: 'Black' }}>{complaint_desc}</Typography>
                   <Typography sx={{ pl: 0.5, fontSize: 13, color: 'Black', py: 0.5 }}>
                     Complaint Type: {complaint_type_name}
                   </Typography>
@@ -992,16 +950,16 @@ const NewRectifyModal = ({
                     <Typography sx={{ pl: 0.5, fontSize: 13, color: 'Black' }}>
                       {rm_room_name}
                       {rm_roomtype_name || rm_insidebuildblock_name || rm_floor_name
-                        ? ` (${rm_roomtype_name ? rm_roomtype_name : ''}${rm_roomtype_name && rm_insidebuildblock_name ? ' - ' : ''
-                        }${rm_insidebuildblock_name ? rm_insidebuildblock_name : ''}${rm_insidebuildblock_name && rm_floor_name ? ' - ' : ''
-                        }${rm_floor_name ? rm_floor_name : ''})`
+                        ? ` (${rm_roomtype_name ? rm_roomtype_name : ''}${
+                            rm_roomtype_name && rm_insidebuildblock_name ? ' - ' : ''
+                          }${rm_insidebuildblock_name ? rm_insidebuildblock_name : ''}${
+                            rm_insidebuildblock_name && rm_floor_name ? ' - ' : ''
+                          }${rm_floor_name ? rm_floor_name : ''})`
                         : 'Not Updated'}
                     </Typography>
                   ) : null}
                   <Typography sx={{ pl: 0.5, fontSize: 13, color: 'Black' }}>
-                    {compalint_date
-                      ? format(new Date(compalint_date), 'dd MMM yyyy,  hh:mm a')
-                      : 'Invalid Date'}
+                    {compalint_date ? format(new Date(compalint_date), 'dd MMM yyyy,  hh:mm a') : 'Invalid Date'}
                   </Typography>
                 </Box>
               </Box>
@@ -1010,13 +968,11 @@ const NewRectifyModal = ({
               sx={{
                 flexGrow: 1,
                 overflowY: 'auto',
-                ml: 1,
+                ml: 1
               }}
             >
               <Box sx={{ display: 'flex', gap: 0.5, cursor: 'pointer' }} onClick={handleToggle}>
-                <Typography sx={{ fontWeight: 600, color: 'Black', fontSize: 17, pt: 0.2 }}>
-                  Asset Details
-                </Typography>
+                <Typography sx={{ fontWeight: 600, color: 'Black', fontSize: 17, pt: 0.2 }}>Asset Details</Typography>
                 {isExpanded || assetArray.length !== 0 ? (
                   <ArrowDropUpOutlinedIcon sx={{ width: 30, height: 25 }} />
                 ) : (
@@ -1041,28 +997,24 @@ const NewRectifyModal = ({
                           children: (
                             <>
                               {isSelect ? (
-                                <Typography sx={{ ml: '15px', mr: '10px', fontSize: 13 }}>
-                                  Select
-                                </Typography>
+                                <Typography sx={{ ml: '15px', mr: '10px', fontSize: 13 }}>Select</Typography>
                               ) : (
-                                <Typography sx={{ ml: '30px', mr: '10px', fontSize: 13 }}>
-                                  Search
-                                </Typography>
+                                <Typography sx={{ ml: '30px', mr: '10px', fontSize: 13 }}>Search</Typography>
                               )}
                             </>
-                          ),
-                        },
+                          )
+                        }
                       }}
                       sx={{
                         '--Switch-thumbSize': '19px',
                         '--Switch-trackWidth': '90px',
                         '--Switch-trackHeight': '29px',
                         '& .MuiSwitch-thumb': {
-                          borderRadius: '3px',
+                          borderRadius: '3px'
                         },
                         '& .MuiSwitch-track': {
-                          borderRadius: '3px',
-                        },
+                          borderRadius: '3px'
+                        }
                       }}
                     />
                     {select === 1 && (
@@ -1092,7 +1044,7 @@ const NewRectifyModal = ({
                                   '&:hover': { color: '#636B74' },
                                   height: 30,
                                   width: 29,
-                                  boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.3)',
+                                  boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.3)'
                                 }}
                                 onClick={searchAssetNoinMenu}
                               />
@@ -1109,7 +1061,7 @@ const NewRectifyModal = ({
                               placeholder=" Asset Number"
                               sx={{
                                 borderRadius: 0,
-                                minHeight: 15,
+                                minHeight: 15
                               }}
                               type="number"
                               autoComplete="off"
@@ -1126,7 +1078,7 @@ const NewRectifyModal = ({
                                         cursor: 'pointer',
                                         fontSize: 13,
                                         fontStyle: 'italic',
-                                        mr: 0.3,
+                                        mr: 0.3
                                       }}
                                       onClick={ClearAssetSelection}
                                     >
@@ -1154,7 +1106,7 @@ const NewRectifyModal = ({
                                   '&:hover': { color: '#636B74' },
                                   height: 30,
                                   width: 29,
-                                  boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.3)',
+                                  boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.3)'
                                 }}
                                 onClick={searchAssetNo}
                               />
@@ -1167,9 +1119,7 @@ const NewRectifyModal = ({
 
                   {assetArray.length !== 0 && (
                     <Box sx={{ flex: 1, mr: 4, mt: 1, display: 'flex', bgcolor: '#BDC4C9' }}>
-                      <Box sx={{ flex: 0.8, textAlign: 'center', fontSize: 15, fontWeight: 600 }}>
-                        #
-                      </Box>
+                      <Box sx={{ flex: 0.8, textAlign: 'center', fontSize: 15, fontWeight: 600 }}>#</Box>
                       <Box sx={{ flex: 2.5, fontSize: 14, fontWeight: 600 }}>Asset Number</Box>
                       <Box sx={{ flex: 9, fontSize: 14, fontWeight: 600 }}>Asset Name</Box>
                       <Box sx={{ flex: 3, textAlign: 'center', fontSize: 14, fontWeight: 600 }}>
@@ -1181,7 +1131,7 @@ const NewRectifyModal = ({
                           textAlign: 'center',
                           fontSize: 14,
                           fontWeight: 600,
-                          pr: 0.5,
+                          pr: 0.5
                         }}
                       >
                         For Service
@@ -1192,7 +1142,7 @@ const NewRectifyModal = ({
                           textAlign: 'center',
                           fontSize: 14,
                           fontWeight: 600,
-                          pr: 0.3,
+                          pr: 0.3
                         }}
                       >
                         Action
@@ -1205,10 +1155,10 @@ const NewRectifyModal = ({
                       val.item_asset_no_only === 0
                         ? 0
                         : val.item_asset_no_only === undefined
-                          ? 0
-                          : val.item_asset_no_only === null
-                            ? 0
-                            : val.item_asset_no_only.toString().padStart(6, '0')
+                        ? 0
+                        : val.item_asset_no_only === null
+                        ? 0
+                        : val.item_asset_no_only.toString().padStart(6, '0')
                     return (
                       <Box
                         key={index}
@@ -1218,7 +1168,7 @@ const NewRectifyModal = ({
                           display: 'flex',
                           borderBottom: 1,
                           borderColor: 'lightgrey',
-                          pt: 0.8,
+                          pt: 0.8
                         }}
                       >
                         <Box sx={{ flex: 0.8, textAlign: 'center', fontSize: 13 }}>{index + 1}</Box>
@@ -1230,11 +1180,7 @@ const NewRectifyModal = ({
                           {val.asset_item_service === 1 || val.asset_item_service === 2 ? (
                             <BuildIcon sx={{ color: 'lightgrey', cursor: 'pointer', p: 0.3 }} />
                           ) : (
-                            <Tooltip
-                              title={'Click here for Spare Change'}
-                              sx={{ width: 200 }}
-                              placement="top"
-                            >
+                            <Tooltip title={'Click here for Spare Change'} sx={{ width: 200 }} placement="top">
                               <BuildIcon
                                 sx={{ color: '#488BA3', cursor: 'pointer', p: 0.3 }}
                                 onClick={() => AssetSpareDetailsview(val)}
@@ -1248,14 +1194,12 @@ const NewRectifyModal = ({
                             textAlign: 'center',
                             fontSize: 13,
                             pr: 0.5,
-                            cursor: 'pointer',
+                            cursor: 'pointer'
                           }}
                         >
                           {val.asset_item_service === 0 ? (
                             <Tooltip
-                              title={
-                                'Click Here for Service this Asset (this will be transfered to the service list) '
-                              }
+                              title={'Click Here for Service this Asset (this will be transfered to the service list) '}
                               sx={{ width: 200 }}
                               placement="top"
                             >
@@ -1264,7 +1208,7 @@ const NewRectifyModal = ({
                                   color: '#603A70',
                                   cursor: 'pointer',
                                   p: 0.1,
-                                  '&:hover': { color: '#0000FF' },
+                                  '&:hover': { color: '#0000FF' }
                                 }}
                                 onClick={() => servicefunctn(val)}
                               />
@@ -1281,7 +1225,7 @@ const NewRectifyModal = ({
                                   color: '#603A70',
                                   cursor: 'pointer',
                                   p: 0.1,
-                                  '&:hover': { color: '#0000FF' },
+                                  '&:hover': { color: '#0000FF' }
                                 }}
                                 onClick={() => servicefunctn(val)}
                               />
@@ -1296,7 +1240,7 @@ const NewRectifyModal = ({
                                 sx={{
                                   color: 'lightgrey',
                                   cursor: 'pointer',
-                                  p: 0.1,
+                                  p: 0.1
                                 }}
                               />
                             </Tooltip>
@@ -1310,7 +1254,7 @@ const NewRectifyModal = ({
                                 sx={{
                                   color: 'lightgrey',
                                   cursor: 'pointer',
-                                  p: 0.1,
+                                  p: 0.1
                                 }}
                               />
                             </Tooltip>
@@ -1335,8 +1279,8 @@ const NewRectifyModal = ({
                       Asset Transfer
                     </Typography>
                     <Typography sx={{ fontStyle: 'italic', color: '#394E6C' }}>
-                      [you can transfer new assets to the ticket raised department for temporary
-                      allocation / permanent transfer]
+                      [you can transfer new assets to the ticket raised department for temporary allocation / permanent
+                      transfer]
                     </Typography>
                     <Box sx={{ display: 'flex', pr: 3.9, pt: 0.5, gap: 1 }}>
                       <AssetListUnderCustodian
@@ -1355,7 +1299,7 @@ const NewRectifyModal = ({
                                 cursor: 'pointer',
                                 '&:hover': { color: '#34323E' },
                                 height: 30,
-                                width: 30,
+                                width: 30
                               }}
                               onClick={handleAddAsset}
                             />
@@ -1367,7 +1311,7 @@ const NewRectifyModal = ({
                   <Box
                     sx={{
                       maxHeight: '50vh',
-                      overflowY: 'auto',
+                      overflowY: 'auto'
                     }}
                   >
                     {selectedAssets.length !== 0 ? (
@@ -1378,7 +1322,7 @@ const NewRectifyModal = ({
                             mt: 1.5,
                             border: 1,
                             mr: 3.6,
-                            borderColor: '#BDC4C9',
+                            borderColor: '#BDC4C9'
                           }}
                         >
                           <Box sx={{ flex: 1, display: 'flex', bgcolor: '#BDC4C9' }}>
@@ -1388,25 +1332,19 @@ const NewRectifyModal = ({
                                 pl: 3,
                                 color: 'black',
                                 fontWeight: 600,
-                                fontSize: 14,
+                                fontSize: 14
                               }}
                             >
                               #
                             </Box>
-                            <Box sx={{ flex: 2, color: 'black', fontWeight: 600, fontSize: 14 }}>
-                              Asset No.
-                            </Box>
-                            <Box sx={{ flex: 8, color: 'black', fontWeight: 600, fontSize: 14 }}>
-                              Asset Name
-                            </Box>
-                            <Box sx={{ flex: 1, color: 'black', fontWeight: 600, fontSize: 14 }}>
-                              Remove
-                            </Box>
+                            <Box sx={{ flex: 2, color: 'black', fontWeight: 600, fontSize: 14 }}>Asset No.</Box>
+                            <Box sx={{ flex: 8, color: 'black', fontWeight: 600, fontSize: 14 }}>Asset Name</Box>
+                            <Box sx={{ flex: 1, color: 'black', fontWeight: 600, fontSize: 14 }}>Remove</Box>
                           </Box>
                           <Box
                             sx={{
                               maxHeight: '50vh',
-                              overflowY: 'auto',
+                              overflowY: 'auto'
                             }}
                           >
                             {selectedAssets?.map((val, index) => (
@@ -1416,26 +1354,16 @@ const NewRectifyModal = ({
                                   flex: 1,
                                   display: 'flex',
                                   borderTop: 1,
-                                  borderColor: 'lightgrey',
+                                  borderColor: 'lightgrey'
                                 }}
                               >
-                                <Box
-                                  sx={{ flex: 0.5, pl: 3, color: 'black', py: 0.5, fontSize: 14 }}
-                                >
-                                  {index + 1}
-                                </Box>
+                                <Box sx={{ flex: 0.5, pl: 3, color: 'black', py: 0.5, fontSize: 14 }}>{index + 1}</Box>
                                 <Box sx={{ flex: 2, color: 'black', py: 0.5, fontSize: 14 }}>
-                                  {val.item_asset_no}/
-                                  {val.item_asset_no_only.toString().padStart(6, '0')}
+                                  {val.item_asset_no}/{val.item_asset_no_only.toString().padStart(6, '0')}
                                 </Box>
-                                <Box sx={{ flex: 8, color: 'black', py: 0.5, fontSize: 14 }}>
-                                  {val.item_name}
-                                </Box>
+                                <Box sx={{ flex: 8, color: 'black', py: 0.5, fontSize: 14 }}>{val.item_name}</Box>
                                 <Box sx={{ flex: 1, color: 'black', py: 0.2, fontSize: 14 }}>
-                                  <DeleteOutlineIcon
-                                    onClick={() => removeSlected(index)}
-                                    sx={{ cursor: 'pointer' }}
-                                  />
+                                  <DeleteOutlineIcon onClick={() => removeSlected(index)} sx={{ cursor: 'pointer' }} />
                                 </Box>
                               </Box>
                             ))}
@@ -1454,7 +1382,7 @@ const NewRectifyModal = ({
                               color: 'white',
                               border: 1,
                               borderColor: '#5A5F63',
-                              boxShadow: 20,
+                              boxShadow: 20
                             }}
                           >
                             {' '}
@@ -1501,7 +1429,7 @@ const NewRectifyModal = ({
                   pt: 1,
                   gap: 3,
                   mt: 2.5,
-                  pb: 1,
+                  pb: 1
                 }}
               >
                 <CusCheckBox
@@ -1544,12 +1472,10 @@ const NewRectifyModal = ({
                   borderRadius: 1,
                   borderColor: 'lightgrey',
                   mb: 0.5,
-                  mr: 1,
+                  mr: 1
                 }}
               >
-                <Typography
-                  sx={{ fontWeight: 600, color: 'Black', fontSize: 16, pt: 0.5, pl: 0.8 }}
-                >
+                <Typography sx={{ fontWeight: 600, color: 'Black', fontSize: 16, pt: 0.5, pl: 0.8 }}>
                   Attachment
                 </Typography>
                 <ComplaintAttachFiles complaint_slno={complaint_slno} />
@@ -1562,7 +1488,7 @@ const NewRectifyModal = ({
                   display: 'flex',
                   borderColor: 'lightgrey',
                   mb: 2,
-                  mr: 1,
+                  mr: 1
                 }}
               >
                 <Box sx={{ margin: 'auto' }}>
@@ -1580,7 +1506,7 @@ const NewRectifyModal = ({
                         alignItems: 'center',
                         my: 0.9,
                         ml: 0.5,
-                        height: 50,
+                        height: 50
                       }}
                     >
                       <AttachmentSharpIcon sx={{ color: '#0B6BCB', mr: 0.5 }} />
@@ -1609,7 +1535,7 @@ const NewRectifyModal = ({
                           border: '1px solid #e0e0e0',
                           borderRadius: '4px',
                           p: 0.5,
-                          mr: 0.5,
+                          mr: 0.5
                         }}
                       >
                         {file.type.includes('image') ? (
@@ -1622,7 +1548,7 @@ const NewRectifyModal = ({
                               objectFit: 'cover',
                               borderRadius: '4px',
                               marginRight: '8px',
-                              cursor: 'pointer',
+                              cursor: 'pointer'
                             }}
                             onClick={() => ViewImage(file)}
                           />
@@ -1633,7 +1559,7 @@ const NewRectifyModal = ({
                               height: '40px',
                               color: '#e53935',
                               marginRight: '8px',
-                              cursor: 'pointer',
+                              cursor: 'pointer'
                             }}
                             onClick={() => ViewImage(file)}
                           />
@@ -1644,7 +1570,7 @@ const NewRectifyModal = ({
                               height: '40px',
                               color: '#9e9e9e',
                               marginRight: '8px',
-                              cursor: 'pointer',
+                              cursor: 'pointer'
                             }}
                             onClick={() => ViewImage(file)}
                           />
@@ -1659,7 +1585,7 @@ const NewRectifyModal = ({
                             cursor: 'pointer',
                             color: '#4D0011',
                             mx: 0.5,
-                            '&:hover': { color: '#BA0F30' },
+                            '&:hover': { color: '#BA0F30' }
                           }}
                           onClick={() => handleRemoveFile(index)}
                         />
@@ -1688,8 +1614,8 @@ const NewRectifyModal = ({
                         '@keyframes blinkAnimation': {
                           '0%': { opacity: 1 },
                           '50%': { opacity: 0 },
-                          '100%': { opacity: 1 },
-                        },
+                          '100%': { opacity: 1 }
+                        }
                       }}
                       onClick={UploadFile}
                     >
@@ -1712,7 +1638,7 @@ const NewRectifyModal = ({
                         py: 0.5,
                         mr: 0.5,
                         my: 0.5,
-                        height: 48,
+                        height: 48
                       }}
                       onClick={UploadFile}
                     >

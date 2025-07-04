@@ -12,7 +12,7 @@ const StoreMasterTable = ({
   setDept,
   setDeptsec,
   setEmpname,
-  setCrsList,
+  setCrsList
 }) => {
   const [tabledata, setTabledata] = useState([])
 
@@ -24,8 +24,8 @@ const StoreMasterTable = ({
     { headerName: 'Sub Store', field: 'sub_store_names', minwidth: 300 },
     {
       headerName: 'Action',
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
-    },
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
+    }
   ])
 
   /*** get data from module_master table for display */

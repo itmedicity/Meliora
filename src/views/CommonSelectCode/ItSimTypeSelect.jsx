@@ -38,7 +38,7 @@ const ItSimTypeSelect = ({ simType, setSimType }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '29px',
+            '--Input-minHeight': '29px'
           }}
           value={simType === 0 ? simTypeX : value}
           placeholder="Select SiM Type"
@@ -55,9 +55,7 @@ const ItSimTypeSelect = ({ simType, setSimType }) => {
           loading={true}
           loadingText="Loading..."
           freeSolo
-          isOptionEqualToValue={(option, value) =>
-            option.it_sim_type_name === value.it_sim_type_name
-          }
+          isOptionEqualToValue={(option, value) => option.it_sim_type_name === value.it_sim_type_name}
           getOptionLabel={option => option.it_sim_type_name || ''}
           options={simTypeX}
         />

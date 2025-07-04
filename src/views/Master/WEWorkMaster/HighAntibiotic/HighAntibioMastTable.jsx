@@ -15,8 +15,8 @@ const HighAntibioMastTable = ({ count, rowSelect }) => {
     { headerName: 'Status', field: 'high_item_status' },
     {
       headerName: 'Action',
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
-    },
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
+    }
   ])
 
   useEffect(() => {

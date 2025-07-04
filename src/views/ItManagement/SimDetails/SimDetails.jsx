@@ -63,7 +63,7 @@ const SimDetails = () => {
     it_sim_recie_name: '',
     it_sim_recei_contact: '',
     it_sim_issue_date: '',
-    it_sim_status: true,
+    it_sim_status: true
   })
   const {
     it_sim_slno,
@@ -75,7 +75,7 @@ const SimDetails = () => {
     it_sim_recie_empid,
     it_sim_recie_name,
     it_sim_recei_contact,
-    it_sim_issue_date,
+    it_sim_issue_date
   } = simMast
 
   const SimMastUpdate = useCallback(
@@ -96,7 +96,7 @@ const SimDetails = () => {
       it_sim_recie_name: '',
       it_sim_recei_contact: '',
       it_sim_issue_date: '',
-      it_sim_status: true,
+      it_sim_status: true
     }
     setSimMast(form)
     setProvider(0)
@@ -124,7 +124,7 @@ const SimDetails = () => {
       it_sim_recie_name: it_sim_recie_name === '' ? null : it_sim_recie_name,
       it_sim_recei_contact: it_sim_recei_contact === '' ? null : it_sim_recei_contact,
       it_sim_issue_date: it_sim_issue_date === '' ? null : it_sim_issue_date,
-      create_user: id,
+      create_user: id
     }
   }, [
     it_sim_serial_no,
@@ -141,7 +141,7 @@ const SimDetails = () => {
     it_sim_recie_name,
     it_sim_recei_contact,
     it_sim_issue_date,
-    id,
+    id
   ])
 
   const rowSelect = useCallback(
@@ -160,7 +160,7 @@ const SimDetails = () => {
           it_sim_tariff,
           it_sim_tariff_amount,
           it_sim_status,
-          it_sim_type,
+          it_sim_type
         } = data
         const frmdata = {
           it_sim_slno: it_sim_slno,
@@ -170,7 +170,7 @@ const SimDetails = () => {
           it_sim_operator: it_sim_operator === 0 ? null : it_sim_operator,
           it_sim_tariff: it_sim_tariff === 0 ? null : it_sim_tariff,
           it_sim_tariff_amount: it_sim_tariff_amount === '' ? null : it_sim_tariff_amount,
-          it_sim_status: it_sim_status === 1 ? true : false,
+          it_sim_status: it_sim_status === 1 ? true : false
         }
         setSimMast(frmdata)
         setProvider(it_sim_operator)
@@ -194,7 +194,7 @@ const SimDetails = () => {
           it_sim_recie_empid,
           it_sim_recie_name,
           it_sim_recei_contact,
-          it_sim_issue_date,
+          it_sim_issue_date
         } = data
 
         const frmdata = {
@@ -211,7 +211,7 @@ const SimDetails = () => {
           it_sim_recie_empid: it_sim_recie_empid === '' ? null : it_sim_recie_empid,
           it_sim_recie_name: it_sim_recie_name === '' ? null : it_sim_recie_name,
           it_sim_recei_contact: it_sim_recei_contact === '' ? null : it_sim_recei_contact,
-          it_sim_issue_date: it_sim_issue_date === '' ? null : it_sim_issue_date,
+          it_sim_issue_date: it_sim_issue_date === '' ? null : it_sim_issue_date
         }
         setSimMast(frmdata)
         setProvider(it_sim_operator)
@@ -241,7 +241,7 @@ const SimDetails = () => {
       it_sim_recie_name: it_sim_recie_name,
       it_sim_recei_contact: it_sim_recei_contact,
       it_sim_issue_date: it_sim_issue_date,
-      edit_user: id,
+      edit_user: id
     }
   }, [
     it_sim_slno,
@@ -259,7 +259,7 @@ const SimDetails = () => {
     it_sim_recie_name,
     it_sim_recei_contact,
     it_sim_issue_date,
-    id,
+    id
   ])
 
   const InsertSimDetails = useCallback(
@@ -356,7 +356,7 @@ const SimDetails = () => {
                   mr: 1,
                   mt: 0.5,
                   height: 35,
-                  pt: 1,
+                  pt: 1
                 }}
               >
                 <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>Sim Type</Typography>
@@ -369,7 +369,7 @@ const SimDetails = () => {
                   justifyContent: 'right',
                   mr: 1,
                   height: 40,
-                  pt: 1,
+                  pt: 1
                 }}
               >
                 <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
@@ -383,7 +383,7 @@ const SimDetails = () => {
                   display: 'flex',
                   justifyContent: 'right',
                   mr: 1,
-                  height: 30,
+                  height: 30
                 }}
               >
                 <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>Sim SlNo</Typography>
@@ -396,7 +396,7 @@ const SimDetails = () => {
                   justifyContent: 'right',
                   mr: 1,
                   mt: 0.5,
-                  height: 30,
+                  height: 30
                 }}
               >
                 <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>Sim IMEI</Typography>
@@ -409,7 +409,7 @@ const SimDetails = () => {
                   justifyContent: 'right',
                   mr: 1,
                   mt: 0.5,
-                  height: 30,
+                  height: 30
                 }}
               >
                 <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
@@ -424,7 +424,7 @@ const SimDetails = () => {
                   justifyContent: 'right',
                   mr: 1,
                   mt: 0.5,
-                  height: 30,
+                  height: 30
                 }}
               >
                 <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
@@ -439,12 +439,10 @@ const SimDetails = () => {
                   justifyContent: 'right',
                   mr: 1,
                   mt: 0.5,
-                  height: 35,
+                  height: 35
                 }}
               >
-                <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                  Tariff Amount
-                </Typography>
+                <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>Tariff Amount</Typography>
               </Box>
             </Box>
             <Box sx={{ flex: 2.5 }}>
@@ -536,12 +534,10 @@ const SimDetails = () => {
                     justifyContent: 'right',
                     mr: 1,
                     height: 40,
-                    pt: 1,
+                    pt: 1
                   }}
                 >
-                  <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                    Department
-                  </Typography>
+                  <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>Department</Typography>
                 </Box>
                 <Box
                   sx={{
@@ -550,7 +546,7 @@ const SimDetails = () => {
                     display: 'flex',
                     justifyContent: 'right',
                     mr: 1,
-                    height: 30,
+                    height: 30
                   }}
                 >
                   <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>Section</Typography>
@@ -563,12 +559,10 @@ const SimDetails = () => {
                     justifyContent: 'right',
                     mr: 1,
                     mt: 0.5,
-                    height: 30,
+                    height: 30
                   }}
                 >
-                  <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                    Reciever&apos;s EmpID
-                  </Typography>
+                  <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>Reciever&apos;s EmpID</Typography>
                 </Box>
                 <Box
                   sx={{
@@ -578,12 +572,10 @@ const SimDetails = () => {
                     justifyContent: 'right',
                     mr: 1,
                     mt: 0.5,
-                    height: 30,
+                    height: 30
                   }}
                 >
-                  <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                    Reciever&apos;s Name
-                  </Typography>
+                  <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>Reciever&apos;s Name</Typography>
                 </Box>
                 <Box
                   sx={{
@@ -593,12 +585,10 @@ const SimDetails = () => {
                     justifyContent: 'right',
                     mr: 1,
                     mt: 0.5,
-                    height: 30,
+                    height: 30
                   }}
                 >
-                  <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                    Contact No.
-                  </Typography>
+                  <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>Contact No.</Typography>
                 </Box>
                 <Box
                   sx={{
@@ -608,12 +598,10 @@ const SimDetails = () => {
                     justifyContent: 'right',
                     mr: 1,
                     mt: 0.5,
-                    height: 35,
+                    height: 35
                   }}
                 >
-                  <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>
-                    Issue Date
-                  </Typography>
+                  <Typography sx={{ color: '#003B73', fontFamily: 'Georgia' }}>Issue Date</Typography>
                 </Box>
               </Box>
               <Box sx={{ flex: 2.5 }}>
@@ -672,20 +660,12 @@ const SimDetails = () => {
             <Box sx={{ flex: 1, display: 'flex' }}>
               <CssVarsProvider>
                 {value === 0 ? (
-                  <Button
-                    variant="outlined"
-                    onClick={InsertSimDetails}
-                    sx={{ fontSize: 15, width: 150 }}
-                  >
+                  <Button variant="outlined" onClick={InsertSimDetails} sx={{ fontSize: 15, width: 150 }}>
                     <AddIcon />
                     Add SiM
                   </Button>
                 ) : value === 1 ? (
-                  <Button
-                    variant="outlined"
-                    onClick={UpdateSimDetails}
-                    sx={{ fontSize: 16, width: 150 }}
-                  >
+                  <Button variant="outlined" onClick={UpdateSimDetails} sx={{ fontSize: 16, width: 150 }}>
                     Update{' '}
                   </Button>
                 ) : null}

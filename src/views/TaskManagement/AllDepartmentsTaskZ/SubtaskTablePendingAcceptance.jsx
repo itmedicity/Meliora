@@ -50,7 +50,7 @@ const SubtaskTablePendingAcceptance = ({ tm_task_slno, selectForEditsSubTask, ta
                   ? 'Pending'
                   : val.tm_task_status === 0
                   ? 'Not Started'
-                  : 'Not Started',
+                  : 'Not Started'
             }
           })
         setSubTask(subtaskData)
@@ -121,7 +121,7 @@ const SubtaskTablePendingAcceptance = ({ tm_task_slno, selectForEditsSubTask, ta
                   color: '#004369',
                   mb: 1,
                   mt: 2,
-                  mx: 1.5,
+                  mx: 1.5
                 }}
               >
                 Subtask List/s
@@ -134,7 +134,7 @@ const SubtaskTablePendingAcceptance = ({ tm_task_slno, selectForEditsSubTask, ta
               width: '99%',
               overflow: 'auto',
               m: 1,
-              maxHeight: 320,
+              maxHeight: 320
             }}
           >
             <CssVarsProvider>
@@ -176,7 +176,7 @@ const SubtaskTablePendingAcceptance = ({ tm_task_slno, selectForEditsSubTask, ta
                           <FilePresentRoundedIcon
                             sx={{
                               color: '#41729F',
-                              '&:hover': { color: '#274472' },
+                              '&:hover': { color: '#274472' }
                             }}
                             onClick={() => fileView(val)}
                           />
@@ -198,7 +198,7 @@ const SubtaskTablePendingAcceptance = ({ tm_task_slno, selectForEditsSubTask, ta
                                   ? '#67595E'
                                   : val.tm_task_status === 4
                                   ? '#5885AF'
-                                  : 'transparent',
+                                  : 'transparent'
                             }}
                           >
                             {val.TaskStatus}
@@ -208,14 +208,8 @@ const SubtaskTablePendingAcceptance = ({ tm_task_slno, selectForEditsSubTask, ta
                         <td> {val.dept_name || 'not given'}</td>
                         <td> {val.sec_name || 'not given'}</td>
                         <td> {val.em_name || 'not given'}</td>
-                        <td>
-                          {' '}
-                          {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}
-                        </td>
-                        <td>
-                          {' '}
-                          {moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}
-                        </td>
+                        <td> {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
+                        <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
                         <td> {val.tm_task_description || 'not given'}</td>
                       </tr>
                     )

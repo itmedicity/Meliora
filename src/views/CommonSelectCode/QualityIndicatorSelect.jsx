@@ -36,7 +36,7 @@ const QualityIndicatorSelect = ({ qltyDept, setQltyDept }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '35px',
+            '--Input-minHeight': '35px'
           }}
           value={qltyDept === 0 ? type : value}
           placeholder="Select Department"

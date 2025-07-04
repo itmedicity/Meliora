@@ -10,12 +10,12 @@ const RoomTypeTable = ({ count, rowSelect }) => {
     {
       headerName: 'Action',
       minWidth: 80,
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
     },
     { headerName: 'SlNo', field: 'rmc_type', wrapText: true, minWidth: 300 },
     { headerName: 'Description', field: 'rmc_desc', wrapText: true, minWidth: 300 },
     { headerName: 'Room', field: 'rtc_desc', wrapText: true, minWidth: 300 },
-    { headerName: 'Status', field: 'status', wrapText: true, minWidth: 100 },
+    { headerName: 'Status', field: 'status', wrapText: true, minWidth: 100 }
   ])
   // get all data
   useEffect(() => {

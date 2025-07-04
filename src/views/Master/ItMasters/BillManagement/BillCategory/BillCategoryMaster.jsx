@@ -29,7 +29,7 @@ const BillCategoryMaster = () => {
   const [billCategory, setBillCategory] = useState({
     it_bill_category_slno: '',
     it_bill_category_name: '',
-    it_bill_category_status: false,
+    it_bill_category_status: false
   })
   const { it_bill_category_slno, it_bill_category_name, it_bill_category_status } = billCategory
   const updateBillCategory = useCallback(
@@ -44,7 +44,7 @@ const BillCategoryMaster = () => {
       it_bill_category_name: it_bill_category_name,
       it_bill_type_slno: billType,
       it_bill_category_status: it_bill_category_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [it_bill_category_name, billType, it_bill_category_status, id])
 
@@ -54,23 +54,18 @@ const BillCategoryMaster = () => {
       it_bill_category_name: it_bill_category_name,
       it_bill_type_slno: billType,
       it_bill_category_status: it_bill_category_status === true ? 1 : 0,
-      edit_user: id,
+      edit_user: id
     }
   }, [it_bill_category_slno, it_bill_category_name, billType, it_bill_category_status, id])
   const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
-    const {
-      it_bill_category_slno,
-      it_bill_category_name,
-      it_bill_category_status,
-      it_bill_type_slno,
-    } = data[0]
+    const { it_bill_category_slno, it_bill_category_name, it_bill_category_status, it_bill_type_slno } = data[0]
     const frmdata = {
       it_bill_category_slno: it_bill_category_slno,
       it_bill_category_name: it_bill_category_name,
       it_bill_type_slno: it_bill_type_slno,
-      it_bill_category_status: it_bill_category_status === 1 ? true : false,
+      it_bill_category_status: it_bill_category_status === 1 ? true : false
     }
     setBillCategory(frmdata)
     setBillType(it_bill_type_slno)
@@ -79,7 +74,7 @@ const BillCategoryMaster = () => {
     const frmdata = {
       it_bill_category_slno: '',
       it_bill_category_name: '',
-      it_bill_category_status: false,
+      it_bill_category_status: false
     }
     setBillCategory(frmdata)
     setCount(0)
@@ -136,19 +131,14 @@ const BillCategoryMaster = () => {
     const frmdata = {
       it_bill_category_slno: '',
       it_bill_category_name: '',
-      it_bill_category_status: false,
+      it_bill_category_status: false
     }
     setBillCategory(frmdata)
     setValue(0)
     setBillType(0)
   }, [setBillCategory])
   return (
-    <CardMaster
-      title="Bill Category"
-      submit={submitBillCat}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Bill Category" submit={submitBillCat} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
         <Box sx={{ width: '30%', p: 1 }}>
           <Box>

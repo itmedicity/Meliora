@@ -19,14 +19,7 @@ import AssetUpgrade from '../ItemDetailEnter/AssetUpgrade'
 import WarrentyGrauntyComp from '../ItemDetailEnter/WarrentyGrauntyComp'
 import LeaseDetailsAdd from '../ItemDetailEnter/LeaseDetailsAdd'
 
-const PendingDetailEntry = ({
-  detailArry,
-  setpendingDetailFlag,
-  setRender,
-  render,
-  count,
-  setCount,
-}) => {
+const PendingDetailEntry = ({ detailArry, setpendingDetailFlag, setRender, render, count, setCount }) => {
   const {
     item_name,
     category_name,
@@ -39,15 +32,11 @@ const PendingDetailEntry = ({
     am_spare_item_map_slno,
     item_custodian_dept,
     item_asset_no_only,
-    spare_asset_no_only,
+    spare_asset_no_only
   } = detailArry
 
   const spareAssetNo =
-    item_asset_no !== undefined
-      ? item_asset_no
-      : spare_asset_no !== undefined
-      ? spare_asset_no
-      : 'Not Found'
+    item_asset_no !== undefined ? item_asset_no : spare_asset_no !== undefined ? spare_asset_no : 'Not Found'
   const FormatedNo =
     item_asset_no_only !== undefined
       ? String(item_asset_no_only).padStart(6, '0')
@@ -55,8 +44,7 @@ const PendingDetailEntry = ({
       ? String(spare_asset_no_only).padStart(6, '0')
       : 'Not Found'
 
-  const assetSpare =
-    am_item_map_slno !== undefined ? 1 : am_spare_item_map_slno !== undefined ? 2 : 0
+  const assetSpare = am_item_map_slno !== undefined ? 1 : am_spare_item_map_slno !== undefined ? 2 : 0
   const [grndetailarry, setGrnDetailArry] = useState({})
   const [warGararry, setwarGarArry] = useState({})
   const [amcPm, setAmcPm] = useState(0)
@@ -69,9 +57,7 @@ const PendingDetailEntry = ({
 
   useEffect(() => {
     const checkinsertOrNotDetail = async am_item_map_slno => {
-      const result = await axioslogin.get(
-        `/ItemMapDetails/checkDetailInsertOrNot/${am_item_map_slno}`
-      )
+      const result = await axioslogin.get(`/ItemMapDetails/checkDetailInsertOrNot/${am_item_map_slno}`)
       const { success, data } = result.data
       if (success === 1) {
         setExist(1)
@@ -82,9 +68,7 @@ const PendingDetailEntry = ({
       }
     }
     const checkinsertOrNotWarGar = async am_item_map_slno => {
-      const result = await axioslogin.get(
-        `/ItemMapDetails/WarentGarantInsertOrNot/${am_item_map_slno}`
-      )
+      const result = await axioslogin.get(`/ItemMapDetails/WarentGarantInsertOrNot/${am_item_map_slno}`)
       const { success, data } = result.data
       if (success === 1) {
         setWarGar(1)
@@ -95,9 +79,7 @@ const PendingDetailEntry = ({
       }
     }
     const checkinsertOrNotDetailSpare = async am_spare_item_map_slno => {
-      const result = await axioslogin.get(
-        `/ItemMapDetails/checkDetailInsertOrNotSpare/${am_spare_item_map_slno}`
-      )
+      const result = await axioslogin.get(`/ItemMapDetails/checkDetailInsertOrNotSpare/${am_spare_item_map_slno}`)
       const { success, data } = result.data
       if (success === 1) {
         setExist(1)
@@ -108,9 +90,7 @@ const PendingDetailEntry = ({
       }
     }
     const checkinsertOrNotWarGarSpare = async am_spare_item_map_slno => {
-      const result = await axioslogin.get(
-        `/ItemMapDetails/WarentGarantInsertOrNotSpare/${am_spare_item_map_slno}`
-      )
+      const result = await axioslogin.get(`/ItemMapDetails/WarentGarantInsertOrNotSpare/${am_spare_item_map_slno}`)
       const { success, data } = result.data
       if (success === 1) {
         setWarGar(1)
@@ -139,14 +119,14 @@ const PendingDetailEntry = ({
           border: 1,
           borderColor: 'lightgrey',
           borderRadius: 6,
-          bgcolor: 'white',
+          bgcolor: 'white'
         }}
       >
         <Box
           sx={{
             display: 'flex',
             borderBottom: 1,
-            borderColor: 'lightgrey',
+            borderColor: 'lightgrey'
           }}
         >
           <Box sx={{ color: 'grey', pt: 1, pl: 1.5, flex: 1 }}>Detail Entry</Box>
@@ -165,7 +145,7 @@ const PendingDetailEntry = ({
             mx: 0.5,
             mt: 0.5,
             bgcolor: '#FBFCFE',
-            display: 'flex',
+            display: 'flex'
           }}
         >
           <Box sx={{ flex: 1 }}>
@@ -179,19 +159,11 @@ const PendingDetailEntry = ({
               </Chip>
             </Box>
             <Box sx={{ flex: 1, display: 'flex', my: 0.5 }}>
-              <TextComponent
-                text="Category"
-                sx={{ pl: 2, fontWeight: 600, pt: 0.4, fontSize: 14, width: 170 }}
-              />
-              <Chip sx={{ bgcolor: '#EBEFFB', fontWeight: 500, fontSize: 14 }}>
-                {category_name}
-              </Chip>
+              <TextComponent text="Category" sx={{ pl: 2, fontWeight: 600, pt: 0.4, fontSize: 14, width: 170 }} />
+              <Chip sx={{ bgcolor: '#EBEFFB', fontWeight: 500, fontSize: 14 }}>{category_name}</Chip>
             </Box>
             <Box sx={{ flex: 1, display: 'flex', my: 0.5 }}>
-              <TextComponent
-                text="  Item Name"
-                sx={{ pl: 2, fontWeight: 600, pt: 0.4, fontSize: 14, width: 170 }}
-              />
+              <TextComponent text="  Item Name" sx={{ pl: 2, fontWeight: 600, pt: 0.4, fontSize: 14, width: 170 }} />
               <Chip sx={{ bgcolor: '#EBEFFB', fontWeight: 500, fontSize: 14 }}>{item_name}</Chip>
             </Box>
             <Box sx={{ flex: 1, display: 'flex', my: 0.5 }}>
@@ -208,9 +180,7 @@ const PendingDetailEntry = ({
                 text="Secondary Custodian"
                 sx={{ pl: 2, fontWeight: 600, pt: 0.4, fontSize: 14, width: 170 }}
               />
-              <Chip sx={{ bgcolor: '#EBEFFB', fontWeight: 500, fontSize: 14 }}>
-                {am_custodian_name}
-              </Chip>
+              <Chip sx={{ bgcolor: '#EBEFFB', fontWeight: 500, fontSize: 14 }}>{am_custodian_name}</Chip>
             </Box>
           </Box>
         </Box>
@@ -220,7 +190,7 @@ const PendingDetailEntry = ({
             sx={{
               display: 'flex',
               mx: 1.8,
-              bgcolor: 'white',
+              bgcolor: 'white'
             }}
           >
             <TabList
@@ -231,7 +201,7 @@ const PendingDetailEntry = ({
                   flex: 'initial',
                   bgcolor: 'white',
                   '&:hover': {
-                    bgcolor: 'white',
+                    bgcolor: 'white'
                   },
                   [`&.${tabClasses.selected}`]: {
                     color: 'primary.plainColor',
@@ -241,73 +211,45 @@ const PendingDetailEntry = ({
                       height: 20,
                       borderTopLeftRadius: 3,
                       borderTopRightRadius: 3,
-                      bgcolor: 'primary.500',
-                    },
-                  },
-                },
+                      bgcolor: 'primary.500'
+                    }
+                  }
+                }
               }}
             >
               <Box sx={{ flex: 1, display: 'flex' }}>
-                <Tab
-                  value={0}
-                  disableIndicator
-                  sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}
-                >
+                <Tab value={0} disableIndicator sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}>
                   <DriveFileRenameOutlineOutlinedIcon />
                   Details&nbsp;&nbsp;
                 </Tab>
                 {assetSpare === 1 ? (
-                  <Tab
-                    value={1}
-                    disableIndicator
-                    sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}
-                  >
+                  <Tab value={1} disableIndicator sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}>
                     <UnarchiveOutlinedIcon />
                     Asset Upgrade
                   </Tab>
                 ) : null}
-                <Tab
-                  value={2}
-                  disableIndicator
-                  sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}
-                >
+                <Tab value={2} disableIndicator sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}>
                   <ReceiptLongOutlinedIcon />
                   Purchase Details&nbsp;&nbsp;
                 </Tab>
-                <Tab
-                  value={3}
-                  disableIndicator
-                  sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}
-                >
+                <Tab value={3} disableIndicator sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}>
                   <DescriptionOutlinedIcon />
                   Warrenty/Gaurantee&nbsp;&nbsp;
                 </Tab>
                 {assetSpare === 1 ? (
-                  <Tab
-                    value={4}
-                    disableIndicator
-                    sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}
-                  >
+                  <Tab value={4} disableIndicator sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}>
                     <TextSnippetOutlinedIcon />
                     AMC/CMC Details&nbsp;&nbsp;
                   </Tab>
                 ) : null}
                 {assetSpare === 1 ? (
-                  <Tab
-                    value={5}
-                    disableIndicator
-                    sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}
-                  >
+                  <Tab value={5} disableIndicator sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}>
                     <TimelapseIcon />
                     &nbsp;PM Details&nbsp;&nbsp;
                   </Tab>
                 ) : null}
                 {assetSpare === 1 ? (
-                  <Tab
-                    value={6}
-                    disableIndicator
-                    sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}
-                  >
+                  <Tab value={6} disableIndicator sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}>
                     <ArticleOutlinedIcon />
                     &nbsp;Lease Details&nbsp;&nbsp;
                   </Tab>
@@ -320,7 +262,7 @@ const PendingDetailEntry = ({
                 p: 0,
                 flexGrow: 1,
                 overflowY: 'auto',
-                maxHeight: 'calc(90vh - 230px)',
+                maxHeight: 'calc(90vh - 230px)'
               }}
             >
               <Box
@@ -328,7 +270,7 @@ const PendingDetailEntry = ({
                   flexGrow: 1,
                   overflowY: 'auto',
                   maxHeight: '100%',
-                  mt: 0.5,
+                  mt: 0.5
                 }}
               >
                 <SpecDetailsComp detailArry={detailArry} assetSpare={assetSpare} />
@@ -341,7 +283,7 @@ const PendingDetailEntry = ({
                   p: 0,
                   flexGrow: 1,
                   overflowY: 'auto',
-                  maxHeight: 'calc(90vh - 283px)',
+                  maxHeight: 'calc(90vh - 283px)'
                 }}
               >
                 <Box
@@ -349,7 +291,7 @@ const PendingDetailEntry = ({
                     flexGrow: 1,
                     overflowY: 'auto',
                     maxHeight: '100%',
-                    mt: 0.5,
+                    mt: 0.5
                   }}
                 >
                   <AssetUpgrade
@@ -367,7 +309,7 @@ const PendingDetailEntry = ({
                 p: 0,
                 flexGrow: 1,
                 overflowY: 'auto',
-                maxHeight: 'calc(90vh - 283px)',
+                maxHeight: 'calc(90vh - 283px)'
               }}
             >
               <Box
@@ -375,7 +317,7 @@ const PendingDetailEntry = ({
                   flexGrow: 1,
                   overflowY: 'auto',
                   maxHeight: '100%',
-                  mt: 0.5,
+                  mt: 0.5
                 }}
               >
                 <ItemGRNandBill
@@ -395,7 +337,7 @@ const PendingDetailEntry = ({
                 p: 0,
                 flexGrow: 1,
                 overflowY: 'auto',
-                maxHeight: 'calc(90vh - 283px)',
+                maxHeight: 'calc(90vh - 283px)'
               }}
             >
               <Box
@@ -403,7 +345,7 @@ const PendingDetailEntry = ({
                   flexGrow: 1,
                   overflowY: 'auto',
                   maxHeight: '100%',
-                  mt: 0.5,
+                  mt: 0.5
                 }}
               >
                 <WarrentyGrauntyComp
@@ -423,7 +365,7 @@ const PendingDetailEntry = ({
                   p: 0,
                   flexGrow: 1,
                   overflowY: 'auto',
-                  maxHeight: 'calc(90vh - 283px)',
+                  maxHeight: 'calc(90vh - 283px)'
                 }}
               >
                 <Box
@@ -431,7 +373,7 @@ const PendingDetailEntry = ({
                     flexGrow: 1,
                     overflowY: 'auto',
                     maxHeight: '100%',
-                    mt: 0.5,
+                    mt: 0.5
                   }}
                 >
                   <AMCCMCDetailAdding
@@ -452,7 +394,7 @@ const PendingDetailEntry = ({
                   p: 0,
                   flexGrow: 1,
                   overflowY: 'auto',
-                  maxHeight: 'calc(90vh - 283px)',
+                  maxHeight: 'calc(90vh - 283px)'
                 }}
               >
                 <Box
@@ -460,7 +402,7 @@ const PendingDetailEntry = ({
                     flexGrow: 1,
                     overflowY: 'auto',
                     maxHeight: '100%',
-                    mt: 0.5,
+                    mt: 0.5
                   }}
                 >
                   <AmPMDetails
@@ -481,7 +423,7 @@ const PendingDetailEntry = ({
                   p: 0,
                   flexGrow: 1,
                   overflowY: 'auto',
-                  maxHeight: 'calc(90vh - 283px)',
+                  maxHeight: 'calc(90vh - 283px)'
                 }}
               >
                 <Box
@@ -489,7 +431,7 @@ const PendingDetailEntry = ({
                     flexGrow: 1,
                     overflowY: 'auto',
                     maxHeight: '100%',
-                    mt: 0.5,
+                    mt: 0.5
                   }}
                 >
                   <LeaseDetailsAdd detailArry={detailArry} grndetailarry={grndetailarry} />

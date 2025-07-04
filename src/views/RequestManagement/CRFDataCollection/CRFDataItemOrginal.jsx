@@ -8,17 +8,12 @@ const CRFDataItemOrginal = ({ dataPost }) => {
         sx={{
           width: '100%',
           display: 'flex',
-          flexDirection: 'column',
+          flexDirection: 'column'
         }}
       >
         <Box>
           <TableContainer sx={{ maxHeight: 250 }}>
-            <Table
-              size="small"
-              stickyHeader
-              aria-label="sticky table"
-              sx={{ border: '0.2px solid' }}
-            >
+            <Table size="small" stickyHeader aria-label="sticky table" sx={{ border: '0.2px solid' }}>
               <TableHead sx={{ border: '1px ' }}>
                 <TableRow>
                   <TableCell align="center">Slno</TableCell>
@@ -39,7 +34,7 @@ const CRFDataItemOrginal = ({ dataPost }) => {
                         sx={{
                           '&:last-child td, &:last-child th': { border: 0 },
                           maxHeight: 60,
-                          minHeight: 5,
+                          minHeight: 5
                         }}
                       >
                         <TableCell align="center">{index + 1}</TableCell>

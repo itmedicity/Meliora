@@ -38,7 +38,7 @@ const FeedbackDeptSectionSelect = ({ location, setLocation, setlocaName }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '33px',
+            '--Input-minHeight': '33px'
           }}
           value={location === 0 ? deptSections : value}
           placeholder="Select location"

@@ -25,7 +25,7 @@ const ComEmpMapping = () => {
   const [coEmpMap, setCoEmpMap] = useState({
     co_emp_section: '',
     co_emp_status: false,
-    co_emp_slno: '',
+    co_emp_slno: ''
   })
 
   // Get login user emp_id
@@ -51,7 +51,7 @@ const ComEmpMapping = () => {
       co_emp_deptsec: deptsec !== 0 ? deptsec : null,
       co_emp_empid: employe !== [] ? employe : null,
       co_emp_status: co_emp_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [co_emp_section, comdept, dept, deptsec, employe, co_emp_status, id])
 
@@ -64,14 +64,14 @@ const ComEmpMapping = () => {
       co_emp_empid: employe !== [] ? employe : null,
       co_emp_status: co_emp_status === true ? 1 : 0,
       edit_user: id,
-      emp_map_slno: co_emp_slno,
+      emp_map_slno: co_emp_slno
     }
   }, [co_emp_section, dept, comdept, deptsec, employe, co_emp_status, id, co_emp_slno])
   const reset = () => {
     const resetfrm = {
       co_emp_section: '',
       co_emp_status: false,
-      co_emp_slno: '',
+      co_emp_slno: ''
     }
     setCoEmpMap(resetfrm)
     setdept(0)
@@ -86,19 +86,12 @@ const ComEmpMapping = () => {
   const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
-    const {
-      emp_map_slno,
-      map_section_name,
-      co_emp_dept,
-      co_emp_deptsec,
-      co_emp_empid,
-      co_emp_status,
-      com_dept,
-    } = data[0]
+    const { emp_map_slno, map_section_name, co_emp_dept, co_emp_deptsec, co_emp_empid, co_emp_status, com_dept } =
+      data[0]
     const frmdata = {
       co_emp_section: map_section_name,
       co_emp_status: co_emp_status === 1 ? true : false,
-      co_emp_slno: emp_map_slno,
+      co_emp_slno: emp_map_slno
     }
     setCoEmpMap(frmdata)
     setcomdept(com_dept)
@@ -189,11 +182,7 @@ const ComEmpMapping = () => {
                 <DeptSecUnderDept value={deptsec} setValue={setDeptsec} dept={dept} />
               </Grid>
               <Grid item xl={12} lg={12}>
-                <DeptWiseEmpSelect
-                  personName={employe}
-                  setPersonName={setEmployee}
-                  empdeptwise={deptsec}
-                />
+                <DeptWiseEmpSelect personName={employe} setPersonName={setEmployee} empdeptwise={deptsec} />
               </Grid>
               <Grid item lg={2} xl={2}>
                 <CusCheckBox

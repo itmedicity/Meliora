@@ -69,50 +69,47 @@ const RectifyCompalint = () => {
           )
         } else {
           return (
-            <IconButton
-              sx={{ color: editicon, paddingY: 0.5 }}
-              onClick={() => Rectifycomplaintdept(params)}
-            >
+            <IconButton sx={{ color: editicon, paddingY: 0.5 }} onClick={() => Rectifycomplaintdept(params)}>
               <CustomeToolTip title="Rectify Complaint ">
                 <AssignmentTurnedInIcon />
               </CustomeToolTip>
             </IconButton>
           )
         }
-      },
+      }
     },
     {
       headerName: 'SlNo',
       field: 'complaint_slno',
-      minWidth: 100,
+      minWidth: 100
     },
     {
       headerName: 'Description',
       field: 'complaint_desc',
       autoHeight: true,
       wrapText: true,
-      minWidth: 300,
+      minWidth: 300
     },
     {
       headerName: 'Department',
       field: 'sec_name',
       autoHeight: true,
       wrapText: true,
-      minWidth: 250,
+      minWidth: 250
     },
     {
       headerName: 'Complaint Type',
       field: 'complaint_type_name',
       autoHeight: true,
       wrapText: true,
-      minWidth: 150,
+      minWidth: 150
     },
     {
       headerName: 'Assign Employee',
       field: 'em_name',
       autoHeight: true,
       wrapText: true,
-      minWidth: 150,
+      minWidth: 150
     },
     { headerName: 'Section', field: 'location', minWidth: 200, autoHeight: true, wrapText: true },
     {
@@ -120,49 +117,46 @@ const RectifyCompalint = () => {
       field: 'rm_room_name',
       minWidth: 300,
       cellRendererFramework: params => {
-        const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } =
-          params.data
+        const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } = params.data
         return (
           <div>
             {rm_room_name !== null ? (
-              <div>
-                {`${rm_room_name} (${rm_roomtype_name} - ${rm_insidebuildblock_name} - ${rm_floor_name})`}
-              </div>
+              <div>{`${rm_room_name} (${rm_roomtype_name} - ${rm_insidebuildblock_name} - ${rm_floor_name})`}</div>
             ) : (
               <div>Location not added</div>
             )}
           </div>
         )
-      },
+      }
     },
     {
       headerName: 'complaint status',
       field: 'compalint_status1',
       autoHeight: true,
       wrapText: true,
-      minWidth: 150,
+      minWidth: 150
     },
     {
       headerName: 'Request Date',
       field: 'assigned_date',
       autoHeight: true,
       wrapText: true,
-      minWidth: 180,
+      minWidth: 180
     },
     {
       headerName: 'Rectified Status',
       field: 'cm_rectify_status1',
       autoHeight: true,
       wrapText: true,
-      minWidth: 150,
+      minWidth: 150
     },
     {
       headerName: 'Reason',
       field: 'rectify_pending_hold_remarks1',
       autoHeight: true,
       wrapText: true,
-      minWidth: 200,
-    },
+      minWidth: 200
+    }
   ])
 
   const [empName, setempname] = useState([])
@@ -246,7 +240,7 @@ const RectifyCompalint = () => {
             flex: 1,
             display: 'flex',
             flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' },
-            justifyContent: 'center',
+            justifyContent: 'center'
           }}
         >
           <Box sx={{ width: '13%', pr: 1, mt: 1 }}>

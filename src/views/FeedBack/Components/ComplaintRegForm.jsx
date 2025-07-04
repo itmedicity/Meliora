@@ -20,7 +20,7 @@ const ComplaintRegForm = ({ ptDetails }) => {
     { id: 2, dpt: 'MAINTENANCE' },
     { id: 3, dpt: 'IT' },
     { id: 4, dpt: 'HOUSEKEEPING' },
-    { id: 5, dpt: 'OPERATIONS' },
+    { id: 5, dpt: 'OPERATIONS' }
   ]
 
   const [selectedDepartment, setSelectedDepartment] = useState(null)
@@ -98,7 +98,7 @@ const ComplaintRegForm = ({ ptDetails }) => {
         cmtype: typeName,
         location: location,
         locaname: locaName,
-        description: description,
+        description: description
       }
       setComplaintList(formdata)
       const newArray = [...complaintList, formdata]
@@ -115,7 +115,7 @@ const ComplaintRegForm = ({ ptDetails }) => {
         cmtype: typeName,
         location: location,
         locaname: locaName,
-        description: description,
+        description: description
       }
       const newArray = [...complaintList]
       newArray[slno] = formdata
@@ -134,7 +134,7 @@ const ComplaintRegForm = ({ ptDetails }) => {
     RefreshDetails,
     complaintList,
     edit,
-    location,
+    location
   ])
 
   const EditData = useCallback((val, index) => {
@@ -189,13 +189,7 @@ const ComplaintRegForm = ({ ptDetails }) => {
                         sx={{ pr: 1 }}
                         name={val.complaint_type_name}
                         checked={typeNo === val.complaint_type_slno}
-                        onChange={event =>
-                          ComplaintTypeChange(
-                            event,
-                            val.complaint_type_slno,
-                            val.complaint_type_name
-                          )
-                        }
+                        onChange={event => ComplaintTypeChange(event, val.complaint_type_slno, val.complaint_type_name)}
                       />
                       <label>{val.complaint_type_name}</label>
                     </Box>
@@ -208,11 +202,7 @@ const ComplaintRegForm = ({ ptDetails }) => {
 
         <Paper variant="outlined" square sx={{ display: 'flex', flexWrap: 'wrap' }}>
           <Box sx={{ flex: 1, m: 1 }}>
-            <FeedbackDeptSectionSelect
-              location={location}
-              setLocation={setLocation}
-              setlocaName={setlocaName}
-            />
+            <FeedbackDeptSectionSelect location={location} setLocation={setLocation} setlocaName={setlocaName} />
           </Box>
           <Box sx={{ flex: 1, display: 'flex' }}>
             <Box sx={{ m: 1, pl: 2 }}>

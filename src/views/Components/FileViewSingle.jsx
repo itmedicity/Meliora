@@ -10,7 +10,7 @@ const FileViewSingle = ({ imageShow, previewFile, CloseFile }) => {
           sx={{
             width: '65vw',
             height: '95vh',
-            p: 0,
+            p: 0
           }}
         >
           <Box>
@@ -19,10 +19,7 @@ const FileViewSingle = ({ imageShow, previewFile, CloseFile }) => {
                 <Typography sx={{ fontWeight: 600, fontSize: 18 }}>File Previews</Typography>
               </Box>
               <Box>
-                <CancelSharpIcon
-                  onClick={CloseFile}
-                  sx={{ height: 35, width: 35, cursor: 'pointer' }}
-                />
+                <CancelSharpIcon onClick={CloseFile} sx={{ height: 35, width: 35, cursor: 'pointer' }} />
               </Box>
             </Box>
             <Box
@@ -35,7 +32,7 @@ const FileViewSingle = ({ imageShow, previewFile, CloseFile }) => {
                 overflow: 'auto',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center',
+                justifyContent: 'center'
               }}
             >
               <Box sx={{ width: '100%', height: '100%' }}>
@@ -45,7 +42,7 @@ const FileViewSingle = ({ imageShow, previewFile, CloseFile }) => {
                       width: '100%',
                       height: '100%',
                       display: 'flex',
-                      justifyContent: 'center',
+                      justifyContent: 'center'
                     }}
                   >
                     <img
@@ -55,7 +52,7 @@ const FileViewSingle = ({ imageShow, previewFile, CloseFile }) => {
                         width: '100%',
                         height: '100%',
                         borderRadius: '4px',
-                        objectFit: 'contain',
+                        objectFit: 'contain'
                       }}
                     />
                   </Box>
@@ -66,7 +63,7 @@ const FileViewSingle = ({ imageShow, previewFile, CloseFile }) => {
                     style={{
                       width: '100%',
                       height: '100%',
-                      objectFit: 'contain',
+                      objectFit: 'contain'
                     }}
                   />
                 ) : (

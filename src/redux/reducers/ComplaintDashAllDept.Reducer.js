@@ -3,12 +3,12 @@ const { FETCH_TOTAL_COMPLAINT_ALL, FETCH_PENDING_ONHOLD_COMPLAINT_ALL } = Action
 
 const complaints = {
   complaintList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 
 const pendingOnhold = {
   pendingOnholdList: [],
-  pendingOnholdStatus: false,
+  pendingOnholdStatus: false
 }
 
 export const setComplaintListAll = (state = complaints, { type, payload }) => {

@@ -31,10 +31,9 @@ const CrfDetailsSearch = () => {
     closeCheck: false,
     itemName: '',
     requirement: '',
-    need: '',
+    need: ''
   })
-  const { searchCrf, reqDate, userAckDate, reqCheck, closeCheck, itemName, requirement, need } =
-    crfSearch
+  const { searchCrf, reqDate, userAckDate, reqCheck, closeCheck, itemName, requirement, need } = crfSearch
   const updateOnchange = useCallback(
     e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -50,22 +49,22 @@ const CrfDetailsSearch = () => {
   const {
     data: compData,
     isLoading: isCompLoading,
-    error: compError,
+    error: compError
   } = useQuery({
     queryKey: 'getCompany',
     queryFn: () => getCompanyDetails(),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const companyData = useMemo(() => compData, [compData])
 
   const {
     data: companydefData,
     isLoading: isdefCompLoading,
-    error: compdefError,
+    error: compdefError
   } = useQuery({
     queryKey: 'getdefaultCompany',
     queryFn: () => getDefaultCompany(),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const company = useMemo(() => companydefData, [companydefData])
 
@@ -78,7 +77,7 @@ const CrfDetailsSearch = () => {
       closeCheck: false,
       itemName: '',
       requirement: '',
-      need: '',
+      need: ''
     }
     setCrfSearch(formData)
     setDepartment(0)
@@ -110,18 +109,7 @@ const CrfDetailsSearch = () => {
     if (requirement) obj.actual_requirement = requirement
     if (need) obj.needed = need
     return obj
-  }, [
-    searchCrf,
-    reqDate,
-    userAckDate,
-    department,
-    dptSec,
-    reqCheck,
-    closeCheck,
-    itemName,
-    requirement,
-    need,
-  ])
+  }, [searchCrf, reqDate, userAckDate, department, dptSec, reqCheck, closeCheck, itemName, requirement, need])
 
   const searchCRFDetails = useCallback(async () => {
     if (
@@ -159,8 +147,7 @@ const CrfDetailsSearch = () => {
               const obj = {
                 req_status: val.req_status,
                 req_slno: val.req_slno,
-                actual_requirement:
-                  val.actual_requirement !== null ? val.actual_requirement : 'Nil',
+                actual_requirement: val.actual_requirement !== null ? val.actual_requirement : 'Nil',
                 needed: val.needed !== null ? val.needed : 'Nil',
                 request_deptsec_slno: val.request_deptsec_slno,
                 req_deptsec: val.req_deptsec.toLowerCase(),
@@ -194,8 +181,7 @@ const CrfDetailsSearch = () => {
                     : val.incharge_approve === 3
                     ? 'On-Hold'
                     : 'Not Done',
-                incharge_remarks:
-                  val.incharge_remarks !== null ? val.incharge_remarks : 'Not Updated',
+                incharge_remarks: val.incharge_remarks !== null ? val.incharge_remarks : 'Not Updated',
                 inch_detial_analysis: val.inch_detial_analysis,
                 incharge_apprv_date: val.incharge_apprv_date,
                 incharge_user: val.incharge_user !== null ? val.incharge_user.toLowerCase() : '',
@@ -237,12 +223,10 @@ const CrfDetailsSearch = () => {
                     : val.ms_approve === 3
                     ? 'On-Hold'
                     : 'Not Done',
-                ms_approve_remark:
-                  val.ms_approve_remark !== null ? val.ms_approve_remark : 'Not Updated',
+                ms_approve_remark: val.ms_approve_remark !== null ? val.ms_approve_remark : 'Not Updated',
                 ms_detail_analysis: val.ms_detail_analysis,
                 ms_approve_date: val.ms_approve_date,
-                ms_approve_user:
-                  val.ms_approve_user !== null ? val.ms_approve_user.toLowerCase() : '',
+                ms_approve_user: val.ms_approve_user !== null ? val.ms_approve_user.toLowerCase() : '',
                 manag_operation_req: val.manag_operation_req,
                 manag_operation_approv: val.manag_operation_approv,
                 om:
@@ -254,13 +238,10 @@ const CrfDetailsSearch = () => {
                     ? 'On-Hold'
                     : 'Not Done',
                 manag_operation_remarks:
-                  val.manag_operation_remarks !== null
-                    ? val.manag_operation_remarks
-                    : 'Not Updated',
+                  val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
                 om_detial_analysis: val.om_detial_analysis,
                 om_approv_date: val.om_approv_date,
-                manag_operation_user:
-                  val.manag_operation_user !== null ? val.manag_operation_user.toLowerCase() : '',
+                manag_operation_user: val.manag_operation_user !== null ? val.manag_operation_user.toLowerCase() : '',
                 senior_manage_req: val.senior_manage_req,
                 senior_manage_approv: val.senior_manage_approv,
                 smo:
@@ -271,12 +252,10 @@ const CrfDetailsSearch = () => {
                     : val.senior_manage_approv === 3
                     ? 'On-Hold'
                     : 'Not Done',
-                senior_manage_remarks:
-                  val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
+                senior_manage_remarks: val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
                 smo_detial_analysis: val.smo_detial_analysis,
                 som_aprrov_date: val.som_aprrov_date,
-                senior_manage_user:
-                  val.senior_manage_user !== null ? val.senior_manage_user.toLowerCase() : '',
+                senior_manage_user: val.senior_manage_user !== null ? val.senior_manage_user.toLowerCase() : '',
                 gm_approve_req: val.gm_approve_req,
                 gm_approve: val.gm_approve,
                 gm:
@@ -287,8 +266,7 @@ const CrfDetailsSearch = () => {
                     : val.gm_approve === 3
                     ? 'On-Hold'
                     : 'Not Done',
-                gm_approve_remarks:
-                  val.gm_approve_remarks !== null ? val.gm_approve_remarks : 'Not Updated',
+                gm_approve_remarks: val.gm_approve_remarks !== null ? val.gm_approve_remarks : 'Not Updated',
                 gm_detial_analysis: val.gm_detial_analysis,
                 gm_approv_date: val.gm_approv_date,
                 gm_user: val.gm_user !== null ? val.gm_user.toLowerCase() : '',
@@ -302,8 +280,7 @@ const CrfDetailsSearch = () => {
                     : val.md_approve === 3
                     ? 'On-Hold'
                     : 'Not Done',
-                md_approve_remarks:
-                  val.md_approve_remarks !== null ? val.md_approve_remarks : 'Not Updated',
+                md_approve_remarks: val.md_approve_remarks !== null ? val.md_approve_remarks : 'Not Updated',
                 md_detial_analysis: val.md_detial_analysis,
                 md_approve_date: val.md_approve_date,
                 md_user: val.md_user !== null ? val.md_user.toLowerCase() : '',
@@ -317,8 +294,7 @@ const CrfDetailsSearch = () => {
                     : val.ed_approve === 3
                     ? 'On-Hold'
                     : 'Not Done',
-                ed_approve_remarks:
-                  val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
+                ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
                 ed_detial_analysis: val.ed_detial_analysis,
                 ed_approve_date: val.ed_approve_date,
                 ed_user: val.ed_user ? val.ed_user.toLowerCase() : '',
@@ -334,8 +310,7 @@ const CrfDetailsSearch = () => {
                     : val.managing_director_approve === 4
                     ? 'Approved'
                     : 'Not Done',
-                managing_director_remarks:
-                  val.managing_director_remarks !== null ? val.managing_director_remarks : '',
+                managing_director_remarks: val.managing_director_remarks !== null ? val.managing_director_remarks : '',
                 managing_director_analysis: val.managing_director_analysis,
                 managing_director_approve_date: val.managing_director_approve_date,
                 managing_director_user: val.managing_director_username
@@ -481,19 +456,14 @@ const CrfDetailsSearch = () => {
                 substore_ack_date: val.substore_ack_date,
                 dept_name: val.dept_name,
                 dept_type: val.dept_type,
-                dept_type_name:
-                  val.dept_type === 1
-                    ? 'Clinical'
-                    : val.dept_type === 2
-                    ? 'Non Clinical'
-                    : 'Academic',
+                dept_type_name: val.dept_type === 1 ? 'Clinical' : val.dept_type === 2 ? 'Non Clinical' : 'Academic',
                 po_number: val.po_number,
                 approval_level: val.approval_level,
                 user_acknldge: val.user_acknldge,
                 internally_arranged_status: val.internally_arranged_status,
                 user_ack_date: val?.user_ack_date,
                 company_name: val?.company_name,
-                work_order_status: val?.work_order_status,
+                work_order_status: val?.work_order_status
               }
               return obj
             })
@@ -521,7 +491,7 @@ const CrfDetailsSearch = () => {
     requirement,
     need,
     selectedCompany,
-    company,
+    company
   ])
   const { company_name } = company
 
@@ -532,12 +502,8 @@ const CrfDetailsSearch = () => {
       <Box sx={{ height: window.innerHeight - 80, flexWrap: 'wrap', bgcolor: 'white' }}>
         <Box sx={{ backgroundColor: '#f0f3f5', border: '1px solid #B4F5F0', borderBottom: 'none' }}>
           <Box sx={{ display: 'flex', backgroundColor: '#f0f3f5' }}>
-            <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: 0.5, color: '#385E72' }}>
-              CRF Search
-            </Box>
-            <Box
-              sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, m: 0.5 }}
-            >
+            <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: 0.5, color: '#385E72' }}>CRF Search</Box>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, m: 0.5 }}>
               <CssVarsProvider>
                 <CustomCloseIconCmp handleChange={backtoSetting} />
               </CssVarsProvider>
@@ -550,7 +516,7 @@ const CrfDetailsSearch = () => {
               alignItems: 'center',
               padding: '8px',
               justifyContent: 'center',
-              bgcolor: 'white',
+              bgcolor: 'white'
             }}
           >
             <RadioGroup row value={selectedCompany} onChange={handleRadioChange}>
@@ -581,7 +547,7 @@ const CrfDetailsSearch = () => {
                     borderRadius: 6,
                     border: '1px solid #bbdefb',
                     height: 35,
-                    color: '#1565c0',
+                    color: '#1565c0'
                   }}
                   autoComplete={'off'}
                   size={'md'}
@@ -594,9 +560,7 @@ const CrfDetailsSearch = () => {
             </Box>
             <Box sx={{ pl: 0.3, flex: 1 }}>
               <Box sx={{ display: 'flex' }}>
-                <Typography sx={{ fontSize: 13, color: '#1D617A', px: 1, pt: 0.1 }}>
-                  CRF Request Date
-                </Typography>
+                <Typography sx={{ fontSize: 13, color: '#1D617A', px: 1, pt: 0.1 }}>CRF Request Date</Typography>
                 <CusCheckBox
                   variant="outlined"
                   size="md"
@@ -616,7 +580,7 @@ const CrfDetailsSearch = () => {
                       border: '1px solid #bbdefb',
                       color: '#0d47a1',
                       fontSize: 14,
-                      width: '100%',
+                      width: '100%'
                     }}
                     size={'md'}
                     type="date"
@@ -624,7 +588,7 @@ const CrfDetailsSearch = () => {
                     name="reqDate"
                     handleChange={updateOnchange}
                     slotProps={{
-                      input: { max: moment(new Date()).format('YYYY-MM-DD') },
+                      input: { max: moment(new Date()).format('YYYY-MM-DD') }
                     }}
                   />
                 ) : (
@@ -636,13 +600,13 @@ const CrfDetailsSearch = () => {
                       border: '1px solid #bbdefb',
                       color: '#0d47a1',
                       fontSize: 14,
-                      width: '100%',
+                      width: '100%'
                     }}
                     size={'md'}
                     type="date"
                     value={reqDate}
                     slotProps={{
-                      input: { max: moment(new Date()).format('YYYY-MM-DD') },
+                      input: { max: moment(new Date()).format('YYYY-MM-DD') }
                     }}
                   />
                 )}
@@ -650,9 +614,7 @@ const CrfDetailsSearch = () => {
             </Box>
             <Box sx={{ pl: 0.3, flex: 1 }}>
               <Box sx={{ display: 'flex' }}>
-                <Typography sx={{ fontSize: 13, color: '#1D617A', px: 1, pt: 0.1 }}>
-                  CRF Closed Date
-                </Typography>
+                <Typography sx={{ fontSize: 13, color: '#1D617A', px: 1, pt: 0.1 }}>CRF Closed Date</Typography>
                 <CusCheckBox
                   variant="outlined"
                   size="md"
@@ -672,7 +634,7 @@ const CrfDetailsSearch = () => {
                       border: '1px solid #bbdefb',
                       color: '#0d47a1',
                       fontSize: 14,
-                      width: '100%',
+                      width: '100%'
                     }}
                     size={'md'}
                     type="date"
@@ -680,7 +642,7 @@ const CrfDetailsSearch = () => {
                     name="userAckDate"
                     handleChange={updateOnchange}
                     slotProps={{
-                      input: { max: moment(new Date()).format('YYYY-MM-DD') },
+                      input: { max: moment(new Date()).format('YYYY-MM-DD') }
                     }}
                   />
                 ) : (
@@ -692,13 +654,13 @@ const CrfDetailsSearch = () => {
                       border: '1px solid #bbdefb',
                       color: '#0d47a1',
                       fontSize: 14,
-                      width: '100%',
+                      width: '100%'
                     }}
                     size={'md'}
                     type="date"
                     value={userAckDate}
                     slotProps={{
-                      input: { max: moment(new Date()).format('YYYY-MM-DD') },
+                      input: { max: moment(new Date()).format('YYYY-MM-DD') }
                     }}
                   />
                 )}
@@ -709,29 +671,21 @@ const CrfDetailsSearch = () => {
           <Box sx={{ display: 'flex', m: 1, flexWrap: 'wrap' }}>
             <Box sx={{ flex: 1 }}>
               <Typography sx={{ fontSize: 13, color: '#1D617A', pl: 1 }}>Department</Typography>
-              <DepartmentsSelectCrf
-                department={department}
-                setDepartment={setDepartment}
-                setdptSec={setdptSec}
-              />
+              <DepartmentsSelectCrf department={department} setDepartment={setDepartment} setdptSec={setdptSec} />
             </Box>
             <Box sx={{ pl: 0.3, flex: 1 }}>
-              <Typography sx={{ fontSize: 13, color: '#1D617A', pl: 1 }}>
-                Department Section
-              </Typography>
+              <Typography sx={{ fontSize: 13, color: '#1D617A', pl: 1 }}>Department Section</Typography>
               <DeptSectionCrf dptSec={dptSec} setdptSec={setdptSec} />
             </Box>
             <Box sx={{ flex: 1, pl: 0.3 }}>
-              <Typography sx={{ fontSize: 13, color: '#1D617A', pl: 1 }}>
-                Item Description
-              </Typography>
+              <Typography sx={{ fontSize: 13, color: '#1D617A', pl: 1 }}>Item Description</Typography>
               <CssVarsProvider>
                 <CustomInputDateCmp
                   className={{
                     borderRadius: 6,
                     border: '1px solid #bbdefb',
                     height: 35,
-                    color: '#1565c0',
+                    color: '#1565c0'
                   }}
                   autoComplete={'off'}
                   size={'md'}
@@ -753,7 +707,7 @@ const CrfDetailsSearch = () => {
                     borderRadius: 6,
                     border: '1px solid #bbdefb',
                     height: 35,
-                    color: '#1565c0',
+                    color: '#1565c0'
                   }}
                   autoComplete={'off'}
                   size={'md'}
@@ -772,7 +726,7 @@ const CrfDetailsSearch = () => {
                     borderRadius: 6,
                     border: '1px solid #bbdefb',
                     height: 35,
-                    color: '#1565c0',
+                    color: '#1565c0'
                   }}
                   autoComplete={'off'}
                   size={'md'}
@@ -798,8 +752,8 @@ const CrfDetailsSearch = () => {
                       borderRadius: 6,
                       '&:hover': {
                         bgcolor: 'white',
-                        color: '#43B0F1',
-                      },
+                        color: '#43B0F1'
+                      }
                     }}
                     onClick={searchCRFDetails}
                   >
@@ -821,8 +775,8 @@ const CrfDetailsSearch = () => {
                       borderRadius: 6,
                       '&:hover': {
                         bgcolor: 'white',
-                        color: '#43B0F1',
-                      },
+                        color: '#43B0F1'
+                      }
                     }}
                     onClick={clearSearch}
                   >
@@ -847,7 +801,7 @@ const CrfDetailsSearch = () => {
                     flexWrap: 'wrap',
                     mt: 0.6,
                     border: '1px solid #21B6A8',
-                    borderRadius: 2,
+                    borderRadius: 2
                   }}
                 >
                   <MasterDetailHigherLevel val={val} selectedCompany={selectedCompany} />
@@ -863,7 +817,7 @@ const CrfDetailsSearch = () => {
                 fontSize: 25,
                 opacity: 0.5,
                 pt: 10,
-                color: 'grey',
+                color: 'grey'
               }}
             >
               No Report Found

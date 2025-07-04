@@ -3,7 +3,7 @@ const { FETCH_ASSISTLIST } = ActionTyps
 //intial state
 const assistcmp = {
   assistcmpLists: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 export const getAssistComplaintLists = (state = assistcmp, { type, payload }) => {
   switch (type) {

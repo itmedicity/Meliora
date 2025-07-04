@@ -1,13 +1,4 @@
-import {
-  Box,
-  Chip,
-  CssVarsProvider,
-  Grid,
-  Modal,
-  ModalClose,
-  ModalDialog,
-  Typography,
-} from '@mui/joy'
+import { Box, Chip, CssVarsProvider, Grid, Modal, ModalClose, ModalDialog, Typography } from '@mui/joy'
 import { format } from 'date-fns'
 import React, { Fragment, memo } from 'react'
 
@@ -40,7 +31,7 @@ const StoreModalView = ({
   reqItems,
   approveTableData,
   companyData,
-  poDetails,
+  poDetails
 }) => {
   const {
     incharge_approve,
@@ -72,7 +63,7 @@ const StoreModalView = ({
     po_to_supplier_date,
     store_recieve,
     crs_user,
-    store_receive_date,
+    store_receive_date
   } = modalData
 
   const capitalizeWords = str =>
@@ -108,7 +99,7 @@ const StoreModalView = ({
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 35,
-                width: 35,
+                width: 35
               }}
             />
             <Box
@@ -117,7 +108,7 @@ const StoreModalView = ({
                 minHeight: '65vh',
                 maxHeight: '85vh',
                 overflowY: 'auto',
-                px: 0.5,
+                px: 0.5
               }}
             >
               <CrfReqDetailViewCmp ApprovalData={modalData} imagearray={imagearray} />
@@ -133,7 +124,7 @@ const StoreModalView = ({
                     fontSize: 25,
                     opacity: 0.5,
                     pt: 10,
-                    color: 'grey',
+                    color: 'grey'
                   }}
                 >
                   No Item Requested
@@ -151,7 +142,7 @@ const StoreModalView = ({
                     fontSize: 25,
                     opacity: 0.5,
                     pt: 10,
-                    color: 'grey',
+                    color: 'grey'
                   }}
                 >
                   No items Approved
@@ -159,14 +150,8 @@ const StoreModalView = ({
               )}
               {hod_approve !== null || incharge_approve !== null ? (
                 <>
-                  <Paper
-                    variant="outlined"
-                    square
-                    sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.7, mx: 0.7, pb: 0.5 }}
-                  >
-                    <Typography
-                      sx={{ fontWeight: 'bold', px: 1, py: 0.7, color: '#145DA0', fontSize: 14 }}
-                    >
+                  <Paper variant="outlined" square sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.7, mx: 0.7, pb: 0.5 }}>
+                    <Typography sx={{ fontWeight: 'bold', px: 1, py: 0.7, color: '#145DA0', fontSize: 14 }}>
                       Approval Details
                     </Typography>
                     <Grid container spacing={0.5} sx={{ flexGrow: 1 }}>
@@ -225,14 +210,8 @@ const StoreModalView = ({
                 </>
               ) : null}
               {ack_status === 1 ? (
-                <Paper
-                  variant="outlined"
-                  square
-                  sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.7, mx: 0.7 }}
-                >
-                  <Typography
-                    sx={{ fontWeight: 'bold', px: 1, py: 0.7, color: '#145DA0', fontSize: 14 }}
-                  >
+                <Paper variant="outlined" square sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.7, mx: 0.7 }}>
+                  <Typography sx={{ fontWeight: 'bold', px: 1, py: 0.7, color: '#145DA0', fontSize: 14 }}>
                     Procurement Details
                   </Typography>
                   <Grid container spacing={0.5} sx={{ flexGrow: 1 }}>
@@ -259,9 +238,7 @@ const StoreModalView = ({
                   </Grid>
                   {poDetails.length !== 0 ? (
                     <>
-                      <Typography
-                        sx={{ fontWeight: 'bold', mx: 1, pt: 0.5, color: '#145DA0', fontSize: 14 }}
-                      >
+                      <Typography sx={{ fontWeight: 'bold', mx: 1, pt: 0.5, color: '#145DA0', fontSize: 14 }}>
                         PO Details
                       </Typography>
                       <Box sx={{ width: '100%', pb: 0.3, flexWrap: 'wrap' }}>
@@ -278,7 +255,7 @@ const StoreModalView = ({
                           py: 0.5,
                           color: '#145DA0',
                           fontSize: 14,
-                          flex: 0.4,
+                          flex: 0.4
                         }}
                       >
                         Purchase Order&apos;s Completed
@@ -293,7 +270,7 @@ const StoreModalView = ({
                             height: 25,
                             pb: 0.5,
                             fontSize: 12,
-                            fontWeight: 550,
+                            fontWeight: 550
                           }}
                         >
                           Yes
@@ -306,14 +283,12 @@ const StoreModalView = ({
                             textTransform: 'capitalize',
                             fontWeight: 550,
                             pl: 2,
-                            pt: 0.4,
+                            pt: 0.4
                           }}
                         >
                           {capitalizeWords(pocomplete_user)}&nbsp; /
                         </Typography>
-                        <Typography
-                          sx={{ height: 30, fontSize: 12, fontWeight: 550, pl: 1, pt: 0.4 }}
-                        >
+                        <Typography sx={{ height: 30, fontSize: 12, fontWeight: 550, pl: 1, pt: 0.4 }}>
                           {format(new Date(po_complete_date), 'dd-MM-yyyy hh:mm:ss a')}
                         </Typography>
                       </Box>
@@ -328,7 +303,7 @@ const StoreModalView = ({
                           py: 0.5,
                           color: '#145DA0',
                           fontSize: 14,
-                          flex: 0.4,
+                          flex: 0.4
                         }}
                       >
                         CRF Acknowledgement
@@ -343,14 +318,12 @@ const StoreModalView = ({
                             height: 25,
                             pb: 0.5,
                             fontSize: 12,
-                            fontWeight: 550,
+                            fontWeight: 550
                           }}
                         >
                           Yes
                         </Chip>
-                        <Typography
-                          sx={{ height: 30, fontSize: 12, fontWeight: 550, pl: 2, pt: 0.4 }}
-                        >
+                        <Typography sx={{ height: 30, fontSize: 12, fontWeight: 550, pl: 2, pt: 0.4 }}>
                           {format(new Date(po_to_supplier_date), 'dd-MM-yyyy hh:mm:ss a')}
                         </Typography>
                       </Box>
@@ -365,7 +338,7 @@ const StoreModalView = ({
                           py: 0.5,
                           color: '#145DA0',
                           fontSize: 14,
-                          flex: 0.4,
+                          flex: 0.4
                         }}
                       >
                         Received in CRS Store
@@ -380,7 +353,7 @@ const StoreModalView = ({
                             height: 25,
                             pb: 0.5,
                             fontSize: 12,
-                            fontWeight: 550,
+                            fontWeight: 550
                           }}
                         >
                           Yes
@@ -393,14 +366,12 @@ const StoreModalView = ({
                             textTransform: 'capitalize',
                             fontWeight: 550,
                             pl: 2,
-                            pt: 0.4,
+                            pt: 0.4
                           }}
                         >
                           {capitalizeWords(crs_user)}&nbsp; /
                         </Typography>
-                        <Typography
-                          sx={{ height: 30, fontSize: 12, fontWeight: 550, pl: 1, pt: 0.4 }}
-                        >
+                        <Typography sx={{ height: 30, fontSize: 12, fontWeight: 550, pl: 1, pt: 0.4 }}>
                           {format(new Date(store_receive_date), 'dd-MM-yyyy hh:mm:ss a')}
                         </Typography>
                       </Box>

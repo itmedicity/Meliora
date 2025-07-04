@@ -7,7 +7,7 @@ const OtherTaskCount = ({ val }) => {
   const [tcount, setTcount] = useState([])
   const taskCountData = useMemo(() => {
     return {
-      tm_assigne_emp: emslno,
+      tm_assigne_emp: emslno
     }
   }, [emslno])
   useEffect(() => {
@@ -43,13 +43,13 @@ const OtherTaskCount = ({ val }) => {
                     fontWeight: 600,
                     pl: 1.5,
                     pt: 0.5,
-                    display: 'flex',
+                    display: 'flex'
                   }}
                 >
                   <Box sx={{ flex: 15 }}>Other Non-Project Task Count</Box>
                   <Box
                     sx={{
-                      flex: 1,
+                      flex: 1
                     }}
                   >
                     ({val.totalcount})

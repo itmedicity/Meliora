@@ -9,7 +9,7 @@ const TmProjectCircularProgress = ({ val }) => {
   const [progress, setProgress] = useState(0)
   const searchData = useMemo(() => {
     return {
-      tm_project_slno: tm_project_slno,
+      tm_project_slno: tm_project_slno
     }
   }, [tm_project_slno])
 

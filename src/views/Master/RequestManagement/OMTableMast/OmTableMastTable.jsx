@@ -15,8 +15,8 @@ const OmTableMastTable = ({ count, rowSelect }) => {
     { headerName: 'Status', field: 'status', minWidth: 100 },
     {
       headerName: 'Action',
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
-    },
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
+    }
   ])
 
   /*** get data from module_master table for display */

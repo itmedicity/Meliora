@@ -9,7 +9,7 @@ const EmployeeProgressBar = ({ val }) => {
   const { emslno } = val
   const searchData = useMemo(() => {
     return {
-      tm_assigne_emp: emslno,
+      tm_assigne_emp: emslno
     }
   }, [emslno])
 
@@ -45,14 +45,14 @@ const EmployeeProgressBar = ({ val }) => {
             '--LinearProgress-thickness': '12px',
             bgcolor: 'white',
             color: '#2B5434',
-            height: 12,
+            height: 12
           }}
         >
           <Typography
             fontSize={13}
             sx={{
               mixBlendMode: 'difference',
-              color: 'white',
+              color: 'white'
             }}
           >
             Progress &nbsp;

@@ -1,14 +1,4 @@
-import {
-  Box,
-  Checkbox,
-  CssVarsProvider,
-  Input,
-  Modal,
-  ModalClose,
-  ModalDialog,
-  Textarea,
-  Typography,
-} from '@mui/joy'
+import { Box, Checkbox, CssVarsProvider, Input, Modal, ModalClose, ModalDialog, Textarea, Typography } from '@mui/joy'
 import { Paper } from '@mui/material'
 import React, { Fragment, memo, useEffect, useState } from 'react'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
@@ -17,19 +7,8 @@ import { axioslogin } from 'src/views/Axios/Axios'
 import ProcedureEquipmentTable from '../Component/ProcedureEquipmentTable'
 
 const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
-  const {
-    qi_endo_ip_slno,
-    ip_no,
-    ipd_date,
-    ptno,
-    ptname,
-    ptsex,
-    ptage,
-    ptaddrs1,
-    ptaddrs3,
-    doctor_name,
-    ptmobile,
-  } = rowSelect
+  const { qi_endo_ip_slno, ip_no, ipd_date, ptno, ptname, ptsex, ptage, ptaddrs1, ptaddrs3, doctor_name, ptmobile } =
+    rowSelect
 
   const [errorYes, setErrorYes] = useState(false)
   const [errorNo, setErrorNo] = useState(false)
@@ -86,7 +65,7 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
     fallsType: '',
     identType: '',
     nearType: '',
-    sentinelType: '',
+    sentinelType: ''
   })
   const {
     errorDetails,
@@ -112,7 +91,7 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
     fallsType,
     identType,
     nearType,
-    sentinelType,
+    sentinelType
   } = qualityIndicators
 
   useEffect(() => {
@@ -159,7 +138,7 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
         ident_error_incident_type,
         nearmiss_incident_type,
         sentinel_incident_type,
-        sentinel_analysed,
+        sentinel_analysed
       } = rowSelect
 
       setErrorYes(error_status === 1 ? true : false)
@@ -254,7 +233,7 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
             ? 'HARMFUL'
             : sentinel_incident_type === 4
             ? 'SENTINEL'
-            : 'Nil',
+            : 'Nil'
       }
       setQualityIndicators(formdata)
       setTestReqDate(format(new Date(test_req_date), 'yyyy-MM-dd'))
@@ -287,7 +266,7 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
             equip_no: val.equip_no,
             equip_name: val.equip_name,
             PD_CODE: val.PD_CODE,
-            PDC_DESC: newData ? newData.PDC_DESC : 'nil',
+            PDC_DESC: newData ? newData.PDC_DESC : 'nil'
           }
         })
         setProcedureArray(newArray)
@@ -341,7 +320,7 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
             variant="outlined"
             sx={{
               minWidth: '65vw',
-              borderRadius: 'md',
+              borderRadius: 'md'
             }}
           >
             <ModalClose
@@ -354,7 +333,7 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 35,
-                width: 35,
+                width: 35
               }}
             />
             <Paper sx={{ display: 'flex', minHeight: 40, bgcolor: '#E3E8F0' }}>
@@ -363,9 +342,7 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
                   <Typography sx={{ fontSize: 14 }}>{ip_no}</Typography>
                 </Box>
                 <Box sx={{ pt: 0.5, pl: 2 }}>
-                  <Typography sx={{ fontSize: 14 }}>
-                    {format(new Date(ipd_date), 'dd-MM-yyyy hh:mm a')}
-                  </Typography>
+                  <Typography sx={{ fontSize: 14 }}>{format(new Date(ipd_date), 'dd-MM-yyyy hh:mm a')}</Typography>
                 </Box>
                 <Box sx={{ fontSize: 15, pt: 1, pl: 2, fontWeight: 500 }}>{ptno}</Box>
                 <Box sx={{ fontSize: 15, pt: 1, pl: 2, fontWeight: 500 }}>
@@ -450,9 +427,7 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
                     <Box sx={{ pb: 0.5, display: 'flex' }}>
                       <Box sx={{ flex: 1, pl: 0.3 }}>
                         <Box sx={{ pl: 1, py: 0.5 }}>
-                          <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                            Details Of Error
-                          </Typography>
+                          <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Details Of Error</Typography>
                         </Box>
                         <Box>
                           <CssVarsProvider>
@@ -472,9 +447,7 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
                       </Box>
                       <Box sx={{ flex: 1, pl: 0.3 }}>
                         <Box sx={{ pl: 1, py: 0.5 }}>
-                          <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                            Reason Of Error
-                          </Typography>
+                          <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Reason Of Error</Typography>
                         </Box>
                         <Box>
                           <CssVarsProvider>
@@ -493,9 +466,7 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
                       </Box>
                       <Box sx={{ flex: 1, pl: 0.3 }}>
                         <Box sx={{ pl: 1, py: 0.5 }}>
-                          <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                            Corrective Action
-                          </Typography>
+                          <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Corrective Action</Typography>
                         </Box>
                         <Box>
                           <CssVarsProvider>
@@ -514,9 +485,7 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
                       </Box>
                       <Box sx={{ flex: 1, pl: 0.3 }}>
                         <Box sx={{ pl: 1, py: 0.5 }}>
-                          <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                            Preventive Action
-                          </Typography>
+                          <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Preventive Action</Typography>
                         </Box>
                         <Box>
                           <CssVarsProvider>
@@ -580,9 +549,7 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
                     <Box sx={{ pb: 0.5, display: 'flex' }}>
                       <Box sx={{ flex: 1, pl: 0.3 }}>
                         <Box sx={{ pl: 1, py: 0.5 }}>
-                          <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                            Details
-                          </Typography>
+                          <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Details</Typography>
                         </Box>
                         <Box>
                           <CssVarsProvider>
@@ -601,9 +568,7 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
                       </Box>
                       <Box sx={{ flex: 1, pl: 0.3 }}>
                         <Box sx={{ pl: 1, py: 0.5 }}>
-                          <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                            Reason For Re dos
-                          </Typography>
+                          <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Reason For Re dos</Typography>
                         </Box>
                         <Box>
                           <CssVarsProvider>
@@ -622,9 +587,7 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
                       </Box>
                       <Box sx={{ flex: 1, pl: 0.3 }}>
                         <Box sx={{ pl: 1, py: 0.5 }}>
-                          <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                            Corrective Action
-                          </Typography>
+                          <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Corrective Action</Typography>
                         </Box>
                         <Box sx={{ flex: 1 }}>
                           <CssVarsProvider>
@@ -643,9 +606,7 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
                       </Box>
                       <Box sx={{ flex: 1, pl: 0.3 }}>
                         <Box sx={{ pl: 1, py: 0.5 }}>
-                          <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                            Preventive Action
-                          </Typography>
+                          <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Preventive Action</Typography>
                         </Box>
                         <Box sx={{ flex: 1, pr: 0.5 }}>
                           <CssVarsProvider>
@@ -751,9 +712,7 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
                       </Box>
                       <Box sx={{ flex: 1, pl: 0.3 }}>
                         <Box sx={{ pl: 1, py: 0.5 }}>
-                          <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                            Action Taken
-                          </Typography>
+                          <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Action Taken</Typography>
                         </Box>
                         <Box sx={{ flex: 1, pr: 0.5 }}>
                           <CssVarsProvider>
@@ -817,9 +776,7 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
                     <Box sx={{ pb: 0.5, display: 'flex' }}>
                       <Box sx={{ flex: 1, pl: 0.3 }}>
                         <Box sx={{ pl: 1, py: 0.5 }}>
-                          <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                            Falls Details
-                          </Typography>
+                          <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Falls Details</Typography>
                         </Box>
                         <Box>
                           <CssVarsProvider>
@@ -838,9 +795,7 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
                       </Box>
                       <Box sx={{ flex: 1, pl: 0.3 }}>
                         <Box sx={{ pl: 1, py: 0.5 }}>
-                          <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                            Falls Reason
-                          </Typography>
+                          <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Falls Reason</Typography>
                         </Box>
                         <Box>
                           <CssVarsProvider>
@@ -898,17 +853,13 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
                         <Typography>: </Typography>
                       </Box>
                       <Box sx={{ pl: 1, pt: 0.7 }}>
-                        <Typography sx={{ fontSize: 11, borderRadius: 1 }}>
-                          {sentinelType}
-                        </Typography>
+                        <Typography sx={{ fontSize: 11, borderRadius: 1 }}>{sentinelType}</Typography>
                       </Box>
                     </Box>
                     <Box sx={{ pb: 0.5, display: 'flex' }}>
                       <Box sx={{ flex: 1, pl: 0.3 }}>
                         <Box sx={{ pl: 1, py: 0.5 }}>
-                          <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                            Details
-                          </Typography>
+                          <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Details</Typography>
                         </Box>
                         <Box>
                           <CssVarsProvider>
@@ -927,9 +878,7 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
                       </Box>
                       <Box sx={{ flex: 1, pl: 0.3 }}>
                         <Box sx={{ pl: 1, py: 0.5 }}>
-                          <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                            Reason
-                          </Typography>
+                          <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Reason</Typography>
                         </Box>
                         <Box>
                           <CssVarsProvider>
@@ -949,9 +898,7 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
                     </Box>
                     <Box sx={{ display: 'flex' }}>
                       <Box sx={{ flex: 2, pl: 1, pt: 0.8 }}>
-                        <Typography
-                          sx={{ fontSize: 12, fontWeight: 550, textTransform: 'uppercase' }}
-                        >
+                        <Typography sx={{ fontSize: 12, fontWeight: 550, textTransform: 'uppercase' }}>
                           Analyzed within the Defined Time Frame{' '}
                         </Typography>
                       </Box>
@@ -1008,9 +955,7 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
                     <Box sx={{ pb: 0.5, display: 'flex' }}>
                       <Box sx={{ flex: 1, pl: 0.3 }}>
                         <Box sx={{ pl: 1, py: 0.5 }}>
-                          <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                            Details
-                          </Typography>
+                          <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Details</Typography>
                         </Box>
                         <Box>
                           <CssVarsProvider>
@@ -1029,9 +974,7 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
                       </Box>
                       <Box sx={{ flex: 1, px: 0.3 }}>
                         <Box sx={{ pl: 1, py: 0.5 }}>
-                          <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                            Reason
-                          </Typography>
+                          <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Reason</Typography>
                         </Box>
                         <Box>
                           <CssVarsProvider>
@@ -1064,17 +1007,13 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
               <Box sx={{ pl: 0.2, display: 'flex', py: 0.5, m: 0.5, bgcolor: '#eceff1' }}>
                 <Box sx={{ flex: 1 }}>
                   <Box sx={{ pl: 0.5, py: 0.5, flex: 1 }}>
-                    <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                      Test Requested Date
-                    </Typography>
+                    <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Test Requested Date</Typography>
                   </Box>
                   <Box sx={{ pl: 1, flex: 1 }}>
                     <CssVarsProvider>
                       <Input
                         readOnly
-                        endDecorator={
-                          <CalendarMonthIcon sx={{ height: 20, width: 20, color: '#555830' }} />
-                        }
+                        endDecorator={<CalendarMonthIcon sx={{ height: 20, width: 20, color: '#555830' }} />}
                         size="sm"
                         name="testReqDate"
                         value={format(new Date(testReqDate), 'dd-MM-yyyy')}
@@ -1093,9 +1032,7 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
                     <CssVarsProvider>
                       <Input
                         readOnly
-                        endDecorator={
-                          <CalendarMonthIcon sx={{ height: 20, width: 20, color: '#555830' }} />
-                        }
+                        endDecorator={<CalendarMonthIcon sx={{ height: 20, width: 20, color: '#555830' }} />}
                         size="sm"
                         name="entryTime"
                         value={format(new Date(entryTime), 'dd-MM-yyyy hh:mm a')}
@@ -1114,9 +1051,7 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
                     <CssVarsProvider>
                       <Input
                         readOnly
-                        endDecorator={
-                          <CalendarMonthIcon sx={{ height: 20, width: 20, color: '#555830' }} />
-                        }
+                        endDecorator={<CalendarMonthIcon sx={{ height: 20, width: 20, color: '#555830' }} />}
                         size="sm"
                         name="assessmentTime"
                         value={format(new Date(assessmentTime), 'dd-MM-yyyy hh:mm a')}
@@ -1129,17 +1064,13 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
               <Box sx={{ pl: 0.2, display: 'flex', py: 0.5, m: 0.5, bgcolor: '#eceff1' }}>
                 <Box sx={{ flex: 1 }}>
                   <Box sx={{ pl: 0.5, py: 0.5, flex: 1 }}>
-                    <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                      Procedure Starting Time
-                    </Typography>
+                    <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Procedure Starting Time</Typography>
                   </Box>
                   <Box sx={{ pl: 1, flex: 1 }}>
                     <CssVarsProvider>
                       <Input
                         readOnly
-                        endDecorator={
-                          <CalendarMonthIcon sx={{ height: 20, width: 20, color: '#555830' }} />
-                        }
+                        endDecorator={<CalendarMonthIcon sx={{ height: 20, width: 20, color: '#555830' }} />}
                         size="sm"
                         name="startTime"
                         value={format(new Date(startTime), 'dd-MM-yyyy hh:mm a')}
@@ -1150,17 +1081,13 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
                 </Box>
                 <Box sx={{ flex: 1, pl: 0.5 }}>
                   <Box sx={{ pl: 0.5, py: 0.5, flex: 1 }}>
-                    <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                      Procedure Ending Time
-                    </Typography>
+                    <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Procedure Ending Time</Typography>
                   </Box>
                   <Box sx={{ pl: 1, flex: 1 }}>
                     <CssVarsProvider>
                       <Input
                         readOnly
-                        endDecorator={
-                          <CalendarMonthIcon sx={{ height: 20, width: 20, color: '#555830' }} />
-                        }
+                        endDecorator={<CalendarMonthIcon sx={{ height: 20, width: 20, color: '#555830' }} />}
                         size="sm"
                         name="endTime"
                         value={format(new Date(endTime), 'dd-MM-yyyy hh:mm a')}
@@ -1171,17 +1098,13 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
                 </Box>
                 <Box sx={{ flex: 1, pl: 0.5 }}>
                   <Box sx={{ pl: 0.5, py: 0.5, flex: 1 }}>
-                    <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                      Report Generating Time
-                    </Typography>
+                    <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Report Generating Time</Typography>
                   </Box>
                   <Box sx={{ pr: 1, pl: 1, flex: 1 }}>
                     <CssVarsProvider>
                       <Input
                         readOnly
-                        endDecorator={
-                          <CalendarMonthIcon sx={{ height: 20, width: 20, color: '#555830' }} />
-                        }
+                        endDecorator={<CalendarMonthIcon sx={{ height: 20, width: 20, color: '#555830' }} />}
                         size="sm"
                         name="reportTime"
                         value={format(new Date(reportTime), 'dd-MM-yyyy hh:mm a')}
@@ -1192,17 +1115,13 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
                 </Box>
                 <Box sx={{ flex: 1 }}>
                   <Box sx={{ pl: 0.5, py: 0.5, flex: 1 }}>
-                    <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                      Report Despatching Time
-                    </Typography>
+                    <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Report Despatching Time</Typography>
                   </Box>
                   <Box sx={{ pl: 0.5, flex: 1, pr: 0.8 }}>
                     <CssVarsProvider>
                       <Input
                         readOnly
-                        endDecorator={
-                          <CalendarMonthIcon sx={{ height: 20, width: 20, color: '#555830' }} />
-                        }
+                        endDecorator={<CalendarMonthIcon sx={{ height: 20, width: 20, color: '#555830' }} />}
                         size="sm"
                         name="despatchTime"
                         value={format(new Date(despatchTime), 'dd-MM-yyyy hh:mm a')}
@@ -1231,7 +1150,7 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
                           pt: 0.8,
                           border: '1px solid lightgrey',
                           pl: 2,
-                          borderRadius: 6,
+                          borderRadius: 6
                         }}
                       >
                         {sumOfAssesment}
@@ -1246,7 +1165,7 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
                           pt: 0.8,
                           border: '1px solid lightgrey',
                           pl: 2,
-                          borderRadius: 6,
+                          borderRadius: 6
                         }}
                       >
                         {sumOfAssesment}
@@ -1280,9 +1199,7 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
                 </>
                 <Box sx={{ flex: 1 }}>
                   <Box sx={{ pt: 0.5, pl: 0.3 }}>
-                    <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                      Total Time Gap
-                    </Typography>
+                    <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Total Time Gap</Typography>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'center', pt: 0.1 }}>
                     <Box
@@ -1294,7 +1211,7 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
                         pt: 0.8,
                         border: '1px solid lightgrey',
                         pl: 2,
-                        borderRadius: 6,
+                        borderRadius: 6
                       }}
                     >
                       {timeGap}
@@ -1303,9 +1220,7 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
                 </Box>
                 <Box sx={{ flex: 1 }}>
                   <Box sx={{ pt: 0.5 }}>
-                    <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                      Turnaround Time
-                    </Typography>
+                    <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Turnaround Time</Typography>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'center', pt: 0.1 }}>
                     <Box
@@ -1317,7 +1232,7 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
                         pt: 0.8,
                         border: '1px solid lightgrey',
                         pl: 2,
-                        borderRadius: 6,
+                        borderRadius: 6
                       }}
                     >
                       {turnaroundTime}
@@ -1355,17 +1270,13 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
               <Box sx={{ display: 'flex', m: 0.5, bgcolor: '#eceff1', flex: 1, pb: 0.5 }}>
                 <Box sx={{ flex: 1 }}>
                   <Box sx={{ pl: 0.7, pt: 0.5 }}>
-                    <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                      Start Time
-                    </Typography>
+                    <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Start Time</Typography>
                   </Box>
                   <Box sx={{ pl: 1, pt: 0.2 }}>
                     <CssVarsProvider>
                       <Input
                         readOnly
-                        endDecorator={
-                          <CalendarMonthIcon sx={{ height: 20, width: 20, color: '#555830' }} />
-                        }
+                        endDecorator={<CalendarMonthIcon sx={{ height: 20, width: 20, color: '#555830' }} />}
                         size="sm"
                         name="endTime"
                         value={format(new Date(equipStartTime), 'dd-MM-yyyy hh:mm a')}
@@ -1376,17 +1287,13 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
                 </Box>
                 <Box sx={{ flex: 1 }}>
                   <Box sx={{ pl: 0.5, pt: 0.5 }}>
-                    <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                      End Time
-                    </Typography>
+                    <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>End Time</Typography>
                   </Box>
                   <Box sx={{ px: 1, pt: 0.2 }}>
                     <CssVarsProvider>
                       <Input
                         readOnly
-                        endDecorator={
-                          <CalendarMonthIcon sx={{ height: 20, width: 20, color: '#555830' }} />
-                        }
+                        endDecorator={<CalendarMonthIcon sx={{ height: 20, width: 20, color: '#555830' }} />}
                         size="sm"
                         name="endTime"
                         value={format(new Date(equipEndTime), 'dd-MM-yyyy hh:mm a')}
@@ -1397,9 +1304,7 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
                 </Box>
                 <Box sx={{ flex: 1 }}>
                   <Box sx={{ pt: 0.5, pl: 0.5 }}>
-                    <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                      Employee
-                    </Typography>
+                    <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Employee</Typography>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'center', pt: 0.2, pr: 1 }}>
                     <Box
@@ -1410,7 +1315,7 @@ const IPDayWiseModalView = ({ open, handleClose, rowSelect }) => {
                         pt: 0.6,
                         border: '1px solid lightgrey',
                         pl: 2,
-                        borderRadius: 6,
+                        borderRadius: 6
                       }}
                     >
                       {empName}

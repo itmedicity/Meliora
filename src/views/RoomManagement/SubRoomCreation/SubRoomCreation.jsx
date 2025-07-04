@@ -23,7 +23,7 @@ const SubRoomCreation = () => {
   const [subroom, setSubroom] = useState({
     subrm_desc: '',
     status: false,
-    subrm_slno: '',
+    subrm_slno: ''
   })
   //destructuring
   const { subrm_desc, status, subrm_slno } = subroom
@@ -41,7 +41,7 @@ const SubRoomCreation = () => {
       rmc_slno: value2,
       rmc_type: value1,
       status: status === true ? 1 : 0,
-      em_id: 1,
+      em_id: 1
     }
   }, [subrm_desc, value1, value2, status])
   //data set for edit
@@ -52,7 +52,7 @@ const SubRoomCreation = () => {
     const frmdata = {
       subrm_desc: subrm_desc,
       status: status === 'Yes' ? true : false,
-      subrm_slno: subrm_slno,
+      subrm_slno: subrm_slno
     }
     setSubroom(frmdata)
     setValue1(rmc_type)
@@ -65,7 +65,7 @@ const SubRoomCreation = () => {
       rmc_slno: value2,
       rmc_type: value1,
       status: status === true ? 1 : 0,
-      subrm_slno: subrm_slno,
+      subrm_slno: subrm_slno
     }
   }, [subrm_desc, value1, value2, status, subrm_slno])
   /*** usecallback function for form submitting */
@@ -75,7 +75,7 @@ const SubRoomCreation = () => {
       const formreset = {
         subrm_desc: '',
         status: false,
-        subrm_slno: '',
+        subrm_slno: ''
       }
       /*** * insert function for use call back     */
       const InsertFun = async postdata => {
@@ -130,7 +130,7 @@ const SubRoomCreation = () => {
     const formreset = {
       subrm_desc: '',
       status: false,
-      subrm_slno: '',
+      subrm_slno: ''
     }
     setSubroom(formreset)
     reset()
@@ -143,12 +143,7 @@ const SubRoomCreation = () => {
   }, [history])
 
   return (
-    <CardMaster
-      title="Subroom Creation"
-      close={backtoSetting}
-      submit={submitSubroomcreation}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Subroom Creation" close={backtoSetting} submit={submitSubroomcreation} refresh={refreshWindow}>
       <Box sx={{ p: 1 }}>
         <Grid container spacing={1}>
           <Grid item xl={4} lg={4}>

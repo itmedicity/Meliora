@@ -11,7 +11,7 @@ import {
   gettingArrayList,
   gettingArrayListFirstYear,
   gettingArrayListSecondYear,
-  gettingArrayListYearly,
+  gettingArrayListYearly
 } from './CommonFunctnFile'
 import { getBillCategory } from 'src/redux/actions/ItBillCategoryList.action'
 import DonutSmallSharpIcon from '@mui/icons-material/DonutSmallSharp'
@@ -45,8 +45,7 @@ const BillsChartsAndGraph = () => {
   const [totQutrCharge, setTotQutrCharge] = useState(0)
   const [totOtherCharge, setTotOtherCharge] = useState(0)
   const totalMonthlyChargedAmount = billchangeAmtMonth + billchangeAmtQuart + billchangeAmtOther
-  const totalyearlyChargedAmount =
-    billChargeYearly + totMonthlyCharge + totQutrCharge + totOtherCharge
+  const totalyearlyChargedAmount = billChargeYearly + totMonthlyCharge + totQutrCharge + totOtherCharge
 
   const dispatch = useDispatch()
   const [monthName, setMonthName] = useState('')
@@ -111,7 +110,7 @@ const BillsChartsAndGraph = () => {
   useEffect(() => {
     const monthBillSearch = {
       from: format(startOfMonth(new Date(searchMonthAndYear)), 'yyyy-MM-dd 00:00:00'),
-      to: format(endOfMonth(new Date(searchMonthAndYear)), 'yyyy-MM-dd 23:59:59'),
+      to: format(endOfMonth(new Date(searchMonthAndYear)), 'yyyy-MM-dd 23:59:59')
     }
     const gettingArayFun = async (monthBillSearch, setmonthINyearData) => {
       await gettingArrayList(monthBillSearch, setmonthINyearData)
@@ -124,7 +123,7 @@ const BillsChartsAndGraph = () => {
     const endDate = endOfYear(new Date(searchYear))
     const yearBillSearch = {
       from: moment(new Date(startDate)).format('YYYY-MM-DD 00:00:00'),
-      to: moment(new Date(endDate)).format('YYYY-MM-DD 23:59:59'),
+      to: moment(new Date(endDate)).format('YYYY-MM-DD 23:59:59')
     }
     const gettingArayFunYear = async (yearBillSearch, setYearData) => {
       await gettingArrayListYearly(yearBillSearch, setYearData)
@@ -137,7 +136,7 @@ const BillsChartsAndGraph = () => {
     const endDate = endOfYear(new Date(CompareYearOne))
     const firstyearBillSearch = {
       from: moment(new Date(startDate)).format('YYYY-MM-DD 00:00:00'),
-      to: moment(new Date(endDate)).format('YYYY-MM-DD 23:59:59'),
+      to: moment(new Date(endDate)).format('YYYY-MM-DD 23:59:59')
     }
     const gettingArayFunFirstYear = async (firstyearBillSearch, setfirstYear) => {
       await gettingArrayListFirstYear(firstyearBillSearch, setfirstYear)
@@ -150,7 +149,7 @@ const BillsChartsAndGraph = () => {
     const endDate = endOfYear(new Date(CompareYearTwo))
     const secondyearBillSearch = {
       from: moment(startDate).format('YYYY-MM-DD 00:00:00'),
-      to: moment(endDate).format('YYYY-MM-DD 23:59:59'),
+      to: moment(endDate).format('YYYY-MM-DD 23:59:59')
     }
     const gettingArayFunSecondYear = async (secondyearBillSearch, setsecondYear) => {
       await gettingArrayListSecondYear(secondyearBillSearch, setsecondYear)
@@ -159,20 +158,7 @@ const BillsChartsAndGraph = () => {
   }, [setsecondYear, CompareYearTwo])
 
   useEffect(() => {
-    const Xvalue = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ]
+    const Xvalue = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     if (monthINyearData.length !== 0) {
       const MonthNdYearChartData = billCategoryNames?.map(val => {
         const totBill = monthINyearData
@@ -180,13 +166,11 @@ const BillsChartsAndGraph = () => {
           .reduce((acc, curr) => acc + curr.bill_amount, 0)
         return {
           category: val.it_bill_category_name,
-          totBillAmount: totBill,
+          totBillAmount: totBill
         }
       })
       setBarChartViewMonthYear(MonthNdYearChartData)
-      const totamount = monthINyearData
-        ?.map(val => val.bill_amount)
-        .reduce((prev, next) => Number(prev) + Number(next))
+      const totamount = monthINyearData?.map(val => val.bill_amount).reduce((prev, next) => Number(prev) + Number(next))
       setmonthYeartotAmount(totamount)
       setmonthYearFlag(1)
     } else {
@@ -200,13 +184,11 @@ const BillsChartsAndGraph = () => {
           .reduce((acc, curr) => acc + curr.bill_amount, 0)
         return {
           categorys: val.it_bill_category_name,
-          totBillAmounts: totBill,
+          totBillAmounts: totBill
         }
       })
       setBarChartViewYear(yearChartData)
-      const totamount = yearData
-        ?.map(val => val.bill_amount)
-        .reduce((prev, next) => Number(prev) + Number(next))
+      const totamount = yearData?.map(val => val.bill_amount).reduce((prev, next) => Number(prev) + Number(next))
       setYeartotAmount(totamount)
       setYearFlag(1)
     } else {
@@ -220,7 +202,7 @@ const BillsChartsAndGraph = () => {
         .reduce((acc, curr) => acc + curr.bill_amount, 0)
       return {
         month: val,
-        firstamount: toBillAmount,
+        firstamount: toBillAmount
       }
     })
     const secondYearData = Xvalue?.map(val => {
@@ -229,14 +211,14 @@ const BillsChartsAndGraph = () => {
         .reduce((acc, curr) => acc + curr.bill_amount, 0)
       return {
         month: val,
-        secondamount: totBillAmnt,
+        secondamount: totBillAmnt
       }
     })
     const CombinedData = firstYearData?.map(val => {
       const newArray = secondYearData?.find(item => item.month === val.month)
       return {
         ...val,
-        secondamount: newArray ? newArray.secondamount : 0,
+        secondamount: newArray ? newArray.secondamount : 0
       }
     })
     setcombinedDatas(CombinedData)
@@ -260,16 +242,13 @@ const BillsChartsAndGraph = () => {
   const searchmonthlychargedAmount = useMemo(() => {
     return {
       from: format(startOfMonth(new Date(searchMonthAndYear)), 'yyyy-MM-dd'),
-      to: format(endOfMonth(new Date(searchMonthAndYear)), 'yyyy-MM-dd'),
+      to: format(endOfMonth(new Date(searchMonthAndYear)), 'yyyy-MM-dd')
     }
   }, [searchMonthAndYear])
 
   useEffect(() => {
     const getmonthlychargedAmount = async () => {
-      const result = await axioslogin.post(
-        '/ItBillAdd/getmonthlychargedAmount',
-        searchmonthlychargedAmount
-      )
+      const result = await axioslogin.post('/ItBillAdd/getmonthlychargedAmount', searchmonthlychargedAmount)
       const { success, data } = result.data
       if (success === 2) {
         const totalBillAmount = data.reduce((acc, item) => acc + item.bill_amount, 0)
@@ -284,16 +263,13 @@ const BillsChartsAndGraph = () => {
   const searchquarterlychargedAmount = useMemo(() => {
     return {
       from: quarterStartDate,
-      to: quarterStartDate,
+      to: quarterStartDate
     }
   }, [quarterStartDate])
 
   useEffect(() => {
     const getQuarterlychargedAmount = async () => {
-      const result = await axioslogin.post(
-        '/ItBillAdd/getQuarterlychargedAmount',
-        searchquarterlychargedAmount
-      )
+      const result = await axioslogin.post('/ItBillAdd/getQuarterlychargedAmount', searchquarterlychargedAmount)
       const { success, data } = result.data
       if (success === 2) {
         const totalBillAmountQuar = data.reduce((acc, item) => acc + item.bill_amount, 0)
@@ -308,16 +284,13 @@ const BillsChartsAndGraph = () => {
   const searchmonthlychargedAmountOther = useMemo(() => {
     return {
       from: format(startOfMonth(new Date(searchMonthAndYear)), 'yyyy-MM-dd'),
-      to: format(endOfMonth(new Date(searchMonthAndYear)), 'yyyy-MM-dd'),
+      to: format(endOfMonth(new Date(searchMonthAndYear)), 'yyyy-MM-dd')
     }
   }, [searchMonthAndYear])
 
   useEffect(() => {
     const getmonthlychargedAmountOther = async () => {
-      const result = await axioslogin.post(
-        '/ItBillAdd/getOtherchargedAmount',
-        searchmonthlychargedAmountOther
-      )
+      const result = await axioslogin.post('/ItBillAdd/getOtherchargedAmount', searchmonthlychargedAmountOther)
       const { success, data } = result.data
 
       if (success === 2) {
@@ -333,7 +306,7 @@ const BillsChartsAndGraph = () => {
   const searchyearlyCharged = useMemo(() => {
     return {
       from: format(startOfYear(new Date(searchYear)), 'yyyy-MM-dd'),
-      to: format(endOfYear(new Date(searchYear)), 'yyyy-MM-dd'),
+      to: format(endOfYear(new Date(searchYear)), 'yyyy-MM-dd')
     }
   }, [searchYear])
 
@@ -355,16 +328,13 @@ const BillsChartsAndGraph = () => {
   const searchTotMonthCharged = useMemo(() => {
     return {
       from: format(startOfYear(new Date(searchYear)), 'yyyy-MM-dd'),
-      to: format(endOfYear(new Date(searchYear)), 'yyyy-MM-dd'),
+      to: format(endOfYear(new Date(searchYear)), 'yyyy-MM-dd')
     }
   }, [searchYear])
 
   useEffect(() => {
     const getTotmonthlychargedAmount = async () => {
-      const result = await axioslogin.post(
-        '/ItBillAdd/getmonthlychargedAmount',
-        searchTotMonthCharged
-      )
+      const result = await axioslogin.post('/ItBillAdd/getmonthlychargedAmount', searchTotMonthCharged)
       const { success, data } = result.data
       if (success === 2) {
         const totalBillAmount = data.reduce((acc, item) => acc + item.bill_amount, 0)
@@ -379,16 +349,13 @@ const BillsChartsAndGraph = () => {
   const searchTotQuartCharged = useMemo(() => {
     return {
       from: format(startOfYear(new Date(searchYear)), 'yyyy-MM-dd'),
-      to: format(endOfYear(new Date(searchYear)), 'yyyy-MM-dd'),
+      to: format(endOfYear(new Date(searchYear)), 'yyyy-MM-dd')
     }
   }, [searchYear])
 
   useEffect(() => {
     const getTotQuartchargedAmount = async () => {
-      const result = await axioslogin.post(
-        '/ItBillAdd/getQuarterlychargedAmount',
-        searchTotQuartCharged
-      )
+      const result = await axioslogin.post('/ItBillAdd/getQuarterlychargedAmount', searchTotQuartCharged)
       const { success, data } = result.data
       if (success === 2) {
         const totalBillAmount = data.reduce((acc, item) => acc + item.bill_amount, 0)
@@ -403,16 +370,13 @@ const BillsChartsAndGraph = () => {
   const searchTotOtherCharged = useMemo(() => {
     return {
       from: format(startOfYear(new Date(searchYear)), 'yyyy-MM-dd'),
-      to: format(endOfYear(new Date(searchYear)), 'yyyy-MM-dd'),
+      to: format(endOfYear(new Date(searchYear)), 'yyyy-MM-dd')
     }
   }, [searchYear])
 
   useEffect(() => {
     const getTotOtherchargedAmount = async () => {
-      const result = await axioslogin.post(
-        '/ItBillAdd/getOtherchargedAmount',
-        searchTotOtherCharged
-      )
+      const result = await axioslogin.post('/ItBillAdd/getOtherchargedAmount', searchTotOtherCharged)
       const { success, data } = result.data
       if (success === 2) {
         const totalBillAmount = data.reduce((acc, item) => acc + item.bill_amount, 0)
@@ -432,7 +396,7 @@ const BillsChartsAndGraph = () => {
         p: 0.5,
         boxShadow: '0px 0px 1px',
         bgcolor: '#E3E7F1',
-        maxHeight: '80wvh',
+        maxHeight: '80wvh'
       }}
     >
       <Box sx={{ flex: 1, fontWeight: 600, fontSize: 20, color: '#2F435A', p: 0.2 }}>
@@ -490,7 +454,7 @@ const BillsChartsAndGraph = () => {
                         gridTemplateColumns: 'repeat(3, 100px)',
                         gridAutoRows: '100px',
                         gap: 0.5,
-                        width: 300,
+                        width: 300
                       }}
                     >
                       <MenuItem sx={{ flex: 1, display: 'flex' }}>
@@ -544,9 +508,9 @@ const BillsChartsAndGraph = () => {
                     tickLabelStyle: {
                       angle: -26,
                       textAnchor: 'end',
-                      fontSize: 10,
-                    },
-                  },
+                      fontSize: 10
+                    }
+                  }
                 ]}
                 series={[
                   {
@@ -554,17 +518,17 @@ const BillsChartsAndGraph = () => {
                     label: 'Amount',
                     highlightScope: {
                       faded: 'global',
-                      highlighted: 'item',
+                      highlighted: 'item'
                     },
                     faded: { innerRadius: 25, additionalRadius: -30, color: 'gray' },
                     color: '#AB3917',
-                    valueFormatter,
-                  },
+                    valueFormatter
+                  }
                 ]}
                 tooltip={{ trigger: 'item' }}
                 axisHighlight={{
                   x: 'none',
-                  y: 'none',
+                  y: 'none'
                 }}
               />
             ) : (
@@ -581,7 +545,7 @@ const BillsChartsAndGraph = () => {
                       flex: 1,
                       display: 'flex',
                       justifyContent: 'center',
-                      pt: 2,
+                      pt: 2
                     }}
                   >
                     <Box
@@ -590,7 +554,7 @@ const BillsChartsAndGraph = () => {
                         height: 20,
                         bgcolor: 'darkred',
                         textAlign: 'center',
-                        mr: 0.4,
+                        mr: 0.4
                       }}
                     ></Box>{' '}
                     Amount
@@ -602,7 +566,7 @@ const BillsChartsAndGraph = () => {
                       textAlign: 'center',
                       borderLeft: 1,
                       borderRight: 1,
-                      height: 5,
+                      height: 5
                     }}
                   ></Box>
                   <Box sx={{ ml: 5, mr: 10, flex: 1, textAlign: 'center' }}>-categories-</Box>
@@ -660,11 +624,11 @@ const BillsChartsAndGraph = () => {
                           x: item.categorys,
                           y: item.totBillAmounts,
                           value: item.totBillAmounts,
-                          label: item.categorys,
+                          label: item.categorys
                         })),
                         highlightScope: {
                           faded: 'global',
-                          highlighted: 'item',
+                          highlighted: 'item'
                         },
                         faded: { innerRadius: 25, additionalRadius: -30, color: 'gray' },
                         innerRadius: 8,
@@ -674,20 +638,18 @@ const BillsChartsAndGraph = () => {
                         startAngle: -180,
                         endAngle: 180,
                         cl: 180,
-                        cb: 0,
-                      },
+                        cb: 0
+                      }
                     ]}
                     slotProps={{
-                      legend: { hidden: true },
+                      legend: { hidden: true }
                     }}
                   />
                 </Box>
               ) : (
                 <Box sx={{ margin: 'auto', width: 110, pt: 2 }}>
                   <DonutSmallSharpIcon sx={{ height: 110, width: 110, color: '#B1B1B1' }} />
-                  <Typography sx={{ pl: 3.5, color: '#B1B1B1', fontWeight: 800 }}>
-                    No Data
-                  </Typography>
+                  <Typography sx={{ pl: 3.5, color: '#B1B1B1', fontWeight: 800 }}>No Data</Typography>
                 </Box>
               )}
             </Box>
@@ -730,7 +692,7 @@ const BillsChartsAndGraph = () => {
             xAxis={[{ scaleType: 'band', dataKey: 'month' }]}
             series={[
               { dataKey: 'firstamount', label: CompareYearOne, valueFormatter, color: '#214358' },
-              { dataKey: 'secondamount', label: CompareYearTwo, valueFormatter, color: '#B8390E' },
+              { dataKey: 'secondamount', label: CompareYearTwo, valueFormatter, color: '#B8390E' }
             ]}
           />
         </Box>

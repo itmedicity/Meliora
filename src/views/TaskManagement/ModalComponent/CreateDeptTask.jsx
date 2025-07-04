@@ -66,7 +66,7 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
     tm_completed_remarks: '',
     main_task_slno: '',
     tm_task_status: 0,
-    tm_complete_date: '',
+    tm_complete_date: ''
   })
   const {
     tm_task_name,
@@ -77,7 +77,7 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
     tm_pending_remark,
     tm_completed_remarks,
     tm_task_status,
-    tm_complete_date,
+    tm_complete_date
   } = taskMast
 
   const MastUpdate = useCallback(
@@ -108,7 +108,7 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
       tm_task_status: tm_task_status,
       tm_complete_date: tm_complete_date === '' ? null : tm_complete_date,
       create_user: id,
-      main_task_slno: main_task_slno,
+      main_task_slno: main_task_slno
     }
   }, [
     tm_task_name,
@@ -123,7 +123,7 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
     tm_onhold_remarks,
     tm_completed_remarks,
     tm_complete_date,
-    id,
+    id
   ])
 
   const handleFileChange = useCallback(
@@ -144,7 +144,7 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
     const options = {
       maxSizeMB: 1,
       maxWidthOrHeight: 1920,
-      useWebWorker: true,
+      useWebWorker: true
     }
     const compressedFile = await imageCompression(imageFile, options)
     return compressedFile
@@ -176,8 +176,8 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
           // Use the Axios instance and endpoint that matches your server setup
           const uploadResult = await axioslogin.post('/TmFileUpload/uploadFile/task', formData, {
             headers: {
-              'Content-Type': 'multipart/form-data',
-            },
+              'Content-Type': 'multipart/form-data'
+            }
           })
           return uploadResult.data
         } catch (error) {
@@ -198,7 +198,7 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
                     tm_task_slno: insertId,
                     tm_assigne_emp: val,
                     tm_detail_status: 1,
-                    tm_detl_create: id,
+                    tm_detl_create: id
                   }
                 })
               InsertDetailTask(insertTaskDetail).then(value => {
@@ -266,7 +266,7 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
       setInsertId,
       setTableCount,
       tableCount,
-      tm_task_due_date,
+      tm_task_due_date
     ]
   )
   const CreateProject = useCallback(() => {
@@ -299,7 +299,7 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
             justifyContent: 'center',
             alignItems: 'center',
             pl: 1,
-            borderRadius: 10,
+            borderRadius: 10
           }}
         >
           <ModalDialog variant="outlined" sx={{ width: '48vw', p: 0, overflow: 'auto' }}>
@@ -312,7 +312,7 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
                     pl: 1,
                     flex: 1,
                     pt: 1.5,
-                    fontWeight: 900,
+                    fontWeight: 900
                   }}
                 >
                   Create A New Task
@@ -324,7 +324,7 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
                     cursor: 'pointer',
                     color: '#52688F',
                     p: 1,
-                    '&:hover': { color: '#BA0F30' },
+                    '&:hover': { color: '#BA0F30' }
                   }}
                   onClick={handleClose}
                 />
@@ -339,14 +339,12 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
                   backgroundColor: 'white',
                   borderRadius: 35,
                   position: 'absolute',
-                  fontSize: '0.75em',
+                  fontSize: '0.75em'
                 }}
               >
                 <AssignmentSharpIcon sx={{ height: 60, width: 60, p: 1.5 }} />
               </Box>
-              <Typography sx={{ fontWeight: 800, color: 'grey', fontSize: 15, pt: 5, pl: 5.8 }}>
-                Create Task
-              </Typography>
+              <Typography sx={{ fontWeight: 800, color: 'grey', fontSize: 15, pt: 5, pl: 5.8 }}>Create Task</Typography>
               <Box sx={{ overflow: 'auto', mx: 3 }}>
                 <Box sx={{ flex: 1, mx: 3, mt: 2.5 }}>
                   <Typography sx={{ pl: 1.5, color: '#003B73', fontWeight: 600, fontSize: 12 }}>
@@ -362,9 +360,7 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
                   />
                 </Box>
                 <Box sx={{ flex: 1, mx: 3, mt: 2.5 }}>
-                  <Typography sx={{ pl: 1.5, color: '#003B73', fontWeight: 600, fontSize: 12 }}>
-                    Project
-                  </Typography>
+                  <Typography sx={{ pl: 1.5, color: '#003B73', fontWeight: 600, fontSize: 12 }}>Project</Typography>
                   <Box sx={{ display: 'flex' }}>
                     <TmProjectListInTaskCreaation
                       projectz={projectz}
@@ -378,7 +374,7 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
                             cursor: 'pointer',
                             bgcolor: '#90CDD0',
                             color: 'black',
-                            '&:hover': { bgcolor: '#77A7B0' },
+                            '&:hover': { bgcolor: '#77A7B0' }
                           }}
                         >
                           {' '}
@@ -396,9 +392,7 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
                     <Inputcomponent type="text" name="deeptName" value={deeptName} disabled />
                   </Box>
                   <Box sx={{ flex: 1, ml: 0.5 }}>
-                    <Typography sx={{ pl: 1.5, color: '#003B73', fontWeight: 600, fontSize: 12 }}>
-                      Section{' '}
-                    </Typography>
+                    <Typography sx={{ pl: 1.5, color: '#003B73', fontWeight: 600, fontSize: 12 }}>Section </Typography>
                     <Inputcomponent type="text" name="secName" value={secName} disabled />
                   </Box>
                 </Box>
@@ -416,11 +410,7 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
                   </Typography>
                   {projectz !== 0 ? (
                     <>
-                      <Tooltip
-                        title={isProjectOverdue ? tooltipText : ''}
-                        color="warning"
-                        sx={{ width: 400 }}
-                      >
+                      <Tooltip title={isProjectOverdue ? tooltipText : ''} color="warning" sx={{ width: 400 }}>
                         <span>
                           <Inputcomponent
                             type="datetime-local"
@@ -429,8 +419,8 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
                             slotProps={{
                               input: {
                                 min: moment(new Date()).format('YYYY-MM-DDTHH:mm'),
-                                max: moment(new Date(dueDateProject)).format('YYYY-MM-DDTHH:mm'),
-                              },
+                                max: moment(new Date(dueDateProject)).format('YYYY-MM-DDTHH:mm')
+                              }
                             }}
                             onchange={MastUpdate}
                             disabled={isProjectOverdue}
@@ -447,8 +437,8 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
                         slotProps={{
                           input: {
                             min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-                            max: moment(new Date(dueDateProject)).format('YYYY-MM-DD HH:mm:ss'),
-                          },
+                            max: moment(new Date(dueDateProject)).format('YYYY-MM-DD HH:mm:ss')
+                          }
                         }}
                         onchange={MastUpdate}
                       />
@@ -462,7 +452,7 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
                       color: '#003B73',
                       fontWeight: 600,
                       textUnderline: 1,
-                      fontSize: 12,
+                      fontSize: 12
                     }}
                   >
                     Description
@@ -477,7 +467,7 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
                       borderColor: 'neutral.outlinedBorder',
                       borderRadius: 0,
                       '&:hover': {
-                        borderColor: 'neutral.outlinedHoverBorder',
+                        borderColor: 'neutral.outlinedHoverBorder'
                       },
                       '&::before': {
                         border: '1px solid var(--Textarea-focusedHighlight)',
@@ -487,11 +477,11 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
                         bottom: '-2px',
                         top: 'unset',
                         transition: 'transform .15s cubic-bezier(0.1,0.9,0.2,1)',
-                        borderRadius: 0,
+                        borderRadius: 0
                       },
                       '&:focus-within::before': {
-                        transform: 'scaleX(1)',
-                      },
+                        transform: 'scaleX(1)'
+                      }
                     }}
                     name="tm_task_description"
                     value={tm_task_description}
@@ -508,7 +498,7 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
                     display: 'flex',
                     borderColor: '#C2D2D9',
                     mx: 2.3,
-                    py: 1,
+                    py: 1
                   }}
                 >
                   <Box
@@ -521,7 +511,7 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
                       border: 0.1,
                       mx: 0.5,
                       borderRadius: 5,
-                      borderColor: '#E4E5E8',
+                      borderColor: '#E4E5E8'
                     }}
                   >
                     <label htmlFor="file-input">
@@ -529,7 +519,7 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
                         sx={{
                           color: '#0000FF',
                           cursor: 'pointer',
-                          '&:hover': { color: '#000C66' },
+                          '&:hover': { color: '#000C66' }
                         }}
                       />
                       <u>Choose File</u>
@@ -550,7 +540,7 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
                       flex: 1,
                       overflowX: 'scroll',
                       overflow: 'hidden',
-                      mx: 0.5,
+                      mx: 0.5
                     }}
                   >
                     {selectFile &&
@@ -566,7 +556,7 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
                                 width: 20,
                                 cursor: 'pointer',
                                 color: '#4D0011',
-                                '&:hover': { color: '#BA0F30' },
+                                '&:hover': { color: '#BA0F30' }
                               }}
                               onClick={() => handleRemoveFile(index)}
                             />
@@ -575,9 +565,7 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
                       ))}
                   </Box>
                 </Box>
-                <Box
-                  sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', pt: 3, mr: 3, pb: 2 }}
-                >
+                <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', pt: 3, mr: 3, pb: 2 }}>
                   <Button variant="plain" sx={{ fontSize: 15 }} onClick={SubmitTask}>
                     Create
                   </Button>

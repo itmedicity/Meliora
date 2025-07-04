@@ -4,15 +4,7 @@ import Table from '@mui/joy/Table'
 import { Paper } from '@mui/material'
 import { axioslogin } from 'src/views/Axios/Axios'
 
-const ItemCountWiseMap = ({
-  getPostData,
-  type,
-  getPostDataSpare,
-  rend,
-  getItemcount,
-  setDisArry,
-  disArry,
-}) => {
+const ItemCountWiseMap = ({ getPostData, type, getPostDataSpare, rend, getItemcount, setDisArry, disArry }) => {
   useEffect(() => {
     const getData = async getPostData => {
       const result = await axioslogin.post(`/itemCreationDeptmap/getInsertData`, getPostData)
@@ -30,7 +22,7 @@ const ItemCountWiseMap = ({
             item_name: val.item_name,
             rm_room_name: val.rm_room_name,
             subroom_name: val.subroom_name,
-            assetno: val.item_asset_no + '/' + val.item_asset_no_only.toString().padStart(6, '0'),
+            assetno: val.item_asset_no + '/' + val.item_asset_no_only.toString().padStart(6, '0')
           }
           return obj
         })
@@ -40,10 +32,7 @@ const ItemCountWiseMap = ({
       }
     }
     const getDataSpare = async getPostDataSpare => {
-      const result = await axioslogin.post(
-        `/itemCreationDeptmap/getInsertSpareData`,
-        getPostDataSpare
-      )
+      const result = await axioslogin.post(`/itemCreationDeptmap/getInsertSpareData`, getPostDataSpare)
       const { success, data } = result.data
       if (success === 1) {
         const disdata = data.map((val, index) => {
@@ -56,7 +45,7 @@ const ItemCountWiseMap = ({
             deptname: val.deptname,
             secname: val.secname,
             item_name: val.item_name,
-            assetno: val.spare_asset_no + '/' + val.spare_asset_no_only.toString().padStart(6, '0'),
+            assetno: val.spare_asset_no + '/' + val.spare_asset_no_only.toString().padStart(6, '0')
           }
           return obj
         })

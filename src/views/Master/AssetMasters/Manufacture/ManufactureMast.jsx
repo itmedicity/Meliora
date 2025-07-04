@@ -23,7 +23,7 @@ const ManufactureMast = () => {
   const [manufacture, setManufacture] = useState({
     manufacture_slno: '',
     manufacture_name: '',
-    manufacture_status: false,
+    manufacture_status: false
   })
   const { manufacture_slno, manufacture_name, manufacture_status } = manufacture
   const updateManufacture = useCallback(
@@ -37,7 +37,7 @@ const ManufactureMast = () => {
     return {
       manufacture_name: manufacture_name,
       manufacture_status: manufacture_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [manufacture_name, manufacture_status, id])
 
@@ -46,7 +46,7 @@ const ManufactureMast = () => {
       manufacture_slno: manufacture_slno,
       manufacture_name: manufacture_name,
       manufacture_status: manufacture_status === true ? 1 : 0,
-      edit_user: id,
+      edit_user: id
     }
   }, [manufacture_slno, manufacture_name, manufacture_status, id])
 
@@ -57,7 +57,7 @@ const ManufactureMast = () => {
     const frmdata = {
       manufacture_slno: manufacture_slno,
       manufacture_name: manufacture_name,
-      manufacture_status: manufacture_status === 1 ? true : false,
+      manufacture_status: manufacture_status === 1 ? true : false
     }
     setManufacture(frmdata)
   }, [])
@@ -65,7 +65,7 @@ const ManufactureMast = () => {
     const frmdata = {
       manufacture_slno: '',
       manufacture_name: '',
-      manufacture_status: false,
+      manufacture_status: false
     }
     setManufacture(frmdata)
     setCount(0)
@@ -121,18 +121,13 @@ const ManufactureMast = () => {
     const frmdata = {
       manufacture_slno: '',
       manufacture_name: '',
-      manufacture_status: false,
+      manufacture_status: false
     }
     setManufacture(frmdata)
     setValue(0)
   }, [setManufacture])
   return (
-    <CardMaster
-      title="Manufacture Master"
-      submit={submitManufacture}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Manufacture Master" submit={submitManufacture} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ p: 1 }}>
         <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
           <Box sx={{ width: '30%', p: 1 }}>

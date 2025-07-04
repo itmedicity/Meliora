@@ -42,7 +42,7 @@ const AssetCategorySelect = ({ category, setCategory, setName }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '29px',
+            '--Input-minHeight': '29px'
           }}
           value={category === 0 ? categories : value}
           placeholder="Select Category"

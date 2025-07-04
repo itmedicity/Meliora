@@ -9,16 +9,8 @@ import { format } from 'date-fns'
 import CustomToolTipForCRF from '../Components/CustomToolTipForCRF'
 import AttachmentTwoToneIcon from '@mui/icons-material/AttachmentTwoTone'
 const DMSApproveViewForHigher = ({ DetailViewData, selectedCompany, company }) => {
-  const {
-    req_slno,
-    dms_approve,
-    dms,
-    dms_remarks,
-    dms_detail_analysis,
-    dms_approve_date,
-    dms_user,
-    dms_image,
-  } = DetailViewData
+  const { req_slno, dms_approve, dms, dms_remarks, dms_detail_analysis, dms_approve_date, dms_user, dms_image } =
+    DetailViewData
   const [imageshowFlag, setImageShowFlag] = useState(0)
   const [imageshow, setImageShow] = useState(false)
   const [imagearray, setImageArry] = useState([])
@@ -87,9 +79,7 @@ const DMSApproveViewForHigher = ({ DetailViewData, selectedCompany, company }) =
       ) : null}
       <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
         <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
-          <Typography
-            sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}
-          >
+          <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>
             {company?.dms_status_name}
           </Typography>
           <Box sx={{ flex: 1, py: 0.4, ml: 2 }}>
@@ -110,7 +100,7 @@ const DMSApproveViewForHigher = ({ DetailViewData, selectedCompany, company }) =
                 height: 25,
                 pb: 0.5,
                 fontSize: 12,
-                fontWeight: 550,
+                fontWeight: 550
               }}
             >
               {dms}
@@ -121,49 +111,33 @@ const DMSApproveViewForHigher = ({ DetailViewData, selectedCompany, company }) =
           {dms_approve === 1 && dms_remarks !== null ? (
             <Box sx={{ pt: 0.5 }}>
               <Box sx={{ display: 'flex' }}>
-                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                  Justification/ Requirement Description{' '}
-                </Typography>
+                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Justification/ Requirement Description </Typography>
                 <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-                <Typography
-                  sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}
-                >
+                <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
                   {dms_remarks === null ? 'Not Updated' : dms_remarks}
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', pt: 1 }}>
-                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                  Detailed Analysis of Requirement
-                </Typography>
+                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Detailed Analysis of Requirement</Typography>
                 <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-                <Typography
-                  sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}
-                >
+                <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
                   {dms_detail_analysis === null ? 'Not Updated' : dms_detail_analysis}
                 </Typography>
               </Box>
             </Box>
           ) : dms_approve === 2 && dms_remarks !== null ? (
             <Box sx={{ display: 'flex', pt: 0.5 }}>
-              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                Justification for Reject{' '}
-              </Typography>
+              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Justification for Reject </Typography>
               <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-              <Typography
-                sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}
-              >
+              <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
                 {dms_remarks === null ? 'Not Updated' : dms_remarks}{' '}
               </Typography>
             </Box>
           ) : dms_approve === 3 && dms_remarks !== null ? (
             <Box sx={{ display: 'flex', pt: 0.5 }}>
-              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                Justification for On-Hold
-              </Typography>
+              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Justification for On-Hold</Typography>
               <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-              <Typography
-                sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}
-              >
+              <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
                 {dms_remarks === null ? 'Not Updated' : dms_remarks}{' '}
               </Typography>
             </Box>
@@ -171,9 +145,7 @@ const DMSApproveViewForHigher = ({ DetailViewData, selectedCompany, company }) =
             <Box sx={{ display: 'flex', pt: 0.5 }}>
               <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Remarks</Typography>
               <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-              <Typography
-                sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}
-              >
+              <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
                 {dms_remarks === null ? 'Not Updated' : dms_remarks}{' '}
               </Typography>
             </Box>
@@ -189,9 +161,7 @@ const DMSApproveViewForHigher = ({ DetailViewData, selectedCompany, company }) =
               ) : null}
               <Box sx={{ display: 'flex', flex: 1 }}>
                 <Typography sx={{}}> :&nbsp;</Typography>
-                <Typography
-                  sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pt: 0.3, pl: 0.2 }}
-                >
+                <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pt: 0.3, pl: 0.2 }}>
                   {capitalizeWords(dms_user)}
                 </Typography>
                 <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pl: 2, pt: 0.3 }}>

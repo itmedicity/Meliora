@@ -25,7 +25,7 @@ const PrimaryCustodianMast = () => {
   const [primary, setPrimary] = useState({
     primary_slno: '',
     primary_name: '',
-    primary_status: false,
+    primary_status: false
   })
   const { primary_slno, primary_name, primary_status } = primary
   const UpdatePrimary = useCallback(
@@ -39,7 +39,7 @@ const PrimaryCustodianMast = () => {
     const frmdata = {
       primary_slno: '',
       primary_name: '',
-      primary_status: false,
+      primary_status: false
     }
     setPrimary(frmdata)
     setCount(0)
@@ -49,7 +49,7 @@ const PrimaryCustodianMast = () => {
     return {
       primary_name: primary_name,
       primary_status: primary_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [primary_name, primary_status, id])
   const patchdata = useMemo(() => {
@@ -57,7 +57,7 @@ const PrimaryCustodianMast = () => {
       primary_slno: primary_slno,
       primary_name: primary_name,
       primary_status: primary_status === true ? 1 : 0,
-      edit_user: id,
+      edit_user: id
     }
   }, [primary_slno, primary_name, primary_status, id])
   const rowSelect = useCallback(params => {
@@ -67,7 +67,7 @@ const PrimaryCustodianMast = () => {
     const frmdata = {
       primary_slno: primary_slno,
       primary_name: primary_name,
-      primary_status: primary_status === 1 ? true : false,
+      primary_status: primary_status === 1 ? true : false
     }
     setPrimary(frmdata)
   }, [])
@@ -122,18 +122,13 @@ const PrimaryCustodianMast = () => {
     const frmdata = {
       primary_slno: '',
       primary_name: '',
-      primary_status: false,
+      primary_status: false
     }
     setPrimary(frmdata)
     setValue(0)
   }, [setPrimary])
   return (
-    <CardMaster
-      title="Primary Custodian"
-      submit={submitPrimary}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Primary Custodian" submit={submitPrimary} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
         <Box sx={{ width: '30%', p: 1 }}>
           <Box>

@@ -21,7 +21,7 @@ const SimOperators = () => {
   const [simOperators, setsimOperators] = useState({
     sim_operator_id: '',
     sim_operator_name: '',
-    sim_operator_status: false,
+    sim_operator_status: false
   })
   const { sim_operator_id, sim_operator_name, sim_operator_status } = simOperators
   const UpdatesimOperators = useCallback(
@@ -35,7 +35,7 @@ const SimOperators = () => {
     return {
       sim_operator_name: sim_operator_name,
       sim_operator_status: sim_operator_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [sim_operator_name, sim_operator_status, id])
   const patchdata = useMemo(() => {
@@ -43,7 +43,7 @@ const SimOperators = () => {
       sim_operator_id: sim_operator_id,
       sim_operator_name: sim_operator_name,
       sim_operator_status: sim_operator_status === true ? 1 : 0,
-      edit_user: id,
+      edit_user: id
     }
   }, [sim_operator_id, sim_operator_name, sim_operator_status, id])
   const rowSelect = useCallback(params => {
@@ -53,7 +53,7 @@ const SimOperators = () => {
     const frmdata = {
       sim_operator_id: sim_operator_id,
       sim_operator_name: sim_operator_name,
-      sim_operator_status: sim_operator_status === 1 ? true : false,
+      sim_operator_status: sim_operator_status === 1 ? true : false
     }
     setsimOperators(frmdata)
   }, [])
@@ -61,7 +61,7 @@ const SimOperators = () => {
     const frmdata = {
       sim_operator_id: '',
       sim_operator_name: '',
-      sim_operator_status: false,
+      sim_operator_status: false
     }
     setsimOperators(frmdata)
     setCount(0)
@@ -119,18 +119,13 @@ const SimOperators = () => {
     const frmdata = {
       sim_operator_id: '',
       sim_operator_name: '',
-      sim_operator_status: false,
+      sim_operator_status: false
     }
     setsimOperators(frmdata)
     setValue(0)
   }, [setsimOperators])
   return (
-    <CardMaster
-      title="Sim Operators"
-      submit={submitsimOperators}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Sim Operators" submit={submitsimOperators} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
         <Box sx={{ width: '30%', p: 1 }}>
           <Box>

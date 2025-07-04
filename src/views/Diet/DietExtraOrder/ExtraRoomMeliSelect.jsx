@@ -11,7 +11,7 @@ const ExtraRoomMeliSelect = ({ nurse, setValue, value }) => {
 
   useEffect(() => {
     const postdata = {
-      ns_code: nurse,
+      ns_code: nurse
     }
     const getRoom = async () => {
       if (nurse !== 0) {

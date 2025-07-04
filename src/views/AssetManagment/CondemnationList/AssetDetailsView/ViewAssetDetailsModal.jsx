@@ -1,12 +1,7 @@
 import { Modal, ModalDialog } from '@mui/joy'
 import React, { memo, useCallback } from 'react'
 
-const ViewAssetDetailsModal = ({
-  ViewDetails,
-  AssetOpenModal,
-  setAssetOpenModal,
-  setAssetModalFlag,
-}) => {
+const ViewAssetDetailsModal = ({ ViewDetails, AssetOpenModal, setAssetOpenModal, setAssetModalFlag }) => {
   const CloseModal = useCallback(() => {
     setAssetModalFlag(0)
     setAssetOpenModal(true)
@@ -22,13 +17,10 @@ const ViewAssetDetailsModal = ({
         justifyContent: 'center',
         alignItems: 'center',
         pl: 1,
-        borderRadius: 10,
+        borderRadius: 10
       }}
     >
-      <ModalDialog
-        variant="outlined"
-        sx={{ width: '95vw', p: 0, overflow: 'auto', height: '95vh' }}
-      >
+      <ModalDialog variant="outlined" sx={{ width: '95vw', p: 0, overflow: 'auto', height: '95vh' }}>
         {/* <Box sx={{ flex: 1, }}>
                     <Box sx={{
                         display: 'flex',

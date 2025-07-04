@@ -44,7 +44,7 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
   // const [DisTym]
 
   const [disEvent, setDisevent] = useState({
-    dis_slno: '',
+    dis_slno: ''
   })
 
   const { dis_slno } = disEvent
@@ -58,7 +58,7 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
 
   const [remote, setremote] = useState({
     acremot: false,
-    tvremot: false,
+    tvremot: false
   })
   const { acremot, tvremot } = remote
   const updateremort = async e => {
@@ -68,7 +68,7 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
   const actvremort = useMemo(() => {
     return {
       acremot: remote.acremot === true ? 1 : 0,
-      tvremot: remote.tvremot === true ? 2 : 0,
+      tvremot: remote.tvremot === true ? 2 : 0
     }
   }, [remote.acremot, remote.tvremot])
 
@@ -143,7 +143,7 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
   const resetremot = useMemo(() => {
     return {
       acremot: false,
-      tvremot: false,
+      tvremot: false
     }
   }, [])
 
@@ -201,16 +201,14 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
       disc_callbell: bell === true ? 1 : 0,
       disc_tv_ac_remot: actvremort,
       disc_report_date: distime !== '' ? moment(distime).format('YYYY-MM-DD hh:mm:ss') : null,
-      act_dis_report_date:
-        DiscReportTime !== '' ? moment(DiscReportTime).format('YYYY-MM-DD hh:mm:ss') : null,
+      act_dis_report_date: DiscReportTime !== '' ? moment(DiscReportTime).format('YYYY-MM-DD hh:mm:ss') : null,
       dis_entry_time: entryTime !== '' ? moment(entryTime).format('YYYY-MM-DD hh:mm:ss') : null,
-      act_dis_entry_time:
-        ActEntTime !== '' ? moment(ActEntTime).format('YYYY-MM-DD hh:mm:ss') : null,
+      act_dis_entry_time: ActEntTime !== '' ? moment(ActEntTime).format('YYYY-MM-DD hh:mm:ss') : null,
       dmd_date: billtime !== '' ? moment(billtime).format('YYYY-MM-DD hh:mm:ss') : null,
       act_dmd_date: ActRdytym !== '' ? moment(ActRdytym).format('YYYY-MM-DD hh:mm:ss') : null,
       disc_date: finalTime !== '' ? moment(finalTime).format('YYYY-MM-DD hh:mm:ss') : null,
       act_disc_date: actFinal !== '' ? moment(actFinal).format('YYYY-MM-DD hh:mm:ss') : null,
-      act_disc_status: disStatus === true ? 1 : 0,
+      act_disc_status: disStatus === true ? 1 : 0
     }
   }, [
     ipno,
@@ -233,7 +231,7 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
     id,
     key,
     bell,
-    actvremort,
+    actvremort
   ])
 
   const patchdata = useMemo(() => {
@@ -252,16 +250,14 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
       disc_callbell: bell === true ? 1 : 0,
       disc_tv_ac_remot: actvremort,
       disc_report_date: distime !== '' ? moment(distime).format('YYYY-MM-DD hh:mm:ss') : null,
-      act_dis_report_date:
-        DiscReportTime !== '' ? moment(DiscReportTime).format('YYYY-MM-DD hh:mm:ss') : null,
+      act_dis_report_date: DiscReportTime !== '' ? moment(DiscReportTime).format('YYYY-MM-DD hh:mm:ss') : null,
       dis_entry_time: entryTime !== '' ? moment(entryTime).format('YYYY-MM-DD hh:mm:ss') : null,
-      act_dis_entry_time:
-        ActEntTime !== '' ? moment(ActEntTime).format('YYYY-MM-DD hh:mm:ss') : null,
+      act_dis_entry_time: ActEntTime !== '' ? moment(ActEntTime).format('YYYY-MM-DD hh:mm:ss') : null,
       dmd_date: billtime !== '' ? moment(billtime).format('YYYY-MM-DD hh:mm:ss') : null,
       act_dmd_date: ActRdytym !== '' ? moment(ActRdytym).format('YYYY-MM-DD hh:mm:ss') : null,
       disc_date: finalTime !== '' ? moment(finalTime).format('YYYY-MM-DD hh:mm:ss') : null,
       act_disc_date: actFinal !== '' ? moment(actFinal).format('YYYY-MM-DD hh:mm:ss') : null,
-      act_disc_status: disStatus === true ? 1 : 0,
+      act_disc_status: disStatus === true ? 1 : 0
     }
   }, [
     disType,
@@ -283,7 +279,7 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
     ActRdytym,
     finalTime,
     actFinal,
-    disStatus,
+    disStatus
   ])
 
   const rowSelect = useCallback(
@@ -311,17 +307,17 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
         act_dmd_date,
         disc_date,
         act_disc_date,
-        act_disc_status,
+        act_disc_status
       } = data[0]
       const formdata = {
         dis_slno: dis_slno,
-        surv_slno: surv_slno,
+        surv_slno: surv_slno
       }
       const obj2 = JSON.parse(disc_tv_ac_remot)
       const { acremot, tvremot } = obj2
       const t = {
         acremot: acremot === 1 ? true : false,
-        tvremot: tvremot === 2 ? true : false,
+        tvremot: tvremot === 2 ? true : false
       }
       setDisevent(formdata)
       setDisType(discharge_type !== null ? discharge_type : '')
@@ -395,33 +391,19 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
     <Paper square elevation={3} sx={{ dispaly: 'flex', justifyContent: 'column' }}>
       <Box sx={{ display: 'flex', backgroundColor: '#f0f3f5' }}>
         <Box sx={{ flex: 1 }}>
-          <Typography sx={{ fontFamily: 'Roboto', fontSize: 20, p: 1.5 }}>
-            DischargeEvents
-          </Typography>
+          <Typography sx={{ fontFamily: 'Roboto', fontSize: 20, p: 1.5 }}>DischargeEvents</Typography>
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'row', pl: 1 }}>
           <CustomeToolTip title="Save" placement="left">
             <Box sx={{ p: 1 }}>
-              <CusIconButton
-                size="sm"
-                variant="outlined"
-                color="primary"
-                clickable="true"
-                onClick={submit}
-              >
+              <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={submit}>
                 <LibraryAddIcon fontSize="small" />
               </CusIconButton>
             </Box>
           </CustomeToolTip>
           <CustomeToolTip title="close" placement="left">
             <Box sx={{ p: 1 }}>
-              <CusIconButton
-                size="sm"
-                variant="outlined"
-                color="primary"
-                clickable="true"
-                onClick={closwindow}
-              >
+              <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={closwindow}>
                 <CloseIcon fontSize="small" />
               </CusIconButton>
             </Box>
@@ -433,7 +415,7 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
           sx={{
             display: 'flex',
             flexDirection: 'row',
-            width: { xl: '50%', lg: '50%', md: '50%', sm: '50%' },
+            width: { xl: '50%', lg: '50%', md: '50%', sm: '50%' }
           }}
         >
           <Box sx={{ width: { xl: '30%', lg: '40%', md: '40%', sm: '49%' } }}>
@@ -442,20 +424,14 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
             </CssVarsProvider>
           </Box>
           <Box sx={{ width: { xl: '50%', lg: '55%', md: '50%', sm: '49%' }, height: 40 }}>
-            <TextFieldCustom
-              size="sm"
-              type="text"
-              name="disType"
-              value={disType}
-              onchange={getDiscType}
-            />
+            <TextFieldCustom size="sm" type="text" name="disType" value={disType} onchange={getDiscType} />
           </Box>
         </Box>
         <Box
           sx={{
             display: 'flex',
             flexDirection: 'row',
-            width: { xl: '50%', lg: '50%', md: '50%', sm: '50%' },
+            width: { xl: '50%', lg: '50%', md: '50%', sm: '50%' }
           }}
         >
           <Box sx={{ width: { xl: '35%', lg: '48%', md: '50%', sm: '49%' } }}>
@@ -464,13 +440,7 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
             </CssVarsProvider>
           </Box>
           <Box sx={{ width: { xl: '50%', lg: '50%', md: '49%', sm: '50%' }, height: 40 }}>
-            <TextFieldCustom
-              size="sm"
-              type="datetime-local"
-              name="disType"
-              value={medtime}
-              onchange={getmedtime}
-            />
+            <TextFieldCustom size="sm" type="datetime-local" name="disType" value={medtime} onchange={getmedtime} />
           </Box>
         </Box>
       </Box>
@@ -482,13 +452,7 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
             </CssVarsProvider>
           </Box>
           <Box sx={{ width: { xl: '50%', lg: '55%', md: '50%', sm: '49%' }, height: 40 }}>
-            <TextFieldCustom
-              size="sm"
-              type="datetime-local"
-              name="disType"
-              value={sumrytym}
-              onchange={getsumryTym}
-            />
+            <TextFieldCustom size="sm" type="datetime-local" name="disType" value={sumrytym} onchange={getsumryTym} />
           </Box>
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'row', width: '50%' }}>
@@ -498,13 +462,7 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
             </CssVarsProvider>
           </Box>
           <Box sx={{ width: { xl: '50%', lg: '50%', md: '49%', sm: '50%' }, height: 40 }}>
-            <TextFieldCustom
-              size="sm"
-              type="datetime-local"
-              name="disType"
-              value={indeTym}
-              onchange={getIndentTym}
-            />
+            <TextFieldCustom size="sm" type="datetime-local" name="disType" value={indeTym} onchange={getIndentTym} />
           </Box>
         </Box>
       </Box>
@@ -516,13 +474,7 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
             </CssVarsProvider>
           </Box>
           <Box sx={{ width: { xl: '50%', lg: '55%', md: '50%', sm: '49%' }, height: 40 }}>
-            <TextFieldCustom
-              size="sm"
-              type="datetime-local"
-              name="distime"
-              value={distime}
-              onchange={getdisTime}
-            />
+            <TextFieldCustom size="sm" type="datetime-local" name="distime" value={distime} onchange={getdisTime} />
           </Box>
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'row', width: '50%' }}>
@@ -584,13 +536,7 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
             </CssVarsProvider>
           </Box>
           <Box sx={{ width: { xl: '50%', lg: '55%', md: '50%', sm: '49%' }, height: 40 }}>
-            <TextFieldCustom
-              size="sm"
-              type="datetime-local"
-              name="billtime"
-              value={billtime}
-              onchange={getbilltime}
-            />
+            <TextFieldCustom size="sm" type="datetime-local" name="billtime" value={billtime} onchange={getbilltime} />
           </Box>
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'row', width: '50%' }}>
@@ -652,13 +598,7 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
             </CssVarsProvider>
           </Box>
           <Box sx={{ width: { xl: '50%', lg: '55%', md: '50%', sm: '49%' }, height: 40 }}>
-            <TextFieldCustom
-              size="sm"
-              type="text"
-              name="disType"
-              value={cross}
-              onchange={getconstation}
-            />
+            <TextFieldCustom size="sm" type="text" name="disType" value={cross} onchange={getconstation} />
           </Box>
         </Box>
         <Box sx={{ width: '50%', display: 'flex', flexDirection: 'row' }}>
@@ -668,13 +608,7 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
             </CssVarsProvider>
           </Box>
           <Box sx={{ width: { xl: '50%', lg: '50%', md: '49%', sm: '50%' }, height: 40 }}>
-            <TextFieldCustom
-              size="sm"
-              type="datetime-local"
-              name="disType"
-              value={clearence}
-              onchange={getcleartime}
-            />
+            <TextFieldCustom size="sm" type="datetime-local" name="disType" value={clearence} onchange={getcleartime} />
           </Box>
         </Box>
       </Box>
@@ -709,7 +643,7 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
             sx={{
               display: 'flex',
               flexDirection: 'row',
-              width: { xl: '78%', lg: '50%', md: '49%', sm: '50%' },
+              width: { xl: '78%', lg: '50%', md: '49%', sm: '50%' }
             }}
           >
             <Box sx={{ width: { xl: '22%', lg: '35%', md: '35%', sm: '40%' } }}>
@@ -745,7 +679,7 @@ const DischargeEvent = ({ ipno, setclosebtn }) => {
           display: 'flex',
           flexDirection: 'row',
           pl: 2,
-          pt: 1,
+          pt: 1
         }}
       >
         <Box sx={{ display: 'flex', width: { xl: '67.5%', lg: '74%', md: '75%', sm: '75%' } }}>

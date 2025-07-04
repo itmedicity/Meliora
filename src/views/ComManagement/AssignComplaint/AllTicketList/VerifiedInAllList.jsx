@@ -64,7 +64,7 @@ const VerifiedInAllList = () => {
       return {
         from: format(new Date(fromDate), 'yyyy-MM-dd 00:00:00'),
         to: format(new Date(toDate), 'yyyy-MM-dd 23:59:59'),
-        complaint_deptslno: empdept,
+        complaint_deptslno: empdept
       }
     }
     return null
@@ -109,10 +109,7 @@ const VerifiedInAllList = () => {
     if (searchDate) {
       // Check if searchDate is valid
       const getAllPendingHoldComplaints = async () => {
-        const result = await axioslogin.post(
-          '/Rectifycomplit/getDepartmentVerifiedList',
-          searchDate
-        )
+        const result = await axioslogin.post('/Rectifycomplit/getDepartmentVerifiedList', searchDate)
         const { success, data } = result.data
         if (success === 1) {
           setRectifiedList(data)
@@ -133,9 +130,7 @@ const VerifiedInAllList = () => {
     setimageViewOpen(true)
     setfileDetails(val)
     try {
-      const result = await axioslogin.get(
-        `/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`
-      )
+      const result = await axioslogin.get(`/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`)
       const { success } = result.data
       if (success === 1) {
         const data = result.data
@@ -167,7 +162,7 @@ const VerifiedInAllList = () => {
             flex: 1,
             display: 'flex',
             py: 0.8,
-            pl: 0.5,
+            pl: 0.5
           }}
         >
           <Box sx={{ display: 'flex', py: 0.5 }}>
@@ -176,7 +171,7 @@ const VerifiedInAllList = () => {
               sx={{
                 color: '#5A676C',
                 fontWeight: 510,
-                fontFamily: 'Arial',
+                fontFamily: 'Arial'
               }}
               text="filter :"
             />
@@ -220,8 +215,8 @@ const VerifiedInAllList = () => {
                 slotProps={{
                   input: {
                     min: fromDate,
-                    max: moment().format('YYYY-MM-DD'),
-                  },
+                    max: moment().format('YYYY-MM-DD')
+                  }
                 }}
               ></TextFieldCustom>
             </Box>
@@ -246,11 +241,11 @@ const VerifiedInAllList = () => {
                 boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
                 '&:hover': {
                   backgroundColor: '#D0E4F7',
-                  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.15)',
+                  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.15)'
                 },
                 '&:active': {
-                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.2)',
-                },
+                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.2)'
+                }
               }}
             >
               <SearchSharpIcon sx={{ width: 25, height: 25, color: '#205184' }} />
@@ -258,12 +253,7 @@ const VerifiedInAllList = () => {
           </Tooltip>
         </Box>
         {queryflag === 1 ? (
-          <QueryModalview
-            open={queryOpen}
-            setqueryOpen={setqueryOpen}
-            valuee={valuee}
-            setqueryflag={setqueryflag}
-          />
+          <QueryModalview open={queryOpen} setqueryOpen={setqueryOpen} valuee={valuee} setqueryflag={setqueryflag} />
         ) : null}
 
         {detailsFlag === 1 ? (
@@ -302,7 +292,7 @@ const VerifiedInAllList = () => {
                     borderColor: '#3399FF',
                     borderRadius: 8,
                     bgcolor: 'white',
-                    m: 0.5,
+                    m: 0.5
                   }}
                 >
                   <Box
@@ -312,7 +302,7 @@ const VerifiedInAllList = () => {
                       borderTopRightRadius: 6,
                       borderTopLeftRadius: 6,
                       mx: 0.1,
-                      display: 'flex',
+                      display: 'flex'
                     }}
                   >
                     <CssVarsProvider>
@@ -326,7 +316,7 @@ const VerifiedInAllList = () => {
                               fontSize: 15,
                               pl: 1,
                               py: 0.5,
-                              fontFamily: 'Arial',
+                              fontFamily: 'Arial'
                             }}
                             text={
                               val.compalint_date
@@ -345,7 +335,7 @@ const VerifiedInAllList = () => {
                           px: 2,
                           fontWeight: 500,
                           fontSize: 14,
-                          cursor: 'pointer',
+                          cursor: 'pointer'
                         }}
                       >
                         Ticket Registered by : {val.comp_reg_emp}
@@ -360,16 +350,11 @@ const VerifiedInAllList = () => {
                         mx: 0.5,
                         pr: 1,
                         borderRight: 1,
-                        borderColor: 'lightgrey',
+                        borderColor: 'lightgrey'
                       }}
                     >
-                      <Typography sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700 }}>
-                        {' '}
-                        Ticket No.
-                      </Typography>
-                      <Typography
-                        sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700, px: 3 }}
-                      >
+                      <Typography sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700 }}> Ticket No.</Typography>
+                      <Typography sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700, px: 3 }}>
                         {' '}
                         {val.complaint_slno}
                       </Typography>
@@ -385,7 +370,7 @@ const VerifiedInAllList = () => {
                                 border: 1,
                                 borderRadius: 5,
                                 p: 0.1,
-                                '&:hover': { color: '#274472' },
+                                '&:hover': { color: '#274472' }
                               }}
                               onClick={() => fileView(val)}
                             />
@@ -404,7 +389,7 @@ const VerifiedInAllList = () => {
                                 mx: 0.5,
                                 borderRadius: 5,
                                 p: 0.1,
-                                '&:hover': { color: '#41729F' },
+                                '&:hover': { color: '#41729F' }
                               }}
                               onClick={() => RaiseQuery(val)}
                             />
@@ -421,7 +406,7 @@ const VerifiedInAllList = () => {
                                 mx: 0.5,
                                 borderRadius: 5,
                                 p: 0.1,
-                                '&:hover': { color: '#41729F' },
+                                '&:hover': { color: '#41729F' }
                               }}
                               onClick={() => RaiseQuery(val)}
                             />
@@ -436,7 +421,7 @@ const VerifiedInAllList = () => {
                                 cursor: 'pointer',
                                 border: 1,
                                 mx: 0.5,
-                                borderRadius: 5,
+                                borderRadius: 5
                               }}
                             />
                           </Tooltip>
@@ -451,7 +436,7 @@ const VerifiedInAllList = () => {
                               border: 1,
                               borderRadius: 5,
                               p: 0.1,
-                              '&:hover': { color: '#41729F' },
+                              '&:hover': { color: '#41729F' }
                             }}
                             onClick={() => MoreDetails(val)}
                           />
@@ -461,32 +446,27 @@ const VerifiedInAllList = () => {
                     <Box
                       sx={{
                         pl: 0.5,
-                        maxWidth: 500,
+                        maxWidth: 500
                       }}
                     >
                       <Box
                         sx={{
                           display: 'flex',
-                          mt: 0.5,
+                          mt: 0.5
                         }}
                       >
-                        <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
-                          Department Section
-                        </Typography>
+                        <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>Department Section</Typography>
                         <Typography sx={{ fontSize: 14, flex: 1, textTransform: 'capitalize' }}>
-                          {val.location.charAt(0).toUpperCase() +
-                            val.location.slice(1).toLowerCase()}
+                          {val.location.charAt(0).toUpperCase() + val.location.slice(1).toLowerCase()}
                         </Typography>
                       </Box>
                       <Box
                         sx={{
                           display: 'flex',
-                          mt: 0.5,
+                          mt: 0.5
                         }}
                       >
-                        <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
-                          Location
-                        </Typography>
+                        <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>Location</Typography>
                         <Typography sx={{ fontSize: 13, flex: 1 }}>
                           {val.rm_room_name}
                           {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name
@@ -502,12 +482,10 @@ const VerifiedInAllList = () => {
                         sx={{
                           // flex: 1,
                           display: 'flex',
-                          mt: 0.5,
+                          mt: 0.5
                         }}
                       >
-                        <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
-                          Complaint Type
-                        </Typography>
+                        <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>Complaint Type</Typography>
                         <Typography sx={{ fontSize: 14, flex: 1 }}>
                           {val.complaint_type_name.charAt(0).toUpperCase() +
                             val.complaint_type_name.slice(1).toLowerCase()}
@@ -515,16 +493,14 @@ const VerifiedInAllList = () => {
                       </Box>
                     </Box>
                     <Box sx={{ flex: 1, pl: 1.5 }}>
-                      <Typography sx={{ fontSize: 13, fontWeight: 700 }}>
-                        Complaint Describtion
-                      </Typography>
+                      <Typography sx={{ fontSize: 13, fontWeight: 700 }}>Complaint Describtion</Typography>
                       <Typography
                         sx={{
                           pr: 0.5,
                           pt: 0.3,
                           fontSize: 14,
                           maxHeight: 50,
-                          overflow: 'auto',
+                          overflow: 'auto'
                         }}
                       >
                         {val.complaint_desc || 'Not Updated'}
@@ -539,7 +515,7 @@ const VerifiedInAllList = () => {
                       borderBottomLeftRadius: 5,
                       mb: 0.1,
                       mx: 0.1,
-                      display: 'flex',
+                      display: 'flex'
                     }}
                   >
                     {val.priority_check === 1 ? (
@@ -548,20 +524,16 @@ const VerifiedInAllList = () => {
                           sx={{
                             height: 30,
                             width: 25,
-                            color: val.priority_check === 1 ? '#970C10' : 'lightgrey',
+                            color: val.priority_check === 1 ? '#970C10' : 'lightgrey'
                           }}
                         />
-                        <Typography
-                          sx={{ fontWeight: 600, pl: 0.5, fontSize: 14, pt: 0.5, color: 'darkred' }}
-                        >
+                        <Typography sx={{ fontWeight: 600, pl: 0.5, fontSize: 14, pt: 0.5, color: 'darkred' }}>
                           {val.priority_reason}
                         </Typography>
                       </Box>
                     ) : null}
                     <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
-                      <Typography sx={{ fontSize: 13, fontWeight: 700, pt: 0.5 }}>
-                        Assignees :
-                      </Typography>
+                      <Typography sx={{ fontSize: 13, fontWeight: 700, pt: 0.5 }}>Assignees :</Typography>
                       &nbsp;&nbsp;
                       {val.assigned_employees === null ? (
                         <Chip>Not Updated</Chip>
@@ -595,7 +567,7 @@ const VerifiedInAllList = () => {
               fontWeight: 700,
               fontSize: 22,
               color: 'lightgray',
-              pt: 10,
+              pt: 10
             }}
           >
             {flagz === 1 ? (

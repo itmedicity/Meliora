@@ -24,21 +24,21 @@ const CrfReqstTableView = ({ rowSelect }) => {
   const {
     data: crfDetails,
     isLoading: isCrfDetailsLoading,
-    error: crfDetailsError,
+    error: crfDetailsError
   } = useQuery({
     queryKey: ['crfDetailsView', empsecid],
     queryFn: () => getCrfRegDetailByDepSec(empsecid),
-    enabled: empsecid !== null,
+    enabled: empsecid !== null
   })
 
   const {
     data: companyData,
     isLoading: isCompLoading,
-    error: compError,
+    error: compError
   } = useQuery({
     queryKey: 'getdefaultCompany',
     queryFn: () => getDefaultCompany(),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const company = useMemo(() => companyData, [companyData])
 
@@ -50,9 +50,7 @@ const CrfReqstTableView = ({ rowSelect }) => {
       //     }
       // })
       const datas = crfDetails
-        .filter(
-          (val, index, self) => index === self.findIndex(value => value.req_slno === val.req_slno)
-        )
+        .filter((val, index, self) => index === self.findIndex(value => value.req_slno === val.req_slno))
         .map(val => ({
           req_status: val.req_status,
           req_slno: val.req_slno,
@@ -153,12 +151,10 @@ const CrfReqstTableView = ({ rowSelect }) => {
               : val.manag_operation_approv === 4
               ? 'Approved'
               : 'Not Done',
-          manag_operation_remarks:
-            val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
+          manag_operation_remarks: val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
           om_detial_analysis: val.om_detial_analysis,
           om_approv_date: val.om_approv_date,
-          manag_operation_user:
-            val.manag_operation_user !== null ? val.manag_operation_user.toLowerCase() : '',
+          manag_operation_user: val.manag_operation_user !== null ? val.manag_operation_user.toLowerCase() : '',
           senior_manage_req: val.senior_manage_req,
           senior_manage_approv: val.senior_manage_approv,
           smo:
@@ -171,12 +167,10 @@ const CrfReqstTableView = ({ rowSelect }) => {
               : val.senior_manage_approv === 4
               ? 'Approved'
               : 'Not Done',
-          senior_manage_remarks:
-            val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
+          senior_manage_remarks: val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
           smo_detial_analysis: val.smo_detial_analysis,
           som_aprrov_date: val.som_aprrov_date,
-          senior_manage_user:
-            val.senior_manage_user !== null ? val.senior_manage_user.toLowerCase() : '',
+          senior_manage_user: val.senior_manage_user !== null ? val.senior_manage_user.toLowerCase() : '',
           gm_approve_req: val.gm_approve_req,
           gm_approve: val.gm_approve,
           gm:
@@ -189,8 +183,7 @@ const CrfReqstTableView = ({ rowSelect }) => {
               : val.gm_approve === 4
               ? 'Approved'
               : 'Not Done',
-          gm_approve_remarks:
-            val.gm_approve_remarks !== null ? val.gm_approve_remarks : 'Not Updated',
+          gm_approve_remarks: val.gm_approve_remarks !== null ? val.gm_approve_remarks : 'Not Updated',
           gm_detial_analysis: val.gm_detial_analysis,
           gm_approv_date: val.gm_approv_date,
           gm_user: val.gm_user !== null ? val.gm_user.toLowerCase() : '',
@@ -206,8 +199,7 @@ const CrfReqstTableView = ({ rowSelect }) => {
               : val.md_approve === 4
               ? 'Approved'
               : 'Not Done',
-          md_approve_remarks:
-            val.md_approve_remarks !== null ? val.md_approve_remarks : 'Not Updated',
+          md_approve_remarks: val.md_approve_remarks !== null ? val.md_approve_remarks : 'Not Updated',
           md_detial_analysis: val.md_detial_analysis,
           md_approve_date: val.md_approve_date,
           md_user: val.md_user !== null ? val.md_user.toLowerCase() : '',
@@ -223,8 +215,7 @@ const CrfReqstTableView = ({ rowSelect }) => {
               : val.ed_approve === 4
               ? 'Approved'
               : 'Not Done',
-          ed_approve_remarks:
-            val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
+          ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
           ed_detial_analysis: val.ed_detial_analysis,
           ed_approve_date: val.ed_approve_date,
           ed_user: val.ed_user ? val.ed_user.toLowerCase() : '',
@@ -241,13 +232,10 @@ const CrfReqstTableView = ({ rowSelect }) => {
               : val.managing_director_approve === 4
               ? 'Approved'
               : 'Not Done',
-          managing_director_remarks:
-            val.managing_director_remarks !== null ? val.managing_director_remarks : '',
+          managing_director_remarks: val.managing_director_remarks !== null ? val.managing_director_remarks : '',
           managing_director_analysis: val.managing_director_analysis,
           managing_director_approve_date: val.managing_director_approve_date,
-          managing_director_user: val.managing_director_username
-            ? val.managing_director_username.toLowerCase()
-            : '',
+          managing_director_user: val.managing_director_username ? val.managing_director_username.toLowerCase() : '',
 
           now_who:
             val.internally_arranged_status === 1 && val.req_status === 'C'
@@ -388,15 +376,14 @@ const CrfReqstTableView = ({ rowSelect }) => {
           user_acknldge: val.user_acknldge,
           acknowUser: val.acknowUser,
           user_ack_date: val.user_ack_date,
-          user_acknldge_remarks:
-            val.user_acknldge_remarks === null ? 'nil' : val.user_acknldge_remarks,
+          user_acknldge_remarks: val.user_acknldge_remarks === null ? 'nil' : val.user_acknldge_remarks,
           store_receive_date: val.store_receive_date,
           store_receive: val.store_receive,
           crs_user: val.crs_user,
           store_user: val.store_user,
           substore_ack_date: val.substore_ack_date,
           company_name: val.company_name,
-          work_order_status: val?.work_order_status,
+          work_order_status: val?.work_order_status
         }))
         .sort((a, b) => {
           if (a.sub_store_recieve !== b.sub_store_recieve) {
@@ -412,9 +399,7 @@ const CrfReqstTableView = ({ rowSelect }) => {
       setDisData(NotuserAcklist)
       const userAcklist = datas?.filter(val => val.user_acknldge === 1)
       setReceivedData(userAcklist)
-      const storeReceive = datas?.filter(
-        val => val.sub_store_recieve === 1 && val.user_acknldge === null
-      )
+      const storeReceive = datas?.filter(val => val.sub_store_recieve === 1 && val.user_acknldge === null)
       setStoreData(storeReceive)
     }
   }, [crfDetails, company])
@@ -445,8 +430,8 @@ const CrfReqstTableView = ({ rowSelect }) => {
               sx={{
                 color: '#ef6c00',
                 '&.Mui-checked': {
-                  color: '#ef6c00',
-                },
+                  color: '#ef6c00'
+                }
               }}
             />
             <Radio
@@ -456,8 +441,8 @@ const CrfReqstTableView = ({ rowSelect }) => {
               sx={{
                 color: '#33691e',
                 '&.Mui-checked': {
-                  color: '#33691e',
-                },
+                  color: '#33691e'
+                }
               }}
             />
             <Radio
@@ -466,8 +451,8 @@ const CrfReqstTableView = ({ rowSelect }) => {
               sx={{
                 color: '#0d47a1',
                 '&.Mui-checked': {
-                  color: '#0d47a1',
-                },
+                  color: '#0d47a1'
+                }
               }}
             />
           </RadioGroup>
@@ -480,7 +465,7 @@ const CrfReqstTableView = ({ rowSelect }) => {
               m: 1,
               justifyContent: 'flex-end',
               pr: 2,
-              flexWrap: 'wrap',
+              flexWrap: 'wrap'
             }}
           >
             <Box>
@@ -493,8 +478,8 @@ const CrfReqstTableView = ({ rowSelect }) => {
                   width: 25,
                   transition: 'transform 0.2s',
                   '&:hover': {
-                    transform: 'scale(1.1)',
-                  },
+                    transform: 'scale(1.1)'
+                  }
                 }}
               />
             </Box>
@@ -505,7 +490,7 @@ const CrfReqstTableView = ({ rowSelect }) => {
                 height: 20,
                 width: 20,
                 border: '1px solid lightgrey',
-                borderRadius: 20,
+                borderRadius: 20
               }}
             ></Box>
             <Box sx={{ pr: 2, fontSize: 13, pl: 1, pt: 0.2 }}>Received in CRS</Box>
@@ -515,7 +500,7 @@ const CrfReqstTableView = ({ rowSelect }) => {
                 height: 20,
                 width: 20,
                 border: '1px solid lightgrey',
-                borderRadius: 20,
+                borderRadius: 20
               }}
             ></Box>
             <Box sx={{ pl: 1, fontSize: 13, pt: 0.2 }}>Received in Store</Box>

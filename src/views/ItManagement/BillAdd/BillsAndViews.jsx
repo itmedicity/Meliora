@@ -23,7 +23,7 @@ const BillsAndViews = ({ billCount, setbillCount }) => {
         p: 0.5,
         boxShadow: '0px 0px 1px',
         height: '80vh',
-        bgcolor: '#E3E7F1',
+        bgcolor: '#E3E7F1'
       }}
     >
       <CssVarsProvider>
@@ -40,10 +40,7 @@ const BillsAndViews = ({ billCount, setbillCount }) => {
       <Paper sx={{ bgcolor: '#F8F8F8', p: 1, maxHeight: '79vh', flex: 1 }}>
         <Box sx={{ display: 'flex' }}>
           <CssVarsProvider>
-            <Button
-              sx={{ borderRadius: 0, bgcolor: '#52688F', height: 8, boxShadow: 10 }}
-              onClick={addModal}
-            >
+            <Button sx={{ borderRadius: 0, bgcolor: '#52688F', height: 8, boxShadow: 10 }} onClick={addModal}>
               + Add New Bill
             </Button>
           </CssVarsProvider>
@@ -58,8 +55,8 @@ const BillsAndViews = ({ billCount, setbillCount }) => {
                 borderBottom: 0,
                 borderColor: 'white',
                 color: 'white',
-                bgcolor: '#36454F',
-              },
+                bgcolor: '#36454F'
+              }
             }}
           >
             <Tab sx={{ flex: 1 }}>Recurring Bills</Tab>

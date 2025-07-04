@@ -4,20 +4,8 @@ import { useCallback } from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import CustomBackDrop from 'src/views/Components/CustomBackDrop'
-import {
-  Badge,
-  Button,
-  FormControlLabel,
-  keyframes,
-  Paper,
-  Radio,
-  RadioGroup,
-  Typography,
-} from '@mui/material'
-import {
-  getStoreReceiveAllAction,
-  getStoreReceivePendingAction,
-} from 'src/redux/actions/CrmStoreProcess.action'
+import { Badge, Button, FormControlLabel, keyframes, Paper, Radio, RadioGroup, Typography } from '@mui/material'
+import { getStoreReceiveAllAction, getStoreReceivePendingAction } from 'src/redux/actions/CrmStoreProcess.action'
 import { useDispatch, useSelector } from 'react-redux'
 import { Virtuoso } from 'react-virtuoso'
 import { format } from 'date-fns'
@@ -65,10 +53,9 @@ const CrfStoreProcessMain = () => {
     searchPo: '',
     searchCrf: '',
     modalopen: false,
-    modFlag: 0,
+    modFlag: 0
   })
-  const { notReceiveCount, fullyCount, searchSup, searchPo, searchCrf, modalopen, modFlag } =
-    storeState
+  const { notReceiveCount, fullyCount, searchSup, searchPo, searchCrf, modalopen, modFlag } = storeState
   const id = useSelector(state => state.LoginUserData.empid, _.isEqual)
   const backtoHome = useCallback(() => {
     history('/Home')
@@ -79,18 +66,14 @@ const CrfStoreProcessMain = () => {
     dispatch(getStoreReceiveAllAction())
   }, [dispatch, count])
 
-  const storeReceivePending = useSelector(
-    state => state?.getStoreReceivePendingReducer?.setCRMStorePendingList
-  )
-  const stroreReceiveAll = useSelector(
-    state => state?.getStoreReceiveAllReducer?.setCRMStoreAllList
-  )
+  const storeReceivePending = useSelector(state => state?.getStoreReceivePendingReducer?.setCRMStorePendingList)
+  const stroreReceiveAll = useSelector(state => state?.getStoreReceiveAllReducer?.setCRMStoreAllList)
   const changeSupplier = useCallback(e => {
     setStoreState(prev => ({
       ...prev,
       searchSup: e.target.value,
       searchPo: '',
-      searchCrf: '',
+      searchCrf: ''
     }))
   }, [])
   const changePo = useCallback(e => {
@@ -98,7 +81,7 @@ const CrfStoreProcessMain = () => {
       ...prev,
       searchSup: '',
       searchPo: e.target.value,
-      searchCrf: '',
+      searchCrf: ''
     }))
   }, [])
   const changeCrfNo = useCallback(e => {
@@ -106,7 +89,7 @@ const CrfStoreProcessMain = () => {
       ...prev,
       searchSup: '',
       searchPo: '',
-      searchCrf: e.target.value,
+      searchCrf: e.target.value
     }))
   }, [])
   useEffect(() => {
@@ -123,12 +106,12 @@ const CrfStoreProcessMain = () => {
       )
       setStoreState(prev => ({
         ...prev,
-        notReceiveCount: newArray.length,
+        notReceiveCount: newArray.length
       }))
     } else {
       setStoreState(prev => ({
         ...prev,
-        notReceiveCount: 0,
+        notReceiveCount: 0
       }))
     }
     if (stroreReceiveAll.length !== 0) {
@@ -145,12 +128,12 @@ const CrfStoreProcessMain = () => {
       )
       setStoreState(prev => ({
         ...prev,
-        fullyCount: fCount.length,
+        fullyCount: fCount.length
       }))
     } else {
       setStoreState(prev => ({
         ...prev,
-        fullyCount: 0,
+        fullyCount: 0
       }))
     }
   }, [storeReceivePending, stroreReceiveAll, count])
@@ -184,7 +167,7 @@ const CrfStoreProcessMain = () => {
           supplier_code: val.supplier_code,
           supplier_name: val.supplier_name,
           store_recieve: val.store_recieve,
-          checked: false,
+          checked: false
         }))
 
       const poItems = storeReceivePending?.map(val => {
@@ -197,7 +180,7 @@ const CrfStoreProcessMain = () => {
           grn_qnty: val.grn_qnty,
           received_qnty: val.received_qnty,
           // grn_no: val.grn_no ? JSON?.parse(val.grn_no).join(' , ') : 'Not Updated'
-          grn_no: val.grn_no,
+          grn_no: val.grn_no
         }
         return obj
       })
@@ -206,7 +189,7 @@ const CrfStoreProcessMain = () => {
         const details = poItems?.filter(item => item.po_detail_slno === po.po_detail_slno)
         return {
           ...po,
-          items: details,
+          items: details
         }
       })
 
@@ -249,7 +232,7 @@ const CrfStoreProcessMain = () => {
               supplier_name: val.supplier_name,
               expected_delivery: val.expected_delivery,
               main_store: val.main_store,
-              sub_store_name: val.sub_store_name,
+              sub_store_name: val.sub_store_name
             }))
 
           const poItems = stroreReceiveAll?.map(val => {
@@ -262,7 +245,7 @@ const CrfStoreProcessMain = () => {
               grn_qnty: val.grn_qnty,
               received_qnty: val.received_qnty,
               // grn_no: val.grn_no ? JSON?.parse(val.grn_no).join(' , ') : 'Not Updated'
-              grn_no: val.grn_no,
+              grn_no: val.grn_no
             }
             return obj
           })
@@ -270,7 +253,7 @@ const CrfStoreProcessMain = () => {
             const details = poItems?.filter(item => item.po_detail_slno === po.po_detail_slno)
             return {
               ...po,
-              items: details,
+              items: details
             }
           })
           setFullyReceived(combinedData)
@@ -286,7 +269,7 @@ const CrfStoreProcessMain = () => {
       const searchData = {
         supplier_name: searchSup,
         req_slno: searchCrf,
-        po_number: searchPo,
+        po_number: searchPo
       }
       if (radiovalue === '1') {
         const getSearchDetails = async searchData => {
@@ -323,7 +306,7 @@ const CrfStoreProcessMain = () => {
                 supplier_code: val.supplier_code,
                 supplier_name: val.supplier_name,
                 store_recieve: val.store_recieve,
-                checked: false,
+                checked: false
               }))
             const poItems = data?.map(val => {
               const obj = {
@@ -335,7 +318,7 @@ const CrfStoreProcessMain = () => {
                 grn_qnty: val.grn_qnty,
                 received_qnty: val.received_qnty,
                 // grn_no: val.grn_no ? JSON?.parse(val.grn_no).join(' , ') : 'Not Updated'
-                grn_no: val.grn_no,
+                grn_no: val.grn_no
               }
               return obj
             })
@@ -343,7 +326,7 @@ const CrfStoreProcessMain = () => {
               const details = poItems?.filter(item => item.po_detail_slno === po.po_detail_slno)
               return {
                 ...po,
-                items: details,
+                items: details
               }
             })
             setDisData(combinedData)
@@ -380,7 +363,7 @@ const CrfStoreProcessMain = () => {
                 supplier_name: val.supplier_name,
                 expected_delivery: val.expected_delivery,
                 main_store: val.main_store,
-                sub_store_name: val.sub_store_name,
+                sub_store_name: val.sub_store_name
               }))
 
             const poItems = data?.map(val => {
@@ -393,7 +376,7 @@ const CrfStoreProcessMain = () => {
                 grn_qnty: val.grn_qnty,
                 received_qnty: val.received_qnty,
                 // grn_no: val.grn_no ? JSON?.parse(val.grn_no).join(' , ') : 'Not Updated'
-                grn_no: val.grn_no,
+                grn_no: val.grn_no
               }
               return obj
             })
@@ -401,7 +384,7 @@ const CrfStoreProcessMain = () => {
               const details = poItems?.filter(item => item.po_detail_slno === po.po_detail_slno)
               return {
                 ...po,
-                items: details,
+                items: details
               }
             })
             setFullyReceived(combinedData)
@@ -453,12 +436,10 @@ const CrfStoreProcessMain = () => {
       const { success, data, message } = val
       if (success === 1) {
         const posearch = data?.reduce((acc, val) => {
-          if (
-            !acc.some(item => item.pono === val.po_number && item.stcode === val.crs_store_code)
-          ) {
+          if (!acc.some(item => item.pono === val.po_number && item.stcode === val.crs_store_code)) {
             acc.push({
               pono: val.po_number,
-              stcode: val.crs_store_code,
+              stcode: val.crs_store_code
             })
           }
           return acc
@@ -471,7 +452,7 @@ const CrfStoreProcessMain = () => {
             pono: val.po_number,
             stcode: val.crs_store_code,
             po_detail_slno: val.po_detail_slno,
-            item_code: val.item_code,
+            item_code: val.item_code
           }
         })
         setOpen(false)
@@ -483,9 +464,7 @@ const CrfStoreProcessMain = () => {
               .map(poItem => {
                 const matchingItems = elliderdata.filter(
                   item =>
-                    poItem.pono === item.PO_NO &&
-                    poItem.stcode === item.ST_CODE &&
-                    poItem.item_code === item.IT_CODE
+                    poItem.pono === item.PO_NO && poItem.stcode === item.ST_CODE && poItem.item_code === item.IT_CODE
                 )
                 if (matchingItems.length > 0) {
                   return matchingItems
@@ -508,7 +487,7 @@ const CrfStoreProcessMain = () => {
                           received_qnty: item.PDN_SUPQTY,
                           item_receive_status: item_receive_status,
                           po_detail_slno: poItem.po_detail_slno,
-                          item_code: item.IT_CODE,
+                          item_code: item.IT_CODE
                         }
                       }
                       return null
@@ -522,7 +501,7 @@ const CrfStoreProcessMain = () => {
                     received_qnty: 0,
                     item_receive_status: null,
                     po_detail_slno: poItem.po_detail_slno,
-                    item_code: poItem.item_code,
+                    item_code: poItem.item_code
                   }
                 }
               })
@@ -536,40 +515,38 @@ const CrfStoreProcessMain = () => {
                     acc[curr.po_detail_slno] = {
                       statuses: [],
                       req_slno: curr.req_slno,
-                      crm_purchase_slno: curr.crm_purchase_slno,
+                      crm_purchase_slno: curr.crm_purchase_slno
                     }
                   }
                   acc[curr.po_detail_slno].statuses.push(curr.item_receive_status)
                   return acc
                 }, {})
 
-                const updateStatus = Object.entries(groupedBySlno).map(
-                  ([po_detail_slno, groupData]) => {
-                    const { statuses, req_slno, crm_purchase_slno } = groupData
+                const updateStatus = Object.entries(groupedBySlno).map(([po_detail_slno, groupData]) => {
+                  const { statuses, req_slno, crm_purchase_slno } = groupData
 
-                    let store_recieve, sub_store_recieve
+                  let store_recieve, sub_store_recieve
 
-                    if (statuses.every(status => status === 1)) {
-                      store_recieve = 1
-                      sub_store_recieve = 0
-                    } else if (statuses.every(status => status === null)) {
-                      store_recieve = null
-                      sub_store_recieve = null
-                    } else {
-                      store_recieve = 0
-                      sub_store_recieve = 0
-                    }
-                    return {
-                      po_detail_slno: Number(po_detail_slno),
-                      store_recieve: store_recieve,
-                      sub_store_recieve: sub_store_recieve,
-                      store_receive_user: id,
-                      store_receive_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
-                      req_slno: req_slno,
-                      crm_purchase_slno: crm_purchase_slno,
-                    }
+                  if (statuses.every(status => status === 1)) {
+                    store_recieve = 1
+                    sub_store_recieve = 0
+                  } else if (statuses.every(status => status === null)) {
+                    store_recieve = null
+                    sub_store_recieve = null
+                  } else {
+                    store_recieve = 0
+                    sub_store_recieve = 0
                   }
-                )
+                  return {
+                    po_detail_slno: Number(po_detail_slno),
+                    store_recieve: store_recieve,
+                    sub_store_recieve: sub_store_recieve,
+                    store_receive_user: id,
+                    store_receive_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
+                    req_slno: req_slno,
+                    crm_purchase_slno: crm_purchase_slno
+                  }
+                })
 
                 updateStoreReceiveStatus(updateStatus).then(val => {
                   const { success } = val
@@ -586,7 +563,7 @@ const CrfStoreProcessMain = () => {
                             return {
                               GR_NO: item.GR_NO,
                               IT_CODE: item.IT_CODE,
-                              GRD_DATE: item.GRD_DATE,
+                              GRD_DATE: item.GRD_DATE
                             }
                           })
                           .filter((value, index, self) => self.indexOf(value) === index)
@@ -599,37 +576,32 @@ const CrfStoreProcessMain = () => {
                         // update
                         const patchdata = finalData
                           .filter(grn =>
-                            existdata?.find(
-                              exist =>
-                                exist.po_number === grn.PO_NO && exist.store_code === grn.ST_CODE
-                            )
+                            existdata?.find(exist => exist.po_number === grn.PO_NO && exist.store_code === grn.ST_CODE)
                           )
                           .map(grn => {
                             const upadteArry = existdata.find(
-                              exist =>
-                                exist.po_number === grn.PO_NO && exist.store_code === grn.ST_CODE
+                              exist => exist.po_number === grn.PO_NO && exist.store_code === grn.ST_CODE
                             )
                             return {
                               grn_slno: upadteArry.grn_slno,
                               store_code: grn.ST_CODE,
                               po_number: grn.PO_NO,
                               grn_no: grn.GR_NO,
-                              edit_user: id,
+                              edit_user: id
                             }
                           })
                         const postdata = finalData
                           .filter(
                             grn =>
                               !existdata.find(
-                                exist =>
-                                  exist.po_number === grn.PO_NO && exist.store_code === grn.ST_CODE
+                                exist => exist.po_number === grn.PO_NO && exist.store_code === grn.ST_CODE
                               )
                           )
                           .map(grn => ({
                             store_code: grn.ST_CODE,
                             po_number: grn.PO_NO,
                             grn_no: grn.GR_NO,
-                            create_user: id,
+                            create_user: id
                           }))
 
                         if (patchdata.length !== 0) {
@@ -658,7 +630,7 @@ const CrfStoreProcessMain = () => {
                             store_code: val.ST_CODE,
                             po_number: val.PO_NO,
                             grn_no: val.GR_NO,
-                            create_user: id,
+                            create_user: id
                           }
                         })
                         insertGrnDetails(postdata).then(val => {
@@ -694,7 +666,7 @@ const CrfStoreProcessMain = () => {
     setStoreState(prev => ({
       ...prev,
       modalopen: false,
-      modFlag: 0,
+      modFlag: 0
     }))
     setgrnDetailsView([])
   }, [])
@@ -706,14 +678,14 @@ const CrfStoreProcessMain = () => {
       setStoreState(prev => ({
         ...prev,
         modalopen: true,
-        modFlag: 1,
+        modFlag: 1
       }))
     } else {
       setgrnDetailsView([])
       setStoreState(prev => ({
         ...prev,
         modalopen: false,
-        modFlag: 0,
+        modFlag: 0
       }))
       infoNotify('No Report Found')
     }
@@ -729,11 +701,11 @@ const CrfStoreProcessMain = () => {
   const {
     data: companyData,
     isLoading: isCompLoading,
-    error: compError,
+    error: compError
   } = useQuery({
     queryKey: 'getdefaultCompany',
     queryFn: () => getDefaultCompany(),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const company = useMemo(() => companyData, [companyData])
 
@@ -777,7 +749,7 @@ const CrfStoreProcessMain = () => {
               flex: 1,
               display: 'flex',
               borderRadius: 5,
-              flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' },
+              flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' }
             }}
           >
             <Box sx={{ display: 'flex' }}>
@@ -793,14 +765,14 @@ const CrfStoreProcessMain = () => {
                   badgeContent={notReceiveCount}
                   anchorOrigin={{
                     vertical: 'top',
-                    horizontal: 'right',
+                    horizontal: 'right'
                   }}
                   sx={{
                     '& .MuiBadge-badge': {
                       backgroundColor: '#ef6c00',
                       color: 'white',
-                      transform: 'translate(70%, -10%)',
-                    },
+                      transform: 'translate(70%, -10%)'
+                    }
                   }}
                 >
                   <FormControlLabel
@@ -810,8 +782,8 @@ const CrfStoreProcessMain = () => {
                         sx={{
                           color: '#ef6c00',
                           '&.Mui-checked': {
-                            color: '#ef6c00',
-                          },
+                            color: '#ef6c00'
+                          }
                         }}
                       />
                     }
@@ -822,15 +794,15 @@ const CrfStoreProcessMain = () => {
                   badgeContent={fullyCount}
                   anchorOrigin={{
                     vertical: 'top',
-                    horizontal: 'right',
+                    horizontal: 'right'
                   }}
                   sx={{
                     mr: 1,
                     '& .MuiBadge-badge': {
                       backgroundColor: '#1b5e20',
                       color: 'white',
-                      transform: 'translate(70%, -10%)',
-                    },
+                      transform: 'translate(70%, -10%)'
+                    }
                   }}
                 >
                   <FormControlLabel
@@ -841,8 +813,8 @@ const CrfStoreProcessMain = () => {
                         sx={{
                           color: '#1b5e20',
                           '&.Mui-checked': {
-                            color: '#1b5e20',
-                          },
+                            color: '#1b5e20'
+                          }
                         }}
                       />
                     }
@@ -855,9 +827,7 @@ const CrfStoreProcessMain = () => {
               <Box sx={{ pl: 0.5, pt: 0.6, flex: '1 1 auto', minWidth: '50px', width: '150px' }}>
                 <CssVarsProvider>
                   <Input
-                    startDecorator={
-                      <LocalShippingTwoToneIcon sx={{ height: 22, width: 22, color: '#0063C5' }} />
-                    }
+                    startDecorator={<LocalShippingTwoToneIcon sx={{ height: 22, width: 22, color: '#0063C5' }} />}
                     size="sm"
                     placeholder="Search By Supplier"
                     autoComplete="off"
@@ -871,9 +841,7 @@ const CrfStoreProcessMain = () => {
               <Box sx={{ pl: 0.5, pt: 0.6, flex: '1 1 auto', minWidth: '50px', width: '150px' }}>
                 <CssVarsProvider>
                   <Input
-                    startDecorator={
-                      <ReceiptLongTwoToneIcon sx={{ height: 22, width: 22, color: '#0063C5' }} />
-                    }
+                    startDecorator={<ReceiptLongTwoToneIcon sx={{ height: 22, width: 22, color: '#0063C5' }} />}
                     size="sm"
                     placeholder="Search By PO No."
                     autoComplete="off"
@@ -889,9 +857,7 @@ const CrfStoreProcessMain = () => {
                   <Input
                     startDecorator={
                       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <AlignHorizontalLeftTwoToneIcon
-                          sx={{ height: 18, width: 18, color: '#0063C5' }}
-                        />
+                        <AlignHorizontalLeftTwoToneIcon sx={{ height: 18, width: 18, color: '#0063C5' }} />
                         <Typography sx={{ ml: 1, fontSize: '13px', color: '#0063C5' }}>
                           CRF/{company?.company_name}/
                         </Typography>
@@ -915,7 +881,7 @@ const CrfStoreProcessMain = () => {
                       sx={{
                         height: 22,
                         width: 22,
-                        color: '#0277bd',
+                        color: '#0277bd'
                         // animation: `${moveTopToBottom} 1s infinite alternate`
                       }}
                     />
@@ -930,8 +896,8 @@ const CrfStoreProcessMain = () => {
                     bgcolor: 'white',
                     textTransform: 'capitalize',
                     '&:hover': {
-                      bgcolor: '#F0F4F8',
-                    },
+                      bgcolor: '#F0F4F8'
+                    }
                   }}
                   onClick={SearchData}
                 >
@@ -947,7 +913,7 @@ const CrfStoreProcessMain = () => {
                         height: 22,
                         width: 22,
                         color: '#0277bd',
-                        animation: `${moveTopToBottom} 1s infinite alternate`,
+                        animation: `${moveTopToBottom} 1s infinite alternate`
                       }}
                     />
                   }
@@ -961,8 +927,8 @@ const CrfStoreProcessMain = () => {
                     bgcolor: 'white',
                     textTransform: 'capitalize',
                     '&:hover': {
-                      bgcolor: '#F0F4F8',
-                    },
+                      bgcolor: '#F0F4F8'
+                    }
                   }}
                   onClick={getGrnDetails}
                 >
@@ -977,9 +943,7 @@ const CrfStoreProcessMain = () => {
             <>
               {disData.length !== 0 ? (
                 <>
-                  <Box
-                    sx={{ display: 'flex', flex: 1, justifyContent: 'flex-end', pr: 1, pt: 0.7 }}
-                  >
+                  <Box sx={{ display: 'flex', flex: 1, justifyContent: 'flex-end', pr: 1, pt: 0.7 }}>
                     <Box
                       sx={{
                         bgcolor: '#FD7F20',
@@ -987,7 +951,7 @@ const CrfStoreProcessMain = () => {
                         height: 15,
                         width: 15,
                         border: '1px solid lightgrey',
-                        borderRadius: 20,
+                        borderRadius: 20
                       }}
                     ></Box>
                     <Box sx={{ px: 1, fontSize: 13 }}>Partially Received</Box>
@@ -999,7 +963,7 @@ const CrfStoreProcessMain = () => {
                       pt: 0.4,
                       flexWrap: 'wrap',
                       width: '100%',
-                      '&::-webkit-scrollbar': { height: 10 },
+                      '&::-webkit-scrollbar': { height: 10 }
                     }}
                   >
                     <Paper elevation={3} sx={{ width: '1640' }}>
@@ -1010,55 +974,35 @@ const CrfStoreProcessMain = () => {
                         padding={0.5}
                         sx={{ bgcolor: '#41729F', color: 'white' }}
                       >
-                        <Typography
-                          sx={{ width: 60, textAlign: 'center', fontWeight: 550, fontSize: 12 }}
-                        >
+                        <Typography sx={{ width: 60, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>
                           Sl.No
                         </Typography>
-                        <Typography
-                          sx={{ width: 100, textAlign: 'center', fontWeight: 550, fontSize: 12 }}
-                        >
+                        <Typography sx={{ width: 100, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>
                           CRF No
                         </Typography>
-                        <Typography
-                          sx={{ width: 60, textAlign: 'center', fontWeight: 550, fontSize: 12 }}
-                        >
+                        <Typography sx={{ width: 60, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>
                           Order#
                         </Typography>
-                        <Typography
-                          sx={{ width: 150, textAlign: 'center', fontWeight: 550, fontSize: 12 }}
-                        >
+                        <Typography sx={{ width: 150, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>
                           PO Date
                         </Typography>
-                        <Typography
-                          sx={{ width: 150, textAlign: 'center', fontWeight: 550, fontSize: 12 }}
-                        >
+                        <Typography sx={{ width: 150, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>
                           PO to Supplier
                         </Typography>
-                        <Typography
-                          sx={{ width: 150, textAlign: 'center', fontWeight: 550, fontSize: 12 }}
-                        >
+                        <Typography sx={{ width: 150, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>
                           Supplier
                         </Typography>
-                        <Typography
-                          sx={{ width: 100, textAlign: 'center', fontWeight: 550, fontSize: 12 }}
-                        >
+                        <Typography sx={{ width: 100, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>
                           Expected Date
                         </Typography>
-                        <Typography
-                          sx={{ width: 90, textAlign: 'center', fontWeight: 550, fontSize: 12 }}
-                        >
+                        <Typography sx={{ width: 90, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>
                           CRS Store
                         </Typography>
-                        <Typography
-                          sx={{ width: 150, textAlign: 'center', fontWeight: 550, fontSize: 12 }}
-                        >
+                        <Typography sx={{ width: 150, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>
                           Store
                         </Typography>
                         <Typography sx={{ width: 220, textAlign: 'center' }}></Typography>
-                        <Typography
-                          sx={{ width: 50, textAlign: 'center', fontWeight: 550, fontSize: 12 }}
-                        >
+                        <Typography sx={{ width: 50, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>
                           Details
                         </Typography>
                       </Box>
@@ -1072,52 +1016,34 @@ const CrfStoreProcessMain = () => {
                               justifyContent="space-between"
                               sx={{
                                 borderBottom: '1px solid #b0bec5',
-                                color: val.store_recieve === 0 ? '#E55B13' : 'black',
+                                color: val.store_recieve === 0 ? '#E55B13' : 'black'
                               }}
                             >
-                              <Typography
-                                sx={{ width: 60, textAlign: 'center', fontSize: 12, my: 1 }}
-                              >
+                              <Typography sx={{ width: 60, textAlign: 'center', fontSize: 12, my: 1 }}>
                                 {index + 1}
                               </Typography>
                               <Typography
                                 sx={{ width: 100, textAlign: 'center', fontSize: 12, my: 1 }}
                               >{`CRF/${company?.company_name}//${val?.req_slno}`}</Typography>
-                              <Typography
-                                sx={{ width: 60, textAlign: 'center', fontSize: 12, my: 1 }}
-                              >
+                              <Typography sx={{ width: 60, textAlign: 'center', fontSize: 12, my: 1 }}>
                                 {val.po_number}
                               </Typography>
-                              <Typography
-                                sx={{ width: 150, textAlign: 'center', fontSize: 12, my: 1 }}
-                              >
+                              <Typography sx={{ width: 150, textAlign: 'center', fontSize: 12, my: 1 }}>
                                 {format(new Date(val.po_date), 'dd-MM-yyyy hh:mm:ss a')}
                               </Typography>
-                              <Typography
-                                sx={{ width: 150, textAlign: 'center', fontSize: 12, my: 1 }}
-                              >
+                              <Typography sx={{ width: 150, textAlign: 'center', fontSize: 12, my: 1 }}>
                                 {format(new Date(val.po_to_supplier_date), 'dd-MM-yyyy hh:mm:ss a')}
                               </Typography>
-                              <Typography
-                                sx={{ width: 150, textAlign: 'center', fontSize: 11, my: 1 }}
-                              >
+                              <Typography sx={{ width: 150, textAlign: 'center', fontSize: 11, my: 1 }}>
                                 {capitalizeWords(val.supplier_name)}
                               </Typography>
-                              <Typography
-                                sx={{ width: 100, textAlign: 'center', fontSize: 12, my: 1 }}
-                              >
-                                {val.expected_delivery
-                                  ? format(new Date(val.expected_delivery), 'dd-MM-yyyy')
-                                  : 'Nil'}
+                              <Typography sx={{ width: 100, textAlign: 'center', fontSize: 12, my: 1 }}>
+                                {val.expected_delivery ? format(new Date(val.expected_delivery), 'dd-MM-yyyy') : 'Nil'}
                               </Typography>
-                              <Typography
-                                sx={{ width: 90, textAlign: 'center', fontSize: 12, my: 1 }}
-                              >
+                              <Typography sx={{ width: 90, textAlign: 'center', fontSize: 12, my: 1 }}>
                                 {val.main_store}
                               </Typography>
-                              <Typography
-                                sx={{ width: 150, textAlign: 'center', fontSize: 12, my: 1 }}
-                              >
+                              <Typography sx={{ width: 150, textAlign: 'center', fontSize: 12, my: 1 }}>
                                 {val.sub_store_name}
                               </Typography>
                               <Box sx={{ width: 220, my: 0.5, textAlign: 'center' }}>
@@ -1128,7 +1054,7 @@ const CrfStoreProcessMain = () => {
                                   width: 50,
                                   textAlign: 'center',
                                   cursor: 'pointer',
-                                  display: 'flex',
+                                  display: 'flex'
                                 }}
                               >
                                 <CssVarsProvider>
@@ -1145,8 +1071,8 @@ const CrfStoreProcessMain = () => {
                                         cursor: 'pointer',
                                         transition: 'transform 0.2s',
                                         '&:hover': {
-                                          transform: 'scale(1.1)',
-                                        },
+                                          transform: 'scale(1.1)'
+                                        }
                                       }}
                                       onClick={() => viewGrnDetails(val.po_number, val.items)}
                                     />
@@ -1168,7 +1094,7 @@ const CrfStoreProcessMain = () => {
                     fontSize: 25,
                     opacity: 0.5,
                     pt: 10,
-                    color: 'grey',
+                    color: 'grey'
                   }}
                 >
                   No Report Found
@@ -1178,11 +1104,7 @@ const CrfStoreProcessMain = () => {
           ) : (
             <>
               {fullyReceived.length !== 0 ? (
-                <FullyReceiveTableView
-                  disData={fullyReceived}
-                  viewGrnDetails={viewGrnDetails}
-                  company={company}
-                />
+                <FullyReceiveTableView disData={fullyReceived} viewGrnDetails={viewGrnDetails} company={company} />
               ) : (
                 <Box
                   sx={{
@@ -1191,7 +1113,7 @@ const CrfStoreProcessMain = () => {
                     fontSize: 25,
                     opacity: 0.5,
                     pt: 10,
-                    color: 'grey',
+                    color: 'grey'
                   }}
                 >
                   No Report Found

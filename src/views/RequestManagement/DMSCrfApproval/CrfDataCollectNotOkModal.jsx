@@ -1,9 +1,9 @@
 import React, { Fragment, memo, useEffect, useState } from 'react'
-import Slide from '@mui/material/Slide';
+import Slide from '@mui/material/Slide'
 // import { ToastContainer } from 'react-toastify';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import Button from '@mui/material/Button'
 import { Box, Paper } from '@mui/material'
 import DialogContent from '@mui/material/DialogContent'
 import { CssVarsProvider, Typography } from '@mui/joy'
@@ -46,7 +46,7 @@ const CrfDataCollectNotOkModal = ({ open, setOpen, req_slno, setEnable }) => {
           id="alert-dialog-slide-descriptiona"
           sx={{
             width: '100%',
-            height: 200,
+            height: 200
           }}
         >
           <Box sx={{ width: '100%', mt: 0 }}>
@@ -60,8 +60,8 @@ const CrfDataCollectNotOkModal = ({ open, setOpen, req_slno, setEnable }) => {
                     sm: 'column',
                     md: 'column',
                     lg: 'column',
-                    xl: 'column',
-                  },
+                    xl: 'column'
+                  }
                 }}
               >
                 <Box
@@ -69,7 +69,7 @@ const CrfDataCollectNotOkModal = ({ open, setOpen, req_slno, setEnable }) => {
                     width: '100%',
                     display: 'flex',
                     p: 0.5,
-                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                   }}
                 >
                   <CssVarsProvider>
@@ -92,8 +92,8 @@ const CrfDataCollectNotOkModal = ({ open, setOpen, req_slno, setEnable }) => {
                               sm: 'column',
                               md: 'column',
                               lg: 'column',
-                              xl: 'column',
-                            },
+                              xl: 'column'
+                            }
                           }}
                         >
                           <Box
@@ -106,8 +106,8 @@ const CrfDataCollectNotOkModal = ({ open, setOpen, req_slno, setEnable }) => {
                                 sm: 'row',
                                 md: 'row',
                                 lg: 'row',
-                                xl: 'row',
-                              },
+                                xl: 'row'
+                              }
                             }}
                           >
                             <Box sx={{ width: '50%' }}>
@@ -126,7 +126,7 @@ const CrfDataCollectNotOkModal = ({ open, setOpen, req_slno, setEnable }) => {
                                 fontSize: 15,
                                 textTransform: 'capitalize',
                                 overflow: 'auto',
-                                '::-webkit-scrollbar': { display: 'none' },
+                                '::-webkit-scrollbar': { display: 'none' }
                               }}
                               variant="none"
                             >
@@ -143,15 +143,13 @@ const CrfDataCollectNotOkModal = ({ open, setOpen, req_slno, setEnable }) => {
                                 sm: 'row',
                                 md: 'row',
                                 lg: 'row',
-                                xl: 'row',
-                              },
+                                xl: 'row'
+                              }
                             }}
                           >
                             <Box sx={{ width: '50%' }}>
                               <CssVarsProvider>
-                                <Typography sx={{ pl: 1, fontSize: 15 }}>
-                                  Requested Remarks:
-                                </Typography>
+                                <Typography sx={{ pl: 1, fontSize: 15 }}>Requested Remarks:</Typography>
                               </CssVarsProvider>
                             </Box>
                             <Paper
@@ -163,7 +161,7 @@ const CrfDataCollectNotOkModal = ({ open, setOpen, req_slno, setEnable }) => {
                                 fontSize: 15,
                                 textTransform: 'capitalize',
                                 overflow: 'auto',
-                                '::-webkit-scrollbar': { display: 'none' },
+                                '::-webkit-scrollbar': { display: 'none' }
                               }}
                               variant="none"
                             >
@@ -180,15 +178,13 @@ const CrfDataCollectNotOkModal = ({ open, setOpen, req_slno, setEnable }) => {
                                 sm: 'row',
                                 md: 'row',
                                 lg: 'row',
-                                xl: 'row',
-                              },
+                                xl: 'row'
+                              }
                             }}
                           >
                             <Box sx={{ width: '25%' }}>
                               <CssVarsProvider>
-                                <Typography sx={{ pl: 1, fontSize: 15 }}>
-                                  Requested Details:
-                                </Typography>
+                                <Typography sx={{ pl: 1, fontSize: 15 }}>Requested Details:</Typography>
                               </CssVarsProvider>
                             </Box>
                             <Paper
@@ -200,7 +196,7 @@ const CrfDataCollectNotOkModal = ({ open, setOpen, req_slno, setEnable }) => {
                                 fontSize: 15,
                                 textTransform: 'capitalize',
                                 overflow: 'auto',
-                                '::-webkit-scrollbar': { display: 'none' },
+                                '::-webkit-scrollbar': { display: 'none' }
                               }}
                               variant="none"
                             >
@@ -215,7 +211,7 @@ const CrfDataCollectNotOkModal = ({ open, setOpen, req_slno, setEnable }) => {
                                 fontSize: 15,
                                 textTransform: 'capitalize',
                                 overflow: 'auto',
-                                '::-webkit-scrollbar': { display: 'none' },
+                                '::-webkit-scrollbar': { display: 'none' }
                               }}
                               variant="none"
                             >

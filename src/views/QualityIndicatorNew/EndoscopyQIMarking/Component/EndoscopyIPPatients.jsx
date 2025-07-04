@@ -14,15 +14,7 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import IPEndoQIModal from './IPEndoQIModal'
 import { useNavigate } from 'react-router-dom'
 
-const EndoscopyIPPatients = ({
-  ChangeOPList,
-  ChangeIPList,
-  opCheck,
-  ipCheck,
-  setSearchFlag,
-  qidept,
-  depName,
-}) => {
+const EndoscopyIPPatients = ({ ChangeOPList, ChangeIPList, opCheck, ipCheck, setSearchFlag, qidept, depName }) => {
   const [ipNumber, setipNumber] = useState('')
   const [tabledata, setTabledata] = useState([])
   const [count, setCount] = useState(0)
@@ -86,7 +78,7 @@ const EndoscopyIPPatients = ({
                 ip_nurstation: val.NSC_DESC,
                 qi_dept_no: qidept,
                 create_user: id,
-                endo_arrival_time: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
+                endo_arrival_time: format(new Date(), 'yyyy-MM-dd HH:mm:ss')
               }
             })
             InsertEndoData(insertarray).then(val => {
@@ -137,31 +129,17 @@ const EndoscopyIPPatients = ({
             <ViewListIcon sx={{ color: '#37474f', height: 30, width: 30, opacity: 0.8 }} />
           </Box>
           <Box sx={{ flex: 1, pt: 1, pl: 1 }}>
-            <Typography sx={{ color: '#37474f', fontFamily: 'Arial', fontSize: 18 }}>
-              Patient&apos;s List
-            </Typography>
+            <Typography sx={{ color: '#37474f', fontFamily: 'Arial', fontSize: 18 }}>Patient&apos;s List</Typography>
           </Box>
           <Box sx={{ flex: 0.4, display: 'flex', pt: 0.4 }}>
             <Box sx={{ pr: 1, pt: 0.7 }}>
               <CssVarsProvider>
-                <Radio
-                  label="OP"
-                  color="primary"
-                  size="md"
-                  checked={opCheck}
-                  onChange={ChangeOPList}
-                />
+                <Radio label="OP" color="primary" size="md" checked={opCheck} onChange={ChangeOPList} />
               </CssVarsProvider>
             </Box>
             <Box sx={{ px: 1, pt: 0.7 }}>
               <CssVarsProvider>
-                <Radio
-                  label="IP"
-                  color="primary"
-                  size="md"
-                  checked={ipCheck}
-                  onChange={ChangeIPList}
-                />
+                <Radio label="IP" color="primary" size="md" checked={ipCheck} onChange={ChangeIPList} />
               </CssVarsProvider>
             </Box>
           </Box>
@@ -172,7 +150,7 @@ const EndoscopyIPPatients = ({
               fontSize: 20,
               pr: 0.5,
               pt: 0.4,
-              pl: 0.5,
+              pl: 0.5
             }}
           >
             <CssVarsProvider>
@@ -202,10 +180,7 @@ const EndoscopyIPPatients = ({
         <Box sx={{ flex: 0.7, pl: 1 }}>
           <CssVarsProvider>
             <Tooltip title="Search" placement="right">
-              <SearchIcon
-                sx={{ cursor: 'pointer', height: 35, width: 35 }}
-                onClick={SearchIpPatient}
-              />
+              <SearchIcon sx={{ cursor: 'pointer', height: 35, width: 35 }} onClick={SearchIpPatient} />
             </Tooltip>
           </CssVarsProvider>
         </Box>
@@ -216,7 +191,7 @@ const EndoscopyIPPatients = ({
           sx={{
             overflow: 'auto',
             minHeight: window.innerHeight - 220,
-            '&::-webkit-scrollbar': { height: 8 },
+            '&::-webkit-scrollbar': { height: 8 }
           }}
         >
           <CssVarsProvider>
@@ -238,69 +213,39 @@ const EndoscopyIPPatients = ({
                       backgroundColor: '#78909c',
                       color: 'white',
                       fontSize: 14,
-                      textAlign: 'center',
+                      textAlign: 'center'
                     }}
                   >
                     &nbsp; Sl.No
                   </th>
-                  <th
-                    size="sm"
-                    style={{ width: 100, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}
-                  >
+                  <th size="sm" style={{ width: 100, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>
                     &nbsp;IP No.
                   </th>
-                  <th
-                    size="sm"
-                    style={{ width: 150, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}
-                  >
+                  <th size="sm" style={{ width: 150, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>
                     &nbsp;IP Date
                   </th>
-                  <th
-                    size="sm"
-                    style={{ width: 100, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}
-                  >
+                  <th size="sm" style={{ width: 100, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>
                     &nbsp;Patient ID
                   </th>
-                  <th
-                    size="sm"
-                    style={{ width: 170, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}
-                  >
+                  <th size="sm" style={{ width: 170, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>
                     &nbsp;Patient Name
                   </th>
-                  <th
-                    size="sm"
-                    style={{ width: 120, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}
-                  >
+                  <th size="sm" style={{ width: 120, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>
                     &nbsp;Age/Gender
                   </th>
-                  <th
-                    size="sm"
-                    style={{ width: 100, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}
-                  >
+                  <th size="sm" style={{ width: 100, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>
                     &nbsp;Contacts{' '}
                   </th>
-                  <th
-                    size="sm"
-                    style={{ width: 190, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}
-                  >
+                  <th size="sm" style={{ width: 190, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>
                     &nbsp;Doctor Name
                   </th>
-                  <th
-                    size="sm"
-                    style={{ width: 150, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}
-                  >
+                  <th size="sm" style={{ width: 150, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>
                     &nbsp;Nursing Station{' '}
                   </th>
-                  <th
-                    size="sm"
-                    style={{ width: 100, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}
-                  >
+                  <th size="sm" style={{ width: 100, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>
                     &nbsp;Bed
                   </th>
-                  <th
-                    size="sm"
-                    style={{ width: 150, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}
-                  >
+                  <th size="sm" style={{ width: 150, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>
                     &nbsp;Arrival Time
                   </th>
                   <th
@@ -310,7 +255,7 @@ const EndoscopyIPPatients = ({
                       backgroundColor: '#78909c',
                       color: 'white',
                       fontSize: 14,
-                      textAlign: 'center',
+                      textAlign: 'center'
                     }}
                   >
                     &nbsp;QI Marking{' '}
@@ -326,7 +271,7 @@ const EndoscopyIPPatients = ({
                       style={{
                         maxHeight: 2,
                         cursor: 'pointer',
-                        background: val.qi_save_status === 1 ? '#cfd8dc' : 'transparent',
+                        background: val.qi_save_status === 1 ? '#cfd8dc' : 'transparent'
                       }}
                     >
                       <td size="sm" style={{ fontSize: 12, height: 5, textAlign: 'center' }}>
@@ -371,8 +316,8 @@ const EndoscopyIPPatients = ({
                               sx={{
                                 color: '#546e7a',
                                 ':hover': {
-                                  color: '#263238',
-                                },
+                                  color: '#263238'
+                                }
                               }}
                               onClick={e => IndicatorsView(val)}
                             />

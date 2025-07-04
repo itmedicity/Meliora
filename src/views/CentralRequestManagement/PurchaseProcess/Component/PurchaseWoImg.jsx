@@ -13,7 +13,7 @@ const PurchaseWoImg = ({ selectFile, setSelectFile }) => {
   const [previewFile, setPreviewFile] = useState({ url: '', type: '' })
   const [crfRegister, setCrfRegister] = useState({
     imageshowFlag: 0,
-    imageshow: false,
+    imageshow: false
   })
 
   const { imageshowFlag, imageshow } = crfRegister
@@ -33,9 +33,7 @@ const PurchaseWoImg = ({ selectFile, setSelectFile }) => {
               warningNotify(`The file "${file.name}" exceeds the 25MB size limit`)
               return false
             }
-            const isDuplicate = prevFiles.some(
-              prevFile => prevFile.name === file.name && prevFile.size === file.size
-            )
+            const isDuplicate = prevFiles.some(prevFile => prevFile.name === file.name && prevFile.size === file.size)
             // const duplicates = prevFiles?.filter(
             //     (prevFile) => prevFile.name === file.name && prevFile.size === file.size
             // );
@@ -50,16 +48,12 @@ const PurchaseWoImg = ({ selectFile, setSelectFile }) => {
             }
             return true
           } else {
-            warningNotify(
-              `The file "${file.name}" is not a supported format! Only .png, .jpeg, and .pdf are allowed.`
-            )
+            warningNotify(`The file "${file.name}" is not a supported format! Only .png, .jpeg, and .pdf are allowed.`)
             return false
           }
         })
         if (duplicateFiles.length > 0) {
-          warningNotify(
-            `The following files are duplicates and were not added: ${duplicateFiles.join(', ')}`
-          )
+          warningNotify(`The following files are duplicates and were not added: ${duplicateFiles.join(', ')}`)
         }
         return [...prevFiles, ...validFiles]
       })
@@ -89,7 +83,7 @@ const PurchaseWoImg = ({ selectFile, setSelectFile }) => {
     setCrfRegister(prev => ({
       ...prev,
       imageshow: true,
-      imageshowFlag: 1,
+      imageshowFlag: 1
     }))
   }, [])
 
@@ -97,7 +91,7 @@ const PurchaseWoImg = ({ selectFile, setSelectFile }) => {
     setCrfRegister(prev => ({
       ...prev,
       imageshow: false,
-      imageshowFlag: 0,
+      imageshowFlag: 0
     }))
   }, [])
 
@@ -109,11 +103,7 @@ const PurchaseWoImg = ({ selectFile, setSelectFile }) => {
       <Paper variant="outlined" square sx={{ p: 0.5, m: 0.5, display: 'flex', flexWrap: 'wrap' }}>
         <Box sx={{ p: 0.5 }}>
           <label htmlFor="file-input">
-            <Tooltip
-              title="Upload File"
-              placement="bottom"
-              sx={{ bgcolor: '#e8eaf6', color: '#283593' }}
-            >
+            <Tooltip title="Upload File" placement="bottom" sx={{ bgcolor: '#e8eaf6', color: '#283593' }}>
               <IconButton
                 aria-label="upload file"
                 variant="soft"
@@ -121,8 +111,8 @@ const PurchaseWoImg = ({ selectFile, setSelectFile }) => {
                 sx={{
                   bgcolor: 'white',
                   '&:hover': {
-                    bgcolor: 'white',
-                  },
+                    bgcolor: 'white'
+                  }
                 }}
               >
                 <CloudUploadTwoToneIcon
@@ -132,8 +122,8 @@ const PurchaseWoImg = ({ selectFile, setSelectFile }) => {
                     height: 25,
                     color: '#3949ab',
                     '&:hover': {
-                      color: '#5c6bc0',
-                    },
+                      color: '#5c6bc0'
+                    }
                   }}
                 />
                 <Typography
@@ -141,8 +131,8 @@ const PurchaseWoImg = ({ selectFile, setSelectFile }) => {
                     fontSize: 12,
                     color: '#3949ab',
                     '&:hover': {
-                      color: '#5c6bc0',
-                    },
+                      color: '#5c6bc0'
+                    }
                   }}
                 >
                   Maximum Size 25MB
@@ -171,7 +161,7 @@ const PurchaseWoImg = ({ selectFile, setSelectFile }) => {
                   m: 0.3,
                   border: '1px solid #e0e0e0',
                   borderRadius: '4px',
-                  p: 0.5,
+                  p: 0.5
                 }}
               >
                 {file.imageName.endsWith('.png') ||
@@ -186,7 +176,7 @@ const PurchaseWoImg = ({ selectFile, setSelectFile }) => {
                       objectFit: 'cover',
                       borderRadius: '4px',
                       marginRight: '8px',
-                      cursor: 'pointer',
+                      cursor: 'pointer'
                     }}
                     onClick={() => ViewImage(file)}
                   />
@@ -197,7 +187,7 @@ const PurchaseWoImg = ({ selectFile, setSelectFile }) => {
                       height: '40px',
                       color: '#e53935',
                       marginRight: '8px',
-                      cursor: 'pointer',
+                      cursor: 'pointer'
                     }}
                     onClick={() => ViewImage(file)}
                   />
@@ -208,7 +198,7 @@ const PurchaseWoImg = ({ selectFile, setSelectFile }) => {
                       height: '40px',
                       color: '#9e9e9e',
                       marginRight: '8px',
-                      cursor: 'pointer',
+                      cursor: 'pointer'
                     }}
                     onClick={() => ViewImage(file)}
                   />
@@ -236,7 +226,7 @@ const PurchaseWoImg = ({ selectFile, setSelectFile }) => {
                   m: 0.3,
                   border: '1px solid #e0e0e0',
                   borderRadius: '4px',
-                  p: 0.5,
+                  p: 0.5
                 }}
               >
                 {file.type.includes('image') ? (
@@ -249,7 +239,7 @@ const PurchaseWoImg = ({ selectFile, setSelectFile }) => {
                       objectFit: 'cover',
                       borderRadius: '4px',
                       marginRight: '8px',
-                      cursor: 'pointer',
+                      cursor: 'pointer'
                     }}
                     // onClick={() => ViewImage(URL.createObjectURL(file))}
                     onClick={() => ViewImage(file)}
@@ -261,7 +251,7 @@ const PurchaseWoImg = ({ selectFile, setSelectFile }) => {
                       height: '40px',
                       color: '#e53935',
                       marginRight: '8px',
-                      cursor: 'pointer',
+                      cursor: 'pointer'
                     }}
                     onClick={() => ViewImage(file)}
                   />
@@ -272,7 +262,7 @@ const PurchaseWoImg = ({ selectFile, setSelectFile }) => {
                       height: '40px',
                       color: '#9e9e9e',
                       marginRight: '8px',
-                      cursor: 'pointer',
+                      cursor: 'pointer'
                     }}
                     onClick={() => ViewImage(file)}
                   />
@@ -284,7 +274,7 @@ const PurchaseWoImg = ({ selectFile, setSelectFile }) => {
                     width: '16px',
                     cursor: 'pointer',
                     color: 'red',
-                    marginLeft: '8px',
+                    marginLeft: '8px'
                   }}
                   onClick={() => handleRemoveFile(index)}
                 />

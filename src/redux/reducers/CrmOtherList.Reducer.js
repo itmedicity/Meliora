@@ -3,7 +3,7 @@ const { FETCH_CRM_OTHERS } = ActionTyps
 //intial state
 const CRMOthers = {
   setCRMOthersList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Requesttype action type check then payload set to the state and loading status set as true */
 export const setCRMOthers = (state = CRMOthers, { type, payload }) => {

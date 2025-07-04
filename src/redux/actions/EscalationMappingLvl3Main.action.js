@@ -12,7 +12,7 @@ export const getEscalationMappingLvl3Main = postdata => async dispatch => {
     dispatch({
       type: FETCH_ESCALATION_MAPPING_LVL3_MAINTENANCE,
       payload: data,
-      loadingStatus: true,
+      loadingStatus: true
     })
   } else {
     dispatch({ type: FETCH_ESCALATION_MAPPING_LVL3_MAINTENANCE, payload: [], loadingStatus: false })

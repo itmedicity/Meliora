@@ -1,9 +1,9 @@
 import React, { Fragment, memo, useEffect, useRef, useState } from 'react'
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import Slide from '@mui/material/Slide';
+import Button from '@mui/material/Button'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import Slide from '@mui/material/Slide'
 // import { ToastContainer } from 'react-toastify';
 import { Box, Typography } from '@mui/material'
 import { useReactToPrint } from 'react-to-print'
@@ -28,7 +28,7 @@ const WifiQRCodeModel = ({ open, handleClose, qrCodeDis, qrCodeUserName }) => {
   }, [])
   const ref = useRef()
   const handlePrint = useReactToPrint({
-    content: () => ref.current,
+    content: () => ref.current
   })
   // const codeScan = "http://192.168.34.34:4501/index.cgi?code=" + qrCodeDis
 
@@ -49,7 +49,7 @@ const WifiQRCodeModel = ({ open, handleClose, qrCodeDis, qrCodeUserName }) => {
         <DialogContent
           id="alert-dialog-slide-descriptiona"
           sx={{
-            width: '25vw',
+            width: '25vw'
           }}
         >
           <Box ref={ref} sx={{ display: 'flex' }}>
@@ -62,7 +62,7 @@ const WifiQRCodeModel = ({ open, handleClose, qrCodeDis, qrCodeUserName }) => {
                   includeMargin={false}
                   style={{
                     marginLeft: 0.5,
-                    marginTop: 8,
+                    marginTop: 8
                   }}
                 />
               </div>

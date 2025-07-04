@@ -20,7 +20,7 @@ const HoldReasonModal = ({ holdOpen, setHoldOpen, setHoldflag, holdData }) => {
     holduser,
     pending_onhold_time,
     rectify_pending_hold_remarks,
-    cm_hold_reason,
+    cm_hold_reason
   } = holdData
 
   const Close = useCallback(() => {
@@ -38,11 +38,11 @@ const HoldReasonModal = ({ holdOpen, setHoldOpen, setHoldflag, holdData }) => {
     '&:hover': {
       bgcolor: 'white',
       color: '#523A28',
-      transform: 'scale(1.1)',
+      transform: 'scale(1.1)'
     },
     '&:active': {
-      transform: 'scale(0.95)',
-    },
+      transform: 'scale(0.95)'
+    }
   }
   return (
     <CssVarsProvider>
@@ -55,7 +55,7 @@ const HoldReasonModal = ({ holdOpen, setHoldOpen, setHoldflag, holdData }) => {
           justifyContent: 'center',
           alignItems: 'center',
           pl: 1,
-          borderRadius: 10,
+          borderRadius: 10
         }}
       >
         <ModalDialog variant="outlined" sx={{ width: '43vw', p: 0, overflow: 'auto' }}>
@@ -68,12 +68,8 @@ const HoldReasonModal = ({ holdOpen, setHoldOpen, setHoldflag, holdData }) => {
 
           <Box sx={{ flex: 1, display: 'flex', bgcolor: '#ECEDEF', py: 0.5 }}>
             <Box sx={{ flex: 1, pl: 0.5 }}>
-              <Typography sx={{ pl: 0.5, fontWeight: 600, color: 'Black' }}>
-                Ticket No.{complaint_slno}
-              </Typography>
-              <Typography sx={{ pl: 0.5, fontSize: 14, color: 'Black' }}>
-                {complaint_desc}
-              </Typography>
+              <Typography sx={{ pl: 0.5, fontWeight: 600, color: 'Black' }}>Ticket No.{complaint_slno}</Typography>
+              <Typography sx={{ pl: 0.5, fontSize: 14, color: 'Black' }}>{complaint_desc}</Typography>
               <Typography sx={{ pl: 0.5, fontSize: 13, color: 'Black', py: 0.5 }}>
                 Complaint Type: {complaint_type_name}
               </Typography>
@@ -92,9 +88,7 @@ const HoldReasonModal = ({ holdOpen, setHoldOpen, setHoldflag, holdData }) => {
                     : 'Not Updated'}
                 </Typography>
               ) : null}
-              <Typography sx={{ pl: 0.5, fontSize: 13, color: 'Black' }}>
-                {compalint_date}
-              </Typography>
+              <Typography sx={{ pl: 0.5, fontSize: 13, color: 'Black' }}>{compalint_date}</Typography>
             </Box>
           </Box>
 
@@ -104,12 +98,10 @@ const HoldReasonModal = ({ holdOpen, setHoldOpen, setHoldflag, holdData }) => {
               flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
               pt: 1,
               gap: 3,
-              mx: 2.5,
+              mx: 2.5
             }}
           >
-            <Typography sx={{ fontWeight: 600, pb: 0.5, color: '#50655B' }}>
-              Holded Reason
-            </Typography>
+            <Typography sx={{ fontWeight: 600, pb: 0.5, color: '#50655B' }}>Holded Reason</Typography>
             <TextFieldCustom
               style={{ width: '100%' }}
               maxRows={1}
@@ -117,9 +109,7 @@ const HoldReasonModal = ({ holdOpen, setHoldOpen, setHoldflag, holdData }) => {
               value={cm_hold_reason === null ? '' : cm_hold_reason}
               disabled
             />
-            <Typography sx={{ fontWeight: 600, pb: 0.5, mt: 1, color: '#50655B' }}>
-              Holded Remarks
-            </Typography>
+            <Typography sx={{ fontWeight: 600, pb: 0.5, mt: 1, color: '#50655B' }}>Holded Remarks</Typography>
             <CustomTextarea
               style={{ width: '100%' }}
               minRows={3}
@@ -128,14 +118,10 @@ const HoldReasonModal = ({ holdOpen, setHoldOpen, setHoldflag, holdData }) => {
               disabled
             />
 
-            <Typography sx={{ fontWeight: 600, pb: 0.5, pt: 1, color: '#50655B' }}>
-              Holded by
-            </Typography>
+            <Typography sx={{ fontWeight: 600, pb: 0.5, pt: 1, color: '#50655B' }}>Holded by</Typography>
             <Typography sx={{ pr: 2, fontSize: 14, fontWeight: 400 }}>{holduser}</Typography>
             <Typography sx={{ pb: 0.3, pr: 2, fontSize: 11, fontWeight: 600 }}>
-              {pending_onhold_time
-                ? format(new Date(pending_onhold_time), 'dd MMM yyyy,  hh:mm a')
-                : 'Invalid Date'}
+              {pending_onhold_time ? format(new Date(pending_onhold_time), 'dd MMM yyyy,  hh:mm a') : 'Invalid Date'}
             </Typography>
           </Box>
           <Box sx={{ textAlign: 'right', pb: 1, mr: 1 }}>

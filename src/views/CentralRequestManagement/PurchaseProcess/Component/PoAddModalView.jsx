@@ -8,7 +8,7 @@ import {
   ModalDialog,
   Table,
   Tooltip,
-  Typography,
+  Typography
 } from '@mui/joy'
 import { Paper } from '@mui/material'
 import React, { memo, useCallback, useState } from 'react'
@@ -26,7 +26,7 @@ const PoAddModalView = ({
   setpodetailData,
   modalItems,
   setModalItems,
-  resetPOno,
+  resetPOno
 }) => {
   const {
     req_slno,
@@ -44,7 +44,7 @@ const PoAddModalView = ({
     po_expiry,
     sub_store_slno,
     substoreName,
-    crm_purchase_slno,
+    crm_purchase_slno
   } = poAddModalData
 
   const [existArray, setExistArray] = useState([])
@@ -63,11 +63,11 @@ const PoAddModalView = ({
     '&:hover': {
       bgcolor: 'white',
       color: '#003B73',
-      transform: 'scale(1.1)',
+      transform: 'scale(1.1)'
     },
     '&:active': {
-      transform: 'scale(0.91)',
-    },
+      transform: 'scale(0.91)'
+    }
   }
   const DeleteItems = useCallback(
     val => {
@@ -81,9 +81,7 @@ const PoAddModalView = ({
     [modalItems, setModalItems]
   )
   const AddToTable = useCallback(() => {
-    const array = podetailData?.filter(
-      value => value.po_number === po_number && value.supply_store === supply_store
-    )
+    const array = podetailData?.filter(value => value.po_number === po_number && value.supply_store === supply_store)
     if (array.length === 0) {
       const podDatas = {
         crm_purchase_slno: crm_purchase_slno,
@@ -106,7 +104,7 @@ const PoAddModalView = ({
         po_expiry: format(new Date(po_expiry), 'yyyy-MM-dd'),
         sub_store_slno: sub_store_slno,
         substoreName: substoreName,
-        items: modalItems,
+        items: modalItems
       }
       const newArray = [...podetailData, podDatas]
       if (newArray.length !== 0) {
@@ -138,14 +136,14 @@ const PoAddModalView = ({
     sub_store_slno,
     poModalhandleClose,
     substoreName,
-    crm_purchase_slno,
+    crm_purchase_slno
   ])
 
   const AddDetails = useCallback(() => {
     let isMounted = true
     const postExist = {
       po_number: po_number,
-      supply_store: supply_store,
+      supply_store: supply_store
     }
     const checkPoExist = async postExist => {
       const result = await axioslogin.post('/newCRFPurchase/poExist', postExist)
@@ -156,14 +154,12 @@ const PoAddModalView = ({
         const { success, data } = value
         if (success === 1) {
           const poLIst = data
-            .filter(
-              (po, index, self) => index === self.findIndex(val => val.req_slno === po.req_slno)
-            )
+            .filter((po, index, self) => index === self.findIndex(val => val.req_slno === po.req_slno))
             .map(po => ({
               // crm_purchase_slno: po.crm_purchase_slno,
               req_slno: po.req_slno,
               po_number: po.po_number,
-              create_date: po.create_date,
+              create_date: po.create_date
             }))
           setExistArray(poLIst)
           setOpen(true)
@@ -204,7 +200,7 @@ const PoAddModalView = ({
               bgcolor: 'background.body',
               color: '#bf360c',
               height: 25,
-              width: 25,
+              width: 25
             }}
           />
           <Paper
@@ -223,9 +219,7 @@ const PoAddModalView = ({
                   <Typography sx={{ fontSize: 14 }}>Order # </Typography>
                 </Box>
                 <Box sx={{ flex: 1 }}>
-                  <Typography sx={{ color: '#003B73', fontSize: 14 }}>
-                    {': ' + po_number}
-                  </Typography>
+                  <Typography sx={{ color: '#003B73', fontSize: 14 }}>{': ' + po_number}</Typography>
                 </Box>
               </Box>
               <Box sx={{ display: 'flex', flex: 1 }}>
@@ -243,9 +237,7 @@ const PoAddModalView = ({
                   <Typography sx={{ fontSize: 14 }}>Supplier </Typography>
                 </Box>
                 <Box sx={{ flex: 1 }}>
-                  <Typography sx={{ color: '#003B73', fontSize: 14 }}>
-                    {': ' + supplier_name}
-                  </Typography>
+                  <Typography sx={{ color: '#003B73', fontSize: 14 }}>{': ' + supplier_name}</Typography>
                 </Box>
               </Box>
               <Box sx={{ display: 'flex', flex: 1 }}>
@@ -253,9 +245,7 @@ const PoAddModalView = ({
                   <Typography sx={{ fontSize: 14 }}>CRS Store </Typography>
                 </Box>
                 <Box sx={{ flex: 1 }}>
-                  <Typography sx={{ color: '#003B73', fontSize: 14 }}>
-                    {': ' + storeName}
-                  </Typography>
+                  <Typography sx={{ color: '#003B73', fontSize: 14 }}>{': ' + storeName}</Typography>
                 </Box>
               </Box>
             </Box>
@@ -266,9 +256,7 @@ const PoAddModalView = ({
                   <Typography sx={{ fontSize: 14 }}>Delivery </Typography>
                 </Box>
                 <Box sx={{ flex: 1 }}>
-                  <Typography sx={{ color: '#003B73', fontSize: 14 }}>
-                    {': ' + po_delivery}
-                  </Typography>
+                  <Typography sx={{ color: '#003B73', fontSize: 14 }}>{': ' + po_delivery}</Typography>
                 </Box>
               </Box>
               <Box sx={{ display: 'flex', flex: 1 }}>
@@ -276,9 +264,7 @@ const PoAddModalView = ({
                   <Typography sx={{ fontSize: 14 }}>Amount </Typography>
                 </Box>
                 <Box sx={{ flex: 1 }}>
-                  <Typography sx={{ color: '#003B73', fontSize: 14 }}>
-                    {': Rs ' + po_amount}
-                  </Typography>
+                  <Typography sx={{ color: '#003B73', fontSize: 14 }}>{': Rs ' + po_amount}</Typography>
                 </Box>
               </Box>
             </Box>
@@ -301,9 +287,7 @@ const PoAddModalView = ({
                   <Typography sx={{ fontSize: 14 }}>Store </Typography>
                 </Box>
                 <Box sx={{ flex: 1 }}>
-                  <Typography sx={{ color: '#003B73', fontSize: 14 }}>
-                    {': ' + substoreName}
-                  </Typography>
+                  <Typography sx={{ color: '#003B73', fontSize: 14 }}>{': ' + substoreName}</Typography>
                 </Box>
               </Box>
             </Box>
@@ -314,7 +298,7 @@ const PoAddModalView = ({
                   sx={{
                     maxHeight: '50vh',
                     overflow: 'auto',
-                    '&::-webkit-scrollbar': { height: 8 },
+                    '&::-webkit-scrollbar': { height: 8 }
                   }}
                 >
                   <CssVarsProvider>
@@ -361,11 +345,7 @@ const PoAddModalView = ({
                       </thead>
                       <tbody size="small">
                         {modalItems?.map(val => (
-                          <tr
-                            key={val.slno}
-                            size="small"
-                            style={{ maxHeight: 2, cursor: 'pointer' }}
-                          >
+                          <tr key={val.slno} size="small" style={{ maxHeight: 2, cursor: 'pointer' }}>
                             <td size="sm" style={{ fontSize: 12, height: 5, textAlign: 'center' }}>
                               {val.slno}
                             </td>
@@ -400,8 +380,8 @@ const PoAddModalView = ({
                                     sx={{
                                       color: '#B95C50',
                                       ':hover': {
-                                        color: '#DC4731',
-                                      },
+                                        color: '#DC4731'
+                                      }
                                     }}
                                     onClick={() => DeleteItems(val)}
                                   />
@@ -457,7 +437,7 @@ const PoAddModalView = ({
                   fontSize: 15,
                   fontWeight: 'bold',
                   pb: 0.5,
-                  color: '#41729F',
+                  color: '#41729F'
                 }}
               >
                 Previous CRF List for Selected PO&apos;s
@@ -466,7 +446,7 @@ const PoAddModalView = ({
                 display="flex"
                 flexDirection="column"
                 sx={{
-                  pt: 1,
+                  pt: 1
                 }}
               >
                 <Box
@@ -475,28 +455,16 @@ const PoAddModalView = ({
                   padding={0.5}
                   sx={{ borderBottom: '1px solid lightgrey' }}
                 >
-                  <Typography
-                    level="body2"
-                    sx={{ width: 100, textAlign: 'center', fontWeight: 550, fontSize: 12 }}
-                  >
+                  <Typography level="body2" sx={{ width: 100, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>
                     Sl.No
                   </Typography>
-                  <Typography
-                    level="body2"
-                    sx={{ width: 100, textAlign: 'left', fontWeight: 550, fontSize: 12 }}
-                  >
+                  <Typography level="body2" sx={{ width: 100, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
                     Request No.
                   </Typography>
-                  <Typography
-                    level="body2"
-                    sx={{ width: 100, textAlign: 'left', fontWeight: 550, fontSize: 12 }}
-                  >
+                  <Typography level="body2" sx={{ width: 100, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
                     Order#
                   </Typography>
-                  <Typography
-                    level="body2"
-                    sx={{ width: 150, textAlign: 'left', fontWeight: 550, fontSize: 12 }}
-                  >
+                  <Typography level="body2" sx={{ width: 150, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
                     Create Date
                   </Typography>
                 </Box>
@@ -505,9 +473,7 @@ const PoAddModalView = ({
                   data={existArray}
                   itemContent={(index, val) => (
                     <Box key={index} display="flex" justifyContent="space-between">
-                      <Typography sx={{ width: 100, textAlign: 'center', fontSize: 12, my: 1 }}>
-                        {index + 1}
-                      </Typography>
+                      <Typography sx={{ width: 100, textAlign: 'center', fontSize: 12, my: 1 }}>{index + 1}</Typography>
                       <Typography sx={{ width: 100, textAlign: 'left', fontSize: 12, my: 1 }}>
                         {'CRF/TMC/' + val.req_slno}
                       </Typography>
@@ -532,8 +498,8 @@ const PoAddModalView = ({
                         color: 'white',
                         ':hover': {
                           bgcolor: '#0288d1',
-                          color: 'white',
-                        },
+                          color: 'white'
+                        }
                       }}
                       onClick={() => {
                         setOpen(false)

@@ -24,7 +24,7 @@ const TopDesignComp = ({
   setAllData,
   setDisData,
   radiovalue,
-  setRadioValue,
+  setRadioValue
 }) => {
   const [startDate, setStartDate] = useState(formatDateForInput(new Date()))
   const [endDate, setEndDate] = useState(formatDateForInput(new Date()))
@@ -37,11 +37,11 @@ const TopDesignComp = ({
   const {
     data: companyData,
     isLoading: isCompLoading,
-    error: compError,
+    error: compError
   } = useQuery({
     queryKey: 'getdefaultCompany',
     queryFn: () => getDefaultCompany(),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const company = useMemo(() => companyData, [companyData])
 
@@ -131,7 +131,7 @@ const TopDesignComp = ({
           py: 0.5,
           flexWrap: 'wrap',
           border: '0.4px solid #B4F5F0',
-          borderTop: 'none',
+          borderTop: 'none'
         }}
       >
         <Box sx={{ display: 'flex', flexWrap: 'wrap', pr: 1 }}>
@@ -147,15 +147,15 @@ const TopDesignComp = ({
               badgeContent={pendingData.length}
               anchorOrigin={{
                 vertical: 'top',
-                horizontal: 'right',
+                horizontal: 'right'
               }}
               sx={{
                 mr: 1,
                 '& .MuiBadge-badge': {
                   backgroundColor: 'orange',
                   color: 'white',
-                  transform: 'translate(70%, -10%)',
-                },
+                  transform: 'translate(70%, -10%)'
+                }
               }}
             >
               <FormControlLabel
@@ -166,8 +166,8 @@ const TopDesignComp = ({
                     sx={{
                       color: 'orange',
                       '&.Mui-checked': {
-                        color: 'orange',
-                      },
+                        color: 'orange'
+                      }
                     }}
                   />
                 }
@@ -178,15 +178,15 @@ const TopDesignComp = ({
               badgeContent={donedata.length}
               anchorOrigin={{
                 vertical: 'top',
-                horizontal: 'right',
+                horizontal: 'right'
               }}
               sx={{
                 mr: 1,
                 '& .MuiBadge-badge': {
                   backgroundColor: '#0d47a1',
                   color: 'white',
-                  transform: 'translate(70%, -10%)',
-                },
+                  transform: 'translate(70%, -10%)'
+                }
               }}
             >
               <FormControlLabel
@@ -197,8 +197,8 @@ const TopDesignComp = ({
                     sx={{
                       color: '#0d47a1',
                       '&.Mui-checked': {
-                        color: '#0d47a1',
-                      },
+                        color: '#0d47a1'
+                      }
                     }}
                   />
                 }
@@ -209,15 +209,15 @@ const TopDesignComp = ({
               badgeContent={closedData.length}
               anchorOrigin={{
                 vertical: 'top',
-                horizontal: 'right',
+                horizontal: 'right'
               }}
               sx={{
                 mr: 1,
                 '& .MuiBadge-badge': {
                   backgroundColor: '#F83839',
                   color: 'white',
-                  transform: 'translate(70%, -10%)',
-                },
+                  transform: 'translate(70%, -10%)'
+                }
               }}
             >
               <FormControlLabel
@@ -228,8 +228,8 @@ const TopDesignComp = ({
                     sx={{
                       color: 'red',
                       '&.Mui-checked': {
-                        color: 'red',
-                      },
+                        color: 'red'
+                      }
                     }}
                   />
                 }
@@ -248,10 +248,10 @@ const TopDesignComp = ({
                   border: '1px solid #bbdefb',
                   height: 20,
                   color: '#1565c0',
-                  fontSize: 14,
+                  fontSize: 14
                 }}
                 slotProps={{
-                  listbox: { placement: 'bottom-start' },
+                  listbox: { placement: 'bottom-start' }
                 }}
                 placeholder="Search By"
                 value={searchFlag}
@@ -279,13 +279,11 @@ const TopDesignComp = ({
                   fontSize: 12,
                   borderRadius: 5,
                   height: '19px',
-                  lineHeight: '1',
+                  lineHeight: '1'
                 }}
                 onClick={ClearSearch}
               >
-                <FilterAltTwoToneIcon
-                  sx={{ fontWeight: 550, color: '#0277bd', pr: 0.5, width: 30, height: 20 }}
-                />
+                <FilterAltTwoToneIcon sx={{ fontWeight: 550, color: '#0277bd', pr: 0.5, width: 30, height: 20 }} />
                 Clear Filter
               </IconButton>
             </CssVarsProvider>
@@ -306,7 +304,7 @@ const TopDesignComp = ({
                       border: '1px solid #bbdefb',
                       color: '#0d47a1',
                       fontSize: 14,
-                      width: 200,
+                      width: 200
                     }}
                     size={'md'}
                     type="date"
@@ -330,7 +328,7 @@ const TopDesignComp = ({
                       border: '1px solid #bbdefb',
                       color: '#0d47a1',
                       fontSize: 14,
-                      width: 200,
+                      width: 200
                     }}
                     size={'md'}
                     type="date"
@@ -347,12 +345,8 @@ const TopDesignComp = ({
                 <CustomInputDateCmp
                   StartIcon={
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                      <AlignHorizontalLeftTwoToneIcon
-                        sx={{ height: 18, width: 18, color: '#0063C5' }}
-                      />
-                      <Typography sx={{ fontSize: '13px', color: '#0063C5' }}>
-                        CRF/{company?.company_name}/
-                      </Typography>
+                      <AlignHorizontalLeftTwoToneIcon sx={{ height: 18, width: 18, color: '#0063C5' }} />
+                      <Typography sx={{ fontSize: '13px', color: '#0063C5' }}>CRF/{company?.company_name}/</Typography>
                     </Box>
                   }
                   className={{
@@ -360,7 +354,7 @@ const TopDesignComp = ({
                     border: '1px solid #bbdefb',
                     width: 250,
                     height: 35,
-                    color: '#1565c0',
+                    color: '#1565c0'
                   }}
                   autoComplete={'off'}
                   size={'md'}
@@ -381,21 +375,17 @@ const TopDesignComp = ({
                     border: '1px solid #bbdefb',
                     height: 20,
                     color: '#1565c0',
-                    fontSize: 13,
+                    fontSize: 13
                   }}
                   slotProps={{
-                    listbox: { placement: 'bottom-start' },
+                    listbox: { placement: 'bottom-start' }
                   }}
                   placeholder="Select Department Section"
                   value={deptSec}
                   onChange={(e, newValue) => setdeptSec(newValue)}
                 >
                   {authorizeDeptSec?.map(val => (
-                    <Option
-                      key={val.dept_section}
-                      value={val.dept_section}
-                      label={val.auth_deptsec}
-                    >
+                    <Option key={val.dept_section} value={val.dept_section} label={val.auth_deptsec}>
                       {val.auth_deptsec}
                     </Option>
                   ))}
@@ -420,8 +410,8 @@ const TopDesignComp = ({
                       ml: 1,
                       pt: 0.2,
                       '&:hover': {
-                        color: '#43B0F1',
-                      },
+                        color: '#43B0F1'
+                      }
                     }}
                   />
                 </CustomIconButtonCmp>

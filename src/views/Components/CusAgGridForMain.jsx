@@ -5,13 +5,7 @@ import { AgGridReact } from 'ag-grid-react'
 import 'ag-grid-community/dist/styles/ag-grid.css'
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css'
 
-const CusAgGridForMain = ({
-  columnDefs,
-  tableData,
-  onSelectionChanged,
-  columnTypes,
-  getRowStyle,
-}) => {
+const CusAgGridForMain = ({ columnDefs, tableData, onSelectionChanged, columnTypes, getRowStyle }) => {
   const rowHeight = 35
   const headerHeight = 30
   const defaultColDef = {}
@@ -30,8 +24,8 @@ const CusAgGridForMain = ({
       'sans-serif',
       '"Apple Color Emoji"',
       '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
+      '"Segoe UI Symbol"'
+    ].join(',')
   }
 
   return (
@@ -42,7 +36,7 @@ const CusAgGridForMain = ({
           sx={{
             height: '67vh',
             width: '100%',
-            overflow: 'auto',
+            overflow: 'auto'
           }}
         >
           <AgGridReact

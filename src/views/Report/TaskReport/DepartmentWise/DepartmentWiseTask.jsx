@@ -29,7 +29,7 @@ const DepartmentWiseTask = () => {
   const searchData = useMemo(() => {
     return {
       tm_task_dept: departments,
-      tm_task_dept_sec: deptsecs,
+      tm_task_dept_sec: deptsecs
     }
   }, [departments, deptsecs])
 
@@ -70,7 +70,7 @@ const DepartmentWiseTask = () => {
                 ? 'Pending'
                 : val.tm_task_status === 0
                 ? 'Incompleted'
-                : 'Incompleted',
+                : 'Incompleted'
           }
           return obj
         })
@@ -90,7 +90,7 @@ const DepartmentWiseTask = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 300,
-      filter: 'true',
+      filter: 'true'
     },
     { headerName: 'Section', field: 'sec_name', autoHeight: true, wrapText: true, minWidth: 300 },
     {
@@ -99,7 +99,7 @@ const DepartmentWiseTask = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 200,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Assignee',
@@ -107,7 +107,7 @@ const DepartmentWiseTask = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 200,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Due Date',
@@ -115,7 +115,7 @@ const DepartmentWiseTask = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 200,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Description',
@@ -123,8 +123,8 @@ const DepartmentWiseTask = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 300,
-      filter: 'true',
-    },
+      filter: 'true'
+    }
   ])
 
   const onExportClick = () => {
@@ -173,7 +173,7 @@ const DepartmentWiseTask = () => {
           bgcolor: '#f0f3f5',
           height: 35,
           display: 'flex',
-          justifyContent: 'flex-end',
+          justifyContent: 'flex-end'
         }}
       >
         <CusIconButton variant="outlined" size="sm" color="success" onClick={onExportClick}>

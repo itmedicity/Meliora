@@ -34,14 +34,14 @@ const ItemListViewDept = ({ assetSpare }) => {
     return {
       item_dept_slno: department !== undefined ? department : 0,
       item_deptsec_slno: deptsec !== undefined ? deptsec : 0,
-      item_creation_slno: item !== undefined ? item : 0,
+      item_creation_slno: item !== undefined ? item : 0
     }
   }, [department, deptsec, item])
   const postdataSpare = useMemo(() => {
     return {
       spare_dept_slno: department !== undefined ? department : 0,
       spare_deptsec_slno: deptsec !== undefined ? deptsec : 0,
-      spare_creation_slno: item !== undefined ? item : 0,
+      spare_creation_slno: item !== undefined ? item : 0
     }
   }, [department, deptsec, item])
 
@@ -63,10 +63,7 @@ const ItemListViewDept = ({ assetSpare }) => {
       }
     }
     const getdataSpareItem = async postdataSpare => {
-      const result = await axioslogin.post(
-        `/itemCreationDeptmap/getSpareItemsFronList`,
-        postdataSpare
-      )
+      const result = await axioslogin.post(`/itemCreationDeptmap/getSpareItemsFronList`, postdataSpare)
       const { success, data } = result.data
       if (success === 1) {
         setDisArry(data)
@@ -124,7 +121,7 @@ const ItemListViewDept = ({ assetSpare }) => {
     const searchserial = {
       am_manufacture_no: serialno,
       item_custodian_dept_sec: deptsecid,
-      spare_custodian_dept_sec: deptsecid,
+      spare_custodian_dept_sec: deptsecid
     }
     if (serialno !== '') {
       if (assetSpare === 1) {
@@ -147,7 +144,7 @@ const ItemListViewDept = ({ assetSpare }) => {
     <Box
       sx={{
         display: 'flex',
-        flex: 1,
+        flex: 1
       }}
     >
       {detailflag === 1 ? (
@@ -165,7 +162,7 @@ const ItemListViewDept = ({ assetSpare }) => {
               sx={{
                 display: 'flex',
                 minWidth: 250,
-                maxWidth: 300,
+                maxWidth: 300
               }}
             >
               <Box sx={{ pl: 0.5, flex: 1 }}>
@@ -187,16 +184,13 @@ const ItemListViewDept = ({ assetSpare }) => {
                   sx={{
                     flex: 1,
                     display: 'flex',
-                    gap: 1,
+                    gap: 1
                   }}
                 >
                   <Box sx={{ flex: 1 }}>
                     <Typography sx={{ pl: 0.3 }}>Department</Typography>
                     <Box>
-                      <AmDepartmentSelWOName
-                        department={department}
-                        setDepartment={setDepartment}
-                      />
+                      <AmDepartmentSelWOName department={department} setDepartment={setDepartment} />
                     </Box>
                   </Box>
                   <Box sx={{ flex: 1 }}>
@@ -223,7 +217,7 @@ const ItemListViewDept = ({ assetSpare }) => {
                   sx={{
                     flex: 1,
                     display: 'flex',
-                    gap: 1,
+                    gap: 1
                   }}
                 >
                   <Box sx={{ flex: 1 }}>

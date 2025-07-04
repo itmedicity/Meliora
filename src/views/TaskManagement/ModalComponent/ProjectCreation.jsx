@@ -1,14 +1,4 @@
-import {
-  Box,
-  Button,
-  Chip,
-  CssVarsProvider,
-  Modal,
-  ModalDialog,
-  Textarea,
-  Tooltip,
-  Typography,
-} from '@mui/joy'
+import { Box, Button, Chip, CssVarsProvider, Modal, ModalDialog, Textarea, Tooltip, Typography } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import { useDispatch, useSelector } from 'react-redux'
@@ -18,20 +8,11 @@ import AccountTreeSharpIcon from '@mui/icons-material/AccountTreeSharp'
 import Inputcomponent from '../TaskComponents/Inputcomponent'
 import TmAllGoalsList from 'src/views/CommonSelectCode/TmAllGoalsList'
 import { getGoalsList } from 'src/redux/actions/TmGoalsList.action'
-import {
-  getNonGoalProjectList,
-  getProjectListWithgoal,
-} from 'src/redux/actions/TmProjectsList.action'
+import { getNonGoalProjectList, getProjectListWithgoal } from 'src/redux/actions/TmProjectsList.action'
 import moment from 'moment'
 import GoalCreation from './GoalCreation'
 
-const ProjectCreation = ({
-  open,
-  setAddProjectFlag,
-  setaddProjectlModalOpen,
-  tableCount,
-  setTableCount,
-}) => {
+const ProjectCreation = ({ open, setAddProjectFlag, setaddProjectlModalOpen, tableCount, setTableCount }) => {
   const dispatch = useDispatch()
   const [goalz, setgoalz] = useState(0)
   const [dueDateGoal, setdueDateGoal] = useState('')
@@ -57,16 +38,11 @@ const ProjectCreation = ({
     tm_project_duedate: '',
     tm_project_description: '',
     tm_project_status: false,
-    tm_project_cmpltedate: '',
+    tm_project_cmpltedate: ''
   })
 
-  const {
-    tm_project_name,
-    tm_project_duedate,
-    tm_project_description,
-    tm_project_status,
-    tm_project_cmpltedate,
-  } = projectMast
+  const { tm_project_name, tm_project_duedate, tm_project_description, tm_project_status, tm_project_cmpltedate } =
+    projectMast
   const ProjectMastUpdate = useCallback(
     e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -83,17 +59,9 @@ const ProjectCreation = ({
       tm_project_status: tm_project_status === true ? 1 : 0,
       tm_project_cmpltedate: tm_project_cmpltedate === '' ? null : tm_project_cmpltedate,
       tm_goal_slno: goalz === 0 ? null : goalz,
-      tm_project_create_user: id,
+      tm_project_create_user: id
     }
-  }, [
-    tm_project_name,
-    tm_project_duedate,
-    tm_project_description,
-    tm_project_status,
-    tm_project_cmpltedate,
-    goalz,
-    id,
-  ])
+  }, [tm_project_name, tm_project_duedate, tm_project_description, tm_project_status, tm_project_cmpltedate, goalz, id])
 
   const reset = useCallback(() => {
     const form = {
@@ -102,7 +70,7 @@ const ProjectCreation = ({
       tm_project_duedate: '',
       tm_project_description: '',
       tm_project_status: false,
-      tm_project_cmpltedate: '',
+      tm_project_cmpltedate: ''
     }
     setprojectMast(form)
     setgoalz(0)
@@ -142,17 +110,7 @@ const ProjectCreation = ({
         infoNotify('Please fill Mandatory feilds')
       }
     },
-    [
-      postProject,
-      tableCount,
-      tm_project_name,
-      goalz,
-      CloseProject,
-      dispatch,
-      reset,
-      setTableCount,
-      tm_project_duedate,
-    ]
+    [postProject, tableCount, tm_project_name, goalz, CloseProject, dispatch, reset, setTableCount, tm_project_duedate]
   )
 
   const isGoalOverdue = moment().isAfter(moment(dueDateGoal))
@@ -178,7 +136,7 @@ const ProjectCreation = ({
             justifyContent: 'center',
             alignItems: 'center',
             pl: 1,
-            borderRadius: 10,
+            borderRadius: 10
           }}
         >
           <ModalDialog variant="outlined" sx={{ width: '43vw', p: 0 }}>
@@ -191,7 +149,7 @@ const ProjectCreation = ({
                     pl: 1,
                     flex: 1,
                     pt: 1.5,
-                    fontWeight: 900,
+                    fontWeight: 900
                   }}
                 >
                   Create A New Project
@@ -203,7 +161,7 @@ const ProjectCreation = ({
                     cursor: 'pointer',
                     color: '#52688F',
                     p: 1,
-                    '&:hover': { color: '#BA0F30' },
+                    '&:hover': { color: '#BA0F30' }
                   }}
                   onClick={CloseProject}
                 />
@@ -218,7 +176,7 @@ const ProjectCreation = ({
                   backgroundColor: 'white',
                   borderRadius: 35,
                   position: 'absolute',
-                  fontSize: '0.75em',
+                  fontSize: '0.75em'
                 }}
               >
                 <AccountTreeSharpIcon sx={{ height: 60, width: 60, p: 1.5 }} />
@@ -234,7 +192,7 @@ const ProjectCreation = ({
                       color: '#003B73',
                       fontWeight: 600,
                       textUnderline: 1,
-                      fontSize: 12,
+                      fontSize: 12
                     }}
                   >
                     Project
@@ -255,18 +213,14 @@ const ProjectCreation = ({
                       color: '#003B73',
                       fontWeight: 600,
                       textUnderline: 1,
-                      fontSize: 12,
+                      fontSize: 12
                     }}
                   >
                     Goal
                   </Typography>
 
                   <Box sx={{ flex: 1, display: 'flex' }}>
-                    <TmAllGoalsList
-                      goalz={goalz}
-                      setgoalz={setgoalz}
-                      setdueDateGoal={setdueDateGoal}
-                    />
+                    <TmAllGoalsList goalz={goalz} setgoalz={setgoalz} setdueDateGoal={setdueDateGoal} />
                     <Box sx={{ ml: 0.5, mt: 2 }} onClick={CreateGoal}>
                       <Tooltip title="Create New Goal">
                         <Chip
@@ -274,7 +228,7 @@ const ProjectCreation = ({
                             cursor: 'pointer',
                             bgcolor: '#90CDD0 ',
                             color: 'black',
-                            '&:hover': { bgcolor: '#77A7B0' },
+                            '&:hover': { bgcolor: '#77A7B0' }
                           }}
                         >
                           &nbsp;+ create&nbsp;
@@ -290,7 +244,7 @@ const ProjectCreation = ({
                       color: '#003B73',
                       fontWeight: 600,
                       textUnderline: 1,
-                      fontSize: 12,
+                      fontSize: 12
                     }}
                   >
                     Due Date
@@ -314,8 +268,8 @@ const ProjectCreation = ({
                         slotProps={{
                           input: {
                             min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-                            max: moment(new Date(dueDateGoal)).format('YYYY-MM-DD HH:mm:ss'),
-                          },
+                            max: moment(new Date(dueDateGoal)).format('YYYY-MM-DD HH:mm:ss')
+                          }
                         }}
                         disabled={isGoalOverdue}
                         onchange={ProjectMastUpdate}
@@ -330,7 +284,7 @@ const ProjectCreation = ({
                       color: '#003B73',
                       fontWeight: 600,
                       textUnderline: 1,
-                      fontSize: 12,
+                      fontSize: 12
                     }}
                   >
                     Describtion
@@ -345,7 +299,7 @@ const ProjectCreation = ({
                       borderColor: 'neutral.outlinedBorder',
                       borderRadius: 0,
                       '&:hover': {
-                        borderColor: 'neutral.outlinedHoverBorder',
+                        borderColor: 'neutral.outlinedHoverBorder'
                       },
                       '&::before': {
                         border: '1px solid var(--Textarea-focusedHighlight)',
@@ -355,20 +309,18 @@ const ProjectCreation = ({
                         bottom: '-2px',
                         top: 'unset',
                         transition: 'transform .15s cubic-bezier(0.1,0.9,0.2,1)',
-                        borderRadius: 0,
+                        borderRadius: 0
                       },
                       '&:focus-within::before': {
-                        transform: 'scaleX(1)',
-                      },
+                        transform: 'scaleX(1)'
+                      }
                     }}
                     name="tm_project_description"
                     value={tm_project_description}
                     onChange={e => ProjectMastUpdate(e)}
                   />
                 </Box>
-                <Box
-                  sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', pt: 3, pb: 2, mr: 3 }}
-                >
+                <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', pt: 3, pb: 2, mr: 3 }}>
                   <Button variant="plain" sx={{ fontSize: 15 }} onClick={InsertProject}>
                     Create
                   </Button>

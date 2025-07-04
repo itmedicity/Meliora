@@ -8,16 +8,7 @@ import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { useSelector } from 'react-redux'
-const ModalForDailyCensusEntry = ({
-  open,
-  handleClose,
-  dailyDate,
-  nsName,
-  nsNo,
-  yest,
-  count,
-  setCount,
-}) => {
+const ModalForDailyCensusEntry = ({ open, handleClose, dailyDate, nsName, nsNo, yest, count, setCount }) => {
   const [total, settotal] = useState(0)
   const [censusDetails, setSensusDetails] = useState({
     census_slno: 0,
@@ -25,7 +16,7 @@ const ModalForDailyCensusEntry = ({
     discharge: 0,
     transferIn: 0,
     transferOut: 0,
-    death: 0,
+    death: 0
   })
   const { census_slno, admission, discharge, transferIn, transferOut, death } = censusDetails
   const UpdateSensusDetails = useCallback(
@@ -48,27 +39,20 @@ const ModalForDailyCensusEntry = ({
   useEffect(() => {
     const existSearch = {
       census_ns_slno: nsNo,
-      census_date: moment(new Date(dailyDate)).format('YYYY-MM-DD'),
+      census_date: moment(new Date(dailyDate)).format('YYYY-MM-DD')
     }
     const GetTodayData = async existSearch => {
       const result = await axioslogin.post('/qidailycensus/exist', existSearch)
       const { success, data } = result.data
       if (success === 1) {
-        const {
-          census_slno,
-          total_admission,
-          total_discharge,
-          transfer_in,
-          transfer_out,
-          total_death,
-        } = data[0]
+        const { census_slno, total_admission, total_discharge, transfer_in, transfer_out, total_death } = data[0]
         const fromdata = {
           census_slno: census_slno,
           admission: total_admission,
           discharge: total_discharge,
           transferIn: transfer_in,
           transferOut: transfer_out,
-          death: total_death,
+          death: total_death
         }
 
         setSensusDetails(fromdata)
@@ -95,7 +79,7 @@ const ModalForDailyCensusEntry = ({
       discharge: 0,
       transferIn: 0,
       transferOut: 0,
-      death: 0,
+      death: 0
     }
     setSensusDetails(formreset)
     settotal(0)
@@ -134,21 +118,9 @@ const ModalForDailyCensusEntry = ({
       census_total: total,
       edit_user: id,
       census_slno: census_slno,
-      update_status: 1,
+      update_status: 1
     }
-  }, [
-    nsNo,
-    dailyDate,
-    yest,
-    admission,
-    discharge,
-    transferIn,
-    transferOut,
-    death,
-    total,
-    id,
-    census_slno,
-  ])
+  }, [nsNo, dailyDate, yest, admission, discharge, transferIn, transferOut, death, total, id, census_slno])
   const SaveDetails = useCallback(
     e => {
       if (total < 0) {
@@ -205,7 +177,7 @@ const ModalForDailyCensusEntry = ({
             variant="none"
             sx={{
               width: '50vw',
-              borderRadius: 'md',
+              borderRadius: 'md'
             }}
           >
             <Paper variant="outlined" square sx={{ display: 'flex', height: 45 }}>
@@ -217,7 +189,7 @@ const ModalForDailyCensusEntry = ({
                   pt: 0.8,
                   justifyContent: 'flex-start',
                   pl: 1,
-                  bgcolor: '#bfbdbd',
+                  bgcolor: '#bfbdbd'
                 }}
               >
                 <Typography sx={{ color: '#212121', fontWeight: 'bold' }}>
@@ -231,12 +203,10 @@ const ModalForDailyCensusEntry = ({
                   fontSize: 18,
                   pt: 0.8,
                   justifyContent: 'center',
-                  bgcolor: '#bfbdbd',
+                  bgcolor: '#bfbdbd'
                 }}
               >
-                <Typography
-                  sx={{ color: '#212121', textTransform: 'capitalize', fontWeight: 'bold' }}
-                >
+                <Typography sx={{ color: '#212121', textTransform: 'capitalize', fontWeight: 'bold' }}>
                   {nsName}
                 </Typography>
               </Box>
@@ -248,14 +218,10 @@ const ModalForDailyCensusEntry = ({
                   fontSize: 20,
                   pt: 0.3,
                   pr: 0.2,
-                  bgcolor: '#bfbdbd',
+                  bgcolor: '#bfbdbd'
                 }}
               >
-                <CusIconButton
-                  size="md"
-                  variant="outlined"
-                  style={{ bgcolor: '#F7F8F8', height: 35, width: 35 }}
-                >
+                <CusIconButton size="md" variant="outlined" style={{ bgcolor: '#F7F8F8', height: 35, width: 35 }}>
                   <Tooltip title="Close" placement="bottom">
                     <CloseIcon
                       sx={{
@@ -263,7 +229,7 @@ const ModalForDailyCensusEntry = ({
                         size: 'lg',
                         fontSize: 30,
                         color: '#424242',
-                        fontWeight: 'bold',
+                        fontWeight: 'bold'
                       }}
                       onClick={handleClose}
                     />
@@ -346,13 +312,7 @@ const ModalForDailyCensusEntry = ({
                     <Typography sx={{ color: '#212121' }}>Death</Typography>
                   </Box>
                   <Box sx={{ pt: 0.5 }}>
-                    <TextFieldCustom
-                      size="md"
-                      type="text"
-                      name="death"
-                      value={death}
-                      onchange={UpdateSensusDetails}
-                    />
+                    <TextFieldCustom size="md" type="text" name="death" value={death} onchange={UpdateSensusDetails} />
                   </Box>
                 </Box>
               </Box>
@@ -389,8 +349,8 @@ const ModalForDailyCensusEntry = ({
                       borderRadius: 2,
                       ':hover': {
                         bgcolor: '#757575',
-                        boxShadow: 2,
-                      },
+                        boxShadow: 2
+                      }
                     }}
                     onClick={SaveDetails}
                   >
@@ -413,8 +373,8 @@ const ModalForDailyCensusEntry = ({
                       borderRadius: 2,
                       ':hover': {
                         bgcolor: '#757575',
-                        boxShadow: 2,
-                      },
+                        boxShadow: 2
+                      }
                     }}
                     onClick={ResetDetails}
                   >

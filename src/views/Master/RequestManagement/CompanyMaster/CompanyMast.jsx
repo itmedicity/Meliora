@@ -17,7 +17,7 @@ const CompanyMast = () => {
   const [companyType, setCompanyType] = useState({
     company_slno: '',
     company_name: '',
-    comp_status: false,
+    comp_status: false
   })
 
   const { company_slno, company_name, comp_status } = companyType
@@ -32,14 +32,14 @@ const CompanyMast = () => {
   const postdata = useMemo(() => {
     return {
       company_name: company_name,
-      comp_status: comp_status === true ? 1 : 0,
+      comp_status: comp_status === true ? 1 : 0
     }
   }, [company_name, comp_status])
   const patchdata = useMemo(() => {
     return {
       company_slno: company_slno,
       company_name: company_name,
-      comp_status: comp_status === true ? 1 : 0,
+      comp_status: comp_status === true ? 1 : 0
     }
   }, [company_slno, company_name, comp_status])
 
@@ -50,7 +50,7 @@ const CompanyMast = () => {
     const frmdata = {
       company_slno: company_slno,
       company_name: company_name,
-      comp_status: comp_status === 1 ? true : false,
+      comp_status: comp_status === 1 ? true : false
     }
     setCompanyType(frmdata)
   }, [])
@@ -58,7 +58,7 @@ const CompanyMast = () => {
     const frmdata = {
       company_slno: '',
       company_name: '',
-      comp_status: false,
+      comp_status: false
     }
     setCompanyType(frmdata)
     setCount(0)
@@ -114,12 +114,7 @@ const CompanyMast = () => {
   }, [reset])
 
   return (
-    <CardMaster
-      title="Company Master"
-      submit={submitComapnyName}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Company Master" submit={submitComapnyName} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
         <Box sx={{ width: '30%', p: 1 }}>
           <Box>

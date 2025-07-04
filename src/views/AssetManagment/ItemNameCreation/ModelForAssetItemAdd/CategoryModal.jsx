@@ -25,7 +25,7 @@ const CategoryModal = ({ open, handleClose }) => {
   })
   const [categoryModal, setCategoryModal] = useState({
     category_name: '',
-    category_status: false,
+    category_status: false
   })
   const { category_name, category_status } = categoryModal
 
@@ -40,7 +40,7 @@ const CategoryModal = ({ open, handleClose }) => {
   const reset = () => {
     const formdata = {
       category_name: '',
-      category_status: false,
+      category_status: false
     }
     setCategoryModal(formdata)
   }
@@ -49,7 +49,7 @@ const CategoryModal = ({ open, handleClose }) => {
     return {
       category_name: category_name,
       category_status: category_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [category_name, category_status, id])
 
@@ -89,15 +89,12 @@ const CategoryModal = ({ open, handleClose }) => {
         TransitionComponent={Transition}
         keepMounted
         aria-describedby="alert-dialog-slide-descriptiona"
-
       >
         <DialogContent
           id="alert-dialog-slide-descriptiona"
-        //    sx={{ border: '5px solid #474b4f' ,borderRadius:1}}
+          //    sx={{ border: '5px solid #474b4f' ,borderRadius:1}}
         >
-          <Box
-            sx={{ width: '100%', height: '90%', borderRadius: 1, border: '0.1px solid #454545' }}
-          >
+          <Box sx={{ width: '100%', height: '90%', borderRadius: 1, border: '0.1px solid #454545' }}>
             <Box
               id="alert-dialog-slide-descriptiona"
               sx={{ fontWeight: 'bold', textAlign: 'center', height: '50px', pt: 1 }}
@@ -109,14 +106,14 @@ const CategoryModal = ({ open, handleClose }) => {
                 width: 500,
                 height: 100,
                 pl: 3,
-                flexDirection: 'column',
+                flexDirection: 'column'
               }}
             >
               <Box
                 sx={{
                   width: '100%',
                   display: 'flex',
-                  flexDirection: 'row',
+                  flexDirection: 'row'
                 }}
               >
                 <Box sx={{ height: 50, width: '40%' }}>
@@ -139,7 +136,7 @@ const CategoryModal = ({ open, handleClose }) => {
                 sx={{
                   width: '100%',
                   display: 'flex',
-                  flexDirection: 'row',
+                  flexDirection: 'row'
                 }}
               >
                 <Box sx={{ height: 50, width: '40%' }}>

@@ -23,8 +23,8 @@ export const ExportToExcel = async (reportData, fileName, excelflag) => {
           'Backup Size Before',
           'Backup Size After',
           'Employee',
-          'Remarks',
-        ],
+          'Remarks'
+        ]
       ],
       { origin: 'A1' }
     )
@@ -42,8 +42,8 @@ export const ExportToExcel = async (reportData, fileName, excelflag) => {
           'Backup Size Before',
           'Backup Size After',
           'Employee',
-          'Remarks',
-        ],
+          'Remarks'
+        ]
       ],
       { origin: 'A1' }
     )
@@ -61,8 +61,8 @@ export const ExportToExcel = async (reportData, fileName, excelflag) => {
           'Backup Size Before',
           'Backup Size After',
           'Employee',
-          'Remarks',
-        ],
+          'Remarks'
+        ]
       ],
       { origin: 'A1' }
     )
@@ -80,8 +80,8 @@ export const ExportToExcel = async (reportData, fileName, excelflag) => {
           'Backup Size Before',
           'Backup Size After',
           'Employee',
-          'Remarks',
-        ],
+          'Remarks'
+        ]
       ],
       { origin: 'A1' }
     )
@@ -101,15 +101,15 @@ export const ExportToExcel = async (reportData, fileName, excelflag) => {
           'Backup Size Before',
           'Backup Size After',
           'Employee',
-          'Remarks',
-        ],
+          'Remarks'
+        ]
       ],
       { origin: 'A1' }
     )
   }
   const wb = {
     Sheets: { data: ws },
-    SheetNames: ['data'],
+    SheetNames: ['data']
   }
   const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' })
   const data = new Blob([excelBuffer], { type: fileType })

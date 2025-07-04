@@ -37,7 +37,7 @@ const TicketRegisterMain = () => {
       const { success, data } = result.data
       return success === 1 ? data : []
     },
-    nabled: !!empsecid,
+    nabled: !!empsecid
   })
 
   const blink = keyframes`
@@ -56,7 +56,7 @@ const TicketRegisterMain = () => {
               flex: 1,
               m: 0.5,
               pl: 1,
-              fontFamily: 'Arial',
+              fontFamily: 'Arial'
             }}
             text="Ticket Registration & View"
           />
@@ -72,7 +72,7 @@ const TicketRegisterMain = () => {
           size="sm"
           sx={{
             display: 'flex',
-            bgcolor: 'white',
+            bgcolor: 'white'
           }}
         >
           <TabList
@@ -83,7 +83,7 @@ const TicketRegisterMain = () => {
                 flex: 'initial',
                 bgcolor: 'white',
                 '&:hover': {
-                  bgcolor: 'white',
+                  bgcolor: 'white'
                 },
                 [`&.Mui-selected`]: {
                   color: 'primary.plainColor',
@@ -92,10 +92,10 @@ const TicketRegisterMain = () => {
                     height: 20,
                     borderTopLeftRadius: 3,
                     borderTopRightRadius: 3,
-                    bgcolor: 'primary.500',
-                  },
-                },
-              },
+                    bgcolor: 'primary.500'
+                  }
+                }
+              }
             }}
           >
             <Box sx={{ flex: 1, display: 'flex', gap: 1, mb: 1, ml: 1 }}>
@@ -115,8 +115,8 @@ const TicketRegisterMain = () => {
                     color: 'Black',
                     backgroundColor: '#C6DCF3',
                     boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.2)',
-                    transform: 'scale(1.02)',
-                  },
+                    transform: 'scale(1.02)'
+                  }
                 }}
               >
                 Ticket Registration
@@ -137,8 +137,8 @@ const TicketRegisterMain = () => {
                     color: 'black',
                     backgroundColor: '#C6DCF3',
                     boxShadow: '0px 3px 10px rgba(0, 0, 0, 0.2)',
-                    transform: 'scale(1.02)',
-                  },
+                    transform: 'scale(1.02)'
+                  }
                 }}
               >
                 Resolved Tickets
@@ -156,7 +156,7 @@ const TicketRegisterMain = () => {
                       borderBottomLeftRadius: 15,
                       px: 1,
                       boxShadow: 1,
-                      animation: `${blink} 1.2s infinite`,
+                      animation: `${blink} 1.2s infinite`
                     }}
                   >
                     <InfoIcon sx={{ fontSize: 22, mr: 1, color: 'darkred' }} />
@@ -168,11 +168,7 @@ const TicketRegisterMain = () => {
           </TabList>
           <TabPanel value={0} sx={{ p: 0, flexGrow: 1 }}>
             <Box sx={{ flexGrow: 1 }}>
-              <ComplaintRegistrMast
-                verficationPending={verficationPending}
-                count={count}
-                setCount={setCount}
-              />
+              <ComplaintRegistrMast verficationPending={verficationPending} count={count} setCount={setCount} />
             </Box>
           </TabPanel>
           <TabPanel value={1} sx={{ p: 0, flexGrow: 1 }}>

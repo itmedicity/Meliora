@@ -29,7 +29,7 @@ const ClosedButtonCompnt = ({ val, setPoDetails, imagearray, setImageArry }) => 
           const fileNamePart = parts[parts.length - 1]
           const obj = {
             imageName: fileNamePart,
-            url: val,
+            url: val
           }
           return obj
         })
@@ -55,9 +55,9 @@ const ClosedButtonCompnt = ({ val, setPoDetails, imagearray, setImageArry }) => 
     color: '#01579b',
     bgcolor: 'white',
     '&:hover': {
-      bgcolor: '#F0F4F8',
+      bgcolor: '#F0F4F8'
     },
-    borderRadius: 1,
+    borderRadius: 1
   }
   const handleCloseModal = useCallback(() => {
     setCloseViewFlag(0)
@@ -86,7 +86,7 @@ const ClosedButtonCompnt = ({ val, setPoDetails, imagearray, setImageArry }) => 
           borderTopLeftRadius: 0,
           borderTopRightRadius: 0,
           justifyContent: 'space-between',
-          flexWrap: 'wrap',
+          flexWrap: 'wrap'
         }}
       >
         <Box sx={{ p: 0.5, pl: 1, flex: 1 }}>
@@ -97,7 +97,7 @@ const ClosedButtonCompnt = ({ val, setPoDetails, imagearray, setImageArry }) => 
                 sx={{
                   height: 19,
                   width: 19,
-                  color: '#0277bd',
+                  color: '#0277bd'
                 }}
               />
             }
@@ -124,8 +124,8 @@ const ClosedButtonCompnt = ({ val, setPoDetails, imagearray, setImageArry }) => 
                 fontWeight: 550,
                 color: 'white',
                 '&:hover': {
-                  bgcolor: '#0277bd',
-                },
+                  bgcolor: '#0277bd'
+                }
               }}
             >
               {' '}

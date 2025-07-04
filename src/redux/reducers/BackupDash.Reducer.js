@@ -9,12 +9,12 @@ const {
   FETCH_BACKUP_WEEKLY,
   FETCH_BACKUP_WEEKDETAILS,
   FETCH_BACKUP_SELECTEDDAYS,
-  FETCH_BACKUP_DAYS,
+  FETCH_BACKUP_DAYS
 } = ActionTyps
 
 const DashboardInitial = {
   DailyCount: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 export const getDailyCount = (state = DashboardInitial, { type, payload }) => {
   switch (type) {
@@ -27,7 +27,7 @@ export const getDailyCount = (state = DashboardInitial, { type, payload }) => {
 
 const Daysdetails = {
   dayslist: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 export const getDayDetails = (state = Daysdetails, { type, payload }) => {
   switch (type) {
@@ -40,7 +40,7 @@ export const getDayDetails = (state = Daysdetails, { type, payload }) => {
 
 const MonthlyInitial = {
   MonthlyCount: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 export const getMonthlyCount = (state = MonthlyInitial, { type, payload }) => {
   switch (type) {
@@ -53,7 +53,7 @@ export const getMonthlyCount = (state = MonthlyInitial, { type, payload }) => {
 
 const MonthDetails = {
   Monthdata: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 export const getMonthDetails = (state = MonthDetails, { type, payload }) => {
   switch (type) {
@@ -66,7 +66,7 @@ export const getMonthDetails = (state = MonthDetails, { type, payload }) => {
 
 const YearlyBackup = {
   YearlyInitial: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 export const getYearlyBackup = (state = YearlyBackup, { type, payload }) => {
   switch (type) {
@@ -79,7 +79,7 @@ export const getYearlyBackup = (state = YearlyBackup, { type, payload }) => {
 
 const YearDetail = {
   Yearlydata: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 export const getYearDetails = (state = YearDetail, { type, payload }) => {
   switch (type) {
@@ -92,7 +92,7 @@ export const getYearDetails = (state = YearDetail, { type, payload }) => {
 
 const WeeklyCount = {
   Weekinitial: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 export const getWeeklyBackup = (state = WeeklyCount, { type, payload }) => {
   switch (type) {
@@ -105,7 +105,7 @@ export const getWeeklyBackup = (state = WeeklyCount, { type, payload }) => {
 
 const WeekDetail = {
   WeekInit: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 export const getWeeklyDetails = (state = WeekDetail, { type, payload }) => {
   switch (type) {
@@ -118,7 +118,7 @@ export const getWeeklyDetails = (state = WeekDetail, { type, payload }) => {
 
 const SelectedDays = {
   Daysinitial: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 export const getSelectedDaysDetails = (state = SelectedDays, { type, payload }) => {
   switch (type) {
@@ -131,7 +131,7 @@ export const getSelectedDaysDetails = (state = SelectedDays, { type, payload }) 
 
 const DaysList = {
   DaysData: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 export const getDaysDetails = (state = DaysList, { type, payload }) => {
   switch (type) {

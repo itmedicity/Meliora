@@ -50,7 +50,7 @@ const TmProjectTaskData = () => {
           [`& .${accordionDetailsClasses.content}.${accordionDetailsClasses.expanded}`]: {},
           [`& .${accordionSummaryClasses.button}`]: {
             // paddingBlock: '.5rem',
-          },
+          }
         }}
       >
         {allProject &&
@@ -76,7 +76,7 @@ const TmProjectTaskData = () => {
                           width: 155,
                           pl: 0.5,
                           borderRadius: 20,
-                          fontSize: 10,
+                          fontSize: 10
                         }}
                       >
                         <CountDowncomponent DueDates={val.tm_project_duedate} />
@@ -90,7 +90,7 @@ const TmProjectTaskData = () => {
                           borderRadius: 20,
                           mt: 0.5,
                           px: 6,
-                          justifyContent: 'center',
+                          justifyContent: 'center'
                         }}
                       >
                         completed
@@ -114,7 +114,7 @@ const TmProjectTaskData = () => {
                             fontSize: 12,
                             flex: 0.8,
                             textTransform: 'capitalize',
-                            cursor: 'grab',
+                            cursor: 'grab'
                           }}
                         >
                           <EventIcon fontSize="sm" />
@@ -127,7 +127,7 @@ const TmProjectTaskData = () => {
                             flex: 0.8,
                             textTransform: 'capitalize',
                             cursor: 'grab',
-                            color: isPastDue(val.tm_project_duedate) ? '#B32800' : 'black',
+                            color: isPastDue(val.tm_project_duedate) ? '#B32800' : 'black'
                           }}
                         >
                           <EventIcon fontSize="sm" /> {val.tm_project_duedate}

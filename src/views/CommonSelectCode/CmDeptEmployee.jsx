@@ -39,7 +39,7 @@ const CmDeptEmployee = ({ postdata, setValue }) => {
       sx={{
         width: '100%',
         minHeight: 35,
-        bgcolor: 'transparent',
+        bgcolor: 'transparent'
       }}
       multiple
       value={selectedValues}

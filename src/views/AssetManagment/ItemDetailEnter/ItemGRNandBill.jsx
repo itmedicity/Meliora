@@ -21,14 +21,14 @@ const ItemGRNandBill = ({ detailArry, grndetailarry, assetSpare, count, setCount
 
   const [userdata, setUserdata] = useState({
     grnNo: '',
-    grndate: '',
+    grndate: ''
   })
 
   useEffect(() => {
     if (am_grn_no !== undefined || am_grn_date !== undefined) {
       const frmdata = {
         grnNo: am_grn_no !== null ? am_grn_no : '',
-        grndate: am_grn_date !== null ? format(new Date(am_grn_date), 'yyyy-MM-dd') : '',
+        grndate: am_grn_date !== null ? format(new Date(am_grn_date), 'yyyy-MM-dd') : ''
       }
       setUserdata(frmdata)
     }
@@ -49,7 +49,7 @@ const ItemGRNandBill = ({ detailArry, grndetailarry, assetSpare, count, setCount
       am_grn_no: grnNo,
       am_grn_date: grndate,
       edit_user: id,
-      am_item_map_slno: am_item_map_slno,
+      am_item_map_slno: am_item_map_slno
     }
   }, [grnNo, grndate, id, am_item_map_slno])
 
@@ -58,14 +58,14 @@ const ItemGRNandBill = ({ detailArry, grndetailarry, assetSpare, count, setCount
       am_grn_no: grnNo,
       am_grn_date: grndate,
       edit_user: id,
-      am_spare_item_map_slno: am_spare_item_map_slno,
+      am_spare_item_map_slno: am_spare_item_map_slno
     }
   }, [grnNo, grndate, id, am_spare_item_map_slno])
 
   const reset = () => {
     const frmdata = {
       grnNo: '',
-      grndate: '',
+      grndate: ''
     }
     setUserdata(frmdata)
   }
@@ -84,10 +84,7 @@ const ItemGRNandBill = ({ detailArry, grndetailarry, assetSpare, count, setCount
       }
 
       const updateGRNDetailsSpare = async patchDataSpare => {
-        const result = await axioslogin.patch(
-          '/ItemMapDetails/GRNDetailsUpdateSpare',
-          patchDataSpare
-        )
+        const result = await axioslogin.patch('/ItemMapDetails/GRNDetailsUpdateSpare', patchDataSpare)
         const { message, success } = result.data
         if (success === 2) {
           succesNotify(message)
@@ -117,7 +114,7 @@ const ItemGRNandBill = ({ detailArry, grndetailarry, assetSpare, count, setCount
             flex: 1,
             fontWeight: 500,
             color: 'black',
-            fontSize: 15,
+            fontSize: 15
           }}
         />
 
@@ -130,7 +127,7 @@ const ItemGRNandBill = ({ detailArry, grndetailarry, assetSpare, count, setCount
                   fontWeight: 600,
                   color: '#727B8C',
                   pt: 1,
-                  width: 120,
+                  width: 120
                 }}
               />
               <Box sx={{ flex: 1 }}>
@@ -150,7 +147,7 @@ const ItemGRNandBill = ({ detailArry, grndetailarry, assetSpare, count, setCount
                   fontWeight: 600,
                   color: '#727B8C',
                   pt: 1,
-                  width: 120,
+                  width: 120
                 }}
               />
               <Box sx={{ flex: 1 }}>
@@ -167,13 +164,7 @@ const ItemGRNandBill = ({ detailArry, grndetailarry, assetSpare, count, setCount
               <Box sx={{ width: 120 }}></Box>
               <Box sx={{ flex: 1, gap: 0.5, display: 'flex' }}>
                 <Box>
-                  <CusIconButton
-                    size="sm"
-                    variant="outlined"
-                    color="primary"
-                    clickable="true"
-                    onClick={EditDetails}
-                  >
+                  <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={EditDetails}>
                     <LibraryAddIcon fontSize="small" />
                   </CusIconButton>
                 </Box>
@@ -201,13 +192,13 @@ const ItemGRNandBill = ({ detailArry, grndetailarry, assetSpare, count, setCount
             flex: 1,
             fontWeight: 500,
             color: 'black',
-            fontSize: 15,
+            fontSize: 15
           }}
         />
         <Box
           sx={{
             flex: 1,
-            py: 1.5,
+            py: 1.5
           }}
         >
           <BillDetailsAdding

@@ -10,15 +10,7 @@ import ImageDisplayModal from '../../ComonComponent/ImageUploadCmp/ImageDisplayM
 import CustomToolTipForCRF from '../../ComonComponent/Components/CustomToolTipForCRF'
 
 const CommonDmsApprvCmpPurchase = ({ DetailViewData, company }) => {
-  const {
-    req_slno,
-    dms_approve,
-    dms,
-    dms_remarks,
-    dms_approve_date,
-    dms_user,
-    dms_image,
-  } = DetailViewData
+  const { req_slno, dms_approve, dms, dms_remarks, dms_approve_date, dms_user, dms_image } = DetailViewData
   const [imageshowFlag, setImageShowFlag] = useState(0)
   const [imageshow, setImageShow] = useState(false)
   const [imagearray, setImageArry] = useState([])
@@ -29,12 +21,12 @@ const CommonDmsApprvCmpPurchase = ({ DetailViewData, company }) => {
   const capitalizeWords = str =>
     str
       ? str
-        .toLowerCase()
-        .trim()
-        .replace(/\s+/g, ' ')
-        .split(' ')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ')
+          .toLowerCase()
+          .trim()
+          .replace(/\s+/g, ' ')
+          .split(' ')
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(' ')
       : ''
 
   const ViewDMSUploadImage = useCallback(() => {
@@ -65,9 +57,7 @@ const CommonDmsApprvCmpPurchase = ({ DetailViewData, company }) => {
       ) : null}
       <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
         <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
-          <Typography
-            sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}
-          >
+          <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>
             {company?.dms_status_name}
           </Typography>
           <Box sx={{ flex: 1, py: 0.4, ml: 2 }}>
@@ -79,16 +69,16 @@ const CommonDmsApprvCmpPurchase = ({ DetailViewData, company }) => {
                   dms_approve === 1
                     ? '#2e7d32'
                     : dms_approve === 2
-                      ? '#bf360c'
-                      : dms_approve === 3
-                        ? '#FF9800'
-                        : dms_approve === 4
-                          ? '#009688'
-                          : '#607D8B',
+                    ? '#bf360c'
+                    : dms_approve === 3
+                    ? '#FF9800'
+                    : dms_approve === 4
+                    ? '#009688'
+                    : '#607D8B',
                 height: 25,
                 pb: 0.5,
                 fontSize: 12,
-                fontWeight: 550,
+                fontWeight: 550
               }}
             >
               {dms}
@@ -100,25 +90,17 @@ const CommonDmsApprvCmpPurchase = ({ DetailViewData, company }) => {
             <Box sx={{ pt: 0.5 }}></Box>
           ) : dms_approve === 2 && dms_remarks !== null ? (
             <Box sx={{ display: 'flex', pt: 0.5 }}>
-              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                Justification for Reject{' '}
-              </Typography>
+              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Justification for Reject </Typography>
               <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-              <Typography
-                sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}
-              >
+              <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
                 {dms_remarks === null ? 'Not Updated' : dms_remarks}{' '}
               </Typography>
             </Box>
           ) : dms_approve === 3 && dms_remarks !== null ? (
             <Box sx={{ display: 'flex', pt: 0.5 }}>
-              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                Justification for On-Hold
-              </Typography>
+              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Justification for On-Hold</Typography>
               <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-              <Typography
-                sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}
-              >
+              <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
                 {dms_remarks === null ? 'Not Updated' : dms_remarks}{' '}
               </Typography>
             </Box>
@@ -126,9 +108,7 @@ const CommonDmsApprvCmpPurchase = ({ DetailViewData, company }) => {
             <Box sx={{ display: 'flex', pt: 0.5 }}>
               <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Remarks</Typography>
               <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-              <Typography
-                sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}
-              >
+              <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
                 {dms_remarks === null ? 'Not Updated' : dms_remarks}{' '}
               </Typography>
             </Box>
@@ -144,9 +124,7 @@ const CommonDmsApprvCmpPurchase = ({ DetailViewData, company }) => {
               ) : null}
               <Box sx={{ display: 'flex', flex: 1 }}>
                 <Typography sx={{}}> :&nbsp;</Typography>
-                <Typography
-                  sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pt: 0.3, pl: 0.2 }}
-                >
+                <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pt: 0.3, pl: 0.2 }}>
                   {capitalizeWords(dms_user)}
                 </Typography>
                 <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pl: 2, pt: 0.3 }}>

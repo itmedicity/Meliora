@@ -12,14 +12,14 @@ const RoomTypeTablee = ({ count, rowSelect }) => {
     {
       headerName: 'Action',
       minWidth: 80,
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
     },
     { headerName: 'SlNo', field: 'rm_roomtype_slno', minWidth: 50 },
     { headerName: 'Type name', field: 'rm_roomtype_name', minWidth: 300 },
     { headerName: 'Type alias', field: 'rm_roomtype_alias', minWidth: 150 },
     { headerName: 'Type number', field: 'rm_roomtype_no', minWidth: 150 },
     { headerName: 'Type', field: 'room_type', minWidth: 100 },
-    { headerName: 'Status', field: 'status', minWidth: 100 },
+    { headerName: 'Status', field: 'status', minWidth: 100 }
   ])
   useEffect(() => {
     const getRoomType = async () => {

@@ -90,24 +90,14 @@ const ItemSearch = ({ assetOrSpare }) => {
       item_submodel_slno: submodel,
       item_manufactures_slno: manufacture,
       item_model_num: modelNumber !== '' ? modelNumber : null,
-      asset_spare: assetOrSpare,
+      asset_spare: assetOrSpare
     }
-  }, [
-    category,
-    subcategory,
-    group,
-    subgroup,
-    model,
-    submodel,
-    manufacture,
-    modelNumber,
-    assetOrSpare,
-  ])
+  }, [category, subcategory, group, subgroup, model, submodel, manufacture, modelNumber, assetOrSpare])
 
   const postByItem = useMemo(() => {
     return {
       item_name: assetName,
-      asset_spare: assetOrSpare,
+      asset_spare: assetOrSpare
     }
   }, [assetName, assetOrSpare])
 
@@ -167,7 +157,7 @@ const ItemSearch = ({ assetOrSpare }) => {
     manufacture,
     modelNumber,
     postByItem,
-    assetName,
+    assetName
   ])
 
   useEffect(() => {
@@ -191,69 +181,42 @@ const ItemSearch = ({ assetOrSpare }) => {
       <Box sx={{ m: 1, border: 1, p: 1, borderColor: '#D0D0D0' }}>
         <Box sx={{ flex: 1, display: 'flex', gap: 1 }}>
           <Box sx={{ flex: 1 }}>
-            <TextComponent
-              text={'Category'}
-              sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}
-            ></TextComponent>
+            <TextComponent text={'Category'} sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}></TextComponent>
             <AmCategorySelWOName category={category} setCategory={setCategory} />
           </Box>
           <Box sx={{ flex: 1 }}>
-            <TextComponent
-              text={'Subcategory'}
-              sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}
-            ></TextComponent>
+            <TextComponent text={'Subcategory'} sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}></TextComponent>
             <AmSubCategryWOName subcategory={subcategory} setSubcategory={setSubcategory} />
           </Box>
           <Box sx={{ flex: 1 }}>
-            <TextComponent
-              text={'Group'}
-              sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}
-            ></TextComponent>
+            <TextComponent text={'Group'} sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}></TextComponent>
             <AmGroupSelWOName group={group} setGroup={setGroup} />
           </Box>
           <Box sx={{ flex: 1 }}>
-            <TextComponent
-              text={'Subgroup'}
-              sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}
-            ></TextComponent>
+            <TextComponent text={'Subgroup'} sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}></TextComponent>
             <AmSubGroupWOName subgroup={subgroup} setSubGroup={setSubGroup} />
           </Box>
         </Box>
         <Box sx={{ flex: 1, display: 'flex', gap: 1, mt: 1 }}>
           <Box sx={{ flex: 1 }}>
-            <TextComponent
-              text={'Model'}
-              sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}
-            ></TextComponent>
+            <TextComponent text={'Model'} sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}></TextComponent>
             <AmModelSelWOName model={model} setModel={setModel} />
           </Box>
           <Box sx={{ flex: 1 }}>
-            <TextComponent
-              text={'Submodel'}
-              sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}
-            ></TextComponent>
+            <TextComponent text={'Submodel'} sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}></TextComponent>
             <AmSubModelWOName submodel={submodel} setSubmodel={setSubmodel} />
           </Box>
           <Box sx={{ flex: 1 }}>
-            <TextComponent
-              text={'Manufacture'}
-              sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}
-            ></TextComponent>
+            <TextComponent text={'Manufacture'} sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}></TextComponent>
             <AmManufacWOName manufacture={manufacture} setManufacture={setManufacture} />
           </Box>
           <Box sx={{ flex: 1 }}>
-            <TextComponent
-              text={'Model No.'}
-              sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}
-            ></TextComponent>
+            <TextComponent text={'Model No.'} sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}></TextComponent>
             <AmModelNumberSelect modelNumber={modelNumber} setModelNumber={setModelNumber} />
           </Box>
         </Box>
         <Box sx={{ flex: 1, mt: 1 }}>
-          <TextComponent
-            text={'Item Name'}
-            sx={{ color: 'black', fontWeight: 500, px: 0.5 }}
-          ></TextComponent>
+          <TextComponent text={'Item Name'} sx={{ color: 'black', fontWeight: 500, px: 0.5 }}></TextComponent>
           <Box sx={{ flex: 1 }}>
             <TextFieldCustom
               type="text"
@@ -286,8 +249,8 @@ const ItemSearch = ({ assetOrSpare }) => {
               boxShadow: '2px 4px 6px rgba(0,0,0,0.4)',
               '&:active': {
                 transform: 'scale(0.98)',
-                boxShadow: '1px 2px 3px rgba(0,0,0,0.3)',
-              },
+                boxShadow: '1px 2px 3px rgba(0,0,0,0.3)'
+              }
             }}
           >
             Search

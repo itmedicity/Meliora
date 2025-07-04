@@ -42,7 +42,7 @@ const VerificationDaysTable = ({ setdaysflag }) => {
     return {
       start_date: fromdate,
       end_date: todate,
-      empdept: empdept,
+      empdept: empdept
     }
   }, [fromdate, todate, empdept])
 
@@ -81,7 +81,7 @@ const VerificationDaysTable = ({ setdaysflag }) => {
           beforeSizeKB: (val.backup_size_before / 1024).toFixed(2) + ' KB',
           afterSizeKB: (val.backup_size_after / 1024).toFixed(2) + ' KB',
           em_name: val.em_name,
-          remarks: val.remarks === null ? 'Nil' : val.remarks,
+          remarks: val.remarks === null ? 'Nil' : val.remarks
         }
       })
       setExcelflag(5)
@@ -137,7 +137,7 @@ const VerificationDaysTable = ({ setdaysflag }) => {
                     cursor: 'pointer',
                     paddingBottom: 1,
                     BorderAllRounded: 5,
-                    color: 'black',
+                    color: 'black'
                   }}
                   onClick={SearchDetails}
                 >
@@ -156,7 +156,7 @@ const VerificationDaysTable = ({ setdaysflag }) => {
                     cursor: 'pointer',
                     paddingBottom: 1,
                     BorderAllRounded: 5,
-                    color: 'black',
+                    color: 'black'
                   }}
                   onClick={ExcelReportDetails}
                 >
@@ -165,10 +165,7 @@ const VerificationDaysTable = ({ setdaysflag }) => {
               </Box>
             </Box>
           </Paper>
-          <Box
-            variant="outlined"
-            sx={{ overflow: 'auto', maxHeight: window.innerHeight - 220, mt: 0.5 }}
-          >
+          <Box variant="outlined" sx={{ overflow: 'auto', maxHeight: window.innerHeight - 220, mt: 0.5 }}>
             <CssVarsProvider>
               <Table borderAxis="both" padding={'none'} stickyHeader style={{ width: 2500 }}>
                 <thead>

@@ -2,15 +2,7 @@ import React, { Fragment, useCallback, useState, memo, useEffect, useMemo, useRe
 import { Paper } from '@mui/material'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
-import {
-  Box,
-  CssVarsProvider,
-  Modal,
-  ModalClose,
-  ModalDialog,
-  Textarea,
-  Typography,
-} from '@mui/joy'
+import { Box, CssVarsProvider, Modal, ModalClose, ModalDialog, Textarea, Typography } from '@mui/joy'
 import ReqItemDisplay from '../ComonComponent/ReqItemDisplay'
 import _ from 'underscore'
 import { useSelector } from 'react-redux'
@@ -41,17 +33,10 @@ const CrmHodApprovalModal = ({
   datacolData,
   deptsecArry,
   imagearray,
-  company,
+  company
 }) => {
-  const {
-    req_slno,
-    incharge_req,
-    incharge_remarks,
-    hod_approve,
-    hod_remarks,
-    hod_detial_analysis,
-    hod_image,
-  } = ApprovalData
+  const { req_slno, incharge_req, incharge_remarks, hod_approve, hod_remarks, hod_detial_analysis, hod_image } =
+    ApprovalData
   const queryClient = useQueryClient()
   const id = useSelector(state => state.LoginUserData.empid, _.isEqual)
 
@@ -68,15 +53,14 @@ const CrmHodApprovalModal = ({
     remark: hod_remarks !== null ? hod_remarks : '',
     detailAnalis: hod_detial_analysis !== null ? hod_detial_analysis : '',
     datacollFlag: false,
-    datacolectremark: '',
+    datacolectremark: ''
   })
-  const { remark, detailAnalis, approve, reject, pending, datacollFlag, datacolectremark } =
-    apprvlDetails
+  const { remark, detailAnalis, approve, reject, pending, datacollFlag, datacolectremark } = apprvlDetails
   const updateOnchangeState = useCallback(e => {
     const { name, type, value, checked } = e.target
     setApprvlDetails(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === 'checkbox' ? checked : value
     }))
   }, [])
 
@@ -85,7 +69,7 @@ const CrmHodApprovalModal = ({
       ...prev,
       approve: type === 'approve',
       reject: type === 'reject',
-      pending: type === 'pending',
+      pending: type === 'pending'
     }))
   }, [])
 
@@ -110,7 +94,7 @@ const CrmHodApprovalModal = ({
         reject: false,
         pending: false,
         datacollFlag: false,
-        datacolectremark: '',
+        datacolectremark: ''
       }))
       setCrfDept(0)
       setApproveTableData([])
@@ -126,7 +110,7 @@ const CrmHodApprovalModal = ({
     const options = {
       maxSizeMB: 25,
       maxWidthOrHeight: 1920,
-      useWebWorker: true,
+      useWebWorker: true
     }
     const compressedFile = await imageCompression(imageFile, options)
     return compressedFile
@@ -143,9 +127,9 @@ const CrmHodApprovalModal = ({
       items: approveTableData?.map(val => {
         return {
           req_detl_slno: val.req_detl_slno,
-          item_status_approved: val.item_status_approved,
+          item_status_approved: val.item_status_approved
         }
-      }),
+      })
     }
   }, [approve, reject, pending, id, remark, detailAnalis, req_slno, approveTableData])
   const submit = useCallback(() => {
@@ -183,15 +167,11 @@ const CrmHodApprovalModal = ({
               formData.append('files', file, file.name)
             }
           }
-          const result = await axioslogin.post(
-            '/newCRFRegisterImages/crf/ImageInsertHOD',
-            formData,
-            {
-              headers: {
-                'Content-Type': 'multipart/form-data',
-              },
+          const result = await axioslogin.post('/newCRFRegisterImages/crf/ImageInsertHOD', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
             }
-          )
+          })
           return result.data
         } catch (error) {
           warningNotify('An error occurred during file upload.')
@@ -212,7 +192,7 @@ const CrmHodApprovalModal = ({
           crf_req_collect_dept: val,
           crf_req_remark: datacolectremark,
           reqest_one: 2,
-          req_user: id,
+          req_user: id
         }))
         DataCollRequestFnctn(postData)
         return
@@ -268,7 +248,7 @@ const CrmHodApprovalModal = ({
     detailAnalis,
     handleImageUpload,
     deptsecArry,
-    editEnable,
+    editEnable
   ])
 
   const closeModal = useCallback(() => {
@@ -290,7 +270,7 @@ const CrmHodApprovalModal = ({
           const fileNamePart = parts[parts.length - 1]
           const obj = {
             imageName: fileNamePart,
-            url: val,
+            url: val
           }
           return obj
         })
@@ -324,7 +304,7 @@ const CrmHodApprovalModal = ({
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 25,
-                width: 25,
+                width: 25
               }}
             />
             <Box sx={{ minWidth: '80vw', minHeight: '62vh', maxHeight: '85vh', overflowY: 'auto' }}>
@@ -344,9 +324,7 @@ const CrmHodApprovalModal = ({
                   ) : (
                     <Paper variant="outlined" sx={{ flexWrap: 'wrap' }}>
                       <Box sx={{ borderBottom: '1px solid lightgrey' }}>
-                        <Typography
-                          sx={{ fontWeight: 'bold', p: 1, color: '#145DA0', fontSize: 14 }}
-                        >
+                        <Typography sx={{ fontWeight: 'bold', p: 1, color: '#145DA0', fontSize: 14 }}>
                           Department Approval
                         </Typography>
                       </Box>
@@ -357,9 +335,7 @@ const CrmHodApprovalModal = ({
                   )}
                 </Box>
                 <Box sx={{ py: 0.5, mx: 0.2 }}>
-                  {datacolflag === 1 ? (
-                    <ViewOreviousDataCollctnDetails datacolData={datacolData} />
-                  ) : null}
+                  {datacolflag === 1 ? <ViewOreviousDataCollctnDetails datacolData={datacolData} /> : null}
                 </Box>
                 <Paper variant="outlined" sx={{ pb: 1, flexWrap: 'wrap', mx: 0.3 }}>
                   <Box sx={{ mx: 1, mt: 1 }}>
@@ -388,9 +364,7 @@ const CrmHodApprovalModal = ({
                       </Box>
                     </Box>
                     <Box sx={{ display: 'flex', pt: 0.4 }}>
-                      <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 1 }}>
-                        Remarks
-                      </Typography>
+                      <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 1 }}>Remarks</Typography>
                       <Typography sx={{ pt: 1 }}> :&nbsp;</Typography>
                       <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
                         <Textarea
@@ -441,7 +415,7 @@ const CrmHodApprovalModal = ({
                               sx={{
                                 display: 'flex',
                                 flexDirection: 'row',
-                                alignItems: 'center',
+                                alignItems: 'center'
                               }}
                             >
                               <CampaignTwoToneIcon
@@ -451,22 +425,22 @@ const CrmHodApprovalModal = ({
                                   animation: 'blink 2s infinite', // Apply the blink animation
                                   '@keyframes blink': {
                                     '0%': {
-                                      opacity: 1,
+                                      opacity: 1
                                     },
                                     '50%': {
-                                      opacity: 0,
+                                      opacity: 0
                                     },
                                     '100%': {
-                                      opacity: 1,
-                                    },
-                                  },
+                                      opacity: 1
+                                    }
+                                  }
                                 }}
                               />
                               <Typography
                                 sx={{
                                   fontFamily: 'var(--font-varient)',
                                   color: 'rgba(var(--font-primary-white))',
-                                  fontWeight: 700,
+                                  fontWeight: 700
                                 }}
                               ></Typography>
                               <Typography
@@ -475,7 +449,7 @@ const CrmHodApprovalModal = ({
                                   color: '#FF6868',
                                   fontSize: 14,
                                   p: 1,
-                                  textTransform: 'capitalize',
+                                  textTransform: 'capitalize'
                                 }}
                               >
                                 Comments From {ApprovalData?.viewDep?.toLowerCase()}
@@ -488,7 +462,7 @@ const CrmHodApprovalModal = ({
                                 color: '#145DA0',
                                 fontSize: 14,
                                 p: 1,
-                                textTransform: 'capitalize',
+                                textTransform: 'capitalize'
                               }}
                             >
                               By:{ApprovalData?.viewName?.toLowerCase()}

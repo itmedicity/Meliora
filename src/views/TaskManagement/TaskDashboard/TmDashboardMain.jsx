@@ -506,21 +506,12 @@ const TmDashboardMain = () => {
                 ? 'Not Started'
                 : 'Not Started',
             datediff: new Date(val.tm_complete_date) - new Date(val.tm_task_due_date),
-            days: Math.floor(
-              (new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) /
-                (1000 * 60 * 60 * 24)
-            ),
+            days: Math.floor((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / (1000 * 60 * 60 * 24)),
             hours: Math.floor(
-              ((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) /
-                (1000 * 60 * 60)) %
-                24
+              ((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / (1000 * 60 * 60)) % 24
             ),
-            minutes: Math.floor(
-              ((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / 1000 / 60) % 60
-            ),
-            seconds: Math.floor(
-              ((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / 1000) % 60
-            ),
+            minutes: Math.floor(((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / 1000 / 60) % 60),
+            seconds: Math.floor(((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / 1000) % 60)
           }
           return obj
         })
@@ -607,21 +598,12 @@ const TmDashboardMain = () => {
                 ? 'Not Started'
                 : 'Not Started',
             datediff: new Date(val.tm_complete_date) - new Date(val.tm_task_due_date),
-            days: Math.floor(
-              (new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) /
-                (1000 * 60 * 60 * 24)
-            ),
+            days: Math.floor((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / (1000 * 60 * 60 * 24)),
             hours: Math.floor(
-              ((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) /
-                (1000 * 60 * 60)) %
-                24
+              ((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / (1000 * 60 * 60)) % 24
             ),
-            minutes: Math.floor(
-              ((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / 1000 / 60) % 60
-            ),
-            seconds: Math.floor(
-              ((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / 1000) % 60
-            ),
+            minutes: Math.floor(((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / 1000 / 60) % 60),
+            seconds: Math.floor(((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / 1000) % 60)
           }
           return obj
         })
@@ -866,7 +848,7 @@ const TmDashboardMain = () => {
       sx={{
         height: '100%',
         borderRadius: 1,
-        boxShadow: 2,
+        boxShadow: 2
       }}
     >
       <Box sx={{ display: 'flex', borderBottom: 0.1, borderColor: '#C5C5C5' }}>
@@ -883,7 +865,7 @@ const TmDashboardMain = () => {
             borderRadius: 2,
             bgcolor: '#E8F0F7',
             border: 0.1,
-            borderColor: '#6699CC',
+            borderColor: '#6699CC'
           }}
         >
           <CssVarsProvider>
@@ -900,15 +882,13 @@ const TmDashboardMain = () => {
                       alignItems: 'center',
                       fontSize: 15,
                       color: '#000C66',
-                      fontWeight: 500,
+                      fontWeight: 500
                     }}
                   >
                     <RestartAltOutlinedIcon />
                     <Box sx={{ display: 'flex', pl: 0.2 }}>OverDues</Box>
                   </Box>
-                  <Avatar sx={{ bgcolor: 'white', color: '#000C66', fontWeight: 500 }}>
-                    {overdues.length}
-                  </Avatar>
+                  <Avatar sx={{ bgcolor: 'white', color: '#000C66', fontWeight: 500 }}>{overdues.length}</Avatar>
                 </Box>
               </MenuButton>
               <Menu
@@ -921,7 +901,7 @@ const TmDashboardMain = () => {
                   border: 1,
                   bgcolor: 'white',
                   borderColor: '#6699CC',
-                  gridTemplateColumns: 'repeat(3, 100px)',
+                  gridTemplateColumns: 'repeat(3, 100px)'
                 }}
               >
                 <MenuItem
@@ -929,7 +909,7 @@ const TmDashboardMain = () => {
                   sx={{
                     height: 2,
                     fontWeight: 400,
-                    color: '#000C66',
+                    color: '#000C66'
                   }}
                   onClick={e => {
                     ViewOverDueTask(e)
@@ -939,9 +919,7 @@ const TmDashboardMain = () => {
                     <UpdateOutlinedIcon />
                   </Avatar>
                   &nbsp;OverDue
-                  <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>
-                    {overdues.length}
-                  </Box>
+                  <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>{overdues.length}</Box>
                 </MenuItem>
                 <ListDivider inset="gutter" sx={{ bgcolor: '#EAEAEA' }} />
                 <MenuItem
@@ -949,7 +927,7 @@ const TmDashboardMain = () => {
                   sx={{
                     height: 2,
                     fontWeight: 400,
-                    color: '#000C66',
+                    color: '#000C66'
                   }}
                   onClick={e => {
                     ViewOverDueTodayTask(e)
@@ -959,9 +937,7 @@ const TmDashboardMain = () => {
                     <TodayIcon />
                   </Avatar>
                   &nbsp;Today&apos;s
-                  <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>
-                    {overdueToday.length}
-                  </Box>
+                  <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>{overdueToday.length}</Box>
                 </MenuItem>
                 <ListDivider inset="gutter" sx={{ bgcolor: '#EAEAEA' }} />
                 <MenuItem
@@ -969,7 +945,7 @@ const TmDashboardMain = () => {
                   sx={{
                     height: 2,
                     fontWeight: 400,
-                    color: '#000C66',
+                    color: '#000C66'
                   }}
                   onClick={e => {
                     ViewOverDueWeekTask(e)
@@ -979,9 +955,7 @@ const TmDashboardMain = () => {
                     <DateRangeIcon />
                   </Avatar>
                   &nbsp;Next Week&apos;s
-                  <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>
-                    {overDueNextWeek.length}
-                  </Box>
+                  <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>{overDueNextWeek.length}</Box>
                 </MenuItem>
                 <ListDivider inset="gutter" sx={{ bgcolor: '#EAEAEA' }} />
                 <MenuItem
@@ -989,7 +963,7 @@ const TmDashboardMain = () => {
                   sx={{
                     height: 2,
                     fontWeight: 400,
-                    color: '#000C66',
+                    color: '#000C66'
                   }}
                   onClick={e => {
                     ViewOverDueMonthTask(e)
@@ -999,9 +973,7 @@ const TmDashboardMain = () => {
                     <CalendarMonthIcon />
                   </Avatar>{' '}
                   &nbsp;Coming Month&apos;s
-                  <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>
-                    {overdueMonth.length}
-                  </Box>
+                  <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>{overdueMonth.length}</Box>
                 </MenuItem>
               </Menu>
             </Dropdown>
@@ -1015,7 +987,7 @@ const TmDashboardMain = () => {
             borderRadius: 2,
             bgcolor: '#E8F0F7',
             border: 0.1,
-            borderColor: '#6699CC',
+            borderColor: '#6699CC'
           }}
         >
           <CssVarsProvider>
@@ -1032,7 +1004,7 @@ const TmDashboardMain = () => {
                       alignItems: 'center',
                       fontSize: 15,
                       color: '#000C66',
-                      fontWeight: 500,
+                      fontWeight: 500
                     }}
                   >
                     <PersonIcon />
@@ -1053,7 +1025,7 @@ const TmDashboardMain = () => {
                   border: 1,
                   bgcolor: 'white',
                   borderColor: '#6699CC',
-                  gridTemplateColumns: 'repeat(3, 100px)',
+                  gridTemplateColumns: 'repeat(3, 100px)'
                 }}
               >
                 <MenuItem
@@ -1061,7 +1033,7 @@ const TmDashboardMain = () => {
                   sx={{
                     height: 2,
                     fontWeight: 400,
-                    color: '#000C66',
+                    color: '#000C66'
                   }}
                   onClick={e => {
                     ViewEmpOverDueTask(e)
@@ -1071,9 +1043,7 @@ const TmDashboardMain = () => {
                     <UpdateOutlinedIcon />
                   </Avatar>
                   &nbsp;OverDue
-                  <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>
-                    {employeeOverDue.length}
-                  </Box>
+                  <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>{employeeOverDue.length}</Box>
                 </MenuItem>
                 <ListDivider inset="gutter" sx={{ bgcolor: '#EAEAEA' }} />
                 <MenuItem
@@ -1081,7 +1051,7 @@ const TmDashboardMain = () => {
                   sx={{
                     height: 2,
                     fontWeight: 400,
-                    color: '#000C66',
+                    color: '#000C66'
                   }}
                   onClick={e => {
                     ViewEmpOnProgressTask(e)
@@ -1101,7 +1071,7 @@ const TmDashboardMain = () => {
                   sx={{
                     height: 2,
                     fontWeight: 400,
-                    color: '#000C66',
+                    color: '#000C66'
                   }}
                   onClick={e => {
                     ViewOnHoldTask(e)
@@ -1111,9 +1081,7 @@ const TmDashboardMain = () => {
                     <LockResetIcon />
                   </Avatar>
                   &nbsp;On hold
-                  <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>
-                    {employeeOnHold.length}
-                  </Box>
+                  <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>{employeeOnHold.length}</Box>
                 </MenuItem>
                 <ListDivider inset="gutter" sx={{ bgcolor: '#EAEAEA' }} />
                 <MenuItem
@@ -1121,7 +1089,7 @@ const TmDashboardMain = () => {
                   sx={{
                     height: 2,
                     fontWeight: 400,
-                    color: '#000C66',
+                    color: '#000C66'
                   }}
                   onClick={e => {
                     ViewEmpPendingTask(e)
@@ -1141,7 +1109,7 @@ const TmDashboardMain = () => {
                   sx={{
                     height: 2,
                     fontWeight: 400,
-                    color: '#000C66',
+                    color: '#000C66'
                   }}
                   onClick={e => {
                     ViewEmpInCompletedTask(e)
@@ -1161,7 +1129,7 @@ const TmDashboardMain = () => {
                   sx={{
                     height: 2,
                     fontWeight: 400,
-                    color: '#000C66',
+                    color: '#000C66'
                   }}
                   onClick={e => {
                     ViewEmpCompletedTask(e)
@@ -1187,7 +1155,7 @@ const TmDashboardMain = () => {
             borderRadius: 2,
             bgcolor: '#E8F0F7',
             border: 0.1,
-            borderColor: '#6699CC',
+            borderColor: '#6699CC'
           }}
         >
           <CssVarsProvider>
@@ -1204,15 +1172,13 @@ const TmDashboardMain = () => {
                       alignItems: 'center',
                       fontSize: 15,
                       color: '#000C66',
-                      fontWeight: 500,
+                      fontWeight: 500
                     }}
                   >
                     <AssignmentRoundedIcon />
                     <Box sx={{ display: 'flex', pl: 0.2 }}>Department Task</Box>
                   </Box>
-                  <Avatar sx={{ bgcolor: 'white', color: '#000C66', fontWeight: 500 }}>
-                    {deptInComplete.length}
-                  </Avatar>
+                  <Avatar sx={{ bgcolor: 'white', color: '#000C66', fontWeight: 500 }}>{deptInComplete.length}</Avatar>
                 </Box>
               </MenuButton>
               <Menu
@@ -1225,7 +1191,7 @@ const TmDashboardMain = () => {
                   border: 1,
                   bgcolor: 'white',
                   borderColor: '#6699CC',
-                  gridTemplateColumns: 'repeat(3, 100px)',
+                  gridTemplateColumns: 'repeat(3, 100px)'
                 }}
               >
                 <MenuItem
@@ -1233,7 +1199,7 @@ const TmDashboardMain = () => {
                   sx={{
                     height: 2,
                     fontWeight: 400,
-                    color: '#000C66',
+                    color: '#000C66'
                   }}
                   onClick={e => {
                     ViewDeptOnProgressTask(e)
@@ -1244,9 +1210,7 @@ const TmDashboardMain = () => {
                     <RotateRightIcon />
                   </Avatar>
                   &nbsp;On Progress
-                  <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>
-                    {deptOnProgress.length}
-                  </Box>
+                  <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>{deptOnProgress.length}</Box>
                 </MenuItem>
                 <ListDivider inset="gutter" sx={{ bgcolor: '#EAEAEA' }} />
                 <MenuItem
@@ -1254,7 +1218,7 @@ const TmDashboardMain = () => {
                   sx={{
                     height: 2,
                     fontWeight: 400,
-                    color: '#000C66',
+                    color: '#000C66'
                   }}
                   onClick={e => {
                     ViewDeptOnHold(e)
@@ -1265,9 +1229,7 @@ const TmDashboardMain = () => {
                     <LockResetIcon />
                   </Avatar>
                   &nbsp;On hold
-                  <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>
-                    {deptOnHold.length}
-                  </Box>
+                  <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>{deptOnHold.length}</Box>
                 </MenuItem>
                 <ListDivider inset="gutter" sx={{ bgcolor: '#EAEAEA' }} />
                 <MenuItem
@@ -1275,7 +1237,7 @@ const TmDashboardMain = () => {
                   sx={{
                     height: 2,
                     fontWeight: 400,
-                    color: '#000C66',
+                    color: '#000C66'
                   }}
                   onClick={e => {
                     ViewDeptPending(e)
@@ -1285,9 +1247,7 @@ const TmDashboardMain = () => {
                     <RunningWithErrorsIcon />{' '}
                   </Avatar>
                   &nbsp;Pending
-                  <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>
-                    {deptOnPending.length}
-                  </Box>
+                  <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>{deptOnPending.length}</Box>
                 </MenuItem>
                 <ListDivider inset="gutter" sx={{ bgcolor: '#EAEAEA' }} />
                 <MenuItem
@@ -1295,7 +1255,7 @@ const TmDashboardMain = () => {
                   sx={{
                     height: 2,
                     fontWeight: 400,
-                    color: '#000C66',
+                    color: '#000C66'
                   }}
                   onClick={e => {
                     ViewDeptInCompltTask(e)
@@ -1306,9 +1266,7 @@ const TmDashboardMain = () => {
                     <RotateRightIcon />
                   </Avatar>
                   &nbsp;Not Started
-                  <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>
-                    {deptInComplete.length}
-                  </Box>
+                  <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>{deptInComplete.length}</Box>
                 </MenuItem>
                 <ListDivider inset="gutter" sx={{ bgcolor: '#EAEAEA' }} />
                 <MenuItem
@@ -1316,7 +1274,7 @@ const TmDashboardMain = () => {
                   sx={{
                     height: 2,
                     fontWeight: 400,
-                    color: '#000C66',
+                    color: '#000C66'
                   }}
                   onClick={e => {
                     ViewDeptCompltTask(e)
@@ -1326,9 +1284,7 @@ const TmDashboardMain = () => {
                     <CheckCircleOutlinedIcon />
                   </Avatar>
                   &nbsp;Completed
-                  <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>
-                    {deptCompleted.length}
-                  </Box>
+                  <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>{deptCompleted.length}</Box>
                 </MenuItem>
               </Menu>
             </Dropdown>
@@ -1342,7 +1298,7 @@ const TmDashboardMain = () => {
             borderRadius: 2,
             bgcolor: '#E8F0F7',
             border: 0.1,
-            borderColor: '#6699CC',
+            borderColor: '#6699CC'
           }}
         >
           <CssVarsProvider>
@@ -1359,15 +1315,13 @@ const TmDashboardMain = () => {
                       alignItems: 'center',
                       fontSize: 15,
                       color: '#000C66',
-                      fontWeight: 500,
+                      fontWeight: 500
                     }}
                   >
                     <AlignHorizontalRightRoundedIcon />
                     <Box sx={{ display: 'flex', pl: 0.2 }}>Projects</Box>
                   </Box>
-                  <Avatar sx={{ bgcolor: 'white', color: '#000C66', fontWeight: 500 }}>
-                    {projInCompleted.length}
-                  </Avatar>
+                  <Avatar sx={{ bgcolor: 'white', color: '#000C66', fontWeight: 500 }}>{projInCompleted.length}</Avatar>
                 </Box>
               </MenuButton>
               <Menu
@@ -1380,7 +1334,7 @@ const TmDashboardMain = () => {
                   border: 1,
                   bgcolor: 'white',
                   borderColor: '#6699CC',
-                  gridTemplateColumns: 'repeat(3,100px)',
+                  gridTemplateColumns: 'repeat(3,100px)'
                 }}
               >
                 <MenuItem
@@ -1388,7 +1342,7 @@ const TmDashboardMain = () => {
                   sx={{
                     height: 2,
                     fontWeight: 400,
-                    color: '#000C66',
+                    color: '#000C66'
                   }}
                   onClick={e => {
                     ViewProjectOverDue(e)
@@ -1399,9 +1353,7 @@ const TmDashboardMain = () => {
                     <UpdateOutlinedIcon />
                   </Avatar>
                   &nbsp;OverDue
-                  <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>
-                    {projOverDue.length}
-                  </Box>
+                  <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>{projOverDue.length}</Box>
                 </MenuItem>
                 <ListDivider inset="gutter" sx={{ bgcolor: '#EAEAEA' }} />
                 <MenuItem
@@ -1409,7 +1361,7 @@ const TmDashboardMain = () => {
                   sx={{
                     height: 2,
                     fontWeight: 400,
-                    color: '#000C66',
+                    color: '#000C66'
                   }}
                   onClick={e => {
                     ViewProjectInComplete(e)
@@ -1420,9 +1372,7 @@ const TmDashboardMain = () => {
                     <RotateRightIcon />
                   </Avatar>
                   &nbsp;InCompleted
-                  <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>
-                    {projInCompleted.length}
-                  </Box>
+                  <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>{projInCompleted.length}</Box>
                 </MenuItem>
                 <ListDivider inset="gutter" sx={{ bgcolor: '#EAEAEA' }} />
                 <MenuItem
@@ -1430,7 +1380,7 @@ const TmDashboardMain = () => {
                   sx={{
                     height: 2,
                     fontWeight: 400,
-                    color: '#000C66',
+                    color: '#000C66'
                   }}
                   onClick={e => {
                     ViewProjectComplete(e)
@@ -1440,9 +1390,7 @@ const TmDashboardMain = () => {
                     <CheckCircleOutlinedIcon />
                   </Avatar>
                   &nbsp;Completed
-                  <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>
-                    {projCompleted.length}
-                  </Box>
+                  <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>{projCompleted.length}</Box>
                 </MenuItem>
               </Menu>
             </Dropdown>
@@ -1456,7 +1404,7 @@ const TmDashboardMain = () => {
             borderRadius: 2,
             bgcolor: '#E8F0F7',
             border: 0.1,
-            borderColor: '#6699CC',
+            borderColor: '#6699CC'
           }}
         >
           <CssVarsProvider>
@@ -1473,7 +1421,7 @@ const TmDashboardMain = () => {
                       alignItems: 'center',
                       fontSize: 15,
                       color: '#000C66',
-                      fontWeight: 500,
+                      fontWeight: 500
                     }}
                   >
                     <TrackChangesIcon />
@@ -1494,7 +1442,7 @@ const TmDashboardMain = () => {
                   border: 1,
                   bgcolor: 'white',
                   borderColor: '#6699CC',
-                  gridTemplateColumns: 'repeat(3, 100px)',
+                  gridTemplateColumns: 'repeat(3, 100px)'
                 }}
               >
                 <MenuItem
@@ -1502,7 +1450,7 @@ const TmDashboardMain = () => {
                   sx={{
                     height: 2,
                     fontWeight: 400,
-                    color: '#000C66',
+                    color: '#000C66'
                   }}
                   onClick={e => {
                     ViewGoalsOverdue(e)
@@ -1513,9 +1461,7 @@ const TmDashboardMain = () => {
                     <UpdateOutlinedIcon />
                   </Avatar>
                   &nbsp;OverDue
-                  <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>
-                    {goalsOverDue.length}
-                  </Box>
+                  <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>{goalsOverDue.length}</Box>
                 </MenuItem>
                 <ListDivider inset="gutter" sx={{ bgcolor: '#EAEAEA' }} />
                 <MenuItem
@@ -1523,7 +1469,7 @@ const TmDashboardMain = () => {
                   sx={{
                     height: 2,
                     fontWeight: 400,
-                    color: '#000C66',
+                    color: '#000C66'
                   }}
                   onClick={e => {
                     ViewGoalsInComplete(e)
@@ -1534,9 +1480,7 @@ const TmDashboardMain = () => {
                     <RotateRightIcon />
                   </Avatar>
                   &nbsp;InCompleted
-                  <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>
-                    {goalsInCompleted.length}
-                  </Box>
+                  <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>{goalsInCompleted.length}</Box>
                 </MenuItem>
                 <ListDivider inset="gutter" sx={{ bgcolor: '#EAEAEA' }} />
                 <MenuItem
@@ -1544,7 +1488,7 @@ const TmDashboardMain = () => {
                   sx={{
                     height: 2,
                     fontWeight: 400,
-                    color: '#000C66',
+                    color: '#000C66'
                   }}
                   onClick={e => {
                     ViewGoalsComplete(e)
@@ -1554,9 +1498,7 @@ const TmDashboardMain = () => {
                     <CheckCircleOutlinedIcon />
                   </Avatar>
                   &nbsp;Completed
-                  <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>
-                    {goalsCompleted.length}
-                  </Box>
+                  <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>{goalsCompleted.length}</Box>
                 </MenuItem>
               </Menu>
             </Dropdown>
@@ -1564,9 +1506,7 @@ const TmDashboardMain = () => {
         </Box>
       </Box>
 
-      <Box
-        sx={{ border: 1, borderRadius: 2, borderColor: '#6699CC', maxHeight: 750, p: 0.5, mx: 0.5 }}
-      >
+      <Box sx={{ border: 1, borderRadius: 2, borderColor: '#6699CC', maxHeight: 750, p: 0.5, mx: 0.5 }}>
         <DashboardTabs />
       </Box>
       <Box sx={{ height: 3 }}></Box>

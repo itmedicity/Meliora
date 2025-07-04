@@ -34,7 +34,7 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
     detailAssingFlag: 0,
     empTransferFlag: 0,
     assetflag: 0,
-    image: 0,
+    image: 0
   })
 
   const [openStates, setOpenStates] = useState({
@@ -42,7 +42,7 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
     detailAssingOpen: false,
     empTransferOpen: false,
     assetOpen: false,
-    imageViewOpen: false,
+    imageViewOpen: false
   })
 
   const blinkAnimation = keyframes`0% { opacity: 1; }
@@ -79,9 +79,7 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
     setOpenStates(prevState => ({ ...prevState, imageViewOpen: true }))
     setfileDetails(val)
     try {
-      const result = await axioslogin.get(
-        `/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`
-      )
+      const result = await axioslogin.get(`/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`)
       const { success } = result.data
       if (success === 1) {
         const data = result.data
@@ -109,7 +107,7 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
         bgcolor: 'white',
         borderRadius: 0,
         height: '67vh',
-        overflow: 'auto',
+        overflow: 'auto'
       }}
     >
       {flags.queryflag === 1 ? (
@@ -126,13 +124,9 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
       {flags.detailAssingFlag === 1 ? (
         <DetailAssingModal
           open={openStates.detailAssingOpen}
-          setdetailAssingOpen={value =>
-            setOpenStates(prevState => ({ ...prevState, detailAssingOpen: value }))
-          }
+          setdetailAssingOpen={value => setOpenStates(prevState => ({ ...prevState, detailAssingOpen: value }))}
           detailAssingData={detailAssingData}
-          setdetailAssingFlag={value =>
-            setFlags(prevFlags => ({ ...prevFlags, detailAssingFlag: value }))
-          }
+          setdetailAssingFlag={value => setFlags(prevFlags => ({ ...prevFlags, detailAssingFlag: value }))}
           setCount={setassignFlag}
           count={assignFlag}
         />
@@ -152,13 +146,9 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
       {flags.empTransferFlag === 1 ? (
         <ChangeAssingeesModal
           empTransferOpen={openStates.empTransferOpen}
-          setEmptransferOpen={value =>
-            setOpenStates(prevState => ({ ...prevState, empTransferOpen: value }))
-          }
+          setEmptransferOpen={value => setOpenStates(prevState => ({ ...prevState, empTransferOpen: value }))}
           emptransferData={emptransferData}
-          setEmptransferFlag={value =>
-            setFlags(prevFlags => ({ ...prevFlags, empTransferFlag: value }))
-          }
+          setEmptransferFlag={value => setFlags(prevFlags => ({ ...prevFlags, empTransferFlag: value }))}
           setCount={setassignFlag}
           count={assignFlag}
         />
@@ -171,15 +161,13 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
           selectedImages={selectedImages}
           fileDetails={fileDetails}
           setimage={value => setFlags(prevFlags => ({ ...prevFlags, image: value }))}
-          setimageViewOpen={value =>
-            setOpenStates(prevState => ({ ...prevState, imageViewOpen: value }))
-          }
+          setimageViewOpen={value => setOpenStates(prevState => ({ ...prevState, imageViewOpen: value }))}
         />
       ) : null}
 
       {pendingCompl.length !== 0 ? (
         <Box sx={{ p: 0.1, mb: 0.8 }}>
-          {pendingCompl?.map((val,) => {
+          {pendingCompl?.map(val => {
             return (
               <Box
                 key={val.complaint_slno}
@@ -189,7 +177,7 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
                   borderColor: '#CBAE11',
                   borderRadius: 8,
                   bgcolor: 'white',
-                  mb: 0.6,
+                  mb: 0.6
                 }}
               >
                 <Box
@@ -199,7 +187,7 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
                     borderTopRightRadius: 6,
                     borderTopLeftRadius: 6,
                     mx: 0.1,
-                    display: 'flex',
+                    display: 'flex'
                   }}
                 >
                   <CssVarsProvider>
@@ -213,7 +201,7 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
                             fontSize: 15,
                             pl: 1,
                             py: 0.5,
-                            fontFamily: 'Arial',
+                            fontFamily: 'Arial'
                           }}
                           text={
                             val.compalint_date
@@ -235,7 +223,7 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
                             fontSize: 15,
                             pl: 2,
                             py: 0.5,
-                            fontFamily: 'Arial',
+                            fontFamily: 'Arial'
                           }}
                           text={
                             val.assigned_date
@@ -254,7 +242,7 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
                         px: 2,
                         fontWeight: 500,
                         fontSize: 14,
-                        cursor: 'pointer',
+                        cursor: 'pointer'
                       }}
                     >
                       Ticket Registered by : {val.comp_reg_emp}
@@ -269,44 +257,34 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
                       bgcolor: '#E7D2CC',
                       display: 'flex',
                       py: 0.3,
-                      flexWrap: 'wrap',
+                      flexWrap: 'wrap'
                     }}
                   >
-                    <Typography
-                      sx={{ color: '#026F7E', pl: 1, pt: 0.2, fontWeight: 700, fontSize: 13 }}
-                    >
+                    <Typography sx={{ color: '#026F7E', pl: 1, pt: 0.2, fontWeight: 700, fontSize: 13 }}>
                       DELEGATED BY {val.assinged_user}
                     </Typography>
-                    <Typography
-                      sx={{ color: 'black', pt: 0.2, fontWeight: 500, fontSize: 13, ml: 3 }}
-                    >
+                    <Typography sx={{ color: 'black', pt: 0.2, fontWeight: 500, fontSize: 13, ml: 3 }}>
                       Priority :
                     </Typography>
                     <Chip sx={{ bgcolor: 'white', color: '#391306', border: 1, ml: 1 }}>
                       {val.compalint_priority === 1
                         ? 'Emergency'
                         : val.compalint_priority === 2
-                          ? 'High Priority'
-                          : val.compalint_priority === 3
-                            ? 'Medium Priority'
-                            : val.compalint_priority === 4
-                              ? 'Normal'
-                              : 'Normal'}
+                        ? 'High Priority'
+                        : val.compalint_priority === 3
+                        ? 'Medium Priority'
+                        : val.compalint_priority === 4
+                        ? 'Normal'
+                        : 'Normal'}
                     </Chip>
-                    <Typography
-                      sx={{ color: 'black', pt: 0.2, fontWeight: 500, fontSize: 13, ml: 3 }}
-                    >
+                    <Typography sx={{ color: 'black', pt: 0.2, fontWeight: 500, fontSize: 13, ml: 3 }}>
                       Aprox Date :
                     </Typography>
                     <Chip sx={{ bgcolor: 'white', color: '#391306', border: 1, ml: 1 }}>
-                      {val.aprrox_date
-                        ? format(new Date(val.aprrox_date), 'dd MM yyyy,  hh:mm a')
-                        : 'Invalid Date'}
+                      {val.aprrox_date ? format(new Date(val.aprrox_date), 'dd MM yyyy,  hh:mm a') : 'Invalid Date'}
                     </Chip>
                     <Box sx={{ display: 'flex' }}>
-                      <Typography
-                        sx={{ color: 'black', pt: 0.2, fontWeight: 500, fontSize: 13, ml: 3 }}
-                      >
+                      <Typography sx={{ color: 'black', pt: 0.2, fontWeight: 500, fontSize: 13, ml: 3 }}>
                         Remarks&nbsp;:
                       </Typography>
                       <Typography sx={{ color: 'black', pt: 0.2, fontSize: 13, ml: 3 }}>
@@ -322,20 +300,16 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
                       bgcolor: '#DFDACD',
                       display: 'flex',
                       py: 0.3,
-                      flexWrap: 'wrap',
+                      flexWrap: 'wrap'
                     }}
                   >
                     <Box sx={{ display: 'flex', pl: 0.5 }}>
                       <ReportProblemIcon sx={{ color: 'darkred', P: 0.1 }} />
-                      <Box sx={{ pt: 0.3, color: 'darkred', fontWeight: 700, fontSize: 14 }}>
-                        TICKET RESUBMITTED
-                      </Box>
+                      <Box sx={{ pt: 0.3, color: 'darkred', fontWeight: 700, fontSize: 14 }}>TICKET RESUBMITTED</Box>
                     </Box>
                     <Box sx={{ display: 'flex' }}>
                       <Box sx={{ pl: 2, fontWeight: 600, color: 'darkred' }}>Remarks:</Box>
-                      <Box sx={{ pl: 1, fontWeight: 600, color: 'darkred' }}>
-                        {val.verify_remarks}
-                      </Box>
+                      <Box sx={{ pl: 1, fontWeight: 600, color: 'darkred' }}>{val.verify_remarks}</Box>
                     </Box>
                   </Box>
                 ) : null}
@@ -347,7 +321,7 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
                       bgcolor: '#DFDACD      ',
                       display: 'flex',
                       py: 0.3,
-                      flexWrap: 'wrap',
+                      flexWrap: 'wrap'
                     }}
                   >
                     <Box sx={{ display: 'flex', pl: 0.5 }}>
@@ -358,9 +332,7 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
                     </Box>
                     <Box sx={{ display: 'flex' }}>
                       <Box sx={{ pl: 2, fontWeight: 600, color: 'darkred' }}>Remarks:</Box>
-                      <Box sx={{ pl: 1, fontWeight: 600, color: 'darkred' }}>
-                        {val.verify_spervsr_remarks}
-                      </Box>
+                      <Box sx={{ pl: 1, fontWeight: 600, color: 'darkred' }}>{val.verify_spervsr_remarks}</Box>
                     </Box>
                   </Box>
                 ) : null}
@@ -371,13 +343,10 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
                       mx: 1,
                       pr: 1.3,
                       borderRight: 1,
-                      borderColor: 'lightgrey',
+                      borderColor: 'lightgrey'
                     }}
                   >
-                    <Typography sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700 }}>
-                      {' '}
-                      Ticket No.
-                    </Typography>
+                    <Typography sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700 }}> Ticket No.</Typography>
                     <Typography sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700, px: 3 }}>
                       {val.complaint_slno}
                     </Typography>
@@ -394,7 +363,7 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
                               border: 1,
                               borderRadius: 5,
                               p: 0.1,
-                              '&:hover': { color: '#274472' },
+                              '&:hover': { color: '#274472' }
                             }}
                             onClick={() => fileView(val)}
                           />
@@ -413,7 +382,7 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
                               mx: 0.5,
                               borderRadius: 5,
                               p: 0.1,
-                              '&:hover': { color: '#41729F' },
+                              '&:hover': { color: '#41729F' }
                             }}
                             onClick={() => RaiseQuery(val)}
                           />
@@ -430,7 +399,7 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
                               mx: 0.5,
                               borderRadius: 5,
                               p: 0.1,
-                              '&:hover': { color: '#41729F' },
+                              '&:hover': { color: '#41729F' }
                             }}
                             onClick={() => RaiseQuery(val)}
                           />
@@ -446,7 +415,7 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
                               border: 1,
                               mx: 0.5,
                               borderRadius: 5,
-                              p: 0.1,
+                              p: 0.1
                             }}
                           />
                         </Tooltip>
@@ -464,7 +433,7 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
                               border: 1,
                               borderRadius: 5,
                               p: 0.3,
-                              '&:hover': { color: '#CBAE77' },
+                              '&:hover': { color: '#CBAE77' }
                             }}
                             onClick={() => DetailAssing(val)}
                           />
@@ -483,7 +452,7 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
                               borderRadius: 5,
                               p: 0.3,
                               mx: 0.5,
-                              '&:hover': { color: '#A16AE8' },
+                              '&:hover': { color: '#A16AE8' }
                             }}
                             onClick={() => EmpTransfer(val)}
                           />
@@ -500,7 +469,7 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
                               borderRadius: 5,
                               p: 0.1,
                               color: '#4C5270',
-                              cursor: 'pointer',
+                              cursor: 'pointer'
                             }}
                             onClick={() => AssetView(val)}
                           />
@@ -512,18 +481,16 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
                   <Box
                     sx={{
                       pl: 0.5,
-                      maxWidth: 500,
+                      maxWidth: 500
                     }}
                   >
                     <Box
                       sx={{
                         display: 'flex',
-                        mt: 0.5,
+                        mt: 0.5
                       }}
                     >
-                      <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
-                        Department Section
-                      </Typography>
+                      <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>Department Section</Typography>
                       <Typography sx={{ fontSize: 14, flex: 1, textTransform: 'capitalize' }}>
                         {val.location.charAt(0).toUpperCase() + val.location.slice(1).toLowerCase()}
                       </Typography>
@@ -531,18 +498,18 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
                     <Box
                       sx={{
                         display: 'flex',
-                        mt: 0.5,
+                        mt: 0.5
                       }}
                     >
-                      <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
-                        Location
-                      </Typography>
+                      <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>Location</Typography>
                       <Typography sx={{ fontSize: 13, flex: 1 }}>
                         {val.rm_room_name}
                         {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name
-                          ? ` (${val.rm_roomtype_name || ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
-                          }${val.rm_insidebuildblock_name || ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
-                          }${val.rm_floor_name || ''})`
+                          ? ` (${val.rm_roomtype_name || ''}${
+                              val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
+                            }${val.rm_insidebuildblock_name || ''}${
+                              val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
+                            }${val.rm_floor_name || ''})`
                           : val.cm_complaint_location || 'Not Updated'}
                       </Typography>
                     </Box>
@@ -550,12 +517,10 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
                       sx={{
                         // flex: 1,
                         display: 'flex',
-                        mt: 0.5,
+                        mt: 0.5
                       }}
                     >
-                      <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
-                        Complaint Type
-                      </Typography>
+                      <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>Complaint Type</Typography>
                       <Typography sx={{ fontSize: 14, flex: 1 }}>
                         {val.complaint_type_name.charAt(0).toUpperCase() +
                           val.complaint_type_name.slice(1).toLowerCase()}
@@ -563,16 +528,14 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
                     </Box>
                   </Box>
                   <Box sx={{ flex: 1, pl: 1.5 }}>
-                    <Typography sx={{ fontSize: 13, fontWeight: 700 }}>
-                      Complaint Describtion
-                    </Typography>
+                    <Typography sx={{ fontSize: 13, fontWeight: 700 }}>Complaint Describtion</Typography>
                     <Typography
                       sx={{
                         pr: 0.5,
                         pt: 0.3,
                         fontSize: 14,
                         maxHeight: 50,
-                        overflow: 'auto',
+                        overflow: 'auto'
                       }}
                     >
                       {val.complaint_desc || 'Not Updated'}
@@ -585,7 +548,7 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
                     bgcolor: '#E5E8E9',
                     borderBottomRightRadius: 5,
                     borderBottomLeftRadius: 5,
-                    display: 'flex',
+                    display: 'flex'
                   }}
                 >
                   <CssVarsProvider>
@@ -607,22 +570,17 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
                           height: 30,
                           width: 25,
                           color: val.priority_check === 1 ? '#970C10' : 'lightgrey',
-                          animation:
-                            val.priority_check === 1 ? `${blinkAnimation} 1s infinite` : 'none',
+                          animation: val.priority_check === 1 ? `${blinkAnimation} 1s infinite` : 'none'
                         }}
                       />
-                      <Typography
-                        sx={{ fontWeight: 600, pl: 0.5, fontSize: 14, pt: 0.5, color: 'darkred' }}
-                      >
+                      <Typography sx={{ fontWeight: 600, pl: 0.5, fontSize: 14, pt: 0.5, color: 'darkred' }}>
                         {val.priority_reason}
                       </Typography>
                     </Box>
                   ) : null}
 
                   <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
-                    <Typography sx={{ fontSize: 13, fontWeight: 700, pt: 0.5 }}>
-                      Assignees:
-                    </Typography>
+                    <Typography sx={{ fontSize: 13, fontWeight: 700, pt: 0.5 }}>Assignees:</Typography>
                     &nbsp;&nbsp;
                     <Box sx={{ fontWeight: 600, display: 'flex', py: 0.4, gap: 0.3 }}>
                       {val.assigned_employees === null ? (
@@ -658,7 +616,7 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
             fontWeight: 700,
             fontSize: 22,
             color: 'lightgray',
-            pt: 10,
+            pt: 10
           }}
         >
           Empty List

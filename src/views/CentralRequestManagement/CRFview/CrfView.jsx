@@ -35,8 +35,8 @@ const CrfView = () => {
     borderRadius: 6,
     '&:hover': {
       bgcolor: 'white',
-      color: '#1976d2',
-    },
+      color: '#1976d2'
+    }
   }
   const empdept = useSelector(state => {
     return state.LoginUserData.empdept
@@ -47,20 +47,20 @@ const CrfView = () => {
 
   const searchCrfData = useMemo(() => {
     return {
-      dept_id: empdept,
+      dept_id: empdept
     }
   }, [empdept])
   useEffect(() => {
     const fetchData = async () => {
       try {
         const id = {
-          id: empID,
+          id: empID
         }
         const result = await axioslogin.post('/newCRFRegister/CommonMasterGetByID', id)
         const { success, data } = result.data
         if (success === 1 && data.length > 0) {
           const postdata = {
-            editRowData: JSON.parse(data[0]?.category),
+            editRowData: JSON.parse(data[0]?.category)
           }
           const result = await axioslogin.post('/newCRFRegister/CommonMasterGetCat', postdata)
           const { success, dataCat } = result.data
@@ -100,11 +100,11 @@ const CrfView = () => {
   const {
     data: companyView,
     isLoading: isCompanyLoading,
-    error: companyError,
+    error: companyError
   } = useQuery({
     queryKey: 'getdefaultCompany',
     queryFn: () => getDefaultCompany(),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const company = useMemo(() => companyView, [companyView])
   const transformCrfData = data => {
@@ -202,12 +202,10 @@ const CrfView = () => {
             : val.manag_operation_approv === 3
             ? 'On-Hold'
             : 'Not Done',
-        manag_operation_remarks:
-          val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
+        manag_operation_remarks: val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
         om_detial_analysis: val.om_detial_analysis,
         om_approv_date: val.om_approv_date,
-        manag_operation_user:
-          val.manag_operation_user !== null ? val.manag_operation_user.toLowerCase() : '',
+        manag_operation_user: val.manag_operation_user !== null ? val.manag_operation_user.toLowerCase() : '',
         senior_manage_req: val.senior_manage_req,
         senior_manage_approv: val.senior_manage_approv,
         smo:
@@ -218,12 +216,10 @@ const CrfView = () => {
             : val.senior_manage_approv === 3
             ? 'On-Hold'
             : 'Not Done',
-        senior_manage_remarks:
-          val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
+        senior_manage_remarks: val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
         smo_detial_analysis: val.smo_detial_analysis,
         som_aprrov_date: val.som_aprrov_date,
-        senior_manage_user:
-          val.senior_manage_user !== null ? val.senior_manage_user.toLowerCase() : '',
+        senior_manage_user: val.senior_manage_user !== null ? val.senior_manage_user.toLowerCase() : '',
         gm_approve_req: val.gm_approve_req,
         gm_approve: val.gm_approve,
         gm:
@@ -234,8 +230,7 @@ const CrfView = () => {
             : val.gm_approve === 3
             ? 'On-Hold'
             : 'Not Done',
-        gm_approve_remarks:
-          val.gm_approve_remarks !== null ? val.gm_approve_remarks : 'Not Updated',
+        gm_approve_remarks: val.gm_approve_remarks !== null ? val.gm_approve_remarks : 'Not Updated',
         gm_detial_analysis: val.gm_detial_analysis,
         gm_approv_date: val.gm_approv_date,
         gm_user: val.gm_user !== null ? val.gm_user.toLowerCase() : '',
@@ -249,8 +244,7 @@ const CrfView = () => {
             : val.md_approve === 3
             ? 'On-Hold'
             : 'Not Done',
-        md_approve_remarks:
-          val.md_approve_remarks !== null ? val.md_approve_remarks : 'Not Updated',
+        md_approve_remarks: val.md_approve_remarks !== null ? val.md_approve_remarks : 'Not Updated',
         md_detial_analysis: val.md_detial_analysis,
         md_approve_date: val.md_approve_date,
         md_user: val.md_user !== null ? val.md_user.toLowerCase() : '',
@@ -264,8 +258,7 @@ const CrfView = () => {
             : val.ed_approve === 3
             ? 'On-Hold'
             : 'Not Done',
-        ed_approve_remarks:
-          val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
+        ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
         ed_detial_analysis: val.ed_detial_analysis,
         ed_approve_date: val.ed_approve_date,
         ed_user: val.ed_user ? val.ed_user.toLowerCase() : '',
@@ -281,13 +274,10 @@ const CrfView = () => {
             : val.managing_director_approve === 4
             ? 'Approved'
             : 'Not Done',
-        managing_director_remarks:
-          val.managing_director_remarks !== null ? val.managing_director_remarks : '',
+        managing_director_remarks: val.managing_director_remarks !== null ? val.managing_director_remarks : '',
         managing_director_analysis: val.managing_director_analysis,
         managing_director_approve_date: val.managing_director_approve_date,
-        managing_director_user: val.managing_director_username
-          ? val.managing_director_username.toLowerCase()
-          : '',
+        managing_director_user: val.managing_director_username ? val.managing_director_username.toLowerCase() : '',
         now_who:
           val.req_status === 'C'
             ? 'CRF Closed'
@@ -428,8 +418,7 @@ const CrfView = () => {
         substore_ack_date: val.substore_ack_date,
         dept_name: val.dept_name,
         dept_type: val.dept_type,
-        dept_type_name:
-          val.dept_type === 1 ? 'Clinical' : val.dept_type === 2 ? 'Non Clinical' : 'Academic',
+        dept_type_name: val.dept_type === 1 ? 'Clinical' : val.dept_type === 2 ? 'Non Clinical' : 'Academic',
         po_number: val.po_number,
         approval_level: val.approval_level,
         user_acknldge: val.user_acknldge,
@@ -439,7 +428,7 @@ const CrfView = () => {
         user_acknldge_remarks: val?.user_acknldge_remarks,
         crf_view_remark: val?.crf_view_remark,
         crf_view_status: val?.crf_view_status,
-        viewName: val?.viewName,
+        viewName: val?.viewName
       }
       return obj
     })
@@ -447,7 +436,7 @@ const CrfView = () => {
 
   const searchCrf = useMemo(() => {
     return {
-      category: category,
+      category: category
     }
   }, [category])
 
@@ -489,11 +478,11 @@ const CrfView = () => {
   const {
     data: compData,
     isLoading: isCompLoading,
-    error: compError,
+    error: compError
   } = useQuery({
     queryKey: 'getCompany',
     queryFn: () => getCompanyDetails(),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const companyData = useMemo(() => compData, [compData])
 
@@ -519,7 +508,7 @@ const CrfView = () => {
                 size: 'lg',
                 fontSize: 20,
                 color: '#FF4500',
-                '&:hover': { color: 'red' },
+                '&:hover': { color: 'red' }
               }}
               onClick={backToSetting}
             />
@@ -531,7 +520,7 @@ const CrfView = () => {
             display: 'flex',
             padding: '8px',
             justifyContent: 'center',
-            bgcolor: 'white',
+            bgcolor: 'white'
           }}
         >
           <CssVarsProvider>
@@ -557,7 +546,7 @@ const CrfView = () => {
             flexWrap: 'wrap',
             py: 2,
             border: '1px solid #B4F5F0',
-            borderTop: 'none',
+            borderTop: 'none'
           }}
         >
           {/* <Box sx={{ backgroundColor: "#f0f3f5", border: '1px solid #B4F5F0', borderBottom: 'none' }}> */}
@@ -567,18 +556,14 @@ const CrfView = () => {
               defaultValue="0"
               sx={{ fontSize: 13, width: '50%', height: 38, bgcolor: 'white' }}
               slotProps={{
-                listbox: { placement: 'bottom-start' },
+                listbox: { placement: 'bottom-start' }
               }}
               placeholder="Select Category"
               value={category}
               onChange={(e, newValue) => setcategory(newValue)}
             >
               {editRowData?.map(val => (
-                <Option
-                  key={val.item_type_slno}
-                  value={val.item_type_slno}
-                  label={val.item_type_name}
-                >
+                <Option key={val.item_type_slno} value={val.item_type_slno} label={val.item_type_name}>
                   {val.item_type_name}
                 </Option>
               ))}
@@ -597,7 +582,7 @@ const CrfView = () => {
             height: window.innerHeight - 210,
             overflow: 'auto',
             flexWrap: 'wrap',
-            bgcolor: 'white',
+            bgcolor: 'white'
           }}
         >
           {tableData.length !== 0 ? (
@@ -612,14 +597,10 @@ const CrfView = () => {
                     width: '100%',
                     flexWrap: 'wrap',
                     border: '1px solid #21B6A8',
-                    borderRadius: 2,
+                    borderRadius: 2
                   }}
                 >
-                  <MasterComponent
-                    val={val}
-                    selectedCompany={selectedCompany}
-                    companyData={company}
-                  />
+                  <MasterComponent val={val} selectedCompany={selectedCompany} companyData={company} />
                 </Box>
               )}
             ></Virtuoso>
@@ -631,7 +612,7 @@ const CrfView = () => {
                 fontSize: 25,
                 opacity: 0.5,
                 pt: 10,
-                color: 'grey',
+                color: 'grey'
               }}
             >
               No Report Found

@@ -7,7 +7,7 @@ const TaskProgress = ({ val }) => {
   const [MainTaskprogress, setMainTaskProgress] = useState(0)
   const searchData = useMemo(() => {
     return {
-      main_task_slno: tm_task_slno,
+      main_task_slno: tm_task_slno
     }
   }, [tm_task_slno])
 
@@ -44,7 +44,7 @@ const TaskProgress = ({ val }) => {
                 '--LinearProgress-thickness': '11px',
                 bgcolor: 'white',
                 color: '#92443A',
-                height: 17,
+                height: 17
               }}
             >
               <Typography fontSize={12} sx={{ mixBlendMode: 'difference', color: 'white' }}>

@@ -77,7 +77,7 @@ const AllProjectsList = ({ setTableCount, tableCount }) => {
             cursor: 'pointer',
             border: 1,
             borderColor: '#4B7BF5',
-            '&:hover': { bgcolor: '#4B7BF5' },
+            '&:hover': { bgcolor: '#4B7BF5' }
           }}
           onClick={CreateProject}
         >
@@ -97,37 +97,19 @@ const AllProjectsList = ({ setTableCount, tableCount }) => {
               borderTop: 1,
               borderColor: 'lightgray',
               pt: 1.5,
-              bgcolor: 'white',
+              bgcolor: 'white'
             }}
           >
-            <Box sx={{ width: 40, pl: 1.7, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-              #
-            </Box>
+            <Box sx={{ width: 40, pl: 1.7, fontWeight: 600, color: '#444444', fontSize: 12 }}>#</Box>
             <Box sx={{ width: 60, fontWeight: 600, color: '#444444', fontSize: 12 }}>Action</Box>
-            <Box sx={{ width: 100, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>
-              Status
-            </Box>
-            <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>
-              Count Down
-            </Box>
-            <Box sx={{ width: 500, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>
-              Projects
-            </Box>
-            <Box sx={{ width: 500, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>
-              Goal
-            </Box>
-            <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>
-              Project Created Date
-            </Box>
-            <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>
-              Due Date
-            </Box>
-            <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>
-              Completed Date
-            </Box>
-            <Box sx={{ width: 500, fontWeight: 600, color: '#444444', fontSize: 12, pl: 0.5 }}>
-              Description
-            </Box>
+            <Box sx={{ width: 100, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>Status</Box>
+            <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>Count Down</Box>
+            <Box sx={{ width: 500, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>Projects</Box>
+            <Box sx={{ width: 500, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>Goal</Box>
+            <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>Project Created Date</Box>
+            <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>Due Date</Box>
+            <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>Completed Date</Box>
+            <Box sx={{ width: 500, fontWeight: 600, color: '#444444', fontSize: 12, pl: 0.5 }}>Description</Box>
           </Box>
           <Virtuoso
             style={{ height: '60vh' }}
@@ -145,7 +127,7 @@ const AllProjectsList = ({ setTableCount, tableCount }) => {
                     borderColor: 'lightgrey',
                     minHeight: 35,
                     maxHeight: 80,
-                    pt: 0.5,
+                    pt: 0.5
                   }}
                 >
                   <Box sx={{ pl: 1.5, width: 40 }}>{index + 1}</Box>
@@ -169,7 +151,7 @@ const AllProjectsList = ({ setTableCount, tableCount }) => {
                             ? '#94C973'
                             : 'transparent',
                         minHeight: 5,
-                        fontWeight: 600,
+                        fontWeight: 600
                       }}
                     >
                       {val.tm_project_status === null
@@ -183,9 +165,7 @@ const AllProjectsList = ({ setTableCount, tableCount }) => {
                   </Box>
                   <Box sx={{ width: 150, fontWeight: 600, color: 'grey', fontSize: 12 }}>
                     {val.tm_project_status !== 1 ? (
-                      <Box
-                        sx={{ bgcolor: '#EAEAEA', borderRadius: 15, mb: 0.5, width: 150, pl: 1 }}
-                      >
+                      <Box sx={{ bgcolor: '#EAEAEA', borderRadius: 15, mb: 0.5, width: 150, pl: 1 }}>
                         <CountDowncomponent DueDates={val.tm_project_duedate} />
                       </Box>
                     ) : (
@@ -196,7 +176,7 @@ const AllProjectsList = ({ setTableCount, tableCount }) => {
                           mb: 0.5,
                           width: 150,
                           pl: 5,
-                          color: 'darkgreen',
+                          color: 'darkgreen'
                         }}
                       >
                         Completed
@@ -212,7 +192,7 @@ const AllProjectsList = ({ setTableCount, tableCount }) => {
                           color: 'grey',
                           fontSize: 12,
                           pl: 1,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {val.tm_project_name}
@@ -225,7 +205,7 @@ const AllProjectsList = ({ setTableCount, tableCount }) => {
                           color: isPastDue(val.tm_project_duedate) ? '#B32600' : 'grey',
                           fontSize: 12,
                           pl: 1,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {val.tm_project_name}
@@ -241,7 +221,7 @@ const AllProjectsList = ({ setTableCount, tableCount }) => {
                           color: 'grey',
                           fontSize: 12,
                           pl: 1,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {val.tm_goal_name || 'not given'}
@@ -254,7 +234,7 @@ const AllProjectsList = ({ setTableCount, tableCount }) => {
                           color: isPastDue(val.tm_project_duedate) ? '#B32600' : 'grey',
                           fontSize: 12,
                           pl: 1,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {val.tm_goal_name || 'not given'}
@@ -270,7 +250,7 @@ const AllProjectsList = ({ setTableCount, tableCount }) => {
                           color: 'grey',
                           fontSize: 12,
                           pl: 1,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {val.create_date || 'not given'}
@@ -283,7 +263,7 @@ const AllProjectsList = ({ setTableCount, tableCount }) => {
                           color: isPastDue(val.tm_project_duedate) ? '#B32600' : 'grey',
                           fontSize: 12,
                           pl: 1,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {val.create_date || 'not given'}
@@ -299,7 +279,7 @@ const AllProjectsList = ({ setTableCount, tableCount }) => {
                           color: 'grey',
                           fontSize: 12,
                           pl: 1,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {val.tm_project_duedate || 'not given'}
@@ -312,7 +292,7 @@ const AllProjectsList = ({ setTableCount, tableCount }) => {
                           color: isPastDue(val.tm_project_duedate) ? '#B32600' : 'grey',
                           fontSize: 12,
                           pl: 1,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {val.tm_project_duedate || 'not given'}
@@ -328,7 +308,7 @@ const AllProjectsList = ({ setTableCount, tableCount }) => {
                           color: 'grey',
                           fontSize: 12,
                           pl: 1,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {val.tm_project_cmpltedate || 'not completed'}
@@ -341,7 +321,7 @@ const AllProjectsList = ({ setTableCount, tableCount }) => {
                           color: isPastDue(val.tm_project_duedate) ? '#B32600' : 'grey',
                           fontSize: 12,
                           pl: 1,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {val.tm_project_cmpltedate || 'not completed'}
@@ -357,7 +337,7 @@ const AllProjectsList = ({ setTableCount, tableCount }) => {
                           color: 'grey',
                           fontSize: 12,
                           pl: 1,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {val.tm_project_description || 'not given'}
@@ -370,7 +350,7 @@ const AllProjectsList = ({ setTableCount, tableCount }) => {
                           color: isPastDue(val.tm_project_duedate) ? '#B32600' : 'grey',
                           fontSize: 12,
                           pl: 1,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {val.tm_project_description || 'not given'}

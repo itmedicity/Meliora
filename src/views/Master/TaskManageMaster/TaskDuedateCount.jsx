@@ -16,7 +16,7 @@ const TaskDuedateCount = () => {
   const [duecount, setDuecount] = useState({
     co_setting_slno: '',
     tm_count_slno: '',
-    tm_duedate_count: '',
+    tm_duedate_count: ''
   })
   const [cutoffPercentages, setCutoffPercentages] = useState([])
   const id = useSelector(state => state.LoginUserData.empid)
@@ -38,9 +38,7 @@ const TaskDuedateCount = () => {
       if (data.length !== 0) {
         const { co_setting_slno, tm_count_slno, tm_duedate_count } = data[0]
         setDuecount({ co_setting_slno, tm_count_slno, tm_duedate_count })
-        const percentagesResult = await axioslogin.get(
-          `/TmAllDeptTask/getCutoffPercentages/${tm_count_slno}`
-        )
+        const percentagesResult = await axioslogin.get(`/TmAllDeptTask/getCutoffPercentages/${tm_count_slno}`)
         const { data: percentagesData } = percentagesResult.data
         if (percentagesData.length !== 0) {
           setCutoffPercentages(percentagesData.map(item => item.reschedule_pecent))
@@ -70,7 +68,7 @@ const TaskDuedateCount = () => {
     () => ({
       tm_count_slno: 1,
       tm_duedate_count: tm_duedate_count,
-      create_user: id,
+      create_user: id
     }),
     [tm_duedate_count, id]
   )
@@ -80,7 +78,7 @@ const TaskDuedateCount = () => {
     tm_count_slno: 1,
     reschedule_pecent: val,
     create_user: id,
-    edit_user: id,
+    edit_user: id
   }))
 
   const truncateCutoffPercentages = async () => {
@@ -139,18 +137,10 @@ const TaskDuedateCount = () => {
         <Card sx={{ borderRadius: 0, p: 0 }}>
           <Box sx={{ flex: 1, display: 'flex', bgcolor: '#F0F3F5' }}>
             <Box sx={{ flex: 1, pl: 0.5, pt: 0.5 }}>
-              <Typography sx={{ fontWeight: 600, color: 'grey' }}>
-                Task Management Overdue change Count
-              </Typography>
+              <Typography sx={{ fontWeight: 600, color: 'grey' }}>Task Management Overdue change Count</Typography>
             </Box>
             <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
-              <CusIconButton
-                size="sm"
-                variant="outlined"
-                color="primary"
-                clickable="true"
-                onClick={backtoSetting}
-              >
+              <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={backtoSetting}>
                 <CloseIcon fontSize="small" />
               </CusIconButton>
             </Box>
@@ -159,9 +149,7 @@ const TaskDuedateCount = () => {
             <Card sx={{ flex: 1.3, borderRadius: 10, mx: 5 }}>
               <Box>
                 <Box sx={{ flex: 1, display: 'flex' }}>
-                  <Typography sx={{ flex: 1, fontWeight: 600 }}>
-                    Task Due date Change Limit
-                  </Typography>
+                  <Typography sx={{ flex: 1, fontWeight: 600 }}>Task Due date Change Limit</Typography>
                   <Typography>:</Typography> &nbsp;&nbsp;&nbsp;
                   <Box>
                     <Input
@@ -182,9 +170,7 @@ const TaskDuedateCount = () => {
                   ) : null}
                   {cutoffPercentages.map((cutoff, index) => (
                     <Box sx={{ flex: 1, display: 'flex', mt: 1 }} key={index}>
-                      <Box sx={{ flex: 1, fontSize: 13, pl: 1, color: 'black' }}>
-                        {getOrdinalLabel(index + 1)}
-                      </Box>
+                      <Box sx={{ flex: 1, fontSize: 13, pl: 1, color: 'black' }}>{getOrdinalLabel(index + 1)}</Box>
                       <Box sx={{ flex: 1 }}>
                         <Box sx={{ flex: 1, display: 'flex', color: 'black' }}>
                           :&nbsp;
@@ -208,10 +194,7 @@ const TaskDuedateCount = () => {
                 </Box>
                 <Box sx={{ display: 'flex', pb: 0.5 }}>
                   <SaveIcon sx={{ color: '#0B6BCB', cursor: 'pointer' }} onClick={submit} />
-                  <Typography
-                    sx={{ fontWeight: 600, color: '#0B6BCB', cursor: 'pointer' }}
-                    onClick={submit}
-                  >
+                  <Typography sx={{ fontWeight: 600, color: '#0B6BCB', cursor: 'pointer' }} onClick={submit}>
                     Save
                   </Typography>
                 </Box>
@@ -220,13 +203,7 @@ const TaskDuedateCount = () => {
             <Box sx={{ flex: 2 }}></Box>
           </Box>
           <Box sx={{ flex: 1, display: 'flex', bgcolor: '#F0F3F5' }}>
-            <CusIconButton
-              size="sm"
-              variant="outlined"
-              color="primary"
-              clickable="true"
-              onClick={backtoSetting}
-            >
+            <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={backtoSetting}>
               <CloseIcon fontSize="small" />
             </CusIconButton>
           </Box>

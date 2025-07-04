@@ -5,13 +5,13 @@ import DialogContentText from '@mui/material/DialogContentText'
 import DialogActions from '@mui/material/DialogActions'
 import Button from '@mui/material/Button'
 import { Box, Paper, Grid, Typography } from '@mui/material'
-import SelectDiet from '../CommonSelectCode/SelectDiet';
-import { axioslogin } from '../Axios/Axios';
-import Dialog from '@mui/material/Dialog';
-import { infoNotify, succesNotify } from '../Common/CommonCode';
-import { useSelector } from 'react-redux';
+import SelectDiet from '../CommonSelectCode/SelectDiet'
+import { axioslogin } from '../Axios/Axios'
+import Dialog from '@mui/material/Dialog'
+import { infoNotify, succesNotify } from '../Common/CommonCode'
+import { useSelector } from 'react-redux'
 // import { ToastContainer } from 'react-toastify';
-import CustomTextarea from '../Components/CustomTextarea';
+import CustomTextarea from '../Components/CustomTextarea'
 import { format } from 'date-fns'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -51,7 +51,7 @@ const DietPlan = ({ open, data, setOpen }) => {
       em_id: Id,
       process: 0,
       discharge: v === 1 ? 'N' : 'Y',
-      approve_reqired: appRrquired === true ? 1 : 0,
+      approve_reqired: appRrquired === true ? 1 : 0
     }
   }, [ip_no, pt_no, diet, bd_code, remark, Id, v, dietpt_slno, appRrquired])
   const reset = useCallback(() => {
@@ -100,7 +100,7 @@ const DietPlan = ({ open, data, setOpen }) => {
           id="alert-dialog-slide-descriptiona"
           sx={{
             width: 500,
-            height: 480,
+            height: 480
           }}
         >
           <DialogContentText id="alert-dialog-slide-descriptiona">Diet Plan</DialogContentText>

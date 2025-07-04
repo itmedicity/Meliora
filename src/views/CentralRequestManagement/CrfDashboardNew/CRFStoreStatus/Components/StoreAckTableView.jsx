@@ -51,9 +51,7 @@ const StoreAckTableView = ({ ackFlag, disData, setAckFlag, setFlag, companyData 
 
   return (
     <Fragment>
-      {modFlag === 1 ? (
-        <CRFReqItemDetails handleClose={handleClose} open={modalopen} reqItems={reqItems} />
-      ) : null}
+      {modFlag === 1 ? <CRFReqItemDetails handleClose={handleClose} open={modalopen} reqItems={reqItems} /> : null}
       <Box sx={{ height: window.innerHeight - 160, flexWrap: 'wrap', bgcolor: 'white' }}>
         <Paper variant="outlined" sx={{ bgcolor: 'white', pt: 0.5, height: 92 }}>
           <Box sx={{ display: 'flex' }}>
@@ -64,7 +62,7 @@ const StoreAckTableView = ({ ackFlag, disData, setAckFlag, setFlag, companyData 
                 flex: 1,
                 fontSize: 20,
                 pt: 0.8,
-                pr: 1,
+                pr: 1
               }}
             >
               <CustomCloseIconCmp handleChange={backtoHome} />
@@ -82,7 +80,7 @@ const StoreAckTableView = ({ ackFlag, disData, setAckFlag, setFlag, companyData 
                     py: 0.5,
                     position: 'sticky',
                     top: 0,
-                    zIndex: 1,
+                    zIndex: 1
                   }}
                 >
                   <Typography
@@ -91,7 +89,7 @@ const StoreAckTableView = ({ ackFlag, disData, setAckFlag, setFlag, companyData 
                       textAlign: 'center',
                       fontWeight: 550,
                       fontSize: 12,
-                      color: 'white',
+                      color: 'white'
                     }}
                   >
                     Sl.No
@@ -102,7 +100,7 @@ const StoreAckTableView = ({ ackFlag, disData, setAckFlag, setFlag, companyData 
                       textAlign: 'left',
                       fontWeight: 550,
                       fontSize: 12,
-                      color: 'white',
+                      color: 'white'
                     }}
                   >
                     Req.No
@@ -113,7 +111,7 @@ const StoreAckTableView = ({ ackFlag, disData, setAckFlag, setFlag, companyData 
                       textAlign: 'left',
                       fontWeight: 550,
                       fontSize: 12,
-                      color: 'white',
+                      color: 'white'
                     }}
                   >
                     Req.Dpt
@@ -124,7 +122,7 @@ const StoreAckTableView = ({ ackFlag, disData, setAckFlag, setFlag, companyData 
                       textAlign: 'left',
                       fontWeight: 550,
                       fontSize: 12,
-                      color: 'white',
+                      color: 'white'
                     }}
                   >
                     Store
@@ -137,7 +135,7 @@ const StoreAckTableView = ({ ackFlag, disData, setAckFlag, setFlag, companyData 
                           textAlign: 'left',
                           fontWeight: 550,
                           fontSize: 12,
-                          color: 'white',
+                          color: 'white'
                         }}
                       >
                         Remarks
@@ -148,7 +146,7 @@ const StoreAckTableView = ({ ackFlag, disData, setAckFlag, setFlag, companyData 
                           textAlign: 'left',
                           fontWeight: 550,
                           fontSize: 12,
-                          color: 'white',
+                          color: 'white'
                         }}
                       >
                         Ack Date
@@ -159,7 +157,7 @@ const StoreAckTableView = ({ ackFlag, disData, setAckFlag, setFlag, companyData 
                           textAlign: 'left',
                           fontWeight: 550,
                           fontSize: 12,
-                          color: 'white',
+                          color: 'white'
                         }}
                       >
                         User
@@ -170,7 +168,7 @@ const StoreAckTableView = ({ ackFlag, disData, setAckFlag, setFlag, companyData 
                           textAlign: 'left',
                           fontWeight: 550,
                           fontSize: 12,
-                          color: 'white',
+                          color: 'white'
                         }}
                       >
                         Received or Not
@@ -184,7 +182,7 @@ const StoreAckTableView = ({ ackFlag, disData, setAckFlag, setFlag, companyData 
                           textAlign: 'left',
                           fontWeight: 550,
                           fontSize: 12,
-                          color: 'white',
+                          color: 'white'
                         }}
                       >
                         Remarks
@@ -195,7 +193,7 @@ const StoreAckTableView = ({ ackFlag, disData, setAckFlag, setFlag, companyData 
                           textAlign: 'left',
                           fontWeight: 550,
                           fontSize: 12,
-                          color: 'white',
+                          color: 'white'
                         }}
                       >
                         Received Date
@@ -206,7 +204,7 @@ const StoreAckTableView = ({ ackFlag, disData, setAckFlag, setFlag, companyData 
                           textAlign: 'left',
                           fontWeight: 550,
                           fontSize: 12,
-                          color: 'white',
+                          color: 'white'
                         }}
                       >
                         User
@@ -219,7 +217,7 @@ const StoreAckTableView = ({ ackFlag, disData, setAckFlag, setFlag, companyData 
                       textAlign: 'center',
                       fontWeight: 550,
                       fontSize: 12,
-                      color: 'white',
+                      color: 'white'
                     }}
                   ></Typography>
                 </Box>
@@ -245,7 +243,7 @@ const StoreAckTableView = ({ ackFlag, disData, setAckFlag, setFlag, companyData 
                             textAlign: 'left',
                             fontSize: 12,
                             my: 1,
-                            textTransform: 'capitalize',
+                            textTransform: 'capitalize'
                           }}
                         >
                           {val.req_deptsec.toLowerCase()}
@@ -281,9 +279,7 @@ const StoreAckTableView = ({ ackFlag, disData, setAckFlag, setFlag, companyData 
                             </Typography>
                           </>
                         ) : null}
-                        <Box
-                          sx={{ width: 80, textAlign: 'center', pt: 0.5, cursor: 'pointer', mr: 2 }}
-                        >
+                        <Box sx={{ width: 80, textAlign: 'center', pt: 0.5, cursor: 'pointer', mr: 2 }}>
                           <Tooltip title="Item Details" placement="left">
                             <CheckCircleTwoToneIcon
                               sx={{
@@ -296,8 +292,8 @@ const StoreAckTableView = ({ ackFlag, disData, setAckFlag, setFlag, companyData 
                                 cursor: 'pointer',
                                 transition: 'transform 0.2s',
                                 '&:hover': {
-                                  transform: 'scale(1.1)',
-                                },
+                                  transform: 'scale(1.1)'
+                                }
                               }}
                               onClick={() => viewItemDetails(val.req_slno)}
                             />
@@ -316,7 +312,7 @@ const StoreAckTableView = ({ ackFlag, disData, setAckFlag, setFlag, companyData 
                   fontSize: 30,
                   opacity: 0.5,
                   pt: 10,
-                  color: 'grey',
+                  color: 'grey'
                 }}
               >
                 No Report Found

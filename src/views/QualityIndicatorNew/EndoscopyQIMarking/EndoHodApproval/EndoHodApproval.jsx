@@ -14,20 +14,17 @@ const EndoHodApproval = ({
   equipmentlist,
   ipViewReport,
   testCount,
-  endoDays,
+  endoDays
 }) => {
   return (
-    <Box
-      variant="outlined"
-      sx={{ overflow: 'auto', maxHeight: window.innerHeight - 220, bgcolor: '#F8F8F8', p: 0.5 }}
-    >
+    <Box variant="outlined" sx={{ overflow: 'auto', maxHeight: window.innerHeight - 220, bgcolor: '#F8F8F8', p: 0.5 }}>
       <CssVarsProvider>
         <Tabs
           defaultValue={0}
           size="sm"
           sx={{
             display: 'flex',
-            mt: 0.5,
+            mt: 0.5
           }}
         >
           <TabList
@@ -36,11 +33,11 @@ const EndoHodApproval = ({
               p: 0,
               [`& .${tabClasses.root}[aria-selected="true"]`]: {
                 borderBottom: 5,
-                bgcolor: 'white',
+                bgcolor: 'white'
               },
               display: 'flex',
               flexDirection: 'column',
-              bgcolor: 'white',
+              bgcolor: 'white'
             }}
           >
             <Box sx={{ display: 'flex', flex: 1, mb: 0 }}>
@@ -70,11 +67,7 @@ const EndoHodApproval = ({
             />
           </TabPanel>
           <TabPanel value={1} sx={{ p: 0, bgcolor: 'white' }}>
-            <DayWisePatientsListTable
-              viewData={viewData}
-              qitype={qitype}
-              ipViewReport={ipViewReport}
-            />
+            <DayWisePatientsListTable viewData={viewData} qitype={qitype} ipViewReport={ipViewReport} />
           </TabPanel>
         </Tabs>
       </CssVarsProvider>

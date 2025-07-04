@@ -13,15 +13,7 @@ import { axioslogin } from 'src/views/Axios/Axios'
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import CancelIcon from '@mui/icons-material/Cancel'
 
-const BillModalTele = ({
-  modalOpen,
-  setModalFlag,
-  setModalOpen,
-  billDatas,
-  filezUrls,
-  index_no,
-  setFilezUrls,
-}) => {
+const BillModalTele = ({ modalOpen, setModalFlag, setModalOpen, billDatas, filezUrls, index_no, setFilezUrls }) => {
   const {
     it_bill_type_name,
     it_bill_category_name,
@@ -31,7 +23,7 @@ const BillModalTele = ({
     bill_amount,
     bill_date,
     bill_paid_date,
-    bill_due_date,
+    bill_due_date
   } = billDatas
 
   const [billViewmodalFlag, setBillViewModalFlag] = useState(0)
@@ -65,7 +57,7 @@ const BillModalTele = ({
     const options = {
       maxSizeMB: 1,
       maxWidthOrHeight: 1920,
-      useWebWorker: true,
+      useWebWorker: true
     }
     const compressedFile = await imageCompression(imageFile, options)
     return compressedFile
@@ -83,9 +75,7 @@ const BillModalTele = ({
       e.preventDefault()
       if (bill_tariff === 1) {
         const getbillsFile = async () => {
-          const result = await axioslogin.get(
-            `/ItImageUpload/uploadFile/getMonthlyBillImages/${index_no}`
-          )
+          const result = await axioslogin.get(`/ItImageUpload/uploadFile/getMonthlyBillImages/${index_no}`)
           const { success, data } = result.data
           if (success === 1) {
             const fileNames = data
@@ -109,15 +99,11 @@ const BillModalTele = ({
               }
             }
             // Use the Axios instance and endpoint that matches your server setup
-            const uploadResult = await axioslogin.post(
-              '/ItImageUpload/uploadFile/Monthly',
-              formData,
-              {
-                headers: {
-                  'Content-Type': 'multipart/form-data',
-                },
+            const uploadResult = await axioslogin.post('/ItImageUpload/uploadFile/Monthly', formData, {
+              headers: {
+                'Content-Type': 'multipart/form-data'
               }
-            )
+            })
             return uploadResult.data
           } catch (error) {
             warningNotify('An error occurred during file upload.')
@@ -139,9 +125,7 @@ const BillModalTele = ({
         }
       } else if (bill_tariff === 2) {
         const getbillsFile = async () => {
-          const result = await axioslogin.get(
-            `/ItImageUpload/uploadFile/getQuaterlyBillImages/${index_no}`
-          )
+          const result = await axioslogin.get(`/ItImageUpload/uploadFile/getQuaterlyBillImages/${index_no}`)
           const { success } = result.data
           if (success === 1) {
             const data = result.data
@@ -167,15 +151,11 @@ const BillModalTele = ({
               }
             }
             // Use the Axios instance and endpoint that matches your server setup
-            const uploadResult = await axioslogin.post(
-              '/ItImageUpload/uploadFile/Quaterly',
-              formData,
-              {
-                headers: {
-                  'Content-Type': 'multipart/form-data',
-                },
+            const uploadResult = await axioslogin.post('/ItImageUpload/uploadFile/Quaterly', formData, {
+              headers: {
+                'Content-Type': 'multipart/form-data'
               }
-            )
+            })
             return uploadResult.data
           } catch (error) {
             warningNotify('An error occurred during file upload.')
@@ -197,9 +177,7 @@ const BillModalTele = ({
         }
       } else if (bill_tariff === 3) {
         const getbillsFile = async () => {
-          const result = await axioslogin.get(
-            `/ItImageUpload/uploadFile/getYearlyBillImages/${index_no}`
-          )
+          const result = await axioslogin.get(`/ItImageUpload/uploadFile/getYearlyBillImages/${index_no}`)
           const { success } = result.data
           if (success === 1) {
             const data = result.data
@@ -225,15 +203,11 @@ const BillModalTele = ({
               }
             }
             // Use the Axios instance and endpoint that matches your server setup
-            const uploadResult = await axioslogin.post(
-              '/ItImageUpload/uploadFile/Yearly',
-              formData,
-              {
-                headers: {
-                  'Content-Type': 'multipart/form-data',
-                },
+            const uploadResult = await axioslogin.post('/ItImageUpload/uploadFile/Yearly', formData, {
+              headers: {
+                'Content-Type': 'multipart/form-data'
               }
-            )
+            })
             return uploadResult.data
           } catch (error) {
             warningNotify('An error occurred during file upload.')
@@ -256,9 +230,7 @@ const BillModalTele = ({
         }
       } else {
         const getbillsFile = async () => {
-          const result = await axioslogin.get(
-            `/ItImageUpload/uploadFile/getOtherBillImages/${index_no}`
-          )
+          const result = await axioslogin.get(`/ItImageUpload/uploadFile/getOtherBillImages/${index_no}`)
           const { success } = result.data
           if (success === 1) {
             const data = result.data
@@ -285,15 +257,11 @@ const BillModalTele = ({
               }
             }
             // Use the Axios instance and endpoint that matches your server setup
-            const uploadResult = await axioslogin.post(
-              '/ItImageUpload/uploadFile/Others',
-              formData,
-              {
-                headers: {
-                  'Content-Type': 'multipart/form-data',
-                },
+            const uploadResult = await axioslogin.post('/ItImageUpload/uploadFile/Others', formData, {
+              headers: {
+                'Content-Type': 'multipart/form-data'
               }
-            )
+            })
             return uploadResult.data
           } catch (error) {
             warningNotify('An error occurred during file upload.')
@@ -338,7 +306,7 @@ const BillModalTele = ({
           justifyContent: 'center',
           alignItems: 'center',
           pl: 1,
-          borderRadius: 10,
+          borderRadius: 10
         }}
       >
         <ModalDialog variant="outlined" sx={{ width: 650, bgcolor: '#1896A0' }}>
@@ -353,8 +321,8 @@ const BillModalTele = ({
                     height: 25,
                     width: 25,
                     '&:hover': {
-                      color: 'white',
-                    },
+                      color: 'white'
+                    }
                   }}
                   onClick={handleClose}
                 />
@@ -366,7 +334,7 @@ const BillModalTele = ({
                 <TaskAltIcon
                   sx={{
                     fontSize: 45,
-                    color: 'white',
+                    color: 'white'
                   }}
                 />
               </Box>
@@ -377,14 +345,12 @@ const BillModalTele = ({
                   fontWeight: 700,
                   fontSize: 20,
                   color: 'white',
-                  fontStyle: 'Georgia',
+                  fontStyle: 'Georgia'
                 }}
               >
                 {it_bill_type_name}
               </Box>
-              <Box
-                sx={{ flex: 1, textAlign: 'center', fontWeight: 700, fontSize: 15, color: 'white' }}
-              >
+              <Box sx={{ flex: 1, textAlign: 'center', fontWeight: 700, fontSize: 15, color: 'white' }}>
                 {bill_name}
               </Box>
             </Box>
@@ -399,16 +365,14 @@ const BillModalTele = ({
                 color: '#4C5270',
                 fontFamily: 'Georgia',
                 borderColor: '#CAD7E0',
-                pt: 1,
+                pt: 1
               }}
             >
               Bill Details
             </Box>
             <Box sx={{ flex: 1, mt: 1, pt: 0.5, display: 'flex' }}>
               <Box sx={{ flex: 3, fontSize: 13, fontWeight: 800 }}>Bill Category</Box>
-              <Box sx={{ flex: 5, fontSize: 14, textAlign: 'right', fontWeight: 700 }}>
-                {it_bill_category_name}
-              </Box>
+              <Box sx={{ flex: 5, fontSize: 14, textAlign: 'right', fontWeight: 700 }}>{it_bill_category_name}</Box>
             </Box>
             <Box sx={{ flex: 1, mt: 1, pt: 0.5, display: 'flex' }}>
               <Box sx={{ flex: 1, fontSize: 13, fontWeight: 800 }}> Bill Tariff</Box>
@@ -424,9 +388,7 @@ const BillModalTele = ({
             </Box>
             <Box sx={{ flex: 1, mt: 1, pt: 0.5, display: 'flex' }}>
               <Box sx={{ flex: 3, fontSize: 13, fontWeight: 800 }}> Bill Number/Invoice number</Box>
-              <Box sx={{ flex: 5, fontSize: 15, textAlign: 'right', fontWeight: 700 }}>
-                {bill_number}
-              </Box>
+              <Box sx={{ flex: 5, fontSize: 15, textAlign: 'right', fontWeight: 700 }}>{bill_number}</Box>
             </Box>
             <Box sx={{ flex: 1, mt: 1, pt: 0.5, display: 'flex' }}>
               <Box sx={{ flex: 3, fontSize: 13, fontWeight: 800 }}> Bill Date</Box>
@@ -465,7 +427,7 @@ const BillModalTele = ({
                 pl: 0.5,
                 borderRadius: '2px',
                 minHeight: 60,
-                flex: 1,
+                flex: 1
               }}
             >
               <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center', mt: 2 }}>
@@ -497,7 +459,7 @@ const BillModalTele = ({
                         my: 0.5,
                         px: 1,
                         border: 1,
-                        borderColor: '#0C2D48',
+                        borderColor: '#0C2D48'
                       }}
                       key={index}
                     >
@@ -521,7 +483,7 @@ const BillModalTele = ({
                     fontWeight: 600,
                     color: 'white',
                     borderRadius: 20,
-                    '&:hover': { bgcolor: '#2283D5 ' },
+                    '&:hover': { bgcolor: '#2283D5 ' }
                   }}
                   onClick={uploadBills}
                 >
@@ -544,8 +506,8 @@ const BillModalTele = ({
                   '&:hover': {
                     boxShadow: '1px 2px 10px',
                     bgcolor: '#5F7950',
-                    color: '#4C411A',
-                  },
+                    color: '#4C411A'
+                  }
                 }}
                 onClick={openBillModal}
               >
@@ -558,8 +520,8 @@ const BillModalTele = ({
                     borderRadius: 10,
                     color: 'white',
                     '&:hover': {
-                      color: '#4C411A',
-                    },
+                      color: '#4C411A'
+                    }
                   }}
                 />
                 &nbsp;Uploaded bills

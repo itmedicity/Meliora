@@ -36,7 +36,7 @@ const ModuleGroupMast = () => {
     incident: false,
     notification: false,
     amsModule: false,
-    mod_grp_slno: 0,
+    mod_grp_slno: 0
   })
   /*** Destructuring */
   const {
@@ -62,7 +62,7 @@ const ModuleGroupMast = () => {
     dailycensus,
     incident,
     notification,
-    amsModule,
+    amsModule
   } = moduleGroup
 
   /***Get values from the component */
@@ -100,8 +100,8 @@ const ModuleGroupMast = () => {
         module_dailycensus: dailycensus === true ? 19 : 0,
         module_incident: incident === true ? 20 : 0,
         module_notification: notification === true ? 24 : 0,
-        module_ams: amsModule === true ? 25 : 0,
-      },
+        module_ams: amsModule === true ? 25 : 0
+      }
     }
   }, [
     modulegrp_name,
@@ -125,7 +125,7 @@ const ModuleGroupMast = () => {
     dailycensus,
     incident,
     notification,
-    amsModule,
+    amsModule
   ])
 
   /*** data for  update to module_group_mast table */
@@ -154,9 +154,9 @@ const ModuleGroupMast = () => {
         module_dailycensus: dailycensus === true ? 19 : 0,
         module_incident: incident === true ? 20 : 0,
         module_notification: notification === true ? 24 : 0,
-        module_ams: amsModule === true ? 25 : 0,
+        module_ams: amsModule === true ? 25 : 0
       },
-      mod_grp_slno: mod_grp_slno,
+      mod_grp_slno: mod_grp_slno
     }
   }, [
     modulegrp_name,
@@ -181,7 +181,7 @@ const ModuleGroupMast = () => {
     dailycensus,
     incident,
     notification,
-    amsModule,
+    amsModule
   ])
 
   // data setting for edit
@@ -213,7 +213,7 @@ const ModuleGroupMast = () => {
       dailycensus: module_status.module_dailycensus === 0 ? false : true,
       incident: module_status.module_incident === 0 ? false : true,
       notification: module_status.module_notification === 0 ? false : true,
-      amsModule: module_status.module_ams === 0 ? false : true,
+      amsModule: module_status.module_ams === 0 ? false : true
     }
     setModuleGroup(formdata)
   }, [])
@@ -243,7 +243,7 @@ const ModuleGroupMast = () => {
         dailycensus: false,
         incident: false,
         notification: false,
-        amsModule: false,
+        amsModule: false
       }
       /***     * insert function for use call back     */
       const InsertFun = async postdata => {
@@ -314,19 +314,14 @@ const ModuleGroupMast = () => {
       dailycensus: false,
       incident: false,
       notification: false,
-      amsModule: false,
+      amsModule: false
     }
     setModuleGroup(frmreset)
     setvalue(0)
   }, [setModuleGroup])
 
   return (
-    <CardMaster
-      title="Module Group Master"
-      submit={submitModuleGroup}
-      close={backtoSetting}
-      refresh={refereshWindow}
-    >
+    <CardMaster title="Module Group Master" submit={submitModuleGroup} close={backtoSetting} refresh={refereshWindow}>
       <Box sx={{ p: 1 }}>
         <Grid container spacing={1}>
           <Grid item xl={4} lg={4}>

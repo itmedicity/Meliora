@@ -15,8 +15,8 @@ const BuildingTable = ({ count, rowSelect }) => {
     { headerName: 'Status', field: 'status' },
     {
       headerName: 'Actions',
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
-    },
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
+    }
   ])
   // get all data
   useEffect(() => {

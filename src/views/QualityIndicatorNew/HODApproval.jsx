@@ -49,16 +49,16 @@ const HODApproval = () => {
     } else {
       const searchDatas = {
         from: format(new Date(searchDate), 'yyyy-MM-dd 00:00:00'),
-        to: format(new Date(searchDate), 'yyyy-MM-dd 23:59:59'),
+        to: format(new Date(searchDate), 'yyyy-MM-dd 23:59:59')
       }
       if (qitype === 1) {
         var dayList = eachDayOfInterval({
           start: startOfMonth(new Date(searchDate)),
-          end: endOfMonth(new Date(searchDate)),
+          end: endOfMonth(new Date(searchDate))
         })
         const days = dayList?.map(val => {
           return {
-            day: format(new Date(val), 'dd-MM-yyyy'),
+            day: format(new Date(val), 'dd-MM-yyyy')
           }
         })
         const ViewReport = async (setviewData, setIpViewReport) => {
@@ -98,9 +98,7 @@ const HODApproval = () => {
     <Box sx={{ maxHeight: window.innerHeight - 70 }}>
       <Paper variant="outlined" square sx={{ display: 'flex', flex: 1, height: 40 }}>
         <Box sx={{ flex: 1, fontSize: 16, pl: 1, pt: 1.2 }}>
-          <Typography sx={{ color: '#555830', fontFamily: 'Arial', fontWeight: 550 }}>
-            Level II Approval
-          </Typography>
+          <Typography sx={{ color: '#555830', fontFamily: 'Arial', fontWeight: 550 }}>Level II Approval</Typography>
         </Box>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 20, pr: 0.5, pt: 0.2 }}>
           <HighlightOffIcon

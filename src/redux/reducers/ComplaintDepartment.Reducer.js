@@ -3,7 +3,7 @@ const { FETCH_COMPLAINT_DEPARTMENT } = ActionTyps
 //intial state
 const complaintdeptName = {
   complaintdeptList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Complaint Department action type check then payload set to the state and loading status set as true */
 export const getComplaintDept = (state = complaintdeptName, { type, payload }) => {

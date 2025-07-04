@@ -47,7 +47,7 @@ const StoreMaster = () => {
           crsstore: crsstore,
           dept: dept,
           empId: empname,
-          deptsec: deptsec,
+          deptsec: deptsec
         }
         if (UpdateFlag === 1) {
           const result = await axioslogin.post('/newCRFRegister/StoreMaster/update', postData)
@@ -81,12 +81,7 @@ const StoreMaster = () => {
   }, [history])
   return (
     <CssVarsProvider>
-      <CardMaster
-        title="Store Right Master"
-        submit={submitStore}
-        close={backtoSetting}
-        refresh={refreshWindow}
-      >
+      <CardMaster title="Store Right Master" submit={submitStore} close={backtoSetting} refresh={refreshWindow}>
         <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
           <Box sx={{ width: '50%', p: 1 }}>
             <Box sx={{}}>
@@ -102,11 +97,7 @@ const StoreMaster = () => {
               <CRFstoreView crsList={crsstore} setList={setCrsList} editRowData={editRowData} />
             </Box>
             <Box sx={{ mt: 1, overflow: 'auto', border: '1px solid lightgrey' }}>
-              <CRFsubStoreView
-                crsList={subStoreList}
-                setList={setSubStoreList}
-                editRowData={editRowData}
-              />
+              <CRFsubStoreView crsList={subStoreList} setList={setSubStoreList} editRowData={editRowData} />
             </Box>
 
             <Box sx={{ mt: 1.5 }}>

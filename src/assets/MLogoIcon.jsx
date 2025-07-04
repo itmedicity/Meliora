@@ -33,25 +33,11 @@ const MLogoIcon = ({
           <stop stopColor={primaryDarker} />
           <stop offset="1" stopColor={primaryMain} />
         </linearGradient>
-        <linearGradient
-          id={`${gradientId}-2`}
-          x1="86"
-          y1="128"
-          x2="86"
-          y2="384"
-          gradientUnits="userSpaceOnUse"
-        >
+        <linearGradient id={`${gradientId}-2`} x1="86" y1="128" x2="86" y2="384" gradientUnits="userSpaceOnUse">
           <stop stopColor={primaryLight} />
           <stop offset="1" stopColor={primaryMain} />
         </linearGradient>
-        <linearGradient
-          id={`${gradientId}-3`}
-          x1="402"
-          y1="288"
-          x2="402"
-          y2="384"
-          gradientUnits="userSpaceOnUse"
-        >
+        <linearGradient id={`${gradientId}-3`} x1="402" y1="288" x2="402" y2="384" gradientUnits="userSpaceOnUse">
           <stop stopColor={primaryLight} />
           <stop offset="1" stopColor={primaryMain} />
         </linearGradient>

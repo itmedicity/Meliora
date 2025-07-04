@@ -13,15 +13,15 @@ const MenuProps = {
   PaperProps: {
     style: {
       maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
+      width: 250
+    }
+  }
 }
 
 const options = [
   { id: '1', name: 'HR' },
   { id: '2', name: 'Interviewer' },
-  { id: '3', name: 'Hiring Manager' },
+  { id: '3', name: 'Hiring Manager' }
 ]
 
 export default function MultipleSelectChip() {
@@ -29,7 +29,7 @@ export default function MultipleSelectChip() {
   const [value, setValue] = React.useState([])
   const handleChange = e => {
     const {
-      target: { value },
+      target: { value }
     } = e
     setValue(
       // On autofill we get a the stringified value.

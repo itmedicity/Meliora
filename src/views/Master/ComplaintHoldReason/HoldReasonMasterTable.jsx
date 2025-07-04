@@ -24,35 +24,29 @@ const HoldReasonMasterTable = ({ count, rowSelect }) => {
       <table style={{ width: '100%', borderCollapse: 'collapse' }}>
         <thead>
           <tr style={{ backgroundColor: '#f5f5f5' }}>
-            <th style={{ padding: '7px', borderBottom: '1px solid #ddd', fontSize: 12, width: 50 }}>
-              SlNo
-            </th>
+            <th style={{ padding: '7px', borderBottom: '1px solid #ddd', fontSize: 12, width: 50 }}>SlNo</th>
             <th
               style={{
                 padding: '7px',
                 borderBottom: '1px solid #ddd',
                 fontSize: 12,
                 textAlign: 'center',
-                width: 80,
+                width: 80
               }}
             >
               Action
             </th>
-            <th
-              style={{ padding: '7px', borderBottom: '1px solid #ddd', fontSize: 12, width: 140 }}
-            >
+            <th style={{ padding: '7px', borderBottom: '1px solid #ddd', fontSize: 12, width: 140 }}>
               Hold Reason Color
             </th>
-            <th style={{ padding: '7px', borderBottom: '1px solid #ddd', fontSize: 12, flex: 1 }}>
-              Hold Reasons
-            </th>
+            <th style={{ padding: '7px', borderBottom: '1px solid #ddd', fontSize: 12, flex: 1 }}>Hold Reasons</th>
             <th
               style={{
                 padding: '7px',
                 borderBottom: '1px solid #ddd',
                 fontSize: 12,
                 width: 70,
-                textAlign: 'center',
+                textAlign: 'center'
               }}
             >
               Status
@@ -65,15 +59,12 @@ const HoldReasonMasterTable = ({ count, rowSelect }) => {
               key={row.cm_hold_id}
               style={{
                 borderBottom: '1px solid #ddd',
-                backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FCFCFC', // Alternate row colors
+                backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FCFCFC' // Alternate row colors
               }}
             >
               <td style={{ fontSize: 14, textAlign: 'center' }}>{row.cm_hold_id}</td>
               <td style={{ padding: '2px', fontSize: 14, textAlign: 'center' }}>
-                <EditOutlinedIcon
-                  onClick={() => rowSelect(row)}
-                  sx={{ cursor: 'pointer', color: '#0B6BCB' }}
-                />
+                <EditOutlinedIcon onClick={() => rowSelect(row)} sx={{ cursor: 'pointer', color: '#0B6BCB' }} />
               </td>
               <td style={{ padding: '2px', fontSize: 14, display: 'flex', gap: 3, pl: 5 }}>
                 <Box
@@ -82,7 +73,7 @@ const HoldReasonMasterTable = ({ count, rowSelect }) => {
                     width: 20,
                     height: 20,
                     bgcolor: row.hold_color,
-                    borderRadius: '4px',
+                    borderRadius: '4px'
                   }}
                 />
                 <Box>{row.hold_color}</Box>

@@ -13,7 +13,7 @@ const PendingApprovGenStore = ({ empId, menurights }) => {
   const postCondemAllDept = useMemo(() => {
     return {
       condemStatusFrom: condemStatusFrom,
-      condemstatusTo: condemstatusTo,
+      condemstatusTo: condemstatusTo
     }
   }, [condemStatusFrom, condemstatusTo])
 
@@ -30,17 +30,12 @@ const PendingApprovGenStore = ({ empId, menurights }) => {
 
   const { data: CondemnationAllDept } = useQuery({
     queryKey: ['getAllDeptCondemPendingDatas', formCount],
-    queryFn: () => getAllDeptCondemPendingDatas(postCondemAllDept),
+    queryFn: () => getAllDeptCondemPendingDatas(postCondemAllDept)
   })
   const filteredPendingCondemAllDeptStore = useMemo(() => {
     return (
       CondemnationAllDept?.filter(
-        row =>
-          !(
-            row.hod_approve_status === 2 ||
-            row.store_approve_status === 1 ||
-            row.store_approve_status === 2
-          )
+        row => !(row.hod_approve_status === 2 || row.store_approve_status === 1 || row.store_approve_status === 2)
       ) || []
     )
   }, [CondemnationAllDept])
@@ -102,7 +97,7 @@ const PendingApprovGenStore = ({ empId, menurights }) => {
                         cursor: 'pointer',
                         fontSize: 13,
                         color: 'white',
-                        '&:hover': { bgcolor: '#11A7BB' },
+                        '&:hover': { bgcolor: '#11A7BB' }
                       }}
                       onClick={() => ApproveForm(val)}
                     >
@@ -134,11 +129,9 @@ const PendingApprovGenStore = ({ empId, menurights }) => {
                             ? '#7AC7AD'
                             : val.condem_status === 6 && val.store_approve_status === 2
                             ? '#F4A3A3 '
-                            : val.condem_status === 7 &&
-                              val.material_mangmnt_mangr_apprv_status === 1
+                            : val.condem_status === 7 && val.material_mangmnt_mangr_apprv_status === 1
                             ? '#7AC7AD'
-                            : val.condem_status === 7 &&
-                              val.material_mangmnt_mangr_apprv_status === 2
+                            : val.condem_status === 7 && val.material_mangmnt_mangr_apprv_status === 2
                             ? '#F4A3A3 '
                             : '#EFF4F0',
                         textAlign: 'center',
@@ -146,7 +139,7 @@ const PendingApprovGenStore = ({ empId, menurights }) => {
                         fontWeight: 700,
                         cursor: 'pointer',
                         fontSize: 13,
-                        py: 0.2,
+                        py: 0.2
                       }}
                     >
                       {val.condem_status === 2 && val.incharge_approve_status === 1
@@ -200,7 +193,7 @@ const PendingApprovGenStore = ({ empId, menurights }) => {
               minHeight: '40vh',
               width: '100%',
               textAlign: 'center',
-              color: 'lightgrey',
+              color: 'lightgrey'
             }}
           >
             Empty List

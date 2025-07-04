@@ -11,7 +11,7 @@ const DataCollectedImageDispy = ({ open, handleCloseCollect, dataCollSlno, req_s
   const postdata = useMemo(() => {
     return {
       req_slno: req_slno,
-      crf_data_collect_slno: dataCollSlno,
+      crf_data_collect_slno: dataCollSlno
     }
   }, [req_slno, dataCollSlno])
 
@@ -40,7 +40,7 @@ const DataCollectedImageDispy = ({ open, handleCloseCollect, dataCollSlno, req_s
         const fileNamePart = parts[parts.length - 1]
         const obj = {
           imageName: fileNamePart,
-          url: val,
+          url: val
         }
         return obj
       })
@@ -59,7 +59,7 @@ const DataCollectedImageDispy = ({ open, handleCloseCollect, dataCollSlno, req_s
           flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
-          maxHeight: 700,
+          maxHeight: 700
         }}
       >
         <Sheet
@@ -71,7 +71,7 @@ const DataCollectedImageDispy = ({ open, handleCloseCollect, dataCollSlno, req_s
             boxShadow: 'lg',
             minHeight: 500,
             maxWidth: 300,
-            maxHeight: 700,
+            maxHeight: 700
           }}
         >
           <Box
@@ -84,7 +84,7 @@ const DataCollectedImageDispy = ({ open, handleCloseCollect, dataCollSlno, req_s
               margin: 'auto',
               height: window.innerHeight - 350,
               overflowX: 'auto',
-              '::-webkit-scrollbar': { display: 'none' },
+              '::-webkit-scrollbar': { display: 'none' }
             }}
           >
             {disArry &&
@@ -93,12 +93,7 @@ const DataCollectedImageDispy = ({ open, handleCloseCollect, dataCollSlno, req_s
                   {value.imageName.endsWith('.pdf') ? (
                     <embed src={value.url} type="application/pdf" height={820} width="100%" />
                   ) : (
-                    <img
-                      alt=""
-                      src={value.url}
-                      height={820}
-                      style={{ maxWidth: '100%', maxHeight: '100%' }}
-                    />
+                    <img alt="" src={value.url} height={820} style={{ maxWidth: '100%', maxHeight: '100%' }} />
                   )}
                 </Box>
               ))}

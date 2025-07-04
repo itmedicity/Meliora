@@ -15,7 +15,7 @@ export const getInchargeHodData = no => async dispatch => {
     dispatch({
       type: FETCH_INCHARGE_HOD_CHECK,
       payload: deflt,
-      loadingStatus: false,
+      loadingStatus: false
     })
   }
 }

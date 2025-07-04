@@ -3,7 +3,7 @@ const { FETCH_NDRFNONCLINICAL_DASHPENDING } = ActionTyps
 //intial state
 const NonClinicalNDRFPending = {
   NonClinicalNDRFPendingList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Requesttype action type check then payload set to the state and loading status set as true */
 export const setNonClinicalNDRFPending = (state = NonClinicalNDRFPending, { type, payload }) => {

@@ -26,8 +26,8 @@ const QualityDeptTable = ({ count, rowSelect }) => {
     {
       headerName: 'Action',
       width: 100,
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
-    },
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
+    }
   ])
 
   return <CusAgGridMast columnDefs={column} tableData={tabledata} onClick={rowSelect} />

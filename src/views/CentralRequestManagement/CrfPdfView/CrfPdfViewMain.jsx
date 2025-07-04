@@ -105,8 +105,7 @@ const CrfPdfViewMain = () => {
                 : val.ms_approve === 3
                 ? 'On-Hold'
                 : 'Not Done',
-            ms_approve_remark:
-              val.ms_approve_remark !== null ? val.ms_approve_remark : 'Not Updated',
+            ms_approve_remark: val.ms_approve_remark !== null ? val.ms_approve_remark : 'Not Updated',
             ms_approve_date: val.ms_approve_date,
             ms_approve_user: val.ms_approve_user !== null ? val.ms_approve_user.toLowerCase() : '',
             manag_operation_req: val.manag_operation_req,
@@ -120,11 +119,9 @@ const CrfPdfViewMain = () => {
                 : val.manag_operation_approv === 3
                 ? 'On-Hold'
                 : 'Not Done',
-            manag_operation_remarks:
-              val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
+            manag_operation_remarks: val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
             om_approv_date: val.om_approv_date,
-            manag_operation_user:
-              val.manag_operation_user !== null ? val.manag_operation_user.toLowerCase() : '',
+            manag_operation_user: val.manag_operation_user !== null ? val.manag_operation_user.toLowerCase() : '',
 
             senior_manage_approv: val.senior_manage_approv,
             smo:
@@ -135,11 +132,9 @@ const CrfPdfViewMain = () => {
                 : val.senior_manage_approv === 3
                 ? 'On-Hold'
                 : 'Not Done',
-            senior_manage_remarks:
-              val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
+            senior_manage_remarks: val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
             som_aprrov_date: val.som_aprrov_date,
-            senior_manage_user:
-              val.senior_manage_user !== null ? val.senior_manage_user.toLowerCase() : '',
+            senior_manage_user: val.senior_manage_user !== null ? val.senior_manage_user.toLowerCase() : '',
             gm_approve: val.gm_approve,
             gm:
               val.gm_approve === 1
@@ -149,8 +144,7 @@ const CrfPdfViewMain = () => {
                 : val.gm_approve === 3
                 ? 'On-Hold'
                 : 'Not Done',
-            gm_approve_remarks:
-              val.gm_approve_remarks !== null ? val.gm_approve_remarks : 'Not Updated',
+            gm_approve_remarks: val.gm_approve_remarks !== null ? val.gm_approve_remarks : 'Not Updated',
             gm_approv_date: val.gm_approv_date,
             gm_user: val.gm_user !== null ? val.gm_user.toLowerCase() : '',
 
@@ -177,13 +171,12 @@ const CrfPdfViewMain = () => {
                 : val.ed_approve === 3
                 ? 'On-Hold'
                 : 'Not Done',
-            ed_approve_remarks:
-              val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
+            ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
             ed_approve_date: val.ed_approve_date,
             ed_user: val.ed_user ? val.ed_user.toLowerCase() : '',
             ed_detial_analysis: val.ed_detial_analysis,
             edid: val.edid,
-            mdid: val.mdid,
+            mdid: val.mdid
           }
           return obj
         })
@@ -203,9 +196,7 @@ const CrfPdfViewMain = () => {
   return (
     <Fragment>
       <Box sx={{ height: 35, backgroundColor: '#f0f3f5', display: 'flex' }}>
-        <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: 0.5, color: '#385E72' }}>
-          CRF For PDF Download
-        </Box>
+        <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: 0.5, color: '#385E72' }}>CRF For PDF Download</Box>
         <Box>
           <CusIconButton size="sm" variant="outlined" color="primary" onClick={backtoSetting}>
             <CloseIcon fontSize="small" />
@@ -225,7 +216,7 @@ const CrfPdfViewMain = () => {
                     borderRadius: 3,
                     overflow: 'hidden',
                     boxShadow: 1,
-                    backgroundColor: '#BBBCBC',
+                    backgroundColor: '#BBBCBC'
                   }}
                   variant="outlined"
                 >

@@ -12,7 +12,7 @@ const OPConsultationWaitingReport = ({ tableData }) => {
             overflow: 'auto',
             maxHeight: window.innerHeight - 210,
             padding: 'none',
-            '&::-webkit-scrollbar': { height: 8 },
+            '&::-webkit-scrollbar': { height: 8 }
           }}
         >
           <CssVarsProvider>
@@ -33,7 +33,7 @@ const OPConsultationWaitingReport = ({ tableData }) => {
                       width: 50,
                       backgroundColor: '#e0e0e0',
                       textAlign: 'center',
-                      fontSize: 13,
+                      fontSize: 13
                     }}
                   >
                     Sl.No

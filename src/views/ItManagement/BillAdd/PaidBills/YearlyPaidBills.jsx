@@ -41,9 +41,7 @@ const YearlyPaidBills = ({ yearBills }) => {
   const OpenYearBillView = useCallback(value => {
     const { yearly_slno } = value
     const getbillsFile = async () => {
-      const result = await axioslogin.get(
-        `/ItImageUpload/uploadFile/getYearlyBillImages/${yearly_slno}`
-      )
+      const result = await axioslogin.get(`/ItImageUpload/uploadFile/getYearlyBillImages/${yearly_slno}`)
       const { success } = result.data
       if (success === 1) {
         const data = result.data
@@ -94,8 +92,7 @@ const YearlyPaidBills = ({ yearBills }) => {
     if (enterText.length < 3) {
       infoNotify('please enter minimum 3 character to search task name')
     } else {
-      let newTableDataa =
-        yearBills && yearBills.filter(val => val.bill_name.toLowerCase().includes(enterText))
+      let newTableDataa = yearBills && yearBills.filter(val => val.bill_name.toLowerCase().includes(enterText))
       setsearchBillNameFlag(1)
       setsearchBillDateFlag(0)
       setAlphbased(1)
@@ -105,8 +102,7 @@ const YearlyPaidBills = ({ yearBills }) => {
 
   useEffect(() => {
     if (alphbased === 1) {
-      let newTableDataa =
-        yearBills && yearBills.filter(val => val.bill_name.toLowerCase().includes(enterText))
+      let newTableDataa = yearBills && yearBills.filter(val => val.bill_name.toLowerCase().includes(enterText))
       setAlphbasedData(newTableDataa)
     }
   }, [yearBills, alphbased, enterText])
@@ -179,7 +175,7 @@ const YearlyPaidBills = ({ yearBills }) => {
                       height: 29,
                       borderRadius: 2,
                       width: 180,
-                      pl: 1,
+                      pl: 1
                     }}
                     onChange={updateBillDate}
                   />
@@ -195,7 +191,7 @@ const YearlyPaidBills = ({ yearBills }) => {
                           borderTop: 1,
                           borderBottom: 1,
                           borderColor: '#B2C4CB',
-                          '&:hover': { bgcolor: '#36454F' },
+                          '&:hover': { bgcolor: '#36454F' }
                         }}
                         onClick={SearchBillDate}
                       >
@@ -215,7 +211,7 @@ const YearlyPaidBills = ({ yearBills }) => {
                           borderTop: 1,
                           borderBottom: 1,
                           borderColor: '#B2C4CB',
-                          '&:hover': { bgcolor: '#36454F' },
+                          '&:hover': { bgcolor: '#36454F' }
                         }}
                         onClick={closeBillSearch}
                       >
@@ -244,7 +240,7 @@ const YearlyPaidBills = ({ yearBills }) => {
                       height: 29,
                       borderRadius: 2,
                       width: 350,
-                      pl: 1,
+                      pl: 1
                     }}
                     onChange={updateEnterText}
                   />
@@ -260,7 +256,7 @@ const YearlyPaidBills = ({ yearBills }) => {
                           borderTop: 1,
                           borderBottom: 1,
                           borderColor: '#B2C4CB',
-                          '&:hover': { bgcolor: '#36454F' },
+                          '&:hover': { bgcolor: '#36454F' }
                         }}
                         onClick={SearchBillName}
                       >
@@ -280,7 +276,7 @@ const YearlyPaidBills = ({ yearBills }) => {
                           borderTop: 1,
                           borderBottom: 1,
                           borderColor: '#B2C4CB',
-                          '&:hover': { bgcolor: '#36454F' },
+                          '&:hover': { bgcolor: '#36454F' }
                         }}
                         onClick={closeBillSearch}
                       >
@@ -316,7 +312,7 @@ const YearlyPaidBills = ({ yearBills }) => {
                           borderTop: 1,
                           borderBottom: 1,
                           borderColor: '#B2C4CB',
-                          '&:hover': { bgcolor: '#36454F' },
+                          '&:hover': { bgcolor: '#36454F' }
                         }}
                         onClick={SearchBillCate}
                       >
@@ -336,7 +332,7 @@ const YearlyPaidBills = ({ yearBills }) => {
                           borderTop: 1,
                           borderBottom: 1,
                           borderColor: '#B2C4CB',
-                          '&:hover': { bgcolor: '#36454F' },
+                          '&:hover': { bgcolor: '#36454F' }
                         }}
                         onClick={closeBillSearch}
                       >
@@ -368,28 +364,21 @@ const YearlyPaidBills = ({ yearBills }) => {
                       color: 'black',
                       borderBottom: 1,
                       borderColor: 'white',
-                      mb: 0.5,
+                      mb: 0.5
                     }}
                   >
                     <Box
                       sx={{
                         flex: 0.4,
                         py: 1,
-                        cursor: 'pointer',
+                        cursor: 'pointer'
                       }}
                     >
-                      <ReceiptLongIcon
-                        sx={{ '&:hover': { color: '#274472' } }}
-                        onClick={() => OpenYearBillView(val)}
-                      />
+                      <ReceiptLongIcon sx={{ '&:hover': { color: '#274472' } }} onClick={() => OpenYearBillView(val)} />
                     </Box>
                     <Box sx={{ flex: 1, pt: 0.5, cursor: 'grab', pl: 1 }}>
                       &nbsp;
-                      <Chip
-                        sx={{ bgcolor: '#F1C83A', fontSize: 14, fontWeight: 700, color: '#670305' }}
-                      >
-                        {years}
-                      </Chip>
+                      <Chip sx={{ bgcolor: '#F1C83A', fontSize: 14, fontWeight: 700, color: '#670305' }}>{years}</Chip>
                     </Box>
                     <Box sx={{ flex: 2, pt: 0.5 }}>
                       &nbsp;
@@ -430,28 +419,21 @@ const YearlyPaidBills = ({ yearBills }) => {
                       borderBottom: 1,
                       borderColor: 'white',
                       mb: 0.5,
-                      pt: 0.5,
+                      pt: 0.5
                     }}
                   >
                     <Box
                       sx={{
                         flex: 0.4,
                         py: 1,
-                        cursor: 'pointer',
+                        cursor: 'pointer'
                       }}
                     >
-                      <ReceiptLongIcon
-                        sx={{ '&:hover': { color: '#274472' } }}
-                        onClick={() => OpenYearBillView(val)}
-                      />
+                      <ReceiptLongIcon sx={{ '&:hover': { color: '#274472' } }} onClick={() => OpenYearBillView(val)} />
                     </Box>
                     <Box sx={{ flex: 1, pt: 0.5, cursor: 'grab', pl: 1 }}>
                       &nbsp;
-                      <Chip
-                        sx={{ bgcolor: '#F1C83A', fontSize: 14, fontWeight: 700, color: '#670305' }}
-                      >
-                        {years}
-                      </Chip>
+                      <Chip sx={{ bgcolor: '#F1C83A', fontSize: 14, fontWeight: 700, color: '#670305' }}>{years}</Chip>
                     </Box>
                     <Box sx={{ flex: 2, pt: 0.5 }}>
                       &nbsp;
@@ -491,28 +473,21 @@ const YearlyPaidBills = ({ yearBills }) => {
                       color: 'black',
                       borderBottom: 1,
                       borderColor: 'white',
-                      mb: 0.5,
+                      mb: 0.5
                     }}
                   >
                     <Box
                       sx={{
                         flex: 0.4,
                         py: 1,
-                        cursor: 'pointer',
+                        cursor: 'pointer'
                       }}
                     >
-                      <ReceiptLongIcon
-                        sx={{ '&:hover': { color: '#274472' } }}
-                        onClick={() => OpenYearBillView(val)}
-                      />
+                      <ReceiptLongIcon sx={{ '&:hover': { color: '#274472' } }} onClick={() => OpenYearBillView(val)} />
                     </Box>
                     <Box sx={{ flex: 1, pt: 0.5, cursor: 'grab', pl: 1 }}>
                       &nbsp;
-                      <Chip
-                        sx={{ bgcolor: '#F1C83A', fontSize: 14, fontWeight: 700, color: '#670305' }}
-                      >
-                        {years}
-                      </Chip>
+                      <Chip sx={{ bgcolor: '#F1C83A', fontSize: 14, fontWeight: 700, color: '#670305' }}>{years}</Chip>
                     </Box>
                     <Box sx={{ flex: 2, pt: 0.5 }}>
                       &nbsp;
@@ -552,28 +527,21 @@ const YearlyPaidBills = ({ yearBills }) => {
                       color: 'black',
                       borderBottom: 1,
                       borderColor: 'white',
-                      mb: 0.5,
+                      mb: 0.5
                     }}
                   >
                     <Box
                       sx={{
                         flex: 0.4,
                         py: 1,
-                        cursor: 'pointer',
+                        cursor: 'pointer'
                       }}
                     >
-                      <ReceiptLongIcon
-                        sx={{ '&:hover': { color: '#274472' } }}
-                        onClick={() => OpenYearBillView(val)}
-                      />
+                      <ReceiptLongIcon sx={{ '&:hover': { color: '#274472' } }} onClick={() => OpenYearBillView(val)} />
                     </Box>
                     <Box sx={{ flex: 1, pt: 0.5, cursor: 'grab', pl: 1 }}>
                       &nbsp;
-                      <Chip
-                        sx={{ bgcolor: '#F1C83A', fontSize: 14, fontWeight: 700, color: '#670305' }}
-                      >
-                        {years}
-                      </Chip>
+                      <Chip sx={{ bgcolor: '#F1C83A', fontSize: 14, fontWeight: 700, color: '#670305' }}>{years}</Chip>
                     </Box>
                     <Box sx={{ flex: 2, pt: 0.5 }}>
                       &nbsp;

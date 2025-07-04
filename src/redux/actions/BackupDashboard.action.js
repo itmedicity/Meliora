@@ -10,7 +10,7 @@ const {
   FETCH_BACKUP_WEEKLY,
   FETCH_BACKUP_WEEKDETAILS,
   FETCH_BACKUP_SELECTEDDAYS,
-  FETCH_BACKUP_DAYS,
+  FETCH_BACKUP_DAYS
 } = ActionTyps
 
 export const getDailyCount = empdept => async dispatch => {

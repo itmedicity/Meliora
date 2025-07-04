@@ -19,7 +19,7 @@ const ItemAdding = ({
   itemCount,
   setitemCount,
   getItemcount,
-  setgetItemcount,
+  setgetItemcount
 }) => {
   const dispatch = useDispatch()
   const [custoDian, setCustodian] = useState(0)
@@ -33,7 +33,7 @@ const ItemAdding = ({
     am_custodian_dept_slno,
     am_custdn_asset_no_first,
     am_custdn_asset_no_second,
-    sec_name,
+    sec_name
   } = custodianAllDetails
 
   const { slno, Item_name, type } = selectData
@@ -85,7 +85,7 @@ const ItemAdding = ({
         item_custodian_dept: custoDian,
         item_custodian_dept_sec: am_custodian_deptsec_slno,
         item_asset_no: assetno,
-        create_user: id,
+        create_user: id
       }
     })
   const sparepostData =
@@ -102,7 +102,7 @@ const ItemAdding = ({
         spare_custodian_dept: custoDian,
         spare_custodian_dept_sec: am_custodian_deptsec_slno,
         spare_asset_no: assetno,
-        create_user: id,
+        create_user: id
       }
     })
 
@@ -110,7 +110,7 @@ const ItemAdding = ({
     return {
       item_creation_slno: slno,
       item_custodian_dept: custoDian,
-      itemCount: itemCount,
+      itemCount: itemCount
     }
   }, [slno, custoDian, itemCount])
 
@@ -118,7 +118,7 @@ const ItemAdding = ({
     return {
       spare_creation_slno: slno,
       item_custodian_dept: custoDian,
-      itemCount: itemCount,
+      itemCount: itemCount
     }
   }, [slno, custoDian, itemCount])
 
@@ -174,21 +174,17 @@ const ItemAdding = ({
     <Box>
       <Box sx={{ flex: 1, display: 'flex', py: 2, px: 1, gap: 1, pb: 1 }}>
         <Box sx={{ flex: 1.5 }}>
-          <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 650 }}>
-            Item Name
-          </Typography>
+          <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 650 }}>Item Name</Typography>
           <Input
             sx={{
-              '--Input-minHeight': '32px',
+              '--Input-minHeight': '32px'
             }}
             readOnly
             value={Item_name}
           />
         </Box>
         <Box sx={{ flex: 1 }}>
-          <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 650 }}>
-            Custodian Department
-          </Typography>
+          <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 650 }}>Custodian Department</Typography>
           <AssetCustodianDepartment
             custoDian={custoDian}
             setCustodian={setCustodian}
@@ -196,36 +192,24 @@ const ItemAdding = ({
           />
         </Box>
         <Box sx={{ flex: 1 }}>
-          <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 650 }}>
-            Section
-          </Typography>
+          <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 650 }}>Section</Typography>
           <Input
             sx={{
-              '--Input-minHeight': '32px',
+              '--Input-minHeight': '32px'
             }}
             readOnly
             value={sec_name || ''}
           />
         </Box>
         <Box>
-          <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-            Count
-          </Typography>
+          <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Count</Typography>
           <Box>
             {' '}
-            <TextFieldCustom
-              type="number"
-              size="sm"
-              name="count"
-              value={count}
-              onchange={updateItemCount}
-            />
+            <TextFieldCustom type="number" size="sm" name="count" value={count} onchange={updateItemCount} />
           </Box>
         </Box>
         <Box sx={{ pr: 3 }}>
-          <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-            Add{' '}
-          </Typography>
+          <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Add </Typography>
           <Box>
             <AddCircleOutlineIcon onClick={() => AddMultiple()} sx={{ height: 28, width: 30 }} />
           </Box>

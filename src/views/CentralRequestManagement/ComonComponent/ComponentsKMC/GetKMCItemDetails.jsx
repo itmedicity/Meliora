@@ -2,12 +2,7 @@ import { format } from 'date-fns'
 import { axioskmc } from 'src/views/Axios/Axios'
 import { warningNotify } from 'src/views/Common/CommonCode'
 
-export const GetKMCItemDetails = async (
-  req_slno,
-  setReqItems,
-  setApproveTableData,
-  setPoDetails
-) => {
+export const GetKMCItemDetails = async (req_slno, setReqItems, setApproveTableData, setPoDetails) => {
   const capitalizeWords = str =>
     str
       ? str
@@ -54,8 +49,7 @@ export const GetKMCItemDetails = async (
         const poLIst = data
           .filter(
             (po, index, self) =>
-              index ===
-              self.findIndex(val => val.po_number === po.po_number && val.req_slno === po.req_slno)
+              index === self.findIndex(val => val.po_number === po.po_number && val.req_slno === po.req_slno)
           )
           .map(po => ({
             po_detail_slno: po.po_detail_slno,
@@ -77,7 +71,7 @@ export const GetKMCItemDetails = async (
             po_amount: po.po_amount,
             po_to_supplier: po.po_to_supplier,
             approval_level: po.approval_level,
-            po_expiry: po.po_expiry ? format(new Date(po.po_expiry), 'dd-MM-yyyy') : 'Not Updated',
+            po_expiry: po.po_expiry ? format(new Date(po.po_expiry), 'dd-MM-yyyy') : 'Not Updated'
           }))
         const poItems = data?.map(val => {
           const obj = {
@@ -90,7 +84,7 @@ export const GetKMCItemDetails = async (
             item_mrp: val.item_mrp !== null ? val.item_mrp : 0,
             tax: val.tax !== null ? val.tax : 'Nil',
             tax_amount: val.tax_amount !== null ? val.tax_amount : 0,
-            net_amount: val.net_amount !== 0 ? val.net_amount : 0,
+            net_amount: val.net_amount !== 0 ? val.net_amount : 0
           }
           return obj
         })
@@ -100,7 +94,7 @@ export const GetKMCItemDetails = async (
           )
           return {
             ...po,
-            items: details,
+            items: details
           }
         })
         setPoDetails(combinedData)

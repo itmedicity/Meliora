@@ -50,9 +50,7 @@ const CompletedCRFView = ({ setFlag, disData, companyData }) => {
 
   return (
     <Fragment>
-      {modFlag === 1 ? (
-        <CRFReqItemDetails handleClose={handleClose} open={modalopen} reqItems={reqItems} />
-      ) : null}
+      {modFlag === 1 ? <CRFReqItemDetails handleClose={handleClose} open={modalopen} reqItems={reqItems} /> : null}
       <Box sx={{ height: window.innerHeight - 160, flexWrap: 'wrap' }}>
         <Paper variant="outlined" sx={{ display: 'flex', bgcolor: 'white', height: 40 }}>
           <Box
@@ -62,7 +60,7 @@ const CompletedCRFView = ({ setFlag, disData, companyData }) => {
               flex: 1,
               fontSize: 20,
               pt: 1,
-              pr: 1,
+              pr: 1
             }}
           >
             <CustomCloseIconCmp handleChange={backtoHome} />
@@ -83,7 +81,7 @@ const CompletedCRFView = ({ setFlag, disData, companyData }) => {
                   zIndex: 1,
                   border: '1px solid #AFD8F2',
                   borderLeft: 'none',
-                  borderRight: 'none',
+                  borderRight: 'none'
                 }}
               >
                 <Typography
@@ -92,7 +90,7 @@ const CompletedCRFView = ({ setFlag, disData, companyData }) => {
                     textAlign: 'center',
                     fontWeight: 550,
                     fontSize: 14,
-                    color: 'white',
+                    color: 'white'
                   }}
                 >
                   Sl.No
@@ -103,7 +101,7 @@ const CompletedCRFView = ({ setFlag, disData, companyData }) => {
                     textAlign: 'left',
                     fontWeight: 550,
                     fontSize: 14,
-                    color: 'white',
+                    color: 'white'
                   }}
                 >
                   Req.No
@@ -114,7 +112,7 @@ const CompletedCRFView = ({ setFlag, disData, companyData }) => {
                     textAlign: 'left',
                     fontWeight: 550,
                     fontSize: 14,
-                    color: 'white',
+                    color: 'white'
                   }}
                 >
                   Req.Date
@@ -125,7 +123,7 @@ const CompletedCRFView = ({ setFlag, disData, companyData }) => {
                     textAlign: 'left',
                     fontWeight: 550,
                     fontSize: 14,
-                    color: 'white',
+                    color: 'white'
                   }}
                 >
                   Req. Dpt
@@ -136,7 +134,7 @@ const CompletedCRFView = ({ setFlag, disData, companyData }) => {
                     textAlign: 'left',
                     fontWeight: 550,
                     fontSize: 14,
-                    color: 'white',
+                    color: 'white'
                   }}
                 >
                   Required. Dpt
@@ -147,7 +145,7 @@ const CompletedCRFView = ({ setFlag, disData, companyData }) => {
                     textAlign: 'left',
                     fontWeight: 550,
                     fontSize: 14,
-                    color: 'white',
+                    color: 'white'
                   }}
                 >
                   Purpose
@@ -158,7 +156,7 @@ const CompletedCRFView = ({ setFlag, disData, companyData }) => {
                     textAlign: 'left',
                     fontWeight: 550,
                     fontSize: 14,
-                    color: 'white',
+                    color: 'white'
                   }}
                 >
                   Justification
@@ -169,7 +167,7 @@ const CompletedCRFView = ({ setFlag, disData, companyData }) => {
                     textAlign: 'left',
                     fontWeight: 550,
                     fontSize: 14,
-                    color: 'white',
+                    color: 'white'
                   }}
                 >
                   Location
@@ -180,7 +178,7 @@ const CompletedCRFView = ({ setFlag, disData, companyData }) => {
                     textAlign: 'left',
                     fontWeight: 550,
                     fontSize: 14,
-                    color: 'white',
+                    color: 'white'
                   }}
                 >
                   Expected Date
@@ -199,9 +197,7 @@ const CompletedCRFView = ({ setFlag, disData, companyData }) => {
                       justifyContent="space-between"
                       sx={{ borderBottom: '1px solid lightgrey', flexWrap: 'nowrap' }}
                     >
-                      <Typography sx={{ width: 50, textAlign: 'center', fontSize: 12, my: 1 }}>
-                        {index + 1}
-                      </Typography>
+                      <Typography sx={{ width: 50, textAlign: 'center', fontSize: 12, my: 1 }}>{index + 1}</Typography>
                       <Typography sx={{ width: 80, textAlign: 'left', fontSize: 12, my: 1 }}>
                         CRF / {company_name} + {val.req_slno}
                       </Typography>
@@ -214,7 +210,7 @@ const CompletedCRFView = ({ setFlag, disData, companyData }) => {
                           textAlign: 'left',
                           fontSize: 12,
                           my: 1,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {val.user_deptsection.toLowerCase()}
@@ -225,7 +221,7 @@ const CompletedCRFView = ({ setFlag, disData, companyData }) => {
                           textAlign: 'left',
                           fontSize: 12,
                           my: 1,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {val.req_deptsec.toLowerCase()}
@@ -233,9 +229,7 @@ const CompletedCRFView = ({ setFlag, disData, companyData }) => {
                       <Typography sx={{ width: 250, textAlign: 'left', fontSize: 12, my: 1 }}>
                         {val.actual_requirement}
                       </Typography>
-                      <Typography sx={{ width: 250, textAlign: 'left', fontSize: 12, my: 1 }}>
-                        {val.needed}
-                      </Typography>
+                      <Typography sx={{ width: 250, textAlign: 'left', fontSize: 12, my: 1 }}>{val.needed}</Typography>
                       <Typography sx={{ width: 150, textAlign: 'left', fontSize: 12, my: 1 }}>
                         {val.location}
                       </Typography>
@@ -250,7 +244,7 @@ const CompletedCRFView = ({ setFlag, disData, companyData }) => {
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          pr: 0.5,
+                          pr: 0.5
                         }}
                       >
                         <Tooltip title="Item Details" placement="left">
@@ -265,8 +259,8 @@ const CompletedCRFView = ({ setFlag, disData, companyData }) => {
                               cursor: 'pointer',
                               transition: 'transform 0.2s',
                               '&:hover': {
-                                transform: 'scale(1.1)',
-                              },
+                                transform: 'scale(1.1)'
+                              }
                             }}
                             onClick={() => viewItemDetails(val.req_slno)}
                           />

@@ -17,8 +17,8 @@ const DietdetlTable = ({ count, rowSelect }) => {
     { headerName: 'Status', field: 'dietdetlstatus' },
     {
       headerName: 'Action',
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
-    },
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
+    }
   ])
   //get all data
   useEffect(() => {

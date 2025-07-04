@@ -41,7 +41,7 @@ const CmDeptSectionFilter = ({ cmSection, setCmSection, setDataa }) => {
           sx={{
             width: '100%',
             minHeight: 32,
-            borderRadius: 5,
+            borderRadius: 5
           }}
           value={cmSection === 0 ? sectionX : value}
           placeholder="Select Ticket Registerd Section"

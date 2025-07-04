@@ -11,7 +11,7 @@ const CusAgGridForReport = ({ columnDefs, tableData, columnTypes, getRowStyle })
   const headerHeight = 30
   const defaultColDef = {
     sortable: true,
-    filter: 'agTextColumnFilter',
+    filter: 'agTextColumnFilter'
   }
 
   const rowStyle = {
@@ -25,8 +25,8 @@ const CusAgGridForReport = ({ columnDefs, tableData, columnTypes, getRowStyle })
       'sans-serif',
       '"Apple Color Emoji"',
       '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
+      '"Segoe UI Symbol"'
+    ].join(',')
   }
   const onGridReady = params => {
     params.columnApi.autoSizeAllColumns()
@@ -48,7 +48,7 @@ const CusAgGridForReport = ({ columnDefs, tableData, columnTypes, getRowStyle })
       className="ag-theme-alpine ListItemScrol"
       sx={{
         height: { xs: 475, sm: 475, md: 600, lg: 600, xl: 600 },
-        width: '100%',
+        width: '100%'
       }}
     >
       <AgGridReact

@@ -1,13 +1,5 @@
 import React, { Fragment, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import {
-  Box,
-  CssVarsProvider,
-  Modal,
-  ModalClose,
-  ModalDialog,
-  Textarea,
-  Typography,
-} from '@mui/joy'
+import { Box, CssVarsProvider, Modal, ModalClose, ModalDialog, Textarea, Typography } from '@mui/joy'
 import CrfReqDetailViewCmp from '../ComonComponent/CrfReqDetailViewCmp'
 import ReqItemDisplay from '../ComonComponent/ReqItemDisplay'
 import CommonInchargeReqCmp from '../ComonComponent/ApprovalComp/CommonInchargeReqCmp'
@@ -50,7 +42,7 @@ const CrfEDApprovalModal = ({
   datacolflag,
   datacolData,
   imagearray,
-  selectedCompany,
+  selectedCompany
 }) => {
   const {
     req_slno,
@@ -69,7 +61,7 @@ const CrfEDApprovalModal = ({
     ed_approve,
     ed_approve_remarks,
     ed_detial_analysis,
-    ed_image,
+    ed_image
   } = ApprovalData
 
   const queryClient = useQueryClient()
@@ -89,23 +81,15 @@ const CrfEDApprovalModal = ({
     remark: ed_approve_remarks !== null ? ed_approve_remarks : '',
     detailAnalis: ed_detial_analysis !== null ? ed_detial_analysis : '',
     datacollFlag: false,
-    datacolectremark: '',
+    datacolectremark: ''
   })
-  const {
-    remark,
-    detailAnalis,
-    approve,
-    reject,
-    pending,
-    datacollFlag,
-    datacolectremark,
-    internallyArr,
-  } = apprvlDetails
+  const { remark, detailAnalis, approve, reject, pending, datacollFlag, datacolectremark, internallyArr } =
+    apprvlDetails
   const updateOnchangeState = useCallback(e => {
     const { name, type, value, checked } = e.target
     setApprvlDetails(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === 'checkbox' ? checked : value
     }))
   }, [])
 
@@ -115,7 +99,7 @@ const CrfEDApprovalModal = ({
       approve: type === 'approve',
       reject: type === 'reject',
       pending: type === 'pending',
-      internallyArr: type === 'internallyArr',
+      internallyArr: type === 'internallyArr'
     }))
   }, [])
 
@@ -140,7 +124,7 @@ const CrfEDApprovalModal = ({
         pending: false,
         internallyArr: false,
         datacollFlag: false,
-        datacolectremark: '',
+        datacolectremark: ''
       }))
       setCrfDept(0)
       setApproveTableData([])
@@ -156,7 +140,7 @@ const CrfEDApprovalModal = ({
     const options = {
       maxSizeMB: 25,
       maxWidthOrHeight: 1920,
-      useWebWorker: true,
+      useWebWorker: true
     }
     const compressedFile = await imageCompression(imageFile, options)
     return compressedFile
@@ -164,16 +148,7 @@ const CrfEDApprovalModal = ({
 
   const EDPatchData = useMemo(() => {
     return {
-      ed_approve:
-        approve === true
-          ? 1
-          : reject === true
-          ? 2
-          : pending === true
-          ? 3
-          : internallyArr === true
-          ? 4
-          : null,
+      ed_approve: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : internallyArr === true ? 4 : null,
       ed_user: id,
       req_slno: req_slno,
       ed_approve_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
@@ -182,21 +157,11 @@ const CrfEDApprovalModal = ({
       items: approveTableData?.map(val => {
         return {
           req_detl_slno: val.req_detl_slno,
-          item_status_approved: val.item_status_approved,
+          item_status_approved: val.item_status_approved
         }
-      }),
+      })
     }
-  }, [
-    approve,
-    reject,
-    pending,
-    id,
-    remark,
-    detailAnalis,
-    req_slno,
-    approveTableData,
-    internallyArr,
-  ])
+  }, [approve, reject, pending, id, remark, detailAnalis, req_slno, approveTableData, internallyArr])
   const submit = useCallback(() => {
     if (editEnable === 1) {
       infoNotify('Ensure all other details are entered/completed before submitting')
@@ -254,15 +219,11 @@ const CrfEDApprovalModal = ({
               formData.append('files', file, file.name)
             }
           }
-          const result = await axioslogin.post(
-            '/newCRFRegisterImages/crf/ImageInsertED',
-            formData,
-            {
-              headers: {
-                'Content-Type': 'multipart/form-data',
-              },
+          const result = await axioslogin.post('/newCRFRegisterImages/crf/ImageInsertED', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
             }
-          )
+          })
           return result.data
         } catch (error) {
           warningNotify('An error occurred during file upload.')
@@ -282,8 +243,8 @@ const CrfEDApprovalModal = ({
           }
           const result = await axioskmc.post('/newCRFRegisterImages/crf/ImageInsertED', formData, {
             headers: {
-              'Content-Type': 'multipart/form-data',
-            },
+              'Content-Type': 'multipart/form-data'
+            }
           })
           return result.data
         } catch (error) {
@@ -305,7 +266,7 @@ const CrfEDApprovalModal = ({
           crf_req_collect_dept: val,
           crf_req_remark: datacolectremark,
           reqest_one: 9,
-          req_user: id,
+          req_user: id
         }))
         if (selectedCompany === '1') {
           DataCollRequestFnctn(postData)
@@ -369,7 +330,7 @@ const CrfEDApprovalModal = ({
     reject,
     pending,
     editEnable,
-    selectedCompany,
+    selectedCompany
   ])
 
   const closeModal = useCallback(() => {
@@ -392,7 +353,7 @@ const CrfEDApprovalModal = ({
             const fileNamePart = parts[parts.length - 1]
             const obj = {
               imageName: fileNamePart,
-              url: val,
+              url: val
             }
             return obj
           })
@@ -416,7 +377,7 @@ const CrfEDApprovalModal = ({
             const fileNamePart = parts[parts.length - 1]
             const obj = {
               imageName: fileNamePart,
-              url: val,
+              url: val
             }
             return obj
           })
@@ -454,7 +415,7 @@ const CrfEDApprovalModal = ({
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 25,
-                width: 25,
+                width: 25
               }}
             />
             <Box sx={{ minWidth: '80vw', minHeight: '62vh', maxHeight: '85vh', overflowY: 'auto' }}>
@@ -478,9 +439,7 @@ const CrfEDApprovalModal = ({
                   ) : (
                     <Paper variant="outlined" sx={{ flexWrap: 'wrap' }}>
                       <Box sx={{ borderBottom: '1px solid lightgrey' }}>
-                        <Typography
-                          sx={{ fontWeight: 'bold', p: 1, color: '#145DA0', fontSize: 14 }}
-                        >
+                        <Typography sx={{ fontWeight: 'bold', p: 1, color: '#145DA0', fontSize: 14 }}>
                           Department Approval
                         </Typography>
                       </Box>
@@ -562,7 +521,7 @@ const CrfEDApprovalModal = ({
                           sx={{
                             display: 'flex',
                             flexDirection: 'row',
-                            alignItems: 'center',
+                            alignItems: 'center'
                           }}
                         >
                           <CampaignTwoToneIcon
@@ -572,22 +531,22 @@ const CrfEDApprovalModal = ({
                               animation: 'blink 2s infinite', // Apply the blink animation
                               '@keyframes blink': {
                                 '0%': {
-                                  opacity: 1,
+                                  opacity: 1
                                 },
                                 '50%': {
-                                  opacity: 0,
+                                  opacity: 0
                                 },
                                 '100%': {
-                                  opacity: 1,
-                                },
-                              },
+                                  opacity: 1
+                                }
+                              }
                             }}
                           />
                           <Typography
                             sx={{
                               fontFamily: 'var(--font-varient)',
                               color: 'rgba(var(--font-primary-white))',
-                              fontWeight: 700,
+                              fontWeight: 700
                             }}
                           ></Typography>
                           <Typography
@@ -596,7 +555,7 @@ const CrfEDApprovalModal = ({
                               color: '#FF6868',
                               fontSize: 14,
                               p: 1,
-                              textTransform: 'capitalize',
+                              textTransform: 'capitalize'
                             }}
                           >
                             Comments From {ApprovalData?.viewDep?.toLowerCase()}
@@ -609,7 +568,7 @@ const CrfEDApprovalModal = ({
                             color: '#145DA0',
                             fontSize: 14,
                             p: 1,
-                            textTransform: 'capitalize',
+                            textTransform: 'capitalize'
                           }}
                         >
                           By:{ApprovalData?.viewName?.toLowerCase()}
@@ -627,10 +586,7 @@ const CrfEDApprovalModal = ({
                 ) : null}
                 <Box sx={{ py: 0.5, mx: 0.2 }}>
                   {datacolflag === 1 ? (
-                    <DataCollectionViewHigherLevel
-                      datacolData={datacolData}
-                      selectedCompany={selectedCompany}
-                    />
+                    <DataCollectionViewHigherLevel datacolData={datacolData} selectedCompany={selectedCompany} />
                   ) : null}
                 </Box>
                 <Paper variant="outlined" sx={{ pb: 1, flexWrap: 'wrap', mx: 0.3 }}>
@@ -660,9 +616,7 @@ const CrfEDApprovalModal = ({
                       </Box>
                     </Box>
                     <Box sx={{ display: 'flex', pt: 0.4 }}>
-                      <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 1 }}>
-                        Remarks
-                      </Typography>
+                      <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 1 }}>Remarks</Typography>
                       <Typography sx={{ pt: 1 }}> :&nbsp;</Typography>
                       <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
                         <Textarea
@@ -696,9 +650,7 @@ const CrfEDApprovalModal = ({
                           />
                         ) : null}
                         <Box sx={{ pl: 0.5 }}>
-                          <CustomIconButtonCmp handleChange={AddItems}>
-                            Add Items
-                          </CustomIconButtonCmp>
+                          <CustomIconButtonCmp handleChange={AddItems}>Add Items</CustomIconButtonCmp>
                         </Box>
                         {addMoreItems === 1 ? (
                           <AddMoreItemDtails
@@ -723,9 +675,7 @@ const CrfEDApprovalModal = ({
                           />
                         ) : null}
                         <Box sx={{ pl: 0.5 }}>
-                          <CustomIconButtonCmp handleChange={AddItems}>
-                            Add Items
-                          </CustomIconButtonCmp>
+                          <CustomIconButtonCmp handleChange={AddItems}>Add Items</CustomIconButtonCmp>
                         </Box>
                         {addMoreItems === 1 ? (
                           <AddMoreItemsKMC

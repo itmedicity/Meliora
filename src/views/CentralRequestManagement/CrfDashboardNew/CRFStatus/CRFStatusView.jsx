@@ -27,7 +27,7 @@ const CRFStatusView = ({ crfData, companyData }) => {
     smo: { pending: 0, clinic: 0, nonClinic: 0, title: '', imageView: [], imName: '', id: 0 },
     gm: { pending: 0, clinic: 0, nonClinic: 0, title: '', imageView: [], imName: '', id: 0 },
     md: { pending: 0, clinic: 0, nonClinic: 0, title: '', imageView: [], imName: '', id: 0 },
-    ed: { pending: 0, clinic: 0, nonClinic: 0, title: '', imageView: [], imName: '', id: 0 },
+    ed: { pending: 0, clinic: 0, nonClinic: 0, title: '', imageView: [], imName: '', id: 0 }
   })
 
   useEffect(() => {
@@ -41,8 +41,7 @@ const CRFStatusView = ({ crfData, companyData }) => {
           item.gm_approve === null &&
           item.md_approve === null &&
           item.ed_approve === null &&
-          ((item.dms_req === 1 && item.dms_approve === null) ||
-            (item.dms_req === 0 && item.dms_approve === null)) &&
+          ((item.dms_req === 1 && item.dms_approve === null) || (item.dms_req === 0 && item.dms_approve === null)) &&
           ((item.ms_approve_req === 1 && item.ms_approve === null) ||
             (item.ms_approve_req === 0 && item.ms_approve === null))
       )
@@ -133,7 +132,7 @@ const CRFStatusView = ({ crfData, companyData }) => {
           title: 'HOD',
           imageView: hodimg,
           imName: 'hod',
-          id: 1,
+          id: 1
         },
         dms: {
           pending: dmsPending?.length,
@@ -142,7 +141,7 @@ const CRFStatusView = ({ crfData, companyData }) => {
           title: companyData?.dms_status_name,
           imageView: dmsimg,
           imName: 'dms',
-          id: 2,
+          id: 2
         },
         ms: {
           pending: msPending?.length,
@@ -151,7 +150,7 @@ const CRFStatusView = ({ crfData, companyData }) => {
           title: companyData?.ms_status_name,
           imageView: msimg,
           imName: 'ms',
-          id: 3,
+          id: 3
         },
         mo: {
           pending: moPending?.length,
@@ -160,7 +159,7 @@ const CRFStatusView = ({ crfData, companyData }) => {
           title: companyData?.mo_status_name,
           imageView: moimg,
           imName: 'mo',
-          id: 4,
+          id: 4
         },
         smo: {
           pending: smoPending?.length,
@@ -169,7 +168,7 @@ const CRFStatusView = ({ crfData, companyData }) => {
           title: companyData?.smo_status_name,
           imageView: smoimg,
           imName: 'smo',
-          id: 5,
+          id: 5
         },
         gm: {
           pending: gmPending?.length,
@@ -178,7 +177,7 @@ const CRFStatusView = ({ crfData, companyData }) => {
           title: companyData?.gmo_status_name,
           imageView: gmimg,
           imName: 'gm',
-          id: 6,
+          id: 6
         },
         md: {
           pending: mdPending?.length,
@@ -187,7 +186,7 @@ const CRFStatusView = ({ crfData, companyData }) => {
           title: companyData?.md_status_name,
           imageView: mdimg,
           imName: 'md',
-          id: 7,
+          id: 7
         },
         ed: {
           pending: edPending?.length,
@@ -196,8 +195,8 @@ const CRFStatusView = ({ crfData, companyData }) => {
           title: companyData?.ed_status_name,
           imageView: edimg,
           imName: 'ed',
-          id: 8,
-        },
+          id: 8
+        }
       })
     } else {
       setCrfApprv({
@@ -208,7 +207,7 @@ const CRFStatusView = ({ crfData, companyData }) => {
           title: 'HOD',
           imageView: hodimg,
           imName: 'hod',
-          id: 1,
+          id: 1
         },
         dms: {
           pending: 0,
@@ -217,7 +216,7 @@ const CRFStatusView = ({ crfData, companyData }) => {
           title: 'DMS',
           imageView: dmsimg,
           imName: 'dms',
-          id: 2,
+          id: 2
         },
         ms: {
           pending: 0,
@@ -226,7 +225,7 @@ const CRFStatusView = ({ crfData, companyData }) => {
           title: 'MS',
           imageView: msimg,
           imName: 'ms',
-          id: 3,
+          id: 3
         },
         mo: {
           pending: 0,
@@ -235,7 +234,7 @@ const CRFStatusView = ({ crfData, companyData }) => {
           title: 'MO',
           imageView: moimg,
           imName: 'mo',
-          id: 4,
+          id: 4
         },
         smo: {
           pending: 0,
@@ -244,7 +243,7 @@ const CRFStatusView = ({ crfData, companyData }) => {
           title: 'SMO',
           imageView: smoimg,
           imName: 'smo',
-          id: 5,
+          id: 5
         },
         gm: {
           pending: 0,
@@ -253,7 +252,7 @@ const CRFStatusView = ({ crfData, companyData }) => {
           title: 'GM',
           imageView: gmimg,
           imName: 'gm',
-          id: 6,
+          id: 6
         },
         md: {
           pending: 0,
@@ -262,7 +261,7 @@ const CRFStatusView = ({ crfData, companyData }) => {
           title: 'MD',
           imageView: mdimg,
           imName: 'md',
-          id: 7,
+          id: 7
         },
         ed: {
           pending: 0,
@@ -271,8 +270,8 @@ const CRFStatusView = ({ crfData, companyData }) => {
           title: 'ED',
           imageView: edimg,
           imName: 'ed',
-          id: 8,
-        },
+          id: 8
+        }
       })
     }
   }, [apprvdData])
@@ -288,8 +287,7 @@ const CRFStatusView = ({ crfData, companyData }) => {
             const newData = data?.map(val => {
               const obj = {
                 req_slno: val.req_slno,
-                actual_requirement:
-                  val.actual_requirement !== null ? val.actual_requirement : 'Nil',
+                actual_requirement: val.actual_requirement !== null ? val.actual_requirement : 'Nil',
                 needed: val.needed !== null ? val.needed : 'Nil',
                 req_deptsec: val.req_deptsec.toLowerCase(),
                 user_deptsection: val.user_deptsection.toLowerCase(),
@@ -462,7 +460,7 @@ const CRFStatusView = ({ crfData, companyData }) => {
                     : 0,
 
                 dept_id: val.dept_id,
-                dept_name: val.dept_name,
+                dept_name: val.dept_name
               }
               return obj
             })

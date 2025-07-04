@@ -22,7 +22,7 @@ const HoldReasonMaster = () => {
   const [holdReason, setholdReason] = useState({
     cm_hold_id: '',
     cm_hold_reason: '',
-    hold_reason_status: false,
+    hold_reason_status: false
   })
   const { cm_hold_id, cm_hold_reason, hold_reason_status } = holdReason
 
@@ -37,7 +37,7 @@ const HoldReasonMaster = () => {
     const frmdata = {
       cm_hold_id: '',
       cm_hold_reason: '',
-      hold_reason_status: false,
+      hold_reason_status: false
     }
     setholdReason(frmdata)
     setCount(0)
@@ -49,7 +49,7 @@ const HoldReasonMaster = () => {
       cm_hold_reason: cm_hold_reason,
       hold_reason_status: hold_reason_status === true ? 1 : 0,
       hold_color: color,
-      create_user: id,
+      create_user: id
     }
   }, [cm_hold_reason, hold_reason_status, color, id])
   const patchdata = useMemo(() => {
@@ -58,7 +58,7 @@ const HoldReasonMaster = () => {
       cm_hold_reason: cm_hold_reason,
       hold_reason_status: hold_reason_status === true ? 1 : 0,
       hold_color: color,
-      edit_user: id,
+      edit_user: id
     }
   }, [cm_hold_id, cm_hold_reason, hold_reason_status, color, id])
 
@@ -111,7 +111,7 @@ const HoldReasonMaster = () => {
     const frmdata = {
       cm_hold_id: cm_hold_id,
       cm_hold_reason: cm_hold_reason,
-      hold_reason_status: hold_reason_status === 1 ? true : false,
+      hold_reason_status: hold_reason_status === 1 ? true : false
     }
     setholdReason(frmdata)
     setColor(hold_color !== null ? hold_color : '#FFFFFF')
@@ -123,7 +123,7 @@ const HoldReasonMaster = () => {
     const frmdata = {
       cm_hold_id: '',
       cm_hold_reason: '',
-      hold_reason_status: false,
+      hold_reason_status: false
     }
     setholdReason(frmdata)
     setValue(0)
@@ -164,7 +164,7 @@ const HoldReasonMaster = () => {
                 alignItems: 'center',
                 textAlign: 'center',
                 pl: 1,
-                fontWeight: 400,
+                fontWeight: 400
               }}
             >
               {color}

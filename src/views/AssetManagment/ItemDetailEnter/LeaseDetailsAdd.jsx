@@ -47,7 +47,7 @@ const LeaseDetailsAdd = ({ grndetailarry, detailArry }) => {
     lease_to: '',
     lease_Amount: '',
     leaseImage: '',
-    leaseSlno: '',
+    leaseSlno: ''
   })
   const { sup_name, lease_from, lease_to, lease_Amount, leaseImage, leaseSlno } = leaseDetail
 
@@ -58,7 +58,7 @@ const LeaseDetailsAdd = ({ grndetailarry, detailArry }) => {
   const searchdata = useMemo(() => {
     return {
       lease_suppler_slno: supplier,
-      lease_fromdate: billDate,
+      lease_fromdate: billDate
     }
   }, [billDate, supplier])
 
@@ -84,21 +84,14 @@ const LeaseDetailsAdd = ({ grndetailarry, detailArry }) => {
   }, [searchdata, supplier])
 
   const rowSelect = useCallback(value => {
-    const {
-      it_supplier_name,
-      lease_fromdate,
-      lease_todate,
-      lease_amount,
-      lease_image,
-      am_lease_mastslno,
-    } = value
+    const { it_supplier_name, lease_fromdate, lease_todate, lease_amount, lease_image, am_lease_mastslno } = value
     const frmdataset = {
       sup_name: it_supplier_name,
       lease_from: lease_fromdate,
       lease_to: lease_todate,
       lease_Amount: lease_amount,
       leaseImage: lease_image,
-      leaseSlno: am_lease_mastslno,
+      leaseSlno: am_lease_mastslno
     }
     setLeaseDetal(frmdataset)
     setaddLeaseFlag(1)
@@ -137,9 +130,7 @@ const LeaseDetailsAdd = ({ grndetailarry, detailArry }) => {
   const ViewLeaseDetailFile = useCallback(val => {
     const { am_lease_mast_slno } = val
     const getImage = async am_lease_mast_slno => {
-      const result = await axioslogin.get(
-        `/AssetFileUpload/LeaseMasterImageView/${am_lease_mast_slno}`
-      )
+      const result = await axioslogin.get(`/AssetFileUpload/LeaseMasterImageView/${am_lease_mast_slno}`)
       const { success, data } = result.data
       if (success === 1) {
         const fileNames = data
@@ -169,7 +160,7 @@ const LeaseDetailsAdd = ({ grndetailarry, detailArry }) => {
       am_lease_mast_slno: leaseSlno,
       edit_user: id,
       am_item_map_detl_slno: am_item_map_detl_slno,
-      am_item_map_slno: am_item_map_slno,
+      am_item_map_slno: am_item_map_slno
     }
   }, [am_item_map_detl_slno, id, leaseSlno, am_item_map_slno])
 
@@ -177,10 +168,7 @@ const LeaseDetailsAdd = ({ grndetailarry, detailArry }) => {
     e => {
       e.preventDefault()
       const updateLeaseDetails = async LeasepatchData => {
-        const result = await axioslogin.patch(
-          '/ItemMapDetails/AMLeaseDetailsUpdate',
-          LeasepatchData
-        )
+        const result = await axioslogin.patch('/ItemMapDetails/AMLeaseDetailsUpdate', LeasepatchData)
         const { message, success } = result.data
         if (success === 2) {
           succesNotify(message)
@@ -214,7 +202,7 @@ const LeaseDetailsAdd = ({ grndetailarry, detailArry }) => {
   const { data: LeaseDetailListData } = useQuery({
     queryKey: ['getLeaseDetailList', count],
     enabled: am_item_map_slno !== undefined,
-    queryFn: () => getLeaseDetailList(am_item_map_slno),
+    queryFn: () => getLeaseDetailList(am_item_map_slno)
   })
 
   const LeaseDetailList = useMemo(() => LeaseDetailListData, [LeaseDetailListData])
@@ -236,7 +224,7 @@ const LeaseDetailsAdd = ({ grndetailarry, detailArry }) => {
             flex: 1,
             fontWeight: 500,
             color: 'black',
-            fontSize: 15,
+            fontSize: 15
           }}
         />
         <Box
@@ -250,7 +238,7 @@ const LeaseDetailsAdd = ({ grndetailarry, detailArry }) => {
             width: 100,
             justifyContent: 'center',
             borderRadius: 4,
-            borderColor: '#0B6BCB',
+            borderColor: '#0B6BCB'
           }}
           onClick={linkLease}
         >
@@ -260,29 +248,27 @@ const LeaseDetailsAdd = ({ grndetailarry, detailArry }) => {
               fontSize: 14,
               color: '#0B6BCB',
               textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3), -1px -1px 2px rgba(255, 255, 255, 0.7)',
-              transform: 'translateZ(0)',
+              transform: 'translateZ(0)'
             }}
           />
 
           <AddIcon
             sx={{
               p: 0.2,
-              color: '#0B6BCB',
+              color: '#0B6BCB'
             }}
           />
         </Box>
 
         {AddLeaseFlg === 1 ? <LeaseAddMast setLeaseFlg={setLeaseFlg} /> : null}
-        {imageshowFlag === 1 ? (
-          <FileView open={imageshow} handleClose={handleClose} images={imagearray} />
-        ) : null}
+        {imageshowFlag === 1 ? <FileView open={imageshow} handleClose={handleClose} images={imagearray} /> : null}
         {leaseLinkflag === 1 ? (
           <Box
             sx={{
               flex: 1,
               display: 'flex',
               mt: 1,
-              mb: 2,
+              mb: 2
             }}
           >
             <Box sx={{ width: 500 }}>
@@ -293,7 +279,7 @@ const LeaseDetailsAdd = ({ grndetailarry, detailArry }) => {
                     fontWeight: 600,
                     color: '#727B8C',
                     pt: 1,
-                    width: 120,
+                    width: 120
                   }}
                 />
                 <Box sx={{ flex: 1 }}>
@@ -306,7 +292,7 @@ const LeaseDetailsAdd = ({ grndetailarry, detailArry }) => {
                   sx={{
                     fontWeight: 600,
                     color: '#727B8C',
-                    width: 120,
+                    width: 120
                   }}
                 />
                 <Box sx={{ flex: 1 }}>
@@ -323,13 +309,7 @@ const LeaseDetailsAdd = ({ grndetailarry, detailArry }) => {
                 <Box sx={{ width: 120 }}></Box>
                 <Box sx={{ flex: 1, gap: 0.5, display: 'flex' }}>
                   <Box>
-                    <CusIconButton
-                      size="sm"
-                      variant="outlined"
-                      color="primary"
-                      clickable="true"
-                      onClick={searchLease}
-                    >
+                    <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={searchLease}>
                       <SearchOutlinedIcon fontSize="small" />
                     </CusIconButton>
                   </Box>
@@ -345,13 +325,7 @@ const LeaseDetailsAdd = ({ grndetailarry, detailArry }) => {
                     </CusIconButton>
                   </Box>
                   <Box>
-                    <CusIconButton
-                      size="sm"
-                      variant="outlined"
-                      color="primary"
-                      clickable="true"
-                      onClick={CloseLease}
-                    >
+                    <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={CloseLease}>
                       <CloseIcon fontSize="small" />
                     </CusIconButton>
                   </Box>
@@ -371,7 +345,7 @@ const LeaseDetailsAdd = ({ grndetailarry, detailArry }) => {
                     height: 120,
                     overflow: 'auto',
                     display: 'flex',
-                    justifyContent: 'center',
+                    justifyContent: 'center'
                   }}
                 >
                   <Box>
@@ -382,7 +356,7 @@ const LeaseDetailsAdd = ({ grndetailarry, detailArry }) => {
                         fontSize: 32,
                         fontWeight: 700,
                         color: 'lightgrey',
-                        pt: 1,
+                        pt: 1
                       }}
                     />
                     <Box
@@ -396,14 +370,12 @@ const LeaseDetailsAdd = ({ grndetailarry, detailArry }) => {
                         fontWeight: 600,
                         cursor: 'pointer',
                         py: 0.3,
-                        boxShadow:
-                          '2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.6)', // Outward shadow effect
+                        boxShadow: '2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.6)', // Outward shadow effect
                         transform: 'translateZ(0)', // For smoother shadow rendering
                         transition: 'transform 0.2s ease', // Smooth transition on hover
                         '&:hover': {
-                          boxShadow:
-                            '3px 3px 6px rgba(0, 0, 0, 0.4), -3px -3px 6px rgba(255, 255, 255, 0.7)', // Increase shadow on hover
-                        },
+                          boxShadow: '3px 3px 6px rgba(0, 0, 0, 0.4), -3px -3px 6px rgba(255, 255, 255, 0.7)' // Increase shadow on hover
+                        }
                       }}
                       onClick={AddLeaseMaster}
                     >
@@ -426,7 +398,7 @@ const LeaseDetailsAdd = ({ grndetailarry, detailArry }) => {
                     fontWeight: 600,
                     color: '#727B8C',
                     pt: 1,
-                    width: 120,
+                    width: 120
                   }}
                 />
                 <Box sx={{ flex: 1 }}>
@@ -446,7 +418,7 @@ const LeaseDetailsAdd = ({ grndetailarry, detailArry }) => {
                     fontWeight: 600,
                     color: '#727B8C',
                     pt: 1,
-                    width: 120,
+                    width: 120
                   }}
                 />
                 <Box sx={{ flex: 1 }}>
@@ -466,7 +438,7 @@ const LeaseDetailsAdd = ({ grndetailarry, detailArry }) => {
                     fontWeight: 600,
                     color: '#727B8C',
                     pt: 1,
-                    width: 120,
+                    width: 120
                   }}
                 />
                 <Box sx={{ flex: 1 }}>
@@ -486,7 +458,7 @@ const LeaseDetailsAdd = ({ grndetailarry, detailArry }) => {
                     fontWeight: 600,
                     color: '#727B8C',
                     pt: 1,
-                    width: 120,
+                    width: 120
                   }}
                 />
                 <Box sx={{ flex: 1 }}>
@@ -514,14 +486,12 @@ const LeaseDetailsAdd = ({ grndetailarry, detailArry }) => {
                         fontWeight: 600,
                         cursor: 'pointer',
                         py: 0.3,
-                        boxShadow:
-                          '2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.6)',
+                        boxShadow: '2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.6)',
                         transform: 'translateZ(0)',
                         transition: 'transform 0.2s ease',
                         '&:hover': {
-                          boxShadow:
-                            '3px 3px 6px rgba(0, 0, 0, 0.4), -3px -3px 6px rgba(255, 255, 255, 0.7)',
-                        },
+                          boxShadow: '3px 3px 6px rgba(0, 0, 0, 0.4), -3px -3px 6px rgba(255, 255, 255, 0.7)'
+                        }
                       }}
                       onClick={ViewLeaseImage}
                     >
@@ -569,7 +539,7 @@ const LeaseDetailsAdd = ({ grndetailarry, detailArry }) => {
             flex: 1,
             fontWeight: 500,
             color: 'black',
-            fontSize: 15,
+            fontSize: 15
           }}
         />
         {leaseAllDetails.length === 0 ? (
@@ -580,7 +550,7 @@ const LeaseDetailsAdd = ({ grndetailarry, detailArry }) => {
               fontWeight: 600,
               color: 'lightgrey',
               textAlign: 'center',
-              pt: 5,
+              pt: 5
             }}
           >
             Empty Lease Details
@@ -596,7 +566,7 @@ const LeaseDetailsAdd = ({ grndetailarry, detailArry }) => {
                 borderColor: 'lightgrey',
                 pl: 1,
                 py: 0.5,
-                gap: 0.5,
+                gap: 0.5
               }}
             >
               <Box sx={{ flex: 0.1 }}>#</Box>
@@ -625,7 +595,7 @@ const LeaseDetailsAdd = ({ grndetailarry, detailArry }) => {
                       borderBottom: 1,
                       borderColor: 'lightgrey',
                       pl: 1,
-                      py: 0.6,
+                      py: 0.6
                     }}
                   >
                     <Box sx={{ flex: 0.1, fontWeight: 600 }}>{index + 1}</Box>
@@ -641,9 +611,7 @@ const LeaseDetailsAdd = ({ grndetailarry, detailArry }) => {
                     </Box>
                     <Box sx={{ flex: 1, fontWeight: 600 }}>{val.it_supplier_name}</Box>
                     <Box sx={{ flex: 0.4, fontWeight: 600 }}>
-                      {val.lease_fromdate
-                        ? format(new Date(val.lease_fromdate), 'dd MMM yyyy')
-                        : ''}
+                      {val.lease_fromdate ? format(new Date(val.lease_fromdate), 'dd MMM yyyy') : ''}
                     </Box>
                     <Box sx={{ flex: 0.4, fontWeight: 600 }}>
                       {val.lease_todate ? format(new Date(val.lease_todate), 'dd MMM yyyy') : ''}
@@ -653,8 +621,7 @@ const LeaseDetailsAdd = ({ grndetailarry, detailArry }) => {
                       sx={{
                         flex: 0.3,
                         fontWeight: 600,
-                        color:
-                          val.status === 1 ? 'darkgreen' : val.status === 0 ? '#523A28' : 'black',
+                        color: val.status === 1 ? 'darkgreen' : val.status === 0 ? '#523A28' : 'black'
                       }}
                     >
                       {val.status === 1

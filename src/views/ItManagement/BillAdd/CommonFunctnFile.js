@@ -6,10 +6,7 @@ export const gettingArrayList = async (monthBillSearch, setmonthINyearData) => {
     return result.data
   }
   const getMonthlyBillAmountQuaTarr = async () => {
-    const result = await axioslogin.post(
-      '/ItBillVieww/getQuarterlyTariffBillAmount',
-      monthBillSearch
-    )
+    const result = await axioslogin.post('/ItBillVieww/getQuarterlyTariffBillAmount', monthBillSearch)
     return result.data
   }
   const getMonthlyBillAmountYearTarr = async () => {
@@ -130,10 +127,7 @@ export const gettingArrayListSecondYear = async (secondyearBillSearch, setsecond
     return result.data
   }
   const getMonthlyBillDataQuarterlyTarr = async () => {
-    const result = await axioslogin.post(
-      '/ItBillVieww/getQuarterlyTariffYear',
-      secondyearBillSearch
-    )
+    const result = await axioslogin.post('/ItBillVieww/getQuarterlyTariffYear', secondyearBillSearch)
     return result.data
   }
   const getMonthlyBillDataYearlyTarr = async () => {

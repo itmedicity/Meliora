@@ -8,7 +8,7 @@ const PerfomTaskProgress = ({ val }) => {
   const [MainTaskprogress, setMainTaskProgress] = useState(0)
   const searchData = useMemo(() => {
     return {
-      main_task_slno: tm_task_slno,
+      main_task_slno: tm_task_slno
     }
   }, [tm_task_slno])
 
@@ -34,11 +34,7 @@ const PerfomTaskProgress = ({ val }) => {
   return (
     <Box>
       <CssVarsProvider>
-        <CircularProgress
-          determinate
-          value={MainTaskprogress}
-          sx={{ '--CircularProgress-size': '40px' }}
-        >
+        <CircularProgress determinate value={MainTaskprogress} sx={{ '--CircularProgress-size': '40px' }}>
           <Typography fontSize={10} sx={{ color: 'black' }}>
             {`${Math.round(Number(MainTaskprogress))}%`}
           </Typography>

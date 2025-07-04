@@ -18,14 +18,14 @@ const OtherSubTask = ({ otherempTask }) => {
             mx: 1,
             bgcolor: '#D9E4EC',
             overflow: 'auto',
-            display: 'flex',
+            display: 'flex'
           }}
         >
           <Box sx={{ flex: 15, fontWeight: 600 }}>Other Subtasks Under this Task</Box>
           <Box
             sx={{
               flex: 1,
-              fontWeight: 600,
+              fontWeight: 600
             }}
           >
             ({otherempTask.length})

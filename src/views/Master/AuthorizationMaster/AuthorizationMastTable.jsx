@@ -27,8 +27,8 @@ const AuthorizationMastTable = ({ count, rowSelect }) => {
             <DeleteIcon size={15} />
           </CustomeToolTip>
         </IconButton>
-      ),
-    },
+      )
+    }
   ])
   //for table data
   useEffect(() => {

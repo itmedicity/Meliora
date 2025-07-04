@@ -3,7 +3,7 @@ const { FETCH_HALLBOOK_APPROVAL } = ActionTyps
 //intial state
 const HallbookApprvDept = {
   HallbookApproveList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Deptsection action type check then payload set to the state and loading status set as true */
 export const setdepthallbookApproval = (state = HallbookApprvDept, { type, payload }) => {

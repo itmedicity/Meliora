@@ -43,33 +43,22 @@ const EmpProjectTaskDetails = ({ val }) => {
                     overflow: 'auto',
                     borderBottom: 1,
                     borderRadius: 5,
-                    borderColor: '#B7CFDC',
+                    borderColor: '#B7CFDC'
                   }}
                 >
                   {/* <Avatar size='xs' sx={{ size: 'xs', bgcolor: 'white', height: 20, mt: 2 }}> */}
-                  <AlignHorizontalRightRoundedIcon
-                    sx={{ width: 20, height: 20, mt: 2, color: '#435D84' }}
-                  />
+                  <AlignHorizontalRightRoundedIcon sx={{ width: 20, height: 20, mt: 2, color: '#435D84' }} />
                   {/* </Avatar> */}
                   <Tooltip title="Project">
-                    <FormLabel
-                      sx={{ fontSize: 13, flex: 5, textTransform: 'capitalize', cursor: 'grab' }}
-                    >
+                    <FormLabel sx={{ fontSize: 13, flex: 5, textTransform: 'capitalize', cursor: 'grab' }}>
                       {val.tm_project_name}
                     </FormLabel>
                   </Tooltip>
-                  <EventNoteRoundedIcon
-                    sx={{ width: 20, height: 20, mt: 2, mr: 0.2, color: '#435D84' }}
-                  />
+                  <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: 2, mr: 0.2, color: '#435D84' }} />
                   <Tooltip title="Project Created Date">
-                    <FormLabel sx={{ fontSize: 13, flex: 0.9, cursor: 'grab' }}>
-                      {' '}
-                      {val.create_date}
-                    </FormLabel>
+                    <FormLabel sx={{ fontSize: 13, flex: 0.9, cursor: 'grab' }}> {val.create_date}</FormLabel>
                   </Tooltip>
-                  <EventNoteRoundedIcon
-                    sx={{ width: 20, height: 20, mt: 2, mr: 0.2, color: '#435D84' }}
-                  />
+                  <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: 2, mr: 0.2, color: '#435D84' }} />
                   <Tooltip title="Project Due Date">
                     {val.tm_project_status === 1 ? (
                       <FormLabel
@@ -77,7 +66,7 @@ const EmpProjectTaskDetails = ({ val }) => {
                           fontSize: 13,
                           flex: 0.8,
                           textTransform: 'capitalize',
-                          cursor: 'grab',
+                          cursor: 'grab'
                         }}
                       >
                         {val.tm_project_duedate}
@@ -89,7 +78,7 @@ const EmpProjectTaskDetails = ({ val }) => {
                           flex: 0.8,
                           textTransform: 'capitalize',
                           cursor: 'grab',
-                          color: isPastDue(val.tm_project_duedate) ? '#B32800' : 'black',
+                          color: isPastDue(val.tm_project_duedate) ? '#B32800' : 'black'
                         }}
                       >
                         {val.tm_project_duedate}

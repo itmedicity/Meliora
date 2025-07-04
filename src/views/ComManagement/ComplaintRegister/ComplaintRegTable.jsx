@@ -91,12 +91,9 @@ const ComplaintRegTable = ({ count, setCount, rowSelect, verficationPending }) =
     getAllPendingComplaints()
   }, [empsecid, count])
 
-
   return (
     <Box sx={{ flex: 1 }}>
-      <Box
-        sx={{ flex: 1, display: 'flex', px: 3, pt: 2.5, pb: 0.5, justifyContent: 'center', gap: 3 }}
-      >
+      <Box sx={{ flex: 1, display: 'flex', px: 3, pt: 2.5, pb: 0.5, justifyContent: 'center', gap: 3 }}>
         <CssVarsProvider>
           <Badge badgeContent={pendingLength} color="danger">
             <Box sx={{ px: 2, display: 'flex', cursor: 'pointer' }} onClick={PendingCheck}>
@@ -163,12 +160,7 @@ const ComplaintRegTable = ({ count, setCount, rowSelect, verficationPending }) =
         )}
         {holdCheck === 1 ? (
           <Box>
-            <OnholdList
-              onholdCompl={onholdCompl}
-              count={count}
-              setCount={setCount}
-              loading={loading}
-            />
+            <OnholdList onholdCompl={onholdCompl} count={count} setCount={setCount} loading={loading} />
           </Box>
         ) : (
           <Box></Box>

@@ -15,7 +15,7 @@ const CondemListForGmOpert = ({ empId, menurights }) => {
   const postCondemAllDept = useMemo(() => {
     return {
       condemStatusFrom: condemStatusFrom,
-      condemstatusTo: condemstatusTo,
+      condemstatusTo: condemstatusTo
     }
   }, [condemStatusFrom, condemstatusTo])
 
@@ -39,7 +39,7 @@ const CondemListForGmOpert = ({ empId, menurights }) => {
   }, [])
   const { data: AllDeptCondemPendingGmOpr } = useQuery({
     queryKey: ['getAllDeptCondemPendingGmOpr', formCount],
-    queryFn: () => getAllDeptCondemPendingDatas(postCondemAllDept),
+    queryFn: () => getAllDeptCondemPendingDatas(postCondemAllDept)
   })
 
   const filteredPendingCondemAllDeptGmOpr = useMemo(() => {
@@ -86,7 +86,7 @@ const CondemListForGmOpert = ({ empId, menurights }) => {
             gap: 2,
             justifyContent: 'center',
             mt: 1.5,
-            mb: 2,
+            mb: 2
           }}
         >
           <Radio value="1" label="Pendings" color="neutral" />

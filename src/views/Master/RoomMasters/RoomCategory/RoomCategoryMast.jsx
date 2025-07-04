@@ -12,7 +12,7 @@ const RoomCategoryMast = () => {
   const [roomcat, setRoomcat] = useState({
     rmname: '',
     rmshort: '',
-    status: false,
+    status: false
   })
   //destructuring
   const { rmname, rmshort, status } = roomcat

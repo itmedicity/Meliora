@@ -11,9 +11,7 @@ const WarrentyGaurenteeDetails = ({ AssetDetails }) => {
   const { data: AssetWarGar = [] } = useQuery(
     ['getAllWarGarInAssets'],
     async () => {
-      const result = await axioslogin.get(
-        `/ItemMapDetails/WarentGarantInsertOrNot/${am_item_map_slno}`
-      )
+      const result = await axioslogin.get(`/ItemMapDetails/WarentGarantInsertOrNot/${am_item_map_slno}`)
       return result.data?.data || []
     },
     { enabled: !!am_item_map_slno }
@@ -22,17 +20,14 @@ const WarrentyGaurenteeDetails = ({ AssetDetails }) => {
   const { data: SpareWarGar = [] } = useQuery(
     ['getAllWarGarInSpares'],
     async () => {
-      const result = await axioslogin.get(
-        `/ItemMapDetails/WarentGarantInsertOrNotSpare/${am_spare_item_map_slno}`
-      )
+      const result = await axioslogin.get(`/ItemMapDetails/WarentGarantInsertOrNotSpare/${am_spare_item_map_slno}`)
       return result.data?.data || []
     },
     { enabled: !!am_spare_item_map_slno }
   )
   useEffect(() => {
     setTableData(prevData => {
-      const newData =
-        AssetWarGar.length > 0 ? AssetWarGar : SpareWarGar.length > 0 ? SpareWarGar : []
+      const newData = AssetWarGar.length > 0 ? AssetWarGar : SpareWarGar.length > 0 ? SpareWarGar : []
 
       return JSON.stringify(prevData) !== JSON.stringify(newData) ? newData : prevData
     })
@@ -46,7 +41,7 @@ const WarrentyGaurenteeDetails = ({ AssetDetails }) => {
           flex: 1,
           fontWeight: 500,
           color: 'black',
-          fontSize: 15,
+          fontSize: 15
         }}
       />
 
@@ -58,7 +53,7 @@ const WarrentyGaurenteeDetails = ({ AssetDetails }) => {
             variant="outlined"
             sx={{
               flex: 1,
-              borderRadius: 0,
+              borderRadius: 0
             }}
           >
             <thead>

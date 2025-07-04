@@ -27,7 +27,7 @@ const TotalInpatientList = () => {
       filter: 'true',
       autoHeight: true,
       wrapText: true,
-      width: 150,
+      width: 150
     },
     { headerName: 'Pt No', field: 'pt_no', autoHeight: true, wrapText: true, width: 180 },
     {
@@ -36,7 +36,7 @@ const TotalInpatientList = () => {
       filter: 'true',
       autoHeight: true,
       wrapText: true,
-      width: 280,
+      width: 280
     },
     {
       headerName: 'Ip Date',
@@ -44,7 +44,7 @@ const TotalInpatientList = () => {
       filter: 'true',
       autoHeight: true,
       wrapText: true,
-      width: 180,
+      width: 180
     },
     { headerName: 'Sex', field: 'ptc_sex', width: 200, autoHeight: true, wrapText: true },
     {
@@ -53,10 +53,10 @@ const TotalInpatientList = () => {
       filter: 'true',
       autoHeight: true,
       wrapText: true,
-      width: 200,
+      width: 200
     },
     { headerName: 'Room', field: 'rmc_desc', autoHeight: true, wrapText: true, width: 200 },
-    { headerName: 'Doctor Name', field: 'doctor', autoHeight: true, wrapText: true, width: 250 },
+    { headerName: 'Doctor Name', field: 'doctor', autoHeight: true, wrapText: true, width: 250 }
   ])
 
   //Close function

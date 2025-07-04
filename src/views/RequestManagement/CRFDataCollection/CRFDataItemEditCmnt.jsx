@@ -1,15 +1,7 @@
 import React, { memo, Fragment, useEffect, useState, useCallback } from 'react'
 import { editicon } from 'src/color/Color'
 import DeleteIcon from '@mui/icons-material/Delete'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  IconButton,
-} from '@mui/material'
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton } from '@mui/material'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import { Box } from '@mui/material'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
@@ -45,20 +37,11 @@ const CRFDataItemEditCmnt = ({ reqslno }) => {
     item_unit: '',
     item_spec: '',
     approx_cost: '',
-    data_detail_slno: 0,
+    data_detail_slno: 0
   })
 
   //Destructuring
-  const {
-    item_slno,
-    item_desc,
-    item_brand,
-    item_qty,
-    item_unit,
-    item_spec,
-    approx_cost,
-    data_detail_slno,
-  } = itemstate
+  const { item_slno, item_desc, item_brand, item_qty, item_unit, item_spec, approx_cost, data_detail_slno } = itemstate
   const updateItemState = useCallback(
     e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -70,16 +53,8 @@ const CRFDataItemEditCmnt = ({ reqslno }) => {
   //array data delete
   const EditData = value => {
     setEditValue(1)
-    const {
-      item_slno,
-      item_desc,
-      item_brand,
-      item_qnty,
-      item_unit,
-      item_specification,
-      aprox_cost,
-      data_detail_slno,
-    } = value
+    const { item_slno, item_desc, item_brand, item_qnty, item_unit, item_specification, aprox_cost, data_detail_slno } =
+      value
     const frmdata = {
       item_slno: item_slno,
       item_desc: item_desc,
@@ -88,7 +63,7 @@ const CRFDataItemEditCmnt = ({ reqslno }) => {
       item_unit: item_unit,
       item_spec: item_specification,
       approx_cost: aprox_cost === null ? '' : aprox_cost,
-      data_detail_slno: data_detail_slno,
+      data_detail_slno: data_detail_slno
     }
     setItemState(frmdata)
   }
@@ -98,7 +73,7 @@ const CRFDataItemEditCmnt = ({ reqslno }) => {
     const { data_detail_slno } = val
     const patchdata = {
       data_detail_slno: data_detail_slno,
-      delete_user: id,
+      delete_user: id
     }
     const deleteItem = async patchdata => {
       const result = await axioslogin.patch('/requestRegister/DeleteItemList', patchdata)
@@ -120,19 +95,9 @@ const CRFDataItemEditCmnt = ({ reqslno }) => {
       item_specification: item_spec,
       aprox_cost: approx_cost,
       edit_user: id,
-      data_detail_slno: data_detail_slno,
+      data_detail_slno: data_detail_slno
     }
-  }, [
-    item_slno,
-    item_desc,
-    item_brand,
-    item_qty,
-    item_unit,
-    item_spec,
-    approx_cost,
-    data_detail_slno,
-    id,
-  ])
+  }, [item_slno, item_desc, item_brand, item_qty, item_unit, item_spec, approx_cost, data_detail_slno, id])
 
   const AddItem = useCallback(() => {
     const editItem = async Patchdata => {
@@ -149,7 +114,7 @@ const CRFDataItemEditCmnt = ({ reqslno }) => {
           item_unit: '',
           item_spec: '',
           approx_cost: '',
-          req_detl_slno: 0,
+          req_detl_slno: 0
         }
         setItemState(cleardata)
         setEditValue(0)
@@ -164,17 +129,12 @@ const CRFDataItemEditCmnt = ({ reqslno }) => {
         sx={{
           width: '100%',
           display: 'flex',
-          flexDirection: 'column',
+          flexDirection: 'column'
         }}
       >
         <Box>
           <TableContainer sx={{ maxHeight: 250 }}>
-            <Table
-              size="small"
-              stickyHeader
-              aria-label="sticky table"
-              sx={{ border: '0.2px solid' }}
-            >
+            <Table size="small" stickyHeader aria-label="sticky table" sx={{ border: '0.2px solid' }}>
               <TableHead sx={{ border: '1px ' }}>
                 <TableRow>
                   <TableCell align="center">Slno</TableCell>
@@ -196,7 +156,7 @@ const CRFDataItemEditCmnt = ({ reqslno }) => {
                         sx={{
                           '&:last-child td, &:last-child th': { border: 0 },
                           maxHeight: 60,
-                          minHeight: 5,
+                          minHeight: 5
                         }}
                       >
                         <TableCell align="center">{index + 1}</TableCell>
@@ -207,16 +167,10 @@ const CRFDataItemEditCmnt = ({ reqslno }) => {
                         <TableCell align="center">{val.item_specification}</TableCell>
                         <TableCell align="center">{val.aprox_cost}</TableCell>
                         <TableCell align="center">
-                          <IconButton
-                            sx={{ color: editicon, paddingY: 0.01 }}
-                            onClick={() => EditData(val)}
-                          >
+                          <IconButton sx={{ color: editicon, paddingY: 0.01 }} onClick={() => EditData(val)}>
                             <EditOutlinedIcon size={6} />
                           </IconButton>
-                          <IconButton
-                            sx={{ color: editicon, paddingY: 0.01 }}
-                            onClick={() => DeleteData(val)}
-                          >
+                          <IconButton sx={{ color: editicon, paddingY: 0.01 }} onClick={() => DeleteData(val)}>
                             <DeleteIcon size={6} />
                           </IconButton>
                         </TableCell>
@@ -233,7 +187,7 @@ const CRFDataItemEditCmnt = ({ reqslno }) => {
             sx={{
               width: '80%',
               display: 'flex',
-              flexDirection: 'column',
+              flexDirection: 'column'
             }}
           >
             <CustomPaperTitle heading="Estimate/Approximate/Requirement Details" />
@@ -242,7 +196,7 @@ const CRFDataItemEditCmnt = ({ reqslno }) => {
                 width: '100%',
                 p: 1,
                 display: 'flex',
-                flexDirection: 'row',
+                flexDirection: 'row'
               }}
             >
               <Box
@@ -250,17 +204,11 @@ const CRFDataItemEditCmnt = ({ reqslno }) => {
                   width: '50%',
                   display: 'flex',
                   pr: 1,
-                  flexDirection: 'column',
+                  flexDirection: 'column'
                 }}
               >
                 <CustomPaperTitle heading="Item Description" />
-                <TextFieldCustom
-                  type="text"
-                  size="sm"
-                  name="item_desc"
-                  value={item_desc}
-                  onchange={updateItemState}
-                />
+                <TextFieldCustom type="text" size="sm" name="item_desc" value={item_desc} onchange={updateItemState} />
               </Box>
 
               <Box
@@ -268,7 +216,7 @@ const CRFDataItemEditCmnt = ({ reqslno }) => {
                   width: '40%',
                   display: 'flex',
                   flexDirection: 'column',
-                  pr: 1,
+                  pr: 1
                 }}
               >
                 <CustomPaperTitle heading="Item Brand" />
@@ -286,58 +234,40 @@ const CRFDataItemEditCmnt = ({ reqslno }) => {
                   width: '10%',
                   display: 'flex',
                   flexDirection: 'column',
-                  pr: 1,
+                  pr: 1
                 }}
               >
                 <CustomPaperTitle heading="Quantity" />
-                <TextFieldCustom
-                  type="text"
-                  size="sm"
-                  name="item_qty"
-                  value={item_qty}
-                  onchange={updateItemState}
-                />
+                <TextFieldCustom type="text" size="sm" name="item_qty" value={item_qty} onchange={updateItemState} />
               </Box>
               <Box
                 sx={{
                   width: '15%',
                   display: 'flex',
                   flexDirection: 'column',
-                  pr: 1,
+                  pr: 1
                 }}
               >
                 <CustomPaperTitle heading="Unit" />
-                <TextFieldCustom
-                  type="text"
-                  size="sm"
-                  name="item_unit"
-                  value={item_unit}
-                  onchange={updateItemState}
-                />
+                <TextFieldCustom type="text" size="sm" name="item_unit" value={item_unit} onchange={updateItemState} />
               </Box>
               <Box
                 sx={{
                   width: '70%',
                   display: 'flex',
                   flexDirection: 'column',
-                  pr: 1,
+                  pr: 1
                 }}
               >
                 <CustomPaperTitle heading="Specification" />
-                <TextFieldCustom
-                  type="text"
-                  size="sm"
-                  name="item_spec"
-                  value={item_spec}
-                  onchange={updateItemState}
-                />
+                <TextFieldCustom type="text" size="sm" name="item_spec" value={item_spec} onchange={updateItemState} />
               </Box>
               <Box
                 sx={{
                   width: '7%',
                   display: 'flex',
                   flexDirection: 'column',
-                  pr: 1,
+                  pr: 1
                 }}
               >
                 <CustomPaperTitle heading="Approx.Cost" />
@@ -352,7 +282,7 @@ const CRFDataItemEditCmnt = ({ reqslno }) => {
               <Box
                 sx={{
                   width: '7%',
-                  pt: 2,
+                  pt: 2
                 }}
               >
                 <IconButton variant="outlined" color="primary" onClick={AddItem}>

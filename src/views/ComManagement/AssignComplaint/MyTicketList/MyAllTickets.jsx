@@ -52,7 +52,7 @@ const MyAllTickets = ({ assistReq, count, setCount }) => {
           pb: 2,
           justifyContent: 'center',
           bgcolor: 'white',
-          gap: 2,
+          gap: 2
         }}
       >
         <Box sx={{ px: 1, display: 'flex', cursor: 'pointer' }} onClick={AssingedCheck}>

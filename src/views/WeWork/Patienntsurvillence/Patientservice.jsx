@@ -14,7 +14,7 @@ const Patientservice = ({ service, setservice }) => {
       sx={{
         display: 'flex',
         flexDirection: 'row',
-        width: { xl: '100%', lg: '100%', md: '100%', sm: '100%' },
+        width: { xl: '100%', lg: '100%', md: '100%', sm: '100%' }
       }}
     >
       <Box sx={{ width: '25%' }}>

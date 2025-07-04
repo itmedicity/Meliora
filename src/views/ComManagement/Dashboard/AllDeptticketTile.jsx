@@ -15,7 +15,7 @@ import {
   getallDeptRegistrdFromSixDays,
   getallDeptClosedFromSixDays,
   getallDepttRegTodayAssignToday,
-  getallDeptPevAssingTodayRect,
+  getallDeptPevAssingTodayRect
 } from 'src/api/TicketApi'
 import { format, startOfDay, subDays } from 'date-fns'
 
@@ -44,57 +44,54 @@ const AllDeptticketTile = () => {
   const PostDatee = useMemo(() => {
     return {
       from: sevenDaysbefore,
-      to: yesterdayEndTime,
+      to: yesterdayEndTime
     }
   }, [sevenDaysbefore, yesterdayEndTime])
 
   const { data: AllDeptPending } = useQuery({
     queryKey: ['getAllDeptPending'],
-    queryFn: () => getallDeptPending(),
+    queryFn: () => getallDeptPending()
   })
   const { data: AllDeptTodaysTickets } = useQuery({
     queryKey: ['getAllDeptTodaysTickets'],
-    queryFn: () => getAllDepttodaysTickets(),
+    queryFn: () => getAllDepttodaysTickets()
   })
   const { data: AllDeptOpenTicketsCount } = useQuery({
     queryKey: ['getAllDeptOpenTicketsCount'],
-    queryFn: () => getAllDeptopenTicketsCount(),
+    queryFn: () => getAllDeptopenTicketsCount()
   })
   const { data: AllDeptClosedTodayTicket } = useQuery({
     queryKey: ['getallDeptClosedTodayTicket'],
-    queryFn: () => getallDeptclosedTodayTicket(),
+    queryFn: () => getallDeptclosedTodayTicket()
   })
   const { data: AllDeptRegTodayInPend } = useQuery({
     queryKey: ['getAllDeptRegTodayInPend'],
-    queryFn: () => getallDeptRegTodayInPend(),
+    queryFn: () => getallDeptRegTodayInPend()
   })
   const { data: AllDeptPevRegTodayAssing } = useQuery({
     queryKey: ['getAllDeptPevRegTodayAssing'],
-    queryFn: () => getallDeptPevRegTodayAssing(),
+    queryFn: () => getallDeptPevRegTodayAssing()
   })
   const { data: AllDeptRegistrdFromSixDays } = useQuery({
     queryKey: ['getAllDeptRegistrdFromSixDays', PostDatee],
     queryFn: () => getallDeptRegistrdFromSixDays(PostDatee),
-    enabled: !!sevenDaysbefore && !!yesterdayEndTime,
+    enabled: !!sevenDaysbefore && !!yesterdayEndTime
   })
   const { data: AllDeptClosedFromSixDays } = useQuery({
     queryKey: ['getAllDeptClosedFromSixDays', PostDatee],
     queryFn: () => getallDeptClosedFromSixDays(PostDatee),
-    enabled: !!sevenDaysbefore && !!yesterdayEndTime,
+    enabled: !!sevenDaysbefore && !!yesterdayEndTime
   })
   const { data: AllDepttRegTodayAssignToday } = useQuery({
     queryKey: ['getAllDepttRegTodayAssignToday'],
-    queryFn: () => getallDepttRegTodayAssignToday(),
+    queryFn: () => getallDepttRegTodayAssignToday()
   })
   const { data: AllDeptPevAssingTodayRect } = useQuery({
     queryKey: ['getAllDeptPevAssingTodayRect'],
-    queryFn: () => getallDeptPevAssingTodayRect(),
+    queryFn: () => getallDeptPevAssingTodayRect()
   })
 
-  const AllDeptPendingCount = useMemo(
-    () => AllDeptPending?.[0]?.alldept_new_ticket_count ?? 0,
-    [AllDeptPending]
-  )
+  const AllDeptPendingCount = useMemo(() => AllDeptPending?.[0]?.alldept_new_ticket_count ?? 0, [AllDeptPending])
   const AllDeptTodaysTicketsCount = useMemo(
     () => AllDeptTodaysTickets?.[0]?.alldept_today_reg_ticket_count ?? 0,
     [AllDeptTodaysTickets]
@@ -131,12 +128,9 @@ const AllDeptticketTile = () => {
     () => AllDeptPevAssingTodayRect?.[0]?.alldept_prevassing_recttoday_ticket_count ?? 0,
     [AllDeptPevAssingTodayRect]
   )
-  const AllDeptRegistrdFromSixDaysAvg =
-    AllDeptRegistrdFromSixDaysCount > 0 ? AllDeptRegistrdFromSixDaysCount / 6 : 0
-  const AllPendingPrev =
-    AllDeptPendingCount - AllDeptRegTodayInPendCount + AllDeptPevRegTodayAssingCount
-  const AllDeptClosedFromSixDaysCountAvg =
-    AllDeptClosedFromSixDaysCount > 0 ? AllDeptClosedFromSixDaysCount / 6 : 0
+  const AllDeptRegistrdFromSixDaysAvg = AllDeptRegistrdFromSixDaysCount > 0 ? AllDeptRegistrdFromSixDaysCount / 6 : 0
+  const AllPendingPrev = AllDeptPendingCount - AllDeptRegTodayInPendCount + AllDeptPevRegTodayAssingCount
+  const AllDeptClosedFromSixDaysCountAvg = AllDeptClosedFromSixDaysCount > 0 ? AllDeptClosedFromSixDaysCount / 6 : 0
 
   const AllPrevOpenCount = useMemo(() => {
     const isValid =
@@ -144,9 +138,7 @@ const AllDeptticketTile = () => {
       AllDepttRegTodayAssignTodayCount !== undefined &&
       AllDeptPevAssingTodayRectCount !== undefined
 
-    return isValid
-      ? AllDeptOpenTicketCount - AllDepttRegTodayAssignTodayCount + AllDeptPevAssingTodayRectCount
-      : 0
+    return isValid ? AllDeptOpenTicketCount - AllDepttRegTodayAssignTodayCount + AllDeptPevAssingTodayRectCount : 0
   }, [AllDeptOpenTicketCount, AllDepttRegTodayAssignTodayCount, AllDeptPevAssingTodayRectCount])
 
   const AllPendingPrevCount = useMemo(() => {
@@ -158,8 +150,7 @@ const AllDeptticketTile = () => {
     const difference = safePrev - safeCurrent
     const base = Math.max(safePrev, safeCurrent, 1)
     const rawPercentage = (Math.abs(difference) / base) * 100
-    const percentageStr =
-      rawPercentage % 1 === 0 ? `${rawPercentage.toFixed(0)}%` : `${rawPercentage.toFixed(1)}%`
+    const percentageStr = rawPercentage % 1 === 0 ? `${rawPercentage.toFixed(0)}%` : `${rawPercentage.toFixed(1)}%`
     if (difference > 0) {
       return { status: 1, percentage: `-${percentageStr}` }
     } else if (difference < 0) {
@@ -178,8 +169,7 @@ const AllDeptticketTile = () => {
     const difference = safeAvg - safeToday
     const base = Math.max(safeAvg, safeToday, 1) // avoid division by 0
     const rawPercentage = (Math.abs(difference) / base) * 100
-    const percentageStr =
-      rawPercentage % 1 === 0 ? `${rawPercentage.toFixed(0)}%` : `${rawPercentage.toFixed(1)}%`
+    const percentageStr = rawPercentage % 1 === 0 ? `${rawPercentage.toFixed(0)}%` : `${rawPercentage.toFixed(1)}%`
 
     if (difference > 0) {
       return { status: 1, percentage: `-${percentageStr}` }
@@ -199,8 +189,7 @@ const AllDeptticketTile = () => {
     const difference = safeAvg - safeToday
     const base = Math.max(safeAvg, safeToday, 1) // prevent division by 0
     const rawPercentage = (Math.abs(difference) / base) * 100
-    const percentageStr =
-      rawPercentage % 1 === 0 ? `${rawPercentage.toFixed(0)}%` : `${rawPercentage.toFixed(1)}%`
+    const percentageStr = rawPercentage % 1 === 0 ? `${rawPercentage.toFixed(0)}%` : `${rawPercentage.toFixed(1)}%`
 
     if (difference > 0) {
       return { status: 1, percentage: `-${percentageStr}` }
@@ -220,8 +209,7 @@ const AllDeptticketTile = () => {
     const difference = safePrev - safeToday
     const base = Math.max(safePrev, safeToday, 1) // Prevent divide-by-zero
     const rawPercentage = (Math.abs(difference) / base) * 100
-    const percentageStr =
-      rawPercentage % 1 === 0 ? `${rawPercentage.toFixed(0)}%` : `${rawPercentage.toFixed(1)}%`
+    const percentageStr = rawPercentage % 1 === 0 ? `${rawPercentage.toFixed(0)}%` : `${rawPercentage.toFixed(1)}%`
     if (difference > 0) {
       return { status: 1, percentage: `+${percentageStr}` }
     } else if (difference < 0) {

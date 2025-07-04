@@ -21,20 +21,7 @@ import CloseIcon from '@mui/icons-material/Close'
 const RoomAmenties = React.lazy(() => import('../../WeWork/Patienntsurvillence/BasicRoomAmenties'))
 const Patservice = React.lazy(() => import('../../WeWork/Patienntsurvillence/Patientservice'))
 const AssignedStaff = React.lazy(() => import('../../CommonSelectCode/AssignedStaffselect'))
-const Patientsurvillence = ({
-  ipno,
-  ptno,
-  name,
-  age,
-  docname,
-  doa,
-  mf,
-  rmno,
-  bedcode,
-  setclosebtn,
-  nurse,
-  nsdesc,
-}) => {
+const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bedcode, setclosebtn, nurse, nsdesc }) => {
   const [bedtype, setbedtype] = useState(false)
   const [rmcat, setrmcat] = useState(false)
   const [modepay, setmodpay] = useState(false)
@@ -60,7 +47,7 @@ const Patientsurvillence = ({
   const [flag, setflag] = useState(0)
   const [surv, setsurv] = useState({
     we_surv_slno: '',
-    surv_log_slno: '',
+    surv_log_slno: ''
   })
   const { we_surv_slno } = surv
 
@@ -146,7 +133,7 @@ const Patientsurvillence = ({
     { rmslno: 2, rmname: 'AC ' },
     { rmslno: 3, rmname: 'AC Delux' },
     { rmslno: 4, rmname: 'Suite' },
-    { rmslno: 5, rmname: 'VIP Suite' },
+    { rmslno: 5, rmname: 'VIP Suite' }
   ]
   //array mapping bedtype
   const bed = [
@@ -154,24 +141,24 @@ const Patientsurvillence = ({
     { bdslno: 2, bdname: 'Semi Flower' },
     { bdslno: 3, bdname: 'Side Rail' },
     { bdslno: 4, bdname: 'Bariatric Bed' },
-    { bdslno: 5, bdname: 'Electric Bed' },
+    { bdslno: 5, bdname: 'Electric Bed' }
   ]
   //array mapping payment method
   const payment = [
     { payno: 1, payname: 'Cash' },
     { payno: 2, payname: 'Insurance' },
-    { payno: 3, payname: 'Other Credit' },
+    { payno: 3, payname: 'Other Credit' }
   ]
   // array mapping packges
   const pack = [
     { pcno: 1, pcname: 'yes' },
     { pcno: 2, pcname: 'No' },
-    { pcno: 3, pcname: 'clearence from FIO' },
+    { pcno: 3, pcname: 'clearence from FIO' }
   ]
   // checkbox for remote
   const [remote, setremote] = useState({
     acremot: false,
-    tvremot: false,
+    tvremot: false
   })
   const { acremot, tvremot } = remote
   const updateremort = async e => {
@@ -181,7 +168,7 @@ const Patientsurvillence = ({
   const actvremort = useMemo(() => {
     return {
       acremot: remote.acremot === true ? 1 : 0,
-      tvremot: remote.tvremot === true ? 2 : 0,
+      tvremot: remote.tvremot === true ? 2 : 0
     }
   }, [remote.acremot, remote.tvremot])
   // checkbox for room amentities
@@ -196,7 +183,7 @@ const Patientsurvillence = ({
     bin: false,
     wood: false,
     tab: false,
-    mat: false,
+    mat: false
   })
   const roomamenties = useMemo(() => {
     return {
@@ -210,7 +197,7 @@ const Patientsurvillence = ({
       bin: ameties.bin === true ? 8 : 0,
       wood: ameties.wood === true ? 9 : 0,
       tab: ameties.tab === true ? 10 : 0,
-      mat: ameties.mat === true ? 11 : 0,
+      mat: ameties.mat === true ? 11 : 0
     }
   }, [
     ameties.sofaa,
@@ -223,33 +210,33 @@ const Patientsurvillence = ({
     ameties.bin,
     ameties.wood,
     ameties.tab,
-    ameties.mat,
+    ameties.mat
   ])
   const [service, setservice] = useState({
     bedmake: false,
     gen: false,
     initial: false,
-    visit: false,
+    visit: false
   })
   const patservice = useMemo(() => {
     return {
       bedmake: service.bedmake === true ? 1 : 0,
       gen: service.gen === true ? 2 : 0,
       initial: service.initial === true ? 3 : 0,
-      visit: service.visit === true ? 4 : 0,
+      visit: service.visit === true ? 4 : 0
     }
   }, [service.bedmake, service.gen, service.initial, service.visit])
   const postdetail = useMemo(() => {
     return {
       ip_no: ipno,
       pt_no: ptno,
-      admission_date: doa,
+      admission_date: doa
     }
   }, [ipno, ptno, doa])
   const resetremot = useMemo(() => {
     return {
       acremot: false,
-      tvremot: false,
+      tvremot: false
     }
   }, [])
   const resetamenties = useMemo(() => {
@@ -264,7 +251,7 @@ const Patientsurvillence = ({
       bin: false,
       wood: false,
       tab: false,
-      mat: false,
+      mat: false
     }
   }, [])
   const resetservice = useMemo(() => {
@@ -272,7 +259,7 @@ const Patientsurvillence = ({
       bedmake: false,
       gen: false,
       initial: false,
-      visit: false,
+      visit: false
     }
   }, [])
   const reset = useCallback(() => {
@@ -305,7 +292,7 @@ const Patientsurvillence = ({
   const detail = useMemo(() => {
     return {
       ip_no: ipno,
-      bd_code: bedcode,
+      bd_code: bedcode
     }
   }, [ipno, bedcode])
 
@@ -340,7 +327,7 @@ const Patientsurvillence = ({
           dama_remarks,
           bhrc_patient,
           pat_surv_callbell,
-          pat_surv_key,
+          pat_surv_key
         } = data[0]
         const obj1 = JSON.parse(room_amentites)
         const { sofaa, chair, card, almirah, cup, arm, kit, bin, wood, tab, mat } = obj1
@@ -355,14 +342,14 @@ const Patientsurvillence = ({
           bin: bin === 8 ? true : false,
           wood: wood === 9 ? true : false,
           tab: tab === 10 ? true : false,
-          mat: mat === 11 ? true : false,
+          mat: mat === 11 ? true : false
         }
 
         const obj2 = JSON.parse(tv_ac_remot)
         const { acremot, tvremot } = obj2
         const t = {
           acremot: acremot === 1 ? true : false,
-          tvremot: tvremot === 2 ? true : false,
+          tvremot: tvremot === 2 ? true : false
         }
 
         const obj3 = JSON.parse(pateint_service)
@@ -371,11 +358,11 @@ const Patientsurvillence = ({
           bedmake: bedmake === 1 ? true : false,
           gen: gen === 2 ? true : false,
           initial: initial === 3 ? true : false,
-          visit: visit === 4 ? true : false,
+          visit: visit === 4 ? true : false
         }
         const frmdata = {
           we_surv_slno: we_surv_slno,
-          surv_log_slno: surv_log_slno,
+          surv_log_slno: surv_log_slno
         }
         setsurv(frmdata)
         setduser(discharge_wright !== null ? discharge_wright : '')
@@ -458,7 +445,7 @@ const Patientsurvillence = ({
           bhrc_patient: bhrc === true ? 1 : 0,
           if_dama: dama === true ? 1 : 0,
           dama_remarks: reson,
-          we_employee: emid,
+          we_employee: emid
         }
         const result1 = await axioslogin.post('/WeWork/patientsurv', postData)
         const { succs, messagee } = result1.data
@@ -485,7 +472,7 @@ const Patientsurvillence = ({
       }
       const postdata = {
         ip_no: ipno,
-        pt_no: ptno,
+        pt_no: ptno
       }
       const getsurvslno = async postdata => {
         const result = await axioslogin.post(`/WeWork/survslno`, postdata)
@@ -494,7 +481,7 @@ const Patientsurvillence = ({
           const { surv_slno } = data[0]
           const shiftdetl = {
             shift_to: nurse,
-            we_surv_slno: we_surv_slno,
+            we_surv_slno: we_surv_slno
           }
           const getsurvlogslno = async shiftdetl => {
             const result = await axioslogin.post('/WeWork/logslno', shiftdetl)
@@ -529,7 +516,7 @@ const Patientsurvillence = ({
                 surv_log_slno: surv_log_slno,
                 bhrc_patient: bhrc === true ? 1 : 0,
                 if_dama: dama === true ? 1 : 0,
-                dama_remarks: reson,
+                dama_remarks: reson
               }
               Updatedata(patchData)
             }
@@ -565,7 +552,7 @@ const Patientsurvillence = ({
                 bhrc_patient: bhrc === true ? 1 : 0,
                 if_dama: dama === true ? 1 : 0,
                 dama_remarks: reson,
-                we_employee: emid,
+                we_employee: emid
               }
               const result1 = await axioslogin.post('/WeWork/patientsurv', postData)
               const { succs, messagee } = result1.data
@@ -621,7 +608,7 @@ const Patientsurvillence = ({
       reset,
       dama,
       reson,
-      bhrc,
+      bhrc
     ]
   )
 
@@ -639,7 +626,7 @@ const Patientsurvillence = ({
       sx={{
         px: 1,
         pt: 1,
-        flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' },
+        flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' }
       }}
     >
       {flag === 1 ? (
@@ -651,46 +638,26 @@ const Patientsurvillence = ({
           <Box sx={{ display: 'flex', backgroundColor: '#f0f3f5' }}>
             <Box sx={{ flex: 1 }}>
               <CssVarsProvider>
-                <Typography sx={{ fontFamily: 'Roboto', fontSize: 20, p: 1.5 }}>
-                  Patient Survillence
-                </Typography>
+                <Typography sx={{ fontFamily: 'Roboto', fontSize: 20, p: 1.5 }}>Patient Survillence</Typography>
               </CssVarsProvider>
             </Box>
             <CustomeToolTip title="Save" placement="left">
               <Box sx={{ p: 1 }}>
-                <CusIconButton
-                  size="sm"
-                  variant="outlined"
-                  color="primary"
-                  clickable="true"
-                  onClick={submited}
-                >
+                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={submited}>
                   <LibraryAddIcon fontSize="small" />
                 </CusIconButton>
               </Box>
             </CustomeToolTip>
             <CustomeToolTip title="View" placement="left">
               <Box sx={{ p: 1 }}>
-                <CusIconButton
-                  size="sm"
-                  variant="outlined"
-                  color="primary"
-                  clickable="true"
-                  onClick={SurvillenceView}
-                >
+                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={SurvillenceView}>
                   <RemoveRedEyeSharpIcon fontSize="small" />
                 </CusIconButton>
               </Box>
             </CustomeToolTip>
             <CustomeToolTip title="close" placement="left">
               <Box sx={{ p: 1 }}>
-                <CusIconButton
-                  size="sm"
-                  variant="outlined"
-                  color="primary"
-                  clickable="true"
-                  onClick={closeIcon}
-                >
+                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={closeIcon}>
                   <CloseIcon fontSize="small" />
                 </CusIconButton>
               </Box>
@@ -704,25 +671,23 @@ const Patientsurvillence = ({
                 pl: 3,
                 display: 'flex',
                 width: { xl: '100%', lg: '100%', md: '100%' },
-                flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' },
+                flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' }
               }}
             >
               <Box
                 sx={{
                   display: 'flex',
                   flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'row', xs: 'column' },
-                  width: { xl: '50%', lg: '50%', md: '50%', sm: '100%' },
+                  width: { xl: '50%', lg: '50%', md: '50%', sm: '100%' }
                 }}
               >
                 <Box
                   sx={{
                     width: { xl: '50%', lg: '50%', md: '50%', sm: '60%' },
-                    display: 'flex',
+                    display: 'flex'
                   }}
                 >
-                  <Box
-                    sx={{ width: { xl: '30%', lg: '30%', md: '38%', sm: '37%' }, display: 'flex' }}
-                  >
+                  <Box sx={{ width: { xl: '30%', lg: '30%', md: '38%', sm: '37%' }, display: 'flex' }}>
                     <Typography>#MRD.No:</Typography>
                   </Box>
                   <Box sx={{ width: { xl: '60%', lg: '70%', md: '62%', sm: '60%' } }}>
@@ -732,7 +697,7 @@ const Patientsurvillence = ({
                 <Box
                   sx={{
                     width: { xl: '50%', lg: '50%', md: '31%', sm: '60%' },
-                    display: 'flex',
+                    display: 'flex'
                   }}
                 >
                   <Box sx={{ width: { xl: '20%', lg: '25%', md: '50%', sm: '30%' } }}>
@@ -747,27 +712,23 @@ const Patientsurvillence = ({
                 sx={{
                   display: 'flex',
                   flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'row', xs: 'column' },
-                  width: { xl: '50%', lg: '50%', md: '50%', sm: '100%' },
+                  width: { xl: '50%', lg: '50%', md: '50%', sm: '100%' }
                 }}
               >
                 <Box
                   sx={{
                     width: { xl: '65%', lg: '80%', md: '80%', sm: '60%' },
-                    display: 'flex',
+                    display: 'flex'
                   }}
                 >
                   <Box sx={{ width: { xl: '30%', lg: '25%', md: '26%', sm: '37%' } }}>
                     <Typography>Name:</Typography>
                   </Box>
-                  <Box
-                    sx={{ width: { xl: '60%', lg: '75%', md: '74%', sm: '60%' }, display: 'flex' }}
-                  >
+                  <Box sx={{ width: { xl: '60%', lg: '75%', md: '74%', sm: '60%' }, display: 'flex' }}>
                     <Typography>{name}</Typography>
                   </Box>
                 </Box>
-                <Box
-                  sx={{ width: { xl: '35%', lg: '20%', md: '20%', sm: '60%' }, display: 'flex' }}
-                >
+                <Box sx={{ width: { xl: '35%', lg: '20%', md: '20%', sm: '60%' }, display: 'flex' }}>
                   <Box sx={{ width: { xl: '15%', lg: '40%', md: '50%', sm: '30%' } }}>
                     <Typography>Age:</Typography>
                   </Box>
@@ -784,19 +745,17 @@ const Patientsurvillence = ({
                 pl: 3,
                 pt: 0.5,
                 width: { xl: '100%', lg: '100%', md: '100%', sm: '100%' },
-                flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' },
+                flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' }
               }}
             >
               <Box
                 sx={{
                   display: 'flex',
                   width: { xl: '50%', lg: '50%', md: '50%', sm: '100%' },
-                  flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'row', xs: 'column' },
+                  flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'row', xs: 'column' }
                 }}
               >
-                <Box
-                  sx={{ width: { xl: '50%', lg: '50%', md: '50%', sm: '50%' }, display: 'flex' }}
-                >
+                <Box sx={{ width: { xl: '50%', lg: '50%', md: '50%', sm: '50%' }, display: 'flex' }}>
                   <Box sx={{ width: { xl: '30%', lg: '30%', md: '38%', sm: '37%' } }}>
                     <Typography>Sex:</Typography>
                   </Box>
@@ -804,9 +763,7 @@ const Patientsurvillence = ({
                     <Typography>{mf}</Typography>
                   </Box>
                 </Box>
-                <Box
-                  sx={{ width: { xl: '50%', lg: '49%', md: '50%', sm: '50%' }, display: 'flex' }}
-                >
+                <Box sx={{ width: { xl: '50%', lg: '49%', md: '50%', sm: '50%' }, display: 'flex' }}>
                   <Box sx={{ width: { xl: '21%', lg: '27%', md: '30%', sm: '30%' } }}>
                     <Typography>Room:</Typography>
                   </Box>
@@ -819,12 +776,10 @@ const Patientsurvillence = ({
                 sx={{
                   display: 'flex',
                   flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'row', xs: 'column' },
-                  width: { xl: '50%', lg: '50%', md: '50%', sm: '100%' },
+                  width: { xl: '50%', lg: '50%', md: '50%', sm: '100%' }
                 }}
               >
-                <Box
-                  sx={{ width: { xl: '65%', lg: '80%', md: '80%', sm: '65%' }, display: 'flex' }}
-                >
+                <Box sx={{ width: { xl: '65%', lg: '80%', md: '80%', sm: '65%' }, display: 'flex' }}>
                   <Box sx={{ width: { xl: '30%', lg: '25%', md: '25%', sm: '29%' } }}>
                     <Typography>Consultant:</Typography>
                   </Box>
@@ -832,9 +787,7 @@ const Patientsurvillence = ({
                     <Typography>{docname}</Typography>
                   </Box>
                 </Box>
-                <Box
-                  sx={{ width: { xl: '35%', lg: '20%', md: '20%', sm: '30%' }, display: 'flex' }}
-                >
+                <Box sx={{ width: { xl: '35%', lg: '20%', md: '20%', sm: '30%' }, display: 'flex' }}>
                   <CusCheckBox
                     variant="outlined"
                     color="primary"
@@ -855,13 +808,13 @@ const Patientsurvillence = ({
                 pl: 3,
                 pt: 0.5,
                 width: { xl: '100%', lg: '100%', md: '100%', sm: '100%' },
-                flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'row', xs: 'column' },
+                flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'row', xs: 'column' }
               }}
             >
               <Box
                 sx={{
                   width: { xl: '50%', lg: '50%', md: '50%', sm: '50%' },
-                  display: 'flex',
+                  display: 'flex'
                 }}
               >
                 <Box sx={{ width: { xl: '15%', lg: '15%', md: '19%', sm: '37%' } }}>
@@ -876,13 +829,7 @@ const Patientsurvillence = ({
                   <Typography>DOD:</Typography>
                 </Box>
                 <Box sx={{ width: { xl: '40%', lg: '40%', md: '60%', sm: '65%' } }}>
-                  <TextFieldCustom
-                    size="sm"
-                    type="datetime-local"
-                    name="duser"
-                    value={duser}
-                    onchange={doduser}
-                  />
+                  <TextFieldCustom size="sm" type="datetime-local" name="duser" value={duser} onchange={doduser} />
                 </Box>
               </Box>
             </Box>
@@ -904,15 +851,11 @@ const Patientsurvillence = ({
                   display: 'flex',
                   width: { xl: '100%', lg: '100%', md: '100%', sm: '100%' },
                   flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'row' },
-                  pl: 2,
+                  pl: 2
                 }}
               >
-                <Box
-                  sx={{ display: 'flex', width: { xl: '50%', lg: '50%', md: '50%', sm: '50%' } }}
-                >
-                  <Box
-                    sx={{ display: 'flex', width: { xl: '20%', lg: '28%', md: '30%', sm: '40%' } }}
-                  >
+                <Box sx={{ display: 'flex', width: { xl: '50%', lg: '50%', md: '50%', sm: '50%' } }}>
+                  <Box sx={{ display: 'flex', width: { xl: '20%', lg: '28%', md: '30%', sm: '40%' } }}>
                     <CssVarsProvider>
                       <Typography>Nursing station:</Typography>{' '}
                     </CssVarsProvider>
@@ -921,24 +864,12 @@ const Patientsurvillence = ({
                     <Typography>{nsdesc}</Typography>
                   </Box>
                 </Box>
-                <Box
-                  sx={{ display: 'flex', width: { xl: '50%', lg: '50%', md: '50%', sm: '50%' } }}
-                >
-                  <Box
-                    sx={{ display: 'flex', width: { xl: '25%', lg: '38%', md: '40%', sm: '50%' } }}
-                  >
+                <Box sx={{ display: 'flex', width: { xl: '50%', lg: '50%', md: '50%', sm: '50%' } }}>
+                  <Box sx={{ display: 'flex', width: { xl: '25%', lg: '38%', md: '40%', sm: '50%' } }}>
                     <Typography>Received date & time:</Typography>
                   </Box>
-                  <Box
-                    sx={{ display: 'flex', width: { xl: '50%', lg: '60%', md: '50%', sm: '50%' } }}
-                  >
-                    <TextFieldCustom
-                      size="sm"
-                      type="datetime-local"
-                      name="rstym"
-                      value={rstym}
-                      onchange={rstime}
-                    />
+                  <Box sx={{ display: 'flex', width: { xl: '50%', lg: '60%', md: '50%', sm: '50%' } }}>
+                    <TextFieldCustom size="sm" type="datetime-local" name="rstym" value={rstym} onchange={rstime} />
                   </Box>
                 </Box>
               </Box>
@@ -956,7 +887,7 @@ const Patientsurvillence = ({
                     textTransform: 'capitalize',
                     flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'row', xs: 'column' },
                     justifyContent: 'space-between',
-                    width: { xl: '90%', lg: '100%', md: '100%', sm: '100%' },
+                    width: { xl: '90%', lg: '100%', md: '100%', sm: '100%' }
                   }}
                 >
                   {roomcategory &&
@@ -966,7 +897,7 @@ const Patientsurvillence = ({
                           sx={{
                             py: 1,
                             justifyContent: 'space-between',
-                            width: { xl: '100%', lg: '100%', md: '100%' },
+                            width: { xl: '100%', lg: '100%', md: '100%' }
                           }}
                           key={val.rmslno}
                         >
@@ -1010,7 +941,7 @@ const Patientsurvillence = ({
                     textTransform: 'capitalize',
                     flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'row', xs: 'column' },
                     justifyContent: 'space-between',
-                    width: { xl: '90%', lg: '86%', md: '90%', sm: '84%' },
+                    width: { xl: '90%', lg: '86%', md: '90%', sm: '84%' }
                   }}
                 >
                   {bed &&
@@ -1019,7 +950,7 @@ const Patientsurvillence = ({
                         <Box
                           sx={{
                             justifyContent: 'space-between',
-                            width: { xl: '100%', lg: '100%', md: '100%', sm: '100%' },
+                            width: { xl: '100%', lg: '100%', md: '100%', sm: '100%' }
                           }}
                           key={val.bdslno}
                         >
@@ -1045,7 +976,7 @@ const Patientsurvillence = ({
                   sx={{
                     display: 'flex',
                     flexDirection: 'row',
-                    width: { xl: '90%', lg: '86%', md: '86%', sm: '84%' },
+                    width: { xl: '90%', lg: '86%', md: '86%', sm: '84%' }
                   }}
                 >
                   <Box sx={{ width: { xl: '20%', lg: '20%', md: '20%', sm: '20%' } }}>
@@ -1080,7 +1011,7 @@ const Patientsurvillence = ({
                   sx={{
                     display: 'flex',
                     flexDirection: 'row',
-                    width: { xl: '90%', lg: '86%', md: '86%', sm: '84%' },
+                    width: { xl: '90%', lg: '86%', md: '86%', sm: '84%' }
                   }}
                 >
                   <Box sx={{ width: { xl: '20%', lg: '20%', md: '20%', sm: '20%' } }}>
@@ -1170,63 +1101,41 @@ const Patientsurvillence = ({
                   sx={{
                     display: 'flex',
                     width: { xl: '50%', lg: '50%', md: '50%', sm: '50%' },
-                    justifyContent: 'start',
+                    justifyContent: 'start'
                   }}
                 >
-                  <Box
-                    sx={{ display: 'flex', width: { xl: '33%', lg: '30%', md: '38%', sm: '40%' } }}
-                  >
+                  <Box sx={{ display: 'flex', width: { xl: '33%', lg: '30%', md: '38%', sm: '40%' } }}>
                     <CssVarsProvider>
                       <Typography>Dietition visit time:</Typography>{' '}
                     </CssVarsProvider>
                   </Box>
-                  <Box
-                    sx={{ display: 'flex', width: { xl: '40%', lg: '50%', md: '52%', sm: '53%' } }}
-                  >
-                    <TextFieldCustom
-                      size="sm"
-                      type="datetime-local"
-                      name="dv"
-                      value={dv}
-                      onchange={getvist}
-                    />
+                  <Box sx={{ display: 'flex', width: { xl: '40%', lg: '50%', md: '52%', sm: '53%' } }}>
+                    <TextFieldCustom size="sm" type="datetime-local" name="dv" value={dv} onchange={getvist} />
                   </Box>
                 </Box>
                 <Box
                   sx={{
                     display: 'flex',
                     flexDirection: 'row',
-                    width: { xl: '50%', lg: '50%', md: '50%', sm: '50%' },
+                    width: { xl: '50%', lg: '50%', md: '50%', sm: '50%' }
                   }}
                 >
-                  <Box
-                    sx={{ display: 'flex', width: { xl: '30%', lg: '50%', md: '50%', sm: '50%' } }}
-                  >
+                  <Box sx={{ display: 'flex', width: { xl: '30%', lg: '50%', md: '50%', sm: '50%' } }}>
                     <CssVarsProvider>
                       <Typography>STAT Medicine indent time:</Typography>{' '}
                     </CssVarsProvider>
                   </Box>
-                  <Box
-                    sx={{ display: 'flex', width: { xl: '50%', lg: '50%', md: '50%', sm: '50%' } }}
-                  >
-                    <TextFieldCustom
-                      size="sm"
-                      type="datetime-local"
-                      name="st"
-                      value={st}
-                      onchange={getstat}
-                    />
+                  <Box sx={{ display: 'flex', width: { xl: '50%', lg: '50%', md: '50%', sm: '50%' } }}>
+                    <TextFieldCustom size="sm" type="datetime-local" name="st" value={st} onchange={getstat} />
                   </Box>
                 </Box>
               </Box>
               <Box sx={{ display: 'flex', width: '100%', justifyContent: 'start', pt: 0.5 }}>
-                <Box
-                  sx={{ display: 'flex', width: { xl: '50%', lg: '50%', md: '50%', sm: '50%' } }}
-                >
+                <Box sx={{ display: 'flex', width: { xl: '50%', lg: '50%', md: '50%', sm: '50%' } }}>
                   <Box
                     sx={{
                       display: 'flex',
-                      width: { xl: '29.5%', lg: '25%', md: '33%', sm: '33%' },
+                      width: { xl: '29.5%', lg: '25%', md: '33%', sm: '33%' }
                     }}
                   >
                     <CssVarsProvider>
@@ -1237,31 +1146,19 @@ const Patientsurvillence = ({
                     sx={{
                       display: 'flex',
                       width: { xl: '44%', lg: '55%', md: '58%', sm: '60%' },
-                      pl: 3,
+                      pl: 3
                     }}
                   >
-                    <TextFieldCustom
-                      size="sm"
-                      type="datetime-local"
-                      name="rt"
-                      value={rt}
-                      onchange={getrt}
-                    />
+                    <TextFieldCustom size="sm" type="datetime-local" name="rt" value={rt} onchange={getrt} />
                   </Box>
                 </Box>
-                <Box
-                  sx={{ display: 'flex', width: { xl: '50%', lg: '50%', md: '50%', sm: '50%' } }}
-                >
-                  <Box
-                    sx={{ display: 'flex', width: { xl: '30%', lg: '50%', md: '50%', sm: '50%' } }}
-                  >
+                <Box sx={{ display: 'flex', width: { xl: '50%', lg: '50%', md: '50%', sm: '50%' } }}>
+                  <Box sx={{ display: 'flex', width: { xl: '30%', lg: '50%', md: '50%', sm: '50%' } }}>
                     <CssVarsProvider>
                       <Typography>Assigned nursing staff:</Typography>{' '}
                     </CssVarsProvider>
                   </Box>
-                  <Box
-                    sx={{ display: 'flex', width: { xl: '50%', lg: '50%', md: '50%', sm: '50%' } }}
-                  >
+                  <Box sx={{ display: 'flex', width: { xl: '50%', lg: '50%', md: '50%', sm: '50%' } }}>
                     <AssignedStaff value={asn} setValue={setasn} shiftto={nurse} />
                   </Box>
                 </Box>
@@ -1294,7 +1191,7 @@ const Patientsurvillence = ({
                     textTransform: 'capitalize',
                     flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'row', xs: 'column' },
                     justifyContent: 'space-between',
-                    width: { xl: '100%', lg: '100%', md: '100%', sm: '100%' },
+                    width: { xl: '100%', lg: '100%', md: '100%', sm: '100%' }
                   }}
                 >
                   {payment &&
@@ -1303,7 +1200,7 @@ const Patientsurvillence = ({
                         <Box
                           sx={{
                             justifyContent: 'space-between',
-                            width: { xl: '100%', lg: '100%', md: '100%', sm: '100%' },
+                            width: { xl: '100%', lg: '100%', md: '100%', sm: '100%' }
                           }}
                           key={val.payno}
                         >
@@ -1333,7 +1230,7 @@ const Patientsurvillence = ({
                     textTransform: 'capitalize',
                     flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'row', xs: 'column' },
                     justifyContent: 'space-between',
-                    width: { xl: '100%', lg: '100%', md: '100%', sm: '100%' },
+                    width: { xl: '100%', lg: '100%', md: '100%', sm: '100%' }
                   }}
                 >
                   {pack &&
@@ -1342,7 +1239,7 @@ const Patientsurvillence = ({
                         <Box
                           sx={{
                             justifyContent: 'space-between',
-                            width: { xl: '100%', lg: '100%', md: '100%', sm: '100%' },
+                            width: { xl: '100%', lg: '100%', md: '100%', sm: '100%' }
                           }}
                           key={val.pcno}
                         >
@@ -1364,7 +1261,7 @@ const Patientsurvillence = ({
                   flexDirection: 'row',
                   width: '100%',
                   justifyContent: 'start',
-                  pt: 0.5,
+                  pt: 0.5
                 }}
               >
                 <Box sx={{ width: { xl: '16.5%', lg: '20%', md: '20%', sm: '20%' } }}>
@@ -1372,9 +1269,7 @@ const Patientsurvillence = ({
                     <Typography>Document Status(if any):</Typography>
                   </CssVarsProvider>
                 </Box>
-                <Box
-                  sx={{ display: 'flex', width: { xl: '73%', lg: '80%', md: '75%', sm: '78%' } }}
-                >
+                <Box sx={{ display: 'flex', width: { xl: '73%', lg: '80%', md: '75%', sm: '78%' } }}>
                   <TextFieldCustom size="sm" type="text" name="doc" value={doc} onchange={getdoc} />
                 </Box>
               </Box>
@@ -1384,7 +1279,7 @@ const Patientsurvillence = ({
                   flexDirection: 'row',
                   width: '100%',
                   justifyContent: 'start',
-                  pt: 0.5,
+                  pt: 0.5
                 }}
               >
                 <Box sx={{ width: { xl: '16.5%', lg: '20%', md: '20%', sm: '20%' } }}>
@@ -1392,16 +1287,8 @@ const Patientsurvillence = ({
                     <Typography>Details if Credit:</Typography>
                   </CssVarsProvider>
                 </Box>
-                <Box
-                  sx={{ display: 'flex', width: { xl: '73%', lg: '80%', md: '75%', sm: '78%' } }}
-                >
-                  <TextFieldCustom
-                    size="sm"
-                    type="text"
-                    name="cr"
-                    value={cr}
-                    onchange={getcredit}
-                  />
+                <Box sx={{ display: 'flex', width: { xl: '73%', lg: '80%', md: '75%', sm: '78%' } }}>
+                  <TextFieldCustom size="sm" type="text" name="cr" value={cr} onchange={getcredit} />
                 </Box>
               </Box>
               <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%', pt: 0.5 }}>
@@ -1414,7 +1301,7 @@ const Patientsurvillence = ({
                   sx={{
                     display: 'flex',
                     flexDirection: 'row',
-                    width: { xl: '73%', lg: '80%', md: '75%', sm: '78%' },
+                    width: { xl: '73%', lg: '80%', md: '75%', sm: '78%' }
                   }}
                 >
                   <TextFieldCustom size="sm" type="text" name="sfa" value={sfa} onchange={getsfa} />
@@ -1427,13 +1314,7 @@ const Patientsurvillence = ({
                   </CssVarsProvider>
                 </Box>
                 <Box sx={{ width: { xl: '73%', lg: '80%', md: '75%', sm: '78%' } }}>
-                  <TextFieldCustom
-                    size="sm"
-                    type="text"
-                    name="remr"
-                    value={remr}
-                    onchange={getremark}
-                  />
+                  <TextFieldCustom size="sm" type="text" name="remr" value={remr} onchange={getremark} />
                 </Box>
               </Box>
               <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%', pt: 0.5 }}>

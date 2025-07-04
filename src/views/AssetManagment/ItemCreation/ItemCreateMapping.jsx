@@ -17,7 +17,7 @@ const ItemCreateMapping = ({ itemList, rowSelect }) => {
             slno: val.item_creation_slno,
             Item_name: val.item_name,
             Item_types: val.asset_spare === 1 ? 'ASSET' : 'SPARE',
-            type: val.asset_spare,
+            type: val.asset_spare
           }
           return obj
         })
@@ -30,7 +30,7 @@ const ItemCreateMapping = ({ itemList, rowSelect }) => {
         minHeight: 80,
         maxHeight: 300,
         overflow: 'auto',
-        mt: 2,
+        mt: 2
       }}
     >
       <CssVarsProvider>

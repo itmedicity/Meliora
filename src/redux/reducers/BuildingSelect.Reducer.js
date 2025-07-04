@@ -3,7 +3,7 @@ const { FETCH_BUILDING_SELECT } = ActionTyps
 
 const BuildingName = {
   buildingList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 export const getBuildingdata = (state = BuildingName, { type, payload }) => {
   switch (type) {

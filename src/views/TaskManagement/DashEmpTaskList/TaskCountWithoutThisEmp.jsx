@@ -25,7 +25,7 @@ const TaskCountWithoutThisEmp = ({ otherempTask }) => {
                 borderTopRightRadius: 2,
                 borderTopLeftRadius: 2,
                 borderColor: '#ADC9C5',
-                cursor: 'Pointer',
+                cursor: 'Pointer'
               }}
             >
               <Box sx={{ flex: 1 }}>Other Tasks under this Project</Box>
@@ -54,7 +54,7 @@ const TaskCountWithoutThisEmp = ({ otherempTask }) => {
                         borderRadius: 0,
                         display: 'flex',
                         mt: 0.5,
-                        color: 'black',
+                        color: 'black'
                       }}
                     >
                       <Box
@@ -70,7 +70,7 @@ const TaskCountWithoutThisEmp = ({ otherempTask }) => {
                           fontWeight: 800,
                           mt: 1,
                           mx: 0.5,
-                          color: 'white',
+                          color: 'white'
                         }}
                       >
                         {index + 1}
@@ -82,7 +82,7 @@ const TaskCountWithoutThisEmp = ({ otherempTask }) => {
                               fontSize: 13,
                               flex: 4,
                               textTransform: 'capitalize',
-                              cursor: 'grab',
+                              cursor: 'grab'
                             }}
                           >
                             {val.tm_task_name}
@@ -94,7 +94,7 @@ const TaskCountWithoutThisEmp = ({ otherempTask }) => {
                               flex: 4,
                               textTransform: 'capitalize',
                               cursor: 'grab',
-                              color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black',
+                              color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black'
                             }}
                           >
                             {val.tm_task_name}
@@ -110,7 +110,7 @@ const TaskCountWithoutThisEmp = ({ otherempTask }) => {
                             display: 'flex',
                             justifyContent: 'center',
                             color: '#3B0404',
-                            textTransform: 'capitalize',
+                            textTransform: 'capitalize'
                           }}
                         >
                           {create_empnamee}
@@ -125,7 +125,7 @@ const TaskCountWithoutThisEmp = ({ otherempTask }) => {
                             display: 'flex',
                             justifyContent: 'center',
                             color: '#3B0404',
-                            textTransform: 'capitalize',
+                            textTransform: 'capitalize'
                           }}
                         >
                           {assignedEmp_name}
@@ -141,7 +141,7 @@ const TaskCountWithoutThisEmp = ({ otherempTask }) => {
                               p: 0.5,
                               flex: 1,
                               justifyContent: 'center',
-                              mr: 0.5,
+                              mr: 0.5
                             }}
                           >
                             <CountDowncomponent DueDates={val.tm_task_due_date} />
@@ -156,7 +156,7 @@ const TaskCountWithoutThisEmp = ({ otherempTask }) => {
                               p: 0.5,
                               flex: 1,
                               justifyContent: 'center',
-                              mr: 0.5,
+                              mr: 0.5
                             }}
                           >
                             completed
@@ -170,12 +170,10 @@ const TaskCountWithoutThisEmp = ({ otherempTask }) => {
                               fontSize: 13,
                               flex: 1,
                               textTransform: 'capitalize',
-                              cursor: 'grab',
+                              cursor: 'grab'
                             }}
                           >
-                            <EventNoteRoundedIcon
-                              sx={{ width: 20, height: 20, mt: 0.2, mr: 0.2, color: '#435D84' }}
-                            />{' '}
+                            <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: 0.2, mr: 0.2, color: '#435D84' }} />{' '}
                             {val.create_date}
                           </FormLabel>
                         ) : (
@@ -186,12 +184,10 @@ const TaskCountWithoutThisEmp = ({ otherempTask }) => {
                               textTransform: 'capitalize',
                               cursor: 'grab',
                               color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black',
-                              display: 'flex',
+                              display: 'flex'
                             }}
                           >
-                            <EventNoteRoundedIcon
-                              sx={{ width: 20, height: 20, mt: 0.2, mr: 0.2, color: '#435D84' }}
-                            />{' '}
+                            <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: 0.2, mr: 0.2, color: '#435D84' }} />{' '}
                             {val.create_date}
                           </FormLabel>
                         )}
@@ -203,12 +199,10 @@ const TaskCountWithoutThisEmp = ({ otherempTask }) => {
                               fontSize: 13,
                               flex: 1,
                               textTransform: 'capitalize',
-                              cursor: 'grab',
+                              cursor: 'grab'
                             }}
                           >
-                            <EventNoteRoundedIcon
-                              sx={{ width: 20, height: 20, mt: 0.2, mr: 0.2, color: '#435D84' }}
-                            />{' '}
+                            <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: 0.2, mr: 0.2, color: '#435D84' }} />{' '}
                             {val.tm_task_due_date}
                           </FormLabel>
                         ) : (
@@ -218,12 +212,10 @@ const TaskCountWithoutThisEmp = ({ otherempTask }) => {
                               flex: 1,
                               textTransform: 'capitalize',
                               cursor: 'grab',
-                              color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black',
+                              color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black'
                             }}
                           >
-                            <EventNoteRoundedIcon
-                              sx={{ width: 20, height: 20, mt: 0.2, mr: 0.2, color: '#435D84' }}
-                            />{' '}
+                            <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: 0.2, mr: 0.2, color: '#435D84' }} />{' '}
                             {val.tm_task_due_date}
                           </FormLabel>
                         )}
@@ -251,7 +243,7 @@ const TaskCountWithoutThisEmp = ({ otherempTask }) => {
                                   ? '#5885AF'
                                   : 'transparent',
                               minHeight: 5,
-                              fontWeight: 700,
+                              fontWeight: 700
                             }}
                           >
                             {val.tm_task_status === 0

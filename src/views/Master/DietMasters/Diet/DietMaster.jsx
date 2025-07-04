@@ -22,7 +22,7 @@ const DietMaster = () => {
     diet_name: '',
     diet_status: false,
     order_req: false,
-    diet_type_choose: false,
+    diet_type_choose: false
   })
   //object Destructuring
   const { diet_name, diet_status, order_req, diet_type_choose, diet_slno } = diet
@@ -44,7 +44,7 @@ const DietMaster = () => {
       diet_status: diet_status === true ? 1 : 0,
       order_req: order_req === true ? 1 : 0,
       diet_type_choose: diet_type_choose === true ? 1 : 0,
-      em_id: id,
+      em_id: id
     }
   }, [diet_name, diet_status, order_req, diet_type_choose, id])
   //Data set to textfields for editing
@@ -57,7 +57,7 @@ const DietMaster = () => {
       diet_name: diet_name,
       diet_status: diet_status === 1 ? true : false,
       order_req: order_req === 1 ? true : false,
-      diet_type_choose: diet_type_choose === 1 ? true : false,
+      diet_type_choose: diet_type_choose === 1 ? true : false
     }
     setDiet(frmdata)
   }, [])
@@ -68,7 +68,7 @@ const DietMaster = () => {
       order_req: order_req === true ? 1 : 0,
       diet_type_choose: diet_type_choose === true ? 1 : 0,
       em_id: id,
-      diet_slno: diet_slno,
+      diet_slno: diet_slno
     }
   }, [diet_name, diet_status, order_req, diet_type_choose, diet_slno, id])
   const submitDiet = useCallback(
@@ -78,7 +78,7 @@ const DietMaster = () => {
         diet_name: '',
         diet_status: false,
         order_req: false,
-        diet_type_choose: false,
+        diet_type_choose: false
       }
       const InsertData = async postData => {
         const result = await axioslogin.post(`/diet`, postData)
@@ -126,17 +126,12 @@ const DietMaster = () => {
       diet_name: '',
       diet_status: false,
       order_req: false,
-      diet_type_choose: false,
+      diet_type_choose: false
     }
     setDiet(formReset)
   }, [setDiet])
   return (
-    <CardMaster
-      title="Diet Master"
-      submit={submitDiet}
-      refresh={refreshWindow}
-      close={backToSetting}
-    >
+    <CardMaster title="Diet Master" submit={submitDiet} refresh={refreshWindow} close={backToSetting}>
       <Box sx={{ p: 1 }}>
         <Grid container spacing={1}>
           <Grid item xl={4} lg={4}>

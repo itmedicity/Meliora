@@ -8,11 +8,11 @@ import { format } from 'date-fns'
 const PendingCondemnationList = ({ empdept }) => {
   const { data: AsssetCodmnation } = useQuery({
     queryKey: ['getAssetUnderCondmnation', empdept],
-    queryFn: () => getAssetUnderCondmnation(empdept),
+    queryFn: () => getAssetUnderCondmnation(empdept)
   })
   const { data: SpareCodmnation } = useQuery({
     queryKey: ['getSpareUnderCondmnation', empdept],
-    queryFn: () => getSpareUnderCondmnation(empdept),
+    queryFn: () => getSpareUnderCondmnation(empdept)
   })
 
   const CombinedCodm = useMemo(() => {
@@ -33,9 +33,7 @@ const PendingCondemnationList = ({ empdept }) => {
   const handleSelectAllChange = () => {
     setSelectAll(prev => {
       const newSelectAll = !prev
-      const newSelectedRows = newSelectAll
-        ? CombinedCodm.map(item => `${item.slno}-${item.type}`)
-        : []
+      const newSelectedRows = newSelectAll ? CombinedCodm.map(item => `${item.slno}-${item.type}`) : []
       setSelectedRows(newSelectedRows)
       setSortedData([...CombinedCodm])
       return newSelectAll
@@ -48,12 +46,8 @@ const PendingCondemnationList = ({ empdept }) => {
       const newSelected = prevSelected.includes(identifier)
         ? prevSelected.filter(id => id !== identifier)
         : [...prevSelected, identifier]
-      const selectedData = CombinedCodm.filter(item =>
-        newSelected.includes(`${item.slno}-${item.type}`)
-      )
-      const unselectedData = CombinedCodm.filter(
-        item => !newSelected.includes(`${item.slno}-${item.type}`)
-      )
+      const selectedData = CombinedCodm.filter(item => newSelected.includes(`${item.slno}-${item.type}`))
+      const unselectedData = CombinedCodm.filter(item => !newSelected.includes(`${item.slno}-${item.type}`))
       setTimeout(() => {
         setSortedData([...selectedData, ...unselectedData])
       }, 400)
@@ -68,7 +62,7 @@ const PendingCondemnationList = ({ empdept }) => {
           sx={{
             width: '100%',
             p: 1,
-            flex: 1,
+            flex: 1
           }}
         >
           <Box sx={{ overflow: 'auto' }}>
@@ -80,30 +74,16 @@ const PendingCondemnationList = ({ empdept }) => {
                 borderTop: 1,
                 borderColor: 'lightgray',
                 bgcolor: 'white',
-                alignItems: 'center',
+                alignItems: 'center'
               }}
             >
-              <Checkbox
-                checked={selectAll}
-                onChange={handleSelectAllChange}
-                sx={{ pl: 1, pr: 2 }}
-              />
-              <Box sx={{ width: 120, fontWeight: 600, color: '#444444', fontSize: 13 }}>
-                Asset No.
-              </Box>
+              <Checkbox checked={selectAll} onChange={handleSelectAllChange} sx={{ pl: 1, pr: 2 }} />
+              <Box sx={{ width: 120, fontWeight: 600, color: '#444444', fontSize: 13 }}>Asset No.</Box>
               <Box sx={{ flex: 1, fontWeight: 600, color: '#444444', fontSize: 13 }}>Category</Box>
-              <Box sx={{ flex: 3, fontWeight: 600, color: '#444444', fontSize: 13, pl: 6 }}>
-                Item Name
-              </Box>
-              <Box sx={{ flex: 2, fontWeight: 600, color: '#444444', fontSize: 13, pl: 6 }}>
-                Reason
-              </Box>
-              <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 13 }}>
-                Transfered Employee
-              </Box>
-              <Box sx={{ width: 140, fontWeight: 600, color: '#444444', fontSize: 13 }}>
-                Transfered Date
-              </Box>
+              <Box sx={{ flex: 3, fontWeight: 600, color: '#444444', fontSize: 13, pl: 6 }}>Item Name</Box>
+              <Box sx={{ flex: 2, fontWeight: 600, color: '#444444', fontSize: 13, pl: 6 }}>Reason</Box>
+              <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 13 }}>Transfered Employee</Box>
+              <Box sx={{ width: 140, fontWeight: 600, color: '#444444', fontSize: 13 }}>Transfered Date</Box>
             </Box>
 
             <Box sx={{ width: '100%', overflow: 'auto' }}>
@@ -128,7 +108,7 @@ const PendingCondemnationList = ({ empdept }) => {
                         background: isSelected ? '#e0f7fa' : val.hold_color,
                         transition: 'transform 0.3s ease',
                         transform: isSelected ? 'translateY(-5px)' : 'translateY(0)',
-                        alignItems: 'center',
+                        alignItems: 'center'
                       }}
                     >
                       <Checkbox
@@ -138,37 +118,25 @@ const PendingCondemnationList = ({ empdept }) => {
                       />
                       <Box sx={{ width: 120, color: '#444444', fontSize: 14 }}>
                         {val.spare_asset_no
-                          ? `${val.spare_asset_no}/${(val.spare_asset_no_only ?? 0)
-                              .toString()
-                              .padStart(6, '0')}`
-                          : `${val.item_asset_no}/${(val.item_asset_no_only ?? 0)
-                              .toString()
-                              .padStart(6, '0')}`}
+                          ? `${val.spare_asset_no}/${(val.spare_asset_no_only ?? 0).toString().padStart(6, '0')}`
+                          : `${val.item_asset_no}/${(val.item_asset_no_only ?? 0).toString().padStart(6, '0')}`}
                       </Box>
-                      <Box sx={{ flex: 1, color: '#444444', fontSize: 14 }}>
-                        {val.category_name}
-                      </Box>
-                      <Box sx={{ flex: 3, color: '#444444', fontSize: 14, pl: 6 }}>
-                        {val.item_name}
-                      </Box>
-                      <Box sx={{ flex: 2, color: '#444444', fontSize: 14, pl: 6 }}>
-                        {val.condm_transf_remarks}
-                      </Box>
+                      <Box sx={{ flex: 1, color: '#444444', fontSize: 14 }}>{val.category_name}</Box>
+                      <Box sx={{ flex: 3, color: '#444444', fontSize: 14, pl: 6 }}>{val.item_name}</Box>
+                      <Box sx={{ flex: 2, color: '#444444', fontSize: 14, pl: 6 }}>{val.condm_transf_remarks}</Box>
                       <Box
                         sx={{
                           width: 150,
                           fontWeight: 600,
                           color: '#444444',
                           fontSize: 12,
-                          pl: 0.5,
+                          pl: 0.5
                         }}
                       >
                         {val.condm_trans_emp}
                       </Box>
                       <Box sx={{ width: 140, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-                        {val.item_condm_date
-                          ? format(new Date(val.item_condm_date), 'dd MMM yyyy,  hh:mm a')
-                          : ''}
+                        {val.item_condm_date ? format(new Date(val.item_condm_date), 'dd MMM yyyy,  hh:mm a') : ''}
                       </Box>
                     </Box>
                   )
@@ -188,7 +156,7 @@ const PendingCondemnationList = ({ empdept }) => {
             fontWeight: 800,
             fontSize: 25,
             color: 'lightgrey',
-            height: '100%',
+            height: '100%'
           }}
         >
           Empty List

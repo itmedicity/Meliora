@@ -28,7 +28,7 @@ const AssetSubModel = () => {
   const [submodel, setsubmodel] = useState({
     submodel_slno: '',
     submodel_name: '',
-    submodel_status: false,
+    submodel_status: false
   })
   const { submodel_slno, submodel_name, submodel_status } = submodel
   const Updatesubmodel = useCallback(
@@ -42,7 +42,7 @@ const AssetSubModel = () => {
     const frmdata = {
       submodel_slno: '',
       submodel_name: '',
-      submodel_status: false,
+      submodel_status: false
     }
     setsubmodel(frmdata)
     setCount(0)
@@ -55,7 +55,7 @@ const AssetSubModel = () => {
       submodel_name: submodel_name,
       model_slno: model,
       submodel_status: submodel_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [submodel_name, submodel_status, model, id])
   const patchdata = useMemo(() => {
@@ -64,7 +64,7 @@ const AssetSubModel = () => {
       submodel_name: submodel_name,
       model_slno: model,
       submodel_status: submodel_status === true ? 1 : 0,
-      edit_user: id,
+      edit_user: id
     }
   }, [submodel_slno, submodel_name, model, submodel_status, id])
   const rowSelect = useCallback(params => {
@@ -74,7 +74,7 @@ const AssetSubModel = () => {
     const frmdata = {
       submodel_slno: submodel_slno,
       submodel_name: submodel_name,
-      submodel_status: submodel_status === 1 ? true : false,
+      submodel_status: submodel_status === 1 ? true : false
     }
     setsubmodel(frmdata)
     setModel(model_slno)
@@ -84,7 +84,7 @@ const AssetSubModel = () => {
     setSelectFile(file)
     const options = {
       maxSizeMB: 1,
-      maxWidthOrHeight: 1920,
+      maxWidthOrHeight: 1920
     }
     const compressedFile = await imageCompression(file, options)
     setSelectFile(compressedFile)
@@ -160,7 +160,7 @@ const AssetSubModel = () => {
     const frmdata = {
       submodel_slno: '',
       submodel_name: '',
-      submodel_status: false,
+      submodel_status: false
     }
     setsubmodel(frmdata)
     setValue(0)
@@ -168,12 +168,7 @@ const AssetSubModel = () => {
     setSelectFile(null)
   }, [setsubmodel, setModel, setSelectFile])
   return (
-    <CardMaster
-      title="Submodel"
-      submit={submitSubmodel}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Submodel" submit={submitSubmodel} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
         <Box sx={{ width: '30%', p: 1 }}>
           <Box>

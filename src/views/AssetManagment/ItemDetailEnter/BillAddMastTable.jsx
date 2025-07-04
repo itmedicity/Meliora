@@ -14,7 +14,7 @@ const BillAddMastTable = ({ count, rowSelect }) => {
   const [filters, setFilters] = useState({
     billlNo: '',
     suppplier: '',
-    billlDate: '',
+    billlDate: ''
   })
 
   useEffect(() => {
@@ -39,14 +39,14 @@ const BillAddMastTable = ({ count, rowSelect }) => {
     const value = e.target.value
     setFilters(prevFilters => ({
       ...prevFilters,
-      [field]: value,
+      [field]: value
     }))
   }
 
   const [anchorEl, setAnchorEl] = useState({
     billlNo: null,
     suppplier: null,
-    billlDate: null,
+    billlDate: null
   })
 
   const handleMenuOpen = (event, menuType) => {
@@ -75,7 +75,7 @@ const BillAddMastTable = ({ count, rowSelect }) => {
         maxHeight: 240,
         border: 1,
         borderColor: 'lightgray',
-        overflow: 'auto',
+        overflow: 'auto'
       }}
     >
       <CssVarsProvider>
@@ -98,27 +98,19 @@ const BillAddMastTable = ({ count, rowSelect }) => {
                       zIndex: 1301,
                       padding: 2,
                       border: 1,
-                      borderColor: '#055CAA',
+                      borderColor: '#055CAA'
                     }}
                   >
                     <Box sx={{ display: 'flex', cursor: 'pointer', px: 0.5 }}>
                       <Typography sx={{ flex: 1 }}>
-                        {field === 'billlNo'
-                          ? 'Bill No.'
-                          : field === 'suppplier'
-                          ? 'Supplier'
-                          : 'Bill Date'}
+                        {field === 'billlNo' ? 'Bill No.' : field === 'suppplier' ? 'Supplier' : 'Bill Date'}
                       </Typography>
                       <CloseIcon onClick={() => handleMenuClose(field)} />
                     </Box>
                     <MenuItem sx={{ padding: 0, border: 0, borderColor: 'white' }}>
                       <Input
                         placeholder={`Search ${
-                          field === 'billlNo'
-                            ? 'Bill No.'
-                            : field === 'suppplier'
-                            ? 'Supplier'
-                            : 'Bill Date'
+                          field === 'billlNo' ? 'Bill No.' : field === 'suppplier' ? 'Supplier' : 'Bill Date'
                         }`}
                         value={filters[field]}
                         onChange={e => handleFilterChange(e, field)}
@@ -131,11 +123,7 @@ const BillAddMastTable = ({ count, rowSelect }) => {
                         sx={{ py: 0.2, color: 'grey', cursor: 'pointer', width: 20, height: 20 }}
                       />
                       <Typography sx={{ fontWeight: 600, color: 'black', fontSize: 14 }}>
-                        {field === 'billlNo'
-                          ? 'Bill No.'
-                          : field === 'suppplier'
-                          ? 'Supplier'
-                          : 'Bill Date'}
+                        {field === 'billlNo' ? 'Bill No.' : field === 'suppplier' ? 'Supplier' : 'Bill Date'}
                       </Typography>
                     </Box>
                   </IconButton>
@@ -147,11 +135,7 @@ const BillAddMastTable = ({ count, rowSelect }) => {
             {filteredAssetListInstock.map((val, index) => (
               <tr key={index}>
                 <td>
-                  <EditIcon
-                    size={6}
-                    onClick={() => rowSelect(val)}
-                    sx={{ cursor: 'pointer', ml: 1 }}
-                  />
+                  <EditIcon size={6} onClick={() => rowSelect(val)} sx={{ cursor: 'pointer', ml: 1 }} />
                 </td>
                 <td style={{ paddingLeft: 10 }}>{val.am_bill_mastslno}</td>
                 <td style={{ paddingLeft: 15 }}>{val.am_bill_no}</td>

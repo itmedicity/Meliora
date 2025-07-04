@@ -27,7 +27,7 @@ const DischargeList = () => {
     { headerName: 'consultant', field: 'doc_name', filter: true },
     { headerName: 'shift_from', field: 'shift_from' },
     { headerName: 'shift_to', field: 'shift_to' },
-    { headerName: 'Room', field: 'rmc_desc' },
+    { headerName: 'Room', field: 'rmc_desc' }
   ])
 
   return (

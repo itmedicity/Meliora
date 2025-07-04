@@ -41,7 +41,7 @@ const AmModelNumberSelect = ({ modelNumber, setModelNumber }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '29px',
+            '--Input-minHeight': '29px'
           }}
           value={modelNumber === 0 ? grps : value}
           placeholder="Select Model No"

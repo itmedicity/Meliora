@@ -10,7 +10,7 @@ const ProjectProgress = ({ val }) => {
   const searchData = useMemo(() => {
     return {
       tm_project_slno: tm_project_slno,
-      tm_assigne_emp: tm_assigne_emp,
+      tm_assigne_emp: tm_assigne_emp
     }
   }, [tm_project_slno, tm_assigne_emp])
   useEffect(() => {
@@ -47,7 +47,7 @@ const ProjectProgress = ({ val }) => {
                 '--LinearProgress-thickness': '11px',
                 bgcolor: 'white',
                 color: '#92443A',
-                height: 17,
+                height: 17
               }}
             >
               <Typography fontSize={12} sx={{ mixBlendMode: 'difference', color: 'white' }}>

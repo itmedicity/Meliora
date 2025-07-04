@@ -39,16 +39,16 @@ const CrfCommonMaster = () => {
     gmo_name: '',
     md_name: '',
     ed_name: '',
-    managing_director_name: '',
+    managing_director_name: ''
   })
   const {
     data: compData,
     isLoading: isCompLoading,
-    error: compError,
+    error: compError
   } = useQuery({
     queryKey: 'getCompany',
     queryFn: () => getCompanyDetails(),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const companyData = useMemo(() => compData, [compData])
 
@@ -83,7 +83,7 @@ const CrfCommonMaster = () => {
             gmo_name: data[0]?.gmo_status_name || 'GM Operations',
             md_name: data[0]?.md_status_name || 'MD',
             ed_name: data[0]?.ed_status_name || 'ED',
-            managing_director_name: data[0]?.managing_director_name || 'Managing Director',
+            managing_director_name: data[0]?.managing_director_name || 'Managing Director'
           })
         } else {
           setEditRowData([])
@@ -123,7 +123,7 @@ const CrfCommonMaster = () => {
     gmo_name,
     md_name,
     ed_name,
-    managing_director_name,
+    managing_director_name
   } = crfName
 
   // submit data
@@ -150,7 +150,7 @@ const CrfCommonMaster = () => {
         gmo_name: gmo_name,
         md_name: md_name,
         ed_name: ed_name,
-        managing_director_name: managing_director_name,
+        managing_director_name: managing_director_name
       }
       if (UpdateFlag === 1) {
         const result = await axioslogin.post('/newCRFRegister/CommonMasterSetting/update', postData)
@@ -195,25 +195,20 @@ const CrfCommonMaster = () => {
       gmo_name,
       md_name,
       ed_name,
-      managing_director_name,
+      managing_director_name
     ]
   )
   if (isCompLoading) return <p>Loading...</p>
   if (compError) return <p>Error Occurred.</p>
   return (
     <CssVarsProvider>
-      <CardMaster
-        title="Common Setting CRF"
-        submit={submitComapnyName}
-        close={backtoSetting}
-        refresh={refreshWindow}
-      >
+      <CardMaster title="Common Setting CRF" submit={submitComapnyName} close={backtoSetting} refresh={refreshWindow}>
         <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
           <Box sx={{ width: '50%', p: 1 }}>
             <Box
               sx={{
                 mt: 0.2,
-                overflow: 'auto',
+                overflow: 'auto'
               }}
             >
               <Paper variant="outlined" sx={{ width: '100%', pl: 0.5, bgcolor: '#f0f3f5' }}>
@@ -226,18 +221,14 @@ const CrfCommonMaster = () => {
                   defaultValue="0"
                   sx={{ fontSize: 13, width: '100%', height: 38, bgcolor: 'white' }}
                   slotProps={{
-                    listbox: { placement: 'bottom-start' },
+                    listbox: { placement: 'bottom-start' }
                   }}
                   placeholder="Select Company"
                   value={companyslno}
                   onChange={(e, newValue) => setCompanySlno(newValue)}
                 >
                   {companyData?.map(val => (
-                    <Option
-                      key={val.company_slno}
-                      value={val.company_slno}
-                      label={val.company_name}
-                    >
+                    <Option key={val.company_slno} value={val.company_slno} label={val.company_name}>
                       {val.company_name}
                     </Option>
                   ))}

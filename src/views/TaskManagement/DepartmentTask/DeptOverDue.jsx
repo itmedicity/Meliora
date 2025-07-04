@@ -88,7 +88,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                   ? 'Not Started'
                   : 'Not Started',
               tm_task_file: val.tm_task_file,
-              tm_mast_duedate_count: val.tm_mast_duedate_count,
+              tm_mast_duedate_count: val.tm_mast_duedate_count
             }
             return obj
           })
@@ -202,8 +202,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
 
   const SearchInTableProject = useCallback(() => {
     if (projectz !== 0) {
-      let newTableDataaProject =
-        tableData && tableData.filter(val => val.tm_project_slno === projectz)
+      let newTableDataaProject = tableData && tableData.filter(val => val.tm_project_slno === projectz)
       setsearchFlag(1)
       setProjectBasdData(newTableDataaProject)
     } else {
@@ -213,8 +212,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
 
   useEffect(() => {
     if (projxFlag === 1) {
-      let newTableDataaProject =
-        tableData && tableData.filter(val => val.tm_project_slno === projectz)
+      let newTableDataaProject = tableData && tableData.filter(val => val.tm_project_slno === projectz)
       setProjectBasdData(newTableDataaProject)
     }
   }, [taskcount, tableData, alphbased, enterText, projectz, projxFlag])
@@ -243,8 +241,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
     if (alphbased === 1) {
       const searchText = enterText.trim().toLowerCase()
       const newTableDataa =
-        tableData &&
-        tableData.filter(val => val.tm_task_name.trim().toLowerCase().includes(searchText))
+        tableData && tableData.filter(val => val.tm_task_name.trim().toLowerCase().includes(searchText))
       setAlphbasedData(newTableDataa)
     }
   }, [taskcount, tableData, alphbased, enterText])
@@ -257,8 +254,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
 
   useEffect(() => {
     if (statusFlag === 1) {
-      let newTablStatusDataa =
-        tableData && tableData.filter(val => val.tm_task_status === taskstatus)
+      let newTablStatusDataa = tableData && tableData.filter(val => val.tm_task_status === taskstatus)
       setStatusData(newTablStatusDataa)
     }
   }, [statuscount, tableData, statusFlag, taskstatus])
@@ -294,17 +290,9 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
         <Box sx={{ flex: 1 }}>
           <Box sx={{ flex: 1, display: 'flex', ml: 2 }}>
             <Box sx={{ flex: 0.5, display: 'flex', cursor: 'pointer' }} onClick={projxWise}>
-              {borderB === 1 ? (
-                <SwapVertIcon sx={{ p: 0.3, color: 'blue' }} />
-              ) : (
-                <SwapVertIcon sx={{ p: 0.3 }} />
-              )}
+              {borderB === 1 ? <SwapVertIcon sx={{ p: 0.3, color: 'blue' }} /> : <SwapVertIcon sx={{ p: 0.3 }} />}
               <Typography sx={{ fontSize: 12, '&:hover': { color: 'blue' } }}>
-                {borderB === 1 ? (
-                  <u style={{ textDecorationColor: 'blue', color: 'blue' }}>Project</u>
-                ) : (
-                  <>Project</>
-                )}
+                {borderB === 1 ? <u style={{ textDecorationColor: 'blue', color: 'blue' }}>Project</u> : <>Project</>}
               </Typography>
             </Box>
             <Box sx={{ flex: 0.5, display: 'flex', cursor: 'pointer' }} onClick={taskWise}>
@@ -315,25 +303,13 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
               )}
 
               <Typography sx={{ fontSize: 12, '&:hover': { color: 'blue' }, pt: 0.1 }}>
-                {borderT === 1 ? (
-                  <u style={{ textDecorationColor: 'blue', color: 'blue' }}>Task</u>
-                ) : (
-                  <>Task</>
-                )}
+                {borderT === 1 ? <u style={{ textDecorationColor: 'blue', color: 'blue' }}>Task</u> : <>Task</>}
               </Typography>
             </Box>
             <Box sx={{ flex: 0.5, display: 'flex', cursor: 'pointer' }} onClick={statusWise}>
-              {borderS === 1 ? (
-                <FilterListIcon sx={{ p: 0.3, color: 'blue' }} />
-              ) : (
-                <FilterListIcon sx={{ p: 0.3 }} />
-              )}
+              {borderS === 1 ? <FilterListIcon sx={{ p: 0.3, color: 'blue' }} /> : <FilterListIcon sx={{ p: 0.3 }} />}
               <Typography sx={{ fontSize: 12, '&:hover': { color: 'blue' } }}>
-                {borderS === 1 ? (
-                  <u style={{ textDecorationColor: 'blue', color: 'blue' }}>Status</u>
-                ) : (
-                  <>Status</>
-                )}
+                {borderS === 1 ? <u style={{ textDecorationColor: 'blue', color: 'blue' }}>Status</u> : <>Status</>}
               </Typography>
             </Box>
           </Box>
@@ -355,7 +331,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           borderTop: 1,
                           borderBottom: 1,
                           borderColor: '#B2C4CB',
-                          height: '100%',
+                          height: '100%'
                         }}
                         onClick={SearchInTableProject}
                       >
@@ -376,7 +352,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           borderTop: 1,
                           borderBottom: 1,
                           borderColor: '#B2C4CB',
-                          height: '100%',
+                          height: '100%'
                         }}
                         onClick={closeSearchWise}
                       >
@@ -398,7 +374,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                     sx={{
                       height: 29,
                       borderRadius: 0,
-                      pl: 1,
+                      pl: 1
                     }}
                     onChange={updateEnterText}
                   />
@@ -415,7 +391,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           borderTop: 1,
                           borderBottom: 1,
                           borderColor: '#B2C4CB',
-                          height: '100%',
+                          height: '100%'
                         }}
                         onClick={SearchInTableByTask}
                       >
@@ -436,7 +412,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           borderTop: 1,
                           borderBottom: 1,
                           borderColor: '#B2C4CB',
-                          height: '100%',
+                          height: '100%'
                         }}
                         onClick={closeSearchWise}
                       >
@@ -464,7 +440,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           borderTop: 1,
                           borderBottom: 1,
                           borderColor: '#B2C4CB',
-                          height: '100%',
+                          height: '100%'
                         }}
                         onClick={SearchInTableByTaskStatus}
                       >
@@ -485,7 +461,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           borderTop: 1,
                           borderBottom: 1,
                           borderColor: '#B2C4CB',
-                          height: '100%',
+                          height: '100%'
                         }}
                         onClick={closeSearchWise}
                       >
@@ -511,19 +487,17 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
               borderTop: 1,
               borderColor: 'lightgray',
               pt: 1.5,
-              bgcolor: 'white',
+              bgcolor: 'white'
             }}
           >
-            <Box sx={{ width: 40, pl: 1.7, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-              #
-            </Box>
+            <Box sx={{ width: 40, pl: 1.7, fontWeight: 600, color: '#444444', fontSize: 12 }}>#</Box>
             <Box
               sx={{
                 width: 80,
                 textAlign: 'center',
                 fontWeight: 600,
                 color: '#444444',
-                fontSize: 12,
+                fontSize: 12
               }}
             >
               Action
@@ -534,7 +508,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                 textAlign: 'center',
                 fontWeight: 600,
                 color: '#444444',
-                fontSize: 12,
+                fontSize: 12
               }}
             >
               Files
@@ -545,32 +519,18 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                 fontWeight: 600,
                 color: '#444444',
                 fontSize: 12,
-                textAlign: 'center',
+                textAlign: 'center'
               }}
             >
               Status
             </Box>
-            <Box sx={{ width: 170, fontWeight: 600, color: '#444444', fontSize: 12, pl: 6 }}>
-              CountDown
-            </Box>
-            <Box sx={{ width: 800, fontWeight: 600, color: '#444444', fontSize: 12, pl: 7 }}>
-              Task Name
-            </Box>
-            <Box sx={{ width: 800, fontWeight: 600, color: '#444444', fontSize: 12, pl: 4.5 }}>
-              Project
-            </Box>
-            <Box sx={{ width: 500, fontWeight: 600, color: '#444444', fontSize: 12, pl: 3 }}>
-              Assignee
-            </Box>
-            <Box sx={{ width: 250, fontWeight: 600, color: '#444444', fontSize: 12, pl: 2 }}>
-              Created Date
-            </Box>
-            <Box sx={{ width: 250, fontWeight: 600, color: '#444444', fontSize: 12, pl: 2 }}>
-              Due Date
-            </Box>
-            <Box sx={{ width: 800, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>
-              Description
-            </Box>
+            <Box sx={{ width: 170, fontWeight: 600, color: '#444444', fontSize: 12, pl: 6 }}>CountDown</Box>
+            <Box sx={{ width: 800, fontWeight: 600, color: '#444444', fontSize: 12, pl: 7 }}>Task Name</Box>
+            <Box sx={{ width: 800, fontWeight: 600, color: '#444444', fontSize: 12, pl: 4.5 }}>Project</Box>
+            <Box sx={{ width: 500, fontWeight: 600, color: '#444444', fontSize: 12, pl: 3 }}>Assignee</Box>
+            <Box sx={{ width: 250, fontWeight: 600, color: '#444444', fontSize: 12, pl: 2 }}>Created Date</Box>
+            <Box sx={{ width: 250, fontWeight: 600, color: '#444444', fontSize: 12, pl: 2 }}>Due Date</Box>
+            <Box sx={{ width: 800, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>Description</Box>
           </Box>
           {alphbased === 0 && searchFlag === 0 && statusDataFlag === 0 ? (
             <Virtuoso
@@ -591,24 +551,18 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                       minHeight: 30,
                       maxHeight: 80,
                       background:
-                        val.main_task_slno !== null
-                          ? '#EAE7FA'
-                          : val.main_task_slno === 0
-                          ? 'white'
-                          : 'white',
-                      pt: 0.5,
+                        val.main_task_slno !== null ? '#EAE7FA' : val.main_task_slno === 0 ? 'white' : 'white',
+                      pt: 0.5
                     }}
                   >
-                    <Box sx={{ width: 40, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>
-                      {index + 1}
-                    </Box>
+                    <Box sx={{ width: 40, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>{index + 1}</Box>
                     <Box
                       sx={{
                         width: 60,
                         textAlign: 'center',
                         fontWeight: 600,
                         color: 'grey',
-                        fontSize: 12,
+                        fontSize: 12
                       }}
                     >
                       <EditIcon
@@ -624,7 +578,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                         fontWeight: 600,
                         color: 'grey',
                         fontSize: 12,
-                        cursor: 'pointer',
+                        cursor: 'pointer'
                       }}
                     >
                       &nbsp;
@@ -632,14 +586,14 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                         <FilePresentRoundedIcon
                           sx={{
                             color: '#41729F',
-                            '&:hover': { color: '#274472' },
+                            '&:hover': { color: '#274472' }
                           }}
                           onClick={() => fileView(val)}
                         />
                       ) : (
                         <FilePresentRoundedIcon
                           sx={{
-                            color: 'grey',
+                            color: 'grey'
                           }}
                         />
                       )}
@@ -663,7 +617,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                               ? '#5885AF'
                               : 'transparent',
                           minHeight: 5,
-                          fontWeight: 700,
+                          fontWeight: 700
                         }}
                       >
                         {val.tm_task_status === 0
@@ -681,9 +635,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                     </Box>
                     <Box sx={{ width: 160, fontWeight: 600, color: 'grey', fontSize: 12 }}>
                       {val.tm_task_status !== 1 ? (
-                        <Box
-                          sx={{ bgcolor: '#EAEAEA', borderRadius: 15, mb: 0.5, width: 150, pl: 1 }}
-                        >
+                        <Box sx={{ bgcolor: '#EAEAEA', borderRadius: 15, mb: 0.5, width: 150, pl: 1 }}>
                           <CountDowncomponent DueDates={val.tm_task_due_date} />
                         </Box>
                       ) : (
@@ -694,7 +646,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                             mb: 0.5,
                             width: 150,
                             pl: 5,
-                            color: 'darkgreen',
+                            color: 'darkgreen'
                           }}
                         >
                           Completed
@@ -709,7 +661,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_task_name || 'not given'}
@@ -722,7 +674,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_task_name || 'not given'}
@@ -736,7 +688,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_project_name || 'not given'}
@@ -749,7 +701,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_project_name || 'not given'}
@@ -763,7 +715,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.em_name || 'not given'}
@@ -776,7 +728,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.em_name || 'not given'}
@@ -790,7 +742,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.create_date || 'not given'}
@@ -803,7 +755,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.create_date || 'not given'}
@@ -817,7 +769,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_task_due_date || 'not given'}
@@ -830,7 +782,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_task_due_date || 'not given'}
@@ -844,7 +796,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_task_description || 'not given'}
@@ -857,7 +809,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_task_description || 'not given'}
@@ -886,24 +838,18 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                       minHeight: 30,
                       maxHeight: 80,
                       background:
-                        val.main_task_slno !== null
-                          ? '#EAE7FA'
-                          : val.main_task_slno === 0
-                          ? 'white'
-                          : 'white',
-                      pt: 0.5,
+                        val.main_task_slno !== null ? '#EAE7FA' : val.main_task_slno === 0 ? 'white' : 'white',
+                      pt: 0.5
                     }}
                   >
-                    <Box sx={{ width: 40, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>
-                      {index + 1}
-                    </Box>
+                    <Box sx={{ width: 40, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>{index + 1}</Box>
                     <Box
                       sx={{
                         width: 60,
                         textAlign: 'center',
                         fontWeight: 600,
                         color: 'grey',
-                        fontSize: 12,
+                        fontSize: 12
                       }}
                     >
                       <EditIcon
@@ -919,7 +865,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                         fontWeight: 600,
                         color: 'grey',
                         fontSize: 12,
-                        cursor: 'pointer',
+                        cursor: 'pointer'
                       }}
                     >
                       &nbsp;
@@ -927,14 +873,14 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                         <FilePresentRoundedIcon
                           sx={{
                             color: '#41729F',
-                            '&:hover': { color: '#274472' },
+                            '&:hover': { color: '#274472' }
                           }}
                           onClick={() => fileView(val)}
                         />
                       ) : (
                         <FilePresentRoundedIcon
                           sx={{
-                            color: 'grey',
+                            color: 'grey'
                           }}
                         />
                       )}
@@ -958,7 +904,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                               ? '#5885AF'
                               : 'transparent',
                           minHeight: 5,
-                          fontWeight: 700,
+                          fontWeight: 700
                         }}
                       >
                         {val.tm_task_status === 0
@@ -976,9 +922,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                     </Box>
                     <Box sx={{ width: 160, fontWeight: 600, color: 'grey', fontSize: 12 }}>
                       {val.tm_task_status !== 1 ? (
-                        <Box
-                          sx={{ bgcolor: '#EAEAEA', borderRadius: 15, mb: 0.5, width: 150, pl: 1 }}
-                        >
+                        <Box sx={{ bgcolor: '#EAEAEA', borderRadius: 15, mb: 0.5, width: 150, pl: 1 }}>
                           <CountDowncomponent DueDates={val.tm_task_due_date} />
                         </Box>
                       ) : (
@@ -989,7 +933,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                             mb: 0.5,
                             width: 150,
                             pl: 5,
-                            color: 'darkgreen',
+                            color: 'darkgreen'
                           }}
                         >
                           Completed
@@ -1004,7 +948,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_task_name || 'not given'}
@@ -1017,7 +961,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_task_name || 'not given'}
@@ -1031,7 +975,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_project_name || 'not given'}
@@ -1044,7 +988,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_project_name || 'not given'}
@@ -1058,7 +1002,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.em_name || 'not given'}
@@ -1071,7 +1015,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.em_name || 'not given'}
@@ -1085,7 +1029,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.create_date || 'not given'}
@@ -1098,7 +1042,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.create_date || 'not given'}
@@ -1112,7 +1056,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_task_due_date || 'not given'}
@@ -1125,7 +1069,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_task_due_date || 'not given'}
@@ -1139,7 +1083,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_task_description || 'not given'}
@@ -1152,7 +1096,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_task_description || 'not given'}
@@ -1181,24 +1125,18 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                       minHeight: 30,
                       maxHeight: 80,
                       background:
-                        val.main_task_slno !== null
-                          ? '#EAE7FA'
-                          : val.main_task_slno === 0
-                          ? 'white'
-                          : 'white',
-                      pt: 0.5,
+                        val.main_task_slno !== null ? '#EAE7FA' : val.main_task_slno === 0 ? 'white' : 'white',
+                      pt: 0.5
                     }}
                   >
-                    <Box sx={{ width: 40, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>
-                      {index + 1}
-                    </Box>
+                    <Box sx={{ width: 40, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>{index + 1}</Box>
                     <Box
                       sx={{
                         width: 60,
                         textAlign: 'center',
                         fontWeight: 600,
                         color: 'grey',
-                        fontSize: 12,
+                        fontSize: 12
                       }}
                     >
                       <EditIcon
@@ -1214,7 +1152,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                         fontWeight: 600,
                         color: 'grey',
                         fontSize: 12,
-                        cursor: 'pointer',
+                        cursor: 'pointer'
                       }}
                     >
                       &nbsp;
@@ -1222,14 +1160,14 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                         <FilePresentRoundedIcon
                           sx={{
                             color: '#41729F',
-                            '&:hover': { color: '#274472' },
+                            '&:hover': { color: '#274472' }
                           }}
                           onClick={() => fileView(val)}
                         />
                       ) : (
                         <FilePresentRoundedIcon
                           sx={{
-                            color: 'grey',
+                            color: 'grey'
                           }}
                         />
                       )}
@@ -1253,7 +1191,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                               ? '#5885AF'
                               : 'transparent',
                           minHeight: 5,
-                          fontWeight: 700,
+                          fontWeight: 700
                         }}
                       >
                         {val.tm_task_status === 0
@@ -1271,9 +1209,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                     </Box>
                     <Box sx={{ width: 160, fontWeight: 600, color: 'grey', fontSize: 12 }}>
                       {val.tm_task_status !== 1 ? (
-                        <Box
-                          sx={{ bgcolor: '#EAEAEA', borderRadius: 15, mb: 0.5, width: 150, pl: 1 }}
-                        >
+                        <Box sx={{ bgcolor: '#EAEAEA', borderRadius: 15, mb: 0.5, width: 150, pl: 1 }}>
                           <CountDowncomponent DueDates={val.tm_task_due_date} />
                         </Box>
                       ) : (
@@ -1284,7 +1220,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                             mb: 0.5,
                             width: 150,
                             pl: 5,
-                            color: 'darkgreen',
+                            color: 'darkgreen'
                           }}
                         >
                           Completed
@@ -1299,7 +1235,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_task_name || 'not given'}
@@ -1312,7 +1248,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_task_name || 'not given'}
@@ -1326,7 +1262,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_project_name || 'not given'}
@@ -1339,7 +1275,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_project_name || 'not given'}
@@ -1353,7 +1289,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.em_name || 'not given'}
@@ -1366,7 +1302,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.em_name || 'not given'}
@@ -1380,7 +1316,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.create_date || 'not given'}
@@ -1393,7 +1329,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.create_date || 'not given'}
@@ -1407,7 +1343,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_task_due_date || 'not given'}
@@ -1420,7 +1356,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_task_due_date || 'not given'}
@@ -1434,7 +1370,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_task_description || 'not given'}
@@ -1447,7 +1383,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_task_description || 'not given'}
@@ -1476,24 +1412,18 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                       minHeight: 30,
                       maxHeight: 80,
                       background:
-                        val.main_task_slno !== null
-                          ? '#EAE7FA'
-                          : val.main_task_slno === 0
-                          ? 'white'
-                          : 'white',
-                      pt: 0.5,
+                        val.main_task_slno !== null ? '#EAE7FA' : val.main_task_slno === 0 ? 'white' : 'white',
+                      pt: 0.5
                     }}
                   >
-                    <Box sx={{ width: 40, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>
-                      {index + 1}
-                    </Box>
+                    <Box sx={{ width: 40, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>{index + 1}</Box>
                     <Box
                       sx={{
                         width: 60,
                         textAlign: 'center',
                         fontWeight: 600,
                         color: 'grey',
-                        fontSize: 12,
+                        fontSize: 12
                       }}
                     >
                       <EditIcon
@@ -1509,7 +1439,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                         fontWeight: 600,
                         color: 'grey',
                         fontSize: 12,
-                        cursor: 'pointer',
+                        cursor: 'pointer'
                       }}
                     >
                       &nbsp;
@@ -1517,14 +1447,14 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                         <FilePresentRoundedIcon
                           sx={{
                             color: '#41729F',
-                            '&:hover': { color: '#274472' },
+                            '&:hover': { color: '#274472' }
                           }}
                           onClick={() => fileView(val)}
                         />
                       ) : (
                         <FilePresentRoundedIcon
                           sx={{
-                            color: 'grey',
+                            color: 'grey'
                           }}
                         />
                       )}
@@ -1548,7 +1478,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                               ? '#5885AF'
                               : 'transparent',
                           minHeight: 5,
-                          fontWeight: 700,
+                          fontWeight: 700
                         }}
                       >
                         {val.tm_task_status === 0
@@ -1566,9 +1496,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                     </Box>
                     <Box sx={{ width: 160, fontWeight: 600, color: 'grey', fontSize: 12 }}>
                       {val.tm_task_status !== 1 ? (
-                        <Box
-                          sx={{ bgcolor: '#EAEAEA', borderRadius: 15, mb: 0.5, width: 150, pl: 1 }}
-                        >
+                        <Box sx={{ bgcolor: '#EAEAEA', borderRadius: 15, mb: 0.5, width: 150, pl: 1 }}>
                           <CountDowncomponent DueDates={val.tm_task_due_date} />
                         </Box>
                       ) : (
@@ -1579,7 +1507,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                             mb: 0.5,
                             width: 150,
                             pl: 5,
-                            color: 'darkgreen',
+                            color: 'darkgreen'
                           }}
                         >
                           Completed
@@ -1594,7 +1522,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_task_name || 'not given'}
@@ -1607,7 +1535,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_task_name || 'not given'}
@@ -1621,7 +1549,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_project_name || 'not given'}
@@ -1634,7 +1562,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_project_name || 'not given'}
@@ -1648,7 +1576,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.em_name || 'not given'}
@@ -1661,7 +1589,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.em_name || 'not given'}
@@ -1675,7 +1603,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.create_date || 'not given'}
@@ -1688,7 +1616,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.create_date || 'not given'}
@@ -1702,7 +1630,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_task_due_date || 'not given'}
@@ -1715,7 +1643,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_task_due_date || 'not given'}
@@ -1729,7 +1657,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_task_description || 'not given'}
@@ -1742,7 +1670,7 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_task_description || 'not given'}

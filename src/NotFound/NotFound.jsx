@@ -14,7 +14,7 @@ const NotFound = () => {
         justifyContent: 'center',
         alignItems: 'center',
         // backgroundColor: 'var(--sky-blue-100)',
-        flexDirection: 'column',
+        flexDirection: 'column'
       }}
     >
       <img src={Error404} alt="404" width={700} height={700} />
@@ -26,13 +26,13 @@ const NotFound = () => {
           mt: 5,
           cursor: 'pointer',
           '&:hover': {
-            color: 'var(--royal-purple-300)',
+            color: 'var(--royal-purple-300)'
           },
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           gap: 1,
-          flexDirection: 'column',
+          flexDirection: 'column'
         }}
         onClick={() => {
           navigation('/Home')
@@ -49,8 +49,8 @@ const NotFound = () => {
             fontWeight: 600,
             color: 'var(--royal-purple-300)',
             '&:hover': {
-              color: 'var(--royal-purple-300)',
-            },
+              color: 'var(--royal-purple-300)'
+            }
           }}
         >
           Back to home

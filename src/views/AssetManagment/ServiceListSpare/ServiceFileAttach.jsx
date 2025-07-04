@@ -10,7 +10,7 @@ const ServiceFileAttach = ({
   setimageServiceFlag,
   setServiceimageViewOpen,
   item_name,
-  category_name,
+  category_name
 }) => {
   const { service_asset_spare, service_item_slno } = servicefileDetails
 
@@ -29,11 +29,11 @@ const ServiceFileAttach = ({
     '&:hover': {
       bgcolor: 'white',
       color: '#523A28',
-      transform: 'scale(1.1)',
+      transform: 'scale(1.1)'
     },
     '&:active': {
-      transform: 'scale(0.95)',
-    },
+      transform: 'scale(0.95)'
+    }
   }
 
   return (
@@ -47,7 +47,7 @@ const ServiceFileAttach = ({
           justifyContent: 'center',
           alignItems: 'center',
           pl: 1,
-          borderRadius: 10,
+          borderRadius: 10
         }}
       >
         <ModalDialog variant="outlined" sx={{ p: 0, overflow: 'auto', width: '90%' }}>
@@ -65,7 +65,7 @@ const ServiceFileAttach = ({
               mx: 1.5,
               borderRadius: 5,
               py: 0.5,
-              borderColor: '#EFEFEF',
+              borderColor: '#EFEFEF'
             }}
           >
             <Typography
@@ -73,15 +73,13 @@ const ServiceFileAttach = ({
                 pl: 2,
                 fontWeight: 600,
                 fontSize: 18,
-                pb: 0.5,
+                pb: 0.5
               }}
             >
               Item Under Service
             </Typography>
             <Box sx={{ flex: 1, display: 'flex', mt: 0.5 }}>
-              <Typography sx={{ flex: 0.4, pl: 2, pt: 0.4, fontWeight: 400, fontSize: 14 }}>
-                Item Number
-              </Typography>
+              <Typography sx={{ flex: 0.4, pl: 2, pt: 0.4, fontWeight: 400, fontSize: 14 }}>Item Number</Typography>
               <Box sx={{ flex: 3 }}>
                 <Chip sx={{ bgcolor: '#EBEFFB', fontWeight: 500, fontSize: 15 }}>
                   {service_asset_spare}/{service_item_slno.toString().padStart(6, '0')}
@@ -89,17 +87,13 @@ const ServiceFileAttach = ({
               </Box>
             </Box>
             <Box sx={{ flex: 1, display: 'flex', mt: 0.5 }}>
-              <Typography sx={{ flex: 0.4, pl: 2, fontWeight: 400, pt: 0.4, fontSize: 14 }}>
-                Category
-              </Typography>
+              <Typography sx={{ flex: 0.4, pl: 2, fontWeight: 400, pt: 0.4, fontSize: 14 }}>Category</Typography>
               <Box sx={{ flex: 3, fontWeight: 500 }}>
                 <Chip sx={{ bgcolor: '#EBEFFB' }}>{category_name}</Chip>
               </Box>
             </Box>
             <Box sx={{ flex: 1, display: 'flex', mt: 0.5 }}>
-              <Typography sx={{ flex: 0.4, pl: 2, fontWeight: 400, pt: 0.4, fontSize: 14 }}>
-                Item Name
-              </Typography>
+              <Typography sx={{ flex: 0.4, pl: 2, fontWeight: 400, pt: 0.4, fontSize: 14 }}>Item Name</Typography>
               <Box sx={{ flex: 3, fontWeight: 500 }}>
                 <Chip sx={{ bgcolor: '#EBEFFB' }}>{item_name}</Chip>
               </Box>
@@ -113,7 +107,7 @@ const ServiceFileAttach = ({
               gap: 1,
               overflow: 'auto',
               px: 1,
-              height: '75vh',
+              height: '75vh'
             }}
           >
             {imageServiceUrls.map((imageUrl, index) => (
@@ -128,7 +122,7 @@ const ServiceFileAttach = ({
                   alignItems: 'center',
                   border: 1,
                   p: 1,
-                  borderColor: 'lightgrey',
+                  borderColor: 'lightgrey'
                 }}
               >
                 <embed
@@ -137,7 +131,7 @@ const ServiceFileAttach = ({
                   type="application/pdf"
                   style={{
                     height: '100%',
-                    width: '100%',
+                    width: '100%'
                   }}
                 />
               </Box>

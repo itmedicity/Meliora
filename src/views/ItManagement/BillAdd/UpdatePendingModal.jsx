@@ -1,13 +1,4 @@
-import {
-  Avatar,
-  Box,
-  Checkbox,
-  CssVarsProvider,
-  Modal,
-  ModalDialog,
-  Textarea,
-  Tooltip,
-} from '@mui/joy'
+import { Avatar, Box, Checkbox, CssVarsProvider, Modal, ModalDialog, Textarea, Tooltip } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import SpaceDashboardSharpIcon from '@mui/icons-material/SpaceDashboardSharp'
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong'
@@ -46,7 +37,7 @@ const UpdatePendingModal = ({
   billCount,
   setbillCount,
   bill_description,
-  filezUrls,
+  filezUrls
 }) => {
   const {
     bill_name,
@@ -61,7 +52,7 @@ const UpdatePendingModal = ({
     bill_due_date,
     bill_category,
     file_upload_status,
-    am_item_map_slno,
+    am_item_map_slno
   } = billData
 
   const [billViewmodalFlag, setBillViewModalFlag] = useState(0)
@@ -99,10 +90,9 @@ const UpdatePendingModal = ({
     billdate: bill_date === null ? '' : bill_date,
     billduedate: bill_due_date === null ? '' : bill_due_date,
     billpaiddate: bill_paid_date === null ? '' : bill_paid_date,
-    billdescription: bill_description === null ? '' : bill_description,
+    billdescription: bill_description === null ? '' : bill_description
   })
-  const { billamount, billdate, billduedate, billpaiddate, billnumber, billdescription } =
-    monthlybillPay
+  const { billamount, billdate, billduedate, billpaiddate, billnumber, billdescription } = monthlybillPay
   const MastBillUpdate = useCallback(
     e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -120,7 +110,7 @@ const UpdatePendingModal = ({
       bill_due_date: billduedate === '' ? null : billduedate,
       payed_status: payedStatus === true ? 1 : 0,
       bill_paid_date: billpaiddate === '' ? null : billpaiddate,
-      edit_user: id,
+      edit_user: id
     }
   }, [billnumber, billamount, billdate, billduedate, billpaiddate, payedStatus, index_no, id])
 
@@ -133,7 +123,7 @@ const UpdatePendingModal = ({
       bill_due_date: billduedate === '' ? null : billduedate,
       payed_status: payedStatus === true ? 1 : 0,
       bill_paid_date: billpaiddate === '' ? null : billpaiddate,
-      edit_user: id,
+      edit_user: id
     }
   }, [billnumber, billamount, billdate, billduedate, billpaiddate, payedStatus, index_no, id])
 
@@ -146,7 +136,7 @@ const UpdatePendingModal = ({
       bill_due_date: billduedate === '' ? null : billduedate,
       payed_status: payedStatus === true ? 1 : 0,
       bill_paid_date: billpaiddate === '' ? null : billpaiddate,
-      edit_user: id,
+      edit_user: id
     }
   }, [billnumber, billamount, billdate, billduedate, billpaiddate, payedStatus, index_no, id])
 
@@ -163,7 +153,7 @@ const UpdatePendingModal = ({
       bill_paid_date: billpaiddate === '' ? null : billpaiddate,
       bill_description: billdescription === '' ? null : billdescription,
       am_item_map_slno: item_slno === 0 ? null : item_slno,
-      edit_user: id,
+      edit_user: id
     }
   }, [
     billnumber,
@@ -177,7 +167,7 @@ const UpdatePendingModal = ({
     item_slno,
     bill_name,
     index_no,
-    id,
+    id
   ])
 
   const handleClose = useCallback(() => {
@@ -198,7 +188,7 @@ const UpdatePendingModal = ({
     const options = {
       maxSizeMB: 1,
       maxWidthOrHeight: 1920,
-      useWebWorker: true,
+      useWebWorker: true
     }
     const compressedFile = await imageCompression(imageFile, options)
     return compressedFile
@@ -266,7 +256,7 @@ const UpdatePendingModal = ({
         const asset_number = parseInt(assetno)
         const postdata = {
           item_asset_no: starts,
-          item_asset_no_only: asset_number,
+          item_asset_no_only: asset_number
         }
         const getAssetdata = async postdata => {
           const result = await axioslogin.post('/PasswordManagementMain/getAssetNo', postdata)
@@ -296,10 +286,7 @@ const UpdatePendingModal = ({
       e.preventDefault()
 
       if (billnumber !== '' && billdate !== '' && billduedate !== '' && billamount !== '') {
-        if (
-          (payedStatus === true && billpaiddate !== '') ||
-          (payedStatus === false && billpaiddate === '')
-        ) {
+        if ((payedStatus === true && billpaiddate !== '') || (payedStatus === false && billpaiddate === '')) {
           if (bill_tariff === 1) {
             const Monthlyy = async MonthlyAdd => {
               const result = await axioslogin.patch('/ItBillAdd/updateMonthlybill', MonthlyAdd)
@@ -318,15 +305,11 @@ const UpdatePendingModal = ({
                   }
                 }
                 // Use the Axios instance and endpoint that matches your server setup
-                const uploadResult = await axioslogin.post(
-                  '/ItImageUpload/uploadFile/Monthly',
-                  formData,
-                  {
-                    headers: {
-                      'Content-Type': 'multipart/form-data',
-                    },
+                const uploadResult = await axioslogin.post('/ItImageUpload/uploadFile/Monthly', formData, {
+                  headers: {
+                    'Content-Type': 'multipart/form-data'
                   }
-                )
+                })
                 return uploadResult.data
               } catch (error) {
                 warningNotify('An error occurred during file upload.')
@@ -359,10 +342,7 @@ const UpdatePendingModal = ({
             })
           } else if (bill_tariff === 2) {
             const Quarterly = async QuarteryAdd => {
-              const result = await axioslogin.patch(
-                '/ItBillAdd/updateQuaterlybillModal',
-                QuarteryAdd
-              )
+              const result = await axioslogin.patch('/ItBillAdd/updateQuaterlybillModal', QuarteryAdd)
               return result.data
             }
             const InsertFileQuarter = async (selectFile, index_no) => {
@@ -378,15 +358,11 @@ const UpdatePendingModal = ({
                   }
                 }
                 // Use the Axios instance and endpoint that matches your server setup
-                const uploadResult = await axioslogin.post(
-                  '/ItImageUpload/uploadFile/Quaterly',
-                  formData,
-                  {
-                    headers: {
-                      'Content-Type': 'multipart/form-data',
-                    },
+                const uploadResult = await axioslogin.post('/ItImageUpload/uploadFile/Quaterly', formData, {
+                  headers: {
+                    'Content-Type': 'multipart/form-data'
                   }
-                )
+                })
                 return uploadResult.data
               } catch (error) {
                 warningNotify('An error occurred during file upload.')
@@ -435,15 +411,11 @@ const UpdatePendingModal = ({
                   }
                 }
                 // Use the Axios instance and endpoint that matches your server setup
-                const uploadResult = await axioslogin.post(
-                  '/ItImageUpload/uploadFile/Yearly',
-                  formData,
-                  {
-                    headers: {
-                      'Content-Type': 'multipart/form-data',
-                    },
+                const uploadResult = await axioslogin.post('/ItImageUpload/uploadFile/Yearly', formData, {
+                  headers: {
+                    'Content-Type': 'multipart/form-data'
                   }
-                )
+                })
                 return uploadResult.data
               } catch (error) {
                 warningNotify('An error occurred during file upload.')
@@ -492,15 +464,11 @@ const UpdatePendingModal = ({
                   }
                 }
                 // Use the Axios instance and endpoint that matches your server setup
-                const uploadResult = await axioslogin.post(
-                  '/ItImageUpload/uploadFile/Others',
-                  formData,
-                  {
-                    headers: {
-                      'Content-Type': 'multipart/form-data',
-                    },
+                const uploadResult = await axioslogin.post('/ItImageUpload/uploadFile/Others', formData, {
+                  headers: {
+                    'Content-Type': 'multipart/form-data'
                   }
-                )
+                })
                 return uploadResult.data
               } catch (error) {
                 warningNotify('An error occurred during file upload.')
@@ -556,7 +524,7 @@ const UpdatePendingModal = ({
       bill_tariff,
       handleClose,
       billpaiddate,
-      payedStatus,
+      payedStatus
     ]
   )
 
@@ -585,7 +553,7 @@ const UpdatePendingModal = ({
           justifyContent: 'center',
           alignItems: 'center',
           pl: 1,
-          borderRadius: 10,
+          borderRadius: 10
         }}
       >
         <Box sx={{ margin: 'auto' }}>
@@ -594,7 +562,7 @@ const UpdatePendingModal = ({
             sx={{
               width: 600,
               // bgcolor: '#274472',
-              p: 0,
+              p: 0
             }}
           >
             <Box sx={{ overflow: 'auto' }}>
@@ -612,8 +580,8 @@ const UpdatePendingModal = ({
                         height: 25,
                         width: 25,
                         '&:hover': {
-                          color: 'red',
-                        },
+                          color: 'red'
+                        }
                       }}
                       onClick={handleClose}
                     />
@@ -627,7 +595,7 @@ const UpdatePendingModal = ({
                   fontWeight: 600,
                   fontSize: 20,
                   color: '#274472',
-                  fontStyle: 'Georgia',
+                  fontStyle: 'Georgia'
                 }}
               >
                 Add Bill
@@ -638,7 +606,7 @@ const UpdatePendingModal = ({
                   textAlign: 'center',
                   fontWeight: 600,
                   fontSize: 15,
-                  color: '#274472',
+                  color: '#274472'
                 }}
               >
                 {it_bill_type_name}
@@ -652,7 +620,7 @@ const UpdatePendingModal = ({
                   fontSize: 20,
                   fontFamily: 'Georgia',
                   borderColor: '#CAD7E0',
-                  pt: 1,
+                  pt: 1
                 }}
               >
                 {' '}
@@ -699,8 +667,7 @@ const UpdatePendingModal = ({
                   <Box sx={{ flex: 0.1 }}>:</Box>
                   <Box sx={{ flex: 4.5 }}>{bill_name}</Box>
                 </Box>
-                {it_sim_type_name !== null &&
-                (bill_tariff === 1 || bill_tariff === 2 || bill_tariff === 3) ? (
+                {it_sim_type_name !== null && (bill_tariff === 1 || bill_tariff === 2 || bill_tariff === 3) ? (
                   <Box sx={{ flex: 1, mt: 0.5, ml: 2, fontWeight: 600, display: 'flex' }}>
                     <Box sx={{ flex: 1 }}>
                       <SimCardIcon sx={{ pb: 0.5, fontSize: 20 }} />
@@ -716,18 +683,17 @@ const UpdatePendingModal = ({
               <Box sx={{ px: 2.5, bgcolor: 'white', borderRadius: 10, pb: 1 }}>
                 <Box
                   sx={{
-                    overflow: 'auto',
+                    overflow: 'auto'
                   }}
                 >
-                  {billType === 3 &&
-                  (bill_tariff !== 1 || bill_tariff !== 2 || bill_tariff !== 3) ? (
+                  {billType === 3 && (bill_tariff !== 1 || bill_tariff !== 2 || bill_tariff !== 3) ? (
                     <Box>
                       <Paper
                         sx={{
                           mx: 0.5,
                           borderRadius: 0,
                           bgcolor: '#F0F2F3',
-                          boxShadow: '0px 0px 3px',
+                          boxShadow: '0px 0px 3px'
                         }}
                       >
                         <Box
@@ -737,7 +703,7 @@ const UpdatePendingModal = ({
                             fontWeight: 600,
                             px: 0.5,
                             color: '#54627B',
-                            display: 'flex',
+                            display: 'flex'
                           }}
                         >
                           <Box sx={{ flex: 1 }}>
@@ -749,7 +715,7 @@ const UpdatePendingModal = ({
                                 border: 1,
                                 borderRadius: 10,
                                 bgcolor: '#183A53',
-                                mb: 0.3,
+                                mb: 0.3
                               }}
                             />{' '}
                             Asset No.
@@ -788,10 +754,7 @@ const UpdatePendingModal = ({
                                 ></TextFieldCustom>
                               </Box>
                               <Box sx={{ mr: 0.8, bgcolor: '#868B8E', px: 0.5, pt: 0.3 }}>
-                                <SearchRoundedIcon
-                                  sx={{ color: 'white', cursor: 'pointer' }}
-                                  onClick={searchAssetNo}
-                                />
+                                <SearchRoundedIcon sx={{ color: 'white', cursor: 'pointer' }} onClick={searchAssetNo} />
                               </Box>
                             </Box>
                           </>
@@ -805,7 +768,7 @@ const UpdatePendingModal = ({
                                     px: 0.5,
                                     bgcolor: 'white',
                                     mx: 0.8,
-                                    borderColor: '#ADC4D7',
+                                    borderColor: '#ADC4D7'
                                   }}
                                 >
                                   {assetNumb}/{assetNumbOnly}
@@ -818,7 +781,7 @@ const UpdatePendingModal = ({
                                       fontWeight: 600,
                                       pl: 0.5,
                                       mb: 0.3,
-                                      color: '#54627B',
+                                      color: '#54627B'
                                     }}
                                   >
                                     <SpeakerPhoneIcon
@@ -829,7 +792,7 @@ const UpdatePendingModal = ({
                                         color: 'white',
                                         border: 1,
                                         borderRadius: 10,
-                                        mb: 0.3,
+                                        mb: 0.3
                                       }}
                                     />
                                     Device Name
@@ -840,7 +803,7 @@ const UpdatePendingModal = ({
                                       px: 0.5,
                                       bgcolor: 'white',
                                       mx: 0.8,
-                                      borderColor: '#ADC4D7',
+                                      borderColor: '#ADC4D7'
                                     }}
                                   >
                                     {assetDeviceName}
@@ -851,7 +814,7 @@ const UpdatePendingModal = ({
                                       mt: 1,
                                       fontWeight: 600,
                                       px: 0.5,
-                                      color: '#54627B',
+                                      color: '#54627B'
                                     }}
                                   >
                                     <PinDropIcon
@@ -862,7 +825,7 @@ const UpdatePendingModal = ({
                                         bgcolor: '#183A53',
                                         color: 'white',
                                         border: 1,
-                                        borderRadius: 10,
+                                        borderRadius: 10
                                       }}
                                     />
                                     Location
@@ -874,7 +837,7 @@ const UpdatePendingModal = ({
                                       px: 0.5,
                                       bgcolor: 'white',
                                       mx: 0.8,
-                                      borderColor: '#868B8E',
+                                      borderColor: '#868B8E'
                                     }}
                                   >
                                     {assetSecName}
@@ -913,7 +876,7 @@ const UpdatePendingModal = ({
                                 fontWeight: 600,
                                 pl: 0.5,
                                 mb: 0.3,
-                                color: '#54627B',
+                                color: '#54627B'
                               }}
                             >
                               <SpeakerPhoneIcon
@@ -924,7 +887,7 @@ const UpdatePendingModal = ({
                                   color: 'white',
                                   border: 1,
                                   borderRadius: 10,
-                                  mb: 0.3,
+                                  mb: 0.3
                                 }}
                               />
                               Device Name
@@ -935,14 +898,12 @@ const UpdatePendingModal = ({
                                 px: 0.5,
                                 bgcolor: 'white',
                                 mx: 0.8,
-                                borderColor: '#ADC4D7',
+                                borderColor: '#ADC4D7'
                               }}
                             >
                               {deviceName}
                             </Box>
-                            <Box
-                              sx={{ flex: 1, mt: 1, fontWeight: 600, px: 0.5, color: '#54627B' }}
-                            >
+                            <Box sx={{ flex: 1, mt: 1, fontWeight: 600, px: 0.5, color: '#54627B' }}>
                               <PinDropIcon
                                 sx={{
                                   p: 0.3,
@@ -951,7 +912,7 @@ const UpdatePendingModal = ({
                                   bgcolor: '#183A53',
                                   color: 'white',
                                   border: 1,
-                                  borderRadius: 10,
+                                  borderRadius: 10
                                 }}
                               />
                               Location
@@ -963,7 +924,7 @@ const UpdatePendingModal = ({
                                 px: 0.5,
                                 bgcolor: 'white',
                                 mx: 0.8,
-                                borderColor: '#868B8E',
+                                borderColor: '#868B8E'
                               }}
                             >
                               {location}
@@ -984,7 +945,7 @@ const UpdatePendingModal = ({
                         bgcolor: '#183A53',
                         color: 'white',
                         border: 1,
-                        borderRadius: 10,
+                        borderRadius: 10
                       }}
                     />
                     Bill Number/Invoice Number<span style={{ color: '#74112F' }}>*</span>
@@ -1011,7 +972,7 @@ const UpdatePendingModal = ({
                             bgcolor: '#183A53',
                             color: 'white',
                             border: 1,
-                            borderRadius: 10,
+                            borderRadius: 10
                           }}
                         />
                         Bill Description
@@ -1042,7 +1003,7 @@ const UpdatePendingModal = ({
                         bgcolor: '#183A53',
                         color: 'white',
                         border: 1,
-                        borderRadius: 10,
+                        borderRadius: 10
                       }}
                     />
                     Bill Date<span style={{ color: '#74112F' }}>*</span>
@@ -1066,7 +1027,7 @@ const UpdatePendingModal = ({
                         bgcolor: '#183A53',
                         color: 'white',
                         border: 1,
-                        borderRadius: 10,
+                        borderRadius: 10
                       }}
                     />
                     Bill Due Date<span style={{ color: '#74112F' }}>*</span>
@@ -1090,7 +1051,7 @@ const UpdatePendingModal = ({
                         bgcolor: '#183A53',
                         color: 'white',
                         border: 1,
-                        borderRadius: 10,
+                        borderRadius: 10
                       }}
                     />
                     Bill Amount<span style={{ color: '#74112F' }}>*</span>
@@ -1127,7 +1088,7 @@ const UpdatePendingModal = ({
                               bgcolor: '#183A53',
                               color: 'white',
                               border: 1,
-                              borderRadius: 10,
+                              borderRadius: 10
                             }}
                           />
                           Bill Paid Date<span style={{ color: '#74112F' }}>*</span>
@@ -1154,7 +1115,7 @@ const UpdatePendingModal = ({
                         bgcolor: '#183A53',
                         color: 'white',
                         border: 1,
-                        borderRadius: 10,
+                        borderRadius: 10
                       }}
                     />
                     Upload Files
@@ -1169,7 +1130,7 @@ const UpdatePendingModal = ({
                       pl: 0.5,
                       borderRadius: '2px',
                       minHeight: 60,
-                      flex: 1,
+                      flex: 1
                     }}
                   >
                     <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center', mt: 2 }}>
@@ -1201,7 +1162,7 @@ const UpdatePendingModal = ({
                               my: 0.5,
                               px: 1,
                               border: 1,
-                              borderColor: '#0C2D48',
+                              borderColor: '#0C2D48'
                             }}
                             key={index}
                           >
@@ -1231,8 +1192,8 @@ const UpdatePendingModal = ({
                           '&:hover': {
                             boxShadow: '1px 2px 10px',
                             bgcolor: '#A4AA83',
-                            color: '#4C411A',
-                          },
+                            color: '#4C411A'
+                          }
                         }}
                         onClick={openBillModal}
                       >
@@ -1243,8 +1204,8 @@ const UpdatePendingModal = ({
                             height: 23,
                             width: 23,
                             '&:hover': {
-                              color: '#4C411A',
-                            },
+                              color: '#4C411A'
+                            }
                           }}
                         />
                         &nbsp;Uploaded bills
@@ -1269,8 +1230,8 @@ const UpdatePendingModal = ({
                       boxShadow: '1px 2px 3px',
                       bgcolor: '#7E9DC2',
                       fontWeight: 600,
-                      color: 'black',
-                    },
+                      color: 'black'
+                    }
                   }}
                   onClick={updateBilling}
                 >

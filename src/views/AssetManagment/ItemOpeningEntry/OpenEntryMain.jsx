@@ -32,7 +32,7 @@ const OpenEntryMain = () => {
               flex: 1,
               m: 0.5,
               pl: 1,
-              fontFamily: 'Arial',
+              fontFamily: 'Arial'
             }}
             text="Item Opening Entry"
           />
@@ -49,7 +49,7 @@ const OpenEntryMain = () => {
           size="sm"
           sx={{
             display: 'flex',
-            bgcolor: 'white',
+            bgcolor: 'white'
           }}
         >
           <TabList
@@ -60,7 +60,7 @@ const OpenEntryMain = () => {
                 flex: 'initial',
                 bgcolor: 'white',
                 '&:hover': {
-                  bgcolor: 'white',
+                  bgcolor: 'white'
                 },
                 [`&.Mui-selected`]: {
                   color: 'primary.plainColor',
@@ -69,10 +69,10 @@ const OpenEntryMain = () => {
                     height: 20,
                     borderTopLeftRadius: 3,
                     borderTopRightRadius: 3,
-                    bgcolor: 'primary.500',
-                  },
-                },
-              },
+                    bgcolor: 'primary.500'
+                  }
+                }
+              }
             }}
           >
             <Box sx={{ flex: 1, display: 'flex', gap: 1, mb: 1, ml: 1 }}>
@@ -92,8 +92,8 @@ const OpenEntryMain = () => {
                     color: 'white',
                     backgroundColor: '#5a5f63',
                     boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.2)',
-                    transform: 'scale(1.02)',
-                  },
+                    transform: 'scale(1.02)'
+                  }
                 }}
               >
                 Asset
@@ -115,8 +115,8 @@ const OpenEntryMain = () => {
                     color: 'white',
                     backgroundColor: '#5a5f63',
                     boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.2)',
-                    transform: 'scale(1.02)',
-                  },
+                    transform: 'scale(1.02)'
+                  }
                 }}
               >
                 Spare

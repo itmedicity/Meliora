@@ -30,7 +30,7 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
     am_bill_date,
     am_bill_amount,
     am_bill_image,
-    bill_supplier_name,
+    bill_supplier_name
   } = grndetailarry
 
   const dispatch = useDispatch()
@@ -42,7 +42,7 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
     billdate: format(new Date(), 'yyyy-MM-dd'),
     vendor: '',
     billImage: '',
-    bill_mastslno: '',
+    bill_mastslno: ''
   })
   //Destructuring
   const { billNo, billdate, vendor, billImage, bill_mastslno } = BillDtl
@@ -75,20 +75,12 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
         billdate: am_bill_date,
         vendor: bill_supplier_name,
         billImage: am_bill_image,
-        bill_mastslno: am_bill_mastslno,
+        bill_mastslno: am_bill_mastslno
       }
       setBillDetail(fromSetting)
       setBillAmount(am_bill_amount)
     }
-  }, [
-    am_bill_mast_slno,
-    am_bill_no,
-    am_bill_date,
-    am_bill_amount,
-    bill_supplier_name,
-    am_bill_image,
-    am_bill_mastslno,
-  ])
+  }, [am_bill_mast_slno, am_bill_no, am_bill_date, am_bill_amount, bill_supplier_name, am_bill_image, am_bill_mastslno])
 
   const updateBillDate = useCallback(e => {
     setBillDate(e.target.value)
@@ -97,7 +89,7 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
   const searchdata = useMemo(() => {
     return {
       am_bill_supplier: supplier,
-      am_bill_date: billDate,
+      am_bill_date: billDate
     }
   }, [billDate, supplier])
 
@@ -118,7 +110,7 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
             billdate: format(new Date(), 'yyyy-MM-dd'),
             vendor: '',
             billImage: '',
-            bill_mastslno: '',
+            bill_mastslno: ''
           }
           setBillDetail(resetdata)
         }
@@ -143,7 +135,7 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
       billdate: format(new Date(am_bill_date), 'yyyy-MM-dd'),
       vendor: it_supplier_name,
       billImage: am_bill_image,
-      bill_mastslno: am_bill_mastslno,
+      bill_mastslno: am_bill_mastslno
     }
     setBillDetail(fromdataset)
   }, [])
@@ -180,7 +172,7 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
       am_bill_mast_slno: bill_mastslno,
       am_bill_amount: billAmount,
       edit_user: id,
-      am_item_map_slno: am_item_map_slno,
+      am_item_map_slno: am_item_map_slno
     }
   }, [bill_mastslno, billAmount, id, am_item_map_slno])
 
@@ -189,7 +181,7 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
       am_bill_mast_slno: bill_mastslno,
       am_bill_amount: billAmount,
       edit_user: id,
-      am_spare_item_map_slno: am_spare_item_map_slno,
+      am_spare_item_map_slno: am_spare_item_map_slno
     }
   }, [bill_mastslno, billAmount, id, am_spare_item_map_slno])
 
@@ -211,10 +203,7 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
         }
       }
       const updateBillDetailsSpare = async billpatchDataSpare => {
-        const result = await axioslogin.patch(
-          '/ItemMapDetails/BillDetailsUpdateSpare',
-          billpatchDataSpare
-        )
+        const result = await axioslogin.patch('/ItemMapDetails/BillDetailsUpdateSpare', billpatchDataSpare)
         const { message, success } = result.data
         if (success === 2) {
           succesNotify(message)
@@ -250,7 +239,7 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
       billdate: format(new Date(), 'yyyy-MM-dd'),
       vendor: '',
       billImage: '',
-      bill_mastslno: '',
+      bill_mastslno: ''
     }
     setBillDetail(resetfrm)
   }, [])
@@ -267,9 +256,7 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
   return (
     <Box sx={{ overflow: 'auto' }}>
       {AddBillFlg === 1 ? <BillAddMaster setBillFlg={setBillFlg} /> : null}
-      {imageshowFlag === 1 ? (
-        <FileView open={imageshow} handleClose={handleClose} images={imagearray} />
-      ) : null}
+      {imageshowFlag === 1 ? <FileView open={imageshow} handleClose={handleClose} images={imagearray} /> : null}
 
       {billLink === 1 ? (
         <Box
@@ -277,7 +264,7 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
             flex: 1,
             display: 'flex',
             mt: 1,
-            mb: 2,
+            mb: 2
           }}
         >
           <Box sx={{ width: 500 }}>
@@ -288,7 +275,7 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
                   fontWeight: 600,
                   color: '#727B8C',
                   pt: 1,
-                  width: 120,
+                  width: 120
                 }}
               />
               <Box sx={{ flex: 1 }}>
@@ -301,7 +288,7 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
                 sx={{
                   fontWeight: 600,
                   color: '#727B8C',
-                  width: 120,
+                  width: 120
                 }}
               />
               <Box sx={{ flex: 1 }}>
@@ -318,36 +305,18 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
               <Box sx={{ width: 120 }}></Box>
               <Box sx={{ flex: 1, gap: 0.5, display: 'flex' }}>
                 <Box>
-                  <CusIconButton
-                    size="sm"
-                    variant="outlined"
-                    color="primary"
-                    clickable="true"
-                    onClick={searchBillList}
-                  >
+                  <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={searchBillList}>
                     <SearchOutlinedIcon fontSize="small" />
                   </CusIconButton>
                 </Box>
                 <Box>
-                  <CusIconButton
-                    size="sm"
-                    variant="outlined"
-                    color="primary"
-                    clickable="true"
-                    onClick={AddBillMaster}
-                  >
+                  <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={AddBillMaster}>
                     <LinkSharpIcon fontSize="small" />
                   </CusIconButton>
                 </Box>
 
                 <Box>
-                  <CusIconButton
-                    size="sm"
-                    variant="outlined"
-                    color="primary"
-                    clickable="true"
-                    onClick={CloseLink}
-                  >
+                  <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={CloseLink}>
                     <CloseIcon fontSize="small" />
                   </CusIconButton>
                 </Box>
@@ -367,7 +336,7 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
                   height: 120,
                   overflow: 'auto',
                   display: 'flex',
-                  justifyContent: 'center',
+                  justifyContent: 'center'
                 }}
               >
                 <Box>
@@ -378,7 +347,7 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
                       fontSize: 32,
                       fontWeight: 700,
                       color: 'lightgrey',
-                      pt: 1,
+                      pt: 1
                     }}
                   />
                   <Box
@@ -393,14 +362,12 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
                       fontWeight: 600,
                       cursor: 'pointer',
                       py: 0.3,
-                      boxShadow:
-                        '2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.6)', // Outward shadow effect
+                      boxShadow: '2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.6)', // Outward shadow effect
                       transform: 'translateZ(0)', // For smoother shadow rendering
                       transition: 'transform 0.2s ease', // Smooth transition on hover
                       '&:hover': {
-                        boxShadow:
-                          '3px 3px 6px rgba(0, 0, 0, 0.4), -3px -3px 6px rgba(255, 255, 255, 0.7)', // Increase shadow on hover
-                      },
+                        boxShadow: '3px 3px 6px rgba(0, 0, 0, 0.4), -3px -3px 6px rgba(255, 255, 255, 0.7)' // Increase shadow on hover
+                      }
                     }}
                     onClick={AddBillMaster}
                   >
@@ -421,17 +388,11 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
                 fontWeight: 600,
                 color: '#727B8C',
                 pt: 1,
-                width: 120,
+                width: 120
               }}
             />
             <Box sx={{ flex: 1 }}>
-              <TextFieldCustom
-                type="text"
-                size="sm"
-                name="billNo"
-                value={billNo}
-                disabled={true}
-              ></TextFieldCustom>
+              <TextFieldCustom type="text" size="sm" name="billNo" value={billNo} disabled={true}></TextFieldCustom>
             </Box>
           </Box>
           <Box sx={{ display: 'flex', pt: 0.5 }}>
@@ -441,17 +402,11 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
                 fontWeight: 600,
                 color: '#727B8C',
                 pt: 1,
-                width: 120,
+                width: 120
               }}
             />
             <Box sx={{ flex: 1 }}>
-              <TextFieldCustom
-                type="date"
-                size="sm"
-                name="billdate"
-                value={billdate}
-                disabled={true}
-              ></TextFieldCustom>
+              <TextFieldCustom type="date" size="sm" name="billdate" value={billdate} disabled={true}></TextFieldCustom>
             </Box>
           </Box>
           <Box sx={{ display: 'flex', pt: 0.5 }}>
@@ -461,17 +416,11 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
                 fontWeight: 600,
                 color: '#727B8C',
                 pt: 1,
-                width: 120,
+                width: 120
               }}
             />
             <Box sx={{ flex: 1 }}>
-              <TextFieldCustom
-                type="text"
-                size="sm"
-                name="vendor"
-                value={vendor}
-                disabled={true}
-              ></TextFieldCustom>
+              <TextFieldCustom type="text" size="sm" name="vendor" value={vendor} disabled={true}></TextFieldCustom>
             </Box>
           </Box>
           <Box sx={{ display: 'flex', pt: 0.5 }}>
@@ -481,7 +430,7 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
                 fontWeight: 600,
                 color: '#727B8C',
                 pt: 1,
-                width: 120,
+                width: 120
               }}
             />
             <Box sx={{ flex: 1 }}>
@@ -509,14 +458,12 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
                     fontWeight: 600,
                     cursor: 'pointer',
                     py: 0.3,
-                    boxShadow:
-                      '2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.6)',
+                    boxShadow: '2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.6)',
                     transform: 'translateZ(0)',
                     transition: 'transform 0.2s ease',
                     '&:hover': {
-                      boxShadow:
-                        '3px 3px 6px rgba(0, 0, 0, 0.4), -3px -3px 6px rgba(255, 255, 255, 0.7)',
-                    },
+                      boxShadow: '3px 3px 6px rgba(0, 0, 0, 0.4), -3px -3px 6px rgba(255, 255, 255, 0.7)'
+                    }
                   }}
                   onClick={ViewBillImage}
                 >
@@ -529,35 +476,17 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
             <Box sx={{ width: 120 }}></Box>
             <Box sx={{ flex: 1, display: 'flex', gap: 0.5 }}>
               <Box>
-                <CusIconButton
-                  size="sm"
-                  variant="outlined"
-                  color="primary"
-                  clickable="true"
-                  onClick={SaveBillDetails}
-                >
+                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={SaveBillDetails}>
                   <LibraryAddIcon fontSize="small" />
                 </CusIconButton>
               </Box>
               <Box>
-                <CusIconButton
-                  size="sm"
-                  variant="outlined"
-                  color="primary"
-                  clickable="true"
-                  onClick={BillReferesh}
-                >
+                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={BillReferesh}>
                   <RefreshIcon fontSize="small" />
                 </CusIconButton>
               </Box>
               <Box>
-                <CusIconButton
-                  size="sm"
-                  variant="outlined"
-                  color="primary"
-                  clickable="true"
-                  onClick={linkBill}
-                >
+                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={linkBill}>
                   <InsertLinkIcon fontSize="small" />
                 </CusIconButton>
               </Box>

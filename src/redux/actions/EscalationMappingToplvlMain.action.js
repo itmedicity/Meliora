@@ -12,13 +12,13 @@ export const getEscalationMappingToplvlmaintenenace = postdata => async dispatch
     dispatch({
       type: FETCH_ESCALATION_MAPPING_TOPLVL_MAINTENANCE,
       payload: data,
-      loadingStatus: true,
+      loadingStatus: true
     })
   } else {
     dispatch({
       type: FETCH_ESCALATION_MAPPING_TOPLVL_MAINTENANCE,
       payload: [],
-      loadingStatus: false,
+      loadingStatus: false
     })
   }
 }

@@ -12,7 +12,7 @@ const AssetCustodianDepartment = ({ custoDian, setCustodian, setcustodianAllDeta
       am_custdn_asset_no_first: '',
       am_custdn_asset_no_second: '',
       am_custodian_deptsec_slno: 0,
-      sec_name: '',
+      sec_name: ''
     }),
     []
   )
@@ -23,13 +23,12 @@ const AssetCustodianDepartment = ({ custoDian, setCustodian, setcustodianAllDeta
 
   const { data: custodianArray = [] } = useQuery({
     queryKey: ['getCustodianDept'],
-    queryFn: getCustodianDept,
+    queryFn: getCustodianDept
   })
 
   useEffect(() => {
     if (custoDian !== 0 && custodianArray.length > 0) {
-      const selectedCustodian =
-        custodianArray.find(e => e.am_custodian_slno === custoDian) || defaultCustodian
+      const selectedCustodian = custodianArray.find(e => e.am_custodian_slno === custoDian) || defaultCustodian
       setValue(selectedCustodian)
     }
   }, [custoDian, custodianArray, defaultCustodian])
@@ -60,7 +59,7 @@ const AssetCustodianDepartment = ({ custoDian, setCustodian, setcustodianAllDeta
     <CssVarsProvider>
       <Autocomplete
         sx={{
-          '--Input-minHeight': '32px',
+          '--Input-minHeight': '32px'
         }}
         value={value}
         placeholder="Select custodian"
@@ -71,9 +70,7 @@ const AssetCustodianDepartment = ({ custoDian, setCustodian, setcustodianAllDeta
         loading={custodianArray.length === 0}
         loadingText="Loading..."
         freeSolo
-        isOptionEqualToValue={(option, value) =>
-          option.am_custodian_slno === value.am_custodian_slno
-        }
+        isOptionEqualToValue={(option, value) => option.am_custodian_slno === value.am_custodian_slno}
         getOptionLabel={option => option.am_custodian_name || ''}
         options={Options}
       />

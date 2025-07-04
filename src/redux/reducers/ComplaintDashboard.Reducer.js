@@ -1,29 +1,25 @@
 import { ActionTyps } from '../constants/action.type'
-const {
-  FETCH_TOTAL_COMPLAINTS,
-  FETCH_ONHOLDCOMPLAINTS_DASH,
-  FETCH_ASSIST_RECTY_EMP,
-  FETCH_PENDING_ONHOLD_EMP,
-} = ActionTyps
+const { FETCH_TOTAL_COMPLAINTS, FETCH_ONHOLDCOMPLAINTS_DASH, FETCH_ASSIST_RECTY_EMP, FETCH_PENDING_ONHOLD_EMP } =
+  ActionTyps
 
 const complaints = {
   complaintList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 
 const onHold = {
   onHoldList: [],
-  onholdStatus: false,
+  onholdStatus: false
 }
 
 const assitEmp = {
   assitEmpList: [],
-  assitEmpStatus: false,
+  assitEmpStatus: false
 }
 
 const pendOnholdEmp = {
   pendOnholdEmpList: [],
-  pendOnholdEmpStatus: false,
+  pendOnholdEmpStatus: false
 }
 
 export const getComplaintList = (state = complaints, { type, payload }) => {

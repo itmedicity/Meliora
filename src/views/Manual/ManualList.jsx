@@ -65,7 +65,7 @@ const ManualList = () => {
           const fileNamePart = parts[parts.length - 1]
           const obj = {
             imageName: fileNamePart,
-            url: val,
+            url: val
           }
           return obj
         })
@@ -91,7 +91,7 @@ const ManualList = () => {
           const fileNamePart = parts[parts.length - 1]
           const obj = {
             imageName: fileNamePart,
-            url: val,
+            url: val
           }
           return obj
         })
@@ -111,21 +111,19 @@ const ManualList = () => {
     <CardCloseOnly title="Documents" close={backToSettings}>
       {pdfDis === 0 ? (
         <Box sx={{ width: '100%', p: 1 }}>
-          <Typography sx={{ fontSize: 15, font: 'Roboto', textTransform: 'capitalize' }}>
-            NABH GuideLines
-          </Typography>
+          <Typography sx={{ fontSize: 15, font: 'Roboto', textTransform: 'capitalize' }}>NABH GuideLines</Typography>
           <Box
             sx={{
               display: 'flex',
               width: '100%',
-              flex: 1,
+              flex: 1
             }}
           >
             <Box
               sx={{
                 display: 'flex',
                 width: '30%',
-                flex: 1,
+                flex: 1
               }}
             >
               <Button
@@ -136,7 +134,7 @@ const ManualList = () => {
                   pb: 1,
                   fontSize: 15,
                   font: 'Roboto',
-                  textTransform: 'capitalize',
+                  textTransform: 'capitalize'
                 }}
                 onClick={() => employeeGuide()}
               >
@@ -149,7 +147,7 @@ const ManualList = () => {
               sx={{
                 display: 'flex',
                 width: '30%',
-                flex: 1,
+                flex: 1
               }}
             >
               {/* <Button size="small" sx={{ pt: 1.5, pl: 2, pb: 1, fontSize: 15, font: 'Roboto', textTransform: "capitalize" }}
@@ -162,7 +160,7 @@ const ManualList = () => {
                   pb: 1,
                   fontSize: 15,
                   font: 'Roboto',
-                  textTransform: 'capitalize',
+                  textTransform: 'capitalize'
                 }}
                 onClick={() => Sound()}
               >
@@ -173,7 +171,7 @@ const ManualList = () => {
               sx={{
                 display: 'flex',
                 width: '30%',
-                flex: 1,
+                flex: 1
               }}
             >
               <Button
@@ -184,7 +182,7 @@ const ManualList = () => {
                   pb: 1,
                   fontSize: 15,
                   font: 'Roboto',
-                  textTransform: 'capitalize',
+                  textTransform: 'capitalize'
                 }}
                 onClick={() => sradhapolicy()}
               >
@@ -195,7 +193,7 @@ const ManualList = () => {
               sx={{
                 display: 'flex',
                 width: '30%',
-                flex: 1,
+                flex: 1
               }}
             >
               <Button
@@ -206,7 +204,7 @@ const ManualList = () => {
                   pb: 1,
                   fontSize: 15,
                   font: 'Roboto',
-                  textTransform: 'capitalize',
+                  textTransform: 'capitalize'
                 }}
                 onClick={() => safety()}
               >
@@ -218,14 +216,14 @@ const ManualList = () => {
             sx={{
               display: 'flex',
               width: '100%',
-              flex: 1,
+              flex: 1
             }}
           >
             <Box
               sx={{
                 display: 'flex',
                 width: '30%',
-                flex: 1,
+                flex: 1
               }}
             >
               <Button
@@ -236,7 +234,7 @@ const ManualList = () => {
                   pb: 1,
                   fontSize: 15,
                   font: 'Roboto',
-                  textTransform: 'capitalize',
+                  textTransform: 'capitalize'
                 }}
                 onClick={() => meddef()}
               >
@@ -247,7 +245,7 @@ const ManualList = () => {
               sx={{
                 display: 'flex',
                 width: '30%',
-                flex: 1,
+                flex: 1
               }}
             >
               <Button
@@ -258,7 +256,7 @@ const ManualList = () => {
                   pb: 1,
                   fontSize: 15,
                   font: 'Roboto',
-                  textTransform: 'capitalize',
+                  textTransform: 'capitalize'
                 }}
                 onClick={() => Abbreviation()}
               >
@@ -269,7 +267,7 @@ const ManualList = () => {
               sx={{
                 display: 'flex',
                 width: '30%',
-                flex: 1,
+                flex: 1
               }}
             >
               <Button
@@ -280,7 +278,7 @@ const ManualList = () => {
                   pb: 1,
                   fontSize: 15,
                   font: 'Roboto',
-                  textTransform: 'capitalize',
+                  textTransform: 'capitalize'
                 }}
                 onClick={() => Fridge()}
               >
@@ -291,7 +289,7 @@ const ManualList = () => {
               sx={{
                 display: 'flex',
                 width: '30%',
-                flex: 1,
+                flex: 1
               }}
             >
               <Button
@@ -302,7 +300,7 @@ const ManualList = () => {
                   pb: 1,
                   fontSize: 15,
                   font: 'Roboto',
-                  textTransform: 'capitalize',
+                  textTransform: 'capitalize'
                 }}
                 onClick={() => High()}
               >
@@ -315,14 +313,14 @@ const ManualList = () => {
             sx={{
               display: 'flex',
               width: '100%',
-              flex: 1,
+              flex: 1
             }}
           >
             <Box
               sx={{
                 display: 'flex',
                 width: '30%',
-                flex: 1,
+                flex: 1
               }}
             >
               <Button
@@ -333,7 +331,7 @@ const ManualList = () => {
                   pb: 1,
                   fontSize: 15,
                   font: 'Roboto',
-                  textTransform: 'capitalize',
+                  textTransform: 'capitalize'
                 }}
                 onClick={() => Alike()}
               >
@@ -344,7 +342,7 @@ const ManualList = () => {
               sx={{
                 display: 'flex',
                 width: '30%',
-                flex: 1,
+                flex: 1
               }}
             >
               <Button
@@ -355,7 +353,7 @@ const ManualList = () => {
                   pb: 1,
                   fontSize: 15,
                   font: 'Roboto',
-                  textTransform: 'capitalize',
+                  textTransform: 'capitalize'
                 }}
                 onClick={() => Psychotropic()}
               >
@@ -366,7 +364,7 @@ const ManualList = () => {
               sx={{
                 display: 'flex',
                 width: '30%',
-                flex: 1,
+                flex: 1
               }}
             >
               <Button
@@ -377,7 +375,7 @@ const ManualList = () => {
                   pb: 1,
                   fontSize: 15,
                   font: 'Roboto',
-                  textTransform: 'capitalize',
+                  textTransform: 'capitalize'
                 }}
                 onClick={() => Hospital()}
               >
@@ -388,7 +386,7 @@ const ManualList = () => {
               sx={{
                 display: 'flex',
                 width: '30%',
-                flex: 1,
+                flex: 1
               }}
             >
               <Button
@@ -399,7 +397,7 @@ const ManualList = () => {
                   pb: 1,
                   fontSize: 15,
                   font: 'Roboto',
-                  textTransform: 'capitalize',
+                  textTransform: 'capitalize'
                 }}
                 onClick={() => Standard()}
               >

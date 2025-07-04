@@ -21,7 +21,7 @@ const BackUpTypeMaster = () => {
   const [backupType, setbackupType] = useState({
     backup_type_id: '',
     backup_type_name: '',
-    backup_type_status: false,
+    backup_type_status: false
   })
   const { backup_type_id, backup_type_name, backup_type_status } = backupType
   const UpdatebackupType = useCallback(
@@ -35,7 +35,7 @@ const BackUpTypeMaster = () => {
     return {
       backup_type_name: backup_type_name,
       backup_type_status: backup_type_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [backup_type_name, backup_type_status, id])
   const patchdata = useMemo(() => {
@@ -43,7 +43,7 @@ const BackUpTypeMaster = () => {
       backup_type_id: backup_type_id,
       backup_type_name: backup_type_name,
       backup_type_status: backup_type_status === true ? 1 : 0,
-      edit_user: id,
+      edit_user: id
     }
   }, [backup_type_id, backup_type_name, backup_type_status, id])
   const rowSelect = useCallback(params => {
@@ -53,7 +53,7 @@ const BackUpTypeMaster = () => {
     const frmdata = {
       backup_type_id: backup_type_id,
       backup_type_name: backup_type_name,
-      backup_type_status: backup_type_status === 1 ? true : false,
+      backup_type_status: backup_type_status === 1 ? true : false
     }
     setbackupType(frmdata)
   }, [])
@@ -61,7 +61,7 @@ const BackUpTypeMaster = () => {
     const frmdata = {
       backup_type_id: '',
       backup_type_name: '',
-      backup_type_status: false,
+      backup_type_status: false
     }
     setbackupType(frmdata)
     setCount(0)
@@ -119,18 +119,13 @@ const BackUpTypeMaster = () => {
     const frmdata = {
       backup_type_id: '',
       backup_type_name: '',
-      backup_type_status: false,
+      backup_type_status: false
     }
     setbackupType(frmdata)
     setValue(0)
   }, [setbackupType])
   return (
-    <CardMaster
-      title="Backup Type"
-      submit={submitbackupType}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Backup Type" submit={submitbackupType} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
         <Box sx={{ width: '30%', p: 1 }}>
           <Box>

@@ -3,7 +3,7 @@ const { FETCH_AREA_WISE_REPORT } = ActionTyps
 
 const AreaWise = {
   AreaWiseList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 
 export const getAreaWiseList = (state = AreaWise, { type, payload }) => {

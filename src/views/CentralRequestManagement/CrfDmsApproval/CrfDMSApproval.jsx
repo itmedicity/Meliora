@@ -53,12 +53,12 @@ const CrfDMSApproval = () => {
   const {
     data: dmsDetails,
     isLoading: isDmsLoading,
-    error: dmsError,
+    error: dmsError
   } = useQuery({
     queryKey: ['getPendingAll', JSON.stringify(postData)],
     queryFn: () => getCRFPendingAboveHOD(postData),
     enabled: !!postData.level,
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const dmsData = useMemo(() => dmsDetails, [dmsDetails])
 
@@ -76,11 +76,11 @@ const CrfDMSApproval = () => {
   const {
     data: companyData,
     isLoading: isCompLoading,
-    error: compError,
+    error: compError
   } = useQuery({
     queryKey: 'getdefaultCompany',
     queryFn: () => getDefaultCompany(),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const company = useMemo(() => companyData, [companyData])
 
@@ -186,12 +186,10 @@ const CrfDMSApproval = () => {
               : val.manag_operation_approv === 4
               ? 'Approved'
               : 'Not Done',
-          manag_operation_remarks:
-            val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
+          manag_operation_remarks: val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
           om_detial_analysis: val.om_detial_analysis,
           om_approv_date: val.om_approv_date,
-          manag_operation_user:
-            val.manag_operation_user !== null ? val.manag_operation_user.toLowerCase() : '',
+          manag_operation_user: val.manag_operation_user !== null ? val.manag_operation_user.toLowerCase() : '',
           senior_manage_req: val.senior_manage_req,
           senior_manage_approv: val.senior_manage_approv,
           smo:
@@ -204,12 +202,10 @@ const CrfDMSApproval = () => {
               : val.senior_manage_approv === 4
               ? 'Approved'
               : 'Not Done',
-          senior_manage_remarks:
-            val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
+          senior_manage_remarks: val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
           smo_detial_analysis: val.smo_detial_analysis,
           som_aprrov_date: val.som_aprrov_date,
-          senior_manage_user:
-            val.senior_manage_user !== null ? val.senior_manage_user.toLowerCase() : '',
+          senior_manage_user: val.senior_manage_user !== null ? val.senior_manage_user.toLowerCase() : '',
           gm_approve_req: val.gm_approve_req,
           gm_approve: val.gm_approve,
           gm:
@@ -222,8 +218,7 @@ const CrfDMSApproval = () => {
               : val.gm_approve === 4
               ? 'Approved'
               : 'Not Done',
-          gm_approve_remarks:
-            val.gm_approve_remarks !== null ? val.gm_approve_remarks : 'Not Updated',
+          gm_approve_remarks: val.gm_approve_remarks !== null ? val.gm_approve_remarks : 'Not Updated',
           gm_detial_analysis: val.gm_detial_analysis,
           gm_approv_date: val.gm_approv_date,
           gm_user: val.gm_user !== null ? val.gm_user.toLowerCase() : '',
@@ -239,8 +234,7 @@ const CrfDMSApproval = () => {
               : val.md_approve === 4
               ? 'Approved'
               : 'Not Done',
-          md_approve_remarks:
-            val.md_approve_remarks !== null ? val.md_approve_remarks : 'Not Updated',
+          md_approve_remarks: val.md_approve_remarks !== null ? val.md_approve_remarks : 'Not Updated',
           md_detial_analysis: val.md_detial_analysis,
           md_approve_date: val.md_approve_date,
           md_user: val.md_user !== null ? val.md_user.toLowerCase() : '',
@@ -256,8 +250,7 @@ const CrfDMSApproval = () => {
               : val.ed_approve === 4
               ? 'Approved'
               : 'Not Done',
-          ed_approve_remarks:
-            val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
+          ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
           ed_detial_analysis: val.ed_detial_analysis,
           ed_approve_date: val.ed_approve_date,
           ed_user: val.ed_user ? val.ed_user.toLowerCase() : '',
@@ -274,19 +267,15 @@ const CrfDMSApproval = () => {
               : val.managing_director_approve === 4
               ? 'Approved'
               : 'Not Done',
-          managing_director_remarks:
-            val.managing_director_remarks !== null ? val.managing_director_remarks : '',
+          managing_director_remarks: val.managing_director_remarks !== null ? val.managing_director_remarks : '',
           managing_director_analysis: val.managing_director_analysis,
           managing_director_approve_date: val.managing_director_approve_date,
-          managing_director_user: val.managing_director_username
-            ? val.managing_director_username.toLowerCase()
-            : '',
+          managing_director_user: val.managing_director_username ? val.managing_director_username.toLowerCase() : '',
 
           dept_name: val.dept_name,
           dept_type: val.dept_type,
           dept_id: val.dept_id,
-          dept_type_name:
-            val.dept_type === 1 ? 'Clinical' : val.dept_type === 2 ? 'Non Clinical' : 'Academic',
+          dept_type_name: val.dept_type === 1 ? 'Clinical' : val.dept_type === 2 ? 'Non Clinical' : 'Academic',
           po_number: val.po_number,
           higher:
             val.ms_approve !== null ||
@@ -440,7 +429,7 @@ const CrfDMSApproval = () => {
           viewDep: val?.viewDep,
           viewName: val?.viewName,
           company_name: val?.company_name,
-          company_slno: val?.company_slno,
+          company_slno: val?.company_slno
         }
         return obj
       })
@@ -471,7 +460,7 @@ const CrfDMSApproval = () => {
 
   const getPendingData = useCallback(() => {
     const pData = {
-      level: 1,
+      level: 1
     }
     const getData = async () => {
       await getApprovalDetails(setcombinedData, pData)
@@ -481,7 +470,7 @@ const CrfDMSApproval = () => {
 
   const getApprovalData = useCallback(() => {
     const pData = {
-      level: 2,
+      level: 2
     }
     const getData = async () => {
       await getApprovalDetails(setcombinedData, pData)
@@ -490,7 +479,7 @@ const CrfDMSApproval = () => {
   }, [])
   const getProcurementData = useCallback(() => {
     const pData = {
-      level: 3,
+      level: 3
     }
     const getData = async () => {
       await getApprovalDetails(setcombinedData, pData)
@@ -500,7 +489,7 @@ const CrfDMSApproval = () => {
 
   const getInventoryData = useCallback(() => {
     const pData = {
-      level: 4,
+      level: 4
     }
     const getData = async () => {
       await getApprovalDetails(setcombinedData, pData)
@@ -510,7 +499,7 @@ const CrfDMSApproval = () => {
 
   const getuserAckData = useCallback(() => {
     const pData = {
-      level: 5,
+      level: 5
     }
     const getData = async () => {
       await getApprovalDetails(setcombinedData, pData)
@@ -520,7 +509,7 @@ const CrfDMSApproval = () => {
 
   const getHoldData = useCallback(() => {
     const pData = {
-      level: 6,
+      level: 6
     }
     const getData = async () => {
       await getApprovalDetails(setcombinedData, pData)
@@ -529,7 +518,7 @@ const CrfDMSApproval = () => {
   }, [])
   const getRejectData = useCallback(() => {
     const pData = {
-      level: 7,
+      level: 7
     }
     const getData = async () => {
       await getApprovalDetails(setcombinedData, pData)
@@ -538,7 +527,7 @@ const CrfDMSApproval = () => {
   }, [])
   const getHoldItems = useCallback(() => {
     const pData = {
-      level: 1,
+      level: 1
     }
     const getData = async () => {
       await getOnholdRejectIemDetails(setDisData, setAllData, pData)
@@ -547,7 +536,7 @@ const CrfDMSApproval = () => {
   }, [])
   const getRejectItem = useCallback(() => {
     const pData = {
-      level: 2,
+      level: 2
     }
     const getData = async () => {
       await getOnholdRejectIemDetails(setDisData, setAllData, pData)
@@ -572,7 +561,7 @@ const CrfDMSApproval = () => {
     () => ({
       level: 8,
       from: `${fromDate} 00:00:00`,
-      to: `${toDate} 23:59:59`,
+      to: `${toDate} 23:59:59`
     }),
     [fromDate, toDate]
   )
@@ -698,7 +687,7 @@ const CrfDMSApproval = () => {
                     flexWrap: 'wrap',
                     mt: 0.6,
                     border: '1px solid #21B6A8',
-                    borderRadius: 2,
+                    borderRadius: 2
                   }}
                 >
                   <MasterDetailCompnt val={val} />
@@ -747,7 +736,7 @@ const CrfDMSApproval = () => {
                 fontSize: 25,
                 opacity: 0.5,
                 pt: 10,
-                color: 'grey',
+                color: 'grey'
               }}
             >
               No Report Found

@@ -1,25 +1,21 @@
 import { axioslogin } from 'src/views/Axios/Axios'
 
 export const getSpecification = async am_item_map_slno => {
-  return axioslogin
-    .get(`/ItemMapDetails/SpecificationInsertOrNot/${am_item_map_slno}`)
-    .then(res => {
-      const { success, data } = res.data
-      if (success === 1) {
-        return data
-      }
-    })
+  return axioslogin.get(`/ItemMapDetails/SpecificationInsertOrNot/${am_item_map_slno}`).then(res => {
+    const { success, data } = res.data
+    if (success === 1) {
+      return data
+    }
+  })
 }
 
 export const getallSpareUnderAsset = async am_item_map_slno => {
-  return axioslogin
-    .get(`/complaintreg/SpareDetailsUndercomplaint/${am_item_map_slno}`)
-    .then(res => {
-      const { success, data } = res.data
-      if (success === 1) {
-        return data
-      }
-    })
+  return axioslogin.get(`/complaintreg/SpareDetailsUndercomplaint/${am_item_map_slno}`).then(res => {
+    const { success, data } = res.data
+    if (success === 1) {
+      return data
+    }
+  })
 }
 
 export const getAllAboutAsset = async postData => {
@@ -50,14 +46,12 @@ export const getWarrGarAsset = async am_item_map_slno => {
 }
 
 export const getWarrGarSpare = async am_spare_item_map_slno => {
-  return axioslogin
-    .get(`/ItemMapDetails/WarentGarantInsertOrNotSpare/${am_spare_item_map_slno}`)
-    .then(res => {
-      const { success, data } = res.data
-      if (success === 1) {
-        return data
-      }
-    })
+  return axioslogin.get(`/ItemMapDetails/WarentGarantInsertOrNotSpare/${am_spare_item_map_slno}`).then(res => {
+    const { success, data } = res.data
+    if (success === 1) {
+      return data
+    }
+  })
 }
 
 export const getDetailsAsset = async am_item_map_slno => {
@@ -69,14 +63,12 @@ export const getDetailsAsset = async am_item_map_slno => {
   })
 }
 export const getDetailsSpare = async am_spare_item_map_slno => {
-  return axioslogin
-    .get(`/ItemMapDetails/checkDetailInsertOrNotSpare/${am_spare_item_map_slno}`)
-    .then(res => {
-      const { success, data } = res.data
-      if (success === 1) {
-        return data
-      }
-    })
+  return axioslogin.get(`/ItemMapDetails/checkDetailInsertOrNotSpare/${am_spare_item_map_slno}`).then(res => {
+    const { success, data } = res.data
+    if (success === 1) {
+      return data
+    }
+  })
 }
 
 export const getAmcCmcPmData = async am_item_map_slno => {
@@ -132,14 +124,12 @@ export const getPendingDetailentrySpare = async postData => {
   })
 }
 export const getAssetLocationDetailsz = async postAssetNoData => {
-  return axioslogin
-    .post('/assetDeptTransfer/getAssetLocationDetails', postAssetNoData)
-    .then(res => {
-      const { success, data } = res.data
-      if (success === 1) {
-        return data
-      }
-    })
+  return axioslogin.post('/assetDeptTransfer/getAssetLocationDetails', postAssetNoData).then(res => {
+    const { success, data } = res.data
+    if (success === 1) {
+      return data
+    }
+  })
 }
 
 export const getSpareUnderCondmnation = async empdept => {
@@ -159,14 +149,12 @@ export const getAssetUnderCondmnation = async empdept => {
   })
 }
 export const getArrayOfAssetLocationDetails = async postArrayOfAssetNo => {
-  return axioslogin
-    .post('/assetDeptTransfer/getArrayOfAssetLocationDetails', postArrayOfAssetNo)
-    .then(res => {
-      const { success, data } = res.data
-      if (success === 1) {
-        return data
-      }
-    })
+  return axioslogin.post('/assetDeptTransfer/getArrayOfAssetLocationDetails', postArrayOfAssetNo).then(res => {
+    const { success, data } = res.data
+    if (success === 1) {
+      return data
+    }
+  })
 }
 
 export const getcustodianTransferHistory = async postData => {
@@ -188,14 +176,12 @@ export const getSparesInstock = async postData => {
 }
 
 export const getAssetInstock = async postData => {
-  return axioslogin
-    .post('assetSpareDetails/getAssetListUnderCustodianDetails', postData)
-    .then(res => {
-      const { success, data } = res.data
-      if (success === 2) {
-        return data
-      }
-    })
+  return axioslogin.post('assetSpareDetails/getAssetListUnderCustodianDetails', postData).then(res => {
+    const { success, data } = res.data
+    if (success === 2) {
+      return data
+    }
+  })
 }
 
 export const getDeptSecAssetList = async searchhData => {
@@ -242,34 +228,28 @@ export const getItemUnderForm = async postCondemSlno => {
 }
 
 export const getAllDeptCondemPendingDatas = async postCondemAllDept => {
-  return axioslogin
-    .post('/AssetCondemnation/getAllpendingApprovals', postCondemAllDept)
-    .then(res => {
-      const { success, data } = res.data
-      if (success === 2) {
-        return data
-      }
-    })
+  return axioslogin.post('/AssetCondemnation/getAllpendingApprovals', postCondemAllDept).then(res => {
+    const { success, data } = res.data
+    if (success === 2) {
+      return data
+    }
+  })
 }
 export const getAllDeptCondemList = async postAllDeptcondemList => {
-  return axioslogin
-    .post('/AssetCondemnation/getCondemnationList', postAllDeptcondemList)
-    .then(res => {
-      const { success, data } = res.data
-      if (success === 1) {
-        return data
-      }
-    })
+  return axioslogin.post('/AssetCondemnation/getCondemnationList', postAllDeptcondemList).then(res => {
+    const { success, data } = res.data
+    if (success === 1) {
+      return data
+    }
+  })
 }
 export const getDeptCondemnationList = async postDeptcondemList => {
-  return axioslogin
-    .post('/AssetCondemnation/getDeptCondemnationList', postDeptcondemList)
-    .then(res => {
-      const { success, data } = res.data
-      if (success === 1) {
-        return data
-      }
-    })
+  return axioslogin.post('/AssetCondemnation/getDeptCondemnationList', postDeptcondemList).then(res => {
+    const { success, data } = res.data
+    if (success === 1) {
+      return data
+    }
+  })
 }
 
 export const getDeptScrapStore = async postDept => {
@@ -282,24 +262,20 @@ export const getDeptScrapStore = async postDept => {
 }
 
 export const getCondemnationApprovalRights = async postDept => {
-  return axioslogin
-    .post('/condemApprovalLevel/getCondemnationApprovalRights', postDept)
-    .then(res => {
-      const { success, data } = res.data
-      if (success === 1) {
-        return data
-      }
-    })
+  return axioslogin.post('/condemApprovalLevel/getCondemnationApprovalRights', postDept).then(res => {
+    const { success, data } = res.data
+    if (success === 1) {
+      return data
+    }
+  })
 }
 export const getCondemnationAllDetails = async postCondemSlno => {
-  return axioslogin
-    .post('/condemApprovalLevel/getCondemnationAllDetails', postCondemSlno)
-    .then(res => {
-      const { success, data } = res.data
-      if (success === 1) {
-        return data
-      }
-    })
+  return axioslogin.post('/condemApprovalLevel/getCondemnationAllDetails', postCondemSlno).then(res => {
+    const { success, data } = res.data
+    if (success === 1) {
+      return data
+    }
+  })
 }
 export const getActiveCondemnationLevel = async () => {
   return axioslogin.get(`/condemApprovalLevel/getActiveCondemnationLevel`).then(res => {

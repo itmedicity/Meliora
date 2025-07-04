@@ -26,7 +26,7 @@ const DietOrderList = () => {
 
   const postdata = useMemo(() => {
     return {
-      ns_code: value,
+      ns_code: value
     }
   }, [value])
   useEffect(() => {
@@ -49,7 +49,7 @@ const DietOrderList = () => {
   const searchdata = useMemo(() => {
     return {
       rmc_slno: value1,
-      process_date: date,
+      process_date: date
     }
   }, [value1, date])
   // const Search = useCallback(() => {
@@ -119,7 +119,7 @@ const DietOrderList = () => {
         // console.log("dmenu slno", dmenuslno);
         const search = {
           dmenu_slno: dmenuslno,
-          type_slno: typeslno,
+          type_slno: typeslno
         }
         const result = await axioslogin.post('/dietorder/itemslno', search)
         const { success, data } = result.data
@@ -145,7 +145,7 @@ const DietOrderList = () => {
             sx={{
               width: '100%',
               backgroundColor: '#f0f3f5',
-              p: 0.2,
+              p: 0.2
             }}
           >
             Diet Order
@@ -159,7 +159,7 @@ const DietOrderList = () => {
               pb: 0.5,
               // background: "blue",
               display: 'flex',
-              flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' },
+              flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' }
             }}
           >
             <Box sx={{ width: '20%', pr: 1, mt: 1 }}>
@@ -203,12 +203,7 @@ const DietOrderList = () => {
         </Paper>
       </Box>
       {search === 1 ? (
-        <DietOrderSearch
-          dietdetail={dietdetail}
-          dietcrct={dietcrct}
-          slno={slno}
-          setDietdetail={setDietdetail}
-        />
+        <DietOrderSearch dietdetail={dietdetail} dietcrct={dietcrct} slno={slno} setDietdetail={setDietdetail} />
       ) : null}
     </Fragment>
   )

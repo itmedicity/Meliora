@@ -3,7 +3,7 @@ const { FETCH_ROOM_DEPTSEC_BASED } = ActionTyps
 //intial state
 const RoomBasedDeptSection = {
   RoomBasedDeptSectionList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Building action type check then payload set to the state and loading status set as true */
 export const getRoomBasedOnDeptSec = (state = RoomBasedDeptSection, { type, payload }) => {

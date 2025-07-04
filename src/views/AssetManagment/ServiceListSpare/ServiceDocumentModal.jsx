@@ -19,7 +19,7 @@ const ServiceDocumentModal = ({ setopenDocuments, open, setdocumetOpenCheck, Doc
           justifyContent: 'center',
           alignItems: 'center',
           pl: 1,
-          borderRadius: 10,
+          borderRadius: 10
         }}
       >
         <ModalDialog variant="outlined" sx={{ p: 0, width: '85%', height: '98%' }}>
@@ -34,7 +34,7 @@ const ServiceDocumentModal = ({ setopenDocuments, open, setdocumetOpenCheck, Doc
                 mt: 1,
                 p: 1,
                 bgcolor: '#fff',
-                borderBottom: '1px solid #ccc',
+                borderBottom: '1px solid #ccc'
               }}
             >
               <Box sx={{ flex: 1, color: 'grey', fontWeight: 600, pl: 1 }}>Document View</Box>
@@ -50,7 +50,7 @@ const ServiceDocumentModal = ({ setopenDocuments, open, setdocumetOpenCheck, Doc
                 gap: 1,
                 overflow: 'auto',
                 px: 1,
-                height: '75vh',
+                height: '75vh'
               }}
             >
               {DocumentView.map((imageUrl, index) => (
@@ -65,7 +65,7 @@ const ServiceDocumentModal = ({ setopenDocuments, open, setdocumetOpenCheck, Doc
                     alignItems: 'center',
                     border: 1,
                     p: 1,
-                    borderColor: 'lightgrey',
+                    borderColor: 'lightgrey'
                   }}
                 >
                   <embed
@@ -74,7 +74,7 @@ const ServiceDocumentModal = ({ setopenDocuments, open, setdocumetOpenCheck, Doc
                     type="application/pdf"
                     style={{
                       height: '100%',
-                      width: '100%',
+                      width: '100%'
                     }}
                   />
                 </Box>

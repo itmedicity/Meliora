@@ -89,7 +89,7 @@ const DepartAssetTransfer = () => {
           display: 'flex',
           flexDirection: 'column',
           flexWrap: 'wrap',
-          m: 0,
+          m: 0
         }}
       >
         <Box
@@ -97,13 +97,11 @@ const DepartAssetTransfer = () => {
             display: 'flex',
             flexDirection: 'row',
             width: '100%',
-            pt: 1.5,
+            pt: 1.5
           }}
         >
           <Box sx={{ pl: 0.8, width: '10%', cursor: 'pointer' }}>
-            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-              To Department
-            </Typography>
+            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>To Department</Typography>
           </Box>
           <Box sx={{ pl: 0.8, width: '25%' }}>
             <AmDepartmentSelWOName department={transDept} setDepartment={setTransDept} />
@@ -126,49 +124,31 @@ const DepartAssetTransfer = () => {
             borderBottom: 1,
             borderWidth: 0.1,
             borderColor: 'black',
-            width: '100%',
+            width: '100%'
           }}
         >
           <Box sx={{ display: 'flex', width: '30%', p: 0.5, flexDirection: 'column' }}>
-            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-              Department Section
-            </Typography>
+            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Department Section</Typography>
             <Box>
-              <TextFieldCustom
-                type="text"
-                size="sm"
-                disabled={true}
-                name="sec_name"
-                value={sec_name}
-              />
+              <TextFieldCustom type="text" size="sm" disabled={true} name="sec_name" value={sec_name} />
             </Box>
           </Box>
 
           <Box sx={{ display: 'flex', width: '30%', p: 0.5, flexDirection: 'column' }}>
-            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-              Room{' '}
-            </Typography>
+            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Room </Typography>
             <Box>
               <AmRoomSelWONameUDepSec roomNo={roomNo} setRoomNo={setRoomNo} />
             </Box>
           </Box>
           <Box sx={{ display: 'flex', width: '30%', p: 0.5, flexDirection: 'column' }}>
-            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-              Sub Room{' '}
-            </Typography>
+            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Sub Room </Typography>
             <Box>
               <AmSubRmSelWONamURoom subRoomNo={subRoomNo} setSubRoomNo={setSubRoomNo} />
             </Box>
           </Box>
           <Box sx={{ display: 'flex', width: '10%', p: 2.3, flexDirection: 'column' }}>
             <Box>
-              <CusIconButton
-                size="sm"
-                variant="outlined"
-                clickable="true"
-                color="primary"
-                onClick={search}
-              >
+              <CusIconButton size="sm" variant="outlined" clickable="true" color="primary" onClick={search}>
                 <SearchOutlinedIcon fontSize="small" />
               </CusIconButton>
             </Box>
@@ -197,7 +177,7 @@ const DepartAssetTransfer = () => {
                           sx={{
                             '&:last-child td, &:last-child th': { border: 0 },
                             maxHeight: 60,
-                            minHeight: 5,
+                            minHeight: 5
                           }}
                         >
                           <td> {index + 1}</td>

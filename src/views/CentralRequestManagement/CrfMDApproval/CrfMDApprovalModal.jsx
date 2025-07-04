@@ -1,13 +1,5 @@
 import React, { Fragment, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import {
-  Box,
-  CssVarsProvider,
-  Modal,
-  ModalClose,
-  ModalDialog,
-  Textarea,
-  Typography,
-} from '@mui/joy'
+import { Box, CssVarsProvider, Modal, ModalClose, ModalDialog, Textarea, Typography } from '@mui/joy'
 import CrfReqDetailViewCmp from '../ComonComponent/CrfReqDetailViewCmp'
 import ReqItemDisplay from '../ComonComponent/ReqItemDisplay'
 import CommonInchargeReqCmp from '../ComonComponent/ApprovalComp/CommonInchargeReqCmp'
@@ -52,7 +44,7 @@ const CrfMDApprovalModal = ({
   datacolData,
   imagearray,
   selectedCompany,
-  company,
+  company
 }) => {
   const {
     req_slno,
@@ -73,7 +65,7 @@ const CrfMDApprovalModal = ({
     md_image,
     ed_approve,
     managing_director_approve,
-    company_slno,
+    company_slno
   } = ApprovalData
 
   const queryClient = useQueryClient()
@@ -119,7 +111,7 @@ const CrfMDApprovalModal = ({
     detailAnalis: md_detial_analysis !== null ? md_detial_analysis : '',
     datacollFlag: false,
     datacolectremark: '',
-    datacollFlagKMC: false,
+    datacollFlagKMC: false
   })
   const {
     remark,
@@ -130,13 +122,13 @@ const CrfMDApprovalModal = ({
     datacollFlag,
     datacolectremark,
     internallyArr,
-    datacollFlagKMC,
+    datacollFlagKMC
   } = apprvlDetails
   const updateOnchangeState = useCallback(e => {
     const { name, type, value, checked } = e.target
     setApprvlDetails(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === 'checkbox' ? checked : value
     }))
   }, [])
 
@@ -146,7 +138,7 @@ const CrfMDApprovalModal = ({
       approve: type === 'approve',
       reject: type === 'reject',
       pending: type === 'pending',
-      internallyArr: type === 'internallyArr',
+      internallyArr: type === 'internallyArr'
     }))
   }, [])
 
@@ -171,7 +163,7 @@ const CrfMDApprovalModal = ({
         pending: false,
         internallyArr: false,
         datacollFlag: false,
-        datacolectremark: '',
+        datacolectremark: ''
       }))
       setCrfDept(0)
       setApproveTableData([])
@@ -187,7 +179,7 @@ const CrfMDApprovalModal = ({
     const options = {
       maxSizeMB: 25,
       maxWidthOrHeight: 1920,
-      useWebWorker: true,
+      useWebWorker: true
     }
     const compressedFile = await imageCompression(imageFile, options)
     return compressedFile
@@ -195,16 +187,7 @@ const CrfMDApprovalModal = ({
 
   const MDPatchData = useMemo(() => {
     return {
-      md_approve:
-        approve === true
-          ? 1
-          : reject === true
-          ? 2
-          : pending === true
-          ? 3
-          : internallyArr === true
-          ? 4
-          : null,
+      md_approve: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : internallyArr === true ? 4 : null,
       md_user: emid,
       req_slno: req_slno,
       md_approve_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
@@ -213,21 +196,11 @@ const CrfMDApprovalModal = ({
       items: approveTableData?.map(val => {
         return {
           req_detl_slno: val.req_detl_slno,
-          item_status_approved: val.item_status_approved,
+          item_status_approved: val.item_status_approved
         }
-      }),
+      })
     }
-  }, [
-    approve,
-    reject,
-    pending,
-    emid,
-    remark,
-    detailAnalis,
-    req_slno,
-    approveTableData,
-    internallyArr,
-  ])
+  }, [approve, reject, pending, emid, remark, detailAnalis, req_slno, approveTableData, internallyArr])
 
   const closeModal = useCallback(() => {
     reset()
@@ -263,10 +236,7 @@ const CrfMDApprovalModal = ({
       }
       const DataCollRequestFnctntmc = async postData => {
         try {
-          const result = await axioslogin.post(
-            `/CRFRegisterApproval/dataCollect/Insert/tmc`,
-            postData
-          )
+          const result = await axioslogin.post(`/CRFRegisterApproval/dataCollect/Insert/tmc`, postData)
           const { success, message } = result.data
           if (success === 1) {
             succesNotify(message)
@@ -307,15 +277,11 @@ const CrfMDApprovalModal = ({
               formData.append('files', file, file.name)
             }
           }
-          const result = await axioslogin.post(
-            '/newCRFRegisterImages/crf/ImageInsertMD',
-            formData,
-            {
-              headers: {
-                'Content-Type': 'multipart/form-data',
-              },
+          const result = await axioslogin.post('/newCRFRegisterImages/crf/ImageInsertMD', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
             }
-          )
+          })
           return result.data
         } catch (error) {
           warningNotify('An error occurred during file upload.')
@@ -333,15 +299,11 @@ const CrfMDApprovalModal = ({
               formData.append('files', file, file.name)
             }
           }
-          const result = await axioskmc.post(
-            '/newCRFRegisterImages/crf/ImageInsertMDKmch',
-            formData,
-            {
-              headers: {
-                'Content-Type': 'multipart/form-data',
-              },
+          const result = await axioskmc.post('/newCRFRegisterImages/crf/ImageInsertMDKmch', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
             }
-          )
+          })
           return result.data
         } catch (error) {
           warningNotify('An error occurred during file upload.')
@@ -362,7 +324,7 @@ const CrfMDApprovalModal = ({
           crf_req_collect_dept: val,
           crf_req_remark: datacolectremark,
           reqest_one: 8,
-          req_user: id,
+          req_user: id
         }))
         if (selectedCompany === '1') {
           DataCollRequestFnctn(postData)
@@ -387,7 +349,7 @@ const CrfMDApprovalModal = ({
           crf_req_remark: datacolectremark,
           reqest_one: 3,
           req_user: id,
-          tmc_status: 1,
+          tmc_status: 1
         }))
         DataCollRequestFnctntmc(postData)
         return
@@ -448,7 +410,7 @@ const CrfMDApprovalModal = ({
     reject,
     pending,
     editEnable,
-    selectedCompany,
+    selectedCompany
   ])
 
   useEffect(() => {
@@ -467,7 +429,7 @@ const CrfMDApprovalModal = ({
             const fileNamePart = parts[parts.length - 1]
             const obj = {
               imageName: fileNamePart,
-              url: val,
+              url: val
             }
             return obj
           })
@@ -491,7 +453,7 @@ const CrfMDApprovalModal = ({
             const fileNamePart = parts[parts.length - 1]
             const obj = {
               imageName: fileNamePart,
-              url: val,
+              url: val
             }
             return obj
           })
@@ -528,7 +490,7 @@ const CrfMDApprovalModal = ({
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 25,
-                width: 25,
+                width: 25
               }}
             />
             <Box sx={{ minWidth: '80vw', minHeight: '62vh', maxHeight: '85vh', overflowY: 'auto' }}>
@@ -552,9 +514,7 @@ const CrfMDApprovalModal = ({
                   ) : (
                     <Paper variant="outlined" sx={{ flexWrap: 'wrap' }}>
                       <Box sx={{ borderBottom: '1px solid lightgrey' }}>
-                        <Typography
-                          sx={{ fontWeight: 'bold', p: 1, color: '#145DA0', fontSize: 14 }}
-                        >
+                        <Typography sx={{ fontWeight: 'bold', p: 1, color: '#145DA0', fontSize: 14 }}>
                           Department Approval
                         </Typography>
                       </Box>
@@ -645,7 +605,7 @@ const CrfMDApprovalModal = ({
                           sx={{
                             display: 'flex',
                             flexDirection: 'row',
-                            alignItems: 'center',
+                            alignItems: 'center'
                           }}
                         >
                           <CampaignTwoToneIcon
@@ -655,22 +615,22 @@ const CrfMDApprovalModal = ({
                               animation: 'blink 2s infinite', // Apply the blink animation
                               '@keyframes blink': {
                                 '0%': {
-                                  opacity: 1,
+                                  opacity: 1
                                 },
                                 '50%': {
-                                  opacity: 0,
+                                  opacity: 0
                                 },
                                 '100%': {
-                                  opacity: 1,
-                                },
-                              },
+                                  opacity: 1
+                                }
+                              }
                             }}
                           />
                           <Typography
                             sx={{
                               fontFamily: 'var(--font-varient)',
                               color: 'rgba(var(--font-primary-white))',
-                              fontWeight: 700,
+                              fontWeight: 700
                             }}
                           ></Typography>
                           <Typography
@@ -679,7 +639,7 @@ const CrfMDApprovalModal = ({
                               color: '#FF6868',
                               fontSize: 14,
                               p: 1,
-                              textTransform: 'capitalize',
+                              textTransform: 'capitalize'
                             }}
                           >
                             Comments From {ApprovalData?.viewDep?.toLowerCase()}
@@ -692,7 +652,7 @@ const CrfMDApprovalModal = ({
                             color: '#145DA0',
                             fontSize: 14,
                             p: 1,
-                            textTransform: 'capitalize',
+                            textTransform: 'capitalize'
                           }}
                         >
                           By:{ApprovalData?.viewName?.toLowerCase()}
@@ -710,10 +670,7 @@ const CrfMDApprovalModal = ({
                 ) : null}
                 <Box sx={{ py: 0.5, mx: 0.2 }}>
                   {datacolflag === 1 ? (
-                    <ViewOreviousDataCollctnDetails
-                      datacolData={datacolData}
-                      selectedCompany={selectedCompany}
-                    />
+                    <ViewOreviousDataCollctnDetails datacolData={datacolData} selectedCompany={selectedCompany} />
                   ) : null}
                 </Box>
                 <Paper variant="outlined" sx={{ pb: 1, flexWrap: 'wrap', mx: 0.3 }}>
@@ -762,9 +719,7 @@ const CrfMDApprovalModal = ({
                       </Box>
                     </Box>
                     <Box sx={{ display: 'flex', pt: 0.4 }}>
-                      <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 1 }}>
-                        Remarks
-                      </Typography>
+                      <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 1 }}>Remarks</Typography>
                       <Typography sx={{ pt: 1 }}> :&nbsp;</Typography>
                       <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
                         <Textarea
@@ -795,9 +750,7 @@ const CrfMDApprovalModal = ({
                       </Box>
                     </Box>
                     <Box sx={{ display: 'flex', pt: 0.4 }}>
-                      <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 1 }}>
-                        Remarks
-                      </Typography>
+                      <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 1 }}>Remarks</Typography>
                       <Typography sx={{ pt: 1 }}> :&nbsp;</Typography>
                       <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
                         <Textarea
@@ -832,9 +785,7 @@ const CrfMDApprovalModal = ({
                           />
                         ) : null}
                         <Box sx={{ pl: 0.5 }}>
-                          <CustomIconButtonCmp handleChange={AddItems}>
-                            Add Items
-                          </CustomIconButtonCmp>
+                          <CustomIconButtonCmp handleChange={AddItems}>Add Items</CustomIconButtonCmp>
                         </Box>
                         {addMoreItems === 1 ? (
                           <AddMoreItemDtails
@@ -859,9 +810,7 @@ const CrfMDApprovalModal = ({
                           />
                         ) : null}
                         <Box sx={{ pl: 0.5 }}>
-                          <CustomIconButtonCmp handleChange={AddItems}>
-                            Add Items
-                          </CustomIconButtonCmp>
+                          <CustomIconButtonCmp handleChange={AddItems}>Add Items</CustomIconButtonCmp>
                         </Box>
                         {addMoreItems === 1 ? (
                           <AddMoreItemsKMC

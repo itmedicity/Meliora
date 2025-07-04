@@ -9,7 +9,7 @@ if (global.document) {
     setEnd: () => {},
     commonAncestorContainer: {
       nodeName: 'BODY',
-      ownerDocument: document,
-    },
+      ownerDocument: document
+    }
   })
 }

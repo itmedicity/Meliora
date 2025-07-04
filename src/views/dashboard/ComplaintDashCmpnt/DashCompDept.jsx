@@ -1,10 +1,7 @@
 import { Paper, Typography, Box } from '@mui/material'
 import React, { Fragment, useEffect, memo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  getOnholdcomplaints,
-  getTotalcomplaints,
-} from 'src/redux/actions/ComplaintDashboard.action'
+import { getOnholdcomplaints, getTotalcomplaints } from 'src/redux/actions/ComplaintDashboard.action'
 import { getDepartemployee } from 'src/redux/actions/DeptwiseEmp.action'
 import CompDashTable from './CompDashTable'
 import ComplaintDashboard from './ComplaintDashboard'
@@ -34,7 +31,7 @@ const DashCompDept = ({ profileData }) => {
   const total = useSelector(state => {
     return {
       complaintList: state.getComplaintList.complaintList,
-      loadingStatus: state.getComplaintList.loadingStatus,
+      loadingStatus: state.getComplaintList.loadingStatus
     }
   })
   const { complaintList, loadingStatus } = total
@@ -42,7 +39,7 @@ const DashCompDept = ({ profileData }) => {
   const onhold = useSelector(state => {
     return {
       onHoldData: state.getOnholdList.onHoldList,
-      onHoldStatus: state.getOnholdList.onholdStatus,
+      onHoldStatus: state.getOnholdList.onholdStatus
     }
   })
 
@@ -70,8 +67,8 @@ const DashCompDept = ({ profileData }) => {
       slno: 5,
       name: 'Onhold/On-Progress Complaints',
       count: onHoldData.length,
-      status: onHoldStatus,
-    },
+      status: onHoldStatus
+    }
   ]
   return (
     <Fragment>
@@ -80,7 +77,7 @@ const DashCompDept = ({ profileData }) => {
           sx={{
             width: '100%',
             display: 'flex',
-            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
+            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' }
           }}
         >
           <Box
@@ -88,7 +85,7 @@ const DashCompDept = ({ profileData }) => {
               width: '40%',
               mt: 0.8,
               pl: 2,
-              textTransform: 'capitalize',
+              textTransform: 'capitalize'
             }}
           >
             <Typography>{dept_sec.toLowerCase()}</Typography>
@@ -99,7 +96,7 @@ const DashCompDept = ({ profileData }) => {
             width: '100%',
             display: 'flex',
             p: 1,
-            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
+            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' }
           }}
         >
           {dasharray &&
@@ -109,15 +106,10 @@ const DashCompDept = ({ profileData }) => {
                   key={val.slno}
                   sx={{
                     width: '20%',
-                    pr: 2,
+                    pr: 2
                   }}
                 >
-                  <ComplaintDashboard
-                    widgetName={val.name}
-                    count={val.count}
-                    slno={val.slno}
-                    status={val.status}
-                  />
+                  <ComplaintDashboard widgetName={val.name} count={val.count} slno={val.slno} status={val.status} />
                 </Box>
               )
             })}
@@ -127,7 +119,7 @@ const DashCompDept = ({ profileData }) => {
             width: '100%',
             display: 'flex',
             p: 1,
-            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
+            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' }
           }}
         >
           <CompDashTable deptwiseemp={deptwiseemp} />

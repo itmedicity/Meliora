@@ -30,7 +30,7 @@ const DeptTransfer = () => {
     item_name: '',
     department: '',
     dept_sec: '',
-    custodian_dept: '',
+    custodian_dept: ''
   })
 
   const { am_item_map_slno, item_name, department, dept_sec, custodian_dept } = transferData
@@ -54,7 +54,7 @@ const DeptTransfer = () => {
           item_name: item_name,
           department: dept_name,
           dept_sec: sec_name,
-          custodian_dept: am_custodian_name,
+          custodian_dept: am_custodian_name
         }
         setTransferData(setfrmdta)
       } else {
@@ -71,7 +71,7 @@ const DeptTransfer = () => {
         const asset_number = parseInt(assetno)
         const postdata = {
           item_asset_no: starts,
-          item_asset_no_only: asset_number,
+          item_asset_no_only: asset_number
         }
         getdata(postdata)
       } else {
@@ -90,7 +90,7 @@ const DeptTransfer = () => {
       item_subroom_slno: subRoomNo !== 0 ? subRoomNo : null,
       am_custodian_trans_status: 0,
       transfer_user: empid,
-      am_item_map_slno: am_item_map_slno,
+      am_item_map_slno: am_item_map_slno
     }
   }, [transDept, transDeptSec, roomNo, subRoomNo, empid, am_item_map_slno])
 
@@ -100,7 +100,7 @@ const DeptTransfer = () => {
       item_name: '',
       department: '',
       dept_sec: '',
-      custodian_dept: '',
+      custodian_dept: ''
     }
     setTransferData(restdata)
     setTransDept(0)
@@ -149,14 +149,12 @@ const DeptTransfer = () => {
           display: 'flex',
           flexDirection: 'column',
           flexWrap: 'wrap',
-          m: 0,
+          m: 0
         }}
       >
         <Box sx={{ width: '60%', display: 'flex', pt: 2.5, margin: 'auto ', pl: 10 }}>
           <Box sx={{ pl: 0.8, width: '15%', cursor: 'pointer' }}>
-            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-              Asset No
-            </Typography>
+            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Asset No</Typography>
           </Box>
           <Box sx={{ pl: 0.8, width: '60%', cursor: 'pointer' }}>
             <TextFieldCustom
@@ -168,24 +166,12 @@ const DeptTransfer = () => {
             ></TextFieldCustom>
           </Box>
           <Box sx={{ width: '3%', pl: 1, pr: 0.5 }}>
-            <CusIconButton
-              size="sm"
-              variant="outlined"
-              clickable="true"
-              color="primary"
-              onClick={search}
-            >
+            <CusIconButton size="sm" variant="outlined" clickable="true" color="primary" onClick={search}>
               <SearchOutlinedIcon fontSize="small" />
             </CusIconButton>
           </Box>
           <Box sx={{ width: '3%', pl: 3 }}>
-            <CusIconButton
-              size="sm"
-              variant="outlined"
-              clickable="true"
-              color="primary"
-              onClick={referesh}
-            >
+            <CusIconButton size="sm" variant="outlined" clickable="true" color="primary" onClick={referesh}>
               <RefreshIcon fontSize="small" />
             </CusIconButton>
           </Box>
@@ -195,7 +181,7 @@ const DeptTransfer = () => {
             display: 'flex',
             flexDirection: 'row',
             width: '100%',
-            m: 0,
+            m: 0
           }}
         >
           <Box
@@ -204,12 +190,10 @@ const DeptTransfer = () => {
               width: '34%',
               p: 0.5,
               flexDirection: 'column',
-              cursor: 'pointer',
+              cursor: 'pointer'
             }}
           >
-            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-              Department
-            </Typography>
+            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Department</Typography>
             <Box>
               <TextFieldCustom
                 type="text"
@@ -226,20 +210,12 @@ const DeptTransfer = () => {
               width: '34%',
               p: 0.5,
               flexDirection: 'column',
-              cursor: 'pointer',
+              cursor: 'pointer'
             }}
           >
-            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-              Department Section
-            </Typography>
+            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Department Section</Typography>
             <Box>
-              <TextFieldCustom
-                type="text"
-                size="sm"
-                name="dept_sec"
-                value={dept_sec}
-                disabled={true}
-              ></TextFieldCustom>
+              <TextFieldCustom type="text" size="sm" name="dept_sec" value={dept_sec} disabled={true}></TextFieldCustom>
             </Box>
           </Box>
           <Box
@@ -248,7 +224,7 @@ const DeptTransfer = () => {
               width: '34%',
               p: 0.5,
               flexDirection: 'column',
-              cursor: 'pointer',
+              cursor: 'pointer'
             }}
           >
             <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
@@ -270,22 +246,14 @@ const DeptTransfer = () => {
             display: 'flex',
             flexDirection: 'column',
             width: '100%',
-            m: 0,
+            m: 0
           }}
         >
           <Box sx={{ pl: 0.8, width: '10%', cursor: 'pointer' }}>
-            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-              Item Name
-            </Typography>
+            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Item Name</Typography>
           </Box>
           <Box sx={{ pl: 0.8, width: '100%', cursor: 'pointer' }}>
-            <TextFieldCustom
-              type="text"
-              size="sm"
-              name="item_name"
-              value={item_name}
-              disabled={true}
-            ></TextFieldCustom>
+            <TextFieldCustom type="text" size="sm" name="item_name" value={item_name} disabled={true}></TextFieldCustom>
           </Box>
         </Box>
         <Box
@@ -293,7 +261,7 @@ const DeptTransfer = () => {
             display: 'flex',
             flexDirection: 'row',
             width: '100%',
-            m: 0,
+            m: 0
           }}
         >
           <Box
@@ -302,7 +270,7 @@ const DeptTransfer = () => {
               width: '30%',
               p: 0.5,
               flexDirection: 'column',
-              cursor: 'pointer',
+              cursor: 'pointer'
             }}
           >
             <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
@@ -318,7 +286,7 @@ const DeptTransfer = () => {
               width: '30%',
               p: 0.5,
               flexDirection: 'column',
-              cursor: 'pointer',
+              cursor: 'pointer'
             }}
           >
             <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
@@ -335,12 +303,10 @@ const DeptTransfer = () => {
               width: '30%',
               p: 0.5,
               flexDirection: 'column',
-              cursor: 'pointer',
+              cursor: 'pointer'
             }}
           >
-            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-              Transfer Room
-            </Typography>
+            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Transfer Room</Typography>
             <Box>
               <AmRoomSelWONameUDepSec roomNo={roomNo} setRoomNo={setRoomNo} />
             </Box>
@@ -351,24 +317,16 @@ const DeptTransfer = () => {
               width: '30%',
               p: 0.5,
               flexDirection: 'column',
-              cursor: 'pointer',
+              cursor: 'pointer'
             }}
           >
-            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-              Transfer Room
-            </Typography>
+            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Transfer Room</Typography>
             <Box>
               <AmSubRmSelWONamURoom subRoomNo={subRoomNo} setSubRoomNo={setSubRoomNo} />
             </Box>
           </Box>
           <Box sx={{ width: '3%', pl: 1, pt: 3 }}>
-            <CusIconButton
-              size="sm"
-              variant="outlined"
-              clickable="true"
-              color="primary"
-              onClick={updateDeptTransfer}
-            >
+            <CusIconButton size="sm" variant="outlined" clickable="true" color="primary" onClick={updateDeptTransfer}>
               <LibraryAddIcon fontSize="small" />
             </CusIconButton>
           </Box>

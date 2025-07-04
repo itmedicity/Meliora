@@ -72,13 +72,11 @@ const CEOApproval = () => {
   })
   useEffect(() => {
     if (tabledata.length !== 0) {
-      const COOPending =
-        tabledata && tabledata.filter(val => val.req_status !== 'C' && val.rm_ndrf === 0)
+      const COOPending = tabledata && tabledata.filter(val => val.req_status !== 'C' && val.rm_ndrf === 0)
       const datas = COOPending.map(val => {
         const obj = {
           req_slno: val.req_slno,
-          actual_requirement:
-            val.actual_requirement !== null ? val.actual_requirement : 'Not Updated',
+          actual_requirement: val.actual_requirement !== null ? val.actual_requirement : 'Not Updated',
           needed: val.needed !== null ? val.needed : 'Not Updated',
           ndactual_requirement: val.actual_requirement,
           ndneeded: val.needed,
@@ -112,8 +110,7 @@ const CEOApproval = () => {
           incharge_remark: val.incharge_remarks !== null ? val.incharge_remarks : 'Not Updated',
           inch_detial_analysis: val.inch_detial_analysis,
           incharge_apprv_date: val.incharge_apprv_date,
-          incharge_user:
-            val.incharge_user !== null ? val.incharge_user.toLowerCase() : 'Not Updated',
+          incharge_user: val.incharge_user !== null ? val.incharge_user.toLowerCase() : 'Not Updated',
 
           hod_req: val.hod_req,
           hod_approve: val.hod_approve,
@@ -141,8 +138,7 @@ const CEOApproval = () => {
               ? 'On-Hold'
               : 'Not Updated',
           dms_remarks: val.dms_remarks !== null ? val.dms_remarks : 'Not Updated',
-          dms_detail_analysis:
-            val.dms_detail_analysis !== null ? val.dms_detail_analysis : 'Not Updated',
+          dms_detail_analysis: val.dms_detail_analysis !== null ? val.dms_detail_analysis : 'Not Updated',
           dms_approve_date: val.dms_approve_date,
           dms_user: val.dms_user !== null ? val.dms_user.toLowerCase() : 'Not Updated',
 
@@ -157,8 +153,7 @@ const CEOApproval = () => {
               ? 'On-Hold'
               : 'Not Updated',
           ms_approve_remark: val.ms_approve_remark !== null ? val.ms_approve_remark : 'Not Updated',
-          ms_detail_analysis:
-            val.ms_detail_analysis !== null ? val.ms_detail_analysis : 'Not Updated',
+          ms_detail_analysis: val.ms_detail_analysis !== null ? val.ms_detail_analysis : 'Not Updated',
           ms_approve_date: val.ms_approve_date,
           ms_user: val.ms_user !== null ? val.ms_user.toLowerCase() : 'Not Updated',
 
@@ -172,15 +167,11 @@ const CEOApproval = () => {
               : val.manag_operation_approv === 3
               ? 'On-Hold'
               : 'Not Updated',
-          manag_operation_remarks:
-            val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
-          om_detial_analysis:
-            val.om_detial_analysis !== null ? val.om_detial_analysis : 'Not Updated',
+          manag_operation_remarks: val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
+          om_detial_analysis: val.om_detial_analysis !== null ? val.om_detial_analysis : 'Not Updated',
           om_approv_date: val.om_approv_date,
           manag_operation_user:
-            val.manag_operation_user !== null
-              ? val.manag_operation_user.toLowerCase()
-              : 'Not Updated',
+            val.manag_operation_user !== null ? val.manag_operation_user.toLowerCase() : 'Not Updated',
 
           senior_manage_req: val.senior_manage_req,
           senior_manage_approv: val.senior_manage_approv,
@@ -192,13 +183,10 @@ const CEOApproval = () => {
               : val.senior_manage_approv === 3
               ? 'On-Hold'
               : 'Not Updated',
-          senior_manage_remarks:
-            val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
-          smo_detial_analysis:
-            val.smo_detial_analysis !== null ? val.smo_detial_analysis : 'Not Updated',
+          senior_manage_remarks: val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
+          smo_detial_analysis: val.smo_detial_analysis !== null ? val.smo_detial_analysis : 'Not Updated',
           som_aprrov_date: val.som_aprrov_date,
-          senior_manage_user:
-            val.senior_manage_user !== null ? val.senior_manage_user.toLowerCase() : 'Not Updated',
+          senior_manage_user: val.senior_manage_user !== null ? val.senior_manage_user.toLowerCase() : 'Not Updated',
 
           cao_approve: val.cao_approve,
           cao:
@@ -209,10 +197,8 @@ const CEOApproval = () => {
               : val.cao_approve === 3
               ? 'On-Hold'
               : 'Not Updated',
-          cao_approve_remarks:
-            val.cao_approve_remarks !== null ? val.cao_approve_remarks : 'Not Updated',
-          ceo_detial_analysis:
-            val.ceo_detial_analysis !== null ? val.ceo_detial_analysis : 'Not Updated',
+          cao_approve_remarks: val.cao_approve_remarks !== null ? val.cao_approve_remarks : 'Not Updated',
+          ceo_detial_analysis: val.ceo_detial_analysis !== null ? val.ceo_detial_analysis : 'Not Updated',
           cao_approv_date: val.cao_approv_date,
           cao_user: val.cao_user !== null ? val.cao_user.toLowerCase() : 'Not Updated',
 
@@ -241,8 +227,7 @@ const CEOApproval = () => {
               : val.ed_approve === 3
               ? 'On-Hold'
               : 'Not Updated',
-          ed_approve_remarks:
-            val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
+          ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
           ed_detial_analysis: val.ed_detial_analysis,
           ed_approve_date: val.ed_approve_date,
           ed_user: val.ed_user,
@@ -251,7 +236,7 @@ const CEOApproval = () => {
           crf_close_remark: val.crf_close_remark !== null ? val.crf_close_remark : 'Not Updated',
           crf_closed_one: val.crf_closed_one !== null ? val.crf_closed_one : 'Not Updated',
           close_user: val.close_user !== null ? val.close_user : 'Not Updated',
-          close_date: val.close_date !== null ? val.close_date : 'Not Updated',
+          close_date: val.close_date !== null ? val.close_date : 'Not Updated'
         }
         return obj
       })
@@ -264,8 +249,7 @@ const CEOApproval = () => {
           ndrf_mast_slno: val.ndrf_mast_slno,
           req_slno: val.req_slno,
           ndrfcreate: val.ndrfcreate,
-          actual_requirement:
-            val.actual_requirement !== null ? val.actual_requirement : 'Not Updated',
+          actual_requirement: val.actual_requirement !== null ? val.actual_requirement : 'Not Updated',
           needed: val.needed !== null ? val.needed : 'Not Updated',
           request_dept_slno: val.request_dept_slno,
           request_deptsec_slno: val.request_deptsec_slno,
@@ -312,8 +296,7 @@ const CEOApproval = () => {
               : 'Not Updated',
           ndrf_smo_remarks: val.ndrf_smo_remarks,
           ndrf_som_aprrov_date: val.ndrf_som_aprrov_date,
-          ndrf_smo_user:
-            val.ndrf_smo_user !== null ? val.ndrf_smo_user.toLowerCase() : 'Not Updated',
+          ndrf_smo_user: val.ndrf_smo_user !== null ? val.ndrf_smo_user.toLowerCase() : 'Not Updated',
 
           ndrf_cao_approve: val.ndrf_cao_approve,
           ndrfCOO:
@@ -326,8 +309,7 @@ const CEOApproval = () => {
               : 'Not Updated',
           ndrf_cao_approve_remarks: val.ndrf_cao_approve_remarks,
           ndrf_cao_approv_date: val.ndrf_cao_approv_date,
-          ndrf_cao_user:
-            val.ndrf_cao_user !== null ? val.ndrf_cao_user.toLowerCase() : 'Not Updated',
+          ndrf_cao_user: val.ndrf_cao_user !== null ? val.ndrf_cao_user.toLowerCase() : 'Not Updated',
 
           ndrf_ed_approve: val.ndrf_ed_approve,
           ndrfED:
@@ -368,8 +350,7 @@ const CEOApproval = () => {
           incharge_remark: val.incharge_remarks !== null ? val.incharge_remarks : 'Not Updated',
           inch_detial_analysis: val.inch_detial_analysis,
           incharge_apprv_date: val.incharge_apprv_date,
-          incharge_user:
-            val.incharge_user !== null ? val.incharge_user.toLowerCase() : 'Not Updated',
+          incharge_user: val.incharge_user !== null ? val.incharge_user.toLowerCase() : 'Not Updated',
 
           hod_req: val.hod_req,
           hod_approve: val.hod_approve,
@@ -397,8 +378,7 @@ const CEOApproval = () => {
               ? 'On-Hold'
               : 'Not Updated',
           dms_remarks: val.dms_remarks !== null ? val.dms_remarks : 'Not Updated',
-          dms_detail_analysis:
-            val.dms_detail_analysis !== null ? val.dms_detail_analysis : 'Not Updated',
+          dms_detail_analysis: val.dms_detail_analysis !== null ? val.dms_detail_analysis : 'Not Updated',
           dms_approve_date: val.dms_approve_date,
           dms_user: val.dms_user !== null ? val.dms_user.toLowerCase() : 'Not Updated',
 
@@ -413,8 +393,7 @@ const CEOApproval = () => {
               ? 'On-Hold'
               : 'Not Updated',
           ms_approve_remark: val.ms_approve_remark !== null ? val.ms_approve_remark : 'Not Updated',
-          ms_detail_analysis:
-            val.ms_detail_analysis !== null ? val.ms_detail_analysis : 'Not Updated',
+          ms_detail_analysis: val.ms_detail_analysis !== null ? val.ms_detail_analysis : 'Not Updated',
           ms_approve_date: val.ms_approve_date,
           ms_user: val.ms_user !== null ? val.ms_user.toLowerCase() : 'Not Updated',
 
@@ -428,15 +407,11 @@ const CEOApproval = () => {
               : val.manag_operation_approv === 3
               ? 'On-Hold'
               : 'Not Updated',
-          manag_operation_remarks:
-            val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
-          om_detial_analysis:
-            val.om_detial_analysis !== null ? val.om_detial_analysis : 'Not Updated',
+          manag_operation_remarks: val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
+          om_detial_analysis: val.om_detial_analysis !== null ? val.om_detial_analysis : 'Not Updated',
           om_approv_date: val.om_approv_date,
           manag_operation_user:
-            val.manag_operation_user !== null
-              ? val.manag_operation_user.toLowerCase()
-              : 'Not Updated',
+            val.manag_operation_user !== null ? val.manag_operation_user.toLowerCase() : 'Not Updated',
 
           senior_manage_req: val.senior_manage_req,
           senior_manage_approv: val.senior_manage_approv,
@@ -448,13 +423,10 @@ const CEOApproval = () => {
               : val.senior_manage_approv === 3
               ? 'On-Hold'
               : 'Not Updated',
-          senior_manage_remarks:
-            val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
-          smo_detial_analysis:
-            val.smo_detial_analysis !== null ? val.smo_detial_analysis : 'Not Updated',
+          senior_manage_remarks: val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
+          smo_detial_analysis: val.smo_detial_analysis !== null ? val.smo_detial_analysis : 'Not Updated',
           som_aprrov_date: val.som_aprrov_date,
-          senior_manage_user:
-            val.senior_manage_user !== null ? val.senior_manage_user.toLowerCase() : 'Not Updated',
+          senior_manage_user: val.senior_manage_user !== null ? val.senior_manage_user.toLowerCase() : 'Not Updated',
 
           cao_approve: val.cao_approve,
           cao:
@@ -465,10 +437,8 @@ const CEOApproval = () => {
               : val.cao_approve === 3
               ? 'On-Hold'
               : 'Not Updated',
-          cao_approve_remarks:
-            val.cao_approve_remarks !== null ? val.cao_approve_remarks : 'Not Updated',
-          ceo_detial_analysis:
-            val.ceo_detial_analysis !== null ? val.ceo_detial_analysis : 'Not Updated',
+          cao_approve_remarks: val.cao_approve_remarks !== null ? val.cao_approve_remarks : 'Not Updated',
+          ceo_detial_analysis: val.ceo_detial_analysis !== null ? val.ceo_detial_analysis : 'Not Updated',
           cao_approv_date: val.cao_approv_date,
           cao_user: val.cao_user !== null ? val.cao_user.toLowerCase() : 'Not Updated',
 
@@ -497,8 +467,7 @@ const CEOApproval = () => {
               : val.ed_approve === 3
               ? 'On-Hold'
               : 'Not Updated',
-          ed_approve_remarks:
-            val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
+          ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
           ed_detial_analysis: val.ed_detial_analysis,
           ed_approve_date: val.ed_approve_date,
           ed_user: val.ed_user !== null ? val.ed_user.toLowerCase() : 'Not Updated',
@@ -507,7 +476,7 @@ const CEOApproval = () => {
           crf_close_remark: val.crf_close_remark !== null ? val.crf_close_remark : 'Not Updated',
           crf_closed_one: val.crf_closed_one !== null ? val.crf_closed_one : 'Not Updated',
           close_user: val.close_user !== null ? val.close_user.toLowerCase() : 'Not Updated',
-          close_date: val.close_date !== null ? val.close_date : 'Not Updated',
+          close_date: val.close_date !== null ? val.close_date : 'Not Updated'
         }
         return obj
       })
@@ -540,18 +509,12 @@ const CEOApproval = () => {
         } else {
           return (
             <Fragment>
-              <IconButton
-                onClick={() => MessageSend(params)}
-                sx={{ color: editicon, paddingY: 0.5 }}
-              >
+              <IconButton onClick={() => MessageSend(params)} sx={{ color: editicon, paddingY: 0.5 }}>
                 <CustomeToolTip title="Forward To Data Collection">
                   <ForwardToInboxTwoToneIcon />
                 </CustomeToolTip>
               </IconButton>
-              <IconButton
-                onClick={() => OMApproval(params)}
-                sx={{ color: editicon, paddingY: 0.5 }}
-              >
+              <IconButton onClick={() => OMApproval(params)} sx={{ color: editicon, paddingY: 0.5 }}>
                 <CustomeToolTip title="Approval">
                   <PublishedWithChangesOutlinedIcon />
                 </CustomeToolTip>
@@ -559,7 +522,7 @@ const CEOApproval = () => {
             </Fragment>
           )
         }
-      },
+      }
     },
     {
       headerName: 'NDRF',
@@ -588,7 +551,7 @@ const CEOApproval = () => {
             </IconButton>
           )
         }
-      },
+      }
     },
 
     { headerName: 'Req.Slno', field: 'req_slno', minWidth: 120 },
@@ -598,7 +561,7 @@ const CEOApproval = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 250,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Justification',
@@ -606,7 +569,7 @@ const CEOApproval = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 250,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Location',
@@ -614,7 +577,7 @@ const CEOApproval = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 250,
-      filter: 'true',
+      filter: 'true'
     },
     { headerName: 'Req. Date', field: 'req_date', minWidth: 200 },
     {
@@ -623,7 +586,7 @@ const CEOApproval = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 150,
-      filter: 'true',
+      filter: 'true'
     },
     { headerName: 'Inch.Remark', field: 'incharge_remark', minWidth: 250, wrapText: true },
     { headerName: 'Hod.Status', field: 'hod', minWidth: 150, wrapText: true, filter: 'true' },
@@ -639,7 +602,7 @@ const CEOApproval = () => {
     { headerName: 'CAO/COO Status', field: 'cao', minWidth: 180, wrapText: true, filter: 'true' },
     { headerName: 'CAO/COO.Remark', field: 'cao_approve_remarks', minWidth: 250, wrapText: true },
     { headerName: 'ED/MD  Status', field: 'ed', minWidth: 150, wrapText: true, filter: 'true' },
-    { headerName: 'ED/MD.Remark', field: 'ed_approve_remarks', minWidth: 250, wrapText: true },
+    { headerName: 'ED/MD.Remark', field: 'ed_approve_remarks', minWidth: 250, wrapText: true }
   ])
 
   //column title setting
@@ -650,10 +613,7 @@ const CEOApproval = () => {
       cellRenderer: params => {
         if (params.data.ndrf_ed_approve !== null || params.data.ndrf_md_approve !== null) {
           return (
-            <IconButton
-              onClick={() => ndrfApovDetal(params)}
-              sx={{ color: editicon, paddingY: 0.5 }}
-            >
+            <IconButton onClick={() => ndrfApovDetal(params)} sx={{ color: editicon, paddingY: 0.5 }}>
               <CustomeToolTip title="NDRF Details">
                 <SummarizeIcon />
               </CustomeToolTip>
@@ -668,7 +628,7 @@ const CEOApproval = () => {
             </IconButton>
           )
         }
-      },
+      }
     },
 
     { headerName: 'Req.Slno', field: 'req_slno', minWidth: 120 },
@@ -678,7 +638,7 @@ const CEOApproval = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 300,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Location',
@@ -686,7 +646,7 @@ const CEOApproval = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 200,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Req.Department',
@@ -694,7 +654,7 @@ const CEOApproval = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 300,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Req.DeptSec',
@@ -702,7 +662,7 @@ const CEOApproval = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 300,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Req.Date',
@@ -710,7 +670,7 @@ const CEOApproval = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 180,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Exp.DeptSec',
@@ -718,7 +678,7 @@ const CEOApproval = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 180,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Remarks',
@@ -726,8 +686,8 @@ const CEOApproval = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 150,
-      filter: 'true',
-    },
+      filter: 'true'
+    }
   ])
 
   const [CloseModal, setCloseModal] = useState(false)
@@ -894,7 +854,7 @@ const CEOApproval = () => {
           width: '100%',
           display: 'flex',
           flexDirection: 'row',
-          justifyContent: 'center',
+          justifyContent: 'center'
         }}
       >
         <Box sx={{ width: '20%', mt: 1 }}>
@@ -935,7 +895,7 @@ const CEOApproval = () => {
         sx={{
           width: '100%',
           display: 'flex',
-          flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
+          flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' }
         }}
       >
         <Box sx={{ display: 'flex' }}>

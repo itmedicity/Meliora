@@ -34,7 +34,7 @@ const AcceptTaskFromDir = () => {
   const [valuee, setValuee] = useState([])
   const searchData = useMemo(() => {
     return {
-      tm_assigne_emp: id,
+      tm_assigne_emp: id
     }
   }, [id])
 
@@ -56,7 +56,7 @@ const AcceptTaskFromDir = () => {
       const { tm_create_detl_slno } = value
       const patchdata = {
         tm_create_detl_slno: tm_create_detl_slno,
-        tm_detail_status: 1,
+        tm_detail_status: 1
       }
       const acceptTask = async patchdata => {
         const result = await axioslogin.patch('/TmAllDeptTask/acceptTask', patchdata)
@@ -142,12 +142,7 @@ const AcceptTaskFromDir = () => {
         />
       ) : null}
       {replyflag === 1 ? (
-        <ReplyModal
-          open={replyOpen}
-          setReplyOpen={setReplyOpen}
-          valuee={valuee}
-          setReplyflag={setReplyflag}
-        />
+        <ReplyModal open={replyOpen} setReplyOpen={setReplyOpen} valuee={valuee} setReplyflag={setReplyflag} />
       ) : null}
       <Box
         sx={{
@@ -158,7 +153,7 @@ const AcceptTaskFromDir = () => {
           pt: 0.8,
           pl: 0.8,
           color: '#C7C8CB',
-          bgcolor: 'white',
+          bgcolor: 'white'
         }}
       >
         Accept/Raise a query
@@ -171,7 +166,7 @@ const AcceptTaskFromDir = () => {
           borderColor: '#EAEAEA',
           borderRadius: 1,
           bgcolor: 'white',
-          height: '85vh',
+          height: '85vh'
         }}
       >
         <Box
@@ -180,7 +175,7 @@ const AcceptTaskFromDir = () => {
             display: 'flex',
             pb: 1,
             borderBottom: 3,
-            borderColor: '#DFE3ED',
+            borderColor: '#DFE3ED'
           }}
         >
           <Box sx={{ mt: 0.8, mx: 0.5 }}>
@@ -213,19 +208,17 @@ const AcceptTaskFromDir = () => {
                   borderTop: 1,
                   borderColor: 'lightgray',
                   pt: 1.5,
-                  bgcolor: 'white',
+                  bgcolor: 'white'
                 }}
               >
-                <Box sx={{ width: 40, pl: 1.5, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-                  #
-                </Box>
+                <Box sx={{ width: 40, pl: 1.5, fontWeight: 600, color: '#444444', fontSize: 12 }}>#</Box>
                 <Box
                   sx={{
                     width: 60,
                     fontWeight: 600,
                     color: '#444444',
                     fontSize: 12,
-                    textAlign: 'center',
+                    textAlign: 'center'
                   }}
                 >
                   File
@@ -236,7 +229,7 @@ const AcceptTaskFromDir = () => {
                     fontWeight: 600,
                     color: '#444444',
                     fontSize: 12,
-                    textAlign: 'center',
+                    textAlign: 'center'
                   }}
                 >
                   CountDown
@@ -247,29 +240,17 @@ const AcceptTaskFromDir = () => {
                     textAlign: 'center',
                     fontWeight: 600,
                     color: '#444444',
-                    fontSize: 12,
+                    fontSize: 12
                   }}
                 >
                   Action{' '}
                 </Box>
-                <Box sx={{ width: 640, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>
-                  Task Name
-                </Box>
-                <Box sx={{ width: 500, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-                  Project
-                </Box>
-                <Box sx={{ width: 200, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-                  Task Created By
-                </Box>
-                <Box sx={{ width: 160, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-                  Created Date
-                </Box>
-                <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12, pl: 0.5 }}>
-                  Due Date
-                </Box>
-                <Box sx={{ width: 650, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>
-                  Description
-                </Box>
+                <Box sx={{ width: 640, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>Task Name</Box>
+                <Box sx={{ width: 500, fontWeight: 600, color: '#444444', fontSize: 12 }}>Project</Box>
+                <Box sx={{ width: 200, fontWeight: 600, color: '#444444', fontSize: 12 }}>Task Created By</Box>
+                <Box sx={{ width: 160, fontWeight: 600, color: '#444444', fontSize: 12 }}>Created Date</Box>
+                <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12, pl: 0.5 }}>Due Date</Box>
+                <Box sx={{ width: 650, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>Description</Box>
               </Box>
               <Virtuoso
                 style={{ height: '66vh' }}
@@ -289,19 +270,11 @@ const AcceptTaskFromDir = () => {
                         minHeight: 30,
                         maxHeight: 80,
                         background:
-                          val.main_task_slno !== null
-                            ? '#EAE7FA'
-                            : val.main_task_slno === 0
-                            ? 'white'
-                            : 'white',
-                        pt: 0.5,
+                          val.main_task_slno !== null ? '#EAE7FA' : val.main_task_slno === 0 ? 'white' : 'white',
+                        pt: 0.5
                       }}
                     >
-                      <Box
-                        sx={{ width: 40, pl: 1.5, fontWeight: 600, color: 'grey', fontSize: 12 }}
-                      >
-                        {index + 1}
-                      </Box>
+                      <Box sx={{ width: 40, pl: 1.5, fontWeight: 600, color: 'grey', fontSize: 12 }}>{index + 1}</Box>
                       <Box
                         sx={{
                           width: 60,
@@ -309,7 +282,7 @@ const AcceptTaskFromDir = () => {
                           fontWeight: 600,
                           color: 'grey',
                           fontSize: 12,
-                          cursor: 'pointer',
+                          cursor: 'pointer'
                         }}
                       >
                         &nbsp;
@@ -317,14 +290,14 @@ const AcceptTaskFromDir = () => {
                           <FilePresentRoundedIcon
                             sx={{
                               color: '#41729F',
-                              '&:hover': { color: '#274472' },
+                              '&:hover': { color: '#274472' }
                             }}
                             onClick={() => fileView(val)}
                           />
                         ) : (
                           <FilePresentRoundedIcon
                             sx={{
-                              color: 'grey',
+                              color: 'grey'
                             }}
                           />
                         )}
@@ -341,7 +314,7 @@ const AcceptTaskFromDir = () => {
                               borderRadius: 15,
                               width: 150,
                               pl: 5,
-                              color: 'darkgreen',
+                              color: 'darkgreen'
                             }}
                           >
                             Completed
@@ -357,21 +330,17 @@ const AcceptTaskFromDir = () => {
                           fontSize: 12,
                           display: 'flex',
                           pl: 1,
-                          pr: 2,
+                          pr: 2
                         }}
                       >
                         <Box sx={{ flex: 0.6, pl: 1 }}>
                           <CssVarsProvider>
-                            <Tooltip
-                              title="Click to accept this Task"
-                              placement="bottom"
-                              variant="solid"
-                            >
+                            <Tooltip title="Click to accept this Task" placement="bottom" variant="solid">
                               <CheckCircleIcon
                                 sx={{
                                   color: '#9A5B13',
                                   cursor: 'pointer',
-                                  '&:hover': { color: '#4C3D40' },
+                                  '&:hover': { color: '#4C3D40' }
                                 }}
                                 onClick={() => AcceptTask(val)}
                               />
@@ -382,16 +351,12 @@ const AcceptTaskFromDir = () => {
                         <Box sx={{ flex: 1, pl: 1 }}>
                           {val.tm_detail_status === 0 ? (
                             <CssVarsProvider>
-                              <Tooltip
-                                title="Click to Raise a Query About the Task"
-                                placement="bottom"
-                                variant="solid"
-                              >
+                              <Tooltip title="Click to Raise a Query About the Task" placement="bottom" variant="solid">
                                 <HelpSharpIcon
                                   sx={{
                                     color: 'darkred',
                                     cursor: 'pointer',
-                                    '&:hover': { color: 'red' },
+                                    '&:hover': { color: 'red' }
                                   }}
                                   onClick={() => RejectTask(val)}
                                 />
@@ -428,7 +393,7 @@ const AcceptTaskFromDir = () => {
                             fontWeight: 600,
                             color: 'grey',
                             fontSize: 12,
-                            textTransform: 'capitalize',
+                            textTransform: 'capitalize'
                           }}
                         >
                           {val.tm_task_name || 'not given'}
@@ -440,7 +405,7 @@ const AcceptTaskFromDir = () => {
                             fontWeight: 650,
                             color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                             fontSize: 12,
-                            textTransform: 'capitalize',
+                            textTransform: 'capitalize'
                           }}
                         >
                           {val.tm_task_name || 'not given'}
@@ -453,7 +418,7 @@ const AcceptTaskFromDir = () => {
                             fontWeight: 600,
                             color: 'grey',
                             fontSize: 12,
-                            textTransform: 'capitalize',
+                            textTransform: 'capitalize'
                           }}
                         >
                           {val.tm_project_name || 'not given'}
@@ -465,7 +430,7 @@ const AcceptTaskFromDir = () => {
                             fontWeight: 600,
                             color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                             fontSize: 12,
-                            textTransform: 'capitalize',
+                            textTransform: 'capitalize'
                           }}
                         >
                           {val.tm_project_name || 'not given'}
@@ -478,7 +443,7 @@ const AcceptTaskFromDir = () => {
                             fontWeight: 600,
                             color: 'grey',
                             fontSize: 12,
-                            textTransform: 'capitalize',
+                            textTransform: 'capitalize'
                           }}
                         >
                           {val.create_empname || 'not given'}
@@ -490,7 +455,7 @@ const AcceptTaskFromDir = () => {
                             fontWeight: 600,
                             color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                             fontSize: 12,
-                            textTransform: 'capitalize',
+                            textTransform: 'capitalize'
                           }}
                         >
                           {val.create_empname || 'not given'}
@@ -503,7 +468,7 @@ const AcceptTaskFromDir = () => {
                             fontWeight: 600,
                             color: 'grey',
                             fontSize: 12,
-                            textTransform: 'capitalize',
+                            textTransform: 'capitalize'
                           }}
                         >
                           {format(new Date(val.create_date), 'MMM dd, yyyy HH:mm:ss')}
@@ -515,7 +480,7 @@ const AcceptTaskFromDir = () => {
                             fontWeight: 600,
                             color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                             fontSize: 12,
-                            textTransform: 'capitalize',
+                            textTransform: 'capitalize'
                           }}
                         >
                           {format(new Date(val.create_date), 'MMM dd, yyyy HH:mm:ss')}
@@ -528,7 +493,7 @@ const AcceptTaskFromDir = () => {
                             fontWeight: 600,
                             color: 'grey',
                             fontSize: 12,
-                            textTransform: 'capitalize',
+                            textTransform: 'capitalize'
                           }}
                         >
                           {format(new Date(val.tm_task_due_date), 'MMM dd, yyyy HH:mm:ss')}
@@ -540,7 +505,7 @@ const AcceptTaskFromDir = () => {
                             fontWeight: 600,
                             color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                             fontSize: 12,
-                            textTransform: 'capitalize',
+                            textTransform: 'capitalize'
                           }}
                         >
                           {format(new Date(val.tm_task_due_date), 'MMM dd, yyyy HH:mm:ss')}
@@ -553,7 +518,7 @@ const AcceptTaskFromDir = () => {
                             fontWeight: 600,
                             color: 'grey',
                             fontSize: 12,
-                            textTransform: 'capitalize',
+                            textTransform: 'capitalize'
                           }}
                         >
                           {val.tm_task_description || 'not given'}
@@ -565,7 +530,7 @@ const AcceptTaskFromDir = () => {
                             fontWeight: 600,
                             color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                             fontSize: 12,
-                            textTransform: 'capitalize',
+                            textTransform: 'capitalize'
                           }}
                         >
                           {val.tm_task_description || 'not given'}
@@ -586,7 +551,7 @@ const AcceptTaskFromDir = () => {
                 pt: 25,
                 fontWeight: 700,
                 fontSize: 30,
-                color: '#C7C8CB',
+                color: '#C7C8CB'
               }}
             >
               Empty List

@@ -8,7 +8,7 @@ import {
   TabList,
   TabPanel,
   Tabs,
-  Typography,
+  Typography
 } from '@mui/joy'
 import React, { Fragment, memo } from 'react'
 import NursingStationsFeedback from './Components/NursingStationsFeedback'
@@ -21,9 +21,7 @@ const Feedback = () => {
     <Fragment>
       <Paper variant="outlined" sx={{ bgcolor: '#F8F8F8' }}>
         <Box sx={{}}>
-          <Typography sx={{ fontSize: 20, pl: 1, color: '#9e9e9e', fontFamily: 'Monospace' }}>
-            Feedback
-          </Typography>
+          <Typography sx={{ fontSize: 20, pl: 1, color: '#9e9e9e', fontFamily: 'Monospace' }}>Feedback</Typography>
           {/* <CssVarsProvider>
                     <Tabs
                         variant="outlined"
@@ -100,9 +98,9 @@ const Feedback = () => {
                   [`&:not(.${tabClasses.selected})
                             :not(:hover)
                             `]: {
-                    opacity: 1,
-                  },
-                },
+                    opacity: 1
+                  }
+                }
               })}
             >
               <TabList variant="outlined" size="sm" disableUnderline sx={{ p: 0, flex: 1 }}>
@@ -111,20 +109,12 @@ const Feedback = () => {
                   orientation="vertical"
                   sx={{
                     flexGrow: 1,
-                    pt: 0.5,
+                    pt: 0.5
                   }}
                 >
                   <ListItemDecorator>
-                    <Avatar
-                      size="sm"
-                      variant="plain"
-                      sx={{ bgcolor: 'white', width: 25, height: 25 }}
-                    >
-                      <img
-                        src={nursimage}
-                        alt="nurse"
-                        style={{ width: '100%', height: '100%', color: 'grey' }}
-                      />
+                    <Avatar size="sm" variant="plain" sx={{ bgcolor: 'white', width: 25, height: 25 }}>
+                      <img src={nursimage} alt="nurse" style={{ width: '100%', height: '100%', color: 'grey' }} />
                     </Avatar>
                   </ListItemDecorator>
                   Nursing Stations
@@ -134,15 +124,11 @@ const Feedback = () => {
                   orientation="vertical"
                   sx={{
                     flexGrow: 1,
-                    pt: 0.5,
+                    pt: 0.5
                   }}
                 >
                   <ListItemDecorator>
-                    <Avatar
-                      size="sm"
-                      variant="plain"
-                      sx={{ bgcolor: 'white', width: 25, height: 25 }}
-                    >
+                    <Avatar size="sm" variant="plain" sx={{ bgcolor: 'white', width: 25, height: 25 }}>
                       <DashboardOutlinedIcon style={{ width: '100%', height: '100%' }} />
                     </Avatar>
                   </ListItemDecorator>

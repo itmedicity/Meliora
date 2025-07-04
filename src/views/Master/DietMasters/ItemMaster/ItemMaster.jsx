@@ -24,7 +24,7 @@ const ItemMaster = () => {
     qty: '',
     unit: '',
     diet_item: false,
-    status: false,
+    status: false
   })
   //Destructuring
   const { item_name, rate, rate_hosp, qty, unit, diet_item, status, item_slno } = item
@@ -50,7 +50,7 @@ const ItemMaster = () => {
       unit: unit === '' ? 0 : unit,
       diet_item: diet_item === true ? 1 : 0,
       status: status === true ? 1 : 0,
-      em_id: id,
+      em_id: id
     }
   }, [item_name, rate, rate_hosp, qty, unit, diet_item, status, grpslno, id])
 
@@ -58,8 +58,7 @@ const ItemMaster = () => {
   const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
-    const { item_name, grp_slno, rate, rate_hosp, qty, unit, diet_item, status, item_slno } =
-      data[0]
+    const { item_name, grp_slno, rate, rate_hosp, qty, unit, diet_item, status, item_slno } = data[0]
     const frmdata = {
       item_name: item_name,
       rate: rate,
@@ -68,7 +67,7 @@ const ItemMaster = () => {
       unit: unit,
       diet_item: diet_item === 1 ? true : false,
       status: status === 1 ? true : false,
-      item_slno: item_slno,
+      item_slno: item_slno
     }
     setItem(frmdata)
     setgrpslno(grp_slno)
@@ -86,7 +85,7 @@ const ItemMaster = () => {
       diet_item: diet_item === true ? 1 : 0,
       status: status === true ? 1 : 0,
       em_id: id,
-      item_slno: item_slno,
+      item_slno: item_slno
     }
   }, [item_name, grpslno, rate, rate_hosp, qty, unit, diet_item, status, id, item_slno])
 
@@ -105,7 +104,7 @@ const ItemMaster = () => {
         diet_item: false,
         status: false,
         em_id: '',
-        item_slno: '',
+        item_slno: ''
       }
       /***    * insert function for use call back     */
       const Insertitem = async postdata => {
@@ -164,7 +163,7 @@ const ItemMaster = () => {
       unit: '',
       diet_item: false,
       status: false,
-      item_slno: '',
+      item_slno: ''
     }
     setItem(formreset)
     setValue(0)
@@ -172,12 +171,7 @@ const ItemMaster = () => {
   }, [setItem])
 
   return (
-    <CardMaster
-      title="Item Master"
-      submit={submititem}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Item Master" submit={submititem} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ p: 1 }}>
         <Grid container spacing={1}>
           <Grid item xl={4} lg={4}>

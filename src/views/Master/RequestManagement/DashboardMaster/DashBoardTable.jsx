@@ -17,7 +17,7 @@ const DashBoardTable = ({ count, rowSelect, setCount, setDept, setDeptsec, setEm
         const viewMap = {
           1: 'CRF Status',
           2: 'CRF Purchase Status',
-          3: 'CRF Store Status',
+          3: 'CRF Store Status'
         }
 
         let parsed = []
@@ -29,12 +29,12 @@ const DashBoardTable = ({ count, rowSelect, setCount, setDept, setDeptsec, setEm
 
         return parsed.map(v => viewMap[v] || `Unknown (${v})`).join(' ,  ')
       },
-      width: 200,
+      width: 200
     },
     {
       headerName: 'Action',
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
-    },
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
+    }
   ])
 
   /*** get data from module_master table for display */

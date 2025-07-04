@@ -54,7 +54,7 @@ const CrfDataCollectnTable = () => {
             </IconButton>
           )
         }
-      },
+      }
     },
 
     { headerName: 'Req.Slno', field: 'req_slno', minWidth: 120 },
@@ -64,7 +64,7 @@ const CrfDataCollectnTable = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 300,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Emergency',
@@ -72,7 +72,7 @@ const CrfDataCollectnTable = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 150,
-      filter: 'true',
+      filter: 'true'
     },
     { headerName: 'Req. Date', field: 'req_date', minWidth: 180, autoHeight: true, wrapText: true },
     {
@@ -81,7 +81,7 @@ const CrfDataCollectnTable = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 150,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Incharge Remarks',
@@ -89,14 +89,14 @@ const CrfDataCollectnTable = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 250,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Hod.Approve Status',
       field: 'approve_hod',
       minWidth: 150,
       wrapText: true,
-      filter: 'true',
+      filter: 'true'
     },
     { headerName: 'Hod Remarks', field: 'hod_remarks', minWidth: 300, wrapText: true },
     {
@@ -104,70 +104,70 @@ const CrfDataCollectnTable = () => {
       field: 'manag_operation_approvs',
       minWidth: 150,
       wrapText: true,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'OM Remarks',
       field: 'manag_operation_remarks',
       autoHeight: true,
       minWidth: 300,
-      wrapText: true,
+      wrapText: true
     },
     {
       headerName: 'SMO Approve Status',
       field: 'senior_manage_approvs',
       minWidth: 150,
       wrapText: true,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'SMO Remarks',
       field: 'senior_manage_remarks',
       autoHeight: true,
       minWidth: 300,
-      wrapText: true,
+      wrapText: true
     },
     {
       headerName: 'GM Approve Status',
       field: 'cao_approves',
       minWidth: 150,
       wrapText: true,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'GM Remarks',
       field: 'cao_approve_remarks',
       autoHeight: true,
       minWidth: 300,
-      wrapText: true,
+      wrapText: true
     },
     {
       headerName: 'MD  Status',
       field: 'md_approves',
       minWidth: 150,
       wrapText: true,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'MD.Remark',
       field: 'md_approve_remarks',
       autoHeight: true,
       minWidth: 250,
-      wrapText: true,
+      wrapText: true
     },
     {
       headerName: 'ED  Status',
       field: 'ed_approves',
       minWidth: 150,
       wrapText: true,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'ED.Remark',
       field: 'md_approve_remarks',
       autoHeight: true,
       minWidth: 250,
-      wrapText: true,
+      wrapText: true
     },
 
     { headerName: 'NDRF GM Status', field: 'ndrf_cao_approves', minWidth: 180, wrapText: true },
@@ -176,36 +176,36 @@ const CrfDataCollectnTable = () => {
       field: 'ndrf_cao_approve_remarks',
       autoHeight: true,
       minWidth: 250,
-      wrapText: true,
+      wrapText: true
     },
     {
       headerName: 'NDRF MD  Status',
       field: 'ndrf_md_approves',
       minWidth: 150,
       wrapText: true,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'NDRF MD.Remark',
       field: 'ndrf_md_approve_remarks',
       autoHeight: true,
       minWidth: 250,
-      wrapText: true,
+      wrapText: true
     },
     {
       headerName: 'NDRF ED  Status',
       field: 'ndrf_ed_approves',
       minWidth: 150,
       wrapText: true,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'NDRF ED.Remark',
       field: 'ndrf_ed_approve_remarks',
       autoHeight: true,
       minWidth: 250,
-      wrapText: true,
-    },
+      wrapText: true
+    }
   ])
 
   const DataEntry = useCallback(params => {
@@ -231,13 +231,7 @@ const CrfDataCollectnTable = () => {
   return (
     <CardCloseOnly title="Data Collection For CRF" close={backtoSetting}>
       {model === 1 ? (
-        <CRFDataCollectinModel
-          open={open}
-          setOpen={setOpen}
-          datas={datas}
-          count={count}
-          setCount={setCount}
-        />
+        <CRFDataCollectinModel open={open} setOpen={setOpen} datas={datas} count={count} setCount={setCount} />
       ) : null}
 
       <Box sx={{ p: 1 }}>
@@ -247,7 +241,7 @@ const CrfDataCollectnTable = () => {
         sx={{
           width: '100%',
           display: 'flex',
-          flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
+          flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' }
         }}
       >
         <Box sx={{ display: 'flex' }}>

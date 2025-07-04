@@ -1,14 +1,4 @@
-import {
-  Avatar,
-  Box,
-  CssVarsProvider,
-  Dropdown,
-  Menu,
-  MenuButton,
-  MenuItem,
-  Tooltip,
-  Typography,
-} from '@mui/joy'
+import { Avatar, Box, CssVarsProvider, Dropdown, Menu, MenuButton, MenuItem, Tooltip, Typography } from '@mui/joy'
 import React, { Fragment, memo, useCallback, useState } from 'react'
 import CloseIcon from '@mui/icons-material/Close'
 // import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
@@ -47,7 +37,7 @@ const PatientDetailsView = ({ nsName, setListFlag }) => {
       room: 1,
       complnt: 1,
       incident: 0,
-      feedback: 0,
+      feedback: 0
     },
     {
       ipno: 2,
@@ -58,7 +48,7 @@ const PatientDetailsView = ({ nsName, setListFlag }) => {
       room: 0,
       complnt: 0,
       incident: 0,
-      feedback: 0,
+      feedback: 0
     },
     {
       ipno: 3,
@@ -69,7 +59,7 @@ const PatientDetailsView = ({ nsName, setListFlag }) => {
       room: 0,
       complnt: 1,
       incident: 1,
-      feedback: 0,
+      feedback: 0
     },
     {
       ipno: 4,
@@ -80,7 +70,7 @@ const PatientDetailsView = ({ nsName, setListFlag }) => {
       room: 1,
       complnt: 1,
       incident: 1,
-      feedback: 0,
+      feedback: 0
     },
     {
       ipno: 5,
@@ -91,7 +81,7 @@ const PatientDetailsView = ({ nsName, setListFlag }) => {
       room: 1,
       complnt: 0,
       incident: 1,
-      feedback: 0,
+      feedback: 0
     },
     {
       ipno: 6,
@@ -102,7 +92,7 @@ const PatientDetailsView = ({ nsName, setListFlag }) => {
       room: 0,
       complnt: 0,
       incident: 0,
-      feedback: 0,
+      feedback: 0
     },
 
     {
@@ -114,7 +104,7 @@ const PatientDetailsView = ({ nsName, setListFlag }) => {
       room: 1,
       complnt: 1,
       incident: 0,
-      feedback: 0,
+      feedback: 0
     },
     {
       ipno: 2,
@@ -125,7 +115,7 @@ const PatientDetailsView = ({ nsName, setListFlag }) => {
       room: 0,
       complnt: 0,
       incident: 0,
-      feedback: 0,
+      feedback: 0
     },
     {
       ipno: 3,
@@ -136,7 +126,7 @@ const PatientDetailsView = ({ nsName, setListFlag }) => {
       room: 0,
       complnt: 1,
       incident: 1,
-      feedback: 0,
+      feedback: 0
     },
     {
       ipno: 4,
@@ -147,7 +137,7 @@ const PatientDetailsView = ({ nsName, setListFlag }) => {
       room: 1,
       complnt: 1,
       incident: 0,
-      feedback: 0,
+      feedback: 0
     },
     {
       ipno: 5,
@@ -158,7 +148,7 @@ const PatientDetailsView = ({ nsName, setListFlag }) => {
       room: 1,
       complnt: 0,
       incident: 1,
-      feedback: 0,
+      feedback: 0
     },
     {
       ipno: 6,
@@ -169,8 +159,8 @@ const PatientDetailsView = ({ nsName, setListFlag }) => {
       room: 0,
       complnt: 0,
       incident: 0,
-      feedback: 0,
-    },
+      feedback: 0
+    }
   ]
   const capitalizeWords = str =>
     str
@@ -188,8 +178,8 @@ const PatientDetailsView = ({ nsName, setListFlag }) => {
     cursor: 'pointer',
     transition: 'transform 0.2s',
     '&:hover': {
-      transform: 'scale(1.1)',
-    },
+      transform: 'scale(1.1)'
+    }
   }
 
   const iconStyleAfterSave = {
@@ -204,8 +194,8 @@ const PatientDetailsView = ({ nsName, setListFlag }) => {
     cursor: 'pointer',
     transition: 'transform 0.2s',
     '&:hover': {
-      transform: 'scale(1.1)',
-    },
+      transform: 'scale(1.1)'
+    }
   }
   const iconStyleIncident = {
     height: 25,
@@ -219,8 +209,8 @@ const PatientDetailsView = ({ nsName, setListFlag }) => {
     cursor: 'pointer',
     transition: 'transform 0.2s',
     '&:hover': {
-      transform: 'scale(1.1)',
-    },
+      transform: 'scale(1.1)'
+    }
   }
   const menuIconStyle = {
     p: 1,
@@ -238,8 +228,8 @@ const PatientDetailsView = ({ nsName, setListFlag }) => {
       position: 'absolute',
       bottom: -8,
       left: '50%',
-      transform: 'translateX(-50%)',
-    },
+      transform: 'translateX(-50%)'
+    }
   }
   const AddDetails = useCallback(val => {
     const { ptid } = val
@@ -317,7 +307,7 @@ const PatientDetailsView = ({ nsName, setListFlag }) => {
                 flex: 1,
                 fontSize: 20,
                 pt: 0.8,
-                pr: 0.2,
+                pr: 0.2
               }}
             >
               <Tooltip title="Close" placement="bottom">
@@ -328,7 +318,7 @@ const PatientDetailsView = ({ nsName, setListFlag }) => {
                       size: 'lg',
                       fontSize: 20,
                       color: '#424242',
-                      '&:hover': { color: 'red' },
+                      '&:hover': { color: 'red' }
                     }}
                     onClick={backtoHome}
                   />
@@ -351,36 +341,22 @@ const PatientDetailsView = ({ nsName, setListFlag }) => {
                           mb: 1,
                           justifyContent: 'space-between',
                           cursor: 'pointer',
-                          '&:hover': { bgcolor: '#E0E7EE' },
+                          '&:hover': { bgcolor: '#E0E7EE' }
                         }}
                         onClick={() => DetailedView(val)}
                       >
-                        <Typography
-                          variant="h6"
-                          component="div"
-                          sx={{ fontSize: 18, fontWeight: 600, color: '#333' }}
-                        >
+                        <Typography variant="h6" component="div" sx={{ fontSize: 18, fontWeight: 600, color: '#333' }}>
                           {val.bed}
                         </Typography>
-                        <Typography
-                          variant="h6"
-                          component="div"
-                          sx={{ fontSize: 18, fontWeight: 600, color: '#333' }}
-                        >
+                        <Typography variant="h6" component="div" sx={{ fontSize: 18, fontWeight: 600, color: '#333' }}>
                           {val.ptid}
                         </Typography>
-                        <Typography
-                          variant="body1"
-                          component="div"
-                          sx={{ fontSize: 16, color: '#555' }}
-                        >
+                        <Typography variant="body1" component="div" sx={{ fontSize: 16, color: '#555' }}>
                           {capitalizeWords(val.ptname)}
                         </Typography>
                       </Box>
                       <Divider flexItem sx={{ borderColor: '#BDBDBD' }} />
-                      <Box
-                        sx={{ display: 'flex', justifyContent: 'space-between', bgcolor: '#fff' }}
-                      >
+                      <Box sx={{ display: 'flex', justifyContent: 'space-between', bgcolor: '#fff' }}>
                         {val.ptid === '' ? (
                           <Box sx={{ display: 'flex', pl: 1, pt: 1 }}>
                             <Tooltip title="Room Checklist" placement="bottom">
@@ -433,17 +409,11 @@ const PatientDetailsView = ({ nsName, setListFlag }) => {
                             </MenuButton>
                             {addFlag === 1 ? (
                               <Menu sx={menuIconStyle}>
-                                <MenuItem onClick={() => RoomChecklistDetails(val)}>
-                                  Room Checklist
-                                </MenuItem>
+                                <MenuItem onClick={() => RoomChecklistDetails(val)}>Room Checklist</MenuItem>
                                 <ListDivider />
-                                <MenuItem onClick={() => RegComplaintDetails(val)}>
-                                  Complaint Reg.
-                                </MenuItem>
+                                <MenuItem onClick={() => RegComplaintDetails(val)}>Complaint Reg.</MenuItem>
                                 <ListDivider />
-                                <MenuItem onClick={() => RegIncidentDetails(val)}>
-                                  Incident Reg.
-                                </MenuItem>
+                                <MenuItem onClick={() => RegIncidentDetails(val)}>Incident Reg.</MenuItem>
                                 <ListDivider />
                                 <MenuItem onClick={() => FeedbackDetails(val)}>Feedback</MenuItem>
                               </Menu>
@@ -467,8 +437,8 @@ const PatientDetailsView = ({ nsName, setListFlag }) => {
               boxShadow: 3,
               '@media (max-width: 600px)': {
                 position: 'relative',
-                mt: 1,
-              },
+                mt: 1
+              }
             }}
           >
             <Box
@@ -480,7 +450,7 @@ const PatientDetailsView = ({ nsName, setListFlag }) => {
                 p: 0.5,
                 fontSize: 10,
                 fontWeight: 550,
-                color: 'white',
+                color: 'white'
               }}
             >
               CheckList Added/Completed
@@ -494,7 +464,7 @@ const PatientDetailsView = ({ nsName, setListFlag }) => {
                 p: 0.5,
                 fontSize: 10,
                 fontWeight: 550,
-                color: 'white',
+                color: 'white'
               }}
             >
               Complaint Registered
@@ -506,7 +476,7 @@ const PatientDetailsView = ({ nsName, setListFlag }) => {
                 boxShadow: 5,
                 p: 0.5,
                 fontSize: 10,
-                fontWeight: 550,
+                fontWeight: 550
               }}
             >
               No Entries Reported

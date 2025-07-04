@@ -1,12 +1,4 @@
-import {
-  Box,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from '@mui/material'
+import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import React, { Fragment, memo, useCallback, useState } from 'react'
 import ModalForDailyCensusEntry from './ModalForDailyCensusEntry'
 
@@ -55,7 +47,7 @@ const ListNursingStations = ({ dailyDate, censusData, count, setCount }) => {
                       border: '0.5px solid lightgrey',
                       textAlign: 'center',
                       bgcolor: '#424242',
-                      color: 'white',
+                      color: 'white'
                     }}
                   >
                     Sl.No
@@ -68,7 +60,7 @@ const ListNursingStations = ({ dailyDate, censusData, count, setCount }) => {
                       borderLeft: 'none',
                       textAlign: 'center',
                       bgcolor: '#424242',
-                      color: 'white',
+                      color: 'white'
                     }}
                   >
                     Nursing Station
@@ -80,7 +72,7 @@ const ListNursingStations = ({ dailyDate, censusData, count, setCount }) => {
                       borderLeft: 'none',
                       textAlign: 'center',
                       bgcolor: '#424242',
-                      color: 'white',
+                      color: 'white'
                     }}
                   >
                     HIS Yesterday Census
@@ -92,7 +84,7 @@ const ListNursingStations = ({ dailyDate, censusData, count, setCount }) => {
                       borderLeft: 'none',
                       textAlign: 'center',
                       bgcolor: '#424242',
-                      color: 'white',
+                      color: 'white'
                     }}
                   >
                     Yesterday Census
@@ -104,7 +96,7 @@ const ListNursingStations = ({ dailyDate, censusData, count, setCount }) => {
                       borderLeft: 'none',
                       textAlign: 'center',
                       bgcolor: '#424242',
-                      color: 'white',
+                      color: 'white'
                     }}
                   >
                     HIS Admission
@@ -116,7 +108,7 @@ const ListNursingStations = ({ dailyDate, censusData, count, setCount }) => {
                       borderLeft: 'none',
                       textAlign: 'center',
                       bgcolor: '#424242',
-                      color: 'white',
+                      color: 'white'
                     }}
                   >
                     Admission
@@ -128,7 +120,7 @@ const ListNursingStations = ({ dailyDate, censusData, count, setCount }) => {
                       borderLeft: 'none',
                       textAlign: 'center',
                       bgcolor: '#424242',
-                      color: 'white',
+                      color: 'white'
                     }}
                   >
                     HIS Discharge
@@ -140,7 +132,7 @@ const ListNursingStations = ({ dailyDate, censusData, count, setCount }) => {
                       borderLeft: 'none',
                       textAlign: 'center',
                       bgcolor: '#424242',
-                      color: 'white',
+                      color: 'white'
                     }}
                   >
                     Discharge
@@ -152,7 +144,7 @@ const ListNursingStations = ({ dailyDate, censusData, count, setCount }) => {
                       borderLeft: 'none',
                       textAlign: 'center',
                       bgcolor: '#424242',
-                      color: 'white',
+                      color: 'white'
                     }}
                   >
                     Transfer In
@@ -164,7 +156,7 @@ const ListNursingStations = ({ dailyDate, censusData, count, setCount }) => {
                       borderLeft: 'none',
                       textAlign: 'center',
                       bgcolor: '#424242',
-                      color: 'white',
+                      color: 'white'
                     }}
                   >
                     Transfer Out
@@ -176,7 +168,7 @@ const ListNursingStations = ({ dailyDate, censusData, count, setCount }) => {
                       borderLeft: 'none',
                       textAlign: 'center',
                       bgcolor: '#424242',
-                      color: 'white',
+                      color: 'white'
                     }}
                   >
                     HIS Death
@@ -188,7 +180,7 @@ const ListNursingStations = ({ dailyDate, censusData, count, setCount }) => {
                       borderLeft: 'none',
                       textAlign: 'center',
                       bgcolor: '#424242',
-                      color: 'white',
+                      color: 'white'
                     }}
                   >
                     HIS DAMA
@@ -200,7 +192,7 @@ const ListNursingStations = ({ dailyDate, censusData, count, setCount }) => {
                       borderLeft: 'none',
                       textAlign: 'center',
                       bgcolor: '#424242',
-                      color: 'white',
+                      color: 'white'
                     }}
                   >
                     HIS LAMA
@@ -212,7 +204,7 @@ const ListNursingStations = ({ dailyDate, censusData, count, setCount }) => {
                       borderLeft: 'none',
                       textAlign: 'center',
                       bgcolor: '#424242',
-                      color: 'white',
+                      color: 'white'
                     }}
                   >
                     Death
@@ -224,7 +216,7 @@ const ListNursingStations = ({ dailyDate, censusData, count, setCount }) => {
                       borderLeft: 'none',
                       textAlign: 'center',
                       bgcolor: '#424242',
-                      color: 'white',
+                      color: 'white'
                     }}
                   >
                     HIS Total
@@ -237,7 +229,7 @@ const ListNursingStations = ({ dailyDate, censusData, count, setCount }) => {
                       textAlign: 'center',
                       bgcolor: '#424242',
                       color: 'white',
-                      borderRight: '1px solid grey',
+                      borderRight: '1px solid grey'
                     }}
                   >
                     Total
@@ -251,7 +243,7 @@ const ListNursingStations = ({ dailyDate, censusData, count, setCount }) => {
                       key={val.census_ns_slno}
                       style={{
                         cursor: 'pointer',
-                        background: val.update_status === 1 ? '#bdbdbd' : 'transparent',
+                        background: val.update_status === 1 ? '#bdbdbd' : 'transparent'
                       }}
                     >
                       <TableCell
@@ -259,7 +251,7 @@ const ListNursingStations = ({ dailyDate, censusData, count, setCount }) => {
                           borderLeft: '1px solid lightgrey',
                           borderRight: '1px solid lightgrey',
                           textAlign: 'center',
-                          height: 25,
+                          height: 25
                         }}
                       >
                         {index + 1}
@@ -272,12 +264,10 @@ const ListNursingStations = ({ dailyDate, censusData, count, setCount }) => {
                           cursor: 'pointer',
                           ':hover': {
                             color: 'black',
-                            boxShadow: 2,
-                          },
+                            boxShadow: 2
+                          }
                         }}
-                        onClick={() =>
-                          Reportview(val.census_ns_slno, val.census_ns_name, val.yesterday_census)
-                        }
+                        onClick={() => Reportview(val.census_ns_slno, val.census_ns_name, val.yesterday_census)}
                       >
                         {val.census_ns_name}
                       </TableCell>
@@ -288,7 +278,7 @@ const ListNursingStations = ({ dailyDate, censusData, count, setCount }) => {
                           textAlign: 'center',
                           height: 25,
                           bgcolor: '#757575',
-                          color: 'white',
+                          color: 'white'
                         }}
                       >
                         {val.ora_yesterday}
@@ -306,7 +296,7 @@ const ListNursingStations = ({ dailyDate, censusData, count, setCount }) => {
                           textAlign: 'center',
                           height: 25,
                           bgcolor: '#757575',
-                          color: 'white',
+                          color: 'white'
                         }}
                       >
                         {val.ora_admission}
@@ -324,7 +314,7 @@ const ListNursingStations = ({ dailyDate, censusData, count, setCount }) => {
                           textAlign: 'center',
                           height: 25,
                           bgcolor: '#757575',
-                          color: 'white',
+                          color: 'white'
                         }}
                       >
                         {val.ora_discharge}
@@ -354,7 +344,7 @@ const ListNursingStations = ({ dailyDate, censusData, count, setCount }) => {
                           textAlign: 'center',
                           height: 25,
                           bgcolor: '#757575',
-                          color: 'white',
+                          color: 'white'
                         }}
                       >
                         {val.ora_death}
@@ -366,7 +356,7 @@ const ListNursingStations = ({ dailyDate, censusData, count, setCount }) => {
                           textAlign: 'center',
                           height: 25,
                           bgcolor: '#757575',
-                          color: 'white',
+                          color: 'white'
                         }}
                       >
                         {val.ora_dama}
@@ -378,7 +368,7 @@ const ListNursingStations = ({ dailyDate, censusData, count, setCount }) => {
                           textAlign: 'center',
                           height: 25,
                           bgcolor: '#757575',
-                          color: 'white',
+                          color: 'white'
                         }}
                       >
                         {val.ora_lama}
@@ -396,7 +386,7 @@ const ListNursingStations = ({ dailyDate, censusData, count, setCount }) => {
                           textAlign: 'center',
                           height: 25,
                           bgcolor: '#757575',
-                          color: 'white',
+                          color: 'white'
                         }}
                       >
                         {val.ora_census_total}

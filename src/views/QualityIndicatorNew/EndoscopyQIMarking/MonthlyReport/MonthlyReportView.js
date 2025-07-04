@@ -1,12 +1,7 @@
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify } from 'src/views/Common/CommonCode'
 
-export const EndoscopyMonthlyReportView = async (
-  searchDatas,
-  setviewData,
-  setsearchFlag,
-  setIpViewReport
-) => {
+export const EndoscopyMonthlyReportView = async (searchDatas, setviewData, setsearchFlag, setIpViewReport) => {
   const getEndoscopyData = async searchDatas => {
     const result = await axioslogin.post('/qiendoscopy/view', searchDatas)
     return result.data

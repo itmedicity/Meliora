@@ -18,7 +18,7 @@ const CRFReqItemDetails = ({ handleClose, open, reqItems }) => {
             sx={{
               minWidth: '50vw',
               minHeight: 200,
-              overflow: 'auto',
+              overflow: 'auto'
             }}
           >
             <ModalClose
@@ -32,69 +32,44 @@ const CRFReqItemDetails = ({ handleClose, open, reqItems }) => {
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 35,
-                width: 35,
+                width: 35
               }}
             />
             <Box sx={{ mx: 0.5 }}>
-              <Typography
-                sx={{ fontWeight: 550, fontSize: 18, color: '#1565c0', fontFamily: 'system-ui' }}
-              >
+              <Typography sx={{ fontWeight: 550, fontSize: 18, color: '#1565c0', fontFamily: 'system-ui' }}>
                 Item Details
               </Typography>
             </Box>
-            <Paper
-              variant="outlined"
-              sx={{ overflow: 'auto', maxHeight: window.innerHeight - 220, flexWrap: 'wrap' }}
-            >
+            <Paper variant="outlined" sx={{ overflow: 'auto', maxHeight: window.innerHeight - 220, flexWrap: 'wrap' }}>
               {reqItems.length > 0 ? (
-                <Table
-                  aria-label="table with sticky header"
-                  borderAxis="both"
-                  padding={'none'}
-                  stickyHeader
-                  size="sm"
-                >
+                <Table aria-label="table with sticky header" borderAxis="both" padding={'none'} stickyHeader size="sm">
                   <thead style={{ height: 4 }} size="small">
                     <tr style={{ height: 4 }} size="small">
-                      <th
-                        size="sm"
-                        style={{ width: 50, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                      >
+                      <th size="sm" style={{ width: 50, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                         Item Code
                       </th>
-                      <th
-                        size="sm"
-                        style={{ width: 150, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                      >
+                      <th size="sm" style={{ width: 150, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                         Item
                       </th>
-                      <th
-                        size="sm"
-                        style={{ width: 40, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                      >
+                      <th size="sm" style={{ width: 40, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                         Qty
                       </th>
-                      <th
-                        size="sm"
-                        style={{ width: 50, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                      >
+                      <th size="sm" style={{ width: 50, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                         Received Qty
                       </th>
                     </tr>
                   </thead>
                   <tbody>
-                    {reqItems.map((item,) => (
+                    {reqItems.map(item => (
                       <tr key={item.po_itm_slno}>
                         <td style={{ textAlign: 'center' }}>{item.item_code}</td>
                         <td style={{ fontSize: 12 }}>{item.item_name}</td>
-                        <td style={{ textAlign: 'center', fontSize: 13, fontWeight: 650 }}>
-                          {item.item_qty}
-                        </td>
+                        <td style={{ textAlign: 'center', fontSize: 13, fontWeight: 650 }}>{item.item_qty}</td>
                         <td
                           style={{
                             textAlign: 'center',
                             color: item.received_qnty === item.item_qty ? '#59981A' : '#e65100',
-                            fontWeight: 650,
+                            fontWeight: 650
                           }}
                         >
                           {item.received_qnty}

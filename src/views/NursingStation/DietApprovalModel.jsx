@@ -1,9 +1,9 @@
 import React, { Fragment, useCallback, useState, memo, useMemo } from 'react'
-import Slide from '@mui/material/Slide';
+import Slide from '@mui/material/Slide'
 // import { ToastContainer } from 'react-toastify';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import Button from '@mui/material/Button'
 import { Box, Grid, Paper, Typography } from '@mui/material'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
@@ -18,8 +18,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 })
 const DietApprovalModel = ({ open, setOpen, data, count, setCount }) => {
   // destructuring props and set in typography
-  const { pt_no, ptc_ptname, dietpt_slno, plan_remark, plan_slno, bdc_no, diet_name, diet_slno } =
-    data
+  const { pt_no, ptc_ptname, dietpt_slno, plan_remark, plan_slno, bdc_no, diet_name, diet_slno } = data
   //state for check boxes
   const [approve, updateaproves] = useState(false)
   const [dietplan, updateDietplan] = useState(false)
@@ -64,7 +63,7 @@ const DietApprovalModel = ({ open, setOpen, data, count, setCount }) => {
       plan_appr_time: format(new Date(), 'yyy-MM-dd hh:mm:ss'),
       plan_status: 1,
       process: 1,
-      plan_slno: plan_slno,
+      plan_slno: plan_slno
     }
   }, [value, plan_slno, diet_slno, approve])
   //by saving it will update  paln status 1
@@ -107,12 +106,10 @@ const DietApprovalModel = ({ open, setOpen, data, count, setCount }) => {
             id="alert-dialog-slide-descriptiona"
             sx={{
               width: 600,
-              height: 470,
+              height: 470
             }}
           >
-            <DialogContentText id="alert-dialog-slide-descriptiona">
-              Diet Approval
-            </DialogContentText>
+            <DialogContentText id="alert-dialog-slide-descriptiona">Diet Approval</DialogContentText>
             <Box sx={{ width: '100%', height: '100%', display: 'flex', p: 1 }}>
               <Paper square elevation={3} sx={{ width: '100%', height: '100%' }}>
                 <Box sx={{ p: 4 }}>

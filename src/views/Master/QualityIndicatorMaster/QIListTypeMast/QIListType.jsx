@@ -16,7 +16,7 @@ const QIListType = () => {
   const [qidepartment, setQiDepartment] = useState({
     qi_list_type: '0',
     qi_list_type_name: '',
-    qi_type_status: false,
+    qi_type_status: false
   })
   const { qi_list_type, qi_list_type_name, qi_type_status } = qidepartment
   const updateDepartment = useCallback(
@@ -38,7 +38,7 @@ const QIListType = () => {
     const formreset = {
       qi_list_type: '0',
       qi_list_type_name: '',
-      qi_type_status: false,
+      qi_type_status: false
     }
     setQiDepartment(formreset)
     setCount(0)
@@ -48,7 +48,7 @@ const QIListType = () => {
     return {
       qi_list_type_name: qi_list_type_name,
       qi_type_status: qi_type_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [qi_list_type_name, id, qi_type_status])
 
@@ -57,7 +57,7 @@ const QIListType = () => {
       qi_list_type: qi_list_type,
       qi_list_type_name: qi_list_type_name,
       qi_type_status: qi_type_status === true ? 1 : 0,
-      edit_user: id,
+      edit_user: id
     }
   }, [qi_list_type, qi_list_type_name, id, qi_type_status])
   const submitQualityDept = useCallback(
@@ -109,7 +109,7 @@ const QIListType = () => {
     const frmdata = {
       qi_list_type: qi_list_type,
       qi_list_type_name: qi_list_type_name,
-      qi_type_status: status === 'Yes' ? true : false,
+      qi_type_status: status === 'Yes' ? true : false
     }
     setQiDepartment(frmdata)
   }, [])

@@ -36,10 +36,7 @@ const ProcedureTable = ({ ProcedureNames, ProcedureArray, setProcedureArray }) =
         >
           <thead style={{ alignItems: 'center' }}>
             <tr style={{ height: 0.5 }}>
-              <th
-                size="sm"
-                style={{ width: 50, fontWeight: 650, fontSize: 14, textAlign: 'center' }}
-              >
+              <th size="sm" style={{ width: 50, fontWeight: 650, fontSize: 14, textAlign: 'center' }}>
                 &nbsp; Sl.No
               </th>
               <th size="sm" style={{ width: 80, fontWeight: 650, fontSize: 14 }}>
@@ -71,8 +68,8 @@ const ProcedureTable = ({ ProcedureNames, ProcedureArray, setProcedureArray }) =
                           sx={{
                             color: '#43B0F1',
                             ':hover': {
-                              color: '#1863D6',
-                            },
+                              color: '#1863D6'
+                            }
                           }}
                           onClick={e => AddProcedures(val)}
                         />

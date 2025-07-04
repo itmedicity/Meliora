@@ -4,7 +4,7 @@ import { axiosellider, axioslogin } from 'src/views/Axios/Axios'
 export const RefreshIpPatients = async (qidept, count, setCount, depCode, id, dailyDate) => {
   const patchdata = {
     last_updatedate: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
-    qi_dept_no: qidept,
+    qi_dept_no: qidept
   }
   const getLastDate = async qidept => {
     const result = await axioslogin.get(`/qiendoscopy/getlast/${qidept}`)
@@ -37,7 +37,7 @@ export const RefreshIpPatients = async (qidept, count, setCount, depCode, id, da
       const elliderSearch = {
         from: format(new Date(last_updatedate), 'dd/MM/yyyy HH:mm:ss'),
         to: format(new Date(), 'dd/MM/yyyy 23:59:59'),
-        nsCode: depCode,
+        nsCode: depCode
       }
       GetElliderData(elliderSearch).then(value => {
         const { success, data } = value
@@ -55,12 +55,9 @@ export const RefreshIpPatients = async (qidept, count, setCount, depCode, id, da
               ptmobile: val.PTC_MOBILE,
               ip_bed: val.BDC_NO,
               doctor_name: val.DOC_NAME,
-              discharge_date:
-                val.IPD_DISC === null
-                  ? null
-                  : format(new Date(val.IPD_DISC), 'yyyy-MM-dd HH:mm:ss'),
+              discharge_date: val.IPD_DISC === null ? null : format(new Date(val.IPD_DISC), 'yyyy-MM-dd HH:mm:ss'),
               qi_dept_no: qidept,
-              create_user: id,
+              create_user: id
             }
           })
           InsertIPData(insertarray).then(val => {
@@ -69,7 +66,7 @@ export const RefreshIpPatients = async (qidept, count, setCount, depCode, id, da
               const updateSearch = {
                 from: format(new Date(dailyDate), 'dd/MM/yyyy 00:00:00'),
                 to: format(new Date(dailyDate), 'dd/MM/yyyy 23:59:59'),
-                nsCode: depCode,
+                nsCode: depCode
               }
               GetDischargeDateForUpdate(updateSearch).then(value => {
                 const { success, data } = value
@@ -77,10 +74,8 @@ export const RefreshIpPatients = async (qidept, count, setCount, depCode, id, da
                   const updateArray = data?.map(val => {
                     return {
                       discharge_date:
-                        val.IPD_DISC === null
-                          ? null
-                          : format(new Date(val.IPD_DISC), 'yyyy-MM-dd HH:mm:ss'),
-                      ip_no: val.IP_NO,
+                        val.IPD_DISC === null ? null : format(new Date(val.IPD_DISC), 'yyyy-MM-dd HH:mm:ss'),
+                      ip_no: val.IP_NO
                     }
                   })
                   UpdateDischargeDate(updateArray).then(value => {
@@ -97,18 +92,15 @@ export const RefreshIpPatients = async (qidept, count, setCount, depCode, id, da
           const updateSearch = {
             from: format(new Date(dailyDate), 'dd/MM/yyyy 00:00:00'),
             to: format(new Date(dailyDate), 'dd/MM/yyyy 23:59:59'),
-            nsCode: depCode,
+            nsCode: depCode
           }
           GetDischargeDateForUpdate(updateSearch).then(value => {
             const { success, data } = value
             if (success === 1) {
               const updateArray = data?.map(val => {
                 return {
-                  discharge_date:
-                    val.IPD_DISC === null
-                      ? null
-                      : format(new Date(val.IPD_DISC), 'yyyy-MM-dd HH:mm:ss'),
-                  ip_no: val.IP_NO,
+                  discharge_date: val.IPD_DISC === null ? null : format(new Date(val.IPD_DISC), 'yyyy-MM-dd HH:mm:ss'),
+                  ip_no: val.IP_NO
                 }
               })
               UpdateDischargeDate(updateArray).then(value => {
@@ -132,7 +124,7 @@ export const RefreshIpPatients = async (qidept, count, setCount, depCode, id, da
       const elliderSearch = {
         from: format(new Date(dailyDate), 'dd/MM/yyyy 00:00:00'),
         to: format(new Date(), 'dd/MM/yyyy 23:59:59'),
-        nsCode: depCode,
+        nsCode: depCode
       }
       GetElliderData(elliderSearch).then(value => {
         const { success, data } = value
@@ -150,12 +142,9 @@ export const RefreshIpPatients = async (qidept, count, setCount, depCode, id, da
               ptmobile: val.PTC_MOBILE,
               ip_bed: val.BDC_NO,
               doctor_name: val.DOC_NAME,
-              discharge_date:
-                val.IPD_DISC === null
-                  ? null
-                  : format(new Date(val.IPD_DISC), 'yyyy-MM-dd HH:mm:ss'),
+              discharge_date: val.IPD_DISC === null ? null : format(new Date(val.IPD_DISC), 'yyyy-MM-dd HH:mm:ss'),
               qi_dept_no: qidept,
-              create_user: id,
+              create_user: id
             }
           })
           InsertIPData(insertarray).then(val => {

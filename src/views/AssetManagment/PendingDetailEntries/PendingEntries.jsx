@@ -21,13 +21,13 @@ const PendingEntries = ({ enterDetails }) => {
 
   const postData = useMemo(() => {
     return {
-      am_custodian_dept_slno: empdept,
+      am_custodian_dept_slno: empdept
     }
   }, [empdept])
 
   const { data: dataAssetVal } = useQuery({
     queryKey: ['getPendingDetailentryAsset', postData, count],
-    queryFn: () => getPendingDetailentryAsset(postData),
+    queryFn: () => getPendingDetailentryAsset(postData)
   })
 
   const dataAsset = useMemo(() => dataAssetVal, [dataAssetVal])
@@ -38,7 +38,7 @@ const PendingEntries = ({ enterDetails }) => {
 
   const { data: dataSpareVal } = useQuery({
     queryKey: ['getPendingDetailentrySpare', postData, count],
-    queryFn: () => getPendingDetailentrySpare(postData),
+    queryFn: () => getPendingDetailentrySpare(postData)
   })
 
   const dataSpare = useMemo(() => dataSpareVal, [dataSpareVal])
@@ -61,10 +61,7 @@ const PendingEntries = ({ enterDetails }) => {
         }
       }
       const InactiveSpare = async patchdataSpare => {
-        const result = await axioslogin.patch(
-          '/itemCreationDeptmap/itemInactiveSpare',
-          patchdataSpare
-        )
+        const result = await axioslogin.patch('/itemCreationDeptmap/itemInactiveSpare', patchdataSpare)
         const { message, success } = result.data
         if (success === 2) {
           succesNotify(message)
@@ -76,13 +73,13 @@ const PendingEntries = ({ enterDetails }) => {
       if (item_asset_no !== undefined) {
         const { am_item_map_slno } = val
         const patchdata = {
-          am_item_map_slno: am_item_map_slno,
+          am_item_map_slno: am_item_map_slno
         }
         Inactive(patchdata)
       } else {
         const { am_spare_item_map_slno } = val
         const patchdataSpare = {
-          am_spare_item_map_slno: am_spare_item_map_slno,
+          am_spare_item_map_slno: am_spare_item_map_slno
         }
 
         InactiveSpare(patchdataSpare)
@@ -105,24 +102,16 @@ const PendingEntries = ({ enterDetails }) => {
                 borderColor: 'lightgray',
                 pt: 1,
                 bgcolor: 'white',
-                gap: 1.9,
+                gap: 1.9
               }}
             >
               <Box sx={{ flex: 1, fontWeight: 600, color: 'black', fontSize: 14 }}>Inactive</Box>
-              <Box sx={{ flex: 0.8, pl: 1.7, fontWeight: 600, color: 'black', fontSize: 12 }}>
-                #
-              </Box>
-              <Box sx={{ flex: 1.5, fontWeight: 600, color: 'black', fontSize: 14 }}>
-                Add Details
-              </Box>
+              <Box sx={{ flex: 0.8, pl: 1.7, fontWeight: 600, color: 'black', fontSize: 12 }}>#</Box>
+              <Box sx={{ flex: 1.5, fontWeight: 600, color: 'black', fontSize: 14 }}>Add Details</Box>
               <Box sx={{ flex: 2, fontWeight: 600, color: 'black', fontSize: 14 }}>Asset/Spare</Box>
-              <Box sx={{ flex: 2.5, fontWeight: 600, color: 'black', fontSize: 14 }}>
-                Asset/Spare No.
-              </Box>
+              <Box sx={{ flex: 2.5, fontWeight: 600, color: 'black', fontSize: 14 }}>Asset/Spare No.</Box>
               <Box sx={{ flex: 3, fontWeight: 600, color: 'black', fontSize: 14 }}>Category</Box>
-              <Box sx={{ flex: 9, fontWeight: 600, color: 'black', fontSize: 14, pl: 6 }}>
-                Item Name
-              </Box>
+              <Box sx={{ flex: 9, fontWeight: 600, color: 'black', fontSize: 14, pl: 6 }}>Item Name</Box>
             </Box>
             <Box sx={{ width: '100%', overflow: 'auto' }}>
               <Box sx={{ width: '100%' }}>
@@ -146,24 +135,16 @@ const PendingEntries = ({ enterDetails }) => {
                           background: val.hold_color,
                           pt: 0.5,
                           alignItems: 'center',
-                          gap: 2,
+                          gap: 2
                         }}
                       >
                         <Box sx={{ flex: 1, color: '#444444', fontSize: 14 }}>
-                          <DeleteOutlineSharpIcon
-                            sx={{ cursor: 'pointer' }}
-                            onClick={() => deleteitem(val)}
-                          />
+                          <DeleteOutlineSharpIcon sx={{ cursor: 'pointer' }} onClick={() => deleteitem(val)} />
                         </Box>
-                        <Box sx={{ flex: 0.8, pl: 1.7, color: '#444444', fontSize: 14 }}>
-                          {index + 1}
-                        </Box>
+                        <Box sx={{ flex: 0.8, pl: 1.7, color: '#444444', fontSize: 14 }}>{index + 1}</Box>
 
                         <Box sx={{ flex: 1.5, color: '#444444', fontSize: 14, pl: 0.4 }}>
-                          <DescriptionIcon
-                            onClick={() => enterDetails(val)}
-                            sx={{ cursor: 'pointer' }}
-                          />
+                          <DescriptionIcon onClick={() => enterDetails(val)} sx={{ cursor: 'pointer' }} />
                         </Box>
 
                         <Box sx={{ flex: 2, color: '#444444', fontSize: 14, fontWeight: 500 }}>
@@ -171,19 +152,11 @@ const PendingEntries = ({ enterDetails }) => {
                         </Box>
                         <Box sx={{ flex: 2.5, color: '#444444', fontSize: 14 }}>
                           {isPendinglist
-                            ? `${val.spare_asset_no}/${val.spare_asset_no_only
-                                .toString()
-                                .padStart(6, '0')}`
-                            : `${val.item_asset_no}/${val.item_asset_no_only
-                                .toString()
-                                .padStart(6, '0')}`}
+                            ? `${val.spare_asset_no}/${val.spare_asset_no_only.toString().padStart(6, '0')}`
+                            : `${val.item_asset_no}/${val.item_asset_no_only.toString().padStart(6, '0')}`}
                         </Box>
-                        <Box sx={{ flex: 3, color: '#444444', fontSize: 14 }}>
-                          {val.category_name}
-                        </Box>
-                        <Box sx={{ flex: 9, color: '#444444', fontSize: 14, pl: 6 }}>
-                          {val.item_name}
-                        </Box>
+                        <Box sx={{ flex: 3, color: '#444444', fontSize: 14 }}>{val.category_name}</Box>
+                        <Box sx={{ flex: 9, color: '#444444', fontSize: 14, pl: 6 }}>{val.item_name}</Box>
                       </Box>
                     )
                   }}
@@ -201,7 +174,7 @@ const PendingEntries = ({ enterDetails }) => {
             justifyContent: 'center',
             alignItems: 'center',
             fontSize: 20,
-            height: '100%',
+            height: '100%'
           }}
         >
           No Pending Entries

@@ -27,7 +27,7 @@ const MonthlyReport = () => {
   const [Discharge, setDischarged] = useState(false)
   const [dateset, SetDate] = useState({
     start_date: new Date(),
-    end_date: new Date(),
+    end_date: new Date()
   })
 
   const { start_date, end_date } = dateset
@@ -50,7 +50,7 @@ const MonthlyReport = () => {
     { headerName: 'Total Rate', field: 'totalsum' },
     { headerName: 'Rate Canteen', field: 'cantsum' },
     { headerName: 'Extra Rate Canteen', field: 'extracantAmt' },
-    { headerName: 'Total Rate Canteen', field: 'totalextrasum' },
+    { headerName: 'Total Rate Canteen', field: 'totalextrasum' }
   ])
 
   const [checking, setchecking] = useState(0)
@@ -109,7 +109,7 @@ const MonthlyReport = () => {
   const postdata = useMemo(() => {
     return {
       start_date: start_date,
-      end_date: end_date,
+      end_date: end_date
     }
   }, [start_date, end_date])
 
@@ -165,14 +165,14 @@ const MonthlyReport = () => {
         return {
           ...val,
           extraAmnt: a1?.exhossum ?? 0,
-          extracantAmt: a1?.excantsum ?? 0,
+          extracantAmt: a1?.excantsum ?? 0
         }
       })
     const newhos = newarrt.map(val => {
       const obj = {
         ...val,
         totalsum: val.hossum + val.extraAmnt,
-        totalextrasum: val.cantsum + val.extracantAmt,
+        totalextrasum: val.cantsum + val.extracantAmt
       }
       return obj
     })
@@ -200,7 +200,7 @@ const MonthlyReport = () => {
   const headerHeight = 30
   const defaultColDef = {
     sortable: true,
-    filter: 'agTextColumnFilter',
+    filter: 'agTextColumnFilter'
   }
 
   const rowStyle = {
@@ -214,8 +214,8 @@ const MonthlyReport = () => {
       'sans-serif',
       '"Apple Color Emoji"',
       '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
+      '"Segoe UI Symbol"'
+    ].join(',')
   }
   const onGridReady = params => {
     params.columnApi.autoSizeAllColumns()
@@ -228,13 +228,13 @@ const MonthlyReport = () => {
           square
           sx={{
             height: { xs: 700, sm: 700, md: 700, lg: 700, xl: 700 },
-            p: 0.5,
+            p: 0.5
           }}
         >
           <Box
             sx={{
               display: 'flex',
-              flexDirection: 'column',
+              flexDirection: 'column'
             }}
           >
             <Paper square elevation={2} sx={{ p: 2 }}>
@@ -242,21 +242,21 @@ const MonthlyReport = () => {
                 sx={{
                   width: '100%',
                   display: 'flex',
-                  flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
+                  flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' }
                 }}
               >
                 <Box
                   sx={{
                     display: 'flex',
                     width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' },
-                    mt: 1,
+                    mt: 1
                   }}
                 >
                   <Box
                     sx={{
                       width: '100%',
                       ml: 0.5,
-                      mt: 0.5,
+                      mt: 0.5
                     }}
                   >
                     <Typography>Start Date</Typography>
@@ -265,30 +265,24 @@ const MonthlyReport = () => {
                     sx={{
                       width: '100%',
                       height: 15,
-                      mb: 1,
+                      mb: 1
                     }}
                   >
-                    <TextFieldCustom
-                      type="date"
-                      size="sm"
-                      name="start_date"
-                      value={start_date}
-                      onchange={getDate}
-                    />
+                    <TextFieldCustom type="date" size="sm" name="start_date" value={start_date} onchange={getDate} />
                   </Box>
                 </Box>
                 <Box
                   sx={{
                     display: 'flex',
                     width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' },
-                    mt: 1,
+                    mt: 1
                   }}
                 >
                   <Box
                     sx={{
                       width: '100%',
                       ml: 0.5,
-                      mt: 0.5,
+                      mt: 0.5
                     }}
                   >
                     <Typography>End Date</Typography>
@@ -297,16 +291,10 @@ const MonthlyReport = () => {
                     sx={{
                       width: '100%',
                       height: 15,
-                      mb: 1,
+                      mb: 1
                     }}
                   >
-                    <TextFieldCustom
-                      type="date"
-                      size="sm"
-                      name="end_date"
-                      value={end_date}
-                      onchange={getDate}
-                    />
+                    <TextFieldCustom type="date" size="sm" name="end_date" value={end_date} onchange={getDate} />
                   </Box>
                 </Box>
                 <Box
@@ -314,22 +302,16 @@ const MonthlyReport = () => {
                     display: 'flex',
                     width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' },
                     ml: 1,
-                    mt: 0.5,
+                    mt: 0.5
                   }}
                 >
                   <Box
                     sx={{
                       width: '20%',
-                      mt: 0.8,
+                      mt: 0.8
                     }}
                   >
-                    <CusIconButton
-                      size="sm"
-                      variant="outlined"
-                      color="primary"
-                      clickable="true"
-                      onClick={clicksearch}
-                    >
+                    <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={clicksearch}>
                       <SearchOutlinedIcon fontSize="small" />
                     </CusIconButton>
                   </Box>
@@ -338,7 +320,7 @@ const MonthlyReport = () => {
                     sx={{
                       width: '100%',
                       pt: 1.5,
-                      pl: 2,
+                      pl: 2
                     }}
                   >
                     <CusCheckBox
@@ -355,7 +337,7 @@ const MonthlyReport = () => {
                     sx={{
                       width: '100%',
                       pt: 1.5,
-                      pl: 2,
+                      pl: 2
                     }}
                   >
                     <CusCheckBox
@@ -373,7 +355,7 @@ const MonthlyReport = () => {
                   sx={{
                     display: 'flex',
                     width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' },
-                    mt: 1,
+                    mt: 1
                   }}
                 ></Box>
               </Box>
@@ -382,7 +364,7 @@ const MonthlyReport = () => {
               square
               sx={{
                 backgroundColor: 'black',
-                width: { md: '100%', lg: '100%', xl: '100%' },
+                width: { md: '100%', lg: '100%', xl: '100%' }
               }}
             >
               {/* Rigth Side Menu  */}
@@ -396,17 +378,12 @@ const MonthlyReport = () => {
                   gap: 0.1,
                   p: 0.3,
                   borderLeft: 2,
-                  borderColor: '#d3d3d3',
+                  borderColor: '#d3d3d3'
                 }}
               >
                 <CustomeToolTip title="Download" placement="bottom">
                   <Box>
-                    <CusIconButton
-                      variant="outlined"
-                      size="sm"
-                      color="success"
-                      onClick={onExportClick}
-                    >
+                    <CusIconButton variant="outlined" size="sm" color="success" onClick={onExportClick}>
                       <DownloadIcon />
                     </CusIconButton>
                   </Box>
@@ -416,7 +393,7 @@ const MonthlyReport = () => {
                 className="ag-theme-material ListItemScrol"
                 sx={{
                   height: { xs: 475, sm: 475, md: 565, lg: 582, xl: 582 },
-                  width: '100%',
+                  width: '100%'
                 }}
               >
                 <AgGridReact

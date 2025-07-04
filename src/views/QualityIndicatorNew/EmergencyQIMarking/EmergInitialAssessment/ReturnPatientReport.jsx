@@ -8,28 +8,28 @@ const ReturnPatientReport = ({ viewData, searchDate }) => {
     if (viewData.length !== 0) {
       var dateList = eachDayOfInterval({
         start: startOfMonth(new Date(searchDate)),
-        end: endOfMonth(new Date(searchDate)),
+        end: endOfMonth(new Date(searchDate))
       })
       const returnTotPat = dateList?.map(item => {
         const count = viewData?.filter(
           val =>
-            format(new Date(val.patient_arrived_date), 'dd-MM-yyyy') ===
-              format(new Date(item), 'dd-MM-yyyy') && val.return_status === 1
+            format(new Date(val.patient_arrived_date), 'dd-MM-yyyy') === format(new Date(item), 'dd-MM-yyyy') &&
+            val.return_status === 1
         )
         return {
           day: format(new Date(item), 'dd-MM-yyyy'),
-          returnTot: count.length,
+          returnTot: count.length
         }
       })
       const newTotalPat = dateList?.map(item => {
         const count = viewData?.filter(
           val =>
-            format(new Date(val.patient_arrived_date), 'dd-MM-yyyy') ===
-              format(new Date(item), 'dd-MM-yyyy') && val.qi_status === 1
+            format(new Date(val.patient_arrived_date), 'dd-MM-yyyy') === format(new Date(item), 'dd-MM-yyyy') &&
+            val.qi_status === 1
         )
         return {
           day: format(new Date(item), 'dd-MM-yyyy'),
-          totpatient: count.length,
+          totpatient: count.length
         }
       })
       const newArray = returnTotPat?.map(val => {
@@ -37,7 +37,7 @@ const ReturnPatientReport = ({ viewData, searchDate }) => {
         return {
           ...val,
           totpatient: array ? array.totpatient : 0,
-          result: array.totpatient > 0 ? (val.returnTot / array.totpatient).toFixed(2) : 0,
+          result: array.totpatient > 0 ? (val.returnTot / array.totpatient).toFixed(2) : 0
         }
       })
       setTableData(newArray)
@@ -45,10 +45,7 @@ const ReturnPatientReport = ({ viewData, searchDate }) => {
   }, [viewData, searchDate])
   return (
     <Fragment>
-      <Box
-        variant="outlined"
-        sx={{ overflow: 'auto', maxHeight: window.innerHeight - 220, padding: 'none' }}
-      >
+      <Box variant="outlined" sx={{ overflow: 'auto', maxHeight: window.innerHeight - 220, padding: 'none' }}>
         <CssVarsProvider>
           <Table
             aria-label="table with sticky header"
@@ -68,7 +65,7 @@ const ReturnPatientReport = ({ viewData, searchDate }) => {
                     borderRight: '1px solid white',
                     textAlign: 'center',
                     backgroundColor: '#B9B7BD',
-                    fontSize: 15,
+                    fontSize: 15
                   }}
                 >
                   Date
@@ -80,7 +77,7 @@ const ReturnPatientReport = ({ viewData, searchDate }) => {
                     borderRight: '1px solid white',
                     textAlign: 'center',
                     backgroundColor: '#B9B7BD',
-                    fontSize: 15,
+                    fontSize: 15
                   }}
                 >
                   Return To Emergency Dept Within 72 Hrs With Similar Presenting Complaints
@@ -92,7 +89,7 @@ const ReturnPatientReport = ({ viewData, searchDate }) => {
                     borderRight: '1px solid white',
                     textAlign: 'center',
                     backgroundColor: '#B9B7BD',
-                    fontSize: 15,
+                    fontSize: 15
                   }}
                 >
                   Total No.Of Patients Who Have Come To Emergency
@@ -103,7 +100,7 @@ const ReturnPatientReport = ({ viewData, searchDate }) => {
                     width: 100,
                     textAlign: 'center',
                     backgroundColor: '#B9B7BD',
-                    fontSize: 15,
+                    fontSize: 15
                   }}
                 >
                   Result

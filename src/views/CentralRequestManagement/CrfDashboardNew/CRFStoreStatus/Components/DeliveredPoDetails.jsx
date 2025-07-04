@@ -18,7 +18,7 @@ const DeliveredPoDetails = ({ handleClose, open, poDetails }) => {
             sx={{
               minWidth: '50vw',
               minHeight: 200,
-              overflow: 'auto',
+              overflow: 'auto'
             }}
           >
             <ModalClose
@@ -32,58 +32,32 @@ const DeliveredPoDetails = ({ handleClose, open, poDetails }) => {
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 35,
-                width: 35,
+                width: 35
               }}
             />
             <Box sx={{ mx: 0.5 }}>
-              <Typography
-                sx={{ fontWeight: 550, fontSize: 18, color: '#1565c0', fontFamily: 'system-ui' }}
-              >
+              <Typography sx={{ fontWeight: 550, fontSize: 18, color: '#1565c0', fontFamily: 'system-ui' }}>
                 PO Details
               </Typography>
             </Box>
-            <Paper
-              variant="outlined"
-              sx={{ overflow: 'auto', maxHeight: window.innerHeight - 220, flexWrap: 'wrap' }}
-            >
+            <Paper variant="outlined" sx={{ overflow: 'auto', maxHeight: window.innerHeight - 220, flexWrap: 'wrap' }}>
               {poDetails.length > 0 ? (
-                <Table
-                  aria-label="table with sticky header"
-                  borderAxis="both"
-                  padding={'none'}
-                  stickyHeader
-                  size="sm"
-                >
+                <Table aria-label="table with sticky header" borderAxis="both" padding={'none'} stickyHeader size="sm">
                   <thead style={{ height: 4 }} size="small">
                     <tr style={{ height: 4 }} size="small">
-                      <th
-                        size="sm"
-                        style={{ width: 50, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                      >
+                      <th size="sm" style={{ width: 50, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                         Sl.No
                       </th>
-                      <th
-                        size="sm"
-                        style={{ width: 100, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                      >
+                      <th size="sm" style={{ width: 100, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                         #Order
                       </th>
-                      <th
-                        size="sm"
-                        style={{ width: 150, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                      >
+                      <th size="sm" style={{ width: 150, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                         PO Date
                       </th>
-                      <th
-                        size="sm"
-                        style={{ width: 150, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                      >
+                      <th size="sm" style={{ width: 150, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                         Store
                       </th>
-                      <th
-                        size="sm"
-                        style={{ width: 150, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                      >
+                      <th size="sm" style={{ width: 150, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                         Expected Delivery
                       </th>
                     </tr>
@@ -95,9 +69,7 @@ const DeliveredPoDetails = ({ handleClose, open, poDetails }) => {
                         <td style={{ fontSize: 13, textAlign: 'center' }}>{item.po_number}</td>
                         <td style={{ textAlign: 'center', fontSize: 13 }}>{item.po_date}</td>
                         <td style={{ textAlign: 'center', fontSize: 13 }}>{item.main_store}</td>
-                        <td style={{ textAlign: 'center', fontSize: 13 }}>
-                          {item.expected_delivery}
-                        </td>
+                        <td style={{ textAlign: 'center', fontSize: 13 }}>{item.expected_delivery}</td>
                       </tr>
                     ))}
                   </tbody>

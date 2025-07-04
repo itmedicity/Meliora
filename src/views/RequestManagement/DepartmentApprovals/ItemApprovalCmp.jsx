@@ -36,7 +36,7 @@ const ItemApprovalCmp = ({ dataPost }) => {
                     sx={{
                       '&:last-child td, &:last-child th': { border: 0 },
                       maxHeight: 60,
-                      minHeight: 5,
+                      minHeight: 5
                     }}
                   >
                     <TableCell align="center">{index + 1}</TableCell>

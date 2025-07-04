@@ -34,14 +34,14 @@ const DietMenuSetting = () => {
   const [dataPost, setdataPost] = useState([])
   const [dietmenu, setDietmenu] = useState({
     order_req: false,
-    status: false,
+    status: false
   })
 
   const [dataset, setData] = useState({
     qty: '',
     unit: '',
     rate_hos: '',
-    rate_cant: '',
+    rate_cant: ''
   })
 
   //destructuring
@@ -69,7 +69,7 @@ const DietMenuSetting = () => {
           qty: qty,
           unit: unit,
           rate_hos: rate_hos,
-          rate_cant: rate_cant,
+          rate_cant: rate_cant
         }
         setData(formdara)
       }
@@ -91,13 +91,13 @@ const DietMenuSetting = () => {
     const formReset = {
       order_req: false,
       status: false,
-      dmenu_slno: '',
+      dmenu_slno: ''
     }
     const Resetdata = {
       qty: '',
       unit: '',
       rate_hos: '',
-      rate_cant: '',
+      rate_cant: ''
     }
     setDietmenu(formReset)
     setData(Resetdata)
@@ -125,7 +125,7 @@ const DietMenuSetting = () => {
         rate_cant: rate_cant,
         em_id: id,
         status: status === true ? 1 : 0,
-        order_req: order_req === true ? 1 : 0,
+        order_req: order_req === true ? 1 : 0
       }
       const datass = [...dataPost, newdata]
       if (dataPost.length !== 0) {
@@ -154,7 +154,7 @@ const DietMenuSetting = () => {
         diet_slno: diet_slno,
         order_req: order_req,
         status: status,
-        em_id: id,
+        em_id: id
       }
     }
   }, [dataPost, id])
@@ -166,13 +166,13 @@ const DietMenuSetting = () => {
       const formReset = {
         order_req: false,
         status: false,
-        dmenu_slno: '',
+        dmenu_slno: ''
       }
       const resetfrm = {
         qty: '',
         unit: '',
         rate_hos: '',
-        rate_cant: '',
+        rate_cant: ''
       }
       /*** * insert function for use call back     */
       const InsertData = async dmenuPost => {
@@ -215,7 +215,7 @@ const DietMenuSetting = () => {
                 rate_hos: val.rate_hos,
                 rate_cant: val.rate_cant,
                 em_id: id,
-                status: val.status,
+                status: val.status
               }
             })
           menudetailInsert(postMenuDetal)
@@ -235,7 +235,7 @@ const DietMenuSetting = () => {
                 rate_hos: val.rate_hos,
                 rate_cant: val.rate_cant,
                 em_id: id,
-                status: val.status,
+                status: val.status
               }
             })
           menudetailInsert(postMenuDetal)
@@ -251,12 +251,7 @@ const DietMenuSetting = () => {
   }, [history])
 
   return (
-    <CardMaster
-      title="Diet Menu Setting"
-      close={backToSettings}
-      submit={submitDiettype}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Diet Menu Setting" close={backToSettings} submit={submitDiettype} refresh={refreshWindow}>
       <Box sx={{ pl: 2, pt: 2, pb: 1, pr: 1 }}>
         <Grid container spacing={1}>
           <Grid item xl={3} lg={3}>
@@ -301,12 +296,7 @@ const DietMenuSetting = () => {
                 <ItemGroupName value={group} setValue={setGroup} setName={setItemGroupName} />
               </Grid>
               <Grid item xl={12} lg={12}>
-                <SelectItemName
-                  value={item}
-                  setValue={setItem}
-                  setName={setItemName}
-                  group={group}
-                />
+                <SelectItemName value={item} setValue={setItem} setName={setItemName} group={group} />
               </Grid>
               <Grid item xl={6} lg={6}>
                 <TextFieldCustom
@@ -319,31 +309,13 @@ const DietMenuSetting = () => {
                 />
               </Grid>
               <Grid item xl={6} lg={6}>
-                <TextFieldCustom
-                  placeholder="Unit"
-                  type="text"
-                  size="sm"
-                  name="unit"
-                  value={unit}
-                />
+                <TextFieldCustom placeholder="Unit" type="text" size="sm" name="unit" value={unit} />
               </Grid>
               <Grid item xl={6} lg={6}>
-                <TextFieldCustom
-                  placeholder="Hospital rate"
-                  type="text"
-                  size="sm"
-                  name="rate_hos"
-                  value={rate_hos}
-                />
+                <TextFieldCustom placeholder="Hospital rate" type="text" size="sm" name="rate_hos" value={rate_hos} />
               </Grid>
               <Grid item xl={6} lg={6}>
-                <TextFieldCustom
-                  placeholder="Canteen rate"
-                  type="text"
-                  size="sm"
-                  name="rate_cant"
-                  value={rate_cant}
-                />
+                <TextFieldCustom placeholder="Canteen rate" type="text" size="sm" name="rate_cant" value={rate_cant} />
               </Grid>
               <Grid item xl={12} lg={12}>
                 <Grid container spacing={1}>

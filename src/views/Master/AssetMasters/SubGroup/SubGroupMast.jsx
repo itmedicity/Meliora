@@ -27,7 +27,7 @@ const SubGroupMast = () => {
   const [subGroup, setsubGroup] = useState({
     subgroup_slno: '',
     sub_group_name: '',
-    sub_group_status: false,
+    sub_group_status: false
   })
   const { subgroup_slno, sub_group_name, sub_group_status } = subGroup
   const updateSubGroup = useCallback(
@@ -41,7 +41,7 @@ const SubGroupMast = () => {
     const frmdata = {
       subgroup_slno: '',
       sub_group_name: '',
-      sub_group_status: false,
+      sub_group_status: false
     }
     setsubGroup(frmdata)
     setCount(0)
@@ -54,7 +54,7 @@ const SubGroupMast = () => {
       sub_group_name: sub_group_name,
       group_slno: group,
       sub_group_status: sub_group_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [sub_group_name, sub_group_status, group, id])
   const patchdata = useMemo(() => {
@@ -63,7 +63,7 @@ const SubGroupMast = () => {
       group_slno: group,
       sub_group_name: sub_group_name,
       sub_group_status: sub_group_status === true ? 1 : 0,
-      edit_user: id,
+      edit_user: id
     }
   }, [subgroup_slno, sub_group_name, group, sub_group_status, id])
   const rowSelect = useCallback(params => {
@@ -74,7 +74,7 @@ const SubGroupMast = () => {
       subgroup_slno: subgroup_slno,
       sub_group_name: sub_group_name,
       group_slno: group_slno,
-      sub_group_status: sub_group_status === 1 ? true : false,
+      sub_group_status: sub_group_status === 1 ? true : false
     }
     setsubGroup(frmdata)
     setGroup(group_slno)
@@ -84,7 +84,7 @@ const SubGroupMast = () => {
     setSelectFile(file)
     const options = {
       maxSizeMB: 1,
-      maxWidthOrHeight: 1920,
+      maxWidthOrHeight: 1920
     }
     const compressedFile = await imageCompression(file, options)
     setSelectFile(compressedFile)
@@ -160,7 +160,7 @@ const SubGroupMast = () => {
     const frmdata = {
       subgroup_slno: '',
       sub_group_name: '',
-      sub_group_status: false,
+      sub_group_status: false
     }
     setsubGroup(frmdata)
     setValue(0)
@@ -168,12 +168,7 @@ const SubGroupMast = () => {
     reset()
   }, [setsubGroup, setSelectFile])
   return (
-    <CardMaster
-      title="Subgroup Master"
-      submit={submitGroup}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Subgroup Master" submit={submitGroup} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ p: 1 }}>
         <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
           <Box sx={{ width: '30%', p: 1 }}>

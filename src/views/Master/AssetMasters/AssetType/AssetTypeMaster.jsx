@@ -22,7 +22,7 @@ const AssetTypeMaster = () => {
   const [assetType, setAssetType] = useState({
     asset_type_slno: '',
     asset_type_name: '',
-    asset_type_status: false,
+    asset_type_status: false
   })
   const { asset_type_slno, asset_type_name, asset_type_status } = assetType
 
@@ -37,7 +37,7 @@ const AssetTypeMaster = () => {
     const frmdata = {
       asset_type_slno: '',
       asset_type_name: '',
-      asset_type_status: false,
+      asset_type_status: false
     }
     setAssetType(frmdata)
     setCount(0)
@@ -47,7 +47,7 @@ const AssetTypeMaster = () => {
     return {
       asset_type_name: asset_type_name,
       asset_type_status: asset_type_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [asset_type_name, asset_type_status, id])
   const patchdata = useMemo(() => {
@@ -55,7 +55,7 @@ const AssetTypeMaster = () => {
       asset_type_slno: asset_type_slno,
       asset_type_name: asset_type_name,
       asset_type_status: asset_type_status === true ? 1 : 0,
-      edit_user: id,
+      edit_user: id
     }
   }, [asset_type_slno, asset_type_name, asset_type_status, id])
   const sumbitAssetType = useCallback(
@@ -107,7 +107,7 @@ const AssetTypeMaster = () => {
     const frmdata = {
       asset_type_slno: asset_type_slno,
       asset_type_name: asset_type_name,
-      asset_type_status: asset_type_status === 1 ? true : false,
+      asset_type_status: asset_type_status === 1 ? true : false
     }
     setAssetType(frmdata)
   }, [])
@@ -118,18 +118,13 @@ const AssetTypeMaster = () => {
     const frmdata = {
       asset_type_slno: '',
       asset_type_name: '',
-      asset_type_status: false,
+      asset_type_status: false
     }
     setAssetType(frmdata)
     setValue(0)
   }, [setAssetType])
   return (
-    <CardMaster
-      title="Asset Master"
-      submit={sumbitAssetType}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Asset Master" submit={sumbitAssetType} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ p: 1 }}>
         <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
           <Box sx={{ width: '30%', p: 1 }}>

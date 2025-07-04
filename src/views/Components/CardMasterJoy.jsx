@@ -22,13 +22,7 @@ const CardMasterJoy = ({ children, title, close, submit, refresh, contentStyle }
 
             <Tooltip title="Save" placement="left">
               <Box>
-                <CusIconButton
-                  size="sm"
-                  variant="outlined"
-                  color="primary"
-                  clickable="true"
-                  onClick={submit}
-                >
+                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={submit}>
                   <LibraryAddIcon fontSize="small" />
                 </CusIconButton>
               </Box>
@@ -36,13 +30,7 @@ const CardMasterJoy = ({ children, title, close, submit, refresh, contentStyle }
             {/* Refresh Button */}
             <Tooltip title="Refresh" placement="left">
               <Box>
-                <CusIconButton
-                  size="sm"
-                  variant="outlined"
-                  color="primary"
-                  clickable="true"
-                  onClick={refresh}
-                >
+                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={refresh}>
                   <RefreshIcon fontSize="small" />
                 </CusIconButton>
               </Box>
@@ -50,13 +38,7 @@ const CardMasterJoy = ({ children, title, close, submit, refresh, contentStyle }
             {/* Close button */}
             <Tooltip title="Close" placement="left">
               <Box>
-                <CusIconButton
-                  size="sm"
-                  variant="outlined"
-                  color="primary"
-                  clickable="true"
-                  onClick={close}
-                >
+                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={close}>
                   <CloseIcon fontSize="small" />
                 </CusIconButton>
               </Box>

@@ -39,7 +39,7 @@ const HallbookingReg = ({ open, setOpen, setModal }) => {
     h_book_startdatetime: moment(new Date()).format('YYYY-MM-DD hh:mm:ss'),
     h_book_enddatetime: moment(new Date()).format('YYYY-MM-DD hh:mm:ss'),
     h_book_contno: '',
-    h_book_email: '',
+    h_book_email: ''
   })
   const {
     h_book_event,
@@ -48,7 +48,7 @@ const HallbookingReg = ({ open, setOpen, setModal }) => {
     h_book_startdatetime,
     h_book_enddatetime,
     h_book_contno,
-    h_book_email,
+    h_book_email
   } = hallbooking
   const updateHallbooking = useCallback(
     e => {
@@ -64,7 +64,7 @@ const HallbookingReg = ({ open, setOpen, setModal }) => {
     snacks: false,
     breakfast: false,
     lunch: false,
-    dinner: false,
+    dinner: false
   })
   const { tea, snacks, breakfast, lunch, dinner } = catering
   //checkbox for items
@@ -74,7 +74,7 @@ const HallbookingReg = ({ open, setOpen, setModal }) => {
     projector: false,
     podium: false,
     dias: false,
-    conferencetable: false,
+    conferencetable: false
   })
   const { mikeset, ac, projector, podium, dias, conferencetable } = items
 
@@ -85,7 +85,7 @@ const HallbookingReg = ({ open, setOpen, setModal }) => {
       projector: projector === true ? 3 : 0,
       podium: podium === true ? 4 : 0,
       dias: dias === true ? 5 : 0,
-      conferencetable: conferencetable === true ? 6 : 0,
+      conferencetable: conferencetable === true ? 6 : 0
     }
   }, [mikeset, ac, projector, podium, dias, conferencetable])
 
@@ -111,7 +111,7 @@ const HallbookingReg = ({ open, setOpen, setModal }) => {
       snacks: snacks === true ? 2 : 0,
       breakfast: breakfast === true ? 3 : 0,
       lunch: lunch === true ? 4 : 0,
-      dinner: dinner === true ? 5 : 0,
+      dinner: dinner === true ? 5 : 0
     }
   }, [tea, snacks, breakfast, lunch, dinner])
 
@@ -128,7 +128,7 @@ const HallbookingReg = ({ open, setOpen, setModal }) => {
       h_book_hall: hall,
       h_book_hall_items: hallitem,
       h_book_catering: cateringFoods,
-      create_user: id,
+      create_user: id
     }
   }, [
     h_book_event,
@@ -142,7 +142,7 @@ const HallbookingReg = ({ open, setOpen, setModal }) => {
     id,
     cateringFoods,
     hallitem,
-    hall,
+    hall
   ])
   const resetForm = useMemo(() => {
     return {
@@ -152,7 +152,7 @@ const HallbookingReg = ({ open, setOpen, setModal }) => {
       h_book_startdatetime: moment(new Date()).format('YYYY-MM-DD hh:mm:ss'),
       h_book_enddatetime: moment(new Date()).format('YYYY-MM-DD hh:mm:ss'),
       h_book_contno: '',
-      h_book_email: '',
+      h_book_email: ''
     }
   }, [])
 
@@ -162,7 +162,7 @@ const HallbookingReg = ({ open, setOpen, setModal }) => {
       snacks: false,
       breakfast: false,
       lunch: false,
-      dinner: false,
+      dinner: false
     }
   }, [])
 
@@ -173,7 +173,7 @@ const HallbookingReg = ({ open, setOpen, setModal }) => {
       projector: false,
       podium: false,
       dias: false,
-      conferencetable: false,
+      conferencetable: false
     }
   }, [])
 
@@ -227,7 +227,7 @@ const HallbookingReg = ({ open, setOpen, setModal }) => {
           h_booking_slno: insertid,
           is_incharge_req: isIncharge === 1 ? 0 : ishod === 1 ? 0 : 1,
           is_hod_req: ishod === 1 ? 0 : 1,
-          is_ceo_req: 1,
+          is_ceo_req: 1
         }
         const result = await axioslogin.post('/hallBooking/hDept', postData)
         const { message, success } = result.data
@@ -261,20 +261,12 @@ const HallbookingReg = ({ open, setOpen, setModal }) => {
       <Paper>
         <Box sx={{ display: 'flex', backgroundColor: '#f0f3f5' }}>
           <Box sx={{ flex: 1 }}>
-            <Typography sx={{ fontFamily: 'Roboto', fontSize: 20, p: 1.5 }}>
-              Hall Booking
-            </Typography>
+            <Typography sx={{ fontFamily: 'Roboto', fontSize: 20, p: 1.5 }}>Hall Booking</Typography>
           </Box>
           <Box sx={{ display: 'flex', flexDirection: 'row', pl: 1 }}>
             <CustomeToolTip title="Save" placement="left">
               <Box sx={{ p: 1 }}>
-                <CusIconButton
-                  size="sm"
-                  variant="outlined"
-                  color="primary"
-                  clickable="true"
-                  onClick={EventSubmit}
-                >
+                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={EventSubmit}>
                   <LibraryAddIcon fontSize="small" />
                 </CusIconButton>
               </Box>
@@ -316,14 +308,14 @@ const HallbookingReg = ({ open, setOpen, setModal }) => {
                 display: 'flex',
                 flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
                 p: 0.5,
-                mt: 1,
+                mt: 1
               }}
             >
               <Box
                 sx={{
                   display: 'flex',
                   // width: '50%'
-                  width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '50%' },
+                  width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '50%' }
                 }}
               >
                 <TextFieldCustom
@@ -340,7 +332,7 @@ const HallbookingReg = ({ open, setOpen, setModal }) => {
               sx={{
                 display: 'flex',
                 width: { xl: '50%', lg: '50%', md: '100%' },
-                p: 0.5,
+                p: 0.5
               }}
             >
               <TextFieldCustom
@@ -356,7 +348,7 @@ const HallbookingReg = ({ open, setOpen, setModal }) => {
               sx={{
                 display: 'flex',
                 width: { xl: '50%', lg: '50%', md: '100%' },
-                p: 0.5,
+                p: 0.5
               }}
             >
               <TextFieldCustom
@@ -373,7 +365,7 @@ const HallbookingReg = ({ open, setOpen, setModal }) => {
                 width: '50%',
                 display: 'flex',
                 flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
-                p: 0.5,
+                p: 0.5
                 // mt: 1
               }}
             >
@@ -407,7 +399,7 @@ const HallbookingReg = ({ open, setOpen, setModal }) => {
                 width: '50%',
                 display: 'flex',
                 flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
-                p: 0.5,
+                p: 0.5
                 // mt: 1
               }}
             >

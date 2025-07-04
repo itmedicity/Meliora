@@ -98,7 +98,7 @@ const RectifyListUseEnd = () => {
       return {
         from: format(new Date(fromDate), 'yyyy-MM-dd 00:00:00'),
         to: format(new Date(toDate), 'yyyy-MM-dd 23:59:59'),
-        complaint_dept_secslno: empsecid,
+        complaint_dept_secslno: empsecid
       }
     }
     return null
@@ -127,9 +127,7 @@ const RectifyListUseEnd = () => {
     setimageViewOpen(true)
     setfileDetails(val)
     try {
-      const result = await axioslogin.get(
-        `/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`
-      )
+      const result = await axioslogin.get(`/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`)
       const { success } = result.data
       if (success === 1) {
         const data = result.data
@@ -161,7 +159,7 @@ const RectifyListUseEnd = () => {
             flex: 1,
             display: 'flex',
             py: 0.8,
-            pl: 0.5,
+            pl: 0.5
           }}
         >
           <Box sx={{ display: 'flex', py: 0.5 }}>
@@ -170,7 +168,7 @@ const RectifyListUseEnd = () => {
               sx={{
                 color: '#5A676C',
                 fontWeight: 510,
-                fontFamily: 'Arial',
+                fontFamily: 'Arial'
               }}
               text="filter :"
             />
@@ -214,8 +212,8 @@ const RectifyListUseEnd = () => {
                 slotProps={{
                   input: {
                     min: fromDate,
-                    max: moment().format('YYYY-MM-DD'),
-                  },
+                    max: moment().format('YYYY-MM-DD')
+                  }
                 }}
               ></TextFieldCustom>
             </Box>
@@ -240,11 +238,11 @@ const RectifyListUseEnd = () => {
                 boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
                 '&:hover': {
                   backgroundColor: '#C8F0C8', // Lighter green for hover
-                  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.15)',
+                  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.15)'
                 },
                 '&:active': {
-                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.2)',
-                },
+                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.2)'
+                }
               }}
             >
               <SearchSharpIcon sx={{ width: 25, height: 25, color: '#0F4B0F' }} />
@@ -300,7 +298,7 @@ const RectifyListUseEnd = () => {
                       borderColor: '#59981A',
                       borderRadius: 8,
                       bgcolor: 'white',
-                      m: 0.5,
+                      m: 0.5
                     }}
                   >
                     <Box
@@ -310,7 +308,7 @@ const RectifyListUseEnd = () => {
                         borderTopRightRadius: 6,
                         borderTopLeftRadius: 6,
                         mx: 0.1,
-                        display: 'flex',
+                        display: 'flex'
                       }}
                     >
                       <CssVarsProvider>
@@ -324,7 +322,7 @@ const RectifyListUseEnd = () => {
                                 fontSize: 15,
                                 pl: 1,
                                 py: 0.5,
-                                fontFamily: 'Arial',
+                                fontFamily: 'Arial'
                               }}
                               text={
                                 val.compalint_date
@@ -343,7 +341,7 @@ const RectifyListUseEnd = () => {
                             px: 2,
                             fontWeight: 500,
                             fontSize: 14,
-                            cursor: 'pointer',
+                            cursor: 'pointer'
                           }}
                         >
                           Ticket Registered by : {val.comp_reg_emp}
@@ -358,7 +356,7 @@ const RectifyListUseEnd = () => {
                             mx: 1,
                             pr: 1,
                             borderRight: 1,
-                            borderColor: 'lightgrey',
+                            borderColor: 'lightgrey'
                           }}
                         >
                           <Typography sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700 }}>
@@ -379,7 +377,7 @@ const RectifyListUseEnd = () => {
                                   border: 1,
                                   borderRadius: 5,
                                   p: 0.1,
-                                  '&:hover': { color: '#274472' },
+                                  '&:hover': { color: '#274472' }
                                 }}
                                 onClick={() => fileView(val)}
                               />
@@ -396,7 +394,7 @@ const RectifyListUseEnd = () => {
                                     mx: 0.5,
                                     borderRadius: 5,
                                     p: 0.1,
-                                    '&:hover': { color: '#41729F' },
+                                    '&:hover': { color: '#41729F' }
                                   }}
                                   onClick={() => ReplyDetails(val)}
                                 />
@@ -413,7 +411,7 @@ const RectifyListUseEnd = () => {
                                     mx: 0.5,
                                     borderRadius: 5,
                                     p: 0.1,
-                                    '&:hover': { color: '#41729F' },
+                                    '&:hover': { color: '#41729F' }
                                   }}
                                   onClick={() => ReplyDetails(val)}
                                 />
@@ -428,7 +426,7 @@ const RectifyListUseEnd = () => {
                                     cursor: 'pointer',
                                     border: 1,
                                     mx: 0.5,
-                                    borderRadius: 5,
+                                    borderRadius: 5
                                   }}
                                 />
                               </Tooltip>
@@ -443,7 +441,7 @@ const RectifyListUseEnd = () => {
                                   border: 1,
                                   borderRadius: 5,
                                   p: 0.1,
-                                  '&:hover': { color: '#41729F' },
+                                  '&:hover': { color: '#41729F' }
                                 }}
                                 onClick={() => MoreDetails(val)}
                               />
@@ -453,45 +451,38 @@ const RectifyListUseEnd = () => {
                         <Box
                           sx={{
                             pl: 0.5,
-                            maxWidth: 500,
+                            maxWidth: 500
                           }}
                         >
                           <Box
                             sx={{
                               display: 'flex',
-                              mt: 0.5,
+                              mt: 0.5
                             }}
                           >
                             <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
                               Department Section
                             </Typography>
                             <Typography sx={{ fontSize: 14, flex: 1, textTransform: 'capitalize' }}>
-                              {val.location.charAt(0).toUpperCase() +
-                                val.location.slice(1).toLowerCase()}
+                              {val.location.charAt(0).toUpperCase() + val.location.slice(1).toLowerCase()}
                             </Typography>
                           </Box>
                           <Box
                             sx={{
                               display: 'flex',
-                              mt: 0.5,
+                              mt: 0.5
                             }}
                           >
-                            <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
-                              Location
-                            </Typography>
+                            <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>Location</Typography>
                             <Typography sx={{ fontSize: 13, flex: 1 }}>
                               {/* {val.rm_room_name}
                                                             {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name ?
                                                                 ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''}${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${(val.rm_insidebuildblock_name && val.rm_floor_name) ? ' - ' : ''}${val.rm_floor_name ? val.rm_floor_name : ''})`
                                                                 : "Not Updated"} */}
                               {val.rm_room_name}
-                              {val.rm_roomtype_name ||
-                              val.rm_insidebuildblock_name ||
-                              val.rm_floor_name
+                              {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name
                                 ? ` (${val.rm_roomtype_name || ''}${
-                                    val.rm_roomtype_name && val.rm_insidebuildblock_name
-                                      ? ' - '
-                                      : ''
+                                    val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
                                   }${val.rm_insidebuildblock_name || ''}${
                                     val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
                                   }${val.rm_floor_name || ''})`
@@ -501,12 +492,10 @@ const RectifyListUseEnd = () => {
                           <Box
                             sx={{
                               display: 'flex',
-                              mt: 0.5,
+                              mt: 0.5
                             }}
                           >
-                            <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
-                              Complaint Type
-                            </Typography>
+                            <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>Complaint Type</Typography>
                             <Typography sx={{ fontSize: 14, flex: 1 }}>
                               {val.complaint_type_name.charAt(0).toUpperCase() +
                                 val.complaint_type_name.slice(1).toLowerCase()}
@@ -514,16 +503,14 @@ const RectifyListUseEnd = () => {
                           </Box>
                         </Box>
                         <Box sx={{ flex: 1, pl: 1.5 }}>
-                          <Typography sx={{ fontSize: 13, fontWeight: 700 }}>
-                            Complaint Describtion
-                          </Typography>
+                          <Typography sx={{ fontSize: 13, fontWeight: 700 }}>Complaint Describtion</Typography>
                           <Typography
                             sx={{
                               pr: 0.5,
                               pt: 0.3,
                               fontSize: 15,
                               maxHeight: 50,
-                              overflow: 'auto',
+                              overflow: 'auto'
                             }}
                           >
                             {val.complaint_desc || 'Not Updated'}
@@ -538,7 +525,7 @@ const RectifyListUseEnd = () => {
                           borderBottomLeftRadius: 5,
                           mb: 0.1,
                           mx: 0.1,
-                          display: 'flex',
+                          display: 'flex'
                         }}
                       >
                         {val.priority_check === 1 ? (
@@ -547,7 +534,7 @@ const RectifyListUseEnd = () => {
                               sx={{
                                 height: 30,
                                 width: 25,
-                                color: val.priority_check === 1 ? '#970C10' : 'lightgrey',
+                                color: val.priority_check === 1 ? '#970C10' : 'lightgrey'
                               }}
                             />
                             <Typography
@@ -556,7 +543,7 @@ const RectifyListUseEnd = () => {
                                 pl: 0.5,
                                 fontSize: 14,
                                 pt: 0.5,
-                                color: 'darkred',
+                                color: 'darkred'
                               }}
                             >
                               {val.priority_reason}
@@ -564,9 +551,7 @@ const RectifyListUseEnd = () => {
                           </Box>
                         ) : null}
                         <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
-                          <Typography sx={{ fontSize: 13, fontWeight: 700, pt: 0.5 }}>
-                            Assignees :
-                          </Typography>
+                          <Typography sx={{ fontSize: 13, fontWeight: 700, pt: 0.5 }}>Assignees :</Typography>
                           &nbsp;&nbsp;
                           <Box sx={{ fontWeight: 600, display: 'flex', py: 0.4, gap: 0.3 }}>
                             {val.assigned_employees === null ? (
@@ -582,7 +567,7 @@ const RectifyListUseEnd = () => {
                                       bgcolor: '#D3C7A1',
                                       fontSize: 13,
                                       px: 0.8,
-                                      marginRight: 0.1,
+                                      marginRight: 0.1
                                     }}
                                   >
                                     {name.trim()}
@@ -608,7 +593,7 @@ const RectifyListUseEnd = () => {
                 fontWeight: 700,
                 fontSize: 22,
                 color: 'lightgray',
-                pt: 15,
+                pt: 15
               }}
             >
               {flagz === 1 ? (

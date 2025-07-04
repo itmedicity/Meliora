@@ -3,7 +3,7 @@ const { FETCH_FLOOR_EMP } = ActionTyps
 //intial state
 const EmpWiseFloor = {
   EmpWiseFloorList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Deptsection action type check then payload set to the state and loading status set as true */
 export const getEmpfloor = (state = EmpWiseFloor, { type, payload }) => {

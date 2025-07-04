@@ -19,7 +19,7 @@ const CampusMaster = () => {
     rm_campus_name: '',
     rm_campus_alias: '',
     rm_campus_no: '',
-    rm_campus_status: false,
+    rm_campus_status: false
   })
   const { rm_campus_slno, rm_campus_name, rm_campus_alias, rm_campus_no, rm_campus_status } = campus
   const updateCampus = useCallback(
@@ -39,7 +39,7 @@ const CampusMaster = () => {
       rm_campus_alias: rm_campus_alias,
       rm_campus_no: rm_campus_no,
       rm_campus_status: rm_campus_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [rm_campus_name, rm_campus_alias, rm_campus_no, rm_campus_status, id])
 
@@ -49,7 +49,7 @@ const CampusMaster = () => {
       rm_campus_name: '',
       rm_campus_alias: '',
       rm_campus_no: '',
-      rm_campus_status: false,
+      rm_campus_status: false
     }
     setCampus(frmdata)
     setCount(0)
@@ -62,7 +62,7 @@ const CampusMaster = () => {
       rm_campus_alias: rm_campus_alias,
       rm_campus_no: rm_campus_no,
       rm_campus_status: rm_campus_status === true ? 1 : 0,
-      edit_user: id,
+      edit_user: id
     }
   }, [rm_campus_slno, rm_campus_name, rm_campus_alias, rm_campus_no, rm_campus_status, id])
 
@@ -73,15 +73,14 @@ const CampusMaster = () => {
   const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
-    const { rm_campus_slno, rm_campus_name, rm_campus_alias, rm_campus_no, rm_campus_status } =
-      data[0]
+    const { rm_campus_slno, rm_campus_name, rm_campus_alias, rm_campus_no, rm_campus_status } = data[0]
 
     const frmdata = {
       rm_campus_slno: rm_campus_slno,
       rm_campus_name: rm_campus_name,
       rm_campus_alias: rm_campus_alias,
       rm_campus_no: rm_campus_no,
-      rm_campus_status: rm_campus_status === 1 ? true : false,
+      rm_campus_status: rm_campus_status === 1 ? true : false
     }
     setCampus(frmdata)
   }, [])
@@ -129,19 +128,14 @@ const CampusMaster = () => {
       rm_campus_name: '',
       rm_campus_alias: '',
       rm_campus_no: '',
-      rm_campus_status: false,
+      rm_campus_status: false
     }
     setCampus(frmdata)
     setValue(0)
   }, [setCampus])
 
   return (
-    <CardMaster
-      title="Campus Master"
-      close={backtoSetting}
-      submit={sumbitCampus}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Campus Master" close={backtoSetting} submit={sumbitCampus} refresh={refreshWindow}>
       <Box sx={{ p: 1 }}>
         <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
           <Box sx={{ width: '30%', p: 1 }}>

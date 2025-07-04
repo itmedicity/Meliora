@@ -3,7 +3,7 @@ const { FETCH_ASSIGN_TO_VERIFY_TAT } = ActionTyps
 
 const AssignToVerify = {
   AssignToVerifyList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 
 export const getAssignToVerifyList = (state = AssignToVerify, { type, payload }) => {

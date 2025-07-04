@@ -10,16 +10,8 @@ import ImageDisplayModal from '../ImageUploadCmp/ImageDisplayModal'
 import CustomToolTipForCRF from '../Components/CustomToolTipForCRF'
 
 const CommonGmapprvCmp = ({ DetailViewData, company }) => {
-  const {
-    req_slno,
-    gm_approve,
-    gm,
-    gm_approve_remarks,
-    gm_detial_analysis,
-    gm_approv_date,
-    gm_user,
-    gm_image,
-  } = DetailViewData
+  const { req_slno, gm_approve, gm, gm_approve_remarks, gm_detial_analysis, gm_approv_date, gm_user, gm_image } =
+    DetailViewData
 
   const [imageshowFlag, setImageShowFlag] = useState(0)
   const [imageshow, setImageShow] = useState(false)
@@ -67,9 +59,7 @@ const CommonGmapprvCmp = ({ DetailViewData, company }) => {
       ) : null}
       <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
         <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
-          <Typography
-            sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 13, flex: 0.4 }}
-          >
+          <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 13, flex: 0.4 }}>
             {company?.gmo_status_name}
           </Typography>
           <Box sx={{ flex: 1, py: 0.4, ml: 2 }}>
@@ -90,7 +80,7 @@ const CommonGmapprvCmp = ({ DetailViewData, company }) => {
                 height: 25,
                 pb: 0.5,
                 fontSize: 12,
-                fontWeight: 550,
+                fontWeight: 550
               }}
             >
               {gm}
@@ -101,49 +91,33 @@ const CommonGmapprvCmp = ({ DetailViewData, company }) => {
           {gm_approve === 1 && gm_approve_remarks !== null ? (
             <Box sx={{ pt: 0.5 }}>
               <Box sx={{ display: 'flex' }}>
-                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                  Justification/ Requirement Description{' '}
-                </Typography>
+                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Justification/ Requirement Description </Typography>
                 <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-                <Typography
-                  sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}
-                >
+                <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
                   {gm_approve_remarks === null ? 'Not Updated' : gm_approve_remarks}{' '}
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', pt: 1 }}>
-                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                  Detailed Analysis of Requirement
-                </Typography>
+                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Detailed Analysis of Requirement</Typography>
                 <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-                <Typography
-                  sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}
-                >
+                <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
                   {gm_detial_analysis === null ? 'Not Updated' : gm_detial_analysis}
                 </Typography>
               </Box>
             </Box>
           ) : gm_approve === 2 && gm_approve_remarks !== null ? (
             <Box sx={{ display: 'flex', pt: 0.5 }}>
-              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                Justification for Reject{' '}
-              </Typography>
+              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Justification for Reject </Typography>
               <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-              <Typography
-                sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}
-              >
+              <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
                 {gm_approve_remarks === null ? 'Not Updated' : gm_approve_remarks}{' '}
               </Typography>
             </Box>
           ) : gm_approve === 3 && gm_approve_remarks !== null ? (
             <Box sx={{ display: 'flex', pt: 0.5 }}>
-              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                Justification for On-Hold
-              </Typography>
+              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Justification for On-Hold</Typography>
               <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-              <Typography
-                sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}
-              >
+              <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
                 {gm_approve_remarks === null ? 'Not Updated' : gm_approve_remarks}{' '}
               </Typography>
             </Box>
@@ -151,9 +125,7 @@ const CommonGmapprvCmp = ({ DetailViewData, company }) => {
             <Box sx={{ display: 'flex', pt: 0.5 }}>
               <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Remarks</Typography>
               <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-              <Typography
-                sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}
-              >
+              <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
                 {gm_approve_remarks === null ? 'Not Updated' : gm_approve_remarks}{' '}
               </Typography>
             </Box>
@@ -169,9 +141,7 @@ const CommonGmapprvCmp = ({ DetailViewData, company }) => {
               ) : null}
               <Box sx={{ display: 'flex', flex: 1 }}>
                 <Typography sx={{}}> :&nbsp;</Typography>
-                <Typography
-                  sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pt: 0.3, pl: 0.2 }}
-                >
+                <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pt: 0.3, pl: 0.2 }}>
                   {capitalizeWords(gm_user)}
                 </Typography>
                 <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pl: 2, pt: 0.3 }}>

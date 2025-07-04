@@ -3,7 +3,7 @@ const { FETCH_COMP_PER_ASSIGNEE_REPORT } = ActionTyps
 
 const AssignToRectify = {
   AssignToRectifyList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 
 export const getAssignToRectifyList = (state = AssignToRectify, { type, payload }) => {

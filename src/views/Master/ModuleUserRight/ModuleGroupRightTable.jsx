@@ -14,8 +14,8 @@ const ModuleGroupRightTable = ({ count, rowSelect }) => {
     { headerName: 'Status', field: 'mod_grp_user_status' },
     {
       headerName: 'Action',
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
-    },
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
+    }
   ])
 
   /*** get data from module_master table for display */

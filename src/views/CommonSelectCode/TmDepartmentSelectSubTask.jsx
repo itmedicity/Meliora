@@ -6,9 +6,7 @@ import { CssVarsProvider } from '@mui/joy/'
 
 const TmDepartmentSelectSubTask = ({ departmentSub, setDepartmentSub }) => {
   const dispatch = useDispatch()
-  const subTaskDepartmentList = useSelector(
-    state => state.getDepartmentSubTask?.subTaskDepartmentList
-  )
+  const subTaskDepartmentList = useSelector(state => state.getDepartmentSubTask?.subTaskDepartmentList)
   const [departments, setDepartments] = useState([{ dept_id: 0, dept_name: '' }])
   const [value, setValue] = useState(departments[0])
   const [inputValue, setInputValue] = useState('')
@@ -40,7 +38,7 @@ const TmDepartmentSelectSubTask = ({ departmentSub, setDepartmentSub }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            minHeight: 53,
+            minHeight: 53
           }}
           value={departmentSub === 0 ? departments : value}
           placeholder="Select Department"

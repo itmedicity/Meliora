@@ -14,7 +14,7 @@ const EndosWaitingTimeReport = ({
   opCheck,
   ipCheck,
   searchFlag,
-  OracleAsessData,
+  OracleAsessData
 }) => {
   const [tableData, setTableData] = useState([])
   const [viewFlag, setViewFlag] = useState(0)
@@ -34,7 +34,7 @@ const EndosWaitingTimeReport = ({
   useEffect(() => {
     var dateList = eachDayOfInterval({
       start: startOfMonth(new Date(searchDate)),
-      end: endOfMonth(new Date(searchDate)),
+      end: endOfMonth(new Date(searchDate))
     })
     if (opCheck === true) {
       if (viewData.length !== 0) {
@@ -46,29 +46,25 @@ const EndosWaitingTimeReport = ({
         // setOpEndoscpyList(insertArray)
         const newTimelist = dateList?.map(item => {
           const time = insertArray
-            ?.filter(
-              val =>
-                format(new Date(val.VSD_DATE), 'dd-MM-yyyy') ===
-                format(new Date(item), 'dd-MM-yyyy')
-            )
+            ?.filter(val => format(new Date(val.VSD_DATE), 'dd-MM-yyyy') === format(new Date(item), 'dd-MM-yyyy'))
             .reduce((acc, curr) => acc + curr.SERVICE_TIME, 0)
 
           return {
             day: format(new Date(item), 'dd-MM-yyyy'),
             totTime: time,
-            display_date: item,
+            display_date: item
           }
         })
         const newTotalPat = dateList?.map(item => {
           const count = viewData?.filter(
             val =>
-              format(new Date(val.patient_arrived_date), 'dd-MM-yyyy') ===
-                format(new Date(item), 'dd-MM-yyyy') && val.qi_save_status === 1
+              format(new Date(val.patient_arrived_date), 'dd-MM-yyyy') === format(new Date(item), 'dd-MM-yyyy') &&
+              val.qi_save_status === 1
           )
 
           return {
             day: format(new Date(item), 'dd-MM-yyyy'),
-            totpatient: count.length,
+            totpatient: count.length
           }
         })
         const newArray = newTimelist?.map(val => {
@@ -76,7 +72,7 @@ const EndosWaitingTimeReport = ({
           return {
             ...val,
             totpatient: array ? array.totpatient : 0,
-            result: array.totpatient > 0 ? val.totTime / array.totpatient : 0,
+            result: array.totpatient > 0 ? val.totTime / array.totpatient : 0
           }
         })
         setTableData(newArray)
@@ -86,26 +82,24 @@ const EndosWaitingTimeReport = ({
         const newTimelist = dateList?.map(item => {
           const time = ipViewReport
             ?.filter(
-              val =>
-                format(new Date(val.endo_arrival_time), 'dd-MM-yyyy') ===
-                format(new Date(item), 'dd-MM-yyyy')
+              val => format(new Date(val.endo_arrival_time), 'dd-MM-yyyy') === format(new Date(item), 'dd-MM-yyyy')
             )
             .reduce((acc, curr) => acc + curr.sumof_service_time, 0)
           return {
             day: format(new Date(item), 'dd-MM-yyyy'),
             totTime: time,
-            display_date: item,
+            display_date: item
           }
         })
         const newTotalPat = dateList?.map(item => {
           const count = ipViewReport?.filter(
             val =>
-              format(new Date(val.endo_arrival_time), 'dd-MM-yyyy') ===
-                format(new Date(item), 'dd-MM-yyyy') && val.qi_save_status === 1
+              format(new Date(val.endo_arrival_time), 'dd-MM-yyyy') === format(new Date(item), 'dd-MM-yyyy') &&
+              val.qi_save_status === 1
           )
           return {
             day: format(new Date(item), 'dd-MM-yyyy'),
-            totpatient: count.length,
+            totpatient: count.length
           }
         })
         const newArray = newTimelist?.map(val => {
@@ -113,7 +107,7 @@ const EndosWaitingTimeReport = ({
           return {
             ...val,
             totpatient: array ? array.totpatient : 0,
-            result: array.totpatient > 0 ? val.totTime / array.totpatient : 0,
+            result: array.totpatient > 0 ? val.totTime / array.totpatient : 0
           }
         })
         setTableData(newArray)
@@ -127,7 +121,7 @@ const EndosWaitingTimeReport = ({
       setInitdate(display_date)
       const searchData = {
         from: format(new Date(display_date), 'yyyy-MM-dd 00:00:00'),
-        to: format(new Date(display_date), 'yyyy-MM-dd 23:59:59 '),
+        to: format(new Date(display_date), 'yyyy-MM-dd 23:59:59 ')
       }
       if (opCheck === true) {
         const getInitialAssessmentList = async searchData => {
@@ -209,10 +203,7 @@ const EndosWaitingTimeReport = ({
       {searchFlag === 1 ? (
         <>
           {tableData.length !== 0 ? (
-            <Box
-              variant="outlined"
-              sx={{ overflow: 'auto', maxHeight: window.innerHeight - 220, padding: 'none' }}
-            >
+            <Box variant="outlined" sx={{ overflow: 'auto', maxHeight: window.innerHeight - 220, padding: 'none' }}>
               <CssVarsProvider>
                 <Table
                   aria-label="table with sticky header"
@@ -232,7 +223,7 @@ const EndosWaitingTimeReport = ({
                           borderRight: '1px solid white',
                           textAlign: 'center',
                           backgroundColor: '#BDC3CB',
-                          fontSize: 15,
+                          fontSize: 15
                         }}
                       >
                         Date
@@ -245,7 +236,7 @@ const EndosWaitingTimeReport = ({
                             borderRight: '1px solid white',
                             textAlign: 'center',
                             backgroundColor: '#BDC3CB',
-                            fontSize: 15,
+                            fontSize: 15
                           }}
                         >
                           Sum Of Time in Min
@@ -259,7 +250,7 @@ const EndosWaitingTimeReport = ({
                             borderRight: '1px solid white',
                             textAlign: 'center',
                             backgroundColor: '#BDC3CB',
-                            fontSize: 15,
+                            fontSize: 15
                           }}
                         >
                           Total No.Of Patients Reported
@@ -273,7 +264,7 @@ const EndosWaitingTimeReport = ({
                             borderRight: '1px solid white',
                             textAlign: 'center',
                             backgroundColor: '#BDC3CB',
-                            fontSize: 15,
+                            fontSize: 15
                           }}
                         >
                           Total Sum Of Time Taken for Initial Assessment
@@ -287,7 +278,7 @@ const EndosWaitingTimeReport = ({
                             borderRight: '1px solid white',
                             textAlign: 'center',
                             backgroundColor: '#BDC3CB',
-                            fontSize: 15,
+                            fontSize: 15
                           }}
                         >
                           Total No.Of Patients In Emergency
@@ -299,7 +290,7 @@ const EndosWaitingTimeReport = ({
                           width: 100,
                           textAlign: 'center',
                           backgroundColor: '#BDC3CB',
-                          fontSize: 15,
+                          fontSize: 15
                         }}
                       >
                         Result
@@ -310,7 +301,7 @@ const EndosWaitingTimeReport = ({
                           width: 100,
                           textAlign: 'center',
                           backgroundColor: '#BDC3CB',
-                          fontSize: 15,
+                          fontSize: 15
                         }}
                       >
                         View
@@ -333,10 +324,7 @@ const EndosWaitingTimeReport = ({
                           {val.result > 10 ? (
                             <CssVarsProvider>
                               <Tooltip title="BenchMark Value is 10 min" placement="bottom">
-                                <td
-                                  size="sm"
-                                  style={{ textAlign: 'center', fontSize: 14, color: 'red' }}
-                                >
+                                <td size="sm" style={{ textAlign: 'center', fontSize: 14, color: 'red' }}>
                                   {val.result.toFixed(2)}
                                 </td>
                               </Tooltip>
@@ -355,8 +343,8 @@ const EndosWaitingTimeReport = ({
                                       padding: 'none',
                                       color: '#055CB4',
                                       ':hover': {
-                                        color: '#1E8AD3',
-                                      },
+                                        color: '#1E8AD3'
+                                      }
                                     }}
                                     onClick={e => ViewDetails(val)}
                                   />
@@ -369,8 +357,8 @@ const EndosWaitingTimeReport = ({
                                       padding: 'none',
                                       color: '#b0bec5',
                                       ':hover': {
-                                        color: '#b0bec5',
-                                      },
+                                        color: '#b0bec5'
+                                      }
                                     }}
                                   />
                                 </Tooltip>

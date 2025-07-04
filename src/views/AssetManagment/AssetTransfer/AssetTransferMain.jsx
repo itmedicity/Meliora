@@ -26,7 +26,7 @@ const AssetTransferMain = () => {
               flex: 1,
               m: 0.5,
               pl: 1,
-              fontFamily: 'Arial',
+              fontFamily: 'Arial'
             }}
             text="Asset Transfer"
           />
@@ -40,7 +40,7 @@ const AssetTransferMain = () => {
           size="sm"
           sx={{
             display: 'flex',
-            bgcolor: 'white',
+            bgcolor: 'white'
           }}
         >
           <TabList
@@ -51,7 +51,7 @@ const AssetTransferMain = () => {
                 flex: 'initial',
                 bgcolor: 'white',
                 '&:hover': {
-                  bgcolor: 'white',
+                  bgcolor: 'white'
                 },
                 [`&.Mui-selected`]: {
                   color: 'primary.plainColor',
@@ -60,10 +60,10 @@ const AssetTransferMain = () => {
                     height: 20,
                     borderTopLeftRadius: 3,
                     borderTopRightRadius: 3,
-                    bgcolor: 'primary.500',
-                  },
-                },
-              },
+                    bgcolor: 'primary.500'
+                  }
+                }
+              }
             }}
           >
             <Box sx={{ flex: 1, display: 'flex', gap: 1, mb: 1, ml: 1 }}>
@@ -82,8 +82,8 @@ const AssetTransferMain = () => {
                     color: 'white',
                     backgroundColor: '#5a5f63',
                     boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.2)',
-                    transform: 'scale(1.02)',
-                  },
+                    transform: 'scale(1.02)'
+                  }
                 }}
               >
                 Custodian to Department Transfer
@@ -104,8 +104,8 @@ const AssetTransferMain = () => {
                     color: 'white',
                     backgroundColor: '#5a5f63',
                     boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.2)',
-                    transform: 'scale(1.02)',
-                  },
+                    transform: 'scale(1.02)'
+                  }
                 }}
               >
                 InterDepartment Transfer
@@ -125,8 +125,8 @@ const AssetTransferMain = () => {
                     color: 'white',
                     backgroundColor: '#5a5f63',
                     boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.2)',
-                    transform: 'scale(1.02)',
-                  },
+                    transform: 'scale(1.02)'
+                  }
                 }}
               >
                 Transfer History

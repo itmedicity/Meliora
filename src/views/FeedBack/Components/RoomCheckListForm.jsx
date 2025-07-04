@@ -20,7 +20,7 @@ const RoomCheckListForm = ({ ptDetails }) => {
     bystandSignIn: '',
     bystandSignOut: '',
     staffSignIn: '',
-    staffSignOut: '',
+    staffSignOut: ''
   })
   const {
     bystandNameIn,
@@ -30,7 +30,7 @@ const RoomCheckListForm = ({ ptDetails }) => {
     bystandSignIn,
     bystandSignOut,
     staffSignIn,
-    staffSignOut,
+    staffSignOut
   } = nameSignList
   useEffect(() => {
     if (room === 1) {
@@ -44,7 +44,7 @@ const RoomCheckListForm = ({ ptDetails }) => {
         { id: 7, amenity: 'SET-TOP BOX REMOTE', in: true, out: false },
         { id: 8, amenity: 'OVEN', in: false, out: false },
         { id: 9, amenity: 'GEYSER', in: false, out: false },
-        { id: 10, amenity: 'ELECTRIC KETTLE', in: true, out: false },
+        { id: 10, amenity: 'ELECTRIC KETTLE', in: true, out: false }
       ]
       setRoomChecklist(roomList)
       const formdata = {
@@ -55,7 +55,7 @@ const RoomCheckListForm = ({ ptDetails }) => {
         bystandSignIn: '',
         bystandSignOut: '',
         staffSignIn: '',
-        staffSignOut: '',
+        staffSignOut: ''
       }
       setnameSignList(formdata)
     } else {
@@ -69,7 +69,7 @@ const RoomCheckListForm = ({ ptDetails }) => {
         { id: 7, amenity: 'SET-TOP BOX REMOTE', in: false, out: false },
         { id: 8, amenity: 'OVEN', in: false, out: false },
         { id: 9, amenity: 'GEYSER', in: false, out: false },
-        { id: 10, amenity: 'ELECTRIC KETTLE', in: false, out: false },
+        { id: 10, amenity: 'ELECTRIC KETTLE', in: false, out: false }
       ]
       setRoomChecklist(roomList)
     }
@@ -95,7 +95,7 @@ const RoomCheckListForm = ({ ptDetails }) => {
     '--Input-radius': '0px',
     borderColor: 'neutral.outlinedBorder',
     '&:hover': {
-      borderColor: 'white',
+      borderColor: 'white'
     },
     '&::before': {
       transform: 'scaleX(0)',
@@ -104,11 +104,11 @@ const RoomCheckListForm = ({ ptDetails }) => {
       bottom: '-2px',
       top: 'unset',
       transition: 'transform .15s cubic-bezier(0.1,0.9,0.2,1)',
-      borderRadius: 0,
+      borderRadius: 0
     },
     '&:focus-within::before': {
-      transform: 'scaleX(1)',
-    },
+      transform: 'scaleX(1)'
+    }
   }
 
   const buttonStyle = {
@@ -121,11 +121,11 @@ const RoomCheckListForm = ({ ptDetails }) => {
     '&:hover': {
       bgcolor: 'white',
       color: '#424242',
-      transform: 'scale(1.1)',
+      transform: 'scale(1.1)'
     },
     '&:active': {
-      transform: 'scale(0.95)',
-    },
+      transform: 'scale(0.95)'
+    }
   }
   const ResetDetails = useCallback(() => {
     const formdata = {
@@ -136,7 +136,7 @@ const RoomCheckListForm = ({ ptDetails }) => {
       bystandSignIn: '',
       bystandSignOut: '',
       staffSignIn: '',
-      staffSignOut: '',
+      staffSignOut: ''
     }
     setnameSignList(formdata)
     let arr = roomChecklist?.map(val => {
@@ -144,7 +144,7 @@ const RoomCheckListForm = ({ ptDetails }) => {
         id: val.id,
         amenity: val.amenity,
         in: val.in === true ? false : false,
-        out: val.out === true ? false : false,
+        out: val.out === true ? false : false
       }
     })
     setRoomChecklist(arr)
@@ -161,21 +161,10 @@ const RoomCheckListForm = ({ ptDetails }) => {
   return (
     <Fragment>
       <Box sx={{ borderRadius: 5, m: 0.5, maxHeight: window.innerHeight - 270, overflow: 'auto' }}>
-        <Typography sx={{ fontSize: 17, pl: 2, py: 0.5, fontWeight: 550 }}>
-          Room Checklist
-        </Typography>
-        <Box
-          variant="outlined"
-          sx={{ overflow: 'auto', '&::-webkit-scrollbar': { height: 8 }, my: 0.5 }}
-        >
+        <Typography sx={{ fontSize: 17, pl: 2, py: 0.5, fontWeight: 550 }}>Room Checklist</Typography>
+        <Box variant="outlined" sx={{ overflow: 'auto', '&::-webkit-scrollbar': { height: 8 }, my: 0.5 }}>
           <CssVarsProvider>
-            <Table
-              aria-label="table with sticky header"
-              borderAxis="both"
-              padding="none"
-              stickyHeader
-              size="sm"
-            >
+            <Table aria-label="table with sticky header" borderAxis="both" padding="none" stickyHeader size="sm">
               <thead style={{ alignItems: 'center', flexWrap: 'wrap' }}>
                 <tr style={{ height: 0.5, flexWrap: 'wrap' }}>
                   <th
@@ -184,7 +173,7 @@ const RoomCheckListForm = ({ ptDetails }) => {
                       width: 100,
                       fontSize: 14,
                       textAlign: 'center',
-                      backgroundColor: '#F0F4F8',
+                      backgroundColor: '#F0F4F8'
                     }}
                   >
                     {' '}
@@ -199,7 +188,7 @@ const RoomCheckListForm = ({ ptDetails }) => {
                       width: 100,
                       fontSize: 14,
                       textAlign: 'center',
-                      backgroundColor: '#F0F4F8',
+                      backgroundColor: '#F0F4F8'
                     }}
                   >
                     MRD NO.
@@ -215,7 +204,7 @@ const RoomCheckListForm = ({ ptDetails }) => {
                       width: 100,
                       fontSize: 14,
                       textAlign: 'center',
-                      backgroundColor: '#F0F4F8',
+                      backgroundColor: '#F0F4F8'
                     }}
                   >
                     ROOM NO.{' '}
@@ -229,7 +218,7 @@ const RoomCheckListForm = ({ ptDetails }) => {
                       width: 100,
                       fontSize: 14,
                       textAlign: 'center',
-                      backgroundColor: '#F0F4F8',
+                      backgroundColor: '#F0F4F8'
                     }}
                   >
                     DOCTOR NAME
@@ -242,18 +231,9 @@ const RoomCheckListForm = ({ ptDetails }) => {
             </Table>
           </CssVarsProvider>
         </Box>
-        <Box
-          variant="outlined"
-          sx={{ overflow: 'auto', '&::-webkit-scrollbar': { height: 8 }, my: 0.5 }}
-        >
+        <Box variant="outlined" sx={{ overflow: 'auto', '&::-webkit-scrollbar': { height: 8 }, my: 0.5 }}>
           <CssVarsProvider>
-            <Table
-              aria-label="table with sticky header"
-              borderAxis="both"
-              padding="none"
-              stickyHeader
-              size="sm"
-            >
+            <Table aria-label="table with sticky header" borderAxis="both" padding="none" stickyHeader size="sm">
               <thead style={{ alignItems: 'center' }}>
                 <tr style={{ height: 0.5 }}>
                   <th size="sm" style={{ width: 100, fontSize: 14, textAlign: 'center' }}>
@@ -274,18 +254,10 @@ const RoomCheckListForm = ({ ptDetails }) => {
                       {val.amenity}
                     </td>
                     <td size="sm" style={{ fontSize: 12, height: 5, textAlign: 'center' }}>
-                      <Checkbox
-                        checked={val.in}
-                        color="neutral"
-                        onChange={e => getInValue(e.target.checked, val)}
-                      />
+                      <Checkbox checked={val.in} color="neutral" onChange={e => getInValue(e.target.checked, val)} />
                     </td>
                     <td size="sm" style={{ fontSize: 12, height: 5, textAlign: 'center' }}>
-                      <Checkbox
-                        checked={val.out}
-                        color="neutral"
-                        onChange={e => getOutValue(e.target.checked, val)}
-                      />
+                      <Checkbox checked={val.out} color="neutral" onChange={e => getOutValue(e.target.checked, val)} />
                     </td>
                   </tr>
                 ))}
@@ -295,30 +267,16 @@ const RoomCheckListForm = ({ ptDetails }) => {
         </Box>
         <Box sx={{ display: 'flex', pt: 1 }}>
           <Box sx={{ pl: 1, pt: 0.3 }}>
-            <Checkbox
-              checked={declare}
-              color="neutral"
-              onChange={e => setDeclare(e.target.checked)}
-            />
+            <Checkbox checked={declare} color="neutral" onChange={e => setDeclare(e.target.checked)} />
           </Box>
           <Box sx={{ pl: 1 }}>
-            I hereby state that I have received all the information with regards the amenities of
-            the room which I occupied and are on working Condition during check-in and check-out
-            time.
+            I hereby state that I have received all the information with regards the amenities of the room which I
+            occupied and are on working Condition during check-in and check-out time.
           </Box>
         </Box>
-        <Box
-          variant="outlined"
-          sx={{ overflow: 'auto', '&::-webkit-scrollbar': { height: 8 }, my: 0.5 }}
-        >
+        <Box variant="outlined" sx={{ overflow: 'auto', '&::-webkit-scrollbar': { height: 8 }, my: 0.5 }}>
           <CssVarsProvider>
-            <Table
-              aria-label="table with sticky header"
-              borderAxis="both"
-              padding="none"
-              stickyHeader
-              size="sm"
-            >
+            <Table aria-label="table with sticky header" borderAxis="both" padding="none" stickyHeader size="sm">
               <thead style={{ alignItems: 'center' }}>
                 <tr style={{ height: 0.5 }}>
                   <th
@@ -327,7 +285,7 @@ const RoomCheckListForm = ({ ptDetails }) => {
                       width: 100,
                       fontSize: 14,
                       textAlign: 'center',
-                      backgroundColor: '#F0F4F8',
+                      backgroundColor: '#F0F4F8'
                     }}
                   >
                     NAME{' '}
@@ -338,7 +296,7 @@ const RoomCheckListForm = ({ ptDetails }) => {
                       width: 50,
                       fontSize: 14,
                       textAlign: 'center',
-                      backgroundColor: '#F0F4F8',
+                      backgroundColor: '#F0F4F8'
                     }}
                   >
                     IN
@@ -349,7 +307,7 @@ const RoomCheckListForm = ({ ptDetails }) => {
                       width: 50,
                       fontSize: 14,
                       textAlign: 'center',
-                      backgroundColor: '#F0F4F8',
+                      backgroundColor: '#F0F4F8'
                     }}
                   >
                     OUT
@@ -360,7 +318,7 @@ const RoomCheckListForm = ({ ptDetails }) => {
                       width: 100,
                       fontSize: 14,
                       textAlign: 'center',
-                      backgroundColor: '#F0F4F8',
+                      backgroundColor: '#F0F4F8'
                     }}
                   >
                     SIGNATURE{' '}
@@ -371,7 +329,7 @@ const RoomCheckListForm = ({ ptDetails }) => {
                       width: 50,
                       fontSize: 14,
                       textAlign: 'center',
-                      backgroundColor: '#F0F4F8',
+                      backgroundColor: '#F0F4F8'
                     }}
                   >
                     IN
@@ -382,7 +340,7 @@ const RoomCheckListForm = ({ ptDetails }) => {
                       width: 50,
                       fontSize: 14,
                       textAlign: 'center',
-                      backgroundColor: '#F0F4F8',
+                      backgroundColor: '#F0F4F8'
                     }}
                   >
                     OUT

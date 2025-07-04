@@ -132,7 +132,7 @@ const DepartmentWisePatientMarking = () => {
             bgcolor: '#eceff1',
             justifyContent: 'center',
             alignItems: 'center',
-            pb: 25,
+            pb: 25
           }}
         >
           {/* <Box sx={{ width: '35%', bgcolor: '#cfd8dc', height: window.innerHeight - 650, mb: 20 }}> */}
@@ -146,7 +146,7 @@ const DepartmentWisePatientMarking = () => {
                   pt: 1.5,
                   color: '#455a64',
                   bgcolor: '#cfd8dc',
-                  fontWeight: 'bold',
+                  fontWeight: 'bold'
                 }}
               >
                 {/* GET PATIENT&apos;S DETAILS */}QUALITY INDICATOR
@@ -159,13 +159,10 @@ const DepartmentWisePatientMarking = () => {
                   fontSize: 20,
                   pt: 0.5,
                   pr: 0.5,
-                  bgcolor: '#cfd8dc',
+                  bgcolor: '#cfd8dc'
                 }}
               >
-                <HighlightOffIcon
-                  sx={{ cursor: 'pointer', size: 'sm', opacity: 0.7 }}
-                  onClick={backtoHome}
-                />
+                <HighlightOffIcon sx={{ cursor: 'pointer', size: 'sm', opacity: 0.7 }} onClick={backtoHome} />
               </Box>
             </Paper>
             <Box sx={{ mx: 1, pt: 0.5, flex: 0.8 }}>
@@ -218,8 +215,8 @@ const DepartmentWisePatientMarking = () => {
                     ':hover': {
                       bgcolor: '#546e7a',
                       boxShadow: 2,
-                      color: 'white',
-                    },
+                      color: 'white'
+                    }
                   }}
                   onClick={SearchDetails}
                 >

@@ -39,7 +39,7 @@ const AssetTransferHistory = () => {
 
   const { data: CustodianDept } = useQuery({
     queryKey: ['getCustodaianDept'],
-    queryFn: () => getCustodianDept(),
+    queryFn: () => getCustodianDept()
   })
 
   const CustDept = useMemo(() => CustodianDept, [CustodianDept])
@@ -52,18 +52,14 @@ const AssetTransferHistory = () => {
 
   const postData = useMemo(
     () => ({
-      fromDate: fromDate
-        ? format(new Date(new Date(fromDate).setHours(0, 0, 0, 0)), 'yyyy-MM-dd HH:mm:ss')
-        : null,
-      toDate: toDate
-        ? format(new Date(new Date(toDate).setHours(23, 59, 59, 999)), 'yyyy-MM-dd HH:mm:ss')
-        : null,
+      fromDate: fromDate ? format(new Date(new Date(fromDate).setHours(0, 0, 0, 0)), 'yyyy-MM-dd HH:mm:ss') : null,
+      toDate: toDate ? format(new Date(new Date(toDate).setHours(23, 59, 59, 999)), 'yyyy-MM-dd HH:mm:ss') : null,
       assetNo: assetNo === 0 ? null : assetNo === null ? null : assetNo,
       transDept: transDept || null,
       transDeptSec: transDeptSec || null,
       custDept: custoDian || null,
       selectedDept: selectedDept || null,
-      selectedDeptSec: selectedDeptSec || null,
+      selectedDeptSec: selectedDeptSec || null
     }),
     [fromDate, toDate, assetNo, transDept, transDeptSec, custoDian, selectedDept, selectedDeptSec]
   )
@@ -114,7 +110,7 @@ const AssetTransferHistory = () => {
       const numericAssetNumber = parseInt(asset_number, 10)
       const post = {
         item_asset_no: assetPrefix,
-        item_asset_no_only: numericAssetNumber,
+        item_asset_no_only: numericAssetNumber
       }
       fetchAssetData(post)
     }
@@ -127,7 +123,7 @@ const AssetTransferHistory = () => {
       const parts = assetNum.split('/')
       const post = {
         item_asset_no: parts.slice(0, 2).join('/'),
-        item_asset_no_only: parseInt(parts[2], 10),
+        item_asset_no_only: parseInt(parts[2], 10)
       }
       fetchAssetData(post)
     }
@@ -181,7 +177,7 @@ const AssetTransferHistory = () => {
             pt: 1,
             display: 'flex',
             gap: 1,
-            margin: 'auto',
+            margin: 'auto'
           }}
         >
           <Box sx={{ flex: 1 }}>
@@ -211,8 +207,8 @@ const AssetTransferHistory = () => {
               disabled={!fromDate}
               slotProps={{
                 input: {
-                  min: fromDate,
-                },
+                  min: fromDate
+                }
               }}
             ></TextFieldCustom>
           </Box>
@@ -235,11 +231,7 @@ const AssetTransferHistory = () => {
               sx={{ color: 'black', fontWeight: 500, pl: 0.5, fontsize: 20, textalign: 'center' }}
             ></TextComponent>
             {selectedDept !== 0 ? (
-              <Input
-                sx={{ '--Input-minHeight': '29px' }}
-                disabled={true}
-                placeholder="Select Custodian Department "
-              />
+              <Input sx={{ '--Input-minHeight': '29px' }} disabled={true} placeholder="Select Custodian Department " />
             ) : (
               <AssetCustodianDepartment
                 custoDian={custoDian}
@@ -256,7 +248,7 @@ const AssetTransferHistory = () => {
             pt: 1,
             display: 'flex',
             gap: 1,
-            margin: 'auto',
+            margin: 'auto'
           }}
         >
           <Box sx={{ flex: 1 }}>
@@ -279,11 +271,7 @@ const AssetTransferHistory = () => {
               sx={{ color: 'black', fontWeight: 500, pl: 0.5, fontsize: 20, textalign: 'center' }}
             ></TextComponent>
             {custoDian !== 0 ? (
-              <Input
-                sx={{ '--Input-minHeight': '29px' }}
-                disabled={true}
-                placeholder="select Department Section"
-              />
+              <Input sx={{ '--Input-minHeight': '29px' }} disabled={true} placeholder="select Department Section" />
             ) : (
               <AmDeptSelectJoy selectedDept={selectedDept} setselectedDept={setselectedDept} />
             )}
@@ -294,16 +282,9 @@ const AssetTransferHistory = () => {
               sx={{ color: 'black', fontWeight: 500, pl: 0.5, fontsize: 20, textalign: 'center' }}
             ></TextComponent>
             {custoDian !== 0 ? (
-              <Input
-                sx={{ '--Input-minHeight': '29px' }}
-                disabled={true}
-                placeholder="select Department Section"
-              />
+              <Input sx={{ '--Input-minHeight': '29px' }} disabled={true} placeholder="select Department Section" />
             ) : (
-              <AmDeptSecSelectJoy
-                selectedDeptSec={selectedDeptSec}
-                setselectedDeptSec={setselectedDeptSec}
-              />
+              <AmDeptSecSelectJoy selectedDeptSec={selectedDeptSec} setselectedDeptSec={setselectedDeptSec} />
             )}
           </Box>
         </Box>
@@ -329,8 +310,8 @@ const AssetTransferHistory = () => {
               boxShadow: '2px 4px 6px rgba(0,0,0,0.4)',
               '&:active': {
                 transform: 'scale(0.98)',
-                boxShadow: '1px 2px 3px rgba(0,0,0,0.3)',
-              },
+                boxShadow: '1px 2px 3px rgba(0,0,0,0.3)'
+              }
             }}
           >
             Search
@@ -345,7 +326,7 @@ const AssetTransferHistory = () => {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                height: '100vh',
+                height: '100vh'
               }}
             >
               <CircularProgress />
@@ -358,7 +339,7 @@ const AssetTransferHistory = () => {
                 py: 5,
                 borderColor: '#D3D3D3',
                 display: 'flex',
-                justifyContent: 'center',
+                justifyContent: 'center'
               }}
             >
               No Data Available
@@ -374,8 +355,8 @@ const AssetTransferHistory = () => {
                     position: 'sticky',
                     left: 0,
                     boxShadow: '1px 0 var(--TableCell-borderColor)',
-                    bgcolor: 'background.surface',
-                  },
+                    bgcolor: 'background.surface'
+                  }
                 }}
               >
                 <thead>
@@ -447,11 +428,7 @@ const AssetTransferHistory = () => {
                                 size="sm"
                                 onClick={() => HandleAssetList(val, index)}
                               >
-                                {openRowIndex === index ? (
-                                  <KeyboardArrowUpIcon />
-                                ) : (
-                                  <KeyboardArrowDownIcon />
-                                )}
+                                {openRowIndex === index ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                               </IconButton>
                             </div>
                           </td>
@@ -474,7 +451,7 @@ const AssetTransferHistory = () => {
                                   pt: 1,
                                   pb: 2,
                                   width: '84vw',
-                                  boxShadow: 'inset 0 3px 6px 0 rgba(0 0 0 / 0.08)',
+                                  boxShadow: 'inset 0 3px 6px 0 rgba(0 0 0 / 0.08)'
                                 }}
                               >
                                 <TextComponent
@@ -485,27 +462,18 @@ const AssetTransferHistory = () => {
                                   <thead>
                                     <tr>
                                       <th style={{ width: '40px', backgroundColor: 'white' }}>#</th>
-                                      <th style={{ width: '100px', backgroundColor: 'white' }}>
-                                        Asset No.
-                                      </th>
-                                      <th style={{ width: '600px', backgroundColor: 'white' }}>
-                                        Item Name
-                                      </th>
+                                      <th style={{ width: '100px', backgroundColor: 'white' }}>Asset No.</th>
+                                      <th style={{ width: '600px', backgroundColor: 'white' }}>Item Name</th>
                                     </tr>
                                   </thead>
                                   <tbody>
                                     {detailData?.map((detail, detailIndex) => (
                                       <tr key={detailIndex}>
+                                        <td style={{ backgroundColor: 'white' }}>{detailIndex + 1}</td>
                                         <td style={{ backgroundColor: 'white' }}>
-                                          {detailIndex + 1}
+                                          {detail.item_asset_no}/{String(detail.item_asset_no_only).padStart(6, '0')}
                                         </td>
-                                        <td style={{ backgroundColor: 'white' }}>
-                                          {detail.item_asset_no}/
-                                          {String(detail.item_asset_no_only).padStart(6, '0')}
-                                        </td>
-                                        <td style={{ backgroundColor: 'white' }}>
-                                          {detail.item_name}
-                                        </td>
+                                        <td style={{ backgroundColor: 'white' }}>{detail.item_name}</td>
                                       </tr>
                                     ))}
                                   </tbody>

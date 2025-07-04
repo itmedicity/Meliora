@@ -15,7 +15,7 @@ const CommonNameStatus = ({ setCrfName, crfName }) => {
     gmo_name,
     md_name,
     ed_name,
-    managing_director_name,
+    managing_director_name
   } = crfName
   const updateOnchangeState = useCallback(
     e => {

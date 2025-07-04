@@ -1,15 +1,7 @@
 import React, { memo, Fragment } from 'react'
 import { editicon } from 'src/color/Color'
 import DeleteIcon from '@mui/icons-material/Delete'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  IconButton,
-} from '@mui/material'
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton } from '@mui/material'
 
 const DietMenuSettCmp = ({ dataPost, setdataPost }) => {
   //array data delete
@@ -45,10 +37,7 @@ const DietMenuSettCmp = ({ dataPost, setdataPost }) => {
                     <TableCell align="center">{val.groupname}</TableCell>
                     <TableCell align="center">{val.itemname}</TableCell>
                     <TableCell align="center">
-                      <IconButton
-                        sx={{ color: editicon, paddingY: 0.5 }}
-                        onClick={() => rowSelect(val.id)}
-                      >
+                      <IconButton sx={{ color: editicon, paddingY: 0.5 }} onClick={() => rowSelect(val.id)}>
                         <DeleteIcon size={25} />
                       </IconButton>
                     </TableCell>

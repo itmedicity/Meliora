@@ -33,12 +33,10 @@ const ModelMessage = ({ open, handleClose }) => {
         <DialogContent
           sx={{
             minWidth: 400,
-            maxWidth: 400,
+            maxWidth: 400
           }}
         >
-          <DialogContentText id="alert-dialog-slide-descriptiona">
-            Are you sure to logout
-          </DialogContentText>
+          <DialogContentText id="alert-dialog-slide-descriptiona">Are you sure to logout</DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={logoutmodel} color="secondary">

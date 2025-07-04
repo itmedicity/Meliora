@@ -3,7 +3,7 @@ import { ActionTyps } from '../constants/action.type'
 const { APP_SIDEBAR_SHOW } = ActionTyps
 
 const initialState = {
-  sidebarShow: true,
+  sidebarShow: true
 }
 
 export const changeState = (state = initialState, { type, ...rest }) => {

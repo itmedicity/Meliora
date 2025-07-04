@@ -20,11 +20,11 @@ const StoreReceiveItemModal = ({ open, handleClose, poItems, count, setCount }) 
     '&:hover': {
       bgcolor: 'white',
       color: '#003B73',
-      transform: 'scale(1.1)',
+      transform: 'scale(1.1)'
     },
     '&:active': {
-      transform: 'scale(0.95)',
-    },
+      transform: 'scale(0.95)'
+    }
   }
 
   const SaveDetails = useCallback(() => {
@@ -53,7 +53,7 @@ const StoreReceiveItemModal = ({ open, handleClose, poItems, count, setCount }) 
         store_recieve: store_recieve,
         store_receive_user: id,
         store_receive_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
-        req_slno: req_slno,
+        req_slno: req_slno
       }
     })
 
@@ -91,7 +91,7 @@ const StoreReceiveItemModal = ({ open, handleClose, poItems, count, setCount }) 
             sx={{
               minWidth: '50vw',
               minHeight: 300,
-              overflow: 'auto',
+              overflow: 'auto'
             }}
           >
             <ModalClose
@@ -105,13 +105,11 @@ const StoreReceiveItemModal = ({ open, handleClose, poItems, count, setCount }) 
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 35,
-                width: 35,
+                width: 35
               }}
             />
             <Box sx={{ mx: 0.5 }}>
-              <Typography
-                sx={{ fontWeight: 550, fontSize: 18, color: '#003B73', fontFamily: 'system-ui' }}
-              >
+              <Typography sx={{ fontWeight: 550, fontSize: 18, color: '#003B73', fontFamily: 'system-ui' }}>
                 Item Details
               </Typography>
             </Box>
@@ -129,7 +127,7 @@ const StoreReceiveItemModal = ({ open, handleClose, poItems, count, setCount }) 
                       textAlign: 'center',
                       fontWeight: 550,
                       fontSize: 13,
-                      color: 'white',
+                      color: 'white'
                     }}
                   >
                     Sl.No
@@ -140,7 +138,7 @@ const StoreReceiveItemModal = ({ open, handleClose, poItems, count, setCount }) 
                       textAlign: 'center',
                       fontWeight: 550,
                       fontSize: 13,
-                      color: 'white',
+                      color: 'white'
                     }}
                   >
                     Item Code
@@ -151,7 +149,7 @@ const StoreReceiveItemModal = ({ open, handleClose, poItems, count, setCount }) 
                       textAlign: 'left',
                       fontWeight: 550,
                       fontSize: 13,
-                      color: 'white',
+                      color: 'white'
                     }}
                   >
                     Item
@@ -162,7 +160,7 @@ const StoreReceiveItemModal = ({ open, handleClose, poItems, count, setCount }) 
                       textAlign: 'center',
                       fontWeight: 550,
                       fontSize: 13,
-                      color: 'white',
+                      color: 'white'
                     }}
                   >
                     Qnty
@@ -173,7 +171,7 @@ const StoreReceiveItemModal = ({ open, handleClose, poItems, count, setCount }) 
                       textAlign: 'center',
                       fontWeight: 550,
                       fontSize: 13,
-                      color: 'white',
+                      color: 'white'
                     }}
                   >
                     Received Qnty
@@ -184,7 +182,7 @@ const StoreReceiveItemModal = ({ open, handleClose, poItems, count, setCount }) 
                       textAlign: 'center',
                       fontWeight: 550,
                       fontSize: 13,
-                      color: 'white',
+                      color: 'white'
                     }}
                   >
                     GRN Qnty
@@ -219,7 +217,7 @@ const StoreReceiveItemModal = ({ open, handleClose, poItems, count, setCount }) 
                             fontSize: 12,
                             my: 1,
                             fontWeight: 550,
-                            color: val.received_qnty === val.item_qty ? '#1b5e20' : '#e65100',
+                            color: val.received_qnty === val.item_qty ? '#1b5e20' : '#e65100'
                           }}
                         >
                           {val.received_qnty}

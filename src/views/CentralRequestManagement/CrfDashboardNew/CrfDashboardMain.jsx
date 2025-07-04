@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
   getCRFPurchaseDashboard,
   getCRMDashboard,
-  getPOStoreDashboard,
+  getPOStoreDashboard
 } from 'src/redux/actions/CrmDashBoardList.action'
 import DashboardSkeleton from './Components/DashboardSkeleton'
 import { getDefaultCompany } from 'src/api/CommonApiCRF'
@@ -33,7 +33,7 @@ const CrfDashboardMain = () => {
 
   useEffect(() => {
     const postdata = {
-      empsecid: empsecid,
+      empsecid: empsecid
     }
     if (empsecid > 0) {
       const getDash = async () => {
@@ -73,11 +73,11 @@ const CrfDashboardMain = () => {
   const {
     data: companyData,
     isLoading: isCompLoading,
-    error: compError,
+    error: compError
   } = useQuery({
     queryKey: 'getdefaultCompany',
     queryFn: () => getDefaultCompany(),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const company = useMemo(() => companyData, [companyData])
 
@@ -90,21 +90,21 @@ const CrfDashboardMain = () => {
     availableTabs?.push({
       key: 'crf',
       label: 'CRF Status',
-      component: <CRFStatusView crfData={crfData} companyData={company} />,
+      component: <CRFStatusView crfData={crfData} companyData={company} />
     })
   }
   if (Dashright?.includes(2)) {
     availableTabs?.push({
       key: 'purchase',
       label: 'CRF - Purchase Status',
-      component: <CRFPurchaseStatus purchaseData={purchaseData} companyData={company} />,
+      component: <CRFPurchaseStatus purchaseData={purchaseData} companyData={company} />
     })
   }
   if (Dashright?.includes(3)) {
     availableTabs?.push({
       key: 'store',
       label: 'CRF - Store Status',
-      component: <CRFStoreStatus storeData={storeData} companyData={company} />,
+      component: <CRFStoreStatus storeData={storeData} companyData={company} />
     })
   }
 
@@ -114,11 +114,7 @@ const CrfDashboardMain = () => {
     <Paper variant="outlined" sx={{ bgcolor: '#F8F8F8' }}>
       <CssVarsProvider>
         {availableTabs?.length > 0 && (
-          <Tabs
-            aria-label="CRF Dashboard Tabs"
-            defaultValue={firstTabKey}
-            sx={{ bgcolor: '#F0F4F8' }}
-          >
+          <Tabs aria-label="CRF Dashboard Tabs" defaultValue={firstTabKey} sx={{ bgcolor: '#F0F4F8' }}>
             <TabList
               disableUnderline
               sx={{
@@ -129,8 +125,8 @@ const CrfDashboardMain = () => {
                 [`& .${tabClasses.root}[aria-selected="true"]`]: {
                   boxShadow: 'sm',
                   backgroundColor: '#0277bd',
-                  color: 'white',
-                },
+                  color: 'white'
+                }
               }}
             >
               {availableTabs?.map(tab => (
@@ -149,8 +145,8 @@ const CrfDashboardMain = () => {
                     width: 250,
                     '&:hover': {
                       transform: 'scale(1.01)',
-                      bgcolor: 'white',
-                    },
+                      bgcolor: 'white'
+                    }
                   }}
                 >
                   {tab.label}

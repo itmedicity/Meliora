@@ -3,7 +3,7 @@ const { FETCH_NDRF_PDF_LIST } = ActionTyps
 //intial state
 const NdrfPdfList = {
   NdrfPdfListdata: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Deptsection action type check then payload set to the state and loading status set as true */
 export const setNdrfPdfList = (state = NdrfPdfList, { type, payload }) => {

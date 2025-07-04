@@ -47,7 +47,7 @@ const CmHoldReasonList = ({ holdReason, setHoldReason }) => {
       <Autocomplete
         sx={{
           '--Input-minHeight': '38px',
-          width: '100%',
+          width: '100%'
         }}
         value={value}
         placeholder="Select Hold Reason"

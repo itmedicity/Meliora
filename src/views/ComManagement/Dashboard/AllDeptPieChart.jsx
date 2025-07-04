@@ -12,7 +12,7 @@ const AllDeptPieChart = () => {
   const searchmonthly = useMemo(() => {
     return {
       from: format(startOfMonth(new Date(searchMonthAndYear)), 'yyyy-MM-dd 00:00:00'),
-      to: format(endOfMonth(new Date(searchMonthAndYear)), 'yyyy-MM-dd 23:59:59'),
+      to: format(endOfMonth(new Date(searchMonthAndYear)), 'yyyy-MM-dd 23:59:59')
     }
   }, [searchMonthAndYear])
 
@@ -23,7 +23,7 @@ const AllDeptPieChart = () => {
 
   const { data: AllDeptPieChart } = useQuery({
     queryKey: ['getAllDeptPiechart', searchmonthly],
-    queryFn: () => getAllDeptPieTicketchart(searchmonthly),
+    queryFn: () => getAllDeptPieTicketchart(searchmonthly)
   })
 
   const [totalTickets, setTotalTickets] = useState(0)
@@ -35,7 +35,7 @@ const AllDeptPieChart = () => {
       { id: 0, label: 'Closed Tickets', value: chartData.closed_ticket, color: '#478C5C' },
       { id: 1, label: 'Hold Tickets', value: chartData.hold_ticket, color: '#636B74' },
       { id: 2, label: 'Open Tickets', value: chartData.open_ticket, color: '#9A5B13' },
-      { id: 3, label: 'Verified Tickets', value: chartData.verified_ticket, color: '#0D75B1' },
+      { id: 3, label: 'Verified Tickets', value: chartData.verified_ticket, color: '#0D75B1' }
     ]
   }, [AllDeptPieChart])
 
@@ -43,14 +43,14 @@ const AllDeptPieChart = () => {
     fill: theme.palette.text.primary,
     textAnchor: 'middle',
     dominantBaseline: 'central',
-    fontSize: 15,
+    fontSize: 15
   }))
 
   const StyledCenterText = styled('text')(({ theme }) => ({
     fill: theme.palette.text.primary,
     textAnchor: 'middle',
     dominantBaseline: 'central',
-    fontSize: 18,
+    fontSize: 18
   }))
 
   function PieCenterLabel({ children }) {
@@ -78,14 +78,11 @@ const AllDeptPieChart = () => {
         borderColor: 'lightgrey',
         p: 1,
         bgcolor: 'white',
-        borderRadius: 5,
+        borderRadius: 5
       }}
     >
       <Box sx={{ flex: 1, display: 'flex' }}>
-        <TextComponent
-          text={'Ticket List Chart'}
-          sx={{ flex: 1, fontWeight: 600, fontSize: 16, color: '#5D6C89' }}
-        />
+        <TextComponent text={'Ticket List Chart'} sx={{ flex: 1, fontWeight: 600, fontSize: 16, color: '#5D6C89' }} />
         <Box sx={{ width: 150 }}>
           <Input
             variant="soft"
@@ -113,11 +110,11 @@ const AllDeptPieChart = () => {
                 cornerRadius: 0,
                 startAngle: -47,
                 endAngle: 314,
-                cx: 95,
-              },
+                cx: 95
+              }
             ]}
             slotProps={{
-              legend: { hidden: true },
+              legend: { hidden: true }
             }}
           >
             <PieCenterLabel>Registered Tickets</PieCenterLabel>

@@ -1,10 +1,7 @@
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Autocomplete from '@mui/joy/Autocomplete'
-import {
-  getNonGoalProjectList,
-  getProjectListWithgoal,
-} from 'src/redux/actions/TmProjectsList.action'
+import { getNonGoalProjectList, getProjectListWithgoal } from 'src/redux/actions/TmProjectsList.action'
 
 const TmAllGoalsList = ({ goalz, setgoalz, setdueDateGoal }) => {
   const GoalsList = useSelector(state => state.getGoalsList?.GoalsList)
@@ -64,7 +61,7 @@ const TmAllGoalsList = ({ goalz, setgoalz, setdueDateGoal }) => {
         borderBottom: '2px solid',
         borderColor: 'neutral.outlinedBorder',
         '&:hover': {
-          borderColor: 'neutral.outlinedHoverBorder',
+          borderColor: 'neutral.outlinedHoverBorder'
         },
         '&::before': {
           border: '1px solid var(--Input-focusedHighlight)',
@@ -74,11 +71,11 @@ const TmAllGoalsList = ({ goalz, setgoalz, setdueDateGoal }) => {
           bottom: '-2px',
           top: 'unset',
           transition: 'transform .15s cubic-bezier(0.1,0.9,0.2,1)',
-          borderRadius: 0,
+          borderRadius: 0
         },
         '&:focus-within::before': {
-          transform: 'scaleX(1)',
-        },
+          transform: 'scaleX(1)'
+        }
       }}
       value={goalz === 0 ? goalx : value}
       placeholder="Select Goal"
@@ -106,7 +103,7 @@ const TmAllGoalsList = ({ goalz, setgoalz, setdueDateGoal }) => {
               color: isPastDue(option.tm_goal_duedate) ? 'darkred' : 'inherit',
               padding: '4px 8px',
               backgroundColor: 'white',
-              cursor: 'pointer',
+              cursor: 'pointer'
             }}
           >
             {option.tm_goal_name}

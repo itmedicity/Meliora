@@ -38,7 +38,7 @@ const ItBillTypeSelect = ({ billType, setBillType }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '29px',
+            '--Input-minHeight': '29px'
           }}
           value={billType === 0 ? billTypeX : value}
           placeholder="select bill type"
@@ -55,9 +55,7 @@ const ItBillTypeSelect = ({ billType, setBillType }) => {
           loading={true}
           loadingText="Loading..."
           freeSolo
-          isOptionEqualToValue={(option, value) =>
-            option.it_bill_type_name === value.it_bill_type_name
-          }
+          isOptionEqualToValue={(option, value) => option.it_bill_type_name === value.it_bill_type_name}
           getOptionLabel={option => option.it_bill_type_name || ''}
           options={billTypeX}
         />

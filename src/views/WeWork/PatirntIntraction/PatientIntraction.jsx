@@ -28,7 +28,7 @@ const PatientIntraction = ({ ipno, setclosebtn }) => {
   const [times, setTime] = useState('')
   const [intraction, setintraction] = useState({
     inter_remark_slno: '',
-    submit_employee: '',
+    submit_employee: ''
   })
   const { inter_remark_slno } = intraction
 
@@ -54,7 +54,7 @@ const PatientIntraction = ({ ipno, setclosebtn }) => {
     const data = params.api.getSelectedRows()
     const { inter_remark_slno, particular, status, remarks, remark_date, remark_time } = data[0]
     const frmdata = {
-      inter_remark_slno: inter_remark_slno,
+      inter_remark_slno: inter_remark_slno
     }
     setintraction(frmdata)
     setparti(particular)
@@ -101,7 +101,7 @@ const PatientIntraction = ({ ipno, setclosebtn }) => {
       particular: parti,
       status: status,
       remarks: Remarks,
-      submit_employee: emid,
+      submit_employee: emid
     }
   }, [dates, times, parti, status, Remarks, emid, id])
 
@@ -113,7 +113,7 @@ const PatientIntraction = ({ ipno, setclosebtn }) => {
       status: status,
       remarks: Remarks,
       submit_employee: emid,
-      inter_remark_slno: inter_remark_slno,
+      inter_remark_slno: inter_remark_slno
     }
   }, [dates, times, parti, status, Remarks, emid, inter_remark_slno])
 
@@ -163,33 +163,19 @@ const PatientIntraction = ({ ipno, setclosebtn }) => {
     <Paper square elevation={0} sx={{ dispaly: 'flex', p: 2 }}>
       <Box sx={{ display: 'flex', backgroundColor: '#f0f3f5' }}>
         <Box sx={{ pb: 1, flex: 1 }}>
-          <Typography sx={{ fontFamily: 'Roboto', fontSize: 20, p: 1.5 }}>
-            Patient Intraction
-          </Typography>
+          <Typography sx={{ fontFamily: 'Roboto', fontSize: 20, p: 1.5 }}>Patient Intraction</Typography>
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'row', pl: 1 }}>
           <CustomeToolTip title="Save" placement="left">
             <Box sx={{ p: 1 }}>
-              <CusIconButton
-                size="sm"
-                variant="outlined"
-                color="primary"
-                clickable="true"
-                onClick={submited}
-              >
+              <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={submited}>
                 <LibraryAddIcon fontSize="small" />
               </CusIconButton>
             </Box>
           </CustomeToolTip>
           <CustomeToolTip title="close" placement="left">
             <Box sx={{ p: 1 }}>
-              <CusIconButton
-                size="sm"
-                variant="outlined"
-                color="primary"
-                clickable="true"
-                onClick={closeIcon}
-              >
+              <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={closeIcon}>
                 <CloseIcon fontSize="small" />
               </CusIconButton>
             </Box>
@@ -214,13 +200,7 @@ const PatientIntraction = ({ ipno, setclosebtn }) => {
             </CssVarsProvider>
           </Box>
           <Box sx={{ width: { xl: '30%', lg: '50%', md: '60%', sm: '60%' } }}>
-            <TextFieldCustom
-              size="sm"
-              type="datetime-local"
-              name="times"
-              value={times}
-              onchange={getTime}
-            />
+            <TextFieldCustom size="sm" type="datetime-local" name="times" value={times} onchange={getTime} />
           </Box>
         </Box>
       </Box>

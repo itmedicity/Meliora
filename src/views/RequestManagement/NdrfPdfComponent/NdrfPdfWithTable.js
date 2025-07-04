@@ -51,11 +51,10 @@ export const ndrfpdfdownloadwithtable = (
     ndrfED,
     ndrf_ed_approve_remarks,
     ndrf_ed_approve_date,
-    ndrf_ed_user,
+    ndrf_ed_user
   } = data[0]
   const reqdate = reqcreate !== null ? format(new Date(reqcreate), 'dd-MM-yyyy') : 'Not Updated'
-  const expdate =
-    expected_date !== null ? format(new Date(expected_date), 'dd-MM-yyyy') : 'Not Updated'
+  const expdate = expected_date !== null ? format(new Date(expected_date), 'dd-MM-yyyy') : 'Not Updated'
   // const inchargeApprovdate = incharge_apprv_date !== null ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy') : "Not Updated"
   // const hodApprovdate = hod_approve_date !== null ? format(new Date(hod_approve_date), 'dd-MM-yyyy') : "Not Updated"
   // const dmsApprovdate = dms_approve_date !== null ? format(new Date(dms_approve_date), 'dd-MM-yyyy') : "Not Updated"
@@ -71,13 +70,9 @@ export const ndrfpdfdownloadwithtable = (
   // const ndrfSmodate = ndrf_som_aprrov_date !== null ? format(new Date(ndrf_som_aprrov_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated"
   // const ndrfCoodate = ndrf_cao_approv_date !== null ? format(new Date(ndrf_cao_approv_date), 'dd-MM-yyyy hh:mm:ss') : "Not Updated"
   const ndrfEddate =
-    ndrf_ed_approve_date !== null
-      ? format(new Date(ndrf_ed_approve_date), 'dd-MM-yyyy hh:mm:ss')
-      : 'Not Updated'
+    ndrf_ed_approve_date !== null ? format(new Date(ndrf_ed_approve_date), 'dd-MM-yyyy hh:mm:ss') : 'Not Updated'
   const ndrfMddate =
-    ndrf_md_approve_date !== null
-      ? format(new Date(ndrf_md_approve_date), 'dd-MM-yyyy hh:mm:ss')
-      : 'Not Updated'
+    ndrf_md_approve_date !== null ? format(new Date(ndrf_md_approve_date), 'dd-MM-yyyy hh:mm:ss') : 'Not Updated'
 
   var doc = {
     background: function (currentPage, pageSize) {
@@ -86,9 +81,9 @@ export const ndrfpdfdownloadwithtable = (
           widths: [pageSize.width - 70],
           heights: [pageSize.height - 70],
           bold: true,
-          body: [['']],
+          body: [['']]
         },
-        margin: 30,
+        margin: 30
       }
     },
     pageMargins: [40, 130, 130, 40],
@@ -106,8 +101,8 @@ export const ndrfpdfdownloadwithtable = (
                   image: 'snow',
                   fit: [150, 150],
 
-                  margin: [25, 15, 0, 0],
-                },
+                  margin: [25, 15, 0, 0]
+                }
                 // {
                 //     image: 'pic', fit: [150, 150],
 
@@ -121,15 +116,15 @@ export const ndrfpdfdownloadwithtable = (
                   text: 'A Unit of Quilon Medical Trust',
                   fontSize: 11,
                   italics: true,
-                  font: 'Roboto',
-                },
+                  font: 'Roboto'
+                }
                 // {}
-              ],
-            ],
+              ]
+            ]
           },
-          layout: 'noBorders',
-        },
-      ],
+          layout: 'noBorders'
+        }
+      ]
     },
     footer: function (currentPage, pageCount) {
       return {
@@ -139,12 +134,12 @@ export const ndrfpdfdownloadwithtable = (
             fontSize: 9,
             text: [
               {
-                text: currentPage.toString() + ' of ' + pageCount,
-              },
+                text: currentPage.toString() + ' of ' + pageCount
+              }
             ],
-            alignment: 'center',
-          },
-        ],
+            alignment: 'center'
+          }
+        ]
       }
     },
     content: [
@@ -154,7 +149,7 @@ export const ndrfpdfdownloadwithtable = (
         text: 'NEW DEMAND REQUEST FORM(NDRF)',
         style: 'header',
         bold: true,
-        alignment: 'center',
+        alignment: 'center'
       },
       {
         style: 'tableExample',
@@ -165,22 +160,22 @@ export const ndrfpdfdownloadwithtable = (
               { text: 'Department', fontSize: 8, font: 'Roboto' },
               { text: dept_name, fontSize: 8, font: 'Roboto' },
               { text: 'Category', fontSize: 8, font: 'Roboto' },
-              { text: category, fontSize: 8, font: 'Roboto' },
+              { text: category, fontSize: 8, font: 'Roboto' }
             ],
             [
               { text: 'Request No', fontSize: 8, font: 'Roboto' },
               { text: req_slno, fontSize: 8, font: 'Roboto' },
               { text: 'Date', fontSize: 8, font: 'Roboto' },
-              { text: reqdate, fontSize: 8, font: 'Roboto' },
+              { text: reqdate, fontSize: 8, font: 'Roboto' }
             ],
             [
               { text: 'NDRF No', fontSize: 8, font: 'Roboto' },
               { text: ndrf_mast_slno, fontSize: 8, font: 'Roboto' },
               { text: 'Date', fontSize: 8, font: 'Roboto' },
-              { text: nrdfCreate, fontSize: 8, font: 'Roboto' },
-            ],
-          ],
-        },
+              { text: nrdfCreate, fontSize: 8, font: 'Roboto' }
+            ]
+          ]
+        }
       },
       {
         margin: [0, 3, 0, 0],
@@ -194,14 +189,14 @@ export const ndrfpdfdownloadwithtable = (
                 text: 'Materilas Requested',
                 alignment: 'center',
                 fillColor: '#eeeeee',
-                fontSize: 10,
+                fontSize: 10
               },
               '',
               '',
               '',
               '',
               '',
-              '',
+              ''
             ],
 
             [
@@ -211,8 +206,8 @@ export const ndrfpdfdownloadwithtable = (
               { text: 'Unit', fontSize: 8, bold: true },
               { text: 'Quantity', fontSize: 8, bold: true },
               { text: 'Specification', fontSize: 8, bold: true },
-              { text: 'Approx.\ncost', fontSize: 8, bold: true },
-            ],
+              { text: 'Approx.\ncost', fontSize: 8, bold: true }
+            ]
           ].concat(
             dataPost &&
               dataPost.map(val => [
@@ -222,10 +217,10 @@ export const ndrfpdfdownloadwithtable = (
                 { text: val.item_unit, fontSize: 8 },
                 { text: val.item_qnty, fontSize: 8 },
                 { text: val.item_specification, fontSize: 8 },
-                { text: val.aprox_cost, fontSize: 8 },
+                { text: val.aprox_cost, fontSize: 8 }
               ])
-          ),
-        },
+          )
+        }
       },
       {
         margin: [0, 3, 0, 0],
@@ -239,14 +234,14 @@ export const ndrfpdfdownloadwithtable = (
                 text: 'NDRF Generated',
                 alignment: 'center',
                 fillColor: '#eeeeee',
-                fontSize: 10,
+                fontSize: 10
               },
               '',
               '',
               '',
               '',
               '',
-              '',
+              ''
             ],
 
             [
@@ -256,8 +251,8 @@ export const ndrfpdfdownloadwithtable = (
               { text: 'Unit', fontSize: 8, bold: true },
               { text: 'Quantity', fontSize: 8, bold: true },
               { text: 'Specification', fontSize: 8, bold: true },
-              { text: 'Approx.\ncost', fontSize: 8, bold: true },
-            ],
+              { text: 'Approx.\ncost', fontSize: 8, bold: true }
+            ]
           ].concat(
             datacollectdata &&
               datacollectdata.map(val => [
@@ -267,10 +262,10 @@ export const ndrfpdfdownloadwithtable = (
                 { text: val.item_unit, fontSize: 8 },
                 { text: val.item_qnty, fontSize: 8 },
                 { text: val.item_specification, fontSize: 8 },
-                { text: val.aprox_cost, fontSize: 8 },
+                { text: val.aprox_cost, fontSize: 8 }
               ])
-          ),
-        },
+          )
+        }
       },
       {
         margin: [0, 3, 0, 0],
@@ -283,64 +278,64 @@ export const ndrfpdfdownloadwithtable = (
                 text: 'Actual Requirement:\n',
                 fontSize: 8,
                 bold: true,
-                font: 'Roboto',
-              },
+                font: 'Roboto'
+              }
             ],
             [
               {
                 text: actual_requirement,
                 textTransform: 'capitalize',
                 fontSize: 8,
-                font: 'Roboto',
-              },
+                font: 'Roboto'
+              }
             ],
             [
               {
                 text: 'Justification for the need:\n',
                 fontSize: 8,
                 bold: true,
-                font: 'Roboto',
-              },
+                font: 'Roboto'
+              }
             ],
             [
               {
                 text: needed,
                 textTransform: 'capitalize',
                 fontSize: 8,
-                font: 'Roboto',
-              },
+                font: 'Roboto'
+              }
             ],
             [
               {
                 text: 'Location:\n',
                 fontSize: 8,
                 bold: true,
-                font: 'Roboto',
-              },
+                font: 'Roboto'
+              }
             ],
             [
               {
                 text: location !== null ? location.toLowerCase() : 'Not Given',
                 textTransform: 'capitalize',
                 fontSize: 8,
-                font: 'Roboto',
-              },
+                font: 'Roboto'
+              }
             ],
             [
               {
                 text: 'Remarks:\n',
                 fontSize: 8,
                 bold: true,
-                font: 'Roboto',
-              },
+                font: 'Roboto'
+              }
             ],
             [
               {
                 text: remarks !== null || remarks === '' ? remarks.toLowerCase() : 'Not Given',
                 textTransform: 'capitalize',
                 fontSize: 8,
-                font: 'Roboto',
-              },
+                font: 'Roboto'
+              }
             ],
             [
               {
@@ -349,34 +344,34 @@ export const ndrfpdfdownloadwithtable = (
                   {
                     text: total_approx_cost !== null ? total_approx_cost : 'Not Given',
                     fontSize: 8,
-                    font: 'Roboto',
-                  },
-                ],
-              },
+                    font: 'Roboto'
+                  }
+                ]
+              }
             ],
             [
               {
                 text: [
                   { text: 'Expected Date: ', bold: true, fontSize: 8, font: 'Roboto' },
-                  { text: expdate, fontSize: 8, font: 'Roboto' },
-                ],
-              },
+                  { text: expdate, fontSize: 8, font: 'Roboto' }
+                ]
+              }
             ],
             [
               {
                 text: [
                   { text: 'Requested By: ', bold: true, fontSize: 8, font: 'Roboto' },
-                  { text: req_user, fontSize: 8, font: 'Roboto' },
-                ],
-              },
-            ],
-          ],
+                  { text: req_user, fontSize: 8, font: 'Roboto' }
+                ]
+              }
+            ]
+          ]
         },
         layout: {
           hLineWidth: function (i, node) {
             return i === 0 || i === node.table.body.length ? 1 : 0
-          },
-        },
+          }
+        }
       },
       // {
       //     margin: [0, 3, 0, 0,],
@@ -1245,13 +1240,13 @@ export const ndrfpdfdownloadwithtable = (
                   {
                     text: ndrf_md_approve !== null ? ndrfMD : 'Not Updated',
                     fontSize: 8,
-                    font: 'Roboto',
-                  },
-                ],
+                    font: 'Roboto'
+                  }
+                ]
               },
               '',
               '',
-              '',
+              ''
             ],
             [
               {
@@ -1259,19 +1254,16 @@ export const ndrfpdfdownloadwithtable = (
                 text: [
                   { text: 'Remarks by MD\n', bold: true, fontSize: 8, font: 'Roboto' },
                   {
-                    text:
-                      ndrf_md_approve_remarks !== null
-                        ? ndrf_md_approve_remarks.toLowerCase()
-                        : 'Not Updated',
+                    text: ndrf_md_approve_remarks !== null ? ndrf_md_approve_remarks.toLowerCase() : 'Not Updated',
                     textTransform: 'capitalize',
                     fontSize: 8,
-                    font: 'Roboto',
-                  },
-                ],
+                    font: 'Roboto'
+                  }
+                ]
               },
               '',
               '',
-              '',
+              ''
             ],
             [
               { text: 'User', bold: true, fontSize: 8, font: 'Roboto' },
@@ -1287,22 +1279,22 @@ export const ndrfpdfdownloadwithtable = (
                   body: [
                     [
                       { text: 'Signature', fontSize: 8, font: 'Roboto' },
-                      { image: 'edsign', alignment: 'center', fit: [50, 75] },
-                    ],
-                  ],
+                      { image: 'edsign', alignment: 'center', fit: [50, 75] }
+                    ]
+                  ]
                 },
-                layout: 'noBorders',
+                layout: 'noBorders'
               },
-              '',
+              ''
             ],
             [
               { text: 'Date', bold: true, fontSize: 8, font: 'Roboto' },
               { text: ndrfEddate, fontSize: 8, font: 'Roboto' },
               '',
-              '',
-            ],
-          ],
-        },
+              ''
+            ]
+          ]
+        }
       },
       {
         margin: [0, 5, 0, 0],
@@ -1318,13 +1310,13 @@ export const ndrfpdfdownloadwithtable = (
                   {
                     text: ndrf_ed_approve !== null ? ndrfED : 'Not Updated',
                     fontSize: 8,
-                    font: 'Roboto',
-                  },
-                ],
+                    font: 'Roboto'
+                  }
+                ]
               },
               '',
               '',
-              '',
+              ''
             ],
             [
               {
@@ -1332,19 +1324,16 @@ export const ndrfpdfdownloadwithtable = (
                 text: [
                   { text: 'Remarks by ED/MD\n', bold: true, fontSize: 8, font: 'Roboto' },
                   {
-                    text:
-                      ndrf_ed_approve_remarks !== null
-                        ? ndrf_ed_approve_remarks.toLowerCase()
-                        : 'Not Updated',
+                    text: ndrf_ed_approve_remarks !== null ? ndrf_ed_approve_remarks.toLowerCase() : 'Not Updated',
                     textTransform: 'capitalize',
                     fontSize: 8,
-                    font: 'Roboto',
-                  },
-                ],
+                    font: 'Roboto'
+                  }
+                ]
               },
               '',
               '',
-              '',
+              ''
             ],
             [
               { text: 'User', bold: true, fontSize: 8, font: 'Roboto' },
@@ -1360,23 +1349,23 @@ export const ndrfpdfdownloadwithtable = (
                   body: [
                     [
                       { text: 'Signature', fontSize: 8, font: 'Roboto' },
-                      { image: 'edsign', alignment: 'center', fit: [50, 75] },
-                    ],
-                  ],
+                      { image: 'edsign', alignment: 'center', fit: [50, 75] }
+                    ]
+                  ]
                 },
-                layout: 'noBorders',
+                layout: 'noBorders'
               },
-              '',
+              ''
             ],
             [
               { text: 'Date', bold: true, fontSize: 8, font: 'Roboto' },
               { text: ndrfMddate, fontSize: 8, font: 'Roboto' },
               '',
-              '',
-            ],
-          ],
-        },
-      },
+              ''
+            ]
+          ]
+        }
+      }
     ],
 
     images: {
@@ -1388,8 +1377,8 @@ export const ndrfpdfdownloadwithtable = (
       omsign: omsign,
       smosign: smosign,
       caosign: caosign,
-      edsign: edsign,
-    },
+      edsign: edsign
+    }
   }
 
   pdfMake.createPdf(doc).open()

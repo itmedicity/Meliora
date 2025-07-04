@@ -26,10 +26,7 @@ const ProcedureEquipmentTable = ({ ProcedureArray, setProcedureArray, equipRepor
         >
           <thead style={{ alignItems: 'center' }}>
             <tr style={{ height: 0.5 }}>
-              <th
-                size="sm"
-                style={{ width: 50, fontWeight: 650, fontSize: 14, textAlign: 'center' }}
-              >
+              <th size="sm" style={{ width: 50, fontWeight: 650, fontSize: 14, textAlign: 'center' }}>
                 &nbsp; Sl.No
               </th>
               <th size="sm" style={{ width: 200, fontWeight: 650, fontSize: 14 }}>
@@ -38,9 +35,7 @@ const ProcedureEquipmentTable = ({ ProcedureArray, setProcedureArray, equipRepor
               <th size="sm" style={{ width: 200, fontWeight: 650, fontSize: 14 }}>
                 &nbsp;Procedure Name
               </th>
-              {equipReport === 0 ? (
-                <th size="sm" style={{ width: 60, fontWeight: 650, fontSize: 14 }}></th>
-              ) : null}
+              {equipReport === 0 ? <th size="sm" style={{ width: 60, fontWeight: 650, fontSize: 14 }}></th> : null}
             </tr>
           </thead>
           <tbody size="small">
@@ -64,8 +59,8 @@ const ProcedureEquipmentTable = ({ ProcedureArray, setProcedureArray, equipRepor
                             sx={{
                               color: '#B95C50',
                               ':hover': {
-                                color: '#DC4731',
-                              },
+                                color: '#DC4731'
+                              }
                             }}
                             onClick={e => DeleteProcedures(val)}
                           />
@@ -82,9 +77,7 @@ const ProcedureEquipmentTable = ({ ProcedureArray, setProcedureArray, equipRepor
               <th style={{ backgroundColor: 'white', height: 20 }}></th>
               <th style={{ backgroundColor: 'white', height: 20 }}></th>
               <th style={{ backgroundColor: 'white', height: 20 }}></th>
-              {equipReport === 0 ? (
-                <th style={{ backgroundColor: 'white', height: 20 }}></th>
-              ) : null}
+              {equipReport === 0 ? <th style={{ backgroundColor: 'white', height: 20 }}></th> : null}
             </tr>
           </tfoot>
         </Table>

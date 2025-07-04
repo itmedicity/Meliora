@@ -30,5 +30,5 @@ export const taskColor = {
   darkOrange: '#fe947a',
   lightMaganta: '#ffe2e6',
   darkMaganta: '#fb7c98',
-  hoverFontBlue: '#5d60ef',
+  hoverFontBlue: '#5d60ef'
 }

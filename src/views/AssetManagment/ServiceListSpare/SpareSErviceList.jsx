@@ -58,18 +58,18 @@ const SpareSErviceList = () => {
           .map(item => ({
             holdId: item.spare_service_hold,
             reason: item.cm_hold_reason,
-            holdColor: item.hold_color,
+            holdColor: item.hold_color
           }))
           .filter(item => item.holdId && item.reason && item.holdColor),
         ...assetServiceListt
           .map(item => ({
             holdId: item.asset_item_service_hold,
             reason: item.cm_hold_reason,
-            holdColor: item.hold_color,
+            holdColor: item.hold_color
           }))
-          .filter(item => item.holdId && item.reason && item.holdColor),
+          .filter(item => item.holdId && item.reason && item.holdColor)
       ].map(item => [item.holdId, item])
-    ).values(),
+    ).values()
   ]
 
   return (
@@ -77,7 +77,7 @@ const SpareSErviceList = () => {
       sx={{
         flex: 1,
         border: 2,
-        borderColor: '#F0F3F5',
+        borderColor: '#F0F3F5'
         // height: '90vh',
       }}
     >
@@ -89,7 +89,7 @@ const SpareSErviceList = () => {
           color: 'grey',
           fontWeight: 550,
           py: 0.5,
-          pl: 2,
+          pl: 2
         }}
       >
         Service List
@@ -133,17 +133,11 @@ const SpareSErviceList = () => {
                           onClick={() => ServiceDetailsView(val)}
                         />
                       </td>
-                      <td style={{ textAlign: 'center' }}>
-                        {val.spare_asset_no !== undefined ? 'Spare' : 'Asset'}
-                      </td>
+                      <td style={{ textAlign: 'center' }}>{val.spare_asset_no !== undefined ? 'Spare' : 'Asset'}</td>
                       <td style={{ textAlign: 'center' }}>
                         {isServiceItem
-                          ? `${val.spare_asset_no}/${val.spare_asset_no_only
-                              .toString()
-                              .padStart(6, '0')}`
-                          : `${val.item_asset_no}/${val.item_asset_no_only
-                              .toString()
-                              .padStart(6, '0')}`}
+                          ? `${val.spare_asset_no}/${val.spare_asset_no_only.toString().padStart(6, '0')}`
+                          : `${val.item_asset_no}/${val.item_asset_no_only.toString().padStart(6, '0')}`}
                       </td>
 
                       <td style={{ textAlign: 'center' }}>{val.am_manufacture_no}</td>
@@ -168,7 +162,7 @@ const SpareSErviceList = () => {
             fontWeight: 800,
             fontSize: 25,
             color: 'lightgrey',
-            height: '100%',
+            height: '100%'
           }}
         >
           <Typography>Empty Service List</Typography>
@@ -180,7 +174,7 @@ const SpareSErviceList = () => {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          flexWrap: 'wrap',
+          flexWrap: 'wrap'
         }}
       >
         {uniqueHoldReasons.map(({ holdId, reason, holdColor }) => (

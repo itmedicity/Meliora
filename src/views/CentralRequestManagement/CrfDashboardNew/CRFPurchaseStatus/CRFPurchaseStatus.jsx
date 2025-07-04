@@ -31,7 +31,7 @@ const CRFPurchaseStatus = ({ purchaseData, companyData }) => {
     apprval1: { pending: 0, title: '', imageView: [], imName: '', id: 0 },
     apprval2: { pending: 0, title: '', imageView: [], imName: '', id: 0 },
     apprval3: { pending: 0, title: '', imageView: [], imName: '', id: 0 },
-    posup: { pending: 0, title: '', imageView: [], imName: '', id: 0 },
+    posup: { pending: 0, title: '', imageView: [], imName: '', id: 0 }
   })
   useEffect(() => {
     if (purchaseDetails && purchaseDetails.length !== 0) {
@@ -52,9 +52,7 @@ const CRFPurchaseStatus = ({ purchaseData, companyData }) => {
         return (
           val.ack_status === 1 &&
           ((val.po_prepartion === 1 && val.po_complete === 0) ||
-            (val.quatation_calling_status === 1 &&
-              val.quatation_fixing === 1 &&
-              val.po_prepartion === 0))
+            (val.quatation_calling_status === 1 && val.quatation_fixing === 1 && val.po_prepartion === 0))
         )
       })
 
@@ -80,64 +78,64 @@ const CRFPurchaseStatus = ({ purchaseData, companyData }) => {
           title: 'CRF Acknowledgement',
           imageView: ackimg,
           imName: 'ack',
-          id: 1,
+          id: 1
         },
         qcall: {
           pending: quotPending.length,
           title: 'Quotation Calling',
           imageView: qcallimg,
           imName: 'qcall',
-          id: 2,
+          id: 2
         },
         qnego: {
           pending: quotNego.length,
           title: 'Quotation Negotiation',
           imageView: qnegoimg,
           imName: 'qneg',
-          id: 3,
+          id: 3
         },
         qfix: {
           pending: quotFinal.length,
           title: 'Quotation Approval',
           imageView: qfiximg,
           imName: 'qfix',
-          id: 4,
+          id: 4
         },
         poprep: {
           pending: poPending.length,
           title: 'PO Preparation ',
           imageView: poprepimg,
           imName: 'prep',
-          id: 5,
+          id: 5
         },
         apprval1: {
           pending: apprlvl1.length,
           title: 'PO Approval Purchase',
           imageView: pocompimg,
           imName: 'purch',
-          id: 6,
+          id: 6
         },
         apprval2: {
           pending: apprlvl2.length,
           title: 'PO Approval Purchase Manager',
           imageView: apprvManager,
           imName: 'mang',
-          id: 7,
+          id: 7
         },
         apprval3: {
           pending: apprlvl3.length,
           title: 'PO Approval Directors',
           imageView: apprvDirect,
           imName: 'direct',
-          id: 8,
+          id: 8
         },
         posup: {
           pending: posup.length,
           title: 'Inform to Supplier(PO)',
           imageView: poapprove,
           imName: 'sup',
-          id: 9,
-        },
+          id: 9
+        }
       })
     } else {
       setPurchaseApprv({
@@ -146,64 +144,64 @@ const CRFPurchaseStatus = ({ purchaseData, companyData }) => {
           title: 'CRF Acknowledgement',
           imageView: ackimg,
           imName: 'ack',
-          id: 1,
+          id: 1
         },
         qcall: {
           pending: 0,
           title: 'Quotation Calling',
           imageView: qcallimg,
           imName: 'qcall',
-          id: 2,
+          id: 2
         },
         qnego: {
           pending: 0,
           title: 'Quotation Negotiation',
           imageView: qnegoimg,
           imName: 'qneg',
-          id: 3,
+          id: 3
         },
         qfix: {
           pending: 0,
           title: 'Quotation Approval',
           imageView: qfiximg,
           imName: 'qfix',
-          id: 4,
+          id: 4
         },
         poprep: {
           pending: 0,
           title: 'PO Preparation ',
           imageView: poprepimg,
           imName: 'prep',
-          id: 5,
+          id: 5
         },
         apprval1: {
           pending: 0,
           title: 'PO Approval Purchase',
           imageView: pocompimg,
           imName: 'purch',
-          id: 6,
+          id: 6
         },
         apprval2: {
           pending: 0,
           title: 'PO Approval Purchase Manager',
           imageView: apprvManager,
           imName: 'mang',
-          id: 7,
+          id: 7
         },
         apprval3: {
           pending: 0,
           title: 'PO Approval Directors',
           imageView: apprvDirect,
           imName: 'direct',
-          id: 8,
+          id: 8
         },
         posup: {
           pending: 0,
           title: 'Inform to Supplier(PO)',
           imageView: poapprove,
           imName: 'sup',
-          id: 9,
-        },
+          id: 9
+        }
       })
     }
   }, [purchaseDetails])

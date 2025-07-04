@@ -24,8 +24,8 @@ const CondemnationApprovalRights = () => {
       {
         slno: 265,
         name: 'Condemnation Materials Management Approval',
-        component: MaterialManagementTab,
-      },
+        component: MaterialManagementTab
+      }
     ],
     []
   )
@@ -34,14 +34,12 @@ const CondemnationApprovalRights = () => {
 
   const { data: menuRightsEmployee = [] } = useQuery({
     queryKey: ['getEmployeeuserrightsMenu', postEmp],
-    queryFn: () => getEmployeeuserrightsMenu(postEmp),
+    queryFn: () => getEmployeeuserrightsMenu(postEmp)
   })
 
   useEffect(() => {
     if (menuRightsEmployee.length > 0) {
-      const filteredMenus = menuListData.filter(menu =>
-        menuRightsEmployee.some(val => menu.slno === val.menu_slno)
-      )
+      const filteredMenus = menuListData.filter(menu => menuRightsEmployee.some(val => menu.slno === val.menu_slno))
 
       setMenurights(filteredMenus)
     }

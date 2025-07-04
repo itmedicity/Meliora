@@ -1,13 +1,5 @@
 import React, { Fragment, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import {
-  Box,
-  CssVarsProvider,
-  Modal,
-  ModalClose,
-  ModalDialog,
-  Textarea,
-  Typography,
-} from '@mui/joy'
+import { Box, CssVarsProvider, Modal, ModalClose, ModalDialog, Textarea, Typography } from '@mui/joy'
 import CrfReqDetailViewCmp from '../ComonComponent/CrfReqDetailViewCmp'
 import ReqItemDisplay from '../ComonComponent/ReqItemDisplay'
 import CommonInchargeReqCmp from '../ComonComponent/ApprovalComp/CommonInchargeReqCmp'
@@ -46,7 +38,7 @@ const CrfGMApprovalModal = ({
   company,
   datacolflag,
   datacolData,
-  imagearray,
+  imagearray
 }) => {
   const {
     req_slno,
@@ -64,7 +56,7 @@ const CrfGMApprovalModal = ({
     gm_approve_remarks,
     gm_detial_analysis,
     gm_image,
-    company_slno,
+    company_slno
   } = ApprovalData
 
   const queryClient = useQueryClient()
@@ -86,7 +78,7 @@ const CrfGMApprovalModal = ({
     detailAnalis: gm_detial_analysis !== null ? gm_detial_analysis : '',
     datacollFlag: false,
     datacolectremark: '',
-    datacollFlagKMC: false,
+    datacollFlagKMC: false
   })
   const {
     remark,
@@ -97,13 +89,13 @@ const CrfGMApprovalModal = ({
     datacollFlag,
     datacolectremark,
     internallyArr,
-    datacollFlagKMC,
+    datacollFlagKMC
   } = apprvlDetails
   const updateOnchangeState = useCallback(e => {
     const { name, type, value, checked } = e.target
     setApprvlDetails(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === 'checkbox' ? checked : value
     }))
   }, [])
 
@@ -113,7 +105,7 @@ const CrfGMApprovalModal = ({
       approve: type === 'approve',
       reject: type === 'reject',
       pending: type === 'pending',
-      internallyArr: type === 'internallyArr',
+      internallyArr: type === 'internallyArr'
     }))
   }, [])
 
@@ -139,7 +131,7 @@ const CrfGMApprovalModal = ({
         pending: false,
         internallyArr: false,
         datacollFlag: false,
-        datacolectremark: '',
+        datacolectremark: ''
       }))
       setCrfDept(0)
       setApproveTableData([])
@@ -155,7 +147,7 @@ const CrfGMApprovalModal = ({
     const options = {
       maxSizeMB: 25,
       maxWidthOrHeight: 1920,
-      useWebWorker: true,
+      useWebWorker: true
     }
     const compressedFile = await imageCompression(imageFile, options)
     return compressedFile
@@ -163,16 +155,7 @@ const CrfGMApprovalModal = ({
 
   const GMPatchData = useMemo(() => {
     return {
-      gm_approve:
-        approve === true
-          ? 1
-          : reject === true
-          ? 2
-          : pending === true
-          ? 3
-          : internallyArr === true
-          ? 4
-          : null,
+      gm_approve: approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : internallyArr === true ? 4 : null,
       gm_user: id,
       req_slno: req_slno,
       gm_approv_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
@@ -181,21 +164,11 @@ const CrfGMApprovalModal = ({
       items: approveTableData?.map(val => {
         return {
           req_detl_slno: val.req_detl_slno,
-          item_status_approved: val.item_status_approved,
+          item_status_approved: val.item_status_approved
         }
-      }),
+      })
     }
-  }, [
-    approve,
-    reject,
-    pending,
-    id,
-    remark,
-    detailAnalis,
-    req_slno,
-    approveTableData,
-    internallyArr,
-  ])
+  }, [approve, reject, pending, id, remark, detailAnalis, req_slno, approveTableData, internallyArr])
 
   const submit = useCallback(() => {
     if (editEnable === 1) {
@@ -222,10 +195,7 @@ const CrfGMApprovalModal = ({
       }
       const DataCollRequestFnctntmc = async postData => {
         try {
-          const result = await axioslogin.post(
-            `/CRFRegisterApproval/dataCollect/Insert/tmc`,
-            postData
-          )
+          const result = await axioslogin.post(`/CRFRegisterApproval/dataCollect/Insert/tmc`, postData)
           const { success, message } = result.data
           if (success === 1) {
             succesNotify(message)
@@ -250,15 +220,11 @@ const CrfGMApprovalModal = ({
               formData.append('files', file, file.name)
             }
           }
-          const result = await axioslogin.post(
-            '/newCRFRegisterImages/crf/ImageInsertGM',
-            formData,
-            {
-              headers: {
-                'Content-Type': 'multipart/form-data',
-              },
+          const result = await axioslogin.post('/newCRFRegisterImages/crf/ImageInsertGM', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
             }
-          )
+          })
           return result.data
         } catch (error) {
           warningNotify('An error occurred during file upload.')
@@ -279,7 +245,7 @@ const CrfGMApprovalModal = ({
           crf_req_collect_dept: val,
           crf_req_remark: datacolectremark,
           reqest_one: 7,
-          req_user: id,
+          req_user: id
         }))
         DataCollRequestFnctn(postData)
         return
@@ -300,7 +266,7 @@ const CrfGMApprovalModal = ({
           crf_req_remark: datacolectremark,
           reqest_one: 3,
           req_user: id,
-          tmc_status: 1,
+          tmc_status: 1
         }))
         DataCollRequestFnctntmc(postData)
         return
@@ -358,7 +324,7 @@ const CrfGMApprovalModal = ({
     req_slno,
     selectFile,
     handleImageUpload,
-    datacollFlagKMC,
+    datacollFlagKMC
   ])
 
   const closeModal = useCallback(() => {
@@ -380,7 +346,7 @@ const CrfGMApprovalModal = ({
           const fileNamePart = parts[parts.length - 1]
           const obj = {
             imageName: fileNamePart,
-            url: val,
+            url: val
           }
           return obj
         })
@@ -417,7 +383,7 @@ const CrfGMApprovalModal = ({
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 25,
-                width: 25,
+                width: 25
               }}
             />
             <Box sx={{ minWidth: '80vw', minHeight: '62vh', maxHeight: '85vh', overflowY: 'auto' }}>
@@ -437,9 +403,7 @@ const CrfGMApprovalModal = ({
                   ) : (
                     <Paper variant="outlined" sx={{ flexWrap: 'wrap' }}>
                       <Box sx={{ borderBottom: '1px solid lightgrey' }}>
-                        <Typography
-                          sx={{ fontWeight: 'bold', p: 1, color: '#145DA0', fontSize: 14 }}
-                        >
+                        <Typography sx={{ fontWeight: 'bold', p: 1, color: '#145DA0', fontSize: 14 }}>
                           Department Approval
                         </Typography>
                       </Box>
@@ -483,7 +447,7 @@ const CrfGMApprovalModal = ({
                           sx={{
                             display: 'flex',
                             flexDirection: 'row',
-                            alignItems: 'center',
+                            alignItems: 'center'
                           }}
                         >
                           <CampaignTwoToneIcon
@@ -493,22 +457,22 @@ const CrfGMApprovalModal = ({
                               animation: 'blink 2s infinite', // Apply the blink animation
                               '@keyframes blink': {
                                 '0%': {
-                                  opacity: 1,
+                                  opacity: 1
                                 },
                                 '50%': {
-                                  opacity: 0,
+                                  opacity: 0
                                 },
                                 '100%': {
-                                  opacity: 1,
-                                },
-                              },
+                                  opacity: 1
+                                }
+                              }
                             }}
                           />
                           <Typography
                             sx={{
                               fontFamily: 'var(--font-varient)',
                               color: 'rgba(var(--font-primary-white))',
-                              fontWeight: 700,
+                              fontWeight: 700
                             }}
                           ></Typography>
                           <Typography
@@ -517,7 +481,7 @@ const CrfGMApprovalModal = ({
                               color: '#FF6868',
                               fontSize: 14,
                               p: 1,
-                              textTransform: 'capitalize',
+                              textTransform: 'capitalize'
                             }}
                           >
                             Comments From {ApprovalData?.viewDep?.toLowerCase()}
@@ -530,7 +494,7 @@ const CrfGMApprovalModal = ({
                             color: '#145DA0',
                             fontSize: 14,
                             p: 1,
-                            textTransform: 'capitalize',
+                            textTransform: 'capitalize'
                           }}
                         >
                           By:{ApprovalData?.viewName?.toLowerCase()}
@@ -547,9 +511,7 @@ const CrfGMApprovalModal = ({
                   </Box>
                 ) : null}
                 <Box sx={{ py: 0.5, mx: 0.2 }}>
-                  {datacolflag === 1 ? (
-                    <ViewOreviousDataCollctnDetails datacolData={datacolData} />
-                  ) : null}
+                  {datacolflag === 1 ? <ViewOreviousDataCollctnDetails datacolData={datacolData} /> : null}
                 </Box>
                 <Paper variant="outlined" sx={{ pb: 1, flexWrap: 'wrap', mx: 0.3 }}>
                   <Box sx={{ mx: 1, mt: 1 }}>
@@ -598,9 +560,7 @@ const CrfGMApprovalModal = ({
                       </Box>
                     </Box>
                     <Box sx={{ display: 'flex', pt: 0.4 }}>
-                      <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 1 }}>
-                        Remarks
-                      </Typography>
+                      <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 1 }}>Remarks</Typography>
                       <Typography sx={{ pt: 1 }}> :&nbsp;</Typography>
                       <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
                         <Textarea
@@ -631,9 +591,7 @@ const CrfGMApprovalModal = ({
                       </Box>
                     </Box>
                     <Box sx={{ display: 'flex', pt: 0.4 }}>
-                      <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 1 }}>
-                        Remarks
-                      </Typography>
+                      <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 1 }}>Remarks</Typography>
                       <Typography sx={{ pt: 1 }}> :&nbsp;</Typography>
                       <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
                         <Textarea

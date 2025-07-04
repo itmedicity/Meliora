@@ -7,7 +7,7 @@ import {
   ModalDialog,
   Textarea,
   Tooltip,
-  Typography,
+  Typography
 } from '@mui/joy'
 import React, { Fragment, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import ReqItemDisplay from '../ComonComponent/ReqItemDisplay'
@@ -41,7 +41,7 @@ const DataCollectionActionModal = ({
   empdeptsec,
   imagearray,
   selectedCompany,
-  depkmc,
+  depkmc
 }) => {
   const { crf_req_remark, dc_req_date, requser, req_slno, crf_data_collect_slno } = dcData
   const queryClient = useQueryClient()
@@ -87,25 +87,19 @@ const DataCollectionActionModal = ({
               warningNotify(`The file "${file.name}" exceeds the 25MB size limit`)
               return false
             }
-            const isDuplicate = prevFiles.some(
-              prevFile => prevFile.name === file.name && prevFile.size === file.size
-            )
+            const isDuplicate = prevFiles.some(prevFile => prevFile.name === file.name && prevFile.size === file.size)
             if (isDuplicate) {
               duplicateFiles.push(file.name)
               return false
             }
             return true
           } else {
-            warningNotify(
-              `The file "${file.name}" is not a supported format! Only .png, .jpeg, and .pdf are allowed.`
-            )
+            warningNotify(`The file "${file.name}" is not a supported format! Only .png, .jpeg, and .pdf are allowed.`)
             return false
           }
         })
         if (duplicateFiles.length > 0) {
-          warningNotify(
-            `The following files are duplicates and were not added: ${duplicateFiles.join(', ')}`
-          )
+          warningNotify(`The following files are duplicates and were not added: ${duplicateFiles.join(', ')}`)
         }
         return [...prevFiles, ...validFiles]
       })
@@ -138,7 +132,7 @@ const DataCollectionActionModal = ({
     const options = {
       maxSizeMB: 2,
       maxWidthOrHeight: 1920,
-      useWebWorker: true,
+      useWebWorker: true
     }
     const compressedFile = await imageCompression(imageFile, options)
     return compressedFile
@@ -148,7 +142,7 @@ const DataCollectionActionModal = ({
     return {
       crf_dept_remarks: remark,
       save_user: id,
-      crf_data_collect_slno: crf_data_collect_slno,
+      crf_data_collect_slno: crf_data_collect_slno
     }
   }, [remark, crf_data_collect_slno, id])
 
@@ -156,7 +150,7 @@ const DataCollectionActionModal = ({
     return {
       crf_dept_remarks: remark,
       save_user: depkmc?.kmc_hod,
-      crf_data_collect_slno: crf_data_collect_slno,
+      crf_data_collect_slno: crf_data_collect_slno
     }
   }, [remark, crf_data_collect_slno, depkmc])
   const submit = useCallback(
@@ -167,10 +161,7 @@ const DataCollectionActionModal = ({
         return result.data
       }
       const DataCollectnKMCGiven = async patchdatakmc => {
-        const result = await axioskmc.patch(
-          '/CRFRegisterApproval/CrfDataCollactnSave',
-          patchdatakmc
-        )
+        const result = await axioskmc.patch('/CRFRegisterApproval/CrfDataCollactnSave', patchdatakmc)
         return result.data
       }
       const FileInsert = async (crf_data_collect_slno, req_slno, selectFile) => {
@@ -187,15 +178,11 @@ const DataCollectionActionModal = ({
             }
           }
           // Use the Axios instance and endpoint that matches your server setup
-          const result = await axioslogin.post(
-            '/newCRFRegisterImages/crf/DataCollection',
-            formData,
-            {
-              headers: {
-                'Content-Type': 'multipart/form-data',
-              },
+          const result = await axioslogin.post('/newCRFRegisterImages/crf/DataCollection', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
             }
-          )
+          })
           return result.data
         } catch (error) {
           warningNotify('An error occurred during file upload.')
@@ -217,8 +204,8 @@ const DataCollectionActionModal = ({
           // Use the Axios instance and endpoint that matches your server setup
           const result = await axioskmc.post('/newCRFRegisterImages/crf/DataCollection', formData, {
             headers: {
-              'Content-Type': 'multipart/form-data',
-            },
+              'Content-Type': 'multipart/form-data'
+            }
           })
           return result.data
         } catch (error) {
@@ -291,7 +278,7 @@ const DataCollectionActionModal = ({
       empdeptsec,
       queryClient,
       selectedCompany,
-      patchdatakmc,
+      patchdatakmc
     ]
   )
 
@@ -321,11 +308,7 @@ const DataCollectionActionModal = ({
   return (
     <Fragment>
       {imageshowFlag === 1 ? (
-        <ReqImageDisModal
-          open={imageshow}
-          handleClose={handleCloseImageView}
-          previewFile={previewFile}
-        />
+        <ReqImageDisModal open={imageshow} handleClose={handleCloseImageView} previewFile={previewFile} />
       ) : null}
       <CssVarsProvider>
         <Modal
@@ -347,7 +330,7 @@ const DataCollectionActionModal = ({
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 35,
-                width: 35,
+                width: 35
               }}
             />
             <Box
@@ -356,7 +339,7 @@ const DataCollectionActionModal = ({
                 minHeight: '62vh',
                 maxHeight: '85vh',
                 overflowY: 'auto',
-                px: 0.2,
+                px: 0.2
               }}
             >
               <CrfReqDetailViewCmp ApprovalData={dcData} imagearray={imagearray} />
@@ -378,7 +361,7 @@ const DataCollectionActionModal = ({
                     color: '#145DA0',
                     fontSize: 14,
                     pl: 1,
-                    borderBottom: '1px solid lightgrey',
+                    borderBottom: '1px solid lightgrey'
                   }}
                 >
                   Data Collection Request Details
@@ -386,9 +369,7 @@ const DataCollectionActionModal = ({
                 <Box sx={{ display: 'flex', pt: 1 }}>
                   <Typography sx={{ pl: 1, fontSize: 15, flex: 0.4 }}>Requested Remarks</Typography>
                   <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-                  <Typography
-                    sx={{ height: 'auto', fontSize: 14, fontWeight: 550, flex: 1, pt: 0.2 }}
-                  >
+                  <Typography sx={{ height: 'auto', fontSize: 14, fontWeight: 550, flex: 1, pt: 0.2 }}>
                     {crf_req_remark}
                   </Typography>
                 </Box>
@@ -399,9 +380,7 @@ const DataCollectionActionModal = ({
                     <Typography sx={{ height: 'auto', fontSize: 14, fontWeight: 550, pt: 0.3 }}>
                       {capitalizeWords(requser)}
                     </Typography>
-                    <Typography
-                      sx={{ height: 'auto', fontSize: 14, fontWeight: 550, pl: 2, pt: 0.3 }}
-                    >
+                    <Typography sx={{ height: 'auto', fontSize: 14, fontWeight: 550, pl: 2, pt: 0.3 }}>
                       {format(new Date(dc_req_date), 'dd-MM-yyyy hh:mm:ss a')}
                     </Typography>
                   </Box>
@@ -434,9 +413,7 @@ const DataCollectionActionModal = ({
                   />
                 ) : null}
                 <Box sx={{ pt: 0.4 }}>
-                  <Typography sx={{ fontSize: 15, fontWeight: 600, flex: 1, pl: 1, pt: 0.5 }}>
-                    Remarks
-                  </Typography>
+                  <Typography sx={{ fontSize: 15, fontWeight: 600, flex: 1, pl: 1, pt: 0.5 }}>Remarks</Typography>
                   <Box sx={{ pt: 0.2, flex: 1, px: 0.5 }}>
                     <Textarea
                       required
@@ -450,18 +427,10 @@ const DataCollectionActionModal = ({
                     />
                   </Box>
                 </Box>
-                <Paper
-                  variant="outlined"
-                  square
-                  sx={{ p: 0.5, m: 0.5, display: 'flex', flexWrap: 'wrap' }}
-                >
+                <Paper variant="outlined" square sx={{ p: 0.5, m: 0.5, display: 'flex', flexWrap: 'wrap' }}>
                   <Box sx={{}}>
                     <label htmlFor="file-input">
-                      <Tooltip
-                        title="Upload File"
-                        placement="bottom"
-                        sx={{ bgcolor: '#e8eaf6', color: '#283593' }}
-                      >
+                      <Tooltip title="Upload File" placement="bottom" sx={{ bgcolor: '#e8eaf6', color: '#283593' }}>
                         <IconButton
                           aria-label="upload file"
                           variant="soft"
@@ -469,8 +438,8 @@ const DataCollectionActionModal = ({
                           sx={{
                             bgcolor: 'white',
                             '&:hover': {
-                              bgcolor: 'white',
-                            },
+                              bgcolor: 'white'
+                            }
                           }}
                         >
                           <CloudUploadTwoToneIcon
@@ -480,8 +449,8 @@ const DataCollectionActionModal = ({
                               height: 25,
                               color: '#3949ab',
                               '&:hover': {
-                                color: '#5c6bc0',
-                              },
+                                color: '#5c6bc0'
+                              }
                             }}
                           />
                           <Typography
@@ -489,8 +458,8 @@ const DataCollectionActionModal = ({
                               fontSize: 12,
                               color: '#3949ab',
                               '&:hover': {
-                                color: '#5c6bc0',
-                              },
+                                color: '#5c6bc0'
+                              }
                             }}
                           >
                             Maximum Size 25MB
@@ -519,7 +488,7 @@ const DataCollectionActionModal = ({
                             m: 1,
                             border: '1px solid #e0e0e0',
                             borderRadius: '4px',
-                            p: 0.5,
+                            p: 0.5
                           }}
                         >
                           {file.type.includes('image') ? (
@@ -532,7 +501,7 @@ const DataCollectionActionModal = ({
                                 objectFit: 'cover',
                                 borderRadius: '4px',
                                 marginRight: '8px',
-                                cursor: 'pointer',
+                                cursor: 'pointer'
                               }}
                               onClick={() => viewUploadedFile(file)}
                             />
@@ -543,7 +512,7 @@ const DataCollectionActionModal = ({
                                 height: '40px',
                                 color: '#e53935',
                                 marginRight: '8px',
-                                cursor: 'pointer',
+                                cursor: 'pointer'
                               }}
                               onClick={() => viewUploadedFile(file)}
                             />
@@ -554,21 +523,19 @@ const DataCollectionActionModal = ({
                                 height: '40px',
                                 color: '#9e9e9e',
                                 marginRight: '8px',
-                                cursor: 'pointer',
+                                cursor: 'pointer'
                               }}
                               onClick={() => viewUploadedFile(file)}
                             />
                           )}
-                          <Box sx={{ fontSize: 14, cursor: 'pointer', flexGrow: 1 }}>
-                            {file.name}
-                          </Box>
+                          <Box sx={{ fontSize: 14, cursor: 'pointer', flexGrow: 1 }}>{file.name}</Box>
                           <ClearIcon
                             sx={{
                               height: '16px',
                               width: '16px',
                               cursor: 'pointer',
                               color: 'red',
-                              marginLeft: '8px',
+                              marginLeft: '8px'
                             }}
                             onClick={() => handleRemoveFile(index)}
                           />

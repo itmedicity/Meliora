@@ -31,7 +31,7 @@ const NewSubRoomMast = () => {
     subRoom_name: '',
     subRoom_status: false,
     subRoom_no_dis: '',
-    subRoom_oldno: '',
+    subRoom_oldno: ''
   })
 
   const { subRoom_slno, subRoom_name, subRoom_status, subRoom_no_dis, subRoom_oldno } = subroom
@@ -61,19 +61,9 @@ const NewSubRoomMast = () => {
       subroom_no: subRoom_no_dis.toLocaleUpperCase(),
       subroom_oldno: subRoom_oldno,
       subroom_status: subRoom_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
-  }, [
-    roomNo,
-    roomCategory,
-    roomType,
-    subRoom_name,
-    subRoom_no_dis,
-    subRoom_oldno,
-    subRoom_status,
-    id,
-    location,
-  ])
+  }, [roomNo, roomCategory, roomType, subRoom_name, subRoom_no_dis, subRoom_oldno, subRoom_status, id, location])
 
   const PatchData = useMemo(() => {
     return {
@@ -86,7 +76,7 @@ const NewSubRoomMast = () => {
       subroom_oldno: subRoom_oldno,
       subroom_status: subRoom_status === true ? 1 : 0,
       edit_user: id,
-      subroom_slno: subRoom_slno,
+      subroom_slno: subRoom_slno
     }
   }, [
     roomNo,
@@ -98,7 +88,7 @@ const NewSubRoomMast = () => {
     subRoom_status,
     id,
     subRoom_slno,
-    location,
+    location
   ])
 
   const reset = useCallback(e => {
@@ -113,7 +103,7 @@ const NewSubRoomMast = () => {
       subRoom_name: '',
       subRoom_status: false,
       subRoom_no_dis: '',
-      subRoom_oldno: '',
+      subRoom_oldno: ''
     }
     setSubRoom(frmdata)
   }, [])
@@ -168,7 +158,7 @@ const NewSubRoomMast = () => {
       subroom_name,
       subroom_no,
       subroom_oldno,
-      subroom_status,
+      subroom_status
     } = data[0]
     setRoomNo(rm_room_slno)
     setRoomType(sub_rm_roomtype_slno)
@@ -179,7 +169,7 @@ const NewSubRoomMast = () => {
       subRoom_name: subroom_name,
       subRoom_status: subroom_status === 1 ? true : false,
       subRoom_no_dis: subroom_no,
-      subRoom_oldno: subroom_oldno,
+      subRoom_oldno: subroom_oldno
     }
     setSubRoom(frmdata)
   }, [])
@@ -193,12 +183,7 @@ const NewSubRoomMast = () => {
   }, [history])
 
   return (
-    <CardMaster
-      title="Sub Room Master"
-      submit={sumbitsubRoom}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Sub Room Master" submit={sumbitsubRoom} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ p: 1 }}>
         <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
           <Box sx={{ width: '30%', p: 1 }}>

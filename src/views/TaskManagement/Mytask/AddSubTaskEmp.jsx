@@ -18,7 +18,7 @@ const AddSubTaskEmp = ({
   tm_project_slno,
   tableCount,
   setTableCount,
-  tm_task_due_date,
+  tm_task_due_date
 }) => {
   const [employeeSubTask, setEmployeeSubTask] = useState(0)
   const dispatch = useDispatch()
@@ -35,7 +35,7 @@ const AddSubTaskEmp = ({
     projectz: projectz,
     tm_task_status: 0,
     main_task_slno: '',
-    tm_complete_date: '',
+    tm_complete_date: ''
   })
   const {
     tm_subtask_name,
@@ -45,7 +45,7 @@ const AddSubTaskEmp = ({
     tm_sub_pending_remark,
     tm_sub_onhold_remarks,
     tm_task_status,
-    tm_complete_date,
+    tm_complete_date
   } = subTaskMast
 
   const SubTaskUpdate = useCallback(
@@ -82,7 +82,7 @@ const AddSubTaskEmp = ({
       tm_project_slno: tm_project_slno,
       tm_task_status: tm_task_status,
       tm_complete_date: tm_complete_date === '' ? null : tm_complete_date,
-      create_user: id,
+      create_user: id
     }
   }, [
     tm_task_slno,
@@ -97,7 +97,7 @@ const AddSubTaskEmp = ({
     tm_project_slno,
     tm_sub_onhold_remarks,
     tm_complete_date,
-    id,
+    id
   ])
 
   const closeSubTask = useCallback(
@@ -114,10 +114,7 @@ const AddSubTaskEmp = ({
         return result.data
       }
       const InsertSubTaskDetail = async insertSubTaskDetail => {
-        const result = await axioslogin.post(
-          '/taskManagement/insertSubtaskDetail',
-          insertSubTaskDetail
-        )
+        const result = await axioslogin.post('/taskManagement/insertSubtaskDetail', insertSubTaskDetail)
         return result.data
       }
 
@@ -133,7 +130,7 @@ const AddSubTaskEmp = ({
                     tm_task_slno: insertId,
                     tm_assigne_emp: val,
                     tm_detail_status: 1,
-                    tm_detl_create: id,
+                    tm_detl_create: id
                   }
                 })
               InsertSubTaskDetail(insertSubTaskDetail).then(value => {
@@ -171,7 +168,7 @@ const AddSubTaskEmp = ({
       tableCount,
       setTableCount,
       employeeSubTask,
-      tm_subtask_duedate,
+      tm_subtask_duedate
     ]
   )
   return (
@@ -221,13 +218,11 @@ const AddSubTaskEmp = ({
                 slotProps={{
                   input: {
                     min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-                    max: moment(new Date(tm_task_due_date)).format('YYYY-MM-DD HH:mm:ss'),
-                  },
+                    max: moment(new Date(tm_task_due_date)).format('YYYY-MM-DD HH:mm:ss')
+                  }
                 }}
                 style={{ minHeight: 57 }}
-                disabled={
-                  tm_task_due_date && moment(new Date()).isAfter(moment(new Date(tm_task_due_date)))
-                }
+                disabled={tm_task_due_date && moment(new Date()).isAfter(moment(new Date(tm_task_due_date)))}
               ></TextFieldCustom>
             </Box>
           </Tooltip>

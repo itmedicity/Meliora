@@ -36,7 +36,7 @@ const QITypeSelect = ({ qiType, setQiType }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '35px',
+            '--Input-minHeight': '35px'
           }}
           value={qiType === 0 ? type : value}
           placeholder="Select QI Type"
@@ -51,9 +51,7 @@ const QITypeSelect = ({ qiType, setQiType }) => {
           loading={true}
           loadingText="Loading..."
           freeSolo
-          isOptionEqualToValue={(option, value) =>
-            option.qi_list_type_name === value.qi_list_type_name
-          }
+          isOptionEqualToValue={(option, value) => option.qi_list_type_name === value.qi_list_type_name}
           getOptionLabel={option => option.qi_list_type_name || ''}
           options={type}
         />

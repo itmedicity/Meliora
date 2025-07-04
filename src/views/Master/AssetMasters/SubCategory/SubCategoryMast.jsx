@@ -27,7 +27,7 @@ const SubCategoryMast = () => {
   const [subcategory, setSubCategory] = useState({
     subcategory_slno: '',
     subcategory_name: '',
-    subcategory_status: false,
+    subcategory_status: false
   })
   const { subcategory_slno, subcategory_name, subcategory_status } = subcategory
   const updateSubCategory = useCallback(
@@ -41,7 +41,7 @@ const SubCategoryMast = () => {
     const frmdata = {
       subcategory_slno: '',
       subcategory_name: '',
-      subcategory_status: false,
+      subcategory_status: false
     }
     setSubCategory(frmdata)
     setCount(0)
@@ -54,7 +54,7 @@ const SubCategoryMast = () => {
       subcategory_name: subcategory_name,
       category_slno: category,
       subcategory_status: subcategory_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [subcategory_name, category, subcategory_status, id])
 
@@ -64,7 +64,7 @@ const SubCategoryMast = () => {
       subcategory_name: subcategory_name,
       category_slno: category,
       subcategory_status: subcategory_status === true ? 1 : 0,
-      edit_user: id,
+      edit_user: id
     }
   }, [subcategory_slno, subcategory_name, category, subcategory_status, id])
   const rowSelect = useCallback(params => {
@@ -75,7 +75,7 @@ const SubCategoryMast = () => {
       subcategory_slno: subcategory_slno,
       subcategory_name: subcategory_name,
       category_slno: category_slno,
-      subcategory_status: subcategory_status === 1 ? true : false,
+      subcategory_status: subcategory_status === 1 ? true : false
     }
     setSubCategory(frmdata)
     setCategory(category_slno)
@@ -85,7 +85,7 @@ const SubCategoryMast = () => {
     setSelectFile(file)
     const options = {
       maxSizeMB: 1,
-      maxWidthOrHeight: 1920,
+      maxWidthOrHeight: 1920
     }
     const compressedFile = await imageCompression(file, options)
     setSelectFile(compressedFile)
@@ -161,7 +161,7 @@ const SubCategoryMast = () => {
     const frmdata = {
       subcategory_slno: '',
       subcategory_name: '',
-      subcategory_status: false,
+      subcategory_status: false
     }
     setSubCategory(frmdata)
     setValue(0)
@@ -169,12 +169,7 @@ const SubCategoryMast = () => {
     setSelectFile(null)
   }, [setSubCategory, setSelectFile])
   return (
-    <CardMaster
-      title="Subcategory Master"
-      submit={submitSubCategory}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Subcategory Master" submit={submitSubCategory} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ p: 1 }}>
         <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
           <Box sx={{ width: '30%', p: 1 }}>

@@ -4,15 +4,7 @@ import { warningNotify } from 'src/views/Common/CommonCode'
 import CusAgGridMast from 'src/views/Components/CusAgGridMast'
 import EditButton from 'src/views/Components/EditButton'
 
-const DataCollectionTable = ({
-  rowSelect,
-  count,
-  setDept,
-  setDeptsec,
-  setEmpname,
-  setCount,
-  SetViewStatus,
-}) => {
+const DataCollectionTable = ({ rowSelect, count, setDept, setDeptsec, setEmpname, setCount, SetViewStatus }) => {
   const [tabledata, setTabledata] = useState([])
   const [column] = useState([
     { headerName: 'Employee Name', field: 'em_name', filter: 'true', width: 100 },
@@ -20,8 +12,8 @@ const DataCollectionTable = ({
     { headerName: 'Department Section', field: 'sec_name', filter: 'true', width: 100 },
     {
       headerName: 'Action',
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
-    },
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
+    }
   ])
 
   useEffect(() => {

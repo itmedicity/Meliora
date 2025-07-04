@@ -44,7 +44,7 @@ const OMEmpMapMast = () => {
       om_emp_deptsec_no: deptsec,
       om_emp_id: empname,
       om_emp_status: status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [omTable, dept, deptsec, empname, status, id])
 
@@ -52,14 +52,7 @@ const OMEmpMapMast = () => {
   const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
-    const {
-      om_table_slno,
-      om_emp_deptno,
-      om_emp_deptsec_no,
-      om_emp_id,
-      om_emp_status,
-      om_emp_slno,
-    } = data[0]
+    const { om_table_slno, om_emp_deptno, om_emp_deptsec_no, om_emp_id, om_emp_status, om_emp_slno } = data[0]
     setOmtable(om_table_slno)
     setDept(om_emp_deptno)
     setDeptsec(om_emp_deptsec_no)
@@ -77,7 +70,7 @@ const OMEmpMapMast = () => {
       om_emp_id: empname,
       om_emp_status: status === true ? 1 : 0,
       edit_user: id,
-      om_emp_slno: slno,
+      om_emp_slno: slno
     }
   }, [omTable, dept, deptsec, empname, slno, status, id])
 
@@ -145,12 +138,7 @@ const OMEmpMapMast = () => {
   }, [])
 
   return (
-    <CardMaster
-      title="OM-Emp Mapping"
-      submit={submitOMTable}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="OM-Emp Mapping" submit={submitOMTable} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ pl: 2, pt: 2, pb: 1, pr: 1 }}>
         <Grid container spacing={1}>
           <Grid item xl={3} lg={3}>

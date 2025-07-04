@@ -26,7 +26,7 @@ const AssetModel = () => {
   const [model, setModel] = useState({
     model_slno: '',
     model_name: '',
-    model_status: false,
+    model_status: false
   })
   const { model_slno, model_name, model_status } = model
   const UpdateModel = useCallback(
@@ -40,7 +40,7 @@ const AssetModel = () => {
     return {
       model_name: model_name,
       model_status: model_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [model_name, model_status, id])
   const patchdata = useMemo(() => {
@@ -48,7 +48,7 @@ const AssetModel = () => {
       model_slno: model_slno,
       model_name: model_name,
       model_status: model_status === true ? 1 : 0,
-      edit_user: id,
+      edit_user: id
     }
   }, [model_slno, model_name, model_status, id])
   const rowSelect = useCallback(params => {
@@ -58,7 +58,7 @@ const AssetModel = () => {
     const frmdata = {
       model_slno: model_slno,
       model_name: model_name,
-      model_status: model_status === 1 ? true : false,
+      model_status: model_status === 1 ? true : false
     }
     setModel(frmdata)
   }, [])
@@ -68,7 +68,7 @@ const AssetModel = () => {
     setSelectFile(file)
     const options = {
       maxSizeMB: 1,
-      maxWidthOrHeight: 1920,
+      maxWidthOrHeight: 1920
     }
     const compressedFile = await imageCompression(file, options)
     setSelectFile(compressedFile)
@@ -77,7 +77,7 @@ const AssetModel = () => {
     const frmdata = {
       model_slno: '',
       model_name: '',
-      model_status: false,
+      model_status: false
     }
     setModel(frmdata)
     setCount(0)
@@ -154,7 +154,7 @@ const AssetModel = () => {
     const frmdata = {
       model_slno: '',
       model_name: '',
-      model_status: false,
+      model_status: false
     }
     setModel(frmdata)
     setValue(0)

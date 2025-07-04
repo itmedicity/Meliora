@@ -20,7 +20,7 @@ const CrfDMSClose = ({
   cancelledOne,
   setCancelFlag,
   approveTableData,
-  imagearray,
+  imagearray
 }) => {
   const { req_slno, crf_close, crf_close_remark } = cancelData
   const queryClient = useQueryClient()
@@ -53,7 +53,7 @@ const CrfDMSClose = ({
       crf_close_user: id,
       crf_closed_one: cancelledOne,
       close_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
-      req_slno: req_slno,
+      req_slno: req_slno
     }
   }, [Closeremark, id, req_slno, cancelledOne, closeCrf, internally])
 
@@ -115,7 +115,7 @@ const CrfDMSClose = ({
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 25,
-                width: 25,
+                width: 25
               }}
             />
             <Box sx={{ minWidth: '60vw', minHeight: '50vh', maxHeight: '85vh', overflowY: 'auto' }}>

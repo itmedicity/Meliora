@@ -15,7 +15,7 @@ const ComplaintDeptMastTable = ({ rowSelect }) => {
       autoHeight: true,
       wrapText: true,
       width: 250,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Department Name',
@@ -23,19 +23,19 @@ const ComplaintDeptMastTable = ({ rowSelect }) => {
       autoHeight: true,
       wrapText: true,
       width: 250,
-      filter: 'true',
+      filter: 'true'
     },
     { headerName: 'Status', field: 'status' },
     {
       headerName: 'Action',
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
-    },
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
+    }
   ])
   //get all data
 
   const { isLoading, error, data } = useQuery({
     queryKey: 'getComplaintDept',
-    queryFn: getComplaintDepartmentData,
+    queryFn: getComplaintDepartmentData
   })
 
   if (error) warningNotify(error)

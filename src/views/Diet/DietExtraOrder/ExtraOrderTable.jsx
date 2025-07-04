@@ -1,26 +1,9 @@
 import React, { Fragment, memo } from 'react'
 import DeleteIcon from '@mui/icons-material/Delete'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  IconButton,
-  Tooltip,
-} from '@mui/material'
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, Tooltip } from '@mui/material'
 import { editicon } from 'src/color/Color'
 import EditIcon from '@mui/icons-material/Edit'
-const ExtraOrderTable = ({
-  newfood,
-  setNewdata,
-  setHospital,
-  setCanteen,
-  sumCanteen,
-  sumHosptial,
-  editdatas,
-}) => {
+const ExtraOrderTable = ({ newfood, setNewdata, setHospital, setCanteen, sumCanteen, sumHosptial, editdatas }) => {
   const rowSelect = value => {
     const newarry = newfood.filter(val => {
       return val.item_slno !== value.item_slno
@@ -48,10 +31,7 @@ const ExtraOrderTable = ({
             {newfood &&
               newfood.map((val, index) => {
                 return (
-                  <TableRow
-                    key={val.item_slno}
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                  >
+                  <TableRow key={val.item_slno} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                     <TableCell align="center">{val.item_slno}</TableCell>
                     <TableCell align="center">{val.item_name}</TableCell>
                     <TableCell align="center">{val.rate_hos}</TableCell>
@@ -60,18 +40,12 @@ const ExtraOrderTable = ({
 
                     <TableCell align="center">
                       <Tooltip title="Edit" arrow>
-                        <IconButton
-                          sx={{ color: editicon, paddingY: 0.5 }}
-                          onClick={() => editdatas(val)}
-                        >
+                        <IconButton sx={{ color: editicon, paddingY: 0.5 }} onClick={() => editdatas(val)}>
                           <EditIcon size={25} />
                         </IconButton>
                       </Tooltip>
                       <Tooltip title="Delete" arrow>
-                        <IconButton
-                          sx={{ color: editicon, paddingY: 0.5 }}
-                          onClick={() => rowSelect(val)}
-                        >
+                        <IconButton sx={{ color: editicon, paddingY: 0.5 }} onClick={() => rowSelect(val)}>
                           <DeleteIcon size={25} />
                         </IconButton>
                       </Tooltip>

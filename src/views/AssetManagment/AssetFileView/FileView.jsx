@@ -13,7 +13,7 @@ const FileView = ({ open, handleClose, images }) => {
         const fileNamePart = parts[parts.length - 1]
         const obj = {
           imageName: fileNamePart,
-          url: val,
+          url: val
         }
         return obj
       })
@@ -31,7 +31,7 @@ const FileView = ({ open, handleClose, images }) => {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          backdropFilter: 'blur(5px)',
+          backdropFilter: 'blur(5px)'
         }}
       >
         <Box
@@ -42,7 +42,7 @@ const FileView = ({ open, handleClose, images }) => {
             px: 2,
             py: 3,
             boxShadow: '0 8px 16px rgba(0, 0, 0, 0.15)',
-            width: '70vw',
+            width: '70vw'
           }}
         >
           <IconButton
@@ -58,9 +58,9 @@ const FileView = ({ open, handleClose, images }) => {
               borderRadius: '50%',
               '&:hover': {
                 backgroundColor: '#f5f5f5',
-                color: '#000',
+                color: '#000'
               },
-              p: 1,
+              p: 1
             }}
           >
             <CloseIcon />
@@ -79,7 +79,7 @@ const FileView = ({ open, handleClose, images }) => {
                     borderRadius: 1,
                     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
                     backgroundColor: '#fafafa',
-                    width: '68vw',
+                    width: '68vw'
                   }}
                 >
                   {value.imageName.endsWith('.pdf') ? (
@@ -90,7 +90,7 @@ const FileView = ({ open, handleClose, images }) => {
                         width: '100%',
                         height: '690px',
                         borderRadius: '8px',
-                        border: '1px solid #ccc',
+                        border: '1px solid #ccc'
                       }}
                     />
                   ) : (
@@ -102,7 +102,7 @@ const FileView = ({ open, handleClose, images }) => {
                         height: '500px',
                         objectFit: 'contain',
                         borderRadius: '8px',
-                        border: '1px solid #ddd',
+                        border: '1px solid #ddd'
                       }}
                     />
                   )}

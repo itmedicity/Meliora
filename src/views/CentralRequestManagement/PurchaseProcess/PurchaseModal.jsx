@@ -1,14 +1,4 @@
-import {
-  Box,
-  Checkbox,
-  CssVarsProvider,
-  Modal,
-  ModalClose,
-  ModalDialog,
-  Textarea,
-  Tooltip,
-  Typography,
-} from '@mui/joy'
+import { Box, Checkbox, CssVarsProvider, Modal, ModalClose, ModalDialog, Textarea, Tooltip, Typography } from '@mui/joy'
 import React, { Fragment, memo, useCallback, useMemo, useState } from 'react'
 import { Paper } from '@mui/material'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
@@ -52,9 +42,7 @@ const CommonEdapprvCmp = React.lazy(() => import('../ComonComponent/ApprovalComp
 const ViewOreviousDataCollctnDetails = React.lazy(() =>
   import('../ComonComponent/DataCollectionComp/ViewOreviousDataCollctnDetails')
 )
-const CrfReqDetailCmpnt = React.lazy(() =>
-  import('../CRFRequestMaster/Components/CrfReqDetailCmpnt')
-)
+const CrfReqDetailCmpnt = React.lazy(() => import('../CRFRequestMaster/Components/CrfReqDetailCmpnt'))
 
 const PurchaseModal = ({
   approveTableData,
@@ -67,7 +55,7 @@ const PurchaseModal = ({
   datacolflag,
   datacolData,
   imagearray,
-  newlyApprvdItems,
+  newlyApprvdItems
 }) => {
   const {
     req_slno,
@@ -93,7 +81,7 @@ const PurchaseModal = ({
     gm_approve_req,
     gm_approve,
     managing_director_req,
-    managing_director_approve,
+    managing_director_approve
   } = puchaseData
   const { company_slno } = company
   const id = useSelector(state => state.LoginUserData.empid, _.isEqual)
@@ -119,7 +107,7 @@ const PurchaseModal = ({
     work_orderNo: '',
     order_date: '',
     order_remark: '',
-    datacollFlagKMC: false,
+    datacollFlagKMC: false
   })
   const {
     datacollFlag,
@@ -142,7 +130,7 @@ const PurchaseModal = ({
     work_orderNo,
     order_date,
     order_remark,
-    datacollFlagKMC,
+    datacollFlagKMC
   } = purchaseState
 
   const [selectFile, setSelectFile] = useState([])
@@ -166,8 +154,8 @@ const PurchaseModal = ({
         : {
             po_number: '',
             po_date: '',
-            poDetlDis: 0,
-          }),
+            poDetlDis: 0
+          })
     }))
 
     if (!isChecked) {
@@ -183,14 +171,14 @@ const PurchaseModal = ({
   const checkPoComplete = useCallback(e => {
     setPurchaseState(prev => ({
       ...prev,
-      poComplete: e.target.checked,
+      poComplete: e.target.checked
     }))
   }, [])
   const handleCheckboxChange = useCallback(
     field => e => {
       setPurchaseState(prev => ({
         ...prev,
-        [field]: e.target.checked,
+        [field]: e.target.checked
       }))
     },
     []
@@ -202,7 +190,7 @@ const PurchaseModal = ({
       quotationCall: false,
       quotationNego: false,
       quotationFix: false,
-      datacollFlagKMC: false,
+      datacollFlagKMC: false
     }))
   }, [])
   const updatePoDetails = useCallback(
@@ -216,7 +204,7 @@ const PurchaseModal = ({
     setPurchaseState(prev => ({
       ...prev,
       po_number: '',
-      po_date: '',
+      po_date: ''
     }))
     setStoreSlno(0)
     setStoreName('')
@@ -240,7 +228,7 @@ const PurchaseModal = ({
           ponumber: po_number,
           from: format(new Date(po_date), 'dd/MM/yyyy 00:00:00'),
           to: format(new Date(po_date), 'dd/MM/yyyy 23:59:59'),
-          stcode: storeCode,
+          stcode: storeCode
         }
         const getPOdetails = async posearch => {
           const result = await axiosellider.post('/crfpurchase/getpo', posearch)
@@ -249,17 +237,8 @@ const PurchaseModal = ({
         getPOdetails(posearch).then(val => {
           const { success, data, message } = val
           if (success === 2) {
-            const {
-              POD_DATE,
-              SU_CODE,
-              SUC_NAME,
-              POC_DELIVERY,
-              PON_AMOUNT,
-              POD_EDD,
-              POC_TYPE,
-              PO_EXPIRY,
-              APPROVAL,
-            } = data[0]
+            const { POD_DATE, SU_CODE, SUC_NAME, POC_DELIVERY, PON_AMOUNT, POD_EDD, POC_TYPE, PO_EXPIRY, APPROVAL } =
+              data[0]
             const xx = data?.map((val, index) => {
               const obj = {
                 slno: index + 1,
@@ -272,7 +251,7 @@ const PurchaseModal = ({
                 tax: val.TXC_DESC,
                 tax_amount: val.PDN_TAXAMT.toFixed(2),
                 net_amount: val.TOTAL.toFixed(2),
-                grn_qnty: val.PDN_SUPQTY !== null ? val.PDN_SUPQTY : 0,
+                grn_qnty: val.PDN_SUPQTY !== null ? val.PDN_SUPQTY : 0
               }
               return obj
             })
@@ -292,16 +271,15 @@ const PurchaseModal = ({
               po_amount: PON_AMOUNT.toFixed(2),
               approval_level: typeof APPROVAL === 'number' && APPROVAL > 3 ? 3 : APPROVAL || null,
               po_type: POC_TYPE,
-              po_expiry:
-                PO_EXPIRY !== null ? PO_EXPIRY : format(addDays(new Date(), 30), 'yyyy-MM-dd'),
+              po_expiry: PO_EXPIRY !== null ? PO_EXPIRY : format(addDays(new Date(), 30), 'yyyy-MM-dd'),
               sub_store_slno: substoreSlno,
-              substoreName: substoreName,
+              substoreName: substoreName
               // items: xx
             }
             setPurchaseState(prev => ({
               ...prev,
               pomodalflag: 1,
-              pomodalopen: true,
+              pomodalopen: true
             }))
             // setPoModalflag(1)
             // setPoModalOpen(true)
@@ -316,23 +294,13 @@ const PurchaseModal = ({
     } else {
       warningNotify('Enter PO Details')
     }
-  }, [
-    po_number,
-    po_date,
-    req_slno,
-    storeCode,
-    storeSlno,
-    storeName,
-    substoreSlno,
-    substoreName,
-    crm_purchase_slno,
-  ])
+  }, [po_number, po_date, req_slno, storeCode, storeSlno, storeName, substoreSlno, substoreName, crm_purchase_slno])
   const resetPOno = useCallback(() => {
     setPurchaseState(prev => ({
       ...prev,
       po_number: '',
       po_date: '',
-      poDetlDis: 1,
+      poDetlDis: 1
     }))
     setStoreSlno(0)
     setsubStoreSlno(0)
@@ -348,7 +316,7 @@ const PurchaseModal = ({
       req_slno: req_slno,
       ack_status: 1,
       ack_remarks: ackRemark,
-      create_user: id,
+      create_user: id
     }
   }, [req_slno, ackRemark, id])
 
@@ -359,7 +327,7 @@ const PurchaseModal = ({
       ack_remarks: order_remark,
       create_user: id,
       work_orderNo: work_orderNo,
-      order_date: order_date,
+      order_date: order_date
     }
   }, [req_slno, order_remark, id, work_orderNo, order_date])
 
@@ -369,7 +337,7 @@ const PurchaseModal = ({
       quatation_calling_user: id,
       quatation_calling_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
       quatation_calling_remarks: quotationCallRemark,
-      crm_purchase_slno: crm_purchase_slno,
+      crm_purchase_slno: crm_purchase_slno
     }
   }, [crm_purchase_slno, id, quotationCall, quotationCallRemark])
 
@@ -379,7 +347,7 @@ const PurchaseModal = ({
       quatation_negotiation_user: id,
       quatation_negotiation_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
       quatation_negotiation_remarks: quotationNegoRemark,
-      crm_purchase_slno: crm_purchase_slno,
+      crm_purchase_slno: crm_purchase_slno
     }
   }, [crm_purchase_slno, id, quotationNego, quotationNegoRemark])
 
@@ -389,7 +357,7 @@ const PurchaseModal = ({
       quatation_fixing_user: id,
       quatation_fixing_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
       quatation_fixing_remarks: quotationFixRemark,
-      crm_purchase_slno: crm_purchase_slno,
+      crm_purchase_slno: crm_purchase_slno
     }
   }, [crm_purchase_slno, id, quotationFix, quotationFixRemark])
 
@@ -403,9 +371,9 @@ const PurchaseModal = ({
       poList: poDetails?.map(val => {
         return {
           po_detail_slno: val.po_detail_slno,
-          req_slno: val.req_slno,
+          req_slno: val.req_slno
         }
-      }),
+      })
     }
   }, [crm_purchase_slno, id, poComplete, newlyApprvdItems, poDetails])
 
@@ -413,7 +381,7 @@ const PurchaseModal = ({
     const options = {
       maxSizeMB: 25,
       maxWidthOrHeight: 1920,
-      useWebWorker: true,
+      useWebWorker: true
     }
     const compressedFile = await imageCompression(imageFile, options)
     return compressedFile
@@ -427,7 +395,7 @@ const PurchaseModal = ({
           succesNotify(message)
           await Promise.all([
             queryClient.invalidateQueries('getPurchaseAck'),
-            queryClient.invalidateQueries('getQuotationData'),
+            queryClient.invalidateQueries('getQuotationData')
           ])
           reset()
         } else {
@@ -440,10 +408,7 @@ const PurchaseModal = ({
 
     const updateQuatationCalling = async QuatationCallPatch => {
       try {
-        const result = await axioslogin.patch(
-          '/newCRFPurchase/QuatationCalling',
-          QuatationCallPatch
-        )
+        const result = await axioslogin.patch('/newCRFPurchase/QuatationCalling', QuatationCallPatch)
         const { success, message } = result.data
         if (success === 1) {
           succesNotify(message)
@@ -458,10 +423,7 @@ const PurchaseModal = ({
     }
     const updateQuatationNegotiatn = async QuatationNegotnPatch => {
       try {
-        const result = await axioslogin.patch(
-          '/newCRFPurchase/QuatationNegotiation',
-          QuatationNegotnPatch
-        )
+        const result = await axioslogin.patch('/newCRFPurchase/QuatationNegotiation', QuatationNegotnPatch)
         const { success, message } = result.data
         if (success === 1) {
           succesNotify(message)
@@ -476,10 +438,7 @@ const PurchaseModal = ({
     }
     const updateQuatationFixing = async QuatationFixingPatch => {
       try {
-        const result = await axioslogin.patch(
-          '/newCRFPurchase/QuatationFixing',
-          QuatationFixingPatch
-        )
+        const result = await axioslogin.patch('/newCRFPurchase/QuatationFixing', QuatationFixingPatch)
         const { success, message } = result.data
         if (success === 1) {
           succesNotify(message)
@@ -500,7 +459,7 @@ const PurchaseModal = ({
           succesNotify(message)
           await Promise.all([
             queryClient.invalidateQueries('getQuotationData'),
-            queryClient.invalidateQueries('purchaseDataCollection'),
+            queryClient.invalidateQueries('purchaseDataCollection')
           ])
           reset()
           // const keysToInvalidate = ['getQuotationData', 'purchaseDataCollection'];
@@ -514,16 +473,13 @@ const PurchaseModal = ({
     }
     const DataCollRequestFnctntmc = async postData => {
       try {
-        const result = await axioslogin.post(
-          `/CRFRegisterApproval/dataCollect/Insert/tmc`,
-          postData
-        )
+        const result = await axioslogin.post(`/CRFRegisterApproval/dataCollect/Insert/tmc`, postData)
         const { success, message } = result.data
         if (success === 1) {
           succesNotify(message)
           await Promise.all([
             queryClient.invalidateQueries('getQuotationData'),
-            queryClient.invalidateQueries('purchaseDataCollection'),
+            queryClient.invalidateQueries('purchaseDataCollection')
           ])
           reset()
         } else {
@@ -542,10 +498,7 @@ const PurchaseModal = ({
         po_date: format(new Date(val.po_date), 'yyyy-MM-dd HH:mm:ss'),
         po_status: 1,
         supply_store: val.supply_store,
-        expected_delivery:
-          val.expected_delivery !== null
-            ? format(new Date(val.expected_delivery), 'yyyy-MM-dd')
-            : '',
+        expected_delivery: val.expected_delivery !== null ? format(new Date(val.expected_delivery), 'yyyy-MM-dd') : '',
         supplier_code: val.supplier_code,
         supplier_name: val.supplier_name,
         po_delivery: val.po_delivery,
@@ -556,7 +509,7 @@ const PurchaseModal = ({
         approval_level: val.approval_level,
         po_type: val.po_type,
         po_expiry: val.po_expiry !== null ? format(new Date(val.po_expiry), 'yyyy-MM-dd') : null,
-        sub_store_slno: val.sub_store_slno,
+        sub_store_slno: val.sub_store_slno
       }
     })
     const InsertPODetails = async postdataDetl => {
@@ -583,7 +536,7 @@ const PurchaseModal = ({
           succesNotify(message)
           await Promise.all([
             queryClient.invalidateQueries('getQuotationData'),
-            queryClient.invalidateQueries('getAprrovalData'),
+            queryClient.invalidateQueries('getAprrovalData')
           ])
           reset()
         } else {
@@ -621,15 +574,11 @@ const PurchaseModal = ({
             formData.append('files', file, file.name)
           }
         }
-        const result = await axioslogin.post(
-          '/newCRFRegisterImages/InsertRegisterImage',
-          formData,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
+        const result = await axioslogin.post('/newCRFRegisterImages/InsertRegisterImage', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
           }
-        )
+        })
         return result.data
       } catch (error) {
         // console.log(error, "while file uploading");
@@ -648,7 +597,7 @@ const PurchaseModal = ({
                 crf_req_collect_dept: val,
                 crf_req_remark: datacolectremark,
                 reqest_one: 10,
-                req_user: id,
+                req_user: id
               }
             })
           DataCollRequestFnctn(postData)
@@ -703,7 +652,7 @@ const PurchaseModal = ({
           crf_req_remark: datacolectremark,
           reqest_one: 3,
           req_user: id,
-          tmc_status: 1,
+          tmc_status: 1
         }))
         DataCollRequestFnctntmc(postData)
         return
@@ -737,7 +686,7 @@ const PurchaseModal = ({
     PoCompletePatch,
     WorkOrder,
     datacollFlagKMC,
-    reset,
+    reset
   ])
 
   const closeModal = useCallback(() => {
@@ -748,7 +697,7 @@ const PurchaseModal = ({
     setPurchaseState(prev => ({
       ...prev,
       pomodalflag: 0,
-      pomodalopen: true,
+      pomodalopen: true
     }))
   }, [])
   return (
@@ -786,7 +735,7 @@ const PurchaseModal = ({
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 25,
-                width: 25,
+                width: 25
               }}
             />
             <Box sx={{ minWidth: '80vw', minHeight: '62vh', maxHeight: '85vh', overflowY: 'auto' }}>
@@ -918,9 +867,7 @@ const PurchaseModal = ({
                     </Box>
                     {acknowledgemnet === true ? (
                       <Box sx={{ display: 'flex', pt: 0.4, borderTop: '1px solid lightgrey' }}>
-                        <Typography sx={{ fontSize: 14, fontWeight: 600, pl: 3, pt: 2 }}>
-                          Remarks
-                        </Typography>
+                        <Typography sx={{ fontSize: 14, fontWeight: 600, pl: 3, pt: 2 }}>Remarks</Typography>
                         <Typography sx={{ pt: 1.8, pl: 1 }}> :&nbsp;</Typography>
                         <Box sx={{ px: 1, pt: 0.2, flex: 1 }}>
                           <Textarea
@@ -967,10 +914,7 @@ const PurchaseModal = ({
                   </Paper>
                 ) : null}
 
-                {company_slno === 2 &&
-                ack_status === 1 &&
-                po_prepartion !== 1 &&
-                po_complete !== 1 ? (
+                {company_slno === 2 && ack_status === 1 && po_prepartion !== 1 && po_complete !== 1 ? (
                   <Paper variant="outlined" sx={{ pb: 1, flexWrap: 'wrap', mx: 0.3 }}>
                     <Box sx={{ mx: 1, mt: 1 }}>
                       <CusCheckBox
@@ -1008,9 +952,7 @@ const PurchaseModal = ({
                       </Box>
                     </Box>
                     <Box sx={{ display: 'flex', pt: 0.4 }}>
-                      <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 1 }}>
-                        Remarks
-                      </Typography>
+                      <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 1 }}>Remarks</Typography>
                       <Typography sx={{ pt: 1 }}> :&nbsp;</Typography>
                       <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
                         <Textarea
@@ -1042,9 +984,7 @@ const PurchaseModal = ({
                       </Box>
                     </Box>
                     <Box sx={{ display: 'flex', pt: 0.4 }}>
-                      <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.5, pl: 1, pt: 1 }}>
-                        Remarks
-                      </Typography>
+                      <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.5, pl: 1, pt: 1 }}>Remarks</Typography>
                       <Typography sx={{ pt: 1 }}> :&nbsp;</Typography>
                       <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
                         <Textarea
@@ -1064,10 +1004,7 @@ const PurchaseModal = ({
                   </Box>
                 ) : null}
                 {/*     Quotation Calling */}
-                {ack_status === 1 &&
-                quatation_calling_status !== 1 &&
-                po_prepartion !== 1 &&
-                po_complete !== 1 ? (
+                {ack_status === 1 && quatation_calling_status !== 1 && po_prepartion !== 1 && po_complete !== 1 ? (
                   <Paper variant="outlined" sx={{ pb: 1, flexWrap: 'wrap', mx: 0.2, mt: 0.3 }}>
                     <Box sx={{ mx: 1, mt: 1 }}>
                       <CusCheckBox
@@ -1080,18 +1017,12 @@ const PurchaseModal = ({
                         value={quotationCall}
                         checked={purchaseState.quotationCall}
                         onCheked={handleCheckboxChange('quotationCall')}
-                        disabled={
-                          datacollFlag === true || poadding === true || datacollFlagKMC === true
-                            ? true
-                            : false
-                        }
+                        disabled={datacollFlag === true || poadding === true || datacollFlagKMC === true ? true : false}
                       />
                     </Box>
                     {quotationCall === true ? (
                       <Box sx={{ display: 'flex', pt: 0.4, borderTop: '1px solid lightgrey' }}>
-                        <Typography sx={{ fontSize: 14, fontWeight: 600, pl: 3, pt: 2 }}>
-                          Remarks
-                        </Typography>
+                        <Typography sx={{ fontSize: 14, fontWeight: 600, pl: 3, pt: 2 }}>Remarks</Typography>
                         <Typography sx={{ pt: 1.8, pl: 1 }}> :&nbsp;</Typography>
                         <Box sx={{ px: 1, pt: 0.2, flex: 1 }}>
                           <Textarea
@@ -1111,11 +1042,7 @@ const PurchaseModal = ({
                     ) : null}
                   </Paper>
                 ) : (
-                  <>
-                    {quatation_calling_status === 1 ? (
-                      <QuotationCallComp poData={puchaseData} />
-                    ) : null}
-                  </>
+                  <>{quatation_calling_status === 1 ? <QuotationCallComp poData={puchaseData} /> : null}</>
                 )}
                 {quatation_calling_status === 1 && quatation_negotiation !== 1 ? (
                   <Paper variant="outlined" sx={{ pb: 1, flexWrap: 'wrap', mx: 0.2, mt: 0.3 }}>
@@ -1135,9 +1062,7 @@ const PurchaseModal = ({
                     </Box>
                     {quotationNego === true ? (
                       <Box sx={{ display: 'flex', pt: 0.4, borderTop: '1px solid lightgrey' }}>
-                        <Typography sx={{ fontSize: 14, fontWeight: 600, pl: 3, pt: 2 }}>
-                          Remarks
-                        </Typography>
+                        <Typography sx={{ fontSize: 14, fontWeight: 600, pl: 3, pt: 2 }}>Remarks</Typography>
                         <Typography sx={{ pt: 1.8, pl: 1 }}> :&nbsp;</Typography>
                         <Box sx={{ px: 1, pt: 0.2, flex: 1 }}>
                           <Textarea
@@ -1157,16 +1082,9 @@ const PurchaseModal = ({
                     ) : null}
                   </Paper>
                 ) : (
-                  <>
-                    {' '}
-                    {quatation_negotiation === 1 ? (
-                      <QuotationNegoComp poData={puchaseData} />
-                    ) : null}
-                  </>
+                  <> {quatation_negotiation === 1 ? <QuotationNegoComp poData={puchaseData} /> : null}</>
                 )}
-                {quatation_calling_status === 1 &&
-                quatation_negotiation === 1 &&
-                quatation_fixing !== 1 ? (
+                {quatation_calling_status === 1 && quatation_negotiation === 1 && quatation_fixing !== 1 ? (
                   <Paper variant="outlined" sx={{ pb: 1, flexWrap: 'wrap', mx: 0.2, mt: 0.3 }}>
                     <Box sx={{ mx: 1, mt: 1 }}>
                       <CusCheckBox
@@ -1184,9 +1102,7 @@ const PurchaseModal = ({
                     </Box>
                     {quotationFix === true ? (
                       <Box sx={{ display: 'flex', pt: 0.4, borderTop: '1px solid lightgrey' }}>
-                        <Typography sx={{ fontSize: 14, fontWeight: 600, pl: 3, pt: 2 }}>
-                          Remarks
-                        </Typography>
+                        <Typography sx={{ fontSize: 14, fontWeight: 600, pl: 3, pt: 2 }}>Remarks</Typography>
                         <Typography sx={{ pt: 1.8, pl: 1 }}> :&nbsp;</Typography>
                         <Box sx={{ px: 1, pt: 0.2, flex: 1 }}>
                           <Textarea
@@ -1218,7 +1134,7 @@ const PurchaseModal = ({
                         py: 0.5,
                         color: '#145DA0',
                         fontSize: 14,
-                        flex: 0.5,
+                        flex: 0.5
                       }}
                     >
                       Added PO
@@ -1260,8 +1176,7 @@ const PurchaseModal = ({
 
                 {ack_status === 1 &&
                 po_complete !== 1 &&
-                (quatation_calling_status !== 1 ||
-                  (quatation_calling_status === 1 && quatation_fixing === 1)) ? (
+                (quatation_calling_status !== 1 || (quatation_calling_status === 1 && quatation_fixing === 1)) ? (
                   <Paper variant="outlined" sx={{ flexWrap: 'wrap', mx: 0.2, mt: 0.3 }}>
                     <Box sx={{ p: 0.8, mt: 0.3 }}>
                       {/* <CusCheckBox
@@ -1287,13 +1202,7 @@ const PurchaseModal = ({
                         // value={WorkOrder}
                         checked={WorkOrder}
                         onChange={e => setWorkOrder(e.target.checked)}
-                        disabled={
-                          quotationCall ||
-                          datacollFlag ||
-                          poComplete ||
-                          poadding ||
-                          datacollFlagKMC === true
-                        }
+                        disabled={quotationCall || datacollFlag || poComplete || poadding || datacollFlagKMC === true}
                       />
                     </Box>
                   </Paper>
@@ -1324,7 +1233,7 @@ const PurchaseModal = ({
                           value={order_date}
                           handleChange={updatePoDetails}
                           slotProps={{
-                            input: { max: moment(new Date()).format('YYYY-MM-DD') },
+                            input: { max: moment(new Date()).format('YYYY-MM-DD') }
                           }}
                         />
                       </Box>
@@ -1370,7 +1279,7 @@ const PurchaseModal = ({
                         value={po_date}
                         handleChange={updatePoDetails}
                         slotProps={{
-                          input: { max: moment(new Date()).format('YYYY-MM-DD') },
+                          input: { max: moment(new Date()).format('YYYY-MM-DD') }
                         }}
                       />
                     </Box>
@@ -1406,8 +1315,8 @@ const PurchaseModal = ({
                             color: '#0070E0',
                             cursor: 'pointer',
                             ':hover': {
-                              color: '#1e88e5',
-                            },
+                              color: '#1e88e5'
+                            }
                           }}
                           onClick={AddItem}
                         />
@@ -1421,8 +1330,8 @@ const PurchaseModal = ({
                               color: '#ef9a9a',
                               cursor: 'pointer',
                               ':hover': {
-                                color: '#e57373',
-                              },
+                                color: '#e57373'
+                              }
                             }}
                             onClick={clearData}
                           />

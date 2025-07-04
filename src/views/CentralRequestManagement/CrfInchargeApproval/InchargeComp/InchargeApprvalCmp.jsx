@@ -3,12 +3,7 @@ import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { Box, Textarea, Typography } from '@mui/joy'
 import { Paper } from '@mui/material'
 
-const InchargeApprvalCmp = ({
-  heading,
-  apprvlDetails,
-  updateOnchangeState,
-  updateApprovalState,
-}) => {
+const InchargeApprvalCmp = ({ heading, apprvlDetails, updateOnchangeState, updateApprovalState }) => {
   const { reject, pending, remark, detailAnalis } = apprvlDetails
   const remarkBox = useCallback(() => {
     if (reject) {
@@ -21,9 +16,7 @@ const InchargeApprvalCmp = ({
   return (
     <Fragment>
       <Paper variant="outlined" sx={{ flexWrap: 'wrap', my: 0.5, pb: 1, mx: 0.3 }}>
-        <Typography sx={{ fontWeight: 'bold', m: 1, color: '#145DA0', fontSize: 14 }}>
-          {heading}
-        </Typography>
+        <Typography sx={{ fontWeight: 'bold', m: 1, color: '#145DA0', fontSize: 14 }}>{heading}</Typography>
         <Typography sx={{ fontSize: 14, fontWeight: 550, pl: 1 }}>{remarkBox()}</Typography>
         <Box sx={{ flex: 1, m: 0.5, px: 0.5 }}>
           <Textarea
@@ -40,9 +33,7 @@ const InchargeApprvalCmp = ({
         </Box>
         {!reject && !pending && (
           <>
-            <Typography sx={{ fontSize: 14, fontWeight: 550, pl: 1 }}>
-              Detailed Analysis of Requirement
-            </Typography>
+            <Typography sx={{ fontSize: 14, fontWeight: 550, pl: 1 }}>Detailed Analysis of Requirement</Typography>
             <Box sx={{ flex: 1, m: 0.5, px: 0.5 }}>
               <Textarea
                 required

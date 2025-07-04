@@ -4,9 +4,7 @@ import Autocomplete from '@mui/joy/Autocomplete'
 import { CssVarsProvider } from '@mui/joy/'
 const TmProjectListInTaskCreaation = ({ projectz, setprojectz, setdueDateProject }) => {
   const ProjectList = useSelector(state => state.getprojectFrTaskCreation?.ProjectList)
-  const [projectx, setprojectx] = useState([
-    { tm_project_slno: 0, tm_project_name: '', tm_project_duedate: '' },
-  ])
+  const [projectx, setprojectx] = useState([{ tm_project_slno: 0, tm_project_name: '', tm_project_duedate: '' }])
   const [value, setValue] = useState(projectx[0])
   const [inputValue, setInputValue] = useState('')
 
@@ -59,7 +57,7 @@ const TmProjectListInTaskCreaation = ({ projectz, setprojectz, setdueDateProject
             borderBottom: '2px solid',
             borderColor: 'neutral.outlinedBorder',
             '&:hover': {
-              borderColor: 'neutral.outlinedHoverBorder',
+              borderColor: 'neutral.outlinedHoverBorder'
             },
             '&::before': {
               border: '1px solid var(--Input-focusedHighlight)',
@@ -69,11 +67,11 @@ const TmProjectListInTaskCreaation = ({ projectz, setprojectz, setdueDateProject
               bottom: '-2px',
               top: 'unset',
               transition: 'transform .15s cubic-bezier(0.1,0.9,0.2,1)',
-              borderRadius: 0,
+              borderRadius: 0
             },
             '&:focus-within::before': {
-              transform: 'scaleX(1)',
-            },
+              transform: 'scaleX(1)'
+            }
           }}
           value={projectz === 0 ? projectx : value}
           placeholder="Select Project"
@@ -101,7 +99,7 @@ const TmProjectListInTaskCreaation = ({ projectz, setprojectz, setdueDateProject
                   color: isPastDue(option.tm_project_duedate) ? 'darkred' : 'inherit',
                   padding: '4px 8px',
                   backgroundColor: 'white',
-                  cursor: 'pointer',
+                  cursor: 'pointer'
                 }}
               >
                 {option.tm_project_name}

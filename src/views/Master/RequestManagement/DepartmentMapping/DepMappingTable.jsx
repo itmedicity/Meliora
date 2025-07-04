@@ -11,17 +11,17 @@ const DepMappingTable = ({ setCount, count }) => {
       field: 'incharge_name',
       filter: 'true',
       width: 100,
-      valueGetter: params => params.data?.incharge_name ?? 'No Incharge',
+      valueGetter: params => params.data?.incharge_name ?? 'No Incharge'
     },
     {
       headerName: 'HOD Tmc',
       field: 'hod_name',
       filter: 'true',
       width: 100,
-      valueGetter: params => params.data?.hod_name ?? 'No Hod',
+      valueGetter: params => params.data?.hod_name ?? 'No Hod'
     },
     { headerName: 'Incharge ID Kmc', field: 'kmc_incharge', filter: 'true', width: 100 },
-    { headerName: 'Hod ID', field: 'kmc_hod', filter: 'true', width: 100 },
+    { headerName: 'Hod ID', field: 'kmc_hod', filter: 'true', width: 100 }
   ])
 
   useEffect(() => {

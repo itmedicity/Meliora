@@ -33,7 +33,7 @@ const EmployeeTask = () => {
           borderTop: 1,
           borderColor: 'lightgray',
           pt: 1.5,
-          bgcolor: 'white',
+          bgcolor: 'white'
         }}
       >
         <Box sx={{ flex: 0.5, pl: 1.7, fontWeight: 600, color: '#444444', fontSize: 12 }}>#</Box>
@@ -57,23 +57,17 @@ const EmployeeTask = () => {
                 minHeight: 30,
                 maxHeight: 80,
                 background: 'white',
-                pt: 0.5,
+                pt: 0.5
               }}
             >
-              <Box sx={{ flex: 0.5, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>
-                {index + 1}
-              </Box>
+              <Box sx={{ flex: 0.5, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>{index + 1}</Box>
               <Box sx={{ flex: 1, fontWeight: 600, color: 'grey', fontSize: 12 }}>{val.emslno}</Box>
-              <Box
-                sx={{ flex: 5, fontWeight: 600, color: 'grey', fontSize: 12, cursor: 'pointer' }}
-              >
+              <Box sx={{ flex: 5, fontWeight: 600, color: 'grey', fontSize: 12, cursor: 'pointer' }}>
                 &nbsp;
                 <PersonIcon sx={{ color: '#6A4973' }} /> {val.empname}
               </Box>
               <Box sx={{ flex: 1, color: 'green', pl: 4 }}>[{val.TC || '0'}]</Box>
-              <Box sx={{ flex: 1, fontWeight: 600, color: '#3B0404', fontSize: 12 }}>
-                [{val.TT || '0'}]
-              </Box>
+              <Box sx={{ flex: 1, fontWeight: 600, color: '#3B0404', fontSize: 12 }}>[{val.TT || '0'}]</Box>
             </Box>
           )
         })}

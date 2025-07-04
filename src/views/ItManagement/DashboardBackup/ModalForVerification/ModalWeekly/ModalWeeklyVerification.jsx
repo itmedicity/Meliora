@@ -15,9 +15,7 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp'
 import CloseIcon from '@mui/icons-material/Close'
 
 const ModalWeeklyVerification = ({ open, handleClose, rowSelect, count, setCount }) => {
-  const [backupTakenTime, setBackupTakenTime] = useState(
-    moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
-  )
+  const [backupTakenTime, setBackupTakenTime] = useState(moment(new Date()).format('YYYY-MM-DD HH:mm:ss'))
   const [verifyStatus, setVerifyStatus] = useState(false)
   const [notverify, setNotverify] = useState(false)
   const [remarks, setRemarks] = useState('')
@@ -93,7 +91,7 @@ const ModalWeeklyVerification = ({ open, handleClose, rowSelect, count, setCount
     transferred_device_ip: '',
     transferred_device_name: '',
     transferred_device_location: '',
-    schedule_type_name: '',
+    schedule_type_name: ''
   })
   const {
     backup_type_name,
@@ -105,7 +103,7 @@ const ModalWeeklyVerification = ({ open, handleClose, rowSelect, count, setCount
     transferred_device_ip,
     transferred_device_name,
     transferred_device_location,
-    schedule_type_name,
+    schedule_type_name
   } = viewdata
   useEffect(() => {
     if (Object.keys(rowSelect).length !== 0) {
@@ -122,7 +120,7 @@ const ModalWeeklyVerification = ({ open, handleClose, rowSelect, count, setCount
         transferred_device_location,
         schedule_type_name,
         backup_schedule_time,
-        schedule_time_name,
+        schedule_time_name
       } = rowSelect
       const frmdata = {
         backup_type_name: backup_type_name,
@@ -136,7 +134,7 @@ const ModalWeeklyVerification = ({ open, handleClose, rowSelect, count, setCount
         transferred_device_location: transferred_device_location,
         schedule_type_name: schedule_type_name,
         backup_schedule_time: backup_schedule_time,
-        schedule_time_name: schedule_time_name,
+        schedule_time_name: schedule_time_name
       }
       setViewdata(frmdata)
       setVslno(weekly_slno)
@@ -154,7 +152,7 @@ const ModalWeeklyVerification = ({ open, handleClose, rowSelect, count, setCount
       backup_device_location: '',
       transferred_device_ip: '',
       transferred_device_name: '',
-      transferred_device_location: '',
+      transferred_device_location: ''
     }
     setViewdata(frmdata)
     setBeforekb(0)
@@ -179,20 +177,9 @@ const ModalWeeklyVerification = ({ open, handleClose, rowSelect, count, setCount
       verify_status: verifyStatus === true ? 1 : notverify === true ? 2 : 0,
       remarks: remarks,
       edit_user: id,
-      backup_path: backupPath,
+      backup_path: backupPath
     }
-  }, [
-    vslno,
-    backupTakenTime,
-    beforebytes,
-    afterbytes,
-    empname,
-    verifyStatus,
-    notverify,
-    remarks,
-    backupPath,
-    id,
-  ])
+  }, [vslno, backupTakenTime, beforebytes, afterbytes, empname, verifyStatus, notverify, remarks, backupPath, id])
   const SaveVerification = useCallback(
     e => {
       if (empname === 0) {
@@ -237,14 +224,12 @@ const ModalWeeklyVerification = ({ open, handleClose, rowSelect, count, setCount
             sx={{
               height: '72vh',
               overflow: 'auto',
-              pr: 2,
+              pr: 2
             }}
           >
             <Box sx={{ flex: 1, display: 'flex', pt: 1, pl: 0.5 }}>
               <Box sx={{ width: 220, color: '#274472', fontSize: 15 }}>Backup Type</Box>
-              <Typography sx={{ fontSize: 14, color: '#274472' }}>
-                :&nbsp;{backup_type_name}{' '}
-              </Typography>
+              <Typography sx={{ fontSize: 14, color: '#274472' }}>:&nbsp;{backup_type_name} </Typography>
             </Box>
             <Box sx={{ flex: 1, display: 'flex', pl: 0.5 }}>
               <Box sx={{ width: 220, color: '#274472', fontSize: 15 }}>Backup Location</Box>
@@ -257,9 +242,7 @@ const ModalWeeklyVerification = ({ open, handleClose, rowSelect, count, setCount
             <Box sx={{ flex: 1, display: 'flex', pl: 0.5 }}>
               <Box sx={{ width: 220, color: '#274472', fontSize: 15 }}>Backup Schedule</Box>
               <Box sx={{ flex: 1, display: 'flex', flexDirection: 'row' }}>
-                <Typography style={{ fontSize: 14, color: '#274472' }}>
-                  :&nbsp;{schedule_type_name}
-                </Typography>
+                <Typography style={{ fontSize: 14, color: '#274472' }}>:&nbsp;{schedule_type_name}</Typography>
               </Box>
             </Box>
 
@@ -267,59 +250,41 @@ const ModalWeeklyVerification = ({ open, handleClose, rowSelect, count, setCount
 
             <Box sx={{ flex: 1, display: 'flex', pl: 0.5 }}>
               <Box sx={{ width: 220, color: '#274472', fontSize: 15 }}>IP Address</Box>
-              <Typography sx={{ fontSize: 14, color: '#274472' }}>
-                :&nbsp;{backup_device_ip}{' '}
-              </Typography>
+              <Typography sx={{ fontSize: 14, color: '#274472' }}>:&nbsp;{backup_device_ip} </Typography>
             </Box>
             <Box sx={{ flex: 1, display: 'flex', pl: 0.5 }}>
               <Box sx={{ width: 220, color: '#274472', fontSize: 15 }}>Computer Name</Box>
-              <Typography sx={{ fontSize: 14, color: '#274472' }}>
-                :&nbsp;{backup_device_name}{' '}
-              </Typography>
+              <Typography sx={{ fontSize: 14, color: '#274472' }}>:&nbsp;{backup_device_name} </Typography>
             </Box>
             <Box sx={{ flex: 1, display: 'flex', pl: 0.5 }}>
               <Box sx={{ width: 220, color: '#274472', fontSize: 15 }}>Physical Location</Box>
-              <Typography sx={{ fontSize: 14, color: '#274472' }}>
-                :&nbsp;{backup_device_location}{' '}
-              </Typography>
+              <Typography sx={{ fontSize: 14, color: '#274472' }}>:&nbsp;{backup_device_location} </Typography>
             </Box>
 
-            <Typography sx={{ fontSize: 16, pl: 0.5, pt: 0.5 }}>
-              {' '}
-              Backup Transfered Device{' '}
-            </Typography>
+            <Typography sx={{ fontSize: 16, pl: 0.5, pt: 0.5 }}> Backup Transfered Device </Typography>
 
             <Box sx={{ flex: 1, display: 'flex', pl: 0.5 }}>
               <Box sx={{ width: 220, color: '#274472', fontSize: 15 }}>IP Address</Box>
-              <Typography sx={{ fontSize: 14, color: '#274472' }}>
-                :&nbsp;{transferred_device_ip}{' '}
-              </Typography>
+              <Typography sx={{ fontSize: 14, color: '#274472' }}>:&nbsp;{transferred_device_ip} </Typography>
             </Box>
             <Box sx={{ flex: 1, display: 'flex', pl: 0.5 }}>
               <Box sx={{ width: 220, color: '#274472', fontSize: 15 }}>Computer Name</Box>
-              <Typography sx={{ fontSize: 14, color: '#274472' }}>
-                :&nbsp;{transferred_device_name}{' '}
-              </Typography>
+              <Typography sx={{ fontSize: 14, color: '#274472' }}>:&nbsp;{transferred_device_name} </Typography>
             </Box>
             <Box sx={{ flex: 1, display: 'flex', pl: 0.5 }}>
               <Box sx={{ width: 220, color: '#274472', fontSize: 15 }}>Physical Location</Box>
-              <Typography sx={{ fontSize: 14, color: '#274472' }}>
-                :&nbsp;{transferred_device_location}{' '}
-              </Typography>
+              <Typography sx={{ fontSize: 14, color: '#274472' }}>:&nbsp;{transferred_device_location} </Typography>
             </Box>
 
             <Box sx={{ flex: 1, display: 'flex', pt: 2, pl: 0.5, gap: 3 }}>
               <Box sx={{ flex: 1 }}>
-                <Typography sx={{ pl: 0.5, fontWeight: 500, fontSize: 14 }}>
-                  {' '}
-                  Backup Date & Time
-                </Typography>
+                <Typography sx={{ pl: 0.5, fontWeight: 500, fontSize: 14 }}> Backup Date & Time</Typography>
                 <TextFieldCustom
                   slotProps={{
                     input: {
                       min: moment(startOfWeek(new Date())).format('YYYY-MM-DD HH:mm:ss'),
-                      max: moment(endOfWeek(new Date())).format('YYYY-MM-DD HH:mm:ss'),
-                    },
+                      max: moment(endOfWeek(new Date())).format('YYYY-MM-DD HH:mm:ss')
+                    }
                   }}
                   size="sm"
                   type="datetime-local"
@@ -330,9 +295,7 @@ const ModalWeeklyVerification = ({ open, handleClose, rowSelect, count, setCount
               </Box>
 
               <Box sx={{ flex: 1 }}>
-                <Typography sx={{ pl: 0.5, fontWeight: 500, fontSize: 14 }}>
-                  Employee Name
-                </Typography>
+                <Typography sx={{ pl: 0.5, fontWeight: 500, fontSize: 14 }}>Employee Name</Typography>
                 <Box sx={{ flex: 1 }}>
                   <Select
                     size="sm"
@@ -355,10 +318,7 @@ const ModalWeeklyVerification = ({ open, handleClose, rowSelect, count, setCount
 
             <Box sx={{ flex: 1, display: 'flex', pt: 2, pl: 0.5, gap: 3 }}>
               <Box sx={{ flex: 1 }}>
-                <Typography sx={{ pl: 0.5, fontWeight: 500, fontSize: 14 }}>
-                  {' '}
-                  Backup Size Before Compression
-                </Typography>
+                <Typography sx={{ pl: 0.5, fontWeight: 500, fontSize: 14 }}> Backup Size Before Compression</Typography>
                 <Box sx={{ display: 'flex', flex: 1, gap: 0.5 }}>
                   <TextFieldCustom
                     placeholder="In Bytes"
@@ -384,10 +344,7 @@ const ModalWeeklyVerification = ({ open, handleClose, rowSelect, count, setCount
               </Box>
 
               <Box sx={{ flex: 1 }}>
-                <Typography sx={{ pl: 0.5, fontWeight: 500, fontSize: 14 }}>
-                  {' '}
-                  Backup Size After Compression
-                </Typography>
+                <Typography sx={{ pl: 0.5, fontWeight: 500, fontSize: 14 }}> Backup Size After Compression</Typography>
                 <Box sx={{ display: 'flex', flex: 1, gap: 0.5 }}>
                   <Box sx={{ flex: 1 }}>
                     <TextFieldCustom
@@ -428,10 +385,7 @@ const ModalWeeklyVerification = ({ open, handleClose, rowSelect, count, setCount
             </Box>
 
             <Box sx={{ flex: 1, pt: 2 }}>
-              <Typography sx={{ pl: 0.5, fontWeight: 500, fontSize: 14 }}>
-                {' '}
-                Backup Status & Remarks
-              </Typography>
+              <Typography sx={{ pl: 0.5, fontWeight: 500, fontSize: 14 }}> Backup Status & Remarks</Typography>
               <Box sx={{ flex: 1 }}>
                 <Box sx={{ display: 'flex', pt: 1, pb: 0.5, justifyContent: 'center', gap: 3 }}>
                   <CusCheckBox
@@ -457,7 +411,7 @@ const ModalWeeklyVerification = ({ open, handleClose, rowSelect, count, setCount
                   <CustomTextarea
                     style={{
                       height: 70,
-                      width: '100%',
+                      width: '100%'
                     }}
                     placeholder="Remarks"
                     required
@@ -473,16 +427,10 @@ const ModalWeeklyVerification = ({ open, handleClose, rowSelect, count, setCount
             </Box>
           </Box>
           <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', pt: 1, gap: 1 }}>
-            <Box
-              onClick={SaveVerification}
-              sx={{ cursor: 'pointer', fontWeight: 600, color: '#594002' }}
-            >
+            <Box onClick={SaveVerification} sx={{ cursor: 'pointer', fontWeight: 600, color: '#594002' }}>
               Save
             </Box>
-            <Box
-              onClick={handleClose}
-              sx={{ cursor: 'pointer', fontWeight: 600, color: '#594002' }}
-            >
+            <Box onClick={handleClose} sx={{ cursor: 'pointer', fontWeight: 600, color: '#594002' }}>
               Cancel
             </Box>
           </Box>

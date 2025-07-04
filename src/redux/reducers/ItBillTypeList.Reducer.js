@@ -3,7 +3,7 @@ const { FETCH_IT_MANAGEMENT_BILL_TYPE } = ActionTyps
 
 const BillType = {
   BillTypelist: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 
 export const getBillType = (state = BillType, { type, payload }) => {

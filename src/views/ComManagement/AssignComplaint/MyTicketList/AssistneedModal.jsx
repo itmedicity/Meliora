@@ -9,14 +9,7 @@ import { useSelector } from 'react-redux'
 import _ from 'underscore'
 import { format } from 'date-fns'
 
-const AssistneedModal = ({
-  assistNeed,
-  assistOpen,
-  setassistNeedFlag,
-  setAssistOpen,
-  count,
-  setCount,
-}) => {
+const AssistneedModal = ({ assistNeed, assistOpen, setassistNeedFlag, setAssistOpen, count, setCount }) => {
   const {
     complaint_slno,
     complaint_desc,
@@ -26,7 +19,7 @@ const AssistneedModal = ({
     rm_insidebuildblock_name,
     rm_floor_name,
     location,
-    complaint_type_name,
+    complaint_type_name
   } = assistNeed
 
   const id = useSelector(state => state.LoginUserData.empid, _.isEqual)
@@ -41,7 +34,7 @@ const AssistneedModal = ({
 
   const searchData = useMemo(() => {
     return {
-      complaint_slno: complaint_slno,
+      complaint_slno: complaint_slno
     }
   }, [complaint_slno])
 
@@ -75,7 +68,7 @@ const AssistneedModal = ({
           assist_flag: 1,
           assist_requested_emp: id,
           assign_rect_status: 0,
-          assigned_user: id,
+          assigned_user: id
         }
       },
       [complaint_slno, assistemp, id]
@@ -112,11 +105,11 @@ const AssistneedModal = ({
     '&:hover': {
       bgcolor: 'white',
       color: '#523A28',
-      transform: 'scale(1.1)',
+      transform: 'scale(1.1)'
     },
     '&:active': {
-      transform: 'scale(0.95)',
-    },
+      transform: 'scale(0.95)'
+    }
   }
 
   const empdept = useSelector(state => {
@@ -125,7 +118,7 @@ const AssistneedModal = ({
 
   const postdata = {
     em_department: empdept,
-    em_id: id,
+    em_id: id
   }
 
   return (
@@ -139,7 +132,7 @@ const AssistneedModal = ({
           justifyContent: 'center',
           alignItems: 'center',
           pl: 1,
-          borderRadius: 10,
+          borderRadius: 10
         }}
       >
         <ModalDialog variant="outlined" sx={{ width: '50vw', p: 0, overflow: 'auto' }}>
@@ -152,12 +145,8 @@ const AssistneedModal = ({
 
           <Box sx={{ flex: 1, display: 'flex', bgcolor: '#ECEDEF', py: 0.5 }}>
             <Box sx={{ flex: 1, pl: 0.5 }}>
-              <Typography sx={{ pl: 0.5, fontWeight: 600, color: 'Black' }}>
-                Ticket No.{complaint_slno}
-              </Typography>
-              <Typography sx={{ pl: 0.5, fontSize: 14, color: 'Black' }}>
-                {complaint_desc}
-              </Typography>
+              <Typography sx={{ pl: 0.5, fontWeight: 600, color: 'Black' }}>Ticket No.{complaint_slno}</Typography>
+              <Typography sx={{ pl: 0.5, fontSize: 14, color: 'Black' }}>{complaint_desc}</Typography>
               <Typography sx={{ pl: 0.5, fontSize: 13, color: 'Black', py: 0.5 }}>
                 Complaint Type: {complaint_type_name}
               </Typography>
@@ -177,18 +166,14 @@ const AssistneedModal = ({
                 </Typography>
               ) : null}
               <Typography sx={{ pl: 0.5, fontSize: 13, color: 'Black' }}>
-                {compalint_date
-                  ? format(new Date(compalint_date), 'dd MMM yyyy,  hh:mm a')
-                  : 'Invalid Date'}
+                {compalint_date ? format(new Date(compalint_date), 'dd MMM yyyy,  hh:mm a') : 'Invalid Date'}
               </Typography>
             </Box>
           </Box>
 
           {assistedEmployees.length !== 0 ? (
             <Box sx={{ flex: 1, mx: 2, mb: 2 }}>
-              <Typography sx={{ pl: 0.5, fontWeight: 600, color: 'Black', py: 0.5 }}>
-                Selected Assistants
-              </Typography>
+              <Typography sx={{ pl: 0.5, fontWeight: 600, color: 'Black', py: 0.5 }}>Selected Assistants</Typography>
 
               <Box
                 sx={{
@@ -197,7 +182,7 @@ const AssistneedModal = ({
                   height: 22,
                   display: 'flex',
                   fontWeight: 600,
-                  mb: 1,
+                  mb: 1
                 }}
               >
                 <Box sx={{ flex: 0.5, pl: 2 }}>Employees</Box>
@@ -207,9 +192,7 @@ const AssistneedModal = ({
               {assistedEmployees?.map((val, index) => {
                 return (
                   <Box sx={{ display: 'flex', flex: 1, justifyContent: 'center' }} key={index}>
-                    <Box sx={{ pl: 2.5, flex: 0.5, fontWeight: 600, color: '#6B5647' }}>
-                      {val.assigned_emp_name}
-                    </Box>
+                    <Box sx={{ pl: 2.5, flex: 0.5, fontWeight: 600, color: '#6B5647' }}>{val.assigned_emp_name}</Box>
                     <Box
                       sx={{
                         width: 250,
@@ -221,7 +204,7 @@ const AssistneedModal = ({
                             ? 'darkgreen' // Accepted
                             : val.assist_receive === 0 && val.assist_flag === 2
                             ? 'darkred' // Rejected
-                            : '#6B5647', // Default color
+                            : '#6B5647' // Default color
                       }}
                     >
                       {val.assist_receive === 0 && val.assist_flag === 1
@@ -249,9 +232,7 @@ const AssistneedModal = ({
           ) : null}
 
           <Box sx={{ flex: 1, mx: 2, mb: 4 }}>
-            <Typography sx={{ pl: 0.5, fontWeight: 600, color: 'Black', py: 0.5 }}>
-              Select Assistance
-            </Typography>
+            <Typography sx={{ pl: 0.5, fontWeight: 600, color: 'Black', py: 0.5 }}>Select Assistance</Typography>
             <AssistantEmpSelect postdata={postdata} value={assistemp} setValue={setAssistemp} />
           </Box>
 

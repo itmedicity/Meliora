@@ -3,7 +3,7 @@ const { FETCH_AFTERNOONROUNDS_LIST } = ActionTyps
 
 const AftternoonRounds = {
   RoundsList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 
 export const getAfternoonrounds = (state = AftternoonRounds, { type, payload }) => {

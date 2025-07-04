@@ -3,7 +3,7 @@ const { FETCH_BACKUP_SCHEDULE_TIME } = ActionTyps
 
 const BackupScheduleTime = {
   scheduleTimeList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 export const getScheduleTime = (state = BackupScheduleTime, { type, payload }) => {
   switch (type) {

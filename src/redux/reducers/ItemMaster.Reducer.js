@@ -3,7 +3,7 @@ const { FETCH_ITEM_MASTER } = ActionTyps
 //intial state
 const item = {
   itemList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Item action type check then payload set to the state and loading status set as true */
 export const getItem = (state = item, { type, payload }) => {

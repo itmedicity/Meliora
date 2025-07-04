@@ -45,9 +45,7 @@ const ForVerifySupervisor = ({ forVerifyList, count, setCount }) => {
     setimageViewOpen(true)
     setfileDetails(val)
     try {
-      const result = await axioslogin.get(
-        `/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`
-      )
+      const result = await axioslogin.get(`/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`)
       const { success } = result.data
       if (success === 1) {
         const data = result.data
@@ -72,12 +70,7 @@ const ForVerifySupervisor = ({ forVerifyList, count, setCount }) => {
   return (
     <Box>
       {queryflag === 1 ? (
-        <QueryModalview
-          open={queryOpen}
-          setqueryOpen={setqueryOpen}
-          valuee={valuee}
-          setqueryflag={setqueryflag}
-        />
+        <QueryModalview open={queryOpen} setqueryOpen={setqueryOpen} valuee={valuee} setqueryflag={setqueryflag} />
       ) : null}
       {verifyFlag === 1 ? (
         <SupervisorVerifyModal
@@ -114,7 +107,7 @@ const ForVerifySupervisor = ({ forVerifyList, count, setCount }) => {
                 borderColor: '#0B6BCB',
                 borderRadius: 8,
                 bgcolor: 'white',
-                mb: 0.5,
+                mb: 0.5
               }}
             >
               <Box
@@ -124,7 +117,7 @@ const ForVerifySupervisor = ({ forVerifyList, count, setCount }) => {
                   borderTopRightRadius: 6,
                   borderTopLeftRadius: 6,
                   mx: 0.1,
-                  display: 'flex',
+                  display: 'flex'
                 }}
               >
                 <CssVarsProvider>
@@ -138,7 +131,7 @@ const ForVerifySupervisor = ({ forVerifyList, count, setCount }) => {
                           fontSize: 15,
                           pl: 1,
                           py: 0.5,
-                          fontFamily: 'Arial',
+                          fontFamily: 'Arial'
                         }}
                         text={
                           val.compalint_date
@@ -157,7 +150,7 @@ const ForVerifySupervisor = ({ forVerifyList, count, setCount }) => {
                       px: 2,
                       fontWeight: 500,
                       fontSize: 14,
-                      cursor: 'pointer',
+                      cursor: 'pointer'
                     }}
                   >
                     Ticket Registered by : {val.comp_reg_emp}
@@ -172,13 +165,10 @@ const ForVerifySupervisor = ({ forVerifyList, count, setCount }) => {
                       mx: 1,
                       pr: 1,
                       borderRight: 1,
-                      borderColor: 'lightgrey',
+                      borderColor: 'lightgrey'
                     }}
                   >
-                    <Typography sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700 }}>
-                      {' '}
-                      Ticket No.
-                    </Typography>
+                    <Typography sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700 }}> Ticket No.</Typography>
                     <Typography sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700, px: 3 }}>
                       {val.complaint_slno}
                     </Typography>
@@ -194,7 +184,7 @@ const ForVerifySupervisor = ({ forVerifyList, count, setCount }) => {
                               border: 1,
                               borderRadius: 5,
                               p: 0.1,
-                              '&:hover': { color: '#274472' },
+                              '&:hover': { color: '#274472' }
                             }}
                             onClick={() => fileView(val)}
                           />
@@ -211,7 +201,7 @@ const ForVerifySupervisor = ({ forVerifyList, count, setCount }) => {
                             borderRadius: 5,
                             p: 0.1,
                             mx: 0.5,
-                            '&:hover': { color: '#41729F' },
+                            '&:hover': { color: '#41729F' }
                           }}
                           onClick={() => ForVerifyModal(val)}
                         />
@@ -227,7 +217,7 @@ const ForVerifySupervisor = ({ forVerifyList, count, setCount }) => {
                               border: 1,
                               borderRadius: 5,
                               p: 0.1,
-                              '&:hover': { color: '#41729F' },
+                              '&:hover': { color: '#41729F' }
                             }}
                             onClick={() => RaiseQuery(val)}
                           />
@@ -243,7 +233,7 @@ const ForVerifySupervisor = ({ forVerifyList, count, setCount }) => {
                               border: 1,
                               borderRadius: 5,
                               p: 0.1,
-                              '&:hover': { color: '#41729F' },
+                              '&:hover': { color: '#41729F' }
                             }}
                             onClick={() => RaiseQuery(val)}
                           />
@@ -255,18 +245,16 @@ const ForVerifySupervisor = ({ forVerifyList, count, setCount }) => {
                   <Box
                     sx={{
                       pl: 0.5,
-                      maxWidth: 500,
+                      maxWidth: 500
                     }}
                   >
                     <Box
                       sx={{
                         display: 'flex',
-                        mt: 0.5,
+                        mt: 0.5
                       }}
                     >
-                      <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
-                        Department Section
-                      </Typography>
+                      <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>Department Section</Typography>
                       <Typography sx={{ fontSize: 14, flex: 1, textTransform: 'capitalize' }}>
                         {val.location.charAt(0).toUpperCase() + val.location.slice(1).toLowerCase()}
                       </Typography>
@@ -274,12 +262,10 @@ const ForVerifySupervisor = ({ forVerifyList, count, setCount }) => {
                     <Box
                       sx={{
                         display: 'flex',
-                        mt: 0.5,
+                        mt: 0.5
                       }}
                     >
-                      <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
-                        Location
-                      </Typography>
+                      <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>Location</Typography>
                       <Typography sx={{ fontSize: 13, flex: 1 }}>
                         {val.rm_room_name}
                         {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name
@@ -294,12 +280,10 @@ const ForVerifySupervisor = ({ forVerifyList, count, setCount }) => {
                     <Box
                       sx={{
                         display: 'flex',
-                        mt: 0.5,
+                        mt: 0.5
                       }}
                     >
-                      <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
-                        Complaint Type
-                      </Typography>
+                      <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>Complaint Type</Typography>
                       <Typography sx={{ fontSize: 14, flex: 1 }}>
                         {val.complaint_type_name.charAt(0).toUpperCase() +
                           val.complaint_type_name.slice(1).toLowerCase()}
@@ -307,16 +291,14 @@ const ForVerifySupervisor = ({ forVerifyList, count, setCount }) => {
                     </Box>
                   </Box>
                   <Box sx={{ flex: 1, pl: 1.5 }}>
-                    <Typography sx={{ fontSize: 13, fontWeight: 700 }}>
-                      Complaint Describtion
-                    </Typography>
+                    <Typography sx={{ fontSize: 13, fontWeight: 700 }}>Complaint Describtion</Typography>
                     <Typography
                       sx={{
                         pr: 0.5,
                         pt: 0.3,
                         fontSize: 14,
                         maxHeight: 50,
-                        overflow: 'auto',
+                        overflow: 'auto'
                       }}
                     >
                       {val.complaint_desc || 'Not Updated'}
@@ -331,7 +313,7 @@ const ForVerifySupervisor = ({ forVerifyList, count, setCount }) => {
                     borderBottomLeftRadius: 5,
                     mb: 0.1,
                     mx: 0.1,
-                    display: 'flex',
+                    display: 'flex'
                   }}
                 >
                   {val.priority_check === 1 ? (
@@ -340,7 +322,7 @@ const ForVerifySupervisor = ({ forVerifyList, count, setCount }) => {
                         sx={{
                           height: 30,
                           width: 25,
-                          color: val.priority_check === 1 ? '#970C10' : 'lightgrey',
+                          color: val.priority_check === 1 ? '#970C10' : 'lightgrey'
                         }}
                       />
                       <Typography
@@ -350,7 +332,7 @@ const ForVerifySupervisor = ({ forVerifyList, count, setCount }) => {
                           fontSize: 14,
                           pt: 0.5,
                           color: 'darkred',
-                          overflow: 'auto',
+                          overflow: 'auto'
                         }}
                       >
                         {val.priority_reason}
@@ -358,9 +340,7 @@ const ForVerifySupervisor = ({ forVerifyList, count, setCount }) => {
                     </Box>
                   ) : null}
                   <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
-                    <Typography sx={{ fontSize: 13, fontWeight: 700, pt: 0.5 }}>
-                      Assignees :
-                    </Typography>
+                    <Typography sx={{ fontSize: 13, fontWeight: 700, pt: 0.5 }}>Assignees :</Typography>
                     &nbsp;&nbsp;
                     <Box sx={{ fontWeight: 600, display: 'flex', py: 0.4, gap: 0.3 }}>
                       {val.assigned_employees === null ? (

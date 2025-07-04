@@ -18,7 +18,7 @@ const SelectComTypeUser = ({ value, setValue }) => {
   }, [dispatch])
   const handleChange = e => {
     const {
-      target: { value },
+      target: { value }
     } = e
     setValue(
       // On autofill we get a the stringified value.

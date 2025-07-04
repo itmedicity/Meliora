@@ -62,16 +62,14 @@ const AmcCmcDetails = ({ AssetDetails }) => {
 
   return (
     <Box sx={{ border: 1, borderColor: '#E0E1E3', py: 1.5, px: 2, mt: 0.5 }}>
-      {imageshowFlag === 1 ? (
-        <FileView open={imageshow} handleClose={handleClose} images={imagearray} />
-      ) : null}
+      {imageshowFlag === 1 ? <FileView open={imageshow} handleClose={handleClose} images={imagearray} /> : null}
       <TextComponent
         text={'AMC/CMC DETAILS LIST'}
         sx={{
           flex: 1,
           fontWeight: 500,
           color: 'black',
-          fontSize: 15,
+          fontSize: 15
         }}
       />
 
@@ -84,7 +82,7 @@ const AmcCmcDetails = ({ AssetDetails }) => {
               fontWeight: 600,
               color: 'lightgrey',
               textAlign: 'center',
-              pt: 5,
+              pt: 5
             }}
           >
             Empty AMC/CMC Details
@@ -99,7 +97,7 @@ const AmcCmcDetails = ({ AssetDetails }) => {
                 borderBottom: 1,
                 borderColor: 'lightgrey',
                 pl: 1,
-                py: 0.5,
+                py: 0.5
               }}
             >
               <Box sx={{ flex: 0.1 }}>#</Box>
@@ -129,7 +127,7 @@ const AmcCmcDetails = ({ AssetDetails }) => {
                       borderBottom: 1,
                       borderColor: 'lightgrey',
                       pl: 1,
-                      py: 0.6,
+                      py: 0.6
                     }}
                   >
                     <Box sx={{ flex: 0.1, fontWeight: 600 }}>{index + 1}</Box>
@@ -144,11 +142,7 @@ const AmcCmcDetails = ({ AssetDetails }) => {
                       )}
                     </Box>
                     <Box sx={{ flex: 0.3, fontWeight: 600 }}>
-                      {val.master_amc_status === 1
-                        ? 'AMC'
-                        : val.master_cmc_status === 1
-                        ? 'CMC'
-                        : 'Not Updated'}
+                      {val.master_amc_status === 1 ? 'AMC' : val.master_cmc_status === 1 ? 'CMC' : 'Not Updated'}
                     </Box>
                     <Box sx={{ flex: 1, fontWeight: 600 }}>{val.it_supplier_name}</Box>
                     <Box sx={{ flex: 0.4, fontWeight: 600 }}>
@@ -161,8 +155,7 @@ const AmcCmcDetails = ({ AssetDetails }) => {
                       sx={{
                         flex: 0.3,
                         fontWeight: 600,
-                        color:
-                          val.status === 1 ? 'darkgreen' : val.status === 0 ? '#523A28' : 'black',
+                        color: val.status === 1 ? 'darkgreen' : val.status === 0 ? '#523A28' : 'black'
                       }}
                     >
                       {val.status === 1

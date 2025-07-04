@@ -13,16 +13,7 @@ import { RefreshIpPatients } from './RefreshIpPatients'
 import ModalForIPqiMarking from './ModalForIPqiMarking'
 import { useNavigate } from 'react-router-dom'
 
-const InpatientTableView = ({
-  setSearchFlag,
-  dailyDate,
-  count,
-  setCount,
-  qidept,
-  depCode,
-  setQidept,
-  depName,
-}) => {
+const InpatientTableView = ({ setSearchFlag, dailyDate, count, setCount, qidept, depCode, setQidept, depName }) => {
   const [patientlist, setpatientlist] = useState([])
   const [qiflag, setQiflag] = useState(0)
   const [modalopen, setModalOpen] = useState(false)
@@ -44,7 +35,7 @@ const InpatientTableView = ({
     const viewdata = {
       from: format(new Date(dailyDate), 'yyyy-MM-dd 00:00:00'),
       to: format(new Date(dailyDate), 'yyyy-MM-dd 23:59:59'),
-      qidept: qidept,
+      qidept: qidept
     }
     const getDialysisData = async viewdata => {
       const result = await axioslogin.post('/qiInpatients/view', viewdata)
@@ -77,7 +68,7 @@ const InpatientTableView = ({
       from: format(new Date(dailyDate), 'yyyy-MM-dd 00:00:00'),
       to: format(new Date(dailyDate), 'yyyy-MM-dd 23:59:59'),
       qidept: qidept,
-      ptname: searchPat,
+      ptname: searchPat
     }
     const getSearchDetails = async searchData => {
       const result = await axioslogin.post('/qiInpatients/searchbyPatient', searchData)
@@ -133,9 +124,7 @@ const InpatientTableView = ({
                 <Box sx={{ pl: 0.5, pt: 0.2 }}>
                   <CssVarsProvider>
                     <Input
-                      startDecorator={
-                        <PersonSearchTwoToneIcon sx={{ height: 30, width: 30, color: '#0063C5' }} />
-                      }
+                      startDecorator={<PersonSearchTwoToneIcon sx={{ height: 30, width: 30, color: '#0063C5' }} />}
                       size="sm"
                       placeholder="Search By Patient Name"
                       name="searchPat"
@@ -153,7 +142,7 @@ const InpatientTableView = ({
                   fontSize: 20,
                   pr: 0.3,
                   pt: 0.4,
-                  pl: 0.5,
+                  pl: 0.5
                 }}
               >
                 <CssVarsProvider>
@@ -164,7 +153,7 @@ const InpatientTableView = ({
                         height: 35,
                         width: 35,
                         opacity: 0.7,
-                        color: 'darkgreen',
+                        color: 'darkgreen'
                       }}
                       onClick={RefreshData}
                     />
@@ -194,7 +183,7 @@ const InpatientTableView = ({
                 overflow: 'auto',
                 maxHeight: window.innerHeight - 180,
                 '&::-webkit-scrollbar': { height: 6 },
-                cursor: 'pointer',
+                cursor: 'pointer'
               }}
             >
               <CssVarsProvider>
@@ -216,7 +205,7 @@ const InpatientTableView = ({
                           backgroundColor: '#78909c',
                           color: 'white',
                           fontSize: 14,
-                          textAlign: 'center',
+                          textAlign: 'center'
                         }}
                       >
                         &nbsp; Sl.No
@@ -227,7 +216,7 @@ const InpatientTableView = ({
                           width: 100,
                           backgroundColor: '#78909c',
                           color: 'white',
-                          fontSize: 14,
+                          fontSize: 14
                         }}
                       >
                         &nbsp;IP No.
@@ -238,7 +227,7 @@ const InpatientTableView = ({
                           width: 100,
                           backgroundColor: '#78909c',
                           color: 'white',
-                          fontSize: 14,
+                          fontSize: 14
                         }}
                       >
                         &nbsp;Admission Date
@@ -249,7 +238,7 @@ const InpatientTableView = ({
                           width: 100,
                           backgroundColor: '#78909c',
                           color: 'white',
-                          fontSize: 14,
+                          fontSize: 14
                         }}
                       >
                         &nbsp;Patient ID
@@ -260,7 +249,7 @@ const InpatientTableView = ({
                           width: 150,
                           backgroundColor: '#78909c',
                           color: 'white',
-                          fontSize: 14,
+                          fontSize: 14
                         }}
                       >
                         &nbsp;Patient Name
@@ -271,7 +260,7 @@ const InpatientTableView = ({
                           width: 120,
                           backgroundColor: '#78909c',
                           color: 'white',
-                          fontSize: 14,
+                          fontSize: 14
                         }}
                       >
                         &nbsp;Age/Gender
@@ -282,7 +271,7 @@ const InpatientTableView = ({
                           width: 150,
                           backgroundColor: '#78909c',
                           color: 'white',
-                          fontSize: 14,
+                          fontSize: 14
                         }}
                       >
                         &nbsp;Doctor Name
@@ -293,7 +282,7 @@ const InpatientTableView = ({
                           width: 100,
                           backgroundColor: '#78909c',
                           color: 'white',
-                          fontSize: 14,
+                          fontSize: 14
                         }}
                       >
                         &nbsp;Bed
@@ -306,7 +295,7 @@ const InpatientTableView = ({
                           backgroundColor: '#78909c',
                           color: 'white',
                           fontSize: 14,
-                          textAlign: 'center',
+                          textAlign: 'center'
                         }}
                       >
                         &nbsp;QI Marking{' '}
@@ -321,7 +310,7 @@ const InpatientTableView = ({
                           size="small"
                           style={{
                             cursor: 'pointer',
-                            background: val.qi_save_status === 1 ? '#cfd8dc' : 'transparent',
+                            background: val.qi_save_status === 1 ? '#cfd8dc' : 'transparent'
                           }}
                         >
                           <td size="sm" style={{ fontSize: 12, textAlign: 'center' }}>
@@ -356,8 +345,8 @@ const InpatientTableView = ({
                                   sx={{
                                     color: '#546e7a',
                                     ':hover': {
-                                      color: '#263238',
-                                    },
+                                      color: '#263238'
+                                    }
                                   }}
                                   onClick={e => IndicatorsView(val)}
                                 />
@@ -379,7 +368,7 @@ const InpatientTableView = ({
               display: 'flex',
               justifyContent: 'center',
               fontSize: 20,
-              opacity: 0.8,
+              opacity: 0.8
             }}
           >
             No Patients

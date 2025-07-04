@@ -11,7 +11,7 @@ function RoomNewCreationTable({ count, rowSelect }) {
     {
       headerName: 'Action',
       minWidth: 100,
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
     },
     { headerName: 'SlNo', field: 'rm_room_slno', wrapText: true, minWidth: 70 },
     {
@@ -19,34 +19,34 @@ function RoomNewCreationTable({ count, rowSelect }) {
       field: 'rm_room_name',
       wrapText: true,
       minWidth: 250,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Room Number',
       field: 'rm_room_no_dis',
       wrapText: true,
       minWidth: 150,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Building',
       field: 'rm_building_name',
       wrapText: true,
       minWidth: 250,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Block.',
       field: 'rm_buildblock_name',
       wrapText: true,
       minWidth: 250,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Inside building block',
       field: 'rm_insidebuildblock_name',
       wrapText: true,
-      minWidth: 180,
+      minWidth: 180
     },
     { headerName: 'Floor', field: 'rm_floor_name', wrapText: true, minWidth: 200 },
     {
@@ -54,16 +54,16 @@ function RoomNewCreationTable({ count, rowSelect }) {
       field: 'rm_roomtype_name',
       wrapText: true,
       minWidth: 200,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Room Category',
       field: 'rm_roomcategory_name',
       wrapText: true,
       minWidth: 250,
-      filter: 'true',
+      filter: 'true'
     },
-    { headerName: 'Status', field: 'status', wrapText: true, minWidth: 100 },
+    { headerName: 'Status', field: 'status', wrapText: true, minWidth: 100 }
   ])
   useEffect(() => {
     const getFloorData = async () => {

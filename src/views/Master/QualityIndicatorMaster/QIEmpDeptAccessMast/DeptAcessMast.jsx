@@ -27,7 +27,7 @@ const DeptAcessMast = () => {
   const [dptAccess, setdptAccess] = useState({
     access_slno: '0',
     em_no: '',
-    access_status: false,
+    access_status: false
   })
   const { access_slno, em_no, access_status } = dptAccess
   const updateDeptAcess = useCallback(
@@ -66,7 +66,7 @@ const DeptAcessMast = () => {
     const formreset = {
       access_slno: '0',
       em_no: '',
-      access_status: false,
+      access_status: false
     }
     setdptAccess(formreset)
     setQidept([])
@@ -84,7 +84,7 @@ const DeptAcessMast = () => {
       em_id: empId,
       dpt_access_list: qidept,
       access_status: access_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [empId, qidept, access_status, id])
 
@@ -94,7 +94,7 @@ const DeptAcessMast = () => {
       dpt_access_list: qidept,
       access_status: access_status === true ? 1 : 0,
       edit_user: id,
-      access_slno: access_slno,
+      access_slno: access_slno
     }
   }, [empId, qidept, access_status, id, access_slno])
 
@@ -147,7 +147,7 @@ const DeptAcessMast = () => {
     const frmdata = {
       access_slno: access_slno,
       em_no: em_no,
-      access_status: status === 'Yes' ? true : false,
+      access_status: status === 'Yes' ? true : false
     }
     setdptAccess(frmdata)
     setEmpId(em_id)

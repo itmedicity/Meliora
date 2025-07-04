@@ -20,8 +20,8 @@ const PatientIntactionTable = ({ ipno, count, rowSelect }) => {
     { headerName: 'Remark', field: 'remarks', width: 150 },
     {
       headerName: 'Actions',
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
-    },
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
+    }
   ])
 
   useEffect(() => {

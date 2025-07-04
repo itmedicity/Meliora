@@ -17,7 +17,7 @@ const DataCollectionViewModal = ({
   reqItems,
   approveTableData,
   flag,
-  imagearray,
+  imagearray
 }) => {
   const { ack_status, quatation_calling_status, quatation_negotiation, quatation_fixing } = reqData
   return (
@@ -41,7 +41,7 @@ const DataCollectionViewModal = ({
               bgcolor: 'background.body',
               color: '#bf360c',
               height: 35,
-              width: 35,
+              width: 35
             }}
           />
           <Box
@@ -50,18 +50,14 @@ const DataCollectionViewModal = ({
               minHeight: '62vh',
               maxHeight: '85vh',
               overflowY: 'auto',
-              px: 0.5,
+              px: 0.5
             }}
           >
             <CrfReqDetailViewCmp ApprovalData={reqData} imagearray={imagearray} />
-            <Box sx={{ pt: 0.5 }}>
-              {reqItems.length !== 0 ? <ReqItemDisplay reqItems={reqItems} /> : null}
-            </Box>
+            <Box sx={{ pt: 0.5 }}>{reqItems.length !== 0 ? <ReqItemDisplay reqItems={reqItems} /> : null}</Box>
             <Box sx={{ mt: 0.5, flexWrap: 'wrap' }}>
               <ApprovalItemView approveTableData={approveTableData} />
-              {dtaEnterViewData.length !== 0 ? (
-                <ViewOreviousDataCollctnDetails datacolData={dtaEnterViewData} />
-              ) : null}
+              {dtaEnterViewData.length !== 0 ? <ViewOreviousDataCollctnDetails datacolData={dtaEnterViewData} /> : null}
             </Box>
             {flag === 5 ? (
               <>

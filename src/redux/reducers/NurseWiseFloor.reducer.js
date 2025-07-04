@@ -3,7 +3,7 @@ const { FETCH_NURSWISE_FLOOR } = ActionTyps
 //intial state
 const nursewisefloor = {
   nursewisefloorList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Deptsection action type check then payload set to the state and loading status set as true */
 export const getnursewisefloor = (state = nursewisefloor, { type, payload }) => {

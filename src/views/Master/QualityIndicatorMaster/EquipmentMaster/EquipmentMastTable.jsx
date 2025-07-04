@@ -47,7 +47,7 @@ const EquipmentMastTable = ({ rowSelect, count }) => {
       field: 'equip_name',
       width: 150,
       filter: 'true',
-      wrapText: true,
+      wrapText: true
     },
     { headerName: 'Department', field: 'qi_dept_desc', width: 200, filter: 'true' },
     {
@@ -56,7 +56,7 @@ const EquipmentMastTable = ({ rowSelect, count }) => {
       width: 200,
       filter: 'true',
       autoHeight: true,
-      wrapText: true,
+      wrapText: true
     },
     // { width: 30, cellRenderer: (params) => <VisibilityIcon onClick={() => ViewProcedure(params)} /> },
     { headerName: 'Asset No.', field: 'asset_no', width: 100, filter: 'true' },
@@ -64,8 +64,8 @@ const EquipmentMastTable = ({ rowSelect, count }) => {
     {
       headerName: 'Action',
       width: 70,
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
-    },
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
+    }
   ])
   return (
     <Box>

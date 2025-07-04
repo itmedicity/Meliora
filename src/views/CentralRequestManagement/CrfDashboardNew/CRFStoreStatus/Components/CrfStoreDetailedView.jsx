@@ -38,7 +38,7 @@ const CrfStoreDetailedView = ({ setFlag, disData, setDisData, tableData, company
             const fileNamePart = parts[parts.length - 1]
             const obj = {
               imageName: fileNamePart,
-              url: val,
+              url: val
             }
             return obj
           })
@@ -72,7 +72,7 @@ const CrfStoreDetailedView = ({ setFlag, disData, setDisData, tableData, company
                 update_date: val.update_date,
                 crf_req_remark: val.crf_req_remark,
                 data_coll_image_status: val.data_coll_image_status,
-                crf_data_collect_slno: val.crf_data_collect_slno,
+                crf_data_collect_slno: val.crf_data_collect_slno
               }
               return obj
             })
@@ -88,7 +88,7 @@ const CrfStoreDetailedView = ({ setFlag, disData, setDisData, tableData, company
     checkDataCollectComplete(req_slno)
     const postData = {
       req_slno: req_slno,
-      po_number: po_number,
+      po_number: po_number
     }
     const getDetails = async postData => {
       try {
@@ -122,8 +122,7 @@ const CrfStoreDetailedView = ({ setFlag, disData, setDisData, tableData, company
                   : val.incharge_approve === 3
                   ? 'On-Hold'
                   : 'Not Done',
-              incharge_remarks:
-                val.incharge_remarks !== null ? val.incharge_remarks : 'Not Updated',
+              incharge_remarks: val.incharge_remarks !== null ? val.incharge_remarks : 'Not Updated',
               inch_detial_analysis: val.inch_detial_analysis,
               incharge_apprv_date: val.incharge_apprv_date,
               incharge_user: val.incharge_user !== null ? val.incharge_user.toLowerCase() : '',
@@ -165,12 +164,10 @@ const CrfStoreDetailedView = ({ setFlag, disData, setDisData, tableData, company
                   : val.ms_approve === 3
                   ? 'On-Hold'
                   : 'Not Done',
-              ms_approve_remark:
-                val.ms_approve_remark !== null ? val.ms_approve_remark : 'Not Updated',
+              ms_approve_remark: val.ms_approve_remark !== null ? val.ms_approve_remark : 'Not Updated',
               ms_detail_analysis: val.ms_detail_analysis,
               ms_approve_date: val.ms_approve_date,
-              ms_approve_user:
-                val.ms_approve_user !== null ? val.ms_approve_user.toLowerCase() : '',
+              ms_approve_user: val.ms_approve_user !== null ? val.ms_approve_user.toLowerCase() : '',
               manag_operation_req: val.manag_operation_req,
               manag_operation_approv: val.manag_operation_approv,
               om:
@@ -185,8 +182,7 @@ const CrfStoreDetailedView = ({ setFlag, disData, setDisData, tableData, company
                 val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
               om_detial_analysis: val.om_detial_analysis,
               om_approv_date: val.om_approv_date,
-              manag_operation_user:
-                val.manag_operation_user !== null ? val.manag_operation_user.toLowerCase() : '',
+              manag_operation_user: val.manag_operation_user !== null ? val.manag_operation_user.toLowerCase() : '',
               senior_manage_req: val.senior_manage_req,
               senior_manage_approv: val.senior_manage_approv,
               smo:
@@ -197,12 +193,10 @@ const CrfStoreDetailedView = ({ setFlag, disData, setDisData, tableData, company
                   : val.senior_manage_approv === 3
                   ? 'On-Hold'
                   : 'Not Done',
-              senior_manage_remarks:
-                val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
+              senior_manage_remarks: val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
               smo_detial_analysis: val.smo_detial_analysis,
               som_aprrov_date: val.som_aprrov_date,
-              senior_manage_user:
-                val.senior_manage_user !== null ? val.senior_manage_user.toLowerCase() : '',
+              senior_manage_user: val.senior_manage_user !== null ? val.senior_manage_user.toLowerCase() : '',
               gm_approve_req: val.gm_approve_req,
               gm_approve: val.gm_approve,
               gm:
@@ -213,8 +207,7 @@ const CrfStoreDetailedView = ({ setFlag, disData, setDisData, tableData, company
                   : val.gm_approve === 3
                   ? 'On-Hold'
                   : 'Not Done',
-              gm_approve_remarks:
-                val.gm_approve_remarks !== null ? val.gm_approve_remarks : 'Not Updated',
+              gm_approve_remarks: val.gm_approve_remarks !== null ? val.gm_approve_remarks : 'Not Updated',
               gm_detial_analysis: val.gm_detial_analysis,
               gm_approv_date: val.gm_approv_date,
               gm_user: val.gm_user !== null ? val.gm_user.toLowerCase() : '',
@@ -228,8 +221,7 @@ const CrfStoreDetailedView = ({ setFlag, disData, setDisData, tableData, company
                   : val.md_approve === 3
                   ? 'On-Hold'
                   : 'Not Done',
-              md_approve_remarks:
-                val.md_approve_remarks !== null ? val.md_approve_remarks : 'Not Updated',
+              md_approve_remarks: val.md_approve_remarks !== null ? val.md_approve_remarks : 'Not Updated',
               md_detial_analysis: val.md_detial_analysis,
               md_approve_date: val.md_approve_date,
               md_user: val.md_user !== null ? val.md_user.toLowerCase() : '',
@@ -243,8 +235,7 @@ const CrfStoreDetailedView = ({ setFlag, disData, setDisData, tableData, company
                   : val.ed_approve === 3
                   ? 'On-Hold'
                   : 'Not Done',
-              ed_approve_remarks:
-                val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
+              ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
               ed_detial_analysis: val.ed_detial_analysis,
               ed_approve_date: val.ed_approve_date,
               ed_user: val.ed_user ? val.ed_user.toLowerCase() : '',
@@ -370,7 +361,7 @@ const CrfStoreDetailedView = ({ setFlag, disData, setDisData, tableData, company
               store_recieve: val.store_recieve,
               store_receive_date: val.store_receive_date,
               crs_user: val.crs_user,
-              company_name: val?.company_name,
+              company_name: val?.company_name
             }
           })
           setModalData(newData[0])
@@ -427,7 +418,7 @@ const CrfStoreDetailedView = ({ setFlag, disData, setDisData, tableData, company
                   py: 0.5,
                   position: 'sticky',
                   top: 0,
-                  zIndex: 1,
+                  zIndex: 1
                 }}
               >
                 <Typography
@@ -436,7 +427,7 @@ const CrfStoreDetailedView = ({ setFlag, disData, setDisData, tableData, company
                     textAlign: 'center',
                     fontWeight: 550,
                     fontSize: 12,
-                    color: 'white',
+                    color: 'white'
                   }}
                 >
                   Sl.No
@@ -447,7 +438,7 @@ const CrfStoreDetailedView = ({ setFlag, disData, setDisData, tableData, company
                     textAlign: 'left',
                     fontWeight: 550,
                     fontSize: 12,
-                    color: 'white',
+                    color: 'white'
                   }}
                 >
                   Req.No
@@ -458,7 +449,7 @@ const CrfStoreDetailedView = ({ setFlag, disData, setDisData, tableData, company
                     textAlign: 'left',
                     fontWeight: 550,
                     fontSize: 12,
-                    color: 'white',
+                    color: 'white'
                   }}
                 >
                   Req.Date
@@ -469,7 +460,7 @@ const CrfStoreDetailedView = ({ setFlag, disData, setDisData, tableData, company
                     textAlign: 'left',
                     fontWeight: 550,
                     fontSize: 12,
-                    color: 'white',
+                    color: 'white'
                   }}
                 >
                   Dpt Section
@@ -480,7 +471,7 @@ const CrfStoreDetailedView = ({ setFlag, disData, setDisData, tableData, company
                     textAlign: 'left',
                     fontWeight: 550,
                     fontSize: 12,
-                    color: 'white',
+                    color: 'white'
                   }}
                 >
                   Purpose
@@ -491,7 +482,7 @@ const CrfStoreDetailedView = ({ setFlag, disData, setDisData, tableData, company
                     textAlign: 'left',
                     fontWeight: 550,
                     fontSize: 12,
-                    color: 'white',
+                    color: 'white'
                   }}
                 >
                   Justification
@@ -502,7 +493,7 @@ const CrfStoreDetailedView = ({ setFlag, disData, setDisData, tableData, company
                     textAlign: 'left',
                     fontWeight: 550,
                     fontSize: 12,
-                    color: 'white',
+                    color: 'white'
                   }}
                 >
                   Location
@@ -513,7 +504,7 @@ const CrfStoreDetailedView = ({ setFlag, disData, setDisData, tableData, company
                     textAlign: 'left',
                     fontWeight: 550,
                     fontSize: 12,
-                    color: 'white',
+                    color: 'white'
                   }}
                 >
                   Expected Date
@@ -524,7 +515,7 @@ const CrfStoreDetailedView = ({ setFlag, disData, setDisData, tableData, company
                     textAlign: 'left',
                     fontWeight: 550,
                     fontSize: 12,
-                    color: 'white',
+                    color: 'white'
                   }}
                 >
                   #Order
@@ -536,7 +527,7 @@ const CrfStoreDetailedView = ({ setFlag, disData, setDisData, tableData, company
                     fontWeight: 550,
                     fontSize: 12,
                     color: 'white',
-                    mx: 0.5,
+                    mx: 0.5
                   }}
                 >
                   Status
@@ -552,9 +543,7 @@ const CrfStoreDetailedView = ({ setFlag, disData, setDisData, tableData, company
                       justifyContent="space-between"
                       sx={{ borderBottom: '1px solid lightgrey', flexWrap: 'nowrap' }}
                     >
-                      <Typography sx={{ width: 40, textAlign: 'center', fontSize: 12, my: 1 }}>
-                        {index + 1}
-                      </Typography>
+                      <Typography sx={{ width: 40, textAlign: 'center', fontSize: 12, my: 1 }}>{index + 1}</Typography>
                       <Typography sx={{ width: 80, textAlign: 'left', fontSize: 12, my: 1 }}>
                         CRF/{company_name}/{val.req_slno}
                       </Typography>
@@ -567,7 +556,7 @@ const CrfStoreDetailedView = ({ setFlag, disData, setDisData, tableData, company
                           textAlign: 'left',
                           fontSize: 12,
                           my: 1,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {val.req_deptsec}
@@ -575,9 +564,7 @@ const CrfStoreDetailedView = ({ setFlag, disData, setDisData, tableData, company
                       <Typography sx={{ width: 250, textAlign: 'left', fontSize: 12, my: 1 }}>
                         {val.actual_requirement}
                       </Typography>
-                      <Typography sx={{ width: 250, textAlign: 'left', fontSize: 12, my: 1 }}>
-                        {val.needed}
-                      </Typography>
+                      <Typography sx={{ width: 250, textAlign: 'left', fontSize: 12, my: 1 }}>{val.needed}</Typography>
                       <Typography sx={{ width: 200, textAlign: 'left', fontSize: 12, my: 1 }}>
                         {val.location}
                       </Typography>
@@ -595,7 +582,7 @@ const CrfStoreDetailedView = ({ setFlag, disData, setDisData, tableData, company
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          pr: 0.5,
+                          pr: 0.5
                         }}
                       >
                         <CssVarsProvider>
@@ -611,10 +598,10 @@ const CrfStoreDetailedView = ({ setFlag, disData, setDisData, tableData, company
                               py: 0.3,
                               '&:hover': {
                                 bgcolor: '#BFD7ED',
-                                fontWeight: 650,
+                                fontWeight: 650
                               },
                               boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.16)',
-                              borderRadius: 5,
+                              borderRadius: 5
                             }}
                             onClick={() => viewDetails(val.req_slno, val.po_number)}
                           >
@@ -635,7 +622,7 @@ const CrfStoreDetailedView = ({ setFlag, disData, setDisData, tableData, company
                 fontSize: 30,
                 opacity: 0.5,
                 pt: 10,
-                color: 'grey',
+                color: 'grey'
               }}
             >
               No Report Found

@@ -45,21 +45,21 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
     store_approve_employee,
     store_approve_reject_date,
     material_mange_apprv_reject_date,
-    material_mangm_employee,
+    material_mangm_employee
   } = formDetails
 
   const [addedCondemFiles, setaddedCondemFiles] = useState([])
 
   const postCondemSlno = useMemo(() => {
     return {
-      condemMastslno: condem_mast_slno,
+      condemMastslno: condem_mast_slno
     }
   }, [condem_mast_slno])
 
   const { data: itemUnderForm } = useQuery({
     queryKey: ['getItemUnderForm'],
     queryFn: () => getItemUnderForm(postCondemSlno),
-    enabled: condem_mast_slno !== undefined,
+    enabled: condem_mast_slno !== undefined
   })
 
   const CloseModal = useCallback(() => {
@@ -98,7 +98,7 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
   const { data: CondemData } = useQuery({
     queryKey: ['getCondemAddedDetails'],
     queryFn: () => getCondemAddedDetails(postCondemSlno),
-    enabled: condem_mast_slno !== undefined,
+    enabled: condem_mast_slno !== undefined
   })
 
   const [checkedItems, setCheckedItems] = useState({})
@@ -112,20 +112,16 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
       const requests = CondemData.map(async row => {
         const postData = {
           id: row.condem_mast_slno || null,
-          detailId: row.am_condem_detail_slno || null,
+          detailId: row.am_condem_detail_slno || null
         }
         try {
-          const result = await axioslogin.post(
-            '/AssetFileUpload/uploadFile/getCondemnation',
-            postData
-          )
+          const result = await axioslogin.post('/AssetFileUpload/uploadFile/getCondemnation', postData)
           const { success, data } = result.data
           if (success === 1 && data && Array.isArray(data)) {
             return {
               [row.am_condem_detail_slno]: data.map(
-                fileName =>
-                  `${PUBLIC_NAS_FOLDER}/AssetCondemDetails/${postData.id}/${postData.detailId}/${fileName}`
-              ),
+                fileName => `${PUBLIC_NAS_FOLDER}/AssetCondemDetails/${postData.id}/${postData.detailId}/${fileName}`
+              )
             }
           } else {
             return { [row.am_condem_detail_slno]: [] }
@@ -188,13 +184,10 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
             justifyContent: 'center',
             alignItems: 'center',
             pl: 1,
-            borderRadius: 10,
+            borderRadius: 10
           }}
         >
-          <ModalDialog
-            variant="outlined"
-            sx={{ width: '95vw', p: 0, overflow: 'auto', height: '100vh' }}
-          >
+          <ModalDialog variant="outlined" sx={{ width: '95vw', p: 0, overflow: 'auto', height: '100vh' }}>
             <Box sx={{ border: 0.1, borderColor: '#E8E6E5', m: 1 }}>
               <Box sx={{ flex: 1, display: 'flex', ml: 1 }}>
                 <Box sx={{ flex: 1 }}>
@@ -221,21 +214,12 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
                   justifyContent: 'space-between',
                   alignItems: 'center',
                   mx: 1,
-                  mt: 2,
+                  mt: 2
                 }}
               >
                 <Box>
-                  <TextComponent
-                    text={'Request Date'}
-                    sx={{ fontWeight: 400, pl: 0.5, color: 'Black' }}
-                  />
-                  <TextFieldCustom
-                    style={{ width: 200 }}
-                    type="date"
-                    name="reg_date"
-                    value={reg_date}
-                    readOnly
-                  />
+                  <TextComponent text={'Request Date'} sx={{ fontWeight: 400, pl: 0.5, color: 'Black' }} />
+                  <TextFieldCustom style={{ width: 200 }} type="date" name="reg_date" value={reg_date} readOnly />
                 </Box>
 
                 <Box>
@@ -264,7 +248,7 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
                     borderTop: 1,
                     borderRight: 1,
                     borderLeft: 1,
-                    borderColor: 'lightgray',
+                    borderColor: 'lightgray'
                   }}
                 >
                   <Box
@@ -274,39 +258,21 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
                       bgcolor: '#DCD2CC',
                       alignItems: 'center',
                       borderBottom: 1,
-                      borderColor: 'lightgray',
+                      borderColor: 'lightgray'
                     }}
                   >
-                    <Box
-                      sx={{ width: 40, fontWeight: 600, color: '#444444', fontSize: 14, pl: 1.5 }}
-                    >
-                      #
-                    </Box>
-                    <Box
-                      sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 14, pl: 1 }}
-                    >
+                    <Box sx={{ width: 40, fontWeight: 600, color: '#444444', fontSize: 14, pl: 1.5 }}>#</Box>
+                    <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 14, pl: 1 }}>
                       Keep in Scarp Store
                     </Box>
-                    <Box sx={{ width: 120, fontWeight: 600, color: '#444444', fontSize: 14 }}>
-                      Asset/Spare No.
-                    </Box>
-                    <Box
-                      sx={{ width: 160, fontWeight: 600, color: '#444444', fontSize: 14, pl: 1 }}
-                    >
+                    <Box sx={{ width: 120, fontWeight: 600, color: '#444444', fontSize: 14 }}>Asset/Spare No.</Box>
+                    <Box sx={{ width: 160, fontWeight: 600, color: '#444444', fontSize: 14, pl: 1 }}>
                       Item Purchase Value
                     </Box>
-                    <Box sx={{ width: 100, fontWeight: 600, color: '#444444', fontSize: 14 }}>
-                      Ticket No.
-                    </Box>
-                    <Box sx={{ flex: 2, fontWeight: 600, color: '#444444', fontSize: 14, pl: 1 }}>
-                      Condem Reason
-                    </Box>
-                    <Box sx={{ width: 60, fontWeight: 600, color: '#444444', fontSize: 14 }}>
-                      Details
-                    </Box>
-                    <Box sx={{ width: 50, fontWeight: 600, color: '#444444', fontSize: 14, pl: 1 }}>
-                      Add
-                    </Box>
+                    <Box sx={{ width: 100, fontWeight: 600, color: '#444444', fontSize: 14 }}>Ticket No.</Box>
+                    <Box sx={{ flex: 2, fontWeight: 600, color: '#444444', fontSize: 14, pl: 1 }}>Condem Reason</Box>
+                    <Box sx={{ width: 60, fontWeight: 600, color: '#444444', fontSize: 14 }}>Details</Box>
+                    <Box sx={{ width: 50, fontWeight: 600, color: '#444444', fontSize: 14, pl: 1 }}>Add</Box>
                   </Box>
 
                   <Box sx={{ width: '100%', overflow: 'auto' }}>
@@ -327,7 +293,7 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
                               alignItems: 'center',
                               borderBottom: 1,
                               borderColor: 'lightgray',
-                              bgcolor: val.keep_inscarp_status === 1 ? '#EDF2F3' : 'white',
+                              bgcolor: val.keep_inscarp_status === 1 ? '#EDF2F3' : 'white'
                             }}
                           >
                             <Box
@@ -336,7 +302,7 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
                                 fontWeight: 600,
                                 color: '#444444',
                                 fontSize: 14,
-                                pl: 1.5,
+                                pl: 1.5
                               }}
                             >
                               {index + 1}
@@ -348,7 +314,7 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
                                 color: '#444444',
                                 fontSize: 14,
                                 display: 'flex',
-                                justifyContent: 'center',
+                                justifyContent: 'center'
                               }}
                             >
                               <Box>
@@ -362,16 +328,10 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
                                 />
                               </Box>
                             </Box>
-                            <Box
-                              sx={{ width: 120, fontWeight: 600, color: '#444444', fontSize: 14 }}
-                            >
+                            <Box sx={{ width: 120, fontWeight: 600, color: '#444444', fontSize: 14 }}>
                               {val.spare_asset_no
-                                ? `${val.spare_asset_no}/${val.spare_asset_no_only
-                                    .toString()
-                                    .padStart(6, '0')}`
-                                : `${val.item_asset_no}/${val.item_asset_no_only
-                                    .toString()
-                                    .padStart(6, '0')}`}
+                                ? `${val.spare_asset_no}/${val.spare_asset_no_only.toString().padStart(6, '0')}`
+                                : `${val.item_asset_no}/${val.item_asset_no_only.toString().padStart(6, '0')}`}
                             </Box>
                             <Box
                               sx={{
@@ -379,17 +339,15 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
                                 fontWeight: 600,
                                 color: '#444444',
                                 fontSize: 14,
-                                pl: 1,
+                                pl: 1
                               }}
                             >
                               {new Intl.NumberFormat('en-IN', {
                                 style: 'currency',
-                                currency: 'INR',
+                                currency: 'INR'
                               }).format(billamount)}
                             </Box>
-                            <Box
-                              sx={{ width: 100, fontWeight: 600, color: '#444444', fontSize: 14 }}
-                            >
+                            <Box sx={{ width: 100, fontWeight: 600, color: '#444444', fontSize: 14 }}>
                               {val.asset_complaint_slno
                                 ? val.asset_complaint_slno
                                 : val.spare_complaint_slno
@@ -402,7 +360,7 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
                                 fontWeight: 600,
                                 color: '#444444',
                                 fontSize: 14,
-                                pl: 1,
+                                pl: 1
                               }}
                             >
                               {val.asset_condm_transf_remarks
@@ -417,7 +375,7 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
                                 fontWeight: 600,
                                 color: '#444444',
                                 fontSize: 14,
-                                pl: 1,
+                                pl: 1
                               }}
                             >
                               <MoreIcon
@@ -431,7 +389,7 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
                                 fontWeight: 600,
                                 color: '#444444',
                                 fontSize: 14,
-                                pl: 1,
+                                pl: 1
                               }}
                             >
                               <AddCircleIcon sx={{ cursor: 'pointer', color: 'lightgrey' }} />
@@ -443,9 +401,7 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
                   </Box>
                 </Box>
               </Box>
-              {(CondemData?.some(
-                item => item.am_condem_reason !== null || item.keep_inscarp_status === 1
-              ) ||
+              {(CondemData?.some(item => item.am_condem_reason !== null || item.keep_inscarp_status === 1) ||
                 addedCondemFiles.length > 0) && (
                 <Box sx={{ flex: 1, border: 1, borderColor: 'lightgray', mx: 1, mt: 1, pb: 0.5 }}>
                   <TextComponent
@@ -466,7 +422,7 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
                         border: 1,
                         borderColor: 'lightgray',
                         mt: 0.5,
-                        p: 0.5,
+                        p: 0.5
                       }}
                     >
                       {val.keep_inscarp_status === 1 ? (
@@ -485,12 +441,8 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
                         <TextComponent
                           text={
                             val.spare_asset_no
-                              ? `${val.spare_asset_no}/${val.spare_asset_no_only
-                                  .toString()
-                                  .padStart(6, '0')}`
-                              : `${val.item_asset_no}/${val.item_asset_no_only
-                                  .toString()
-                                  .padStart(6, '0')}`
+                              ? `${val.spare_asset_no}/${val.spare_asset_no_only.toString().padStart(6, '0')}`
+                              : `${val.item_asset_no}/${val.item_asset_no_only.toString().padStart(6, '0')}`
                           }
                           sx={{ fontWeight: 500, color: '#0C2D48', pl: 0.8, pt: 0.5, fontSize: 14 }}
                         />
@@ -552,7 +504,7 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
                                         display: 'flex',
                                         border: 0.5,
                                         borderColor: '#E0E1E3',
-                                        mr: 0.5,
+                                        mr: 0.5
                                       }}
                                     >
                                       <Box sx={{ p: 0.5 }}>
@@ -563,7 +515,7 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
                                             width: 48,
                                             height: 48,
                                             color: '#e53935',
-                                            cursor: 'pointer',
+                                            cursor: 'pointer'
                                           }}
                                           onClick={() => SingleView({ url })}
                                         />
@@ -576,7 +528,7 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
                                           textOverflow: 'ellipsis',
                                           whiteSpace: 'nowrap',
                                           width: 90,
-                                          pt: 2,
+                                          pt: 2
                                         }}
                                       >
                                         {url.split('/').pop() || 'N/A'}
@@ -588,7 +540,7 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
                                         display: 'flex',
                                         border: 0.5,
                                         borderColor: '#E0E1E3',
-                                        mr: 0.5,
+                                        mr: 0.5
                                       }}
                                     >
                                       <PictureAsPdfIcon
@@ -597,7 +549,7 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
                                           height: 48,
                                           color: '#e53935',
                                           cursor: 'pointer',
-                                          mt: 0.5,
+                                          mt: 0.5
                                         }}
                                         onClick={() => SingleView({ url })}
                                       />
@@ -609,7 +561,7 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
                                           textOverflow: 'ellipsis',
                                           whiteSpace: 'nowrap',
                                           width: 90,
-                                          pt: 2,
+                                          pt: 2
                                         }}
                                       >
                                         {url.split('/').pop() || 'N/A'}
@@ -621,7 +573,7 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
                                         width: 50,
                                         height: 50,
                                         color: '#e53935',
-                                        cursor: 'pointer',
+                                        cursor: 'pointer'
                                       }}
                                       onClick={() => SingleView({ url })}
                                     />
@@ -654,25 +606,15 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
                   <tbody>
                     <tr>
                       <td style={{ textAlign: 'center', fontsize: 14 }}>Incharge</td>
-                      <td style={{ textAlign: 'center', fontsize: 12 }}>
-                        {incharge_employee || '-'}
-                      </td>
+                      <td style={{ textAlign: 'center', fontsize: 12 }}>{incharge_employee || '-'}</td>
                       <td
                         style={{
                           textAlign: 'center',
                           color:
-                            incharge_approve_status === 1
-                              ? 'green'
-                              : incharge_approve_status === 2
-                              ? 'red'
-                              : 'black',
+                            incharge_approve_status === 1 ? 'green' : incharge_approve_status === 2 ? 'red' : 'black'
                         }}
                       >
-                        {incharge_approve_status === 1
-                          ? 'Approved'
-                          : incharge_approve_status === 2
-                          ? 'Rejected'
-                          : '-'}
+                        {incharge_approve_status === 1 ? 'Approved' : incharge_approve_status === 2 ? 'Rejected' : '-'}
                       </td>
                       <td style={{ textAlign: 'center' }}>{incharge_remarks || '-'}</td>
                       <td style={{ textAlign: 'center' }}>
@@ -688,25 +630,14 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
                       <td
                         style={{
                           textAlign: 'center',
-                          color:
-                            hod_approve_status === 1
-                              ? 'green'
-                              : hod_approve_status === 2
-                              ? 'red'
-                              : 'black',
+                          color: hod_approve_status === 1 ? 'green' : hod_approve_status === 2 ? 'red' : 'black'
                         }}
                       >
-                        {hod_approve_status === 1
-                          ? 'Approved'
-                          : hod_approve_status === 2
-                          ? 'Rejected'
-                          : '-'}
+                        {hod_approve_status === 1 ? 'Approved' : hod_approve_status === 2 ? 'Rejected' : '-'}
                       </td>
                       <td style={{ textAlign: 'center' }}>{hod_remarks || '-'}</td>
                       <td style={{ textAlign: 'center' }}>
-                        {hod_apprv_reject_date
-                          ? format(new Date(hod_apprv_reject_date), 'dd MMM yyyy,  hh:mm a')
-                          : '-'}
+                        {hod_apprv_reject_date ? format(new Date(hod_apprv_reject_date), 'dd MMM yyyy,  hh:mm a') : '-'}
                       </td>
                     </tr>
                     <tr>
@@ -715,25 +646,14 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
                       <td
                         style={{
                           textAlign: 'center',
-                          color:
-                            gm_approve_status === 1
-                              ? 'green'
-                              : gm_approve_status === 2
-                              ? 'red'
-                              : 'black',
+                          color: gm_approve_status === 1 ? 'green' : gm_approve_status === 2 ? 'red' : 'black'
                         }}
                       >
-                        {gm_approve_status === 1
-                          ? 'Approved'
-                          : gm_approve_status === 2
-                          ? 'Rejected'
-                          : '-'}
+                        {gm_approve_status === 1 ? 'Approved' : gm_approve_status === 2 ? 'Rejected' : '-'}
                       </td>
                       <td style={{ textAlign: 'center' }}>{gm_approve_remarks || '-'}</td>
                       <td style={{ textAlign: 'center' }}>
-                        {gm_apprv_reject_date
-                          ? format(new Date(gm_apprv_reject_date), 'dd MMM yyyy,  hh:mm a')
-                          : '-'}
+                        {gm_apprv_reject_date ? format(new Date(gm_apprv_reject_date), 'dd MMM yyyy,  hh:mm a') : '-'}
                       </td>
                     </tr>
                     <tr>
@@ -742,25 +662,14 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
                       <td
                         style={{
                           textAlign: 'center',
-                          color:
-                            acc_approve_status === 1
-                              ? 'green'
-                              : acc_approve_status === 2
-                              ? 'red'
-                              : 'black',
+                          color: acc_approve_status === 1 ? 'green' : acc_approve_status === 2 ? 'red' : 'black'
                         }}
                       >
-                        {acc_approve_status === 1
-                          ? 'Approved'
-                          : acc_approve_status === 2
-                          ? 'Rejected'
-                          : '-'}
+                        {acc_approve_status === 1 ? 'Approved' : acc_approve_status === 2 ? 'Rejected' : '-'}
                       </td>
                       <td style={{ textAlign: 'center' }}>{acc_approve_remarks || '-'}</td>
                       <td style={{ textAlign: 'center' }}>
-                        {acc_apprv_reject_date
-                          ? format(new Date(acc_apprv_reject_date), 'dd MMM yyyy,  hh:mm a')
-                          : '-'}
+                        {acc_apprv_reject_date ? format(new Date(acc_apprv_reject_date), 'dd MMM yyyy,  hh:mm a') : '-'}
                       </td>
                     </tr>
                     <tr>
@@ -769,19 +678,10 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
                       <td
                         style={{
                           textAlign: 'center',
-                          color:
-                            store_approve_status === 1
-                              ? 'green'
-                              : store_approve_status === 2
-                              ? 'red'
-                              : 'black',
+                          color: store_approve_status === 1 ? 'green' : store_approve_status === 2 ? 'red' : 'black'
                         }}
                       >
-                        {store_approve_status === 1
-                          ? 'Approved'
-                          : store_approve_status === 2
-                          ? 'Rejected'
-                          : '-'}
+                        {store_approve_status === 1 ? 'Approved' : store_approve_status === 2 ? 'Rejected' : '-'}
                       </td>
                       <td style={{ textAlign: 'center' }}>{store_approve_remarks || '-'}</td>
                       <td style={{ textAlign: 'center' }}>
@@ -791,9 +691,7 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
                       </td>
                     </tr>
                     <tr>
-                      <td style={{ textAlign: 'center', fontsize: 14 }}>
-                        Materials Management Manager
-                      </td>
+                      <td style={{ textAlign: 'center', fontsize: 14 }}>Materials Management Manager</td>
                       <td style={{ textAlign: 'center' }}>{material_mangm_employee || '-'}</td>
                       <td
                         style={{
@@ -803,7 +701,7 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
                               ? 'green'
                               : material_mangmnt_mangr_apprv_status === 2
                               ? 'red'
-                              : 'black',
+                              : 'black'
                         }}
                       >
                         {material_mangmnt_mangr_apprv_status === 1
@@ -812,15 +710,10 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
                           ? 'Rejected'
                           : '-'}
                       </td>
-                      <td style={{ textAlign: 'center' }}>
-                        {material_mangmnt_mangr_apprv_remark || '-'}
-                      </td>
+                      <td style={{ textAlign: 'center' }}>{material_mangmnt_mangr_apprv_remark || '-'}</td>
                       <td style={{ textAlign: 'center' }}>
                         {material_mange_apprv_reject_date
-                          ? format(
-                              new Date(material_mange_apprv_reject_date),
-                              'dd MMM yyyy,  hh:mm a'
-                            )
+                          ? format(new Date(material_mange_apprv_reject_date), 'dd MMM yyyy,  hh:mm a')
                           : '-'}
                       </td>
                     </tr>

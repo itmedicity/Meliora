@@ -41,9 +41,7 @@ const QuarterlyPaidBills = ({ quarBills }) => {
   const OpenQuarterBillView = useCallback(value => {
     const { quaterly_slno } = value
     const getbillsFile = async () => {
-      const result = await axioslogin.get(
-        `/ItImageUpload/uploadFile/getQuaterlyBillImages/${quaterly_slno}`
-      )
+      const result = await axioslogin.get(`/ItImageUpload/uploadFile/getQuaterlyBillImages/${quaterly_slno}`)
       const { success } = result.data
       if (success === 1) {
         const data = result.data
@@ -93,8 +91,7 @@ const QuarterlyPaidBills = ({ quarBills }) => {
     if (enterText.length < 3) {
       infoNotify('please enter minimum 3 character to search task name')
     } else {
-      let newTableDataa =
-        quarBills && quarBills.filter(val => val.bill_name.toLowerCase().includes(enterText))
+      let newTableDataa = quarBills && quarBills.filter(val => val.bill_name.toLowerCase().includes(enterText))
       setsearchBillNameFlag(1)
       setsearchBillDateFlag(0)
       setAlphbased(1)
@@ -104,8 +101,7 @@ const QuarterlyPaidBills = ({ quarBills }) => {
 
   useEffect(() => {
     if (alphbased === 1) {
-      let newTableDataa =
-        quarBills && quarBills.filter(val => val.bill_name.toLowerCase().includes(enterText))
+      let newTableDataa = quarBills && quarBills.filter(val => val.bill_name.toLowerCase().includes(enterText))
       setAlphbasedData(newTableDataa)
     }
   }, [quarBills, alphbased, enterText])
@@ -179,7 +175,7 @@ const QuarterlyPaidBills = ({ quarBills }) => {
                       height: 29,
                       borderRadius: 2,
                       width: 180,
-                      pl: 1,
+                      pl: 1
                     }}
                     onChange={updateBillDate}
                   />
@@ -195,7 +191,7 @@ const QuarterlyPaidBills = ({ quarBills }) => {
                           borderTop: 1,
                           borderBottom: 1,
                           borderColor: '#B2C4CB',
-                          '&:hover': { bgcolor: '#36454F' },
+                          '&:hover': { bgcolor: '#36454F' }
                         }}
                         onClick={SearchBillDate}
                       >
@@ -215,7 +211,7 @@ const QuarterlyPaidBills = ({ quarBills }) => {
                           borderTop: 1,
                           borderBottom: 1,
                           borderColor: '#B2C4CB',
-                          '&:hover': { bgcolor: '#36454F' },
+                          '&:hover': { bgcolor: '#36454F' }
                         }}
                         onClick={closeBillSearch}
                       >
@@ -231,7 +227,7 @@ const QuarterlyPaidBills = ({ quarBills }) => {
               sx={{
                 flex: 6,
                 fontWeight: 600,
-                color: 'white',
+                color: 'white'
               }}
             >
               Bill Name
@@ -250,7 +246,7 @@ const QuarterlyPaidBills = ({ quarBills }) => {
                       height: 29,
                       borderRadius: 2,
                       width: 350,
-                      pl: 1,
+                      pl: 1
                     }}
                     onChange={updateEnterText}
                   />
@@ -266,7 +262,7 @@ const QuarterlyPaidBills = ({ quarBills }) => {
                           borderTop: 1,
                           borderBottom: 1,
                           borderColor: '#B2C4CB',
-                          '&:hover': { bgcolor: '#36454F' },
+                          '&:hover': { bgcolor: '#36454F' }
                         }}
                         onClick={SearchBillName}
                       >
@@ -286,7 +282,7 @@ const QuarterlyPaidBills = ({ quarBills }) => {
                           borderTop: 1,
                           borderBottom: 1,
                           borderColor: '#B2C4CB',
-                          '&:hover': { bgcolor: '#36454F' },
+                          '&:hover': { bgcolor: '#36454F' }
                         }}
                         onClick={closeBillSearch}
                       >
@@ -322,7 +318,7 @@ const QuarterlyPaidBills = ({ quarBills }) => {
                           borderTop: 1,
                           borderBottom: 1,
                           borderColor: '#B2C4CB',
-                          '&:hover': { bgcolor: '#36454F' },
+                          '&:hover': { bgcolor: '#36454F' }
                         }}
                         onClick={SearchBillCate}
                       >
@@ -342,7 +338,7 @@ const QuarterlyPaidBills = ({ quarBills }) => {
                           borderTop: 1,
                           borderBottom: 1,
                           borderColor: '#B2C4CB',
-                          '&:hover': { bgcolor: '#36454F' },
+                          '&:hover': { bgcolor: '#36454F' }
                         }}
                         onClick={closeBillSearch}
                       >
@@ -362,12 +358,10 @@ const QuarterlyPaidBills = ({ quarBills }) => {
               alphbasedData.map(val => {
                 const monthnames = eachMonthOfInterval({
                   start: new Date(val.quaterly_bill_generate),
-                  end: addMonths(new Date(val.quaterly_bill_generate), 2),
+                  end: addMonths(new Date(val.quaterly_bill_generate), 2)
                 })
                 var monthview =
-                  format(new Date(monthnames[0]), 'MMM') +
-                  '-' +
-                  format(new Date(monthnames[2]), 'MMM yyyy')
+                  format(new Date(monthnames[0]), 'MMM') + '-' + format(new Date(monthnames[2]), 'MMM yyyy')
                 return (
                   <Paper
                     key={val.quaterly_slno}
@@ -381,14 +375,14 @@ const QuarterlyPaidBills = ({ quarBills }) => {
                       color: 'black',
                       borderBottom: 1,
                       borderColor: 'white',
-                      mb: 0.5,
+                      mb: 0.5
                     }}
                   >
                     <Box
                       sx={{
                         flex: 0.5,
                         cursor: 'pointer',
-                        py: 0.5,
+                        py: 0.5
                       }}
                     >
                       &nbsp;&nbsp;
@@ -398,9 +392,7 @@ const QuarterlyPaidBills = ({ quarBills }) => {
                       />
                     </Box>
                     <Box sx={{ flex: 1.5, pt: 0.5, cursor: 'grab', pl: 1 }}>
-                      <Chip
-                        sx={{ bgcolor: '#F1C83A', fontSize: 14, fontWeight: 700, color: '#670305' }}
-                      >
+                      <Chip sx={{ bgcolor: '#F1C83A', fontSize: 14, fontWeight: 700, color: '#670305' }}>
                         {monthview}
                       </Chip>
                     </Box>
@@ -430,12 +422,10 @@ const QuarterlyPaidBills = ({ quarBills }) => {
               billDateData.map(val => {
                 const monthnames = eachMonthOfInterval({
                   start: new Date(val.quaterly_bill_generate),
-                  end: addMonths(new Date(val.quaterly_bill_generate), 2),
+                  end: addMonths(new Date(val.quaterly_bill_generate), 2)
                 })
                 var monthview =
-                  format(new Date(monthnames[0]), 'MMM') +
-                  '-' +
-                  format(new Date(monthnames[2]), 'MMM yyyy')
+                  format(new Date(monthnames[0]), 'MMM') + '-' + format(new Date(monthnames[2]), 'MMM yyyy')
                 return (
                   <Paper
                     key={val.quaterly_slno}
@@ -449,14 +439,14 @@ const QuarterlyPaidBills = ({ quarBills }) => {
                       color: 'black',
                       borderBottom: 1,
                       borderColor: 'white',
-                      mb: 0.5,
+                      mb: 0.5
                     }}
                   >
                     <Box
                       sx={{
                         flex: 0.5,
                         cursor: 'pointer',
-                        py: 0.5,
+                        py: 0.5
                       }}
                     >
                       &nbsp;&nbsp;
@@ -466,9 +456,7 @@ const QuarterlyPaidBills = ({ quarBills }) => {
                       />
                     </Box>
                     <Box sx={{ flex: 1.5, pt: 0.5, cursor: 'grab', pl: 1 }}>
-                      <Chip
-                        sx={{ bgcolor: '#F1C83A', fontSize: 14, fontWeight: 700, color: '#670305' }}
-                      >
+                      <Chip sx={{ bgcolor: '#F1C83A', fontSize: 14, fontWeight: 700, color: '#670305' }}>
                         {monthview}
                       </Chip>
                     </Box>
@@ -498,12 +486,10 @@ const QuarterlyPaidBills = ({ quarBills }) => {
               billcate.map(val => {
                 const monthnames = eachMonthOfInterval({
                   start: new Date(val.quaterly_bill_generate),
-                  end: addMonths(new Date(val.quaterly_bill_generate), 2),
+                  end: addMonths(new Date(val.quaterly_bill_generate), 2)
                 })
                 var monthview =
-                  format(new Date(monthnames[0]), 'MMM') +
-                  '-' +
-                  format(new Date(monthnames[2]), 'MMM yyyy')
+                  format(new Date(monthnames[0]), 'MMM') + '-' + format(new Date(monthnames[2]), 'MMM yyyy')
 
                 return (
                   <Paper
@@ -518,14 +504,14 @@ const QuarterlyPaidBills = ({ quarBills }) => {
                       color: 'black',
                       borderBottom: 1,
                       borderColor: 'white',
-                      mb: 0.5,
+                      mb: 0.5
                     }}
                   >
                     <Box
                       sx={{
                         flex: 0.5,
                         cursor: 'pointer',
-                        py: 0.5,
+                        py: 0.5
                       }}
                     >
                       &nbsp;&nbsp;
@@ -535,9 +521,7 @@ const QuarterlyPaidBills = ({ quarBills }) => {
                       />
                     </Box>
                     <Box sx={{ flex: 1.5, pt: 0.5, cursor: 'grab', pl: 1 }}>
-                      <Chip
-                        sx={{ bgcolor: '#F1C83A', fontSize: 14, fontWeight: 700, color: '#670305' }}
-                      >
+                      <Chip sx={{ bgcolor: '#F1C83A', fontSize: 14, fontWeight: 700, color: '#670305' }}>
                         {monthview}
                       </Chip>
                     </Box>
@@ -567,12 +551,10 @@ const QuarterlyPaidBills = ({ quarBills }) => {
               quarBills.map(val => {
                 const monthnames = eachMonthOfInterval({
                   start: new Date(val.quaterly_bill_generate),
-                  end: addMonths(new Date(val.quaterly_bill_generate), 2),
+                  end: addMonths(new Date(val.quaterly_bill_generate), 2)
                 })
                 var monthview =
-                  format(new Date(monthnames[0]), 'MMM') +
-                  '-' +
-                  format(new Date(monthnames[2]), 'MMM yyyy')
+                  format(new Date(monthnames[0]), 'MMM') + '-' + format(new Date(monthnames[2]), 'MMM yyyy')
 
                 return (
                   <Paper
@@ -587,14 +569,14 @@ const QuarterlyPaidBills = ({ quarBills }) => {
                       color: 'black',
                       borderBottom: 1,
                       borderColor: 'white',
-                      mb: 0.5,
+                      mb: 0.5
                     }}
                   >
                     <Box
                       sx={{
                         flex: 0.5,
                         cursor: 'pointer',
-                        py: 0.5,
+                        py: 0.5
                       }}
                     >
                       &nbsp;&nbsp;
@@ -604,9 +586,7 @@ const QuarterlyPaidBills = ({ quarBills }) => {
                       />
                     </Box>
                     <Box sx={{ flex: 1.5, pt: 0.5, cursor: 'grab', pl: 1 }}>
-                      <Chip
-                        sx={{ bgcolor: '#F1C83A', fontSize: 14, fontWeight: 700, color: '#670305' }}
-                      >
+                      <Chip sx={{ bgcolor: '#F1C83A', fontSize: 14, fontWeight: 700, color: '#670305' }}>
                         {monthview}
                       </Chip>
                     </Box>

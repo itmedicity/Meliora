@@ -21,7 +21,7 @@ const RoomTypeMaster = () => {
     rm_roomtype_alias: '',
     rm_roomtype_no: '',
     rm_roomtype_status: false,
-    rm_roomtype_type: false,
+    rm_roomtype_type: false
   })
   const {
     rm_roomtype_slno,
@@ -29,7 +29,7 @@ const RoomTypeMaster = () => {
     rm_roomtype_alias,
     rm_roomtype_no,
     rm_roomtype_status,
-    rm_roomtype_type,
+    rm_roomtype_type
   } = roomType
   const updateRoomType = useCallback(
     e => {
@@ -50,16 +50,9 @@ const RoomTypeMaster = () => {
       rm_roomtype_no: rm_roomtype_no,
       rm_roomtype_status: rm_roomtype_status === true ? 1 : 0,
       rm_roomtype_type: rm_roomtype_type === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
-  }, [
-    rm_roomtype_name,
-    rm_roomtype_alias,
-    rm_roomtype_no,
-    rm_roomtype_status,
-    rm_roomtype_type,
-    id,
-  ])
+  }, [rm_roomtype_name, rm_roomtype_alias, rm_roomtype_no, rm_roomtype_status, rm_roomtype_type, id])
 
   const patchdata = useMemo(() => {
     return {
@@ -69,17 +62,9 @@ const RoomTypeMaster = () => {
       rm_roomtype_no: rm_roomtype_no,
       rm_roomtype_status: rm_roomtype_status === true ? 1 : 0,
       rm_roomtype_type: rm_roomtype_type === true ? 1 : 0,
-      edit_user: id,
+      edit_user: id
     }
-  }, [
-    rm_roomtype_slno,
-    rm_roomtype_name,
-    rm_roomtype_alias,
-    rm_roomtype_no,
-    rm_roomtype_status,
-    rm_roomtype_type,
-    id,
-  ])
+  }, [rm_roomtype_slno, rm_roomtype_name, rm_roomtype_alias, rm_roomtype_no, rm_roomtype_status, rm_roomtype_type, id])
   const backtoSetting = useCallback(() => {
     history('/Home/Settings')
   }, [history])
@@ -90,7 +75,7 @@ const RoomTypeMaster = () => {
       rm_roomtype_alias: '',
       rm_roomtype_no: '',
       rm_roomtype_status: false,
-      rm_roomtype_type: false,
+      rm_roomtype_type: false
     }
     setRoomType(frmdata)
     setCount(0)
@@ -106,7 +91,7 @@ const RoomTypeMaster = () => {
       rm_roomtype_alias,
       rm_roomtype_no,
       rm_roomtype_status,
-      rm_roomtype_type,
+      rm_roomtype_type
     } = data[0]
 
     const frmdata = {
@@ -115,7 +100,7 @@ const RoomTypeMaster = () => {
       rm_roomtype_alias: rm_roomtype_alias,
       rm_roomtype_no: rm_roomtype_no,
       rm_roomtype_status: rm_roomtype_status === 1 ? true : false,
-      rm_roomtype_type: rm_roomtype_type === 1 ? true : false,
+      rm_roomtype_type: rm_roomtype_type === 1 ? true : false
     }
     setRoomType(frmdata)
   }, [])
@@ -163,18 +148,13 @@ const RoomTypeMaster = () => {
       rm_roomtype_alias: '',
       rm_roomtype_no: '',
       rm_roomtype_status: false,
-      rm_roomtype_type: false,
+      rm_roomtype_type: false
     }
     setRoomType(frmdata)
     setValue(0)
   }, [setRoomType])
   return (
-    <CardMaster
-      title="Nomenclature Type"
-      submit={sumbitRoomType}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Nomenclature Type" submit={sumbitRoomType} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ p: 1 }}>
         <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
           <Box sx={{ width: '30%', p: 1 }}>

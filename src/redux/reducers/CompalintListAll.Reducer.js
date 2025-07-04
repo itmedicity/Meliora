@@ -3,7 +3,7 @@ const { FETCH_COMPLAINT_LIST_ALL } = ActionTyps
 
 const complaints = {
   complaintList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 
 export const setCompListAllForMenu = (state = complaints, { type, payload }) => {

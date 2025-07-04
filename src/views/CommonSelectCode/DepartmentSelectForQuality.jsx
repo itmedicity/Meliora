@@ -48,7 +48,7 @@ const DepartmentSelectForQuality = ({ qidept, setQidept, setQitype, setsearchFla
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '36px',
+            '--Input-minHeight': '36px'
           }}
           value={qidept === 0 ? type : value}
           placeholder="Select Department"

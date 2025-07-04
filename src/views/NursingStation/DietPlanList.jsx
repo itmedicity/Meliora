@@ -18,7 +18,7 @@ const DietPlanList = () => {
     { headerName: 'Name', field: 'ptc_ptname', filter: 'true' },
     { headerName: 'Bed', field: 'bdc_no' },
     { headerName: 'Diet', field: 'diet_name' },
-    { headerName: 'Diet Approval', field: 'plan status' },
+    { headerName: 'Diet Approval', field: 'plan status' }
   ])
   //get diet planned patient list
   useEffect(() => {
@@ -52,7 +52,7 @@ const DietPlanList = () => {
               pl: 1,
               pt: 1,
               pr: 1,
-              pb: 1,
+              pb: 1
             }}
           >
             <Box
@@ -64,7 +64,7 @@ const DietPlanList = () => {
                 pb: 0.5,
                 display: 'flex',
                 justifyContent: 'center',
-                flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' },
+                flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' }
               }}
             >
               <Box sx={{ width: '25%', pr: 1, mt: 1 }}>

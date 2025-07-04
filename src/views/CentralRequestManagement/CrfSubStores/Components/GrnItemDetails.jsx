@@ -9,7 +9,7 @@ const GrnItemDetails = ({ open, grnData, handleCloseInfo, grnItem }) => {
     itemName: '',
     modalopens: false,
     modFlags: 0,
-    modalDatas: [],
+    modalDatas: []
   })
   const { itemName, modalopens, modFlags, modalDatas } = grnState
   const viewDetails = useCallback(
@@ -24,7 +24,7 @@ const GrnItemDetails = ({ open, grnData, handleCloseInfo, grnItem }) => {
         itemName: itemName,
         modalopens: true,
         modFlags: 1,
-        modalDatas: grnDetails,
+        modalDatas: grnDetails
       }))
     },
     [grnData]
@@ -35,18 +35,13 @@ const GrnItemDetails = ({ open, grnData, handleCloseInfo, grnItem }) => {
       ...prev,
       modalopens: false,
       modFlags: 0,
-      modalDatas: [],
+      modalDatas: []
     }))
   }, [])
   return (
     <Fragment>
       {modFlags === 1 ? (
-        <GrnViewModal
-          modalDatas={modalDatas}
-          handleClose={handleClose}
-          open={modalopens}
-          itemName={itemName}
-        />
+        <GrnViewModal modalDatas={modalDatas} handleClose={handleClose} open={modalopens} itemName={itemName} />
       ) : null}
       <CssVarsProvider>
         <Modal
@@ -60,7 +55,7 @@ const GrnItemDetails = ({ open, grnData, handleCloseInfo, grnItem }) => {
             variant="outlined"
             sx={{
               py: 4,
-              width: '50vw',
+              width: '50vw'
             }}
           >
             <ModalClose
@@ -73,14 +68,11 @@ const GrnItemDetails = ({ open, grnData, handleCloseInfo, grnItem }) => {
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 25,
-                width: 25,
+                width: 25
               }}
             />
             <Box sx={{ ml: 1, fontWeight: 650, fontSize: 14 }}>Item Details</Box>
-            <Box
-              variant="outlined"
-              sx={{ overflow: 'auto', maxHeight: window.innerHeight - 50, padding: 'none' }}
-            >
+            <Box variant="outlined" sx={{ overflow: 'auto', maxHeight: window.innerHeight - 50, padding: 'none' }}>
               <CssVarsProvider>
                 <Table
                   aria-label="table with sticky header"
@@ -101,7 +93,7 @@ const GrnItemDetails = ({ open, grnData, handleCloseInfo, grnItem }) => {
                           fontWeight: 650,
                           fontSize: 14,
                           textAlign: 'center',
-                          backgroundColor: '#e3f2fd',
+                          backgroundColor: '#e3f2fd'
                         }}
                       >
                         &nbsp; Sl.No
@@ -112,7 +104,7 @@ const GrnItemDetails = ({ open, grnData, handleCloseInfo, grnItem }) => {
                           width: 80,
                           fontWeight: 650,
                           fontSize: 14,
-                          backgroundColor: '#e3f2fd',
+                          backgroundColor: '#e3f2fd'
                         }}
                       >
                         &nbsp;Item Code
@@ -123,7 +115,7 @@ const GrnItemDetails = ({ open, grnData, handleCloseInfo, grnItem }) => {
                           width: 250,
                           fontWeight: 650,
                           fontSize: 14,
-                          backgroundColor: '#e3f2fd',
+                          backgroundColor: '#e3f2fd'
                         }}
                       >
                         &nbsp;Item
@@ -134,7 +126,7 @@ const GrnItemDetails = ({ open, grnData, handleCloseInfo, grnItem }) => {
                           width: 80,
                           fontWeight: 650,
                           fontSize: 14,
-                          backgroundColor: '#e3f2fd',
+                          backgroundColor: '#e3f2fd'
                         }}
                       >
                         &nbsp;Quantity
@@ -145,7 +137,7 @@ const GrnItemDetails = ({ open, grnData, handleCloseInfo, grnItem }) => {
                           width: 80,
                           fontWeight: 650,
                           fontSize: 14,
-                          backgroundColor: '#e3f2fd',
+                          backgroundColor: '#e3f2fd'
                         }}
                       >
                         &nbsp;Grn Qnty
@@ -157,7 +149,7 @@ const GrnItemDetails = ({ open, grnData, handleCloseInfo, grnItem }) => {
                           width: 80,
                           fontWeight: 650,
                           fontSize: 14,
-                          backgroundColor: '#e3f2fd',
+                          backgroundColor: '#e3f2fd'
                         }}
                       >
                         &nbsp;Grn Nos
@@ -198,8 +190,8 @@ const GrnItemDetails = ({ open, grnData, handleCloseInfo, grnItem }) => {
                                     cursor: 'pointer',
                                     transition: 'transform 0.2s',
                                     '&:hover': {
-                                      transform: 'scale(1.1)',
-                                    },
+                                      transform: 'scale(1.1)'
+                                    }
                                   }}
                                   onClick={() => viewDetails(val.item_code, val.item_name)}
                                 />

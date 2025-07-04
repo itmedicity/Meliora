@@ -10,7 +10,7 @@ export const getSupplierList = () => async dispatch => {
     dispatch({
       type: FETCH_IT_MANAGEMENT_BILL_SUPPLIER_DETAILS,
       payload: data,
-      loadingStatus: true,
+      loadingStatus: true
     })
   } else {
     dispatch({ type: FETCH_IT_MANAGEMENT_BILL_SUPPLIER_DETAILS, payload: [], loadingStatus: false })

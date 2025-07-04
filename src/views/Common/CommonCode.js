@@ -11,7 +11,7 @@ export const succesNotify = message =>
     draggable: true,
     progress: undefined,
     transition: Bounce,
-    theme: 'light',
+    theme: 'light'
   })
 
 export const errorNotify = message =>
@@ -24,7 +24,7 @@ export const errorNotify = message =>
     draggable: true,
     progress: undefined,
     transition: Bounce,
-    theme: 'light',
+    theme: 'light'
   })
 
 export const warningNotify = message =>
@@ -37,7 +37,7 @@ export const warningNotify = message =>
     draggable: true,
     progress: undefined,
     transition: Bounce,
-    theme: 'light',
+    theme: 'light'
   })
 export const infoNotify = message =>
   toast.info(message, {
@@ -49,5 +49,5 @@ export const infoNotify = message =>
     draggable: true,
     progress: undefined,
     transition: Bounce,
-    theme: 'light',
+    theme: 'light'
   })

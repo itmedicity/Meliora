@@ -36,21 +36,12 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
     hic_policy_name: '',
     compalint_date: '',
     location: '',
-    cm_location: '',
+    cm_location: ''
   })
   const [assignRemark, SetAssignRemark] = useState('')
   //destrucutring
-  const {
-    complaint_slno,
-    complaint_desc,
-    sec_name,
-    em_name,
-    date,
-    Time,
-    compalint_status,
-    location,
-    cm_location,
-  } = rectify
+  const { complaint_slno, complaint_desc, sec_name, em_name, date, Time, compalint_status, location, cm_location } =
+    rectify
 
   const [select, setSelect] = useState(false)
   const updateSelect = e => {
@@ -61,12 +52,12 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
   const getemp = (e, v) => {
     if (e === true) {
       const obj = {
-        emids: v,
+        emids: v
       }
       setEmployee([...Employee, obj])
     } else {
       const obj = {
-        emids: v,
+        emids: v
       }
       const newarry = Employee.filter(val => {
         return val.emids !== obj.emids
@@ -94,7 +85,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
         compalint_status,
         complaint_remark,
         cm_rectify_status,
-        rectify_pending_hold_remarks,
+        rectify_pending_hold_remarks
       } = detail[0]
       const frmdata = {
         complaint_slno: complaint_slno,
@@ -110,7 +101,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
         Time: Time,
         compalint_status: compalint_status,
         location: location,
-        cm_location: cm_location,
+        cm_location: cm_location
       }
       setrectify(frmdata)
       setHold(cm_rectify_status === 'O' ? true : false)
@@ -179,13 +170,12 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
         compalint_status: rectified === true ? 2 : compalint_status,
         cm_rectify_status: hold === true ? 'O' : rectified === true ? 'R' : null,
         cm_rectify_time: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
-        rectify_pending_hold_remarks:
-          hold === true ? pendholdreason : rectified === true ? pendholdreason : null,
+        rectify_pending_hold_remarks: hold === true ? pendholdreason : rectified === true ? pendholdreason : null,
         pending_onhold_time: hold === true ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : null,
         pending_onhold_user: id,
         assigned_emp: val.emids,
         verify_spervsr: 0,
-        complaint_slno: complaint_slno,
+        complaint_slno: complaint_slno
       }
     })
   // function to database update
@@ -199,7 +189,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
         complaint_dept_name: '',
         complaint_type_name: '',
         hic_policy_name: '',
-        compalint_date: '',
+        compalint_date: ''
       }
       const updateFun = async patchData => {
         const result = await axioslogin.patch(`/Rectifycomplit/updatecmp`, patchData)
@@ -251,7 +241,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
     return {
       cm_complait_slno: complaint_slno,
       cm_am_assetmap_slno: cmAssetSlno,
-      create_user: id,
+      create_user: id
     }
   }, [complaint_slno, cmAssetSlno, id])
 
@@ -287,7 +277,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
         <DialogContent
           sx={{
             width: '100%',
-            height: 500,
+            height: 500
           }}
         >
           <Box sx={{ width: '100%', mt: 0 }}>
@@ -300,13 +290,13 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                     display: 'flex',
                     flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
                     p: 0.5,
-                    mt: 1,
+                    mt: 1
                   }}
                 >
                   <Box
                     sx={{
                       display: 'flex',
-                      width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%' },
+                      width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%' }
                     }}
                   >
                     <Typography>Complaint Department</Typography>
@@ -314,7 +304,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                   <Box
                     sx={{
                       display: 'flex',
-                      width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%' },
+                      width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%' }
                     }}
                   >
                     <Typography>{sec_name}</Typography>
@@ -328,13 +318,13 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                     display: 'flex',
                     flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
                     p: 0.5,
-                    mt: 1,
+                    mt: 1
                   }}
                 >
                   <Box
                     sx={{
                       display: 'flex',
-                      width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%' },
+                      width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%' }
                     }}
                   >
                     <Typography>Assigned Employee</Typography>
@@ -342,7 +332,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                   <Box
                     sx={{
                       display: 'flex',
-                      width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%' },
+                      width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%' }
                     }}
                   >
                     <Typography>{em_name}</Typography>
@@ -356,13 +346,13 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                     display: 'flex',
                     flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
                     p: 0.5,
-                    mt: 1,
+                    mt: 1
                   }}
                 >
                   <Box
                     sx={{
                       display: 'flex',
-                      width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%' },
+                      width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%' }
                     }}
                   >
                     <Typography>Date & Time</Typography>
@@ -370,7 +360,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                   <Box
                     sx={{
                       display: 'flex',
-                      width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%' },
+                      width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%' }
                     }}
                   >
                     <Typography>
@@ -386,13 +376,13 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                     display: 'flex',
                     flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
                     p: 0.5,
-                    mt: 1,
+                    mt: 1
                   }}
                 >
                   <Box
                     sx={{
                       display: 'flex',
-                      width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%' },
+                      width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%' }
                     }}
                   >
                     <Typography>Location</Typography>
@@ -400,7 +390,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                   <Box
                     sx={{
                       display: 'flex',
-                      width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%' },
+                      width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%' }
                     }}
                   >
                     <Typography>{location}</Typography>
@@ -413,13 +403,13 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                     display: 'flex',
                     flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
                     p: 0.5,
-                    mt: 1,
+                    mt: 1
                   }}
                 >
                   <Box
                     sx={{
                       display: 'flex',
-                      width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%' },
+                      width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%' }
                     }}
                   >
                     <Typography>Assign Remarks</Typography>
@@ -427,7 +417,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                   <Box
                     sx={{
                       display: 'flex',
-                      width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%' },
+                      width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%' }
                     }}
                   >
                     <Typography>{assignRemark}</Typography>
@@ -439,13 +429,13 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                     width: '100%',
                     display: 'flex',
                     flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
-                    p: 0.5,
+                    p: 0.5
                   }}
                 >
                   <Box
                     sx={{
                       display: 'flex',
-                      width: '100%',
+                      width: '100%'
                     }}
                   >
                     <Typography sx={{ textAlign: 'center' }}>Complaint Description</Typography>
@@ -456,22 +446,17 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                     width: '100%',
                     display: 'flex',
                     flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
-                    p: 0.5,
+                    p: 0.5
                   }}
                 >
                   <Box
                     sx={{
                       display: 'flex',
                       width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%' },
-                      mt: 0,
+                      mt: 0
                     }}
                   >
-                    <CustomTextarea
-                      style={{ width: '100%' }}
-                      minRows={3}
-                      value={complaint_desc}
-                      disabled
-                    />
+                    <CustomTextarea style={{ width: '100%' }} minRows={3} value={complaint_desc} disabled />
                   </Box>
                 </Box>
                 {assetDetalDataFlag === 1 ? (
@@ -480,13 +465,13 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                       width: '100%',
                       display: 'flex',
                       flexDirection: 'column',
-                      p: 0.5,
+                      p: 0.5
                     }}
                   >
                     <Box
                       sx={{
                         display: 'flex',
-                        width: '100%',
+                        width: '100%'
                       }}
                     >
                       <Typography sx={{ textAlign: 'center' }}>Asset Detail</Typography>
@@ -494,12 +479,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
 
                     <Box sx={{ p: 1 }}>
                       <TableContainer sx={{ maxHeight: 250 }}>
-                        <Table
-                          size="small"
-                          stickyHeader
-                          aria-label="sticky table"
-                          sx={{ border: '0.2px solid' }}
-                        >
+                        <Table size="small" stickyHeader aria-label="sticky table" sx={{ border: '0.2px solid' }}>
                           <TableHead sx={{ border: '1px ' }}>
                             <TableRow>
                               <TableCell align="center">Sl No</TableCell>
@@ -515,7 +495,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                                   sx={{
                                     '&:last-child td, &:last-child th': { border: 0 },
                                     maxHeight: 60,
-                                    minHeight: 5,
+                                    minHeight: 5
                                   }}
                                 >
                                   <TableCell align="center">{index + 1}</TableCell>
@@ -535,22 +515,18 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                     width: '100%',
                     display: 'flex',
                     flexDirection: 'column',
-                    p: 0.5,
+                    p: 0.5
                   }}
                 >
                   <Box
                     sx={{
                       display: 'flex',
                       width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%' },
-                      mt: 0,
+                      mt: 0
                     }}
                   >
                     <Box sx={{ display: 'flex', width: '40%', height: 30, pl: 3 }}>
-                      <Button
-                        onClick={() => AddAssetDetaiils()}
-                        variant="contained"
-                        color="primary"
-                      >
+                      <Button onClick={() => AddAssetDetaiils()} variant="contained" color="primary">
                         Add Asset Details
                       </Button>
                     </Box>
@@ -561,7 +537,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                         display: 'flex',
                         flexDirection: 'row',
                         flexWrap: 'wrap',
-                        pt: 1,
+                        pt: 1
                       }}
                     >
                       <Box sx={{ width: '40%', p: 1 }}>
@@ -573,10 +549,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                       </Box>
                       <Box sx={{ width: '5%', pl: 1, pt: 1, cursor: 'pointer' }}>
                         <Tooltip title="Add Asset" placement="top">
-                          <AddCircleOutlineIcon
-                            color="primary"
-                            onClick={() => AddAssetToComplaint()}
-                          />
+                          <AddCircleOutlineIcon color="primary" onClick={() => AddAssetToComplaint()} />
                         </Tooltip>
                       </Box>
                     </Box>
@@ -587,13 +560,13 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                     width: '100%',
                     display: 'flex',
                     flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
-                    p: 0.5,
+                    p: 0.5
                   }}
                 >
                   <Box
                     sx={{
                       display: 'flex',
-                      width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%' },
+                      width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%' }
                     }}
                   >
                     <Typography>Actual Assigned</Typography>
@@ -601,7 +574,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                   <Box
                     sx={{
                       display: 'flex',
-                      width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%' },
+                      width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%' }
                     }}
                   >
                     {empName &&
@@ -617,8 +590,8 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                                 sm: 'column',
                                 md: 'row',
                                 lg: 'row',
-                                xl: 'row',
-                              },
+                                xl: 'row'
+                              }
                             }}
                           >
                             <Checkbox
@@ -645,13 +618,13 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                     flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
                     p: 0.5,
                     mt: 1,
-                    mb: 1,
+                    mb: 1
                   }}
                 >
                   <Box
                     sx={{
                       display: 'flex',
-                      width: '30%',
+                      width: '30%'
                     }}
                   >
                     <CusCheckBox
@@ -667,7 +640,7 @@ const Rectifymodel = ({ open, setOpen, detail, count, setCount, empName, setempn
                   <Box
                     sx={{
                       display: 'flex',
-                      width: '30%',
+                      width: '30%'
                     }}
                   >
                     <CusCheckBox

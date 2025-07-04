@@ -3,7 +3,7 @@ const { FETCH_HALL_NAME } = ActionTyps
 //initial state
 const Hallname = {
   hallnameList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Department action type check then payload set to the state and loading status set as true */
 export const getHallMasterSlno = (state = Hallname, { type, payload }) => {

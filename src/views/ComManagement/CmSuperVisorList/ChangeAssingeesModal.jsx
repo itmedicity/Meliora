@@ -13,7 +13,7 @@ const ChangeAssingeesModal = ({
   emptransferData,
   setEmptransferFlag,
   setCount,
-  count,
+  count
 }) => {
   const {
     complaint_slno,
@@ -24,7 +24,7 @@ const ChangeAssingeesModal = ({
     rm_insidebuildblock_name,
     rm_floor_name,
     location,
-    complaint_type_name,
+    complaint_type_name
   } = emptransferData
 
   const empdept = useSelector(state => state?.LoginUserData?.empdept)
@@ -63,7 +63,7 @@ const ChangeAssingeesModal = ({
         assigned_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
         assign_rect_status: 0,
         assigned_user: id,
-        assign_status: 1,
+        assign_status: 1
       }
     })
   const inactive =
@@ -71,7 +71,7 @@ const ChangeAssingeesModal = ({
     empName.map(value => {
       return {
         complaint_slno: complaint_slno,
-        assigned_emp: value.assigned_emp,
+        assigned_emp: value.assigned_emp
       }
     })
 
@@ -110,7 +110,7 @@ const ChangeAssingeesModal = ({
   }, [postData, inactive, count, setCount, Close, empName])
 
   const postdata = {
-    em_department: empdept,
+    em_department: empdept
   }
   const buttonStyle = {
     fontSize: 16,
@@ -122,11 +122,11 @@ const ChangeAssingeesModal = ({
     '&:hover': {
       bgcolor: 'white',
       color: '#523A28',
-      transform: 'scale(1.1)',
+      transform: 'scale(1.1)'
     },
     '&:active': {
-      transform: 'scale(0.95)',
-    },
+      transform: 'scale(0.95)'
+    }
   }
 
   return (
@@ -137,7 +137,7 @@ const ChangeAssingeesModal = ({
             sx={{
               width: '55vw',
               p: 0,
-              overflow: 'auto',
+              overflow: 'auto'
             }}
           >
             <Box sx={{ flex: 1, display: 'flex', mt: 1, p: 1 }}>
@@ -148,12 +148,8 @@ const ChangeAssingeesModal = ({
             </Box>
             <Box sx={{ flex: 1, display: 'flex', bgcolor: '#ECEDEF', py: 0.5 }}>
               <Box sx={{ flex: 2, pl: 0.5 }}>
-                <Typography sx={{ pl: 0.5, fontWeight: 600, color: 'Black' }}>
-                  Ticket No.{complaint_slno}
-                </Typography>
-                <Typography sx={{ pl: 0.5, fontSize: 14, color: 'Black' }}>
-                  {complaint_desc}
-                </Typography>
+                <Typography sx={{ pl: 0.5, fontWeight: 600, color: 'Black' }}>Ticket No.{complaint_slno}</Typography>
+                <Typography sx={{ pl: 0.5, fontSize: 14, color: 'Black' }}>{complaint_desc}</Typography>
                 <Typography sx={{ pl: 0.5, fontSize: 13, color: 'Black', py: 0.5 }}>
                   Complaint Type: {complaint_type_name}
                 </Typography>
@@ -172,9 +168,7 @@ const ChangeAssingeesModal = ({
                       : 'Not Updated'}
                   </Typography>
                 ) : null}
-                <Typography sx={{ pl: 0.5, fontSize: 13, color: 'Black' }}>
-                  {compalint_date}
-                </Typography>
+                <Typography sx={{ pl: 0.5, fontSize: 13, color: 'Black' }}>{compalint_date}</Typography>
               </Box>
             </Box>
             <Box sx={{ flex: 1, display: 'flex', mt: 2, mx: 8 }}>
@@ -183,7 +177,7 @@ const ChangeAssingeesModal = ({
                 sx={{
                   flex: 3,
                   // border: 1, borderColor: 'lightgrey', borderRadius: 4,
-                  minHeight: 30,
+                  minHeight: 30
                 }}
               >
                 {empName?.map((val, index) => {

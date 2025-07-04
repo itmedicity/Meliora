@@ -3,17 +3,17 @@ import CusAgGridMast from 'src/views/Components/CusAgGridMast'
 function DietIssueScheduleMastTable() {
   const [column] = useState([
     {
-      headerName: 'slno',
+      headerName: 'slno'
     },
     {
-      headerName: 'Diet Issue Schedule',
+      headerName: 'Diet Issue Schedule'
     },
     {
-      headerName: 'Status',
+      headerName: 'Status'
     },
     {
-      headerName: 'Actions',
-    },
+      headerName: 'Actions'
+    }
   ])
   return <CusAgGridMast columnDefs={column} />
 }

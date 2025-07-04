@@ -12,7 +12,7 @@ import {
   getExpiredAmcCmc,
   getExpiredWarGaur,
   getSpareCount,
-  getSpareValue,
+  getSpareValue
 } from 'src/api/CommonApi'
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import DashBoadTile from './DashBoadTile'
@@ -42,38 +42,38 @@ const DashboardMainAsset = () => {
 
   const postData = useMemo(() => {
     return {
-      am_custodian_dept_slno: empdept,
+      am_custodian_dept_slno: empdept
     }
   }, [empdept])
 
   const { data: queryDataVal } = useQuery({
     queryKey: ['getCategoryDetailsDash', postData],
-    queryFn: () => getCategoryDetails(postData),
+    queryFn: () => getCategoryDetails(postData)
   })
 
   const { data: queryDataSpareVal } = useQuery({
     queryKey: ['getCategoryDetailsSpare', postData],
-    queryFn: () => getCategoryDetailsSpare(postData),
+    queryFn: () => getCategoryDetailsSpare(postData)
   })
 
   const { data: assetCountDataVal } = useQuery({
     queryKey: ['getAssetCount', postData],
-    queryFn: () => getAssetCount(postData),
+    queryFn: () => getAssetCount(postData)
   })
 
   const { data: spareCountDataVal } = useQuery({
     queryKey: ['getSpareCount', postData],
-    queryFn: () => getSpareCount(postData),
+    queryFn: () => getSpareCount(postData)
   })
 
   const { data: assetValueVal } = useQuery({
     queryKey: ['getAssetValue', postData],
-    queryFn: () => getAssetValue(postData),
+    queryFn: () => getAssetValue(postData)
   })
 
   const { data: spareValueVal } = useQuery({
     queryKey: ['getSpareValue', postData],
-    queryFn: () => getSpareValue(postData),
+    queryFn: () => getSpareValue(postData)
   })
 
   const queryData = useMemo(() => queryDataVal, [queryDataVal])
@@ -138,21 +138,18 @@ const DashboardMainAsset = () => {
   const AllCategory = combinedArray.filter(
     (value, index, self) =>
       index ===
-      self.findIndex(
-        item =>
-          item.category_slno === value.category_slno && item.category_name === value.category_name
-      )
+      self.findIndex(item => item.category_slno === value.category_slno && item.category_name === value.category_name)
   )
   AllCategory.sort((a, b) => a.category_name.localeCompare(b.category_name))
 
   const { data: amcCmcItemUnderCustodian } = useQuery({
     queryKey: ['getAmcCmcActiveUnderCustodian', postData],
-    queryFn: () => getAllAmcCmcUnderCustodian(postData),
+    queryFn: () => getAllAmcCmcUnderCustodian(postData)
   })
 
   const { data: ExpiredAmcCmc } = useQuery({
     queryKey: ['getAllExpiredAmcCmc', postData],
-    queryFn: () => getExpiredAmcCmc(postData),
+    queryFn: () => getExpiredAmcCmc(postData)
   })
 
   const today = new Date()
@@ -175,12 +172,12 @@ const DashboardMainAsset = () => {
 
   const { data: getActiveItemWarrentyGaurentee } = useQuery({
     queryKey: ['getActiveWarrentyGaurentee', postData],
-    queryFn: () => getActiveItemsWarrentyGaurentee(postData),
+    queryFn: () => getActiveItemsWarrentyGaurentee(postData)
   })
 
   const { data: ExpiredWarGaur } = useQuery({
     queryKey: ['getAllExpiredWargaur', postData],
-    queryFn: () => getExpiredWarGaur(postData),
+    queryFn: () => getExpiredWarGaur(postData)
   })
 
   const WarGaurExpiringIn3Months = getActiveItemWarrentyGaurentee?.filter(item => {
@@ -247,7 +244,7 @@ const DashboardMainAsset = () => {
         borderRadius: 1,
         boxShadow: 2,
         bgcolor: '#F4F6F9',
-        pb: 0.5,
+        pb: 0.5
       }}
     >
       <CssVarsProvider>
@@ -269,7 +266,7 @@ const DashboardMainAsset = () => {
                 fontSize: 14,
                 p: 0.5,
                 fontWeight: 600,
-                color: '#636b74',
+                color: '#636b74'
               }}
             >
               {empdeptname}
@@ -282,7 +279,7 @@ const DashboardMainAsset = () => {
                   borderColor: '#d0d6e5',
                   flex: 1,
                   bgcolor: 'white',
-                  borderRadius: 5,
+                  borderRadius: 5
                 }}
               >
                 <Box
@@ -294,7 +291,7 @@ const DashboardMainAsset = () => {
                     alignItems: 'center',
                     border: 1,
                     borderColor: '#d0d6e5',
-                    bgcolor: '#f5fcf5',
+                    bgcolor: '#f5fcf5'
                   }}
                 >
                   <CurrencyRupeeIcon sx={{ width: 35, height: 35, color: 'darkgreen' }} />
@@ -307,7 +304,7 @@ const DashboardMainAsset = () => {
                     {new Intl.NumberFormat('en-IN', {
                       style: 'currency',
                       currency: 'INR',
-                      currencyDisplay: 'code',
+                      currencyDisplay: 'code'
                     })
                       .format(TotalAssetValue)
                       .replace('INR', '')}
@@ -321,7 +318,7 @@ const DashboardMainAsset = () => {
                   borderColor: '#d0d6e5',
                   flex: 1,
                   bgcolor: 'white',
-                  borderRadius: 5,
+                  borderRadius: 5
                 }}
               >
                 <Box
@@ -333,7 +330,7 @@ const DashboardMainAsset = () => {
                     alignItems: 'center',
                     border: 1,
                     borderColor: '#d0d6e5',
-                    bgcolor: '#fafcfe',
+                    bgcolor: '#fafcfe'
                   }}
                 >
                   <FitbitIcon sx={{ width: 35, height: 35, color: '#41729F' }} />
@@ -342,9 +339,7 @@ const DashboardMainAsset = () => {
                   <Box sx={{ fontSize: 14, fontWeight: 600, color: '#636b74', pl: 0.8, pt: 0.5 }}>
                     Total Asset Count
                   </Box>
-                  <Box sx={{ fontSize: 20, fontWeight: 600, color: '#41729F', pt: 0.1, pl: 1 }}>
-                    {totAssetcount}
-                  </Box>
+                  <Box sx={{ fontSize: 20, fontWeight: 600, color: '#41729F', pt: 0.1, pl: 1 }}>{totAssetcount}</Box>
                 </Box>
               </Box>
               <Box
@@ -354,7 +349,7 @@ const DashboardMainAsset = () => {
                   borderColor: 'lightgrey',
                   flex: 1,
                   bgcolor: 'white',
-                  borderRadius: 5,
+                  borderRadius: 5
                 }}
               >
                 <Box
@@ -366,7 +361,7 @@ const DashboardMainAsset = () => {
                     alignItems: 'center',
                     border: 1,
                     borderColor: '#d0d6e5',
-                    bgcolor: '#fef5f5',
+                    bgcolor: '#fef5f5'
                   }}
                 >
                   <MiscellaneousServicesIcon sx={{ width: 35, height: 35, color: '#a31545' }} />
@@ -375,9 +370,7 @@ const DashboardMainAsset = () => {
                   <Box sx={{ fontSize: 14, fontWeight: 600, color: '#636b74', pl: 0.8, pt: 0.5 }}>
                     Total Spare Count
                   </Box>
-                  <Box sx={{ fontSize: 20, fontWeight: 600, color: '#a31545', pt: 0.1, pl: 1 }}>
-                    {spareCount}
-                  </Box>
+                  <Box sx={{ fontSize: 20, fontWeight: 600, color: '#a31545', pt: 0.1, pl: 1 }}>{spareCount}</Box>
                 </Box>
               </Box>
             </Box>
@@ -390,7 +383,7 @@ const DashboardMainAsset = () => {
                     border: 1,
                     borderColor: '#d0d6e5',
                     bgcolor: 'white',
-                    pb: 0.5,
+                    pb: 0.5
                   }}
                 >
                   <Box
@@ -400,7 +393,7 @@ const DashboardMainAsset = () => {
                       color: '#636b74',
                       pl: 1.5,
                       pt: 1,
-                      pb: 0.5,
+                      pb: 0.5
                     }}
                   >
                     AMC/CMC
@@ -415,7 +408,7 @@ const DashboardMainAsset = () => {
                           flex: 1,
                           borderRadius: 5,
                           bgcolor: '#fafbfd',
-                          cursor: 'pointer',
+                          cursor: 'pointer'
                         }}
                         onClick={DetailViewAcmCmcActive}
                       >
@@ -426,7 +419,7 @@ const DashboardMainAsset = () => {
                             color: '#636b74',
                             pl: 1,
                             pt: 2,
-                            flex: 1,
+                            flex: 1
                           }}
                         >
                           Active Amc/Cmc Items
@@ -439,7 +432,7 @@ const DashboardMainAsset = () => {
                             fontSize: 20,
                             fontWeight: 600,
                             color: '#41729F',
-                            alignItems: 'center',
+                            alignItems: 'center'
                           }}
                         >
                           {allAmcCmcCount}
@@ -455,7 +448,7 @@ const DashboardMainAsset = () => {
                           flex: 1,
                           borderRadius: 5,
                           bgcolor: '#fafbfd',
-                          cursor: 'pointer',
+                          cursor: 'pointer'
                         }}
                         onClick={DetailViewAcmCmcExpinThreeMonth}
                       >
@@ -466,7 +459,7 @@ const DashboardMainAsset = () => {
                             color: '#636b74',
                             pl: 1,
                             pt: 2,
-                            flex: 1,
+                            flex: 1
                           }}
                         >
                           Near Expiry Within Three Month
@@ -479,7 +472,7 @@ const DashboardMainAsset = () => {
                             fontSize: 20,
                             fontWeight: 600,
                             color: '#41729F',
-                            alignItems: 'center',
+                            alignItems: 'center'
                           }}
                         >
                           {amcCmcExpiringInThreemonthCount}
@@ -497,7 +490,7 @@ const DashboardMainAsset = () => {
                           flex: 1,
                           borderRadius: 5,
                           bgcolor: '#fafbfd',
-                          cursor: 'pointer',
+                          cursor: 'pointer'
                         }}
                         onClick={DetailViewAcmCmcExpinOneMonth}
                       >
@@ -508,7 +501,7 @@ const DashboardMainAsset = () => {
                             color: '#636b74',
                             pl: 1,
                             pt: 2,
-                            flex: 1,
+                            flex: 1
                           }}
                         >
                           Near Expiry Within One Month
@@ -522,7 +515,7 @@ const DashboardMainAsset = () => {
                             fontSize: 20,
                             fontWeight: 600,
                             color: '#41729F',
-                            alignItems: 'center',
+                            alignItems: 'center'
                           }}
                         >
                           {amcCmcExpiringInOnemonthCount}
@@ -538,7 +531,7 @@ const DashboardMainAsset = () => {
                           flex: 1,
                           borderRadius: 5,
                           bgcolor: '#fafbfd',
-                          cursor: 'pointer',
+                          cursor: 'pointer'
                         }}
                         onClick={DetailViewAcmCmcExprd}
                       >
@@ -549,7 +542,7 @@ const DashboardMainAsset = () => {
                             color: '#636b74',
                             pl: 1,
                             pt: 2,
-                            flex: 1,
+                            flex: 1
                           }}
                         >
                           Expired
@@ -562,7 +555,7 @@ const DashboardMainAsset = () => {
                             fontSize: 20,
                             fontWeight: 600,
                             color: '#41729F',
-                            alignItems: 'center',
+                            alignItems: 'center'
                           }}
                         >
                           {AllExpiredAmcCmc}
@@ -578,7 +571,7 @@ const DashboardMainAsset = () => {
                     border: 1,
                     borderColor: '#d0d6e5',
                     bgcolor: 'white',
-                    pb: 0.5,
+                    pb: 0.5
                   }}
                 >
                   <Box
@@ -588,7 +581,7 @@ const DashboardMainAsset = () => {
                       color: '#636b74',
                       pl: 1.5,
                       pt: 1,
-                      pb: 0.5,
+                      pb: 0.5
                     }}
                   >
                     Warrenty/Gaurentee
@@ -603,7 +596,7 @@ const DashboardMainAsset = () => {
                           flex: 1,
                           borderRadius: 5,
                           bgcolor: '#fafbfd',
-                          cursor: 'pointer',
+                          cursor: 'pointer'
                         }}
                         onClick={DetailViewWarGaurActive}
                       >
@@ -614,7 +607,7 @@ const DashboardMainAsset = () => {
                             color: '#636b74',
                             pl: 1,
                             pt: 2,
-                            flex: 1,
+                            flex: 1
                           }}
                         >
                           Active Warrenty/Gaurentee Items
@@ -627,7 +620,7 @@ const DashboardMainAsset = () => {
                             fontSize: 20,
                             fontWeight: 600,
                             color: '#41729F',
-                            alignItems: 'center',
+                            alignItems: 'center'
                           }}
                         >
                           {ActiveItemWarGaurCount}
@@ -643,7 +636,7 @@ const DashboardMainAsset = () => {
                           flex: 1,
                           borderRadius: 5,
                           bgcolor: '#fafbfd',
-                          cursor: 'pointer',
+                          cursor: 'pointer'
                         }}
                         onClick={DetailViewWarGaurExpinThreeMonth}
                       >
@@ -654,7 +647,7 @@ const DashboardMainAsset = () => {
                             color: '#636b74',
                             pl: 1,
                             pt: 2,
-                            flex: 1,
+                            flex: 1
                           }}
                         >
                           Near Expiry Within Three Month
@@ -667,7 +660,7 @@ const DashboardMainAsset = () => {
                             fontSize: 20,
                             fontWeight: 600,
                             color: '#41729F',
-                            alignItems: 'center',
+                            alignItems: 'center'
                           }}
                         >
                           {warGaurExpiringInThreemonthCount}
@@ -685,7 +678,7 @@ const DashboardMainAsset = () => {
                           flex: 1,
                           borderRadius: 5,
                           bgcolor: '#fafbfd',
-                          cursor: 'pointer',
+                          cursor: 'pointer'
                         }}
                         onClick={DetailViewWarGaurExpinOneMonth}
                       >
@@ -696,7 +689,7 @@ const DashboardMainAsset = () => {
                             color: '#636b74',
                             pl: 1,
                             pt: 2,
-                            flex: 1,
+                            flex: 1
                           }}
                         >
                           Near Expiry Within One Month
@@ -709,7 +702,7 @@ const DashboardMainAsset = () => {
                             fontSize: 20,
                             fontWeight: 600,
                             color: '#41729F',
-                            alignItems: 'center',
+                            alignItems: 'center'
                           }}
                         >
                           {warGaurExpiringInOnemonthCount}
@@ -725,7 +718,7 @@ const DashboardMainAsset = () => {
                           flex: 1,
                           borderRadius: 5,
                           bgcolor: '#fafbfd',
-                          cursor: 'pointer',
+                          cursor: 'pointer'
                         }}
                         onClick={DetailViewWarGaurExpired}
                       >
@@ -736,7 +729,7 @@ const DashboardMainAsset = () => {
                             color: '#636b74',
                             pl: 1,
                             pt: 2,
-                            flex: 1,
+                            flex: 1
                           }}
                         >
                           Expired
@@ -749,7 +742,7 @@ const DashboardMainAsset = () => {
                             fontSize: 20,
                             fontWeight: 600,
                             color: '#41729F',
-                            alignItems: 'center',
+                            alignItems: 'center'
                           }}
                         >
                           {AllExpiredWarGaur}
@@ -769,14 +762,10 @@ const DashboardMainAsset = () => {
                 mx: 1,
                 mt: 0.5,
                 mb: 1,
-                bgcolor: 'white',
+                bgcolor: 'white'
               }}
             >
-              <Box
-                sx={{ fontSize: 14, fontWeight: 600, color: '#636b74', pl: 1.5, pt: 1, pb: 0.5 }}
-              >
-                Category
-              </Box>
+              <Box sx={{ fontSize: 14, fontWeight: 600, color: '#636b74', pl: 1.5, pt: 1, pb: 0.5 }}>Category</Box>
               <Box sx={{ flex: 1, mx: 0.5, overflowY: 'auto', overflowX: 'hidden', height: '80%' }}>
                 <Box sx={{ pb: 1, px: 0.5 }}>
                   <Grid container spacing={0.5} sx={{ flex: 1 }}>

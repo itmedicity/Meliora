@@ -15,7 +15,7 @@ const IncidentListTableView = ({ tableData, SearchReport }) => {
     const { incident_dept, incident_date } = val
     const checkData = {
       qi_endo_date: format(new Date(incident_date), 'yyyy-MM-dd'),
-      qi_dept_no: incident_dept,
+      qi_dept_no: incident_dept
     }
     const CheckApprovedorNot = async checkData => {
       const result = await axioslogin.post('/incidentMaster/apprvcheck', checkData)
@@ -57,7 +57,7 @@ const IncidentListTableView = ({ tableData, SearchReport }) => {
           flex: 1,
           cursor: 'pointer',
           '&::-webkit-scrollbar': { height: 8 },
-          maxHeight: window.innerHeight - 220,
+          maxHeight: window.innerHeight - 220
         }}
       >
         <CssVarsProvider>
@@ -70,7 +70,7 @@ const IncidentListTableView = ({ tableData, SearchReport }) => {
                     width: 80,
                     textAlign: 'center',
                     fontSize: 15,
-                    backgroundColor: '#eceff1',
+                    backgroundColor: '#eceff1'
                   }}
                 >
                   Action
@@ -81,7 +81,7 @@ const IncidentListTableView = ({ tableData, SearchReport }) => {
                     width: 60,
                     textAlign: 'center',
                     fontSize: 15,
-                    backgroundColor: '#eceff1',
+                    backgroundColor: '#eceff1'
                   }}
                 >
                   Sl.No
@@ -92,7 +92,7 @@ const IncidentListTableView = ({ tableData, SearchReport }) => {
                     width: 180,
                     textAlign: 'center',
                     fontSize: 15,
-                    backgroundColor: '#eceff1',
+                    backgroundColor: '#eceff1'
                   }}
                 >
                   Incident Date
@@ -103,7 +103,7 @@ const IncidentListTableView = ({ tableData, SearchReport }) => {
                     width: 170,
                     textAlign: 'center',
                     fontSize: 15,
-                    backgroundColor: '#eceff1',
+                    backgroundColor: '#eceff1'
                   }}
                 >
                   Department
@@ -114,7 +114,7 @@ const IncidentListTableView = ({ tableData, SearchReport }) => {
                     width: 160,
                     textAlign: 'center',
                     fontSize: 15,
-                    backgroundColor: '#eceff1',
+                    backgroundColor: '#eceff1'
                   }}
                 >
                   Clinical/Non Clinical
@@ -125,7 +125,7 @@ const IncidentListTableView = ({ tableData, SearchReport }) => {
                     width: 350,
                     textAlign: 'center',
                     fontSize: 15,
-                    backgroundColor: '#eceff1',
+                    backgroundColor: '#eceff1'
                   }}
                 >
                   Reason
@@ -136,7 +136,7 @@ const IncidentListTableView = ({ tableData, SearchReport }) => {
                     width: 350,
                     textAlign: 'center',
                     fontSize: 15,
-                    backgroundColor: '#eceff1',
+                    backgroundColor: '#eceff1'
                   }}
                 >
                   Details
@@ -147,7 +147,7 @@ const IncidentListTableView = ({ tableData, SearchReport }) => {
                     width: 130,
                     textAlign: 'center',
                     fontSize: 15,
-                    backgroundColor: '#eceff1',
+                    backgroundColor: '#eceff1'
                   }}
                 >
                   Reported by
@@ -158,7 +158,7 @@ const IncidentListTableView = ({ tableData, SearchReport }) => {
                     width: 190,
                     textAlign: 'center',
                     fontSize: 15,
-                    backgroundColor: '#eceff1',
+                    backgroundColor: '#eceff1'
                   }}
                 >
                   Reported Incident Type
@@ -169,7 +169,7 @@ const IncidentListTableView = ({ tableData, SearchReport }) => {
                     width: 150,
                     textAlign: 'center',
                     fontSize: 15,
-                    backgroundColor: '#eceff1',
+                    backgroundColor: '#eceff1'
                   }}
                 >
                   Status
@@ -180,7 +180,7 @@ const IncidentListTableView = ({ tableData, SearchReport }) => {
                     width: 200,
                     textAlign: 'center',
                     fontSize: 15,
-                    backgroundColor: '#eceff1',
+                    backgroundColor: '#eceff1'
                   }}
                 >
                   Remarks
@@ -191,7 +191,7 @@ const IncidentListTableView = ({ tableData, SearchReport }) => {
                     width: 170,
                     textAlign: 'center',
                     fontSize: 15,
-                    backgroundColor: '#eceff1',
+                    backgroundColor: '#eceff1'
                   }}
                 >
                   Verified Incident Type
@@ -202,7 +202,7 @@ const IncidentListTableView = ({ tableData, SearchReport }) => {
                     width: 120,
                     textAlign: 'center',
                     fontSize: 15,
-                    backgroundColor: '#eceff1',
+                    backgroundColor: '#eceff1'
                   }}
                 >
                   Verified by
@@ -213,7 +213,7 @@ const IncidentListTableView = ({ tableData, SearchReport }) => {
                     width: 160,
                     textAlign: 'center',
                     fontSize: 15,
-                    backgroundColor: '#eceff1',
+                    backgroundColor: '#eceff1'
                   }}
                 >
                   Verified Date
@@ -236,8 +236,8 @@ const IncidentListTableView = ({ tableData, SearchReport }) => {
                                 cursor: 'pointer',
                                 ':hover': {
                                   color: '#ef5350',
-                                  boxShadow: 2,
-                                },
+                                  boxShadow: 2
+                                }
                               }}
                               onClick={e => IncidentMarkingDetails(val)}
                             />
@@ -254,8 +254,8 @@ const IncidentListTableView = ({ tableData, SearchReport }) => {
                                 cursor: 'pointer',
                                 ':hover': {
                                   color: '#4caf50',
-                                  boxShadow: 2,
-                                },
+                                  boxShadow: 2
+                                }
                               }}
                               onClick={e => IncidentMarkingDetails(val)}
                             />

@@ -29,7 +29,7 @@ const NSWiseMAppingMast = () => {
   const [count, setcount] = useState(0)
   const [empMap, setEmpMap] = useState({
     map_slno: '',
-    map_status: false,
+    map_status: false
   })
   const history = useNavigate()
   const { map_slno, map_status } = empMap
@@ -48,7 +48,7 @@ const NSWiseMAppingMast = () => {
   const reset = useMemo(() => {
     return {
       map_slno: '',
-      map_status: false,
+      map_status: false
     }
   }, [])
 
@@ -61,7 +61,7 @@ const NSWiseMAppingMast = () => {
       map_nsurse_station: nursfloor !== [] ? nursfloor : null,
       map_status: map_status === true ? 1 : 0,
       map_emp_id: empname !== 0 ? empname : null,
-      create_user: id,
+      create_user: id
     }
   }, [dept, sec, building, floor, nursfloor, map_status, empname, id])
 
@@ -75,7 +75,7 @@ const NSWiseMAppingMast = () => {
       map_nsurse_station: nursfloor !== [] ? nursfloor : null,
       map_status: map_status === true ? 1 : 0,
       map_emp_id: empname !== 0 ? empname : null,
-      edit_user: id,
+      edit_user: id
     }
   }, [dept, sec, building, floor, nursfloor, map_status, empname, id, map_slno])
 
@@ -90,11 +90,11 @@ const NSWiseMAppingMast = () => {
       map_building,
       map_floor,
       map_status,
-      map_nsurse_station,
+      map_nsurse_station
     } = data[0]
     const frmdata = {
       map_slno: map_slno,
-      map_status: map_status === 'yes' ? true : false,
+      map_status: map_status === 'yes' ? true : false
     }
     const obj1 = JSON.parse(map_nsurse_station)
     setEmpMap(frmdata)
@@ -162,7 +162,7 @@ const NSWiseMAppingMast = () => {
   const refreshWindow = useCallback(() => {
     const formReset = {
       map_slno: '',
-      map_status: false,
+      map_status: false
     }
     setEmpMap(formReset)
     setempname(0)
@@ -205,11 +205,7 @@ const NSWiseMAppingMast = () => {
                 <FloorSelect value={floor} setValue={setfloor} />
               </Grid>
               <Grid item xl={12} lg={12}>
-                <Nurstationwisefloorselect
-                  value={nursfloor}
-                  setValue={setnursefloor}
-                  floor={floor}
-                />
+                <Nurstationwisefloorselect value={nursfloor} setValue={setnursefloor} floor={floor} />
               </Grid>
               <Grid item xl={12} lg={12}>
                 <CusCheckBox

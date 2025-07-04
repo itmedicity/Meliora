@@ -53,7 +53,7 @@ const QIEmployeeSelect = ({ empName, setempName }) => {
             border: '1px solid #bbdefb',
             alignItems: 'center',
             fontSize: 14,
-            borderRadius: 6,
+            borderRadius: 6
           }}
           value={empName === 0 ? type : value}
           placeholder="Select"

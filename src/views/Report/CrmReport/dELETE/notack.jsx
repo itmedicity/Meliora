@@ -27,7 +27,7 @@ const CRFAllReportWithPO = () => {
   const [exports, setexport] = useState(0)
   const [dateset, SetDate] = useState({
     start_date: '',
-    end_date: '',
+    end_date: ''
   })
 
   const { start_date, end_date } = dateset
@@ -48,7 +48,7 @@ const CRFAllReportWithPO = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 90,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Department Section',
@@ -56,14 +56,14 @@ const CRFAllReportWithPO = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 90,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Actual Requirement',
       field: 'actual_requirement',
       autoHeight: true,
       wrapText: true,
-      minWidth: 150,
+      minWidth: 150
     },
     { headerName: 'Needed', field: 'needed', autoHeight: true, wrapText: true, minWidth: 150 },
     {
@@ -72,7 +72,7 @@ const CRFAllReportWithPO = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 120,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Location',
@@ -80,21 +80,21 @@ const CRFAllReportWithPO = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 90,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Expected Date',
       field: 'expected_date',
       autoHeight: true,
       wrapText: true,
-      minWidth: 90,
+      minWidth: 90
     },
     {
       headerName: 'Req.Status',
       field: 'req_status',
       autoHeight: true,
       wrapText: true,
-      minWidth: 90,
+      minWidth: 90
     },
     { headerName: 'Req.User', field: 'req_user', autoHeight: true, wrapText: true, minWidth: 90 },
     { headerName: 'PO No', field: 'po_number', autoHeight: true, wrapText: true, minWidth: 90 },
@@ -104,22 +104,22 @@ const CRFAllReportWithPO = () => {
       field: 'user_acknldge_remarks',
       autoHeight: true,
       wrapText: true,
-      minWidth: 150,
+      minWidth: 150
     },
     {
       headerName: 'Acknowledgement User',
       field: 'ack_user',
       autoHeight: true,
       wrapText: true,
-      minWidth: 90,
+      minWidth: 90
     },
     {
       headerName: 'Acknowledgement date',
       field: 'user_ack_date',
       autoHeight: true,
       wrapText: true,
-      minWidth: 90,
-    },
+      minWidth: 90
+    }
   ])
 
   const clicksearch = useCallback(
@@ -128,7 +128,7 @@ const CRFAllReportWithPO = () => {
       setOpen(true)
       const postdata = {
         start_date: start_date,
-        end_date: end_date,
+        end_date: end_date
       }
       const getdataUserAcknldged = async postdata => {
         const result = await axioslogin.post('/CrfReports/getdataAllCRFWithPO', postdata)
@@ -187,7 +187,7 @@ const CRFAllReportWithPO = () => {
   const headerHeight = 30
   const defaultColDef = {
     sortable: true,
-    filter: 'agTextColumnFilter',
+    filter: 'agTextColumnFilter'
   }
 
   const rowStyle = {
@@ -201,8 +201,8 @@ const CRFAllReportWithPO = () => {
       'sans-serif',
       '"Apple Color Emoji"',
       '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
+      '"Segoe UI Symbol"'
+    ].join(',')
   }
   const onGridReady = params => {
     params.columnApi.autoSizeAllColumns()
@@ -220,13 +220,13 @@ const CRFAllReportWithPO = () => {
           square
           sx={{
             height: { xs: 775000, sm: 750, md: 750, lg: 750, xl: 750 },
-            p: 0.5,
+            p: 0.5
           }}
         >
           <Box
             sx={{
               display: 'flex',
-              flexDirection: 'column',
+              flexDirection: 'column'
             }}
           >
             <Paper square elevation={2} sx={{ p: 2 }}>
@@ -235,14 +235,14 @@ const CRFAllReportWithPO = () => {
                   width: '100%',
                   display: 'flex',
                   flexDirection: 'row',
-                  justifyContent: 'center',
+                  justifyContent: 'center'
                 }}
               >
                 <Box
                   sx={{
                     width: '10%',
                     ml: 0.5,
-                    mt: 0.5,
+                    mt: 0.5
                   }}
                 >
                   <Typography>Start Date</Typography>
@@ -252,7 +252,7 @@ const CRFAllReportWithPO = () => {
                     width: '20%',
                     // height: 15,
                     mb: 1,
-                    pr: 3,
+                    pr: 3
                   }}
                 >
                   <TextFieldCustom
@@ -263,8 +263,8 @@ const CRFAllReportWithPO = () => {
                     onchange={getDate}
                     slotProps={{
                       input: {
-                        min: format(new Date('2023-12-27'), 'yyyy-MM-dd'),
-                      },
+                        min: format(new Date('2023-12-27'), 'yyyy-MM-dd')
+                      }
                     }}
                   />
                 </Box>
@@ -272,7 +272,7 @@ const CRFAllReportWithPO = () => {
                   sx={{
                     width: '10%',
                     ml: 0.5,
-                    mt: 0.5,
+                    mt: 0.5
                   }}
                 >
                   <Typography>End Date</Typography>
@@ -282,30 +282,18 @@ const CRFAllReportWithPO = () => {
                     width: '20%',
                     // height: 15,
                     mb: 1,
-                    pr: 3,
+                    pr: 3
                   }}
                 >
-                  <TextFieldCustom
-                    type="date"
-                    size="sm"
-                    name="end_date"
-                    value={end_date}
-                    onchange={getDate}
-                  />
+                  <TextFieldCustom type="date" size="sm" name="end_date" value={end_date} onchange={getDate} />
                 </Box>
 
                 <Box
                   sx={{
-                    width: '20%',
+                    width: '20%'
                   }}
                 >
-                  <CusIconButton
-                    size="sm"
-                    variant="outlined"
-                    color="primary"
-                    clickable="true"
-                    onClick={clicksearch}
-                  >
+                  <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={clicksearch}>
                     <SearchOutlinedIcon fontSize="small" />
                   </CusIconButton>
                 </Box>
@@ -316,7 +304,7 @@ const CRFAllReportWithPO = () => {
                 square
                 sx={{
                   backgroundColor: 'black',
-                  width: { md: '100%', lg: '100%', xl: '100%' },
+                  width: { md: '100%', lg: '100%', xl: '100%' }
                 }}
               >
                 {/* Rigth Side Menu  */}
@@ -330,17 +318,12 @@ const CRFAllReportWithPO = () => {
                     gap: 0.1,
                     p: 0.3,
                     borderLeft: 2,
-                    borderColor: '#d3d3d3',
+                    borderColor: '#d3d3d3'
                   }}
                 >
                   <CustomeToolTip title="Download" placement="bottom">
                     <Box>
-                      <CusIconButton
-                        variant="outlined"
-                        size="sm"
-                        color="success"
-                        onClick={onExportClick}
-                      >
+                      <CusIconButton variant="outlined" size="sm" color="success" onClick={onExportClick}>
                         <DownloadIcon />
                       </CusIconButton>
                     </Box>
@@ -350,7 +333,7 @@ const CRFAllReportWithPO = () => {
                   className="ag-theme-material ListItemScrol"
                   sx={{
                     height: { xs: 475, sm: 475, md: 565, lg: 582, xl: 582 },
-                    width: '100%',
+                    width: '100%'
                   }}
                 >
                   <AgGridReact
@@ -382,7 +365,7 @@ const CRFAllReportWithPO = () => {
                   width: '100%',
                   display: 'flex',
                   flexDirection: 'row',
-                  pt: 2,
+                  pt: 2
                 }}
               >
                 <Typography sx={{ pl: 5 }}>A -</Typography>

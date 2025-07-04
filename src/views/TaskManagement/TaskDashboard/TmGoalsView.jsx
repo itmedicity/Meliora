@@ -34,14 +34,9 @@ const TmGoalsView = ({ goalsTable, goalsHead, setflagGoal, tableCount, setTableC
   return (
     <Paper sx={{ height: '90vh' }}>
       <Box sx={{ flex: 1, height: 30, display: 'flex' }}>
-        <Typography sx={{ color: 'grey', fontWeight: 500, flex: 1, pt: 0.5, pl: 1 }}>
-          {goalsHead}
-        </Typography>
+        <Typography sx={{ color: 'grey', fontWeight: 500, flex: 1, pt: 0.5, pl: 1 }}>{goalsHead}</Typography>
         <Box sx={{ pl: 0.5 }}>
-          <HighlightOffIcon
-            sx={{ color: 'grey', height: 30, width: 30, cursor: 'pointer' }}
-            onClick={backtoDash}
-          />
+          <HighlightOffIcon sx={{ color: 'grey', height: 30, width: 30, cursor: 'pointer' }} onClick={backtoDash} />
         </Box>
       </Box>
       <Box sx={{ bgcolor: '#DFE3ED', p: 0.5 }}>
@@ -87,7 +82,7 @@ const TmGoalsView = ({ goalsTable, goalsHead, setflagGoal, tableCount, setTableC
                           <CheckCircleOutlineIcon
                             sx={{
                               cursor: 'pointer',
-                              '&:hover': { color: '#DBA40E' },
+                              '&:hover': { color: '#DBA40E' }
                             }}
                             size={6}
                             onClick={() => rowSelectModal(val)}
@@ -103,7 +98,7 @@ const TmGoalsView = ({ goalsTable, goalsHead, setflagGoal, tableCount, setTableC
                                   ? '#94C973'
                                   : 'transparent',
                               minHeight: 5,
-                              fontWeight: 700,
+                              fontWeight: 700
                             }}
                           >
                             {val.tm_goal_status === 0
@@ -122,7 +117,7 @@ const TmGoalsView = ({ goalsTable, goalsHead, setflagGoal, tableCount, setTableC
                                 borderRadius: 15,
                                 width: 150,
                                 pl: 1,
-                                mb: 0.5,
+                                mb: 0.5
                               }}
                             >
                               <CountDowncomponent DueDates={val.tm_goal_duedate} />
@@ -135,7 +130,7 @@ const TmGoalsView = ({ goalsTable, goalsHead, setflagGoal, tableCount, setTableC
                                 mb: 0.5,
                                 width: 150,
                                 pl: 5,
-                                color: 'darkgreen',
+                                color: 'darkgreen'
                               }}
                             >
                               Completed
@@ -144,38 +139,23 @@ const TmGoalsView = ({ goalsTable, goalsHead, setflagGoal, tableCount, setTableC
                         </td>
 
                         {val.tm_goal_status === 1 ? (
-                          <td style={{ textTransform: 'capitalize' }}>
-                            {' '}
-                            {val.tm_goal_name || 'not given'}
-                          </td>
+                          <td style={{ textTransform: 'capitalize' }}> {val.tm_goal_name || 'not given'}</td>
                         ) : (
-                          <td
-                            style={{ color: isPastDue(val.tm_goal_duedate) ? '#970C10' : 'black' }}
-                          >
+                          <td style={{ color: isPastDue(val.tm_goal_duedate) ? '#970C10' : 'black' }}>
                             {val.tm_goal_name || 'not given'}
                           </td>
                         )}
                         {val.tm_goal_status === 1 ? (
-                          <td>
-                            {' '}
-                            {moment(val.tm_goal_duedate).format('DD-MM-YYYY') || 'not given'}
-                          </td>
+                          <td> {moment(val.tm_goal_duedate).format('DD-MM-YYYY') || 'not given'}</td>
                         ) : (
-                          <td
-                            style={{ color: isPastDue(val.tm_goal_duedate) ? '#970C10' : 'black' }}
-                          >
+                          <td style={{ color: isPastDue(val.tm_goal_duedate) ? '#970C10' : 'black' }}>
                             {moment(val.tm_goal_duedate).format('DD-MM-YYYY hh:mm') || 'not given'}
                           </td>
                         )}
                         {val.tm_goal_status === 1 ? (
-                          <td style={{ textTransform: 'capitalize' }}>
-                            {' '}
-                            {val.tm_goal_description || 'not given'}
-                          </td>
+                          <td style={{ textTransform: 'capitalize' }}> {val.tm_goal_description || 'not given'}</td>
                         ) : (
-                          <td
-                            style={{ color: isPastDue(val.tm_goal_duedate) ? '#970C10' : 'black' }}
-                          >
+                          <td style={{ color: isPastDue(val.tm_goal_duedate) ? '#970C10' : 'black' }}>
                             {val.tm_goal_description || 'not given'}
                           </td>
                         )}

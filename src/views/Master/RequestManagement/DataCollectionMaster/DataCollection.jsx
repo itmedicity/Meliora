@@ -40,13 +40,10 @@ const DataCollection = () => {
           dept: dept,
           empId: empname,
           deptsec: deptsec,
-          View_Status: View_Status === true ? 1 : 0,
+          View_Status: View_Status === true ? 1 : 0
         }
         if (UpdateFlag === 1) {
-          const result = await axioslogin.post(
-            '/newCRFRegister/DataCollectionMaster/update',
-            postData
-          )
+          const result = await axioslogin.post('/newCRFRegister/DataCollectionMaster/update', postData)
           const { success } = result.data
           if (success === 1) {
             succesNotify('Data Updated Sucessfully')

@@ -11,7 +11,7 @@ const AssetRackmastTable = ({ count, rowSelect }) => {
     {
       headerName: 'Action',
       minWidth: 10,
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
     },
     { headerName: 'SlNo', field: 'am_rack_slno', minWidth: 10 },
     {
@@ -19,16 +19,16 @@ const AssetRackmastTable = ({ count, rowSelect }) => {
       field: 'am_rack_name',
       autoHeight: true,
       wrapText: true,
-      minWidth: 20,
+      minWidth: 20
     },
     {
       headerName: 'Rack Outlet',
       field: 'sec_name',
       autoHeight: true,
       wrapText: true,
-      minWidth: 70,
+      minWidth: 70
     },
-    { headerName: 'Status', field: 'status', minWidth: 20 },
+    { headerName: 'Status', field: 'status', minWidth: 20 }
   ])
   useEffect(() => {
     const getRack = async () => {

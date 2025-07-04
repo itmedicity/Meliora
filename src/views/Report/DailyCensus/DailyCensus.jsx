@@ -38,12 +38,12 @@ const DailyCensus = () => {
     oraTotal: 0,
     oraYesttotal: 0,
     oraDamaTot: 0,
-    oraLamaTot: 0,
+    oraLamaTot: 0
   })
   const searchdata = useMemo(() => {
     return {
       census_datefrom: moment(new Date(dailyDateFrom)).format('YYYY-MM-DD'),
-      census_dateto: moment(new Date(dailyDateTo)).format('YYYY-MM-DD'),
+      census_dateto: moment(new Date(dailyDateTo)).format('YYYY-MM-DD')
     }
   }, [dailyDateFrom, dailyDateTo])
 
@@ -71,48 +71,22 @@ const DailyCensus = () => {
 
   useEffect(() => {
     if (tableData.length !== 0) {
-      const totyes = tableData
-        ?.map(val => val.yesterday_census)
-        .reduce((prev, next) => Number(prev) + Number(next))
-      const totad = tableData
-        ?.map(val => val.total_admission)
-        .reduce((prev, next) => Number(prev) + Number(next))
-      const totdis = tableData
-        ?.map(val => val.total_discharge)
-        .reduce((prev, next) => Number(prev) + Number(next))
-      const totin = tableData
-        ?.map(val => val.transfer_in)
-        .reduce((prev, next) => Number(prev) + Number(next))
-      const totout = tableData
-        ?.map(val => val.transfer_out)
-        .reduce((prev, next) => Number(prev) + Number(next))
-      const totdeath = tableData
-        ?.map(val => val.total_death)
-        .reduce((prev, next) => Number(prev) + Number(next))
-      const tot = tableData
-        ?.map(val => val.census_total)
-        .reduce((prev, next) => Number(prev) + Number(next))
-      const oraadm = tableData
-        ?.map(val => val.ora_admission)
-        .reduce((prev, next) => Number(prev) + Number(next))
-      const oradis = tableData
-        ?.map(val => val.ora_discharge)
-        .reduce((prev, next) => Number(prev) + Number(next))
-      const oradeath = tableData
-        ?.map(val => val.ora_death)
-        .reduce((prev, next) => Number(prev) + Number(next))
+      const totyes = tableData?.map(val => val.yesterday_census).reduce((prev, next) => Number(prev) + Number(next))
+      const totad = tableData?.map(val => val.total_admission).reduce((prev, next) => Number(prev) + Number(next))
+      const totdis = tableData?.map(val => val.total_discharge).reduce((prev, next) => Number(prev) + Number(next))
+      const totin = tableData?.map(val => val.transfer_in).reduce((prev, next) => Number(prev) + Number(next))
+      const totout = tableData?.map(val => val.transfer_out).reduce((prev, next) => Number(prev) + Number(next))
+      const totdeath = tableData?.map(val => val.total_death).reduce((prev, next) => Number(prev) + Number(next))
+      const tot = tableData?.map(val => val.census_total).reduce((prev, next) => Number(prev) + Number(next))
+      const oraadm = tableData?.map(val => val.ora_admission).reduce((prev, next) => Number(prev) + Number(next))
+      const oradis = tableData?.map(val => val.ora_discharge).reduce((prev, next) => Number(prev) + Number(next))
+      const oradeath = tableData?.map(val => val.ora_death).reduce((prev, next) => Number(prev) + Number(next))
       const oraTotalCount = tableData
         ?.map(val => val.ora_census_total)
         .reduce((prev, next) => Number(prev) + Number(next))
-      const oraYesterday = tableData
-        ?.map(val => val.ora_yesterday)
-        .reduce((prev, next) => Number(prev) + Number(next))
-      const damatot = tableData
-        ?.map(val => val.ora_dama)
-        .reduce((prev, next) => Number(prev) + Number(next))
-      const lamatot = tableData
-        ?.map(val => val.ora_lama)
-        .reduce((prev, next) => Number(prev) + Number(next))
+      const oraYesterday = tableData?.map(val => val.ora_yesterday).reduce((prev, next) => Number(prev) + Number(next))
+      const damatot = tableData?.map(val => val.ora_dama).reduce((prev, next) => Number(prev) + Number(next))
+      const lamatot = tableData?.map(val => val.ora_lama).reduce((prev, next) => Number(prev) + Number(next))
       const fromdata = {
         totYesterday: totyes,
         totAdmission: totad,
@@ -127,7 +101,7 @@ const DailyCensus = () => {
         oraTotal: oraTotalCount,
         oraYesttotal: oraYesterday,
         oraDamaTot: damatot,
-        oraLamaTot: lamatot,
+        oraLamaTot: lamatot
       }
       setCalculateTotal(fromdata)
     } else {
@@ -155,8 +129,8 @@ const DailyCensus = () => {
             total_discharge: 0,
             transfer_in: 0,
             transfer_out: 0,
-            yesterday_census: 0,
-          },
+            yesterday_census: 0
+          }
         }
       }
 
@@ -183,8 +157,7 @@ const DailyCensus = () => {
 
   const exportToExcel = () => {
     const fileName = `Daily_census_Report`
-    const fileType =
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'
+    const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'
     const fileExtension = '.xlsx'
 
     const flattenedData = []
@@ -206,7 +179,7 @@ const DailyCensus = () => {
       'HIS Death',
       'HIS DAMA',
       'HIS LAMA',
-      'HIS Current Status Total',
+      'HIS Current Status Total'
     ])
 
     let grandTotals = {
@@ -222,7 +195,7 @@ const DailyCensus = () => {
       total_discharge: 0,
       transfer_in: 0,
       transfer_out: 0,
-      yesterday_census: 0,
+      yesterday_census: 0
     }
 
     Object.entries(groupedMonthlyData).forEach(([date, { rows, totals }]) => {
@@ -247,7 +220,7 @@ const DailyCensus = () => {
           row.ora_death,
           row.ora_dama,
           row.ora_lama,
-          row.ora_census_total,
+          row.ora_census_total
         ])
       })
 
@@ -268,7 +241,7 @@ const DailyCensus = () => {
         totals.ora_death,
         totals.ora_dama,
         totals.ora_lama,
-        totals.ora_census_total,
+        totals.ora_census_total
       ])
 
       // Update grand totals
@@ -302,7 +275,7 @@ const DailyCensus = () => {
       grandTotals.ora_death,
       grandTotals.ora_dama,
       grandTotals.ora_lama,
-      grandTotals.ora_census_total,
+      grandTotals.ora_census_total
     ])
 
     // Convert array of arrays to worksheet
@@ -322,8 +295,8 @@ const DailyCensus = () => {
               style={{ height: 40, borderRight: 'none', borderRadius: 0 }}
               slotProps={{
                 input: {
-                  max: moment(new Date()).format('YYYY-MM-DD'),
-                },
+                  max: moment(new Date()).format('YYYY-MM-DD')
+                }
               }}
               size="md"
               type="date"
@@ -340,8 +313,8 @@ const DailyCensus = () => {
               style={{ height: 40, borderRight: 'none', borderRadius: 0 }}
               slotProps={{
                 input: {
-                  max: moment(new Date()).format('YYYY-MM-DD'),
-                },
+                  max: moment(new Date()).format('YYYY-MM-DD')
+                }
               }}
               size="md"
               type="date"

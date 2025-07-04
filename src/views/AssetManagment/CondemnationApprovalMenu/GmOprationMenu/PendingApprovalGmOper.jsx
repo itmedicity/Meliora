@@ -13,7 +13,7 @@ const PendingApprovalGmOper = ({ empId, menurights }) => {
   const postCondemAllDept = useMemo(() => {
     return {
       condemStatusFrom: condemStatusFrom,
-      condemstatusTo: condemstatusTo,
+      condemstatusTo: condemstatusTo
     }
   }, [condemStatusFrom, condemstatusTo])
 
@@ -30,15 +30,13 @@ const PendingApprovalGmOper = ({ empId, menurights }) => {
 
   const { data: PendingCondemAllDeptGm } = useQuery({
     queryKey: ['getAllDeptCondemPendingGm', formCount],
-    queryFn: () => getAllDeptCondemPendingDatas(postCondemAllDept),
+    queryFn: () => getAllDeptCondemPendingDatas(postCondemAllDept)
   })
 
   const filteredPendingCondemAllDeptGm = useMemo(
     () =>
       PendingCondemAllDeptGm
-        ? PendingCondemAllDeptGm.filter(
-            row => row.store_approve_status !== 2 && row.hod_approve_status !== 2
-          )
+        ? PendingCondemAllDeptGm.filter(row => row.store_approve_status !== 2 && row.hod_approve_status !== 2)
         : [],
     [PendingCondemAllDeptGm]
   )
@@ -97,7 +95,7 @@ const PendingApprovalGmOper = ({ empId, menurights }) => {
                         cursor: 'pointer',
                         fontSize: 13,
                         color: 'white',
-                        '&:hover': { bgcolor: '#11A7BB' },
+                        '&:hover': { bgcolor: '#11A7BB' }
                       }}
                       onClick={() => ApproveForm(val)}
                     >
@@ -146,7 +144,7 @@ const PendingApprovalGmOper = ({ empId, menurights }) => {
               minHeight: '40vh',
               width: '100%',
               textAlign: 'center',
-              color: 'lightgrey',
+              color: 'lightgrey'
             }}
           >
             Empty List

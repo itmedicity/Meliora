@@ -13,7 +13,7 @@ const PendingApprovalMaterialMang = ({ empId, menurights }) => {
   const postCondemAllDept = useMemo(() => {
     return {
       condemStatusFrom: condemStatusFrom,
-      condemstatusTo: condemstatusTo,
+      condemstatusTo: condemstatusTo
     }
   }, [condemStatusFrom, condemstatusTo])
 
@@ -30,7 +30,7 @@ const PendingApprovalMaterialMang = ({ empId, menurights }) => {
 
   const { data: PendingCondemAllDeptMaterl } = useQuery({
     queryKey: ['getAllDeptCondemPendingMaterial', formCount],
-    queryFn: () => getAllDeptCondemPendingDatas(postCondemAllDept),
+    queryFn: () => getAllDeptCondemPendingDatas(postCondemAllDept)
   })
   const filteredPendingCondemMaterial =
     PendingCondemAllDeptMaterl?.filter(item => item.store_approve_status !== 2) || []
@@ -89,7 +89,7 @@ const PendingApprovalMaterialMang = ({ empId, menurights }) => {
                         cursor: 'pointer',
                         fontSize: 13,
                         color: 'white',
-                        '&:hover': { bgcolor: '#11A7BB' },
+                        '&:hover': { bgcolor: '#11A7BB' }
                       }}
                       onClick={() => ApproveForm(val)}
                     >
@@ -121,7 +121,7 @@ const PendingApprovalMaterialMang = ({ empId, menurights }) => {
               minHeight: '40vh',
               width: '100%',
               textAlign: 'center',
-              color: 'lightgrey',
+              color: 'lightgrey'
             }}
           >
             Empty List

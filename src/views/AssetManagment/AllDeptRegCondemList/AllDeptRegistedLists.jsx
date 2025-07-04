@@ -11,23 +11,21 @@ const AllDeptRegistedLists = ({ viewForm }) => {
   const postCondemAllDept = useMemo(() => {
     return {
       SatusFrom: SatusFrom,
-      StatusTo: SatusTo,
+      StatusTo: SatusTo
     }
   }, [SatusFrom, SatusTo])
 
   const { data: AllDeptCondemList, isLoading } = useQuery({
     queryKey: ['getAllDeptCondemList', SatusFrom, SatusTo],
     queryFn: () => getAllDeptCondemList(postCondemAllDept),
-    enabled: !!SatusFrom && !!SatusTo,
+    enabled: !!SatusFrom && !!SatusTo
   })
   const AllDeptCondemnation = useMemo(() => AllDeptCondemList ?? [], [AllDeptCondemList])
 
   return (
     <Box sx={{ border: 1, borderColor: '#e0e1e3' }}>
       {isLoading ? (
-        <Box
-          sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh' }}
-        >
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh' }}>
           <CircularProgress />
         </Box>
       ) : AllDeptCondemnation.length === 0 ? (
@@ -42,7 +40,7 @@ const AllDeptRegistedLists = ({ viewForm }) => {
             textAlign: 'center',
             color: 'lightgrey',
             border: 1,
-            m: 1,
+            m: 1
           }}
         >
           No Data Available
@@ -63,9 +61,7 @@ const AllDeptRegistedLists = ({ viewForm }) => {
                     <IconButton sx={{ color: 'black', fontSize: 13 }}>Status</IconButton>
                   </th>
                   <th style={{ textAlign: 'center', width: 22 }}>
-                    <IconButton sx={{ color: 'black', fontSize: 13 }}>
-                      Request Department
-                    </IconButton>
+                    <IconButton sx={{ color: 'black', fontSize: 13 }}>Request Department</IconButton>
                   </th>
                   <th style={{ textAlign: 'center', width: 22 }}>
                     <IconButton sx={{ color: 'black', fontSize: 13 }}>Form Number</IconButton>
@@ -96,7 +92,7 @@ const AllDeptRegistedLists = ({ viewForm }) => {
                             cursor: 'pointer',
                             fontSize: 13,
                             py: 0.2,
-                            '&:hover': { bgcolor: '#8FA297 ' },
+                            '&:hover': { bgcolor: '#8FA297 ' }
                           }}
                           onClick={() => viewForm(val)}
                         >
@@ -127,11 +123,9 @@ const AllDeptRegistedLists = ({ viewForm }) => {
                                 ? '#7AC7AD'
                                 : val.condem_status === 6 && val.store_approve_status === 2
                                 ? '#F4A3A3 '
-                                : val.condem_status === 7 &&
-                                  val.material_mangmnt_mangr_apprv_status === 1
+                                : val.condem_status === 7 && val.material_mangmnt_mangr_apprv_status === 1
                                 ? '#7AC7AD'
-                                : val.condem_status === 7 &&
-                                  val.material_mangmnt_mangr_apprv_status === 2
+                                : val.condem_status === 7 && val.material_mangmnt_mangr_apprv_status === 2
                                 ? '#F4A3A3 '
                                 : '#EFF4F0',
                             textAlign: 'center',
@@ -139,7 +133,7 @@ const AllDeptRegistedLists = ({ viewForm }) => {
                             fontWeight: 700,
                             cursor: 'pointer',
                             fontSize: 13,
-                            py: 0.2,
+                            py: 0.2
                           }}
                         >
                           {val.condem_status === 2 && val.incharge_approve_status === 1
@@ -162,11 +156,9 @@ const AllDeptRegistedLists = ({ viewForm }) => {
                             ? 'Store Approved'
                             : val.condem_status === 6 && val.store_approve_status === 2
                             ? 'Store Rejected'
-                            : val.condem_status === 7 &&
-                              val.material_mangmnt_mangr_apprv_status === 1
+                            : val.condem_status === 7 && val.material_mangmnt_mangr_apprv_status === 1
                             ? 'Condemnation Approved'
-                            : val.condem_status === 7 &&
-                              val.material_mangmnt_mangr_apprv_status === 2
+                            : val.condem_status === 7 && val.material_mangmnt_mangr_apprv_status === 2
                             ? 'Condemnation Rejected'
                             : 'Pending Approval'}
                         </Box>

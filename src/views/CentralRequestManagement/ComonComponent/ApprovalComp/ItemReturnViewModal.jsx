@@ -3,14 +3,7 @@ import { format } from 'date-fns'
 import React, { Fragment, memo } from 'react'
 
 const ItemReturnViewModal = ({ open, handleClose, modalData, itemName }) => {
-  const {
-    return_user,
-    return_remarks,
-    return_date,
-    store_issue_remarks,
-    store_rply_user,
-    issued_date,
-  } = modalData[0]
+  const { return_user, return_remarks, return_date, store_issue_remarks, store_rply_user, issued_date } = modalData[0]
   const capitalizeWords = str =>
     str
       ? str
@@ -41,14 +34,14 @@ const ItemReturnViewModal = ({ open, handleClose, modalData, itemName }) => {
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 25,
-                width: 25,
+                width: 25
               }}
             />
             <Box
               sx={{
                 width: '35vw',
                 minHeight: 200,
-                overflow: 'auto',
+                overflow: 'auto'
               }}
             >
               <Box
@@ -57,7 +50,7 @@ const ItemReturnViewModal = ({ open, handleClose, modalData, itemName }) => {
                   py: 1,
                   px: 2,
                   position: 'sticky',
-                  borderBottom: '1px solid lightgrey',
+                  borderBottom: '1px solid lightgrey'
                 }}
               >
                 <Typography sx={{ fontWeight: 550, fontSize: 16 }}> {itemName}</Typography>
@@ -71,7 +64,7 @@ const ItemReturnViewModal = ({ open, handleClose, modalData, itemName }) => {
                   p: 2,
                   border: '1px solid #ddd',
                   borderRadius: 2,
-                  backgroundColor: '#f9f9f9',
+                  backgroundColor: '#f9f9f9'
                 }}
               >
                 <Box
@@ -85,15 +78,12 @@ const ItemReturnViewModal = ({ open, handleClose, modalData, itemName }) => {
                     // border: '1px solid #ddd',
                     // borderRadius: 10,
                     backgroundColor: 'white',
-                    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
+                    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
                   }}
                 >
-                  <Typography sx={{ fontSize: 14, fontWeight: 550, mb: 1 }}>
-                    {return_remarks}
-                  </Typography>
+                  <Typography sx={{ fontSize: 14, fontWeight: 550, mb: 1 }}>{return_remarks}</Typography>
                   <Typography sx={{ fontSize: 13, color: '#555' }}>
-                    {capitalizeWords(return_user)} ·{' '}
-                    {format(new Date(return_date), 'dd-MM-yyyy hh:mm a')}
+                    {capitalizeWords(return_user)} · {format(new Date(return_date), 'dd-MM-yyyy hh:mm a')}
                   </Typography>
                 </Box>
 
@@ -108,7 +98,7 @@ const ItemReturnViewModal = ({ open, handleClose, modalData, itemName }) => {
                     // border: '1px solid #ddd',
                     // borderRadius: 10,
                     backgroundColor: 'white',
-                    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
+                    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
                   }}
                 >
                   <Typography sx={{ fontSize: 14, fontWeight: 550, mb: 1, textAlign: 'right' }}>
@@ -116,9 +106,7 @@ const ItemReturnViewModal = ({ open, handleClose, modalData, itemName }) => {
                   </Typography>
                   <Typography sx={{ fontSize: 13, color: '#555' }}>
                     {capitalizeWords(store_rply_user) || 'Not Updated'} ·{' '}
-                    {issued_date
-                      ? format(new Date(issued_date), 'dd-MM-yyyy hh:mm a')
-                      : 'Not Updated'}
+                    {issued_date ? format(new Date(issued_date), 'dd-MM-yyyy hh:mm a') : 'Not Updated'}
                   </Typography>
                 </Box>
               </Box>

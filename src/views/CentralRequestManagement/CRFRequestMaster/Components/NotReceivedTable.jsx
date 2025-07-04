@@ -42,7 +42,7 @@ const NotReceivedTable = ({ disData, rowSelect, company }) => {
           const fileNamePart = parts[parts.length - 1]
           const obj = {
             imageName: fileNamePart,
-            url: val,
+            url: val
           }
           return obj
         })
@@ -103,7 +103,7 @@ const NotReceivedTable = ({ disData, rowSelect, company }) => {
             overflow: 'auto',
             height: window.innerHeight - 210,
             flexWrap: 'wrap',
-            '&::-webkit-scrollbar': { height: 8 },
+            '&::-webkit-scrollbar': { height: 8 }
           }}
         >
           <CssVarsProvider>
@@ -149,7 +149,7 @@ const NotReceivedTable = ({ disData, rowSelect, company }) => {
                           ? '#B1D8B7'
                           : val?.store_recieve === 0 || val?.store_recieve === 1
                           ? '#BFD7ED'
-                          : 'transparent',
+                          : 'transparent'
                     }}
                     size="small"
                   >
@@ -166,7 +166,7 @@ const NotReceivedTable = ({ disData, rowSelect, company }) => {
                             height: 25,
                             width: 30,
                             borderRadius: 2,
-                            boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.1)',
+                            boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.1)'
                           }}
                         />
                       ) : (
@@ -182,8 +182,8 @@ const NotReceivedTable = ({ disData, rowSelect, company }) => {
                               cursor: 'pointer',
                               transition: 'transform 0.2s',
                               '&:hover': {
-                                transform: 'scale(1.1)',
-                              },
+                                transform: 'scale(1.1)'
+                              }
                             }}
                             onClick={() => rowSelect(val)}
                           />
@@ -207,8 +207,8 @@ const NotReceivedTable = ({ disData, rowSelect, company }) => {
                               cursor: 'pointer',
                               transition: 'transform 0.2s',
                               '&:hover': {
-                                transform: 'scale(1.1)',
-                              },
+                                transform: 'scale(1.1)'
+                              }
                             }}
                             onClick={() => userAcknowledge(val)}
                           />
@@ -221,7 +221,7 @@ const NotReceivedTable = ({ disData, rowSelect, company }) => {
                             height: 25,
                             width: 30,
                             borderRadius: 2,
-                            boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.1)',
+                            boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.1)'
                           }}
                         />
                       )}
@@ -239,8 +239,8 @@ const NotReceivedTable = ({ disData, rowSelect, company }) => {
                             cursor: 'pointer',
                             transition: 'transform 0.2s',
                             '&:hover': {
-                              transform: 'scale(1.1)',
-                            },
+                              transform: 'scale(1.1)'
+                            }
                           }}
                           onClick={() => viewDetails(val)}
                         />
@@ -250,9 +250,7 @@ const NotReceivedTable = ({ disData, rowSelect, company }) => {
                       CRF/{company_name}/{val?.req_slno}
                     </td>
                     <td style={{ fontSize: 13 }}>{val?.req_deptsec}</td>
-                    <td style={{ fontSize: 13 }}>
-                      {format(new Date(val?.req_date), 'dd-MM-yyyy hh:mm:ss a')}
-                    </td>
+                    <td style={{ fontSize: 13 }}>{format(new Date(val?.req_date), 'dd-MM-yyyy hh:mm:ss a')}</td>
                     <td style={{ fontSize: 13 }}>{val?.category_name}</td>
                     <td style={{ fontSize: 13 }}>{val?.user_deptsection}</td>
                     <td style={{ fontSize: 13 }}>{val?.location}</td>
@@ -269,7 +267,7 @@ const NotReceivedTable = ({ disData, rowSelect, company }) => {
                             boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.16)',
                             borderRadius: 5,
                             bgcolor: '#D4F1F4',
-                            border: '1px solid #a5d6a7',
+                            border: '1px solid #a5d6a7'
                           }}
                         >
                           {val?.now_who}&nbsp;&nbsp;
@@ -302,7 +300,7 @@ const NotReceivedTable = ({ disData, rowSelect, company }) => {
             fontSize: 25,
             opacity: 0.5,
             pt: 10,
-            color: 'grey',
+            color: 'grey'
           }}
         >
           No Report Found

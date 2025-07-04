@@ -1,15 +1,4 @@
-import {
-  Box,
-  Button,
-  CssVarsProvider,
-  Dropdown,
-  Grid,
-  Menu,
-  MenuButton,
-  MenuItem,
-  Tooltip,
-  Typography,
-} from '@mui/joy'
+import { Box, Button, CssVarsProvider, Dropdown, Grid, Menu, MenuButton, MenuItem, Tooltip, Typography } from '@mui/joy'
 import { Paper } from '@mui/material'
 import React, { Fragment, memo, useCallback, useEffect, useState } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
@@ -79,7 +68,7 @@ const NursingStationsFeedback = () => {
                         alignItems: 'center',
                         height: 100,
                         cursor: 'pointer',
-                        ':hover': { bgcolor: '#E3EFF9' },
+                        ':hover': { bgcolor: '#E3EFF9' }
                       }}
                       onClick={() => ViewPatientDetails(val)}
                     >
@@ -89,7 +78,7 @@ const NursingStationsFeedback = () => {
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'space-between',
-                          width: '100%',
+                          width: '100%'
                         }}
                       >
                         <Typography variant="h6" component="div">
@@ -106,7 +95,7 @@ const NursingStationsFeedback = () => {
                             alignItems: 'center',
                             justifyContent: 'center',
                             padding: 0,
-                            ':hover': { bgcolor: '#C3CEDA' },
+                            ':hover': { bgcolor: '#C3CEDA' }
                           }}
                           onClick={() => ViewPatientDetails(val)}
                         >

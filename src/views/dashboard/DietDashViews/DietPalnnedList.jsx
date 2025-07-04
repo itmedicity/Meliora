@@ -28,7 +28,7 @@ const DietPalnnedList = () => {
       filter: 'true',
       autoHeight: true,
       wrapText: true,
-      width: 200,
+      width: 200
     },
     {
       headerName: 'Pt No',
@@ -36,7 +36,7 @@ const DietPalnnedList = () => {
       filter: 'true',
       autoHeight: true,
       wrapText: true,
-      width: 200,
+      width: 200
     },
     {
       headerName: 'Pateint Name',
@@ -44,7 +44,7 @@ const DietPalnnedList = () => {
       filter: 'true',
       autoHeight: true,
       wrapText: true,
-      width: 280,
+      width: 280
     },
     { headerName: 'Ip Date', field: 'ipd_date', autoHeight: true, wrapText: true, width: 190 },
     { headerName: 'Sex', field: 'ptc_sex', width: 100, autoHeight: true, wrapText: true },
@@ -54,7 +54,7 @@ const DietPalnnedList = () => {
       filter: 'true',
       autoHeight: true,
       wrapText: true,
-      width: 200,
+      width: 200
     },
     { headerName: 'Room', field: 'rmc_desc', autoHeight: true, wrapText: true, width: 200 },
     {
@@ -63,7 +63,7 @@ const DietPalnnedList = () => {
       filter: 'true',
       autoHeight: true,
       wrapText: true,
-      width: 250,
+      width: 250
     },
     {
       headerName: 'Diet Name',
@@ -71,7 +71,7 @@ const DietPalnnedList = () => {
       filter: 'true',
       autoHeight: true,
       wrapText: true,
-      width: 200,
+      width: 200
     },
     {
       headerName: 'Diet status',
@@ -79,7 +79,7 @@ const DietPalnnedList = () => {
       filter: 'true',
       autoHeight: true,
       wrapText: true,
-      width: 250,
+      width: 250
     },
     {
       headerName: 'Planned date',
@@ -87,8 +87,8 @@ const DietPalnnedList = () => {
       filter: 'true',
       autoHeight: true,
       wrapText: true,
-      width: 190,
-    },
+      width: 190
+    }
   ])
 
   //Close function

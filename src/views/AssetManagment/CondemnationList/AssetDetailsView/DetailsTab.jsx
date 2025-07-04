@@ -10,7 +10,7 @@ const DetailsTab = ({ AssetDetails }) => {
     asset_am_manufacture_no,
     asset_am_asset_old_no,
     spare_am_asset_old_no,
-    spare_am_manufacture_no,
+    spare_am_manufacture_no
   } = AssetDetails
 
   const [specificationTabledata, setspecificationTabledata] = useState([])
@@ -19,7 +19,7 @@ const DetailsTab = ({ AssetDetails }) => {
   const { data: specificationDetailsData } = useQuery({
     queryKey: ['getAssetSpecification'],
     queryFn: () => getSpecification(am_item_map_slno),
-    enabled: am_item_map_slno !== undefined,
+    enabled: am_item_map_slno !== undefined
   })
   const specificationDetails = useMemo(() => specificationDetailsData, [specificationDetailsData])
   useEffect(() => {
@@ -28,7 +28,7 @@ const DetailsTab = ({ AssetDetails }) => {
 
   const { data: allSpareUnderAssetData } = useQuery({
     queryKey: ['getSpareUnderAssett'],
-    queryFn: () => getallSpareUnderAsset(am_item_map_slno),
+    queryFn: () => getallSpareUnderAsset(am_item_map_slno)
   })
 
   const allSpareUnderAsset = useMemo(() => allSpareUnderAssetData, [allSpareUnderAssetData])
@@ -46,7 +46,7 @@ const DetailsTab = ({ AssetDetails }) => {
             flex: 1,
             fontWeight: 500,
             color: 'black',
-            fontSize: 15,
+            fontSize: 15
           }}
         />
         <Box sx={{ flex: 1, display: 'flex' }}>
@@ -58,7 +58,7 @@ const DetailsTab = ({ AssetDetails }) => {
                   fontWeight: 600,
                   color: '#727B8C',
                   pt: 1,
-                  width: 130,
+                  width: 130
                 }}
               />
               <Box sx={{ flex: 1 }}>
@@ -78,7 +78,7 @@ const DetailsTab = ({ AssetDetails }) => {
                   fontWeight: 600,
                   color: '#727B8C',
                   pt: 1,
-                  width: 130,
+                  width: 130
                 }}
               />
               <Box sx={{ flex: 1 }}>
@@ -103,7 +103,7 @@ const DetailsTab = ({ AssetDetails }) => {
               fontWeight: 500,
               color: 'black',
               fontSize: 15,
-              py: 0.5,
+              py: 0.5
             }}
           />
 
@@ -147,7 +147,7 @@ const DetailsTab = ({ AssetDetails }) => {
               fontWeight: 500,
               color: 'black',
               fontSize: 15,
-              py: 0.5,
+              py: 0.5
             }}
           />
           <Box sx={{ flex: 1, border: 1, borderColor: 'lightgrey', mr: 1.5, mb: 1 }}>
@@ -163,9 +163,7 @@ const DetailsTab = ({ AssetDetails }) => {
                 {spareDetails &&
                   spareDetails.map((val, index) => {
                     const formattedSlno =
-                      val.spare_asset_no_only !== undefined
-                        ? val.spare_asset_no_only.toString().padStart(6, '0')
-                        : 0
+                      val.spare_asset_no_only !== undefined ? val.spare_asset_no_only.toString().padStart(6, '0') : 0
                     return (
                       <tr
                         key={index}

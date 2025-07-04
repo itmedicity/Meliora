@@ -22,7 +22,7 @@ const RequestToRectifctn = () => {
   const [exports, setexport] = useState(0)
   const [dateset, SetDate] = useState({
     start_date: format(new Date(), 'dd-MM-yyyy'),
-    end_date: format(new Date(), 'dd-MM-yyyy'),
+    end_date: format(new Date(), 'dd-MM-yyyy')
   })
 
   const { start_date, end_date } = dateset
@@ -37,7 +37,7 @@ const RequestToRectifctn = () => {
   const postdata = useMemo(() => {
     return {
       start_date: start_date,
-      end_date: end_date,
+      end_date: end_date
     }
   }, [start_date, end_date])
 
@@ -75,7 +75,7 @@ const RequestToRectifctn = () => {
                   val.cm_rectify_time !== null
                     ? format(new Date(val.cm_rectify_time), 'dd-MM-yyyy H:mm:ss')
                     : 'Not Rectified',
-                tat: val.tat === 0 || val.tat === null ? 'Not Rectified' : val.tat + 'Minutes',
+                tat: val.tat === 0 || val.tat === null ? 'Not Rectified' : val.tat + 'Minutes'
               }
               return obj
             })
@@ -119,7 +119,7 @@ const RequestToRectifctn = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 150,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Location',
@@ -127,14 +127,14 @@ const RequestToRectifctn = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 200,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Complaint Description',
       field: 'desc',
       autoHeight: true,
       wrapText: true,
-      minWidth: 300,
+      minWidth: 300
     },
     {
       headerName: 'Category',
@@ -142,7 +142,7 @@ const RequestToRectifctn = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 150,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Priority',
@@ -150,7 +150,7 @@ const RequestToRectifctn = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 150,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Req.User',
@@ -158,7 +158,7 @@ const RequestToRectifctn = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 150,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Request Receiving Time ',
@@ -166,7 +166,7 @@ const RequestToRectifctn = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 150,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Rectification Time',
@@ -174,7 +174,7 @@ const RequestToRectifctn = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 150,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'TAT Time(G_H)',
@@ -182,8 +182,8 @@ const RequestToRectifctn = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 100,
-      filter: 'true',
-    },
+      filter: 'true'
+    }
   ])
 
   const onExportClick = () => {
@@ -214,7 +214,7 @@ const RequestToRectifctn = () => {
       <Box
         sx={{
           display: 'flex',
-          flexDirection: 'column',
+          flexDirection: 'column'
         }}
       >
         <Paper square elevation={2} sx={{ p: 2 }}>
@@ -222,21 +222,21 @@ const RequestToRectifctn = () => {
             sx={{
               width: '100%',
               display: 'flex',
-              flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
+              flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' }
             }}
           >
             <Box
               sx={{
                 display: 'flex',
                 width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' },
-                mt: 1,
+                mt: 1
               }}
             >
               <Box
                 sx={{
                   width: '100%',
                   ml: 0.5,
-                  mt: 0.5,
+                  mt: 0.5
                 }}
               >
                 <Typography>Start Date</Typography>
@@ -245,23 +245,17 @@ const RequestToRectifctn = () => {
                 sx={{
                   width: '100%',
                   height: 15,
-                  mb: 1,
+                  mb: 1
                 }}
               >
-                <TextFieldCustom
-                  type="date"
-                  size="sm"
-                  name="start_date"
-                  value={start_date}
-                  onchange={getDate}
-                />
+                <TextFieldCustom type="date" size="sm" name="start_date" value={start_date} onchange={getDate} />
               </Box>
             </Box>
             <Box
               sx={{
                 display: 'flex',
                 width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' },
-                mt: 1,
+                mt: 1
               }}
             >
               <Box
@@ -269,7 +263,7 @@ const RequestToRectifctn = () => {
                   width: '100%',
                   ml: 0.5,
                   mt: 0.5,
-                  pl: 1,
+                  pl: 1
                 }}
               >
                 <Typography>End Date</Typography>
@@ -278,16 +272,10 @@ const RequestToRectifctn = () => {
                 sx={{
                   width: '100%',
                   height: 15,
-                  mb: 1,
+                  mb: 1
                 }}
               >
-                <TextFieldCustom
-                  type="date"
-                  size="sm"
-                  name="end_date"
-                  value={end_date}
-                  onchange={getDate}
-                />
+                <TextFieldCustom type="date" size="sm" name="end_date" value={end_date} onchange={getDate} />
               </Box>
             </Box>
             <Box
@@ -295,22 +283,16 @@ const RequestToRectifctn = () => {
                 display: 'flex',
                 width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' },
                 ml: 1,
-                mt: 0.5,
+                mt: 0.5
               }}
             >
               <Box
                 sx={{
                   width: '20%',
-                  mt: 0.8,
+                  mt: 0.8
                 }}
               >
-                <CusIconButton
-                  size="sm"
-                  variant="outlined"
-                  color="primary"
-                  clickable="true"
-                  onClick={clicksearch}
-                >
+                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={clicksearch}>
                   <SearchOutlinedIcon fontSize="small" />
                 </CusIconButton>
               </Box>
@@ -321,7 +303,7 @@ const RequestToRectifctn = () => {
           square
           sx={{
             width: { md: '100%', lg: '100%', xl: '100%' },
-            p: 1,
+            p: 1
           }}
         >
           {/* Rigth Side Menu  */}
@@ -335,7 +317,7 @@ const RequestToRectifctn = () => {
               gap: 0.1,
               p: 0.3,
               borderLeft: 2,
-              borderColor: '#d3d3d3',
+              borderColor: '#d3d3d3'
             }}
           >
             <CustomeToolTip title="Download" placement="bottom">

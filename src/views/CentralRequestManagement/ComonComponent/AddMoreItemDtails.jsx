@@ -12,13 +12,7 @@ import { useQuery, useQueryClient } from 'react-query'
 import { getApprovedCrfItems, getMaxslNoOfCrfItem } from 'src/api/CommonApiCRF'
 import { getApprovedCrfItemskmc, getMaxslNoOfCrfItemkmc } from 'src/api/CommonApiCRFKmc'
 
-const AddMoreItemDtails = ({
-  req_slno,
-  setMoreItem,
-  setApproveTableData,
-  selectedCompany,
-  depkmc,
-}) => {
+const AddMoreItemDtails = ({ req_slno, setMoreItem, setApproveTableData, selectedCompany, depkmc }) => {
   const dispatch = useDispatch()
   const queryClient = useQueryClient()
   const id = useSelector(state => state.LoginUserData.empid, _.isEqual)
@@ -31,10 +25,9 @@ const AddMoreItemDtails = ({
     approx_cost: 0,
     item_desc: '',
     item_brand: '',
-    item_spec: '',
+    item_spec: ''
   })
-  const { item_qty, maxSlno, unitprice, approx_cost, item_desc, item_brand, item_spec } =
-    itemDetails
+  const { item_qty, maxSlno, unitprice, approx_cost, item_desc, item_brand, item_spec } = itemDetails
 
   const updateItemState = useCallback(
     e => {
@@ -53,7 +46,7 @@ const AddMoreItemDtails = ({
       setItemDetails(prev => ({
         ...prev,
         item_qty: e.target.value,
-        approx_cost: unitprice !== '' || unitprice !== 0 ? unitprice * e.target.value : 0,
+        approx_cost: unitprice !== '' || unitprice !== 0 ? unitprice * e.target.value : 0
       }))
     },
     [unitprice]
@@ -65,7 +58,7 @@ const AddMoreItemDtails = ({
         setItemDetails(prev => ({
           ...prev,
           unitprice: e.target.value,
-          approx_cost: item_qty !== '' ? item_qty * e.target.value : 0,
+          approx_cost: item_qty !== '' ? item_qty * e.target.value : 0
         }))
       } else {
         warningNotify('Provide the quantity before specifying the unit price')
@@ -76,22 +69,22 @@ const AddMoreItemDtails = ({
   const {
     data: iteData,
     isLoading: isItemsLoading,
-    error: itemsError,
+    error: itemsError
   } = useQuery({
     queryKey: ['approvedRejholdItemList', req_slno],
     queryFn: () => getApprovedCrfItems(req_slno),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const itemData = useMemo(() => iteData, [iteData])
 
   const {
     data: kmciteData,
     isLoading: isItemskmcLoading,
-    error: kmcitemsError,
+    error: kmcitemsError
   } = useQuery({
     queryKey: ['approvedRejholdItemListkmc', req_slno],
     queryFn: () => getApprovedCrfItemskmc(req_slno),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const kmcitemData = useMemo(() => kmciteData, [kmciteData])
 
@@ -110,20 +103,20 @@ const AddMoreItemDtails = ({
   const {
     data: maxSlnoData,
     isLoading: isSlnoLoading,
-    error: slnoError,
+    error: slnoError
   } = useQuery({
     queryKey: ['getmaxSlno', req_slno],
     queryFn: () => getMaxslNoOfCrfItem(req_slno),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const {
     data: kmcmaxSlnoData,
     isLoading: kmcisSlnoLoading,
-    error: kmcslnoError,
+    error: kmcslnoError
   } = useQuery({
     queryKey: ['getmaxSlnokmc', req_slno],
     queryFn: () => getMaxslNoOfCrfItemkmc(req_slno),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
 
   useEffect(() => {
@@ -132,7 +125,7 @@ const AddMoreItemDtails = ({
         const { maxSlno } = maxSlnoData[0]
         setItemDetails(prev => ({
           ...prev,
-          maxSlno: maxSlno,
+          maxSlno: maxSlno
         }))
       }
     } else if (selectedCompany === '2') {
@@ -140,7 +133,7 @@ const AddMoreItemDtails = ({
         const { maxSlno } = kmcmaxSlnoData[0]
         setItemDetails(prev => ({
           ...prev,
-          maxSlno: maxSlno,
+          maxSlno: maxSlno
         }))
       }
     }
@@ -154,7 +147,7 @@ const AddMoreItemDtails = ({
       approx_cost: 0,
       item_desc: '',
       item_brand: '',
-      item_spec: '',
+      item_spec: ''
     }
     setItemDetails(frmdata)
     setUOM(0)
@@ -209,7 +202,7 @@ const AddMoreItemDtails = ({
         approve_item_status: 1,
         item_add_higher: 1,
         create_user: id,
-        approve_aprox_cost: parseInt(approx_cost),
+        approve_aprox_cost: parseInt(approx_cost)
       }
 
       const newdatakmc = {
@@ -234,7 +227,7 @@ const AddMoreItemDtails = ({
         approve_item_status: 1,
         item_add_higher: 1,
         create_user: depkmc?.kmc_hod,
-        approve_aprox_cost: parseInt(approx_cost),
+        approve_aprox_cost: parseInt(approx_cost)
       }
       if (selectedCompany === '1') {
         AddMoreItems(newdata)
@@ -242,9 +235,7 @@ const AddMoreItemDtails = ({
         AddMoreItemskmc(newdatakmc)
       }
     } else {
-      warningNotify(
-        'Item Description and Quantity are mandatory and Quantity and unit price are not negative'
-      )
+      warningNotify('Item Description and Quantity are mandatory and Quantity and unit price are not negative')
     }
   }, [
     maxSlno,
@@ -260,15 +251,14 @@ const AddMoreItemDtails = ({
     req_slno,
     queryClient,
     selectedCompany,
-    depkmc,
+    depkmc
   ])
 
   const cancelEdit = useCallback(() => {
     reset()
   }, [reset])
 
-  if (isItemsLoading || isSlnoLoading || kmcisSlnoLoading || isItemskmcLoading)
-    return <p>Loading...</p>
+  if (isItemsLoading || isSlnoLoading || kmcisSlnoLoading || isItemskmcLoading) return <p>Loading...</p>
   if (itemsError || slnoError || kmcslnoError || kmcitemsError) return <p>Error occurred.</p>
   return (
     <Fragment>
@@ -371,8 +361,8 @@ const AddMoreItemDtails = ({
                 width: '100%',
                 '&:hover': {
                   bgcolor: 'white',
-                  color: '#43B0F1',
-                },
+                  color: '#43B0F1'
+                }
               }}
               onClick={AddItem}
             >
@@ -393,8 +383,8 @@ const AddMoreItemDtails = ({
                 width: '100%',
                 '&:hover': {
                   bgcolor: 'white',
-                  color: '#43B0F1',
-                },
+                  color: '#43B0F1'
+                }
               }}
               onClick={cancelEdit}
             >

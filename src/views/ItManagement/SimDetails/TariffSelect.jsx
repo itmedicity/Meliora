@@ -11,7 +11,7 @@ const TariffSelect = ({ tarrif, setTarrif }) => {
       { label: 'Monthly', id: 1 },
       { label: 'Quaterly', id: 2 },
       { label: 'Yearly', id: 3 },
-      { label: 'Other Bill', id: 4 },
+      { label: 'Other Bill', id: 4 }
     ]
   }, [])
   const [value, setValue] = useState(tariffList[0])
@@ -35,7 +35,7 @@ const TariffSelect = ({ tarrif, setTarrif }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '29px',
+            '--Input-minHeight': '29px'
             // width: 755
           }}
           value={tarrif === 0 ? tariffList : value}

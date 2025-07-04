@@ -21,7 +21,7 @@ const Hallmaster = () => {
     hall_slno: '',
     hall_name: '',
     hall_alias: '',
-    hall_status: false,
+    hall_status: false
   })
 
   const { hall_slno, hall_name, hall_alias, hall_status } = hall
@@ -38,7 +38,7 @@ const Hallmaster = () => {
       hall_slno: '',
       hall_name: '',
       hall_alias: '',
-      hall_status: false,
+      hall_status: false
     }
     sethall(reset)
   }, [])
@@ -50,7 +50,7 @@ const Hallmaster = () => {
       hall_slno: '',
       hall_name: '',
       hall_alias: '',
-      hall_status: false,
+      hall_status: false
     }
   }, [])
 
@@ -59,7 +59,7 @@ const Hallmaster = () => {
       hall_name: hall_name,
       hall_alias: hall_alias,
       hall_status: hall_status === true ? 1 : 0,
-      create_emid: id,
+      create_emid: id
     }
   }, [hall_name, hall_alias, hall_status, id])
 
@@ -69,7 +69,7 @@ const Hallmaster = () => {
       hall_name: hall_name,
       hall_alias: hall_alias,
       hall_status: hall_status === true ? 1 : 0,
-      update_emid: id,
+      update_emid: id
     }
   }, [hall_slno, hall_name, hall_alias, hall_status, id])
 
@@ -120,7 +120,7 @@ const Hallmaster = () => {
       hall_slno: hall_slno,
       hall_name: hall_name,
       hall_alias: hall_alias,
-      hall_status: hall_status === 'yes' ? true : false,
+      hall_status: hall_status === 'yes' ? true : false
     }
     sethall(formdata)
   }, [])

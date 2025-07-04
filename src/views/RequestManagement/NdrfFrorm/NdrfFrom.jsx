@@ -47,8 +47,7 @@ const NdrfFrom = () => {
           ndrf_mast_slno: val.ndrf_mast_slno,
           req_slno: val.req_slno,
           ndrfcreate: val.ndrfcreate,
-          actual_requirement:
-            val.actual_requirement !== null ? val.actual_requirement : 'Not Updated',
+          actual_requirement: val.actual_requirement !== null ? val.actual_requirement : 'Not Updated',
           needed: val.needed !== null ? val.needed : 'Not Updated',
           request_dept_slno: val.request_dept_slno,
           request_deptsec_slno: val.request_deptsec_slno,
@@ -95,8 +94,7 @@ const NdrfFrom = () => {
               : 'Not Updated',
           ndrf_smo_remarks: val.ndrf_smo_remarks,
           ndrf_som_aprrov_date: val.ndrf_som_aprrov_date,
-          ndrf_smo_user:
-            val.ndrf_smo_user !== null ? val.ndrf_smo_user.toLowerCase() : 'Not Updated',
+          ndrf_smo_user: val.ndrf_smo_user !== null ? val.ndrf_smo_user.toLowerCase() : 'Not Updated',
 
           ndrf_cao_approve: val.ndrf_cao_approve,
           ndrfCOO:
@@ -109,8 +107,7 @@ const NdrfFrom = () => {
               : 'Not Updated',
           ndrf_cao_approve_remarks: val.ndrf_cao_approve_remarks,
           ndrf_cao_approv_date: val.ndrf_cao_approv_date,
-          ndrf_cao_user:
-            val.ndrf_cao_user !== null ? val.ndrf_cao_user.toLowerCase() : 'Not Updated',
+          ndrf_cao_user: val.ndrf_cao_user !== null ? val.ndrf_cao_user.toLowerCase() : 'Not Updated',
 
           ndrf_ed_approve: val.ndrf_ed_approve,
           ndrfED:
@@ -151,8 +148,7 @@ const NdrfFrom = () => {
           incharge_remark: val.incharge_remarks !== null ? val.incharge_remarks : 'Not Updated',
           inch_detial_analysis: val.inch_detial_analysis,
           incharge_apprv_date: val.incharge_apprv_date,
-          incharge_user:
-            val.incharge_user !== null ? val.incharge_user.toLowerCase() : 'Not Updated',
+          incharge_user: val.incharge_user !== null ? val.incharge_user.toLowerCase() : 'Not Updated',
 
           hod_req: val.hod_req,
           hod_approve: val.hod_approve,
@@ -180,8 +176,7 @@ const NdrfFrom = () => {
               ? 'On-Hold'
               : 'Not Updated',
           dms_remarks: val.dms_remarks !== null ? val.dms_remarks : 'Not Updated',
-          dms_detail_analysis:
-            val.dms_detail_analysis !== null ? val.dms_detail_analysis : 'Not Updated',
+          dms_detail_analysis: val.dms_detail_analysis !== null ? val.dms_detail_analysis : 'Not Updated',
           dms_approve_date: val.dms_approve_date,
           dms_user: val.dms_user !== null ? val.dms_user.toLowerCase() : 'Not Updated',
 
@@ -196,8 +191,7 @@ const NdrfFrom = () => {
               ? 'On-Hold'
               : 'Not Updated',
           ms_approve_remark: val.ms_approve_remark !== null ? val.ms_approve_remark : 'Not Updated',
-          ms_detail_analysis:
-            val.ms_detail_analysis !== null ? val.ms_detail_analysis : 'Not Updated',
+          ms_detail_analysis: val.ms_detail_analysis !== null ? val.ms_detail_analysis : 'Not Updated',
           ms_approve_date: val.ms_approve_date,
           ms_user: val.ms_user !== null ? val.ms_user.toLowerCase() : 'Not Updated',
 
@@ -211,15 +205,11 @@ const NdrfFrom = () => {
               : val.manag_operation_approv === 3
               ? 'On-Hold'
               : 'Not Updated',
-          manag_operation_remarks:
-            val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
-          om_detial_analysis:
-            val.om_detial_analysis !== null ? val.om_detial_analysis : 'Not Updated',
+          manag_operation_remarks: val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
+          om_detial_analysis: val.om_detial_analysis !== null ? val.om_detial_analysis : 'Not Updated',
           om_approv_date: val.om_approv_date,
           manag_operation_user:
-            val.manag_operation_user !== null
-              ? val.manag_operation_user.toLowerCase()
-              : 'Not Updated',
+            val.manag_operation_user !== null ? val.manag_operation_user.toLowerCase() : 'Not Updated',
 
           senior_manage_req: val.senior_manage_req,
           senior_manage_approv: val.senior_manage_approv,
@@ -231,13 +221,10 @@ const NdrfFrom = () => {
               : val.senior_manage_approv === 3
               ? 'On-Hold'
               : 'Not Updated',
-          senior_manage_remarks:
-            val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
-          smo_detial_analysis:
-            val.smo_detial_analysis !== null ? val.smo_detial_analysis : 'Not Updated',
+          senior_manage_remarks: val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
+          smo_detial_analysis: val.smo_detial_analysis !== null ? val.smo_detial_analysis : 'Not Updated',
           som_aprrov_date: val.som_aprrov_date,
-          senior_manage_user:
-            val.senior_manage_user !== null ? val.senior_manage_user.toLowerCase() : 'Not Updated',
+          senior_manage_user: val.senior_manage_user !== null ? val.senior_manage_user.toLowerCase() : 'Not Updated',
 
           cao_approve: val.cao_approve,
           cao:
@@ -248,10 +235,8 @@ const NdrfFrom = () => {
               : val.cao_approve === 3
               ? 'On-Hold'
               : 'Not Updated',
-          cao_approve_remarks:
-            val.cao_approve_remarks !== null ? val.cao_approve_remarks : 'Not Updated',
-          ceo_detial_analysis:
-            val.ceo_detial_analysis !== null ? val.ceo_detial_analysis : 'Not Updated',
+          cao_approve_remarks: val.cao_approve_remarks !== null ? val.cao_approve_remarks : 'Not Updated',
+          ceo_detial_analysis: val.ceo_detial_analysis !== null ? val.ceo_detial_analysis : 'Not Updated',
           cao_approv_date: val.cao_approv_date,
           cao_user: val.cao_user !== null ? val.cao_user.toLowerCase() : 'Not Updated',
 
@@ -280,8 +265,7 @@ const NdrfFrom = () => {
               : val.ed_approve === 3
               ? 'On-Hold'
               : 'Not Updated',
-          ed_approve_remarks:
-            val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
+          ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
           ed_detial_analysis: val.ed_detial_analysis,
           ed_approve_date: val.ed_approve_date,
           ed_user: val.ed_user !== null ? val.ed_user.toLowerCase() : 'Not Updated',
@@ -293,7 +277,7 @@ const NdrfFrom = () => {
           close_date: val.close_date !== null ? val.close_date : 'Not Updated',
 
           ndrf_purchase: val.ndrf_purchase,
-          ndrf_purchase_acknolwdge: val.ndrf_purchase_acknolwdge,
+          ndrf_purchase_acknolwdge: val.ndrf_purchase_acknolwdge
         }
         return obj
       })
@@ -322,7 +306,7 @@ const NdrfFrom = () => {
             </IconButton>
           )
         }
-      },
+      }
     },
     { headerName: 'Req.Slno', field: 'req_slno', minWidth: 120 },
     {
@@ -331,7 +315,7 @@ const NdrfFrom = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 300,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Location',
@@ -339,7 +323,7 @@ const NdrfFrom = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 200,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Req.Department',
@@ -347,7 +331,7 @@ const NdrfFrom = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 300,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Req.DeptSec',
@@ -355,7 +339,7 @@ const NdrfFrom = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 300,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Req.Date',
@@ -363,7 +347,7 @@ const NdrfFrom = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 180,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Exp.DeptSec',
@@ -371,7 +355,7 @@ const NdrfFrom = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 180,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'NDRF Date',
@@ -379,7 +363,7 @@ const NdrfFrom = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 180,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Remarks',
@@ -387,8 +371,8 @@ const NdrfFrom = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 150,
-      filter: 'true',
-    },
+      filter: 'true'
+    }
   ])
 
   const pdfselect = async params => {
@@ -401,14 +385,12 @@ const NdrfFrom = () => {
       ndrf_om_user,
       ndrf_smo_user,
       ndrf_cao_user,
-      ndrf_ed_user,
+      ndrf_ed_user
     } = data[0]
     setDataPdf(data)
     const getInchargeSign = async () => {
       if (incharge_user > 0) {
-        const profilePic = JSON.stringify(
-          `${PUBLIC_NAS_FOLDER + incharge_user}/signature/signature.jpg`
-        )
+        const profilePic = JSON.stringify(`${PUBLIC_NAS_FOLDER + incharge_user}/signature/signature.jpg`)
         urlExist(profilePic, status => {
           if (status === true) {
             const picUrl = JSON.parse(profilePic)
@@ -434,9 +416,7 @@ const NdrfFrom = () => {
     }
     const getOmSign = async () => {
       if (ndrf_om_user > 0) {
-        const profilePic = JSON.stringify(
-          `${PUBLIC_NAS_FOLDER + ndrf_om_user}/signature/signature.jpg`
-        )
+        const profilePic = JSON.stringify(`${PUBLIC_NAS_FOLDER + ndrf_om_user}/signature/signature.jpg`)
         urlExist(profilePic, status => {
           if (status === true) {
             const picUrl = JSON.parse(profilePic)
@@ -449,9 +429,7 @@ const NdrfFrom = () => {
     }
     const getSMOSign = async () => {
       if (ndrf_smo_user > 0) {
-        const profilePic = JSON.stringify(
-          `${PUBLIC_NAS_FOLDER + ndrf_smo_user}/signature/signature.jpg`
-        )
+        const profilePic = JSON.stringify(`${PUBLIC_NAS_FOLDER + ndrf_smo_user}/signature/signature.jpg`)
         urlExist(profilePic, status => {
           if (status === true) {
             const picUrl = JSON.parse(profilePic)
@@ -464,9 +442,7 @@ const NdrfFrom = () => {
     }
     const getCAOSign = async () => {
       if (ndrf_cao_user > 0) {
-        const profilePic = JSON.stringify(
-          `${PUBLIC_NAS_FOLDER + ndrf_cao_user}/signature/signature.jpg`
-        )
+        const profilePic = JSON.stringify(`${PUBLIC_NAS_FOLDER + ndrf_cao_user}/signature/signature.jpg`)
         urlExist(profilePic, status => {
           if (status === true) {
             const picUrl = JSON.parse(profilePic)
@@ -479,9 +455,7 @@ const NdrfFrom = () => {
     }
     const getEDSign = async () => {
       if (ndrf_ed_user > 0) {
-        const profilePic = JSON.stringify(
-          `${PUBLIC_NAS_FOLDER + ndrf_ed_user}/signature/signature.jpg`
-        )
+        const profilePic = JSON.stringify(`${PUBLIC_NAS_FOLDER + ndrf_ed_user}/signature/signature.jpg`)
         urlExist(profilePic, status => {
           if (status === true) {
             const picUrl = JSON.parse(profilePic)
@@ -547,18 +521,7 @@ const NdrfFrom = () => {
       ndrfpdfdownloadwithouttable(datapdf, inchargesign, hodsign, omsign, smosign, caosign, edsign)
       setPdf(0)
     }
-  }, [
-    pdf,
-    dataPost,
-    datacollectdata,
-    inchargesign,
-    hodsign,
-    omsign,
-    smosign,
-    caosign,
-    edsign,
-    datapdf,
-  ])
+  }, [pdf, dataPost, datacollectdata, inchargesign, hodsign, omsign, smosign, caosign, edsign, datapdf])
   //close button function
   const backtoSetting = useCallback(() => {
     history('/Home')

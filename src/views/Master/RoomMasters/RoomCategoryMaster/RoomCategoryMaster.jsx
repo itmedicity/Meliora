@@ -20,14 +20,14 @@ const RoomCategoryMaster = () => {
     rm_roomcategory_name: '',
     rm_roomcategory_alias: '',
     rm_roomcategory_no: '',
-    rm_roomcategory_status: false,
+    rm_roomcategory_status: false
   })
   const {
     rm_roomcategory_slno,
     rm_roomcategory_name,
     rm_roomcategory_alias,
     rm_roomcategory_no,
-    rm_roomcategory_status,
+    rm_roomcategory_status
   } = roomCategory
 
   const updateRoomCategory = useCallback(
@@ -52,7 +52,7 @@ const RoomCategoryMaster = () => {
       rm_roomcategory_name: '',
       rm_roomcategory_alias: '',
       rm_roomcategory_no: '',
-      rm_roomcategory_status: false,
+      rm_roomcategory_status: false
     }
     setRoomCategory(frmdata)
     setCount(0)
@@ -64,7 +64,7 @@ const RoomCategoryMaster = () => {
       rm_roomcategory_alias: rm_roomcategory_alias,
       rm_roomcategory_no: rm_roomcategory_no,
       rm_roomcategory_status: rm_roomcategory_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [rm_roomcategory_name, rm_roomcategory_alias, rm_roomcategory_no, rm_roomcategory_status, id])
   const patchdata = useMemo(() => {
@@ -74,7 +74,7 @@ const RoomCategoryMaster = () => {
       rm_roomcategory_alias: rm_roomcategory_alias,
       rm_roomcategory_no: rm_roomcategory_no,
       rm_roomcategory_status: rm_roomcategory_status === true ? 1 : 0,
-      edit_user: id,
+      edit_user: id
     }
   }, [
     rm_roomcategory_slno,
@@ -82,7 +82,7 @@ const RoomCategoryMaster = () => {
     rm_roomcategory_alias,
     rm_roomcategory_no,
     rm_roomcategory_status,
-    id,
+    id
   ])
   const rowSelect = useCallback(params => {
     setValue(1)
@@ -93,7 +93,7 @@ const RoomCategoryMaster = () => {
       rm_roomcategory_name,
       rm_roomcategory_alias,
       rm_roomcategory_no,
-      rm_roomcategory_status,
+      rm_roomcategory_status
     } = data[0]
 
     const frmdata = {
@@ -101,7 +101,7 @@ const RoomCategoryMaster = () => {
       rm_roomcategory_name: rm_roomcategory_name,
       rm_roomcategory_alias: rm_roomcategory_alias,
       rm_roomcategory_no: rm_roomcategory_no,
-      rm_roomcategory_status: rm_roomcategory_status === 1 ? true : false,
+      rm_roomcategory_status: rm_roomcategory_status === 1 ? true : false
     }
     setRoomCategory(frmdata)
   }, [])
@@ -149,19 +149,14 @@ const RoomCategoryMaster = () => {
       rm_roomcategory_name: '',
       rm_roomcategory_alias: '',
       rm_roomcategory_no: '',
-      rm_roomcategory_status: false,
+      rm_roomcategory_status: false
     }
     setRoomCategory(frmdata)
     setValue(0)
   }, [setRoomCategory])
 
   return (
-    <CardMaster
-      title="Nomenclature Category"
-      submit={sumbitRoomCategory}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Nomenclature Category" submit={sumbitRoomCategory} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ p: 1 }}>
         <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
           <Box sx={{ width: '30%', p: 1 }}>

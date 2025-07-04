@@ -16,32 +16,28 @@ const OPAssessmentTimeReport = ({ viewData, searchDate, qidept }) => {
   useEffect(() => {
     var dateList = eachDayOfInterval({
       start: startOfMonth(new Date(searchDate)),
-      end: endOfMonth(new Date(searchDate)),
+      end: endOfMonth(new Date(searchDate))
     })
     if (viewData.length !== 0) {
       const newTimelist = dateList?.map(item => {
         const time = viewData
           ?.filter(
-            val =>
-              format(new Date(val.patient_arrived_date), 'dd-MM-yyyy') ===
-              format(new Date(item), 'dd-MM-yyyy')
+            val => format(new Date(val.patient_arrived_date), 'dd-MM-yyyy') === format(new Date(item), 'dd-MM-yyyy')
           )
           .reduce((acc, curr) => acc + curr.sumof_service_time, 0)
         return {
           day: format(new Date(item), 'dd-MM-yyyy'),
           totTime: time,
-          display_date: item,
+          display_date: item
         }
       })
       const newTotalPat = dateList?.map(item => {
         const count = viewData?.filter(
-          val =>
-            format(new Date(val.patient_arrived_date), 'dd-MM-yyyy') ===
-            format(new Date(item), 'dd-MM-yyyy')
+          val => format(new Date(val.patient_arrived_date), 'dd-MM-yyyy') === format(new Date(item), 'dd-MM-yyyy')
         )
         return {
           day: format(new Date(item), 'dd-MM-yyyy'),
-          totpatient: count.length,
+          totpatient: count.length
         }
       })
       const newArray = newTimelist?.map(val => {
@@ -49,7 +45,7 @@ const OPAssessmentTimeReport = ({ viewData, searchDate, qidept }) => {
         return {
           ...val,
           totpatient: array ? array.totpatient : 0,
-          result: array.totpatient > 0 ? val.totTime / array.totpatient : 0,
+          result: array.totpatient > 0 ? val.totTime / array.totpatient : 0
         }
       })
       setTableData(newArray)
@@ -68,7 +64,7 @@ const OPAssessmentTimeReport = ({ viewData, searchDate, qidept }) => {
       const searchData = {
         from: format(new Date(display_date), 'yyyy-MM-dd 00:00:00'),
         to: format(new Date(display_date), 'yyyy-MM-dd 23:59:59 '),
-        dpt: qidept,
+        dpt: qidept
       }
       const getOpData = async searchData => {
         const result = await axioslogin.post('/InitialAsessment/view', searchData)
@@ -108,7 +104,7 @@ const OPAssessmentTimeReport = ({ viewData, searchDate, qidept }) => {
               overflow: 'auto',
               maxHeight: window.innerHeight - 210,
               padding: 'none',
-              '&::-webkit-scrollbar': { height: 8 },
+              '&::-webkit-scrollbar': { height: 8 }
             }}
           >
             <CssVarsProvider>
@@ -130,7 +126,7 @@ const OPAssessmentTimeReport = ({ viewData, searchDate, qidept }) => {
                         borderRight: '1px solid white',
                         textAlign: 'center',
                         backgroundColor: '#e0e0e0',
-                        fontSize: 15,
+                        fontSize: 15
                       }}
                     >
                       Date
@@ -142,7 +138,7 @@ const OPAssessmentTimeReport = ({ viewData, searchDate, qidept }) => {
                         borderRight: '1px solid white',
                         textAlign: 'center',
                         backgroundColor: '#e0e0e0',
-                        fontSize: 15,
+                        fontSize: 15
                       }}
                     >
                       Sum Of Time in Min
@@ -154,7 +150,7 @@ const OPAssessmentTimeReport = ({ viewData, searchDate, qidept }) => {
                         borderRight: '1px solid white',
                         textAlign: 'center',
                         backgroundColor: '#e0e0e0',
-                        fontSize: 15,
+                        fontSize: 15
                       }}
                     >
                       Total No.Of Patients Reported
@@ -165,7 +161,7 @@ const OPAssessmentTimeReport = ({ viewData, searchDate, qidept }) => {
                         width: 100,
                         textAlign: 'center',
                         backgroundColor: '#e0e0e0',
-                        fontSize: 15,
+                        fontSize: 15
                       }}
                     >
                       Result
@@ -176,7 +172,7 @@ const OPAssessmentTimeReport = ({ viewData, searchDate, qidept }) => {
                         width: 100,
                         textAlign: 'center',
                         backgroundColor: '#e0e0e0',
-                        fontSize: 15,
+                        fontSize: 15
                       }}
                     >
                       View
@@ -199,10 +195,7 @@ const OPAssessmentTimeReport = ({ viewData, searchDate, qidept }) => {
                         {val.result > 10 ? (
                           <CssVarsProvider>
                             <Tooltip title="BenchMark Value is 10 min" placement="bottom">
-                              <td
-                                size="sm"
-                                style={{ textAlign: 'center', fontSize: 14, color: 'red' }}
-                              >
+                              <td size="sm" style={{ textAlign: 'center', fontSize: 14, color: 'red' }}>
                                 {val.result.toFixed(2)}
                               </td>
                             </Tooltip>
@@ -221,8 +214,8 @@ const OPAssessmentTimeReport = ({ viewData, searchDate, qidept }) => {
                                     padding: 'none',
                                     color: '#055CB4',
                                     ':hover': {
-                                      color: '#1E8AD3',
-                                    },
+                                      color: '#1E8AD3'
+                                    }
                                   }}
                                   onClick={e => ViewDetails(val)}
                                 />
@@ -235,8 +228,8 @@ const OPAssessmentTimeReport = ({ viewData, searchDate, qidept }) => {
                                     padding: 'none',
                                     color: '#b0bec5',
                                     ':hover': {
-                                      color: '#b0bec5',
-                                    },
+                                      color: '#b0bec5'
+                                    }
                                   }}
                                 />
                               </Tooltip>

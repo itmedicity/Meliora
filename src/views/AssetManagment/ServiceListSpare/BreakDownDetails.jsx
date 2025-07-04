@@ -3,12 +3,7 @@ import React from 'react'
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded'
 import { format } from 'date-fns'
 
-const BreakDownDetails = ({
-  alldetailsService,
-  fileView,
-  deptServiceempList,
-  fileViewAssetService,
-}) => {
+const BreakDownDetails = ({ alldetailsService, fileView, deptServiceempList, fileViewAssetService }) => {
   return (
     <Box>
       {alldetailsService.length !== 0 ? (
@@ -28,8 +23,7 @@ const BreakDownDetails = ({
                     <Box sx={{ flex: 1, display: 'flex' }}>
                       <Typography sx={{ flex: 1, fontSize: 15 }}>Ticket type.</Typography>
                       <Typography sx={{ flex: 4, fontWeight: 600, color: 'Black', fontSize: 13 }}>
-                        :{' '}
-                        {val.complaint_type_name !== null ? val.complaint_type_name : 'Not Updated'}
+                        : {val.complaint_type_name !== null ? val.complaint_type_name : 'Not Updated'}
                       </Typography>
                     </Box>
                     <Box sx={{ flex: 1, display: 'flex' }}>
@@ -59,11 +53,7 @@ const BreakDownDetails = ({
                                                                 }${
                               val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
                             }
-                                                                ${
-                                                                  val.rm_floor_name
-                                                                    ? val.rm_floor_name
-                                                                    : ''
-                                                                })`
+                                                                ${val.rm_floor_name ? val.rm_floor_name : ''})`
                           : 'Not Updated'}
                       </Typography>
                     </Box>
@@ -105,7 +95,7 @@ const BreakDownDetails = ({
                             width: 85,
                             pl: 1,
                             borderRadius: 10,
-                            cursor: 'pointer',
+                            cursor: 'pointer'
                           }}
                         >
                           <FilePresentRoundedIcon
@@ -114,16 +104,14 @@ const BreakDownDetails = ({
                               cursor: 'pointer',
                               height: 20,
                               width: 18,
-                              pb: 0.1,
+                              pb: 0.1
                             }}
                           />
                           file view
                         </Box>
                       </Box>
                     </Box>
-                    <Typography sx={{ fontWeight: 700, mt: 0.5 }}>
-                      Department serviced Details
-                    </Typography>
+                    <Typography sx={{ fontWeight: 700, mt: 0.5 }}>Department serviced Details</Typography>
                     <Box sx={{ mr: 2, my: 1 }}>
                       <Table stickyHeader size="sm" sx={{ borderRadius: 2 }} borderAxis="x">
                         <thead>
@@ -217,16 +205,11 @@ const BreakDownDetails = ({
                     <Box sx={{ flex: 1, display: 'flex' }}>
                       <Typography sx={{ flex: 1, fontSize: 15 }}>Services Performed</Typography>
                       <Typography sx={{ flex: 4, fontWeight: 600, color: 'Black', fontSize: 13 }}>
-                        :{' '}
-                        {val.suppl_serviced_remarks !== null
-                          ? val.suppl_serviced_remarks
-                          : 'Not Updated'}
+                        : {val.suppl_serviced_remarks !== null ? val.suppl_serviced_remarks : 'Not Updated'}
                       </Typography>
                     </Box>
 
-                    <Typography sx={{ fontWeight: 700, mt: 2 }}>
-                      Service Completion Marked Details
-                    </Typography>
+                    <Typography sx={{ fontWeight: 700, mt: 2 }}>Service Completion Marked Details</Typography>
                     <Box sx={{ flex: 1, display: 'flex' }}>
                       <Typography sx={{ flex: 1, fontSize: 15 }}>Marked date</Typography>
                       <Typography sx={{ flex: 4, fontWeight: 600, color: 'Black', fontSize: 13 }}>
@@ -254,7 +237,7 @@ const BreakDownDetails = ({
                         flex: 4,
                         fontSize: 13,
                         mt: 1,
-                        display: 'flex',
+                        display: 'flex'
                       }}
                     >
                       <FilePresentRoundedIcon
@@ -263,7 +246,7 @@ const BreakDownDetails = ({
                           cursor: 'pointer',
                           height: 20,
                           width: 18,
-                          pb: 0.1,
+                          pb: 0.1
                         }}
                       />
                       Attachments
@@ -283,7 +266,7 @@ const BreakDownDetails = ({
             fontSize: 20,
             flex: 1,
             display: 'flex',
-            justifyContent: 'center',
+            justifyContent: 'center'
           }}
         >
           No Service Done Yet!

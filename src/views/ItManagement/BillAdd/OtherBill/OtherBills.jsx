@@ -35,9 +35,7 @@ const OtherBills = ({ otherData, billCount, setbillCount }) => {
   const UndatePending = useCallback(value => {
     const { other_bill_slno } = value
     const getbillsFile = async () => {
-      const result = await axioslogin.get(
-        `/ItImageUpload/uploadFile/getOtherBillImages/${other_bill_slno}`
-      )
+      const result = await axioslogin.get(`/ItImageUpload/uploadFile/getOtherBillImages/${other_bill_slno}`)
       const { success } = result.data
       if (success === 1) {
         const data = result.data
@@ -70,8 +68,7 @@ const OtherBills = ({ otherData, billCount, setbillCount }) => {
     if (enterText.length < 3) {
       infoNotify('please enter minimum 3 character to search task name')
     } else {
-      let newTableDataa =
-        otherData && otherData.filter(val => val.bill_name.toLowerCase().includes(enterText))
+      let newTableDataa = otherData && otherData.filter(val => val.bill_name.toLowerCase().includes(enterText))
       setsearchBillNameFlag(1)
       setAlphbased(1)
       setAlphbasedData(newTableDataa)
@@ -80,8 +77,7 @@ const OtherBills = ({ otherData, billCount, setbillCount }) => {
 
   useEffect(() => {
     if (alphbased === 1) {
-      let newTableDataa =
-        otherData && otherData.filter(val => val.bill_name.toLowerCase().includes(enterText))
+      let newTableDataa = otherData && otherData.filter(val => val.bill_name.toLowerCase().includes(enterText))
       setAlphbasedData(newTableDataa)
     }
   }, [otherData, alphbased, enterText])
@@ -149,7 +145,7 @@ const OtherBills = ({ otherData, billCount, setbillCount }) => {
                     height: 29,
                     borderRadius: 2,
                     width: 350,
-                    pl: 1,
+                    pl: 1
                   }}
                   onChange={updateEnterText}
                 />
@@ -164,7 +160,7 @@ const OtherBills = ({ otherData, billCount, setbillCount }) => {
                         borderTop: 1,
                         borderBottom: 1,
                         borderColor: '#B2C4CB',
-                        '&:hover': { bgcolor: '#36454F' },
+                        '&:hover': { bgcolor: '#36454F' }
                       }}
                       onClick={SearchBillName}
                     >
@@ -184,7 +180,7 @@ const OtherBills = ({ otherData, billCount, setbillCount }) => {
                         borderTop: 1,
                         borderBottom: 1,
                         borderColor: '#B2C4CB',
-                        '&:hover': { bgcolor: '#36454F' },
+                        '&:hover': { bgcolor: '#36454F' }
                       }}
                       onClick={closeBillSearch}
                     >
@@ -220,7 +216,7 @@ const OtherBills = ({ otherData, billCount, setbillCount }) => {
                         borderTop: 1,
                         borderBottom: 1,
                         borderColor: '#B2C4CB',
-                        '&:hover': { bgcolor: '#36454F' },
+                        '&:hover': { bgcolor: '#36454F' }
                       }}
                       onClick={SearchBillCate}
                     >
@@ -240,7 +236,7 @@ const OtherBills = ({ otherData, billCount, setbillCount }) => {
                         borderTop: 1,
                         borderBottom: 1,
                         borderColor: '#B2C4CB',
-                        '&:hover': { bgcolor: '#36454F' },
+                        '&:hover': { bgcolor: '#36454F' }
                       }}
                       onClick={closeBillSearch}
                     >
@@ -268,30 +264,25 @@ const OtherBills = ({ otherData, billCount, setbillCount }) => {
                       borderRadius: 0,
                       display: 'flex',
                       mt: 0.5,
-                      color: 'black',
+                      color: 'black'
                     }}
                   >
                     <Box
                       sx={{
                         p: 0.5,
                         cursor: 'pointer',
-                        mx: 1,
+                        mx: 1
                       }}
                     >
                       <Tooltip title="Add Now" placement="bottom">
-                        <AddBoxIcon
-                          sx={{ height: 20, color: '#56382D' }}
-                          onClick={() => UndatePending(val)}
-                        />
+                        <AddBoxIcon sx={{ height: 20, color: '#56382D' }} onClick={() => UndatePending(val)} />
                       </Tooltip>
                     </Box>
                     <Tooltip title="bill name" placement="bottom">
                       <Box sx={{ flex: 3, pt: 0.5, cursor: 'grab', pl: 0.5 }}>{val.bill_name}</Box>
                     </Tooltip>
                     <Tooltip title="bill Category" placement="bottom">
-                      <Box sx={{ flex: 1, pt: 0.5, cursor: 'grab', pl: 0.5 }}>
-                        {val.it_bill_category_name}
-                      </Box>
+                      <Box sx={{ flex: 1, pt: 0.5, cursor: 'grab', pl: 0.5 }}>{val.it_bill_category_name}</Box>
                     </Tooltip>
                   </Paper>
                 )
@@ -311,30 +302,25 @@ const OtherBills = ({ otherData, billCount, setbillCount }) => {
                       borderRadius: 0,
                       display: 'flex',
                       mt: 0.5,
-                      color: 'black',
+                      color: 'black'
                     }}
                   >
                     <Box
                       sx={{
                         p: 0.5,
                         cursor: 'pointer',
-                        mx: 1,
+                        mx: 1
                       }}
                     >
                       <Tooltip title="Add Now" placement="bottom">
-                        <AddBoxIcon
-                          sx={{ height: 20, color: '#56382D' }}
-                          onClick={() => UndatePending(val)}
-                        />
+                        <AddBoxIcon sx={{ height: 20, color: '#56382D' }} onClick={() => UndatePending(val)} />
                       </Tooltip>
                     </Box>
                     <Tooltip title="bill name" placement="bottom">
                       <Box sx={{ flex: 3, pt: 0.5, cursor: 'grab', pl: 0.5 }}>{val.bill_name}</Box>
                     </Tooltip>
                     <Tooltip title="bill Category" placement="bottom">
-                      <Box sx={{ flex: 1, pt: 0.5, cursor: 'grab', pl: 0.5 }}>
-                        {val.it_bill_category_name}
-                      </Box>
+                      <Box sx={{ flex: 1, pt: 0.5, cursor: 'grab', pl: 0.5 }}>{val.it_bill_category_name}</Box>
                     </Tooltip>
                   </Paper>
                 )
@@ -354,27 +340,22 @@ const OtherBills = ({ otherData, billCount, setbillCount }) => {
                       borderRadius: 0,
                       display: 'flex',
                       mt: 0.5,
-                      color: 'black',
+                      color: 'black'
                     }}
                   >
                     <Box
                       sx={{
                         p: 0.5,
                         cursor: 'pointer',
-                        mx: 1,
+                        mx: 1
                       }}
                     >
                       <Tooltip title="Add Now" placement="bottom">
-                        <AddBoxIcon
-                          sx={{ height: 20, color: '#56382D' }}
-                          onClick={() => UndatePending(val)}
-                        />
+                        <AddBoxIcon sx={{ height: 20, color: '#56382D' }} onClick={() => UndatePending(val)} />
                       </Tooltip>
                     </Box>
                     <Box sx={{ flex: 3, pt: 0.5, cursor: 'grab', pl: 0.5 }}>{val.bill_name}</Box>
-                    <Box sx={{ flex: 1, pt: 0.5, cursor: 'grab', pl: 0.5 }}>
-                      {val.it_bill_category_name}
-                    </Box>
+                    <Box sx={{ flex: 1, pt: 0.5, cursor: 'grab', pl: 0.5 }}>{val.it_bill_category_name}</Box>
                   </Paper>
                 )
               })}

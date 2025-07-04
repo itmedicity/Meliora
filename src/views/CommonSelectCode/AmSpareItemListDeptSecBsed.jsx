@@ -6,12 +6,8 @@ import { useDispatch } from 'react-redux'
 
 const AmSpareItemListDeptSecBsed = ({ item, setItem }) => {
   const dispatch = useDispatch()
-  const AssetItemList = useSelector(
-    state => state.getSpareItemBasedSection?.SpareItemBasedSectionList
-  )
-  const [models, setModels] = useState([
-    { item_creatspare_creation_slnoion_slno: 0, item_name: 'Select Item name' },
-  ])
+  const AssetItemList = useSelector(state => state.getSpareItemBasedSection?.SpareItemBasedSectionList)
+  const [models, setModels] = useState([{ item_creatspare_creation_slnoion_slno: 0, item_name: 'Select Item name' }])
   const [value, setValue] = useState(models[0])
   const [inputValue, setInputValue] = useState('')
 
@@ -28,8 +24,7 @@ const AmSpareItemListDeptSecBsed = ({ item, setItem }) => {
   useEffect(() => {
     AssetItemList.length > 0 && setModels(AssetItemList)
     AssetItemList.length === 0 && setModels(AssetItemList)
-    AssetItemList.length === 0 &&
-      setValue([{ spare_creation_slno: 0, item_name: 'Select Item name' }])
+    AssetItemList.length === 0 && setValue([{ spare_creation_slno: 0, item_name: 'Select Item name' }])
     AssetItemList.length === 0 && setInputValue('')
   }, [AssetItemList])
 
@@ -38,7 +33,7 @@ const AmSpareItemListDeptSecBsed = ({ item, setItem }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '29px',
+            '--Input-minHeight': '29px'
           }}
           value={item === 0 ? models : value}
           placeholder="Select Item name"

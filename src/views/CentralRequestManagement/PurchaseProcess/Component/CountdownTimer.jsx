@@ -31,7 +31,7 @@ const CountdownTimer = ({ endDate }) => {
               px: 2,
               bgcolor: 'white',
               borderRadius: 1,
-              flexWrap: 'wrap',
+              flexWrap: 'wrap'
             }}
           >
             <Box sx={{}}>
@@ -42,7 +42,7 @@ const CountdownTimer = ({ endDate }) => {
                   fontWeight: 800,
                   color: '#116530',
                   m: 0.1,
-                  animation: `${rotate} 2s linear infinite`,
+                  animation: `${rotate} 2s linear infinite`
                 }}
               />
               &nbsp;
@@ -51,17 +51,11 @@ const CountdownTimer = ({ endDate }) => {
             <Box sx={{ fontWeight: 600, color: '#116530', pt: 0.2, fontSize: 14 }}>{days}</Box>
             &nbsp;
             <Box sx={{ pt: 0.2, fontSize: 14, color: '#116530' }}>Days</Box>&nbsp;
-            <Box sx={{ fontWeight: 600, color: '#116530', pt: 0.2, fontSize: 14 }}>
-              &nbsp;{hours}h
-            </Box>
+            <Box sx={{ fontWeight: 600, color: '#116530', pt: 0.2, fontSize: 14 }}>&nbsp;{hours}h</Box>
             <Box sx={{ fontWeight: 700, pt: 0.2, fontSize: 14 }}>:</Box>
-            <Box sx={{ fontWeight: 600, color: '#116530', pt: 0.2, fontSize: 14 }}>
-              &nbsp;{minutes}m
-            </Box>
+            <Box sx={{ fontWeight: 600, color: '#116530', pt: 0.2, fontSize: 14 }}>&nbsp;{minutes}m</Box>
             <Box sx={{ fontWeight: 700, pt: 0.2, fontSize: 14 }}>:</Box>
-            <Box sx={{ fontWeight: 600, color: '#116530', pt: 0.2, fontSize: 14 }}>
-              &nbsp;{seconds}s
-            </Box>
+            <Box sx={{ fontWeight: 600, color: '#116530', pt: 0.2, fontSize: 14 }}>&nbsp;{seconds}s</Box>
             <Box sx={{ pt: 0.2, fontSize: 13, color: '#116530' }}>&nbsp;&nbsp;Left</Box>&nbsp;&nbsp;
           </Box>
         ) : (
@@ -73,7 +67,7 @@ const CountdownTimer = ({ endDate }) => {
               px: 2,
               bgcolor: 'white',
               borderRadius: 1,
-              flexWrap: 'wrap',
+              flexWrap: 'wrap'
             }}
           >
             <Box>
@@ -84,7 +78,7 @@ const CountdownTimer = ({ endDate }) => {
                   color: '#BA0F30',
                   fontWeight: 800,
                   m: 0.1,
-                  animation: `${rotate} 2s linear infinite`,
+                  animation: `${rotate} 2s linear infinite`
                 }}
               />
               &nbsp;
@@ -93,17 +87,11 @@ const CountdownTimer = ({ endDate }) => {
             <Box sx={{ fontWeight: 600, color: '#BA0F30', pt: 0.2, fontSize: 14 }}>{days}</Box>
             &nbsp;
             <Box sx={{ color: '#BA0F30', pt: 0.2, fontSize: 14 }}>Days</Box>&nbsp;
-            <Box sx={{ fontWeight: 600, color: '#BA0F30', pt: 0.2, fontSize: 14 }}>
-              &nbsp;{hours}h
-            </Box>
+            <Box sx={{ fontWeight: 600, color: '#BA0F30', pt: 0.2, fontSize: 14 }}>&nbsp;{hours}h</Box>
             <Box sx={{ fontWeight: 700, pt: 0.2, fontSize: 14 }}>:</Box>
-            <Box sx={{ fontWeight: 600, color: '#BA0F30', pt: 0.2, fontSize: 14 }}>
-              &nbsp;{minutes}m
-            </Box>
+            <Box sx={{ fontWeight: 600, color: '#BA0F30', pt: 0.2, fontSize: 14 }}>&nbsp;{minutes}m</Box>
             <Box sx={{ fontWeight: 700, pt: 0.2, fontSize: 14 }}>:</Box>
-            <Box sx={{ fontWeight: 600, color: '#BA0F30', pt: 0.2, fontSize: 14 }}>
-              &nbsp;{seconds}s
-            </Box>
+            <Box sx={{ fontWeight: 600, color: '#BA0F30', pt: 0.2, fontSize: 14 }}>&nbsp;{seconds}s</Box>
             <Box sx={{ pt: 0.2, fontSize: 13, color: '#BA0F30' }}>&nbsp;&nbsp;Over</Box>&nbsp;&nbsp;
           </Box>
         )

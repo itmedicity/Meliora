@@ -28,7 +28,7 @@ const PurchaseReport = () => {
     quofinal: 0,
     preparation: 0,
     poSupplier: 0,
-    viewFlag: 0,
+    viewFlag: 0
   })
   const {
     startDate,
@@ -40,7 +40,7 @@ const PurchaseReport = () => {
     quofinal,
     preparation,
     poSupplier,
-    viewFlag,
+    viewFlag
   } = crfSearch
   const updateOnchange = useCallback(
     e => {
@@ -52,11 +52,11 @@ const PurchaseReport = () => {
   const {
     data: dataColleDetails,
     isLoading: isDcLoading,
-    error: dcError,
+    error: dcError
   } = useQuery({
     queryKey: 'purchaseDataCollection',
     queryFn: () => getPurchaseDataCollection(),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const dataCollection = useMemo(() => dataColleDetails, [dataColleDetails])
 
@@ -66,7 +66,7 @@ const PurchaseReport = () => {
       setOpen(true)
       const postdata = {
         startDate: format(new Date(startDate), 'yyyy-MM-dd 00:00:00'),
-        endDate: format(new Date(endDate), 'yyyy-MM-dd 23:59:59'),
+        endDate: format(new Date(endDate), 'yyyy-MM-dd 23:59:59')
       }
       const getPurchaseData = async postdata => {
         const result = await axioslogin.post('/CrfReports/getPurchaseCRFData', postdata)
@@ -81,9 +81,7 @@ const PurchaseReport = () => {
         if (success === 1) {
           setOpen(false)
           const quotPending = data?.filter(val => {
-            return (
-              val.quatation_calling_status === 0 && val.ack_status === 1 && val.po_prepartion !== 1
-            )
+            return val.quatation_calling_status === 0 && val.ack_status === 1 && val.po_prepartion !== 1
           })
           const quotNego = data?.filter(val => {
             return val.quatation_negotiation === 0 && val.quatation_calling_status === 1
@@ -97,9 +95,7 @@ const PurchaseReport = () => {
             return (
               val.ack_status === 1 &&
               ((val.po_prepartion === 1 && val.po_complete === 0) ||
-                (val.quatation_calling_status === 1 &&
-                  val.quatation_fixing === 1 &&
-                  val.po_prepartion === 0))
+                (val.quatation_calling_status === 1 && val.quatation_fixing === 1 && val.po_prepartion === 0))
             )
           })
           const posup = data?.filter(val => {
@@ -113,7 +109,7 @@ const PurchaseReport = () => {
             quofinal: quotFinal.length,
             preparation: poPending.length,
             poSupplier: posup.length,
-            viewFlag: 1,
+            viewFlag: 1
           }))
         } else {
           setOpen(false)
@@ -124,7 +120,7 @@ const PurchaseReport = () => {
             negotiation: 0,
             preparation: 0,
             poSupplier: 0,
-            viewFlag: 0,
+            viewFlag: 0
           }))
         }
       })
@@ -136,13 +132,13 @@ const PurchaseReport = () => {
 
           setCrfSearch(prev => ({
             ...prev,
-            ackPending: ackpendingList.length,
+            ackPending: ackpendingList.length
           }))
         } else {
           setOpen(false)
           setCrfSearch(prev => ({
             ...prev,
-            ackPending: 0,
+            ackPending: 0
           }))
         }
       })
@@ -160,7 +156,7 @@ const PurchaseReport = () => {
     width: 100,
     fontWeight: 650,
     color: '#3f51b5',
-    bgcolor: 'white',
+    bgcolor: 'white'
   }
   if (isDcLoading) return <p>Loading...</p>
   if (dcError) return <p>Error occurred.</p>
@@ -170,12 +166,8 @@ const PurchaseReport = () => {
       <Box sx={{ height: window.innerHeight - 80, flexWrap: 'wrap', bgcolor: 'white' }}>
         <Box sx={{ border: '1px solid #B4F5F0' }}>
           <Box sx={{ display: 'flex' }}>
-            <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: 0.5, color: '#385E72' }}>
-              CRF-Purchase Report
-            </Box>
-            <Box
-              sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, m: 0.5 }}
-            >
+            <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: 0.5, color: '#385E72' }}>CRF-Purchase Report</Box>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, m: 0.5 }}>
               <CssVarsProvider>
                 <CustomCloseIconCmp handleChange={backToSetting} />
               </CssVarsProvider>
@@ -189,15 +181,13 @@ const PurchaseReport = () => {
             justifyContent: 'center',
             flexWrap: 'wrap',
             pb: 1,
-            border: '1px solid lightgrey',
+            border: '1px solid lightgrey'
           }}
         >
           <Box sx={{ pt: 1, width: { xs: '100%', md: '60vw', lg: '50vw', xl: '50vw' } }}>
             <Box sx={{ px: 1, display: 'flex' }}>
               <Box sx={{ flex: 1, px: 0.3 }}>
-                <Typography
-                  sx={{ fontSize: 13, color: '#1D617A', px: 1, pt: 0.1, fontWeight: 550 }}
-                >
+                <Typography sx={{ fontSize: 13, color: '#1D617A', px: 1, pt: 0.1, fontWeight: 550 }}>
                   Start Date
                 </Typography>
                 <CssVarsProvider>
@@ -208,7 +198,7 @@ const PurchaseReport = () => {
                       border: '1px solid #bbdefb',
                       color: '#1D617A',
                       fontSize: 14,
-                      width: '100%',
+                      width: '100%'
                     }}
                     size={'md'}
                     type="date"
@@ -216,15 +206,13 @@ const PurchaseReport = () => {
                     name="startDate"
                     handleChange={updateOnchange}
                     slotProps={{
-                      input: { max: moment(new Date()).format('YYYY-MM-DD') },
+                      input: { max: moment(new Date()).format('YYYY-MM-DD') }
                     }}
                   />
                 </CssVarsProvider>
               </Box>
               <Box sx={{ flex: 1, px: 0.3 }}>
-                <Typography
-                  sx={{ fontSize: 13, color: '#1D617A', px: 1, pt: 0.1, fontWeight: 550 }}
-                >
+                <Typography sx={{ fontSize: 13, color: '#1D617A', px: 1, pt: 0.1, fontWeight: 550 }}>
                   End Date
                 </Typography>
                 <CssVarsProvider>
@@ -235,7 +223,7 @@ const PurchaseReport = () => {
                       border: '1px solid #bbdefb',
                       color: '#1D617A',
                       fontSize: 14,
-                      width: '100%',
+                      width: '100%'
                     }}
                     size={'md'}
                     type="date"
@@ -243,7 +231,7 @@ const PurchaseReport = () => {
                     name="endDate"
                     handleChange={updateOnchange}
                     slotProps={{
-                      input: { max: moment(new Date()).format('YYYY-MM-DD') },
+                      input: { max: moment(new Date()).format('YYYY-MM-DD') }
                     }}
                   />
                 </CssVarsProvider>
@@ -262,8 +250,8 @@ const PurchaseReport = () => {
                       borderRadius: 6,
                       '&:hover': {
                         bgcolor: 'white',
-                        color: '#1976d2',
-                      },
+                        color: '#1976d2'
+                      }
                     }}
                     onClick={searchCRFDetails}
                   >
@@ -282,13 +270,13 @@ const PurchaseReport = () => {
               display: 'flex',
               justifyContent: 'center',
               flexWrap: 'wrap',
-              pb: 1,
+              pb: 1
             }}
           >
             <Box
               sx={{
                 pt: 2,
-                width: { xs: '100%', md: '80vw', lg: '70vw', xl: '70vw', display: 'flex' },
+                width: { xs: '100%', md: '80vw', lg: '70vw', xl: '70vw', display: 'flex' }
               }}
             >
               <Paper variant="outlined" square sx={{ height: 170, width: 300, bgcolor: '#e3f2fd' }}>
@@ -298,7 +286,7 @@ const PurchaseReport = () => {
                     fontWeight: 'bold',
                     color: '#145DA0',
                     fontSize: 16,
-                    pt: 2,
+                    pt: 2
                   }}
                 >
                   CRF Acknowledgement
@@ -307,18 +295,14 @@ const PurchaseReport = () => {
                   <Box sx={boxStyle}>{purchaseTot}</Box>
                 </Box>
               </Paper>
-              <Paper
-                variant="outlined"
-                square
-                sx={{ height: 170, width: 300, bgcolor: '#e3f2fd', mx: 2 }}
-              >
+              <Paper variant="outlined" square sx={{ height: 170, width: 300, bgcolor: '#e3f2fd', mx: 2 }}>
                 <Typography
                   sx={{
                     textAlign: 'center',
                     fontWeight: 'bold',
                     color: '#145DA0',
                     fontSize: 16,
-                    pt: 2,
+                    pt: 2
                   }}
                 >
                   CRF Acknowledgement Pending
@@ -327,18 +311,14 @@ const PurchaseReport = () => {
                   <Box sx={boxStyle}>{ackPending}</Box>
                 </Box>
               </Paper>
-              <Paper
-                variant="outlined"
-                square
-                sx={{ height: 170, width: 300, bgcolor: '#e3f2fd', mr: 2 }}
-              >
+              <Paper variant="outlined" square sx={{ height: 170, width: 300, bgcolor: '#e3f2fd', mr: 2 }}>
                 <Typography
                   sx={{
                     textAlign: 'center',
                     fontWeight: 'bold',
                     color: '#145DA0',
                     fontSize: 16,
-                    pt: 2,
+                    pt: 2
                   }}
                 >
                   Quotation Calling Pending
@@ -354,7 +334,7 @@ const PurchaseReport = () => {
                     fontWeight: 'bold',
                     color: '#145DA0',
                     fontSize: 16,
-                    pt: 2,
+                    pt: 2
                   }}
                 >
                   Quotation Negotiation Pending
@@ -367,7 +347,7 @@ const PurchaseReport = () => {
             <Box
               sx={{
                 pt: 2,
-                width: { xs: '100%', md: '80vw', lg: '70vw', xl: '70vw', display: 'flex' },
+                width: { xs: '100%', md: '80vw', lg: '70vw', xl: '70vw', display: 'flex' }
               }}
             >
               <Paper variant="outlined" square sx={{ height: 170, width: 300, bgcolor: '#e3f2fd' }}>
@@ -377,7 +357,7 @@ const PurchaseReport = () => {
                     fontWeight: 'bold',
                     color: '#145DA0',
                     fontSize: 16,
-                    pt: 2,
+                    pt: 2
                   }}
                 >
                   Quotation Approval Pending
@@ -386,18 +366,14 @@ const PurchaseReport = () => {
                   <Box sx={boxStyle}>{quofinal}</Box>
                 </Box>
               </Paper>
-              <Paper
-                variant="outlined"
-                square
-                sx={{ height: 170, width: 300, bgcolor: '#e3f2fd', mx: 2 }}
-              >
+              <Paper variant="outlined" square sx={{ height: 170, width: 300, bgcolor: '#e3f2fd', mx: 2 }}>
                 <Typography
                   sx={{
                     textAlign: 'center',
                     fontWeight: 'bold',
                     color: '#145DA0',
                     fontSize: 16,
-                    pt: 2,
+                    pt: 2
                   }}
                 >
                   PO Preparation Pending
@@ -406,18 +382,14 @@ const PurchaseReport = () => {
                   <Box sx={boxStyle}>{preparation}</Box>
                 </Box>
               </Paper>
-              <Paper
-                variant="outlined"
-                square
-                sx={{ height: 170, width: 300, bgcolor: '#e3f2fd', mr: 2 }}
-              >
+              <Paper variant="outlined" square sx={{ height: 170, width: 300, bgcolor: '#e3f2fd', mr: 2 }}>
                 <Typography
                   sx={{
                     textAlign: 'center',
                     fontWeight: 'bold',
                     color: '#145DA0',
                     fontSize: 16,
-                    pt: 2,
+                    pt: 2
                   }}
                 >
                   Inform to Supplier(PO) Pending
@@ -433,7 +405,7 @@ const PurchaseReport = () => {
                     fontWeight: 'bold',
                     color: '#145DA0',
                     fontSize: 16,
-                    pt: 2,
+                    pt: 2
                   }}
                 >
                   Data Collection Pending
@@ -452,7 +424,7 @@ const PurchaseReport = () => {
               fontSize: 28,
               opacity: 0.5,
               pt: 10,
-              color: 'grey',
+              color: 'grey'
             }}
           >
             No Reports Found

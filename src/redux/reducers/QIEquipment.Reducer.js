@@ -3,7 +3,7 @@ const { FETCH_EQUIPMENT_SELECT } = ActionTyps
 
 const QIEquipment = {
   EquipmentList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 export const getEquipmentList = (state = QIEquipment, { type, payload }) => {
   switch (type) {

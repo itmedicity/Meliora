@@ -54,9 +54,7 @@ const DataCollectDepSecSelectTmc = ({ SetDeptSec }) => {
       getOptionLabel={option => option.sec_name || ''}
       options={depSecName}
       getOptionDisabled={option =>
-        depSecName.some(
-          (opt, index) => opt.sec_name === option.sec_name && depSecName.indexOf(opt) !== index
-        )
+        depSecName.some((opt, index) => opt.sec_name === option.sec_name && depSecName.indexOf(opt) !== index)
       }
     />
   )

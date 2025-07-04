@@ -33,13 +33,11 @@ const EmployeeUnderProject = ({ val }) => {
                     height: 40,
                     pl: 2,
                     bgcolor: '#EAEFF2',
-                    overflow: 'auto',
+                    overflow: 'auto'
                   }}
                 >
                   <Tooltip title="Assignee">
-                    <FormLabel
-                      sx={{ fontSize: 14, flex: 1.3, textTransform: 'capitalize', cursor: 'grab' }}
-                    >
+                    <FormLabel sx={{ fontSize: 14, flex: 1.3, textTransform: 'capitalize', cursor: 'grab' }}>
                       {val.em_name}
                     </FormLabel>
                   </Tooltip>

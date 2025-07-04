@@ -9,7 +9,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Typography,
+  Typography
 } from '@mui/material'
 import IconButton from '@mui/joy/IconButton'
 import { CssVarsProvider } from '@mui/joy'
@@ -39,7 +39,7 @@ const TopelevelED = () => {
   //state for spreading time esc map data
   const [esc, setEsc] = useState({
     esc_slno: '',
-    complaint_deptslno: '',
+    complaint_deptslno: ''
   })
   //state for table open on clicking counts
   const [ab, setAb] = useState(0)
@@ -55,7 +55,7 @@ const TopelevelED = () => {
       const { escalaion_slno, complaint_dept } = data[0]
       const frmdata = {
         esc_slno: escalaion_slno,
-        complaint_deptslno: complaint_dept,
+        complaint_deptslno: complaint_dept
       }
       setEsc(frmdata)
       setBc(1)
@@ -72,7 +72,7 @@ const TopelevelED = () => {
   const timeescalationData = useMemo(() => {
     return {
       esc_slno: esc_slno,
-      complaint_deptslno: complaint_deptslno,
+      complaint_deptslno: complaint_deptslno
     }
   }, [esc_slno, complaint_deptslno])
   //getting data when count button clicked
@@ -110,7 +110,7 @@ const TopelevelED = () => {
       const { escalaion_slno, complaint_dept } = escmap[0]
       const from = {
         esc_slno: escalaion_slno,
-        complaint_deptslno: complaint_dept,
+        complaint_deptslno: complaint_dept
       }
       setIt(from)
     }
@@ -122,7 +122,7 @@ const TopelevelED = () => {
       const { escalaion_slno, complaint_dept } = escmap[1]
       const from1 = {
         esc_slno: escalaion_slno,
-        complaint_deptslno: complaint_dept,
+        complaint_deptslno: complaint_dept
       }
       setMain(from1)
     }
@@ -131,14 +131,14 @@ const TopelevelED = () => {
   const postdata = useMemo(() => {
     return {
       esc_slno: it.esc_slno,
-      complaint_deptslno: it.complaint_deptslno,
+      complaint_deptslno: it.complaint_deptslno
     }
   }, [it])
   //for maintenance complaints counts
   const postdata2 = useMemo(() => {
     return {
       esc_slno: main.esc_slno,
-      complaint_deptslno: main.complaint_deptslno,
+      complaint_deptslno: main.complaint_deptslno
     }
   }, [main])
   //reduce function  for getting counts
@@ -152,7 +152,7 @@ const TopelevelED = () => {
   const Counts = useSelector(state => {
     return {
       countmain: state.getEscalationMappingToplvlmaintenenace.escalationMappingToplvlMain || 0,
-      countit: state.getEscalationMappingToplvlIt.escalationMappingToplvlIt || 0,
+      countit: state.getEscalationMappingToplvlIt.escalationMappingToplvlIt || 0
     }
   })
 
@@ -183,20 +183,20 @@ const TopelevelED = () => {
     { esc_slno: '12', esc_activity: 'FACILITY ARRANGEMENTS', count: 0 },
     { esc_slno: '13', esc_activity: 'INSURANCE DOCUMENTS', count: 0 },
     { esc_slno: '14', esc_activity: 'SFA CLEARANCE', count: 0 },
-    { esc_slno: '15', esc_activity: 'DISCHARGE CLEANING', count: 0 },
+    { esc_slno: '15', esc_activity: 'DISCHARGE CLEANING', count: 0 }
   ]
   return (
     <CardCloseOnly title="Escalation Top Level ED">
       <Box
         sx={{
-          p: 1,
+          p: 1
         }}
       >
         <Paper square elevation={3} sx={{ p: 2 }}>
           <Box sx={{}}>
             <Box
               sx={{
-                display: 'flex',
+                display: 'flex'
               }}
             >
               <TableContainer>
@@ -207,14 +207,14 @@ const TopelevelED = () => {
                       sx={{
                         border: '1px solid',
                         borderColor: '#F0F3F5',
-                        P: 0.5,
+                        P: 0.5
                       }}
                     >
                       <TableCell
                         sx={{
                           p: 0.7,
                           fontWeight: 'bold',
-                          color: 'gray',
+                          color: 'gray'
                         }}
                       >
                         {/* Time Level */}
@@ -222,7 +222,7 @@ const TopelevelED = () => {
                         <Typography
                           sx={{
                             fontSize: 14,
-                            fontWeight: 'bold',
+                            fontWeight: 'bold'
                           }}
                         >
                           {' '}
@@ -239,13 +239,13 @@ const TopelevelED = () => {
                           border: '1px solid',
                           borderColor: '#F0F3F5',
                           p: 0.5,
-                          overflow: 'hidden',
+                          overflow: 'hidden'
                         }}
                       ></TableCell>
                       <TableCell
                         rowSpan="70"
                         sx={{
-                          width: '100%',
+                          width: '100%'
                         }}
                       >
                         <Box
@@ -253,12 +253,10 @@ const TopelevelED = () => {
                             height: 1000,
                             width: '100%',
                             display: 'flex',
-                            flexDirection: 'column',
+                            flexDirection: 'column'
                           }}
                         >
-                          {ab === 1 && complaints.length !== 0 ? (
-                            <ToplevelTable complaints={complaints} />
-                          ) : null}
+                          {ab === 1 && complaints.length !== 0 ? <ToplevelTable complaints={complaints} /> : null}
                         </Box>
                       </TableCell>
                     </TableRow>
@@ -273,7 +271,7 @@ const TopelevelED = () => {
                               width: '20%',
                               border: '1px solid',
                               borderColor: '#F0F3F5',
-                              p: 1,
+                              p: 1
                             }}
                           >
                             <Grid container spacing={2}>
@@ -287,17 +285,16 @@ const TopelevelED = () => {
                                 sx={{
                                   p: 0,
                                   mt: 0.5,
-                                  height: 20,
+                                  height: 20
                                 }}
                               >
                                 <Typography
                                   sx={{
                                     fontSize: 15.5,
-                                    mt: 1,
+                                    mt: 1
                                   }}
                                 >
-                                  {val.esc_activity.charAt(0).toUpperCase() +
-                                    val.esc_activity.slice(1).toLowerCase()}
+                                  {val.esc_activity.charAt(0).toUpperCase() + val.esc_activity.slice(1).toLowerCase()}
                                 </Typography>
                               </Grid>
                               <Grid
@@ -308,7 +305,7 @@ const TopelevelED = () => {
                                 md={4}
                                 lg={4}
                                 sx={{
-                                  mb: 1,
+                                  mb: 1
                                 }}
                               >
                                 <CssVarsProvider>
@@ -317,7 +314,7 @@ const TopelevelED = () => {
                                     size="sm"
                                     color="primary"
                                     sx={{
-                                      mt: 0.8,
+                                      mt: 0.8
                                     }}
                                     onClick={e => getData(val.esc_slno)}
                                   >

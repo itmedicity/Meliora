@@ -80,8 +80,7 @@ const OmApproval = () => {
       const datas = MOPending.map(val => {
         const obj = {
           req_slno: val.req_slno,
-          actual_requirement:
-            val.actual_requirement !== null ? val.actual_requirement : 'Not Updated',
+          actual_requirement: val.actual_requirement !== null ? val.actual_requirement : 'Not Updated',
           needed: val.needed !== null ? val.needed : 'Not Updated',
           ndactual_requirement: val.actual_requirement,
           ndneeded: val.needed,
@@ -115,8 +114,7 @@ const OmApproval = () => {
           incharge_remark: val.incharge_remarks !== null ? val.incharge_remarks : 'Not Updated',
           inch_detial_analysis: val.inch_detial_analysis,
           incharge_apprv_date: val.incharge_apprv_date,
-          incharge_user:
-            val.incharge_user !== null ? val.incharge_user.toLowerCase() : 'Not Updated',
+          incharge_user: val.incharge_user !== null ? val.incharge_user.toLowerCase() : 'Not Updated',
 
           hod_req: val.hod_req,
           hod_approve: val.hod_approve,
@@ -144,8 +142,7 @@ const OmApproval = () => {
               ? 'On-Hold'
               : 'Not Updated',
           dms_remarks: val.dms_remarks !== null ? val.dms_remarks : 'Not Updated',
-          dms_detail_analysis:
-            val.dms_detail_analysis !== null ? val.dms_detail_analysis : 'Not Updated',
+          dms_detail_analysis: val.dms_detail_analysis !== null ? val.dms_detail_analysis : 'Not Updated',
           dms_approve_date: val.dms_approve_date,
           dms_user: val.dms_user,
 
@@ -160,8 +157,7 @@ const OmApproval = () => {
               ? 'On-Hold'
               : 'Not Updated',
           ms_approve_remark: val.ms_approve_remark !== null ? val.ms_approve_remark : 'Not Updated',
-          ms_detail_analysis:
-            val.ms_detail_analysis !== null ? val.ms_detail_analysis : 'Not Updated',
+          ms_detail_analysis: val.ms_detail_analysis !== null ? val.ms_detail_analysis : 'Not Updated',
           ms_approve_date: val.ms_approve_date,
           ms_user: val.ms_user,
 
@@ -175,15 +171,11 @@ const OmApproval = () => {
               : val.manag_operation_approv === 3
               ? 'On-Hold'
               : 'Not Updated',
-          manag_operation_remarks:
-            val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
-          om_detial_analysis:
-            val.om_detial_analysis !== null ? val.om_detial_analysis : 'Not Updated',
+          manag_operation_remarks: val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
+          om_detial_analysis: val.om_detial_analysis !== null ? val.om_detial_analysis : 'Not Updated',
           om_approv_date: val.om_approv_date,
           manag_operation_user:
-            val.manag_operation_user !== null
-              ? val.manag_operation_user.toLowerCase()
-              : 'Not Updated',
+            val.manag_operation_user !== null ? val.manag_operation_user.toLowerCase() : 'Not Updated',
 
           senior_manage_req: val.senior_manage_req,
           senior_manage_approv: val.senior_manage_approv,
@@ -195,13 +187,10 @@ const OmApproval = () => {
               : val.senior_manage_approv === 3
               ? 'On-Hold'
               : 'Not Updated',
-          senior_manage_remarks:
-            val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
-          smo_detial_analysis:
-            val.smo_detial_analysis !== null ? val.smo_detial_analysis : 'Not Updated',
+          senior_manage_remarks: val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
+          smo_detial_analysis: val.smo_detial_analysis !== null ? val.smo_detial_analysis : 'Not Updated',
           som_aprrov_date: val.som_aprrov_date,
-          senior_manage_user:
-            val.senior_manage_user !== null ? val.senior_manage_user.toLowerCase() : 'Not Updated',
+          senior_manage_user: val.senior_manage_user !== null ? val.senior_manage_user.toLowerCase() : 'Not Updated',
 
           cao_approve: val.cao_approve,
           cao:
@@ -212,10 +201,8 @@ const OmApproval = () => {
               : val.cao_approve === 3
               ? 'On-Hold'
               : 'Not Updated',
-          cao_approve_remarks:
-            val.cao_approve_remarks !== null ? val.cao_approve_remarks : 'Not Updated',
-          ceo_detial_analysis:
-            val.ceo_detial_analysis !== null ? val.ceo_detial_analysis : 'Not Updated',
+          cao_approve_remarks: val.cao_approve_remarks !== null ? val.cao_approve_remarks : 'Not Updated',
+          ceo_detial_analysis: val.ceo_detial_analysis !== null ? val.ceo_detial_analysis : 'Not Updated',
           cao_approv_date: val.cao_approv_date,
           cao_user: val.cao_user !== null ? val.cao_user.toLowerCase() : 'Not Updated',
 
@@ -244,8 +231,7 @@ const OmApproval = () => {
               : val.ed_approve === 3
               ? 'On-Hold'
               : 'Not Updated',
-          ed_approve_remarks:
-            val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
+          ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
           ed_detial_analysis: val.ed_detial_analysis,
           ed_approve_date: val.ed_approve_date,
           ed_user: val.ed_user,
@@ -254,7 +240,7 @@ const OmApproval = () => {
           crf_close_remark: val.crf_close_remark !== null ? val.crf_close_remark : 'Not Updated',
           crf_closed_one: val.crf_closed_one !== null ? val.crf_closed_one : 'Not Updated',
           close_user: val.close_user !== null ? val.close_user : 'Not Updated',
-          close_date: val.close_date !== null ? val.close_date : 'Not Updated',
+          close_date: val.close_date !== null ? val.close_date : 'Not Updated'
         }
         return obj
       })
@@ -442,18 +428,12 @@ const OmApproval = () => {
         } else {
           return (
             <Fragment>
-              <IconButton
-                onClick={() => MessageSend(params)}
-                sx={{ color: editicon, paddingY: 0.5 }}
-              >
+              <IconButton onClick={() => MessageSend(params)} sx={{ color: editicon, paddingY: 0.5 }}>
                 <CustomeToolTip title="Forward To Data Collection">
                   <ForwardToInboxTwoToneIcon />
                 </CustomeToolTip>
               </IconButton>
-              <IconButton
-                onClick={() => OMApproval(params)}
-                sx={{ color: editicon, paddingY: 0.5 }}
-              >
+              <IconButton onClick={() => OMApproval(params)} sx={{ color: editicon, paddingY: 0.5 }}>
                 <CustomeToolTip title="Approval">
                   <PublishedWithChangesOutlinedIcon />
                 </CustomeToolTip>
@@ -461,7 +441,7 @@ const OmApproval = () => {
             </Fragment>
           )
         }
-      },
+      }
     },
 
     // {
@@ -497,7 +477,7 @@ const OmApproval = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 250,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Justification',
@@ -505,7 +485,7 @@ const OmApproval = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 250,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Location',
@@ -513,7 +493,7 @@ const OmApproval = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 250,
-      filter: 'true',
+      filter: 'true'
     },
     { headerName: 'Req. Date', field: 'req_date', minWidth: 200 },
     {
@@ -522,7 +502,7 @@ const OmApproval = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 150,
-      filter: 'true',
+      filter: 'true'
     },
     { headerName: 'Inch.Remark', field: 'incharge_remark', minWidth: 250, wrapText: true },
     { headerName: 'Hod.Status', field: 'hod', minWidth: 150, wrapText: true, filter: 'true' },
@@ -538,7 +518,7 @@ const OmApproval = () => {
     { headerName: 'GM Status', field: 'cao', minWidth: 180, wrapText: true, filter: 'true' },
     { headerName: 'GM.Remark', field: 'cao_approve_remarks', minWidth: 250, wrapText: true },
     { headerName: 'ED/MD  Status', field: 'ed', minWidth: 150, wrapText: true, filter: 'true' },
-    { headerName: 'ED/MD.Remark', field: 'ed_approve_remarks', minWidth: 250, wrapText: true },
+    { headerName: 'ED/MD.Remark', field: 'ed_approve_remarks', minWidth: 250, wrapText: true }
   ])
 
   // //column title setting
@@ -795,7 +775,7 @@ const OmApproval = () => {
         sx={{
           width: '100%',
           display: 'flex',
-          flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
+          flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' }
         }}
       >
         <Box sx={{ display: 'flex' }}>

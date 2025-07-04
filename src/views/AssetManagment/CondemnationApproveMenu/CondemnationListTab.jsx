@@ -27,7 +27,7 @@ const CondemnationListTab = ({ menuRightsList, empid, empdept }) => {
               m: 0.5,
               pl: 1,
               fontFamily: 'Arial',
-              fontSize: 14,
+              fontSize: 14
             }}
             text={`${level_name}  Condemnation Approval`}
           />
@@ -41,7 +41,7 @@ const CondemnationListTab = ({ menuRightsList, empid, empdept }) => {
           size="sm"
           sx={{
             display: 'flex',
-            bgcolor: 'white',
+            bgcolor: 'white'
           }}
         >
           <TabList
@@ -52,7 +52,7 @@ const CondemnationListTab = ({ menuRightsList, empid, empdept }) => {
                 flex: 'initial',
                 bgcolor: 'white',
                 '&:hover': {
-                  bgcolor: 'white',
+                  bgcolor: 'white'
                 },
                 [`&.Mui-selected`]: {
                   color: 'primary.plainColor',
@@ -61,10 +61,10 @@ const CondemnationListTab = ({ menuRightsList, empid, empdept }) => {
                     height: 20,
                     borderTopLeftRadius: 3,
                     borderTopRightRadius: 3,
-                    bgcolor: 'primary.500',
-                  },
-                },
-              },
+                    bgcolor: 'primary.500'
+                  }
+                }
+              }
             }}
           >
             <Box sx={{ flex: 1, display: 'flex', gap: 1, mb: 1, ml: 1 }}>
@@ -84,8 +84,8 @@ const CondemnationListTab = ({ menuRightsList, empid, empdept }) => {
                     color: 'white',
                     backgroundColor: '#6B5F5A ',
                     boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.2)',
-                    transform: 'scale(1.02)',
-                  },
+                    transform: 'scale(1.02)'
+                  }
                 }}
               >
                 Pending Approvals
@@ -106,8 +106,8 @@ const CondemnationListTab = ({ menuRightsList, empid, empdept }) => {
                     color: 'white',
                     backgroundColor: '#6B5F5A ',
                     boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.2)',
-                    transform: 'scale(1.02)',
-                  },
+                    transform: 'scale(1.02)'
+                  }
                 }}
               >
                 Condemnation List

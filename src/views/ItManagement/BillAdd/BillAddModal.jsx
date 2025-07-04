@@ -1,13 +1,4 @@
-import {
-  Box,
-  Button,
-  Checkbox,
-  CssVarsProvider,
-  Modal,
-  ModalDialog,
-  Textarea,
-  Tooltip,
-} from '@mui/joy'
+import { Box, Button, Checkbox, CssVarsProvider, Modal, ModalDialog, Textarea, Tooltip } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined'
 import ItBillCategoryList from 'src/views/CommonSelectCode/ItBillCategoryList'
@@ -140,10 +131,9 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
     bill_date: '',
     bill_due_date: '',
     bill_paid_date: '',
-    bill_description: '',
+    bill_description: ''
   })
-  const { bill_amount, bill_date, bill_due_date, bill_paid_date, bill_description, bill_number } =
-    otherBill
+  const { bill_amount, bill_date, bill_due_date, bill_paid_date, bill_description, bill_number } = otherBill
 
   const MastBillUpdate = useCallback(
     e => {
@@ -160,7 +150,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
       bill_tariff: tarrif === 0 ? null : tarrif,
       bill_cug_status: cugStatus === true ? 1 : 0,
       bill_cug_simtype: simType === 0 ? null : simType,
-      create_user: id,
+      create_user: id
     }
   }, [billName, billCategory, tarrif, cugStatus, simType, id])
 
@@ -177,7 +167,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
       bill_description: bill_description === '' ? null : bill_description,
       am_item_map_slno: item_slno === 0 ? null : item_slno,
       supplier_details: suppliersList === 0 ? null : suppliersList,
-      create_user: id,
+      create_user: id
     }
   }, [
     billName,
@@ -191,7 +181,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
     bill_number,
     item_slno,
     suppliersList,
-    id,
+    id
   ])
 
   const handleFileChange = useCallback(
@@ -207,7 +197,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
     const options = {
       maxSizeMB: 1,
       maxWidthOrHeight: 1920,
-      useWebWorker: true,
+      useWebWorker: true
     }
     const compressedFile = await imageCompression(imageFile, options)
     return compressedFile
@@ -234,7 +224,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
         const asset_number = parseInt(assetno)
         const postdata = {
           item_asset_no: starts,
-          item_asset_no_only: asset_number,
+          item_asset_no_only: asset_number
         }
         const getAssetdata = async postdata => {
           const result = await axioslogin.post('/PasswordManagementMain/getAssetNo', postdata)
@@ -270,10 +260,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
           bill_date !== '' &&
           bill_due_date !== ''
         ) {
-          if (
-            (payedStatus === true && bill_paid_date !== '') ||
-            (payedStatus === false && bill_paid_date === '')
-          ) {
+          if ((payedStatus === true && bill_paid_date !== '') || (payedStatus === false && bill_paid_date === '')) {
             const InsertOtherBill = async InsertOtherBills => {
               const result = await axioslogin.post('/ItBillAdd/otherBillinsert', InsertOtherBills)
               return result.data
@@ -291,15 +278,11 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
                   }
                 }
                 // Use the Axios instance and endpoint that matches your server setup
-                const uploadResult = await axioslogin.post(
-                  '/ItImageUpload/uploadFile/Others',
-                  formData,
-                  {
-                    headers: {
-                      'Content-Type': 'multipart/form-data',
-                    },
+                const uploadResult = await axioslogin.post('/ItImageUpload/uploadFile/Others', formData, {
+                  headers: {
+                    'Content-Type': 'multipart/form-data'
                   }
-                )
+                })
 
                 return uploadResult.data
               } catch (error) {
@@ -380,7 +363,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
       bill_paid_date,
       payedStatus,
       billCategoryName,
-      simType,
+      simType
     ]
   )
 
@@ -395,7 +378,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
           justifyContent: 'center',
           alignItems: 'center',
           pl: 1,
-          borderRadius: 10,
+          borderRadius: 10
         }}
       >
         <ModalDialog variant="outlined" sx={{ width: 850 }}>
@@ -411,8 +394,8 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
                     height: 25,
                     width: 25,
                     '&:hover': {
-                      color: '#5C97B8',
-                    },
+                      color: '#5C97B8'
+                    }
                   }}
                   onClick={handleClose}
                 />
@@ -429,7 +412,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
                   bgcolor: '#183A53',
                   color: 'white',
                   border: 1,
-                  borderRadius: 10,
+                  borderRadius: 10
                 }}
               />
               Bill Category<span style={{ color: '#74112F' }}>*</span>
@@ -450,7 +433,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
                   bgcolor: '#183A53',
                   color: 'white',
                   border: 1,
-                  borderRadius: 10,
+                  borderRadius: 10
                 }}
               />
               Tariff<span style={{ color: '#74112F' }}>*</span>
@@ -469,7 +452,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
                       bgcolor: '#183A53',
                       color: 'white',
                       border: 1,
-                      borderRadius: 10,
+                      borderRadius: 10
                     }}
                   />
                   Bill Name<span style={{ color: '#74112F' }}>*</span>
@@ -502,7 +485,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
                       bgcolor: '#183A53',
                       color: 'white',
                       border: 1,
-                      borderRadius: 10,
+                      borderRadius: 10
                     }}
                   />
                   Bill Name<span style={{ color: '#74112F' }}>*</span>
@@ -529,9 +512,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
               <Box>
                 {billType === 3 ? (
                   <Box>
-                    <Paper
-                      sx={{ mx: 2, borderRadius: 0, bgcolor: '#F0F2F3', boxShadow: '0px 0px 3px' }}
-                    >
+                    <Paper sx={{ mx: 2, borderRadius: 0, bgcolor: '#F0F2F3', boxShadow: '0px 0px 3px' }}>
                       <Box sx={{ flex: 1, mt: 1.5, fontWeight: 600, px: 0.5, color: '#54627B' }}>
                         <ManageSearchIcon
                           sx={{
@@ -541,7 +522,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
                             bgcolor: '#183A53',
                             color: 'white',
                             border: 1,
-                            borderRadius: 10,
+                            borderRadius: 10
                           }}
                         />
                         Asset No.<span style={{ color: '#74112F' }}>*</span>
@@ -560,10 +541,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
                         </Box>
 
                         <Box sx={{ mr: 0.8, bgcolor: '#868B8E', px: 0.5, pt: 0.3 }}>
-                          <SearchRoundedIcon
-                            sx={{ color: 'white', cursor: 'pointer' }}
-                            onClick={searchAssetNo}
-                          />
+                          <SearchRoundedIcon sx={{ color: 'white', cursor: 'pointer' }} onClick={searchAssetNo} />
                         </Box>
                       </Box>
                       {deviceName !== '' ? (
@@ -575,7 +553,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
                               fontWeight: 600,
                               pl: 0.5,
                               mb: 0.3,
-                              color: '#54627B',
+                              color: '#54627B'
                             }}
                           >
                             <SpeakerPhoneIcon
@@ -586,7 +564,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
                                 bgcolor: '#183A53',
                                 color: 'white',
                                 border: 1,
-                                borderRadius: 10,
+                                borderRadius: 10
                               }}
                             />
                             Device Name
@@ -597,7 +575,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
                               px: 0.5,
                               bgcolor: 'white',
                               mx: 0.8,
-                              borderColor: '#ADC4D7',
+                              borderColor: '#ADC4D7'
                             }}
                           >
                             {deviceName}
@@ -611,7 +589,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
                                 bgcolor: '#183A53',
                                 color: 'white',
                                 border: 1,
-                                borderRadius: 10,
+                                borderRadius: 10
                               }}
                             />
                             Location
@@ -622,7 +600,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
                               px: 0.5,
                               bgcolor: 'white',
                               mx: 0.8,
-                              borderColor: '#868B8E',
+                              borderColor: '#868B8E'
                             }}
                           >
                             {location}
@@ -640,16 +618,13 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
                           bgcolor: '#183A53',
                           color: 'white',
                           border: 1,
-                          borderRadius: 10,
+                          borderRadius: 10
                         }}
                       />
                       Supplier Name<span style={{ color: '#74112F' }}>*</span>
                     </Box>
                     <Box sx={{ flex: 1, mx: 2 }}>
-                      <ItBillsupplierDetailsList
-                        suppliersList={suppliersList}
-                        setSuppliersList={setSuppliersList}
-                      />
+                      <ItBillsupplierDetailsList suppliersList={suppliersList} setSuppliersList={setSuppliersList} />
                     </Box>
                     <Box sx={{ flex: 1, mt: 1.5, ml: 2, fontWeight: 600, color: '#183A53' }}>
                       <ReceiptLongIcon
@@ -660,7 +635,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
                           bgcolor: '#183A53',
                           color: 'white',
                           border: 1,
-                          borderRadius: 10,
+                          borderRadius: 10
                         }}
                       />
                       Bill Name<span style={{ color: '#74112F' }}>*</span>
@@ -689,7 +664,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
                           bgcolor: '#183A53',
                           color: 'white',
                           border: 1,
-                          borderRadius: 10,
+                          borderRadius: 10
                         }}
                       />
                       Bill Number/Invoice Number<span style={{ color: '#74112F' }}>*</span>
@@ -713,7 +688,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
                           bgcolor: '#183A53',
                           color: 'white',
                           border: 1,
-                          borderRadius: 10,
+                          borderRadius: 10
                         }}
                       />
                       Bill Description
@@ -742,7 +717,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
                           bgcolor: '#183A53',
                           color: 'white',
                           border: 1,
-                          borderRadius: 10,
+                          borderRadius: 10
                         }}
                       />
                       Bill Amount<span style={{ color: '#74112F' }}>*</span>
@@ -766,7 +741,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
                           bgcolor: '#183A53',
                           color: 'white',
                           border: 1,
-                          borderRadius: 10,
+                          borderRadius: 10
                         }}
                       />
                       Bill Date<span style={{ color: '#74112F' }}>*</span>
@@ -791,7 +766,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
                           bgcolor: '#183A53',
                           color: 'white',
                           border: 1,
-                          borderRadius: 10,
+                          borderRadius: 10
                         }}
                       />
                       Bill Due Date<span style={{ color: '#74112F' }}>*</span>
@@ -824,7 +799,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
                               bgcolor: '#183A53',
                               color: 'white',
                               border: 1,
-                              borderRadius: 10,
+                              borderRadius: 10
                             }}
                           />
                           Bill Payed Date<span style={{ color: '#74112F' }}>*</span>
@@ -851,7 +826,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
                         borderRadius: '2px',
                         minHeight: 60,
                         flex: 1,
-                        mx: 2,
+                        mx: 2
                       }}
                     >
                       <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center', mt: 2 }}>
@@ -883,7 +858,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
                                 my: 0.5,
                                 px: 1,
                                 border: 1,
-                                borderColor: '#0C2D48',
+                                borderColor: '#0C2D48'
                               }}
                               key={index}
                             >
@@ -893,7 +868,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
                                 sx={{
                                   cursor: 'pointer',
                                   width: 20,
-                                  '&:hover': { color: '#055C9D' },
+                                  '&:hover': { color: '#055C9D' }
                                 }}
                                 onClick={() => handleRemoveFile(index)}
                               />
@@ -913,7 +888,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
                           bgcolor: '#183A53',
                           color: 'white',
                           border: 1,
-                          borderRadius: 10,
+                          borderRadius: 10
                         }}
                       />
                       Bill Name<span style={{ color: '#74112F' }}>*</span>
@@ -942,7 +917,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
                           bgcolor: '#183A53',
                           color: 'white',
                           border: 1,
-                          borderRadius: 10,
+                          borderRadius: 10
                         }}
                       />
                       Bill Number/Invoice Number<span style={{ color: '#74112F' }}>*</span>
@@ -966,7 +941,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
                           bgcolor: '#183A53',
                           color: 'white',
                           border: 1,
-                          borderRadius: 10,
+                          borderRadius: 10
                         }}
                       />
                       Bill Description
@@ -995,7 +970,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
                           bgcolor: '#183A53',
                           color: 'white',
                           border: 1,
-                          borderRadius: 10,
+                          borderRadius: 10
                         }}
                       />
                       Bill Amount<span style={{ color: '#74112F' }}>*</span>
@@ -1019,7 +994,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
                           bgcolor: '#183A53',
                           color: 'white',
                           border: 1,
-                          borderRadius: 10,
+                          borderRadius: 10
                         }}
                       />
                       Bill Date<span style={{ color: '#74112F' }}>*</span>
@@ -1044,7 +1019,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
                           bgcolor: '#183A53',
                           color: 'white',
                           border: 1,
-                          borderRadius: 10,
+                          borderRadius: 10
                         }}
                       />
                       Bill Due Date<span style={{ color: '#74112F' }}>*</span>
@@ -1077,7 +1052,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
                               bgcolor: '#183A53',
                               color: 'white',
                               border: 1,
-                              borderRadius: 10,
+                              borderRadius: 10
                             }}
                           />
                           Bill Payed Date<span style={{ color: '#74112F' }}>*</span>
@@ -1104,7 +1079,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
                         borderRadius: '2px',
                         minHeight: 60,
                         flex: 1,
-                        mx: 2,
+                        mx: 2
                       }}
                     >
                       <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center', mt: 2 }}>
@@ -1136,7 +1111,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
                                 my: 0.5,
                                 px: 1,
                                 border: 1,
-                                borderColor: '#0C2D48',
+                                borderColor: '#0C2D48'
                               }}
                               key={index}
                             >
@@ -1146,7 +1121,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
                                 sx={{
                                   cursor: 'pointer',
                                   width: 20,
-                                  '&:hover': { color: '#055C9D' },
+                                  '&:hover': { color: '#055C9D' }
                                 }}
                                 onClick={() => handleRemoveFile(index)}
                               />
@@ -1180,7 +1155,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
                               bgcolor: '#183A53',
                               color: 'white',
                               border: 1,
-                              borderRadius: 10,
+                              borderRadius: 10
                             }}
                           />
                           Sim Type<span style={{ color: '#74112F' }}>*</span>

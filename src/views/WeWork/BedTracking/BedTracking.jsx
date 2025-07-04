@@ -71,7 +71,7 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode, nsdesc }) => {
     bin: false,
     wood: false,
     tab: false,
-    mat: false,
+    mat: false
   })
 
   const roomamenties = useMemo(() => {
@@ -86,7 +86,7 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode, nsdesc }) => {
       bin: ameties.bin === true ? 8 : 0,
       wood: ameties.wood === true ? 9 : 0,
       tab: ameties.tab === true ? 10 : 0,
-      mat: ameties.mat === true ? 11 : 0,
+      mat: ameties.mat === true ? 11 : 0
     }
   }, [
     ameties.sofaa,
@@ -99,7 +99,7 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode, nsdesc }) => {
     ameties.bin,
     ameties.wood,
     ameties.tab,
-    ameties.mat,
+    ameties.mat
   ])
   const getStatus = useCallback(e => {
     setcounstatus(e.target.value)
@@ -129,7 +129,7 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode, nsdesc }) => {
       bin: false,
       wood: false,
       tab: false,
-      mat: false,
+      mat: false
     }
   }, [])
 
@@ -161,7 +161,7 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode, nsdesc }) => {
       counciling_remarks: counstatus,
       sfa_mfa_clearence: sfa,
       bystander_room_retain_remark: room,
-      bd_code: bedcode,
+      bd_code: bedcode
     }
   }, [
     id,
@@ -178,7 +178,7 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode, nsdesc }) => {
     bedcode,
     sfaStatus,
     cstatus,
-    rmstatus,
+    rmstatus
   ])
 
   const rowSelect = useCallback(
@@ -194,7 +194,7 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode, nsdesc }) => {
 
       const postdata1 = {
         trasfer_to: ns_code,
-        ip_no: ip_no,
+        ip_no: ip_no
       }
 
       const beddetl = async () => {
@@ -210,7 +210,7 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode, nsdesc }) => {
             remarks,
             sfa_mfa_clearence,
             room_amenties,
-            sfa_mfa_status,
+            sfa_mfa_status
           } = data[0]
           const obj1 = JSON.parse(room_amenties)
           const { sofaa, chair, card, almirah, cup, arm, kit, bin, wood, tab, mat } = obj1
@@ -225,7 +225,7 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode, nsdesc }) => {
             bin: bin === 8 ? true : false,
             wood: wood === 9 ? true : false,
             tab: tab === 10 ? true : false,
-            mat: mat === 11 ? true : false,
+            mat: mat === 11 ? true : false
           }
           setrmstatus(bystander_room_retain === 1 ? true : false)
           setamenties(v)
@@ -314,7 +314,7 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode, nsdesc }) => {
         const shift = {
           transfer_from: nurse,
           trasfer_to: nurstation,
-          ip_no: ipno,
+          ip_no: ipno
         }
         const result = await axioslogin.post('/WeWork/bedtranSlno', shift)
         const { success, data } = result.data
@@ -333,7 +333,7 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode, nsdesc }) => {
             remarks: remark !== '' ? remark : null,
             counciling_remarks: counstatus,
             bystander_room_retain_remark: room,
-            trasf_slno: trasf_slno,
+            trasf_slno: trasf_slno
           }
           reset()
           Updatedata(patchdata)
@@ -359,7 +359,7 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode, nsdesc }) => {
       roomamenties,
       sfa,
       sfaStatus,
-      tranDate,
+      tranDate
     ]
   )
 
@@ -370,9 +370,7 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode, nsdesc }) => {
   return (
     <Paper square elevation={3} sx={{ dispaly: 'flex', justifyContent: 'column' }}>
       <Box>
-        <Typography
-          sx={{ backgroundColor: '#f0f3f5', fontFamily: 'Roboto', fontSize: 20, p: 1.5, pl: 2 }}
-        >
+        <Typography sx={{ backgroundColor: '#f0f3f5', fontFamily: 'Roboto', fontSize: 20, p: 1.5, pl: 2 }}>
           Bed Transfer
         </Typography>
       </Box>
@@ -432,13 +430,7 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode, nsdesc }) => {
                 </CssVarsProvider>
               </Box>
               <Box sx={{ width: { xl: '65%', lg: '50%', md: '54%', sm: '49%' } }}>
-                <TextFieldCustom
-                  size="sm"
-                  type="datetime-local"
-                  name="daily"
-                  value={Indate}
-                  onchange={getindate}
-                />
+                <TextFieldCustom size="sm" type="datetime-local" name="daily" value={Indate} onchange={getindate} />
               </Box>
             </Box>
           </Box>
@@ -470,13 +462,7 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode, nsdesc }) => {
                 </CssVarsProvider>
               </Box>
               <Box sx={{ width: { xl: '65%', lg: '50%', md: '54%', sm: '49%' }, height: 40 }}>
-                <TextFieldCustom
-                  size="sm"
-                  type="text"
-                  name="room"
-                  value={room}
-                  onchange={getroom}
-                />
+                <TextFieldCustom size="sm" type="text" name="room" value={room} onchange={getroom} />
               </Box>
             </Box>
           </Box>
@@ -539,13 +525,7 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode, nsdesc }) => {
                 </CssVarsProvider>
               </Box>
               <Box sx={{ display: 'flex', width: { xl: '65%', lg: '50%', md: '54%', sm: '49%' } }}>
-                <TextFieldCustom
-                  size="sm"
-                  type="text"
-                  name="counstatus"
-                  value={counstatus}
-                  onchange={getStatus}
-                />
+                <TextFieldCustom size="sm" type="text" name="counstatus" value={counstatus} onchange={getStatus} />
               </Box>
             </Box>
           </Box>
@@ -557,19 +537,11 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode, nsdesc }) => {
               </CssVarsProvider>
             </Box>
             <Box sx={{ display: 'flex', width: { xl: '50%', lg: '50%', md: '50%', sm: '65%' } }}>
-              <TextFieldCustom
-                size="sm"
-                type="text"
-                name="remark"
-                value={remark}
-                onchange={getremark}
-              />
+              <TextFieldCustom size="sm" type="text" name="remark" value={remark} onchange={getremark} />
             </Box>
           </Box>
           <Box>
-            <Box
-              sx={{ display: 'flex', width: { xl: '15%', lg: '20%', md: '40%', sm: '50%' }, pl: 2 }}
-            >
+            <Box sx={{ display: 'flex', width: { xl: '15%', lg: '20%', md: '40%', sm: '50%' }, pl: 2 }}>
               <CssVarsProvider>
                 <Typography>Basic room amenities:</Typography>
               </CssVarsProvider>
@@ -581,26 +553,14 @@ const BedTracking = ({ setclosebtn, ipno, nurse, bedcode, nsdesc }) => {
           <Box sx={{ display: 'flex', flexDirection: 'row', pl: 1 }}>
             <CustomeToolTip title="Save" placement="left">
               <Box sx={{ p: 1 }}>
-                <CusIconButton
-                  size="sm"
-                  variant="outlined"
-                  color="primary"
-                  clickable="true"
-                  onClick={submit}
-                >
+                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={submit}>
                   <LibraryAddIcon fontSize="small" />
                 </CusIconButton>
               </Box>
             </CustomeToolTip>
             <CustomeToolTip title="close" placement="left">
               <Box sx={{ p: 1 }}>
-                <CusIconButton
-                  size="sm"
-                  variant="outlined"
-                  color="primary"
-                  clickable="true"
-                  onClick={closwindow}
-                >
+                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={closwindow}>
                   <CloseIcon fontSize="small" />
                 </CusIconButton>
               </Box>

@@ -20,7 +20,7 @@ const PatSurvillenceView = ({ ipno, setclosebtn }) => {
       wrapText: true,
       autoHeight: true,
       width: 300,
-      filter: true,
+      filter: true
     },
     { headerName: 'Shift To', field: 'shift_to', wrapText: true, autoHeight: true, width: 300 },
     { headerName: 'Shift from', field: 'shift_from', width: 300, wrapText: true, autoHeight: true },
@@ -28,7 +28,7 @@ const PatSurvillenceView = ({ ipno, setclosebtn }) => {
     { headerName: 'Room', field: 'room_category' },
     { headerName: 'Bed Type', field: 'bed_type' },
     { headerName: 'Is BHRC', field: 'bhrc_patient', width: 200 },
-    { headerName: 'Payment', field: 'payment_mode' },
+    { headerName: 'Payment', field: 'payment_mode' }
   ])
 
   useEffect(() => {

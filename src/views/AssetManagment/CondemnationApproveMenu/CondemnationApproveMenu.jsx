@@ -14,7 +14,7 @@ const CondemnationApproveMenu = () => {
 
   const { data: menuRightsEmp = [], isLoading } = useQuery({
     queryKey: ['getCondemnationApprveRights', postEmp],
-    queryFn: () => getCondemnationApprovalRights(postEmp),
+    queryFn: () => getCondemnationApprovalRights(postEmp)
   })
 
   const [menuRightsList, setMenuRightsList] = useState(null)

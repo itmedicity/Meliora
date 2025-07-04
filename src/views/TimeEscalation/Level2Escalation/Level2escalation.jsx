@@ -8,7 +8,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Typography,
+  Typography
 } from '@mui/material'
 import React, { useEffect, useMemo, useState } from 'react'
 import CardCloseOnly from 'src/views/Components/CardCloseOnly'
@@ -39,7 +39,7 @@ const Level2escalation = () => {
   //state for spreading time esc map data
   const [esc, setEsc] = useState({
     esc_slno: '',
-    complaint_deptslno: '',
+    complaint_deptslno: ''
   })
   //state for table open on clicking counts
   const [ab, setAb] = useState(0)
@@ -53,7 +53,7 @@ const Level2escalation = () => {
       const { escalaion_slno, complaint_dept } = data[0]
       const frmdata = {
         esc_slno: escalaion_slno,
-        complaint_deptslno: complaint_dept,
+        complaint_deptslno: complaint_dept
       }
       setEsc(frmdata)
       setBc(1)
@@ -70,7 +70,7 @@ const Level2escalation = () => {
   const timeescalationData = useMemo(() => {
     return {
       esc_slno: esc_slno,
-      complaint_deptslno: complaint_deptslno,
+      complaint_deptslno: complaint_deptslno
     }
   }, [esc_slno, complaint_deptslno])
   const [check, setCheck] = useState(1)
@@ -108,7 +108,7 @@ const Level2escalation = () => {
       const { escalaion_slno, complaint_dept } = escmap[0]
       const from = {
         esc_slno: escalaion_slno,
-        complaint_deptslno: complaint_dept,
+        complaint_deptslno: complaint_dept
       }
       setIt(from)
     }
@@ -120,7 +120,7 @@ const Level2escalation = () => {
       const { escalaion_slno, complaint_dept } = escmap[1]
       const from1 = {
         esc_slno: escalaion_slno,
-        complaint_deptslno: complaint_dept,
+        complaint_deptslno: complaint_dept
       }
       setMain(from1)
     }
@@ -129,14 +129,14 @@ const Level2escalation = () => {
   const postdata = useMemo(() => {
     return {
       esc_slno: it.esc_slno,
-      complaint_deptslno: it.complaint_deptslno,
+      complaint_deptslno: it.complaint_deptslno
     }
   }, [it])
   //for maintenance complaints counts
   const postdata2 = useMemo(() => {
     return {
       esc_slno: main.esc_slno,
-      complaint_deptslno: main.complaint_deptslno,
+      complaint_deptslno: main.complaint_deptslno
     }
   }, [main])
   //reduce function  for getting counts
@@ -150,7 +150,7 @@ const Level2escalation = () => {
   const Counts = useSelector(state => {
     return {
       countmain: state.getEscalationMappingLvl2Main.escalationMappingLvl2Main || 0,
-      countit: state.getEscalationMappingLvl2It.escalationMappingLvl2It || 0,
+      countit: state.getEscalationMappingLvl2It.escalationMappingLvl2It || 0
     }
   })
   // destrucuring and setting into another states
@@ -180,7 +180,7 @@ const Level2escalation = () => {
     { esc_slno: '12', esc_activity: 'FACILITY ARRANGEMENTS', count: 0 },
     { esc_slno: '13', esc_activity: 'INSURANCE DOCUMENTS', count: 0 },
     { esc_slno: '14', esc_activity: 'SFA CLEARANCE', count: 0 },
-    { esc_slno: '15', esc_activity: 'DISCHARGE CLEANING', count: 0 },
+    { esc_slno: '15', esc_activity: 'DISCHARGE CLEANING', count: 0 }
   ]
   // for notification windw when there no data in const complaints
   useEffect(() => {
@@ -192,14 +192,14 @@ const Level2escalation = () => {
     <CardCloseOnly title="Escalation Level 2">
       <Box
         sx={{
-          p: 1,
+          p: 1
         }}
       >
         <Paper square elevation={3} sx={{ p: 2 }}>
           <Box sx={{}}>
             <Box
               sx={{
-                display: 'flex',
+                display: 'flex'
               }}
             >
               <TableContainer>
@@ -210,14 +210,14 @@ const Level2escalation = () => {
                       sx={{
                         border: '1px solid',
                         borderColor: '#F0F3F5',
-                        P: 0.5,
+                        P: 0.5
                       }}
                     >
                       <TableCell
                         sx={{
                           p: 0.7,
                           fontWeight: 'bold',
-                          color: 'gray',
+                          color: 'gray'
                         }}
                       >
                         {/* Time Level */}
@@ -225,7 +225,7 @@ const Level2escalation = () => {
                         <Typography
                           sx={{
                             fontSize: 14,
-                            fontWeight: 'bold',
+                            fontWeight: 'bold'
                           }}
                         >
                           {' '}
@@ -242,13 +242,13 @@ const Level2escalation = () => {
                           border: '1px solid',
                           borderColor: '#F0F3F5',
                           p: 0.5,
-                          overflow: 'hidden',
+                          overflow: 'hidden'
                         }}
                       ></TableCell>
                       <TableCell
                         rowSpan="70"
                         sx={{
-                          width: '100%',
+                          width: '100%'
                         }}
                       >
                         <Box
@@ -256,12 +256,10 @@ const Level2escalation = () => {
                             height: 1000,
                             width: '100%',
                             display: 'flex',
-                            flexDirection: 'column',
+                            flexDirection: 'column'
                           }}
                         >
-                          {ab === 1 && complaints.length !== 0 ? (
-                            <Level2Table complaints={complaints} />
-                          ) : null}
+                          {ab === 1 && complaints.length !== 0 ? <Level2Table complaints={complaints} /> : null}
                         </Box>
                       </TableCell>
                     </TableRow>
@@ -276,7 +274,7 @@ const Level2escalation = () => {
                               width: '20%',
                               border: '1px solid',
                               borderColor: '#F0F3F5',
-                              p: 1,
+                              p: 1
                             }}
                           >
                             <Grid container spacing={2}>
@@ -290,17 +288,16 @@ const Level2escalation = () => {
                                 sx={{
                                   p: 0,
                                   mt: 0.5,
-                                  height: 20,
+                                  height: 20
                                 }}
                               >
                                 <Typography
                                   sx={{
                                     fontSize: 15.5,
-                                    mt: 1,
+                                    mt: 1
                                   }}
                                 >
-                                  {val.esc_activity.charAt(0).toUpperCase() +
-                                    val.esc_activity.slice(1).toLowerCase()}
+                                  {val.esc_activity.charAt(0).toUpperCase() + val.esc_activity.slice(1).toLowerCase()}
                                 </Typography>
                               </Grid>
                               <Grid
@@ -311,7 +308,7 @@ const Level2escalation = () => {
                                 md={4}
                                 lg={4}
                                 sx={{
-                                  mb: 1,
+                                  mb: 1
                                 }}
                               >
                                 <CssVarsProvider>
@@ -320,7 +317,7 @@ const Level2escalation = () => {
                                     size="sm"
                                     color="primary"
                                     sx={{
-                                      mt: 0.8,
+                                      mt: 0.8
                                     }}
                                     onClick={e => getData(val.esc_slno)}
                                   >

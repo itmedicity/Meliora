@@ -3,7 +3,7 @@ const { FETCH_PASSWORD_CREDENTIAL } = ActionTyps
 //intial state
 const credentialType = {
   credentialList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Building action type check then payload set to the state and loading status set as true */
 export const getPasswordCredential = (state = credentialType, { type, payload }) => {

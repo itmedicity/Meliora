@@ -1,4 +1,3 @@
-
 import CmReplyModal from '../../AssignComplaint/Queries/CmReplyModal'
 import { Box, CircularProgress, CssVarsProvider, Menu, Tooltip, Typography } from '@mui/joy'
 import React, { memo, useCallback, useState } from 'react'
@@ -53,9 +52,7 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
     setimageViewOpen(true)
     setfileDetails(val)
     try {
-      const result = await axioslogin.get(
-        `/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`
-      )
+      const result = await axioslogin.get(`/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`)
       const { success } = result.data
       if (success === 1) {
         const data = result.data
@@ -153,48 +150,30 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                 borderColor: 'lightgray',
                 pt: 1.5,
                 bgcolor: 'white',
-                gap: 1,
+                gap: 1
               }}
             >
               <Box sx={{ width: 50, fontWeight: 600, color: '#444444', fontSize: 12 }}></Box>
-              <Box sx={{ width: 90, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-                Ticket No.
-              </Box>
+              <Box sx={{ width: 90, fontWeight: 600, color: '#444444', fontSize: 12 }}>Ticket No.</Box>
               <Box
                 sx={{
                   width: 155,
                   fontWeight: 600,
                   color: '#444444',
                   fontSize: 12,
-                  textAlign: 'center',
+                  textAlign: 'center'
                 }}
               >
                 Action
               </Box>
-              <Box sx={{ width: 160, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-                Complaint Type
-              </Box>
-              <Box sx={{ width: 590, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-                Describtion
-              </Box>
-              <Box sx={{ width: 178, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-                Complaint To
-              </Box>
-              <Box sx={{ width: 220, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-                Complaint From
-              </Box>
-              <Box sx={{ width: 283, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-                Location
-              </Box>
-              <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-                Location Details
-              </Box>
-              <Box sx={{ width: 200, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-                Complaint Date
-              </Box>
-              <Box sx={{ width: 180, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-                Registered Employee
-              </Box>
+              <Box sx={{ width: 160, fontWeight: 600, color: '#444444', fontSize: 12 }}>Complaint Type</Box>
+              <Box sx={{ width: 590, fontWeight: 600, color: '#444444', fontSize: 12 }}>Describtion</Box>
+              <Box sx={{ width: 178, fontWeight: 600, color: '#444444', fontSize: 12 }}>Complaint To</Box>
+              <Box sx={{ width: 220, fontWeight: 600, color: '#444444', fontSize: 12 }}>Complaint From</Box>
+              <Box sx={{ width: 283, fontWeight: 600, color: '#444444', fontSize: 12 }}>Location</Box>
+              <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12 }}>Location Details</Box>
+              <Box sx={{ width: 200, fontWeight: 600, color: '#444444', fontSize: 12 }}>Complaint Date</Box>
+              <Box sx={{ width: 180, fontWeight: 600, color: '#444444', fontSize: 12 }}>Registered Employee</Box>
             </Box>
             <Virtuoso
               style={{ height: '28vh' }}
@@ -213,7 +192,7 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                       minHeight: 35,
                       bgcolor: val.priority_check === 1 ? '#B7CFDC' : 'white',
                       pt: 0.5,
-                      gap: 1,
+                      gap: 1
                     }}
                   >
                     {val.compalint_status === 1 ? (
@@ -229,7 +208,7 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                           boxShadow: '0px 4px 10px rgba(138, 148, 148, 0.2)',
                           borderRadius: '50%',
                           cursor: 'pointer',
-                          height: 28,
+                          height: 28
                         }}
                         onClick={event => handleClick(event, val)}
                       >
@@ -249,7 +228,7 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                             boxShadow: '0px 4px 10px rgba(138, 148, 148, 0.2)',
                             borderRadius: '50%',
                             cursor: 'pointer',
-                            height: 28,
+                            height: 28
                           }}
                         >
                           <PersonIcon sx={{ color: 'lightgrey', fontSize: 20 }} />
@@ -281,7 +260,7 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                                     mb: 0.5,
                                     color: 'black',
                                     fontWeight: 600,
-                                    textAlign: 'center',
+                                    textAlign: 'center'
                                   }}
                                 >
                                   Not Updated
@@ -299,7 +278,7 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                             const formattedTime = [
                               days > 0 ? `${days} day${days > 1 ? 's' : ''}` : '',
                               hours > 0 ? `${hours} hr${hours > 1 ? 's' : ''}` : '',
-                              minutes > 0 ? `${minutes} min` : '',
+                              minutes > 0 ? `${minutes} min` : ''
                             ]
                               .filter(Boolean)
                               .join(' ')
@@ -312,7 +291,7 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                                     mb: 0.5,
                                     color: 'Darkred',
                                     fontWeight: 500,
-                                    textAlign: 'center',
+                                    textAlign: 'center'
                                   }}
                                 >
                                   Time Exceeded by {formattedTime}
@@ -326,7 +305,7 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                                   mb: 0.5,
                                   color: '#274472',
                                   fontWeight: 600,
-                                  textAlign: 'center',
+                                  textAlign: 'center'
                                 }}
                               >
                                 Time Remaining: {formattedTime}
@@ -350,9 +329,7 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                       )}
                     </Menu>
 
-                    <Box sx={{ fontWeight: 600, fontSize: 14, width: 90 }}>
-                      {val.complaint_slno}
-                    </Box>
+                    <Box sx={{ fontWeight: 600, fontSize: 14, width: 90 }}>{val.complaint_slno}</Box>
                     <Box sx={{ width: 165, display: 'flex', gap: 0.5, justifyContent: 'center' }}>
                       {val.compalint_status === 1 ? (
                         <EditIcon
@@ -362,7 +339,7 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                             p: 0.4,
                             width: 28,
                             height: 28,
-                            color: 'lightgrey',
+                            color: 'lightgrey'
                           }}
                         />
                       ) : (
@@ -375,7 +352,7 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                             height: 28,
                             cursor: 'pointer',
                             color: '#145DA0',
-                            '&:hover': { color: '#0C2D48' },
+                            '&:hover': { color: '#0C2D48' }
                           }}
                           onClick={() => rowSelect(val)}
                         />
@@ -392,7 +369,7 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                                 height: 28,
                                 color: '#41729F',
                                 cursor: 'pointer',
-                                '&:hover': { color: '#274472' },
+                                '&:hover': { color: '#274472' }
                               }}
                               onClick={() => fileView(val)}
                             />
@@ -406,7 +383,7 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                             p: 0.4,
                             width: 28,
                             height: 28,
-                            color: 'lightgrey',
+                            color: 'lightgrey'
                           }}
                         />
                       )}
@@ -422,7 +399,7 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                                   width: 28,
                                   height: 28,
                                   color: '#BF4A32',
-                                  animation: `${blinkAnimation} 1s infinite`,
+                                  animation: `${blinkAnimation} 1s infinite`
                                 }}
                               />
                             ) : val.cm_query_status === 2 ? (
@@ -434,7 +411,7 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                                   width: 28,
                                   height: 28,
                                   color: '#2B82BF',
-                                  animation: `${blinkAnimation} 1s infinite`,
+                                  animation: `${blinkAnimation} 1s infinite`
                                 }}
                               />
                             ) : (
@@ -445,7 +422,7 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                                   p: 0.4,
                                   width: 28,
                                   height: 28,
-                                  color: '#647C90',
+                                  color: '#647C90'
                                 }}
                               />
                             )}
@@ -463,7 +440,7 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                                 width: 28,
                                 height: 28,
                                 color: '#4C5270',
-                                cursor: 'pointer',
+                                cursor: 'pointer'
                               }}
                               onClick={() => AssetView(val)}
                             />
@@ -480,7 +457,7 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                                 height: 28,
                                 p: 0.4,
                                 color: 'lightgrey',
-                                cursor: 'pointer',
+                                cursor: 'pointer'
                               }}
                             />
                           </Tooltip>
@@ -494,31 +471,27 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                     <Box sx={{ width: 295, fontSize: 13, pl: 0.5 }}>
                       {val.rm_room_name}
                       {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name
-                        ? ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
-                        }${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
-                        }${val.rm_floor_name ? val.rm_floor_name : ''})`
+                        ? ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${
+                            val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
+                          }${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${
+                            val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
+                          }${val.rm_floor_name ? val.rm_floor_name : ''})`
                         : 'Not Updated'}
                     </Box>
-                    <Box sx={{ width: 300, fontSize: 13, pl: 1 }}>
-                      {val.cm_complaint_location || 'Not Updated'}
-                    </Box>
+                    <Box sx={{ width: 300, fontSize: 13, pl: 1 }}>{val.cm_complaint_location || 'Not Updated'}</Box>
                     <Box sx={{ width: 235, fontSize: 13, pl: 2 }}>
                       {val.compalint_date
                         ? format(new Date(val.compalint_date), 'dd MMM yyyy,  hh:mm a')
                         : 'Invalid Date'}
                     </Box>
-                    <Box sx={{ width: 172, fontSize: 12 }}>
-                      {val.ticket_reg_employee || 'Not Updated'}
-                    </Box>
+                    <Box sx={{ width: 172, fontSize: 12 }}>{val.ticket_reg_employee || 'Not Updated'}</Box>
                   </Box>
                 )
               }}
             />
           </Box>
         ) : (
-          <Box
-            sx={{ fontWeight: 800, fontSize: 20, color: 'lightgrey', textAlign: 'center', my: 4 }}
-          >
+          <Box sx={{ fontWeight: 800, fontSize: 20, color: 'lightgrey', textAlign: 'center', my: 4 }}>
             Empty Pending Tickets
           </Box>
         )}

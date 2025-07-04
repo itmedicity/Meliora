@@ -35,7 +35,7 @@ const YearlyVerificationTable = ({ setYearflag }) => {
     return {
       start_date: moment(new Date(fromdate)).format('YYYY-01-01'),
       end_date: moment(new Date(todate)).format('YYYY-01-01'),
-      empdept: empdept,
+      empdept: empdept
     }
   }, [fromdate, todate, empdept])
 
@@ -72,7 +72,7 @@ const YearlyVerificationTable = ({ setYearflag }) => {
           beforeSizeKB: (val.backup_size_before / 1024).toFixed(2) + ' KB',
           afterSizeKB: (val.backup_size_after / 1024).toFixed(2) + ' KB',
           em_name: val.em_name,
-          remarks: val.remarks === null ? 'Nil' : val.remarks,
+          remarks: val.remarks === null ? 'Nil' : val.remarks
         }
       })
       setExcelflag(4)
@@ -104,12 +104,7 @@ const YearlyVerificationTable = ({ setYearflag }) => {
                     renderInput={({ inputRef, inputProps, InputProps }) => (
                       <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <CssVarsProvider>
-                          <Input
-                            ref={inputRef}
-                            {...inputProps}
-                            style={{ width: 150 }}
-                            disabled={true}
-                          />
+                          <Input ref={inputRef} {...inputProps} style={{ width: 150 }} disabled={true} />
                         </CssVarsProvider>
                         {InputProps?.endAdornment}
                       </Box>
@@ -131,12 +126,7 @@ const YearlyVerificationTable = ({ setYearflag }) => {
                     renderInput={({ inputRef, inputProps, InputProps }) => (
                       <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <CssVarsProvider>
-                          <Input
-                            ref={inputRef}
-                            {...inputProps}
-                            style={{ width: 150 }}
-                            disabled={true}
-                          />
+                          <Input ref={inputRef} {...inputProps} style={{ width: 150 }} disabled={true} />
                         </CssVarsProvider>
                         {InputProps?.endAdornment}
                       </Box>
@@ -156,7 +146,7 @@ const YearlyVerificationTable = ({ setYearflag }) => {
                     cursor: 'pointer',
                     paddingBottom: 1,
                     BorderAllRounded: 5,
-                    color: 'black',
+                    color: 'black'
                   }}
                   onClick={SearchDetails}
                 >
@@ -175,7 +165,7 @@ const YearlyVerificationTable = ({ setYearflag }) => {
                     cursor: 'pointer',
                     paddingBottom: 1,
                     BorderAllRounded: 5,
-                    color: 'black',
+                    color: 'black'
                   }}
                   onClick={ExcelReportDetails}
                 >
@@ -184,10 +174,7 @@ const YearlyVerificationTable = ({ setYearflag }) => {
               </Box>
             </Box>
           </Paper>
-          <Box
-            variant="outlined"
-            sx={{ overflow: 'auto', maxHeight: window.innerHeight - 220, mt: 0.5 }}
-          >
+          <Box variant="outlined" sx={{ overflow: 'auto', maxHeight: window.innerHeight - 220, mt: 0.5 }}>
             <CssVarsProvider>
               <Table borderAxis="both" padding={'none'} stickyHeader style={{ width: 2500 }}>
                 <thead>

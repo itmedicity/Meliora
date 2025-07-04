@@ -3,7 +3,7 @@ const { FETCH_HIC_COMPLAINT_LIST } = ActionTyps
 //intial state
 const Hiccomplaints = {
   HiccomplaintsLists: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 export const setHICComplaintLists = (state = Hiccomplaints, { type, payload }) => {
   switch (type) {

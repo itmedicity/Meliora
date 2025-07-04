@@ -89,7 +89,7 @@ const DashBoardMain = () => {
               sx={{
                 display: 'flex',
                 width: '100%',
-                justifyContent: 'space-between',
+                justifyContent: 'space-between'
               }}
             >
               <Box
@@ -100,7 +100,7 @@ const DashBoardMain = () => {
                   borderRadius: 3,
                   resize: 'horizontal',
                   overflow: 'auto',
-                  pr: 2,
+                  pr: 2
                 }}
               >
                 <CssVarsProvider>
@@ -123,7 +123,7 @@ const DashBoardMain = () => {
                   borderRadius: 3,
                   overflow: 'hidden',
                   cursor: 'pointer',
-                  pr: 2,
+                  pr: 2
                 }}
               >
                 <CssVarsProvider>
@@ -145,7 +145,7 @@ const DashBoardMain = () => {
                   overflow: 'auto',
                   boxShadow: 10,
                   borderRadius: 3,
-                  cursor: 'pointer',
+                  cursor: 'pointer'
                 }}
               >
                 <CssVarsProvider>
@@ -162,21 +162,15 @@ const DashBoardMain = () => {
               </Box>
             </Box>
             <Box sx={{ display: 'flex', height: '60px' }}>
-              <Box sx={{ width: '33%', textAlign: 'center', fontWeight: 500 }}>
-                Travancore Medicity
-              </Box>
-              <Box sx={{ width: '33%', textAlign: 'center', fontWeight: 500 }}>
-                Travancore Medical College
-              </Box>
-              <Box sx={{ width: '33%', textAlign: 'center', fontWeight: 500 }}>
-                Travancore Nursing College
-              </Box>
+              <Box sx={{ width: '33%', textAlign: 'center', fontWeight: 500 }}>Travancore Medicity</Box>
+              <Box sx={{ width: '33%', textAlign: 'center', fontWeight: 500 }}>Travancore Medical College</Box>
+              <Box sx={{ width: '33%', textAlign: 'center', fontWeight: 500 }}>Travancore Nursing College</Box>
             </Box>
             <Box
               sx={{
                 display: 'flex',
                 width: '100%',
-                justifyContent: 'space-between',
+                justifyContent: 'space-between'
               }}
             >
               <Box
@@ -187,7 +181,7 @@ const DashBoardMain = () => {
                   borderRadius: 3,
                   resize: 'horizontal',
                   overflow: 'auto',
-                  p: 1,
+                  p: 1
                 }}
               >
                 <CssVarsProvider>
@@ -210,7 +204,7 @@ const DashBoardMain = () => {
                   borderRadius: 3,
                   overflow: 'auto',
                   p: 1,
-                  cursor: 'pointer',
+                  cursor: 'pointer'
                 }}
               >
                 <CssVarsProvider>
@@ -233,7 +227,7 @@ const DashBoardMain = () => {
                   borderRadius: 3,
                   overflow: 'auto',
                   p: 1,
-                  cursor: 'pointer',
+                  cursor: 'pointer'
                 }}
               >
                 <CssVarsProvider>
@@ -250,9 +244,7 @@ const DashBoardMain = () => {
               </Box>
             </Box>
             <Box sx={{ display: 'flex', height: '60px' }}>
-              <Box sx={{ width: '33%', textAlign: 'center', fontWeight: 500 }}>
-                Travancore dental college
-              </Box>
+              <Box sx={{ width: '33%', textAlign: 'center', fontWeight: 500 }}>Travancore dental college</Box>
               <Box sx={{ width: '33%', textAlign: 'center', fontWeight: 500 }}>Staff cotters</Box>
               <Box sx={{ width: '33%', textAlign: 'center', fontWeight: 500 }}>Doctors cotters</Box>
             </Box>
@@ -260,7 +252,7 @@ const DashBoardMain = () => {
               sx={{
                 display: 'flex',
                 width: '100%',
-                justifyContent: 'space-between',
+                justifyContent: 'space-between'
               }}
             >
               <Box
@@ -271,7 +263,7 @@ const DashBoardMain = () => {
                   borderRadius: 3,
                   overflow: 'auto',
                   p: 1,
-                  cursor: 'pointer',
+                  cursor: 'pointer'
                 }}
               >
                 <CssVarsProvider>
@@ -294,7 +286,7 @@ const DashBoardMain = () => {
                   borderRadius: 3,
                   overflow: 'auto',
                   p: 1,
-                  cursor: 'pointer',
+                  cursor: 'pointer'
                 }}
               >
                 <CssVarsProvider>
@@ -317,7 +309,7 @@ const DashBoardMain = () => {
                   borderRadius: 3,
                   overflow: 'auto',
                   p: 1,
-                  cursor: 'pointer',
+                  cursor: 'pointer'
                 }}
               >
                 <CssVarsProvider>
@@ -335,19 +327,15 @@ const DashBoardMain = () => {
             </Box>
             <Box sx={{ display: 'flex', height: '60px' }}>
               <Box sx={{ width: '33%', textAlign: 'center', fontWeight: 500 }}>Pg hostel</Box>
-              <Box sx={{ width: '33%', textAlign: 'center', fontWeight: 500 }}>
-                MBBS boys hostel
-              </Box>
-              <Box sx={{ width: '33%', textAlign: 'center', fontWeight: 500 }}>
-                MBBS girls hostel
-              </Box>
+              <Box sx={{ width: '33%', textAlign: 'center', fontWeight: 500 }}>MBBS boys hostel</Box>
+              <Box sx={{ width: '33%', textAlign: 'center', fontWeight: 500 }}>MBBS girls hostel</Box>
             </Box>
 
             <Box
               sx={{
                 display: 'flex',
                 width: '100%',
-                justifyContent: 'space-between',
+                justifyContent: 'space-between'
                 // backgroundColor: 'red'
               }}
             >
@@ -359,7 +347,7 @@ const DashBoardMain = () => {
                   boxShadow: 10,
                   borderRadius: 3,
                   p: 1,
-                  cursor: 'pointer',
+                  cursor: 'pointer'
                 }}
               >
                 <CssVarsProvider>
@@ -379,7 +367,7 @@ const DashBoardMain = () => {
                   width: '100%',
                   resize: 'horizontal',
                   overflow: 'auto',
-                  p: 1,
+                  p: 1
                 }}
               ></Box>
               <Box
@@ -387,14 +375,12 @@ const DashBoardMain = () => {
                   width: '100%',
                   resize: 'horizontal',
                   overflow: 'auto',
-                  p: 1,
+                  p: 1
                 }}
               ></Box>
             </Box>
             <Box sx={{ display: 'flex', height: '60px' }}>
-              <Box sx={{ width: '33%', textAlign: 'center', fontWeight: 500 }}>
-                Bsc. Nursing and staff hostel
-              </Box>
+              <Box sx={{ width: '33%', textAlign: 'center', fontWeight: 500 }}>Bsc. Nursing and staff hostel</Box>
             </Box>
           </Box>
           {floorList === 1 ? <DashBoardFloor /> : null}

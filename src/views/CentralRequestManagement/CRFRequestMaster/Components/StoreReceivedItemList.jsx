@@ -24,12 +24,12 @@ const StoreReceivedItemList = ({ storeReceived, empId, req_slno }) => {
   const {
     data: retunDetails,
     isLoading: isReturnLoading,
-    error: returnError,
+    error: returnError
   } = useQuery({
     queryKey: ['viewItemReturn', req_slno],
     queryFn: () => viewItemReturnDetails(req_slno),
     enabled: req_slno !== null,
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const displayData = useMemo(() => retunDetails, [retunDetails])
 
@@ -48,14 +48,12 @@ const StoreReceivedItemList = ({ storeReceived, empId, req_slno }) => {
             const latestIssuedDate = new Date(latest?.issued_date || 0)
             const currentIssuedDate = new Date(current.issued_date)
 
-            return currentReturnDate === latestReturnDate && currentIssuedDate > latestIssuedDate
-              ? current
-              : latest
+            return currentReturnDate === latestReturnDate && currentIssuedDate > latestIssuedDate ? current : latest
           }, null)
 
           return {
             ...val,
-            returnDetails: latestItem ? [latestItem] : [],
+            returnDetails: latestItem ? [latestItem] : []
           }
         })
 
@@ -78,7 +76,7 @@ const StoreReceivedItemList = ({ storeReceived, empId, req_slno }) => {
       } else {
         const patchdata = {
           user_received_status: 1,
-          po_itm_slno: po_itm_slno,
+          po_itm_slno: po_itm_slno
         }
         const updateStatus = async patchdata => {
           try {
@@ -134,12 +132,7 @@ const StoreReceivedItemList = ({ storeReceived, empId, req_slno }) => {
   return (
     <Fragment>
       {returnFlag === 1 ? (
-        <ReturnModal
-          returnData={returnData}
-          handleClose={handleCloseReturn}
-          open={returnModal}
-          empId={empId}
-        />
+        <ReturnModal returnData={returnData} handleClose={handleCloseReturn} open={returnModal} empId={empId} />
       ) : null}
       {notifyFlag === 1 ? (
         <ItemReturnViewModal
@@ -154,13 +147,7 @@ const StoreReceivedItemList = ({ storeReceived, empId, req_slno }) => {
         <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14 }}>
           Store Received Items
         </Typography>
-        <Table
-          aria-label="table with sticky header"
-          borderAxis="both"
-          padding={'none'}
-          stickyHeader
-          size="sm"
-        >
+        <Table aria-label="table with sticky header" borderAxis="both" padding={'none'} stickyHeader size="sm">
           <thead style={{ height: 4 }} size="small">
             <tr style={{ height: 4 }} size="small">
               <th
@@ -170,7 +157,7 @@ const StoreReceivedItemList = ({ storeReceived, empId, req_slno }) => {
                   width: 50,
                   textAlign: 'center',
                   backgroundColor: '#e3f2fd',
-                  fontSize: 13,
+                  fontSize: 13
                 }}
               >
                 Sl.No.
@@ -178,16 +165,10 @@ const StoreReceivedItemList = ({ storeReceived, empId, req_slno }) => {
               <th size="sm" style={{ width: 250, backgroundColor: '#e3f2fd', fontSize: 13, ml: 2 }}>
                 Item Description
               </th>
-              <th
-                size="sm"
-                style={{ width: 40, textAlign: 'center', backgroundColor: '#e3f2fd', fontSize: 13 }}
-              >
+              <th size="sm" style={{ width: 40, textAlign: 'center', backgroundColor: '#e3f2fd', fontSize: 13 }}>
                 Qty
               </th>
-              <th
-                size="sm"
-                style={{ width: 70, textAlign: 'center', backgroundColor: '#e3f2fd', fontSize: 13 }}
-              >
+              <th size="sm" style={{ width: 70, textAlign: 'center', backgroundColor: '#e3f2fd', fontSize: 13 }}>
                 Received Qty(Store)
               </th>
               <th
@@ -197,7 +178,7 @@ const StoreReceivedItemList = ({ storeReceived, empId, req_slno }) => {
                   width: 70,
                   textAlign: 'center',
                   backgroundColor: '#e3f2fd',
-                  fontSize: 13,
+                  fontSize: 13
                 }}
               >
                 Received Status(Store)
@@ -209,7 +190,7 @@ const StoreReceivedItemList = ({ storeReceived, empId, req_slno }) => {
                   width: 70,
                   textAlign: 'center',
                   backgroundColor: '#e3f2fd',
-                  fontSize: 13,
+                  fontSize: 13
                 }}
               >
                 Receive/Return(User)
@@ -221,7 +202,7 @@ const StoreReceivedItemList = ({ storeReceived, empId, req_slno }) => {
                   width: 70,
                   textAlign: 'center',
                   backgroundColor: '#e3f2fd',
-                  fontSize: 13,
+                  fontSize: 13
                 }}
               ></th>
             </tr>
@@ -231,14 +212,12 @@ const StoreReceivedItemList = ({ storeReceived, empId, req_slno }) => {
               <tr key={item.po_itm_slno}>
                 <td style={{ textAlign: 'center', fontSize: 13 }}>{ind + 1}</td>
                 <td style={{ fontSize: 12, pl: 1 }}>{item.item_name}</td>
-                <td style={{ textAlign: 'center', fontSize: 13, fontWeight: 650 }}>
-                  {item.item_qty}
-                </td>
+                <td style={{ textAlign: 'center', fontSize: 13, fontWeight: 650 }}>{item.item_qty}</td>
                 <td
                   style={{
                     textAlign: 'center',
                     color: item.received_qnty === item.item_qty ? '#59981A' : '#e65100',
-                    fontWeight: 650,
+                    fontWeight: 650
                   }}
                 >
                   {item.received_qnty}
@@ -251,7 +230,7 @@ const StoreReceivedItemList = ({ storeReceived, empId, req_slno }) => {
                         ? '#59981A'
                         : item.item_receive_status === 0
                         ? '#e65100'
-                        : '#0288d1',
+                        : '#0288d1'
                   }}
                 >
                   {item.item_receive_status === 1
@@ -267,7 +246,7 @@ const StoreReceivedItemList = ({ storeReceived, empId, req_slno }) => {
                         ? '#59981A'
                         : item.user_received_status === 0
                         ? '#e65100'
-                        : '#0288d1',
+                        : '#0288d1'
                   }}
                 >
                   <Box sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -280,8 +259,7 @@ const StoreReceivedItemList = ({ storeReceived, empId, req_slno }) => {
                     </Typography>
                     {item.returnDetails && item.returnDetails.length > 0 ? (
                       <>
-                        {item.returnDetails[0].return_status === 0 &&
-                        item.user_received_status === 0 ? (
+                        {item.returnDetails[0].return_status === 0 && item.user_received_status === 0 ? (
                           <CustomToolTipForCRF title=" Store Acknowledgement " placement="top">
                             <NotificationsActiveTwoToneIcon
                               sx={{
@@ -293,8 +271,8 @@ const StoreReceivedItemList = ({ storeReceived, empId, req_slno }) => {
                                 '@keyframes blink': {
                                   '0%': { opacity: 1 },
                                   '50%': { opacity: 0 },
-                                  '100%': { opacity: 1 },
-                                },
+                                  '100%': { opacity: 1 }
+                                }
                               }}
                               onClick={() => viewReturnDetails(item.returnDetails, item.item_name)}
                             />
@@ -316,7 +294,7 @@ const StoreReceivedItemList = ({ storeReceived, empId, req_slno }) => {
                             width: 22,
                             borderRadius: 2,
                             boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.1)',
-                            cursor: 'pointer',
+                            cursor: 'pointer'
                           }}
                         />
                       </CustomToolTipForCRF>
@@ -333,8 +311,8 @@ const StoreReceivedItemList = ({ storeReceived, empId, req_slno }) => {
                             cursor: 'pointer',
                             transition: 'transform 0.2s',
                             '&:hover': {
-                              transform: 'scale(1.1)',
-                            },
+                              transform: 'scale(1.1)'
+                            }
                           }}
                           onClick={() => receivedSave(item)}
                         />
@@ -353,7 +331,7 @@ const StoreReceivedItemList = ({ storeReceived, empId, req_slno }) => {
                             width: 22,
                             borderRadius: 2,
                             boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.1)',
-                            cursor: 'pointer',
+                            cursor: 'pointer'
                           }}
                         />
                       </CustomToolTipForCRF>
@@ -370,8 +348,8 @@ const StoreReceivedItemList = ({ storeReceived, empId, req_slno }) => {
                             cursor: 'pointer',
                             transition: 'transform 0.2s',
                             '&:hover': {
-                              transform: 'scale(1.1)',
-                            },
+                              transform: 'scale(1.1)'
+                            }
                           }}
                           onClick={() => returnSave(item)}
                         />

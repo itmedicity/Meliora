@@ -14,15 +14,7 @@ import EmergencyModalQI from './EmergencyModalQI'
 import { RefreshEmergency } from './RefreshEmergency'
 import { useNavigate } from 'react-router-dom'
 
-const EmergencyPatientsList = ({
-  setSearchFlag,
-  dailyDate,
-  count,
-  setCount,
-  qidept,
-  depCode,
-  qitype,
-}) => {
+const EmergencyPatientsList = ({ setSearchFlag, dailyDate, count, setCount, qidept, depCode, qitype }) => {
   const [patientlist, setpatientlist] = useState([])
   const [qiflag, setQiflag] = useState(0)
   const [modalopen, setModalOpen] = useState(false)
@@ -43,7 +35,7 @@ const EmergencyPatientsList = ({
     if (qitype === 2) {
       const viewdata = {
         from: format(new Date(dailyDate), 'yyyy-MM-dd 00:00:00'),
-        to: format(new Date(dailyDate), 'yyyy-MM-dd 23:59:59'),
+        to: format(new Date(dailyDate), 'yyyy-MM-dd 23:59:59')
       }
       const getEmergencyData = async viewdata => {
         const result = await axioslogin.post('/qiemergency/viewList', viewdata)
@@ -86,7 +78,7 @@ const EmergencyPatientsList = ({
     const searchData = {
       from: format(new Date(dailyDate), 'yyyy-MM-dd 00:00:00'),
       to: format(new Date(dailyDate), 'yyyy-MM-dd 23:59:59'),
-      ptname: searchPat,
+      ptname: searchPat
     }
     const getSearchDetails = async searchData => {
       const result = await axioslogin.post('/qiemergency/searchbyPatient', searchData)
@@ -121,9 +113,7 @@ const EmergencyPatientsList = ({
             <ListIcon sx={{ color: '#37474f', height: 30, width: 25 }} />
           </Box>
           <Box sx={{ flex: 1, fontSize: 17, pt: 1, pl: 0.5 }}>
-            <Typography sx={{ color: '#37474f', fontFamily: 'Arial' }}>
-              Emergency Patient&apos;s List
-            </Typography>
+            <Typography sx={{ color: '#37474f', fontFamily: 'Arial' }}>Emergency Patient&apos;s List</Typography>
           </Box>
           {tabFlag === 1 ? (
             <>
@@ -131,9 +121,7 @@ const EmergencyPatientsList = ({
                 <Box sx={{ pl: 0.5, pt: 0.2 }}>
                   <CssVarsProvider>
                     <Input
-                      startDecorator={
-                        <PersonSearchTwoToneIcon sx={{ height: 30, width: 30, color: '#0063C5' }} />
-                      }
+                      startDecorator={<PersonSearchTwoToneIcon sx={{ height: 30, width: 30, color: '#0063C5' }} />}
                       size="sm"
                       placeholder="Search By Patient Name"
                       name="searchPat"
@@ -152,7 +140,7 @@ const EmergencyPatientsList = ({
                   fontSize: 20,
                   pr: 0.3,
                   pt: 0.4,
-                  pl: 0.5,
+                  pl: 0.5
                 }}
               >
                 <CssVarsProvider>
@@ -163,7 +151,7 @@ const EmergencyPatientsList = ({
                         height: 35,
                         width: 35,
                         opacity: 0.7,
-                        color: 'darkgreen',
+                        color: 'darkgreen'
                       }}
                       onClick={RefreshData}
                     />
@@ -193,7 +181,7 @@ const EmergencyPatientsList = ({
                 overflow: 'auto',
                 maxHeight: window.innerHeight - 180,
                 '&::-webkit-scrollbar': { height: 6 },
-                cursor: 'pointer',
+                cursor: 'pointer'
               }}
             >
               <CssVarsProvider>
@@ -215,7 +203,7 @@ const EmergencyPatientsList = ({
                           backgroundColor: '#78909c',
                           color: 'white',
                           fontSize: 14,
-                          textAlign: 'center',
+                          textAlign: 'center'
                         }}
                       >
                         &nbsp; Sl.No
@@ -226,7 +214,7 @@ const EmergencyPatientsList = ({
                           width: 100,
                           backgroundColor: '#78909c',
                           color: 'white',
-                          fontSize: 14,
+                          fontSize: 14
                         }}
                       >
                         &nbsp;Patient ID
@@ -237,7 +225,7 @@ const EmergencyPatientsList = ({
                           width: 150,
                           backgroundColor: '#78909c',
                           color: 'white',
-                          fontSize: 14,
+                          fontSize: 14
                         }}
                       >
                         &nbsp;Patient Name
@@ -248,7 +236,7 @@ const EmergencyPatientsList = ({
                           width: 120,
                           backgroundColor: '#78909c',
                           color: 'white',
-                          fontSize: 14,
+                          fontSize: 14
                         }}
                       >
                         &nbsp;Age/Gender
@@ -259,7 +247,7 @@ const EmergencyPatientsList = ({
                           width: 100,
                           backgroundColor: '#78909c',
                           color: 'white',
-                          fontSize: 14,
+                          fontSize: 14
                         }}
                       >
                         &nbsp;Contacts{' '}
@@ -270,7 +258,7 @@ const EmergencyPatientsList = ({
                           width: 150,
                           backgroundColor: '#78909c',
                           color: 'white',
-                          fontSize: 14,
+                          fontSize: 14
                         }}
                       >
                         &nbsp;Doctor Name
@@ -282,7 +270,7 @@ const EmergencyPatientsList = ({
                           backgroundColor: '#78909c',
                           color: 'white',
                           fontSize: 14,
-                          textAlign: 'center',
+                          textAlign: 'center'
                         }}
                       >
                         &nbsp;Token{' '}
@@ -293,7 +281,7 @@ const EmergencyPatientsList = ({
                           width: 160,
                           backgroundColor: '#78909c',
                           color: 'white',
-                          fontSize: 14,
+                          fontSize: 14
                         }}
                       >
                         &nbsp;Arrival Time{' '}
@@ -305,7 +293,7 @@ const EmergencyPatientsList = ({
                           backgroundColor: '#78909c',
                           color: 'white',
                           fontSize: 14,
-                          textAlign: 'center',
+                          textAlign: 'center'
                         }}
                       >
                         &nbsp;QI Marking{' '}
@@ -320,7 +308,7 @@ const EmergencyPatientsList = ({
                           size="small"
                           style={{
                             cursor: 'pointer',
-                            background: val.qi_save_status === 1 ? '#cfd8dc' : 'transparent',
+                            background: val.qi_save_status === 1 ? '#cfd8dc' : 'transparent'
                           }}
                         >
                           <td size="sm" style={{ fontSize: 12, textAlign: 'center' }}>
@@ -354,8 +342,8 @@ const EmergencyPatientsList = ({
                                   sx={{
                                     color: '#546e7a',
                                     ':hover': {
-                                      color: '#263238',
-                                    },
+                                      color: '#263238'
+                                    }
                                   }}
                                   onClick={e => IndicatorsView(val)}
                                 />
@@ -377,7 +365,7 @@ const EmergencyPatientsList = ({
               display: 'flex',
               justifyContent: 'center',
               fontSize: 20,
-              opacity: 0.8,
+              opacity: 0.8
             }}
           >
             No Patients

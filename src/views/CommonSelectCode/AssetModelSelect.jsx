@@ -42,7 +42,7 @@ const AssetModelSelect = ({ model, setModel, setName }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '29px',
+            '--Input-minHeight': '29px'
           }}
           value={model === 0 ? models : value}
           placeholder="Select Model"

@@ -16,12 +16,7 @@ const AppContent = () => {
             return route.component && <Route key={idx} path={route.path} element={route.element} />
           })} */}
           {routes.map((route, idx) => (
-            <Route
-              key={idx}
-              path={route.path}
-              element={route.element}
-              errorElement={<ErrorPage />}
-            />
+            <Route key={idx} path={route.path} element={route.element} errorElement={<ErrorPage />} />
           ))}
         </Routes>
       </Suspense>

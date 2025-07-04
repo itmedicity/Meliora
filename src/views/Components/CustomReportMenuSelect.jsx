@@ -23,7 +23,7 @@ const CustomReportMenuSelect = ({ tableData, columnDefs, sx, SelectFilter }) => 
   }
   const style = {
     height: { xs: 540, sm: 540, md: 540, lg: 514, xl: 802 },
-    width: '100%',
+    width: '100%'
   }
   const rowStyle = {
     fontFamily: [
@@ -36,8 +36,8 @@ const CustomReportMenuSelect = ({ tableData, columnDefs, sx, SelectFilter }) => 
       'sans-serif',
       '"Apple Color Emoji"',
       '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
+      '"Segoe UI Symbol"'
+    ].join(',')
   }
 
   return (

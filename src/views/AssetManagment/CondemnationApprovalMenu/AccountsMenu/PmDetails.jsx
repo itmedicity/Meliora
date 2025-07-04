@@ -13,7 +13,7 @@ const PmDetails = ({ AssetDetails }) => {
   const { data: PmDetailss } = useQuery({
     queryKey: ['getPMDetailLists'],
     enabled: am_item_map_slno !== undefined,
-    queryFn: () => getPMDetailList(am_item_map_slno),
+    queryFn: () => getPMDetailList(am_item_map_slno)
   })
 
   useEffect(() => {
@@ -32,7 +32,7 @@ const PmDetails = ({ AssetDetails }) => {
           flex: 1,
           fontWeight: 500,
           color: 'black',
-          fontSize: 15,
+          fontSize: 15
         }}
       />
       <Box sx={{ flex: 1, pr: 1, pt: 1 }}>
@@ -44,7 +44,7 @@ const PmDetails = ({ AssetDetails }) => {
               fontWeight: 600,
               color: 'lightgrey',
               textAlign: 'center',
-              pt: 5,
+              pt: 5
             }}
           >
             Empty PM Details
@@ -60,7 +60,7 @@ const PmDetails = ({ AssetDetails }) => {
                 borderColor: 'lightgrey',
                 pl: 1,
                 py: 0.5,
-                gap: 0.5,
+                gap: 0.5
               }}
             >
               <Box sx={{ flex: 1 }}>#</Box>
@@ -73,9 +73,7 @@ const PmDetails = ({ AssetDetails }) => {
               style={{ height: '28vh' }}
               totalCount={pmDetailsAll?.length}
               itemContent={index => {
-                const sortedList = [...pmDetailsAll].sort(
-                  (a, b) => (b.status === 1 ? 1 : 0) - (a.status === 1 ? 1 : 0)
-                )
+                const sortedList = [...pmDetailsAll].sort((a, b) => (b.status === 1 ? 1 : 0) - (a.status === 1 ? 1 : 0))
                 const val = sortedList[index]
                 return (
                   <Box
@@ -87,26 +85,21 @@ const PmDetails = ({ AssetDetails }) => {
                       borderColor: 'lightgrey',
                       pl: 1,
                       py: 0.6,
-                      gap: 0.5,
+                      gap: 0.5
                     }}
                   >
                     <Box sx={{ flex: 1, fontWeight: 600 }}>{index + 1}</Box>
                     <Box sx={{ flex: 4, fontWeight: 600 }}>
-                      {val.am_pm_fromdate
-                        ? format(new Date(val.am_pm_fromdate), 'dd MMM yyyy')
-                        : ''}
+                      {val.am_pm_fromdate ? format(new Date(val.am_pm_fromdate), 'dd MMM yyyy') : ''}
                     </Box>
                     <Box sx={{ flex: 4, fontWeight: 600 }}>
-                      {val.am_pm_dutedate
-                        ? format(new Date(val.am_pm_dutedate), 'dd MMM yyyy')
-                        : ''}
+                      {val.am_pm_dutedate ? format(new Date(val.am_pm_dutedate), 'dd MMM yyyy') : ''}
                     </Box>
                     <Box
                       sx={{
                         flex: 3,
                         fontWeight: 600,
-                        color:
-                          val.status === 1 ? 'darkgreen' : val.status === 0 ? '#523A28' : 'black',
+                        color: val.status === 1 ? 'darkgreen' : val.status === 0 ? '#523A28' : 'black'
                       }}
                     >
                       {val.status === 1

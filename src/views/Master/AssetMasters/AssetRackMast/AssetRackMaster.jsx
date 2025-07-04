@@ -24,7 +24,7 @@ const AssetRackMaster = () => {
   const [rackdata, setRackdata] = useState({
     rack_slno: 0,
     rack_name: '',
-    rack_status: false,
+    rack_status: false
   })
 
   const { rack_name, rack_status, rack_slno } = rackdata
@@ -42,7 +42,7 @@ const AssetRackMaster = () => {
       am_rack_name: rack_name,
       am_rack_deptsec: deptsec,
       am_rack_status: rack_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [rack_name, deptsec, rack_status, id])
   const patchdata = useMemo(() => {
@@ -51,7 +51,7 @@ const AssetRackMaster = () => {
       am_rack_deptsec: deptsec,
       am_rack_name: rack_name,
       am_rack_status: rack_status === true ? 1 : 0,
-      edit_user: id,
+      edit_user: id
     }
   }, [rack_slno, deptsec, rack_name, rack_status, id])
 
@@ -59,7 +59,7 @@ const AssetRackMaster = () => {
     const frmdata = {
       rack_slno: 0,
       rack_name: '',
-      rack_status: false,
+      rack_status: false
     }
     setRackdata(frmdata)
     setCount(0)
@@ -112,7 +112,7 @@ const AssetRackMaster = () => {
     const frmdata = {
       rack_slno: am_rack_slno,
       rack_name: am_rack_name,
-      rack_status: am_rack_status === 1 ? true : false,
+      rack_status: am_rack_status === 1 ? true : false
     }
     setRackdata(frmdata)
     setDeptSec(am_rack_deptsec)
@@ -126,12 +126,7 @@ const AssetRackMaster = () => {
   }, [history])
 
   return (
-    <CardMaster
-      title="Asset Rack Master"
-      submit={submitAssetRack}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Asset Rack Master" submit={submitAssetRack} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ p: 1 }}>
         <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
           <Box sx={{ width: '30%', p: 1 }}>

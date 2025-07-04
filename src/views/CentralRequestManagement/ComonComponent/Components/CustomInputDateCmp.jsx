@@ -12,7 +12,7 @@ const CustomInputDateCmp = ({
   name,
   value,
   handleChange,
-  disabled,
+  disabled
 }) => {
   return (
     <Input

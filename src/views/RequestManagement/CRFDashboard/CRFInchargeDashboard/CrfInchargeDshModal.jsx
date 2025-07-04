@@ -1,9 +1,9 @@
 import React, { Fragment, useCallback, useState, memo } from 'react'
-import Slide from '@mui/material/Slide';
+import Slide from '@mui/material/Slide'
 // import { ToastContainer } from 'react-toastify';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import Button from '@mui/material/Button'
 import { Box, Paper } from '@mui/material'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
@@ -39,7 +39,7 @@ const CrfInchargeDshModal = ({ open, setOpen, datas, count, setCount }) => {
     incharge_remark,
     inch_detial_analysis,
     req_approv_slno,
-    category,
+    category
   } = datas[0]
   const reqdate = format(new Date(req_date), 'dd-MM-yyyy')
   const expdate = format(new Date(expected_date), 'dd-MM-yyyy')
@@ -172,7 +172,7 @@ const CrfInchargeDshModal = ({ open, setOpen, datas, count, setCount }) => {
         incharge_apprv_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
         req_approv_slno: req_approv_slno,
         incharge_user: id,
-        req_slno: req_slno,
+        req_slno: req_slno
       }
 
       if (approve !== false || reject !== false || pending !== false) {
@@ -185,19 +185,7 @@ const CrfInchargeDshModal = ({ open, setOpen, datas, count, setCount }) => {
         warningNotify('Please Select any status')
       }
     },
-    [
-      approve,
-      reject,
-      pending,
-      remark,
-      detailAnalis,
-      req_slno,
-      req_approv_slno,
-      count,
-      setCount,
-      setOpen,
-      id,
-    ]
+    [approve, reject, pending, remark, detailAnalis, req_slno, req_approv_slno, count, setCount, setOpen, id]
   )
 
   // reset
@@ -212,7 +200,6 @@ const CrfInchargeDshModal = ({ open, setOpen, datas, count, setCount }) => {
   const [imageshowFlag, setImageShowFlag] = useState(0)
   const [imageshow, setImageShow] = useState(false)
   const [imagearray, setImageArry] = useState([])
-
 
   const ViewImage = useCallback(() => {
     setImageShowFlag(1)
@@ -243,12 +230,10 @@ const CrfInchargeDshModal = ({ open, setOpen, datas, count, setCount }) => {
           id="alert-dialog-slide-descriptiona"
           sx={{
             width: '100%',
-            height: 540,
+            height: 540
           }}
         >
-          <DialogContentText id="alert-dialog-slide-descriptiona">
-            Request Approval
-          </DialogContentText>
+          <DialogContentText id="alert-dialog-slide-descriptiona">Request Approval</DialogContentText>
 
           <Box sx={{ width: '100%', mt: 0 }}>
             <Paper variant="outlined" sx={{ p: 0, mt: 1 }}>
@@ -261,8 +246,8 @@ const CrfInchargeDshModal = ({ open, setOpen, datas, count, setCount }) => {
                     sm: 'column',
                     md: 'column',
                     lg: 'column',
-                    xl: 'column',
-                  },
+                    xl: 'column'
+                  }
                 }}
               >
                 <Box
@@ -270,7 +255,7 @@ const CrfInchargeDshModal = ({ open, setOpen, datas, count, setCount }) => {
                     width: '100%',
                     display: 'flex',
                     p: 0.5,
-                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                   }}
                 >
                   <Box sx={{ pr: 1 }}>
@@ -290,7 +275,7 @@ const CrfInchargeDshModal = ({ open, setOpen, datas, count, setCount }) => {
                       width: '100%',
                       display: 'flex',
                       p: 0.5,
-                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                     }}
                   >
                     <Box sx={{ width: '25%' }}>
@@ -307,7 +292,7 @@ const CrfInchargeDshModal = ({ open, setOpen, datas, count, setCount }) => {
                         fontSize: 15,
                         textTransform: 'capitalize',
                         overflow: 'auto',
-                        '::-webkit-scrollbar': { display: 'none' },
+                        '::-webkit-scrollbar': { display: 'none' }
                       }}
                       variant="none"
                     >
@@ -321,7 +306,7 @@ const CrfInchargeDshModal = ({ open, setOpen, datas, count, setCount }) => {
                       width: '100%',
                       display: 'flex',
                       p: 0.5,
-                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                     }}
                   >
                     <Box sx={{ width: '25%' }}>
@@ -338,7 +323,7 @@ const CrfInchargeDshModal = ({ open, setOpen, datas, count, setCount }) => {
                         fontSize: 15,
                         textTransform: 'capitalize',
                         overflow: 'auto',
-                        '::-webkit-scrollbar': { display: 'none' },
+                        '::-webkit-scrollbar': { display: 'none' }
                       }}
                       variant="none"
                     >
@@ -352,7 +337,7 @@ const CrfInchargeDshModal = ({ open, setOpen, datas, count, setCount }) => {
                       width: '100%',
                       display: 'flex',
                       p: 0.5,
-                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                     }}
                   >
                     <Box sx={{ width: '25%' }}>
@@ -369,7 +354,7 @@ const CrfInchargeDshModal = ({ open, setOpen, datas, count, setCount }) => {
                         fontSize: 15,
                         textTransform: 'capitalize',
                         overflow: 'auto',
-                        '::-webkit-scrollbar': { display: 'none' },
+                        '::-webkit-scrollbar': { display: 'none' }
                       }}
                       variant="none"
                     >
@@ -383,7 +368,7 @@ const CrfInchargeDshModal = ({ open, setOpen, datas, count, setCount }) => {
                       width: '100%',
                       display: 'flex',
                       p: 0.5,
-                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                     }}
                   >
                     <Box sx={{ width: '25%' }}>
@@ -400,7 +385,7 @@ const CrfInchargeDshModal = ({ open, setOpen, datas, count, setCount }) => {
                         fontSize: 15,
                         textTransform: 'capitalize',
                         overflow: 'auto',
-                        '::-webkit-scrollbar': { display: 'none' },
+                        '::-webkit-scrollbar': { display: 'none' }
                       }}
                       variant="none"
                     >
@@ -413,7 +398,7 @@ const CrfInchargeDshModal = ({ open, setOpen, datas, count, setCount }) => {
                     width: '100%',
                     display: 'flex',
                     p: 0.5,
-                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                   }}
                 >
                   <Box sx={{ width: '25%' }}>
@@ -430,7 +415,7 @@ const CrfInchargeDshModal = ({ open, setOpen, datas, count, setCount }) => {
                       fontSize: 15,
                       textTransform: 'capitalize',
                       overflow: 'auto',
-                      '::-webkit-scrollbar': { display: 'none' },
+                      '::-webkit-scrollbar': { display: 'none' }
                     }}
                     variant="none"
                   >
@@ -442,7 +427,7 @@ const CrfInchargeDshModal = ({ open, setOpen, datas, count, setCount }) => {
                     width: '100%',
                     display: 'flex',
                     p: 0.5,
-                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                   }}
                 >
                   <Box sx={{ width: '25%' }}>
@@ -459,7 +444,7 @@ const CrfInchargeDshModal = ({ open, setOpen, datas, count, setCount }) => {
                       fontSize: 15,
                       textTransform: 'capitalize',
                       overflow: 'auto',
-                      '::-webkit-scrollbar': { display: 'none' },
+                      '::-webkit-scrollbar': { display: 'none' }
                     }}
                     variant="none"
                   >
@@ -473,7 +458,7 @@ const CrfInchargeDshModal = ({ open, setOpen, datas, count, setCount }) => {
                     display: 'flex',
                     p: 0.5,
                     pb: 0,
-                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                   }}
                 >
                   <Box sx={{ pr: 9 }}>
@@ -494,13 +479,12 @@ const CrfInchargeDshModal = ({ open, setOpen, datas, count, setCount }) => {
                     width: '100%',
                     display: 'flex',
                     p: 0.5,
-                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                   }}
                 >
                   <CssVarsProvider>
                     <Typography sx={{ fontSize: 15, textTransform: 'capitalize' }}>
-                      Requested DeptSec:{' '}
-                      {userdeptsec !== null ? userdeptsec.toLowerCase() : 'Not Updated'}
+                      Requested DeptSec: {userdeptsec !== null ? userdeptsec.toLowerCase() : 'Not Updated'}
                     </Typography>
                   </CssVarsProvider>
                   {image_status === 1 ? (
@@ -516,12 +500,10 @@ const CrfInchargeDshModal = ({ open, setOpen, datas, count, setCount }) => {
                     width: '100%',
                     display: 'flex',
                     p: 0.5,
-                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                   }}
                 >
-                  {tableDis === 1 ? (
-                    <ItemApprovalCmp dataPost={dataPost} setdataPost={setdataPost} />
-                  ) : null}
+                  {tableDis === 1 ? <ItemApprovalCmp dataPost={dataPost} setdataPost={setdataPost} /> : null}
                 </Box>
               </Box>
             </Paper>
@@ -533,7 +515,7 @@ const CrfInchargeDshModal = ({ open, setOpen, datas, count, setCount }) => {
                 sx={{
                   width: '100%',
                   display: 'flex',
-                  flexDirection: 'column',
+                  flexDirection: 'column'
                 }}
               >
                 <Box
@@ -541,7 +523,7 @@ const CrfInchargeDshModal = ({ open, setOpen, datas, count, setCount }) => {
                     width: '100%',
                     display: 'flex',
                     p: 1,
-                    flexDirection: 'column',
+                    flexDirection: 'column'
                   }}
                 >
                   <Box sx={{ pr: 9 }}>

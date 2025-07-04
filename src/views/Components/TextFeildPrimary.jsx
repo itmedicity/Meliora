@@ -11,11 +11,11 @@ const TextFeildPrimary = ({
   style,
   onChange,
   value,
-  defaultValue,
+  defaultValue
 }) => {
   const defaultStyle = {
     '--Input-radius': '0px',
-    '--Input-decorator-childHeight': '20px',
+    '--Input-decorator-childHeight': '20px'
   }
 
   return (

@@ -3,7 +3,7 @@ const { FETCH_EMP_ID } = ActionTyps
 //intial state
 const empid = {
   emp: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Deptsection action type check then payload set to the state and loading status set as true */
 export const getEmpId = (state = empid, { type, payload }) => {

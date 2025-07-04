@@ -26,16 +26,10 @@ const GoalCreation = ({ open, setAddGoalFlag, setaddGoalModalOpen, tableCount, s
     tm_goal_fromdate: '',
     tm_goal_description: '',
     tm_goal_status: false,
-    tm_goal_cmpledate: '',
+    tm_goal_cmpledate: ''
   })
-  const {
-    tm_goal_name,
-    tm_goal_duedate,
-    tm_goal_fromdate,
-    tm_goal_description,
-    tm_goal_status,
-    tm_goal_cmpledate,
-  } = goalMast
+  const { tm_goal_name, tm_goal_duedate, tm_goal_fromdate, tm_goal_description, tm_goal_status, tm_goal_cmpledate } =
+    goalMast
 
   const GoalsMastUpdate = useCallback(
     e => {
@@ -53,17 +47,9 @@ const GoalCreation = ({ open, setAddGoalFlag, setaddGoalModalOpen, tableCount, s
       tm_goal_description: tm_goal_description === '' ? null : tm_goal_description,
       tm_goal_cmpledate: tm_goal_cmpledate === '' ? null : tm_goal_cmpledate,
       tm_goal_status: tm_goal_status === true ? 1 : 0,
-      tm_goal_createuser: id,
+      tm_goal_createuser: id
     }
-  }, [
-    tm_goal_name,
-    tm_goal_duedate,
-    tm_goal_fromdate,
-    tm_goal_description,
-    tm_goal_status,
-    tm_goal_cmpledate,
-    id,
-  ])
+  }, [tm_goal_name, tm_goal_duedate, tm_goal_fromdate, tm_goal_description, tm_goal_status, tm_goal_cmpledate, id])
 
   const reset = useCallback(() => {
     const form = {
@@ -72,7 +58,7 @@ const GoalCreation = ({ open, setAddGoalFlag, setaddGoalModalOpen, tableCount, s
       tm_goal_fromdate: '',
       tm_goal_description: '',
       tm_goal_status: false,
-      tm_goal_cmpledate: '',
+      tm_goal_cmpledate: ''
     }
     setgoalMast(form)
   }, [])
@@ -116,7 +102,7 @@ const GoalCreation = ({ open, setAddGoalFlag, setaddGoalModalOpen, tableCount, s
             justifyContent: 'center',
             alignItems: 'center',
             pl: 1,
-            borderRadius: 10,
+            borderRadius: 10
           }}
         >
           <ModalDialog variant="outlined" sx={{ width: '43vw', p: 0 }}>
@@ -129,7 +115,7 @@ const GoalCreation = ({ open, setAddGoalFlag, setaddGoalModalOpen, tableCount, s
                     pl: 1,
                     flex: 1,
                     pt: 1.5,
-                    fontWeight: 900,
+                    fontWeight: 900
                   }}
                 >
                   Create A New Goal
@@ -141,7 +127,7 @@ const GoalCreation = ({ open, setAddGoalFlag, setaddGoalModalOpen, tableCount, s
                     cursor: 'pointer',
                     color: '#52688F',
                     p: 1,
-                    '&:hover': { color: '#BA0F30' },
+                    '&:hover': { color: '#BA0F30' }
                   }}
                   onClick={CloseGoal}
                 />
@@ -156,14 +142,12 @@ const GoalCreation = ({ open, setAddGoalFlag, setaddGoalModalOpen, tableCount, s
                   backgroundColor: 'white',
                   borderRadius: 35,
                   position: 'absolute',
-                  fontSize: '0.75em',
+                  fontSize: '0.75em'
                 }}
               >
                 <RadarIcon sx={{ height: 70, width: 70 }} />
               </Box>
-              <Typography sx={{ fontWeight: 800, color: 'grey', fontSize: 15, pt: 7, pl: 5.8 }}>
-                Create Goal
-              </Typography>
+              <Typography sx={{ fontWeight: 800, color: 'grey', fontSize: 15, pt: 7, pl: 5.8 }}>Create Goal</Typography>
               <Box sx={{ maxHeight: '65vh', overflow: 'auto' }}>
                 <Box sx={{ flex: 1, mx: 3, mt: 4 }}>
                   <Typography
@@ -172,7 +156,7 @@ const GoalCreation = ({ open, setAddGoalFlag, setaddGoalModalOpen, tableCount, s
                       color: '#003B73',
                       fontWeight: 600,
                       textUnderline: 1,
-                      fontSize: 12,
+                      fontSize: 12
                     }}
                   >
                     Goal
@@ -194,7 +178,7 @@ const GoalCreation = ({ open, setAddGoalFlag, setaddGoalModalOpen, tableCount, s
                         color: '#003B73',
                         fontWeight: 600,
                         textUnderline: 1,
-                        fontSize: 12,
+                        fontSize: 12
                       }}
                     >
                       From Date
@@ -215,7 +199,7 @@ const GoalCreation = ({ open, setAddGoalFlag, setaddGoalModalOpen, tableCount, s
                         color: '#003B73',
                         fontWeight: 600,
                         textUnderline: 1,
-                        fontSize: 12,
+                        fontSize: 12
                       }}
                     >
                       Due Date
@@ -228,8 +212,8 @@ const GoalCreation = ({ open, setAddGoalFlag, setaddGoalModalOpen, tableCount, s
                       value={tm_goal_duedate}
                       slotProps={{
                         input: {
-                          min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-                        },
+                          min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+                        }
                       }}
                       onchange={GoalsMastUpdate}
                     />
@@ -242,7 +226,7 @@ const GoalCreation = ({ open, setAddGoalFlag, setaddGoalModalOpen, tableCount, s
                       color: '#003B73',
                       fontWeight: 600,
                       textUnderline: 1,
-                      fontSize: 12,
+                      fontSize: 12
                     }}
                   >
                     Describtion
@@ -257,7 +241,7 @@ const GoalCreation = ({ open, setAddGoalFlag, setaddGoalModalOpen, tableCount, s
                       borderColor: 'neutral.outlinedBorder',
                       borderRadius: 0,
                       '&:hover': {
-                        borderColor: 'neutral.outlinedHoverBorder',
+                        borderColor: 'neutral.outlinedHoverBorder'
                       },
                       '&::before': {
                         border: '1px solid var(--Textarea-focusedHighlight)',
@@ -267,20 +251,18 @@ const GoalCreation = ({ open, setAddGoalFlag, setaddGoalModalOpen, tableCount, s
                         bottom: '-2px',
                         top: 'unset',
                         transition: 'transform .15s cubic-bezier(0.1,0.9,0.2,1)',
-                        borderRadius: 0,
+                        borderRadius: 0
                       },
                       '&:focus-within::before': {
-                        transform: 'scaleX(1)',
-                      },
+                        transform: 'scaleX(1)'
+                      }
                     }}
                     name="tm_goal_description"
                     value={tm_goal_description}
                     onChange={e => GoalsMastUpdate(e)}
                   />
                 </Box>
-                <Box
-                  sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', pt: 5, pb: 2, mr: 3 }}
-                >
+                <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', pt: 5, pb: 2, mr: 3 }}>
                   <Button variant="plain" sx={{ fontSize: 15 }} onClick={InsertGoals}>
                     Create
                   </Button>

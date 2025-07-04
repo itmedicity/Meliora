@@ -15,7 +15,7 @@ const CustomPaperTitle = ({ heading, mandtry }) => {
                 p: 0,
                 px: 0.7,
                 fontSize: 14,
-                fontWeight: 550,
+                fontWeight: 550
               }}
             >
               {heading}

@@ -52,7 +52,7 @@ const AllTicketList = ({ onholdCompl, holdLength, count, setCount, menurights })
 
   const searchDate = useMemo(() => {
     return {
-      complaint_deptslno: empdept,
+      complaint_deptslno: empdept
     }
   }, [empdept])
 
@@ -63,9 +63,7 @@ const AllTicketList = ({ onholdCompl, holdLength, count, setCount, menurights })
       if (success === 2) {
         const PendingCompl = data.filter(
           complaint =>
-            complaint.complaint_status !== 2 &&
-            complaint.complaint_status !== 3 &&
-            complaint.cm_rectify_status !== 'O'
+            complaint.complaint_status !== 2 && complaint.complaint_status !== 3 && complaint.cm_rectify_status !== 'O'
         )
         setpendingCompl(PendingCompl)
         setpendingLength(PendingCompl.length === 0 ? 0 : PendingCompl.length)
@@ -84,7 +82,7 @@ const AllTicketList = ({ onholdCompl, holdLength, count, setCount, menurights })
         bgcolor: '#E2E6F0',
         pt: 0.4,
         px: 0.4,
-        mt: 0.4,
+        mt: 0.4
       }}
     >
       <Box
@@ -96,7 +94,7 @@ const AllTicketList = ({ onholdCompl, holdLength, count, setCount, menurights })
           justifyContent: 'center',
           bgcolor: 'white',
           pt: 3,
-          gap: 3,
+          gap: 3
         }}
       >
         <Badge badgeContent={pendingLength} color="warning">
@@ -153,24 +151,14 @@ const AllTicketList = ({ onholdCompl, holdLength, count, setCount, menurights })
         )}
         {holdCheck === 1 ? (
           <Box>
-            <OnholdInAllList
-              onholdCompl={onholdCompl}
-              setCount={setCount}
-              count={count}
-              menurights={menurights}
-            />
+            <OnholdInAllList onholdCompl={onholdCompl} setCount={setCount} count={count} menurights={menurights} />
           </Box>
         ) : (
           <Box></Box>
         )}
         {assinged === 1 ? (
           <Box>
-            <AssingedInAllList
-              pendingCompl={pendingCompl}
-              setCount={setCount}
-              count={count}
-              menurights={menurights}
-            />
+            <AssingedInAllList pendingCompl={pendingCompl} setCount={setCount} count={count} menurights={menurights} />
           </Box>
         ) : (
           <Box></Box>

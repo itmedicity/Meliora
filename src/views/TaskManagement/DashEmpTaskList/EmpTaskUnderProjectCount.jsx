@@ -14,7 +14,7 @@ const EmpTaskUnderProjectCount = ({ val, emslno }) => {
   const searchData = useMemo(() => {
     return {
       tm_project_slno: tm_project_slno,
-      tm_assigne_emp: emslno,
+      tm_assigne_emp: emslno
     }
   }, [tm_project_slno, emslno])
 
@@ -42,7 +42,7 @@ const EmpTaskUnderProjectCount = ({ val, emslno }) => {
             flex: 1,
             display: 'flex',
             justifyContent: 'flex-end',
-            cursor: 'grab',
+            cursor: 'grab'
           }}
         >
           <Box>
@@ -62,16 +62,14 @@ const EmpTaskUnderProjectCount = ({ val, emslno }) => {
             cursor: 'grab',
             color: 'green',
             display: 'flex',
-            justifyContent: 'center',
+            justifyContent: 'center'
           }}
         >
           ({complete})
         </FormLabel>
       </Tooltip>
       <Tooltip title={'Total Task Under this Project'} placement="bottom">
-        <FormLabel sx={{ fontSize: 15, flex: 1, cursor: 'grab', color: '#523A28' }}>
-          ({total})
-        </FormLabel>
+        <FormLabel sx={{ fontSize: 15, flex: 1, cursor: 'grab', color: '#523A28' }}>({total})</FormLabel>
       </Tooltip>
     </FormControl>
   )

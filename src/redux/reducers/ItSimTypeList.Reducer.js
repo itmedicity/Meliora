@@ -4,7 +4,7 @@ const { FETCH_IT_MANAGEMENT_SIM_TYPE } = ActionTyps
 
 const SimType = {
   SimTypeList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 
 export const getSimType = (state = SimType, { type, payload }) => {

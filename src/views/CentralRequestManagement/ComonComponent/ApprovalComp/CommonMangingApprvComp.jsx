@@ -18,7 +18,7 @@ const CommonMangingApprvComp = ({ DetailViewData, company }) => {
     managing_director_approve_date,
     managing_director_user,
     managing_director_image,
-    managing,
+    managing
   } = DetailViewData
   const [imageshowFlag, setImageShowFlag] = useState(0)
   const [imageshow, setImageShow] = useState(false)
@@ -66,9 +66,7 @@ const CommonMangingApprvComp = ({ DetailViewData, company }) => {
       ) : null}
       <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
         <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
-          <Typography
-            sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}
-          >
+          <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>
             {company?.managing_director_name}
           </Typography>
           <Box sx={{ flex: 1, py: 0.4, ml: 2 }}>
@@ -89,7 +87,7 @@ const CommonMangingApprvComp = ({ DetailViewData, company }) => {
                 height: 25,
                 pb: 0.5,
                 fontSize: 12,
-                fontWeight: 550,
+                fontWeight: 550
               }}
             >
               {managing}
@@ -100,60 +98,41 @@ const CommonMangingApprvComp = ({ DetailViewData, company }) => {
           {managing_director_approve === 1 && managing_director_remarks !== null ? (
             <Box sx={{ pt: 0.5 }}>
               <Box sx={{ display: 'flex' }}>
-                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                  Justification/ Requirement Description{' '}
-                </Typography>
+                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Justification/ Requirement Description </Typography>
                 <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-                <Typography
-                  sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}
-                >
+                <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
                   {managing_director_remarks === null ? 'Not Updated' : managing_director_remarks}
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', pt: 1 }}>
-                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                  Detailed Analysis of Requirement
-                </Typography>
+                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Detailed Analysis of Requirement</Typography>
                 <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-                <Typography
-                  sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}
-                >
+                <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
                   {managing_director_analysis === null ? 'Not Updated' : managing_director_analysis}
                 </Typography>
               </Box>
             </Box>
           ) : managing_director_approve === 2 && managing_director_remarks !== null ? (
             <Box sx={{ display: 'flex', pt: 0.5 }}>
-              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                Justification for Reject{' '}
-              </Typography>
+              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Justification for Reject </Typography>
               <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-              <Typography
-                sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}
-              >
+              <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
                 {managing_director_remarks === null ? 'Not Updated' : managing_director_remarks}
               </Typography>
             </Box>
           ) : managing_director_approve === 3 && managing_director_remarks !== null ? (
             <Box sx={{ display: 'flex', pt: 0.5 }}>
-              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                Justification for On-Hold
-              </Typography>
+              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Justification for On-Hold</Typography>
               <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-              <Typography
-                sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}
-              >
-                : &nbsp;{' '}
-                {managing_director_remarks === null ? 'Not Updated' : managing_director_remarks}
+              <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
+                : &nbsp; {managing_director_remarks === null ? 'Not Updated' : managing_director_remarks}
               </Typography>
             </Box>
           ) : managing_director_approve === 4 && managing_director_remarks !== null ? (
             <Box sx={{ display: 'flex', pt: 0.5 }}>
               <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Remarks</Typography>
               <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-              <Typography
-                sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}
-              >
+              <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
                 {managing_director_remarks === null ? 'Not Updated' : managing_director_remarks}{' '}
               </Typography>
             </Box>
@@ -169,9 +148,7 @@ const CommonMangingApprvComp = ({ DetailViewData, company }) => {
               ) : null}
               <Box sx={{ display: 'flex', flex: 1 }}>
                 <Typography> :&nbsp;</Typography>
-                <Typography
-                  sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pt: 0.3, pl: 0.2 }}
-                >
+                <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pt: 0.3, pl: 0.2 }}>
                   {capitalizeWords(managing_director_user)}
                 </Typography>
                 <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pl: 2, pt: 0.3 }}>

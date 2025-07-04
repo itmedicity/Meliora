@@ -21,7 +21,7 @@ const BillTypeMaster = () => {
   const [billType, setBillType] = useState({
     it_bill_type_slno: '',
     it_bill_type_name: '',
-    it_bill_type_status: false,
+    it_bill_type_status: false
   })
   const { it_bill_type_slno, it_bill_type_name, it_bill_type_status } = billType
   const UpdateBillType = useCallback(
@@ -35,7 +35,7 @@ const BillTypeMaster = () => {
     return {
       it_bill_type_name: it_bill_type_name,
       it_bill_type_status: it_bill_type_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [it_bill_type_name, it_bill_type_status, id])
   const patchdata = useMemo(() => {
@@ -43,7 +43,7 @@ const BillTypeMaster = () => {
       it_bill_type_slno: it_bill_type_slno,
       it_bill_type_name: it_bill_type_name,
       it_bill_type_status: it_bill_type_status === true ? 1 : 0,
-      edit_user: id,
+      edit_user: id
     }
   }, [it_bill_type_slno, it_bill_type_name, it_bill_type_status, id])
   const rowSelect = useCallback(params => {
@@ -53,7 +53,7 @@ const BillTypeMaster = () => {
     const frmdata = {
       it_bill_type_slno: it_bill_type_slno,
       it_bill_type_name: it_bill_type_name,
-      it_bill_type_status: it_bill_type_status === 1 ? true : false,
+      it_bill_type_status: it_bill_type_status === 1 ? true : false
     }
     setBillType(frmdata)
   }, [])
@@ -61,7 +61,7 @@ const BillTypeMaster = () => {
     const frmdata = {
       it_bill_type_slno: '',
       it_bill_type_name: '',
-      it_bill_type_status: false,
+      it_bill_type_status: false
     }
     setBillType(frmdata)
     setCount(0)
@@ -119,18 +119,13 @@ const BillTypeMaster = () => {
     const frmdata = {
       it_bill_type_slno: '',
       it_bill_type_name: '',
-      it_bill_type_status: false,
+      it_bill_type_status: false
     }
     setBillType(frmdata)
     setValue(0)
   }, [setBillType])
   return (
-    <CardMaster
-      title="Bill Type"
-      submit={submitBillType}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Bill Type" submit={submitBillType} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
         <Box sx={{ width: '30%', p: 1 }}>
           <Box>

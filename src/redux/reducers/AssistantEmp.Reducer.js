@@ -3,7 +3,7 @@ const { FETCH_ASSISTANT_EMPLOYEE } = ActionTyps
 //intial state
 const assistantemp = {
   assistantempList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /***  assistantemp action type check then payload set to the state and loading status set as true */
 export const getAssistantemployee = (state = assistantemp, { type, payload }) => {

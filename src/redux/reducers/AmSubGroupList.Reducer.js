@@ -3,7 +3,7 @@ const { FETCH_ASSET_SUBGROUP } = ActionTyps
 //intial state
 const SubGroup = {
   SubGroupList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Building action type check then payload set to the state and loading status set as true */
 export const getAmSubGroupList = (state = SubGroup, { type, payload }) => {

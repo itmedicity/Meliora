@@ -50,9 +50,7 @@ const SectionwiseHoldList = ({ count, setCount, onholdCompl, loading }) => {
     setimageViewOpen(true)
     setfileDetails(val)
     try {
-      const result = await axioslogin.get(
-        `/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`
-      )
+      const result = await axioslogin.get(`/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`)
       const { success } = result.data
       if (success === 1) {
         const data = result.data
@@ -152,44 +150,28 @@ const SectionwiseHoldList = ({ count, setCount, onholdCompl, loading }) => {
                 borderTop: 1,
                 borderColor: 'lightgray',
                 pt: 1.5,
-                bgcolor: 'white',
+                bgcolor: 'white'
               }}
             >
-              <Box sx={{ width: 90, fontWeight: 600, color: '#444444', fontSize: 12, pl: 2 }}>
-                Ticket No.
-              </Box>
+              <Box sx={{ width: 90, fontWeight: 600, color: '#444444', fontSize: 12, pl: 2 }}>Ticket No.</Box>
               <Box
                 sx={{
                   width: 155,
                   fontWeight: 600,
                   color: '#444444',
                   fontSize: 12,
-                  textAlign: 'center',
+                  textAlign: 'center'
                 }}
               >
                 Action
               </Box>
-              <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-                Complaint Type
-              </Box>
-              <Box sx={{ width: 590, fontWeight: 600, color: '#444444', fontSize: 12, pl: 0.5 }}>
-                Describtion
-              </Box>
-              <Box sx={{ width: 180, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1.2 }}>
-                Complaint To
-              </Box>
-              <Box sx={{ width: 220, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1.3 }}>
-                Complaint From
-              </Box>
-              <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1.3 }}>
-                Location
-              </Box>
-              <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-                Location Details
-              </Box>
-              <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1.4 }}>
-                Complaint Date
-              </Box>
+              <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12 }}>Complaint Type</Box>
+              <Box sx={{ width: 590, fontWeight: 600, color: '#444444', fontSize: 12, pl: 0.5 }}>Describtion</Box>
+              <Box sx={{ width: 180, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1.2 }}>Complaint To</Box>
+              <Box sx={{ width: 220, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1.3 }}>Complaint From</Box>
+              <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1.3 }}>Location</Box>
+              <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12 }}>Location Details</Box>
+              <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1.4 }}>Complaint Date</Box>
             </Box>
             <Virtuoso
               style={{ height: '35vh' }}
@@ -206,12 +188,10 @@ const SectionwiseHoldList = ({ count, setCount, onholdCompl, loading }) => {
                       mx: 1,
                       borderColor: 'lightgrey',
                       minHeight: 35,
-                      pt: 0.5,
+                      pt: 0.5
                     }}
                   >
-                    <Box sx={{ pl: 2, minWidth: 90, fontWeight: 600, fontSize: 14 }}>
-                      {val.complaint_slno}
-                    </Box>
+                    <Box sx={{ pl: 2, minWidth: 90, fontWeight: 600, fontSize: 14 }}>{val.complaint_slno}</Box>
                     <Box sx={{ width: 155, display: 'flex', gap: 0.5, textAlign: 'center' }}>
                       {val.cm_file_status === 1 ? (
                         <CssVarsProvider>
@@ -225,7 +205,7 @@ const SectionwiseHoldList = ({ count, setCount, onholdCompl, loading }) => {
                                 height: 28,
                                 color: '#41729F',
                                 cursor: 'pointer',
-                                '&:hover': { color: '#274472' },
+                                '&:hover': { color: '#274472' }
                               }}
                               onClick={() => fileView(val)}
                             />
@@ -239,7 +219,7 @@ const SectionwiseHoldList = ({ count, setCount, onholdCompl, loading }) => {
                             p: 0.4,
                             width: 28,
                             height: 28,
-                            color: 'lightgrey',
+                            color: 'lightgrey'
                           }}
                         />
                       )}
@@ -256,7 +236,7 @@ const SectionwiseHoldList = ({ count, setCount, onholdCompl, loading }) => {
                                   width: 28,
                                   height: 28,
                                   color: '#BF4A32',
-                                  animation: `${blinkAnimation} 1s infinite`,
+                                  animation: `${blinkAnimation} 1s infinite`
                                 }}
                               />
                             ) : val.cm_query_status === 2 ? (
@@ -268,7 +248,7 @@ const SectionwiseHoldList = ({ count, setCount, onholdCompl, loading }) => {
                                   width: 28,
                                   height: 28,
                                   color: '#2B82BF',
-                                  animation: `${blinkAnimation} 1s infinite`,
+                                  animation: `${blinkAnimation} 1s infinite`
                                 }}
                               />
                             ) : (
@@ -279,7 +259,7 @@ const SectionwiseHoldList = ({ count, setCount, onholdCompl, loading }) => {
                                   p: 0.4,
                                   width: 28,
                                   height: 28,
-                                  color: '#647C90',
+                                  color: '#647C90'
                                 }}
                               />
                             )}
@@ -296,7 +276,7 @@ const SectionwiseHoldList = ({ count, setCount, onholdCompl, loading }) => {
                               width: 28,
                               height: 28,
                               color: '#50655B',
-                              cursor: 'pointer',
+                              cursor: 'pointer'
                             }}
                             onClick={() => HoldDetailsView(val)}
                           />
@@ -314,7 +294,7 @@ const SectionwiseHoldList = ({ count, setCount, onholdCompl, loading }) => {
                                 width: 28,
                                 height: 28,
                                 color: '#4C5270',
-                                cursor: 'pointer',
+                                cursor: 'pointer'
                               }}
                               onClick={() => AssetView(val)}
                             />
@@ -331,7 +311,7 @@ const SectionwiseHoldList = ({ count, setCount, onholdCompl, loading }) => {
                                 width: 28,
                                 height: 28,
                                 color: 'lightgrey',
-                                cursor: 'pointer',
+                                cursor: 'pointer'
                               }}
                             />
                           </Tooltip>
@@ -345,14 +325,14 @@ const SectionwiseHoldList = ({ count, setCount, onholdCompl, loading }) => {
                     <Box sx={{ width: 300, fontSize: 13 }}>
                       {val.rm_room_name}
                       {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name
-                        ? ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
-                        }${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
-                        }${val.rm_floor_name ? val.rm_floor_name : ''})`
+                        ? ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${
+                            val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
+                          }${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${
+                            val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
+                          }${val.rm_floor_name ? val.rm_floor_name : ''})`
                         : 'Not Updated'}
                     </Box>
-                    <Box sx={{ width: 300, fontSize: 13 }}>
-                      {val.cm_complaint_location || 'Not Updated'}
-                    </Box>
+                    <Box sx={{ width: 300, fontSize: 13 }}>{val.cm_complaint_location || 'Not Updated'}</Box>
                     <Box sx={{ width: 150, fontSize: 13 }}>
                       {val.compalint_date
                         ? format(new Date(val.compalint_date), 'dd MMM yyyy,  hh:mm a')
@@ -365,9 +345,7 @@ const SectionwiseHoldList = ({ count, setCount, onholdCompl, loading }) => {
           </Box>
         ) : (
           <Box>
-            <Typography
-              sx={{ fontSize: 25, fontWeight: 800, color: 'lightgrey', textAlign: 'center', pt: 5 }}
-            >
+            <Typography sx={{ fontSize: 25, fontWeight: 800, color: 'lightgrey', textAlign: 'center', pt: 5 }}>
               Empty Hold List
             </Typography>
           </Box>

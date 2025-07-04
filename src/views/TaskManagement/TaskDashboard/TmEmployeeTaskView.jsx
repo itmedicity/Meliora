@@ -8,13 +8,7 @@ import EmpStatusUpdationinDash from '../Mytask/EmpStatusUpdationinDash'
 import CountDowncomponent from '../CountDown/CountDowncomponent'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import { useNavigate } from 'react-router-dom'
-const TmEmployeeTaskView = ({
-  tableCount,
-  setTableCount,
-  setflagTask,
-  tableDataEmployee,
-  empTaskHeading,
-}) => {
+const TmEmployeeTaskView = ({ tableCount, setTableCount, setflagTask, tableDataEmployee, empTaskHeading }) => {
   const [editModalOpen, setEditModalOpen] = useState(false)
   const [editModalFlag, setEditModalFlag] = useState(0)
   const [masterData, setMasterData] = useState([])
@@ -42,14 +36,9 @@ const TmEmployeeTaskView = ({
   return (
     <Paper sx={{ height: '90vh' }}>
       <Box sx={{ flex: 1, height: 30, display: 'flex' }}>
-        <Typography sx={{ color: 'grey', fontWeight: 500, flex: 1, pt: 0.5, pl: 1 }}>
-          {empTaskHeading}
-        </Typography>
+        <Typography sx={{ color: 'grey', fontWeight: 500, flex: 1, pt: 0.5, pl: 1 }}>{empTaskHeading}</Typography>
         <Box sx={{ pl: 0.5 }}>
-          <HighlightOffIcon
-            sx={{ color: 'grey', height: 30, width: 30, cursor: 'pointer' }}
-            onClick={backtoDash}
-          />
+          <HighlightOffIcon sx={{ color: 'grey', height: 30, width: 30, cursor: 'pointer' }} onClick={backtoDash} />
         </Box>
       </Box>
       <Box sx={{ bgcolor: '#DFE3ED', p: 0.5 }}>
@@ -97,7 +86,7 @@ const TmEmployeeTaskView = ({
                               : val.main_task_slno === 0
                               ? '#EAE7FA'
                               : 'transparent',
-                          minHeight: 5,
+                          minHeight: 5
                         }}
                       >
                         <td>&nbsp;{index + 1}</td>
@@ -105,7 +94,7 @@ const TmEmployeeTaskView = ({
                           <CheckCircleOutlineIcon
                             sx={{
                               cursor: 'pointer',
-                              '&:hover': { color: '#DBA40E' },
+                              '&:hover': { color: '#DBA40E' }
                             }}
                             size={6}
                             onClick={() => rowSelectModal(val)}
@@ -130,7 +119,7 @@ const TmEmployeeTaskView = ({
                                   ? '#5885AF'
                                   : 'transparent',
                               minHeight: 5,
-                              fontWeight: 700,
+                              fontWeight: 700
                             }}
                           >
                             {val.tm_task_status === 0
@@ -154,7 +143,7 @@ const TmEmployeeTaskView = ({
                                 borderRadius: 15,
                                 mb: 0.5,
                                 width: 150,
-                                pl: 1,
+                                pl: 1
                               }}
                             >
                               <CountDowncomponent DueDates={val.tm_task_due_date} />
@@ -169,7 +158,7 @@ const TmEmployeeTaskView = ({
                                   borderRadius: 20,
                                   color: '#3B0404',
                                   fontWeight: 600,
-                                  fontSize: 12,
+                                  fontSize: 12
                                 }}
                               >
                                 {val.days} Days - {val.hours}h: {val.minutes}m: {val.seconds}s
@@ -183,15 +172,12 @@ const TmEmployeeTaskView = ({
                           </td>
                         )}
                         {val.tm_task_status === 1 ? (
-                          <td style={{ textTransform: 'capitalize' }}>
-                            {' '}
-                            {val.tm_task_name || 'not given'}
-                          </td>
+                          <td style={{ textTransform: 'capitalize' }}> {val.tm_task_name || 'not given'}</td>
                         ) : (
                           <td
                             style={{
                               textTransform: 'capitalize',
-                              color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black',
+                              color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black'
                             }}
                           >
                             {' '}
@@ -199,15 +185,12 @@ const TmEmployeeTaskView = ({
                           </td>
                         )}
                         {val.tm_task_status === 1 ? (
-                          <td style={{ textTransform: 'capitalize' }}>
-                            {' '}
-                            {val.tm_project_name || 'not given'}
-                          </td>
+                          <td style={{ textTransform: 'capitalize' }}> {val.tm_project_name || 'not given'}</td>
                         ) : (
                           <td
                             style={{
                               textTransform: 'capitalize',
-                              color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black',
+                              color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black'
                             }}
                           >
                             {' '}
@@ -216,39 +199,26 @@ const TmEmployeeTaskView = ({
                         )}
 
                         {val.tm_task_status === 1 ? (
-                          <td>
-                            {' '}
-                            {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}
-                          </td>
+                          <td> {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
                         ) : (
-                          <td
-                            style={{ color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black' }}
-                          >
+                          <td style={{ color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black' }}>
                             {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}
                           </td>
                         )}
                         {val.tm_task_status === 1 ? (
-                          <td>
-                            {' '}
-                            {moment(val.tm_task_due_date).format('DD-MM-YYYY') || 'not given'}
-                          </td>
+                          <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY') || 'not given'}</td>
                         ) : (
-                          <td
-                            style={{ color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black' }}
-                          >
+                          <td style={{ color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black' }}>
                             {moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}
                           </td>
                         )}
                         {val.tm_task_status === 1 ? (
-                          <td style={{ textTransform: 'capitalize' }}>
-                            {' '}
-                            {val.tm_task_description || 'not given'}
-                          </td>
+                          <td style={{ textTransform: 'capitalize' }}> {val.tm_task_description || 'not given'}</td>
                         ) : (
                           <td
                             style={{
                               textTransform: 'capitalize',
-                              color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black',
+                              color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black'
                             }}
                           >
                             {' '}

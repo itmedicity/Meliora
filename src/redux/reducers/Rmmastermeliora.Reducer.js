@@ -3,7 +3,7 @@ const { FETCH_RMMASTERMELI } = ActionTyps
 //intial state
 const rmmastermeli = {
   rmmastermeliList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** roommaster meliora action check then payload set to the state and loading status set as true */
 export const getRmmastermeliora = (state = rmmastermeli, { type, payload }) => {

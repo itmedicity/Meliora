@@ -30,8 +30,8 @@ const ComProirityMastTable = ({ count, rowSelect }) => {
     { headerName: 'Status', field: 'status', minWidth: 100 },
     {
       headerName: 'Action',
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
-    },
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
+    }
   ])
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const ComProirityMastTable = ({ count, rowSelect }) => {
         const formattedData = data.map(row => ({
           ...row,
           escalation_min_dis: convertMinutesToWdhm(row.escalation_min),
-          escalation_max_dis: convertMinutesToWdhm(row.escalation_max),
+          escalation_max_dis: convertMinutesToWdhm(row.escalation_max)
         }))
         setTabledata(formattedData)
       } else {

@@ -1,16 +1,16 @@
 import React, { Fragment, memo, useCallback, useMemo, useState } from 'react'
 // import { ToastContainer } from 'react-toastify'
-import Dialog from '@mui/material/Dialog';
-import Slide from '@mui/material/Slide';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
-import TextFieldCustom from '../Components/TextFieldCustom';
-import { Paper, Typography } from '@mui/material';
-import { Box } from '@mui/system';
-import CustomeToolTip from '../Components/CustomeToolTip';
-import DepartmentSelect from '../CommonSelectCode/DepartmentSelect';
+import Dialog from '@mui/material/Dialog'
+import Slide from '@mui/material/Slide'
+import DialogContent from '@mui/material/DialogContent'
+import DialogContentText from '@mui/material/DialogContentText'
+import DialogActions from '@mui/material/DialogActions'
+import Button from '@mui/material/Button'
+import TextFieldCustom from '../Components/TextFieldCustom'
+import { Paper, Typography } from '@mui/material'
+import { Box } from '@mui/system'
+import CustomeToolTip from '../Components/CustomeToolTip'
+import DepartmentSelect from '../CommonSelectCode/DepartmentSelect'
 // import { format } from 'date-fns'
 import moment from 'moment'
 import { axioslogin } from '../Axios/Axios'
@@ -35,7 +35,7 @@ const HallBookModal = ({ open, setOpen, count, setCount, setModal }) => {
     h_book_startdatetime: moment(new Date()).format('YYYY-MM-DD hh:mm:ss'),
     h_book_enddatetime: moment(new Date()).format('YYYY-MM-DD hh:mm:ss'),
     h_book_contno: '',
-    h_book_email: '',
+    h_book_email: ''
   })
   const {
     h_book_event,
@@ -44,7 +44,7 @@ const HallBookModal = ({ open, setOpen, count, setCount, setModal }) => {
     h_book_startdatetime,
     h_book_enddatetime,
     h_book_contno,
-    h_book_email,
+    h_book_email
   } = hallbooking
   const updateHallbooking = useCallback(
     e => {
@@ -60,7 +60,7 @@ const HallBookModal = ({ open, setOpen, count, setCount, setModal }) => {
     snacks: false,
     breakfast: false,
     lunch: false,
-    dinner: false,
+    dinner: false
   })
   const { tea, snacks, breakfast, lunch, dinner } = catering
   //checkbox for items
@@ -70,7 +70,7 @@ const HallBookModal = ({ open, setOpen, count, setCount, setModal }) => {
     projector: false,
     podium: false,
     dias: false,
-    conferencetable: false,
+    conferencetable: false
   })
   const { mikeset, ac, projector, podium, dias, conferencetable } = items
 
@@ -81,7 +81,7 @@ const HallBookModal = ({ open, setOpen, count, setCount, setModal }) => {
       projector: projector === true ? 3 : 0,
       podium: podium === true ? 4 : 0,
       dias: dias === true ? 5 : 0,
-      conferencetable: conferencetable === true ? 6 : 0,
+      conferencetable: conferencetable === true ? 6 : 0
     }
   }, [mikeset, ac, projector, podium, dias, conferencetable])
 
@@ -107,7 +107,7 @@ const HallBookModal = ({ open, setOpen, count, setCount, setModal }) => {
       snacks: snacks === true ? 2 : 0,
       breakfast: breakfast === true ? 3 : 0,
       lunch: lunch === true ? 4 : 0,
-      dinner: dinner === true ? 5 : 0,
+      dinner: dinner === true ? 5 : 0
     }
   }, [tea, snacks, breakfast, lunch, dinner])
 
@@ -124,7 +124,7 @@ const HallBookModal = ({ open, setOpen, count, setCount, setModal }) => {
       h_book_hall: hall,
       h_book_hall_items: hallitem,
       h_book_catering: cateringFoods,
-      create_user: id,
+      create_user: id
     }
   }, [
     h_book_event,
@@ -138,7 +138,7 @@ const HallBookModal = ({ open, setOpen, count, setCount, setModal }) => {
     id,
     cateringFoods,
     hallitem,
-    hall,
+    hall
   ])
   const resetForm = useMemo(() => {
     return {
@@ -148,7 +148,7 @@ const HallBookModal = ({ open, setOpen, count, setCount, setModal }) => {
       h_book_startdatetime: moment(new Date()).format('YYYY-MM-DD hh:mm:ss'),
       h_book_enddatetime: moment(new Date()).format('YYYY-MM-DD hh:mm:ss'),
       h_book_contno: '',
-      h_book_email: '',
+      h_book_email: ''
     }
   }, [])
 
@@ -158,7 +158,7 @@ const HallBookModal = ({ open, setOpen, count, setCount, setModal }) => {
       snacks: false,
       breakfast: false,
       lunch: false,
-      dinner: false,
+      dinner: false
     }
   }, [])
 
@@ -169,7 +169,7 @@ const HallBookModal = ({ open, setOpen, count, setCount, setModal }) => {
       projector: false,
       podium: false,
       dias: false,
-      conferencetable: false,
+      conferencetable: false
     }
   }, [])
 
@@ -219,7 +219,7 @@ const HallBookModal = ({ open, setOpen, count, setCount, setModal }) => {
           id="alert-dialog-slide-descriptiona"
           sx={{
             width: 530,
-            height: 520,
+            height: 520
           }}
         >
           {' '}
@@ -237,13 +237,13 @@ const HallBookModal = ({ open, setOpen, count, setCount, setModal }) => {
                   display: 'flex',
                   flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
                   p: 0.5,
-                  mt: 1,
+                  mt: 1
                 }}
               >
                 <Box
                   sx={{
                     display: 'flex',
-                    width: '100%',
+                    width: '100%'
                     // width: { xs: '50%', sm: '50%', md: '100%', lg: '100%', xl: '100%', },
                   }}
                 >
@@ -261,7 +261,7 @@ const HallBookModal = ({ open, setOpen, count, setCount, setModal }) => {
                 sx={{
                   display: 'flex',
                   width: '100%',
-                  p: 0.5,
+                  p: 0.5
                 }}
               >
                 <TextFieldCustom
@@ -277,7 +277,7 @@ const HallBookModal = ({ open, setOpen, count, setCount, setModal }) => {
                 sx={{
                   display: 'flex',
                   width: '100%',
-                  p: 0.5,
+                  p: 0.5
                 }}
               >
                 <TextFieldCustom
@@ -295,7 +295,7 @@ const HallBookModal = ({ open, setOpen, count, setCount, setModal }) => {
                   width: '100%',
                   display: 'flex',
                   flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
-                  p: 0.5,
+                  p: 0.5
                   // mt: 1
                 }}
               >
@@ -329,7 +329,7 @@ const HallBookModal = ({ open, setOpen, count, setCount, setModal }) => {
                   width: '100%',
                   display: 'flex',
                   flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
-                  p: 0.5,
+                  p: 0.5
                   // mt: 1
                 }}
               >
@@ -438,10 +438,7 @@ const HallBookModal = ({ open, setOpen, count, setCount, setModal }) => {
                 </Box>
               </Box>
               <Box sx={{ display: 'flex', textAlign: 'center', justifyContent: 'center' }}>
-                <Typography sx={{ fontStyle: 'oblique', fontWeight: 500, color: '#94B7FC' }}>
-                  {' '}
-                  Catering
-                </Typography>
+                <Typography sx={{ fontStyle: 'oblique', fontWeight: 500, color: '#94B7FC' }}> Catering</Typography>
               </Box>
               <Box sx={{ display: 'flex', width: '100%', p: 0.5 }}>
                 <Box sx={{ width: '20%' }}>

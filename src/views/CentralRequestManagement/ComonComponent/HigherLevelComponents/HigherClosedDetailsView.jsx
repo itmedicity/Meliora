@@ -24,7 +24,7 @@ const HigherClosedDetailsView = ({
   reqItems,
   approveTableData,
   imagearray,
-  selectedCompany,
+  selectedCompany
 }) => {
   const {
     incharge_req,
@@ -47,7 +47,7 @@ const HigherClosedDetailsView = ({
     ed_approve_req,
     md_approve_req,
     managing_director_approve,
-    managing_director_req,
+    managing_director_req
   } = crfClosedDetails
   return (
     <Fragment>
@@ -72,104 +72,67 @@ const HigherClosedDetailsView = ({
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 25,
-                width: 25,
+                width: 25
               }}
             />
             <Box sx={{ minWidth: '80vw', minHeight: '45vh', maxHeight: '85vh', overflowY: 'auto' }}>
               <CrfReqDetailViewCmp ApprovalData={crfClosedDetails} imagearray={imagearray} />
               <Box sx={{ pt: 0.5 }}>
                 {reqItems.length !== 0 ? <ReqItemDisplay reqItems={reqItems} /> : null}
-                {approveTableData.length !== 0 ? (
-                  <ApprovedItemListDis approveTableData={approveTableData} />
-                ) : null}
-                <Paper
-                  variant="outlined"
-                  square
-                  sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.5, mx: 0.5 }}
-                >
-                  <Typography
-                    sx={{ fontWeight: 'bold', px: 1, py: 0.5, color: '#145DA0', fontSize: 14 }}
-                  >
+                {approveTableData.length !== 0 ? <ApprovedItemListDis approveTableData={approveTableData} /> : null}
+                <Paper variant="outlined" square sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.5, mx: 0.5 }}>
+                  <Typography sx={{ fontWeight: 'bold', px: 1, py: 0.5, color: '#145DA0', fontSize: 14 }}>
                     Approval Details
                   </Typography>
                   <Grid container spacing={0.5} sx={{ flexGrow: 1, py: 0.5 }}>
-                    {incharge_req === 1 &&
-                      incharge_remarks !== null &&
-                      crf_closed_one !== 'Incharge' ? (
+                    {incharge_req === 1 && incharge_remarks !== null && crf_closed_one !== 'Incharge' ? (
                       <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                         <CommonInchargeReqCmp DetailViewData={crfClosedDetails} />
                       </Grid>
                     ) : null}
                     {hod_req === 1 && hod_approve !== null ? (
                       <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                        <HODApproveViewHigher
-                          DetailViewData={crfClosedDetails}
-                          selectedCompany={selectedCompany}
-                        />
+                        <HODApproveViewHigher DetailViewData={crfClosedDetails} selectedCompany={selectedCompany} />
                       </Grid>
                     ) : null}
                     {dms_req === 1 && dms_approve !== null ? (
                       <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                        <DMSApproveViewForHigher
-                          DetailViewData={crfClosedDetails}
-                          selectedCompany={selectedCompany}
-                        />
+                        <DMSApproveViewForHigher DetailViewData={crfClosedDetails} selectedCompany={selectedCompany} />
                       </Grid>
                     ) : null}
                     {ms_approve_req === 1 && ms_approve !== null ? (
                       <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                        <MSApproveViewForHigher
-                          DetailViewData={crfClosedDetails}
-                          selectedCompany={selectedCompany}
-                        />
+                        <MSApproveViewForHigher DetailViewData={crfClosedDetails} selectedCompany={selectedCompany} />
                       </Grid>
                     ) : null}
                     {manag_operation_req === 1 && manag_operation_approv !== null ? (
                       <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                        <MOApproveViewForHigher
-                          DetailViewData={crfClosedDetails}
-                          selectedCompany={selectedCompany}
-                        />
+                        <MOApproveViewForHigher DetailViewData={crfClosedDetails} selectedCompany={selectedCompany} />
                       </Grid>
                     ) : null}
                     {senior_manage_req === 1 && senior_manage_approv !== null ? (
                       <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                        <SMOApproveViewForHigher
-                          DetailViewData={crfClosedDetails}
-                          selectedCompany={selectedCompany}
-                        />
+                        <SMOApproveViewForHigher DetailViewData={crfClosedDetails} selectedCompany={selectedCompany} />
                       </Grid>
                     ) : null}
                     {gm_approve_req === 1 && gm_approve !== null ? (
                       <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                        <GMApproveViewForHigher
-                          DetailViewData={crfClosedDetails}
-                          selectedCompany={selectedCompany}
-                        />
+                        <GMApproveViewForHigher DetailViewData={crfClosedDetails} selectedCompany={selectedCompany} />
                       </Grid>
                     ) : null}
                     {md_approve_req === 1 && md_approve !== null ? (
                       <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                        <MDApproveViewHigher
-                          DetailViewData={crfClosedDetails}
-                          selectedCompany={selectedCompany}
-                        />
+                        <MDApproveViewHigher DetailViewData={crfClosedDetails} selectedCompany={selectedCompany} />
                       </Grid>
                     ) : null}
                     {ed_approve_req === 1 && ed_approve !== null ? (
                       <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                        <EDApproveViewForHigher
-                          DetailViewData={crfClosedDetails}
-                          selectedCompany={selectedCompany}
-                        />
+                        <EDApproveViewForHigher DetailViewData={crfClosedDetails} selectedCompany={selectedCompany} />
                       </Grid>
                     ) : null}
                     {managing_director_req === 1 && managing_director_approve !== null ? (
                       <Box sx={{ pt: 0.5 }}>
-                        <ManageApproveViewHigher
-                          DetailViewData={crfClosedDetails}
-                          selectedCompany={selectedCompany}
-                        />
+                        <ManageApproveViewHigher DetailViewData={crfClosedDetails} selectedCompany={selectedCompany} />
                       </Box>
                     ) : null}
                     <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>

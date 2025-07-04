@@ -1,9 +1,9 @@
 import React, { Fragment, useCallback, useState, memo } from 'react'
-import Slide from '@mui/material/Slide';
+import Slide from '@mui/material/Slide'
 // import { ToastContainer } from 'react-toastify';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import Button from '@mui/material/Button'
 import { Box, Grid, Paper, Typography } from '@mui/material'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
@@ -61,7 +61,7 @@ const CEOApprovalModel = ({ open, setOpen, isIncharge, ishod, datas, count, setC
     h_book_enddatetime,
     h_book_slno,
     hall_name,
-    is_ceo_approved,
+    is_ceo_approved
   } = datas[0]
 
   const patchdataCAO = useMemo(() => {
@@ -70,7 +70,7 @@ const CEOApprovalModel = ({ open, setOpen, isIncharge, ishod, datas, count, setC
       ceo_remark: remark,
       h_approval_slno: h_approval_slno,
       ceo_user: id,
-      ceo_approved_date: ceodate !== '' ? ceodate : null,
+      ceo_approved_date: ceodate !== '' ? ceodate : null
     }
   }, [is_ceo_approved, remark, h_approval_slno, ceodate, id])
 
@@ -104,7 +104,6 @@ const CEOApprovalModel = ({ open, setOpen, isIncharge, ishod, datas, count, setC
     setceodate('')
   }, [setOpen])
 
-
   return (
     <Fragment>
       {/* <ToastContainer /> */}
@@ -119,12 +118,10 @@ const CEOApprovalModel = ({ open, setOpen, isIncharge, ishod, datas, count, setC
           sx={{
             width: '100%',
             height: '100%',
-            pb: 2,
+            pb: 2
           }}
         >
-          <DialogContentText id="alert-dialog-slide-descriptiona">
-            Hallbooking Approval
-          </DialogContentText>
+          <DialogContentText id="alert-dialog-slide-descriptiona">Hallbooking Approval</DialogContentText>
 
           <Box sx={{ width: '100%', height: '100%', display: 'flex', p: 1 }}>
             <Paper square elevation={3} sx={{ width: '100%', height: '100%' }}>

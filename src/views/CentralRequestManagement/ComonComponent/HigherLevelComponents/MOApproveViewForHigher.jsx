@@ -17,7 +17,7 @@ const MOApproveViewForHigher = ({ DetailViewData, selectedCompany, company }) =>
     om_detial_analysis,
     om_approv_date,
     manag_operation_user,
-    mo_image,
+    mo_image
   } = DetailViewData
   const [imageshowFlag, setImageShowFlag] = useState(0)
   const [imageshow, setImageShow] = useState(false)
@@ -87,9 +87,7 @@ const MOApproveViewForHigher = ({ DetailViewData, selectedCompany, company }) =>
       ) : null}
       <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
         <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
-          <Typography
-            sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}
-          >
+          <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>
             {company?.mo_status_name}
           </Typography>
           <Box sx={{ flex: 1, py: 0.4, ml: 2 }}>
@@ -110,7 +108,7 @@ const MOApproveViewForHigher = ({ DetailViewData, selectedCompany, company }) =>
                 height: 25,
                 pb: 0.5,
                 fontSize: 12,
-                fontWeight: 550,
+                fontWeight: 550
               }}
             >
               {om}
@@ -121,50 +119,33 @@ const MOApproveViewForHigher = ({ DetailViewData, selectedCompany, company }) =>
           {manag_operation_approv === 1 && manag_operation_remarks !== null ? (
             <Box sx={{ pt: 0.5 }}>
               <Box sx={{ display: 'flex' }}>
-                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                  Justification/ Requirement Description{' '}
-                </Typography>
+                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Justification/ Requirement Description </Typography>
                 <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-                <Typography
-                  sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}
-                >
+                <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
                   {manag_operation_remarks === null ? 'Not Updated' : manag_operation_remarks}{' '}
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', pt: 1 }}>
-                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                  Detailed Analysis of Requirement
-                </Typography>
+                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Detailed Analysis of Requirement</Typography>
                 <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-                <Typography
-                  sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}
-                >
-                  {om_detial_analysis === null ? 'Not Updated' : om_detial_analysis}{' '}
-                  {om_detial_analysis}
+                <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
+                  {om_detial_analysis === null ? 'Not Updated' : om_detial_analysis} {om_detial_analysis}
                 </Typography>
               </Box>
             </Box>
           ) : manag_operation_approv === 2 && manag_operation_remarks !== null ? (
             <Box sx={{ display: 'flex', pt: 0.5 }}>
-              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                Justification for Reject{' '}
-              </Typography>
+              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Justification for Reject </Typography>
               <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-              <Typography
-                sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}
-              >
+              <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
                 {manag_operation_remarks === null ? 'Not Updated' : manag_operation_remarks}{' '}
               </Typography>
             </Box>
           ) : manag_operation_approv === 3 && manag_operation_remarks !== null ? (
             <Box sx={{ display: 'flex', pt: 0.5 }}>
-              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                Justification for On-Hold
-              </Typography>
+              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Justification for On-Hold</Typography>
               <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-              <Typography
-                sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}
-              >
+              <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
                 {manag_operation_remarks === null ? 'Not Updated' : manag_operation_remarks}
               </Typography>
             </Box>
@@ -172,9 +153,7 @@ const MOApproveViewForHigher = ({ DetailViewData, selectedCompany, company }) =>
             <Box sx={{ display: 'flex', pt: 0.5 }}>
               <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Remarks</Typography>
               <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-              <Typography
-                sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}
-              >
+              <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
                 {manag_operation_remarks === null ? 'Not Updated' : manag_operation_remarks}
               </Typography>
             </Box>
@@ -190,9 +169,7 @@ const MOApproveViewForHigher = ({ DetailViewData, selectedCompany, company }) =>
               ) : null}
               <Box sx={{ display: 'flex', flex: 1 }}>
                 <Typography> :&nbsp;</Typography>
-                <Typography
-                  sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pt: 0.3, pl: 0.2 }}
-                >
+                <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pt: 0.3, pl: 0.2 }}>
                   {capitalizeWords(manag_operation_user)}
                 </Typography>
                 <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pl: 2, pt: 0.3 }}>

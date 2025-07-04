@@ -23,13 +23,13 @@ const ScheduleTimeMast = () => {
   const [scheduleTime, setScheduleTime] = useState({
     schedule_time_id: '0',
     schedule_time_name: '',
-    schedule_time_status: false,
+    schedule_time_status: false
   })
   const refreshWindow = useCallback(() => {
     const formreset = {
       schedule_time_id: '0',
       schedule_time_name: '',
-      schedule_time_status: false,
+      schedule_time_status: false
     }
     setScheduleTime(formreset)
     setCount(0)
@@ -48,7 +48,7 @@ const ScheduleTimeMast = () => {
       schedule_time_id: schedule_time_id,
       schedule_time_name: schedule_time_name,
       schedule_time_status: schedule_time_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [schedule_time_name, schedule_time_status, schedule_time_id, id])
   const patchdata = useMemo(() => {
@@ -56,7 +56,7 @@ const ScheduleTimeMast = () => {
       schedule_time_id: schedule_time_id,
       schedule_time_name: schedule_time_name,
       schedule_time_status: schedule_time_status === true ? 1 : 0,
-      edit_user: id,
+      edit_user: id
     }
   }, [schedule_time_name, schedule_time_status, schedule_time_id, id])
   const submitSheduleTime = useCallback(
@@ -103,17 +103,12 @@ const ScheduleTimeMast = () => {
     const frmdata = {
       schedule_time_id: schedule_time_id,
       schedule_time_name: schedule_time_name,
-      schedule_time_status: status === 'Yes' ? true : false,
+      schedule_time_status: status === 'Yes' ? true : false
     }
     setScheduleTime(frmdata)
   }, [])
   return (
-    <CardMaster
-      title="Backup Schedule Time"
-      submit={submitSheduleTime}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Backup Schedule Time" submit={submitSheduleTime} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ p: 1 }}>
         <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
           <Box sx={{ width: '30%', p: 1 }}>

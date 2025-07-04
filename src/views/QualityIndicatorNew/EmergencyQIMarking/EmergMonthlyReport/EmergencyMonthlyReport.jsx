@@ -21,15 +21,13 @@ const EmergencyMonthlyReport = ({ viewData, searchDate, dayFlag }) => {
     totalPatients: 0,
     totalReturn: 0,
     timeResult: 0,
-    returnResult: 0,
+    returnResult: 0
   })
   const { totalTime, totalPatients, totalReturn, timeResult, returnResult } = monthReport
   useEffect(() => {
     if (viewData.length !== 0) {
       const patienttot = viewData.length
-      const timetot = viewData
-        ?.map(val => val.sumof_service_time)
-        .reduce((prev, next) => Number(prev) + Number(next))
+      const timetot = viewData?.map(val => val.sumof_service_time).reduce((prev, next) => Number(prev) + Number(next))
       const returnTot = viewData?.filter(val => val.return_status === 1)?.length
 
       const formData = {
@@ -37,7 +35,7 @@ const EmergencyMonthlyReport = ({ viewData, searchDate, dayFlag }) => {
         totalTime: timetot,
         totalReturn: returnTot,
         timeResult: patienttot > 0 ? (timetot / patienttot).toFixed(2) : 0,
-        returnResult: patienttot > 0 ? (returnTot / patienttot).toFixed(2) : 0,
+        returnResult: patienttot > 0 ? (returnTot / patienttot).toFixed(2) : 0
       }
       setMonthReport(formData)
       setSearchFlag(1)
@@ -53,7 +51,7 @@ const EmergencyMonthlyReport = ({ viewData, searchDate, dayFlag }) => {
     } else {
       const postdata = {
         from: format(startOfMonth(new Date(searchDate)), 'yyyy-MM-dd 00:00:00'),
-        to: format(endOfMonth(new Date(searchDate)), 'yyyy-MM-dd 23:59:59 '),
+        to: format(endOfMonth(new Date(searchDate)), 'yyyy-MM-dd 23:59:59 ')
       }
       const getInitialAssessmentList = async postdata => {
         const result = await axioslogin.post('/qiemergency/viewAssess', postdata)
@@ -102,10 +100,7 @@ const EmergencyMonthlyReport = ({ viewData, searchDate, dayFlag }) => {
           returnFlag={returnFlag}
         />
       ) : null}
-      <Box
-        variant="outlined"
-        sx={{ overflow: 'auto', maxHeight: window.innerHeight - 270, padding: 'none' }}
-      >
+      <Box variant="outlined" sx={{ overflow: 'auto', maxHeight: window.innerHeight - 270, padding: 'none' }}>
         {searchFlag === 1 ? (
           <Box sx={{}}>
             <Paper variant="outlined" square sx={{ pt: 0.7, flex: 1 }}>
@@ -117,7 +112,7 @@ const EmergencyMonthlyReport = ({ viewData, searchDate, dayFlag }) => {
                   py: 0.5,
                   fontWeight: 650,
                   mx: 1,
-                  color: '#555830',
+                  color: '#555830'
                 }}
               >
                 Time Taken for initial assessment of patients attending emergency services
@@ -126,9 +121,7 @@ const EmergencyMonthlyReport = ({ viewData, searchDate, dayFlag }) => {
                 <Box sx={{ flex: 2 }}>
                   <Box sx={{ display: 'flex', pt: 0.5 }}>
                     <Box sx={{ flex: 1.5, p: 0.5 }}>
-                      <Typography sx={{ fontSize: 15, pl: 0.4 }}>
-                        Total Sum of Time Taken For Assessment
-                      </Typography>
+                      <Typography sx={{ fontSize: 15, pl: 0.4 }}>Total Sum of Time Taken For Assessment</Typography>
                     </Box>
                     <Box
                       sx={{
@@ -136,7 +129,7 @@ const EmergencyMonthlyReport = ({ viewData, searchDate, dayFlag }) => {
                         p: 0.5,
                         fontWeight: 650,
                         display: 'flex',
-                        justifyContent: 'flex-end',
+                        justifyContent: 'flex-end'
                       }}
                     >
                       :
@@ -157,7 +150,7 @@ const EmergencyMonthlyReport = ({ viewData, searchDate, dayFlag }) => {
                         p: 0.5,
                         fontWeight: 650,
                         display: 'flex',
-                        justifyContent: 'flex-end',
+                        justifyContent: 'flex-end'
                       }}
                     >
                       :
@@ -176,7 +169,7 @@ const EmergencyMonthlyReport = ({ viewData, searchDate, dayFlag }) => {
                         p: 0.5,
                         fontWeight: 650,
                         display: 'flex',
-                        justifyContent: 'flex-end',
+                        justifyContent: 'flex-end'
                       }}
                     >
                       :
@@ -208,7 +201,7 @@ const EmergencyMonthlyReport = ({ viewData, searchDate, dayFlag }) => {
                           width: 300,
                           display: 'flex',
                           justifyContent: 'flex-start',
-                          borderRadius: 10,
+                          borderRadius: 10
                         }}
                         startDecorator={
                           <TimerOutlinedIcon
@@ -223,9 +216,7 @@ const EmergencyMonthlyReport = ({ viewData, searchDate, dayFlag }) => {
                     </CssVarsProvider>
                   </Box>
                   <Box sx={{ px: 1, display: 'flex', justifyContent: 'flex-end', pt: 0.5 }}>
-                    <Typography sx={{ color: 'darkred', fontSize: 11 }}>
-                      * BenchMark Value is 0
-                    </Typography>
+                    <Typography sx={{ color: 'darkred', fontSize: 11 }}>* BenchMark Value is 0</Typography>
                   </Box>
                 </Box>
               </Box>
@@ -239,7 +230,7 @@ const EmergencyMonthlyReport = ({ viewData, searchDate, dayFlag }) => {
                   py: 0.5,
                   fontWeight: 650,
                   mx: 1,
-                  color: '#555830',
+                  color: '#555830'
                 }}
               >
                 Return To Emergency Department Within 72 Hrs With Similar Presenting Complaints
@@ -249,8 +240,7 @@ const EmergencyMonthlyReport = ({ viewData, searchDate, dayFlag }) => {
                   <Box sx={{ display: 'flex', pt: 0.5 }}>
                     <Box sx={{ flex: 1.5, p: 0.5 }}>
                       <Typography sx={{ fontSize: 15, pl: 0.4 }}>
-                        Total Number Of Returns To Emergency Within 72 Hrs With Similar Presenting
-                        Complaints
+                        Total Number Of Returns To Emergency Within 72 Hrs With Similar Presenting Complaints
                       </Typography>
                     </Box>
                     <Box
@@ -259,7 +249,7 @@ const EmergencyMonthlyReport = ({ viewData, searchDate, dayFlag }) => {
                         p: 0.5,
                         fontWeight: 650,
                         display: 'flex',
-                        justifyContent: 'flex-end',
+                        justifyContent: 'flex-end'
                       }}
                     >
                       :
@@ -280,7 +270,7 @@ const EmergencyMonthlyReport = ({ viewData, searchDate, dayFlag }) => {
                         p: 0.5,
                         fontWeight: 650,
                         display: 'flex',
-                        justifyContent: 'flex-end',
+                        justifyContent: 'flex-end'
                       }}
                     >
                       :
@@ -299,7 +289,7 @@ const EmergencyMonthlyReport = ({ viewData, searchDate, dayFlag }) => {
                         p: 0.5,
                         fontWeight: 650,
                         display: 'flex',
-                        justifyContent: 'flex-end',
+                        justifyContent: 'flex-end'
                       }}
                     >
                       :
@@ -331,7 +321,7 @@ const EmergencyMonthlyReport = ({ viewData, searchDate, dayFlag }) => {
                           width: 300,
                           display: 'flex',
                           justifyContent: 'flex-start',
-                          borderRadius: 10,
+                          borderRadius: 10
                         }}
                         startDecorator={
                           <TimerOutlinedIcon
@@ -346,9 +336,7 @@ const EmergencyMonthlyReport = ({ viewData, searchDate, dayFlag }) => {
                     </CssVarsProvider>
                   </Box>
                   <Box sx={{ px: 1, display: 'flex', justifyContent: 'flex-end', pt: 0.5 }}>
-                    <Typography sx={{ color: 'darkred', fontSize: 11 }}>
-                      * BenchMark Value is 10 min
-                    </Typography>
+                    <Typography sx={{ color: 'darkred', fontSize: 11 }}>* BenchMark Value is 10 min</Typography>
                   </Box>
                 </Box>
               </Box>

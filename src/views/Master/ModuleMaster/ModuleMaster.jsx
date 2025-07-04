@@ -17,7 +17,7 @@ const ModuleMaster = () => {
   const [module, setModule] = useState({
     module_name: '',
     module_status: false,
-    module_slno: '',
+    module_slno: ''
   })
   //Destructuring
   const { module_name, module_status, module_slno } = module
@@ -37,7 +37,7 @@ const ModuleMaster = () => {
     return {
       module_name: module_name,
       module_status: module_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [module_name, module_status, id])
 
@@ -49,7 +49,7 @@ const ModuleMaster = () => {
     const frmdata = {
       module_name: module_name,
       module_status: status === 'Yes' ? true : false,
-      module_slno: module_slno,
+      module_slno: module_slno
     }
     setModule(frmdata)
   }, [])
@@ -59,7 +59,7 @@ const ModuleMaster = () => {
       module_name: module_name,
       module_status: module_status === true ? 1 : 0,
       module_slno: module_slno,
-      edit_user: id,
+      edit_user: id
     }
   }, [module_name, module_status, module_slno, id])
   /*** usecallback function for form submitting form */
@@ -70,7 +70,7 @@ const ModuleMaster = () => {
       const formreset = {
         module_name: '',
         module_status: false,
-        module_slno: '',
+        module_slno: ''
       }
       const InsertFun = async postdata => {
         const result = await axioslogin.post('/modulemaster', postdata)
@@ -121,19 +121,14 @@ const ModuleMaster = () => {
     const formreset = {
       module_name: '',
       module_status: false,
-      module_slno: '',
+      module_slno: ''
     }
     setModule(formreset)
     setvalue(0)
   }, [setModule])
 
   return (
-    <CardMaster
-      title="Module Master"
-      submit={submitModule}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Module Master" submit={submitModule} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ p: 1 }}>
         <Grid container spacing={1}>
           <Grid item xl={4} lg={4}>

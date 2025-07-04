@@ -1,14 +1,4 @@
-import {
-  Box,
-  Button,
-  Checkbox,
-  CssVarsProvider,
-  Grid,
-  Modal,
-  ModalDialog,
-  Textarea,
-  Typography,
-} from '@mui/joy'
+import { Box, Button, Checkbox, CssVarsProvider, Grid, Modal, ModalDialog, Textarea, Typography } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import TextComponent from 'src/views/Components/TextComponent'
 import CancelIcon from '@mui/icons-material/Cancel'
@@ -39,7 +29,7 @@ const CondemSubmitionModal = ({
   condemMastslno,
   empdept,
   setcondemCount,
-  condemCount,
+  condemCount
 }) => {
   const [addModalOpen, setaddModalOpen] = useState(false)
   const [addModalFlag, setaddModalFlag] = useState(0)
@@ -71,11 +61,11 @@ const CondemSubmitionModal = ({
     '&:hover': {
       bgcolor: 'white',
       color: '#523A28',
-      transform: 'scale(1.1)',
+      transform: 'scale(1.1)'
     },
     '&:active': {
-      transform: 'scale(0.95)',
-    },
+      transform: 'scale(0.95)'
+    }
   }
 
   const [checkedItems, setCheckedItems] = useState({})
@@ -126,14 +116,11 @@ const CondemSubmitionModal = ({
       am_condem_detail_slno: deatilSlno,
       keep_inscarp_status: 1,
       keep_in_srap_store_reason: reasons[index] || '',
-      scarp_store_emp: empId,
+      scarp_store_emp: empId
     }
 
     const scarpStoreUpdate = async singleItemData => {
-      const result = await axioslogin.patch(
-        '/AssetCondemnation/updateScarpStoreData',
-        singleItemData
-      )
+      const result = await axioslogin.patch('/AssetCondemnation/updateScarpStoreData', singleItemData)
       const { message, success } = result.data
       if (success === 2) {
         succesNotify(message)
@@ -150,13 +137,10 @@ const CondemSubmitionModal = ({
       am_condem_detail_slno: deatilSlno,
       keep_inscarp_status: 0,
       keep_in_srap_store_reason: null,
-      scarp_store_emp: empId,
+      scarp_store_emp: empId
     }
     const scarpStoreUpdate = async singleItemData => {
-      const result = await axioslogin.patch(
-        '/AssetCondemnation/updateScarpStoreData',
-        singleItemData
-      )
+      const result = await axioslogin.patch('/AssetCondemnation/updateScarpStoreData', singleItemData)
       const { success } = result.data
       if (success === 2) {
         succesNotify('Item Removed From Keeping in Scapstore and Submitted for Condemnation ')
@@ -171,7 +155,7 @@ const CondemSubmitionModal = ({
 
   const postCondemSlno = useMemo(() => {
     return {
-      condemMastslno,
+      condemMastslno
     }
   }, [condemMastslno])
 
@@ -180,7 +164,7 @@ const CondemSubmitionModal = ({
   const { data: CondemData } = useQuery({
     queryKey: ['getCondemAddedDetails', count],
     queryFn: () => getCondemAddedDetails(postCondemSlno),
-    enabled: condemMastslno !== undefined,
+    enabled: condemMastslno !== undefined
   })
 
   const [formPrefix, setFormPrefix] = useState('')
@@ -207,20 +191,16 @@ const CondemSubmitionModal = ({
       const requests = CondemData.map(async row => {
         const postData = {
           id: row.condem_mast_slno || null,
-          detailId: row.am_condem_detail_slno || null,
+          detailId: row.am_condem_detail_slno || null
         }
         try {
-          const result = await axioslogin.post(
-            '/AssetFileUpload/uploadFile/getCondemnation',
-            postData
-          )
+          const result = await axioslogin.post('/AssetFileUpload/uploadFile/getCondemnation', postData)
           const { success, data } = result.data
           if (success === 1 && data && Array.isArray(data)) {
             return {
               [row.am_condem_detail_slno]: data.map(
-                fileName =>
-                  `${PUBLIC_NAS_FOLDER}/AssetCondemDetails/${postData.id}/${postData.detailId}/${fileName}`
-              ),
+                fileName => `${PUBLIC_NAS_FOLDER}/AssetCondemDetails/${postData.id}/${postData.detailId}/${fileName}`
+              )
             }
           } else {
             return { [row.am_condem_detail_slno]: [] }
@@ -303,7 +283,7 @@ const CondemSubmitionModal = ({
         condem_form_no: formNumber,
         edit_user: empId,
         condem_status: 1,
-        req_dept: empdept,
+        req_dept: empdept
       }
 
       await FormUpdate(patchdata)
@@ -312,8 +292,8 @@ const CondemSubmitionModal = ({
         const assetPostForm = {
           assetItems: assetItems.map(item => ({
             am_item_map_slno: item.am_item_map_slno,
-            submited_condemnation: 1,
-          })),
+            submited_condemnation: 1
+          }))
         }
         await UpdateAssetStatus(assetPostForm)
       }
@@ -322,8 +302,8 @@ const CondemSubmitionModal = ({
         const sparePostForm = {
           spareItems: spareItems.map(item => ({
             am_spare_item_map_slno: item.am_spare_item_map_slno,
-            submited_condemnation: 1,
-          })),
+            submited_condemnation: 1
+          }))
         }
         await UpdateSpareStatus(sparePostForm)
       }
@@ -448,7 +428,7 @@ const CondemSubmitionModal = ({
             justifyContent: 'center',
             alignItems: 'center',
             pl: 1,
-            borderRadius: 10,
+            borderRadius: 10
           }}
         >
           <ModalDialog variant="outlined" sx={{ width: '95vw', p: 0, overflow: 'auto' }}>
@@ -478,14 +458,11 @@ const CondemSubmitionModal = ({
                   justifyContent: 'space-between',
                   alignItems: 'center',
                   mx: 1,
-                  mt: 2,
+                  mt: 2
                 }}
               >
                 <Box>
-                  <TextComponent
-                    text={'Request Date'}
-                    sx={{ fontWeight: 400, pl: 0.5, color: 'Black' }}
-                  />
+                  <TextComponent text={'Request Date'} sx={{ fontWeight: 400, pl: 0.5, color: 'Black' }} />
                   <TextFieldCustom
                     style={{ width: 200 }}
                     type="date"
@@ -522,7 +499,7 @@ const CondemSubmitionModal = ({
                     borderTop: 1,
                     borderRight: 1,
                     borderLeft: 1,
-                    borderColor: 'lightgray',
+                    borderColor: 'lightgray'
                   }}
                 >
                   <Box
@@ -532,39 +509,21 @@ const CondemSubmitionModal = ({
                       bgcolor: '#DCD2CC',
                       alignItems: 'center',
                       borderBottom: 1,
-                      borderColor: 'lightgray',
+                      borderColor: 'lightgray'
                     }}
                   >
-                    <Box
-                      sx={{ width: 40, fontWeight: 600, color: '#444444', fontSize: 14, pl: 1.5 }}
-                    >
-                      #
-                    </Box>
-                    <Box
-                      sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 14, pl: 1 }}
-                    >
+                    <Box sx={{ width: 40, fontWeight: 600, color: '#444444', fontSize: 14, pl: 1.5 }}>#</Box>
+                    <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 14, pl: 1 }}>
                       Keep in Scarp Store
                     </Box>
-                    <Box sx={{ width: 120, fontWeight: 600, color: '#444444', fontSize: 14 }}>
-                      Asset/Spare No.
-                    </Box>
-                    <Box
-                      sx={{ width: 160, fontWeight: 600, color: '#444444', fontSize: 14, pl: 1 }}
-                    >
+                    <Box sx={{ width: 120, fontWeight: 600, color: '#444444', fontSize: 14 }}>Asset/Spare No.</Box>
+                    <Box sx={{ width: 160, fontWeight: 600, color: '#444444', fontSize: 14, pl: 1 }}>
                       Item Purchase Value
                     </Box>
-                    <Box sx={{ width: 100, fontWeight: 600, color: '#444444', fontSize: 14 }}>
-                      Ticket No.
-                    </Box>
-                    <Box sx={{ flex: 2, fontWeight: 600, color: '#444444', fontSize: 14, pl: 1 }}>
-                      Condem Reason
-                    </Box>
-                    <Box sx={{ width: 60, fontWeight: 600, color: '#444444', fontSize: 14 }}>
-                      Details
-                    </Box>
-                    <Box sx={{ width: 50, fontWeight: 600, color: '#444444', fontSize: 14, pl: 1 }}>
-                      Add
-                    </Box>
+                    <Box sx={{ width: 100, fontWeight: 600, color: '#444444', fontSize: 14 }}>Ticket No.</Box>
+                    <Box sx={{ flex: 2, fontWeight: 600, color: '#444444', fontSize: 14, pl: 1 }}>Condem Reason</Box>
+                    <Box sx={{ width: 60, fontWeight: 600, color: '#444444', fontSize: 14 }}>Details</Box>
+                    <Box sx={{ width: 50, fontWeight: 600, color: '#444444', fontSize: 14, pl: 1 }}>Add</Box>
                   </Box>
 
                   <Box sx={{ width: '100%', overflow: 'auto' }}>
@@ -578,7 +537,7 @@ const CondemSubmitionModal = ({
                             alignItems: 'center',
                             borderBottom: 1,
                             borderColor: 'lightgray',
-                            bgcolor: val.keep_inscarp_status === 1 ? '#EDF2F3' : 'white',
+                            bgcolor: val.keep_inscarp_status === 1 ? '#EDF2F3' : 'white'
                           }}
                         >
                           <Box
@@ -587,7 +546,7 @@ const CondemSubmitionModal = ({
                               fontWeight: 600,
                               color: '#444444',
                               fontSize: 14,
-                              pl: 1.5,
+                              pl: 1.5
                             }}
                           >
                             {index + 1}
@@ -599,7 +558,7 @@ const CondemSubmitionModal = ({
                               color: '#444444',
                               fontSize: 14,
                               display: 'flex',
-                              justifyContent: 'center',
+                              justifyContent: 'center'
                             }}
                           >
                             <Box>
@@ -620,14 +579,10 @@ const CondemSubmitionModal = ({
                                     minRows={3}
                                     placeholder="Enter reason..."
                                     value={reasons[index] || ''}
-                                    onChange={e =>
-                                      setReasons(prev => ({ ...prev, [index]: e.target.value }))
-                                    }
+                                    onChange={e => setReasons(prev => ({ ...prev, [index]: e.target.value }))}
                                     sx={{ width: '100%' }}
                                   />
-                                  <Box
-                                    sx={{ display: 'flex', justifyContent: 'right', mt: 1, gap: 1 }}
-                                  >
+                                  <Box sx={{ display: 'flex', justifyContent: 'right', mt: 1, gap: 1 }}>
                                     <Button
                                       variant="outlined"
                                       color="neutral"
@@ -635,11 +590,7 @@ const CondemSubmitionModal = ({
                                     >
                                       Add
                                     </Button>
-                                    <Button
-                                      variant="outlined"
-                                      color="neutral"
-                                      onClick={handleCloseCheck}
-                                    >
+                                    <Button variant="outlined" color="neutral" onClick={handleCloseCheck}>
                                       Close
                                     </Button>
                                   </Box>
@@ -648,12 +599,9 @@ const CondemSubmitionModal = ({
                               <Popover open={Boolean(uncheckPopover)} anchorEl={uncheckPopover}>
                                 <Box sx={{ width: 250, p: 2, bgcolor: 'white' }}>
                                   <Typography sx={{ mb: 1, color: 'black', fontSize: 15 }}>
-                                    Do you want to submit this for condemnation by removing it from
-                                    the scrap store?
+                                    Do you want to submit this for condemnation by removing it from the scrap store?
                                   </Typography>
-                                  <Box
-                                    sx={{ display: 'flex', justifyContent: 'right', mt: 1, gap: 1 }}
-                                  >
+                                  <Box sx={{ display: 'flex', justifyContent: 'right', mt: 1, gap: 1 }}>
                                     <Button
                                       variant="outlined"
                                       color="neutral"
@@ -661,11 +609,7 @@ const CondemSubmitionModal = ({
                                     >
                                       Yes
                                     </Button>
-                                    <Button
-                                      variant="outlined"
-                                      color="neutral"
-                                      onClick={handleCloseUncheck}
-                                    >
+                                    <Button variant="outlined" color="neutral" onClick={handleCloseUncheck}>
                                       No
                                     </Button>
                                   </Box>
@@ -675,12 +619,8 @@ const CondemSubmitionModal = ({
                           </Box>
                           <Box sx={{ width: 120, fontWeight: 600, color: '#444444', fontSize: 14 }}>
                             {val.spare_asset_no
-                              ? `${val.spare_asset_no}/${val.spare_asset_no_only
-                                  .toString()
-                                  .padStart(6, '0')}`
-                              : `${val.item_asset_no}/${val.item_asset_no_only
-                                  .toString()
-                                  .padStart(6, '0')}`}
+                              ? `${val.spare_asset_no}/${val.spare_asset_no_only.toString().padStart(6, '0')}`
+                              : `${val.item_asset_no}/${val.item_asset_no_only.toString().padStart(6, '0')}`}
                           </Box>
                           <Box
                             sx={{
@@ -688,20 +628,18 @@ const CondemSubmitionModal = ({
                               fontWeight: 600,
                               color: '#444444',
                               fontSize: 14,
-                              pl: 1,
+                              pl: 1
                             }}
                           >
                             {new Intl.NumberFormat('en-IN', {
                               style: 'currency',
-                              currency: 'INR',
+                              currency: 'INR'
                             }).format(val.am_bill_amount)}
                           </Box>
                           <Box sx={{ width: 100, fontWeight: 600, color: '#444444', fontSize: 14 }}>
                             {val.complaint_slno}
                           </Box>
-                          <Box
-                            sx={{ flex: 2, fontWeight: 600, color: '#444444', fontSize: 14, pl: 1 }}
-                          >
+                          <Box sx={{ flex: 2, fontWeight: 600, color: '#444444', fontSize: 14, pl: 1 }}>
                             {val.condm_transf_remarks}
                           </Box>
                           <Box
@@ -710,7 +648,7 @@ const CondemSubmitionModal = ({
                               fontWeight: 600,
                               color: '#444444',
                               fontSize: 14,
-                              pl: 1,
+                              pl: 1
                             }}
                           >
                             <MoreIcon
@@ -724,7 +662,7 @@ const CondemSubmitionModal = ({
                               fontWeight: 600,
                               color: '#444444',
                               fontSize: 14,
-                              pl: 1,
+                              pl: 1
                             }}
                           >
                             <AddCircleIcon
@@ -739,17 +677,14 @@ const CondemSubmitionModal = ({
                 </Box>
               </Box>
 
-              {(CondemData?.some(item => item.am_condem_reason !== null) ||
-                addedCondemFiles.length > 0) && (
+              {(CondemData?.some(item => item.am_condem_reason !== null) || addedCondemFiles.length > 0) && (
                 <Box sx={{ flex: 1, border: 1, borderColor: 'lightgray', mx: 1, mt: 1, pb: 0.5 }}>
                   <TextComponent
                     text={'Item Details and Attachments'}
                     sx={{ fontWeight: 500, color: '#6A5546', pl: 0.8, pt: 0.5, fontSize: 15 }}
                   />
                   {CondemData?.filter(
-                    val =>
-                      val.am_condem_reason !== null ||
-                      addedCondemFiles[val.am_condem_detail_slno]?.length > 0
+                    val => val.am_condem_reason !== null || addedCondemFiles[val.am_condem_detail_slno]?.length > 0
                   ).map((val, index) => (
                     <Box
                       key={index}
@@ -759,19 +694,15 @@ const CondemSubmitionModal = ({
                         border: 1,
                         borderColor: 'lightgray',
                         mt: 0.5,
-                        p: 0.5,
+                        p: 0.5
                       }}
                     >
                       <Box sx={{ flex: 1, display: 'flex' }}>
                         <TextComponent
                           text={
                             val.spare_asset_no
-                              ? `${val.spare_asset_no}/${val.spare_asset_no_only
-                                  .toString()
-                                  .padStart(6, '0')}`
-                              : `${val.item_asset_no}/${val.item_asset_no_only
-                                  .toString()
-                                  .padStart(6, '0')}`
+                              ? `${val.spare_asset_no}/${val.spare_asset_no_only.toString().padStart(6, '0')}`
+                              : `${val.item_asset_no}/${val.item_asset_no_only.toString().padStart(6, '0')}`
                           }
                           sx={{ fontWeight: 500, color: '#0C2D48', pl: 0.8, pt: 0.5, fontSize: 14 }}
                         />
@@ -831,7 +762,7 @@ const CondemSubmitionModal = ({
                                         display: 'flex',
                                         border: 0.5,
                                         borderColor: '#E0E1E3',
-                                        mr: 0.5,
+                                        mr: 0.5
                                       }}
                                     >
                                       <Box sx={{ p: 0.5 }}>
@@ -842,7 +773,7 @@ const CondemSubmitionModal = ({
                                             width: 48,
                                             height: 48,
                                             color: '#e53935',
-                                            cursor: 'pointer',
+                                            cursor: 'pointer'
                                           }}
                                           onClick={() => SingleView({ url })}
                                         />
@@ -855,7 +786,7 @@ const CondemSubmitionModal = ({
                                           textOverflow: 'ellipsis',
                                           whiteSpace: 'nowrap',
                                           width: 90,
-                                          pt: 2,
+                                          pt: 2
                                         }}
                                       >
                                         {url.split('/').pop() || 'N/A'}
@@ -867,7 +798,7 @@ const CondemSubmitionModal = ({
                                         display: 'flex',
                                         border: 0.5,
                                         borderColor: '#E0E1E3',
-                                        mr: 0.5,
+                                        mr: 0.5
                                       }}
                                     >
                                       <PictureAsPdfIcon
@@ -876,7 +807,7 @@ const CondemSubmitionModal = ({
                                           height: 48,
                                           color: '#e53935',
                                           cursor: 'pointer',
-                                          mt: 0.5,
+                                          mt: 0.5
                                         }}
                                         onClick={() => SingleView({ url })}
                                       />
@@ -888,7 +819,7 @@ const CondemSubmitionModal = ({
                                           textOverflow: 'ellipsis',
                                           whiteSpace: 'nowrap',
                                           width: 90,
-                                          pt: 2,
+                                          pt: 2
                                         }}
                                       >
                                         {url.split('/').pop() || 'N/A'}
@@ -900,7 +831,7 @@ const CondemSubmitionModal = ({
                                         width: 50,
                                         height: 50,
                                         color: '#e53935',
-                                        cursor: 'pointer',
+                                        cursor: 'pointer'
                                       }}
                                       onClick={() => SingleView({ url })}
                                     />
@@ -922,7 +853,7 @@ const CondemSubmitionModal = ({
                   textAlign: 'right',
                   py: 1,
                   mr: 2,
-                  backgroundColor: 'white',
+                  backgroundColor: 'white'
                 }}
               >
                 <Button variant="outlined" sx={buttonStyle} onClick={submitForm}>

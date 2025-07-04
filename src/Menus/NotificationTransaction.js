@@ -6,8 +6,8 @@ const NotificationTransaction = [
     men_slno: 273,
     name: 'Notification',
     to: '/Home/NotificationMainMeNu',
-    icon: <CiStop1 />,
-  },
+    icon: <CiStop1 />
+  }
 ]
 
 export default NotificationTransaction

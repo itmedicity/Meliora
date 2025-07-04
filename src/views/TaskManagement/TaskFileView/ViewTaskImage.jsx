@@ -14,7 +14,7 @@ const ViewTaskImage = ({ open, handleClose, imageUrls }) => {
           sx={{
             width: '100%',
             height: '60%',
-            bgcolor: '#05445E',
+            bgcolor: '#05445E'
           }}
         >
           <Box sx={{ display: 'flex' }}>
@@ -24,21 +24,21 @@ const ViewTaskImage = ({ open, handleClose, imageUrls }) => {
                 fontWeight: 'bold',
                 height: '50px',
                 color: 'white',
-                fontSize: 20,
+                fontSize: 20
               }}
             >
               Task
             </Box>
             <Box
               sx={{
-                marginLeft: 'auto',
+                marginLeft: 'auto'
               }}
             >
               <HighlightOffTwoToneIcon
                 sx={{
                   color: 'white',
                   cursor: 'pointer',
-                  '&:hover': { color: '#F7BEC0' },
+                  '&:hover': { color: '#F7BEC0' }
                 }}
                 onClick={handleClose}
               />
@@ -46,26 +46,14 @@ const ViewTaskImage = ({ open, handleClose, imageUrls }) => {
           </Box>
           <Box sx={{ gap: 5 }}>
             {imageUrls.map((imageUrl, index) => (
-              <Paper
-                key={index}
-                sx={{ bgcolor: '#EBEBE8', cursor: 'pointer', height: 700, width: 1000, mb: 1 }}
-              >
-                <embed
-                  id="pdf-embed"
-                  src={imageUrl}
-                  type="application/pdf"
-                  height={650}
-                  width={'100%'}
-                />
+              <Paper key={index} sx={{ bgcolor: '#EBEBE8', cursor: 'pointer', height: 700, width: 1000, mb: 1 }}>
+                <embed id="pdf-embed" src={imageUrl} type="application/pdf" height={650} width={'100%'} />
               </Paper>
             ))}
           </Box>
           <DialogActions>
             <CssVarsProvider>
-              <Button
-                sx={{ color: 'white', fontWeight: 'bold', bgcolor: '#0C2D48' }}
-                onClick={handleClose}
-              >
+              <Button sx={{ color: 'white', fontWeight: 'bold', bgcolor: '#0C2D48' }} onClick={handleClose}>
                 Cancel
               </Button>
             </CssVarsProvider>

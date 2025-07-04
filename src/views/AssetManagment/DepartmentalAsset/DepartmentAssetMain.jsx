@@ -32,7 +32,7 @@ const DepartmentAssetMain = () => {
 
   const { data: custodianArray = [] } = useQuery({
     queryKey: ['getAllCustodianDept'],
-    queryFn: getCustodianDept,
+    queryFn: getCustodianDept
   })
 
   const CustDept = useMemo(() => custodianArray, [custodianArray])
@@ -45,7 +45,7 @@ const DepartmentAssetMain = () => {
     2: <ConstructionIcon sx={{ height: '100%', width: '100%', color: '#2C2743' }} />,
     3: <StarHalfIcon sx={{ height: '100%', width: '100%', color: '#2C2743' }} />,
     4: <WorkIcon sx={{ height: '100%', width: '100%', color: '#2C2743' }} />,
-    5: <SettingsSuggestIcon sx={{ height: '100%', width: '100%', color: '#2C2743' }} />,
+    5: <SettingsSuggestIcon sx={{ height: '100%', width: '100%', color: '#2C2743' }} />
   }
 
   const handleSelect = deptSlno => {
@@ -60,14 +60,14 @@ const DepartmentAssetMain = () => {
   const searchhData = useMemo(
     () => ({
       item_custodian_dept: selectedDept,
-      item_deptsec_slno: empsecid,
+      item_deptsec_slno: empsecid
     }),
     [selectedDept, empsecid]
   )
 
   const { data: getCustAssetInSec = [] } = useQuery({
     queryKey: ['getAllcustodianWiseAsset', searchhData],
-    queryFn: () => getDeptSecAssetList(searchhData),
+    queryFn: () => getDeptSecAssetList(searchhData)
   })
 
   const AssetList = useMemo(() => getCustAssetInSec, [getCustAssetInSec])
@@ -88,7 +88,7 @@ const DepartmentAssetMain = () => {
               flex: 1,
               m: 0.5,
               pl: 1,
-              fontFamily: 'Arial',
+              fontFamily: 'Arial'
             }}
             text={`ASSET LIST ${secName}`}
           />
@@ -114,7 +114,7 @@ const DepartmentAssetMain = () => {
                     borderRadius: 8,
                     bgcolor: isSelected ? '#3e3a70' : '#615CA5',
                     boxShadow: isSelected ? 3 : 0,
-                    cursor: 'pointer',
+                    cursor: 'pointer'
                   }}
                   onClick={() => handleSelect(dept.am_custodian_slno)}
                 >
@@ -144,12 +144,10 @@ const DepartmentAssetMain = () => {
               borderTop: 1,
               borderColor: 'lightgray',
               bgcolor: 'white',
-              flex: 1,
+              flex: 1
             }}
           >
-            <Box sx={{ width: 70, pl: 2, pt: 1, fontWeight: 600, color: 'black', fontSize: 12 }}>
-              #
-            </Box>
+            <Box sx={{ width: 70, pl: 2, pt: 1, fontWeight: 600, color: 'black', fontSize: 12 }}>#</Box>
 
             <Box sx={{ width: 165 }}>Asset No.</Box>
             <Box sx={{ width: 300 }}>Category</Box>
@@ -170,21 +168,15 @@ const DepartmentAssetMain = () => {
                       py: 0.5,
                       mb: 0.5,
                       flex: 1,
-                      display: 'flex',
+                      display: 'flex'
                     }}
                   >
-                    <Box sx={{ width: 70, pl: 2, fontWeight: 400, color: 'black', fontSize: 12 }}>
-                      {index + 1}
-                    </Box>
+                    <Box sx={{ width: 70, pl: 2, fontWeight: 400, color: 'black', fontSize: 12 }}>{index + 1}</Box>
                     <Box sx={{ width: 165, fontWeight: 400, color: 'black', fontSize: 14 }}>
                       {val.item_asset_no + '/' + val.item_asset_no_only.toString().padStart(6, '0')}
                     </Box>
-                    <Box sx={{ width: 300, fontWeight: 400, color: 'black', fontSize: 14 }}>
-                      {val.category_name}
-                    </Box>
-                    <Box sx={{ flex: 1, fontWeight: 400, color: 'black', fontSize: 14 }}>
-                      {val.item_name}
-                    </Box>
+                    <Box sx={{ width: 300, fontWeight: 400, color: 'black', fontSize: 14 }}>{val.category_name}</Box>
+                    <Box sx={{ flex: 1, fontWeight: 400, color: 'black', fontSize: 14 }}>{val.item_name}</Box>
                   </Box>
                 )
               }}

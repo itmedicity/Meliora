@@ -114,11 +114,11 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
   const {
     data: companyData,
     isLoading: isCompLoading,
-    error: compError,
+    error: compError
   } = useQuery({
     queryKey: 'getdefaultCompany',
     queryFn: () => getDefaultCompany(),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const company = useMemo(() => companyData, [companyData])
   //for name change in the crm menus
@@ -155,9 +155,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
             item.name = company?.ed_name ? company?.ed_name : 'ED Approval'
             break
           case 253:
-            item.name = company?.managing_director
-              ? company?.managing_director
-              : 'Managing Director Approval'
+            item.name = company?.managing_director ? company?.managing_director : 'Managing Director Approval'
             break
           default:
             break
@@ -195,7 +193,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
       name: 'Ticket Management',
       items: cmtransact,
       route: '/ComplaintManagement',
-      icon: <HiTicket color="var(--true-blue-800)" />,
+      icon: <HiTicket color="var(--true-blue-800)" />
     },
     //Request Management System Menu Start from Here
     // {
@@ -211,7 +209,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
       name: 'Central Request management',
       items: crmnewtransact,
       route: '/Home',
-      icon: <RiDashboardHorizontalFill color="var(--true-blue-800)" />,
+      icon: <RiDashboardHorizontalFill color="var(--true-blue-800)" />
     },
 
     //Room Management System Menu Start from Here
@@ -221,7 +219,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
       name: 'Room Management',
       items: rmtransact,
       route: '/Home',
-      icon: <MdRoomPreferences color="var(--true-blue-800)" />,
+      icon: <MdRoomPreferences color="var(--true-blue-800)" />
     },
     //Asset Management System Menu Start from Here
     {
@@ -230,7 +228,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
       name: 'Asset Management',
       items: amtransact,
       route: '/Home',
-      icon: <TbDeviceImacCog color="var(--true-blue-800)" />,
+      icon: <TbDeviceImacCog color="var(--true-blue-800)" />
     },
     // //Diet Management Menus
     // {
@@ -265,7 +263,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
       name: 'Task Management',
       items: tasktransact,
       route: '/Home',
-      icon: <FcGenealogy />,
+      icon: <FcGenealogy />
     },
     {
       slno: 18,
@@ -273,7 +271,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
       name: 'Information Technology',
       items: itmanagement,
       route: '/Home',
-      icon: <FcComboChart />,
+      icon: <FcComboChart />
     },
     {
       slno: 9,
@@ -281,7 +279,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
       name: 'Quality Indicator',
       items: qualityTransact,
       route: '/Home',
-      icon: <FcEngineering />,
+      icon: <FcEngineering />
     },
 
     {
@@ -290,7 +288,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
       name: 'Daily Census',
       items: censusTransact,
       route: '/Home',
-      icon: <FcMultipleDevices />,
+      icon: <FcMultipleDevices />
     },
     {
       slno: 20,
@@ -298,7 +296,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
       name: 'Incident Management',
       items: incidentTransact,
       route: '/Home',
-      icon: <FcInspection />,
+      icon: <FcInspection />
     },
     {
       slno: 8,
@@ -306,7 +304,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
       name: 'Feedback Management',
       items: feedbackTransact,
       route: '/Home',
-      icon: <FcBullish />,
+      icon: <FcBullish />
     },
     {
       slno: 24,
@@ -314,7 +312,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
       name: 'Notification',
       items: NotificationTransact,
       route: '/Home',
-      icon: <FcAdvertising />,
+      icon: <FcAdvertising />
     },
     {
       slno: 25,
@@ -322,8 +320,8 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
       name: 'Ams',
       items: AmsTransact,
       route: '/Home',
-      icon: <GiMedicines color="var(--true-blue-800)" />,
-    },
+      icon: <GiMedicines color="var(--true-blue-800)" />
+    }
   ]
 
   useEffect(() => {
@@ -342,9 +340,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
         setCmTransact(newCmTransaction)
         // const newCrmTransaction = CrmTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
         // setCrmTransact(newCrmTransaction)
-        const newCrmNewTransaction = CrmNewTransaction.filter(val =>
-          menuSlnoAry.includes(val.men_slno)
-        )
+        const newCrmNewTransaction = CrmNewTransaction.filter(val => menuSlnoAry.includes(val.men_slno))
         setCrmNewTransact(newCrmNewTransaction)
         // const newDietTransaction = DietTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
         // setDietTransact(newDietTransaction)
@@ -362,25 +358,15 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
         setTaskTransact(TaskManageTransact)
         const ItManageTransact = ITTransactions.filter(val => menuSlnoAry.includes(val.men_slno))
         setItManagement(ItManageTransact)
-        const QualityIndTransact = QualityTransactions.filter(val =>
-          menuSlnoAry.includes(val.men_slno)
-        )
+        const QualityIndTransact = QualityTransactions.filter(val => menuSlnoAry.includes(val.men_slno))
         setQualityTransact(QualityIndTransact)
-        const DailyCensusTransact = DailyCensusTransactions.filter(val =>
-          menuSlnoAry.includes(val.men_slno)
-        )
+        const DailyCensusTransact = DailyCensusTransactions.filter(val => menuSlnoAry.includes(val.men_slno))
         setCensusTransact(DailyCensusTransact)
-        const IncidentTransact = IncidentTransactions.filter(val =>
-          menuSlnoAry.includes(val.men_slno)
-        )
+        const IncidentTransact = IncidentTransactions.filter(val => menuSlnoAry.includes(val.men_slno))
         setIncidentTransact(IncidentTransact)
-        const FeedbackTransact = FeedbackTransactions.filter(val =>
-          menuSlnoAry.includes(val.men_slno)
-        )
+        const FeedbackTransact = FeedbackTransactions.filter(val => menuSlnoAry.includes(val.men_slno))
         setFeedbackTransact(FeedbackTransact)
-        const NotificationTransact = NotificationTransaction.filter(val =>
-          menuSlnoAry.includes(val.men_slno)
-        )
+        const NotificationTransact = NotificationTransaction.filter(val => menuSlnoAry.includes(val.men_slno))
         setNotificationTransact(NotificationTransact)
 
         const AmsTransact = AmsTransaction.filter(val => menuSlnoAry.includes(val.men_slno))
@@ -400,7 +386,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
       if (success === 1) {
         const { em_id } = data[0]
         const postdata = {
-          emp_slno: em_id,
+          emp_slno: em_id
         }
         try {
           const result = await axioslogin.post('/common/getModlRight', postdata)
@@ -508,9 +494,9 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
               flexShrink: 0,
               bgcolor: 'transparent',
               p: { md: 3, sm: 0 },
-              boxShadow: 'none',
-            },
-          },
+              boxShadow: 'none'
+            }
+          }
         }}
       >
         <Sheet
@@ -524,7 +510,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
             overflow: 'auto',
             border: '1.8px solid',
             borderColor: 'var(--royal-purple-400)',
-            backgroundColor: '#fff',
+            backgroundColor: '#fff'
           }}
         >
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -537,7 +523,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
                     fontSize: 16,
                     lineHeight: 1.2,
                     color: 'var(--royal-purple-300)',
-                    fontFamily: 'var(--roboto-font)',
+                    fontFamily: 'var(--roboto-font)'
                   }}
                 >
                   {empname
@@ -551,7 +537,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
                     fontWeight: 600,
                     fontSize: 15,
                     color: 'var(--royal-purple-300)',
-                    fontFamily: 'var(--roboto-font)',
+                    fontFamily: 'var(--roboto-font)'
                   }}
                 >
                   {section
@@ -569,7 +555,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
           </Box>
           {/* <ModalClose /> */}
           <Divider sx={{ mt: 'auto', bgcolor: 'var(--royal-purple-400)' }} />
-          <DialogContent sx={{ gap: 2 }} >
+          <DialogContent sx={{ gap: 2 }}>
             <Box
               sx={{
                 position: 'absolute',
@@ -577,7 +563,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
                 opacity: 0.1, // make it subtle
-                zIndex: 1,
+                zIndex: 0
               }}
             >
               <img src={TMCHLogo} alt="logo" width={300} height={300} />
@@ -595,7 +581,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
                       color: 'var(--dark-gray)',
                       fontFamily: 'var(--roboto-font)',
                       fontWeight: 400,
-                      fontSize: 14.5,
+                      fontSize: 14.5
                     }}
                   >
                     {item.name}
@@ -614,16 +600,14 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
                         setOpenMenuIndex(null)
                       }}
                     >
-                      <ListItemIcon sx={{ color: 'var(--rose-pink-300)' }}>
-                        {subItem.icon}
-                      </ListItemIcon>
+                      <ListItemIcon sx={{ color: 'var(--rose-pink-300)' }}>{subItem.icon}</ListItemIcon>
                       <ListItemText
                         disableTypography={true}
                         sx={{
                           color: 'var(--light-gray)',
                           fontFamily: 'var(--roboto-font)',
                           fontWeight: 400,
-                          fontSize: 13.5,
+                          fontSize: 13.5
                         }}
                       >
                         {subItem.name}
@@ -638,18 +622,8 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
           <Divider sx={{ mt: 'auto', bgcolor: 'var(--royal-purple-400)' }} />
           <Stack direction="row" useFlexGap spacing={1} sx={{ justifyContent: 'space-between' }}>
             <Box></Box>
-            <Tooltip
-              title="Exit from the Application"
-              arrow
-              placement="right"
-              variant="outlined"
-              color="danger"
-            >
-              <IconButton
-                variant="outlined"
-                sx={{ color: 'var(--rose-pink-400)' }}
-                onClick={() => { }}
-              >
+            <Tooltip title="Exit from the Application" arrow placement="right" variant="outlined" color="danger">
+              <IconButton variant="outlined" sx={{ color: 'var(--rose-pink-400)' }} onClick={() => {}}>
                 <VscSignOut size={20} />
               </IconButton>
             </Tooltip>

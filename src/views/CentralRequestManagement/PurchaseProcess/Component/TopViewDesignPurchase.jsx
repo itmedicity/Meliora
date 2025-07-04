@@ -29,7 +29,7 @@ const TopViewDesignPurchase = ({
   quoFinal,
   poProcess,
   apprvCount,
-  dataCollection,
+  dataCollection
 }) => {
   const [startDate, setStartDate] = useState(formatDateForInput(new Date()))
   const [endDate, setEndDate] = useState(formatDateForInput(new Date()))
@@ -98,9 +98,7 @@ const TopViewDesignPurchase = ({
           const newData = allData?.filter(val => val.dept_id === department)
           setDisData(newData)
         } else {
-          const newData = allData?.filter(
-            val => val.dept_id === department && val.request_deptsec_slno === dptSec
-          )
+          const newData = allData?.filter(val => val.dept_id === department && val.request_deptsec_slno === dptSec)
           setDisData(newData)
         }
       }
@@ -110,11 +108,11 @@ const TopViewDesignPurchase = ({
   const {
     data: companyData,
     isLoading: isCompLoading,
-    error: compError,
+    error: compError
   } = useQuery({
     queryKey: 'getdefaultCompany',
     queryFn: () => getDefaultCompany(),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const company = useMemo(() => companyData, [companyData])
 
@@ -128,7 +126,7 @@ const TopViewDesignPurchase = ({
           flexWrap: 'wrap',
           bgcolor: '#E3EFF9',
           border: '0.4px solid #B4F5F0',
-          borderTop: 'none',
+          borderTop: 'none'
         }}
       >
         <RadioGroup
@@ -143,15 +141,15 @@ const TopViewDesignPurchase = ({
             badgeContent={ackPending.length || 0}
             anchorOrigin={{
               vertical: 'top',
-              horizontal: 'right',
+              horizontal: 'right'
             }}
             sx={{
               mr: 1,
               '& .MuiBadge-badge': {
                 backgroundColor: '#F83839',
                 color: 'white',
-                transform: 'translate(70%, -10%)',
-              },
+                transform: 'translate(70%, -10%)'
+              }
             }}
           >
             <FormControlLabel
@@ -163,17 +161,17 @@ const TopViewDesignPurchase = ({
                     xs: '12px',
                     sm: '14px',
                     lg: '14px',
-                    xl: '16px',
-                  },
-                },
+                    xl: '16px'
+                  }
+                }
               }}
               control={
                 <Radio
                   sx={{
                     color: 'red',
                     '&.Mui-checked': {
-                      color: 'red',
-                    },
+                      color: 'red'
+                    }
                   }}
                 />
               }
@@ -184,15 +182,15 @@ const TopViewDesignPurchase = ({
             badgeContent={crfProcess.length || 0}
             anchorOrigin={{
               vertical: 'top',
-              horizontal: 'right',
+              horizontal: 'right'
             }}
             sx={{
               mr: 1,
               '& .MuiBadge-badge': {
                 backgroundColor: '#E55B13',
                 color: 'white',
-                transform: 'translate(70%, -10%)',
-              },
+                transform: 'translate(70%, -10%)'
+              }
             }}
           >
             <FormControlLabel
@@ -204,17 +202,17 @@ const TopViewDesignPurchase = ({
                     xs: '12px',
                     sm: '14px',
                     lg: '14px',
-                    xl: '16px',
-                  },
-                },
+                    xl: '16px'
+                  }
+                }
               }}
               control={
                 <Radio
                   sx={{
                     color: '#E55B13',
                     '&.Mui-checked': {
-                      color: '#E55B13',
-                    },
+                      color: '#E55B13'
+                    }
                   }}
                 />
               }
@@ -225,15 +223,15 @@ const TopViewDesignPurchase = ({
             badgeContent={quoNego.length || 0}
             anchorOrigin={{
               vertical: 'top',
-              horizontal: 'right',
+              horizontal: 'right'
             }}
             sx={{
               mr: 1,
               '& .MuiBadge-badge': {
                 backgroundColor: '#6200ea',
                 color: 'white',
-                transform: 'translate(70%, -10%)',
-              },
+                transform: 'translate(70%, -10%)'
+              }
             }}
           >
             <FormControlLabel
@@ -245,17 +243,17 @@ const TopViewDesignPurchase = ({
                     xs: '12px',
                     sm: '14px',
                     lg: '14px',
-                    xl: '16px',
-                  },
-                },
+                    xl: '16px'
+                  }
+                }
               }}
               control={
                 <Radio
                   sx={{
                     color: '#6200ea',
                     '&.Mui-checked': {
-                      color: '#6200ea',
-                    },
+                      color: '#6200ea'
+                    }
                   }}
                 />
               }
@@ -266,15 +264,15 @@ const TopViewDesignPurchase = ({
             badgeContent={quoFinal.length || 0}
             anchorOrigin={{
               vertical: 'top',
-              horizontal: 'right',
+              horizontal: 'right'
             }}
             sx={{
               mr: 1,
               '& .MuiBadge-badge': {
                 backgroundColor: 'orange',
                 color: 'white',
-                transform: 'translate(70%, -10%)',
-              },
+                transform: 'translate(70%, -10%)'
+              }
             }}
           >
             {' '}
@@ -287,17 +285,17 @@ const TopViewDesignPurchase = ({
                     xs: '12px',
                     sm: '14px',
                     lg: '14px',
-                    xl: '16px',
-                  },
-                },
+                    xl: '16px'
+                  }
+                }
               }}
               control={
                 <Radio
                   sx={{
                     color: 'orange',
                     '&.Mui-checked': {
-                      color: 'orange',
-                    },
+                      color: 'orange'
+                    }
                   }}
                 />
               }
@@ -308,15 +306,15 @@ const TopViewDesignPurchase = ({
             badgeContent={poProcess.length || 0}
             anchorOrigin={{
               vertical: 'top',
-              horizontal: 'right',
+              horizontal: 'right'
             }}
             sx={{
               mr: 1,
               '& .MuiBadge-badge': {
                 backgroundColor: '#0d47a1',
                 color: 'white',
-                transform: 'translate(70%, -10%)',
-              },
+                transform: 'translate(70%, -10%)'
+              }
             }}
           >
             {' '}
@@ -329,17 +327,17 @@ const TopViewDesignPurchase = ({
                     xs: '12px',
                     sm: '14px',
                     lg: '14px',
-                    xl: '16px',
-                  },
-                },
+                    xl: '16px'
+                  }
+                }
               }}
               control={
                 <Radio
                   sx={{
                     color: '#0d47a1',
                     '&.Mui-checked': {
-                      color: '#0d47a1',
-                    },
+                      color: '#0d47a1'
+                    }
                   }}
                 />
               }
@@ -351,15 +349,15 @@ const TopViewDesignPurchase = ({
             badgeContent={apprvCount.length || 0}
             anchorOrigin={{
               vertical: 'top',
-              horizontal: 'right',
+              horizontal: 'right'
             }}
             sx={{
               mr: 1,
               '& .MuiBadge-badge': {
                 backgroundColor: '#1b5e20',
                 color: 'white',
-                transform: 'translate(70%, -10%)',
-              },
+                transform: 'translate(70%, -10%)'
+              }
             }}
           >
             <FormControlLabel
@@ -372,17 +370,17 @@ const TopViewDesignPurchase = ({
                     xs: '12px',
                     sm: '14px',
                     lg: '14px',
-                    xl: '16px',
-                  },
-                },
+                    xl: '16px'
+                  }
+                }
               }}
               control={
                 <Radio
                   sx={{
                     color: '#1b5e20',
                     '&.Mui-checked': {
-                      color: '#1b5e20',
-                    },
+                      color: '#1b5e20'
+                    }
                   }}
                 />
               }
@@ -404,16 +402,16 @@ const TopViewDesignPurchase = ({
             badgeContent={dataCollection.length || 0}
             anchorOrigin={{
               vertical: 'top',
-              horizontal: 'right',
+              horizontal: 'right'
             }}
             sx={{
               mr: 1,
               '& .MuiBadge-badge': {
                 backgroundColor: '#0C6170',
                 color: 'white',
-                transform: 'translate(70%, -10%)',
+                transform: 'translate(70%, -10%)'
               },
-              bgcolor: '#D4F1F4',
+              bgcolor: '#D4F1F4'
             }}
           >
             <FormControlLabel
@@ -426,18 +424,18 @@ const TopViewDesignPurchase = ({
                     xs: '12px',
                     sm: '14px',
                     lg: '14px',
-                    xl: '16px',
-                  },
-                },
+                    xl: '16px'
+                  }
+                }
               }}
               control={
                 <Radio
                   sx={{
                     color: '#0C6170',
                     '&.Mui-checked': {
-                      color: '#0C6170',
+                      color: '#0C6170'
                     },
-                    bgcolor: '#D4F1F4',
+                    bgcolor: '#D4F1F4'
                   }}
                 />
               }
@@ -457,10 +455,10 @@ const TopViewDesignPurchase = ({
                   border: '1px solid #bbdefb',
                   height: 20,
                   color: '#1565c0',
-                  fontSize: 14,
+                  fontSize: 14
                 }}
                 slotProps={{
-                  listbox: { placement: 'bottom-start' },
+                  listbox: { placement: 'bottom-start' }
                 }}
                 placeholder="Search By"
                 value={searchFlag}
@@ -482,13 +480,11 @@ const TopViewDesignPurchase = ({
                   fontSize: 12,
                   borderRadius: 5,
                   height: '19px',
-                  lineHeight: '1',
+                  lineHeight: '1'
                 }}
                 onClick={ClearSearch}
               >
-                <FilterAltTwoToneIcon
-                  sx={{ fontWeight: 550, color: '#0277bd', pr: 0.5, width: 30, height: 20 }}
-                />
+                <FilterAltTwoToneIcon sx={{ fontWeight: 550, color: '#0277bd', pr: 0.5, width: 30, height: 20 }} />
                 Clear Filter
               </IconButton>
             </CssVarsProvider>
@@ -509,12 +505,8 @@ const TopViewDesignPurchase = ({
                 <CustomInputDateCmp
                   StartIcon={
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                      <AlignHorizontalLeftTwoToneIcon
-                        sx={{ height: 18, width: 18, color: '#0063C5' }}
-                      />
-                      <Typography sx={{ fontSize: '13px', color: '#0063C5' }}>
-                        CRF/{company?.company_name}/
-                      </Typography>
+                      <AlignHorizontalLeftTwoToneIcon sx={{ height: 18, width: 18, color: '#0063C5' }} />
+                      <Typography sx={{ fontSize: '13px', color: '#0063C5' }}>CRF/{company?.company_name}/</Typography>
                     </Box>
                   }
                   className={{
@@ -522,7 +514,7 @@ const TopViewDesignPurchase = ({
                     border: '1px solid #bbdefb',
                     width: 250,
                     height: 35,
-                    color: '#1565c0',
+                    color: '#1565c0'
                   }}
                   autoComplete={'off'}
                   size={'md'}
@@ -535,11 +527,7 @@ const TopViewDesignPurchase = ({
             </Box>
           ) : searchFlag === '3' ? (
             <Box sx={{ display: 'flex', pt: 0.5, pr: 0.7 }}>
-              <CRFDashboardDptSelect
-                department={department}
-                setDepartment={setDepartment}
-                setdptSec={setdptSec}
-              />
+              <CRFDashboardDptSelect department={department} setDepartment={setDepartment} setdptSec={setdptSec} />
               {department !== 0 ? (
                 <Box sx={{ ml: 0.5 }}>
                   <CRFDashboardDptSecSelect dptSec={dptSec} setdptSec={setdptSec} />
@@ -564,8 +552,8 @@ const TopViewDesignPurchase = ({
                       ml: 1,
                       pt: 0.2,
                       '&:hover': {
-                        color: '#43B0F1',
-                      },
+                        color: '#43B0F1'
+                      }
                     }}
                   />
                 </CustomIconButtonCmp>
@@ -580,25 +568,21 @@ const TopViewDesignPurchase = ({
 const DateInput = ({ label, value, onChange }) => (
   <CssVarsProvider>
     <CustomInputDateCmp
-      StartIcon={
-        <Typography sx={{ fontSize: 14, color: '#0d47a1', fontWeight: 550, pr: 0.5 }}>
-          {label}
-        </Typography>
-      }
+      StartIcon={<Typography sx={{ fontSize: 14, color: '#0d47a1', fontWeight: 550, pr: 0.5 }}>{label}</Typography>}
       className={{
         height: 25,
         borderRadius: 5,
         border: '1px solid #bbdefb',
         color: '#0d47a1',
         fontSize: 14,
-        width: 200,
+        width: 200
       }}
       size={'md'}
       type="date"
       value={value}
       handleChange={onChange}
       slotProps={{
-        input: { max: moment(new Date()).format('YYYY-MM-DD') },
+        input: { max: moment(new Date()).format('YYYY-MM-DD') }
       }}
     />
   </CssVarsProvider>

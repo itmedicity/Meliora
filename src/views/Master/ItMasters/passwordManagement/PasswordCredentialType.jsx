@@ -21,7 +21,7 @@ const PasswordCredentialType = () => {
   const [credential, setcredential] = useState({
     credential_slno: '',
     credential_name: '',
-    credential_status: false,
+    credential_status: false
   })
   const { credential_slno, credential_name, credential_status } = credential
   const updatecredential = useCallback(
@@ -35,7 +35,7 @@ const PasswordCredentialType = () => {
     return {
       credential_name: credential_name,
       credential_status: credential_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [credential_name, credential_status, id])
   const patchdata = useMemo(() => {
@@ -43,7 +43,7 @@ const PasswordCredentialType = () => {
       credential_slno: credential_slno,
       credential_name: credential_name,
       credential_status: credential_status === true ? 1 : 0,
-      edit_user: id,
+      edit_user: id
     }
   }, [credential_slno, credential_name, credential_status, id])
   const rowSelect = useCallback(params => {
@@ -53,7 +53,7 @@ const PasswordCredentialType = () => {
     const frmdata = {
       credential_slno: credential_slno,
       credential_name: credential_name,
-      credential_status: credential_status === 1 ? true : false,
+      credential_status: credential_status === 1 ? true : false
     }
     setcredential(frmdata)
   }, [])
@@ -61,7 +61,7 @@ const PasswordCredentialType = () => {
     const frmdata = {
       credential_slno: '',
       credential_name: '',
-      credential_status: false,
+      credential_status: false
     }
     setcredential(frmdata)
     setCount(0)
@@ -116,12 +116,7 @@ const PasswordCredentialType = () => {
     reset()
   }, [reset])
   return (
-    <CardMaster
-      title="Credential Type Master"
-      submit={submitcredential}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Credential Type Master" submit={submitcredential} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
         <Box sx={{ width: '30%', p: 1 }}>
           <Box>

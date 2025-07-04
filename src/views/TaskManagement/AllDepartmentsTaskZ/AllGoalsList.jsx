@@ -27,7 +27,7 @@ const AllGoalsList = ({ setTableCount, tableCount }) => {
             tm_goal_duedate: val.tm_goal_duedate,
             tm_goal_description: val.tm_goal_description,
             tm_goal_status: val.tm_goal_status,
-            tm_goal_cmpledate: val.tm_goal_cmpledate,
+            tm_goal_cmpledate: val.tm_goal_cmpledate
           }
           return obj
         })
@@ -84,7 +84,7 @@ const AllGoalsList = ({ setTableCount, tableCount }) => {
             cursor: 'pointer',
             border: 1,
             borderColor: '#4B7BF5',
-            '&:hover': { bgcolor: '#4B7BF5' },
+            '&:hover': { bgcolor: '#4B7BF5' }
           }}
           onClick={CreateGoal}
         >
@@ -104,28 +104,18 @@ const AllGoalsList = ({ setTableCount, tableCount }) => {
               borderTop: 1,
               borderColor: 'lightgray',
               pt: 1.5,
-              bgcolor: 'white',
+              bgcolor: 'white'
             }}
           >
-            <Box sx={{ width: 40, pl: 1.7, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-              #
-            </Box>
+            <Box sx={{ width: 40, pl: 1.7, fontWeight: 600, color: '#444444', fontSize: 12 }}>#</Box>
             <Box sx={{ width: 60, fontWeight: 600, color: '#444444', fontSize: 12 }}>Action</Box>
             <Box sx={{ width: 100, fontWeight: 600, color: '#444444', fontSize: 12 }}>Status</Box>
-            <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12, pl: 0.5 }}>
-              Count Down
-            </Box>
+            <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12, pl: 0.5 }}>Count Down</Box>
             <Box sx={{ width: 500, fontWeight: 600, color: '#444444', fontSize: 12 }}>Goals</Box>
-            <Box sx={{ width: 180, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-              From Date
-            </Box>
+            <Box sx={{ width: 180, fontWeight: 600, color: '#444444', fontSize: 12 }}>From Date</Box>
             <Box sx={{ width: 180, fontWeight: 600, color: '#444444', fontSize: 12 }}>Due Date</Box>
-            <Box sx={{ width: 160, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-              Completed Date
-            </Box>
-            <Box sx={{ width: 500, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-              Description
-            </Box>
+            <Box sx={{ width: 160, fontWeight: 600, color: '#444444', fontSize: 12 }}>Completed Date</Box>
+            <Box sx={{ width: 500, fontWeight: 600, color: '#444444', fontSize: 12 }}>Description</Box>
           </Box>
           <Virtuoso
             style={{ height: '60vh' }}
@@ -143,7 +133,7 @@ const AllGoalsList = ({ setTableCount, tableCount }) => {
                     borderColor: 'lightgrey',
                     minHeight: 35,
                     maxHeight: 80,
-                    pt: 0.5,
+                    pt: 0.5
                   }}
                 >
                   <Box sx={{ pl: 1.5, width: 40 }}>{index + 1}</Box>
@@ -167,7 +157,7 @@ const AllGoalsList = ({ setTableCount, tableCount }) => {
                             ? '#94C973'
                             : 'transparent',
                         minHeight: 5,
-                        fontWeight: 700,
+                        fontWeight: 700
                       }}
                     >
                       {val.tm_goal_status === null
@@ -181,9 +171,7 @@ const AllGoalsList = ({ setTableCount, tableCount }) => {
                   </Box>
                   <Box sx={{ width: 150, fontWeight: 600, color: 'grey', fontSize: 12 }}>
                     {val.tm_goal_status !== 1 ? (
-                      <Box
-                        sx={{ bgcolor: '#EAEAEA', borderRadius: 15, mb: 0.5, width: 150, pl: 1 }}
-                      >
+                      <Box sx={{ bgcolor: '#EAEAEA', borderRadius: 15, mb: 0.5, width: 150, pl: 1 }}>
                         <CountDowncomponent DueDates={val.tm_goal_duedate} />
                       </Box>
                     ) : (
@@ -194,7 +182,7 @@ const AllGoalsList = ({ setTableCount, tableCount }) => {
                           mb: 0.5,
                           width: 150,
                           pl: 5,
-                          color: 'darkgreen',
+                          color: 'darkgreen'
                         }}
                       >
                         Completed
@@ -210,7 +198,7 @@ const AllGoalsList = ({ setTableCount, tableCount }) => {
                           color: 'grey',
                           fontSize: 12,
                           pl: 1,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {val.tm_goal_name}
@@ -223,7 +211,7 @@ const AllGoalsList = ({ setTableCount, tableCount }) => {
                           color: isPastDue(val.tm_goal_duedate) ? '#B32700' : 'grey',
                           fontSize: 12,
                           pl: 1,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {val.tm_goal_name}
@@ -239,7 +227,7 @@ const AllGoalsList = ({ setTableCount, tableCount }) => {
                           color: 'grey',
                           fontSize: 12,
                           pl: 1,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {val.tm_goal_fromdate || 'not given'}
@@ -252,7 +240,7 @@ const AllGoalsList = ({ setTableCount, tableCount }) => {
                           color: isPastDue(val.tm_goal_duedate) ? '#B32700' : 'grey',
                           fontSize: 12,
                           pl: 1,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {val.tm_goal_fromdate || 'not given'}
@@ -268,7 +256,7 @@ const AllGoalsList = ({ setTableCount, tableCount }) => {
                           color: 'grey',
                           fontSize: 12,
                           pl: 1,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {val.tm_goal_duedate || 'not given'}
@@ -281,7 +269,7 @@ const AllGoalsList = ({ setTableCount, tableCount }) => {
                           color: isPastDue(val.tm_goal_duedate) ? '#B32700' : 'grey',
                           fontSize: 12,
                           pl: 1,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {val.tm_goal_duedate || 'not given'}
@@ -297,7 +285,7 @@ const AllGoalsList = ({ setTableCount, tableCount }) => {
                           color: 'grey',
                           fontSize: 12,
                           pl: 1,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {val.tm_goal_cmpledate || 'not completed'}
@@ -310,7 +298,7 @@ const AllGoalsList = ({ setTableCount, tableCount }) => {
                           color: isPastDue(val.tm_goal_duedate) ? '#B32700' : 'grey',
                           fontSize: 12,
                           pl: 1,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {val.tm_goal_cmpledate || 'not completed'}
@@ -326,7 +314,7 @@ const AllGoalsList = ({ setTableCount, tableCount }) => {
                           color: 'grey',
                           fontSize: 12,
                           pl: 1,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {val.tm_goal_description || 'not given'}
@@ -339,7 +327,7 @@ const AllGoalsList = ({ setTableCount, tableCount }) => {
                           color: isPastDue(val.tm_goal_duedate) ? '#B32700' : 'grey',
                           fontSize: 12,
                           pl: 1,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {val.tm_goal_description || 'not given'}

@@ -32,7 +32,7 @@ const DepartmentMast = () => {
     dept_name: '',
     dept_alias: '',
     dept_status: false,
-    dept_id: '',
+    dept_id: ''
   })
   //Destructuring
   const { dept_name, dept_alias, dept_status, dept_id } = department
@@ -56,7 +56,7 @@ const DepartmentMast = () => {
       dept_alias: dept_alias,
       dept_status: dept_status === true ? 1 : 0,
       dept_type: type,
-      create_user: id,
+      create_user: id
     }
   }, [dept_name, dept_alias, dept_status, id, type, departmentId])
   //edit data setting on textfields
@@ -69,7 +69,7 @@ const DepartmentMast = () => {
       dept_alias: dept_alias,
       type: dept_type,
       dept_status: status === 'Yes' ? true : false,
-      dept_id: dept_id,
+      dept_id: dept_id
     }
     setType(dept_type)
     setDepartment(frmdata)
@@ -82,7 +82,7 @@ const DepartmentMast = () => {
       dept_status: dept_status === true ? 1 : 0,
       edit_user: id,
       dept_type: type,
-      dept_id: dept_id,
+      dept_id: dept_id
     }
   }, [dept_name, dept_alias, dept_status, type, dept_id, id])
   /*** usecallback function for form submitting */
@@ -93,7 +93,7 @@ const DepartmentMast = () => {
         dept_name: '',
         dept_alias: '',
         dept_status: false,
-        dept_id: '',
+        dept_id: ''
       }
       /***    * insert function for use call back     */
       const InsertFun = async postdata => {
@@ -147,19 +147,14 @@ const DepartmentMast = () => {
       dept_name: '',
       dept_alias: '',
       dept_status: false,
-      dept_id: '',
+      dept_id: ''
     }
     setDepartment(formreset)
     setValue(0)
     setType(0)
   }, [setDepartment])
   return (
-    <CardMaster
-      title="Department Master"
-      submit={submitDepartment}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Department Master" submit={submitDepartment} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ p: 1 }}>
         <Grid container spacing={1}>
           <Grid item xl={4} lg={4}>

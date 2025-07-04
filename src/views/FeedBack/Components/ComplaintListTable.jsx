@@ -21,16 +21,10 @@ const ComplaintListTable = ({ complaintList, EditData }) => {
               >
                 <thead style={{ alignItems: 'center' }}>
                   <tr style={{ height: 0.5 }}>
-                    <th
-                      size="sm"
-                      style={{ width: 50, fontWeight: 650, fontSize: 14, textAlign: 'center' }}
-                    >
+                    <th size="sm" style={{ width: 50, fontWeight: 650, fontSize: 14, textAlign: 'center' }}>
                       &nbsp;Edit
                     </th>
-                    <th
-                      size="sm"
-                      style={{ width: 50, fontWeight: 650, fontSize: 14, textAlign: 'center' }}
-                    >
+                    <th size="sm" style={{ width: 50, fontWeight: 650, fontSize: 14, textAlign: 'center' }}>
                       &nbsp; Sl.No
                     </th>
                     <th size="sm" style={{ width: 100, fontWeight: 650, fontSize: 14 }}>
@@ -61,8 +55,8 @@ const ComplaintListTable = ({ complaintList, EditData }) => {
                                 sx={{
                                   color: '#9e9e9e',
                                   ':hover': {
-                                    color: '#424242',
-                                  },
+                                    color: '#424242'
+                                  }
                                 }}
                                 onClick={e => EditData(val, index)}
                               />

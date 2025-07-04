@@ -1,13 +1,4 @@
-import {
-  Box,
-  Button,
-  CssVarsProvider,
-  Modal,
-  ModalClose,
-  ModalDialog,
-  Textarea,
-  Typography,
-} from '@mui/joy'
+import { Box, Button, CssVarsProvider, Modal, ModalClose, ModalDialog, Textarea, Typography } from '@mui/joy'
 import { format } from 'date-fns'
 import React, { memo, useCallback, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -52,24 +43,24 @@ const UserAckModal = ({ req_slno, handleClose, open, approveTableData, reqItems,
   const {
     data: userAck,
     isLoading: isUserAckLoading,
-    error: userAckError,
+    error: userAckError
   } = useQuery({
     queryKey: ['getUserAckDetails', req_slno],
     queryFn: () => getUserAckDetails(req_slno),
     enabled: req_slno !== null,
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const ackdata = useMemo(() => userAck, [userAck])
 
   const {
     data: storeItems,
     isLoading: isStoreLoading,
-    error: storeError,
+    error: storeError
   } = useQuery({
     queryKey: ['getCrfItemDetails', req_slno],
     queryFn: () => getStoreReceivedItemDetails(req_slno),
     enabled: req_slno !== null,
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const storeReceived = useMemo(() => storeItems, [storeItems])
 
@@ -90,9 +81,9 @@ const UserAckModal = ({ req_slno, handleClose, open, approveTableData, reqItems,
       req_slno: req_slno,
       po_itm_slno: storeReceived?.map(val => {
         return {
-          po_itm_slno: val.po_itm_slno,
+          po_itm_slno: val.po_itm_slno
         }
-      }),
+      })
     }
   }, [acknowledgement, Ackremark, id, req_slno, storeReceived])
 
@@ -103,24 +94,18 @@ const UserAckModal = ({ req_slno, handleClose, open, approveTableData, reqItems,
           const result = await axioslogin.get(`/newCRFRegister/check/${req_slno}`)
           const { success, message } = result.data
           if (success === 1) {
-            infoNotify(
-              'All the requested items have not been received yet; Some items are returned'
-            )
+            infoNotify('All the requested items have not been received yet; Some items are returned')
           } else if (success === 2) {
             const getReceiveStatus = async req_slno => {
               try {
-                const result = await axioslogin.get(
-                  `/CRFRegisterApproval/receiveStatus/${req_slno}`
-                )
+                const result = await axioslogin.get(`/CRFRegisterApproval/receiveStatus/${req_slno}`)
                 const { success, data } = result.data
                 if (success === 1) {
                   const storeReceiveIncomplete = data.some(
                     item => item.store_receive === 0 && item.sub_store_recieve === 1
                   )
                   if (storeReceiveIncomplete) {
-                    infoNotify(
-                      'All the requested items have not been received yet; you can use this afterwards'
-                    )
+                    infoNotify('All the requested items have not been received yet; you can use this afterwards')
                   } else {
                     if (Ackremark === '') {
                       infoNotify('Enter Remarks')
@@ -128,10 +113,7 @@ const UserAckModal = ({ req_slno, handleClose, open, approveTableData, reqItems,
                     } else {
                       const updateuserAckPatch = async userAckPatch => {
                         try {
-                          const result = await axioslogin.patch(
-                            '/CRFRegisterApproval/userAck',
-                            userAckPatch
-                          )
+                          const result = await axioslogin.patch('/CRFRegisterApproval/userAck', userAckPatch)
                           const { success, message } = result.data
                           if (success === 1) {
                             succesNotify(message)
@@ -154,10 +136,7 @@ const UserAckModal = ({ req_slno, handleClose, open, approveTableData, reqItems,
                   //for useracknowledgement in internally arranged
                   const updateuserAckInternal = async userAckPatch => {
                     try {
-                      const result = await axioslogin.patch(
-                        '/CRFRegisterApproval/userAckInternally',
-                        userAckPatch
-                      )
+                      const result = await axioslogin.patch('/CRFRegisterApproval/userAckInternally', userAckPatch)
                       const { success, message } = result.data
                       if (success === 1) {
                         succesNotify(message)
@@ -212,7 +191,7 @@ const UserAckModal = ({ req_slno, handleClose, open, approveTableData, reqItems,
         received_user_remarks: userAckReply,
         received_user: id,
         received_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
-        collect_slno: collect_slno,
+        collect_slno: collect_slno
       }
       const updateUserAck = async patchdata => {
         const result = await axioslogin.patch('/newCRFStore/userReply', patchdata)
@@ -252,11 +231,11 @@ const UserAckModal = ({ req_slno, handleClose, open, approveTableData, reqItems,
     '&:hover': {
       bgcolor: 'white',
       color: '#455a64',
-      transform: 'scale(1.1)',
+      transform: 'scale(1.1)'
     },
     '&:active': {
-      transform: 'scale(0.95)',
-    },
+      transform: 'scale(0.95)'
+    }
   }
   return (
     <Box>
@@ -280,7 +259,7 @@ const UserAckModal = ({ req_slno, handleClose, open, approveTableData, reqItems,
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 25,
-                width: 25,
+                width: 25
               }}
             />
             <Box
@@ -289,7 +268,7 @@ const UserAckModal = ({ req_slno, handleClose, open, approveTableData, reqItems,
                 minHeight: '45vh',
                 maxHeight: '85vh',
                 overflowY: 'auto',
-                px: 0.5,
+                px: 0.5
               }}
             >
               <Box sx={{ flex: 0.5, mx: 0.5 }}>
@@ -300,7 +279,7 @@ const UserAckModal = ({ req_slno, handleClose, open, approveTableData, reqItems,
                     color: '#145DA0',
                     fontFamily: 'system-ui',
                     display: 'flex',
-                    justifyContent: 'center',
+                    justifyContent: 'center'
                   }}
                 >
                   User Acknowledgement
@@ -317,18 +296,12 @@ const UserAckModal = ({ req_slno, handleClose, open, approveTableData, reqItems,
                   </Box>
                 ) : null}
                 {storeReceived.length > 0 ? (
-                  <StoreReceivedItemList
-                    storeReceived={storeReceived}
-                    empId={id}
-                    req_slno={req_slno}
-                  />
+                  <StoreReceivedItemList storeReceived={storeReceived} empId={id} req_slno={req_slno} />
                 ) : null}
               </Box>
               {ackdata.length !== 0 ? (
                 <Box sx={{ overflow: 'auto', flexWrap: 'wrap', px: 0.5 }}>
-                  <Typography
-                    sx={{ fontWeight: 'bold', mx: 1, py: 0.7, color: '#145DA0', fontSize: 15 }}
-                  >
+                  <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.7, color: '#145DA0', fontSize: 15 }}>
                     Store Acknowledgement Details
                   </Typography>
 
@@ -345,7 +318,7 @@ const UserAckModal = ({ req_slno, handleClose, open, approveTableData, reqItems,
                         zIndex: 1,
                         height: 30,
                         borderBottom: '1px solid lightgrey',
-                        borderTop: '1px solid lightgrey',
+                        borderTop: '1px solid lightgrey'
                       }}
                     >
                       <Typography
@@ -354,7 +327,7 @@ const UserAckModal = ({ req_slno, handleClose, open, approveTableData, reqItems,
                           textAlign: 'left',
                           fontWeight: 550,
                           fontSize: 12,
-                          pl: 3,
+                          pl: 3
                         }}
                       >
                         CRF No.
@@ -365,44 +338,30 @@ const UserAckModal = ({ req_slno, handleClose, open, approveTableData, reqItems,
                           textAlign: 'left',
                           fontWeight: 550,
                           fontSize: 12,
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         Date
                       </Typography>
-                      <Typography
-                        sx={{ minWidth: 150, textAlign: 'left', fontWeight: 550, fontSize: 12 }}
-                      >
+                      <Typography sx={{ minWidth: 150, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
                         Store
                       </Typography>
-                      <Typography
-                        sx={{ minWidth: 250, textAlign: 'left', fontWeight: 550, fontSize: 12 }}
-                      >
+                      <Typography sx={{ minWidth: 250, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
                         Store Remarks
                       </Typography>
-                      <Typography
-                        sx={{ minWidth: 110, textAlign: 'left', fontWeight: 550, fontSize: 12 }}
-                      >
+                      <Typography sx={{ minWidth: 110, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
                         User
                       </Typography>
-                      <Typography
-                        sx={{ minWidth: 150, textAlign: 'left', fontWeight: 550, fontSize: 12 }}
-                      >
+                      <Typography sx={{ minWidth: 150, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
                         Date
                       </Typography>
-                      <Typography
-                        sx={{ minWidth: 110, textAlign: 'left', fontWeight: 550, fontSize: 12 }}
-                      >
+                      <Typography sx={{ minWidth: 110, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
                         Received User
                       </Typography>
-                      <Typography
-                        sx={{ minWidth: 250, textAlign: 'left', fontWeight: 550, fontSize: 12 }}
-                      >
+                      <Typography sx={{ minWidth: 250, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
                         Remarks
                       </Typography>
-                      <Typography
-                        sx={{ minWidth: 70, textAlign: 'center', fontWeight: 550, fontSize: 12 }}
-                      >
+                      <Typography sx={{ minWidth: 70, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>
                         Action
                       </Typography>
                     </Box>
@@ -416,55 +375,33 @@ const UserAckModal = ({ req_slno, handleClose, open, approveTableData, reqItems,
                             justifyContent="space-between"
                             sx={{ borderBottom: '1px solid lightgrey', flexWrap: 'nowrap' }}
                           >
-                            <Typography
-                              sx={{ minWidth: 120, textAlign: 'left', fontSize: 12, my: 1, pl: 1 }}
-                            >
+                            <Typography sx={{ minWidth: 120, textAlign: 'left', fontSize: 12, my: 1, pl: 1 }}>
                               {'CRF/TMC/' + val.req_slno}
                             </Typography>
-                            <Typography
-                              sx={{ minWidth: 150, textAlign: 'left', fontSize: 12, my: 1 }}
-                            >
+                            <Typography sx={{ minWidth: 150, textAlign: 'left', fontSize: 12, my: 1 }}>
                               {format(new Date(val.substore_ack_date), 'dd-MM-yyyy hh:mm:ss a')}
                             </Typography>
-                            <Typography
-                              sx={{ minWidth: 150, textAlign: 'left', fontSize: 12, my: 1 }}
-                            >
+                            <Typography sx={{ minWidth: 150, textAlign: 'left', fontSize: 12, my: 1 }}>
                               {val.sub_store_name}
                             </Typography>
-                            <Typography
-                              sx={{ minWidth: 250, textAlign: 'left', fontSize: 12, my: 1 }}
-                            >
+                            <Typography sx={{ minWidth: 250, textAlign: 'left', fontSize: 12, my: 1 }}>
                               {val.substore_remarks}
                             </Typography>
-                            <Typography
-                              sx={{ minWidth: 110, textAlign: 'left', fontSize: 12, my: 1 }}
-                            >
+                            <Typography sx={{ minWidth: 110, textAlign: 'left', fontSize: 12, my: 1 }}>
                               {capitalizeWords(val.store_user)}
                             </Typography>
-                            <Typography
-                              sx={{ minWidth: 150, textAlign: 'left', fontSize: 12, my: 1 }}
-                            >
+                            <Typography sx={{ minWidth: 150, textAlign: 'left', fontSize: 12, my: 1 }}>
                               {val.received_status === 0
                                 ? 'Not Updated'
                                 : format(new Date(val.received_date), 'dd-MM-yyyy hh:mm:ss a')}
                             </Typography>
-                            <Typography
-                              sx={{ minWidth: 110, textAlign: 'left', fontSize: 12, my: 1 }}
-                            >
-                              {val.received_status === 0
-                                ? 'Not Received'
-                                : capitalizeWords(val.receive_user)}
+                            <Typography sx={{ minWidth: 110, textAlign: 'left', fontSize: 12, my: 1 }}>
+                              {val.received_status === 0 ? 'Not Received' : capitalizeWords(val.receive_user)}
                             </Typography>
-                            <Typography
-                              sx={{ minWidth: 250, textAlign: 'left', fontSize: 12, my: 1 }}
-                            >
-                              {val.received_status === 0
-                                ? 'Not Updated'
-                                : val.received_user_remarks}
+                            <Typography sx={{ minWidth: 250, textAlign: 'left', fontSize: 12, my: 1 }}>
+                              {val.received_status === 0 ? 'Not Updated' : val.received_user_remarks}
                             </Typography>
-                            <Box
-                              sx={{ minWidth: 70, textAlign: 'center', pt: 0.5, cursor: 'pointer' }}
-                            >
+                            <Box sx={{ minWidth: 70, textAlign: 'center', pt: 0.5, cursor: 'pointer' }}>
                               {val.received_status === 1 ? (
                                 <CheckCircleTwoToneIcon
                                   sx={{
@@ -473,7 +410,7 @@ const UserAckModal = ({ req_slno, handleClose, open, approveTableData, reqItems,
                                     height: 25,
                                     width: 30,
                                     borderRadius: 2,
-                                    boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.1)',
+                                    boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.1)'
                                   }}
                                 />
                               ) : (
@@ -489,8 +426,8 @@ const UserAckModal = ({ req_slno, handleClose, open, approveTableData, reqItems,
                                       cursor: 'pointer',
                                       transition: 'transform 0.2s',
                                       '&:hover': {
-                                        transform: 'scale(1.1)',
-                                      },
+                                        transform: 'scale(1.1)'
+                                      }
                                     }}
                                     onClick={() => acknowAction(val, index)}
                                   />
@@ -499,9 +436,7 @@ const UserAckModal = ({ req_slno, handleClose, open, approveTableData, reqItems,
                             </Box>
                           </Box>
                           {expandedRow === index && (
-                            <Box
-                              sx={{ mx: 2, pt: 0.5, boxShadow: '0px 8px 10px rgba(0, 0, 0, 0.16)' }}
-                            >
+                            <Box sx={{ mx: 2, pt: 0.5, boxShadow: '0px 8px 10px rgba(0, 0, 0, 0.16)' }}>
                               <Box display="flex" justifyContent="space-between" padding={0.5}>
                                 <Box sx={{ flex: 1.5, py: 0.4, pl: 3 }}>
                                   <CssVarsProvider>
@@ -519,11 +454,7 @@ const UserAckModal = ({ req_slno, handleClose, open, approveTableData, reqItems,
                                 </Box>
                                 <Box sx={{ display: 'flex', flex: 0.5 }}>
                                   <Box sx={{ pt: 0.4, pl: 2 }}>
-                                    <Button
-                                      variant="plain"
-                                      sx={buttonStyle}
-                                      onClick={UpdateUserAcknowlegeReply}
-                                    >
+                                    <Button variant="plain" sx={buttonStyle} onClick={UpdateUserAcknowlegeReply}>
                                       Save
                                     </Button>
                                   </Box>
@@ -552,9 +483,7 @@ const UserAckModal = ({ req_slno, handleClose, open, approveTableData, reqItems,
                     checked={acknowledgement}
                     onCheked={updateAcknowldge}
                   />
-                  <Typography sx={{ fontSize: 13, fontWeight: 600, pl: 1 }}>
-                    All Item Received
-                  </Typography>
+                  <Typography sx={{ fontSize: 13, fontWeight: 600, pl: 1 }}>All Item Received</Typography>
                 </Box>
                 <Box sx={{ flex: 2, py: 0.4 }}>
                   <CssVarsProvider>

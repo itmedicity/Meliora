@@ -1,13 +1,4 @@
-import {
-  Box,
-  Paper,
-  Radio,
-  RadioGroup,
-  FormControlLabel,
-  Tabs,
-  Tab,
-  tabClasses,
-} from '@mui/material'
+import { Box, Paper, Radio, RadioGroup, FormControlLabel, Tabs, Tab, tabClasses } from '@mui/material'
 import React, { Fragment, memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { useNavigate } from 'react-router-dom'
@@ -54,10 +45,10 @@ const CrfSubStoreMain = () => {
   const {
     data: subStoreData,
     isLoading: isSubLoading,
-    error: subError,
+    error: subError
   } = useQuery({
     queryKey: 'sustoreCRFView',
-    queryFn: () => getSubStoreCrfDetails(),
+    queryFn: () => getSubStoreCrfDetails()
     // staleTime: Infinity
   })
   const storeData = useMemo(() => subStoreData, [subStoreData])
@@ -74,11 +65,11 @@ const CrfSubStoreMain = () => {
   const {
     data: companyData,
     isLoading: isCompLoading,
-    error: compError,
+    error: compError
   } = useQuery({
     queryKey: 'getdefaultCompany',
     queryFn: () => getDefaultCompany(),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const company = useMemo(() => companyData, [companyData])
 
@@ -88,7 +79,7 @@ const CrfSubStoreMain = () => {
       const { success, data } = result.data
       if (success === 1) {
         const postdata = {
-          empsecid: empsecid,
+          empsecid: empsecid
         }
         if (empsecid > 0) {
           const result = await axioslogin.post('/newCRFRegister/GetStoreMasterById', postdata)
@@ -96,19 +87,16 @@ const CrfSubStoreMain = () => {
           if (success === 1) {
             const crsStore = data
               .filter(
-                (val, index, self) =>
-                  index === self.findIndex(value => value.main_store_slno === val.main_store_slno)
+                (val, index, self) => index === self.findIndex(value => value.main_store_slno === val.main_store_slno)
               )
               .map(val => ({
                 main_store_slno: val.main_store_slno,
                 crs_store_code: val.crs_store_code,
-                main_store: val.main_store,
+                main_store: val.main_store
               }))
             const empStoreList = JSON.parse(empData[0]?.store)
             const empSubStoreList = JSON.parse(empData[0]?.sub_store)
-            const filteredCrsStore = crsStore?.filter(store =>
-              empStoreList?.includes(store.main_store_slno)
-            )
+            const filteredCrsStore = crsStore?.filter(store => empStoreList?.includes(store.main_store_slno))
             // setCrsList(crsStore);
             setCrsList(filteredCrsStore)
 
@@ -116,7 +104,7 @@ const CrfSubStoreMain = () => {
               crm_store_master_slno: val.crm_store_master_slno,
               sub_store_name: val.sub_store_name,
               store_code: val.store_code,
-              main_store_slno: val.main_store_slno,
+              main_store_slno: val.main_store_slno
             }))
             const filteredCrsSubStore = subStore?.filter(store =>
               empSubStoreList?.includes(store.crm_store_master_slno)
@@ -154,7 +142,7 @@ const CrfSubStoreMain = () => {
         main_store: val.main_store,
         sub_store_slno: val.sub_store_slno,
         sub_store_name: val.sub_store_name,
-        count: xx?.length,
+        count: xx?.length
       }
     })
     setStoreList(countSet)
@@ -174,9 +162,7 @@ const CrfSubStoreMain = () => {
       const mergedData = uniquePOSlno?.map(po => {
         const filteredItems = xx?.filter(item => item.crm_purchase_slno === po)
         const pos = filteredItems?.map(item => `${item.po_number}`)
-        const poDate = filteredItems?.map(
-          item => `${format(new Date(item.po_date), 'dd-MM-yyyy hh:mm:ss a')}`
-        )
+        const poDate = filteredItems?.map(item => `${format(new Date(item.po_date), 'dd-MM-yyyy hh:mm:ss a')}`)
         // const grn_nos = filteredItems.flatMap(item => JSON?.parse(item.grn_no)).join(", ");
         const grn_nos = filteredItems?.flatMap(item => JSON?.parse(item.grn_no))
         const po_detail_slno = filteredItems?.map(item => `${item.po_detail_slno}`)
@@ -189,7 +175,7 @@ const CrfSubStoreMain = () => {
             supplier_name: item.supplier_name,
             expected_delivery: item.expected_delivery,
             sub_store_slno: item.sub_store_slno,
-            sub_store_name: item.sub_store_name,
+            sub_store_name: item.sub_store_name
           }
         })
         return {
@@ -198,7 +184,7 @@ const CrfSubStoreMain = () => {
           pos,
           poDate,
           grn_nos,
-          po_details,
+          po_details
         }
       })
       setTableData(mergedData)
@@ -220,9 +206,7 @@ const CrfSubStoreMain = () => {
         const mergedData = uniquePOSlno?.map(po => {
           const filteredItems = xx?.filter(item => item.crm_purchase_slno === po)
           const pos = filteredItems?.map(item => `${item.po_number}`)
-          const poDate = filteredItems?.map(
-            item => `${format(new Date(item.po_date), 'dd-MM-yyyy hh:mm:ss a')}`
-          )
+          const poDate = filteredItems?.map(item => `${format(new Date(item.po_date), 'dd-MM-yyyy hh:mm:ss a')}`)
           const grn_nos = filteredItems.flatMap(item => JSON?.parse(item.grn_no))
           const po_detail_slno = filteredItems?.map(item => `${item.po_detail_slno}`)
           const po_details = filteredItems?.map(item => {
@@ -234,7 +218,7 @@ const CrfSubStoreMain = () => {
               supplier_name: item.supplier_name,
               expected_delivery: item.expected_delivery,
               sub_store_slno: item.sub_store_slno,
-              sub_store_name: item.sub_store_name,
+              sub_store_name: item.sub_store_name
             }
           })
           return {
@@ -243,7 +227,7 @@ const CrfSubStoreMain = () => {
             pos,
             poDate,
             grn_nos,
-            po_details,
+            po_details
           }
         })
         setTableData(mergedData)
@@ -330,9 +314,9 @@ const CrfSubStoreMain = () => {
                 pt: 1.5,
                 minHeight: '30px',
                 [`&:not(.${tabClasses.selected}):not(:hover)`]: {
-                  opacity: 1,
-                },
-              },
+                  opacity: 1
+                }
+              }
             })}
           >
             {storeList?.map((val, index) => (
@@ -353,7 +337,7 @@ const CrfSubStoreMain = () => {
                       justifyContent: 'center',
                       padding: 0,
                       ':hover': { bgcolor: '#C3CEDA' },
-                      cursor: 'pointer',
+                      cursor: 'pointer'
                     }}
                   >
                     {val.count}
@@ -366,21 +350,10 @@ const CrfSubStoreMain = () => {
           </Tabs>
 
           {storeList?.map((store, index) => (
-            <Box
-              role="tabpanel"
-              hidden={selectedTab !== index}
-              id={`tabpanel-${index}`}
-              key={index}
-              sx={{ py: 0.5 }}
-            >
+            <Box role="tabpanel" hidden={selectedTab !== index} id={`tabpanel-${index}`} key={index} sx={{ py: 0.5 }}>
               {selectedTab === index && (
                 <Paper elevation={2} sx={{ pl: 4, display: 'flex' }}>
-                  <RadioGroup
-                    row
-                    value={selectedRadio}
-                    onChange={handleRadioButtonChange}
-                    sx={{ gap: 2 }}
-                  >
+                  <RadioGroup row value={selectedRadio} onChange={handleRadioButtonChange} sx={{ gap: 2 }}>
                     {subStoreList
                       .filter(subStore => subStore?.main_store_slno === store?.main_store_slno)
                       .map((subStore, subIndex) => (
@@ -407,8 +380,8 @@ const CrfSubStoreMain = () => {
                           lineHeight: '1',
                           '&:hover': {
                             bgcolor: 'white',
-                            color: '#1565c0',
-                          },
+                            color: '#1565c0'
+                          }
                         }}
                         onClick={ClearSearch}
                       >

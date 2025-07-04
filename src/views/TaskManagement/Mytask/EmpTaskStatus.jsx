@@ -8,7 +8,7 @@ import {
   ModalDialog,
   Textarea,
   Tooltip,
-  Typography,
+  Typography
 } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import CloseIcon from '@mui/icons-material/Close'
@@ -44,7 +44,7 @@ const EmpTaskStatus = ({
   projectcount,
   setprojectcount,
   taskcount,
-  settaskcount,
+  settaskcount
 }) => {
   const {
     tm_task_slno,
@@ -62,7 +62,7 @@ const EmpTaskStatus = ({
     create_date,
     tm_onhold_remarks,
     tm_pending_remark,
-    tm_completed_remarks,
+    tm_completed_remarks
   } = masterData
 
   const id = useSelector(state => {
@@ -128,7 +128,7 @@ const EmpTaskStatus = ({
   const [updateTask, setupdateTask] = useState({
     pendingRemarks: tm_pending_remark ? tm_pending_remark : '',
     onHoldRemaks: tm_onhold_remarks ? tm_onhold_remarks : '',
-    completedRemarks: tm_completed_remarks ? tm_completed_remarks : '',
+    completedRemarks: tm_completed_remarks ? tm_completed_remarks : ''
   })
   const { onHoldRemaks, pendingRemarks, completedRemarks } = updateTask
   const [completeFlag, setCompleteFlag] = useState(0)
@@ -138,7 +138,7 @@ const EmpTaskStatus = ({
     tm_task_status: checkFlag,
     ProgressDate: '',
     progress_emp: id,
-    progressDetails: '',
+    progressDetails: ''
   })
   const { PrgSlNo, ProgressDate, progressDetails } = taskProgress
   const [dueDateModalFlag, setdueDateModalFlag] = useState(0)
@@ -160,7 +160,7 @@ const EmpTaskStatus = ({
       tm_progres_date: ProgressDate === '' ? null : ProgressDate,
       progress_emp: id,
       main_task_slno: main_task_slno,
-      tm_task_progress: progressDetails,
+      tm_task_progress: progressDetails
     }
   }, [tm_task_slno, checkFlag, ProgressDate, progressDetails, id, main_task_slno])
 
@@ -171,13 +171,13 @@ const EmpTaskStatus = ({
       tm_task_status: checkFlag,
       tm_progres_date: ProgressDate === '' ? null : ProgressDate,
       progress_emp: id,
-      tm_task_progress: progressDetails,
+      tm_task_progress: progressDetails
     }
   }, [PrgSlNo, tm_task_slno, checkFlag, ProgressDate, progressDetails, id])
 
   const ProgressData = useMemo(() => {
     return {
-      tm_task_slno: tm_task_slno,
+      tm_task_slno: tm_task_slno
     }
   }, [tm_task_slno])
 
@@ -195,7 +195,7 @@ const EmpTaskStatus = ({
               tm_progres_date: val.tm_progres_date,
               em_name: val.em_name,
               progress_emp: val.progress_emp,
-              tm_task_progress: val.tm_task_progress,
+              tm_task_progress: val.tm_task_progress
             }
             return obj
           })
@@ -297,7 +297,7 @@ const EmpTaskStatus = ({
     const options = {
       maxSizeMB: 1,
       maxWidthOrHeight: 1920,
-      useWebWorker: true,
+      useWebWorker: true
     }
     const compressedFile = await imageCompression(imageFile, options)
     return compressedFile
@@ -329,7 +329,7 @@ const EmpTaskStatus = ({
       tm_completed_remarks: completedRemarks === '' ? null : completedRemarks,
       tm_project_slno: projectz === 0 ? null : projectz,
       tm_complete_date: completed === true ? newDate : null,
-      edit_user: id,
+      edit_user: id
     }
   }, [
     tm_task_name,
@@ -345,7 +345,7 @@ const EmpTaskStatus = ({
     completed,
     tm_task_description,
     newDate,
-    id,
+    id
   ])
 
   const UpdateStatus = useCallback(
@@ -370,8 +370,8 @@ const EmpTaskStatus = ({
           // Use the Axios instance and endpoint that matches your server setup
           const uploadResult = await axioslogin.post('/TmFileUpload/uploadFile/task', formData, {
             headers: {
-              'Content-Type': 'multipart/form-data',
-            },
+              'Content-Type': 'multipart/form-data'
+            }
           })
           return uploadResult.data
         } catch (error) {
@@ -441,7 +441,7 @@ const EmpTaskStatus = ({
       projectcount,
       setprojectcount,
       settaskcount,
-      taskcount,
+      taskcount
     ]
   )
 
@@ -449,7 +449,7 @@ const EmpTaskStatus = ({
     const form = {
       PrgSlNo: '',
       ProgressDate: '',
-      progressDetails: '',
+      progressDetails: ''
     }
     setTaskProgress(form)
   }
@@ -481,14 +481,7 @@ const EmpTaskStatus = ({
   )
   const rowSelect = useCallback(data => {
     setvalue(1)
-    const {
-      progress_slno,
-      tm_task_slno,
-      tm_task_status,
-      tm_progres_date,
-      progress_emp,
-      tm_task_progress,
-    } = data
+    const { progress_slno, tm_task_slno, tm_task_status, tm_progres_date, progress_emp, tm_task_progress } = data
 
     const frmdata = {
       PrgSlNo: progress_slno,
@@ -496,7 +489,7 @@ const EmpTaskStatus = ({
       tm_task_status: tm_task_status,
       ProgressDate: tm_progres_date === '' ? null : tm_progres_date,
       progress_emp: progress_emp,
-      progressDetails: tm_task_progress === '' ? null : tm_task_progress,
+      progressDetails: tm_task_progress === '' ? null : tm_task_progress
     }
     setTaskProgress(frmdata)
   }, [])
@@ -578,7 +571,7 @@ const EmpTaskStatus = ({
               overflowY: 'scroll',
               width: '90vw',
               height: '60vw',
-              p: 0,
+              p: 0
             }}
           >
             <Box>
@@ -596,9 +589,7 @@ const EmpTaskStatus = ({
             </Box>
             <Box sx={{ borderRight: 1, borderLeft: 1, borderBottom: 1, borderColor: '#D9E4EC' }}>
               <Box sx={{ flex: 1, display: 'flex', bgcolor: 'white', height: 30 }}>
-                <Typography
-                  sx={{ color: 'lightgray', fontSize: 12, pl: 1, flex: 1, pt: 1, fontWeight: 900 }}
-                >
+                <Typography sx={{ color: 'lightgray', fontSize: 12, pl: 1, flex: 1, pt: 1, fontWeight: 900 }}>
                   {' '}
                   My Task
                 </Typography>
@@ -609,7 +600,7 @@ const EmpTaskStatus = ({
                     cursor: 'pointer',
                     color: 'darkred',
                     p: 1,
-                    '&:hover': { color: '#BA0F30' },
+                    '&:hover': { color: '#BA0F30' }
                   }}
                   onClick={handleEditClose}
                 />
@@ -624,7 +615,7 @@ const EmpTaskStatus = ({
                   backgroundColor: 'white',
                   borderRadius: 35,
                   position: 'absolute',
-                  fontSize: '0.75em',
+                  fontSize: '0.75em'
                 }}
               >
                 <AssignmentSharpIcon sx={{ height: 50, width: 50, p: 1.5 }} />
@@ -634,29 +625,21 @@ const EmpTaskStatus = ({
                   {tm_project_name !== null ? (
                     <Box sx={{ display: 'flex', pt: 1, fontFamily: 'Georgia', color: '#000C66' }}>
                       <Box sx={{ flex: 0.9, ml: 3 }}>Project</Box>
-                      <Box sx={{ flex: 8, textTransform: 'capitalize', mr: 2 }}>
-                        :&nbsp;{tm_project_name}
-                      </Box>
+                      <Box sx={{ flex: 8, textTransform: 'capitalize', mr: 2 }}>:&nbsp;{tm_project_name}</Box>
                     </Box>
                   ) : null}
                   <Box sx={{ display: 'flex', pt: 1, fontFamily: 'Georgia', color: '#000C66' }}>
                     <Box sx={{ flex: 0.9, ml: 3 }}>Task Name</Box>
-                    <Box sx={{ flex: 8, textTransform: 'capitalize', mr: 2 }}>
-                      :&nbsp;{tm_task_name}
-                    </Box>
+                    <Box sx={{ flex: 8, textTransform: 'capitalize', mr: 2 }}>:&nbsp;{tm_task_name}</Box>
                   </Box>
                   <Box sx={{ display: 'flex', pt: 1, fontFamily: 'Georgia', color: '#000C66' }}>
                     <Box sx={{ flex: 0.9, ml: 3 }}>Department</Box>
-                    <Box sx={{ flex: 8, textTransform: 'capitalize', mr: 2 }}>
-                      :&nbsp;{dept_name}
-                    </Box>
+                    <Box sx={{ flex: 8, textTransform: 'capitalize', mr: 2 }}>:&nbsp;{dept_name}</Box>
                   </Box>
 
                   <Box sx={{ display: 'flex', pt: 1, fontFamily: 'Georgia', color: '#000C66' }}>
                     <Box sx={{ flex: 0.9, ml: 3 }}>Section</Box>
-                    <Box sx={{ flex: 8, textTransform: 'capitalize', mr: 2 }}>
-                      :&nbsp;{sec_name}
-                    </Box>
+                    <Box sx={{ flex: 8, textTransform: 'capitalize', mr: 2 }}>:&nbsp;{sec_name}</Box>
                   </Box>
 
                   <Box sx={{ display: 'flex', pt: 1, fontFamily: 'Georgia', color: '#000C66' }}>
@@ -685,9 +668,7 @@ const EmpTaskStatus = ({
                   </Box>
                   <Box sx={{ display: 'flex', pt: 1, fontFamily: 'Georgia', color: '#000C66' }}>
                     <Box sx={{ flex: 0.9, ml: 3 }}>Description</Box>
-                    <Box sx={{ flex: 8, textTransform: 'capitalize', mr: 2 }}>
-                      :&nbsp;{tm_task_description}
-                    </Box>
+                    <Box sx={{ flex: 8, textTransform: 'capitalize', mr: 2 }}>:&nbsp;{tm_task_description}</Box>
                   </Box>
                 </Box>
                 <Box
@@ -701,7 +682,7 @@ const EmpTaskStatus = ({
                     display: 'flex',
                     borderColor: '#887BB0',
                     mx: 2.3,
-                    py: 1,
+                    py: 1
                   }}
                 >
                   <Box
@@ -714,7 +695,7 @@ const EmpTaskStatus = ({
                       border: 0.1,
                       mx: 0.5,
                       borderRadius: 5,
-                      borderColor: '#E4E5E8',
+                      borderColor: '#E4E5E8'
                     }}
                   >
                     <label htmlFor="file-input">
@@ -722,7 +703,7 @@ const EmpTaskStatus = ({
                         sx={{
                           color: '#0000FF',
                           cursor: 'pointer',
-                          '&:hover': { color: '#000C66' },
+                          '&:hover': { color: '#000C66' }
                         }}
                       />
                       <u>Choose File</u>
@@ -743,7 +724,7 @@ const EmpTaskStatus = ({
                       flex: 1,
                       overflowX: 'scroll',
                       overflow: 'hidden',
-                      mx: 0.5,
+                      mx: 0.5
                     }}
                   >
                     {selectTaskfile &&
@@ -759,7 +740,7 @@ const EmpTaskStatus = ({
                                 width: 20,
                                 cursor: 'pointer',
                                 color: '#4D0011',
-                                '&:hover': { color: '#BA0F30' },
+                                '&:hover': { color: '#BA0F30' }
                               }}
                               onClick={() => handleRemoveTaskFile(index)}
                             />
@@ -769,9 +750,7 @@ const EmpTaskStatus = ({
                   </Box>
                 </Box>
                 <Box sx={{ m: 2, border: 1, borderColor: '#710019', borderRadius: 3 }}>
-                  <Typography
-                    sx={{ pl: 1.5, pt: 0.5, fontSize: 20, fontFamily: 'Georgia', color: '#000C66' }}
-                  >
+                  <Typography sx={{ pl: 1.5, pt: 0.5, fontSize: 20, fontFamily: 'Georgia', color: '#000C66' }}>
                     Task Progress
                   </Typography>
                   <EmpProgressTable progresstabledata={progresstabledata} rowSelect={rowSelect} />
@@ -848,18 +827,10 @@ const EmpTaskStatus = ({
                     </Box>
                   </Box>
                   <Box sx={{ flex: 5 }}>
-                    <Box sx={{ pl: 0.8, pt: 0.5, color: '#000C66', fontFamily: 'Georgia' }}>
-                      Task Completed
-                    </Box>
-                    <Box sx={{ pl: 0.8, pt: 1, color: '#000C66', fontFamily: 'Georgia' }}>
-                      Task On Progress
-                    </Box>
-                    <Box sx={{ pl: 0.8, pt: 1, color: '#000C66', fontFamily: 'Georgia' }}>
-                      Task On Hold
-                    </Box>
-                    <Box sx={{ pl: 0.8, pt: 1, color: '#000C66', fontFamily: 'Georgia' }}>
-                      Task On Pending
-                    </Box>
+                    <Box sx={{ pl: 0.8, pt: 0.5, color: '#000C66', fontFamily: 'Georgia' }}>Task Completed</Box>
+                    <Box sx={{ pl: 0.8, pt: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task On Progress</Box>
+                    <Box sx={{ pl: 0.8, pt: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task On Hold</Box>
+                    <Box sx={{ pl: 0.8, pt: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task On Pending</Box>
                   </Box>
                   <Box sx={{ flex: 10 }}>
                     {onHold === true ? (
@@ -924,9 +895,7 @@ const EmpTaskStatus = ({
                     <Typography sx={{ pl: 1, fontSize: 20 }}>Task Progress</Typography>
                     <Box sx={{ display: 'flex' }}>
                       <Box sx={{ flex: 4, pb: 1 }}>
-                        <Typography
-                          sx={{ pl: 1.5, mt: 1, color: '#000C66', fontFamily: 'Georgia' }}
-                        >
+                        <Typography sx={{ pl: 1.5, mt: 1, color: '#000C66', fontFamily: 'Georgia' }}>
                           Progress Date
                         </Typography>
                         <Box sx={{ pl: 1 }}>
@@ -934,8 +903,8 @@ const EmpTaskStatus = ({
                             slotProps={{
                               input: {
                                 min: create_date,
-                                max: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-                              },
+                                max: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+                              }
                             }}
                             type="datetime-local"
                             size="sm"
@@ -946,9 +915,7 @@ const EmpTaskStatus = ({
                         </Box>
                       </Box>
                       <Box sx={{ flex: 15 }}>
-                        <Typography
-                          sx={{ pl: 1.5, mt: 1, color: '#000C66', fontFamily: 'Georgia' }}
-                        >
+                        <Typography sx={{ pl: 1.5, mt: 1, color: '#000C66', fontFamily: 'Georgia' }}>
                           Progress description
                         </Typography>
                         <Box sx={{ mx: 1 }}>
@@ -1001,15 +968,12 @@ const EmpTaskStatus = ({
                       border: 1,
                       borderColor: '#603A70',
                       borderRadius: 3,
-                      boxShadow: '1px 1px 4px #887BB0',
+                      boxShadow: '1px 1px 4px #887BB0'
                     }}
                   >
                     {completed === true ? (
                       <Box>
-                        <Tooltip
-                          title="unable to add a subtask to a completed task"
-                          placement="top-start"
-                        >
+                        <Tooltip title="unable to add a subtask to a completed task" placement="top-start">
                           <Box
                             sx={{
                               mt: 1,
@@ -1021,7 +985,7 @@ const EmpTaskStatus = ({
                               borderColor: '#D9E4EC',
                               borderRadius: 5,
                               pl: 1,
-                              pt: 0.8,
+                              pt: 0.8
                             }}
                           >
                             Add Subtask&nbsp;
@@ -1042,7 +1006,7 @@ const EmpTaskStatus = ({
                           borderRadius: 5,
                           pl: 1,
                           pt: 1,
-                          color: '#774A62',
+                          color: '#774A62'
                         }}
                         onClick={openAddSubtask}
                       >
@@ -1113,18 +1077,10 @@ const EmpTaskStatus = ({
             </Box>
             <DialogActions>
               <Box sx={{ textAlign: 'right', pb: 2, pr: 2 }}>
-                <Button
-                  variant="plain"
-                  onClick={UpdateStatus}
-                  sx={{ color: '#004F76', fontSize: 16 }}
-                >
+                <Button variant="plain" onClick={UpdateStatus} sx={{ color: '#004F76', fontSize: 16 }}>
                   Update
                 </Button>
-                <Button
-                  variant="plain"
-                  sx={{ color: '#004F76', fontSize: 16 }}
-                  onClick={handleEditClose}
-                >
+                <Button variant="plain" sx={{ color: '#004F76', fontSize: 16 }} onClick={handleEditClose}>
                   Cancel
                 </Button>
               </Box>

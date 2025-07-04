@@ -72,8 +72,8 @@ const DietApprovalList = () => {
         <IconButton sx={{ color: editicon, paddingY: 0.5 }} onClick={() => dietApproval(params)}>
           <CheckCircleOutlineIcon />
         </IconButton>
-      ),
-    },
+      )
+    }
   ])
 
   const [columns] = useState([
@@ -91,8 +91,8 @@ const DietApprovalList = () => {
         <IconButton sx={{ color: editicon, paddingY: 0.5 }} onClick={() => dietApproval(params)}>
           <CheckCircleOutlineIcon />
         </IconButton>
-      ),
-    },
+      )
+    }
   ])
 
   useEffect(() => {
@@ -185,7 +185,7 @@ const DietApprovalList = () => {
               pl: 1,
               pt: 1,
               pr: 1,
-              pb: 1,
+              pb: 1
             }}
           >
             <Box
@@ -197,7 +197,7 @@ const DietApprovalList = () => {
                 pb: 0.5,
                 display: 'flex',
                 justifyContent: 'center',
-                flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' },
+                flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' }
               }}
             >
               <Box sx={{ width: '25%', pr: 1, mt: 1 }}>
@@ -226,7 +226,7 @@ const DietApprovalList = () => {
                 pl: 1,
                 pt: 1,
                 pr: 1,
-                pb: 1,
+                pb: 1
               }}
             >
               <CusAgGridMast columnDefs={columns} tableData={counsultData} />
@@ -250,7 +250,7 @@ const DietApprovalList = () => {
                 pl: 1,
                 pt: 1,
                 pr: 1,
-                pb: 1,
+                pb: 1
               }}
             >
               <Box
@@ -263,7 +263,7 @@ const DietApprovalList = () => {
                   flex: 1,
                   display: 'flex',
                   flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' },
-                  justifyContent: 'center',
+                  justifyContent: 'center'
                 }}
               >
                 <Box sx={{ width: '13%', pr: 1, mt: 1 }}>

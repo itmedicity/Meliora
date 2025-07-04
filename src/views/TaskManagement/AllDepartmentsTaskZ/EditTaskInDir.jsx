@@ -47,7 +47,7 @@ const EditTaskInDir = ({
   statuscount,
   setstatuscount,
   projectcount,
-  setProjectcount,
+  setProjectcount
 }) => {
   const {
     tm_task_slno,
@@ -61,7 +61,7 @@ const EditTaskInDir = ({
     tm_task_dept,
     tm_task_dept_sec,
     tm_project_duedate,
-    tm_mast_duedate_count,
+    tm_mast_duedate_count
   } = masterData
 
   const dispatch = useDispatch()
@@ -143,11 +143,10 @@ const EditTaskInDir = ({
     description: '',
     pendingRemarks: '',
     onHoldRemaks: '',
-    completedRemarks: '',
+    completedRemarks: ''
   })
 
-  const { taskName, dueDate, description, onHoldRemaks, pendingRemarks, completedRemarks } =
-    taskData
+  const { taskName, dueDate, description, onHoldRemaks, pendingRemarks, completedRemarks } = taskData
 
   const taskDataUpdate = useCallback(
     e => {
@@ -227,7 +226,7 @@ const EditTaskInDir = ({
     tm_task_status: checkFlag,
     tm_progres_date: '',
     progress_emp: id,
-    tm_task_progress: '',
+    tm_task_progress: ''
   })
 
   const { progress_slno, tm_progres_date, tm_task_progress } = taskProgress
@@ -247,7 +246,7 @@ const EditTaskInDir = ({
       tm_progres_date: tm_progres_date === '' ? null : tm_progres_date,
       progress_emp: id,
       main_task_slno: main_task_slno,
-      tm_task_progress: tm_task_progress === '' ? null : tm_task_progress,
+      tm_task_progress: tm_task_progress === '' ? null : tm_task_progress
     }
   }, [tm_task_slno, checkFlag, tm_progres_date, tm_task_progress, main_task_slno, id])
 
@@ -258,13 +257,13 @@ const EditTaskInDir = ({
       tm_task_status: checkFlag,
       tm_progres_date: tm_progres_date === '' ? null : tm_progres_date,
       progress_emp: id,
-      tm_task_progress: tm_task_progress,
+      tm_task_progress: tm_task_progress
     }
   }, [progress_slno, tm_task_slno, checkFlag, tm_progres_date, tm_task_progress, id])
 
   const ProgressData = useMemo(() => {
     return {
-      tm_task_slno: tm_task_slno,
+      tm_task_slno: tm_task_slno
     }
   }, [tm_task_slno])
 
@@ -295,7 +294,7 @@ const EditTaskInDir = ({
               tm_task_status: val.tm_task_status,
               tm_progres_date: val.tm_progres_date,
               em_name: val.em_name,
-              tm_task_progress: val.tm_task_progress,
+              tm_task_progress: val.tm_task_progress
             }
             return obj
           })
@@ -344,7 +343,7 @@ const EditTaskInDir = ({
     const form = {
       progress_slno: '',
       tm_progres_date: '',
-      tm_task_progress: '',
+      tm_task_progress: ''
     }
     setTaskProgress(form)
   }, [])
@@ -379,21 +378,14 @@ const EditTaskInDir = ({
 
   const rowSelect = useCallback(data => {
     setvalue(1)
-    const {
-      progress_slno,
-      tm_task_slno,
-      tm_task_status,
-      tm_progres_date,
-      progress_emp,
-      tm_task_progress,
-    } = data
+    const { progress_slno, tm_task_slno, tm_task_status, tm_progres_date, progress_emp, tm_task_progress } = data
     const frmdata = {
       progress_slno: progress_slno,
       tm_task_slno: tm_task_slno,
       tm_task_status: tm_task_status,
       tm_progres_date: tm_progres_date === '' ? null : tm_progres_date,
       progress_emp: progress_emp,
-      tm_task_progress: tm_task_progress === '' ? null : tm_task_progress,
+      tm_task_progress: tm_task_progress === '' ? null : tm_task_progress
     }
     setTaskProgress(frmdata)
   }, [])
@@ -440,7 +432,7 @@ const EditTaskInDir = ({
           tm_onhold_remarks,
           tm_completed_remarks,
           tm_task_dept_sec,
-          tm_task_dept,
+          tm_task_dept
         } = data[0]
         const formdata = {
           taskSlno: tm_task_slno,
@@ -449,7 +441,7 @@ const EditTaskInDir = ({
           description: tm_task_description ? tm_task_description : '',
           pendingRemarks: tm_pending_remark ? tm_pending_remark : '',
           onHoldRemaks: tm_onhold_remarks ? tm_onhold_remarks : '',
-          completedRemarks: tm_completed_remarks ? tm_completed_remarks : '',
+          completedRemarks: tm_completed_remarks ? tm_completed_remarks : ''
         }
         setTaskData(formdata)
         setdepartmentMast(tm_task_dept)
@@ -472,7 +464,7 @@ const EditTaskInDir = ({
               return {
                 tm_create_detl_slno: val.tm_create_detl_slno,
                 tm_assigne_emp: val.tm_assigne_emp,
-                tm_detl_edit: id,
+                tm_detl_edit: id
               }
             })
           setEmpArry(setEmpData)
@@ -506,9 +498,8 @@ const EditTaskInDir = ({
       tm_completed_remarks: completedRemarks === '' ? null : completedRemarks,
       tm_project_slno: projectz === 0 ? null : projectz,
       tm_complete_date: completed === true ? newDate : null,
-      tm_mast_duedate_count:
-        tm_task_due_date !== dueDate ? tm_mast_duedate_count + 1 : tm_mast_duedate_count,
-      edit_user: id,
+      tm_mast_duedate_count: tm_task_due_date !== dueDate ? tm_mast_duedate_count + 1 : tm_mast_duedate_count,
+      edit_user: id
     }
   }, [
     tm_task_slno,
@@ -526,7 +517,7 @@ const EditTaskInDir = ({
     newDate,
     tm_mast_duedate_count,
     tm_task_due_date,
-    id,
+    id
   ])
 
   const postEmpDetails =
@@ -536,7 +527,7 @@ const EditTaskInDir = ({
         tm_task_slno: tm_task_slno,
         tm_assigne_emp: val,
         tm_detail_status: 1,
-        tm_detl_create: id,
+        tm_detl_create: id
       }
     })
   const inactive =
@@ -544,7 +535,7 @@ const EditTaskInDir = ({
     empArry.map(val => {
       return {
         tm_task_slno: tm_task_slno,
-        tm_assigne_emp: val.tm_assigne_emp,
+        tm_assigne_emp: val.tm_assigne_emp
       }
     })
 
@@ -569,7 +560,7 @@ const EditTaskInDir = ({
     const options = {
       maxSizeMB: 1,
       maxWidthOrHeight: 1920,
-      useWebWorker: true,
+      useWebWorker: true
     }
     const compressedFile = await imageCompression(imageFile, options)
     return compressedFile
@@ -605,8 +596,8 @@ const EditTaskInDir = ({
           // Use the Axios instance and endpoint that matches your server setup
           const uploadResult = await axioslogin.post('/TmFileUpload/uploadFile/task', formData, {
             headers: {
-              'Content-Type': 'multipart/form-data',
-            },
+              'Content-Type': 'multipart/form-data'
+            }
           })
           return uploadResult.data
         } catch (error) {
@@ -736,7 +727,7 @@ const EditTaskInDir = ({
       setProjectcount,
       projectcount,
       setsecCount,
-      secCount,
+      secCount
     ]
   )
 
@@ -765,7 +756,7 @@ const EditTaskInDir = ({
             width: '90vw',
             height: '60vw',
             p: 0,
-            overflow: 'auto',
+            overflow: 'auto'
           }}
         >
           {addProjectFlag === 1 ? (
@@ -826,7 +817,7 @@ const EditTaskInDir = ({
                     fontWeight: 600,
                     fontSize: 12,
                     display: 'flex',
-                    justifyContent: 'flex-end',
+                    justifyContent: 'flex-end'
                   }}
                 >
                   Project
@@ -843,19 +834,9 @@ const EditTaskInDir = ({
                   ) : (
                     <Box sx={{ flex: 1 }}>
                       {tm_project_name === null ? (
-                        <Inputcomponent
-                          type="text"
-                          name="tm_project_name"
-                          value={tm_project_name}
-                          disabled
-                        />
+                        <Inputcomponent type="text" name="tm_project_name" value={tm_project_name} disabled />
                       ) : (
-                        <Inputcomponent
-                          type="text"
-                          name="tm_project_name"
-                          value={tm_project_name}
-                          disabled
-                        />
+                        <Inputcomponent type="text" name="tm_project_name" value={tm_project_name} disabled />
                       )}
                     </Box>
                   )}
@@ -866,7 +847,7 @@ const EditTaskInDir = ({
                           cursor: 'pointer',
                           bgcolor: '#90CDD0',
                           color: 'black',
-                          '&:hover': { bgcolor: '#77A7B0' },
+                          '&:hover': { bgcolor: '#77A7B0' }
                         }}
                       >
                         {' '}
@@ -886,7 +867,7 @@ const EditTaskInDir = ({
                     display: 'flex',
                     justifyContent: 'flex-end',
                     pt: 1.5,
-                    pr: 1.5,
+                    pr: 1.5
                   }}
                 >
                   Task <span style={{ color: '#74112F', fontSize: 15 }}>*</span>
@@ -911,16 +892,13 @@ const EditTaskInDir = ({
                     display: 'flex',
                     justifyContent: 'flex-end',
                     pt: 2,
-                    pr: 1.5,
+                    pr: 1.5
                   }}
                 >
                   Department
                 </Typography>
                 <Box sx={{ flex: 2.8 }}>
-                  <TmDepartmentSelect
-                    department={departmentMast}
-                    setDepartment={setdepartmentMast}
-                  />
+                  <TmDepartmentSelect department={departmentMast} setDepartment={setdepartmentMast} />
                 </Box>
                 <Typography
                   sx={{
@@ -930,16 +908,13 @@ const EditTaskInDir = ({
                     fontSize: 12,
                     pt: 1.8,
                     pr: 0.5,
-                    pl: 2,
+                    pl: 2
                   }}
                 >
                   Section
                 </Typography>
                 <Box sx={{ flex: 2.6 }}>
-                  <TmDeptSectionSelect
-                    deptsec={departmentSecMast}
-                    setDeptSec={setdepartmentSecMast}
-                  />
+                  <TmDeptSectionSelect deptsec={departmentSecMast} setDeptSec={setdepartmentSecMast} />
                 </Box>
               </Box>
               <Box sx={{ flex: 1, display: 'flex', mt: 2, mx: 1 }}>
@@ -952,7 +927,7 @@ const EditTaskInDir = ({
                     display: 'flex',
                     justifyContent: 'flex-end',
                     pt: 1.5,
-                    pr: 1.5,
+                    pr: 1.5
                   }}
                 >
                   Created Date
@@ -968,18 +943,14 @@ const EditTaskInDir = ({
                     fontSize: 12,
                     pt: 1.8,
                     pr: 1,
-                    pl: 2,
+                    pl: 2
                   }}
                 >
                   Duedate <span style={{ color: '#74112F', fontSize: 15 }}>*</span>
                 </Typography>
                 <Tooltip
                   color="warning"
-                  title={
-                    tm_mast_duedate_count >= countDue
-                      ? 'Cant Change Duedate, Change Limit Exceeded'
-                      : ''
-                  }
+                  title={tm_mast_duedate_count >= countDue ? 'Cant Change Duedate, Change Limit Exceeded' : ''}
                 >
                   <Box sx={{ flex: 2.5, pt: 0.4 }}>
                     {tm_project_slno !== null ? (
@@ -994,8 +965,8 @@ const EditTaskInDir = ({
                               completeFlag.length === 0
                                 ? moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
                                 : moment(new Date(tm_task_due_date)).format('YYYY-MM-DD HH:mm:ss'),
-                            max: moment(new Date(tm_project_duedate)).format('YYYY-MM-DD HH:mm:ss'),
-                          },
+                            max: moment(new Date(tm_project_duedate)).format('YYYY-MM-DD HH:mm:ss')
+                          }
                         }}
                         onchange={taskDataUpdate}
                         disabled={tm_mast_duedate_count >= countDue}
@@ -1008,8 +979,8 @@ const EditTaskInDir = ({
                         slotProps={{
                           input: {
                             min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-                            max: moment(new Date(dueDateProject)).format('YYYY-MM-DD HH:mm:ss'),
-                          },
+                            max: moment(new Date(dueDateProject)).format('YYYY-MM-DD HH:mm:ss')
+                          }
                         }}
                         onchange={taskDataUpdate}
                         disabled={tm_mast_duedate_count >= countDue}
@@ -1023,7 +994,7 @@ const EditTaskInDir = ({
                       sx={{
                         color: '#391306',
                         cursor: 'pointer',
-                        '&:hover': { color: 'darkred' },
+                        '&:hover': { color: 'darkred' }
                       }}
                       onClick={getAllDueDates}
                     />
@@ -1040,7 +1011,7 @@ const EditTaskInDir = ({
                     display: 'flex',
                     justifyContent: 'flex-end',
                     pt: 1.5,
-                    pr: 1.5,
+                    pr: 1.5
                   }}
                 >
                   Assignees<span style={{ color: '#74112F', fontSize: 15 }}>*</span>
@@ -1076,7 +1047,7 @@ const EditTaskInDir = ({
                     display: 'flex',
                     justifyContent: 'flex-end',
                     pt: 1.5,
-                    pr: 1.5,
+                    pr: 1.5
                   }}
                 >
                   Task Description
@@ -1110,7 +1081,7 @@ const EditTaskInDir = ({
                   flex: 1,
                   ml: 6,
                   mr: 30,
-                  py: 1,
+                  py: 1
                 }}
               >
                 <Box
@@ -1123,13 +1094,11 @@ const EditTaskInDir = ({
                     border: 0.1,
                     mx: 0.5,
                     borderRadius: 5,
-                    borderColor: '#E4E5E8',
+                    borderColor: '#E4E5E8'
                   }}
                 >
                   <label htmlFor="file-input">
-                    <AttachmentIcon
-                      sx={{ color: '#0000FF', cursor: 'pointer', '&:hover': { color: '#000C66' } }}
-                    />
+                    <AttachmentIcon sx={{ color: '#0000FF', cursor: 'pointer', '&:hover': { color: '#000C66' } }} />
                     <u>Choose File</u>
                   </label>
                   <input
@@ -1149,7 +1118,7 @@ const EditTaskInDir = ({
                     flex: 1,
                     overflowX: 'scroll',
                     overflow: 'hidden',
-                    mx: 0.5,
+                    mx: 0.5
                   }}
                 >
                   {selectTaskfile &&
@@ -1165,7 +1134,7 @@ const EditTaskInDir = ({
                               width: 20,
                               cursor: 'pointer',
                               color: '#4D0011',
-                              '&:hover': { color: '#BA0F30' },
+                              '&:hover': { color: '#BA0F30' }
                             }}
                             onClick={() => handleRemoveTaskFile(index)}
                           />
@@ -1179,9 +1148,7 @@ const EditTaskInDir = ({
           </Box>
           <Box sx={{ borderRight: 1, borderLeft: 1, borderBottom: 1, borderColor: '#D9E4EC' }}>
             <Box sx={{ m: 2, border: 1, borderColor: '#710019', borderRadius: 3 }}>
-              <Typography
-                sx={{ pl: 1.5, pt: 0.5, fontSize: 20, fontFamily: 'Georgia', color: '#000C66' }}
-              >
+              <Typography sx={{ pl: 1.5, pt: 0.5, fontSize: 20, fontFamily: 'Georgia', color: '#000C66' }}>
                 Task Progress
               </Typography>
 
@@ -1259,18 +1226,10 @@ const EditTaskInDir = ({
                 </Box>
               </Box>
               <Box sx={{ flex: 5 }}>
-                <Box sx={{ pl: 0.8, pt: 0.5, color: '#000C66', fontFamily: 'Georgia' }}>
-                  Task Completed
-                </Box>
-                <Box sx={{ pl: 0.8, pt: 1, color: '#000C66', fontFamily: 'Georgia' }}>
-                  Task On Progress
-                </Box>
-                <Box sx={{ pl: 0.8, pt: 1, color: '#000C66', fontFamily: 'Georgia' }}>
-                  Task On Hold
-                </Box>
-                <Box sx={{ pl: 0.8, pt: 1, color: '#000C66', fontFamily: 'Georgia' }}>
-                  Task On Pending
-                </Box>
+                <Box sx={{ pl: 0.8, pt: 0.5, color: '#000C66', fontFamily: 'Georgia' }}>Task Completed</Box>
+                <Box sx={{ pl: 0.8, pt: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task On Progress</Box>
+                <Box sx={{ pl: 0.8, pt: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task On Hold</Box>
+                <Box sx={{ pl: 0.8, pt: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task On Pending</Box>
               </Box>
               <Box sx={{ flex: 10 }}>
                 {onHold === true ? (
@@ -1343,8 +1302,8 @@ const EditTaskInDir = ({
                         slotProps={{
                           input: {
                             min: create_date,
-                            max: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-                          },
+                            max: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+                          }
                         }}
                         type="datetime-local"
                         size="sm"
@@ -1388,7 +1347,7 @@ const EditTaskInDir = ({
                             fontSize: 30,
                             cursor: 'pointer',
                             color: '#003B73',
-                            '&:hover': { color: '#DBA40E' },
+                            '&:hover': { color: '#DBA40E' }
                           }}
                           onClick={UpdateProgress}
                         />
@@ -1405,15 +1364,12 @@ const EditTaskInDir = ({
                   border: 1,
                   borderColor: '#603A70',
                   borderRadius: 3,
-                  boxShadow: '1px 1px 4px #887BB0',
+                  boxShadow: '1px 1px 4px #887BB0'
                 }}
               >
                 {completed === true ? (
                   <Box>
-                    <Tooltip
-                      title="unable to add a subtask to a completed task"
-                      placement="top-start"
-                    >
+                    <Tooltip title="unable to add a subtask to a completed task" placement="top-start">
                       <Box
                         sx={{
                           mt: 1,
@@ -1425,7 +1381,7 @@ const EditTaskInDir = ({
                           borderColor: '#D9E4EC',
                           borderRadius: 5,
                           pl: 1,
-                          pt: 0.8,
+                          pt: 0.8
                         }}
                       >
                         Add Subtask&nbsp;
@@ -1446,7 +1402,7 @@ const EditTaskInDir = ({
                       borderRadius: 5,
                       pl: 1,
                       pt: 1,
-                      color: '#774A62',
+                      color: '#774A62'
                     }}
                     onClick={openAddSubtask}
                   >
@@ -1508,11 +1464,7 @@ const EditTaskInDir = ({
               <Button variant="plain" onClick={SubmitTask} sx={{ color: '#004F76', fontSize: 16 }}>
                 Update
               </Button>
-              <Button
-                variant="plain"
-                sx={{ color: '#004F76', fontSize: 16 }}
-                onClick={handleEditClose}
-              >
+              <Button variant="plain" sx={{ color: '#004F76', fontSize: 16 }} onClick={handleEditClose}>
                 Cancel
               </Button>
             </Box>

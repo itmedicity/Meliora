@@ -11,45 +11,45 @@ function NursingStationMastTable({ count, rowSelect }) {
   const [column] = useState([
     {
       headerName: 'slno',
-      field: 'co_nurse_slno',
+      field: 'co_nurse_slno'
     },
     {
       headerName: 'Nursing station Name',
       field: 'co_nurse_desc',
       filter: 'true',
-      minWidth: 200,
+      minWidth: 200
     },
     {
       headerName: 'Nursing station Oracle',
       field: 'nsc_desc',
       filter: 'true',
-      minWidth: 250,
+      minWidth: 250
     },
 
     {
       headerName: 'Building',
       field: 'build_name',
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Floor',
       field: 'floor_desc',
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Outlet',
       field: 'ouc_desc',
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Status',
-      field: 'status',
+      field: 'status'
     },
 
     {
       headerName: 'Action',
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
-    },
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
+    }
   ])
   useEffect(() => {
     const getNurseStation = async () => {

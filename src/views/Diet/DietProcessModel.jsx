@@ -1,10 +1,10 @@
 import React, { Fragment, memo, useEffect, useMemo, useState } from 'react'
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import Slide from '@mui/material/Slide';
+import Button from '@mui/material/Button'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import DialogTitle from '@mui/material/DialogTitle'
+import Slide from '@mui/material/Slide'
 // import { ToastContainer } from 'react-toastify';
 import { Box, Paper } from '@mui/material'
 import { Typography } from '@mui/material'
@@ -17,17 +17,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="left" ref={ref} {...props} />
 })
 
-const DietProcessModel = ({
-  open,
-  handleClose,
-  setOpen,
-  detail,
-  startdate,
-  count,
-  setCount,
-  dayselect,
-  setSearch,
-}) => {
+const DietProcessModel = ({ open, handleClose, setOpen, detail, startdate, count, setCount, dayselect, setSearch }) => {
   const [proces, setprocess] = useState({
     plan_slno: 0,
     pt_no: 0,
@@ -37,19 +27,9 @@ const DietProcessModel = ({
     bd_code: 0,
     discharge: '',
     diet_slno: 0,
-    ip_no: 0,
+    ip_no: 0
   })
-  const {
-    plan_slno,
-    pt_no,
-    ptc_ptname,
-    diet_name,
-    plan_remark,
-    bd_code,
-    discharge,
-    diet_slno,
-    ip_no,
-  } = proces
+  const { plan_slno, pt_no, ptc_ptname, diet_name, plan_remark, bd_code, discharge, diet_slno, ip_no } = proces
 
   // Get login user emp_id
   const id = useSelector(state => {
@@ -60,17 +40,7 @@ const DietProcessModel = ({
 
   useEffect(() => {
     const destrufunction = () => {
-      const {
-        plan_slno,
-        pt_no,
-        ptc_ptname,
-        diet_name,
-        plan_remark,
-        diet_slno,
-        discharge,
-        bd_code,
-        ip_no,
-      } = detail[0]
+      const { plan_slno, pt_no, ptc_ptname, diet_name, plan_remark, diet_slno, discharge, bd_code, ip_no } = detail[0]
       const frmdata = {
         plan_slno: plan_slno,
         pt_no: pt_no,
@@ -80,7 +50,7 @@ const DietProcessModel = ({
         discharge: discharge,
         bd_code: bd_code,
         diet_slno: diet_slno,
-        ip_no: ip_no,
+        ip_no: ip_no
       }
       setprocess(frmdata)
       const getDietMenu = async () => {
@@ -95,7 +65,7 @@ const DietProcessModel = ({
             bd_code: bd_code,
             diet_slno: diet_slno,
             dmenu_slno: dmenu_slno,
-            days: day,
+            days: day
           }
           const result1 = await axioslogin.post('/dietprocess/dmenubyday', getmenu)
           const { succes, messagee, dataa } = result1.data
@@ -128,7 +98,7 @@ const DietProcessModel = ({
           : format(new Date(startdate), 'yyyy-MM-dd hh-mm-ss'),
       process_status: 1,
       discharge_status: discharge === 'N' ? 1 : 0,
-      em_id: id,
+      em_id: id
     }
   }, [plan_slno, DietMenu, ip_no, pt_no, diet_slno, bd_code, dayselect, discharge, id, startdate])
   const Process = useCallback(
@@ -165,7 +135,7 @@ const DietProcessModel = ({
                   proc_slno: insetid,
                   type_slno: val.type_slno,
                   rate_hos: val.hosp_rate,
-                  rate_cant: val.cant_rate,
+                  rate_cant: val.cant_rate
                 }
               })
             insertDetail(procesDetail)
@@ -195,7 +165,7 @@ const DietProcessModel = ({
           sx={{
             minWidth: 300,
             maxWidth: 600,
-            width: 500,
+            width: 500
           }}
         >
           <Box sx={{ width: '100%' }}>
@@ -212,8 +182,8 @@ const DietProcessModel = ({
                   lg: 'column',
                   md: 'column',
                   sm: 'column',
-                  xs: 'column',
-                },
+                  xs: 'column'
+                }
               }}
             >
               <Box sx={{ display: 'flex', width: '100%' }}>

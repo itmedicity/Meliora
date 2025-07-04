@@ -23,7 +23,7 @@ const CustomAGReportDispaly = ({ columnDefForTable, tableDataForTable }) => {
   const headerHeight = 30
   const defaultColDef = {
     sortable: true,
-    filter: 'agTextColumnFilter',
+    filter: 'agTextColumnFilter'
   }
 
   const onGridReady = params => {
@@ -41,8 +41,8 @@ const CustomAGReportDispaly = ({ columnDefForTable, tableDataForTable }) => {
       'sans-serif',
       '"Apple Color Emoji"',
       '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
+      '"Segoe UI Symbol"'
+    ].join(',')
   }
 
   return (
@@ -52,7 +52,7 @@ const CustomAGReportDispaly = ({ columnDefForTable, tableDataForTable }) => {
           className="ag-theme-material ListItemScrol"
           sx={{
             height: { xs: 540, sm: 540, md: 540, lg: 514, xl: 802 },
-            width: '100%',
+            width: '100%'
           }}
         >
           <AgGridReact

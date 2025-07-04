@@ -3,7 +3,7 @@ const { FETCH_ASSIGN_TO_RECTIFY_TAT } = ActionTyps
 
 const AssignToRectify = {
   AssignToRectifyList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 
 export const getAssignToRectifyList = (state = AssignToRectify, { type, payload }) => {

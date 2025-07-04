@@ -22,7 +22,7 @@ const EditSubtaskEmp = ({
   setTableRendering,
   tableCount,
   setTableCount,
-  tm_task_due_date,
+  tm_task_due_date
 }) => {
   const {
     tm_task_slno,
@@ -34,7 +34,7 @@ const EditSubtaskEmp = ({
     tm_project_slno,
     main_task_slno,
     create_date,
-    tm_mast_duedate_count,
+    tm_mast_duedate_count
   } = subTaskData
 
   const [employeeSubTask, setEmployeeSubTask] = useState(0)
@@ -98,16 +98,10 @@ const EditSubtaskEmp = ({
     subTaskDescription: '',
     onholdremarksSub: '',
     completedremarksSub: '',
-    pendingremarkSub: '',
+    pendingremarkSub: ''
   })
-  const {
-    subTaskName,
-    subTaskDueDate,
-    subTaskDescription,
-    onholdremarksSub,
-    completedremarksSub,
-    pendingremarkSub,
-  } = subTaskMast
+  const { subTaskName, subTaskDueDate, subTaskDescription, onholdremarksSub, completedremarksSub, pendingremarkSub } =
+    subTaskMast
   const [dueDateModalFlag, setdueDateModalFlag] = useState(0)
   const [dueDateModal, setdueDateModal] = useState(false)
   const [dueDates, setdueDates] = useState([])
@@ -191,7 +185,7 @@ const EditSubtaskEmp = ({
         tm_task_slno: tm_task_slno,
         tm_assigne_emp: val,
         tm_detail_status: 1,
-        tm_detl_create: id,
+        tm_detl_create: id
       }
     })
   const inactive =
@@ -199,7 +193,7 @@ const EditSubtaskEmp = ({
     empArry.map(val => {
       return {
         tm_task_slno: tm_task_slno,
-        tm_assigne_emp: val.tm_assigne_emp,
+        tm_assigne_emp: val.tm_assigne_emp
       }
     })
   const empdept = useSelector(state => {
@@ -240,7 +234,7 @@ const EditSubtaskEmp = ({
           subTaskDescription: tm_task_description ? tm_task_description : '',
           onholdremarksSub: tm_onhold_remarks ? tm_onhold_remarks : '',
           completedremarksSub: tm_completed_remarks ? tm_completed_remarks : '',
-          pendingremarkSub: tm_pending_remark ? tm_pending_remark : '',
+          pendingremarkSub: tm_pending_remark ? tm_pending_remark : ''
         }
         setSubTaskMastEdit(formdata)
         setCompletedSub(tm_task_status === 1 ? true : false)
@@ -260,7 +254,7 @@ const EditSubtaskEmp = ({
               return {
                 tm_task_slno: tm_task_slno,
                 tm_assigne_emp: val.tm_assigne_emp,
-                edit_user: id,
+                edit_user: id
               }
             })
           setEmpArry(setEmpData)
@@ -285,9 +279,8 @@ const EditSubtaskEmp = ({
       tm_project_slno: tm_project_slno,
       main_task_slno: main_task_slno,
       tm_task_status: checkFlagSub,
-      tm_mast_duedate_count:
-        checksubtaskdue !== subTaskDueDate ? tm_mast_duedate_count + 1 : tm_mast_duedate_count,
-      edit_user: id,
+      tm_mast_duedate_count: checksubtaskdue !== subTaskDueDate ? tm_mast_duedate_count + 1 : tm_mast_duedate_count,
+      edit_user: id
     }
   }, [
     tm_task_slno,
@@ -306,7 +299,7 @@ const EditSubtaskEmp = ({
     onholdremarksSub,
     checksubtaskdue,
     tm_mast_duedate_count,
-    id,
+    id
   ])
 
   const reset = useCallback(() => {
@@ -317,7 +310,7 @@ const EditSubtaskEmp = ({
       subTaskDescription: '',
       onholdremarksSub: '',
       completedremarksSub: '',
-      pendingremarkSub: '',
+      pendingremarkSub: ''
     }
     setSubTaskMastEdit(frmdata)
     setEmployeeSubTask([])
@@ -332,7 +325,7 @@ const EditSubtaskEmp = ({
     tm_task_status: checkFlagSub,
     tm_progres_date: '',
     progress_emp: id,
-    tm_task_progress: '',
+    tm_task_progress: ''
   })
   const { progress_slno, tm_progres_date, tm_task_progress } = taskProgressSub
 
@@ -350,7 +343,7 @@ const EditSubtaskEmp = ({
       tm_progres_date: tm_progres_date === '' ? null : tm_progres_date,
       progress_emp: id,
       main_task_slno: main_task_slno,
-      tm_task_progress: tm_task_progress === '' ? null : tm_task_progress,
+      tm_task_progress: tm_task_progress === '' ? null : tm_task_progress
     }
   }, [tm_task_slno, checkFlagSub, tm_progres_date, tm_task_progress, main_task_slno, id])
 
@@ -361,13 +354,13 @@ const EditSubtaskEmp = ({
       tm_task_status: checkFlagSub,
       tm_progres_date: tm_progres_date === '' ? null : tm_progres_date,
       progress_emp: id,
-      tm_task_progress: tm_task_progress,
+      tm_task_progress: tm_task_progress
     }
   }, [progress_slno, tm_task_slno, checkFlagSub, tm_progres_date, tm_task_progress, id])
 
   const ProgressDataSub = useMemo(() => {
     return {
-      tm_task_slno: tm_task_slno,
+      tm_task_slno: tm_task_slno
     }
   }, [tm_task_slno])
   useEffect(() => {
@@ -383,7 +376,7 @@ const EditSubtaskEmp = ({
               tm_task_status: val.tm_task_status,
               tm_progres_date: val.tm_progres_date,
               em_name: val.em_name,
-              tm_task_progress: val.tm_task_progress,
+              tm_task_progress: val.tm_task_progress
             }
             return obj
           })
@@ -401,7 +394,7 @@ const EditSubtaskEmp = ({
     const form = {
       progress_slno: '',
       tm_progres_date: '',
-      tm_task_progress: '',
+      tm_task_progress: ''
     }
     setTaskProgressSub(form)
   }
@@ -432,14 +425,7 @@ const EditSubtaskEmp = ({
   )
   const rowSelectSubProgress = useCallback(data => {
     setvalueSubProgress(1)
-    const {
-      progress_slno,
-      tm_task_slno,
-      tm_task_status,
-      tm_progres_date,
-      progress_emp,
-      tm_task_progress,
-    } = data
+    const { progress_slno, tm_task_slno, tm_task_status, tm_progres_date, progress_emp, tm_task_progress } = data
 
     const frmdata = {
       progress_slno: progress_slno,
@@ -447,7 +433,7 @@ const EditSubtaskEmp = ({
       tm_task_status: tm_task_status,
       tm_progres_date: tm_progres_date === '' ? null : tm_progres_date,
       progress_emp: progress_emp,
-      tm_task_progress: tm_task_progress === '' ? null : tm_task_progress,
+      tm_task_progress: tm_task_progress === '' ? null : tm_task_progress
     }
     setTaskProgressSub(frmdata)
   }, [])
@@ -574,7 +560,7 @@ const EditSubtaskEmp = ({
       pendingremarkSub,
       reset,
       completedSub,
-      employeeSubTask,
+      employeeSubTask
     ]
   )
 
@@ -640,18 +626,13 @@ const EditSubtaskEmp = ({
           <Box sx={{ display: 'flex' }}>
             <Tooltip
               color="warning"
-              title={
-                tm_mast_duedate_count >= countDue
-                  ? 'Cant Change Duedate, Change Limit Exceeded'
-                  : ''
-              }
+              title={tm_mast_duedate_count >= countDue ? 'Cant Change Duedate, Change Limit Exceeded' : ''}
             >
               <Box sx={{ flex: 1 }}>
                 <Tooltip
                   color="warning"
                   title={
-                    tm_task_due_date &&
-                    moment(new Date()).isAfter(moment(new Date(tm_task_due_date)))
+                    tm_task_due_date && moment(new Date()).isAfter(moment(new Date(tm_task_due_date)))
                       ? 'Due date cannot be changed as the main task due date is overdue,Please update Main Task Due date'
                       : ''
                   }
@@ -666,14 +647,13 @@ const EditSubtaskEmp = ({
                       slotProps={{
                         input: {
                           min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-                          max: moment(new Date(tm_task_due_date)).format('YYYY-MM-DD HH:mm:ss'),
-                        },
+                          max: moment(new Date(tm_task_due_date)).format('YYYY-MM-DD HH:mm:ss')
+                        }
                       }}
                       style={{ minHeight: 57 }}
                       disabled={
                         tm_mast_duedate_count >= countDue ||
-                        (tm_task_due_date &&
-                          moment(new Date()).isAfter(moment(new Date(tm_task_due_date))))
+                        (tm_task_due_date && moment(new Date()).isAfter(moment(new Date(tm_task_due_date))))
                       }
                     ></TextFieldCustom>
                   </Box>
@@ -682,10 +662,7 @@ const EditSubtaskEmp = ({
             </Tooltip>
             <Box sx={{ ml: 0.2, mt: 1, pt: 1 }}>
               <Tooltip title={'Changed Duedates'}>
-                <AutoDeleteTwoToneIcon
-                  sx={{ color: '#391306', cursor: 'pointer' }}
-                  onClick={getAllDueDates}
-                />
+                <AutoDeleteTwoToneIcon sx={{ color: '#391306', cursor: 'pointer' }} onClick={getAllDueDates} />
               </Tooltip>
             </Box>
           </Box>
@@ -697,13 +674,7 @@ const EditSubtaskEmp = ({
           {changeAssignee === 0 ? (
             <Box sx={{ display: 'flex' }}>
               <Box sx={{ flex: 1 }}>
-                <Textarea
-                  type="text"
-                  name="em_name"
-                  value={em_name}
-                  disabled
-                  style={{ minHeight: 57 }}
-                ></Textarea>
+                <Textarea type="text" name="em_name" value={em_name} disabled style={{ minHeight: 57 }}></Textarea>
               </Box>
               <Box sx={{ pt: 2 }}>
                 <Tooltip title="Change Assignees">
@@ -733,10 +704,7 @@ const EditSubtaskEmp = ({
           {onHoldSub !== true && completedSub !== true && onPendingSub !== true ? (
             <Box sx={{ flex: 0.1, pr: 1, pt: 4.3 }}>
               <Avatar sx={{ bgcolor: '#E4D4C8' }}>
-                <CheckCircleIcon
-                  sx={{ fontSize: 30, cursor: 'pointer', color: '#523A28' }}
-                  onClick={SubmitTask}
-                />
+                <CheckCircleIcon sx={{ fontSize: 30, cursor: 'pointer', color: '#523A28' }} onClick={SubmitTask} />
               </Avatar>
             </Box>
           ) : (
@@ -788,16 +756,10 @@ const EditSubtaskEmp = ({
           </Box>
         </Box>
         <Box sx={{ flex: 5 }}>
-          <Box sx={{ pl: 0.8, pt: 0.5, color: '#000C66', fontFamily: 'Georgia' }}>
-            Task Completed
-          </Box>
-          <Box sx={{ pl: 0.8, pt: 1, color: '#000C66', fontFamily: 'Georgia' }}>
-            Task On Progress
-          </Box>
+          <Box sx={{ pl: 0.8, pt: 0.5, color: '#000C66', fontFamily: 'Georgia' }}>Task Completed</Box>
+          <Box sx={{ pl: 0.8, pt: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task On Progress</Box>
           <Box sx={{ pl: 0.8, pt: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task On Hold</Box>
-          <Box sx={{ pl: 0.8, pt: 1, color: '#000C66', fontFamily: 'Georgia' }}>
-            Task On Pending
-          </Box>
+          <Box sx={{ pl: 0.8, pt: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task On Pending</Box>
         </Box>
         <Box sx={{ flex: 10 }}>
           {onHoldSub === true ? (
@@ -858,33 +820,26 @@ const EditSubtaskEmp = ({
         <Box sx={{ flex: 14, py: 7, pl: 1 }}>
           {onHoldSub === true || completedSub === true || onPendingSub === true ? (
             <Avatar sx={{ bgcolor: '#E4D4C8' }}>
-              <CheckCircleIcon
-                sx={{ fontSize: 30, cursor: 'pointer', color: '#523A28' }}
-                onClick={SubmitTask}
-              />
+              <CheckCircleIcon sx={{ fontSize: 30, cursor: 'pointer', color: '#523A28' }} onClick={SubmitTask} />
             </Avatar>
           ) : null}
         </Box>
       </Box>
       {onProgressSub === true ? (
         <Box sx={{ mr: 2, ml: 1, mt: 2, border: 1, borderColor: '#710019', borderRadius: 4 }}>
-          <Typography
-            sx={{ pl: 1, fontSize: 20, color: '#000C66', fontFamily: 'Georgia', pt: 0.5 }}
-          >
+          <Typography sx={{ pl: 1, fontSize: 20, color: '#000C66', fontFamily: 'Georgia', pt: 0.5 }}>
             Subtask Progress
           </Typography>
           <Box sx={{ display: 'flex' }}>
             <Box sx={{ flex: 4, pb: 1 }}>
-              <Typography sx={{ pl: 1.5, mt: 1, color: '#000C66', fontFamily: 'Georgia' }}>
-                Progress Date
-              </Typography>
+              <Typography sx={{ pl: 1.5, mt: 1, color: '#000C66', fontFamily: 'Georgia' }}>Progress Date</Typography>
               <Box sx={{ pl: 1 }}>
                 <TextFieldCustom
                   slotProps={{
                     input: {
                       min: create_date,
-                      max: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-                    },
+                      max: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+                    }
                   }}
                   type="datetime-local"
                   size="sm"
@@ -939,10 +894,7 @@ const EditSubtaskEmp = ({
               ) : null}
             </Box>
           </Box>
-          <SubTaskProgressTable
-            tabledataProgress={tabledataProgress}
-            rowSelectSubProgress={rowSelectSubProgress}
-          />
+          <SubTaskProgressTable tabledataProgress={tabledataProgress} rowSelectSubProgress={rowSelectSubProgress} />
         </Box>
       ) : null}
     </Box>

@@ -79,15 +79,11 @@ const ItemCheckingMain = () => {
     [tableData]
   )
   const changeRemarks = useCallback((itemSlno, value) => {
-    setTableData(prevData =>
-      prevData.map(item => (item.item_slno === itemSlno ? { ...item, remarks: value } : item))
-    )
+    setTableData(prevData => prevData.map(item => (item.item_slno === itemSlno ? { ...item, remarks: value } : item)))
   }, [])
   const handleDamageChange = useCallback(index => {
     setTableData(prevData =>
-      prevData.map((item, idx) =>
-        idx === index ? { ...item, damage: !item.damage, checked: !item.checked } : item
-      )
+      prevData.map((item, idx) => (idx === index ? { ...item, damage: !item.damage, checked: !item.checked } : item))
     )
   }, [])
 
@@ -125,7 +121,7 @@ const ItemCheckingMain = () => {
                 damage: false,
                 damage_qty: 0,
                 remarks: '',
-                requested_qty: val.item_qty,
+                requested_qty: val.item_qty
               }
             })
             setTableData(poItems)
@@ -389,12 +385,8 @@ const ItemCheckingMain = () => {
       <Box sx={{ height: window.innerHeight - 80 }}>
         <CssVarsProvider>
           <Box sx={{ display: 'flex', backgroundColor: '#f0f3f5', border: '1px solid #B4F5F0' }}>
-            <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: 0.5, color: '#385E72' }}>
-              Item Checking
-            </Box>
-            <Box
-              sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, m: 0.5 }}
-            >
+            <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: 0.5, color: '#385E72' }}>Item Checking</Box>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, m: 0.5 }}>
               <CssVarsProvider>
                 <CustomCloseIconCmp handleChange={backtoHome} />
               </CssVarsProvider>
@@ -409,12 +401,10 @@ const ItemCheckingMain = () => {
                 bgcolor: 'white',
                 height: window.innerHeight - 135,
                 overflow: 'auto',
-                flexWrap: 'wrap',
+                flexWrap: 'wrap'
               }}
             >
-              <Box
-                sx={{ width: '100%', display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}
-              >
+              <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
                 <Box sx={{ pt: 1, width: { xs: '100%', md: '60vw', lg: '50vw', xl: '50vw' } }}>
                   <Box sx={{ display: 'flex', px: 1 }}>
                     <Box sx={{ pt: 1, flex: 1.5 }}>
@@ -446,7 +436,7 @@ const ItemCheckingMain = () => {
                   overflow: 'auto',
                   mx: 1,
                   flexWrap: 'wrap',
-                  height: window.innerHeight - 220,
+                  height: window.innerHeight - 220
                 }}
               >
                 {tableData.length !== 0 ? (
@@ -461,7 +451,7 @@ const ItemCheckingMain = () => {
                         position: 'sticky',
                         top: 0,
                         zIndex: 1,
-                        borderBottom: '1px solid lightgrey',
+                        borderBottom: '1px solid lightgrey'
                       }}
                     >
                       <Typography
@@ -470,7 +460,7 @@ const ItemCheckingMain = () => {
                           textAlign: 'center',
                           fontWeight: 550,
                           fontSize: 13,
-                          m: 0.5,
+                          m: 0.5
                         }}
                       >
                         Sl.No
@@ -481,21 +471,19 @@ const ItemCheckingMain = () => {
                           fontWeight: 550,
                           fontSize: 13,
                           m: 0.5,
-                          textAlign: 'center',
+                          textAlign: 'center'
                         }}
                       >
                         Item Code
                       </Typography>
-                      <Typography sx={{ width: 250, fontWeight: 550, fontSize: 13, m: 0.5 }}>
-                        Item
-                      </Typography>
+                      <Typography sx={{ width: 250, fontWeight: 550, fontSize: 13, m: 0.5 }}>Item</Typography>
                       <Typography
                         sx={{
                           width: 110,
                           fontWeight: 550,
                           fontSize: 13,
                           m: 0.5,
-                          textAlign: 'left',
+                          textAlign: 'left'
                         }}
                       >
                         Pending Qty
@@ -506,7 +494,7 @@ const ItemCheckingMain = () => {
                           fontWeight: 550,
                           fontSize: 13,
                           m: 0.5,
-                          textAlign: 'center',
+                          textAlign: 'center'
                         }}
                       >
                         Delivered Qty
@@ -517,7 +505,7 @@ const ItemCheckingMain = () => {
                           fontWeight: 550,
                           fontSize: 13,
                           m: 0.5,
-                          textAlign: 'center',
+                          textAlign: 'center'
                         }}
                       >
                         Damage
@@ -534,25 +522,17 @@ const ItemCheckingMain = () => {
                             sx={{
                               borderBottom: '1px solid lightgrey',
                               flexWrap: 'nowrap',
-                              cursor: 'pointer',
+                              cursor: 'pointer'
                             }}
                           >
-                            <Typography
-                              sx={{ width: 40, textAlign: 'center', fontSize: 12, pt: 1.2 }}
-                            >
+                            <Typography sx={{ width: 40, textAlign: 'center', fontSize: 12, pt: 1.2 }}>
                               {index + 1}
                             </Typography>
-                            <Typography
-                              sx={{ width: 100, fontSize: 12, pt: 1.2, textAlign: 'center' }}
-                            >
+                            <Typography sx={{ width: 100, fontSize: 12, pt: 1.2, textAlign: 'center' }}>
                               {val.item_code}
                             </Typography>
-                            <Typography sx={{ width: 250, fontSize: 12, pt: 1.2 }}>
-                              {val.item_name}
-                            </Typography>
-                            <Typography
-                              sx={{ width: 110, fontSize: 12, pt: 1.2, textAlign: 'center' }}
-                            >
+                            <Typography sx={{ width: 250, fontSize: 12, pt: 1.2 }}>{val.item_name}</Typography>
+                            <Typography sx={{ width: 110, fontSize: 12, pt: 1.2, textAlign: 'center' }}>
                               {val.pending_qty}{' '}
                             </Typography>
                             <Box sx={{ width: 120, fontSize: 12, m: 0.5, textAlign: 'center' }}>
@@ -568,7 +548,7 @@ const ItemCheckingMain = () => {
                                   color: '#01579b',
                                   fontSize: 14,
                                   borderRadius: 6,
-                                  width: 90,
+                                  width: 90
                                 }}
                               ></input>
                             </Box>
@@ -597,7 +577,7 @@ const ItemCheckingMain = () => {
                                     color: '#01579b',
                                     fontSize: 14,
                                     borderRadius: 6,
-                                    width: 80,
+                                    width: 80
                                   }}
                                 ></input>
                               </Box>
@@ -616,7 +596,7 @@ const ItemCheckingMain = () => {
                                     color: '#01579b',
                                     fontSize: 14,
                                     borderRadius: 6,
-                                    width: 150,
+                                    width: 150
                                   }}
                                 />
                               </Box>

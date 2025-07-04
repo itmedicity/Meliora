@@ -24,8 +24,7 @@ const AmItemDeptSecBsedWOName = ({ item, setItem }) => {
   useEffect(() => {
     AssetItemList.length > 0 && setModels(AssetItemList)
     AssetItemList.length === 0 && setModels(AssetItemList)
-    AssetItemList.length === 0 &&
-      setValue([{ item_creation_slno: 0, item_name: 'Select Item name' }])
+    AssetItemList.length === 0 && setValue([{ item_creation_slno: 0, item_name: 'Select Item name' }])
     AssetItemList.length === 0 && setInputValue('')
   }, [AssetItemList])
 
@@ -34,7 +33,7 @@ const AmItemDeptSecBsedWOName = ({ item, setItem }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '29px',
+            '--Input-minHeight': '29px'
           }}
           value={item === 0 ? models : value}
           placeholder="Select Item name"

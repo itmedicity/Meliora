@@ -22,8 +22,7 @@ const MyPerformance = () => {
   const [completedTaskCount, setCompletedTaskCount] = useState(0)
   const [taskProogress, settaskProogress] = useState(0)
   const [completedTaskDetailsOpen, setCompletedTaskDetailsOpen] = useState(false)
-  const [completedTasksWithoutchangingDuedate, setcompletedTasksWithoutchangingDuedate] =
-    useState(0)
+  const [completedTasksWithoutchangingDuedate, setcompletedTasksWithoutchangingDuedate] = useState(0)
   const [cmptlWithOneTimeDuedate, setcmptlWithOneTimeDuedate] = useState(0)
   const [cmptlWithTwoTimeDuedate, setcmptlWithTwoTimeDuedate] = useState(0)
   const [cmptlWithThreeTimeDuedate, setcmptlWithThreeTimeDuedate] = useState(0)
@@ -49,9 +48,7 @@ const MyPerformance = () => {
   const TotalPerformance =
     EmpTotalWithouthold + empTotComplWithoutHold === 0
       ? 0
-      : ((AdjustedCompleteion + completedcomplaints) /
-          (EmpTotalWithouthold + empTotComplWithoutHold)) *
-        100
+      : ((AdjustedCompleteion + completedcomplaints) / (EmpTotalWithouthold + empTotComplWithoutHold)) * 100
   const MonthlyPerformance = Number.isInteger(TotalPerformance)
     ? Number(TotalPerformance.toFixed(0))
     : Number(TotalPerformance.toFixed(2))
@@ -77,7 +74,7 @@ const MyPerformance = () => {
     return {
       from: format(startOfYear(new Date(searchMonthAndYear)), 'yyyy-MM-dd 00:00:00'),
       to: format(endOfYear(new Date(searchMonthAndYear)), 'yyyy-MM-dd 23:59:59'),
-      tm_assigne_emp: empid,
+      tm_assigne_emp: empid
     }
   }, [searchMonthAndYear, empid])
 
@@ -85,7 +82,7 @@ const MyPerformance = () => {
     return {
       from: format(startOfMonth(new Date(searchMonthAndYear)), 'yyyy-MM-dd 00:00:00'),
       to: format(endOfMonth(new Date(searchMonthAndYear)), 'yyyy-MM-dd 23:59:59'),
-      tm_assigne_emp: empid,
+      tm_assigne_emp: empid
     }
   }, [searchMonthAndYear, empid])
 
@@ -93,7 +90,7 @@ const MyPerformance = () => {
     return {
       from: format(startOfMonth(new Date(searchMonthAndYear)), 'yyyy-MM-dd 00:00:00'),
       to: format(endOfMonth(new Date(searchMonthAndYear)), 'yyyy-MM-dd 23:59:59'),
-      assigned_emp: empid,
+      assigned_emp: empid
     }
   }, [searchMonthAndYear, empid])
 
@@ -113,9 +110,7 @@ const MyPerformance = () => {
       const { success, data } = result.data
       if (data.length !== 0) {
         if (success === 2) {
-          const completedToday = data.filter(
-            item => item.tm_task_status === 1 && isToday(item.tm_complete_date)
-          ).length
+          const completedToday = data.filter(item => item.tm_task_status === 1 && isToday(item.tm_complete_date)).length
           setEmpCompltTodayTask(completedToday)
         } else {
           setEmpCompltTodayTask(0)
@@ -139,12 +134,8 @@ const MyPerformance = () => {
         const completedTasksWoutchangingDuedate = data.filter(
           item => item.tm_task_status === 1 && item.tm_mast_duedate_count === null
         ).length
-        const cmptlWOneTimeDuedate = data.filter(
-          item => item.tm_task_status === 1 && item.tm_mast_duedate_count === 1
-        )
-        const cmptlWTwoTimeDuedate = data.filter(
-          item => item.tm_task_status === 1 && item.tm_mast_duedate_count === 2
-        )
+        const cmptlWOneTimeDuedate = data.filter(item => item.tm_task_status === 1 && item.tm_mast_duedate_count === 1)
+        const cmptlWTwoTimeDuedate = data.filter(item => item.tm_task_status === 1 && item.tm_mast_duedate_count === 2)
         const cmptlWThreeTimeDuedate = data.filter(
           item => item.tm_task_status === 1 && item.tm_mast_duedate_count === 3
         )
@@ -152,8 +143,7 @@ const MyPerformance = () => {
           item => item.tm_task_status === 1 && item.tm_mast_duedate_count > 3
         )
         const totalWithOutHold = totalTasks - onHoldTasks
-        const valueProgress =
-          completedTasks + totalTasks === 0 ? 0 : (completedTasks / totalTasks) * 100
+        const valueProgress = completedTasks + totalTasks === 0 ? 0 : (completedTasks / totalTasks) * 100
         const penaltyCounts = {}
         data.forEach(item => {
           if (item.tm_task_status === 1 && item.tm_mast_duedate_count !== null) {
@@ -167,19 +157,14 @@ const MyPerformance = () => {
         let adjustedCompletion = completedTasksWoutchangingDuedate
         Object.keys(penaltyCounts).forEach(count => {
           const countInt = parseInt(count)
-          const penalty =
-            data.find(item => item.tm_mast_duedate_count === countInt)?.reschedule_pecent || 0
+          const penalty = data.find(item => item.tm_mast_duedate_count === countInt)?.reschedule_pecent || 0
           adjustedCompletion += penaltyCounts[count] * ((100 - penalty) / 100)
         })
         const PerformanceProgress =
-          adjustedCompletion + totalWithOutHold === 0
-            ? 0
-            : (adjustedCompletion / totalWithOutHold) * 100
+          adjustedCompletion + totalWithOutHold === 0 ? 0 : (adjustedCompletion / totalWithOutHold) * 100
         setAdjustedCompleteion(adjustedCompletion)
         setTaskPerformance(
-          Number.isInteger(PerformanceProgress)
-            ? PerformanceProgress.toFixed(0)
-            : PerformanceProgress.toFixed(2)
+          Number.isInteger(PerformanceProgress) ? PerformanceProgress.toFixed(0) : PerformanceProgress.toFixed(2)
         )
         settaskProogress(valueProgress)
         setmainTasks(mainTaskData)
@@ -213,10 +198,7 @@ const MyPerformance = () => {
 
   useEffect(() => {
     const getAllComplaints = async () => {
-      const result = await axioslogin.post(
-        '/TmGraph/getAllComplaintsfromtodate',
-        searchEmployeeComplaintData
-      )
+      const result = await axioslogin.post('/TmGraph/getAllComplaintsfromtodate', searchEmployeeComplaintData)
       const { success, data } = result.data
       if (success === 2) {
         const totalComplaints = data.length
@@ -228,27 +210,17 @@ const MyPerformance = () => {
         const ReOpenedComplaints = data.filter(item => item.reopen_cm_slno !== null)
         const Pending = data.filter(
           item =>
-            (item.cm_rectify_status !== 'R' &&
-              item.cm_rectify_status !== 'O' &&
-              item.cm_rectify_status !== 'V') ||
+            (item.cm_rectify_status !== 'R' && item.cm_rectify_status !== 'O' && item.cm_rectify_status !== 'V') ||
             item.cm_rectify_status === null
         )
         const totallWithoutHold = totalComplaints - OnholdComplaints
         const ComplaintEmpProgress =
-          Completedcomplaints + totalComplaints === 0
-            ? 0
-            : (Completedcomplaints / totalComplaints) * 100
+          Completedcomplaints + totalComplaints === 0 ? 0 : (Completedcomplaints / totalComplaints) * 100
         const complaintsToday = data.filter(item => isToday(item.compalint_date))
-        const rectifiedToday = data.filter(
-          item => item.cm_rectify_status === 'R' && isToday(item.cm_rectify_time)
-        )
-        const verifiedToday = data.filter(
-          item => item.cm_rectify_status === 'V' && isToday(item.cm_rectify_time)
-        )
+        const rectifiedToday = data.filter(item => item.cm_rectify_status === 'R' && isToday(item.cm_rectify_time))
+        const verifiedToday = data.filter(item => item.cm_rectify_status === 'V' && isToday(item.cm_rectify_time))
         const ComplaintPerformnce =
-          Completedcomplaints + totallWithoutHold === 0
-            ? 0
-            : (Completedcomplaints / totallWithoutHold) * 100
+          Completedcomplaints + totallWithoutHold === 0 ? 0 : (Completedcomplaints / totallWithoutHold) * 100
         setEmpTotalComplaints(totalComplaints)
         setEmpLinearComptProg(ComplaintEmpProgress)
         setEmplPendingComplintsMonth(Pending.length)
@@ -259,9 +231,7 @@ const MyPerformance = () => {
         setEmpVeriToday(verifiedToday.length)
         setCompletedcomplaints(Completedcomplaints)
         setComplPerfm(
-          Number.isInteger(ComplaintPerformnce)
-            ? ComplaintPerformnce.toFixed(0)
-            : ComplaintPerformnce.toFixed(2)
+          Number.isInteger(ComplaintPerformnce) ? ComplaintPerformnce.toFixed(0) : ComplaintPerformnce.toFixed(2)
         )
         setEmpTotComplWithoutHold(totallWithoutHold)
       } else {
@@ -284,14 +254,14 @@ const MyPerformance = () => {
   const toggleProjectOpen = projectId => {
     setOpenProjects(prevOpenProjects => ({
       ...prevOpenProjects,
-      [projectId]: !prevOpenProjects[projectId],
+      [projectId]: !prevOpenProjects[projectId]
     }))
   }
 
   const toggleTaskOpen = taskId => {
     setOpenTask(prevOpenTasks => ({
       ...prevOpenTasks,
-      [taskId]: !prevOpenTasks[taskId],
+      [taskId]: !prevOpenTasks[taskId]
     }))
   }
 
@@ -332,9 +302,7 @@ const MyPerformance = () => {
       const { success, data } = result.data
       if (success === 2) {
         const employeeOverDue = data.length
-        const overdueToday = data.filter(
-          item => item.tm_task_status !== 1 && isToday(item.tm_task_due_date)
-        )
+        const overdueToday = data.filter(item => item.tm_task_status !== 1 && isToday(item.tm_task_due_date))
         setTotalemployeeOverDue(employeeOverDue)
         setEmpOerdueToday(overdueToday.length)
       } else {
@@ -353,8 +321,7 @@ const MyPerformance = () => {
         const totalPending = data.length
         const pendingToday = data.filter(
           item =>
-            ((item.cm_rectify_status !== 'R' && item.cm_rectify_status !== 'V') ||
-              item.cm_rectify_status === null) &&
+            ((item.cm_rectify_status !== 'R' && item.cm_rectify_status !== 'V') || item.cm_rectify_status === null) &&
             isToday(item.compalint_date)
         )
         setEmplPendingComplints(totalPending)
@@ -394,7 +361,7 @@ const MyPerformance = () => {
             px: 2.5,
             my: 0,
             height: 30,
-            pt: 0,
+            pt: 0
           }}
         >
           <CssVarsProvider>
@@ -411,7 +378,7 @@ const MyPerformance = () => {
                 borderColor: 'neutral.outlinedBorder',
                 '&:hover': {
                   borderColor: 'neutral.outlinedHoverBorder',
-                  color: 'white',
+                  color: 'white'
                 },
                 '&::before': {
                   border: '1px solid var(--Input-focusedHighlight)',
@@ -421,11 +388,11 @@ const MyPerformance = () => {
                   bottom: 0,
                   top: 'unset',
                   transition: 'transform .15s cubic-bezier(0.1,0.9,0.2,1)',
-                  borderRadius: 0,
+                  borderRadius: 0
                 },
                 '&:focus-within::before': {
-                  transform: 'scaleX(0)',
-                },
+                  transform: 'scaleX(0)'
+                }
               }}
             />
           </CssVarsProvider>
@@ -444,7 +411,7 @@ const MyPerformance = () => {
                 borderRadius: 12,
                 border: 1,
                 borderStyle: 'dashed',
-                borderColor: '#E9EEF7',
+                borderColor: '#E9EEF7'
               }}
             >
               <Box sx={{ ml: 3 }}>
@@ -469,7 +436,7 @@ const MyPerformance = () => {
                       '--CircularProgress-size': '160px',
                       p: 1.5,
                       '--CircularProgress-progressThickness': '10px',
-                      '--CircularProgress-trackThickness': '10px',
+                      '--CircularProgress-trackThickness': '10px'
                     }}
                   >
                     <Typography
@@ -486,7 +453,7 @@ const MyPerformance = () => {
                             ? '#492B08'
                             : MonthlyPerformance > 30
                             ? '#3F4146'
-                            : '#44444C',
+                            : '#44444C'
                       }}
                     >
                       {MonthlyPerformance}%
@@ -495,36 +462,24 @@ const MyPerformance = () => {
                 </CssVarsProvider>
               </Box>
               <Box sx={{ flex: 1 }}>
-                <Typography sx={{ fontSize: 29, fontWeight: 600, color: 'grey', pl: 0.8 }}>
-                  My Performance
-                </Typography>
-                <Typography sx={{ fontSize: 12, fontWeight: 600, color: 'grey', pl: 6 }}>
-                  Task & complaints
-                </Typography>
+                <Typography sx={{ fontSize: 29, fontWeight: 600, color: 'grey', pl: 0.8 }}>My Performance</Typography>
+                <Typography sx={{ fontSize: 12, fontWeight: 600, color: 'grey', pl: 6 }}>Task & complaints</Typography>
                 <Box sx={{ display: 'flex', pt: 1, pl: 2 }}>
                   <Box sx={{ width: 7, height: 43, bgcolor: 'lightgrey', ml: 1 }}></Box>
                   <Box>
-                    <Typography
-                      sx={{ fontSize: 12, fontWeight: 600, color: '#12467B', pl: 0.5, pr: 1 }}
-                    >
+                    <Typography sx={{ fontSize: 12, fontWeight: 600, color: '#12467B', pl: 0.5, pr: 1 }}>
                       Task
                     </Typography>
-                    <Typography
-                      sx={{ fontSize: 18, fontWeight: 600, color: '#12467B', pl: 0.5, pr: 1 }}
-                    >
+                    <Typography sx={{ fontSize: 18, fontWeight: 600, color: '#12467B', pl: 0.5, pr: 1 }}>
                       {taskPerformance}%
                     </Typography>
                   </Box>
                   <Box sx={{ width: 7, height: 43, bgcolor: 'lightgrey', ml: 3.5 }}></Box>
                   <Box>
-                    <Typography
-                      sx={{ fontSize: 12, fontWeight: 600, color: '#492B08', pl: 0.5, pr: 1 }}
-                    >
+                    <Typography sx={{ fontSize: 12, fontWeight: 600, color: '#492B08', pl: 0.5, pr: 1 }}>
                       Complaints
                     </Typography>
-                    <Typography
-                      sx={{ fontSize: 18, fontWeight: 600, color: '#492B08', pl: 0.5, pr: 1 }}
-                    >
+                    <Typography sx={{ fontSize: 18, fontWeight: 600, color: '#492B08', pl: 0.5, pr: 1 }}>
                       {complPerfm}%
                     </Typography>
                   </Box>
@@ -539,10 +494,7 @@ const MyPerformance = () => {
                 {empProject?.map(val => {
                   const isOpen = openProjects[val.tm_project_slno]
                   return (
-                    <Box
-                      key={val.tm_project_slno}
-                      sx={{ flex: 1, mb: 1, mx: 0.5, borderColor: 'lightgray', pb: 1 }}
-                    >
+                    <Box key={val.tm_project_slno} sx={{ flex: 1, mb: 1, mx: 0.5, borderColor: 'lightgray', pb: 1 }}>
                       <Box
                         sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
                         onClick={() => toggleProjectOpen(val.tm_project_slno)}
@@ -616,9 +568,7 @@ const MyPerformance = () => {
         <Box sx={{ flex: 1.7, mr: 1 }}>
           <Box sx={{ flex: 1 }}>
             <Box sx={{ flex: 1, mx: 0.5 }}>
-              <Typography sx={{ pl: 1.5, fontWeight: 600, color: '#12467B', fontSize: 15 }}>
-                Task
-              </Typography>
+              <Typography sx={{ pl: 1.5, fontWeight: 600, color: '#12467B', fontSize: 15 }}>Task</Typography>
               <Typography sx={{ pl: 2, pt: 0.5, fontSize: 15, color: '#12467B' }}>
                 {completedTaskCount}/{empTotalTask}
               </Typography>
@@ -645,16 +595,14 @@ const MyPerformance = () => {
                         textAlign: 'center',
                         borderRadius: 2,
                         borderColor: '#12467B',
-                        color: '#12467B',
+                        color: '#12467B'
                       }}
                     >
                       {empOerdueToday}
                     </Box>
                   </Box>
                   <Box sx={{ flex: 1, display: 'flex' }}>
-                    <Typography sx={{ pl: 1.5, pt: 1, fontSize: 12, flex: 1 }}>
-                      Completed{' '}
-                    </Typography>
+                    <Typography sx={{ pl: 1.5, pt: 1, fontSize: 12, flex: 1 }}>Completed </Typography>
                     <Box
                       sx={{
                         width: 40,
@@ -665,7 +613,7 @@ const MyPerformance = () => {
                         textAlign: 'center',
                         borderRadius: 2,
                         borderColor: '#12467B',
-                        color: '#12467B',
+                        color: '#12467B'
                       }}
                     >
                       {empCompltTodayTask}
@@ -688,7 +636,7 @@ const MyPerformance = () => {
                         textAlign: 'center',
                         borderRadius: 2,
                         borderColor: '#12467B',
-                        color: '#12467B',
+                        color: '#12467B'
                       }}
                     >
                       {empTotalTask}
@@ -699,15 +647,9 @@ const MyPerformance = () => {
                       <Typography sx={{ pl: 1.2, pt: 1, fontSize: 12, flex: 1 }}>
                         Completed
                         {completedTaskDetailsOpen ? (
-                          <ArrowDropUpIcon
-                            sx={{ cursor: 'pointer' }}
-                            onClick={toggleCompletedTaskDetails}
-                          />
+                          <ArrowDropUpIcon sx={{ cursor: 'pointer' }} onClick={toggleCompletedTaskDetails} />
                         ) : (
-                          <ArrowDropDownIcon
-                            sx={{ cursor: 'pointer' }}
-                            onClick={toggleCompletedTaskDetails}
-                          />
+                          <ArrowDropDownIcon sx={{ cursor: 'pointer' }} onClick={toggleCompletedTaskDetails} />
                         )}
                       </Typography>
                       <Box
@@ -720,7 +662,7 @@ const MyPerformance = () => {
                           textAlign: 'center',
                           borderRadius: 2,
                           borderColor: '#12467B',
-                          color: '#12467B',
+                          color: '#12467B'
                         }}
                       >
                         {completedTaskCount}
@@ -728,9 +670,7 @@ const MyPerformance = () => {
                     </Box>
                     {completedTaskDetailsOpen && (
                       <Box sx={{ flex: 1, pl: 3, pr: 3, pt: 1, mb: 2, bgcolor: '#E9EEF7' }}>
-                        <Box
-                          sx={{ flex: 1, display: 'flex', borderBottom: 1, borderColor: '#DFE3ED' }}
-                        >
+                        <Box sx={{ flex: 1, display: 'flex', borderBottom: 1, borderColor: '#DFE3ED' }}>
                           <Typography sx={{ flex: 1, fontSize: 12, pl: 0.5, color: '#3A230A' }}>
                             On Schedule date
                           </Typography>
@@ -738,9 +678,7 @@ const MyPerformance = () => {
                             <u>{completedTasksWithoutchangingDuedate}</u>
                           </Typography>
                         </Box>
-                        <Box
-                          sx={{ flex: 1, display: 'flex', borderBottom: 1, borderColor: '#DFE3ED' }}
-                        >
+                        <Box sx={{ flex: 1, display: 'flex', borderBottom: 1, borderColor: '#DFE3ED' }}>
                           <Typography sx={{ flex: 1, fontSize: 12, pl: 0.5, color: '#3A230A' }}>
                             {' '}
                             One-time duedate extension{' '}
@@ -749,9 +687,7 @@ const MyPerformance = () => {
                             <u>{cmptlWithOneTimeDuedate}</u>
                           </Typography>
                         </Box>
-                        <Box
-                          sx={{ flex: 1, display: 'flex', borderBottom: 1, borderColor: '#DFE3ED' }}
-                        >
+                        <Box sx={{ flex: 1, display: 'flex', borderBottom: 1, borderColor: '#DFE3ED' }}>
                           <Typography sx={{ flex: 1, fontSize: 12, pl: 0.5, color: '#3A230A' }}>
                             Two-time duedate extension
                           </Typography>
@@ -759,9 +695,7 @@ const MyPerformance = () => {
                             <u>{cmptlWithTwoTimeDuedate}</u>
                           </Typography>
                         </Box>
-                        <Box
-                          sx={{ flex: 1, display: 'flex', borderBottom: 1, borderColor: '#DFE3ED' }}
-                        >
+                        <Box sx={{ flex: 1, display: 'flex', borderBottom: 1, borderColor: '#DFE3ED' }}>
                           <Typography sx={{ flex: 1, fontSize: 12, pl: 0.5, color: '#3A230A' }}>
                             Three-time duedate extension
                           </Typography>
@@ -769,9 +703,7 @@ const MyPerformance = () => {
                             <u>{cmptlWithThreeTimeDuedate}</u>
                           </Typography>
                         </Box>
-                        <Box
-                          sx={{ flex: 1, display: 'flex', borderBottom: 1, borderColor: '#DFE3ED' }}
-                        >
+                        <Box sx={{ flex: 1, display: 'flex', borderBottom: 1, borderColor: '#DFE3ED' }}>
                           <Typography sx={{ flex: 1, fontSize: 12, pl: 0.5, color: '#3A230A' }}>
                             More than 3 time duedate extension
                           </Typography>
@@ -794,7 +726,7 @@ const MyPerformance = () => {
                         textAlign: 'center',
                         borderRadius: 2,
                         borderColor: '#12467B',
-                        color: '#12467B',
+                        color: '#12467B'
                       }}
                     >
                       {empMonthOnHold}
@@ -817,7 +749,7 @@ const MyPerformance = () => {
                         textAlign: 'center',
                         borderRadius: 2,
                         borderColor: '#12467B',
-                        color: '#12467B',
+                        color: '#12467B'
                       }}
                     >
                       {totalonHold}
@@ -835,7 +767,7 @@ const MyPerformance = () => {
                         textAlign: 'center',
                         borderRadius: 2,
                         borderColor: '#12467B',
-                        color: '#12467B',
+                        color: '#12467B'
                       }}
                     >
                       {totalemployeeOverDue}
@@ -845,9 +777,7 @@ const MyPerformance = () => {
               </Box>
             </Box>
             <Box sx={{ flex: 1, m: 0.5 }}>
-              <Typography
-                sx={{ pl: 1.5, pt: 0.5, fontWeight: 600, color: '#492B08', fontSize: 18 }}
-              >
+              <Typography sx={{ pl: 1.5, pt: 0.5, fontWeight: 600, color: '#492B08', fontSize: 18 }}>
                 Complaints
               </Typography>
               <Typography sx={{ pl: 2, pt: 0.3, fontSize: 15, color: '#492B08' }}>
@@ -865,9 +795,7 @@ const MyPerformance = () => {
                     <u>Today&apos;s</u>
                   </Typography>
                   <Box sx={{ flex: 1, display: 'flex' }}>
-                    <Typography sx={{ pl: 1.5, pt: 1, fontSize: 12, flex: 1 }}>
-                      Assigned{' '}
-                    </Typography>
+                    <Typography sx={{ pl: 1.5, pt: 1, fontSize: 12, flex: 1 }}>Assigned </Typography>
                     <Box
                       sx={{
                         width: 40,
@@ -878,16 +806,14 @@ const MyPerformance = () => {
                         textAlign: 'center',
                         borderRadius: 2,
                         borderColor: '#492B08',
-                        color: '#492B08',
+                        color: '#492B08'
                       }}
                     >
                       {empComplaintsToday}
                     </Box>
                   </Box>
                   <Box sx={{ flex: 1, display: 'flex' }}>
-                    <Typography sx={{ pl: 1.5, pt: 1, fontSize: 12, flex: 1 }}>
-                      Rectified{' '}
-                    </Typography>
+                    <Typography sx={{ pl: 1.5, pt: 1, fontSize: 12, flex: 1 }}>Rectified </Typography>
                     <Box
                       sx={{
                         width: 40,
@@ -898,16 +824,14 @@ const MyPerformance = () => {
                         textAlign: 'center',
                         borderRadius: 2,
                         borderColor: '#492B08',
-                        color: '#492B08',
+                        color: '#492B08'
                       }}
                     >
                       {empRctfytodayComplt + empVeriToday}
                     </Box>
                   </Box>
                   <Box sx={{ flex: 1, display: 'flex' }}>
-                    <Typography sx={{ pl: 1.5, pt: 1, fontSize: 12, flex: 1 }}>
-                      Verified{' '}
-                    </Typography>
+                    <Typography sx={{ pl: 1.5, pt: 1, fontSize: 12, flex: 1 }}>Verified </Typography>
                     <Box
                       sx={{
                         width: 40,
@@ -918,7 +842,7 @@ const MyPerformance = () => {
                         textAlign: 'center',
                         borderRadius: 2,
                         borderColor: '#492B08',
-                        color: '#492B08',
+                        color: '#492B08'
                       }}
                     >
                       {empVeriToday}
@@ -936,7 +860,7 @@ const MyPerformance = () => {
                         textAlign: 'center',
                         borderRadius: 2,
                         borderColor: '#492B08',
-                        color: '#492B08',
+                        color: '#492B08'
                       }}
                     >
                       {mypendingToday}
@@ -959,16 +883,14 @@ const MyPerformance = () => {
                         textAlign: 'center',
                         borderRadius: 2,
                         borderColor: '#492B08',
-                        color: '#492B08',
+                        color: '#492B08'
                       }}
                     >
                       {empTotalComplaints}
                     </Box>
                   </Box>
                   <Box sx={{ flex: 1, display: 'flex' }}>
-                    <Typography sx={{ pl: 1.5, pt: 1, fontSize: 12, flex: 1 }}>
-                      Rectified{' '}
-                    </Typography>
+                    <Typography sx={{ pl: 1.5, pt: 1, fontSize: 12, flex: 1 }}>Rectified </Typography>
                     <Box
                       sx={{
                         width: 40,
@@ -979,16 +901,14 @@ const MyPerformance = () => {
                         textAlign: 'center',
                         borderRadius: 2,
                         borderColor: '#492B08',
-                        color: '#492B08',
+                        color: '#492B08'
                       }}
                     >
                       {completedcomplaints}
                     </Box>
                   </Box>
                   <Box sx={{ flex: 1, display: 'flex' }}>
-                    <Typography sx={{ pl: 1.5, pt: 1, fontSize: 12, flex: 1 }}>
-                      Verified{' '}
-                    </Typography>
+                    <Typography sx={{ pl: 1.5, pt: 1, fontSize: 12, flex: 1 }}>Verified </Typography>
                     <Box
                       sx={{
                         width: 40,
@@ -999,16 +919,14 @@ const MyPerformance = () => {
                         textAlign: 'center',
                         borderRadius: 2,
                         borderColor: '#492B08',
-                        color: '#492B08',
+                        color: '#492B08'
                       }}
                     >
                       {empVeriComplt}
                     </Box>
                   </Box>
                   <Box sx={{ flex: 1, display: 'flex' }}>
-                    <Typography sx={{ pl: 1.5, pt: 1, fontSize: 12, flex: 1 }}>
-                      Re Opend{' '}
-                    </Typography>
+                    <Typography sx={{ pl: 1.5, pt: 1, fontSize: 12, flex: 1 }}>Re Opend </Typography>
                     <Box
                       sx={{
                         width: 40,
@@ -1019,7 +937,7 @@ const MyPerformance = () => {
                         textAlign: 'center',
                         borderRadius: 2,
                         borderColor: '#492B08',
-                        color: '#492B08',
+                        color: '#492B08'
                       }}
                     >
                       {empReopendCompln}
@@ -1037,7 +955,7 @@ const MyPerformance = () => {
                         textAlign: 'center',
                         borderRadius: 2,
                         borderColor: '#492B08',
-                        color: '#492B08',
+                        color: '#492B08'
                       }}
                     >
                       {emplPendingComplintsMonth}
@@ -1060,16 +978,14 @@ const MyPerformance = () => {
                         textAlign: 'center',
                         borderRadius: 2,
                         borderColor: '#492B08',
-                        color: '#492B08',
+                        color: '#492B08'
                       }}
                     >
                       {empOnholdComplaints}
                     </Box>
                   </Box>
                   <Box sx={{ flex: 1, display: 'flex' }}>
-                    <Typography sx={{ pl: 1.5, pt: 1, fontSize: 12, flex: 1 }}>
-                      Total Pending{' '}
-                    </Typography>
+                    <Typography sx={{ pl: 1.5, pt: 1, fontSize: 12, flex: 1 }}>Total Pending </Typography>
                     <Box
                       sx={{
                         width: 40,
@@ -1080,7 +996,7 @@ const MyPerformance = () => {
                         textAlign: 'center',
                         borderRadius: 2,
                         borderColor: '#492B08',
-                        color: '#492B08',
+                        color: '#492B08'
                       }}
                     >
                       {emplPendingComplints}

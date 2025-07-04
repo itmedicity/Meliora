@@ -11,11 +11,11 @@ const CmAssetList = ({
   setSelectedAsset,
   setasset_dept,
   codept,
-  assetTransCount,
+  assetTransCount
 }) => {
   const [assetAry, setAssetAry] = useState([])
   const [assetX, setAssetX] = useState([
-    { am_item_map_slno: 0, item_name: '', item_asset_no: '', item_asset_no_only: '' },
+    { am_item_map_slno: 0, item_name: '', item_asset_no: '', item_asset_no_only: '' }
   ])
   const [value, setValue] = useState(assetX[0])
   const [inputValue, setInputValue] = useState('')
@@ -24,7 +24,7 @@ const CmAssetList = ({
   const postData = useMemo(
     () => ({
       codept,
-      complaintLocation: complaint_dept_secslno,
+      complaintLocation: complaint_dept_secslno
     }),
     [complaint_dept_secslno, codept]
   )
@@ -35,10 +35,7 @@ const CmAssetList = ({
 
     const getAssetItemsBasedOnLocation = async postData => {
       try {
-        const result = await axioslogin.post(
-          '/Rectifycomplit/getAssetUnderSelectedCompltDept',
-          postData
-        )
+        const result = await axioslogin.post('/Rectifycomplit/getAssetUnderSelectedCompltDept', postData)
         const { success, data } = result.data
         if (isMounted) {
           if (success === 1) {
@@ -95,17 +92,14 @@ const CmAssetList = ({
     <Fragment>
       <CssVarsProvider>
         {assetAry.length === 0 ? (
-          <Typography
-            sx={{ border: 1, pl: 0.5, mt: 0.2, py: 0.2, borderColor: '#CDD7E1', color: 'grey' }}
-          >
-            No asset from the selected complaint department has been added under the department
-            section.
+          <Typography sx={{ border: 1, pl: 0.5, mt: 0.2, py: 0.2, borderColor: '#CDD7E1', color: 'grey' }}>
+            No asset from the selected complaint department has been added under the department section.
           </Typography>
         ) : (
           <Autocomplete
             sx={{
               '--Input-minHeight': '29px',
-              borderRadius: 0,
+              borderRadius: 0
             }}
             value={assetz === 0 ? assetX : value}
             placeholder="select Asset"
@@ -115,9 +109,7 @@ const CmAssetList = ({
               Onclick(newValue)
               if (newValue) {
                 setSelectedAsset(
-                  `${newValue.item_name} (${
-                    newValue.item_asset_no === null ? '' : newValue.item_asset_no
-                  })`
+                  `${newValue.item_name} (${newValue.item_asset_no === null ? '' : newValue.item_asset_no})`
                 )
                 setItem_slno(newValue.item_asset_no_only)
               } else {
@@ -137,9 +129,9 @@ const CmAssetList = ({
             }
             getOptionLabel={option =>
               option.item_asset_no
-                ? `${option.item_asset_no}/${option.item_asset_no_only
-                    .toString()
-                    .padStart(6, '0')} - ${option.item_name}`
+                ? `${option.item_asset_no}/${option.item_asset_no_only.toString().padStart(6, '0')} - ${
+                    option.item_name
+                  }`
                 : option.item_name || ''
             }
             options={assetX}

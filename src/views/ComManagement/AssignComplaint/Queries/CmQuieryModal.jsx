@@ -1,14 +1,4 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  CssVarsProvider,
-  DialogActions,
-  Modal,
-  ModalDialog,
-  Textarea,
-  Typography,
-} from '@mui/joy'
+import { Avatar, Box, Button, CssVarsProvider, DialogActions, Modal, ModalDialog, Textarea, Typography } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import CancelIcon from '@mui/icons-material/Cancel'
 import { format } from 'date-fns'
@@ -30,7 +20,7 @@ const CmQuieryModal = ({ open, setqueryOpen, setqueryflag, valuee, setCount, cou
     rm_insidebuildblock_name,
     rm_floor_name,
     location,
-    complaint_type_name,
+    complaint_type_name
   } = valuee
 
   const [queries, setQueries] = useState('')
@@ -45,7 +35,7 @@ const CmQuieryModal = ({ open, setqueryOpen, setqueryflag, valuee, setCount, cou
 
   const getquery = useMemo(() => {
     return {
-      complaint_slno: complaint_slno,
+      complaint_slno: complaint_slno
     }
   }, [complaint_slno])
 
@@ -67,7 +57,7 @@ const CmQuieryModal = ({ open, setqueryOpen, setqueryflag, valuee, setCount, cou
       complaint_slno: complaint_slno,
       cm_query_remark: queries,
       cm_query_remark_date: newDate,
-      cm_query_remark_user: id,
+      cm_query_remark_user: id
     }
   }, [complaint_slno, queries, newDate, id])
 
@@ -118,7 +108,7 @@ const CmQuieryModal = ({ open, setqueryOpen, setqueryflag, valuee, setCount, cou
             sx={{
               width: '55vw',
               p: 0,
-              overflow: 'auto',
+              overflow: 'auto'
             }}
           >
             <Box>
@@ -130,12 +120,8 @@ const CmQuieryModal = ({ open, setqueryOpen, setqueryflag, valuee, setCount, cou
               </Box>
               <Box sx={{ flex: 1, display: 'flex', bgcolor: '#ECEDEF', py: 0.5 }}>
                 <Box sx={{ flex: 1, pl: 0.5 }}>
-                  <Typography sx={{ pl: 0.5, fontWeight: 600, color: 'Black' }}>
-                    Ticket No.{complaint_slno}
-                  </Typography>
-                  <Typography sx={{ pl: 0.5, fontSize: 14, color: 'Black' }}>
-                    {complaint_desc}
-                  </Typography>
+                  <Typography sx={{ pl: 0.5, fontWeight: 600, color: 'Black' }}>Ticket No.{complaint_slno}</Typography>
+                  <Typography sx={{ pl: 0.5, fontSize: 14, color: 'Black' }}>{complaint_desc}</Typography>
                   <Typography sx={{ pl: 0.5, fontSize: 13, color: 'Black', py: 0.5 }}>
                     Complaint Type: {complaint_type_name}
                   </Typography>
@@ -155,9 +141,7 @@ const CmQuieryModal = ({ open, setqueryOpen, setqueryflag, valuee, setCount, cou
                     </Typography>
                   ) : null}
                   <Typography sx={{ pl: 0.5, fontSize: 13, color: 'Black' }}>
-                    {compalint_date
-                      ? format(new Date(compalint_date), 'dd MMM yyyy,  hh:mm a')
-                      : 'Invalid Date'}
+                    {compalint_date ? format(new Date(compalint_date), 'dd MMM yyyy,  hh:mm a') : 'Invalid Date'}
                   </Typography>
                 </Box>
               </Box>
@@ -166,10 +150,7 @@ const CmQuieryModal = ({ open, setqueryOpen, setqueryflag, valuee, setCount, cou
                   <React.Fragment key={val.cm_query_details_slno}>
                     {val.cm_query_reply !== null && (
                       <Box sx={{ display: 'flex', alignItems: 'flex-start', mt: 2 }}>
-                        <Avatar
-                          size="sm"
-                          sx={{ border: 1, borderColor: 'lightgrey', bgcolor: 'white', mt: 0.5 }}
-                        >
+                        <Avatar size="sm" sx={{ border: 1, borderColor: 'lightgrey', bgcolor: 'white', mt: 0.5 }}>
                           <PersonIcon sx={{ p: 0.1, color: '#3B281C' }} />
                         </Avatar>
                         <Box sx={{ ml: 0.5, mr: 10, minWidth: 200 }}>
@@ -180,7 +161,7 @@ const CmQuieryModal = ({ open, setqueryOpen, setqueryflag, valuee, setCount, cou
                               bgcolor: '#FFFFFF',
                               px: 1,
                               py: 0.5,
-                              borderRadius: 15,
+                              borderRadius: 15
                             }}
                           >
                             {val.cm_query_reply}
@@ -198,7 +179,7 @@ const CmQuieryModal = ({ open, setqueryOpen, setqueryflag, valuee, setCount, cou
                           display: 'flex',
                           alignItems: 'flex-start',
                           mt: 2,
-                          justifyContent: 'flex-end',
+                          justifyContent: 'flex-end'
                         }}
                       >
                         <Box sx={{ mr: 0.5, textAlign: 'right', ml: 10, minWidth: 200 }}>
@@ -209,7 +190,7 @@ const CmQuieryModal = ({ open, setqueryOpen, setqueryflag, valuee, setCount, cou
                               bgcolor: '#FFFFFF',
                               px: 1,
                               py: 0.5,
-                              borderRadius: 15,
+                              borderRadius: 15
                             }}
                           >
                             {val.cm_query_remark}
@@ -219,10 +200,7 @@ const CmQuieryModal = ({ open, setqueryOpen, setqueryflag, valuee, setCount, cou
                             <Box sx={{ flex: 1, pr: 0.5 }}>{capitalizeWords(val.query_user)}</Box>
                           </Box>
                         </Box>
-                        <Avatar
-                          size="sm"
-                          sx={{ border: 1, borderColor: 'lightgrey', bgcolor: 'white', mt: 0.5 }}
-                        >
+                        <Avatar size="sm" sx={{ border: 1, borderColor: 'lightgrey', bgcolor: 'white', mt: 0.5 }}>
                           <PersonIcon sx={{ p: 0.1, color: '#466E73' }} />
                         </Avatar>
                       </Box>
@@ -253,11 +231,7 @@ const CmQuieryModal = ({ open, setqueryOpen, setqueryflag, valuee, setCount, cou
             </Box>
             <DialogActions>
               <Box sx={{ textAlign: 'right', pb: 2, mr: 1 }}>
-                <Button
-                  variant="plain"
-                  sx={{ color: '#92443A', fontSize: 16 }}
-                  onClick={QueryClose}
-                >
+                <Button variant="plain" sx={{ color: '#92443A', fontSize: 16 }} onClick={QueryClose}>
                   close
                 </Button>
               </Box>

@@ -36,11 +36,11 @@ module.exports = {
       { 
           singleQuote: true,
           bracketSpacing: true,
-          jsxBracketSameLine: false,
+          bracketSameLine: false,
           printWidth: 120,
           tabWidth: 2,
           useTabs: false,
-          semi: true,
+          semi: false,
           trailingComma: 'none',
           arrowParens: 'avoid',
           proseWrap: 'never' 

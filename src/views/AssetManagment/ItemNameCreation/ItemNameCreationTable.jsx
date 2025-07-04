@@ -30,8 +30,7 @@ const ItemNameCreationTable = ({ count, rowSelect }) => {
           specific_two: val.item_specific_two !== '' ? val.item_specific_two : 'Not Given',
           status: val.status,
           item_name: val.item_name,
-          assetspare:
-            val.asset_spare === 1 ? 'Asset' : val.asset_spare === 2 ? 'Spare' : 'Not Given',
+          assetspare: val.asset_spare === 1 ? 'Asset' : val.asset_spare === 2 ? 'Spare' : 'Not Given',
           item_asset_type_slno: val.item_asset_type_slno,
           item_type_slno: val.item_type_slno,
           item_category_slno: val.item_category_slno,
@@ -47,7 +46,7 @@ const ItemNameCreationTable = ({ count, rowSelect }) => {
           item_specific_two: val.item_specific_two,
           item_model_num: val.item_model_num,
           asset_spare: val.asset_spare,
-          item_creation_status: val.item_creation_status,
+          item_creation_status: val.item_creation_status
         }
         return obj
       })
@@ -59,7 +58,7 @@ const ItemNameCreationTable = ({ count, rowSelect }) => {
     {
       headerName: 'Action',
       minWidth: 100,
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
     },
     { headerName: 'SlNo', field: 'item_creation_slno', minWidth: 100 },
     {
@@ -67,7 +66,7 @@ const ItemNameCreationTable = ({ count, rowSelect }) => {
       field: 'assetspare',
       minWidth: 200,
       autoHeight: true,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Asset Name',
@@ -75,7 +74,7 @@ const ItemNameCreationTable = ({ count, rowSelect }) => {
       minWidth: 300,
       autoHeight: true,
       filter: 'true',
-      wrapText: true,
+      wrapText: true
     },
     {
       headerName: 'Asset Type',
@@ -83,7 +82,7 @@ const ItemNameCreationTable = ({ count, rowSelect }) => {
       minWidth: 200,
       autoHeight: true,
       filter: 'true',
-      wrapText: true,
+      wrapText: true
     },
     {
       headerName: 'Item Type',
@@ -91,7 +90,7 @@ const ItemNameCreationTable = ({ count, rowSelect }) => {
       minWidth: 250,
       autoHeight: true,
       filter: 'true',
-      wrapText: true,
+      wrapText: true
     },
     {
       headerName: 'Category',
@@ -99,7 +98,7 @@ const ItemNameCreationTable = ({ count, rowSelect }) => {
       minWidth: 200,
       autoHeight: true,
       filter: 'true',
-      wrapText: true,
+      wrapText: true
     },
     {
       headerName: 'Sub category',
@@ -107,7 +106,7 @@ const ItemNameCreationTable = ({ count, rowSelect }) => {
       minWidth: 200,
       autoHeight: true,
       filter: 'true',
-      wrapText: true,
+      wrapText: true
     },
     {
       headerName: 'Group',
@@ -115,7 +114,7 @@ const ItemNameCreationTable = ({ count, rowSelect }) => {
       minWidth: 200,
       autoHeight: true,
       filter: 'true',
-      wrapText: true,
+      wrapText: true
     },
     {
       headerName: 'Sub Group',
@@ -123,7 +122,7 @@ const ItemNameCreationTable = ({ count, rowSelect }) => {
       minWidth: 200,
       autoHeight: true,
       filter: 'true',
-      wrapText: true,
+      wrapText: true
     },
     {
       headerName: 'U.O.M',
@@ -131,7 +130,7 @@ const ItemNameCreationTable = ({ count, rowSelect }) => {
       minWidth: 200,
       autoHeight: true,
       filter: 'true',
-      wrapText: true,
+      wrapText: true
     },
     {
       headerName: 'Manufacture',
@@ -139,7 +138,7 @@ const ItemNameCreationTable = ({ count, rowSelect }) => {
       minWidth: 200,
       autoHeight: true,
       filter: 'true',
-      wrapText: true,
+      wrapText: true
     },
     {
       headerName: 'Model',
@@ -147,7 +146,7 @@ const ItemNameCreationTable = ({ count, rowSelect }) => {
       minWidth: 200,
       autoHeight: true,
       filter: 'true',
-      wrapText: true,
+      wrapText: true
     },
     {
       headerName: 'Sub Model',
@@ -155,7 +154,7 @@ const ItemNameCreationTable = ({ count, rowSelect }) => {
       minWidth: 200,
       autoHeight: true,
       filter: 'true',
-      wrapText: true,
+      wrapText: true
     },
     {
       headerName: 'Model No.',
@@ -163,7 +162,7 @@ const ItemNameCreationTable = ({ count, rowSelect }) => {
       minWidth: 200,
       autoHeight: true,
       filter: 'true',
-      wrapText: true,
+      wrapText: true
     },
     {
       headerName: 'Base Name.',
@@ -171,11 +170,11 @@ const ItemNameCreationTable = ({ count, rowSelect }) => {
       minWidth: 200,
       autoHeight: true,
       filter: 'true',
-      wrapText: true,
+      wrapText: true
     },
     { headerName: 'Sepcification 1', field: 'specific_one', minWidth: 200, wrapText: true },
     { headerName: 'Sepcification 2', field: 'specific_two', minWidth: 200, wrapText: true },
-    { headerName: 'Status', field: 'status', minWidth: 100 },
+    { headerName: 'Status', field: 'status', minWidth: 100 }
   ])
 
   useEffect(() => {

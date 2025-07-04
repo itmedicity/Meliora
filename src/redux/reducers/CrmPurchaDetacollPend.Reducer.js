@@ -3,7 +3,7 @@ const { FETCH_PURCHASE_DATACOLLECT_PENDING } = ActionTyps
 //intial state
 const CRMPurchDataCollPending = {
   setCRMPurchDataCollPendingList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Requesttype action type check then payload set to the state and loading status set as true */
 export const setCRMPurchDataCollPending = (state = CRMPurchDataCollPending, { type, payload }) => {

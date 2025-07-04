@@ -11,8 +11,8 @@ const ScheduleTimeTable = ({ count, rowSelect }) => {
     {
       headerName: 'Action',
       width: 100,
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
-    },
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
+    }
   ])
   useEffect(() => {
     const getScheduleTime = async () => {

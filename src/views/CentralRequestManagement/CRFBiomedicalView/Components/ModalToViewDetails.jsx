@@ -4,14 +4,7 @@ import CrfReqDetailViewCmp from '../../ComonComponent/CrfReqDetailViewCmp'
 import ReqItemDisplay from '../../ComonComponent/ReqItemDisplay'
 import ApprovalItemView from '../../CrfDatacollection/ApprovalItemView'
 
-const ModalToViewDetails = ({
-  open,
-  modalData,
-  reqItems,
-  handleClose,
-  approveTableData,
-  imagearray,
-}) => {
+const ModalToViewDetails = ({ open, modalData, reqItems, handleClose, approveTableData, imagearray }) => {
   return (
     <Fragment>
       <CssVarsProvider>
@@ -34,15 +27,11 @@ const ModalToViewDetails = ({
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 25,
-                width: 25,
+                width: 25
               }}
             />
             <Box sx={{ minWidth: '80vw', minHeight: '62vh', maxHeight: '85vh', overflowY: 'auto' }}>
-              <CrfReqDetailViewCmp
-                ApprovalData={modalData}
-                imagearray={imagearray}
-                selectedCompany={1}
-              />
+              <CrfReqDetailViewCmp ApprovalData={modalData} imagearray={imagearray} selectedCompany={1} />
               {reqItems.length !== 0 ? (
                 <Box sx={{ mt: 0.5, mx: 0.3 }}>
                   <ReqItemDisplay reqItems={reqItems} />

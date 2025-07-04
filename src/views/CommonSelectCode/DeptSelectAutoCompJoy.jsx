@@ -42,7 +42,7 @@ const DeptSelectAutoCompJoy = ({ department, setDepartment }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '29px',
+            '--Input-minHeight': '29px'
           }}
           value={value}
           placeholder="Select Department"

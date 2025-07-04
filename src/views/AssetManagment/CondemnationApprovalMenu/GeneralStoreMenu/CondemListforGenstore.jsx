@@ -15,7 +15,7 @@ const CondemListforGenstore = ({ empId, menurights }) => {
   const postCondemAllDept = useMemo(() => {
     return {
       condemStatusFrom: condemStatusFrom,
-      condemstatusTo: condemstatusTo,
+      condemstatusTo: condemstatusTo
     }
   }, [condemStatusFrom, condemstatusTo])
 
@@ -43,14 +43,13 @@ const CondemListforGenstore = ({ empId, menurights }) => {
 
   const { data: AllDeptCondemPendingGenstore } = useQuery({
     queryKey: ['getAllDeptCondemPendingGenstore', formCount],
-    queryFn: () => getAllDeptCondemPendingDatas(postCondemAllDept),
+    queryFn: () => getAllDeptCondemPendingDatas(postCondemAllDept)
   })
 
   const AllDeptCondemPendingStore = useMemo(() => {
     return (
-      AllDeptCondemPendingGenstore?.filter(
-        row => row.incharge_approve_status !== 2 || row.hod_approve_status !== 2
-      ) || []
+      AllDeptCondemPendingGenstore?.filter(row => row.incharge_approve_status !== 2 || row.hod_approve_status !== 2) ||
+      []
     )
   }, [AllDeptCondemPendingGenstore])
 
@@ -90,7 +89,7 @@ const CondemListforGenstore = ({ empId, menurights }) => {
             gap: 2,
             justifyContent: 'center',
             mt: 1.5,
-            mb: 2,
+            mb: 2
           }}
         >
           <Radio value="1" label="Pendings" color="neutral" />

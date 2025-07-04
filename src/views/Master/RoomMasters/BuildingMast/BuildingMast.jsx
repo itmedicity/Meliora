@@ -20,15 +20,9 @@ const BuildingMast = () => {
     rm_building_name: '',
     rm_building_alias: '',
     rm_building_no: '',
-    rm_building_status: false,
+    rm_building_status: false
   })
-  const {
-    rm_building_slno,
-    rm_building_name,
-    rm_building_alias,
-    rm_building_no,
-    rm_building_status,
-  } = building
+  const { rm_building_slno, rm_building_name, rm_building_alias, rm_building_no, rm_building_status } = building
   const updateBuilding = useCallback(
     e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -42,7 +36,7 @@ const BuildingMast = () => {
       rm_building_name: '',
       rm_building_alias: '',
       rm_building_no: '',
-      rm_building_status: false,
+      rm_building_status: false
     }
     setBuilding(frmdata)
     setCount(0)
@@ -58,7 +52,7 @@ const BuildingMast = () => {
       rm_building_alias: rm_building_alias,
       rm_building_no: rm_building_no,
       rm_building_status: rm_building_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [rm_building_name, rm_building_alias, rm_building_no, rm_building_status, id])
   const patchdata = useMemo(() => {
@@ -68,16 +62,9 @@ const BuildingMast = () => {
       rm_building_alias: rm_building_alias,
       rm_building_no: rm_building_no,
       rm_building_status: rm_building_status === true ? 1 : 0,
-      edit_user: id,
+      edit_user: id
     }
-  }, [
-    rm_building_slno,
-    rm_building_name,
-    rm_building_alias,
-    rm_building_no,
-    rm_building_status,
-    id,
-  ])
+  }, [rm_building_slno, rm_building_name, rm_building_alias, rm_building_no, rm_building_status, id])
 
   const backtoSetting = useCallback(() => {
     history('/Home/Settings')
@@ -123,20 +110,14 @@ const BuildingMast = () => {
     setValue(1)
 
     const data = params.api.getSelectedRows()
-    const {
-      rm_building_slno,
-      rm_building_name,
-      rm_building_alias,
-      rm_building_no,
-      rm_building_status,
-    } = data[0]
+    const { rm_building_slno, rm_building_name, rm_building_alias, rm_building_no, rm_building_status } = data[0]
 
     const frmdata = {
       rm_building_slno: rm_building_slno,
       rm_building_name: rm_building_name,
       rm_building_alias: rm_building_alias,
       rm_building_no: rm_building_no,
-      rm_building_status: rm_building_status === 1 ? true : false,
+      rm_building_status: rm_building_status === 1 ? true : false
     }
     setBuilding(frmdata)
   }, [])
@@ -146,18 +127,13 @@ const BuildingMast = () => {
       rm_building_name: '',
       rm_building_alias: '',
       rm_building_no: '',
-      rm_building_status: false,
+      rm_building_status: false
     }
     setBuilding(frmdata)
     setValue(0)
   }, [setBuilding])
   return (
-    <CardMaster
-      title="Building Master"
-      submit={sumbitBuilding}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Building Master" submit={sumbitBuilding} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ p: 1 }}>
         <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
           <Box sx={{ width: '30%', p: 1 }}>

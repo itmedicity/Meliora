@@ -19,7 +19,7 @@ const ViewItemCheckingList = ({ disData, handleClose, open }) => {
             sx={{
               minWidth: '50vw',
               minHeight: 200,
-              overflow: 'auto',
+              overflow: 'auto'
             }}
           >
             <ModalClose
@@ -33,28 +33,17 @@ const ViewItemCheckingList = ({ disData, handleClose, open }) => {
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 35,
-                width: 35,
+                width: 35
               }}
             />
             <Box sx={{ mx: 0.5 }}>
-              <Typography
-                sx={{ fontWeight: 550, fontSize: 18, color: '#1565c0', fontFamily: 'system-ui' }}
-              >
+              <Typography sx={{ fontWeight: 550, fontSize: 18, color: '#1565c0', fontFamily: 'system-ui' }}>
                 Item Details
               </Typography>
             </Box>
-            <Paper
-              variant="outlined"
-              sx={{ overflow: 'auto', maxHeight: window.innerHeight - 220, flexWrap: 'wrap' }}
-            >
+            <Paper variant="outlined" sx={{ overflow: 'auto', maxHeight: window.innerHeight - 220, flexWrap: 'wrap' }}>
               {disData.length > 0 ? (
-                <Table
-                  aria-label="table with sticky header"
-                  borderAxis="both"
-                  padding={'none'}
-                  stickyHeader
-                  size="sm"
-                >
+                <Table aria-label="table with sticky header" borderAxis="both" padding={'none'} stickyHeader size="sm">
                   <thead style={{ height: 4 }} size="small">
                     <tr style={{ height: 4 }} size="small">
                       <th
@@ -63,7 +52,7 @@ const ViewItemCheckingList = ({ disData, handleClose, open }) => {
                           width: 50,
                           textAlign: 'center',
                           backgroundColor: '#e3f2fd',
-                          fontSize: 13,
+                          fontSize: 13
                         }}
                       >
                         Sl.No
@@ -74,7 +63,7 @@ const ViewItemCheckingList = ({ disData, handleClose, open }) => {
                           width: 100,
                           textAlign: 'center',
                           backgroundColor: '#e3f2fd',
-                          fontSize: 13,
+                          fontSize: 13
                         }}
                       >
                         Item Code
@@ -85,7 +74,7 @@ const ViewItemCheckingList = ({ disData, handleClose, open }) => {
                           width: 300,
                           textAlign: 'center',
                           backgroundColor: '#e3f2fd',
-                          fontSize: 13,
+                          fontSize: 13
                         }}
                       >
                         Item Name
@@ -96,7 +85,7 @@ const ViewItemCheckingList = ({ disData, handleClose, open }) => {
                           width: 100,
                           textAlign: 'center',
                           backgroundColor: '#e3f2fd',
-                          fontSize: 13,
+                          fontSize: 13
                         }}
                       >
                         Delivered Qty
@@ -107,7 +96,7 @@ const ViewItemCheckingList = ({ disData, handleClose, open }) => {
                           width: 100,
                           textAlign: 'center',
                           backgroundColor: '#e3f2fd',
-                          fontSize: 13,
+                          fontSize: 13
                         }}
                       >
                         Damage Qty
@@ -118,7 +107,7 @@ const ViewItemCheckingList = ({ disData, handleClose, open }) => {
                           width: 100,
                           textAlign: 'center',
                           backgroundColor: '#e3f2fd',
-                          fontSize: 13,
+                          fontSize: 13
                         }}
                       >
                         Excess Qty
@@ -129,7 +118,7 @@ const ViewItemCheckingList = ({ disData, handleClose, open }) => {
                           width: 150,
                           textAlign: 'center',
                           backgroundColor: '#e3f2fd',
-                          fontSize: 13,
+                          fontSize: 13
                         }}
                       >
                         Checked Time

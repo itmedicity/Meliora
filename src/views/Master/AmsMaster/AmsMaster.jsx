@@ -36,7 +36,7 @@ const AmsMaster = () => {
     pregnancyCategory: '',
     storageCondition: '',
     mrp: '',
-    manufacturer: '',
+    manufacturer: ''
   })
 
   const {
@@ -50,7 +50,7 @@ const AmsMaster = () => {
     storageCondition,
     mrp,
     manufacturer,
-    ams_mast_slno,
+    ams_mast_slno
   } = formData
 
   const [checkboxState, setCheckboxState] = useState({
@@ -59,7 +59,7 @@ const AmsMaster = () => {
     restricted: false,
     stoppedMedicine: false,
     highRisk: false,
-    status: true,
+    status: true
   })
 
   const { antibiotic, inactive, restricted, stoppedMedicine, highRisk, status } = checkboxState
@@ -68,7 +68,7 @@ const AmsMaster = () => {
     const { name, checked } = event.target
     setCheckboxState(prev => ({
       ...prev,
-      [name]: checked,
+      [name]: checked
     }))
   }
 
@@ -76,7 +76,7 @@ const AmsMaster = () => {
     const { name, value } = e.target
     setFormData(prev => ({
       ...prev,
-      [name]: value,
+      [name]: value
     }))
   }, [])
 
@@ -96,7 +96,7 @@ const AmsMaster = () => {
       pregnancyCategory: '',
       storageCondition: '',
       mrp: '',
-      manufacturer: '',
+      manufacturer: ''
     })
     setCheckboxState({
       antibiotic: true,
@@ -104,7 +104,7 @@ const AmsMaster = () => {
       restricted: false,
       stoppedMedicine: false,
       highRisk: false,
-      status: true,
+      status: true
     })
     setAntibioticList([])
     setantibioticOpen(0)
@@ -113,7 +113,7 @@ const AmsMaster = () => {
 
   const searchdata = useMemo(() => {
     return {
-      itc_desc: antibioticSearch,
+      itc_desc: antibioticSearch
     }
   }, [antibioticSearch])
 
@@ -124,7 +124,7 @@ const AmsMaster = () => {
       itemDescription: ITC_DESC,
       itemStrip: ITN_STRIP,
       mrp: ITN_ORIGINALMRP,
-      manufacturer: MFC_DESC,
+      manufacturer: MFC_DESC
     })
   }, [])
 
@@ -147,7 +147,7 @@ const AmsMaster = () => {
       stopped_medicine,
       storage_condition,
       strip,
-      vital_essential,
+      vital_essential
     } = val
     setFormData({
       ams_mast_slno: ams_mast_slno || '',
@@ -160,7 +160,7 @@ const AmsMaster = () => {
       pregnancyCategory: pregnancy_category || '',
       storageCondition: storage_condition || '',
       mrp: item_mrp || '',
-      manufacturer: manufacturer || '',
+      manufacturer: manufacturer || ''
     })
     setCheckboxState({
       antibiotic: antibiotic === 1 ? true : false,
@@ -168,7 +168,7 @@ const AmsMaster = () => {
       restricted: restricted === 1 ? true : false,
       stoppedMedicine: stopped_medicine === 1 ? true : false,
       highRisk: high_risk === 1 ? true : false,
-      status: status === 1 ? true : false,
+      status: status === 1 ? true : false
     })
   }, [])
 
@@ -221,7 +221,7 @@ const AmsMaster = () => {
       high_risk: highRisk === true ? 1 : 0,
       antibiotic: antibiotic === true ? 1 : 0,
       status: status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [
     itemCode,
@@ -240,7 +240,7 @@ const AmsMaster = () => {
     stoppedMedicine,
     highRisk,
     status,
-    id,
+    id
   ])
 
   const updateData = useMemo(() => {
@@ -262,7 +262,7 @@ const AmsMaster = () => {
       antibiotic: antibiotic === true ? 1 : 0,
       status: status === true ? 1 : 0,
       edit_user: id,
-      ams_mast_slno: ams_mast_slno,
+      ams_mast_slno: ams_mast_slno
     }
   }, [
     itemCode,
@@ -282,7 +282,7 @@ const AmsMaster = () => {
     highRisk,
     status,
     id,
-    ams_mast_slno,
+    ams_mast_slno
   ])
 
   const SubmitAntibiotic = useCallback(async () => {
@@ -326,13 +326,7 @@ const AmsMaster = () => {
                   placeholder={'Find Antibiotic From Ellider'}
                 ></TextFieldCustom>
               </Box>
-              <CusIconButton
-                size="sm"
-                variant="outlined"
-                color="primary"
-                clickable="true"
-                onClick={SearchAntibiotic}
-              >
+              <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={SearchAntibiotic}>
                 <ManageSearchIcon fontSize="small" />
               </CusIconButton>
               <CusIconButton
@@ -351,10 +345,7 @@ const AmsMaster = () => {
               <>
                 {antibioticOpen === 1 ? (
                   <Box sx={{ flex: 1, mt: 0.5 }}>
-                    <AntibioticFromEllider
-                      antibioticList={antibioticList}
-                      antibioticData={antibioticData}
-                    />
+                    <AntibioticFromEllider antibioticList={antibioticList} antibioticData={antibioticData} />
                   </Box>
                 ) : null}
               </>
@@ -405,7 +396,7 @@ const AmsMaster = () => {
                   onChange={(e, newValue) => {
                     setFormData(prev => ({
                       ...prev,
-                      vedAnalysis: newValue,
+                      vedAnalysis: newValue
                     }))
                   }}
                 >
@@ -491,12 +482,7 @@ const AmsMaster = () => {
 
             <Box sx={{ flex: 1, display: 'flex', pl: 1, pt: 2 }}>
               <Box sx={{ flex: 1 }}>
-                <Checkbox
-                  label="Antibiotic"
-                  name="antibiotic"
-                  checked={antibiotic}
-                  onChange={handleCheckboxChange}
-                />
+                <Checkbox label="Antibiotic" name="antibiotic" checked={antibiotic} onChange={handleCheckboxChange} />
                 <Checkbox
                   label="Inactive"
                   name="inactive"
@@ -506,12 +492,7 @@ const AmsMaster = () => {
                 />
               </Box>
               <Box sx={{ flex: 1.5 }}>
-                <Checkbox
-                  label="Restricted"
-                  name="restricted"
-                  checked={restricted}
-                  onChange={handleCheckboxChange}
-                />
+                <Checkbox label="Restricted" name="restricted" checked={restricted} onChange={handleCheckboxChange} />
                 <Checkbox
                   label="Stopped Medicine"
                   name="stoppedMedicine"
@@ -521,12 +502,7 @@ const AmsMaster = () => {
                 />
               </Box>
               <Box sx={{ flex: 0.9 }}>
-                <Checkbox
-                  label="High Risk"
-                  name="highRisk"
-                  checked={highRisk}
-                  onChange={handleCheckboxChange}
-                />
+                <Checkbox label="High Risk" name="highRisk" checked={highRisk} onChange={handleCheckboxChange} />
                 <Checkbox
                   label="Status"
                   name="status"

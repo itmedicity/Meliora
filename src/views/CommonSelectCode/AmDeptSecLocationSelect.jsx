@@ -41,7 +41,7 @@ const AmDeptSecLocationSelect = ({ location, setLocation }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '29px',
+            '--Input-minHeight': '29px'
           }}
           value={location === 0 ? deptSections : value}
           placeholder="Select location"

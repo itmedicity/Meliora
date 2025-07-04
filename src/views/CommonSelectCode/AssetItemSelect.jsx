@@ -37,7 +37,7 @@ const AssetItemSelect = ({ itemtype, setItemtype, setName }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '29px',
+            '--Input-minHeight': '29px'
           }}
           value={itemtype === 0 ? items : value}
           placeholder="Select Item type"

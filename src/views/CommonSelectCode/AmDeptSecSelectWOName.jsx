@@ -34,7 +34,7 @@ const AmDeptSecSelectWOName = ({ deptsec, setDeptSec }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '29px',
+            '--Input-minHeight': '29px'
           }}
           value={deptsec === 0 ? models : value}
           placeholder="SelectDepartment Section"

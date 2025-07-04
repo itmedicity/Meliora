@@ -14,8 +14,8 @@ const HallMastertabledetl = ({ count, rowSelect }) => {
     { headerName: 'Status', field: 'hall_status' },
     {
       headerName: 'Action',
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
-    },
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
+    }
   ])
 
   useEffect(() => {

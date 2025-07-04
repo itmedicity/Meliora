@@ -3,7 +3,7 @@ const { FETCH_ALLCOMPLAINTS } = ActionTyps
 //intial state
 const allcmp = {
   allcmpLists: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 export const getAllComplaintLists = (state = allcmp, { type, payload }) => {
   switch (type) {

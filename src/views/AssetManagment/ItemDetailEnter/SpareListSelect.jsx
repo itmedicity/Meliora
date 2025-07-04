@@ -7,7 +7,7 @@ const SpareListSelect = ({ spare, setSpare, setSpareNo, item_custodian_dept }) =
 
   const { data: spareData, isLoading } = useQuery({
     queryKey: ['getSparesinstock', postData],
-    queryFn: () => getSparesInstock(postData),
+    queryFn: () => getSparesInstock(postData)
   })
 
   const spareInstock = useMemo(() => spareData, [spareData])
@@ -18,7 +18,7 @@ const SpareListSelect = ({ spare, setSpare, setSpareNo, item_custodian_dept }) =
         return {
           am_spare_item_map_slno: val.am_spare_item_map_slno,
           item_name: val.item_name,
-          assetno: val.spare_asset_no + '/' + val.spare_asset_no_only.toString().padStart(6, '0'),
+          assetno: val.spare_asset_no + '/' + val.spare_asset_no_only.toString().padStart(6, '0')
         }
       })
       setTabledata(formattedSpareInstock)

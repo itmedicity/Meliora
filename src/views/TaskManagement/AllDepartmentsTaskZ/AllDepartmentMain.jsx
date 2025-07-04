@@ -1,14 +1,4 @@
-import {
-  Avatar,
-  Box,
-  CssVarsProvider,
-  Tab,
-  TabList,
-  TabPanel,
-  Tabs,
-  Typography,
-  tabClasses,
-} from '@mui/joy'
+import { Avatar, Box, CssVarsProvider, Tab, TabList, TabPanel, Tabs, Typography, tabClasses } from '@mui/joy'
 import { Paper } from '@mui/material'
 import React, { memo, useCallback, useState } from 'react'
 import AccountTreeIcon from '@mui/icons-material/AccountTree'
@@ -55,7 +45,7 @@ const AllDepartmentMain = () => {
           pt: 0.8,
           pl: 0.8,
           color: '#C7C8CB',
-          bgcolor: 'white',
+          bgcolor: 'white'
         }}
       >
         All Department Task
@@ -67,7 +57,7 @@ const AllDepartmentMain = () => {
           m: 0.3,
           borderColor: '#EAEAEA',
           borderRadius: 1,
-          bgcolor: 'white',
+          bgcolor: 'white'
         }}
       >
         <Box sx={{ mt: 1, display: 'flex' }}>
@@ -79,9 +69,7 @@ const AllDepartmentMain = () => {
             </CssVarsProvider>
           </Box>
           <Box>
-            <Typography sx={{ fontSize: 20, fontWeight: 600, color: 'grey', pt: 0.5 }}>
-              Task Management
-            </Typography>
+            <Typography sx={{ fontSize: 20, fontWeight: 600, color: 'grey', pt: 0.5 }}>Task Management</Typography>
             <Typography sx={{ fontSize: 11, fontWeight: 600, color: 'grey', pl: 0.5 }}>
               Goal,Projects & Tasks
             </Typography>
@@ -99,7 +87,7 @@ const AllDepartmentMain = () => {
             textAlign: 'center',
             borderColor: '#4B7BF5',
             cursor: 'pointer',
-            '&:hover': { bgcolor: '#4B7BF5' },
+            '&:hover': { bgcolor: '#4B7BF5' }
           }}
           onClick={addModal}
         >
@@ -113,7 +101,7 @@ const AllDepartmentMain = () => {
               size="sm"
               sx={{
                 display: 'flex',
-                mt: 0.5,
+                mt: 0.5
               }}
             >
               <TabList
@@ -122,11 +110,11 @@ const AllDepartmentMain = () => {
                   p: 0,
                   [`& .${tabClasses.root}[aria-selected="true"]`]: {
                     borderBottom: 3,
-                    bgcolor: 'white',
+                    bgcolor: 'white'
                   },
                   display: 'flex',
                   flexDirection: 'column',
-                  bgcolor: 'white',
+                  bgcolor: 'white'
                 }}
               >
                 <Box
@@ -135,7 +123,7 @@ const AllDepartmentMain = () => {
                     flex: 1,
                     mb: 0,
                     borderBottom: 1,
-                    borderColor: 'lightgray',
+                    borderColor: 'lightgray'
                   }}
                 >
                   <Box sx={{ flex: 2, display: 'flex', px: 0.5 }}>

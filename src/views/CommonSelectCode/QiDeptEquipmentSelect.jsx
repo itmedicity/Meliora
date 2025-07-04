@@ -35,7 +35,7 @@ const QiDeptEquipmentSelect = ({ qidept, setQidept }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '35px',
+            '--Input-minHeight': '35px'
           }}
           value={qidept === 0 ? type : value}
           placeholder="Select Department"

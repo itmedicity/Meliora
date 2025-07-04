@@ -5,9 +5,7 @@ import { CssVarsProvider } from '@mui/joy/'
 
 const ItBillsupplierDetailsList = ({ suppliersList, setSuppliersList }) => {
   const suppliersName = useSelector(state => state?.getSupplierList?.BillSupplierlist)
-  const [supplierListX, setsupplierListX] = useState([
-    { it_supplier_slno: 0, it_supplier_name: '' },
-  ])
+  const [supplierListX, setsupplierListX] = useState([{ it_supplier_slno: 0, it_supplier_name: '' }])
   const [value, setValue] = useState(supplierListX[0])
   const [inputValue, setInputValue] = useState('')
 
@@ -39,7 +37,7 @@ const ItBillsupplierDetailsList = ({ suppliersList, setSuppliersList }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '29px',
+            '--Input-minHeight': '29px'
           }}
           value={suppliersList === 0 ? supplierListX : value}
           placeholder="select supplier"
@@ -56,9 +54,7 @@ const ItBillsupplierDetailsList = ({ suppliersList, setSuppliersList }) => {
           loading={true}
           loadingText="Loading..."
           freeSolo
-          isOptionEqualToValue={(option, value) =>
-            option.it_supplier_name === value.it_supplier_name
-          }
+          isOptionEqualToValue={(option, value) => option.it_supplier_name === value.it_supplier_name}
           getOptionLabel={option => option.it_supplier_name || ''}
           options={supplierListX}
         />

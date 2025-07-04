@@ -3,7 +3,7 @@ const { FETCH_REQUEST_TO_RECTIFY_TAT } = ActionTyps
 
 const RequestToRectfy = {
   RequestToRectfyList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 
 export const getRequestToRectfyList = (state = RequestToRectfy, { type, payload }) => {

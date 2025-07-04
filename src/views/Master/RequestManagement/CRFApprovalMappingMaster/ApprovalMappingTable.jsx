@@ -27,7 +27,7 @@ const ApprovalMappingTable = ({ count, rowSelect }) => {
             overflow: 'auto',
             height: window.innerHeight - 420,
             flexWrap: 'wrap',
-            '&::-webkit-scrollbar': { height: 8 },
+            '&::-webkit-scrollbar': { height: 8 }
           }}
         >
           <CssVarsProvider>
@@ -68,8 +68,8 @@ const ApprovalMappingTable = ({ count, rowSelect }) => {
                             cursor: 'pointer',
                             transition: 'transform 0.2s',
                             '&:hover': {
-                              transform: 'scale(1.1)',
-                            },
+                              transform: 'scale(1.1)'
+                            }
                           }}
                           onClick={() => rowSelect(val)}
                         />
@@ -78,19 +78,13 @@ const ApprovalMappingTable = ({ count, rowSelect }) => {
                     <td style={{ fontSize: 13 }}>{index + 1}</td>
                     <td style={{ fontSize: 13 }}>{val.company_name}</td>
                     <td style={{ fontSize: 13 }}>
-                      {val.medical_director_approve === 1
-                        ? `${val.MD_em_name} (${val.MD_em_no})`
-                        : 'Nil'}
+                      {val.medical_director_approve === 1 ? `${val.MD_em_name} (${val.MD_em_no})` : 'Nil'}
                     </td>
                     <td style={{ fontSize: 13 }}>
-                      {val.executive_director_approve === 1
-                        ? `${val.ED_em_name} (${val.ED_em_no})`
-                        : 'Nil'}
+                      {val.executive_director_approve === 1 ? `${val.ED_em_name} (${val.ED_em_no})` : 'Nil'}
                     </td>
                     <td style={{ fontSize: 13 }}>
-                      {val.managing_director_approve === 1
-                        ? `${val.MA_em_name} (${val.MA_em_no})`
-                        : 'Nil'}
+                      {val.managing_director_approve === 1 ? `${val.MA_em_name} (${val.MA_em_no})` : 'Nil'}
                     </td>
                   </tr>
                 ))}
@@ -106,7 +100,7 @@ const ApprovalMappingTable = ({ count, rowSelect }) => {
             fontSize: 25,
             opacity: 0.5,
             pt: 10,
-            color: 'grey',
+            color: 'grey'
           }}
         ></Box>
       )}

@@ -25,7 +25,7 @@ const CloseDetailsModal = ({ open, setOpen, setCloseModalFlag, closeData, setClo
           flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
-          maxHeight: 700,
+          maxHeight: 700
         }}
       >
         <Sheet
@@ -37,7 +37,7 @@ const CloseDetailsModal = ({ open, setOpen, setCloseModalFlag, closeData, setClo
             boxShadow: 'lg',
             minHeight: 200,
             maxWidth: 300,
-            maxHeight: 700,
+            maxHeight: 700
           }}
         >
           <Box
@@ -50,14 +50,12 @@ const CloseDetailsModal = ({ open, setOpen, setCloseModalFlag, closeData, setClo
               margin: 'auto',
               height: window.innerHeight - 500,
               overflowX: 'auto',
-              '::-webkit-scrollbar': { display: 'none' },
+              '::-webkit-scrollbar': { display: 'none' }
             }}
           >
             <Box sx={{ pt: 0.5 }}>
               <CssVarsProvider>
-                <Typography sx={{ fontSize: 16, fontWeight: 700, textAlign: 'center' }}>
-                  Closed CRF Details{' '}
-                </Typography>
+                <Typography sx={{ fontSize: 16, fontWeight: 700, textAlign: 'center' }}>Closed CRF Details </Typography>
               </CssVarsProvider>
             </Box>
 
@@ -70,8 +68,8 @@ const CloseDetailsModal = ({ open, setOpen, setCloseModalFlag, closeData, setClo
                   sm: 'column',
                   md: 'column',
                   lg: 'column',
-                  xl: 'column',
-                },
+                  xl: 'column'
+                }
               }}
             >
               <Box
@@ -79,7 +77,7 @@ const CloseDetailsModal = ({ open, setOpen, setCloseModalFlag, closeData, setClo
                   width: '100%',
                   display: 'flex',
                   p: 0.5,
-                  flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                  flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                 }}
               >
                 <Box sx={{ width: '25%' }}>
@@ -96,7 +94,7 @@ const CloseDetailsModal = ({ open, setOpen, setCloseModalFlag, closeData, setClo
                     fontSize: 15,
                     textTransform: 'capitalize',
                     overflow: 'auto',
-                    '::-webkit-scrollbar': { display: 'none' },
+                    '::-webkit-scrollbar': { display: 'none' }
                   }}
                   variant="none"
                 >
@@ -108,7 +106,7 @@ const CloseDetailsModal = ({ open, setOpen, setCloseModalFlag, closeData, setClo
                   width: '100%',
                   display: 'flex',
                   p: 0.5,
-                  flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                  flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                 }}
               >
                 <Box sx={{ width: '25%' }}>
@@ -125,7 +123,7 @@ const CloseDetailsModal = ({ open, setOpen, setCloseModalFlag, closeData, setClo
                     fontSize: 15,
                     textTransform: 'capitalize',
                     overflow: 'auto',
-                    '::-webkit-scrollbar': { display: 'none' },
+                    '::-webkit-scrollbar': { display: 'none' }
                   }}
                   variant="none"
                 >
@@ -137,7 +135,7 @@ const CloseDetailsModal = ({ open, setOpen, setCloseModalFlag, closeData, setClo
                   width: '100%',
                   display: 'flex',
                   p: 0.5,
-                  flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                  flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                 }}
               >
                 <Box sx={{ width: '25%' }}>
@@ -154,7 +152,7 @@ const CloseDetailsModal = ({ open, setOpen, setCloseModalFlag, closeData, setClo
                     fontSize: 15,
                     textTransform: 'capitalize',
                     overflow: 'auto',
-                    '::-webkit-scrollbar': { display: 'none' },
+                    '::-webkit-scrollbar': { display: 'none' }
                   }}
                   variant="none"
                 >
@@ -166,7 +164,7 @@ const CloseDetailsModal = ({ open, setOpen, setCloseModalFlag, closeData, setClo
                   width: '100%',
                   display: 'flex',
                   p: 0.5,
-                  flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                  flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                 }}
               >
                 <Box sx={{ width: '25%' }}>
@@ -183,7 +181,7 @@ const CloseDetailsModal = ({ open, setOpen, setCloseModalFlag, closeData, setClo
                     fontSize: 15,
                     textTransform: 'capitalize',
                     overflow: 'auto',
-                    '::-webkit-scrollbar': { display: 'none' },
+                    '::-webkit-scrollbar': { display: 'none' }
                   }}
                   variant="none"
                 >

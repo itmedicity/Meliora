@@ -28,7 +28,7 @@ const AssetUOMSelect = ({ uom, setUOM, setName }) => {
           value={uom}
           sx={{ fontSize: 13, width: '100%', height: 29, bgcolor: 'white' }}
           slotProps={{
-            listbox: { placement: 'bottom-start' },
+            listbox: { placement: 'bottom-start' }
           }}
           placeholder="Select UOM"
           onChange={(e, newValue) => {

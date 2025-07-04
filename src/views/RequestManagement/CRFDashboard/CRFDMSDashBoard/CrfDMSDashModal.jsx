@@ -1,9 +1,9 @@
 import React, { Fragment, useCallback, useState, memo, useMemo } from 'react'
-import Slide from '@mui/material/Slide';
+import Slide from '@mui/material/Slide'
 // import { ToastContainer } from 'react-toastify';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import Button from '@mui/material/Button'
 import { Box, Paper } from '@mui/material'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
@@ -57,16 +57,13 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
     hod_user,
     dms_approve,
     dms_remarks,
-    dms_detail_analysis,
+    dms_detail_analysis
   } = datas[0]
   const reqdate = format(new Date(req_date), 'dd-MM-yyyy')
   const expdate = format(new Date(expected_date), 'dd-MM-yyyy')
   const inchargeApprovdate =
-    incharge_apprv_date !== null
-      ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy')
-      : 'Not Updated'
-  const hodApprovdate =
-    hod_approve_date !== null ? format(new Date(hod_approve_date), 'dd-MM-yyyy') : 'Not Updated'
+    incharge_apprv_date !== null ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy') : 'Not Updated'
+  const hodApprovdate = hod_approve_date !== null ? format(new Date(hod_approve_date), 'dd-MM-yyyy') : 'Not Updated'
 
   const id = useSelector(state => state.LoginUserData.empid, _.isEqual)
 
@@ -235,7 +232,7 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
       dms_detail_analysis: approve === true ? detailAnalis : null,
       dms_approve_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
       dms_user: id,
-      req_slno: req_slno,
+      req_slno: req_slno
     }
   }, [approve, reject, pending, remark, req_slno, detailAnalis, id])
 
@@ -250,7 +247,7 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
       dms_detail_analysis: approve === true ? detailAnalis : null,
       dms_approve_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
       dms_user: id,
-      req_slno: req_slno,
+      req_slno: req_slno
     }
   }, [approve, reject, pending, remark, req_slno, detailAnalis, id])
 
@@ -308,7 +305,7 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
       remark,
       detailAnalis,
       hod_approve,
-      patchdataHodNotDMS,
+      patchdataHodNotDMS
     ]
   )
 
@@ -345,12 +342,7 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
     <Fragment>
       {/* <ToastContainer /> */}
       {enable === 1 ? (
-        <CrfDataCollectNotOkModal
-          open={open}
-          setOpen={setOpen}
-          setEnable={setEnable}
-          req_slno={req_slno}
-        />
+        <CrfDataCollectNotOkModal open={open} setOpen={setOpen} setEnable={setEnable} req_slno={req_slno} />
       ) : (
         <Box>
           {collImageShowFlag === 1 ? (
@@ -377,12 +369,10 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
               id="alert-dialog-slide-descriptiona"
               sx={{
                 width: '100%',
-                height: 540,
+                height: 540
               }}
             >
-              <DialogContentText id="alert-dialog-slide-descriptiona">
-                Request Approval
-              </DialogContentText>
+              <DialogContentText id="alert-dialog-slide-descriptiona">Request Approval</DialogContentText>
 
               <Box sx={{ width: '100%', mt: 0 }}>
                 <Paper variant="outlined" sx={{ p: 0, mt: 1 }}>
@@ -395,8 +385,8 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                         sm: 'column',
                         md: 'column',
                         lg: 'column',
-                        xl: 'column',
-                      },
+                        xl: 'column'
+                      }
                     }}
                   >
                     <Box
@@ -404,14 +394,12 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                         width: '100%',
                         display: 'flex',
                         p: 0.5,
-                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                       }}
                     >
                       <Box sx={{ pr: 1 }}>
                         <CssVarsProvider>
-                          <Typography sx={{ fontSize: 15 }}>
-                            Request No: CRF/TMC/{req_slno}
-                          </Typography>
+                          <Typography sx={{ fontSize: 15 }}>Request No: CRF/TMC/{req_slno}</Typography>
                         </CssVarsProvider>
                       </Box>
                       <Box sx={{ pl: 4 }}>
@@ -426,7 +414,7 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                           width: '100%',
                           display: 'flex',
                           p: 0.5,
-                          flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                          flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                         }}
                       >
                         <Box sx={{ width: '25%' }}>
@@ -443,7 +431,7 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                             fontSize: 15,
                             textTransform: 'capitalize',
                             overflow: 'auto',
-                            '::-webkit-scrollbar': { display: 'none' },
+                            '::-webkit-scrollbar': { display: 'none' }
                           }}
                           variant="none"
                         >
@@ -457,7 +445,7 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                           width: '100%',
                           display: 'flex',
                           p: 0.5,
-                          flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                          flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                         }}
                       >
                         <Box sx={{ width: '25%' }}>
@@ -474,7 +462,7 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                             fontSize: 15,
                             textTransform: 'capitalize',
                             overflow: 'auto',
-                            '::-webkit-scrollbar': { display: 'none' },
+                            '::-webkit-scrollbar': { display: 'none' }
                           }}
                           variant="none"
                         >
@@ -488,7 +476,7 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                           width: '100%',
                           display: 'flex',
                           p: 0.5,
-                          flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                          flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                         }}
                       >
                         <Box sx={{ width: '25%' }}>
@@ -505,7 +493,7 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                             fontSize: 15,
                             textTransform: 'capitalize',
                             overflow: 'auto',
-                            '::-webkit-scrollbar': { display: 'none' },
+                            '::-webkit-scrollbar': { display: 'none' }
                           }}
                           variant="none"
                         >
@@ -519,7 +507,7 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                           width: '100%',
                           display: 'flex',
                           p: 0.5,
-                          flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                          flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                         }}
                       >
                         <Box sx={{ width: '25%' }}>
@@ -536,7 +524,7 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                             fontSize: 15,
                             textTransform: 'capitalize',
                             overflow: 'auto',
-                            '::-webkit-scrollbar': { display: 'none' },
+                            '::-webkit-scrollbar': { display: 'none' }
                           }}
                           variant="none"
                         >
@@ -549,7 +537,7 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                         width: '100%',
                         display: 'flex',
                         p: 0.5,
-                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                       }}
                     >
                       <Box sx={{ width: '25%' }}>
@@ -566,7 +554,7 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                           fontSize: 15,
                           textTransform: 'capitalize',
                           overflow: 'auto',
-                          '::-webkit-scrollbar': { display: 'none' },
+                          '::-webkit-scrollbar': { display: 'none' }
                         }}
                         variant="none"
                       >
@@ -578,7 +566,7 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                         width: '100%',
                         display: 'flex',
                         p: 0.5,
-                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                       }}
                     >
                       <Box sx={{ width: '25%' }}>
@@ -595,7 +583,7 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                           fontSize: 15,
                           textTransform: 'capitalize',
                           overflow: 'auto',
-                          '::-webkit-scrollbar': { display: 'none' },
+                          '::-webkit-scrollbar': { display: 'none' }
                         }}
                         variant="none"
                       >
@@ -609,7 +597,7 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                         display: 'flex',
                         p: 0.5,
                         pb: 0,
-                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                       }}
                     >
                       <Box sx={{ pr: 9 }}>
@@ -622,8 +610,7 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                     <Box sx={{ p: 0.5 }}>
                       <CssVarsProvider>
                         <Typography sx={{ fontSize: 15, textTransform: 'capitalize' }}>
-                          Requested User:{' '}
-                          {req_user !== null ? req_user.toLowerCase() : 'Not Updated'}
+                          Requested User: {req_user !== null ? req_user.toLowerCase() : 'Not Updated'}
                         </Typography>
                       </CssVarsProvider>
                     </Box>
@@ -632,13 +619,12 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                         width: '100%',
                         display: 'flex',
                         p: 0.5,
-                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                       }}
                     >
                       <CssVarsProvider>
                         <Typography sx={{ fontSize: 15, textTransform: 'capitalize' }}>
-                          Requested DeptSec:{' '}
-                          {userdeptsec !== null ? userdeptsec.toLowerCase() : 'Not Updated'}
+                          Requested DeptSec: {userdeptsec !== null ? userdeptsec.toLowerCase() : 'Not Updated'}
                         </Typography>
                       </CssVarsProvider>
                       {image_status === 1 ? (
@@ -654,24 +640,20 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                         width: '100%',
                         display: 'flex',
                         p: 0.5,
-                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                       }}
                     >
-                      {tableDis === 1 ? (
-                        <ItemApprovalCmp dataPost={dataPost} setdataPost={setdataPost} />
-                      ) : null}
+                      {tableDis === 1 ? <ItemApprovalCmp dataPost={dataPost} setdataPost={setdataPost} /> : null}
                     </Box>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15, textTransform: 'capitalize' }}>
-                        After Data Collection
-                      </Typography>
+                      <Typography sx={{ fontSize: 15, textTransform: 'capitalize' }}>After Data Collection</Typography>
                     </CssVarsProvider>
                     <Box
                       sx={{
                         width: '100%',
                         display: 'flex',
                         p: 0.5,
-                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                       }}
                     >
                       {colectDetlCheck === 1 ? (
@@ -694,8 +676,8 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                           sm: 'column',
                           md: 'column',
                           lg: 'column',
-                          xl: 'column',
-                        },
+                          xl: 'column'
+                        }
                       }}
                     >
                       <Box
@@ -704,14 +686,12 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                           display: 'flex',
                           pl: 0.2,
                           pr: 0.5,
-                          flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                          flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                         }}
                       >
                         <Box sx={{ pr: 9 }}>
                           <CssVarsProvider>
-                            <Typography
-                              sx={{ pl: 1, fontWeight: 900, fontSize: 14, color: TypoHeadColor }}
-                            >
+                            <Typography sx={{ pl: 1, fontWeight: 900, fontSize: 14, color: TypoHeadColor }}>
                               Data Collection Details
                             </Typography>
                           </CssVarsProvider>
@@ -730,8 +710,8 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                                     sm: 'column',
                                     md: 'column',
                                     lg: 'column',
-                                    xl: 'column',
-                                  },
+                                    xl: 'column'
+                                  }
                                 }}
                               >
                                 <Box
@@ -744,15 +724,13 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                                       sm: 'row',
                                       md: 'row',
                                       lg: 'row',
-                                      xl: 'row',
-                                    },
+                                      xl: 'row'
+                                    }
                                   }}
                                 >
                                   <Box sx={{ width: '25%' }}>
                                     <CssVarsProvider>
-                                      <Typography sx={{ pl: 1, fontSize: 15 }}>
-                                        Requested Remarks
-                                      </Typography>
+                                      <Typography sx={{ pl: 1, fontSize: 15 }}>Requested Remarks</Typography>
                                     </CssVarsProvider>
                                   </Box>
                                   <Paper
@@ -764,7 +742,7 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                                       fontSize: 15,
                                       textTransform: 'capitalize',
                                       overflow: 'auto',
-                                      '::-webkit-scrollbar': { display: 'none' },
+                                      '::-webkit-scrollbar': { display: 'none' }
                                     }}
                                     variant="none"
                                   >
@@ -781,15 +759,13 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                                       sm: 'row',
                                       md: 'row',
                                       lg: 'row',
-                                      xl: 'row',
-                                    },
+                                      xl: 'row'
+                                    }
                                   }}
                                 >
                                   <Box sx={{ width: '25%' }}>
                                     <CssVarsProvider>
-                                      <Typography sx={{ pl: 1, fontSize: 15 }}>
-                                        Requested To
-                                      </Typography>
+                                      <Typography sx={{ pl: 1, fontSize: 15 }}>Requested To</Typography>
                                     </CssVarsProvider>
                                   </Box>
                                   <Paper
@@ -801,7 +777,7 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                                       fontSize: 15,
                                       textTransform: 'capitalize',
                                       overflow: 'auto',
-                                      '::-webkit-scrollbar': { display: 'none' },
+                                      '::-webkit-scrollbar': { display: 'none' }
                                     }}
                                     variant="none"
                                   >
@@ -818,15 +794,13 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                                       sm: 'row',
                                       md: 'row',
                                       lg: 'row',
-                                      xl: 'row',
-                                    },
+                                      xl: 'row'
+                                    }
                                   }}
                                 >
                                   <Box sx={{ width: '25%' }}>
                                     <CssVarsProvider>
-                                      <Typography sx={{ pl: 1, fontSize: 15 }}>
-                                        Requested Details
-                                      </Typography>
+                                      <Typography sx={{ pl: 1, fontSize: 15 }}>Requested Details</Typography>
                                     </CssVarsProvider>
                                   </Box>
                                   <Paper
@@ -838,7 +812,7 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                                       fontSize: 15,
                                       textTransform: 'capitalize',
                                       overflow: 'auto',
-                                      '::-webkit-scrollbar': { display: 'none' },
+                                      '::-webkit-scrollbar': { display: 'none' }
                                     }}
                                     variant="none"
                                   >
@@ -853,7 +827,7 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                                       fontSize: 15,
                                       textTransform: 'capitalize',
                                       overflow: 'auto',
-                                      '::-webkit-scrollbar': { display: 'none' },
+                                      '::-webkit-scrollbar': { display: 'none' }
                                     }}
                                     variant="none"
                                   >
@@ -871,15 +845,13 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                                       sm: 'row',
                                       md: 'row',
                                       lg: 'row',
-                                      xl: 'row',
-                                    },
+                                      xl: 'row'
+                                    }
                                   }}
                                 >
                                   <Box sx={{ width: '25%' }}>
                                     <CssVarsProvider>
-                                      <Typography sx={{ pl: 1, fontSize: 15 }}>
-                                        Data Collection Reply
-                                      </Typography>
+                                      <Typography sx={{ pl: 1, fontSize: 15 }}>Data Collection Reply</Typography>
                                     </CssVarsProvider>
                                   </Box>
                                   <Paper
@@ -891,7 +863,7 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                                       fontSize: 15,
                                       textTransform: 'capitalize',
                                       overflow: 'auto',
-                                      '::-webkit-scrollbar': { display: 'none' },
+                                      '::-webkit-scrollbar': { display: 'none' }
                                     }}
                                     variant="none"
                                   >
@@ -908,15 +880,13 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                                       sm: 'row',
                                       md: 'row',
                                       lg: 'row',
-                                      xl: 'row',
-                                    },
+                                      xl: 'row'
+                                    }
                                   }}
                                 >
                                   <Box sx={{ width: '25%' }}>
                                     <CssVarsProvider>
-                                      <Typography sx={{ pl: 1, fontSize: 15 }}>
-                                        Reply Details
-                                      </Typography>
+                                      <Typography sx={{ pl: 1, fontSize: 15 }}>Reply Details</Typography>
                                     </CssVarsProvider>
                                   </Box>
                                   <Paper
@@ -928,7 +898,7 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                                       fontSize: 15,
                                       textTransform: 'capitalize',
                                       overflow: 'auto',
-                                      '::-webkit-scrollbar': { display: 'none' },
+                                      '::-webkit-scrollbar': { display: 'none' }
                                     }}
                                     variant="none"
                                   >
@@ -943,7 +913,7 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                                       fontSize: 15,
                                       textTransform: 'capitalize',
                                       overflow: 'auto',
-                                      '::-webkit-scrollbar': { display: 'none' },
+                                      '::-webkit-scrollbar': { display: 'none' }
                                     }}
                                     variant="none"
                                   >
@@ -953,9 +923,7 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                                 {val.data_coll_image_status === 1 ? (
                                   <Box sx={{ display: 'flex', width: '20%', height: 30, pl: 3 }}>
                                     <Button
-                                      onClick={() =>
-                                        ViewImageDataColection(val.crf_data_collect_slno)
-                                      }
+                                      onClick={() => ViewImageDataColection(val.crf_data_collect_slno)}
                                       variant="contained"
                                       color="primary"
                                     >
@@ -984,8 +952,8 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                         sm: 'column',
                         md: 'column',
                         lg: 'column',
-                        xl: 'column',
-                      },
+                        xl: 'column'
+                      }
                     }}
                   >
                     <Box
@@ -994,7 +962,7 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                         display: 'flex',
                         pl: 0.2,
                         pr: 0.5,
-                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                       }}
                     >
                       <Box sx={{ pr: 9 }}>
@@ -1019,15 +987,15 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                                   sm: 'column',
                                   md: 'column',
                                   lg: 'column',
-                                  xl: 'column',
-                                },
+                                  xl: 'column'
+                                }
                               }}
                             >
                               <Box
                                 sx={{
                                   display: 'flex',
                                   flexDirection: 'row',
-                                  justifyContent: 'space-between',
+                                  justifyContent: 'space-between'
                                 }}
                               >
                                 <CssVarsProvider>
@@ -1072,7 +1040,7 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                                       display: 'flex',
                                       flexDirection: 'row',
                                       justifyContent: 'space-evenly',
-                                      pr: 2,
+                                      pr: 2
                                     }}
                                   >
                                     <CssVarsProvider>
@@ -1096,7 +1064,7 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                                           px: 1,
                                           pb: 0.4,
                                           borderRadius: 5,
-                                          textTransform: 'capitalize',
+                                          textTransform: 'capitalize'
                                         }}
                                       >
                                         {incharge_user}{' '}
@@ -1175,8 +1143,8 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                               sm: 'column',
                               md: 'column',
                               lg: 'column',
-                              xl: 'column',
-                            },
+                              xl: 'column'
+                            }
                           }}
                         >
                           <Box
@@ -1184,7 +1152,7 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                               // pl: 1,
                               display: 'flex',
                               flexDirection: 'row',
-                              justifyContent: 'space-between',
+                              justifyContent: 'space-between'
                             }}
                           >
                             <CssVarsProvider>
@@ -1229,7 +1197,7 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                                   display: 'flex',
                                   flexDirection: 'row',
                                   justifyContent: 'space-evenly',
-                                  pr: 2,
+                                  pr: 2
                                 }}
                               >
                                 <CssVarsProvider>
@@ -1253,7 +1221,7 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                                       px: 1,
                                       pb: 0.4,
                                       borderRadius: 5,
-                                      textTransform: 'capitalize',
+                                      textTransform: 'capitalize'
                                     }}
                                   >
                                     {hod_user}{' '}
@@ -1330,14 +1298,14 @@ const CrfDMSDashModal = ({ open, setOpen, datas, count, setCount }) => {
                         sm: 'column',
                         md: 'column',
                         lg: 'column',
-                        xl: 'column',
-                      },
+                        xl: 'column'
+                      }
                     }}
                   >
                     <Box
                       sx={{
                         pl: 1,
-                        pr: 1,
+                        pr: 1
                       }}
                     >
                       <ApprovalCompnt

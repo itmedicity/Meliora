@@ -31,7 +31,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
     phone1: '',
     phone2: '',
     adress: '',
-    remark: '',
+    remark: ''
   })
   const { fromdate, toDate, trollFree, phone1, phone2, adress, remark } = userdata
 
@@ -71,7 +71,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
       phone1: '',
       phone2: '',
       adress: '',
-      remark: '',
+      remark: ''
     }
     setUserdata(frmdata)
     setwarrantyStatus(false)
@@ -91,21 +91,9 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
       ph_two: phone2,
       address: adress,
       remarks: remark,
-      create_user: id,
+      create_user: id
     }
-  }, [
-    am_item_map_slno,
-    warrantyStatus,
-    garantyStatus,
-    fromdate,
-    toDate,
-    trollFree,
-    phone1,
-    phone2,
-    adress,
-    remark,
-    id,
-  ])
+  }, [am_item_map_slno, warrantyStatus, garantyStatus, fromdate, toDate, trollFree, phone1, phone2, adress, remark, id])
 
   const postDataSpare = useMemo(() => {
     return {
@@ -119,7 +107,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
       ph_two: phone2,
       address: adress,
       remarks: remark,
-      create_user: id,
+      create_user: id
     }
   }, [
     am_spare_item_map_slno,
@@ -132,7 +120,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
     phone2,
     adress,
     remark,
-    id,
+    id
   ])
 
   const patchdata = useMemo(() => {
@@ -148,7 +136,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
       remarks: remark,
       edit_user: id,
       am_item_map_slno: am_item_map_slno,
-      am_item_wargar_slno: warGarSlno,
+      am_item_wargar_slno: warGarSlno
     }
   }, [
     am_item_map_slno,
@@ -162,7 +150,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
     adress,
     remark,
     warGarSlno,
-    id,
+    id
   ])
 
   const patchdataSpare = useMemo(() => {
@@ -178,7 +166,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
       remarks: remark,
       edit_user: id,
       am_spare_item_map_slno: am_spare_item_map_slno,
-      am_item_wargar_slno: warGarSlno,
+      am_item_wargar_slno: warGarSlno
     }
   }, [
     am_spare_item_map_slno,
@@ -192,7 +180,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
     adress,
     remark,
     warGarSlno,
-    id,
+    id
   ])
 
   const SaveWarGarDetails = useCallback(
@@ -217,10 +205,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
           }
         }
         const updateWarGardetailsSpare = async patchdataSpare => {
-          const result = await axioslogin.patch(
-            '/ItemMapDetails/WarentGraruntyUpdateSpare',
-            patchdataSpare
-          )
+          const result = await axioslogin.patch('/ItemMapDetails/WarentGraruntyUpdateSpare', patchdataSpare)
           const { message, success } = result.data
           if (success === 2) {
             setcount(count + 1)
@@ -250,10 +235,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
           }
         }
         const InsertItemDetailSpare = async postDataSpare => {
-          const result = await axioslogin.post(
-            '/ItemMapDetails/WarentGraruntyInsertSpare',
-            postDataSpare
-          )
+          const result = await axioslogin.post('/ItemMapDetails/WarentGraruntyInsertSpare', postDataSpare)
           const { success, message } = result.data
           if (success === 1) {
             setcount(count + 1)
@@ -271,18 +253,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
         }
       }
     },
-    [
-      postData,
-      assetSpare,
-      postDataSpare,
-      patchdata,
-      patchdataSpare,
-      count,
-      setcount,
-      WarGarReferesh,
-      editFlag,
-      adress,
-    ]
+    [postData, assetSpare, postDataSpare, patchdata, patchdataSpare, count, setcount, WarGarReferesh, editFlag, adress]
   )
 
   const [tableData, setTableData] = useState([])
@@ -290,9 +261,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
   const { data: AssetWarGar = [] } = useQuery(
     ['getAllWarGarInAsset', count],
     async () => {
-      const result = await axioslogin.get(
-        `/ItemMapDetails/WarentGarantInsertOrNot/${am_item_map_slno}`
-      )
+      const result = await axioslogin.get(`/ItemMapDetails/WarentGarantInsertOrNot/${am_item_map_slno}`)
       return result.data?.data || []
     },
     { enabled: !!am_item_map_slno }
@@ -301,17 +270,14 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
   const { data: SpareWarGar = [] } = useQuery(
     ['getAllWarGarInSpare', count],
     async () => {
-      const result = await axioslogin.get(
-        `/ItemMapDetails/WarentGarantInsertOrNotSpare/${am_spare_item_map_slno}`
-      )
+      const result = await axioslogin.get(`/ItemMapDetails/WarentGarantInsertOrNotSpare/${am_spare_item_map_slno}`)
       return result.data?.data || []
     },
     { enabled: !!am_spare_item_map_slno }
   )
   useEffect(() => {
     setTableData(prevData => {
-      const newData =
-        AssetWarGar.length > 0 ? AssetWarGar : SpareWarGar.length > 0 ? SpareWarGar : []
+      const newData = AssetWarGar.length > 0 ? AssetWarGar : SpareWarGar.length > 0 ? SpareWarGar : []
 
       return JSON.stringify(prevData) !== JSON.stringify(newData) ? newData : prevData
     })
@@ -329,7 +295,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
       remarks,
       to_date,
       troll_free,
-      warrenty_status,
+      warrenty_status
     } = val
     const frmdata = {
       fromdate: from_date || '',
@@ -338,7 +304,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
       phone1: ph_one || '',
       phone2: ph_two || '',
       adress: address || '',
-      remark: remarks,
+      remark: remarks
     }
     setUserdata(frmdata)
     setwarrantyStatus(warrenty_status === 1 ? true : false)
@@ -354,7 +320,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
       phone1: '',
       phone2: '',
       adress: '',
-      remark: '',
+      remark: ''
     }
     setUserdata(frmdata)
     setwarrantyStatus(false)
@@ -370,13 +336,13 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
             flex: 1,
             fontWeight: 500,
             color: 'black',
-            fontSize: 15,
+            fontSize: 15
           }}
         />
         <Box
           sx={{
             display: 'flex',
-            mt: 2,
+            mt: 2
           }}
         >
           <Box sx={{ width: 150 }}></Box>
@@ -416,7 +382,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
                   fontWeight: 600,
                   color: '#727B8C',
                   pt: 1,
-                  width: 150,
+                  width: 150
                 }}
               />
               <Box sx={{ flex: 1 }}>
@@ -436,7 +402,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
                   fontWeight: 600,
                   color: '#727B8C',
                   pt: 1,
-                  width: 150,
+                  width: 150
                 }}
               />
               <Box sx={{ flex: 1 }}>
@@ -456,7 +422,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
                   fontWeight: 600,
                   color: '#727B8C',
                   pt: 1,
-                  width: 150,
+                  width: 150
                 }}
               />
               <Box sx={{ flex: 1 }}>
@@ -476,7 +442,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
                   fontWeight: 600,
                   color: '#727B8C',
                   pt: 1,
-                  width: 150,
+                  width: 150
                 }}
               />
               <Box sx={{ flex: 1 }}>
@@ -487,8 +453,8 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
                   value={phone1}
                   slotProps={{
                     input: {
-                      maxLength: 10,
-                    },
+                      maxLength: 10
+                    }
                   }}
                   onchange={updatewarrenGuranDetails}
                 ></TextFieldCustom>
@@ -501,7 +467,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
                   fontWeight: 600,
                   color: '#727B8C',
                   pt: 1,
-                  width: 150,
+                  width: 150
                 }}
               />
               <Box sx={{ flex: 1 }}>
@@ -512,8 +478,8 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
                   value={phone2}
                   slotProps={{
                     input: {
-                      maxLength: 10,
-                    },
+                      maxLength: 10
+                    }
                   }}
                   onchange={updatewarrenGuranDetails}
                 ></TextFieldCustom>
@@ -530,7 +496,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
                   fontWeight: 600,
                   color: '#727B8C',
                   pt: 1,
-                  width: 150,
+                  width: 150
                 }}
               />
               <Box sx={{ flex: 1 }}>
@@ -551,17 +517,11 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
                   fontWeight: 600,
                   color: '#727B8C',
                   pt: 1,
-                  width: 150,
+                  width: 150
                 }}
               />
               <Box sx={{ flex: 1 }}>
-                <Textarea
-                  type="text"
-                  size="sm"
-                  name="remark"
-                  value={remark}
-                  onChange={updatewarrenGuranDetails}
-                />
+                <Textarea type="text" size="sm" name="remark" value={remark} onChange={updatewarrenGuranDetails} />
               </Box>
             </Box>
 
@@ -580,13 +540,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
                   </CusIconButton>
                 </Box>
                 <Box>
-                  <CusIconButton
-                    size="sm"
-                    variant="outlined"
-                    color="primary"
-                    clickable="true"
-                    onClick={reset}
-                  >
+                  <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={reset}>
                     <RefreshIcon fontSize="small" />
                   </CusIconButton>
                 </Box>
@@ -602,7 +556,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
             display: 'flex',
             overflow: 'auto',
             border: 1,
-            borderColor: 'lightgray',
+            borderColor: 'lightgray'
           }}
         >
           <CssVarsProvider>
@@ -611,7 +565,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
               size="sm"
               sx={{
                 flex: 1,
-                width: '100%',
+                width: '100%'
               }}
             >
               <thead>
@@ -634,10 +588,7 @@ const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {
                     <tr key={index}>
                       <td style={{ textAlign: 'center' }}>{index + 1}</td>
                       <td>
-                        <EditIcon
-                          sx={{ color: 'black', cursor: 'pointer' }}
-                          onClick={() => RowSelect(val)}
-                        />
+                        <EditIcon sx={{ color: 'black', cursor: 'pointer' }} onClick={() => RowSelect(val)} />
                       </td>
                       <td>{val.warrenty_status === 1 ? 'Warranty' : 'Guarantee'}</td>
                       <td>{val.from_date}</td>

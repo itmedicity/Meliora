@@ -11,7 +11,7 @@ const DashBoadTile = ({ imageUrl, Name, totalCount, icon }) => {
         flex: 1,
         bgcolor: '#fafbfd',
         borderRadius: 5,
-        height: 75,
+        height: 75
       }}
     >
       <Box sx={{ flex: 1, pl: 1.5 }}>
@@ -24,7 +24,7 @@ const DashBoadTile = ({ imageUrl, Name, totalCount, icon }) => {
           m: 0.5,
           display: 'flex',
           justifyContent: 'center',
-          alignItems: 'center',
+          alignItems: 'center'
         }}
       >
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -34,7 +34,7 @@ const DashBoadTile = ({ imageUrl, Name, totalCount, icon }) => {
             sx={{
               width: 50,
               height: 50,
-              bgcolor: 'white',
+              bgcolor: 'white'
 
               // boxShadow: '0px 4px 10px rgba(123, 147, 202, 0.25)'
             }}

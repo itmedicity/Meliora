@@ -1,14 +1,4 @@
-import {
-  Box,
-  Button,
-  Chip,
-  CssVarsProvider,
-  Input,
-  Modal,
-  ModalDialog,
-  Textarea,
-  Typography,
-} from '@mui/joy'
+import { Box, Button, Chip, CssVarsProvider, Input, Modal, ModalDialog, Textarea, Typography } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import CancelIcon from '@mui/icons-material/Cancel'
 import { format } from 'date-fns'
@@ -19,14 +9,7 @@ import ComPrioritySelect from 'src/views/CommonSelectCode/ComPrioritySelect'
 import moment from 'moment'
 import CmDeptEmployee from 'src/views/CommonSelectCode/CmDeptEmployee'
 
-const DetailAssingModal = ({
-  open,
-  setdetailAssingOpen,
-  detailAssingData,
-  setdetailAssingFlag,
-  setCount,
-  count,
-}) => {
+const DetailAssingModal = ({ open, setdetailAssingOpen, detailAssingData, setdetailAssingFlag, setCount, count }) => {
   const {
     complaint_slno,
     complaint_desc,
@@ -36,7 +19,7 @@ const DetailAssingModal = ({
     rm_insidebuildblock_name,
     rm_floor_name,
     location,
-    complaint_type_name,
+    complaint_type_name
   } = detailAssingData
 
   const [assing, setAssing] = useState([])
@@ -66,7 +49,7 @@ const DetailAssingModal = ({
 
   const postdata = useMemo(() => {
     return {
-      em_department: empdept,
+      em_department: empdept
     }
   }, [empdept])
 
@@ -101,7 +84,7 @@ const DetailAssingModal = ({
               assigned_user: id,
               compalint_priority: prioselet,
               aprrox_date: aprroxdate,
-              assign_status: 1,
+              assign_status: 1
             }
           })
           const Assignemp = async postData => {
@@ -127,19 +110,7 @@ const DetailAssingModal = ({
     } else {
       infoNotify('Please Select an  Employee')
     }
-  }, [
-    assing,
-    empName,
-    aprroxdate,
-    prioselet,
-    remark,
-    complaint_slno,
-    id,
-    Close,
-    count,
-    reset,
-    setCount,
-  ])
+  }, [assing, empName, aprroxdate, prioselet, remark, complaint_slno, id, Close, count, reset, setCount])
 
   const buttonStyle = {
     fontSize: 16,
@@ -151,11 +122,11 @@ const DetailAssingModal = ({
     '&:hover': {
       bgcolor: 'white',
       color: '#523A28',
-      transform: 'scale(1.1)',
+      transform: 'scale(1.1)'
     },
     '&:active': {
-      transform: 'scale(0.95)',
-    },
+      transform: 'scale(0.95)'
+    }
   }
 
   useEffect(() => {
@@ -184,7 +155,7 @@ const DetailAssingModal = ({
             sx={{
               width: '45vw',
               p: 0,
-              overflow: 'auto',
+              overflow: 'auto'
             }}
           >
             <Box>
@@ -197,12 +168,8 @@ const DetailAssingModal = ({
 
               <Box sx={{ flex: 1, display: 'flex', bgcolor: '#ECEDEF', py: 0.5, mb: 3 }}>
                 <Box sx={{ flex: 2, pl: 0.5 }}>
-                  <Typography sx={{ pl: 0.5, fontWeight: 600, color: 'Black' }}>
-                    Ticket No.{complaint_slno}
-                  </Typography>
-                  <Typography sx={{ pl: 0.5, fontSize: 14, color: 'Black' }}>
-                    {complaint_desc}
-                  </Typography>
+                  <Typography sx={{ pl: 0.5, fontWeight: 600, color: 'Black' }}>Ticket No.{complaint_slno}</Typography>
+                  <Typography sx={{ pl: 0.5, fontSize: 14, color: 'Black' }}>{complaint_desc}</Typography>
                   <Typography sx={{ pl: 0.5, fontSize: 13, color: 'Black', py: 0.5 }}>
                     Complaint Type: {complaint_type_name}
                   </Typography>
@@ -221,16 +188,12 @@ const DetailAssingModal = ({
                         : 'Not Updated'}
                     </Typography>
                   ) : null}
-                  <Typography sx={{ pl: 0.5, fontSize: 13, color: 'Black' }}>
-                    {compalint_date}
-                  </Typography>
+                  <Typography sx={{ pl: 0.5, fontSize: 13, color: 'Black' }}>{compalint_date}</Typography>
                 </Box>
               </Box>
               {empName.length !== 0 ? (
                 <Box sx={{ flex: 1, mt: 3 }}>
-                  <Typography sx={{ pl: 3.1, fontWeight: 500, fontSize: 14 }}>
-                    Assignees :
-                  </Typography>
+                  <Typography sx={{ pl: 3.1, fontWeight: 500, fontSize: 14 }}>Assignees :</Typography>
                   <Box
                     sx={{
                       mx: 2.5,
@@ -238,7 +201,7 @@ const DetailAssingModal = ({
                       minHeight: 30,
                       border: 1.5,
                       borderRadius: 5,
-                      borderColor: '#D7DFE8',
+                      borderColor: '#D7DFE8'
                     }}
                   >
                     {empName?.map((val, index) => {
@@ -253,25 +216,15 @@ const DetailAssingModal = ({
               ) : null}
               <Box sx={{ flex: 1, mx: 2.5, mt: 1 }}>
                 {empName.length !== 0 ? (
-                  <Typography sx={{ fontWeight: 500, pl: 0.5, fontSize: 14 }}>
-                    Add More Assignees :
-                  </Typography>
+                  <Typography sx={{ fontWeight: 500, pl: 0.5, fontSize: 14 }}>Add More Assignees :</Typography>
                 ) : (
-                  <Typography sx={{ fontWeight: 500, pl: 0.5, fontSize: 14 }}>
-                    Select Assignees :
-                  </Typography>
+                  <Typography sx={{ fontWeight: 500, pl: 0.5, fontSize: 14 }}>Select Assignees :</Typography>
                 )}
                 <CmDeptEmployee postdata={postdata} value={assing} setValue={setAssing} />
                 <Box sx={{ flex: 1, display: 'flex', mt: 1, gap: 1.5 }}>
                   <Box sx={{ flex: 1 }}>
-                    <Typography sx={{ fontWeight: 500, pl: 0.5, fontSize: 14 }}>
-                      Select Priority :
-                    </Typography>
-                    <ComPrioritySelect
-                      value={prioselet}
-                      setValue={setPriSelect}
-                      setmaxTime={setmaxTime}
-                    />
+                    <Typography sx={{ fontWeight: 500, pl: 0.5, fontSize: 14 }}>Select Priority :</Typography>
+                    <ComPrioritySelect value={prioselet} setValue={setPriSelect} setmaxTime={setmaxTime} />
                   </Box>
                   <Box sx={{ flex: 1 }}>
                     <Typography sx={{ fontWeight: 500, pl: 0.5, fontSize: 14 }}>
@@ -285,8 +238,8 @@ const DetailAssingModal = ({
                       onChange={updateaprroxdate}
                       slotProps={{
                         input: {
-                          max: maxTime,
-                        },
+                          max: maxTime
+                        }
                       }}
                     />
                   </Box>

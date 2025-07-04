@@ -23,7 +23,7 @@ const DietTypeMast = () => {
     type_desc: '',
     start_time: '',
     end_time: '',
-    status: false,
+    status: false
   })
   //destructuring
   const { type_slno, type_desc, start_time, end_time, status } = diettype
@@ -45,7 +45,7 @@ const DietTypeMast = () => {
       start_time: moment(start_time).format('YYYY-MM-DD HH:mm:ss'),
       end_time: moment(end_time).format('YYYY-MM-DD HH:mm:ss'),
       status: status === true ? 1 : 0,
-      em_id: id,
+      em_id: id
     }
   }, [type_desc, start_time, end_time, status, id])
   //data set for edit
@@ -60,7 +60,7 @@ const DietTypeMast = () => {
       start_time: moment(start_time).format('YYYY-MM-DD HH:MM:SS'),
       end_time: moment(end_time).format('YYYY-MM-DD HH:SS'),
       status: status === 1 ? true : false,
-      type_slno: type_slno,
+      type_slno: type_slno
     }
     setDiettype(frmdata)
   }, [])
@@ -74,7 +74,7 @@ const DietTypeMast = () => {
       end_time: end_time,
       status: status === true ? 1 : 0,
       em_id: id,
-      type_slno: type_slno,
+      type_slno: type_slno
     }
   }, [type_desc, start_time, end_time, status, type_slno, id])
   /*** usecallback function for form submitting */
@@ -85,7 +85,7 @@ const DietTypeMast = () => {
         type_desc: '',
         start_time: '',
         end_time: '',
-        status: false,
+        status: false
       }
       /*** * insert function for use call back     */
       const InsertData = async postData => {
@@ -134,18 +134,13 @@ const DietTypeMast = () => {
       type_desc: '',
       start_time: '',
       end_time: '',
-      status: false,
+      status: false
     }
     setDiettype(formReset)
     setValue(0)
   }, [setDiettype])
   return (
-    <CardMaster
-      title="Diet Type Master"
-      submit={submitDiettype}
-      refresh={refreshWindow}
-      close={backToSettings}
-    >
+    <CardMaster title="Diet Type Master" submit={submitDiettype} refresh={refreshWindow} close={backToSettings}>
       <Box sx={{ p: 1 }}>
         <Grid container spacing={1}>
           <Grid item xl={4} lg={4}>

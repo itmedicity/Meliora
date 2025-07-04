@@ -3,7 +3,7 @@ const { FETCH_REQ_APPROV_DEPT } = ActionTyps
 //intial state
 const ReqApprvDept = {
   ReqApprvDeptdata: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Deptsection action type check then payload set to the state and loading status set as true */
 export const setReqApprvDept = (state = ReqApprvDept, { type, payload }) => {

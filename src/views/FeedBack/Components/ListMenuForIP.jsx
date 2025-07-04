@@ -15,7 +15,7 @@ const ListMenuForIP = ({
   open,
   handleClose,
   detailFlag,
-  setDetailFlag,
+  setDetailFlag
 }) => {
   const { bed } = ptDetails
   const backtoHome = useCallback(() => {
@@ -37,7 +37,7 @@ const ListMenuForIP = ({
               flex: 1,
               fontSize: 20,
               pt: 0.7,
-              pr: 0.2,
+              pr: 0.2
             }}
           >
             <Tooltip title="Close" placement="bottom">
@@ -54,32 +54,19 @@ const ListMenuForIP = ({
         {detailFlag === 0 ? (
           <Box sx={{ border: '1px solid lightgrey', overflow: 'auto' }}>
             {regFormFlag === 1 ? (
-              <Box
-                sx={{ display: 'flex', alignItems: 'left', m: 0.5, p: 0, flexDirection: 'column' }}
-              >
+              <Box sx={{ display: 'flex', alignItems: 'left', m: 0.5, p: 0, flexDirection: 'column' }}>
                 <RoomCheckListForm ptDetails={ptDetails} />
               </Box>
             ) : regFormFlag === 2 ? (
-              <Box
-                sx={{ display: 'flex', alignItems: 'left', m: 0.5, p: 0, flexDirection: 'column' }}
-              >
+              <Box sx={{ display: 'flex', alignItems: 'left', m: 0.5, p: 0, flexDirection: 'column' }}>
                 <ComplaintRegForm nsName={nsName} ptDetails={ptDetails} />
               </Box>
             ) : regFormFlag === 3 ? (
-              <Box
-                sx={{ display: 'flex', alignItems: 'left', m: 0.5, p: 0, flexDirection: 'column' }}
-              >
-                <IncidentRegistration
-                  nsName={nsName}
-                  open={open}
-                  handleClose={handleClose}
-                  ptDetails={ptDetails}
-                />
+              <Box sx={{ display: 'flex', alignItems: 'left', m: 0.5, p: 0, flexDirection: 'column' }}>
+                <IncidentRegistration nsName={nsName} open={open} handleClose={handleClose} ptDetails={ptDetails} />
               </Box>
             ) : regFormFlag === 4 ? (
-              <Box
-                sx={{ display: 'flex', alignItems: 'left', m: 0.5, p: 0, flexDirection: 'column' }}
-              >
+              <Box sx={{ display: 'flex', alignItems: 'left', m: 0.5, p: 0, flexDirection: 'column' }}>
                 {/* <IPFeedbackForm ptDetails={ptDetails} /> */}
               </Box>
             ) : null}
@@ -95,7 +82,7 @@ const ListMenuForIP = ({
               m: 0.5,
               p: 0,
               flexDirection: 'column',
-              overflow: 'auto',
+              overflow: 'auto'
             }}
           >
             <ViewDetailsInOneForm ptDetails={ptDetails} nsName={nsName} />

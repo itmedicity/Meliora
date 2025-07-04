@@ -17,7 +17,7 @@ const BackupChecksTable = () => {
 
   const { data: getDeptwiseBackups } = useQuery({
     queryKey: ['getDeptwiseBackUP', empDept],
-    queryFn: () => getDeptwiseBackUp(empDept),
+    queryFn: () => getDeptwiseBackUp(empDept)
   })
   const backup = useMemo(() => getDeptwiseBackups || [], [getDeptwiseBackups])
 
@@ -88,12 +88,8 @@ const BackupChecksTable = () => {
                     <td>{val.transferred_device_name}</td>
                     <td>{val.transferred_device_location}</td>
                     <td>{val.schedule_type_name}</td>
-                    <td>
-                      {val.backup_schedule_type === 5 ? val.selected_days + ' Days' : val.timedata}
-                    </td>
-                    <td style={{ fontSize: 12 }}>
-                      {val.backup_active_status === 1 ? 'Active' : 'Inactive'}
-                    </td>
+                    <td>{val.backup_schedule_type === 5 ? val.selected_days + ' Days' : val.timedata}</td>
+                    <td style={{ fontSize: 12 }}>{val.backup_active_status === 1 ? 'Active' : 'Inactive'}</td>
                   </tr>
                 ))}
               </tbody>

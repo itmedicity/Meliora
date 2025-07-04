@@ -12,7 +12,7 @@ const CustomCircularProgress = () => {
         position: 'absolute',
         zIndex: 2,
         width: '90%',
-        height: '100%',
+        height: '100%'
       }}
     >
       <CircularProgress sx={{ display: 'flex' }} />

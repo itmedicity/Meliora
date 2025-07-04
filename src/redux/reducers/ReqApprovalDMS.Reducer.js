@@ -3,7 +3,7 @@ const { FETCH_DMSAPPROVAL } = ActionTyps
 //intial state
 const ReqApprovDMS = {
   ReqApprovDMSList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Requesttype action type check then payload set to the state and loading status set as true */
 export const setReqApprovDMS = (state = ReqApprovDMS, { type, payload }) => {

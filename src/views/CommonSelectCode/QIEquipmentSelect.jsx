@@ -3,13 +3,7 @@ import React, { Fragment, memo, useCallback } from 'react'
 import { useSelector } from 'react-redux'
 import { axioslogin } from '../Axios/Axios'
 
-const QIEquipmentSelect = ({
-  equipment,
-  setEquipment,
-  setProcedureList,
-  setProcName,
-  setequipName,
-}) => {
+const QIEquipmentSelect = ({ equipment, setEquipment, setProcedureList, setProcName, setequipName }) => {
   const equipList = useSelector(state => state.getEquipmentList.EquipmentList)
 
   const EquipmentChange = useCallback(

@@ -29,7 +29,7 @@ const ItemSaveModal = ({ open, handleClose, tableData, reset, supCode }) => {
       const result = await axioslogin.post('/deliveryMarking/insertCheckItems', inserItems)
       return result.data
     }
-    const inserItems = tableData?.map((val,) => {
+    const inserItems = tableData?.map(val => {
       let pending_status
       if (val.delivered_qty === 0) {
         // notdelivered
@@ -56,7 +56,7 @@ const ItemSaveModal = ({ open, handleClose, tableData, reset, supCode }) => {
         balance_qty: val.delivered_qty <= val.pending_qty ? val.pending_qty - val.delivered_qty : 0,
         checking_user: checkingUser,
         requested_qty: val.requested_qty,
-        item_slno: val.item_slno,
+        item_slno: val.item_slno
       }
     })
     insertItemChecking(inserItems)
@@ -88,9 +88,9 @@ const ItemSaveModal = ({ open, handleClose, tableData, reset, supCode }) => {
     border: '1px solid #bbdefb',
     '&:hover': {
       color: '#1e88e5',
-      bgcolor: 'white',
+      bgcolor: 'white'
     },
-    borderRadius: 5,
+    borderRadius: 5
   }
   return (
     <Fragment>
@@ -113,14 +113,12 @@ const ItemSaveModal = ({ open, handleClose, tableData, reset, supCode }) => {
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 15,
-                width: 15,
+                width: 15
               }}
             />
             <Box sx={{ flexWrap: 'wrap', pt: 1, width: '35vw', overflowY: 'auto' }}>
               <Box sx={{ display: 'flex', flex: 1, pt: 2 }}>
-                <Typography sx={{ color: '#0d47a1', fontSize: 14, fontWeight: 550, pt: 0.4 }}>
-                  Goods Checker
-                </Typography>
+                <Typography sx={{ color: '#0d47a1', fontSize: 14, fontWeight: 550, pt: 0.4 }}>Goods Checker</Typography>
                 <Typography sx={{ pl: 1 }}> :&nbsp;</Typography>
                 <Box sx={{ flex: 1, pl: 0.5 }}>
                   <CustomInputDateCmp
@@ -130,7 +128,7 @@ const ItemSaveModal = ({ open, handleClose, tableData, reset, supCode }) => {
                       borderRadius: 5,
                       border: '1px solid #bbdefb',
                       color: '#0d47a1',
-                      fontSize: 14,
+                      fontSize: 14
                     }}
                     placeholder="Enter Name and Employee ID"
                     autoComplete="off"

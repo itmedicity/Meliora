@@ -7,9 +7,7 @@ import { getTicketcloseWithin } from 'src/api/TicketApi'
 import TextComponent from 'src/views/Components/TextComponent'
 
 const DeptClosedTicketProgressBar = ({ empdept }) => {
-  const [CloseticketMonthAndYear, setCloseticketMonthAndYear] = useState(
-    format(new Date(), 'yyyy-MM')
-  )
+  const [CloseticketMonthAndYear, setCloseticketMonthAndYear] = useState(format(new Date(), 'yyyy-MM'))
   const monthChangeCloseTimeRange = useCallback(e => {
     const value = e.target.value
     setCloseticketMonthAndYear(value)
@@ -19,13 +17,13 @@ const DeptClosedTicketProgressBar = ({ empdept }) => {
     return {
       from: format(startOfMonth(new Date(CloseticketMonthAndYear)), 'yyyy-MM-dd 00:00:00'),
       to: format(endOfMonth(new Date(CloseticketMonthAndYear)), 'yyyy-MM-dd 23:59:59'),
-      empdept: empdept,
+      empdept: empdept
     }
   }, [CloseticketMonthAndYear, empdept])
 
   const { data: closeTickets } = useQuery({
     queryKey: ['getcloseWithin', searchMonthlycloseTimeRange],
-    queryFn: () => getTicketcloseWithin(searchMonthlycloseTimeRange),
+    queryFn: () => getTicketcloseWithin(searchMonthlycloseTimeRange)
   })
 
   const groupTicketsClosed = tickets => {
@@ -38,7 +36,7 @@ const DeptClosedTicketProgressBar = ({ empdept }) => {
       '4 - 8hr': 0,
       '8 - 12hr': 0,
       '12 - 24hr': 0,
-      'more than 1 day': 0,
+      'more than 1 day': 0
     }
 
     if (!Array.isArray(tickets) || tickets.length === 0) return groups
@@ -63,14 +61,9 @@ const DeptClosedTicketProgressBar = ({ empdept }) => {
   const EmptyData = [0]
 
   return (
-    <Box
-      sx={{ flex: 1, border: 1, borderColor: 'lightgrey', p: 1, bgcolor: 'white', borderRadius: 5 }}
-    >
+    <Box sx={{ flex: 1, border: 1, borderColor: 'lightgrey', p: 1, bgcolor: 'white', borderRadius: 5 }}>
       <Box sx={{ flex: 1, display: 'flex' }}>
-        <TextComponent
-          text={'Closed Ticket TAT'}
-          sx={{ flex: 1, fontWeight: 600, fontSize: 16, color: '#5D6C89' }}
-        />
+        <TextComponent text={'Closed Ticket TAT'} sx={{ flex: 1, fontWeight: 600, fontSize: 16, color: '#5D6C89' }} />
         <Box sx={{ width: 150 }}>
           <Input
             variant="soft"
@@ -92,8 +85,8 @@ const DeptClosedTicketProgressBar = ({ empdept }) => {
                 data: closetimeRangeData,
                 label: 'Closed Tickets',
                 id: 'closeTickets',
-                color: '#478C5C',
-              },
+                color: '#478C5C'
+              }
             ]}
             xAxis={[{ data: closetimeRangeLabels, scaleType: 'band' }]}
             margin={{ left: 40, right: 20, top: 40, bottom: 35 }}
@@ -104,8 +97,8 @@ const DeptClosedTicketProgressBar = ({ empdept }) => {
             xAxis={[
               {
                 data: xLabels,
-                scaleType: 'band',
-              },
+                scaleType: 'band'
+              }
             ]}
             margin={{ left: 40, right: 20, top: 40, bottom: 35 }}
           />

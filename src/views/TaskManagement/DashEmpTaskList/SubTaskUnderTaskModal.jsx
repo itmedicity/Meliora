@@ -9,19 +9,13 @@ import CountDowncomponent from '../CountDown/CountDowncomponent'
 import EventNoteRoundedIcon from '@mui/icons-material/EventNoteRounded'
 import MainTaskProgress from './MainTaskProgress'
 
-const SubTaskUnderTaskModal = ({
-  SubTaskmodalOpen,
-  setSubTaskmodalOpen,
-  subtaskvalues,
-  emp_no,
-  capEmpName,
-}) => {
+const SubTaskUnderTaskModal = ({ SubTaskmodalOpen, setSubTaskmodalOpen, subtaskvalues, emp_no, capEmpName }) => {
   const { tm_task_slno, tm_task_name, tm_project_name, tm_project_slno } = subtaskvalues
   const [otherempTask, setOtherempTask] = useState([])
   const [empTask, setEmpTask] = useState([])
   const searchData = useMemo(() => {
     return {
-      main_task_slno: tm_task_slno,
+      main_task_slno: tm_task_slno
     }
   }, [tm_task_slno])
 
@@ -63,7 +57,7 @@ const SubTaskUnderTaskModal = ({
           sx={{
             width: '85vw',
             bgcolor: 'white',
-            borderRadius: 20,
+            borderRadius: 20
           }}
         >
           <Card sx={{ bgcolor: '#52688F' }}>
@@ -77,12 +71,10 @@ const SubTaskUnderTaskModal = ({
                       pt: 0.5,
                       color: 'white',
                       pl: 1,
-                      flex: 1,
+                      flex: 1
                     }}
                   >
-                    <AlignHorizontalRightRoundedIcon
-                      sx={{ height: 32, width: 32, color: 'white' }}
-                    />
+                    <AlignHorizontalRightRoundedIcon sx={{ height: 32, width: 32, color: 'white' }} />
                     Project
                   </Box>
                   <Box>
@@ -91,15 +83,13 @@ const SubTaskUnderTaskModal = ({
                       sx={{
                         cursor: 'pointer',
                         color: 'white',
-                        '&:hover': { color: '#A0E7E5' },
+                        '&:hover': { color: '#A0E7E5' }
                       }}
                     />
                   </Box>
                 </Box>
                 <Box sx={{ flex: 1 }}>
-                  <Typography
-                    sx={{ color: 'white', fontFamily: 'Georgia', fontSize: 20, pl: 1, flex: 1 }}
-                  >
+                  <Typography sx={{ color: 'white', fontFamily: 'Georgia', fontSize: 20, pl: 1, flex: 1 }}>
                     {tm_project_name}
                   </Typography>
                 </Box>
@@ -128,7 +118,7 @@ const SubTaskUnderTaskModal = ({
                     sx={{
                       cursor: 'pointer',
                       color: 'white',
-                      '&:hover': { color: '#A0E7E5' },
+                      '&:hover': { color: '#A0E7E5' }
                     }}
                   />
                 </Box>
@@ -146,7 +136,7 @@ const SubTaskUnderTaskModal = ({
                     borderRadius: 20,
                     pl: 1,
                     color: 'white',
-                    pr: 1,
+                    pr: 1
                   }}
                 >
                   <AssignmentSharpIcon sx={{ color: 'white' }} /> Subtask assigned to {capEmpName}
@@ -167,7 +157,7 @@ const SubTaskUnderTaskModal = ({
                               display: 'flex',
                               mb: 0.5,
                               borderBottom: 1,
-                              borderColor: '#C3E0E5',
+                              borderColor: '#C3E0E5'
                             }}
                           >
                             <Box sx={{ px: 0.6, pt: 0.5 }}>
@@ -179,7 +169,7 @@ const SubTaskUnderTaskModal = ({
                                   sx={{
                                     fontSize: 12,
                                     textTransform: 'capitalize',
-                                    cursor: 'grab',
+                                    cursor: 'grab'
                                   }}
                                 >
                                   {val.tm_task_name}
@@ -190,7 +180,7 @@ const SubTaskUnderTaskModal = ({
                                     fontSize: 12,
                                     textTransform: 'capitalize',
                                     cursor: 'grab',
-                                    color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black',
+                                    color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black'
                                   }}
                                 >
                                   {val.tm_task_name}
@@ -207,7 +197,7 @@ const SubTaskUnderTaskModal = ({
                                       mb: 0.5,
                                       width: 160,
                                       pl: 1,
-                                      fontSize: 12,
+                                      fontSize: 12
                                     }}
                                   >
                                     <CountDowncomponent DueDates={val.tm_task_due_date} />
@@ -221,7 +211,7 @@ const SubTaskUnderTaskModal = ({
                                       width: 160,
                                       pl: 5,
                                       color: 'darkgreen',
-                                      fontSize: 12,
+                                      fontSize: 12
                                     }}
                                   >
                                     Completed
@@ -236,7 +226,7 @@ const SubTaskUnderTaskModal = ({
                                     sx={{
                                       fontSize: 12,
                                       textTransform: 'capitalize',
-                                      cursor: 'grab',
+                                      cursor: 'grab'
                                     }}
                                   >
                                     <EventNoteRoundedIcon
@@ -251,7 +241,7 @@ const SubTaskUnderTaskModal = ({
                                       fontSize: 12,
                                       textTransform: 'capitalize',
                                       cursor: 'grab',
-                                      color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black',
+                                      color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black'
                                     }}
                                   >
                                     <EventNoteRoundedIcon
@@ -271,7 +261,7 @@ const SubTaskUnderTaskModal = ({
                                       fontSize: 12,
                                       flex: 1,
                                       textTransform: 'capitalize',
-                                      cursor: 'grab',
+                                      cursor: 'grab'
                                     }}
                                   >
                                     <EventNoteRoundedIcon
@@ -287,7 +277,7 @@ const SubTaskUnderTaskModal = ({
                                       flex: 1,
                                       textTransform: 'capitalize',
                                       cursor: 'grab',
-                                      color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black',
+                                      color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black'
                                     }}
                                   >
                                     <EventNoteRoundedIcon
@@ -319,7 +309,7 @@ const SubTaskUnderTaskModal = ({
                         textAlign: 'center',
                         fontWeight: 700,
                         fontSize: 30,
-                        color: '#C7C8CB',
+                        color: '#C7C8CB'
                       }}
                     >
                       {' '}
@@ -339,7 +329,7 @@ const SubTaskUnderTaskModal = ({
                       bgcolor: '#4F687F',
                       borderRadius: 20,
                       pl: 3,
-                      color: 'white',
+                      color: 'white'
                     }}
                   >
                     <AssignmentSharpIcon sx={{ color: 'white' }} /> Other Subask Under this Task
@@ -365,7 +355,7 @@ const SubTaskUnderTaskModal = ({
                           display: 'flex',
                           mb: 0.5,
                           borderBottom: 1,
-                          borderColor: '#C3E0E5',
+                          borderColor: '#C3E0E5'
                         }}
                       >
                         <Box sx={{ px: 0.6, pt: 1 }}>
@@ -377,7 +367,7 @@ const SubTaskUnderTaskModal = ({
                               sx={{
                                 fontSize: 12,
                                 textTransform: 'capitalize',
-                                cursor: 'grab',
+                                cursor: 'grab'
                               }}
                             >
                               {val.tm_task_name}
@@ -388,7 +378,7 @@ const SubTaskUnderTaskModal = ({
                                 fontSize: 12,
                                 textTransform: 'capitalize',
                                 cursor: 'grab',
-                                color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black',
+                                color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black'
                               }}
                             >
                               {val.tm_task_name}
@@ -405,7 +395,7 @@ const SubTaskUnderTaskModal = ({
                                 display: 'flex',
                                 justifyContent: 'center',
                                 color: '#3B0404',
-                                textTransform: 'capitalize',
+                                textTransform: 'capitalize'
                               }}
                             >
                               {assignedEmp_name}
@@ -422,7 +412,7 @@ const SubTaskUnderTaskModal = ({
                                   mb: 0.5,
                                   width: 160,
                                   pl: 1,
-                                  fontSize: 12,
+                                  fontSize: 12
                                 }}
                               >
                                 <CountDowncomponent DueDates={val.tm_task_due_date} />
@@ -436,7 +426,7 @@ const SubTaskUnderTaskModal = ({
                                   width: 160,
                                   pl: 5,
                                   color: 'darkgreen',
-                                  fontSize: 12,
+                                  fontSize: 12
                                 }}
                               >
                                 Completed
@@ -451,13 +441,10 @@ const SubTaskUnderTaskModal = ({
                                 sx={{
                                   fontSize: 12,
                                   textTransform: 'capitalize',
-                                  cursor: 'grab',
+                                  cursor: 'grab'
                                 }}
                               >
-                                <EventNoteRoundedIcon
-                                  fontSize="small"
-                                  sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }}
-                                />{' '}
+                                <EventNoteRoundedIcon fontSize="small" sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }} />{' '}
                                 {val.create_date}
                               </FormLabel>
                             ) : (
@@ -466,13 +453,10 @@ const SubTaskUnderTaskModal = ({
                                   fontSize: 12,
                                   textTransform: 'capitalize',
                                   cursor: 'grab',
-                                  color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black',
+                                  color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black'
                                 }}
                               >
-                                <EventNoteRoundedIcon
-                                  fontSize="small"
-                                  sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }}
-                                />{' '}
+                                <EventNoteRoundedIcon fontSize="small" sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }} />{' '}
                                 {val.create_date}
                               </FormLabel>
                             )}
@@ -486,13 +470,10 @@ const SubTaskUnderTaskModal = ({
                                   fontSize: 12,
                                   flex: 1,
                                   textTransform: 'capitalize',
-                                  cursor: 'grab',
+                                  cursor: 'grab'
                                 }}
                               >
-                                <EventNoteRoundedIcon
-                                  fontSize="small"
-                                  sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }}
-                                />{' '}
+                                <EventNoteRoundedIcon fontSize="small" sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }} />{' '}
                                 {val.tm_task_due_date}
                               </FormLabel>
                             ) : (
@@ -502,13 +483,10 @@ const SubTaskUnderTaskModal = ({
                                   flex: 1,
                                   textTransform: 'capitalize',
                                   cursor: 'grab',
-                                  color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black',
+                                  color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black'
                                 }}
                               >
-                                <EventNoteRoundedIcon
-                                  fontSize="small"
-                                  sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }}
-                                />{' '}
+                                <EventNoteRoundedIcon fontSize="small" sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }} />{' '}
                                 {val.tm_task_due_date}
                               </FormLabel>
                             )}

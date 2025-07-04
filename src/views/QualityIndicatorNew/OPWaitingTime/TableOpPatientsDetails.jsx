@@ -17,7 +17,7 @@ const TableOpPatientsDetails = ({ open, handleClose, patList, initdate }) => {
             variant="outlined"
             sx={{
               maxWidth: '90%',
-              maxHeight: '80%',
+              maxHeight: '80%'
             }}
           >
             <ModalClose
@@ -30,24 +30,19 @@ const TableOpPatientsDetails = ({ open, handleClose, patList, initdate }) => {
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 35,
-                width: 35,
+                width: 35
               }}
             />
             <Box sx={{ display: 'flex' }}>
               <Box sx={{ pt: 0.5, pl: 2, flex: 1 }}>
-                <Typography sx={{ fontWeight: 550, fontSize: 18 }}>
-                  Initial Assessment Time Exceedence List
-                </Typography>
+                <Typography sx={{ fontWeight: 550, fontSize: 18 }}>Initial Assessment Time Exceedence List</Typography>
               </Box>
               <Box sx={{ pt: 0.5, pr: 3, display: 'flex', justifyContent: 'flex-end', flex: 0.5 }}>
                 <Typography sx={{ fontWeight: 550, fontSize: 17 }}>{initdate}</Typography>
               </Box>
             </Box>
             <Box>
-              <Box
-                variant="outlined"
-                sx={{ overflow: 'auto', padding: 'none', '&::-webkit-scrollbar': { height: 7 } }}
-              >
+              <Box variant="outlined" sx={{ overflow: 'auto', padding: 'none', '&::-webkit-scrollbar': { height: 7 } }}>
                 <CssVarsProvider>
                   <Table
                     aria-label="table with sticky header"
@@ -67,7 +62,7 @@ const TableOpPatientsDetails = ({ open, handleClose, patList, initdate }) => {
                             borderRight: '1px solid white',
                             textAlign: 'center',
                             backgroundColor: '#cfd8dc',
-                            fontSize: 15,
+                            fontSize: 15
                           }}
                         >
                           Sl.No
@@ -79,7 +74,7 @@ const TableOpPatientsDetails = ({ open, handleClose, patList, initdate }) => {
                             borderRight: '1px solid white',
                             textAlign: 'center',
                             backgroundColor: '#cfd8dc',
-                            fontSize: 15,
+                            fontSize: 15
                           }}
                         >
                           Patient ID
@@ -91,7 +86,7 @@ const TableOpPatientsDetails = ({ open, handleClose, patList, initdate }) => {
                             borderRight: '1px solid white',
                             textAlign: 'center',
                             backgroundColor: '#cfd8dc',
-                            fontSize: 15,
+                            fontSize: 15
                           }}
                         >
                           Patient Name
@@ -103,7 +98,7 @@ const TableOpPatientsDetails = ({ open, handleClose, patList, initdate }) => {
                             borderRight: '1px solid white',
                             textAlign: 'center',
                             backgroundColor: '#cfd8dc',
-                            fontSize: 15,
+                            fontSize: 15
                           }}
                         >
                           Doctor
@@ -115,7 +110,7 @@ const TableOpPatientsDetails = ({ open, handleClose, patList, initdate }) => {
                             borderRight: '1px solid white',
                             textAlign: 'center',
                             backgroundColor: '#cfd8dc',
-                            fontSize: 15,
+                            fontSize: 15
                           }}
                         >
                           Arrived Time
@@ -127,7 +122,7 @@ const TableOpPatientsDetails = ({ open, handleClose, patList, initdate }) => {
                             borderRight: '1px solid white',
                             textAlign: 'center',
                             backgroundColor: '#cfd8dc',
-                            fontSize: 15,
+                            fontSize: 15
                           }}
                         >
                           Assessment Start
@@ -139,7 +134,7 @@ const TableOpPatientsDetails = ({ open, handleClose, patList, initdate }) => {
                             borderRight: '1px solid white',
                             textAlign: 'center',
                             backgroundColor: '#cfd8dc',
-                            fontSize: 15,
+                            fontSize: 15
                           }}
                         >
                           Assessment End
@@ -151,7 +146,7 @@ const TableOpPatientsDetails = ({ open, handleClose, patList, initdate }) => {
                             borderRight: '1px solid white',
                             textAlign: 'center',
                             backgroundColor: '#cfd8dc',
-                            fontSize: 15,
+                            fontSize: 15
                           }}
                         >
                           Total Time Taken{' '}
@@ -185,10 +180,7 @@ const TableOpPatientsDetails = ({ open, handleClose, patList, initdate }) => {
                               &nbsp;{format(new Date(val.assessment_end), 'dd-MM-yyyy hh:mm a')}
                             </td>
                             {val.sumof_service_time > 10 ? (
-                              <td
-                                size="sm"
-                                style={{ textAlign: 'center', fontSize: 13, color: 'red' }}
-                              >
+                              <td size="sm" style={{ textAlign: 'center', fontSize: 13, color: 'red' }}>
                                 {val.sumof_service_time}&nbsp;min
                               </td>
                             ) : (

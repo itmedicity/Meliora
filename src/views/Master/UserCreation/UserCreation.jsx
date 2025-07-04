@@ -49,7 +49,7 @@ const UserCreation = () => {
     em_mobile: '',
     em_email: '',
     em_status: false,
-    mod_grp_user_slno: '',
+    mod_grp_user_slno: ''
   })
 
   //Destructuring
@@ -117,14 +117,14 @@ const UserCreation = () => {
       user_group_slno,
       mod_grp_user_slno,
       empdtl_slno,
-      supervisor,
+      supervisor
     } = data[0]
     const frmdata = {
       em_name: em_name,
       em_mobile: em_mobile,
       em_email: em_email,
       mod_grp_user_slno: mod_grp_user_slno,
-      em_status: em_status === 1 ? true : false,
+      em_status: em_status === 1 ? true : false
     }
     setemno(em_no)
     setmodulegroup(mod_grp_slno)
@@ -174,7 +174,7 @@ const UserCreation = () => {
       emp_status: em_status === true ? 1 : 0,
       create_user: id,
       emp_slno: em_id,
-      supervisor: supervis === true ? 1 : 0,
+      supervisor: supervis === true ? 1 : 0
       // comp_type_map: comTpeMap !== [] ? comTpeMap : null
     }
   }, [
@@ -196,7 +196,7 @@ const UserCreation = () => {
     dept,
     deptsec,
     designation,
-    em_status,
+    em_status
   ])
 
   //Update data
@@ -230,7 +230,7 @@ const UserCreation = () => {
       deptsec_slno: deptsec,
       mod_grp_user_slno: mod_grp_user_slno,
       edit_user: id,
-      supervisor: supervis === true ? 1 : 0,
+      supervisor: supervis === true ? 1 : 0
       // comp_type_map: comTpeMap !== [] ? comTpeMap : null
     }
   }, [
@@ -253,7 +253,7 @@ const UserCreation = () => {
     dept,
     deptsec,
     designation,
-    em_status,
+    em_status
   ])
 
   const reset = () => {
@@ -262,7 +262,7 @@ const UserCreation = () => {
       em_mobile: '',
       em_email: '',
       em_status: false,
-      mod_grp_user_slno: '',
+      mod_grp_user_slno: ''
     }
     setUserdata(formreset)
     setemId(0)
@@ -335,12 +335,7 @@ const UserCreation = () => {
   }, [history])
 
   return (
-    <CardMaster
-      title="User Creation"
-      submit={submitUserCreation}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="User Creation" submit={submitUserCreation} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ width: '100%', pl: 1, pt: 1, pr: 1, pb: 1 }}>
         <Paper
           square
@@ -349,7 +344,7 @@ const UserCreation = () => {
             pl: 1,
             pt: 1,
             pr: 1,
-            pb: 1,
+            pb: 1
           }}
         >
           <Box
@@ -361,7 +356,7 @@ const UserCreation = () => {
               pb: 0.5,
               // background: "blue",
               display: 'flex',
-              flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' },
+              flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' }
             }}
           >
             <CustomeToolTip title="em id" placement="top-start">
@@ -431,26 +426,12 @@ const UserCreation = () => {
             </CustomeToolTip>
             <CustomeToolTip title="DOB" placement="top-start">
               <Box sx={{ width: '10%', pr: 1 }}>
-                <TextFieldCustom
-                  placeholder="DOB"
-                  type="date"
-                  size="sm"
-                  name="dob"
-                  value={dob}
-                  onchange={getdob}
-                />
+                <TextFieldCustom placeholder="DOB" type="date" size="sm" name="dob" value={dob} onchange={getdob} />
               </Box>
             </CustomeToolTip>
             <CustomeToolTip title="DOJ" placement="top-start">
               <Box sx={{ width: '10%', pr: 1 }}>
-                <TextFieldCustom
-                  placeholder="DOJ"
-                  type="date"
-                  size="sm"
-                  name="doj"
-                  value={doj}
-                  onchange={getdoj}
-                />
+                <TextFieldCustom placeholder="DOJ" type="date" size="sm" name="doj" value={doj} onchange={getdoj} />
               </Box>
             </CustomeToolTip>
           </Box>
@@ -462,7 +443,7 @@ const UserCreation = () => {
               pr: 0.5,
               pb: 0.5,
               display: 'flex',
-              flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' },
+              flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' }
             }}
           >
             <CustomeToolTip title="Mobile No" placement="top-start">
@@ -518,7 +499,7 @@ const UserCreation = () => {
               pr: 0.5,
               pb: 0.5,
               display: 'flex',
-              flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' },
+              flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' }
             }}
           >
             <CustomeToolTip title="Designation" placement="top-start">
@@ -568,7 +549,7 @@ const UserCreation = () => {
             pl: 1,
             pt: 1,
             pr: 1,
-            pb: 1,
+            pb: 1
           }}
         >
           <UserCreationTable count={count} rowSelect={rowSelect} />

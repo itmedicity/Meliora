@@ -19,7 +19,7 @@ const PmTable = ({ tableData }) => {
     { headerName: 'Sub Room No', field: 'subroom', width: 150 },
     { headerName: 'Serial No', field: 'am_manufacture_no', width: 200 },
     { headerName: 'Installation date', field: 'instalation_date', width: 120 },
-    { headerName: 'Due date', field: 'due_date', width: 100 },
+    { headerName: 'Due date', field: 'due_date', width: 100 }
   ])
 
   const [searchQuery, setSearchQuery] = useState({})
@@ -29,7 +29,7 @@ const PmTable = ({ tableData }) => {
   const handleSearchChange = (event, column) => {
     setSearchQuery({
       ...searchQuery,
-      [column]: event.target.value.toLowerCase(),
+      [column]: event.target.value.toLowerCase()
     })
   }
   const [heardernaMe, setheardernaMe] = useState('')
@@ -60,7 +60,7 @@ const PmTable = ({ tableData }) => {
     if (filteredData.length > 0) {
       const csvData = [
         columnDefs.map(col => col.headerName).join(','),
-        ...filteredData.map(row => columnDefs.map(col => row[col.field]).join(',')),
+        ...filteredData.map(row => columnDefs.map(col => row[col.field]).join(','))
       ].join('\n')
 
       const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' })
@@ -82,7 +82,7 @@ const PmTable = ({ tableData }) => {
           flexWrap: 'wrap',
           flexDirection: 'row-reverse',
           gap: 0.1,
-          padding: 1,
+          padding: 1
         }}
       >
         <Box>
@@ -111,7 +111,7 @@ const PmTable = ({ tableData }) => {
                   onChange={e => handleSearchChange(e, selectedColumn)}
                   sx={{
                     width: 200,
-                    backgroundColor: 'transparent',
+                    backgroundColor: 'transparent'
                   }}
                 />
               </MenuItem>

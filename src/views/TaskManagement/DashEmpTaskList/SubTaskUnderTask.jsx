@@ -10,7 +10,7 @@ const SubTaskUnderTask = ({ val, emp_no }) => {
   const [empTask, setEmpTask] = useState([])
   const searchData = useMemo(() => {
     return {
-      main_task_slno: tm_task_slno,
+      main_task_slno: tm_task_slno
     }
   }, [tm_task_slno])
 
@@ -58,7 +58,7 @@ const SubTaskUnderTask = ({ val, emp_no }) => {
                 px: 1,
                 bgcolor: '#ede7f6',
                 overflow: 'auto',
-                borderRadius: 5,
+                borderRadius: 5
               }}
             >
               <Box sx={{ display: 'flex', mt: 0.5 }}>
@@ -76,7 +76,7 @@ const SubTaskUnderTask = ({ val, emp_no }) => {
                         fontWeight: 500,
                         borderRadius: 10,
                         mt: 0.5,
-                        mr: 0.5,
+                        mr: 0.5
                       }}
                     >
                       {index + 1}
@@ -90,7 +90,7 @@ const SubTaskUnderTask = ({ val, emp_no }) => {
                         sx={{
                           fontSize: 13,
                           textTransform: 'capitalize',
-                          cursor: 'grab',
+                          cursor: 'grab'
                         }}
                       >
                         {val.tm_task_name}
@@ -101,7 +101,7 @@ const SubTaskUnderTask = ({ val, emp_no }) => {
                           fontSize: 13,
                           textTransform: 'capitalize',
                           cursor: 'grab',
-                          color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black',
+                          color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black'
                         }}
                       >
                         {val.tm_task_name}
@@ -120,7 +120,7 @@ const SubTaskUnderTask = ({ val, emp_no }) => {
                         justifyContent: 'center',
                         color: '#3B0404',
                         textTransform: 'capitalize',
-                        mt: 0.5,
+                        mt: 0.5
                       }}
                     >
                       {create_empnamee}
@@ -134,7 +134,7 @@ const SubTaskUnderTask = ({ val, emp_no }) => {
                       borderStyle: 'dashed',
                       borderColor: '#C3CEDA',
                       p: 0.5,
-                      flex: 1,
+                      flex: 1
                     }}
                   >
                     <CountDowncomponent DueDates={val.tm_task_due_date} />
@@ -148,7 +148,7 @@ const SubTaskUnderTask = ({ val, emp_no }) => {
                       borderColor: '#C3CEDA',
                       p: 0.5,
                       flex: 1,
-                      justifyContent: 'center',
+                      justifyContent: 'center'
                     }}
                   >
                     <Box sx={{ flex: 0.5 }}></Box>
@@ -164,12 +164,10 @@ const SubTaskUnderTask = ({ val, emp_no }) => {
                           fontSize: 13,
                           flex: 0.5,
                           textTransform: 'capitalize',
-                          cursor: 'grab',
+                          cursor: 'grab'
                         }}
                       >
-                        <EventNoteRoundedIcon
-                          sx={{ width: 20, height: 20, mt: 0.2, mr: 0.2, color: '#435D84' }}
-                        />{' '}
+                        <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: 0.2, mr: 0.2, color: '#435D84' }} />{' '}
                         {val.create_date}
                       </FormLabel>
                     ) : (
@@ -179,12 +177,10 @@ const SubTaskUnderTask = ({ val, emp_no }) => {
                           flex: 0.5,
                           textTransform: 'capitalize',
                           cursor: 'grab',
-                          color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black',
+                          color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black'
                         }}
                       >
-                        <EventNoteRoundedIcon
-                          sx={{ width: 20, height: 20, mt: 0.2, mr: 0.2, color: '#435D84' }}
-                        />{' '}
+                        <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: 0.2, mr: 0.2, color: '#435D84' }} />{' '}
                         {val.create_date}
                       </FormLabel>
                     )}
@@ -197,12 +193,10 @@ const SubTaskUnderTask = ({ val, emp_no }) => {
                         sx={{
                           fontSize: 13,
                           textTransform: 'capitalize',
-                          cursor: 'grab',
+                          cursor: 'grab'
                         }}
                       >
-                        <EventNoteRoundedIcon
-                          sx={{ width: 20, height: 20, mt: 0.2, mr: 0.2, color: '#435D84' }}
-                        />{' '}
+                        <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: 0.2, mr: 0.2, color: '#435D84' }} />{' '}
                         {val.tm_task_due_date}
                       </FormLabel>
                     ) : (
@@ -211,12 +205,10 @@ const SubTaskUnderTask = ({ val, emp_no }) => {
                           fontSize: 13,
                           textTransform: 'capitalize',
                           cursor: 'grab',
-                          color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black',
+                          color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black'
                         }}
                       >
-                        <EventNoteRoundedIcon
-                          sx={{ width: 20, height: 20, mt: 0.2, mr: 0.2, color: '#435D84' }}
-                        />{' '}
+                        <EventNoteRoundedIcon sx={{ width: 20, height: 20, mt: 0.2, mr: 0.2, color: '#435D84' }} />{' '}
                         {val.tm_task_due_date}
                       </FormLabel>
                     )}
@@ -245,7 +237,7 @@ const SubTaskUnderTask = ({ val, emp_no }) => {
                             ? '#5885AF'
                             : 'transparent',
                         minHeight: 5,
-                        fontWeight: 700,
+                        fontWeight: 700
                       }}
                     >
                       {val.tm_task_status === 0

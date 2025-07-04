@@ -56,7 +56,7 @@ const CustodianDeptMast = () => {
       am_custdn_asset_no_first: assetNameFirst,
       am_custdn_asset_no_second: assetNameSecond,
       status: status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [cusDeptName, dept, deptsec, empName, assetNameFirst, assetNameSecond, id, status])
 
@@ -70,7 +70,7 @@ const CustodianDeptMast = () => {
       am_custdn_asset_no_second: assetNameSecond,
       status: status === true ? 1 : 0,
       edit_user: id,
-      am_custodian_slno: slno,
+      am_custodian_slno: slno
     }
   }, [cusDeptName, dept, deptsec, empName, assetNameFirst, assetNameSecond, id, status, slno])
 
@@ -85,7 +85,7 @@ const CustodianDeptMast = () => {
       am_custodian_emp,
       am_custdn_asset_no_first,
       am_custdn_asset_no_second,
-      status,
+      status
     } = data[0]
 
     setSlno(am_custodian_slno)
@@ -155,12 +155,7 @@ const CustodianDeptMast = () => {
     reset()
   }, [reset])
   return (
-    <CardMaster
-      title="Custodian Department"
-      submit={submitCustodianDept}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Custodian Department" submit={submitCustodianDept} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
         <Box sx={{ width: '30%', p: 1 }}>
           <Box>

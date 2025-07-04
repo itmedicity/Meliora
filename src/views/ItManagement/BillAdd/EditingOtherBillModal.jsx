@@ -1,14 +1,4 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  Checkbox,
-  CssVarsProvider,
-  Modal,
-  ModalDialog,
-  Textarea,
-  Tooltip,
-} from '@mui/joy'
+import { Avatar, Box, Button, Checkbox, CssVarsProvider, Modal, ModalDialog, Textarea, Tooltip } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined'
 import ItBillCategoryList from 'src/views/CommonSelectCode/ItBillCategoryList'
@@ -46,7 +36,7 @@ const EditingOtherBillModal = ({
   seteditOpen,
   billCount,
   setbillCount,
-  filezUrls,
+  filezUrls
 }) => {
   const {
     bill_amount,
@@ -61,7 +51,7 @@ const EditingOtherBillModal = ({
     bill_number,
     am_item_map_slno,
     supplier_details,
-    file_upload_status,
+    file_upload_status
   } = billDataother
 
   const [billViewmodalFlag, setBillViewModalFlag] = useState(0)
@@ -89,17 +79,9 @@ const EditingOtherBillModal = ({
     billdate: bill_date === '' ? null : bill_date,
     billduedate: bill_due_date === '' ? null : bill_due_date,
     billpayed_date: bill_paid_date === '' ? null : bill_paid_date,
-    billdescription: bill_description === '' ? null : bill_description,
+    billdescription: bill_description === '' ? null : bill_description
   })
-  const {
-    billname,
-    billamount,
-    billdate,
-    billduedate,
-    billpayed_date,
-    billdescription,
-    billnumber,
-  } = otherBill
+  const { billname, billamount, billdate, billduedate, billpayed_date, billdescription, billnumber } = otherBill
   const dispatch = useDispatch()
   const id = useSelector(state => {
     return state.LoginUserData.empid
@@ -170,7 +152,7 @@ const EditingOtherBillModal = ({
       am_item_map_slno: item_slno === 0 ? am_item_map_slno : item_slno,
       supplier_details: suppliersList === 0 ? null : suppliersList,
       payed_status: payedStatus === true ? 1 : 0,
-      edit_user: id,
+      edit_user: id
     }
   }, [
     other_bill_slno,
@@ -186,7 +168,7 @@ const EditingOtherBillModal = ({
     payedStatus,
     item_slno,
     suppliersList,
-    id,
+    id
   ])
 
   const searchAssetNo = useCallback(
@@ -202,7 +184,7 @@ const EditingOtherBillModal = ({
         const asset_number = parseInt(assetno)
         const postdata = {
           item_asset_no: starts,
-          item_asset_no_only: asset_number,
+          item_asset_no_only: asset_number
         }
         const getAssetdata = async postdata => {
           const result = await axioslogin.post('/PasswordManagementMain/getAssetNo', postdata)
@@ -240,7 +222,7 @@ const EditingOtherBillModal = ({
     const options = {
       maxSizeMB: 1,
       maxWidthOrHeight: 1920,
-      useWebWorker: true,
+      useWebWorker: true
     }
     const compressedFile = await imageCompression(imageFile, options)
     return compressedFile
@@ -283,13 +265,7 @@ const EditingOtherBillModal = ({
   const editOtherBill = useCallback(
     e => {
       e.preventDefault()
-      if (
-        billname !== '' &&
-        billamount !== '' &&
-        billnumber !== '' &&
-        billdate !== '' &&
-        billduedate !== ''
-      ) {
+      if (billname !== '' && billamount !== '' && billnumber !== '' && billdate !== '' && billduedate !== '') {
         const UpdateBill = async PatchData => {
           const result = await axioslogin.patch('/ItBillAdd/UpdateOtherBill', PatchData)
           return result.data
@@ -307,15 +283,11 @@ const EditingOtherBillModal = ({
               }
             }
             // Use the Axios instance and endpoint that matches your server setup
-            const uploadResult = await axioslogin.post(
-              '/ItImageUpload/uploadFile/Others',
-              formData,
-              {
-                headers: {
-                  'Content-Type': 'multipart/form-data',
-                },
+            const uploadResult = await axioslogin.post('/ItImageUpload/uploadFile/Others', formData, {
+              headers: {
+                'Content-Type': 'multipart/form-data'
               }
-            )
+            })
             return uploadResult.data
           } catch (error) {
             warningNotify('An error occurred during file upload.')
@@ -362,7 +334,7 @@ const EditingOtherBillModal = ({
       handleImageUpload,
       other_bill_slno,
       setbillCount,
-      handleClose,
+      handleClose
     ]
   )
 
@@ -385,7 +357,7 @@ const EditingOtherBillModal = ({
           justifyContent: 'center',
           alignItems: 'center',
           pl: 1,
-          borderRadius: 10,
+          borderRadius: 10
         }}
       >
         <Box sx={{ margin: 'auto' }}>
@@ -402,8 +374,8 @@ const EditingOtherBillModal = ({
                       height: 25,
                       width: 25,
                       '&:hover': {
-                        color: '#5C97B8',
-                      },
+                        color: '#5C97B8'
+                      }
                     }}
                     onClick={handleClose}
                   />
@@ -412,7 +384,7 @@ const EditingOtherBillModal = ({
             </Box>
             <Box
               sx={{
-                overflow: 'auto',
+                overflow: 'auto'
               }}
             >
               <Box sx={{ flex: 1, mt: 3, ml: 2, fontWeight: 600 }}>
@@ -428,9 +400,7 @@ const EditingOtherBillModal = ({
               </Box>
               {billType === 3 ? (
                 <Box>
-                  <Paper
-                    sx={{ mx: 2, borderRadius: 0, bgcolor: '#F0F2F3', boxShadow: '0px 0px 3px' }}
-                  >
+                  <Paper sx={{ mx: 2, borderRadius: 0, bgcolor: '#F0F2F3', boxShadow: '0px 0px 3px' }}>
                     <Box
                       sx={{
                         flex: 1,
@@ -438,7 +408,7 @@ const EditingOtherBillModal = ({
                         fontWeight: 600,
                         px: 0.5,
                         color: '#54627B',
-                        display: 'flex',
+                        display: 'flex'
                       }}
                     >
                       <Box sx={{ flex: 1 }}>
@@ -450,7 +420,7 @@ const EditingOtherBillModal = ({
                             border: 1,
                             borderRadius: 10,
                             bgcolor: '#183A53',
-                            mb: 0.3,
+                            mb: 0.3
                           }}
                         />{' '}
                         Asset No.
@@ -489,10 +459,7 @@ const EditingOtherBillModal = ({
                             ></TextFieldCustom>
                           </Box>
                           <Box sx={{ mr: 0.8, bgcolor: '#868B8E', px: 0.5, pt: 0.3 }}>
-                            <SearchRoundedIcon
-                              sx={{ color: 'white', cursor: 'pointer' }}
-                              onClick={searchAssetNo}
-                            />
+                            <SearchRoundedIcon sx={{ color: 'white', cursor: 'pointer' }} onClick={searchAssetNo} />
                           </Box>
                         </Box>
                       </>
@@ -506,7 +473,7 @@ const EditingOtherBillModal = ({
                                 px: 0.5,
                                 bgcolor: 'white',
                                 mx: 0.8,
-                                borderColor: '#ADC4D7',
+                                borderColor: '#ADC4D7'
                               }}
                             >
                               {assetNumb}/{assetNumbOnly}
@@ -519,7 +486,7 @@ const EditingOtherBillModal = ({
                                   fontWeight: 600,
                                   pl: 0.5,
                                   mb: 0.3,
-                                  color: '#54627B',
+                                  color: '#54627B'
                                 }}
                               >
                                 <SpeakerPhoneIcon
@@ -530,7 +497,7 @@ const EditingOtherBillModal = ({
                                     color: 'white',
                                     border: 1,
                                     borderRadius: 10,
-                                    mb: 0.3,
+                                    mb: 0.3
                                   }}
                                 />
                                 Device Name
@@ -541,14 +508,12 @@ const EditingOtherBillModal = ({
                                   px: 0.5,
                                   bgcolor: 'white',
                                   mx: 0.8,
-                                  borderColor: '#ADC4D7',
+                                  borderColor: '#ADC4D7'
                                 }}
                               >
                                 {assetDeviceName}
                               </Box>
-                              <Box
-                                sx={{ flex: 1, mt: 1, fontWeight: 600, px: 0.5, color: '#54627B' }}
-                              >
+                              <Box sx={{ flex: 1, mt: 1, fontWeight: 600, px: 0.5, color: '#54627B' }}>
                                 <PinDropIcon
                                   sx={{
                                     p: 0.3,
@@ -557,7 +522,7 @@ const EditingOtherBillModal = ({
                                     bgcolor: '#183A53',
                                     color: 'white',
                                     border: 1,
-                                    borderRadius: 10,
+                                    borderRadius: 10
                                   }}
                                 />
                                 Location
@@ -569,7 +534,7 @@ const EditingOtherBillModal = ({
                                   px: 0.5,
                                   bgcolor: 'white',
                                   mx: 0.8,
-                                  borderColor: '#868B8E',
+                                  borderColor: '#868B8E'
                                 }}
                               >
                                 {assetSecName}
@@ -590,10 +555,7 @@ const EditingOtherBillModal = ({
                               ></TextFieldCustom>
                             </Box>
                             <Box sx={{ mr: 0.8, bgcolor: '#868B8E', px: 0.5, pt: 0.3 }}>
-                              <SearchRoundedIcon
-                                sx={{ color: 'white', cursor: 'pointer' }}
-                                onClick={searchAssetNo}
-                              />
+                              <SearchRoundedIcon sx={{ color: 'white', cursor: 'pointer' }} onClick={searchAssetNo} />
                             </Box>
                           </Box>
                         )}
@@ -609,7 +571,7 @@ const EditingOtherBillModal = ({
                             fontWeight: 600,
                             pl: 0.5,
                             mb: 0.3,
-                            color: '#54627B',
+                            color: '#54627B'
                           }}
                         >
                           <SpeakerPhoneIcon
@@ -620,7 +582,7 @@ const EditingOtherBillModal = ({
                               color: 'white',
                               border: 1,
                               borderRadius: 10,
-                              mb: 0.3,
+                              mb: 0.3
                             }}
                           />
                           Device Name
@@ -631,7 +593,7 @@ const EditingOtherBillModal = ({
                             px: 0.5,
                             bgcolor: 'white',
                             mx: 0.8,
-                            borderColor: '#ADC4D7',
+                            borderColor: '#ADC4D7'
                           }}
                         >
                           {deviceName}
@@ -645,7 +607,7 @@ const EditingOtherBillModal = ({
                               bgcolor: '#183A53',
                               color: 'white',
                               border: 1,
-                              borderRadius: 10,
+                              borderRadius: 10
                             }}
                           />
                           Location
@@ -657,7 +619,7 @@ const EditingOtherBillModal = ({
                             px: 0.5,
                             bgcolor: 'white',
                             mx: 0.8,
-                            borderColor: '#868B8E',
+                            borderColor: '#868B8E'
                           }}
                         >
                           {location}
@@ -671,10 +633,7 @@ const EditingOtherBillModal = ({
                     Supplier Name<span style={{ color: '#74112F' }}>*</span>
                   </Box>
                   <Box sx={{ flex: 1, mx: 2 }}>
-                    <ItBillsupplierDetailsList
-                      suppliersList={suppliersList}
-                      setSuppliersList={setSuppliersList}
-                    />
+                    <ItBillsupplierDetailsList suppliersList={suppliersList} setSuppliersList={setSuppliersList} />
                   </Box>
                 </Box>
               ) : null}
@@ -776,12 +735,7 @@ const EditingOtherBillModal = ({
                 ></TextFieldCustom>
               </Box>
               <Box sx={{ flex: 1, mt: 1.4, ml: 2.5 }}>
-                <Checkbox
-                  label="Bill Payed"
-                  color="primary"
-                  onChange={e => CheckBoxChange(e)}
-                  checked={payedStatus}
-                />
+                <Checkbox label="Bill Payed" color="primary" onChange={e => CheckBoxChange(e)} checked={payedStatus} />
               </Box>
 
               {billCategoryName === 'CUG' ? <Box></Box> : null}
@@ -812,7 +766,7 @@ const EditingOtherBillModal = ({
                   borderColor: '#41729F',
                   display: 'flex',
                   pl: 0.5,
-                  mx: 2,
+                  mx: 2
                 }}
               >
                 <Box
@@ -825,7 +779,7 @@ const EditingOtherBillModal = ({
                     pl: 1,
                     fontSize: 13,
                     color: '#05445E',
-                    margin: 'auto',
+                    margin: 'auto'
                   }}
                 >
                   <label htmlFor="file-input">
@@ -835,7 +789,7 @@ const EditingOtherBillModal = ({
                         color: '#175873',
                         height: 30,
                         width: 30,
-                        '&:hover': { color: '#189AB4' },
+                        '&:hover': { color: '#189AB4' }
                       }}
                     />
                     &nbsp;Bill Attach
@@ -862,7 +816,7 @@ const EditingOtherBillModal = ({
                           my: 0.5,
                           px: 1,
                           border: 1,
-                          borderColor: '#0C2D48',
+                          borderColor: '#0C2D48'
                         }}
                         key={index}
                       >
@@ -892,8 +846,8 @@ const EditingOtherBillModal = ({
                       '&:hover': {
                         boxShadow: '1px 2px 10px',
                         bgcolor: '#A4AA83',
-                        color: '#4C411A',
-                      },
+                        color: '#4C411A'
+                      }
                     }}
                     onClick={openBillModal}
                   >
@@ -904,8 +858,8 @@ const EditingOtherBillModal = ({
                         height: 23,
                         width: 23,
                         '&:hover': {
-                          color: '#4C411A',
-                        },
+                          color: '#4C411A'
+                        }
                       }}
                     />
                     &nbsp;Uploaded bills

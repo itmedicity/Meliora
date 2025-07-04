@@ -40,7 +40,7 @@ const MasterComponent = ({ val, selectedCompany, companyData }) => {
     dept_type_name,
     crf_close,
     crf_closed_one,
-    image_status,
+    image_status
   } = val
   const expdate =
     expected_date !== null && isValid(new Date(expected_date))
@@ -88,7 +88,7 @@ const MasterComponent = ({ val, selectedCompany, companyData }) => {
             const fileNamePart = parts[parts.length - 1]
             const obj = {
               imageName: fileNamePart,
-              url: val,
+              url: val
             }
             return obj
           })
@@ -117,7 +117,7 @@ const MasterComponent = ({ val, selectedCompany, companyData }) => {
                 update_date: val.update_date,
                 crf_req_remark: val.crf_req_remark,
                 data_coll_image_status: val.data_coll_image_status,
-                crf_data_collect_slno: val.crf_data_collect_slno,
+                crf_data_collect_slno: val.crf_data_collect_slno
               }
               return obj
             })
@@ -143,7 +143,7 @@ const MasterComponent = ({ val, selectedCompany, companyData }) => {
             const fileNamePart = parts[parts.length - 1]
             const obj = {
               imageName: fileNamePart,
-              url: val,
+              url: val
             }
             return obj
           })
@@ -172,7 +172,7 @@ const MasterComponent = ({ val, selectedCompany, companyData }) => {
                 update_date: val.update_date,
                 crf_req_remark: val.crf_req_remark,
                 data_coll_image_status: val.data_coll_image_status,
-                crf_data_collect_slno: val.crf_data_collect_slno,
+                crf_data_collect_slno: val.crf_data_collect_slno
               }
               return obj
             })
@@ -206,9 +206,9 @@ const MasterComponent = ({ val, selectedCompany, companyData }) => {
     color: '#01579b',
     bgcolor: 'white',
     '&:hover': {
-      bgcolor: '#F0F4F8',
+      bgcolor: '#F0F4F8'
     },
-    borderRadius: 1,
+    borderRadius: 1
   }
   const ViewImage = useCallback(() => {
     const { req_slno } = val
@@ -287,15 +287,13 @@ const MasterComponent = ({ val, selectedCompany, companyData }) => {
             borderBottomLeftRadius: 0,
             borderBottomRightRadius: 0,
             borderBottom: '1px solid #9fa8da',
-            flexWrap: 'wrap',
+            flexWrap: 'wrap'
           }}
         >
           <Box sx={{ flex: 0.7, borderRight: '1px solid lightgray', flexWrap: 'wrap' }}>
             <Box sx={{ ml: 1, mt: 0.5 }}>
               <Typography sx={{ fontSize: 15, color: '#003060', fontWeight: 'bold' }}>
-                {selectedCompany === '2'
-                  ? `CRF/KMC/${req_slno}`
-                  : `CRF/${companyData?.company_name}/${req_slno}`}{' '}
+                {selectedCompany === '2' ? `CRF/KMC/${req_slno}` : `CRF/${companyData?.company_name}/${req_slno}`}{' '}
               </Typography>
             </Box>
             <Box sx={{ ml: 1, mt: 0.5 }}>
@@ -309,16 +307,14 @@ const MasterComponent = ({ val, selectedCompany, companyData }) => {
                   fontSize: 12,
                   textTransform: 'uppercase',
                   color: '#003060',
-                  fontWeight: 'bold',
+                  fontWeight: 'bold'
                 }}
               >
                 {em_name}
               </Typography>
             </Box>
             <Box sx={{ ml: 1, mt: 0.5 }}>
-              <Typography sx={{ fontSize: 12, textTransform: 'uppercase', color: '#003060' }}>
-                {dept_name}
-              </Typography>
+              <Typography sx={{ fontSize: 12, textTransform: 'uppercase', color: '#003060' }}>{dept_name}</Typography>
             </Box>
             <Box sx={{ ml: 1, mt: 0.5, pb: 0.5 }}>
               <Typography sx={{ fontSize: 12, textTransform: 'capitalize', color: '#003060' }}>
@@ -334,7 +330,7 @@ const MasterComponent = ({ val, selectedCompany, companyData }) => {
                   height: 30,
                   width: 30,
                   color: '#d50000',
-                  animation: `${blinkAnimation} 1s infinite`,
+                  animation: `${blinkAnimation} 1s infinite`
                 }}
               />
               <Typography sx={{ fontSize: 13, color: '#b71c1c', pt: 0.2, fontWeight: 550 }}>
@@ -347,27 +343,19 @@ const MasterComponent = ({ val, selectedCompany, companyData }) => {
           ) : null}
           <Box sx={{ flex: 3.5, flexWrap: 'wrap' }}>
             <Box sx={{ m: 0.7, borderBottom: '1px solid lightgray', display: 'flex', pb: 0.5 }}>
-              <Typography
-                sx={{ fontSize: 11, color: '#003060', fontWeight: 'bold', flex: 0.1, pt: 0.2 }}
-              >
+              <Typography sx={{ fontSize: 11, color: '#003060', fontWeight: 'bold', flex: 0.1, pt: 0.2 }}>
                 REQUIREMENT{' '}
               </Typography>
-              <Typography sx={{ fontSize: 12, color: '#003060', fontWeight: 'bold' }}>
-                :{' '}
-              </Typography>
+              <Typography sx={{ fontSize: 12, color: '#003060', fontWeight: 'bold' }}>: </Typography>
               <Typography sx={{ fontSize: 13, pl: 1, flex: 1 }}>
                 {actual_requirement !== null ? capitalizeWords(actual_requirement) : 'Not Given'}
               </Typography>
             </Box>
             <Box sx={{ m: 0.7, borderBottom: '1px solid lightgray', display: 'flex', pb: 0.5 }}>
-              <Typography
-                sx={{ fontSize: 11, color: '#003060', fontWeight: 'bold', flex: 0.1, pt: 0.2 }}
-              >
+              <Typography sx={{ fontSize: 11, color: '#003060', fontWeight: 'bold', flex: 0.1, pt: 0.2 }}>
                 JUSTIFICATION
               </Typography>
-              <Typography sx={{ fontSize: 12, color: '#003060', fontWeight: 'bold' }}>
-                :{' '}
-              </Typography>
+              <Typography sx={{ fontSize: 12, color: '#003060', fontWeight: 'bold' }}>: </Typography>
               <Typography sx={{ fontSize: 13, pl: 1, flex: 1 }}>
                 {needed !== null ? capitalizeWords(needed) : 'Not Given'}
               </Typography>
@@ -378,16 +366,12 @@ const MasterComponent = ({ val, selectedCompany, companyData }) => {
                 display: 'flex',
                 flexWrap: 'wrap',
                 justifyContent: 'space-between',
-                pr: 0.5,
+                pr: 0.5
               }}
             >
               <Box sx={{ display: 'flex' }}>
-                <Typography sx={{ fontSize: 11, color: '#003060', fontWeight: 'bold', pt: 0.4 }}>
-                  CATEGORY
-                </Typography>
-                <Typography sx={{ fontSize: 12, color: '#003060', fontWeight: 'bold', pl: 1 }}>
-                  :{' '}
-                </Typography>
+                <Typography sx={{ fontSize: 11, color: '#003060', fontWeight: 'bold', pt: 0.4 }}>CATEGORY</Typography>
+                <Typography sx={{ fontSize: 12, color: '#003060', fontWeight: 'bold', pl: 1 }}>: </Typography>
                 <Typography sx={{ fontSize: 13, pl: 1 }}>
                   {category?.toLowerCase().replace(/\b\w/g, char => char.toUpperCase())}
                 </Typography>
@@ -396,31 +380,19 @@ const MasterComponent = ({ val, selectedCompany, companyData }) => {
                 <Typography sx={{ fontSize: 11, color: '#003060', fontWeight: 'bold', pt: 0.4 }}>
                   REQ. DEPARTMENT
                 </Typography>
-                <Typography sx={{ fontSize: 12, color: '#003060', fontWeight: 'bold', pl: 1 }}>
-                  :{' '}
-                </Typography>
-                <Typography sx={{ fontSize: 13 }}>
-                  &nbsp;&nbsp;{capitalizeWords(req_deptsec)}
-                </Typography>
+                <Typography sx={{ fontSize: 12, color: '#003060', fontWeight: 'bold', pl: 1 }}>: </Typography>
+                <Typography sx={{ fontSize: 13 }}>&nbsp;&nbsp;{capitalizeWords(req_deptsec)}</Typography>
               </Box>
               <Box sx={{ display: 'flex' }}>
-                <Typography sx={{ fontSize: 11, color: '#003060', fontWeight: 'bold', pt: 0.4 }}>
-                  LOCATION{' '}
-                </Typography>
-                <Typography sx={{ fontSize: 12, color: '#003060', fontWeight: 'bold', pl: 1 }}>
-                  :{' '}
-                </Typography>
-                <Typography sx={{ fontSize: 13 }}>
-                  &nbsp;&nbsp;{capitalizeWords(location)}
-                </Typography>
+                <Typography sx={{ fontSize: 11, color: '#003060', fontWeight: 'bold', pt: 0.4 }}>LOCATION </Typography>
+                <Typography sx={{ fontSize: 12, color: '#003060', fontWeight: 'bold', pl: 1 }}>: </Typography>
+                <Typography sx={{ fontSize: 13 }}>&nbsp;&nbsp;{capitalizeWords(location)}</Typography>
               </Box>
               <Box sx={{ display: 'flex' }}>
                 <Typography sx={{ fontSize: 11, color: '#003060', fontWeight: 'bold', pt: 0.4 }}>
                   EXPECTED DATE
                 </Typography>
-                <Typography sx={{ fontSize: 12, color: '#003060', fontWeight: 'bold', pl: 1 }}>
-                  :{' '}
-                </Typography>
+                <Typography sx={{ fontSize: 12, color: '#003060', fontWeight: 'bold', pl: 1 }}>: </Typography>
                 <Typography sx={{ fontSize: 13 }}>&nbsp;&nbsp;{expdate}</Typography>
               </Box>
             </Box>
@@ -436,7 +408,7 @@ const MasterComponent = ({ val, selectedCompany, companyData }) => {
           borderTopLeftRadius: 0,
           borderTopRightRadius: 0,
           justifyContent: 'space-between',
-          flexWrap: 'wrap',
+          flexWrap: 'wrap'
         }}
       >
         <Box sx={{ display: 'flex', flexWrap: 'wrap', pl: 1 }}>
@@ -448,7 +420,7 @@ const MasterComponent = ({ val, selectedCompany, companyData }) => {
                   sx={{
                     height: 19,
                     width: 19,
-                    color: '#0277bd',
+                    color: '#0277bd'
                   }}
                 />
               }
@@ -477,7 +449,7 @@ const MasterComponent = ({ val, selectedCompany, companyData }) => {
                 bgcolor: 'white',
                 border: '1px solid lightblue',
                 fontWeight: 650,
-                color: dept_type === 1 ? '#EF7C8E' : dept_type === 2 ? '#A16AE8' : '#29A0B1',
+                color: dept_type === 1 ? '#EF7C8E' : dept_type === 2 ? '#A16AE8' : '#29A0B1'
               }}
             >
               {dept_type_name}
@@ -496,8 +468,8 @@ const MasterComponent = ({ val, selectedCompany, companyData }) => {
                 bgcolor: '#0277bd',
                 borderRadius: 1,
                 '&:hover': {
-                  bgcolor: '#0277bd',
-                },
+                  bgcolor: '#0277bd'
+                }
               }}
             >
               {user_acknldge === 1 ? (
@@ -508,7 +480,7 @@ const MasterComponent = ({ val, selectedCompany, companyData }) => {
                     pr: 1,
                     color: 'white',
                     textTransform: 'capitalize',
-                    fontWeight: 550,
+                    fontWeight: 550
                   }}
                 >
                   User Received
@@ -521,7 +493,7 @@ const MasterComponent = ({ val, selectedCompany, companyData }) => {
                     pr: 1,
                     color: 'white',
                     textTransform: 'capitalize',
-                    fontWeight: 550,
+                    fontWeight: 550
                   }}
                 >
                   {now_who}
@@ -534,7 +506,7 @@ const MasterComponent = ({ val, selectedCompany, companyData }) => {
                   pr: 1,
                   color: 'white',
                   textTransform: 'capitalize',
-                  fontWeight: 550,
+                  fontWeight: 550
                 }}
               >
                 {now_who_status === 1
@@ -561,10 +533,10 @@ const MasterComponent = ({ val, selectedCompany, companyData }) => {
                       bgcolor: 'white',
                       width: '15px',
                       '&:hover': {
-                        bgcolor: '#F0F4F8',
+                        bgcolor: '#F0F4F8'
                       },
                       boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.16)',
-                      borderRadius: 5,
+                      borderRadius: 5
                     }}
                     onClick={ViewImage}
                   >
@@ -586,8 +558,8 @@ const MasterComponent = ({ val, selectedCompany, companyData }) => {
                 bgcolor: '#0277bd',
                 borderRadius: 1,
                 '&:hover': {
-                  bgcolor: '#0277bd',
-                },
+                  bgcolor: '#0277bd'
+                }
               }}
             >
               <Typography
@@ -597,7 +569,7 @@ const MasterComponent = ({ val, selectedCompany, companyData }) => {
                   pr: 1,
                   color: 'white',
                   textTransform: 'capitalize',
-                  fontWeight: 550,
+                  fontWeight: 550
                 }}
               >
                 {now_who + ' By ' + crf_closed_one}
@@ -616,19 +588,12 @@ const MasterComponent = ({ val, selectedCompany, companyData }) => {
                     borderRadius: 5,
                     bgcolor: 'white',
                     '&:hover': {
-                      bgcolor: 'white',
-                    },
+                      bgcolor: 'white'
+                    }
                   }}
                 >
                   {' '}
-                  <Tooltip
-                    title="Closed"
-                    arrow
-                    color="danger"
-                    size="sm"
-                    variant="solid"
-                    placement="top"
-                  >
+                  <Tooltip title="Closed" arrow color="danger" size="sm" variant="solid" placement="top">
                     <DoDisturbOffTwoToneIcon sx={{ color: 'red', height: 18, width: 18 }} />
                   </Tooltip>
                 </IconButton>

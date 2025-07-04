@@ -14,17 +14,13 @@ const LiveClock = () => {
     weekday: 'short', // e.g., Mon
     year: 'numeric',
     month: 'short',
-    day: 'numeric',
+    day: 'numeric'
   }) // e.g., Jul 3, 2025
 
   return (
     <Box sx={{ display: 'flex', textAlign: 'right', flexDirection: 'row', gap: 1 }}>
-      <Typography sx={{ fontWeight: 600, fontSize: 12, fontFamily: 'var(--roboto-font)' }}>
-        {formattedDate}
-      </Typography>
-      <Typography sx={{ fontWeight: 600, fontSize: 12, fontFamily: 'var(--roboto-font)' }}>
-        {formattedTime}
-      </Typography>
+      <Typography sx={{ fontWeight: 600, fontSize: 12, fontFamily: 'var(--roboto-font)' }}>{formattedDate}</Typography>
+      <Typography sx={{ fontWeight: 600, fontSize: 12, fontFamily: 'var(--roboto-font)' }}>{formattedTime}</Typography>
     </Box>
   )
 }

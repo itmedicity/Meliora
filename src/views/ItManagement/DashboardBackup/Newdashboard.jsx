@@ -15,7 +15,7 @@ import {
   getWeeklyBackup,
   getWeeklyDetails,
   getYearDetails,
-  getYearlyBackup,
+  getYearlyBackup
 } from 'src/redux/actions/BackupDashboard.action'
 import CardMasterClose from 'src/views/Components/CardMasterClose'
 import VerificationDetailTable from './TableComponents/DayBackup/VerificationDetailTable'
@@ -122,7 +122,7 @@ const Newdashboard = () => {
           const dayrange = eachDayOfInterval({ start: new Date(), end: new Date() })
           const newdata = dayrange?.map(val => {
             return {
-              backup_date: moment(new Date(val)).format('YYYY-MM-DD'),
+              backup_date: moment(new Date(val)).format('YYYY-MM-DD')
             }
           })
           setDaysList(newdata)
@@ -131,11 +131,11 @@ const Newdashboard = () => {
           } else {
             const dayrange = eachDayOfInterval({
               start: addDays(new Date(lastBackup.last_backup_date), 1),
-              end: new Date(),
+              end: new Date()
             })
             const newdata = dayrange?.map(val => {
               return {
-                backup_date: moment(new Date(val)).format('YYYY-MM-DD'),
+                backup_date: moment(new Date(val)).format('YYYY-MM-DD')
               }
             })
             setDaysList(newdata)
@@ -155,7 +155,7 @@ const Newdashboard = () => {
             backup_daily_date: moment(new Date(value.backup_date)).format('YYYY-MM-DD'),
             backup_schedule_time: val.backup_schedule_time,
             verify_status: 0,
-            create_user: id,
+            create_user: id
           }
         })
         return item
@@ -181,14 +181,10 @@ const Newdashboard = () => {
 
   useEffect(() => {
     if (daysdetails.length !== 0 || count !== 0) {
-      const newdata = daysdetails.filter(
-        val => val.backup_daily_date === moment(new Date()).format('YYYY-MM-DD')
-      )
+      const newdata = daysdetails.filter(val => val.backup_daily_date === moment(new Date()).format('YYYY-MM-DD'))
       setDayData(newdata)
       const currentcount = daysdetails.filter(
-        val =>
-          val.verify_status === 0 &&
-          val.backup_daily_date === moment(new Date()).format('YYYY-MM-DD')
+        val => val.verify_status === 0 && val.backup_daily_date === moment(new Date()).format('YYYY-MM-DD')
       )
       if (currentcount.length !== 0) {
         setDayscount(currentcount.length)
@@ -196,14 +192,11 @@ const Newdashboard = () => {
         setDayscount(0)
       }
       const duedata = daysdetails.filter(
-        val =>
-          val.verify_status === 0 && val.backup_daily_date < moment(new Date()).format('YYYY-MM-DD')
+        val => val.verify_status === 0 && val.backup_daily_date < moment(new Date()).format('YYYY-MM-DD')
       )
       setDueData(duedata)
       const errordata = daysdetails.filter(
-        val =>
-          val.verify_status === 2 &&
-          val.backup_daily_date <= moment(new Date()).format('YYYY-MM-DD')
+        val => val.verify_status === 2 && val.backup_daily_date <= moment(new Date()).format('YYYY-MM-DD')
       )
       setErrorData(errordata)
     }
@@ -257,7 +250,7 @@ const Newdashboard = () => {
           backup_weekly_date: moment(new Date(getendOfWeek)).format('YYYY-MM-DD'),
           backup_schedule_time: val.backup_schedule_time,
           verify_status: 0,
-          create_user: id,
+          create_user: id
         }
       })
       const InsertBackupWeekly = async postdata => {
@@ -304,15 +297,11 @@ const Newdashboard = () => {
         setweekcount(countdata.length)
       }
       const duedata = weekdetails.filter(
-        val =>
-          val.verify_status === 0 &&
-          val.backup_weekly_date < moment(new Date(getstartOfWeek)).format('YYYY-MM-DD')
+        val => val.verify_status === 0 && val.backup_weekly_date < moment(new Date(getstartOfWeek)).format('YYYY-MM-DD')
       )
       setWeekduedata(duedata)
       const errordata = weekdetails.filter(
-        val =>
-          val.verify_status === 2 &&
-          val.backup_weekly_date <= moment(new Date()).format('YYYY-MM-DD')
+        val => val.verify_status === 2 && val.backup_weekly_date <= moment(new Date()).format('YYYY-MM-DD')
       )
       setWeekerrordata(errordata)
     }
@@ -366,11 +355,9 @@ const Newdashboard = () => {
               backup_slno: val.backup_slno,
               selected_days: val.selected_days,
               backup_selected_date: startdate,
-              due_date: moment(addDays(new Date(startdate), val.selected_days)).format(
-                'YYYY-MM-DD'
-              ),
+              due_date: moment(addDays(new Date(startdate), val.selected_days)).format('YYYY-MM-DD'),
               verify_status: 0,
-              create_user: val.create_user,
+              create_user: val.create_user
             }
           })
           const InsertSelectedDays = async postdata => {
@@ -392,8 +379,7 @@ const Newdashboard = () => {
   useEffect(() => {
     if (selecteddays.length !== 0) {
       const newdata = selecteddays.filter(
-        val =>
-          (val.verify_status === 0 || 1) && val.due_date === moment(new Date()).format('YYYY-MM-DD')
+        val => (val.verify_status === 0 || 1) && val.due_date === moment(new Date()).format('YYYY-MM-DD')
       )
       setdaysNow(newdata)
       const countdata = selecteddays.filter(
@@ -464,7 +450,7 @@ const Newdashboard = () => {
           backup_monthly_date: moment(new Date()).format('YYYY-MM-01'),
           backup_schedule_time: val.backup_schedule_time,
           verify_status: 0,
-          create_user: id,
+          create_user: id
         }
       })
       const InsertBackupMonthly = async postdata => {
@@ -482,14 +468,10 @@ const Newdashboard = () => {
 
   useEffect(() => {
     if (monthdetails.length !== 0) {
-      const newdata = monthdetails.filter(
-        val => val.backup_monthly_date === moment(new Date()).format('YYYY-MM-01')
-      )
+      const newdata = monthdetails.filter(val => val.backup_monthly_date === moment(new Date()).format('YYYY-MM-01'))
       setMonthdata(newdata)
       const countmonth = monthdetails.filter(
-        val =>
-          val.verify_status === 0 &&
-          val.backup_monthly_date === moment(new Date()).format('YYYY-MM-01')
+        val => val.verify_status === 0 && val.backup_monthly_date === moment(new Date()).format('YYYY-MM-01')
       )
       if (countmonth.length !== 0) {
         setMonthcount(countmonth.length)
@@ -497,15 +479,11 @@ const Newdashboard = () => {
         setMonthcount(0)
       }
       const duedata = monthdetails.filter(
-        val =>
-          val.verify_status === 0 &&
-          val.backup_monthly_date < moment(new Date()).format('YYYY-MM-01')
+        val => val.verify_status === 0 && val.backup_monthly_date < moment(new Date()).format('YYYY-MM-01')
       )
       setDueMonthdata(duedata)
       const errordata = monthdetails.filter(
-        val =>
-          val.verify_status === 2 &&
-          val.backup_monthly_date <= moment(new Date()).format('YYYY-MM-01')
+        val => val.verify_status === 2 && val.backup_monthly_date <= moment(new Date()).format('YYYY-MM-01')
       )
       setErrorMonthdata(errordata)
     }
@@ -557,7 +535,7 @@ const Newdashboard = () => {
           backup_yearly_date: moment(new Date()).format('YYYY-01-01'),
           backup_schedule_time: val.backup_schedule_time,
           verify_status: 0,
-          create_user: id,
+          create_user: id
         }
       })
       const InsertBackupYearly = async postdata => {
@@ -575,14 +553,10 @@ const Newdashboard = () => {
 
   useEffect(() => {
     if (yeardetails.length !== 0) {
-      const newdata = yeardetails.filter(
-        val => val.backup_yearly_date === moment(new Date()).format('YYYY-01-01')
-      )
+      const newdata = yeardetails.filter(val => val.backup_yearly_date === moment(new Date()).format('YYYY-01-01'))
       setYeardata(newdata)
       const countyear = yeardetails.filter(
-        val =>
-          val.verify_status === 0 &&
-          val.backup_yearly_date === moment(new Date()).format('YYYY-01-01')
+        val => val.verify_status === 0 && val.backup_yearly_date === moment(new Date()).format('YYYY-01-01')
       )
       if (countyear.length === 0) {
         setyearcount(0)
@@ -590,15 +564,11 @@ const Newdashboard = () => {
         setyearcount(countyear.length)
       }
       const duedata = yeardetails.filter(
-        val =>
-          val.verify_status === 0 &&
-          val.backup_yearly_date < moment(new Date()).format('YYYY-01-01')
+        val => val.verify_status === 0 && val.backup_yearly_date < moment(new Date()).format('YYYY-01-01')
       )
       setdueYearData(duedata)
       const errordata = yeardetails.filter(
-        val =>
-          val.verify_status === 2 &&
-          val.backup_yearly_date <= moment(new Date()).format('YYYY-01-01')
+        val => val.verify_status === 2 && val.backup_yearly_date <= moment(new Date()).format('YYYY-01-01')
       )
       setErrorYearData(errordata)
     }
@@ -646,15 +616,7 @@ const Newdashboard = () => {
           // alternativedays
           altflag === 1 ? (
             <SelectedDaysTable
-              alternativedata={
-                daysflag === 1
-                  ? daysNow
-                  : daysflag === 2
-                  ? daysdue
-                  : daysflag === 3
-                  ? dayserror
-                  : []
-              }
+              alternativedata={daysflag === 1 ? daysNow : daysflag === 2 ? daysdue : daysflag === 3 ? dayserror : []}
               daysflag={daysflag}
               setAltflag={setAltflag}
               count={count}
@@ -667,9 +629,7 @@ const Newdashboard = () => {
           ) : // daily
           daytabflag === 1 ? (
             <DayCountTable
-              dayTabledata={
-                dayflag === 1 ? daydata : dayflag === 2 ? dueData : dayflag === 3 ? errorData : []
-              }
+              dayTabledata={dayflag === 1 ? daydata : dayflag === 2 ? dueData : dayflag === 3 ? errorData : []}
               setDaytabflag={setDaytabflag}
               dayflag={dayflag}
               count={count}
@@ -682,13 +642,7 @@ const Newdashboard = () => {
           ) : weektabflag === 1 ? (
             <WeekCountTable
               weektableData={
-                weekflag === 1
-                  ? weeklydata
-                  : weekflag === 2
-                  ? weekduedata
-                  : weekflag === 3
-                  ? weekerrordata
-                  : []
+                weekflag === 1 ? weeklydata : weekflag === 2 ? weekduedata : weekflag === 3 ? weekerrordata : []
               }
               setWeektabflag={setWeektabflag}
               weekflag={weekflag}
@@ -702,13 +656,7 @@ const Newdashboard = () => {
           ) : monthtabflag === 1 ? (
             <CurrentMonthTable
               monthtabdata={
-                monthflag === 1
-                  ? monthdata
-                  : monthflag === 2
-                  ? dueMonthdata
-                  : monthflag === 3
-                  ? ErrorMonthdata
-                  : []
+                monthflag === 1 ? monthdata : monthflag === 2 ? dueMonthdata : monthflag === 3 ? ErrorMonthdata : []
               }
               setMonthtabflag={setMonthtabflag}
               monthflag={monthflag}
@@ -722,13 +670,7 @@ const Newdashboard = () => {
           ) : yeartabflag === 1 ? (
             <CurrentYearTable
               yeartabData={
-                yearflag === 1
-                  ? yeardata
-                  : yearflag === 2
-                  ? dueYearData
-                  : yearflag === 3
-                  ? errorYearData
-                  : []
+                yearflag === 1 ? yeardata : yearflag === 2 ? dueYearData : yearflag === 3 ? errorYearData : []
               }
               setYeartabflag={setYeartabflag}
               yearflag={yearflag}
@@ -757,7 +699,7 @@ const Newdashboard = () => {
                       width: 300,
                       height: 60,
                       display: 'flex',
-                      borderRadius: 2,
+                      borderRadius: 2
                     }}
                   >
                     <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
@@ -783,7 +725,7 @@ const Newdashboard = () => {
                       width: 300,
                       height: 60,
                       display: 'flex',
-                      borderRadius: 2,
+                      borderRadius: 2
                     }}
                   >
                     <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
@@ -809,7 +751,7 @@ const Newdashboard = () => {
                       width: 300,
                       height: 60,
                       display: 'flex',
-                      borderRadius: 2,
+                      borderRadius: 2
                     }}
                   >
                     <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
@@ -835,7 +777,7 @@ const Newdashboard = () => {
                       width: 300,
                       height: 60,
                       display: 'flex',
-                      borderRadius: 2,
+                      borderRadius: 2
                     }}
                   >
                     <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
@@ -862,7 +804,7 @@ const Newdashboard = () => {
                       height: 60,
                       display: 'flex',
                       borderRadius: 2,
-                      justifyContent: 'center',
+                      justifyContent: 'center'
                     }}
                   >
                     <Box sx={{ flex: 1, pt: 1, px: 6 }}>
@@ -893,7 +835,7 @@ const Newdashboard = () => {
                       width: 300,
                       height: 60,
                       display: 'flex',
-                      borderRadius: 2,
+                      borderRadius: 2
                     }}
                   >
                     <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
@@ -919,7 +861,7 @@ const Newdashboard = () => {
                       width: 300,
                       height: 60,
                       display: 'flex',
-                      borderRadius: 2,
+                      borderRadius: 2
                     }}
                   >
                     <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
@@ -945,7 +887,7 @@ const Newdashboard = () => {
                       width: 300,
                       height: 60,
                       display: 'flex',
-                      borderRadius: 2,
+                      borderRadius: 2
                     }}
                   >
                     <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
@@ -971,7 +913,7 @@ const Newdashboard = () => {
                       width: 300,
                       height: 60,
                       display: 'flex',
-                      borderRadius: 2,
+                      borderRadius: 2
                     }}
                   >
                     <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
@@ -998,7 +940,7 @@ const Newdashboard = () => {
                       height: 60,
                       display: 'flex',
                       borderRadius: 2,
-                      justifyContent: 'center',
+                      justifyContent: 'center'
                     }}
                   >
                     <Box sx={{ flex: 1, pt: 1, px: 6 }}>
@@ -1030,7 +972,7 @@ const Newdashboard = () => {
                       width: 300,
                       height: 60,
                       display: 'flex',
-                      borderRadius: 2,
+                      borderRadius: 2
                     }}
                   >
                     <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
@@ -1056,7 +998,7 @@ const Newdashboard = () => {
                       width: 300,
                       height: 60,
                       display: 'flex',
-                      borderRadius: 2,
+                      borderRadius: 2
                     }}
                   >
                     <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
@@ -1082,7 +1024,7 @@ const Newdashboard = () => {
                       width: 300,
                       height: 60,
                       display: 'flex',
-                      borderRadius: 2,
+                      borderRadius: 2
                     }}
                   >
                     <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
@@ -1108,7 +1050,7 @@ const Newdashboard = () => {
                       width: 300,
                       height: 60,
                       display: 'flex',
-                      borderRadius: 2,
+                      borderRadius: 2
                     }}
                   >
                     <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
@@ -1135,7 +1077,7 @@ const Newdashboard = () => {
                       height: 60,
                       display: 'flex',
                       borderRadius: 2,
-                      justifyContent: 'center',
+                      justifyContent: 'center'
                     }}
                   >
                     <Box sx={{ flex: 1, pt: 1, px: 6 }}>
@@ -1166,7 +1108,7 @@ const Newdashboard = () => {
                       width: 300,
                       height: 60,
                       display: 'flex',
-                      borderRadius: 2,
+                      borderRadius: 2
                     }}
                   >
                     <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
@@ -1192,7 +1134,7 @@ const Newdashboard = () => {
                       width: 300,
                       height: 60,
                       display: 'flex',
-                      borderRadius: 2,
+                      borderRadius: 2
                     }}
                   >
                     <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
@@ -1218,7 +1160,7 @@ const Newdashboard = () => {
                       width: 300,
                       height: 60,
                       display: 'flex',
-                      borderRadius: 2,
+                      borderRadius: 2
                     }}
                   >
                     <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
@@ -1244,7 +1186,7 @@ const Newdashboard = () => {
                       width: 300,
                       height: 60,
                       display: 'flex',
-                      borderRadius: 2,
+                      borderRadius: 2
                     }}
                   >
                     <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
@@ -1271,7 +1213,7 @@ const Newdashboard = () => {
                       height: 60,
                       display: 'flex',
                       borderRadius: 2,
-                      justifyContent: 'center',
+                      justifyContent: 'center'
                     }}
                   >
                     <Box sx={{ flex: 1, pt: 1, px: 6 }}>
@@ -1302,7 +1244,7 @@ const Newdashboard = () => {
                       width: 300,
                       height: 60,
                       display: 'flex',
-                      borderRadius: 2,
+                      borderRadius: 2
                     }}
                   >
                     <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
@@ -1328,7 +1270,7 @@ const Newdashboard = () => {
                       width: 300,
                       height: 60,
                       display: 'flex',
-                      borderRadius: 2,
+                      borderRadius: 2
                     }}
                   >
                     <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
@@ -1354,7 +1296,7 @@ const Newdashboard = () => {
                       width: 300,
                       height: 60,
                       display: 'flex',
-                      borderRadius: 2,
+                      borderRadius: 2
                     }}
                   >
                     <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
@@ -1380,7 +1322,7 @@ const Newdashboard = () => {
                       width: 300,
                       height: 60,
                       display: 'flex',
-                      borderRadius: 2,
+                      borderRadius: 2
                     }}
                   >
                     <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
@@ -1407,7 +1349,7 @@ const Newdashboard = () => {
                       height: 60,
                       display: 'flex',
                       borderRadius: 2,
-                      justifyContent: 'center',
+                      justifyContent: 'center'
                     }}
                   >
                     <Box sx={{ flex: 1, pt: 1, px: 6 }}>

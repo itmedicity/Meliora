@@ -3,7 +3,7 @@ const { FETCH_EMP_DEPTSECTION_LIST } = ActionTyps
 //intial state
 const departsecemployee = {
   departsecempList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /***  Departmentemployee action type check then payload set to the state and loading status set as true */
 export const getDepartSecemployee = (state = departsecemployee, { type, payload }) => {

@@ -24,7 +24,7 @@ const UomMaster = () => {
   const [uom, setUom] = useState({
     uom_slno: '',
     uom_name: '',
-    uom_status: false,
+    uom_status: false
   })
   const { uom_slno, uom_name, uom_status } = uom
   const UpdateUom = useCallback(
@@ -38,7 +38,7 @@ const UomMaster = () => {
     return {
       uom_name: uom_name,
       uom_status: uom_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [uom_name, uom_status, id])
   const patchdata = useMemo(() => {
@@ -46,7 +46,7 @@ const UomMaster = () => {
       uom_slno: uom_slno,
       uom_name: uom_name,
       uom_status: uom_status === true ? 1 : 0,
-      edit_user: id,
+      edit_user: id
     }
   }, [uom_slno, uom_name, uom_status, id])
   const rowSelect = useCallback(params => {
@@ -56,7 +56,7 @@ const UomMaster = () => {
     const frmdata = {
       uom_slno: uom_slno,
       uom_name: uom_name,
-      uom_status: uom_status === 1 ? true : false,
+      uom_status: uom_status === 1 ? true : false
     }
     setUom(frmdata)
   }, [])
@@ -64,7 +64,7 @@ const UomMaster = () => {
     const frmdata = {
       uom_slno: '',
       uom_name: '',
-      uom_status: false,
+      uom_status: false
     }
     setUom(frmdata)
     setCount(0)
@@ -122,18 +122,13 @@ const UomMaster = () => {
     const frmdata = {
       uom_slno: '',
       uom_name: '',
-      uom_status: false,
+      uom_status: false
     }
     setUom(frmdata)
     setValue(0)
   }, [setUom])
   return (
-    <CardMaster
-      title="Unit Of Measurement"
-      submit={submitUom}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Unit Of Measurement" submit={submitUom} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
         <Box sx={{ width: '30%', p: 1 }}>
           <Box>

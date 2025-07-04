@@ -17,7 +17,7 @@ const EmerAssessmentModal = ({ open, handleClose, patList, initdate, monthFlag, 
             variant="outlined"
             sx={{
               maxWidth: '80%',
-              maxHeight: '80%',
+              maxHeight: '80%'
             }}
           >
             <ModalClose
@@ -30,7 +30,7 @@ const EmerAssessmentModal = ({ open, handleClose, patList, initdate, monthFlag, 
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 35,
-                width: 35,
+                width: 35
               }}
             />
             <Box sx={{ display: 'flex' }}>
@@ -74,7 +74,7 @@ const EmerAssessmentModal = ({ open, handleClose, patList, initdate, monthFlag, 
                             borderRight: '1px solid white',
                             textAlign: 'center',
                             backgroundColor: '#cfd8dc',
-                            fontSize: 15,
+                            fontSize: 15
                           }}
                         >
                           Patient ID
@@ -86,7 +86,7 @@ const EmerAssessmentModal = ({ open, handleClose, patList, initdate, monthFlag, 
                             borderRight: '1px solid white',
                             textAlign: 'center',
                             backgroundColor: '#cfd8dc',
-                            fontSize: 15,
+                            fontSize: 15
                           }}
                         >
                           Patient Name
@@ -98,7 +98,7 @@ const EmerAssessmentModal = ({ open, handleClose, patList, initdate, monthFlag, 
                             borderRight: '1px solid white',
                             textAlign: 'center',
                             backgroundColor: '#cfd8dc',
-                            fontSize: 15,
+                            fontSize: 15
                           }}
                         >
                           Gender
@@ -110,7 +110,7 @@ const EmerAssessmentModal = ({ open, handleClose, patList, initdate, monthFlag, 
                             borderRight: '1px solid white',
                             textAlign: 'center',
                             backgroundColor: '#cfd8dc',
-                            fontSize: 15,
+                            fontSize: 15
                           }}
                         >
                           Age
@@ -122,7 +122,7 @@ const EmerAssessmentModal = ({ open, handleClose, patList, initdate, monthFlag, 
                             borderRight: '1px solid white',
                             textAlign: 'center',
                             backgroundColor: '#cfd8dc',
-                            fontSize: 15,
+                            fontSize: 15
                           }}
                         >
                           Doctor
@@ -137,7 +137,7 @@ const EmerAssessmentModal = ({ open, handleClose, patList, initdate, monthFlag, 
                               borderRight: '1px solid white',
                               textAlign: 'center',
                               backgroundColor: '#cfd8dc',
-                              fontSize: 15,
+                              fontSize: 15
                             }}
                           >
                             Arrived in Triage
@@ -150,7 +150,7 @@ const EmerAssessmentModal = ({ open, handleClose, patList, initdate, monthFlag, 
                             borderRight: '1px solid white',
                             textAlign: 'center',
                             backgroundColor: '#cfd8dc',
-                            fontSize: 15,
+                            fontSize: 15
                           }}
                         >
                           Total Time Taken{' '}
@@ -161,7 +161,7 @@ const EmerAssessmentModal = ({ open, handleClose, patList, initdate, monthFlag, 
                             width: 300,
                             textAlign: 'center',
                             backgroundColor: '#cfd8dc',
-                            fontSize: 15,
+                            fontSize: 15
                           }}
                         >
                           Reason For Time Exceedence{' '}
@@ -192,10 +192,7 @@ const EmerAssessmentModal = ({ open, handleClose, patList, initdate, monthFlag, 
                                 &nbsp;{format(new Date(val.triage_time), 'dd-MM-yyyy hh:mm a')}
                               </td>
                             ) : null}
-                            <td
-                              size="sm"
-                              style={{ textAlign: 'center', fontSize: 13, color: 'red' }}
-                            >
+                            <td size="sm" style={{ textAlign: 'center', fontSize: 13, color: 'red' }}>
                               {val.sumof_service_time}&nbsp;min
                             </td>
                             <td size="sm" style={{ fontSize: 13 }}>

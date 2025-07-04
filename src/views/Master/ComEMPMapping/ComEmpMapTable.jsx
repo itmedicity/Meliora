@@ -10,7 +10,7 @@ const ComEmpMapTable = ({ count, rowSelect }) => {
     {
       headerName: 'Action',
       minWidth: 100,
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
     },
     { headerName: 'SlNo', field: 'emp_map_slno', minWidth: 100 },
     { headerName: 'Group Name', field: 'map_section_name', filter: 'true', minWidth: 150 },
@@ -18,7 +18,7 @@ const ComEmpMapTable = ({ count, rowSelect }) => {
     { headerName: 'Department', field: 'dept_name', filter: 'true', minWidth: 250 },
     { headerName: 'Dept.Section', field: 'sec_name', filter: 'true', minWidth: 250 },
     { headerName: 'Employee Name', field: 'em_name', filter: 'true', minWidth: 250 },
-    { headerName: 'Status', field: 'status', minWidth: 100 },
+    { headerName: 'Status', field: 'status', minWidth: 100 }
   ])
 
   /*** get data from module_master table for display */

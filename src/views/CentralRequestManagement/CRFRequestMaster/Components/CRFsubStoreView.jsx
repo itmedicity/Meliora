@@ -14,20 +14,19 @@ const CRFsubStoreView = ({ setList, editRowData }) => {
       if (success === 1) {
         const crsStore = data
           .filter(
-            (val, index, self) =>
-              index === self.findIndex(value => value.main_store_slno === val.main_store_slno)
+            (val, index, self) => index === self.findIndex(value => value.main_store_slno === val.main_store_slno)
           )
           .map(val => ({
             main_store_slno: val.main_store_slno,
             crs_store_code: val.crs_store_code,
-            main_store: val.main_store,
+            main_store: val.main_store
           }))
         setCrsList(crsStore)
         const subStore = data?.map(val => ({
           crm_store_master_slno: val.crm_store_master_slno,
           sub_store_name: val.sub_store_name,
           store_code: val.store_code,
-          main_store_slno: val.main_store_slno,
+          main_store_slno: val.main_store_slno
         }))
         setSubStoreList(subStore)
       } else {
@@ -43,9 +42,7 @@ const CRFsubStoreView = ({ setList, editRowData }) => {
   useEffect(() => {
     if (Object?.entries(editRowData).length > 0 && editRowData?.sub_store?.length > 0) {
       const categoryIds = JSON.parse(editRowData?.sub_store)
-      const matchedCategories = subStoreList?.filter(item =>
-        categoryIds?.includes(item?.crm_store_master_slno)
-      )
+      const matchedCategories = subStoreList?.filter(item => categoryIds?.includes(item?.crm_store_master_slno))
       setSelectedValues(matchedCategories)
       setList(prev => (prev.length === 0 ? categoryIds : prev))
     }
@@ -82,7 +79,7 @@ const CRFsubStoreView = ({ setList, editRowData }) => {
         lineHeight: 1.2,
         width: '100%',
         backgroundColor: 'white',
-        fontSize: 14,
+        fontSize: 14
       }}
       value={selectedValues}
       clearOnBlur
@@ -96,15 +93,12 @@ const CRFsubStoreView = ({ setList, editRowData }) => {
       loading={true}
       loadingText="Loading..."
       freeSolo
-      isOptionEqualToValue={(option, value) =>
-        option?.crm_store_master_slno === value?.crm_store_master_slno
-      }
+      isOptionEqualToValue={(option, value) => option?.crm_store_master_slno === value?.crm_store_master_slno}
       getOptionLabel={option => option?.sub_store_name || ''}
       options={itemType}
       getOptionDisabled={option =>
         itemType?.some(
-          (opt, index) =>
-            opt?.sub_store_name === option?.sub_store_name && itemType?.indexOf(opt) !== index
+          (opt, index) => opt?.sub_store_name === option?.sub_store_name && itemType?.indexOf(opt) !== index
         )
       }
     />

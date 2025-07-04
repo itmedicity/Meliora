@@ -51,7 +51,7 @@ const PendingAssignDept = () => {
       field: 'complaint_desc',
       autoHeight: true,
       wrapText: true,
-      width: 450,
+      width: 450
     },
     {
       headerName: 'Req.Department',
@@ -59,7 +59,7 @@ const PendingAssignDept = () => {
       filter: 'true',
       autoHeight: true,
       wrapText: true,
-      width: 280,
+      width: 280
     },
     {
       headerName: 'Request Type',
@@ -67,14 +67,14 @@ const PendingAssignDept = () => {
       filter: 'true',
       autoHeight: true,
       wrapText: true,
-      width: 280,
+      width: 280
     },
     {
       headerName: 'Complaint Type',
       field: 'complaint_type_name',
       autoHeight: true,
       wrapText: true,
-      width: 280,
+      width: 280
     },
     {
       headerName: 'Location',
@@ -82,7 +82,7 @@ const PendingAssignDept = () => {
       width: 200,
       filter: 'true',
       autoHeight: true,
-      wrapText: true,
+      wrapText: true
     },
     {
       headerName: 'Priority',
@@ -90,14 +90,14 @@ const PendingAssignDept = () => {
       filter: 'true',
       autoHeight: true,
       wrapText: true,
-      width: 200,
+      width: 200
     },
     {
       headerName: 'Req.Date',
       field: 'compalint_date',
       autoHeight: true,
       wrapText: true,
-      width: 300,
+      width: 300
     },
     {
       headerName: 'complaint status',
@@ -105,8 +105,8 @@ const PendingAssignDept = () => {
       filter: 'true',
       autoHeight: true,
       wrapText: true,
-      width: 300,
-    },
+      width: 300
+    }
   ])
 
   //Close function

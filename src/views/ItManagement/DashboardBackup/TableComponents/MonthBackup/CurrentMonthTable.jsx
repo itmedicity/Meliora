@@ -91,7 +91,7 @@ const CurrentMonthTable = ({ monthtabdata, setMonthtabflag, monthflag, count, se
                   display: 'flex',
                   flexDirection: 'row',
                   justifyContent: 'flex-end',
-                  pr: 2,
+                  pr: 2
                 }}
               >
                 <Box
@@ -99,7 +99,7 @@ const CurrentMonthTable = ({ monthtabdata, setMonthtabflag, monthflag, count, se
                     height: 20,
                     width: 30,
                     bgcolor: 'lightgrey',
-                    border: '0.1px solid lightgrey',
+                    border: '0.1px solid lightgrey'
                   }}
                 >
                   {' '}
@@ -196,7 +196,7 @@ const CurrentMonthTable = ({ monthtabdata, setMonthtabflag, monthflag, count, se
                       size="small"
                       style={{
                         height: 8,
-                        background: val.verify_status === 1 ? 'lightgrey' : 'transparent',
+                        background: val.verify_status === 1 ? 'lightgrey' : 'transparent'
                       }}
                     >
                       <td style={{ textAlign: 'center' }}>
@@ -209,8 +209,8 @@ const CurrentMonthTable = ({ monthtabdata, setMonthtabflag, monthflag, count, se
                                 cursor: 'pointer',
                                 ':hover': {
                                   color: '#43a047',
-                                  boxShadow: 10,
-                                },
+                                  boxShadow: 10
+                                }
                               }}
                               onClick={e => VerificationClick(val)}
                             />
@@ -222,8 +222,8 @@ const CurrentMonthTable = ({ monthtabdata, setMonthtabflag, monthflag, count, se
                                 cursor: 'pointer',
                                 ':hover': {
                                   color: '#ef5350',
-                                  boxShadow: 10,
-                                },
+                                  boxShadow: 10
+                                }
                               }}
                               onClick={e => VerificationClick(val)}
                             />
@@ -253,9 +253,7 @@ const CurrentMonthTable = ({ monthtabdata, setMonthtabflag, monthflag, count, se
                       <td>{val.transferred_device_name}</td>
                       <td>{val.transferred_device_location}</td>
                       <td>{val.schedule_type_name}</td>
-                      {monthflag === 3 ? (
-                        <td>{moment(val.backup_date_time).format('YYYY-MM-DD hh:mm A')}</td>
-                      ) : null}
+                      {monthflag === 3 ? <td>{moment(val.backup_date_time).format('YYYY-MM-DD hh:mm A')}</td> : null}
                       {monthflag === 3 ? <td>{val.em_name}</td> : null}
                       {monthflag === 3 ? (
                         <td>
@@ -266,9 +264,7 @@ const CurrentMonthTable = ({ monthtabdata, setMonthtabflag, monthflag, count, se
                             : 'Not Updated'}
                         </td>
                       ) : null}
-                      {monthflag === 3 ? (
-                        <td>{val.remarks === null ? 'Nil' : val.remarks}</td>
-                      ) : null}
+                      {monthflag === 3 ? <td>{val.remarks === null ? 'Nil' : val.remarks}</td> : null}
                     </tr>
                   ))}
                 </tbody>

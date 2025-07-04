@@ -3,7 +3,7 @@ const { FETCH_REQUEST_TO_VERIFY_TAT } = ActionTyps
 
 const RequestToVerify = {
   RequestToVerifyList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 
 export const getRequestToVerifyList = (state = RequestToVerify, { type, payload }) => {

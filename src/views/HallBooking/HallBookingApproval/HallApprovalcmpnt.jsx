@@ -2,15 +2,7 @@ import React, { Fragment, memo } from 'react'
 import { Box, Typography } from '@mui/material'
 import CustomTextarea from 'src/views/Components/CustomTextarea'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
-const HallApprovalcmpnt = ({
-  heading,
-  approve,
-  reject,
-  updateApprove,
-  updateReject,
-  remark,
-  updateRemark,
-}) => {
+const HallApprovalcmpnt = ({ heading, approve, reject, updateApprove, updateReject, remark, updateRemark }) => {
   return (
     <Fragment>
       <Box sx={{ width: '100%', pb: 2 }}>
@@ -21,7 +13,7 @@ const HallApprovalcmpnt = ({
           sx={{
             display: 'flex',
             // p: 1,
-            width: '100%',
+            width: '100%'
           }}
         >
           <CustomTextarea
@@ -31,7 +23,7 @@ const HallApprovalcmpnt = ({
             style={{
               width: '100%',
               height: 70,
-              boardColor: '#E0E0E0',
+              boardColor: '#E0E0E0'
             }}
             placeholder=" Remarks"
             value={remark}
@@ -43,7 +35,7 @@ const HallApprovalcmpnt = ({
             width: '100%',
             display: 'flex',
             flexDirection: 'row',
-            justifyContent: 'center',
+            justifyContent: 'center'
           }}
         >
           <Box sx={{ width: '20%', pr: 1, mt: 1 }}>

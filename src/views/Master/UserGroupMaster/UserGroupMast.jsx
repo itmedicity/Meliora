@@ -17,7 +17,7 @@ const UserGroupMast = () => {
   const [usergrp, setUsergrp] = useState({
     usergrp_name: '',
     usergrp_status: false,
-    user_grp_slno: '',
+    user_grp_slno: ''
   })
   //Destructuring
   const { usergrp_name, usergrp_status, user_grp_slno } = usergrp
@@ -37,7 +37,7 @@ const UserGroupMast = () => {
     return {
       user_grp_name: usergrp_name,
       user_grp_status: usergrp_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [usergrp_name, usergrp_status, id])
   //data set for edit
@@ -48,7 +48,7 @@ const UserGroupMast = () => {
     const frmdata = {
       usergrp_name: user_grp_name,
       usergrp_status: status === 'Yes' ? true : false,
-      user_grp_slno: user_grp_slno,
+      user_grp_slno: user_grp_slno
     }
     setUsergrp(frmdata)
   }, [])
@@ -58,7 +58,7 @@ const UserGroupMast = () => {
       user_grp_name: usergrp_name,
       user_grp_status: usergrp_status === true ? 1 : 0,
       user_grp_slno: user_grp_slno,
-      edit_user: id,
+      edit_user: id
     }
   }, [usergrp_name, usergrp_status, user_grp_slno, id])
   /*** usecallback function for form submitting */
@@ -69,7 +69,7 @@ const UserGroupMast = () => {
       const formreset = {
         usergrp_name: '',
         usergrp_status: false,
-        user_grp_slno: '',
+        user_grp_slno: ''
       }
       /***     * insert function for use call back     */
       const InsertFun = async postdata => {
@@ -121,18 +121,13 @@ const UserGroupMast = () => {
     const formreset = {
       usergrp_name: '',
       usergrp_status: false,
-      user_grp_slno: '',
+      user_grp_slno: ''
     }
     setUsergrp(formreset)
     setvalue(0)
   }, [setUsergrp])
   return (
-    <CardMaster
-      title="User Group Master"
-      submit={submitUserGroup}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="User Group Master" submit={submitUserGroup} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ p: 1 }}>
         <Grid container spacing={1}>
           <Grid item xl={4} lg={4}>

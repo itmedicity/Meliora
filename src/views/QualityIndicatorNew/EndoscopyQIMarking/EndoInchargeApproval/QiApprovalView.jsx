@@ -24,7 +24,7 @@ const QiApprovalView = ({
   ipViewReport,
   testCount,
   equipmentlist,
-  endoDays,
+  endoDays
 }) => {
   const [endoSearch, setEndoSearch] = useState(0)
   const [tableData, setTableData] = useState([])
@@ -63,7 +63,7 @@ const QiApprovalView = ({
     totIncidentReported: 0,
     totEquipTime: 0,
     totEquipAvailable: 0,
-    equipResult: 0,
+    equipResult: 0
   })
   const {
     totalTest,
@@ -86,17 +86,17 @@ const QiApprovalView = ({
     totIncidentReported,
     totEquipTime,
     totEquipAvailable,
-    equipResult,
+    equipResult
   } = monthReport
 
   const [headerNames, setHeaderNames] = useState({
     header1: '',
-    header2: '',
+    header2: ''
   })
   const [hodDetails, setHodDetails] = useState({
     hodStatus: 0,
     hodName: '',
-    hodDate: '',
+    hodDate: ''
   })
   const { hodName, hodDate, hodStatus } = hodDetails
 
@@ -179,7 +179,7 @@ const QiApprovalView = ({
         nearMissessResult: identtot > 0 ? ((nearmisstot / sumOfInc) * 100).toFixed(2) : 0,
         totEquipTime: equipTimeTot,
         totEquipAvailable: equipAvailable,
-        equipResult: equipAvailable > 0 ? ((equipTimeTot / equipAvailable) * 100).toFixed(2) : 0,
+        equipResult: equipAvailable > 0 ? ((equipTimeTot / equipAvailable) * 100).toFixed(2) : 0
       }
       setMonthReport(formdata)
       setEndoSearch(1)
@@ -190,7 +190,7 @@ const QiApprovalView = ({
     if (viewData.length !== 0) {
       const postdata = {
         qi_endo_date: searchDate,
-        qi_dept_no: qidept,
+        qi_dept_no: qidept
       }
       const ExistApprvView = async postdata => {
         const result = await axioslogin.post('/qiendoscopy/apprvView', postdata)
@@ -208,7 +208,7 @@ const QiApprovalView = ({
             endo_hod_apprv_date,
             hod,
             hodno,
-            endo_hod_apprv_status,
+            endo_hod_apprv_status
           } = data[0]
           setInchrgeStatus(endo_incharge_apprv_status)
           setRemarks(endo_incharge_apprv_status === 1 ? endo_incharge_remarks : 'nil')
@@ -217,7 +217,7 @@ const QiApprovalView = ({
           const fromdata = {
             hodName: hod + '  (' + hodno + ')',
             hodDate: format(new Date(endo_hod_apprv_date), 'dd-MM-yyyy hh:mm:ss a'),
-            hodStatus: endo_hod_apprv_status,
+            hodStatus: endo_hod_apprv_status
           }
           setHodDetails(fromdata)
         } else if (success === 2) {
@@ -241,7 +241,7 @@ const QiApprovalView = ({
           details: val.error_details,
           reason: val.error_reason,
           inctype: val.error_incident_type,
-          type: 'OP',
+          type: 'OP'
           // corrective: val.error_corrective,
           // preventive: val.error_preventive,
         }
@@ -258,7 +258,7 @@ const QiApprovalView = ({
             details: val.error_details,
             reason: val.error_reason,
             inctype: val.error_incident_type,
-            type: 'IP',
+            type: 'IP'
           }
         })
         const finalData = [...errorData, ...ipErrorData].sort(
@@ -270,7 +270,7 @@ const QiApprovalView = ({
       }
       const fromdata = {
         header1: 'Details of Error',
-        header2: 'Reason of Error',
+        header2: 'Reason of Error'
       }
       setHeaderNames(fromdata)
       setViewFlag(1)
@@ -288,13 +288,13 @@ const QiApprovalView = ({
             details: val.error_details,
             reason: val.error_reason,
             inctype: val.error_incident_type,
-            type: 'IP',
+            type: 'IP'
           }
         })
         setTableData(ipErrorData)
         const fromdata = {
           header1: 'Details of Error',
-          header2: 'Reason of Error',
+          header2: 'Reason of Error'
         }
         setHeaderNames(fromdata)
         setViewFlag(1)
@@ -322,7 +322,7 @@ const QiApprovalView = ({
           details: val.redos_details,
           reason: val.redos_reason,
           inctype: val.redos_incident_type,
-          type: 'OP',
+          type: 'OP'
           // corrective: val.redos_corrective,
           //preventive: val.redos_preventive,
         }
@@ -339,7 +339,7 @@ const QiApprovalView = ({
             details: val.redos_details,
             reason: val.redos_reason,
             inctype: val.redos_incident_type,
-            type: 'IP',
+            type: 'IP'
           }
         })
         const finalData = [...errorData, ...ipErrorData].sort(
@@ -351,7 +351,7 @@ const QiApprovalView = ({
       }
       const fromdata = {
         header1: 'Details',
-        header2: 'Reason for Redos',
+        header2: 'Reason for Redos'
       }
       setHeaderNames(fromdata)
       setViewFlag(1)
@@ -369,13 +369,13 @@ const QiApprovalView = ({
             details: val.redos_details,
             reason: val.redos_reason,
             inctype: val.redos_incident_type,
-            type: 'IP',
+            type: 'IP'
           }
         })
         setTableData(ipErrorData)
         const fromdata = {
           header1: 'Details of Error',
-          header2: 'Reason of Error',
+          header2: 'Reason of Error'
         }
         setHeaderNames(fromdata)
         setViewFlag(1)
@@ -402,7 +402,7 @@ const QiApprovalView = ({
           endo_arrival_time: val.endo_arrival_time,
           sumof_service_time: val.sumof_service_time,
           initial_assessment_reason: val.initial_assessment_reason,
-          type: 'OP',
+          type: 'OP'
         }
       })
       if (ipdata.length !== 0) {
@@ -416,7 +416,7 @@ const QiApprovalView = ({
             endo_arrival_time: val.endo_arrival_time,
             sumof_service_time: val.sumof_service_time,
             initial_assessment_reason: val.initial_assessment_reason,
-            type: 'IP',
+            type: 'IP'
           }
         })
         const finalData = [...AssesmentData, ...ipAssesmentData].sort(
@@ -441,7 +441,7 @@ const QiApprovalView = ({
             endo_arrival_time: val.endo_arrival_time,
             sumof_service_time: val.sumof_service_time,
             initial_assessment_reason: val.initial_assessment_reason,
-            type: 'IP',
+            type: 'IP'
           }
         })
         setTableData(ipAssesmentData)
@@ -471,7 +471,7 @@ const QiApprovalView = ({
           details: val.incidence_ident_description,
           reason: val.incidence_ident_reason,
           inctype: val.ident_error_incident_type,
-          type: 'OP',
+          type: 'OP'
           // corrective: val.incidence_ident_action,
         }
       })
@@ -487,7 +487,7 @@ const QiApprovalView = ({
             details: val.incidence_ident_description,
             reason: val.incidence_ident_reason,
             inctype: val.ident_error_incident_type,
-            type: 'IP',
+            type: 'IP'
           }
         })
         const finalData = [...errorData, ...ipErrorData].sort(
@@ -499,7 +499,7 @@ const QiApprovalView = ({
       }
       const fromdata = {
         header1: 'Identification Error Details',
-        header2: 'Reason',
+        header2: 'Reason'
       }
       setHeaderNames(fromdata)
       setViewFlag(1)
@@ -517,13 +517,13 @@ const QiApprovalView = ({
             details: val.incidence_ident_description,
             reason: val.incidence_ident_reason,
             inctype: val.ident_error_incident_type,
-            type: 'IP',
+            type: 'IP'
           }
         })
         setTableData(ipErrorData)
         const fromdata = {
           header1: 'Details of Error',
-          header2: 'Reason of Error',
+          header2: 'Reason of Error'
         }
         setHeaderNames(fromdata)
         setViewFlag(1)
@@ -551,7 +551,7 @@ const QiApprovalView = ({
           details: val.falls_details,
           reason: val.falls_reason,
           inctype: val.falls_incident_type,
-          type: 'OP',
+          type: 'OP'
         }
       })
       if (ipdata.length !== 0) {
@@ -566,7 +566,7 @@ const QiApprovalView = ({
             details: val.falls_details,
             reason: val.falls_reason,
             inctype: val.falls_incident_type,
-            type: 'IP',
+            type: 'IP'
           }
         })
         const finalData = [...errorData, ...ipErrorData].sort(
@@ -578,7 +578,7 @@ const QiApprovalView = ({
       }
       const fromdata = {
         header1: 'Details of Falls',
-        header2: 'Reason for Falls',
+        header2: 'Reason for Falls'
       }
       setHeaderNames(fromdata)
       setViewFlag(1)
@@ -596,13 +596,13 @@ const QiApprovalView = ({
             details: val.falls_details,
             reason: val.falls_reason,
             inctype: val.falls_incident_type,
-            type: 'IP',
+            type: 'IP'
           }
         })
         setTableData(ipErrorData)
         const fromdata = {
           header1: 'Details of Error',
-          header2: 'Reason of Error',
+          header2: 'Reason of Error'
         }
         setHeaderNames(fromdata)
         setViewFlag(1)
@@ -630,7 +630,7 @@ const QiApprovalView = ({
           details: val.sentinel_details,
           reason: val.sentinel_reason,
           inctype: val.sentinel_incident_type,
-          type: 'OP',
+          type: 'OP'
         }
       })
       if (ipdata.length !== 0) {
@@ -645,7 +645,7 @@ const QiApprovalView = ({
             details: val.sentinel_details,
             reason: val.sentinel_reason,
             inctype: val.sentinel_incident_type,
-            type: 'IP',
+            type: 'IP'
           }
         })
         const finalData = [...errorData, ...ipErrorData].sort(
@@ -657,7 +657,7 @@ const QiApprovalView = ({
       }
       const fromdata = {
         header1: 'Details',
-        header2: 'Reason for Sentinel Events Happened',
+        header2: 'Reason for Sentinel Events Happened'
       }
       setHeaderNames(fromdata)
       setViewFlag(1)
@@ -675,13 +675,13 @@ const QiApprovalView = ({
             details: val.sentinel_details,
             reason: val.sentinel_reason,
             inctype: val.sentinel_incident_type,
-            type: 'IP',
+            type: 'IP'
           }
         })
         setTableData(ipErrorData)
         const fromdata = {
           header1: 'Details of Error',
-          header2: 'Reason of Error',
+          header2: 'Reason of Error'
         }
         setHeaderNames(fromdata)
         setViewFlag(1)
@@ -709,7 +709,7 @@ const QiApprovalView = ({
           details: val.nearmisses_details,
           reason: val.nearmisses_reason,
           inctype: val.nearmiss_incident_type,
-          type: 'OP',
+          type: 'OP'
         }
       })
       if (ipdata.length !== 0) {
@@ -724,7 +724,7 @@ const QiApprovalView = ({
             details: val.nearmisses_details,
             reason: val.nearmisses_reason,
             inctype: val.nearmiss_incident_type,
-            type: 'IP',
+            type: 'IP'
           }
         })
         const finalData = [...errorData, ...ipErrorData].sort(
@@ -736,7 +736,7 @@ const QiApprovalView = ({
       }
       const fromdata = {
         header1: 'Details',
-        header2: 'Reason for Near Missess',
+        header2: 'Reason for Near Missess'
       }
       setHeaderNames(fromdata)
       setViewFlag(1)
@@ -754,13 +754,13 @@ const QiApprovalView = ({
             details: val.nearmisses_details,
             reason: val.nearmisses_reason,
             inctype: val.nearmiss_incident_type,
-            type: 'IP',
+            type: 'IP'
           }
         })
         setTableData(ipErrorData)
         const fromdata = {
           header1: 'Details of Error',
-          header2: 'Reason of Error',
+          header2: 'Reason of Error'
         }
         setHeaderNames(fromdata)
         setViewFlag(1)
@@ -786,7 +786,7 @@ const QiApprovalView = ({
       endo_incharge_apprv_status: 1,
       endo_incharge_remarks: remarks,
       endo_incharge_id: id,
-      endo_Incharge_apprv_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
+      endo_Incharge_apprv_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss')
     }
   }, [qidept, searchDate, remarks, id])
 
@@ -846,7 +846,7 @@ const QiApprovalView = ({
           maxHeight: window.innerHeight - 270,
           padding: 'none',
           border: '1px solid lightgrey',
-          px: 0.5,
+          px: 0.5
         }}
       >
         {endoSearch === 1 ? (
@@ -861,7 +861,7 @@ const QiApprovalView = ({
                     fontWeight: 650,
                     pl: 1,
                     color: '#555830',
-                    bgcolor: '#E4E5E8',
+                    bgcolor: '#E4E5E8'
                   }}
                 >
                   Number Of Reporting Errors per 1000 Investigations
@@ -871,9 +871,7 @@ const QiApprovalView = ({
                     <Box sx={{ flex: 1 }}>
                       <Box sx={{ display: 'flex', pt: 0.5 }}>
                         <Box sx={{ flex: 1.5, p: 0.2 }}>
-                          <Typography sx={{ fontSize: 13, pl: 2 }}>
-                            Total Number Of Reporting Errors
-                          </Typography>
+                          <Typography sx={{ fontSize: 13, pl: 2 }}>Total Number Of Reporting Errors</Typography>
                         </Box>
                         <Box
                           sx={{
@@ -881,7 +879,7 @@ const QiApprovalView = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -892,9 +890,7 @@ const QiApprovalView = ({
                       </Box>
                       <Box sx={{ display: 'flex' }}>
                         <Box sx={{ flex: 1.5, p: 0.2 }}>
-                          <Typography sx={{ fontSize: 13, pl: 2 }}>
-                            Total Number Of Tests Performed
-                          </Typography>
+                          <Typography sx={{ fontSize: 13, pl: 2 }}>Total Number Of Tests Performed</Typography>
                         </Box>
                         <Box
                           sx={{
@@ -902,7 +898,7 @@ const QiApprovalView = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -921,7 +917,7 @@ const QiApprovalView = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -929,17 +925,11 @@ const QiApprovalView = ({
                         <Box sx={{ flex: 0.3, p: 0.2 }}>
                           <CssVarsProvider>
                             {errorResult > 2.3 ? (
-                              <Typography
-                                size="md"
-                                sx={{ color: '#bf360c', fontSize: 14, pt: 0.1 }}
-                              >
+                              <Typography size="md" sx={{ color: '#bf360c', fontSize: 14, pt: 0.1 }}>
                                 {errorResult}
                               </Typography>
                             ) : (
-                              <Typography
-                                size="md"
-                                sx={{ color: '#32CD30', fontSize: 14, pt: 0.1 }}
-                              >
+                              <Typography size="md" sx={{ color: '#32CD30', fontSize: 14, pt: 0.1 }}>
                                 {errorResult}
                               </Typography>
                             )}
@@ -958,7 +948,7 @@ const QiApprovalView = ({
                             width: 100,
                             display: 'flex',
                             justifyContent: 'flex-start',
-                            borderRadius: 7,
+                            borderRadius: 7
                           }}
                           startDecorator={
                             <ErrorOutlineOutlinedIcon
@@ -974,9 +964,7 @@ const QiApprovalView = ({
                     </Box>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'flex-end', pr: 2 }}>
-                    <Typography sx={{ color: 'darkred', fontSize: 10 }}>
-                      * BenchMark Value is 2.3
-                    </Typography>
+                    <Typography sx={{ color: 'darkred', fontSize: 10 }}>* BenchMark Value is 2.3</Typography>
                   </Box>
                 </Box>
               </Paper>
@@ -991,7 +979,7 @@ const QiApprovalView = ({
                     fontWeight: 650,
                     pl: 1,
                     color: '#555830',
-                    bgcolor: '#E4E5E8',
+                    bgcolor: '#E4E5E8'
                   }}
                 >
                   Percentage Of Re dos
@@ -1001,9 +989,7 @@ const QiApprovalView = ({
                     <Box sx={{ flex: 1 }}>
                       <Box sx={{ display: 'flex', pt: 0.5 }}>
                         <Box sx={{ flex: 1.5, p: 0.2 }}>
-                          <Typography sx={{ fontSize: 13, pl: 2 }}>
-                            Total Number Of Re dos
-                          </Typography>
+                          <Typography sx={{ fontSize: 13, pl: 2 }}>Total Number Of Re dos</Typography>
                         </Box>
                         <Box
                           sx={{
@@ -1011,7 +997,7 @@ const QiApprovalView = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -1022,9 +1008,7 @@ const QiApprovalView = ({
                       </Box>
                       <Box sx={{ display: 'flex' }}>
                         <Box sx={{ flex: 1.5, p: 0.2 }}>
-                          <Typography sx={{ fontSize: 13, pl: 2 }}>
-                            Total Number Of Tests Performed
-                          </Typography>
+                          <Typography sx={{ fontSize: 13, pl: 2 }}>Total Number Of Tests Performed</Typography>
                         </Box>
                         <Box
                           sx={{
@@ -1032,7 +1016,7 @@ const QiApprovalView = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -1051,7 +1035,7 @@ const QiApprovalView = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -1059,17 +1043,11 @@ const QiApprovalView = ({
                         <Box sx={{ flex: 0.2, p: 0.2 }}>
                           <CssVarsProvider>
                             {redosResult > 0 ? (
-                              <Typography
-                                size="md"
-                                sx={{ color: '#bf360c', fontSize: 14, pt: 0.1 }}
-                              >
+                              <Typography size="md" sx={{ color: '#bf360c', fontSize: 14, pt: 0.1 }}>
                                 {redosResult}
                               </Typography>
                             ) : (
-                              <Typography
-                                size="md"
-                                sx={{ color: '#32CD30', fontSize: 14, pt: 0.1 }}
-                              >
+                              <Typography size="md" sx={{ color: '#32CD30', fontSize: 14, pt: 0.1 }}>
                                 {redosResult}
                               </Typography>
                             )}
@@ -1088,7 +1066,7 @@ const QiApprovalView = ({
                             width: 100,
                             display: 'flex',
                             justifyContent: 'flex-start',
-                            borderRadius: 7,
+                            borderRadius: 7
                           }}
                           startDecorator={
                             <VaccinesIcon
@@ -1104,9 +1082,7 @@ const QiApprovalView = ({
                     </Box>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'flex-end', pr: 2 }}>
-                    <Typography sx={{ color: 'darkred', fontSize: 10 }}>
-                      * BenchMark Value is 0
-                    </Typography>
+                    <Typography sx={{ color: 'darkred', fontSize: 10 }}>* BenchMark Value is 0</Typography>
                   </Box>
                 </Box>
               </Paper>
@@ -1121,7 +1097,7 @@ const QiApprovalView = ({
                     fontWeight: 650,
                     pl: 1,
                     color: '#555830',
-                    bgcolor: '#E4E5E8',
+                    bgcolor: '#E4E5E8'
                   }}
                 >
                   Waiting time for services (a) Diagnostics
@@ -1139,7 +1115,7 @@ const QiApprovalView = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -1150,9 +1126,7 @@ const QiApprovalView = ({
                       </Box>
                       <Box sx={{ display: 'flex' }}>
                         <Box sx={{ flex: 1.5, p: 0.2 }}>
-                          <Typography sx={{ fontSize: 13, pl: 2 }}>
-                            Total Number Of Patients Reported
-                          </Typography>
+                          <Typography sx={{ fontSize: 13, pl: 2 }}>Total Number Of Patients Reported</Typography>
                         </Box>
                         <Box
                           sx={{
@@ -1160,7 +1134,7 @@ const QiApprovalView = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -1179,7 +1153,7 @@ const QiApprovalView = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -1187,17 +1161,11 @@ const QiApprovalView = ({
                         <Box sx={{ flex: 0.2, p: 0.2 }}>
                           <CssVarsProvider>
                             {timeResult > 10 ? (
-                              <Typography
-                                size="md"
-                                sx={{ color: '#bf360c', fontSize: 14, pt: 0.1 }}
-                              >
+                              <Typography size="md" sx={{ color: '#bf360c', fontSize: 14, pt: 0.1 }}>
                                 {timeResult}
                               </Typography>
                             ) : (
-                              <Typography
-                                size="md"
-                                sx={{ color: '#32CD30', fontSize: 14, pt: 0.1 }}
-                              >
+                              <Typography size="md" sx={{ color: '#32CD30', fontSize: 14, pt: 0.1 }}>
                                 {timeResult}
                               </Typography>
                             )}
@@ -1217,7 +1185,7 @@ const QiApprovalView = ({
                               width: 100,
                               display: 'flex',
                               justifyContent: 'flex-start',
-                              borderRadius: 7,
+                              borderRadius: 7
                             }}
                             startDecorator={
                               <TimerOutlinedIcon
@@ -1234,9 +1202,7 @@ const QiApprovalView = ({
                     </Box>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'flex-end', pr: 2 }}>
-                    <Typography sx={{ color: 'darkred', fontSize: 10 }}>
-                      * BenchMark Value is 10 min
-                    </Typography>
+                    <Typography sx={{ color: 'darkred', fontSize: 10 }}>* BenchMark Value is 10 min</Typography>
                   </Box>
                 </Box>
               </Paper>
@@ -1251,7 +1217,7 @@ const QiApprovalView = ({
                     fontWeight: 650,
                     pl: 1,
                     color: '#555830',
-                    bgcolor: '#E4E5E8',
+                    bgcolor: '#E4E5E8'
                   }}
                 >
                   Incidence Of Patient Identification Errors
@@ -1271,7 +1237,7 @@ const QiApprovalView = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -1282,9 +1248,7 @@ const QiApprovalView = ({
                       </Box>
                       <Box sx={{ display: 'flex' }}>
                         <Box sx={{ flex: 1.5, p: 0.2 }}>
-                          <Typography sx={{ fontSize: 13, pl: 2 }}>
-                            Total Number Of Patients
-                          </Typography>
+                          <Typography sx={{ fontSize: 13, pl: 2 }}>Total Number Of Patients</Typography>
                         </Box>
                         <Box
                           sx={{
@@ -1292,7 +1256,7 @@ const QiApprovalView = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -1311,7 +1275,7 @@ const QiApprovalView = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -1319,17 +1283,11 @@ const QiApprovalView = ({
                         <Box sx={{ flex: 0.3, p: 0.2 }}>
                           <CssVarsProvider>
                             {idetifctionResult > 0 ? (
-                              <Typography
-                                size="md"
-                                sx={{ color: '#bf360c', fontSize: 14, pt: 0.1 }}
-                              >
+                              <Typography size="md" sx={{ color: '#bf360c', fontSize: 14, pt: 0.1 }}>
                                 {idetifctionResult}
                               </Typography>
                             ) : (
-                              <Typography
-                                size="md"
-                                sx={{ color: '#32CD30', fontSize: 14, pt: 0.1 }}
-                              >
+                              <Typography size="md" sx={{ color: '#32CD30', fontSize: 14, pt: 0.1 }}>
                                 {idetifctionResult}
                               </Typography>
                             )}
@@ -1348,7 +1306,7 @@ const QiApprovalView = ({
                             width: 100,
                             display: 'flex',
                             justifyContent: 'flex-start',
-                            borderRadius: 7,
+                            borderRadius: 7
                           }}
                           startDecorator={
                             <ReportGmailerrorredOutlinedIcon
@@ -1364,9 +1322,7 @@ const QiApprovalView = ({
                     </Box>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'flex-end', pr: 2 }}>
-                    <Typography sx={{ color: 'darkred', fontSize: 10 }}>
-                      * BenchMark Value is 0
-                    </Typography>
+                    <Typography sx={{ color: 'darkred', fontSize: 10 }}>* BenchMark Value is 0</Typography>
                   </Box>
                 </Box>
               </Paper>
@@ -1381,7 +1337,7 @@ const QiApprovalView = ({
                     fontWeight: 650,
                     pl: 1,
                     color: '#555830',
-                    bgcolor: '#E4E5E8',
+                    bgcolor: '#E4E5E8'
                   }}
                 >
                   Incidence Of Falls
@@ -1391,9 +1347,7 @@ const QiApprovalView = ({
                     <Box sx={{ flex: 1 }}>
                       <Box sx={{ display: 'flex', pt: 0.5 }}>
                         <Box sx={{ flex: 1.5, p: 0.2 }}>
-                          <Typography sx={{ fontSize: 13, pl: 2 }}>
-                            Total Number Of Falls
-                          </Typography>
+                          <Typography sx={{ fontSize: 13, pl: 2 }}>Total Number Of Falls</Typography>
                         </Box>
                         <Box
                           sx={{
@@ -1401,7 +1355,7 @@ const QiApprovalView = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -1412,9 +1366,7 @@ const QiApprovalView = ({
                       </Box>
                       <Box sx={{ display: 'flex' }}>
                         <Box sx={{ flex: 1.5, p: 0.2 }}>
-                          <Typography sx={{ fontSize: 13, pl: 2 }}>
-                            Total Number Of Patient Days
-                          </Typography>
+                          <Typography sx={{ fontSize: 13, pl: 2 }}>Total Number Of Patient Days</Typography>
                         </Box>
                         <Box
                           sx={{
@@ -1422,7 +1374,7 @@ const QiApprovalView = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -1441,7 +1393,7 @@ const QiApprovalView = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -1449,17 +1401,11 @@ const QiApprovalView = ({
                         <Box sx={{ flex: 0.3, p: 0.2 }}>
                           <CssVarsProvider>
                             {fallsResult > 0 ? (
-                              <Typography
-                                size="md"
-                                sx={{ color: '#bf360c', fontSize: 14, pt: 0.1 }}
-                              >
+                              <Typography size="md" sx={{ color: '#bf360c', fontSize: 14, pt: 0.1 }}>
                                 {fallsResult}
                               </Typography>
                             ) : (
-                              <Typography
-                                size="md"
-                                sx={{ color: '#32CD30', fontSize: 14, pt: 0.1 }}
-                              >
+                              <Typography size="md" sx={{ color: '#32CD30', fontSize: 14, pt: 0.1 }}>
                                 {fallsResult}
                               </Typography>
                             )}
@@ -1478,7 +1424,7 @@ const QiApprovalView = ({
                             width: 100,
                             display: 'flex',
                             justifyContent: 'flex-start',
-                            borderRadius: 7,
+                            borderRadius: 7
                           }}
                           startDecorator={
                             <FmdBadOutlinedIcon
@@ -1494,9 +1440,7 @@ const QiApprovalView = ({
                     </Box>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'flex-end', pr: 2 }}>
-                    <Typography sx={{ color: 'darkred', fontSize: 10 }}>
-                      * BenchMark Value is 0
-                    </Typography>
+                    <Typography sx={{ color: 'darkred', fontSize: 10 }}>* BenchMark Value is 0</Typography>
                   </Box>
                 </Box>
               </Paper>
@@ -1511,7 +1455,7 @@ const QiApprovalView = ({
                     fontWeight: 650,
                     pl: 1,
                     color: '#555830',
-                    bgcolor: '#E4E5E8',
+                    bgcolor: '#E4E5E8'
                   }}
                 >
                   Percentage Of Near Misses
@@ -1521,9 +1465,7 @@ const QiApprovalView = ({
                     <Box sx={{ flex: 1 }}>
                       <Box sx={{ display: 'flex', pt: 0.5 }}>
                         <Box sx={{ flex: 1.5, p: 0.2 }}>
-                          <Typography sx={{ fontSize: 13, pl: 2 }}>
-                            Total Number Of Near Misses Reported
-                          </Typography>
+                          <Typography sx={{ fontSize: 13, pl: 2 }}>Total Number Of Near Misses Reported</Typography>
                         </Box>
                         <Box
                           sx={{
@@ -1531,7 +1473,7 @@ const QiApprovalView = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -1542,9 +1484,7 @@ const QiApprovalView = ({
                       </Box>
                       <Box sx={{ display: 'flex' }}>
                         <Box sx={{ flex: 1.5, p: 0.2 }}>
-                          <Typography sx={{ fontSize: 13, pl: 2 }}>
-                            Total Number Of Incidents Reported
-                          </Typography>
+                          <Typography sx={{ fontSize: 13, pl: 2 }}>Total Number Of Incidents Reported</Typography>
                         </Box>
                         <Box
                           sx={{
@@ -1552,15 +1492,13 @@ const QiApprovalView = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
                         </Box>
                         <Box sx={{ flex: 0.2, p: 0.2 }}>
-                          <Typography sx={{ fontSize: 13, pt: 0.1 }}>
-                            {totIncidentReported}
-                          </Typography>
+                          <Typography sx={{ fontSize: 13, pt: 0.1 }}>{totIncidentReported}</Typography>
                         </Box>
                       </Box>
                       <Box sx={{ display: 'flex' }}>
@@ -1573,7 +1511,7 @@ const QiApprovalView = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -1581,17 +1519,11 @@ const QiApprovalView = ({
                         <Box sx={{ flex: 0.2, p: 0.2 }}>
                           <CssVarsProvider>
                             {nearMissessResult > 100 ? (
-                              <Typography
-                                size="md"
-                                sx={{ color: '#bf360c', fontSize: 14, pt: 0.1 }}
-                              >
+                              <Typography size="md" sx={{ color: '#bf360c', fontSize: 14, pt: 0.1 }}>
                                 {nearMissessResult}
                               </Typography>
                             ) : (
-                              <Typography
-                                size="md"
-                                sx={{ color: '#32CD30', fontSize: 14, pt: 0.1 }}
-                              >
+                              <Typography size="md" sx={{ color: '#32CD30', fontSize: 14, pt: 0.1 }}>
                                 {nearMissessResult}
                               </Typography>
                             )}
@@ -1610,7 +1542,7 @@ const QiApprovalView = ({
                             width: 100,
                             display: 'flex',
                             justifyContent: 'flex-start',
-                            borderRadius: 7,
+                            borderRadius: 7
                           }}
                           startDecorator={
                             <NearbyErrorIcon
@@ -1626,9 +1558,7 @@ const QiApprovalView = ({
                     </Box>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'flex-end', pr: 2 }}>
-                    <Typography sx={{ color: 'darkred', fontSize: 10 }}>
-                      * BenchMark Value is 100
-                    </Typography>
+                    <Typography sx={{ color: 'darkred', fontSize: 10 }}>* BenchMark Value is 100</Typography>
                   </Box>
                 </Box>
               </Paper>
@@ -1643,11 +1573,10 @@ const QiApprovalView = ({
                     fontWeight: 650,
                     pl: 1,
                     color: '#555830',
-                    bgcolor: '#E4E5E8',
+                    bgcolor: '#E4E5E8'
                   }}
                 >
-                  Number Of Sentinel events Reported, Collected And Analysed within the defined Time
-                  Frame
+                  Number Of Sentinel events Reported, Collected And Analysed within the defined Time Frame
                 </Box>
                 <Box>
                   <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
@@ -1664,15 +1593,13 @@ const QiApprovalView = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
                         </Box>
                         <Box sx={{ flex: 0.2, p: 0.2 }}>
-                          <Typography sx={{ fontSize: 13, pt: 0.1 }}>
-                            {totalSentinelAnalysed}
-                          </Typography>
+                          <Typography sx={{ fontSize: 13, pt: 0.1 }}>{totalSentinelAnalysed}</Typography>
                         </Box>
                       </Box>
                       <Box sx={{ display: 'flex' }}>
@@ -1687,7 +1614,7 @@ const QiApprovalView = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -1706,7 +1633,7 @@ const QiApprovalView = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -1714,17 +1641,11 @@ const QiApprovalView = ({
                         <Box sx={{ flex: 0.2, p: 0.2 }}>
                           <CssVarsProvider>
                             {sentinelResult > 0 ? (
-                              <Typography
-                                size="md"
-                                sx={{ color: '#bf360c', fontSize: 14, pt: 0.1 }}
-                              >
+                              <Typography size="md" sx={{ color: '#bf360c', fontSize: 14, pt: 0.1 }}>
                                 {sentinelResult}
                               </Typography>
                             ) : (
-                              <Typography
-                                size="md"
-                                sx={{ color: '#32CD30', fontSize: 14, pt: 0.1 }}
-                              >
+                              <Typography size="md" sx={{ color: '#32CD30', fontSize: 14, pt: 0.1 }}>
                                 {sentinelResult}
                               </Typography>
                             )}
@@ -1743,7 +1664,7 @@ const QiApprovalView = ({
                             width: 100,
                             display: 'flex',
                             justifyContent: 'flex-start',
-                            borderRadius: 7,
+                            borderRadius: 7
                           }}
                           startDecorator={
                             <RunningWithErrorsOutlinedIcon
@@ -1759,9 +1680,7 @@ const QiApprovalView = ({
                     </Box>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'flex-end', pr: 2 }}>
-                    <Typography sx={{ color: 'darkred', fontSize: 10 }}>
-                      * BenchMark Value is 0
-                    </Typography>
+                    <Typography sx={{ color: 'darkred', fontSize: 10 }}>* BenchMark Value is 0</Typography>
                   </Box>
                 </Box>
               </Paper>
@@ -1776,7 +1695,7 @@ const QiApprovalView = ({
                     fontWeight: 650,
                     pl: 1,
                     color: '#555830',
-                    bgcolor: '#E4E5E8',
+                    bgcolor: '#E4E5E8'
                   }}
                 >
                   Equipment Utilization
@@ -1786,9 +1705,7 @@ const QiApprovalView = ({
                     <Box sx={{ flex: 1.5 }}>
                       <Box sx={{ display: 'flex', pt: 0.5 }}>
                         <Box sx={{ flex: 1.5, p: 0.2 }}>
-                          <Typography sx={{ fontSize: 13, pl: 2 }}>
-                            Number of Equipment Utilized Days
-                          </Typography>
+                          <Typography sx={{ fontSize: 13, pl: 2 }}>Number of Equipment Utilized Days</Typography>
                         </Box>
                         <Box
                           sx={{
@@ -1796,7 +1713,7 @@ const QiApprovalView = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -1807,9 +1724,7 @@ const QiApprovalView = ({
                       </Box>
                       <Box sx={{ display: 'flex' }}>
                         <Box sx={{ flex: 1.5, p: 0.2 }}>
-                          <Typography sx={{ fontSize: 13, pl: 2 }}>
-                            Equipment Days Available
-                          </Typography>
+                          <Typography sx={{ fontSize: 13, pl: 2 }}>Equipment Days Available</Typography>
                         </Box>
                         <Box
                           sx={{
@@ -1817,15 +1732,13 @@ const QiApprovalView = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
                         </Box>
                         <Box sx={{ flex: 0.3, p: 0.2 }}>
-                          <Typography sx={{ fontSize: 13, pt: 0.1 }}>
-                            {totEquipAvailable}
-                          </Typography>
+                          <Typography sx={{ fontSize: 13, pt: 0.1 }}>{totEquipAvailable}</Typography>
                         </Box>
                       </Box>
                       <Box sx={{ display: 'flex' }}>
@@ -1838,7 +1751,7 @@ const QiApprovalView = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -1862,16 +1775,14 @@ const QiApprovalView = ({
                             height: 30,
                             width: 100,
                             display: 'flex',
-                            justifyContent: 'flex-start',
+                            justifyContent: 'flex-start'
                           }}
                         ></Button>
                       </CssVarsProvider>
                     </Box>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'flex-end', pr: 2 }}>
-                    <Typography sx={{ color: 'darkred', fontSize: 10 }}>
-                      * BenchMark Value is 0
-                    </Typography>
+                    <Typography sx={{ color: 'darkred', fontSize: 10 }}>* BenchMark Value is 0</Typography>
                   </Box>
                 </Box>
               </Paper>
@@ -1886,7 +1797,7 @@ const QiApprovalView = ({
                       color: '#555830',
                       fontWeight: 550,
                       bgcolor: '#E4E5E8',
-                      py: 0.5,
+                      py: 0.5
                     }}
                   >
                     Level II Approval Done
@@ -1899,7 +1810,7 @@ const QiApprovalView = ({
                         color: '#555830',
                         fontWeight: 550,
                         pr: 1.5,
-                        pt: 1.8,
+                        pt: 1.8
                       }}
                     >
                       Approved By:
@@ -1914,7 +1825,7 @@ const QiApprovalView = ({
                         color: '#555830',
                         fontWeight: 550,
                         pr: 1.5,
-                        pt: 1.8,
+                        pt: 1.8
                       }}
                     >
                       Approved Date :
@@ -1934,7 +1845,7 @@ const QiApprovalView = ({
                         color: '#555830',
                         fontWeight: 550,
                         bgcolor: '#E4E5E8',
-                        py: 0.5,
+                        py: 0.5
                       }}
                     >
                       Remarks by Quality Indicator Submitting Incharge
@@ -1977,7 +1888,7 @@ const QiApprovalView = ({
                             color: '#555830',
                             fontWeight: 550,
                             pr: 1.5,
-                            pt: 1.8,
+                            pt: 1.8
                           }}
                         >
                           Approved By:
@@ -1992,15 +1903,13 @@ const QiApprovalView = ({
                             color: '#555830',
                             fontWeight: 550,
                             pr: 1.5,
-                            pt: 1.8,
+                            pt: 1.8
                           }}
                         >
                           Approved Date :
                         </Box>
                         <Box sx={{ pr: 1.5, pt: 2 }}>
-                          <Typography sx={{ fontSize: 13, color: '#555830' }}>
-                            {lastApprvdDate}
-                          </Typography>
+                          <Typography sx={{ fontSize: 13, color: '#555830' }}>{lastApprvdDate}</Typography>
                         </Box>
                       </>
                     ) : null}
@@ -2016,7 +1925,7 @@ const QiApprovalView = ({
                               width: 120,
                               display: 'flex',
                               justifyContent: 'flex-start',
-                              borderRadius: 7,
+                              borderRadius: 7
                             }}
                             startDecorator={
                               <SaveIcon
@@ -2039,7 +1948,7 @@ const QiApprovalView = ({
                               width: 120,
                               display: 'flex',
                               justifyContent: 'flex-start',
-                              borderRadius: 7,
+                              borderRadius: 7
                             }}
                             startDecorator={
                               <SaveIcon

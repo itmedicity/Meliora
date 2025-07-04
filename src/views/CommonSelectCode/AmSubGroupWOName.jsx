@@ -31,7 +31,7 @@ const AmSubGroupWOName = ({ subgroup, setSubGroup }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '29px',
+            '--Input-minHeight': '29px'
           }}
           value={subgroup === 0 ? subGrps : value}
           placeholder="Select Subgroup"

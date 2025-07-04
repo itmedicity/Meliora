@@ -21,64 +21,35 @@ const FullyReceiveTableView = ({ disData, viewGrnDetails, company }) => {
           overflow: 'auto',
           flexWrap: 'wrap',
           width: '100%',
-          '&::-webkit-scrollbar': { height: 8 },
+          '&::-webkit-scrollbar': { height: 8 }
         }}
       >
         <Paper elevation={3} sx={{ width: 1640 }}>
           {/* < Box display="flex" flexDirection="column" sx={{ mx: 0.5, overflow: 'auto' }}> */}
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            padding={0.5}
-            sx={{ bgcolor: '#41729F', color: 'white' }}
-          >
-            <Typography sx={{ width: 60, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>
-              Sl.No
-            </Typography>
-            <Typography sx={{ width: 100, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
-              CRF No
-            </Typography>
-            <Typography sx={{ width: 80, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
-              Order#
-            </Typography>
-            <Typography sx={{ width: 150, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
-              PO Date
-            </Typography>
+          <Box display="flex" justifyContent="space-between" padding={0.5} sx={{ bgcolor: '#41729F', color: 'white' }}>
+            <Typography sx={{ width: 60, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>Sl.No</Typography>
+            <Typography sx={{ width: 100, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>CRF No</Typography>
+            <Typography sx={{ width: 80, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>Order#</Typography>
+            <Typography sx={{ width: 150, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>PO Date</Typography>
             <Typography sx={{ width: 150, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
               PO to Supplier
             </Typography>
-            <Typography sx={{ width: 150, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
-              Supplier
-            </Typography>
-            <Typography sx={{ width: 120, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
-              Expected Date
-            </Typography>
-            <Typography sx={{ width: 80, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
-              Store
-            </Typography>
-            <Typography sx={{ width: 80, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
-              Details
-            </Typography>
+            <Typography sx={{ width: 150, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>Supplier</Typography>
+            <Typography sx={{ width: 120, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>Expected Date</Typography>
+            <Typography sx={{ width: 80, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>Store</Typography>
+            <Typography sx={{ width: 80, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>Details</Typography>
           </Box>
           <Virtuoso
             style={{ height: '73vh', width: '100%' }}
             data={disData}
             itemContent={(index, val) => (
               <React.Fragment key={index}>
-                <Box
-                  display="flex"
-                  justifyContent="space-between"
-                  sx={{ borderBottom: '1px solid lightgrey' }}
-                >
-                  <Typography sx={{ width: 60, textAlign: 'center', fontSize: 12, my: 1 }}>
-                    {index + 1}
-                  </Typography>
+                <Box display="flex" justifyContent="space-between" sx={{ borderBottom: '1px solid lightgrey' }}>
+                  <Typography sx={{ width: 60, textAlign: 'center', fontSize: 12, my: 1 }}>{index + 1}</Typography>
                   <Typography
                     sx={{ width: 100, textAlign: 'left', fontSize: 12, my: 1 }}
                   >{`CRF/${company?.company_name}/${val?.req_slno}`}</Typography>
-                  <Typography sx={{ width: 80, textAlign: 'left', fontSize: 12, my: 1 }}>
-                    {val.po_number}
-                  </Typography>
+                  <Typography sx={{ width: 80, textAlign: 'left', fontSize: 12, my: 1 }}>{val.po_number}</Typography>
                   <Typography sx={{ width: 150, textAlign: 'left', fontSize: 12, my: 1 }}>
                     {format(new Date(val.po_date), 'dd-MM-yyyy hh:mm:ss a')}
                   </Typography>
@@ -89,13 +60,9 @@ const FullyReceiveTableView = ({ disData, viewGrnDetails, company }) => {
                     {capitalizeWords(val.supplier_name)}
                   </Typography>
                   <Typography sx={{ width: 120, textAlign: 'left', fontSize: 12, my: 1 }}>
-                    {val.expected_delivery
-                      ? format(new Date(val.expected_delivery), 'dd-MM-yyyy')
-                      : 'Nil'}
+                    {val.expected_delivery ? format(new Date(val.expected_delivery), 'dd-MM-yyyy') : 'Nil'}
                   </Typography>
-                  <Typography sx={{ width: 80, textAlign: 'left', fontSize: 12, my: 1 }}>
-                    {val.main_store}
-                  </Typography>
+                  <Typography sx={{ width: 80, textAlign: 'left', fontSize: 12, my: 1 }}>{val.main_store}</Typography>
                   <Box sx={{ width: 80, textAlign: 'center', cursor: 'pointer', display: 'flex' }}>
                     <Tooltip title="View Grn Details" placement="left">
                       <FeaturedPlayListTwoToneIcon
@@ -110,8 +77,8 @@ const FullyReceiveTableView = ({ disData, viewGrnDetails, company }) => {
                           cursor: 'pointer',
                           transition: 'transform 0.2s',
                           '&:hover': {
-                            transform: 'scale(1.1)',
-                          },
+                            transform: 'scale(1.1)'
+                          }
                         }}
                         onClick={() => viewGrnDetails(val.po_number, val.items)}
                       />

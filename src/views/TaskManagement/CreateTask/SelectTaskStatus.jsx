@@ -11,7 +11,7 @@ const SelectTaskStatus = ({ taskstatus, setTaskStatus }) => {
       { label: 'Incompleted', id: 0 },
       { label: 'On Progress', id: 2 },
       { label: 'On Hold', id: 3 },
-      { label: 'Pending', id: 4 },
+      { label: 'Pending', id: 4 }
     ]
   }, [])
   const [value, setValue] = useState(statusList[0])
@@ -37,7 +37,7 @@ const SelectTaskStatus = ({ taskstatus, setTaskStatus }) => {
           sx={{
             '--Input-minHeight': '25px',
             borderRadius: 0.2,
-            borderRight: 0,
+            borderRight: 0
           }}
           value={taskstatus === 1 ? statusList : value}
           placeholder="select task status"

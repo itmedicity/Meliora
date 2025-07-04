@@ -22,7 +22,7 @@ const QualityIndDeptMast = () => {
     qi_dept_no: '0',
     qi_dept_code: '',
     qi_dept_desc: '',
-    qi_dept_status: false,
+    qi_dept_status: false
   })
   const { qi_dept_no, qi_dept_code, qi_dept_desc, qi_dept_status } = qidepartment
   const updateDepartment = useCallback(
@@ -53,7 +53,7 @@ const QualityIndDeptMast = () => {
       qi_co_deptsec_slno: deptSection,
       qi_dept_status: qi_dept_status === true ? 1 : 0,
       qi_list_type: qiType,
-      create_user: id,
+      create_user: id
     }
   }, [qi_dept_desc, qi_dept_code, id, qi_dept_status, deptSection, qiType])
 
@@ -65,7 +65,7 @@ const QualityIndDeptMast = () => {
       qi_co_deptsec_slno: deptSection,
       qi_dept_status: qi_dept_status === true ? 1 : 0,
       qi_list_type: qiType,
-      edit_user: id,
+      edit_user: id
     }
   }, [qi_dept_no, qi_dept_desc, qi_dept_code, id, qi_dept_status, deptSection, qiType])
 
@@ -74,7 +74,7 @@ const QualityIndDeptMast = () => {
       qi_dept_no: '0',
       qi_dept_code: '',
       qi_dept_desc: '',
-      qi_dept_status: false,
+      qi_dept_status: false
     }
     setQiDepartment(formreset)
     setDeptSection(0)
@@ -127,13 +127,12 @@ const QualityIndDeptMast = () => {
   const rowSelect = useCallback(params => {
     setEdit(1)
     const data = params.api.getSelectedRows()
-    const { qi_dept_no, qi_dept_desc, qi_dept_code, qi_co_deptsec_slno, status, qi_list_type } =
-      data[0]
+    const { qi_dept_no, qi_dept_desc, qi_dept_code, qi_co_deptsec_slno, status, qi_list_type } = data[0]
     const frmdata = {
       qi_dept_no: qi_dept_no,
       qi_dept_code: qi_dept_code,
       qi_dept_desc: qi_dept_desc,
-      qi_dept_status: status === 'Yes' ? true : false,
+      qi_dept_status: status === 'Yes' ? true : false
     }
     setQiDepartment(frmdata)
     setDeptSection(qi_co_deptsec_slno)

@@ -39,7 +39,7 @@ const BillMastSelectComp = ({ AmcCmc, setAmcCmc, AddBillFlg }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '29px',
+            '--Input-minHeight': '29px'
           }}
           value={AmcCmc === 0 ? models : value}
           placeholder="Select Bill"

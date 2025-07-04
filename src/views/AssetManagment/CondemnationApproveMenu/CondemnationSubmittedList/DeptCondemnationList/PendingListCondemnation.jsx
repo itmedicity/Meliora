@@ -50,14 +50,11 @@ const PendingListCondemnation = ({ PendingDeptDatas, editForm, viewForm }) => {
                             fontWeight: 700,
                             cursor: 'pointer',
                             fontSize: 13,
-                            '&:hover': { bgcolor: '#7AA4C7' },
+                            '&:hover': { bgcolor: '#7AA4C7' }
                           }}
                           onClick={() => editForm(val)}
                         >
-                          <ModeEditIcon
-                            size={6}
-                            sx={{ cursor: 'pointer', p: 0.4, color: 'black' }}
-                          />
+                          <ModeEditIcon size={6} sx={{ cursor: 'pointer', p: 0.4, color: 'black' }} />
                           Edit
                         </Box>
                       ) : (
@@ -70,7 +67,7 @@ const PendingListCondemnation = ({ PendingDeptDatas, editForm, viewForm }) => {
                             cursor: 'pointer',
                             fontSize: 13,
                             py: 0.2,
-                            '&:hover': { bgcolor: '#8FA297 ' },
+                            '&:hover': { bgcolor: '#8FA297 ' }
                           }}
                           onClick={() => viewForm(val)}
                         >
@@ -102,11 +99,9 @@ const PendingListCondemnation = ({ PendingDeptDatas, editForm, viewForm }) => {
                               ? '#7AC7AD'
                               : val.condem_status === 6 && val.store_approve_status === 2
                               ? '#F4A3A3 '
-                              : val.condem_status === 7 &&
-                                val.material_mangmnt_mangr_apprv_status === 1
+                              : val.condem_status === 7 && val.material_mangmnt_mangr_apprv_status === 1
                               ? '#7AC7AD'
-                              : val.condem_status === 7 &&
-                                val.material_mangmnt_mangr_apprv_status === 2
+                              : val.condem_status === 7 && val.material_mangmnt_mangr_apprv_status === 2
                               ? '#F4A3A3 '
                               : '#EFF4F0',
                           textAlign: 'center',
@@ -114,7 +109,7 @@ const PendingListCondemnation = ({ PendingDeptDatas, editForm, viewForm }) => {
                           fontWeight: 700,
                           cursor: 'pointer',
                           fontSize: 13,
-                          py: 0.2,
+                          py: 0.2
                         }}
                       >
                         {val.condem_status === 2 && val.incharge_approve_status === 1
@@ -168,7 +163,7 @@ const PendingListCondemnation = ({ PendingDeptDatas, editForm, viewForm }) => {
               width: '100%',
               textAlign: 'center',
               color: 'lightgrey',
-              border: 1,
+              border: 1
             }}
           >
             Empty List

@@ -29,11 +29,11 @@ const ApprovalMappingMaster = () => {
   const {
     data: compData,
     isLoading: isCompLoading,
-    error: compError,
+    error: compError
   } = useQuery({
     queryKey: 'getCompany',
     queryFn: () => getCompanyDetails(),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const companyData = useMemo(() => compData, [compData])
 
@@ -53,7 +53,7 @@ const ApprovalMappingMaster = () => {
     manageNo: '',
     mdFlag: 0,
     edFlag: 0,
-    manageFlag: 0,
+    manageFlag: 0
   })
   const {
     approval_slno,
@@ -71,7 +71,7 @@ const ApprovalMappingMaster = () => {
     manageNo,
     mdFlag,
     edFlag,
-    manageFlag,
+    manageFlag
   } = approvalState
   const updateApproval = useCallback(
     e => {
@@ -98,7 +98,7 @@ const ApprovalMappingMaster = () => {
             ...prev,
             mdEmpId: em_id,
             mdName: em_name,
-            mdFlag: 1,
+            mdFlag: 1
           }))
         } else {
           infoNotify(message)
@@ -125,7 +125,7 @@ const ApprovalMappingMaster = () => {
             ...prev,
             edEmpId: em_id,
             edName: em_name,
-            edFlag: 1,
+            edFlag: 1
           }))
         } else {
           infoNotify(message)
@@ -152,7 +152,7 @@ const ApprovalMappingMaster = () => {
             ...prev,
             manageEmpId: em_id,
             manageName: em_name,
-            manageFlag: 1,
+            manageFlag: 1
           }))
         } else {
           infoNotify(message)
@@ -171,7 +171,7 @@ const ApprovalMappingMaster = () => {
       executive_director_emid: edStatus === true ? edEmpId : 0,
       managing_director_approve: manageStatus === true ? 1 : 0,
       managing_director_emid: manageStatus === true ? manageEmpId : 0,
-      create_user: id,
+      create_user: id
     }
   }, [selectedCompany, mdStatus, edStatus, manageStatus, mdEmpId, edEmpId, manageEmpId, id])
 
@@ -185,19 +185,9 @@ const ApprovalMappingMaster = () => {
       managing_director_approve: manageStatus === true ? 1 : 0,
       managing_director_emid: manageStatus === true ? manageEmpId : 0,
       edit_user: id,
-      approval_slno: approval_slno,
+      approval_slno: approval_slno
     }
-  }, [
-    selectedCompany,
-    mdStatus,
-    edStatus,
-    manageStatus,
-    mdEmpId,
-    edEmpId,
-    manageEmpId,
-    id,
-    approval_slno,
-  ])
+  }, [selectedCompany, mdStatus, edStatus, manageStatus, mdEmpId, edEmpId, manageEmpId, id, approval_slno])
 
   const reset = useCallback(() => {
     const formdata = {
@@ -216,7 +206,7 @@ const ApprovalMappingMaster = () => {
       manageNo: '',
       mdFlag: 0,
       edFlag: 0,
-      manageFlag: 0,
+      manageFlag: 0
     }
     setApprovalState(formdata)
     setEdit(0)
@@ -289,7 +279,7 @@ const ApprovalMappingMaster = () => {
       managing_director_approve,
       managing_director_emid,
       MA_em_no,
-      MA_em_name,
+      MA_em_name
     } = val
     const formdata = {
       approval_slno: approval_slno,
@@ -307,7 +297,7 @@ const ApprovalMappingMaster = () => {
       manageNo: MA_em_no,
       mdFlag: medical_director_approve === 1 ? 1 : 0,
       edFlag: executive_director_approve === 1 ? 1 : 0,
-      manageFlag: managing_director_approve === 1 ? 1 : 0,
+      manageFlag: managing_director_approve === 1 ? 1 : 0
     }
     setApprovalState(formdata)
     setSelectedCompany(company_slno)
@@ -320,12 +310,8 @@ const ApprovalMappingMaster = () => {
       <CssVarsProvider>
         <Box sx={{ backgroundColor: '#f0f3f5', border: '1px solid #B4F5F0' }}>
           <Box sx={{ display: 'flex' }}>
-            <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: 0.5, color: '#385E72' }}>
-              CRF Approval Mapping
-            </Box>
-            <Box
-              sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, m: 0.5 }}
-            >
+            <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: 0.5, color: '#385E72' }}>CRF Approval Mapping</Box>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, m: 0.5 }}>
               <CustomCloseIconCmp handleChange={backtoSetting} />
             </Box>
           </Box>
@@ -399,9 +385,7 @@ const ApprovalMappingMaster = () => {
                 ) : null}
               </Box>
               <Box sx={{ display: 'flex', pt: 1 }}>
-                <Typography sx={{ fontSize: 18, width: 200, pt: 0.5 }}>
-                  Executive Director
-                </Typography>
+                <Typography sx={{ fontSize: 18, width: 200, pt: 0.5 }}>Executive Director</Typography>
                 <Box sx={{ pt: 1, width: 10 }}>
                   <CusCheckBox
                     color="primary"
@@ -453,9 +437,7 @@ const ApprovalMappingMaster = () => {
                 ) : null}
               </Box>
               <Box sx={{ display: 'flex', pt: 1 }}>
-                <Typography sx={{ fontSize: 18, width: 200, pt: 0.5 }}>
-                  Managing Director
-                </Typography>
+                <Typography sx={{ fontSize: 18, width: 200, pt: 0.5 }}>Managing Director</Typography>
                 <Box sx={{ pt: 1, width: 10 }}>
                   <CusCheckBox
                     color="primary"

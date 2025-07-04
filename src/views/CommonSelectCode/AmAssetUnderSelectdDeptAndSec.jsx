@@ -3,13 +3,7 @@ import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { axioslogin } from '../Axios/Axios'
 import { useSelector } from 'react-redux'
 
-const AmAssetUnderSelectdDeptAndSec = ({
-  custAsset,
-  setcustAsset,
-  selectedDept,
-  selectedDeptSec,
-  setassetData,
-}) => {
+const AmAssetUnderSelectdDeptAndSec = ({ custAsset, setcustAsset, selectedDept, selectedDeptSec, setassetData }) => {
   const empdept = useSelector(state => {
     return state.LoginUserData.empdept
   })
@@ -21,16 +15,13 @@ const AmAssetUnderSelectdDeptAndSec = ({
     return {
       item_dept_slno: selectedDept,
       item_deptsec_slno: selectedDeptSec,
-      am_custodian_dept_slno: empdept,
+      am_custodian_dept_slno: empdept
     }
   }, [selectedDept, selectedDeptSec, empdept])
 
   useEffect(() => {
     const getcustodianAsset = async () => {
-      const result = await axioslogin.post(
-        'assetSpareDetails/getAssetUnderSelectdDeptAndSec',
-        postcustAsset
-      )
+      const result = await axioslogin.post('assetSpareDetails/getAssetUnderSelectdDeptAndSec', postcustAsset)
       const { success, data } = result.data
       if (success === 2) {
         setAssetListt(data)
@@ -70,7 +61,7 @@ const AmAssetUnderSelectdDeptAndSec = ({
       <Autocomplete
         sx={{
           '--Input-minHeight': '29px',
-          width: '100%',
+          width: '100%'
         }}
         value={value}
         placeholder="Select Asset"
@@ -84,14 +75,12 @@ const AmAssetUnderSelectdDeptAndSec = ({
         }}
         loading={AssetListt.length === 0}
         loadingText="Loading..."
-        isOptionEqualToValue={(option, value) =>
-          option.am_item_map_slno === value?.am_item_map_slno
-        }
+        isOptionEqualToValue={(option, value) => option.am_item_map_slno === value?.am_item_map_slno}
         getOptionLabel={option =>
           option && option.item_name
-            ? `${option.item_asset_no || ''}/${(option.item_asset_no_only || '')
-                .toString()
-                .padStart(6, '0')} - ${option.item_name || ''}`
+            ? `${option.item_asset_no || ''}/${(option.item_asset_no_only || '').toString().padStart(6, '0')} - ${
+                option.item_name || ''
+              }`
             : ''
         }
         options={AssetListt}

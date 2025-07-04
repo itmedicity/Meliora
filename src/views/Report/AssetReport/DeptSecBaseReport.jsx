@@ -42,7 +42,7 @@ const DeptSecBaseReport = () => {
     return {
       item_dept_slno: department !== 0 ? department : 0,
       item_deptsec_slno: deptsec !== 0 ? deptsec : 0,
-      item_custodian_slno: selectedDept?.am_custodian_slno || 0,
+      item_custodian_slno: selectedDept?.am_custodian_slno || 0
     }
   }, [department, deptsec, selectedDept])
 
@@ -73,9 +73,7 @@ const DeptSecBaseReport = () => {
               subroom_name: val.subroom_name !== null ? val.subroom_name : 'Not Given',
               assetno: val.item_asset_no + '/' + val.item_asset_no_only.toString().padStart(6, '0'),
               am_manufacture_no:
-                val.am_manufacture_no !== null || val.am_manufacture_no !== ''
-                  ? val.am_manufacture_no
-                  : 'Not Given',
+                val.am_manufacture_no !== null || val.am_manufacture_no !== '' ? val.am_manufacture_no : 'Not Given'
             }
             return obj
           })
@@ -96,7 +94,7 @@ const DeptSecBaseReport = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 300,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Department Section',
@@ -104,14 +102,14 @@ const DeptSecBaseReport = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 300,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Item Name',
       field: 'item_name',
       autoHeight: true,
       wrapText: true,
-      minWidth: 350,
+      minWidth: 350
     },
     {
       headerName: 'Asset No',
@@ -119,7 +117,7 @@ const DeptSecBaseReport = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 180,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Room no',
@@ -127,7 +125,7 @@ const DeptSecBaseReport = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 200,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Sub Room No',
@@ -135,7 +133,7 @@ const DeptSecBaseReport = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 200,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Serial No',
@@ -143,8 +141,8 @@ const DeptSecBaseReport = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 200,
-      filter: 'true',
-    },
+      filter: 'true'
+    }
   ])
 
   const onExportClick = () => {
@@ -176,7 +174,7 @@ const DeptSecBaseReport = () => {
           sx={{
             display: 'flex',
             flexDirection: 'row',
-            m: 0,
+            m: 0
           }}
         >
           <Box sx={{ display: 'flex', flex: 1, mt: 2, mx: 1, gap: 1 }}>
@@ -185,10 +183,7 @@ const DeptSecBaseReport = () => {
                 {' '}
                 Custodian Department
               </Typography>
-              <AMCustodianDeptSelect
-                selectedDept={selectedDept}
-                setSelectedDept={setSelectedDept}
-              />
+              <AMCustodianDeptSelect selectedDept={selectedDept} setSelectedDept={setSelectedDept} />
             </Box>
             <Box sx={{ flex: 1 }}>
               <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550, pl: 0.5 }}>
@@ -226,7 +221,7 @@ const DeptSecBaseReport = () => {
               gap: 0.1,
               p: 0.3,
               borderLeft: 2,
-              borderColor: '#d3d3d3',
+              borderColor: '#d3d3d3'
             }}
           >
             <CustomeToolTip title="Download" placement="bottom">

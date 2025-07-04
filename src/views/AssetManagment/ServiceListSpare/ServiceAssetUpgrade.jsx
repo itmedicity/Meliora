@@ -25,7 +25,7 @@ const ServiceAssetUpgrade = ({
   AddNewSpareUnderAsset,
   setCount,
   sparecount,
-  setsparecount,
+  setsparecount
 }) => {
   const RemoveSpare = useCallback(
     val => {
@@ -33,7 +33,7 @@ const ServiceAssetUpgrade = ({
       const RemoveSparee = {
         delete_user: id,
         asset_spare_slno: asset_spare_slno,
-        am_spare_item_map_slno: am_spare_item_map_slno,
+        am_spare_item_map_slno: am_spare_item_map_slno
       }
       const RemoveSpareUpdate = async RemoveSparee => {
         const result = await axioslogin.patch('/ItemMapDetails/spareRemoveFromAsset', RemoveSparee)
@@ -60,7 +60,7 @@ const ServiceAssetUpgrade = ({
         overflowY: 'auto',
         maxHeight: '100%',
         m: 0,
-        pt: 0.5,
+        pt: 0.5
       }}
     >
       <Box sx={{ border: 1, borderColor: '#E0E1E3', py: 1, pl: 2 }}>
@@ -73,7 +73,7 @@ const ServiceAssetUpgrade = ({
                 fontWeight: 500,
                 color: 'black',
                 fontSize: 15,
-                pb: 1,
+                pb: 1
               }}
             />
             {spareDetails.length !== 0 && (
@@ -81,12 +81,8 @@ const ServiceAssetUpgrade = ({
                 <Box sx={{ width: 50, textAlign: 'center', fontSize: 15, fontWeight: 600 }}>#</Box>
                 <Box sx={{ width: 120, fontSize: 14, fontWeight: 600 }}>Spare Number</Box>
                 <Box sx={{ flex: 1, fontSize: 14, fontWeight: 600 }}>Spare Name</Box>
-                <Box sx={{ width: 100, textAlign: 'center', fontSize: 14, fontWeight: 600 }}>
-                  Remove Spare
-                </Box>
-                <Box sx={{ width: 80, textAlign: 'center', fontSize: 14, fontWeight: 600 }}>
-                  Service
-                </Box>
+                <Box sx={{ width: 100, textAlign: 'center', fontSize: 14, fontWeight: 600 }}>Remove Spare</Box>
+                <Box sx={{ width: 80, textAlign: 'center', fontSize: 14, fontWeight: 600 }}>Service</Box>
               </Box>
             )}
             {spareDetails.map((val, index) => {
@@ -100,20 +96,16 @@ const ServiceAssetUpgrade = ({
                     borderBottom: 1,
                     borderColor: 'lightgrey',
                     pt: 0.8,
-                    mr: 2,
+                    mr: 2
                   }}
                 >
-                  <Box sx={{ width: 50, textAlign: 'center', fontSize: 13, fontWeight: 500 }}>
-                    {index + 1}
-                  </Box>
+                  <Box sx={{ width: 50, textAlign: 'center', fontSize: 13, fontWeight: 500 }}>{index + 1}</Box>
                   <Box sx={{ width: 120, fontSize: 13, fontWeight: 500 }}>
                     {val.spare_asset_no}/{formattedSlno}
                   </Box>
                   <Box sx={{ flex: 1, fontSize: 13, fontWeight: 500 }}>{val.item_name}</Box>
                   <Tooltip
-                    title={
-                      'By clicking, the spare will be removed from the asset and add back to the stock'
-                    }
+                    title={'By clicking, the spare will be removed from the asset and add back to the stock'}
                     sx={{ width: 200 }}
                     placement="top"
                   >
@@ -123,22 +115,20 @@ const ServiceAssetUpgrade = ({
                         textAlign: 'center',
                         fontSize: 13,
                         pr: 0.5,
-                        cursor: 'pointer',
+                        cursor: 'pointer'
                       }}
                     >
                       <ChangeCircleSharpIcon
                         sx={{
                           color: 'black',
-                          cursor: 'pointer',
+                          cursor: 'pointer'
                         }}
                         onClick={() => RemoveSpare(val)}
                       />
                     </Box>
                   </Tooltip>
                   <Tooltip
-                    title={
-                      'Click Here for Service this Spare (this will be transfered to the service list)'
-                    }
+                    title={'Click Here for Service this Spare (this will be transfered to the service list)'}
                     sx={{ width: 200 }}
                     placement="top"
                   >
@@ -148,7 +138,7 @@ const ServiceAssetUpgrade = ({
                         textAlign: 'center',
                         fontSize: 13,
                         pr: 0.5,
-                        cursor: 'pointer',
+                        cursor: 'pointer'
                       }}
                     >
                       <ManageAccountsSharpIcon
@@ -156,7 +146,7 @@ const ServiceAssetUpgrade = ({
                           color: '#603A70',
                           cursor: 'pointer',
                           p: 0.1,
-                          '&:hover': { color: 'black' },
+                          '&:hover': { color: 'black' }
                         }}
                         onClick={() => serviceSparee(val)}
                       />
@@ -176,7 +166,7 @@ const ServiceAssetUpgrade = ({
                 fontWeight: 500,
                 color: 'black',
                 fontSize: 15,
-                pb: 1,
+                pb: 1
               }}
             />
             <Box sx={{ display: 'flex', flex: 1 }}>
@@ -190,10 +180,7 @@ const ServiceAssetUpgrade = ({
                 />
               </Box>
               <Box sx={{ ml: 1, mr: 5, pt: 0.5 }}>
-                <AddCircleIcon
-                  sx={{ height: 28, width: 28, cursor: 'pointer' }}
-                  onClick={AddNewSpare}
-                />
+                <AddCircleIcon sx={{ height: 28, width: 28, cursor: 'pointer' }} onClick={AddNewSpare} />
               </Box>
             </Box>
             {spareData.length !== 0 ? (
@@ -205,14 +192,12 @@ const ServiceAssetUpgrade = ({
                       textAlign: 'center',
                       fontSize: 15,
                       fontWeight: 600,
-                      color: 'black',
+                      color: 'black'
                     }}
                   >
                     #
                   </Box>
-                  <Box sx={{ flex: 10, fontSize: 14, fontWeight: 600, color: 'black' }}>
-                    Spare Name
-                  </Box>
+                  <Box sx={{ flex: 10, fontSize: 14, fontWeight: 600, color: 'black' }}>Spare Name</Box>
                   <Box
                     sx={{
                       flex: 1,
@@ -220,7 +205,7 @@ const ServiceAssetUpgrade = ({
                       fontSize: 14,
                       fontWeight: 600,
                       pr: 0.3,
-                      color: 'black',
+                      color: 'black'
                     }}
                   >
                     Action
@@ -236,23 +221,19 @@ const ServiceAssetUpgrade = ({
                         borderBottom: 1,
                         borderColor: 'lightgrey',
                         py: 0.5,
-                        mr: 2,
+                        mr: 2
                       }}
                     >
                       <Box sx={{ flex: 0.5, textAlign: 'center', fontSize: 13 }}>{index + 1}</Box>
                       <Box sx={{ flex: 10, fontSize: 13 }}>{val.name}</Box>
-                      <Tooltip
-                        title={'Spare will be removed  by clicking'}
-                        color="neutral"
-                        placement="left"
-                      >
+                      <Tooltip title={'Spare will be removed  by clicking'} color="neutral" placement="left">
                         <Box
                           sx={{
                             flex: 1,
                             textAlign: 'center',
                             fontSize: 13,
                             pr: 0.5,
-                            cursor: 'pointer',
+                            cursor: 'pointer'
                           }}
                         >
                           <DeleteForeverIcon
@@ -260,7 +241,7 @@ const ServiceAssetUpgrade = ({
                               color: 'darkred',
                               cursor: 'pointer',
                               p: 0.1,
-                              '&:hover': { color: 'red' },
+                              '&:hover': { color: 'red' }
                             }}
                             onClick={() => handleDelete(index)}
                           />
@@ -283,14 +264,12 @@ const ServiceAssetUpgrade = ({
                       cursor: 'pointer',
                       mt: 1,
                       py: 0.3,
-                      boxShadow:
-                        '2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.6)',
+                      boxShadow: '2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.6)',
                       transform: 'translateZ(0)',
                       transition: 'transform 0.2s ease',
                       '&:hover': {
-                        boxShadow:
-                          '3px 3px 6px rgba(240, 218, 218, 0.4), -3px -3px 6px rgba(255, 255, 255, 0.7)',
-                      },
+                        boxShadow: '3px 3px 6px rgba(240, 218, 218, 0.4), -3px -3px 6px rgba(255, 255, 255, 0.7)'
+                      }
                     }}
                     onClick={AddNewSpareUnderAsset}
                   >

@@ -5,17 +5,17 @@ import CusAgGridMast from 'src/views/Components/CusAgGridMast'
 function TimeSlampMastTable() {
   const [column] = useState([
     {
-      headerName: 'slno',
+      headerName: 'slno'
     },
     {
-      headerName: 'Scheduled Time',
+      headerName: 'Scheduled Time'
     },
     {
-      headerName: 'Status',
+      headerName: 'Status'
     },
     {
-      headerName: 'Actions',
-    },
+      headerName: 'Actions'
+    }
   ])
 
   return <CusAgGridMast columnDefs={column} />

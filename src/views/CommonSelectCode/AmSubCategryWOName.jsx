@@ -30,7 +30,7 @@ const AmSubCategryWOName = ({ subcategory, category, setSubcategory }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '29px',
+            '--Input-minHeight': '29px'
           }}
           value={subcategory === 0 || category === 0 ? subcats : value}
           placeholder="Select Subcategory"
@@ -46,9 +46,7 @@ const AmSubCategryWOName = ({ subcategory, category, setSubcategory }) => {
           loadingText="Loading..."
           freeSolo
           // renderInput={(params) => (<Input size="sm" placeholder="Small"  {...params} />)}
-          isOptionEqualToValue={(option, value) =>
-            option.subcategory_name === value.subcategory_name
-          }
+          isOptionEqualToValue={(option, value) => option.subcategory_name === value.subcategory_name}
           getOptionLabel={option => option.subcategory_name || ''}
           options={subcats}
         />

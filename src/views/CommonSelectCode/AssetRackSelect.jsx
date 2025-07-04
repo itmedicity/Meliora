@@ -30,7 +30,7 @@ const AssetRackSelect = ({ rackno, setrackNo, setrackName }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '29px',
+            '--Input-minHeight': '29px'
           }}
           value={rackno === 0 ? racks : value}
           placeholder="Select Rack"

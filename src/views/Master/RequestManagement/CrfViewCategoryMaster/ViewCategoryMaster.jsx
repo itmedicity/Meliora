@@ -49,7 +49,7 @@ const ViewCategoryMaster = () => {
         id: editRowData?.common_master_slno,
         empname: empname,
         deptsec: deptsec,
-        dept: dept,
+        dept: dept
       }
       if (UpdateFlag === 1) {
         const result = await axioslogin.post('/newCRFRegister/CommonMasterUpdate/update', postData)
@@ -84,12 +84,7 @@ const ViewCategoryMaster = () => {
 
   return (
     <CssVarsProvider>
-      <CardMaster
-        title="Category Master"
-        submit={submitComapnyName}
-        close={backtoSetting}
-        refresh={refreshWindow}
-      >
+      <CardMaster title="Category Master" submit={submitComapnyName} close={backtoSetting} refresh={refreshWindow}>
         <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
           <Box sx={{ width: '50%' }}>
             <Box sx={{}}>

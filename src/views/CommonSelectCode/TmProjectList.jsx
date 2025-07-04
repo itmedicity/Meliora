@@ -37,7 +37,7 @@ const TmProjectList = ({ projectz, setprojectz }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '29px',
+            '--Input-minHeight': '29px'
           }}
           value={projectz === 0 ? projectx : value}
           placeholder="select project"

@@ -19,7 +19,7 @@ const DashboradGridView = ({ val, viewPednigDetails }) => {
             bgcolor: 'white',
             height: 180,
             border: '1px solid #bbdefb',
-            borderRadius: 5,
+            borderRadius: 5
           }}
         >
           <Box sx={{ marginBottom: 1, display: 'flex', height: 'calc(100% - 40px)' }}>
@@ -30,16 +30,14 @@ const DashboradGridView = ({ val, viewPednigDetails }) => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 pl: 1,
-                py: 1,
+                py: 1
               }}
             >
               <ImageViewComp src={imageView} alt={imName} style={{ width: 110, height: 90 }} />
             </Box>
             <Box sx={{ flex: 1 }}>
               <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', pr: 2, py: 2 }}>
-                <Typography sx={{ fontSize: 20, fontWeight: 650, color: '#003371' }}>
-                  {title}
-                </Typography>
+                <Typography sx={{ fontSize: 20, fontWeight: 650, color: '#003371' }}>{title}</Typography>
               </Box>
               <Box sx={{ display: 'flex', justifyContent: 'flex-end', pt: 0.5 }}>
                 <Tooltip
@@ -49,7 +47,7 @@ const DashboradGridView = ({ val, viewPednigDetails }) => {
                     fontSize: 14,
                     color: 'white',
                     bgcolor: '#60A3D9',
-                    fontWeight: 650,
+                    fontWeight: 650
                   }}
                 >
                   <Box
@@ -66,8 +64,8 @@ const DashboradGridView = ({ val, viewPednigDetails }) => {
                       bgcolor: '#e3f2fd',
                       '&:hover': {
                         bgcolor: '#e3f2fd',
-                        color: '#3f51b5',
-                      },
+                        color: '#3f51b5'
+                      }
                     }}
                     onClick={getData}
                   >
@@ -84,7 +82,7 @@ const DashboradGridView = ({ val, viewPednigDetails }) => {
                 sx={{
                   pr: 1,
                   fontSize: '1rem',
-                  color: '#3f51b5',
+                  color: '#3f51b5'
                 }}
               >
                 Clinic
@@ -94,7 +92,7 @@ const DashboradGridView = ({ val, viewPednigDetails }) => {
                   fontFamily: 'Montserrat, sans-serif',
                   fontSize: '1rem',
                   fontWeight: 800,
-                  color: 'rgba(0,51,122,0.6)',
+                  color: 'rgba(0,51,122,0.6)'
                 }}
               >
                 {clinic}
@@ -105,7 +103,7 @@ const DashboradGridView = ({ val, viewPednigDetails }) => {
                 sx={{
                   pr: 1,
                   fontSize: '1rem',
-                  color: '#3f51b5',
+                  color: '#3f51b5'
                 }}
               >
                 NonClinic
@@ -115,7 +113,7 @@ const DashboradGridView = ({ val, viewPednigDetails }) => {
                   fontFamily: 'Montserrat, sans-serif',
                   fontSize: '1rem',
                   fontWeight: 800,
-                  color: 'rgba(0,51,122,0.6)',
+                  color: 'rgba(0,51,122,0.6)'
                 }}
               >
                 {nonClinic}

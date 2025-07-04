@@ -136,9 +136,7 @@ const DataImportHR = () => {
       {/* <ToastContainer /> */}
       <CustomBackDrop open={open} text="Please Wait" />
       <Box sx={{ height: 35, backgroundColor: '#f0f3f5', display: 'flex' }}>
-        <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: 0.5, color: '#385E72' }}>
-          Data Transfer From HR
-        </Box>
+        <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: 0.5, color: '#385E72' }}>Data Transfer From HR</Box>
         <Box>
           <CusIconButton size="sm" variant="outlined" color="primary" onClick={backtoSetting}>
             <CloseIcon fontSize="small" />
@@ -156,7 +154,7 @@ const DataImportHR = () => {
           display: 'flex',
           flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' },
           justifyContent: 'center',
-          borderRadius: 1.5,
+          borderRadius: 1.5
         }}
       >
         <Paper sx={{ width: '80%' }}>
@@ -169,7 +167,7 @@ const DataImportHR = () => {
               pb: 0.5,
               flex: 1,
               display: 'flex',
-              flexDirection: 'row',
+              flexDirection: 'row'
             }}
           >
             <Box
@@ -179,7 +177,7 @@ const DataImportHR = () => {
                 mb: 1,
                 ml: 2,
                 backgroundColor: '#4793AF',
-                borderRadius: 2.5,
+                borderRadius: 2.5
               }}
               onClick={() => getEmployeeMaster()}
             >
@@ -191,7 +189,7 @@ const DataImportHR = () => {
                     pr: 2,
                     color: 'white',
                     textAlign: 'center',
-                    cursor: 'pointer',
+                    cursor: 'pointer'
                   }}
                 >
                   Employee Master Insert
@@ -205,7 +203,7 @@ const DataImportHR = () => {
                 mb: 1,
                 ml: 2,
                 backgroundColor: '#4793AF',
-                borderRadius: 2.5,
+                borderRadius: 2.5
               }}
               onClick={() => getEmployeeLogin()}
             >
@@ -217,7 +215,7 @@ const DataImportHR = () => {
                     pr: 2,
                     color: 'white',
                     textAlign: 'center',
-                    cursor: 'pointer',
+                    cursor: 'pointer'
                   }}
                 >
                   Employee login Insert
@@ -231,7 +229,7 @@ const DataImportHR = () => {
                 mb: 1,
                 ml: 2,
                 backgroundColor: '#4793AF',
-                borderRadius: 2.5,
+                borderRadius: 2.5
               }}
               onClick={() => getDepartment()}
             >
@@ -243,7 +241,7 @@ const DataImportHR = () => {
                     pr: 2,
                     color: 'white',
                     textAlign: 'center',
-                    cursor: 'pointer',
+                    cursor: 'pointer'
                   }}
                 >
                   Department Insert{' '}
@@ -257,7 +255,7 @@ const DataImportHR = () => {
                 mb: 1,
                 ml: 2,
                 backgroundColor: '#4793AF',
-                borderRadius: 2.5,
+                borderRadius: 2.5
               }}
               onClick={() => getDepartmentSection()}
             >
@@ -269,7 +267,7 @@ const DataImportHR = () => {
                     pr: 2,
                     color: 'white',
                     textAlign: 'center',
-                    cursor: 'pointer',
+                    cursor: 'pointer'
                   }}
                 >
                   Department Section Insert
@@ -286,7 +284,7 @@ const DataImportHR = () => {
               pb: 0.5,
               flex: 1,
               display: 'flex',
-              flexDirection: 'row',
+              flexDirection: 'row'
             }}
           >
             <Box
@@ -294,7 +292,7 @@ const DataImportHR = () => {
                 width: '15%',
                 mt: 1,
                 mb: 1,
-                ml: 2,
+                ml: 2
               }}
             ></Box>
             <Box
@@ -304,7 +302,7 @@ const DataImportHR = () => {
                 mb: 1,
                 ml: 2,
                 backgroundColor: '#4793AF',
-                borderRadius: 2.5,
+                borderRadius: 2.5
               }}
               onClick={() => getEmpMasterUpdation()}
             >
@@ -316,7 +314,7 @@ const DataImportHR = () => {
                     pr: 2,
                     color: 'white',
                     textAlign: 'center',
-                    cursor: 'pointer',
+                    cursor: 'pointer'
                   }}
                 >
                   Employee Master Update{' '}
@@ -330,7 +328,7 @@ const DataImportHR = () => {
                 mb: 1,
                 ml: 2,
                 backgroundColor: '#4793AF',
-                borderRadius: 2.5,
+                borderRadius: 2.5
               }}
               onClick={() => getEmpLoginUpdation()}
             >
@@ -342,7 +340,7 @@ const DataImportHR = () => {
                     pr: 2,
                     color: 'white',
                     textAlign: 'center',
-                    cursor: 'pointer',
+                    cursor: 'pointer'
                   }}
                 >
                   Employee Login Update{' '}
@@ -356,7 +354,7 @@ const DataImportHR = () => {
                 mb: 1,
                 ml: 2,
                 backgroundColor: '#4793AF',
-                borderRadius: 2.5,
+                borderRadius: 2.5
               }}
               onClick={() => getDesignation()}
             >
@@ -368,7 +366,7 @@ const DataImportHR = () => {
                     pr: 2,
                     color: 'white',
                     textAlign: 'center',
-                    cursor: 'pointer',
+                    cursor: 'pointer'
                   }}
                 >
                   Designation Insert{' '}
@@ -380,7 +378,7 @@ const DataImportHR = () => {
                 width: '15%',
                 mt: 1,
                 mb: 1,
-                ml: 2,
+                ml: 2
               }}
             ></Box>
           </Box>

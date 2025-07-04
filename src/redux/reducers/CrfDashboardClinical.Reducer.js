@@ -3,7 +3,7 @@ const { FETCH_CRFCLINICAL_DASHPENDING } = ActionTyps
 //intial state
 const ClinicalCrfPending = {
   ClinicalCrfPendingList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Requesttype action type check then payload set to the state and loading status set as true */
 export const setClinicalCrfPending = (state = ClinicalCrfPending, { type, payload }) => {

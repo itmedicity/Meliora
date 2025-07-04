@@ -11,13 +11,7 @@ const ReqItemDisplay = ({ reqItems }) => {
               Requested Items
             </Typography>
             <Box sx={{ pb: 0.5, px: 0.5 }}>
-              <Table
-                aria-label="table with sticky header"
-                borderAxis="both"
-                padding={'none'}
-                stickyHeader
-                size="sm"
-              >
+              <Table aria-label="table with sticky header" borderAxis="both" padding={'none'} stickyHeader size="sm">
                 <thead>
                   <tr>
                     <th
@@ -26,7 +20,7 @@ const ReqItemDisplay = ({ reqItems }) => {
                         borderRadius: 0,
                         width: 50,
                         textAlign: 'center',
-                        backgroundColor: '#e3f2fd',
+                        backgroundColor: '#e3f2fd'
                       }}
                     >
                       Sl.No
@@ -37,34 +31,19 @@ const ReqItemDisplay = ({ reqItems }) => {
                     <th size="sm" style={{ width: 200, backgroundColor: '#e3f2fd' }}>
                       &nbsp;&nbsp;Brand
                     </th>
-                    <th
-                      size="sm"
-                      style={{ width: 80, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                    >
+                    <th size="sm" style={{ width: 80, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                       Qty
                     </th>
-                    <th
-                      size="sm"
-                      style={{ width: 80, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                    >
+                    <th size="sm" style={{ width: 80, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                       UOM
                     </th>
-                    <th
-                      size="sm"
-                      style={{ width: 350, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                    >
+                    <th size="sm" style={{ width: 350, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                       Specification
                     </th>
-                    <th
-                      size="sm"
-                      style={{ width: 100, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                    >
+                    <th size="sm" style={{ width: 100, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                       Price
                     </th>
-                    <th
-                      size="sm"
-                      style={{ width: 100, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                    >
+                    <th size="sm" style={{ width: 100, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                       Approx.Cost
                     </th>
                     {/* <th size='sm' style={{ borderRadius: 0, width: 100, textAlign: 'center', backgroundColor: '#e3f2fd' }}>Status</th> */}
@@ -87,9 +66,7 @@ const ReqItemDisplay = ({ reqItems }) => {
                       <tr key={item.req_detl_slno} style={{ cursor: 'pointer' }}>
                         <td style={{ textAlign: 'center' }}>{ind + 1}</td>
                         <td style={{ fontSize: 13 }}>&nbsp;{item.item_desc}</td>
-                        <td style={{ fontSize: 13 }}>
-                          &nbsp;{item.item_brand === '' ? 'Not Given' : item.item_brand}
-                        </td>
+                        <td style={{ fontSize: 13 }}>&nbsp;{item.item_brand === '' ? 'Not Given' : item.item_brand}</td>
                         <td style={{ textAlign: 'center', fontSize: 13 }}>{item.item_qnty}</td>
                         <td style={{ textAlign: 'center', fontSize: 13 }}>
                           {item.item_unit === 0 ? 'Not Given' : item.uom_name}
@@ -145,7 +122,7 @@ const ReqItemDisplay = ({ reqItems }) => {
               fontSize: 25,
               opacity: 0.5,
               pt: 10,
-              color: 'grey',
+              color: 'grey'
             }}
           >
             No Item Requested

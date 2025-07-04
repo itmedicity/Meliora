@@ -19,7 +19,7 @@ const HicPolicyMast = () => {
   const [hic, setHic] = useState({
     hic_policy_name: '',
     hic_policy_status: false,
-    hic_policy_slno: '',
+    hic_policy_slno: ''
   })
   //destructuring
   const { hic_policy_name, hic_policy_status, hic_policy_slno } = hic
@@ -39,7 +39,7 @@ const HicPolicyMast = () => {
     return {
       hic_policy_name: hic_policy_name,
       hic_policy_status: hic_policy_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [hic_policy_name, hic_policy_status, id])
   //data set for edit
@@ -50,7 +50,7 @@ const HicPolicyMast = () => {
     const frmdata = {
       hic_policy_name: hic_policy_name,
       hic_policy_status: status === 'Yes' ? true : false,
-      hic_policy_slno: hic_policy_slno,
+      hic_policy_slno: hic_policy_slno
     }
     setHic(frmdata)
   }, [])
@@ -60,7 +60,7 @@ const HicPolicyMast = () => {
       hic_policy_name: hic_policy_name,
       hic_policy_status: hic_policy_status === true ? 1 : 0,
       edit_user: id,
-      hic_policy_slno: hic_policy_slno,
+      hic_policy_slno: hic_policy_slno
     }
   }, [hic_policy_name, hic_policy_status, hic_policy_slno, id])
   /*** usecallback function for form submitting */
@@ -70,7 +70,7 @@ const HicPolicyMast = () => {
       const formreset = {
         hic_policy_name: '',
         hic_policy_status: false,
-        hic_policy_slno: '',
+        hic_policy_slno: ''
       }
       /*** * insert function for use call back     */
       const InsertFun = async postdata => {
@@ -120,18 +120,13 @@ const HicPolicyMast = () => {
   const refreshWindow = useCallback(() => {
     const formreset = {
       hic_policy_name: '',
-      hic_policy_status: false,
+      hic_policy_status: false
     }
     setHic(formreset)
     setEdit(0)
   }, [setHic])
   return (
-    <CardMaster
-      title="Hic Policy Master"
-      close={backtoSetting}
-      submit={submitHicpolicy}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Hic Policy Master" close={backtoSetting} submit={submitHicpolicy} refresh={refreshWindow}>
       <Box sx={{ p: 1 }}>
         <Grid container spacing={1}>
           <Grid item xl={4} lg={4}>

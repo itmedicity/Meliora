@@ -39,14 +39,14 @@ const DamaCount = () => {
       filter: true,
       wrapText: true,
       autoHeight: true,
-      width: 300,
+      width: 300
     },
     { headerName: 'AdNo', field: 'ip_no', filter: true },
     { headerName: 'Name', field: 'ptc_ptname', filter: true },
     { headerName: 'Payment', field: 'payment_mode' },
     { headerName: 'consultant', field: 'doc_name', filter: true },
     { headerName: 'Room', field: 'rmc_desc' },
-    { headerName: 'Remark', field: 'dama_remarks' },
+    { headerName: 'Remark', field: 'dama_remarks' }
   ])
 
   return (

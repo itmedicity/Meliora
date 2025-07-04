@@ -1,13 +1,4 @@
-import {
-  Box,
-  Dialog,
-  DialogContent,
-  FormControl,
-  MenuItem,
-  Paper,
-  Select,
-  Typography,
-} from '@mui/material'
+import { Box, Dialog, DialogContent, FormControl, MenuItem, Paper, Select, Typography } from '@mui/material'
 import React, { Fragment, memo, useCallback, useEffect, useMemo, useState } from 'react'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import { Button, CssVarsProvider, Input, Textarea } from '@mui/joy'
@@ -74,7 +65,7 @@ const IncidentModal = ({
   setFallsType,
   setSentinelType,
   setnearType,
-  ipOpCheck,
+  ipOpCheck
 }) => {
   const {
     incident_error_date,
@@ -82,7 +73,7 @@ const IncidentModal = ({
     incidence_ident_date,
     incident_falls_date,
     incident_sentinel_date,
-    incident_nearmisses_date,
+    incident_nearmisses_date
   } = incidentView[0]
 
   const [inicidentDate, setInicidentDate] = useState(
@@ -124,7 +115,7 @@ const IncidentModal = ({
       { id: 1, label: 'GENERAL' },
       { id: 2, label: 'NEAR MISSESS' },
       { id: 3, label: 'HARMFUL' },
-      { id: 4, label: 'SENTINEL' },
+      { id: 4, label: 'SENTINEL' }
     ]
   }, [])
 
@@ -145,7 +136,7 @@ const IncidentModal = ({
         falls_incident_type,
         ident_error_incident_type,
         nearmiss_incident_type,
-        sentinel_incident_type,
+        sentinel_incident_type
       } = incidentView[0]
       if (incRegFlag === 1) {
         setIncdSlno(incident_error_slno)
@@ -248,7 +239,7 @@ const IncidentModal = ({
     setSentinelDetails,
     setSentinelreason,
     setNearMissesDetails,
-    setNearMissessReason,
+    setNearMissessReason
   ])
 
   const postdata = useMemo(() => {
@@ -294,7 +285,7 @@ const IncidentModal = ({
       incRegFlag: incRegFlag,
       initial_incident_type: incType,
       final_incident_type: incType,
-      incident_mark_remarks: '',
+      incident_mark_remarks: ''
     }
   }, [
     inicidentDate,
@@ -314,7 +305,7 @@ const IncidentModal = ({
     fallsReason,
     sentinelreason,
     nearMissessReason,
-    incType,
+    incType
   ])
 
   const patchdata = useMemo(() => {
@@ -353,7 +344,7 @@ const IncidentModal = ({
       incident_slno: incdSlno,
       qi_slno: endoSlno,
       incRegFlag: incRegFlag,
-      initial_incident_type: incType,
+      initial_incident_type: incType
     }
   }, [
     inicidentDate,
@@ -374,7 +365,7 @@ const IncidentModal = ({
     fallsReason,
     sentinelreason,
     nearMissessReason,
-    incType,
+    incType
   ])
 
   const inpatientpostdata = useMemo(() => {
@@ -420,7 +411,7 @@ const IncidentModal = ({
       incRegFlag: incRegFlag,
       initial_incident_type: incType,
       final_incident_type: incType,
-      incident_mark_remarks: '',
+      incident_mark_remarks: ''
     }
   }, [
     inicidentDate,
@@ -440,7 +431,7 @@ const IncidentModal = ({
     fallsReason,
     sentinelreason,
     nearMissessReason,
-    incType,
+    incType
   ])
 
   const inpatientpatchdata = useMemo(() => {
@@ -479,7 +470,7 @@ const IncidentModal = ({
       incident_slno: incdSlno,
       qi_endo_ip_slno: endoSlno,
       incRegFlag: incRegFlag,
-      initial_incident_type: incType,
+      initial_incident_type: incType
     }
   }, [
     inicidentDate,
@@ -500,7 +491,7 @@ const IncidentModal = ({
     fallsReason,
     sentinelreason,
     nearMissessReason,
-    incType,
+    incType
   ])
 
   const IncidentTypeUpdate = useCallback(() => {
@@ -517,16 +508,7 @@ const IncidentModal = ({
     } else if (incRegFlag === 6) {
       setnearType(incType)
     }
-  }, [
-    incType,
-    incRegFlag,
-    setErrorType,
-    setRedosType,
-    setIdentType,
-    setFallsType,
-    setSentinelType,
-    setnearType,
-  ])
+  }, [incType, incRegFlag, setErrorType, setRedosType, setIdentType, setFallsType, setSentinelType, setnearType])
 
   const SaveIncidentDetails = useCallback(() => {
     if (
@@ -563,10 +545,7 @@ const IncidentModal = ({
         return result.data
       }
       const UpdateIPIncidentDetails = async inpatientpatchdata => {
-        const result = await axioslogin.patch(
-          '/incidentMaster/ipincidentUpdate',
-          inpatientpatchdata
-        )
+        const result = await axioslogin.patch('/incidentMaster/ipincidentUpdate', inpatientpatchdata)
         return result.data
       }
       if (ipOpCheck === 0) {
@@ -651,7 +630,7 @@ const IncidentModal = ({
     IncidentTypeUpdate,
     inpatientpostdata,
     incType,
-    inpatientpatchdata,
+    inpatientpatchdata
   ])
   return (
     <Fragment>
@@ -666,14 +645,12 @@ const IncidentModal = ({
           id="alert-dialog-slide-descriptiona"
           sx={{
             minWidth: '50vw',
-            borderRadius: 'md',
+            borderRadius: 'md'
           }}
         >
           <Paper variant="outlined" square sx={{ display: 'flex', height: 45, bgcolor: '#cfd8dc' }}>
             <Box sx={{ display: 'flex', flex: 1, justifyContent: 'center', p: 1.5 }}>
-              <Typography sx={{ color: '#546e7a', fontWeight: 'bold', fontSize: 17 }}>
-                INCIDENT REGISTRATION
-              </Typography>
+              <Typography sx={{ color: '#546e7a', fontWeight: 'bold', fontSize: 17 }}>INCIDENT REGISTRATION</Typography>
             </Box>
             <Box
               sx={{
@@ -682,7 +659,7 @@ const IncidentModal = ({
                 justifyContent: 'flex-end',
                 fontSize: 20,
                 pt: 0.4,
-                pr: 0.1,
+                pr: 0.1
               }}
             >
               <HighlightOffIcon
@@ -911,7 +888,7 @@ const IncidentModal = ({
                       height: 35,
                       width: 250,
                       fontSize: 14,
-                      backgroundColor: 'white',
+                      backgroundColor: 'white'
                     }}
                     defaultValue={0}
                     value={incType}
@@ -949,8 +926,8 @@ const IncidentModal = ({
                     ':hover': {
                       bgcolor: '#78909c',
                       boxShadow: 2,
-                      color: 'white',
-                    },
+                      color: 'white'
+                    }
                   }}
                   onClick={SaveIncidentDetails}
                 >
@@ -972,8 +949,8 @@ const IncidentModal = ({
                     ':hover': {
                       bgcolor: '#78909c',
                       boxShadow: 2,
-                      color: 'white',
-                    },
+                      color: 'white'
+                    }
                   }}
                   onClick={ResetDetails}
                 >

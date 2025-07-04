@@ -14,7 +14,7 @@ const ViewAssetDetails = ({ assetOpen, setAssetOpen, setAssetflag, valuee, count
     rm_insidebuildblock_name,
     rm_floor_name,
     location,
-    complaint_type_name,
+    complaint_type_name
   } = valuee
 
   const [assetDetl, setassetDetl] = useState([])
@@ -47,11 +47,11 @@ const ViewAssetDetails = ({ assetOpen, setAssetOpen, setAssetflag, valuee, count
     '&:hover': {
       bgcolor: 'white',
       color: '#523A28',
-      transform: 'scale(1.1)',
+      transform: 'scale(1.1)'
     },
     '&:active': {
-      transform: 'scale(0.95)',
-    },
+      transform: 'scale(0.95)'
+    }
   }
   return (
     <CssVarsProvider>
@@ -64,13 +64,10 @@ const ViewAssetDetails = ({ assetOpen, setAssetOpen, setAssetflag, valuee, count
           justifyContent: 'center',
           alignItems: 'center',
           pl: 1,
-          borderRadius: 10,
+          borderRadius: 10
         }}
       >
-        <ModalDialog
-          variant="outlined"
-          sx={{ width: '65vw', p: 0, overflow: 'auto', height: '80vh' }}
-        >
+        <ModalDialog variant="outlined" sx={{ width: '65vw', p: 0, overflow: 'auto', height: '80vh' }}>
           <Box sx={{ flex: 1 }}>
             <Box sx={{ flex: 1, display: 'flex', mt: 1, p: 1 }}>
               <Box sx={{ flex: 1, color: 'grey' }}>Asset Details Under Complaint</Box>
@@ -81,12 +78,8 @@ const ViewAssetDetails = ({ assetOpen, setAssetOpen, setAssetflag, valuee, count
 
             <Box sx={{ flex: 1, display: 'flex', bgcolor: '#ECEDEF', py: 0.5 }}>
               <Box sx={{ flex: 1, pl: 0.5 }}>
-                <Typography sx={{ pl: 0.5, fontWeight: 600, color: 'Black' }}>
-                  Ticket No.{complaint_slno}
-                </Typography>
-                <Typography sx={{ pl: 0.5, fontSize: 14, color: 'Black' }}>
-                  {complaint_desc}
-                </Typography>
+                <Typography sx={{ pl: 0.5, fontWeight: 600, color: 'Black' }}>Ticket No.{complaint_slno}</Typography>
+                <Typography sx={{ pl: 0.5, fontSize: 14, color: 'Black' }}>{complaint_desc}</Typography>
                 <Typography sx={{ pl: 0.5, fontSize: 13, color: 'Black', py: 0.5 }}>
                   Complaint Type: {complaint_type_name}
                 </Typography>
@@ -105,9 +98,7 @@ const ViewAssetDetails = ({ assetOpen, setAssetOpen, setAssetflag, valuee, count
                       : 'Not Updated'}
                   </Typography>
                 ) : null}
-                <Typography sx={{ pl: 0.5, fontSize: 13, color: 'Black' }}>
-                  {compalint_date}
-                </Typography>
+                <Typography sx={{ pl: 0.5, fontSize: 13, color: 'Black' }}>{compalint_date}</Typography>
               </Box>
             </Box>
             <Box sx={{ flex: 1, mx: 1.5, mt: 1.5, display: 'flex', bgcolor: '#F2ECE5' }}>
@@ -126,7 +117,7 @@ const ViewAssetDetails = ({ assetOpen, setAssetOpen, setAssetflag, valuee, count
                     display: 'flex',
                     borderBottom: 1,
                     borderColor: 'lightgrey',
-                    pt: 0.8,
+                    pt: 0.8
                   }}
                 >
                   <Box sx={{ flex: 1, textAlign: 'center', fontSize: 13 }}>{index + 1}</Box>

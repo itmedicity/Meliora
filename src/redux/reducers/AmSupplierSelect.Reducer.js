@@ -3,7 +3,7 @@ const { FETCH_SUPPLIER_SELECT } = ActionTyps
 //intial state
 const SupplierSelect = {
   SupplierSelectList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Building action type check then payload set to the state and loading status set as true */
 export const setSupplierSelect = (state = SupplierSelect, { type, payload }) => {

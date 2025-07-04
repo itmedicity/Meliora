@@ -34,7 +34,7 @@ const AntibioticMasterTable = ({ editMast }) => {
         { label: 'High Risk', key: 'high_risk' },
         { label: 'Antibiotic', key: 'antibiotic' },
         { label: 'Stopped Medicine', key: 'stopped_medicine' },
-        { label: 'Status', key: 'status' },
+        { label: 'Status', key: 'status' }
       ]
 
       // Map the data to match the headers with conditional formatting
@@ -55,7 +55,7 @@ const AntibioticMasterTable = ({ editMast }) => {
         'High Risk': item.high_risk === 1 ? 'Yes' : 'No',
         Antibiotic: item.antibiotic === 1 ? 'Yes' : 'No',
         'Stopped Medicine': item.stopped_medicine === 1 ? 'Yes' : 'No',
-        Status: item.status === 1 ? 'Active' : 'Inactive',
+        Status: item.status === 1 ? 'Active' : 'Inactive'
       }))
 
       // Create worksheet and workbook
@@ -109,10 +109,7 @@ const AntibioticMasterTable = ({ editMast }) => {
               <tr key={index}>
                 <td style={{ textAlign: 'center' }}>{val.ams_mast_slno}</td>
                 <td style={{ textAlign: 'center' }}>
-                  <ModeEditOutlinedIcon
-                    sx={{ cursor: 'pointer', color: '#255a94' }}
-                    onClick={() => editMast(val)}
-                  />
+                  <ModeEditOutlinedIcon sx={{ cursor: 'pointer', color: '#255a94' }} onClick={() => editMast(val)} />
                 </td>
                 <td style={{ textAlign: 'center' }}>{val.item_code}</td>
                 <td style={{ textAlign: 'center' }}>{val.itc_desc}</td>
@@ -144,7 +141,7 @@ const AntibioticMasterTable = ({ editMast }) => {
             flex: 1,
             pt: 15,
             border: 1,
-            borderColor: 'lightgrey',
+            borderColor: 'lightgrey'
           }}
         >
           No data available

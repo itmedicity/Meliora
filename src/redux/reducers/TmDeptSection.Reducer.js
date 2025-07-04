@@ -4,7 +4,7 @@ const { FETCH_DEPARTMENTSEC_TASKMANAGEMENT } = ActionTyps
 
 const subTaskDeptSection = {
   subTaskDeptsectionList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Deptsection action type check then payload set to the state and loading status set as true */
 export const getDepartmentSecSubTask = (state = subTaskDeptSection, { type, payload }) => {

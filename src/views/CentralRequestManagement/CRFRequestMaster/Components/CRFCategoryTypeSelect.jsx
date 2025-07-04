@@ -17,9 +17,7 @@ const CRFCategoryTypeSelect = ({ setCategory, editRowData, catFlag }) => {
   useEffect(() => {
     if (Object?.entries(editRowData).length > 0 && editRowData?.category?.length > 0) {
       const categoryIds = JSON.parse(editRowData?.category)
-      const matchedCategories = assetItemType?.filter(item =>
-        categoryIds?.includes(item?.item_type_slno)
-      )
+      const matchedCategories = assetItemType?.filter(item => categoryIds?.includes(item?.item_type_slno))
       setSelectedValues(matchedCategories)
       setCategory(prev => (prev.length === 0 ? categoryIds : prev))
     }
@@ -61,7 +59,7 @@ const CRFCategoryTypeSelect = ({ setCategory, editRowData, catFlag }) => {
         lineHeight: 1.2,
         width: '100%',
         backgroundColor: 'white',
-        fontSize: 14,
+        fontSize: 14
       }}
       value={selectedValues}
       clearOnBlur
@@ -80,8 +78,7 @@ const CRFCategoryTypeSelect = ({ setCategory, editRowData, catFlag }) => {
       options={itemType}
       getOptionDisabled={option =>
         itemType?.some(
-          (opt, index) =>
-            opt?.item_type_name === option?.item_type_name && itemType?.indexOf(opt) !== index
+          (opt, index) => opt?.item_type_name === option?.item_type_name && itemType?.indexOf(opt) !== index
         )
       }
     />

@@ -6,8 +6,8 @@ const IncidentTransactions = [
     men_slno: 207,
     name: 'Incident List View',
     to: '/Home/IncidentList',
-    icon: <CiStop1 />,
-  },
+    icon: <CiStop1 />
+  }
 ]
 
 export default IncidentTransactions

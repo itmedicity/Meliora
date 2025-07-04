@@ -10,7 +10,7 @@ const ItemQrDisplayModel = ({ open, handleClose, selectedData }) => {
 
   const ref = useRef()
   const handlePrint = useReactToPrint({
-    content: () => ref.current,
+    content: () => ref.current
   })
 
   const [dueDate, setDueDate] = useState('')
@@ -28,9 +28,7 @@ const ItemQrDisplayModel = ({ open, handleClose, selectedData }) => {
     }
 
     const checkinsertOrNotAMCPMSpare = async am_spare_item_map_slno => {
-      const result = await axioslogin.get(
-        `/ItemMapDetails/AmcPmInsertOrNotSpare/${am_spare_item_map_slno}`
-      )
+      const result = await axioslogin.get(`/ItemMapDetails/AmcPmInsertOrNotSpare/${am_spare_item_map_slno}`)
       const { success, data } = result.data
       if (success === 1) {
         const { due_date } = data[0]
@@ -60,13 +58,11 @@ const ItemQrDisplayModel = ({ open, handleClose, selectedData }) => {
             justifyContent: 'center',
             alignItems: 'center',
             pl: 1,
-            borderRadius: 10,
+            borderRadius: 10
           }}
         >
           <ModalDialog variant="outlined" sx={{ width: 300, p: 0, overflow: 'auto', border: 1 }}>
-            <Box
-              sx={{ width: '100%', height: '90%', borderRadius: 1, border: '0.1px solid #454545' }}
-            >
+            <Box sx={{ width: '100%', height: '90%', borderRadius: 1, border: '0.1px solid #454545' }}>
               <Box
                 id="alert-dialog-slide-descriptiona"
                 sx={{ fontWeight: 'bold', textAlign: 'center', height: '50px', pt: 1 }}
@@ -77,13 +73,10 @@ const ItemQrDisplayModel = ({ open, handleClose, selectedData }) => {
                 sx={{
                   width: 250,
                   height: 120,
-                  flexDirection: 'column',
+                  flexDirection: 'column'
                 }}
               >
-                <div
-                  ref={ref}
-                  style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}
-                >
+                <div ref={ref} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <QRCodeSVG
                       value={assetno}
@@ -93,7 +86,7 @@ const ItemQrDisplayModel = ({ open, handleClose, selectedData }) => {
                       style={{
                         marginTop: 15,
                         height: 80,
-                        width: 145,
+                        width: 145
                       }}
                     />
                     <div
@@ -103,7 +96,7 @@ const ItemQrDisplayModel = ({ open, handleClose, selectedData }) => {
                         fontWeight: 800,
                         fontFamily: 'Arial, Helvetica, sans-serif',
                         textAlign: 'center',
-                        marginTop: -2,
+                        marginTop: -2
                       }}
                     >
                       {assetno}
@@ -116,7 +109,7 @@ const ItemQrDisplayModel = ({ open, handleClose, selectedData }) => {
                           fontWeight: 800,
                           fontFamily: 'Arial, Helvetica, sans-serif',
                           textAlign: 'center',
-                          marginTop: -2,
+                          marginTop: -2
                         }}
                       >
                         PM:{dueDate}
@@ -133,7 +126,7 @@ const ItemQrDisplayModel = ({ open, handleClose, selectedData }) => {
                         marginTop: 15,
                         height: 80,
                         width: 110,
-                        pl: 5,
+                        pl: 5
                       }}
                     />
                     <div
@@ -143,7 +136,7 @@ const ItemQrDisplayModel = ({ open, handleClose, selectedData }) => {
                         fontWeight: 800,
                         fontFamily: 'Arial, Helvetica, sans-serif',
                         textAlign: 'center',
-                        marginTop: -2,
+                        marginTop: -2
                       }}
                     >
                       {assetno}
@@ -156,7 +149,7 @@ const ItemQrDisplayModel = ({ open, handleClose, selectedData }) => {
                           fontWeight: 800,
                           fontFamily: 'Arial, Helvetica, sans-serif',
                           textAlign: 'center',
-                          marginTop: -2,
+                          marginTop: -2
                         }}
                       >
                         PM:{dueDate}

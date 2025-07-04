@@ -35,7 +35,7 @@ const AmCustodianDeptSlOnly = ({ custodiandept, setCustodianDept }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '29px',
+            '--Input-minHeight': '29px'
           }}
           value={custodiandept === 0 ? cusdept : value}
           placeholder="Select Custodian Department"
@@ -51,9 +51,7 @@ const AmCustodianDeptSlOnly = ({ custodiandept, setCustodianDept }) => {
           loadingText="Loading..."
           freeSolo
           // renderInput={(params) => (<Input size="sm" placeholder="Small"  {...params} />)}
-          isOptionEqualToValue={(option, value) =>
-            option.am_custodian_name === value.am_custodian_name
-          }
+          isOptionEqualToValue={(option, value) => option.am_custodian_name === value.am_custodian_name}
           getOptionLabel={option => option.am_custodian_name || ''}
           options={cusdept}
         />

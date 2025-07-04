@@ -25,7 +25,7 @@ const HicComplaintList = () => {
       field: 'complaint_desc',
       autoHeight: true,
       wrapText: true,
-      minWidth: 300,
+      minWidth: 300
     },
     {
       headerName: 'Request Department',
@@ -33,7 +33,7 @@ const HicComplaintList = () => {
       filter: 'true',
       wrapText: true,
       autoHeight: true,
-      minWidth: 200,
+      minWidth: 200
     },
     { headerName: 'Section', field: 'location', minWidth: 200, autoHeight: true, wrapText: true },
     {
@@ -41,29 +41,26 @@ const HicComplaintList = () => {
       field: 'rm_room_name',
       minWidth: 350,
       cellRendererFramework: params => {
-        const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } =
-          params.data
+        const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } = params.data
         return (
           <div>
             {rm_room_name !== null ? (
-              <div>
-                {`${rm_room_name} (${rm_roomtype_name} - ${rm_insidebuildblock_name} - ${rm_floor_name})`}
-              </div>
+              <div>{`${rm_room_name} (${rm_roomtype_name} - ${rm_insidebuildblock_name} - ${rm_floor_name})`}</div>
             ) : (
               <div>Location not added</div>
             )}
           </div>
         )
-      },
+      }
     },
     { headerName: 'Complaint Type', field: 'complaint_type_name', filter: 'true', minWidth: 180 },
     {
       headerName: 'Complaint Department',
       field: 'complaint_dept_name',
       filter: 'true',
-      minWidth: 200,
+      minWidth: 200
     },
-    { headerName: 'Request Date', field: 'compalint_date', minWidth: 180 },
+    { headerName: 'Request Date', field: 'compalint_date', minWidth: 180 }
   ])
 
   const backtoSetting = useCallback(() => {

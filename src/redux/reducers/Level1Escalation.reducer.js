@@ -3,7 +3,7 @@ const { FETCH_LEVEL1_IT_ESCLATION, FETCH_LEVEL1_MAINTENANCE_ESCLATION } = Action
 
 const Escalation = {
   Itescalation: [],
-  Maintenanceescalation: [],
+  Maintenanceescalation: []
 }
 
 export const getEscalation = (state = Escalation, { type, payload }) => {

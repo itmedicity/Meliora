@@ -38,7 +38,7 @@ const TopViewDesignForAll = ({
   crfRadioValue,
   setCrfRadioValue,
   getHoldItems,
-  getRejectItem,
+  getRejectItem
 }) => {
   const [startDate, setStartDate] = useState(formatDateForInput(new Date()))
   const [endDate, setEndDate] = useState(formatDateForInput(new Date()))
@@ -61,11 +61,11 @@ const TopViewDesignForAll = ({
   const {
     data: companyData,
     isLoading: isCompLoading,
-    error: compError,
+    error: compError
   } = useQuery({
     queryKey: 'getdefaultCompany',
     queryFn: () => getDefaultCompany(),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const company = useMemo(() => companyData, [companyData])
 
@@ -101,7 +101,7 @@ const TopViewDesignForAll = ({
       getuserAckData,
       getHoldData,
       getRejectData,
-      ClearSearch,
+      ClearSearch
     ]
   )
 
@@ -168,9 +168,7 @@ const TopViewDesignForAll = ({
           const newData = allData?.filter(val => val.dept_id === department)
           setDisData(newData)
         } else {
-          const newData = allData?.filter(
-            val => val.dept_id === department && val.request_deptsec_slno === dptSec
-          )
+          const newData = allData?.filter(val => val.dept_id === department && val.request_deptsec_slno === dptSec)
           setDisData(newData)
         }
       }
@@ -193,7 +191,7 @@ const TopViewDesignForAll = ({
             flexWrap: 'wrap',
             bgcolor: '#E3EFF9',
             border: '0.4px solid #B4F5F0',
-            borderTop: 'none',
+            borderTop: 'none'
           }}
         >
           <RadioGroup
@@ -208,15 +206,15 @@ const TopViewDesignForAll = ({
               badgeContent={pendingData ? pendingData.length : 0}
               anchorOrigin={{
                 vertical: 'top',
-                horizontal: 'right',
+                horizontal: 'right'
               }}
               sx={{
                 mr: 1,
                 '& .MuiBadge-badge': {
                   backgroundColor: '#FF8300',
                   color: 'white',
-                  transform: 'translate(70%, -10%)',
-                },
+                  transform: 'translate(70%, -10%)'
+                }
               }}
             >
               <FormControlLabel
@@ -227,8 +225,8 @@ const TopViewDesignForAll = ({
                     sx={{
                       color: '#FF8300',
                       '&.Mui-checked': {
-                        color: '#FF8300',
-                      },
+                        color: '#FF8300'
+                      }
                     }}
                   />
                 }
@@ -243,8 +241,8 @@ const TopViewDesignForAll = ({
                   sx={{
                     color: '#6200ea',
                     '&.Mui-checked': {
-                      color: '#6200ea',
-                    },
+                      color: '#6200ea'
+                    }
                   }}
                 />
               }
@@ -258,8 +256,8 @@ const TopViewDesignForAll = ({
                   sx={{
                     color: '#0d47a1',
                     '&.Mui-checked': {
-                      color: '#0d47a1',
-                    },
+                      color: '#0d47a1'
+                    }
                   }}
                 />
               }
@@ -273,8 +271,8 @@ const TopViewDesignForAll = ({
                   sx={{
                     color: '#887BB0',
                     '&.Mui-checked': {
-                      color: '#887BB0',
-                    },
+                      color: '#887BB0'
+                    }
                   }}
                 />
               }
@@ -289,8 +287,8 @@ const TopViewDesignForAll = ({
                   sx={{
                     color: '#116530',
                     '&.Mui-checked': {
-                      color: '#116530',
-                    },
+                      color: '#116530'
+                    }
                   }}
                 />
               }
@@ -302,7 +300,7 @@ const TopViewDesignForAll = ({
               pt: 1,
               flex: '1 1 auto',
               bgcolor: '#D4F1F4',
-              borderLeft: '1px solid lightgrey',
+              borderLeft: '1px solid lightgrey'
             }}
             row
             aria-labelledby="demo-row-radio-buttons-group-label"
@@ -318,8 +316,8 @@ const TopViewDesignForAll = ({
                   sx={{
                     color: '#F7AC32',
                     '&.Mui-checked': {
-                      color: '#F7AC32',
-                    },
+                      color: '#F7AC32'
+                    }
                   }}
                 />
               }
@@ -334,8 +332,8 @@ const TopViewDesignForAll = ({
                   sx={{
                     color: '#BA0F30',
                     '&.Mui-checked': {
-                      color: '#BA0F30',
-                    },
+                      color: '#BA0F30'
+                    }
                   }}
                 />
               }
@@ -350,8 +348,8 @@ const TopViewDesignForAll = ({
                   sx={{
                     color: '#DF362D',
                     '&.Mui-checked': {
-                      color: '#DF362D',
-                    },
+                      color: '#DF362D'
+                    }
                   }}
                 />
               }
@@ -384,8 +382,8 @@ const TopViewDesignForAll = ({
                         ml: 1,
                         pt: 0.2,
                         '&:hover': {
-                          color: '#43B0F1',
-                        },
+                          color: '#43B0F1'
+                        }
                       }}
                     />
                   </CustomIconButtonCmp>
@@ -413,8 +411,8 @@ const TopViewDesignForAll = ({
                         sx={{
                           color: '#BA0F30',
                           '&.Mui-checked': {
-                            color: '#BA0F30',
-                          },
+                            color: '#BA0F30'
+                          }
                         }}
                       />
                     }
@@ -428,8 +426,8 @@ const TopViewDesignForAll = ({
                         sx={{
                           color: '#F7AC32',
                           '&.Mui-checked': {
-                            color: '#F7AC32',
-                          },
+                            color: '#F7AC32'
+                          }
                         }}
                       />
                     }
@@ -449,10 +447,10 @@ const TopViewDesignForAll = ({
                       border: '1px solid #bbdefb',
                       height: 20,
                       color: '#1565c0',
-                      fontSize: 14,
+                      fontSize: 14
                     }}
                     slotProps={{
-                      listbox: { placement: 'bottom-start' },
+                      listbox: { placement: 'bottom-start' }
                     }}
                     placeholder="Search By"
                     value={searchFlag}
@@ -474,13 +472,11 @@ const TopViewDesignForAll = ({
                       fontSize: 12,
                       borderRadius: 5,
                       height: '19px',
-                      lineHeight: '1',
+                      lineHeight: '1'
                     }}
                     onClick={ClearSearch}
                   >
-                    <FilterAltTwoToneIcon
-                      sx={{ fontWeight: 550, color: '#0277bd', pr: 0.5, width: 30, height: 20 }}
-                    />
+                    <FilterAltTwoToneIcon sx={{ fontWeight: 550, color: '#0277bd', pr: 0.5, width: 30, height: 20 }} />
                     Clear Filter
                   </IconButton>
                 </CssVarsProvider>
@@ -501,9 +497,7 @@ const TopViewDesignForAll = ({
                     <CustomInputDateCmp
                       StartIcon={
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                          <AlignHorizontalLeftTwoToneIcon
-                            sx={{ height: 18, width: 18, color: '#0063C5' }}
-                          />
+                          <AlignHorizontalLeftTwoToneIcon sx={{ height: 18, width: 18, color: '#0063C5' }} />
                           <Typography sx={{ fontSize: '13px', color: '#0063C5' }}>
                             {' '}
                             CRF/{company?.company_name}/
@@ -515,7 +509,7 @@ const TopViewDesignForAll = ({
                         border: '1px solid #bbdefb',
                         width: 250,
                         height: 35,
-                        color: '#1565c0',
+                        color: '#1565c0'
                       }}
                       autoComplete={'off'}
                       size={'md'}
@@ -528,11 +522,7 @@ const TopViewDesignForAll = ({
                 </Box>
               ) : searchFlag === '3' ? (
                 <Box sx={{ display: 'flex', pt: 0.5, pr: 0.7 }}>
-                  <CRFDashboardDptSelect
-                    department={department}
-                    setDepartment={setDepartment}
-                    setdptSec={setdptSec}
-                  />
+                  <CRFDashboardDptSelect department={department} setDepartment={setDepartment} setdptSec={setdptSec} />
                   {department !== 0 ? (
                     <Box sx={{ ml: 0.5 }}>
                       <CRFDashboardDptSecSelect dptSec={dptSec} setdptSec={setdptSec} />
@@ -557,8 +547,8 @@ const TopViewDesignForAll = ({
                           ml: 1,
                           pt: 0.2,
                           '&:hover': {
-                            color: '#43B0F1',
-                          },
+                            color: '#43B0F1'
+                          }
                         }}
                       />
                     </CustomIconButtonCmp>
@@ -575,25 +565,21 @@ const TopViewDesignForAll = ({
 const DateInput = ({ label, value, onChange }) => (
   <CssVarsProvider>
     <CustomInputDateCmp
-      StartIcon={
-        <Typography sx={{ fontSize: 14, color: '#0d47a1', fontWeight: 550, pr: 0.5 }}>
-          {label}
-        </Typography>
-      }
+      StartIcon={<Typography sx={{ fontSize: 14, color: '#0d47a1', fontWeight: 550, pr: 0.5 }}>{label}</Typography>}
       className={{
         height: 25,
         borderRadius: 5,
         border: '1px solid #bbdefb',
         color: '#0d47a1',
         fontSize: 14,
-        width: 200,
+        width: 200
       }}
       size={'md'}
       type="date"
       value={value}
       handleChange={onChange}
       slotProps={{
-        input: { max: moment(new Date()).format('YYYY-MM-DD') },
+        input: { max: moment(new Date()).format('YYYY-MM-DD') }
       }}
     />
   </CssVarsProvider>

@@ -38,7 +38,7 @@ const DataCollectionSave = ({ flag, val, empdeptsec, selectedCompany, depkmc }) 
           const fileNamePart = parts[parts.length - 1]
           const obj = {
             imageName: fileNamePart,
-            url: val,
+            url: val
           }
           return obj
         })
@@ -48,13 +48,7 @@ const DataCollectionSave = ({ flag, val, empdeptsec, selectedCompany, depkmc }) 
       }
     }
     getImage(req_slno)
-    GetItemDetailsOfCRFCmp(
-      req_slno,
-      setReqItems,
-      setApproveTableData,
-      setPoDetails,
-      selectedCompany
-    )
+    GetItemDetailsOfCRFCmp(req_slno, setReqItems, setApproveTableData, setPoDetails, selectedCompany)
     setDcReplyModal(true)
     setdcReplyFlag(1)
     setDcData(val)
@@ -76,7 +70,7 @@ const DataCollectionSave = ({ flag, val, empdeptsec, selectedCompany, depkmc }) 
           const fileNamePart = parts[parts.length - 1]
           const obj = {
             imageName: fileNamePart,
-            url: val,
+            url: val
           }
           return obj
         })
@@ -86,13 +80,7 @@ const DataCollectionSave = ({ flag, val, empdeptsec, selectedCompany, depkmc }) 
       }
     }
     getImage(req_slno)
-    GetItemDetailsOfCRFCmp(
-      req_slno,
-      setReqItems,
-      setApproveTableData,
-      setPoDetails,
-      selectedCompany
-    )
+    GetItemDetailsOfCRFCmp(req_slno, setReqItems, setApproveTableData, setPoDetails, selectedCompany)
     setDataEnterViewFlag(1)
     setDataEnterViewModal(true)
 
@@ -113,7 +101,7 @@ const DataCollectionSave = ({ flag, val, empdeptsec, selectedCompany, depkmc }) 
             update_date: val.update_date,
             crf_req_remark: val.crf_req_remark,
             data_coll_image_status: val.data_coll_image_status,
-            crf_data_collect_slno: val.crf_data_collect_slno,
+            crf_data_collect_slno: val.crf_data_collect_slno
           }
           return obj
         })
@@ -135,9 +123,9 @@ const DataCollectionSave = ({ flag, val, empdeptsec, selectedCompany, depkmc }) 
     color: '#01579b',
     bgcolor: 'white',
     '&:hover': {
-      bgcolor: '#F0F4F8',
+      bgcolor: '#F0F4F8'
     },
-    borderRadius: 1,
+    borderRadius: 1
   }
   const handleClose = useCallback(() => {
     setDcReplyModal(false)
@@ -185,7 +173,7 @@ const DataCollectionSave = ({ flag, val, empdeptsec, selectedCompany, depkmc }) 
           borderRadius: 2,
           borderTopLeftRadius: 0,
           borderTopRightRadius: 0,
-          flexWrap: 'wrap',
+          flexWrap: 'wrap'
         }}
       >
         <Box sx={{ pl: 2, p: 0.6 }}>

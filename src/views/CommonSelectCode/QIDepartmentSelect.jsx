@@ -4,9 +4,7 @@ import { useSelector } from 'react-redux'
 
 const QIDepartmentSelect = ({ qidept, setQidept, setDepName, setDepCode, setQitype }) => {
   const departmentList = useSelector(state => state.getQltyDept.qiDeptList)
-  const [type, setType] = useState([
-    { qi_dept_no: 0, qi_dept_desc: '', qi_dept_code: '', qi_list_type: 0 },
-  ])
+  const [type, setType] = useState([{ qi_dept_no: 0, qi_dept_desc: '', qi_dept_code: '', qi_list_type: 0 }])
   const [value, setValue] = useState(type[0])
   const [inputValue, setInputValue] = useState('')
   const [flag, setFlag] = useState(0)
@@ -52,7 +50,7 @@ const QIDepartmentSelect = ({ qidept, setQidept, setDepName, setDepCode, setQity
         <Autocomplete
           sx={{
             '--Input-minHeight': '44px',
-            borderRadius: 0,
+            borderRadius: 0
           }}
           value={qidept === 0 ? type : value}
           placeholder="Select Department"

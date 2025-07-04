@@ -1,9 +1,9 @@
 import React, { Fragment, useCallback, useState, memo, useMemo, useEffect } from 'react'
-import Slide from '@mui/material/Slide';
+import Slide from '@mui/material/Slide'
 // import { ToastContainer } from 'react-toastify';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import Button from '@mui/material/Button'
 import { Box, Paper, IconButton, Input } from '@mui/material'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
@@ -62,17 +62,13 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
     crf_req_remark,
     datacoll_reqdate,
     datacoll_requser,
-    crf_dept_status,
+    crf_dept_status
   } = datas[0]
 
   const reqdate = req_date !== null ? format(new Date(req_date), 'dd-MM-yyyy') : null
   const expdate = format(new Date(expected_date), 'dd-MM-yyyy')
-  const inchadate =
-    incharge_apprv_date !== null
-      ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy hh:mm:ss')
-      : null
-  const hoddate =
-    hod_approve_date !== null ? format(new Date(hod_approve_date), 'dd-MM-yyyy hh:mm:ss') : null
+  const inchadate = incharge_apprv_date !== null ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy hh:mm:ss') : null
+  const hoddate = hod_approve_date !== null ? format(new Date(hod_approve_date), 'dd-MM-yyyy hh:mm:ss') : null
   //redux for geting login id
   const id = useSelector(state => state.LoginUserData.empid, _.isEqual)
   // const [imgFlag, setImgFlag] = useState(0)
@@ -104,7 +100,7 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
     const options = {
       maxSizeMB: 2,
       maxWidthOrHeight: 1920,
-      useWebWorker: true,
+      useWebWorker: true
     }
     const compressedFile = await imageCompression(imageFile, options)
     return compressedFile
@@ -167,7 +163,7 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
     return {
       crf_dept_remarks: remark,
       save_user: id,
-      crf_data_collect_slno: crf_data_collect_slno,
+      crf_data_collect_slno: crf_data_collect_slno
     }
   }, [remark, crf_data_collect_slno, id])
 
@@ -199,8 +195,8 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
           // Use the Axios instance and endpoint that matches your server setup
           const result = await axioslogin.post('/CrfImageUpload/crf/DataCollection', formData, {
             headers: {
-              'Content-Type': 'multipart/form-data',
-            },
+              'Content-Type': 'multipart/form-data'
+            }
           })
           return result.data
         } catch (error) {
@@ -245,7 +241,7 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
       crf_data_collect_slno,
       req_slno,
       selectFile,
-      handleImageUpload,
+      handleImageUpload
     ]
   )
   // reset
@@ -279,12 +275,10 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
             id="alert-dialog-slide-descriptiona"
             sx={{
               width: '100%',
-              height: 540,
+              height: 540
             }}
           >
-            <DialogContentText id="alert-dialog-slide-descriptiona">
-              Data Collection Model
-            </DialogContentText>
+            <DialogContentText id="alert-dialog-slide-descriptiona">Data Collection Model</DialogContentText>
 
             <Box sx={{ width: '100%', mt: 0 }}>
               <Paper variant="outlined" sx={{ p: 0, mt: 1 }}>
@@ -297,8 +291,8 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                       sm: 'column',
                       md: 'column',
                       lg: 'column',
-                      xl: 'column',
-                    },
+                      xl: 'column'
+                    }
                   }}
                 >
                   <Box
@@ -306,7 +300,7 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                       width: '100%',
                       display: 'flex',
                       p: 0.5,
-                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                     }}
                   >
                     <Box sx={{ pr: 8 }}>
@@ -327,7 +321,7 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                         width: '100%',
                         display: 'flex',
                         p: 0.5,
-                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                       }}
                     >
                       <Box sx={{ width: '25%' }}>
@@ -343,7 +337,7 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                           pl: 0.5,
                           fontSize: 15,
                           overflow: 'auto',
-                          '::-webkit-scrollbar': { display: 'none' },
+                          '::-webkit-scrollbar': { display: 'none' }
                         }}
                         variant="none"
                       >
@@ -357,7 +351,7 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                         width: '100%',
                         display: 'flex',
                         p: 0.5,
-                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                       }}
                     >
                       <Box sx={{ width: '25%' }}>
@@ -373,7 +367,7 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                           pl: 0.5,
                           fontSize: 15,
                           overflow: 'auto',
-                          '::-webkit-scrollbar': { display: 'none' },
+                          '::-webkit-scrollbar': { display: 'none' }
                         }}
                         variant="none"
                       >
@@ -387,7 +381,7 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                         width: '100%',
                         display: 'flex',
                         p: 0.5,
-                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                       }}
                     >
                       <Box sx={{ width: '25%' }}>
@@ -403,7 +397,7 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                           pl: 0.5,
                           fontSize: 15,
                           overflow: 'auto',
-                          '::-webkit-scrollbar': { display: 'none' },
+                          '::-webkit-scrollbar': { display: 'none' }
                         }}
                         variant="none"
                       >
@@ -417,7 +411,7 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                         width: '100%',
                         display: 'flex',
                         p: 0.5,
-                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                       }}
                     >
                       <Box sx={{ width: '25%' }}>
@@ -433,7 +427,7 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                           pl: 0.5,
                           fontSize: 15,
                           overflow: 'auto',
-                          '::-webkit-scrollbar': { display: 'none' },
+                          '::-webkit-scrollbar': { display: 'none' }
                         }}
                         variant="none"
                       >
@@ -446,7 +440,7 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                       width: '100%',
                       display: 'flex',
                       p: 0.5,
-                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                     }}
                   >
                     <Box sx={{ width: '25%' }}>
@@ -463,7 +457,7 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                         fontSize: 15,
                         textTransform: 'capitalize',
                         overflow: 'auto',
-                        '::-webkit-scrollbar': { display: 'none' },
+                        '::-webkit-scrollbar': { display: 'none' }
                       }}
                       variant="none"
                     >
@@ -476,7 +470,7 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                       width: '100%',
                       display: 'flex',
                       p: 0.5,
-                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                     }}
                   >
                     <Box sx={{ width: '25%' }}>
@@ -493,7 +487,7 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                         fontSize: 15,
                         textTransform: 'capitalize',
                         overflow: 'auto',
-                        '::-webkit-scrollbar': { display: 'none' },
+                        '::-webkit-scrollbar': { display: 'none' }
                       }}
                       variant="none"
                     >
@@ -507,7 +501,7 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                       display: 'flex',
                       p: 0.5,
                       pb: 0,
-                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                     }}
                   >
                     <Box sx={{ pr: 9 }}>
@@ -529,13 +523,12 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                       width: '100%',
                       display: 'flex',
                       p: 0.5,
-                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                     }}
                   >
                     <CssVarsProvider>
                       <Typography sx={{ fontSize: 15, textTransform: 'capitalize' }}>
-                        Requested DeptSec:{' '}
-                        {userdeptsec !== null ? userdeptsec.toLowerCase() : 'Not Updated'}
+                        Requested DeptSec: {userdeptsec !== null ? userdeptsec.toLowerCase() : 'Not Updated'}
                       </Typography>
                     </CssVarsProvider>
                     {image_status === 1 ? (
@@ -558,8 +551,8 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                             sm: 'column',
                             md: 'column',
                             lg: 'column',
-                            xl: 'column',
-                          },
+                            xl: 'column'
+                          }
                         }}
                       >
                         <Box
@@ -573,15 +566,13 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                               sm: 'row',
                               md: 'row',
                               lg: 'row',
-                              xl: 'row',
-                            },
+                              xl: 'row'
+                            }
                           }}
                         >
                           <Box sx={{ pr: 9 }}>
                             <CssVarsProvider>
-                              <Typography
-                                sx={{ pl: 1, fontWeight: 900, fontSize: 14, color: TypoHeadColor }}
-                              >
+                              <Typography sx={{ pl: 1, fontWeight: 900, fontSize: 14, color: TypoHeadColor }}>
                                 Data Collection Request Details
                               </Typography>
                             </CssVarsProvider>
@@ -597,15 +588,13 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                               sm: 'row',
                               md: 'row',
                               lg: 'row',
-                              xl: 'row',
-                            },
+                              xl: 'row'
+                            }
                           }}
                         >
                           <Box sx={{ width: '25%' }}>
                             <CssVarsProvider>
-                              <Typography sx={{ pl: 1, fontSize: 15 }}>
-                                Requested Remarks
-                              </Typography>
+                              <Typography sx={{ pl: 1, fontSize: 15 }}>Requested Remarks</Typography>
                             </CssVarsProvider>
                           </Box>
                           <Paper
@@ -617,7 +606,7 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                               fontSize: 15,
                               textTransform: 'capitalize',
                               overflow: 'auto',
-                              '::-webkit-scrollbar': { display: 'none' },
+                              '::-webkit-scrollbar': { display: 'none' }
                             }}
                             variant="none"
                           >
@@ -634,15 +623,13 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                               sm: 'row',
                               md: 'row',
                               lg: 'row',
-                              xl: 'row',
-                            },
+                              xl: 'row'
+                            }
                           }}
                         >
                           <Box sx={{ width: '25%' }}>
                             <CssVarsProvider>
-                              <Typography sx={{ pl: 1, fontSize: 15 }}>
-                                Requested Details
-                              </Typography>
+                              <Typography sx={{ pl: 1, fontSize: 15 }}>Requested Details</Typography>
                             </CssVarsProvider>
                           </Box>
                           <Paper
@@ -654,7 +641,7 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                               fontSize: 15,
                               textTransform: 'capitalize',
                               overflow: 'auto',
-                              '::-webkit-scrollbar': { display: 'none' },
+                              '::-webkit-scrollbar': { display: 'none' }
                             }}
                             variant="none"
                           >
@@ -669,7 +656,7 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                               fontSize: 15,
                               textTransform: 'capitalize',
                               overflow: 'auto',
-                              '::-webkit-scrollbar': { display: 'none' },
+                              '::-webkit-scrollbar': { display: 'none' }
                             }}
                             variant="none"
                           >
@@ -685,7 +672,7 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                       width: '100%',
                       display: 'flex',
                       p: 0.5,
-                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                     }}
                   >
                     {tableOrginal === 1 ? (
@@ -695,7 +682,7 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                           display: 'flex',
                           p: 0.5,
                           pb: 0,
-                          flexDirection: 'column',
+                          flexDirection: 'column'
                         }}
                       >
                         <Box sx={{ pr: 9 }}>
@@ -728,8 +715,8 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                       sm: 'column',
                       md: 'column',
                       lg: 'column',
-                      xl: 'column',
-                    },
+                      xl: 'column'
+                    }
                   }}
                 >
                   <Box
@@ -738,14 +725,12 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                       display: 'flex',
                       pl: 0.2,
                       pr: 0.5,
-                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                     }}
                   >
                     <Box sx={{ pr: 9 }}>
                       <CssVarsProvider>
-                        <Typography
-                          sx={{ fontWeight: 900, fontSize: 14, color: TypoHeadColor, pl: 1 }}
-                        >
+                        <Typography sx={{ fontWeight: 900, fontSize: 14, color: TypoHeadColor, pl: 1 }}>
                           Department Approval
                         </Typography>
                       </CssVarsProvider>
@@ -762,7 +747,7 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                             pr: 0.5,
                             pt: 0.4,
 
-                            flexDirection: 'column',
+                            flexDirection: 'column'
                           }}
                         >
                           <Box
@@ -770,7 +755,7 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                               // pl: 1,
                               display: 'flex',
                               flexDirection: 'row',
-                              justifyContent: 'space-between',
+                              justifyContent: 'space-between'
                             }}
                           >
                             <CssVarsProvider>
@@ -815,7 +800,7 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                                   display: 'flex',
                                   flexDirection: 'row',
                                   justifyContent: 'space-evenly',
-                                  pr: 2,
+                                  pr: 2
                                 }}
                               >
                                 <CssVarsProvider>
@@ -841,7 +826,7 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                                       px: 1,
                                       pb: 0.4,
                                       borderRadius: 5,
-                                      textTransform: 'capitalize',
+                                      textTransform: 'capitalize'
                                     }}
                                   >
                                     {' '}
@@ -920,8 +905,8 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                             sm: 'column',
                             md: 'column',
                             lg: 'column',
-                            xl: 'column',
-                          },
+                            xl: 'column'
+                          }
                         }}
                       >
                         <Box
@@ -929,7 +914,7 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                             // pl: 1,
                             display: 'flex',
                             flexDirection: 'row',
-                            justifyContent: 'space-between',
+                            justifyContent: 'space-between'
                           }}
                         >
                           <CssVarsProvider>
@@ -974,7 +959,7 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                                 display: 'flex',
                                 flexDirection: 'row',
                                 justifyContent: 'space-evenly',
-                                pr: 2,
+                                pr: 2
                               }}
                             >
                               <CssVarsProvider>
@@ -1000,7 +985,7 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                                     px: 1,
                                     pb: 0.4,
                                     borderRadius: 5,
-                                    textTransform: 'capitalize',
+                                    textTransform: 'capitalize'
                                   }}
                                 >
                                   {' '}
@@ -1072,7 +1057,7 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                   sx={{
                     width: '100%',
                     display: 'flex',
-                    flexDirection: 'column',
+                    flexDirection: 'column'
                   }}
                 >
                   <CustomPaperTitle heading="Remarks" />
@@ -1080,7 +1065,7 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                     sx={{
                       display: 'flex',
                       p: 0.5,
-                      width: { xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%' },
+                      width: { xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%' }
                     }}
                   >
                     <CustomTextarea
@@ -1089,7 +1074,7 @@ const CRFDataCollectinModel = ({ open, setOpen, datas, count, setCount }) => {
                       size="sm"
                       style={{
                         width: '100%',
-                        height: 70,
+                        height: 70
                       }}
                       value={remark}
                       onchange={updateRemark}

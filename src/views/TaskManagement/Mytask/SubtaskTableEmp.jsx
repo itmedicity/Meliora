@@ -13,7 +13,7 @@ const SubtaskTableEmp = ({
   tableRendering,
   setSubTask,
   subTask,
-  setViewSubTask,
+  setViewSubTask
 }) => {
   const empsecid = useSelector(state => {
     return state.LoginUserData.empsecid
@@ -22,7 +22,7 @@ const SubtaskTableEmp = ({
   const searchData = useMemo(() => {
     return {
       main_task_slno: tm_task_slno,
-      tm_task_dept_sec: empsecid,
+      tm_task_dept_sec: empsecid
     }
   }, [tm_task_slno, empsecid])
 
@@ -65,7 +65,7 @@ const SubtaskTableEmp = ({
                   ? 'Pending'
                   : val.tm_task_status === 0
                   ? 'Not Started'
-                  : 'Not Started',
+                  : 'Not Started'
             }
           })
         setSubTask(subtaskData)
@@ -83,10 +83,7 @@ const SubtaskTableEmp = ({
   return (
     <Box>
       {subTask.length !== 0 ? (
-        <Paper
-          variant="outlined"
-          sx={{ maxWidth: '100%', overflow: 'auto', mx: 1, maxHeight: 400, my: 1 }}
-        >
+        <Paper variant="outlined" sx={{ maxWidth: '100%', overflow: 'auto', mx: 1, maxHeight: 400, my: 1 }}>
           <CssVarsProvider>
             <Table stickyHeader hoverRow size="sm">
               <thead>
@@ -113,11 +110,7 @@ const SubtaskTableEmp = ({
                     >
                       <td> {index + 1}</td>
                       <td>
-                        <EditIcon
-                          sx={{ cursor: 'pointer' }}
-                          size={6}
-                          onClick={() => selectForEditsSubTask(val)}
-                        />
+                        <EditIcon sx={{ cursor: 'pointer' }} size={6} onClick={() => selectForEditsSubTask(val)} />
                       </td>
                       <td>
                         <Chip
@@ -136,26 +129,17 @@ const SubtaskTableEmp = ({
                                 ? '#67595E'
                                 : val.tm_task_status === 4
                                 ? '#5885AF'
-                                : 'transparent',
+                                : 'transparent'
                           }}
                         >
                           {val.TaskStatus}
                         </Chip>
                       </td>
-                      <td style={{ textTransform: 'capitalize' }}>
-                        {' '}
-                        {val.tm_task_name || 'not given'}
-                      </td>
+                      <td style={{ textTransform: 'capitalize' }}> {val.tm_task_name || 'not given'}</td>
                       <td style={{ textTransform: 'capitalize' }}> {val.em_name || 'not given'}</td>
                       <td> {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
-                      <td>
-                        {' '}
-                        {moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}
-                      </td>
-                      <td style={{ textTransform: 'capitalize' }}>
-                        {' '}
-                        {val.tm_task_description || 'not given'}
-                      </td>
+                      <td> {moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
+                      <td style={{ textTransform: 'capitalize' }}> {val.tm_task_description || 'not given'}</td>
                     </tr>
                   )
                 })}

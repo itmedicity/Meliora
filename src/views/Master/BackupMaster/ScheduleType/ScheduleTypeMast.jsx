@@ -23,7 +23,7 @@ const ScheduleTypeMast = () => {
   const [scheduleType, setScheduleType] = useState({
     schedule_type_id: '0',
     schedule_type_name: '',
-    schedule_type_status: false,
+    schedule_type_status: false
   })
   const { schedule_type_name, schedule_type_status, schedule_type_id } = scheduleType
   const updateScheduleType = useCallback(
@@ -38,14 +38,14 @@ const ScheduleTypeMast = () => {
       schedule_type_id: schedule_type_id,
       schedule_type_name: schedule_type_name,
       schedule_type_status: schedule_type_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [schedule_type_id, schedule_type_name, schedule_type_status, id])
   const reset = () => {
     const formreset = {
       schedule_type_id: '0',
       schedule_type_name: '',
-      schedule_type_status: false,
+      schedule_type_status: false
     }
     setScheduleType(formreset)
     setCount(0)
@@ -56,7 +56,7 @@ const ScheduleTypeMast = () => {
       schedule_type_id: schedule_type_id,
       schedule_type_name: schedule_type_name,
       schedule_type_status: schedule_type_status === true ? 1 : 0,
-      edit_user: id,
+      edit_user: id
     }
   }, [schedule_type_id, schedule_type_name, schedule_type_status, id])
   const submitSheduleType = useCallback(
@@ -103,7 +103,7 @@ const ScheduleTypeMast = () => {
     const frmdata = {
       schedule_type_id: schedule_type_id,
       schedule_type_name: schedule_type_name,
-      schedule_type_status: status === 'Yes' ? true : false,
+      schedule_type_status: status === 'Yes' ? true : false
     }
     setScheduleType(frmdata)
   }, [])
@@ -111,19 +111,14 @@ const ScheduleTypeMast = () => {
     const formreset = {
       schedule_type_id: '',
       schedule_type_name: '',
-      schedule_type_status: false,
+      schedule_type_status: false
     }
     setScheduleType(formreset)
     setCount(0)
     setValue(0)
   }, [setScheduleType])
   return (
-    <CardMaster
-      title="Backup Schedule Type"
-      submit={submitSheduleType}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Backup Schedule Type" submit={submitSheduleType} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ p: 1 }}>
         <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
           <Box sx={{ width: '30%', p: 1 }}>

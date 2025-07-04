@@ -1,13 +1,4 @@
-import {
-  Box,
-  Button,
-  Chip,
-  CssVarsProvider,
-  Modal,
-  ModalDialog,
-  Tooltip,
-  Typography,
-} from '@mui/joy'
+import { Box, Button, Chip, CssVarsProvider, Modal, ModalDialog, Tooltip, Typography } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import AssignmentSharpIcon from '@mui/icons-material/AssignmentSharp'
@@ -35,7 +26,7 @@ const EditRejectedTask = ({
   setEditModalOpen,
   tableCount,
   setTableCount,
-  setMasterData,
+  setMasterData
 }) => {
   const {
     tm_task_slno,
@@ -52,7 +43,7 @@ const EditRejectedTask = ({
     tm_completed_remarks,
     tm_task_dept,
     tm_task_dept_sec,
-    tm_mast_duedate_count,
+    tm_mast_duedate_count
   } = masterData
 
   const dispatch = useDispatch()
@@ -83,18 +74,10 @@ const EditRejectedTask = ({
     description: tm_task_description,
     pendingRemarks: tm_pending_remark,
     onHoldRemaks: tm_onhold_remarks,
-    completedRemarks: tm_completed_remarks,
+    completedRemarks: tm_completed_remarks
   })
 
-  const {
-    taskSlno,
-    taskName,
-    dueDate,
-    description,
-    onHoldRemaks,
-    pendingRemarks,
-    completedRemarks,
-  } = taskData
+  const { taskSlno, taskName, dueDate, description, onHoldRemaks, pendingRemarks, completedRemarks } = taskData
   const taskDataUpdate = useCallback(
     e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -117,9 +100,8 @@ const EditRejectedTask = ({
       tm_completed_remarks: completedRemarks === '' ? null : completedRemarks,
       tm_project_slno: projectz === '' ? null : projectz,
       main_task_slno: main_task_slno === null ? null : main_task_slno,
-      tm_mast_duedate_count:
-        tm_task_due_date !== dueDate ? tm_mast_duedate_count + 1 : tm_mast_duedate_count,
-      edit_user: id,
+      tm_mast_duedate_count: tm_task_due_date !== dueDate ? tm_mast_duedate_count + 1 : tm_mast_duedate_count,
+      edit_user: id
     }
   }, [
     taskName,
@@ -136,7 +118,7 @@ const EditRejectedTask = ({
     main_task_slno,
     tm_mast_duedate_count,
     tm_task_due_date,
-    id,
+    id
   ])
 
   const inactive =
@@ -144,7 +126,7 @@ const EditRejectedTask = ({
     empArry.map(val => {
       return {
         tm_task_slno: tm_task_slno,
-        tm_assigne_emp: val.tm_assigne_emp,
+        tm_assigne_emp: val.tm_assigne_emp
       }
     })
 
@@ -175,14 +157,14 @@ const EditRejectedTask = ({
         tm_task_slno: tm_task_slno,
         tm_assigne_emp: val,
         tm_detail_status: 0,
-        tm_detl_create: id,
+        tm_detl_create: id
       }
     })
   const handleImageUpload = useCallback(async imageFile => {
     const options = {
       maxSizeMB: 1,
       maxWidthOrHeight: 1920,
-      useWebWorker: true,
+      useWebWorker: true
     }
     const compressedFile = await imageCompression(imageFile, options)
     return compressedFile
@@ -232,8 +214,8 @@ const EditRejectedTask = ({
           // Use the Axios instance and endpoint that matches your server setup
           const uploadResult = await axioslogin.post('/TmFileUpload/uploadFile/task', formData, {
             headers: {
-              'Content-Type': 'multipart/form-data',
-            },
+              'Content-Type': 'multipart/form-data'
+            }
           })
           return uploadResult.data
         } catch (error) {
@@ -327,7 +309,7 @@ const EditRejectedTask = ({
       tableCount,
       setTableCount,
       dueDate,
-      employeeMast,
+      employeeMast
     ]
   )
 
@@ -351,7 +333,7 @@ const EditRejectedTask = ({
               return {
                 tm_create_detl_slno: val.tm_create_detl_slno,
                 tm_assigne_emp: val.tm_assigne_emp,
-                tm_detl_edit: id,
+                tm_detl_edit: id
               }
             })
           setEmpArry(setEmpData)
@@ -388,7 +370,7 @@ const EditRejectedTask = ({
             justifyContent: 'center',
             alignItems: 'center',
             pl: 1,
-            borderRadius: 10,
+            borderRadius: 10
           }}
         >
           <ModalDialog variant="outlined" sx={{ width: '48vw', p: 0, overflow: 'auto' }}>
@@ -401,7 +383,7 @@ const EditRejectedTask = ({
                     pl: 1,
                     flex: 1,
                     pt: 1.5,
-                    fontWeight: 900,
+                    fontWeight: 900
                   }}
                 >
                   Create A New Task
@@ -413,7 +395,7 @@ const EditRejectedTask = ({
                     cursor: 'pointer',
                     color: '#52688F',
                     p: 1,
-                    '&:hover': { color: '#BA0F30' },
+                    '&:hover': { color: '#BA0F30' }
                   }}
                   onClick={handleClose}
                 />
@@ -428,14 +410,12 @@ const EditRejectedTask = ({
                   backgroundColor: 'white',
                   borderRadius: 35,
                   position: 'absolute',
-                  fontSize: '0.75em',
+                  fontSize: '0.75em'
                 }}
               >
                 <AssignmentSharpIcon sx={{ height: 60, width: 60, p: 1.5 }} />
               </Box>
-              <Typography sx={{ fontWeight: 800, color: 'grey', fontSize: 15, pt: 5, pl: 5.8 }}>
-                Update Task
-              </Typography>
+              <Typography sx={{ fontWeight: 800, color: 'grey', fontSize: 15, pt: 5, pl: 5.8 }}>Update Task</Typography>
               <Box sx={{ overflow: 'auto', mx: 3 }}>
                 <Box sx={{ flex: 1, mx: 3, mt: 2.5 }}>
                   <Typography sx={{ pl: 1.5, color: '#003B73', fontWeight: 600, fontSize: 12 }}>
@@ -451,9 +431,7 @@ const EditRejectedTask = ({
                   />
                 </Box>
                 <Box sx={{ flex: 1, mx: 3, mt: 2.5 }}>
-                  <Typography sx={{ pl: 1.5, color: '#003B73', fontWeight: 600, fontSize: 12 }}>
-                    Project
-                  </Typography>
+                  <Typography sx={{ pl: 1.5, color: '#003B73', fontWeight: 600, fontSize: 12 }}>Project</Typography>
                   <Box sx={{ display: 'flex' }}>
                     <TmAllProjectList
                       projectz={projectz}
@@ -467,7 +445,7 @@ const EditRejectedTask = ({
                             cursor: 'pointer',
                             bgcolor: '#90CDD0',
                             color: 'black',
-                            '&:hover': { bgcolor: '#77A7B0' },
+                            '&:hover': { bgcolor: '#77A7B0' }
                           }}
                         >
                           {' '}
@@ -482,19 +460,11 @@ const EditRejectedTask = ({
                     <Typography sx={{ pl: 1.5, color: '#003B73', fontWeight: 600, fontSize: 12 }}>
                       Department
                     </Typography>
-                    <TmDepartmentSelect
-                      department={departmentMast}
-                      setDepartment={setdepartmentMast}
-                    />
+                    <TmDepartmentSelect department={departmentMast} setDepartment={setdepartmentMast} />
                   </Box>
                   <Box sx={{ flex: 1, ml: 0.5 }}>
-                    <Typography sx={{ pl: 1.5, color: '#003B73', fontWeight: 600, fontSize: 12 }}>
-                      Section{' '}
-                    </Typography>
-                    <TmDeptSectionSelect
-                      deptsec={departmentSecMast}
-                      setDeptSec={setdepartmentSecMast}
-                    />
+                    <Typography sx={{ pl: 1.5, color: '#003B73', fontWeight: 600, fontSize: 12 }}>Section </Typography>
+                    <TmDeptSectionSelect deptsec={departmentSecMast} setDeptSec={setdepartmentSecMast} />
                   </Box>
                 </Box>
                 <Box sx={{ flex: 1, mx: 3, mt: 2.5 }}>
@@ -530,11 +500,7 @@ const EditRejectedTask = ({
 
                   <Tooltip
                     color="warning"
-                    title={
-                      tm_mast_duedate_count >= countDue
-                        ? 'Cant Change Duedate, Change Limit Exceeded'
-                        : ''
-                    }
+                    title={tm_mast_duedate_count >= countDue ? 'Cant Change Duedate, Change Limit Exceeded' : ''}
                   >
                     <Box>
                       {tm_project_slno !== null ? (
@@ -545,10 +511,8 @@ const EditRejectedTask = ({
                           slotProps={{
                             input: {
                               min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-                              max: moment(new Date(tm_project_duedate)).format(
-                                'YYYY-MM-DD HH:mm:ss'
-                              ),
-                            },
+                              max: moment(new Date(tm_project_duedate)).format('YYYY-MM-DD HH:mm:ss')
+                            }
                           }}
                           onchange={taskDataUpdate}
                           disabled={tm_mast_duedate_count >= countDue}
@@ -561,8 +525,8 @@ const EditRejectedTask = ({
                           slotProps={{
                             input: {
                               min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-                              max: moment(new Date(dueDateProject)).format('YYYY-MM-DD HH:mm:ss'),
-                            },
+                              max: moment(new Date(dueDateProject)).format('YYYY-MM-DD HH:mm:ss')
+                            }
                           }}
                           onchange={taskDataUpdate}
                           disabled={tm_mast_duedate_count >= countDue}
@@ -578,7 +542,7 @@ const EditRejectedTask = ({
                       color: '#003B73',
                       fontWeight: 600,
                       textUnderline: 1,
-                      fontSize: 12,
+                      fontSize: 12
                     }}
                   >
                     Description
@@ -601,7 +565,7 @@ const EditRejectedTask = ({
                     display: 'flex',
                     borderColor: '#C2D2D9',
                     mx: 2.3,
-                    py: 1,
+                    py: 1
                   }}
                 >
                   <Box
@@ -614,7 +578,7 @@ const EditRejectedTask = ({
                       border: 0.1,
                       mx: 0.5,
                       borderRadius: 5,
-                      borderColor: '#E4E5E8',
+                      borderColor: '#E4E5E8'
                     }}
                   >
                     <label htmlFor="file-input">
@@ -622,7 +586,7 @@ const EditRejectedTask = ({
                         sx={{
                           color: '#0000FF',
                           cursor: 'pointer',
-                          '&:hover': { color: '#000C66' },
+                          '&:hover': { color: '#000C66' }
                         }}
                       />
                       <u>Choose File</u>
@@ -643,7 +607,7 @@ const EditRejectedTask = ({
                       flex: 1,
                       overflowX: 'scroll',
                       overflow: 'hidden',
-                      mx: 0.5,
+                      mx: 0.5
                     }}
                   >
                     {selectFile &&
@@ -659,7 +623,7 @@ const EditRejectedTask = ({
                                 width: 20,
                                 cursor: 'pointer',
                                 color: '#4D0011',
-                                '&:hover': { color: '#BA0F30' },
+                                '&:hover': { color: '#BA0F30' }
                               }}
                               onClick={() => handleRemoveTaskFile(index)}
                             />
@@ -669,9 +633,7 @@ const EditRejectedTask = ({
                   </Box>
                 </Box>
 
-                <Box
-                  sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', pt: 3, mr: 3, pb: 2 }}
-                >
+                <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', pt: 3, mr: 3, pb: 2 }}>
                   <Button variant="plain" sx={{ fontSize: 15 }} onClick={SubmitTask}>
                     Update
                   </Button>

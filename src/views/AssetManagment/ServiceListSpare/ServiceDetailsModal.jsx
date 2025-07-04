@@ -1,16 +1,4 @@
-import {
-  Box,
-  Button,
-  Checkbox,
-  Chip,
-  CssVarsProvider,
-  Grid,
-  Input,
-  Modal,
-  Table,
-  Textarea,
-  Typography,
-} from '@mui/joy'
+import { Box, Button, Checkbox, Chip, CssVarsProvider, Grid, Input, Modal, Table, Textarea, Typography } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import CancelIcon from '@mui/icons-material/Cancel'
 import { axioslogin } from 'src/views/Axios/Axios'
@@ -85,13 +73,13 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
     serviceCheck: 0,
     image: 0,
     imageServiceFlag: 0,
-    openDocuments: 0,
+    openDocuments: 0
   })
 
   const [viewStates, setViewStates] = useState({
     imageViewOpen: false,
     documetOpenCheck: false,
-    serviceimageViewOpen: false,
+    serviceimageViewOpen: false
   })
 
   const [selectFile, setSelectFile] = useState([])
@@ -116,17 +104,12 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
     am_item_map_slno,
     am_spare_item_map_slno,
     item_custodian_dept,
-    am_category_pm_days,
+    am_category_pm_days
   } = serviceDetails
 
   const formattedItemNo =
-    spare_asset_no_only !== undefined
-      ? spare_asset_no_only
-      : item_asset_no_only !== undefined
-        ? item_asset_no_only
-        : 0
-  const ItemPrefix =
-    spare_asset_no !== undefined ? spare_asset_no : item_asset_no !== undefined ? item_asset_no : 0
+    spare_asset_no_only !== undefined ? spare_asset_no_only : item_asset_no_only !== undefined ? item_asset_no_only : 0
+  const ItemPrefix = spare_asset_no !== undefined ? spare_asset_no : item_asset_no !== undefined ? item_asset_no : 0
   const id = useSelector(state => {
     return state.LoginUserData.empid
   })
@@ -145,7 +128,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
     suppl_serviced_date: '',
     suppl_serviced_remarks: '',
     create_user: '',
-    edit_user: '',
+    edit_user: ''
   })
   const {
     am_service_details_slno,
@@ -153,7 +136,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
     service_on_hold_reason,
     condm_transf_remarks,
     suppl_serviced_date,
-    suppl_serviced_remarks,
+    suppl_serviced_remarks
   } = servicee
 
   useEffect(() => {
@@ -193,21 +176,17 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
     service_issues_identified: '',
     serviced_issue_remarks: '',
     serviced_create_user: '',
-    serviced_edit_user: '',
+    serviced_edit_user: ''
   })
-  const {
-    serviced_emp_detail_slno,
-    serviced_date,
-    service_issues_identified,
-    serviced_issue_remarks,
-  } = deptServiceDetails
+  const { serviced_emp_detail_slno, serviced_date, service_issues_identified, serviced_issue_remarks } =
+    deptServiceDetails
 
   const Reset = useCallback(() => {
     const frmdata = {
       serviced_emp_detail_slno: '',
       service_issues_identified: '',
       serviced_date: '',
-      serviced_issue_remarks: '',
+      serviced_issue_remarks: ''
     }
     setdeptServiceDetails(frmdata)
     setspareCheckEmp(0)
@@ -239,7 +218,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
       suppl_serviced_date: '',
       suppl_serviced_remarks: '',
       create_user: '',
-      edit_user: '',
+      edit_user: ''
     }
     SetService(frmdata)
     setcomplDetails([])
@@ -250,11 +229,11 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
       ...prevFlags,
       addToStockFlag: 0,
       transfrToCondmflag: 0,
-      image: 0,
+      image: 0
     }))
     setViewStates(prev => ({
       ...prev,
-      imageViewOpen: false,
+      imageViewOpen: false
     }))
     setfileDetails([])
     setImageUrls([])
@@ -280,14 +259,14 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
 
   const SpareData = useMemo(() => {
     return {
-      am_spare_item_map_slno: am_spare_item_map_slno,
+      am_spare_item_map_slno: am_spare_item_map_slno
     }
   }, [am_spare_item_map_slno])
 
   const AssetData = useMemo(() => {
     return {
       item_asset_no: item_asset_no,
-      item_asset_no_only: item_asset_no_only,
+      item_asset_no_only: item_asset_no_only
     }
   }, [item_asset_no, item_asset_no_only])
 
@@ -311,9 +290,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
   useEffect(() => {
     if (am_item_map_slno !== undefined) {
       const getAllSpare = async am_item_map_slno => {
-        const result = await axioslogin.get(
-          `/complaintreg/SpareDetailsUndercomplaint/${am_item_map_slno}`
-        )
+        const result = await axioslogin.get(`/complaintreg/SpareDetailsUndercomplaint/${am_item_map_slno}`)
         const { success, data } = result.data
         if (success === 1) {
           setSpareDetails(data)
@@ -344,10 +321,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
 
     const getAsssetcomplaintDetails = async () => {
       try {
-        const result = await axioslogin.post(
-          '/assetSpareDetails/getAssetcomplaintDetails',
-          AssetData
-        )
+        const result = await axioslogin.post('/assetSpareDetails/getAssetcomplaintDetails', AssetData)
         const { success, data } = result.data
         if (success === 2 && data.length > 0) {
           setcomplDetails(data)
@@ -377,7 +351,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
       const patchdata = {
         delete_user: id,
         asset_spare_slno: asset_spare_slno,
-        am_spare_item_map_slno: am_spare_item_map_slno,
+        am_spare_item_map_slno: am_spare_item_map_slno
       }
 
       const postSpareData = {
@@ -385,7 +359,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
         cm_spare_asset_no: spare_asset_no,
         cm_spare_asset_no_only: spare_asset_no_only,
         cm_spare_item_map_slno: am_spare_item_map_slno,
-        create_user: id,
+        create_user: id
       }
 
       const ServiceUpdate = async patchdata => {
@@ -394,10 +368,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
       }
 
       const SpareComplaintInsert = async postSpareData => {
-        const result = await axioslogin.post(
-          '/assetSpareDetails/CmSpareComplaintService',
-          postSpareData
-        )
+        const result = await axioslogin.post('/assetSpareDetails/CmSpareComplaintService', postSpareData)
         return result.data
       }
       try {
@@ -438,7 +409,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
     const options = {
       maxSizeMB: 1,
       maxWidthOrHeight: 1920,
-      useWebWorker: true,
+      useWebWorker: true
     }
 
     try {
@@ -480,7 +451,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
       create_user: id,
       am_asset_item_slno: am_item_map_slno || null,
       am_spare_item_slno: am_spare_item_map_slno || null,
-      serviced_supplier: servicedSuppl,
+      serviced_supplier: servicedSuppl
     }
   }, [
     formattedItemNo,
@@ -496,10 +467,9 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
     id,
     am_item_map_slno,
     am_spare_item_map_slno,
-    servicedSuppl,
+    servicedSuppl
   ])
-  const deptServiceValue =
-    deptServiceSlno.length === 0 ? null : deptServiceSlno === 0 ? null : deptServiceSlno
+  const deptServiceValue = deptServiceSlno.length === 0 ? null : deptServiceSlno === 0 ? null : deptServiceSlno
 
   const PatchData = useMemo(() => {
     const { serviceStatus, addToStockFlag, transfrToCondmflag } = flags
@@ -522,7 +492,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
       suppl_serviced_date: suppl_serviced_date === '' ? null : suppl_serviced_date,
       suppl_serviced_remarks: suppl_serviced_remarks === '' ? null : suppl_serviced_remarks,
       edit_user: id,
-      serviced_supplier: servicedSuppl,
+      serviced_supplier: servicedSuppl
     }
   }, [
     am_service_details_slno,
@@ -537,17 +507,16 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
     deptServiceValue,
     id,
     complDetails,
-    servicedSuppl,
+    servicedSuppl
   ])
 
   const PostDeptServiceDetails = useMemo(() => {
     return {
       serviced_emp: spareCheckEmp === 0 ? null : spareCheckEmp,
       serviced_date: serviced_date === '' ? null : serviced_date,
-      service_issues_identified:
-        service_issues_identified === '' ? null : service_issues_identified,
+      service_issues_identified: service_issues_identified === '' ? null : service_issues_identified,
       serviced_issue_remarks: serviced_issue_remarks === '' ? null : serviced_issue_remarks,
-      serviced_create_user: id,
+      serviced_create_user: id
     }
   }, [spareCheckEmp, serviced_date, service_issues_identified, serviced_issue_remarks, id])
 
@@ -556,19 +525,11 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
       serviced_emp_detail_slno: serviced_emp_detail_slno,
       serviced_emp: spareCheckEmp === 0 ? null : spareCheckEmp,
       serviced_date: serviced_date === '' ? null : serviced_date,
-      service_issues_identified:
-        service_issues_identified === '' ? null : service_issues_identified,
+      service_issues_identified: service_issues_identified === '' ? null : service_issues_identified,
       serviced_issue_remarks: serviced_issue_remarks === '' ? null : serviced_issue_remarks,
-      serviced_edit_user: id,
+      serviced_edit_user: id
     }
-  }, [
-    serviced_emp_detail_slno,
-    spareCheckEmp,
-    serviced_date,
-    service_issues_identified,
-    serviced_issue_remarks,
-    id,
-  ])
+  }, [serviced_emp_detail_slno, spareCheckEmp, serviced_date, service_issues_identified, serviced_issue_remarks, id])
 
   useEffect(() => {
     const now = new Date()
@@ -577,7 +538,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
     if (!deptServiceDetails.serviced_date) {
       setdeptServiceDetails(prev => ({
         ...prev,
-        serviced_date: formattedNow,
+        serviced_date: formattedNow
       }))
     }
   }, [deptServiceDetails.serviced_date])
@@ -585,29 +546,21 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
   const AddDeptServiceDetails = useCallback(
     async e => {
       e.preventDefault()
-      if (
-        !spareCheckEmp ||
-        !serviced_date ||
-        !service_issues_identified ||
-        !serviced_issue_remarks
-      ) {
+      if (!spareCheckEmp || !serviced_date || !service_issues_identified || !serviced_issue_remarks) {
         infoNotify('Please fill all mandatory fields.')
         return
       }
       const { editFlag } = flags
       if (editFlag === 1 && serviced_emp_detail_slno !== '') {
         const UpdateDeptServiceDetails = async PatchDeptServiceDetails => {
-          const result = await axioslogin.patch(
-            `/assetSpareDetails/servicedEmpDetailsUpdate`,
-            PatchDeptServiceDetails
-          )
+          const result = await axioslogin.patch(`/assetSpareDetails/servicedEmpDetailsUpdate`, PatchDeptServiceDetails)
           const { message, success } = result.data
           if (success === 2) {
             succesNotify(message)
             setCount(count + 1)
             setFlags(prevFlags => ({
               ...prevFlags,
-              editFlag: 0,
+              editFlag: 0
             }))
             Reset()
           }
@@ -616,10 +569,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
       } else {
         const AddDetailsEmp = async () => {
           try {
-            const result = await axioslogin.post(
-              `/assetSpareDetails/servicedEmpDetailsInsert`,
-              PostDeptServiceDetails
-            )
+            const result = await axioslogin.post(`/assetSpareDetails/servicedEmpDetailsInsert`, PostDeptServiceDetails)
             return result.data
           } catch (error) {
             return { success: 0, message: 'Failed to insert service employee details' }
@@ -637,13 +587,10 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
 
           const updatedServiceDetails = {
             ...PatchData,
-            serviced_emp_details_slno: JSON.stringify(currentServicedEmpIdSlno),
+            serviced_emp_details_slno: JSON.stringify(currentServicedEmpIdSlno)
           }
           try {
-            const result = await axioslogin.patch(
-              `/assetSpareDetails/serviceDetailsUpdate`,
-              updatedServiceDetails
-            )
+            const result = await axioslogin.patch(`/assetSpareDetails/serviceDetailsUpdate`, updatedServiceDetails)
             return result.data
           } catch (error) {
             return { success: 0, message: 'Failed to update service details' }
@@ -653,14 +600,11 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
         const AddDetails = async insertId => {
           const PostServiceDetails = {
             ...PostData,
-            serviced_emp_details_slno: insertId === 0 ? null : JSON.stringify([insertId]),
+            serviced_emp_details_slno: insertId === 0 ? null : JSON.stringify([insertId])
           }
 
           try {
-            const result = await axioslogin.post(
-              `/assetSpareDetails/serviceDetailsInsert`,
-              PostServiceDetails
-            )
+            const result = await axioslogin.post(`/assetSpareDetails/serviceDetailsInsert`, PostServiceDetails)
             return result.data
           } catch (error) {
             return { success: 0, message: 'Failed to insert service details' }
@@ -679,7 +623,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
               setCount(count + 1)
               setFlags(prevFlags => ({
                 ...prevFlags,
-                editFlag: 0,
+                editFlag: 0
               }))
               Reset()
             } else {
@@ -693,7 +637,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
               setCount(count + 1)
               setFlags(prevFlags => ({
                 ...prevFlags,
-                editFlag: 0,
+                editFlag: 0
               }))
               Reset()
             } else {
@@ -720,23 +664,20 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
       service_issues_identified,
       serviced_date,
       serviced_issue_remarks,
-      spareCheckEmp,
+      spareCheckEmp
     ]
   )
 
   const searchDeptServiceData = useMemo(() => {
     return {
-      serviced_emp_detail_slno: deptServiceSlno,
+      serviced_emp_detail_slno: deptServiceSlno
     }
   }, [deptServiceSlno])
 
   useEffect(() => {
     if (deptServiceSlno.length !== 0) {
       const getDeptServDetailsData = async () => {
-        const result = await axioslogin.post(
-          `assetSpareDetails/getDeptServiceDetailsData`,
-          searchDeptServiceData
-        )
+        const result = await axioslogin.post(`assetSpareDetails/getDeptServiceDetailsData`, searchDeptServiceData)
         const { success, data } = result.data
         if (success === 1) {
           setDeptServDetailsData(data)
@@ -756,13 +697,10 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
         const updatedServEmployees = {}
         for (let deptServiceemp of alldetailsService) {
           const searchDeptServiceData = {
-            serviced_emp_detail_slno: deptServiceemp.serviced_emp_details_slno,
+            serviced_emp_detail_slno: deptServiceemp.serviced_emp_details_slno
           }
           try {
-            const result = await axioslogin.post(
-              `assetSpareDetails/getDeptServiceDetailsData`,
-              searchDeptServiceData
-            )
+            const result = await axioslogin.post(`assetSpareDetails/getDeptServiceDetailsData`, searchDeptServiceData)
             const { success, data } = result.data
             if (success === 1) {
               updatedServEmployees[deptServiceemp.serviced_emp_details_slno] = data
@@ -784,21 +722,21 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
     val => {
       setFlags(prevFlags => ({
         ...prevFlags,
-        editFlag: 1,
+        editFlag: 1
       }))
       const {
         serviced_emp_detail_slno,
         serviced_emp,
         serviced_date,
         service_issues_identified,
-        serviced_issue_remarks,
+        serviced_issue_remarks
       } = val
 
       const frmdata = {
         serviced_emp_detail_slno: serviced_emp_detail_slno,
         serviced_date: serviced_date,
         service_issues_identified: service_issues_identified,
-        serviced_issue_remarks: serviced_issue_remarks,
+        serviced_issue_remarks: serviced_issue_remarks
       }
 
       setdeptServiceDetails(frmdata)
@@ -822,15 +760,11 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
               formData.append('files', file, file.name)
             }
           }
-          const uploadResult = await axioslogin.post(
-            '/AmServiceFileUpload/uploadFile/UploadAssetService',
-            formData,
-            {
-              headers: {
-                'Content-Type': 'multipart/form-data',
-              },
+          const uploadResult = await axioslogin.post('/AmServiceFileUpload/uploadFile/UploadAssetService', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
             }
-          )
+          })
           return uploadResult.data
         } catch (error) {
           warningNotify('An error occurred during file upload.')
@@ -892,17 +826,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
         })
       }
     },
-    [
-      PatchData,
-      PostData,
-      insertId,
-      selectFile,
-      am_service_details_slno,
-      Close,
-      count,
-      handleImageUpload,
-      setCount,
-    ]
+    [PatchData, PostData, insertId, selectFile, am_service_details_slno, Close, count, handleImageUpload, setCount]
   )
 
   const [insertedId, setInsertedId] = useState(0)
@@ -910,11 +834,10 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
     supplier_service_slno: '',
     contacted_date: '',
     expected_service_vists: '',
-    supplier_response: '',
+    supplier_response: ''
   })
 
-  const { supplier_service_slno, contacted_date, expected_service_vists, supplier_response } =
-    supplierContact
+  const { supplier_service_slno, contacted_date, expected_service_vists, supplier_response } = supplierContact
 
   const UpdateSupplcontact = useCallback(e => {
     const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -925,7 +848,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
       supplier_service_slno: '',
       contacted_date: '',
       expected_service_vists: '',
-      supplier_response: '',
+      supplier_response: ''
     }
     setSupplierContact(frmdata)
     setsupplContctEmp(0)
@@ -943,7 +866,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
       contacted_date,
       expected_service_vists,
       supplier_response,
-      create_user: id,
+      create_user: id
     }
   }, [
     am_service_details_slno,
@@ -953,7 +876,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
     expected_service_vists,
     supplier_response,
     id,
-    insertedId,
+    insertedId
   ])
 
   const UpdateSuppContactDetails = useMemo(() => {
@@ -966,7 +889,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
       contacted_date,
       expected_service_vists,
       supplier_response,
-      edit_user: id,
+      edit_user: id
     }
   }, [
     supplier_service_slno,
@@ -976,19 +899,17 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
     contacted_date,
     expected_service_vists,
     supplier_response,
-    id,
+    id
   ])
 
   const { data: serviceSupplDetails = [] } = useQuery({
     queryKey: ['getserviceSupplDetails', am_service_details_slno, count],
     queryFn: async () => {
-      const result = await axioslogin.get(
-        `/assetSpareDetails/viewSupplierContactDetails/${am_service_details_slno}`
-      )
+      const result = await axioslogin.get(`/assetSpareDetails/viewSupplierContactDetails/${am_service_details_slno}`)
       const { success, data } = result.data
       return success === 1 ? data : []
     },
-    enabled: !!am_service_details_slno,
+    enabled: !!am_service_details_slno
   })
 
   const AddSupplierContactDetails = useCallback(() => {
@@ -1014,7 +935,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
           setInsertedId(insertId)
           const newInsertData = {
             ...InsertSuppContactDetails,
-            service_details_slno: insertId,
+            service_details_slno: insertId
           }
 
           InsertSupplierContact(newInsertData).then(value => {
@@ -1050,7 +971,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
     ResetSuppl,
     count,
     editSupp,
-    setCount,
+    setCount
   ])
 
   const EditRow = useCallback(val => {
@@ -1061,13 +982,13 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
       contacted_emp,
       contacted_date,
       expected_service_vists,
-      supplier_response,
+      supplier_response
     } = val
     const frmdata = {
       supplier_service_slno: supplier_service_slno,
       contacted_date: contacted_date,
       expected_service_vists: expected_service_vists,
-      supplier_response: supplier_response,
+      supplier_response: supplier_response
     }
     setSupplierContact(frmdata)
     setsupplContctEmp(contacted_emp)
@@ -1077,7 +998,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
   const searchData = useMemo(() => {
     return {
       service_item_slno: formattedItemNo,
-      service_asset_spare: ItemPrefix,
+      service_asset_spare: ItemPrefix
     }
   }, [formattedItemNo, ItemPrefix])
 
@@ -1106,7 +1027,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
               suppl_serviced_date,
               suppl_serviced_remarks,
               create_user,
-              edit_user,
+              edit_user
             } = data[0]
             const frmdata = {
               am_service_details_slno: am_service_details_slno,
@@ -1124,7 +1045,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
               suppl_serviced_date: suppl_serviced_date,
               suppl_serviced_remarks: suppl_serviced_remarks,
               create_user: create_user,
-              edit_user: edit_user,
+              edit_user: edit_user
             }
             SetService(frmdata)
             setinsertId(am_service_details_slno)
@@ -1132,7 +1053,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
             setDeptServiceSlno(serviced_emp_details_slno === null ? 0 : serviced_emp_details_slno)
             setFlags(prevFlags => ({
               ...prevFlags,
-              serviceStatus: service_hold,
+              serviceStatus: service_hold
             }))
           }
         }
@@ -1164,13 +1085,11 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
     const { complaint_slno } = val
     setFlags(prevState => ({
       ...prevState,
-      image: 1,
+      image: 1
     }))
     setfileDetails(val)
     try {
-      const result = await axioslogin.get(
-        `/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`
-      )
+      const result = await axioslogin.get(`/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`)
       const { success } = result.data
       if (success === 1) {
         const data = result.data
@@ -1183,7 +1102,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
           setViewStates(prevState => ({
             ...prevState,
             image: 1,
-            imageViewOpen: true,
+            imageViewOpen: true
           }))
           setSelectedImages(val)
         } else {
@@ -1191,14 +1110,14 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
           setViewStates(prevState => ({
             ...prevState,
             image: 0,
-            imageViewOpen: false,
+            imageViewOpen: false
           }))
         }
       } else {
         setViewStates(prevState => ({
           ...prevState,
           image: 0,
-          imageViewOpen: false,
+          imageViewOpen: false
         }))
         warningNotify('No Image Attached')
       }
@@ -1226,11 +1145,11 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
           setSelectedImages(val)
           setFlags(prevState => ({
             ...prevState,
-            imageServiceFlag: 1,
+            imageServiceFlag: 1
           }))
           setViewStates(prevState => ({
             ...prevState,
-            serviceimageViewOpen: true,
+            serviceimageViewOpen: true
           }))
         } else {
           warningNotify('No Files attached')
@@ -1248,7 +1167,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
       e.preventDefault()
       setFlags(prevFlags => ({
         ...prevFlags,
-        addToStockFlag: 1,
+        addToStockFlag: 1
       }))
       const updatedPatchData = {
         ...PatchData,
@@ -1256,7 +1175,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
         service_close_status: 1,
         add_to_store_user: id,
         add_to_store_date: currentDateAndTime,
-        serviced_supplier: servicedSuppl,
+        serviced_supplier: servicedSuppl
       }
 
       const updatedPostData = {
@@ -1265,12 +1184,12 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
         service_close_status: 1,
         add_to_store_user: id,
         add_to_store_date: currentDateAndTime,
-        serviced_supplier: servicedSuppl,
+        serviced_supplier: servicedSuppl
       }
 
       const servicespareUpdate = {
         spare_status: 0,
-        asset_spare_slno: asset_spare_slno,
+        asset_spare_slno: asset_spare_slno
       }
 
       const AddtoStockSpare = {
@@ -1281,7 +1200,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
         spare_rack_slno: null,
         spare_service: 0,
         spare_service_hold: null,
-        am_spare_item_map_slno: am_spare_item_map_slno,
+        am_spare_item_map_slno: am_spare_item_map_slno
       }
       const AddtoStockAsset = {
         item_dept_slno: am_custodian_dept_slno,
@@ -1294,7 +1213,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
         asset_item_condm_user: null,
         asset_item_service_hold: null,
         am_item_map_slno: am_item_map_slno,
-        am_trans_status: 0,
+        am_trans_status: 0
       }
 
       const InsertFile = async (selectFile, insertId) => {
@@ -1309,15 +1228,11 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
               formData.append('files', file, file.name)
             }
           }
-          const uploadResult = await axioslogin.post(
-            '/AmServiceFileUpload/uploadFile/UploadAssetService',
-            formData,
-            {
-              headers: {
-                'Content-Type': 'multipart/form-data',
-              },
+          const uploadResult = await axioslogin.post('/AmServiceFileUpload/uploadFile/UploadAssetService', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
             }
-          )
+          })
           return uploadResult.data
         } catch (error) {
           warningNotify('An error occurred during file upload.')
@@ -1325,10 +1240,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
       }
 
       const AddtoStockSpareUpdate = async AddtoStockSpare => {
-        const result = await axioslogin.patch(
-          '/assetSpareDetails/SpareDetailsUpdate',
-          AddtoStockSpare
-        )
+        const result = await axioslogin.patch('/assetSpareDetails/SpareDetailsUpdate', AddtoStockSpare)
         return result.data
       }
 
@@ -1343,17 +1255,11 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
       }
 
       const AddtoStockAssetUpdate = async AddtoStockAsset => {
-        const result = await axioslogin.patch(
-          '/assetSpareDetails/AssetDetailsUpdate',
-          AddtoStockAsset
-        )
+        const result = await axioslogin.patch('/assetSpareDetails/AssetDetailsUpdate', AddtoStockAsset)
         return result.data
       }
       const serviceSpareUpdate = async servicespareUpdate => {
-        const result = await axioslogin.patch(
-          '/assetSpareDetails/spareServiceUpdate',
-          servicespareUpdate
-        )
+        const result = await axioslogin.patch('/assetSpareDetails/spareServiceUpdate', servicespareUpdate)
         return result.data
       }
 
@@ -1438,9 +1344,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                       InsertFile(selectFile, insertId).then(value => {
                         const { success, message } = value
                         if (success === 1) {
-                          succesNotify(
-                            'Service Completed,Item transferred With File Attach Successfully'
-                          )
+                          succesNotify('Service Completed,Item transferred With File Attach Successfully')
                           setCount(count + 1)
                           Close()
                         } else {
@@ -1464,9 +1368,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                       InsertFile(selectFile, insertId).then(value => {
                         const { success, message } = value
                         if (success === 1) {
-                          succesNotify(
-                            'Service Completed,Item transferred With File Attach Successfully'
-                          )
+                          succesNotify('Service Completed,Item transferred With File Attach Successfully')
                           setCount(count + 1)
                           Close()
                         } else {
@@ -1511,7 +1413,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
       handleImageUpload,
       insertId,
       spare_asset_no_only,
-      servicedSuppl,
+      servicedSuppl
     ]
   )
 
@@ -1520,7 +1422,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
       e.preventDefault()
       setFlags(prevFlags => ({
         ...prevFlags,
-        transfrToCondmflag: 1,
+        transfrToCondmflag: 1
       }))
 
       const updatedPatchData = {
@@ -1528,7 +1430,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
         condm_transfr_status: 1,
         service_close_status: 1,
         condm_transfr_emp: id,
-        condm_transf_remarks: condm_transf_remarks,
+        condm_transf_remarks: condm_transf_remarks
       }
 
       const updatedPostData = {
@@ -1536,13 +1438,13 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
         condm_transfr_status: 1,
         service_close_status: 1,
         condm_transfr_emp: id,
-        condm_transf_remarks: condm_transf_remarks,
+        condm_transf_remarks: condm_transf_remarks
       }
 
       const CondmtransfrSpare = {
         delete_user: id,
         asset_spare_slno: asset_spare_slno,
-        am_spare_item_map_slno: am_spare_item_map_slno,
+        am_spare_item_map_slno: am_spare_item_map_slno
       }
 
       const CondmtransfrAsset = {
@@ -1554,12 +1456,12 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
         asset_item_service: 2,
         am_item_map_slno: am_item_map_slno,
         asset_item_condmnation: 1,
-        asset_item_condm_user: id,
+        asset_item_condm_user: id
       }
 
       const servicespareUpdate = {
         spare_status: 0,
-        asset_spare_slno: asset_spare_slno,
+        asset_spare_slno: asset_spare_slno
       }
 
       const InsertFile = async (selectFile, insertId) => {
@@ -1574,15 +1476,11 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
               formData.append('files', file, file.name)
             }
           }
-          const uploadResult = await axioslogin.post(
-            '/AmServiceFileUpload/uploadFile/UploadAssetService',
-            formData,
-            {
-              headers: {
-                'Content-Type': 'multipart/form-data',
-              },
+          const uploadResult = await axioslogin.post('/AmServiceFileUpload/uploadFile/UploadAssetService', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
             }
-          )
+          })
           return uploadResult.data
         } catch (error) {
           warningNotify('An error occurred during file upload.')
@@ -1590,10 +1488,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
       }
 
       const CondmtransfrSpareUpdate = async CondmtransfrSpare => {
-        const result = await axioslogin.patch(
-          '/ItemMapDetails/spareContamination',
-          CondmtransfrSpare
-        )
+        const result = await axioslogin.patch('/ItemMapDetails/spareContamination', CondmtransfrSpare)
         return result.data
       }
 
@@ -1608,17 +1503,11 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
       }
 
       const CondmtransfrAssetUpdate = async CondmtransfrAsset => {
-        const result = await axioslogin.patch(
-          '/assetSpareDetails/AssetDetailsUpdate',
-          CondmtransfrAsset
-        )
+        const result = await axioslogin.patch('/assetSpareDetails/AssetDetailsUpdate', CondmtransfrAsset)
         return result.data
       }
       const serviceSpareUpdate = async servicespareUpdate => {
-        const result = await axioslogin.patch(
-          '/assetSpareDetails/spareServiceUpdate',
-          servicespareUpdate
-        )
+        const result = await axioslogin.patch('/assetSpareDetails/spareServiceUpdate', servicespareUpdate)
         return result.data
       }
       if (condm_transf_remarks !== '') {
@@ -1638,9 +1527,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                             InsertFile(selectFile, insertId).then(value => {
                               const { success, message } = value
                               if (success === 1) {
-                                succesNotify(
-                                  'Item transferred to condemnation list With File Attach Successfully'
-                                )
+                                succesNotify('Item transferred to condemnation list With File Attach Successfully')
                                 setCount(count + 1)
                                 Close()
                               } else {
@@ -1664,9 +1551,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                             InsertFile(selectFile, insertId).then(value => {
                               const { success, message } = value
                               if (success === 1) {
-                                succesNotify(
-                                  'Item transferred to condemnation list With File Attach Successfully'
-                                )
+                                succesNotify('Item transferred to condemnation list With File Attach Successfully')
                                 setCount(count + 1)
                                 Close()
                               } else {
@@ -1705,9 +1590,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                         InsertFile(selectFile, insertId).then(value => {
                           const { success, message } = value
                           if (success === 1) {
-                            succesNotify(
-                              'Item transferred to condemnation list  With File Attach Successfully'
-                            )
+                            succesNotify('Item transferred to condemnation list  With File Attach Successfully')
                             setCount(count + 1)
                             Close()
                           } else {
@@ -1731,9 +1614,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                         InsertFile(selectFile, insertId).then(value => {
                           const { success, message } = value
                           if (success === 1) {
-                            succesNotify(
-                              'Item transferred to condemnation list With File Attach Successfully'
-                            )
+                            succesNotify('Item transferred to condemnation list With File Attach Successfully')
                             setCount(count + 1)
                             Close()
                           } else {
@@ -1780,35 +1661,32 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
       insertId,
       item_custodian_dept_sec,
       spare_asset_no_only,
-      am_spare_item_map_slno,
+      am_spare_item_map_slno
     ]
   )
 
-  const AddNewSpare = useCallback(
-    () => {
-      if (sparez === 0) {
-        infoNotify('Please select Spare')
+  const AddNewSpare = useCallback(() => {
+    if (sparez === 0) {
+      infoNotify('Please select Spare')
+    } else {
+      const isAlreadyAdded = spareData.some(item => item.spare_asset_no_only === sparez)
+      if (isAlreadyAdded) {
+        infoNotify('Spare already added')
+        setSparez(0)
       } else {
-        const isAlreadyAdded = spareData.some(item => item.spare_asset_no_only === sparez)
-        if (isAlreadyAdded) {
-          infoNotify('Spare already added')
-          setSparez(0)
-        } else {
-          const newdata = {
-            am_item_map_slno: am_item_map_slno,
-            spare_asset_no_only: sparez,
-            spare_status: 1,
-            name: spareName,
-            create_user: id,
-          }
-          const datass = [...spareData, newdata]
-          setSpareData(datass)
-          setSparez(0)
+        const newdata = {
+          am_item_map_slno: am_item_map_slno,
+          spare_asset_no_only: sparez,
+          spare_status: 1,
+          name: spareName,
+          create_user: id
         }
+        const datass = [...spareData, newdata]
+        setSpareData(datass)
+        setSparez(0)
       }
-    },
-    [am_item_map_slno, spareData, sparez, spareName, id]
-  )
+    }
+  }, [am_item_map_slno, spareData, sparez, spareName, id])
   const handleDelete = indexToDelete => {
     setSpareData(prevArray => {
       const updatedArray = prevArray.filter((_, index) => index !== indexToDelete)
@@ -1823,59 +1701,50 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
         am_item_map_slno: val.am_item_map_slno,
         am_spare_item_map_slno: val.spare_asset_no_only,
         spare_status: 1,
-        create_user: val.create_user,
+        create_user: val.create_user
       }
     })
 
   const [sparecount, setsparecount] = useState(0)
-  const AddNewSpareUnderAsset = useCallback(
-    () => {
-      const SparedetailInsert = async SparepostData => {
-        const result = await axioslogin.post(`/ItemMapDetails/SpareDetailsInsert`, SparepostData)
-        const { message, success } = result.data
-        if (success === 1) {
-          succesNotify('New Spare Added Under Asset')
-          setCount(count + 1)
-          setsparecount(sparecount + 1)
-          setSpareData([])
-        } else if (success === 0) {
-          infoNotify(message)
-        } else {
-          infoNotify(message)
-        }
+  const AddNewSpareUnderAsset = useCallback(() => {
+    const SparedetailInsert = async SparepostData => {
+      const result = await axioslogin.post(`/ItemMapDetails/SpareDetailsInsert`, SparepostData)
+      const { message, success } = result.data
+      if (success === 1) {
+        succesNotify('New Spare Added Under Asset')
+        setCount(count + 1)
+        setsparecount(sparecount + 1)
+        setSpareData([])
+      } else if (success === 0) {
+        infoNotify(message)
+      } else {
+        infoNotify(message)
       }
-      SparedetailInsert(SparepostData)
-    },
-    [SparepostData, count, setCount, sparecount, setsparecount]
-  )
+    }
+    SparedetailInsert(SparepostData)
+  }, [SparepostData, count, setCount, sparecount, setsparecount])
 
   const patchDataServiceHoldAssset = useMemo(() => {
     return {
       asset_item_service_hold: flags.serviceStatus,
-      am_item_map_slno: am_item_map_slno,
+      am_item_map_slno: am_item_map_slno
     }
   }, [flags.serviceStatus, am_item_map_slno])
 
   const patchDataServiceHoldSpare = useMemo(() => {
     return {
       spare_service_hold: flags.serviceStatus,
-      am_spare_item_map_slno: am_spare_item_map_slno,
+      am_spare_item_map_slno: am_spare_item_map_slno
     }
   }, [flags.serviceStatus, am_spare_item_map_slno])
 
   const ServiceStatus = useCallback(() => {
     const updateServiceHoldAsset = async patchDataServiceHoldAssset => {
-      const result = await axioslogin.patch(
-        `/assetSpareDetails/AssetServiceHoldUpdate`,
-        patchDataServiceHoldAssset
-      )
+      const result = await axioslogin.patch(`/assetSpareDetails/AssetServiceHoldUpdate`, patchDataServiceHoldAssset)
       return result.data
     }
     const updateServiceHoldSpare = async patchDataServiceHoldSpare => {
-      const result = await axioslogin.patch(
-        `/assetSpareDetails/SpareServiceHoldUpdate`,
-        patchDataServiceHoldSpare
-      )
+      const result = await axioslogin.patch(`/assetSpareDetails/SpareServiceHoldUpdate`, patchDataServiceHoldSpare)
       return result.data
     }
 
@@ -1945,7 +1814,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
     count,
     item_asset_no_only,
     setCount,
-    spare_asset_no_only,
+    spare_asset_no_only
   ])
 
   const buttonStyle = {
@@ -1958,11 +1827,11 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
     '&:hover': {
       bgcolor: 'white',
       color: '#523A28',
-      transform: 'scale(1.1)',
+      transform: 'scale(1.1)'
     },
     '&:active': {
-      transform: 'scale(0.95)',
-    },
+      transform: 'scale(0.95)'
+    }
   }
   const [imageShowsingle, setImagesingle] = useState(0)
   const [imageShowSingle, setImageShowSingle] = useState(false)
@@ -1974,8 +1843,8 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
         ? 'pdf'
         : 'image'
       : file.type && file.type.includes('application/pdf')
-        ? 'image'
-        : 'pdf'
+      ? 'image'
+      : 'pdf'
 
     const fileUrl = file.url || URL.createObjectURL(file)
     setPreviewFile({ url: fileUrl, type: fileType })
@@ -1997,8 +1866,8 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
         ? 'pdf'
         : 'image'
       : file.type.includes('application/pdf')
-        ? 'pdf'
-        : 'image'
+      ? 'pdf'
+      : 'image'
 
     const fileUrl = file.url || URL.createObjectURL(file)
     setPreviewFile({ url: fileUrl, type: fileType })
@@ -2016,11 +1885,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
     <Box>
       {imageShowsingle === 1 ? (
         <Box>
-          <FileViewSingle
-            previewFile={previewFile}
-            imageShow={imageShowSingle}
-            CloseFile={CloseFile}
-          />
+          <FileViewSingle previewFile={previewFile} imageShow={imageShowSingle} CloseFile={CloseFile} />
         </Box>
       ) : null}
       <CssVarsProvider>
@@ -2033,7 +1898,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
             justifyContent: 'center',
             alignItems: 'center',
             pl: 1,
-            borderRadius: 10,
+            borderRadius: 10
           }}
         >
           <Box
@@ -2046,19 +1911,14 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
               display: 'flex',
               flexDirection: 'column',
               pt: 2,
-              px: 2,
+              px: 2
             }}
           >
             <Box sx={{ flexShrink: 0 }}>
               <Box sx={{ flex: 1, display: 'flex', p: 1 }}>
-                <Box sx={{ flex: 1, color: 'grey', fontWeight: 500, pl: 1.4, pt: 0.8 }}>
-                  Service Details
-                </Box>
+                <Box sx={{ flex: 1, color: 'grey', fontWeight: 500, pl: 1.4, pt: 0.8 }}>Service Details</Box>
                 <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
-                  <CancelIcon
-                    sx={{ color: 'grey', cursor: 'pointer', height: 30, width: 30 }}
-                    onClick={Close}
-                  />
+                  <CancelIcon sx={{ color: 'grey', cursor: 'pointer', height: 30, width: 30 }} onClick={Close} />
                 </Box>
               </Box>
               {flags.image === 1 ? (
@@ -2079,13 +1939,11 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                   imageServiceUrls={imageServiceUrls}
                   serviceimageViewOpen={viewStates.serviceimageViewOpen}
                   servicefileDetails={servicefileDetails}
-                  setimageServiceFlag={value =>
-                    setFlags(prevFlags => ({ ...prevFlags, imageServiceFlag: value }))
-                  }
+                  setimageServiceFlag={value => setFlags(prevFlags => ({ ...prevFlags, imageServiceFlag: value }))}
                   setServiceimageViewOpen={value =>
                     setViewStates(prevViewStates => ({
                       ...prevViewStates,
-                      serviceimageViewOpen: value,
+                      serviceimageViewOpen: value
                     }))
                   }
                   item_name={item_name}
@@ -2100,22 +1958,20 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                   mx: 1.5,
                   borderRadius: 5,
                   py: 0.5,
-                  borderColor: '#EFEFEF',
+                  borderColor: '#EFEFEF'
                 }}
               >
                 <Typography
                   sx={{
                     pl: 2,
                     fontWeight: 600,
-                    fontSize: 18,
+                    fontSize: 18
                   }}
                 >
                   Item Under Service
                 </Typography>
                 <Box sx={{ flex: 1, display: 'flex', mt: 0.5 }}>
-                  <Typography sx={{ flex: 0.4, pl: 2, pt: 0.4, fontWeight: 400, fontSize: 14 }}>
-                    Item Number
-                  </Typography>
+                  <Typography sx={{ flex: 0.4, pl: 2, pt: 0.4, fontWeight: 400, fontSize: 14 }}>Item Number</Typography>
                   <Box sx={{ flex: 3 }}>
                     <Chip sx={{ bgcolor: '#EBEFFB', fontWeight: 500, fontSize: 15 }}>
                       {ItemPrefix}/{formattedItemNo.toString().padStart(6, '0')}
@@ -2123,17 +1979,13 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                   </Box>
                 </Box>
                 <Box sx={{ flex: 1, display: 'flex', mt: 0.5 }}>
-                  <Typography sx={{ flex: 0.4, pl: 2, fontWeight: 400, pt: 0.4, fontSize: 14 }}>
-                    Category
-                  </Typography>
+                  <Typography sx={{ flex: 0.4, pl: 2, fontWeight: 400, pt: 0.4, fontSize: 14 }}>Category</Typography>
                   <Box sx={{ flex: 3, fontWeight: 500 }}>
                     <Chip sx={{ bgcolor: '#EBEFFB' }}>{category_name}</Chip>
                   </Box>
                 </Box>
                 <Box sx={{ flex: 1, display: 'flex', my: 0.5 }}>
-                  <Typography sx={{ flex: 0.4, pl: 2, fontWeight: 400, pt: 0.4, fontSize: 14 }}>
-                    Item Name
-                  </Typography>
+                  <Typography sx={{ flex: 0.4, pl: 2, fontWeight: 400, pt: 0.4, fontSize: 14 }}>Item Name</Typography>
                   <Box sx={{ flex: 3, fontWeight: 500 }}>
                     <Chip sx={{ bgcolor: '#EBEFFB' }}>{item_name}</Chip>
                   </Box>
@@ -2146,7 +1998,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                 sx={{
                   display: 'flex',
                   mx: 2,
-                  bgcolor: 'white',
+                  bgcolor: 'white'
                 }}
               >
                 <TabList
@@ -2157,7 +2009,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                       flex: 'initial',
                       bgcolor: 'white',
                       '&:hover': {
-                        bgcolor: 'white',
+                        bgcolor: 'white'
                       },
                       [`&.${tabClasses.selected}`]: {
                         color: 'primary.plainColor',
@@ -2167,63 +2019,39 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                           height: 20,
                           borderTopLeftRadius: 3,
                           borderTopRightRadius: 3,
-                          bgcolor: 'primary.500',
-                        },
-                      },
-                    },
+                          bgcolor: 'primary.500'
+                        }
+                      }
+                    }
                   }}
                 >
                   <Box sx={{ display: 'flex', flex: 1, mb: 0 }}>
                     <Box sx={{ flex: 1, display: 'flex' }}>
-                      <Tab
-                        value={0}
-                        disableIndicator
-                        sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}
-                      >
+                      <Tab value={0} disableIndicator sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}>
                         <InfoOutlinedIcon />
                         Service Request&nbsp;&nbsp;
                       </Tab>
                       {spare_asset_no === undefined ? (
-                        <Tab
-                          value={1}
-                          disableIndicator
-                          sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}
-                        >
+                        <Tab value={1} disableIndicator sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}>
                           <UnarchiveOutlinedIcon />
                           Asset Upgrade&nbsp;&nbsp;
                         </Tab>
                       ) : null}
-                      <Tab
-                        value={2}
-                        disableIndicator
-                        sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}
-                      >
+                      <Tab value={2} disableIndicator sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}>
                         <SettingsOutlinedIcon />
                         Service Information&nbsp;&nbsp;
                       </Tab>
                       {spare_asset_no === undefined ? (
-                        <Tab
-                          value={3}
-                          disableIndicator
-                          sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}
-                        >
+                        <Tab value={3} disableIndicator sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}>
                           <TimelapseIcon />
                           PM Details&nbsp;&nbsp;
                         </Tab>
                       ) : null}
-                      <Tab
-                        value={4}
-                        disableIndicator
-                        sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}
-                      >
+                      <Tab value={4} disableIndicator sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}>
                         <LayersOutlinedIcon />
                         Breakdown Details&nbsp;&nbsp;
                       </Tab>
-                      <Tab
-                        value={5}
-                        disableIndicator
-                        sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}
-                      >
+                      <Tab value={5} disableIndicator sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}>
                         <TextSnippetOutlinedIcon />
                         Documents&nbsp;&nbsp;
                       </Tab>
@@ -2236,7 +2064,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                     p: 0,
                     flexGrow: 1,
                     overflowY: 'auto',
-                    maxHeight: 'calc(90vh - 230px)',
+                    maxHeight: 'calc(90vh - 230px)'
                   }}
                 >
                   <Box>
@@ -2250,7 +2078,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                       p: 0,
                       flexGrow: 1,
                       overflowY: 'auto',
-                      maxHeight: 'calc(90vh - 230px)',
+                      maxHeight: 'calc(90vh - 230px)'
                     }}
                   >
                     <Box>
@@ -2283,7 +2111,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                     p: 0,
                     flexGrow: 1,
                     overflowY: 'auto',
-                    maxHeight: 'calc(90vh - 230px)',
+                    maxHeight: 'calc(90vh - 230px)'
                   }}
                 >
                   <Box
@@ -2292,7 +2120,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                       overflowY: 'auto',
                       maxHeight: '100%',
                       m: 0,
-                      mt: 0.5,
+                      mt: 0.5
                     }}
                   >
                     <Box sx={{ border: 1, borderColor: '#E0E1E3', py: 1, pl: 2 }}>
@@ -2302,25 +2130,18 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                           flex: 1,
                           fontWeight: 500,
                           color: 'black',
-                          fontSize: 15,
+                          fontSize: 15
                         }}
                       />
                       <Box sx={{ flex: 1, display: 'flex', mt: 1, gap: 0.8, pr: 2 }}>
                         <Box sx={{ flex: 1.3 }}>
-                          <Typography
-                            sx={{ pl: 0.5, fontSize: 14, fontWeight: 600, color: 'black' }}
-                          >
+                          <Typography sx={{ pl: 0.5, fontSize: 14, fontWeight: 600, color: 'black' }}>
                             Serviced by <span style={{ color: '#74112F', fontSize: 15 }}>*</span>
                           </Typography>
-                          <EmployeeSelectJoyAutoComp
-                            employee={spareCheckEmp}
-                            setEmployee={setspareCheckEmp}
-                          />
+                          <EmployeeSelectJoyAutoComp employee={spareCheckEmp} setEmployee={setspareCheckEmp} />
                         </Box>
                         <Box sx={{ flex: 0.5 }}>
-                          <Typography
-                            sx={{ pl: 0.5, fontSize: 14, fontWeight: 600, color: 'black' }}
-                          >
+                          <Typography sx={{ pl: 0.5, fontSize: 14, fontWeight: 600, color: 'black' }}>
                             Serviced Date <span style={{ color: '#74112F', fontSize: 15 }}>*</span>
                           </Typography>
                           <Input
@@ -2330,17 +2151,14 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                             onChange={UpdateServiceDeptDetails}
                             slotProps={{
                               input: {
-                                max: currentDateTime,
-                              },
+                                max: currentDateTime
+                              }
                             }}
                           />
                         </Box>
                         <Box sx={{ flex: 2.5 }}>
-                          <Typography
-                            sx={{ pl: 0.5, fontSize: 14, fontWeight: 600, color: 'black' }}
-                          >
-                            Issues Identified{' '}
-                            <span style={{ color: '#74112F', fontSize: 15 }}>*</span>
+                          <Typography sx={{ pl: 0.5, fontSize: 14, fontWeight: 600, color: 'black' }}>
+                            Issues Identified <span style={{ color: '#74112F', fontSize: 15 }}>*</span>
                           </Typography>
                           <Textarea
                             placeholder="type here..."
@@ -2350,9 +2168,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                           />
                         </Box>
                         <Box sx={{ flex: 2.5 }}>
-                          <Typography
-                            sx={{ pl: 0.5, fontSize: 14, fontWeight: 600, color: 'black' }}
-                          >
+                          <Typography sx={{ pl: 0.5, fontSize: 14, fontWeight: 600, color: 'black' }}>
                             Remarks <span style={{ color: '#74112F', fontSize: 15 }}>*</span>
                           </Typography>
                           <Textarea
@@ -2377,9 +2193,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                 <th style={{ textAlign: 'center', width: 8 }}>Edit</th>
                                 <th style={{ textAlign: 'center', width: 25 }}>Attended by</th>
                                 <th style={{ textAlign: 'center', width: 20 }}>Serviced Date</th>
-                                <th style={{ textAlign: 'center', width: 40 }}>
-                                  Issues Identified
-                                </th>
+                                <th style={{ textAlign: 'center', width: 40 }}>Issues Identified</th>
                                 <th style={{ textAlign: 'center', width: 40 }}>Remarks</th>
                               </tr>
                             </thead>
@@ -2388,26 +2202,16 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                 return (
                                   <tr key={index}>
                                     <td style={{ textAlign: 'center' }}>
-                                      <ModeEditIcon
-                                        sx={{ cursor: 'pointer' }}
-                                        onClick={() => rowSelect(val)}
-                                      />
+                                      <ModeEditIcon sx={{ cursor: 'pointer' }} onClick={() => rowSelect(val)} />
                                     </td>
                                     <td style={{ textAlign: 'center' }}>{val.em_name}</td>
                                     <td style={{ textAlign: 'center' }}>
                                       {val.serviced_date
-                                        ? format(
-                                          new Date(val.serviced_date),
-                                          'dd MMM yyyy,  hh:mm a'
-                                        )
+                                        ? format(new Date(val.serviced_date), 'dd MMM yyyy,  hh:mm a')
                                         : 'Invalid Date'}
                                     </td>
-                                    <td style={{ textAlign: 'center' }}>
-                                      {val.service_issues_identified}
-                                    </td>
-                                    <td style={{ textAlign: 'center' }}>
-                                      {val.serviced_issue_remarks}
-                                    </td>
+                                    <td style={{ textAlign: 'center' }}>{val.service_issues_identified}</td>
+                                    <td style={{ textAlign: 'center' }}>{val.serviced_issue_remarks}</td>
                                   </tr>
                                 )
                               })}
@@ -2423,16 +2227,14 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                           flex: 1,
                           fontWeight: 500,
                           color: 'black',
-                          fontSize: 15,
+                          fontSize: 15
                         }}
                       />
                       <Box sx={{ flex: 1, display: 'flex', mr: 2, pt: 1 }}>
                         <Box sx={{ flex: 0.8 }}>
                           <AmServiceStatus
                             holdReason={flags.serviceStatus}
-                            setHoldReason={value =>
-                              setFlags(prevFlags => ({ ...prevFlags, serviceStatus: value }))
-                            }
+                            setHoldReason={value => setFlags(prevFlags => ({ ...prevFlags, serviceStatus: value }))}
                           />
                         </Box>
                         <Textarea
@@ -2458,14 +2260,11 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                           flex: 1,
                           fontWeight: 500,
                           color: 'black',
-                          fontSize: 15,
+                          fontSize: 15
                         }}
                       />
                       <Box sx={{ mt: 1, pr: 2 }}>
-                        <SupplierDetailsAutoComplte
-                          value={supplierSelect}
-                          setValue={setsupplierSelect}
-                        />
+                        <SupplierDetailsAutoComplte value={supplierSelect} setValue={setsupplierSelect} />
                       </Box>
                       {supplierSelect !== 0 ? (
                         <>
@@ -2490,7 +2289,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                               val.it_supplier_saleperson_second_land_one,
                               val.it_supplier_saleperson_second_land_two,
                               val.it_supplier_saleperson_second_mob_one,
-                              val.it_supplier_saleperson_second_mob_two,
+                              val.it_supplier_saleperson_second_mob_two
                             ]
 
                             const uniqueNumbers = [...new Set(numbers.filter(num => num))]
@@ -2502,15 +2301,13 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                               val.it_supplier_saleperson_email_one,
                               val.it_supplier_saleperson_email_two,
                               val.it_supplier_saleperson_second_email_one,
-                              val.it_supplier_saleperson_second_email_two,
+                              val.it_supplier_saleperson_second_email_two
                             ]
                             const uniqueEmails = [...new Set(allEmails.filter(email => email))]
                             return (
                               <Box key={index}>
                                 <Box sx={{ flex: 1, mt: 1.5, display: 'flex' }}>
-                                  <Typography
-                                    sx={{ width: 100, ml: 1, fontSize: 14, fontWeight: 600 }}
-                                  >
+                                  <Typography sx={{ width: 100, ml: 1, fontSize: 14, fontWeight: 600 }}>
                                     Contact No.
                                   </Typography>
                                   {uniqueNumbers.map((phone, index) => (
@@ -2521,9 +2318,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                 </Box>
 
                                 <Box sx={{ flex: 1, mt: 1.5, display: 'flex' }}>
-                                  <Typography
-                                    sx={{ width: 100, ml: 1, fontSize: 14, fontWeight: 600 }}
-                                  >
+                                  <Typography sx={{ width: 100, ml: 1, fontSize: 14, fontWeight: 600 }}>
                                     Email id
                                   </Typography>
                                   {uniqueEmails.map((email, index) => (
@@ -2549,21 +2344,14 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                         <Box>
                           <Box sx={{ flex: 1, pt: 2, display: 'flex', gap: 1, pr: 2 }}>
                             <Box sx={{ flex: 1.5 }}>
-                              <Typography
-                                sx={{ fontSize: 14, fontWeight: 600, color: 'black', pl: 0.5 }}
-                              >
+                              <Typography sx={{ fontSize: 14, fontWeight: 600, color: 'black', pl: 0.5 }}>
                                 Supplier Contacted Employee
                                 <span style={{ color: '#74112F', fontSize: 15 }}>*</span>
                               </Typography>
-                              <EmployeeSelectJoyAutoComp
-                                employee={supplContctEmp}
-                                setEmployee={setsupplContctEmp}
-                              />
+                              <EmployeeSelectJoyAutoComp employee={supplContctEmp} setEmployee={setsupplContctEmp} />
                             </Box>
                             <Box sx={{ flex: 1 }}>
-                              <Typography
-                                sx={{ fontSize: 14, fontWeight: 600, color: 'black', pl: 0.5 }}
-                              >
+                              <Typography sx={{ fontSize: 14, fontWeight: 600, color: 'black', pl: 0.5 }}>
                                 Contacted Date.
                                 <span style={{ color: '#74112F', fontSize: 15 }}>*</span>
                               </Typography>
@@ -2574,15 +2362,13 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                 onChange={UpdateSupplcontact}
                                 slotProps={{
                                   input: {
-                                    max: currentDateTime,
-                                  },
+                                    max: currentDateTime
+                                  }
                                 }}
                               />
                             </Box>
                             <Box sx={{ flex: 1 }}>
-                              <Typography
-                                sx={{ fontSize: 14, fontWeight: 600, color: 'black', pl: 0.5 }}
-                              >
+                              <Typography sx={{ fontSize: 14, fontWeight: 600, color: 'black', pl: 0.5 }}>
                                 Expected date for the service visit.
                                 <span style={{ color: '#74112F', fontSize: 15 }}>*</span>
                               </Typography>
@@ -2597,9 +2383,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
 
                           <Box sx={{ flex: 1, display: 'flex', gap: 1, mt: 1 }}>
                             <Box sx={{ flex: 2 }}>
-                              <Typography
-                                sx={{ fontSize: 14, fontWeight: 600, color: 'black', pl: 0.5 }}
-                              >
+                              <Typography sx={{ fontSize: 14, fontWeight: 600, color: 'black', pl: 0.5 }}>
                                 Response From Supplier
                                 <span style={{ color: '#74112F', fontSize: 15 }}>*</span>
                               </Typography>
@@ -2612,9 +2396,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                               />
                             </Box>
                             <Box sx={{ width: 45, mr: 1 }} onClick={AddSupplierContactDetails}>
-                              <CheckCircleIcon
-                                sx={{ width: 34, height: 34, mt: 2.6, cursor: 'pointer' }}
-                              />
+                              <CheckCircleIcon sx={{ width: 34, height: 34, mt: 2.6, cursor: 'pointer' }} />
                             </Box>
                           </Box>
                         </Box>
@@ -2626,13 +2408,9 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                               <tr>
                                 <th style={{ textAlign: 'center', width: 10 }}>Action</th>
                                 <th style={{ textAlign: 'center', width: 40 }}>Supplier</th>
-                                <th style={{ textAlign: 'center', width: 30 }}>
-                                  Contacted Employee
-                                </th>
+                                <th style={{ textAlign: 'center', width: 30 }}>Contacted Employee</th>
                                 <th style={{ textAlign: 'center', width: 30 }}>Contacted Date</th>
-                                <th style={{ textAlign: 'center', width: 20 }}>
-                                  Expected Service Visit
-                                </th>
+                                <th style={{ textAlign: 'center', width: 20 }}>Expected Service Visit</th>
                                 <th style={{ textAlign: 'center', width: 40 }}>Response</th>
                               </tr>
                             </thead>
@@ -2641,17 +2419,12 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                 return (
                                   <tr key={index}>
                                     <td style={{ textAlign: 'center' }}>
-                                      <ModeEditIcon
-                                        sx={{ cursor: 'pointer' }}
-                                        onClick={() => EditRow(val)}
-                                      />
+                                      <ModeEditIcon sx={{ cursor: 'pointer' }} onClick={() => EditRow(val)} />
                                     </td>
                                     <td style={{ textAlign: 'center' }}>{val.it_supplier_name}</td>
                                     <td style={{ textAlign: 'center' }}>{val.em_name}</td>
                                     <td style={{ textAlign: 'center' }}>{val.contacted_date}</td>
-                                    <td style={{ textAlign: 'center' }}>
-                                      {val.expected_service_vists}
-                                    </td>
+                                    <td style={{ textAlign: 'center' }}>{val.expected_service_vists}</td>
                                     <td style={{ textAlign: 'center' }}>{val.supplier_response}</td>
                                   </tr>
                                 )
@@ -2668,7 +2441,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                           flex: 1,
                           fontWeight: 500,
                           color: 'black',
-                          fontSize: 15,
+                          fontSize: 15
                         }}
                       />
                       <Box sx={{ display: 'flex', flex: 1, mt: 2 }}>
@@ -2680,7 +2453,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                             onChange={event =>
                               setFlags(prevFlags => ({
                                 ...prevFlags,
-                                serviceCheck: event.target.checked ? 1 : 0,
+                                serviceCheck: event.target.checked ? 1 : 0
                               }))
                             }
                           />
@@ -2689,7 +2462,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                           sx={{
                             fontWeight: 600,
                             color: '#394060',
-                            pl: 1,
+                            pl: 1
                           }}
                         >
                           Service Done
@@ -2699,9 +2472,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                         <Box>
                           <Box sx={{ flex: 1, display: 'flex', mt: 1.5, gap: 1 }}>
                             <Box sx={{ flex: 1 }}>
-                              <Typography
-                                sx={{ color: '#32383E', fontSize: 14, fontWeight: 500, pl: 0.5 }}
-                              >
+                              <Typography sx={{ color: '#32383E', fontSize: 14, fontWeight: 500, pl: 0.5 }}>
                                 Service Completed Date
                                 <span style={{ color: '#74112F', fontSize: 15 }}>*</span>
                               </Typography>
@@ -2712,33 +2483,26 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                 onChange={UpdateServicedtl}
                                 slotProps={{
                                   input: {
-                                    max: currentDateTime,
-                                  },
+                                    max: currentDateTime
+                                  }
                                 }}
                               />
                             </Box>
                             <Box sx={{ flex: 2 }}>
-                              <Typography
-                                sx={{ color: '#32383E', fontSize: 14, fontWeight: 500, pl: 0.5 }}
-                              >
+                              <Typography sx={{ color: '#32383E', fontSize: 14, fontWeight: 500, pl: 0.5 }}>
                                 Serviced Supplier
                                 <span style={{ color: '#74112F', fontSize: 15 }}>*</span>
                               </Typography>
-                              <SupplierDetailsAutoComplte
-                                value={servicedSuppl}
-                                setValue={setServicedSuppl}
-                              />
+                              <SupplierDetailsAutoComplte value={servicedSuppl} setValue={setServicedSuppl} />
                             </Box>
 
                             <Box
                               sx={{
                                 flex: 4,
-                                mr: 1,
+                                mr: 1
                               }}
                             >
-                              <Typography
-                                sx={{ color: '#32383E', fontSize: 14, fontWeight: 500, pl: 0.5 }}
-                              >
+                              <Typography sx={{ color: '#32383E', fontSize: 14, fontWeight: 500, pl: 0.5 }}>
                                 Services Performed
                               </Typography>
                               <Textarea
@@ -2763,7 +2527,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                               mb: 2.5,
                               '&:hover': { bgcolor: '#7391C8', color: 'white' },
                               display: 'flex',
-                              justifyContent: 'center',
+                              justifyContent: 'center'
                             }}
                             onClick={AddTostock}
                           >
@@ -2780,7 +2544,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                             onChange={event =>
                               setFlags(prevFlags => ({
                                 ...prevFlags,
-                                notserviceCheck: event.target.checked ? 1 : 0,
+                                notserviceCheck: event.target.checked ? 1 : 0
                               }))
                             }
                           />
@@ -2811,7 +2575,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                               color: 'white',
                               '&:hover': { bgcolor: '#E44650', color: 'white' },
                               display: 'flex',
-                              justifyContent: 'center',
+                              justifyContent: 'center'
                             }}
                             onClick={TransferToCondmination}
                           >
@@ -2829,7 +2593,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                           my: 0.5,
                           borderColor: '#CDD7E1',
                           pl: 1,
-                          mr: 0.5,
+                          mr: 0.5
                         }}
                       >
                         <TextComponent
@@ -2840,7 +2604,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                             color: 'black',
                             fontSize: 15,
                             mt: 1,
-                            ml: 1,
+                            ml: 1
                           }}
                         />
                         <Box sx={{ flex: 1, mr: 1, my: 0.5 }}>
@@ -2861,7 +2625,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                         display: 'flex',
                                         flexDirection: 'row',
                                         flexWrap: 'nowrap',
-                                        bgcolor: '#fff',
+                                        bgcolor: '#fff'
                                       }}
                                     >
                                       {isImage ? (
@@ -2874,7 +2638,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                             objectFit: 'cover',
                                             borderRadius: '4px',
                                             marginRight: '8px',
-                                            cursor: 'pointer',
+                                            cursor: 'pointer'
                                           }}
                                           onClick={() => SingleView({ url })}
                                         />
@@ -2885,7 +2649,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                             height: '60px',
                                             color: '#e53935',
                                             marginRight: '8px',
-                                            cursor: 'pointer',
+                                            cursor: 'pointer'
                                           }}
                                           onClick={() => SingleView({ url })}
                                         />
@@ -2896,7 +2660,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                             height: '60px',
                                             color: '#9e9e9e',
                                             marginRight: '8px',
-                                            cursor: 'pointer',
+                                            cursor: 'pointer'
                                           }}
                                           onClick={() => SingleView({ url })}
                                         />
@@ -2908,7 +2672,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                           flexGrow: 1,
                                           overflow: 'hidden',
                                           textOverflow: 'ellipsis',
-                                          whiteSpace: 'nowrap',
+                                          whiteSpace: 'nowrap'
                                         }}
                                       >
                                         {url.split('/').pop()}
@@ -2931,7 +2695,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                         mt: 0.5,
                         mb: 2,
                         display: 'flex',
-                        borderColor: '#CDD7E1',
+                        borderColor: '#CDD7E1'
                       }}
                     >
                       <label htmlFor="file-input">
@@ -2945,7 +2709,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                             textAlign: 'center',
                             height: '58px',
                             m: 0.5,
-                            pt: 0.4,
+                            pt: 0.4
                           }}
                         >
                           <UploadFileRoundedIcon sx={{ color: '#1873CE' }} />
@@ -2955,7 +2719,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                               fontSize: 13,
                               px: 0.3,
                               pt: 0.1,
-                              fontWeight: 600,
+                              fontWeight: 600
                             }}
                           >
                             Attach File
@@ -2981,7 +2745,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                               border: 1,
                               borderColor: 'lightgrey',
                               p: 0.4,
-                              my: 0.5,
+                              my: 0.5
                             }}
                           >
                             {selectFile.length !== 0 &&
@@ -2994,7 +2758,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                     border: '1px solid #e0e0e0',
                                     borderRadius: '4px',
                                     p: 0.5,
-                                    mr: 0.5,
+                                    mr: 0.5
                                   }}
                                 >
                                   {file.type.includes('image') ? (
@@ -3007,7 +2771,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                         objectFit: 'cover',
                                         borderRadius: '4px',
                                         marginRight: '8px',
-                                        cursor: 'pointer',
+                                        cursor: 'pointer'
                                       }}
                                       onClick={() => ViewImage(file)}
                                     />
@@ -3018,7 +2782,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                         height: '40px',
                                         color: '#e53935',
                                         marginRight: '8px',
-                                        cursor: 'pointer',
+                                        cursor: 'pointer'
                                       }}
                                       onClick={() => ViewImage(file)}
                                     />
@@ -3029,14 +2793,12 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                         height: '40px',
                                         color: '#9e9e9e',
                                         marginRight: '8px',
-                                        cursor: 'pointer',
+                                        cursor: 'pointer'
                                       }}
                                       onClick={() => ViewImage(file)}
                                     />
                                   )}
-                                  <Box sx={{ fontSize: 14, cursor: 'pointer', flexGrow: 1 }}>
-                                    {file.name}
-                                  </Box>
+                                  <Box sx={{ fontSize: 14, cursor: 'pointer', flexGrow: 1 }}>{file.name}</Box>
                                   <ClearSharpIcon
                                     sx={{
                                       pl: 0.3,
@@ -3046,7 +2808,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                                       cursor: 'pointer',
                                       color: '#4D0011',
                                       mx: 0.5,
-                                      '&:hover': { color: '#BA0F30' },
+                                      '&:hover': { color: '#BA0F30' }
                                     }}
                                     onClick={() => handleRemoveFile(index)}
                                   />
@@ -3066,14 +2828,12 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                           height: '58px',
                           m: 0.5,
                           pt: 0.4,
-                          boxShadow: '1px 1px 3px',
+                          boxShadow: '1px 1px 3px'
                         }}
                         onClick={AddServiceDetails}
                       >
                         <UploadFileRoundedIcon sx={{ color: '#EBEFFB' }} />
-                        <Typography
-                          sx={{ color: '#EBEFFB', fontSize: 13, px: 0.3, pt: 0.1, fontWeight: 600 }}
-                        >
+                        <Typography sx={{ color: '#EBEFFB', fontSize: 13, px: 0.3, pt: 0.1, fontWeight: 600 }}>
                           Upload
                         </Typography>
                       </Box>
@@ -3087,7 +2847,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                       p: 0,
                       flexGrow: 1,
                       overflowY: 'auto',
-                      maxHeight: 'calc(90vh - 230px)',
+                      maxHeight: 'calc(90vh - 230px)'
                     }}
                   >
                     <Box
@@ -3096,7 +2856,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                         overflowY: 'auto',
                         maxHeight: '100%',
                         m: 0,
-                        mt: 0.5,
+                        mt: 0.5
                       }}
                     >
                       <ServicePmTab
@@ -3115,7 +2875,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                     p: 0,
                     flexGrow: 1,
                     overflowY: 'auto',
-                    maxHeight: 'calc(90vh - 230px)',
+                    maxHeight: 'calc(90vh - 230px)'
                   }}
                 >
                   <Box
@@ -3123,7 +2883,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                       flexGrow: 1,
                       overflowY: 'auto',
                       maxHeight: '100%',
-                      m: 0,
+                      m: 0
                     }}
                   >
                     <BreakDownDetails
@@ -3140,7 +2900,7 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
                     p: 0,
                     flexGrow: 1,
                     overflowY: 'auto',
-                    maxHeight: 'calc(90vh - 230px)',
+                    maxHeight: 'calc(90vh - 230px)'
                   }}
                 >
                   <Box>

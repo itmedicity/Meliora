@@ -19,13 +19,13 @@ const DefaultLayout = () => {
           borderRightColor: 'var(--royal-purple-100)',
           height: '100vh',
           paddingTop: 10,
-          flexDirection: 'column',
+          flexDirection: 'column'
         }}
       >
         <SideMenu />
       </Box>
       {/* content */}
-      <Box sx={{ flex: 1, bgcolor: '#FBFBFB', padding: 2, paddingTop: 8 }}>
+      <Box sx={{ flex: 1, bgcolor: '#FBFBFB', padding: 2, paddingTop: 8, overflow: 'auto' }}>
         <AppContent />
       </Box>
     </Box>

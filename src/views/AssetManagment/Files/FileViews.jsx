@@ -15,7 +15,7 @@ const FileViews = ({ fileModalOpen, fileData, setfileOpenFlag, setfileModalOpen 
     try {
       const { data } = await axioslogin.post('/AssetFileUpload/uploadFile/getCondemnation', {
         id: condem_mast_slno,
-        detailId: am_condem_detail_slno,
+        detailId: am_condem_detail_slno
       })
       const { success, data: files } = data
       const paths =
@@ -50,14 +50,12 @@ const FileViews = ({ fileModalOpen, fileData, setfileOpenFlag, setfileModalOpen 
             overflow: 'auto',
             minWidth: '30vw',
             minHeight: '15vw',
-            bgcolor: '#4C5270',
+            bgcolor: '#4C5270'
           }}
         >
           <Box sx={{ flex: 1 }}>
             <Box sx={{ flex: 1, display: 'flex' }}>
-              <Typography sx={{ flex: 1, color: 'white', fontSize: 20, fontWeight: 600 }}>
-                Files
-              </Typography>
+              <Typography sx={{ flex: 1, color: 'white', fontSize: 20, fontWeight: 600 }}>Files</Typography>
               <Tooltip title="Close">
                 <HighlightOffSharpIcon
                   sx={{
@@ -66,8 +64,8 @@ const FileViews = ({ fileModalOpen, fileData, setfileOpenFlag, setfileModalOpen 
                     height: 25,
                     width: 25,
                     '&:hover': {
-                      color: '#5C97B8',
-                    },
+                      color: '#5C97B8'
+                    }
                   }}
                   onClick={CloseFile}
                 />
@@ -103,17 +101,11 @@ const FileViews = ({ fileModalOpen, fileData, setfileOpenFlag, setfileModalOpen 
                       display: 'flex',
                       justifyContent: 'center',
                       alignItems: 'center',
-                      overflow: 'hidden',
+                      overflow: 'hidden'
                     }}
                   >
                     {isPdf ? (
-                      <embed
-                        id={`pdf-embed-${index}`}
-                        src={Url}
-                        type="application/pdf"
-                        height="100%"
-                        width="100%"
-                      />
+                      <embed id={`pdf-embed-${index}`} src={Url} type="application/pdf" height="100%" width="100%" />
                     ) : (
                       <img
                         src={Url}
@@ -121,7 +113,7 @@ const FileViews = ({ fileModalOpen, fileData, setfileOpenFlag, setfileModalOpen 
                         style={{
                           maxWidth: '100%',
                           maxHeight: '100%',
-                          objectFit: 'contain',
+                          objectFit: 'contain'
                         }}
                       />
                     )}
@@ -143,8 +135,8 @@ const FileViews = ({ fileModalOpen, fileData, setfileOpenFlag, setfileModalOpen 
                   textAlign: 'center',
                   '&:hover': {
                     bgcolor: '#444444',
-                    color: 'white',
-                  },
+                    color: 'white'
+                  }
                 }}
                 onClick={CloseFile}
               >

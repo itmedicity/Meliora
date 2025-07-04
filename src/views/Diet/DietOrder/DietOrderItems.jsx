@@ -13,7 +13,7 @@ const DietOrderItems = ({ date, dmenu, type }) => {
     return {
       days: day,
       dmenu_slno: dmenu,
-      type_slno: type,
+      type_slno: type
     }
   }, [day, dmenu, type])
 
@@ -48,10 +48,7 @@ const DietOrderItems = ({ date, dmenu, type }) => {
               items.map(val => {
                 //   console.log(dietType);
                 return (
-                  <TableRow
-                    key={val.ddetl_slno}
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                  >
+                  <TableRow key={val.ddetl_slno} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                     <TableCell align="center">{val.group_name}</TableCell>
                     <TableCell align="center">{val.item_name}</TableCell>
                     <TableCell align="center">

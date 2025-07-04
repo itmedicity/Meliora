@@ -3,7 +3,7 @@ const { FETCH_ROOMCATORA } = ActionTyps
 //intial state
 const roomcategory = {
   roomcatList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Roomcategory action type check then payload set to the state and loading status set as true */
 export const getRoomcatora = (state = roomcategory, { type, payload }) => {

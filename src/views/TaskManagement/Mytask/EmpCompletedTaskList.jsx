@@ -18,7 +18,7 @@ const EmpCompletedTaskList = ({
   taskcount,
   settaskcount,
   projectcount,
-  setprojectcount,
+  setprojectcount
 }) => {
   const [tabledata, setTabledata] = useState([])
   const [editModalOpen, setEditModalOpen] = useState(false)
@@ -75,20 +75,13 @@ const EmpCompletedTaskList = ({
                   : 'Not Started',
               datediff: new Date(val.tm_complete_date) - new Date(val.tm_task_due_date),
               days: Math.floor(
-                (new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) /
-                  (1000 * 60 * 60 * 24)
+                (new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / (1000 * 60 * 60 * 24)
               ),
               hours: Math.floor(
-                ((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) /
-                  (1000 * 60 * 60)) %
-                  24
+                ((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / (1000 * 60 * 60)) % 24
               ),
-              minutes: Math.floor(
-                ((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / 1000 / 60) % 60
-              ),
-              seconds: Math.floor(
-                ((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / 1000) % 60
-              ),
+              minutes: Math.floor(((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / 1000 / 60) % 60),
+              seconds: Math.floor(((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / 1000) % 60)
             }
             return obj
           })
@@ -188,19 +181,17 @@ const EmpCompletedTaskList = ({
               borderTop: 1,
               borderColor: 'lightgray',
               pt: 1.5,
-              bgcolor: 'white',
+              bgcolor: 'white'
             }}
           >
-            <Box sx={{ width: 40, pl: 1.7, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-              #
-            </Box>
+            <Box sx={{ width: 40, pl: 1.7, fontWeight: 600, color: '#444444', fontSize: 12 }}>#</Box>
             <Box
               sx={{
                 width: 60,
                 textAlign: 'center',
                 fontWeight: 600,
                 color: '#444444',
-                fontSize: 12,
+                fontSize: 12
               }}
             >
               Action
@@ -212,7 +203,7 @@ const EmpCompletedTaskList = ({
                 fontWeight: 600,
                 color: '#444444',
                 fontSize: 12,
-                pl: 0.5,
+                pl: 0.5
               }}
             >
               Files
@@ -224,32 +215,18 @@ const EmpCompletedTaskList = ({
                 fontWeight: 600,
                 color: '#444444',
                 fontSize: 12,
-                pl: 2,
+                pl: 2
               }}
             >
               Status
             </Box>
-            <Box sx={{ width: 250, fontWeight: 600, color: '#444444', fontSize: 12, pl: 2.5 }}>
-              Completion exceed
-            </Box>
-            <Box sx={{ width: 900, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-              Task Name
-            </Box>
-            <Box sx={{ width: 900, fontWeight: 600, color: '#444444', fontSize: 12, pl: 0.5 }}>
-              Project
-            </Box>
-            <Box sx={{ width: 250, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>
-              Created Date
-            </Box>
-            <Box sx={{ width: 250, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>
-              Due Date
-            </Box>
-            <Box sx={{ width: 250, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>
-              Completed Date
-            </Box>
-            <Box sx={{ width: 900, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>
-              Description
-            </Box>
+            <Box sx={{ width: 250, fontWeight: 600, color: '#444444', fontSize: 12, pl: 2.5 }}>Completion exceed</Box>
+            <Box sx={{ width: 900, fontWeight: 600, color: '#444444', fontSize: 12 }}>Task Name</Box>
+            <Box sx={{ width: 900, fontWeight: 600, color: '#444444', fontSize: 12, pl: 0.5 }}>Project</Box>
+            <Box sx={{ width: 250, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>Created Date</Box>
+            <Box sx={{ width: 250, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>Due Date</Box>
+            <Box sx={{ width: 250, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>Completed Date</Box>
+            <Box sx={{ width: 900, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>Description</Box>
           </Box>
 
           <Virtuoso
@@ -269,25 +246,18 @@ const EmpCompletedTaskList = ({
                     borderColor: 'lightgrey',
                     minHeight: 30,
                     maxHeight: 80,
-                    background:
-                      val.main_task_slno !== null
-                        ? '#EAE7FA'
-                        : val.main_task_slno === 0
-                        ? 'white'
-                        : 'white',
-                    pt: 0.5,
+                    background: val.main_task_slno !== null ? '#EAE7FA' : val.main_task_slno === 0 ? 'white' : 'white',
+                    pt: 0.5
                   }}
                 >
-                  <Box sx={{ width: 40, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>
-                    {index + 1}
-                  </Box>
+                  <Box sx={{ width: 40, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>{index + 1}</Box>
                   <Box
                     sx={{
                       width: 60,
                       textAlign: 'center',
                       fontWeight: 600,
                       color: 'grey',
-                      fontSize: 12,
+                      fontSize: 12
                     }}
                   >
                     <EditIcon
@@ -303,7 +273,7 @@ const EmpCompletedTaskList = ({
                       fontWeight: 600,
                       color: 'grey',
                       fontSize: 12,
-                      cursor: 'pointer',
+                      cursor: 'pointer'
                     }}
                   >
                     &nbsp;
@@ -311,14 +281,14 @@ const EmpCompletedTaskList = ({
                       <FilePresentRoundedIcon
                         sx={{
                           color: '#41729F',
-                          '&:hover': { color: '#274472' },
+                          '&:hover': { color: '#274472' }
                         }}
                         onClick={() => fileView(val)}
                       />
                     ) : (
                       <FilePresentRoundedIcon
                         sx={{
-                          color: 'grey',
+                          color: 'grey'
                         }}
                       />
                     )}
@@ -342,7 +312,7 @@ const EmpCompletedTaskList = ({
                             ? '#5885AF'
                             : 'transparent',
                         minHeight: 5,
-                        fontWeight: 700,
+                        fontWeight: 700
                       }}
                     >
                       {val.tm_task_status === 0
@@ -366,7 +336,7 @@ const EmpCompletedTaskList = ({
                           p: 0.5,
                           color: '#3B0404',
                           fontSize: 11,
-                          fontWeight: 600,
+                          fontWeight: 600
                         }}
                       >
                         {val.days} Days - {val.hours}h: {val.minutes}m: {val.seconds}s
@@ -383,7 +353,7 @@ const EmpCompletedTaskList = ({
                         color: 'grey',
                         fontSize: 12,
                         textTransform: 'capitalize',
-                        pl: 1,
+                        pl: 1
                       }}
                     >
                       {val.tm_task_name || 'not given'}
@@ -396,7 +366,7 @@ const EmpCompletedTaskList = ({
                         color: 'grey',
                         fontSize: 12,
                         textTransform: 'capitalize',
-                        pl: 1,
+                        pl: 1
                       }}
                     >
                       {val.tm_task_name || 'not given'}
@@ -410,7 +380,7 @@ const EmpCompletedTaskList = ({
                         color: 'grey',
                         fontSize: 12,
                         textTransform: 'capitalize',
-                        pl: 1,
+                        pl: 1
                       }}
                     >
                       {val.tm_project_name || 'not given'}
@@ -423,7 +393,7 @@ const EmpCompletedTaskList = ({
                         color: 'grey',
                         fontSize: 12,
                         textTransform: 'capitalize',
-                        pl: 1,
+                        pl: 1
                       }}
                     >
                       {val.tm_project_name || 'not given'}
@@ -438,7 +408,7 @@ const EmpCompletedTaskList = ({
                         color: 'grey',
                         fontSize: 12,
                         textTransform: 'capitalize',
-                        pl: 1,
+                        pl: 1
                       }}
                     >
                       {format(new Date(val.create_date), 'MMM dd, yyyy HH:mm:ss')}
@@ -451,7 +421,7 @@ const EmpCompletedTaskList = ({
                         color: 'grey',
                         fontSize: 12,
                         textTransform: 'capitalize',
-                        pl: 1,
+                        pl: 1
                       }}
                     >
                       {format(new Date(val.create_date), 'MMM dd, yyyy HH:mm:ss')}
@@ -465,7 +435,7 @@ const EmpCompletedTaskList = ({
                         color: 'grey',
                         fontSize: 12,
                         textTransform: 'capitalize',
-                        pl: 1,
+                        pl: 1
                       }}
                     >
                       {format(new Date(val.tm_task_due_date), 'MMM dd, yyyy HH:mm:ss')}
@@ -478,7 +448,7 @@ const EmpCompletedTaskList = ({
                         color: 'grey',
                         fontSize: 12,
                         textTransform: 'capitalize',
-                        pl: 1,
+                        pl: 1
                       }}
                     >
                       {format(new Date(val.tm_task_due_date), 'MMM dd, yyyy HH:mm:ss')}
@@ -492,7 +462,7 @@ const EmpCompletedTaskList = ({
                         color: 'grey',
                         fontSize: 12,
                         textTransform: 'capitalize',
-                        pl: 1,
+                        pl: 1
                       }}
                     >
                       {format(new Date(val.tm_complete_date), 'MMM dd, yyyy HH:mm:ss')}
@@ -505,7 +475,7 @@ const EmpCompletedTaskList = ({
                         color: 'grey',
                         fontSize: 12,
                         textTransform: 'capitalize',
-                        pl: 1,
+                        pl: 1
                       }}
                     >
                       {format(new Date(val.tm_complete_date), 'MMM dd, yyyy HH:mm:ss')}
@@ -519,7 +489,7 @@ const EmpCompletedTaskList = ({
                         color: 'grey',
                         fontSize: 12,
                         textTransform: 'capitalize',
-                        pl: 1,
+                        pl: 1
                       }}
                     >
                       {val.tm_task_description || 'not given'}
@@ -532,7 +502,7 @@ const EmpCompletedTaskList = ({
                         color: 'grey',
                         fontSize: 12,
                         textTransform: 'capitalize',
-                        pl: 1,
+                        pl: 1
                       }}
                     >
                       {val.tm_task_description || 'not given'}
@@ -553,7 +523,7 @@ const EmpCompletedTaskList = ({
             pt: 20,
             fontWeight: 700,
             fontSize: 30,
-            color: '#C7C8CB',
+            color: '#C7C8CB'
           }}
         >
           No Task Completed Yet!

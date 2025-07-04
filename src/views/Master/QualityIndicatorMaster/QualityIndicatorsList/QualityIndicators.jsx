@@ -28,7 +28,7 @@ const QualityIndicators = () => {
   const [qualityIndicator, setQualityIndicator] = useState({
     qi_slno: '0',
     qi_name: '',
-    qi_status: false,
+    qi_status: false
   })
   const { qi_name, qi_status, qi_slno } = qualityIndicator
   const updateQtIndicator = useCallback(
@@ -46,7 +46,7 @@ const QualityIndicators = () => {
     const formreset = {
       qi_slno: 0,
       qi_name: '',
-      qi_status: false,
+      qi_status: false
     }
     setQualityIndicator(formreset)
     setQltyDept(0)
@@ -58,7 +58,7 @@ const QualityIndicators = () => {
       qi_dept_slno: qltyDept,
       qi_name: qi_name,
       qi_status: qi_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [qi_name, qltyDept, qi_status, id])
   const patchdata = useMemo(() => {
@@ -67,7 +67,7 @@ const QualityIndicators = () => {
       qi_name: qi_name,
       qi_dept_slno: qltyDept,
       qi_status: qi_status === true ? 1 : 0,
-      edit_user: id,
+      edit_user: id
     }
   }, [qi_slno, qltyDept, qi_name, qi_status, id])
   const submitQualityIndicator = useCallback(
@@ -113,7 +113,7 @@ const QualityIndicators = () => {
     const frmdata = {
       qi_slno: qi_slno,
       qi_name: qi_name,
-      qi_status: status === 'Yes' ? true : false,
+      qi_status: status === 'Yes' ? true : false
     }
     setQualityIndicator(frmdata)
     setQltyDept(qi_dept_slno)
@@ -124,12 +124,7 @@ const QualityIndicators = () => {
   }, [])
 
   return (
-    <CardMaster
-      title="Quality Indicator"
-      submit={submitQualityIndicator}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Quality Indicator" submit={submitQualityIndicator} close={backtoSetting} refresh={refreshWindow}>
       <CssVarsProvider>
         <Box sx={{ pl: 1, display: 'flex' }}>
           <Box sx={{ flex: 1 }}>

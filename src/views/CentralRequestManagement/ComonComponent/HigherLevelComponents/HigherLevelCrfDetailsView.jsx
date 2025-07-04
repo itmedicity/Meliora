@@ -8,8 +8,7 @@ import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf'
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile'
 
 const HigherLevelCrfDetailsView = ({ ApprovalData, imagearray, selectedCompany }) => {
-  const { req_slno, req_date, actual_requirement, needed, expected_date, image_status } =
-    ApprovalData
+  const { req_slno, req_date, actual_requirement, needed, expected_date, image_status } = ApprovalData
 
   const [imageshowFlag, setImageShowFlag] = useState(0)
   const [imageshow, setImageShow] = useState(false)
@@ -22,7 +21,6 @@ const HigherLevelCrfDetailsView = ({ ApprovalData, imagearray, selectedCompany }
   const fileLIst = imagearray?.filter(file => {
     const lowerCaseName = file.imageName.toLowerCase()
     return (
-
       lowerCaseName.endsWith('.png') ||
       lowerCaseName.endsWith('.jpg') ||
       lowerCaseName.endsWith('.jpeg') ||
@@ -36,8 +34,8 @@ const HigherLevelCrfDetailsView = ({ ApprovalData, imagearray, selectedCompany }
         ? 'pdf'
         : 'image'
       : file.type.includes('application/pdf')
-        ? 'pdf'
-        : 'image'
+      ? 'pdf'
+      : 'image'
 
     const fileUrl = file.url || URL.createObjectURL(file)
     setPreviewFile({ url: fileUrl, type: fileType })
@@ -48,12 +46,12 @@ const HigherLevelCrfDetailsView = ({ ApprovalData, imagearray, selectedCompany }
   const capitalizeWords = str =>
     str
       ? str
-        .toLowerCase()
-        .trim()
-        .replace(/\s+/g, ' ')
-        .split(' ')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ')
+          .toLowerCase()
+          .trim()
+          .replace(/\s+/g, ' ')
+          .split(' ')
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(' ')
       : ''
   return (
     <Fragment>
@@ -71,10 +69,7 @@ const HigherLevelCrfDetailsView = ({ ApprovalData, imagearray, selectedCompany }
       {ApprovalData.length !== 0 ? (
         <Paper variant="outlined" sx={{ flexWrap: 'wrap', mx: 0.6 }}>
           <Box sx={{ padding: 1, borderRadius: 2 }}>
-            <Typography
-              variant="h6"
-              sx={{ fontWeight: 'bold', marginBottom: 0.5, color: '#145DA0', fontSize: 14 }}
-            >
+            <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: 0.5, color: '#145DA0', fontSize: 14 }}>
               {selectedCompany === '2' ? 'CRF/KMC/' + req_slno : 'CRF/TMC/' + req_slno}
             </Typography>
             <Box sx={{ display: 'flex' }}>
@@ -82,28 +77,20 @@ const HigherLevelCrfDetailsView = ({ ApprovalData, imagearray, selectedCompany }
                 <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.47 }}>Req.Date</Typography>
                 <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
                 <Box sx={{ pl: 0.3, pt: 0.3, flex: 1 }}>
-                  <Typography sx={{ fontSize: 13 }}>
-                    {format(new Date(req_date), 'dd-MM-yyyy hh:mm a')}
-                  </Typography>
+                  <Typography sx={{ fontSize: 13 }}>{format(new Date(req_date), 'dd-MM-yyyy hh:mm a')}</Typography>
                 </Box>
               </Box>
               <Box sx={{ display: 'flex', pt: 0.4, flex: 0.5 }}>
-                <Typography sx={{ fontSize: 14, fontWeight: 600, pt: 0.2 }}>
-                  Expected Date
-                </Typography>
+                <Typography sx={{ fontSize: 14, fontWeight: 600, pt: 0.2 }}>Expected Date</Typography>
                 <Typography sx={{ pl: 1 }}> :&nbsp;</Typography>
                 <Box sx={{ pl: 0.5, pt: 0.4 }}>
-                  <Typography sx={{ fontSize: 13 }}>
-                    {format(new Date(expected_date), 'dd-MM-yyyy')}
-                  </Typography>
+                  <Typography sx={{ fontSize: 13 }}>{format(new Date(expected_date), 'dd-MM-yyyy')}</Typography>
                 </Box>
               </Box>
               <Box sx={{ display: 'flex', flex: 2 }}></Box>
             </Box>
             <Box sx={{ display: 'flex' }}>
-              <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.2, pt: 1 }}>
-                Purpose
-              </Typography>
+              <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.2, pt: 1 }}>Purpose</Typography>
               <Typography sx={{ pt: 0.7 }}> :&nbsp;</Typography>
               <Box sx={{ pt: 0.5, flex: 2, pl: 0.3 }}>
                 <Typography sx={{ fontSize: 13, pt: 0.5, pr: 1 }}>
@@ -112,9 +99,7 @@ const HigherLevelCrfDetailsView = ({ ApprovalData, imagearray, selectedCompany }
               </Box>
             </Box>
             <Box sx={{ display: 'flex', mb: 1 }}>
-              <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.2, pt: 1 }}>
-                Justfication
-              </Typography>
+              <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.2, pt: 1 }}>Justfication</Typography>
               <Typography sx={{ pt: 0.7 }}> :&nbsp;</Typography>
               <Box sx={{ pt: 0.5, flex: 2, pl: 0.3 }}>
                 <Typography sx={{ fontSize: 13, pt: 0.5, pr: 1 }}>
@@ -138,12 +123,12 @@ const HigherLevelCrfDetailsView = ({ ApprovalData, imagearray, selectedCompany }
                         m: 0.3,
                         border: '1px solid #e0e0e0',
                         borderRadius: '4px',
-                        p: 0.5,
+                        p: 0.5
                       }}
                     >
                       {file.imageName.endsWith('.png') ||
-                        file.imageName.endsWith('.jpg') ||
-                        file.imageName.endsWith('.jpeg') ? (
+                      file.imageName.endsWith('.jpg') ||
+                      file.imageName.endsWith('.jpeg') ? (
                         <img
                           src={file.url}
                           alt={file.imageName}
@@ -153,7 +138,7 @@ const HigherLevelCrfDetailsView = ({ ApprovalData, imagearray, selectedCompany }
                             objectFit: 'cover',
                             borderRadius: '4px',
                             marginRight: '8px',
-                            cursor: 'pointer',
+                            cursor: 'pointer'
                           }}
                           onClick={() => ViewImage(file)}
                         />
@@ -164,7 +149,7 @@ const HigherLevelCrfDetailsView = ({ ApprovalData, imagearray, selectedCompany }
                             height: '40px',
                             color: '#e53935',
                             marginRight: '8px',
-                            cursor: 'pointer',
+                            cursor: 'pointer'
                           }}
                           onClick={() => ViewImage(file)}
                         />
@@ -175,14 +160,12 @@ const HigherLevelCrfDetailsView = ({ ApprovalData, imagearray, selectedCompany }
                             height: '40px',
                             color: '#9e9e9e',
                             marginRight: '8px',
-                            cursor: 'pointer',
+                            cursor: 'pointer'
                           }}
                           onClick={() => ViewImage(file)}
                         />
                       )}
-                      <Box sx={{ fontSize: 14, cursor: 'pointer', flexGrow: 1, pr: 0.5 }}>
-                        {file.imageName}
-                      </Box>
+                      <Box sx={{ fontSize: 14, cursor: 'pointer', flexGrow: 1, pr: 0.5 }}>{file.imageName}</Box>
                     </Box>
                   ))}
               </Paper>
