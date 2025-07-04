@@ -569,8 +569,8 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
           </Box>
           {/* <ModalClose /> */}
           <Divider sx={{ mt: 'auto', bgcolor: 'var(--royal-purple-400)' }} />
-          <DialogContent sx={{ gap: 2 }} >
-             <Box
+          <DialogContent sx={{ gap: 2 }}>
+            <Box
               sx={{
                 position: 'absolute',
                 top: '50%',

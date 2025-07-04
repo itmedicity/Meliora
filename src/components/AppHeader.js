@@ -81,9 +81,11 @@ const AppHeader = ({ collapsed, setCollapsed }) => {
               </Typography>
             </Box>
             <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end' }}>
-              <Box sx={{display: 'flex',alignItems:'end', flexDirection: 'column'}} >
-                <Box sx={{ fontWeight: 600,fontSize:12,fontFamily: 'var(--roboto-font)'  }} >Travancore Medicity</Box>
-                <LiveClock/>
+              <Box sx={{ display: 'flex', alignItems: 'end', flexDirection: 'column' }}>
+                <Box sx={{ fontWeight: 600, fontSize: 12, fontFamily: 'var(--roboto-font)' }}>
+                  Travancore Medicity
+                </Box>
+                <LiveClock />
                 {/* <Box sx={{ fontWeight: 600,fontSize:12,fontFamily: 'var(--roboto-font)'  }} >Hospital Administration System</Box> */}
               </Box>
               <Dropdown>

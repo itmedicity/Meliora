@@ -148,8 +148,20 @@ module.exports = {
     'plugin:prettier/recommended',
   ],
   rules: {
-    'prettier/prettier': 'off',
-    // 'prettier/prettier': ['error', { singleQuote: true }],
+    // 'prettier/prettier': 'off',
+    'prettier/prettier': ['error', 
+      { 
+          singleQuote: true,
+          bracketSpacing: true,
+          jsxBracketSameLine: false,
+          printWidth: 120,
+          tabWidth: 2,
+          useTabs: false,
+          semi: true,
+          trailingComma: 'none',
+          arrowParens: 'avoid',
+          proseWrap: 'never' 
+      }],
     'react/prop-types': 'off',
     'react/display-name': 'off',
     'no-unused-vars': 'error',
