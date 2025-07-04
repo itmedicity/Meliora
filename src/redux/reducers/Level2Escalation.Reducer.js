@@ -3,7 +3,7 @@ const { FETCH_ESCALATION_LEVEL2 } = ActionTyps
 
 const Escalationlvl2 = {
   lvl2scalation: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 export const getEscalationlvl2 = (state = Escalationlvl2, { type, payload }) => {
   switch (type) {

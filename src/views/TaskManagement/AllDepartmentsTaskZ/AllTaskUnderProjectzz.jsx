@@ -27,7 +27,7 @@ const AllTaskUnderProjectzz = ({ value }) => {
   const [getarry, setgetarry] = useState([])
   const searchData = useMemo(() => {
     return {
-      tm_project_slno: tm_project_slno,
+      tm_project_slno: tm_project_slno
     }
   }, [tm_project_slno])
 
@@ -142,35 +142,19 @@ const AllTaskUnderProjectzz = ({ value }) => {
               borderTop: 1,
               borderColor: 'lightgray',
               pt: 1.5,
-              bgcolor: 'white',
+              bgcolor: 'white'
             }}
           >
-            <Box sx={{ width: 30, pl: 1.7, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-              #
-            </Box>
-            <Box
-              sx={{ flex: 1, textAlign: 'center', fontWeight: 600, color: '#444444', fontSize: 12 }}
-            >
-              Action
-            </Box>
-            <Box
-              sx={{ flex: 1, textAlign: 'center', fontWeight: 600, color: '#444444', fontSize: 12 }}
-            >
+            <Box sx={{ width: 30, pl: 1.7, fontWeight: 600, color: '#444444', fontSize: 12 }}>#</Box>
+            <Box sx={{ flex: 1, textAlign: 'center', fontWeight: 600, color: '#444444', fontSize: 12 }}>Action</Box>
+            <Box sx={{ flex: 1, textAlign: 'center', fontWeight: 600, color: '#444444', fontSize: 12 }}>
               &nbsp;Files
             </Box>
-            <Box
-              sx={{ flex: 2, textAlign: 'center', fontWeight: 600, color: '#444444', fontSize: 12 }}
-            >
-              Status
-            </Box>
-            <Box sx={{ flex: 2.5, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-              &nbsp;&nbsp;CountDown
-            </Box>
+            <Box sx={{ flex: 2, textAlign: 'center', fontWeight: 600, color: '#444444', fontSize: 12 }}>Status</Box>
+            <Box sx={{ flex: 2.5, fontWeight: 600, color: '#444444', fontSize: 12 }}>&nbsp;&nbsp;CountDown</Box>
             <Box sx={{ flex: 7, fontWeight: 600, color: '#444444', fontSize: 12 }}>Task Name</Box>
             <Box sx={{ flex: 4, fontWeight: 600, color: '#444444', fontSize: 12 }}>Department</Box>
-            <Box sx={{ flex: 4, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-              Department Section
-            </Box>
+            <Box sx={{ flex: 4, fontWeight: 600, color: '#444444', fontSize: 12 }}>Department Section</Box>
           </Box>
           <Box sx={{ maxHeight: '60vh', overflow: 'auto' }}>
             {taskList?.map((val, index) => {
@@ -186,25 +170,18 @@ const AllTaskUnderProjectzz = ({ value }) => {
                     borderColor: 'lightgrey',
                     minHeight: 30,
                     maxHeight: 80,
-                    background:
-                      val.main_task_slno !== null
-                        ? '#EAE7FA'
-                        : val.main_task_slno === 0
-                        ? 'white'
-                        : 'white',
-                    pt: 0.5,
+                    background: val.main_task_slno !== null ? '#EAE7FA' : val.main_task_slno === 0 ? 'white' : 'white',
+                    pt: 0.5
                   }}
                 >
-                  <Box sx={{ width: 30, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>
-                    {index + 1}
-                  </Box>
+                  <Box sx={{ width: 30, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>{index + 1}</Box>
                   <Box
                     sx={{
                       flex: 1,
                       textAlign: 'center',
                       fontWeight: 600,
                       color: 'grey',
-                      fontSize: 12,
+                      fontSize: 12
                     }}
                   >
                     <EditIcon
@@ -221,7 +198,7 @@ const AllTaskUnderProjectzz = ({ value }) => {
                       fontWeight: 600,
                       color: 'grey',
                       fontSize: 12,
-                      cursor: 'pointer',
+                      cursor: 'pointer'
                     }}
                   >
                     &nbsp;
@@ -229,14 +206,14 @@ const AllTaskUnderProjectzz = ({ value }) => {
                       <FilePresentRoundedIcon
                         sx={{
                           color: '#41729F',
-                          '&:hover': { color: '#274472' },
+                          '&:hover': { color: '#274472' }
                         }}
                         onClick={() => fileView(val)}
                       />
                     ) : (
                       <FilePresentRoundedIcon
                         sx={{
-                          color: 'grey',
+                          color: 'grey'
                         }}
                       />
                     )}
@@ -260,7 +237,7 @@ const AllTaskUnderProjectzz = ({ value }) => {
                             ? '#5885AF'
                             : 'transparent',
                         minHeight: 5,
-                        fontWeight: 700,
+                        fontWeight: 700
                       }}
                     >
                       {val.tm_task_status === 0
@@ -278,9 +255,7 @@ const AllTaskUnderProjectzz = ({ value }) => {
                   </Box>
                   <Box sx={{ flex: 2.5, fontWeight: 600, color: 'grey', fontSize: 12 }}>
                     {val.tm_task_status !== 1 ? (
-                      <Box
-                        sx={{ bgcolor: '#EAEAEA', borderRadius: 15, mb: 0.5, width: 150, pl: 1 }}
-                      >
+                      <Box sx={{ bgcolor: '#EAEAEA', borderRadius: 15, mb: 0.5, width: 150, pl: 1 }}>
                         <CountDowncomponent DueDates={val.tm_task_due_date} />
                       </Box>
                     ) : (
@@ -291,7 +266,7 @@ const AllTaskUnderProjectzz = ({ value }) => {
                           mb: 0.5,
                           width: 150,
                           pl: 5,
-                          color: 'darkgreen',
+                          color: 'darkgreen'
                         }}
                       >
                         Completed
@@ -306,7 +281,7 @@ const AllTaskUnderProjectzz = ({ value }) => {
                         color: 'grey',
                         fontSize: 12,
                         textTransform: 'capitalize',
-                        pl: 1,
+                        pl: 1
                       }}
                     >
                       {val.tm_task_name || 'not given'}
@@ -319,7 +294,7 @@ const AllTaskUnderProjectzz = ({ value }) => {
                         color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                         fontSize: 12,
                         textTransform: 'capitalize',
-                        pl: 1,
+                        pl: 1
                       }}
                     >
                       {val.tm_task_name || 'not given'}
@@ -333,7 +308,7 @@ const AllTaskUnderProjectzz = ({ value }) => {
                         color: 'grey',
                         fontSize: 12,
                         textTransform: 'capitalize',
-                        pl: 1,
+                        pl: 1
                       }}
                     >
                       {val.dept_name || 'not given'}
@@ -346,7 +321,7 @@ const AllTaskUnderProjectzz = ({ value }) => {
                         color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                         fontSize: 12,
                         textTransform: 'capitalize',
-                        pl: 1,
+                        pl: 1
                       }}
                     >
                       {val.dept_name || 'not given'}
@@ -360,7 +335,7 @@ const AllTaskUnderProjectzz = ({ value }) => {
                         color: 'grey',
                         fontSize: 12,
                         textTransform: 'capitalize',
-                        pl: 1,
+                        pl: 1
                       }}
                     >
                       {val.sec_name || 'not given'}
@@ -373,7 +348,7 @@ const AllTaskUnderProjectzz = ({ value }) => {
                         color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                         fontSize: 12,
                         textTransform: 'capitalize',
-                        pl: 1,
+                        pl: 1
                       }}
                     >
                       {val.sec_name || 'not given'}
@@ -392,7 +367,7 @@ const AllTaskUnderProjectzz = ({ value }) => {
             fontWeight: 800,
             color: 'grey',
             textAlign: 'center',
-            borderColor: 'lightgray',
+            borderColor: 'lightgray'
           }}
         >
           No Task Created Under Project

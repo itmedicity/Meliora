@@ -10,28 +10,28 @@ const DietTypeMastTable = ({ count, rowSelect }) => {
   const [column] = useState([
     {
       headerName: 'slno',
-      field: 'type_slno',
+      field: 'type_slno'
     },
     {
       headerName: 'Diet Type Name',
-      field: 'type_desc',
+      field: 'type_desc'
     },
     {
       headerName: 'Start Time',
-      field: 'start_time1',
+      field: 'start_time1'
     },
     {
       headerName: 'End Time',
-      field: 'end_time2',
+      field: 'end_time2'
     },
     {
       headerName: 'status',
-      field: 'status1',
+      field: 'status1'
     },
     {
       headerName: 'Action',
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
-    },
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
+    }
   ])
   useEffect(() => {
     const getDietType = async () => {

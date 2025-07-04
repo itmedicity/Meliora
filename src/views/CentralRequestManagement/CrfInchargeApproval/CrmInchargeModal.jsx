@@ -25,7 +25,7 @@ const CrmInchargeModal = ({
   deptsecArry,
   imagearray,
   selectedCompany,
-  company,
+  company
 }) => {
   const { req_slno, incharge_approve, incharge_remarks, inch_detial_analysis } = ApprovalData
   const queryClient = useQueryClient()
@@ -37,14 +37,14 @@ const CrmInchargeModal = ({
     reject: incharge_approve === 2 ? true : false,
     pending: incharge_approve === 3 ? true : false,
     remark: incharge_remarks !== null ? incharge_remarks : '',
-    detailAnalis: inch_detial_analysis !== null ? inch_detial_analysis : '',
+    detailAnalis: inch_detial_analysis !== null ? inch_detial_analysis : ''
   })
   const { remark, detailAnalis, approve, reject, pending } = apprvlDetails
   const updateOnchangeState = useCallback(e => {
     const { name, type, value, checked } = e.target
     setApprvlDetails(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === 'checkbox' ? checked : value
     }))
   }, [])
 
@@ -53,7 +53,7 @@ const CrmInchargeModal = ({
       ...prev,
       approve: type === 'approve',
       reject: type === 'reject',
-      pending: type === 'pending',
+      pending: type === 'pending'
     }))
   }, [])
 
@@ -68,7 +68,7 @@ const CrmInchargeModal = ({
       reject: false,
       pending: false,
       remark: '',
-      detailAnalis: '',
+      detailAnalis: ''
     }
     setApprvlDetails(formdata)
     setMoreItem(0)
@@ -86,9 +86,9 @@ const CrmInchargeModal = ({
       items: approveTableData?.map(val => {
         return {
           req_detl_slno: val.req_detl_slno,
-          item_status_approved: val.item_status_approved,
+          item_status_approved: val.item_status_approved
         }
-      }),
+      })
     }
   }, [approve, reject, pending, id, remark, detailAnalis, req_slno, approveTableData])
 
@@ -122,18 +122,7 @@ const CrmInchargeModal = ({
         warningNotify('Select any Status')
       }
     }
-  }, [
-    approve,
-    reject,
-    pending,
-    remark,
-    detailAnalis,
-    InchargePatchData,
-    queryClient,
-    reset,
-    deptsecArry,
-    editEnable,
-  ])
+  }, [approve, reject, pending, remark, detailAnalis, InchargePatchData, queryClient, reset, deptsecArry, editEnable])
 
   const closeModal = useCallback(() => {
     reset()
@@ -161,7 +150,7 @@ const CrmInchargeModal = ({
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 25,
-                width: 25,
+                width: 25
               }}
             />
             <Box sx={{ minWidth: '80vw', minHeight: '62vh', maxHeight: '85vh', overflowY: 'auto' }}>

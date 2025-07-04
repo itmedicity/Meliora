@@ -3,7 +3,7 @@ const { FETCH_ROOM_CATEGORY_DATA } = ActionTyps
 //intial state
 const RmRoomCategory = {
   RmRoomCategoryList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Requesttype action type check then payload set to the state and loading status set as true */
 export const getRmRoomCategory = (state = RmRoomCategory, { type, payload }) => {

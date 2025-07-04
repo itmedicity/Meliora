@@ -14,15 +14,7 @@ import DialysisModalQIMark from './DialysisModalQIMark'
 import { RefreshDialysisList } from './RefreshDialysisList'
 import { useNavigate } from 'react-router-dom'
 
-const DialysisPatientListTable = ({
-  setSearchFlag,
-  dailyDate,
-  count,
-  setCount,
-  qidept,
-  depCode,
-  qitype,
-}) => {
+const DialysisPatientListTable = ({ setSearchFlag, dailyDate, count, setCount, qidept, depCode, qitype }) => {
   const [patientlist, setpatientlist] = useState([])
   const [qiflag, setQiflag] = useState(0)
   const [modalopen, setModalOpen] = useState(false)
@@ -43,7 +35,7 @@ const DialysisPatientListTable = ({
     if (qitype === 3) {
       const viewdata = {
         from: format(new Date(dailyDate), 'yyyy-MM-dd 00:00:00'),
-        to: format(new Date(dailyDate), 'yyyy-MM-dd 23:59:59'),
+        to: format(new Date(dailyDate), 'yyyy-MM-dd 23:59:59')
       }
       const getDialysisData = async viewdata => {
         const result = await axioslogin.post('/qidialysis/viewList', viewdata)
@@ -123,9 +115,7 @@ const DialysisPatientListTable = ({
             <ListIcon sx={{ color: '#37474f', height: 30, width: 25 }} />
           </Box>
           <Box sx={{ flex: 1, fontSize: 17, pt: 1, pl: 0.5 }}>
-            <Typography sx={{ color: '#37474f', fontFamily: 'Arial' }}>
-              Dialysis Patient&apos;s List
-            </Typography>
+            <Typography sx={{ color: '#37474f', fontFamily: 'Arial' }}>Dialysis Patient&apos;s List</Typography>
           </Box>
           {tabFlag === 1 ? (
             <>
@@ -133,9 +123,7 @@ const DialysisPatientListTable = ({
                 <Box sx={{ pl: 0.5, pt: 0.2 }}>
                   <CssVarsProvider>
                     <Input
-                      startDecorator={
-                        <PersonSearchTwoToneIcon sx={{ height: 30, width: 30, color: '#0063C5' }} />
-                      }
+                      startDecorator={<PersonSearchTwoToneIcon sx={{ height: 30, width: 30, color: '#0063C5' }} />}
                       size="sm"
                       placeholder="Search By Patient Name"
                       name="searchPat"
@@ -154,7 +142,7 @@ const DialysisPatientListTable = ({
                   fontSize: 20,
                   pr: 0.3,
                   pt: 0.4,
-                  pl: 0.5,
+                  pl: 0.5
                 }}
               >
                 <CssVarsProvider>
@@ -165,7 +153,7 @@ const DialysisPatientListTable = ({
                         height: 35,
                         width: 35,
                         opacity: 0.7,
-                        color: 'darkgreen',
+                        color: 'darkgreen'
                       }}
                       onClick={RefreshData}
                     />
@@ -195,7 +183,7 @@ const DialysisPatientListTable = ({
                 overflow: 'auto',
                 maxHeight: window.innerHeight - 180,
                 '&::-webkit-scrollbar': { height: 6 },
-                cursor: 'pointer',
+                cursor: 'pointer'
               }}
             >
               <CssVarsProvider>
@@ -217,7 +205,7 @@ const DialysisPatientListTable = ({
                           backgroundColor: '#78909c',
                           color: 'white',
                           fontSize: 14,
-                          textAlign: 'center',
+                          textAlign: 'center'
                         }}
                       >
                         &nbsp; Sl.No
@@ -228,7 +216,7 @@ const DialysisPatientListTable = ({
                           width: 100,
                           backgroundColor: '#78909c',
                           color: 'white',
-                          fontSize: 14,
+                          fontSize: 14
                         }}
                       >
                         &nbsp;Patient ID
@@ -239,7 +227,7 @@ const DialysisPatientListTable = ({
                           width: 150,
                           backgroundColor: '#78909c',
                           color: 'white',
-                          fontSize: 14,
+                          fontSize: 14
                         }}
                       >
                         &nbsp;Patient Name
@@ -250,7 +238,7 @@ const DialysisPatientListTable = ({
                           width: 120,
                           backgroundColor: '#78909c',
                           color: 'white',
-                          fontSize: 14,
+                          fontSize: 14
                         }}
                       >
                         &nbsp;Age/Gender
@@ -261,7 +249,7 @@ const DialysisPatientListTable = ({
                           width: 100,
                           backgroundColor: '#78909c',
                           color: 'white',
-                          fontSize: 14,
+                          fontSize: 14
                         }}
                       >
                         &nbsp;Contacts{' '}
@@ -272,7 +260,7 @@ const DialysisPatientListTable = ({
                           width: 150,
                           backgroundColor: '#78909c',
                           color: 'white',
-                          fontSize: 14,
+                          fontSize: 14
                         }}
                       >
                         &nbsp;Doctor Name
@@ -284,7 +272,7 @@ const DialysisPatientListTable = ({
                           backgroundColor: '#78909c',
                           color: 'white',
                           fontSize: 14,
-                          textAlign: 'center',
+                          textAlign: 'center'
                         }}
                       >
                         &nbsp;Token{' '}
@@ -295,7 +283,7 @@ const DialysisPatientListTable = ({
                           width: 160,
                           backgroundColor: '#78909c',
                           color: 'white',
-                          fontSize: 14,
+                          fontSize: 14
                         }}
                       >
                         &nbsp;Arrival Time{' '}
@@ -307,7 +295,7 @@ const DialysisPatientListTable = ({
                           backgroundColor: '#78909c',
                           color: 'white',
                           fontSize: 14,
-                          textAlign: 'center',
+                          textAlign: 'center'
                         }}
                       >
                         &nbsp;QI Marking{' '}
@@ -322,7 +310,7 @@ const DialysisPatientListTable = ({
                           size="small"
                           style={{
                             cursor: 'pointer',
-                            background: val.qi_save_status === 1 ? '#cfd8dc' : 'transparent',
+                            background: val.qi_save_status === 1 ? '#cfd8dc' : 'transparent'
                           }}
                         >
                           <td size="sm" style={{ fontSize: 12, textAlign: 'center' }}>
@@ -356,8 +344,8 @@ const DialysisPatientListTable = ({
                                   sx={{
                                     color: '#546e7a',
                                     ':hover': {
-                                      color: '#263238',
-                                    },
+                                      color: '#263238'
+                                    }
                                   }}
                                   onClick={e => IndicatorsView(val)}
                                 />
@@ -379,7 +367,7 @@ const DialysisPatientListTable = ({
               display: 'flex',
               justifyContent: 'center',
               fontSize: 20,
-              opacity: 0.8,
+              opacity: 0.8
             }}
           >
             No Patients

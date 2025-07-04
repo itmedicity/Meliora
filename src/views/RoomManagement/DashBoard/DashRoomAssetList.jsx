@@ -24,8 +24,8 @@ const DashRoomAssetList = ({ RoomAssetList }) => {
       'sans-serif',
       '"Apple Color Emoji"',
       '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
+      '"Segoe UI Symbol"'
+    ].join(',')
   }
 
   const [column] = useState([
@@ -36,7 +36,7 @@ const DashRoomAssetList = ({ RoomAssetList }) => {
       autoHeight: true,
       wrapText: true,
       minWidth: 100,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Item Name',
@@ -44,7 +44,7 @@ const DashRoomAssetList = ({ RoomAssetList }) => {
       autoHeight: true,
       wrapText: true,
       minWidth: 400,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Primary Custodian',
@@ -52,7 +52,7 @@ const DashRoomAssetList = ({ RoomAssetList }) => {
       autoHeight: true,
       wrapText: true,
       minWidth: 250,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Secondary Custodian',
@@ -60,10 +60,10 @@ const DashRoomAssetList = ({ RoomAssetList }) => {
       autoHeight: true,
       wrapText: true,
       minWidth: 250,
-      filter: 'true',
+      filter: 'true'
     },
     { headerName: 'Room', field: 'rm_room_name', minWidth: 70, filter: 'true' },
-    { headerName: 'Sub Room', field: 'subroom_name', minWidth: 70, filter: 'true' },
+    { headerName: 'Sub Room', field: 'subroom_name', minWidth: 70, filter: 'true' }
   ])
   return (
     <Fragment>
@@ -72,7 +72,7 @@ const DashRoomAssetList = ({ RoomAssetList }) => {
           className="ag-theme-alpine ListItemScrol"
           sx={{
             height: 550,
-            width: '100%',
+            width: '100%'
           }}
         >
           <AgGridReact

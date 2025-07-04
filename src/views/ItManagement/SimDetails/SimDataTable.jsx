@@ -38,12 +38,7 @@ const SimDataTable = ({ tableCount, rowSelect }) => {
                   : 'NIL',
               it_sim_tariff_amount: val.it_sim_tariff_amount,
               it_sim_status: val.it_sim_status,
-              status:
-                val.it_sim_status === 1
-                  ? 'Active'
-                  : val.it_sim_status === 0
-                  ? 'Deactivated'
-                  : 'nil',
+              status: val.it_sim_status === 1 ? 'Active' : val.it_sim_status === 0 ? 'Deactivated' : 'nil',
               it_sim_type: val.it_sim_type,
               it_sim_type_name: val.it_sim_type_name,
               it_sim_dept: val.it_sim_dept,
@@ -53,7 +48,7 @@ const SimDataTable = ({ tableCount, rowSelect }) => {
               it_sim_recei_contact: val.it_sim_recei_contact,
               it_sim_issue_date: val.it_sim_issue_date,
               dept_name: val.dept_name,
-              sec_name: val.sec_name,
+              sec_name: val.sec_name
             }
             return obj
           })
@@ -98,7 +93,7 @@ const SimDataTable = ({ tableCount, rowSelect }) => {
               fontSize: 18,
               color: '#5F093D',
               mt: 2,
-              fontFamily: 'Georgia',
+              fontFamily: 'Georgia'
             }}
           >
             Sim Details
@@ -107,9 +102,7 @@ const SimDataTable = ({ tableCount, rowSelect }) => {
         <Box sx={{ display: 'flex' }}>
           <Box sx={{ flex: 3 }}></Box>
           <Box sx={{ flex: 3 }}>
-            <Box sx={{ pl: 1, mt: 0.5, fontWeight: 600, color: '#AEAEAE' }}>
-              Search Sim Operator
-            </Box>
+            <Box sx={{ pl: 1, mt: 0.5, fontWeight: 600, color: '#AEAEAE' }}>Search Sim Operator</Box>
             <Box>
               <SimOperator provider={provider} setProvider={setProvider} />
             </Box>
@@ -123,7 +116,7 @@ const SimDataTable = ({ tableCount, rowSelect }) => {
                   border: 1,
                   borderRadius: 7,
                   color: '#055C9D',
-                  cursor: 'pointer',
+                  cursor: 'pointer'
                 }}
               >
                 {' '}
@@ -138,7 +131,7 @@ const SimDataTable = ({ tableCount, rowSelect }) => {
                   border: 1,
                   borderRadius: 7,
                   color: '#055C9D',
-                  cursor: 'pointer',
+                  cursor: 'pointer'
                 }}
               >
                 {' '}
@@ -183,11 +176,7 @@ const SimDataTable = ({ tableCount, rowSelect }) => {
                       <tr key={index}>
                         <td> {index + 1}</td>
                         <td>
-                          <EditIcon
-                            sx={{ cursor: 'pointer' }}
-                            size={6}
-                            onClick={() => rowSelect(val)}
-                          />
+                          <EditIcon sx={{ cursor: 'pointer' }} size={6} onClick={() => rowSelect(val)} />
                         </td>
                         <td> {val.providerName || 'not given'}</td>
                         <td> {val.it_sim_type_name || 'not given'}</td>
@@ -217,7 +206,7 @@ const SimDataTable = ({ tableCount, rowSelect }) => {
                 m: 5,
                 fontWeight: 700,
                 fontSize: 30,
-                color: '#C7C8CB',
+                color: '#C7C8CB'
               }}
             >
               No SiM details

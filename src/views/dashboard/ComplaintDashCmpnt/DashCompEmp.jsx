@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
   getAssistRectifybasedOnEmp,
   getTotalcomplaints,
-  getPendingOnholdbasedOnEmp,
+  getPendingOnholdbasedOnEmp
 } from 'src/redux/actions/ComplaintDashboard.action'
 import ComplaintDashboard from './ComplaintDashboard'
 
@@ -28,7 +28,7 @@ const DashCompEmp = ({ profileData }) => {
   const total = useSelector(state => {
     return {
       complaintList: state.getComplaintList.complaintList,
-      loadingStatus: state.getComplaintList.loadingStatus,
+      loadingStatus: state.getComplaintList.loadingStatus
     }
   })
   const { complaintList, loadingStatus } = total
@@ -60,8 +60,8 @@ const DashCompEmp = ({ profileData }) => {
       slno: 10,
       name: 'Onhold/Pending Complaints',
       count: pendingOnhold.length,
-      status: loadingStatus,
-    },
+      status: loadingStatus
+    }
   ]
 
   return (
@@ -72,7 +72,7 @@ const DashCompEmp = ({ profileData }) => {
             width: '100%',
             display: 'flex',
             p: 1,
-            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
+            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' }
           }}
         >
           {dasharrayEmp &&
@@ -82,15 +82,10 @@ const DashCompEmp = ({ profileData }) => {
                   key={val.slno}
                   sx={{
                     width: '20%',
-                    pr: 2,
+                    pr: 2
                   }}
                 >
-                  <ComplaintDashboard
-                    widgetName={val.name}
-                    count={val.count}
-                    slno={val.slno}
-                    status={val.status}
-                  />
+                  <ComplaintDashboard widgetName={val.name} count={val.count} slno={val.slno} status={val.status} />
                 </Box>
               )
             })}

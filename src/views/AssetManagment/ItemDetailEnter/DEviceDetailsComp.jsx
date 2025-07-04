@@ -22,7 +22,7 @@ const DEviceDetailsComp = ({ detailArry, exist, setExist, assetSpare }) => {
   const [userdata, setUserdata] = useState({
     manufacturslno: '',
     asset_no: assetno,
-    asset_noold: '',
+    asset_noold: ''
   })
 
   //Destructuring
@@ -37,32 +37,28 @@ const DEviceDetailsComp = ({ detailArry, exist, setExist, assetSpare }) => {
 
   useEffect(() => {
     const checkinsertOrNotDetail = async am_item_map_slno => {
-      const result = await axioslogin.get(
-        `/ItemMapDetails/checkDetailInsertOrNot/${am_item_map_slno}`
-      )
+      const result = await axioslogin.get(`/ItemMapDetails/checkDetailInsertOrNot/${am_item_map_slno}`)
       const { success, data } = result.data
       if (success === 1) {
         const { am_manufacture_no, am_asset_old_no, rack } = data[0]
         const frmdata = {
           manufacturslno: am_manufacture_no !== null ? am_manufacture_no : '',
           asset_no: assetno,
-          asset_noold: am_asset_old_no !== null ? am_asset_old_no : '',
+          asset_noold: am_asset_old_no !== null ? am_asset_old_no : ''
         }
         setUserdata(frmdata)
         setrackNo(rack !== null ? rack : 0)
       }
     }
     const checkinsertOrNotDetailSpare = async am_spare_item_map_slno => {
-      const result = await axioslogin.get(
-        `/ItemMapDetails/checkDetailInsertOrNotSpare/${am_spare_item_map_slno}`
-      )
+      const result = await axioslogin.get(`/ItemMapDetails/checkDetailInsertOrNotSpare/${am_spare_item_map_slno}`)
       const { success, data } = result.data
       if (success === 1) {
         const { am_manufacture_no, am_asset_old_no, rack } = data[0]
         const frmdata = {
           manufacturslno: am_manufacture_no !== undefined ? am_manufacture_no : '',
           asset_no: assetno,
-          asset_noold: am_asset_old_no !== null ? am_asset_old_no : '',
+          asset_noold: am_asset_old_no !== null ? am_asset_old_no : ''
         }
         setUserdata(frmdata)
         setrackNo(rack !== null ? rack : 0)
@@ -83,7 +79,7 @@ const DEviceDetailsComp = ({ detailArry, exist, setExist, assetSpare }) => {
       am_asset_old_no: asset_noold,
       edit_user: id,
       am_item_map_slno: am_item_map_slno,
-      item_rack_slno: rackno !== 0 && rackno !== undefined ? rackno : null,
+      item_rack_slno: rackno !== 0 && rackno !== undefined ? rackno : null
     }
   }, [am_item_map_slno, manufacturslno, asset_no, asset_noold, id, rackno])
 
@@ -94,14 +90,14 @@ const DEviceDetailsComp = ({ detailArry, exist, setExist, assetSpare }) => {
       am_asset_old_no: asset_noold,
       edit_user: id,
       am_spare_item_map_slno: am_spare_item_map_slno,
-      spare_rack_slno: rackno !== 0 && rackno !== undefined ? rackno : null,
+      spare_rack_slno: rackno !== 0 && rackno !== undefined ? rackno : null
     }
   }, [am_spare_item_map_slno, manufacturslno, asset_no, asset_noold, id, rackno])
   const reset = useCallback(() => {
     const frmdata = {
       manufacturslno: '',
       asset_no: '',
-      asset_noold: '',
+      asset_noold: ''
     }
     setUserdata(frmdata)
   }, [setUserdata])
@@ -121,10 +117,7 @@ const DEviceDetailsComp = ({ detailArry, exist, setExist, assetSpare }) => {
       }
 
       const updateGRNDetailsSpare = async patchadataSpare => {
-        const result = await axioslogin.patch(
-          '/ItemMapDetails/DeviceDetailsUpdateSpare',
-          patchadataSpare
-        )
+        const result = await axioslogin.patch('/ItemMapDetails/DeviceDetailsUpdateSpare', patchadataSpare)
         const { message, success } = result.data
         if (success === 2) {
           succesNotify(message)
@@ -153,13 +146,11 @@ const DEviceDetailsComp = ({ detailArry, exist, setExist, assetSpare }) => {
         sx={{
           display: 'flex',
           flexDirection: 'row',
-          flexWrap: 'wrap',
+          flexWrap: 'wrap'
         }}
       >
         <Box sx={{ display: 'flex', width: '20%', p: 0.5, flexDirection: 'column' }}>
-          <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-            Manufacture SlNo
-          </Typography>
+          <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Manufacture SlNo</Typography>
           <Box>
             <TextFieldCustom
               type="text"
@@ -172,13 +163,9 @@ const DEviceDetailsComp = ({ detailArry, exist, setExist, assetSpare }) => {
         </Box>
         <Box sx={{ display: 'flex', width: '20%', p: 0.5, flexDirection: 'column' }}>
           {assetSpare === 1 ? (
-            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-              Asset No
-            </Typography>
+            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Asset No</Typography>
           ) : (
-            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-              Spare No
-            </Typography>
+            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Spare No</Typography>
           )}
 
           <Box>
@@ -193,13 +180,9 @@ const DEviceDetailsComp = ({ detailArry, exist, setExist, assetSpare }) => {
         </Box>
         <Box sx={{ display: 'flex', width: '10%', p: 0.5, flexDirection: 'column', ml: 0.5 }}>
           {assetSpare === 1 ? (
-            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-              Asset No Old
-            </Typography>
+            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Asset No Old</Typography>
           ) : (
-            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-              Spare No Old
-            </Typography>
+            <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Spare No Old</Typography>
           )}
 
           <Box>
@@ -213,34 +196,20 @@ const DEviceDetailsComp = ({ detailArry, exist, setExist, assetSpare }) => {
           </Box>
         </Box>
         <Box sx={{ display: 'flex', width: '20%', pt: 0.5, flexDirection: 'column', ml: 0.5 }}>
-          <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550, pb: 0.7 }}>
-            SelectRack
-          </Typography>
+          <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550, pb: 0.7 }}>SelectRack</Typography>
           <RackSelect value={rackno} setValue={setrackNo} />
         </Box>
 
         <CustomeToolTip title="Save" placement="top">
           <Box sx={{ width: '3%', px: 3, pt: 3 }}>
-            <CusIconButton
-              size="sm"
-              variant="outlined"
-              color="primary"
-              clickable="true"
-              onClick={EditDetails}
-            >
+            <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={EditDetails}>
               <LibraryAddIcon fontSize="small" />
             </CusIconButton>
           </Box>
         </CustomeToolTip>
         <CustomeToolTip title="Refresh" placement="top">
           <Box sx={{ width: '3%', pl: 2, pt: 3 }}>
-            <CusIconButton
-              size="sm"
-              variant="outlined"
-              color="primary"
-              clickable="true"
-              onClick={DeviceRefresh}
-            >
+            <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={DeviceRefresh}>
               <RefreshIcon fontSize="small" />
             </CusIconButton>
           </Box>

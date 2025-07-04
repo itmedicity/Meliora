@@ -145,19 +145,17 @@ const RejectedTasks = () => {
                 borderTop: 1,
                 borderColor: 'lightgray',
                 pt: 1.5,
-                bgcolor: 'white',
+                bgcolor: 'white'
               }}
             >
-              <Box sx={{ width: 30, pl: 1.5, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-                #
-              </Box>
+              <Box sx={{ width: 30, pl: 1.5, fontWeight: 600, color: '#444444', fontSize: 12 }}>#</Box>
               <Box
                 sx={{
                   width: 70,
                   fontWeight: 600,
                   color: '#444444',
                   fontSize: 12,
-                  textAlign: 'center',
+                  textAlign: 'center'
                 }}
               >
                 Queries
@@ -169,7 +167,7 @@ const RejectedTasks = () => {
                   fontWeight: 600,
                   color: '#444444',
                   fontSize: 12,
-                  textAlign: 'center',
+                  textAlign: 'center'
                 }}
               >
                 File
@@ -180,7 +178,7 @@ const RejectedTasks = () => {
                   textAlign: 'center',
                   fontWeight: 600,
                   color: '#444444',
-                  fontSize: 12,
+                  fontSize: 12
                 }}
               >
                 Action
@@ -191,7 +189,7 @@ const RejectedTasks = () => {
                   fontWeight: 600,
                   color: '#444444',
                   fontSize: 12,
-                  textAlign: 'center',
+                  textAlign: 'center'
                 }}
               >
                 CountDown
@@ -202,35 +200,19 @@ const RejectedTasks = () => {
                   textAlign: 'center',
                   fontWeight: 600,
                   color: '#444444',
-                  fontSize: 12,
+                  fontSize: 12
                 }}
               >
                 Queries
               </Box>
-              <Box sx={{ width: 650, fontWeight: 600, color: '#444444', fontSize: 12, pl: 0.5 }}>
-                Task Name
-              </Box>
-              <Box sx={{ width: 600, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-                Project
-              </Box>
-              <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-                Department
-              </Box>
-              <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-                Section
-              </Box>
-              <Box sx={{ width: 250, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-                Assignees
-              </Box>
-              <Box sx={{ width: 170, fontWeight: 600, color: '#444444', fontSize: 12, pl: 0.5 }}>
-                Create Date
-              </Box>
-              <Box sx={{ width: 170, fontWeight: 600, color: '#444444', fontSize: 12, pl: 0.5 }}>
-                Due Date
-              </Box>
-              <Box sx={{ width: 650, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>
-                Description
-              </Box>
+              <Box sx={{ width: 650, fontWeight: 600, color: '#444444', fontSize: 12, pl: 0.5 }}>Task Name</Box>
+              <Box sx={{ width: 600, fontWeight: 600, color: '#444444', fontSize: 12 }}>Project</Box>
+              <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12 }}>Department</Box>
+              <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12 }}>Section</Box>
+              <Box sx={{ width: 250, fontWeight: 600, color: '#444444', fontSize: 12 }}>Assignees</Box>
+              <Box sx={{ width: 170, fontWeight: 600, color: '#444444', fontSize: 12, pl: 0.5 }}>Create Date</Box>
+              <Box sx={{ width: 170, fontWeight: 600, color: '#444444', fontSize: 12, pl: 0.5 }}>Due Date</Box>
+              <Box sx={{ width: 650, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>Description</Box>
             </Box>
             <Virtuoso
               style={{ height: '65vh' }}
@@ -250,17 +232,11 @@ const RejectedTasks = () => {
                       minHeight: 30,
                       maxHeight: 80,
                       background:
-                        val.main_task_slno !== null
-                          ? '#EAE7FA'
-                          : val.main_task_slno === 0
-                          ? 'white'
-                          : 'white',
-                      pt: 0.5,
+                        val.main_task_slno !== null ? '#EAE7FA' : val.main_task_slno === 0 ? 'white' : 'white',
+                      pt: 0.5
                     }}
                   >
-                    <Box sx={{ width: 30, pl: 1.5, fontWeight: 600, color: 'grey', fontSize: 12 }}>
-                      {index + 1}
-                    </Box>
+                    <Box sx={{ width: 30, pl: 1.5, fontWeight: 600, color: 'grey', fontSize: 12 }}>{index + 1}</Box>
                     <Box
                       sx={{
                         width: 70,
@@ -268,16 +244,13 @@ const RejectedTasks = () => {
                         fontWeight: 600,
                         color: 'grey',
                         fontSize: 12,
-                        cursor: 'pointer',
+                        cursor: 'pointer'
                       }}
                     >
                       &nbsp;
                       {val.tm_query_status === 2 ? (
                         <>
-                          <CommentIcon
-                            sx={{ color: '#43616F', cursor: 'pointer' }}
-                            onClick={() => ReplyDetails(val)}
-                          />
+                          <CommentIcon sx={{ color: '#43616F', cursor: 'pointer' }} onClick={() => ReplyDetails(val)} />
                           {/* Added Reply */}
                         </>
                       ) : (
@@ -298,7 +271,7 @@ const RejectedTasks = () => {
                         fontWeight: 600,
                         color: 'grey',
                         fontSize: 12,
-                        cursor: 'pointer',
+                        cursor: 'pointer'
                       }}
                     >
                       &nbsp;
@@ -306,14 +279,14 @@ const RejectedTasks = () => {
                         <FilePresentRoundedIcon
                           sx={{
                             color: '#41729F',
-                            '&:hover': { color: '#274472' },
+                            '&:hover': { color: '#274472' }
                           }}
                           onClick={() => fileView(val)}
                         />
                       ) : (
                         <FilePresentRoundedIcon
                           sx={{
-                            color: 'grey',
+                            color: 'grey'
                           }}
                         />
                       )}
@@ -324,7 +297,7 @@ const RejectedTasks = () => {
                         fontWeight: 600,
                         color: 'grey',
                         fontSize: 12,
-                        display: 'flex',
+                        display: 'flex'
                       }}
                     >
                       <EditIcon
@@ -345,7 +318,7 @@ const RejectedTasks = () => {
                             borderRadius: 15,
                             width: 150,
                             pl: 5,
-                            color: 'darkgreen',
+                            color: 'darkgreen'
                           }}
                         >
                           Completed
@@ -360,7 +333,7 @@ const RejectedTasks = () => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          textAlign: 'center',
+                          textAlign: 'center'
                         }}
                       >
                         {val.tm_query_remark || 'not Raised'}
@@ -373,7 +346,7 @@ const RejectedTasks = () => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          textAlign: 'center',
+                          textAlign: 'center'
                         }}
                       >
                         {val.tm_query_remark || 'not Raised'}
@@ -386,7 +359,7 @@ const RejectedTasks = () => {
                           fontWeight: 600,
                           color: 'grey',
                           fontSize: 12,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {val.tm_task_name || 'not given'}
@@ -398,7 +371,7 @@ const RejectedTasks = () => {
                           fontWeight: 650,
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {val.tm_task_name || 'not given'}
@@ -411,7 +384,7 @@ const RejectedTasks = () => {
                           fontWeight: 600,
                           color: 'grey',
                           fontSize: 12,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {val.tm_project_name || 'not given'}
@@ -423,7 +396,7 @@ const RejectedTasks = () => {
                           fontWeight: 600,
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {val.tm_project_name || 'not given'}
@@ -436,7 +409,7 @@ const RejectedTasks = () => {
                           fontWeight: 600,
                           color: 'grey',
                           fontSize: 12,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {val.dept_name || 'not given'}
@@ -448,7 +421,7 @@ const RejectedTasks = () => {
                           fontWeight: 600,
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {val.dept_name || 'not given'}
@@ -461,7 +434,7 @@ const RejectedTasks = () => {
                           fontWeight: 600,
                           color: 'grey',
                           fontSize: 12,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {val.sec_name || 'not given'}
@@ -473,7 +446,7 @@ const RejectedTasks = () => {
                           fontWeight: 600,
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {val.sec_name || 'not given'}
@@ -486,7 +459,7 @@ const RejectedTasks = () => {
                           fontWeight: 600,
                           color: 'grey',
                           fontSize: 12,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {val.em_name || 'not given'}
@@ -498,7 +471,7 @@ const RejectedTasks = () => {
                           fontWeight: 600,
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {val.em_name || 'not given'}
@@ -511,7 +484,7 @@ const RejectedTasks = () => {
                           fontWeight: 600,
                           color: 'grey',
                           fontSize: 12,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {format(new Date(val.create_date), 'MMM dd, yyyy HH:mm:ss')}
@@ -523,7 +496,7 @@ const RejectedTasks = () => {
                           fontWeight: 600,
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {format(new Date(val.create_date), 'MMM dd, yyyy HH:mm:ss')}
@@ -536,7 +509,7 @@ const RejectedTasks = () => {
                           fontWeight: 600,
                           color: 'grey',
                           fontSize: 12,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {format(new Date(val.tm_task_due_date), 'MMM dd, yyyy HH:mm:ss')}
@@ -548,7 +521,7 @@ const RejectedTasks = () => {
                           fontWeight: 600,
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {format(new Date(val.tm_task_due_date), 'MMM dd, yyyy HH:mm:ss')}
@@ -561,7 +534,7 @@ const RejectedTasks = () => {
                           fontWeight: 600,
                           color: 'grey',
                           fontSize: 12,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {val.tm_task_description || 'not given'}
@@ -573,7 +546,7 @@ const RejectedTasks = () => {
                           fontWeight: 600,
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {val.tm_task_description || 'not given'}
@@ -594,7 +567,7 @@ const RejectedTasks = () => {
               pt: 25,
               fontWeight: 700,
               fontSize: 30,
-              color: '#C7C8CB',
+              color: '#C7C8CB'
             }}
           >
             No Task Under Queries

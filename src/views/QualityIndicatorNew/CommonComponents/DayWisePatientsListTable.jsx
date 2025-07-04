@@ -23,7 +23,7 @@ const DayWisePatientsListTable = ({ viewData, ipViewReport, qitype }) => {
           ptmobile: val.ptmobile,
           doctor_name: val.doctor_name,
           endo_arrival_time: val.endo_arrival_time,
-          type: 'OP',
+          type: 'OP'
         }
       })
       if (ipViewReport.length !== 0) {
@@ -37,7 +37,7 @@ const DayWisePatientsListTable = ({ viewData, ipViewReport, qitype }) => {
             ptmobile: val.ptmobile,
             doctor_name: val.doctor_name,
             endo_arrival_time: val.endo_arrival_time,
-            type: 'IP',
+            type: 'IP'
           }
         })
         const finalData = [...opdata, ...ipdata].sort(
@@ -59,7 +59,7 @@ const DayWisePatientsListTable = ({ viewData, ipViewReport, qitype }) => {
             ptmobile: val.ptmobile,
             doctor_name: val.doctor_name,
             endo_arrival_time: val.endo_arrival_time,
-            type: 'IP',
+            type: 'IP'
           }
         })
         setTableData(ipdata)
@@ -102,10 +102,7 @@ const DayWisePatientsListTable = ({ viewData, ipViewReport, qitype }) => {
         <IPDayWiseModalView open={modalopen} handleClose={handleClose} rowSelect={rowSelect} />
       ) : null}
       {tableData.length !== 0 ? (
-        <Box
-          variant="outlined"
-          sx={{ overflow: 'auto', maxHeight: window.innerHeight - 290, padding: 'none' }}
-        >
+        <Box variant="outlined" sx={{ overflow: 'auto', maxHeight: window.innerHeight - 290, padding: 'none' }}>
           <CssVarsProvider>
             <Table
               aria-label="table with sticky header"
@@ -118,10 +115,7 @@ const DayWisePatientsListTable = ({ viewData, ipViewReport, qitype }) => {
             >
               <thead style={{ alignItems: 'center' }}>
                 <tr style={{ height: 0.5 }}>
-                  <th
-                    size="sm"
-                    style={{ width: 50, fontWeight: 650, fontSize: 14, textAlign: 'center' }}
-                  >
+                  <th size="sm" style={{ width: 50, fontWeight: 650, fontSize: 14, textAlign: 'center' }}>
                     &nbsp; Sl.No
                   </th>
                   <th size="sm" style={{ width: 50, fontWeight: 650, fontSize: 14 }}>
@@ -145,10 +139,7 @@ const DayWisePatientsListTable = ({ viewData, ipViewReport, qitype }) => {
                   <th size="sm" style={{ width: 150, fontWeight: 650, fontSize: 14 }}>
                     &nbsp;Arrival Time{' '}
                   </th>
-                  <th
-                    size="sm"
-                    style={{ width: 80, fontWeight: 650, fontSize: 14, textAlign: 'center' }}
-                  >
+                  <th size="sm" style={{ width: 80, fontWeight: 650, fontSize: 14, textAlign: 'center' }}>
                     &nbsp;View QI{' '}
                   </th>
                 </tr>
@@ -189,8 +180,8 @@ const DayWisePatientsListTable = ({ viewData, ipViewReport, qitype }) => {
                                 color: '#667C30',
                                 ':hover': {
                                   // color: '#667C30'
-                                  color: '#384910',
-                                },
+                                  color: '#384910'
+                                }
                               }}
                               onClick={() => IndicatorsView(val)}
                             />

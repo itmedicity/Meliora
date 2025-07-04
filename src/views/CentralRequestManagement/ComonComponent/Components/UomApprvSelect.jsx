@@ -10,7 +10,7 @@ const UomApprvSelect = ({ uom, setUOM }) => {
         defaultValue="0"
         sx={{ fontSize: 13, width: '100%', height: 29 }}
         slotProps={{
-          listbox: { placement: 'bottom-start' },
+          listbox: { placement: 'bottom-start' }
         }}
         placeholder="Select UOM"
         value={uom}

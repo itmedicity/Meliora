@@ -49,7 +49,7 @@ const AMCCMCDetailAdding = ({ detailArry }) => {
     amccmc_from: '',
     amccmc_to: '',
     amcImage: '',
-    amcCmcSlno: '',
+    amcCmcSlno: ''
   })
   const { sup_name, amccmc_from, amccmc_to, amcImage, amcCmcSlno } = amcCmcDetail
 
@@ -101,30 +101,22 @@ const AMCCMCDetailAdding = ({ detailArry }) => {
   const { data: amcCmcDetailsVal } = useQuery({
     queryKey: ['getAmcCmcPmData', count],
     enabled: am_item_map_slno !== undefined,
-    queryFn: () => getAmcCmcPmData(am_item_map_slno),
+    queryFn: () => getAmcCmcPmData(am_item_map_slno)
   })
 
   const amcCmcDetails = useMemo(() => amcCmcDetailsVal, [amcCmcDetailsVal])
 
   useEffect(() => {
     if (amcCmcDetails && amcCmcDetails.length > 0) {
-      const {
-        it_supplier_name,
-        from_date,
-        to_date,
-        image_upload,
-        amc_slno,
-        am_item_amcpm_slno,
-        amc,
-        cmc,
-      } = amcCmcDetails[0]
+      const { it_supplier_name, from_date, to_date, image_upload, amc_slno, am_item_amcpm_slno, amc, cmc } =
+        amcCmcDetails[0]
 
       const UpdatedData = {
         sup_name: it_supplier_name,
         amccmc_from: from_date,
         amccmc_to: to_date,
         amcImage: image_upload,
-        amcCmcSlno: amc_slno,
+        amcCmcSlno: amc_slno
       }
 
       setamcCmcDetal(UpdatedData)
@@ -154,7 +146,7 @@ const AMCCMCDetailAdding = ({ detailArry }) => {
   const searchdata = useMemo(() => {
     return {
       suplier_slno: supplier,
-      from_date: billDate,
+      from_date: billDate
     }
   }, [billDate, supplier])
 
@@ -175,7 +167,7 @@ const AMCCMCDetailAdding = ({ detailArry }) => {
             amccmc_from: '',
             amccmc_to: '',
             amcImage: '',
-            amcCmcSlno: '',
+            amcCmcSlno: ''
           }
           setamcCmcDetal(setformdata)
           // setamcCmcDetailFlag(0)
@@ -206,7 +198,7 @@ const AMCCMCDetailAdding = ({ detailArry }) => {
             amccmc_from: '',
             amccmc_to: '',
             amcImage: '',
-            amcCmcSlno: '',
+            amcCmcSlno: ''
           }
           setamcCmcDetal(setformdata)
           // setamcCmcDetailFlag(0)
@@ -223,7 +215,7 @@ const AMCCMCDetailAdding = ({ detailArry }) => {
       amccmc_from: from_date,
       amccmc_to: to_date,
       amcImage: image_upload,
-      amcCmcSlno: amccmc_slno,
+      amcCmcSlno: amccmc_slno
     }
     setamcCmcDetal(frmsetting)
     // setamcCmcDetailFlag(1)
@@ -245,7 +237,7 @@ const AMCCMCDetailAdding = ({ detailArry }) => {
       amc_status: amcStatus === true ? 1 : 0,
       cmc_status: cmcStatus === true ? 1 : 0,
       create_user: id,
-      amc_slno: amcCmcSlno === '' ? null : amcCmcSlno,
+      amc_slno: amcCmcSlno === '' ? null : amcCmcSlno
     }
   }, [am_item_map_slno, amcStatus, cmcStatus, id, amcCmcSlno])
 
@@ -256,7 +248,7 @@ const AMCCMCDetailAdding = ({ detailArry }) => {
       cmc_status: cmcStatus === true ? 1 : 0,
       edit_user: id,
       amc_slno: amcCmcSlno === '' ? null : amcCmcSlno,
-      am_item_amcpm_slno: itemAmcCmcslno,
+      am_item_amcpm_slno: itemAmcCmcslno
     }
   }, [am_item_map_slno, amcStatus, cmcStatus, id, amcCmcSlno, itemAmcCmcslno])
 
@@ -359,9 +351,7 @@ const AMCCMCDetailAdding = ({ detailArry }) => {
 
   return (
     <Box>
-      {imageshowFlag === 1 ? (
-        <FileView open={imageshow} handleClose={handleClose} images={imagearray} />
-      ) : null}
+      {imageshowFlag === 1 ? <FileView open={imageshow} handleClose={handleClose} images={imagearray} /> : null}
 
       <Box sx={{ border: 1, borderColor: '#E0E1E3', py: 1, pl: 2 }}>
         <TextComponent
@@ -370,7 +360,7 @@ const AMCCMCDetailAdding = ({ detailArry }) => {
             flex: 1,
             fontWeight: 500,
             color: 'black',
-            fontSize: 15,
+            fontSize: 15
           }}
         />
         <Box
@@ -385,7 +375,7 @@ const AMCCMCDetailAdding = ({ detailArry }) => {
             width: 100,
             justifyContent: 'center',
             borderRadius: 4,
-            borderColor: '#0B6BCB',
+            borderColor: '#0B6BCB'
           }}
           onClick={linkAmcCmc}
         >
@@ -395,24 +385,20 @@ const AMCCMCDetailAdding = ({ detailArry }) => {
               fontSize: 14,
               color: '#0B6BCB',
               textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3), -1px -1px 2px rgba(255, 255, 255, 0.7)',
-              transform: 'translateZ(0)',
+              transform: 'translateZ(0)'
             }}
           />
 
           <AddIcon
             sx={{
               p: 0.2,
-              color: '#0B6BCB',
+              color: '#0B6BCB'
             }}
           />
         </Box>
 
         {AddnewAmcFlg === 1 ? (
-          <AmcCmcAdding
-            setNewAMCFlg={setNewAMCFlg}
-            setSupplierdetl={setSupplier}
-            setBillDate={setBillDate}
-          />
+          <AmcCmcAdding setNewAMCFlg={setNewAMCFlg} setSupplierdetl={setSupplier} setBillDate={setBillDate} />
         ) : null}
 
         {linkAmcCmcFlag === 1 ? (
@@ -421,7 +407,7 @@ const AMCCMCDetailAdding = ({ detailArry }) => {
               flex: 1,
               display: 'flex',
               mt: 1,
-              mb: 2,
+              mb: 2
             }}
           >
             <Box sx={{ width: 500 }}>
@@ -430,7 +416,7 @@ const AMCCMCDetailAdding = ({ detailArry }) => {
                 <Box
                   sx={{
                     display: 'flex',
-                    gap: 2,
+                    gap: 2
                   }}
                 >
                   <Box sx={{ display: 'flex', p: 0.5, flexDirection: 'column' }}>
@@ -466,7 +452,7 @@ const AMCCMCDetailAdding = ({ detailArry }) => {
                     fontWeight: 600,
                     color: '#727B8C',
                     pt: 1,
-                    width: 130,
+                    width: 130
                   }}
                 />
                 <Box sx={{ flex: 1 }}>
@@ -479,7 +465,7 @@ const AMCCMCDetailAdding = ({ detailArry }) => {
                   sx={{
                     fontWeight: 600,
                     color: '#727B8C',
-                    width: 130,
+                    width: 130
                   }}
                 />
                 <Box sx={{ flex: 1 }}>
@@ -558,13 +544,7 @@ const AMCCMCDetailAdding = ({ detailArry }) => {
                   )}
 
                   <Box>
-                    <CusIconButton
-                      size="sm"
-                      variant="outlined"
-                      color="primary"
-                      clickable="true"
-                      onClick={CloseAmcCmc}
-                    >
+                    <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={CloseAmcCmc}>
                       <CloseIcon fontSize="small" />
                     </CusIconButton>
                   </Box>
@@ -584,7 +564,7 @@ const AMCCMCDetailAdding = ({ detailArry }) => {
                     height: 130,
                     overflow: 'auto',
                     display: 'flex',
-                    justifyContent: 'center',
+                    justifyContent: 'center'
                   }}
                 >
                   <Box>
@@ -595,7 +575,7 @@ const AMCCMCDetailAdding = ({ detailArry }) => {
                         fontSize: 32,
                         fontWeight: 700,
                         color: 'lightgrey',
-                        pt: 1,
+                        pt: 1
                       }}
                     />
                     <Box
@@ -609,14 +589,12 @@ const AMCCMCDetailAdding = ({ detailArry }) => {
                         fontWeight: 600,
                         cursor: 'pointer',
                         py: 0.3,
-                        boxShadow:
-                          '2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.6)',
+                        boxShadow: '2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.6)',
                         transform: 'translateZ(0)',
                         transition: 'transform 0.2s ease',
                         '&:hover': {
-                          boxShadow:
-                            '3px 3px 6px rgba(0, 0, 0, 0.4), -3px -3px 6px rgba(255, 255, 255, 0.7)',
-                        },
+                          boxShadow: '3px 3px 6px rgba(0, 0, 0, 0.4), -3px -3px 6px rgba(255, 255, 255, 0.7)'
+                        }
                       }}
                       onClick={AddAMCMaster}
                     >
@@ -638,7 +616,7 @@ const AMCCMCDetailAdding = ({ detailArry }) => {
                     fontWeight: 600,
                     color: '#727B8C',
                     pt: 1,
-                    width: 130,
+                    width: 130
                   }}
                 />
                 <Box sx={{ flex: 1 }}>
@@ -658,7 +636,7 @@ const AMCCMCDetailAdding = ({ detailArry }) => {
                     fontWeight: 600,
                     color: '#727B8C',
                     pt: 1,
-                    width: 130,
+                    width: 130
                   }}
                 />
                 <Box sx={{ flex: 1 }}>
@@ -678,7 +656,7 @@ const AMCCMCDetailAdding = ({ detailArry }) => {
                     fontWeight: 600,
                     color: '#727B8C',
                     pt: 1,
-                    width: 130,
+                    width: 130
                   }}
                 />
                 <Box sx={{ flex: 1 }}>
@@ -705,14 +683,12 @@ const AMCCMCDetailAdding = ({ detailArry }) => {
                         fontWeight: 600,
                         cursor: 'pointer',
                         py: 0.3,
-                        boxShadow:
-                          '2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.6)',
+                        boxShadow: '2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.6)',
                         transform: 'translateZ(0)',
                         transition: 'transform 0.2s ease',
                         '&:hover': {
-                          boxShadow:
-                            '3px 3px 6px rgba(0, 0, 0, 0.4), -3px -3px 6px rgba(255, 255, 255, 0.7)',
-                        },
+                          boxShadow: '3px 3px 6px rgba(0, 0, 0, 0.4), -3px -3px 6px rgba(255, 255, 255, 0.7)'
+                        }
                       }}
                       onClick={ViewAmcCmcImage}
                     >
@@ -760,7 +736,7 @@ const AMCCMCDetailAdding = ({ detailArry }) => {
             flex: 1,
             fontWeight: 500,
             color: 'black',
-            fontSize: 15,
+            fontSize: 15
           }}
         />
 
@@ -773,7 +749,7 @@ const AMCCMCDetailAdding = ({ detailArry }) => {
                 fontWeight: 600,
                 color: 'lightgrey',
                 textAlign: 'center',
-                pt: 5,
+                pt: 5
               }}
             >
               Empty AMC/CMC Details
@@ -788,7 +764,7 @@ const AMCCMCDetailAdding = ({ detailArry }) => {
                   borderBottom: 1,
                   borderColor: 'lightgrey',
                   pl: 1,
-                  py: 0.5,
+                  py: 0.5
                 }}
               >
                 <Box sx={{ flex: 0.1 }}>#</Box>
@@ -818,7 +794,7 @@ const AMCCMCDetailAdding = ({ detailArry }) => {
                         borderBottom: 1,
                         borderColor: 'lightgrey',
                         pl: 1,
-                        py: 0.6,
+                        py: 0.6
                       }}
                     >
                       <Box sx={{ flex: 0.1, fontWeight: 600 }}>{index + 1}</Box>
@@ -833,11 +809,7 @@ const AMCCMCDetailAdding = ({ detailArry }) => {
                         )}
                       </Box>
                       <Box sx={{ flex: 0.3, fontWeight: 600 }}>
-                        {val.master_amc_status === 1
-                          ? 'AMC'
-                          : val.master_cmc_status === 1
-                          ? 'CMC'
-                          : 'Not Updated'}
+                        {val.master_amc_status === 1 ? 'AMC' : val.master_cmc_status === 1 ? 'CMC' : 'Not Updated'}
                       </Box>
                       <Box sx={{ flex: 1, fontWeight: 600 }}>{val.it_supplier_name}</Box>
                       <Box sx={{ flex: 0.4, fontWeight: 600 }}>
@@ -850,8 +822,7 @@ const AMCCMCDetailAdding = ({ detailArry }) => {
                         sx={{
                           flex: 0.3,
                           fontWeight: 600,
-                          color:
-                            val.status === 1 ? 'darkgreen' : val.status === 0 ? '#523A28' : 'black',
+                          color: val.status === 1 ? 'darkgreen' : val.status === 0 ? '#523A28' : 'black'
                         }}
                       >
                         {val.status === 1

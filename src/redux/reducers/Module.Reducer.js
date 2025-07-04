@@ -3,7 +3,7 @@ const { FETCH_MODULE_NAME_LIST } = ActionTyps
 //initial state
 const moduleName = {
   moduleNameSelect: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** User group action type check then payload set to the state and loading status set as true */
 export const getModuleName = (state = moduleName, { type, payload }) => {

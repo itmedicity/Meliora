@@ -20,7 +20,7 @@ const HighAntibioMast = () => {
     high_item_code: '',
     high_item_desc: '',
     high_item_alias: '',
-    high_item_status: false,
+    high_item_status: false
   })
   const { high_item_code, high_item_desc, high_item_alias, high_item_status } = highRiskMed
   const gethighdesc = useCallback(
@@ -36,7 +36,7 @@ const HighAntibioMast = () => {
       high_item_code: '',
       high_item_desc: '',
       high_item_alias: '',
-      high_item_status: false,
+      high_item_status: false
     }
     sethighRiskMed(reset)
     setValue(0)
@@ -47,7 +47,7 @@ const HighAntibioMast = () => {
       high_item_code: high_item_code,
       high_item_desc: high_item_desc,
       high_item_alias: high_item_alias,
-      high_item_status: high_item_status === true ? 1 : 0,
+      high_item_status: high_item_status === true ? 1 : 0
     }
   }, [high_item_code, high_item_desc, high_item_alias, high_item_status])
 
@@ -56,7 +56,7 @@ const HighAntibioMast = () => {
       high_item_code: high_item_code,
       high_item_desc: high_item_desc,
       high_item_alias: high_item_alias,
-      high_item_status: high_item_status === true ? 1 : 0,
+      high_item_status: high_item_status === true ? 1 : 0
     }
   }, [high_item_code, high_item_desc, high_item_alias, high_item_status])
 
@@ -65,7 +65,7 @@ const HighAntibioMast = () => {
       high_item_code: '',
       high_item_desc: '',
       high_item_alias: '',
-      high_item_status: false,
+      high_item_status: false
     }
   }, [])
   const rowSelect = useCallback(params => {
@@ -76,7 +76,7 @@ const HighAntibioMast = () => {
       high_item_code: high_item_code,
       high_item_desc: high_item_desc,
       high_item_alias: high_item_alias,
-      high_item_status: high_item_status === 'yes' ? true : false,
+      high_item_status: high_item_status === 'yes' ? true : false
     }
     sethighRiskMed(frmdata)
   }, [])
@@ -125,12 +125,7 @@ const HighAntibioMast = () => {
   }, [history])
 
   return (
-    <CardMaster
-      title="High Antibiotic Master"
-      submit={submitanyibiotic}
-      close={backToSettings}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="High Antibiotic Master" submit={submitanyibiotic} close={backToSettings} refresh={refreshWindow}>
       <Box sx={{ p: 1 }}>
         <Grid container spacing={1}>
           <Grid item xl={4} lg={4}>

@@ -171,21 +171,12 @@ const EmpTaskDash = () => {
                 ? 'Not Started'
                 : 'Not Started',
             datediff: new Date(val.tm_complete_date) - new Date(val.tm_task_due_date),
-            days: Math.floor(
-              (new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) /
-                (1000 * 60 * 60 * 24)
-            ),
+            days: Math.floor((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / (1000 * 60 * 60 * 24)),
             hours: Math.floor(
-              ((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) /
-                (1000 * 60 * 60)) %
-                24
+              ((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / (1000 * 60 * 60)) % 24
             ),
-            minutes: Math.floor(
-              ((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / 1000 / 60) % 60
-            ),
-            seconds: Math.floor(
-              ((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / 1000) % 60
-            ),
+            minutes: Math.floor(((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / 1000 / 60) % 60),
+            seconds: Math.floor(((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / 1000) % 60)
           }
           return obj
         })
@@ -278,7 +269,7 @@ const EmpTaskDash = () => {
                 borderRadius: 2,
                 bgcolor: '#E8F0F7',
                 border: 1,
-                borderColor: '#6699CC',
+                borderColor: '#6699CC'
               }}
             >
               <CssVarsProvider>
@@ -287,7 +278,7 @@ const EmpTaskDash = () => {
                   orientation="horizontal"
                   variant="plain"
                   sx={{
-                    borderRadius: 'sm',
+                    borderRadius: 'sm'
                   }}
                 >
                   <Box sx={{ mx: 1, flex: 1 }}>
@@ -297,9 +288,7 @@ const EmpTaskDash = () => {
                         {' '}
                         <RestartAltOutlinedIcon sx={{ color: '#341948', width: 20, height: 20 }} />
                       </Box>
-                      <Box
-                        sx={{ mt: 0.5, fontWeight: 500, color: '#341948', fontSize: 13, pt: 0.3 }}
-                      >
+                      <Box sx={{ mt: 0.5, fontWeight: 500, color: '#341948', fontSize: 13, pt: 0.3 }}>
                         Over Due&nbsp;
                       </Box>
                       <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
@@ -313,16 +302,14 @@ const EmpTaskDash = () => {
                             height: 30,
                             cursor: 'pointer',
                             '&:hover': {
-                              borderColor: '#970C10',
-                            },
+                              borderColor: '#970C10'
+                            }
                           }}
                           onClick={e => {
                             ViewEmpOverDueTask(e)
                           }}
                         >
-                          <Box sx={{ fontSize: 18, color: '#341948' }}>
-                            {employeeOverDue.length}
-                          </Box>
+                          <Box sx={{ fontSize: 18, color: '#341948' }}>{employeeOverDue.length}</Box>
                         </Avatar>
                       </Box>
                     </Box>
@@ -336,9 +323,7 @@ const EmpTaskDash = () => {
                         {' '}
                         <RotateRightIcon sx={{ color: '#341948', width: 20, height: 20 }} />
                       </Box>
-                      <Box
-                        sx={{ mt: 0.5, fontWeight: 500, color: '#341948', fontSize: 13, pt: 0.3 }}
-                      >
+                      <Box sx={{ mt: 0.5, fontWeight: 500, color: '#341948', fontSize: 13, pt: 0.3 }}>
                         On Progress&nbsp;
                       </Box>
                       <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
@@ -352,16 +337,14 @@ const EmpTaskDash = () => {
                             height: 30,
                             cursor: 'pointer',
                             '&:hover': {
-                              borderColor: 'orange',
-                            },
+                              borderColor: 'orange'
+                            }
                           }}
                           onClick={e => {
                             ViewEmpOnProgressTask(e)
                           }}
                         >
-                          <Box sx={{ fontSize: 18, color: '#341948' }}>
-                            {employeeOnProgress.length}
-                          </Box>
+                          <Box sx={{ fontSize: 18, color: '#341948' }}>{employeeOnProgress.length}</Box>
                         </Avatar>
                       </Box>
                     </Box>
@@ -374,9 +357,7 @@ const EmpTaskDash = () => {
                         {' '}
                         <LockResetIcon sx={{ color: '#341948', width: 20, height: 20 }} />
                       </Box>
-                      <Box
-                        sx={{ mt: 0.5, fontWeight: 500, color: '#341948', fontSize: 13, pt: 0.3 }}
-                      >
+                      <Box sx={{ mt: 0.5, fontWeight: 500, color: '#341948', fontSize: 13, pt: 0.3 }}>
                         On Hold&nbsp;
                       </Box>
                       <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
@@ -390,8 +371,8 @@ const EmpTaskDash = () => {
                             height: 30,
                             cursor: 'pointer',
                             '&:hover': {
-                              borderColor: 'brown',
-                            },
+                              borderColor: 'brown'
+                            }
                           }}
                           onClick={e => {
                             ViewOnHoldTask(e)
@@ -410,9 +391,7 @@ const EmpTaskDash = () => {
                         {' '}
                         <RunningWithErrorsIcon sx={{ color: '#341948', width: 20, height: 20 }} />
                       </Box>
-                      <Box
-                        sx={{ mt: 0.5, fontWeight: 500, color: '#341948', fontSize: 13, pt: 0.3 }}
-                      >
+                      <Box sx={{ mt: 0.5, fontWeight: 500, color: '#341948', fontSize: 13, pt: 0.3 }}>
                         Pending&nbsp;
                       </Box>
                       <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
@@ -426,16 +405,14 @@ const EmpTaskDash = () => {
                             height: 30,
                             cursor: 'pointer',
                             '&:hover': {
-                              borderColor: 'blue',
-                            },
+                              borderColor: 'blue'
+                            }
                           }}
                           onClick={e => {
                             ViewOnPendingTask(e)
                           }}
                         >
-                          <Box sx={{ fontSize: 18, color: '#341948' }}>
-                            {employeeOnPending.length}
-                          </Box>
+                          <Box sx={{ fontSize: 18, color: '#341948' }}>{employeeOnPending.length}</Box>
                         </Avatar>
                       </Box>
                     </Box>
@@ -448,9 +425,7 @@ const EmpTaskDash = () => {
                         {' '}
                         <DataUsageIcon sx={{ color: '#341948', width: 20, height: 20 }} />
                       </Box>
-                      <Box
-                        sx={{ mt: 0.5, fontWeight: 500, color: '#341948', fontSize: 13, pt: 0.3 }}
-                      >
+                      <Box sx={{ mt: 0.5, fontWeight: 500, color: '#341948', fontSize: 13, pt: 0.3 }}>
                         Not Started&nbsp;
                       </Box>
                       <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
@@ -463,8 +438,8 @@ const EmpTaskDash = () => {
                             width: 30,
                             height: 30,
                             '&:hover': {
-                              borderColor: 'black',
-                            },
+                              borderColor: 'black'
+                            }
                           }}
                           onClick={e => {
                             ViewEmpInCompletedTask(e)
@@ -485,9 +460,7 @@ const EmpTaskDash = () => {
                         {' '}
                         <CheckCircleOutlinedIcon sx={{ color: '#341948', width: 20, height: 20 }} />
                       </Box>
-                      <Box
-                        sx={{ mt: 0.5, fontWeight: 500, color: '#341948', fontSize: 13, pt: 0.3 }}
-                      >
+                      <Box sx={{ mt: 0.5, fontWeight: 500, color: '#341948', fontSize: 13, pt: 0.3 }}>
                         {' '}
                         Completed&nbsp;
                       </Box>
@@ -501,8 +474,8 @@ const EmpTaskDash = () => {
                             width: 30,
                             height: 30,
                             '&:hover': {
-                              borderColor: 'green',
-                            },
+                              borderColor: 'green'
+                            }
                           }}
                           onClick={e => {
                             ViewEmpCompletedTask(e)
@@ -527,7 +500,7 @@ const EmpTaskDash = () => {
               borderRadius: 2,
               border: 1,
               borderColor: '#6699CC',
-              p: 0.5,
+              p: 0.5
             }}
           >
             <Box sx={{ display: 'flex' }}>
@@ -539,9 +512,7 @@ const EmpTaskDash = () => {
                 </CssVarsProvider>
               </Box>
               <Box>
-                <Typography sx={{ fontSize: 20, fontWeight: 600, color: 'grey', pt: 0.7 }}>
-                  Task Management
-                </Typography>
+                <Typography sx={{ fontSize: 20, fontWeight: 600, color: 'grey', pt: 0.7 }}>Task Management</Typography>
                 <Typography sx={{ fontSize: 11, fontWeight: 600, color: 'grey', pl: 0.5 }}>
                   My Task & Progress
                 </Typography>
@@ -555,7 +526,7 @@ const EmpTaskDash = () => {
                   size="sm"
                   sx={{
                     display: 'flex',
-                    mt: 0.5,
+                    mt: 0.5
                   }}
                 >
                   <TabList
@@ -564,11 +535,11 @@ const EmpTaskDash = () => {
                       p: 0,
                       [`& .${tabClasses.root}[aria-selected="true"]`]: {
                         borderBottom: 3,
-                        bgcolor: 'white',
+                        bgcolor: 'white'
                       },
                       display: 'flex',
                       flexDirection: 'column',
-                      bgcolor: 'white',
+                      bgcolor: 'white'
                     }}
                   >
                     <Box
@@ -577,42 +548,27 @@ const EmpTaskDash = () => {
                         flex: 1,
                         mb: 0,
                         borderBottom: 1,
-                        borderColor: 'lightgray',
+                        borderColor: 'lightgray'
                       }}
                     >
                       <Box sx={{ flex: 2, display: 'flex', px: 0.5 }}>
-                        <Tab
-                          disableIndicator
-                          sx={{ color: '#52688F', fontWeight: 800, width: 110 }}
-                        >
+                        <Tab disableIndicator sx={{ color: '#52688F', fontWeight: 800, width: 110 }}>
                           <ListAltIcon sx={{ color: '#52688F' }} />
                           &nbsp;All Tasks
                         </Tab>
-                        <Tab
-                          disableIndicator
-                          sx={{ color: '#710117', fontWeight: 800, width: 115 }}
-                        >
+                        <Tab disableIndicator sx={{ color: '#710117', fontWeight: 800, width: 115 }}>
                           <HistorySharpIcon sx={{ color: '#710117' }} />
                           &nbsp;Over Due
                         </Tab>
-                        <Tab
-                          disableIndicator
-                          sx={{ color: '#478C5C', fontWeight: 800, width: 120 }}
-                        >
+                        <Tab disableIndicator sx={{ color: '#478C5C', fontWeight: 800, width: 120 }}>
                           <TaskAltSharpIcon sx={{ color: '#478C5C' }} />
                           &nbsp;Completed
                         </Tab>
-                        <Tab
-                          disableIndicator
-                          sx={{ color: '#67595E', fontWeight: 800, width: 120 }}
-                        >
+                        <Tab disableIndicator sx={{ color: '#67595E', fontWeight: 800, width: 120 }}>
                           <SignalCellularAltOutlinedIcon sx={{ color: '#67595E' }} />
                           &nbsp;MyProgress
                         </Tab>
-                        <Tab
-                          disableIndicator
-                          sx={{ fontWeight: 800, width: 200, color: '#3374A0' }}
-                        >
+                        <Tab disableIndicator sx={{ fontWeight: 800, width: 200, color: '#3374A0' }}>
                           <AutoGraphSharpIcon sx={{ color: '#3374A0' }} />
                           &nbsp;Performance Sheet
                         </Tab>

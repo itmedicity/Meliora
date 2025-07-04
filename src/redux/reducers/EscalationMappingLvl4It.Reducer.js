@@ -3,7 +3,7 @@ const { FETCH_ESCALATION_MAPPING_LVL4_IT } = ActionTyps
 //Intial state
 const escalationmappingLvl4lIt = {
   escalationMappingLvl4It: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Escalation action type check then payload set to the state and loading status set as true */
 export const getEscalationMappingLvl4It = (state = escalationmappingLvl4lIt, { type, payload }) => {

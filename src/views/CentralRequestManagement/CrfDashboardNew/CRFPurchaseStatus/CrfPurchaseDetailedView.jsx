@@ -10,14 +10,7 @@ const CustomLoadComp = React.lazy(() => import('../../ComonComponent/Components/
 const CrfDetailSearchComp = React.lazy(() => import('../Components/CrfDetailSearchComp'))
 const PurchaseStatusModalView = React.lazy(() => import('./PurchaseStatusModalView'))
 
-const CrfPurchaseDetailedView = ({
-  setFlag,
-  disData,
-  setDisData,
-  tableData,
-  poStart,
-  companyData,
-}) => {
+const CrfPurchaseDetailedView = ({ setFlag, disData, setDisData, tableData, poStart, companyData }) => {
   const { company_name } = companyData
 
   const [modalData, setModalData] = useState([])
@@ -46,7 +39,7 @@ const CrfPurchaseDetailedView = ({
             const fileNamePart = parts[parts.length - 1]
             const obj = {
               imageName: fileNamePart,
-              url: val,
+              url: val
             }
             return obj
           })
@@ -80,7 +73,7 @@ const CrfPurchaseDetailedView = ({
                 update_date: val.update_date,
                 crf_req_remark: val.crf_req_remark,
                 data_coll_image_status: val.data_coll_image_status,
-                crf_data_collect_slno: val.crf_data_collect_slno,
+                crf_data_collect_slno: val.crf_data_collect_slno
               }
               return obj
             })
@@ -96,7 +89,7 @@ const CrfPurchaseDetailedView = ({
     checkDataCollectComplete(req_slno)
     const postData = {
       req_slno: req_slno,
-      po_number: po_number,
+      po_number: po_number
     }
     const getDetails = async postData => {
       try {
@@ -130,8 +123,7 @@ const CrfPurchaseDetailedView = ({
                   : val.incharge_approve === 3
                   ? 'On-Hold'
                   : 'Not Done',
-              incharge_remarks:
-                val.incharge_remarks !== null ? val.incharge_remarks : 'Not Updated',
+              incharge_remarks: val.incharge_remarks !== null ? val.incharge_remarks : 'Not Updated',
               inch_detial_analysis: val.inch_detial_analysis,
               incharge_apprv_date: val.incharge_apprv_date,
               incharge_user: val.incharge_user !== null ? val.incharge_user.toLowerCase() : '',
@@ -173,12 +165,10 @@ const CrfPurchaseDetailedView = ({
                   : val.ms_approve === 3
                   ? 'On-Hold'
                   : 'Not Done',
-              ms_approve_remark:
-                val.ms_approve_remark !== null ? val.ms_approve_remark : 'Not Updated',
+              ms_approve_remark: val.ms_approve_remark !== null ? val.ms_approve_remark : 'Not Updated',
               ms_detail_analysis: val.ms_detail_analysis,
               ms_approve_date: val.ms_approve_date,
-              ms_approve_user:
-                val.ms_approve_user !== null ? val.ms_approve_user.toLowerCase() : '',
+              ms_approve_user: val.ms_approve_user !== null ? val.ms_approve_user.toLowerCase() : '',
               manag_operation_req: val.manag_operation_req,
               manag_operation_approv: val.manag_operation_approv,
               om:
@@ -193,8 +183,7 @@ const CrfPurchaseDetailedView = ({
                 val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
               om_detial_analysis: val.om_detial_analysis,
               om_approv_date: val.om_approv_date,
-              manag_operation_user:
-                val.manag_operation_user !== null ? val.manag_operation_user.toLowerCase() : '',
+              manag_operation_user: val.manag_operation_user !== null ? val.manag_operation_user.toLowerCase() : '',
               senior_manage_req: val.senior_manage_req,
               senior_manage_approv: val.senior_manage_approv,
               smo:
@@ -205,12 +194,10 @@ const CrfPurchaseDetailedView = ({
                   : val.senior_manage_approv === 3
                   ? 'On-Hold'
                   : 'Not Done',
-              senior_manage_remarks:
-                val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
+              senior_manage_remarks: val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
               smo_detial_analysis: val.smo_detial_analysis,
               som_aprrov_date: val.som_aprrov_date,
-              senior_manage_user:
-                val.senior_manage_user !== null ? val.senior_manage_user.toLowerCase() : '',
+              senior_manage_user: val.senior_manage_user !== null ? val.senior_manage_user.toLowerCase() : '',
               gm_approve_req: val.gm_approve_req,
               gm_approve: val.gm_approve,
               gm:
@@ -221,8 +208,7 @@ const CrfPurchaseDetailedView = ({
                   : val.gm_approve === 3
                   ? 'On-Hold'
                   : 'Not Done',
-              gm_approve_remarks:
-                val.gm_approve_remarks !== null ? val.gm_approve_remarks : 'Not Updated',
+              gm_approve_remarks: val.gm_approve_remarks !== null ? val.gm_approve_remarks : 'Not Updated',
               gm_detial_analysis: val.gm_detial_analysis,
               gm_approv_date: val.gm_approv_date,
               gm_user: val.gm_user !== null ? val.gm_user.toLowerCase() : '',
@@ -236,8 +222,7 @@ const CrfPurchaseDetailedView = ({
                   : val.md_approve === 3
                   ? 'On-Hold'
                   : 'Not Done',
-              md_approve_remarks:
-                val.md_approve_remarks !== null ? val.md_approve_remarks : 'Not Updated',
+              md_approve_remarks: val.md_approve_remarks !== null ? val.md_approve_remarks : 'Not Updated',
               md_detial_analysis: val.md_detial_analysis,
               md_approve_date: val.md_approve_date,
               md_user: val.md_user !== null ? val.md_user.toLowerCase() : '',
@@ -251,8 +236,7 @@ const CrfPurchaseDetailedView = ({
                   : val.ed_approve === 3
                   ? 'On-Hold'
                   : 'Not Done',
-              ed_approve_remarks:
-                val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
+              ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
               ed_detial_analysis: val.ed_detial_analysis,
               ed_approve_date: val.ed_approve_date,
               ed_user: val.ed_user ? val.ed_user.toLowerCase() : '',
@@ -370,7 +354,7 @@ const CrfPurchaseDetailedView = ({
               pocomplete_user: val.pocomplete_user,
               po_to_supplier: val.po_to_supplier,
               po_to_supplier_date: val.po_to_supplier_date,
-              company_name: val?.company_name,
+              company_name: val?.company_name
             }
           })
           setModalData(newData[0])
@@ -432,35 +416,23 @@ const CrfPurchaseDetailedView = ({
                   zIndex: 1,
                   border: '1px solid #AFD8F2',
                   borderLeft: 'none',
-                  borderRight: 'none',
+                  borderRight: 'none'
                 }}
               >
-                <Typography sx={{ width: 40, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>
-                  Sl.No
-                </Typography>
-                <Typography sx={{ width: 80, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
-                  Req.No
-                </Typography>
-                <Typography sx={{ width: 200, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
-                  Req.Date
-                </Typography>
+                <Typography sx={{ width: 40, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>Sl.No</Typography>
+                <Typography sx={{ width: 80, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>Req.No</Typography>
+                <Typography sx={{ width: 200, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>Req.Date</Typography>
                 <Typography sx={{ width: 150, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
                   Dpt Section
                 </Typography>
-                <Typography sx={{ width: 200, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
-                  Location
-                </Typography>
+                <Typography sx={{ width: 200, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>Location</Typography>
                 <Typography sx={{ width: 100, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
                   Expected Date
                 </Typography>
                 {poStart > 4 ? (
-                  <Typography sx={{ width: 80, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
-                    #Order
-                  </Typography>
+                  <Typography sx={{ width: 80, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>#Order</Typography>
                 ) : null}
-                <Typography
-                  sx={{ width: 250, textAlign: 'center', fontWeight: 550, fontSize: 12, mx: 0.5 }}
-                >
+                <Typography sx={{ width: 250, textAlign: 'center', fontWeight: 550, fontSize: 12, mx: 0.5 }}>
                   Status
                 </Typography>
               </Box>
@@ -474,9 +446,7 @@ const CrfPurchaseDetailedView = ({
                       justifyContent="space-between"
                       sx={{ borderBottom: '1px solid lightgrey', flexWrap: 'nowrap' }}
                     >
-                      <Typography sx={{ width: 40, textAlign: 'center', fontSize: 12, my: 1 }}>
-                        {index + 1}
-                      </Typography>
+                      <Typography sx={{ width: 40, textAlign: 'center', fontSize: 12, my: 1 }}>{index + 1}</Typography>
                       <Typography sx={{ width: 80, textAlign: 'left', fontSize: 12, my: 1 }}>
                         CRF/{company_name}/{val.req_slno}
                       </Typography>
@@ -489,7 +459,7 @@ const CrfPurchaseDetailedView = ({
                           textAlign: 'left',
                           fontSize: 12,
                           my: 1,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         {val.req_deptsec}
@@ -507,7 +477,7 @@ const CrfPurchaseDetailedView = ({
                             textAlign: 'left',
                             fontSize: 12,
                             my: 1,
-                            color: '#1F4591',
+                            color: '#1F4591'
                           }}
                         >
                           {val.po_number}
@@ -521,7 +491,7 @@ const CrfPurchaseDetailedView = ({
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          pr: 0.5,
+                          pr: 0.5
                         }}
                       >
                         <CssVarsProvider>
@@ -537,10 +507,10 @@ const CrfPurchaseDetailedView = ({
                               py: 0.3,
                               '&:hover': {
                                 bgcolor: '#BFD7ED',
-                                fontWeight: 650,
+                                fontWeight: 650
                               },
                               boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.16)',
-                              borderRadius: 5,
+                              borderRadius: 5
                             }}
                             onClick={() => viewDetails(val.req_slno, val.po_number)}
                           >
@@ -561,7 +531,7 @@ const CrfPurchaseDetailedView = ({
                 fontSize: 30,
                 opacity: 0.5,
                 pt: 10,
-                color: 'grey',
+                color: 'grey'
               }}
             >
               No Report Found

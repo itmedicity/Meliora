@@ -70,9 +70,7 @@ const SelectedDaysTable = ({ alternativedata, daysflag, setAltflag, count, setCo
             {daysflag === 1 ? (
               <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                 <Box sx={{ flex: 1 }}>
-                  <Typography sx={{ fontWeight: 10, fontSize: 18 }}>
-                    Today&apos;s Backup Details
-                  </Typography>
+                  <Typography sx={{ fontWeight: 10, fontSize: 18 }}>Today&apos;s Backup Details</Typography>
                 </Box>
                 <Box
                   sx={{
@@ -80,7 +78,7 @@ const SelectedDaysTable = ({ alternativedata, daysflag, setAltflag, count, setCo
                     display: 'flex',
                     flexDirection: 'row',
                     justifyContent: 'flex-end',
-                    pr: 2,
+                    pr: 2
                   }}
                 >
                   <Box
@@ -88,7 +86,7 @@ const SelectedDaysTable = ({ alternativedata, daysflag, setAltflag, count, setCo
                       height: 20,
                       width: 30,
                       bgcolor: 'lightgrey',
-                      border: '0.1px solid lightgrey',
+                      border: '0.1px solid lightgrey'
                     }}
                   >
                     {' '}
@@ -109,10 +107,7 @@ const SelectedDaysTable = ({ alternativedata, daysflag, setAltflag, count, setCo
                 <Typography sx={{ fontWeight: 10, fontSize: 18 }}>Upcoming Backup</Typography>
               </Paper>
             ) : null}
-            <Paper
-              variant="outlined"
-              sx={{ overflow: 'auto', maxHeight: window.innerHeight - 220 }}
-            >
+            <Paper variant="outlined" sx={{ overflow: 'auto', maxHeight: window.innerHeight - 220 }}>
               <CssVarsProvider>
                 <Table borderAxis="both" padding={'none'} stickyHeader>
                   <thead style={{ alignItems: 'center' }}>
@@ -195,7 +190,7 @@ const SelectedDaysTable = ({ alternativedata, daysflag, setAltflag, count, setCo
                         size="small"
                         style={{
                           height: 8,
-                          background: val.verify_status === 1 ? 'lightgrey' : 'transparent',
+                          background: val.verify_status === 1 ? 'lightgrey' : 'transparent'
                         }}
                       >
                         {daysflag === 1 || daysflag === 2 || daysflag === 3 ? (
@@ -209,8 +204,8 @@ const SelectedDaysTable = ({ alternativedata, daysflag, setAltflag, count, setCo
                                     cursor: 'pointer',
                                     ':hover': {
                                       color: '#43a047',
-                                      boxShadow: 10,
-                                    },
+                                      boxShadow: 10
+                                    }
                                   }}
                                   onClick={() => VerificationClick(val)}
                                 />
@@ -222,8 +217,8 @@ const SelectedDaysTable = ({ alternativedata, daysflag, setAltflag, count, setCo
                                     cursor: 'pointer',
                                     ':hover': {
                                       color: '#ef5350',
-                                      boxShadow: 10,
-                                    },
+                                      boxShadow: 10
+                                    }
                                   }}
                                   onClick={() => VerificationClick(val)}
                                 />
@@ -244,9 +239,7 @@ const SelectedDaysTable = ({ alternativedata, daysflag, setAltflag, count, setCo
                         <td>{val.transferred_device_location}</td>
                         <td>{val.schedule_type_name}</td>
                         <td>{val.selected_days + ' Days'}</td>
-                        {daysflag === 3 ? (
-                          <td>{moment(val.backup_date_time).format('YYYY-MM-DD hh:mm A')}</td>
-                        ) : null}
+                        {daysflag === 3 ? <td>{moment(val.backup_date_time).format('YYYY-MM-DD hh:mm A')}</td> : null}
                         {daysflag === 3 ? <td>{val.em_name}</td> : null}
                         {daysflag === 3 ? (
                           <td>
@@ -257,9 +250,7 @@ const SelectedDaysTable = ({ alternativedata, daysflag, setAltflag, count, setCo
                                 : 'Not Updated'}
                           </td>
                         ) : null}
-                        {daysflag === 3 ? (
-                          <td>{val.remarks === null ? 'Nil' : val.remarks}</td>
-                        ) : null}
+                        {daysflag === 3 ? <td>{val.remarks === null ? 'Nil' : val.remarks}</td> : null}
                       </tr>
                     ))}
                   </tbody>

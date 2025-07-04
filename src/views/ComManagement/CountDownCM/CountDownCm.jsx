@@ -16,17 +16,13 @@ const CountDownCm = ({ complaintDate }) => {
       {days !== 0 ? (
         <Box sx={{ display: 'flex', pt: 0.4 }}>
           <Typography sx={{ fontWeight: 600, color: 'darkred', fontSize: 14 }}>{days}</Typography>
-          <Typography sx={{ fontWeight: 600, color: 'darkred', fontSize: 14, pl: 0.3 }}>
-            Days&nbsp;
-          </Typography>
+          <Typography sx={{ fontWeight: 600, color: 'darkred', fontSize: 14, pl: 0.3 }}>Days&nbsp;</Typography>
         </Box>
       ) : null}
 
       <Box sx={{ display: 'flex', pt: 0.4 }}>
         <Typography sx={{ fontWeight: 600, color: 'darkred', fontSize: 14 }}>{hours}</Typography>
-        <Typography sx={{ fontWeight: 600, color: 'darkred', fontSize: 14, pl: 0.2 }}>
-          h&nbsp;:&nbsp;
-        </Typography>
+        <Typography sx={{ fontWeight: 600, color: 'darkred', fontSize: 14, pl: 0.2 }}>h&nbsp;:&nbsp;</Typography>
       </Box>
       <Box sx={{ display: 'flex', pt: 0.4 }}>
         <Typography sx={{ fontWeight: 600, color: 'darkred', fontSize: 14 }}>{minutes}</Typography>
@@ -34,12 +30,8 @@ const CountDownCm = ({ complaintDate }) => {
       </Box>
       {days === 0 ? (
         <Box sx={{ display: 'flex', pt: 0.4 }}>
-          <Typography sx={{ fontWeight: 600, color: 'darkred', fontSize: 14 }}>
-            &nbsp;:&nbsp;{seconds}
-          </Typography>
-          <Typography sx={{ fontWeight: 600, color: 'darkred', fontSize: 14, pl: 0.3 }}>
-            s
-          </Typography>
+          <Typography sx={{ fontWeight: 600, color: 'darkred', fontSize: 14 }}>&nbsp;:&nbsp;{seconds}</Typography>
+          <Typography sx={{ fontWeight: 600, color: 'darkred', fontSize: 14, pl: 0.3 }}>s</Typography>
         </Box>
       ) : null}
     </Box>

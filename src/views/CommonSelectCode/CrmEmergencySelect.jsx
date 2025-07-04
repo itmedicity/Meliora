@@ -24,7 +24,7 @@ const CrmEmergencySelect = ({ value, setValue }) => {
         <Select
           sx={{ height: 30, p: 0, m: 0, lineHeight: 1.2, fontSize: 13, pl: 1, bgcolor: 'white' }}
           slotProps={{
-            listbox: { placement: 'bottom-start' },
+            listbox: { placement: 'bottom-start' }
           }}
           placeholder="Select"
           value={value}

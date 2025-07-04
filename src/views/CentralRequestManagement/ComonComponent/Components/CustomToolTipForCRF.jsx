@@ -7,17 +7,13 @@ const CustomToolTipForCRF = ({ title, placement, children }) => {
       <Tooltip
         key="unique-key"
         placement={placement}
-        title={
-          <Box sx={{ bgcolor: 'white', color: '#003060', p: 0.5, px: 0.5, textAlign: 'center' }}>
-            {title}{' '}
-          </Box>
-        }
+        title={<Box sx={{ bgcolor: 'white', color: '#003060', p: 0.5, px: 0.5, textAlign: 'center' }}>{title} </Box>}
         arrow
         sx={{
           bgcolor: '#BFD7ED',
           [`& .MuiTooltip-arrow`]: {
-            color: 'blue',
-          },
+            color: 'blue'
+          }
         }}
       >
         {children}

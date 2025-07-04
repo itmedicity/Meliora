@@ -147,7 +147,7 @@ const SoftwareMain = ({ billCount, setbillCount }) => {
               return {
                 bill_add_slno: val.bill_add_slno,
                 monthly_bill_generate: currentmonth,
-                create_user: id,
+                create_user: id
               }
             })
             insertMonthlyData(insertData).then(() => {
@@ -162,7 +162,7 @@ const SoftwareMain = ({ billCount, setbillCount }) => {
                 return {
                   bill_add_slno: val.bill_add_slno,
                   monthly_bill_generate: currentmonth,
-                  create_user: id,
+                  create_user: id
                 }
               })
               insertMonthlyData(insertData).then(() => {
@@ -183,7 +183,7 @@ const SoftwareMain = ({ billCount, setbillCount }) => {
               return {
                 bill_add_slno: val.bill_add_slno,
                 quaterly_bill_generate: currentQuarter,
-                create_user: id,
+                create_user: id
               }
             })
             insertDataQuarter(insertQuarterData).then(() => {
@@ -198,7 +198,7 @@ const SoftwareMain = ({ billCount, setbillCount }) => {
                 return {
                   bill_add_slno: val.bill_add_slno,
                   quaterly_bill_generate: currentQuarter,
-                  create_user: id,
+                  create_user: id
                 }
               })
               insertDataQuarter(insertQuarterData).then(() => {
@@ -219,7 +219,7 @@ const SoftwareMain = ({ billCount, setbillCount }) => {
               return {
                 bill_add_slno: val.bill_add_slno,
                 yearly_bill_generate: currentYearz,
-                create_user: id,
+                create_user: id
               }
             })
             insertYearlyData(insertYearData).then(() => {
@@ -234,7 +234,7 @@ const SoftwareMain = ({ billCount, setbillCount }) => {
                 return {
                   bill_add_slno: val.bill_add_slno,
                   yearly_bill_generate: currentYearz,
-                  create_user: id,
+                  create_user: id
                 }
               })
               insertYearlyData(insertYearData).then(() => {
@@ -254,7 +254,7 @@ const SoftwareMain = ({ billCount, setbillCount }) => {
         defaultValue={0}
         size="sm"
         sx={{
-          display: 'flex',
+          display: 'flex'
         }}
       >
         <TabList
@@ -268,8 +268,8 @@ const SoftwareMain = ({ billCount, setbillCount }) => {
               borderColor: 'white',
               color: 'white',
               borderRadius: 20,
-              bgcolor: '#BA0F30',
-            },
+              bgcolor: '#BA0F30'
+            }
           }}
         >
           <Box sx={{ display: 'flex' }}>
@@ -286,7 +286,7 @@ const SoftwareMain = ({ billCount, setbillCount }) => {
                 variant="soft"
                 sx={{
                   ml: 0.5,
-                  color: '#710117',
+                  color: '#710117'
                 }}
               >
                 {quaterlydata.length}
@@ -308,18 +308,10 @@ const SoftwareMain = ({ billCount, setbillCount }) => {
         </TabList>
         <Box sx={{ maxHeight: '62vh', overflow: 'auto' }}>
           <TabPanel value={0} sx={{ p: 0.5 }}>
-            <MonthlyBill
-              monthlydata={monthlydata}
-              billCount={billCount}
-              setbillCount={setbillCount}
-            />
+            <MonthlyBill monthlydata={monthlydata} billCount={billCount} setbillCount={setbillCount} />
           </TabPanel>
           <TabPanel value={1} sx={{ p: 0.5 }}>
-            <QuaterlyBill
-              quaterlydata={quaterlydata}
-              billCount={billCount}
-              setbillCount={setbillCount}
-            />
+            <QuaterlyBill quaterlydata={quaterlydata} billCount={billCount} setbillCount={setbillCount} />
           </TabPanel>
           <TabPanel value={2} sx={{ p: 0.5 }}>
             <YearlyBill yearlydata={yearlydata} billCount={billCount} setbillCount={setbillCount} />

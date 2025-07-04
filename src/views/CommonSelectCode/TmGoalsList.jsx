@@ -40,7 +40,7 @@ const TmGoalsList = ({ goalz, setgoalz }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '29px',
+            '--Input-minHeight': '29px'
           }}
           value={goalz === 0 ? goalx : value}
           placeholder="select goal"

@@ -58,7 +58,7 @@ const CondemListforMatrlMang = ({ empId, menurights }) => {
             gap: 2,
             justifyContent: 'center',
             mt: 1.5,
-            mb: 2,
+            mb: 2
           }}
         >
           {/* <Radio value="1" label="Pendings" color="neutral" /> */}

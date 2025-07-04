@@ -17,16 +17,7 @@ import SelectDiet from '../CommonSelectCode/SelectDiet'
 import NursingStationMeliSelect from '../CommonSelectCode/NursingStationMeliSelect'
 import CusAgGridForMain from '../Components/CusAgGridForMain'
 
-const DietprocessTable = ({
-  depand,
-  setDepand,
-  count,
-  setCount,
-  newStartDate,
-  startdate,
-  dayselect,
-  setdayselect,
-}) => {
+const DietprocessTable = ({ depand, setDepand, count, setCount, newStartDate, startdate, dayselect, setdayselect }) => {
   const [tabledata, setTabledata] = useState([])
   const [nurse, setNurse] = useState(0)
   const [diet, setdiet] = useState(0)
@@ -49,8 +40,8 @@ const DietprocessTable = ({
         <IconButton sx={{ color: editicon, paddingY: 0.5 }} onClick={() => dietProcess(params)}>
           <PublishedWithChangesOutlinedIcon />
         </IconButton>
-      ),
-    },
+      )
+    }
   ])
   const [columnprocess] = useState([
     { headerName: 'Process Slno', field: 'proc_slno' },
@@ -60,7 +51,7 @@ const DietprocessTable = ({
     { headerName: 'Room/Ward', field: 'bd_code' },
     { headerName: 'Plan Date', field: 'plan_date' },
     { headerName: 'Diet', field: 'diet_name' },
-    { headerName: 'Remarks', field: 'plan_remark' },
+    { headerName: 'Remarks', field: 'plan_remark' }
   ])
 
   // Get login user emp_id
@@ -77,7 +68,7 @@ const DietprocessTable = ({
     return {
       process_date: startdate,
       ns_code: nurse,
-      diet_slno: diet,
+      diet_slno: diet
     }
   }, [startdate, nurse, diet])
 
@@ -113,7 +104,7 @@ const DietprocessTable = ({
         if (nurse !== 0 && diet === 0 && dayselect !== 1) {
           const postData = {
             process_date: format(new Date(), 'yyyy-MM-dd'),
-            ns_code: nurse,
+            ns_code: nurse
           }
           const result = await axioslogin.post('/dietplan/newbydateNS', postData)
           const { success, data } = result.data
@@ -127,7 +118,7 @@ const DietprocessTable = ({
           const postData = {
             process_date: format(new Date(), 'yyyy-MM-dd'),
             ns_code: nurse,
-            diet_slno: diet,
+            diet_slno: diet
           }
           const result = await axioslogin.post('/dietplan/newByDiet', postData)
           const { success, data } = result.data
@@ -148,7 +139,7 @@ const DietprocessTable = ({
           }
         } else if (nurse === 0 && dayselect !== 1 && diet === 0) {
           const postdataa = {
-            process_date: format(new Date(), 'yyyy-MM-dd'),
+            process_date: format(new Date(), 'yyyy-MM-dd')
           }
           const result = await axioslogin.post('/dietplan/newbydate', postdataa)
           const { success, data } = result.data
@@ -169,7 +160,7 @@ const DietprocessTable = ({
           }
         } else if (nurse === 0 && dayselect === 1 && diet === 0) {
           const postdataa = {
-            process_date: startdate,
+            process_date: startdate
           }
           const result = await axioslogin.post('/dietplan/newbydate', postdataa)
           const { success, data } = result.data
@@ -228,7 +219,7 @@ const DietprocessTable = ({
               bd_code: val.bd_code,
               diet_slno: val.diet_slno,
               dmenu_slno: dmenu_slno,
-              days: day,
+              days: day
             }
             const result1 = await axioslogin.post('/dietprocess/dmenubyday', getmenu)
             const { succes, dataa } = result1.data
@@ -246,7 +237,7 @@ const DietprocessTable = ({
                     : format(new Date(startdate), 'yyyy-MM-dd hh-mm-ss'),
                 process_status: 1,
                 discharge_status: val.discharge === 'N' ? 1 : 0,
-                em_id: id,
+                em_id: id
               }
 
               insertProcess(postdata).then(value => {
@@ -259,7 +250,7 @@ const DietprocessTable = ({
                         proc_slno: insetid,
                         type_slno: val.type_slno,
                         rate_hos: val.hosp_rate,
-                        rate_cant: val.cant_rate,
+                        rate_cant: val.cant_rate
                       }
                     })
                   detail(postdetaildata)
@@ -326,8 +317,8 @@ const DietprocessTable = ({
                 lg: 'column',
                 md: 'column',
                 sm: 'column',
-                xs: 'column',
-              },
+                xs: 'column'
+              }
             }}
           >
             <Box
@@ -337,13 +328,13 @@ const DietprocessTable = ({
                 pb: 0.5,
                 display: 'flex',
                 flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' },
-                alignItems: 'center',
+                alignItems: 'center'
               }}
             >
               <Box
                 sx={{
                   pt: 0.5,
-                  pr: 1,
+                  pr: 1
                 }}
               >
                 <TextFieldCustom
@@ -360,7 +351,7 @@ const DietprocessTable = ({
                 sx={{
                   pt: 1,
                   pr: 1,
-                  width: '20%',
+                  width: '20%'
                 }}
               >
                 <NursingStationMeliSelect value={nurse} setValue={setNurse} />
@@ -369,7 +360,7 @@ const DietprocessTable = ({
                 sx={{
                   pt: 1,
                   pr: 1,
-                  width: '15%',
+                  width: '15%'
                 }}
               >
                 <SelectDiet value={diet} setValue={setdiet} />
@@ -378,16 +369,10 @@ const DietprocessTable = ({
               <Box
                 sx={{
                   pt: 0.5,
-                  pr: 2,
+                  pr: 2
                 }}
               >
-                <CusIconButton
-                  size="sm"
-                  variant="outlined"
-                  color="primary"
-                  clickable="true"
-                  onClick={search}
-                >
+                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={search}>
                   <SearchOutlinedIcon fontSize="small" />
                 </CusIconButton>
               </Box>
@@ -395,7 +380,7 @@ const DietprocessTable = ({
                 sx={{
                   pr: 1,
                   pt: 0.5,
-                  widh: '25%',
+                  widh: '25%'
                 }}
               >
                 <Button onClick={cleardata} variant="contained" size="small" color="primary">
@@ -405,7 +390,7 @@ const DietprocessTable = ({
               <Box
                 sx={{
                   pr: 1,
-                  pt: 0.5,
+                  pt: 0.5
                 }}
               >
                 <Button onClick={allProcess} variant="contained" size="small" color="primary">
@@ -416,9 +401,7 @@ const DietprocessTable = ({
             <CusAgGridForMain columnDefs={column} tableData={tabledata} />
           </Box>
         ) : null}
-        {depand === 0 ? (
-          <CusAgGridForMain columnDefs={columnprocess} tableData={tabledata} />
-        ) : null}
+        {depand === 0 ? <CusAgGridForMain columnDefs={columnprocess} tableData={tabledata} /> : null}
         {depand === 2 ? (
           <Box
             sx={{
@@ -433,8 +416,8 @@ const DietprocessTable = ({
                 lg: 'column',
                 md: 'column',
                 sm: 'column',
-                xs: 'column',
-              },
+                xs: 'column'
+              }
             }}
           >
             <Box
@@ -444,13 +427,13 @@ const DietprocessTable = ({
                 pb: 0.5,
                 display: 'flex',
                 flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' },
-                alignItems: 'center',
+                alignItems: 'center'
               }}
             >
               <Box
                 sx={{
                   pt: 0.5,
-                  pr: 1,
+                  pr: 1
                 }}
               >
                 <TextFieldCustom
@@ -467,7 +450,7 @@ const DietprocessTable = ({
                 sx={{
                   pt: 1,
                   pr: 1,
-                  width: '20%',
+                  width: '20%'
                 }}
               >
                 <NursingStationMeliSelect value={nurse} setValue={setNurse} />
@@ -476,7 +459,7 @@ const DietprocessTable = ({
                 sx={{
                   pt: 1,
                   pr: 1,
-                  width: '20%',
+                  width: '20%'
                 }}
               >
                 <SelectDiet value={diet} setValue={setdiet} />
@@ -485,16 +468,10 @@ const DietprocessTable = ({
               <Box
                 sx={{
                   pt: 0.5,
-                  pr: 2,
+                  pr: 2
                 }}
               >
-                <CusIconButton
-                  size="sm"
-                  variant="outlined"
-                  color="primary"
-                  clickable="true"
-                  onClick={search}
-                >
+                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={search}>
                   <SearchOutlinedIcon fontSize="small" />
                 </CusIconButton>
               </Box>
@@ -502,7 +479,7 @@ const DietprocessTable = ({
                 sx={{
                   pr: 1,
                   pt: 0.5,
-                  widh: '25%',
+                  widh: '25%'
                 }}
               >
                 <Button onClick={cleardata} variant="contained" size="small" color="primary">
@@ -512,7 +489,7 @@ const DietprocessTable = ({
               <Box
                 sx={{
                   pr: 1,
-                  pt: 0.5,
+                  pt: 0.5
                 }}
               >
                 <Button onClick={allProcess} variant="contained" size="small" color="primary">

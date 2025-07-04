@@ -33,7 +33,7 @@ const AllBill = ({ billCount, setbillCount }) => {
               it_sim_type_name: val.it_sim_type_name,
               bill_cug_status: val.bill_cug_status,
               bill_cug_simtype: val.bill_cug_simtype,
-              it_bill_type_name: val.it_bill_type_name,
+              it_bill_type_name: val.it_bill_type_name
             }
             return obj
           })
@@ -84,7 +84,7 @@ const AllBill = ({ billCount, setbillCount }) => {
                       borderRadius: 0,
                       display: 'flex',
                       mt: 0.5,
-                      color: 'black',
+                      color: 'black'
                     }}
                   >
                     <Box
@@ -92,7 +92,7 @@ const AllBill = ({ billCount, setbillCount }) => {
                         flex: 0.3,
                         p: 0.5,
                         cursor: 'pointer',
-                        mx: 1,
+                        mx: 1
                       }}
                     >
                       <EditIcon sx={{ height: 18 }} onClick={() => EditModal(val)} />

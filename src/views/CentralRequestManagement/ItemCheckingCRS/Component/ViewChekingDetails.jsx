@@ -23,27 +23,27 @@ const ViewChekingDetails = ({ setViewFlag }) => {
   const {
     data: supplier,
     isLoading: isSupLoading,
-    error: supError,
+    error: supError
   } = useQuery({
     queryKey: 'getSupplierName',
     queryFn: () => getSupplierList(),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const supList = useMemo(() => supplier, [supplier])
 
   const searchToday = useMemo(() => {
     return {
       from: format(new Date(), 'yyyy-MM-dd 00:00:00'),
-      to: format(new Date(), 'yyyy-MM-dd 23:59:59'),
+      to: format(new Date(), 'yyyy-MM-dd 23:59:59')
     }
   }, [])
   const {
     data: checkData,
     isLoading: isItemCheckLoading,
-    error: itemCheckError,
+    error: itemCheckError
   } = useQuery({
     queryKey: ['itemChecking', searchToday],
-    queryFn: () => getItemChecking(searchToday),
+    queryFn: () => getItemChecking(searchToday)
   })
   const itemCheckData = useMemo(() => checkData, [checkData])
   useEffect(() => {
@@ -63,7 +63,7 @@ const ViewChekingDetails = ({ setViewFlag }) => {
             damage_qty: val.damage_qty,
             checking_user: val.checking_user,
             pending_status: val.pending_status,
-            supplier_name: newData ? newData.supplier_name : 'Nil',
+            supplier_name: newData ? newData.supplier_name : 'Nil'
           }
         })
         setTableData(newData)
@@ -94,18 +94,14 @@ const ViewChekingDetails = ({ setViewFlag }) => {
   }, [])
 
   const searchdata = useMemo(() => {
-    const formattedStartDate = isValid(new Date(startDate))
-      ? format(new Date(startDate), 'yyyy-MM-dd 00:00:00')
-      : null
+    const formattedStartDate = isValid(new Date(startDate)) ? format(new Date(startDate), 'yyyy-MM-dd 00:00:00') : null
 
-    const formattedEndDate = isValid(new Date(endDate))
-      ? format(new Date(endDate), 'yyyy-MM-dd 23:59:59')
-      : null
+    const formattedEndDate = isValid(new Date(endDate)) ? format(new Date(endDate), 'yyyy-MM-dd 23:59:59') : null
 
     return {
       supCode: supCode,
       from: formattedStartDate,
-      to: formattedEndDate,
+      to: formattedEndDate
     }
   }, [supCode, startDate, endDate])
 
@@ -133,7 +129,7 @@ const ViewChekingDetails = ({ setViewFlag }) => {
               damage_qty: val.damage_qty,
               checking_user: val.checking_user,
               pending_status: val.pending_status,
-              supplier_name: newData ? newData.supplier_name : 'Nil',
+              supplier_name: newData ? newData.supplier_name : 'Nil'
             }
           })
           setTableData(newData)
@@ -172,8 +168,8 @@ const ViewChekingDetails = ({ setViewFlag }) => {
     borderRadius: 6,
     '&:hover': {
       bgcolor: 'white',
-      color: '#1976d2',
-    },
+      color: '#1976d2'
+    }
   }
   if (isSupLoading || isItemCheckLoading) return <p>Loading...</p>
   if (supError || itemCheckError) return <p>Error occurred.</p>
@@ -188,20 +184,18 @@ const ViewChekingDetails = ({ setViewFlag }) => {
             flexWrap: 'wrap',
             pb: 1,
             border: '1px solid #B4F5F0',
-            borderTop: 'none',
+            borderTop: 'none'
           }}
         >
           <Box
             sx={{
               pt: 1,
-              width: { xs: '100%', md: '80vw', lg: '70vw', xl: '70vw', flexWrap: 'wrap' },
+              width: { xs: '100%', md: '80vw', lg: '70vw', xl: '70vw', flexWrap: 'wrap' }
             }}
           >
             <Box sx={{ px: 1, display: 'flex', flexWrap: 'wrap' }}>
               <Box sx={{ flex: 1 }}>
-                <Typography
-                  sx={{ fontSize: 13, color: '#1D617A', pl: 1.5, pt: 0.5, fontWeight: 550 }}
-                >
+                <Typography sx={{ fontSize: 13, color: '#1D617A', pl: 1.5, pt: 0.5, fontWeight: 550 }}>
                   Supplier
                 </Typography>
                 <Box sx={{ pl: 0.5, pt: 0.5 }}>
@@ -211,9 +205,7 @@ const ViewChekingDetails = ({ setViewFlag }) => {
               <Box sx={{ flex: 2, display: 'flex' }}>
                 <Box sx={{ flex: 1, pl: 0.5, flexWrap: 'wrap' }}>
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Typography sx={{ fontSize: 16, color: 'red', fontWeight: 550, pl: 1.5 }}>
-                      *
-                    </Typography>
+                    <Typography sx={{ fontSize: 16, color: 'red', fontWeight: 550, pl: 1.5 }}>*</Typography>
                     <Typography sx={{ fontSize: 13, color: '#1D617A', fontWeight: 550, pl: 0.3 }}>
                       Item Check Date
                     </Typography>
@@ -234,9 +226,7 @@ const ViewChekingDetails = ({ setViewFlag }) => {
                       <CssVarsProvider key={label}>
                         <Input
                           startDecorator={
-                            <Typography
-                              sx={{ fontSize: 14, color: '#1D617A', fontWeight: 550, pr: 0.5 }}
-                            >
+                            <Typography sx={{ fontSize: 14, color: '#1D617A', fontWeight: 550, pr: 0.5 }}>
                               {label}
                             </Typography>
                           }
@@ -246,7 +236,7 @@ const ViewChekingDetails = ({ setViewFlag }) => {
                             border: '1px solid #bbdefb',
                             width: '100%',
                             color: '#0d47a1',
-                            fontSize: 14,
+                            fontSize: 14
                           }}
                           size="md"
                           type="date"
@@ -257,8 +247,8 @@ const ViewChekingDetails = ({ setViewFlag }) => {
                           slotProps={{
                             input: {
                               min: idx === 1 ? startDate : undefined,
-                              max: moment(new Date()).format('YYYY-MM-DD'),
-                            },
+                              max: moment(new Date()).format('YYYY-MM-DD')
+                            }
                           }}
                         />
                       </CssVarsProvider>
@@ -297,34 +287,22 @@ const ViewChekingDetails = ({ setViewFlag }) => {
                   position: 'sticky',
                   top: 0,
                   zIndex: 1,
-                  borderBottom: '1px solid lightgrey',
+                  borderBottom: '1px solid lightgrey'
                 }}
               >
-                <Typography sx={{ width: 40, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>
-                  Sl.No
-                </Typography>
+                <Typography sx={{ width: 40, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>Sl.No</Typography>
                 <Typography sx={{ width: 170, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
                   Date & Time
                 </Typography>
-                <Typography sx={{ width: 250, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
-                  Supplier
-                </Typography>
-                <Typography sx={{ width: 80, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
-                  Item Code
-                </Typography>
-                <Typography sx={{ width: 250, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
-                  Item Name
-                </Typography>
+                <Typography sx={{ width: 250, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>Supplier</Typography>
+                <Typography sx={{ width: 80, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>Item Code</Typography>
+                <Typography sx={{ width: 250, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>Item Name</Typography>
                 {/* <Typography sx={{ width: 120, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>Requested Qty</Typography> */}
                 <Typography sx={{ width: 120, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>
                   Delivered Qty
                 </Typography>
-                <Typography sx={{ width: 100, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>
-                  Excess
-                </Typography>
-                <Typography sx={{ width: 100, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>
-                  Damage
-                </Typography>
+                <Typography sx={{ width: 100, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>Excess</Typography>
+                <Typography sx={{ width: 100, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>Damage</Typography>
                 <Typography sx={{ width: 100, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>
                   Balance Qty
                 </Typography>
@@ -342,9 +320,7 @@ const ViewChekingDetails = ({ setViewFlag }) => {
                       justifyContent="space-between"
                       sx={{ borderBottom: '1px solid lightgrey', flexWrap: 'nowrap' }}
                     >
-                      <Typography sx={{ width: 40, textAlign: 'center', fontSize: 12, my: 1 }}>
-                        {index + 1}
-                      </Typography>
+                      <Typography sx={{ width: 40, textAlign: 'center', fontSize: 12, my: 1 }}>{index + 1}</Typography>
                       <Typography sx={{ width: 170, textAlign: 'left', fontSize: 12, my: 1 }}>
                         {format(new Date(val.checked_date), 'dd-MM-yyyy hh:mm:ss a')}
                       </Typography>

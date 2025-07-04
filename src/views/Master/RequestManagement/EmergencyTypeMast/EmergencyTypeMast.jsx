@@ -23,10 +23,9 @@ const EmergencyTypeMast = () => {
     emergncyType_slno: '',
     emergncyType_name: '',
     escalation_time: 0,
-    emergncyType_status: false,
+    emergncyType_status: false
   })
-  const { emergncyType_slno, emergncyType_name, escalation_time, emergncyType_status } =
-    emergncyType
+  const { emergncyType_slno, emergncyType_name, escalation_time, emergncyType_status } = emergncyType
   const updateemergncyType = useCallback(
     e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -39,7 +38,7 @@ const EmergencyTypeMast = () => {
       emer_type_name: emergncyType_name,
       emer_type_escalation: escalation_time,
       emer_type_status: emergncyType_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [emergncyType_name, emergncyType_status, escalation_time, id])
   const patchdata = useMemo(() => {
@@ -48,7 +47,7 @@ const EmergencyTypeMast = () => {
       emer_type_name: emergncyType_name,
       emer_type_escalation: escalation_time,
       emer_type_status: emergncyType_status === true ? 1 : 0,
-      edit_user: id,
+      edit_user: id
     }
   }, [emergncyType_slno, emergncyType_name, escalation_time, emergncyType_status, id])
   const rowSelect = useCallback(params => {
@@ -59,7 +58,7 @@ const EmergencyTypeMast = () => {
       emergncyType_slno: emergency_slno,
       emergncyType_name: emer_type_name,
       escalation_time: emer_type_escalation,
-      emergncyType_status: emer_type_status === 1 ? true : false,
+      emergncyType_status: emer_type_status === 1 ? true : false
     }
     setemergncyType(frmdata)
   }, [])
@@ -68,7 +67,7 @@ const EmergencyTypeMast = () => {
       emergncyType_slno: '',
       emergncyType_name: '',
       escalation_time: 0,
-      emergncyType_status: false,
+      emergncyType_status: false
     }
     setemergncyType(frmdata)
     setCount(0)
@@ -124,12 +123,7 @@ const EmergencyTypeMast = () => {
   }, [reset])
 
   return (
-    <CardMaster
-      title="Emergency Type Master"
-      submit={submitEmergency}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Emergency Type Master" submit={submitEmergency} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
         <Box sx={{ width: '30%', p: 1 }}>
           <Box>

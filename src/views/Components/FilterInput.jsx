@@ -18,14 +18,14 @@ const FilterInput = ({ placeholder, value, onChange }) => {
         color: 'black',
         '&:hover': {
           border: 'none',
-          boxShadow: 'none',
+          boxShadow: 'none'
         },
         '&::before': {
-          transform: 'scaleX(0)',
+          transform: 'scaleX(0)'
         },
         '&:focus-within::before': {
-          transform: 'scaleX(0)',
-        },
+          transform: 'scaleX(0)'
+        }
       }}
     />
   )

@@ -8,14 +8,14 @@ const AllDeptRegistrdList = ({ SatusFrom, SatusTo, viewForm }) => {
   const postCondemAllDept = useMemo(() => {
     return {
       SatusFrom: SatusFrom,
-      StatusTo: SatusTo,
+      StatusTo: SatusTo
     }
   }, [SatusFrom, SatusTo])
 
   const { data: AllDeptCondemList, isLoading } = useQuery({
     queryKey: ['getAllDeptCondemList', SatusFrom, SatusTo],
     queryFn: () => getAllDeptCondemList(postCondemAllDept),
-    enabled: !!SatusFrom && !!SatusTo,
+    enabled: !!SatusFrom && !!SatusTo
   })
 
   const AllDeptCondemnation = useMemo(
@@ -26,9 +26,7 @@ const AllDeptRegistrdList = ({ SatusFrom, SatusTo, viewForm }) => {
   return (
     <Box sx={{ border: 1, borderColor: '#e0e1e3' }}>
       {isLoading ? (
-        <Box
-          sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh' }}
-        >
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh' }}>
           <CircularProgress />
         </Box>
       ) : AllDeptCondemnation.length === 0 ? (
@@ -43,7 +41,7 @@ const AllDeptRegistrdList = ({ SatusFrom, SatusTo, viewForm }) => {
             textAlign: 'center',
             color: 'lightgrey',
             border: 1,
-            m: 1,
+            m: 1
           }}
         >
           No Data Available
@@ -92,7 +90,7 @@ const AllDeptRegistrdList = ({ SatusFrom, SatusTo, viewForm }) => {
                             cursor: 'pointer',
                             fontSize: 13,
                             py: 0.2,
-                            '&:hover': { bgcolor: '#8FA297 ' },
+                            '&:hover': { bgcolor: '#8FA297 ' }
                           }}
                           onClick={() => viewForm(val)}
                         >
@@ -123,11 +121,9 @@ const AllDeptRegistrdList = ({ SatusFrom, SatusTo, viewForm }) => {
                                 ? '#7AC7AD'
                                 : val.condem_status === 6 && val.store_approve_status === 2
                                 ? '#F4A3A3 '
-                                : val.condem_status === 7 &&
-                                  val.material_mangmnt_mangr_apprv_status === 1
+                                : val.condem_status === 7 && val.material_mangmnt_mangr_apprv_status === 1
                                 ? '#7AC7AD'
-                                : val.condem_status === 7 &&
-                                  val.material_mangmnt_mangr_apprv_status === 2
+                                : val.condem_status === 7 && val.material_mangmnt_mangr_apprv_status === 2
                                 ? '#F4A3A3 '
                                 : '#EFF4F0',
                             textAlign: 'center',
@@ -135,7 +131,7 @@ const AllDeptRegistrdList = ({ SatusFrom, SatusTo, viewForm }) => {
                             fontWeight: 700,
                             cursor: 'pointer',
                             fontSize: 13,
-                            py: 0.2,
+                            py: 0.2
                           }}
                         >
                           {val.condem_status === 2 && val.incharge_approve_status === 1
@@ -158,11 +154,9 @@ const AllDeptRegistrdList = ({ SatusFrom, SatusTo, viewForm }) => {
                             ? 'Store Approved'
                             : val.condem_status === 6 && val.store_approve_status === 2
                             ? 'Store Rejected'
-                            : val.condem_status === 7 &&
-                              val.material_mangmnt_mangr_apprv_status === 1
+                            : val.condem_status === 7 && val.material_mangmnt_mangr_apprv_status === 1
                             ? 'Condemnation Approved'
-                            : val.condem_status === 7 &&
-                              val.material_mangmnt_mangr_apprv_status === 2
+                            : val.condem_status === 7 && val.material_mangmnt_mangr_apprv_status === 2
                             ? 'Condemnation Rejected'
                             : 'Pending Approval'}
                         </Box>

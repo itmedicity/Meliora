@@ -21,7 +21,7 @@ const SelectBasic = () => {
     { label: 'The Dark Knight', year: 2008 },
     { label: '12 Angry Men', year: 1957 },
     { label: "Schindler's List", year: 1993 },
-    { label: 'Pulp Fiction', year: 1994 },
+    { label: 'Pulp Fiction', year: 1994 }
   ]
 
   return (

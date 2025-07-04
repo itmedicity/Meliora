@@ -22,7 +22,7 @@ const CustomAGSelect = ({ tableData, columnDefs, onSelectionChanged, sx }) => {
   }
   const style = {
     height: { xs: 320, sm: 320, md: 320, lg: 320, xl: 320 },
-    width: '100%',
+    width: '100%'
   }
   const rowStyle = {
     fontFamily: [
@@ -35,8 +35,8 @@ const CustomAGSelect = ({ tableData, columnDefs, onSelectionChanged, sx }) => {
       'sans-serif',
       '"Apple Color Emoji"',
       '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
+      '"Segoe UI Symbol"'
+    ].join(',')
   }
 
   return (

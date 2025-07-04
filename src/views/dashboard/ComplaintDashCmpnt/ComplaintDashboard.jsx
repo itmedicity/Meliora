@@ -68,23 +68,18 @@ const ComplaintDashboard = ({ widgetName, count, status, slno }) => {
             width: '100%',
             p: 0.5,
             display: 'flex',
-            direction: 'row',
+            direction: 'row'
           }}
         >
           <Box
             sx={{
-              display: 'flex',
+              display: 'flex'
               //  borderRadius: 5,
               //  boxShadow: 2
             }}
           >
             <CssVarsProvider>
-              <IconButton
-                variant="outlined"
-                size="lg"
-                color="primary"
-                onClick={e => DashboardClick(slno)}
-              >
+              <IconButton variant="outlined" size="lg" color="primary" onClick={e => DashboardClick(slno)}>
                 {status === false ? <CircularProgress sx={{ color: 'pink' }} /> : count}
               </IconButton>
             </CssVarsProvider>
@@ -95,16 +90,12 @@ const ComplaintDashboard = ({ widgetName, count, status, slno }) => {
               display: 'flex',
               flexDirection: 'row',
               alignItems: 'center',
-              justifyContent: 'space-around',
+              justifyContent: 'space-around'
             }}
           >
             <Box sx={{ px: 0.5 }}>
               <CssVarsProvider>
-                <Typography
-                  level="body2"
-                  sx={{ alignItems: 'flex-start', wordBreak: 'break-all' }}
-                  color="primary"
-                >
+                <Typography level="body2" sx={{ alignItems: 'flex-start', wordBreak: 'break-all' }} color="primary">
                   {widgetName}
                 </Typography>
               </CssVarsProvider>

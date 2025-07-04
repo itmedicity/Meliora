@@ -41,7 +41,7 @@ const PmOverdueList = () => {
               ...val,
               assetNo: val.item_asset_no + '/' + val.item_asset_no_only.toString().padStart(6, '0'),
               roomname: val.rm_room_name !== null ? val.rm_room_name : 'Not Updated',
-              subroom: val.subroom_name !== null ? val.subroom_name : 'Not Updated',
+              subroom: val.subroom_name !== null ? val.subroom_name : 'Not Updated'
             }))
             setTableData(dataaa)
           } else {
@@ -106,7 +106,7 @@ const PmOverdueList = () => {
               ...val,
               assetNo: val.item_asset_no + '/' + val.item_asset_no_only.toString().padStart(6, '0'),
               roomname: val.rm_room_name !== null ? val.rm_room_name : 'Not Updated',
-              subroom: val.subroom_name !== null ? val.subroom_name : 'Not Updated',
+              subroom: val.subroom_name !== null ? val.subroom_name : 'Not Updated'
             }))
             setTableData(dataaa)
           } else {
@@ -148,9 +148,7 @@ const PmOverdueList = () => {
     <CardCloseOnly title="PM Date Due List" close={backToSetting}>
       <Box sx={{ flex: 1, display: 'flex', px: 1, pt: 2.5, gap: 1 }}>
         <Box sx={{ flex: 1 }}>
-          <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550, pl: 1 }}>
-            Department
-          </Typography>
+          <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550, pl: 1 }}>Department</Typography>
           <AmDepartmentSelWOName department={department} setDepartment={setDepartment} />
         </Box>
         <Box sx={{ flex: 1 }}>
@@ -168,9 +166,7 @@ const PmOverdueList = () => {
           </CusIconButton>
         </Box>
         <Box sx={{ flex: 1 }}></Box>
-        <Box
-          sx={{ width: 210, border: 1, borderColor: 'lightgrey', p: 0.5, display: 'flex', gap: 1 }}
-        >
+        <Box sx={{ width: 210, border: 1, borderColor: 'lightgrey', p: 0.5, display: 'flex', gap: 1 }}>
           <Box sx={{ border: 1, px: 1, pt: 1, color: '#055FA3', fontWeight: 500, minWidth: 50 }}>
             {' '}
             {TableData.length}

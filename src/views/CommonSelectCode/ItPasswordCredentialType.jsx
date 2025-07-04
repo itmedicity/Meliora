@@ -62,7 +62,7 @@ const ItPasswordCredentialType = ({ credential, setCredential, setName }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '29px',
+            '--Input-minHeight': '29px'
           }}
           value={credential === 0 ? credentials : value}
           placeholder="Select Credentials"

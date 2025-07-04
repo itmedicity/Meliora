@@ -62,7 +62,7 @@ const CrfNoBasedReport = () => {
             const fileNamePart = parts[parts.length - 1]
             const obj = {
               imageName: fileNamePart,
-              url: val,
+              url: val
             }
             return obj
           })
@@ -86,9 +86,7 @@ const CrfNoBasedReport = () => {
       }
       const getApproItemDetails = async req_slno => {
         try {
-          const result = await axioslogin.get(
-            `/CRFRegisterApproval/getItemListApproval/${req_slno}`
-          )
+          const result = await axioslogin.get(`/CRFRegisterApproval/getItemListApproval/${req_slno}`)
           const { success, data } = result.data
           if (success === 1) {
             setApproveTableData(data)
@@ -136,9 +134,7 @@ const CrfNoBasedReport = () => {
                 po_amount: po.po_amount,
                 po_to_supplier: po.po_to_supplier,
                 approval_level: po.approval_level,
-                po_expiry: po.po_expiry
-                  ? format(new Date(po.po_expiry), 'dd-MM-yyyy')
-                  : 'Not Updated',
+                po_expiry: po.po_expiry ? format(new Date(po.po_expiry), 'dd-MM-yyyy') : 'Not Updated'
               }))
             const poItems = data?.map(val => {
               const obj = {
@@ -151,7 +147,7 @@ const CrfNoBasedReport = () => {
                 item_mrp: val.item_mrp !== null ? val.item_mrp : 0,
                 tax: val.tax !== null ? val.tax : 'Nil',
                 tax_amount: val.tax_amount !== null ? val.tax_amount : 0,
-                net_amount: val.net_amount !== 0 ? val.net_amount : 0,
+                net_amount: val.net_amount !== 0 ? val.net_amount : 0
               }
               return obj
             })
@@ -161,7 +157,7 @@ const CrfNoBasedReport = () => {
               )
               return {
                 ...po,
-                items: details,
+                items: details
               }
             })
             setPoDetails(combinedData)
@@ -181,15 +177,11 @@ const CrfNoBasedReport = () => {
             setOpen(false)
 
             const crfDetails = data
-              .filter(
-                (val, index, self) =>
-                  index === self.findIndex(value => value.req_slno === val.req_slno)
-              )
+              .filter((val, index, self) => index === self.findIndex(value => value.req_slno === val.req_slno))
               .map(val => ({
                 req_status: val.req_status,
                 req_slno: val.req_slno,
-                actual_requirement:
-                  val.actual_requirement !== null ? val.actual_requirement : 'Nil',
+                actual_requirement: val.actual_requirement !== null ? val.actual_requirement : 'Nil',
                 needed: val.needed !== null ? val.needed : 'Nil',
                 request_deptsec_slno: val.request_deptsec_slno,
                 req_deptsec: val.req_deptsec.toLowerCase(),
@@ -206,14 +198,9 @@ const CrfNoBasedReport = () => {
                 emergeny_remarks: val.emergeny_remarks,
                 total_approx_cost: val.total_approx_cost,
                 image_status: val.image_status,
-                req_date:
-                  val.req_date !== null
-                    ? format(new Date(val.req_date), 'dd-MM-yyyy hh:mm a')
-                    : 'Not Updated',
+                req_date: val.req_date !== null ? format(new Date(val.req_date), 'dd-MM-yyyy hh:mm a') : 'Not Updated',
                 expected_date:
-                  val.expected_date !== null
-                    ? format(new Date(val.expected_date), 'dd-MM-yyyy')
-                    : 'Not Updated',
+                  val.expected_date !== null ? format(new Date(val.expected_date), 'dd-MM-yyyy') : 'Not Updated',
                 internally_arranged_status: val.internally_arranged_status,
                 crf_close: val.crf_close,
                 crf_close_remark: val.crf_close_remark,
@@ -226,12 +213,11 @@ const CrfNoBasedReport = () => {
                   val.incharge_approve === 1
                     ? 'Approved'
                     : val.incharge_approve === 2
-                      ? 'Rejected'
-                      : val.incharge_approve === 3
-                        ? 'On-Hold'
-                        : 'Not Done',
-                incharge_remarks:
-                  val.incharge_remarks !== null ? val.incharge_remarks : 'Not Updated',
+                    ? 'Rejected'
+                    : val.incharge_approve === 3
+                    ? 'On-Hold'
+                    : 'Not Done',
+                incharge_remarks: val.incharge_remarks !== null ? val.incharge_remarks : 'Not Updated',
                 inch_detial_analysis: val.inch_detial_analysis,
                 incharge_apprv_date:
                   val.incharge_apprv_date !== null
@@ -244,10 +230,10 @@ const CrfNoBasedReport = () => {
                   val.hod_approve === 1
                     ? 'Approved'
                     : val.hod_approve === 2
-                      ? 'Rejected'
-                      : val.hod_approve === 3
-                        ? 'On-Hold'
-                        : 'Not Done',
+                    ? 'Rejected'
+                    : val.hod_approve === 3
+                    ? 'On-Hold'
+                    : 'Not Done',
                 hod_remarks: val.hod_remarks !== null ? val.hod_remarks : 'Not Updated',
                 hod_detial_analysis: val.hod_detial_analysis,
                 hod_approve_date:
@@ -261,12 +247,12 @@ const CrfNoBasedReport = () => {
                   val.dms_approve === 1
                     ? 'Approved'
                     : val.dms_approve === 2
-                      ? 'Rejected'
-                      : val.dms_approve === 3
-                        ? 'On-Hold'
-                        : val.dms_approve === 4
-                          ? 'Approved'
-                          : 'Not Done',
+                    ? 'Rejected'
+                    : val.dms_approve === 3
+                    ? 'On-Hold'
+                    : val.dms_approve === 4
+                    ? 'Approved'
+                    : 'Not Done',
                 dms_remarks: val.dms_remarks !== null ? val.dms_remarks : 'Not Updated',
                 dms_detail_analysis: val.dms_detail_analysis,
                 dms_approve_date:
@@ -280,79 +266,71 @@ const CrfNoBasedReport = () => {
                   val.ms_approve === 1
                     ? 'Approved'
                     : val.ms_approve === 2
-                      ? 'Rejected'
-                      : val.ms_approve === 3
-                        ? 'On-Hold'
-                        : val.ms_approve === 4
-                          ? 'Approved'
-                          : 'Not Done',
-                ms_approve_remark:
-                  val.ms_approve_remark !== null ? val.ms_approve_remark : 'Not Updated',
+                    ? 'Rejected'
+                    : val.ms_approve === 3
+                    ? 'On-Hold'
+                    : val.ms_approve === 4
+                    ? 'Approved'
+                    : 'Not Done',
+                ms_approve_remark: val.ms_approve_remark !== null ? val.ms_approve_remark : 'Not Updated',
                 ms_detail_analysis: val.ms_detail_analysis,
                 ms_approve_date:
                   val.ms_approve_date !== null
                     ? format(new Date(val.ms_approve_date), 'dd-MM-yyyy hh:mm a')
                     : 'Not Updated',
-                ms_approve_user:
-                  val.ms_approve_user !== null ? val.ms_approve_user.toLowerCase() : '',
+                ms_approve_user: val.ms_approve_user !== null ? val.ms_approve_user.toLowerCase() : '',
                 manag_operation_req: val.manag_operation_req,
                 manag_operation_approv: val.manag_operation_approv,
                 om:
                   val.manag_operation_approv === 1
                     ? 'Approved'
                     : val.manag_operation_approv === 2
-                      ? 'Rejected'
-                      : val.manag_operation_approv === 3
-                        ? 'On-Hold'
-                        : val.manag_operation_approv === 4
-                          ? 'Approved'
-                          : 'Not Done',
+                    ? 'Rejected'
+                    : val.manag_operation_approv === 3
+                    ? 'On-Hold'
+                    : val.manag_operation_approv === 4
+                    ? 'Approved'
+                    : 'Not Done',
                 manag_operation_remarks:
-                  val.manag_operation_remarks !== null
-                    ? val.manag_operation_remarks
-                    : 'Not Updated',
+                  val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
                 om_detial_analysis: val.om_detial_analysis,
                 om_approv_date:
                   val.om_approv_date !== null
                     ? format(new Date(val.om_approv_date), 'dd-MM-yyyy hh:mm a')
                     : 'Not Updated',
-                manag_operation_user:
-                  val.manag_operation_user !== null ? val.manag_operation_user.toLowerCase() : '',
+                manag_operation_user: val.manag_operation_user !== null ? val.manag_operation_user.toLowerCase() : '',
                 senior_manage_req: val.senior_manage_req,
                 senior_manage_approv: val.senior_manage_approv,
                 smo:
                   val.senior_manage_approv === 1
                     ? 'Approved'
                     : val.senior_manage_approv === 2
-                      ? 'Rejected'
-                      : val.senior_manage_approv === 3
-                        ? 'On-Hold'
-                        : val.senior_manage_approv === 4
-                          ? 'Approved'
-                          : 'Not Done',
-                senior_manage_remarks:
-                  val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
+                    ? 'Rejected'
+                    : val.senior_manage_approv === 3
+                    ? 'On-Hold'
+                    : val.senior_manage_approv === 4
+                    ? 'Approved'
+                    : 'Not Done',
+                senior_manage_remarks: val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
                 smo_detial_analysis: val.smo_detial_analysis,
                 som_aprrov_date:
                   val.som_aprrov_date !== null
                     ? format(new Date(val.som_aprrov_date), 'dd-MM-yyyy hh:mm a')
                     : 'Not Updated',
-                senior_manage_user:
-                  val.senior_manage_user !== null ? val.senior_manage_user.toLowerCase() : '',
+                senior_manage_user: val.senior_manage_user !== null ? val.senior_manage_user.toLowerCase() : '',
                 gm_approve_req: val.gm_approve_req,
                 gm_approve: val.gm_approve,
                 gm:
                   val.gm_approve === 1
                     ? 'Approved'
                     : val.gm_approve === 2
-                      ? 'Rejected'
-                      : val.gm_approve === 3
-                        ? 'On-Hold'
-                        : val.gm_approve === 4
-                          ? 'Approved'
-                          : 'Not Done',
-                gm_approve_remarks:
-                  val.gm_approve_remarks !== null ? val.gm_approve_remarks : 'Not Updated',
+                    ? 'Rejected'
+                    : val.gm_approve === 3
+                    ? 'On-Hold'
+                    : val.gm_approve === 4
+                    ? 'Approved'
+                    : 'Not Done',
+                gm_approve_remarks: val.gm_approve_remarks !== null ? val.gm_approve_remarks : 'Not Updated',
                 gm_detial_analysis: val.gm_detial_analysis,
                 gm_approv_date:
                   val.gm_approv_date !== null
@@ -365,14 +343,13 @@ const CrfNoBasedReport = () => {
                   val.md_approve === 1
                     ? 'Approved'
                     : val.md_approve === 2
-                      ? 'Rejected'
-                      : val.md_approve === 3
-                        ? 'On-Hold'
-                        : val.md_approve === 4
-                          ? 'Approved'
-                          : 'Not Done',
-                md_approve_remarks:
-                  val.md_approve_remarks !== null ? val.md_approve_remarks : 'Not Updated',
+                    ? 'Rejected'
+                    : val.md_approve === 3
+                    ? 'On-Hold'
+                    : val.md_approve === 4
+                    ? 'Approved'
+                    : 'Not Done',
+                md_approve_remarks: val.md_approve_remarks !== null ? val.md_approve_remarks : 'Not Updated',
                 md_detial_analysis: val.md_detial_analysis,
                 md_approve_date:
                   val.md_approve_date !== null
@@ -385,14 +362,13 @@ const CrfNoBasedReport = () => {
                   val.ed_approve === 1
                     ? 'Approved'
                     : val.ed_approve === 2
-                      ? 'Rejected'
-                      : val.ed_approve === 3
-                        ? 'On-Hold'
-                        : val.ed_approve === 4
-                          ? 'Approved'
-                          : 'Not Done',
-                ed_approve_remarks:
-                  val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
+                    ? 'Rejected'
+                    : val.ed_approve === 3
+                    ? 'On-Hold'
+                    : val.ed_approve === 4
+                    ? 'Approved'
+                    : 'Not Done',
+                ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
                 ed_detial_analysis: val.ed_detial_analysis,
                 ed_approve_date:
                   val.ed_approve_date !== null
@@ -406,14 +382,13 @@ const CrfNoBasedReport = () => {
                   val.managing_director_approve === 1
                     ? 'Approved'
                     : val.managing_director_approve === 2
-                      ? 'Rejected'
-                      : val.managing_director_approve === 3
-                        ? 'On-Hold'
-                        : val.managing_director_approve === 4
-                          ? 'Approved'
-                          : 'Not Done',
-                managing_director_remarks:
-                  val.managing_director_remarks !== null ? val.managing_director_remarks : '',
+                    ? 'Rejected'
+                    : val.managing_director_approve === 3
+                    ? 'On-Hold'
+                    : val.managing_director_approve === 4
+                    ? 'Approved'
+                    : 'Not Done',
+                managing_director_remarks: val.managing_director_remarks !== null ? val.managing_director_remarks : '',
                 managing_director_analysis: val.managing_director_analysis,
                 managing_director_approve_date:
                   val.managing_director_approve_date !== null
@@ -427,100 +402,100 @@ const CrfNoBasedReport = () => {
                   val.req_status === 'C'
                     ? 'CRF Closed'
                     : val.sub_store_recieve === 1
-                      ? 'Received in ' + val.sub_store_name
-                      : // val.sub_store_recieve === 0 ? "Partial Goods Received in " + val.sub_store_name :
-                      val.store_recieve === 1
-                        ? 'Item Received in CRS'
-                        : // val.store_recieve === 0 && val.store_recieve === 1 ? "Partial Goods Received in CRS" :
-                        val.po_to_supplier === 1
-                          ? 'Waiting for Goods'
-                          : val.approval_level === 3
-                            ? "Director's Approved"
-                            : val.approval_level === 2
-                              ? 'Purchase Manager Approved'
-                              : val.approval_level === 1
-                                ? 'Purchase Dpt Approved'
-                                : val.po_complete === 1
-                                  ? 'PO Completed'
-                                  : val.po_prepartion === 1
-                                    ? 'PO Prepairing'
-                                    : val.quatation_fixing === 1
-                                      ? 'Quotation Fixed'
-                                      : val.quatation_negotiation === 1
-                                        ? 'Quotation Negotiation'
-                                        : val.quatation_calling_status === 1
-                                          ? 'Quotation Calling'
-                                          : val.ack_status === 1
-                                            ? 'Puchase Acknowledged'
-                                            : val.managing_director_approve !== null
-                                              ? 'Managing Director'
-                                              : val.ed_approve !== null
-                                                ? 'ED'
-                                                : val.md_approve !== null
-                                                  ? 'MD'
-                                                  : val.gm_approve !== null
-                                                    ? 'GM'
-                                                    : val.senior_manage_approv !== null
-                                                      ? 'SMO'
-                                                      : val.manag_operation_approv !== null
-                                                        ? 'MO'
-                                                        : val.ms_approve !== null
-                                                          ? 'MS'
-                                                          : val.dms_approve !== null
-                                                            ? 'DMS'
-                                                            : val.hod_approve !== null
-                                                              ? 'HOD'
-                                                              : val.incharge_approve !== null
-                                                                ? 'Incharge'
-                                                                : 'Not Started',
+                    ? 'Received in ' + val.sub_store_name
+                    : // val.sub_store_recieve === 0 ? "Partial Goods Received in " + val.sub_store_name :
+                    val.store_recieve === 1
+                    ? 'Item Received in CRS'
+                    : // val.store_recieve === 0 && val.store_recieve === 1 ? "Partial Goods Received in CRS" :
+                    val.po_to_supplier === 1
+                    ? 'Waiting for Goods'
+                    : val.approval_level === 3
+                    ? "Director's Approved"
+                    : val.approval_level === 2
+                    ? 'Purchase Manager Approved'
+                    : val.approval_level === 1
+                    ? 'Purchase Dpt Approved'
+                    : val.po_complete === 1
+                    ? 'PO Completed'
+                    : val.po_prepartion === 1
+                    ? 'PO Prepairing'
+                    : val.quatation_fixing === 1
+                    ? 'Quotation Fixed'
+                    : val.quatation_negotiation === 1
+                    ? 'Quotation Negotiation'
+                    : val.quatation_calling_status === 1
+                    ? 'Quotation Calling'
+                    : val.ack_status === 1
+                    ? 'Puchase Acknowledged'
+                    : val.managing_director_approve !== null
+                    ? 'Managing Director'
+                    : val.ed_approve !== null
+                    ? 'ED'
+                    : val.md_approve !== null
+                    ? 'MD'
+                    : val.gm_approve !== null
+                    ? 'GM'
+                    : val.senior_manage_approv !== null
+                    ? 'SMO'
+                    : val.manag_operation_approv !== null
+                    ? 'MO'
+                    : val.ms_approve !== null
+                    ? 'MS'
+                    : val.dms_approve !== null
+                    ? 'DMS'
+                    : val.hod_approve !== null
+                    ? 'HOD'
+                    : val.incharge_approve !== null
+                    ? 'Incharge'
+                    : 'Not Started',
                 now_who_status:
                   val.req_status === 'C'
                     ? ''
                     : val.sub_store_recieve === 1
-                      ? 5
-                      : val.store_receive === 1
-                        ? 5
-                        : val.po_to_supplier === 1
-                          ? 5
-                          : val.approval_level === 3
-                            ? 5
-                            : val.approval_level === 2
-                              ? 5
-                              : val.approval_level === 1
-                                ? 5
-                                : val.po_complete === 1
-                                  ? 5
-                                  : val.po_prepartion === 1
-                                    ? 5
-                                    : val.quatation_fixing === 1
-                                      ? 5
-                                      : val.quatation_negotiation === 1
-                                        ? 5
-                                        : val.quatation_calling_status === 1
-                                          ? 5
-                                          : val.ack_status === 1
-                                            ? 5
-                                            : val.managing_director_approve !== null
-                                              ? val.managing_director_approve
-                                              : val.ed_approve !== null
-                                                ? val.ed_approve
-                                                : val.md_approve !== null
-                                                  ? val.md_approve
-                                                  : val.gm_approve !== null
-                                                    ? val.gm_approve
-                                                    : val.senior_manage_approv !== null
-                                                      ? val.senior_manage_approv
-                                                      : val.manag_operation_approv !== null
-                                                        ? val.manag_operation_approv
-                                                        : val.ms_approve !== null
-                                                          ? val.ms_approve
-                                                          : val.dms_approve !== null
-                                                            ? val.dms_approve
-                                                            : val.hod_approve !== null
-                                                              ? val.hod_approve
-                                                              : val.incharge_approve !== null
-                                                                ? val.incharge_approve
-                                                                : 0,
+                    ? 5
+                    : val.store_receive === 1
+                    ? 5
+                    : val.po_to_supplier === 1
+                    ? 5
+                    : val.approval_level === 3
+                    ? 5
+                    : val.approval_level === 2
+                    ? 5
+                    : val.approval_level === 1
+                    ? 5
+                    : val.po_complete === 1
+                    ? 5
+                    : val.po_prepartion === 1
+                    ? 5
+                    : val.quatation_fixing === 1
+                    ? 5
+                    : val.quatation_negotiation === 1
+                    ? 5
+                    : val.quatation_calling_status === 1
+                    ? 5
+                    : val.ack_status === 1
+                    ? 5
+                    : val.managing_director_approve !== null
+                    ? val.managing_director_approve
+                    : val.ed_approve !== null
+                    ? val.ed_approve
+                    : val.md_approve !== null
+                    ? val.md_approve
+                    : val.gm_approve !== null
+                    ? val.gm_approve
+                    : val.senior_manage_approv !== null
+                    ? val.senior_manage_approv
+                    : val.manag_operation_approv !== null
+                    ? val.manag_operation_approv
+                    : val.ms_approve !== null
+                    ? val.ms_approve
+                    : val.dms_approve !== null
+                    ? val.dms_approve
+                    : val.hod_approve !== null
+                    ? val.hod_approve
+                    : val.incharge_approve !== null
+                    ? val.incharge_approve
+                    : 0,
 
                 hod_image: val.hod_image,
                 dms_image: val.dms_image,
@@ -578,8 +553,7 @@ const CrfNoBasedReport = () => {
                   val.user_ack_date !== null
                     ? format(new Date(val.user_ack_date), 'dd-MM-yyyy hh:mm a')
                     : 'Not Updated',
-                user_acknldge_remarks:
-                  val.user_acknldge_remarks === null ? 'nil' : val.user_acknldge_remarks,
+                user_acknldge_remarks: val.user_acknldge_remarks === null ? 'nil' : val.user_acknldge_remarks,
                 store_receive_date:
                   val.store_receive_date !== null
                     ? format(new Date(val.store_receive_date), 'dd-MM-yyyy hh:mm a')
@@ -590,7 +564,7 @@ const CrfNoBasedReport = () => {
                 substore_ack_date:
                   val.substore_ack_date !== null
                     ? format(new Date(val.substore_ack_date), 'dd-MM-yyyy hh:mm a')
-                    : 'Not Updated',
+                    : 'Not Updated'
               }))
               .sort((a, b) => {
                 if (a.sub_store_recieve !== b.sub_store_recieve) {
@@ -639,8 +613,8 @@ const CrfNoBasedReport = () => {
         ? 'pdf'
         : 'image'
       : file.type.includes('application/pdf')
-        ? 'pdf'
-        : 'image'
+      ? 'pdf'
+      : 'image'
 
     const fileUrl = file.url || URL.createObjectURL(file)
     setPreviewFile({ url: fileUrl, type: fileType })
@@ -652,12 +626,12 @@ const CrfNoBasedReport = () => {
     str
       ? str
 
-        .toLowerCase()
-        .trim()
-        .replace(/\s+/g, ' ')
-        .split(' ')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ')
+          .toLowerCase()
+          .trim()
+          .replace(/\s+/g, ' ')
+          .split(' ')
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(' ')
       : ''
   return (
     <Fragment>
@@ -671,12 +645,8 @@ const CrfNoBasedReport = () => {
       <Box sx={{ height: window.innerHeight - 80, flexWrap: 'wrap', bgcolor: 'white' }}>
         <Box sx={{ border: '1px solid #B4F5F0' }}>
           <Box sx={{ display: 'flex' }}>
-            <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: 0.5, color: '#385E72' }}>
-              All CRF Report
-            </Box>
-            <Box
-              sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, m: 0.5 }}
-            >
+            <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: 0.5, color: '#385E72' }}>All CRF Report</Box>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, m: 0.5 }}>
               <CssVarsProvider>
                 <CustomCloseIconCmp handleChange={backToSetting} />
               </CssVarsProvider>
@@ -690,14 +660,12 @@ const CrfNoBasedReport = () => {
             justifyContent: 'center',
             flexWrap: 'wrap',
             pb: 1,
-            border: '1px solid lightgrey',
+            border: '1px solid lightgrey'
           }}
         >
           <Box sx={{ pt: 1, width: { xs: '100%', md: '50vw', lg: '40vw', xl: '40vw' } }}>
             <Box sx={{ px: 1, display: 'flex' }}>
-              <Typography sx={{ fontSize: 13, color: '#1D617A', px: 1, pt: 2, fontWeight: 550 }}>
-                CRF No.
-              </Typography>
+              <Typography sx={{ fontSize: 13, color: '#1D617A', px: 1, pt: 2, fontWeight: 550 }}>CRF No.</Typography>
               <Box sx={{ flex: 0.5, pt: 1 }}>
                 <CssVarsProvider>
                   <CustomInputDateCmp
@@ -725,8 +693,8 @@ const CrfNoBasedReport = () => {
                       borderRadius: 6,
                       '&:hover': {
                         bgcolor: 'white',
-                        color: '#1976d2',
-                      },
+                        color: '#1976d2'
+                      }
                     }}
                     onClick={searchCRFDetails}
                   >
@@ -743,31 +711,25 @@ const CrfNoBasedReport = () => {
               height: window.innerHeight - 200,
               flexWrap: 'wrap',
               bgcolor: 'white',
-              overflow: 'auto',
+              overflow: 'auto'
             }}
           >
             <Paper variant="outlined" sx={{ flexWrap: 'wrap' }}>
               <Box sx={{ padding: 1, borderRadius: 2 }}>
-                <Typography
-                  sx={{ fontWeight: 'bold', marginBottom: 0.5, color: '#145DA0', fontSize: 14 }}
-                >
+                <Typography sx={{ fontWeight: 'bold', marginBottom: 0.5, color: '#145DA0', fontSize: 14 }}>
                   CRF/TMC/{tableData.req_slno}
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', pl: 1 }}>
                 <Box sx={{ display: 'flex', pt: 0.4, flex: 1 }}>
-                  <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.47 }}>
-                    Req.Date
-                  </Typography>
+                  <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.47 }}>Req.Date</Typography>
                   <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
                   <Box sx={{ pl: 0.3, pt: 0.3, flex: 1 }}>
                     <Typography sx={{ fontSize: 13 }}> {tableData.req_date}</Typography>
                   </Box>
                 </Box>
                 <Box sx={{ display: 'flex', pt: 0.4, flex: 0.5 }}>
-                  <Typography sx={{ fontSize: 14, fontWeight: 600, pt: 0.2 }}>
-                    Expected Date
-                  </Typography>
+                  <Typography sx={{ fontSize: 14, fontWeight: 600, pt: 0.2 }}>Expected Date</Typography>
                   <Typography sx={{ pl: 1 }}> :&nbsp;</Typography>
                   <Box sx={{ pl: 0.5, pt: 0.4 }}>
                     <Typography sx={{ fontSize: 13 }}>{tableData.expected_date}</Typography>
@@ -776,22 +738,16 @@ const CrfNoBasedReport = () => {
                 <Box sx={{ display: 'flex', flex: 2 }}></Box>
               </Box>
               <Box sx={{ display: 'flex', pl: 1 }}>
-                <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.2, pt: 1 }}>
-                  Purpose
-                </Typography>
+                <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.2, pt: 1 }}>Purpose</Typography>
                 <Typography sx={{ pt: 0.7 }}> :&nbsp;</Typography>
                 <Box sx={{ pt: 0.5, flex: 2, pl: 0.3 }}>
                   <Typography sx={{ fontSize: 13, pt: 0.5, pr: 1 }}>
-                    {tableData.actual_requirement === null
-                      ? 'nil'
-                      : capitalizeWords(tableData.actual_requirement)}
+                    {tableData.actual_requirement === null ? 'nil' : capitalizeWords(tableData.actual_requirement)}
                   </Typography>
                 </Box>
               </Box>
               <Box sx={{ display: 'flex', pl: 1 }}>
-                <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.2, pt: 1 }}>
-                  Justfication
-                </Typography>
+                <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.2, pt: 1 }}>Justfication</Typography>
                 <Typography sx={{ pt: 0.7 }}> :&nbsp;</Typography>
                 <Box sx={{ pt: 0.5, flex: 2, pl: 0.3 }}>
                   <Typography sx={{ fontSize: 13, pt: 0.5, pr: 1 }}>
@@ -815,12 +771,12 @@ const CrfNoBasedReport = () => {
                           m: 0.3,
                           border: '1px solid #e0e0e0',
                           borderRadius: '4px',
-                          p: 0.5,
+                          p: 0.5
                         }}
                       >
                         {file.imageName.endsWith('.png') ||
-                          file.imageName.endsWith('.jpg') ||
-                          file.imageName.endsWith('.jpeg') ? (
+                        file.imageName.endsWith('.jpg') ||
+                        file.imageName.endsWith('.jpeg') ? (
                           <img
                             src={file.url}
                             alt={file.imageName}
@@ -830,7 +786,7 @@ const CrfNoBasedReport = () => {
                               objectFit: 'cover',
                               borderRadius: '4px',
                               marginRight: '8px',
-                              cursor: 'pointer',
+                              cursor: 'pointer'
                             }}
                             onClick={() => ViewImage(file)}
                           />
@@ -841,7 +797,7 @@ const CrfNoBasedReport = () => {
                               height: '40px',
                               color: '#e53935',
                               marginRight: '8px',
-                              cursor: 'pointer',
+                              cursor: 'pointer'
                             }}
                             onClick={() => ViewImage(file)}
                           />
@@ -852,14 +808,12 @@ const CrfNoBasedReport = () => {
                               height: '40px',
                               color: '#9e9e9e',
                               marginRight: '8px',
-                              cursor: 'pointer',
+                              cursor: 'pointer'
                             }}
                             onClick={() => ViewImage(file)}
                           />
                         )}
-                        <Box sx={{ fontSize: 14, cursor: 'pointer', flexGrow: 1, pr: 0.5 }}>
-                          {file.imageName}
-                        </Box>
+                        <Box sx={{ fontSize: 14, cursor: 'pointer', flexGrow: 1, pr: 0.5 }}>{file.imageName}</Box>
                       </Box>
                     ))}
                 </Paper>
@@ -870,8 +824,7 @@ const CrfNoBasedReport = () => {
                 <ReqItemDisplay reqItems={reqItems} />
               </CssVarsProvider>
             ) : null}
-            {approveTableData.length !== 0 &&
-              (tableData.incharge_approve === 1 || tableData.hod_approve === 1) ? (
+            {approveTableData.length !== 0 && (tableData.incharge_approve === 1 || tableData.hod_approve === 1) ? (
               <CssVarsProvider>
                 <Box sx={{ mt: 0.3 }}>
                   <ApprovedItemListDis approveTableData={approveTableData} />
@@ -880,14 +833,8 @@ const CrfNoBasedReport = () => {
             ) : null}
             {tableData.hod_approve !== null || tableData.incharge_approve !== null ? (
               <>
-                <Paper
-                  variant="outlined"
-                  square
-                  sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.7, mx: 0.7, pb: 0.7 }}
-                >
-                  <Typography
-                    sx={{ fontWeight: 'bold', px: 1, py: 0.7, color: '#145DA0', fontSize: 14 }}
-                  >
+                <Paper variant="outlined" square sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.7, mx: 0.7, pb: 0.7 }}>
+                  <Typography sx={{ fontWeight: 'bold', px: 1, py: 0.7, color: '#145DA0', fontSize: 14 }}>
                     Approval Details
                   </Typography>
                   <CssVarsProvider>
@@ -895,9 +842,7 @@ const CrfNoBasedReport = () => {
                       {tableData.incharge_req === 1 && tableData.incharge_remarks !== null ? (
                         <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                           <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
-                            <Box
-                              sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}
-                            >
+                            <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                               <Typography
                                 sx={{
                                   fontWeight: 'bold',
@@ -905,7 +850,7 @@ const CrfNoBasedReport = () => {
                                   py: 0.5,
                                   color: '#145DA0',
                                   fontSize: 14,
-                                  flex: 0.33,
+                                  flex: 0.33
                                 }}
                               >
                                 Department Approval
@@ -917,7 +862,7 @@ const CrfNoBasedReport = () => {
                                     mr: 1,
                                     py: 0.5,
                                     color: '#145DA0',
-                                    fontSize: 14,
+                                    fontSize: 14
                                   }}
                                 >
                                   Incharge
@@ -931,14 +876,14 @@ const CrfNoBasedReport = () => {
                                         tableData.incharge_approve === 1
                                           ? '#2e7d32'
                                           : tableData.incharge_approve === 2
-                                            ? '#bf360c'
-                                            : tableData.incharge_approve === 3
-                                              ? '#FF9800'
-                                              : '#607D8B',
+                                          ? '#bf360c'
+                                          : tableData.incharge_approve === 3
+                                          ? '#FF9800'
+                                          : '#607D8B',
                                       height: 25,
                                       pb: 0.5,
                                       fontSize: 12,
-                                      fontWeight: 550,
+                                      fontWeight: 550
                                     }}
                                   >
                                     {tableData.incharge}
@@ -947,8 +892,7 @@ const CrfNoBasedReport = () => {
                               </Box>
                             </Box>
                             <Box sx={{ pt: 0.1 }}>
-                              {tableData.incharge_approve === 1 &&
-                                tableData.incharge_remarks !== null ? (
+                              {tableData.incharge_approve === 1 && tableData.incharge_remarks !== null ? (
                                 <Box sx={{ pt: 0.5 }}>
                                   <Box sx={{ display: 'flex' }}>
                                     <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
@@ -962,12 +906,10 @@ const CrfNoBasedReport = () => {
                                         fontWeight: 550,
                                         flex: 1,
                                         pr: 0.5,
-                                        pt: 0.3,
+                                        pt: 0.3
                                       }}
                                     >
-                                      {tableData.incharge_remarks === null
-                                        ? 'Not Updated'
-                                        : tableData.incharge_remarks}
+                                      {tableData.incharge_remarks === null ? 'Not Updated' : tableData.incharge_remarks}
                                     </Typography>
                                   </Box>
                                   <Box sx={{ display: 'flex', pt: 1 }}>
@@ -982,7 +924,7 @@ const CrfNoBasedReport = () => {
                                         fontWeight: 550,
                                         flex: 1,
                                         pr: 0.5,
-                                        pt: 0.3,
+                                        pt: 0.3
                                       }}
                                     >
                                       {tableData.inch_detial_analysis === null
@@ -991,8 +933,7 @@ const CrfNoBasedReport = () => {
                                     </Typography>
                                   </Box>
                                 </Box>
-                              ) : tableData.incharge_approve === 2 &&
-                                tableData.incharge_remarks !== null ? (
+                              ) : tableData.incharge_approve === 2 && tableData.incharge_remarks !== null ? (
                                 <Box sx={{ display: 'flex', pt: 0.5 }}>
                                   <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
                                     Justification for Reject{' '}
@@ -1005,16 +946,13 @@ const CrfNoBasedReport = () => {
                                       fontWeight: 550,
                                       flex: 1,
                                       pr: 0.5,
-                                      pt: 0.3,
+                                      pt: 0.3
                                     }}
                                   >
-                                    {tableData.incharge_remarks === null
-                                      ? 'Not Updated'
-                                      : tableData.incharge_remarks}
+                                    {tableData.incharge_remarks === null ? 'Not Updated' : tableData.incharge_remarks}
                                   </Typography>
                                 </Box>
-                              ) : tableData.incharge_approve === 3 &&
-                                tableData.incharge_remarks !== null ? (
+                              ) : tableData.incharge_approve === 3 && tableData.incharge_remarks !== null ? (
                                 <Box sx={{ display: 'flex', pt: 0.5 }}>
                                   <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
                                     Justification for On-Hold
@@ -1027,29 +965,21 @@ const CrfNoBasedReport = () => {
                                       fontWeight: 550,
                                       flex: 1,
                                       pr: 0.5,
-                                      pt: 0.3,
+                                      pt: 0.3
                                     }}
                                   >
-                                    {tableData.incharge_remarks === null
-                                      ? 'Not Updated'
-                                      : tableData.incharge_remarks}
+                                    {tableData.incharge_remarks === null ? 'Not Updated' : tableData.incharge_remarks}
                                   </Typography>
                                 </Box>
                               ) : null}
                               {tableData.incharge_apprv_date !== null ? (
                                 <Box sx={{ display: 'flex', py: 1 }}>
                                   {tableData.incharge_approve === 1 ? (
-                                    <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>
-                                      Approved by{' '}
-                                    </Typography>
+                                    <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>Approved by </Typography>
                                   ) : tableData.incharge_approve === 2 ? (
-                                    <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>
-                                      Rejected by{' '}
-                                    </Typography>
+                                    <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>Rejected by </Typography>
                                   ) : tableData.incharge_approve === 3 ? (
-                                    <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>
-                                      On-Hold by{' '}
-                                    </Typography>
+                                    <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>On-Hold by </Typography>
                                   ) : null}
                                   <Box sx={{ display: 'flex', flex: 1 }}>
                                     <Typography> :&nbsp;</Typography>
@@ -1059,7 +989,7 @@ const CrfNoBasedReport = () => {
                                         fontSize: 13,
                                         fontWeight: 550,
                                         pt: 0.3,
-                                        pl: 0.2,
+                                        pl: 0.2
                                       }}
                                     >
                                       {capitalizeWords(tableData.incharge_user)}
@@ -1070,7 +1000,7 @@ const CrfNoBasedReport = () => {
                                         fontSize: 13,
                                         fontWeight: 550,
                                         pl: 2,
-                                        pt: 0.3,
+                                        pt: 0.3
                                       }}
                                     >
                                       {tableData.incharge_apprv_date}
@@ -1091,12 +1021,10 @@ const CrfNoBasedReport = () => {
                             overflow: 'auto',
                             flexWrap: 'wrap',
                             wordWrap: 'break-word',
-                            whiteSpace: 'normal',
+                            whiteSpace: 'normal'
                           }}
                         >
-                          <Box
-                            sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}
-                          >
+                          <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                             <Typography
                               sx={{
                                 fontWeight: 'bold',
@@ -1104,7 +1032,7 @@ const CrfNoBasedReport = () => {
                                 py: 0.5,
                                 color: '#145DA0',
                                 fontSize: 14,
-                                flex: 0.4,
+                                flex: 0.4
                               }}
                             >
                               HOD
@@ -1118,14 +1046,14 @@ const CrfNoBasedReport = () => {
                                     tableData.hod_approve === 1
                                       ? '#2e7d32'
                                       : tableData.hod_approve === 2
-                                        ? '#bf360c'
-                                        : tableData.hod_approve === 3
-                                          ? '#FF9800'
-                                          : '#607D8B',
+                                      ? '#bf360c'
+                                      : tableData.hod_approve === 3
+                                      ? '#FF9800'
+                                      : '#607D8B',
                                   height: 25,
                                   pb: 0.5,
                                   fontSize: 12,
-                                  fontWeight: 550,
+                                  fontWeight: 550
                                 }}
                               >
                                 {tableData.hod}
@@ -1147,12 +1075,10 @@ const CrfNoBasedReport = () => {
                                       fontWeight: 550,
                                       flex: 1,
                                       pr: 0.5,
-                                      pt: 0.3,
+                                      pt: 0.3
                                     }}
                                   >
-                                    {tableData.hod_remarks === null
-                                      ? 'Not Updated'
-                                      : tableData.hod_remarks}{' '}
+                                    {tableData.hod_remarks === null ? 'Not Updated' : tableData.hod_remarks}{' '}
                                   </Typography>
                                 </Box>
                                 <Box sx={{ display: 'flex', pt: 1 }}>
@@ -1167,7 +1093,7 @@ const CrfNoBasedReport = () => {
                                       fontWeight: 550,
                                       flex: 1,
                                       pr: 0.5,
-                                      pt: 0.3,
+                                      pt: 0.3
                                     }}
                                   >
                                     {tableData.hod_detial_analysis === null
@@ -1189,12 +1115,10 @@ const CrfNoBasedReport = () => {
                                     fontWeight: 550,
                                     flex: 1,
                                     pr: 0.5,
-                                    pt: 0.3,
+                                    pt: 0.3
                                   }}
                                 >
-                                  {tableData.hod_remarks === null
-                                    ? 'Not Updated'
-                                    : tableData.hod_remarks}
+                                  {tableData.hod_remarks === null ? 'Not Updated' : tableData.hod_remarks}
                                 </Typography>
                               </Box>
                             ) : tableData.hod_approve === 3 && tableData.hod_remarks !== null ? (
@@ -1210,29 +1134,21 @@ const CrfNoBasedReport = () => {
                                     fontWeight: 550,
                                     flex: 1,
                                     pr: 0.5,
-                                    pt: 0.3,
+                                    pt: 0.3
                                   }}
                                 >
-                                  {tableData.hod_remarks === null
-                                    ? 'Not Updated'
-                                    : tableData.hod_remarks}
+                                  {tableData.hod_remarks === null ? 'Not Updated' : tableData.hod_remarks}
                                 </Typography>
                               </Box>
                             ) : null}
                             {tableData.hod_approve_date !== null ? (
                               <Box sx={{ display: 'flex', py: 1 }}>
                                 {tableData.hod_approve === 1 ? (
-                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>
-                                    Approved by{' '}
-                                  </Typography>
+                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>Approved by </Typography>
                                 ) : tableData.hod_approve === 2 ? (
-                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>
-                                    Rejected by{' '}
-                                  </Typography>
+                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>Rejected by </Typography>
                                 ) : tableData.hod_approve === 3 ? (
-                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>
-                                    On-Hold by{' '}
-                                  </Typography>
+                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>On-Hold by </Typography>
                                 ) : null}
                                 <Box sx={{ display: 'flex', flex: 1 }}>
                                   <Typography sx={{}}> :&nbsp;</Typography>
@@ -1242,7 +1158,7 @@ const CrfNoBasedReport = () => {
                                       fontSize: 13,
                                       fontWeight: 550,
                                       pt: 0.3,
-                                      pl: 0.2,
+                                      pl: 0.2
                                     }}
                                   >
                                     {capitalizeWords(tableData.hod_user)}
@@ -1253,7 +1169,7 @@ const CrfNoBasedReport = () => {
                                       fontSize: 13,
                                       fontWeight: 550,
                                       pl: 2,
-                                      pt: 0.3,
+                                      pt: 0.3
                                     }}
                                   >
                                     {tableData.hod_approve_date}
@@ -1268,9 +1184,7 @@ const CrfNoBasedReport = () => {
                     {tableData.dms_req === 1 && tableData.dms_approve !== null ? (
                       <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                         <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
-                          <Box
-                            sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}
-                          >
+                          <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                             <Typography
                               sx={{
                                 fontWeight: 'bold',
@@ -1278,7 +1192,7 @@ const CrfNoBasedReport = () => {
                                 py: 0.5,
                                 color: '#145DA0',
                                 fontSize: 14,
-                                flex: 0.4,
+                                flex: 0.4
                               }}
                             >
                               DMS
@@ -1292,16 +1206,16 @@ const CrfNoBasedReport = () => {
                                     tableData.dms_approve === 1
                                       ? '#2e7d32'
                                       : tableData.dms_approve === 2
-                                        ? '#bf360c'
-                                        : tableData.dms_approve === 3
-                                          ? '#FF9800'
-                                          : tableData.dms_approve === 4
-                                            ? '#009688'
-                                            : '#607D8B',
+                                      ? '#bf360c'
+                                      : tableData.dms_approve === 3
+                                      ? '#FF9800'
+                                      : tableData.dms_approve === 4
+                                      ? '#009688'
+                                      : '#607D8B',
                                   height: 25,
                                   pb: 0.5,
                                   fontSize: 12,
-                                  fontWeight: 550,
+                                  fontWeight: 550
                                 }}
                               >
                                 {tableData.dms}
@@ -1323,12 +1237,10 @@ const CrfNoBasedReport = () => {
                                       fontWeight: 550,
                                       flex: 1,
                                       pr: 0.5,
-                                      pt: 0.3,
+                                      pt: 0.3
                                     }}
                                   >
-                                    {tableData.dms_remarks === null
-                                      ? 'Not Updated'
-                                      : tableData.dms_remarks}
+                                    {tableData.dms_remarks === null ? 'Not Updated' : tableData.dms_remarks}
                                   </Typography>
                                 </Box>
                                 <Box sx={{ display: 'flex', pt: 1 }}>
@@ -1343,7 +1255,7 @@ const CrfNoBasedReport = () => {
                                       fontWeight: 550,
                                       flex: 1,
                                       pr: 0.5,
-                                      pt: 0.3,
+                                      pt: 0.3
                                     }}
                                   >
                                     {tableData.dms_detail_analysis === null
@@ -1365,12 +1277,10 @@ const CrfNoBasedReport = () => {
                                     fontWeight: 550,
                                     flex: 1,
                                     pr: 0.5,
-                                    pt: 0.3,
+                                    pt: 0.3
                                   }}
                                 >
-                                  {tableData.dms_remarks === null
-                                    ? 'Not Updated'
-                                    : tableData.dms_remarks}{' '}
+                                  {tableData.dms_remarks === null ? 'Not Updated' : tableData.dms_remarks}{' '}
                                 </Typography>
                               </Box>
                             ) : tableData.dms_approve === 3 && tableData.dms_remarks !== null ? (
@@ -1386,19 +1296,15 @@ const CrfNoBasedReport = () => {
                                     fontWeight: 550,
                                     flex: 1,
                                     pr: 0.5,
-                                    pt: 0.3,
+                                    pt: 0.3
                                   }}
                                 >
-                                  {tableData.dms_remarks === null
-                                    ? 'Not Updated'
-                                    : tableData.dms_remarks}{' '}
+                                  {tableData.dms_remarks === null ? 'Not Updated' : tableData.dms_remarks}{' '}
                                 </Typography>
                               </Box>
                             ) : tableData.dms_approve === 4 && tableData.dms_remarks !== null ? (
                               <Box sx={{ display: 'flex', pt: 0.5 }}>
-                                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                                  Remarks
-                                </Typography>
+                                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Remarks</Typography>
                                 <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
                                 <Typography
                                   sx={{
@@ -1407,29 +1313,21 @@ const CrfNoBasedReport = () => {
                                     fontWeight: 550,
                                     flex: 1,
                                     pr: 0.5,
-                                    pt: 0.3,
+                                    pt: 0.3
                                   }}
                                 >
-                                  {tableData.dms_remarks === null
-                                    ? 'Not Updated'
-                                    : tableData.dms_remarks}{' '}
+                                  {tableData.dms_remarks === null ? 'Not Updated' : tableData.dms_remarks}{' '}
                                 </Typography>
                               </Box>
                             ) : null}
                             {tableData.dms_approve_date !== null ? (
                               <Box sx={{ display: 'flex', py: 1 }}>
                                 {tableData.dms_approve === 1 || tableData.dms_approve === 4 ? (
-                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>
-                                    Approved by{' '}
-                                  </Typography>
+                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>Approved by </Typography>
                                 ) : tableData.dms_approve === 2 ? (
-                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>
-                                    Rejected by{' '}
-                                  </Typography>
+                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>Rejected by </Typography>
                                 ) : tableData.dms_approve === 3 ? (
-                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>
-                                    On-Hold by{' '}
-                                  </Typography>
+                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>On-Hold by </Typography>
                                 ) : null}
                                 <Box sx={{ display: 'flex', flex: 1 }}>
                                   <Typography sx={{}}> :&nbsp;</Typography>
@@ -1439,7 +1337,7 @@ const CrfNoBasedReport = () => {
                                       fontSize: 13,
                                       fontWeight: 550,
                                       pt: 0.3,
-                                      pl: 0.2,
+                                      pl: 0.2
                                     }}
                                   >
                                     {capitalizeWords(tableData.dms_user)}
@@ -1450,7 +1348,7 @@ const CrfNoBasedReport = () => {
                                       fontSize: 13,
                                       fontWeight: 550,
                                       pl: 2,
-                                      pt: 0.3,
+                                      pt: 0.3
                                     }}
                                   >
                                     {tableData.dms_approve_date}
@@ -1465,9 +1363,7 @@ const CrfNoBasedReport = () => {
                     {tableData.ms_approve_req === 1 && tableData.ms_approve !== null ? (
                       <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                         <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
-                          <Box
-                            sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}
-                          >
+                          <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                             <Typography
                               sx={{
                                 fontWeight: 'bold',
@@ -1475,7 +1371,7 @@ const CrfNoBasedReport = () => {
                                 py: 0.5,
                                 color: '#145DA0',
                                 fontSize: 14,
-                                flex: 0.4,
+                                flex: 0.4
                               }}
                             >
                               MS
@@ -1489,16 +1385,16 @@ const CrfNoBasedReport = () => {
                                     tableData.ms_approve === 1
                                       ? '#2e7d32'
                                       : tableData.ms_approve === 2
-                                        ? '#bf360c'
-                                        : tableData.ms_approve === 3
-                                          ? '#FF9800'
-                                          : tableData.ms_approve === 4
-                                            ? '#009688'
-                                            : '#607D8B',
+                                      ? '#bf360c'
+                                      : tableData.ms_approve === 3
+                                      ? '#FF9800'
+                                      : tableData.ms_approve === 4
+                                      ? '#009688'
+                                      : '#607D8B',
                                   height: 25,
                                   pb: 0.5,
                                   fontSize: 12,
-                                  fontWeight: 550,
+                                  fontWeight: 550
                                 }}
                               >
                                 {tableData.ms}
@@ -1521,12 +1417,10 @@ const CrfNoBasedReport = () => {
                                       fontWeight: 550,
                                       flex: 1,
                                       pr: 0.5,
-                                      pt: 0.3,
+                                      pt: 0.3
                                     }}
                                   >
-                                    {tableData.ms_approve_remark === null
-                                      ? 'Not Updated'
-                                      : tableData.ms_approve_remark}
+                                    {tableData.ms_approve_remark === null ? 'Not Updated' : tableData.ms_approve_remark}
                                   </Typography>
                                 </Box>
                                 <Box sx={{ display: 'flex', pt: 1 }}>
@@ -1541,7 +1435,7 @@ const CrfNoBasedReport = () => {
                                       fontWeight: 550,
                                       flex: 1,
                                       pr: 0.5,
-                                      pt: 0.3,
+                                      pt: 0.3
                                     }}
                                   >
                                     {tableData.ms_detail_analysis === null
@@ -1550,8 +1444,7 @@ const CrfNoBasedReport = () => {
                                   </Typography>
                                 </Box>
                               </Box>
-                            ) : tableData.ms_approve === 2 &&
-                              tableData.ms_approve_remark !== null ? (
+                            ) : tableData.ms_approve === 2 && tableData.ms_approve_remark !== null ? (
                               <Box sx={{ display: 'flex', pt: 0.5 }}>
                                 <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
                                   Justification for Reject{' '}
@@ -1564,16 +1457,13 @@ const CrfNoBasedReport = () => {
                                     fontWeight: 550,
                                     flex: 1,
                                     pr: 0.5,
-                                    pt: 0.3,
+                                    pt: 0.3
                                   }}
                                 >
-                                  {tableData.ms_approve_remark === null
-                                    ? 'Not Updated'
-                                    : tableData.ms_approve_remark}
+                                  {tableData.ms_approve_remark === null ? 'Not Updated' : tableData.ms_approve_remark}
                                 </Typography>
                               </Box>
-                            ) : tableData.ms_approve === 3 &&
-                              tableData.ms_approve_remark !== null ? (
+                            ) : tableData.ms_approve === 3 && tableData.ms_approve_remark !== null ? (
                               <Box sx={{ display: 'flex', pt: 0.5 }}>
                                 <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
                                   Justification for On-Hold
@@ -1586,20 +1476,15 @@ const CrfNoBasedReport = () => {
                                     fontWeight: 550,
                                     flex: 1,
                                     pr: 0.5,
-                                    pt: 0.3,
+                                    pt: 0.3
                                   }}
                                 >
-                                  {tableData.ms_approve_remark === null
-                                    ? 'Not Updated'
-                                    : tableData.ms_approve_remark}{' '}
+                                  {tableData.ms_approve_remark === null ? 'Not Updated' : tableData.ms_approve_remark}{' '}
                                 </Typography>
                               </Box>
-                            ) : tableData.ms_approve === 4 &&
-                              tableData.ms_approve_remark !== null ? (
+                            ) : tableData.ms_approve === 4 && tableData.ms_approve_remark !== null ? (
                               <Box sx={{ display: 'flex', pt: 0.5 }}>
-                                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                                  Remarks
-                                </Typography>
+                                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Remarks</Typography>
                                 <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
                                 <Typography
                                   sx={{
@@ -1608,29 +1493,21 @@ const CrfNoBasedReport = () => {
                                     fontWeight: 550,
                                     flex: 1,
                                     pr: 0.5,
-                                    pt: 0.3,
+                                    pt: 0.3
                                   }}
                                 >
-                                  {tableData.ms_approve_remark === null
-                                    ? 'Not Updated'
-                                    : tableData.ms_approve_remark}{' '}
+                                  {tableData.ms_approve_remark === null ? 'Not Updated' : tableData.ms_approve_remark}{' '}
                                 </Typography>
                               </Box>
                             ) : null}
                             {tableData.ms_approve_date !== null ? (
                               <Box sx={{ display: 'flex', py: 1 }}>
                                 {tableData.ms_approve === 1 || tableData.ms_approve === 4 ? (
-                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>
-                                    Approved by{' '}
-                                  </Typography>
+                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>Approved by </Typography>
                                 ) : tableData.ms_approve === 2 ? (
-                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>
-                                    Rejected by{' '}
-                                  </Typography>
+                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>Rejected by </Typography>
                                 ) : tableData.ms_approve === 3 ? (
-                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>
-                                    On-Hold by{' '}
-                                  </Typography>
+                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>On-Hold by </Typography>
                                 ) : null}
                                 <Box sx={{ display: 'flex', flex: 1 }}>
                                   <Typography sx={{}}> :&nbsp;</Typography>
@@ -1640,7 +1517,7 @@ const CrfNoBasedReport = () => {
                                       fontSize: 13,
                                       fontWeight: 550,
                                       pt: 0.3,
-                                      pl: 0.2,
+                                      pl: 0.2
                                     }}
                                   >
                                     {capitalizeWords(tableData.ms_approve_user)}
@@ -1651,7 +1528,7 @@ const CrfNoBasedReport = () => {
                                       fontSize: 13,
                                       fontWeight: 550,
                                       pl: 2,
-                                      pt: 0.3,
+                                      pt: 0.3
                                     }}
                                   >
                                     {tableData.ms_approve_date}
@@ -1663,13 +1540,10 @@ const CrfNoBasedReport = () => {
                         </Paper>
                       </Grid>
                     ) : null}
-                    {tableData.manag_operation_req === 1 &&
-                      tableData.manag_operation_approv !== null ? (
+                    {tableData.manag_operation_req === 1 && tableData.manag_operation_approv !== null ? (
                       <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                         <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
-                          <Box
-                            sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}
-                          >
+                          <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                             <Typography
                               sx={{
                                 fontWeight: 'bold',
@@ -1677,7 +1551,7 @@ const CrfNoBasedReport = () => {
                                 py: 0.5,
                                 color: '#145DA0',
                                 fontSize: 14,
-                                flex: 0.4,
+                                flex: 0.4
                               }}
                             >
                               CRF Documentaion
@@ -1691,16 +1565,16 @@ const CrfNoBasedReport = () => {
                                     tableData.manag_operation_approv === 1
                                       ? '#2e7d32'
                                       : tableData.manag_operation_approv === 2
-                                        ? '#bf360c'
-                                        : tableData.manag_operation_approv === 3
-                                          ? '#FF9800'
-                                          : tableData.manag_operation_approv === 4
-                                            ? '#009688'
-                                            : '#607D8B',
+                                      ? '#bf360c'
+                                      : tableData.manag_operation_approv === 3
+                                      ? '#FF9800'
+                                      : tableData.manag_operation_approv === 4
+                                      ? '#009688'
+                                      : '#607D8B',
                                   height: 25,
                                   pb: 0.5,
                                   fontSize: 12,
-                                  fontWeight: 550,
+                                  fontWeight: 550
                                 }}
                               >
                                 {tableData.om}
@@ -1708,8 +1582,7 @@ const CrfNoBasedReport = () => {
                             </Box>
                           </Box>
                           <Box sx={{ pt: 0.1 }}>
-                            {tableData.manag_operation_approv === 1 &&
-                              tableData.manag_operation_remarks !== null ? (
+                            {tableData.manag_operation_approv === 1 && tableData.manag_operation_remarks !== null ? (
                               <Box sx={{ pt: 0.5 }}>
                                 <Box sx={{ display: 'flex' }}>
                                   <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
@@ -1723,7 +1596,7 @@ const CrfNoBasedReport = () => {
                                       fontWeight: 550,
                                       flex: 1,
                                       pr: 0.5,
-                                      pt: 0.3,
+                                      pt: 0.3
                                     }}
                                   >
                                     {tableData.manag_operation_remarks === null
@@ -1743,7 +1616,7 @@ const CrfNoBasedReport = () => {
                                       fontWeight: 550,
                                       flex: 1,
                                       pr: 0.5,
-                                      pt: 0.3,
+                                      pt: 0.3
                                     }}
                                   >
                                     {tableData.om_detial_analysis === null
@@ -1753,8 +1626,7 @@ const CrfNoBasedReport = () => {
                                   </Typography>
                                 </Box>
                               </Box>
-                            ) : tableData.manag_operation_approv === 2 &&
-                              tableData.manag_operation_remarks !== null ? (
+                            ) : tableData.manag_operation_approv === 2 && tableData.manag_operation_remarks !== null ? (
                               <Box sx={{ display: 'flex', pt: 0.5 }}>
                                 <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
                                   Justification for Reject{' '}
@@ -1767,7 +1639,7 @@ const CrfNoBasedReport = () => {
                                     fontWeight: 550,
                                     flex: 1,
                                     pr: 0.5,
-                                    pt: 0.3,
+                                    pt: 0.3
                                   }}
                                 >
                                   {tableData.manag_operation_remarks === null
@@ -1775,8 +1647,7 @@ const CrfNoBasedReport = () => {
                                     : tableData.manag_operation_remarks}{' '}
                                 </Typography>
                               </Box>
-                            ) : tableData.manag_operation_approv === 3 &&
-                              tableData.manag_operation_remarks !== null ? (
+                            ) : tableData.manag_operation_approv === 3 && tableData.manag_operation_remarks !== null ? (
                               <Box sx={{ display: 'flex', pt: 0.5 }}>
                                 <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
                                   Justification for On-Hold
@@ -1789,7 +1660,7 @@ const CrfNoBasedReport = () => {
                                     fontWeight: 550,
                                     flex: 1,
                                     pr: 0.5,
-                                    pt: 0.3,
+                                    pt: 0.3
                                   }}
                                 >
                                   {tableData.manag_operation_remarks === null
@@ -1797,12 +1668,9 @@ const CrfNoBasedReport = () => {
                                     : tableData.manag_operation_remarks}
                                 </Typography>
                               </Box>
-                            ) : tableData.manag_operation_approv === 4 &&
-                              tableData.manag_operation_remarks !== null ? (
+                            ) : tableData.manag_operation_approv === 4 && tableData.manag_operation_remarks !== null ? (
                               <Box sx={{ display: 'flex', pt: 0.5 }}>
-                                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                                  Remarks
-                                </Typography>
+                                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Remarks</Typography>
                                 <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
                                 <Typography
                                   sx={{
@@ -1811,7 +1679,7 @@ const CrfNoBasedReport = () => {
                                     fontWeight: 550,
                                     flex: 1,
                                     pr: 0.5,
-                                    pt: 0.3,
+                                    pt: 0.3
                                   }}
                                 >
                                   {tableData.manag_operation_remarks === null
@@ -1822,19 +1690,12 @@ const CrfNoBasedReport = () => {
                             ) : null}
                             {tableData.om_approv_date !== null ? (
                               <Box sx={{ display: 'flex', py: 1 }}>
-                                {tableData.manag_operation_approv === 1 ||
-                                  tableData.manag_operation_approv === 4 ? (
-                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>
-                                    Approved by{' '}
-                                  </Typography>
+                                {tableData.manag_operation_approv === 1 || tableData.manag_operation_approv === 4 ? (
+                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>Approved by </Typography>
                                 ) : tableData.manag_operation_approv === 2 ? (
-                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>
-                                    Rejected by{' '}
-                                  </Typography>
+                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>Rejected by </Typography>
                                 ) : tableData.manag_operation_approv === 3 ? (
-                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>
-                                    On-Hold by{' '}
-                                  </Typography>
+                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>On-Hold by </Typography>
                                 ) : null}
                                 <Box sx={{ display: 'flex', flex: 1 }}>
                                   <Typography> :&nbsp;</Typography>
@@ -1844,7 +1705,7 @@ const CrfNoBasedReport = () => {
                                       fontSize: 13,
                                       fontWeight: 550,
                                       pt: 0.3,
-                                      pl: 0.2,
+                                      pl: 0.2
                                     }}
                                   >
                                     {capitalizeWords(tableData.manag_operation_user)}
@@ -1855,7 +1716,7 @@ const CrfNoBasedReport = () => {
                                       fontSize: 13,
                                       fontWeight: 550,
                                       pl: 2,
-                                      pt: 0.3,
+                                      pt: 0.3
                                     }}
                                   >
                                     {tableData.om_approv_date}
@@ -1867,13 +1728,10 @@ const CrfNoBasedReport = () => {
                         </Paper>
                       </Grid>
                     ) : null}
-                    {tableData.senior_manage_req === 1 &&
-                      tableData.senior_manage_approv !== null ? (
+                    {tableData.senior_manage_req === 1 && tableData.senior_manage_approv !== null ? (
                       <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                         <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
-                          <Box
-                            sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}
-                          >
+                          <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                             <Typography
                               sx={{
                                 fontWeight: 'bold',
@@ -1881,7 +1739,7 @@ const CrfNoBasedReport = () => {
                                 py: 0.5,
                                 color: '#145DA0',
                                 fontSize: 14,
-                                flex: 0.4,
+                                flex: 0.4
                               }}
                             >
                               CRF Verification
@@ -1895,16 +1753,16 @@ const CrfNoBasedReport = () => {
                                     tableData.senior_manage_approv === 1
                                       ? '#2e7d32'
                                       : tableData.senior_manage_approv === 2
-                                        ? '#bf360c'
-                                        : tableData.senior_manage_approv === 3
-                                          ? '#FF9800'
-                                          : tableData.senior_manage_approv === 4
-                                            ? '#009688'
-                                            : '#607D8B',
+                                      ? '#bf360c'
+                                      : tableData.senior_manage_approv === 3
+                                      ? '#FF9800'
+                                      : tableData.senior_manage_approv === 4
+                                      ? '#009688'
+                                      : '#607D8B',
                                   height: 25,
                                   pb: 0.5,
                                   fontSize: 12,
-                                  fontWeight: 550,
+                                  fontWeight: 550
                                 }}
                               >
                                 {tableData.smo}
@@ -1912,8 +1770,7 @@ const CrfNoBasedReport = () => {
                             </Box>
                           </Box>
                           <Box sx={{ pt: 0.1 }}>
-                            {tableData.senior_manage_approv === 1 &&
-                              tableData.senior_manage_remarks !== null ? (
+                            {tableData.senior_manage_approv === 1 && tableData.senior_manage_remarks !== null ? (
                               <Box sx={{ pt: 0.5 }}>
                                 <Box sx={{ display: 'flex' }}>
                                   <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
@@ -1927,7 +1784,7 @@ const CrfNoBasedReport = () => {
                                       fontWeight: 550,
                                       flex: 1,
                                       pr: 0.5,
-                                      pt: 0.3,
+                                      pt: 0.3
                                     }}
                                   >
                                     {tableData.senior_manage_remarks === null
@@ -1947,7 +1804,7 @@ const CrfNoBasedReport = () => {
                                       fontWeight: 550,
                                       flex: 1,
                                       pr: 0.5,
-                                      pt: 0.3,
+                                      pt: 0.3
                                     }}
                                   >
                                     {tableData.smo_detial_analysis === null
@@ -1956,8 +1813,7 @@ const CrfNoBasedReport = () => {
                                   </Typography>
                                 </Box>
                               </Box>
-                            ) : tableData.senior_manage_approv === 2 &&
-                              tableData.senior_manage_remarks !== null ? (
+                            ) : tableData.senior_manage_approv === 2 && tableData.senior_manage_remarks !== null ? (
                               <Box sx={{ display: 'flex', pt: 0.5 }}>
                                 <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
                                   Justification for Reject{' '}
@@ -1970,7 +1826,7 @@ const CrfNoBasedReport = () => {
                                     fontWeight: 550,
                                     flex: 1,
                                     pr: 0.5,
-                                    pt: 0.3,
+                                    pt: 0.3
                                   }}
                                 >
                                   {tableData.senior_manage_remarks === null
@@ -1978,8 +1834,7 @@ const CrfNoBasedReport = () => {
                                     : tableData.senior_manage_remarks}
                                 </Typography>
                               </Box>
-                            ) : tableData.senior_manage_approv === 3 &&
-                              tableData.senior_manage_remarks !== null ? (
+                            ) : tableData.senior_manage_approv === 3 && tableData.senior_manage_remarks !== null ? (
                               <Box sx={{ display: 'flex', pt: 0.5 }}>
                                 <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
                                   Justification for On-Hold
@@ -1992,7 +1847,7 @@ const CrfNoBasedReport = () => {
                                     fontWeight: 550,
                                     flex: 1,
                                     pr: 0.5,
-                                    pt: 0.3,
+                                    pt: 0.3
                                   }}
                                 >
                                   {tableData.senior_manage_remarks === null
@@ -2000,12 +1855,9 @@ const CrfNoBasedReport = () => {
                                     : tableData.senior_manage_remarks}
                                 </Typography>
                               </Box>
-                            ) : tableData.senior_manage_approv === 4 &&
-                              tableData.senior_manage_remarks !== null ? (
+                            ) : tableData.senior_manage_approv === 4 && tableData.senior_manage_remarks !== null ? (
                               <Box sx={{ display: 'flex', pt: 0.5 }}>
-                                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                                  Remarks
-                                </Typography>
+                                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Remarks</Typography>
                                 <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
                                 <Typography
                                   sx={{
@@ -2014,7 +1866,7 @@ const CrfNoBasedReport = () => {
                                     fontWeight: 550,
                                     flex: 1,
                                     pr: 0.5,
-                                    pt: 0.3,
+                                    pt: 0.3
                                   }}
                                 >
                                   {tableData.senior_manage_remarks === null
@@ -2025,19 +1877,12 @@ const CrfNoBasedReport = () => {
                             ) : null}
                             {tableData.som_aprrov_date !== null ? (
                               <Box sx={{ display: 'flex', py: 1 }}>
-                                {tableData.senior_manage_approv === 1 ||
-                                  tableData.senior_manage_approv === 4 ? (
-                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>
-                                    Approved by{' '}
-                                  </Typography>
+                                {tableData.senior_manage_approv === 1 || tableData.senior_manage_approv === 4 ? (
+                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>Approved by </Typography>
                                 ) : tableData.senior_manage_approv === 2 ? (
-                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>
-                                    Rejected by{' '}
-                                  </Typography>
+                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>Rejected by </Typography>
                                 ) : tableData.senior_manage_approv === 3 ? (
-                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>
-                                    On-Hold by{' '}
-                                  </Typography>
+                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>On-Hold by </Typography>
                                 ) : null}
                                 <Box sx={{ display: 'flex', flex: 1 }}>
                                   <Typography sx={{}}> :&nbsp;</Typography>
@@ -2047,7 +1892,7 @@ const CrfNoBasedReport = () => {
                                       fontSize: 13,
                                       fontWeight: 550,
                                       pt: 0.3,
-                                      pl: 0.2,
+                                      pl: 0.2
                                     }}
                                   >
                                     {capitalizeWords(tableData.senior_manage_user)}
@@ -2058,7 +1903,7 @@ const CrfNoBasedReport = () => {
                                       fontSize: 13,
                                       fontWeight: 550,
                                       pl: 2,
-                                      pt: 0.3,
+                                      pt: 0.3
                                     }}
                                   >
                                     {tableData.som_aprrov_date}
@@ -2073,9 +1918,7 @@ const CrfNoBasedReport = () => {
                     {tableData.gm_approve_req === 1 && tableData.gm_approve !== null ? (
                       <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                         <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
-                          <Box
-                            sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}
-                          >
+                          <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                             <Typography
                               sx={{
                                 fontWeight: 'bold',
@@ -2083,7 +1926,7 @@ const CrfNoBasedReport = () => {
                                 py: 0.5,
                                 color: '#145DA0',
                                 fontSize: 13,
-                                flex: 0.4,
+                                flex: 0.4
                               }}
                             >
                               GM Operation / Senior Manager Operation
@@ -2097,16 +1940,16 @@ const CrfNoBasedReport = () => {
                                     tableData.gm_approve === 1
                                       ? '#2e7d32'
                                       : tableData.gm_approve === 2
-                                        ? '#bf360c'
-                                        : tableData.gm_approve === 3
-                                          ? '#FF9800'
-                                          : tableData.gm_approve === 4
-                                            ? '#009688'
-                                            : '#607D8B',
+                                      ? '#bf360c'
+                                      : tableData.gm_approve === 3
+                                      ? '#FF9800'
+                                      : tableData.gm_approve === 4
+                                      ? '#009688'
+                                      : '#607D8B',
                                   height: 25,
                                   pb: 0.5,
                                   fontSize: 12,
-                                  fontWeight: 550,
+                                  fontWeight: 550
                                 }}
                               >
                                 {tableData.gm}
@@ -2128,7 +1971,7 @@ const CrfNoBasedReport = () => {
                                       fontWeight: 550,
                                       flex: 1,
                                       pr: 0.5,
-                                      pt: 0.3,
+                                      pt: 0.3
                                     }}
                                   >
                                     {tableData.gm_approve_remarks === null
@@ -2148,7 +1991,7 @@ const CrfNoBasedReport = () => {
                                       fontWeight: 550,
                                       flex: 1,
                                       pr: 0.5,
-                                      pt: 0.3,
+                                      pt: 0.3
                                     }}
                                   >
                                     {tableData.gm_detial_analysis === null
@@ -2157,8 +2000,7 @@ const CrfNoBasedReport = () => {
                                   </Typography>
                                 </Box>
                               </Box>
-                            ) : tableData.gm_approve === 2 &&
-                              tableData.gm_approve_remarks !== null ? (
+                            ) : tableData.gm_approve === 2 && tableData.gm_approve_remarks !== null ? (
                               <Box sx={{ display: 'flex', pt: 0.5 }}>
                                 <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
                                   Justification for Reject{' '}
@@ -2171,16 +2013,13 @@ const CrfNoBasedReport = () => {
                                     fontWeight: 550,
                                     flex: 1,
                                     pr: 0.5,
-                                    pt: 0.3,
+                                    pt: 0.3
                                   }}
                                 >
-                                  {tableData.gm_approve_remarks === null
-                                    ? 'Not Updated'
-                                    : tableData.gm_approve_remarks}{' '}
+                                  {tableData.gm_approve_remarks === null ? 'Not Updated' : tableData.gm_approve_remarks}{' '}
                                 </Typography>
                               </Box>
-                            ) : tableData.gm_approve === 3 &&
-                              tableData.gm_approve_remarks !== null ? (
+                            ) : tableData.gm_approve === 3 && tableData.gm_approve_remarks !== null ? (
                               <Box sx={{ display: 'flex', pt: 0.5 }}>
                                 <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
                                   Justification for On-Hold
@@ -2193,20 +2032,15 @@ const CrfNoBasedReport = () => {
                                     fontWeight: 550,
                                     flex: 1,
                                     pr: 0.5,
-                                    pt: 0.3,
+                                    pt: 0.3
                                   }}
                                 >
-                                  {tableData.gm_approve_remarks === null
-                                    ? 'Not Updated'
-                                    : tableData.gm_approve_remarks}{' '}
+                                  {tableData.gm_approve_remarks === null ? 'Not Updated' : tableData.gm_approve_remarks}{' '}
                                 </Typography>
                               </Box>
-                            ) : tableData.gm_approve === 4 &&
-                              tableData.gm_approve_remarks !== null ? (
+                            ) : tableData.gm_approve === 4 && tableData.gm_approve_remarks !== null ? (
                               <Box sx={{ display: 'flex', pt: 0.5 }}>
-                                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                                  Remarks
-                                </Typography>
+                                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Remarks</Typography>
                                 <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
                                 <Typography
                                   sx={{
@@ -2215,29 +2049,21 @@ const CrfNoBasedReport = () => {
                                     fontWeight: 550,
                                     flex: 1,
                                     pr: 0.5,
-                                    pt: 0.3,
+                                    pt: 0.3
                                   }}
                                 >
-                                  {tableData.gm_approve_remarks === null
-                                    ? 'Not Updated'
-                                    : tableData.gm_approve_remarks}{' '}
+                                  {tableData.gm_approve_remarks === null ? 'Not Updated' : tableData.gm_approve_remarks}{' '}
                                 </Typography>
                               </Box>
                             ) : null}
                             {tableData.gm_approv_date !== null ? (
                               <Box sx={{ display: 'flex', py: 1 }}>
                                 {tableData.gm_approve === 1 || tableData.gm_approve === 4 ? (
-                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>
-                                    Approved by{' '}
-                                  </Typography>
+                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>Approved by </Typography>
                                 ) : tableData.gm_approve === 2 ? (
-                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>
-                                    Rejected by{' '}
-                                  </Typography>
+                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>Rejected by </Typography>
                                 ) : tableData.gm_approve === 3 ? (
-                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>
-                                    On-Hold by{' '}
-                                  </Typography>
+                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>On-Hold by </Typography>
                                 ) : null}
                                 <Box sx={{ display: 'flex', flex: 1 }}>
                                   <Typography sx={{}}> :&nbsp;</Typography>
@@ -2247,7 +2073,7 @@ const CrfNoBasedReport = () => {
                                       fontSize: 13,
                                       fontWeight: 550,
                                       pt: 0.3,
-                                      pl: 0.2,
+                                      pl: 0.2
                                     }}
                                   >
                                     {capitalizeWords(tableData.gm_user)}
@@ -2258,7 +2084,7 @@ const CrfNoBasedReport = () => {
                                       fontSize: 13,
                                       fontWeight: 550,
                                       pl: 2,
-                                      pt: 0.3,
+                                      pt: 0.3
                                     }}
                                   >
                                     {tableData.gm_approv_date}
@@ -2273,9 +2099,7 @@ const CrfNoBasedReport = () => {
                     {tableData.md_approve_req === 1 && tableData.md_approve !== null ? (
                       <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                         <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
-                          <Box
-                            sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}
-                          >
+                          <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                             <Typography
                               sx={{
                                 fontWeight: 'bold',
@@ -2283,7 +2107,7 @@ const CrfNoBasedReport = () => {
                                 py: 0.5,
                                 color: '#145DA0',
                                 fontSize: 14,
-                                flex: 0.4,
+                                flex: 0.4
                               }}
                             >
                               Medical Director
@@ -2297,16 +2121,16 @@ const CrfNoBasedReport = () => {
                                     tableData.md_approve === 1
                                       ? '#2e7d32'
                                       : tableData.md_approve === 2
-                                        ? '#bf360c'
-                                        : tableData.md_approve === 3
-                                          ? '#FF9800'
-                                          : tableData.md_approve === 4
-                                            ? '#009688'
-                                            : '#607D8B',
+                                      ? '#bf360c'
+                                      : tableData.md_approve === 3
+                                      ? '#FF9800'
+                                      : tableData.md_approve === 4
+                                      ? '#009688'
+                                      : '#607D8B',
                                   height: 25,
                                   pb: 0.5,
                                   fontSize: 12,
-                                  fontWeight: 550,
+                                  fontWeight: 550
                                 }}
                               >
                                 {tableData.md}
@@ -2328,7 +2152,7 @@ const CrfNoBasedReport = () => {
                                       fontWeight: 550,
                                       flex: 1,
                                       pr: 0.5,
-                                      pt: 0.3,
+                                      pt: 0.3
                                     }}
                                   >
                                     {tableData.md_approve_remarks === null
@@ -2348,7 +2172,7 @@ const CrfNoBasedReport = () => {
                                       fontWeight: 550,
                                       flex: 1,
                                       pr: 0.5,
-                                      pt: 0.3,
+                                      pt: 0.3
                                     }}
                                   >
                                     {tableData.md_detial_analysis === null
@@ -2357,8 +2181,7 @@ const CrfNoBasedReport = () => {
                                   </Typography>
                                 </Box>
                               </Box>
-                            ) : tableData.md_approve === 2 &&
-                              tableData.md_approve_remarks !== null ? (
+                            ) : tableData.md_approve === 2 && tableData.md_approve_remarks !== null ? (
                               <Box sx={{ display: 'flex', pt: 0.5 }}>
                                 <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
                                   Justification for Reject{' '}
@@ -2371,16 +2194,13 @@ const CrfNoBasedReport = () => {
                                     fontWeight: 550,
                                     flex: 1,
                                     pr: 0.5,
-                                    pt: 0.3,
+                                    pt: 0.3
                                   }}
                                 >
-                                  {tableData.md_approve_remarks === null
-                                    ? 'Not Updated'
-                                    : tableData.md_approve_remarks}
+                                  {tableData.md_approve_remarks === null ? 'Not Updated' : tableData.md_approve_remarks}
                                 </Typography>
                               </Box>
-                            ) : tableData.md_approve === 3 &&
-                              tableData.md_approve_remarks !== null ? (
+                            ) : tableData.md_approve === 3 && tableData.md_approve_remarks !== null ? (
                               <Box sx={{ display: 'flex', pt: 0.5 }}>
                                 <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
                                   Justification for On-Hold
@@ -2393,20 +2213,15 @@ const CrfNoBasedReport = () => {
                                     fontWeight: 550,
                                     flex: 1,
                                     pr: 0.5,
-                                    pt: 0.3,
+                                    pt: 0.3
                                   }}
                                 >
-                                  {tableData.md_approve_remarks === null
-                                    ? 'Not Updated'
-                                    : tableData.md_approve_remarks}{' '}
+                                  {tableData.md_approve_remarks === null ? 'Not Updated' : tableData.md_approve_remarks}{' '}
                                 </Typography>
                               </Box>
-                            ) : tableData.md_approve === 4 &&
-                              tableData.md_approve_remarks !== null ? (
+                            ) : tableData.md_approve === 4 && tableData.md_approve_remarks !== null ? (
                               <Box sx={{ display: 'flex', pt: 0.5 }}>
-                                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                                  Remarks
-                                </Typography>
+                                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Remarks</Typography>
                                 <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
                                 <Typography
                                   sx={{
@@ -2415,29 +2230,21 @@ const CrfNoBasedReport = () => {
                                     fontWeight: 550,
                                     flex: 1,
                                     pr: 0.5,
-                                    pt: 0.3,
+                                    pt: 0.3
                                   }}
                                 >
-                                  {tableData.md_approve_remarks === null
-                                    ? 'Not Updated'
-                                    : tableData.md_approve_remarks}{' '}
+                                  {tableData.md_approve_remarks === null ? 'Not Updated' : tableData.md_approve_remarks}{' '}
                                 </Typography>
                               </Box>
                             ) : null}
                             {tableData.md_approve_date !== null ? (
                               <Box sx={{ display: 'flex', py: 1 }}>
                                 {tableData.md_approve === 1 || tableData.md_approve === 4 ? (
-                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>
-                                    Approved by{' '}
-                                  </Typography>
+                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>Approved by </Typography>
                                 ) : tableData.md_approve === 2 ? (
-                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>
-                                    Rejected by{' '}
-                                  </Typography>
+                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>Rejected by </Typography>
                                 ) : tableData.md_approve === 3 ? (
-                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>
-                                    On-Hold by{' '}
-                                  </Typography>
+                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>On-Hold by </Typography>
                                 ) : null}
                                 <Box sx={{ display: 'flex', flex: 1 }}>
                                   <Typography> :&nbsp;</Typography>
@@ -2447,7 +2254,7 @@ const CrfNoBasedReport = () => {
                                       fontSize: 13,
                                       fontWeight: 550,
                                       pt: 0.3,
-                                      pl: 0.2,
+                                      pl: 0.2
                                     }}
                                   >
                                     {capitalizeWords(tableData.md_user)}
@@ -2458,7 +2265,7 @@ const CrfNoBasedReport = () => {
                                       fontSize: 13,
                                       fontWeight: 550,
                                       pl: 2,
-                                      pt: 0.3,
+                                      pt: 0.3
                                     }}
                                   >
                                     {tableData.md_approve_date}
@@ -2473,9 +2280,7 @@ const CrfNoBasedReport = () => {
                     {tableData.ed_approve_req === 1 && tableData.ed_approve !== null ? (
                       <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                         <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
-                          <Box
-                            sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}
-                          >
+                          <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                             <Typography
                               sx={{
                                 fontWeight: 'bold',
@@ -2483,7 +2288,7 @@ const CrfNoBasedReport = () => {
                                 py: 0.5,
                                 color: '#145DA0',
                                 fontSize: 14,
-                                flex: 0.4,
+                                flex: 0.4
                               }}
                             >
                               Executive Director
@@ -2497,16 +2302,16 @@ const CrfNoBasedReport = () => {
                                     tableData.ed_approve === 1
                                       ? '#2e7d32'
                                       : tableData.ed_approve === 2
-                                        ? '#bf360c'
-                                        : tableData.ed_approve === 3
-                                          ? '#FF9800'
-                                          : tableData.ed_approve === 4
-                                            ? '#009688'
-                                            : '#607D8B',
+                                      ? '#bf360c'
+                                      : tableData.ed_approve === 3
+                                      ? '#FF9800'
+                                      : tableData.ed_approve === 4
+                                      ? '#009688'
+                                      : '#607D8B',
                                   height: 25,
                                   pb: 0.5,
                                   fontSize: 12,
-                                  fontWeight: 550,
+                                  fontWeight: 550
                                 }}
                               >
                                 {tableData.ed}
@@ -2529,7 +2334,7 @@ const CrfNoBasedReport = () => {
                                       fontWeight: 550,
                                       flex: 1,
                                       pr: 0.5,
-                                      pt: 0.3,
+                                      pt: 0.3
                                     }}
                                   >
                                     {tableData.ed_approve_remarks === null
@@ -2549,7 +2354,7 @@ const CrfNoBasedReport = () => {
                                       fontWeight: 550,
                                       flex: 1,
                                       pr: 0.5,
-                                      pt: 0.3,
+                                      pt: 0.3
                                     }}
                                   >
                                     {tableData.ed_detial_analysis === null
@@ -2558,8 +2363,7 @@ const CrfNoBasedReport = () => {
                                   </Typography>
                                 </Box>
                               </Box>
-                            ) : tableData.ed_approve === 2 &&
-                              tableData.ed_approve_remarks !== null ? (
+                            ) : tableData.ed_approve === 2 && tableData.ed_approve_remarks !== null ? (
                               <Box sx={{ display: 'flex', pt: 0.5 }}>
                                 <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
                                   Justification for Reject{' '}
@@ -2572,16 +2376,13 @@ const CrfNoBasedReport = () => {
                                     fontWeight: 550,
                                     flex: 1,
                                     pr: 0.5,
-                                    pt: 0.3,
+                                    pt: 0.3
                                   }}
                                 >
-                                  {tableData.ed_approve_remarks === null
-                                    ? 'Not Updated'
-                                    : tableData.ed_approve_remarks}
+                                  {tableData.ed_approve_remarks === null ? 'Not Updated' : tableData.ed_approve_remarks}
                                 </Typography>
                               </Box>
-                            ) : tableData.ed_approve === 3 &&
-                              tableData.ed_approve_remarks !== null ? (
+                            ) : tableData.ed_approve === 3 && tableData.ed_approve_remarks !== null ? (
                               <Box sx={{ display: 'flex', pt: 0.5 }}>
                                 <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
                                   Justification for On-Hold
@@ -2594,21 +2395,16 @@ const CrfNoBasedReport = () => {
                                     fontWeight: 550,
                                     flex: 1,
                                     pr: 0.5,
-                                    pt: 0.3,
+                                    pt: 0.3
                                   }}
                                 >
                                   : &nbsp;{' '}
-                                  {tableData.ed_approve_remarks === null
-                                    ? 'Not Updated'
-                                    : tableData.ed_approve_remarks}
+                                  {tableData.ed_approve_remarks === null ? 'Not Updated' : tableData.ed_approve_remarks}
                                 </Typography>
                               </Box>
-                            ) : tableData.ed_approve === 4 &&
-                              tableData.ed_approve_remarks !== null ? (
+                            ) : tableData.ed_approve === 4 && tableData.ed_approve_remarks !== null ? (
                               <Box sx={{ display: 'flex', pt: 0.5 }}>
-                                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                                  Remarks
-                                </Typography>
+                                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Remarks</Typography>
                                 <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
                                 <Typography
                                   sx={{
@@ -2617,29 +2413,21 @@ const CrfNoBasedReport = () => {
                                     fontWeight: 550,
                                     flex: 1,
                                     pr: 0.5,
-                                    pt: 0.3,
+                                    pt: 0.3
                                   }}
                                 >
-                                  {tableData.ed_approve_remarks === null
-                                    ? 'Not Updated'
-                                    : tableData.ed_approve_remarks}{' '}
+                                  {tableData.ed_approve_remarks === null ? 'Not Updated' : tableData.ed_approve_remarks}{' '}
                                 </Typography>
                               </Box>
                             ) : null}
                             {tableData.ed_approve_date !== null ? (
                               <Box sx={{ display: 'flex', py: 1 }}>
                                 {tableData.ed_approve === 1 || tableData.ed_approve === 4 ? (
-                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>
-                                    Approved by{' '}
-                                  </Typography>
+                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>Approved by </Typography>
                                 ) : tableData.ed_approve === 2 ? (
-                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>
-                                    Rejected by{' '}
-                                  </Typography>
+                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>Rejected by </Typography>
                                 ) : tableData.ed_approve === 3 ? (
-                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>
-                                    On-Hold by{' '}
-                                  </Typography>
+                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>On-Hold by </Typography>
                                 ) : null}
                                 <Box sx={{ display: 'flex', flex: 1 }}>
                                   <Typography> :&nbsp;</Typography>
@@ -2649,7 +2437,7 @@ const CrfNoBasedReport = () => {
                                       fontSize: 13,
                                       fontWeight: 550,
                                       pt: 0.3,
-                                      pl: 0.2,
+                                      pl: 0.2
                                     }}
                                   >
                                     {capitalizeWords(tableData.ed_user)}
@@ -2660,7 +2448,7 @@ const CrfNoBasedReport = () => {
                                       fontSize: 13,
                                       fontWeight: 550,
                                       pl: 2,
-                                      pt: 0.3,
+                                      pt: 0.3
                                     }}
                                   >
                                     {tableData.ed_approve_date}
@@ -2672,13 +2460,10 @@ const CrfNoBasedReport = () => {
                         </Paper>
                       </Grid>
                     ) : null}
-                    {tableData.managing_director_req === 1 &&
-                      tableData.managing_director_approve !== null ? (
+                    {tableData.managing_director_req === 1 && tableData.managing_director_approve !== null ? (
                       <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                         <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
-                          <Box
-                            sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}
-                          >
+                          <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                             <Typography
                               sx={{
                                 fontWeight: 'bold',
@@ -2686,7 +2471,7 @@ const CrfNoBasedReport = () => {
                                 py: 0.5,
                                 color: '#145DA0',
                                 fontSize: 14,
-                                flex: 0.4,
+                                flex: 0.4
                               }}
                             >
                               Managing Director
@@ -2700,16 +2485,16 @@ const CrfNoBasedReport = () => {
                                     tableData.managing_director_approve === 1
                                       ? '#2e7d32'
                                       : tableData.managing_director_approve === 2
-                                        ? '#bf360c'
-                                        : tableData.managing_director_approve === 3
-                                          ? '#FF9800'
-                                          : tableData.managing_director_approve === 4
-                                            ? '#009688'
-                                            : '#607D8B',
+                                      ? '#bf360c'
+                                      : tableData.managing_director_approve === 3
+                                      ? '#FF9800'
+                                      : tableData.managing_director_approve === 4
+                                      ? '#009688'
+                                      : '#607D8B',
                                   height: 25,
                                   pb: 0.5,
                                   fontSize: 12,
-                                  fontWeight: 550,
+                                  fontWeight: 550
                                 }}
                               >
                                 {tableData.managing}
@@ -2718,7 +2503,7 @@ const CrfNoBasedReport = () => {
                           </Box>
                           <Box sx={{ pt: 0.1 }}>
                             {tableData.managing_director_approve === 1 &&
-                              tableData.managing_director_remarks !== null ? (
+                            tableData.managing_director_remarks !== null ? (
                               <Box sx={{ pt: 0.5 }}>
                                 <Box sx={{ display: 'flex' }}>
                                   <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
@@ -2732,7 +2517,7 @@ const CrfNoBasedReport = () => {
                                       fontWeight: 550,
                                       flex: 1,
                                       pr: 0.5,
-                                      pt: 0.3,
+                                      pt: 0.3
                                     }}
                                   >
                                     {tableData.managing_director_remarks === null
@@ -2752,7 +2537,7 @@ const CrfNoBasedReport = () => {
                                       fontWeight: 550,
                                       flex: 1,
                                       pr: 0.5,
-                                      pt: 0.3,
+                                      pt: 0.3
                                     }}
                                   >
                                     {tableData.managing_director_analysis === null
@@ -2775,7 +2560,7 @@ const CrfNoBasedReport = () => {
                                     fontWeight: 550,
                                     flex: 1,
                                     pr: 0.5,
-                                    pt: 0.3,
+                                    pt: 0.3
                                   }}
                                 >
                                   {tableData.managing_director_remarks === null
@@ -2797,7 +2582,7 @@ const CrfNoBasedReport = () => {
                                     fontWeight: 550,
                                     flex: 1,
                                     pr: 0.5,
-                                    pt: 0.3,
+                                    pt: 0.3
                                   }}
                                 >
                                   : &nbsp;{' '}
@@ -2809,9 +2594,7 @@ const CrfNoBasedReport = () => {
                             ) : tableData.managing_director_approve === 4 &&
                               tableData.managing_director_remarks !== null ? (
                               <Box sx={{ display: 'flex', pt: 0.5 }}>
-                                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                                  Remarks
-                                </Typography>
+                                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Remarks</Typography>
                                 <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
                                 <Typography
                                   sx={{
@@ -2820,7 +2603,7 @@ const CrfNoBasedReport = () => {
                                     fontWeight: 550,
                                     flex: 1,
                                     pr: 0.5,
-                                    pt: 0.3,
+                                    pt: 0.3
                                   }}
                                 >
                                   {tableData.managing_director_remarks === null
@@ -2832,18 +2615,12 @@ const CrfNoBasedReport = () => {
                             {tableData.managing_director_approve_date !== null ? (
                               <Box sx={{ display: 'flex', py: 1 }}>
                                 {tableData.managing_director_approve === 1 ||
-                                  tableData.managing_director_approve === 4 ? (
-                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>
-                                    Approved by{' '}
-                                  </Typography>
+                                tableData.managing_director_approve === 4 ? (
+                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>Approved by </Typography>
                                 ) : tableData.managing_director_approve === 2 ? (
-                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>
-                                    Rejected by{' '}
-                                  </Typography>
+                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>Rejected by </Typography>
                                 ) : tableData.managing_director_approve === 3 ? (
-                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>
-                                    On-Hold by{' '}
-                                  </Typography>
+                                  <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>On-Hold by </Typography>
                                 ) : null}
                                 <Box sx={{ display: 'flex', flex: 1 }}>
                                   <Typography> :&nbsp;</Typography>
@@ -2853,7 +2630,7 @@ const CrfNoBasedReport = () => {
                                       fontSize: 13,
                                       fontWeight: 550,
                                       pt: 0.3,
-                                      pl: 0.2,
+                                      pl: 0.2
                                     }}
                                   >
                                     {capitalizeWords(tableData.managing_director_user)}
@@ -2864,7 +2641,7 @@ const CrfNoBasedReport = () => {
                                       fontSize: 13,
                                       fontWeight: 550,
                                       pl: 2,
-                                      pt: 0.3,
+                                      pt: 0.3
                                     }}
                                   >
                                     {tableData.managing_director_approve_date}
@@ -2878,13 +2655,8 @@ const CrfNoBasedReport = () => {
                     ) : null}
                     {tableData.crf_close === 1 || tableData.crf_close === 2 ? (
                       <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                        <Paper
-                          variant="outlined"
-                          sx={{ overflow: 'auto', flexWrap: 'wrap', height: 135 }}
-                        >
-                          <Box
-                            sx={{ display: 'flex', py: 0.2, borderBottom: '1px solid lightgrey' }}
-                          >
+                        <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap', height: 135 }}>
+                          <Box sx={{ display: 'flex', py: 0.2, borderBottom: '1px solid lightgrey' }}>
                             <Typography
                               sx={{
                                 fontWeight: 'bold',
@@ -2892,7 +2664,7 @@ const CrfNoBasedReport = () => {
                                 py: 0.5,
                                 color: '#145DA0',
                                 fontSize: 14,
-                                flex: 0.4,
+                                flex: 0.4
                               }}
                             >
                               CRF Closed Details
@@ -2906,7 +2678,7 @@ const CrfNoBasedReport = () => {
                                   height: 25,
                                   fontSize: 12,
                                   fontWeight: 550,
-                                  px: 2,
+                                  px: 2
                                 }}
                               >
                                 Closed
@@ -2915,9 +2687,7 @@ const CrfNoBasedReport = () => {
                           </Box>
                           <Box sx={{ pt: 0.5 }}>
                             <Box sx={{ display: 'flex', pt: 0.5 }}>
-                              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                                Remarks{' '}
-                              </Typography>
+                              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Remarks </Typography>
                               <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
                               <Typography
                                 sx={{
@@ -2926,16 +2696,14 @@ const CrfNoBasedReport = () => {
                                   fontWeight: 550,
                                   flex: 1,
                                   pr: 0.5,
-                                  pt: 0.3,
+                                  pt: 0.3
                                 }}
                               >
                                 {tableData.crf_close_remark}
                               </Typography>
                             </Box>
                             <Box sx={{ display: 'flex', pt: 0.5 }}>
-                              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                                Closed By{' '}
-                              </Typography>
+                              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Closed By </Typography>
                               <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
                               <Typography
                                 sx={{
@@ -2944,16 +2712,14 @@ const CrfNoBasedReport = () => {
                                   fontWeight: 550,
                                   flex: 1,
                                   pr: 0.5,
-                                  pt: 0.3,
+                                  pt: 0.3
                                 }}
                               >
                                 {capitalizeWords(tableData.closed_user)}
                               </Typography>
                             </Box>
                             <Box sx={{ display: 'flex', pt: 0.5 }}>
-                              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                                Closed Date{' '}
-                              </Typography>
+                              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Closed Date </Typography>
                               <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
                               <Typography
                                 sx={{
@@ -2962,7 +2728,7 @@ const CrfNoBasedReport = () => {
                                   fontWeight: 550,
                                   flex: 1,
                                   pr: 0.5,
-                                  pt: 0.3,
+                                  pt: 0.3
                                 }}
                               >
                                 {tableData.close_date}
@@ -2975,23 +2741,15 @@ const CrfNoBasedReport = () => {
                   </CssVarsProvider>
                 </Paper>
                 {tableData.ack_status === 1 ? (
-                  <Paper
-                    variant="outlined"
-                    square
-                    sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.7, mx: 0.7 }}
-                  >
-                    <Typography
-                      sx={{ fontWeight: 'bold', px: 1, py: 0.7, color: '#145DA0', fontSize: 14 }}
-                    >
+                  <Paper variant="outlined" square sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.7, mx: 0.7 }}>
+                    <Typography sx={{ fontWeight: 'bold', px: 1, py: 0.7, color: '#145DA0', fontSize: 14 }}>
                       Procurement Details
                     </Typography>
                     <Grid container spacing={0.5} sx={{ flexGrow: 1 }}>
                       {tableData.ack_status === 1 ? (
                         <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                           <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
-                            <Box
-                              sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}
-                            >
+                            <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                               <Typography
                                 sx={{
                                   fontWeight: 'bold',
@@ -2999,7 +2757,7 @@ const CrfNoBasedReport = () => {
                                   py: 0.5,
                                   color: '#145DA0',
                                   fontSize: 14,
-                                  flex: 0.4,
+                                  flex: 0.4
                                 }}
                               >
                                 CRF Acknowledgement
@@ -3014,7 +2772,7 @@ const CrfNoBasedReport = () => {
                                       height: 25,
                                       pb: 0.5,
                                       fontSize: 12,
-                                      fontWeight: 550,
+                                      fontWeight: 550
                                     }}
                                   >
                                     Yes
@@ -3023,17 +2781,11 @@ const CrfNoBasedReport = () => {
                               </Box>
                             </Box>
                             <Box sx={{ display: 'flex', mx: 0.3, p: 1 }}>
-                              <Typography sx={{ fontSize: 14, flex: 0.4, pt: 0.1 }}>
-                                Remarks
-                              </Typography>
+                              <Typography sx={{ fontSize: 14, flex: 0.4, pt: 0.1 }}>Remarks</Typography>
                               <Box sx={{ flex: 1, display: 'flex' }}>
                                 <Typography sx={{}}> :&nbsp;</Typography>
-                                <Typography
-                                  sx={{ fontSize: 13, flex: 1, fontWeight: 550, pt: 0.2 }}
-                                >
-                                  {tableData.ack_remarks === null
-                                    ? 'Not Updated'
-                                    : tableData.ack_remarks}
+                                <Typography sx={{ fontSize: 13, flex: 1, fontWeight: 550, pt: 0.2 }}>
+                                  {tableData.ack_remarks === null ? 'Not Updated' : tableData.ack_remarks}
                                 </Typography>
                                 <Typography
                                   sx={{
@@ -3044,7 +2796,7 @@ const CrfNoBasedReport = () => {
                                     textTransform: 'capitalize',
                                     fontWeight: 550,
                                     pr: 1,
-                                    pt: 0.2,
+                                    pt: 0.2
                                   }}
                                 >
                                   {capitalizeWords(tableData.purchase_ackuser)}&nbsp; /
@@ -3056,7 +2808,7 @@ const CrfNoBasedReport = () => {
                                     justifyContent: 'flex-start',
                                     fontSize: 13,
                                     fontWeight: 550,
-                                    pt: 0.2,
+                                    pt: 0.2
                                   }}
                                 >
                                   {tableData.ack_date}
@@ -3069,9 +2821,7 @@ const CrfNoBasedReport = () => {
                       {tableData.quatation_calling_status === 1 ? (
                         <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                           <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
-                            <Box
-                              sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}
-                            >
+                            <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                               <Typography
                                 sx={{
                                   fontWeight: 'bold',
@@ -3079,7 +2829,7 @@ const CrfNoBasedReport = () => {
                                   py: 0.5,
                                   color: '#145DA0',
                                   fontSize: 14,
-                                  flex: 0.4,
+                                  flex: 0.4
                                 }}
                               >
                                 Quotation Process Started
@@ -3094,7 +2844,7 @@ const CrfNoBasedReport = () => {
                                       height: 25,
                                       pb: 0.5,
                                       fontSize: 12,
-                                      fontWeight: 550,
+                                      fontWeight: 550
                                     }}
                                   >
                                     Yes
@@ -3103,14 +2853,10 @@ const CrfNoBasedReport = () => {
                               </Box>
                             </Box>
                             <Box sx={{ display: 'flex', mx: 0.3, p: 1 }}>
-                              <Typography sx={{ fontSize: 14, flex: 0.4, pt: 0.1 }}>
-                                Remarks
-                              </Typography>
+                              <Typography sx={{ fontSize: 14, flex: 0.4, pt: 0.1 }}>Remarks</Typography>
                               <Box sx={{ flex: 1, display: 'flex' }}>
                                 <Typography sx={{}}> :&nbsp;</Typography>
-                                <Typography
-                                  sx={{ fontSize: 12, flex: 1, fontWeight: 550, pt: 0.2 }}
-                                >
+                                <Typography sx={{ fontSize: 12, flex: 1, fontWeight: 550, pt: 0.2 }}>
                                   {tableData.quatation_calling_remarks === null
                                     ? 'Not Updated'
                                     : tableData.quatation_calling_remarks}
@@ -3124,7 +2870,7 @@ const CrfNoBasedReport = () => {
                                     textTransform: 'capitalize',
                                     fontWeight: 550,
                                     pr: 1,
-                                    pt: 0.2,
+                                    pt: 0.2
                                   }}
                                 >
                                   {capitalizeWords(tableData.quatation_user)}&nbsp; /
@@ -3136,7 +2882,7 @@ const CrfNoBasedReport = () => {
                                     justifyContent: 'flex-start',
                                     fontSize: 12,
                                     fontWeight: 550,
-                                    pt: 0.2,
+                                    pt: 0.2
                                   }}
                                 >
                                   {tableData.quatation_calling_date}
@@ -3149,9 +2895,7 @@ const CrfNoBasedReport = () => {
                       {tableData.quatation_negotiation === 1 ? (
                         <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                           <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
-                            <Box
-                              sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}
-                            >
+                            <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                               <Typography
                                 sx={{
                                   fontWeight: 'bold',
@@ -3159,7 +2903,7 @@ const CrfNoBasedReport = () => {
                                   py: 0.5,
                                   color: '#145DA0',
                                   fontSize: 14,
-                                  flex: 0.4,
+                                  flex: 0.4
                                 }}
                               >
                                 Negotiation Started
@@ -3174,7 +2918,7 @@ const CrfNoBasedReport = () => {
                                       height: 25,
                                       pb: 0.5,
                                       fontSize: 12,
-                                      fontWeight: 550,
+                                      fontWeight: 550
                                     }}
                                   >
                                     Yes
@@ -3183,14 +2927,10 @@ const CrfNoBasedReport = () => {
                               </Box>
                             </Box>
                             <Box sx={{ display: 'flex', mx: 0.3, p: 1 }}>
-                              <Typography sx={{ fontSize: 14, flex: 0.4, pt: 0.1 }}>
-                                Remarks
-                              </Typography>
+                              <Typography sx={{ fontSize: 14, flex: 0.4, pt: 0.1 }}>Remarks</Typography>
                               <Box sx={{ flex: 1, display: 'flex' }}>
                                 <Typography sx={{}}> :&nbsp;</Typography>
-                                <Typography
-                                  sx={{ fontSize: 12, flex: 1, fontWeight: 550, pt: 0.2 }}
-                                >
+                                <Typography sx={{ fontSize: 12, flex: 1, fontWeight: 550, pt: 0.2 }}>
                                   {tableData.quatation_negotiation_remarks === null
                                     ? 'Not Updated'
                                     : tableData.quatation_negotiation_remarks}
@@ -3204,7 +2944,7 @@ const CrfNoBasedReport = () => {
                                     textTransform: 'capitalize',
                                     fontWeight: 550,
                                     pr: 1,
-                                    pt: 0.2,
+                                    pt: 0.2
                                   }}
                                 >
                                   {capitalizeWords(tableData.quatation_neguser)}&nbsp; /
@@ -3216,7 +2956,7 @@ const CrfNoBasedReport = () => {
                                     justifyContent: 'flex-start',
                                     fontSize: 12,
                                     fontWeight: 550,
-                                    pt: 0.2,
+                                    pt: 0.2
                                   }}
                                 >
                                   {tableData.quatation_negotiation_date}
@@ -3229,9 +2969,7 @@ const CrfNoBasedReport = () => {
                       {tableData.quatation_fixing === 1 ? (
                         <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                           <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
-                            <Box
-                              sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}
-                            >
+                            <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                               <Typography
                                 sx={{
                                   fontWeight: 'bold',
@@ -3239,7 +2977,7 @@ const CrfNoBasedReport = () => {
                                   py: 0.5,
                                   color: '#145DA0',
                                   fontSize: 14,
-                                  flex: 0.4,
+                                  flex: 0.4
                                 }}
                               >
                                 Quotation&apos;s Finalizations / Approvals
@@ -3254,7 +2992,7 @@ const CrfNoBasedReport = () => {
                                       height: 25,
                                       pb: 0.5,
                                       fontSize: 12,
-                                      fontWeight: 550,
+                                      fontWeight: 550
                                     }}
                                   >
                                     Yes
@@ -3263,14 +3001,10 @@ const CrfNoBasedReport = () => {
                               </Box>
                             </Box>
                             <Box sx={{ display: 'flex', mx: 0.3, p: 1 }}>
-                              <Typography sx={{ fontSize: 14, flex: 0.4, pt: 0.1 }}>
-                                Remarks
-                              </Typography>
+                              <Typography sx={{ fontSize: 14, flex: 0.4, pt: 0.1 }}>Remarks</Typography>
                               <Box sx={{ flex: 1, display: 'flex' }}>
                                 <Typography sx={{}}> :&nbsp;</Typography>
-                                <Typography
-                                  sx={{ fontSize: 12, flex: 1, fontWeight: 550, pt: 0.2 }}
-                                >
+                                <Typography sx={{ fontSize: 12, flex: 1, fontWeight: 550, pt: 0.2 }}>
                                   {tableData.quatation_fixing_remarks === null
                                     ? 'Not Updated'
                                     : tableData.quatation_fixing_remarks}
@@ -3284,7 +3018,7 @@ const CrfNoBasedReport = () => {
                                     textTransform: 'capitalize',
                                     fontWeight: 550,
                                     pr: 1,
-                                    pt: 0.2,
+                                    pt: 0.2
                                   }}
                                 >
                                   {capitalizeWords(tableData.quatation_fixuser)}&nbsp; /
@@ -3296,7 +3030,7 @@ const CrfNoBasedReport = () => {
                                     justifyContent: 'flex-start',
                                     fontSize: 12,
                                     fontWeight: 550,
-                                    pt: 0.2,
+                                    pt: 0.2
                                   }}
                                 >
                                   {tableData.quatation_fixing_date}
@@ -3315,7 +3049,7 @@ const CrfNoBasedReport = () => {
                             mx: 1,
                             pt: 0.5,
                             color: '#145DA0',
-                            fontSize: 14,
+                            fontSize: 14
                           }}
                         >
                           PO Details
@@ -3334,7 +3068,7 @@ const CrfNoBasedReport = () => {
                             py: 0.5,
                             color: '#145DA0',
                             fontSize: 14,
-                            flex: 0.4,
+                            flex: 0.4
                           }}
                         >
                           Purchase Order Preparation Completed
@@ -3350,7 +3084,7 @@ const CrfNoBasedReport = () => {
                                 height: 25,
                                 pb: 0.5,
                                 fontSize: 12,
-                                fontWeight: 550,
+                                fontWeight: 550
                               }}
                             >
                               Yes
@@ -3364,14 +3098,12 @@ const CrfNoBasedReport = () => {
                               textTransform: 'capitalize',
                               fontWeight: 550,
                               pl: 2,
-                              pt: 0.4,
+                              pt: 0.4
                             }}
                           >
                             {capitalizeWords(tableData.pocomplete_user)}&nbsp; /
                           </Typography>
-                          <Typography
-                            sx={{ height: 30, fontSize: 12, fontWeight: 550, pl: 1, pt: 0.4 }}
-                          >
+                          <Typography sx={{ height: 30, fontSize: 12, fontWeight: 550, pl: 1, pt: 0.4 }}>
                             {tableData.po_complete_date}
                           </Typography>
                         </Box>
@@ -3386,7 +3118,7 @@ const CrfNoBasedReport = () => {
                             py: 0.5,
                             color: '#145DA0',
                             fontSize: 14,
-                            flex: 0.4,
+                            flex: 0.4
                           }}
                         >
                           PO Approvals
@@ -3400,16 +3132,16 @@ const CrfNoBasedReport = () => {
                               fontWeight: 550,
                               pl: 0.5,
                               pt: 0.4,
-                              color: '#1b5e20',
+                              color: '#1b5e20'
                             }}
                           >
                             {tableData.approval_level === 1
                               ? 'Purchase Dpt Approved'
                               : tableData.approval_level === 2
-                                ? 'Purchase Department Approved, Purchase Manager Approved'
-                                : tableData.approval_level === 3
-                                  ? 'Purchase Department Approved, Purchase Manager Approved, Directors Approved'
-                                  : null}{' '}
+                              ? 'Purchase Department Approved, Purchase Manager Approved'
+                              : tableData.approval_level === 3
+                              ? 'Purchase Department Approved, Purchase Manager Approved, Directors Approved'
+                              : null}{' '}
                           </Typography>
                         </Box>
                       </Box>
@@ -3422,7 +3154,7 @@ const CrfNoBasedReport = () => {
                             py: 0.5,
                             color: '#145DA0',
                             fontSize: 14,
-                            flex: 0.4,
+                            flex: 0.4
                           }}
                         >
                           PO Approvals
@@ -3435,7 +3167,7 @@ const CrfNoBasedReport = () => {
                               fontSize: 13,
                               fontWeight: 550,
                               pt: 0.4,
-                              color: '#ff8f00',
+                              color: '#ff8f00'
                             }}
                           >
                             Approval Pending
@@ -3452,7 +3184,7 @@ const CrfNoBasedReport = () => {
                             py: 0.5,
                             color: '#145DA0',
                             fontSize: 14,
-                            flex: 0.4,
+                            flex: 0.4
                           }}
                         >
                           PO-Supplier Acknowledgement
@@ -3468,15 +3200,13 @@ const CrfNoBasedReport = () => {
                                 height: 25,
                                 pb: 0.5,
                                 fontSize: 12,
-                                fontWeight: 550,
+                                fontWeight: 550
                               }}
                             >
                               Yes
                             </Chip>
                           </CssVarsProvider>
-                          <Typography
-                            sx={{ height: 30, fontSize: 12, fontWeight: 550, pl: 2, pt: 0.4 }}
-                          >
+                          <Typography sx={{ height: 30, fontSize: 12, fontWeight: 550, pl: 2, pt: 0.4 }}>
                             {tableData.po_to_supplier_date}
                           </Typography>
                         </Box>
@@ -3491,7 +3221,7 @@ const CrfNoBasedReport = () => {
                             py: 0.5,
                             color: '#145DA0',
                             fontSize: 14,
-                            flex: 0.4,
+                            flex: 0.4
                           }}
                         >
                           Received in CRS Store
@@ -3507,7 +3237,7 @@ const CrfNoBasedReport = () => {
                                 height: 25,
                                 pb: 0.5,
                                 fontSize: 12,
-                                fontWeight: 550,
+                                fontWeight: 550
                               }}
                             >
                               Yes
@@ -3523,22 +3253,18 @@ const CrfNoBasedReport = () => {
                                   textTransform: 'capitalize',
                                   fontWeight: 550,
                                   pl: 2,
-                                  pt: 0.4,
+                                  pt: 0.4
                                 }}
                               >
                                 {capitalizeWords(tableData.crs_user)}&nbsp; /
                               </Typography>
-                              <Typography
-                                sx={{ height: 30, fontSize: 12, fontWeight: 550, pl: 1, pt: 0.4 }}
-                              >
+                              <Typography sx={{ height: 30, fontSize: 12, fontWeight: 550, pl: 1, pt: 0.4 }}>
                                 {tableData.store_receive_date}
                               </Typography>
                             </>
                           ) : tableData.store_receive === 0 &&
                             (tableData.store_recieve === 0 || tableData.store_recieve === 1) ? (
-                            <Typography
-                              sx={{ height: 30, fontSize: 12, fontWeight: 550, pt: 0.4, pl: 2 }}
-                            >
+                            <Typography sx={{ height: 30, fontSize: 12, fontWeight: 550, pt: 0.4, pl: 2 }}>
                               Partially Received in CRS Store
                             </Typography>
                           ) : null}
@@ -3554,7 +3280,7 @@ const CrfNoBasedReport = () => {
                             py: 0.5,
                             color: '#145DA0',
                             fontSize: 14,
-                            flex: 0.4,
+                            flex: 0.4
                           }}
                         >
                           Received in {tableData.sub_store_name}
@@ -3570,7 +3296,7 @@ const CrfNoBasedReport = () => {
                                 height: 25,
                                 pb: 0.5,
                                 fontSize: 12,
-                                fontWeight: 550,
+                                fontWeight: 550
                               }}
                             >
                               Yes
@@ -3584,14 +3310,12 @@ const CrfNoBasedReport = () => {
                               textTransform: 'capitalize',
                               fontWeight: 550,
                               pl: 2,
-                              pt: 0.4,
+                              pt: 0.4
                             }}
                           >
                             {capitalizeWords(tableData.store_user)}&nbsp; /
                           </Typography>
-                          <Typography
-                            sx={{ height: 30, fontSize: 12, fontWeight: 550, pl: 1, pt: 0.4 }}
-                          >
+                          <Typography sx={{ height: 30, fontSize: 12, fontWeight: 550, pl: 1, pt: 0.4 }}>
                             {tableData.substore_ack_date}
                           </Typography>
                         </Box>
@@ -3607,7 +3331,7 @@ const CrfNoBasedReport = () => {
                               py: 0.5,
                               color: '#145DA0',
                               fontSize: 14,
-                              flex: 0.4,
+                              flex: 0.4
                             }}
                           >
                             User Acknowledgement
@@ -3630,7 +3354,7 @@ const CrfNoBasedReport = () => {
                                 fontSize: 13,
                                 textTransform: 'capitalize',
                                 fontWeight: 550,
-                                pr: 1,
+                                pr: 1
                               }}
                             >
                               {capitalizeWords(tableData.acknowUser)}&nbsp; /
@@ -3641,7 +3365,7 @@ const CrfNoBasedReport = () => {
                                 display: 'flex',
                                 justifyContent: 'flex-start',
                                 fontSize: 13,
-                                fontWeight: 550,
+                                fontWeight: 550
                               }}
                             >
                               {tableData.user_ack_date}
@@ -3663,10 +3387,7 @@ const CrfNoBasedReport = () => {
               <>
                 {tableData.crf_close === 1 || tableData.crf_close === 2 ? (
                   <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                    <Paper
-                      variant="outlined"
-                      sx={{ overflow: 'auto', flexWrap: 'wrap', height: 135 }}
-                    >
+                    <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap', height: 135 }}>
                       <Box sx={{ display: 'flex', py: 0.2, borderBottom: '1px solid lightgrey' }}>
                         <Typography
                           sx={{
@@ -3675,7 +3396,7 @@ const CrfNoBasedReport = () => {
                             py: 0.5,
                             color: '#145DA0',
                             fontSize: 14,
-                            flex: 0.4,
+                            flex: 0.4
                           }}
                         >
                           CRF Closed Details
@@ -3689,7 +3410,7 @@ const CrfNoBasedReport = () => {
                               height: 25,
                               fontSize: 12,
                               fontWeight: 550,
-                              px: 2,
+                              px: 2
                             }}
                           >
                             Closed
@@ -3707,16 +3428,14 @@ const CrfNoBasedReport = () => {
                               fontWeight: 550,
                               flex: 1,
                               pr: 0.5,
-                              pt: 0.3,
+                              pt: 0.3
                             }}
                           >
                             {tableData.crf_close_remark}
                           </Typography>
                         </Box>
                         <Box sx={{ display: 'flex', pt: 0.5 }}>
-                          <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                            Closed By{' '}
-                          </Typography>
+                          <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Closed By </Typography>
                           <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
                           <Typography
                             sx={{
@@ -3725,16 +3444,14 @@ const CrfNoBasedReport = () => {
                               fontWeight: 550,
                               flex: 1,
                               pr: 0.5,
-                              pt: 0.3,
+                              pt: 0.3
                             }}
                           >
                             {capitalizeWords(tableData.closed_user)}
                           </Typography>
                         </Box>
                         <Box sx={{ display: 'flex', pt: 0.5 }}>
-                          <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                            Closed Date{' '}
-                          </Typography>
+                          <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Closed Date </Typography>
                           <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
                           <Typography
                             sx={{
@@ -3743,7 +3460,7 @@ const CrfNoBasedReport = () => {
                               fontWeight: 550,
                               flex: 1,
                               pr: 0.5,
-                              pt: 0.3,
+                              pt: 0.3
                             }}
                           >
                             {tableData.close_date}
@@ -3762,7 +3479,7 @@ const CrfNoBasedReport = () => {
                   fontSize: 25,
                   opacity: 0.5,
                   pt: 10,
-                  color: 'grey',
+                  color: 'grey'
                 }}
               >
                 No Report Found

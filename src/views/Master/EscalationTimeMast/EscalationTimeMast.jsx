@@ -29,7 +29,7 @@ const EscalationTimeMast = () => {
     esc_lvl4: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
     esc_top_lvl: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
     esc_slno: '',
-    esc_status: false,
+    esc_status: false
   })
   //destructuring
   const {
@@ -42,7 +42,7 @@ const EscalationTimeMast = () => {
     esc_lvl4,
     esc_top_lvl,
     esc_slno,
-    esc_status,
+    esc_status
   } = escalation
   //state updation
   const updateEscalation = useCallback(
@@ -64,7 +64,7 @@ const EscalationTimeMast = () => {
       esc_lvl4: moment(esc_lvl4).format('YYYY-MM-DD hh:mm:ss'),
       esc_top_lvl: moment(esc_top_lvl).format('YYYY-MM-DD hh:mm:ss'),
       esc_status: esc_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [
     esc_activity,
@@ -76,7 +76,7 @@ const EscalationTimeMast = () => {
     esc_lvl4,
     esc_top_lvl,
     id,
-    esc_status,
+    esc_status
   ])
   //data set for edit
   const rowSelect = useCallback(params => {
@@ -92,7 +92,7 @@ const EscalationTimeMast = () => {
       esc_lvl4,
       esc_top_lvl,
       esc_slno,
-      status,
+      status
     } = data[0]
     const frmdata = {
       esc_activity: esc_activity,
@@ -104,7 +104,7 @@ const EscalationTimeMast = () => {
       esc_lvl4: esc_lvl4,
       esc_top_lvl: esc_top_lvl,
       esc_status: status === 'Yes' ? true : false,
-      esc_slno: esc_slno,
+      esc_slno: esc_slno
     }
     setEscalation(frmdata)
   }, [])
@@ -121,7 +121,7 @@ const EscalationTimeMast = () => {
       esc_top_lvl: esc_top_lvl,
       esc_status: esc_status === true ? 1 : 0,
       edit_user: id,
-      esc_slno: esc_slno,
+      esc_slno: esc_slno
     }
   }, [
     esc_activity,
@@ -134,7 +134,7 @@ const EscalationTimeMast = () => {
     esc_top_lvl,
     id,
     esc_slno,
-    esc_status,
+    esc_status
   ])
 
   const submitEscalation = useCallback(
@@ -149,7 +149,7 @@ const EscalationTimeMast = () => {
         esc_lvl3: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
         esc_lvl4: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
         esc_top_lvl: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
-        esc_status: false,
+        esc_status: false
       }
       const InsertFun = async postdata => {
         const result = await axioslogin.post('/escalation', postdata)
@@ -201,7 +201,7 @@ const EscalationTimeMast = () => {
       esc_lvl3: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
       esc_lvl4: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
       esc_top_lvl: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
-      esc_status: false,
+      esc_status: false
     }
     setEscalation(formreset)
     setEdit(0)
@@ -211,12 +211,7 @@ const EscalationTimeMast = () => {
     history('/Home/Settings')
   }, [history])
   return (
-    <CardMaster
-      title="Escalation Time Master"
-      close={backtoSetting}
-      submit={submitEscalation}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Escalation Time Master" close={backtoSetting} submit={submitEscalation} refresh={refreshWindow}>
       <Box sx={{ p: 1 }}>
         <Grid container spacing={1}>
           <Grid item xl={3} lg={3}>

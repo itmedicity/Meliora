@@ -36,9 +36,7 @@ const QuaterlyBill = ({ quaterlydata, billCount, setbillCount }) => {
   const UndatePending = useCallback(value => {
     const { quaterly_slno } = value
     const getbillsFile = async () => {
-      const result = await axioslogin.get(
-        `/ItImageUpload/uploadFile/getQuaterlyBillImages/${quaterly_slno}`
-      )
+      const result = await axioslogin.get(`/ItImageUpload/uploadFile/getQuaterlyBillImages/${quaterly_slno}`)
       const { success } = result.data
       if (success === 1) {
         const data = result.data
@@ -76,8 +74,7 @@ const QuaterlyBill = ({ quaterlydata, billCount, setbillCount }) => {
     if (enterText.length < 3) {
       infoNotify('please enter minimum 3 character to search task name')
     } else {
-      let newTableDataa =
-        quaterlydata && quaterlydata.filter(val => val.bill_name.toLowerCase().includes(enterText))
+      let newTableDataa = quaterlydata && quaterlydata.filter(val => val.bill_name.toLowerCase().includes(enterText))
       setsearchBillNameFlag(1)
       setAlphbased(1)
       setAlphbasedData(newTableDataa)
@@ -86,23 +83,20 @@ const QuaterlyBill = ({ quaterlydata, billCount, setbillCount }) => {
 
   useEffect(() => {
     if (alphbased === 1) {
-      let newTableDataa =
-        quaterlydata && quaterlydata.filter(val => val.bill_name.toLowerCase().includes(enterText))
+      let newTableDataa = quaterlydata && quaterlydata.filter(val => val.bill_name.toLowerCase().includes(enterText))
       setAlphbasedData(newTableDataa)
     }
   }, [quaterlydata, alphbased, enterText])
 
   const SearchBillCate = useCallback(() => {
-    let newTableDataa =
-      quaterlydata && quaterlydata.filter(val => val.bill_category === billCategory)
+    let newTableDataa = quaterlydata && quaterlydata.filter(val => val.bill_category === billCategory)
     setAlphbased(2)
     setAlphbasedData(newTableDataa)
   }, [billCategory, quaterlydata])
 
   useEffect(() => {
     if (alphbased === 2) {
-      let newTableDataa =
-        quaterlydata && quaterlydata.filter(val => val.bill_category === billCategory)
+      let newTableDataa = quaterlydata && quaterlydata.filter(val => val.bill_category === billCategory)
       setsearchBillCateFlag(1)
       setBillcate(newTableDataa)
     }
@@ -155,7 +149,7 @@ const QuaterlyBill = ({ quaterlydata, billCount, setbillCount }) => {
                     height: 29,
                     borderRadius: 2,
                     width: 350,
-                    pl: 1,
+                    pl: 1
                   }}
                   onChange={updateEnterText}
                 />
@@ -170,7 +164,7 @@ const QuaterlyBill = ({ quaterlydata, billCount, setbillCount }) => {
                         borderTop: 1,
                         borderBottom: 1,
                         borderColor: '#B2C4CB',
-                        '&:hover': { bgcolor: '#36454F' },
+                        '&:hover': { bgcolor: '#36454F' }
                       }}
                       onClick={SearchBillName}
                     >
@@ -190,7 +184,7 @@ const QuaterlyBill = ({ quaterlydata, billCount, setbillCount }) => {
                         borderTop: 1,
                         borderBottom: 1,
                         borderColor: '#B2C4CB',
-                        '&:hover': { bgcolor: '#36454F' },
+                        '&:hover': { bgcolor: '#36454F' }
                       }}
                       onClick={closeBillSearch}
                     >
@@ -225,7 +219,7 @@ const QuaterlyBill = ({ quaterlydata, billCount, setbillCount }) => {
                         borderTop: 1,
                         borderBottom: 1,
                         borderColor: '#B2C4CB',
-                        '&:hover': { bgcolor: '#36454F' },
+                        '&:hover': { bgcolor: '#36454F' }
                       }}
                       onClick={SearchBillCate}
                     >
@@ -245,7 +239,7 @@ const QuaterlyBill = ({ quaterlydata, billCount, setbillCount }) => {
                         borderTop: 1,
                         borderBottom: 1,
                         borderColor: '#B2C4CB',
-                        '&:hover': { bgcolor: '#36454F' },
+                        '&:hover': { bgcolor: '#36454F' }
                       }}
                       onClick={closeBillSearch}
                     >
@@ -267,12 +261,10 @@ const QuaterlyBill = ({ quaterlydata, billCount, setbillCount }) => {
                 alphbasedData.map(val => {
                   const monthnames = eachMonthOfInterval({
                     start: new Date(val.quaterly_bill_generate),
-                    end: addMonths(new Date(val.quaterly_bill_generate), 2),
+                    end: addMonths(new Date(val.quaterly_bill_generate), 2)
                   })
                   var monthview =
-                    format(new Date(monthnames[0]), 'MMM') +
-                    '-' +
-                    format(new Date(monthnames[2]), 'MMM yyyy')
+                    format(new Date(monthnames[0]), 'MMM') + '-' + format(new Date(monthnames[2]), 'MMM yyyy')
                   return (
                     <Paper
                       key={val.quaterly_slno}
@@ -283,21 +275,18 @@ const QuaterlyBill = ({ quaterlydata, billCount, setbillCount }) => {
                         borderRadius: 0,
                         display: 'flex',
                         mt: 0.5,
-                        color: 'black',
+                        color: 'black'
                       }}
                     >
                       <Box
                         sx={{
                           p: 0.5,
                           cursor: 'pointer',
-                          mx: 1,
+                          mx: 1
                         }}
                       >
                         <Tooltip title="Add Now" placement="bottom">
-                          <AddBoxIcon
-                            sx={{ height: 20, color: '#56382D' }}
-                            onClick={() => UndatePending(val)}
-                          />
+                          <AddBoxIcon sx={{ height: 20, color: '#56382D' }} onClick={() => UndatePending(val)} />
                         </Tooltip>
                       </Box>
                       <Box sx={{ flex: 1, pt: 0.5, cursor: 'grab', pl: 1 }}>
@@ -306,7 +295,7 @@ const QuaterlyBill = ({ quaterlydata, billCount, setbillCount }) => {
                             bgcolor: '#F1C83A',
                             fontSize: 14,
                             fontWeight: 700,
-                            color: '#670305',
+                            color: '#670305'
                           }}
                         >
                           {monthview}
@@ -316,9 +305,7 @@ const QuaterlyBill = ({ quaterlydata, billCount, setbillCount }) => {
                         <Box sx={{ flex: 5, pt: 0.5, cursor: 'grab' }}>{val.bill_name}</Box>
                       </Tooltip>
                       <Tooltip title="bill Category" placement="bottom">
-                        <Box sx={{ flex: 1, pt: 0.5, cursor: 'grab' }}>
-                          {val.it_bill_category_name}
-                        </Box>
+                        <Box sx={{ flex: 1, pt: 0.5, cursor: 'grab' }}>{val.it_bill_category_name}</Box>
                       </Tooltip>
                     </Paper>
                   )
@@ -330,12 +317,10 @@ const QuaterlyBill = ({ quaterlydata, billCount, setbillCount }) => {
                 billcate.map(val => {
                   const monthnames = eachMonthOfInterval({
                     start: new Date(val.quaterly_bill_generate),
-                    end: addMonths(new Date(val.quaterly_bill_generate), 2),
+                    end: addMonths(new Date(val.quaterly_bill_generate), 2)
                   })
                   var monthview =
-                    format(new Date(monthnames[0]), 'MMM') +
-                    '-' +
-                    format(new Date(monthnames[2]), 'MMM yyyy')
+                    format(new Date(monthnames[0]), 'MMM') + '-' + format(new Date(monthnames[2]), 'MMM yyyy')
                   return (
                     <Paper
                       key={val.quaterly_slno}
@@ -346,21 +331,18 @@ const QuaterlyBill = ({ quaterlydata, billCount, setbillCount }) => {
                         borderRadius: 0,
                         display: 'flex',
                         mt: 0.5,
-                        color: 'black',
+                        color: 'black'
                       }}
                     >
                       <Box
                         sx={{
                           p: 0.5,
                           cursor: 'pointer',
-                          mx: 1,
+                          mx: 1
                         }}
                       >
                         <Tooltip title="Add Now" placement="bottom">
-                          <AddBoxIcon
-                            sx={{ height: 20, color: '#56382D' }}
-                            onClick={() => UndatePending(val)}
-                          />
+                          <AddBoxIcon sx={{ height: 20, color: '#56382D' }} onClick={() => UndatePending(val)} />
                         </Tooltip>
                       </Box>
                       <Box sx={{ flex: 1, pt: 0.5, cursor: 'grab', pl: 1 }}>
@@ -369,7 +351,7 @@ const QuaterlyBill = ({ quaterlydata, billCount, setbillCount }) => {
                             bgcolor: '#F1C83A',
                             fontSize: 14,
                             fontWeight: 700,
-                            color: '#670305',
+                            color: '#670305'
                           }}
                         >
                           {monthview}
@@ -379,9 +361,7 @@ const QuaterlyBill = ({ quaterlydata, billCount, setbillCount }) => {
                         <Box sx={{ flex: 5, pt: 0.5, cursor: 'grab' }}>{val.bill_name}</Box>
                       </Tooltip>
                       <Tooltip title="bill Category" placement="bottom">
-                        <Box sx={{ flex: 1, pt: 0.5, cursor: 'grab' }}>
-                          {val.it_bill_category_name}
-                        </Box>
+                        <Box sx={{ flex: 1, pt: 0.5, cursor: 'grab' }}>{val.it_bill_category_name}</Box>
                       </Tooltip>
                     </Paper>
                   )
@@ -393,12 +373,10 @@ const QuaterlyBill = ({ quaterlydata, billCount, setbillCount }) => {
                 quaterlydata.map(val => {
                   const monthnames = eachMonthOfInterval({
                     start: new Date(val.quaterly_bill_generate),
-                    end: addMonths(new Date(val.quaterly_bill_generate), 2),
+                    end: addMonths(new Date(val.quaterly_bill_generate), 2)
                   })
                   var monthview =
-                    format(new Date(monthnames[0]), 'MMM') +
-                    '-' +
-                    format(new Date(monthnames[2]), 'MMM yyyy')
+                    format(new Date(monthnames[0]), 'MMM') + '-' + format(new Date(monthnames[2]), 'MMM yyyy')
 
                   return (
                     <Paper
@@ -410,21 +388,18 @@ const QuaterlyBill = ({ quaterlydata, billCount, setbillCount }) => {
                         borderRadius: 0,
                         display: 'flex',
                         mt: 0.5,
-                        color: 'black',
+                        color: 'black'
                       }}
                     >
                       <Box
                         sx={{
                           p: 0.5,
                           cursor: 'pointer',
-                          mx: 1,
+                          mx: 1
                         }}
                       >
                         <Tooltip title="Add Now" placement="bottom">
-                          <AddBoxIcon
-                            sx={{ height: 20, color: '#56382D' }}
-                            onClick={() => UndatePending(val)}
-                          />
+                          <AddBoxIcon sx={{ height: 20, color: '#56382D' }} onClick={() => UndatePending(val)} />
                         </Tooltip>
                       </Box>
                       <Box sx={{ flex: 1, pt: 0.5, cursor: 'grab', pl: 1 }}>
@@ -433,16 +408,14 @@ const QuaterlyBill = ({ quaterlydata, billCount, setbillCount }) => {
                             bgcolor: '#F1C83A',
                             fontSize: 14,
                             fontWeight: 700,
-                            color: '#670305',
+                            color: '#670305'
                           }}
                         >
                           {monthview}
                         </Chip>
                       </Box>
                       <Box sx={{ flex: 5, pt: 0.5, cursor: 'grab' }}>{val.bill_name}</Box>
-                      <Box sx={{ flex: 1, pt: 0.5, cursor: 'grab' }}>
-                        {val.it_bill_category_name}
-                      </Box>
+                      <Box sx={{ flex: 1, pt: 0.5, cursor: 'grab' }}>{val.it_bill_category_name}</Box>
                       {/* <Tooltip title="bill type" placement="bottom"><Box sx={{ flex: 1, pt: .5, cursor: 'grab' }}>
                                                 {val.it_bill_type_name}
                                             </Box></Tooltip> */}

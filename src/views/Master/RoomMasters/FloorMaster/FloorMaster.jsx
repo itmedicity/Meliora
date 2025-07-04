@@ -22,7 +22,7 @@ const FloorMaster = () => {
     floor_desc: '',
     floor_number: '',
     floor_status: false,
-    floor_code: '',
+    floor_code: ''
   })
   //destructuring
   const { floor_desc, floor_number, floor_status, floor_code } = floor
@@ -40,7 +40,7 @@ const FloorMaster = () => {
       build_code: value,
       floor_number: floor_number,
       floor_status: floor_status === true ? 1 : 0,
-      em_id: 1,
+      em_id: 1
     }
   }, [floor_desc, value, floor_number, floor_status])
   //data set for edit
@@ -52,7 +52,7 @@ const FloorMaster = () => {
       floor_desc: floor_desc,
       floor_number: floor_number,
       floor_status: status === 'Yes' ? true : false,
-      floor_code: floor_code,
+      floor_code: floor_code
     }
     setFloor(frmdata)
     setValue(build_code)
@@ -64,7 +64,7 @@ const FloorMaster = () => {
       build_code: value,
       floor_number: floor_number,
       floor_status: floor_status === true ? 1 : 0,
-      floor_code: floor_code,
+      floor_code: floor_code
     }
   }, [floor_desc, value, floor_number, floor_status, floor_code])
   //reset select box
@@ -78,7 +78,7 @@ const FloorMaster = () => {
         floor_desc: '',
         floor_number: '',
         floor_status: false,
-        floor_code: '',
+        floor_code: ''
       }
       /*** * insert function for use call back     */
       const InsertFun = async postdata => {
@@ -128,7 +128,7 @@ const FloorMaster = () => {
       floor_desc: '',
       floor_number: '',
       floor_status: false,
-      floor_code: '',
+      floor_code: ''
     }
     setFloor(formreset)
     reset()
@@ -140,12 +140,7 @@ const FloorMaster = () => {
     history('/Home/Settings')
   }, [history])
   return (
-    <CardMaster
-      title="Floor Master"
-      close={backtoSetting}
-      submit={submitFloor}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Floor Master" close={backtoSetting} submit={submitFloor} refresh={refreshWindow}>
       <Box sx={{ p: 1 }}>
         <Grid container spacing={1}>
           <Grid item xl={4} lg={4}>

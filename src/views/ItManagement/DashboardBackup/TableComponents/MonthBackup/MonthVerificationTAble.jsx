@@ -40,7 +40,7 @@ const MonthVerificationTAble = ({ setMonthflag }) => {
     return {
       start_date: moment(new Date(fromdate)).format('YYYY-MM-01'),
       end_date: moment(new Date(todate)).format('YYYY-MM-01'),
-      empdept: empdept,
+      empdept: empdept
     }
   }, [fromdate, todate, empdept])
   const SearchDetails = useCallback(() => {
@@ -76,7 +76,7 @@ const MonthVerificationTAble = ({ setMonthflag }) => {
           beforeSizeKB: (val.backup_size_before / 1024).toFixed(2) + ' KB',
           afterSizeKB: (val.backup_size_after / 1024).toFixed(2) + ' KB',
           em_name: val.em_name,
-          remarks: val.remarks === null ? 'Nil' : val.remarks,
+          remarks: val.remarks === null ? 'Nil' : val.remarks
         }
       })
       setExcelflag(3)
@@ -132,7 +132,7 @@ const MonthVerificationTAble = ({ setMonthflag }) => {
                     cursor: 'pointer',
                     paddingBottom: 1,
                     BorderAllRounded: 5,
-                    color: 'black',
+                    color: 'black'
                   }}
                   onClick={SearchDetails}
                 >
@@ -151,7 +151,7 @@ const MonthVerificationTAble = ({ setMonthflag }) => {
                     cursor: 'pointer',
                     paddingBottom: 1,
                     BorderAllRounded: 5,
-                    color: 'black',
+                    color: 'black'
                   }}
                   onClick={ExcelReportDetails}
                 >
@@ -160,10 +160,7 @@ const MonthVerificationTAble = ({ setMonthflag }) => {
               </Box>
             </Box>
           </Paper>
-          <Box
-            variant="outlined"
-            sx={{ overflow: 'auto', maxHeight: window.innerHeight - 220, mt: 0.5 }}
-          >
+          <Box variant="outlined" sx={{ overflow: 'auto', maxHeight: window.innerHeight - 220, mt: 0.5 }}>
             <CssVarsProvider>
               <Table borderAxis="both" padding={'none'} stickyHeader style={{ width: 2500 }}>
                 <thead>

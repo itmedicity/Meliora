@@ -27,7 +27,7 @@ const AmItemSelectDepand = ({ itemList, setItem, item, setItemName }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '29px',
+            '--Input-minHeight': '29px'
           }}
           value={item === 0 ? Items : value}
           placeholder="Select Item"

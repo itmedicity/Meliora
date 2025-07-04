@@ -3,7 +3,7 @@ const { FETCH_DIETPLAN_PENDING_LIST } = ActionTyps
 //intial state
 const DietPlanPending = {
   planPendingList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Diet action type check then payload set to the state and loading status set as true */
 export const setDietPlanPending = (state = DietPlanPending, { type, payload }) => {

@@ -31,15 +31,9 @@ const EmpProgressTable = ({ progresstabledata, rowSelect }) => {
                           onClick={() => rowSelect(val)}
                         />
                       </td>
-                      <td>
-                        {' '}
-                        {moment(val.tm_progres_date).format('DD-MM-YYYY hh:mm') || 'not given'}
-                      </td>
+                      <td> {moment(val.tm_progres_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
                       <td style={{ textTransform: 'capitalize' }}> {val.em_name || 'not given'}</td>
-                      <td style={{ textTransform: 'capitalize' }}>
-                        {' '}
-                        {val.tm_task_progress || 'not given'}
-                      </td>
+                      <td style={{ textTransform: 'capitalize' }}> {val.tm_task_progress || 'not given'}</td>
                     </tr>
                   )
                 })}

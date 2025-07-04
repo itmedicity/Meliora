@@ -9,7 +9,7 @@ import {
   getDefaultCompany,
   getCompanyDetails,
   getdefaultRights,
-  getDatakmcDep,
+  getDatakmcDep
 } from 'src/api/CommonApiCRF'
 
 import _ from 'underscore'
@@ -53,7 +53,7 @@ const CrfDataCollectionTable = () => {
   const {
     data: dataCollection,
     isLoading: isDCLoading,
-    error: dcError,
+    error: dcError
   } = useQuery({
     queryKey: ['dataCollection', empdeptsec],
     // queryFn: () => getDataCollectionDetails(empdeptsec),
@@ -61,23 +61,23 @@ const CrfDataCollectionTable = () => {
       const data = await getDataCollectionDetails(empdeptsec)
       return data.filter(item => item.tmc_data_collection_status === 0)
     },
-    enabled: empdeptsec !== null,
+    enabled: empdeptsec !== null
   })
 
   const {
     data: depkmc,
     isLoading: iskmcDepLoading,
-    error: kmcdepError,
+    error: kmcdepError
   } = useQuery({
     queryKey: ['dataDepkmc', empdeptsec],
     queryFn: () => getDatakmcDep(empdeptsec),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
 
   const {
     data: dataCollectionkmc,
     isLoading: iskmcDCLoading,
-    error: kmcdcError,
+    error: kmcdcError
   } = useQuery({
     queryKey: ['dataCollectionkmc', empdeptsec, depkmc?.kmc_dept], // safer caching
     queryFn: async () => {
@@ -85,7 +85,7 @@ const CrfDataCollectionTable = () => {
       const data = await getDatakmcCollectionDetails(payload)
       return data?.filter(item => item.tmc_data_collection_status === 1)
     },
-    enabled: empdeptsec !== null && depkmc !== undefined,
+    enabled: empdeptsec !== null && depkmc !== undefined
   })
   // const { data: dataCollectionkmc, isLoading: iskmcDCLoading, error: kmcdcError } = useQuery({
   //     queryKey: ['dataCollectionkmc', empdeptsec],
@@ -100,22 +100,22 @@ const CrfDataCollectionTable = () => {
   const {
     data: companyData,
     isLoading: isCompLoading,
-    error: compError,
+    error: compError
   } = useQuery({
     queryKey: 'getdefaultCompany',
     queryFn: () => getDefaultCompany(),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const company = useMemo(() => companyData, [companyData])
 
   const {
     data: datarights,
     isLoading: isdataLoading,
-    error: dataError,
+    error: dataError
   } = useQuery({
     queryKey: 'getdefaultRights',
     queryFn: () => getdefaultRights(empid),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const Right = useMemo(() => {
     return datarights?.[0] || null
@@ -172,7 +172,7 @@ const CrfDataCollectionTable = () => {
           crf_requst_slno: val.crf_requst_slno,
           requser: val.requser.toLowerCase(),
           crf_dept_status: val.crf_dept_status,
-          company_name: val?.company_name,
+          company_name: val?.company_name
         }
         return obj
       })
@@ -182,8 +182,7 @@ const CrfDataCollectionTable = () => {
       setPendingData(pendingList)
       const DoneList = datas.filter(
         (item, index, self) =>
-          index ===
-          self.findIndex(val => val.req_slno === item.req_slno && val.crf_dept_status === 1)
+          index === self.findIndex(val => val.req_slno === item.req_slno && val.crf_dept_status === 1)
       )
       setDoneData(DoneList)
       // const DoneList = datas.filter((val) => {
@@ -263,32 +262,22 @@ const CrfDataCollectionTable = () => {
   const {
     data: compData,
     isLoading: isCompLoad,
-    error: comError,
+    error: comError
   } = useQuery({
     queryKey: 'getCompany',
     queryFn: () => getCompanyDetails(),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const comData = useMemo(() => compData, [compData])
 
-  if (
-    isDCLoading ||
-    isCompLoading ||
-    iskmcDCLoading ||
-    isCompLoad ||
-    isdataLoading ||
-    iskmcDepLoading
-  )
+  if (isDCLoading || isCompLoading || iskmcDCLoading || isCompLoad || isdataLoading || iskmcDepLoading)
     return <p>Loading...</p>
-  if (dcError || compError || kmcdcError || comError || dataError || kmcdepError)
-    return <p>Error occurred.</p>
+  if (dcError || compError || kmcdcError || comError || dataError || kmcdepError) return <p>Error occurred.</p>
   return (
     <Fragment>
       <Box sx={{ height: window.innerHeight - 80, flexWrap: 'wrap', bgcolor: 'white' }}>
         <Box sx={{ display: 'flex', backgroundColor: '#f0f3f5', border: '1px solid #B4F5F0' }}>
-          <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: 0.5, color: '#385E72' }}>
-            Data Collection For CRF
-          </Box>
+          <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: 0.5, color: '#385E72' }}>Data Collection For CRF</Box>
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, m: 0.5 }}>
             <CssVarsProvider>
               <CustomCloseIconCmp handleChange={backtoSetting} />
@@ -303,7 +292,7 @@ const CrfDataCollectionTable = () => {
               alignItems: 'center',
               padding: '8px',
               justifyContent: 'center',
-              bgcolor: 'white',
+              bgcolor: 'white'
             }}
           >
             <RadioGroup row value={selectedCompany} onChange={handleRadioChange}>
@@ -333,15 +322,15 @@ const CrfDataCollectionTable = () => {
                 badgeContent={pendingData.length}
                 anchorOrigin={{
                   vertical: 'top',
-                  horizontal: 'right',
+                  horizontal: 'right'
                 }}
                 sx={{
                   mr: 1,
                   '& .MuiBadge-badge': {
                     backgroundColor: 'orange',
                     color: 'white',
-                    transform: 'translate(70%, -10%)',
-                  },
+                    transform: 'translate(70%, -10%)'
+                  }
                 }}
               >
                 <FormControlLabel
@@ -352,8 +341,8 @@ const CrfDataCollectionTable = () => {
                       sx={{
                         color: 'orange',
                         '&.Mui-checked': {
-                          color: 'orange',
-                        },
+                          color: 'orange'
+                        }
                       }}
                     />
                   }
@@ -364,15 +353,15 @@ const CrfDataCollectionTable = () => {
                 badgeContent={doneData.length}
                 anchorOrigin={{
                   vertical: 'top',
-                  horizontal: 'right',
+                  horizontal: 'right'
                 }}
                 sx={{
                   mr: 1,
                   '& .MuiBadge-badge': {
                     backgroundColor: '#0d47a1',
                     color: 'white',
-                    transform: 'translate(70%, -10%)',
-                  },
+                    transform: 'translate(70%, -10%)'
+                  }
                 }}
               >
                 <FormControlLabel
@@ -383,8 +372,8 @@ const CrfDataCollectionTable = () => {
                       sx={{
                         color: '#0d47a1',
                         '&.Mui-checked': {
-                          color: '#0d47a1',
-                        },
+                          color: '#0d47a1'
+                        }
                       }}
                     />
                   }
@@ -404,10 +393,10 @@ const CrfDataCollectionTable = () => {
                     border: '1px solid #bbdefb',
                     height: 20,
                     color: '#1565c0',
-                    fontSize: 14,
+                    fontSize: 14
                   }}
                   slotProps={{
-                    listbox: { placement: 'bottom-start' },
+                    listbox: { placement: 'bottom-start' }
                   }}
                   placeholder="Search By"
                   value={searchFlag}
@@ -428,13 +417,11 @@ const CrfDataCollectionTable = () => {
                     fontSize: 12,
                     borderRadius: 5,
                     height: '19px',
-                    lineHeight: '1',
+                    lineHeight: '1'
                   }}
                   onClick={ClearSearch}
                 >
-                  <FilterAltTwoToneIcon
-                    sx={{ fontWeight: 550, color: '#0277bd', pr: 0.5, width: 30, height: 20 }}
-                  />
+                  <FilterAltTwoToneIcon sx={{ fontWeight: 550, color: '#0277bd', pr: 0.5, width: 30, height: 20 }} />
                   Clear Filter
                 </IconButton>
               </CssVarsProvider>
@@ -445,9 +432,7 @@ const CrfDataCollectionTable = () => {
                   <CssVarsProvider>
                     <CustomInputDateCmp
                       StartIcon={
-                        <Typography
-                          sx={{ fontSize: 14, color: '#0d47a1', fontWeight: 550, pr: 0.5 }}
-                        >
+                        <Typography sx={{ fontSize: 14, color: '#0d47a1', fontWeight: 550, pr: 0.5 }}>
                           Start Date{' '}
                         </Typography>
                       }
@@ -457,7 +442,7 @@ const CrfDataCollectionTable = () => {
                         border: '1px solid #bbdefb',
                         color: '#0d47a1',
                         fontSize: 14,
-                        width: 200,
+                        width: 200
                       }}
                       size={'md'}
                       type="date"
@@ -471,9 +456,7 @@ const CrfDataCollectionTable = () => {
                   <CssVarsProvider>
                     <CustomInputDateCmp
                       StartIcon={
-                        <Typography
-                          sx={{ fontSize: 14, color: '#0d47a1', fontWeight: 550, pr: 0.5 }}
-                        >
+                        <Typography sx={{ fontSize: 14, color: '#0d47a1', fontWeight: 550, pr: 0.5 }}>
                           Start Date{' '}
                         </Typography>
                       }
@@ -483,7 +466,7 @@ const CrfDataCollectionTable = () => {
                         border: '1px solid #bbdefb',
                         color: '#0d47a1',
                         fontSize: 14,
-                        width: 200,
+                        width: 200
                       }}
                       size={'md'}
                       type="date"
@@ -500,9 +483,7 @@ const CrfDataCollectionTable = () => {
                   <CustomInputDateCmp
                     StartIcon={
                       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <AlignHorizontalLeftTwoToneIcon
-                          sx={{ height: 18, width: 18, color: '#0063C5' }}
-                        />
+                        <AlignHorizontalLeftTwoToneIcon sx={{ height: 18, width: 18, color: '#0063C5' }} />
                         <Typography sx={{ fontSize: '13px', color: '#0063C5' }}>
                           CRF/{company?.company_name}/
                         </Typography>
@@ -513,7 +494,7 @@ const CrfDataCollectionTable = () => {
                       border: '1px solid #bbdefb',
                       width: 250,
                       height: 35,
-                      color: '#1565c0',
+                      color: '#1565c0'
                     }}
                     autoComplete={'off'}
                     size={'md'}
@@ -538,8 +519,8 @@ const CrfDataCollectionTable = () => {
                         ml: 1,
                         pt: 0.2,
                         '&:hover': {
-                          color: '#43B0F1',
-                        },
+                          color: '#43B0F1'
+                        }
                       }}
                     />
                   </CustomIconButtonCmp>
@@ -561,7 +542,7 @@ const CrfDataCollectionTable = () => {
                     mt: 0.8,
                     flexWrap: 'wrap',
                     border: '1px solid #21B6A8',
-                    borderRadius: 2,
+                    borderRadius: 2
                   }}
                 >
                   <MasterDetailCompnt val={val} />
@@ -583,7 +564,7 @@ const CrfDataCollectionTable = () => {
                 fontSize: 25,
                 opacity: 0.5,
                 pt: 10,
-                color: 'grey',
+                color: 'grey'
               }}
             >
               No Report Found

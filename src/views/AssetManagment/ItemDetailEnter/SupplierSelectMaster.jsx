@@ -47,7 +47,7 @@ const SupplierSelectMaster = ({ supplier, setSupplier }) => {
       <Autocomplete
         sx={{
           '--Input-minHeight': '38px',
-          width: '100%',
+          width: '100%'
         }}
         value={value}
         placeholder="Select Supplier"
@@ -61,9 +61,7 @@ const SupplierSelectMaster = ({ supplier, setSupplier }) => {
         }}
         loading={supplierList.length === 0}
         loadingText="Loading..."
-        isOptionEqualToValue={(option, value) =>
-          option.it_supplier_slno === value?.it_supplier_slno
-        }
+        isOptionEqualToValue={(option, value) => option.it_supplier_slno === value?.it_supplier_slno}
         getOptionLabel={option => option.it_supplier_name || ''}
         options={supplierList}
         clearOnEscape

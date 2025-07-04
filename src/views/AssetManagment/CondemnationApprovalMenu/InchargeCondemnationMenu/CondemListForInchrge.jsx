@@ -16,7 +16,7 @@ const CondemListForInchrge = ({ empdept, empId, menurights }) => {
     return {
       empdept,
       condemStatusFrom: condemStatusFrom,
-      condemstatusTo: condemstatusTo,
+      condemstatusTo: condemstatusTo
     }
   }, [empdept, condemStatusFrom, condemstatusTo])
 
@@ -42,7 +42,7 @@ const CondemListForInchrge = ({ empdept, empId, menurights }) => {
   const { data: CondemnationInchData } = useQuery({
     queryKey: ['getCondemInchargePending', formCount],
     queryFn: () => getCondemPendingDatas(postCondemDept),
-    enabled: empdept !== undefined,
+    enabled: empdept !== undefined
   })
 
   const condemInchargePending = useMemo(() => {
@@ -90,7 +90,7 @@ const CondemListForInchrge = ({ empdept, empId, menurights }) => {
             gap: 2,
             justifyContent: 'center',
             mt: 1.5,
-            mb: 2,
+            mb: 2
           }}
         >
           <Radio value="1" label="Pendings" color="neutral" />
@@ -101,29 +101,15 @@ const CondemListForInchrge = ({ empdept, empId, menurights }) => {
 
       {selectedRValue === '1' ? (
         <Box>
-          <InchargePendings
-            condemInchargePending={condemInchargePending}
-            editForm={editForm}
-            viewForm={viewForm}
-          />
+          <InchargePendings condemInchargePending={condemInchargePending} editForm={editForm} viewForm={viewForm} />
         </Box>
       ) : selectedRValue === '2' ? (
         <Box>
-          <SelectedDeptRegReqDate
-            SatusFrom={SatusFrom}
-            StatusTo={StatusTo}
-            empdept={empdept}
-            viewForm={viewForm}
-          />
+          <SelectedDeptRegReqDate SatusFrom={SatusFrom} StatusTo={StatusTo} empdept={empdept} viewForm={viewForm} />
         </Box>
       ) : selectedRValue === '3' ? (
         <Box>
-          <DepartmentcondemList
-            SatusFrom={SatusFrom}
-            StatusTo={StatusTo}
-            empdept={empdept}
-            viewForm={viewForm}
-          />
+          <DepartmentcondemList SatusFrom={SatusFrom} StatusTo={StatusTo} empdept={empdept} viewForm={viewForm} />
         </Box>
       ) : (
         ''

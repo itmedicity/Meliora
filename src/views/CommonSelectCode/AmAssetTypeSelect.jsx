@@ -36,7 +36,7 @@ const AmAssetTypeSelect = ({ assettype, setAssetType, setName }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '29px',
+            '--Input-minHeight': '29px'
           }}
           value={assettype === 0 ? types : value}
           placeholder="Select Asset type"

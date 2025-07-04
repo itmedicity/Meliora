@@ -17,13 +17,13 @@ const AssetListUnderCustodian = ({ custAsset, setcustAsset, setassetData }) => {
   const postData = useMemo(() => {
     return {
       am_custodian_dept_slno: empDeptId,
-      item_dept_slno: empDeptId,
+      item_dept_slno: empDeptId
     }
   }, [empDeptId])
 
   const { data: spareData } = useQuery({
     queryKey: ['getAssetsInstock', postData],
-    queryFn: () => getAssetInstock(postData),
+    queryFn: () => getAssetInstock(postData)
   })
 
   const AssetInstock = useMemo(() => spareData, [spareData])
@@ -65,7 +65,7 @@ const AssetListUnderCustodian = ({ custAsset, setcustAsset, setassetData }) => {
       <Autocomplete
         sx={{
           '--Input-minHeight': '29px',
-          width: '100%',
+          width: '100%'
         }}
         value={value}
         placeholder="Select Asset"
@@ -79,14 +79,12 @@ const AssetListUnderCustodian = ({ custAsset, setcustAsset, setassetData }) => {
         }}
         loading={AssetListt.length === 0}
         loadingText="Loading..."
-        isOptionEqualToValue={(option, value) =>
-          option.am_item_map_slno === value?.am_item_map_slno
-        }
+        isOptionEqualToValue={(option, value) => option.am_item_map_slno === value?.am_item_map_slno}
         getOptionLabel={option =>
           option && option.item_name
-            ? `${option.item_asset_no || ''}/${(option.item_asset_no_only || '')
-                .toString()
-                .padStart(6, '0')} - ${option.item_name || ''}`
+            ? `${option.item_asset_no || ''}/${(option.item_asset_no_only || '').toString().padStart(6, '0')} - ${
+                option.item_name || ''
+              }`
             : ''
         }
         options={AssetListt}

@@ -21,7 +21,7 @@ const DeptWiseEmpSelect = ({ personName, setPersonName, empdeptwise }) => {
   }, [dispatch, empdeptwise])
   const handleChange = e => {
     const {
-      target: { value },
+      target: { value }
     } = e
     setPersonName(
       // On autofill we get a the stringified value.

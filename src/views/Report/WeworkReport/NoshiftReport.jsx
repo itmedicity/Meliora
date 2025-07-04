@@ -25,7 +25,7 @@ const NoshiftReport = () => {
     { headerName: 'Room', field: 'rmc_desc' },
     { headerName: 'Bed', field: 'bdc_no' },
     { headerName: 'Shift_from', field: 'shift_from' },
-    { headerName: 'Shift_to', field: 'shift_to' },
+    { headerName: 'Shift_to', field: 'shift_to' }
   ])
   return (
     <Fragment>

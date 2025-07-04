@@ -14,7 +14,7 @@ const ModalProcedure = ({ open, handleClose, viewProcedures }) => {
           variant="outlined"
           sx={{
             minWidth: '30vw',
-            py: 4,
+            py: 4
             // borderRadius: 'md',
           }}
         >
@@ -28,13 +28,10 @@ const ModalProcedure = ({ open, handleClose, viewProcedures }) => {
               bgcolor: 'background.body',
               color: '#bf360c',
               height: 25,
-              width: 25,
+              width: 25
             }}
           />
-          <Box
-            variant="outlined"
-            sx={{ overflow: 'auto', maxHeight: window.innerHeight - 50, padding: 'none' }}
-          >
+          <Box variant="outlined" sx={{ overflow: 'auto', maxHeight: window.innerHeight - 50, padding: 'none' }}>
             <CssVarsProvider>
               <Table
                 aria-label="table with sticky header"
@@ -47,10 +44,7 @@ const ModalProcedure = ({ open, handleClose, viewProcedures }) => {
               >
                 <thead style={{ alignItems: 'center' }}>
                   <tr style={{ height: 0.5 }}>
-                    <th
-                      size="sm"
-                      style={{ width: 30, fontWeight: 650, fontSize: 14, textAlign: 'center' }}
-                    >
+                    <th size="sm" style={{ width: 30, fontWeight: 650, fontSize: 14, textAlign: 'center' }}>
                       &nbsp; Sl.No
                     </th>
                     <th size="sm" style={{ width: 40, fontWeight: 650, fontSize: 14 }}>

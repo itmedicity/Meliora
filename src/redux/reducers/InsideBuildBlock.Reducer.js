@@ -3,7 +3,7 @@ const { FETCH_INSIDE_BUILDING_BLOCK_SELECT } = ActionTyps
 //initial state
 const insideBuildBlock = {
   insideBuildList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Department action type check then payload set to the state and loading status set as true */
 export const getInsideBuildingBlock = (state = insideBuildBlock, { type, payload }) => {

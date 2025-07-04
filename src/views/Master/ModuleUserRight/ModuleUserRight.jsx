@@ -22,7 +22,7 @@ const ModuleUserRight = () => {
   const [usergroup, setUsergroup] = useState(0)
   const [ModRightStatus, setModRightStatus] = useState({
     status: false,
-    mod_grp_user_slno: 0,
+    mod_grp_user_slno: 0
   })
   const [value, setValue] = useState(0)
   const [count, setCount] = useState(0)
@@ -50,25 +50,18 @@ const ModuleUserRight = () => {
       mod_grp_user_status: status === true ? 1 : 0,
       dept_slno: dept,
       deptsec_slno: deptsec,
-      create_user: id,
+      create_user: id
     }
   }, [empname, modulegroup, usergroup, status, id, deptsec, dept])
   //data set for edit
   const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
-    const {
-      mod_grp_user_slno,
-      mod_grp_user_status,
-      emp_slno,
-      mod_grp_slno,
-      user_group_slno,
-      dept_slno,
-      deptsec_slno,
-    } = data[0]
+    const { mod_grp_user_slno, mod_grp_user_status, emp_slno, mod_grp_slno, user_group_slno, dept_slno, deptsec_slno } =
+      data[0]
     const frmdata = {
       status: mod_grp_user_status === 'Yes' ? true : false,
-      mod_grp_user_slno: mod_grp_user_slno,
+      mod_grp_user_slno: mod_grp_user_slno
     }
     setDept(dept_slno)
     setDeptsec(deptsec_slno)
@@ -86,7 +79,7 @@ const ModuleUserRight = () => {
       mod_grp_user_status: status === true ? 1 : 0,
       dept_slno: dept,
       deptsec_slno: deptsec,
-      mod_grp_user_slno: mod_grp_user_slno,
+      mod_grp_user_slno: mod_grp_user_slno
     }
   }, [empname, modulegroup, usergroup, status, mod_grp_user_slno, deptsec, dept])
   //Reset Function
@@ -105,7 +98,7 @@ const ModuleUserRight = () => {
       /*** Reset fromdata */
       const resetfrm = {
         status: false,
-        mod_grp_user_slno: 0,
+        mod_grp_user_slno: 0
       }
       /*** Insert Function */
       const InsertFun = async postdata => {
@@ -155,7 +148,7 @@ const ModuleUserRight = () => {
   const refreshWindow = useCallback(() => {
     const resetfrm = {
       status: false,
-      mod_grp_user_slno: 0,
+      mod_grp_user_slno: 0
     }
     setModRightStatus(resetfrm)
     reset()

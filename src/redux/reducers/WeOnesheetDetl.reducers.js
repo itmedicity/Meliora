@@ -3,7 +3,7 @@ const { FETCH_ONESHEET_DETL } = ActionTyps
 
 const noshiftdetl = {
   noshiftdetlList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 
 export const getwenoShiftdetl = (state = noshiftdetl, { type, payload }) => {

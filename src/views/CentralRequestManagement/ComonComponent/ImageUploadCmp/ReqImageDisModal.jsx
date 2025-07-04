@@ -17,7 +17,7 @@ const ReqImageDisModal = ({ open, handleClose, previewFile }) => {
           flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
-          maxHeight: window.innerHeight - 80,
+          maxHeight: window.innerHeight - 80
         }}
       >
         <Sheet
@@ -27,7 +27,7 @@ const ReqImageDisModal = ({ open, handleClose, previewFile }) => {
             borderRadius: 'sm',
             p: 2,
             boxShadow: 'lg',
-            height: window.innerHeight - 100,
+            height: window.innerHeight - 100
           }}
         >
           <Box
@@ -39,7 +39,7 @@ const ReqImageDisModal = ({ open, handleClose, previewFile }) => {
               margin: 'auto',
               height: window.innerHeight - 180,
               overflowX: 'auto',
-              '::-webkit-scrollbar': { display: 'none' },
+              '::-webkit-scrollbar': { display: 'none' }
             }}
           >
             {previewFile.type === 'image' ? (
@@ -49,7 +49,7 @@ const ReqImageDisModal = ({ open, handleClose, previewFile }) => {
                 style={{
                   width: '100%',
                   height: '100%',
-                  objectFit: 'contain',
+                  objectFit: 'contain'
                 }}
               />
             ) : previewFile.type === 'pdf' ? (
@@ -59,7 +59,7 @@ const ReqImageDisModal = ({ open, handleClose, previewFile }) => {
                 style={{
                   width: '100%',
                   height: '100%',
-                  border: 'none',
+                  border: 'none'
                 }}
               />
             ) : (

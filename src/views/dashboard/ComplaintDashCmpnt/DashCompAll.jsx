@@ -1,10 +1,7 @@
 import { Paper, Box } from '@mui/material'
 import React, { Fragment, useEffect, memo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  getPendingOnholdcomplaintsall,
-  getTotalcomplaintsall,
-} from 'src/redux/actions/ComplaintDashAllDept.action'
+import { getPendingOnholdcomplaintsall, getTotalcomplaintsall } from 'src/redux/actions/ComplaintDashAllDept.action'
 import { getComplaintDept } from 'src/redux/actions/ComplaintDept.action'
 import ComDashTableAll from './ComDashTableAll'
 import ComplaintDashboard from './ComplaintDashboard'
@@ -22,7 +19,7 @@ const DashCompAll = () => {
   const totalcomplaint = useSelector(state => {
     return {
       complaintList: state.setComplaintListAll.complaintList,
-      loadingStatus: state.setComplaintListAll.loadingStatus,
+      loadingStatus: state.setComplaintListAll.loadingStatus
     }
   })
   const { complaintList, loadingStatus } = totalcomplaint
@@ -30,7 +27,7 @@ const DashCompAll = () => {
   const onholdcomplaint = useSelector(state => {
     return {
       pendingOnholdList: state.setPendOnholdCompListAll.pendingOnholdList,
-      PendingOnholdStatus: state.setPendOnholdCompListAll.pendingOnholdStatus,
+      PendingOnholdStatus: state.setPendOnholdCompListAll.pendingOnholdStatus
     }
   })
 
@@ -59,8 +56,8 @@ const DashCompAll = () => {
       slno: 15,
       name: 'Onhold/Pending Complaints',
       count: pendingOnholdList.length,
-      status: PendingOnholdStatus,
-    },
+      status: PendingOnholdStatus
+    }
   ]
 
   const compdept = useSelector(state => {
@@ -75,7 +72,7 @@ const DashCompAll = () => {
             width: '100%',
             display: 'flex',
             p: 1,
-            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
+            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' }
           }}
         >
           {dasharrayDept &&
@@ -85,15 +82,10 @@ const DashCompAll = () => {
                   key={val.slno}
                   sx={{
                     width: '20%',
-                    pr: 2,
+                    pr: 2
                   }}
                 >
-                  <ComplaintDashboard
-                    widgetName={val.name}
-                    count={val.count}
-                    slno={val.slno}
-                    status={val.status}
-                  />
+                  <ComplaintDashboard widgetName={val.name} count={val.count} slno={val.slno} status={val.status} />
                 </Box>
               )
             })}
@@ -103,7 +95,7 @@ const DashCompAll = () => {
             width: '100%',
             display: 'flex',
             p: 1,
-            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
+            flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' }
           }}
         >
           <ComDashTableAll

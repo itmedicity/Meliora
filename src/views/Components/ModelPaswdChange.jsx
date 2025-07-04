@@ -63,7 +63,7 @@ const ModelPaswdChange = ({ open, handleClose }) => {
       const patchdata = {
         emp_no: em_no,
         emp_password: newPswd,
-        edit_user: empid,
+        edit_user: empid
       }
       const result = await axioslogin.patch('/employee/changepasword', patchdata)
       const { message, success } = result.data
@@ -97,23 +97,21 @@ const ModelPaswdChange = ({ open, handleClose }) => {
           aria-describedby="alert-dialog-slide-descriptiona"
         >
           <DialogContent id="alert-dialog-slide-descriptiona">
-            <DialogContentText id="alert-dialog-slide-descriptiona">
-              Change Password
-            </DialogContentText>
+            <DialogContentText id="alert-dialog-slide-descriptiona">Change Password</DialogContentText>
           </DialogContent>
           <Box
             sx={{
               width: 500,
               height: 120,
               pl: 2,
-              flexDirection: 'column',
+              flexDirection: 'column'
             }}
           >
             <Box
               sx={{
                 width: '100%',
                 display: 'flex',
-                flexDirection: 'row',
+                flexDirection: 'row'
               }}
             >
               <Box sx={{ height: 50, width: '40%' }}>
@@ -146,7 +144,7 @@ const ModelPaswdChange = ({ open, handleClose }) => {
               sx={{
                 width: '100%',
                 display: 'flex',
-                flexDirection: 'row',
+                flexDirection: 'row'
               }}
             >
               <Box sx={{ height: 50, width: '40%' }}>
@@ -164,11 +162,7 @@ const ModelPaswdChange = ({ open, handleClose }) => {
                 />
               </Box>
               <Box sx={{ height: 50, width: '10%' }}>
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowConfmPassword}
-                  edge="end"
-                >
+                <IconButton aria-label="toggle password visibility" onClick={handleClickShowConfmPassword} edge="end">
                   {showConfmPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </Box>

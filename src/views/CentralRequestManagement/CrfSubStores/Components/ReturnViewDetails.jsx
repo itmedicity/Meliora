@@ -1,13 +1,4 @@
-import {
-  Box,
-  Button,
-  CssVarsProvider,
-  Modal,
-  ModalClose,
-  ModalDialog,
-  Textarea,
-  Typography,
-} from '@mui/joy'
+import { Box, Button, CssVarsProvider, Modal, ModalClose, ModalDialog, Textarea, Typography } from '@mui/joy'
 import { format } from 'date-fns'
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useQueryClient } from 'react-query'
@@ -31,9 +22,7 @@ const ReturnViewDetails = ({ setReturnModalData, returnModalData, handleClose, o
   const changeRemarks = useCallback(
     (itemSlno, value) => {
       setReturnModalData(prevData =>
-        prevData.map(item =>
-          item.item_return_slno === itemSlno ? { ...item, storeRemarks: value } : item
-        )
+        prevData.map(item => (item.item_return_slno === itemSlno ? { ...item, storeRemarks: value } : item))
       )
     },
     [setReturnModalData]
@@ -44,8 +33,7 @@ const ReturnViewDetails = ({ setReturnModalData, returnModalData, handleClose, o
       return {
         store_issue_remarks: val.received_status_return === 1 ? val.storeRemarks : null,
         store_user: val.received_status_return === 1 ? empid : null,
-        issued_date:
-          val.received_status_return === 1 ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : null,
+        issued_date: val.received_status_return === 1 ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : null,
         store_return_received_remarks:
           val.received_status_return === 0 ? val.storeRemarks : val.store_return_received_remarks,
         received_user: val.received_status_return === 0 ? empid : val.received_user,
@@ -54,7 +42,7 @@ const ReturnViewDetails = ({ setReturnModalData, returnModalData, handleClose, o
             ? format(new Date(), 'yyyy-MM-dd HH:mm:ss')
             : format(new Date(val.received_date), 'yyyy-MM-dd HH:mm:ss'),
         return_status: val.received_status_return === 0 ? 1 : 0,
-        item_return_slno: val.item_return_slno,
+        item_return_slno: val.item_return_slno
       }
     })
     const replyUpdate = async patchData => {
@@ -96,9 +84,9 @@ const ReturnViewDetails = ({ setReturnModalData, returnModalData, handleClose, o
     border: '1px solid #bbdefb',
     '&:hover': {
       color: '#1e88e5',
-      bgcolor: 'white',
+      bgcolor: 'white'
     },
-    borderRadius: 5,
+    borderRadius: 5
   }
   return (
     <Box>
@@ -121,14 +109,14 @@ const ReturnViewDetails = ({ setReturnModalData, returnModalData, handleClose, o
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 25,
-                width: 25,
+                width: 25
               }}
             />
             <Box
               sx={{
                 width: '85vw',
                 minHeight: 200,
-                overflow: 'auto',
+                overflow: 'auto'
               }}
             >
               <Typography level="body-sm" sx={{ color: '#0074B7', fontWeight: 650, pl: 1 }}>
@@ -145,7 +133,7 @@ const ReturnViewDetails = ({ setReturnModalData, returnModalData, handleClose, o
                     position: 'sticky',
                     top: 0,
                     zIndex: 1,
-                    borderBottom: '1px solid lightgrey',
+                    borderBottom: '1px solid lightgrey'
                   }}
                 >
                   <Typography
@@ -155,29 +143,21 @@ const ReturnViewDetails = ({ setReturnModalData, returnModalData, handleClose, o
                       fontWeight: 550,
                       fontSize: 13,
                       my: 0.5,
-                      pl: 1,
+                      pl: 1
                     }}
                   >
                     Sl.No
                   </Typography>
-                  <Typography
-                    sx={{ width: 250, fontWeight: 550, fontSize: 13, my: 0.5, textAlign: 'left' }}
-                  >
+                  <Typography sx={{ width: 250, fontWeight: 550, fontSize: 13, my: 0.5, textAlign: 'left' }}>
                     Item Description
                   </Typography>
-                  <Typography
-                    sx={{ width: 250, fontWeight: 550, fontSize: 13, my: 0.5, textAlign: 'left' }}
-                  >
+                  <Typography sx={{ width: 250, fontWeight: 550, fontSize: 13, my: 0.5, textAlign: 'left' }}>
                     Reason
                   </Typography>
-                  <Typography
-                    sx={{ width: 170, fontWeight: 550, fontSize: 13, my: 0.5, textAlign: 'left' }}
-                  >
+                  <Typography sx={{ width: 170, fontWeight: 550, fontSize: 13, my: 0.5, textAlign: 'left' }}>
                     User
                   </Typography>
-                  <Typography
-                    sx={{ width: 200, fontWeight: 550, fontSize: 13, my: 0.5, textAlign: 'left' }}
-                  >
+                  <Typography sx={{ width: 200, fontWeight: 550, fontSize: 13, my: 0.5, textAlign: 'left' }}>
                     Return Date
                   </Typography>
 
@@ -189,7 +169,7 @@ const ReturnViewDetails = ({ setReturnModalData, returnModalData, handleClose, o
                           fontWeight: 550,
                           fontSize: 13,
                           my: 0.5,
-                          textAlign: 'left',
+                          textAlign: 'left'
                         }}
                       >
                         Received User
@@ -200,7 +180,7 @@ const ReturnViewDetails = ({ setReturnModalData, returnModalData, handleClose, o
                           fontWeight: 550,
                           fontSize: 13,
                           my: 0.5,
-                          textAlign: 'left',
+                          textAlign: 'left'
                         }}
                       >
                         Received Date
@@ -211,7 +191,7 @@ const ReturnViewDetails = ({ setReturnModalData, returnModalData, handleClose, o
                           fontWeight: 550,
                           fontSize: 13,
                           my: 0.5,
-                          textAlign: 'lrft',
+                          textAlign: 'lrft'
                         }}
                       >
                         Received Remarks
@@ -225,7 +205,7 @@ const ReturnViewDetails = ({ setReturnModalData, returnModalData, handleClose, o
                         fontWeight: 550,
                         fontSize: 13,
                         my: 0.5,
-                        textAlign: 'center',
+                        textAlign: 'center'
                       }}
                     >
                       Replaced Remarks
@@ -237,7 +217,7 @@ const ReturnViewDetails = ({ setReturnModalData, returnModalData, handleClose, o
                         fontWeight: 550,
                         fontSize: 13,
                         my: 0.5,
-                        textAlign: 'center',
+                        textAlign: 'center'
                       }}
                     >
                       Received Remarks
@@ -248,7 +228,7 @@ const ReturnViewDetails = ({ setReturnModalData, returnModalData, handleClose, o
                   style={{
                     minHeight: 150,
                     width: '100%',
-                    height: virtuosoHeight,
+                    height: virtuosoHeight
                   }}
                   data={returnModalData}
                   itemContent={(index, val) => (
@@ -259,7 +239,7 @@ const ReturnViewDetails = ({ setReturnModalData, returnModalData, handleClose, o
                         sx={{
                           borderBottom: '1px solid lightgrey',
                           flexWrap: 'nowrap',
-                          cursor: 'pointer',
+                          cursor: 'pointer'
                         }}
                       >
                         <Typography sx={{ width: 70, textAlign: 'center', fontSize: 12, pt: 1.2 }}>
@@ -279,19 +259,13 @@ const ReturnViewDetails = ({ setReturnModalData, returnModalData, handleClose, o
                         </Typography>
                         {val.received_status_return === 1 ? (
                           <>
-                            <Typography
-                              sx={{ width: 170, fontSize: 12, pt: 1.2, textAlign: 'left' }}
-                            >
+                            <Typography sx={{ width: 170, fontSize: 12, pt: 1.2, textAlign: 'left' }}>
                               {val.item_received_user}{' '}
                             </Typography>
-                            <Typography
-                              sx={{ width: 200, fontSize: 12, pt: 1.2, textAlign: 'left' }}
-                            >
+                            <Typography sx={{ width: 200, fontSize: 12, pt: 1.2, textAlign: 'left' }}>
                               {format(new Date(val.received_date), 'dd-MM-yyyy hh:mm a')}{' '}
                             </Typography>
-                            <Typography
-                              sx={{ width: 250, fontSize: 12, pt: 1.2, textAlign: 'left' }}
-                            >
+                            <Typography sx={{ width: 250, fontSize: 12, pt: 1.2, textAlign: 'left' }}>
                               {val.store_return_received_remarks}
                             </Typography>
                           </>
@@ -301,7 +275,7 @@ const ReturnViewDetails = ({ setReturnModalData, returnModalData, handleClose, o
                             width: 300,
                             fontSize: 12,
                             m: 0.5,
-                            display: 'flex',
+                            display: 'flex'
                           }}
                         >
                           {val.received_status_return === 0 ? (
@@ -319,7 +293,7 @@ const ReturnViewDetails = ({ setReturnModalData, returnModalData, handleClose, o
                                 border: '1px solid #bbdefb',
                                 fontSize: 14,
                                 borderRadius: 5,
-                                width: '100%',
+                                width: '100%'
                               }}
                             />
                           ) : (
@@ -337,7 +311,7 @@ const ReturnViewDetails = ({ setReturnModalData, returnModalData, handleClose, o
                                 border: '1px solid #bbdefb',
                                 fontSize: 14,
                                 borderRadius: 5,
-                                width: '100%',
+                                width: '100%'
                               }}
                             />
                           )}

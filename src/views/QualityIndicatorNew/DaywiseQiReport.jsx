@@ -49,7 +49,7 @@ const DaywiseQiReport = () => {
     } else {
       const searchDatas = {
         from: format(new Date(fromDate), 'yyyy-MM-dd 00:00:00'),
-        to: format(new Date(toDate), 'yyyy-MM-dd 23:59:59'),
+        to: format(new Date(toDate), 'yyyy-MM-dd 23:59:59')
       }
       // emdoscopy
       if (qitype === 1) {
@@ -62,7 +62,7 @@ const DaywiseQiReport = () => {
         var dayList = eachDayOfInterval({ start: new Date(fromDate), end: new Date(toDate) })
         const days = dayList?.map(val => {
           return {
-            day: format(new Date(val), 'dd-MM-yyyy'),
+            day: format(new Date(val), 'dd-MM-yyyy')
           }
         })
         const getTestCount = async searchDatas => {
@@ -107,9 +107,7 @@ const DaywiseQiReport = () => {
                         <AssessmentIcon sx={{ bgcolor: '#555830', color: 'white', height: 23, width: 23 }} />
                     </Box> */}
         <Box sx={{ flex: 1, fontSize: 16, pl: 1, pt: 1.2 }}>
-          <Typography sx={{ color: '#555830', fontFamily: 'Arial', fontWeight: 550 }}>
-            Day Wise QI Report
-          </Typography>
+          <Typography sx={{ color: '#555830', fontFamily: 'Arial', fontWeight: 550 }}>Day Wise QI Report</Typography>
         </Box>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 20, pr: 0.5, pt: 0.2 }}>
           <HighlightOffIcon
@@ -118,11 +116,7 @@ const DaywiseQiReport = () => {
           />
         </Box>
       </Paper>
-      <Paper
-        variant="outlined"
-        square
-        sx={{ display: 'flex', flex: 1, pr: 1, pb: 0.5, flexWrap: 'wrap' }}
-      >
+      <Paper variant="outlined" square sx={{ display: 'flex', flex: 1, pr: 1, pb: 0.5, flexWrap: 'wrap' }}>
         <Box sx={{ flex: 0.3 }}></Box>
         <Box sx={{ flex: 1.2 }}>
           <Box sx={{ pt: 1, pl: 1 }}>

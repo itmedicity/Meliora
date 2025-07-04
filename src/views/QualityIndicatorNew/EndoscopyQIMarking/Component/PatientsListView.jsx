@@ -25,7 +25,7 @@ const PatientsListView = ({
   depCode,
   depName,
   qitype,
-  setQidept,
+  setQidept
 }) => {
   const [patientlist, setpatientlist] = useState([])
   const [tableData, setTableData] = useState([])
@@ -68,7 +68,7 @@ const PatientsListView = ({
     if (qitype === 1) {
       const viewdata = {
         from: format(new Date(dailyDate), 'yyyy-MM-dd 00:00:00'),
-        to: format(new Date(dailyDate), 'yyyy-MM-dd 23:59:59'),
+        to: format(new Date(dailyDate), 'yyyy-MM-dd 23:59:59')
       }
       const getEndoscopyData = async viewdata => {
         const result = await axioslogin.post('/qiendoscopy/viewList', viewdata)
@@ -90,7 +90,7 @@ const PatientsListView = ({
         const updateArray = {
           qi_status: 1,
           edit_user: id,
-          qi_slno: qi_slno,
+          qi_slno: qi_slno
         }
         const UpdatePatients = async setCount => {
           await AddorRemovePatients(updateArray, qitype, count, setCount)
@@ -136,7 +136,7 @@ const PatientsListView = ({
     const searchData = {
       from: format(new Date(dailyDate), 'yyyy-MM-dd 00:00:00'),
       to: format(new Date(dailyDate), 'yyyy-MM-dd 23:59:59'),
-      ptname: searchPat,
+      ptname: searchPat
     }
     const getSearchDetails = async searchData => {
       const result = await axioslogin.post('/qiendoscopy/searchbyPatient', searchData)
@@ -155,9 +155,7 @@ const PatientsListView = ({
       <Paper variant="outlined" square sx={{ display: 'flex', flexDirection: 'column' }}>
         {opCheck === true ? (
           <>
-            <Box
-              sx={{ display: 'flex', flex: 1, height: 40, alignItems: 'center', flexWrap: 'wrap' }}
-            >
+            <Box sx={{ display: 'flex', flex: 1, height: 40, alignItems: 'center', flexWrap: 'wrap' }}>
               <Box sx={{ pl: 0.7, pt: 0.7 }}>
                 <ViewListIcon sx={{ color: '#37474f', height: 30, width: 30, opacity: 0.8 }} />
               </Box>
@@ -171,35 +169,19 @@ const PatientsListView = ({
                   <Box sx={{ flex: 0.2, display: 'flex', pt: 0.4 }}>
                     <Box sx={{ pr: 1, pt: 0.7 }}>
                       <CssVarsProvider>
-                        <Radio
-                          label="OP"
-                          color="primary"
-                          size="md"
-                          checked={opCheck}
-                          onChange={ChangeOPList}
-                        />
+                        <Radio label="OP" color="primary" size="md" checked={opCheck} onChange={ChangeOPList} />
                       </CssVarsProvider>
                     </Box>
                     <Box sx={{ px: 1, pt: 0.7 }}>
                       <CssVarsProvider>
-                        <Radio
-                          label="IP"
-                          color="primary"
-                          size="md"
-                          checked={ipCheck}
-                          onChange={ChangeIPList}
-                        />
+                        <Radio label="IP" color="primary" size="md" checked={ipCheck} onChange={ChangeIPList} />
                       </CssVarsProvider>
                     </Box>
                   </Box>
                   <Box sx={{ pl: 0.5, pt: 0.2 }}>
                     <CssVarsProvider>
                       <Input
-                        startDecorator={
-                          <PersonSearchTwoToneIcon
-                            sx={{ height: 30, width: 30, color: '#0063C5' }}
-                          />
-                        }
+                        startDecorator={<PersonSearchTwoToneIcon sx={{ height: 30, width: 30, color: '#0063C5' }} />}
                         size="sm"
                         placeholder="Search By Patient Name"
                         autoComplete="off"
@@ -216,7 +198,7 @@ const PatientsListView = ({
                       justifyContent: 'flex-end',
                       fontSize: 20,
                       pt: 0.4,
-                      pl: 0.5,
+                      pl: 0.5
                     }}
                   >
                     <CssVarsProvider>
@@ -227,7 +209,7 @@ const PatientsListView = ({
                             height: 35,
                             width: 35,
                             opacity: 0.7,
-                            color: 'darkgreen',
+                            color: 'darkgreen'
                           }}
                           onClick={RefreshData}
                         />
@@ -245,7 +227,7 @@ const PatientsListView = ({
                   fontSize: 20,
                   pr: 0.5,
                   pt: 0.4,
-                  pl: 0.5,
+                  pl: 0.5
                 }}
               >
                 <CssVarsProvider>
@@ -256,7 +238,7 @@ const PatientsListView = ({
                         height: 35,
                         width: 35,
                         opacity: 0.7,
-                        color: 'darkred',
+                        color: 'darkred'
                       }}
                       onClick={backtoHome}
                     />
@@ -290,7 +272,7 @@ const PatientsListView = ({
                               backgroundColor: '#78909c',
                               color: 'white',
                               fontSize: 14,
-                              textAlign: 'center',
+                              textAlign: 'center'
                             }}
                           >
                             &nbsp; Sl.No
@@ -301,7 +283,7 @@ const PatientsListView = ({
                               width: 100,
                               backgroundColor: '#78909c',
                               color: 'white',
-                              fontSize: 14,
+                              fontSize: 14
                             }}
                           >
                             &nbsp;Patient ID
@@ -312,7 +294,7 @@ const PatientsListView = ({
                               width: 170,
                               backgroundColor: '#78909c',
                               color: 'white',
-                              fontSize: 14,
+                              fontSize: 14
                             }}
                           >
                             &nbsp;Patient Name
@@ -323,7 +305,7 @@ const PatientsListView = ({
                               width: 120,
                               backgroundColor: '#78909c',
                               color: 'white',
-                              fontSize: 14,
+                              fontSize: 14
                             }}
                           >
                             &nbsp;Age/Gender
@@ -334,7 +316,7 @@ const PatientsListView = ({
                               width: 100,
                               backgroundColor: '#78909c',
                               color: 'white',
-                              fontSize: 14,
+                              fontSize: 14
                             }}
                           >
                             &nbsp;Contacts{' '}
@@ -345,7 +327,7 @@ const PatientsListView = ({
                               width: 190,
                               backgroundColor: '#78909c',
                               color: 'white',
-                              fontSize: 14,
+                              fontSize: 14
                             }}
                           >
                             &nbsp;Doctor Name
@@ -357,7 +339,7 @@ const PatientsListView = ({
                               backgroundColor: '#78909c',
                               color: 'white',
                               fontSize: 14,
-                              textAlign: 'center',
+                              textAlign: 'center'
                             }}
                           >
                             &nbsp;Token{' '}
@@ -368,7 +350,7 @@ const PatientsListView = ({
                               width: 150,
                               backgroundColor: '#78909c',
                               color: 'white',
-                              fontSize: 14,
+                              fontSize: 14
                             }}
                           >
                             &nbsp;Arrival Time{' '}
@@ -380,7 +362,7 @@ const PatientsListView = ({
                               backgroundColor: '#78909c',
                               color: 'white',
                               fontSize: 14,
-                              textAlign: 'center',
+                              textAlign: 'center'
                             }}
                           >
                             &nbsp;Add to Endoscopy List{' '}
@@ -395,13 +377,10 @@ const PatientsListView = ({
                               size="small"
                               style={{
                                 maxHeight: 2,
-                                cursor: 'pointer',
+                                cursor: 'pointer'
                               }}
                             >
-                              <td
-                                size="sm"
-                                style={{ fontSize: 12, height: 5, textAlign: 'center' }}
-                              >
+                              <td size="sm" style={{ fontSize: 12, height: 5, textAlign: 'center' }}>
                                 {index + 1}
                               </td>
                               <td size="sm" style={{ fontSize: 12, height: 5 }}>
@@ -419,10 +398,7 @@ const PatientsListView = ({
                               <td size="sm" style={{ fontSize: 12, height: 5 }}>
                                 &nbsp;{'Dr. ' + val.doctor_name}
                               </td>
-                              <td
-                                size="sm"
-                                style={{ fontSize: 12, height: 5, textAlign: 'center' }}
-                              >
+                              <td size="sm" style={{ fontSize: 12, height: 5, textAlign: 'center' }}>
                                 &nbsp;{val.visit_token}
                               </td>
                               <td size="sm" style={{ fontSize: 12, height: 5 }}>
@@ -437,8 +413,8 @@ const PatientsListView = ({
                                         padding: 'none',
                                         color: '#607d8b',
                                         ':hover': {
-                                          color: '#37474f',
-                                        },
+                                          color: '#37474f'
+                                        }
                                       }}
                                       onClick={e => UpdateDetails(val)}
                                     />
@@ -452,11 +428,7 @@ const PatientsListView = ({
                     </Table>
                   </CssVarsProvider>
                 </Box>
-                <Paper
-                  variant="outlined"
-                  square
-                  sx={{ height: 30, borderTop: 'none', bgcolor: '#C6D3D8' }}
-                ></Paper>
+                <Paper variant="outlined" square sx={{ height: 30, borderTop: 'none', bgcolor: '#C6D3D8' }}></Paper>
               </Box>
             ) : (
               <Box
@@ -465,7 +437,7 @@ const PatientsListView = ({
                   display: 'flex',
                   justifyContent: 'center',
                   fontSize: 20,
-                  opacity: 0.8,
+                  opacity: 0.8
                 }}
               >
                 No Patients

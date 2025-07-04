@@ -22,10 +22,8 @@ const PoStoreDetail = ({ val }) => {
               crs_receive_user: val.crs_receive_user,
               status: val.partialy === 1 ? 'Partialy' : val.fully === 1 ? 'Fully' : 'Not Received',
               substore_receive: val.substore_receive,
-              sotre_receive_user:
-                val.sotre_receive_user === null ? 'Not Received' : val.sotre_receive_user,
-              substore_receive_date:
-                val.substore_receive_date === null ? 'Not Received' : val.substore_receive_date,
+              sotre_receive_user: val.sotre_receive_user === null ? 'Not Received' : val.sotre_receive_user,
+              substore_receive_date: val.substore_receive_date === null ? 'Not Received' : val.substore_receive_date
             }
           })
         setStorDetailData(datas)
@@ -60,7 +58,7 @@ const PoStoreDetail = ({ val }) => {
                       sx={{
                         '&:last-child td, &:last-child th': { border: 0 },
                         maxHeight: 60,
-                        minHeight: 5,
+                        minHeight: 5
                       }}
                     >
                       <TableCell align="center">{index + 1}</TableCell>

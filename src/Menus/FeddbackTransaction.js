@@ -6,8 +6,8 @@ const FeedbackTransactions = [
     men_slno: 224,
     name: 'Feedback',
     to: '/Home/feedback',
-    icon: <CiStop1 />,
-  },
+    icon: <CiStop1 />
+  }
 ]
 
 export default FeedbackTransactions

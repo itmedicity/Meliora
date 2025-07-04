@@ -3,7 +3,7 @@ const { FETCH_SALUTATION } = ActionTyps
 //initial state
 const salutationName = {
   salutationList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Designation action type check then payload set to the state and loading status set as true */
 export const getSalutation = (state = salutationName, { type, payload }) => {

@@ -9,7 +9,7 @@ import {
   Modal,
   ModalDialog,
   Textarea,
-  Typography,
+  Typography
 } from '@mui/joy'
 import Button from '@mui/joy/Button'
 import { axioslogin } from 'src/views/Axios/Axios'
@@ -19,10 +19,7 @@ import AssignmentIcon from '@mui/icons-material/Assignment'
 import Tooltip from '@mui/joy/Tooltip'
 import CloseIcon from '@mui/icons-material/Close'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
-import {
-  getNonGoalProjectList,
-  getProjectListWithgoal,
-} from 'src/redux/actions/TmProjectsList.action'
+import { getNonGoalProjectList, getProjectListWithgoal } from 'src/redux/actions/TmProjectsList.action'
 import { getGoalsList } from 'src/redux/actions/TmGoalsList.action'
 import GoalCreation from '../ModalComponent/GoalCreation'
 import TmAllProjectList from 'src/views/CommonSelectCode/TmAllProjectList'
@@ -50,13 +47,7 @@ import { getMultHodInCharge } from 'src/redux/actions/TmMultipleHODorInChargeLis
 import moment from 'moment'
 import imageCompression from 'browser-image-compression'
 
-const CreateTaskInAllDept = ({
-  open,
-  setAddModalFlag,
-  setaddModalOpen,
-  tableCount,
-  setTableCount,
-}) => {
+const CreateTaskInAllDept = ({ open, setAddModalFlag, setaddModalOpen, tableCount, setTableCount }) => {
   const dispatch = useDispatch()
   const [addGoalFlag, setAddGoalFlag] = useState(0)
   const [addGoalModalOpen, setaddGoalModalOpen] = useState(false)
@@ -95,10 +86,7 @@ const CreateTaskInAllDept = ({
         if (deptSection.length !== 0) {
           const secIds = deptSection.map(sec => sec.sec_id)
           const InchrgeHods = async secIds => {
-            const result = await axioslogin.post(
-              '/TmDropDowns/getMultHodInChargeUnderSection',
-              secIds
-            )
+            const result = await axioslogin.post('/TmDropDowns/getMultHodInChargeUnderSection', secIds)
             const { data, success } = result.data
             if (success === 2) {
               setAssignees(data)
@@ -159,7 +147,7 @@ const CreateTaskInAllDept = ({
     tm_pending_remark: '',
     tm_completed_remarks: '',
     tm_complete_date: '',
-    main_task_slno: '',
+    main_task_slno: ''
   })
   const {
     tm_task_slno,
@@ -170,7 +158,7 @@ const CreateTaskInAllDept = ({
     tm_pending_remark,
     tm_completed_remarks,
     tm_complete_date,
-    main_task_slno,
+    main_task_slno
   } = taskCreation
 
   const TaskMastUpdate = useCallback(
@@ -198,7 +186,7 @@ const CreateTaskInAllDept = ({
       tm_completed_remarks: tm_completed_remarks === '' ? null : tm_completed_remarks,
       tm_complete_date: tm_complete_date === '' ? null : tm_complete_date,
       main_task_slno: main_task_slno === '' ? null : main_task_slno,
-      files: selectFile,
+      files: selectFile
     }
     const formata = {
       tm_task_name: tm_task_name,
@@ -216,7 +204,7 @@ const CreateTaskInAllDept = ({
       tm_completed_remarks: tm_completed_remarks === '' ? null : tm_completed_remarks,
       tm_complete_date: tm_complete_date === '' ? null : tm_complete_date,
       main_task_slno: main_task_slno === '' ? null : main_task_slno,
-      files: selectFile,
+      files: selectFile
     }
 
     if (
@@ -237,7 +225,7 @@ const CreateTaskInAllDept = ({
             tm_task_slno: '',
             tm_task_name: '',
             tm_task_due_date: '',
-            tm_task_description: '',
+            tm_task_description: ''
           }
           setTaskCreation(resetfrmdata)
           setvalue(0)
@@ -250,7 +238,7 @@ const CreateTaskInAllDept = ({
             tm_task_slno: '',
             tm_task_name: '',
             tm_task_due_date: '',
-            tm_task_description: '',
+            tm_task_description: ''
           }
           setTaskCreation(resetfrmdata)
           setchangeDept(0)
@@ -289,7 +277,7 @@ const CreateTaskInAllDept = ({
     tm_pending_remark,
     value,
     main_task_slno,
-    selectFile,
+    selectFile
   ])
 
   const handleFileChange = useCallback(
@@ -325,7 +313,7 @@ const CreateTaskInAllDept = ({
         tm_task_dept,
         tm_task_dept_sec,
         employee,
-        main_task_slno,
+        main_task_slno
       } = val
       const deptNames = tm_task_dept.map(deptN => deptN.dept_name)
       const secNames = tm_task_dept_sec.map(deptSecN => deptSecN.sec_name)
@@ -342,7 +330,7 @@ const CreateTaskInAllDept = ({
         tm_complete_date: tm_complete_date,
         main_task_slno: main_task_slno,
         goalz: tm_goals_slno,
-        projectz: tm_project_slno,
+        projectz: tm_project_slno
       }
       setTaskCreation(frmdata)
       setgoalz(tm_goals_slno)
@@ -378,7 +366,7 @@ const CreateTaskInAllDept = ({
     const options = {
       maxSizeMB: 1,
       maxWidthOrHeight: 1920,
-      useWebWorker: true,
+      useWebWorker: true
     }
     const compressedFile = await imageCompression(imageFile, options)
     return compressedFile
@@ -406,7 +394,7 @@ const CreateTaskInAllDept = ({
             main_task_slno: val.main_task_slno,
             create_user: id,
             employee: empdetails?.map(empdata => empdata.emp_id),
-            files: val.files,
+            files: val.files
           }
           return obj
         })
@@ -434,8 +422,8 @@ const CreateTaskInAllDept = ({
           // Use the Axios instance and endpoint that matches your server setup
           const uploadResult = await axioslogin.post('/TmFileUpload/uploadFile/task', formData, {
             headers: {
-              'Content-Type': 'multipart/form-data',
-            },
+              'Content-Type': 'multipart/form-data'
+            }
           })
           return uploadResult.data
         } catch (error) {
@@ -529,25 +517,20 @@ const CreateTaskInAllDept = ({
             justifyContent: 'center',
             alignItems: 'center',
             pl: 1,
-            borderRadius: 10,
+            borderRadius: 10
           }}
         >
-          <ModalDialog
-            variant="outlined"
-            sx={{ width: '95vw', height: '100vh', p: 0, overflow: 'auto' }}
-          >
+          <ModalDialog variant="outlined" sx={{ width: '95vw', height: '100vh', p: 0, overflow: 'auto' }}>
             <Box sx={{ flex: 1 }}>
               <Box sx={{ flex: 1, display: 'flex', borderColor: 'lightgray', mt: 1, mx: 2 }}>
-                <Box sx={{ flex: 1, fontSize: 13, fontWeight: 600, color: 'grey' }}>
-                  Create New{' '}
-                </Box>
+                <Box sx={{ flex: 1, fontSize: 13, fontWeight: 600, color: 'grey' }}>Create New </Box>
                 <HighlightOffIcon
                   sx={{
                     height: 25,
                     width: 25,
                     cursor: 'pointer',
                     color: '#05445E',
-                    '&:hover': { color: '#BA0F30' },
+                    '&:hover': { color: '#BA0F30' }
                   }}
                   onClick={handleClose}
                 />
@@ -562,7 +545,7 @@ const CreateTaskInAllDept = ({
                   backgroundColor: 'white',
                   borderRadius: 35,
                   position: 'absolute',
-                  fontSize: '0.75em',
+                  fontSize: '0.75em'
                 }}
               >
                 <AssignmentIcon sx={{ height: 50, width: 50, p: 1 }} />
@@ -573,7 +556,7 @@ const CreateTaskInAllDept = ({
                   mt: 4.8,
                   display: 'flex',
                   mx: 3,
-                  p: 1,
+                  p: 1
                 }}
               >
                 <Box sx={{ flex: 2, display: 'flex' }}>
@@ -582,11 +565,7 @@ const CreateTaskInAllDept = ({
                       <RadarIcon sx={{ p: 0.3, color: '#4C5270' }} />
                       Goal
                     </Typography>
-                    <TmAllGoalsList
-                      goalz={goalz}
-                      setgoalz={setgoalz}
-                      setdueDateGoal={setdueDateGoal}
-                    />
+                    <TmAllGoalsList goalz={goalz} setgoalz={setgoalz} setdueDateGoal={setdueDateGoal} />
                   </Box>
                   <Box sx={{ ml: 0.5, mt: 4.5 }} onClick={CreateGoal}>
                     <Tooltip title="Create New Goal">
@@ -595,7 +574,7 @@ const CreateTaskInAllDept = ({
                           cursor: 'pointer',
                           bgcolor: '#90CDD0 ',
                           color: 'black',
-                          '&:hover': { bgcolor: '#77A7B0' },
+                          '&:hover': { bgcolor: '#77A7B0' }
                         }}
                       >
                         &nbsp;+ create&nbsp;
@@ -609,7 +588,7 @@ const CreateTaskInAllDept = ({
                       <AccountTreeSharpIcon
                         sx={{
                           p: 0.3,
-                          color: '#4C5270',
+                          color: '#4C5270'
                         }}
                       />
                       Project
@@ -627,7 +606,7 @@ const CreateTaskInAllDept = ({
                           cursor: 'pointer',
                           bgcolor: '#90CDD0',
                           color: 'black',
-                          '&:hover': { bgcolor: '#77A7B0' },
+                          '&:hover': { bgcolor: '#77A7B0' }
                         }}
                       >
                         {' '}
@@ -648,29 +627,18 @@ const CreateTaskInAllDept = ({
                       {changeDept === 1 ? (
                         <>
                           <Box sx={{ flex: 1 }}>
-                            <TmMultlipleDeptmant
-                              department={department}
-                              setDepartment={setDepartment}
-                            />
+                            <TmMultlipleDeptmant department={department} setDepartment={setDepartment} />
                           </Box>
                         </>
                       ) : (
                         <>
                           <Box sx={{ display: 'flex', mt: 0.5 }}>
                             <Box sx={{ flex: 1, mr: 1 }}>
-                              <Inputcomponent
-                                type="text"
-                                name="deptName"
-                                value={deptName}
-                                disabled
-                              ></Inputcomponent>
+                              <Inputcomponent type="text" name="deptName" value={deptName} disabled></Inputcomponent>
                             </Box>
                             <Box sx={{ pt: 0.5 }}>
                               <Tooltip title="Change Department">
-                                <ChangeCircleRoundedIcon
-                                  sx={{ cursor: 'pointer' }}
-                                  onClick={changeDepmt}
-                                />
+                                <ChangeCircleRoundedIcon sx={{ cursor: 'pointer' }} onClick={changeDepmt} />
                               </Tooltip>
                             </Box>
                           </Box>
@@ -694,10 +662,7 @@ const CreateTaskInAllDept = ({
                       {changeDeptSec === 1 ? (
                         <>
                           <Box sx={{ flex: 1 }}>
-                            <TmMultipleDeptSectionList
-                              deptSection={deptSection}
-                              setDeptSection={setDeptSection}
-                            />
+                            <TmMultipleDeptSectionList deptSection={deptSection} setDeptSection={setDeptSection} />
                           </Box>
                         </>
                       ) : (
@@ -713,10 +678,7 @@ const CreateTaskInAllDept = ({
                             </Box>
                             <Box sx={{ pt: 0.5 }}>
                               <Tooltip title="Change Department Section">
-                                <ChangeCircleRoundedIcon
-                                  sx={{ cursor: 'pointer' }}
-                                  onClick={changeDepSec}
-                                />
+                                <ChangeCircleRoundedIcon sx={{ cursor: 'pointer' }} onClick={changeDepSec} />
                               </Tooltip>
                             </Box>
                           </Box>
@@ -726,38 +688,26 @@ const CreateTaskInAllDept = ({
                   ) : (
                     <>
                       <Box sx={{ flex: 1 }}>
-                        <TmMultipleDeptSectionList
-                          deptSection={deptSection}
-                          setDeptSection={setDeptSection}
-                        />
+                        <TmMultipleDeptSectionList deptSection={deptSection} setDeptSection={setDeptSection} />
                       </Box>
                     </>
                   )}
                 </Box>
                 <Box sx={{ flex: 1.8, ml: 3, display: 'flex' }}>
                   <Box sx={{ pt: 5 }}>
-                    <Checkbox
-                      size="md"
-                      color="warning"
-                      checked={checkAllEmployee}
-                      onChange={EmployeeCheckbox}
-                    />
+                    <Checkbox size="md" color="warning" checked={checkAllEmployee} onChange={EmployeeCheckbox} />
                   </Box>
                   <Typography
                     sx={{
                       fontSize: 10,
                       pt: 0.5,
                       pl: 1,
-                      width: '80px',
+                      width: '80px'
                     }}
                   >
                     Select All HODs/Incharges Under Selected Section
                   </Typography>
-                  <Typography
-                    sx={{ pt: 3, fontWeight: 600, fontSize: 14, px: 2.5, color: 'black' }}
-                  >
-                    (or)
-                  </Typography>
+                  <Typography sx={{ pt: 3, fontWeight: 600, fontSize: 14, px: 2.5, color: 'black' }}>(or)</Typography>
                   <Box sx={{ flex: 1 }}>
                     <Typography sx={{ pl: 1, fontWeight: 500, fontSize: 13, color: '#1D5183' }}>
                       <PeopleIcon sx={{ color: '#4C5270' }} />
@@ -771,10 +721,7 @@ const CreateTaskInAllDept = ({
                             {changeEmp === 1 ? (
                               <>
                                 <Box sx={{ flex: 1, mt: 0.8 }}>
-                                  <TmMultiHodInchargeSelect
-                                    value={assignees}
-                                    setValue={setAssignees}
-                                  />
+                                  <TmMultiHodInchargeSelect value={assignees} setValue={setAssignees} />
                                 </Box>
                               </>
                             ) : (
@@ -790,10 +737,7 @@ const CreateTaskInAllDept = ({
                                   </Box>
                                   <Box sx={{ pt: 0.5 }}>
                                     <Tooltip title="Change Assignees">
-                                      <ChangeCircleRoundedIcon
-                                        sx={{ cursor: 'pointer' }}
-                                        onClick={changeAssignee}
-                                      />
+                                      <ChangeCircleRoundedIcon sx={{ cursor: 'pointer' }} onClick={changeAssignee} />
                                     </Tooltip>
                                   </Box>
                                 </Box>
@@ -809,11 +753,7 @@ const CreateTaskInAllDept = ({
                     ) : (
                       <>
                         <Box sx={{ flex: 1, mr: 1 }}>
-                          <Inputcomponent
-                            type="text"
-                            placeholder={'select assignees'}
-                            disabled
-                          ></Inputcomponent>
+                          <Inputcomponent type="text" placeholder={'select assignees'} disabled></Inputcomponent>
                         </Box>
                       </>
                     )}
@@ -838,7 +778,7 @@ const CreateTaskInAllDept = ({
                           borderColor: 'neutral.outlinedBorder',
                           borderRadius: 0,
                           '&:hover': {
-                            borderColor: 'neutral.outlinedHoverBorder',
+                            borderColor: 'neutral.outlinedHoverBorder'
                           },
                           '&::before': {
                             border: '1px solid var(--Textarea-focusedHighlight)',
@@ -848,11 +788,11 @@ const CreateTaskInAllDept = ({
                             bottom: '-2px',
                             top: 'unset',
                             transition: 'transform .15s cubic-bezier(0.1,0.9,0.2,1)',
-                            borderRadius: 0,
+                            borderRadius: 0
                           },
                           '&:focus-within::before': {
-                            transform: 'scaleX(1)',
-                          },
+                            transform: 'scaleX(1)'
+                          }
                         }}
                         name="tm_task_name"
                         value={tm_task_name}
@@ -875,10 +815,8 @@ const CreateTaskInAllDept = ({
                                 slotProps={{
                                   input: {
                                     min: moment(new Date()).format('YYYY-MM-DDTHH:mm'),
-                                    max: moment(new Date(dueDateProject)).format(
-                                      'YYYY-MM-DDTHH:mm'
-                                    ),
-                                  },
+                                    max: moment(new Date(dueDateProject)).format('YYYY-MM-DDTHH:mm')
+                                  }
                                 }}
                                 onchange={TaskMastUpdate}
                                 disabled={isProjectOverdue}
@@ -895,8 +833,8 @@ const CreateTaskInAllDept = ({
                             slotProps={{
                               input: {
                                 min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-                                max: moment(new Date(dueDateProject)).format('YYYY-MM-DD HH:mm:ss'),
-                              },
+                                max: moment(new Date(dueDateProject)).format('YYYY-MM-DD HH:mm:ss')
+                              }
                             }}
                             onchange={TaskMastUpdate}
                           />
@@ -918,7 +856,7 @@ const CreateTaskInAllDept = ({
                           borderColor: 'neutral.outlinedBorder',
                           borderRadius: 0,
                           '&:hover': {
-                            borderColor: 'neutral.outlinedHoverBorder',
+                            borderColor: 'neutral.outlinedHoverBorder'
                           },
                           '&::before': {
                             border: '1px solid var(--Textarea-focusedHighlight)',
@@ -928,11 +866,11 @@ const CreateTaskInAllDept = ({
                             bottom: '-2px',
                             top: 'unset',
                             transition: 'transform .15s cubic-bezier(0.1,0.9,0.2,1)',
-                            borderRadius: 0,
+                            borderRadius: 0
                           },
                           '&:focus-within::before': {
-                            transform: 'scaleX(1)',
-                          },
+                            transform: 'scaleX(1)'
+                          }
                         }}
                         name="tm_task_description"
                         value={tm_task_description}
@@ -950,7 +888,7 @@ const CreateTaskInAllDept = ({
                       py: 1.5,
                       borderStyle: 'dashed',
                       fontWeight: 500,
-                      display: 'flex',
+                      display: 'flex'
                     }}
                   >
                     <Box
@@ -963,7 +901,7 @@ const CreateTaskInAllDept = ({
                         border: 0.1,
                         mx: 0.5,
                         borderRadius: 5,
-                        borderColor: '#E4E5E8',
+                        borderColor: '#E4E5E8'
                       }}
                     >
                       <label htmlFor="file-input">
@@ -971,7 +909,7 @@ const CreateTaskInAllDept = ({
                           sx={{
                             color: '#0000FF',
                             cursor: 'pointer',
-                            '&:hover': { color: '#000C66' },
+                            '&:hover': { color: '#000C66' }
                           }}
                         />
                         <u>Choose File</u>
@@ -1000,7 +938,7 @@ const CreateTaskInAllDept = ({
                                   width: 20,
                                   cursor: 'pointer',
                                   color: '#4D0011',
-                                  '&:hover': { color: '#BA0F30' },
+                                  '&:hover': { color: '#BA0F30' }
                                 }}
                                 onClick={() => handleRemoveFile(index)}
                               />
@@ -1019,7 +957,7 @@ const CreateTaskInAllDept = ({
                           cursor: 'pointer',
                           '&:hover': { color: '#5C4E4E' },
                           height: 30,
-                          width: 30,
+                          width: 30
                         }}
                         onClick={addTask}
                       />
@@ -1036,7 +974,7 @@ const CreateTaskInAllDept = ({
                     color: '#003B73',
                     mb: 1,
                     mt: 2,
-                    mx: 1,
+                    mx: 1
                   }}
                 >
                   Task List
@@ -1054,41 +992,29 @@ const CreateTaskInAllDept = ({
                   borderTop: 1,
                   borderColor: 'lightgray',
                   pt: 1.5,
-                  bgcolor: 'white',
+                  bgcolor: 'white'
                 }}
               >
-                <Box sx={{ width: 30, pl: 1.7, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-                  #
-                </Box>
+                <Box sx={{ width: 30, pl: 1.7, fontWeight: 600, color: '#444444', fontSize: 12 }}>#</Box>
                 <Box
                   sx={{
                     width: 100,
                     textAlign: 'center',
                     fontWeight: 600,
                     color: '#444444',
-                    fontSize: 12,
+                    fontSize: 12
                   }}
                 >
                   Action
                 </Box>
-                <Box sx={{ width: 800, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-                  Task Name
-                </Box>
-                <Box sx={{ width: 250, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>
-                  Duedate
-                </Box>
-                <Box sx={{ width: 400, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>
-                  Department
-                </Box>
+                <Box sx={{ width: 800, fontWeight: 600, color: '#444444', fontSize: 12 }}>Task Name</Box>
+                <Box sx={{ width: 250, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>Duedate</Box>
+                <Box sx={{ width: 400, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>Department</Box>
                 <Box sx={{ width: 400, fontWeight: 600, color: '#444444', fontSize: 12, pl: 0.8 }}>
                   Department Section
                 </Box>
-                <Box sx={{ width: 450, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-                  Assignees
-                </Box>
-                <Box sx={{ width: 800, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-                  Description
-                </Box>
+                <Box sx={{ width: 450, fontWeight: 600, color: '#444444', fontSize: 12 }}>Assignees</Box>
+                <Box sx={{ width: 800, fontWeight: 600, color: '#444444', fontSize: 12 }}>Description</Box>
               </Box>
               <Box>
                 {arry?.map((val, index) => {
@@ -1104,21 +1030,17 @@ const CreateTaskInAllDept = ({
                         borderColor: 'lightgrey',
                         minHeight: 30,
                         background: 'white',
-                        pt: 0.5,
+                        pt: 0.5
                       }}
                     >
-                      <Box
-                        sx={{ width: 30, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}
-                      >
-                        {index + 1}
-                      </Box>
+                      <Box sx={{ width: 30, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>{index + 1}</Box>
                       <Box
                         sx={{
                           width: 100,
                           textAlign: 'center',
                           fontWeight: 600,
                           color: 'grey',
-                          fontSize: 12,
+                          fontSize: 12
                         }}
                       >
                         <EditIcon
@@ -1133,12 +1055,10 @@ const CreateTaskInAllDept = ({
                           fontWeight: 600,
                           color: 'grey',
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
-                        <Chip sx={{ bgcolor: '#EFEDC6', fontSize: 12, mb: 0.2 }}>
-                          {val.tm_task_name}
-                        </Chip>
+                        <Chip sx={{ bgcolor: '#EFEDC6', fontSize: 12, mb: 0.2 }}>{val.tm_task_name}</Chip>
                       </Box>
                       <Box
                         sx={{
@@ -1147,7 +1067,7 @@ const CreateTaskInAllDept = ({
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         <Chip sx={{ bgcolor: '#EFEDC6', fontSize: 12 }}>
@@ -1160,17 +1080,14 @@ const CreateTaskInAllDept = ({
                           fontWeight: 600,
                           color: 'grey',
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_task_dept &&
                           val.tm_task_dept.map(value => {
                             return (
                               <Box key={value.dept_id}>
-                                <Chip sx={{ bgcolor: '#EFEDC6', mb: 0.2, fontSize: 12 }}>
-                                  {' '}
-                                  {value.dept_name}
-                                </Chip>
+                                <Chip sx={{ bgcolor: '#EFEDC6', mb: 0.2, fontSize: 12 }}> {value.dept_name}</Chip>
                               </Box>
                             )
                           })}
@@ -1181,7 +1098,7 @@ const CreateTaskInAllDept = ({
                           fontWeight: 600,
                           color: 'grey',
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {' '}
@@ -1189,9 +1106,7 @@ const CreateTaskInAllDept = ({
                           val.tm_task_dept_sec.map(value => {
                             return (
                               <Box key={value.sec_id}>
-                                <Chip sx={{ bgcolor: '#EFEDC6', fontSize: 12, mb: 0.2 }}>
-                                  {value.sec_name}
-                                </Chip>
+                                <Chip sx={{ bgcolor: '#EFEDC6', fontSize: 12, mb: 0.2 }}>{value.sec_name}</Chip>
                               </Box>
                             )
                           })}
@@ -1202,7 +1117,7 @@ const CreateTaskInAllDept = ({
                           fontWeight: 600,
                           color: 'grey',
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.employee &&
@@ -1210,9 +1125,7 @@ const CreateTaskInAllDept = ({
                             return (
                               <Box key={value.emp_id}>
                                 {' '}
-                                <Chip sx={{ bgcolor: '#EFEDC6', fontSize: 12, mb: 0.2 }}>
-                                  {value.em_name}
-                                </Chip>
+                                <Chip sx={{ bgcolor: '#EFEDC6', fontSize: 12, mb: 0.2 }}>{value.em_name}</Chip>
                               </Box>
                             )
                           })}
@@ -1223,12 +1136,10 @@ const CreateTaskInAllDept = ({
                           fontWeight: 600,
                           color: 'grey',
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
-                        <Chip sx={{ bgcolor: '#EFEDC6', fontSize: 12, mb: 0.2 }}>
-                          {val.tm_task_description}
-                        </Chip>
+                        <Chip sx={{ bgcolor: '#EFEDC6', fontSize: 12, mb: 0.2 }}>{val.tm_task_description}</Chip>
                       </Box>
                     </Box>
                   )
@@ -1242,27 +1153,19 @@ const CreateTaskInAllDept = ({
                 height: 60,
                 borderTop: 1,
                 borderColor: 'lightgrey',
-                pt: 2,
+                pt: 2
               }}
             >
               <Box sx={{ mr: 0.5, fontSize: 20, cursor: 'pointer' }}>
                 <CssVarsProvider>
-                  <Button
-                    variant="plain"
-                    onClick={SubmitTask}
-                    sx={{ fontSize: 16, color: '#004F76' }}
-                  >
+                  <Button variant="plain" onClick={SubmitTask} sx={{ fontSize: 16, color: '#004F76' }}>
                     Create
                   </Button>
                 </CssVarsProvider>
               </Box>
               <Box sx={{ mr: 2, cursor: 'pointer' }}>
                 <CssVarsProvider>
-                  <Button
-                    variant="plain"
-                    onClick={handleClose}
-                    sx={{ fontSize: 16, color: '#004F76' }}
-                  >
+                  <Button variant="plain" onClick={handleClose} sx={{ fontSize: 16, color: '#004F76' }}>
                     {' '}
                     Cancel
                   </Button>

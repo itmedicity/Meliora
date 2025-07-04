@@ -12,7 +12,7 @@ import {
   getCRFQuotationDetails,
   getDefaultCompany,
   getPurchaseDataCollection,
-  getStoreList,
+  getStoreList
 } from 'src/api/CommonApiCRF'
 import { Virtuoso } from 'react-virtuoso'
 import ReqMastMainViewCmp from './Component/ReqMastMainViewCmp'
@@ -58,64 +58,64 @@ const PurchaseTablemain = () => {
   const {
     data: ackDetails,
     isLoading: isAckLoading,
-    error: ackError,
+    error: ackError
   } = useQuery({
     queryKey: 'getPurchaseAck',
     queryFn: () => getCRFPurchaseAck(),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
 
   const ackData = useMemo(() => ackDetails, [ackDetails])
   const {
     data: quoDetails,
     isLoading: isQuoLoading,
-    error: quoError,
+    error: quoError
   } = useQuery({
     queryKey: 'getQuotationData',
     queryFn: () => getCRFQuotationDetails(),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
 
   const quoData = useMemo(() => quoDetails, [quoDetails])
   const {
     data: apprvDetails,
     isLoading: isApprvLoading,
-    error: apprvError,
+    error: apprvError
   } = useQuery({
     queryKey: 'getAprrovalData',
     queryFn: () => getCrfPoApprovals(),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const apprvData = useMemo(() => apprvDetails, [apprvDetails])
 
   const {
     data: storeDetails,
     isLoading: isStoreLoading,
-    error: storeError,
+    error: storeError
   } = useQuery({
     queryKey: 'getStoreName',
     queryFn: () => getStoreList(),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const storeList = useMemo(() => storeDetails, [storeDetails])
   const {
     data: dataColleDetails,
     isLoading: isDcLoading,
-    error: dcError,
+    error: dcError
   } = useQuery({
     queryKey: 'purchaseDataCollection',
     queryFn: () => getPurchaseDataCollection(),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const dataCollection = useMemo(() => dataColleDetails, [dataColleDetails])
   const {
     data: compData,
     isLoading: isCompLoading,
-    error: compError,
+    error: compError
   } = useQuery({
     queryKey: 'getCompany',
     queryFn: () => getCompanyDetails(),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const companyData = useMemo(() => compData, [compData])
   useEffect(() => {
@@ -130,16 +130,11 @@ const PurchaseTablemain = () => {
       )
       setCrfProcess(procCrf)
 
-      const nego = quoData?.filter(
-        val => val.quatation_calling_status === 1 && val.quatation_negotiation === 0
-      )
+      const nego = quoData?.filter(val => val.quatation_calling_status === 1 && val.quatation_negotiation === 0)
       setQuoNego(nego)
 
       const final = quoData?.filter(
-        val =>
-          val.quatation_calling_status === 1 &&
-          val.quatation_negotiation === 1 &&
-          val.quatation_fixing === 0
+        val => val.quatation_calling_status === 1 && val.quatation_negotiation === 1 && val.quatation_fixing === 0
       )
       setQuoFinal(final)
 
@@ -147,9 +142,7 @@ const PurchaseTablemain = () => {
         val =>
           val.ack_status === 1 &&
           val.work_order_status === 0 &&
-          ((val.quatation_calling_status === 1 &&
-            val.quatation_fixing === 1 &&
-            val.po_prepartion === 0) ||
+          ((val.quatation_calling_status === 1 && val.quatation_fixing === 1 && val.po_prepartion === 0) ||
             (val.po_prepartion === 1 && val.po_complete === 0))
       )
       setPoProcess(po)
@@ -195,8 +188,7 @@ const PurchaseTablemain = () => {
             dept_id: val.dept_id,
             dept_name: val.dept_name,
             dept_type: val.dept_type,
-            dept_type_name:
-              val.dept_type === 1 ? 'Clinical' : val.dept_type === 2 ? 'Non Clinical' : 'Academic',
+            dept_type_name: val.dept_type === 1 ? 'Clinical' : val.dept_type === 2 ? 'Non Clinical' : 'Academic',
             md_approve_req: val.md_approve_req,
             md_approve: val.md_approve,
             md:
@@ -207,8 +199,7 @@ const PurchaseTablemain = () => {
                 : val.md_approve === 3
                 ? 'On-Hold'
                 : 'Not Done',
-            md_approve_remarks:
-              val.md_approve_remarks !== null ? val.md_approve_remarks : 'Not Updated',
+            md_approve_remarks: val.md_approve_remarks !== null ? val.md_approve_remarks : 'Not Updated',
             md_detial_analysis: val.md_detial_analysis,
             md_approve_date: val.md_approve_date,
             md_user: val.md_user !== null ? val.md_user?.toLowerCase() : '',
@@ -240,13 +231,10 @@ const PurchaseTablemain = () => {
                 : val.managing_director_approve === 4
                 ? 'Approved'
                 : 'Not Done',
-            managing_director_remarks:
-              val.managing_director_remarks !== null ? val.managing_director_remarks : '',
+            managing_director_remarks: val.managing_director_remarks !== null ? val.managing_director_remarks : '',
             managing_director_analysis: val.managing_director_analysis,
             managing_director_approve_date: val.managing_director_approve_date,
-            managing_director_user: val.managing_director_username
-              ? val.managing_director_username?.toLowerCase()
-              : '',
+            managing_director_user: val.managing_director_username ? val.managing_director_username?.toLowerCase() : '',
             now_who: 'Not Started Purchase Process',
             now_who_status: 0,
             ack_status: val.ack_status,
@@ -303,8 +291,7 @@ const PurchaseTablemain = () => {
                 : val.ms_approve === 3
                 ? 'On-Hold'
                 : 'Not Done',
-            ms_approve_remark:
-              val.ms_approve_remark !== null ? val.ms_approve_remark : 'Not Updated',
+            ms_approve_remark: val.ms_approve_remark !== null ? val.ms_approve_remark : 'Not Updated',
             ms_detail_analysis: val.ms_detail_analysis,
             ms_approve_date: val.ms_approve_date,
             ms_approve_user: val.ms_approve_user !== null ? val.ms_approve_user?.toLowerCase() : '',
@@ -318,12 +305,10 @@ const PurchaseTablemain = () => {
                 : val.manag_operation_approv === 3
                 ? 'On-Hold'
                 : 'Not Done',
-            manag_operation_remarks:
-              val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
+            manag_operation_remarks: val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
             om_detial_analysis: val.om_detial_analysis,
             om_approv_date: val.om_approv_date,
-            manag_operation_user:
-              val.manag_operation_user !== null ? val.manag_operation_user?.toLowerCase() : '',
+            manag_operation_user: val.manag_operation_user !== null ? val.manag_operation_user?.toLowerCase() : '',
             senior_manage_req: val.senior_manage_req,
             senior_manage_approv: val.senior_manage_approv,
             smo:
@@ -334,12 +319,10 @@ const PurchaseTablemain = () => {
                 : val.senior_manage_approv === 3
                 ? 'On-Hold'
                 : 'Not Done',
-            senior_manage_remarks:
-              val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
+            senior_manage_remarks: val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
             smo_detial_analysis: val.smo_detial_analysis,
             som_aprrov_date: val.som_aprrov_date,
-            senior_manage_user:
-              val.senior_manage_user !== null ? val.senior_manage_user?.toLowerCase() : '',
+            senior_manage_user: val.senior_manage_user !== null ? val.senior_manage_user?.toLowerCase() : '',
             gm_approve_req: val.gm_approve_req,
             gm_approve: val.gm_approve,
             gm:
@@ -350,8 +333,7 @@ const PurchaseTablemain = () => {
                 : val.gm_approve === 3
                 ? 'On-Hold'
                 : 'Not Done',
-            gm_approve_remarks:
-              val.gm_approve_remarks !== null ? val.gm_approve_remarks : 'Not Updated',
+            gm_approve_remarks: val.gm_approve_remarks !== null ? val.gm_approve_remarks : 'Not Updated',
             gm_detial_analysis: val.gm_detial_analysis,
             gm_approv_date: val.gm_approv_date,
             gm_user: val.gm_user !== null ? val.gm_user?.toLowerCase() : '',
@@ -361,7 +343,7 @@ const PurchaseTablemain = () => {
             mo_image: val.mo_image,
             smo_image: val.smo_image,
             gm_image: val.gm_image,
-            managing_director_image: val.managing_director_image,
+            managing_director_image: val.managing_director_image
           }
           return obj
         })
@@ -376,8 +358,7 @@ const PurchaseTablemain = () => {
         const poLIst = apprvData
           .filter(
             (po, index, self) =>
-              index ===
-              self.findIndex(val => val.po_number === po.po_number && val.req_slno === po.req_slno)
+              index === self.findIndex(val => val.po_number === po.po_number && val.req_slno === po.req_slno)
           )
           .map((po, ind) => ({
             slno: ind + 1,
@@ -406,7 +387,7 @@ const PurchaseTablemain = () => {
                 ? "Director's Approved"
                 : 'Not Approved',
             aprv_status: po.approval_level,
-            company_name: po.company_name,
+            company_name: po.company_name
           }))
         const poItems = apprvData?.map(val => {
           const obj = {
@@ -419,17 +400,15 @@ const PurchaseTablemain = () => {
             item_mrp: val.item_mrp !== null ? val.item_mrp : 0,
             tax: val.tax !== null ? val.tax : 'Nil',
             tax_amount: val.tax_amount !== null ? val.tax_amount : 0,
-            net_amount: val.net_amount !== 0 ? val.net_amount : 0,
+            net_amount: val.net_amount !== 0 ? val.net_amount : 0
           }
           return obj
         })
         const mergedData = poLIst?.map(po => {
-          const details = poItems?.filter(
-            item => item.po_no === po.po_no && item.po_detail_slno === po.po_detail_slno
-          )
+          const details = poItems?.filter(item => item.po_no === po.po_no && item.po_detail_slno === po.po_detail_slno)
           return {
             ...po,
-            items: details,
+            items: details
           }
         })
         setCombinedPO(mergedData)
@@ -491,7 +470,7 @@ const PurchaseTablemain = () => {
             quatation_fixing_date: val.quatation_fixing_date,
             quatation_fixuser: val.quatation_fixuser,
             po_prepartion: val.po_prepartion,
-            company_name: val?.company_name,
+            company_name: val?.company_name
           }
           return obj
         })
@@ -525,8 +504,7 @@ const PurchaseTablemain = () => {
             dept_id: val.dept_id,
             dept_name: val.dept_name,
             dept_type: val.dept_type,
-            dept_type_name:
-              val.dept_type === 1 ? 'Clinical' : val.dept_type === 2 ? 'Non Clinical' : 'Academic',
+            dept_type_name: val.dept_type === 1 ? 'Clinical' : val.dept_type === 2 ? 'Non Clinical' : 'Academic',
             md_approve_req: val.md_approve_req,
             md_approve: val.md_approve,
             md:
@@ -537,8 +515,7 @@ const PurchaseTablemain = () => {
                 : val.md_approve === 3
                 ? 'On-Hold'
                 : 'Not Done',
-            md_approve_remarks:
-              val.md_approve_remarks !== null ? val.md_approve_remarks : 'Not Updated',
+            md_approve_remarks: val.md_approve_remarks !== null ? val.md_approve_remarks : 'Not Updated',
             md_detial_analysis: val.md_detial_analysis,
             md_approve_date: val.md_approve_date,
             md_user: val.md_user !== null ? val.md_user.toLowerCase() : '',
@@ -568,13 +545,10 @@ const PurchaseTablemain = () => {
                 : val.managing_director_approve === 4
                 ? 'Approved'
                 : 'Not Done',
-            managing_director_remarks:
-              val.managing_director_remarks !== null ? val.managing_director_remarks : '',
+            managing_director_remarks: val.managing_director_remarks !== null ? val.managing_director_remarks : '',
             managing_director_analysis: val.managing_director_analysis,
             managing_director_approve_date: val.managing_director_approve_date,
-            managing_director_user: val.managing_director_username
-              ? val.managing_director_username.toLowerCase()
-              : '',
+            managing_director_user: val.managing_director_username ? val.managing_director_username.toLowerCase() : '',
             managing_director_image: val.managing_director_image,
             md_image: val.md_image,
             ed_image: val.ed_image,
@@ -696,8 +670,7 @@ const PurchaseTablemain = () => {
                 : val.ms_approve === 3
                 ? 'On-Hold'
                 : 'Not Done',
-            ms_approve_remark:
-              val.ms_approve_remark !== null ? val.ms_approve_remark : 'Not Updated',
+            ms_approve_remark: val.ms_approve_remark !== null ? val.ms_approve_remark : 'Not Updated',
             ms_detail_analysis: val.ms_detail_analysis,
             ms_approve_date: val.ms_approve_date,
             ms_approve_user: val.ms_approve_user !== null ? val.ms_approve_user?.toLowerCase() : '',
@@ -711,12 +684,10 @@ const PurchaseTablemain = () => {
                 : val.manag_operation_approv === 3
                 ? 'On-Hold'
                 : 'Not Done',
-            manag_operation_remarks:
-              val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
+            manag_operation_remarks: val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
             om_detial_analysis: val.om_detial_analysis,
             om_approv_date: val.om_approv_date,
-            manag_operation_user:
-              val.manag_operation_user !== null ? val.manag_operation_user?.toLowerCase() : '',
+            manag_operation_user: val.manag_operation_user !== null ? val.manag_operation_user?.toLowerCase() : '',
             senior_manage_req: val.senior_manage_req,
             senior_manage_approv: val.senior_manage_approv,
             smo:
@@ -727,12 +698,10 @@ const PurchaseTablemain = () => {
                 : val.senior_manage_approv === 3
                 ? 'On-Hold'
                 : 'Not Done',
-            senior_manage_remarks:
-              val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
+            senior_manage_remarks: val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
             smo_detial_analysis: val.smo_detial_analysis,
             som_aprrov_date: val.som_aprrov_date,
-            senior_manage_user:
-              val.senior_manage_user !== null ? val.senior_manage_user?.toLowerCase() : '',
+            senior_manage_user: val.senior_manage_user !== null ? val.senior_manage_user?.toLowerCase() : '',
             gm_approve_req: val.gm_approve_req,
             gm_approve: val.gm_approve,
             gm:
@@ -743,8 +712,7 @@ const PurchaseTablemain = () => {
                 : val.gm_approve === 3
                 ? 'On-Hold'
                 : 'Not Done',
-            gm_approve_remarks:
-              val.gm_approve_remarks !== null ? val.gm_approve_remarks : 'Not Updated',
+            gm_approve_remarks: val.gm_approve_remarks !== null ? val.gm_approve_remarks : 'Not Updated',
             gm_detial_analysis: val.gm_detial_analysis,
             gm_approv_date: val.gm_approv_date,
             gm_user: val.gm_user !== null ? val.gm_user?.toLowerCase() : '',
@@ -753,7 +721,7 @@ const PurchaseTablemain = () => {
             ms_image: val.ms_image,
             mo_image: val.mo_image,
             smo_image: val.smo_image,
-            gm_image: val.gm_image,
+            gm_image: val.gm_image
             // managing_director_image: val.managing_director_image,
           }
           return obj
@@ -786,7 +754,7 @@ const PurchaseTablemain = () => {
         const posearch = data?.map(val => {
           return {
             pono: val.po_number,
-            stcode: val.crs_store_code,
+            stcode: val.crs_store_code
           }
         })
         getPOdetails(posearch).then(val => {
@@ -795,16 +763,12 @@ const PurchaseTablemain = () => {
             const patchdata = elliderData?.map(val => {
               const newData = storeList?.find(value => value.crs_store_code === val.ST_CODE)
               return {
-                approval_level:
-                  typeof val.APPROVAL === 'number' && val.APPROVAL > 3 ? 3 : val.APPROVAL || null,
-                po_expiry:
-                  val.PO_EXPIRY !== null ? format(new Date(val.PO_EXPIRY), 'yyyy-MM-dd') : null,
+                approval_level: typeof val.APPROVAL === 'number' && val.APPROVAL > 3 ? 3 : val.APPROVAL || null,
+                po_expiry: val.PO_EXPIRY !== null ? format(new Date(val.PO_EXPIRY), 'yyyy-MM-dd') : null,
                 expected_delivery:
-                  val.EXPECTED_DATE !== null
-                    ? format(new Date(val.EXPECTED_DATE), 'yyyy-MM-dd')
-                    : null,
+                  val.EXPECTED_DATE !== null ? format(new Date(val.EXPECTED_DATE), 'yyyy-MM-dd') : null,
                 po_number: val.PO_NO,
-                supply_store: newData ? newData.main_store_slno : 0,
+                supply_store: newData ? newData.main_store_slno : 0
               }
             })
             UpdatePOLevels(patchdata).then(val => {
@@ -870,11 +834,11 @@ const PurchaseTablemain = () => {
   const {
     data: companyViewData,
     isLoading: isviewCompLoading,
-    error: viewcompError,
+    error: viewcompError
   } = useQuery({
     queryKey: 'getdefaultCompany',
     queryFn: () => getDefaultCompany(),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const company = useMemo(() => companyViewData, [companyViewData])
 
@@ -928,7 +892,7 @@ const PurchaseTablemain = () => {
                   flexWrap: 'wrap',
                   padding: '0 16px',
                   gap: 0.5,
-                  p: 0.7,
+                  p: 0.7
                 }}
               >
                 <Box sx={{ flex: '1 1 auto', minWidth: '100px' }}>
@@ -942,12 +906,12 @@ const PurchaseTablemain = () => {
                         '&:hover': {
                           bgcolor: '#fafafa',
                           color: '#003B73',
-                          transform: 'scale(0.98)',
+                          transform: 'scale(0.98)'
                         },
                         boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.16)',
                         borderRadius: 5,
                         height: '30px',
-                        lineHeight: '1',
+                        lineHeight: '1'
                       }}
                       onClick={getNotApproved}
                     >
@@ -967,12 +931,12 @@ const PurchaseTablemain = () => {
                         '&:hover': {
                           bgcolor: '#fafafa',
                           color: '#003B73',
-                          transform: 'scale(0.98)',
+                          transform: 'scale(0.98)'
                         },
                         boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.16)',
                         borderRadius: 5,
                         height: '30px',
-                        lineHeight: '1',
+                        lineHeight: '1'
                       }}
                       onClick={purchaseDeptApproved}
                     >
@@ -992,12 +956,12 @@ const PurchaseTablemain = () => {
                         '&:hover': {
                           bgcolor: '#fafafa',
                           color: '#003B73',
-                          transform: 'scale(0.98)',
+                          transform: 'scale(0.98)'
                         },
                         boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.16)',
                         borderRadius: 5,
                         height: '30px',
-                        lineHeight: '1',
+                        lineHeight: '1'
                       }}
                       onClick={purchaseManagerApproved}
                     >
@@ -1017,12 +981,12 @@ const PurchaseTablemain = () => {
                         '&:hover': {
                           bgcolor: '#fafafa',
                           color: '#003B73',
-                          transform: 'scale(0.98)',
+                          transform: 'scale(0.98)'
                         },
                         boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.16)',
                         borderRadius: 5,
                         height: '30px',
-                        lineHeight: '1',
+                        lineHeight: '1'
                       }}
                       onClick={directorsApproved}
                     >
@@ -1043,12 +1007,12 @@ const PurchaseTablemain = () => {
                         '&:hover': {
                           bgcolor: '#fafafa',
                           color: '#003B73',
-                          transform: 'scale(0.98)',
+                          transform: 'scale(0.98)'
                         },
                         boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.16)',
                         borderRadius: 5,
                         height: '30px',
-                        lineHeight: '1',
+                        lineHeight: '1'
                       }}
                       onClick={viewAllData}
                     >
@@ -1068,12 +1032,12 @@ const PurchaseTablemain = () => {
                         '&:hover': {
                           bgcolor: '#fafafa',
                           color: '#003B73',
-                          transform: 'scale(0.98)',
+                          transform: 'scale(0.98)'
                         },
                         boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.16)',
                         borderRadius: 5,
                         height: '30px',
-                        lineHeight: '1',
+                        lineHeight: '1'
                       }}
                       onClick={RefreshData}
                     >
@@ -1094,7 +1058,7 @@ const PurchaseTablemain = () => {
                 fontSize: 25,
                 opacity: 0.5,
                 pt: 10,
-                color: 'grey',
+                color: 'grey'
               }}
             >
               No PO Approvals Are Pending
@@ -1115,7 +1079,7 @@ const PurchaseTablemain = () => {
                     mt: 0.8,
                     flexWrap: 'wrap',
                     border: '1px solid #21B6A8',
-                    borderRadius: 2,
+                    borderRadius: 2
                   }}
                 >
                   <ReqMastMainViewCmp val={val} />
@@ -1139,7 +1103,7 @@ const PurchaseTablemain = () => {
                 fontSize: 25,
                 opacity: 0.5,
                 pt: 10,
-                color: 'grey',
+                color: 'grey'
               }}
             >
               No Report Found

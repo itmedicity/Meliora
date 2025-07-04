@@ -3,7 +3,7 @@ const { FETCH_HIGHBIOTIC_DETL } = ActionTyps
 
 const HighAntiBiotic = {
   AntibioticList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 
 export const getHighAntibioticdetl = (state = HighAntiBiotic, { type, payload }) => {

@@ -1,23 +1,9 @@
-import {
-  Box,
-  CssVarsProvider,
-  IconButton,
-  Option,
-  Select,
-  Table,
-  Textarea,
-  Tooltip,
-  Typography,
-} from '@mui/joy'
+import { Box, CssVarsProvider, IconButton, Option, Select, Table, Textarea, Tooltip, Typography } from '@mui/joy'
 import React, { Fragment, memo, useCallback, useEffect, useMemo, useState } from 'react'
 import CustomCloseIconCmp from '../../ComonComponent/Components/CustomCloseIconCmp'
 import { useNavigate } from 'react-router-dom'
 import { useQuery } from 'react-query'
-import {
-  getAuthorisedDeptsec,
-  getDefaultCompany,
-  getInchHodAuthorization,
-} from 'src/api/CommonApiCRF'
+import { getAuthorisedDeptsec, getDefaultCompany, getInchHodAuthorization } from 'src/api/CommonApiCRF'
 import _ from 'underscore'
 import { useSelector } from 'react-redux'
 import CustomPaperTitle from 'src/views/Components/CustomPaperTitle'
@@ -42,9 +28,7 @@ import AddCircleSharpIcon from '@mui/icons-material/AddCircleSharp'
 import ModalButtomCmp from '../../ComonComponent/Components/ModalButtomCmp'
 import CRFCategoryTypeSelect from '../Components/CRFCategoryTypeSelect'
 
-const ReqImageDisModal = React.lazy(() =>
-  import('../../ComonComponent/ImageUploadCmp/ReqImageDisModal')
-)
+const ReqImageDisModal = React.lazy(() => import('../../ComonComponent/ImageUploadCmp/ReqImageDisModal'))
 
 const CrfRegistration = ({
   editRowData,
@@ -54,7 +38,7 @@ const CrfRegistration = ({
   detailDataDis,
   setDetailDataDis,
   imagearray,
-  setImageArry,
+  setImageArry
 }) => {
   const history = useNavigate()
   const backtoSetting = useCallback(() => {
@@ -83,7 +67,7 @@ const CrfRegistration = ({
     startdate: format(new Date(), 'yyyy-MM-dd'),
     reqSlno: 0,
     imageshowFlag: 0,
-    imageshow: false,
+    imageshow: false
   })
 
   const {
@@ -105,7 +89,7 @@ const CrfRegistration = ({
     imageshowFlag,
     imageshow,
     item_brand,
-    item_spec,
+    item_spec
   } = crfRegister
   const updateOnchangeState = useCallback(
     e => {
@@ -131,12 +115,12 @@ const CrfRegistration = ({
   const {
     data: authDept,
     isLoading: isAuthDeptSecLoading,
-    error: authDeptSecError,
+    error: authDeptSecError
   } = useQuery({
     queryKey: ['getAuthDept', loginId],
     queryFn: () => getAuthorisedDeptsec(loginId),
     enabled: loginId !== null,
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const authDeptSec = useMemo(() => authDept, [authDept])
   useEffect(() => {
@@ -150,12 +134,12 @@ const CrfRegistration = ({
   const {
     data: authLevel,
     isLoading: isAuthLoading,
-    error: authError,
+    error: authError
   } = useQuery({
     queryKey: ['getAuthorization', deptSec],
     queryFn: () => getInchHodAuthorization(deptSec),
     enabled: deptSec !== null,
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const authData = useMemo(() => authLevel, [authLevel])
 
@@ -164,11 +148,11 @@ const CrfRegistration = ({
   const {
     data: companyData,
     isLoading: isCompLoading,
-    error: compError,
+    error: compError
   } = useQuery({
     queryKey: 'getdefaultCompany',
     queryFn: () => getDefaultCompany(),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const company = useMemo(() => companyData, [companyData])
 
@@ -179,14 +163,14 @@ const CrfRegistration = ({
         ...prev,
         levelOne: level_one,
         levelTwo: level_two,
-        deptType: dept_type,
+        deptType: dept_type
       }))
     } else {
       setCrfRegister(prev => ({
         ...prev,
         levelOne: 0,
         levelTwo: 0,
-        deptType: 0,
+        deptType: 0
       }))
     }
   }, [authData])
@@ -195,13 +179,13 @@ const CrfRegistration = ({
     if (e.target.checked === true) {
       setCrfRegister(prev => ({
         ...prev,
-        emergency: true,
+        emergency: true
       }))
     } else {
       setCrfRegister(prev => ({
         ...prev,
         emergency: false,
-        remarks: '',
+        remarks: ''
       }))
       setEmerType(0)
     }
@@ -211,7 +195,7 @@ const CrfRegistration = ({
       setCrfRegister(prev => ({
         ...prev,
         item_qty: e.target.value,
-        approx_cost: unitprice !== '' || unitprice !== 0 ? unitprice * e.target.value : 0,
+        approx_cost: unitprice !== '' || unitprice !== 0 ? unitprice * e.target.value : 0
       }))
     },
     [unitprice]
@@ -223,7 +207,7 @@ const CrfRegistration = ({
         setCrfRegister(prev => ({
           ...prev,
           unitprice: e.target.value,
-          approx_cost: item_qty !== '' ? item_qty * e.target.value : 0,
+          approx_cost: item_qty !== '' ? item_qty * e.target.value : 0
         }))
       } else {
         warningNotify('Provide the quantity before specifying the unit price')
@@ -239,7 +223,7 @@ const CrfRegistration = ({
       item_spec: '',
       item_qty: 0,
       unitprice: 0,
-      approx_cost: 0,
+      approx_cost: 0
     }))
     setUOM(0)
     setEditIndex(null)
@@ -257,19 +241,15 @@ const CrfRegistration = ({
           item_spec: item_spec,
           item_unitprice: unitprice,
           approx_cost: parseInt(approx_cost),
-          req_detl_slno: reqDetalSlno,
+          req_detl_slno: reqDetalSlno
         }
-        const isDuplicate = detailDataDis?.some(
-          (val, index) => val.item_desc === item_desc && index !== editIndex
-        )
+        const isDuplicate = detailDataDis?.some((val, index) => val.item_desc === item_desc && index !== editIndex)
         if (isDuplicate) {
           warningNotify('Item Details Already Exists!')
           return
         }
         if (editIndex !== null) {
-          const updatedData = detailDataDis.map((val, index) =>
-            index === editIndex ? newdata : val
-          )
+          const updatedData = detailDataDis.map((val, index) => (index === editIndex ? newdata : val))
           const datas = updatedData?.map((val, index) => {
             const obj = {
               item_slno: index + 1,
@@ -281,7 +261,7 @@ const CrfRegistration = ({
               item_unitprice: val.item_unitprice,
               uomName: val.uomName,
               approx_cost: val.approx_cost,
-              req_detl_slno: val.req_detl_slno,
+              req_detl_slno: val.req_detl_slno
             }
             return obj
           })
@@ -300,7 +280,7 @@ const CrfRegistration = ({
               item_unitprice: val.item_unitprice,
               uomName: val.uomName,
               approx_cost: val.approx_cost,
-              req_detl_slno: val.req_detl_slno,
+              req_detl_slno: val.req_detl_slno
             }
             return obj
           })
@@ -314,13 +294,11 @@ const CrfRegistration = ({
           item_qty: 0,
           unitprice: 0,
           approx_cost: 0,
-          reqDetalSlno: 0,
+          reqDetalSlno: 0
         }))
         setUOM(0)
       } else {
-        warningNotify(
-          'Item Description and Quantity are mandatory and Quantity and unit price are not negative'
-        )
+        warningNotify('Item Description and Quantity are mandatory and Quantity and unit price are not negative')
       }
     },
     [
@@ -335,21 +313,12 @@ const CrfRegistration = ({
       editIndex,
       reqDetalSlno,
       detailDataDis,
-      setDetailDataDis,
+      setDetailDataDis
     ]
   )
 
   const editSelect = useCallback((val, index) => {
-    const {
-      req_detl_slno,
-      item_desc,
-      item_brand,
-      item_unit,
-      item_qty,
-      item_spec,
-      approx_cost,
-      item_unitprice,
-    } = val
+    const { req_detl_slno, item_desc, item_brand, item_unit, item_qty, item_spec, approx_cost, item_unitprice } = val
 
     setCrfRegister(prev => ({
       ...prev,
@@ -359,7 +328,7 @@ const CrfRegistration = ({
       item_qty: item_qty,
       unitprice: item_unitprice,
       approx_cost: approx_cost,
-      reqDetalSlno: req_detl_slno,
+      reqDetalSlno: req_detl_slno
     }))
     setUOM(item_unit)
     setEditIndex(index)
@@ -375,7 +344,7 @@ const CrfRegistration = ({
             item_slno: 0,
             delete_user: loginId,
             req_slno: reqSlno,
-            req_detl_slno: req_detl_slno,
+            req_detl_slno: req_detl_slno
           }
           const deleteItemDetails = async deleteData => {
             const result = await axioslogin.patch('/newCRFRegister/deleteItemList', deleteData)
@@ -433,9 +402,7 @@ const CrfRegistration = ({
               warningNotify(`The file "${file.name}" exceeds the 25MB size limit`)
               return false
             }
-            const isDuplicate = prevFiles.some(
-              prevFile => prevFile.name === file.name && prevFile.size === file.size
-            )
+            const isDuplicate = prevFiles.some(prevFile => prevFile.name === file.name && prevFile.size === file.size)
             // const duplicates = prevFiles?.filter(
             //     (prevFile) => prevFile.name === file.name && prevFile.size === file.size
             // );
@@ -450,16 +417,12 @@ const CrfRegistration = ({
             }
             return true
           } else {
-            warningNotify(
-              `The file "${file.name}" is not a supported format! Only .png, .jpeg, and .pdf are allowed.`
-            )
+            warningNotify(`The file "${file.name}" is not a supported format! Only .png, .jpeg, and .pdf are allowed.`)
             return false
           }
         })
         if (duplicateFiles.length > 0) {
-          warningNotify(
-            `The following files are duplicates and were not added: ${duplicateFiles.join(', ')}`
-          )
+          warningNotify(`The following files are duplicates and were not added: ${duplicateFiles.join(', ')}`)
         }
         return [...prevFiles, ...validFiles]
       })
@@ -491,7 +454,7 @@ const CrfRegistration = ({
       startdate: format(new Date(), 'yyyy-MM-dd'),
       reqSlno: 0,
       imageshowFlag: 0,
-      imageshow: false,
+      imageshow: false
     }
     setCrfRegister(formData)
     setCategory([])
@@ -511,7 +474,7 @@ const CrfRegistration = ({
     const options = {
       maxSizeMB: 25,
       maxWidthOrHeight: 1920,
-      useWebWorker: true,
+      useWebWorker: true
     }
     const compressedFile = await imageCompression(imageFile, options)
     return compressedFile
@@ -530,9 +493,7 @@ const CrfRegistration = ({
           infoNotify(
             <>
               Click on &apos;
-              <AddCircleSharpIcon
-                sx={{ color: '#0074B7', height: 28, width: 28, cursor: 'pointer' }}
-              />
+              <AddCircleSharpIcon sx={{ color: '#0074B7', height: 28, width: 28, cursor: 'pointer' }} />
               &apos; Button to Add Item Details
             </>
           )
@@ -570,7 +531,7 @@ const CrfRegistration = ({
             approve_item_status: 1,
             create_user: loginId,
             edit_user: loginId,
-            req_detl_slno: val.req_detl_slno,
+            req_detl_slno: val.req_detl_slno
           }))
 
           const postData = {
@@ -596,13 +557,13 @@ const CrfRegistration = ({
             md_approve_req: 1,
             managing_director_req: 1,
             items,
-            company_slno: company?.company_slno,
+            company_slno: company?.company_slno
           }
 
           const patchData = {
             ...postData,
             edit_user: loginId,
-            req_slno: reqSlno,
+            req_slno: reqSlno
           }
           const ReqMasterInsert = async postData => {
             const result = await axioslogin.post('/newCRFRegister/InsertRegMast', postData)
@@ -624,15 +585,11 @@ const CrfRegistration = ({
                   formData.append('files', file, file.name)
                 }
               }
-              const result = await axioslogin.post(
-                '/newCRFRegisterImages/InsertRegisterImage',
-                formData,
-                {
-                  headers: {
-                    'Content-Type': 'multipart/form-data',
-                  },
+              const result = await axioslogin.post('/newCRFRegisterImages/InsertRegisterImage', formData, {
+                headers: {
+                  'Content-Type': 'multipart/form-data'
                 }
-              )
+              })
               return result.data
             } catch (error) {
               // console.log(error, "while file uploading");
@@ -648,10 +605,7 @@ const CrfRegistration = ({
 
               if (success === 1) {
                 if (selectFile.length > 0) {
-                  const fileInsertResponse = await FileInsert(
-                    selectFile,
-                    edit === 0 ? insertid : reqSlno
-                  )
+                  const fileInsertResponse = await FileInsert(selectFile, edit === 0 ? insertid : reqSlno)
                   if (fileInsertResponse.success !== 1) {
                     warningNotify('Error occurred while uploading files.')
                   }
@@ -731,7 +685,7 @@ const CrfRegistration = ({
       handleImageUpload,
       reset,
       item_desc,
-      item_qty,
+      item_qty
     ]
   )
 
@@ -747,7 +701,7 @@ const CrfRegistration = ({
         expected_date,
         emergency_flag,
         emer_slno,
-        emergeny_remarks,
+        emergeny_remarks
       } = editRowData
       setCrfRegister(prev => ({
         ...prev,
@@ -766,7 +720,7 @@ const CrfRegistration = ({
         item_brand: '',
         item_spec: '',
         unitprice: 0,
-        approx_cost: 0,
+        approx_cost: 0
       }))
       setDeptSec(request_deptsec_slno)
       setEmerType(emer_slno)
@@ -780,15 +734,15 @@ const CrfRegistration = ({
         ? 'pdf'
         : 'image'
       : file.type.includes('application/pdf')
-        ? 'pdf'
-        : 'image'
+      ? 'pdf'
+      : 'image'
 
     const fileUrl = file.url || URL.createObjectURL(file)
     setPreviewFile({ url: fileUrl, type: fileType })
     setCrfRegister(prev => ({
       ...prev,
       imageshow: true,
-      imageshowFlag: 1,
+      imageshowFlag: 1
     }))
   }, [])
 
@@ -796,7 +750,7 @@ const CrfRegistration = ({
     setCrfRegister(prev => ({
       ...prev,
       imageshow: false,
-      imageshowFlag: 0,
+      imageshowFlag: 0
     }))
   }, [])
 
@@ -832,18 +786,14 @@ const CrfRegistration = ({
                     defaultValue="0"
                     sx={{ fontSize: 13, width: '100%', height: 38, bgcolor: 'white' }}
                     slotProps={{
-                      listbox: { placement: 'bottom-start' },
+                      listbox: { placement: 'bottom-start' }
                     }}
                     placeholder="Select Department Section"
                     value={deptSec}
                     onChange={(e, newValue) => setDeptSec(newValue)}
                   >
                     {authorizeDeptSec?.map(val => (
-                      <Option
-                        key={val.dept_section}
-                        value={val.dept_section}
-                        label={val.auth_deptsec}
-                      >
+                      <Option key={val.dept_section} value={val.dept_section} label={val.auth_deptsec}>
                         {val.auth_deptsec}
                       </Option>
                     ))}
@@ -860,7 +810,7 @@ const CrfRegistration = ({
                     borderRadius: 7,
                     p: 0.9,
                     textAlign: 'left',
-                    fontSize: 13,
+                    fontSize: 13
                     // bgcolor: '#FBFCFE'
                   }}
                 >
@@ -877,7 +827,7 @@ const CrfRegistration = ({
                 height: 38,
                 overflow: 'auto',
                 border: '1px solid lightgrey',
-                borderRadius: 7,
+                borderRadius: 7
               }}
             >
               <CRFCategoryTypeSelect
@@ -962,12 +912,7 @@ const CrfRegistration = ({
                   <CustomPaperTitle heading="Unit" />
                 </Box>
                 <Box sx={{ pt: 0.2 }}>
-                  <AssetUOMSelect
-                    uom={uom}
-                    setUOM={setUOM}
-                    setName={setUomName}
-                    uomName={uomName}
-                  />
+                  <AssetUOMSelect uom={uom} setUOM={setUOM} setName={setUomName} uomName={uomName} />
                 </Box>
               </Box>
             </Box>
@@ -1021,11 +966,7 @@ const CrfRegistration = ({
               </Box>
               <Box sx={{ flex: 0.2, display: 'flex' }}>
                 <Box sx={{ pt: 3.3, pl: 1, bgcolor: 'white' }}>
-                  <Tooltip
-                    title="Add Item"
-                    placement="bottom"
-                    sx={{ color: '#0074B7', bgcolor: '#e3f2fd' }}
-                  >
+                  <Tooltip title="Add Item" placement="bottom" sx={{ color: '#0074B7', bgcolor: '#e3f2fd' }}>
                     <AddCircleSharpIcon
                       sx={{ color: '#0074B7', height: 28, width: 28, cursor: 'pointer' }}
                       onClick={AddItem}
@@ -1033,11 +974,7 @@ const CrfRegistration = ({
                   </Tooltip>
                 </Box>
                 <Box sx={{ pt: 3.3, pl: 0.5 }}>
-                  <Tooltip
-                    title="Clear All"
-                    placement="bottom"
-                    sx={{ bgcolor: '#ffebee', color: '#d50000' }}
-                  >
+                  <Tooltip title="Clear All" placement="bottom" sx={{ bgcolor: '#ffebee', color: '#d50000' }}>
                     <ClearIcon
                       sx={{
                         height: 25,
@@ -1045,8 +982,8 @@ const CrfRegistration = ({
                         color: '#ef9a9a',
                         cursor: 'pointer',
                         ':hover': {
-                          color: '#e57373',
-                        },
+                          color: '#e57373'
+                        }
                       }}
                       onClick={clearData}
                     />
@@ -1063,17 +1000,11 @@ const CrfRegistration = ({
                 overflow: 'auto',
                 '&::-webkit-scrollbar': { height: 8 },
                 px: 0.5,
-                pt: 0.3,
+                pt: 0.3
               }}
             >
               <CssVarsProvider>
-                <Table
-                  aria-label="table with sticky header"
-                  borderAxis="both"
-                  padding={'none'}
-                  stickyHeader
-                  size="sm"
-                >
+                <Table aria-label="table with sticky header" borderAxis="both" padding={'none'} stickyHeader size="sm">
                   <thead style={{ alignItems: 'center' }}>
                     <tr style={{ height: 0.5 }}>
                       <th size="sm" style={{ width: 50, fontSize: 14, textAlign: 'center' }}>
@@ -1136,8 +1067,8 @@ const CrfRegistration = ({
                             sx={{
                               color: editicon,
                               ':hover': {
-                                color: '#1565c0',
-                              },
+                                color: '#1565c0'
+                              }
                             }}
                             onClick={() => editSelect(val, index)}
                           />
@@ -1147,8 +1078,8 @@ const CrfRegistration = ({
                             sx={{
                               color: '#DC4731',
                               ':hover': {
-                                color: '#B95C50',
-                              },
+                                color: '#B95C50'
+                              }
                             }}
                             onClick={() => deleteSelect(val, index)}
                           />
@@ -1160,11 +1091,7 @@ const CrfRegistration = ({
               </CssVarsProvider>
             </Box>
           ) : null}
-          <Paper
-            variant="outlined"
-            square
-            sx={{ p: 0.5, m: 0.5, display: 'flex', flexWrap: 'wrap' }}
-          >
+          <Paper variant="outlined" square sx={{ p: 0.5, m: 0.5, display: 'flex', flexWrap: 'wrap' }}>
             <Box sx={{ flex: 1, pr: 0.5 }}>
               <Box sx={{ pt: 0.6 }}>
                 <CustomPaperTitle heading="Purpose" />
@@ -1206,11 +1133,7 @@ const CrfRegistration = ({
               </Box>
             </Box>
           </Paper>
-          <Paper
-            variant="outlined"
-            square
-            sx={{ p: 0.5, m: 0.5, display: 'flex', flexWrap: 'wrap' }}
-          >
+          <Paper variant="outlined" square sx={{ p: 0.5, m: 0.5, display: 'flex', flexWrap: 'wrap' }}>
             <Box sx={{ flex: 0.5 }}>
               <Box sx={{}}>
                 <CustomPaperTitle heading="Expected Date" />
@@ -1223,7 +1146,7 @@ const CrfRegistration = ({
                   name={'startdate'}
                   value={startdate}
                   slotProps={{
-                    input: { min: moment(new Date()).format('YYYY-MM-DD') },
+                    input: { min: moment(new Date()).format('YYYY-MM-DD') }
                   }}
                   handleChange={updateOnchangeState}
                 />
@@ -1275,18 +1198,10 @@ const CrfRegistration = ({
               ) : null}
             </Box>
           </Paper>
-          <Paper
-            variant="outlined"
-            square
-            sx={{ p: 0.5, m: 0.5, display: 'flex', flexWrap: 'wrap' }}
-          >
+          <Paper variant="outlined" square sx={{ p: 0.5, m: 0.5, display: 'flex', flexWrap: 'wrap' }}>
             <Box sx={{ p: 0.5 }}>
               <label htmlFor="file-input">
-                <Tooltip
-                  title="Upload File"
-                  placement="bottom"
-                  sx={{ bgcolor: '#e8eaf6', color: '#283593' }}
-                >
+                <Tooltip title="Upload File" placement="bottom" sx={{ bgcolor: '#e8eaf6', color: '#283593' }}>
                   <IconButton
                     aria-label="upload file"
                     variant="soft"
@@ -1294,8 +1209,8 @@ const CrfRegistration = ({
                     sx={{
                       bgcolor: 'white',
                       '&:hover': {
-                        bgcolor: 'white',
-                      },
+                        bgcolor: 'white'
+                      }
                     }}
                   >
                     <CloudUploadTwoToneIcon
@@ -1305,8 +1220,8 @@ const CrfRegistration = ({
                         height: 25,
                         color: '#3949ab',
                         '&:hover': {
-                          color: '#5c6bc0',
-                        },
+                          color: '#5c6bc0'
+                        }
                       }}
                     />
                     <Typography
@@ -1314,8 +1229,8 @@ const CrfRegistration = ({
                         fontSize: 12,
                         color: '#3949ab',
                         '&:hover': {
-                          color: '#5c6bc0',
-                        },
+                          color: '#5c6bc0'
+                        }
                       }}
                     >
                       Maximum Size 25MB
@@ -1344,12 +1259,12 @@ const CrfRegistration = ({
                       m: 0.3,
                       border: '1px solid #e0e0e0',
                       borderRadius: '4px',
-                      p: 0.5,
+                      p: 0.5
                     }}
                   >
                     {file.imageName.endsWith('.png') ||
-                      file.imageName.endsWith('.jpg') ||
-                      file.imageName.endsWith('.jpeg') ? (
+                    file.imageName.endsWith('.jpg') ||
+                    file.imageName.endsWith('.jpeg') ? (
                       <img
                         src={file.url}
                         alt={file.imageName}
@@ -1359,7 +1274,7 @@ const CrfRegistration = ({
                           objectFit: 'cover',
                           borderRadius: '4px',
                           marginRight: '8px',
-                          cursor: 'pointer',
+                          cursor: 'pointer'
                         }}
                         onClick={() => ViewImage(file)}
                       />
@@ -1370,7 +1285,7 @@ const CrfRegistration = ({
                           height: '40px',
                           color: '#e53935',
                           marginRight: '8px',
-                          cursor: 'pointer',
+                          cursor: 'pointer'
                         }}
                         onClick={() => ViewImage(file)}
                       />
@@ -1381,14 +1296,12 @@ const CrfRegistration = ({
                           height: '40px',
                           color: '#9e9e9e',
                           marginRight: '8px',
-                          cursor: 'pointer',
+                          cursor: 'pointer'
                         }}
                         onClick={() => ViewImage(file)}
                       />
                     )}
-                    <Box sx={{ fontSize: 14, cursor: 'pointer', flexGrow: 1 }}>
-                      {file.imageName}
-                    </Box>
+                    <Box sx={{ fontSize: 14, cursor: 'pointer', flexGrow: 1 }}>{file.imageName}</Box>
                     {/* <ClearIcon
                                             sx={{
                                                 height: "16px",
@@ -1411,7 +1324,7 @@ const CrfRegistration = ({
                       m: 0.3,
                       border: '1px solid #e0e0e0',
                       borderRadius: '4px',
-                      p: 0.5,
+                      p: 0.5
                     }}
                   >
                     {file.type.includes('image') ? (
@@ -1424,7 +1337,7 @@ const CrfRegistration = ({
                           objectFit: 'cover',
                           borderRadius: '4px',
                           marginRight: '8px',
-                          cursor: 'pointer',
+                          cursor: 'pointer'
                         }}
                         // onClick={() => ViewImage(URL.createObjectURL(file))}
                         onClick={() => ViewImage(file)}
@@ -1436,7 +1349,7 @@ const CrfRegistration = ({
                           height: '40px',
                           color: '#e53935',
                           marginRight: '8px',
-                          cursor: 'pointer',
+                          cursor: 'pointer'
                         }}
                         onClick={() => ViewImage(file)}
                       />
@@ -1447,7 +1360,7 @@ const CrfRegistration = ({
                           height: '40px',
                           color: '#9e9e9e',
                           marginRight: '8px',
-                          cursor: 'pointer',
+                          cursor: 'pointer'
                         }}
                         onClick={() => ViewImage(file)}
                       />
@@ -1459,7 +1372,7 @@ const CrfRegistration = ({
                         width: '16px',
                         cursor: 'pointer',
                         color: 'red',
-                        marginLeft: '8px',
+                        marginLeft: '8px'
                       }}
                       onClick={() => handleRemoveFile(index)}
                     />

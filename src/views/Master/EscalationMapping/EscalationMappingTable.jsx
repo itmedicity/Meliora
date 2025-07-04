@@ -9,7 +9,7 @@ const EscalationMappingTable = ({ count }) => {
   const [column] = useState([
     { headerName: 'SlNo', field: 'esc_mapping_slno' },
     { headerName: 'Escalation Name', field: 'esc_activity', width: 250, filter: 'true' },
-    { headerName: ' Complaint Dept', field: 'complaint_dept_name' },
+    { headerName: ' Complaint Dept', field: 'complaint_dept_name' }
   ])
   //get all data
   useEffect(() => {

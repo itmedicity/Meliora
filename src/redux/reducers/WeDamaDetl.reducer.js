@@ -3,7 +3,7 @@ const { FETCH_DAMA_DETAIL } = ActionTyps
 
 const WeDamaDetl = {
   damaList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 
 export const getDamaDetl = (state = WeDamaDetl, { type, payload }) => {

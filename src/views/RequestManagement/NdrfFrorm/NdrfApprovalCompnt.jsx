@@ -14,16 +14,14 @@ const NdrfApprovalCompnt = ({
   remark,
   updateRemark,
   updatePending,
-  pending,
+  pending
 }) => {
   return (
     <Fragment>
       <Box sx={{ width: '100%' }}>
         <Box sx={{ pt: 0.5 }}>
           <CssVarsProvider>
-            <Typography sx={{ fontSize: 14, fontWeight: 700, color: TypoHeadColor }}>
-              {heading}{' '}
-            </Typography>
+            <Typography sx={{ fontSize: 14, fontWeight: 700, color: TypoHeadColor }}>{heading} </Typography>
           </CssVarsProvider>
         </Box>
         <Box
@@ -31,7 +29,7 @@ const NdrfApprovalCompnt = ({
             display: 'flex',
             width: '100%',
             fontSize: 15,
-            flexDirection: 'column',
+            flexDirection: 'column'
           }}
         >
           <CssVarsProvider>
@@ -45,7 +43,7 @@ const NdrfApprovalCompnt = ({
               width: '100%',
               height: 70,
               boardColor: '#E0E0E0',
-              mt: 5,
+              mt: 5
             }}
             value={remark}
             onchange={updateRemark}
@@ -56,7 +54,7 @@ const NdrfApprovalCompnt = ({
             width: '100%',
             display: 'flex',
             flexDirection: 'row',
-            justifyContent: 'center',
+            justifyContent: 'center'
           }}
         >
           <Box sx={{ width: '20%', pr: 1, mt: 1 }}>

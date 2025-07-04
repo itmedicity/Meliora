@@ -11,7 +11,7 @@ const BillSupplerListOracle = ({ OracleList, SuppAddMeliora }) => {
         overflow: 'auto',
         border: 1,
         borderColor: 'brown',
-        px: 1,
+        px: 1
       }}
     >
       <CssVarsProvider>
@@ -45,11 +45,7 @@ const BillSupplerListOracle = ({ OracleList, SuppAddMeliora }) => {
                     <td> {val.SUC_PERSON}</td>
 
                     <td>
-                      <AddCircleOutlineIcon
-                        size={6}
-                        sx={{ color: 'brown' }}
-                        onClick={() => SuppAddMeliora(val)}
-                      />
+                      <AddCircleOutlineIcon size={6} sx={{ color: 'brown' }} onClick={() => SuppAddMeliora(val)} />
                     </td>
                   </tr>
                 )

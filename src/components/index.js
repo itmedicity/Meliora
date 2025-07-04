@@ -7,13 +7,4 @@ import DocsCallout from './DocsCallout'
 import DocsLink from './DocsLink'
 import DocsExample from './DocsExample'
 
-export {
-  AppContent,
-  AppFooter,
-  AppHeader,
-  AppHeaderDropdown,
-  AppSidebar,
-  DocsCallout,
-  DocsLink,
-  DocsExample,
-}
+export { AppContent, AppFooter, AppHeader, AppHeaderDropdown, AppSidebar, DocsCallout, DocsLink, DocsExample }

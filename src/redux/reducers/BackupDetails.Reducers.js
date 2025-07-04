@@ -3,7 +3,7 @@ const { FETCH_BACKUP_DETAILS, FETCH_BACKUP_EMPLOYEE } = ActionTyps
 
 const BackupInitial = {
   backupList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 export const getBackupDetails = (state = BackupInitial, { type, payload }) => {
   switch (type) {
@@ -16,7 +16,7 @@ export const getBackupDetails = (state = BackupInitial, { type, payload }) => {
 
 const EmpInitial = {
   empList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 export const getEmployeeBackup = (state = EmpInitial, { type, payload }) => {
   switch (type) {

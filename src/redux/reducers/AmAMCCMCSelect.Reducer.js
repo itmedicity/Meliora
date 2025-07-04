@@ -3,7 +3,7 @@ const { FETCH_AMCCMC_MAST } = ActionTyps
 //initial state
 const AmcCmcMaster = {
   AmcCmcMasterList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Designation action type check then payload set to the state and loading status set as true */
 export const setAmcCmcMaster = (state = AmcCmcMaster, { type, payload }) => {

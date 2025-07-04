@@ -91,7 +91,7 @@ const AllTaskListx = () => {
             tm_project_duedate: val.tm_project_duedate,
             create_date: val.create_date,
             tm_task_file: val.tm_task_file,
-            tm_mast_duedate_count: val.tm_mast_duedate_count,
+            tm_mast_duedate_count: val.tm_mast_duedate_count
           }
           return obj
         })
@@ -105,8 +105,7 @@ const AllTaskListx = () => {
 
   const SearchInTableProject = useCallback(() => {
     if (projectz !== 0) {
-      let newTableDataaProject =
-        tableData && tableData.filter(val => val.tm_project_slno === projectz)
+      let newTableDataaProject = tableData && tableData.filter(val => val.tm_project_slno === projectz)
       setsearchFlag(1)
       setProjectBasdData(newTableDataaProject)
     } else {
@@ -116,8 +115,7 @@ const AllTaskListx = () => {
 
   useEffect(() => {
     if (projxFlag === 1) {
-      let newTableDataaProject =
-        tableData && tableData.filter(val => val.tm_project_slno === projectz)
+      let newTableDataaProject = tableData && tableData.filter(val => val.tm_project_slno === projectz)
       setProjectBasdData(newTableDataaProject)
     }
   }, [taskcount, tableData, alphbased, enterText, projectz, projxFlag])
@@ -163,8 +161,7 @@ const AllTaskListx = () => {
     if (alphbased === 1) {
       const searchText = enterText.trim().toLowerCase()
       const newTableDataa =
-        tableData &&
-        tableData.filter(val => val.tm_task_name.trim().toLowerCase().includes(searchText))
+        tableData && tableData.filter(val => val.tm_task_name.trim().toLowerCase().includes(searchText))
       setAlphbasedData(newTableDataa)
     }
   }, [taskcount, tableData, alphbased, enterText])
@@ -177,8 +174,7 @@ const AllTaskListx = () => {
 
   useEffect(() => {
     if (statusFlag === 1) {
-      let newTablStatusDataa =
-        tableData && tableData.filter(val => val.tm_task_status === taskstatus)
+      let newTablStatusDataa = tableData && tableData.filter(val => val.tm_task_status === taskstatus)
       setStatusData(newTablStatusDataa)
     }
   }, [statuscount, tableData, statusFlag, taskstatus])
@@ -331,11 +327,7 @@ const AllTaskListx = () => {
         <Box sx={{ flex: 1 }}>
           <Box sx={{ flex: 1, display: 'flex', ml: 2 }}>
             <Box sx={{ flex: 0.8, display: 'flex', cursor: 'pointer' }} onClick={sectionWise}>
-              {borderSec === 1 ? (
-                <SearchIcon sx={{ p: 0.3, color: 'blue' }} />
-              ) : (
-                <SearchIcon sx={{ p: 0.3 }} />
-              )}
+              {borderSec === 1 ? <SearchIcon sx={{ p: 0.3, color: 'blue' }} /> : <SearchIcon sx={{ p: 0.3 }} />}
               <Typography sx={{ fontSize: 12, '&:hover': { color: 'blue' } }}>
                 {borderSec === 1 ? (
                   <u style={{ textDecorationColor: 'blue', color: 'blue' }}>Department & Section</u>
@@ -345,17 +337,9 @@ const AllTaskListx = () => {
               </Typography>
             </Box>
             <Box sx={{ flex: 0.5, display: 'flex', cursor: 'pointer' }} onClick={projxWise}>
-              {borderB === 1 ? (
-                <SwapVertIcon sx={{ p: 0.3, color: 'blue' }} />
-              ) : (
-                <SwapVertIcon sx={{ p: 0.3 }} />
-              )}
+              {borderB === 1 ? <SwapVertIcon sx={{ p: 0.3, color: 'blue' }} /> : <SwapVertIcon sx={{ p: 0.3 }} />}
               <Typography sx={{ fontSize: 12, '&:hover': { color: 'blue' } }}>
-                {borderB === 1 ? (
-                  <u style={{ textDecorationColor: 'blue', color: 'blue' }}>Project</u>
-                ) : (
-                  <>Project</>
-                )}
+                {borderB === 1 ? <u style={{ textDecorationColor: 'blue', color: 'blue' }}>Project</u> : <>Project</>}
               </Typography>
             </Box>
             <Box sx={{ flex: 0.5, display: 'flex', cursor: 'pointer' }} onClick={taskWise}>
@@ -366,25 +350,13 @@ const AllTaskListx = () => {
               )}
 
               <Typography sx={{ fontSize: 12, '&:hover': { color: 'blue' }, pt: 0.1 }}>
-                {borderT === 1 ? (
-                  <u style={{ textDecorationColor: 'blue', color: 'blue' }}>Task</u>
-                ) : (
-                  <>Task</>
-                )}
+                {borderT === 1 ? <u style={{ textDecorationColor: 'blue', color: 'blue' }}>Task</u> : <>Task</>}
               </Typography>
             </Box>
             <Box sx={{ flex: 0.5, display: 'flex', cursor: 'pointer' }} onClick={statusWise}>
-              {borderS === 1 ? (
-                <FilterListIcon sx={{ p: 0.3, color: 'blue' }} />
-              ) : (
-                <FilterListIcon sx={{ p: 0.3 }} />
-              )}
+              {borderS === 1 ? <FilterListIcon sx={{ p: 0.3, color: 'blue' }} /> : <FilterListIcon sx={{ p: 0.3 }} />}
               <Typography sx={{ fontSize: 12, '&:hover': { color: 'blue' } }}>
-                {borderS === 1 ? (
-                  <u style={{ textDecorationColor: 'blue', color: 'blue' }}>Status</u>
-                ) : (
-                  <>Status</>
-                )}
+                {borderS === 1 ? <u style={{ textDecorationColor: 'blue', color: 'blue' }}>Status</u> : <>Status</>}
               </Typography>
             </Box>
             <Box sx={{ flex: 0.5, display: 'flex' }}>
@@ -413,7 +385,7 @@ const AllTaskListx = () => {
                           borderTop: 1,
                           borderBottom: 1,
                           borderColor: '#B2C4CB',
-                          height: '100%',
+                          height: '100%'
                         }}
                         onClick={SearchInTableDeptSec}
                       >
@@ -434,7 +406,7 @@ const AllTaskListx = () => {
                           borderTop: 1,
                           borderBottom: 1,
                           borderColor: '#B2C4CB',
-                          height: '100%',
+                          height: '100%'
                         }}
                         onClick={closeSearchWise}
                       >
@@ -462,7 +434,7 @@ const AllTaskListx = () => {
                           borderTop: 1,
                           borderBottom: 1,
                           borderColor: '#B2C4CB',
-                          height: '100%',
+                          height: '100%'
                         }}
                         onClick={SearchInTableProject}
                       >
@@ -483,7 +455,7 @@ const AllTaskListx = () => {
                           borderTop: 1,
                           borderBottom: 1,
                           borderColor: '#B2C4CB',
-                          height: '100%',
+                          height: '100%'
                         }}
                         onClick={closeSearchWise}
                       >
@@ -506,7 +478,7 @@ const AllTaskListx = () => {
                     sx={{
                       height: 29,
                       borderRadius: 0,
-                      pl: 1,
+                      pl: 1
                     }}
                     onChange={updateEnterText}
                   />
@@ -523,7 +495,7 @@ const AllTaskListx = () => {
                           borderTop: 1,
                           borderBottom: 1,
                           borderColor: '#B2C4CB',
-                          height: '100%',
+                          height: '100%'
                         }}
                         onClick={SearchInTableByTask}
                       >
@@ -544,7 +516,7 @@ const AllTaskListx = () => {
                           borderTop: 1,
                           borderBottom: 1,
                           borderColor: '#B2C4CB',
-                          height: '100%',
+                          height: '100%'
                         }}
                         onClick={closeSearchWise}
                       >
@@ -573,7 +545,7 @@ const AllTaskListx = () => {
                           borderTop: 1,
                           borderBottom: 1,
                           borderColor: '#B2C4CB',
-                          height: '100%',
+                          height: '100%'
                         }}
                         onClick={SearchInTableByTaskStatus}
                       >
@@ -594,7 +566,7 @@ const AllTaskListx = () => {
                           borderTop: 1,
                           borderBottom: 1,
                           borderColor: '#B2C4CB',
-                          height: '100%',
+                          height: '100%'
                         }}
                         onClick={closeSearchWise}
                       >
@@ -620,33 +592,17 @@ const AllTaskListx = () => {
             borderTop: 1,
             borderColor: 'lightgray',
             pt: 1.5,
-            bgcolor: 'white',
+            bgcolor: 'white'
           }}
         >
           <Box sx={{ width: 30, pl: 1.7, fontWeight: 600, color: '#444444', fontSize: 12 }}>#</Box>
-          <Box
-            sx={{ flex: 1, textAlign: 'center', fontWeight: 600, color: '#444444', fontSize: 12 }}
-          >
-            Action
-          </Box>
-          <Box
-            sx={{ flex: 1, textAlign: 'center', fontWeight: 600, color: '#444444', fontSize: 12 }}
-          >
-            &nbsp;Files
-          </Box>
-          <Box
-            sx={{ flex: 2, textAlign: 'center', fontWeight: 600, color: '#444444', fontSize: 12 }}
-          >
-            Status
-          </Box>
-          <Box sx={{ flex: 3, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-            &nbsp;&nbsp;&nbsp;CountDown
-          </Box>
+          <Box sx={{ flex: 1, textAlign: 'center', fontWeight: 600, color: '#444444', fontSize: 12 }}>Action</Box>
+          <Box sx={{ flex: 1, textAlign: 'center', fontWeight: 600, color: '#444444', fontSize: 12 }}>&nbsp;Files</Box>
+          <Box sx={{ flex: 2, textAlign: 'center', fontWeight: 600, color: '#444444', fontSize: 12 }}>Status</Box>
+          <Box sx={{ flex: 3, fontWeight: 600, color: '#444444', fontSize: 12 }}>&nbsp;&nbsp;&nbsp;CountDown</Box>
           <Box sx={{ flex: 7, fontWeight: 600, color: '#444444', fontSize: 12 }}>Task Name</Box>
           <Box sx={{ flex: 4, fontWeight: 600, color: '#444444', fontSize: 12 }}>Department</Box>
-          <Box sx={{ flex: 4, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-            Department Section
-          </Box>
+          <Box sx={{ flex: 4, fontWeight: 600, color: '#444444', fontSize: 12 }}>Department Section</Box>
         </Box>
         <Box>
           {alphbased === 0 && searchFlag === 0 && statusDataFlag === 0 && sectiondataFlag === 0 ? (
@@ -668,24 +624,18 @@ const AllTaskListx = () => {
                       minHeight: 30,
                       maxHeight: 80,
                       background:
-                        val.main_task_slno !== null
-                          ? '#EAE7FA'
-                          : val.main_task_slno === 0
-                          ? 'white'
-                          : 'white',
-                      pt: 0.5,
+                        val.main_task_slno !== null ? '#EAE7FA' : val.main_task_slno === 0 ? 'white' : 'white',
+                      pt: 0.5
                     }}
                   >
-                    <Box sx={{ width: 30, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>
-                      {index + 1}
-                    </Box>
+                    <Box sx={{ width: 30, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>{index + 1}</Box>
                     <Box
                       sx={{
                         flex: 1,
                         textAlign: 'center',
                         fontWeight: 600,
                         color: 'grey',
-                        fontSize: 12,
+                        fontSize: 12
                       }}
                     >
                       <EditIcon
@@ -701,7 +651,7 @@ const AllTaskListx = () => {
                         fontWeight: 600,
                         color: 'grey',
                         fontSize: 12,
-                        cursor: 'pointer',
+                        cursor: 'pointer'
                       }}
                     >
                       &nbsp;
@@ -709,14 +659,14 @@ const AllTaskListx = () => {
                         <FilePresentRoundedIcon
                           sx={{
                             color: '#41729F',
-                            '&:hover': { color: '#274472' },
+                            '&:hover': { color: '#274472' }
                           }}
                           onClick={() => fileView(val)}
                         />
                       ) : (
                         <FilePresentRoundedIcon
                           sx={{
-                            color: 'grey',
+                            color: 'grey'
                           }}
                         />
                       )}
@@ -740,7 +690,7 @@ const AllTaskListx = () => {
                               ? '#5885AF'
                               : 'transparent',
                           minHeight: 5,
-                          fontWeight: 700,
+                          fontWeight: 700
                         }}
                       >
                         {val.tm_task_status === 0
@@ -758,9 +708,7 @@ const AllTaskListx = () => {
                     </Box>
                     <Box sx={{ flex: 3, fontWeight: 600, color: 'grey', fontSize: 12 }}>
                       {val.tm_task_status !== 1 ? (
-                        <Box
-                          sx={{ bgcolor: '#EAEAEA', borderRadius: 15, mb: 0.5, width: 150, pl: 1 }}
-                        >
+                        <Box sx={{ bgcolor: '#EAEAEA', borderRadius: 15, mb: 0.5, width: 150, pl: 1 }}>
                           <CountDowncomponent DueDates={val.tm_task_due_date} />
                         </Box>
                       ) : (
@@ -771,7 +719,7 @@ const AllTaskListx = () => {
                             mb: 0.5,
                             width: 150,
                             pl: 5,
-                            color: 'darkgreen',
+                            color: 'darkgreen'
                           }}
                         >
                           Completed
@@ -786,7 +734,7 @@ const AllTaskListx = () => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_task_name || 'not given'}
@@ -799,7 +747,7 @@ const AllTaskListx = () => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_task_name || 'not given'}
@@ -813,7 +761,7 @@ const AllTaskListx = () => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.dept_name || 'not given'}
@@ -826,7 +774,7 @@ const AllTaskListx = () => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.dept_name || 'not given'}
@@ -840,7 +788,7 @@ const AllTaskListx = () => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.sec_name || 'not given'}
@@ -853,7 +801,7 @@ const AllTaskListx = () => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.sec_name || 'not given'}
@@ -882,24 +830,18 @@ const AllTaskListx = () => {
                       minHeight: 30,
                       maxHeight: 80,
                       background:
-                        val.main_task_slno !== null
-                          ? '#EAE7FA'
-                          : val.main_task_slno === 0
-                          ? 'white'
-                          : 'white',
-                      pt: 0.5,
+                        val.main_task_slno !== null ? '#EAE7FA' : val.main_task_slno === 0 ? 'white' : 'white',
+                      pt: 0.5
                     }}
                   >
-                    <Box sx={{ width: 30, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>
-                      {index + 1}
-                    </Box>
+                    <Box sx={{ width: 30, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>{index + 1}</Box>
                     <Box
                       sx={{
                         flex: 1,
                         textAlign: 'center',
                         fontWeight: 600,
                         color: 'grey',
-                        fontSize: 12,
+                        fontSize: 12
                       }}
                     >
                       <EditIcon
@@ -915,7 +857,7 @@ const AllTaskListx = () => {
                         fontWeight: 600,
                         color: 'grey',
                         fontSize: 12,
-                        cursor: 'pointer',
+                        cursor: 'pointer'
                       }}
                     >
                       &nbsp;
@@ -923,14 +865,14 @@ const AllTaskListx = () => {
                         <FilePresentRoundedIcon
                           sx={{
                             color: '#41729F',
-                            '&:hover': { color: '#274472' },
+                            '&:hover': { color: '#274472' }
                           }}
                           onClick={() => fileView(val)}
                         />
                       ) : (
                         <FilePresentRoundedIcon
                           sx={{
-                            color: 'grey',
+                            color: 'grey'
                           }}
                         />
                       )}
@@ -954,7 +896,7 @@ const AllTaskListx = () => {
                               ? '#5885AF'
                               : 'transparent',
                           minHeight: 5,
-                          fontWeight: 700,
+                          fontWeight: 700
                         }}
                       >
                         {val.tm_task_status === 0
@@ -972,9 +914,7 @@ const AllTaskListx = () => {
                     </Box>
                     <Box sx={{ flex: 3, fontWeight: 600, color: 'grey', fontSize: 12 }}>
                       {val.tm_task_status !== 1 ? (
-                        <Box
-                          sx={{ bgcolor: '#EAEAEA', borderRadius: 15, mb: 0.5, width: 150, pl: 1 }}
-                        >
+                        <Box sx={{ bgcolor: '#EAEAEA', borderRadius: 15, mb: 0.5, width: 150, pl: 1 }}>
                           <CountDowncomponent DueDates={val.tm_task_due_date} />
                         </Box>
                       ) : (
@@ -985,7 +925,7 @@ const AllTaskListx = () => {
                             mb: 0.5,
                             width: 150,
                             pl: 5,
-                            color: 'darkgreen',
+                            color: 'darkgreen'
                           }}
                         >
                           Completed
@@ -1000,7 +940,7 @@ const AllTaskListx = () => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_task_name || 'not given'}
@@ -1013,7 +953,7 @@ const AllTaskListx = () => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_task_name || 'not given'}
@@ -1027,7 +967,7 @@ const AllTaskListx = () => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.dept_name || 'not given'}
@@ -1040,7 +980,7 @@ const AllTaskListx = () => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.dept_name || 'not given'}
@@ -1054,7 +994,7 @@ const AllTaskListx = () => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.sec_name || 'not given'}
@@ -1067,7 +1007,7 @@ const AllTaskListx = () => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.sec_name || 'not given'}
@@ -1096,24 +1036,18 @@ const AllTaskListx = () => {
                       minHeight: 30,
                       maxHeight: 80,
                       background:
-                        val.main_task_slno !== null
-                          ? '#EAE7FA'
-                          : val.main_task_slno === 0
-                          ? 'white'
-                          : 'white',
-                      pt: 0.5,
+                        val.main_task_slno !== null ? '#EAE7FA' : val.main_task_slno === 0 ? 'white' : 'white',
+                      pt: 0.5
                     }}
                   >
-                    <Box sx={{ width: 30, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>
-                      {index + 1}
-                    </Box>
+                    <Box sx={{ width: 30, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>{index + 1}</Box>
                     <Box
                       sx={{
                         flex: 1,
                         textAlign: 'center',
                         fontWeight: 600,
                         color: 'grey',
-                        fontSize: 12,
+                        fontSize: 12
                       }}
                     >
                       <EditIcon
@@ -1129,7 +1063,7 @@ const AllTaskListx = () => {
                         fontWeight: 600,
                         color: 'grey',
                         fontSize: 12,
-                        cursor: 'pointer',
+                        cursor: 'pointer'
                       }}
                     >
                       &nbsp;
@@ -1137,14 +1071,14 @@ const AllTaskListx = () => {
                         <FilePresentRoundedIcon
                           sx={{
                             color: '#41729F',
-                            '&:hover': { color: '#274472' },
+                            '&:hover': { color: '#274472' }
                           }}
                           onClick={() => fileView(val)}
                         />
                       ) : (
                         <FilePresentRoundedIcon
                           sx={{
-                            color: 'grey',
+                            color: 'grey'
                           }}
                         />
                       )}
@@ -1168,7 +1102,7 @@ const AllTaskListx = () => {
                               ? '#5885AF'
                               : 'transparent',
                           minHeight: 5,
-                          fontWeight: 700,
+                          fontWeight: 700
                         }}
                       >
                         {val.tm_task_status === 0
@@ -1186,9 +1120,7 @@ const AllTaskListx = () => {
                     </Box>
                     <Box sx={{ flex: 3, fontWeight: 600, color: 'grey', fontSize: 12 }}>
                       {val.tm_task_status !== 1 ? (
-                        <Box
-                          sx={{ bgcolor: '#EAEAEA', borderRadius: 15, mb: 0.5, width: 150, pl: 1 }}
-                        >
+                        <Box sx={{ bgcolor: '#EAEAEA', borderRadius: 15, mb: 0.5, width: 150, pl: 1 }}>
                           <CountDowncomponent DueDates={val.tm_task_due_date} />
                         </Box>
                       ) : (
@@ -1199,7 +1131,7 @@ const AllTaskListx = () => {
                             mb: 0.5,
                             width: 150,
                             pl: 5,
-                            color: 'darkgreen',
+                            color: 'darkgreen'
                           }}
                         >
                           Completed
@@ -1214,7 +1146,7 @@ const AllTaskListx = () => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_task_name || 'not given'}
@@ -1227,7 +1159,7 @@ const AllTaskListx = () => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_task_name || 'not given'}
@@ -1241,7 +1173,7 @@ const AllTaskListx = () => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.dept_name || 'not given'}
@@ -1254,7 +1186,7 @@ const AllTaskListx = () => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.dept_name || 'not given'}
@@ -1268,7 +1200,7 @@ const AllTaskListx = () => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.sec_name || 'not given'}
@@ -1281,7 +1213,7 @@ const AllTaskListx = () => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.sec_name || 'not given'}
@@ -1310,24 +1242,18 @@ const AllTaskListx = () => {
                       minHeight: 30,
                       maxHeight: 80,
                       background:
-                        val.main_task_slno !== null
-                          ? '#EAE7FA'
-                          : val.main_task_slno === 0
-                          ? 'white'
-                          : 'white',
-                      pt: 0.5,
+                        val.main_task_slno !== null ? '#EAE7FA' : val.main_task_slno === 0 ? 'white' : 'white',
+                      pt: 0.5
                     }}
                   >
-                    <Box sx={{ width: 30, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>
-                      {index + 1}
-                    </Box>
+                    <Box sx={{ width: 30, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>{index + 1}</Box>
                     <Box
                       sx={{
                         flex: 1,
                         textAlign: 'center',
                         fontWeight: 600,
                         color: 'grey',
-                        fontSize: 12,
+                        fontSize: 12
                       }}
                     >
                       <EditIcon
@@ -1343,7 +1269,7 @@ const AllTaskListx = () => {
                         fontWeight: 600,
                         color: 'grey',
                         fontSize: 12,
-                        cursor: 'pointer',
+                        cursor: 'pointer'
                       }}
                     >
                       &nbsp;
@@ -1351,14 +1277,14 @@ const AllTaskListx = () => {
                         <FilePresentRoundedIcon
                           sx={{
                             color: '#41729F',
-                            '&:hover': { color: '#274472' },
+                            '&:hover': { color: '#274472' }
                           }}
                           onClick={() => fileView(val)}
                         />
                       ) : (
                         <FilePresentRoundedIcon
                           sx={{
-                            color: 'grey',
+                            color: 'grey'
                           }}
                         />
                       )}
@@ -1382,7 +1308,7 @@ const AllTaskListx = () => {
                               ? '#5885AF'
                               : 'transparent',
                           minHeight: 5,
-                          fontWeight: 700,
+                          fontWeight: 700
                         }}
                       >
                         {val.tm_task_status === 0
@@ -1400,9 +1326,7 @@ const AllTaskListx = () => {
                     </Box>
                     <Box sx={{ flex: 3, fontWeight: 600, color: 'grey', fontSize: 12 }}>
                       {val.tm_task_status !== 1 ? (
-                        <Box
-                          sx={{ bgcolor: '#EAEAEA', borderRadius: 15, mb: 0.5, width: 150, pl: 1 }}
-                        >
+                        <Box sx={{ bgcolor: '#EAEAEA', borderRadius: 15, mb: 0.5, width: 150, pl: 1 }}>
                           <CountDowncomponent DueDates={val.tm_task_due_date} />
                         </Box>
                       ) : (
@@ -1413,7 +1337,7 @@ const AllTaskListx = () => {
                             mb: 0.5,
                             width: 150,
                             pl: 5,
-                            color: 'darkgreen',
+                            color: 'darkgreen'
                           }}
                         >
                           Completed
@@ -1428,7 +1352,7 @@ const AllTaskListx = () => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_task_name || 'not given'}
@@ -1441,7 +1365,7 @@ const AllTaskListx = () => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_task_name || 'not given'}
@@ -1455,7 +1379,7 @@ const AllTaskListx = () => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.dept_name || 'not given'}
@@ -1468,7 +1392,7 @@ const AllTaskListx = () => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.dept_name || 'not given'}
@@ -1482,7 +1406,7 @@ const AllTaskListx = () => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.sec_name || 'not given'}
@@ -1495,7 +1419,7 @@ const AllTaskListx = () => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.sec_name || 'not given'}
@@ -1524,24 +1448,18 @@ const AllTaskListx = () => {
                       minHeight: 30,
                       maxHeight: 80,
                       background:
-                        val.main_task_slno !== null
-                          ? '#EAE7FA'
-                          : val.main_task_slno === 0
-                          ? 'white'
-                          : 'white',
-                      pt: 0.5,
+                        val.main_task_slno !== null ? '#EAE7FA' : val.main_task_slno === 0 ? 'white' : 'white',
+                      pt: 0.5
                     }}
                   >
-                    <Box sx={{ width: 30, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>
-                      {index + 1}
-                    </Box>
+                    <Box sx={{ width: 30, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>{index + 1}</Box>
                     <Box
                       sx={{
                         flex: 1,
                         textAlign: 'center',
                         fontWeight: 600,
                         color: 'grey',
-                        fontSize: 12,
+                        fontSize: 12
                       }}
                     >
                       <EditIcon
@@ -1557,7 +1475,7 @@ const AllTaskListx = () => {
                         fontWeight: 600,
                         color: 'grey',
                         fontSize: 12,
-                        cursor: 'pointer',
+                        cursor: 'pointer'
                       }}
                     >
                       &nbsp;
@@ -1565,14 +1483,14 @@ const AllTaskListx = () => {
                         <FilePresentRoundedIcon
                           sx={{
                             color: '#41729F',
-                            '&:hover': { color: '#274472' },
+                            '&:hover': { color: '#274472' }
                           }}
                           onClick={() => fileView(val)}
                         />
                       ) : (
                         <FilePresentRoundedIcon
                           sx={{
-                            color: 'grey',
+                            color: 'grey'
                           }}
                         />
                       )}
@@ -1596,7 +1514,7 @@ const AllTaskListx = () => {
                               ? '#5885AF'
                               : 'transparent',
                           minHeight: 5,
-                          fontWeight: 700,
+                          fontWeight: 700
                         }}
                       >
                         {val.tm_task_status === 0
@@ -1614,9 +1532,7 @@ const AllTaskListx = () => {
                     </Box>
                     <Box sx={{ flex: 3, fontWeight: 600, color: 'grey', fontSize: 12 }}>
                       {val.tm_task_status !== 1 ? (
-                        <Box
-                          sx={{ bgcolor: '#EAEAEA', borderRadius: 15, mb: 0.5, width: 150, pl: 1 }}
-                        >
+                        <Box sx={{ bgcolor: '#EAEAEA', borderRadius: 15, mb: 0.5, width: 150, pl: 1 }}>
                           <CountDowncomponent DueDates={val.tm_task_due_date} />
                         </Box>
                       ) : (
@@ -1627,7 +1543,7 @@ const AllTaskListx = () => {
                             mb: 0.5,
                             width: 150,
                             pl: 5,
-                            color: 'darkgreen',
+                            color: 'darkgreen'
                           }}
                         >
                           Completed
@@ -1642,7 +1558,7 @@ const AllTaskListx = () => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_task_name || 'not given'}
@@ -1655,7 +1571,7 @@ const AllTaskListx = () => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.tm_task_name || 'not given'}
@@ -1669,7 +1585,7 @@ const AllTaskListx = () => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.dept_name || 'not given'}
@@ -1682,7 +1598,7 @@ const AllTaskListx = () => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.dept_name || 'not given'}
@@ -1696,7 +1612,7 @@ const AllTaskListx = () => {
                           color: 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.sec_name || 'not given'}
@@ -1709,7 +1625,7 @@ const AllTaskListx = () => {
                           color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                           fontSize: 12,
                           textTransform: 'capitalize',
-                          pl: 1,
+                          pl: 1
                         }}
                       >
                         {val.sec_name || 'not given'}

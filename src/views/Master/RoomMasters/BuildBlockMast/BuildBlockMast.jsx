@@ -20,15 +20,10 @@ const BuildBlockMast = () => {
     rm_buildblock_name: '',
     rm_buildblock_alias: '',
     rm_buildblock_no: '',
-    rm_buildblock_status: false,
+    rm_buildblock_status: false
   })
-  const {
-    rm_buildblock_slno,
-    rm_buildblock_name,
-    rm_buildblock_alias,
-    rm_buildblock_no,
-    rm_buildblock_status,
-  } = buildBlock
+  const { rm_buildblock_slno, rm_buildblock_name, rm_buildblock_alias, rm_buildblock_no, rm_buildblock_status } =
+    buildBlock
   const updateBuildBlock = useCallback(
     e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -46,7 +41,7 @@ const BuildBlockMast = () => {
       rm_buildblock_alias: rm_buildblock_alias,
       rm_buildblock_no: rm_buildblock_no,
       rm_buildblock_status: rm_buildblock_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [rm_buildblock_name, rm_buildblock_alias, rm_buildblock_no, rm_buildblock_status, id])
   const patchdata = useMemo(() => {
@@ -56,23 +51,16 @@ const BuildBlockMast = () => {
       rm_buildblock_alias: rm_buildblock_alias,
       rm_buildblock_no: rm_buildblock_no,
       rm_buildblock_status: rm_buildblock_status === true ? 1 : 0,
-      edit_user: id,
+      edit_user: id
     }
-  }, [
-    rm_buildblock_slno,
-    rm_buildblock_name,
-    rm_buildblock_alias,
-    rm_buildblock_no,
-    rm_buildblock_status,
-    id,
-  ])
+  }, [rm_buildblock_slno, rm_buildblock_name, rm_buildblock_alias, rm_buildblock_no, rm_buildblock_status, id])
   const reset = () => {
     const frmdata = {
       rm_buildblock_slno: '',
       rm_buildblock_name: '',
       rm_buildblock_alias: '',
       rm_buildblock_no: '',
-      rm_buildblock_status: false,
+      rm_buildblock_status: false
     }
     setbuildBlock(frmdata)
     setCount(0)
@@ -85,19 +73,14 @@ const BuildBlockMast = () => {
     setValue(1)
 
     const data = params.api.getSelectedRows()
-    const {
-      rm_buildblock_slno,
-      rm_buildblock_name,
-      rm_buildblock_alias,
-      rm_buildblock_no,
-      rm_buildblock_status,
-    } = data[0]
+    const { rm_buildblock_slno, rm_buildblock_name, rm_buildblock_alias, rm_buildblock_no, rm_buildblock_status } =
+      data[0]
     const frmdata = {
       rm_buildblock_slno: rm_buildblock_slno,
       rm_buildblock_name: rm_buildblock_name,
       rm_buildblock_alias: rm_buildblock_alias,
       rm_buildblock_no: rm_buildblock_no,
-      rm_buildblock_status: rm_buildblock_status === 1 ? true : false,
+      rm_buildblock_status: rm_buildblock_status === 1 ? true : false
     }
     setbuildBlock(frmdata)
   }, [])
@@ -144,19 +127,14 @@ const BuildBlockMast = () => {
       rm_buildblock_name: '',
       rm_buildblock_alias: '',
       rm_buildblock_no: '',
-      rm_buildblock_status: false,
+      rm_buildblock_status: false
     }
     setbuildBlock(frmdata)
     setValue(0)
   }, [setbuildBlock])
 
   return (
-    <CardMaster
-      title="Building Block Master"
-      submit={sumbitBuildBlock}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Building Block Master" submit={sumbitBuildBlock} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ p: 1 }}>
         <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
           <Box sx={{ width: '30%', p: 1 }}>

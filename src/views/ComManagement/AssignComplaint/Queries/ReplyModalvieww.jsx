@@ -1,13 +1,4 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  CssVarsProvider,
-  DialogActions,
-  Modal,
-  ModalDialog,
-  Typography,
-} from '@mui/joy'
+import { Avatar, Box, Button, CssVarsProvider, DialogActions, Modal, ModalDialog, Typography } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import CancelIcon from '@mui/icons-material/Cancel'
 import { format } from 'date-fns'
@@ -24,7 +15,7 @@ const ReplyModalvieww = ({ valuee, count, setReplyOpen, setReplyflag, open }) =>
     rm_insidebuildblock_name,
     rm_floor_name,
     location,
-    complaint_type_name,
+    complaint_type_name
   } = valuee
 
   const [rpData, setrpData] = useState([])
@@ -42,7 +33,7 @@ const ReplyModalvieww = ({ valuee, count, setReplyOpen, setReplyflag, open }) =>
 
   const getquery = useMemo(() => {
     return {
-      complaint_slno: complaint_slno,
+      complaint_slno: complaint_slno
     }
   }, [complaint_slno])
 
@@ -85,7 +76,7 @@ const ReplyModalvieww = ({ valuee, count, setReplyOpen, setReplyflag, open }) =>
               width: '45vw',
 
               p: 0,
-              overflow: 'auto',
+              overflow: 'auto'
             }}
           >
             <Box>
@@ -97,12 +88,8 @@ const ReplyModalvieww = ({ valuee, count, setReplyOpen, setReplyflag, open }) =>
               </Box>
               <Box sx={{ flex: 1, display: 'flex', bgcolor: '#ECEDEF', py: 0.5 }}>
                 <Box sx={{ flex: 1, pl: 0.5 }}>
-                  <Typography sx={{ pl: 0.5, fontWeight: 600, color: 'Black' }}>
-                    Ticket No.{complaint_slno}
-                  </Typography>
-                  <Typography sx={{ pl: 0.5, fontSize: 14, color: 'Black' }}>
-                    {complaint_desc}
-                  </Typography>
+                  <Typography sx={{ pl: 0.5, fontWeight: 600, color: 'Black' }}>Ticket No.{complaint_slno}</Typography>
+                  <Typography sx={{ pl: 0.5, fontSize: 14, color: 'Black' }}>{complaint_desc}</Typography>
                   <Typography sx={{ pl: 0.5, fontSize: 13, color: 'Black', py: 0.5 }}>
                     Complaint Type: {complaint_type_name}
                   </Typography>
@@ -121,9 +108,7 @@ const ReplyModalvieww = ({ valuee, count, setReplyOpen, setReplyflag, open }) =>
                         : 'Not Updated'}
                     </Typography>
                   ) : null}
-                  <Typography sx={{ pl: 0.5, fontSize: 13, color: 'Black' }}>
-                    {compalint_date}
-                  </Typography>
+                  <Typography sx={{ pl: 0.5, fontSize: 13, color: 'Black' }}>{compalint_date}</Typography>
                 </Box>
               </Box>
               <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1, px: 3 }}>
@@ -131,10 +116,7 @@ const ReplyModalvieww = ({ valuee, count, setReplyOpen, setReplyflag, open }) =>
                   <React.Fragment key={val.cm_query_details_slno}>
                     {val.cm_query_remark !== null && (
                       <Box sx={{ display: 'flex', alignItems: 'flex-start', mt: 2 }}>
-                        <Avatar
-                          size="sm"
-                          sx={{ border: 1, borderColor: 'lightgrey', bgcolor: 'white', mt: 0.5 }}
-                        >
+                        <Avatar size="sm" sx={{ border: 1, borderColor: 'lightgrey', bgcolor: 'white', mt: 0.5 }}>
                           <PersonIcon sx={{ p: 0.1, color: '#3B281C' }} />
                         </Avatar>
                         <Box sx={{ ml: 0.5, mr: 10, minWidth: 200 }}>
@@ -145,7 +127,7 @@ const ReplyModalvieww = ({ valuee, count, setReplyOpen, setReplyflag, open }) =>
                               bgcolor: '#FFFFFF',
                               px: 1,
                               py: 0.5,
-                              borderRadius: 15,
+                              borderRadius: 15
                             }}
                           >
                             {val.cm_query_remark}
@@ -163,7 +145,7 @@ const ReplyModalvieww = ({ valuee, count, setReplyOpen, setReplyflag, open }) =>
                           display: 'flex',
                           alignItems: 'flex-start',
                           mt: 2,
-                          justifyContent: 'flex-end',
+                          justifyContent: 'flex-end'
                         }}
                       >
                         <Box sx={{ mr: 0.5, textAlign: 'right', ml: 10, minWidth: 200 }}>
@@ -174,7 +156,7 @@ const ReplyModalvieww = ({ valuee, count, setReplyOpen, setReplyflag, open }) =>
                               bgcolor: '#FFFFFF',
                               px: 1,
                               py: 0.5,
-                              borderRadius: 15,
+                              borderRadius: 15
                             }}
                           >
                             {val.cm_query_reply}
@@ -184,17 +166,14 @@ const ReplyModalvieww = ({ valuee, count, setReplyOpen, setReplyflag, open }) =>
                               display: 'flex',
                               fontSize: 11,
                               mt: 0.5,
-                              justifyContent: 'flex-end',
+                              justifyContent: 'flex-end'
                             }}
                           >
                             <Box sx={{ pl: 1 }}>{formatDate(val.cm_query_reply_date)}</Box>
                             <Box sx={{ flex: 1, pr: 0.5 }}>{capitalizeWords(val.reply_user)}</Box>
                           </Box>
                         </Box>
-                        <Avatar
-                          size="sm"
-                          sx={{ border: 1, borderColor: 'lightgrey', bgcolor: 'white', mt: 0.5 }}
-                        >
+                        <Avatar size="sm" sx={{ border: 1, borderColor: 'lightgrey', bgcolor: 'white', mt: 0.5 }}>
                           <PersonIcon sx={{ p: 0.1, color: '#466E73' }} />
                         </Avatar>
                       </Box>
@@ -205,11 +184,7 @@ const ReplyModalvieww = ({ valuee, count, setReplyOpen, setReplyflag, open }) =>
             </Box>
             <DialogActions>
               <Box sx={{ textAlign: 'right', pb: 2, mr: 1 }}>
-                <Button
-                  variant="plain"
-                  sx={{ color: '#92443A', fontSize: 16 }}
-                  onClick={QueryClose}
-                >
+                <Button variant="plain" sx={{ color: '#92443A', fontSize: 16 }} onClick={QueryClose}>
                   Cancel
                 </Button>
               </Box>

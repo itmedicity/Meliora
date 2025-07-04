@@ -47,14 +47,8 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
     data &&
     data.filter(
       val =>
-        (val.cao_approve === 1 &&
-          val.ed_approve_req === 0 &&
-          val.md_approve_req === 0 &&
-          val.rm_ndrf !== 1) ||
-        (val.ed_approve_req === 1 &&
-          val.ed_approve === 1 &&
-          val.md_approve === 1 &&
-          val.rm_ndrf !== 1)
+        (val.cao_approve === 1 && val.ed_approve_req === 0 && val.md_approve_req === 0 && val.rm_ndrf !== 1) ||
+        (val.ed_approve_req === 1 && val.ed_approve === 1 && val.md_approve === 1 && val.rm_ndrf !== 1)
     )
 
   const crfPendingClinicalIncharge = useCallback(() => {
@@ -158,7 +152,7 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
         flexDirection: 'column',
         border: 1,
         borderWidth: 1.5,
-        borderColor: taskColor.bgIndigo,
+        borderColor: taskColor.bgIndigo
       }}
     >
       <Box
@@ -171,21 +165,13 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
           alignItems: 'center',
           borderBottom: 1,
           borderColor: '#b5b3ca',
-          pl: 2,
+          pl: 2
         }}
       >
-        <Box sx={{ width: '95%', pl: 1, color: '#262065', display: 'flex', pt: 0.3 }}>
-          Clinical CRF Dashboard
-        </Box>
+        <Box sx={{ width: '95%', pl: 1, color: '#262065', display: 'flex', pt: 0.3 }}>Clinical CRF Dashboard</Box>
 
         <Box sx={{ width: '5%' }}>
-          <CusIconButton
-            size="sm"
-            variant="outlined"
-            color="primary"
-            clickable="true"
-            onClick={close}
-          >
+          <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={close}>
             <CloseIcon fontSize="small" />
           </CusIconButton>
         </Box>
@@ -198,7 +184,7 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
           width: '80%',
           ml: 20,
           border: 1,
-          borderColor: taskColor.indigoDark,
+          borderColor: taskColor.indigoDark
           // alignItems: "center",
           // justifyItems: "center",
           // backgroundColor: "green"
@@ -212,12 +198,12 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
             flexWrap: 'wrap',
             padding: 1,
             //backgroundColor: '#ffffff',
-            overflow: 'hidden',
+            overflow: 'hidden'
           }}
         >
           <Paper
             sx={{
-              width: '0.5%',
+              width: '0.5%'
             }}
             variant="none"
           ></Paper>
@@ -232,8 +218,8 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
               borderColor: taskColor.indigoDark,
               cursor: 'grab',
               ':hover': {
-                borderColor: '#7D18EA',
-              },
+                borderColor: '#7D18EA'
+              }
             }}
             variant="outlined"
           >
@@ -247,7 +233,7 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
                 fontWeight: 600,
                 fontSize: 16,
                 fontSmooth: 'auto',
-                color: taskColor.FontindigoDark,
+                color: taskColor.FontindigoDark
               }}
             >
               Incharge Pending
@@ -260,7 +246,7 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
                 fontWeight: 500,
                 justifyContent: 'center',
                 alignItems: 'center',
-                color: taskColor.FontindigoDark,
+                color: taskColor.FontindigoDark
               }}
             >
               <Typography
@@ -268,8 +254,8 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
                   cursor: 'pointer',
                   ':hover': {
                     transition: 300,
-                    textShadow: '#939498 1px 0 5px',
-                  },
+                    textShadow: '#939498 1px 0 5px'
+                  }
                 }}
                 onClick={() => crfPendingClinicalIncharge()}
               >
@@ -280,7 +266,7 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
 
           <Paper
             sx={{
-              width: '1%',
+              width: '1%'
             }}
             variant="none"
           ></Paper>
@@ -295,8 +281,8 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
               borderColor: taskColor.indigoDark,
               cursor: 'grab',
               ':hover': {
-                borderColor: '#7D18EA',
-              },
+                borderColor: '#7D18EA'
+              }
             }}
             variant="outlined"
           >
@@ -310,7 +296,7 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
                 fontWeight: 600,
                 fontSize: 16,
                 fontSmooth: 'auto',
-                color: taskColor.FontindigoDark,
+                color: taskColor.FontindigoDark
               }}
             >
               HOD Pending
@@ -323,7 +309,7 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
                 fontWeight: 500,
                 justifyContent: 'center',
                 alignItems: 'center',
-                color: taskColor.FontindigoDark,
+                color: taskColor.FontindigoDark
               }}
             >
               <Typography
@@ -331,8 +317,8 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
                   cursor: 'pointer',
                   ':hover': {
                     transition: 300,
-                    textShadow: '#939498 1px 0 5px',
-                  },
+                    textShadow: '#939498 1px 0 5px'
+                  }
                 }}
                 onClick={() => crfPendingClinicalHOD()}
               >
@@ -342,7 +328,7 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
           </Paper>
           <Paper
             sx={{
-              width: '1%',
+              width: '1%'
             }}
             variant="none"
           ></Paper>
@@ -357,8 +343,8 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
               borderColor: taskColor.indigoDark,
               cursor: 'grab',
               ':hover': {
-                borderColor: '#7D18EA',
-              },
+                borderColor: '#7D18EA'
+              }
             }}
             variant="outlined"
           >
@@ -372,7 +358,7 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
                 fontWeight: 600,
                 fontSize: 16,
                 fontSmooth: 'auto',
-                color: taskColor.FontindigoDark,
+                color: taskColor.FontindigoDark
               }}
             >
               DMS Pending
@@ -385,7 +371,7 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
                 fontWeight: 500,
                 justifyContent: 'center',
                 alignItems: 'center',
-                color: taskColor.FontindigoDark,
+                color: taskColor.FontindigoDark
               }}
             >
               <Typography
@@ -393,8 +379,8 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
                   cursor: 'pointer',
                   ':hover': {
                     transition: 300,
-                    textShadow: '#939498 1px 0 5px',
-                  },
+                    textShadow: '#939498 1px 0 5px'
+                  }
                 }}
                 onClick={() => crfPendingClinicalDMS()}
               >
@@ -404,7 +390,7 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
           </Paper>
           <Paper
             sx={{
-              width: '1%',
+              width: '1%'
             }}
             variant="none"
           ></Paper>
@@ -419,8 +405,8 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
               borderColor: taskColor.indigoDark,
               cursor: 'grab',
               ':hover': {
-                borderColor: '#7D18EA',
-              },
+                borderColor: '#7D18EA'
+              }
             }}
             variant="outlined"
           >
@@ -434,7 +420,7 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
                 fontWeight: 600,
                 fontSize: 16,
                 fontSmooth: 'auto',
-                color: taskColor.FontindigoDark,
+                color: taskColor.FontindigoDark
               }}
             >
               MS Pending
@@ -447,7 +433,7 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
                 fontWeight: 500,
                 justifyContent: 'center',
                 alignItems: 'center',
-                color: taskColor.FontindigoDark,
+                color: taskColor.FontindigoDark
               }}
             >
               <Typography
@@ -455,8 +441,8 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
                   cursor: 'pointer',
                   ':hover': {
                     transition: 300,
-                    textShadow: '#939498 1px 0 5px',
-                  },
+                    textShadow: '#939498 1px 0 5px'
+                  }
                 }}
                 onClick={() => crfPendingClinicalMS()}
               >
@@ -466,7 +452,7 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
           </Paper>
           <Paper
             sx={{
-              width: '1%',
+              width: '1%'
             }}
             variant="none"
           ></Paper>
@@ -482,8 +468,8 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
               borderColor: taskColor.indigoDark,
               cursor: 'grab',
               ':hover': {
-                borderColor: '#7D18EA',
-              },
+                borderColor: '#7D18EA'
+              }
             }}
             variant="outlined"
           >
@@ -497,7 +483,7 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
                 fontWeight: 600,
                 fontSize: 16,
                 fontSmooth: 'auto',
-                color: taskColor.FontindigoDark,
+                color: taskColor.FontindigoDark
               }}
             >
               Materials Management Pending
@@ -510,7 +496,7 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
                 fontWeight: 500,
                 justifyContent: 'center',
                 alignItems: 'center',
-                color: taskColor.FontindigoDark,
+                color: taskColor.FontindigoDark
               }}
             >
               <Typography
@@ -518,8 +504,8 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
                   cursor: 'pointer',
                   ':hover': {
                     transition: 300,
-                    textShadow: '#939498 1px 0 5px',
-                  },
+                    textShadow: '#939498 1px 0 5px'
+                  }
                 }}
                 onClick={() => crfPendingClinicalMO()}
               >
@@ -536,12 +522,12 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
             flexWrap: 'wrap',
             padding: 1,
             //backgroundColor: '#ffffff',
-            overflow: 'hidden',
+            overflow: 'hidden'
           }}
         >
           <Paper
             sx={{
-              width: '0.61%',
+              width: '0.61%'
             }}
             variant="none"
           ></Paper>
@@ -556,8 +542,8 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
               borderColor: taskColor.indigoDark,
               cursor: 'grab',
               ':hover': {
-                borderColor: '#7D18EA',
-              },
+                borderColor: '#7D18EA'
+              }
             }}
             variant="outlined"
           >
@@ -571,7 +557,7 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
                 fontWeight: 600,
                 fontSize: 16,
                 fontSmooth: 'auto',
-                color: taskColor.FontindigoDark,
+                color: taskColor.FontindigoDark
               }}
             >
               Senior Manager Operations Pending
@@ -584,7 +570,7 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
                 fontWeight: 500,
                 justifyContent: 'center',
                 alignItems: 'center',
-                color: taskColor.FontindigoDark,
+                color: taskColor.FontindigoDark
               }}
             >
               <Typography
@@ -592,8 +578,8 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
                   cursor: 'pointer',
                   ':hover': {
                     transition: 300,
-                    textShadow: '#939498 1px 0 5px',
-                  },
+                    textShadow: '#939498 1px 0 5px'
+                  }
                 }}
                 onClick={() => crfPendingClinicalSMO()}
               >
@@ -603,7 +589,7 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
           </Paper>
           <Paper
             sx={{
-              width: '1%',
+              width: '1%'
             }}
             variant="none"
           ></Paper>
@@ -617,8 +603,8 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
               borderColor: taskColor.indigoDark,
               cursor: 'grab',
               ':hover': {
-                borderColor: '#7D18EA',
-              },
+                borderColor: '#7D18EA'
+              }
             }}
             variant="outlined"
           >
@@ -632,7 +618,7 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
                 fontWeight: 600,
                 fontSize: 16,
                 fontSmooth: 'auto',
-                color: taskColor.FontindigoDark,
+                color: taskColor.FontindigoDark
               }}
             >
               GM Operations Pending
@@ -645,7 +631,7 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
                 fontWeight: 500,
                 justifyContent: 'center',
                 alignItems: 'center',
-                color: taskColor.FontindigoDark,
+                color: taskColor.FontindigoDark
               }}
             >
               <Typography
@@ -653,8 +639,8 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
                   cursor: 'pointer',
                   ':hover': {
                     transition: 300,
-                    textShadow: '#939498 1px 0 5px',
-                  },
+                    textShadow: '#939498 1px 0 5px'
+                  }
                 }}
                 onClick={() => crfPendingClinicalCOOCAO()}
               >
@@ -664,7 +650,7 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
           </Paper>
           <Paper
             sx={{
-              width: '1%',
+              width: '1%'
             }}
             variant="none"
           ></Paper>
@@ -679,8 +665,8 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
               borderColor: taskColor.indigoDark,
               cursor: 'grab',
               ':hover': {
-                borderColor: '#7D18EA',
-              },
+                borderColor: '#7D18EA'
+              }
             }}
             variant="outlined"
           >
@@ -694,7 +680,7 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
                 fontWeight: 600,
                 fontSize: 16,
                 fontSmooth: 'auto',
-                color: taskColor.FontindigoDark,
+                color: taskColor.FontindigoDark
               }}
             >
               MD Pending
@@ -707,7 +693,7 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
                 fontWeight: 500,
                 justifyContent: 'center',
                 alignItems: 'center',
-                color: taskColor.FontindigoDark,
+                color: taskColor.FontindigoDark
               }}
             >
               <Typography
@@ -715,8 +701,8 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
                   cursor: 'pointer',
                   ':hover': {
                     transition: 300,
-                    textShadow: '#939498 1px 0 5px',
-                  },
+                    textShadow: '#939498 1px 0 5px'
+                  }
                 }}
                 onClick={() => crfPendingClinicalMD()}
               >
@@ -726,7 +712,7 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
           </Paper>
           <Paper
             sx={{
-              width: '1%',
+              width: '1%'
             }}
             variant="none"
           ></Paper>
@@ -741,8 +727,8 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
               borderColor: taskColor.indigoDark,
               cursor: 'grab',
               ':hover': {
-                borderColor: '#7D18EA',
-              },
+                borderColor: '#7D18EA'
+              }
             }}
             variant="outlined"
           >
@@ -756,7 +742,7 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
                 fontWeight: 600,
                 fontSize: 16,
                 fontSmooth: 'auto',
-                color: taskColor.FontindigoDark,
+                color: taskColor.FontindigoDark
               }}
             >
               ED Pending
@@ -769,7 +755,7 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
                 fontWeight: 500,
                 justifyContent: 'center',
                 alignItems: 'center',
-                color: taskColor.FontindigoDark,
+                color: taskColor.FontindigoDark
               }}
             >
               <Typography
@@ -777,8 +763,8 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
                   cursor: 'pointer',
                   ':hover': {
                     transition: 300,
-                    textShadow: '#939498 1px 0 5px',
-                  },
+                    textShadow: '#939498 1px 0 5px'
+                  }
                 }}
                 onClick={() => crfPendingClinicalED()}
               >
@@ -788,7 +774,7 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
           </Paper>
           <Paper
             sx={{
-              width: '1%',
+              width: '1%'
             }}
             variant="none"
           ></Paper>
@@ -802,8 +788,8 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
               borderColor: taskColor.indigoDark,
               cursor: 'grab',
               ':hover': {
-                borderColor: '#7D18EA',
-              },
+                borderColor: '#7D18EA'
+              }
             }}
             variant="outlined"
           >
@@ -817,7 +803,7 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
                 fontWeight: 600,
                 fontSize: 16,
                 fontSmooth: 'auto',
-                color: taskColor.FontindigoDark,
+                color: taskColor.FontindigoDark
               }}
             >
               NDRF Generation Pending
@@ -830,7 +816,7 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
                 fontWeight: 500,
                 justifyContent: 'center',
                 alignItems: 'center',
-                color: taskColor.FontindigoDark,
+                color: taskColor.FontindigoDark
               }}
             >
               <Typography
@@ -838,8 +824,8 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
                   cursor: 'pointer',
                   ':hover': {
                     transition: 300,
-                    textShadow: '#939498 1px 0 5px',
-                  },
+                    textShadow: '#939498 1px 0 5px'
+                  }
                 }}
                 onClick={() => crfPendingClinicalNDRFGen()}
               >
@@ -852,113 +838,53 @@ const ClinicalCrfDash = ({ setClinicalCrfFlag, subDaFlag, data, count, setCount 
 
       {wherePending === 1 ? (
         <Box>
-          <CrfInchargeDashTable
-            subDaFlag={subDaFlag}
-            tabledata={InchargePending}
-            count={count}
-            setCount={setCount}
-          />
+          <CrfInchargeDashTable subDaFlag={subDaFlag} tabledata={InchargePending} count={count} setCount={setCount} />
         </Box>
       ) : wherePending === 2 ? (
         <Box>
-          <CrfHodDashTable
-            subDaFlag={subDaFlag}
-            tabledata={HODPending}
-            count={count}
-            setCount={setCount}
-          />
+          <CrfHodDashTable subDaFlag={subDaFlag} tabledata={HODPending} count={count} setCount={setCount} />
         </Box>
       ) : wherePending === 3 ? (
         <Box>
-          <CrfDMSDashTable
-            subDaFlag={subDaFlag}
-            tabledata={DMSPending}
-            count={count}
-            setCount={setCount}
-          />
+          <CrfDMSDashTable subDaFlag={subDaFlag} tabledata={DMSPending} count={count} setCount={setCount} />
         </Box>
       ) : wherePending === 4 ? (
         <Box>
-          <CrfMSDashTable
-            subDaFlag={subDaFlag}
-            tabledata={MSPending}
-            count={count}
-            setCount={setCount}
-          />
+          <CrfMSDashTable subDaFlag={subDaFlag} tabledata={MSPending} count={count} setCount={setCount} />
         </Box>
       ) : wherePending === 5 ? (
         <Box>
-          <CrfMODashTable
-            subDaFlag={subDaFlag}
-            tabledata={MOPending}
-            count={count}
-            setCount={setCount}
-          />
+          <CrfMODashTable subDaFlag={subDaFlag} tabledata={MOPending} count={count} setCount={setCount} />
         </Box>
       ) : wherePending === 6 ? (
         <Box>
-          <CrfSMODashTable
-            subDaFlag={subDaFlag}
-            tabledata={SMOPending}
-            count={count}
-            setCount={setCount}
-          />
+          <CrfSMODashTable subDaFlag={subDaFlag} tabledata={SMOPending} count={count} setCount={setCount} />
         </Box>
       ) : wherePending === 7 ? (
         <Box>
-          <CrfCOODashTable
-            subDaFlag={subDaFlag}
-            tabledata={CAOCOOPending}
-            count={count}
-            setCount={setCount}
-          />
+          <CrfCOODashTable subDaFlag={subDaFlag} tabledata={CAOCOOPending} count={count} setCount={setCount} />
         </Box>
       ) : wherePending === 8 ? (
         <Box>
-          <CrfMDDashTable
-            subDaFlag={subDaFlag}
-            tabledata={MDPending}
-            count={count}
-            setCount={setCount}
-          />
+          <CrfMDDashTable subDaFlag={subDaFlag} tabledata={MDPending} count={count} setCount={setCount} />
         </Box>
       ) : wherePending === 9 ? (
         <Box>
-          <CrfEDDashTable
-            subDaFlag={subDaFlag}
-            tabledata={EDPending}
-            count={count}
-            setCount={setCount}
-          />
+          <CrfEDDashTable subDaFlag={subDaFlag} tabledata={EDPending} count={count} setCount={setCount} />
         </Box>
       ) : wherePending === 10 ? (
         <Box>
           {em_id === 2605 ? (
             <Box>
-              <NDRFgenPendTable
-                subDaFlag={subDaFlag}
-                tabledata={NDRFGenPending}
-                count={count}
-                setCount={setCount}
-              />
+              <NDRFgenPendTable subDaFlag={subDaFlag} tabledata={NDRFGenPending} count={count} setCount={setCount} />
             </Box>
           ) : em_id === 2604 ? (
             <Box>
-              <NDRFgenPendTable
-                subDaFlag={subDaFlag}
-                tabledata={NDRFGenPending}
-                count={count}
-                setCount={setCount}
-              />
+              <NDRFgenPendTable subDaFlag={subDaFlag} tabledata={NDRFGenPending} count={count} setCount={setCount} />
             </Box>
           ) : em_id === 1851 ? (
             <Box>
-              <NDRFgenPendTable
-                subDaFlag={subDaFlag}
-                tabledata={NDRFGenPending}
-                count={count}
-                setCount={setCount}
-              />
+              <NDRFgenPendTable subDaFlag={subDaFlag} tabledata={NDRFGenPending} count={count} setCount={setCount} />
             </Box>
           ) : (
             <Box>

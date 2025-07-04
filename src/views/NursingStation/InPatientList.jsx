@@ -51,8 +51,8 @@ const InPatientList = () => {
             </IconButton>
           )
         }
-      },
-    },
+      }
+    }
   ])
   //modal open and pass data when clicked on diet plan button
   const dietPlan = useCallback(params => {
@@ -96,7 +96,7 @@ const InPatientList = () => {
               pl: 1,
               pt: 1,
               pr: 1,
-              pb: 1,
+              pb: 1
             }}
           >
             <Box
@@ -108,7 +108,7 @@ const InPatientList = () => {
                 pb: 0.5,
                 display: 'flex',
                 justifyContent: 'center',
-                flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' },
+                flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' }
               }}
             >
               <Box sx={{ width: '25%', pr: 1, mt: 1 }}>
@@ -118,9 +118,7 @@ const InPatientList = () => {
               </Box>
             </Box>
           </Paper>
-          <Box sx={{ mt: 1 }}>
-            {table === 1 ? <CusAgGridMast columnDefs={column} tableData={tabledata} /> : null}
-          </Box>
+          <Box sx={{ mt: 1 }}>{table === 1 ? <CusAgGridMast columnDefs={column} tableData={tabledata} /> : null}</Box>
           {ab === 1 ? <DietPlan open={open} setOpen={setOpen} data={data} /> : null}
         </Box>
       </CardMaster>

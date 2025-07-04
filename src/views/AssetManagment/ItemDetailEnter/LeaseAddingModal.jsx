@@ -13,7 +13,7 @@ const LeaseAddingModal = ({ BillArray, rowSelect }) => {
         overflow: 'auto',
         border: 1,
         borderColor: 'lightgrey',
-        px: 0.5,
+        px: 0.5
       }}
     >
       <CssVarsProvider>
@@ -45,11 +45,7 @@ const LeaseAddingModal = ({ BillArray, rowSelect }) => {
                     <td> {val.lease_todate}</td>
                     <td> {val.lease_amount}</td>
                     <td>
-                      <AddCircleOutlineIcon
-                        size={6}
-                        color="primary"
-                        onClick={() => rowSelect(val)}
-                      />
+                      <AddCircleOutlineIcon size={6} color="primary" onClick={() => rowSelect(val)} />
                     </td>
                   </tr>
                 )

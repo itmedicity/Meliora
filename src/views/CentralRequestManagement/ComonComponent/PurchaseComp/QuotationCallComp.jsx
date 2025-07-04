@@ -18,9 +18,7 @@ const QuotationCallComp = ({ poData }) => {
     <Fragment>
       <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
         <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
-          <Typography
-            sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}
-          >
+          <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>
             Quotation Process Started
           </Typography>
           <Box sx={{ flex: 1 }}>
@@ -32,7 +30,7 @@ const QuotationCallComp = ({ poData }) => {
                 height: 25,
                 pb: 0.5,
                 fontSize: 12,
-                fontWeight: 550,
+                fontWeight: 550
               }}
             >
               Yes
@@ -55,7 +53,7 @@ const QuotationCallComp = ({ poData }) => {
                 textTransform: 'capitalize',
                 fontWeight: 550,
                 pr: 1,
-                pt: 0.2,
+                pt: 0.2
               }}
             >
               {capitalizeWords(quatation_user)}&nbsp; /
@@ -67,7 +65,7 @@ const QuotationCallComp = ({ poData }) => {
                 justifyContent: 'flex-start',
                 fontSize: 12,
                 fontWeight: 550,
-                pt: 0.2,
+                pt: 0.2
               }}
             >
               {format(new Date(quatation_calling_date), 'dd-MM-yyyy hh:mm:ss a')}

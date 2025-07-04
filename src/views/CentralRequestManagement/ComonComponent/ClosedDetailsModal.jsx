@@ -18,14 +18,7 @@ import CommonEdapprvCmp from './ApprovalComp/CommonEdapprvCmp'
 import CommonCRFClosed from './ApprovalComp/CommonCRFClosed'
 import CommonMangingApprvComp from './ApprovalComp/CommonMangingApprvComp'
 
-const ClosedDetailsModal = ({
-  open,
-  crfClosedDetails,
-  handleCloseModal,
-  reqItems,
-  approveTableData,
-  imagearray,
-}) => {
+const ClosedDetailsModal = ({ open, crfClosedDetails, handleCloseModal, reqItems, approveTableData, imagearray }) => {
   const {
     incharge_req,
     incharge_remarks,
@@ -47,7 +40,7 @@ const ClosedDetailsModal = ({
     ed_approve_req,
     md_approve_req,
     managing_director_approve,
-    managing_director_req,
+    managing_director_req
   } = crfClosedDetails
   return (
     <Fragment>
@@ -72,30 +65,20 @@ const ClosedDetailsModal = ({
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 25,
-                width: 25,
+                width: 25
               }}
             />
             <Box sx={{ minWidth: '80vw', minHeight: '45vh', maxHeight: '85vh', overflowY: 'auto' }}>
               <CrfReqDetailViewCmp ApprovalData={crfClosedDetails} imagearray={imagearray} />
               <Box sx={{ pt: 0.5 }}>
                 {reqItems.length !== 0 ? <ReqItemDisplay reqItems={reqItems} /> : null}
-                {approveTableData.length !== 0 ? (
-                  <ApprovedItemListDis approveTableData={approveTableData} />
-                ) : null}
-                <Paper
-                  variant="outlined"
-                  square
-                  sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.5, mx: 0.5 }}
-                >
-                  <Typography
-                    sx={{ fontWeight: 'bold', px: 1, py: 0.5, color: '#145DA0', fontSize: 14 }}
-                  >
+                {approveTableData.length !== 0 ? <ApprovedItemListDis approveTableData={approveTableData} /> : null}
+                <Paper variant="outlined" square sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.5, mx: 0.5 }}>
+                  <Typography sx={{ fontWeight: 'bold', px: 1, py: 0.5, color: '#145DA0', fontSize: 14 }}>
                     Approval Details
                   </Typography>
                   <Grid container spacing={0.5} sx={{ flexGrow: 1, py: 0.5 }}>
-                    {incharge_req === 1 &&
-                      incharge_remarks !== null &&
-                      crf_closed_one !== 'Incharge' ? (
+                    {incharge_req === 1 && incharge_remarks !== null && crf_closed_one !== 'Incharge' ? (
                       <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
                         <CommonInchargeReqCmp DetailViewData={crfClosedDetails} />
                       </Grid>

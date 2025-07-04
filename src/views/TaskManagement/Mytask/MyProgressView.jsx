@@ -118,8 +118,8 @@ const MyProgressView = () => {
                       borderBottomColor: '#BDC6D9',
                       '&:hover': {
                         boxShadow: '1px 1px 3px',
-                        bgcolor: '#E9EAEC',
-                      },
+                        bgcolor: '#E9EAEC'
+                      }
                     }}
                     onClick={() => openProjectModal(val)}
                   >
@@ -132,7 +132,7 @@ const MyProgressView = () => {
                           sx={{
                             fontSize: 12,
                             textTransform: 'capitalize',
-                            cursor: 'pointer',
+                            cursor: 'pointer'
                           }}
                         >
                           {val.tm_project_name}
@@ -143,7 +143,7 @@ const MyProgressView = () => {
                             fontSize: 12,
                             textTransform: 'capitalize',
                             cursor: 'pointer',
-                            color: isPastDue(val.tm_project_duedate) ? '#B32800' : 'black',
+                            color: isPastDue(val.tm_project_duedate) ? '#B32800' : 'black'
                           }}
                         >
                           {val.tm_project_name}
@@ -159,7 +159,7 @@ const MyProgressView = () => {
                             mb: 0.5,
                             width: 150,
                             pl: 1,
-                            fontSize: 12,
+                            fontSize: 12
                           }}
                         >
                           <CountDowncomponent DueDates={val.tm_project_duedate} />
@@ -173,7 +173,7 @@ const MyProgressView = () => {
                             width: 150,
                             pl: 5,
                             color: 'darkgreen',
-                            fontSize: 12,
+                            fontSize: 12
                           }}
                         >
                           Completed
@@ -187,13 +187,10 @@ const MyProgressView = () => {
                             sx={{
                               fontSize: 12,
                               textTransform: 'capitalize',
-                              cursor: 'pointer',
+                              cursor: 'pointer'
                             }}
                           >
-                            <EventNoteRoundedIcon
-                              fontSize="small"
-                              sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }}
-                            />{' '}
+                            <EventNoteRoundedIcon fontSize="small" sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }} />{' '}
                             {val.create_date}
                           </FormLabel>
                         ) : (
@@ -202,13 +199,10 @@ const MyProgressView = () => {
                               fontSize: 12,
                               textTransform: 'capitalize',
                               cursor: 'pointer',
-                              color: isPastDue(val.tm_project_duedate) ? '#B32800' : 'black',
+                              color: isPastDue(val.tm_project_duedate) ? '#B32800' : 'black'
                             }}
                           >
-                            <EventNoteRoundedIcon
-                              fontSize="small"
-                              sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }}
-                            />{' '}
+                            <EventNoteRoundedIcon fontSize="small" sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }} />{' '}
                             {val.create_date}
                           </FormLabel>
                         )}
@@ -222,13 +216,10 @@ const MyProgressView = () => {
                               fontSize: 12,
                               flex: 1,
                               textTransform: 'capitalize',
-                              cursor: 'pointer',
+                              cursor: 'pointer'
                             }}
                           >
-                            <EventNoteRoundedIcon
-                              fontSize="small"
-                              sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }}
-                            />{' '}
+                            <EventNoteRoundedIcon fontSize="small" sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }} />{' '}
                             {val.tm_project_duedate}
                           </FormLabel>
                         ) : (
@@ -238,13 +229,10 @@ const MyProgressView = () => {
                               flex: 1,
                               textTransform: 'capitalize',
                               cursor: 'pointer',
-                              color: isPastDue(val.tm_project_duedate) ? '#B32800' : 'black',
+                              color: isPastDue(val.tm_project_duedate) ? '#B32800' : 'black'
                             }}
                           >
-                            <EventNoteRoundedIcon
-                              fontSize="small"
-                              sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }}
-                            />{' '}
+                            <EventNoteRoundedIcon fontSize="small" sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }} />{' '}
                             {val.tm_project_duedate}
                           </FormLabel>
                         )}
@@ -265,7 +253,7 @@ const MyProgressView = () => {
               height: 150,
               fontWeight: 700,
               fontSize: 30,
-              color: '#C7C8CB',
+              color: '#C7C8CB'
             }}
           >
             No Task assigned Under a Project!
@@ -273,8 +261,7 @@ const MyProgressView = () => {
         )}
       </Box>
       <Box sx={{ height: 25, fontSize: 14, fontWeight: 500, mt: 1, color: '#5C5359', width: 170 }}>
-        <AssignmentSharpIcon fontSize="sm" sx={{ color: '#92443A' }} />{' '}
-        <u> Task without Projects </u>{' '}
+        <AssignmentSharpIcon fontSize="sm" sx={{ color: '#92443A' }} /> <u> Task without Projects </u>{' '}
       </Box>
       <Box></Box>
       {taskList.length !== 0 ? (
@@ -296,8 +283,8 @@ const MyProgressView = () => {
                       borderBottomColor: '#BDC6D9',
                       '&:hover': {
                         boxShadow: '1px 1px 3px',
-                        bgcolor: '#E9EAEC',
-                      },
+                        bgcolor: '#E9EAEC'
+                      }
                     }}
                     onClick={() => openSubtaskModal(val)}
                   >
@@ -310,7 +297,7 @@ const MyProgressView = () => {
                           sx={{
                             fontSize: 13,
                             flex: 3,
-                            textTransform: 'capitalize',
+                            textTransform: 'capitalize'
                           }}
                         >
                           {val.tm_task_name}
@@ -321,7 +308,7 @@ const MyProgressView = () => {
                             fontSize: 13,
                             flex: 3,
                             textTransform: 'capitalize',
-                            color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black',
+                            color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black'
                           }}
                         >
                           {val.tm_task_name}
@@ -338,7 +325,7 @@ const MyProgressView = () => {
                               mb: 0.5,
                               width: 150,
                               pl: 1,
-                              fontSize: 12,
+                              fontSize: 12
                             }}
                           >
                             <CountDowncomponent DueDates={val.tm_task_due_date} />
@@ -352,7 +339,7 @@ const MyProgressView = () => {
                               width: 150,
                               pl: 5,
                               color: 'darkgreen',
-                              fontSize: 12,
+                              fontSize: 12
                             }}
                           >
                             Completed
@@ -367,13 +354,10 @@ const MyProgressView = () => {
                             sx={{
                               fontSize: 13,
                               flex: 0.8,
-                              textTransform: 'capitalize',
+                              textTransform: 'capitalize'
                             }}
                           >
-                            <EventNoteRoundedIcon
-                              fontSize="small"
-                              sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }}
-                            />{' '}
+                            <EventNoteRoundedIcon fontSize="small" sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }} />{' '}
                             {val.create_date}
                           </FormLabel>
                         ) : (
@@ -382,13 +366,10 @@ const MyProgressView = () => {
                               fontSize: 13,
                               flex: 0.8,
                               textTransform: 'capitalize',
-                              color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black',
+                              color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black'
                             }}
                           >
-                            <EventNoteRoundedIcon
-                              fontSize="small"
-                              sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }}
-                            />{' '}
+                            <EventNoteRoundedIcon fontSize="small" sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }} />{' '}
                             {val.create_date}
                           </FormLabel>
                         )}
@@ -401,13 +382,10 @@ const MyProgressView = () => {
                             sx={{
                               fontSize: 13,
                               flex: 0.8,
-                              textTransform: 'capitalize',
+                              textTransform: 'capitalize'
                             }}
                           >
-                            <EventNoteRoundedIcon
-                              fontSize="small"
-                              sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }}
-                            />{' '}
+                            <EventNoteRoundedIcon fontSize="small" sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }} />{' '}
                             {val.tm_task_due_date}
                           </FormLabel>
                         ) : (
@@ -416,13 +394,10 @@ const MyProgressView = () => {
                               fontSize: 13,
                               flex: 0.8,
                               textTransform: 'capitalize',
-                              color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black',
+                              color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black'
                             }}
                           >
-                            <EventNoteRoundedIcon
-                              fontSize="small"
-                              sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }}
-                            />{' '}
+                            <EventNoteRoundedIcon fontSize="small" sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }} />{' '}
                             {val.tm_task_due_date}
                           </FormLabel>
                         )}
@@ -444,7 +419,7 @@ const MyProgressView = () => {
             height: 500,
             fontWeight: 700,
             fontSize: 30,
-            color: '#C7C8CB',
+            color: '#C7C8CB'
           }}
         >
           No other Task assigned without Project!

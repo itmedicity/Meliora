@@ -3,7 +3,7 @@ const { FETCH_ASSIGNEDLIST } = ActionTyps
 //intial state
 const assignedcmp = {
   assignedcmpLists: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 export const getAssignedComplaintLists = (state = assignedcmp, { type, payload }) => {
   switch (type) {

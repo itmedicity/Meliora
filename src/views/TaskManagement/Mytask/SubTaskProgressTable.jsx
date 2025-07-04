@@ -24,16 +24,9 @@ const SubTaskProgressTable = ({ tabledataProgress, rowSelectSubProgress }) => {
                   <tr key={index}>
                     <td> {index + 1}</td>
                     <td>
-                      <EditIcon
-                        sx={{ cursor: 'pointer' }}
-                        size={6}
-                        onClick={() => rowSelectSubProgress(val)}
-                      />
+                      <EditIcon sx={{ cursor: 'pointer' }} size={6} onClick={() => rowSelectSubProgress(val)} />
                     </td>
-                    <td>
-                      {' '}
-                      {moment(val.tm_progres_date).format('DD-MM-YYYY hh:mm') || 'not given'}
-                    </td>
+                    <td> {moment(val.tm_progres_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
                     <td> {val.em_name || 'not given'}</td>
                     <td> {val.tm_task_progress || 'not given'}</td>
 

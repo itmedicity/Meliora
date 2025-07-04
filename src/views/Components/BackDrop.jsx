@@ -13,7 +13,7 @@ const BackDrop = () => {
           left: '50%',
           transform: 'translate(-50%, -50%)',
           opacity: 0.1, // make it subtle
-          zIndex: 1,
+          zIndex: 1
         }}
       >
         <MLogoIcon width={600} height={600} />
@@ -24,7 +24,7 @@ const BackDrop = () => {
           flexDirection: 'column',
           alignItems: 'center',
           gap: 1,
-          justifyContent: 'center',
+          justifyContent: 'center'
         }}
       >
         <CircularProgress sx={{ color: 'var(--royal-purple-400)' }} />

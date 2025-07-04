@@ -19,7 +19,7 @@ const PODetailsView = ({ open, handleClose, poItems, poDetails }) => {
             sx={{
               minWidth: '50vw',
               minHeight: 400,
-              overflow: 'auto',
+              overflow: 'auto'
             }}
           >
             <ModalClose
@@ -33,24 +33,17 @@ const PODetailsView = ({ open, handleClose, poItems, poDetails }) => {
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 35,
-                width: 35,
+                width: 35
               }}
             />
             <Box sx={{ mx: 0.5 }}>
-              <Typography
-                sx={{ fontWeight: 550, fontSize: 18, color: '#1565c0', fontFamily: 'system-ui' }}
-              >
+              <Typography sx={{ fontWeight: 550, fontSize: 18, color: '#1565c0', fontFamily: 'system-ui' }}>
                 PO Details
               </Typography>
             </Box>
-            <Paper
-              variant="outlined"
-              sx={{ overflow: 'auto', maxHeight: window.innerHeight - 220, flexWrap: 'wrap' }}
-            >
+            <Paper variant="outlined" sx={{ overflow: 'auto', maxHeight: window.innerHeight - 220, flexWrap: 'wrap' }}>
               {poDetails?.map(poDetail => {
-                const disData = poItems?.filter(
-                  item => item.po_detail_slno === poDetail.po_detail_slno
-                )
+                const disData = poItems?.filter(item => item.po_detail_slno === poDetail.po_detail_slno)
 
                 return (
                   <Box
@@ -59,20 +52,14 @@ const PODetailsView = ({ open, handleClose, poItems, poDetails }) => {
                       p: 0.5,
                       // marginBottom: 4,
                       backgroundColor: '#ffffff',
-                      boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                      boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
                     }}
                   >
-                    <Typography
-                      variant="h6"
-                      sx={{ fontWeight: 'bold', marginBottom: 1, color: '#1976d2', pl: 1 }}
-                    >
+                    <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: 1, color: '#1976d2', pl: 1 }}>
                       #Order : {poDetail.po_number}
                     </Typography>
                     <Box sx={{ display: 'flex', pl: 0.5 }}>
-                      <Typography
-                        variant="body2"
-                        sx={{ marginBottom: 0.2, fontSize: 13, fontWeight: 650 }}
-                      >
+                      <Typography variant="body2" sx={{ marginBottom: 0.2, fontSize: 13, fontWeight: 650 }}>
                         PO Date :
                       </Typography>
                       <Typography variant="body2" sx={{ marginBottom: 0.2, fontSize: 14, pl: 1 }}>
@@ -80,10 +67,7 @@ const PODetailsView = ({ open, handleClose, poItems, poDetails }) => {
                       </Typography>
                     </Box>
                     <Box sx={{ display: 'flex', pl: 0.5 }}>
-                      <Typography
-                        variant="body2"
-                        sx={{ marginBottom: 0.2, fontSize: 13, fontWeight: 650 }}
-                      >
+                      <Typography variant="body2" sx={{ marginBottom: 0.2, fontSize: 13, fontWeight: 650 }}>
                         Supplier :
                       </Typography>
                       <Typography variant="body2" sx={{ marginBottom: 0.2, fontSize: 14, pl: 1 }}>
@@ -91,10 +75,7 @@ const PODetailsView = ({ open, handleClose, poItems, poDetails }) => {
                       </Typography>
                     </Box>
                     <Box sx={{ display: 'flex', pl: 0.5 }}>
-                      <Typography
-                        variant="body2"
-                        sx={{ marginBottom: 1, fontSize: 13, fontWeight: 650 }}
-                      >
+                      <Typography variant="body2" sx={{ marginBottom: 1, fontSize: 13, fontWeight: 650 }}>
                         Expected Delivery :
                       </Typography>
                       <Typography variant="body2" sx={{ marginBottom: 1, fontSize: 14, pl: 1 }}>
@@ -102,12 +83,7 @@ const PODetailsView = ({ open, handleClose, poItems, poDetails }) => {
                       </Typography>
                     </Box>
                     {disData.length > 0 ? (
-                      <Table
-                        aria-label="table with sticky header"
-                        borderAxis="both"
-                        stickyHeader
-                        size="sm"
-                      >
+                      <Table aria-label="table with sticky header" borderAxis="both" stickyHeader size="sm">
                         <thead>
                           <tr>
                             <th
@@ -116,7 +92,7 @@ const PODetailsView = ({ open, handleClose, poItems, poDetails }) => {
                                 borderRadius: 0,
                                 width: 50,
                                 textAlign: 'center',
-                                backgroundColor: '#e3f2fd',
+                                backgroundColor: '#e3f2fd'
                               }}
                             >
                               Item Code
@@ -126,27 +102,18 @@ const PODetailsView = ({ open, handleClose, poItems, poDetails }) => {
                               style={{
                                 width: 150,
                                 textAlign: 'center',
-                                backgroundColor: '#e3f2fd',
+                                backgroundColor: '#e3f2fd'
                               }}
                             >
                               Item
                             </th>
-                            <th
-                              size="sm"
-                              style={{ width: 40, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                            >
+                            <th size="sm" style={{ width: 40, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                               Qnty
                             </th>
-                            <th
-                              size="sm"
-                              style={{ width: 50, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                            >
+                            <th size="sm" style={{ width: 50, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                               Received Qnty
                             </th>
-                            <th
-                              size="sm"
-                              style={{ width: 50, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                            >
+                            <th size="sm" style={{ width: 50, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                               GRN Qnty
                             </th>
                             <th
@@ -155,7 +122,7 @@ const PODetailsView = ({ open, handleClose, poItems, poDetails }) => {
                                 width: 50,
                                 textAlign: 'center',
                                 backgroundColor: '#e3f2fd',
-                                borderRadius: 0,
+                                borderRadius: 0
                               }}
                             >
                               Receive Status
@@ -167,15 +134,12 @@ const PODetailsView = ({ open, handleClose, poItems, poDetails }) => {
                             <tr key={item.po_itm_slno}>
                               <td style={{ textAlign: 'center' }}>{item.item_code}</td>
                               <td style={{ fontSize: 12 }}>{item.item_name}</td>
-                              <td style={{ textAlign: 'center', fontSize: 13, fontWeight: 650 }}>
-                                {item.item_qty}
-                              </td>
+                              <td style={{ textAlign: 'center', fontSize: 13, fontWeight: 650 }}>{item.item_qty}</td>
                               <td
                                 style={{
                                   textAlign: 'center',
-                                  color:
-                                    item.received_qnty === item.item_qty ? '#59981A' : '#e65100',
-                                  fontWeight: 650,
+                                  color: item.received_qnty === item.item_qty ? '#59981A' : '#e65100',
+                                  fontWeight: 650
                                 }}
                               >
                                 {item.received_qnty}
@@ -189,7 +153,7 @@ const PODetailsView = ({ open, handleClose, poItems, poDetails }) => {
                                       ? '#59981A'
                                       : item.item_receive_status === 0
                                       ? '#e65100'
-                                      : 'transparent',
+                                      : 'transparent'
                                 }}
                               >
                                 {item.item_receive_status === 1
@@ -210,7 +174,7 @@ const PODetailsView = ({ open, handleClose, poItems, poDetails }) => {
                           fontSize: 25,
                           opacity: 0.5,
                           pt: 10,
-                          color: 'grey',
+                          color: 'grey'
                         }}
                       >
                         No items found for this purchase order.

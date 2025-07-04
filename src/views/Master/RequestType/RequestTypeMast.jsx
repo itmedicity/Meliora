@@ -20,7 +20,7 @@ const RequestTypeMast = () => {
   const [request, setRequest] = useState({
     req_type_name: '',
     req_type_status: false,
-    req_type_slno: '',
+    req_type_slno: ''
   })
   //destructuring
   const { req_type_name, req_type_status, req_type_slno } = request
@@ -40,7 +40,7 @@ const RequestTypeMast = () => {
     return {
       req_type_name: req_type_name,
       req_type_status: req_type_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [req_type_name, req_type_status, id])
   //data set for edit
@@ -51,7 +51,7 @@ const RequestTypeMast = () => {
     const frmdata = {
       req_type_name: req_type_name,
       req_type_status: status === 'Yes' ? true : false,
-      req_type_slno: req_type_slno,
+      req_type_slno: req_type_slno
     }
     setRequest(frmdata)
   }, [])
@@ -61,7 +61,7 @@ const RequestTypeMast = () => {
       req_type_name: req_type_name,
       req_type_status: req_type_status === true ? 1 : 0,
       edit_user: id,
-      req_type_slno: req_type_slno,
+      req_type_slno: req_type_slno
     }
   }, [req_type_name, req_type_status, req_type_slno, id])
   /*** usecallback function for form submitting */
@@ -71,7 +71,7 @@ const RequestTypeMast = () => {
       const formreset = {
         req_type_name: '',
         req_type_status: false,
-        req_type_slno: '',
+        req_type_slno: ''
       }
       /***  * insert function for use call back     */
       const InsertFun = async postdata => {
@@ -122,18 +122,13 @@ const RequestTypeMast = () => {
     const formreset = {
       req_type_name: '',
       req_type_status: false,
-      req_type_slno: '',
+      req_type_slno: ''
     }
     setRequest(formreset)
     setEdit(0)
   }, [setRequest])
   return (
-    <CardMaster
-      title="Request Type Master"
-      close={backtoSetting}
-      submit={submitRequestType}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Request Type Master" close={backtoSetting} submit={submitRequestType} refresh={refreshWindow}>
       <Box sx={{ p: 1 }}>
         <Grid container spacing={1}>
           <Grid item xl={4} lg={4}>

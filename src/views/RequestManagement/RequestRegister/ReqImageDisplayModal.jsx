@@ -14,7 +14,7 @@ const ReqImageDisplayModal = ({ open, handleClose, images }) => {
         const fileNamePart = parts[parts.length - 1]
         const obj = {
           imageName: fileNamePart,
-          url: val,
+          url: val
         }
         return obj
       })
@@ -33,7 +33,7 @@ const ReqImageDisplayModal = ({ open, handleClose, images }) => {
           flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
-          maxHeight: 700,
+          maxHeight: 700
         }}
       >
         <Sheet
@@ -45,7 +45,7 @@ const ReqImageDisplayModal = ({ open, handleClose, images }) => {
             boxShadow: 'lg',
             minHeight: 500,
             maxWidth: 300,
-            maxHeight: 700,
+            maxHeight: 700
           }}
         >
           <Box
@@ -58,7 +58,7 @@ const ReqImageDisplayModal = ({ open, handleClose, images }) => {
               margin: 'auto',
               height: window.innerHeight - 350,
               overflowX: 'auto',
-              '::-webkit-scrollbar': { display: 'none' },
+              '::-webkit-scrollbar': { display: 'none' }
             }}
           >
             {disArry &&
@@ -67,12 +67,7 @@ const ReqImageDisplayModal = ({ open, handleClose, images }) => {
                   {value.imageName.endsWith('.pdf') ? (
                     <embed src={value.url} type="application/pdf" height={820} width="100%" />
                   ) : (
-                    <img
-                      alt=""
-                      src={value.url}
-                      height={820}
-                      style={{ maxWidth: '100%', maxHeight: '100%' }}
-                    />
+                    <img alt="" src={value.url} height={820} style={{ maxWidth: '100%', maxHeight: '100%' }} />
                   )}
                 </Box>
               ))}

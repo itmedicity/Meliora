@@ -21,7 +21,7 @@ const LeaseDetailsinCondem = ({ AssetDetails }) => {
   const { data: LeaseDetailListData } = useQuery({
     queryKey: ['getLeaseDetailListz'],
     enabled: am_item_map_slno !== undefined,
-    queryFn: () => getLeaseDetailList(am_item_map_slno),
+    queryFn: () => getLeaseDetailList(am_item_map_slno)
   })
 
   const LeaseDetailList = useMemo(() => LeaseDetailListData, [LeaseDetailListData])
@@ -37,9 +37,7 @@ const LeaseDetailsinCondem = ({ AssetDetails }) => {
   const ViewLeaseDetailFile = useCallback(val => {
     const { am_lease_mast_slno } = val
     const getImage = async am_lease_mast_slno => {
-      const result = await axioslogin.get(
-        `/AssetFileUpload/LeaseMasterImageView/${am_lease_mast_slno}`
-      )
+      const result = await axioslogin.get(`/AssetFileUpload/LeaseMasterImageView/${am_lease_mast_slno}`)
       const { success, data } = result.data
       if (success === 1) {
         const fileNames = data
@@ -66,16 +64,14 @@ const LeaseDetailsinCondem = ({ AssetDetails }) => {
 
   return (
     <Box sx={{ border: 1, borderColor: '#E0E1E3', py: 1, px: 2, mt: 0.5 }}>
-      {imageshowFlag === 1 ? (
-        <FileView open={imageshow} handleClose={handleClose} images={imagearray} />
-      ) : null}
+      {imageshowFlag === 1 ? <FileView open={imageshow} handleClose={handleClose} images={imagearray} /> : null}
       <TextComponent
         text={'LEASE DETAILS LIST'}
         sx={{
           flex: 1,
           fontWeight: 500,
           color: 'black',
-          fontSize: 15,
+          fontSize: 15
         }}
       />
       {leaseAllDetails.length === 0 ? (
@@ -86,7 +82,7 @@ const LeaseDetailsinCondem = ({ AssetDetails }) => {
             fontWeight: 600,
             color: 'lightgrey',
             textAlign: 'center',
-            pt: 5,
+            pt: 5
           }}
         >
           Empty Lease Details
@@ -102,7 +98,7 @@ const LeaseDetailsinCondem = ({ AssetDetails }) => {
               borderColor: 'lightgrey',
               pl: 1,
               py: 0.5,
-              gap: 0.5,
+              gap: 0.5
             }}
           >
             <Box sx={{ flex: 0.1 }}>#</Box>
@@ -131,7 +127,7 @@ const LeaseDetailsinCondem = ({ AssetDetails }) => {
                     borderBottom: 1,
                     borderColor: 'lightgrey',
                     pl: 1,
-                    py: 0.6,
+                    py: 0.6
                   }}
                 >
                   <Box sx={{ flex: 0.1, fontWeight: 600 }}>{index + 1}</Box>
@@ -157,8 +153,7 @@ const LeaseDetailsinCondem = ({ AssetDetails }) => {
                     sx={{
                       flex: 0.3,
                       fontWeight: 600,
-                      color:
-                        val.status === 1 ? 'darkgreen' : val.status === 0 ? '#523A28' : 'black',
+                      color: val.status === 1 ? 'darkgreen' : val.status === 0 ? '#523A28' : 'black'
                     }}
                   >
                     {val.status === 1

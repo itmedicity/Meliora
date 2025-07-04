@@ -18,12 +18,7 @@ import LeaseDetailsinCondem from './LeaseDetailsinCondem'
 import SettingsSuggestOutlinedIcon from '@mui/icons-material/SettingsSuggestOutlined'
 import ServiceDetailsCondemnation from './ServiceDetailsCondemnation'
 
-const AssetDetailsModal = ({
-  AssetOpenModal,
-  AssetDetails,
-  setAssetOpenModal,
-  setAssetModalFlag,
-}) => {
+const AssetDetailsModal = ({ AssetOpenModal, AssetDetails, setAssetOpenModal, setAssetModalFlag }) => {
   const {
     cat_asset_name,
     cat_spare_name,
@@ -34,7 +29,7 @@ const AssetDetailsModal = ({
     spare_asset_no,
     spare_asset_no_only,
     category_name,
-    item_name,
+    item_name
   } = AssetDetails
 
   const spareAssetNo = spare_asset_no ?? item_asset_no ?? 'Not Found'
@@ -56,19 +51,16 @@ const AssetDetailsModal = ({
         justifyContent: 'center',
         alignItems: 'center',
         pl: 1,
-        borderRadius: 10,
+        borderRadius: 10
       }}
     >
-      <ModalDialog
-        variant="outlined"
-        sx={{ width: '95vw', p: 0, overflow: 'auto', height: '95vh' }}
-      >
+      <ModalDialog variant="outlined" sx={{ width: '95vw', p: 0, overflow: 'auto', height: '95vh' }}>
         <Box sx={{ flex: 1 }}>
           <Box
             sx={{
               display: 'flex',
               borderBottom: 1,
-              borderColor: 'lightgrey',
+              borderColor: 'lightgrey'
             }}
           >
             <Box sx={{ color: 'grey', pt: 1, pl: 1.5, flex: 1 }}>Item Details</Box>
@@ -88,7 +80,7 @@ const AssetDetailsModal = ({
               mt: 0.5,
               bgcolor: '#fbfcfe',
               display: 'flex',
-              height: 110,
+              height: 110
             }}
           >
             <Box sx={{ flex: 1 }}>
@@ -102,19 +94,13 @@ const AssetDetailsModal = ({
                 </Chip>
               </Box>
               <Box sx={{ flex: 1, display: 'flex', my: 0.5 }}>
-                <TextComponent
-                  text="Category"
-                  sx={{ pl: 2, fontWeight: 600, pt: 0.4, fontSize: 14, width: 170 }}
-                />
+                <TextComponent text="Category" sx={{ pl: 2, fontWeight: 600, pt: 0.4, fontSize: 14, width: 170 }} />
                 <Chip sx={{ bgcolor: '#EBEFFB', fontWeight: 500, fontSize: 14 }}>
                   {cat_asset_name || cat_spare_name || category_name}
                 </Chip>
               </Box>
               <Box sx={{ flex: 1, display: 'flex', my: 0.5 }}>
-                <TextComponent
-                  text="  Item Name"
-                  sx={{ pl: 2, fontWeight: 600, pt: 0.4, fontSize: 14, width: 170 }}
-                />
+                <TextComponent text="  Item Name" sx={{ pl: 2, fontWeight: 600, pt: 0.4, fontSize: 14, width: 170 }} />
                 <Chip sx={{ bgcolor: '#EBEFFB', fontWeight: 500, fontSize: 14 }}>
                   {item_asset_name || item_spare_name || item_name}
                 </Chip>
@@ -127,7 +113,7 @@ const AssetDetailsModal = ({
               sx={{
                 display: 'flex',
                 mx: 1.8,
-                bgcolor: 'white',
+                bgcolor: 'white'
               }}
             >
               <TabList
@@ -138,7 +124,7 @@ const AssetDetailsModal = ({
                     flex: 'initial',
                     bgcolor: 'white',
                     '&:hover': {
-                      bgcolor: 'white',
+                      bgcolor: 'white'
                     },
                     [`&.${tabClasses.selected}`]: {
                       color: 'primary.plainColor',
@@ -148,73 +134,45 @@ const AssetDetailsModal = ({
                         height: 20,
                         borderTopLeftRadius: 3,
                         borderTopRightRadius: 3,
-                        bgcolor: 'primary.500',
-                      },
-                    },
-                  },
+                        bgcolor: 'primary.500'
+                      }
+                    }
+                  }
                 }}
               >
                 <Box sx={{ flex: 1, display: 'flex' }}>
-                  <Tab
-                    value={0}
-                    disableIndicator
-                    sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}
-                  >
+                  <Tab value={0} disableIndicator sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}>
                     <DriveFileRenameOutlineOutlinedIcon />
                     Details&nbsp;&nbsp;
                   </Tab>
 
-                  <Tab
-                    value={1}
-                    disableIndicator
-                    sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}
-                  >
+                  <Tab value={1} disableIndicator sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}>
                     <ReceiptLongOutlinedIcon />
                     Purchase Details&nbsp;&nbsp;
                   </Tab>
-                  <Tab
-                    value={2}
-                    disableIndicator
-                    sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}
-                  >
+                  <Tab value={2} disableIndicator sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}>
                     <DescriptionOutlinedIcon />
                     Warrenty/Gaurantee&nbsp;&nbsp;
                   </Tab>
                   {item_asset_no !== null ? (
-                    <Tab
-                      value={3}
-                      disableIndicator
-                      sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}
-                    >
+                    <Tab value={3} disableIndicator sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}>
                       <TextSnippetOutlinedIcon />
                       AMC/CMC Details&nbsp;&nbsp;
                     </Tab>
                   ) : null}
                   {item_asset_no !== null ? (
-                    <Tab
-                      value={4}
-                      disableIndicator
-                      sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}
-                    >
+                    <Tab value={4} disableIndicator sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}>
                       <TimelapseIcon />
                       &nbsp;PM Details&nbsp;&nbsp;
                     </Tab>
                   ) : null}
                   {item_asset_no !== null ? (
-                    <Tab
-                      value={5}
-                      disableIndicator
-                      sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}
-                    >
+                    <Tab value={5} disableIndicator sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}>
                       <ArticleOutlinedIcon />
                       &nbsp;Lease Details&nbsp;&nbsp;
                     </Tab>
                   ) : null}
-                  <Tab
-                    value={6}
-                    disableIndicator
-                    sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}
-                  >
+                  <Tab value={6} disableIndicator sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}>
                     <SettingsSuggestOutlinedIcon />
                     Service Details&nbsp;&nbsp;
                   </Tab>
@@ -226,7 +184,7 @@ const AssetDetailsModal = ({
                   p: 0,
                   flexGrow: 1,
                   overflowY: 'auto',
-                  maxHeight: 'calc(90vh - 230px)',
+                  maxHeight: 'calc(90vh - 230px)'
                 }}
               >
                 <Box
@@ -234,7 +192,7 @@ const AssetDetailsModal = ({
                     flexGrow: 1,
                     overflowY: 'auto',
                     maxHeight: '100%',
-                    mt: 0.5,
+                    mt: 0.5
                   }}
                 >
                   <DetailsTab AssetDetails={AssetDetails} />
@@ -246,7 +204,7 @@ const AssetDetailsModal = ({
                   p: 0,
                   flexGrow: 1,
                   overflowY: 'auto',
-                  maxHeight: 'calc(90vh - 230px)',
+                  maxHeight: 'calc(90vh - 230px)'
                 }}
               >
                 <Box
@@ -254,7 +212,7 @@ const AssetDetailsModal = ({
                     flexGrow: 1,
                     overflowY: 'auto',
                     maxHeight: '100%',
-                    mt: 0.5,
+                    mt: 0.5
                   }}
                 >
                   <PurchaseDetails AssetDetails={AssetDetails} />
@@ -266,7 +224,7 @@ const AssetDetailsModal = ({
                   p: 0,
                   flexGrow: 1,
                   overflowY: 'auto',
-                  maxHeight: 'calc(90vh - 230px)',
+                  maxHeight: 'calc(90vh - 230px)'
                 }}
               >
                 <Box
@@ -274,7 +232,7 @@ const AssetDetailsModal = ({
                     flexGrow: 1,
                     overflowY: 'auto',
                     maxHeight: '100%',
-                    mt: 0.5,
+                    mt: 0.5
                   }}
                 >
                   <WarrentyGaurenteeDetails AssetDetails={AssetDetails} />
@@ -287,7 +245,7 @@ const AssetDetailsModal = ({
                     p: 0,
                     flexGrow: 1,
                     overflowY: 'auto',
-                    maxHeight: 'calc(90vh - 230px)',
+                    maxHeight: 'calc(90vh - 230px)'
                   }}
                 >
                   <Box
@@ -295,7 +253,7 @@ const AssetDetailsModal = ({
                       flexGrow: 1,
                       overflowY: 'auto',
                       maxHeight: '100%',
-                      mt: 0.5,
+                      mt: 0.5
                     }}
                   >
                     <AmcCmcDetails AssetDetails={AssetDetails} />
@@ -309,7 +267,7 @@ const AssetDetailsModal = ({
                     p: 0,
                     flexGrow: 1,
                     overflowY: 'auto',
-                    maxHeight: 'calc(90vh - 230px)',
+                    maxHeight: 'calc(90vh - 230px)'
                   }}
                 >
                   <Box
@@ -317,7 +275,7 @@ const AssetDetailsModal = ({
                       flexGrow: 1,
                       overflowY: 'auto',
                       maxHeight: '100%',
-                      mt: 0.5,
+                      mt: 0.5
                     }}
                   >
                     <PmDetails AssetDetails={AssetDetails} />
@@ -331,7 +289,7 @@ const AssetDetailsModal = ({
                     p: 0,
                     flexGrow: 1,
                     overflowY: 'auto',
-                    maxHeight: 'calc(90vh - 230px)',
+                    maxHeight: 'calc(90vh - 230px)'
                   }}
                 >
                   <Box
@@ -339,7 +297,7 @@ const AssetDetailsModal = ({
                       flexGrow: 1,
                       overflowY: 'auto',
                       maxHeight: '100%',
-                      mt: 0.5,
+                      mt: 0.5
                     }}
                   >
                     <LeaseDetailsinCondem AssetDetails={AssetDetails} />
@@ -352,7 +310,7 @@ const AssetDetailsModal = ({
                   p: 0,
                   flexGrow: 1,
                   overflowY: 'auto',
-                  maxHeight: 'calc(90vh - 230px)',
+                  maxHeight: 'calc(90vh - 230px)'
                 }}
               >
                 <Box
@@ -360,7 +318,7 @@ const AssetDetailsModal = ({
                     flexGrow: 1,
                     overflowY: 'auto',
                     maxHeight: '100%',
-                    mt: 0.5,
+                    mt: 0.5
                   }}
                 >
                   <ServiceDetailsCondemnation AssetDetails={AssetDetails} />

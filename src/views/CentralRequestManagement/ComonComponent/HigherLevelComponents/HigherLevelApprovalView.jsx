@@ -1,16 +1,7 @@
-import React, { Fragment, memo, } from 'react'
+import React, { Fragment, memo } from 'react'
 // import { ToastContainer } from 'react-toastify';
 import { Paper } from '@mui/material'
-import {
-  Box,
-  Chip,
-  CssVarsProvider,
-  Grid,
-  Modal,
-  ModalClose,
-  ModalDialog,
-  Typography,
-} from '@mui/joy'
+import { Box, Chip, CssVarsProvider, Grid, Modal, ModalClose, ModalDialog, Typography } from '@mui/joy'
 import { format } from 'date-fns'
 import ReqItemDisplay from '../ReqItemDisplay'
 import CrfReqDetailViewCmp from '../CrfReqDetailViewCmp'
@@ -48,7 +39,7 @@ const HigherLevelApprovalView = ({
   imagearray,
   datacolData,
   selectedCompany,
-  company,
+  company
 }) => {
   const {
     req_slno,
@@ -93,7 +84,7 @@ const HigherLevelApprovalView = ({
     acknowUser,
     user_ack_date,
     user_acknldge_remarks,
-    approval_level,
+    approval_level
   } = DetailViewData
 
   // const [ViewCrfRemark, SetViewCrfRemark] = useState('')
@@ -109,12 +100,12 @@ const HigherLevelApprovalView = ({
   const capitalizeWords = str =>
     str
       ? str
-        .toLowerCase()
-        .trim()
-        .replace(/\s+/g, ' ')
-        .split(' ')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ')
+          .toLowerCase()
+          .trim()
+          .replace(/\s+/g, ' ')
+          .split(' ')
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(' ')
       : ''
 
   // const postData = useMemo(() => {
@@ -141,7 +132,6 @@ const HigherLevelApprovalView = ({
   //     }
   // }, [postData, setDetailViewModal])
 
-
   return (
     <Fragment>
       {/* <ToastContainer /> */}
@@ -165,7 +155,7 @@ const HigherLevelApprovalView = ({
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 25,
-                width: 25,
+                width: 25
               }}
             />
             <Box sx={{ minWidth: '85vw', minHeight: '65vh', maxHeight: '95vh', overflowY: 'auto' }}>
@@ -186,14 +176,8 @@ const HigherLevelApprovalView = ({
               ) : null}
               {hod_approve !== null || incharge_approve !== null ? (
                 <>
-                  <Paper
-                    variant="outlined"
-                    square
-                    sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.7, mx: 0.7, pb: 0.7 }}
-                  >
-                    <Typography
-                      sx={{ fontWeight: 'bold', px: 1, py: 0.7, color: '#145DA0', fontSize: 14 }}
-                    >
+                  <Paper variant="outlined" square sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.7, mx: 0.7, pb: 0.7 }}>
+                    <Typography sx={{ fontWeight: 'bold', px: 1, py: 0.7, color: '#145DA0', fontSize: 14 }}>
                       Approval Details
                     </Typography>
                     <Grid container spacing={0.5} sx={{ flexGrow: 1 }}>
@@ -292,21 +276,12 @@ const HigherLevelApprovalView = ({
                   </Paper>
                   {datacolData.length !== 0 ? (
                     <Box sx={{ py: 0.5, mx: 0.2 }}>
-                      <DataCollectionViewHigherLevel
-                        datacolData={datacolData}
-                        selectedCompany={selectedCompany}
-                      />
+                      <DataCollectionViewHigherLevel datacolData={datacolData} selectedCompany={selectedCompany} />
                     </Box>
                   ) : null}
                   {ack_status === 1 ? (
-                    <Paper
-                      variant="outlined"
-                      square
-                      sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.7, mx: 0.7 }}
-                    >
-                      <Typography
-                        sx={{ fontWeight: 'bold', px: 1, py: 0.7, color: '#145DA0', fontSize: 14 }}
-                      >
+                    <Paper variant="outlined" square sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.7, mx: 0.7 }}>
+                      <Typography sx={{ fontWeight: 'bold', px: 1, py: 0.7, color: '#145DA0', fontSize: 14 }}>
                         Procurement Details
                       </Typography>
                       <Grid container spacing={0.5} sx={{ flexGrow: 1 }}>
@@ -339,7 +314,7 @@ const HigherLevelApprovalView = ({
                               mx: 1,
                               pt: 0.5,
                               color: '#145DA0',
-                              fontSize: 14,
+                              fontSize: 14
                             }}
                           >
                             PO Details
@@ -358,7 +333,7 @@ const HigherLevelApprovalView = ({
                               py: 0.5,
                               color: '#145DA0',
                               fontSize: 14,
-                              flex: 0.4,
+                              flex: 0.4
                             }}
                           >
                             Purchase Order Preparation Completed
@@ -373,7 +348,7 @@ const HigherLevelApprovalView = ({
                                 height: 25,
                                 pb: 0.5,
                                 fontSize: 12,
-                                fontWeight: 550,
+                                fontWeight: 550
                               }}
                             >
                               Yes
@@ -386,14 +361,12 @@ const HigherLevelApprovalView = ({
                                 textTransform: 'capitalize',
                                 fontWeight: 550,
                                 pl: 2,
-                                pt: 0.4,
+                                pt: 0.4
                               }}
                             >
                               {capitalizeWords(pocomplete_user)}&nbsp; /
                             </Typography>
-                            <Typography
-                              sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pl: 1, pt: 0.4 }}
-                            >
+                            <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pl: 1, pt: 0.4 }}>
                               {format(new Date(po_complete_date), 'dd-MM-yyyy hh:mm:ss a')}
                             </Typography>
                           </Box>
@@ -408,7 +381,7 @@ const HigherLevelApprovalView = ({
                               py: 0.5,
                               color: '#145DA0',
                               fontSize: 14,
-                              flex: 0.4,
+                              flex: 0.4
                             }}
                           >
                             PO Approvals
@@ -428,16 +401,16 @@ const HigherLevelApprovalView = ({
                                 fontWeight: 550,
                                 pl: 0.5,
                                 pt: 0.4,
-                                color: '#1b5e20',
+                                color: '#1b5e20'
                               }}
                             >
                               {approval_level === 1
                                 ? 'Purchase Dpt Approved'
                                 : approval_level === 2
-                                  ? 'Purchase Department Approved, Purchase Manager Approved'
-                                  : approval_level === 3
-                                    ? 'Purchase Department Approved, Purchase Manager Approved, Directors Approved'
-                                    : null}{' '}
+                                ? 'Purchase Department Approved, Purchase Manager Approved'
+                                : approval_level === 3
+                                ? 'Purchase Department Approved, Purchase Manager Approved, Directors Approved'
+                                : null}{' '}
                             </Typography>
                           </Box>
                         </Box>
@@ -450,7 +423,7 @@ const HigherLevelApprovalView = ({
                               py: 0.5,
                               color: '#145DA0',
                               fontSize: 14,
-                              flex: 0.4,
+                              flex: 0.4
                             }}
                           >
                             PO Approvals
@@ -463,7 +436,7 @@ const HigherLevelApprovalView = ({
                                 fontSize: 13,
                                 fontWeight: 550,
                                 pt: 0.4,
-                                color: '#ff8f00',
+                                color: '#ff8f00'
                               }}
                             >
                               Approval Pending
@@ -481,7 +454,7 @@ const HigherLevelApprovalView = ({
                               py: 0.5,
                               color: '#145DA0',
                               fontSize: 14,
-                              flex: 0.4,
+                              flex: 0.4
                             }}
                           >
                             PO-Supplier Acknowledgement
@@ -496,14 +469,12 @@ const HigherLevelApprovalView = ({
                                 height: 25,
                                 pb: 0.5,
                                 fontSize: 12,
-                                fontWeight: 550,
+                                fontWeight: 550
                               }}
                             >
                               Yes
                             </Chip>
-                            <Typography
-                              sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pl: 2, pt: 0.4 }}
-                            >
+                            <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pl: 2, pt: 0.4 }}>
                               {format(new Date(po_to_supplier_date), 'dd-MM-yyyy hh:mm:ss a')}
                             </Typography>
                           </Box>
@@ -518,7 +489,7 @@ const HigherLevelApprovalView = ({
                               py: 0.5,
                               color: '#145DA0',
                               fontSize: 14,
-                              flex: 0.4,
+                              flex: 0.4
                             }}
                           >
                             Received in CRS Store
@@ -533,7 +504,7 @@ const HigherLevelApprovalView = ({
                                 height: 25,
                                 pb: 0.5,
                                 fontSize: 12,
-                                fontWeight: 550,
+                                fontWeight: 550
                               }}
                             >
                               Yes
@@ -546,14 +517,12 @@ const HigherLevelApprovalView = ({
                                 textTransform: 'capitalize',
                                 fontWeight: 550,
                                 pl: 2,
-                                pt: 0.4,
+                                pt: 0.4
                               }}
                             >
                               {capitalizeWords(crs_user)}&nbsp; /
                             </Typography>
-                            <Typography
-                              sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pl: 1, pt: 0.4 }}
-                            >
+                            <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pl: 1, pt: 0.4 }}>
                               {format(new Date(store_receive_date), 'dd-MM-yyyy hh:mm:ss a')}
                             </Typography>
                           </Box>
@@ -568,7 +537,7 @@ const HigherLevelApprovalView = ({
                               py: 0.5,
                               color: '#145DA0',
                               fontSize: 14,
-                              flex: 0.4,
+                              flex: 0.4
                             }}
                           >
                             Received in {sub_store_name}
@@ -583,7 +552,7 @@ const HigherLevelApprovalView = ({
                                 height: 25,
                                 pb: 0.5,
                                 fontSize: 12,
-                                fontWeight: 550,
+                                fontWeight: 550
                               }}
                             >
                               Yes
@@ -596,14 +565,12 @@ const HigherLevelApprovalView = ({
                                 textTransform: 'capitalize',
                                 fontWeight: 550,
                                 pl: 2,
-                                pt: 0.4,
+                                pt: 0.4
                               }}
                             >
                               {capitalizeWords(store_user)}&nbsp; /
                             </Typography>
-                            <Typography
-                              sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pl: 1, pt: 0.4 }}
-                            >
+                            <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pl: 1, pt: 0.4 }}>
                               {format(new Date(substore_ack_date), 'dd-MM-yyyy hh:mm:ss a')}
                             </Typography>
                           </Box>
@@ -611,9 +578,7 @@ const HigherLevelApprovalView = ({
                       ) : null}
                       {user_acknldge === 1 ? (
                         <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
-                          <Box
-                            sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}
-                          >
+                          <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                             <Typography
                               sx={{
                                 fontWeight: 'bold',
@@ -621,7 +586,7 @@ const HigherLevelApprovalView = ({
                                 py: 0.5,
                                 color: '#145DA0',
                                 fontSize: 14,
-                                flex: 0.4,
+                                flex: 0.4
                               }}
                             >
                               User Acknowledgement
@@ -632,9 +597,7 @@ const HigherLevelApprovalView = ({
                             <Box sx={{ flex: 1, display: 'flex' }}>
                               <Typography sx={{ fontSize: 13, flex: 1, fontWeight: 550 }}>
                                 : &nbsp;
-                                {user_acknldge_remarks === null
-                                  ? 'Not Updated'
-                                  : user_acknldge_remarks}
+                                {user_acknldge_remarks === null ? 'Not Updated' : user_acknldge_remarks}
                               </Typography>
                               <Typography
                                 sx={{
@@ -644,7 +607,7 @@ const HigherLevelApprovalView = ({
                                   fontSize: 13,
                                   textTransform: 'capitalize',
                                   fontWeight: 550,
-                                  pr: 1,
+                                  pr: 1
                                 }}
                               >
                                 {capitalizeWords(acknowUser)}&nbsp; /
@@ -655,7 +618,7 @@ const HigherLevelApprovalView = ({
                                   display: 'flex',
                                   justifyContent: 'flex-start',
                                   fontSize: 13,
-                                  fontWeight: 550,
+                                  fontWeight: 550
                                 }}
                               >
                                 {format(new Date(user_ack_date), 'dd-MM-yyyy hh:mm:ss a')}
@@ -686,7 +649,7 @@ const HigherLevelApprovalView = ({
                     fontSize: 25,
                     opacity: 0.5,
                     pt: 10,
-                    color: 'grey',
+                    color: 'grey'
                   }}
                 >
                   No Report Found

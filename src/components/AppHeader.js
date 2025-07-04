@@ -58,7 +58,7 @@ const AppHeader = ({ collapsed, setCollapsed }) => {
           top: 0,
           left: 0, // adjust based on sidebar width
           right: 0,
-          zIndex: 999,
+          zIndex: 999
         }}
       >
         <AppBar position="static" sx={{ backgroundColor: 'var(--royal-purple-400)' }} elevation={1}>
@@ -73,17 +73,14 @@ const AppHeader = ({ collapsed, setCollapsed }) => {
               >
                 <TiThMenuOutline />
               </IconButton>
-              <Typography
-                component="div"
-                sx={{ fontFamily: 'var(--roboto-font)', fontWeight: 900 }}
-              >
+              <Typography component="div" sx={{ fontFamily: 'var(--roboto-font)', fontWeight: 900 }}>
                 Meliora
               </Typography>
             </Box>
             <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end' }}>
-              <Box sx={{display: 'flex',alignItems:'end', flexDirection: 'column'}} >
-                <Box sx={{ fontWeight: 600,fontSize:12,fontFamily: 'var(--roboto-font)'  }} >Travancore Medicity</Box>
-                <LiveClock/>
+              <Box sx={{ display: 'flex', alignItems: 'end', flexDirection: 'column' }}>
+                <Box sx={{ fontWeight: 600, fontSize: 12, fontFamily: 'var(--roboto-font)' }}>Travancore Medicity</Box>
+                <LiveClock />
                 {/* <Box sx={{ fontWeight: 600,fontSize:12,fontFamily: 'var(--roboto-font)'  }} >Hospital Administration System</Box> */}
               </Box>
               <Dropdown>

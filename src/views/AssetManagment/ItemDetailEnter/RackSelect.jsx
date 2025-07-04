@@ -16,12 +16,7 @@ const RackSelect = ({ value, setValue }) => {
           setValue(newValue ? newValue.am_rack_slno : 0)
         }}
         renderinput={params => (
-          <Input
-            {...params}
-            placeholder="Select Rack"
-            size="sm"
-            sx={{ height: 24, p: 0, m: 0, lineHeight: 1.2 }}
-          />
+          <Input {...params} placeholder="Select Rack" size="sm" sx={{ height: 24, p: 0, m: 0, lineHeight: 1.2 }} />
         )}
         disableportal="true"
         clearOnBlur

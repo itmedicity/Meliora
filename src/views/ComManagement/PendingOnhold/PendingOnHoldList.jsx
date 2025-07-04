@@ -21,27 +21,24 @@ const PendingOnHoldList = () => {
       field: 'rm_room_name',
       minWidth: 350,
       cellRendererFramework: params => {
-        const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } =
-          params.data
+        const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } = params.data
         return (
           <div>
             {rm_room_name !== null ? (
-              <div>
-                {`${rm_room_name} (${rm_roomtype_name} - ${rm_insidebuildblock_name} - ${rm_floor_name})`}
-              </div>
+              <div>{`${rm_room_name} (${rm_roomtype_name} - ${rm_insidebuildblock_name} - ${rm_floor_name})`}</div>
             ) : (
               <div>Location not added</div>
             )}
           </div>
         )
-      },
+      }
     },
     { headerName: 'Complaint Type', field: 'complaint_type_name' },
     { headerName: 'Req.Date', field: 'compalint_date' },
     { headerName: 'Assign.Date', field: 'assigndate' },
     { headerName: 'Rectify.Date', field: 'cm_rectify_time' },
     { headerName: 'Complaint Status', field: 'cm_rectify_status' },
-    { headerName: 'Remarks', field: 'rectify_pending_hold_remarks' },
+    { headerName: 'Remarks', field: 'rectify_pending_hold_remarks' }
   ])
   const getRowStyle = params => {
     if (params.data.compalint_priority === 1) {
@@ -82,7 +79,7 @@ const PendingOnHoldList = () => {
       <Paper
         square
         sx={{
-          p: 1,
+          p: 1
         }}
       >
         <CusAgGridForMain columnDefs={column} tableData={tabledata} getRowStyle={getRowStyle} />
@@ -93,7 +90,7 @@ const PendingOnHoldList = () => {
         sx={{
           display: 'flex',
           p: 1,
-          alignItems: 'center',
+          alignItems: 'center'
         }}
       >
         <Box sx={{ display: 'flex' }}>

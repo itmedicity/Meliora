@@ -31,15 +31,11 @@ const PdfviewNas = ({ pdfDis, uploadedImages }) => {
   return (
     <Fragment>
       {imageshowFlag === 1 ? (
-        <ReqImageDisModal
-          open={imageshow}
-          handleClose={handleCloseImageView}
-          previewFile={previewFile}
-        />
+        <ReqImageDisModal open={imageshow} handleClose={handleCloseImageView} previewFile={previewFile} />
       ) : null}
       <Box
         sx={{
-          width: { md: '100%', sm: '100%', xl: '100%', lg: '100%', xs: '100%' },
+          width: { md: '100%', sm: '100%', xl: '100%', lg: '100%', xs: '100%' }
         }}
       >
         {pdfDis === 1 ? (
@@ -134,7 +130,7 @@ const PdfviewNas = ({ pdfDis, uploadedImages }) => {
             sx={{
               display: 'flex',
               flexWrap: 'wrap',
-              gap: 5,
+              gap: 5
             }}
           >
             {uploadedImages.map((file, index) => (
@@ -145,7 +141,7 @@ const PdfviewNas = ({ pdfDis, uploadedImages }) => {
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
-                  marginBottom: 2,
+                  marginBottom: 2
                 }}
               >
                 <PictureAsPdfIcon
@@ -153,7 +149,7 @@ const PdfviewNas = ({ pdfDis, uploadedImages }) => {
                     width: '40px',
                     height: '40px',
                     color: '#e53935',
-                    cursor: 'pointer',
+                    cursor: 'pointer'
                   }}
                   onClick={() => viewUploadedFile(file)}
                 />
@@ -168,7 +164,7 @@ const PdfviewNas = ({ pdfDis, uploadedImages }) => {
             sx={{
               display: 'flex',
               flexWrap: 'wrap',
-              gap: 5,
+              gap: 5
             }}
           >
             {uploadedImages.map((file, index) => (
@@ -179,7 +175,7 @@ const PdfviewNas = ({ pdfDis, uploadedImages }) => {
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
-                  marginBottom: 2,
+                  marginBottom: 2
                 }}
               >
                 <PictureAsPdfIcon
@@ -187,7 +183,7 @@ const PdfviewNas = ({ pdfDis, uploadedImages }) => {
                     width: '40px',
                     height: '40px',
                     color: '#e53935',
-                    cursor: 'pointer',
+                    cursor: 'pointer'
                   }}
                   onClick={() => viewUploadedFile(file)}
                 />

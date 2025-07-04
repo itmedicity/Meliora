@@ -20,8 +20,8 @@ const ItemMasterTable = ({ count, rowSelect }) => {
     { headerName: 'Status', field: 'kotstatus' },
     {
       headerName: 'Action',
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
-    },
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
+    }
   ])
   //get all data
   useEffect(() => {

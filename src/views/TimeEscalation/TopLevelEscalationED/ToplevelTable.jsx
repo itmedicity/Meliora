@@ -1,41 +1,30 @@
 import React, { Fragment, memo } from 'react'
-import {
-  Box,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from '@mui/material'
+import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 
 const ToplevelTable = ({ complaints }) => {
   return (
     <Fragment>
       <Box sx={{ display: 'flex' }}>
         <TableContainer>
-          <Table
-            sx={{ minWidth: 650, border: '1px solid', borderColor: '#F0F3F5' }}
-            aria-label="simple table"
-          >
+          <Table sx={{ minWidth: 650, border: '1px solid', borderColor: '#F0F3F5' }} aria-label="simple table">
             <TableHead
               sx={{
                 bgcolor: '#F0F3F5',
                 mt: 1,
-                height: 25,
+                height: 25
               }}
             >
               <TableRow
                 sx={{
                   fontWeight: 'bold',
-                  color: 'gray',
+                  color: 'gray'
                 }}
               >
                 <TableCell
                   size="small"
                   sx={{
                     fontWeight: 'bold',
-                    color: 'gray',
+                    color: 'gray'
                   }}
                 >
                   Slno
@@ -43,7 +32,7 @@ const ToplevelTable = ({ complaints }) => {
                 <TableCell
                   sx={{
                     fontWeight: 'bold',
-                    color: 'gray',
+                    color: 'gray'
                   }}
                 >
                   Complaint
@@ -51,7 +40,7 @@ const ToplevelTable = ({ complaints }) => {
                 <TableCell
                   sx={{
                     fontWeight: 'bold',
-                    color: 'gray',
+                    color: 'gray'
                   }}
                 >
                   Date
@@ -59,7 +48,7 @@ const ToplevelTable = ({ complaints }) => {
                 <TableCell
                   sx={{
                     fontWeight: 'bold',
-                    color: 'gray',
+                    color: 'gray'
                   }}
                 >
                   Department

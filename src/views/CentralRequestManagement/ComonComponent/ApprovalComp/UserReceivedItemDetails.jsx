@@ -16,24 +16,24 @@ const UserReceivedItemDetails = ({ req_slno }) => {
   const {
     data: storeItems,
     isLoading: isStoreLoading,
-    error: storeError,
+    error: storeError
   } = useQuery({
     queryKey: ['getCrfItemDetails', req_slno],
     queryFn: () => getStoreReceivedItemDetails(req_slno),
     enabled: req_slno !== null,
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const storeReceived = useMemo(() => storeItems, [storeItems])
 
   const {
     data: retunDetails,
     isLoading: isReturnLoading,
-    error: returnError,
+    error: returnError
   } = useQuery({
     queryKey: ['viewItemReturn', req_slno],
     queryFn: () => viewItemReturnDetails(req_slno),
     enabled: req_slno !== null,
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const returnData = useMemo(() => retunDetails, [retunDetails])
 
@@ -44,7 +44,7 @@ const UserReceivedItemDetails = ({ req_slno }) => {
           const xx = returnData?.filter(value => value.po_itm_slno === val.po_itm_slno)
           return {
             ...val,
-            returnDetails: xx ? xx : [],
+            returnDetails: xx ? xx : []
           }
         })
         setCombinedData(newArray)
@@ -76,25 +76,14 @@ const UserReceivedItemDetails = ({ req_slno }) => {
   return (
     <Fragment>
       {returnFlag === 1 ? (
-        <ItemReturnViewModal
-          open={returnModal}
-          handleClose={handleClose}
-          modalData={modalData}
-          itemName={itemName}
-        />
+        <ItemReturnViewModal open={returnModal} handleClose={handleClose} modalData={modalData} itemName={itemName} />
       ) : null}
       {combinedData && combinedData.length > 0 ? (
         <Box sx={{ overflow: 'auto', flexWrap: 'wrap', px: 0.5 }}>
           <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14 }}>
             Received Items
           </Typography>
-          <Table
-            aria-label="table with sticky header"
-            borderAxis="both"
-            padding={'none'}
-            stickyHeader
-            size="sm"
-          >
+          <Table aria-label="table with sticky header" borderAxis="both" padding={'none'} stickyHeader size="sm">
             <thead style={{ height: 4 }} size="small">
               <tr style={{ height: 4 }} size="small">
                 <th
@@ -104,15 +93,12 @@ const UserReceivedItemDetails = ({ req_slno }) => {
                     width: 50,
                     textAlign: 'center',
                     backgroundColor: '#e3f2fd',
-                    fontSize: 13,
+                    fontSize: 13
                   }}
                 >
                   Sl.No.
                 </th>
-                <th
-                  size="sm"
-                  style={{ width: 250, backgroundColor: '#e3f2fd', fontSize: 13, ml: 2 }}
-                >
+                <th size="sm" style={{ width: 250, backgroundColor: '#e3f2fd', fontSize: 13, ml: 2 }}>
                   Item Description
                 </th>
                 <th
@@ -121,7 +107,7 @@ const UserReceivedItemDetails = ({ req_slno }) => {
                     width: 40,
                     textAlign: 'center',
                     backgroundColor: '#e3f2fd',
-                    fontSize: 13,
+                    fontSize: 13
                   }}
                 >
                   Qty
@@ -132,7 +118,7 @@ const UserReceivedItemDetails = ({ req_slno }) => {
                     width: 70,
                     textAlign: 'center',
                     backgroundColor: '#e3f2fd',
-                    fontSize: 13,
+                    fontSize: 13
                   }}
                 >
                   Received Qty(Store)
@@ -144,7 +130,7 @@ const UserReceivedItemDetails = ({ req_slno }) => {
                     width: 70,
                     textAlign: 'center',
                     backgroundColor: '#e3f2fd',
-                    fontSize: 13,
+                    fontSize: 13
                   }}
                 >
                   Received Status(Store)
@@ -156,7 +142,7 @@ const UserReceivedItemDetails = ({ req_slno }) => {
                     width: 70,
                     textAlign: 'center',
                     backgroundColor: '#e3f2fd',
-                    fontSize: 13,
+                    fontSize: 13
                   }}
                 >
                   Receive/Return(User)
@@ -168,7 +154,7 @@ const UserReceivedItemDetails = ({ req_slno }) => {
                       width: 40,
                       textAlign: 'center',
                       backgroundColor: '#e3f2fd',
-                      fontSize: 13,
+                      fontSize: 13
                     }}
                   ></th>
                 ) : null}
@@ -179,14 +165,12 @@ const UserReceivedItemDetails = ({ req_slno }) => {
                 <tr key={item.po_itm_slno}>
                   <td style={{ textAlign: 'center', fontSize: 13 }}>{ind + 1}</td>
                   <td style={{ fontSize: 12, pl: 1 }}>{item.item_name}</td>
-                  <td style={{ textAlign: 'center', fontSize: 13, fontWeight: 650 }}>
-                    {item.item_qty}
-                  </td>
+                  <td style={{ textAlign: 'center', fontSize: 13, fontWeight: 650 }}>{item.item_qty}</td>
                   <td
                     style={{
                       textAlign: 'center',
                       color: item.received_qnty === item.item_qty ? '#59981A' : '#e65100',
-                      fontWeight: 650,
+                      fontWeight: 650
                     }}
                   >
                     {item.received_qnty}
@@ -199,7 +183,7 @@ const UserReceivedItemDetails = ({ req_slno }) => {
                           ? '#59981A'
                           : item.item_receive_status === 0
                           ? '#e65100'
-                          : '#0288d1',
+                          : '#0288d1'
                     }}
                   >
                     {item.item_receive_status === 1
@@ -216,7 +200,7 @@ const UserReceivedItemDetails = ({ req_slno }) => {
                           ? '#59981A'
                           : item.user_received_status === 0
                           ? '#e65100'
-                          : '#0288d1',
+                          : '#0288d1'
                     }}
                   >
                     {item.user_received_status === 1
@@ -231,7 +215,7 @@ const UserReceivedItemDetails = ({ req_slno }) => {
                         <AssignmentReturnedIcon
                           sx={{
                             color: item.returnDetails.length > 0 ? '#ff8a80' : 'grey',
-                            cursor: 'pointer',
+                            cursor: 'pointer'
                           }}
                           onClick={() => viewDetails(item.returnDetails, item.item_name)}
                         />

@@ -63,14 +63,14 @@ const TicketManagementCmDeptMain = () => {
     return {
       empdept: empdept,
       from: sevenDaysbefore,
-      to: yesterdayEndTime,
+      to: yesterdayEndTime
     }
   }, [empdept, sevenDaysbefore, yesterdayEndTime])
 
   const PostDate = useMemo(() => {
     return {
       from: sevenDaysbefore,
-      to: currentDateAndTime,
+      to: currentDateAndTime
     }
   }, [sevenDaysbefore, currentDateAndTime])
 
@@ -81,55 +81,55 @@ const TicketManagementCmDeptMain = () => {
       {
         slno: 235,
         name: 'Ticket Dashboard All Dept Ticket Tile',
-        component: <AllDeptticketTile />,
+        component: <AllDeptticketTile />
       },
       { slno: 236, name: 'Ticket Dashboard Dept Ticket Tile', component: <DeptTicketTile /> },
       {
         slno: 237,
         name: 'Ticket Dashboard Dept Ticket Type Progress Bar',
-        component: <TicketTypeListProgressChart empdept={empdept} />,
+        component: <TicketTypeListProgressChart empdept={empdept} />
       },
       {
         slno: 238,
         name: 'Ticket Dashboard Dept Pie Chart',
-        component: <DepartmentPieChart empdept={empdept} />,
+        component: <DepartmentPieChart empdept={empdept} />
       },
       {
         slno: 239,
         name: 'Ticket Dashboard Dept Response Tat',
-        component: <DeptOpenTicketProgressBar empdept={empdept} />,
+        component: <DeptOpenTicketProgressBar empdept={empdept} />
       },
       {
         slno: 240,
         name: 'Ticket Dashboard Dept Closed Tat',
-        component: <DeptClosedTicketProgressBar empdept={empdept} />,
+        component: <DeptClosedTicketProgressBar empdept={empdept} />
       },
       {
         slno: 241,
         name: 'Ticket Dashboard Status Across Dept',
-        component: <AllDeptTicketProgressList PostDataa={PostDataa} />,
+        component: <AllDeptTicketProgressList PostDataa={PostDataa} />
       },
       { slno: 242, name: 'Ticket Dashboard All  Dept Pie Chart', component: <AllDeptPieChart /> },
       {
         slno: 244,
         name: 'Ticket Dashboard All  Dept Response Tat',
-        component: <AllDeptOpenTicketProgressBar />,
+        component: <AllDeptOpenTicketProgressBar />
       },
       {
         slno: 245,
         name: 'Ticket Dashboard All  Dept Closed Tat',
-        component: <AllDeptClosedProgressBar />,
+        component: <AllDeptClosedProgressBar />
       },
       {
         slno: 246,
         name: 'Ticket Dashboard All  Dept Top contributors',
-        component: <TopPerformerList PostDate={PostDate} />,
+        component: <TopPerformerList PostDate={PostDate} />
       },
       {
         slno: 247,
         name: 'Ticket Dashboard  Dept Employee Stat',
-        component: <EmployeeTicketList empdept={empdept} />,
-      },
+        component: <EmployeeTicketList empdept={empdept} />
+      }
     ]
   }, [loading, empdept, PostDataa, PostDate])
 
@@ -137,7 +137,7 @@ const TicketManagementCmDeptMain = () => {
 
   const { data: menuRightsEmployee = [], isSuccess } = useQuery({
     queryKey: ['getEmployeeuserrightsMenu', postEmp],
-    queryFn: () => getEmployeeuserrightsMenu(postEmp),
+    queryFn: () => getEmployeeuserrightsMenu(postEmp)
   })
   const employeeMenuRights = useMemo(() => menuRightsEmployee, [menuRightsEmployee])
   useEffect(() => {
@@ -145,9 +145,7 @@ const TicketManagementCmDeptMain = () => {
     console.log(employeeMenuRights)
 
     if (isSuccess && employeeMenuRights?.length > 0) {
-      let array = menuList.filter(value =>
-        employeeMenuRights.find(val => value.slno === val.menu_slno)
-      )
+      let array = menuList.filter(value => employeeMenuRights.find(val => value.slno === val.menu_slno))
       setMenurights(array)
     }
   }, [menuList, employeeMenuRights])
@@ -166,7 +164,7 @@ const TicketManagementCmDeptMain = () => {
       <Box
         sx={{
           display: 'flex',
-          bgcolor: 'white',
+          bgcolor: 'white'
         }}
       >
         <Box sx={{ m: 1 }}>
@@ -178,39 +176,23 @@ const TicketManagementCmDeptMain = () => {
         <Box sx={{ flex: 1 }}>
           {menurights.find(menu => menu.slno === 236)?.component || null}
           <Box sx={{ flex: 1, display: 'flex', gap: 0.5 }}>
-            <Box sx={{ flex: 1 }}>
-              {menurights.find(menu => menu.slno === 237)?.component || null}
-            </Box>
+            <Box sx={{ flex: 1 }}>{menurights.find(menu => menu.slno === 237)?.component || null}</Box>
             <Box>{menurights.find(menu => menu.slno === 238)?.component || null}</Box>
           </Box>
           <Box sx={{ flex: 1, display: 'flex', gap: 0.5 }}>
-            <Box sx={{ flex: 1 }}>
-              {menurights.find(menu => menu.slno === 239)?.component || null}
-            </Box>
-            <Box sx={{ flex: 1 }}>
-              {menurights.find(menu => menu.slno === 240)?.component || null}
-            </Box>
+            <Box sx={{ flex: 1 }}>{menurights.find(menu => menu.slno === 239)?.component || null}</Box>
+            <Box sx={{ flex: 1 }}>{menurights.find(menu => menu.slno === 240)?.component || null}</Box>
           </Box>
-          <Box sx={{ flex: 1 }}>
-            {menurights.find(menu => menu.slno === 235)?.component || null}
-          </Box>
+          <Box sx={{ flex: 1 }}>{menurights.find(menu => menu.slno === 235)?.component || null}</Box>
           <Box sx={{ flex: 1, display: 'flex', gap: 0.5 }}>
-            <Box sx={{ flex: 1 }}>
-              {menurights.find(menu => menu.slno === 241)?.component || null}
-            </Box>
+            <Box sx={{ flex: 1 }}>{menurights.find(menu => menu.slno === 241)?.component || null}</Box>
             <Box>{menurights.find(menu => menu.slno === 242)?.component || null}</Box>
           </Box>
           <Box sx={{ flex: 1, display: 'flex', gap: 0.5 }}>
-            <Box sx={{ flex: 1 }}>
-              {menurights.find(menu => menu.slno === 244)?.component || null}
-            </Box>
-            <Box sx={{ flex: 1 }}>
-              {menurights.find(menu => menu.slno === 245)?.component || null}
-            </Box>
+            <Box sx={{ flex: 1 }}>{menurights.find(menu => menu.slno === 244)?.component || null}</Box>
+            <Box sx={{ flex: 1 }}>{menurights.find(menu => menu.slno === 245)?.component || null}</Box>
           </Box>
-          <Box sx={{ flex: 1 }}>
-            {menurights.find(menu => menu.slno === 246)?.component || null}
-          </Box>
+          <Box sx={{ flex: 1 }}>{menurights.find(menu => menu.slno === 246)?.component || null}</Box>
         </Box>
         <Box>{menurights.find(menu => menu.slno === 247)?.component || null}</Box>
       </Box>

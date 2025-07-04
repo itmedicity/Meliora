@@ -19,7 +19,7 @@ const DietOrderSearch = ({ dietdetail, setDietdetail, dietcrct, slno }) => {
               pr: 1,
               pb: 0.5,
               display: 'flex',
-              flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' },
+              flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' }
             }}
           >
             <Box sx={{ width: '20%', pr: 1, mt: 1 }}>
@@ -48,7 +48,7 @@ const DietOrderSearch = ({ dietdetail, setDietdetail, dietcrct, slno }) => {
               pb: 0.5,
               // background: "blue",
               display: 'flex',
-              flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' },
+              flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' }
             }}
           >
             <TableContainer sx={{ maxHeight: 400 }}>
@@ -80,9 +80,7 @@ const DietOrderSearch = ({ dietdetail, setDietdetail, dietcrct, slno }) => {
                     dietcrct.map((val, index) => {
                       return (
                         <TableRow key={val.type_slno}>
-                          <TableCell sx={{ borderbottom: '1px solid #ddd' }}>
-                            {val.type_desc}
-                          </TableCell>
+                          <TableCell sx={{ borderbottom: '1px solid #ddd' }}>{val.type_desc}</TableCell>
                           {slno &&
                             slno.map((value, index) => {
                               return (

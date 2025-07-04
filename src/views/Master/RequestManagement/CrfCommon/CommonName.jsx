@@ -15,7 +15,7 @@ const CommonName = ({ setCrfName, crfName }) => {
     GMO_approval,
     MD_approval,
     ED_approval,
-    Managing_Director_approval,
+    Managing_Director_approval
   } = crfName
 
   const updateOnchangeState = useCallback(

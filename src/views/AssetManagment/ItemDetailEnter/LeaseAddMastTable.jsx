@@ -29,7 +29,7 @@ const LeaseAddMastTable = ({ count, rowSelect }) => {
         border: 1,
         borderColor: 'lightgrey',
         px: 0.5,
-        overflow: 'auto',
+        overflow: 'auto'
       }}
     >
       <CssVarsProvider>
@@ -58,11 +58,7 @@ const LeaseAddMastTable = ({ count, rowSelect }) => {
                   >
                     {' '}
                     <td>
-                      <EditIcon
-                        size={6}
-                        onClick={() => rowSelect(val)}
-                        sx={{ cursor: 'pointer' }}
-                      />
+                      <EditIcon size={6} onClick={() => rowSelect(val)} sx={{ cursor: 'pointer' }} />
                     </td>
                     <td> {val.am_lease_mastslno}</td>
                     <td> {val.it_supplier_name}</td>

@@ -13,7 +13,7 @@ const PendingApprovalAccounts = ({ empId, menurights }) => {
   const postCondemAllDept = useMemo(() => {
     return {
       condemStatusFrom: condemStatusFrom,
-      condemstatusTo: condemstatusTo,
+      condemstatusTo: condemstatusTo
     }
   }, [condemStatusFrom, condemstatusTo])
 
@@ -30,14 +30,11 @@ const PendingApprovalAccounts = ({ empId, menurights }) => {
 
   const { data: PendingCondemAllDeptAcc } = useQuery({
     queryKey: ['getAllDeptCondemPendingAcc', formCount],
-    queryFn: () => getAllDeptCondemPendingDatas(postCondemAllDept),
+    queryFn: () => getAllDeptCondemPendingDatas(postCondemAllDept)
   })
 
   const filteredPendingCondemAllDeptAcc = useMemo(
-    () =>
-      PendingCondemAllDeptAcc
-        ? PendingCondemAllDeptAcc.filter(row => row.store_approve_status !== 2)
-        : [],
+    () => (PendingCondemAllDeptAcc ? PendingCondemAllDeptAcc.filter(row => row.store_approve_status !== 2) : []),
     [PendingCondemAllDeptAcc]
   )
 
@@ -94,7 +91,7 @@ const PendingApprovalAccounts = ({ empId, menurights }) => {
                         cursor: 'pointer',
                         fontSize: 13,
                         color: 'white',
-                        '&:hover': { bgcolor: '#11A7BB' },
+                        '&:hover': { bgcolor: '#11A7BB' }
                       }}
                       onClick={() => ApproveForm(val)}
                     >
@@ -126,7 +123,7 @@ const PendingApprovalAccounts = ({ empId, menurights }) => {
               minHeight: '40vh',
               width: '100%',
               textAlign: 'center',
-              color: 'lightgrey',
+              color: 'lightgrey'
             }}
           >
             Empty List

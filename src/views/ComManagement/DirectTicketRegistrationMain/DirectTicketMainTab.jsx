@@ -37,7 +37,7 @@ const DirectTicketMainTab = () => {
       const { success, data } = result.data
       return success === 1 ? data : []
     },
-    nabled: !!depsec,
+    nabled: !!depsec
   })
 
   const blink = keyframes`
@@ -46,9 +46,9 @@ const DirectTicketMainTab = () => {
             }`
 
   return (
-    <Paper sx={{ borderRadius: 0, width: "100%", }}>
+    <Paper sx={{ borderRadius: 0, width: '100%' }}>
       <CssVarsProvider>
-        <Box sx={{ flex: 1, display: 'flex', borderBottom: 1, borderColor: '#D0D0D0', }}>
+        <Box sx={{ flex: 1, display: 'flex', borderBottom: 1, borderColor: '#D0D0D0' }}>
           <TextComponent
             sx={{
               color: '#5A676C',
@@ -56,7 +56,7 @@ const DirectTicketMainTab = () => {
               flex: 1,
               m: 0.5,
               pl: 1,
-              fontFamily: 'Arial',
+              fontFamily: 'Arial'
             }}
             text="Ticket Registration & View"
           />
@@ -73,7 +73,7 @@ const DirectTicketMainTab = () => {
           size="sm"
           sx={{
             display: 'flex',
-            bgcolor: 'white',
+            bgcolor: 'white'
           }}
         >
           <TabList
@@ -84,7 +84,7 @@ const DirectTicketMainTab = () => {
                 flex: 'initial',
                 bgcolor: 'white',
                 '&:hover': {
-                  bgcolor: 'white',
+                  bgcolor: 'white'
                 },
                 [`&.Mui-selected`]: {
                   color: 'primary.plainColor',
@@ -93,10 +93,10 @@ const DirectTicketMainTab = () => {
                     height: 20,
                     borderTopLeftRadius: 3,
                     borderTopRightRadius: 3,
-                    bgcolor: 'primary.500',
-                  },
-                },
-              },
+                    bgcolor: 'primary.500'
+                  }
+                }
+              }
             }}
           >
             <Box sx={{ flex: 1, display: 'flex', gap: 1, mb: 1, ml: 1 }}>
@@ -116,8 +116,8 @@ const DirectTicketMainTab = () => {
                     color: 'Black',
                     backgroundColor: '#C6DCF3',
                     boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.2)',
-                    transform: 'scale(1.02)',
-                  },
+                    transform: 'scale(1.02)'
+                  }
                 }}
               >
                 Direct Ticket Registration
@@ -139,8 +139,8 @@ const DirectTicketMainTab = () => {
                     color: 'black',
                     backgroundColor: '#C6DCF3',
                     boxShadow: '0px 3px 10px rgba(0, 0, 0, 0.2)',
-                    transform: 'scale(1.02)',
-                  },
+                    transform: 'scale(1.02)'
+                  }
                 }}
               >
                 Resolved Tickets
@@ -158,7 +158,7 @@ const DirectTicketMainTab = () => {
                       borderBottomLeftRadius: 15,
                       px: 1,
                       boxShadow: 1,
-                      animation: `${blink} 1.2s infinite`,
+                      animation: `${blink} 1.2s infinite`
                     }}
                   >
                     <InfoIcon sx={{ fontSize: 22, mr: 1, color: 'darkred' }} />

@@ -53,10 +53,7 @@ const AllItemsReports = () => {
     }
     if (data?.success === 1) {
       const filteredData = custodian
-        ? data.data.filter(
-            item =>
-              item.item_custodian_dept === custodian || item.spare_custodian_dept === custodian
-          )
+        ? data.data.filter(item => item.item_custodian_dept === custodian || item.spare_custodian_dept === custodian)
         : data.data
 
       const tableDataa = filteredData.map(val => ({
@@ -75,9 +72,7 @@ const AllItemsReports = () => {
         item_model_num: val.item_model_num ?? 'Not Given',
         uom_name: val.uom_name ?? 'Not Given',
         item_creation_count:
-          val.am_item_map_slno === null && val.am_spare_item_map_slno === null
-            ? 0
-            : val.item_creation_count,
+          val.am_item_map_slno === null && val.am_spare_item_map_slno === null ? 0 : val.item_creation_count
       }))
 
       setTableData(tableDataa)
@@ -95,14 +90,14 @@ const AllItemsReports = () => {
       field: 'item_creation_slno',
       autoHeight: true,
       wrapText: true,
-      minWidth: 80,
+      minWidth: 80
     },
     {
       headerName: 'Asset/Spare',
       field: 'asset_spare',
       autoHeight: true,
       wrapText: true,
-      minWidth: 100,
+      minWidth: 100
     },
     {
       headerName: 'Item Name',
@@ -110,7 +105,7 @@ const AllItemsReports = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 400,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Asset Type',
@@ -118,14 +113,14 @@ const AllItemsReports = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 150,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Item Type',
       field: 'item_type_name',
       autoHeight: true,
       wrapText: true,
-      minWidth: 250,
+      minWidth: 250
     },
     {
       headerName: 'Category',
@@ -133,7 +128,7 @@ const AllItemsReports = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 150,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Sub Category',
@@ -141,7 +136,7 @@ const AllItemsReports = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 150,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Group Name',
@@ -149,7 +144,7 @@ const AllItemsReports = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 150,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Sub Group',
@@ -157,7 +152,7 @@ const AllItemsReports = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 150,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Model',
@@ -165,7 +160,7 @@ const AllItemsReports = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 150,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Manufacture',
@@ -173,7 +168,7 @@ const AllItemsReports = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 150,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Model No',
@@ -181,7 +176,7 @@ const AllItemsReports = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 150,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'UOM',
@@ -189,7 +184,7 @@ const AllItemsReports = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 150,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Item Count',
@@ -197,8 +192,8 @@ const AllItemsReports = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 50,
-      filter: 'true',
-    },
+      filter: 'true'
+    }
   ])
 
   const isTableDataEmpty = useMemo(() => TableData.length === 0, [TableData])
@@ -243,7 +238,7 @@ const AllItemsReports = () => {
         square
         sx={{
           width: { md: '100%', lg: '100%', xl: '100%' },
-          p: 1,
+          p: 1
         }}
       >
         <Paper
@@ -251,7 +246,7 @@ const AllItemsReports = () => {
           sx={{
             backgroundColor: '#f0f3f5',
             display: 'flex',
-            borderColor: '#d3d3d3',
+            borderColor: '#d3d3d3'
           }}
         >
           <Box sx={{ flex: 1, display: 'flex' }}>
@@ -282,10 +277,7 @@ const AllItemsReports = () => {
               {SortDetailsCheck === true ? (
                 <Box sx={{ display: 'flex', pt: 0.3 }}>
                   <Box sx={{ width: 240 }}>
-                    <AMCustodianDeptSelect
-                      selectedDept={selectedDept}
-                      setSelectedDept={setSelectedDept}
-                    />
+                    <AMCustodianDeptSelect selectedDept={selectedDept} setSelectedDept={setSelectedDept} />
                   </Box>
                 </Box>
               ) : null}

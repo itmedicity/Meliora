@@ -18,7 +18,7 @@ const GrnViewModal = ({ modalDatas, handleClose, open, itemName }) => {
             sx={{
               width: '30vw',
               minHeight: 150,
-              overflow: 'auto',
+              overflow: 'auto'
             }}
           >
             <ModalClose
@@ -32,27 +32,22 @@ const GrnViewModal = ({ modalDatas, handleClose, open, itemName }) => {
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 25,
-                width: 25,
+                width: 25
               }}
             />
-            <Box sx={{ mx: 0.5, fontWeight: 550, fontSize: 15, fontFamily: 'system-ui' }}>
-              GRN Details
-            </Box>
+            <Box sx={{ mx: 0.5, fontWeight: 550, fontSize: 15, fontFamily: 'system-ui' }}>GRN Details</Box>
             <Box
               sx={{
                 mx: 0.5,
                 fontWeight: 550,
                 fontSize: 13,
                 color: '#607d8b',
-                fontFamily: 'system-ui',
+                fontFamily: 'system-ui'
               }}
             >
               {itemName}
             </Box>
-            <Box
-              variant="outlined"
-              sx={{ overflow: 'auto', maxHeight: window.innerHeight - 50, padding: 'none' }}
-            >
+            <Box variant="outlined" sx={{ overflow: 'auto', maxHeight: window.innerHeight - 50, padding: 'none' }}>
               <CssVarsProvider>
                 <Table
                   aria-label="table with sticky header"
@@ -73,7 +68,7 @@ const GrnViewModal = ({ modalDatas, handleClose, open, itemName }) => {
                           fontWeight: 650,
                           fontSize: 14,
                           textAlign: 'center',
-                          backgroundColor: '#A9D1E4',
+                          backgroundColor: '#A9D1E4'
                         }}
                       >
                         &nbsp; Sl.No
@@ -84,7 +79,7 @@ const GrnViewModal = ({ modalDatas, handleClose, open, itemName }) => {
                           width: 80,
                           fontWeight: 650,
                           fontSize: 14,
-                          backgroundColor: '#A9D1E4',
+                          backgroundColor: '#A9D1E4'
                         }}
                       >
                         &nbsp;GRN No.
@@ -96,7 +91,7 @@ const GrnViewModal = ({ modalDatas, handleClose, open, itemName }) => {
                           width: 120,
                           fontWeight: 650,
                           fontSize: 14,
-                          backgroundColor: '#A9D1E4',
+                          backgroundColor: '#A9D1E4'
                         }}
                       >
                         &nbsp;Date

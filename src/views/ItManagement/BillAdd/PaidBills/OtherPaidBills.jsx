@@ -40,9 +40,7 @@ const OtherPaidBills = ({ otherBills }) => {
   const OpenOtherBillView = useCallback(value => {
     const { other_bill_slno } = value
     const getbillsFile = async () => {
-      const result = await axioslogin.get(
-        `/ItImageUpload/uploadFile/getOtherBillImages/${other_bill_slno}`
-      )
+      const result = await axioslogin.get(`/ItImageUpload/uploadFile/getOtherBillImages/${other_bill_slno}`)
       const { success } = result.data
       if (success === 1) {
         const data = result.data
@@ -92,8 +90,7 @@ const OtherPaidBills = ({ otherBills }) => {
     if (enterText.length < 3) {
       infoNotify('please enter minimum 3 character to search task name')
     } else {
-      let newTableDataa =
-        otherBills && otherBills.filter(val => val.bill_name.toLowerCase().includes(enterText))
+      let newTableDataa = otherBills && otherBills.filter(val => val.bill_name.toLowerCase().includes(enterText))
       setsearchBillNameFlag(1)
       setsearchBillDateFlag(0)
       setAlphbased(1)
@@ -103,8 +100,7 @@ const OtherPaidBills = ({ otherBills }) => {
 
   useEffect(() => {
     if (alphbased === 1) {
-      let newTableDataa =
-        otherBills && otherBills.filter(val => val.bill_name.toLowerCase().includes(enterText))
+      let newTableDataa = otherBills && otherBills.filter(val => val.bill_name.toLowerCase().includes(enterText))
       setAlphbasedData(newTableDataa)
     }
   }, [otherBills, alphbased, enterText])
@@ -178,7 +174,7 @@ const OtherPaidBills = ({ otherBills }) => {
                       height: 29,
                       borderRadius: 2,
                       width: 180,
-                      pl: 1,
+                      pl: 1
                     }}
                     onChange={updateBillDate}
                   />
@@ -193,7 +189,7 @@ const OtherPaidBills = ({ otherBills }) => {
                           borderTop: 1,
                           borderBottom: 1,
                           borderColor: '#B2C4CB',
-                          '&:hover': { bgcolor: '#36454F' },
+                          '&:hover': { bgcolor: '#36454F' }
                         }}
                         onClick={SearchBillDate}
                       >
@@ -213,7 +209,7 @@ const OtherPaidBills = ({ otherBills }) => {
                           borderTop: 1,
                           borderBottom: 1,
                           borderColor: '#B2C4CB',
-                          '&:hover': { bgcolor: '#36454F' },
+                          '&:hover': { bgcolor: '#36454F' }
                         }}
                         onClick={closeBillSearch}
                       >
@@ -242,7 +238,7 @@ const OtherPaidBills = ({ otherBills }) => {
                       height: 29,
                       borderRadius: 2,
                       width: 350,
-                      pl: 1,
+                      pl: 1
                     }}
                     onChange={updateEnterText}
                   />
@@ -257,7 +253,7 @@ const OtherPaidBills = ({ otherBills }) => {
                           borderTop: 1,
                           borderBottom: 1,
                           borderColor: '#B2C4CB',
-                          '&:hover': { bgcolor: '#36454F' },
+                          '&:hover': { bgcolor: '#36454F' }
                         }}
                         onClick={SearchBillName}
                       >
@@ -277,7 +273,7 @@ const OtherPaidBills = ({ otherBills }) => {
                           borderTop: 1,
                           borderBottom: 1,
                           borderColor: '#B2C4CB',
-                          '&:hover': { bgcolor: '#36454F' },
+                          '&:hover': { bgcolor: '#36454F' }
                         }}
                         onClick={closeBillSearch}
                       >
@@ -312,7 +308,7 @@ const OtherPaidBills = ({ otherBills }) => {
                           borderTop: 1,
                           borderBottom: 1,
                           borderColor: '#B2C4CB',
-                          '&:hover': { bgcolor: '#36454F' },
+                          '&:hover': { bgcolor: '#36454F' }
                         }}
                         onClick={SearchBillCate}
                       >
@@ -332,7 +328,7 @@ const OtherPaidBills = ({ otherBills }) => {
                           borderTop: 1,
                           borderBottom: 1,
                           borderColor: '#B2C4CB',
-                          '&:hover': { bgcolor: '#36454F' },
+                          '&:hover': { bgcolor: '#36454F' }
                         }}
                         onClick={closeBillSearch}
                       >
@@ -364,14 +360,14 @@ const OtherPaidBills = ({ otherBills }) => {
                       color: 'black',
                       borderBottom: 1,
                       borderColor: 'white',
-                      mb: 0.5,
+                      mb: 0.5
                     }}
                   >
                     <Box
                       sx={{
                         flex: 0.8,
                         py: 1,
-                        cursor: 'pointer',
+                        cursor: 'pointer'
                       }}
                     >
                       <ReceiptLongIcon
@@ -380,15 +376,11 @@ const OtherPaidBills = ({ otherBills }) => {
                       />
                     </Box>
                     <Box sx={{ flex: 1.3, pt: 0.5, cursor: 'grab' }}>
-                      <Chip
-                        sx={{ bgcolor: '#F1C83A', fontSize: 14, fontWeight: 700, color: '#670305' }}
-                      >
+                      <Chip sx={{ bgcolor: '#F1C83A', fontSize: 14, fontWeight: 700, color: '#670305' }}>
                         {Monthly}
                       </Chip>
                     </Box>
-                    <Box sx={{ flex: 1.6, pt: 0.5, pl: 0.5 }}>
-                      {format(new Date(val.bill_date), 'yyyy-MM-dd')}
-                    </Box>
+                    <Box sx={{ flex: 1.6, pt: 0.5, pl: 0.5 }}>{format(new Date(val.bill_date), 'yyyy-MM-dd')}</Box>
                     <Box sx={{ flex: 1.7, pt: 0.5, color: '#145DA0' }}>
                       <Chip sx={{ bgcolor: ' #D1E2C4', color: 'darkred', fontWeight: 800 }}>
                         <CurrencyRupeeIcon sx={{ height: 20, width: 13, color: 'darkred' }} />
@@ -419,14 +411,14 @@ const OtherPaidBills = ({ otherBills }) => {
                       color: 'black',
                       borderBottom: 1,
                       borderColor: 'white',
-                      mb: 0.5,
+                      mb: 0.5
                     }}
                   >
                     <Box
                       sx={{
                         flex: 0.8,
                         py: 1,
-                        cursor: 'pointer',
+                        cursor: 'pointer'
                       }}
                     >
                       <ReceiptLongIcon
@@ -435,15 +427,11 @@ const OtherPaidBills = ({ otherBills }) => {
                       />
                     </Box>
                     <Box sx={{ flex: 1.3, pt: 0.5, cursor: 'grab' }}>
-                      <Chip
-                        sx={{ bgcolor: '#F1C83A', fontSize: 14, fontWeight: 700, color: '#670305' }}
-                      >
+                      <Chip sx={{ bgcolor: '#F1C83A', fontSize: 14, fontWeight: 700, color: '#670305' }}>
                         {Monthly}
                       </Chip>
                     </Box>
-                    <Box sx={{ flex: 1.6, pt: 0.5, pl: 0.5 }}>
-                      {format(new Date(val.bill_date), 'yyyy-MM-dd')}
-                    </Box>
+                    <Box sx={{ flex: 1.6, pt: 0.5, pl: 0.5 }}>{format(new Date(val.bill_date), 'yyyy-MM-dd')}</Box>
                     <Box sx={{ flex: 1.7, pt: 0.5, color: '#145DA0' }}>
                       <Chip sx={{ bgcolor: ' #D1E2C4', color: 'darkred', fontWeight: 800 }}>
                         <CurrencyRupeeIcon sx={{ height: 20, width: 13, color: 'darkred' }} />
@@ -474,14 +462,14 @@ const OtherPaidBills = ({ otherBills }) => {
                       color: 'black',
                       borderBottom: 1,
                       borderColor: 'white',
-                      mb: 0.5,
+                      mb: 0.5
                     }}
                   >
                     <Box
                       sx={{
                         flex: 0.8,
                         py: 1,
-                        cursor: 'pointer',
+                        cursor: 'pointer'
                       }}
                     >
                       <ReceiptLongIcon
@@ -490,15 +478,11 @@ const OtherPaidBills = ({ otherBills }) => {
                       />
                     </Box>
                     <Box sx={{ flex: 1.3, pt: 0.5, cursor: 'grab' }}>
-                      <Chip
-                        sx={{ bgcolor: '#F1C83A', fontSize: 14, fontWeight: 700, color: '#670305' }}
-                      >
+                      <Chip sx={{ bgcolor: '#F1C83A', fontSize: 14, fontWeight: 700, color: '#670305' }}>
                         {Monthly}
                       </Chip>
                     </Box>
-                    <Box sx={{ flex: 1.6, pt: 0.5, pl: 0.5 }}>
-                      {format(new Date(val.bill_date), 'yyyy-MM-dd')}
-                    </Box>
+                    <Box sx={{ flex: 1.6, pt: 0.5, pl: 0.5 }}>{format(new Date(val.bill_date), 'yyyy-MM-dd')}</Box>
                     <Box sx={{ flex: 1.7, pt: 0.5, color: '#145DA0' }}>
                       <Chip sx={{ bgcolor: ' #D1E2C4', color: 'darkred', fontWeight: 800 }}>
                         <CurrencyRupeeIcon sx={{ height: 20, width: 13, color: 'darkred' }} />
@@ -529,14 +513,14 @@ const OtherPaidBills = ({ otherBills }) => {
                       color: 'black',
                       borderBottom: 1,
                       borderColor: 'white',
-                      mb: 0.5,
+                      mb: 0.5
                     }}
                   >
                     <Box
                       sx={{
                         flex: 0.8,
                         py: 1,
-                        cursor: 'pointer',
+                        cursor: 'pointer'
                       }}
                     >
                       <ReceiptLongIcon
@@ -545,15 +529,11 @@ const OtherPaidBills = ({ otherBills }) => {
                       />
                     </Box>
                     <Box sx={{ flex: 1.3, pt: 0.5, cursor: 'grab' }}>
-                      <Chip
-                        sx={{ bgcolor: '#F1C83A', fontSize: 14, fontWeight: 700, color: '#670305' }}
-                      >
+                      <Chip sx={{ bgcolor: '#F1C83A', fontSize: 14, fontWeight: 700, color: '#670305' }}>
                         {Monthly}
                       </Chip>
                     </Box>
-                    <Box sx={{ flex: 1.6, pt: 0.5, pl: 0.5 }}>
-                      {format(new Date(val.bill_date), 'yyyy-MM-dd')}
-                    </Box>
+                    <Box sx={{ flex: 1.6, pt: 0.5, pl: 0.5 }}>{format(new Date(val.bill_date), 'yyyy-MM-dd')}</Box>
                     <Box sx={{ flex: 1.7, pt: 0.5, color: '#145DA0' }}>
                       <Chip sx={{ bgcolor: ' #D1E2C4', color: 'darkred', fontWeight: 800 }}>
                         <CurrencyRupeeIcon sx={{ height: 20, width: 13, color: 'darkred' }} />

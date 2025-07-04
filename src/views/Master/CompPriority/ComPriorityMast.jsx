@@ -21,7 +21,7 @@ const ComPriorityMast = () => {
   const [priority, setpriority] = useState({
     cm_priority_desc: '',
     cm_priority_status: false,
-    cm_priority_slno: '',
+    cm_priority_slno: ''
   })
   const { cm_priority_desc, cm_priority_status, cm_priority_slno } = priority
   const updatepriority = useCallback(
@@ -42,7 +42,7 @@ const ComPriorityMast = () => {
       cm_priority_status: cm_priority_status === true ? 1 : 0,
       escalation_max: escalationMax,
       escalation_min: escalationMin,
-      create_user: id,
+      create_user: id
     }
   }, [cm_priority_desc, escalationMax, escalationMin, cm_priority_status, id])
 
@@ -53,7 +53,7 @@ const ComPriorityMast = () => {
     const frmdata = {
       cm_priority_desc: cm_priority_desc,
       cm_priority_status: status === 'Yes' ? true : false,
-      cm_priority_slno: cm_priority_slno,
+      cm_priority_slno: cm_priority_slno
     }
     setpriority(frmdata)
     setEscalationMin(escalation_min)
@@ -67,7 +67,7 @@ const ComPriorityMast = () => {
       escalation_max: escalationMax,
       escalation_min: escalationMin,
       edit_user: id,
-      cm_priority_slno: cm_priority_slno,
+      cm_priority_slno: cm_priority_slno
     }
   }, [cm_priority_desc, cm_priority_status, cm_priority_slno, escalationMin, escalationMax, id])
 
@@ -75,7 +75,7 @@ const ComPriorityMast = () => {
     const formreset = {
       cm_priority_desc: '',
       cm_priority_status: false,
-      cm_priority_slno: '',
+      cm_priority_slno: ''
     }
     setpriority(formreset)
     setEdit(0)
@@ -149,7 +149,7 @@ const ComPriorityMast = () => {
           <Box
             sx={{
               flex: 1,
-              pt: 0.5,
+              pt: 0.5
             }}
           >
             <CssVarsProvider>
@@ -169,7 +169,7 @@ const ComPriorityMast = () => {
           <Box
             sx={{
               flex: 1,
-              pt: 0.5,
+              pt: 0.5
             }}
           >
             <CssVarsProvider>
@@ -178,11 +178,7 @@ const ComPriorityMast = () => {
                         onChange={(val) => setEscalationMax(val)}
                         value={escalationMax}
                         /> */}
-              <TimeInputDecor
-                label="Escalation Max Time"
-                value={escalationMax}
-                onChange={setEscalationMax}
-              />
+              <TimeInputDecor label="Escalation Max Time" value={escalationMax} onChange={setEscalationMax} />
             </CssVarsProvider>
           </Box>
 

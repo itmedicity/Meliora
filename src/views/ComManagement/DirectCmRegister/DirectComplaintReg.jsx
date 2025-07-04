@@ -37,14 +37,7 @@ import PersonSharpIcon from '@mui/icons-material/PersonSharp'
 import CardMastComplaint from 'src/views/Components/CardMastComplaint'
 import Switch from '@mui/joy/Switch'
 
-const DirectComplaintReg = ({
-  verficationPending,
-  count,
-  setCount,
-  depsec,
-  setDepsec,
-  empsecid,
-}) => {
+const DirectComplaintReg = ({ verficationPending, count, setCount, depsec, setDepsec, empsecid }) => {
   const dispatch = useDispatch()
   /*** Initializing */
   const history = useNavigate()
@@ -119,7 +112,7 @@ const DirectComplaintReg = ({
     return {
       complaintdeptdata: state.getComplaintDept.complaintdeptList || 0,
       // requesttypedata: state.getRequesttype.requesttypeList || 0,
-      complainttype: state.getComplainttype.complainttypeList || 0,
+      complainttype: state.getComplainttype.complainttypeList || 0
       // hicpolicy: state.getHicpolicy.hicpolicyList || 0,
     }
   })
@@ -169,7 +162,7 @@ const DirectComplaintReg = ({
     const options = {
       maxSizeMB: 1,
       maxWidthOrHeight: 1920,
-      useWebWorker: true,
+      useWebWorker: true
     }
     const compressedFile = await imageCompression(imageFile, options)
     return compressedFile
@@ -204,7 +197,7 @@ const DirectComplaintReg = ({
         complaint_slno,
         complaint_desc,
         compl_dept,
-        cm_complaint_location,
+        cm_complaint_location
       } = val
       setComplaint(complaint_slno)
       setDepsec(complaint_dept_secslno)
@@ -238,7 +231,7 @@ const DirectComplaintReg = ({
       complaint_slno: complaint_slno,
       rm_room_slno: roomName === 0 ? null : roomName,
       cm_asset_status: assetArray.length !== 0 ? 1 : 0,
-      cm_complaint_location: locationDetails === '' ? null : locationDetails,
+      cm_complaint_location: locationDetails === '' ? null : locationDetails
     }
   }, [
     desc,
@@ -252,7 +245,7 @@ const DirectComplaintReg = ({
     roomName,
     assetArray,
     id,
-    locationDetails,
+    locationDetails
   ])
 
   const postdata = useMemo(() => {
@@ -273,7 +266,7 @@ const DirectComplaintReg = ({
       priority: priority === 1 ? 'Priority Ticket' : 'Normal Ticket',
       rm_room_slno: roomName === '' ? null : roomName,
       cm_asset_status: assetArray.length !== 0 ? 1 : 0,
-      cm_complaint_location: locationDetails === '' ? null : locationDetails,
+      cm_complaint_location: locationDetails === '' ? null : locationDetails
     }
   }, [
     desc,
@@ -288,7 +281,7 @@ const DirectComplaintReg = ({
     codept,
     assetArray,
     id,
-    locationDetails,
+    locationDetails
   ])
 
   useEffect(() => {
@@ -316,7 +309,7 @@ const DirectComplaintReg = ({
         cm_asset_dept: val.item_asset_no,
         am_item_map_slno: val.am_item_map_slno,
         asset_status: 1,
-        create_user: id,
+        create_user: id
       }
     })
 
@@ -326,7 +319,7 @@ const DirectComplaintReg = ({
       return {
         comasset_mapping_slno: val.comasset_mapping_slno,
         asset_status: 0,
-        edit_user: id,
+        edit_user: id
       }
     })
 
@@ -381,10 +374,7 @@ const DirectComplaintReg = ({
         return
       }
 
-      if (
-        (cm_am_assetmap_slno !== '' && assetStatus === 0) ||
-        (selectedAsset !== '' && assetStatus === 0)
-      ) {
+      if ((cm_am_assetmap_slno !== '' && assetStatus === 0) || (selectedAsset !== '' && assetStatus === 0)) {
         infoNotify(
           <>
             Please click on &apos; <AddCircleIcon /> &apos; to add Asset details
@@ -438,15 +428,11 @@ const DirectComplaintReg = ({
               formData.append('files', file, file.name)
             }
           }
-          const uploadResult = await axioslogin.post(
-            '/complaintFileUpload/uploadFile/Complaint',
-            formData,
-            {
-              headers: {
-                'Content-Type': 'multipart/form-data',
-              },
+          const uploadResult = await axioslogin.post('/complaintFileUpload/uploadFile/Complaint', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
             }
-          )
+          })
           return uploadResult.data
         } catch (error) {
           warningNotify('An error occurred during file upload.')
@@ -567,7 +553,7 @@ const DirectComplaintReg = ({
                   cm_asset_dept: val.item_asset_no,
                   am_item_map_slno: val.am_item_map_slno,
                   asset_status: 1,
-                  create_user: id,
+                  create_user: id
                 }))
                 const assetInsertResponse = await InsertAsset(inserAsset)
                 if (assetInsertResponse.success !== 1) {
@@ -627,7 +613,7 @@ const DirectComplaintReg = ({
       priorreason,
       setCount,
       verficationPending.length,
-      empsecid,
+      empsecid
     ]
   )
 
@@ -686,7 +672,7 @@ const DirectComplaintReg = ({
   const { data: custodianDetailsDaata, isSuccess } = useQuery({
     queryKey: ['getCustodianDetails', custodianDept],
     enabled: custodianDept !== 0,
-    queryFn: () => getCustodianDetails(custodianDept),
+    queryFn: () => getCustodianDetails(custodianDept)
   })
 
   const custodianDetails = useMemo(() => custodianDetailsDaata, [custodianDetailsDaata])
@@ -708,7 +694,7 @@ const DirectComplaintReg = ({
         const asset_number = parseInt(cm_am_assetmap_slno)
         const postdata = {
           item_asset_no: starts,
-          item_asset_no_only: asset_number,
+          item_asset_no_only: asset_number
         }
 
         const getAssetdata = async postdata => {
@@ -719,12 +705,9 @@ const DirectComplaintReg = ({
               const { item_deptsec_slno } = data[0]
               if (item_deptsec_slno === depsec) {
                 setassetData(0)
-                const { item_name, sec_name, am_item_map_slno, item_asset_no_only, item_asset_no } =
-                  data[0]
+                const { item_name, sec_name, am_item_map_slno, item_asset_no_only, item_asset_no } = data[0]
                 // Check if the asset already exists in the array
-                const assetExists = assetArray.some(
-                  asset => asset.item_asset_no_only === item_asset_no_only
-                )
+                const assetExists = assetArray.some(asset => asset.item_asset_no_only === item_asset_no_only)
                 if (assetExists) {
                   infoNotify('You already added this asset in complaint')
                 } else {
@@ -733,7 +716,7 @@ const DirectComplaintReg = ({
                     sec_name,
                     am_item_map_slno,
                     item_asset_no_only,
-                    item_asset_no,
+                    item_asset_no
                   }
                   setAssetArray(prevArray => [...prevArray, newAsset])
                   // Condition to add to newly added assets only if edit is 1
@@ -767,7 +750,7 @@ const DirectComplaintReg = ({
         const asset_number = parseInt(item_slno)
         const postdata = {
           item_asset_no: asset_dept,
-          item_asset_no_only: asset_number,
+          item_asset_no_only: asset_number
         }
 
         const getAssetdata = async postdata => {
@@ -776,12 +759,9 @@ const DirectComplaintReg = ({
           if (data.length !== 0) {
             if (success === 1) {
               setassetData(0)
-              const { item_name, sec_name, am_item_map_slno, item_asset_no_only, item_asset_no } =
-                data[0]
+              const { item_name, sec_name, am_item_map_slno, item_asset_no_only, item_asset_no } = data[0]
               // Check if the asset already exists in the array
-              const assetExists = assetArray.some(
-                asset => asset.item_asset_no_only === item_asset_no_only
-              )
+              const assetExists = assetArray.some(asset => asset.item_asset_no_only === item_asset_no_only)
               if (assetExists) {
                 infoNotify('You already added this asset in complaint')
               } else {
@@ -790,7 +770,7 @@ const DirectComplaintReg = ({
                   sec_name,
                   am_item_map_slno,
                   item_asset_no_only,
-                  item_asset_no,
+                  item_asset_no
                 }
                 setAssetArray(prevArray => [...prevArray, newAsset])
                 // Condition to add to newly added assets only if edit is 1
@@ -853,8 +833,8 @@ const DirectComplaintReg = ({
         ? 'pdf'
         : 'image'
       : file.type.includes('application/pdf')
-        ? 'pdf'
-        : 'image'
+      ? 'pdf'
+      : 'image'
 
     const fileUrl = file.url || URL.createObjectURL(file)
     setPreviewFile({ url: fileUrl, type: fileType })
@@ -882,7 +862,7 @@ const DirectComplaintReg = ({
         contentStyle={{
           p: 0,
           display: 'flex',
-          flexDirection: 'column',
+          flexDirection: 'column'
         }}
       >
         <CustomBackDrop open={open} text="Please Wait" />
@@ -891,7 +871,7 @@ const DirectComplaintReg = ({
             display: 'flex',
             flexDirection: 'row',
             flex: 1,
-            width: '100%',
+            width: '100%'
           }}
         >
           <Box sx={{ display: 'flex', flex: 1, width: '80%', p: 0.5, flexDirection: 'column' }}>
@@ -981,18 +961,12 @@ const DirectComplaintReg = ({
             ) : null}
 
             <Paper variant="outlined" square>
-              <Typography
-                sx={{ color: '#9FA6AD', fontWeight: 800, fontSize: 12, pl: 0.8, py: 0.5 }}
-              >
+              <Typography sx={{ color: '#9FA6AD', fontWeight: 800, fontSize: 12, pl: 0.8, py: 0.5 }}>
                 COMPLAINT LOCATION
               </Typography>
               <Box sx={{ px: 0.5, pb: 0.5, display: 'flex' }}>
                 <Box sx={{ flex: 0.4, px: 0.5, pt: 0.8 }}>
-                  <CmComplaintLocation
-                    cmSection={depsec}
-                    setCmSection={setDepsec}
-                    setCmSectionName={setlocationName}
-                  />
+                  <CmComplaintLocation cmSection={depsec} setCmSection={setDepsec} setCmSectionName={setlocationName} />
                 </Box>
                 <Box sx={{ flex: 0.6, px: 0.5, pt: 0.7 }}>
                   <CmRoomNameTypeList roomName={roomName} setRoomName={setRoomName} />
@@ -1014,7 +988,7 @@ const DirectComplaintReg = ({
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    pt: 0.8,
+                    pt: 0.8
                   }}
                 >
                   <CssVarsProvider>
@@ -1044,9 +1018,7 @@ const DirectComplaintReg = ({
               <Paper variant="outlined" square sx={{ flex: 1 }}>
                 <Box sx={{ flex: 1, flexGrow: 1, p: 0.8 }}>
                   <Box sx={{ flex: 0.8, pr: 0.5 }}>
-                    <Typography
-                      sx={{ color: '#9FA6AD', fontWeight: 800, fontSize: 12, pl: 0.3, pb: 0.5 }}
-                    >
+                    <Typography sx={{ color: '#9FA6AD', fontWeight: 800, fontSize: 12, pl: 0.3, pb: 0.5 }}>
                       ASSET DETAILS
                     </Typography>
                     <Box sx={{ pt: 0.5, display: 'flex', ml: 0.5 }}>
@@ -1061,22 +1033,18 @@ const DirectComplaintReg = ({
                                 children: (
                                   <>
                                     {isSelect ? (
-                                      <Typography sx={{ ml: '15px', mr: '10px', fontSize: 13 }}>
-                                        Select
-                                      </Typography>
+                                      <Typography sx={{ ml: '15px', mr: '10px', fontSize: 13 }}>Select</Typography>
                                     ) : (
-                                      <Typography sx={{ ml: '30px', mr: '10px', fontSize: 13 }}>
-                                        Search
-                                      </Typography>
+                                      <Typography sx={{ ml: '30px', mr: '10px', fontSize: 13 }}>Search</Typography>
                                     )}
                                   </>
-                                ),
-                              },
+                                )
+                              }
                             }}
                             sx={{
                               '--Switch-thumbSize': '21px',
                               '--Switch-trackWidth': '90px',
-                              '--Switch-trackHeight': '25px',
+                              '--Switch-trackHeight': '25px'
                             }}
                           />
 
@@ -1104,7 +1072,7 @@ const DirectComplaintReg = ({
                                           cursor: 'pointer',
                                           '&:hover': { color: '#34323E' },
                                           height: 30,
-                                          width: 30,
+                                          width: 30
                                         }}
                                         onClick={searchAssetNoinMenu}
                                       />
@@ -1123,7 +1091,7 @@ const DirectComplaintReg = ({
                                     placeholder=" Asset Number"
                                     sx={{
                                       borderRadius: 0,
-                                      minHeight: 15,
+                                      minHeight: 15
                                     }}
                                     type="number"
                                     autoComplete="off"
@@ -1140,7 +1108,7 @@ const DirectComplaintReg = ({
                                               cursor: 'pointer',
                                               fontSize: 13,
                                               fontStyle: 'italic',
-                                              mr: 0.3,
+                                              mr: 0.3
                                             }}
                                             onClick={ClearAssetSelection}
                                           >
@@ -1166,7 +1134,7 @@ const DirectComplaintReg = ({
                                           cursor: 'pointer',
                                           '&:hover': { color: '#34323E' },
                                           height: 30,
-                                          width: 30,
+                                          width: 30
                                         }}
                                         onClick={searchAssetNo}
                                       />
@@ -1201,7 +1169,7 @@ const DirectComplaintReg = ({
                           display: 'flex',
                           borderBottom: 1,
                           borderColor: 'lightgrey',
-                          pt: 0.8,
+                          pt: 0.8
                         }}
                       >
                         <Box sx={{ flex: 1, textAlign: 'center', fontSize: 13 }}>{index + 1}</Box>
@@ -1232,7 +1200,7 @@ const DirectComplaintReg = ({
                     minRows={2}
                     maxRows={10}
                     style={{
-                      width: '100%',
+                      width: '100%'
                     }}
                     value={desc}
                     onchange={complintdesc}
@@ -1245,12 +1213,12 @@ const DirectComplaintReg = ({
                     width: '20%',
                     px: 1,
                     flex: 1,
-                    justifyContent: 'center',
+                    justifyContent: 'center'
                   }}
                 >
                   <Box
                     sx={{
-                      display: 'flex',
+                      display: 'flex'
                     }}
                   >
                     <Grid item xs={2} sm={4} md={4} lg={2} xl={3}>
@@ -1292,7 +1260,7 @@ const DirectComplaintReg = ({
                   mb: 0.5,
                   borderRadius: 1,
                   display: 'flex',
-                  borderColor: 'lightgrey',
+                  borderColor: 'lightgrey'
                 }}
               >
                 <Box sx={{ margin: 'auto' }}>
@@ -1307,13 +1275,11 @@ const DirectComplaintReg = ({
                         px: 1.5,
                         cursor: 'pointer',
                         height: 48,
-                        textAlign: 'center',
+                        textAlign: 'center'
                       }}
                     >
                       <UploadFileRoundedIcon sx={{ color: '#0B6BCB' }} />
-                      <Typography sx={{ color: '#0B6BCB', fontSize: 13, px: 0.5, pt: 0.2 }}>
-                        Attach File
-                      </Typography>
+                      <Typography sx={{ color: '#0B6BCB', fontSize: 13, px: 0.5, pt: 0.2 }}>Attach File</Typography>
                     </Box>
                   </label>
                   <input
@@ -1338,7 +1304,7 @@ const DirectComplaintReg = ({
                           border: '1px solid #e0e0e0',
                           borderRadius: '4px',
                           p: 0.5,
-                          mr: 0.5,
+                          mr: 0.5
                         }}
                       >
                         {file.type.includes('image') ? (
@@ -1351,7 +1317,7 @@ const DirectComplaintReg = ({
                               objectFit: 'cover',
                               borderRadius: '4px',
                               marginRight: '8px',
-                              cursor: 'pointer',
+                              cursor: 'pointer'
                             }}
                             onClick={() => ViewImage(file)}
                           />
@@ -1362,7 +1328,7 @@ const DirectComplaintReg = ({
                               height: '40px',
                               color: '#e53935',
                               marginRight: '8px',
-                              cursor: 'pointer',
+                              cursor: 'pointer'
                             }}
                             onClick={() => ViewImage(file)}
                           />
@@ -1373,7 +1339,7 @@ const DirectComplaintReg = ({
                               height: '40px',
                               color: '#9e9e9e',
                               marginRight: '8px',
-                              cursor: 'pointer',
+                              cursor: 'pointer'
                             }}
                             onClick={() => ViewImage(file)}
                           />
@@ -1388,7 +1354,7 @@ const DirectComplaintReg = ({
                             cursor: 'pointer',
                             color: '#4D0011',
                             mx: 0.5,
-                            '&:hover': { color: '#BA0F30' },
+                            '&:hover': { color: '#BA0F30' }
                           }}
                           onClick={() => handleRemoveFile(index)}
                         />
@@ -1405,7 +1371,7 @@ const DirectComplaintReg = ({
         elevation={0}
         sx={{
           p: 1,
-          pt: 0,
+          pt: 0
         }}
       >
         <DirectComplaintTable
@@ -1421,7 +1387,7 @@ const DirectComplaintReg = ({
         sx={{
           display: 'flex',
           p: 1,
-          alignItems: 'center',
+          alignItems: 'center'
         }}
       >
         <SquareIcon sx={{ color: '#B7CFDC' }} />

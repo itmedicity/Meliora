@@ -27,7 +27,7 @@ const SubcategoryModal = ({ open, handleClose }) => {
   })
   const [subCategoryModel, setsubCategoryModel] = useState({
     subcategory_name: '',
-    subcategory_status: false,
+    subcategory_status: false
   })
   const { subcategory_name, subcategory_status } = subCategoryModel
 
@@ -42,7 +42,7 @@ const SubcategoryModal = ({ open, handleClose }) => {
   const reset = () => {
     const formdata = {
       subcategory_name: '',
-      subcategory_status: false,
+      subcategory_status: false
     }
     setsubCategoryModel(formdata)
   }
@@ -52,7 +52,7 @@ const SubcategoryModal = ({ open, handleClose }) => {
       subcategory_name: subcategory_name,
       category_slno: category,
       subcategory_status: subcategory_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [subcategory_name, subcategory_status, category, id])
 
@@ -94,9 +94,7 @@ const SubcategoryModal = ({ open, handleClose }) => {
         aria-describedby="alert-dialog-slide-descriptiona"
       >
         <DialogContent id="alert-dialog-slide-descriptiona">
-          <Box
-            sx={{ width: '100%', height: '90%', borderRadius: 1, border: '0.1px solid #454545' }}
-          >
+          <Box sx={{ width: '100%', height: '90%', borderRadius: 1, border: '0.1px solid #454545' }}>
             <Box
               id="alert-dialog-slide-descriptiona"
               sx={{ fontWeight: 'bold', textAlign: 'center', height: '50px', pt: 1 }}
@@ -108,7 +106,7 @@ const SubcategoryModal = ({ open, handleClose }) => {
                 width: 500,
                 height: 130,
                 pl: 3,
-                flexDirection: 'column',
+                flexDirection: 'column'
               }}
             >
               <Box
@@ -116,7 +114,7 @@ const SubcategoryModal = ({ open, handleClose }) => {
                   width: '100%',
                   display: 'flex',
                   flexDirection: 'row',
-                  height: '32%',
+                  height: '32%'
                 }}
               >
                 <Box sx={{ height: 50, width: '40%' }}>
@@ -140,7 +138,7 @@ const SubcategoryModal = ({ open, handleClose }) => {
                   width: '100%',
                   height: '25%',
                   display: 'flex',
-                  flexDirection: 'row',
+                  flexDirection: 'row'
                 }}
               >
                 <Box sx={{ height: 50, width: '40%' }}>
@@ -157,7 +155,7 @@ const SubcategoryModal = ({ open, handleClose }) => {
                 sx={{
                   width: '100%',
                   display: 'flex',
-                  flexDirection: 'row',
+                  flexDirection: 'row'
                 }}
               >
                 <Box sx={{ height: 50, width: '40%' }}>

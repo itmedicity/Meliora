@@ -33,7 +33,7 @@ const DeptSectionMast = () => {
     general: true,
     ot: false,
     icu: false,
-    er: false,
+    er: false
   })
   //destructuring
   const { general, ot, icu, er } = deptsubtype
@@ -42,7 +42,7 @@ const DeptSectionMast = () => {
       general: false,
       ot: false,
       icu: false,
-      er: false,
+      er: false
     }
     const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
     setdeptsubtype({ ...ob1, [e.target.name]: value })
@@ -83,13 +83,12 @@ const DeptSectionMast = () => {
       sec_id: departmentsectionId,
       sec_name: secname,
       dept_id: department,
-      dept_sub_sect:
-        general === true ? 1 : ot === true ? 2 : icu === true ? 3 : er === true ? 4 : 0,
+      dept_sub_sect: general === true ? 1 : ot === true ? 2 : icu === true ? 3 : er === true ? 4 : 0,
       sec_status: secstatus === true ? 1 : 0,
       level_one: levelOneStatus,
       level_two: levelTwoStatus,
       create_user: loginid,
-      ou_code: outlet !== 0 ? outlet : null,
+      ou_code: outlet !== 0 ? outlet : null
     }
   }, [
     secname,
@@ -103,46 +102,31 @@ const DeptSectionMast = () => {
     levelOneStatus,
     levelTwoStatus,
     loginid,
-    departmentsectionId,
+    departmentsectionId
   ])
   const patchdata = useMemo(() => {
     return {
       sec_name: secname,
       dept_id: department,
-      dept_sub_sect:
-        general === true ? 1 : ot === true ? 2 : icu === true ? 3 : er === true ? 4 : 0,
+      dept_sub_sect: general === true ? 1 : ot === true ? 2 : icu === true ? 3 : er === true ? 4 : 0,
       sec_status: secstatus === true ? 1 : 0,
       level_one: levelOneStatus,
       level_two: levelTwoStatus,
       ou_code: outlet !== 0 ? outlet : null,
       edit_user: loginid,
-      sec_id: id,
+      sec_id: id
     }
-  }, [
-    secname,
-    department,
-    general,
-    ot,
-    icu,
-    er,
-    secstatus,
-    levelOneStatus,
-    levelTwoStatus,
-    id,
-    outlet,
-    loginid,
-  ])
+  }, [secname, department, general, ot, icu, er, secstatus, levelOneStatus, levelTwoStatus, id, outlet, loginid])
   //data set for edit
   const rowSelect = useCallback(params => {
     setEdit(1)
     const data = params.api.getSelectedRows()
-    const { sec_name, dept_id, status, sec_id, dept_sub_sect, ou_code, level_one, level_two } =
-      data[0]
+    const { sec_name, dept_id, status, sec_id, dept_sub_sect, ou_code, level_one, level_two } = data[0]
     const checkboxdata = {
       general: dept_sub_sect === 1 ? true : false,
       ot: dept_sub_sect === 2 ? true : false,
       icu: dept_sub_sect === 3 ? true : false,
-      er: dept_sub_sect === 4 ? true : false,
+      er: dept_sub_sect === 4 ? true : false
     }
     setDepartment(dept_id)
     updatesecName(sec_name)
@@ -159,7 +143,7 @@ const DeptSectionMast = () => {
       general: true,
       ot: false,
       icu: false,
-      er: false,
+      er: false
     }
     setDepartment(0)
     setOutlet(0)
@@ -223,7 +207,7 @@ const DeptSectionMast = () => {
       general: true,
       ot: false,
       icu: false,
-      er: false,
+      er: false
     }
     setDepartment(0)
     setOutlet(0)

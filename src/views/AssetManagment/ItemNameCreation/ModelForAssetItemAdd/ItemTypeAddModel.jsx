@@ -25,7 +25,7 @@ const ItemTypeAddModel = ({ open, handleClose }) => {
   })
   const [itemType, setItemType] = useState({
     item_type_name: '',
-    item_type_status: false,
+    item_type_status: false
   })
   const { item_type_name, item_type_status } = itemType
 
@@ -40,7 +40,7 @@ const ItemTypeAddModel = ({ open, handleClose }) => {
   const reset = () => {
     const formdata = {
       item_type_name: '',
-      item_type_status: false,
+      item_type_status: false
     }
     setItemType(formdata)
   }
@@ -49,7 +49,7 @@ const ItemTypeAddModel = ({ open, handleClose }) => {
     return {
       item_type_name: item_type_name,
       item_type_status: item_type_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [item_type_name, item_type_status, id])
 
@@ -80,7 +80,6 @@ const ItemTypeAddModel = ({ open, handleClose }) => {
     [postdata, handleClose, dispatch, item_type_name]
   )
 
-
   return (
     <Fragment>
       {/* <ToastContainer /> */}
@@ -93,11 +92,9 @@ const ItemTypeAddModel = ({ open, handleClose }) => {
       >
         <DialogContent
           id="alert-dialog-slide-descriptiona"
-        //    sx={{ border: '5px solid #0E4C92' ,borderRadius:1}}
+          //    sx={{ border: '5px solid #0E4C92' ,borderRadius:1}}
         >
-          <Box
-            sx={{ width: '100%', height: '90%', borderRadius: 1, border: '0.1px solid #454545' }}
-          >
+          <Box sx={{ width: '100%', height: '90%', borderRadius: 1, border: '0.1px solid #454545' }}>
             <Box
               id="alert-dialog-slide-descriptiona"
               sx={{ fontWeight: 'bold', textAlign: 'center', height: '50px', pt: 1 }}
@@ -109,14 +106,14 @@ const ItemTypeAddModel = ({ open, handleClose }) => {
                 width: 500,
                 height: 100,
                 pl: 3,
-                flexDirection: 'column',
+                flexDirection: 'column'
               }}
             >
               <Box
                 sx={{
                   width: '100%',
                   display: 'flex',
-                  flexDirection: 'row',
+                  flexDirection: 'row'
                 }}
               >
                 <Box sx={{ height: 50, width: '40%' }}>
@@ -139,7 +136,7 @@ const ItemTypeAddModel = ({ open, handleClose }) => {
                 sx={{
                   width: '100%',
                   display: 'flex',
-                  flexDirection: 'row',
+                  flexDirection: 'row'
                 }}
               >
                 <Box sx={{ height: 50, width: '40%' }}>

@@ -48,14 +48,14 @@ const WeworkDashboard = ({ widgetName, count, slno }) => {
           width: '100%',
           p: 0.5,
           display: 'flex',
-          direction: 'row',
+          direction: 'row'
         }}
       >
         <Box
           sx={{
             display: 'flex',
             borderRadius: 10,
-            boxShadow: 8,
+            boxShadow: 8
           }}
         >
           <CssVarsProvider>
@@ -71,16 +71,12 @@ const WeworkDashboard = ({ widgetName, count, slno }) => {
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'center',
-            justifyContent: 'space-around',
+            justifyContent: 'space-around'
           }}
         >
           <Box sx={{ px: 0.5 }}>
             <CssVarsProvider>
-              <Typography
-                level="body2"
-                sx={{ alignItems: 'flex-start', wordBreak: 'break-all' }}
-                color="primary"
-              >
+              <Typography level="body2" sx={{ alignItems: 'flex-start', wordBreak: 'break-all' }} color="primary">
                 {widgetName}
               </Typography>
             </CssVarsProvider>

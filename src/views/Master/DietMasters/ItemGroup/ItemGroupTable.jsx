@@ -14,8 +14,8 @@ const ItemGroupTable = ({ count, rowSelect }) => {
     { headerName: 'Status', field: 'grpstatus' },
     {
       headerName: 'Action',
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
-    },
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
+    }
   ])
   //get all data
   useEffect(() => {

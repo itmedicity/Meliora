@@ -60,7 +60,7 @@ const AmPMDetails = ({ detailArry }) => {
   const { data: AmcPmdetailsData } = useQuery({
     queryKey: ['getAmcCmcPmDataa', count],
     enabled: am_item_map_slno !== undefined,
-    queryFn: () => getAmcCmcPmData(am_item_map_slno),
+    queryFn: () => getAmcCmcPmData(am_item_map_slno)
   })
 
   const AmcPmdetails = useMemo(() => AmcPmdetailsData, [AmcPmdetailsData])
@@ -79,7 +79,7 @@ const AmPMDetails = ({ detailArry }) => {
       set_up_date: setUpDate,
       instalation_date: instalationDate,
       due_date: dueDate,
-      create_user: id,
+      create_user: id
     }
   }, [am_item_map_slno, setUpDate, instalationDate, dueDate, id])
 
@@ -90,7 +90,7 @@ const AmPMDetails = ({ detailArry }) => {
       instalation_date: instalationDate,
       due_date: dueDate,
       edit_user: id,
-      am_item_amcpm_slno: itemAmcCmcslno,
+      am_item_amcpm_slno: itemAmcCmcslno
     }
   }, [am_item_map_slno, setUpDate, instalationDate, dueDate, itemAmcCmcslno, id])
 
@@ -141,7 +141,7 @@ const AmPMDetails = ({ detailArry }) => {
   const { data: PmDetailss } = useQuery({
     queryKey: ['getPMDetailList', count],
     enabled: am_item_map_slno !== undefined,
-    queryFn: () => getPMDetailList(am_item_map_slno),
+    queryFn: () => getPMDetailList(am_item_map_slno)
   })
 
   useEffect(() => {
@@ -157,7 +157,7 @@ const AmPMDetails = ({ detailArry }) => {
     setSelectedData({
       am_item_map_slno: am_item_map_slno,
       am_spare_item_map_slno: am_spare_item_map_slno,
-      assetno: item_asset_no + '/' + item_asset_no_only.toString().padStart(6, '0'),
+      assetno: item_asset_no + '/' + item_asset_no_only.toString().padStart(6, '0')
     })
     setQrFlag(1)
     setqrOpen(true)
@@ -170,9 +170,7 @@ const AmPMDetails = ({ detailArry }) => {
 
   return (
     <Box>
-      {qrFlag === 1 ? (
-        <ItemQrDisplayModel open={qrOpen} handleClose={handleClose} selectedData={selectedData} />
-      ) : null}
+      {qrFlag === 1 ? <ItemQrDisplayModel open={qrOpen} handleClose={handleClose} selectedData={selectedData} /> : null}
       <Box sx={{ border: 1, borderColor: '#E0E1E3', py: 1, pl: 2 }}>
         <TextComponent
           text={'PM DETAILS'}
@@ -180,7 +178,7 @@ const AmPMDetails = ({ detailArry }) => {
             flex: 1,
             fontWeight: 500,
             color: 'black',
-            fontSize: 15,
+            fontSize: 15
           }}
         />
         <Box
@@ -194,7 +192,7 @@ const AmPMDetails = ({ detailArry }) => {
             width: 135,
             justifyContent: 'center',
             borderRadius: 4,
-            borderColor: '#0B6BCB',
+            borderColor: '#0B6BCB'
           }}
           onClick={AddPm}
         >
@@ -204,13 +202,13 @@ const AmPMDetails = ({ detailArry }) => {
               fontSize: 14,
               color: '#0B6BCB',
               textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3), -1px -1px 2px rgba(255, 255, 255, 0.7)',
-              transform: 'translateZ(0)',
+              transform: 'translateZ(0)'
             }}
           />
           <AddIcon
             sx={{
               p: 0.2,
-              color: '#0B6BCB',
+              color: '#0B6BCB'
             }}
           />
         </Box>
@@ -224,7 +222,7 @@ const AmPMDetails = ({ detailArry }) => {
                     fontWeight: 600,
                     color: '#727B8C',
                     width: 130,
-                    pt: 0.5,
+                    pt: 0.5
                   }}
                 />
                 <Box sx={{ flex: 1 }}>
@@ -244,7 +242,7 @@ const AmPMDetails = ({ detailArry }) => {
                     fontWeight: 600,
                     color: '#727B8C',
                     pt: 0.5,
-                    width: 130,
+                    width: 130
                   }}
                 />
                 <Box sx={{ flex: 1 }}>
@@ -264,7 +262,7 @@ const AmPMDetails = ({ detailArry }) => {
                     fontWeight: 600,
                     color: '#727B8C',
                     width: 130,
-                    pt: 0.5,
+                    pt: 0.5
                   }}
                 />
                 <Box sx={{ flex: 1 }}>
@@ -285,7 +283,7 @@ const AmPMDetails = ({ detailArry }) => {
                     fontWeight: 600,
                     color: '#727B8C',
                     width: 130,
-                    pt: 0.5,
+                    pt: 0.5
                   }}
                 />
                 <Box sx={{ flex: 1 }}>
@@ -316,13 +314,7 @@ const AmPMDetails = ({ detailArry }) => {
                     </CusIconButton>
                   </Box>
                   <Box>
-                    <CusIconButton
-                      size="sm"
-                      variant="outlined"
-                      color="primary"
-                      clickable="true"
-                      onClick={ClosePm}
-                    >
+                    <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={ClosePm}>
                       <CloseIcon fontSize="small" />
                     </CusIconButton>
                   </Box>
@@ -339,7 +331,7 @@ const AmPMDetails = ({ detailArry }) => {
             flex: 1,
             fontWeight: 500,
             color: 'black',
-            fontSize: 15,
+            fontSize: 15
           }}
         />
         <Box sx={{ flex: 1, pr: 1, pt: 1 }}>
@@ -351,7 +343,7 @@ const AmPMDetails = ({ detailArry }) => {
                 fontWeight: 600,
                 color: 'lightgrey',
                 textAlign: 'center',
-                pt: 5,
+                pt: 5
               }}
             >
               Empty PM Details
@@ -367,7 +359,7 @@ const AmPMDetails = ({ detailArry }) => {
                   borderColor: 'lightgrey',
                   pl: 1,
                   py: 0.5,
-                  gap: 0.5,
+                  gap: 0.5
                 }}
               >
                 <Box sx={{ flex: 1 }}>#</Box>
@@ -395,7 +387,7 @@ const AmPMDetails = ({ detailArry }) => {
                         borderColor: 'lightgrey',
                         pl: 1,
                         py: 0.6,
-                        gap: 0.5,
+                        gap: 0.5
                       }}
                     >
                       <Box sx={{ flex: 1, fontWeight: 600 }}>{index + 1}</Box>
@@ -407,32 +399,25 @@ const AmPMDetails = ({ detailArry }) => {
                               border: 1,
                               p: 0.1,
                               borderRadius: 0,
-                              cursor: 'pointer',
+                              cursor: 'pointer'
                             }}
                             onClick={() => qrCodeOpen(val)}
                           />
                         ) : (
-                          <QrCode2Icon
-                            sx={{ color: 'lightgrey', border: 1, p: 0.1, borderRadius: 0 }}
-                          />
+                          <QrCode2Icon sx={{ color: 'lightgrey', border: 1, p: 0.1, borderRadius: 0 }} />
                         )}
                       </Box>
                       <Box sx={{ flex: 4, fontWeight: 600 }}>
-                        {val.am_pm_fromdate
-                          ? format(new Date(val.am_pm_fromdate), 'dd MMM yyyy')
-                          : ''}
+                        {val.am_pm_fromdate ? format(new Date(val.am_pm_fromdate), 'dd MMM yyyy') : ''}
                       </Box>
                       <Box sx={{ flex: 4, fontWeight: 600 }}>
-                        {val.am_pm_dutedate
-                          ? format(new Date(val.am_pm_dutedate), 'dd MMM yyyy')
-                          : ''}
+                        {val.am_pm_dutedate ? format(new Date(val.am_pm_dutedate), 'dd MMM yyyy') : ''}
                       </Box>
                       <Box
                         sx={{
                           flex: 3,
                           fontWeight: 600,
-                          color:
-                            val.status === 1 ? 'darkgreen' : val.status === 0 ? '#523A28' : 'black',
+                          color: val.status === 1 ? 'darkgreen' : val.status === 0 ? '#523A28' : 'black'
                         }}
                       >
                         {val.status === 1

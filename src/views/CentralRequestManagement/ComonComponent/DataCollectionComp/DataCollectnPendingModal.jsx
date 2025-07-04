@@ -36,7 +36,7 @@ const DataCollectnPendingModal = ({ open, handleClose, datacollectdata }) => {
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 35,
-                width: 35,
+                width: 35
               }}
             />
             <Box sx={{ minWidth: '60vw', overflowY: 'auto' }}>
@@ -47,7 +47,7 @@ const DataCollectnPendingModal = ({ open, handleClose, datacollectdata }) => {
                   py: 0.5,
                   color: '#145DA0',
                   fontSize: 16,
-                  flex: 1,
+                  flex: 1
                 }}
               >
                 Data collection is incomplete. Please complete it before proceeding with approval.
@@ -67,14 +67,10 @@ const DataCollectnPendingModal = ({ open, handleClose, datacollectdata }) => {
                     </Box>
 
                     <Box sx={{ display: 'flex', pb: 0.5 }}>
-                      <Typography sx={{ pl: 1, fontSize: 14, flex: 0.5, fontWeight: 550 }}>
-                        Requested by
-                      </Typography>
+                      <Typography sx={{ pl: 1, fontSize: 14, flex: 0.5, fontWeight: 550 }}>Requested by</Typography>
                       <Box sx={{ display: 'flex', flex: 1 }}>
                         <Typography> :&nbsp;</Typography>
-                        <Typography sx={{ fontSize: 14, pt: 0.2 }}>
-                          {capitalizeWords(val.req_user)}
-                        </Typography>
+                        <Typography sx={{ fontSize: 14, pt: 0.2 }}>{capitalizeWords(val.req_user)}</Typography>
                         <Typography sx={{ fontSize: 14, pl: 2, pt: 0.2 }}>
                           {format(new Date(val.create_date), 'dd-MM-yyyy hh:mm:ss a')}
                         </Typography>
@@ -86,9 +82,7 @@ const DataCollectnPendingModal = ({ open, handleClose, datacollectdata }) => {
                         Requested Remarks
                       </Typography>
                       <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-                      <Typography sx={{ fontSize: 14, flex: 1, pt: 0.2 }}>
-                        {val.crf_req_remark}
-                      </Typography>
+                      <Typography sx={{ fontSize: 14, flex: 1, pt: 0.2 }}>{val.crf_req_remark}</Typography>
                     </Box>
 
                     {datacollectdata.length > 1 && <Divider sx={{ border: '1px solid grey' }} />}

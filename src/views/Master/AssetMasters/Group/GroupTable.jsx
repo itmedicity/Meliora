@@ -10,11 +10,11 @@ const GroupTable = ({ count, rowSelect }) => {
     {
       headerName: 'Action',
       minWidth: 20,
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
     },
     { headerName: 'SlNo', field: 'group_slno', minWidth: 50 },
     { headerName: 'Group', field: 'group_name', minWidth: 50 },
-    { headerName: 'Status', field: 'status', minWidth: 50 },
+    { headerName: 'Status', field: 'status', minWidth: 50 }
   ])
   useEffect(() => {
     const getGroup = async () => {

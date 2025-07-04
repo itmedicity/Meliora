@@ -101,7 +101,7 @@ const CrdDashboardMain = () => {
             flexDirection: 'column',
             border: 1,
             borderWidth: 1.5,
-            borderColor: taskColor.bgIndigo,
+            borderColor: taskColor.bgIndigo
           }}
         >
           <Box
@@ -114,12 +114,10 @@ const CrdDashboardMain = () => {
               alignItems: 'center',
               borderBottom: 1,
               borderColor: '#b5b3ca',
-              pl: 2,
+              pl: 2
             }}
           >
-            <Box sx={{ pl: 1, color: '#262065', display: 'flex', pt: 0.3 }}>
-              Request Management Dashboard
-            </Box>
+            <Box sx={{ pl: 1, color: '#262065', display: 'flex', pt: 0.3 }}>Request Management Dashboard</Box>
           </Box>
           <CssVarsProvider>
             <Typography
@@ -139,7 +137,7 @@ const CrdDashboardMain = () => {
               width: '30%',
               ml: 70,
               border: 1,
-              borderColor: taskColor.indigoDark,
+              borderColor: taskColor.indigoDark
               // alignItems: "center",
               // justifyItems: "center",
               // backgroundColor: "green"
@@ -153,7 +151,7 @@ const CrdDashboardMain = () => {
                 flexWrap: 'wrap',
                 padding: 1,
                 //backgroundColor: '#ffffff',
-                overflow: 'hidden',
+                overflow: 'hidden'
               }}
             >
               <Paper
@@ -166,8 +164,8 @@ const CrdDashboardMain = () => {
                   borderColor: taskColor.indigoDark,
                   cursor: 'grab',
                   ':hover': {
-                    borderColor: '#7D18EA',
-                  },
+                    borderColor: '#7D18EA'
+                  }
                 }}
                 variant="outlined"
               >
@@ -180,7 +178,7 @@ const CrdDashboardMain = () => {
                     fontWeight: 600,
                     fontSize: 16,
                     fontSmooth: 'auto',
-                    color: taskColor.FontindigoDark,
+                    color: taskColor.FontindigoDark
                   }}
                 >
                   CRF Pending
@@ -193,7 +191,7 @@ const CrdDashboardMain = () => {
                     fontWeight: 500,
                     justifyContent: 'center',
                     alignItems: 'center',
-                    color: taskColor.FontindigoDark,
+                    color: taskColor.FontindigoDark
                   }}
                 >
                   <Typography
@@ -201,8 +199,8 @@ const CrdDashboardMain = () => {
                       cursor: 'pointer',
                       ':hover': {
                         transition: 300,
-                        textShadow: '#939498 1px 0 5px',
-                      },
+                        textShadow: '#939498 1px 0 5px'
+                      }
                     }}
                     onClick={() => crfPendingClinical()}
                   >
@@ -213,7 +211,7 @@ const CrdDashboardMain = () => {
 
               <Paper
                 sx={{
-                  width: '6%',
+                  width: '6%'
                 }}
                 variant="none"
               ></Paper>
@@ -228,8 +226,8 @@ const CrdDashboardMain = () => {
                   borderColor: taskColor.indigoDark,
                   cursor: 'grab',
                   ':hover': {
-                    borderColor: '#7D18EA',
-                  },
+                    borderColor: '#7D18EA'
+                  }
                 }}
                 variant="outlined"
               >
@@ -242,7 +240,7 @@ const CrdDashboardMain = () => {
                     fontWeight: 600,
                     fontSize: 16,
                     fontSmooth: 'auto',
-                    color: taskColor.FontindigoDark,
+                    color: taskColor.FontindigoDark
                   }}
                 >
                   NDRF Pending
@@ -255,7 +253,7 @@ const CrdDashboardMain = () => {
                     fontWeight: 500,
                     justifyContent: 'center',
                     alignItems: 'center',
-                    color: taskColor.FontindigoDark,
+                    color: taskColor.FontindigoDark
                   }}
                 >
                   <Typography
@@ -263,8 +261,8 @@ const CrdDashboardMain = () => {
                       cursor: 'pointer',
                       ':hover': {
                         transition: 300,
-                        textShadow: '#939498 1px 0 5px',
-                      },
+                        textShadow: '#939498 1px 0 5px'
+                      }
                     }}
                     onClick={() => NdrfPendingClinical()}
                   >
@@ -292,7 +290,7 @@ const CrdDashboardMain = () => {
               width: '30%',
               ml: 70,
               border: 1,
-              borderColor: taskColor.indigoDark,
+              borderColor: taskColor.indigoDark
               // alignItems: "center",
               // justifyItems: "center",
               // backgroundColor: "green"
@@ -306,7 +304,7 @@ const CrdDashboardMain = () => {
                 flexWrap: 'wrap',
                 padding: 1,
                 //backgroundColor: '#ffffff',
-                overflow: 'hidden',
+                overflow: 'hidden'
               }}
             >
               <Paper
@@ -319,8 +317,8 @@ const CrdDashboardMain = () => {
                   borderColor: taskColor.indigoDark,
                   cursor: 'grab',
                   ':hover': {
-                    borderColor: '#7D18EA',
-                  },
+                    borderColor: '#7D18EA'
+                  }
                 }}
                 variant="outlined"
               >
@@ -333,7 +331,7 @@ const CrdDashboardMain = () => {
                     fontWeight: 600,
                     fontSize: 16,
                     fontSmooth: 'auto',
-                    color: taskColor.FontindigoDark,
+                    color: taskColor.FontindigoDark
                   }}
                 >
                   CRF Pending
@@ -346,7 +344,7 @@ const CrdDashboardMain = () => {
                     fontWeight: 500,
                     justifyContent: 'center',
                     alignItems: 'center',
-                    color: taskColor.FontindigoDark,
+                    color: taskColor.FontindigoDark
                   }}
                 >
                   <Typography
@@ -354,8 +352,8 @@ const CrdDashboardMain = () => {
                       cursor: 'pointer',
                       ':hover': {
                         transition: 300,
-                        textShadow: '#939498 1px 0 5px',
-                      },
+                        textShadow: '#939498 1px 0 5px'
+                      }
                     }}
                     onClick={() => crfPendingNonClinical()}
                   >
@@ -366,7 +364,7 @@ const CrdDashboardMain = () => {
 
               <Paper
                 sx={{
-                  width: '6%',
+                  width: '6%'
                 }}
                 variant="none"
               ></Paper>
@@ -381,8 +379,8 @@ const CrdDashboardMain = () => {
                   borderColor: taskColor.indigoDark,
                   cursor: 'grab',
                   ':hover': {
-                    borderColor: '#7D18EA',
-                  },
+                    borderColor: '#7D18EA'
+                  }
                 }}
                 variant="outlined"
               >
@@ -395,7 +393,7 @@ const CrdDashboardMain = () => {
                     fontWeight: 600,
                     fontSize: 16,
                     fontSmooth: 'auto',
-                    color: taskColor.FontindigoDark,
+                    color: taskColor.FontindigoDark
                   }}
                 >
                   NDRF Pending
@@ -408,7 +406,7 @@ const CrdDashboardMain = () => {
                     fontWeight: 500,
                     justifyContent: 'center',
                     alignItems: 'center',
-                    color: taskColor.FontindigoDark,
+                    color: taskColor.FontindigoDark
                   }}
                 >
                   <Typography
@@ -416,8 +414,8 @@ const CrdDashboardMain = () => {
                       cursor: 'pointer',
                       ':hover': {
                         transition: 300,
-                        textShadow: '#939498 1px 0 5px',
-                      },
+                        textShadow: '#939498 1px 0 5px'
+                      }
                     }}
                     onClick={() => NdrfPendingNonClinical()}
                   >

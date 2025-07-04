@@ -3,7 +3,7 @@ const { FETCH_BHRC_DETAIL } = ActionTyps
 
 const WeBhrcDetl = {
   WeBhrcList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 
 export const getWeBhrcDetl = (state = WeBhrcDetl, { type, payload }) => {

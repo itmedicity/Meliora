@@ -27,7 +27,7 @@ import {
   qi_setting_two,
   dc_setting_one,
   taskManagement_one,
-  ams_one,
+  ams_one
 } from './SettingsMenu'
 import { Card, CardContent, CardHeader } from '@mui/material'
 import { titleTypography, cardActionBgClr } from 'src/color/Color'
@@ -86,23 +86,15 @@ const Settings = () => {
       setcoMast_secOne(cm_setting_section_one)
       const cm_setting_section_two = cm_setting_two.filter(val => menuSlnoArray.includes(val.slno))
       setcoMast_secTwo(cm_setting_section_two)
-      const cm_setting_section_three = cm_setting_three.filter(val =>
-        menuSlnoArray.includes(val.slno)
-      )
+      const cm_setting_section_three = cm_setting_three.filter(val => menuSlnoArray.includes(val.slno))
       setcoMast_secThree(cm_setting_section_three)
 
       //Request Management Master
-      const crm_setting_section_one = crm_setting_one.filter(val =>
-        menuSlnoArray.includes(val.slno)
-      )
+      const crm_setting_section_one = crm_setting_one.filter(val => menuSlnoArray.includes(val.slno))
       setcrmMast_secOne(crm_setting_section_one)
-      const crm_setting_section_two = crm_setting_two.filter(val =>
-        menuSlnoArray.includes(val.slno)
-      )
+      const crm_setting_section_two = crm_setting_two.filter(val => menuSlnoArray.includes(val.slno))
       setcrmMast_secTwo(crm_setting_section_two)
-      const crm_setting_section_three = crm_setting_three.filter(val =>
-        menuSlnoArray.includes(val.slno)
-      )
+      const crm_setting_section_three = crm_setting_three.filter(val => menuSlnoArray.includes(val.slno))
       setcrmMast_secThree(crm_setting_section_three)
 
       // //Task Management Master
@@ -114,9 +106,7 @@ const Settings = () => {
       setamMast_secOne(am_setting_section_one)
       const am_setting_section_two = am_setting_two.filter(val => menuSlnoArray.includes(val.slno))
       setamMast_secTwo(am_setting_section_two)
-      const am_setting_section_three = am_setting_three.filter(val =>
-        menuSlnoArray.includes(val.slno)
-      )
+      const am_setting_section_three = am_setting_three.filter(val => menuSlnoArray.includes(val.slno))
       setamMast_secThree(am_setting_section_three)
 
       //Room Management Master
@@ -124,9 +114,7 @@ const Settings = () => {
       setrmMast_secOne(rm_setting_section_one)
       const rm_setting_section_two = rm_setting_two.filter(val => menuSlnoArray.includes(val.slno))
       setrmMast_secTwo(rm_setting_section_two)
-      const rm_setting_section_three = rm_setting_three.filter(val =>
-        menuSlnoArray.includes(val.slno)
-      )
+      const rm_setting_section_three = rm_setting_three.filter(val => menuSlnoArray.includes(val.slno))
       setrmMast_secThree(rm_setting_section_three)
 
       // //Diet Management Master
@@ -152,9 +140,7 @@ const Settings = () => {
       setitMast_secOne(it_setting_section_one)
       const it_setting_section_two = it_setting_two.filter(val => menuSlnoArray.includes(val.slno))
       setitMast_secTwo(it_setting_section_two)
-      const it_setting_section_three = it_setting_three.filter(val =>
-        menuSlnoArray.includes(val.slno)
-      )
+      const it_setting_section_three = it_setting_three.filter(val => menuSlnoArray.includes(val.slno))
       setitMast_secThree(it_setting_section_three)
 
       //Quality Indicators
@@ -170,24 +156,16 @@ const Settings = () => {
       setdcMast_secOne(dc_setting_section_one)
 
       //User Rights
-      const user_setting_section_one = userManagement_one.filter(val =>
-        menuSlnoArray.includes(val.slno)
-      )
+      const user_setting_section_one = userManagement_one.filter(val => menuSlnoArray.includes(val.slno))
       setUserManag_secOne(user_setting_section_one)
-      const user_setting_section_two = userManagement_two.filter(val =>
-        menuSlnoArray.includes(val.slno)
-      )
+      const user_setting_section_two = userManagement_two.filter(val => menuSlnoArray.includes(val.slno))
       setUserManag_secTwo(user_setting_section_two)
-      const user_setting_section_three = userManagement_three.filter(val =>
-        menuSlnoArray.includes(val.slno)
-      )
+      const user_setting_section_three = userManagement_three.filter(val => menuSlnoArray.includes(val.slno))
       setUserManag_secThree(user_setting_section_three)
       setCount(1)
 
       //TaskManagement
-      const task_setting_section_one = taskManagement_one.filter(val =>
-        menuSlnoArray.includes(val.slno)
-      )
+      const task_setting_section_one = taskManagement_one.filter(val => menuSlnoArray.includes(val.slno))
       setTaskManagment_secOne(task_setting_section_one)
 
       //AMS Master
@@ -203,7 +181,7 @@ const Settings = () => {
         titleTypographyProps={{ variant: 'subtitle1', color: titleTypography }}
         sx={{
           backgroundColor: cardActionBgClr,
-          paddingY: 0.5,
+          paddingY: 0.5
         }}
       />
       <CardContent>
@@ -252,7 +230,7 @@ const Settings = () => {
         titleTypographyProps={{ variant: 'subtitle1', color: titleTypography }}
         sx={{
           backgroundColor: cardActionBgClr,
-          paddingY: 0.5,
+          paddingY: 0.5
         }}
       />
       <CardContent>
@@ -300,7 +278,7 @@ const Settings = () => {
         titleTypographyProps={{ variant: 'subtitle1', color: titleTypography }}
         sx={{
           backgroundColor: cardActionBgClr,
-          paddingY: 0.5,
+          paddingY: 0.5
         }}
       />
       <CardContent>
@@ -331,7 +309,7 @@ const Settings = () => {
         titleTypographyProps={{ variant: 'subtitle1', color: titleTypography }}
         sx={{
           backgroundColor: cardActionBgClr,
-          paddingY: 0.5,
+          paddingY: 0.5
         }}
       />
 
@@ -380,7 +358,7 @@ const Settings = () => {
         titleTypographyProps={{ variant: 'subtitle1', color: titleTypography }}
         sx={{
           backgroundColor: cardActionBgClr,
-          paddingY: 0.5,
+          paddingY: 0.5
         }}
       />
       <CardContent>
@@ -428,7 +406,7 @@ const Settings = () => {
         titleTypographyProps={{ variant: 'subtitle1', color: titleTypography }}
         sx={{
           backgroundColor: cardActionBgClr,
-          paddingY: 0.5,
+          paddingY: 0.5
         }}
       />
       <CardContent>
@@ -476,7 +454,7 @@ const Settings = () => {
         titleTypographyProps={{ variant: 'subtitle1', color: titleTypography }}
         sx={{
           backgroundColor: cardActionBgClr,
-          paddingY: 0.5,
+          paddingY: 0.5
         }}
       />
       <CardContent>
@@ -501,7 +479,7 @@ const Settings = () => {
         titleTypographyProps={{ variant: 'subtitle1', color: titleTypography }}
         sx={{
           backgroundColor: cardActionBgClr,
-          paddingY: 0.5,
+          paddingY: 0.5
         }}
       />
       <CardContent>
@@ -550,7 +528,7 @@ const Settings = () => {
         titleTypographyProps={{ variant: 'subtitle1', color: titleTypography }}
         sx={{
           backgroundColor: cardActionBgClr,
-          paddingY: 0.5,
+          paddingY: 0.5
         }}
       />
       <CardContent>
@@ -586,7 +564,7 @@ const Settings = () => {
         titleTypographyProps={{ variant: 'subtitle1', color: titleTypography }}
         sx={{
           backgroundColor: cardActionBgClr,
-          paddingY: 0.5,
+          paddingY: 0.5
         }}
       />
       <CardContent>
@@ -611,7 +589,7 @@ const Settings = () => {
         titleTypographyProps={{ variant: 'subtitle1', color: titleTypography }}
         sx={{
           backgroundColor: cardActionBgClr,
-          paddingY: 0.5,
+          paddingY: 0.5
         }}
       />
       <CardContent>

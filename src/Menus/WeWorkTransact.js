@@ -7,8 +7,8 @@ const WeWorkTransact = [
 
     name: 'In-Patient List',
     to: '/Home/WeWork/InpatientList',
-    icon: <CiStop1 />,
-  },
+    icon: <CiStop1 />
+  }
 ]
 
 export default WeWorkTransact

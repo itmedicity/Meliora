@@ -35,7 +35,7 @@ const Dailyactivity = ({ ipno, setclosebtn }) => {
   const [doctime, setdoctime] = useState('')
   const [activity, setactivity] = useState({
     activity_slno: '',
-    update_empid: '',
+    update_empid: ''
   })
   const { activity_slno } = activity
   const emid = useSelector(state => {
@@ -47,7 +47,7 @@ const Dailyactivity = ({ ipno, setclosebtn }) => {
     brunch: false,
     lunch: false,
     lupper: false,
-    dinner: false,
+    dinner: false
   })
   const { tea, breakfast, brunch, lunch, lupper, dinner } = diettype
 
@@ -58,7 +58,7 @@ const Dailyactivity = ({ ipno, setclosebtn }) => {
       brunch: brunch === true ? 3 : 0,
       lunch: lunch === true ? 4 : 0,
       lupper: lupper === true ? 5 : 0,
-      dinner: dinner === true ? 6 : 0,
+      dinner: dinner === true ? 6 : 0
     }
   }, [tea, breakfast, brunch, lunch, lupper, dinner])
 
@@ -70,7 +70,7 @@ const Dailyactivity = ({ ipno, setclosebtn }) => {
   const [asset, setasset] = useState({
     cardiac: false,
     monitor: false,
-    pump: false,
+    pump: false
   })
   const { cardiac, monitor, pump } = asset
 
@@ -83,7 +83,7 @@ const Dailyactivity = ({ ipno, setclosebtn }) => {
     return {
       cardiac: cardiac === true ? 1 : 0,
       monitor: monitor === true ? 2 : 0,
-      pump: pump === true ? 3 : 0,
+      pump: pump === true ? 3 : 0
     }
   }, [cardiac, monitor, pump])
 
@@ -156,7 +156,7 @@ const Dailyactivity = ({ ipno, setclosebtn }) => {
     return {
       cardiac: false,
       monitor: false,
-      pump: false,
+      pump: false
     }
   }, [])
   const resetdiet = useMemo(() => {
@@ -166,7 +166,7 @@ const Dailyactivity = ({ ipno, setclosebtn }) => {
       brunch: false,
       lunch: false,
       lupper: false,
-      dinner: false,
+      dinner: false
     }
   }, [])
 
@@ -218,7 +218,7 @@ const Dailyactivity = ({ ipno, setclosebtn }) => {
       patient_board_update: board === true ? 1 : 0,
       insurance_status: Insurance === true ? 1 : 0,
       create_empid: emid,
-      dr_visit_time: doctime !== '' ? moment(doctime).format('YYYY-MM-DD hh:mm:ss') : null,
+      dr_visit_time: doctime !== '' ? moment(doctime).format('YYYY-MM-DD hh:mm:ss') : null
     }
   }, [
     id,
@@ -236,7 +236,7 @@ const Dailyactivity = ({ ipno, setclosebtn }) => {
     emid,
     daily,
     doctime,
-    times,
+    times
   ])
 
   const patchdata = useMemo(() => {
@@ -255,7 +255,7 @@ const Dailyactivity = ({ ipno, setclosebtn }) => {
       insurance_status: Insurance === true ? 1 : 0,
       update_empid: emid,
       activity_slno: activity_slno,
-      dr_visit_time: doctime !== '' ? moment(doctime).format('YYYY-MM-DD hh:mm:ss') : null,
+      dr_visit_time: doctime !== '' ? moment(doctime).format('YYYY-MM-DD hh:mm:ss') : null
     }
   }, [
     dietdetail,
@@ -272,7 +272,7 @@ const Dailyactivity = ({ ipno, setclosebtn }) => {
     daily,
     activity_slno,
     doctime,
-    times,
+    times
   ])
 
   const rowSelect = useCallback(
@@ -293,7 +293,7 @@ const Dailyactivity = ({ ipno, setclosebtn }) => {
         asset_usage,
         patient_board_update,
         insurance_status,
-        dr_visit_time,
+        dr_visit_time
       } = data[0]
 
       const obj = JSON.parse(diet_status)
@@ -304,19 +304,19 @@ const Dailyactivity = ({ ipno, setclosebtn }) => {
         brunch: brunch === 3 ? true : false,
         lunch: lunch === 4 ? true : false,
         lupper: lupper === 5 ? true : false,
-        dinner: dinner === 6 ? true : false,
+        dinner: dinner === 6 ? true : false
       }
       const obj2 = JSON.parse(asset_usage)
       const { cardiac, monitor, pump } = obj2
       const y = {
         cardiac: cardiac === 1 ? true : false,
         monitor: monitor === 2 ? true : false,
-        pump: pump === 2 ? true : false,
+        pump: pump === 2 ? true : false
       }
 
       const frmdata = {
         activity_slno: activity_slno,
-        update_empid: emid,
+        update_empid: emid
       }
 
       setactivity(frmdata)
@@ -384,33 +384,19 @@ const Dailyactivity = ({ ipno, setclosebtn }) => {
     <Paper square elevation={0} sx={{ dispaly: 'flex', justifyContent: 'column' }}>
       <Box sx={{ display: 'flex', backgroundColor: '#f0f3f5' }}>
         <Box sx={{ pb: 1, flex: 1 }}>
-          <Typography sx={{ fontFamily: 'Roboto', fontSize: 20, p: 1.5 }}>
-            Daily Activity
-          </Typography>
+          <Typography sx={{ fontFamily: 'Roboto', fontSize: 20, p: 1.5 }}>Daily Activity</Typography>
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'row', pl: 1 }}>
           <CustomeToolTip title="Save" placement="left">
             <Box sx={{ p: 1 }}>
-              <CusIconButton
-                size="sm"
-                variant="outlined"
-                color="primary"
-                clickable="true"
-                onClick={submited}
-              >
+              <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={submited}>
                 <LibraryAddIcon fontSize="small" />
               </CusIconButton>
             </Box>
           </CustomeToolTip>
           <CustomeToolTip title="close" placement="left">
             <Box sx={{ p: 1 }}>
-              <CusIconButton
-                size="sm"
-                variant="outlined"
-                color="primary"
-                clickable="true"
-                onClick={closwindow}
-              >
+              <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={closwindow}>
                 <CloseIcon fontSize="small" />
               </CusIconButton>
             </Box>
@@ -435,13 +421,7 @@ const Dailyactivity = ({ ipno, setclosebtn }) => {
             </CssVarsProvider>
           </Box>
           <Box sx={{ width: { xl: '30%', lg: '50%', md: '50%', sm: '50%' }, height: 40 }}>
-            <TextFieldCustom
-              size="sm"
-              type="datetime-local"
-              name="times"
-              value={times}
-              onchange={getTimes}
-            />
+            <TextFieldCustom size="sm" type="datetime-local" name="times" value={times} onchange={getTimes} />
           </Box>
         </Box>
       </Box>
@@ -463,7 +443,7 @@ const Dailyactivity = ({ ipno, setclosebtn }) => {
             sx={{
               display: 'flex',
               flexDirection: 'row',
-              width: '100%',
+              width: '100%'
             }}
           >
             <Box sx={{ width: '25%' }}>
@@ -559,7 +539,7 @@ const Dailyactivity = ({ ipno, setclosebtn }) => {
           sx={{
             display: 'flex',
             flexDirection: 'row',
-            width: '100%',
+            width: '100%'
           }}
         >
           <Box sx={{ width: '25%' }}>
@@ -607,7 +587,7 @@ const Dailyactivity = ({ ipno, setclosebtn }) => {
           p: 2,
           display: 'flex',
           flexDirection: 'column',
-          width: { xl: '100%', lg: '100%', md: '100%', sm: '100%' },
+          width: { xl: '100%', lg: '100%', md: '100%', sm: '100%' }
         }}
       >
         <Box
@@ -616,14 +596,14 @@ const Dailyactivity = ({ ipno, setclosebtn }) => {
             textTransform: 'capitalize',
             flexDirection: { xl: 'column', lg: 'column', md: 'column', sm: 'column', xs: 'column' },
             justifyContent: 'space-between',
-            width: { xl: '100%', lg: '100%', md: '100%', sm: '100%' },
+            width: { xl: '100%', lg: '100%', md: '100%', sm: '100%' }
           }}
         >
           <Box
             sx={{
               display: 'flex',
               flexDirection: 'row',
-              width: '100%',
+              width: '100%'
             }}
           >
             <Box sx={{ width: '25%' }}>
@@ -681,7 +661,7 @@ const Dailyactivity = ({ ipno, setclosebtn }) => {
               display: 'flex',
               flexDirection: 'row',
               width: { xl: '100%', lg: '100%', md: '100%', sm: '100%' },
-              pt: 1,
+              pt: 1
             }}
           >
             <Box sx={{ width: { xl: '25%', lg: '25%', md: '25%', sm: '25%' } }}>
@@ -728,14 +708,14 @@ const Dailyactivity = ({ ipno, setclosebtn }) => {
           pl: 2,
           display: 'flex',
           flexDirection: 'row',
-          width: { xl: '100%', lg: '100%', md: '100%', sm: '100%' },
+          width: { xl: '100%', lg: '100%', md: '100%', sm: '100%' }
         }}
       >
         <Box
           sx={{
             display: 'flex',
             flexDirection: 'row',
-            width: '100%',
+            width: '100%'
           }}
         >
           <Box sx={{ width: '25%' }}>

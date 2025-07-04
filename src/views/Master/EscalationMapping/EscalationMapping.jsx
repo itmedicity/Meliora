@@ -28,7 +28,7 @@ const EscalationMapping = () => {
       esc_mapping_slno: 1,
       escalaion_slno: escalation,
       complaint_dept: cmdept,
-      create_user: id,
+      create_user: id
     }
   }, [escalation, cmdept, id])
   const postData2 = useMemo(() => {
@@ -36,7 +36,7 @@ const EscalationMapping = () => {
       esc_mapping_slno: 2,
       escalaion_slno: escalation1,
       complaint_dept: cmdept1,
-      create_user: id,
+      create_user: id
     }
   }, [escalation1, cmdept1, id])
   const reset1 = () => {
@@ -101,14 +101,14 @@ const EscalationMapping = () => {
                     sx={{
                       display: 'flex',
                       wdith: '100%',
-                      mt: 1,
+                      mt: 1
                     }}
                   >
                     <Box
                       sx={{
                         width: '30%',
                         mt: 0.5,
-                        p: 0.5,
+                        p: 0.5
                       }}
                     >
                       IT
@@ -116,7 +116,7 @@ const EscalationMapping = () => {
                     <Box
                       sx={{
                         width: '40%',
-                        mt: 1,
+                        mt: 1
                       }}
                     >
                       <ComplaintDeptSelect value={cmdept} setValue={setCmdept} />
@@ -125,20 +125,17 @@ const EscalationMapping = () => {
                       sx={{
                         width: '40%',
                         mt: 1,
-                        ml: 0.5,
+                        ml: 0.5
                       }}
                     >
                       <SelectEscalation value={escalation} setValue={setEscalation} />
                     </Box>
                     <Box
                       sx={{
-                        width: '10%',
+                        width: '10%'
                       }}
                     >
-                      <IconButton
-                        sx={{ color: editicon, paddingY: 0.5 }}
-                        onClick={escalationInsert1}
-                      >
+                      <IconButton sx={{ color: editicon, paddingY: 0.5 }} onClick={escalationInsert1}>
                         <PublishedWithChangesOutlinedIcon />
                       </IconButton>
                     </Box>
@@ -146,14 +143,14 @@ const EscalationMapping = () => {
                   <Box
                     sx={{
                       display: 'flex',
-                      wdith: '100%',
+                      wdith: '100%'
                     }}
                   >
                     <Box
                       sx={{
                         width: '30%',
                         mt: 0.5,
-                        p: 0.5,
+                        p: 0.5
                       }}
                     >
                       Maintenance
@@ -161,7 +158,7 @@ const EscalationMapping = () => {
                     <Box
                       sx={{
                         width: '40%',
-                        mt: 1,
+                        mt: 1
                       }}
                     >
                       <ComplaintDeptSelect value={cmdept1} setValue={setCmdept1} />
@@ -170,20 +167,17 @@ const EscalationMapping = () => {
                       sx={{
                         width: '40%',
                         mt: 1,
-                        ml: 0.5,
+                        ml: 0.5
                       }}
                     >
                       <SelectEscalation value={escalation1} setValue={setEscalation1} />
                     </Box>
                     <Box
                       sx={{
-                        width: '10%',
+                        width: '10%'
                       }}
                     >
-                      <IconButton
-                        sx={{ color: editicon, paddingY: 0.5 }}
-                        onClick={escalationInsert2}
-                      >
+                      <IconButton sx={{ color: editicon, paddingY: 0.5 }} onClick={escalationInsert2}>
                         <PublishedWithChangesOutlinedIcon />
                       </IconButton>
                     </Box>

@@ -24,12 +24,9 @@ const QualityIndicatorsTable = ({ count, rowSelect }) => {
       headerName: 'Action',
       width: 50,
       cellRenderer: params => (
-        <EditOutlinedIcon
-          sx={{ color: 'blue', cursor: 'pointer' }}
-          onClick={() => rowSelect(params)}
-        />
-      ),
-    },
+        <EditOutlinedIcon sx={{ color: 'blue', cursor: 'pointer' }} onClick={() => rowSelect(params)} />
+      )
+    }
   ])
   return <CusAgGridMast columnDefs={column} tableData={tabledata} onClick={rowSelect} />
 }

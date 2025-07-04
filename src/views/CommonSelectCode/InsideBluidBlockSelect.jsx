@@ -36,11 +36,7 @@ const InsideBluidBlockSelect = ({ value, setValue, setName }) => {
           {insideBuilding &&
             insideBuilding.map((val, index) => {
               return (
-                <MenuItem
-                  key={index}
-                  value={val.rm_insidebuildblock_slno}
-                  name={val.rm_insidebuildblock_alias}
-                >
+                <MenuItem key={index} value={val.rm_insidebuildblock_slno} name={val.rm_insidebuildblock_alias}>
                   {val.rm_insidebuildblock_name}
                 </MenuItem>
               )

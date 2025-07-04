@@ -30,7 +30,7 @@ const EquipmentMast = () => {
     equip_no: '0',
     equip_name: '',
     assetno: '',
-    equip_status: false,
+    equip_status: false
   })
   const { equip_no, equip_name, assetno, equip_status } = equipmentData
   const UpdateEquipmentDetails = useCallback(
@@ -56,7 +56,7 @@ const EquipmentMast = () => {
 
   const SearchProc = useCallback(() => {
     const postdata = {
-      PDC_DESC: proSearch.toUpperCase(),
+      PDC_DESC: proSearch.toUpperCase()
     }
     const GetElliderData = async postdata => {
       const result = await axiosellider.post('/procedureList/procedure', postdata)
@@ -78,7 +78,7 @@ const EquipmentMast = () => {
       equip_no: '0',
       equip_name: '',
       assetno: '',
-      equip_status: false,
+      equip_status: false
     }
     setEquipmentData(formreset)
     setQidept(0)
@@ -94,7 +94,7 @@ const EquipmentMast = () => {
       asset_no: assetno,
       equip_status: equip_status === true ? 1 : 0,
       create_user: id,
-      qi_dept_no: qidept,
+      qi_dept_no: qidept
     }
   }, [equip_name, ProcedureArray, assetno, equip_status, id, qidept])
   const patchdata = useMemo(() => {
@@ -105,7 +105,7 @@ const EquipmentMast = () => {
       equip_status: equip_status === true ? 1 : 0,
       edit_user: id,
       qi_dept_no: qidept,
-      equip_no: equip_no,
+      equip_no: equip_no
     }
   }, [equip_name, ProcedureArray, assetno, equip_status, id, equip_no, qidept])
   const SaveDetails = useCallback(
@@ -153,12 +153,12 @@ const EquipmentMast = () => {
       equip_no: equip_no,
       equip_name: equip_name,
       assetno: asset_no,
-      equip_status: status === 'Yes' ? true : false,
+      equip_status: status === 'Yes' ? true : false
     }
     setEquipmentData(frmdata)
     const newData = data?.map(val => {
       return {
-        procedure_names: val.procedure_names,
+        procedure_names: val.procedure_names
       }
     })
     const proc = JSON?.parse(newData[0]?.procedure_names)
@@ -166,12 +166,7 @@ const EquipmentMast = () => {
   }, [])
 
   return (
-    <CardMaster
-      title="Equipment Master"
-      submit={SaveDetails}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Equipment Master" submit={SaveDetails} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ display: 'flex', height: window.innerHeight - 240 }}>
         <Box sx={{ flex: 1.2, pr: 1 }}>
           <Box sx={{ flex: 1 }}>
@@ -223,10 +218,7 @@ const EquipmentMast = () => {
           ) : null}
           {ProcedureArray.length > 0 ? (
             <Box sx={{ py: 0.5 }}>
-              <ProcedureTableSave
-                ProcedureArray={ProcedureArray}
-                setProcedureArray={setProcedureArray}
-              />
+              <ProcedureTableSave ProcedureArray={ProcedureArray} setProcedureArray={setProcedureArray} />
             </Box>
           ) : null}
 

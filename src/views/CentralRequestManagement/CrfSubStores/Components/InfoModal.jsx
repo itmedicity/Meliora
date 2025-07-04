@@ -8,7 +8,7 @@ import {
   Table,
   Textarea,
   Tooltip,
-  Typography,
+  Typography
 } from '@mui/joy'
 import { format } from 'date-fns'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
@@ -39,17 +39,17 @@ const InfoModal = ({ handleClose, open, selectedRadio, storeName, infoData }) =>
     '&:hover': {
       bgcolor: 'white',
       color: '#607d8b',
-      transform: 'scale(1.1)',
+      transform: 'scale(1.1)'
     },
     '&:active': {
-      transform: 'scale(0.95)',
-    },
+      transform: 'scale(0.95)'
+    }
   }
   useEffect(() => {
     if (infoData.length !== 0) {
       const postdata = {
         req_slno: req_slno,
-        substore_slno: selectedRadio,
+        substore_slno: selectedRadio
       }
       const getUserInfo = async postdata => {
         const result = await axioslogin.post('/newCRFStore/getAckSave', postdata)
@@ -88,7 +88,7 @@ const InfoModal = ({ handleClose, open, selectedRadio, storeName, infoData }) =>
       substore_remarks: remarks,
       substore_user: id,
       substore_ack_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
-      create_user: id,
+      create_user: id
     }
   }, [id, selectedRadio, remarks, req_slno, po_detail_slno])
 
@@ -97,7 +97,7 @@ const InfoModal = ({ handleClose, open, selectedRadio, storeName, infoData }) =>
       substore_slno: selectedRadio,
       substore_remarks: remarks,
       edit_user: id,
-      collect_slno: collectSlno,
+      collect_slno: collectSlno
     }
   }, [id, selectedRadio, remarks, collectSlno])
   const SaveRemarks = useCallback(() => {
@@ -110,7 +110,7 @@ const InfoModal = ({ handleClose, open, selectedRadio, storeName, infoData }) =>
         if (success === 1) {
           const patchData = {
             po_detail_slno: po_detail_slno,
-            req_slno: req_slno,
+            req_slno: req_slno
           }
           const updateStoreReceive = async patchData => {
             const result = await axioslogin.patch('/newCRFStore/updateReceive', patchData)
@@ -155,17 +155,7 @@ const InfoModal = ({ handleClose, open, selectedRadio, storeName, infoData }) =>
         insertUserAck(postdata)
       }
     }
-  }, [
-    postdata,
-    handleClose,
-    remarks,
-    edit,
-    patchdata,
-    po_detail_slno,
-    req_slno,
-    ResetDetails,
-    queryClient,
-  ])
+  }, [postdata, handleClose, remarks, edit, patchdata, po_detail_slno, req_slno, ResetDetails, queryClient])
   const capitalizeWords = str =>
     str
       ? str
@@ -189,7 +179,7 @@ const InfoModal = ({ handleClose, open, selectedRadio, storeName, infoData }) =>
             sx={{
               minWidth: '50vw',
               minHeight: 150,
-              overflow: 'auto',
+              overflow: 'auto'
             }}
           >
             <ModalClose
@@ -203,7 +193,7 @@ const InfoModal = ({ handleClose, open, selectedRadio, storeName, infoData }) =>
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 25,
-                width: 25,
+                width: 25
               }}
             />
             <Box sx={{ flexWrap: 'wrap' }}>
@@ -213,16 +203,14 @@ const InfoModal = ({ handleClose, open, selectedRadio, storeName, infoData }) =>
                 </Typography>
               </Box>
               {exist === 1 ? (
-                <Box
-                  sx={{ flexWrap: 'wrap', '&::-webkit-scrollbar': { height: 8 }, overflow: 'auto' }}
-                >
+                <Box sx={{ flexWrap: 'wrap', '&::-webkit-scrollbar': { height: 8 }, overflow: 'auto' }}>
                   <Typography
                     sx={{
                       fontWeight: 'bold',
                       color: '#145DA0',
                       fontSize: 14,
                       marginBottom: 0.5,
-                      pl: 0.5,
+                      pl: 0.5
                     }}
                   >
                     Previous User Acknowledgement Details
@@ -236,14 +224,8 @@ const InfoModal = ({ handleClose, open, selectedRadio, storeName, infoData }) =>
                   >
                     <thead>
                       <tr>
-                        <th
-                          size="sm"
-                          style={{ borderRadius: 0, width: 40, backgroundColor: '#e3f2fd' }}
-                        ></th>
-                        <th
-                          size="sm"
-                          style={{ width: 100, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                        >
+                        <th size="sm" style={{ borderRadius: 0, width: 40, backgroundColor: '#e3f2fd' }}></th>
+                        <th size="sm" style={{ width: 100, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                           CRF No.
                         </th>
                         <th size="sm" style={{ width: 150, backgroundColor: '#e3f2fd' }}>
@@ -264,10 +246,7 @@ const InfoModal = ({ handleClose, open, selectedRadio, storeName, infoData }) =>
                         <th size="sm" style={{ width: 110, backgroundColor: '#e3f2fd' }}>
                           Received User
                         </th>
-                        <th
-                          size="sm"
-                          style={{ borderRadius: 0, width: 250, backgroundColor: '#e3f2fd' }}
-                        >
+                        <th size="sm" style={{ borderRadius: 0, width: 250, backgroundColor: '#e3f2fd' }}>
                           Remarks
                         </th>
                       </tr>
@@ -284,7 +263,7 @@ const InfoModal = ({ handleClose, open, selectedRadio, storeName, infoData }) =>
                                   height: 25,
                                   width: 30,
                                   borderRadius: 2,
-                                  boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.1)',
+                                  boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.1)'
                                 }}
                               />
                             ) : (
@@ -300,8 +279,8 @@ const InfoModal = ({ handleClose, open, selectedRadio, storeName, infoData }) =>
                                     cursor: 'pointer',
                                     transition: 'transform 0.2s',
                                     '&:hover': {
-                                      transform: 'scale(1.1)',
-                                    },
+                                      transform: 'scale(1.1)'
+                                    }
                                   }}
                                   onClick={() => EditData(val)}
                                 />
@@ -321,9 +300,7 @@ const InfoModal = ({ handleClose, open, selectedRadio, storeName, infoData }) =>
                               : format(new Date(val.received_date), 'dd-MM-yyyy hh:mm:ss a')}
                           </td>
                           <td style={{ fontSize: 12 }}>
-                            {val.received_status === 0
-                              ? 'Not Received'
-                              : capitalizeWords(val.receive_user)}
+                            {val.received_status === 0 ? 'Not Received' : capitalizeWords(val.receive_user)}
                           </td>
                           <td style={{ fontSize: 12 }}>
                             {val.received_status === 0 ? 'Not Updated' : val.received_user_remarks}

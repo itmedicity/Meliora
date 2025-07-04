@@ -11,7 +11,7 @@ const TmMultipleEmployeeSelect = ({ empl, setEmpl }) => {
 
   const handleChange = e => {
     const {
-      target: { value },
+      target: { value }
     } = e
     setEmpl(typeof value === 'string' ? value.split(',') : value)
   }
@@ -26,7 +26,7 @@ const TmMultipleEmployeeSelect = ({ empl, setEmpl }) => {
             width: '100%',
             borderRadius: 1.5,
             borderColor: '#F9F9FB',
-            bgcolor: '#F9F9FB',
+            bgcolor: '#F9F9FB'
           }}
           id="demo-multiple-name"
           size="lg"
@@ -41,11 +41,7 @@ const TmMultipleEmployeeSelect = ({ empl, setEmpl }) => {
           {empnameselect &&
             empnameselect.map(val => {
               return (
-                <MenuItem
-                  sx={{ borderRadius: 1, mb: 0.2, mx: 0.5 }}
-                  key={val.em_id}
-                  value={val.em_id}
-                >
+                <MenuItem sx={{ borderRadius: 1, mb: 0.2, mx: 0.5 }} key={val.em_id} value={val.em_id}>
                   {val.em_name}
                 </MenuItem>
               )

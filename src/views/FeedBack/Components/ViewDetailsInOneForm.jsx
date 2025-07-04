@@ -1,13 +1,4 @@
-import {
-  Box,
-  Checkbox,
-  CssVarsProvider,
-  Input,
-  Select,
-  Table,
-  Textarea,
-  Typography,
-} from '@mui/joy'
+import { Box, Checkbox, CssVarsProvider, Input, Select, Table, Textarea, Typography } from '@mui/joy'
 import { Grid, Paper } from '@mui/material'
 import moment from 'moment'
 import React, { Fragment, memo, useEffect, useState } from 'react'
@@ -35,7 +26,7 @@ const ViewDetailsInOneForm = ({ ptDetails, nsName }) => {
     { id: 7, amenity: 'SET-TOP BOX REMOTE', in: true, out: false },
     { id: 8, amenity: 'OVEN', in: false, out: false },
     { id: 9, amenity: 'GEYSER', in: false, out: false },
-    { id: 10, amenity: 'ELECTRIC KETTLE', in: true, out: false },
+    { id: 10, amenity: 'ELECTRIC KETTLE', in: true, out: false }
   ]
   const [nameSignList, setnameSignList] = useState({
     bystandNameIn: '',
@@ -45,7 +36,7 @@ const ViewDetailsInOneForm = ({ ptDetails, nsName }) => {
     bystandSignIn: '',
     bystandSignOut: '',
     staffSignIn: '',
-    staffSignOut: '',
+    staffSignOut: ''
   })
   const {
     bystandNameIn,
@@ -55,14 +46,14 @@ const ViewDetailsInOneForm = ({ ptDetails, nsName }) => {
     bystandSignIn,
     bystandSignOut,
     staffSignIn,
-    staffSignOut,
+    staffSignOut
   } = nameSignList
   const departments = [
     { id: 1, dpt: 'BIOMEDICAL' },
     { id: 2, dpt: 'MAINTENANCE' },
     { id: 3, dpt: 'IT' },
     { id: 4, dpt: 'HOUSEKEEPING' },
-    { id: 5, dpt: 'OPERATIONS' },
+    { id: 5, dpt: 'OPERATIONS' }
   ]
 
   const [complaintView, setComplaintView] = useState({
@@ -70,7 +61,7 @@ const ViewDetailsInOneForm = ({ ptDetails, nsName }) => {
     typeNo: '',
     description: '',
     checkHic: false,
-    priority: false,
+    priority: false
   })
   const { selectedDepartment, typeNo, description, checkHic, priority } = complaintView
 
@@ -82,7 +73,7 @@ const ViewDetailsInOneForm = ({ ptDetails, nsName }) => {
       typeNo: 5,
       description: 'tap complaint',
       checkHic: false,
-      priority: false,
+      priority: false
     }
     setComplaintView(formdata)
     const namedata = {
@@ -93,7 +84,7 @@ const ViewDetailsInOneForm = ({ ptDetails, nsName }) => {
       bystandSignIn: '',
       bystandSignOut: '',
       staffSignIn: '',
-      staffSignOut: '',
+      staffSignOut: ''
     }
     setnameSignList(namedata)
   }, [dispatch, selectedDepartment])
@@ -102,7 +93,7 @@ const ViewDetailsInOneForm = ({ ptDetails, nsName }) => {
     '--Input-radius': '0px',
     borderColor: 'neutral.outlinedBorder',
     '&:hover': {
-      borderColor: 'white',
+      borderColor: 'white'
     },
     '&::before': {
       transform: 'scaleX(0)',
@@ -111,11 +102,11 @@ const ViewDetailsInOneForm = ({ ptDetails, nsName }) => {
       bottom: '-2px',
       top: 'unset',
       transition: 'transform .15s cubic-bezier(0.1,0.9,0.2,1)',
-      borderRadius: 0,
+      borderRadius: 0
     },
     '&:focus-within::before': {
-      transform: 'scaleX(1)',
-    },
+      transform: 'scaleX(1)'
+    }
   }
   return (
     <Fragment>
@@ -123,18 +114,10 @@ const ViewDetailsInOneForm = ({ ptDetails, nsName }) => {
         <Box sx={{ p: 0.5 }}>
           {room === 1 ? (
             <Box sx={{ borderRadius: 5, m: 0.5 }}>
-              <Typography sx={{ fontSize: 17, pl: 2, py: 0.5, fontWeight: 550 }}>
-                Room Checklist
-              </Typography>
+              <Typography sx={{ fontSize: 17, pl: 2, py: 0.5, fontWeight: 550 }}>Room Checklist</Typography>
               <Box variant="outlined" sx={{ '&::-webkit-scrollbar': { height: 8 }, my: 0.5 }}>
                 <CssVarsProvider>
-                  <Table
-                    aria-label="table with sticky header"
-                    borderAxis="both"
-                    padding="none"
-                    stickyHeader
-                    size="sm"
-                  >
+                  <Table aria-label="table with sticky header" borderAxis="both" padding="none" stickyHeader size="sm">
                     <thead style={{ alignItems: 'center' }}>
                       <tr style={{ height: 0.5 }}>
                         <th
@@ -143,7 +126,7 @@ const ViewDetailsInOneForm = ({ ptDetails, nsName }) => {
                             width: 100,
                             fontSize: 14,
                             textAlign: 'center',
-                            backgroundColor: '#eceff1',
+                            backgroundColor: '#eceff1'
                           }}
                         >
                           {' '}
@@ -158,7 +141,7 @@ const ViewDetailsInOneForm = ({ ptDetails, nsName }) => {
                             width: 100,
                             fontSize: 14,
                             textAlign: 'center',
-                            backgroundColor: '#eceff1',
+                            backgroundColor: '#eceff1'
                           }}
                         >
                           MRD NO.
@@ -174,7 +157,7 @@ const ViewDetailsInOneForm = ({ ptDetails, nsName }) => {
                             width: 100,
                             fontSize: 14,
                             textAlign: 'center',
-                            backgroundColor: '#eceff1',
+                            backgroundColor: '#eceff1'
                           }}
                         >
                           ROOM NO.{' '}
@@ -188,7 +171,7 @@ const ViewDetailsInOneForm = ({ ptDetails, nsName }) => {
                             width: 50,
                             fontSize: 14,
                             textAlign: 'center',
-                            backgroundColor: '#eceff1',
+                            backgroundColor: '#eceff1'
                           }}
                         >
                           DOCTOR NAME
@@ -201,18 +184,9 @@ const ViewDetailsInOneForm = ({ ptDetails, nsName }) => {
                   </Table>
                 </CssVarsProvider>
               </Box>
-              <Box
-                variant="outlined"
-                sx={{ overflow: 'auto', '&::-webkit-scrollbar': { height: 8 }, my: 0.5 }}
-              >
+              <Box variant="outlined" sx={{ overflow: 'auto', '&::-webkit-scrollbar': { height: 8 }, my: 0.5 }}>
                 <CssVarsProvider>
-                  <Table
-                    aria-label="table with sticky header"
-                    borderAxis="both"
-                    padding="none"
-                    stickyHeader
-                    size="sm"
-                  >
+                  <Table aria-label="table with sticky header" borderAxis="both" padding="none" stickyHeader size="sm">
                     <thead style={{ alignItems: 'center' }}>
                       <tr style={{ height: 0.5 }}>
                         <th size="sm" style={{ width: 100, fontSize: 14, textAlign: 'center' }}>
@@ -246,31 +220,16 @@ const ViewDetailsInOneForm = ({ ptDetails, nsName }) => {
               </Box>
               <Box sx={{ display: 'flex', pt: 1 }}>
                 <Box sx={{ pl: 1, pt: 0.3 }}>
-                  <Checkbox
-                    checked={declare}
-                    readOnly
-                    color="neutral"
-                    onChange={e => setDeclare(e.target.checked)}
-                  />
+                  <Checkbox checked={declare} readOnly color="neutral" onChange={e => setDeclare(e.target.checked)} />
                 </Box>
                 <Box sx={{ pl: 1 }}>
-                  I hereby state that I have received all the information with regards the amenities
-                  of the room which I occupied and are on working Condition during check-in and
-                  check-out time.
+                  I hereby state that I have received all the information with regards the amenities of the room which I
+                  occupied and are on working Condition during check-in and check-out time.
                 </Box>
               </Box>
-              <Box
-                variant="outlined"
-                sx={{ overflow: 'auto', '&::-webkit-scrollbar': { height: 8 }, my: 0.5 }}
-              >
+              <Box variant="outlined" sx={{ overflow: 'auto', '&::-webkit-scrollbar': { height: 8 }, my: 0.5 }}>
                 <CssVarsProvider>
-                  <Table
-                    aria-label="table with sticky header"
-                    borderAxis="both"
-                    padding="none"
-                    stickyHeader
-                    size="sm"
-                  >
+                  <Table aria-label="table with sticky header" borderAxis="both" padding="none" stickyHeader size="sm">
                     <thead style={{ alignItems: 'center' }}>
                       <tr style={{ height: 0.5 }}>
                         <th
@@ -279,7 +238,7 @@ const ViewDetailsInOneForm = ({ ptDetails, nsName }) => {
                             width: 100,
                             fontSize: 14,
                             textAlign: 'center',
-                            backgroundColor: '#eceff1',
+                            backgroundColor: '#eceff1'
                           }}
                         >
                           NAME{' '}
@@ -290,7 +249,7 @@ const ViewDetailsInOneForm = ({ ptDetails, nsName }) => {
                             width: 50,
                             fontSize: 14,
                             textAlign: 'center',
-                            backgroundColor: '#eceff1',
+                            backgroundColor: '#eceff1'
                           }}
                         >
                           IN
@@ -301,7 +260,7 @@ const ViewDetailsInOneForm = ({ ptDetails, nsName }) => {
                             width: 50,
                             fontSize: 14,
                             textAlign: 'center',
-                            backgroundColor: '#eceff1',
+                            backgroundColor: '#eceff1'
                           }}
                         >
                           OUT
@@ -312,7 +271,7 @@ const ViewDetailsInOneForm = ({ ptDetails, nsName }) => {
                             width: 100,
                             fontSize: 14,
                             textAlign: 'center',
-                            backgroundColor: '#eceff1',
+                            backgroundColor: '#eceff1'
                           }}
                         >
                           SIGNATURE{' '}
@@ -323,7 +282,7 @@ const ViewDetailsInOneForm = ({ ptDetails, nsName }) => {
                             width: 50,
                             fontSize: 14,
                             textAlign: 'center',
-                            backgroundColor: '#eceff1',
+                            backgroundColor: '#eceff1'
                           }}
                         >
                           IN
@@ -334,7 +293,7 @@ const ViewDetailsInOneForm = ({ ptDetails, nsName }) => {
                             width: 50,
                             fontSize: 14,
                             textAlign: 'center',
-                            backgroundColor: '#eceff1',
+                            backgroundColor: '#eceff1'
                           }}
                         >
                           OUT
@@ -345,39 +304,19 @@ const ViewDetailsInOneForm = ({ ptDetails, nsName }) => {
                           BYSTANDER{' '}
                         </th>
                         <th size="sm" style={{ width: 50, fontSize: 14, textAlign: 'center' }}>
-                          <Input
-                            variant="plain"
-                            name="bystandNameIn"
-                            value={bystandNameIn}
-                            sx={inputStyle}
-                          />
+                          <Input variant="plain" name="bystandNameIn" value={bystandNameIn} sx={inputStyle} />
                         </th>
                         <th size="sm" style={{ width: 50, fontSize: 14, textAlign: 'center' }}>
-                          <Input
-                            variant="plain"
-                            name="bystandNameOut"
-                            value={bystandNameOut}
-                            sx={inputStyle}
-                          />
+                          <Input variant="plain" name="bystandNameOut" value={bystandNameOut} sx={inputStyle} />
                         </th>
                         <th size="sm" style={{ width: 100, fontSize: 14, textAlign: 'center' }}>
                           BYSTANDER{' '}
                         </th>
                         <th size="sm" style={{ width: 50, fontSize: 14, textAlign: 'center' }}>
-                          <Input
-                            variant="plain"
-                            name="bystandSignIn"
-                            value={bystandSignIn}
-                            sx={inputStyle}
-                          />
+                          <Input variant="plain" name="bystandSignIn" value={bystandSignIn} sx={inputStyle} />
                         </th>
                         <th size="sm" style={{ width: 50, fontSize: 14, textAlign: 'center' }}>
-                          <Input
-                            variant="plain"
-                            name="bystandSignOut"
-                            value={bystandSignOut}
-                            sx={inputStyle}
-                          />
+                          <Input variant="plain" name="bystandSignOut" value={bystandSignOut} sx={inputStyle} />
                         </th>
                       </tr>
                       <tr style={{ height: 0.5 }}>
@@ -385,39 +324,19 @@ const ViewDetailsInOneForm = ({ ptDetails, nsName }) => {
                           STAFF{' '}
                         </th>
                         <th size="sm" style={{ width: 50, fontSize: 14, textAlign: 'center' }}>
-                          <Input
-                            variant="plain"
-                            name="staffNameIn"
-                            value={staffNameIn}
-                            sx={inputStyle}
-                          />
+                          <Input variant="plain" name="staffNameIn" value={staffNameIn} sx={inputStyle} />
                         </th>
                         <th size="sm" style={{ width: 50, fontSize: 14, textAlign: 'center' }}>
-                          <Input
-                            variant="plain"
-                            name="staffNameOut"
-                            value={staffNameOut}
-                            sx={inputStyle}
-                          />
+                          <Input variant="plain" name="staffNameOut" value={staffNameOut} sx={inputStyle} />
                         </th>
                         <th size="sm" style={{ width: 100, fontSize: 14, textAlign: 'center' }}>
                           STAFF{' '}
                         </th>
                         <th size="sm" style={{ width: 50, fontSize: 14, textAlign: 'center' }}>
-                          <Input
-                            variant="plain"
-                            name="staffSignIn"
-                            value={staffSignIn}
-                            sx={inputStyle}
-                          />
+                          <Input variant="plain" name="staffSignIn" value={staffSignIn} sx={inputStyle} />
                         </th>
                         <th size="sm" style={{ width: 50, fontSize: 14, textAlign: 'center' }}>
-                          <Input
-                            variant="plain"
-                            name="staffSignOut"
-                            value={staffSignOut}
-                            sx={inputStyle}
-                          />
+                          <Input variant="plain" name="staffSignOut" value={staffSignOut} sx={inputStyle} />
                         </th>
                       </tr>
                     </thead>
@@ -429,9 +348,7 @@ const ViewDetailsInOneForm = ({ ptDetails, nsName }) => {
           {complnt === 1 ? (
             <>
               <Box sx={{ borderRadius: 5 }}>
-                <Typography sx={{ fontSize: 17, pl: 2, py: 0.5, fontWeight: 550 }}>
-                  Complaint Registered
-                </Typography>
+                <Typography sx={{ fontSize: 17, pl: 2, py: 0.5, fontWeight: 550 }}>Complaint Registered</Typography>
               </Box>
               <Paper variant="outlined" square>
                 <Box sx={{ pl: 2, py: 1, opacity: 0.6, fontWeight: 550 }}>COMPLAINT DEPARTMENT</Box>
@@ -532,10 +449,7 @@ const ViewDetailsInOneForm = ({ ptDetails, nsName }) => {
           {incident === 1 ? (
             <Box sx={{ flexWrap: 'wrap' }}>
               <Box sx={{ borderRadius: 5 }}>
-                <Typography sx={{ fontSize: 17, pl: 2, py: 0.5, fontWeight: 550 }}>
-                  {' '}
-                  Incident Report Form
-                </Typography>
+                <Typography sx={{ fontSize: 17, pl: 2, py: 0.5, fontWeight: 550 }}> Incident Report Form</Typography>
               </Box>
               <Paper variant="outlined" square sx={{ display: 'flex', flexWrap: 'wrap', pb: 1 }}>
                 <Box sx={{ flex: 1, pl: 1, '@media screen and (max-width: 768px)': { pr: 1 } }}>
@@ -577,9 +491,7 @@ const ViewDetailsInOneForm = ({ ptDetails, nsName }) => {
               </Paper>
               <Paper variant="outlined" square sx={{ display: 'flex', flexWrap: 'wrap', pb: 1 }}>
                 <Box sx={{ flex: 1, pl: 1, pt: 0.5 }}>
-                  <Box sx={{ opacity: 0.6, fontWeight: 550, fontFamily: 'system-ui' }}>
-                    INCIDENT DETAILS
-                  </Box>
+                  <Box sx={{ opacity: 0.6, fontWeight: 550, fontFamily: 'system-ui' }}>INCIDENT DETAILS</Box>
                   <Box sx={{ pt: 0.5 }}>
                     <CssVarsProvider>
                       <Textarea
@@ -594,9 +506,7 @@ const ViewDetailsInOneForm = ({ ptDetails, nsName }) => {
                   </Box>
                 </Box>
                 <Box sx={{ flex: 1, px: 1, pt: 0.5 }}>
-                  <Box sx={{ opacity: 0.6, fontWeight: 550, fontFamily: 'system-ui' }}>
-                    INCIDENT REASON
-                  </Box>
+                  <Box sx={{ opacity: 0.6, fontWeight: 550, fontFamily: 'system-ui' }}>INCIDENT REASON</Box>
                   <Box sx={{ pt: 0.5 }}>
                     <CssVarsProvider>
                       <Textarea

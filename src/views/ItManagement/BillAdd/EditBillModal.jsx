@@ -1,13 +1,4 @@
-import {
-  Box,
-  Button,
-  Checkbox,
-  CssVarsProvider,
-  Modal,
-  ModalDialog,
-  Textarea,
-  Tooltip,
-} from '@mui/joy'
+import { Box, Button, Checkbox, CssVarsProvider, Modal, ModalDialog, Textarea, Tooltip } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined'
 import ItBillCategoryList from 'src/views/CommonSelectCode/ItBillCategoryList'
@@ -24,14 +15,7 @@ import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import PaidIcon from '@mui/icons-material/Paid'
 
-const EditBillModal = ({
-  openEditModal,
-  seteditModalFlag,
-  seteditModalOpen,
-  billData,
-  billCount,
-  setbillCount,
-}) => {
+const EditBillModal = ({ openEditModal, seteditModalFlag, seteditModalOpen, billData, billCount, setbillCount }) => {
   const {
     bill_add_slno,
     bill_category,
@@ -39,7 +23,7 @@ const EditBillModal = ({
     bill_cug_status,
     bill_tariff,
     bill_name,
-    it_bill_category_name,
+    it_bill_category_name
   } = billData
 
   const [billCategory, setBillCategory] = useState(bill_category)
@@ -106,7 +90,7 @@ const EditBillModal = ({
       bill_cug_status: cugStatus === true ? 1 : 0,
       bill_cug_simtype: simType === 0 ? null : simType,
       edit_user: id,
-      bill_active_status: billActive === false ? 0 : 1,
+      bill_active_status: billActive === false ? 0 : 1
     }
   }, [bill_add_slno, billName, billCategory, tarrif, cugStatus, simType, billActive, id])
 
@@ -147,7 +131,7 @@ const EditBillModal = ({
             justifyContent: 'center',
             alignItems: 'center',
             pl: 1,
-            borderRadius: 10,
+            borderRadius: 10
           }}
         >
           <ModalDialog variant="outlined" sx={{ width: 550 }}>
@@ -163,8 +147,8 @@ const EditBillModal = ({
                       height: 25,
                       width: 25,
                       '&:hover': {
-                        color: '#5C97B8',
-                      },
+                        color: '#5C97B8'
+                      }
                     }}
                     onClick={handleClose}
                   />
@@ -173,7 +157,7 @@ const EditBillModal = ({
             </Box>
             <Box
               sx={{
-                overflow: 'auto',
+                overflow: 'auto'
               }}
             >
               <Box sx={{ flex: 1, mt: 3, ml: 2, fontWeight: 600 }}>

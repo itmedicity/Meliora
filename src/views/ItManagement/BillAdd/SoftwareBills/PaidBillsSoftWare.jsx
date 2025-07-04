@@ -63,7 +63,7 @@ const PaidBillsSoftWare = () => {
           defaultValue={0}
           size="sm"
           sx={{
-            display: 'flex',
+            display: 'flex'
           }}
         >
           <TabList
@@ -77,8 +77,8 @@ const PaidBillsSoftWare = () => {
                 borderColor: 'white',
                 color: 'white',
                 borderRadius: 20,
-                bgcolor: '#3D5B59',
-              },
+                bgcolor: '#3D5B59'
+              }
             }}
           >
             <Box sx={{ display: 'flex' }}>

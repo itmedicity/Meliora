@@ -26,7 +26,7 @@ const ViewAllPatientsInOneTable = ({
   header,
   depCode,
   tabFlag,
-  setqiMarkedList,
+  setqiMarkedList
 }) => {
   const [qiflag, setQiflag] = useState(0)
   const [modalopen, setModalOpen] = useState(false)
@@ -75,7 +75,7 @@ const ViewAllPatientsInOneTable = ({
     const searchData = {
       from: format(new Date(dailyDate), 'yyyy-MM-dd 00:00:00'),
       to: format(new Date(dailyDate), 'yyyy-MM-dd 23:59:59'),
-      ptname: searchPat,
+      ptname: searchPat
     }
     const getSearchDetails = async searchData => {
       const result = await axioslogin.post('/qiemergency/searchbyPatient', searchData)
@@ -117,9 +117,7 @@ const ViewAllPatientsInOneTable = ({
             <ListIcon sx={{ color: '#37474f', height: 30, width: 25 }} />
           </Box>
           <Box sx={{ flex: 1, fontSize: 17, pt: 1, pl: 0.5 }}>
-            <Typography sx={{ color: '#37474f', fontFamily: 'Arial' }}>
-              {header} Patient&apos;s List
-            </Typography>
+            <Typography sx={{ color: '#37474f', fontFamily: 'Arial' }}>{header} Patient&apos;s List</Typography>
           </Box>
           {tabFlag === 1 ? (
             <>
@@ -127,9 +125,7 @@ const ViewAllPatientsInOneTable = ({
                 <Box sx={{ pl: 0.5, pt: 0.2 }}>
                   <CssVarsProvider>
                     <Input
-                      startDecorator={
-                        <PersonSearchTwoToneIcon sx={{ height: 30, width: 30, color: '#0063C5' }} />
-                      }
+                      startDecorator={<PersonSearchTwoToneIcon sx={{ height: 30, width: 30, color: '#0063C5' }} />}
                       size="sm"
                       placeholder="Search By Patient Name"
                       name="searchPat"
@@ -148,7 +144,7 @@ const ViewAllPatientsInOneTable = ({
                   fontSize: 20,
                   pr: 0.3,
                   pt: 0.4,
-                  pl: 0.5,
+                  pl: 0.5
                 }}
               >
                 <CssVarsProvider>
@@ -159,7 +155,7 @@ const ViewAllPatientsInOneTable = ({
                         height: 35,
                         width: 35,
                         opacity: 0.7,
-                        color: 'darkgreen',
+                        color: 'darkgreen'
                       }}
                       onClick={RefreshData}
                     />
@@ -187,7 +183,7 @@ const ViewAllPatientsInOneTable = ({
             overflow: 'auto',
             maxHeight: window.innerHeight - 180,
             '&::-webkit-scrollbar': { height: 6 },
-            cursor: 'pointer',
+            cursor: 'pointer'
           }}
         >
           <CssVarsProvider>
@@ -209,39 +205,24 @@ const ViewAllPatientsInOneTable = ({
                       backgroundColor: '#78909c',
                       color: 'white',
                       fontSize: 14,
-                      textAlign: 'center',
+                      textAlign: 'center'
                     }}
                   >
                     &nbsp; Sl.No
                   </th>
-                  <th
-                    size="sm"
-                    style={{ width: 100, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}
-                  >
+                  <th size="sm" style={{ width: 100, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>
                     &nbsp;Patient ID
                   </th>
-                  <th
-                    size="sm"
-                    style={{ width: 150, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}
-                  >
+                  <th size="sm" style={{ width: 150, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>
                     &nbsp;Patient Name
                   </th>
-                  <th
-                    size="sm"
-                    style={{ width: 120, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}
-                  >
+                  <th size="sm" style={{ width: 120, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>
                     &nbsp;Age/Gender
                   </th>
-                  <th
-                    size="sm"
-                    style={{ width: 100, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}
-                  >
+                  <th size="sm" style={{ width: 100, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>
                     &nbsp;Contacts{' '}
                   </th>
-                  <th
-                    size="sm"
-                    style={{ width: 150, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}
-                  >
+                  <th size="sm" style={{ width: 150, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>
                     &nbsp;Doctor Name
                   </th>
                   <th
@@ -251,15 +232,12 @@ const ViewAllPatientsInOneTable = ({
                       backgroundColor: '#78909c',
                       color: 'white',
                       fontSize: 14,
-                      textAlign: 'center',
+                      textAlign: 'center'
                     }}
                   >
                     &nbsp;Token{' '}
                   </th>
-                  <th
-                    size="sm"
-                    style={{ width: 160, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}
-                  >
+                  <th size="sm" style={{ width: 160, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>
                     &nbsp;Arrival Time{' '}
                   </th>
                   <th
@@ -269,7 +247,7 @@ const ViewAllPatientsInOneTable = ({
                       backgroundColor: '#78909c',
                       color: 'white',
                       fontSize: 14,
-                      textAlign: 'center',
+                      textAlign: 'center'
                     }}
                   >
                     &nbsp;QI Marking{' '}
@@ -284,7 +262,7 @@ const ViewAllPatientsInOneTable = ({
                       size="small"
                       style={{
                         cursor: 'pointer',
-                        background: val.qi_save_status === 1 ? '#cfd8dc' : 'transparent',
+                        background: val.qi_save_status === 1 ? '#cfd8dc' : 'transparent'
                       }}
                     >
                       <td size="sm" style={{ fontSize: 12, textAlign: 'center' }}>
@@ -318,8 +296,8 @@ const ViewAllPatientsInOneTable = ({
                               sx={{
                                 color: '#546e7a',
                                 ':hover': {
-                                  color: '#263238',
-                                },
+                                  color: '#263238'
+                                }
                               }}
                               onClick={e => IndicatorsView(val)}
                             />

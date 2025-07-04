@@ -22,7 +22,7 @@ const TransferDeptmodal = ({ open, setOpen, transfer, count, setCount, setTransm
     return {
       complaint_deptslno: cmpdept,
       dept_transfer_remarks: remark,
-      complaint_slno: complaint_slno,
+      complaint_slno: complaint_slno
     }
   }, [cmpdept, complaint_slno, remark])
   //reset function for to intial state
@@ -65,11 +65,11 @@ const TransferDeptmodal = ({ open, setOpen, transfer, count, setCount, setTransm
     '&:hover': {
       bgcolor: 'white',
       color: '#523A28',
-      transform: 'scale(1.1)',
+      transform: 'scale(1.1)'
     },
     '&:active': {
-      transform: 'scale(0.95)',
-    },
+      transform: 'scale(0.95)'
+    }
   }
 
   return (
@@ -84,13 +84,11 @@ const TransferDeptmodal = ({ open, setOpen, transfer, count, setCount, setTransm
             justifyContent: 'center',
             alignItems: 'center',
             pl: 1,
-            borderRadius: 10,
+            borderRadius: 10
           }}
         >
           <ModalDialog variant="outlined" sx={{ width: '43vw', p: 0, overflow: 'auto' }}>
-            <Typography
-              sx={{ flex: 1, fontWeight: 600, pl: 0.5, color: '#523A28', bgcolor: '#D0B49F', p: 1 }}
-            >
+            <Typography sx={{ flex: 1, fontWeight: 600, pl: 0.5, color: '#523A28', bgcolor: '#D0B49F', p: 1 }}>
               Department Transfer
             </Typography>
             <Box sx={{ px: 2, mt: 1 }}>

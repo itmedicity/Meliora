@@ -20,9 +20,7 @@ const NextDayBackupTable = ({ dailycount, setDayFlag }) => {
       <Paper>
         <CardMasterClose close={backtoHome}>
           <Paper>
-            <Typography sx={{ fontWeight: 10, fontSize: 18 }}>
-              UpComing Backups on Next Day
-            </Typography>
+            <Typography sx={{ fontWeight: 10, fontSize: 18 }}>UpComing Backups on Next Day</Typography>
           </Paper>
           <Paper variant="outlined" sx={{ overflow: 'auto', maxHeight: window.innerHeight - 220 }}>
             <CssVarsProvider>

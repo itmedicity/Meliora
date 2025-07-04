@@ -16,13 +16,13 @@ const EmployeeTicketList = ({ empdept }) => {
     return {
       fromDate: sevenDaysbefore,
       toDate: currentDateAndTime,
-      empdept,
+      empdept
     }
   }, [empdept, sevenDaysbefore, currentDateAndTime])
 
   const { data: AllEmployees } = useQuery({
     queryKey: ['getAllemployeeData', postdata],
-    queryFn: () => getAllemployeesUnderDepartment(postdata),
+    queryFn: () => getAllemployeesUnderDepartment(postdata)
   })
   const employeeList = useMemo(() => AllEmployees, [AllEmployees])
 
@@ -42,15 +42,13 @@ const EmployeeTicketList = ({ empdept }) => {
   }, [])
 
   return (
-    <Box
-      sx={{ width: 300, bgcolor: 'white', border: 1, borderColor: 'lightgrey', borderRadius: 5 }}
-    >
+    <Box sx={{ width: 300, bgcolor: 'white', border: 1, borderColor: 'lightgrey', borderRadius: 5 }}>
       <Box sx={{ flex: 1, display: 'flex', p: 1 }}>
         <StarHalfIcon
           sx={{
             color: '#5D6C89',
             height: 52,
-            width: 52,
+            width: 52
           }}
         />
         <Box sx={{ pl: 0.5 }}>
@@ -58,15 +56,13 @@ const EmployeeTicketList = ({ empdept }) => {
             text={'Ticket Stat (Employee)'}
             sx={{ flex: 1, fontWeight: 500, fontSize: 18, color: '#5D6C89' }}
           />
-          <Typography sx={{ fontSize: 12, color: '#5D6C89', pl: 0.3 }}>
-            From the last 7 days
-          </Typography>
+          <Typography sx={{ fontSize: 12, color: '#5D6C89', pl: 0.3 }}>From the last 7 days</Typography>
         </Box>
       </Box>
       <Box
         sx={{
           height: '75vh',
-          overflow: 'auto',
+          overflow: 'auto'
         }}
       >
         {employeeList?.map((val, index) => {
@@ -82,7 +78,7 @@ const EmployeeTicketList = ({ empdept }) => {
                 m: 0.3,
                 height: 50,
                 overflow: 'hidden',
-                opacity: 0.9,
+                opacity: 0.9
               }}
             >
               <Box
@@ -90,7 +86,7 @@ const EmployeeTicketList = ({ empdept }) => {
                   minWidth: 45,
                   display: 'flex',
                   justifyContent: 'center',
-                  alignItems: 'center',
+                  alignItems: 'center'
                 }}
               >
                 <Avatar size="sm" sx={{ bgcolor: 'white' }} />
@@ -102,14 +98,11 @@ const EmployeeTicketList = ({ empdept }) => {
                   flex: 1,
                   flexDirection: 'column',
                   fontSize: 13,
-                  overflow: 'hidden',
+                  overflow: 'hidden'
                 }}
               >
                 <Box sx={{ fontSize: 12, display: 'flex', flex: 1, alignItems: 'end' }}>
-                  <Typography
-                    sx={{ display: 'flex', fontWeight: 700, color: '#3B475F' }}
-                    level="title-sm"
-                  >
+                  <Typography sx={{ display: 'flex', fontWeight: 700, color: '#3B475F' }} level="title-sm">
                     {val.em_name}
                   </Typography>
                 </Box>
@@ -134,7 +127,7 @@ const EmployeeTicketList = ({ empdept }) => {
                     fontSize: 15,
                     justifyContent: 'start',
                     alignItems: 'center',
-                    opacity: 0.5,
+                    opacity: 0.5
                   }}
                 >
                   <CallMadeOutlinedIcon sx={{ display: 'flex', fontSize: 14, color: 'red' }} />
@@ -150,12 +143,10 @@ const EmployeeTicketList = ({ empdept }) => {
                     fontSize: 15,
                     justifyContent: 'start',
                     alignItems: 'center',
-                    opacity: 0.5,
+                    opacity: 0.5
                   }}
                 >
-                  <CallReceivedOutlinedIcon
-                    sx={{ display: 'flex', fontSize: 14, color: 'green' }}
-                  />
+                  <CallReceivedOutlinedIcon sx={{ display: 'flex', fontSize: 14, color: 'green' }} />
                   <Box sx={{ display: 'flex' }}>{val.closed_count}</Box>
                 </Box>
               </Box>

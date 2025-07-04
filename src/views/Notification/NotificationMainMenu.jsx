@@ -24,10 +24,9 @@ const NotificationMainMenu = () => {
     notification_slno: '',
     notification_heading: '',
     notification_remarks: '',
-    notification_status: false,
+    notification_status: false
   })
-  const { notification_slno, notification_heading, notification_remarks, notification_status } =
-    notification
+  const { notification_slno, notification_heading, notification_remarks, notification_status } = notification
 
   const updateNotification = useCallback(
     e => {
@@ -41,7 +40,7 @@ const NotificationMainMenu = () => {
       notification_slno: '',
       notification_heading: '',
       notification_remarks: '',
-      notification_status: false,
+      notification_status: false
     }
     setNotification(frmdata)
     setCount(0)
@@ -52,7 +51,7 @@ const NotificationMainMenu = () => {
       notification_heading: notification_heading,
       notification_remarks: notification_remarks,
       notification_status: notification_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [notification_heading, notification_remarks, notification_status, id])
   const patchdata = useMemo(() => {
@@ -61,7 +60,7 @@ const NotificationMainMenu = () => {
       notification_heading: notification_heading,
       notification_remarks: notification_remarks,
       notification_status: notification_status === true ? 1 : 0,
-      edit_user: id,
+      edit_user: id
     }
   }, [notification_slno, notification_heading, notification_remarks, notification_status, id])
   const sumbitNotification = useCallback(
@@ -109,13 +108,12 @@ const NotificationMainMenu = () => {
     setValue(1)
 
     const data = params.api.getSelectedRows()
-    const { notification_slno, notification_heading, notification_remarks, notification_status } =
-      data[0]
+    const { notification_slno, notification_heading, notification_remarks, notification_status } = data[0]
     const frmdata = {
       notification_slno: notification_slno,
       notification_heading: notification_heading,
       notification_remarks: notification_remarks,
-      notification_status: notification_status === 1 ? true : false,
+      notification_status: notification_status === 1 ? true : false
     }
     setNotification(frmdata)
   }, [])
@@ -127,18 +125,13 @@ const NotificationMainMenu = () => {
       notification_slno: '',
       notification_heading: '',
       notification_remarks: '',
-      notification_status: false,
+      notification_status: false
     }
     setNotification(frmdata)
     setValue(0)
   }, [setNotification])
   return (
-    <CardMaster
-      title="Notification"
-      submit={sumbitNotification}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Notification" submit={sumbitNotification} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ p: 1 }}>
         <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
           <Box sx={{ width: '30%', p: 1 }}>

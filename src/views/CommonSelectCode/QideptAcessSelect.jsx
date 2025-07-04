@@ -16,7 +16,7 @@ const QideptAcessSelect = ({ qidept, setQidept }) => {
   }, [])
   const handleChange = e => {
     const {
-      target: { value },
+      target: { value }
     } = e
     setQidept(typeof value === 'string' ? value.split(',') : value)
   }
@@ -27,7 +27,7 @@ const QideptAcessSelect = ({ qidept, setQidept }) => {
           sx={{
             height: 'auto', // Allow height to be auto-adjustable
             lineHeight: 1.2,
-            borderRadius: 1.5,
+            borderRadius: 1.5
           }}
           placeholder="Select Department Section"
           labelId="demo-multiple-name-label"
@@ -40,10 +40,7 @@ const QideptAcessSelect = ({ qidept, setQidept }) => {
           renderValue={selected => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
               {selected.map(value => (
-                <Chip
-                  key={value}
-                  label={departmentList.find(item => item.qi_dept_no === value)?.qi_dept_desc}
-                />
+                <Chip key={value} label={departmentList.find(item => item.qi_dept_no === value)?.qi_dept_desc} />
               ))}
             </Box>
           )}

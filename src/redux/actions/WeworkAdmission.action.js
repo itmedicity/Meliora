@@ -1,12 +1,7 @@
 import { axioslogin } from 'src/views/Axios/Axios'
 import { ActionTyps } from '../constants/action.type'
-const {
-  FETCH_TOTAL_ADMISSION,
-  FETCH_TOTAL_DAMA,
-  FETCH_TOTAL_BHRC,
-  FETCH_TOTAL_DOCVISIT,
-  FETCH_TOTAL_DISAFTERNOON,
-} = ActionTyps
+const { FETCH_TOTAL_ADMISSION, FETCH_TOTAL_DAMA, FETCH_TOTAL_BHRC, FETCH_TOTAL_DOCVISIT, FETCH_TOTAL_DISAFTERNOON } =
+  ActionTyps
 
 export const getTotalAdmission = () => async dispatch => {
   const result = await axioslogin.get(`/wewrkdash/admission/count`)

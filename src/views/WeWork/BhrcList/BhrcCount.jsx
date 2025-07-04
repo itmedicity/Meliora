@@ -83,7 +83,7 @@ const BhrcCount = () => {
     { headerName: 'Room', field: 'rmc_desc' },
     { headerName: 'Bed', field: 'bdc_no' },
     { headerName: 'Shift_from', field: 'shift_from' },
-    { headerName: 'Shift_to', field: 'shift_to' },
+    { headerName: 'Shift_to', field: 'shift_to' }
   ])
 
   return (
@@ -95,7 +95,7 @@ const BhrcCount = () => {
           textAlign: 'left',
           fontSize: 18,
           pl: 3,
-          pt: 2,
+          pt: 2
         }}
       >
         Bhrc patient List
@@ -106,7 +106,7 @@ const BhrcCount = () => {
             sx={{
               width: '50%',
               pt: 1.5,
-              pl: 2,
+              pl: 2
             }}
           >
             <CusCheckBox
@@ -123,7 +123,7 @@ const BhrcCount = () => {
             sx={{
               width: '50%',
               pt: 1.5,
-              pl: 2,
+              pl: 2
             }}
           >
             <CusCheckBox
@@ -137,11 +137,7 @@ const BhrcCount = () => {
             />
           </Box>
         </Box>
-        <CusReportDownloadClose
-          columnDefs={column}
-          tableData={TableData}
-          sx={{ width: '100%', height: 800 }}
-        />
+        <CusReportDownloadClose columnDefs={column} tableData={TableData} sx={{ width: '100%', height: 800 }} />
       </Box>
     </Card>
   )

@@ -22,7 +22,7 @@ const ItemTypeMast = () => {
   const [itemType, setItemType] = useState({
     item_type_slno: '',
     item_type_name: '',
-    item_type_status: false,
+    item_type_status: false
   })
   const { item_type_slno, item_type_name, item_type_status } = itemType
   const updateItemType = useCallback(
@@ -36,7 +36,7 @@ const ItemTypeMast = () => {
     const frmdata = {
       item_type_slno: '',
       item_type_name: '',
-      item_type_status: false,
+      item_type_status: false
     }
     setItemType(frmdata)
     setCount(0)
@@ -46,7 +46,7 @@ const ItemTypeMast = () => {
     return {
       item_type_name: item_type_name,
       item_type_status: item_type_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [item_type_name, item_type_status, id])
   const patchdata = useMemo(() => {
@@ -54,7 +54,7 @@ const ItemTypeMast = () => {
       item_type_slno: item_type_slno,
       item_type_name: item_type_name,
       item_type_status: item_type_status === true ? 1 : 0,
-      edit_user: id,
+      edit_user: id
     }
   }, [item_type_slno, item_type_name, item_type_status, id])
   const sumbitItemType = useCallback(
@@ -105,7 +105,7 @@ const ItemTypeMast = () => {
     const frmdata = {
       item_type_slno: item_type_slno,
       item_type_name: item_type_name,
-      item_type_status: item_type_status === 1 ? true : false,
+      item_type_status: item_type_status === 1 ? true : false
     }
     setItemType(frmdata)
   }, [])
@@ -116,18 +116,13 @@ const ItemTypeMast = () => {
     const frmdata = {
       item_type_slno: '',
       item_type_name: '',
-      item_type_status: false,
+      item_type_status: false
     }
     setItemType(frmdata)
     setValue(0)
   }, [setItemType])
   return (
-    <CardMaster
-      title="Item Type Master"
-      submit={sumbitItemType}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Item Type Master" submit={sumbitItemType} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ p: 1 }}>
         <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
           <Box sx={{ width: '30%', p: 1 }}>

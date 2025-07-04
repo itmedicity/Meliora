@@ -13,9 +13,9 @@ const CategorywiseList = ({ AllCategory, allcount }) => {
             xs: 'repeat(auto-fit, minmax(260px, 1fr))',
             sm: 'repeat(auto-fit, minmax(260px, 1fr))',
             md: 'repeat(auto-fit, minmax(260px, 1fr))',
-            lg: 'repeat(auto-fit, minmax(260px, 1fr))',
+            lg: 'repeat(auto-fit, minmax(260px, 1fr))'
           },
-          gap: 1,
+          gap: 1
         }}
       >
         {AllCategory?.map((val, index) => {
@@ -27,13 +27,13 @@ const CategorywiseList = ({ AllCategory, allcount }) => {
                   xs: 80,
                   sm: 130,
                   md: 180,
-                  lg: 230,
+                  lg: 230
                 },
                 border: 1,
                 borderRadius: 5,
                 p: 1,
                 borderColor: '#4F85B5',
-                gap: 1,
+                gap: 1
               }}
             >
               <Box
@@ -44,11 +44,11 @@ const CategorywiseList = ({ AllCategory, allcount }) => {
                     xs: 50,
                     sm: 80,
                     md: 100,
-                    lg: 150,
+                    lg: 150
                   },
                   borderRadius: 4,
                   display: 'flex',
-                  justifyContent: 'center',
+                  justifyContent: 'center'
                 }}
               >
                 <PhotoIcon sx={{ color: 'lightgrey', height: '80%', width: '100%' }} />
@@ -71,7 +71,7 @@ const CategorywiseList = ({ AllCategory, allcount }) => {
                         border: 1,
                         borderColor: '#4F85B5',
                         borderRadius: 4,
-                        pt: 0.5,
+                        pt: 0.5
                       }}
                     >
                       {count.asset_item_service_0_count !== undefined

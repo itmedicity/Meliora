@@ -35,14 +35,9 @@ const TmProjectView = ({ setprjFlag, projectHead, ProjTable, tableCount, setTabl
   return (
     <Paper sx={{ height: '90vh' }}>
       <Box sx={{ flex: 1, height: 30, display: 'flex' }}>
-        <Typography sx={{ color: 'grey', fontWeight: 500, flex: 1, pt: 0.5, pl: 1 }}>
-          {projectHead}
-        </Typography>
+        <Typography sx={{ color: 'grey', fontWeight: 500, flex: 1, pt: 0.5, pl: 1 }}>{projectHead}</Typography>
         <Box sx={{ pl: 0.5 }}>
-          <HighlightOffIcon
-            sx={{ color: 'grey', height: 30, width: 30, cursor: 'pointer' }}
-            onClick={backtoDash}
-          />
+          <HighlightOffIcon sx={{ color: 'grey', height: 30, width: 30, cursor: 'pointer' }} onClick={backtoDash} />
         </Box>
       </Box>
       <Box sx={{ bgcolor: '#DFE3ED', p: 0.5 }}>
@@ -88,7 +83,7 @@ const TmProjectView = ({ setprjFlag, projectHead, ProjTable, tableCount, setTabl
                           <CheckCircleOutlineIcon
                             sx={{
                               cursor: 'pointer',
-                              '&:hover': { color: '#DBA40E' },
+                              '&:hover': { color: '#DBA40E' }
                             }}
                             size={6}
                             onClick={() => rowSelectModal(val)}
@@ -104,7 +99,7 @@ const TmProjectView = ({ setprjFlag, projectHead, ProjTable, tableCount, setTabl
                                   ? '#94C973'
                                   : 'transparent',
                               minHeight: 5,
-                              fontWeight: 700,
+                              fontWeight: 700
                             }}
                           >
                             {val.tm_project_status === 0
@@ -122,7 +117,7 @@ const TmProjectView = ({ setprjFlag, projectHead, ProjTable, tableCount, setTabl
                                 borderRadius: 15,
                                 width: 150,
                                 pl: 1,
-                                mb: 0.5,
+                                mb: 0.5
                               }}
                             >
                               <CountDowncomponent DueDates={val.tm_project_duedate} />
@@ -135,7 +130,7 @@ const TmProjectView = ({ setprjFlag, projectHead, ProjTable, tableCount, setTabl
                                 mb: 0.5,
                                 width: 150,
                                 pl: 5,
-                                color: 'darkgreen',
+                                color: 'darkgreen'
                               }}
                             >
                               Completed
@@ -143,43 +138,33 @@ const TmProjectView = ({ setprjFlag, projectHead, ProjTable, tableCount, setTabl
                           )}
                         </td>
                         {val.tm_project_status === 1 ? (
-                          <td style={{ textTransform: 'capitalize' }}>
-                            {' '}
-                            {val.tm_project_name || 'not given'}
-                          </td>
+                          <td style={{ textTransform: 'capitalize' }}> {val.tm_project_name || 'not given'}</td>
                         ) : (
                           <td
                             style={{
-                              color: isPastDue(val.tm_project_duedate) ? '#970C10' : 'black',
+                              color: isPastDue(val.tm_project_duedate) ? '#970C10' : 'black'
                             }}
                           >
                             {val.tm_project_name || 'not given'}
                           </td>
                         )}
                         {val.tm_project_status === 1 ? (
-                          <td>
-                            {' '}
-                            {moment(val.tm_project_duedate).format('DD-MM-YYYY') || 'not given'}
-                          </td>
+                          <td> {moment(val.tm_project_duedate).format('DD-MM-YYYY') || 'not given'}</td>
                         ) : (
                           <td
                             style={{
-                              color: isPastDue(val.tm_project_duedate) ? '#970C10' : 'black',
+                              color: isPastDue(val.tm_project_duedate) ? '#970C10' : 'black'
                             }}
                           >
-                            {moment(val.tm_project_duedate).format('DD-MM-YYYY hh:mm') ||
-                              'not given'}
+                            {moment(val.tm_project_duedate).format('DD-MM-YYYY hh:mm') || 'not given'}
                           </td>
                         )}
                         {val.tm_project_status === 1 ? (
-                          <td style={{ textTransform: 'capitalize' }}>
-                            {' '}
-                            {val.tm_project_description || 'not given'}
-                          </td>
+                          <td style={{ textTransform: 'capitalize' }}> {val.tm_project_description || 'not given'}</td>
                         ) : (
                           <td
                             style={{
-                              color: isPastDue(val.tm_project_duedate) ? '#970C10' : 'black',
+                              color: isPastDue(val.tm_project_duedate) ? '#970C10' : 'black'
                             }}
                           >
                             {val.tm_project_description || 'not given'}

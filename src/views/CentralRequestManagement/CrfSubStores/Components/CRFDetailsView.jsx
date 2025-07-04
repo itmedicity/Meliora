@@ -5,8 +5,7 @@ import ErrorIcon from '@mui/icons-material/Error'
 import { format } from 'date-fns'
 
 const CRFDetailsView = ({ open, handleClose, crfData, company }) => {
-  const { req_slno, actual_requirement, needed, expected_date, emergency_flag, emer_type_name } =
-    crfData[0]
+  const { req_slno, actual_requirement, needed, expected_date, emergency_flag, emer_type_name } = crfData[0]
   const capitalizeWords = str =>
     str
       ? str
@@ -31,7 +30,7 @@ const CRFDetailsView = ({ open, handleClose, crfData, company }) => {
           item_qnty: val.item_qnty,
           item_specification: val.item_specification,
           aprox_cost: val.aprox_cost,
-          item_unit_price: val.item_unit_price,
+          item_unit_price: val.item_unit_price
         }
       })
       setReqItems(req)
@@ -45,7 +44,7 @@ const CRFDetailsView = ({ open, handleClose, crfData, company }) => {
           item_qnty: val.item_qnty_approved,
           item_specification: val.approve_item_specification,
           aprox_cost: val.approve_aprox_cost,
-          item_unit_price: val.approve_item_unit_price,
+          item_unit_price: val.approve_item_unit_price
         }
       })
       setApprvdItems(apprv)
@@ -73,21 +72,19 @@ const CRFDetailsView = ({ open, handleClose, crfData, company }) => {
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 35,
-                width: 35,
+                width: 35
               }}
             />
             <Box sx={{ minWidth: '80vw', minHeight: '62vh', maxHeight: '85vh', overflowY: 'auto' }}>
               <Box sx={{ mx: 0.5 }}>
-                <Typography sx={{ fontWeight: 550, fontFamily: 'system-ui', fontSize: 17 }}>
-                  CRF Details
-                </Typography>
+                <Typography sx={{ fontWeight: 550, fontFamily: 'system-ui', fontSize: 17 }}>CRF Details</Typography>
               </Box>
               <Paper variant="outlined" square sx={{ flexWrap: 'wrap' }}>
                 <Box
                   sx={{
                     padding: 1,
                     borderRadius: 2,
-                    backgroundColor: '#ffffff',
+                    backgroundColor: '#ffffff'
                   }}
                 >
                   <Typography
@@ -105,13 +102,11 @@ const CRFDetailsView = ({ open, handleClose, crfData, company }) => {
                               height: 15,
                               width: 15,
                               color: '#d50000',
-                              animation: `${blinkAnimation} 1s infinite`,
+                              animation: `${blinkAnimation} 1s infinite`
                             }}
                           />
                         </Box>
-                        <Typography
-                          sx={{ pl: 0.5, fontSize: 14, color: '#b71c1c', fontWeight: 550, pt: 0.5 }}
-                        >
+                        <Typography sx={{ pl: 0.5, fontSize: 14, color: '#b71c1c', fontWeight: 550, pt: 0.5 }}>
                           {emer_type_name !== null ? capitalizeWords(emer_type_name) : null}
                         </Typography>
                         {/* <Typography sx={{ fontSize: 12, color: '#b71c1c', pl: 1 }}>
@@ -120,21 +115,15 @@ const CRFDetailsView = ({ open, handleClose, crfData, company }) => {
                     ) : null}
                     <Box sx={{ display: 'flex', pt: 0.5, justifyContent: 'center' }}>
                       <Box>
-                        <Typography sx={{ fontSize: 14, fontWeight: 600 }}>
-                          Expected Date :
-                        </Typography>
+                        <Typography sx={{ fontSize: 14, fontWeight: 600 }}>Expected Date :</Typography>
                       </Box>
                       <Box sx={{ pl: 0.5, pt: 0.1 }}>
-                        <Typography sx={{ fontSize: 13 }}>
-                          {format(new Date(expected_date), 'dd-MM-yyyy')}
-                        </Typography>
+                        <Typography sx={{ fontSize: 13 }}>{format(new Date(expected_date), 'dd-MM-yyyy')}</Typography>
                       </Box>
                     </Box>
                   </Box>
                   <Box sx={{ display: 'flex' }}>
-                    <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.3, pt: 1 }}>
-                      Purpose
-                    </Typography>
+                    <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.3, pt: 1 }}>Purpose</Typography>
                     <Typography sx={{ pt: 0.7 }}> :&nbsp;</Typography>
                     <Box sx={{ pt: 0.5, flex: 2, pl: 0.3 }}>
                       <Typography sx={{ fontSize: 13, pt: 0.5, pr: 1 }}>
@@ -143,9 +132,7 @@ const CRFDetailsView = ({ open, handleClose, crfData, company }) => {
                     </Box>
                   </Box>
                   <Box sx={{ display: 'flex' }}>
-                    <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.3, pt: 1 }}>
-                      Justfication
-                    </Typography>
+                    <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.3, pt: 1 }}>Justfication</Typography>
                     <Typography sx={{ pt: 0.7 }}> :&nbsp;</Typography>
                     <Box sx={{ pt: 0.5, flex: 2, pl: 0.3 }}>
                       <Typography sx={{ fontSize: 13, pt: 0.5, pr: 1 }}>
@@ -156,18 +143,10 @@ const CRFDetailsView = ({ open, handleClose, crfData, company }) => {
                 </Box>
               </Paper>
               <Box sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
-                <Typography
-                  sx={{ fontWeight: 'bold', mx: 1, pb: 0.5, color: '#145DA0', fontSize: 14 }}
-                >
+                <Typography sx={{ fontWeight: 'bold', mx: 1, pb: 0.5, color: '#145DA0', fontSize: 14 }}>
                   Requested Items
                 </Typography>
-                <Table
-                  aria-label="table with sticky header"
-                  borderAxis="both"
-                  padding={'none'}
-                  stickyHeader
-                  size="sm"
-                >
+                <Table aria-label="table with sticky header" borderAxis="both" padding={'none'} stickyHeader size="sm">
                   <thead>
                     <tr>
                       <th
@@ -176,7 +155,7 @@ const CRFDetailsView = ({ open, handleClose, crfData, company }) => {
                           borderRadius: 0,
                           width: 50,
                           textAlign: 'center',
-                          backgroundColor: '#e3f2fd',
+                          backgroundColor: '#e3f2fd'
                         }}
                       >
                         Sl.No
@@ -187,28 +166,16 @@ const CRFDetailsView = ({ open, handleClose, crfData, company }) => {
                       <th size="sm" style={{ width: 100, backgroundColor: '#e3f2fd' }}>
                         &nbsp;&nbsp;Brand
                       </th>
-                      <th
-                        size="sm"
-                        style={{ width: 80, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                      >
+                      <th size="sm" style={{ width: 80, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                         Qnty
                       </th>
-                      <th
-                        size="sm"
-                        style={{ width: 80, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                      >
+                      <th size="sm" style={{ width: 80, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                         UOM
                       </th>
-                      <th
-                        size="sm"
-                        style={{ width: 350, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                      >
+                      <th size="sm" style={{ width: 350, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                         Specification
                       </th>
-                      <th
-                        size="sm"
-                        style={{ width: 100, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                      >
+                      <th size="sm" style={{ width: 100, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                         Price
                       </th>
                       <th
@@ -217,7 +184,7 @@ const CRFDetailsView = ({ open, handleClose, crfData, company }) => {
                           borderRadius: 0,
                           width: 100,
                           textAlign: 'center',
-                          backgroundColor: '#e3f2fd',
+                          backgroundColor: '#e3f2fd'
                         }}
                       >
                         Approx.cost
@@ -231,16 +198,12 @@ const CRFDetailsView = ({ open, handleClose, crfData, company }) => {
                         <td style={{ fontSize: 13 }}>&nbsp;{item.item_desc}</td>
                         <td style={{}}>&nbsp;{item.item_brand}</td>
                         <td style={{ textAlign: 'center' }}>{item.item_qnty}</td>
-                        <td style={{ textAlign: 'center' }}>
-                          {item.item_unit === 0 ? 'Not Given' : item.uom_name}
-                        </td>
+                        <td style={{ textAlign: 'center' }}>{item.item_unit === 0 ? 'Not Given' : item.uom_name}</td>
                         <td style={{}}>&nbsp;{item.item_specification}</td>
                         <td style={{ textAlign: 'center' }}>
                           {item.item_unit_price === 0 ? 'Not Given' : item.item_unit_price}
                         </td>
-                        <td style={{ textAlign: 'center' }}>
-                          {item.aprox_cost === 0 ? 'Not Given' : item.aprox_cost}
-                        </td>
+                        <td style={{ textAlign: 'center' }}>{item.aprox_cost === 0 ? 'Not Given' : item.aprox_cost}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -248,9 +211,7 @@ const CRFDetailsView = ({ open, handleClose, crfData, company }) => {
               </Box>
               {apprvdItems.length !== 0 ? (
                 <Box sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
-                  <Typography
-                    sx={{ fontWeight: 'bold', mx: 1, pb: 0.5, color: '#145DA0', fontSize: 14 }}
-                  >
+                  <Typography sx={{ fontWeight: 'bold', mx: 1, pb: 0.5, color: '#145DA0', fontSize: 14 }}>
                     Approved Items
                   </Typography>
                   <Table
@@ -268,7 +229,7 @@ const CRFDetailsView = ({ open, handleClose, crfData, company }) => {
                             borderRadius: 0,
                             width: 50,
                             textAlign: 'center',
-                            backgroundColor: '#e3f2fd',
+                            backgroundColor: '#e3f2fd'
                           }}
                         >
                           Sl.No
@@ -279,28 +240,16 @@ const CRFDetailsView = ({ open, handleClose, crfData, company }) => {
                         <th size="sm" style={{ width: 100, backgroundColor: '#e3f2fd' }}>
                           &nbsp;&nbsp;Brand
                         </th>
-                        <th
-                          size="sm"
-                          style={{ width: 80, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                        >
+                        <th size="sm" style={{ width: 80, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                           Qnty
                         </th>
-                        <th
-                          size="sm"
-                          style={{ width: 80, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                        >
+                        <th size="sm" style={{ width: 80, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                           UOM
                         </th>
-                        <th
-                          size="sm"
-                          style={{ width: 350, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                        >
+                        <th size="sm" style={{ width: 350, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                           Specification
                         </th>
-                        <th
-                          size="sm"
-                          style={{ width: 100, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                        >
+                        <th size="sm" style={{ width: 100, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                           Price
                         </th>
                         <th
@@ -309,7 +258,7 @@ const CRFDetailsView = ({ open, handleClose, crfData, company }) => {
                             borderRadius: 0,
                             width: 100,
                             textAlign: 'center',
-                            backgroundColor: '#e3f2fd',
+                            backgroundColor: '#e3f2fd'
                           }}
                         >
                           Approx.cost
@@ -323,9 +272,7 @@ const CRFDetailsView = ({ open, handleClose, crfData, company }) => {
                           <td style={{ fontSize: 13 }}>&nbsp;{item.item_desc}</td>
                           <td style={{}}>&nbsp;{item.item_brand}</td>
                           <td style={{ textAlign: 'center' }}>{item.item_qnty}</td>
-                          <td style={{ textAlign: 'center' }}>
-                            {item.item_unit === 0 ? 'Not Given' : item.uom_name}
-                          </td>
+                          <td style={{ textAlign: 'center' }}>{item.item_unit === 0 ? 'Not Given' : item.uom_name}</td>
                           <td style={{}}>&nbsp;{item.item_specification}</td>
                           <td style={{ textAlign: 'center' }}>
                             {item.item_unit_price === 0 ? 'Not Given' : item.item_unit_price}
@@ -346,7 +293,7 @@ const CRFDetailsView = ({ open, handleClose, crfData, company }) => {
                     fontSize: 25,
                     opacity: 0.5,
                     pt: 10,
-                    color: 'grey',
+                    color: 'grey'
                   }}
                 >
                   No items Approved

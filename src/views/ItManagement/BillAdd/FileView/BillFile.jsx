@@ -17,14 +17,12 @@ const BillFile = ({ billViewmodalOpen, setBillViewModalOpen, setBillViewModalFla
             overflow: 'auto',
             minWidth: '30vw',
             minHeight: '15vw',
-            bgcolor: '#4C5270',
+            bgcolor: '#4C5270'
           }}
         >
           <Box sx={{ flex: 1 }}>
             <Box sx={{ flex: 1, display: 'flex' }}>
-              <Typography sx={{ flex: 1, color: 'white', fontSize: 20, fontWeight: 600 }}>
-                Bills
-              </Typography>
+              <Typography sx={{ flex: 1, color: 'white', fontSize: 20, fontWeight: 600 }}>Bills</Typography>
               <Tooltip title="Close">
                 <HighlightOffSharpIcon
                   sx={{
@@ -33,8 +31,8 @@ const BillFile = ({ billViewmodalOpen, setBillViewModalOpen, setBillViewModalFla
                     height: 25,
                     width: 25,
                     '&:hover': {
-                      color: '#5C97B8',
-                    },
+                      color: '#5C97B8'
+                    }
                   }}
                   onClick={handleCloseBill}
                 />
@@ -42,17 +40,8 @@ const BillFile = ({ billViewmodalOpen, setBillViewModalOpen, setBillViewModalFla
             </Box>
             <Box sx={{ gap: 2 }}>
               {filezUrls.map((Url, index) => (
-                <Paper
-                  key={index}
-                  sx={{ bgcolor: '#EBEBE8', cursor: 'pointer', height: 800, width: 1000, mb: 0.5 }}
-                >
-                  <embed
-                    id="pdf-embed"
-                    src={Url}
-                    type="application/pdf"
-                    height={800}
-                    width={'100%'}
-                  />
+                <Paper key={index} sx={{ bgcolor: '#EBEBE8', cursor: 'pointer', height: 800, width: 1000, mb: 0.5 }}>
+                  <embed id="pdf-embed" src={Url} type="application/pdf" height={800} width={'100%'} />
                 </Paper>
               ))}
             </Box>
@@ -70,8 +59,8 @@ const BillFile = ({ billViewmodalOpen, setBillViewModalOpen, setBillViewModalFla
                   textAlign: 'center',
                   '&:hover': {
                     bgcolor: '#444444',
-                    color: 'white',
-                  },
+                    color: 'white'
+                  }
                 }}
                 onClick={handleCloseBill}
               >

@@ -55,7 +55,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
     queryflag: 0,
     queryOpen: false,
     assistNeedFlag: 0,
-    assistOpen: true,
+    assistOpen: true
   })
 
   const id = useSelector(state => state.LoginUserData.empid, _.isEqual)
@@ -65,7 +65,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
       ...prevState,
       queryflag: 1,
       valuee: value,
-      queryOpen: true,
+      queryOpen: true
     }))
     setValuee(value)
   }, [])
@@ -127,7 +127,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
     setState(prevState => ({
       ...prevState,
       assistflag: 1,
-      asistModalOpen: true,
+      asistModalOpen: true
     }))
     setReqDetails(value)
   }, [])
@@ -136,7 +136,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
     setState(prevState => ({
       ...prevState,
       assistNeedFlag: 1,
-      assistOpen: true,
+      assistOpen: true
     }))
     setAssistNeed(val)
   }, [])
@@ -145,7 +145,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
     setState(prevState => ({
       ...prevState,
       rectfyFlag: 1,
-      rectfyOpen: true,
+      rectfyOpen: true
     }))
     setRectfyDta(val)
   }, [])
@@ -154,7 +154,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
     setState(prevState => ({
       ...prevState,
       holdflag: 1,
-      holdOpen: true,
+      holdOpen: true
     }))
     setHoldData(val)
   }, [])
@@ -164,13 +164,11 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
     setState(prevState => ({
       ...prevState,
       image: 1,
-      imageViewOpen: true,
+      imageViewOpen: true
     }))
     setfileDetails(val)
     try {
-      const result = await axioslogin.get(
-        `/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`
-      )
+      const result = await axioslogin.get(`/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`)
       const { success } = result.data
       if (success === 1) {
         const data = result.data
@@ -197,7 +195,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
       setState(prevState => ({
         ...prevState,
         assetflag: 1,
-        assetOpen: true,
+        assetOpen: true
       }))
       setValuee(value)
     },
@@ -210,7 +208,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
         bgcolor: 'white',
         borderRadius: 0,
         height: '69vh',
-        overflow: 'auto',
+        overflow: 'auto'
       }}
     >
       {state.queryflag === 1 && (
@@ -291,7 +289,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
       )}
 
       <Box sx={{ p: 0.5, mb: 0.8 }}>
-        {assistReq?.map((val,) => {
+        {assistReq?.map(val => {
           return (
             <Box
               key={val.complaint_slno}
@@ -301,7 +299,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                 borderColor: '#A47551',
                 borderRadius: 8,
                 bgcolor: 'white',
-                mb: 0.6,
+                mb: 0.6
                 // animation: `${borderblinkAnimation} 1s infinite`,
               }}
             >
@@ -312,7 +310,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                   borderTopRightRadius: 6,
                   borderTopLeftRadius: 6,
                   mx: 0.1,
-                  display: 'flex',
+                  display: 'flex'
                 }}
               >
                 <CssVarsProvider>
@@ -326,7 +324,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                           fontSize: 15,
                           pl: 1,
                           py: 0.5,
-                          fontFamily: 'Arial',
+                          fontFamily: 'Arial'
                         }}
                         text={
                           val.compalint_date
@@ -345,7 +343,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                       px: 2,
                       fontWeight: 500,
                       fontSize: 14,
-                      cursor: 'pointer',
+                      cursor: 'pointer'
                     }}
                   >
                     Ticket Registered by : {val.comp_reg_emp}
@@ -356,13 +354,11 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                 sx={{
                   flex: 1,
                   bgcolor: '#A47551',
-                  display: 'flex',
+                  display: 'flex'
                 }}
               >
                 <Box sx={{ color: 'white', pl: 1, fontWeight: 600 }}>
-                  <NotificationsIcon
-                    sx={{ color: 'white', animation: `${borderblinkAnimation} 1s infinite }}` }}
-                  />{' '}
+                  <NotificationsIcon sx={{ color: 'white', animation: `${borderblinkAnimation} 1s infinite }}` }} />{' '}
                   Assist Request
                 </Box>
               </Box>
@@ -373,7 +369,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                     mx: 0.3,
                     pr: 0.5,
                     borderRight: 1,
-                    borderColor: 'lightgrey',
+                    borderColor: 'lightgrey'
                   }}
                 >
                   <Typography sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700 }}>
@@ -381,11 +377,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                     Ticket No. {val.complaint_slno}
                   </Typography>
                   <Box sx={{ flex: 1, display: 'flex', my: 1, justifyContent: 'center' }}>
-                    <Tooltip
-                      title="Accept / Reject  Assist Request"
-                      color="warning"
-                      placement="right"
-                    >
+                    <Tooltip title="Accept / Reject  Assist Request" color="warning" placement="right">
                       <EngineeringIcon
                         sx={{
                           height: 28,
@@ -397,7 +389,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                           borderColor: '#523A28',
                           borderRadius: 5,
                           p: 0.3,
-                          '&:hover': { bgcolor: '#BC9476', color: 'white' },
+                          '&:hover': { bgcolor: '#BC9476', color: 'white' }
                         }}
                         onClick={() => AssistRequ(val)}
                       />
@@ -415,7 +407,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                         display: 'flex',
                         cursor: 'grab',
                         mx: 0.5,
-                        width: 115,
+                        width: 115
                       }}
                     >
                       <CountDownCm complaintDate={val.compalint_date} />
@@ -425,18 +417,16 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                 <Box
                   sx={{
                     pl: 0.5,
-                    maxWidth: 500,
+                    maxWidth: 500
                   }}
                 >
                   <Box
                     sx={{
                       display: 'flex',
-                      mt: 0.5,
+                      mt: 0.5
                     }}
                   >
-                    <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
-                      Department Section
-                    </Typography>
+                    <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>Department Section</Typography>
                     <Typography sx={{ fontSize: 14, flex: 1, textTransform: 'capitalize' }}>
                       {val.location.charAt(0).toUpperCase() + val.location.slice(1).toLowerCase()}
                     </Typography>
@@ -444,47 +434,42 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                   <Box
                     sx={{
                       display: 'flex',
-                      mt: 0.5,
+                      mt: 0.5
                     }}
                   >
-                    <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
-                      Location
-                    </Typography>
+                    <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>Location</Typography>
                     <Typography sx={{ fontSize: 13, flex: 1 }}>
                       {val.rm_room_name}
                       {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name
-                        ? ` (${val.rm_roomtype_name || ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
-                        }${val.rm_insidebuildblock_name || ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
-                        }${val.rm_floor_name || ''})`
+                        ? ` (${val.rm_roomtype_name || ''}${
+                            val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
+                          }${val.rm_insidebuildblock_name || ''}${
+                            val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
+                          }${val.rm_floor_name || ''})`
                         : val.cm_complaint_location || 'Not Updated'}
                     </Typography>
                   </Box>
                   <Box
                     sx={{
                       display: 'flex',
-                      mt: 0.5,
+                      mt: 0.5
                     }}
                   >
-                    <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
-                      Complaint Type
-                    </Typography>
+                    <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>Complaint Type</Typography>
                     <Typography sx={{ fontSize: 14, flex: 1 }}>
-                      {val.complaint_type_name.charAt(0).toUpperCase() +
-                        val.complaint_type_name.slice(1).toLowerCase()}
+                      {val.complaint_type_name.charAt(0).toUpperCase() + val.complaint_type_name.slice(1).toLowerCase()}
                     </Typography>
                   </Box>
                 </Box>
                 <Box sx={{ flex: 1, pl: 1.5 }}>
-                  <Typography sx={{ fontSize: 13, fontWeight: 700 }}>
-                    Complaint Describtion
-                  </Typography>
+                  <Typography sx={{ fontSize: 13, fontWeight: 700 }}>Complaint Describtion</Typography>
                   <Typography
                     sx={{
                       pr: 0.5,
                       pt: 0.3,
                       fontSize: 15,
                       maxHeight: 50,
-                      overflow: 'auto',
+                      overflow: 'auto'
                     }}
                   >
                     {val.complaint_desc || 'Not Updated'}
@@ -499,7 +484,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                   borderBottomLeftRadius: 5,
                   mb: 0.1,
                   mx: 0.1,
-                  display: 'flex',
+                  display: 'flex'
                 }}
               >
                 {val.priority_check === 1 ? (
@@ -510,13 +495,10 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                         height: 30,
                         width: 25,
                         color: val.priority_check === 1 ? '#970C10' : 'lightgrey',
-                        animation:
-                          val.priority_check === 1 ? `${blinkAnimation} 1s infinite` : 'none',
+                        animation: val.priority_check === 1 ? `${blinkAnimation} 1s infinite` : 'none'
                       }}
                     />
-                    <Typography
-                      sx={{ fontWeight: 600, pl: 0.5, fontSize: 14, pt: 0.5, color: 'darkred' }}
-                    >
+                    <Typography sx={{ fontWeight: 600, pl: 0.5, fontSize: 14, pt: 0.5, color: 'darkred' }}>
                       {val.priority_reason}
                     </Typography>
                   </Box>
@@ -532,13 +514,13 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
               sx={{
                 '--CircularProgress-size': '51px',
                 '--CircularProgress-trackThickness': '5px',
-                '--CircularProgress-progressThickness': '2px',
+                '--CircularProgress-progressThickness': '2px'
               }}
             />
           </div>
         ) : (
           <>
-            {allPendingCompl?.map((val,) => {
+            {allPendingCompl?.map(val => {
               const getBadgeColor = (pending, accepted, rejected) => {
                 if (pending > 0) return '#0458AB'
                 if (pending === 0 && accepted > 0) return 'green'
@@ -555,7 +537,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                     borderColor: '#CBAE11',
                     borderRadius: 8,
                     bgcolor: 'white',
-                    mb: 0.8,
+                    mb: 0.8
                   }}
                 >
                   <Box
@@ -565,7 +547,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                       borderTopRightRadius: 6,
                       borderTopLeftRadius: 6,
                       mx: 0.1,
-                      display: 'flex',
+                      display: 'flex'
                     }}
                   >
                     <CssVarsProvider>
@@ -579,7 +561,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                               fontSize: 15,
                               pl: 1,
                               py: 0.5,
-                              fontFamily: 'Arial',
+                              fontFamily: 'Arial'
                             }}
                             text={
                               val.compalint_date
@@ -601,7 +583,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                               fontSize: 15,
                               pl: 2,
                               py: 0.5,
-                              fontFamily: 'Arial',
+                              fontFamily: 'Arial'
                             }}
                             text={
                               val.assigned_date
@@ -620,7 +602,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                           px: 2,
                           fontWeight: 500,
                           fontSize: 14,
-                          cursor: 'pointer',
+                          cursor: 'pointer'
                         }}
                       >
                         Ticket Registered by : {val.comp_reg_emp}
@@ -635,35 +617,23 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                         mb: 0.1,
                         mx: 0.1,
                         display: 'flex',
-                        py: 0.3,
+                        py: 0.3
                       }}
                     >
-                      <Typography
-                        sx={{ color: '#026F7E', pl: 1, pt: 0.2, fontWeight: 700, fontSize: 13 }}
-                      >
+                      <Typography sx={{ color: '#026F7E', pl: 1, pt: 0.2, fontWeight: 700, fontSize: 13 }}>
                         DELEGATED BY {val.assinged_user}
                       </Typography>
-                      <Typography
-                        sx={{ color: 'black', pt: 0.2, fontWeight: 500, fontSize: 13, ml: 3 }}
-                      >
+                      <Typography sx={{ color: 'black', pt: 0.2, fontWeight: 500, fontSize: 13, ml: 3 }}>
                         Priority :
                       </Typography>
-                      <Chip sx={{ bgcolor: 'white', color: '#391306', border: 1, ml: 1 }}>
-                        {val.cm_priority_desc}
-                      </Chip>
-                      <Typography
-                        sx={{ color: 'black', pt: 0.2, fontWeight: 500, fontSize: 13, ml: 3 }}
-                      >
+                      <Chip sx={{ bgcolor: 'white', color: '#391306', border: 1, ml: 1 }}>{val.cm_priority_desc}</Chip>
+                      <Typography sx={{ color: 'black', pt: 0.2, fontWeight: 500, fontSize: 13, ml: 3 }}>
                         Aprox Date :
                       </Typography>
                       <Chip sx={{ bgcolor: 'white', color: '#391306', border: 1, ml: 1 }}>
-                        {val.aprrox_date
-                          ? format(new Date(val.aprrox_date), 'dd MM yyyy,  hh:mm a')
-                          : 'Not Updated'}
+                        {val.aprrox_date ? format(new Date(val.aprrox_date), 'dd MM yyyy,  hh:mm a') : 'Not Updated'}
                       </Chip>
-                      <Typography
-                        sx={{ color: 'black', pt: 0.2, fontWeight: 500, fontSize: 13, ml: 3 }}
-                      >
+                      <Typography sx={{ color: 'black', pt: 0.2, fontWeight: 500, fontSize: 13, ml: 3 }}>
                         Remarks :
                       </Typography>
                       <Typography sx={{ color: 'black', pt: 0.2, fontSize: 13, ml: 3 }}>
@@ -678,20 +648,16 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                         bgcolor: '#DFDACD',
                         display: 'flex',
                         py: 0.3,
-                        flexWrap: 'wrap',
+                        flexWrap: 'wrap'
                       }}
                     >
                       <Box sx={{ display: 'flex', pl: 0.5 }}>
                         <ReportProblemIcon sx={{ color: 'darkred', P: 0.1 }} />
-                        <Box sx={{ pt: 0.3, color: 'darkred', fontWeight: 700, fontSize: 14 }}>
-                          TICKET RESUBMITTED
-                        </Box>
+                        <Box sx={{ pt: 0.3, color: 'darkred', fontWeight: 700, fontSize: 14 }}>TICKET RESUBMITTED</Box>
                       </Box>
                       <Box sx={{ display: 'flex' }}>
                         <Box sx={{ pl: 2, fontWeight: 600, color: 'darkred' }}>Remarks:</Box>
-                        <Box sx={{ pl: 1, fontWeight: 600, color: 'darkred' }}>
-                          {val.verify_remarks}
-                        </Box>
+                        <Box sx={{ pl: 1, fontWeight: 600, color: 'darkred' }}>{val.verify_remarks}</Box>
                       </Box>
                     </Box>
                   ) : null}
@@ -703,7 +669,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                         bgcolor: '#DFDACD      ',
                         display: 'flex',
                         py: 0.3,
-                        flexWrap: 'wrap',
+                        flexWrap: 'wrap'
                       }}
                     >
                       <Box sx={{ display: 'flex', pl: 0.5 }}>
@@ -714,9 +680,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                       </Box>
                       <Box sx={{ display: 'flex' }}>
                         <Box sx={{ pl: 2, fontWeight: 600, color: 'darkred' }}>Remarks:</Box>
-                        <Box sx={{ pl: 1, fontWeight: 600, color: 'darkred' }}>
-                          {val.verify_spervsr_remarks}
-                        </Box>
+                        <Box sx={{ pl: 1, fontWeight: 600, color: 'darkred' }}>{val.verify_spervsr_remarks}</Box>
                       </Box>
                     </Box>
                   ) : null}
@@ -727,13 +691,10 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                         mx: 0.3,
                         pr: 0.5,
                         borderRight: 1,
-                        borderColor: 'lightgrey',
+                        borderColor: 'lightgrey'
                       }}
                     >
-                      <Typography sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700 }}>
-                        {' '}
-                        Ticket No.
-                      </Typography>
+                      <Typography sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700 }}> Ticket No.</Typography>
                       <Typography sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700 }}>
                         {val.complaint_slno}
                       </Typography>
@@ -749,7 +710,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                               mx: 0.5,
                               borderRadius: 5,
                               p: 0.1,
-                              '&:hover': { color: '#18A558' },
+                              '&:hover': { color: '#18A558' }
                             }}
                             onClick={() => RectifyRequest(val)}
                           />
@@ -761,8 +722,8 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                               '& .MuiBadge-badge': {
                                 backgroundColor: badgeColor,
                                 mr: 0.7,
-                                cursor: 'pointer',
-                              },
+                                cursor: 'pointer'
+                              }
                             }}
                           >
                             <Tooltip title="Need Assist" color="warning">
@@ -777,10 +738,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                                   borderRadius: 5,
                                   p: 0.3,
                                   '&:hover': { color: '#D6AD60' },
-                                  animation:
-                                    val.assist_flag === 1
-                                      ? `${blinkAnimation} 1s infinite`
-                                      : 'none',
+                                  animation: val.assist_flag === 1 ? `${blinkAnimation} 1s infinite` : 'none'
                                 }}
                               />
                             </Tooltip>
@@ -798,8 +756,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                                 borderRadius: 5,
                                 p: 0.3,
                                 '&:hover': { color: '#D6AD60' },
-                                animation:
-                                  val.assist_flag === 1 ? `${blinkAnimation} 1s infinite` : 'none',
+                                animation: val.assist_flag === 1 ? `${blinkAnimation} 1s infinite` : 'none'
                               }}
                             />
                           </Tooltip>
@@ -815,7 +772,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                               borderRadius: 5,
                               p: 0.3,
                               ml: 0.5,
-                              '&:hover': { color: 'grey' },
+                              '&:hover': { color: 'grey' }
                             }}
                             onClick={() => HoldRequest(val)}
                           />
@@ -833,7 +790,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                                 borderRadius: 5,
                                 p: 0.1,
                                 '&:hover': { color: '#51575C' },
-                                animation: `${blinkAnimation} 1s infinite`,
+                                animation: `${blinkAnimation} 1s infinite`
                               }}
                               onClick={() => RaiseQuery(val)}
                             />
@@ -851,7 +808,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                                 borderRadius: 5,
                                 p: 0.1,
                                 '&:hover': { color: '#51575C' },
-                                animation: `${blinkAnimation} 1s infinite`,
+                                animation: `${blinkAnimation} 1s infinite`
                               }}
                               onClick={() => RaiseQuery(val)}
                             />
@@ -867,7 +824,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                                 border: 1,
                                 mx: 0.5,
                                 borderRadius: 5,
-                                '&:hover': { color: '#1B84FC' },
+                                '&:hover': { color: '#1B84FC' }
                               }}
                               onClick={() => RaiseQuery(val)}
                             />
@@ -884,7 +841,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                               borderRadius: 5,
                               p: 0.1,
                               mr: 0.5,
-                              '&:hover': { color: '#274472' },
+                              '&:hover': { color: '#274472' }
                             }}
                             onClick={() => fileView(val)}
                           />
@@ -900,7 +857,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                                 mr: 0.5,
                                 p: 0.1,
                                 color: '#4C5270',
-                                cursor: 'pointer',
+                                cursor: 'pointer'
                               }}
                               onClick={() => AssetView(val)}
                             />
@@ -911,50 +868,45 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                     <Box
                       sx={{
                         pl: 0.5,
-                        maxWidth: 500,
+                        maxWidth: 500
                       }}
                     >
                       <Box
                         sx={{
                           display: 'flex',
-                          mt: 0.5,
+                          mt: 0.5
                         }}
                       >
-                        <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
-                          Department Section
-                        </Typography>
+                        <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>Department Section</Typography>
                         <Typography sx={{ fontSize: 15, flex: 1, textTransform: 'capitalize' }}>
-                          {val.location.charAt(0).toUpperCase() +
-                            val.location.slice(1).toLowerCase()}
+                          {val.location.charAt(0).toUpperCase() + val.location.slice(1).toLowerCase()}
                         </Typography>
                       </Box>
                       <Box
                         sx={{
                           display: 'flex',
-                          mt: 0.5,
+                          mt: 0.5
                         }}
                       >
-                        <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
-                          Location
-                        </Typography>
+                        <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>Location</Typography>
                         <Typography sx={{ fontSize: 13, flex: 1 }}>
                           {val.rm_room_name}
                           {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name
-                            ? ` (${val.rm_roomtype_name || ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
-                            }${val.rm_insidebuildblock_name || ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
-                            }${val.rm_floor_name || ''})`
+                            ? ` (${val.rm_roomtype_name || ''}${
+                                val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
+                              }${val.rm_insidebuildblock_name || ''}${
+                                val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
+                              }${val.rm_floor_name || ''})`
                             : val.cm_complaint_location || 'Not Updated'}
                         </Typography>
                       </Box>
                       <Box
                         sx={{
                           display: 'flex',
-                          mt: 0.5,
+                          mt: 0.5
                         }}
                       >
-                        <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
-                          Complaint Type
-                        </Typography>
+                        <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>Complaint Type</Typography>
                         <Typography sx={{ fontSize: 15, flex: 1 }}>
                           {val.complaint_type_name.charAt(0).toUpperCase() +
                             val.complaint_type_name.slice(1).toLowerCase()}
@@ -962,16 +914,14 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                       </Box>
                     </Box>
                     <Box sx={{ flex: 1, pl: 1.5 }}>
-                      <Typography sx={{ fontSize: 13, fontWeight: 700 }}>
-                        Complaint Describtion
-                      </Typography>
+                      <Typography sx={{ fontSize: 13, fontWeight: 700 }}>Complaint Describtion</Typography>
                       <Typography
                         sx={{
                           pr: 0.5,
                           pt: 0.3,
                           fontSize: 15,
                           maxHeight: 50,
-                          overflow: 'auto',
+                          overflow: 'auto'
                         }}
                       >
                         {val.complaint_desc || 'Not Updated'}
@@ -984,7 +934,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                       bgcolor: '#E5E8E9',
                       borderBottomRightRadius: 5,
                       borderBottomLeftRadius: 5,
-                      display: 'flex',
+                      display: 'flex'
                     }}
                   >
                     <Tooltip
@@ -1004,21 +954,16 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                             height: 30,
                             width: 25,
                             color: val.priority_check === 1 ? '#970C10' : 'lightgrey',
-                            animation:
-                              val.priority_check === 1 ? `${blinkAnimation} 1s infinite` : 'none',
+                            animation: val.priority_check === 1 ? `${blinkAnimation} 1s infinite` : 'none'
                           }}
                         />
-                        <Typography
-                          sx={{ fontWeight: 600, pl: 0.5, fontSize: 14, pt: 0.5, color: 'darkred' }}
-                        >
+                        <Typography sx={{ fontWeight: 600, pl: 0.5, fontSize: 14, pt: 0.5, color: 'darkred' }}>
                           {val.priority_reason}
                         </Typography>
                       </Box>
                     ) : null}
                     <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
-                      <Typography sx={{ fontSize: 13, fontWeight: 700, pt: 0.5 }}>
-                        Assignees :
-                      </Typography>
+                      <Typography sx={{ fontSize: 13, fontWeight: 700, pt: 0.5 }}>Assignees :</Typography>
                       &nbsp;&nbsp;
                       <Box sx={{ fontWeight: 600, display: 'flex', py: 0.4, gap: 0.3 }}>
                         {val.assigned_employee_names === null ? (

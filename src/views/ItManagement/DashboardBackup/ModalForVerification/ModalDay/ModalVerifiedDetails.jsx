@@ -9,7 +9,7 @@ const ModalVerifiedDetails = ({ open, handleClose, rowSelect }) => {
     backup_size_before: '',
     backup_size_after: '',
     em_name: '',
-    remarks: '',
+    remarks: ''
   })
   const { backup_date_time, backup_size_before, backup_size_after, em_name, remarks } = viewdata
   useEffect(() => {
@@ -34,7 +34,7 @@ const ModalVerifiedDetails = ({ open, handleClose, rowSelect }) => {
         backup_size_before: (backup_size_before / 1024).toFixed(2),
         backup_size_after: (backup_size_after / 1024).toFixed(2),
         em_name: em_name,
-        remarks: remarks === null ? 'Nil' : remarks,
+        remarks: remarks === null ? 'Nil' : remarks
       }
       setViewdata(frmdata)
     } else {
@@ -58,22 +58,16 @@ const ModalVerifiedDetails = ({ open, handleClose, rowSelect }) => {
               height: '100%',
               borderRadius: 1,
               border: '0.1px solid #454545',
-              overflow: 'hidden',
+              overflow: 'hidden'
             }}
           >
-            <Box
-              id="alert-dialog-slide-descriptiona"
-              sx={{ textAlign: 'center', height: 40, pt: 1 }}
-            >
-              <Typography style={{ textDecorationLine: 'underline', fontSize: 17 }}>
-                {' '}
-                Verified Details
-              </Typography>
+            <Box id="alert-dialog-slide-descriptiona" sx={{ textAlign: 'center', height: 40, pt: 1 }}>
+              <Typography style={{ textDecorationLine: 'underline', fontSize: 17 }}> Verified Details</Typography>
             </Box>
             <Box
               sx={{
                 width: 670,
-                height: 120,
+                height: 120
               }}
             >
               <Box
@@ -81,7 +75,7 @@ const ModalVerifiedDetails = ({ open, handleClose, rowSelect }) => {
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'center',
-                  width: '100%',
+                  width: '100%'
                 }}
               >
                 <Box sx={{ display: 'flex' }}>
@@ -89,9 +83,7 @@ const ModalVerifiedDetails = ({ open, handleClose, rowSelect }) => {
                     <Typography sx={{ fontSize: 15, color: '#274472' }}>Backup Date </Typography>
                   </Box>
                   <Box sx={{ flex: 3.5 }}>
-                    <Typography sx={{ fontSize: 15, color: '#274472' }}>
-                      :&nbsp; {backup_date_time}
-                    </Typography>
+                    <Typography sx={{ fontSize: 15, color: '#274472' }}>:&nbsp; {backup_date_time}</Typography>
                   </Box>
                 </Box>
                 <Box sx={{ display: 'flex' }}>
@@ -109,14 +101,10 @@ const ModalVerifiedDetails = ({ open, handleClose, rowSelect }) => {
                 </Box>
                 <Box sx={{ display: 'flex' }}>
                   <Box sx={{ flex: 1, pl: 1 }}>
-                    <Typography sx={{ fontSize: 15, color: '#274472' }}>
-                      Verified Employee{' '}
-                    </Typography>
+                    <Typography sx={{ fontSize: 15, color: '#274472' }}>Verified Employee </Typography>
                   </Box>
                   <Box sx={{ flex: 3.5 }}>
-                    <Typography sx={{ fontSize: 15, color: '#274472' }}>
-                      :&nbsp; {em_name}
-                    </Typography>
+                    <Typography sx={{ fontSize: 15, color: '#274472' }}>:&nbsp; {em_name}</Typography>
                   </Box>
                 </Box>
                 <Box sx={{ display: 'flex' }}>
@@ -124,9 +112,7 @@ const ModalVerifiedDetails = ({ open, handleClose, rowSelect }) => {
                     <Typography sx={{ fontSize: 15, color: '#274472' }}>Remarks </Typography>
                   </Box>
                   <Box sx={{ flex: 3.5 }}>
-                    <Typography sx={{ fontSize: 15, color: '#274472' }}>
-                      :&nbsp; {remarks}
-                    </Typography>
+                    <Typography sx={{ fontSize: 15, color: '#274472' }}>:&nbsp; {remarks}</Typography>
                   </Box>
                 </Box>
               </Box>

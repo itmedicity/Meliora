@@ -23,7 +23,7 @@ const ComplaintTypeMast = () => {
     complaint_type_name: '',
     complaint_dept_slno: '',
     complaint_type_status: false,
-    complaint_type_slno: '',
+    complaint_type_slno: ''
   })
   //destructuring
   const { complaint_type_name, complaint_type_status, complaint_type_slno } = complainttype
@@ -44,7 +44,7 @@ const ComplaintTypeMast = () => {
       complaint_type_name: complaint_type_name,
       complaint_dept_slno: compdept,
       complaint_type_status: complaint_type_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [complaint_type_name, complaint_type_status, compdept, id])
   //data set for edit
@@ -55,7 +55,7 @@ const ComplaintTypeMast = () => {
     const frmdata = {
       complaint_type_name: complaint_type_name,
       complaint_type_status: status === 'Yes' ? true : false,
-      complaint_type_slno: complaint_type_slno,
+      complaint_type_slno: complaint_type_slno
     }
     SetType(frmdata)
     setCompdept(complaint_dept_slno)
@@ -67,7 +67,7 @@ const ComplaintTypeMast = () => {
       complaint_dept_slno: compdept,
       complaint_type_status: complaint_type_status === true ? 1 : 0,
       edit_user: id,
-      complaint_type_slno: complaint_type_slno,
+      complaint_type_slno: complaint_type_slno
     }
   }, [complaint_type_name, complaint_type_status, compdept, complaint_type_slno, id])
   //reset select box
@@ -81,7 +81,7 @@ const ComplaintTypeMast = () => {
       const formreset = {
         complaint_type_name: '',
         complaint_type_status: false,
-        complaint_type_slno: '',
+        complaint_type_slno: ''
       }
       /***  * insert function for use call back     */
       const InsertFun = async postdata => {
@@ -133,7 +133,7 @@ const ComplaintTypeMast = () => {
     const formreset = {
       complaint_type_name: '',
       complaint_type_status: false,
-      complaint_type_slno: '',
+      complaint_type_slno: ''
     }
     SetType(formreset)
     setEdit(0)

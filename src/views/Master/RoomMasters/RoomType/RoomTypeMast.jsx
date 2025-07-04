@@ -21,7 +21,7 @@ const RoomTypeMast = () => {
   const [room, setRoom] = useState({
     rmc_desc: '',
     rmc_status: false,
-    rmc_type: '',
+    rmc_type: ''
   })
   //destructuring
   const { rmc_desc, rmc_status, rmc_type } = room
@@ -38,7 +38,7 @@ const RoomTypeMast = () => {
       rmc_desc: rmc_desc,
       rt_code: value,
       rmc_status: rmc_status === true ? 1 : 0,
-      em_id: 1,
+      em_id: 1
     }
   }, [rmc_desc, value, rmc_status])
   //data set for edit
@@ -49,7 +49,7 @@ const RoomTypeMast = () => {
     const frmdata = {
       rmc_desc: rmc_desc,
       rmc_status: status === 'Yes' ? true : false,
-      rmc_type: rmc_type,
+      rmc_type: rmc_type
     }
     setRoom(frmdata)
     setValue(rt_code)
@@ -60,7 +60,7 @@ const RoomTypeMast = () => {
       rmc_desc: rmc_desc,
       rt_code: value,
       rmc_status: rmc_status === true ? 1 : 0,
-      rmc_type: rmc_type,
+      rmc_type: rmc_type
     }
   }, [rmc_desc, value, rmc_status, rmc_type])
   //reset select box
@@ -73,7 +73,7 @@ const RoomTypeMast = () => {
       const formreset = {
         rmc_desc: '',
         rmc_status: false,
-        rmc_type: '',
+        rmc_type: ''
       }
       /*** * insert function for use call back     */
       const InsertFun = async postdata => {
@@ -122,7 +122,7 @@ const RoomTypeMast = () => {
     const formreset = {
       rmc_desc: '',
       rmc_status: false,
-      rmc_type: '',
+      rmc_type: ''
     }
     setRoom(formreset)
     reset()
@@ -133,12 +133,7 @@ const RoomTypeMast = () => {
     history('/Home/Settings')
   }, [history])
   return (
-    <CardMaster
-      title="Room Type"
-      close={backtoSetting}
-      refresh={refreshWindow}
-      submit={submitRoomtype}
-    >
+    <CardMaster title="Room Type" close={backtoSetting} refresh={refreshWindow} submit={submitRoomtype}>
       <Box sx={{ p: 1 }}>
         <Grid container spacing={1}>
           <Grid item xl={4} lg={4}>

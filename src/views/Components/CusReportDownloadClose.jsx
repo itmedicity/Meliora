@@ -15,15 +15,7 @@ import { warningNotify } from '../Common/CommonCode'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-const CusReportDownloadClose = ({
-  title,
-  columnDefs,
-  tableData,
-  onSelectionChanged,
-  columnTypes,
-  getRowStyle,
-  sx,
-}) => {
+const CusReportDownloadClose = ({ title, columnDefs, tableData, onSelectionChanged, columnTypes, getRowStyle, sx }) => {
   const history = useNavigate()
   const dispatch = useDispatch()
   const [exports, setexport] = useState(0)
@@ -46,8 +38,8 @@ const CusReportDownloadClose = ({
       'sans-serif',
       '"Apple Color Emoji"',
       '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
+      '"Segoe UI Symbol"'
+    ].join(',')
   }
 
   const CardHeaderStyle = {
@@ -55,7 +47,7 @@ const CusReportDownloadClose = ({
     fontFamily: 'Roboto',
     py: 0,
     pb: 0.65,
-    pt: 0.8,
+    pt: 0.8
   }
 
   const CloseReport = () => {
@@ -102,24 +94,14 @@ const CusReportDownloadClose = ({
               <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                 <CustomeToolTip title="Close" placement="left">
                   <Box>
-                    <CusIconButton
-                      size="sm"
-                      variant="outlined"
-                      color="primary"
-                      onClick={CloseReport}
-                    >
+                    <CusIconButton size="sm" variant="outlined" color="primary" onClick={CloseReport}>
                       <CloseIcon fontSize="small" />
                     </CusIconButton>
                   </Box>
                 </CustomeToolTip>
                 <CustomeToolTip title="Download" placement="left">
                   <Box>
-                    <CusIconButton
-                      size="sm"
-                      variant="outlined"
-                      color="primary"
-                      onClick={onExportClick}
-                    >
+                    <CusIconButton size="sm" variant="outlined" color="primary" onClick={onExportClick}>
                       <CloudDownloadIcon fontSize="small" />
                     </CusIconButton>
                   </Box>

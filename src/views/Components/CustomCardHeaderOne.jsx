@@ -12,7 +12,7 @@ const CustomCardHeaderOne = ({ cardStyle, title, onClickClose }) => {
     fontFamily: 'Roboto',
     py: 0,
     pb: 0.65,
-    pt: 0.8,
+    pt: 0.8
   }
   return (
     <Fragment>

@@ -3,7 +3,7 @@ const { FETCH_IT_MANAGEMENT_BILL_SUPPLIER_DETAILS } = ActionTyps
 
 const Supplier = {
   BillSupplierlist: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 
 export const getSupplierList = (state = Supplier, { type, payload }) => {

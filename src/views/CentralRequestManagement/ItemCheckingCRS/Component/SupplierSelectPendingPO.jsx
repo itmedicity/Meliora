@@ -59,7 +59,7 @@ const SupplierSelectPendingPO = ({ supCode, setSupCode }) => {
             border: '1px solid #bbdefb',
             borderRadius: 5,
             fontSize: 14,
-            color: '#1D617A',
+            color: '#1D617A'
           }}
           value={supCode === 0 ? type : value}
           placeholder="Select Supplier"

@@ -10,11 +10,11 @@ const ModelTable = ({ count, rowSelect }) => {
     {
       headerName: 'Action',
       minWidth: 10,
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
     },
     { headerName: 'SlNo', field: 'model_slno', minWidth: 70 },
     { headerName: 'Model', field: 'model_name', minWidth: 70 },
-    { headerName: 'Status', field: 'status', minWidth: 70 },
+    { headerName: 'Status', field: 'status', minWidth: 70 }
   ])
   useEffect(() => {
     const setModel = async () => {

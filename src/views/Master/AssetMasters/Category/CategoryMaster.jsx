@@ -27,7 +27,7 @@ const CategoryMaster = () => {
     category_slno: '',
     category_name: '',
     category_status: false,
-    am_category_pm_days: '0',
+    am_category_pm_days: '0'
   })
   const { category_slno, category_name, category_status, am_category_pm_days } = category
   const updateCategory = useCallback(
@@ -42,7 +42,7 @@ const CategoryMaster = () => {
       category_slno: '',
       category_name: '',
       category_status: false,
-      am_category_pm_days: '',
+      am_category_pm_days: ''
     }
     setCategory(frmdata)
     setCount(0)
@@ -55,7 +55,7 @@ const CategoryMaster = () => {
       category_name: category_name,
       category_status: category_status === true ? 1 : 0,
       am_category_pm_days: am_category_pm_days === '' ? null : am_category_pm_days,
-      create_user: id,
+      create_user: id
     }
   }, [category_name, category_status, am_category_pm_days, id])
 
@@ -65,19 +65,18 @@ const CategoryMaster = () => {
       category_name: category_name,
       category_status: category_status === true ? 1 : 0,
       am_category_pm_days: am_category_pm_days === null ? null : am_category_pm_days,
-      edit_user: id,
+      edit_user: id
     }
   }, [category_slno, category_name, category_status, am_category_pm_days, id])
   const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
-    const { category_slno, category_name, category_status, am_category_pm_days, file_name } =
-      data[0]
+    const { category_slno, category_name, category_status, am_category_pm_days, file_name } = data[0]
     const frmdata = {
       category_slno: category_slno,
       category_name: category_name,
       category_status: category_status === 1 ? true : false,
-      am_category_pm_days: am_category_pm_days === null ? '' : am_category_pm_days,
+      am_category_pm_days: am_category_pm_days === null ? '' : am_category_pm_days
     }
     setCategory(frmdata)
     setCategoryImg(file_name)
@@ -98,7 +97,7 @@ const CategoryMaster = () => {
     try {
       const options = {
         maxSizeMB: 1,
-        maxWidthOrHeight: 1920,
+        maxWidthOrHeight: 1920
       }
       const compressedFile = await imageCompression(file, options)
       setSelectFile(compressedFile)
@@ -187,16 +186,7 @@ const CategoryMaster = () => {
         }
       }
     },
-    [
-      postdata,
-      value,
-      patchdata,
-      count,
-      selectFile,
-      category_name,
-      category_slno,
-      am_category_pm_days,
-    ]
+    [postdata, value, patchdata, count, selectFile, category_name, category_slno, am_category_pm_days]
   )
   const backtoSetting = useCallback(() => {
     history('/Home/Settings')
@@ -206,7 +196,7 @@ const CategoryMaster = () => {
       category_slno: '',
       category_name: '',
       category_status: false,
-      am_category_pm_days: '',
+      am_category_pm_days: ''
     }
     setCategory(frmdata)
     setValue(0)
@@ -216,12 +206,7 @@ const CategoryMaster = () => {
   const imageUrl = `${PUBLIC_NAS_FOLDER}/AssetName/Category/${category_slno}/${categoryImg}`
 
   return (
-    <CardMaster
-      title="Category Master"
-      submit={submitCategory}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Category Master" submit={submitCategory} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ p: 1 }}>
         <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
           <Box sx={{ width: '30%', p: 1 }}>
@@ -267,14 +252,10 @@ const CategoryMaster = () => {
                       p: 1,
                       border: 1,
                       borderRadius: 2,
-                      borderColor: 'lightgrey',
+                      borderColor: 'lightgrey'
                     }}
                   >
-                    <img
-                      src={imageUrl}
-                      alt={categoryImg}
-                      style={{ height: '100%', width: '100%' }}
-                    />
+                    <img src={imageUrl} alt={categoryImg} style={{ height: '100%', width: '100%' }} />
                   </Box>
                 ) : null}
               </>
@@ -288,7 +269,7 @@ const CategoryMaster = () => {
                   border: 1,
                   borderRadius: 2,
                   borderColor: 'lightgrey',
-                  mb: 0.5,
+                  mb: 0.5
                 }}
               >
                 {selectFile.type.includes('image') ? (
@@ -297,7 +278,7 @@ const CategoryMaster = () => {
                     alt={selectFile.name}
                     style={{
                       width: '100%',
-                      height: '100%',
+                      height: '100%'
                     }}
                   />
                 ) : (
@@ -307,7 +288,7 @@ const CategoryMaster = () => {
                       fontSize: 18,
                       color: 'lightgrey',
                       textAlign: 'center',
-                      pt: 7,
+                      pt: 7
                     }}
                   >
                     Image Format
@@ -324,7 +305,7 @@ const CategoryMaster = () => {
                 textAlign: 'center',
                 width: 200,
                 fontWeight: 600,
-                color: 'black',
+                color: 'black'
               }}
             >
               {selectFile?.name ? selectFile.name : null}
@@ -345,11 +326,11 @@ const CategoryMaster = () => {
                       borderRadius: 1,
                       color: '#fff',
                       '&:hover': {
-                        bgcolor: '#5874C6',
+                        bgcolor: '#5874C6'
                       },
                       '&:active': {
-                        bgcolor: '#3A4E8C',
-                      },
+                        bgcolor: '#3A4E8C'
+                      }
                     }}
                   >
                     <AttachmentIcon />
@@ -372,11 +353,11 @@ const CategoryMaster = () => {
                           borderRadius: 1,
                           color: '#fff',
                           '&:hover': {
-                            bgcolor: '#5874C6',
+                            bgcolor: '#5874C6'
                           },
                           '&:active': {
-                            bgcolor: '#3A4E8C',
-                          },
+                            bgcolor: '#3A4E8C'
+                          }
                         }}
                       >
                         <AttachmentIcon />
@@ -396,11 +377,11 @@ const CategoryMaster = () => {
                           borderRadius: 1,
                           color: '#fff',
                           '&:hover': {
-                            bgcolor: '#5874C6',
+                            bgcolor: '#5874C6'
                           },
                           '&:active': {
-                            bgcolor: '#3A4E8C',
-                          },
+                            bgcolor: '#3A4E8C'
+                          }
                         }}
                       >
                         <AttachmentIcon />

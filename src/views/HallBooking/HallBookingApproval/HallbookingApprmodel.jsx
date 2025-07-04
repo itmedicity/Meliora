@@ -2,16 +2,16 @@ import { Box, Button, Dialog, DialogActions, Grid, Paper, Typography } from '@mu
 import React, { useState } from 'react'
 import { Fragment } from 'react'
 // import { ToastContainer } from 'react-toastify'
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import Slide from '@mui/material/Slide';
-import { useCallback } from 'react';
-import { useEffect } from 'react';
-import HallApprovalcmpnt from './HallApprovalcmpnt';
-import { axioslogin } from 'src/views/Axios/Axios';
-import { succesNotify } from 'src/views/Common/CommonCode';
-import TextFieldCustom from 'src/views/Components/TextFieldCustom';
-import { useSelector } from 'react-redux';
+import DialogContent from '@mui/material/DialogContent'
+import DialogContentText from '@mui/material/DialogContentText'
+import Slide from '@mui/material/Slide'
+import { useCallback } from 'react'
+import { useEffect } from 'react'
+import HallApprovalcmpnt from './HallApprovalcmpnt'
+import { axioslogin } from 'src/views/Axios/Axios'
+import { succesNotify } from 'src/views/Common/CommonCode'
+import TextFieldCustom from 'src/views/Components/TextFieldCustom'
+import { useSelector } from 'react-redux'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="left" ref={ref} {...props} />
@@ -59,7 +59,7 @@ const HallbookingApprmodel = ({ open, setOpen, isIncharge, ishod, datas, count, 
     hall_name,
     hod_remark,
     is_hod_approve,
-    is_icharge_approve,
+    is_icharge_approve
   } = datas[0]
 
   useEffect(() => {
@@ -118,7 +118,7 @@ const HallbookingApprmodel = ({ open, setOpen, isIncharge, ishod, datas, count, 
           h_incharge_remark: remark,
           is_icharge_approve: approve === true ? 1 : 0,
           h_booking_slno: h_booking_slno,
-          incharge_user: id,
+          incharge_user: id
         }
         updateInchApproval(patchdatainch)
       } else if (ishod === 1) {
@@ -127,24 +127,12 @@ const HallbookingApprmodel = ({ open, setOpen, isIncharge, ishod, datas, count, 
           hod_remark: remark,
           hod_approved_date: hodDate !== '' ? hodDate : null,
           hod_user: id,
-          h_booking_slno: h_booking_slno,
+          h_booking_slno: h_booking_slno
         }
         updatehodApproval(patchdatahod)
       }
     },
-    [
-      approve,
-      remark,
-      isIncharge,
-      hodDate,
-      ishod,
-      h_booking_slno,
-      count,
-      setCount,
-      inchdate,
-      setOpen,
-      id,
-    ]
+    [approve, remark, isIncharge, hodDate, ishod, h_booking_slno, count, setCount, inchdate, setOpen, id]
   )
 
   const Close = useCallback(() => {
@@ -168,12 +156,10 @@ const HallbookingApprmodel = ({ open, setOpen, isIncharge, ishod, datas, count, 
           sx={{
             width: '100%',
             height: '100%',
-            pb: 2,
+            pb: 2
           }}
         >
-          <DialogContentText id="alert-dialog-slide-descriptiona">
-            Hallbooking Approval
-          </DialogContentText>
+          <DialogContentText id="alert-dialog-slide-descriptiona">Hallbooking Approval</DialogContentText>
 
           <Box sx={{ width: '100%', height: '100%', display: 'flex', p: 1 }}>
             <Paper square elevation={3} sx={{ width: '100%', height: '100%' }}>

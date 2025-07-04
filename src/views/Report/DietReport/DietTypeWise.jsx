@@ -33,8 +33,8 @@ const DietTypeWise = () => {
       checkboxSelection: true,
       headerCheckboxSelectionFilteredOnly: true,
       headerCheckboxSelection: true,
-      resizable: true,
-    },
+      resizable: true
+    }
   ])
 
   const [columnDefMain] = useState([
@@ -49,7 +49,7 @@ const DietTypeWise = () => {
     { headerName: 'Remarks', field: 'plan_remark', wrapText: true, minWidth: 150 },
     { headerName: 'Breakfast', minWidth: 100 },
     { headerName: 'Lunch', minWidth: 100 },
-    { headerName: 'Dinner', minWidth: 100 },
+    { headerName: 'Dinner', minWidth: 100 }
   ])
 
   const FilterSelect = useCallback(
@@ -75,11 +75,8 @@ const DietTypeWise = () => {
 
   const postdata = useMemo(() => {
     return {
-      process_date:
-        daySelect === 0
-          ? format(new Date(), 'yyyy-MM-dd ')
-          : format(new Date(startdate), 'yyyy-MM-dd '),
-      diet_slno: dietslno,
+      process_date: daySelect === 0 ? format(new Date(), 'yyyy-MM-dd ') : format(new Date(startdate), 'yyyy-MM-dd '),
+      diet_slno: dietslno
     }
   }, [daySelect, startdate, dietslno])
 

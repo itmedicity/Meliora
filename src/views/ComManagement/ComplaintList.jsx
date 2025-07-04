@@ -44,7 +44,7 @@ const ComplaintList = () => {
       field: 'complaint_desc',
       autoHeight: true,
       wrapText: true,
-      minWidth: 300,
+      minWidth: 300
     },
     {
       headerName: 'Request Department',
@@ -52,7 +52,7 @@ const ComplaintList = () => {
       filter: 'true',
       wrapText: true,
       autoHeight: true,
-      minWidth: 250,
+      minWidth: 250
     },
     { headerName: 'Section', field: 'location', minWidth: 250, autoHeight: true, wrapText: true },
     {
@@ -60,34 +60,31 @@ const ComplaintList = () => {
       field: 'rm_room_name',
       minWidth: 350,
       cellRendererFramework: params => {
-        const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } =
-          params.data
+        const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } = params.data
         return (
           <div>
             {rm_room_name !== null ? (
-              <div>
-                {`${rm_room_name} (${rm_roomtype_name} - ${rm_insidebuildblock_name} - ${rm_floor_name})`}
-              </div>
+              <div>{`${rm_room_name} (${rm_roomtype_name} - ${rm_insidebuildblock_name} - ${rm_floor_name})`}</div>
             ) : (
               <div>Location not added</div>
             )}
           </div>
         )
-      },
+      }
     },
     { headerName: 'Complaint Type', field: 'complaint_type_name', filter: 'true', minWidth: 180 },
     {
       headerName: 'Complaint Department',
       field: 'complaint_dept_name',
       filter: 'true',
-      minWidth: 200,
+      minWidth: 200
     },
     { headerName: 'Request Date', field: 'compalint_date', minWidth: 180 },
     { headerName: 'Assigned Employee', field: 'em_name', filter: 'true', minWidth: 180 },
     { headerName: 'Assign Date', field: 'assigned_date', minWidth: 180 },
     { headerName: 'Rectify Date', field: 'cm_rectify_time', minWidth: 180 },
     { headerName: 'Verify Date', field: 'cm_verfy_time', minWidth: 180 },
-    { headerName: 'Status', field: 'compalint_status1', filter: 'true', minWidth: 180 },
+    { headerName: 'Status', field: 'compalint_status1', filter: 'true', minWidth: 180 }
   ])
   const [assigned] = useState([
     { headerName: 'SlNo', field: 'complaint_slno', minWidth: 90 },
@@ -96,7 +93,7 @@ const ComplaintList = () => {
       field: 'complaint_desc',
       autoHeight: true,
       wrapText: true,
-      minWidth: 300,
+      minWidth: 300
     },
     {
       headerName: 'Request Department',
@@ -104,7 +101,7 @@ const ComplaintList = () => {
       wrapText: true,
       filter: 'true',
       autoHeight: true,
-      minWidth: 200,
+      minWidth: 200
     },
     { headerName: 'Section', field: 'location', autoHeight: true, wrapText: true, minWidth: 200 },
     {
@@ -112,20 +109,17 @@ const ComplaintList = () => {
       field: 'rm_room_name',
       minWidth: 350,
       cellRendererFramework: params => {
-        const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } =
-          params.data
+        const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } = params.data
         return (
           <div>
             {rm_room_name !== null ? (
-              <div>
-                {`${rm_room_name} (${rm_roomtype_name} - ${rm_insidebuildblock_name} - ${rm_floor_name})`}
-              </div>
+              <div>{`${rm_room_name} (${rm_roomtype_name} - ${rm_insidebuildblock_name} - ${rm_floor_name})`}</div>
             ) : (
               <div>Location not added</div>
             )}
           </div>
         )
-      },
+      }
     },
     { headerName: 'Complaint Type', field: 'complaint_type_name', filter: 'true', minWidth: 150 },
     {
@@ -134,12 +128,12 @@ const ComplaintList = () => {
       filter: 'true',
       wrapText: true,
       autoHeight: true,
-      minWidth: 200,
+      minWidth: 200
     },
     { headerName: 'Employee', field: 'em_name', minWidth: 150 },
     { headerName: 'Request Date', field: 'compalint_date', minWidth: 150 },
     { headerName: 'Assign Date', field: 'assigned_date', minWidth: 150 },
-    { headerName: 'Status', field: 'compalint_status1', filter: 'true', minWidth: 150 },
+    { headerName: 'Status', field: 'compalint_status1', filter: 'true', minWidth: 150 }
   ])
   const [rectified] = useState([
     { headerName: 'SlNo', field: 'complaint_slno', minWidth: 90 },
@@ -148,7 +142,7 @@ const ComplaintList = () => {
       field: 'complaint_desc',
       autoHeight: true,
       wrapText: true,
-      minWidth: 300,
+      minWidth: 300
     },
     {
       headerName: 'Request Department',
@@ -156,7 +150,7 @@ const ComplaintList = () => {
       wrapText: true,
       filter: 'true',
       autoHeight: true,
-      minWidth: 200,
+      minWidth: 200
     },
     { headerName: 'Section', field: 'location', autoHeight: true, wrapText: true, minWidth: 200 },
     {
@@ -164,20 +158,17 @@ const ComplaintList = () => {
       field: 'rm_room_name',
       minWidth: 350,
       cellRendererFramework: params => {
-        const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } =
-          params.data
+        const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } = params.data
         return (
           <div>
             {rm_room_name !== null ? (
-              <div>
-                {`${rm_room_name} (${rm_roomtype_name} - ${rm_insidebuildblock_name} - ${rm_floor_name})`}
-              </div>
+              <div>{`${rm_room_name} (${rm_roomtype_name} - ${rm_insidebuildblock_name} - ${rm_floor_name})`}</div>
             ) : (
               <div>Location not added</div>
             )}
           </div>
         )
-      },
+      }
     },
     { headerName: 'Complaint Type', field: 'complaint_type_name', filter: 'true', minWidth: 150 },
     {
@@ -186,13 +177,13 @@ const ComplaintList = () => {
       filter: 'true',
       wrapText: true,
       autoHeight: true,
-      minWidth: 200,
+      minWidth: 200
     },
     { headerName: 'Employee', field: 'em_name', minWidth: 150 },
     { headerName: 'Request Date', field: 'compalint_date', minWidth: 150 },
     { headerName: 'Assign Date', field: 'assigned_date', minWidth: 150 },
     { headerName: 'Rectify Date', field: 'cm_rectify_time', minWidth: 150 },
-    { headerName: 'Status', field: 'compalint_status1', filter: 'true', minWidth: 150 },
+    { headerName: 'Status', field: 'compalint_status1', filter: 'true', minWidth: 150 }
   ])
   const [verified] = useState([
     { headerName: 'SlNo', field: 'complaint_slno', minWidth: 90 },
@@ -201,7 +192,7 @@ const ComplaintList = () => {
       field: 'complaint_desc',
       autoHeight: true,
       wrapText: true,
-      minWidth: 300,
+      minWidth: 300
     },
     {
       headerName: 'Request Department',
@@ -209,7 +200,7 @@ const ComplaintList = () => {
       wrapText: true,
       filter: 'true',
       autoHeight: true,
-      minWidth: 200,
+      minWidth: 200
     },
     { headerName: 'Section', field: 'location', autoHeight: true, wrapText: true, minWidth: 200 },
     {
@@ -217,20 +208,17 @@ const ComplaintList = () => {
       field: 'rm_room_name',
       minWidth: 350,
       cellRendererFramework: params => {
-        const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } =
-          params.data
+        const { rm_room_name, rm_roomtype_name, rm_insidebuildblock_name, rm_floor_name } = params.data
         return (
           <div>
             {rm_room_name !== null ? (
-              <div>
-                {`${rm_room_name} (${rm_roomtype_name} - ${rm_insidebuildblock_name} - ${rm_floor_name})`}
-              </div>
+              <div>{`${rm_room_name} (${rm_roomtype_name} - ${rm_insidebuildblock_name} - ${rm_floor_name})`}</div>
             ) : (
               <div>Location not added</div>
             )}
           </div>
         )
-      },
+      }
     },
     { headerName: 'Complaint Type', field: 'complaint_type_name', filter: 'true', minWidth: 150 },
     {
@@ -239,14 +227,14 @@ const ComplaintList = () => {
       filter: 'true',
       wrapText: true,
       autoHeight: true,
-      minWidth: 200,
+      minWidth: 200
     },
     { headerName: 'Employee', field: 'em_name', minWidth: 150 },
     { headerName: 'Request Date', field: 'compalint_date', minWidth: 150 },
     { headerName: 'Assign Date', field: 'assigned_date', minWidth: 150 },
     { headerName: 'Rectify Date', field: 'cm_rectify_time', minWidth: 150 },
     { headerName: 'Verify Date', field: 'cm_verfy_time', minWidth: 150 },
-    { headerName: 'Status', field: 'compalint_status1', filter: 'true', minWidth: 150 },
+    { headerName: 'Status', field: 'compalint_status1', filter: 'true', minWidth: 150 }
   ])
   const backtoSetting = useCallback(() => {
     history('/Home')
@@ -324,7 +312,7 @@ const ComplaintList = () => {
               width: '100%',
               display: 'flex',
               flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
-              justifyContent: 'center',
+              justifyContent: 'center'
             }}
           >
             <Box
@@ -332,7 +320,7 @@ const ComplaintList = () => {
                 display: 'flex',
                 width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' },
                 mt: 1,
-                justifyContent: 'center',
+                justifyContent: 'center'
               }}
             >
               <CusCheckBox
@@ -351,7 +339,7 @@ const ComplaintList = () => {
                 display: 'flex',
                 width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' },
                 mt: 1,
-                justifyContent: 'center',
+                justifyContent: 'center'
               }}
             >
               <CusCheckBox
@@ -370,7 +358,7 @@ const ComplaintList = () => {
                 display: 'flex',
                 width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' },
                 mt: 1,
-                justifyContent: 'center',
+                justifyContent: 'center'
               }}
             >
               <CusCheckBox
@@ -389,7 +377,7 @@ const ComplaintList = () => {
                 display: 'flex',
                 width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' },
                 mt: 1,
-                justifyContent: 'center',
+                justifyContent: 'center'
               }}
             >
               <CusCheckBox

@@ -3,7 +3,7 @@ const { FETCH_REQ_REGISTERLIST_BYDEPT } = ActionTyps
 //intial state
 const RequestList = {
   RequestListall: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Deptsection action type check then payload set to the state and loading status set as true */
 export const setRequestListByDeptSec = (state = RequestList, { type, payload }) => {

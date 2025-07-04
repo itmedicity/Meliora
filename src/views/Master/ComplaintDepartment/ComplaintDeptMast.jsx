@@ -23,7 +23,7 @@ const ComplaintDeptMast = () => {
   const [complaint, setComplaint] = useState({
     complaint_dept_name: '',
     complaint_dept_status: false,
-    complaint_dept_slno: '',
+    complaint_dept_slno: ''
   })
   //Destructuring
   const { complaint_dept_name, complaint_dept_status, complaint_dept_slno } = complaint
@@ -44,7 +44,7 @@ const ComplaintDeptMast = () => {
       complaint_dept_name: complaint_dept_name,
       department_slno: department,
       complaint_dept_status: complaint_dept_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [complaint_dept_name, complaint_dept_status, department, id])
   //data setting  for edit
@@ -55,7 +55,7 @@ const ComplaintDeptMast = () => {
     const frmdata = {
       complaint_dept_name: complaint_dept_name,
       complaint_dept_status: status === 'Yes' ? true : false,
-      complaint_dept_slno: complaint_dept_slno,
+      complaint_dept_slno: complaint_dept_slno
     }
     setComplaint(frmdata)
     setDepartment(department_slno === null ? 0 : department_slno)
@@ -67,7 +67,7 @@ const ComplaintDeptMast = () => {
       department_slno: department,
       complaint_dept_status: complaint_dept_status === true ? 1 : 0,
       edit_user: id,
-      complaint_dept_slno: complaint_dept_slno,
+      complaint_dept_slno: complaint_dept_slno
     }
   }, [complaint_dept_name, complaint_dept_status, complaint_dept_slno, department, id])
   /*** usecallback function for form submitting */
@@ -77,7 +77,7 @@ const ComplaintDeptMast = () => {
       const formreset = {
         complaint_dept_name: '',
         complaint_dept_status: false,
-        complaint_dept_slno: '',
+        complaint_dept_slno: ''
       }
       /***     * insert function for use call back     */
       const InsertFun = async postdata => {
@@ -133,7 +133,7 @@ const ComplaintDeptMast = () => {
     const formreset = {
       complaint_dept_name: '',
       complaint_dept_status: false,
-      complaint_dept_slno: '',
+      complaint_dept_slno: ''
     }
     setComplaint(formreset)
     setEdit(0)

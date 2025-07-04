@@ -13,7 +13,7 @@ const CustomAgGrid = () => {
     { headerName: 'slno', field: 'slno', checkboxSelection: true, rowDrag: true },
     { headerName: 'Name', field: 'name' },
     { headerName: 'Mobile', field: 'mobile' },
-    { headerName: 'Gender ', field: 'gender', cellRenderer: EditButton },
+    { headerName: 'Gender ', field: 'gender', cellRenderer: EditButton }
   ])
 
   const tableData = [
@@ -26,7 +26,7 @@ const CustomAgGrid = () => {
     { slno: 1, name: 'Ajith', mobile: 9846009616, gender: 'male' },
     { slno: 1, name: 'Ajith', mobile: 9846009616, gender: 'male' },
     { slno: 1, name: 'Ajith', mobile: 9846009616, gender: 'male' },
-    { slno: 1, name: 'Ajith', mobile: 9846009616, gender: 'male' },
+    { slno: 1, name: 'Ajith', mobile: 9846009616, gender: 'male' }
   ]
 
   const rowHeight = 25
@@ -55,7 +55,7 @@ const CustomAgGrid = () => {
       <div
         className="ag-theme-alpine ListItemScrol"
         style={{
-          height: 250,
+          height: 250
         }}
       >
         <IconButton aria-label="fingerprint" color="primary" onClick={onExportClick}>

@@ -12,7 +12,7 @@ const NoWorng = () => {
               // pl: 1,
               display: 'flex',
               flexDirection: 'row',
-              justifyContent: 'space-between',
+              justifyContent: 'space-between'
             }}
           >
             <CssVarsProvider>

@@ -18,7 +18,7 @@ const PatientsListTable = ({
   qidept,
   qitype,
   RefreshData,
-  depCode,
+  depCode
 }) => {
   const [qiflag, setQiflag] = useState(0)
   const [modalopen, setModalOpen] = useState(false)
@@ -37,7 +37,7 @@ const PatientsListTable = ({
         const endoTimeupdate = {
           from: format(new Date(patient_arrived_date), 'dd/MM/yyyy HH:mm:ss'),
           depCode: depCode,
-          ptno: ptno,
+          ptno: ptno
         }
         const GetElliderData = async endoTimeupdate => {
           const result = await axiosellider.post('/qualityIndicator/endotimeupdate', endoTimeupdate)
@@ -70,7 +70,7 @@ const PatientsListTable = ({
         const updateArray = {
           qi_status: 0,
           edit_user: id,
-          qi_slno: qi_slno,
+          qi_slno: qi_slno
         }
         const UpdatePatients = async setCount => {
           await AddorRemovePatients(updateArray, qitype, count, setCount)
@@ -104,15 +104,10 @@ const PatientsListTable = ({
             <ListIcon sx={{ color: '#37474f', height: 30, width: 30 }} />
           </Box>
           <Box sx={{ flex: 1, fontSize: 17, pt: 0.7, pl: 0.5 }}>
-            <Typography sx={{ color: '#37474f', fontFamily: 'Arial' }}>
-              Endoscopy Patient&apos;s List
-            </Typography>
+            <Typography sx={{ color: '#37474f', fontFamily: 'Arial' }}>Endoscopy Patient&apos;s List</Typography>
           </Box>
         </Box>
-        <Box
-          variant="outlined"
-          sx={{ overflow: 'auto', height: '39vh', '&::-webkit-scrollbar': { height: 8 } }}
-        >
+        <Box variant="outlined" sx={{ overflow: 'auto', height: '39vh', '&::-webkit-scrollbar': { height: 8 } }}>
           <CssVarsProvider>
             <Table
               aria-label="table with sticky header"
@@ -132,39 +127,24 @@ const PatientsListTable = ({
                       backgroundColor: '#78909c',
                       color: 'white',
                       fontSize: 14,
-                      textAlign: 'center',
+                      textAlign: 'center'
                     }}
                   >
                     &nbsp; Sl.No
                   </th>
-                  <th
-                    size="sm"
-                    style={{ width: 100, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}
-                  >
+                  <th size="sm" style={{ width: 100, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>
                     &nbsp;Patient ID
                   </th>
-                  <th
-                    size="sm"
-                    style={{ width: 170, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}
-                  >
+                  <th size="sm" style={{ width: 170, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>
                     &nbsp;Patient Name
                   </th>
-                  <th
-                    size="sm"
-                    style={{ width: 120, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}
-                  >
+                  <th size="sm" style={{ width: 120, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>
                     &nbsp;Age/Gender
                   </th>
-                  <th
-                    size="sm"
-                    style={{ width: 100, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}
-                  >
+                  <th size="sm" style={{ width: 100, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>
                     &nbsp;Contacts{' '}
                   </th>
-                  <th
-                    size="sm"
-                    style={{ width: 190, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}
-                  >
+                  <th size="sm" style={{ width: 190, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>
                     &nbsp;Doctor Name
                   </th>
                   <th
@@ -174,15 +154,12 @@ const PatientsListTable = ({
                       backgroundColor: '#78909c',
                       color: 'white',
                       fontSize: 14,
-                      textAlign: 'center',
+                      textAlign: 'center'
                     }}
                   >
                     &nbsp;Token{' '}
                   </th>
-                  <th
-                    size="sm"
-                    style={{ width: 150, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}
-                  >
+                  <th size="sm" style={{ width: 150, backgroundColor: '#78909c', color: 'white', fontSize: 14 }}>
                     &nbsp;Arrival Time{' '}
                   </th>
                   <th
@@ -192,7 +169,7 @@ const PatientsListTable = ({
                       backgroundColor: '#78909c',
                       color: 'white',
                       fontSize: 14,
-                      textAlign: 'center',
+                      textAlign: 'center'
                     }}
                   >
                     &nbsp;Back to List{' '}
@@ -204,7 +181,7 @@ const PatientsListTable = ({
                       backgroundColor: '#78909c',
                       color: 'white',
                       fontSize: 14,
-                      textAlign: 'center',
+                      textAlign: 'center'
                     }}
                   >
                     &nbsp;QI Marking{' '}
@@ -220,7 +197,7 @@ const PatientsListTable = ({
                       style={{
                         maxHeight: 2,
                         cursor: 'pointer',
-                        background: val.qi_save_status === 1 ? '#cfd8dc' : 'transparent',
+                        background: val.qi_save_status === 1 ? '#cfd8dc' : 'transparent'
                       }}
                     >
                       <td size="sm" style={{ fontSize: 12, height: 5, textAlign: 'center' }}>
@@ -254,7 +231,7 @@ const PatientsListTable = ({
                               <ArrowCircleLeftIcon
                                 disabled
                                 sx={{
-                                  color: '#607d8b',
+                                  color: '#607d8b'
                                 }}
                               />
                             </Tooltip>
@@ -264,8 +241,8 @@ const PatientsListTable = ({
                                 sx={{
                                   color: '#607d8b',
                                   ':hover': {
-                                    color: '#37474f',
-                                  },
+                                    color: '#37474f'
+                                  }
                                 }}
                                 onClick={e => RemoveFromList(val)}
                               />
@@ -280,8 +257,8 @@ const PatientsListTable = ({
                               sx={{
                                 color: '#546e7a',
                                 ':hover': {
-                                  color: '#263238',
-                                },
+                                  color: '#263238'
+                                }
                               }}
                               onClick={e => IndicatorsView(val)}
                             />

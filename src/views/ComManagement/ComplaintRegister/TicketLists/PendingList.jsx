@@ -58,9 +58,7 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
     setimageViewOpen(true)
     setfileDetails(val)
     try {
-      const result = await axioslogin.get(
-        `/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`
-      )
+      const result = await axioslogin.get(`/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`)
       const { success } = result.data
       if (success === 1) {
         const data = result.data
@@ -147,46 +145,30 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
               borderTop: 1,
               borderColor: 'lightgray',
               pt: 1.5,
-              bgcolor: 'white',
+              bgcolor: 'white'
             }}
           >
             <Box sx={{ width: 25, fontWeight: 600, color: '#444444', fontSize: 12, pl: 2 }}></Box>
-            <Box sx={{ width: 80, fontWeight: 600, color: '#444444', fontSize: 12, pl: 2 }}>
-              Ticket No.
-            </Box>
+            <Box sx={{ width: 80, fontWeight: 600, color: '#444444', fontSize: 12, pl: 2 }}>Ticket No.</Box>
             <Box
               sx={{
                 width: 170,
                 fontWeight: 600,
                 color: '#444444',
                 fontSize: 12,
-                textAlign: 'center',
+                textAlign: 'center'
               }}
             >
               Action
             </Box>
-            <Box sx={{ width: 170, fontWeight: 600, color: '#444444', fontSize: 12, pl: 0.6 }}>
-              Complaint Type
-            </Box>
-            <Box sx={{ width: 610, fontWeight: 600, color: '#444444', fontSize: 12, pl: 0.5 }}>
-              Describtion
-            </Box>
-            <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-              Complaint To
-            </Box>
-            <Box sx={{ width: 220, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-              Complaint From
-            </Box>
+            <Box sx={{ width: 170, fontWeight: 600, color: '#444444', fontSize: 12, pl: 0.6 }}>Complaint Type</Box>
+            <Box sx={{ width: 610, fontWeight: 600, color: '#444444', fontSize: 12, pl: 0.5 }}>Describtion</Box>
+            <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12 }}>Complaint To</Box>
+            <Box sx={{ width: 220, fontWeight: 600, color: '#444444', fontSize: 12 }}>Complaint From</Box>
             <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12 }}>Location</Box>
-            <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-              Location Details
-            </Box>
-            <Box sx={{ width: 180, fontWeight: 600, color: '#444444', fontSize: 12, pl: 0.5 }}>
-              Complaint Date
-            </Box>
-            <Box sx={{ width: 180, fontWeight: 600, color: '#444444', fontSize: 12, pl: 0.5 }}>
-              Registered Employee
-            </Box>
+            <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12 }}>Location Details</Box>
+            <Box sx={{ width: 180, fontWeight: 600, color: '#444444', fontSize: 12, pl: 0.5 }}>Complaint Date</Box>
+            <Box sx={{ width: 180, fontWeight: 600, color: '#444444', fontSize: 12, pl: 0.5 }}>Registered Employee</Box>
           </Box>
           <Virtuoso
             style={{ height: '23vh', overflow: 'auto' }}
@@ -204,7 +186,7 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                     borderColor: 'lightgrey',
                     minHeight: 35,
                     bgcolor: val.priority_check === 1 ? '#B7CFDC' : 'white',
-                    pt: 0.5,
+                    pt: 0.5
                   }}
                 >
                   {val.compalint_status === 1 ? (
@@ -218,7 +200,7 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                         boxShadow: '0px 4px 10px rgba(138, 148, 148, 0.2)',
                         borderRadius: '50%',
                         cursor: 'pointer',
-                        height: 28,
+                        height: 28
                       }}
                       onClick={event => handleClick(event, val)}
                     >
@@ -236,7 +218,7 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                           boxShadow: '0px 4px 10px rgba(138, 148, 148, 0.2)',
                           borderRadius: '50%',
                           cursor: 'pointer',
-                          height: 28,
+                          height: 28
                         }}
                       >
                         <PersonIcon sx={{ color: 'lightgrey', fontSize: 20 }} />
@@ -254,7 +236,6 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                       <CloseIcon onClick={handleClose} sx={{ cursor: 'pointer' }} />
                     </Box>
 
-
                     <Box sx={{ textAlign: 'center' }}>
                       <NotificationsIcon sx={{ width: 40, height: 40 }} />
                     </Box>
@@ -269,7 +250,7 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                                   mb: 0.5,
                                   color: 'black',
                                   fontWeight: 600,
-                                  textAlign: 'center',
+                                  textAlign: 'center'
                                 }}
                               >
                                 Not Updated
@@ -290,7 +271,7 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                           const formattedTime = [
                             days > 0 ? `${days} day${days > 1 ? 's' : ''}` : '',
                             hours > 0 ? `${hours} hr${hours > 1 ? 's' : ''}` : '',
-                            minutes > 0 ? `${minutes} min` : '',
+                            minutes > 0 ? `${minutes} min` : ''
                           ]
                             .filter(Boolean)
                             .join(' ')
@@ -303,7 +284,7 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                                   mb: 0.5,
                                   color: 'Darkred',
                                   fontWeight: 500,
-                                  textAlign: 'center',
+                                  textAlign: 'center'
                                 }}
                               >
                                 Time Exceeded by : {formattedTime}
@@ -318,7 +299,7 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                                 mb: 0.5,
                                 color: '#274472',
                                 fontWeight: 600,
-                                textAlign: 'center',
+                                textAlign: 'center'
                               }}
                             >
                               Time Remaining: {formattedTime}
@@ -343,9 +324,7 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                     )}
                   </Menu>
 
-                  <Box sx={{ pl: 1.5, width: 90, fontWeight: 600, fontSize: 14 }}>
-                    {val.complaint_slno}
-                  </Box>
+                  <Box sx={{ pl: 1.5, width: 90, fontWeight: 600, fontSize: 14 }}>{val.complaint_slno}</Box>
                   <Box sx={{ width: 160, display: 'flex', gap: 0.5, textAlign: 'center' }}>
                     {val.compalint_status === 1 ? (
                       <EditIcon
@@ -355,7 +334,7 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                           borderRadius: 3,
                           p: 0.4,
                           width: 28,
-                          height: 28,
+                          height: 28
                         }}
                       />
                     ) : (
@@ -368,7 +347,7 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                           p: 0.4,
                           width: 28,
                           height: 28,
-                          '&:hover': { color: '#0C2D48' },
+                          '&:hover': { color: '#0C2D48' }
                         }}
                         onClick={() => rowSelect(val)}
                       />
@@ -385,7 +364,7 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                               borderRadius: 3,
                               p: 0.4,
                               width: 28,
-                              height: 28,
+                              height: 28
                             }}
                             onClick={() => fileView(val)}
                           />
@@ -399,7 +378,7 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                           p: 0.4,
                           width: 28,
                           height: 28,
-                          color: 'lightgrey',
+                          color: 'lightgrey'
                         }}
                       />
                     )}
@@ -415,7 +394,7 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                                 width: 28,
                                 height: 28,
                                 color: '#BF4A32',
-                                animation: `${blinkAnimation} 1s infinite`,
+                                animation: `${blinkAnimation} 1s infinite`
                               }}
                             />
                           ) : val.cm_query_status === 2 ? (
@@ -427,7 +406,7 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                                 width: 28,
                                 height: 28,
                                 color: '#2B82BF',
-                                animation: `${blinkAnimation} 1s infinite`,
+                                animation: `${blinkAnimation} 1s infinite`
                               }}
                             />
                           ) : (
@@ -438,7 +417,7 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                                 p: 0.4,
                                 width: 28,
                                 height: 28,
-                                color: '#647C90',
+                                color: '#647C90'
                               }}
                             />
                           )}
@@ -456,7 +435,7 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                               width: 28,
                               height: 28,
                               color: '#524199',
-                              cursor: 'pointer',
+                              cursor: 'pointer'
                             }}
                             onClick={() => AssetView(val)}
                           />
@@ -473,7 +452,7 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                               width: 28,
                               height: 28,
                               color: 'lightgrey',
-                              cursor: 'pointer',
+                              cursor: 'pointer'
                             }}
                           />
                         </Tooltip>
@@ -487,22 +466,20 @@ const PendingList = ({ pendingCompl, count, setCount, rowSelect, loading }) => {
                   <Box sx={{ width: 300, fontSize: 13 }}>
                     {val.rm_room_name}
                     {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name
-                      ? ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
-                      }${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
-                      }${val.rm_floor_name ? val.rm_floor_name : ''})`
+                      ? ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${
+                          val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
+                        }${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${
+                          val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
+                        }${val.rm_floor_name ? val.rm_floor_name : ''})`
                       : 'Not Updated'}
                   </Box>
-                  <Box sx={{ width: 300, fontSize: 13, pl: 0.4 }}>
-                    {val.cm_complaint_location || 'Not Updated'}
-                  </Box>
+                  <Box sx={{ width: 300, fontSize: 13, pl: 0.4 }}>{val.cm_complaint_location || 'Not Updated'}</Box>
                   <Box sx={{ width: 180, fontSize: 13, pl: 1 }}>
                     {val.compalint_date
                       ? format(new Date(val.compalint_date), 'dd MMM yyyy,  hh:mm a')
                       : 'Invalid Date'}
                   </Box>
-                  <Box sx={{ width: 180, fontSize: 12, pl: 1.5 }}>
-                    {val.ticket_reg_employee || 'Not Updated'}
-                  </Box>
+                  <Box sx={{ width: 180, fontSize: 12, pl: 1.5 }}>{val.ticket_reg_employee || 'Not Updated'}</Box>
                 </Box>
               )
             }}

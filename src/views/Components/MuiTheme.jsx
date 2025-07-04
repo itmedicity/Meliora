@@ -12,10 +12,10 @@ const theme = createTheme({
         xs: 17,
         md: 17,
         lg: 17,
-        xl: 17,
-      },
-    },
-  },
+        xl: 17
+      }
+    }
+  }
 })
 
 export default theme

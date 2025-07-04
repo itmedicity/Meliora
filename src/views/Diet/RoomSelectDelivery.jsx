@@ -10,7 +10,7 @@ const RoomSelectDelivery = ({ nurse, diet, setValue, value }) => {
   useEffect(() => {
     const postdata = {
       ns_code: nurse,
-      diet_slno: diet,
+      diet_slno: diet
     }
     const getRoom = async () => {
       if (nurse !== 0 && diet !== 0) {

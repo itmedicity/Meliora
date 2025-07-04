@@ -58,15 +58,7 @@ const TeamMast = () => {
   const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
-    const {
-      teammast_slno,
-      teammast_dept,
-      team_dept,
-      team_deptsec,
-      teammast_status,
-      team_emp,
-      team_name,
-    } = data[0]
+    const { teammast_slno, teammast_dept, team_dept, team_deptsec, teammast_status, team_emp, team_name } = data[0]
 
     setTeamdept(teammast_dept)
     setTeamMast(team_name)
@@ -87,7 +79,7 @@ const TeamMast = () => {
       team_emp: employe !== [] ? employe : null,
       teammast_status: status === true ? 1 : 0,
       edit_user: id,
-      teammast_slno: slno,
+      teammast_slno: slno
     }
   }, [teamdept, teamMast, dept, deptsec, employe, status, id, slno])
 
@@ -99,7 +91,7 @@ const TeamMast = () => {
       team_deptsec: deptsec !== 0 ? deptsec : null,
       team_emp: employe !== [] ? employe : null,
       teammast_status: status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [teamdept, teamMast, dept, deptsec, employe, status, id])
 
@@ -152,12 +144,7 @@ const TeamMast = () => {
   }, [])
 
   return (
-    <CardMaster
-      title="Team Master"
-      submit={Submitfunction}
-      refresh={refreshWindow}
-      close={backtoSetting}
-    >
+    <CardMaster title="Team Master" submit={Submitfunction} refresh={refreshWindow} close={backtoSetting}>
       <Box sx={{ pl: 2, pt: 2, pb: 1, pr: 1 }}>
         <Grid container spacing={1}>
           <Grid item xl={3} lg={3}>
@@ -183,11 +170,7 @@ const TeamMast = () => {
                 <DeptSecUnderDept value={deptsec} setValue={setDeptsec} dept={dept} />
               </Grid>
               <Grid item xl={12} lg={12}>
-                <DeptWiseEmpSelect
-                  personName={employe}
-                  setPersonName={setEmployee}
-                  empdeptwise={deptsec}
-                />
+                <DeptWiseEmpSelect personName={employe} setPersonName={setEmployee} empdeptwise={deptsec} />
               </Grid>
               <Grid item lg={2} xl={2}>
                 <CusCheckBox

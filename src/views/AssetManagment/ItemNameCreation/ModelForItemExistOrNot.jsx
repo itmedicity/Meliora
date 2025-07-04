@@ -54,19 +54,9 @@ const ModelForItemExistOrNot = ({ open, handleClose, assetOrSpare }) => {
       item_submodel_slno: submodel,
       item_manufactures_slno: manufacture,
       item_model_num: modelNumber !== '' ? modelNumber : null,
-      asset_spare: assetOrSpare,
+      asset_spare: assetOrSpare
     }
-  }, [
-    category,
-    subcategory,
-    group,
-    subgroup,
-    model,
-    submodel,
-    manufacture,
-    modelNumber,
-    assetOrSpare,
-  ])
+  }, [category, subcategory, group, subgroup, model, submodel, manufacture, modelNumber, assetOrSpare])
 
   const search = useCallback(() => {
     const getItemdata = async postdata => {
@@ -114,40 +104,32 @@ const ModelForItemExistOrNot = ({ open, handleClose, assetOrSpare }) => {
             p: 3,
             boxShadow: 'lg',
             height: 600,
-            maxWidth: '90%',
+            maxWidth: '90%'
           }}
         >
-          <Box
-            sx={{ width: '100%', height: '90%', borderRadius: 1, border: '0.1px solid #454545' }}
-          >
+          <Box sx={{ width: '100%', height: '90%', borderRadius: 1, border: '0.1px solid #454545' }}>
             <Box
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                pl: 0.5,
+                pl: 0.5
               }}
             >
               <Box sx={{ display: 'flex', flexDirection: 'row', p: 0.5 }}>
                 <Box sx={{ display: 'flex', width: '33%', p: 0.5, flexDirection: 'column' }}>
-                  <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-                    Category
-                  </Typography>
+                  <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Category</Typography>
                   <Box>
                     <AmCategorySelWOName category={category} setCategory={setCategory} />
                   </Box>
                 </Box>
                 <Box sx={{ display: 'flex', width: '33%', p: 0.5, flexDirection: 'column' }}>
-                  <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-                    Sub Category
-                  </Typography>
+                  <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Sub Category</Typography>
                   <Box sx={{ width: '100%' }}>
                     <AmSubCategryWOName subcategory={subcategory} setSubcategory={setSubcategory} />
                   </Box>
                 </Box>
                 <Box sx={{ display: 'flex', width: '33%', p: 0.5, flexDirection: 'column' }}>
-                  <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-                    Group
-                  </Typography>
+                  <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Group</Typography>
                   <Box sx={{ width: '100%' }}>
                     <AmGroupSelWOName group={group} setGroup={setGroup} />
                   </Box>
@@ -156,26 +138,20 @@ const ModelForItemExistOrNot = ({ open, handleClose, assetOrSpare }) => {
               {/* 2nd row */}
               <Box sx={{ display: 'flex', flexDirection: 'row', p: 0.5 }}>
                 <Box sx={{ display: 'flex', width: '33%', p: 0.5, flexDirection: 'column' }}>
-                  <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-                    Sub Group
-                  </Typography>
+                  <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Sub Group</Typography>
                   <Box sx={{ width: '100%' }}>
                     <AmSubGroupWOName subgroup={subgroup} setSubGroup={setSubGroup} />
                   </Box>
                 </Box>
                 <Box sx={{ display: 'flex', width: '33%', p: 0.5, flexDirection: 'column' }}>
-                  <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-                    Model
-                  </Typography>
+                  <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Model</Typography>
                   <Box sx={{ width: '100%' }}>
                     <AmModelSelWOName model={model} setModel={setModel} />
                   </Box>
                 </Box>
 
                 <Box sx={{ display: 'flex', width: '33%', p: 0.5, flexDirection: 'column' }}>
-                  <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-                    Sub Model
-                  </Typography>
+                  <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Sub Model</Typography>
                   <Box sx={{ width: '100%' }}>
                     <AmSubModelWOName submodel={submodel} setSubmodel={setSubmodel} />
                   </Box>
@@ -184,22 +160,15 @@ const ModelForItemExistOrNot = ({ open, handleClose, assetOrSpare }) => {
               {/* 3rd Floor */}
               <Box sx={{ display: 'flex', flexDirection: 'row', p: 0.5 }}>
                 <Box sx={{ display: 'flex', width: '33%', p: 0.5, flexDirection: 'column' }}>
-                  <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-                    Manufacture
-                  </Typography>
+                  <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Manufacture</Typography>
                   <Box sx={{ width: '100%' }}>
                     <AmManufacWOName manufacture={manufacture} setManufacture={setManufacture} />
                   </Box>
                 </Box>
                 <Box sx={{ display: 'flex', width: '32%', p: 0.5, flexDirection: 'column' }}>
-                  <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-                    Model No
-                  </Typography>
+                  <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Model No</Typography>
                   <Box sx={{ width: '100%' }}>
-                    <AmModelNumberSelect
-                      modelNumber={modelNumber}
-                      setModelNumber={setModelNumber}
-                    />
+                    <AmModelNumberSelect modelNumber={modelNumber} setModelNumber={setModelNumber} />
                   </Box>
                 </Box>
                 <Box sx={{ width: '3%', pl: 1, pt: 3 }}>
@@ -215,7 +184,7 @@ const ModelForItemExistOrNot = ({ open, handleClose, assetOrSpare }) => {
                     minHeight: 80,
                     maxHeight: 300,
                     overflow: 'auto',
-                    p: 1,
+                    p: 1
                   }}
                 >
                   <CssVarsProvider>
@@ -242,11 +211,7 @@ const ModelForItemExistOrNot = ({ open, handleClose, assetOrSpare }) => {
                                 <td> {val.item_name}</td>
                                 <td>
                                   {' '}
-                                  {val.asset_spare === 1
-                                    ? 'Asset'
-                                    : val.asset_spare === 2
-                                    ? 'Spare'
-                                    : 'Not Given'}
+                                  {val.asset_spare === 1 ? 'Asset' : val.asset_spare === 2 ? 'Spare' : 'Not Given'}
                                 </td>
                               </tr>
                             )

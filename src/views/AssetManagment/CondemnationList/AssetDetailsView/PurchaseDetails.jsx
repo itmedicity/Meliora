@@ -24,11 +24,10 @@ const PurchaseDetails = ({ AssetDetails }) => {
     asset_am_bill_mast_slno,
     spare_am_bill_mast_slno,
     asset_am_bill_image,
-    spare_am_bill_image,
+    spare_am_bill_image
   } = AssetDetails
 
-  const billNo =
-    spare_am_bill_mast_slno !== null ? spare_am_bill_mast_slno : asset_am_bill_mast_slno
+  const billNo = spare_am_bill_mast_slno !== null ? spare_am_bill_mast_slno : asset_am_bill_mast_slno
   const billStat = asset_am_bill_image !== null ? asset_am_bill_image : spare_am_bill_image
 
   const [imageshowFlag, setImageShowFlag] = useState(0)
@@ -72,9 +71,7 @@ const PurchaseDetails = ({ AssetDetails }) => {
   }, [])
   return (
     <Box>
-      {imageshowFlag === 1 ? (
-        <FileView open={imageshow} handleClose={handleClose} images={imagearray} />
-      ) : null}
+      {imageshowFlag === 1 ? <FileView open={imageshow} handleClose={handleClose} images={imagearray} /> : null}
       <Box sx={{ border: 1, borderColor: '#E0E1E3', py: 1, pl: 2 }}>
         <TextComponent
           text={'GRN DETAILS'}
@@ -82,7 +79,7 @@ const PurchaseDetails = ({ AssetDetails }) => {
             flex: 1,
             fontWeight: 500,
             color: 'black',
-            fontSize: 15,
+            fontSize: 15
           }}
         />
 
@@ -95,7 +92,7 @@ const PurchaseDetails = ({ AssetDetails }) => {
                   fontWeight: 600,
                   color: '#727B8C',
                   pt: 1,
-                  width: 120,
+                  width: 120
                 }}
               />
               <Box sx={{ flex: 1 }}>
@@ -115,17 +112,11 @@ const PurchaseDetails = ({ AssetDetails }) => {
                   fontWeight: 600,
                   color: '#727B8C',
                   pt: 1,
-                  width: 120,
+                  width: 120
                 }}
               />
               <Box sx={{ flex: 1 }}>
-                <Input
-                  type="text"
-                  size="sm"
-                  name="asset_am_grn_date"
-                  value={formattedDate || ''}
-                  readOnly
-                />
+                <Input type="text" size="sm" name="asset_am_grn_date" value={formattedDate || ''} readOnly />
               </Box>
             </Box>
           </Box>
@@ -139,7 +130,7 @@ const PurchaseDetails = ({ AssetDetails }) => {
             flex: 1,
             fontWeight: 500,
             color: 'black',
-            fontSize: 15,
+            fontSize: 15
           }}
         />
         <Box sx={{ flex: 1, display: 'flex' }}>
@@ -151,7 +142,7 @@ const PurchaseDetails = ({ AssetDetails }) => {
                   fontWeight: 600,
                   color: '#727B8C',
                   pt: 1,
-                  width: 120,
+                  width: 120
                 }}
               />
               <Box sx={{ flex: 1 }}>
@@ -171,17 +162,11 @@ const PurchaseDetails = ({ AssetDetails }) => {
                   fontWeight: 600,
                   color: '#727B8C',
                   pt: 1,
-                  width: 120,
+                  width: 120
                 }}
               />
               <Box sx={{ flex: 1 }}>
-                <Input
-                  type="text"
-                  size="sm"
-                  name="asset_am_bill_date"
-                  value={formatedBillDate || ''}
-                  readOnly
-                />
+                <Input type="text" size="sm" name="asset_am_bill_date" value={formatedBillDate || ''} readOnly />
               </Box>
             </Box>
             <Box sx={{ display: 'flex', pt: 0.5 }}>
@@ -191,7 +176,7 @@ const PurchaseDetails = ({ AssetDetails }) => {
                   fontWeight: 600,
                   color: '#727B8C',
                   pt: 1,
-                  width: 120,
+                  width: 120
                 }}
               />
               <Box sx={{ flex: 1 }}>
@@ -211,7 +196,7 @@ const PurchaseDetails = ({ AssetDetails }) => {
                   fontWeight: 600,
                   color: '#727B8C',
                   pt: 1,
-                  width: 120,
+                  width: 120
                 }}
               />
               <Box sx={{ flex: 1 }}>
@@ -238,14 +223,12 @@ const PurchaseDetails = ({ AssetDetails }) => {
                       fontWeight: 600,
                       cursor: 'pointer',
                       py: 0.3,
-                      boxShadow:
-                        '2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.6)',
+                      boxShadow: '2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.6)',
                       transform: 'translateZ(0)',
                       transition: 'transform 0.2s ease',
                       '&:hover': {
-                        boxShadow:
-                          '3px 3px 6px rgba(0, 0, 0, 0.4), -3px -3px 6px rgba(255, 255, 255, 0.7)',
-                      },
+                        boxShadow: '3px 3px 6px rgba(0, 0, 0, 0.4), -3px -3px 6px rgba(255, 255, 255, 0.7)'
+                      }
                     }}
                     onClick={ViewBillImage}
                   >

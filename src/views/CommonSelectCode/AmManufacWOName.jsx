@@ -28,7 +28,7 @@ const AmManufacWOName = ({ manufacture, setManufacture }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '29px',
+            '--Input-minHeight': '29px'
           }}
           value={manufacture === 0 ? manufactures : value}
           placeholder="Select Manufacture"
@@ -44,9 +44,7 @@ const AmManufacWOName = ({ manufacture, setManufacture }) => {
           loadingText="Loading..."
           freeSolo
           // renderInput={(params) => (<Input size="sm" placeholder="Small"  {...params} />)}
-          isOptionEqualToValue={(option, value) =>
-            option.manufacture_name === value.manufacture_name
-          }
+          isOptionEqualToValue={(option, value) => option.manufacture_name === value.manufacture_name}
           getOptionLabel={option => option.manufacture_name || ''}
           options={manufactures}
         />

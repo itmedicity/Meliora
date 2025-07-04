@@ -37,7 +37,7 @@ const CensusDeptSecSelect = ({ qltyDept, setQltyDept, setDptName }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '35px',
+            '--Input-minHeight': '35px'
           }}
           value={qltyDept === 0 ? type : value}
           placeholder="Select Department Section"
@@ -52,9 +52,7 @@ const CensusDeptSecSelect = ({ qltyDept, setQltyDept, setDptName }) => {
           loading={true}
           loadingText="Loading..."
           freeSolo
-          isOptionEqualToValue={(option, value) =>
-            option.qi_census_nurs_name === value.qi_census_nurs_name
-          }
+          isOptionEqualToValue={(option, value) => option.qi_census_nurs_name === value.qi_census_nurs_name}
           getOptionLabel={option => option.qi_census_nurs_name || ''}
           options={type}
         />

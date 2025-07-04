@@ -30,7 +30,7 @@ const ModelMessageRead = ({ open, setOpen, complaint, count, setCount, id }) => 
     compdept_message,
     compdept_message_flag,
     read_user,
-    message_reply_emp,
+    message_reply_emp
   } = complaint
 
   // state for retrun msg
@@ -51,7 +51,7 @@ const ModelMessageRead = ({ open, setOpen, complaint, count, setCount, id }) => 
         complaint_slno: complaint_slno,
         compdept_message_flag: 2,
         message_read_emp: id,
-        message_reply_emp: messagee,
+        message_reply_emp: messagee
       }
       const result = await axioslogin.patch(`/complaintassign/ReadMeassage`, patchdata)
       const { message, success } = result.data
@@ -88,12 +88,10 @@ const ModelMessageRead = ({ open, setOpen, complaint, count, setCount, id }) => 
           id="alert-dialog-slide-descriptiona"
           sx={{
             width: '100%',
-            height: '100%',
+            height: '100%'
           }}
         >
-          <DialogContentText id="alert-dialog-slide-descriptiona">
-            Message Send to User
-          </DialogContentText>
+          <DialogContentText id="alert-dialog-slide-descriptiona">Message Send to User</DialogContentText>
           <Box sx={{ width: '100%', mt: 0 }}>
             <Paper variant="outlined" sx={{ p: 0, mt: 1 }}>
               <Box
@@ -105,8 +103,8 @@ const ModelMessageRead = ({ open, setOpen, complaint, count, setCount, id }) => 
                     sm: 'column',
                     md: 'column',
                     lg: 'column',
-                    xl: 'column',
-                  },
+                    xl: 'column'
+                  }
                 }}
               >
                 <Box
@@ -114,7 +112,7 @@ const ModelMessageRead = ({ open, setOpen, complaint, count, setCount, id }) => 
                     width: '100%',
                     display: 'flex',
                     p: 0.5,
-                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                   }}
                 >
                   <Box sx={{ pr: 8 }}>
@@ -140,7 +138,7 @@ const ModelMessageRead = ({ open, setOpen, complaint, count, setCount, id }) => 
                     width: '100%',
                     display: 'flex',
                     p: 0.5,
-                    flexDirection: 'row',
+                    flexDirection: 'row'
                   }}
                 >
                   <CssVarsProvider>
@@ -156,7 +154,7 @@ const ModelMessageRead = ({ open, setOpen, complaint, count, setCount, id }) => 
                     width: '100%',
                     display: 'flex',
                     p: 0.5,
-                    flexDirection: 'row',
+                    flexDirection: 'row'
                   }}
                 >
                   <CssVarsProvider>
@@ -173,7 +171,7 @@ const ModelMessageRead = ({ open, setOpen, complaint, count, setCount, id }) => 
                     width: '100%',
                     display: 'flex',
                     p: 0.5,
-                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                   }}
                 >
                   <Box sx={{ width: '25%' }}>
@@ -189,7 +187,7 @@ const ModelMessageRead = ({ open, setOpen, complaint, count, setCount, id }) => 
                       pl: 0.9,
                       fontSize: 15,
                       overflow: 'auto',
-                      '::-webkit-scrollbar': { display: 'none' },
+                      '::-webkit-scrollbar': { display: 'none' }
                     }}
                     variant="none"
                   >
@@ -201,21 +199,18 @@ const ModelMessageRead = ({ open, setOpen, complaint, count, setCount, id }) => 
                     width: '100%',
                     display: 'flex',
                     p: 0.5,
-                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                   }}
                 >
                   <Box sx={{ pr: 8 }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>
-                        Priority: {compalint_priority === 1 ? 'Yes' : 'No'}
-                      </Typography>
+                      <Typography sx={{ fontSize: 15 }}>Priority: {compalint_priority === 1 ? 'Yes' : 'No'}</Typography>
                     </CssVarsProvider>
                   </Box>
                   <Box sx={{ pl: 9.5 }}>
                     <CssVarsProvider>
                       <Typography sx={{ fontSize: 15 }}>
-                        Infection Control Risk Assessment (ICRA) Recommended:{' '}
-                        {complaint_hicslno === 1 ? 'Yes' : 'No'}
+                        Infection Control Risk Assessment (ICRA) Recommended: {complaint_hicslno === 1 ? 'Yes' : 'No'}
                       </Typography>
                     </CssVarsProvider>
                   </Box>
@@ -227,7 +222,7 @@ const ModelMessageRead = ({ open, setOpen, complaint, count, setCount, id }) => 
                         width: '100%',
                         display: 'flex',
                         p: 0.5,
-                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                       }}
                     >
                       <Box sx={{ width: '25%' }}>
@@ -243,7 +238,7 @@ const ModelMessageRead = ({ open, setOpen, complaint, count, setCount, id }) => 
                           pl: 0.9,
                           fontSize: 15,
                           overflow: 'auto',
-                          '::-webkit-scrollbar': { display: 'none' },
+                          '::-webkit-scrollbar': { display: 'none' }
                         }}
                         variant="none"
                       >
@@ -255,7 +250,7 @@ const ModelMessageRead = ({ open, setOpen, complaint, count, setCount, id }) => 
                         width: '100%',
                         display: 'flex',
                         p: 0.5,
-                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                       }}
                     >
                       <Box sx={{ pr: 8 }}>
@@ -282,7 +277,7 @@ const ModelMessageRead = ({ open, setOpen, complaint, count, setCount, id }) => 
                         width: '100%',
                         display: 'flex',
                         p: 0.5,
-                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                       }}
                     >
                       <Box sx={{ width: '25%' }}>
@@ -298,7 +293,7 @@ const ModelMessageRead = ({ open, setOpen, complaint, count, setCount, id }) => 
                           pl: 0.9,
                           fontSize: 15,
                           overflow: 'auto',
-                          '::-webkit-scrollbar': { display: 'none' },
+                          '::-webkit-scrollbar': { display: 'none' }
                         }}
                         variant="none"
                       >
@@ -310,7 +305,7 @@ const ModelMessageRead = ({ open, setOpen, complaint, count, setCount, id }) => 
                         width: '100%',
                         display: 'flex',
                         p: 0.5,
-                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                       }}
                     >
                       <Box sx={{ width: '25%' }}>
@@ -326,7 +321,7 @@ const ModelMessageRead = ({ open, setOpen, complaint, count, setCount, id }) => 
                           pl: 0.9,
                           fontSize: 15,
                           overflow: 'auto',
-                          '::-webkit-scrollbar': { display: 'none' },
+                          '::-webkit-scrollbar': { display: 'none' }
                         }}
                         variant="none"
                       >
@@ -339,13 +334,11 @@ const ModelMessageRead = ({ open, setOpen, complaint, count, setCount, id }) => 
                           width: '100%',
                           display: 'flex',
                           p: 0.5,
-                          flexDirection: 'row',
+                          flexDirection: 'row'
                         }}
                       >
                         <CssVarsProvider>
-                          <Typography sx={{ fontSize: 15, pr: 6 }}>
-                            Message Read Employee:
-                          </Typography>
+                          <Typography sx={{ fontSize: 15, pr: 6 }}>Message Read Employee:</Typography>
                           <Typography sx={{ textTransform: 'capitalize', fontSize: 15 }}>
                             {' '}
                             {read_user.toLowerCase()}

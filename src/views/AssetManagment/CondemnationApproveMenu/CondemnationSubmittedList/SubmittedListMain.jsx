@@ -1,10 +1,6 @@
 import { Box, Radio, RadioGroup } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
-import {
-  getActiveCondemnationLevel,
-  getAllDeptCondemPendingDatas,
-  getCondemPendingDatas,
-} from 'src/api/AssetApis'
+import { getActiveCondemnationLevel, getAllDeptCondemPendingDatas, getCondemPendingDatas } from 'src/api/AssetApis'
 import { useQuery } from 'react-query'
 import CondemnationApproveModal from '../CondemnationApproveModal'
 import ViewSubmittedModal from '../../CondemnationList/ViewSubmittedModal'
@@ -16,12 +12,9 @@ const SubmittedListMain = ({ menuRightsList, empId, empdept }) => {
 
   const { data: ActiveCondemnationLevel } = useQuery({
     queryKey: ['getActiveCondemnationLevel'],
-    queryFn: () => getActiveCondemnationLevel(),
+    queryFn: () => getActiveCondemnationLevel()
   })
-  const ActiveCondemnations = useMemo(
-    () => ActiveCondemnationLevel || [],
-    [ActiveCondemnationLevel]
-  )
+  const ActiveCondemnations = useMemo(() => ActiveCondemnationLevel || [], [ActiveCondemnationLevel])
   const level_num = ActiveCondemnations.length > 0 ? ActiveCondemnations[0]?.level_num : null
 
   const [formDetails, setformDetails] = useState([])
@@ -52,14 +45,14 @@ const SubmittedListMain = ({ menuRightsList, empId, empdept }) => {
     return {
       empdept,
       condemStatusFrom: condemFromStatusDept,
-      condemstatusTo: condemSToStatusDept,
+      condemstatusTo: condemSToStatusDept
     }
   }, [empdept, condemFromStatusDept, condemSToStatusDept])
 
   const { data: CondemDeptPendingData = [] } = useQuery({
     queryKey: ['getDeptCondemPendingData', formCount],
     queryFn: () => getCondemPendingDatas(postCondemDept),
-    enabled: empdept !== undefined,
+    enabled: empdept !== undefined
   })
 
   useEffect(() => {
@@ -74,13 +67,13 @@ const SubmittedListMain = ({ menuRightsList, empId, empdept }) => {
   const postCondemAllDept = useMemo(() => {
     return {
       condemStatusFrom: condemStatusFrom,
-      condemstatusTo: condemstatusTo,
+      condemstatusTo: condemstatusTo
     }
   }, [condemStatusFrom, condemstatusTo])
 
   const { data: AllDeptCondemPendings = [] } = useQuery({
     queryKey: ['getAllDeptCondemPendings', formCount],
-    queryFn: () => getAllDeptCondemPendingDatas(postCondemAllDept),
+    queryFn: () => getAllDeptCondemPendingDatas(postCondemAllDept)
   })
 
   useEffect(() => {
@@ -129,7 +122,7 @@ const SubmittedListMain = ({ menuRightsList, empId, empdept }) => {
             gap: 2,
             justifyContent: 'center',
             mt: 1.5,
-            mb: 2,
+            mb: 2
           }}
         >
           <Radio value="1" label="Pendings" color="neutral" />
@@ -140,11 +133,7 @@ const SubmittedListMain = ({ menuRightsList, empId, empdept }) => {
       {selectedRValue === '1' ? (
         <Box>
           {level_no === 1 || level_no === 2 ? (
-            <PendingListCondemnation
-              PendingDeptDatas={PendingDeptDatas}
-              editForm={editForm}
-              viewForm={viewForm}
-            />
+            <PendingListCondemnation PendingDeptDatas={PendingDeptDatas} editForm={editForm} viewForm={viewForm} />
           ) : (
             <AllDeptPendingListCondem
               AllDeptPendingDatas={AllDeptPendingDatas}
@@ -154,13 +143,9 @@ const SubmittedListMain = ({ menuRightsList, empId, empdept }) => {
           )}
         </Box>
       ) : selectedRValue === '2' ? (
-        <Box>
-          {/* <SelectedRegDate SatusFrom={SatusFrom} SatusTo={SatusTo} viewForm={viewForm} /> */}
-        </Box>
+        <Box>{/* <SelectedRegDate SatusFrom={SatusFrom} SatusTo={SatusTo} viewForm={viewForm} /> */}</Box>
       ) : selectedRValue === '3' ? (
-        <Box>
-          {/* <AllDeptRegistrdList SatusFrom={SatusFrom} SatusTo={SatusTo} viewForm={viewForm} /> */}
-        </Box>
+        <Box>{/* <AllDeptRegistrdList SatusFrom={SatusFrom} SatusTo={SatusTo} viewForm={viewForm} /> */}</Box>
       ) : (
         ''
       )}

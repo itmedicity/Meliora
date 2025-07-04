@@ -27,8 +27,8 @@ const DeptAcessTableView = ({ rowSelect, count }) => {
     {
       headerName: 'Action',
       width: 60,
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
-    },
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
+    }
   ])
   return (
     <Box>

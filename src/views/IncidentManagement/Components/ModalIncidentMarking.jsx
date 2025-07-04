@@ -9,7 +9,7 @@ import {
   Checkbox,
   Button,
   Textarea,
-  Chip,
+  Chip
 } from '@mui/joy'
 import incidentImage from '../../../assets/images/IncidentReport.png'
 import moment from 'moment'
@@ -27,7 +27,7 @@ const ModalIncidentMarking = ({ modalData, open, handleClose, SearchReport }) =>
   const [verifyDate, setverifyDate] = useState(new Date())
   const [incidetData, setIncidetData] = useState({
     incDetails: '',
-    incReason: '',
+    incReason: ''
   })
   const { incDetails, incReason } = incidetData
 
@@ -36,7 +36,7 @@ const ModalIncidentMarking = ({ modalData, open, handleClose, SearchReport }) =>
       { id: 1, label: 'GENERAL' },
       { id: 2, label: 'NEAR MISSESS' },
       { id: 3, label: 'HARMFUL' },
-      { id: 4, label: 'SENTINEL' },
+      { id: 4, label: 'SENTINEL' }
     ]
   }, [])
   const id = useSelector(state => {
@@ -61,19 +61,17 @@ const ModalIncidentMarking = ({ modalData, open, handleClose, SearchReport }) =>
         incident_details,
         incident_mark_remarks,
         final_incident_type,
-        verified_date,
+        verified_date
       } = modalData
       setIncidentMark(incident_flag === 1 ? true : false)
       const formData = {
         incReason: incident_reason,
-        incDetails: incident_details,
+        incDetails: incident_details
       }
       setIncidetData(formData)
       setIncType(final_incident_type)
       setRemarks(incident_mark_remarks)
-      setverifyDate(
-        verified_date === null ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : verified_date
-      )
+      setverifyDate(verified_date === null ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : verified_date)
     }
   }, [modalData])
   const inpatchdata = useMemo(() => {
@@ -84,7 +82,7 @@ const ModalIncidentMarking = ({ modalData, open, handleClose, SearchReport }) =>
       verified_user: id,
       final_incident_type: incType,
       incident_slno: incident_slno,
-      verified_date: verifyDate,
+      verified_date: verifyDate
     }
   }, [id, incident_slno, incidentMark, remarks, incType, verifyDate])
 
@@ -126,7 +124,7 @@ const ModalIncidentMarking = ({ modalData, open, handleClose, SearchReport }) =>
           <ModalDialog
             variant="outlined"
             sx={{
-              minWidth: '50vw',
+              minWidth: '50vw'
               // borderRadius: 'md',
             }}
           >
@@ -140,7 +138,7 @@ const ModalIncidentMarking = ({ modalData, open, handleClose, SearchReport }) =>
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 35,
-                width: 35,
+                width: 35
               }}
             />
             <Box sx={{ pt: 0.5 }}>
@@ -227,7 +225,7 @@ const ModalIncidentMarking = ({ modalData, open, handleClose, SearchReport }) =>
                           paddingLeft: 7,
                           borderRadius: 6,
                           border: '1px solid lightgrey',
-                          fontSize: 13,
+                          fontSize: 13
                         }}
                         name="incType"
                         value={incType}
@@ -248,9 +246,7 @@ const ModalIncidentMarking = ({ modalData, open, handleClose, SearchReport }) =>
                   </Box>
                   <Box sx={{ flex: 1, pt: 1.5 }}>
                     <Box>
-                      <Typography sx={{ fontSize: 12, fontWeight: 550 }}>
-                        REPORTED INCIDENT TYPE
-                      </Typography>
+                      <Typography sx={{ fontSize: 12, fontWeight: 550 }}>REPORTED INCIDENT TYPE</Typography>
                     </Box>
                     <Box sx={{ pl: 0.5, pt: 0.5 }}>
                       <CssVarsProvider>
@@ -272,18 +268,11 @@ const ModalIncidentMarking = ({ modalData, open, handleClose, SearchReport }) =>
                 <Box sx={{ flex: 1, pt: 1.5, display: 'flex' }}>
                   <Box sx={{ flex: 1 }}>
                     <Box>
-                      <Typography sx={{ fontSize: 12, fontWeight: 600 }}>
-                        MARK AS INCIDENT
-                      </Typography>
+                      <Typography sx={{ fontSize: 12, fontWeight: 600 }}>MARK AS INCIDENT</Typography>
                     </Box>
                     <Box sx={{ pt: 0.5, pl: 0.5 }}>
                       <CssVarsProvider>
-                        <Checkbox
-                          color="primary"
-                          size="md"
-                          checked={incidentMark}
-                          onChange={ChangeIncidentMark}
-                        />
+                        <Checkbox color="primary" size="md" checked={incidentMark} onChange={ChangeIncidentMark} />
                       </CssVarsProvider>
                     </Box>
                   </Box>
@@ -318,7 +307,7 @@ const ModalIncidentMarking = ({ modalData, open, handleClose, SearchReport }) =>
                   style={{
                     fontSize: 17,
                     color: '#bf360c',
-                    cursor: 'pointer',
+                    cursor: 'pointer'
                   }}
                 >
                   Save
@@ -329,7 +318,7 @@ const ModalIncidentMarking = ({ modalData, open, handleClose, SearchReport }) =>
                   style={{
                     fontSize: 17,
                     color: '#bf360c',
-                    cursor: 'pointer',
+                    cursor: 'pointer'
                   }}
                 >
                   Cancel

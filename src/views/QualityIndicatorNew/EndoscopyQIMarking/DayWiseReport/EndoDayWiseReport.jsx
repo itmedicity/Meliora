@@ -13,7 +13,7 @@ const EndoDayWiseReport = ({
   equipmentlist,
   ipViewReport,
   testCount,
-  endoDays,
+  endoDays
 }) => {
   return (
     <Box variant="outlined" sx={{ overflow: 'auto', maxHeight: window.innerHeight - 240, p: 0.5 }}>
@@ -23,7 +23,7 @@ const EndoDayWiseReport = ({
           size="sm"
           sx={{
             display: 'flex',
-            mt: 0.5,
+            mt: 0.5
           }}
         >
           <TabList
@@ -32,11 +32,11 @@ const EndoDayWiseReport = ({
               p: 0,
               [`& .${tabClasses.root}[aria-selected="true"]`]: {
                 borderBottom: 5,
-                bgcolor: 'white',
+                bgcolor: 'white'
               },
               display: 'flex',
               flexDirection: 'column',
-              bgcolor: 'white',
+              bgcolor: 'white'
             }}
           >
             <Box sx={{ display: 'flex', flex: 1, mb: 0 }}>
@@ -54,11 +54,7 @@ const EndoDayWiseReport = ({
             </Box>
           </TabList>
           <TabPanel value={0} sx={{ p: 0, bgcolor: 'white' }}>
-            <DayWisePatientsListTable
-              viewData={viewData}
-              ipViewReport={ipViewReport}
-              qitype={qitype}
-            />
+            <DayWisePatientsListTable viewData={viewData} ipViewReport={ipViewReport} qitype={qitype} />
           </TabPanel>
           <TabPanel value={1} sx={{ p: 0, bgcolor: '#b0bec5' }}>
             <Box>

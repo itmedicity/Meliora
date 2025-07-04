@@ -41,7 +41,7 @@ import {
   getComplaintList,
   setPendingOnholEmpWise,
   getOnholdList,
-  setAssitRectEmpWise,
+  setAssitRectEmpWise
 } from '../reducers/ComplaintDashboard.Reducer'
 import { getComplaintLists } from '../reducers/ComplaintLists.Reducer'
 import { getAssignedComplaintLists } from '../reducers/AssignedcmLists.Reducer'
@@ -78,10 +78,7 @@ import { getEscalationMappingLvl3It } from '../reducers/EscalationMappingLvl3It.
 import { getEscalationMappingLvl3Main } from '../reducers/EscalationLvl3Main.Reducer'
 import { getEscalationMappingLvl4It } from '../reducers/EscalationMappingLvl4It.Reducer'
 import { getEscalationMappingLvl4Main } from '../reducers/EscalationMappingLvl4Main.Reducer'
-import {
-  setComplaintListAll,
-  setPendOnholdCompListAll,
-} from '../reducers/ComplaintDashAllDept.Reducer'
+import { setComplaintListAll, setPendOnholdCompListAll } from '../reducers/ComplaintDashAllDept.Reducer'
 import { setCompListAllForMenu } from '../reducers/CompalintListAll.Reducer'
 import { setItemExtra } from '../reducers/ItemMasterExtra.Reducer'
 import { setTotalInPateint } from '../reducers/TotalInPateintList.Reducer'
@@ -149,7 +146,7 @@ import {
   getWeeklyBackup,
   getWeeklyDetails,
   getSelectedDaysDetails,
-  getDaysDetails,
+  getDaysDetails
 } from './BackupDash.Reducer'
 import { getPasswordCredential } from './ItPasswordCredential.Reducer'
 import { getRackList } from './AmRackList.Reducer'
@@ -160,7 +157,7 @@ import {
   getProjectList,
   getProjectListWithgoal,
   getNonGoalProjectList,
-  getprojectFrTaskCreation,
+  getprojectFrTaskCreation
 } from './TmProjectsList.Reducer'
 import { getGoalsList } from './TmGoalsList.Reducer'
 import { getSubRoomBasedOnRoom } from './AmSubRoomBsdRoom.Reducer'
@@ -177,11 +174,7 @@ import { getSupplierList } from './ItBillsupplierList.Reducer'
 import { setCRMPurchase } from './CrmPurchaseLista.Reducer'
 import { setCRMOthers } from './CrmOtherList.Reducer'
 import { setCRMInchargeHod } from './CrmInchHodList.Reducer'
-import {
-  setCRMDashBoard,
-  getCRFPurchaseDashboard,
-  getPOStoreDashboard,
-} from './CrmDashBoardList.Reducer'
+import { setCRMDashBoard, getCRFPurchaseDashboard, getPOStoreDashboard } from './CrmDashBoardList.Reducer'
 import { setCRMPurchaseAckPending } from './CrmPurchaseAckPendg.Reducer'
 import { setCRMPurchDataCollPending } from './CrmPurchaDetacollPend.Reducer'
 import { getMultDepSection } from './TmMultipleDepSectList.Reducer'
@@ -378,6 +371,6 @@ const reducer = combineReducers({
   getPOStoreDashboard,
   getRoomsNameNdTypeList,
   getprojectFrTaskCreation,
-  getDeptsectionTmc,
+  getDeptsectionTmc
 })
 export default reducer

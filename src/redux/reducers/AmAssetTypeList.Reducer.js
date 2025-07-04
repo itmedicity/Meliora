@@ -3,7 +3,7 @@ const { FETCH_AM_ASSET_TYPE } = ActionTyps
 //intial state
 const AssetType = {
   AssetTypeList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Building action type check then payload set to the state and loading status set as true */
 export const getAmAssetType = (state = AssetType, { type, payload }) => {

@@ -3,7 +3,7 @@ const { FETCH_TOT_WRWRKADMISSION } = ActionTyps
 
 const WeAdmissionTotal = {
   WeTotalList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 
 export const getTotalWeAdmission = (state = WeAdmissionTotal, { type, payload }) => {

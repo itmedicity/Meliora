@@ -1,9 +1,9 @@
 import React, { Fragment, useCallback, useState, memo, useEffect, useMemo } from 'react'
-import Slide from '@mui/material/Slide';
+import Slide from '@mui/material/Slide'
 // import { ToastContainer } from 'react-toastify';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import Button from '@mui/material/Button'
 import { Box, Paper } from '@mui/material'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
@@ -99,35 +99,21 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
     ed_approve_remarks,
     ed_detial_analysis,
     ed_approve_date,
-    ed_user,
+    ed_user
   } = datas[0]
 
   const reqdate = format(new Date(req_date), 'dd-MM-yyyy')
   const expdate = format(new Date(expected_date), 'dd-MM-yyyy')
   const inchargeApprovdate =
-    incharge_apprv_date !== null
-      ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy')
-      : 'Not Updated'
-  const hodApprovdate =
-    hod_approve_date !== null ? format(new Date(hod_approve_date), 'dd-MM-yyyy') : 'Not Updated'
-  const dmsApprovdate =
-    dms_approve_date !== null ? format(new Date(dms_approve_date), 'dd-MM-yyyy') : 'Not Updated'
-  const msApprovdate =
-    ms_approve_date !== null ? format(new Date(ms_approve_date), 'dd-MM-yyyy') : 'Not Updated'
-  const omdate =
-    om_approv_date !== null
-      ? format(new Date(om_approv_date), 'dd-MM-yyyy hh:mm:ss')
-      : 'Not Updated'
-  const smodate =
-    som_aprrov_date !== null
-      ? format(new Date(som_aprrov_date), 'dd-MM-yyyy hh:mm:ss')
-      : 'Not Updated'
-  const caodate =
-    cao_approv_date !== null ? format(new Date(cao_approv_date), 'dd-MM-yyyy hh:mm:ss') : null
-  const mddate =
-    md_approve_date !== null ? format(new Date(md_approve_date), 'dd-MM-yyyy hh:mm:ss') : null
-  const eddate =
-    ed_approve_date !== null ? format(new Date(ed_approve_date), 'dd-MM-yyyy hh:mm:ss') : null
+    incharge_apprv_date !== null ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy') : 'Not Updated'
+  const hodApprovdate = hod_approve_date !== null ? format(new Date(hod_approve_date), 'dd-MM-yyyy') : 'Not Updated'
+  const dmsApprovdate = dms_approve_date !== null ? format(new Date(dms_approve_date), 'dd-MM-yyyy') : 'Not Updated'
+  const msApprovdate = ms_approve_date !== null ? format(new Date(ms_approve_date), 'dd-MM-yyyy') : 'Not Updated'
+  const omdate = om_approv_date !== null ? format(new Date(om_approv_date), 'dd-MM-yyyy hh:mm:ss') : 'Not Updated'
+  const smodate = som_aprrov_date !== null ? format(new Date(som_aprrov_date), 'dd-MM-yyyy hh:mm:ss') : 'Not Updated'
+  const caodate = cao_approv_date !== null ? format(new Date(cao_approv_date), 'dd-MM-yyyy hh:mm:ss') : null
+  const mddate = md_approve_date !== null ? format(new Date(md_approve_date), 'dd-MM-yyyy hh:mm:ss') : null
+  const eddate = ed_approve_date !== null ? format(new Date(ed_approve_date), 'dd-MM-yyyy hh:mm:ss') : null
 
   //redux for geting login id
   const id = useSelector(state => state.LoginUserData.empid, _.isEqual)
@@ -220,17 +206,9 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
       request_dept_slno: request_dept_slno,
       request_deptsec_slno: request_deptsec_slno,
       location: location,
-      create_user: id,
+      create_user: id
     }
-  }, [
-    req_slno,
-    ndactual_requirement,
-    ndneeded,
-    request_dept_slno,
-    request_deptsec_slno,
-    location,
-    id,
-  ])
+  }, [req_slno, ndactual_requirement, ndneeded, request_dept_slno, request_deptsec_slno, location, id])
 
   const submit = useCallback(
     e => {
@@ -243,7 +221,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
       //** Inset api for Approval */
       const NdrfInsertApproval = async insetid => {
         const ApprovalData = {
-          ndrf_mast_slno: insetid,
+          ndrf_mast_slno: insetid
         }
         const result = await axioslogin.post('/ndrf/postReqApproval', ApprovalData)
         return result.data
@@ -263,7 +241,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
               item_specification: val.item_specification,
               aprox_cost: val.aprox_cost,
               item_status: 1,
-              create_user: id,
+              create_user: id
             }
           })
         const result = await axioslogin.post('/ndrf/ndrfDetailInsert', postdataDetl)
@@ -330,12 +308,10 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
               id="alert-dialog-slide-descriptiona"
               sx={{
                 width: '100%',
-                height: 540,
+                height: 540
               }}
             >
-              <DialogContentText id="alert-dialog-slide-descriptiona">
-                Request Approval
-              </DialogContentText>
+              <DialogContentText id="alert-dialog-slide-descriptiona">Request Approval</DialogContentText>
               <Box sx={{ width: '100%', mt: 0 }}>
                 <Paper variant="outlined" sx={{ p: 0, mt: 1 }}>
                   <Box
@@ -347,8 +323,8 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                         sm: 'column',
                         md: 'column',
                         lg: 'column',
-                        xl: 'column',
-                      },
+                        xl: 'column'
+                      }
                     }}
                   >
                     <Box
@@ -356,14 +332,12 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                         width: '100%',
                         display: 'flex',
                         p: 0.5,
-                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                       }}
                     >
                       <Box sx={{ pr: 1 }}>
                         <CssVarsProvider>
-                          <Typography sx={{ fontSize: 15 }}>
-                            Request No: CRF/TMC/{req_slno}
-                          </Typography>
+                          <Typography sx={{ fontSize: 15 }}>Request No: CRF/TMC/{req_slno}</Typography>
                         </CssVarsProvider>
                       </Box>
                       <Box sx={{ pl: 4 }}>
@@ -378,7 +352,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                           width: '100%',
                           display: 'flex',
                           p: 0.5,
-                          flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                          flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                         }}
                       >
                         <Box sx={{ width: '25%' }}>
@@ -395,7 +369,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                             fontSize: 15,
                             textTransform: 'capitalize',
                             overflow: 'auto',
-                            '::-webkit-scrollbar': { display: 'none' },
+                            '::-webkit-scrollbar': { display: 'none' }
                           }}
                           variant="none"
                         >
@@ -409,7 +383,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                           width: '100%',
                           display: 'flex',
                           p: 0.5,
-                          flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                          flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                         }}
                       >
                         <Box sx={{ width: '25%' }}>
@@ -426,7 +400,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                             fontSize: 15,
                             textTransform: 'capitalize',
                             overflow: 'auto',
-                            '::-webkit-scrollbar': { display: 'none' },
+                            '::-webkit-scrollbar': { display: 'none' }
                           }}
                           variant="none"
                         >
@@ -440,7 +414,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                           width: '100%',
                           display: 'flex',
                           p: 0.5,
-                          flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                          flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                         }}
                       >
                         <Box sx={{ width: '25%' }}>
@@ -457,7 +431,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                             fontSize: 15,
                             textTransform: 'capitalize',
                             overflow: 'auto',
-                            '::-webkit-scrollbar': { display: 'none' },
+                            '::-webkit-scrollbar': { display: 'none' }
                           }}
                           variant="none"
                         >
@@ -471,7 +445,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                           width: '100%',
                           display: 'flex',
                           p: 0.5,
-                          flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                          flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                         }}
                       >
                         <Box sx={{ width: '25%' }}>
@@ -488,7 +462,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                             fontSize: 15,
                             textTransform: 'capitalize',
                             overflow: 'auto',
-                            '::-webkit-scrollbar': { display: 'none' },
+                            '::-webkit-scrollbar': { display: 'none' }
                           }}
                           variant="none"
                         >
@@ -501,7 +475,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                         width: '100%',
                         display: 'flex',
                         p: 0.5,
-                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                       }}
                     >
                       <Box sx={{ width: '25%' }}>
@@ -518,7 +492,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                           fontSize: 15,
                           textTransform: 'capitalize',
                           overflow: 'auto',
-                          '::-webkit-scrollbar': { display: 'none' },
+                          '::-webkit-scrollbar': { display: 'none' }
                         }}
                         variant="none"
                       >
@@ -530,7 +504,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                         width: '100%',
                         display: 'flex',
                         p: 0.5,
-                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                       }}
                     >
                       <Box sx={{ width: '25%' }}>
@@ -547,7 +521,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                           fontSize: 15,
                           textTransform: 'capitalize',
                           overflow: 'auto',
-                          '::-webkit-scrollbar': { display: 'none' },
+                          '::-webkit-scrollbar': { display: 'none' }
                         }}
                         variant="none"
                       >
@@ -561,7 +535,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                         display: 'flex',
                         p: 0.5,
                         pb: 0,
-                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                       }}
                     >
                       <Box sx={{ pr: 9 }}>
@@ -574,8 +548,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                     <Box sx={{ p: 0.5 }}>
                       <CssVarsProvider>
                         <Typography sx={{ fontSize: 15, textTransform: 'capitalize' }}>
-                          Requested User:{' '}
-                          {req_user !== null ? req_user.toLowerCase() : 'Not Updated'}
+                          Requested User: {req_user !== null ? req_user.toLowerCase() : 'Not Updated'}
                         </Typography>
                       </CssVarsProvider>
                     </Box>
@@ -584,13 +557,12 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                         width: '100%',
                         display: 'flex',
                         p: 0.5,
-                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                       }}
                     >
                       <CssVarsProvider>
                         <Typography sx={{ fontSize: 15, textTransform: 'capitalize' }}>
-                          Requested DeptSec:{' '}
-                          {userdeptsec !== null ? userdeptsec.toLowerCase() : 'Not Updated'}
+                          Requested DeptSec: {userdeptsec !== null ? userdeptsec.toLowerCase() : 'Not Updated'}
                         </Typography>
                       </CssVarsProvider>
                       {image_status === 1 ? (
@@ -606,12 +578,10 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                         width: '100%',
                         display: 'flex',
                         p: 0.5,
-                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                       }}
                     >
-                      {tableDis === 1 ? (
-                        <ItemApprovalCmp dataPost={dataPost} setdataPost={setdataPost} />
-                      ) : null}
+                      {tableDis === 1 ? <ItemApprovalCmp dataPost={dataPost} setdataPost={setdataPost} /> : null}
                     </Box>
 
                     {colectDetlCheck === 1 ? (
@@ -631,8 +601,8 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                               sm: 'row',
                               md: 'row',
                               lg: 'row',
-                              xl: 'row',
-                            },
+                              xl: 'row'
+                            }
                           }}
                         >
                           <ItemApprovalCmp dataPost={datacollectdata} setdataPost={setdataPost} />
@@ -654,8 +624,8 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                         sm: 'column',
                         md: 'column',
                         lg: 'column',
-                        xl: 'column',
-                      },
+                        xl: 'column'
+                      }
                     }}
                   >
                     <Box
@@ -664,7 +634,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                         display: 'flex',
                         pl: 0.2,
                         pr: 0.5,
-                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                       }}
                     >
                       <Box sx={{ pr: 9 }}>
@@ -688,15 +658,15 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                               sm: 'column',
                               md: 'column',
                               lg: 'column',
-                              xl: 'column',
-                            },
+                              xl: 'column'
+                            }
                           }}
                         >
                           <Box
                             sx={{
                               display: 'flex',
                               flexDirection: 'row',
-                              justifyContent: 'space-between',
+                              justifyContent: 'space-between'
                             }}
                           >
                             <CssVarsProvider>
@@ -741,7 +711,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                                   display: 'flex',
                                   flexDirection: 'row',
                                   justifyContent: 'space-evenly',
-                                  pr: 2,
+                                  pr: 2
                                 }}
                               >
                                 <CssVarsProvider>
@@ -765,7 +735,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                                       px: 1,
                                       pb: 0.4,
                                       borderRadius: 5,
-                                      textTransform: 'capitalize',
+                                      textTransform: 'capitalize'
                                     }}
                                   >
                                     {incharge_user}{' '}
@@ -845,8 +815,8 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                           sm: 'column',
                           md: 'column',
                           lg: 'column',
-                          xl: 'column',
-                        },
+                          xl: 'column'
+                        }
                       }}
                     >
                       <Box
@@ -854,7 +824,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                           // pl: 1,
                           display: 'flex',
                           flexDirection: 'row',
-                          justifyContent: 'space-between',
+                          justifyContent: 'space-between'
                         }}
                       >
                         <CssVarsProvider>
@@ -899,7 +869,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                               display: 'flex',
                               flexDirection: 'row',
                               justifyContent: 'space-evenly',
-                              pr: 2,
+                              pr: 2
                             }}
                           >
                             <CssVarsProvider>
@@ -923,7 +893,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                                   px: 1,
                                   pb: 0.4,
                                   borderRadius: 5,
-                                  textTransform: 'capitalize',
+                                  textTransform: 'capitalize'
                                 }}
                               >
                                 {hod_user}{' '}
@@ -991,8 +961,8 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                           sm: 'column',
                           md: 'column',
                           lg: 'column',
-                          xl: 'column',
-                        },
+                          xl: 'column'
+                        }
                       }}
                     >
                       <Box
@@ -1001,7 +971,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                           pr: 1,
                           display: 'flex',
                           flexDirection: 'row',
-                          justifyContent: 'space-between',
+                          justifyContent: 'space-between'
                         }}
                       >
                         <CssVarsProvider>
@@ -1046,7 +1016,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                               display: 'flex',
                               flexDirection: 'row',
                               justifyContent: 'space-evenly',
-                              pr: 2,
+                              pr: 2
                             }}
                           >
                             <CssVarsProvider>
@@ -1070,7 +1040,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                                   px: 1,
                                   pb: 0.4,
                                   borderRadius: 5,
-                                  textTransform: 'capitalize',
+                                  textTransform: 'capitalize'
                                 }}
                               >
                                 {dms_user}{' '}
@@ -1146,8 +1116,8 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                           sm: 'column',
                           md: 'column',
                           lg: 'column',
-                          xl: 'column',
-                        },
+                          xl: 'column'
+                        }
                       }}
                     >
                       <Box
@@ -1156,7 +1126,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                           pr: 1,
                           display: 'flex',
                           flexDirection: 'row',
-                          justifyContent: 'space-between',
+                          justifyContent: 'space-between'
                         }}
                       >
                         <CssVarsProvider>
@@ -1201,7 +1171,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                               display: 'flex',
                               flexDirection: 'row',
                               justifyContent: 'space-evenly',
-                              pr: 2,
+                              pr: 2
                             }}
                           >
                             <CssVarsProvider>
@@ -1225,7 +1195,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                                   px: 1,
                                   pb: 0.4,
                                   borderRadius: 5,
-                                  textTransform: 'capitalize',
+                                  textTransform: 'capitalize'
                                 }}
                               >
                                 {ms_user}{' '}
@@ -1300,8 +1270,8 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                         sm: 'column',
                         md: 'column',
                         lg: 'column',
-                        xl: 'column',
-                      },
+                        xl: 'column'
+                      }
                     }}
                   >
                     <Box
@@ -1310,7 +1280,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                         pr: 1,
                         display: 'flex',
                         flexDirection: 'row',
-                        justifyContent: 'space-between',
+                        justifyContent: 'space-between'
                       }}
                     >
                       <CssVarsProvider>
@@ -1355,7 +1325,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                             display: 'flex',
                             flexDirection: 'row',
                             justifyContent: 'space-evenly',
-                            pr: 2,
+                            pr: 2
                           }}
                         >
                           <CssVarsProvider>
@@ -1379,7 +1349,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                                 px: 1,
                                 pb: 0.4,
                                 borderRadius: 5,
-                                textTransform: 'capitalize',
+                                textTransform: 'capitalize'
                               }}
                             >
                               {manag_operation_user}{' '}
@@ -1453,8 +1423,8 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                         sm: 'column',
                         md: 'column',
                         lg: 'column',
-                        xl: 'column',
-                      },
+                        xl: 'column'
+                      }
                     }}
                   >
                     <Box
@@ -1463,7 +1433,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                         pr: 1,
                         display: 'flex',
                         flexDirection: 'row',
-                        justifyContent: 'space-between',
+                        justifyContent: 'space-between'
                       }}
                     >
                       <CssVarsProvider>
@@ -1508,7 +1478,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                             display: 'flex',
                             flexDirection: 'row',
                             justifyContent: 'space-evenly',
-                            pr: 2,
+                            pr: 2
                           }}
                         >
                           <CssVarsProvider>
@@ -1532,7 +1502,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                                 px: 1,
                                 pb: 0.4,
                                 borderRadius: 5,
-                                textTransform: 'capitalize',
+                                textTransform: 'capitalize'
                               }}
                             >
                               {senior_manage_user}{' '}
@@ -1606,8 +1576,8 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                         sm: 'column',
                         md: 'column',
                         lg: 'column',
-                        xl: 'column',
-                      },
+                        xl: 'column'
+                      }
                     }}
                   >
                     <Box
@@ -1616,7 +1586,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                         pr: 1,
                         display: 'flex',
                         flexDirection: 'row',
-                        justifyContent: 'space-between',
+                        justifyContent: 'space-between'
                       }}
                     >
                       <CssVarsProvider>
@@ -1661,7 +1631,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                             display: 'flex',
                             flexDirection: 'row',
                             justifyContent: 'space-evenly',
-                            pr: 2,
+                            pr: 2
                           }}
                         >
                           <CssVarsProvider>
@@ -1685,7 +1655,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                                 px: 1,
                                 pb: 0.4,
                                 borderRadius: 5,
-                                textTransform: 'capitalize',
+                                textTransform: 'capitalize'
                               }}
                             >
                               {cao_user}{' '}
@@ -1759,8 +1729,8 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                         sm: 'column',
                         md: 'column',
                         lg: 'column',
-                        xl: 'column',
-                      },
+                        xl: 'column'
+                      }
                     }}
                   >
                     <Box
@@ -1769,7 +1739,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                         pr: 1,
                         display: 'flex',
                         flexDirection: 'row',
-                        justifyContent: 'space-between',
+                        justifyContent: 'space-between'
                       }}
                     >
                       <CssVarsProvider>
@@ -1814,7 +1784,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                             display: 'flex',
                             flexDirection: 'row',
                             justifyContent: 'space-evenly',
-                            pr: 2,
+                            pr: 2
                           }}
                         >
                           <CssVarsProvider>
@@ -1838,7 +1808,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                                 px: 1,
                                 pb: 0.4,
                                 borderRadius: 5,
-                                textTransform: 'capitalize',
+                                textTransform: 'capitalize'
                               }}
                             >
                               {md_user}{' '}
@@ -1912,8 +1882,8 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                         sm: 'column',
                         md: 'column',
                         lg: 'column',
-                        xl: 'column',
-                      },
+                        xl: 'column'
+                      }
                     }}
                   >
                     <Box
@@ -1922,7 +1892,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                         pr: 1,
                         display: 'flex',
                         flexDirection: 'row',
-                        justifyContent: 'space-between',
+                        justifyContent: 'space-between'
                       }}
                     >
                       <CssVarsProvider>
@@ -1967,7 +1937,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                             display: 'flex',
                             flexDirection: 'row',
                             justifyContent: 'space-evenly',
-                            pr: 2,
+                            pr: 2
                           }}
                         >
                           <CssVarsProvider>
@@ -1991,7 +1961,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                                 px: 1,
                                 pb: 0.4,
                                 borderRadius: 5,
-                                textTransform: 'capitalize',
+                                textTransform: 'capitalize'
                               }}
                             >
                               {ed_user}{' '}
@@ -2062,7 +2032,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                     flexDirection: 'row',
                     pl: 2,
                     pt: 0,
-                    fontSize: 15,
+                    fontSize: 15
                   }}
                 >
                   {rm_ndrf === 0 ? (
@@ -2079,9 +2049,7 @@ const NdrfModel = ({ open, setOpen, datas, count, setCount }) => {
                     </Box>
                   ) : (
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15, fontWeight: 600 }}>
-                        NDRF Already Generated{' '}
-                      </Typography>
+                      <Typography sx={{ fontSize: 15, fontWeight: 600 }}>NDRF Already Generated </Typography>
                     </CssVarsProvider>
                   )}
                 </Box>

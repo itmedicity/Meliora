@@ -3,11 +3,11 @@ const { FETCH_DEPARTMENT_SECTION, FETCH_DEPARTMENT_SECTION_tmc } = ActionTyps
 //intial state
 const deptSection = {
   deptsectionList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 const deptSectionkmc = {
   deptsectionListkmc: [],
-  loadingStatuskmc: false,
+  loadingStatuskmc: false
 }
 /*** Deptsection action type check then payload set to the state and loading status set as true */
 export const getDeptsection = (state = deptSection, { type, payload }) => {

@@ -25,7 +25,7 @@ const NursingStationMast = () => {
   const [nursstation, setNursStation] = useState({
     nurse_station: '',
     status: false,
-    nurse_slno: '',
+    nurse_slno: ''
   })
 
   //destructuring
@@ -52,7 +52,7 @@ const NursingStationMast = () => {
       em_id: id,
       ns_building: building,
       ns_floor: floor,
-      ns_ora_outlet: outlet === 0 ? 'null' : outlet,
+      ns_ora_outlet: outlet === 0 ? 'null' : outlet
     }
   }, [nurse_station, oranurse, status, id, building, floor, outlet])
 
@@ -60,19 +60,11 @@ const NursingStationMast = () => {
   const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
-    const {
-      co_nurse_slno,
-      co_nurse_desc,
-      co_ora_nurse,
-      co_status,
-      ns_building,
-      ns_floor,
-      ns_ora_outlet,
-    } = data[0]
+    const { co_nurse_slno, co_nurse_desc, co_ora_nurse, co_status, ns_building, ns_floor, ns_ora_outlet } = data[0]
     const frmdata = {
       nurse_station: co_nurse_desc,
       status: co_status === 1 ? true : false,
-      nurse_slno: co_nurse_slno,
+      nurse_slno: co_nurse_slno
     }
     setNursStation(frmdata)
     setoranurse(co_ora_nurse)
@@ -91,7 +83,7 @@ const NursingStationMast = () => {
       co_nurse_slno: nurse_slno,
       ns_building: building,
       ns_floor: floor,
-      ns_ora_outlet: outlet,
+      ns_ora_outlet: outlet
     }
   }, [nurse_station, oranurse, status, id, nurse_slno, building, floor, outlet])
 
@@ -102,7 +94,7 @@ const NursingStationMast = () => {
       const formReset = {
         nurse_station: '',
         status: false,
-        nurse_slno: '',
+        nurse_slno: ''
       }
 
       /*** * insert function for use call back     */
@@ -158,7 +150,7 @@ const NursingStationMast = () => {
   const refreshWindow = useCallback(() => {
     const formReset = {
       nurse_station: '',
-      status: false,
+      status: false
     }
     setNursStation(formReset)
     setValue(0)

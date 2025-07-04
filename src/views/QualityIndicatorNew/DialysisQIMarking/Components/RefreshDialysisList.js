@@ -4,7 +4,7 @@ import { axiosellider, axioslogin } from 'src/views/Axios/Axios'
 export const RefreshDialysisList = async (qidept, count, setCount, depCode, id, dailyDate) => {
   const patchdata = {
     last_updatedate: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
-    qi_dept_no: qidept,
+    qi_dept_no: qidept
   }
   const getLastDate = async qidept => {
     const result = await axioslogin.get(`/qiendoscopy/getlast/${qidept}`)
@@ -29,7 +29,7 @@ export const RefreshDialysisList = async (qidept, count, setCount, depCode, id, 
       const elliderSearch = {
         from: format(new Date(last_updatedate), 'dd/MM/yyyy HH:mm:ss'),
         to: format(new Date(), 'dd/MM/yyyy 23:59:59'),
-        depCode: depCode,
+        depCode: depCode
       }
       GetElliderData(elliderSearch).then(value => {
         const { success, data } = value
@@ -50,7 +50,7 @@ export const RefreshDialysisList = async (qidept, count, setCount, depCode, id, 
               qi_dept_no: qidept,
               create_user: id,
               ptmobile: val.PTC_MOBILE,
-              visit_token: val.VSN_TOKEN,
+              visit_token: val.VSN_TOKEN
             }
           })
           InsertDialysisData(dialysisArray).then(val => {
@@ -72,7 +72,7 @@ export const RefreshDialysisList = async (qidept, count, setCount, depCode, id, 
       const elliderSearch = {
         from: format(new Date(dailyDate), 'dd/MM/yyyy 00:00:00'),
         to: format(new Date(), 'dd/MM/yyyy 23:59:59'),
-        depCode: depCode,
+        depCode: depCode
       }
       GetElliderData(elliderSearch).then(value => {
         const { success, data } = value
@@ -93,7 +93,7 @@ export const RefreshDialysisList = async (qidept, count, setCount, depCode, id, 
               qi_dept_no: qidept,
               create_user: id,
               ptmobile: val.PTC_MOBILE,
-              visit_token: val.VSN_TOKEN,
+              visit_token: val.VSN_TOKEN
             }
           })
           InsertDialysisData(dialysisArray).then(val => {

@@ -2,13 +2,7 @@ import React, { memo, useCallback, useEffect, useState } from 'react'
 import { axioslogin } from '../Axios/Axios'
 import { Autocomplete, CssVarsProvider } from '@mui/joy'
 
-const CrfStoreSelect = ({
-  storeSlno,
-  setStoreSlno,
-  setStoreCode,
-  setStoreName,
-  setsubStoreSlno,
-}) => {
+const CrfStoreSelect = ({ storeSlno, setStoreSlno, setStoreCode, setStoreName, setsubStoreSlno }) => {
   const [storeList, setStoreList] = useState([])
   useEffect(() => {
     const getCRSStore = async () => {
@@ -61,7 +55,7 @@ const CrfStoreSelect = ({
     <CssVarsProvider>
       <Autocomplete
         sx={{
-          '--Input-minHeight': '32px',
+          '--Input-minHeight': '32px'
         }}
         value={storeSlno === 0 ? type : value}
         placeholder="Select CRS Store"

@@ -14,7 +14,7 @@ const ExtraDietTypeSelect = ({ value, setValue, proc_slno, process_date }) => {
       const getDietType = async () => {
         const postdata = {
           proc_slno: proc_slno,
-          process_date: process_date,
+          process_date: process_date
         }
         const result = await axioslogin.post('/extraorder/dietType/get', postdata)
         const { success, data } = result.data

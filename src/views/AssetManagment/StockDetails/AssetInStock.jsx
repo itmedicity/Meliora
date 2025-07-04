@@ -12,7 +12,7 @@ const AssetInStock = () => {
   const [filters, setFilters] = useState({
     AssetNo: '',
     category: '',
-    itemName: '',
+    itemName: ''
   })
   const [anchorElAssetNo, setAnchorElAssetNo] = useState(null)
   const [anchorElCategory, setAnchorElCategory] = useState(null)
@@ -25,13 +25,13 @@ const AssetInStock = () => {
   const postData = useMemo(() => {
     return {
       am_custodian_dept_slno: empDeptId,
-      item_dept_slno: empDeptId,
+      item_dept_slno: empDeptId
     }
   }, [empDeptId])
 
   const { data: spareData } = useQuery({
     queryKey: ['getAssetsInstock', postData],
-    queryFn: () => getAssetInstock(postData),
+    queryFn: () => getAssetInstock(postData)
   })
 
   const AssetInstock = useMemo(() => spareData, [spareData])
@@ -48,7 +48,7 @@ const AssetInStock = () => {
     const value = e.target.value
     setFilters(prevFilters => ({
       ...prevFilters,
-      [field]: value,
+      [field]: value
     }))
   }
 
@@ -73,14 +73,12 @@ const AssetInStock = () => {
     setFilters({
       AssetNo: '',
       category: '',
-      itemName: '',
+      itemName: ''
     })
   }
   const filteredAssetListInstock = useMemo(() => {
     return assetListInstock.filter(item => {
-      const fullAssetNo = `${item?.item_asset_no || ''}/${(item?.item_asset_no_only || 0)
-        .toString()
-        .padStart(6, '0')}`
+      const fullAssetNo = `${item?.item_asset_no || ''}/${(item?.item_asset_no_only || 0).toString().padStart(6, '0')}`
       return (
         fullAssetNo.toLowerCase().includes(filters.AssetNo.toLowerCase()) &&
         (item?.category_name || '').toLowerCase().includes(filters.category.toLowerCase()) &&
@@ -110,19 +108,15 @@ const AssetInStock = () => {
           borderTop: 1,
           borderColor: 'lightgray',
           bgcolor: 'white',
-          flex: 1,
+          flex: 1
         }}
       >
         <Box sx={{ width: 50, fontWeight: 600, color: 'black', fontSize: 12, pt: 1, pl: 1 }}>#</Box>
         <Box sx={{ width: 140, display: 'flex' }}>
           <IconButton onClick={e => handleMenuOpen(e, 'AssetNo')}>
-            <FilterListOutlinedIcon
-              sx={{ p: 0.2, color: 'grey', cursor: 'pointer', width: 20, height: 20 }}
-            />
+            <FilterListOutlinedIcon sx={{ p: 0.2, color: 'grey', cursor: 'pointer', width: 20, height: 20 }} />
           </IconButton>
-          <Typography sx={{ pt: 1, fontWeight: 600, color: 'black', fontSize: 14 }}>
-            Asset No.
-          </Typography>
+          <Typography sx={{ pt: 1, fontWeight: 600, color: 'black', fontSize: 14 }}>Asset No.</Typography>
           <Menu
             anchorEl={anchorElAssetNo}
             open={Boolean(anchorElAssetNo)}
@@ -145,13 +139,9 @@ const AssetInStock = () => {
 
         <Box sx={{ flex: 2, display: 'flex' }}>
           <IconButton onClick={e => handleMenuOpen(e, 'category')}>
-            <FilterListOutlinedIcon
-              sx={{ p: 0.2, color: 'grey', cursor: 'pointer', width: 20, height: 20 }}
-            />
+            <FilterListOutlinedIcon sx={{ p: 0.2, color: 'grey', cursor: 'pointer', width: 20, height: 20 }} />
           </IconButton>
-          <Typography sx={{ pt: 1, fontWeight: 600, color: 'black', fontSize: 14 }}>
-            Category
-          </Typography>
+          <Typography sx={{ pt: 1, fontWeight: 600, color: 'black', fontSize: 14 }}>Category</Typography>
 
           <Menu
             anchorEl={anchorElCategory}
@@ -175,13 +165,9 @@ const AssetInStock = () => {
         </Box>
         <Box sx={{ flex: 4, display: 'flex' }}>
           <IconButton onClick={e => handleMenuOpen(e, 'itemName')}>
-            <FilterListOutlinedIcon
-              sx={{ p: 0.2, color: 'grey', cursor: 'pointer', width: 20, height: 20 }}
-            />
+            <FilterListOutlinedIcon sx={{ p: 0.2, color: 'grey', cursor: 'pointer', width: 20, height: 20 }} />
           </IconButton>
-          <Typography sx={{ pt: 1, fontWeight: 600, color: 'black', fontSize: 14 }}>
-            Item Name
-          </Typography>
+          <Typography sx={{ pt: 1, fontWeight: 600, color: 'black', fontSize: 14 }}>Item Name</Typography>
           <Menu
             anchorEl={anchorElItemName}
             open={Boolean(anchorElItemName)}
@@ -219,21 +205,17 @@ const AssetInStock = () => {
                   py: 0.5,
                   mb: 0.5,
                   flex: 1,
-                  display: 'flex',
+                  display: 'flex'
                 }}
               >
-                <Box sx={{ width: 50, pl: 1, fontWeight: 400, color: 'black', fontSize: 12 }}>
-                  {index + 1}
-                </Box>
+                <Box sx={{ width: 50, pl: 1, fontWeight: 400, color: 'black', fontSize: 12 }}>{index + 1}</Box>
                 <Box sx={{ width: 150, pl: 1.5, fontWeight: 400, color: 'black', fontSize: 14 }}>
                   {val.item_asset_no + '/' + val.item_asset_no_only.toString().padStart(6, '0')}
                 </Box>
                 <Box sx={{ flex: 2, fontWeight: 400, color: 'black', fontSize: 14, pl: 0.5 }}>
                   {val.category_name || '-'}
                 </Box>
-                <Box sx={{ flex: 4, fontWeight: 400, color: 'black', fontSize: 14, pl: 1 }}>
-                  {val.item_name || '-'}
-                </Box>
+                <Box sx={{ flex: 4, fontWeight: 400, color: 'black', fontSize: 14, pl: 1 }}>{val.item_name || '-'}</Box>
               </Box>
             )
           }}

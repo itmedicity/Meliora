@@ -39,7 +39,7 @@ const WifiManageMentMains = () => {
     bystander: false,
     extra: false,
     disbleP: false,
-    disbleB: false,
+    disbleB: false
   })
   const { patient, bystander, extra, disbleP, disbleB } = ipNumber
   const updateWifiManagement = useCallback(
@@ -53,7 +53,7 @@ const WifiManageMentMains = () => {
     const frmdata = {
       patient: false,
       bystander: false,
-      extra: false,
+      extra: false
     }
     setipNumber(frmdata)
     setValue(0)
@@ -81,7 +81,7 @@ const WifiManageMentMains = () => {
       patient: patient === true ? 1 : 0,
       bystander: bystander === true ? 1 : 0,
       extra: extra === true ? 1 : 0,
-      edit_user: id,
+      edit_user: id
     }
   }, [in_patient_no, patient, bystander, extra, id])
 
@@ -103,8 +103,7 @@ const WifiManageMentMains = () => {
       const { success, data } = result.data
       if (success === 1) {
         const newData = data?.filter(
-          (value, index, self) =>
-            index === self.findIndex(item => item.updated_date === value.updated_date)
+          (value, index, self) => index === self.findIndex(item => item.updated_date === value.updated_date)
         )
         const getData = newData?.map(val => {
           return {
@@ -112,7 +111,7 @@ const WifiManageMentMains = () => {
             patient: val.patient,
             bystander: val.bystander,
             updated_date: val.updated_date,
-            expired: addDays(new Date(val.updated_date), 4),
+            expired: addDays(new Date(val.updated_date), 4)
           }
         })
         setExpiredDetails(getData)
@@ -220,7 +219,7 @@ const WifiManageMentMains = () => {
             patient: 0,
             bystander: 0,
             extra: 0,
-            create_user: id,
+            create_user: id
           }
           getdataMeliora(in_patient_no).then(values => {
             const { success, data } = values
@@ -232,7 +231,7 @@ const WifiManageMentMains = () => {
                 bystander: bystander === 1 ? true : false,
                 extra: extra === 1 ? true : false,
                 disbleP: patient === 1 ? true : false,
-                disbleB: bystander === 1 ? true : false,
+                disbleB: bystander === 1 ? true : false
               }
               setipNumber(frmdata)
               setIn_patient_no(in_patient_no)
@@ -252,7 +251,7 @@ const WifiManageMentMains = () => {
                         ip_slno: ip_slno,
                         patient: patient === 1 ? true : false,
                         bystander: bystander === 1 ? true : false,
-                        extra: extra === 1 ? true : false,
+                        extra: extra === 1 ? true : false
                       }
                       setipNumber(frmdata)
                       setIn_patient_no(in_patient_no)
@@ -287,7 +286,7 @@ const WifiManageMentMains = () => {
             bystander: true,
             extra: false,
             disbleP: true,
-            disbleB: true,
+            disbleB: true
           }
           setipNumber(frmdata)
           setIn_patient_no(in_patient_no)
@@ -297,7 +296,7 @@ const WifiManageMentMains = () => {
             bystander: false,
             extra: false,
             disbleP: true,
-            disbleB: false,
+            disbleB: false
           }
           setipNumber(frmdata)
           setIn_patient_no(in_patient_no)
@@ -307,7 +306,7 @@ const WifiManageMentMains = () => {
             bystander: true,
             extra: false,
             disbleP: false,
-            disbleB: true,
+            disbleB: true
           }
           setipNumber(frmdata)
           setIn_patient_no(in_patient_no)
@@ -345,7 +344,7 @@ const WifiManageMentMains = () => {
           extra: val.extra === 1 ? 'Issued' : 'Not Issued',
           patient_flag: val.patient,
           bystander_flag: val.bystander,
-          extra_flag: val.extra,
+          extra_flag: val.extra
         }
         return obj
       })
@@ -358,7 +357,7 @@ const WifiManageMentMains = () => {
       in_patient_no: '',
       patient: false,
       bystander: false,
-      extra: false,
+      extra: false
     }
     setipNumber(frmdata)
     setValue(0)
@@ -376,7 +375,7 @@ const WifiManageMentMains = () => {
 
       const checking = {
         it_wifi_ipno: in_patient_no,
-        it_wifi_flg: 'P',
+        it_wifi_flg: 'P'
       }
       const getdata = async checking => {
         const result = await axioslogin.post(`/wifiManagement/checkCodeNdGet`, checking)
@@ -420,7 +419,7 @@ const WifiManageMentMains = () => {
 
       const checking = {
         it_wifi_ipno: in_patient_no,
-        it_wifi_flg: 'B',
+        it_wifi_flg: 'B'
       }
       const getdata = async checking => {
         const result = await axioslogin.post(`/wifiManagement/checkCodeNdGet`, checking)
@@ -462,7 +461,7 @@ const WifiManageMentMains = () => {
     val => {
       const { in_patient_no } = val
       const ipno = {
-        it_wifi_ipno: in_patient_no,
+        it_wifi_ipno: in_patient_no
       }
       const deleteCode = async ipno => {
         const result = await axioslogin.patch('/wifiManagement/delete', ipno)
@@ -527,9 +526,7 @@ const WifiManageMentMains = () => {
       <Box sx={{ maxHeight: window.innerHeight - 220 }}>
         <Paper variant="outlined" square sx={{ display: 'flex', flex: 1, height: 40 }}>
           <Box sx={{ flex: 1, pl: 1, pt: 1.2 }}>
-            <Typography
-              sx={{ color: '#555830', fontFamily: 'Arial', fontWeight: 550, fontSize: 16 }}
-            >
+            <Typography sx={{ color: '#555830', fontFamily: 'Arial', fontWeight: 550, fontSize: 16 }}>
               Wi-Fi Management
             </Typography>
           </Box>
@@ -544,9 +541,7 @@ const WifiManageMentMains = () => {
         <Paper square variant="outlined" sx={{ pt: 0.4, flexWrap: 'wrap' }}>
           <Box sx={{ display: 'flex', justifyContent: 'center', flex: 1 }}>
             <Box sx={{ flex: 0.8, display: 'flex', justifyContent: 'flex-end' }}>
-              <Typography sx={{ fontSize: 15, fontWeight: 550, color: '#1565c0', m: 1, pt: 0.6 }}>
-                IP Number
-              </Typography>
+              <Typography sx={{ fontSize: 15, fontWeight: 550, color: '#1565c0', m: 1, pt: 0.6 }}>IP Number</Typography>
             </Box>
             <Box sx={{ flex: 1.3, justifyContent: 'flex-start', m: 1 }}>
               <Box sx={{ flex: 1, display: 'flex' }}>
@@ -555,9 +550,7 @@ const WifiManageMentMains = () => {
                     <Input
                       fullWidth
                       sx={{ height: 35 }}
-                      startDecorator={
-                        <PersonTwoToneIcon sx={{ height: 30, width: 30, color: '#0063C5' }} />
-                      }
+                      startDecorator={<PersonTwoToneIcon sx={{ height: 30, width: 30, color: '#0063C5' }} />}
                       autoComplete="off"
                       placeholder="Enter IP Number"
                       type="integer"
@@ -630,11 +623,11 @@ const WifiManageMentMains = () => {
                             minWidth: '100px',
                             bgcolor: 'lightgrey',
                             '&:hover': {
-                              bgcolor: 'lightgrey',
+                              bgcolor: 'lightgrey'
                             },
                             boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.16)',
                             borderRadius: 5,
-                            height: '25px',
+                            height: '25px'
                           }}
                         >
                           Submit
@@ -653,10 +646,10 @@ const WifiManageMentMains = () => {
                             color: 'white',
                             '&:hover': {
                               bgcolor: '#5CACEE',
-                              color: 'white',
+                              color: 'white'
                             },
                             boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.16)',
-                            borderRadius: 5,
+                            borderRadius: 5
                           }}
                           onClick={() => submitWifiManagement()}
                         >
@@ -671,9 +664,7 @@ const WifiManageMentMains = () => {
 
             <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
               <Box sx={{ m: 1, pt: 0.5 }}>
-                <Typography sx={{ fontSize: 16, color: '#3f51b5', fontWeight: 550 }}>
-                  WiFi Users
-                </Typography>
+                <Typography sx={{ fontSize: 16, color: '#3f51b5', fontWeight: 550 }}>WiFi Users</Typography>
               </Box>
               <Box sx={{ pr: 4, pt: 0.6 }}>
                 <CssVarsProvider>
@@ -694,7 +685,7 @@ const WifiManageMentMains = () => {
                         alignItems: 'center',
                         justifyContent: 'center',
                         padding: 0,
-                        bgcolor: '#e3f2fd',
+                        bgcolor: '#e3f2fd'
                       }}
                     >
                       {allowtted.length}
@@ -724,9 +715,7 @@ const WifiManageMentMains = () => {
                   <th style={{ textAlign: 'center', width: 100 }}>Patient</th>
                   <th style={{ textAlign: 'center', width: 100 }}>Bystander</th>
                   <th style={{ textAlign: 'center', width: 100 }}>Given Date</th>
-                  {dateOver !== 0 ? (
-                    <th style={{ textAlign: 'center', width: 100 }}>Expiry Date</th>
-                  ) : null}
+                  {dateOver !== 0 ? <th style={{ textAlign: 'center', width: 100 }}>Expiry Date</th> : null}
                   {dateOver === 1 ? <th style={{ textAlign: 'center', width: 120 }}></th> : null}
                 </tr>
               </thead>
@@ -778,9 +767,7 @@ const WifiManageMentMains = () => {
                       )}
                       <td style={{ textAlign: 'center', width: 100 }}>
                         {' '}
-                        {val.patient_flag === 1
-                          ? format(new Date(createdDate), 'dd-MM-yyyy')
-                          : 'Not Issued'}
+                        {val.patient_flag === 1 ? format(new Date(createdDate), 'dd-MM-yyyy') : 'Not Issued'}
                       </td>
                       {dateOver !== 0 ? (
                         <td style={{ textAlign: 'center', width: 100 }}>
@@ -801,8 +788,8 @@ const WifiManageMentMains = () => {
                                   cursor: 'pointer',
                                   color: '#1565c0',
                                   ':hover': {
-                                    color: '#0d47a1',
-                                  },
+                                    color: '#0d47a1'
+                                  }
                                 }}
                                 onClick={() => deletewifiCode(val)}
                               />
@@ -832,7 +819,7 @@ const WifiManageMentMains = () => {
               height: 40,
               pt: 1,
               bgcolor: '#eeeeee',
-              justifyContent: 'center',
+              justifyContent: 'center'
             }}
           >
             Wi-Fi Usage Statistics

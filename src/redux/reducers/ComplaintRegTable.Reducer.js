@@ -3,7 +3,7 @@ const { FETCH_COMPLAINTREG_TABLE } = ActionTyps
 //intial state
 const complaintRegTable = {
   complaintRegTableList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Deptsection action type check then payload set to the state and loading status set as true */
 export const setComplaintRegTable = (state = complaintRegTable, { type, payload }) => {

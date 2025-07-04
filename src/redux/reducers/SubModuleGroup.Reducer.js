@@ -3,7 +3,7 @@ const { FETCH_SUBMODULE_GROUP } = ActionTyps
 //initial state
 const subModuleGroup = {
   subModuleGroupList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Sub module group action type check then payload set to the state and loading status set as true */
 export const getSubModuleGroup = (state = subModuleGroup, { type, payload }) => {

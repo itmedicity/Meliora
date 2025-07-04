@@ -16,20 +16,11 @@ const CardMaster = ({ children, title, close, submit, refresh, contentStyle }) =
         <Card sx={{ borderRadius: 0, boxShadow: 1 }}>
           <CustomCardHeaderOne title={title} onClickClose={close} cardStyle={{}} />
           <CardContent sx={contentStyle}>{children}</CardContent>
-          <CardActions
-            sx={{ backgroundColor: cardActionBgClr, py: 0.3, pt: 0.5 }}
-            disableSpacing={false}
-          >
+          <CardActions sx={{ backgroundColor: cardActionBgClr, py: 0.3, pt: 0.5 }} disableSpacing={false}>
             {/* Save button */}
             <CustomeToolTip title="Save" placement="left">
               <Box>
-                <CusIconButton
-                  size="sm"
-                  variant="outlined"
-                  color="primary"
-                  clickable="true"
-                  onClick={submit}
-                >
+                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={submit}>
                   <LibraryAddIcon fontSize="small" />
                 </CusIconButton>
               </Box>
@@ -37,13 +28,7 @@ const CardMaster = ({ children, title, close, submit, refresh, contentStyle }) =
             {/* Refresh Button */}
             <CustomeToolTip title="Refresh" placement="left">
               <Box>
-                <CusIconButton
-                  size="sm"
-                  variant="outlined"
-                  color="primary"
-                  clickable="true"
-                  onClick={refresh}
-                >
+                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={refresh}>
                   <RefreshIcon fontSize="small" />
                 </CusIconButton>
               </Box>
@@ -51,13 +36,7 @@ const CardMaster = ({ children, title, close, submit, refresh, contentStyle }) =
             {/* Close button */}
             <CustomeToolTip title="Close" placement="left">
               <Box>
-                <CusIconButton
-                  size="sm"
-                  variant="outlined"
-                  color="primary"
-                  clickable="true"
-                  onClick={close}
-                >
+                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={close}>
                   <CloseIcon fontSize="small" />
                 </CusIconButton>
               </Box>

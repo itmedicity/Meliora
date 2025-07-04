@@ -11,9 +11,7 @@ const OwnerShipDetailsComp = ({ detailArry, assetSpare }) => {
 
   useEffect(() => {
     const getDeptsecbsdcustodian = async am_item_map_slno => {
-      const result = await axioslogin.get(
-        `/ItemMapDetails/getdeptsecBsedonCustdept/${am_item_map_slno}`
-      )
+      const result = await axioslogin.get(`/ItemMapDetails/getdeptsecBsedonCustdept/${am_item_map_slno}`)
       const { success, data } = result.data
       if (success === 1) {
         const { prim_cus, second_cus } = data[0]
@@ -23,9 +21,7 @@ const OwnerShipDetailsComp = ({ detailArry, assetSpare }) => {
     }
 
     const getDeptsecbsdcustodianSpare = async am_spare_item_map_slno => {
-      const result = await axioslogin.get(
-        `/ItemMapDetails/getdeptsecBsedonCustdeptSpare/${am_spare_item_map_slno}`
-      )
+      const result = await axioslogin.get(`/ItemMapDetails/getdeptsecBsedonCustdeptSpare/${am_spare_item_map_slno}`)
       const { success, data } = result.data
       if (success === 1) {
         const { prim_cus, second_cus } = data[0]
@@ -46,35 +42,19 @@ const OwnerShipDetailsComp = ({ detailArry, assetSpare }) => {
         sx={{
           display: 'flex',
           flexDirection: 'row',
-          flexWrap: 'wrap',
+          flexWrap: 'wrap'
         }}
       >
         <Box sx={{ display: 'flex', width: '20%', p: 0.5, flexDirection: 'column' }}>
-          <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-            Primary Custodian
-          </Typography>
+          <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Primary Custodian</Typography>
           <Box>
-            <TextFieldCustom
-              type="text"
-              size="sm"
-              name="primary"
-              value={primary}
-              disabled={true}
-            ></TextFieldCustom>
+            <TextFieldCustom type="text" size="sm" name="primary" value={primary} disabled={true}></TextFieldCustom>
           </Box>
         </Box>
         <Box sx={{ display: 'flex', width: '20%', p: 0.5, flexDirection: 'column' }}>
-          <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-            Secondary Custodian
-          </Typography>
+          <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Secondary Custodian</Typography>
           <Box>
-            <TextFieldCustom
-              type="text"
-              size="sm"
-              name="secondary"
-              value={secondary}
-              disabled={true}
-            ></TextFieldCustom>
+            <TextFieldCustom type="text" size="sm" name="secondary" value={secondary} disabled={true}></TextFieldCustom>
           </Box>
         </Box>
       </Box>

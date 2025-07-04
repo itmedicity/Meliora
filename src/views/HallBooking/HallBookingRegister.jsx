@@ -13,14 +13,14 @@ import { axioslogin } from '../Axios/Axios'
 import { infoNotify } from '../Common/CommonCode'
 import HallBookingTable from './HallBookingTable'
 const locales = {
-  'en-US': require('date-fns/locale/en-US'),
+  'en-US': require('date-fns/locale/en-US')
 }
 const localizer = dateFnsLocalizer({
   format,
   parse,
   startOfWeek,
   getDay,
-  locales,
+  locales
 })
 const HallBookingRegister = () => {
   const [open, setOpen] = useState(false)
@@ -42,7 +42,7 @@ const HallBookingRegister = () => {
           return {
             title: values.h_book_event,
             start: new Date(values.h_book_startdatetime),
-            end: new Date(values.h_book_enddatetime),
+            end: new Date(values.h_book_enddatetime)
           }
         })
         setEvents(obj)
@@ -60,12 +60,7 @@ const HallBookingRegister = () => {
   return (
     <Fragment>
       {view === 1 ? (
-        <HallBookingTable
-          setView={setView}
-          tabledata={tabledata}
-          count={count}
-          setCount={setCount}
-        />
+        <HallBookingTable setView={setView} tabledata={tabledata} count={count} setCount={setCount} />
       ) : (
         <CardCloseOnly title="Event Calender">
           <Box sx={{ display: 'flex' }}>
@@ -88,13 +83,7 @@ const HallBookingRegister = () => {
             />
           </Box>
           {modal === 1 ? (
-            <HallBookModal
-              open={open}
-              setOpen={setOpen}
-              count={count}
-              setCount={setCount}
-              setModal={setModal}
-            />
+            <HallBookModal open={open} setOpen={setOpen} count={count} setCount={setCount} setModal={setModal} />
           ) : null}
         </CardCloseOnly>
       )}

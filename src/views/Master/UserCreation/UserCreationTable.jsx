@@ -15,8 +15,8 @@ const UserCreationTable = ({ count, rowSelect }) => {
     { headerName: 'Designation', field: 'em_designation', filter: 'true' },
     {
       headerName: 'Action',
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
-    },
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
+    }
   ])
 
   //get all data

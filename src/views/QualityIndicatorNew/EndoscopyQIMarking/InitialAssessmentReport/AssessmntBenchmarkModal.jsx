@@ -17,7 +17,7 @@ const AssessmntBenchmarkModal = ({ open, handleClose, patList, initdate, monthFl
             variant="outlined"
             sx={{
               maxWidth: '90%',
-              maxHeight: '80%',
+              maxHeight: '80%'
             }}
           >
             <ModalClose
@@ -30,24 +30,19 @@ const AssessmntBenchmarkModal = ({ open, handleClose, patList, initdate, monthFl
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 35,
-                width: 35,
+                width: 35
               }}
             />
             <Box sx={{ display: 'flex' }}>
               <Box sx={{ pt: 0.5, pl: 2, flex: 1 }}>
-                <Typography sx={{ fontWeight: 550, fontSize: 18 }}>
-                  Initial Assessment Time Exceedence List
-                </Typography>
+                <Typography sx={{ fontWeight: 550, fontSize: 18 }}>Initial Assessment Time Exceedence List</Typography>
               </Box>
               <Box sx={{ pt: 0.5, pr: 3, display: 'flex', justifyContent: 'flex-end', flex: 0.5 }}>
                 <Typography sx={{ fontWeight: 550, fontSize: 17 }}>{initdate}</Typography>
               </Box>
             </Box>
             <Box>
-              <Box
-                variant="outlined"
-                sx={{ overflow: 'auto', padding: 'none', '&::-webkit-scrollbar': { height: 7 } }}
-              >
+              <Box variant="outlined" sx={{ overflow: 'auto', padding: 'none', '&::-webkit-scrollbar': { height: 7 } }}>
                 <CssVarsProvider>
                   <Table
                     aria-label="table with sticky header"
@@ -67,7 +62,7 @@ const AssessmntBenchmarkModal = ({ open, handleClose, patList, initdate, monthFl
                             borderRight: '1px solid white',
                             textAlign: 'center',
                             backgroundColor: '#cfd8dc',
-                            fontSize: 15,
+                            fontSize: 15
                           }}
                         >
                           Sl.No
@@ -80,7 +75,7 @@ const AssessmntBenchmarkModal = ({ open, handleClose, patList, initdate, monthFl
                               borderRight: '1px solid white',
                               textAlign: 'center',
                               backgroundColor: '#cfd8dc',
-                              fontSize: 15,
+                              fontSize: 15
                             }}
                           >
                             Type
@@ -93,7 +88,7 @@ const AssessmntBenchmarkModal = ({ open, handleClose, patList, initdate, monthFl
                             borderRight: '1px solid white',
                             textAlign: 'center',
                             backgroundColor: '#cfd8dc',
-                            fontSize: 15,
+                            fontSize: 15
                           }}
                         >
                           Patient ID
@@ -105,7 +100,7 @@ const AssessmntBenchmarkModal = ({ open, handleClose, patList, initdate, monthFl
                             borderRight: '1px solid white',
                             textAlign: 'center',
                             backgroundColor: '#cfd8dc',
-                            fontSize: 15,
+                            fontSize: 15
                           }}
                         >
                           Patient Name
@@ -117,7 +112,7 @@ const AssessmntBenchmarkModal = ({ open, handleClose, patList, initdate, monthFl
                             borderRight: '1px solid white',
                             textAlign: 'center',
                             backgroundColor: '#cfd8dc',
-                            fontSize: 15,
+                            fontSize: 15
                           }}
                         >
                           Age/Gender
@@ -129,7 +124,7 @@ const AssessmntBenchmarkModal = ({ open, handleClose, patList, initdate, monthFl
                             borderRight: '1px solid white',
                             textAlign: 'center',
                             backgroundColor: '#cfd8dc',
-                            fontSize: 15,
+                            fontSize: 15
                           }}
                         >
                           Doctor
@@ -142,7 +137,7 @@ const AssessmntBenchmarkModal = ({ open, handleClose, patList, initdate, monthFl
                               borderRight: '1px solid white',
                               textAlign: 'center',
                               backgroundColor: '#cfd8dc',
-                              fontSize: 15,
+                              fontSize: 15
                             }}
                           >
                             Arrived in Endoscopy Area
@@ -155,7 +150,7 @@ const AssessmntBenchmarkModal = ({ open, handleClose, patList, initdate, monthFl
                             borderRight: '1px solid white',
                             textAlign: 'center',
                             backgroundColor: '#cfd8dc',
-                            fontSize: 15,
+                            fontSize: 15
                           }}
                         >
                           Total Time Taken{' '}
@@ -166,7 +161,7 @@ const AssessmntBenchmarkModal = ({ open, handleClose, patList, initdate, monthFl
                             width: 300,
                             textAlign: 'center',
                             backgroundColor: '#cfd8dc',
-                            fontSize: 15,
+                            fontSize: 15
                           }}
                         >
                           Reason For Time Exceedence{' '}
@@ -204,10 +199,7 @@ const AssessmntBenchmarkModal = ({ open, handleClose, patList, initdate, monthFl
                               </td>
                             ) : null}
                             {val.sumof_service_time > 10 ? (
-                              <td
-                                size="sm"
-                                style={{ textAlign: 'center', fontSize: 13, color: 'red' }}
-                              >
+                              <td size="sm" style={{ textAlign: 'center', fontSize: 13, color: 'red' }}>
                                 {val.sumof_service_time}&nbsp;min
                               </td>
                             ) : (
@@ -225,18 +217,14 @@ const AssessmntBenchmarkModal = ({ open, handleClose, patList, initdate, monthFl
                     <tfoot>
                       <tr>
                         <th style={{ backgroundColor: 'white', height: 20 }}></th>
-                        {monthFlag === 2 ? (
-                          <th style={{ backgroundColor: 'white', height: 20 }}></th>
-                        ) : null}
+                        {monthFlag === 2 ? <th style={{ backgroundColor: 'white', height: 20 }}></th> : null}
                         <th style={{ backgroundColor: 'white', height: 20 }}></th>
                         <th style={{ backgroundColor: 'white', height: 20 }}></th>
                         <th style={{ backgroundColor: 'white', height: 20 }}></th>
                         <th style={{ backgroundColor: 'white', height: 20 }}></th>
                         <th style={{ backgroundColor: 'white', height: 20 }}></th>
                         <th style={{ backgroundColor: 'white', height: 20 }}></th>
-                        {monthFlag === 2 ? (
-                          <th style={{ backgroundColor: 'white', height: 20 }}></th>
-                        ) : null}
+                        {monthFlag === 2 ? <th style={{ backgroundColor: 'white', height: 20 }}></th> : null}
                       </tr>
                     </tfoot>
                   </Table>

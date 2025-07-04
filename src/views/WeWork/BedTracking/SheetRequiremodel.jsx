@@ -41,7 +41,7 @@ const SheetRequiremodel = ({ open, setopen, rmSlno, count, setcount, shift }) =>
   const patchdata = useMemo(() => {
     return {
       rmc_shifing_required: yes === true ? 1 : no === true ? 2 : 0,
-      sl_no: rmSlno,
+      sl_no: rmSlno
     }
   }, [yes, rmSlno, no])
 
@@ -73,7 +73,7 @@ const SheetRequiremodel = ({ open, setopen, rmSlno, count, setcount, shift }) =>
           id="alert-dialog-slide-descriptiona"
           sx={{
             width: '100%',
-            height: '100%',
+            height: '100%'
           }}
         >
           <DialogContentText id="alert-dialog-slide-descriptiona">sheet require</DialogContentText>

@@ -1,17 +1,7 @@
 import React, { Fragment, memo, useCallback, useMemo, useState } from 'react'
 // import { ToastContainer } from 'react-toastify';
 import { Paper } from '@mui/material'
-import {
-  Box,
-  Chip,
-  CssVarsProvider,
-  Grid,
-  Modal,
-  ModalClose,
-  ModalDialog,
-  Textarea,
-  Typography,
-} from '@mui/joy'
+import { Box, Chip, CssVarsProvider, Grid, Modal, ModalClose, ModalDialog, Textarea, Typography } from '@mui/joy'
 import { format } from 'date-fns'
 import ReqItemDisplay from '../ReqItemDisplay'
 import CrfReqDetailViewCmp from '../CrfReqDetailViewCmp'
@@ -51,7 +41,7 @@ const CommentView = ({
   setDetailViewModal,
   datacolData,
   selectedCompany,
-  companyData,
+  companyData
 }) => {
   const {
     req_slno,
@@ -96,7 +86,7 @@ const CommentView = ({
     acknowUser,
     user_ack_date,
     user_acknldge_remarks,
-    approval_level,
+    approval_level
   } = DetailViewData
 
   const [ViewCrfRemark, SetViewCrfRemark] = useState('')
@@ -109,12 +99,12 @@ const CommentView = ({
   const capitalizeWords = str =>
     str
       ? str
-        .toLowerCase()
-        .trim()
-        .replace(/\s+/g, ' ')
-        .split(' ')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ')
+          .toLowerCase()
+          .trim()
+          .replace(/\s+/g, ' ')
+          .split(' ')
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(' ')
       : ''
 
   const postData = useMemo(() => {
@@ -123,7 +113,7 @@ const CommentView = ({
       ViewCrfRemark: ViewCrfRemark,
       status: 1,
       empdept: empdept,
-      empid: empid,
+      empid: empid
     }
   }, [req_slno, ViewCrfRemark, empid, empdept])
 
@@ -161,7 +151,7 @@ const CommentView = ({
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 25,
-                width: 25,
+                width: 25
               }}
             />
             <Box sx={{ minWidth: '85vw', minHeight: '65vh', maxHeight: '95vh', overflowY: 'auto' }}>
@@ -180,19 +170,10 @@ const CommentView = ({
                   <ApprovalItemView approveTableData={approveTableData} />
                 </Box>
               ) : null}
-              {hod_approve !== null ||
-                incharge_approve !== null ||
-                dms_approve === 1 ||
-                ms_approve === 1 ? (
+              {hod_approve !== null || incharge_approve !== null || dms_approve === 1 || ms_approve === 1 ? (
                 <>
-                  <Paper
-                    variant="outlined"
-                    square
-                    sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.7, mx: 0.7, pb: 0.7 }}
-                  >
-                    <Typography
-                      sx={{ fontWeight: 'bold', px: 1, py: 0.7, color: '#145DA0', fontSize: 14 }}
-                    >
+                  <Paper variant="outlined" square sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.7, mx: 0.7, pb: 0.7 }}>
+                    <Typography sx={{ fontWeight: 'bold', px: 1, py: 0.7, color: '#145DA0', fontSize: 14 }}>
                       Approval Details
                     </Typography>
                     <Grid container spacing={0.5} sx={{ flexGrow: 1 }}>
@@ -291,21 +272,12 @@ const CommentView = ({
                   </Paper>
                   {datacolData.length !== 0 ? (
                     <Box sx={{ py: 0.5, mx: 0.2 }}>
-                      <DataCollectionViewHigherLevel
-                        datacolData={datacolData}
-                        selectedCompany={selectedCompany}
-                      />
+                      <DataCollectionViewHigherLevel datacolData={datacolData} selectedCompany={selectedCompany} />
                     </Box>
                   ) : null}
                   {ack_status === 1 ? (
-                    <Paper
-                      variant="outlined"
-                      square
-                      sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.7, mx: 0.7 }}
-                    >
-                      <Typography
-                        sx={{ fontWeight: 'bold', px: 1, py: 0.7, color: '#145DA0', fontSize: 14 }}
-                      >
+                    <Paper variant="outlined" square sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.7, mx: 0.7 }}>
+                      <Typography sx={{ fontWeight: 'bold', px: 1, py: 0.7, color: '#145DA0', fontSize: 14 }}>
                         Procurement Details
                       </Typography>
                       <Grid container spacing={0.5} sx={{ flexGrow: 1 }}>
@@ -338,7 +310,7 @@ const CommentView = ({
                               mx: 1,
                               pt: 0.5,
                               color: '#145DA0',
-                              fontSize: 14,
+                              fontSize: 14
                             }}
                           >
                             PO Details
@@ -357,7 +329,7 @@ const CommentView = ({
                               py: 0.5,
                               color: '#145DA0',
                               fontSize: 14,
-                              flex: 0.4,
+                              flex: 0.4
                             }}
                           >
                             Purchase Order Preparation Completed
@@ -372,7 +344,7 @@ const CommentView = ({
                                 height: 25,
                                 pb: 0.5,
                                 fontSize: 12,
-                                fontWeight: 550,
+                                fontWeight: 550
                               }}
                             >
                               Yes
@@ -385,14 +357,12 @@ const CommentView = ({
                                 textTransform: 'capitalize',
                                 fontWeight: 550,
                                 pl: 2,
-                                pt: 0.4,
+                                pt: 0.4
                               }}
                             >
                               {capitalizeWords(pocomplete_user)}&nbsp; /
                             </Typography>
-                            <Typography
-                              sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pl: 1, pt: 0.4 }}
-                            >
+                            <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pl: 1, pt: 0.4 }}>
                               {format(new Date(po_complete_date), 'dd-MM-yyyy hh:mm:ss a')}
                             </Typography>
                           </Box>
@@ -407,7 +377,7 @@ const CommentView = ({
                               py: 0.5,
                               color: '#145DA0',
                               fontSize: 14,
-                              flex: 0.4,
+                              flex: 0.4
                             }}
                           >
                             PO Approvals
@@ -427,16 +397,16 @@ const CommentView = ({
                                 fontWeight: 550,
                                 pl: 0.5,
                                 pt: 0.4,
-                                color: '#1b5e20',
+                                color: '#1b5e20'
                               }}
                             >
                               {approval_level === 1
                                 ? 'Purchase Dpt Approved'
                                 : approval_level === 2
-                                  ? 'Purchase Department Approved, Purchase Manager Approved'
-                                  : approval_level === 3
-                                    ? 'Purchase Department Approved, Purchase Manager Approved, Directors Approved'
-                                    : null}{' '}
+                                ? 'Purchase Department Approved, Purchase Manager Approved'
+                                : approval_level === 3
+                                ? 'Purchase Department Approved, Purchase Manager Approved, Directors Approved'
+                                : null}{' '}
                             </Typography>
                           </Box>
                         </Box>
@@ -449,7 +419,7 @@ const CommentView = ({
                               py: 0.5,
                               color: '#145DA0',
                               fontSize: 14,
-                              flex: 0.4,
+                              flex: 0.4
                             }}
                           >
                             PO Approvals
@@ -462,7 +432,7 @@ const CommentView = ({
                                 fontSize: 13,
                                 fontWeight: 550,
                                 pt: 0.4,
-                                color: '#ff8f00',
+                                color: '#ff8f00'
                               }}
                             >
                               Approval Pending
@@ -480,7 +450,7 @@ const CommentView = ({
                               py: 0.5,
                               color: '#145DA0',
                               fontSize: 14,
-                              flex: 0.4,
+                              flex: 0.4
                             }}
                           >
                             PO-Supplier Acknowledgement
@@ -495,14 +465,12 @@ const CommentView = ({
                                 height: 25,
                                 pb: 0.5,
                                 fontSize: 12,
-                                fontWeight: 550,
+                                fontWeight: 550
                               }}
                             >
                               Yes
                             </Chip>
-                            <Typography
-                              sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pl: 2, pt: 0.4 }}
-                            >
+                            <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pl: 2, pt: 0.4 }}>
                               {format(new Date(po_to_supplier_date), 'dd-MM-yyyy hh:mm:ss a')}
                             </Typography>
                           </Box>
@@ -517,7 +485,7 @@ const CommentView = ({
                               py: 0.5,
                               color: '#145DA0',
                               fontSize: 14,
-                              flex: 0.4,
+                              flex: 0.4
                             }}
                           >
                             Received in CRS Store
@@ -532,7 +500,7 @@ const CommentView = ({
                                 height: 25,
                                 pb: 0.5,
                                 fontSize: 12,
-                                fontWeight: 550,
+                                fontWeight: 550
                               }}
                             >
                               Yes
@@ -545,14 +513,12 @@ const CommentView = ({
                                 textTransform: 'capitalize',
                                 fontWeight: 550,
                                 pl: 2,
-                                pt: 0.4,
+                                pt: 0.4
                               }}
                             >
                               {capitalizeWords(crs_user)}&nbsp; /
                             </Typography>
-                            <Typography
-                              sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pl: 1, pt: 0.4 }}
-                            >
+                            <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pl: 1, pt: 0.4 }}>
                               {format(new Date(store_receive_date), 'dd-MM-yyyy hh:mm:ss a')}
                             </Typography>
                           </Box>
@@ -567,7 +533,7 @@ const CommentView = ({
                               py: 0.5,
                               color: '#145DA0',
                               fontSize: 14,
-                              flex: 0.4,
+                              flex: 0.4
                             }}
                           >
                             Received in {sub_store_name}
@@ -582,7 +548,7 @@ const CommentView = ({
                                 height: 25,
                                 pb: 0.5,
                                 fontSize: 12,
-                                fontWeight: 550,
+                                fontWeight: 550
                               }}
                             >
                               Yes
@@ -595,14 +561,12 @@ const CommentView = ({
                                 textTransform: 'capitalize',
                                 fontWeight: 550,
                                 pl: 2,
-                                pt: 0.4,
+                                pt: 0.4
                               }}
                             >
                               {capitalizeWords(store_user)}&nbsp; /
                             </Typography>
-                            <Typography
-                              sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pl: 1, pt: 0.4 }}
-                            >
+                            <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pl: 1, pt: 0.4 }}>
                               {format(new Date(substore_ack_date), 'dd-MM-yyyy hh:mm:ss a')}
                             </Typography>
                           </Box>
@@ -610,9 +574,7 @@ const CommentView = ({
                       ) : null}
                       {user_acknldge === 1 ? (
                         <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
-                          <Box
-                            sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}
-                          >
+                          <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                             <Typography
                               sx={{
                                 fontWeight: 'bold',
@@ -620,7 +582,7 @@ const CommentView = ({
                                 py: 0.5,
                                 color: '#145DA0',
                                 fontSize: 14,
-                                flex: 0.4,
+                                flex: 0.4
                               }}
                             >
                               User Acknowledgement
@@ -631,9 +593,7 @@ const CommentView = ({
                             <Box sx={{ flex: 1, display: 'flex' }}>
                               <Typography sx={{ fontSize: 13, flex: 1, fontWeight: 550 }}>
                                 : &nbsp;
-                                {user_acknldge_remarks === null
-                                  ? 'Not Updated'
-                                  : user_acknldge_remarks}
+                                {user_acknldge_remarks === null ? 'Not Updated' : user_acknldge_remarks}
                               </Typography>
                               <Typography
                                 sx={{
@@ -643,7 +603,7 @@ const CommentView = ({
                                   fontSize: 13,
                                   textTransform: 'capitalize',
                                   fontWeight: 550,
-                                  pr: 1,
+                                  pr: 1
                                 }}
                               >
                                 {capitalizeWords(acknowUser)}&nbsp; /
@@ -654,7 +614,7 @@ const CommentView = ({
                                   display: 'flex',
                                   justifyContent: 'flex-start',
                                   fontSize: 13,
-                                  fontWeight: 550,
+                                  fontWeight: 550
                                 }}
                               >
                                 {format(new Date(user_ack_date), 'dd-MM-yyyy hh:mm:ss a')}
@@ -685,7 +645,7 @@ const CommentView = ({
                     fontSize: 25,
                     opacity: 0.5,
                     pt: 10,
-                    color: 'grey',
+                    color: 'grey'
                   }}
                 >
                   No Report Found
@@ -700,7 +660,7 @@ const CommentView = ({
                         sx={{
                           display: 'flex',
                           flexDirection: 'row',
-                          alignItems: 'center',
+                          alignItems: 'center'
                         }}
                       >
                         <CampaignTwoToneIcon
@@ -710,22 +670,22 @@ const CommentView = ({
                             animation: 'blink 2s infinite', // Apply the blink animation
                             '@keyframes blink': {
                               '0%': {
-                                opacity: 1,
+                                opacity: 1
                               },
                               '50%': {
-                                opacity: 0,
+                                opacity: 0
                               },
                               '100%': {
-                                opacity: 1,
-                              },
-                            },
+                                opacity: 1
+                              }
+                            }
                           }}
                         />
                         <Typography
                           sx={{
                             fontFamily: 'var(--font-varient)',
                             color: 'rgba(var(--font-primary-white))',
-                            fontWeight: 700,
+                            fontWeight: 700
                           }}
                         ></Typography>
                         <Typography
@@ -734,7 +694,7 @@ const CommentView = ({
                             color: '#FF6868',
                             fontSize: 14,
                             p: 1,
-                            textTransform: 'capitalize',
+                            textTransform: 'capitalize'
                           }}
                         >
                           Comments
@@ -747,7 +707,7 @@ const CommentView = ({
                           color: '#145DA0',
                           fontSize: 14,
                           p: 1,
-                          textTransform: 'capitalize',
+                          textTransform: 'capitalize'
                         }}
                       >
                         By:{DetailViewData?.viewName?.toLowerCase()}
@@ -765,11 +725,7 @@ const CommentView = ({
               ) : null}
               {user_acknldge === 1 ? null : (
                 <Box>
-                  <Paper
-                    variant="outlined"
-                    square
-                    sx={{ flexWrap: 'wrap', mt: 0.7, mx: 0.7, pb: 0.7 }}
-                  >
+                  <Paper variant="outlined" square sx={{ flexWrap: 'wrap', mt: 0.7, mx: 0.7, pb: 0.7 }}>
                     <Box sx={{ display: 'flex', pt: 0.4 }}>
                       <Typography
                         sx={{
@@ -778,7 +734,7 @@ const CommentView = ({
                           py: 0.5,
                           color: '#145DA0',
                           fontSize: 14,
-                          flex: 0.4,
+                          flex: 0.4
                         }}
                       >
                         Remarks

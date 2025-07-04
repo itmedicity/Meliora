@@ -23,7 +23,7 @@ const CustomCardHeader = ({ title }) => {
         borderBottomColor: bgbottom,
         fontSize: 14,
         color: cardHeaderFont,
-        borderColor: '#66bb6a',
+        borderColor: '#66bb6a'
         // backgroundColor: {
         //     xs: 'red',
         //     sm: 'green',

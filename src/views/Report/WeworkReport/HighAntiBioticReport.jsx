@@ -20,7 +20,7 @@ const HighAntiBioticReport = () => {
     { headerName: 'itemcode', field: 'high_item_code' },
     { headerName: 'AntiBiotic Name', field: 'high_item_desc' },
     { headerName: 'alias', field: 'high_item_alias' },
-    { headerName: 'Status', field: 'high_item_status' },
+    { headerName: 'Status', field: 'high_item_status' }
   ])
 
   return (

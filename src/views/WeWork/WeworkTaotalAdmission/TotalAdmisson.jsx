@@ -22,7 +22,7 @@ const TotalAdmisson = () => {
     { headerName: 'Nursing station', field: 'nsc_desc', filter: true },
     { headerName: 'Bed no.', field: 'bdc_no' },
     { headerName: 'mobile', field: 'ptc_mobile', filter: true },
-    { headerName: 'Room', field: 'rcc_desc' },
+    { headerName: 'Room', field: 'rcc_desc' }
   ])
 
   return (

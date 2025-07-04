@@ -31,7 +31,7 @@ const DietOderTaking = () => {
     () => {
       const postdata = {
         process_date: selectDate,
-        rm_code: room,
+        rm_code: room
       }
       const gettypeDmenu = async postdata => {
         const result = await axioslogin.post('/dietorder/getproslno/typeslno', postdata)
@@ -63,7 +63,6 @@ const DietOderTaking = () => {
   //         dietType.map(val => {
   //           return val.dmenu_slno
   //         })
-
   //       const postdata = {
   //         days: day,
   //         dmenu_slno: dmenuslno,
@@ -71,7 +70,6 @@ const DietOderTaking = () => {
   //       }
   //     }
   //   }
-
   //   getSearch()
   // }, [tabledis, dietType, selectDate])
 
@@ -149,20 +147,20 @@ const DietOderTaking = () => {
             sx={{
               width: '100%',
               display: 'flex',
-              flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
+              flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' }
             }}
           >
             <Box
               sx={{
                 display: 'flex',
                 width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' },
-                p: 0.5,
+                p: 0.5
                 // backgroundColor: "red"
               }}
             >
               <Box
                 sx={{
-                  width: '100%',
+                  width: '100%'
                   //  backgroundColor: "red"
                 }}
               >
@@ -174,16 +172,10 @@ const DietOderTaking = () => {
                   height: 15,
                   mt: 0,
                   //backgroundColor: "red",
-                  mb: 2,
+                  mb: 2
                 }}
               >
-                <TextFieldCustom
-                  type="date"
-                  size="sm"
-                  name="selectDate"
-                  value={selectDate}
-                  onchange={updateDate}
-                />
+                <TextFieldCustom type="date" size="sm" name="selectDate" value={selectDate} onchange={updateDate} />
               </Box>
             </Box>
             <Box
@@ -191,13 +183,13 @@ const DietOderTaking = () => {
                 display: 'flex',
                 width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' },
                 //backgroundColor: "black",
-                p: 0.5,
+                p: 0.5
               }}
             >
               <Box
                 sx={{
                   width: '100%',
-                  pl: { xl: 1, md: 1 },
+                  pl: { xl: 1, md: 1 }
                   // backgroundColor: "green"
                 }}
               >
@@ -208,7 +200,7 @@ const DietOderTaking = () => {
                   width: '100%',
                   height: 15,
                   p: 0.5,
-                  mb: 2,
+                  mb: 2
                   //backgroundColor: "green"
                 }}
               >
@@ -219,14 +211,14 @@ const DietOderTaking = () => {
               sx={{
                 display: 'flex',
                 width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' },
-                p: 0.5,
+                p: 0.5
                 //backgroundColor: "green"
               }}
             >
               <Box
                 sx={{
                   width: '100%',
-                  pl: { xl: 1, md: 1 },
+                  pl: { xl: 1, md: 1 }
                   // backgroundColor: "blue"
                 }}
               >
@@ -237,7 +229,7 @@ const DietOderTaking = () => {
                   height: 15,
                   mb: 2,
                   p: 0.5,
-                  width: '100%',
+                  width: '100%'
                   //backgroundColor: "blue"
                 }}
               >
@@ -248,7 +240,7 @@ const DietOderTaking = () => {
               sx={{
                 display: 'flex',
                 width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' },
-                p: 0.5,
+                p: 0.5
                 // backgroundColor: "orange"
                 // mt: 1
               }}
@@ -256,16 +248,10 @@ const DietOderTaking = () => {
               <Box
                 sx={{
                   width: '100%',
-                  mt: 0,
+                  mt: 0
                 }}
               >
-                <CusIconButton
-                  size="sm"
-                  variant="outlined"
-                  color="primary"
-                  clickable="true"
-                  onClick={clicksearch}
-                >
+                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={clicksearch}>
                   <SearchOutlinedIcon fontSize="small" />
                 </CusIconButton>
               </Box>
@@ -288,15 +274,15 @@ const DietOderTaking = () => {
                           sm: 'column',
                           md: 'row',
                           lg: 'row',
-                          xl: 'row',
-                        },
+                          xl: 'row'
+                        }
                       }}
                     >
                       <CustomPaperTitle heading={val.type_desc} />
                       <Box
                         sx={{
                           width: '90%',
-                          p: 1,
+                          p: 1
                         }}
                       >
                         <DietOrderItems

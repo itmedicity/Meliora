@@ -23,7 +23,7 @@ const CondemApprovalLevelMast = () => {
     level_slno: '',
     level_no: '',
     level_name: '',
-    level_status: false,
+    level_status: false
   })
   const { level_slno, level_no, level_name, level_status } = approvalLevels
 
@@ -40,7 +40,7 @@ const CondemApprovalLevelMast = () => {
       level_no: level_no,
       level_name: level_name,
       level_status: level_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [level_no, level_name, level_status, id])
   const patchdata = useMemo(() => {
@@ -49,7 +49,7 @@ const CondemApprovalLevelMast = () => {
       level_slno: level_slno,
       level_name: level_name,
       level_status: level_status === true ? 1 : 0,
-      edit_user: id,
+      edit_user: id
     }
   }, [level_no, level_slno, level_name, level_status, id])
 
@@ -61,7 +61,7 @@ const CondemApprovalLevelMast = () => {
       level_slno: level_slno,
       level_no: level_no,
       level_name: level_name,
-      level_status: level_status === 1 ? true : false,
+      level_status: level_status === 1 ? true : false
     }
     setApprovalLevels(frmdata)
   }, [])
@@ -71,7 +71,7 @@ const CondemApprovalLevelMast = () => {
       level_slno: '',
       level_no: '',
       level_name: '',
-      level_status: false,
+      level_status: false
     }
     setApprovalLevels(frmdata)
     setCount(0)
@@ -131,7 +131,7 @@ const CondemApprovalLevelMast = () => {
       level_slno: '',
       level_no: '',
       level_name: '',
-      level_status: false,
+      level_status: false
     }
     setApprovalLevels(frmdata)
     setValue(0)

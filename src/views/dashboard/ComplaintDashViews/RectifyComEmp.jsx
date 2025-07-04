@@ -39,7 +39,7 @@ const RectifyComEmp = () => {
       field: 'complaint_desc',
       autoHeight: true,
       wrapText: true,
-      width: 350,
+      width: 350
     },
     {
       headerName: 'Req.Department',
@@ -47,21 +47,21 @@ const RectifyComEmp = () => {
       filter: 'true',
       autoHeight: true,
       wrapText: true,
-      width: 280,
+      width: 280
     },
     {
       headerName: 'Request Type',
       field: 'req_type_name',
       autoHeight: true,
       wrapText: true,
-      width: 280,
+      width: 280
     },
     {
       headerName: 'Complaint Type',
       field: 'complaint_type_name',
       autoHeight: true,
       wrapText: true,
-      width: 280,
+      width: 280
     },
     {
       headerName: 'Location',
@@ -69,7 +69,7 @@ const RectifyComEmp = () => {
       filter: 'true',
       width: 200,
       autoHeight: true,
-      wrapText: true,
+      wrapText: true
     },
     {
       headerName: 'Priority',
@@ -77,14 +77,14 @@ const RectifyComEmp = () => {
       filter: 'true',
       autoHeight: true,
       wrapText: true,
-      width: 200,
+      width: 200
     },
     {
       headerName: 'Req.Date',
       field: 'compalint_date',
       autoHeight: true,
       wrapText: true,
-      width: 200,
+      width: 200
     },
     {
       headerName: 'Assign.Emp',
@@ -92,21 +92,21 @@ const RectifyComEmp = () => {
       filter: 'true',
       autoHeight: true,
       wrapText: true,
-      width: 250,
+      width: 250
     },
     {
       headerName: 'Assign.Date',
       field: 'assigned_date',
       autoHeight: true,
       wrapText: true,
-      width: 200,
+      width: 200
     },
     {
       headerName: 'Rectify.Date',
       field: 'cm_rectify_time',
       autoHeight: true,
       wrapText: true,
-      width: 200,
+      width: 200
     },
     {
       headerName: 'complaint status',
@@ -114,8 +114,8 @@ const RectifyComEmp = () => {
       filter: 'true',
       autoHeight: true,
       wrapText: true,
-      width: 300,
-    },
+      width: 300
+    }
   ])
 
   //Close function

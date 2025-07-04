@@ -12,8 +12,8 @@ const BillTypeTable = ({ count, rowSelect }) => {
     { headerName: 'Status', field: 'status' },
     {
       headerName: 'Action',
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
-    },
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
+    }
   ])
   useEffect(() => {
     const setBillCategorys = async () => {

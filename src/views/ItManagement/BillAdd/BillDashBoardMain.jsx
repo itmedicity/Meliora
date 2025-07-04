@@ -1,13 +1,4 @@
-import {
-  Box,
-  CssVarsProvider,
-  ListItemDecorator,
-  Tab,
-  TabList,
-  TabPanel,
-  Tabs,
-  tabClasses,
-} from '@mui/joy'
+import { Box, CssVarsProvider, ListItemDecorator, Tab, TabList, TabPanel, Tabs, tabClasses } from '@mui/joy'
 import { Paper, tabsClasses } from '@mui/material'
 import React from 'react'
 // import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
@@ -38,10 +29,7 @@ const BillDashBoardMain = () => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Box sx={{ flex: 1, height: 35, borderBottom: 1, borderColor: 'lightgrey', display: 'flex' }}>
-        <Box sx={{ flex: 1, fontWeight: 600, pl: 0.8, pt: 0.8, color: '#C7C8CB' }}>
-          {' '}
-          Bills & Pays
-        </Box>
+        <Box sx={{ flex: 1, fontWeight: 600, pl: 0.8, pt: 0.8, color: '#C7C8CB' }}> Bills & Pays</Box>
         <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
           <Paper
             sx={{
@@ -52,7 +40,7 @@ const BillDashBoardMain = () => {
               color: 'white',
               cursor: 'pointer',
               boxShadow: '5px 2px 3px',
-              '&:hover': { bgcolor: '#738FA7', color: '#1B2A37', boxShadow: '1px 2px 3px' },
+              '&:hover': { bgcolor: '#738FA7', color: '#1B2A37', boxShadow: '1px 2px 3px' }
             }}
             onClick={GoTosupplierDetails}
           >
@@ -79,9 +67,9 @@ const BillDashBoardMain = () => {
               [`&:not(.${tabClasses.selected})
                             :not(:hover)
                             `]: {
-                opacity: 1,
-              },
-            },
+                opacity: 1
+              }
+            }
           })}
         >
           <TabList variant="plain" size="sm" disableUnderline sx={{ p: 0, flex: 1 }}>
@@ -90,7 +78,7 @@ const BillDashBoardMain = () => {
               orientation="vertical"
               sx={{
                 flexGrow: 1,
-                pt: 0.5,
+                pt: 0.5
               }}
             >
               <ListItemDecorator>
@@ -103,7 +91,7 @@ const BillDashBoardMain = () => {
               orientation="vertical"
               sx={{
                 flexGrow: 1,
-                pt: 0.5,
+                pt: 0.5
               }}
             >
               <ListItemDecorator>
@@ -116,7 +104,7 @@ const BillDashBoardMain = () => {
               orientation="vertical"
               sx={{
                 flexGrow: 1,
-                pt: 0.5,
+                pt: 0.5
               }}
             >
               <ListItemDecorator>
@@ -129,7 +117,7 @@ const BillDashBoardMain = () => {
               orientation="vertical"
               sx={{
                 flexGrow: 1,
-                pt: 0.5,
+                pt: 0.5
               }}
             >
               <ListItemDecorator>
@@ -142,7 +130,7 @@ const BillDashBoardMain = () => {
               orientation="vertical"
               sx={{
                 flexGrow: 1,
-                pt: 0.5,
+                pt: 0.5
               }}
             >
               <ListItemDecorator>

@@ -40,7 +40,7 @@ const AssetGroupSlect = ({ group, setGroup, setName }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '29px',
+            '--Input-minHeight': '29px'
           }}
           value={group === 0 ? grps : value}
           placeholder="Select Group"

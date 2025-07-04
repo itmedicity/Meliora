@@ -4,14 +4,8 @@ import { format } from 'date-fns'
 import React, { Fragment, memo } from 'react'
 
 const CommonInchargeReqCmp = ({ DetailViewData }) => {
-  const {
-    incharge_approve,
-    inch_detial_analysis,
-    incharge,
-    incharge_remarks,
-    incharge_user,
-    incharge_apprv_date,
-  } = DetailViewData
+  const { incharge_approve, inch_detial_analysis, incharge, incharge_remarks, incharge_user, incharge_apprv_date } =
+    DetailViewData
 
   const capitalizeWords = str =>
     str
@@ -27,9 +21,7 @@ const CommonInchargeReqCmp = ({ DetailViewData }) => {
     <Fragment>
       <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
         <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
-          <Typography
-            sx={{ fontWeight: 'bold', ml: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.33 }}
-          >
+          <Typography sx={{ fontWeight: 'bold', ml: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.33 }}>
             Department Approval
           </Typography>
           <Box sx={{ flex: 1, display: 'flex' }}>
@@ -52,7 +44,7 @@ const CommonInchargeReqCmp = ({ DetailViewData }) => {
                   height: 25,
                   pb: 0.5,
                   fontSize: 12,
-                  fontWeight: 550,
+                  fontWeight: 550
                 }}
               >
                 {incharge}
@@ -64,49 +56,33 @@ const CommonInchargeReqCmp = ({ DetailViewData }) => {
           {incharge_approve === 1 && incharge_remarks !== null ? (
             <Box sx={{ pt: 0.5 }}>
               <Box sx={{ display: 'flex' }}>
-                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                  Justification/ Requirement Description{' '}
-                </Typography>
+                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Justification/ Requirement Description </Typography>
                 <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-                <Typography
-                  sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}
-                >
+                <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
                   {incharge_remarks === null ? 'Not Updated' : incharge_remarks}
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', pt: 1 }}>
-                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                  Detailed Analysis of Requirement
-                </Typography>
+                <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Detailed Analysis of Requirement</Typography>
                 <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-                <Typography
-                  sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}
-                >
+                <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
                   {inch_detial_analysis === null ? 'Not Updated' : inch_detial_analysis}
                 </Typography>
               </Box>
             </Box>
           ) : incharge_approve === 2 && incharge_remarks !== null ? (
             <Box sx={{ display: 'flex', pt: 0.5 }}>
-              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                Justification for Reject{' '}
-              </Typography>
+              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Justification for Reject </Typography>
               <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-              <Typography
-                sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}
-              >
+              <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
                 {incharge_remarks === null ? 'Not Updated' : incharge_remarks}
               </Typography>
             </Box>
           ) : incharge_approve === 3 && incharge_remarks !== null ? (
             <Box sx={{ display: 'flex', pt: 0.5 }}>
-              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                Justification for On-Hold
-              </Typography>
+              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Justification for On-Hold</Typography>
               <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-              <Typography
-                sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}
-              >
+              <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
                 {incharge_remarks === null ? 'Not Updated' : incharge_remarks}
               </Typography>
             </Box>
@@ -122,9 +98,7 @@ const CommonInchargeReqCmp = ({ DetailViewData }) => {
               ) : null}
               <Box sx={{ display: 'flex', flex: 1 }}>
                 <Typography> :&nbsp;</Typography>
-                <Typography
-                  sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pt: 0.3, pl: 0.2 }}
-                >
+                <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pt: 0.3, pl: 0.2 }}>
                   {capitalizeWords(incharge_user)}
                 </Typography>
                 <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pl: 2, pt: 0.3 }}>

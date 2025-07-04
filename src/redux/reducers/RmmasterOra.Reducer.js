@@ -3,7 +3,7 @@ const { FETCH_RMMASTERORA } = ActionTyps
 //intial state
 const rmmasterora = {
   rmmasteroraList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** roommasteroracleaction check then payload set to the state and loading status set as true */
 export const getRmmasteroracle = (state = rmmasterora, { type, payload }) => {

@@ -41,25 +41,25 @@ const CmSpareList = ({ sparez, setSparez, setSpareName, count }) => {
 
   const postData = useMemo(
     () => ({
-      spareCustodainDept: empDept === 0 ? null : empDept === null ? null : empDept,
+      spareCustodainDept: empDept === 0 ? null : empDept === null ? null : empDept
     }),
     [empDept]
   )
 
   const { data: spareData } = useQuery({
     queryKey: ['getSparesinstock', postData, count],
-    queryFn: () => getSparesInstock(postData),
+    queryFn: () => getSparesInstock(postData)
   })
 
   const spareInstock = useMemo(() => spareData, [spareData])
 
   useEffect(() => {
     if (spareInstock && spareInstock.length > 0) {
-      const formattedSpareInstock = spareInstock.map((val,) => {
+      const formattedSpareInstock = spareInstock.map(val => {
         return {
           am_spare_item_map_slno: val.am_spare_item_map_slno,
           item_name: val.item_name,
-          assetno: val.spare_asset_no + '/' + val.spare_asset_no_only.toString().padStart(6, '0'),
+          assetno: val.spare_asset_no + '/' + val.spare_asset_no_only.toString().padStart(6, '0')
         }
       })
       setspareList(formattedSpareInstock)
@@ -72,7 +72,7 @@ const CmSpareList = ({ sparez, setSparez, setSpareName, count }) => {
     <CssVarsProvider>
       <Autocomplete
         sx={{
-          '--Input-minHeight': '38px',
+          '--Input-minHeight': '38px'
         }}
         value={sparez === 0 ? sparex : value}
         placeholder="select spare"
@@ -92,9 +92,7 @@ const CmSpareList = ({ sparez, setSparez, setSpareName, count }) => {
         isOptionEqualToValue={(option, value) =>
           option.item_name === value.item_name && option.assetno === value.assetno
         }
-        getOptionLabel={option =>
-          option.assetno ? `${option.assetno}  ${option.item_name}` : option.item_name || ''
-        }
+        getOptionLabel={option => (option.assetno ? `${option.assetno}  ${option.item_name}` : option.item_name || '')}
         options={sparex}
       />
     </CssVarsProvider>

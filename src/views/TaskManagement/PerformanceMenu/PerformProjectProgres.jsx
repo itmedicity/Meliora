@@ -8,7 +8,7 @@ const PerformProjectProgres = ({ val }) => {
   const searchData = useMemo(() => {
     return {
       tm_project_slno: tm_project_slno,
-      tm_assigne_emp: tm_assigne_emp,
+      tm_assigne_emp: tm_assigne_emp
     }
   }, [tm_project_slno, tm_assigne_emp])
 
@@ -32,12 +32,7 @@ const PerformProjectProgres = ({ val }) => {
   return (
     <Box>
       <CssVarsProvider>
-        <CircularProgress
-          determinate
-          value={progress}
-          color="neutral"
-          sx={{ '--CircularProgress-size': '40px' }}
-        >
+        <CircularProgress determinate value={progress} color="neutral" sx={{ '--CircularProgress-size': '40px' }}>
           <Typography fontSize={10} sx={{ color: 'black' }}>
             {`${Math.round(Number(progress))}%`}
           </Typography>

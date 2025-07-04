@@ -1,13 +1,4 @@
-import {
-  Box,
-  Button,
-  CssVarsProvider,
-  IconButton,
-  Table,
-  Textarea,
-  Tooltip,
-  Typography,
-} from '@mui/joy'
+import { Box, Button, CssVarsProvider, IconButton, Table, Textarea, Tooltip, Typography } from '@mui/joy'
 import React, { Fragment, memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { format } from 'date-fns'
@@ -51,19 +42,10 @@ const DeliveryMarkingStore = () => {
     billDate: format(new Date(), 'yyyy-MM-dd'),
     remarks: '',
     searchFlag: 0,
-    editIndex: null,
+    editIndex: null
   })
-  const {
-    receivedDate,
-    directMode,
-    courierMode,
-    packageCount,
-    billNumber,
-    billDate,
-    remarks,
-    searchFlag,
-    editIndex,
-  } = deliveryState
+  const { receivedDate, directMode, courierMode, packageCount, billNumber, billDate, remarks, searchFlag, editIndex } =
+    deliveryState
   const [selectFile, setSelectFile] = useState([])
   const [previewFile, setPreviewFile] = useState({ url: '', type: '' })
   const [imageshowFlag, setimageshowFlag] = useState(0)
@@ -101,12 +83,12 @@ const DeliveryMarkingStore = () => {
       infoNotify('Select Supplier Name')
       setDeliveryState(prev => ({
         ...prev,
-        searchFlag: 0,
+        searchFlag: 0
       }))
     } else {
       setDeliveryState(prev => ({
         ...prev,
-        searchFlag: 1,
+        searchFlag: 1
       }))
 
       const getPendingPODetails = async supCode => {
@@ -130,12 +112,10 @@ const DeliveryMarkingStore = () => {
           const { success, data } = val
           if (success === 1) {
             const posearch = data?.reduce((acc, val) => {
-              if (
-                !acc.some(item => item.pono === val.po_number && item.stcode === val.crs_store_code)
-              ) {
+              if (!acc.some(item => item.pono === val.po_number && item.stcode === val.crs_store_code)) {
                 acc.push({
                   pono: val.po_number,
-                  stcode: val.crs_store_code,
+                  stcode: val.crs_store_code
                 })
               }
               return acc
@@ -146,7 +126,7 @@ const DeliveryMarkingStore = () => {
                 stcode: val.crs_store_code,
                 marking_po_slno: val.marking_po_slno,
                 item_code: val.item_code,
-                item_slno: val.item_slno,
+                item_slno: val.item_slno
               }
             })
             getItemDetailsEllider(posearch).then(val => {
@@ -156,10 +136,7 @@ const DeliveryMarkingStore = () => {
                 const patchQnty = ellData
                   ?.map(item => {
                     const poItems = poNumber?.filter(
-                      po =>
-                        po.pono === item.PO_NO &&
-                        po.stcode === item.ST_CODE &&
-                        po.item_code === item.IT_CODE
+                      po => po.pono === item.PO_NO && po.stcode === item.ST_CODE && po.item_code === item.IT_CODE
                     )
                     return poItems
                       .map(poItem => {
@@ -183,7 +160,7 @@ const DeliveryMarkingStore = () => {
                             item_slno: poItem.item_slno,
                             received_qty: item.PDN_SUPQTY,
                             item_status: item_status,
-                            edit_user: id,
+                            edit_user: id
                           }
                         }
                         return null
@@ -196,7 +173,7 @@ const DeliveryMarkingStore = () => {
                   if (!acc[curr.marking_po_slno]) {
                     acc[curr.marking_po_slno] = {
                       marking_po_slno: curr.marking_po_slno,
-                      item_statuses: [],
+                      item_statuses: []
                     }
                   }
                   acc[curr.marking_po_slno].item_statuses.push(curr.item_status)
@@ -218,7 +195,7 @@ const DeliveryMarkingStore = () => {
                   return {
                     po_status: po_status,
                     edit_user: id,
-                    marking_po_slno: val.marking_po_slno,
+                    marking_po_slno: val.marking_po_slno
                   }
                 })
                 updateItemqty(patchQnty)
@@ -311,7 +288,7 @@ const DeliveryMarkingStore = () => {
     } else {
       const newdata = {
         delivered_bill_no: billNumber,
-        delivered_bill_date: billDate,
+        delivered_bill_date: billDate
       }
       const isDuplicate = billDetails?.some(val => val.delivered_bill_no === billNumber)
       if (isDuplicate) {
@@ -324,14 +301,14 @@ const DeliveryMarkingStore = () => {
           const obj = {
             bill_slno: index + 1,
             delivered_bill_no: val.delivered_bill_no,
-            delivered_bill_date: format(new Date(val.delivered_bill_date), 'yyyy-MM-dd'),
+            delivered_bill_date: format(new Date(val.delivered_bill_date), 'yyyy-MM-dd')
           }
           return obj
         })
         setBillDetails(datas)
         setDeliveryState(prev => ({
           ...prev,
-          editIndex: null,
+          editIndex: null
         }))
       } else {
         const newArray = [...billDetails, newdata]
@@ -339,7 +316,7 @@ const DeliveryMarkingStore = () => {
           const obj = {
             bill_slno: index + 1,
             delivered_bill_no: val.delivered_bill_no,
-            delivered_bill_date: format(new Date(val.delivered_bill_date), 'yyyy-MM-dd'),
+            delivered_bill_date: format(new Date(val.delivered_bill_date), 'yyyy-MM-dd')
           }
           return obj
         })
@@ -348,7 +325,7 @@ const DeliveryMarkingStore = () => {
       setDeliveryState(prev => ({
         ...prev,
         billNumber: '',
-        billDate: format(new Date(), 'yyyy-MM-dd'),
+        billDate: format(new Date(), 'yyyy-MM-dd')
       }))
     }
   }, [billNumber, billDate, billDetails, editIndex])
@@ -359,7 +336,7 @@ const DeliveryMarkingStore = () => {
       ...prev,
       billNumber: delivered_bill_no,
       billDate: format(new Date(delivered_bill_date), 'yyyy-MM-dd'),
-      editIndex: index,
+      editIndex: index
     }))
   }, [])
 
@@ -377,9 +354,7 @@ const DeliveryMarkingStore = () => {
     if (elliderPoList.length !== 0) {
       if (existPo.length !== 0) {
         const insertNew = elliderPoList?.filter(val => {
-          return !existPo?.find(
-            value => value.po_number === val.PO_NO && value.crs_store_code === val.ST_CODE
-          )
+          return !existPo?.find(value => value.po_number === val.PO_NO && value.crs_store_code === val.ST_CODE)
         })
         setinsertArray(insertNew)
       } else {
@@ -409,8 +384,7 @@ const DeliveryMarkingStore = () => {
   useEffect(() => {
     if (insertArray.length !== 0) {
       const array = insertArray.filter(
-        (po, index, self) =>
-          index === self.findIndex(val => val.ST_CODE === po.ST_CODE && val.PO_NO === po.PO_NO)
+        (po, index, self) => index === self.findIndex(val => val.ST_CODE === po.ST_CODE && val.PO_NO === po.PO_NO)
       )
 
       const newArray = array?.map(po => {
@@ -423,7 +397,7 @@ const DeliveryMarkingStore = () => {
           expctDelivery: po.POD_EDD !== null ? format(new Date(po.POD_EDD), 'yyyy-MM-dd') : null,
           expiry: po.PO_EXPIRY !== null ? format(new Date(po.PO_EXPIRY), 'yyyy-MM-dd') : null,
           main_store_slno: newData ? newData.main_store_slno : 0,
-          main_store: newData ? newData.main_store : '',
+          main_store: newData ? newData.main_store : ''
         }
       })
       // const patchQnty = ellData?.map(item => {
@@ -473,17 +447,15 @@ const DeliveryMarkingStore = () => {
           item_rate: val.PDN_RATE.toFixed(2),
           item_mrp: val.PDN_ORIGINALMRP.toFixed(2),
           received_qty: val.PDN_SUPQTY,
-          item_status: item_status,
+          item_status: item_status
         }
         return obj
       })
       const combinedData = newArray?.map(po => {
-        const details = poItems?.filter(
-          item => item.po_no === po.po_no && item.storecode === po.storecode
-        )
+        const details = poItems?.filter(item => item.po_no === po.po_no && item.storecode === po.storecode)
         return {
           ...po,
-          items: details,
+          items: details
         }
       })
       setCombinedPO(combinedData)
@@ -500,7 +472,7 @@ const DeliveryMarkingStore = () => {
       billDate: format(new Date(), 'yyyy-MM-dd'),
       remarks: '',
       searchFlag: 0,
-      editIndex: null,
+      editIndex: null
     }
     setDeliveryState(formData)
     setSupName('')
@@ -522,7 +494,7 @@ const DeliveryMarkingStore = () => {
       remarks: remarks,
       received_user: empName,
       create_user: id,
-      po_exist_status: combinedPO.length === 0 ? 'No PO Found' : 'Exist',
+      po_exist_status: combinedPO.length === 0 ? 'No PO Found' : 'Exist'
     }
   }, [
     supCode,
@@ -535,7 +507,7 @@ const DeliveryMarkingStore = () => {
     remarks,
     empName,
     id,
-    combinedPO,
+    combinedPO
   ])
 
   //file upload
@@ -555,9 +527,7 @@ const DeliveryMarkingStore = () => {
               warningNotify(`The file "${file.name}" exceeds the 25MB size limit`)
               return false
             }
-            const isDuplicate = prevFiles.some(
-              prevFile => prevFile.name === file.name && prevFile.size === file.size
-            )
+            const isDuplicate = prevFiles.some(prevFile => prevFile.name === file.name && prevFile.size === file.size)
             // const duplicates = prevFiles?.filter(
             //     (prevFile) => prevFile.name === file.name && prevFile.size === file.size
             // );
@@ -572,16 +542,12 @@ const DeliveryMarkingStore = () => {
             }
             return true
           } else {
-            warningNotify(
-              `The file "${file.name}" is not a supported format! Only .png, .jpeg, and .pdf are allowed.`
-            )
+            warningNotify(`The file "${file.name}" is not a supported format! Only .png, .jpeg, and .pdf are allowed.`)
             return false
           }
         })
         if (duplicateFiles.length > 0) {
-          warningNotify(
-            `The following files are duplicates and were not added: ${duplicateFiles.join(', ')}`
-          )
+          warningNotify(`The following files are duplicates and were not added: ${duplicateFiles.join(', ')}`)
         }
         return [...prevFiles, ...validFiles]
       })
@@ -592,7 +558,7 @@ const DeliveryMarkingStore = () => {
     const options = {
       maxSizeMB: 25,
       maxWidthOrHeight: 1920,
-      useWebWorker: true,
+      useWebWorker: true
     }
     const compressedFile = await imageCompression(imageFile, options)
     return compressedFile
@@ -638,8 +604,8 @@ const DeliveryMarkingStore = () => {
           }
           const result = await axioslogin.post('/newCRFRegisterImages/InsertDMimage', formData, {
             headers: {
-              'Content-Type': 'multipart/form-data',
-            },
+              'Content-Type': 'multipart/form-data'
+            }
           })
           return result.data
         } catch (error) {
@@ -680,15 +646,12 @@ const DeliveryMarkingStore = () => {
                   crs_store_code: val.storecode,
                   crs_store: val.main_store_slno,
                   expected_delivery:
-                    val.expctDelivery !== null
-                      ? format(new Date(val.expctDelivery), 'yyyy-MM-dd')
-                      : null,
+                    val.expctDelivery !== null ? format(new Date(val.expctDelivery), 'yyyy-MM-dd') : null,
                   po_delivery: val.delivery,
-                  po_expiry:
-                    val.expiry !== null ? format(new Date(val.expiry), 'yyyy-MM-dd') : null,
+                  po_expiry: val.expiry !== null ? format(new Date(val.expiry), 'yyyy-MM-dd') : null,
                   po_status: 1,
                   create_user: id,
-                  items: val.items,
+                  items: val.items
                 }
               })
               savePoDetails(postdataDetl)
@@ -743,18 +706,7 @@ const DeliveryMarkingStore = () => {
           })
       }
     }
-  }, [
-    postData,
-    id,
-    combinedPO,
-    ResetDetails,
-    billNumber,
-    supCode,
-    empName,
-    billDetails,
-    queryClient,
-    selectFile,
-  ])
+  }, [postData, id, combinedPO, ResetDetails, billNumber, supCode, empName, billDetails, queryClient, selectFile])
   const [viewFlag, setViewFlag] = useState(0)
   const viewDeliveryDetails = useCallback(async () => {
     setViewFlag(1)
@@ -766,8 +718,8 @@ const DeliveryMarkingStore = () => {
         ? 'pdf'
         : 'image'
       : file.type.includes('application/pdf')
-        ? 'pdf'
-        : 'image'
+      ? 'pdf'
+      : 'image'
 
     const fileUrl = file.url || URL.createObjectURL(file)
     setPreviewFile({ url: fileUrl, type: fileType })
@@ -797,9 +749,9 @@ const DeliveryMarkingStore = () => {
     border: '1px solid #bbdefb',
     '&:hover': {
       color: '#1e88e5',
-      bgcolor: 'white',
+      bgcolor: 'white'
     },
-    borderRadius: 5,
+    borderRadius: 5
   }
   return (
     <Fragment>
@@ -809,13 +761,8 @@ const DeliveryMarkingStore = () => {
       <Box sx={{ height: window.innerHeight - 80 }}>
         <CssVarsProvider>
           <Box sx={{ display: 'flex', backgroundColor: '#f0f3f5', border: '1px solid #B4F5F0' }}>
-            <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: 0.5, color: '#385E72' }}>
-              {' '}
-              Delivery Marking
-            </Box>
-            <Box
-              sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, m: 0.5 }}
-            >
+            <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: 0.5, color: '#385E72' }}> Delivery Marking</Box>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, m: 0.5 }}>
               <CssVarsProvider>
                 <CustomCloseIconCmp handleChange={backtoHome} />
               </CssVarsProvider>
@@ -835,7 +782,7 @@ const DeliveryMarkingStore = () => {
                 bgcolor: 'white',
                 height: window.innerHeight - 135,
                 overflow: 'auto',
-                flexWrap: 'wrap',
+                flexWrap: 'wrap'
               }}
             >
               <Box sx={{ display: 'flex', justifyContent: 'flex-end', pt: 1 }}>
@@ -846,9 +793,7 @@ const DeliveryMarkingStore = () => {
                   {format(new Date(), 'dd-MM-yyy hh:mm a')}
                 </Typography>
               </Box>
-              <Box
-                sx={{ width: '100%', display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}
-              >
+              <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
                 <Box sx={{ pt: 1, width: { xs: '100%', md: '60vw', lg: '50vw', xl: '50vw' } }}>
                   <Box sx={{ px: 1 }}>
                     <Box sx={{ pl: 1, fontSize: 12 }}>
@@ -862,12 +807,12 @@ const DeliveryMarkingStore = () => {
                           height: 35,
                           borderRadius: 5,
                           border: '1px solid #bbdefb',
-                          fontSize: 14,
+                          fontSize: 14
                         }}
                         slotProps={{
                           input: {
-                            max: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-                          },
+                            max: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+                          }
                         }}
                         size={'sm'}
                         type={'datetime-local'}
@@ -883,11 +828,7 @@ const DeliveryMarkingStore = () => {
                         SUPPLIER <KeyboardArrowDownIcon fontSize="small" />
                       </Box>
                       <Box sx={{ pt: 0.5 }}>
-                        <CrfSupplierSelect
-                          supCode={supCode}
-                          setSupCode={setSupCode}
-                          setSupName={setSupName}
-                        />
+                        <CrfSupplierSelect supCode={supCode} setSupCode={setSupCode} setSupName={setSupName} />
                       </Box>
                     </Box>
 
@@ -904,8 +845,8 @@ const DeliveryMarkingStore = () => {
                           borderRadius: 6,
                           '&:hover': {
                             bgcolor: 'white',
-                            color: '#1976d2',
-                          },
+                            color: '#1976d2'
+                          }
                         }}
                         onClick={SearchData}
                       >
@@ -925,8 +866,8 @@ const DeliveryMarkingStore = () => {
                           borderRadius: 6,
                           '&:hover': {
                             bgcolor: 'white',
-                            color: '#1976d2',
-                          },
+                            color: '#1976d2'
+                          }
                         }}
                         onClick={viewDeliveryDetails}
                       >
@@ -983,7 +924,7 @@ const DeliveryMarkingStore = () => {
                                 height: 35,
                                 borderRadius: 5,
                                 border: '1px solid #bbdefb',
-                                fontSize: 14,
+                                fontSize: 14
                               }}
                               placeholder="Enter Bill No"
                               autoComplete="off"
@@ -1007,7 +948,7 @@ const DeliveryMarkingStore = () => {
                                 height: 35,
                                 borderRadius: 5,
                                 border: '1px solid #bbdefb',
-                                fontSize: 14,
+                                fontSize: 14
                               }}
                               size={'sm'}
                               type={'date'}
@@ -1015,8 +956,8 @@ const DeliveryMarkingStore = () => {
                               value={billDate}
                               slotProps={{
                                 input: {
-                                  max: moment(new Date()).format('YYYY-MM-DD'),
-                                },
+                                  max: moment(new Date()).format('YYYY-MM-DD')
+                                }
                               }}
                               handleChange={updateOnchangeState}
                             />
@@ -1031,8 +972,8 @@ const DeliveryMarkingStore = () => {
                                 color: '#1565c0',
                                 cursor: 'pointer',
                                 ':hover': {
-                                  color: '#1976d2',
-                                },
+                                  color: '#1976d2'
+                                }
                               }}
                               onClick={addBillDetails}
                             />
@@ -1048,7 +989,7 @@ const DeliveryMarkingStore = () => {
                             mr: 3.6,
                             ml: 2,
                             overflow: 'auto',
-                            '&::-webkit-scrollbar': { height: 8 },
+                            '&::-webkit-scrollbar': { height: 8 }
                           }}
                         >
                           <CssVarsProvider>
@@ -1061,10 +1002,7 @@ const DeliveryMarkingStore = () => {
                             >
                               <thead style={{ alignItems: 'center' }}>
                                 <tr style={{ height: 0.5 }}>
-                                  <th
-                                    size="sm"
-                                    style={{ width: 60, fontSize: 14, textAlign: 'center' }}
-                                  >
+                                  <th size="sm" style={{ width: 60, fontSize: 14, textAlign: 'center' }}>
                                     &nbsp; Sl.No
                                   </th>
                                   <th size="sm" style={{ width: 100, fontSize: 14 }}>
@@ -1079,11 +1017,7 @@ const DeliveryMarkingStore = () => {
                               </thead>
                               <tbody size="small">
                                 {billDetails?.map((val, index) => (
-                                  <tr
-                                    key={index}
-                                    size="small"
-                                    style={{ maxHeight: 2, cursor: 'pointer' }}
-                                  >
+                                  <tr key={index} size="small" style={{ maxHeight: 2, cursor: 'pointer' }}>
                                     <td size="sm" style={{ fontSize: 12, textAlign: 'center' }}>
                                       {index + 1}
                                     </td>
@@ -1099,8 +1033,8 @@ const DeliveryMarkingStore = () => {
                                         sx={{
                                           color: editicon,
                                           ':hover': {
-                                            color: '#1565c0',
-                                          },
+                                            color: '#1565c0'
+                                          }
                                         }}
                                         onClick={() => editSelect(val, index)}
                                       />
@@ -1110,8 +1044,8 @@ const DeliveryMarkingStore = () => {
                                         sx={{
                                           color: '#DC4731',
                                           ':hover': {
-                                            color: '#B95C50',
-                                          },
+                                            color: '#B95C50'
+                                          }
                                         }}
                                         onClick={() => deleteSelect(val, index)}
                                       />
@@ -1126,11 +1060,7 @@ const DeliveryMarkingStore = () => {
 
                       <Box sx={{ p: 0.5 }}>
                         <label htmlFor="file-input">
-                          <Tooltip
-                            title="Upload File"
-                            placement="bottom"
-                            sx={{ bgcolor: '#e8eaf6', color: '#283593' }}
-                          >
+                          <Tooltip title="Upload File" placement="bottom" sx={{ bgcolor: '#e8eaf6', color: '#283593' }}>
                             <IconButton
                               aria-label="upload file"
                               variant="soft"
@@ -1138,8 +1068,8 @@ const DeliveryMarkingStore = () => {
                               sx={{
                                 bgcolor: 'white',
                                 '&:hover': {
-                                  bgcolor: 'white',
-                                },
+                                  bgcolor: 'white'
+                                }
                               }}
                             >
                               <CloudUploadTwoToneIcon
@@ -1149,8 +1079,8 @@ const DeliveryMarkingStore = () => {
                                   height: 25,
                                   color: '#3949ab',
                                   '&:hover': {
-                                    color: '#5c6bc0',
-                                  },
+                                    color: '#5c6bc0'
+                                  }
                                 }}
                               />
                               <Typography
@@ -1158,8 +1088,8 @@ const DeliveryMarkingStore = () => {
                                   fontSize: 12,
                                   color: '#3949ab',
                                   '&:hover': {
-                                    color: '#5c6bc0',
-                                  },
+                                    color: '#5c6bc0'
+                                  }
                                 }}
                               >
                                 Maximum Size 25MB
@@ -1187,7 +1117,7 @@ const DeliveryMarkingStore = () => {
                                 m: 0.3,
                                 border: '1px solid #e0e0e0',
                                 borderRadius: '4px',
-                                p: 0.5,
+                                p: 0.5
                               }}
                             >
                               {file.type.includes('image') ? (
@@ -1200,7 +1130,7 @@ const DeliveryMarkingStore = () => {
                                     objectFit: 'cover',
                                     borderRadius: '4px',
                                     marginRight: '8px',
-                                    cursor: 'pointer',
+                                    cursor: 'pointer'
                                   }}
                                   // onClick={() => ViewImage(URL.createObjectURL(file))}
                                   onClick={() => ViewImage(file)}
@@ -1212,7 +1142,7 @@ const DeliveryMarkingStore = () => {
                                     height: '40px',
                                     color: '#e53935',
                                     marginRight: '8px',
-                                    cursor: 'pointer',
+                                    cursor: 'pointer'
                                   }}
                                   onClick={() => ViewImage(file)}
                                 />
@@ -1223,21 +1153,19 @@ const DeliveryMarkingStore = () => {
                                     height: '40px',
                                     color: '#9e9e9e',
                                     marginRight: '8px',
-                                    cursor: 'pointer',
+                                    cursor: 'pointer'
                                   }}
                                   onClick={() => ViewImage(file)}
                                 />
                               )}
-                              <Box sx={{ fontSize: 14, cursor: 'pointer', flexGrow: 1 }}>
-                                {file.name}
-                              </Box>
+                              <Box sx={{ fontSize: 14, cursor: 'pointer', flexGrow: 1 }}>{file.name}</Box>
                               <ClearIcon
                                 sx={{
                                   height: '16px',
                                   width: '16px',
                                   cursor: 'pointer',
                                   color: 'red',
-                                  marginLeft: '8px',
+                                  marginLeft: '8px'
                                 }}
                                 onClick={() => handleRemoveFile(index)}
                               />
@@ -1256,7 +1184,7 @@ const DeliveryMarkingStore = () => {
                               height: 35,
                               borderRadius: 5,
                               border: '1px solid #bbdefb',
-                              fontSize: 14,
+                              fontSize: 14
                             }}
                             placeholder="Enter Package Count"
                             autoComplete="off"
@@ -1284,7 +1212,7 @@ const DeliveryMarkingStore = () => {
                             sx={{
                               border: '1px solid #bbdefb',
                               fontSize: 14,
-                              borderRadius: 5,
+                              borderRadius: 5
                             }}
                           />
                         </Box>
@@ -1303,7 +1231,7 @@ const DeliveryMarkingStore = () => {
                           display: 'flex',
                           justifyContent: 'flex-end',
                           m: 2,
-                          textAlign: 'center',
+                          textAlign: 'center'
                         }}
                       >
                         <Box sx={{ ml: 0.7 }}>

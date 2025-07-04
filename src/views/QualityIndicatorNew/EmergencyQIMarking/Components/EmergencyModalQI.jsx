@@ -4,30 +4,14 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import { Button, Checkbox, CssVarsProvider, Input, Textarea } from '@mui/joy'
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import {
-  addMinutes,
-  differenceInHours,
-  differenceInMinutes,
-  differenceInSeconds,
-  format,
-} from 'date-fns'
+import { addMinutes, differenceInHours, differenceInMinutes, differenceInSeconds, format } from 'date-fns'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { useSelector } from 'react-redux'
 
 const EmergencyModalQI = ({ open, handleClose, rowSelect, RefreshData }) => {
-  const {
-    qi_slno,
-    patient_arrived_date,
-    ptno,
-    ptname,
-    ptsex,
-    ptage,
-    ptaddrs1,
-    ptaddrs3,
-    doctor_name,
-    ptmobile,
-  } = rowSelect
+  const { qi_slno, patient_arrived_date, ptno, ptname, ptsex, ptage, ptaddrs1, ptaddrs3, doctor_name, ptmobile } =
+    rowSelect
   const [returnYes, setReturnYes] = useState(false)
   const [returnNo, setReturnNo] = useState(true)
   const [triageTime, setTriageTime] = useState(new Date())
@@ -110,19 +94,9 @@ const EmergencyModalQI = ({ open, handleClose, rowSelect, RefreshData }) => {
       qi_save_status: 1,
       assessment_benchmark_flag: benchMarkFlag,
       initial_assessment_reason: benchMarkFlag === 1 ? benchMarkReason : null,
-      qi_slno: qi_slno,
+      qi_slno: qi_slno
     }
-  }, [
-    triageTime,
-    assessTime,
-    returnYes,
-    returnNo,
-    id,
-    qi_slno,
-    serviceTime,
-    benchMarkFlag,
-    benchMarkReason,
-  ])
+  }, [triageTime, assessTime, returnYes, returnNo, id, qi_slno, serviceTime, benchMarkFlag, benchMarkReason])
   const SaveDetails = useCallback(() => {
     if (new Date(triageTime) > new Date(assessTime)) {
       infoNotify('Please Check The Triage/Assessment Time')
@@ -176,7 +150,7 @@ const EmergencyModalQI = ({ open, handleClose, rowSelect, RefreshData }) => {
           sx={{
             minWidth: '50vw',
             borderRadius: 'md',
-            overflow: 'auto',
+            overflow: 'auto'
           }}
         >
           <Paper sx={{ display: 'flex', height: 40, bgcolor: '#b0bec5' }}>
@@ -218,9 +192,7 @@ const EmergencyModalQI = ({ open, handleClose, rowSelect, RefreshData }) => {
                     .join(' ')}
               </Box>
             </Box>
-            <Box
-              sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 20, pt: 0.5, pr: 0.2 }}
-            >
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 20, pt: 0.5, pr: 0.2 }}>
               <Tooltip title="Close" placement="bottom" cursor="pointer">
                 <HighlightOffIcon
                   sx={{ cursor: 'pointer', height: 34, width: 34, color: '#37474f', opacity: 0.7 }}
@@ -240,12 +212,7 @@ const EmergencyModalQI = ({ open, handleClose, rowSelect, RefreshData }) => {
               <Box sx={{ flex: 1, display: 'flex', pl: 1 }}>
                 <Box sx={{ pt: 0.2 }}>
                   <CssVarsProvider>
-                    <Checkbox
-                      color="primary"
-                      size="md"
-                      checked={returnYes}
-                      onChange={ChangeReturnYes}
-                    />
+                    <Checkbox color="primary" size="md" checked={returnYes} onChange={ChangeReturnYes} />
                   </CssVarsProvider>
                 </Box>
                 <Box sx={{ pl: 1, pt: 0.1 }}>
@@ -253,12 +220,7 @@ const EmergencyModalQI = ({ open, handleClose, rowSelect, RefreshData }) => {
                 </Box>
                 <Box sx={{ pt: 0.2, pl: 2 }}>
                   <CssVarsProvider>
-                    <Checkbox
-                      color="primary"
-                      size="md"
-                      checked={returnNo}
-                      onChange={ChangeReturnNo}
-                    />
+                    <Checkbox color="primary" size="md" checked={returnNo} onChange={ChangeReturnNo} />
                   </CssVarsProvider>
                 </Box>
                 <Box sx={{ pl: 1, pt: 0.1 }}>
@@ -337,9 +299,7 @@ const EmergencyModalQI = ({ open, handleClose, rowSelect, RefreshData }) => {
               </Box>
               <Box sx={{ flex: 1, pl: 1 }}>
                 <Box>
-                  <Typography sx={{ fontSize: 12, textTransform: 'uppercase', pl: 0.5 }}>
-                    Total Time Gap
-                  </Typography>
+                  <Typography sx={{ fontSize: 12, textTransform: 'uppercase', pl: 0.5 }}>Total Time Gap</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'center', pt: 0.5, pl: 1.5 }}>
                   {benchMarkFlag === 1 ? (
@@ -353,7 +313,7 @@ const EmergencyModalQI = ({ open, handleClose, rowSelect, RefreshData }) => {
                         mr: 0.6,
                         pl: 4,
                         border: '1px solid lightgrey',
-                        borderRadius: 1.5,
+                        borderRadius: 1.5
                       }}
                     >
                       {timeGap}
@@ -368,7 +328,7 @@ const EmergencyModalQI = ({ open, handleClose, rowSelect, RefreshData }) => {
                         mr: 0.6,
                         pl: 4,
                         border: '1px solid lightgrey',
-                        borderRadius: 1.5,
+                        borderRadius: 1.5
                       }}
                     >
                       {timeGap}
@@ -428,8 +388,8 @@ const EmergencyModalQI = ({ open, handleClose, rowSelect, RefreshData }) => {
                     ':hover': {
                       bgcolor: '#78909c',
                       boxShadow: 2,
-                      color: 'white',
-                    },
+                      color: 'white'
+                    }
                   }}
                   onClick={SaveDetails}
                 >
@@ -451,8 +411,8 @@ const EmergencyModalQI = ({ open, handleClose, rowSelect, RefreshData }) => {
                     ':hover': {
                       bgcolor: '#78909c',
                       boxShadow: 2,
-                      color: 'white',
-                    },
+                      color: 'white'
+                    }
                   }}
                   onClick={ResetDetails}
                 >

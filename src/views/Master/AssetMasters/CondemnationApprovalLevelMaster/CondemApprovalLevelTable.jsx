@@ -13,8 +13,8 @@ const CondemApprovalLevelTable = ({ count, rowSelect }) => {
     {
       headerName: 'Action',
       cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
-      width: 30,
-    },
+      width: 30
+    }
   ])
 
   useEffect(() => {

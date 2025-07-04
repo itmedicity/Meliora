@@ -3,7 +3,7 @@ const { FETCH_OUTLET_ORA } = ActionTyps
 //intial state
 const outlet = {
   outletList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Oultlet action type check then payload set to the state and loading status set as true */
 export const getOutlet = (state = outlet, { type, payload }) => {

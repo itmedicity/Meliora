@@ -49,7 +49,7 @@ const InitialAssessmentTimeReport = () => {
       const searchOPDatas = {
         from: format(startOfMonth(new Date(searchDate)), 'yyyy-MM-dd 00:00:00'),
         to: format(endOfMonth(new Date(searchDate)), 'yyyy-MM-dd 23:59:59'),
-        dpt: qidept,
+        dpt: qidept
       }
       const getOpData = async searchOPDatas => {
         const result = await axioslogin.post('/InitialAsessment/view', searchOPDatas)
@@ -79,15 +79,13 @@ const InitialAssessmentTimeReport = () => {
                   fontFamily: 'Arial',
                   fontSize: 14,
                   textTransform: 'uppercase',
-                  fontWeight: 550,
+                  fontWeight: 550
                 }}
               >
                 Initial Assessment Report
               </Typography>
             </Box>
-            <Box
-              sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 20, pr: 0.5, pt: 0.5 }}
-            >
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 20, pr: 0.5, pt: 0.5 }}>
               <CssVarsProvider>
                 <Tooltip title="Close" placement="bottom">
                   <HighlightOffIcon
@@ -96,8 +94,8 @@ const InitialAssessmentTimeReport = () => {
                       height: 30,
                       width: 30,
                       ':hover': {
-                        color: '#e57373',
-                      },
+                        color: '#e57373'
+                      }
                     }}
                     onClick={backtoHome}
                   />
@@ -159,7 +157,7 @@ const InitialAssessmentTimeReport = () => {
                                 padding: 'none',
                                 size: 'sm',
                                 borderRadius: 20,
-                                fontSize: 14,
+                                fontSize: 14
                               }}
                               disabled={true}
                             />
@@ -186,12 +184,7 @@ const InitialAssessmentTimeReport = () => {
           </Paper>
           <>
             {searchFlag === 1 ? (
-              <OPAssessmentTimeReport
-                viewData={viewData}
-                searchDate={searchDate}
-                qidept={qidept}
-                depCode={depCode}
-              />
+              <OPAssessmentTimeReport viewData={viewData} searchDate={searchDate} qidept={qidept} depCode={depCode} />
             ) : null}
           </>
         </Paper>

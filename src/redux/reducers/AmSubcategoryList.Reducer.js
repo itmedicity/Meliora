@@ -3,7 +3,7 @@ const { FETCH_ASSET_SUBCATEGORY } = ActionTyps
 //intial state
 const Subcategory = {
   SubcategoryList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Building action type check then payload set to the state and loading status set as true */
 export const getAmSubcategory = (state = Subcategory, { type, payload }) => {

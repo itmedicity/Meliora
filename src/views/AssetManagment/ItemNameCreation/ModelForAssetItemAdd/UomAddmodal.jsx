@@ -25,7 +25,7 @@ const UomAddmodal = ({ open, handleClose }) => {
   })
   const [uomModal, setUomModal] = useState({
     uom_name: '',
-    uom_status: false,
+    uom_status: false
   })
   const { uom_name, uom_status } = uomModal
 
@@ -40,7 +40,7 @@ const UomAddmodal = ({ open, handleClose }) => {
   const reset = () => {
     const formdata = {
       uom_name: '',
-      uom_status: false,
+      uom_status: false
     }
     setUomModal(formdata)
   }
@@ -49,7 +49,7 @@ const UomAddmodal = ({ open, handleClose }) => {
     return {
       uom_name: uom_name,
       uom_status: uom_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [uom_name, uom_status, id])
 
@@ -91,11 +91,9 @@ const UomAddmodal = ({ open, handleClose }) => {
       >
         <DialogContent
           id="alert-dialog-slide-descriptiona"
-        //    sx={{ border: '5px solid #0E4C92' ,borderRadius:1}}
+          //    sx={{ border: '5px solid #0E4C92' ,borderRadius:1}}
         >
-          <Box
-            sx={{ width: '100%', height: '90%', borderRadius: 1, border: '0.1px solid #454545' }}
-          >
+          <Box sx={{ width: '100%', height: '90%', borderRadius: 1, border: '0.1px solid #454545' }}>
             <Box
               id="alert-dialog-slide-descriptiona"
               sx={{ fontWeight: 'bold', textAlign: 'center', height: '50px', pt: 1 }}
@@ -107,14 +105,14 @@ const UomAddmodal = ({ open, handleClose }) => {
                 width: 500,
                 height: 100,
                 pl: 3,
-                flexDirection: 'column',
+                flexDirection: 'column'
               }}
             >
               <Box
                 sx={{
                   width: '100%',
                   display: 'flex',
-                  flexDirection: 'row',
+                  flexDirection: 'row'
                 }}
               >
                 <Box sx={{ height: 50, width: '40%' }}>
@@ -137,7 +135,7 @@ const UomAddmodal = ({ open, handleClose }) => {
                 sx={{
                   width: '100%',
                   display: 'flex',
-                  flexDirection: 'row',
+                  flexDirection: 'row'
                 }}
               >
                 <Box sx={{ height: 50, width: '40%' }}>

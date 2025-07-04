@@ -36,7 +36,7 @@ const Login = () => {
     return {
       userName: emp_username,
       passWord: emp_password,
-      method: 1,
+      method: 1
     }
   }, [emp_username, emp_password])
 
@@ -57,7 +57,7 @@ const Login = () => {
         // const { message, success, userInfo } = result?.data;
 
         const result = await axioslogin.post('/user/checkUserCres', postData, {
-          withCredentials: true,
+          withCredentials: true
         })
         const { message, success, userInfo } = result?.data || {}
 
@@ -82,7 +82,7 @@ const Login = () => {
             dept_name,
             app_token,
             logOutTime,
-            desg_name,
+            desg_name
           } = JSON.parse(userInfo)
           const authData = {
             authNo: btoa(empdtl_slno), //btoa() encodes a string into Base64 format.
@@ -91,7 +91,7 @@ const Login = () => {
             authEmpNo: btoa(emp_no),
             user: btoa(user),
             empno: btoa(emp_no),
-            empid: btoa(emp_id),
+            empid: btoa(emp_id)
           }
 
           const loggedDetl = {
@@ -106,7 +106,7 @@ const Login = () => {
             empdeptname: dept_name,
             apptoken: app_token,
             logOut: logOutTime,
-            designation: desg_name,
+            designation: desg_name
           }
           dispatch({ type: FETCH_LOGIN, payload: loggedDetl })
           localStorage.setItem('app_auth', JSON.stringify(authData))
@@ -130,7 +130,7 @@ const Login = () => {
         // backgroundColor: 'var(--royal-purple-50)',
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'center'
       }}
     >
       <Box
@@ -145,7 +145,7 @@ const Login = () => {
           borderWidth: 1,
           borderStyle: 'solid',
           borderColor: 'var(--royal-purple-200)',
-          boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+          boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)'
         }}
       >
         <Box
@@ -154,12 +154,10 @@ const Login = () => {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            mb: 5,
+            mb: 5
           }}
         >
-          <Typography
-            sx={{ color: 'var(--dark-gray)', fontFamily: 'var(--roboto-font)', fontWeight: 600 }}
-          >
+          <Typography sx={{ color: 'var(--dark-gray)', fontFamily: 'var(--roboto-font)', fontWeight: 600 }}>
             Sign in
           </Typography>
           <Typography
@@ -168,7 +166,7 @@ const Login = () => {
               color: 'var(--light-gray)',
               fontFamily: 'var(--roboto-font)',
               fontWeight: 500,
-              fontSize: '0.8rem',
+              fontSize: '0.8rem'
             }}
           >
             Welcome to
@@ -177,7 +175,7 @@ const Login = () => {
                 ml: 0.5,
                 fontFamily: 'var(--roboto-font)',
                 color: 'var(--royal-purple-400)',
-                fontWeight: 900,
+                fontWeight: 900
               }}
             >
               Meliora
@@ -189,7 +187,7 @@ const Login = () => {
               color: 'var(--light-gray)',
               fontFamily: 'var(--roboto-font)',
               fontWeight: 500,
-              fontSize: '0.8rem',
+              fontSize: '0.8rem'
             }}
           >
             Hospital Administration Management System
@@ -200,7 +198,7 @@ const Login = () => {
           sx={{
             display: 'flex',
             alignItems: 'flex-end',
-            flexDirection: 'column',
+            flexDirection: 'column'
           }}
         >
           <TextField
@@ -232,11 +230,11 @@ const Login = () => {
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton onClick={() => { }} edge="start">
+                  <IconButton onClick={() => {}} edge="start">
                     <RemoveRedEyeOutlinedIcon fontSize="small" />
                   </IconButton>
                 </InputAdornment>
-              ),
+              )
             }}
             sx={{ mb: 3 }}
           />
@@ -252,9 +250,7 @@ const Login = () => {
           </Button>
         </Box>
 
-        <Divider
-          sx={{ my: 3, '&::before, &::after': { borderTopStyle: 'dashed' }, color: 'transparent' }}
-        >
+        <Divider sx={{ my: 3, '&::before, &::after': { borderTopStyle: 'dashed' }, color: 'transparent' }}>
           {/* <Typography
             variant="overline"
             sx={{ color: 'text.secondary', fontWeight: 'fontWeightMedium' }}
@@ -266,7 +262,7 @@ const Login = () => {
           sx={{
             gap: 1,
             display: 'flex',
-            justifyContent: 'center',
+            justifyContent: 'center'
           }}
         >
           {/* <Link variant="body2" color="inherit" sx={{ mb: 1.5 }}>

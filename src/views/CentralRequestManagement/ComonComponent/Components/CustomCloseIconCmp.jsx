@@ -12,7 +12,7 @@ const CustomCloseIconCmp = ({ handleChange }) => {
           bgcolor: '##FBEDE0',
           height: 25,
           width: 25,
-          border: '1px solid #FBE7C6',
+          border: '1px solid #FBE7C6'
         }}
       >
         <CloseIcon
@@ -21,7 +21,7 @@ const CustomCloseIconCmp = ({ handleChange }) => {
             size: 'lg',
             fontSize: 20,
             color: '#FF4500',
-            '&:hover': { color: 'red' },
+            '&:hover': { color: 'red' }
           }}
           onClick={handleChange}
         />

@@ -10,7 +10,7 @@ const HallBookingTable = ({ setView, tabledata, count, setCount }) => {
     {
       headerName: 'Action',
       minWidth: 100,
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
     },
     { headerName: 'Slno', field: 'h_book_slno', minWidth: 100 },
     {
@@ -18,7 +18,7 @@ const HallBookingTable = ({ setView, tabledata, count, setCount }) => {
       field: 'h_book_event',
       minWidth: 200,
       autoHeight: true,
-      wrapText: true,
+      wrapText: true
     },
     { headerName: 'Attendees', field: 'h_book_attendees', minWidth: 100 },
     // { headername: "Reason", field: "h_booking_reason", minWidth: 200, autoHeight: true, wrapText: true },
@@ -27,7 +27,7 @@ const HallBookingTable = ({ setView, tabledata, count, setCount }) => {
     { headerName: 'Contact Number', field: 'h_book_contno', minWidth: 200 },
     { headerName: 'Email', field: 'h_book_email', minWidth: 200 },
     { headerName: 'Create User', field: 'em_name', minWidth: 200 },
-    { headerName: 'Department', field: 'dept_name', minWidth: 250 },
+    { headerName: 'Department', field: 'dept_name', minWidth: 250 }
   ])
   const [open, setOpen] = useState(false)
   const [modal, setModal] = useState(0)

@@ -72,7 +72,7 @@ const QIValidation = () => {
                   width: 35,
                   pt: 0.5,
                   opacity: 0.8,
-                  color: '#bf360c',
+                  color: '#bf360c'
                 }}
                 onClick={backtoHome}
               />
@@ -85,9 +85,7 @@ const QIValidation = () => {
             <Box sx={{ flex: 0.5 }}></Box>
             <Box sx={{ flex: 1 }}>
               <Box sx={{ pt: 1, pl: 2 }}>
-                <Typography sx={{ fontSize: 13, textTransform: 'uppercase' }}>
-                  Department
-                </Typography>
+                <Typography sx={{ fontSize: 13, textTransform: 'uppercase' }}>Department</Typography>
               </Box>
               <Box sx={{ mx: 1, pt: 0.5 }}>
                 <DepartmentSelectForQuality qidept={qidept} setQidept={setQidept} />
@@ -123,11 +121,7 @@ const QIValidation = () => {
             <Box sx={{ flex: 0.2 }}>
               <Box sx={{ pt: 4.5, pl: 1 }}>
                 <Tooltip title="Search" placement="bottom">
-                  <SearchTwoToneIcon
-                    sx={{ cursor: 'pointer' }}
-                    fontSize="large"
-                    onClick={SearchQiValidation}
-                  />
+                  <SearchTwoToneIcon sx={{ cursor: 'pointer' }} fontSize="large" onClick={SearchQiValidation} />
                 </Tooltip>
               </Box>
             </Box>

@@ -1,13 +1,4 @@
-import {
-  Box,
-  CircularProgress,
-  IconButton,
-  Radio,
-  RadioGroup,
-  Sheet,
-  Table,
-  Tooltip,
-} from '@mui/joy'
+import { Box, CircularProgress, IconButton, Radio, RadioGroup, Sheet, Table, Tooltip } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useQuery } from 'react-query'
 import { useDispatch, useSelector } from 'react-redux'
@@ -76,13 +67,13 @@ const InterDeptTransfer = () => {
 
   const postArrayOfAssetNo = useMemo(() => {
     return {
-      AssetItemMapSlno: selectedAssets?.map(assetSlno => assetSlno.am_item_map_slno),
+      AssetItemMapSlno: selectedAssets?.map(assetSlno => assetSlno.am_item_map_slno)
     }
   }, [selectedAssets])
 
   const { data: dataTransFer } = useQuery({
     queryKey: ['getArrayOfAssetLocationDetails', postArrayOfAssetNo],
-    queryFn: () => getArrayOfAssetLocationDetails(postArrayOfAssetNo),
+    queryFn: () => getArrayOfAssetLocationDetails(postArrayOfAssetNo)
   })
 
   const dataTrans = useMemo(() => dataTransFer, [dataTransFer])
@@ -99,7 +90,7 @@ const InterDeptTransfer = () => {
       am_trans_from_room: asset.item_room_slno || null,
       am_trans_from_subroom: asset.item_subroom_slno || null,
       transfer_user: empid,
-      am_item_map_slno: asset.am_item_map_slno,
+      am_item_map_slno: asset.am_item_map_slno
     }))
   }, [dataTrans, transDept, transDeptSec, roomNo, subRoomNo, empid])
 
@@ -142,9 +133,7 @@ const InterDeptTransfer = () => {
 
   const handleAddAsset = () => {
     if (assetData) {
-      const isDuplicate = selectedAssets.some(
-        asset => asset.am_item_map_slno === assetData.am_item_map_slno
-      )
+      const isDuplicate = selectedAssets.some(asset => asset.am_item_map_slno === assetData.am_item_map_slno)
       if (isDuplicate) {
         infoNotify('Selected asset is already added.')
       } else {
@@ -203,21 +192,17 @@ const InterDeptTransfer = () => {
 
   const postData = useMemo(
     () => ({
-      fromDate: fromDate
-        ? format(new Date(new Date(fromDate).setHours(0, 0, 0, 0)), 'yyyy-MM-dd HH:mm:ss')
-        : null,
-      toDate: toDate
-        ? format(new Date(new Date(toDate).setHours(23, 59, 59, 999)), 'yyyy-MM-dd HH:mm:ss')
-        : null,
+      fromDate: fromDate ? format(new Date(new Date(fromDate).setHours(0, 0, 0, 0)), 'yyyy-MM-dd HH:mm:ss') : null,
+      toDate: toDate ? format(new Date(new Date(toDate).setHours(23, 59, 59, 999)), 'yyyy-MM-dd HH:mm:ss') : null,
       custodianDept: empDept === 0 ? null : empDept === null ? null : empDept,
-      transfrd_type: 0,
+      transfrd_type: 0
     }),
     [fromDate, toDate, empDept]
   )
 
   const { data: TransferHistory, isLoading } = useQuery({
     queryKey: ['getcustodianTransferHistory', postData],
-    queryFn: () => getcustodianTransferHistory(postData),
+    queryFn: () => getcustodianTransferHistory(postData)
   })
 
   const custodianTransferHistory = useMemo(() => TransferHistory, [TransferHistory])
@@ -273,16 +258,10 @@ const InterDeptTransfer = () => {
               text={'Transfer From Department Section'}
               sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}
             ></TextComponent>
-            <AmDeptSecSelectJoy
-              selectedDeptSec={selectedDeptSec}
-              setselectedDeptSec={setselectedDeptSec}
-            />
+            <AmDeptSecSelectJoy selectedDeptSec={selectedDeptSec} setselectedDeptSec={setselectedDeptSec} />
           </Box>
           <Box sx={{ flex: 1.8 }}>
-            <TextComponent
-              text={'Select Asset'}
-              sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}
-            ></TextComponent>
+            <TextComponent text={'Select Asset'} sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}></TextComponent>
             <AmAssetUnderSelectdDeptAndSec
               setassetData={setassetData}
               custAsset={custAsset}
@@ -293,10 +272,7 @@ const InterDeptTransfer = () => {
           </Box>
           <Box sx={{ pt: 2.5, pr: 0.5 }}>
             <Tooltip title="Add" placement="top">
-              <AddCircleIcon
-                sx={{ height: 32, width: 32, cursor: 'pointer' }}
-                onClick={handleAddAsset}
-              />
+              <AddCircleIcon sx={{ height: 32, width: 32, cursor: 'pointer' }} onClick={handleAddAsset} />
             </Tooltip>
           </Box>
           <Box sx={{ pt: 1.5, pr: 1.5 }}>
@@ -318,11 +294,11 @@ const InterDeptTransfer = () => {
                   boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
                   '&:hover': {
                     backgroundColor: 'white',
-                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.15)',
+                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.15)'
                   },
                   '&:active': {
-                    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.2)',
-                  },
+                    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.2)'
+                  }
                 }}
               >
                 <SwapHorizontalCircleSharpIcon
@@ -330,7 +306,7 @@ const InterDeptTransfer = () => {
                     height: 32,
                     width: 32,
                     m: 0.5,
-                    cursor: 'pointer',
+                    cursor: 'pointer'
                   }}
                   onClick={updateDeptTransfer}
                 />
@@ -354,10 +330,7 @@ const InterDeptTransfer = () => {
             <AmDeptSecSelectWOName deptsec={transDeptSec} setDeptSec={setTransDeptSec} />
           </Box>
           <Box sx={{ flex: 1 }}>
-            <TextComponent
-              text={'Transfer to Room'}
-              sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}
-            ></TextComponent>
+            <TextComponent text={'Transfer to Room'} sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}></TextComponent>
             <AmRoomSelWONameUDepSec roomNo={roomNo} setRoomNo={setRoomNo} />
           </Box>
           <Box sx={{ flex: 1, pr: 1 }}>
@@ -375,7 +348,7 @@ const InterDeptTransfer = () => {
               mt: 2,
               mx: 0.5,
               border: 1,
-              borderColor: '#BDC4C9',
+              borderColor: '#BDC4C9'
             }}
           >
             <Box sx={{ flex: 1, display: 'flex', bgcolor: '#BDC4C9' }}>
@@ -387,7 +360,7 @@ const InterDeptTransfer = () => {
             <Box
               sx={{
                 maxHeight: '50vh',
-                overflowY: 'auto',
+                overflowY: 'auto'
               }}
             >
               {selectedAssets?.map((val, index) => (
@@ -397,23 +370,16 @@ const InterDeptTransfer = () => {
                     flex: 1,
                     display: 'flex',
                     borderTop: 1,
-                    borderColor: 'lightgrey',
+                    borderColor: 'lightgrey'
                   }}
                 >
-                  <Box sx={{ flex: 0.5, pl: 3, color: 'black', fontWeight: 600, py: 0.5 }}>
-                    {index + 1}
-                  </Box>
+                  <Box sx={{ flex: 0.5, pl: 3, color: 'black', fontWeight: 600, py: 0.5 }}>{index + 1}</Box>
                   <Box sx={{ flex: 2, color: 'black', fontWeight: 600, py: 0.5 }}>
                     {val.item_asset_no}/{val.item_asset_no_only.toString().padStart(6, '0')}
                   </Box>
-                  <Box sx={{ flex: 8, color: 'black', fontWeight: 600, py: 0.5 }}>
-                    {val.item_name}
-                  </Box>
+                  <Box sx={{ flex: 8, color: 'black', fontWeight: 600, py: 0.5 }}>{val.item_name}</Box>
                   <Box sx={{ flex: 1, color: 'black', fontWeight: 600, py: 0.2 }}>
-                    <DeleteOutlineIcon
-                      onClick={() => removeSlected(index)}
-                      sx={{ cursor: 'pointer' }}
-                    />
+                    <DeleteOutlineIcon onClick={() => removeSlected(index)} sx={{ cursor: 'pointer' }} />
                   </Box>
                 </Box>
               ))}
@@ -484,7 +450,7 @@ const InterDeptTransfer = () => {
                 py: 5,
                 borderColor: '#D3D3D3',
                 display: 'flex',
-                justifyContent: 'center',
+                justifyContent: 'center'
               }}
             >
               No Data Available
@@ -500,8 +466,8 @@ const InterDeptTransfer = () => {
                     position: 'sticky',
                     left: 0,
                     boxShadow: '1px 0 var(--TableCell-borderColor)',
-                    bgcolor: 'background.surface',
-                  },
+                    bgcolor: 'background.surface'
+                  }
                 }}
               >
                 <thead>
@@ -572,11 +538,7 @@ const InterDeptTransfer = () => {
                                 size="sm"
                                 onClick={() => HandleAssetList(val, index)}
                               >
-                                {openRowIndex === index ? (
-                                  <KeyboardArrowUpIcon />
-                                ) : (
-                                  <KeyboardArrowDownIcon />
-                                )}
+                                {openRowIndex === index ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                               </IconButton>
                             </div>
                           </td>
@@ -599,7 +561,7 @@ const InterDeptTransfer = () => {
                                   pt: 1,
                                   pb: 2,
                                   width: '84vw',
-                                  boxShadow: 'inset 0 3px 6px 0 rgba(0 0 0 / 0.08)',
+                                  boxShadow: 'inset 0 3px 6px 0 rgba(0 0 0 / 0.08)'
                                 }}
                               >
                                 <TextComponent
@@ -611,27 +573,18 @@ const InterDeptTransfer = () => {
                                   <thead>
                                     <tr>
                                       <th style={{ width: '40px', backgroundColor: 'white' }}>#</th>
-                                      <th style={{ width: '100px', backgroundColor: 'white' }}>
-                                        Asset No.
-                                      </th>
-                                      <th style={{ width: '600px', backgroundColor: 'white' }}>
-                                        Item Name
-                                      </th>
+                                      <th style={{ width: '100px', backgroundColor: 'white' }}>Asset No.</th>
+                                      <th style={{ width: '600px', backgroundColor: 'white' }}>Item Name</th>
                                     </tr>
                                   </thead>
                                   <tbody>
                                     {detailData?.map((detail, detailIndex) => (
                                       <tr key={detailIndex}>
+                                        <td style={{ backgroundColor: 'white' }}>{detailIndex + 1}</td>
                                         <td style={{ backgroundColor: 'white' }}>
-                                          {detailIndex + 1}
+                                          {detail.item_asset_no}/{String(detail.item_asset_no_only).padStart(6, '0')}
                                         </td>
-                                        <td style={{ backgroundColor: 'white' }}>
-                                          {detail.item_asset_no}/
-                                          {String(detail.item_asset_no_only).padStart(6, '0')}
-                                        </td>
-                                        <td style={{ backgroundColor: 'white' }}>
-                                          {detail.item_name}
-                                        </td>
+                                        <td style={{ backgroundColor: 'white' }}>{detail.item_name}</td>
                                       </tr>
                                     ))}
                                   </tbody>

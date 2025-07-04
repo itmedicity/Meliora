@@ -3,7 +3,7 @@ const { FETCH_FLOOR_SELECT } = ActionTyps
 //initial state
 const floorSelect = {
   floorList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Department action type check then payload set to the state and loading status set as true */
 export const getFloorData = (state = floorSelect, { type, payload }) => {

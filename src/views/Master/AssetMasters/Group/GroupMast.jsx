@@ -25,7 +25,7 @@ const GroupMast = () => {
   const [group, setGroup] = useState({
     group_slno: '',
     group_name: '',
-    group_status: false,
+    group_status: false
   })
   const { group_slno, group_name, group_status } = group
   const updateGroup = useCallback(
@@ -39,7 +39,7 @@ const GroupMast = () => {
     const frmdata = {
       group_slno: '',
       group_name: '',
-      group_status: false,
+      group_status: false
     }
     setGroup(frmdata)
     setCount(0)
@@ -50,7 +50,7 @@ const GroupMast = () => {
     return {
       group_name: group_name,
       group_status: group_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [group_name, group_status, id])
   const patchdata = useMemo(() => {
@@ -58,7 +58,7 @@ const GroupMast = () => {
       group_slno: group_slno,
       group_name: group_name,
       group_status: group_status === true ? 1 : 0,
-      edit_user: id,
+      edit_user: id
     }
   }, [group_slno, group_name, group_status, id])
 
@@ -69,7 +69,7 @@ const GroupMast = () => {
     const frmdata = {
       group_slno: group_slno,
       group_name: group_name,
-      group_status: group_status === 1 ? true : false,
+      group_status: group_status === 1 ? true : false
     }
     setGroup(frmdata)
   }, [])
@@ -78,7 +78,7 @@ const GroupMast = () => {
     setSelectFile(file)
     const options = {
       maxSizeMB: 1,
-      maxWidthOrHeight: 1920,
+      maxWidthOrHeight: 1920
     }
     const compressedFile = await imageCompression(file, options)
     setSelectFile(compressedFile)
@@ -153,19 +153,14 @@ const GroupMast = () => {
     const frmdata = {
       group_slno: '',
       group_name: '',
-      group_status: false,
+      group_status: false
     }
     setGroup(frmdata)
     setValue(0)
     setSelectFile(null)
   }, [setGroup, setSelectFile])
   return (
-    <CardMaster
-      title="Group Master"
-      submit={submitGroup}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Group Master" submit={submitGroup} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ p: 1 }}>
         <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
           <Box sx={{ width: '30%', p: 1 }}>

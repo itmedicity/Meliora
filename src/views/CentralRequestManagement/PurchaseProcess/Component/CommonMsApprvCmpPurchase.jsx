@@ -10,15 +10,7 @@ import ImageDisplayModal from '../../ComonComponent/ImageUploadCmp/ImageDisplayM
 import CustomToolTipForCRF from '../../ComonComponent/Components/CustomToolTipForCRF'
 
 const CommonMsApprvCmpPurchase = ({ DetailViewData, company }) => {
-  const {
-    req_slno,
-    ms,
-    ms_approve,
-    ms_approve_remark,
-    ms_approve_date,
-    ms_approve_user,
-    ms_image,
-  } = DetailViewData
+  const { req_slno, ms, ms_approve, ms_approve_remark, ms_approve_date, ms_approve_user, ms_image } = DetailViewData
   const [imageshowFlag, setImageShowFlag] = useState(0)
   const [imageshow, setImageShow] = useState(false)
   const [imagearray, setImageArry] = useState([])
@@ -64,9 +56,7 @@ const CommonMsApprvCmpPurchase = ({ DetailViewData, company }) => {
       ) : null}
       <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
         <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
-          <Typography
-            sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}
-          >
+          <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>
             {company?.ms_status_name}
           </Typography>
           <Box sx={{ flex: 1, py: 0.4, ml: 2 }}>
@@ -87,7 +77,7 @@ const CommonMsApprvCmpPurchase = ({ DetailViewData, company }) => {
                 height: 25,
                 pb: 0.5,
                 fontSize: 12,
-                fontWeight: 550,
+                fontWeight: 550
               }}
             >
               {ms}
@@ -100,25 +90,17 @@ const CommonMsApprvCmpPurchase = ({ DetailViewData, company }) => {
             <Box sx={{ pt: 0.5 }}></Box>
           ) : ms_approve === 2 && ms_approve_remark !== null ? (
             <Box sx={{ display: 'flex', pt: 0.5 }}>
-              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                Justification for Reject{' '}
-              </Typography>
+              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Justification for Reject </Typography>
               <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-              <Typography
-                sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}
-              >
+              <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
                 {ms_approve_remark === null ? 'Not Updated' : ms_approve_remark}
               </Typography>
             </Box>
           ) : ms_approve === 3 && ms_approve_remark !== null ? (
             <Box sx={{ display: 'flex', pt: 0.5 }}>
-              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                Justification for On-Hold
-              </Typography>
+              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Justification for On-Hold</Typography>
               <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-              <Typography
-                sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}
-              >
+              <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
                 {ms_approve_remark === null ? 'Not Updated' : ms_approve_remark}{' '}
               </Typography>
             </Box>
@@ -126,9 +108,7 @@ const CommonMsApprvCmpPurchase = ({ DetailViewData, company }) => {
             <Box sx={{ display: 'flex', pt: 0.5 }}>
               <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Remarks</Typography>
               <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-              <Typography
-                sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}
-              >
+              <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
                 {ms_approve_remark === null ? 'Not Updated' : ms_approve_remark}{' '}
               </Typography>
             </Box>
@@ -144,9 +124,7 @@ const CommonMsApprvCmpPurchase = ({ DetailViewData, company }) => {
               ) : null}
               <Box sx={{ display: 'flex', flex: 1 }}>
                 <Typography sx={{}}> :&nbsp;</Typography>
-                <Typography
-                  sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pt: 0.3, pl: 0.2 }}
-                >
+                <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pt: 0.3, pl: 0.2 }}>
                   {capitalizeWords(ms_approve_user)}
                 </Typography>
                 <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pl: 2, pt: 0.3 }}>

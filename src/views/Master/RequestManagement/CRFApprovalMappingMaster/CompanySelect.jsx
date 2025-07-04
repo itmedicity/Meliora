@@ -34,7 +34,7 @@ const CompanySelect = ({ selectedCompany, setSelectedCompany, companyData }) => 
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '35px',
+            '--Input-minHeight': '35px'
           }}
           value={selectedCompany === 0 ? type : value}
           placeholder="Select Company"

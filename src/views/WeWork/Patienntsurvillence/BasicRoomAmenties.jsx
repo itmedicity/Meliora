@@ -15,7 +15,7 @@ const BasicRoomAmenties = ({ ameties, setamenties }) => {
         p: 2,
         display: 'flex',
         flexDirection: 'column',
-        width: { xl: '100%', lg: '100%', md: '100%', sm: '100%' },
+        width: { xl: '100%', lg: '100%', md: '100%', sm: '100%' }
       }}
     >
       <Box
@@ -24,14 +24,14 @@ const BasicRoomAmenties = ({ ameties, setamenties }) => {
           textTransform: 'capitalize',
           flexDirection: { xl: 'column', lg: 'column', md: 'column', sm: 'column', xs: 'column' },
           justifyContent: 'space-between',
-          width: { xl: '100%', lg: '100%', md: '100%', sm: '100%' },
+          width: { xl: '100%', lg: '100%', md: '100%', sm: '100%' }
         }}
       >
         <Box
           sx={{
             display: 'flex',
             flexDirection: 'row',
-            width: '100%',
+            width: '100%'
           }}
         >
           <Box sx={{ width: '25%' }}>

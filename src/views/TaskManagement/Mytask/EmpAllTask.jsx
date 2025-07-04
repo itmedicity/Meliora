@@ -20,14 +20,7 @@ import { format } from 'date-fns'
 import { Virtuoso } from 'react-virtuoso'
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded'
 
-const EmpAllTask = ({
-  tableCount,
-  setTableCount,
-  taskcount,
-  settaskcount,
-  projectcount,
-  setprojectcount,
-}) => {
+const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projectcount, setprojectcount }) => {
   const dispatch = useDispatch()
   const [tabledata, setTabledata] = useState([])
   const [editModalOpen, setEditModalOpen] = useState(false)
@@ -75,8 +68,7 @@ const EmpAllTask = ({
 
   const SearchInTableProject = useCallback(() => {
     if (projectz !== 0) {
-      let newtabledataaProject =
-        tabledata && tabledata.filter(val => val.tm_project_slno === projectz)
+      let newtabledataaProject = tabledata && tabledata.filter(val => val.tm_project_slno === projectz)
       setsearchFlag(1)
       setProjectBasdData(newtabledataaProject)
     } else {
@@ -86,8 +78,7 @@ const EmpAllTask = ({
 
   useEffect(() => {
     if (projxFlag === 1) {
-      let newtabledataaProject =
-        tabledata && tabledata.filter(val => val.tm_project_slno === projectz)
+      let newtabledataaProject = tabledata && tabledata.filter(val => val.tm_project_slno === projectz)
       setProjectBasdData(newtabledataaProject)
     }
   }, [taskcount, tabledata, alphbased, enterText, projectz, projxFlag])
@@ -116,8 +107,7 @@ const EmpAllTask = ({
     if (alphbased === 1) {
       const searchText = enterText.trim().toLowerCase()
       const newTableDataa =
-        tabledata &&
-        tabledata.filter(val => val.tm_task_name.trim().toLowerCase().includes(searchText))
+        tabledata && tabledata.filter(val => val.tm_task_name.trim().toLowerCase().includes(searchText))
       setAlphbasedData(newTableDataa)
     }
   }, [taskcount, tabledata, alphbased, enterText])
@@ -235,11 +225,7 @@ const EmpAllTask = ({
             <Box sx={{ flex: 1 }}>
               <Box sx={{ flex: 1, display: 'flex', ml: 2 }}>
                 <Box sx={{ flex: 0.5, display: 'flex', cursor: 'pointer' }} onClick={projxWise}>
-                  {borderB === 1 ? (
-                    <SwapVertIcon sx={{ p: 0.3, color: 'blue' }} />
-                  ) : (
-                    <SwapVertIcon sx={{ p: 0.3 }} />
-                  )}
+                  {borderB === 1 ? <SwapVertIcon sx={{ p: 0.3, color: 'blue' }} /> : <SwapVertIcon sx={{ p: 0.3 }} />}
                   <Typography sx={{ fontSize: 12, '&:hover': { color: 'blue' } }}>
                     {borderB === 1 ? (
                       <u style={{ textDecorationColor: 'blue', color: 'blue' }}>Project</u>
@@ -256,11 +242,7 @@ const EmpAllTask = ({
                   )}
 
                   <Typography sx={{ fontSize: 12, '&:hover': { color: 'blue' }, pt: 0.1 }}>
-                    {borderT === 1 ? (
-                      <u style={{ textDecorationColor: 'blue', color: 'blue' }}>Task</u>
-                    ) : (
-                      <>Task</>
-                    )}
+                    {borderT === 1 ? <u style={{ textDecorationColor: 'blue', color: 'blue' }}>Task</u> : <>Task</>}
                   </Typography>
                 </Box>
               </Box>
@@ -282,7 +264,7 @@ const EmpAllTask = ({
                               borderTop: 1,
                               borderBottom: 1,
                               borderColor: '#B2C4CB',
-                              height: '100%',
+                              height: '100%'
                             }}
                             onClick={SearchInTableProject}
                           >
@@ -303,7 +285,7 @@ const EmpAllTask = ({
                               borderTop: 1,
                               borderBottom: 1,
                               borderColor: '#B2C4CB',
-                              height: '100%',
+                              height: '100%'
                             }}
                             onClick={closeSearchWise}
                           >
@@ -325,7 +307,7 @@ const EmpAllTask = ({
                         sx={{
                           height: 29,
                           borderRadius: 0,
-                          pl: 1,
+                          pl: 1
                         }}
                         onChange={updateEnterText}
                       />
@@ -342,7 +324,7 @@ const EmpAllTask = ({
                               borderTop: 1,
                               borderBottom: 1,
                               borderColor: '#B2C4CB',
-                              height: '100%',
+                              height: '100%'
                             }}
                             onClick={SearchInTableByTask}
                           >
@@ -363,7 +345,7 @@ const EmpAllTask = ({
                               borderTop: 1,
                               borderBottom: 1,
                               borderColor: '#B2C4CB',
-                              height: '100%',
+                              height: '100%'
                             }}
                             onClick={closeSearchWise}
                           >
@@ -389,19 +371,17 @@ const EmpAllTask = ({
                   borderTop: 1,
                   borderColor: 'lightgray',
                   pt: 1.5,
-                  bgcolor: 'white',
+                  bgcolor: 'white'
                 }}
               >
-                <Box sx={{ width: 40, pl: 1.7, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-                  #
-                </Box>
+                <Box sx={{ width: 40, pl: 1.7, fontWeight: 600, color: '#444444', fontSize: 12 }}>#</Box>
                 <Box
                   sx={{
                     width: 70,
                     textAlign: 'center',
                     fontWeight: 600,
                     color: '#444444',
-                    fontSize: 12,
+                    fontSize: 12
                   }}
                 >
                   Action
@@ -412,7 +392,7 @@ const EmpAllTask = ({
                     textAlign: 'center',
                     fontWeight: 600,
                     color: '#444444',
-                    fontSize: 12,
+                    fontSize: 12
                   }}
                 >
                   Files
@@ -423,7 +403,7 @@ const EmpAllTask = ({
                     textAlign: 'center',
                     fontWeight: 600,
                     color: '#444444',
-                    fontSize: 12,
+                    fontSize: 12
                   }}
                 >
                   Status
@@ -434,31 +414,18 @@ const EmpAllTask = ({
                     fontWeight: 600,
                     color: '#444444',
                     fontSize: 12,
-                    textAlign: 'center',
+                    textAlign: 'center'
                   }}
                 >
                   CountDown
                 </Box>
-                <Box sx={{ width: 700, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-                  Task Name
-                </Box>
-                <Box sx={{ width: 700, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-                  Project
-                </Box>
-                <Box sx={{ width: 250, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-                  Created Date
-                </Box>
-                <Box sx={{ width: 250, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-                  Due Date
-                </Box>
-                <Box sx={{ width: 700, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-                  Description
-                </Box>
+                <Box sx={{ width: 700, fontWeight: 600, color: '#444444', fontSize: 12 }}>Task Name</Box>
+                <Box sx={{ width: 700, fontWeight: 600, color: '#444444', fontSize: 12 }}>Project</Box>
+                <Box sx={{ width: 250, fontWeight: 600, color: '#444444', fontSize: 12 }}>Created Date</Box>
+                <Box sx={{ width: 250, fontWeight: 600, color: '#444444', fontSize: 12 }}>Due Date</Box>
+                <Box sx={{ width: 700, fontWeight: 600, color: '#444444', fontSize: 12 }}>Description</Box>
               </Box>
-              {alphbased === 0 &&
-              searchFlag === 0 &&
-              statusDataFlag === 0 &&
-              sectiondataFlag === 0 ? (
+              {alphbased === 0 && searchFlag === 0 && statusDataFlag === 0 && sectiondataFlag === 0 ? (
                 <Virtuoso
                   style={{ height: '52vh' }}
                   totalCount={tabledata?.length}
@@ -477,26 +444,18 @@ const EmpAllTask = ({
                           minHeight: 30,
                           maxHeight: 80,
                           background:
-                            val.main_task_slno !== null
-                              ? '#EAE7FA'
-                              : val.main_task_slno === 0
-                              ? 'white'
-                              : 'white',
-                          pt: 0.5,
+                            val.main_task_slno !== null ? '#EAE7FA' : val.main_task_slno === 0 ? 'white' : 'white',
+                          pt: 0.5
                         }}
                       >
-                        <Box
-                          sx={{ width: 40, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}
-                        >
-                          {index + 1}
-                        </Box>
+                        <Box sx={{ width: 40, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>{index + 1}</Box>
                         <Box
                           sx={{
                             width: 60,
                             textAlign: 'center',
                             fontWeight: 600,
                             color: 'grey',
-                            fontSize: 12,
+                            fontSize: 12
                           }}
                         >
                           <EditIcon
@@ -512,7 +471,7 @@ const EmpAllTask = ({
                             fontWeight: 600,
                             color: 'grey',
                             fontSize: 12,
-                            cursor: 'pointer',
+                            cursor: 'pointer'
                           }}
                         >
                           &nbsp;
@@ -520,14 +479,14 @@ const EmpAllTask = ({
                             <FilePresentRoundedIcon
                               sx={{
                                 color: '#41729F',
-                                '&:hover': { color: '#274472' },
+                                '&:hover': { color: '#274472' }
                               }}
                               onClick={() => fileView(val)}
                             />
                           ) : (
                             <FilePresentRoundedIcon
                               sx={{
-                                color: 'grey',
+                                color: 'grey'
                               }}
                             />
                           )}
@@ -551,7 +510,7 @@ const EmpAllTask = ({
                                   ? '#5885AF'
                                   : 'transparent',
                               minHeight: 5,
-                              fontWeight: 700,
+                              fontWeight: 700
                             }}
                           >
                             {val.tm_task_status === 0
@@ -575,7 +534,7 @@ const EmpAllTask = ({
                                 borderRadius: 15,
                                 mb: 0.5,
                                 width: 150,
-                                pl: 1,
+                                pl: 1
                               }}
                             >
                               <CountDowncomponent DueDates={val.tm_task_due_date} />
@@ -588,7 +547,7 @@ const EmpAllTask = ({
                                 mb: 0.5,
                                 width: 150,
                                 pl: 5,
-                                color: 'darkgreen',
+                                color: 'darkgreen'
                               }}
                             >
                               Completed
@@ -603,7 +562,7 @@ const EmpAllTask = ({
                               color: 'grey',
                               fontSize: 12,
                               textTransform: 'capitalize',
-                              pl: 1,
+                              pl: 1
                             }}
                           >
                             {val.tm_task_name || 'not given'}
@@ -616,7 +575,7 @@ const EmpAllTask = ({
                               color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                               fontSize: 12,
                               textTransform: 'capitalize',
-                              pl: 1,
+                              pl: 1
                             }}
                           >
                             {val.tm_task_name || 'not given'}
@@ -630,7 +589,7 @@ const EmpAllTask = ({
                               color: 'grey',
                               fontSize: 12,
                               textTransform: 'capitalize',
-                              pl: 1,
+                              pl: 1
                             }}
                           >
                             {val.tm_project_name || 'not given'}
@@ -643,7 +602,7 @@ const EmpAllTask = ({
                               color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                               fontSize: 12,
                               textTransform: 'capitalize',
-                              pl: 1,
+                              pl: 1
                             }}
                           >
                             {val.tm_project_name || 'not given'}
@@ -657,7 +616,7 @@ const EmpAllTask = ({
                               color: 'grey',
                               fontSize: 12,
                               textTransform: 'capitalize',
-                              pl: 1,
+                              pl: 1
                             }}
                           >
                             {format(new Date(val.create_date), 'MMM dd, yyyy HH:mm:ss')}
@@ -670,7 +629,7 @@ const EmpAllTask = ({
                               color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                               fontSize: 12,
                               textTransform: 'capitalize',
-                              pl: 1,
+                              pl: 1
                             }}
                           >
                             {format(new Date(val.create_date), 'MMM dd, yyyy HH:mm:ss')}
@@ -684,7 +643,7 @@ const EmpAllTask = ({
                               color: 'grey',
                               fontSize: 12,
                               textTransform: 'capitalize',
-                              pl: 1,
+                              pl: 1
                             }}
                           >
                             {format(new Date(val.tm_task_due_date), 'MMM dd, yyyy HH:mm:ss')}
@@ -697,7 +656,7 @@ const EmpAllTask = ({
                               color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                               fontSize: 12,
                               textTransform: 'capitalize',
-                              pl: 1,
+                              pl: 1
                             }}
                           >
                             {format(new Date(val.tm_task_due_date), 'MMM dd, yyyy HH:mm:ss')}
@@ -711,7 +670,7 @@ const EmpAllTask = ({
                               color: 'grey',
                               fontSize: 12,
                               textTransform: 'capitalize',
-                              pl: 1,
+                              pl: 1
                             }}
                           >
                             {val.tm_task_description || 'not given'}
@@ -724,7 +683,7 @@ const EmpAllTask = ({
                               color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                               fontSize: 12,
                               textTransform: 'capitalize',
-                              pl: 1,
+                              pl: 1
                             }}
                           >
                             {val.tm_task_description || 'not given'}
@@ -753,26 +712,18 @@ const EmpAllTask = ({
                           minHeight: 30,
                           maxHeight: 80,
                           background:
-                            val.main_task_slno !== null
-                              ? '#EAE7FA'
-                              : val.main_task_slno === 0
-                              ? 'white'
-                              : 'white',
-                          pt: 0.5,
+                            val.main_task_slno !== null ? '#EAE7FA' : val.main_task_slno === 0 ? 'white' : 'white',
+                          pt: 0.5
                         }}
                       >
-                        <Box
-                          sx={{ width: 40, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}
-                        >
-                          {index + 1}
-                        </Box>
+                        <Box sx={{ width: 40, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>{index + 1}</Box>
                         <Box
                           sx={{
                             width: 60,
                             textAlign: 'center',
                             fontWeight: 600,
                             color: 'grey',
-                            fontSize: 12,
+                            fontSize: 12
                           }}
                         >
                           <EditIcon
@@ -788,7 +739,7 @@ const EmpAllTask = ({
                             fontWeight: 600,
                             color: 'grey',
                             fontSize: 12,
-                            cursor: 'pointer',
+                            cursor: 'pointer'
                           }}
                         >
                           &nbsp;
@@ -796,14 +747,14 @@ const EmpAllTask = ({
                             <FilePresentRoundedIcon
                               sx={{
                                 color: '#41729F',
-                                '&:hover': { color: '#274472' },
+                                '&:hover': { color: '#274472' }
                               }}
                               onClick={() => fileView(val)}
                             />
                           ) : (
                             <FilePresentRoundedIcon
                               sx={{
-                                color: 'grey',
+                                color: 'grey'
                               }}
                             />
                           )}
@@ -827,7 +778,7 @@ const EmpAllTask = ({
                                   ? '#5885AF'
                                   : 'transparent',
                               minHeight: 5,
-                              fontWeight: 700,
+                              fontWeight: 700
                             }}
                           >
                             {val.tm_task_status === 0
@@ -851,7 +802,7 @@ const EmpAllTask = ({
                                 borderRadius: 15,
                                 mb: 0.5,
                                 width: 150,
-                                pl: 1,
+                                pl: 1
                               }}
                             >
                               <CountDowncomponent DueDates={val.tm_task_due_date} />
@@ -864,7 +815,7 @@ const EmpAllTask = ({
                                 mb: 0.5,
                                 width: 150,
                                 pl: 5,
-                                color: 'darkgreen',
+                                color: 'darkgreen'
                               }}
                             >
                               Completed
@@ -879,7 +830,7 @@ const EmpAllTask = ({
                               color: 'grey',
                               fontSize: 12,
                               textTransform: 'capitalize',
-                              pl: 1,
+                              pl: 1
                             }}
                           >
                             {val.tm_task_name || 'not given'}
@@ -892,7 +843,7 @@ const EmpAllTask = ({
                               color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                               fontSize: 12,
                               textTransform: 'capitalize',
-                              pl: 1,
+                              pl: 1
                             }}
                           >
                             {val.tm_task_name || 'not given'}
@@ -906,7 +857,7 @@ const EmpAllTask = ({
                               color: 'grey',
                               fontSize: 12,
                               textTransform: 'capitalize',
-                              pl: 1,
+                              pl: 1
                             }}
                           >
                             {val.tm_project_name || 'not given'}
@@ -919,7 +870,7 @@ const EmpAllTask = ({
                               color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                               fontSize: 12,
                               textTransform: 'capitalize',
-                              pl: 1,
+                              pl: 1
                             }}
                           >
                             {val.tm_project_name || 'not given'}
@@ -933,7 +884,7 @@ const EmpAllTask = ({
                               color: 'grey',
                               fontSize: 12,
                               textTransform: 'capitalize',
-                              pl: 1,
+                              pl: 1
                             }}
                           >
                             {format(new Date(val.create_date), 'MMM dd, yyyy HH:mm:ss')}
@@ -946,7 +897,7 @@ const EmpAllTask = ({
                               color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                               fontSize: 12,
                               textTransform: 'capitalize',
-                              pl: 1,
+                              pl: 1
                             }}
                           >
                             {format(new Date(val.create_date), 'MMM dd, yyyy HH:mm:ss')}
@@ -960,7 +911,7 @@ const EmpAllTask = ({
                               color: 'grey',
                               fontSize: 12,
                               textTransform: 'capitalize',
-                              pl: 1,
+                              pl: 1
                             }}
                           >
                             {format(new Date(val.tm_task_due_date), 'MMM dd, yyyy HH:mm:ss')}
@@ -973,7 +924,7 @@ const EmpAllTask = ({
                               color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                               fontSize: 12,
                               textTransform: 'capitalize',
-                              pl: 1,
+                              pl: 1
                             }}
                           >
                             {format(new Date(val.tm_task_due_date), 'MMM dd, yyyy HH:mm:ss')}
@@ -987,7 +938,7 @@ const EmpAllTask = ({
                               color: 'grey',
                               fontSize: 12,
                               textTransform: 'capitalize',
-                              pl: 1,
+                              pl: 1
                             }}
                           >
                             {val.tm_task_description || 'not given'}
@@ -1000,7 +951,7 @@ const EmpAllTask = ({
                               color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                               fontSize: 12,
                               textTransform: 'capitalize',
-                              pl: 1,
+                              pl: 1
                             }}
                           >
                             {val.tm_task_description || 'not given'}
@@ -1029,26 +980,18 @@ const EmpAllTask = ({
                           minHeight: 30,
                           maxHeight: 80,
                           background:
-                            val.main_task_slno !== null
-                              ? '#EAE7FA'
-                              : val.main_task_slno === 0
-                              ? 'white'
-                              : 'white',
-                          pt: 0.5,
+                            val.main_task_slno !== null ? '#EAE7FA' : val.main_task_slno === 0 ? 'white' : 'white',
+                          pt: 0.5
                         }}
                       >
-                        <Box
-                          sx={{ width: 40, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}
-                        >
-                          {index + 1}
-                        </Box>
+                        <Box sx={{ width: 40, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>{index + 1}</Box>
                         <Box
                           sx={{
                             width: 60,
                             textAlign: 'center',
                             fontWeight: 600,
                             color: 'grey',
-                            fontSize: 12,
+                            fontSize: 12
                           }}
                         >
                           <EditIcon
@@ -1064,7 +1007,7 @@ const EmpAllTask = ({
                             fontWeight: 600,
                             color: 'grey',
                             fontSize: 12,
-                            cursor: 'pointer',
+                            cursor: 'pointer'
                           }}
                         >
                           &nbsp;
@@ -1072,14 +1015,14 @@ const EmpAllTask = ({
                             <FilePresentRoundedIcon
                               sx={{
                                 color: '#41729F',
-                                '&:hover': { color: '#274472' },
+                                '&:hover': { color: '#274472' }
                               }}
                               onClick={() => fileView(val)}
                             />
                           ) : (
                             <FilePresentRoundedIcon
                               sx={{
-                                color: 'grey',
+                                color: 'grey'
                               }}
                             />
                           )}
@@ -1103,7 +1046,7 @@ const EmpAllTask = ({
                                   ? '#5885AF'
                                   : 'transparent',
                               minHeight: 5,
-                              fontWeight: 700,
+                              fontWeight: 700
                             }}
                           >
                             {val.tm_task_status === 0
@@ -1127,7 +1070,7 @@ const EmpAllTask = ({
                                 borderRadius: 15,
                                 mb: 0.5,
                                 width: 150,
-                                pl: 1,
+                                pl: 1
                               }}
                             >
                               <CountDowncomponent DueDates={val.tm_task_due_date} />
@@ -1140,7 +1083,7 @@ const EmpAllTask = ({
                                 mb: 0.5,
                                 width: 150,
                                 pl: 5,
-                                color: 'darkgreen',
+                                color: 'darkgreen'
                               }}
                             >
                               Completed
@@ -1155,7 +1098,7 @@ const EmpAllTask = ({
                               color: 'grey',
                               fontSize: 12,
                               textTransform: 'capitalize',
-                              pl: 1,
+                              pl: 1
                             }}
                           >
                             {val.tm_task_name || 'not given'}
@@ -1168,7 +1111,7 @@ const EmpAllTask = ({
                               color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                               fontSize: 12,
                               textTransform: 'capitalize',
-                              pl: 1,
+                              pl: 1
                             }}
                           >
                             {val.tm_task_name || 'not given'}
@@ -1182,7 +1125,7 @@ const EmpAllTask = ({
                               color: 'grey',
                               fontSize: 12,
                               textTransform: 'capitalize',
-                              pl: 1,
+                              pl: 1
                             }}
                           >
                             {val.tm_project_name || 'not given'}
@@ -1195,7 +1138,7 @@ const EmpAllTask = ({
                               color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                               fontSize: 12,
                               textTransform: 'capitalize',
-                              pl: 1,
+                              pl: 1
                             }}
                           >
                             {val.tm_project_name || 'not given'}
@@ -1209,7 +1152,7 @@ const EmpAllTask = ({
                               color: 'grey',
                               fontSize: 12,
                               textTransform: 'capitalize',
-                              pl: 1,
+                              pl: 1
                             }}
                           >
                             {format(new Date(val.create_date), 'MMM dd, yyyy HH:mm:ss')}
@@ -1222,7 +1165,7 @@ const EmpAllTask = ({
                               color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                               fontSize: 12,
                               textTransform: 'capitalize',
-                              pl: 1,
+                              pl: 1
                             }}
                           >
                             {format(new Date(val.create_date), 'MMM dd, yyyy HH:mm:ss')}
@@ -1236,7 +1179,7 @@ const EmpAllTask = ({
                               color: 'grey',
                               fontSize: 12,
                               textTransform: 'capitalize',
-                              pl: 1,
+                              pl: 1
                             }}
                           >
                             {format(new Date(val.tm_task_due_date), 'MMM dd, yyyy HH:mm:ss')}
@@ -1249,7 +1192,7 @@ const EmpAllTask = ({
                               color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                               fontSize: 12,
                               textTransform: 'capitalize',
-                              pl: 1,
+                              pl: 1
                             }}
                           >
                             {format(new Date(val.tm_task_due_date), 'MMM dd, yyyy HH:mm:ss')}
@@ -1263,7 +1206,7 @@ const EmpAllTask = ({
                               color: 'grey',
                               fontSize: 12,
                               textTransform: 'capitalize',
-                              pl: 1,
+                              pl: 1
                             }}
                           >
                             {val.tm_task_description || 'not given'}
@@ -1276,7 +1219,7 @@ const EmpAllTask = ({
                               color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
                               fontSize: 12,
                               textTransform: 'capitalize',
-                              pl: 1,
+                              pl: 1
                             }}
                           >
                             {val.tm_task_description || 'not given'}
@@ -1301,7 +1244,7 @@ const EmpAllTask = ({
             height: 500,
             fontWeight: 700,
             fontSize: 30,
-            color: '#C7C8CB',
+            color: '#C7C8CB'
           }}
         >
           No Task Asssigned!

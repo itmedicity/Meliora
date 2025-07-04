@@ -16,9 +16,7 @@ import { format } from 'date-fns'
 import { useQueryClient } from 'react-query'
 import CustomToolTipForCRF from '../../ComonComponent/Components/CustomToolTipForCRF'
 
-const ImageDisplayModal = React.lazy(() =>
-  import('../../ComonComponent/ImageUploadCmp/ImageDisplayModal')
-)
+const ImageDisplayModal = React.lazy(() => import('../../ComonComponent/ImageUploadCmp/ImageDisplayModal'))
 const PurchaseModal = React.lazy(() => import('../PurchaseModal'))
 const DataCollectnPendingModal = React.lazy(() =>
   import('../../ComonComponent/DataCollectionComp/DataCollectnPendingModal')
@@ -86,9 +84,7 @@ const PurchaseApprovalButtonCmp = ({ val, company }) => {
       getItemDetails(req_slno)
       const getApproItemDetails = async req_slno => {
         try {
-          const result = await axioslogin.get(
-            `/CRFRegisterApproval/getItemListApproval/${req_slno}`
-          )
+          const result = await axioslogin.get(`/CRFRegisterApproval/getItemListApproval/${req_slno}`)
           const { success, data } = result.data
           if (success === 1) {
             setApproveTableData(data)
@@ -125,10 +121,7 @@ const PurchaseApprovalButtonCmp = ({ val, company }) => {
             const poLIst = newData
               .filter(
                 (po, index, self) =>
-                  index ===
-                  self.findIndex(
-                    val => val.po_number === po.po_number && val.req_slno === po.req_slno
-                  )
+                  index === self.findIndex(val => val.po_number === po.po_number && val.req_slno === po.req_slno)
               )
               .map(po => ({
                 po_detail_slno: po.po_detail_slno,
@@ -150,9 +143,7 @@ const PurchaseApprovalButtonCmp = ({ val, company }) => {
                 po_amount: po.po_amount,
                 po_to_supplier: po.po_to_supplier,
                 approval_level: po.approval_level,
-                po_expiry: po.po_expiry
-                  ? format(new Date(po.po_expiry), 'dd-MM-yyyy')
-                  : 'Not Updated',
+                po_expiry: po.po_expiry ? format(new Date(po.po_expiry), 'dd-MM-yyyy') : 'Not Updated'
               }))
             const poItems = newData?.map(val => {
               const obj = {
@@ -165,7 +156,7 @@ const PurchaseApprovalButtonCmp = ({ val, company }) => {
                 item_mrp: val.item_mrp !== null ? val.item_mrp : 0,
                 tax: val.tax !== null ? val.tax : 'Nil',
                 tax_amount: val.tax_amount !== null ? val.tax_amount : 0,
-                net_amount: val.net_amount !== 0 ? val.net_amount : 0,
+                net_amount: val.net_amount !== 0 ? val.net_amount : 0
               }
               return obj
             })
@@ -175,7 +166,7 @@ const PurchaseApprovalButtonCmp = ({ val, company }) => {
               )
               return {
                 ...po,
-                items: details,
+                items: details
               }
             })
             setPoDetails(combinedData)
@@ -209,7 +200,7 @@ const PurchaseApprovalButtonCmp = ({ val, company }) => {
                 update_date: val.update_date,
                 crf_req_remark: val.crf_req_remark,
                 data_coll_image_status: val.data_coll_image_status,
-                crf_data_collect_slno: val.crf_data_collect_slno,
+                crf_data_collect_slno: val.crf_data_collect_slno
               }
               return obj
             })
@@ -236,7 +227,7 @@ const PurchaseApprovalButtonCmp = ({ val, company }) => {
                 update_date: val.update_date,
                 crf_req_remark: val.crf_req_remark,
                 data_coll_image_status: val.data_coll_image_status,
-                crf_data_collect_slno: val.crf_data_collect_slno,
+                crf_data_collect_slno: val.crf_data_collect_slno
               }
               return obj
             })
@@ -267,7 +258,7 @@ const PurchaseApprovalButtonCmp = ({ val, company }) => {
             const fileNamePart = parts[parts.length - 1]
             const obj = {
               imageName: fileNamePart,
-              url: val,
+              url: val
             }
             return obj
           })
@@ -363,17 +354,13 @@ const PurchaseApprovalButtonCmp = ({ val, company }) => {
     return val === 1 ? (
       <CssVarsProvider>
         <Tooltip title="Approved" arrow color="success" size="sm" variant="solid" placement="top">
-          <ThumbUpAltTwoToneIcon
-            sx={{ color: '#18A558', height: 18, width: 18, fontWeight: 650 }}
-          />
+          <ThumbUpAltTwoToneIcon sx={{ color: '#18A558', height: 18, width: 18, fontWeight: 650 }} />
         </Tooltip>
       </CssVarsProvider>
     ) : (
       <CssVarsProvider>
         <Tooltip title="Approved" arrow color="success" size="sm" variant="solid" placement="top">
-          <ThumbUpAltTwoToneIcon
-            sx={{ color: '#18A558', height: 18, width: 18, fontWeight: 650 }}
-          />
+          <ThumbUpAltTwoToneIcon sx={{ color: '#18A558', height: 18, width: 18, fontWeight: 650 }} />
         </Tooltip>
       </CssVarsProvider>
     )
@@ -402,9 +389,9 @@ const PurchaseApprovalButtonCmp = ({ val, company }) => {
     color: '#01579b',
     bgcolor: 'white',
     '&:hover': {
-      bgcolor: '#F0F4F8',
+      bgcolor: '#F0F4F8'
     },
-    borderRadius: 1,
+    borderRadius: 1
   }
   return (
     <Fragment>
@@ -444,7 +431,7 @@ const PurchaseApprovalButtonCmp = ({ val, company }) => {
           borderTopRightRadius: 0,
           justifyContent: 'space-between',
           flexWrap: 'wrap',
-          pb: 0.7,
+          pb: 0.7
         }}
       >
         <Box sx={{ display: 'flex' }}>
@@ -457,7 +444,7 @@ const PurchaseApprovalButtonCmp = ({ val, company }) => {
                     height: 18,
                     width: 18,
                     color: '#0277bd',
-                    animation: `${rotate} 2s linear infinite`,
+                    animation: `${rotate} 2s linear infinite`
                   }}
                 />
               }
@@ -477,7 +464,7 @@ const PurchaseApprovalButtonCmp = ({ val, company }) => {
                       height: 18,
                       width: 18,
                       color: '#0277bd',
-                      marginRight: '8px',
+                      marginRight: '8px'
                     }}
                   />
                 }
@@ -505,8 +492,8 @@ const PurchaseApprovalButtonCmp = ({ val, company }) => {
               bgcolor: '#0277bd',
               borderRadius: 1,
               '&:hover': {
-                bgcolor: '#0277bd',
-              },
+                bgcolor: '#0277bd'
+              }
             }}
           >
             <Typography
@@ -516,7 +503,7 @@ const PurchaseApprovalButtonCmp = ({ val, company }) => {
                 pr: 1,
                 color: 'white',
                 textTransform: 'capitalize',
-                fontWeight: 550,
+                fontWeight: 550
               }}
             >
               {now_who}
@@ -527,7 +514,7 @@ const PurchaseApprovalButtonCmp = ({ val, company }) => {
                 pr: 1,
                 color: 'white',
                 textTransform: 'capitalize',
-                fontWeight: 550,
+                fontWeight: 550
               }}
             >
               {now_who_status === 1
@@ -552,8 +539,8 @@ const PurchaseApprovalButtonCmp = ({ val, company }) => {
                   borderRadius: 5,
                   bgcolor: 'white',
                   '&:hover': {
-                    bgcolor: 'white',
-                  },
+                    bgcolor: 'white'
+                  }
                 }}
               >
                 {' '}
@@ -575,10 +562,10 @@ const PurchaseApprovalButtonCmp = ({ val, company }) => {
                       bgcolor: 'white',
                       width: '15px',
                       '&:hover': {
-                        bgcolor: '#F0F4F8',
+                        bgcolor: '#F0F4F8'
                       },
                       boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.16)',
-                      borderRadius: 5,
+                      borderRadius: 5
                     }}
                     onClick={ViewImage}
                   >

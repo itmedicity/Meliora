@@ -42,7 +42,7 @@ const RoomCreation = () => {
     rm_room_name: '',
     rm_room_status: false,
     rm_room_no_dis: '',
-    rm_old_roomno: '',
+    rm_old_roomno: ''
   })
 
   const { rm_room_slno, rm_room_name, rm_room_status, rm_room_no_dis, rm_old_roomno } = room
@@ -78,7 +78,7 @@ const RoomCreation = () => {
       actual_rm_no: lastRoom + 1,
       rm_room_no_dis: rm_room_no_dis,
       rm_old_roomno: rm_old_roomno,
-      create_user: id,
+      create_user: id
     }
   }, [
     rm_room_name,
@@ -95,7 +95,7 @@ const RoomCreation = () => {
     lastRoom,
     rm_room_no_dis,
     rm_old_roomno,
-    id,
+    id
   ])
 
   const patchdata = useMemo(() => {
@@ -114,7 +114,7 @@ const RoomCreation = () => {
       rm_room_status: rm_room_status === true ? 1 : 0,
       rm_room_no_dis: rm_room_no_dis,
       rm_old_roomno: rm_old_roomno,
-      edit_user: id,
+      edit_user: id
     }
   }, [
     rm_room_slno,
@@ -131,7 +131,7 @@ const RoomCreation = () => {
     rm_room_status,
     rm_room_no_dis,
     rm_old_roomno,
-    id,
+    id
   ])
 
   const reset = async () => {
@@ -140,7 +140,7 @@ const RoomCreation = () => {
       rm_room_name: '',
       rm_room_status: false,
       rm_room_no_dis: '',
-      rm_old_roomno: '',
+      rm_old_roomno: ''
     }
     setRoom(frmdata)
     setFloorData(0)
@@ -166,7 +166,7 @@ const RoomCreation = () => {
   const insertdata = useMemo(() => {
     return {
       rm_floor_building_slno: building,
-      rm_floor_build_block_slno: buildingBlock,
+      rm_floor_build_block_slno: buildingBlock
     }
   }, [building, buildingBlock])
 
@@ -274,7 +274,7 @@ const RoomCreation = () => {
       rm_category_slno,
       rm_outlet_slno,
       rm_room_no_dis,
-      rm_old_roomno,
+      rm_old_roomno
     } = data[0]
 
     const frmdata = {
@@ -282,7 +282,7 @@ const RoomCreation = () => {
       rm_room_name: rm_room_name,
       rm_room_status: rm_room_status === 1 ? true : false,
       rm_room_no_dis: rm_room_no_dis,
-      rm_old_roomno: rm_old_roomno,
+      rm_old_roomno: rm_old_roomno
     }
     setRoom(frmdata)
     setFloorData(rm_room_floor_slno)
@@ -323,18 +323,10 @@ const RoomCreation = () => {
               />
             </Box>
             <Box sx={{ pt: 1.5 }}>
-              <InsideBluidBlockSelect
-                value={insideBuildBlock}
-                setValue={setInsideBuildBlck}
-                setName={setBlockName}
-              />
+              <InsideBluidBlockSelect value={insideBuildBlock} setValue={setInsideBuildBlck} setName={setBlockName} />
             </Box>
             <Box sx={{ pt: 1.5 }}>
-              <RmRoomCategorySelect
-                value={roomCategory}
-                setValue={setCategory}
-                buildno={building}
-              />
+              <RmRoomCategorySelect value={roomCategory} setValue={setCategory} buildno={building} />
             </Box>
             <Box sx={{ pt: 1.5 }}>
               <RmRoomTypeSelect value={roomType} setValue={setRoomType} buildno={building} />

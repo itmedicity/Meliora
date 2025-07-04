@@ -31,7 +31,7 @@ const ItemListViewTable = ({ assetSpare, displayarry, AddDetails }) => {
             due_date: val.due_date,
             assetno: val.item_asset_no + '/' + val.item_asset_no_only.toString().padStart(6, '0'),
             am_manufacture_no: val.am_manufacture_no,
-            serialno: val.am_manufacture_no !== null ? val.am_manufacture_no : 'Not Updated',
+            serialno: val.am_manufacture_no !== null ? val.am_manufacture_no : 'Not Updated'
           }
           return obj
         })
@@ -55,7 +55,7 @@ const ItemListViewTable = ({ assetSpare, displayarry, AddDetails }) => {
             due_date: val.due_date,
             assetno: val.spare_asset_no + '/' + val.spare_asset_no_only.toString().padStart(6, '0'),
             am_manufacture_no: val.am_manufacture_no,
-            serialno: val.am_manufacture_no !== null ? val.am_manufacture_no : 'Not Updated',
+            serialno: val.am_manufacture_no !== null ? val.am_manufacture_no : 'Not Updated'
           }
           return obj
         })
@@ -91,7 +91,7 @@ const ItemListViewTable = ({ assetSpare, displayarry, AddDetails }) => {
             <DescriptionIcon />
           </Box>
         )
-      },
+      }
     },
     {
       headerName: 'QR Code',
@@ -102,7 +102,7 @@ const ItemListViewTable = ({ assetSpare, displayarry, AddDetails }) => {
             <QrCode2Icon />
           </Box>
         )
-      },
+      }
     },
     {
       headerName: 'Department Section',
@@ -110,7 +110,7 @@ const ItemListViewTable = ({ assetSpare, displayarry, AddDetails }) => {
       autoHeight: true,
       wrapText: true,
       width: 250,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Category',
@@ -118,7 +118,7 @@ const ItemListViewTable = ({ assetSpare, displayarry, AddDetails }) => {
       autoHeight: true,
       wrapText: true,
       width: 200,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Asset No',
@@ -126,7 +126,7 @@ const ItemListViewTable = ({ assetSpare, displayarry, AddDetails }) => {
       autoHeight: true,
       wrapText: true,
       width: 250,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Serial No',
@@ -134,7 +134,7 @@ const ItemListViewTable = ({ assetSpare, displayarry, AddDetails }) => {
       autoHeight: true,
       wrapText: true,
       width: 250,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Item Name',
@@ -142,14 +142,12 @@ const ItemListViewTable = ({ assetSpare, displayarry, AddDetails }) => {
       autoHeight: true,
       wrapText: true,
       width: 500,
-      filter: 'true',
-    },
+      filter: 'true'
+    }
   ])
   return (
     <Fragment>
-      {flag === 1 ? (
-        <ItemQrDisplayModel open={open} handleClose={handleClose} selectedData={selectedData} />
-      ) : null}
+      {flag === 1 ? <ItemQrDisplayModel open={open} handleClose={handleClose} selectedData={selectedData} /> : null}
       <Box sx={{}}>
         <CusAgGridForMain columnDefs={column} tableData={disArry} />
       </Box>

@@ -52,17 +52,17 @@ const MonthlyReport = () => {
     } else {
       const searchDatas = {
         from: format(startOfMonth(new Date(searchDate)), 'yyyy-MM-dd 00:00:00'),
-        to: format(endOfMonth(new Date(searchDate)), 'yyyy-MM-dd 23:59:59'),
+        to: format(endOfMonth(new Date(searchDate)), 'yyyy-MM-dd 23:59:59')
       }
       if (qitype === 1) {
         setDayFlag(2)
         var dayList = eachDayOfInterval({
           start: startOfMonth(new Date(searchDate)),
-          end: endOfMonth(new Date(searchDate)),
+          end: endOfMonth(new Date(searchDate))
         })
         const days = dayList?.map(val => {
           return {
-            day: format(new Date(val), 'dd-MM-yyyy'),
+            day: format(new Date(val), 'dd-MM-yyyy')
           }
         })
         const ViewReport = async (setviewData, setIpViewReport) => {
@@ -110,9 +110,7 @@ const MonthlyReport = () => {
           <AssessmentOutlinedIcon sx={{ color: 'lightslategray', height: 26, width: 26 }} />
         </Box>
         <Box sx={{ flex: 1, fontSize: 16, pl: 1, pt: 1.2 }}>
-          <Typography sx={{ color: '#555830', fontFamily: 'Arial', fontWeight: 550 }}>
-            QI Monthly Report
-          </Typography>
+          <Typography sx={{ color: '#555830', fontFamily: 'Arial', fontWeight: 550 }}>QI Monthly Report</Typography>
         </Box>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 20, pr: 0.5, pt: 0.2 }}>
           <CssVarsProvider>
@@ -201,11 +199,7 @@ const MonthlyReport = () => {
                 endoDays={endoDays}
               />
             ) : qitype === 2 ? (
-              <EmergencyMonthlyReport
-                viewData={viewData}
-                searchDate={searchDate}
-                dayFlag={dayFlag}
-              />
+              <EmergencyMonthlyReport viewData={viewData} searchDate={searchDate} dayFlag={dayFlag} />
             ) : null}
           </>
         ) : null}

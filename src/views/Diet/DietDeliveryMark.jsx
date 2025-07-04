@@ -31,7 +31,7 @@ const DietDeliveryMark = () => {
     name: '',
     diet_name: '',
     process_no: '',
-    pt_no: '',
+    pt_no: ''
   })
   const [final, setFinal] = useState([])
   //column title setting
@@ -43,8 +43,8 @@ const DietDeliveryMark = () => {
       checkboxSelection: true,
       headerCheckboxSelectionFilteredOnly: true,
       headerCheckboxSelection: true,
-      resizable: true,
-    },
+      resizable: true
+    }
   ])
 
   useEffect(() => {
@@ -60,7 +60,7 @@ const DietDeliveryMark = () => {
             name: ptc_ptname,
             diet_name: diet_name,
             pt_no: pt_no,
-            process_no: proc_slno,
+            process_no: proc_slno
           }
           setDispaly(frmdata)
         } else {
@@ -85,7 +85,7 @@ const DietDeliveryMark = () => {
       name: '',
       diet_name: '',
       process_no: '',
-      pt_no: '',
+      pt_no: ''
     }
     setDispaly(reset)
   }, [])
@@ -102,7 +102,7 @@ const DietDeliveryMark = () => {
     return {
       supply_stat: 1,
       supply_time: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
-      prod_slno: procd,
+      prod_slno: procd
     }
   }, [final])
   const submitDelivery = useCallback(
@@ -139,12 +139,7 @@ const DietDeliveryMark = () => {
   }, [history])
 
   return (
-    <CardMaster
-      title="Diet Delivery Mark"
-      submit={submitDelivery}
-      refresh={refreshWindow}
-      close={backtoSetting}
-    >
+    <CardMaster title="Diet Delivery Mark" submit={submitDelivery} refresh={refreshWindow} close={backtoSetting}>
       <Box sx={{ width: '100%', p: 1 }}>
         <Paper square elevation={3} sx={{ p: 1 }}>
           <Box
@@ -157,7 +152,7 @@ const DietDeliveryMark = () => {
               display: 'flex',
               flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' },
               justifyContent: 'center',
-              flex: 1,
+              flex: 1
             }}
           >
             {' '}
@@ -167,7 +162,7 @@ const DietDeliveryMark = () => {
                 // justifyContent: "space-evenly ",
                 pt: 1,
                 pr: 1,
-                width: '20%',
+                width: '20%'
               }}
             >
               <NursingStationMeliSelect value={nurse} setValue={setNurse} />
@@ -178,7 +173,7 @@ const DietDeliveryMark = () => {
                 // justifyContent: "space-evenly ",
                 pt: 1,
                 pr: 1,
-                width: '15%',
+                width: '15%'
               }}
             >
               <SelectDiet value={diet} setValue={setdiet} />
@@ -186,16 +181,10 @@ const DietDeliveryMark = () => {
             <Box
               sx={{
                 pt: 0.53,
-                pr: 2,
+                pr: 2
               }}
             >
-              <CusIconButton
-                size="sm"
-                variant="outlined"
-                color="primary"
-                clickable="true"
-                onClick={clicksearch}
-              >
+              <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={clicksearch}>
                 <SearchOutlinedIcon fontSize="small" />
               </CusIconButton>
             </Box>
@@ -203,7 +192,7 @@ const DietDeliveryMark = () => {
               sx={{
                 pr: 1,
                 pt: 0.5,
-                widh: '25%',
+                widh: '25%'
               }}
             >
               <Button onClick={cleardata} variant="contained" size="small" color="primary">
@@ -243,7 +232,7 @@ const DietDeliveryMark = () => {
                   display: 'flex',
                   flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' },
                   justifyContent: 'center',
-                  flex: 1,
+                  flex: 1
                 }}
               >
                 <Box sx={{ width: { sm: '20%', md: '40%', xl: '8%' }, pt: 0.5 }}>
@@ -269,11 +258,7 @@ const DietDeliveryMark = () => {
                 </Box>
               </Box>
             </Paper>
-            <CustomAGSelect
-              columnDefs={column}
-              tableData={tabledata}
-              onSelectionChanged={onSelectionChanged}
-            />
+            <CustomAGSelect columnDefs={column} tableData={tabledata} onSelectionChanged={onSelectionChanged} />
           </Paper>
         ) : null}
       </Box>

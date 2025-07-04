@@ -13,7 +13,7 @@ const ComFileView = ({ imageUrls, imageViewOpen, fileDetails, setimageViewOpen, 
     rm_insidebuildblock_name,
     rm_floor_name,
     location,
-    complaint_type_name,
+    complaint_type_name
   } = fileDetails
 
   const [uplodedFile, setUplodedFile] = useState([])
@@ -22,7 +22,7 @@ const ComFileView = ({ imageUrls, imageViewOpen, fileDetails, setimageViewOpen, 
     if (imageUrls.length > 0) {
       const files = imageUrls.map(file => ({
         url: file,
-        type: file.endsWith('.pdf') ? 'pdf' : 'image',
+        type: file.endsWith('.pdf') ? 'pdf' : 'image'
       }))
       setUplodedFile(files)
     } else {
@@ -44,11 +44,11 @@ const ComFileView = ({ imageUrls, imageViewOpen, fileDetails, setimageViewOpen, 
     '&:hover': {
       bgcolor: 'white',
       color: '#523A28',
-      transform: 'scale(1.1)',
+      transform: 'scale(1.1)'
     },
     '&:active': {
-      transform: 'scale(0.95)',
-    },
+      transform: 'scale(0.95)'
+    }
   }
 
   return (
@@ -62,7 +62,7 @@ const ComFileView = ({ imageUrls, imageViewOpen, fileDetails, setimageViewOpen, 
           justifyContent: 'center',
           alignItems: 'center',
           pl: 1,
-          borderRadius: 10,
+          borderRadius: 10
         }}
       >
         <ModalDialog variant="outlined" sx={{ p: 0, width: '98%' }}>
@@ -74,12 +74,8 @@ const ComFileView = ({ imageUrls, imageViewOpen, fileDetails, setimageViewOpen, 
           </Box>
           <Box sx={{ flex: 1, display: 'flex', bgcolor: '#ECEDEF', py: 0.5, px: 1 }}>
             <Box sx={{ flex: 1, pl: 0.5 }}>
-              <Typography sx={{ pl: 0.5, fontWeight: 600, color: 'Black' }}>
-                Ticket No.{complaint_slno}
-              </Typography>
-              <Typography sx={{ pl: 0.5, fontSize: 14, color: 'Black' }}>
-                {complaint_desc}
-              </Typography>
+              <Typography sx={{ pl: 0.5, fontWeight: 600, color: 'Black' }}>Ticket No.{complaint_slno}</Typography>
+              <Typography sx={{ pl: 0.5, fontSize: 14, color: 'Black' }}>{complaint_desc}</Typography>
               <Typography sx={{ pl: 0.5, fontSize: 13, color: 'Black', py: 0.5 }}>
                 Complaint Type: {complaint_type_name}
               </Typography>
@@ -98,9 +94,7 @@ const ComFileView = ({ imageUrls, imageViewOpen, fileDetails, setimageViewOpen, 
                     : 'Not Updated'}
                 </Typography>
               ) : null}
-              <Typography sx={{ pl: 0.5, fontSize: 13, color: 'Black' }}>
-                {compalint_date}
-              </Typography>
+              <Typography sx={{ pl: 0.5, fontSize: 13, color: 'Black' }}>{compalint_date}</Typography>
             </Box>
           </Box>
           <Box
@@ -110,7 +104,7 @@ const ComFileView = ({ imageUrls, imageViewOpen, fileDetails, setimageViewOpen, 
               gap: 1,
               overflow: 'auto',
               px: 1,
-              height: '70vh',
+              height: '70vh'
             }}
           >
             {uplodedFile.map((file, index) => (
@@ -125,7 +119,7 @@ const ComFileView = ({ imageUrls, imageViewOpen, fileDetails, setimageViewOpen, 
                   alignItems: 'center',
                   border: 1,
                   p: 1,
-                  borderColor: 'lightgrey',
+                  borderColor: 'lightgrey'
                 }}
                 onClick={() => setimage(file.url)}
               >
@@ -135,7 +129,7 @@ const ComFileView = ({ imageUrls, imageViewOpen, fileDetails, setimageViewOpen, 
                     alignItems: 'center',
                     justifyContent: 'center',
                     width: '100%',
-                    height: '99%',
+                    height: '99%'
                   }}
                 >
                   {file.type === 'image' ? (
@@ -144,7 +138,7 @@ const ComFileView = ({ imageUrls, imageViewOpen, fileDetails, setimageViewOpen, 
                         width: '100%',
                         height: '100%',
                         display: 'flex',
-                        justifyContent: 'center',
+                        justifyContent: 'center'
                       }}
                     >
                       <img
@@ -154,7 +148,7 @@ const ComFileView = ({ imageUrls, imageViewOpen, fileDetails, setimageViewOpen, 
                           maxWidth: '100%',
                           maxHeight: '100%',
                           borderRadius: '4px',
-                          objectFit: 'contain',
+                          objectFit: 'contain'
                         }}
                       />
                     </Box>
@@ -165,7 +159,7 @@ const ComFileView = ({ imageUrls, imageViewOpen, fileDetails, setimageViewOpen, 
                       style={{
                         width: '100%',
                         height: '100%',
-                        borderRadius: '4px',
+                        borderRadius: '4px'
                       }}
                     />
                   )}

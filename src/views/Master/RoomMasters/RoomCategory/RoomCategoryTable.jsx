@@ -7,14 +7,14 @@ const RoomCategoryTable = () => {
     { headerName: 'SlNo', field: 'slno', wrapText: true, minWidth: 50 },
     { headerName: 'Description', field: 'name', wrapText: true, minWidth: 350 },
     { headerName: 'Short Name', field: 'name', wrapText: true, minWidth: 200 },
-    { headerName: 'Status', field: 'status', wrapText: true, minWidth: 100 },
+    { headerName: 'Status', field: 'status', wrapText: true, minWidth: 100 }
   ])
   const tableData = [
     {
       slno: '1',
       name: ' PC',
-      status: 'Yes',
-    },
+      status: 'Yes'
+    }
   ]
   return <CusAgGridMast columnDefs={column} tableData={tableData} />
 }

@@ -53,12 +53,13 @@ const CensusCreate = () => {
       if (
         moment(new Date(dailyDate)).format('YYYY-MM-DD') >= moment(new Date()).format('YYYY-MM-DD')
       ) {
+
         infoNotify('The Day Is Not Yet Ended')
       } else {
         setsearchFlag(1)
         const elliderSearch = {
           from: moment(dailyDate).format('DD/MM/yyyy 00:00:00'),
-          to: moment(dailyDate).format('DD/MM/yyyy 23:59:59'),
+          to: moment(dailyDate).format('DD/MM/yyyy 23:59:59')
         }
         const GetElliderData = async elliderSearch => {
           const result = await axiosellider.post('/dailyCensus/elliderData', elliderSearch)
@@ -91,7 +92,7 @@ const CensusCreate = () => {
                 ora_census_total: newData ? newData.ACTIVE + newData.NDIS - newData.NIP : 0,
                 ora_dama: newData ? newData.DAMA : 0,
                 ora_lama: newData ? newData.LAMA : 0,
-                update_status: 0,
+                update_status: 0
               }
             })
             InsertData(insertArray).then(val => {
@@ -122,7 +123,7 @@ const CensusCreate = () => {
       const nsSlno = nurstation?.map(val => val.census_ns_slno)
       const getYesterday = {
         census_ns_slno: nsSlno,
-        census_date: moment(subDays(new Date(dailyDate), 1)).format('YYYY-MM-DD'),
+        census_date: moment(subDays(new Date(dailyDate), 1)).format('YYYY-MM-DD')
       }
       getYesterdayData(getYesterday).then(val => {
         const { yestdata } = val
@@ -133,12 +134,12 @@ const CensusCreate = () => {
             census_ns_code: item.census_ns_code,
             census_ns_name: item.census_ns_name,
             yesterday_census: yest ? yest.census_total : 0,
-            ora_yesterday: yest ? yest.ora_census_total : 0,
+            ora_yesterday: yest ? yest.ora_census_total : 0
           }
         })
         const existSearch = {
           census_ns_slno: nsSlno,
-          census_date: moment(new Date(dailyDate)).format('YYYY-MM-DD'),
+          census_date: moment(new Date(dailyDate)).format('YYYY-MM-DD')
         }
         GetExistData(existSearch).then(items => {
           const { success, data } = items
@@ -157,17 +158,14 @@ const CensusCreate = () => {
                 transfer_in: reportArray ? reportArray.transfer_in : 0,
                 transfer_out: reportArray ? reportArray.transfer_out : 0,
                 total_death: reportArray ? reportArray.total_death : 0,
-                census_total:
-                  reportArray.update_status === 1
-                    ? reportArray.census_total
-                    : item.yesterday_census,
+                census_total: reportArray.update_status === 1 ? reportArray.census_total : item.yesterday_census,
                 ora_admission: reportArray ? reportArray.ora_admission : 0,
                 ora_discharge: reportArray ? reportArray.ora_discharge : 0,
                 ora_death: reportArray ? reportArray.ora_death : 0,
                 ora_census_total: reportArray ? reportArray.ora_census_total : 0,
                 ora_dama: reportArray ? reportArray.ora_dama : 0,
                 ora_lama: reportArray ? reportArray.ora_lama : 0,
-                update_status: reportArray ? reportArray.update_status : 0,
+                update_status: reportArray ? reportArray.update_status : 0
               }
             })
             setLoading(false)
@@ -181,9 +179,7 @@ const CensusCreate = () => {
   }, [searchFlag, nurstation, dailyDate, count])
 
   const UpdateDetails = useCallback(() => {
-    if (
-      moment(new Date(dailyDate)).format('YYYY-MM-DD') >= moment(new Date()).format('YYYY-MM-DD')
-    ) {
+    if (moment(new Date(dailyDate)).format('YYYY-MM-DD') >= moment(new Date()).format('YYYY-MM-DD')) {
       infoNotify('The Day Is Not Yet Ended')
     } else {
       const GetElliderData = async elliderSearch => {
@@ -196,7 +192,7 @@ const CensusCreate = () => {
       }
       const elliderSearch = {
         from: moment(dailyDate).format('DD/MM/yyyy 00:00:00'),
-        to: moment(dailyDate).format('DD/MM/yyyy 23:59:59'),
+        to: moment(dailyDate).format('DD/MM/yyyy 23:59:59')
       }
       GetElliderData(elliderSearch).then(value => {
         const { success, data } = value
@@ -214,7 +210,7 @@ const CensusCreate = () => {
               ora_death: newData ? newData.DT : 0,
               ora_census_total: newData ? newData.ACTIVE + newData.NDIS - newData.NIP : 0,
               ora_dama: newData ? newData.DAMA : 0,
-              ora_lama: newData ? newData.LAMA : 0,
+              ora_lama: newData ? newData.LAMA : 0
             }
           })
           UpdateDetails(updateArray).then(val => {
@@ -242,14 +238,8 @@ const CensusCreate = () => {
             <Typography sx={{ color: '#424242', fontFamily: 'Arial' }}>Daily Census</Typography>
           </Box>
           <Box sx={{ flex: 1 }}>
-            <Box
-              sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 20, pt: 0.3, pr: 0.2 }}
-            >
-              <CusIconButton
-                size="md"
-                variant="outlined"
-                style={{ bgcolor: '#F7F8F8', height: 35, width: 35 }}
-              >
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 20, pt: 0.3, pr: 0.2 }}>
+              <CusIconButton size="md" variant="outlined" style={{ bgcolor: '#F7F8F8', height: 35, width: 35 }}>
                 <Tooltip title="Close" placement="bottom">
                   <CloseIcon
                     sx={{ cursor: 'pointer', size: 'lg', fontSize: 30, color: '#424242' }}
@@ -263,10 +253,7 @@ const CensusCreate = () => {
         <Box>
           <Paper variant="outlined" square sx={{ display: 'flex', pr: 1, py: 1 }}>
             <Box sx={{ flex: 1 }}></Box>
-            <Paper
-              variant="outlined"
-              sx={{ display: 'flex', flex: 1.5, p: 1.5, bgcolor: '#dadce0' }}
-            >
+            <Paper variant="outlined" sx={{ display: 'flex', flex: 1.5, p: 1.5, bgcolor: '#dadce0' }}>
               <Box sx={{ flex: 1 }}>
                 <CssVarsProvider>
                   <Input
@@ -274,8 +261,8 @@ const CensusCreate = () => {
                     slotProps={{
                       input: {
                         min: moment(subDays(new Date(), 1)).format('YYYY-MM-DD'),
-                        max: moment(addDays(new Date(), 1)).format('YYYY-MM-DD'),
-                      },
+                        max: moment(addDays(new Date(), 1)).format('YYYY-MM-DD')
+                      }
                     }}
                     size="md"
                     type="date"
@@ -300,8 +287,8 @@ const CensusCreate = () => {
                       borderRadius: 0,
                       ':hover': {
                         bgcolor: '#757575',
-                        boxShadow: 2,
-                      },
+                        boxShadow: 2
+                      }
                     }}
                     onClick={SearchDetails}
                   >
@@ -325,8 +312,8 @@ const CensusCreate = () => {
                         borderRadius: 0,
                         ':hover': {
                           bgcolor: '#757575',
-                          boxShadow: 2,
-                        },
+                          boxShadow: 2
+                        }
                       }}
                       onClick={UpdateDetails}
                     >
@@ -341,12 +328,7 @@ const CensusCreate = () => {
         </Box>
         <Box sx={{ display: 'flex', overflow: 'auto' }}>
           {tabFlag === 1 ? (
-            <ListNursingStations
-              dailyDate={dailyDate}
-              censusData={censusData}
-              count={count}
-              setCount={setCount}
-            />
+            <ListNursingStations dailyDate={dailyDate} censusData={censusData} count={count} setCount={setCount} />
           ) : (
             <Box sx={{ height: 700 }}></Box>
           )}

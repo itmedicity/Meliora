@@ -23,7 +23,7 @@ const OMTableMast = () => {
   const [omTable, setOmTable] = useState({
     table_name: '',
     table_status: false,
-    tableno: '',
+    tableno: ''
   })
 
   // Get login user emp_id
@@ -48,7 +48,7 @@ const OMTableMast = () => {
       om_dept_sec_slno: deptsec,
       omtable_emp_id: empname,
       omtable_status: table_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [table_name, dept, deptsec, empname, table_status, id])
 
@@ -56,18 +56,11 @@ const OMTableMast = () => {
   const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
-    const {
-      omtable_name,
-      omtable_status,
-      om_dept_slno,
-      om_dept_sec_slno,
-      omtable_no,
-      omtable_emp_id,
-    } = data[0]
+    const { omtable_name, omtable_status, om_dept_slno, om_dept_sec_slno, omtable_no, omtable_emp_id } = data[0]
     const frmdata = {
       table_name: omtable_name,
       table_status: omtable_status === 1 ? true : false,
-      tableno: omtable_no,
+      tableno: omtable_no
     }
     setOmTable(frmdata)
     setDept(om_dept_slno)
@@ -84,7 +77,7 @@ const OMTableMast = () => {
       omtable_emp_id: empname,
       omtable_status: table_status === true ? 1 : 0,
       edit_user: id,
-      omtable_no: tableno,
+      omtable_no: tableno
     }
   }, [table_name, dept, deptsec, empname, tableno, table_status, id])
 
@@ -93,7 +86,7 @@ const OMTableMast = () => {
     const resetfrm = {
       table_name: '',
       table_status: false,
-      tableno: '',
+      tableno: ''
     }
     setOmTable(resetfrm)
     setDept(0)
@@ -155,12 +148,7 @@ const OMTableMast = () => {
   }, [])
 
   return (
-    <CardMaster
-      title="OM Table Master"
-      submit={submitOMTable}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="OM Table Master" submit={submitOMTable} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ pl: 2, pt: 2, pb: 1, pr: 1 }}>
         <Grid container spacing={1}>
           <Grid item xl={3} lg={3}>

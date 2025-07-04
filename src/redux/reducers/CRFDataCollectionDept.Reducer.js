@@ -3,7 +3,7 @@ const { FETCH_DATA_COLLECTIONDEPT } = ActionTyps
 //intial state
 const dataCollectionCrf = {
   dataCollectionCrfList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Requesttype action type check then payload set to the state and loading status set as true */
 export const setdataCollectionCRF = (state = dataCollectionCrf, { type, payload }) => {

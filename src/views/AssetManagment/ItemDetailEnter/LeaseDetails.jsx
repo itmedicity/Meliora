@@ -15,8 +15,7 @@ import { format } from 'date-fns'
 
 const LeaseDetails = ({ detailArry, grndetailarry, exist, setExist, assetSpare }) => {
   const { am_item_map_slno, am_spare_item_map_slno } = detailArry
-  const { am_lease_status, am_lease_from, am_lease_to, am_lease_amount, am_lease_image } =
-    grndetailarry
+  const { am_lease_status, am_lease_from, am_lease_to, am_lease_amount, am_lease_image } = grndetailarry
   // const [leaseFile, setLeaseFile] = useState(null)
   // Get login user emp_id
   const id = useSelector(state => {
@@ -34,7 +33,7 @@ const LeaseDetails = ({ detailArry, grndetailarry, exist, setExist, assetSpare }
   const [userdata, setUserdata] = useState({
     fromDate: '',
     toDate: '',
-    leaseAmount: '',
+    leaseAmount: ''
   })
 
   //Destructuring
@@ -52,7 +51,7 @@ const LeaseDetails = ({ detailArry, grndetailarry, exist, setExist, assetSpare }
       const frmdata = {
         fromDate: am_lease_from !== null ? am_lease_from : '',
         toDate: am_lease_to !== null ? am_lease_to : '',
-        leaseAmount: am_lease_amount !== null ? am_lease_amount : '',
+        leaseAmount: am_lease_amount !== null ? am_lease_amount : ''
       }
       setUserdata(frmdata)
     }
@@ -68,7 +67,7 @@ const LeaseDetails = ({ detailArry, grndetailarry, exist, setExist, assetSpare }
       am_lease_image: 1,
       // am_lease_image: leaseFile !== null ? 1 : 0,
       create_user: id,
-      am_item_map_slno: am_item_map_slno,
+      am_item_map_slno: am_item_map_slno
     }
   }, [am_item_map_slno, LeaseStatus, fromDate, toDate, leaseAmount, id])
   const patchDataSpare = useMemo(() => {
@@ -80,7 +79,7 @@ const LeaseDetails = ({ detailArry, grndetailarry, exist, setExist, assetSpare }
       am_lease_image: 1,
       // am_lease_image: leaseFile !== null ? 1 : 0,
       create_user: id,
-      am_spare_item_map_slno: am_spare_item_map_slno,
+      am_spare_item_map_slno: am_spare_item_map_slno
     }
   }, [am_spare_item_map_slno, LeaseStatus, fromDate, toDate, leaseAmount, id])
 
@@ -89,7 +88,7 @@ const LeaseDetails = ({ detailArry, grndetailarry, exist, setExist, assetSpare }
       fromDate: '',
       toDate: '',
       FileStatus: '',
-      leaseAmount: '',
+      leaseAmount: ''
     }
     setUserdata(frmdata)
     setLeaseStatus(false)
@@ -114,18 +113,15 @@ const LeaseDetails = ({ detailArry, grndetailarry, exist, setExist, assetSpare }
     e => {
       e.preventDefault()
       const checkinsertOrNot = async am_item_map_slno => {
-        const result = await axioslogin.get(
-          `/ItemMapDetails/checkDetailInsertOrNot/${am_item_map_slno}`
-        )
+        const result = await axioslogin.get(`/ItemMapDetails/checkDetailInsertOrNot/${am_item_map_slno}`)
         const { success, data } = result.data
         if (success === 1) {
-          const { am_lease_status, am_lease_from, am_lease_to, am_lease_amount, am_lease_image } =
-            data[0]
+          const { am_lease_status, am_lease_from, am_lease_to, am_lease_amount, am_lease_image } = data[0]
           const frmdata = {
             fromDate: am_lease_from !== null ? format(new Date(am_lease_from), 'yyyy-MM-dd') : '',
             toDate: am_lease_to !== null ? format(new Date(am_lease_to), 'yyyy-MM-dd') : '',
             FileStatus: am_lease_image !== null ? am_lease_image : '',
-            leaseAmount: am_lease_amount !== null ? am_lease_amount : '',
+            leaseAmount: am_lease_amount !== null ? am_lease_amount : ''
           }
           setUserdata(frmdata)
           setLeaseStatus(am_lease_status === 1 ? true : false)
@@ -135,18 +131,15 @@ const LeaseDetails = ({ detailArry, grndetailarry, exist, setExist, assetSpare }
       }
 
       const checkinsertOrNotSpare = async am_spare_item_map_slno => {
-        const result = await axioslogin.get(
-          `/ItemMapDetails/checkDetailInsertOrNotSpare/${am_spare_item_map_slno}`
-        )
+        const result = await axioslogin.get(`/ItemMapDetails/checkDetailInsertOrNotSpare/${am_spare_item_map_slno}`)
         const { success, data } = result.data
         if (success === 1) {
-          const { am_lease_status, am_lease_from, am_lease_to, am_lease_amount, am_lease_image } =
-            data[0]
+          const { am_lease_status, am_lease_from, am_lease_to, am_lease_amount, am_lease_image } = data[0]
           const frmdata = {
             fromDate: am_lease_from !== null ? format(new Date(am_lease_from), 'yyyy-MM-dd') : '',
             toDate: am_lease_to !== null ? format(new Date(am_lease_to), 'yyyy-MM-dd') : '',
             FileStatus: am_lease_image !== null ? am_lease_image : '',
-            leaseAmount: am_lease_amount !== null ? am_lease_amount : '',
+            leaseAmount: am_lease_amount !== null ? am_lease_amount : ''
           }
           setUserdata(frmdata)
           setLeaseStatus(am_lease_status === 1 ? true : false)
@@ -189,16 +182,7 @@ const LeaseDetails = ({ detailArry, grndetailarry, exist, setExist, assetSpare }
         }
       }
     },
-    [
-      am_item_map_slno,
-      fromDate,
-      toDate,
-      leaseAmount,
-      patchData,
-      assetSpare,
-      am_spare_item_map_slno,
-      patchDataSpare,
-    ]
+    [am_item_map_slno, fromDate, toDate, leaseAmount, patchData, assetSpare, am_spare_item_map_slno, patchDataSpare]
   )
 
   const DeviceRefresh = useCallback(() => {
@@ -211,7 +195,7 @@ const LeaseDetails = ({ detailArry, grndetailarry, exist, setExist, assetSpare }
         sx={{
           display: 'flex',
           flexDirection: 'row',
-          flexWrap: 'wrap',
+          flexWrap: 'wrap'
         }}
       >
         <Box sx={{ display: 'flex', width: '10%', p: 0.5, py: 2, flexDirection: 'column' }}>
@@ -232,13 +216,11 @@ const LeaseDetails = ({ detailArry, grndetailarry, exist, setExist, assetSpare }
               display: 'flex',
               width: '70%',
               flexDirection: 'row',
-              flexWrap: 'wrap',
+              flexWrap: 'wrap'
             }}
           >
             <Box sx={{ display: 'flex', width: '20%', p: 0.5, flexDirection: 'column' }}>
-              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-                From Date
-              </Typography>
+              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>From Date</Typography>
               <Box>
                 <TextFieldCustom
                   type="date"
@@ -250,9 +232,7 @@ const LeaseDetails = ({ detailArry, grndetailarry, exist, setExist, assetSpare }
               </Box>
             </Box>
             <Box sx={{ display: 'flex', width: '20%', p: 0.5, flexDirection: 'column' }}>
-              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-                To Date
-              </Typography>
+              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>To Date</Typography>
               <Box>
                 <TextFieldCustom
                   type="date"
@@ -264,9 +244,7 @@ const LeaseDetails = ({ detailArry, grndetailarry, exist, setExist, assetSpare }
               </Box>
             </Box>
             <Box sx={{ display: 'flex', width: '15%', p: 0.5, flexDirection: 'column' }}>
-              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-                Lease Amount
-              </Typography>
+              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Lease Amount</Typography>
               <Box>
                 <TextFieldCustom
                   type="text"
@@ -307,26 +285,14 @@ const LeaseDetails = ({ detailArry, grndetailarry, exist, setExist, assetSpare }
 
             <CustomeToolTip title="Save" placement="top">
               <Box sx={{ width: '3%', pl: 0.5, pt: 3 }}>
-                <CusIconButton
-                  size="sm"
-                  variant="outlined"
-                  color="primary"
-                  clickable="true"
-                  onClick={EditDetails}
-                >
+                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={EditDetails}>
                   <LibraryAddIcon fontSize="small" />
                 </CusIconButton>
               </Box>
             </CustomeToolTip>
             <CustomeToolTip title="Refresh" placement="top">
               <Box sx={{ width: '3%', pl: 1.5, pt: 3 }}>
-                <CusIconButton
-                  size="sm"
-                  variant="outlined"
-                  color="primary"
-                  clickable="true"
-                  onClick={DeviceRefresh}
-                >
+                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={DeviceRefresh}>
                   <RefreshIcon fontSize="small" />
                 </CusIconButton>
               </Box>

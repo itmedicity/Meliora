@@ -11,7 +11,7 @@ const TopPerformerList = ({ PostDate }) => {
   const { data: AllDeptEmployees } = useQuery({
     queryKey: ['getAllemployee', PostDate],
     enabled: !!from && !!to,
-    queryFn: () => getAllDeptemployeeList(PostDate),
+    queryFn: () => getAllDeptemployeeList(PostDate)
   })
 
   const AllDeptemployeeList = useMemo(() => AllDeptEmployees || [], [AllDeptEmployees])
@@ -22,7 +22,7 @@ const TopPerformerList = ({ PostDate }) => {
         totalComplaints: item.complaint_count || 0,
         rectifiedComplaints: item.closed_count || 0,
         DeptSec: item.sec_name,
-        unrectifiedComplaints: Math.max(item.complaint_count - item.closed_count || 0, 0),
+        unrectifiedComplaints: Math.max(item.complaint_count - item.closed_count || 0, 0)
       }))
     }
     return []
@@ -42,7 +42,7 @@ const TopPerformerList = ({ PostDate }) => {
     return {
       label,
       rectified: rectified || 0,
-      unrectified: unrectified || 0,
+      unrectified: unrectified || 0
     }
   })
 
@@ -59,7 +59,7 @@ const TopPerformerList = ({ PostDate }) => {
         py: 1,
         my: 0.5,
         bgcolor: 'white',
-        borderRadius: 5,
+        borderRadius: 5
       }}
     >
       <Box sx={{ flex: 1, display: 'flex' }}>
@@ -69,9 +69,7 @@ const TopPerformerList = ({ PostDate }) => {
         />
         <Box sx={{ display: 'flex', pr: 1 }}>
           <DateRangeIcon sx={{ color: '#5D6C89', height: 20, width: 20 }} />
-          <Typography sx={{ fontSize: 13, color: '#5D6C89', pt: 0.3 }}>
-            From the last 7 days
-          </Typography>
+          <Typography sx={{ fontSize: 13, color: '#5D6C89', pt: 0.3 }}>From the last 7 days</Typography>
         </Box>
       </Box>
       <Box sx={{ flex: 1 }}>
@@ -84,7 +82,7 @@ const TopPerformerList = ({ PostDate }) => {
                   label: 'Rectified      ',
                   id: 'Rectified',
                   stack: 'total',
-                  color: '#CBD2DF',
+                  color: '#CBD2DF'
                 },
                 {
                   data: unrectifiedData,
@@ -92,8 +90,8 @@ const TopPerformerList = ({ PostDate }) => {
                   id: 'Pending',
                   stack: 'total',
                   color: '#F8FAFD',
-                  border: 1,
-                },
+                  border: 1
+                }
               ]}
               yAxis={[
                 {
@@ -107,9 +105,9 @@ const TopPerformerList = ({ PostDate }) => {
                     fontWeight: 'bold',
                     padding: 10,
                     fontSize: 13,
-                    transform: 'translateX(20px)',
-                  },
-                },
+                    transform: 'translateX(20px)'
+                  }
+                }
               ]}
               margin={{ left: 20, right: 20, top: 50, bottom: 40 }}
               layout="horizontal"
@@ -122,8 +120,8 @@ const TopPerformerList = ({ PostDate }) => {
               xAxis={[
                 {
                   data: ['No Data'],
-                  scaleType: 'band',
-                },
+                  scaleType: 'band'
+                }
               ]}
               margin={{ left: 20, right: 20, top: 50, bottom: 40 }}
             />

@@ -21,7 +21,7 @@ const SimTypeMaster = () => {
   const [simType, setSimType] = useState({
     it_sim_type_slno: '',
     it_sim_type_name: '',
-    it_sim_type_status: false,
+    it_sim_type_status: false
   })
   const { it_sim_type_slno, it_sim_type_name, it_sim_type_status } = simType
   const updateSimType = useCallback(
@@ -35,7 +35,7 @@ const SimTypeMaster = () => {
     return {
       it_sim_type_name: it_sim_type_name,
       it_sim_type_status: it_sim_type_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [it_sim_type_name, it_sim_type_status, id])
   const patchdata = useMemo(() => {
@@ -43,7 +43,7 @@ const SimTypeMaster = () => {
       it_sim_type_slno: it_sim_type_slno,
       it_sim_type_name: it_sim_type_name,
       it_sim_type_status: it_sim_type_status === true ? 1 : 0,
-      edit_user: id,
+      edit_user: id
     }
   }, [it_sim_type_slno, it_sim_type_name, it_sim_type_status, id])
   const rowSelect = useCallback(params => {
@@ -53,7 +53,7 @@ const SimTypeMaster = () => {
     const frmdata = {
       it_sim_type_slno: it_sim_type_slno,
       it_sim_type_name: it_sim_type_name,
-      it_sim_type_status: it_sim_type_status === 1 ? true : false,
+      it_sim_type_status: it_sim_type_status === 1 ? true : false
     }
     setSimType(frmdata)
   }, [])
@@ -61,7 +61,7 @@ const SimTypeMaster = () => {
     const frmdata = {
       it_sim_type_slno: '',
       it_sim_type_name: '',
-      it_sim_type_status: false,
+      it_sim_type_status: false
     }
     setSimType(frmdata)
     setCount(0)
@@ -119,18 +119,13 @@ const SimTypeMaster = () => {
     const frmdata = {
       it_sim_type_slno: '',
       it_sim_type_name: '',
-      it_sim_type_status: false,
+      it_sim_type_status: false
     }
     setSimType(frmdata)
     setValue(0)
   }, [setSimType])
   return (
-    <CardMaster
-      title="Sim type"
-      submit={submitSimType}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Sim type" submit={submitSimType} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
         <Box sx={{ width: '30%', p: 1 }}>
           <Box>

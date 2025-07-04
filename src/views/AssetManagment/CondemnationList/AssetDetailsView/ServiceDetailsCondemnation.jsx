@@ -17,19 +17,14 @@ const ServiceDetailsCondemnation = ({ AssetDetails }) => {
     item_asset_name,
     item_spare_name,
     cat_asset_name,
-    cat_spare_name,
+    cat_spare_name
   } = AssetDetails
 
   const item_name = item_asset_name !== null ? item_asset_name : item_spare_name
   const category_name = cat_asset_name !== null ? cat_asset_name : cat_spare_name
   const formattedItemNo =
-    spare_asset_no_only !== null
-      ? spare_asset_no_only
-      : item_asset_no_only !== null
-      ? item_asset_no_only
-      : 0
-  const ItemPrefix =
-    spare_asset_no !== null ? spare_asset_no : item_asset_no !== null ? item_asset_no : 0
+    spare_asset_no_only !== null ? spare_asset_no_only : item_asset_no_only !== null ? item_asset_no_only : 0
+  const ItemPrefix = spare_asset_no !== null ? spare_asset_no : item_asset_no !== null ? item_asset_no : 0
 
   const [alldetailsService, setAlldetailsService] = useState([])
   const [servicefileDetails, setServicefileDetails] = useState([])
@@ -42,19 +37,19 @@ const ServiceDetailsCondemnation = ({ AssetDetails }) => {
   const searchData = useMemo(() => {
     return {
       service_item_slno: formattedItemNo,
-      service_asset_spare: ItemPrefix,
+      service_asset_spare: ItemPrefix
     }
   }, [formattedItemNo, ItemPrefix])
 
   const [flags, setFlags] = useState({
     serviceCheck: 0,
     image: 0,
-    imageServiceFlag: 0,
+    imageServiceFlag: 0
   })
 
   const [viewStates, setViewStates] = useState({
     imageViewOpen: false,
-    serviceimageViewOpen: false,
+    serviceimageViewOpen: false
   })
 
   useEffect(() => {
@@ -133,13 +128,11 @@ const ServiceDetailsCondemnation = ({ AssetDetails }) => {
     const { complaint_slno } = val
     setFlags(prevState => ({
       ...prevState,
-      image: 1,
+      image: 1
     }))
     setfileDetails(val)
     try {
-      const result = await axioslogin.get(
-        `/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`
-      )
+      const result = await axioslogin.get(`/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`)
       const { success } = result.data
       if (success === 1) {
         const data = result.data
@@ -152,7 +145,7 @@ const ServiceDetailsCondemnation = ({ AssetDetails }) => {
           setViewStates(prevState => ({
             ...prevState,
             image: 1,
-            imageViewOpen: true,
+            imageViewOpen: true
           }))
           setSelectedImages(val)
         } else {
@@ -160,14 +153,14 @@ const ServiceDetailsCondemnation = ({ AssetDetails }) => {
           setViewStates(prevState => ({
             ...prevState,
             image: 0,
-            imageViewOpen: false,
+            imageViewOpen: false
           }))
         }
       } else {
         setViewStates(prevState => ({
           ...prevState,
           image: 0,
-          imageViewOpen: false,
+          imageViewOpen: false
         }))
         warningNotify('No Image Attached')
       }
@@ -195,11 +188,11 @@ const ServiceDetailsCondemnation = ({ AssetDetails }) => {
           setSelectedImages(val)
           setFlags(prevState => ({
             ...prevState,
-            imageServiceFlag: 1,
+            imageServiceFlag: 1
           }))
           setViewStates(prevState => ({
             ...prevState,
-            serviceimageViewOpen: true,
+            serviceimageViewOpen: true
           }))
         } else {
           warningNotify('No Files attached')
@@ -218,13 +211,10 @@ const ServiceDetailsCondemnation = ({ AssetDetails }) => {
         const updatedServEmployees = {}
         for (let deptServiceemp of alldetailsService) {
           const searchDeptServiceData = {
-            serviced_emp_detail_slno: deptServiceemp.serviced_emp_details_slno,
+            serviced_emp_detail_slno: deptServiceemp.serviced_emp_details_slno
           }
           try {
-            const result = await axioslogin.post(
-              `assetSpareDetails/getDeptServiceDetailsData`,
-              searchDeptServiceData
-            )
+            const result = await axioslogin.post(`assetSpareDetails/getDeptServiceDetailsData`, searchDeptServiceData)
             const { success, data } = result.data
             if (success === 1) {
               updatedServEmployees[deptServiceemp.serviced_emp_details_slno] = data
@@ -251,9 +241,7 @@ const ServiceDetailsCondemnation = ({ AssetDetails }) => {
           selectedImages={selectedImages}
           fileDetails={fileDetails}
           setimage={value => setFlags(prevFlags => ({ ...prevFlags, image: value }))}
-          setimageViewOpen={value =>
-            setViewStates(prevViewStates => ({ ...prevViewStates, imageViewOpen: value }))
-          }
+          setimageViewOpen={value => setViewStates(prevViewStates => ({ ...prevViewStates, imageViewOpen: value }))}
         />
       ) : null}
 
@@ -262,9 +250,7 @@ const ServiceDetailsCondemnation = ({ AssetDetails }) => {
           imageServiceUrls={imageServiceUrls}
           serviceimageViewOpen={viewStates.serviceimageViewOpen}
           servicefileDetails={servicefileDetails}
-          setimageServiceFlag={value =>
-            setFlags(prevFlags => ({ ...prevFlags, imageServiceFlag: value }))
-          }
+          setimageServiceFlag={value => setFlags(prevFlags => ({ ...prevFlags, imageServiceFlag: value }))}
           setServiceimageViewOpen={value =>
             setViewStates(prevViewStates => ({ ...prevViewStates, serviceimageViewOpen: value }))
           }
@@ -289,8 +275,7 @@ const ServiceDetailsCondemnation = ({ AssetDetails }) => {
                     <Box sx={{ flex: 1, display: 'flex' }}>
                       <Typography sx={{ flex: 1, fontSize: 15 }}>Ticket type.</Typography>
                       <Typography sx={{ flex: 4, fontWeight: 600, color: 'Black', fontSize: 13 }}>
-                        :{' '}
-                        {val.complaint_type_name !== null ? val.complaint_type_name : 'Not Updated'}
+                        : {val.complaint_type_name !== null ? val.complaint_type_name : 'Not Updated'}
                       </Typography>
                     </Box>
                     <Box sx={{ flex: 1, display: 'flex' }}>
@@ -320,11 +305,7 @@ const ServiceDetailsCondemnation = ({ AssetDetails }) => {
                                                                        }${
                               val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
                             }
-                                                                       ${
-                                                                         val.rm_floor_name
-                                                                           ? val.rm_floor_name
-                                                                           : ''
-                                                                       })`
+                                                                       ${val.rm_floor_name ? val.rm_floor_name : ''})`
                           : 'Not Updated'}
                       </Typography>
                     </Box>
@@ -366,7 +347,7 @@ const ServiceDetailsCondemnation = ({ AssetDetails }) => {
                             width: 85,
                             pl: 1,
                             borderRadius: 10,
-                            cursor: 'pointer',
+                            cursor: 'pointer'
                           }}
                         >
                           <FilePresentRoundedIcon
@@ -375,16 +356,14 @@ const ServiceDetailsCondemnation = ({ AssetDetails }) => {
                               cursor: 'pointer',
                               height: 20,
                               width: 18,
-                              pb: 0.1,
+                              pb: 0.1
                             }}
                           />
                           file view
                         </Box>
                       </Box>
                     </Box>
-                    <Typography sx={{ fontWeight: 700, mt: 0.5 }}>
-                      Department serviced Details
-                    </Typography>
+                    <Typography sx={{ fontWeight: 700, mt: 0.5 }}>Department serviced Details</Typography>
                     <Box sx={{ flex: 4, fontWeight: 600, color: 'Black', fontSize: 13, mr: 3 }}>
                       <Box sx={{ display: 'flex', pl: 0.5, flex: 1, mt: 0.5, bgcolor: '#EBEFFB' }}>
                         <Box sx={{ flex: 0.3 }}>#</Box>
@@ -402,7 +381,7 @@ const ServiceDetailsCondemnation = ({ AssetDetails }) => {
                             flex: 1,
                             mt: 0.5,
                             borderBottom: 1,
-                            borderBottomColor: 'lightgrey',
+                            borderBottomColor: 'lightgrey'
                           }}
                         >
                           <Box sx={{ flex: 0.3 }}>{index + 1}</Box>
@@ -430,16 +409,11 @@ const ServiceDetailsCondemnation = ({ AssetDetails }) => {
                     <Box sx={{ flex: 1, display: 'flex' }}>
                       <Typography sx={{ flex: 1, fontSize: 15 }}>Services Performed</Typography>
                       <Typography sx={{ flex: 4, fontWeight: 600, color: 'Black', fontSize: 13 }}>
-                        :{' '}
-                        {val.suppl_serviced_remarks !== null
-                          ? val.suppl_serviced_remarks
-                          : 'Not Updated'}
+                        : {val.suppl_serviced_remarks !== null ? val.suppl_serviced_remarks : 'Not Updated'}
                       </Typography>
                     </Box>
 
-                    <Typography sx={{ fontWeight: 700, mt: 2 }}>
-                      Service Completion Marked Details
-                    </Typography>
+                    <Typography sx={{ fontWeight: 700, mt: 2 }}>Service Completion Marked Details</Typography>
                     <Box sx={{ flex: 1, display: 'flex' }}>
                       <Typography sx={{ flex: 1, fontSize: 15 }}>Marked date</Typography>
                       <Typography sx={{ flex: 4, fontWeight: 600, color: 'Black', fontSize: 13 }}>
@@ -467,7 +441,7 @@ const ServiceDetailsCondemnation = ({ AssetDetails }) => {
                         flex: 4,
                         fontSize: 13,
                         mt: 1,
-                        display: 'flex',
+                        display: 'flex'
                       }}
                     >
                       <FilePresentRoundedIcon
@@ -476,7 +450,7 @@ const ServiceDetailsCondemnation = ({ AssetDetails }) => {
                           cursor: 'pointer',
                           height: 20,
                           width: 18,
-                          pb: 0.1,
+                          pb: 0.1
                         }}
                       />
                       Attachments
@@ -499,7 +473,7 @@ const ServiceDetailsCondemnation = ({ AssetDetails }) => {
             justifyContent: 'center',
             alignItems: 'center',
             textAlign: 'center',
-            bgcolor: 'transparent',
+            bgcolor: 'transparent'
           }}
         >
           No Service Done Yet!

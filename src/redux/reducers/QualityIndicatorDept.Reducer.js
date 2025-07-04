@@ -3,7 +3,7 @@ const { FETCH_QUALITY_INDICATOR_DEPT } = ActionTyps
 
 const QualityDept = {
   qiDeptList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 export const getQltyDept = (state = QualityDept, { type, payload }) => {
   switch (type) {

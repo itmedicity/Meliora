@@ -3,7 +3,7 @@ const { FETCH_DEPARTMENTWISEEMPLOYEE } = ActionTyps
 //intial state
 const departemployee = {
   departempList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /***  Departmentemployee action type check then payload set to the state and loading status set as true */
 export const getDepartemployee = (state = departemployee, { type, payload }) => {

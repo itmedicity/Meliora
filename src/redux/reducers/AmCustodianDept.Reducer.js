@@ -3,7 +3,7 @@ const { FETCH_AM_CUSTODIAN_DEPT } = ActionTyps
 //intial state
 const CustodianDept = {
   CustodianDeptList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Building action type check then payload set to the state and loading status set as true */
 export const getCustodianDept = (state = CustodianDept, { type, payload }) => {

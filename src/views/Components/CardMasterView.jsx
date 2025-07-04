@@ -18,20 +18,11 @@ const CardMasterView = ({ children, title, close, submit, refresh, view }) => {
         <Card sx={{ borderRadius: 0, boxShadow: 1 }}>
           <CustomCardHeaderOne title={title} onClickClose={close} cardStyle={{}} />
           <CardContent sx={{ p: 0 }}>{children}</CardContent>
-          <CardActions
-            sx={{ backgroundColor: cardActionBgClr, py: 0.3, pt: 0.5 }}
-            disableSpacing={false}
-          >
+          <CardActions sx={{ backgroundColor: cardActionBgClr, py: 0.3, pt: 0.5 }} disableSpacing={false}>
             {/* Save button */}
             <CustomeToolTip title="Save" placement="left">
               <Box>
-                <CusIconButton
-                  size="sm"
-                  variant="outlined"
-                  color="primary"
-                  clickable="true"
-                  onClick={submit}
-                >
+                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={submit}>
                   <LibraryAddIcon fontSize="small" />
                 </CusIconButton>
               </Box>
@@ -39,13 +30,7 @@ const CardMasterView = ({ children, title, close, submit, refresh, view }) => {
             {/* View Button */}
             <CustomeToolTip title="View" placement="left">
               <Box>
-                <CusIconButton
-                  size="sm"
-                  variant="outlined"
-                  color="primary"
-                  clickable="true"
-                  onClick={view}
-                >
+                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={view}>
                   <VisibilityIcon fontSize="small" />
                 </CusIconButton>
               </Box>
@@ -53,13 +38,7 @@ const CardMasterView = ({ children, title, close, submit, refresh, view }) => {
             {/* Refresh Button */}
             <CustomeToolTip title="Refresh" placement="left">
               <Box>
-                <CusIconButton
-                  size="sm"
-                  variant="outlined"
-                  color="primary"
-                  clickable="true"
-                  onClick={refresh}
-                >
+                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={refresh}>
                   <RefreshIcon fontSize="small" />
                 </CusIconButton>
               </Box>
@@ -67,13 +46,7 @@ const CardMasterView = ({ children, title, close, submit, refresh, view }) => {
             {/* Close button */}
             <CustomeToolTip title="Close" placement="left">
               <Box>
-                <CusIconButton
-                  size="sm"
-                  variant="outlined"
-                  color="primary"
-                  clickable="true"
-                  onClick={close}
-                >
+                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={close}>
                   <CloseIcon fontSize="small" />
                 </CusIconButton>
               </Box>

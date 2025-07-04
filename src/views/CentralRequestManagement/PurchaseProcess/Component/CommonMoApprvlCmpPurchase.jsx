@@ -17,7 +17,7 @@ const CommonMoApprvlCmpPurchase = ({ DetailViewData, company }) => {
     manag_operation_remarks,
     om_approv_date,
     manag_operation_user,
-    mo_image,
+    mo_image
   } = DetailViewData
   const [imageshowFlag, setImageShowFlag] = useState(0)
   const [imageshow, setImageShow] = useState(false)
@@ -29,12 +29,12 @@ const CommonMoApprvlCmpPurchase = ({ DetailViewData, company }) => {
   const capitalizeWords = str =>
     str
       ? str
-        .toLowerCase()
-        .trim()
-        .replace(/\s+/g, ' ')
-        .split(' ')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ')
+          .toLowerCase()
+          .trim()
+          .replace(/\s+/g, ' ')
+          .split(' ')
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(' ')
       : ''
 
   const ViewMOUploadImage = useCallback(() => {
@@ -65,9 +65,7 @@ const CommonMoApprvlCmpPurchase = ({ DetailViewData, company }) => {
       ) : null}
       <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
         <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
-          <Typography
-            sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}
-          >
+          <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>
             {company?.mo_status_name}{' '}
           </Typography>
           <Box sx={{ flex: 1, py: 0.4, ml: 2 }}>
@@ -79,16 +77,16 @@ const CommonMoApprvlCmpPurchase = ({ DetailViewData, company }) => {
                   manag_operation_approv === 1
                     ? '#2e7d32'
                     : manag_operation_approv === 2
-                      ? '#bf360c'
-                      : manag_operation_approv === 3
-                        ? '#FF9800'
-                        : manag_operation_approv === 4
-                          ? '#009688'
-                          : '#607D8B',
+                    ? '#bf360c'
+                    : manag_operation_approv === 3
+                    ? '#FF9800'
+                    : manag_operation_approv === 4
+                    ? '#009688'
+                    : '#607D8B',
                 height: 25,
                 pb: 0.5,
                 fontSize: 12,
-                fontWeight: 550,
+                fontWeight: 550
               }}
             >
               {om}
@@ -100,25 +98,17 @@ const CommonMoApprvlCmpPurchase = ({ DetailViewData, company }) => {
             <Box sx={{ pt: 0.5 }}></Box>
           ) : manag_operation_approv === 2 && manag_operation_remarks !== null ? (
             <Box sx={{ display: 'flex', pt: 0.5 }}>
-              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                Justification for Reject{' '}
-              </Typography>
+              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Justification for Reject </Typography>
               <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-              <Typography
-                sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}
-              >
+              <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
                 {manag_operation_remarks === null ? 'Not Updated' : manag_operation_remarks}{' '}
               </Typography>
             </Box>
           ) : manag_operation_approv === 3 && manag_operation_remarks !== null ? (
             <Box sx={{ display: 'flex', pt: 0.5 }}>
-              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                Justification for On-Hold
-              </Typography>
+              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Justification for On-Hold</Typography>
               <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-              <Typography
-                sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}
-              >
+              <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
                 {manag_operation_remarks === null ? 'Not Updated' : manag_operation_remarks}
               </Typography>
             </Box>
@@ -126,9 +116,7 @@ const CommonMoApprvlCmpPurchase = ({ DetailViewData, company }) => {
             <Box sx={{ display: 'flex', pt: 0.5 }}>
               <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Remarks</Typography>
               <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-              <Typography
-                sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}
-              >
+              <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
                 {manag_operation_remarks === null ? 'Not Updated' : manag_operation_remarks}
               </Typography>
             </Box>
@@ -144,9 +132,7 @@ const CommonMoApprvlCmpPurchase = ({ DetailViewData, company }) => {
               ) : null}
               <Box sx={{ display: 'flex', flex: 1 }}>
                 <Typography> :&nbsp;</Typography>
-                <Typography
-                  sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pt: 0.3, pl: 0.2 }}
-                >
+                <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pt: 0.3, pl: 0.2 }}>
                   {capitalizeWords(manag_operation_user)}
                 </Typography>
                 <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pl: 2, pt: 0.3 }}>

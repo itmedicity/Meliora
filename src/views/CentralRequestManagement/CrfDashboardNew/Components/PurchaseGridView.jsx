@@ -24,7 +24,7 @@ const PurchaseGridView = ({ val, viewPednigDetails }) => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 pl: 1,
-                pt: 5,
+                pt: 5
               }}
             >
               <ImageViewComp src={imageView} alt={imName} style={{ width: 100, height: 90 }} />
@@ -39,7 +39,7 @@ const PurchaseGridView = ({ val, viewPednigDetails }) => {
                   height: 70,
                   pr: 1,
                   pt: 1,
-                  overflow: 'hidden',
+                  overflow: 'hidden'
                 }}
               >
                 <Typography
@@ -47,7 +47,7 @@ const PurchaseGridView = ({ val, viewPednigDetails }) => {
                     fontSize: 20,
                     fontWeight: 650,
                     color: '#003371',
-                    textAlign: 'right',
+                    textAlign: 'right'
                   }}
                 >
                   {title}
@@ -62,7 +62,7 @@ const PurchaseGridView = ({ val, viewPednigDetails }) => {
                     fontSize: 14,
                     color: 'white',
                     bgcolor: '#60A3D9',
-                    fontWeight: 650,
+                    fontWeight: 650
                   }}
                 >
                   <Box
@@ -79,8 +79,8 @@ const PurchaseGridView = ({ val, viewPednigDetails }) => {
                       bgcolor: '#e3f2fd',
                       '&:hover': {
                         bgcolor: '#e3f2fd',
-                        color: '#3f51b5',
-                      },
+                        color: '#3f51b5'
+                      }
                     }}
                     onClick={getData}
                   >

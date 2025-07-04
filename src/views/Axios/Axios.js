@@ -11,8 +11,8 @@ export const axioslogin = Axios.create({
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
-    'Accept-Language': 'en-GB,en',
-  },
+    'Accept-Language': 'en-GB,en'
+  }
 })
 
 // axioslogin.interceptors.request.use(
@@ -60,7 +60,7 @@ axioslogin.interceptors.response.use(
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: 'light',
+          theme: 'light'
         })
         setTimeout(() => {
           window.location.href = '/'
@@ -87,8 +87,8 @@ export const axiosellider = Axios.create({
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
-    'Accept-Language': 'en-GB,en',
-  },
+    'Accept-Language': 'en-GB,en'
+  }
 })
 
 axiosellider.interceptors.request.use(
@@ -110,8 +110,8 @@ export const axioskmc = Axios.create({
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
-    'Accept-Language': 'en-GB,en',
-  },
+    'Accept-Language': 'en-GB,en'
+  }
 })
 
 axioskmc.interceptors.request.use(

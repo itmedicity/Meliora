@@ -55,9 +55,9 @@ const ComPrioritySelect = ({ value, setValue, setmaxTime }) => {
           [`& .${selectClasses.indicator}`]: {
             transition: '0.2s',
             [`&.${selectClasses.expanded}`]: {
-              transform: 'rotate(-180deg)',
-            },
-          },
+              transform: 'rotate(-180deg)'
+            }
+          }
         }}
       >
         {pririty &&

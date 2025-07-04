@@ -1,17 +1,7 @@
 import { TextareaAutosize } from '@mui/base/TextareaAutosize'
 import React, { Fragment } from 'react'
 
-const CustomTextarea = ({
-  minRows,
-  style,
-  placeholder,
-  onchange,
-  value,
-  disabled,
-  size,
-  maxRows,
-  name,
-}) => {
+const CustomTextarea = ({ minRows, style, placeholder, onchange, value, disabled, size, maxRows, name }) => {
   // const textStyle = { width: "100%", height: "100%" }
 
   return (

@@ -3,7 +3,7 @@ const { FETCH_BHRC_PATIENT } = ActionTyps
 
 const BhrcPatient = {
   PatientList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 
 export const getBhrctotalPatient = (state = BhrcPatient, { type, payload }) => {

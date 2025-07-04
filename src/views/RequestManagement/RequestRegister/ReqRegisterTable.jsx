@@ -92,8 +92,7 @@ const ReqRegisterTable = ({ count, rowSelect, isIncharge }) => {
               : val.manag_operation_approv === 3
               ? 'On-Hold'
               : 'Not Updated',
-          manag_operation_remarks:
-            val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
+          manag_operation_remarks: val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
           senior_manage_approv: val.senior_manage_approv,
           smo:
             val.senior_manage_approv === 1
@@ -103,8 +102,7 @@ const ReqRegisterTable = ({ count, rowSelect, isIncharge }) => {
               : val.senior_manage_approv === 3
               ? 'On-Hold'
               : 'Not Updated',
-          senior_manage_remarks:
-            val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
+          senior_manage_remarks: val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
           cao_approve: val.cao_approve,
           cao:
             val.cao_approve === 1
@@ -114,8 +112,7 @@ const ReqRegisterTable = ({ count, rowSelect, isIncharge }) => {
               : val.cao_approve === 3
               ? 'On-Hold'
               : 'Not Updated',
-          cao_approve_remarks:
-            val.cao_approve_remarks !== null ? val.cao_approve_remarks : 'Not Updated',
+          cao_approve_remarks: val.cao_approve_remarks !== null ? val.cao_approve_remarks : 'Not Updated',
 
           md_approve: val.md_approve,
           md:
@@ -126,8 +123,7 @@ const ReqRegisterTable = ({ count, rowSelect, isIncharge }) => {
               : val.md_approve === 3
               ? 'On-Hold'
               : 'Not Updated',
-          md_approve_remarks:
-            val.md_approve_remarks !== null ? val.md_approve_remarks : 'Not Updated',
+          md_approve_remarks: val.md_approve_remarks !== null ? val.md_approve_remarks : 'Not Updated',
 
           ed_approve: val.ed_approve,
           ed:
@@ -138,8 +134,7 @@ const ReqRegisterTable = ({ count, rowSelect, isIncharge }) => {
               : val.ed_approve === 3
               ? 'On-Hold'
               : 'Not Updated',
-          ed_approve_remarks:
-            val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
+          ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
 
           ndrf_coo:
             val.ndrf_cao_approve === 1
@@ -149,8 +144,7 @@ const ReqRegisterTable = ({ count, rowSelect, isIncharge }) => {
               : val.ndrf_cao_approve === 3
               ? 'On-Hold'
               : 'Not Updated',
-          ndrf_coo_remarks:
-            val.ndrf_cao_approve_remarks !== null ? val.ndrf_cao_approve_remarks : 'Not Updated',
+          ndrf_coo_remarks: val.ndrf_cao_approve_remarks !== null ? val.ndrf_cao_approve_remarks : 'Not Updated',
 
           ndrf_ed:
             val.ndrf_ed_approve === 1
@@ -160,8 +154,7 @@ const ReqRegisterTable = ({ count, rowSelect, isIncharge }) => {
               : val.ndrf_ed_approve === 3
               ? 'On-Hold'
               : 'Not Updated',
-          ndrf_ed_approve_remarks:
-            val.ndrf_ed_approve_remarks !== null ? val.ndrf_ed_approve_remarks : 'Not Updated',
+          ndrf_ed_approve_remarks: val.ndrf_ed_approve_remarks !== null ? val.ndrf_ed_approve_remarks : 'Not Updated',
 
           ndrf_md:
             val.ndrf_md_approve === 1
@@ -171,8 +164,7 @@ const ReqRegisterTable = ({ count, rowSelect, isIncharge }) => {
               : val.ndrf_md_approve === 3
               ? 'On-Hold'
               : 'Not Updated',
-          ndrf_md_remarks:
-            val.ndrf_md_approve_remarks !== null ? val.ndrf_md_approve_remarks : 'Not Updated',
+          ndrf_md_remarks: val.ndrf_md_approve_remarks !== null ? val.ndrf_md_approve_remarks : 'Not Updated'
         }
         return obj
       })
@@ -201,7 +193,7 @@ const ReqRegisterTable = ({ count, rowSelect, isIncharge }) => {
             </IconButton>
           )
         }
-      },
+      }
     },
     { headerName: 'Req.Slno', field: 'req_slno', minWidth: 120 },
     { headerName: 'Status', field: 'status', minWidth: 120 },
@@ -211,7 +203,7 @@ const ReqRegisterTable = ({ count, rowSelect, isIncharge }) => {
       autoHeight: true,
       wrapText: true,
       minWidth: 250,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Justification',
@@ -219,7 +211,7 @@ const ReqRegisterTable = ({ count, rowSelect, isIncharge }) => {
       autoHeight: true,
       wrapText: true,
       minWidth: 250,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Location',
@@ -227,7 +219,7 @@ const ReqRegisterTable = ({ count, rowSelect, isIncharge }) => {
       autoHeight: true,
       wrapText: true,
       minWidth: 250,
-      filter: 'true',
+      filter: 'true'
     },
     { headerName: 'Req. Date', field: 'req_date', minWidth: 200 },
     {
@@ -236,14 +228,14 @@ const ReqRegisterTable = ({ count, rowSelect, isIncharge }) => {
       autoHeight: true,
       wrapText: true,
       minWidth: 150,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Inch.Remark',
       field: 'incharge_remark',
       autoHeight: true,
       minWidth: 250,
-      wrapText: true,
+      wrapText: true
     },
     { headerName: 'Hod.Status', field: 'hod', minWidth: 150, wrapText: true },
     {
@@ -251,7 +243,7 @@ const ReqRegisterTable = ({ count, rowSelect, isIncharge }) => {
       field: 'hod_remarks',
       autoHeight: true,
       minWidth: 250,
-      wrapText: true,
+      wrapText: true
     },
     { headerName: 'DMS.Status', field: 'dms', minWidth: 150, wrapText: true },
     {
@@ -259,7 +251,7 @@ const ReqRegisterTable = ({ count, rowSelect, isIncharge }) => {
       field: 'dms_remarks',
       autoHeight: true,
       minWidth: 250,
-      wrapText: true,
+      wrapText: true
     },
     { headerName: 'MS.Status', field: 'ms', minWidth: 150, wrapText: true },
     {
@@ -267,7 +259,7 @@ const ReqRegisterTable = ({ count, rowSelect, isIncharge }) => {
       field: 'ms_approve_remark',
       autoHeight: true,
       minWidth: 250,
-      wrapText: true,
+      wrapText: true
     },
     { headerName: 'OM Status', field: 'om', minWidth: 150, wrapText: true },
     {
@@ -275,7 +267,7 @@ const ReqRegisterTable = ({ count, rowSelect, isIncharge }) => {
       field: 'manag_operation_remarks',
       autoHeight: true,
       minWidth: 250,
-      wrapText: true,
+      wrapText: true
     },
     { headerName: 'SMO Status', field: 'smo', minWidth: 150, wrapText: true },
     {
@@ -283,7 +275,7 @@ const ReqRegisterTable = ({ count, rowSelect, isIncharge }) => {
       field: 'senior_manage_remarks',
       autoHeight: true,
       minWidth: 250,
-      wrapText: true,
+      wrapText: true
     },
     { headerName: 'GM Status', field: 'cao', minWidth: 180, wrapText: true },
     {
@@ -291,7 +283,7 @@ const ReqRegisterTable = ({ count, rowSelect, isIncharge }) => {
       field: 'cao_approve_remarks',
       autoHeight: true,
       minWidth: 250,
-      wrapText: true,
+      wrapText: true
     },
     { headerName: 'MD  Status', field: 'md', minWidth: 150, wrapText: true },
     {
@@ -299,7 +291,7 @@ const ReqRegisterTable = ({ count, rowSelect, isIncharge }) => {
       field: 'md_approve_remarks',
       autoHeight: true,
       minWidth: 250,
-      wrapText: true,
+      wrapText: true
     },
     { headerName: 'ED  Status', field: 'ed', minWidth: 150, wrapText: true },
     {
@@ -307,7 +299,7 @@ const ReqRegisterTable = ({ count, rowSelect, isIncharge }) => {
       field: 'ed_approve_remarks',
       autoHeight: true,
       minWidth: 250,
-      wrapText: true,
+      wrapText: true
     },
 
     { headerName: 'NDRF GM Status', field: 'ndrf_coo', minWidth: 180, wrapText: true },
@@ -316,21 +308,21 @@ const ReqRegisterTable = ({ count, rowSelect, isIncharge }) => {
       field: 'ndrf_coo_remarks',
       autoHeight: true,
       minWidth: 250,
-      wrapText: true,
+      wrapText: true
     },
     {
       headerName: 'NDRF MD  Status',
       field: 'ndrf_md',
       autoHeight: true,
       minWidth: 150,
-      wrapText: true,
+      wrapText: true
     },
     {
       headerName: 'NDRF MD.Remark',
       field: 'ndrf_md_remarks',
       autoHeight: true,
       minWidth: 250,
-      wrapText: true,
+      wrapText: true
     },
     { headerName: 'NDRF ED  Status', field: 'ndrf_ed', minWidth: 150, wrapText: true },
     {
@@ -338,8 +330,8 @@ const ReqRegisterTable = ({ count, rowSelect, isIncharge }) => {
       field: 'ndrf_ed_approve_remarks',
       autoHeight: true,
       minWidth: 250,
-      wrapText: true,
-    },
+      wrapText: true
+    }
   ])
 
   const [columnIncharge] = useState([
@@ -362,7 +354,7 @@ const ReqRegisterTable = ({ count, rowSelect, isIncharge }) => {
             </IconButton>
           )
         }
-      },
+      }
     },
     { headerName: 'Req.Slno', field: 'req_slno', minWidth: 120 },
     {
@@ -371,7 +363,7 @@ const ReqRegisterTable = ({ count, rowSelect, isIncharge }) => {
       autoHeight: true,
       wrapText: true,
       minWidth: 250,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Justification',
@@ -379,7 +371,7 @@ const ReqRegisterTable = ({ count, rowSelect, isIncharge }) => {
       autoHeight: true,
       wrapText: true,
       minWidth: 250,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Location',
@@ -387,7 +379,7 @@ const ReqRegisterTable = ({ count, rowSelect, isIncharge }) => {
       autoHeight: true,
       wrapText: true,
       minWidth: 250,
-      filter: 'true',
+      filter: 'true'
     },
     { headerName: 'Req. Date', field: 'req_date', minWidth: 200 },
     {
@@ -396,7 +388,7 @@ const ReqRegisterTable = ({ count, rowSelect, isIncharge }) => {
       autoHeight: true,
       wrapText: true,
       minWidth: 150,
-      filter: 'true',
+      filter: 'true'
     },
     { headerName: 'Inch.Remark', field: 'incharge_remark', minWidth: 150, wrapText: true },
     { headerName: 'Hod.Status', field: 'hod', minWidth: 150, wrapText: true, filter: 'true' },
@@ -417,7 +409,7 @@ const ReqRegisterTable = ({ count, rowSelect, isIncharge }) => {
       field: 'md_approve_remarks',
       autoHeight: true,
       minWidth: 250,
-      wrapText: true,
+      wrapText: true
     },
     { headerName: 'ED  Status', field: 'ed', minWidth: 150, wrapText: true, filter: 'true' },
     {
@@ -425,7 +417,7 @@ const ReqRegisterTable = ({ count, rowSelect, isIncharge }) => {
       field: 'ed_approve_remarks',
       autoHeight: true,
       minWidth: 250,
-      wrapText: true,
+      wrapText: true
     },
 
     {
@@ -433,14 +425,14 @@ const ReqRegisterTable = ({ count, rowSelect, isIncharge }) => {
       field: 'ndrf_coo',
       minWidth: 180,
       wrapText: true,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'NDRF GM.Remark',
       field: 'ndrf_coo_remarks',
       autoHeight: true,
       minWidth: 250,
-      wrapText: true,
+      wrapText: true
     },
     {
       headerName: 'NDRF MD  Status',
@@ -448,29 +440,29 @@ const ReqRegisterTable = ({ count, rowSelect, isIncharge }) => {
       autoHeight: true,
       minWidth: 150,
       wrapText: true,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'NDRF MD.Remark',
       field: 'ndrf_md_remarks',
       autoHeight: true,
       minWidth: 250,
-      wrapText: true,
+      wrapText: true
     },
     {
       headerName: 'NDRF ED  Status',
       field: 'ndrf_ed',
       minWidth: 150,
       wrapText: true,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'NDRF ED.Remark',
       field: 'ndrf_ed_approve_remarks',
       autoHeight: true,
       minWidth: 250,
-      wrapText: true,
-    },
+      wrapText: true
+    }
   ])
 
   return (

@@ -1,14 +1,5 @@
 import React, { memo, useCallback, useState } from 'react'
-import {
-  Box,
-  Button,
-  CssVarsProvider,
-  Modal,
-  ModalClose,
-  ModalDialog,
-  Textarea,
-  Typography,
-} from '@mui/joy'
+import { Box, Button, CssVarsProvider, Modal, ModalClose, ModalDialog, Textarea, Typography } from '@mui/joy'
 import { useQueryClient } from 'react-query'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { succesNotify, warningNotify } from 'src/views/Common/CommonCode'
@@ -27,7 +18,7 @@ const ReturnModal = ({ returnData, handleClose, open, empId }) => {
       po_itm_slno: po_itm_slno,
       return_remarks: returnRemarks,
       item_return_user: empId,
-      return_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
+      return_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss')
     }
     const insertDetails = async postdata => {
       try {
@@ -59,9 +50,9 @@ const ReturnModal = ({ returnData, handleClose, open, empId }) => {
     border: '1px solid #bbdefb',
     '&:hover': {
       color: '#1e88e5',
-      bgcolor: 'white',
+      bgcolor: 'white'
     },
-    borderRadius: 5,
+    borderRadius: 5
   }
   return (
     <Box>
@@ -84,14 +75,14 @@ const ReturnModal = ({ returnData, handleClose, open, empId }) => {
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 25,
-                width: 25,
+                width: 25
               }}
             />
             <Box
               sx={{
                 width: '30vw',
                 minHeight: 150,
-                overflow: 'auto',
+                overflow: 'auto'
               }}
             >
               <Typography level="body-sm" sx={{ color: '#0074B7', fontWeight: 650 }}>

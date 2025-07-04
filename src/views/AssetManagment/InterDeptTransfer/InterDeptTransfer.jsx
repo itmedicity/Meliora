@@ -26,7 +26,7 @@ const InterDeptTransfer = () => {
       field: 'category_name',
       minWidth: 180,
       wrapText: true,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Item Name',
@@ -34,7 +34,7 @@ const InterDeptTransfer = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 350,
-      filter: 'true',
+      filter: 'true'
     },
     { headerName: 'Asset No', field: 'assetno', minWidth: 250, wrapText: true, filter: 'true' },
     { headerName: 'Room No', field: 'rm_room_name', minWidth: 250, wrapText: true, filter: 'true' },
@@ -43,7 +43,7 @@ const InterDeptTransfer = () => {
       field: 'subroom_name',
       minWidth: 150,
       wrapText: true,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Serial No',
@@ -51,7 +51,7 @@ const InterDeptTransfer = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 200,
-      filter: 'true',
+      filter: 'true'
     },
 
     {
@@ -59,32 +59,26 @@ const InterDeptTransfer = () => {
       minWidth: 120,
       cellRenderer: params => (
         <Fragment>
-          <IconButton
-            sx={{ color: editicon, paddingY: 0.5 }}
-            onClick={() => TransferLocation(params)}
-          >
+          <IconButton sx={{ color: editicon, paddingY: 0.5 }} onClick={() => TransferLocation(params)}>
             <CustomeToolTip title="Transfer Location">
               <ChangeCircleIcon />
             </CustomeToolTip>
           </IconButton>
         </Fragment>
-      ),
-    },
+      )
+    }
   ])
 
   const postdatagetItem = useMemo(() => {
     return {
       item_dept_slno: empdept,
-      item_deptsec_slno: deptsec,
+      item_deptsec_slno: deptsec
     }
   }, [deptsec, empdept])
 
   useEffect(() => {
     const getDepartmentAsset = async () => {
-      const result = await axioslogin.post(
-        `/assetInternalTrans/getdataForInternalTrans`,
-        postdatagetItem
-      )
+      const result = await axioslogin.post(`/assetInternalTrans/getdataForInternalTrans`, postdatagetItem)
       const { success, data } = result.data
       if (success === 1) {
         const dispalyData =
@@ -104,9 +98,7 @@ const InterDeptTransfer = () => {
               subroom_name: val.subroom_name !== null ? val.subroom_name : 'Not Given',
               assetno: val.item_asset_no + '/' + val.item_asset_no_only.toString().padStart(6, '0'),
               am_manufacture_no:
-                val.am_manufacture_no !== null || val.am_manufacture_no !== ''
-                  ? val.am_manufacture_no
-                  : 'Not Given',
+                val.am_manufacture_no !== null || val.am_manufacture_no !== '' ? val.am_manufacture_no : 'Not Given'
             }
             return obj
           })

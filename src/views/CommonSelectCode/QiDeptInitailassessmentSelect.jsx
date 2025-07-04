@@ -2,17 +2,9 @@ import { Autocomplete, CssVarsProvider } from '@mui/joy'
 import React, { Fragment, memo, useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
-const QiDeptInitailassessmentSelect = ({
-  qidept,
-  setQidept,
-  setQitype,
-  setDepCode,
-  setsearchFlag,
-}) => {
+const QiDeptInitailassessmentSelect = ({ qidept, setQidept, setQitype, setDepCode, setsearchFlag }) => {
   const departmentList = useSelector(state => state.getQltyDept.qiDeptList)
-  const [type, setType] = useState([
-    { qi_dept_no: 0, qi_dept_desc: '', qi_dept_code: '', qi_list_type: 0 },
-  ])
+  const [type, setType] = useState([{ qi_dept_no: 0, qi_dept_desc: '', qi_dept_code: '', qi_list_type: 0 }])
   const [value, setValue] = useState(type[0])
   const [inputValue, setInputValue] = useState('')
   const [flag, setFlag] = useState(0)

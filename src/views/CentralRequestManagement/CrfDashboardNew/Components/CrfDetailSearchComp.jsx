@@ -8,21 +8,11 @@ import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone'
 import moment from 'moment'
 import { parse } from 'date-fns'
 
-const CustomCloseIconCmp = React.lazy(() =>
-  import('../../ComonComponent/Components/CustomCloseIconCmp')
-)
-const CustomIconButtonCmp = React.lazy(() =>
-  import('../../ComonComponent/Components/CustomIconButtonCmp')
-)
-const CustomInputDateCmp = React.lazy(() =>
-  import('../../ComonComponent/Components/CustomInputDateCmp')
-)
-const CRFDashboardDptSecSelect = React.lazy(() =>
-  import('src/views/CommonSelectCode/CRFDashboardDptSecSelect')
-)
-const CRFDashboardDptSelect = React.lazy(() =>
-  import('src/views/CommonSelectCode/CRFDashboardDptSelect')
-)
+const CustomCloseIconCmp = React.lazy(() => import('../../ComonComponent/Components/CustomCloseIconCmp'))
+const CustomIconButtonCmp = React.lazy(() => import('../../ComonComponent/Components/CustomIconButtonCmp'))
+const CustomInputDateCmp = React.lazy(() => import('../../ComonComponent/Components/CustomInputDateCmp'))
+const CRFDashboardDptSecSelect = React.lazy(() => import('src/views/CommonSelectCode/CRFDashboardDptSecSelect'))
+const CRFDashboardDptSelect = React.lazy(() => import('src/views/CommonSelectCode/CRFDashboardDptSelect'))
 
 const formatDateForInput = date => {
   return date.toISOString().split('T')[0]
@@ -36,7 +26,7 @@ const CrfDetailSearchComp = ({ setFlag, setDisData, tableData, companyData }) =>
     startDate: formatDateForInput(new Date()),
     endDate: formatDateForInput(new Date()),
     searchFlag: '0',
-    searchCrf: '',
+    searchCrf: ''
   })
   const { startDate, endDate, searchFlag, searchCrf } = state
   const backtoHome = useCallback(() => {
@@ -46,13 +36,13 @@ const CrfDetailSearchComp = ({ setFlag, setDisData, tableData, companyData }) =>
   const startDateChange = useCallback(e => {
     setState(prevState => ({
       ...prevState,
-      startDate: e.target.value,
+      startDate: e.target.value
     }))
   }, [])
   const endDateChange = useCallback(e => {
     setState(prevState => ({
       ...prevState,
-      endDate: e.target.value,
+      endDate: e.target.value
     }))
   }, [])
   const ClearSearch = useCallback(() => {
@@ -63,20 +53,20 @@ const CrfDetailSearchComp = ({ setFlag, setDisData, tableData, companyData }) =>
       startDate: formatDateForInput(new Date()),
       endDate: formatDateForInput(new Date()),
       searchFlag: '0',
-      searchCrf: '',
+      searchCrf: ''
     }
     setState(initialState)
   }, [tableData, setDisData])
   const changeSearchSelect = useCallback((e, newValue) => {
     setState(prevState => ({
       ...prevState,
-      searchFlag: newValue,
+      searchFlag: newValue
     }))
   }, [])
   const changeCrfNo = useCallback(e => {
     setState(prevState => ({
       ...prevState,
-      searchCrf: e.target.value,
+      searchCrf: e.target.value
     }))
   }, [])
 
@@ -103,9 +93,7 @@ const CrfDetailSearchComp = ({ setFlag, setDisData, tableData, companyData }) =>
           const newData = tableData?.filter(val => val.dept_id === department)
           setDisData(newData)
         } else {
-          const newData = tableData?.filter(
-            val => val.dept_id === department && val.request_deptsec_slno === dptSec
-          )
+          const newData = tableData?.filter(val => val.dept_id === department && val.request_deptsec_slno === dptSec)
           setDisData(newData)
         }
       }
@@ -123,9 +111,7 @@ const CrfDetailSearchComp = ({ setFlag, setDisData, tableData, companyData }) =>
       <Paper variant="outlined" sx={{ bgcolor: 'white', pt: 0.5, height: 92 }}>
         <Box sx={{ display: 'flex' }}>
           <Box sx={{ flex: 1 }}>
-            <Typography sx={{ fontSize: 18, fontWeight: 550, color: '#41729F', ml: 1 }}>
-              CRF Details
-            </Typography>
+            <Typography sx={{ fontSize: 18, fontWeight: 550, color: '#41729F', ml: 1 }}>CRF Details</Typography>
           </Box>
           <Box
             sx={{
@@ -134,7 +120,7 @@ const CrfDetailSearchComp = ({ setFlag, setDisData, tableData, companyData }) =>
               flex: 1,
               fontSize: 20,
               pt: 0.8,
-              pr: 1,
+              pr: 1
             }}
           >
             <CustomCloseIconCmp handleChange={backtoHome} />
@@ -150,10 +136,10 @@ const CrfDetailSearchComp = ({ setFlag, setDisData, tableData, companyData }) =>
                   border: '1px solid #64b5f6',
                   height: 20,
                   color: '#1565c0',
-                  fontSize: 14,
+                  fontSize: 14
                 }}
                 slotProps={{
-                  listbox: { placement: 'bottom-start' },
+                  listbox: { placement: 'bottom-start' }
                 }}
                 placeholder="Search By"
                 value={searchFlag}
@@ -174,13 +160,11 @@ const CrfDetailSearchComp = ({ setFlag, setDisData, tableData, companyData }) =>
                     fontSize: 12,
                     borderRadius: 5,
                     height: '19px',
-                    lineHeight: '1',
+                    lineHeight: '1'
                   }}
                   onClick={ClearSearch}
                 >
-                  <FilterAltTwoToneIcon
-                    sx={{ fontWeight: 550, color: '#0277bd', pr: 0.5, width: 30, height: 20 }}
-                  />
+                  <FilterAltTwoToneIcon sx={{ fontWeight: 550, color: '#0277bd', pr: 0.5, width: 30, height: 20 }} />
                   Clear Filter
                 </IconButton>
               </CssVarsProvider>
@@ -202,12 +186,12 @@ const CrfDetailSearchComp = ({ setFlag, setDisData, tableData, companyData }) =>
                       border: '1px solid #bbdefb',
                       color: '#0d47a1',
                       fontSize: 14,
-                      width: 200,
+                      width: 200
                     }}
                     slotProps={{
                       input: {
-                        max: moment(new Date()).format('YYYY-MM-DD'),
-                      },
+                        max: moment(new Date()).format('YYYY-MM-DD')
+                      }
                     }}
                     size={'md'}
                     type="date"
@@ -231,12 +215,12 @@ const CrfDetailSearchComp = ({ setFlag, setDisData, tableData, companyData }) =>
                       border: '1px solid #bbdefb',
                       color: '#0d47a1',
                       fontSize: 14,
-                      width: 200,
+                      width: 200
                     }}
                     slotProps={{
                       input: {
-                        max: moment(new Date()).format('YYYY-MM-DD'),
-                      },
+                        max: moment(new Date()).format('YYYY-MM-DD')
+                      }
                     }}
                     size={'md'}
                     type="date"
@@ -249,11 +233,7 @@ const CrfDetailSearchComp = ({ setFlag, setDisData, tableData, companyData }) =>
             </Box>
           ) : searchFlag === '2' ? (
             <Box sx={{ display: 'flex', mt: 0.5 }}>
-              <CRFDashboardDptSelect
-                department={department}
-                setDepartment={setDepartment}
-                setdptSec={setdptSec}
-              />
+              <CRFDashboardDptSelect department={department} setDepartment={setDepartment} setdptSec={setdptSec} />
               {department !== 0 ? (
                 <Box sx={{ ml: 0.5 }}>
                   <CRFDashboardDptSecSelect dptSec={dptSec} setdptSec={setdptSec} />
@@ -266,13 +246,8 @@ const CrfDetailSearchComp = ({ setFlag, setDisData, tableData, companyData }) =>
                 <CustomInputDateCmp
                   StartIcon={
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                      <AlignHorizontalLeftTwoToneIcon
-                        sx={{ height: 18, width: 18, color: '#0063C5' }}
-                      />
-                      <Typography sx={{ ml: 1, fontSize: '13px', color: '#0063C5' }}>
-                        {' '}
-                        CRF/{company_name}
-                      </Typography>
+                      <AlignHorizontalLeftTwoToneIcon sx={{ height: 18, width: 18, color: '#0063C5' }} />
+                      <Typography sx={{ ml: 1, fontSize: '13px', color: '#0063C5' }}> CRF/{company_name}</Typography>
                     </Box>
                   }
                   className={{
@@ -280,7 +255,7 @@ const CrfDetailSearchComp = ({ setFlag, setDisData, tableData, companyData }) =>
                     border: '1px solid #bbdefb',
                     width: 250,
                     height: 35,
-                    color: '#1565c0',
+                    color: '#1565c0'
                   }}
                   size={'md'}
                   autoComplete={'off'}
@@ -304,8 +279,8 @@ const CrfDetailSearchComp = ({ setFlag, setDisData, tableData, companyData }) =>
                     ml: 1,
                     pt: 0.2,
                     '&:hover': {
-                      color: '#43B0F1',
-                    },
+                      color: '#43B0F1'
+                    }
                   }}
                 />
               </CustomIconButtonCmp>

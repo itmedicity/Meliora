@@ -29,14 +29,14 @@ const AllDeptTicketProgressList = () => {
   const postdata = useMemo(() => {
     return {
       fromDate: sevenDaysbefore,
-      toDate: currentDateAndTime,
+      toDate: currentDateAndTime
     }
   }, [sevenDaysbefore, currentDateAndTime])
 
   const { data: AllcomplaintDept } = useQuery({
     queryKey: ['getAllcomplaintDept', postdata],
     enabled: sevenDaysbefore !== '' && !!currentDateAndTime !== '',
-    queryFn: () => getAllcomplaintDept(postdata),
+    queryFn: () => getAllcomplaintDept(postdata)
   })
 
   const ticketDeptList = useMemo(() => {
@@ -45,10 +45,7 @@ const AllDeptTicketProgressList = () => {
         TicketDepartment: item.complaint_dept_name || 'N/A',
         totalComplaints: item.total_complaint_count || 0,
         rectifiedComplaints: item.rectified_complaint_count || 0,
-        unrectifiedComplaints: Math.max(
-          item.total_complaint_count - item.rectified_complaint_count || 0,
-          0
-        ),
+        unrectifiedComplaints: Math.max(item.total_complaint_count - item.rectified_complaint_count || 0, 0)
       }))
     }
     return []
@@ -63,7 +60,7 @@ const AllDeptTicketProgressList = () => {
     return {
       label,
       rectified: rectified || 0,
-      unrectified: unrectified || 0,
+      unrectified: unrectified || 0
     }
   })
   const rectifiedData = combinedData.map(item => item.rectified)
@@ -78,7 +75,7 @@ const AllDeptTicketProgressList = () => {
         px: 1,
         py: 0.5,
         bgcolor: 'white',
-        borderRadius: 5,
+        borderRadius: 5
       }}
     >
       <Box sx={{ flex: 1, display: 'flex' }}>
@@ -88,9 +85,7 @@ const AllDeptTicketProgressList = () => {
         />
         <Box sx={{ display: 'flex', pr: 1 }}>
           <DateRangeIcon sx={{ color: '#5D6C89', height: 20, width: 20 }} />
-          <Typography sx={{ fontSize: 13, color: '#5D6C89', pt: 0.3 }}>
-            From the last 7 days
-          </Typography>
+          <Typography sx={{ fontSize: 13, color: '#5D6C89', pt: 0.3 }}>From the last 7 days</Typography>
         </Box>
       </Box>
       <Box sx={{ flex: 1 }}>
@@ -103,7 +98,7 @@ const AllDeptTicketProgressList = () => {
                   label: 'Rectified       ',
                   id: 'Rectified',
                   stack: 'total',
-                  color: '#244E73',
+                  color: '#244E73'
                 },
                 {
                   data: unrectifiedData,
@@ -111,8 +106,8 @@ const AllDeptTicketProgressList = () => {
                   id: 'Pending',
                   stack: 'total',
                   color: '#A7B8CF',
-                  border: 1,
-                },
+                  border: 1
+                }
               ]}
               xAxis={[{ data: xLabels, scaleType: 'band' }]}
               margin={{ left: 40, right: 20, top: 40, bottom: 35 }}
@@ -123,8 +118,8 @@ const AllDeptTicketProgressList = () => {
               xAxis={[
                 {
                   data: ['No Data'],
-                  scaleType: 'band',
-                },
+                  scaleType: 'band'
+                }
               ]}
               margin={{ left: 40, right: 20, top: 40, bottom: 35 }}
             />

@@ -3,7 +3,7 @@ const { FETCH_NDRF_LIST } = ActionTyps
 //intial state
 const NdrfList = {
   NdrfListdata: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Deptsection action type check then payload set to the state and loading status set as true */
 export const setNdrfList = (state = NdrfList, { type, payload }) => {

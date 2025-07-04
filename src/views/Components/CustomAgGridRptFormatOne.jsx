@@ -15,8 +15,8 @@ const CustomAgGridRptFormatOne = () => {
       // filter: true,
       filterParams: {
         buttons: ['reset', 'apply'],
-        debounceMs: 200,
-      },
+        debounceMs: 200
+      }
       // filter: 'agTextColumnFilter',
       // filter: 'agNumberColumnFilter',
       // checkboxSelection: true,
@@ -27,7 +27,7 @@ const CustomAgGridRptFormatOne = () => {
     },
     { headerName: 'Name', field: 'name' },
     { headerName: 'mobile ', field: 'mobile' },
-    { headerName: 'City ', field: 'city' },
+    { headerName: 'City ', field: 'city' }
     // { headerName: 'Age ', field: 'age' },
     // { headerName: 'Place ', field: 'place' },
     // { headerName: 'Gender ', field: 'gender' },
@@ -40,7 +40,7 @@ const CustomAgGridRptFormatOne = () => {
       slno: 12,
       name: 'Ajith',
       mobile: 9846009616,
-      city: 'kottiyam',
+      city: 'kottiyam'
       // age: 32,
       // place: 'kollam',
       // gender: 'male',
@@ -51,13 +51,13 @@ const CustomAgGridRptFormatOne = () => {
       slno: 22,
       name: 'Ajith',
       mobile: 9846009616,
-      city: 'kottiyam',
+      city: 'kottiyam'
       // age: 32,
       // place: 'kollam',
       // gender: 'male',
       // state: 'kerala',
       // nation: 'indian',
-    },
+    }
     // {
     //   slno: 22,
     //   name: 'Ajith',
@@ -296,7 +296,7 @@ const CustomAgGridRptFormatOne = () => {
   const defaultColDef = {
     // resizable: true,
     sortable: true,
-    filter: true,
+    filter: true
     // floatingFilter: true
     // filter: 'agTextColumnFilter',
   }
@@ -322,8 +322,8 @@ const CustomAgGridRptFormatOne = () => {
       'sans-serif',
       '"Apple Color Emoji"',
       '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
+      '"Segoe UI Symbol"'
+    ].join(',')
   }
 
   return (
@@ -333,7 +333,7 @@ const CustomAgGridRptFormatOne = () => {
           className="ag-theme-material ListItemScrol"
           sx={{
             height: { xs: 540, sm: 540, md: 540, lg: 514, xl: 802 },
-            width: '100%',
+            width: '100%'
           }}
         >
           <AgGridReact

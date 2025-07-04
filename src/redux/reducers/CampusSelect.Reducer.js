@@ -3,7 +3,7 @@ const { FETCH_CAMPUS_SELECT } = ActionTyps
 //initial state
 const CampusName = {
   campusList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Department action type check then payload set to the state and loading status set as true */
 export const getCampus = (state = CampusName, { type, payload }) => {

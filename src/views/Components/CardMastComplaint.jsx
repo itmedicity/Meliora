@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react'
-import CusIconButton from './CusIconButton';
-import theme from './MuiTheme';
-import CustomeToolTip from './CustomeToolTip';
+import CusIconButton from './CusIconButton'
+import theme from './MuiTheme'
+import CustomeToolTip from './CustomeToolTip'
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
-import RefreshIcon from '@mui/icons-material/Refresh';
-import { cardActionBgClr } from 'src/color/Color';
-import { Box, Card, CardActions, CardContent, ThemeProvider } from '@mui/joy';
+import RefreshIcon from '@mui/icons-material/Refresh'
+import { cardActionBgClr } from 'src/color/Color'
+import { Box, Card, CardActions, CardContent, ThemeProvider } from '@mui/joy'
 
 const CardMastComplaint = ({ children, submit, refresh, contentStyle }) => {
   return (
@@ -13,32 +13,17 @@ const CardMastComplaint = ({ children, submit, refresh, contentStyle }) => {
       <ThemeProvider theme={theme}>
         <Card sx={{ borderRadius: 0, boxShadow: 1 }}>
           <CardContent sx={contentStyle}>{children}</CardContent>
-          <CardActions
-            sx={{ backgroundColor: cardActionBgClr, py: 0.3, pt: 0.5 }}
-            disableSpacing={false}
-          >
+          <CardActions sx={{ backgroundColor: cardActionBgClr, py: 0.3, pt: 0.5 }} disableSpacing={false}>
             <CustomeToolTip title="Save" placement="left">
               <Box>
-                <CusIconButton
-                  size="sm"
-                  variant="outlined"
-                  color="primary"
-                  clickable="true"
-                  onClick={submit}
-                >
+                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={submit}>
                   <LibraryAddIcon fontSize="small" />
                 </CusIconButton>
               </Box>
             </CustomeToolTip>
             <CustomeToolTip title="Refresh" placement="left">
               <Box>
-                <CusIconButton
-                  size="sm"
-                  variant="outlined"
-                  color="primary"
-                  clickable="true"
-                  onClick={refresh}
-                >
+                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={refresh}>
                   <RefreshIcon fontSize="small" />
                 </CusIconButton>
               </Box>

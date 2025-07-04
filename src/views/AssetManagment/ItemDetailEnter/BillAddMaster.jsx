@@ -42,7 +42,7 @@ const BillAddMaster = ({ setBillFlg }) => {
     am_bill_no: '',
     am_bill_date: '',
     am_bill_image: '',
-    am_bill_mastslno: '',
+    am_bill_mastslno: ''
   })
 
   const { am_bill_no, am_bill_date, am_bill_image, am_bill_mastslno } = billMast
@@ -77,7 +77,7 @@ const BillAddMaster = ({ setBillFlg }) => {
     const options = {
       maxSizeMB: 25,
       maxWidthOrHeight: 1920,
-      useWebWorker: true,
+      useWebWorker: true
     }
     const compressedFile = await imageCompression(imageFile, options)
     return compressedFile
@@ -95,7 +95,7 @@ const BillAddMaster = ({ setBillFlg }) => {
       am_bill_no: am_bill_no,
       am_bill_date: am_bill_date,
       am_bill_supplier: supplier,
-      create_user: id,
+      create_user: id
     }
   }, [am_bill_no, am_bill_date, supplier, id])
 
@@ -105,7 +105,7 @@ const BillAddMaster = ({ setBillFlg }) => {
       am_bill_date: am_bill_date,
       am_bill_supplier: supplier,
       edit_user: id,
-      am_bill_mastslno: am_bill_mastslno,
+      am_bill_mastslno: am_bill_mastslno
     }
   }, [am_bill_no, am_bill_date, supplier, id, am_bill_mastslno])
 
@@ -119,7 +119,7 @@ const BillAddMaster = ({ setBillFlg }) => {
     const frmdata = {
       am_bill_no: '',
       am_bill_date: '',
-      am_bill_image: '',
+      am_bill_image: ''
     }
     setBillMast(frmdata)
     setSupplier(0)
@@ -144,8 +144,8 @@ const BillAddMaster = ({ setBillFlg }) => {
           // Use the Axios instance and endpoint that matches your server setup
           const result = await axioslogin.post('/AssetFileUpload/asset/BillMasterImage', formData, {
             headers: {
-              'Content-Type': 'multipart/form-data',
-            },
+              'Content-Type': 'multipart/form-data'
+            }
           })
           return result.data
         } catch (error) {
@@ -221,17 +221,7 @@ const BillAddMaster = ({ setBillFlg }) => {
         }
       }
     },
-    [
-      postdata,
-      value,
-      selectFile,
-      am_bill_mastslno,
-      patch,
-      am_bill_no,
-      count,
-      reset,
-      handleImageUpload,
-    ]
+    [postdata, value, selectFile, am_bill_mastslno, patch, am_bill_no, count, reset, handleImageUpload]
   )
 
   const rowSelect = useCallback(val => {
@@ -241,7 +231,7 @@ const BillAddMaster = ({ setBillFlg }) => {
       am_bill_no: am_bill_no,
       am_bill_date: am_bill_date,
       am_bill_image: am_bill_image,
-      am_bill_mastslno: am_bill_mastslno,
+      am_bill_mastslno: am_bill_mastslno
     }
     setBillMast(frmdata)
     setSupplier(am_bill_supplier)
@@ -253,9 +243,7 @@ const BillAddMaster = ({ setBillFlg }) => {
 
   const ViewAmcCmcImage = useCallback(() => {
     const getImage = async am_bill_mastslno => {
-      const result = await axioslogin.get(
-        `/AssetFileUpload/BillMasterImageView/${am_bill_mastslno}`
-      )
+      const result = await axioslogin.get(`/AssetFileUpload/BillMasterImageView/${am_bill_mastslno}`)
       const { success, data } = result.data
       if (success === 1) {
         const fileNames = data
@@ -292,7 +280,7 @@ const BillAddMaster = ({ setBillFlg }) => {
 
   const searchdata = useMemo(() => {
     return {
-      SUC_NAME: suppName,
+      SUC_NAME: suppName
     }
   }, [suppName])
 
@@ -322,7 +310,7 @@ const BillAddMaster = ({ setBillFlg }) => {
         it_supplier_email_one: SUC_EMAIL,
         it_supplier_escl_mob_one: parseInt(SUC_PERSON2),
         it_supplier_escl_land_one: parseInt(SUC_PERSON1),
-        supplier_status: 1,
+        supplier_status: 1
       }
       const InsertSupplierInMeli = async postdata => {
         const result = await axioslogin.post('/ItemMapDetails/SupplierAdding', postdata)
@@ -394,28 +382,22 @@ const BillAddMaster = ({ setBillFlg }) => {
       -2px 0px 4px rgba(0, 0, 0, 0.1),    /* Left shadow */
       2px 0px 4px rgba(0, 0, 0, 0.1)      /* Right shadow */
           `,
-        transition: 'all 0.3s ease',
+        transition: 'all 0.3s ease'
       }}
     >
-      {imageshowFlag === 1 ? (
-        <FileView open={imageshow} handleClose={handleClose} images={imagearray} />
-      ) : null}
+      {imageshowFlag === 1 ? <FileView open={imageshow} handleClose={handleClose} images={imagearray} /> : null}
       <TextComponent
         text={'Add New Bill Details'}
         sx={{
           fontWeight: 600,
           color: 'black',
-          py: 1,
+          py: 1
         }}
       />
 
       {imageShowsingle === 1 ? (
         <Box>
-          <FileViewSingle
-            previewFile={previewFile}
-            imageShow={imageShowSingle}
-            CloseFile={CloseFile}
-          />
+          <FileViewSingle previewFile={previewFile} imageShow={imageShowSingle} CloseFile={CloseFile} />
         </Box>
       ) : null}
 
@@ -430,7 +412,7 @@ const BillAddMaster = ({ setBillFlg }) => {
                     fontWeight: 600,
                     color: '#727B8C',
                     pt: 0.5,
-                    width: 100,
+                    width: 100
                   }}
                 />
                 <Box sx={{ flex: 1 }}>
@@ -450,7 +432,7 @@ const BillAddMaster = ({ setBillFlg }) => {
                     fontWeight: 600,
                     color: '#727B8C',
                     pt: 0.5,
-                    width: 100,
+                    width: 100
                   }}
                 />
                 <Box sx={{ flex: 1 }}>
@@ -470,12 +452,12 @@ const BillAddMaster = ({ setBillFlg }) => {
                     fontWeight: 600,
                     color: '#727B8C',
                     pt: 0.5,
-                    width: 100,
+                    width: 100
                   }}
                 />
                 <Box
                   sx={{
-                    flex: 1,
+                    flex: 1
                   }}
                 >
                   <Box>
@@ -493,7 +475,7 @@ const BillAddMaster = ({ setBillFlg }) => {
                       startDecorator={<SearchOutlinedIcon />}
                       sx={{
                         '--Button-gap': '8px',
-                        width: '100%',
+                        width: '100%'
                       }}
                     >
                       Search Supplier From Ellider{' '}
@@ -511,7 +493,7 @@ const BillAddMaster = ({ setBillFlg }) => {
                   fontWeight: 600,
                   color: '#0B6BCB',
                   pt: 0.5,
-                  pl: 0.3,
+                  pl: 0.3
                 }}
               />
               <Box sx={{ flex: 1, display: 'flex' }}>
@@ -525,13 +507,7 @@ const BillAddMaster = ({ setBillFlg }) => {
                     placeholder={'Enter Supplier'}
                   ></TextFieldCustom>
                 </Box>
-                <CusIconButton
-                  size="sm"
-                  variant="outlined"
-                  color="primary"
-                  clickable="true"
-                  onClick={SearchSupplOrcle}
-                >
+                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={SearchSupplOrcle}>
                   <ManageSearchIcon fontSize="small" />
                 </CusIconButton>
                 &nbsp;
@@ -558,7 +534,7 @@ const BillAddMaster = ({ setBillFlg }) => {
                     border: 1,
                     borderColor: 'lightgrey',
                     p: 0.4,
-                    mt: 0.5,
+                    mt: 0.5
                   }}
                 >
                   {selectFile.length !== 0 &&
@@ -571,7 +547,7 @@ const BillAddMaster = ({ setBillFlg }) => {
                           border: '1px solid #e0e0e0',
                           borderRadius: '4px',
                           p: 0.5,
-                          mr: 0.5,
+                          mr: 0.5
                         }}
                       >
                         {file.type.includes('image') ? (
@@ -584,7 +560,7 @@ const BillAddMaster = ({ setBillFlg }) => {
                               objectFit: 'cover',
                               borderRadius: '4px',
                               marginRight: '8px',
-                              cursor: 'pointer',
+                              cursor: 'pointer'
                             }}
                             onClick={() => ViewImage(file)}
                           />
@@ -595,7 +571,7 @@ const BillAddMaster = ({ setBillFlg }) => {
                               height: '40px',
                               color: '#e53935',
                               marginRight: '8px',
-                              cursor: 'pointer',
+                              cursor: 'pointer'
                             }}
                             onClick={() => ViewImage(file)}
                           />
@@ -606,7 +582,7 @@ const BillAddMaster = ({ setBillFlg }) => {
                               height: '40px',
                               color: '#9e9e9e',
                               marginRight: '8px',
-                              cursor: 'pointer',
+                              cursor: 'pointer'
                             }}
                             onClick={() => ViewImage(file)}
                           />
@@ -621,7 +597,7 @@ const BillAddMaster = ({ setBillFlg }) => {
                             cursor: 'pointer',
                             color: '#4D0011',
                             mx: 0.5,
-                            '&:hover': { color: '#BA0F30' },
+                            '&:hover': { color: '#BA0F30' }
                           }}
                           onClick={() => handleRemoveFile(index)}
                         />
@@ -644,7 +620,7 @@ const BillAddMaster = ({ setBillFlg }) => {
                 borderColor: '#0B6BCB',
                 bgcolor: '#F3F5F7',
                 pt: 1,
-                cursor: 'pointer',
+                cursor: 'pointer'
               }}
             >
               <label htmlFor="file-input">
@@ -655,7 +631,7 @@ const BillAddMaster = ({ setBillFlg }) => {
                     fontWeight: 600,
                     color: '#0B6BCB',
                     pb: 1,
-                    cursor: 'pointer',
+                    cursor: 'pointer'
                   }}
                 />
               </label>
@@ -686,9 +662,8 @@ const BillAddMaster = ({ setBillFlg }) => {
                 transform: 'translateZ(0)',
                 transition: 'transform 0.2s ease',
                 '&:hover': {
-                  boxShadow:
-                    '3px 3px 6px rgba(0, 0, 0, 0.4), -3px -3px 6px rgba(255, 255, 255, 0.7)',
-                },
+                  boxShadow: '3px 3px 6px rgba(0, 0, 0, 0.4), -3px -3px 6px rgba(255, 255, 255, 0.7)'
+                }
               }}
             >
               Attached Bill
@@ -708,24 +683,12 @@ const BillAddMaster = ({ setBillFlg }) => {
                 </CusIconButton>
               </Box>
               <Box>
-                <CusIconButton
-                  size="sm"
-                  variant="outlined"
-                  color="primary"
-                  clickable="true"
-                  onClick={reset}
-                >
+                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={reset}>
                   <RefreshIcon fontSize="small" />
                 </CusIconButton>
               </Box>
               <Box>
-                <CusIconButton
-                  size="sm"
-                  variant="outlined"
-                  color="primary"
-                  clickable="true"
-                  onClick={close}
-                >
+                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={close}>
                   <CloseIcon fontSize="small" />
                 </CusIconButton>
               </Box>
@@ -741,7 +704,7 @@ const BillAddMaster = ({ setBillFlg }) => {
           sx={{
             flex: 1,
             my: 1,
-            mx: 0.2,
+            mx: 0.2
           }}
         >
           <BillSupplerListOracle OracleList={OracleList} SuppAddMeliora={SuppAddMeliora} />

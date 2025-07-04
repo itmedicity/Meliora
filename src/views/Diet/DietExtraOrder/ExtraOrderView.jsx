@@ -21,8 +21,8 @@ const ExtraOrderView = ({ dietExtraViews, setDisview }) => {
     { headerName: 'Total Rate', field: 'rate_hos' },
     {
       headerName: 'Action',
-      cellRenderer: params => <EditButton onClick={() => dietExtraViews(params)} />,
-    },
+      cellRenderer: params => <EditButton onClick={() => dietExtraViews(params)} />
+    }
   ])
 
   const tabledata = useSelector(state => {

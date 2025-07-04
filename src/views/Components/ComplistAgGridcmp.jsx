@@ -5,13 +5,7 @@ import { AgGridReact } from 'ag-grid-react'
 import 'ag-grid-community/dist/styles/ag-grid.css'
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css'
 
-const ComplistAgGridcmp = ({
-  columnDefs,
-  tableData,
-  onSelectionChanged,
-  columnTypes,
-  rowHeight,
-}) => {
+const ComplistAgGridcmp = ({ columnDefs, tableData, onSelectionChanged, columnTypes, rowHeight }) => {
   const headerHeight = 30
   const defaultColDef = {}
   const onGridReady = params => {
@@ -29,8 +23,8 @@ const ComplistAgGridcmp = ({
       'sans-serif',
       '"Apple Color Emoji"',
       '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
+      '"Segoe UI Symbol"'
+    ].join(',')
   }
 
   return (
@@ -40,7 +34,7 @@ const ComplistAgGridcmp = ({
           className="ag-theme-alpine ListItemScrol"
           sx={{
             height: 640,
-            width: '100%',
+            width: '100%'
           }}
         >
           <AgGridReact

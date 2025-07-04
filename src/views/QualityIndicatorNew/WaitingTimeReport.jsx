@@ -79,7 +79,7 @@ const WaitingTimeReport = () => {
       const searchOPDatas = {
         from: format(new Date(searchDate), 'yyyy-MM-dd 00:00:00'),
         to: format(new Date(searchDate), 'yyyy-MM-dd 23:59:59'),
-        dpt: qidept,
+        dpt: qidept
       }
       const getOpData = async searchOPDatas => {
         const result = await axioslogin.post('/InitialAsessment/view', searchOPDatas)
@@ -89,26 +89,14 @@ const WaitingTimeReport = () => {
         const { success, data, message } = val
         if (success === 1) {
           const newArray = data?.map(val => {
-            const patientArrivedDate = val.patient_arrived_date
-              ? new Date(val.patient_arrived_date)
-              : null
+            const patientArrivedDate = val.patient_arrived_date ? new Date(val.patient_arrived_date) : null
             const assessmentStartDate = val.assessment_start ? new Date(val.assessment_start) : null
             const assessmentEndDate = val.assessment_end ? new Date(val.assessment_end) : null
-            const consultStartDate = val.consult_start_date
-              ? new Date(val.consult_start_date)
-              : null
-            const complaintEntryDate = val.complaint_entry_date
-              ? new Date(val.complaint_entry_date)
-              : null
-            const investigationReqDate = val.investigation_req_date
-              ? new Date(val.investigation_req_date)
-              : null
-            const prescriptionReqDate = val.prescription_req_date
-              ? new Date(val.prescription_req_date)
-              : null
-            const referenceReqDate = val.reference_req_date
-              ? new Date(val.reference_req_date)
-              : null
+            const consultStartDate = val.consult_start_date ? new Date(val.consult_start_date) : null
+            const complaintEntryDate = val.complaint_entry_date ? new Date(val.complaint_entry_date) : null
+            const investigationReqDate = val.investigation_req_date ? new Date(val.investigation_req_date) : null
+            const prescriptionReqDate = val.prescription_req_date ? new Date(val.prescription_req_date) : null
+            const referenceReqDate = val.reference_req_date ? new Date(val.reference_req_date) : null
 
             const calculateTimeDiff = (startDate, endDate) => {
               if (!startDate || !endDate) return 'Not Updated'
@@ -121,16 +109,11 @@ const WaitingTimeReport = () => {
             const startTimeDiff = calculateTimeDiff(patientArrivedDate, assessmentStartDate)
             const assessTimeDiff = calculateTimeDiff(assessmentStartDate, assessmentEndDate)
 
-            const endConsult = [
-              complaintEntryDate,
-              investigationReqDate,
-              prescriptionReqDate,
-              referenceReqDate,
-            ].filter(date => date !== null)
+            const endConsult = [complaintEntryDate, investigationReqDate, prescriptionReqDate, referenceReqDate].filter(
+              date => date !== null
+            )
             const endTimeofConsult =
-              endConsult.length > 0
-                ? endConsult.reduce((max, date) => (date > max ? date : max))
-                : null
+              endConsult.length > 0 ? endConsult.reduce((max, date) => (date > max ? date : max)) : null
 
             const consultMaxDiff = calculateTimeDiff(consultStartDate, endTimeofConsult)
             const totTimetoConsult = calculateTimeDiff(patientArrivedDate, endTimeofConsult)
@@ -157,7 +140,7 @@ const WaitingTimeReport = () => {
               start_time_diff: startTimeDiff,
               assess_time_diff: assessTimeDiff,
               consult_max_diff: consultMaxDiff,
-              tot_timeto_consult: totTimetoConsult,
+              tot_timeto_consult: totTimetoConsult
             }
           })
           setTableData(newArray)
@@ -177,9 +160,7 @@ const WaitingTimeReport = () => {
           <TimerOutlinedIcon sx={{ height: 25, width: 25 }} />
         </Box>
         <Box sx={{ flex: 1, fontSize: 16, pl: 1, pt: 1.3 }}>
-          <Typography
-            sx={{ fontFamily: 'Arial', fontSize: 14, textTransform: 'uppercase', fontWeight: 550 }}
-          >
+          <Typography sx={{ fontFamily: 'Arial', fontSize: 14, textTransform: 'uppercase', fontWeight: 550 }}>
             Waiting Time For Service Diagnostics
           </Typography>
         </Box>
@@ -192,8 +173,8 @@ const WaitingTimeReport = () => {
                   height: 30,
                   width: 30,
                   ':hover': {
-                    color: '#e57373',
-                  },
+                    color: '#e57373'
+                  }
                 }}
                 onClick={backtoHome}
               />
@@ -255,7 +236,7 @@ const WaitingTimeReport = () => {
                             padding: 'none',
                             size: 'sm',
                             borderRadius: 20,
-                            fontSize: 14,
+                            fontSize: 14
                           }}
                         />
                       </CssVarsProvider>
@@ -282,8 +263,8 @@ const WaitingTimeReport = () => {
                     color: 'white',
                     ':hover': {
                       bgcolor: '#1565c0',
-                      color: 'white',
-                    },
+                      color: 'white'
+                    }
                   }}
                   // startDecorator={< PeopleAltIcon sx={{ color: 'white', cursor: 'pointer', height: 25, width: 30 }} fontSize='large' />}
                   onClick={GenerateOpPatients}
@@ -306,8 +287,8 @@ const WaitingTimeReport = () => {
                     color: 'white',
                     ':hover': {
                       bgcolor: '#1565c0',
-                      color: 'white',
-                    },
+                      color: 'white'
+                    }
                   }}
                   onClick={SearchDetails}
                 >

@@ -30,13 +30,13 @@ const TicketTypeListProgressChart = ({ empdept }) => {
     return {
       empdept,
       fromDate: sevenDaysbefore,
-      toDate: currentDateAndTime,
+      toDate: currentDateAndTime
     }
   }, [empdept, sevenDaysbefore, currentDateAndTime])
 
   const { data: AllTicketType } = useQuery({
     queryKey: ['getAllTicketypes', postdata],
-    queryFn: () => allTicketTypes(postdata),
+    queryFn: () => allTicketTypes(postdata)
   })
 
   const ticketTypeList = useMemo(() => {
@@ -45,10 +45,7 @@ const TicketTypeListProgressChart = ({ empdept }) => {
         complaintType: item.complaint_type_name || 'N/A',
         totalComplaints: item.total_complaint_count || 0,
         rectifiedComplaints: item.rectified_complaint_count || 0,
-        unrectifiedComplaints: Math.max(
-          item.total_complaint_count - item.rectified_complaint_count || 0,
-          0
-        ),
+        unrectifiedComplaints: Math.max(item.total_complaint_count - item.rectified_complaint_count || 0, 0)
       }))
     }
     return []
@@ -63,7 +60,7 @@ const TicketTypeListProgressChart = ({ empdept }) => {
     return {
       label,
       rectified: rectified || 0,
-      unrectified: unrectified || 0,
+      unrectified: unrectified || 0
     }
   })
   const rectifiedData = combinedData.map(item => item.rectified)
@@ -79,7 +76,7 @@ const TicketTypeListProgressChart = ({ empdept }) => {
         py: 0.5,
         my: 0.5,
         bgcolor: 'white',
-        borderRadius: 5,
+        borderRadius: 5
       }}
     >
       <Box sx={{ flex: 1, display: 'flex' }}>
@@ -89,9 +86,7 @@ const TicketTypeListProgressChart = ({ empdept }) => {
         />
         <Box sx={{ display: 'flex', pr: 1 }}>
           <DateRangeIcon sx={{ color: '#5D6C89', height: 20, width: 20 }} />
-          <Typography sx={{ fontSize: 13, color: '#5D6C89', pt: 0.3 }}>
-            From the last 7 days
-          </Typography>
+          <Typography sx={{ fontSize: 13, color: '#5D6C89', pt: 0.3 }}>From the last 7 days</Typography>
         </Box>
       </Box>
       <Box sx={{ flex: 1 }}>
@@ -104,15 +99,15 @@ const TicketTypeListProgressChart = ({ empdept }) => {
                   label: 'Rectified       ',
                   id: 'Rectified',
                   stack: 'total',
-                  color: '#5D6C89',
+                  color: '#5D6C89'
                 },
                 {
                   data: unrectifiedData,
                   label: 'Pending',
                   id: 'Pending',
                   stack: 'total',
-                  color: '#CBD2DF  ',
-                },
+                  color: '#CBD2DF  '
+                }
               ]}
               xAxis={[{ data: xLabels, scaleType: 'band' }]}
               margin={{ left: 40, right: 20, top: 60, bottom: 35 }}
@@ -123,8 +118,8 @@ const TicketTypeListProgressChart = ({ empdept }) => {
               xAxis={[
                 {
                   data: ['No Data'],
-                  scaleType: 'band',
-                },
+                  scaleType: 'band'
+                }
               ]}
               margin={{ left: 40, right: 20, top: 40, bottom: 35 }}
             />

@@ -1,16 +1,5 @@
 import React, { memo, useCallback, useEffect, useState } from 'react'
-import {
-  Box,
-  CssVarsProvider,
-  Textarea,
-  Typography,
-  Button,
-  Tooltip,
-  Checkbox,
-  Avatar,
-  Divider,
-  Chip,
-} from '@mui/joy'
+import { Box, CssVarsProvider, Textarea, Typography, Button, Tooltip, Checkbox, Avatar, Divider, Chip } from '@mui/joy'
 import { useDispatch, useSelector } from 'react-redux'
 import { getDepartmentSubTask } from 'src/redux/actions/TmDepartment.action'
 import { axioslogin } from 'src/views/Axios/Axios'
@@ -40,7 +29,7 @@ const AddSubtaskAnyDept = ({
   setTableRendering,
   tm_task_due_date,
   setTableCount,
-  tableCount,
+  tableCount
 }) => {
   const [value, setvalue] = useState(0)
   const [changeDept, setchangeDept] = useState(0)
@@ -74,10 +63,7 @@ const AddSubtaskAnyDept = ({
       if (subtaskdeptSection.length !== 0) {
         const secIds = subtaskdeptSection.map(sec => sec.sec_id)
         const InchrgeHods = async secIds => {
-          const result = await axioslogin.post(
-            '/TmDropDowns/getMultHodInChargeUnderSection',
-            secIds
-          )
+          const result = await axioslogin.post('/TmDropDowns/getMultHodInChargeUnderSection', secIds)
           const { data, success } = result.data
           if (success === 2) {
             setsubtaskAssignees(data)
@@ -105,7 +91,7 @@ const AddSubtaskAnyDept = ({
     tm_pending_remarkSubtask: '',
     tm_completed_remarkSubtask: '',
     main_task_slno: '',
-    tm_complete_dateSubtask: '',
+    tm_complete_dateSubtask: ''
   })
   const {
     tm_subtask_name,
@@ -114,7 +100,7 @@ const AddSubtaskAnyDept = ({
     tm_onhold_remarkSubtask,
     tm_complete_dateSubtask,
     tm_pending_remarkSubtask,
-    tm_completed_remarkSubtask,
+    tm_completed_remarkSubtask
   } = subTaskMast
 
   const SubTaskUpdate = useCallback(
@@ -164,7 +150,7 @@ const AddSubtaskAnyDept = ({
       tm_pending_remarkSubtask: '',
       tm_completed_remarkSubtask: '',
       main_task_slno: '',
-      tm_complete_dateSubtask: '',
+      tm_complete_dateSubtask: ''
     }) // Reset subtask master state if necessary
     setflag(0)
   }, [setflag])
@@ -183,9 +169,8 @@ const AddSubtaskAnyDept = ({
       main_task_slno: tm_task_slno,
       tm_onhold_remarkSubtask: tm_onhold_remarkSubtask === '' ? null : tm_onhold_remarkSubtask,
       tm_pending_remarkSubtask: tm_pending_remarkSubtask === '' ? null : tm_pending_remarkSubtask,
-      tm_completed_remarkSubtask:
-        tm_completed_remarkSubtask === '' ? null : tm_completed_remarkSubtask,
-      tm_complete_dateSubtask: tm_complete_dateSubtask === '' ? null : tm_complete_dateSubtask,
+      tm_completed_remarkSubtask: tm_completed_remarkSubtask === '' ? null : tm_completed_remarkSubtask,
+      tm_complete_dateSubtask: tm_complete_dateSubtask === '' ? null : tm_complete_dateSubtask
     }
     const formata = {
       tm_subtask_name: tm_subtask_name,
@@ -200,9 +185,8 @@ const AddSubtaskAnyDept = ({
       main_task_slno: tm_task_slno,
       tm_onhold_remarkSubtask: tm_onhold_remarkSubtask === '' ? null : tm_onhold_remarkSubtask,
       tm_pending_remarkSubtask: tm_pending_remarkSubtask === '' ? null : tm_pending_remarkSubtask,
-      tm_completed_remarkSubtask:
-        tm_completed_remarkSubtask === '' ? null : tm_completed_remarkSubtask,
-      tm_complete_dateSubtask: tm_complete_dateSubtask === '' ? null : tm_complete_dateSubtask,
+      tm_completed_remarkSubtask: tm_completed_remarkSubtask === '' ? null : tm_completed_remarkSubtask,
+      tm_complete_dateSubtask: tm_complete_dateSubtask === '' ? null : tm_complete_dateSubtask
     }
 
     if (
@@ -222,7 +206,7 @@ const AddSubtaskAnyDept = ({
             tm_sub_task_slno: '',
             tm_subtask_name: '',
             tm_subtask_duedate: '',
-            tm_subtask_description: '',
+            tm_subtask_description: ''
           }
           setSubTaskMast(resetfrmdata)
           setvalue(0)
@@ -234,7 +218,7 @@ const AddSubtaskAnyDept = ({
             tm_sub_task_slno: '',
             tm_subtask_name: '',
             tm_subtask_duedate: '',
-            tm_subtask_description: '',
+            tm_subtask_description: ''
           }
           setSubTaskMast(resetfrmdata)
           setchangeDept(0)
@@ -271,7 +255,7 @@ const AddSubtaskAnyDept = ({
     tm_completed_remarkSubtask,
     tm_onhold_remarkSubtask,
     tm_pending_remarkSubtask,
-    value,
+    value
   ])
 
   useEffect(() => {
@@ -301,9 +285,7 @@ const AddSubtaskAnyDept = ({
       }
       const saveArray = postArray?.map(val => {
         const yy = val.tm_subtask_dept_sec?.map(value => {
-          const xxx = val.employee?.filter(valemp =>
-            valemp.dept_section === value.sec_id ? valemp.dept_section : 0
-          )
+          const xxx = val.employee?.filter(valemp => (valemp.dept_section === value.sec_id ? valemp.dept_section : 0))
           const obj = {
             tm_task_name: val.tm_subtask_name,
             tm_task_description: val.tm_subtask_description,
@@ -318,7 +300,7 @@ const AddSubtaskAnyDept = ({
             tm_complete_date: val.tm_complete_dateSubtask,
             create_user: val.Subtask_create_id,
             main_task_slno: val.main_task_slno,
-            employee: xxx?.map(dfv => dfv.emp_id),
+            employee: xxx?.map(dfv => dfv.emp_id)
           }
           return obj
         })
@@ -353,7 +335,7 @@ const AddSubtaskAnyDept = ({
         employee,
         Subtask_create_id,
         main_task_slno,
-        tm_subtask_status,
+        tm_subtask_status
       } = val
       const deptNames = tm_subtask_dept.map(deptN => deptN.dept_name)
       const secNames = tm_subtask_dept_sec.map(deptSecN => deptSecN.sec_name)
@@ -371,7 +353,7 @@ const AddSubtaskAnyDept = ({
         tm_subtask_status: tm_subtask_status,
         tm_project_slno: tm_project_slno,
         Subtask_create_id: Subtask_create_id,
-        main_task_slno: main_task_slno,
+        main_task_slno: main_task_slno
       }
       setSubTaskMast(frmdata)
       setSubtaskDepartment(tm_subtask_dept)
@@ -404,22 +386,14 @@ const AddSubtaskAnyDept = ({
               {changeDept === 1 ? (
                 <>
                   <Box sx={{ flex: 1 }}>
-                    <TmMultlipleDeptmant
-                      department={subtaskdepartment}
-                      setDepartment={setSubtaskDepartment}
-                    />
+                    <TmMultlipleDeptmant department={subtaskdepartment} setDepartment={setSubtaskDepartment} />
                   </Box>
                 </>
               ) : (
                 <>
                   <Box sx={{ display: 'flex', mt: 0.5 }}>
                     <Box sx={{ flex: 1, mr: 1 }}>
-                      <Inputcomponent
-                        type="text"
-                        name="deptName"
-                        value={deptName}
-                        disabled
-                      ></Inputcomponent>
+                      <Inputcomponent type="text" name="deptName" value={deptName} disabled></Inputcomponent>
                     </Box>
                     <Box sx={{ pt: 0.5 }}>
                       <Tooltip title="Change Department">
@@ -432,10 +406,7 @@ const AddSubtaskAnyDept = ({
             </>
           ) : (
             <Box sx={{ flex: 1 }}>
-              <TmMultlipleDeptmant
-                department={subtaskdepartment}
-                setDepartment={setSubtaskDepartment}
-              />
+              <TmMultlipleDeptmant department={subtaskdepartment} setDepartment={setSubtaskDepartment} />
             </Box>
           )}
         </Box>
@@ -459,19 +430,11 @@ const AddSubtaskAnyDept = ({
                 <>
                   <Box sx={{ display: 'flex', mt: 0.5 }}>
                     <Box sx={{ flex: 1, mr: 1 }}>
-                      <Inputcomponent
-                        type="text"
-                        name="deptSecName"
-                        value={deptSecName}
-                        disabled
-                      ></Inputcomponent>
+                      <Inputcomponent type="text" name="deptSecName" value={deptSecName} disabled></Inputcomponent>
                     </Box>
                     <Box sx={{ pt: 0.5 }}>
                       <Tooltip title="Change Department Section">
-                        <ChangeCircleRoundedIcon
-                          sx={{ cursor: 'pointer' }}
-                          onClick={changeDepSec}
-                        />
+                        <ChangeCircleRoundedIcon sx={{ cursor: 'pointer' }} onClick={changeDepSec} />
                       </Tooltip>
                     </Box>
                   </Box>
@@ -481,36 +444,26 @@ const AddSubtaskAnyDept = ({
           ) : (
             <>
               <Box sx={{ flex: 1 }}>
-                <TmMultipleDeptSectionList
-                  deptSection={subtaskdeptSection}
-                  setDeptSection={setSubtaskDeptSection}
-                />
+                <TmMultipleDeptSectionList deptSection={subtaskdeptSection} setDeptSection={setSubtaskDeptSection} />
               </Box>
             </>
           )}
         </Box>
         <Box sx={{ flex: 1.8, ml: 3, display: 'flex' }}>
           <Box sx={{ pt: 5 }}>
-            <Checkbox
-              size="md"
-              color="warning"
-              checked={checkAllEmployee}
-              onChange={EmployeeCheckbox}
-            />
+            <Checkbox size="md" color="warning" checked={checkAllEmployee} onChange={EmployeeCheckbox} />
           </Box>
           <Typography
             sx={{
               fontSize: 10,
               pt: 0.5,
               pl: 1,
-              width: '80px',
+              width: '80px'
             }}
           >
             Select All HODs/Incharges Under Selected Section
           </Typography>
-          <Typography sx={{ pt: 3, fontWeight: 600, fontSize: 14, px: 2.5, color: 'black' }}>
-            (or)
-          </Typography>
+          <Typography sx={{ pt: 3, fontWeight: 600, fontSize: 14, px: 2.5, color: 'black' }}>(or)</Typography>
           <Box sx={{ flex: 1 }}>
             <Typography sx={{ pl: 1, fontWeight: 500, fontSize: 13, color: '#1D5183' }}>
               <PeopleIcon sx={{ color: '#4C5270' }} />
@@ -523,29 +476,18 @@ const AddSubtaskAnyDept = ({
                     {changeEmp === 1 ? (
                       <>
                         <Box sx={{ flex: 1, mt: 0.8 }}>
-                          <TmMultiHodInchargeSelect
-                            value={subtaskAssignees}
-                            setValue={setsubtaskAssignees}
-                          />
+                          <TmMultiHodInchargeSelect value={subtaskAssignees} setValue={setsubtaskAssignees} />
                         </Box>
                       </>
                     ) : (
                       <>
                         <Box sx={{ display: 'flex', mt: 0.8 }}>
                           <Box sx={{ flex: 1, mr: 1 }}>
-                            <Inputcomponent
-                              type="text"
-                              name="empName"
-                              value={empName}
-                              disabled
-                            ></Inputcomponent>
+                            <Inputcomponent type="text" name="empName" value={empName} disabled></Inputcomponent>
                           </Box>
                           <Box sx={{ pt: 0.5 }}>
                             <Tooltip title="Change Assignees">
-                              <ChangeCircleRoundedIcon
-                                sx={{ cursor: 'pointer' }}
-                                onClick={changeAssignee}
-                              />
+                              <ChangeCircleRoundedIcon sx={{ cursor: 'pointer' }} onClick={changeAssignee} />
                             </Tooltip>
                           </Box>
                         </Box>
@@ -554,21 +496,14 @@ const AddSubtaskAnyDept = ({
                   </>
                 ) : (
                   <Box sx={{ flex: 1, mt: 0.8 }}>
-                    <TmMultiHodInchargeSelect
-                      value={subtaskAssignees}
-                      setValue={setsubtaskAssignees}
-                    />
+                    <TmMultiHodInchargeSelect value={subtaskAssignees} setValue={setsubtaskAssignees} />
                   </Box>
                 )}
               </>
             ) : (
               <>
                 <Box sx={{ flex: 1, mr: 1 }}>
-                  <Inputcomponent
-                    type="text"
-                    placeholder={'select assignees'}
-                    disabled
-                  ></Inputcomponent>
+                  <Inputcomponent type="text" placeholder={'select assignees'} disabled></Inputcomponent>
                 </Box>
               </>
             )}
@@ -593,7 +528,7 @@ const AddSubtaskAnyDept = ({
                   borderColor: 'neutral.outlinedBorder',
                   borderRadius: 0,
                   '&:hover': {
-                    borderColor: 'neutral.outlinedHoverBorder',
+                    borderColor: 'neutral.outlinedHoverBorder'
                   },
                   '&::before': {
                     border: '1px solid var(--Textarea-focusedHighlight)',
@@ -603,11 +538,11 @@ const AddSubtaskAnyDept = ({
                     bottom: '-2px',
                     top: 'unset',
                     transition: 'transform .15s cubic-bezier(0.1,0.9,0.2,1)',
-                    borderRadius: 0,
+                    borderRadius: 0
                   },
                   '&:focus-within::before': {
-                    transform: 'scaleX(1)',
-                  },
+                    transform: 'scaleX(1)'
+                  }
                 }}
                 name="tm_subtask_name"
                 value={tm_subtask_name}
@@ -626,8 +561,8 @@ const AddSubtaskAnyDept = ({
                 slotProps={{
                   input: {
                     min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-                    max: moment(new Date(tm_task_due_date)).format('YYYY-MM-DD HH:mm:ss'),
-                  },
+                    max: moment(new Date(tm_task_due_date)).format('YYYY-MM-DD HH:mm:ss')
+                  }
                 }}
                 onchange={SubTaskUpdate}
               />
@@ -647,7 +582,7 @@ const AddSubtaskAnyDept = ({
                   borderColor: 'neutral.outlinedBorder',
                   borderRadius: 0,
                   '&:hover': {
-                    borderColor: 'neutral.outlinedHoverBorder',
+                    borderColor: 'neutral.outlinedHoverBorder'
                   },
                   '&::before': {
                     border: '1px solid var(--Textarea-focusedHighlight)',
@@ -657,11 +592,11 @@ const AddSubtaskAnyDept = ({
                     bottom: '-2px',
                     top: 'unset',
                     transition: 'transform .15s cubic-bezier(0.1,0.9,0.2,1)',
-                    borderRadius: 0,
+                    borderRadius: 0
                   },
                   '&:focus-within::before': {
-                    transform: 'scaleX(1)',
-                  },
+                    transform: 'scaleX(1)'
+                  }
                 }}
                 name="tm_subtask_description"
                 value={tm_subtask_description}
@@ -679,7 +614,7 @@ const AddSubtaskAnyDept = ({
                   cursor: 'pointer',
                   '&:hover': { color: '#5C4E4E' },
                   height: 30,
-                  width: 30,
+                  width: 30
                 }}
                 onClick={addTask}
               />
@@ -698,7 +633,7 @@ const AddSubtaskAnyDept = ({
                 color: '#523A28',
                 mb: 1,
                 mt: 2,
-                mx: 3,
+                mx: 3
               }}
             >
               Subtask creation List
@@ -715,41 +650,27 @@ const AddSubtaskAnyDept = ({
               borderColor: 'lightgray',
               pt: 1.5,
               mx: 6,
-              bgcolor: 'white',
+              bgcolor: 'white'
             }}
           >
-            <Box sx={{ width: 30, pl: 1.7, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-              #
-            </Box>
+            <Box sx={{ width: 30, pl: 1.7, fontWeight: 600, color: '#444444', fontSize: 12 }}>#</Box>
             <Box
               sx={{
                 width: 100,
                 textAlign: 'center',
                 fontWeight: 600,
                 color: '#444444',
-                fontSize: 12,
+                fontSize: 12
               }}
             >
               Action
             </Box>
-            <Box sx={{ width: 800, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>
-              Task Name
-            </Box>
-            <Box sx={{ width: 250, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>
-              Duedate
-            </Box>
-            <Box sx={{ width: 400, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>
-              Department
-            </Box>
-            <Box sx={{ width: 400, fontWeight: 600, color: '#444444', fontSize: 12, pl: 0.8 }}>
-              Department Section
-            </Box>
-            <Box sx={{ width: 500, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-              Assignees
-            </Box>
-            <Box sx={{ width: 800, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-              Description
-            </Box>
+            <Box sx={{ width: 800, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>Task Name</Box>
+            <Box sx={{ width: 250, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>Duedate</Box>
+            <Box sx={{ width: 400, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>Department</Box>
+            <Box sx={{ width: 400, fontWeight: 600, color: '#444444', fontSize: 12, pl: 0.8 }}>Department Section</Box>
+            <Box sx={{ width: 500, fontWeight: 600, color: '#444444', fontSize: 12 }}>Assignees</Box>
+            <Box sx={{ width: 800, fontWeight: 600, color: '#444444', fontSize: 12 }}>Description</Box>
           </Box>
           <Box>
             {arry?.map((val, index) => {
@@ -765,19 +686,17 @@ const AddSubtaskAnyDept = ({
                     borderColor: 'lightgrey',
                     minHeight: 30,
                     background: 'white',
-                    pt: 0.5,
+                    pt: 0.5
                   }}
                 >
-                  <Box sx={{ width: 30, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>
-                    {index + 1}
-                  </Box>
+                  <Box sx={{ width: 30, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>{index + 1}</Box>
                   <Box
                     sx={{
                       width: 100,
                       textAlign: 'center',
                       fontWeight: 600,
                       color: 'grey',
-                      fontSize: 12,
+                      fontSize: 12
                     }}
                   >
                     <EditIcon
@@ -792,12 +711,10 @@ const AddSubtaskAnyDept = ({
                       fontWeight: 600,
                       color: 'grey',
                       textTransform: 'capitalize',
-                      pl: 1,
+                      pl: 1
                     }}
                   >
-                    <Chip sx={{ bgcolor: '#EFEDC6', fontSize: 12, mb: 0.2 }}>
-                      {val.tm_subtask_name}
-                    </Chip>
+                    <Chip sx={{ bgcolor: '#EFEDC6', fontSize: 12, mb: 0.2 }}>{val.tm_subtask_name}</Chip>
                   </Box>
                   <Box
                     sx={{
@@ -806,7 +723,7 @@ const AddSubtaskAnyDept = ({
                       color: 'grey',
                       fontSize: 12,
                       textTransform: 'capitalize',
-                      pl: 1,
+                      pl: 1
                     }}
                   >
                     <Chip sx={{ bgcolor: '#EFEDC6', fontSize: 12 }}>
@@ -819,17 +736,14 @@ const AddSubtaskAnyDept = ({
                       fontWeight: 600,
                       color: 'grey',
                       textTransform: 'capitalize',
-                      pl: 1,
+                      pl: 1
                     }}
                   >
                     {val.tm_subtask_dept &&
                       val.tm_subtask_dept.map(value => {
                         return (
                           <Box key={value.dept_id}>
-                            <Chip sx={{ bgcolor: '#EFEDC6', mb: 0.2, fontSize: 12 }}>
-                              {' '}
-                              {value.dept_name}
-                            </Chip>
+                            <Chip sx={{ bgcolor: '#EFEDC6', mb: 0.2, fontSize: 12 }}> {value.dept_name}</Chip>
                           </Box>
                         )
                       })}
@@ -840,7 +754,7 @@ const AddSubtaskAnyDept = ({
                       fontWeight: 600,
                       color: 'grey',
                       textTransform: 'capitalize',
-                      pl: 1,
+                      pl: 1
                     }}
                   >
                     {' '}
@@ -848,9 +762,7 @@ const AddSubtaskAnyDept = ({
                       val.tm_subtask_dept_sec.map(value => {
                         return (
                           <Box key={value.sec_id}>
-                            <Chip sx={{ bgcolor: '#EFEDC6', fontSize: 12, mb: 0.2 }}>
-                              {value.sec_name}
-                            </Chip>
+                            <Chip sx={{ bgcolor: '#EFEDC6', fontSize: 12, mb: 0.2 }}>{value.sec_name}</Chip>
                           </Box>
                         )
                       })}
@@ -861,7 +773,7 @@ const AddSubtaskAnyDept = ({
                       fontWeight: 600,
                       color: 'grey',
                       textTransform: 'capitalize',
-                      pl: 1,
+                      pl: 1
                     }}
                   >
                     {val.employee &&
@@ -869,9 +781,7 @@ const AddSubtaskAnyDept = ({
                         return (
                           <Box key={value.emp_id}>
                             {' '}
-                            <Chip sx={{ bgcolor: '#EFEDC6', fontSize: 12, mb: 0.2 }}>
-                              {value.em_name}
-                            </Chip>
+                            <Chip sx={{ bgcolor: '#EFEDC6', fontSize: 12, mb: 0.2 }}>{value.em_name}</Chip>
                           </Box>
                         )
                       })}
@@ -882,12 +792,10 @@ const AddSubtaskAnyDept = ({
                       fontWeight: 600,
                       color: 'grey',
                       textTransform: 'capitalize',
-                      pl: 1,
+                      pl: 1
                     }}
                   >
-                    <Chip sx={{ bgcolor: '#EFEDC6', fontSize: 12, mb: 0.2 }}>
-                      {val.tm_subtask_description}
-                    </Chip>
+                    <Chip sx={{ bgcolor: '#EFEDC6', fontSize: 12, mb: 0.2 }}>{val.tm_subtask_description}</Chip>
                   </Box>
                 </Box>
               )
@@ -900,15 +808,11 @@ const AddSubtaskAnyDept = ({
               cursor: 'pointer',
               display: 'flex',
               justifyContent: 'center',
-              my: 1.5,
+              my: 1.5
             }}
           >
             <CssVarsProvider>
-              <Button
-                variant="solid"
-                onClick={SubmitTask}
-                sx={{ fontSize: 16, color: 'white', bgcolor: '#6C3F3F' }}
-              >
+              <Button variant="solid" onClick={SubmitTask} sx={{ fontSize: 16, color: 'white', bgcolor: '#6C3F3F' }}>
                 {' '}
                 + Add Subtask/s{' '}
               </Button>

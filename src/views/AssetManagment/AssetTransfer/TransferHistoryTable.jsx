@@ -144,8 +144,7 @@ const TransferHistoryTable = ({ historyData, loading }) => {
                   <tr
                     key={index}
                     style={{
-                      backgroundColor:
-                        val.am_custodian_trans_status === 1 ? 'lightblue' : 'transparent',
+                      backgroundColor: val.am_custodian_trans_status === 1 ? 'lightblue' : 'transparent'
                     }}
                   >
                     <td>&nbsp;{index + 1}</td>
@@ -153,12 +152,7 @@ const TransferHistoryTable = ({ historyData, loading }) => {
                       {' '}
                       {val.item_asset_no}/{String(val.item_asset_no_only).padStart(6, '0')}
                     </td>
-                    <td>
-                      {' '}
-                      {val.create_date
-                        ? format(new Date(val.create_date), 'dd-MM-yy - HH:mm')
-                        : 'N/A'}
-                    </td>
+                    <td> {val.create_date ? format(new Date(val.create_date), 'dd-MM-yy - HH:mm') : 'N/A'}</td>
                     <td> {val.em_name}</td>
                     <td> {val.trans_dept_name}</td>
                     <td> {val.trans_deptsec_name}</td>

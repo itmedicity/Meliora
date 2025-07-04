@@ -3,7 +3,7 @@ const { FETCH_COM_CATEGORY_REPORT } = ActionTyps
 
 const ReqCategoryReport = {
   ReqCategoryReportList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 
 export const getReqCategoryReportList = (state = ReqCategoryReport, { type, payload }) => {

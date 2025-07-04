@@ -9,7 +9,7 @@ const CRFStatusMainComp = ({ viewPednigDetails, crfApprv }) => {
       <Box sx={{ flexGrow: 1, height: window.innerHeight - 160, bgcolor: 'white' }}>
         <Paper variant="plain" sx={{ bgcolor: 'white', flexWrap: 'wrap', px: 1 }}>
           <Grid container spacing={0.5} sx={{ flexGrow: 1, p: 0.5 }}>
-            {Object.entries(crfApprv)?.map(([key, value],) => (
+            {Object.entries(crfApprv)?.map(([key, value]) => (
               <DashboradGridView val={value} key={key} viewPednigDetails={viewPednigDetails} />
             ))}
           </Grid>

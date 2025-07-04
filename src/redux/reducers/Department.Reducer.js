@@ -3,7 +3,7 @@ const { FETCH_DEPARTMENT } = ActionTyps
 //initial state
 const departmentName = {
   departmentList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Department action type check then payload set to the state and loading status set as true */
 export const getDepartment = (state = departmentName, { type, payload }) => {

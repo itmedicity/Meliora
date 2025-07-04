@@ -18,7 +18,7 @@ const SoftDash = ({ billCount, setbillCount }) => {
         p: 0.5,
         boxShadow: '0px 0px 1px',
         height: '76vh',
-        bgcolor: '#E3E7F1',
+        bgcolor: '#E3E7F1'
       }}
     >
       <Paper sx={{ bgcolor: '#F8F8F8', p: 0.5 }}>
@@ -27,7 +27,7 @@ const SoftDash = ({ billCount, setbillCount }) => {
           size="sm"
           sx={{
             display: 'flex',
-            mt: 0.5,
+            mt: 0.5
           }}
         >
           <TabList
@@ -37,10 +37,10 @@ const SoftDash = ({ billCount, setbillCount }) => {
               bgcolor: 'white',
               [`& .${tabClasses.root}[aria-selected="true"]`]: {
                 borderBottom: 5,
-                bgcolor: 'white',
+                bgcolor: 'white'
               },
               display: 'flex',
-              flexDirection: 'column',
+              flexDirection: 'column'
             }}
           >
             <Box sx={{ display: 'flex', flex: 1 }}>

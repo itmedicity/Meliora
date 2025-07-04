@@ -11,7 +11,7 @@ const TicketDashTile = ({ name, icon, iconbgcolor, count, percentage }) => {
         minHeight: 70,
         flex: 1,
         bgcolor: 'white',
-        borderRadius: 5,
+        borderRadius: 5
       }}
     >
       <Box sx={{ flex: 1, pl: 1, pt: 1 }}>
@@ -25,7 +25,7 @@ const TicketDashTile = ({ name, icon, iconbgcolor, count, percentage }) => {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          bgcolor: iconbgcolor,
+          bgcolor: iconbgcolor
         }}
       >
         <Box>

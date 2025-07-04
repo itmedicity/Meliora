@@ -75,7 +75,7 @@ const ReqRegistration = () => {
     item_qty: '',
     item_unit: '',
     item_spec: '',
-    approx_cost: 0,
+    approx_cost: 0
   })
   //Destructuring
   const { item_desc, item_brand, item_qty, item_unit, item_spec, approx_cost } = itemstate
@@ -173,7 +173,7 @@ const ReqRegistration = () => {
       autoHeight: true,
       wrapText: true,
       width: 250,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Brand',
@@ -181,7 +181,7 @@ const ReqRegistration = () => {
       autoHeight: true,
       wrapText: true,
       width: 250,
-      filter: 'true',
+      filter: 'true'
     },
     { headerName: 'Unit', field: 'item_unit' },
     { headerName: 'Quantity', field: 'item_qnty' },
@@ -196,7 +196,7 @@ const ReqRegistration = () => {
             <EditIcon size={15} />
           </CustomeToolTip>
         </IconButton>
-      ),
+      )
     },
     {
       headerName: 'Delete',
@@ -207,8 +207,8 @@ const ReqRegistration = () => {
             <DeleteIcon size={15} />
           </CustomeToolTip>
         </IconButton>
-      ),
-    },
+      )
+    }
   ])
 
   const [columnAdditional] = useState([
@@ -219,7 +219,7 @@ const ReqRegistration = () => {
       autoHeight: true,
       wrapText: true,
       width: 250,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Brand',
@@ -227,12 +227,12 @@ const ReqRegistration = () => {
       autoHeight: true,
       wrapText: true,
       width: 250,
-      filter: 'true',
+      filter: 'true'
     },
     { headerName: 'Unit', field: 'item_unit' },
     { headerName: 'Quantity', field: 'item_qnty' },
     { headerName: 'Specification', field: 'item_specification' },
-    { headerName: 'Approximate Cost', field: 'aprox_cost' },
+    { headerName: 'Approximate Cost', field: 'aprox_cost' }
   ])
 
   const [columnDeptDetl] = useState([
@@ -243,7 +243,7 @@ const ReqRegistration = () => {
       autoHeight: true,
       wrapText: true,
       width: 250,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Brand',
@@ -251,7 +251,7 @@ const ReqRegistration = () => {
       autoHeight: true,
       wrapText: true,
       width: 250,
-      filter: 'true',
+      filter: 'true'
     },
     { headerName: 'Quantity', field: 'item_qnty' },
     {
@@ -263,7 +263,7 @@ const ReqRegistration = () => {
             <EditIcon size={15} />
           </CustomeToolTip>
         </IconButton>
-      ),
+      )
     },
     {
       headerName: 'Delete',
@@ -274,8 +274,8 @@ const ReqRegistration = () => {
             <DeleteIcon size={15} />
           </CustomeToolTip>
         </IconButton>
-      ),
-    },
+      )
+    }
   ])
   const [columnDeptDetlAdditional] = useState([
     { headerName: 'Item Slno', field: 'item_slno' },
@@ -285,7 +285,7 @@ const ReqRegistration = () => {
       autoHeight: true,
       wrapText: true,
       width: 250,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Brand',
@@ -293,9 +293,9 @@ const ReqRegistration = () => {
       autoHeight: true,
       wrapText: true,
       width: 250,
-      filter: 'true',
+      filter: 'true'
     },
-    { headerName: 'Quantity', field: 'item_qnty' },
+    { headerName: 'Quantity', field: 'item_qnty' }
   ])
 
   const [totalApproxCost, setTotalCost] = useState(0)
@@ -324,7 +324,7 @@ const ReqRegistration = () => {
             item_desc: item_desc,
             item_brand: item_brand !== '' ? item_brand : 'Not Given',
             item_qnty: item_qty !== '' ? parseInt(item_qty) : 0,
-            item_status: 1,
+            item_status: 1
           }
           const datass = [...dataPost, newdata]
           if (datass.length !== 0) {
@@ -335,7 +335,7 @@ const ReqRegistration = () => {
               item_qty: '',
               item_unit: '',
               item_spec: '',
-              approx_cost: 0,
+              approx_cost: 0
             }
             setItemState(resetarrray)
             setItemSlno(item_slno + 1)
@@ -350,12 +350,10 @@ const ReqRegistration = () => {
             item_desc: item_desc,
             item_brand: item_brand,
             item_qnty: parseInt(item_qty),
-            item_status: 1,
+            item_status: 1
           }
           setItemState(frmset)
-          const result = dataPost.map(val =>
-            val.item_slno === frmset.item_slno ? { ...val, ...frmset } : val
-          )
+          const result = dataPost.map(val => (val.item_slno === frmset.item_slno ? { ...val, ...frmset } : val))
           setdataPost(result)
           setEditdata([])
           const resetarrray = {
@@ -364,7 +362,7 @@ const ReqRegistration = () => {
             item_qty: '',
             item_unit: '',
             item_spec: '',
-            approx_cost: 0,
+            approx_cost: 0
           }
           setItemState(resetarrray)
           setItemSlno(0)
@@ -379,7 +377,7 @@ const ReqRegistration = () => {
             item_desc: item_desc,
             item_brand: item_brand !== '' ? item_brand : 'Not Given',
             item_qnty: item_qty !== '' ? parseInt(item_qty) : 0,
-            item_status: 1,
+            item_status: 1
           }
           const datass = [...editAddArry, newdata]
           if (datass.length !== 0) {
@@ -390,7 +388,7 @@ const ReqRegistration = () => {
               item_qty: '',
               item_unit: '',
               item_spec: '',
-              approx_cost: 0,
+              approx_cost: 0
             }
             setItemState(resetarrray)
             setAlreadyItem(alReadyItemNo + 1)
@@ -408,12 +406,10 @@ const ReqRegistration = () => {
             item_unit: item_unit,
             item_qnty: parseInt(item_qty),
             item_specification: item_spec,
-            aprox_cost: parseInt(approx_cost),
+            aprox_cost: parseInt(approx_cost)
           }
           setItemState(frmset)
-          const result = dataPost.map(val =>
-            val.item_slno === frmset.item_slno ? { ...val, ...frmset } : val
-          )
+          const result = dataPost.map(val => (val.item_slno === frmset.item_slno ? { ...val, ...frmset } : val))
           setdataPost(result)
           setEditdata([])
           const resetarrray = {
@@ -422,7 +418,7 @@ const ReqRegistration = () => {
             item_qty: '',
             item_unit: '',
             item_spec: '',
-            approx_cost: 0,
+            approx_cost: 0
           }
           setItemState(resetarrray)
         }
@@ -443,7 +439,7 @@ const ReqRegistration = () => {
     editAddArry,
     value,
     setAlreadyItem,
-    alReadyItemNo,
+    alReadyItemNo
   ])
 
   const AddItem = useCallback(() => {
@@ -462,7 +458,7 @@ const ReqRegistration = () => {
             item_qnty: item_qty !== '' ? parseInt(item_qty) : 0,
             item_specification: item_spec !== '' ? item_spec : 'Not Given',
             aprox_cost: approx_cost !== '' ? parseInt(approx_cost) : 0,
-            item_status: 1,
+            item_status: 1
           }
           const datass = [...dataPost, newdata]
           if (datass.length !== 0) {
@@ -475,7 +471,7 @@ const ReqRegistration = () => {
               item_qty: '',
               item_unit: '',
               item_spec: '',
-              approx_cost: 0,
+              approx_cost: 0
             }
             setItemState(resetarrray)
             setItemSlno(item_slno + 1)
@@ -492,12 +488,10 @@ const ReqRegistration = () => {
             item_unit: item_unit,
             item_qnty: parseInt(item_qty),
             item_specification: item_spec,
-            aprox_cost: parseInt(approx_cost),
+            aprox_cost: parseInt(approx_cost)
           }
           setItemState(frmset)
-          const result = dataPost.map(val =>
-            val.item_slno === frmset.item_slno ? { ...val, ...frmset } : val
-          )
+          const result = dataPost.map(val => (val.item_slno === frmset.item_slno ? { ...val, ...frmset } : val))
           setdataPost(result)
           const resetarrray = {
             item_desc: '',
@@ -505,7 +499,7 @@ const ReqRegistration = () => {
             item_qty: '',
             item_unit: '',
             item_spec: '',
-            approx_cost: 0,
+            approx_cost: 0
           }
           setItemState(resetarrray)
           setItemSlno(0)
@@ -525,7 +519,7 @@ const ReqRegistration = () => {
             item_qnty: item_qty !== '' ? parseInt(item_qty) : 0,
             item_specification: item_spec !== '' ? item_spec : 'Not Given',
             aprox_cost: approx_cost !== '' ? parseInt(approx_cost) : 0,
-            item_status: 1,
+            item_status: 1
           }
           const datass = [...editAddArry, newdata]
           if (datass.length !== 0) {
@@ -538,7 +532,7 @@ const ReqRegistration = () => {
               item_qty: '',
               item_unit: '',
               item_spec: '',
-              approx_cost: 0,
+              approx_cost: 0
             }
             setItemState(resetarrray)
             setAlreadyItem(alReadyItemNo + 1)
@@ -556,12 +550,10 @@ const ReqRegistration = () => {
             item_unit: item_unit,
             item_qnty: parseInt(item_qty),
             item_specification: item_spec,
-            aprox_cost: parseInt(approx_cost),
+            aprox_cost: parseInt(approx_cost)
           }
           setItemState(frmset)
-          const result = dataPost.map(val =>
-            val.item_slno === frmset.item_slno ? { ...val, ...frmset } : val
-          )
+          const result = dataPost.map(val => (val.item_slno === frmset.item_slno ? { ...val, ...frmset } : val))
           setdataPost(result)
           const resetarrray = {
             item_desc: '',
@@ -569,7 +561,7 @@ const ReqRegistration = () => {
             item_qty: '',
             item_unit: '',
             item_spec: '',
-            approx_cost: 0,
+            approx_cost: 0
           }
           setItemState(resetarrray)
           setItemSlno(0)
@@ -594,7 +586,7 @@ const ReqRegistration = () => {
     editAddArry,
     value,
     setAlreadyItem,
-    alReadyItemNo,
+    alReadyItemNo
   ])
   //itemm array delete button click item delete
   const deleteSelect = useCallback(
@@ -605,7 +597,7 @@ const ReqRegistration = () => {
 
       const patchdata = {
         req_detl_slno: req_detl_slno,
-        delete_user: id,
+        delete_user: id
       }
       const deleteItem = async patchdata => {
         const result = await axioslogin.patch('/requestRegister/DeleteItemList', patchdata)
@@ -642,15 +634,14 @@ const ReqRegistration = () => {
 
   useEffect(() => {
     if (Object.keys(editdata).length > 0) {
-      const { item_desc, item_brand, item_unit, item_qnty, item_specification, aprox_cost } =
-        editdata[0]
+      const { item_desc, item_brand, item_unit, item_qnty, item_specification, aprox_cost } = editdata[0]
       const frmset = {
         item_desc: item_desc,
         item_brand: item_brand,
         item_unit: item_unit,
         item_qty: item_qnty,
         item_spec: item_specification,
-        approx_cost: aprox_cost,
+        approx_cost: aprox_cost
       }
       setItemState(frmset)
     }
@@ -675,7 +666,7 @@ const ReqRegistration = () => {
       expected_date: startdate,
       user_deptsec: empsecid,
       category: category === '' ? null : category,
-      emergency: emergency === false ? 0 : 1,
+      emergency: emergency === false ? 0 : 1
     }
   }, [
     actual_require,
@@ -689,7 +680,7 @@ const ReqRegistration = () => {
     startdate,
     totalApproxCost,
     emergency,
-    empsecid,
+    empsecid
   ])
 
   const patchData = useMemo(() => {
@@ -705,7 +696,7 @@ const ReqRegistration = () => {
       user_deptsec: empsecid,
       category: category,
       req_slno: reqSlno,
-      emergency: emergency === false ? 0 : 1,
+      emergency: emergency === false ? 0 : 1
     }
   }, [
     actual_require,
@@ -719,7 +710,7 @@ const ReqRegistration = () => {
     startdate,
     totalApproxCost,
     empsecid,
-    reqSlno,
+    reqSlno
   ])
 
   useEffect(() => {
@@ -751,7 +742,7 @@ const ReqRegistration = () => {
       item_qty: '',
       item_unit: '',
       item_spec: '',
-      approx_cost: '',
+      approx_cost: ''
     }
     setItemState(resetdata)
     setDetldept(0)
@@ -801,7 +792,7 @@ const ReqRegistration = () => {
     const options = {
       maxSizeMB: 2,
       maxWidthOrHeight: 1920,
-      useWebWorker: true,
+      useWebWorker: true
     }
     const compressedFile = await imageCompression(imageFile, options)
     return compressedFile
@@ -850,7 +841,7 @@ const ReqRegistration = () => {
               item_specification: val.item_specification,
               aprox_cost: val.aprox_cost,
               item_status: 1,
-              create_user: id,
+              create_user: id
             }
           })
         const result = await axioslogin.post('/requestRegister/postDetails', postdataDetl)
@@ -880,7 +871,7 @@ const ReqRegistration = () => {
               : ishod === 1
               ? format(new Date(), 'yyyy-MM-dd HH:mm:ss')
               : null,
-          hod_approve_date: null,
+          hod_approve_date: null
         }
         //Postdata department have incharge and Hod then check isicharge or ishod
         const ApprovalDataNoInch = {
@@ -897,9 +888,8 @@ const ReqRegistration = () => {
           hod_user: object1.length === 0 ? id : null,
           incharge_approve: object2.length === 0 ? 1 : null,
           hod_approve: object1.length === 0 ? 1 : null,
-          incharge_apprv_date:
-            object2.length === 0 ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : null,
-          hod_approve_date: object1.length === 0 ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : null,
+          incharge_apprv_date: object2.length === 0 ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : null,
+          hod_approve_date: object1.length === 0 ? format(new Date(), 'yyyy-MM-dd HH:mm:ss') : null
         }
         //Postdata department have incharge and Hod then check isicharge or ishod
         const ApprDataCheckHod = {
@@ -917,14 +907,11 @@ const ReqRegistration = () => {
           incharge_approve: null,
           hod_approve: object1.length === 0 ? 1 : null,
           incharge_apprv_date: null,
-          hod_approve_date: null,
+          hod_approve_date: null
         }
 
         if (isIncharge === 0 && ishod === 0) {
-          const result = await axioslogin.post(
-            '/requestRegister/postReqApproval',
-            ApprovalDataNoInch
-          )
+          const result = await axioslogin.post('/requestRegister/postReqApproval', ApprovalDataNoInch)
           return result.data
         } else if (isIncharge === 1) {
           const result = await axioslogin.post('/requestRegister/postReqApproval', ApprDataCheckHod)
@@ -951,7 +938,7 @@ const ReqRegistration = () => {
                 item_specification: val.item_specification,
                 aprox_cost: val.aprox_cost,
                 item_status: 1,
-                create_user: id,
+                create_user: id
               }
             })
           const result = await axioslogin.post('/requestRegister/postDetails', postdataDetl)
@@ -989,7 +976,7 @@ const ReqRegistration = () => {
                   aprox_cost: val.aprox_cost,
                   item_status: 1,
                   edit_user: id,
-                  req_detl_slno: val.req_detl_slno,
+                  req_detl_slno: val.req_detl_slno
                 }
                 const result = await axioslogin.patch('/requestRegister/patchDetails', dataaas)
                 const { success } = result.data
@@ -1018,8 +1005,8 @@ const ReqRegistration = () => {
           // Use the Axios instance and endpoint that matches your server setup
           const result = await axioslogin.post('/CrfImageUpload/crfRegistration', formData, {
             headers: {
-              'Content-Type': 'multipart/form-data',
-            },
+              'Content-Type': 'multipart/form-data'
+            }
           })
           return result.data
         } catch (error) {
@@ -1188,7 +1175,7 @@ const ReqRegistration = () => {
       handleImageUpload,
       selectFile,
       emergency,
-      remarks,
+      remarks
     ]
   )
 
@@ -1213,7 +1200,7 @@ const ReqRegistration = () => {
       remarks,
       expected_date,
       total_approx_cost,
-      emergency,
+      emergency
     } = data[0]
     setActual_require(actual_requirement)
     setNeeded(needed)
@@ -1271,12 +1258,7 @@ const ReqRegistration = () => {
   return (
     <Fragment>
       <Box sx={{ height: window.innerHeight - 85, overflow: 'auto' }}>
-        <CardMaster
-          title="Common Request Form"
-          submit={submitComplaint}
-          close={backtoSetting}
-          refresh={refreshWindow}
-        >
+        <CardMaster title="Common Request Form" submit={submitComplaint} close={backtoSetting} refresh={refreshWindow}>
           {imageshowFlag === 1 ? (
             <ReqImageDisplayModal open={imageshow} handleClose={handleClose} images={imagearray} />
           ) : null}
@@ -1285,7 +1267,7 @@ const ReqRegistration = () => {
             <Paper
               sx={{
                 width: '100%',
-                mt: 0.8,
+                mt: 0.8
               }}
               variant="outlined"
             >
@@ -1293,14 +1275,14 @@ const ReqRegistration = () => {
                 sx={{
                   width: '100%',
                   display: 'flex',
-                  flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
+                  flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' }
                 }}
               >
                 <Box
                   sx={{
                     width: '100%',
                     display: 'flex',
-                    flexDirection: 'column',
+                    flexDirection: 'column'
                   }}
                 >
                   <CustomPaperTitle heading="Purpose" />
@@ -1308,7 +1290,7 @@ const ReqRegistration = () => {
                     sx={{
                       display: 'flex',
                       p: 0.5,
-                      width: '100%',
+                      width: '100%'
                     }}
                   >
                     <CustomTextarea
@@ -1318,7 +1300,7 @@ const ReqRegistration = () => {
                       style={{
                         width: '100%',
                         height: 70,
-                        boardColor: '#E0E0E0',
+                        boardColor: '#E0E0E0'
                       }}
                       value={actual_require}
                       onchange={updateactual_require}
@@ -1329,7 +1311,7 @@ const ReqRegistration = () => {
                   sx={{
                     width: '100%',
                     display: 'flex',
-                    flexDirection: 'column',
+                    flexDirection: 'column'
                   }}
                 >
                   <CustomPaperTitle heading="Justification for the need" />
@@ -1337,7 +1319,7 @@ const ReqRegistration = () => {
                     sx={{
                       display: 'flex',
                       p: 0.5,
-                      width: { xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%' },
+                      width: { xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%' }
                     }}
                   >
                     <CustomTextarea
@@ -1346,7 +1328,7 @@ const ReqRegistration = () => {
                       size="sm"
                       style={{
                         width: '100%',
-                        height: 70,
+                        height: 70
                       }}
                       value={needed}
                       onchange={updateNeeded}
@@ -1360,7 +1342,7 @@ const ReqRegistration = () => {
             <Paper
               sx={{
                 width: '100%',
-                mt: 0.8,
+                mt: 0.8
               }}
               variant="outlined"
             >
@@ -1368,14 +1350,14 @@ const ReqRegistration = () => {
                 sx={{
                   width: '100%',
                   display: 'flex',
-                  flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
+                  flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' }
                 }}
               >
                 <Box
                   sx={{
                     width: '100%',
                     display: 'flex',
-                    flexDirection: 'column',
+                    flexDirection: 'column'
                   }}
                 >
                   <CustomPaperTitle heading="Requested Department Details" />
@@ -1384,13 +1366,13 @@ const ReqRegistration = () => {
                       width: '100%',
                       p: 1,
                       display: 'flex',
-                      flexDirection: 'row',
+                      flexDirection: 'row'
                     }}
                   >
                     <Box
                       sx={{
                         width: '100%',
-                        pr: 1,
+                        pr: 1
                       }}
                     >
                       <DepartmentSelect value={dept} setValue={setdept} />
@@ -1399,7 +1381,7 @@ const ReqRegistration = () => {
                     <Box
                       sx={{
                         width: '100%',
-                        pr: 1,
+                        pr: 1
                       }}
                     >
                       <DeptSecUnderDept value={deptSec} setValue={setdeptSec} dept={dept} />
@@ -1410,34 +1392,22 @@ const ReqRegistration = () => {
                   sx={{
                     width: '50%',
                     display: 'flex',
-                    flexDirection: 'column',
+                    flexDirection: 'column'
                   }}
                 >
                   <CustomPaperTitle heading="Category" />
-                  <TextFieldCustom
-                    type="text"
-                    size="sm"
-                    name="category"
-                    value={category}
-                    onchange={updateCategory}
-                  />
+                  <TextFieldCustom type="text" size="sm" name="category" value={category} onchange={updateCategory} />
                 </Box>
                 <Box
                   sx={{
                     width: '100%',
                     display: 'flex',
                     flexDirection: 'column',
-                    pl: 1,
+                    pl: 1
                   }}
                 >
                   <CustomPaperTitle heading="Location" />
-                  <TextFieldCustom
-                    type="text"
-                    size="sm"
-                    name="location"
-                    value={location}
-                    onchange={updateLocation}
-                  />
+                  <TextFieldCustom type="text" size="sm" name="location" value={location} onchange={updateLocation} />
                 </Box>
 
                 <Box
@@ -1446,7 +1416,7 @@ const ReqRegistration = () => {
                     display: 'flex',
                     flexDirection: 'column',
                     pt: 3.5,
-                    pl: 1,
+                    pl: 1
                   }}
                 >
                   <CusCheckBox
@@ -1469,7 +1439,7 @@ const ReqRegistration = () => {
               <Paper
                 sx={{
                   width: '100%',
-                  mt: 0.8,
+                  mt: 0.8
                 }}
                 variant="outlined"
               >
@@ -1478,7 +1448,7 @@ const ReqRegistration = () => {
                     sx={{
                       width: '100%',
                       display: 'flex',
-                      flexDirection: 'column',
+                      flexDirection: 'column'
                     }}
                   >
                     <CustomPaperTitle heading="Estimate/Approximate/Requirement Details" />
@@ -1487,7 +1457,7 @@ const ReqRegistration = () => {
                         width: '100%',
                         p: 1,
                         display: 'flex',
-                        flexDirection: 'row',
+                        flexDirection: 'row'
                       }}
                     >
                       <Box
@@ -1495,7 +1465,7 @@ const ReqRegistration = () => {
                           width: '70%',
                           display: 'flex',
                           pr: 1,
-                          flexDirection: 'column',
+                          flexDirection: 'column'
                         }}
                       >
                         <CustomPaperTitle heading="Item Description" />
@@ -1513,7 +1483,7 @@ const ReqRegistration = () => {
                           width: '50%',
                           display: 'flex',
                           flexDirection: 'column',
-                          pr: 1,
+                          pr: 1
                         }}
                       >
                         <CustomPaperTitle heading="Item Brand" />
@@ -1531,7 +1501,7 @@ const ReqRegistration = () => {
                           width: '7%',
                           display: 'flex',
                           flexDirection: 'column',
-                          pr: 1,
+                          pr: 1
                         }}
                       >
                         <CustomPaperTitle heading="Quantity" />
@@ -1548,7 +1518,7 @@ const ReqRegistration = () => {
                           width: '20%',
                           display: 'flex',
                           flexDirection: 'column',
-                          pr: 1,
+                          pr: 1
                         }}
                       >
                         <CustomPaperTitle heading="Unit" />
@@ -1565,7 +1535,7 @@ const ReqRegistration = () => {
                           width: '70%',
                           display: 'flex',
                           flexDirection: 'column',
-                          pr: 1,
+                          pr: 1
                         }}
                       >
                         <CustomPaperTitle heading="Specification" />
@@ -1582,7 +1552,7 @@ const ReqRegistration = () => {
                           width: '7%',
                           display: 'flex',
                           flexDirection: 'column',
-                          pr: 1,
+                          pr: 1
                         }}
                       >
                         <CustomPaperTitle heading="Approx.Cost" />
@@ -1597,7 +1567,7 @@ const ReqRegistration = () => {
                       <Box
                         sx={{
                           width: '7%',
-                          pt: 2,
+                          pt: 2
                         }}
                       >
                         <IconButton variant="outlined" color="primary" onClick={AddItem}>
@@ -1611,7 +1581,7 @@ const ReqRegistration = () => {
                     sx={{
                       width: '100%',
                       display: 'flex',
-                      flexDirection: 'column',
+                      flexDirection: 'column'
                     }}
                   >
                     <CustomPaperTitle heading="Estimate/Approximate/Requirement Details" />
@@ -1620,7 +1590,7 @@ const ReqRegistration = () => {
                         width: '100%',
                         p: 1,
                         display: 'flex',
-                        flexDirection: 'row',
+                        flexDirection: 'row'
                       }}
                     >
                       <Box
@@ -1628,7 +1598,7 @@ const ReqRegistration = () => {
                           width: '70%',
                           display: 'flex',
                           pr: 1,
-                          flexDirection: 'column',
+                          flexDirection: 'column'
                         }}
                       >
                         <CustomPaperTitle heading="Item Description" />
@@ -1646,7 +1616,7 @@ const ReqRegistration = () => {
                           width: '50%',
                           display: 'flex',
                           flexDirection: 'column',
-                          pr: 1,
+                          pr: 1
                         }}
                       >
                         <CustomPaperTitle heading="Item Brand" />
@@ -1664,7 +1634,7 @@ const ReqRegistration = () => {
                           width: '7%',
                           display: 'flex',
                           flexDirection: 'column',
-                          pr: 1,
+                          pr: 1
                         }}
                       >
                         <CustomPaperTitle heading="Quantity" />
@@ -1680,7 +1650,7 @@ const ReqRegistration = () => {
                       <Box
                         sx={{
                           width: '7%',
-                          pt: 2,
+                          pt: 2
                         }}
                       >
                         <IconButton variant="outlined" color="primary" onClick={AddItemUser}>
@@ -1696,21 +1666,13 @@ const ReqRegistration = () => {
                     sx={{
                       width: '100%',
                       display: 'flex',
-                      flexDirection: 'column',
+                      flexDirection: 'column'
                     }}
                   >
                     {detldept === 1 ? (
-                      <ReqRegistItemCmpt
-                        columnDefs={column}
-                        tableData={dataPost}
-                        detldept={detldept}
-                      />
+                      <ReqRegistItemCmpt columnDefs={column} tableData={dataPost} detldept={detldept} />
                     ) : (
-                      <ReqRegistItemCmpt
-                        columnDefs={columnDeptDetl}
-                        tableData={dataPost}
-                        detldept={detldept}
-                      />
+                      <ReqRegistItemCmpt columnDefs={columnDeptDetl} tableData={dataPost} detldept={detldept} />
                     )}
                   </Box>
                 ) : null}
@@ -1718,11 +1680,7 @@ const ReqRegistration = () => {
                   <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
                     <CustomPaperTitle heading="Additionaly Added Items" />
                     {detldept === 1 ? (
-                      <ReqRegistItemCmpt
-                        columnDefs={columnAdditional}
-                        tableData={editAddArry}
-                        detldept={detldept}
-                      />
+                      <ReqRegistItemCmpt columnDefs={columnAdditional} tableData={editAddArry} detldept={detldept} />
                     ) : (
                       <ReqRegistItemCmpt
                         columnDefs={columnDeptDetlAdditional}
@@ -1739,7 +1697,7 @@ const ReqRegistration = () => {
             <Paper
               sx={{
                 width: '100%',
-                mt: 0.8,
+                mt: 0.8
               }}
               variant="outlined"
             >
@@ -1747,14 +1705,14 @@ const ReqRegistration = () => {
                 sx={{
                   width: '80%',
                   display: 'flex',
-                  flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
+                  flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' }
                 }}
               >
                 <Box
                   sx={{
                     width: '20%',
                     display: 'flex',
-                    flexDirection: 'column',
+                    flexDirection: 'column'
                   }}
                 >
                   <CustomPaperTitle heading="Expected Date" />
@@ -1762,7 +1720,7 @@ const ReqRegistration = () => {
                     sx={{
                       display: 'flex',
                       p: 0.5,
-                      width: '100%',
+                      width: '100%'
                     }}
                   >
                     <TextFieldCustom
@@ -1780,7 +1738,7 @@ const ReqRegistration = () => {
                     display: 'flex',
                     flex: 1,
                     pl: 2,
-                    flexDirection: 'row',
+                    flexDirection: 'row'
                   }}
                 >
                   <Box
@@ -1789,7 +1747,7 @@ const ReqRegistration = () => {
                       display: 'flex',
                       pl: 2,
                       pt: 4,
-                      flexDirection: 'column',
+                      flexDirection: 'column'
                     }}
                   >
                     <CusCheckBox
@@ -1808,7 +1766,7 @@ const ReqRegistration = () => {
                       sx={{
                         width: '50%',
                         display: 'flex',
-                        flexDirection: 'column',
+                        flexDirection: 'column'
                       }}
                     >
                       <CustomPaperTitle heading="Remarks" />
@@ -1816,7 +1774,7 @@ const ReqRegistration = () => {
                         sx={{
                           display: 'flex',
                           p: 0.5,
-                          width: '100%',
+                          width: '100%'
                         }}
                       >
                         <CustomTextarea
@@ -1825,7 +1783,7 @@ const ReqRegistration = () => {
                           size="sm"
                           style={{
                             width: '100%',
-                            height: 50,
+                            height: 50
                           }}
                           value={remarks}
                           onchange={updateRemarks}
@@ -1841,7 +1799,7 @@ const ReqRegistration = () => {
                         display: 'flex',
                         flexDirection: 'column',
                         pr: 1,
-                        pt: 0.5,
+                        pt: 0.5
                       }}
                     >
                       <CustomPaperTitle heading="Total Approx.Cost" />
@@ -1876,10 +1834,7 @@ const ReqRegistration = () => {
                   {selectFile &&
                     selectFile.map((val, index) => {
                       return (
-                        <Box
-                          sx={{ display: 'flex', flexDirection: 'row', ml: 2, pt: 2 }}
-                          key={index}
-                        >
+                        <Box sx={{ display: 'flex', flexDirection: 'row', ml: 2, pt: 2 }} key={index}>
                           <Box>{val.name}</Box>
                           <Box sx={{ ml: 0.3 }}>
                             <CloseIcon
@@ -1908,7 +1863,7 @@ const ReqRegistration = () => {
           elevation={0}
           sx={{
             p: 1,
-            pt: 0,
+            pt: 0
           }}
         >
           <ReqRegisterTable count={count} rowSelect={rowSelect} isIncharge={isIncharge} />

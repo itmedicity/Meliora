@@ -8,14 +8,14 @@ import FileViews from '../../Files/FileViews'
 const DeptScrapstoreMain = ({ empdept }) => {
   const postDept = useMemo(() => {
     return {
-      empdept: empdept,
+      empdept: empdept
     }
   }, [empdept])
 
   const { data: DeptScarpStore } = useQuery({
     queryKey: ['getDeptScrapStore'],
     queryFn: () => getDeptScrapStore(postDept),
-    enabled: empdept !== null,
+    enabled: empdept !== null
   })
 
   const DeptScarpStoreData = useMemo(() => DeptScarpStore ?? [], [DeptScarpStore])

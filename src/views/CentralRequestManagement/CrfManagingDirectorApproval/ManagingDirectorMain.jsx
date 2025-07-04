@@ -13,7 +13,7 @@ import {
   getApprovalDetails,
   getApprovalKMCH,
   getOnholdRejectIemDetails,
-  getOnholdRejectKMCH,
+  getOnholdRejectKMCH
 } from '../ComonComponent/CommonApiCallFuctn'
 import { getCRFPendingForAllKMC } from 'src/api/CommonApiCRFKmc'
 import { warningNotify } from 'src/views/Common/CommonCode'
@@ -62,11 +62,11 @@ const ManagingDirectorMain = () => {
   const {
     data: compData,
     isLoading: isCompLoading,
-    error: compError,
+    error: compError
   } = useQuery({
     queryKey: 'getCompany',
     queryFn: () => getCompanyDetails(),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const companyData = useMemo(() => compData, [compData])
 
@@ -75,12 +75,12 @@ const ManagingDirectorMain = () => {
   const {
     data: manageDetails,
     isLoading: isManageLoading,
-    error: manageError,
+    error: manageError
   } = useQuery({
     queryKey: ['getPendingAll', JSON.stringify(tmchData)],
     queryFn: () => getCRFPendingAboveHOD(tmchData),
     enabled: !!tmchData.level,
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const manageData = useMemo(() => manageDetails, [manageDetails])
 
@@ -88,31 +88,29 @@ const ManagingDirectorMain = () => {
   const {
     data: manageKmc,
     isLoading: isedKmcLoading,
-    error: kmcError,
+    error: kmcError
   } = useQuery({
     queryKey: ['getAllKmcPending', JSON.stringify(postData)],
     queryFn: () => getCRFPendingForAllKMC(postData),
     enabled: !!postData.level,
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const manageDataKmc = useMemo(() => manageKmc, [manageKmc])
 
   const {
     data: companydefData,
     isLoading: isCompLoadingdef,
-    error: compErrordef,
+    error: compErrordef
   } = useQuery({
     queryKey: 'getdefaultCompany',
     queryFn: () => getDefaultCompany(),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const company = useMemo(() => companydefData, [companydefData])
   useEffect(() => {
     if (selectedCompany === '1') {
       if (radiovalue === '9' && manageData) {
-        const pending = manageData?.filter(
-          val => val.ed_approve === null || val.md_approve === null
-        )
+        const pending = manageData?.filter(val => val.ed_approve === null || val.md_approve === null)
         setPendingCount(pending)
         setcombinedData(pending)
       } else if (radiovalue === '8') {
@@ -229,12 +227,10 @@ const ManagingDirectorMain = () => {
               : val.manag_operation_approv === 4
               ? 'Approved'
               : 'Not Done',
-          manag_operation_remarks:
-            val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
+          manag_operation_remarks: val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
           om_detial_analysis: val.om_detial_analysis,
           om_approv_date: val.om_approv_date,
-          manag_operation_user:
-            val.manag_operation_user !== null ? val.manag_operation_user?.toLowerCase() : '',
+          manag_operation_user: val.manag_operation_user !== null ? val.manag_operation_user?.toLowerCase() : '',
           senior_manage_req: val.senior_manage_req,
           senior_manage_approv: val.senior_manage_approv,
           smo:
@@ -247,12 +243,10 @@ const ManagingDirectorMain = () => {
               : val.senior_manage_approv === 4
               ? 'Approved'
               : 'Not Done',
-          senior_manage_remarks:
-            val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
+          senior_manage_remarks: val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
           smo_detial_analysis: val.smo_detial_analysis,
           som_aprrov_date: val.som_aprrov_date,
-          senior_manage_user:
-            val.senior_manage_user !== null ? val.senior_manage_user?.toLowerCase() : '',
+          senior_manage_user: val.senior_manage_user !== null ? val.senior_manage_user?.toLowerCase() : '',
           gm_approve_req: val.gm_approve_req,
           gm_approve: val.gm_approve,
           gm:
@@ -265,8 +259,7 @@ const ManagingDirectorMain = () => {
               : val.gm_approve === 4
               ? 'Approved'
               : 'Not Done',
-          gm_approve_remarks:
-            val.gm_approve_remarks !== null ? val.gm_approve_remarks : 'Not Updated',
+          gm_approve_remarks: val.gm_approve_remarks !== null ? val.gm_approve_remarks : 'Not Updated',
           gm_detial_analysis: val.gm_detial_analysis,
           gm_approv_date: val.gm_approv_date,
           gm_user: val.gm_user !== null ? val.gm_user?.toLowerCase() : '',
@@ -282,8 +275,7 @@ const ManagingDirectorMain = () => {
               : val.md_approve === 4
               ? 'Approved'
               : 'Not Done',
-          md_approve_remarks:
-            val.md_approve_remarks !== null ? val.md_approve_remarks : 'Not Updated',
+          md_approve_remarks: val.md_approve_remarks !== null ? val.md_approve_remarks : 'Not Updated',
           md_detial_analysis: val.md_detial_analysis,
           md_approve_date: val.md_approve_date,
           md_user: val.md_user !== null ? val.md_user?.toLowerCase() : '',
@@ -299,8 +291,7 @@ const ManagingDirectorMain = () => {
               : val.ed_approve === 4
               ? 'Approved'
               : 'Not Done',
-          ed_approve_remarks:
-            val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
+          ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
           ed_detial_analysis: val.ed_detial_analysis,
           ed_approve_date: val.ed_approve_date,
           ed_user: val.ed_user ? val.ed_user?.toLowerCase() : '',
@@ -316,13 +307,10 @@ const ManagingDirectorMain = () => {
               : val.managing_director_approve === 4
               ? 'Approved'
               : 'Not Done',
-          managing_director_remarks:
-            val.managing_director_remarks !== null ? val.managing_director_remarks : '',
+          managing_director_remarks: val.managing_director_remarks !== null ? val.managing_director_remarks : '',
           managing_director_analysis: val.managing_director_analysis,
           managing_director_approve_date: val.managing_director_approve_date,
-          managing_director_user: val.managing_director_username
-            ? val.managing_director_username?.toLowerCase()
-            : '',
+          managing_director_user: val.managing_director_username ? val.managing_director_username?.toLowerCase() : '',
 
           higher:
             val.managing_director_approve === null ||
@@ -471,8 +459,7 @@ const ManagingDirectorMain = () => {
           dept_id: val.dept_id,
           dept_name: val.dept_name,
           dept_type: val.dept_type,
-          dept_type_name:
-            val.dept_type === 1 ? 'Clinical' : val.dept_type === 2 ? 'Non Clinical' : 'Academic',
+          dept_type_name: val.dept_type === 1 ? 'Clinical' : val.dept_type === 2 ? 'Non Clinical' : 'Academic',
           po_number: val.po_number,
           approval_level: val.approval_level,
           internally_arranged_status: val?.internally_arranged_status,
@@ -481,7 +468,7 @@ const ManagingDirectorMain = () => {
           viewDep: val?.viewDep,
           viewName: val?.viewName,
           company_name: val?.company_name,
-          company_slno: val?.company_slno,
+          company_slno: val?.company_slno
         }
         return obj
       })
@@ -490,10 +477,7 @@ const ManagingDirectorMain = () => {
           // const pending = datas?.filter((val) => (val.ed_approve === null || val.md_approve === null || val?.managing_director_approve === null)
           //     && val.req_status !== 'C')
           const pending = datas?.filter(
-            val =>
-              val.ed_approve === null &&
-              val?.managing_director_approve === null &&
-              val.req_status !== 'C'
+            val => val.ed_approve === null && val?.managing_director_approve === null && val.req_status !== 'C'
           )
           setDisData(pending)
           setAllData(pending)
@@ -502,19 +486,13 @@ const ManagingDirectorMain = () => {
           //     val.ack_status === null && val.req_status !== 'C'
           // )
           const newData = datas?.filter(
-            val =>
-              val?.managing_director_approve === 1 &&
-              val.ack_status === null &&
-              val.req_status !== 'C'
+            val => val?.managing_director_approve === 1 && val.ack_status === null && val.req_status !== 'C'
           )
           setDisData(newData)
           setAllData(newData)
         } else if (radiovalue === '9') {
           const newData = datas?.filter(
-            val =>
-              val?.gm_approve === 1 &&
-              val?.managing_director_approve === null &&
-              val.req_status !== 'C'
+            val => val?.gm_approve === 1 && val?.managing_director_approve === null && val.req_status !== 'C'
           )
           setDisData(newData)
           setAllData(newData)
@@ -526,10 +504,7 @@ const ManagingDirectorMain = () => {
       } else {
         if (radiovalue === '2') {
           const newData = datas?.filter(
-            val =>
-              val.now_who_status !== 2 &&
-              val.now_who_status !== 3 &&
-              val.managing_director_approve !== null
+            val => val.now_who_status !== 2 && val.now_who_status !== 3 && val.managing_director_approve !== null
           )
           setDisData(newData)
           setAllData(newData)
@@ -673,7 +648,7 @@ const ManagingDirectorMain = () => {
     () => ({
       level: 17,
       from: `${fromDate} 00:00:00`,
-      to: `${toDate} 23:59:59`,
+      to: `${toDate} 23:59:59`
     }),
     [fromDate, toDate]
   )
@@ -724,8 +699,7 @@ const ManagingDirectorMain = () => {
     }
   }, [])
 
-  if (isManageLoading || isCompLoading || isedKmcLoading || isCompLoadingdef)
-    return <p>Loading...</p>
+  if (isManageLoading || isCompLoading || isedKmcLoading || isCompLoadingdef) return <p>Loading...</p>
   if (manageError || compError || kmcError || compErrordef) return <p>Error Occurred.</p>
   return (
     <Fragment>
@@ -768,9 +742,7 @@ const ManagingDirectorMain = () => {
             <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: 0.5, color: '#385E72' }}>
               {company?.managing_director_name} Approval
             </Box>
-            <Box
-              sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, m: 0.5 }}
-            >
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, m: 0.5 }}>
               <CssVarsProvider>
                 <CustomCloseIconCmp handleChange={backtoSetting} />
               </CssVarsProvider>
@@ -783,7 +755,7 @@ const ManagingDirectorMain = () => {
               alignItems: 'center',
               padding: '8px',
               justifyContent: 'center',
-              bgcolor: 'white',
+              bgcolor: 'white'
             }}
           >
             <RadioGroup row value={selectedCompany} onChange={handleRadioChange}>
@@ -839,14 +811,10 @@ const ManagingDirectorMain = () => {
                     flexWrap: 'wrap',
                     mt: 0.6,
                     border: '1px solid #21B6A8',
-                    borderRadius: 2,
+                    borderRadius: 2
                   }}
                 >
-                  <MasterDetailHigherLevel
-                    val={val}
-                    selectedCompany={selectedCompany}
-                    companyData={companyData}
-                  />
+                  <MasterDetailHigherLevel val={val} selectedCompany={selectedCompany} companyData={companyData} />
                   {radiovalue === '8' ? (
                     <ClosedButtonManage
                       val={val}
@@ -895,7 +863,7 @@ const ManagingDirectorMain = () => {
                 fontSize: 25,
                 opacity: 0.5,
                 pt: 10,
-                color: 'grey',
+                color: 'grey'
               }}
             >
               No Report Found

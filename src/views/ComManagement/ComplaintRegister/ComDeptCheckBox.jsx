@@ -12,7 +12,7 @@ const ComDeptCheckBox = ({
   setSelectedAsset,
   setItem_slno,
   setcustodianDept,
-  cust,
+  cust
 }) => {
   return (
     <Fragment>

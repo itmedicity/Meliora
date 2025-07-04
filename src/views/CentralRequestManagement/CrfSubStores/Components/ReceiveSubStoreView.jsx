@@ -25,7 +25,7 @@ const ReceiveSubStoreView = ({
   setSelectedRadio,
   setStoreName,
   company,
-  reqSlno,
+  reqSlno
 }) => {
   const [displayList, setDisplayList] = useState([])
   const [retrunModal, setRetrunModal] = useState(false)
@@ -45,7 +45,7 @@ const ReceiveSubStoreView = ({
     grnData: [],
     grnFlag: 0,
     grnItem: [],
-    grnItemModal: false,
+    grnItemModal: false
   })
   const {
     poItems,
@@ -61,18 +61,18 @@ const ReceiveSubStoreView = ({
     grnData,
     grnFlag,
     grnItem,
-    grnItemModal,
+    grnItemModal
   } = subStoreState
 
   const {
     data: returnList,
     isLoading: isReturnLoading,
-    error: returnError,
+    error: returnError
   } = useQuery({
     queryKey: ['returnDetailsView', reqSlno],
     queryFn: () => itemReturnDetailsForViewStore(reqSlno),
     enabled: reqSlno && reqSlno.length > 0,
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const returnData = useMemo(() => returnList, [returnList])
 
@@ -84,7 +84,7 @@ const ReceiveSubStoreView = ({
           ...val,
           returnDetails: xx ? xx : [],
           status: xx.some(item => item.received_status_return === 0),
-          received: xx?.filter(item => item.received_status_return === 1),
+          received: xx?.filter(item => item.received_status_return === 1)
         }
       })
       setDisplayList(newArray)
@@ -101,12 +101,12 @@ const ReceiveSubStoreView = ({
       po_number: item.po_number,
       po_date: item.po_date,
       supplier_name: item.supplier_name,
-      expected_delivery: item.expected_delivery,
+      expected_delivery: item.expected_delivery
     }))
 
     setSubStoreState(prev => ({
       ...prev,
-      poDetails: news,
+      poDetails: news
     }))
 
     const poNumber = po_detail_slno?.map(slno => ({ poSlno: slno }))
@@ -122,7 +122,7 @@ const ReceiveSubStoreView = ({
         ...prev,
         poItems: success === 1 ? data : [],
         modalopen: success === 1,
-        modFlag: success === 1 ? 1 : 0,
+        modFlag: success === 1 ? 1 : 0
       }))
     })
   }, [])
@@ -132,7 +132,7 @@ const ReceiveSubStoreView = ({
 
     setSubStoreState(prev => ({
       ...prev,
-      grnData: grn_nos,
+      grnData: grn_nos
     }))
     const poNumber = po_detail_slno?.map(slno => ({ poSlno: slno }))
     const getPOItems = async poNumber => {
@@ -145,7 +145,7 @@ const ReceiveSubStoreView = ({
         ...prev,
         grnItem: success === 1 ? data : [],
         grnItemModal: success === 1,
-        grnFlag: success === 1 ? 1 : 0,
+        grnFlag: success === 1 ? 1 : 0
       }))
     })
   }, [])
@@ -160,14 +160,14 @@ const ReceiveSubStoreView = ({
           ...prev,
           crfData: newData,
           crfModal: true,
-          crfFlag: 1,
+          crfFlag: 1
         }))
       } else {
         setSubStoreState(prev => ({
           ...prev,
           crfData: [],
           crfModal: false,
-          crfFlag: 0,
+          crfFlag: 0
         }))
       }
     }
@@ -185,7 +185,7 @@ const ReceiveSubStoreView = ({
       crfModal: false,
       crfFlag: 0,
       grnItemModal: false,
-      grnFlag: 0,
+      grnFlag: 0
     }))
   }, [])
 
@@ -200,7 +200,7 @@ const ReceiveSubStoreView = ({
         ...prev,
         informModal: true,
         infoFlag: 1,
-        infoData: details,
+        infoData: details
       }))
     },
     [setSelectedRadio, setStoreName]
@@ -212,7 +212,7 @@ const ReceiveSubStoreView = ({
       informModal: false,
       infoFlag: 0,
       grnFlag: 0,
-      grnItemModal: false,
+      grnItemModal: false
     }))
   }, [])
 
@@ -232,7 +232,7 @@ const ReceiveSubStoreView = ({
         item_received_user: val.item_received_user,
         received_status_return: val.received_status_return,
         received_date: val.received_date,
-        storeRemarks: '',
+        storeRemarks: ''
 
         // storeRemarks: val.store_issue_remarks ? val.store_issue_remarks : '',
         // store_user: val.storeUser ? val.storeUser : '',
@@ -260,28 +260,13 @@ const ReceiveSubStoreView = ({
   return (
     <Fragment>
       {grnFlag === 1 ? (
-        <GrnItemDetails
-          open={grnItemModal}
-          grnData={grnData}
-          handleCloseInfo={handleCloseInfo}
-          grnItem={grnItem}
-        />
+        <GrnItemDetails open={grnItemModal} grnData={grnData} handleCloseInfo={handleCloseInfo} grnItem={grnItem} />
       ) : null}
       {modFlag === 1 ? (
-        <PODetailsView
-          handleClose={handleClose}
-          open={modalopen}
-          poItems={poItems}
-          poDetails={poDetails}
-        />
+        <PODetailsView handleClose={handleClose} open={modalopen} poItems={poItems} poDetails={poDetails} />
       ) : null}
       {crfFlag === 1 ? (
-        <CRFDetailsView
-          handleClose={handleClose}
-          open={crfModal}
-          crfData={crfData}
-          company={company}
-        />
+        <CRFDetailsView handleClose={handleClose} open={crfModal} crfData={crfData} company={company} />
       ) : null}
       {infoFlag === 1 ? (
         <InfoModal
@@ -310,7 +295,7 @@ const ReceiveSubStoreView = ({
               flexWrap: 'wrap',
               maxHeight: window.innerHeight - 220,
               width: '100%',
-              '&::-webkit-scrollbar': { height: 8 },
+              '&::-webkit-scrollbar': { height: 8 }
             }}
           >
             <Paper elevation={3} sx={{ width: '100%' }}>
@@ -323,54 +308,32 @@ const ReceiveSubStoreView = ({
                   color: 'white',
                   position: 'sticky',
                   top: 0,
-                  zIndex: 1,
+                  zIndex: 1
                 }}
               >
-                <Typography sx={{ width: 60, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>
-                  Sl.No
-                </Typography>
-                <Typography sx={{ width: 120, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
-                  CRF No
-                </Typography>
-                <Typography sx={{ width: 200, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
-                  Req.Dpt
-                </Typography>
-                <Typography sx={{ width: 120, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
-                  Req.Emp
-                </Typography>
-                <Typography sx={{ width: 200, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
-                  Req.Date
-                </Typography>
+                <Typography sx={{ width: 60, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>Sl.No</Typography>
+                <Typography sx={{ width: 120, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>CRF No</Typography>
+                <Typography sx={{ width: 200, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>Req.Dpt</Typography>
+                <Typography sx={{ width: 120, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>Req.Emp</Typography>
+                <Typography sx={{ width: 200, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>Req.Date</Typography>
                 <Typography sx={{ width: 200, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
                   Required Dpt
                 </Typography>
-                <Typography sx={{ width: 200, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
-                  Store
-                </Typography>
-                <Typography
-                  sx={{ width: 40, textAlign: 'center', fontWeight: 550, fontSize: 12, mr: 0.6 }}
-                >
+                <Typography sx={{ width: 200, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>Store</Typography>
+                <Typography sx={{ width: 40, textAlign: 'center', fontWeight: 550, fontSize: 12, mr: 0.6 }}>
                   PO
                 </Typography>
-                <Typography
-                  sx={{ width: 40, textAlign: 'center', fontWeight: 550, fontSize: 12, mr: 0.5 }}
-                >
+                <Typography sx={{ width: 40, textAlign: 'center', fontWeight: 550, fontSize: 12, mr: 0.5 }}>
                   GRN
                 </Typography>
-                <Typography sx={{ width: 30, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>
-                  CRF
-                </Typography>
+                <Typography sx={{ width: 30, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>CRF</Typography>
                 {returnData.length > 0 ? (
-                  <Typography
-                    sx={{ width: 30, textAlign: 'center', fontWeight: 550, fontSize: 12 }}
-                  >
+                  <Typography sx={{ width: 30, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>
                     {' '}
                     Return
                   </Typography>
                 ) : null}
-                <Typography
-                  sx={{ width: 30, textAlign: 'center', fontWeight: 550, fontSize: 12, mr: 2 }}
-                ></Typography>
+                <Typography sx={{ width: 30, textAlign: 'center', fontWeight: 550, fontSize: 12, mr: 2 }}></Typography>
               </Box>
               <Virtuoso
                 style={{ height: '71vh', width: '100%' }}
@@ -382,9 +345,7 @@ const ReceiveSubStoreView = ({
                       justifyContent="space-between"
                       sx={{ borderBottom: '1px solid lightgrey', cursor: 'pointer' }}
                     >
-                      <Typography sx={{ width: 60, textAlign: 'center', fontSize: 12, my: 1 }}>
-                        {index + 1}
-                      </Typography>
+                      <Typography sx={{ width: 60, textAlign: 'center', fontSize: 12, my: 1 }}>{index + 1}</Typography>
                       <Typography sx={{ width: 120, textAlign: 'left', fontSize: 12, my: 1 }}>
                         `CRF/{company?.company_name}/{val?.req_slno}
                       </Typography>
@@ -403,9 +364,7 @@ const ReceiveSubStoreView = ({
                       <Typography sx={{ width: 200, textAlign: 'left', fontSize: 12, my: 1 }}>
                         {capitalizeWords(val?.sub_store_name)}
                       </Typography>
-                      <Box
-                        sx={{ width: 40, textAlign: 'center', cursor: 'pointer', display: 'flex' }}
-                      >
+                      <Box sx={{ width: 40, textAlign: 'center', cursor: 'pointer', display: 'flex' }}>
                         <CustomToolTipForCRF title="PO Details" placement="left">
                           <InventoryTwoToneIcon
                             sx={{
@@ -419,16 +378,14 @@ const ReceiveSubStoreView = ({
                               cursor: 'pointer',
                               transition: 'transform 0.2s',
                               '&:hover': {
-                                transform: 'scale(1.1)',
-                              },
+                                transform: 'scale(1.1)'
+                              }
                             }}
                             onClick={() => viewPODetails(val)}
                           />
                         </CustomToolTipForCRF>
                       </Box>
-                      <Box
-                        sx={{ width: 40, textAlign: 'center', cursor: 'pointer', display: 'flex' }}
-                      >
+                      <Box sx={{ width: 40, textAlign: 'center', cursor: 'pointer', display: 'flex' }}>
                         <CustomToolTipForCRF title="GRN Details" placement="left">
                           <BallotTwoToneIcon
                             sx={{
@@ -442,16 +399,14 @@ const ReceiveSubStoreView = ({
                               cursor: 'pointer',
                               transition: 'transform 0.2s',
                               '&:hover': {
-                                transform: 'scale(1.1)',
-                              },
+                                transform: 'scale(1.1)'
+                              }
                             }}
                             onClick={() => viewGrnDetails(val)}
                           />
                         </CustomToolTipForCRF>
                       </Box>
-                      <Box
-                        sx={{ width: 30, textAlign: 'center', cursor: 'pointer', display: 'flex' }}
-                      >
+                      <Box sx={{ width: 30, textAlign: 'center', cursor: 'pointer', display: 'flex' }}>
                         <CustomToolTipForCRF title="CRF Details" placement="left">
                           <ListAltTwoToneIcon
                             sx={{
@@ -465,8 +420,8 @@ const ReceiveSubStoreView = ({
                               cursor: 'pointer',
                               transition: 'transform 0.2s',
                               '&:hover': {
-                                transform: 'scale(1.1)',
-                              },
+                                transform: 'scale(1.1)'
+                              }
                             }}
                             onClick={() => viewCrfDetails(val.req_slno)}
                           />
@@ -478,7 +433,7 @@ const ReceiveSubStoreView = ({
                             width: 30,
                             textAlign: 'center',
                             cursor: 'pointer',
-                            display: 'flex',
+                            display: 'flex'
                           }}
                         >
                           {val.received && val.received.length > 0 ? (
@@ -495,8 +450,8 @@ const ReceiveSubStoreView = ({
                                   cursor: 'pointer',
                                   transition: 'transform 0.2s',
                                   '&:hover': {
-                                    transform: 'scale(1.1)',
-                                  },
+                                    transform: 'scale(1.1)'
+                                  }
                                 }}
                                 onClick={() => viewReturnDetails(val.returnDetails)}
                               />
@@ -517,12 +472,12 @@ const ReceiveSubStoreView = ({
                                   '@keyframes blink': {
                                     '0%': { opacity: 1 },
                                     '50%': { opacity: 0 },
-                                    '100%': { opacity: 1 },
+                                    '100%': { opacity: 1 }
                                   },
                                   transition: 'transform 0.2s',
                                   '&:hover': {
-                                    transform: 'scale(1.1)',
-                                  },
+                                    transform: 'scale(1.1)'
+                                  }
                                 }}
                                 onClick={() => viewReturnDetails(val.returnDetails)}
                               />
@@ -535,7 +490,7 @@ const ReceiveSubStoreView = ({
                                 color: 'grey',
                                 height: 25,
                                 width: 30,
-                                borderRadius: 2,
+                                borderRadius: 2
                               }}
                             />
                           )}
@@ -547,7 +502,7 @@ const ReceiveSubStoreView = ({
                           textAlign: 'center',
                           cursor: 'pointer',
                           display: 'flex',
-                          mr: 2,
+                          mr: 2
                         }}
                       >
                         <CustomToolTipForCRF title="Inform To Req User" placement="left">
@@ -563,8 +518,8 @@ const ReceiveSubStoreView = ({
                               cursor: 'pointer',
                               transition: 'transform 0.2s',
                               '&:hover': {
-                                transform: 'scale(1.1)',
-                              },
+                                transform: 'scale(1.1)'
+                              }
                             }}
                             onClick={() => informToReqUser(val)}
                           />
@@ -584,7 +539,7 @@ const ReceiveSubStoreView = ({
               fontSize: 25,
               opacity: 0.5,
               pt: 10,
-              color: 'grey',
+              color: 'grey'
             }}
           >
             No Report Found

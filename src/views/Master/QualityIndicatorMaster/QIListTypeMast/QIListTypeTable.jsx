@@ -24,8 +24,8 @@ const QIListTypeTable = ({ rowSelect, count }) => {
     {
       headerName: 'Action',
       width: 50,
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
-    },
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
+    }
   ])
   return <CusAgGridMast columnDefs={column} tableData={tabledata} onClick={rowSelect} />
 }

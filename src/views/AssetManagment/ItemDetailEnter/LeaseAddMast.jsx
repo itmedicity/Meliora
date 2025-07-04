@@ -45,7 +45,7 @@ const LeaseAddMast = ({ setLeaseFlg }) => {
     lease_todate: '',
     lease_amount: '',
     lease_image: '',
-    am_lease_mastslno: '',
+    am_lease_mastslno: ''
   })
 
   //Destructuring
@@ -89,7 +89,7 @@ const LeaseAddMast = ({ setLeaseFlg }) => {
     const options = {
       maxSizeMB: 25,
       maxWidthOrHeight: 1920,
-      useWebWorker: true,
+      useWebWorker: true
     }
     const compressedFile = await imageCompression(imageFile, options)
     return compressedFile
@@ -110,7 +110,7 @@ const LeaseAddMast = ({ setLeaseFlg }) => {
       lease_amount: lease_amount,
       lease_suppler_slno: supplier,
       lease_status: status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [lease_fromdate, lease_todate, lease_amount, supplier, status, id])
 
@@ -122,7 +122,7 @@ const LeaseAddMast = ({ setLeaseFlg }) => {
       lease_suppler_slno: supplier,
       lease_status: status === true ? 1 : 0,
       edit_user: id,
-      am_lease_mastslno: am_lease_mastslno,
+      am_lease_mastslno: am_lease_mastslno
     }
   }, [lease_fromdate, lease_todate, lease_amount, supplier, id, status, am_lease_mastslno])
 
@@ -138,7 +138,7 @@ const LeaseAddMast = ({ setLeaseFlg }) => {
       lease_todate: '',
       lease_amount: '',
       lease_image: '',
-      am_lease_mastslno: '',
+      am_lease_mastslno: ''
     }
     setleaseMast(frmdata)
     setStatus(false)
@@ -161,15 +161,11 @@ const LeaseAddMast = ({ setLeaseFlg }) => {
             }
           }
           // Use the Axios instance and endpoint that matches your server setup
-          const result = await axioslogin.post(
-            '/AssetFileUpload/asset/LeaseMasterImage',
-            formData,
-            {
-              headers: {
-                'Content-Type': 'multipart/form-data',
-              },
+          const result = await axioslogin.post('/AssetFileUpload/asset/LeaseMasterImage', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
             }
-          )
+          })
           return result.data
         } catch (error) {
           warningNotify('An error occurred during file upload.')
@@ -250,18 +246,7 @@ const LeaseAddMast = ({ setLeaseFlg }) => {
         }
       }
     },
-    [
-      postdata,
-      value,
-      selectFile,
-      am_lease_mastslno,
-      patch,
-      supplier,
-      count,
-      reset,
-      setLeaseFlg,
-      handleImageUpload,
-    ]
+    [postdata, value, selectFile, am_lease_mastslno, patch, supplier, count, reset, setLeaseFlg, handleImageUpload]
   )
 
   const rowSelect = useCallback(val => {
@@ -273,14 +258,14 @@ const LeaseAddMast = ({ setLeaseFlg }) => {
       lease_suppler_slno,
       lease_image,
       am_lease_mastslno,
-      lease_status,
+      lease_status
     } = val
     const frmdata = {
       lease_fromdate: lease_fromdate,
       lease_todate: lease_todate,
       lease_amount: lease_amount,
       lease_image: lease_image,
-      am_lease_mastslno: am_lease_mastslno,
+      am_lease_mastslno: am_lease_mastslno
     }
     setleaseMast(frmdata)
     setSupplier(lease_suppler_slno)
@@ -289,9 +274,7 @@ const LeaseAddMast = ({ setLeaseFlg }) => {
 
   const ViewAmcCmcImage = useCallback(() => {
     const getImage = async am_lease_mastslno => {
-      const result = await axioslogin.get(
-        `/AssetFileUpload/LeaseMasterImageView/${am_lease_mastslno}`
-      )
+      const result = await axioslogin.get(`/AssetFileUpload/LeaseMasterImageView/${am_lease_mastslno}`)
       const { success, data } = result.data
       if (success === 1) {
         const fileNames = data
@@ -328,7 +311,7 @@ const LeaseAddMast = ({ setLeaseFlg }) => {
 
   const searchdata = useMemo(() => {
     return {
-      SUC_NAME: suppName,
+      SUC_NAME: suppName
     }
   }, [suppName])
 
@@ -356,7 +339,7 @@ const LeaseAddMast = ({ setLeaseFlg }) => {
         SUC_MOBILE,
         SUC_EMAIL,
         SUC_PERSON1,
-        SUC_PERSON2,
+        SUC_PERSON2
         // SUC_ADD1, SUC_ADD2, SUC_PERSON
       } = val
 
@@ -367,7 +350,7 @@ const LeaseAddMast = ({ setLeaseFlg }) => {
         it_supplier_email_one: SUC_EMAIL,
         it_supplier_escl_mob_one: parseInt(SUC_PERSON2),
         it_supplier_escl_land_one: parseInt(SUC_PERSON1),
-        supplier_status: 1,
+        supplier_status: 1
       }
       const InsertSupplierInMeli = async postdata => {
         const result = await axioslogin.post('/ItemMapDetails/SupplierAdding', postdata)
@@ -444,28 +427,22 @@ const LeaseAddMast = ({ setLeaseFlg }) => {
       2px 0px 4px rgba(0, 0, 0, 0.1)      /* Right shadow */
           `,
 
-        transition: 'all 0.3s ease',
+        transition: 'all 0.3s ease'
       }}
     >
       {imageShowsingle === 1 ? (
         <Box>
-          <FileViewSingle
-            previewFile={previewFile}
-            imageShow={imageShowSingle}
-            CloseFile={CloseFile}
-          />
+          <FileViewSingle previewFile={previewFile} imageShow={imageShowSingle} CloseFile={CloseFile} />
         </Box>
       ) : null}
 
-      {imageshowFlag === 1 ? (
-        <FileView open={imageshow} handleClose={handleClose} images={imagearray} />
-      ) : null}
+      {imageshowFlag === 1 ? <FileView open={imageshow} handleClose={handleClose} images={imagearray} /> : null}
       <TextComponent
         text={'Add New Lease Details'}
         sx={{
           fontWeight: 600,
           color: 'black',
-          py: 1,
+          py: 1
         }}
       />
 
@@ -479,7 +456,7 @@ const LeaseAddMast = ({ setLeaseFlg }) => {
                   fontWeight: 600,
                   color: '#0B6BCB',
                   pt: 0.5,
-                  pl: 0.3,
+                  pl: 0.3
                 }}
               />
               <Box sx={{ flex: 1, display: 'flex' }}>
@@ -493,13 +470,7 @@ const LeaseAddMast = ({ setLeaseFlg }) => {
                     placeholder={'Enter Supplier'}
                   ></TextFieldCustom>
                 </Box>
-                <CusIconButton
-                  size="sm"
-                  variant="outlined"
-                  color="primary"
-                  clickable="true"
-                  onClick={SearchSupplOrcle}
-                >
+                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={SearchSupplOrcle}>
                   <ManageSearchIcon fontSize="small" />
                 </CusIconButton>
                 &nbsp;
@@ -524,7 +495,7 @@ const LeaseAddMast = ({ setLeaseFlg }) => {
                     fontWeight: 600,
                     color: '#727B8C',
                     pt: 0.5,
-                    width: 100,
+                    width: 100
                   }}
                 />
                 <Box sx={{ flex: 1 }}>
@@ -542,7 +513,7 @@ const LeaseAddMast = ({ setLeaseFlg }) => {
                     fontWeight: 600,
                     color: '#727B8C',
                     pt: 0.5,
-                    width: 100,
+                    width: 100
                   }}
                 />
                 <Box sx={{ flex: 1 }}>
@@ -562,7 +533,7 @@ const LeaseAddMast = ({ setLeaseFlg }) => {
                     fontWeight: 600,
                     color: '#727B8C',
                     pt: 0.5,
-                    width: 100,
+                    width: 100
                   }}
                 />
                 <Box sx={{ flex: 1 }}>
@@ -582,7 +553,7 @@ const LeaseAddMast = ({ setLeaseFlg }) => {
                     fontWeight: 600,
                     color: '#727B8C',
                     pt: 0.5,
-                    width: 100,
+                    width: 100
                   }}
                 />
                 <Box sx={{ flex: 1 }}>
@@ -598,7 +569,7 @@ const LeaseAddMast = ({ setLeaseFlg }) => {
               <Box
                 sx={{
                   flex: 1,
-                  display: 'flex',
+                  display: 'flex'
                 }}
               >
                 <Box sx={{ width: 100 }}></Box>
@@ -610,7 +581,7 @@ const LeaseAddMast = ({ setLeaseFlg }) => {
                     startDecorator={<SearchOutlinedIcon />}
                     sx={{
                       '--Button-gap': '8px',
-                      width: '100%',
+                      width: '100%'
                     }}
                   >
                     Search Supplier From Ellider{' '}
@@ -631,7 +602,7 @@ const LeaseAddMast = ({ setLeaseFlg }) => {
                     border: 1,
                     borderColor: 'lightgrey',
                     p: 0.4,
-                    mt: 0.5,
+                    mt: 0.5
                   }}
                 >
                   {selectFile.length !== 0 &&
@@ -644,7 +615,7 @@ const LeaseAddMast = ({ setLeaseFlg }) => {
                           border: '1px solid #e0e0e0',
                           borderRadius: '4px',
                           p: 0.5,
-                          mr: 0.5,
+                          mr: 0.5
                         }}
                       >
                         {file.type.includes('image') ? (
@@ -657,7 +628,7 @@ const LeaseAddMast = ({ setLeaseFlg }) => {
                               objectFit: 'cover',
                               borderRadius: '4px',
                               marginRight: '8px',
-                              cursor: 'pointer',
+                              cursor: 'pointer'
                             }}
                             onClick={() => ViewImage(file)}
                           />
@@ -668,7 +639,7 @@ const LeaseAddMast = ({ setLeaseFlg }) => {
                               height: '40px',
                               color: '#e53935',
                               marginRight: '8px',
-                              cursor: 'pointer',
+                              cursor: 'pointer'
                             }}
                             onClick={() => ViewImage(file)}
                           />
@@ -679,7 +650,7 @@ const LeaseAddMast = ({ setLeaseFlg }) => {
                               height: '40px',
                               color: '#9e9e9e',
                               marginRight: '8px',
-                              cursor: 'pointer',
+                              cursor: 'pointer'
                             }}
                             onClick={() => ViewImage(file)}
                           />
@@ -694,7 +665,7 @@ const LeaseAddMast = ({ setLeaseFlg }) => {
                             cursor: 'pointer',
                             color: '#4D0011',
                             mx: 0.5,
-                            '&:hover': { color: '#BA0F30' },
+                            '&:hover': { color: '#BA0F30' }
                           }}
                           onClick={() => handleRemoveFile(index)}
                         />
@@ -716,7 +687,7 @@ const LeaseAddMast = ({ setLeaseFlg }) => {
                 borderColor: '#0B6BCB',
                 bgcolor: '#F3F5F7',
                 pt: 1,
-                cursor: 'pointer',
+                cursor: 'pointer'
               }}
             >
               <label htmlFor="file-input">
@@ -727,7 +698,7 @@ const LeaseAddMast = ({ setLeaseFlg }) => {
                     fontWeight: 600,
                     color: '#0B6BCB',
                     pb: 1,
-                    cursor: 'pointer',
+                    cursor: 'pointer'
                   }}
                 />
               </label>
@@ -758,9 +729,8 @@ const LeaseAddMast = ({ setLeaseFlg }) => {
                 transform: 'translateZ(0)',
                 transition: 'transform 0.2s ease',
                 '&:hover': {
-                  boxShadow:
-                    '3px 3px 6px rgba(0, 0, 0, 0.4), -3px -3px 6px rgba(255, 255, 255, 0.7)',
-                },
+                  boxShadow: '3px 3px 6px rgba(0, 0, 0, 0.4), -3px -3px 6px rgba(255, 255, 255, 0.7)'
+                }
               }}
             >
               Attached File
@@ -795,24 +765,12 @@ const LeaseAddMast = ({ setLeaseFlg }) => {
                 </CusIconButton>
               </Box>
               <Box>
-                <CusIconButton
-                  size="sm"
-                  variant="outlined"
-                  color="primary"
-                  clickable="true"
-                  onClick={reset}
-                >
+                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={reset}>
                   <RefreshIcon fontSize="small" />
                 </CusIconButton>
               </Box>
               <Box>
-                <CusIconButton
-                  size="sm"
-                  variant="outlined"
-                  color="primary"
-                  clickable="true"
-                  onClick={close}
-                >
+                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={close}>
                   <CloseIcon fontSize="small" />
                 </CusIconButton>
               </Box>
@@ -830,7 +788,7 @@ const LeaseAddMast = ({ setLeaseFlg }) => {
           sx={{
             flex: 1,
             my: 1,
-            mx: 0.2,
+            mx: 0.2
           }}
         >
           <BillSupplerListOracle OracleList={OracleList} SuppAddMeliora={SuppAddMeliora} />

@@ -3,14 +3,7 @@ import { useEffect, useState, useCallback } from 'react'
 import { Box, Button, Paper } from '@mui/material'
 import { memo } from 'react'
 
-const DashBoardFloorSort = ({
-  blockno,
-  data,
-  setFloorNo,
-  setFloorNAme,
-  setRoomList,
-  setbuildblockname,
-}) => {
+const DashBoardFloorSort = ({ blockno, data, setFloorNo, setFloorNAme, setRoomList, setbuildblockname }) => {
   const [floorArry, setFloorArry] = useState([])
   useEffect(() => {
     const all = data.filter(val => {
@@ -44,7 +37,7 @@ const DashBoardFloorSort = ({
                     border: 1,
                     height: 100,
                     borderColor: 'white',
-                    borderRadius: 0,
+                    borderRadius: 0
                   }}
                   key={val.floor_order}
                 >

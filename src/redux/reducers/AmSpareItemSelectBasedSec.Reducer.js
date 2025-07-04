@@ -3,7 +3,7 @@ const { FETCH_AMSPAREITEM_DEPTSEC_BASED } = ActionTyps
 //intial state
 const SpareItemBasedSection = {
   SpareItemBasedSectionList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Building action type check then payload set to the state and loading status set as true */
 export const getSpareItemBasedSection = (state = SpareItemBasedSection, { type, payload }) => {

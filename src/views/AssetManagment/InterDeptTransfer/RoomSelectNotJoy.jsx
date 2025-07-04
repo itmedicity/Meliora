@@ -3,9 +3,7 @@ import React, { memo } from 'react'
 import { useSelector } from 'react-redux'
 
 const RoomSelectNotJoy = ({ value, setValue }) => {
-  const RoomListDeptSecBasd = useSelector(
-    state => state.getRoomBasedOnDeptSec?.RoomBasedDeptSectionList
-  )
+  const RoomListDeptSecBasd = useSelector(state => state.getRoomBasedOnDeptSec?.RoomBasedDeptSectionList)
 
   return (
     <Box>

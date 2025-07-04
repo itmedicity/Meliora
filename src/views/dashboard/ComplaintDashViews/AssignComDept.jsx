@@ -52,28 +52,28 @@ const AssignComDept = () => {
       field: 'complaint_desc',
       autoHeight: true,
       wrapText: true,
-      width: 450,
+      width: 450
     },
     {
       headerName: 'Req.Department',
       field: 'dept_sec',
       autoHeight: true,
       wrapText: true,
-      width: 280,
+      width: 280
     },
     {
       headerName: 'Request Type',
       field: 'req_type_name',
       autoHeight: true,
       wrapText: true,
-      width: 280,
+      width: 280
     },
     {
       headerName: 'Complaint Type',
       field: 'complaint_type_name',
       autoHeight: true,
       wrapText: true,
-      width: 280,
+      width: 280
     },
     {
       headerName: 'Location',
@@ -81,7 +81,7 @@ const AssignComDept = () => {
       filter: 'true',
       width: 200,
       autoHeight: true,
-      wrapText: true,
+      wrapText: true
     },
     { headerName: 'Priority', field: 'priority', autoHeight: true, wrapText: true, width: 200 },
     {
@@ -89,7 +89,7 @@ const AssignComDept = () => {
       field: 'compalint_date',
       autoHeight: true,
       wrapText: true,
-      width: 200,
+      width: 200
     },
     {
       headerName: 'Assign.Emp',
@@ -97,22 +97,22 @@ const AssignComDept = () => {
       filter: 'true',
       autoHeight: true,
       wrapText: true,
-      width: 250,
+      width: 250
     },
     {
       headerName: 'Assign.Date',
       field: 'assigned_date',
       autoHeight: true,
       wrapText: true,
-      width: 200,
+      width: 200
     },
     {
       headerName: 'complaint status',
       field: 'compalint_status1',
       autoHeight: true,
       wrapText: true,
-      width: 300,
-    },
+      width: 300
+    }
   ])
 
   //Close function

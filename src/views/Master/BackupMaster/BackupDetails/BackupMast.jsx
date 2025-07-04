@@ -61,7 +61,7 @@ const BackupMast = () => {
     physicalLoc1: '',
     physicalLoc2: '',
     backup_selected_date: '',
-    backup_active_status: true,
+    backup_active_status: true
   })
   const {
     backup_slno,
@@ -73,7 +73,7 @@ const BackupMast = () => {
     physicalLoc1,
     physicalLoc2,
     backup_selected_date,
-    backup_active_status,
+    backup_active_status
   } = backupstore
   const reset = useCallback(() => {
     const frmdata = {
@@ -86,7 +86,7 @@ const BackupMast = () => {
       physicalLoc1: '',
       physicalLoc2: '',
       backup_selected_date: '',
-      backup_active_status: false,
+      backup_active_status: false
     }
     setBackupstore(frmdata)
     setBackupType(0)
@@ -97,16 +97,7 @@ const BackupMast = () => {
     setdays(0)
     seteditScheduleType(0)
     setbackupDept(0)
-  }, [
-    setBackupstore,
-    setBackupType,
-    setScheduleType,
-    setScheduleTime,
-    setEdit,
-    setCount,
-    setdays,
-    setbackupDept,
-  ])
+  }, [setBackupstore, setBackupType, setScheduleType, setScheduleTime, setEdit, setCount, setdays, setbackupDept])
 
   const UpdateBackupChecksDetails = useCallback(
     e => {
@@ -136,7 +127,7 @@ const BackupMast = () => {
       backup_schedule_time: scheduleTime,
       selected_days: days,
       create_user: id,
-      backup_active_status: backup_active_status === true ? 1 : 0,
+      backup_active_status: backup_active_status === true ? 1 : 0
     }
   }, [
     backupType,
@@ -152,7 +143,7 @@ const BackupMast = () => {
     scheduleTime,
     days,
     id,
-    backup_active_status,
+    backup_active_status
   ])
 
   const patchdata = useMemo(() => {
@@ -171,7 +162,7 @@ const BackupMast = () => {
       backup_schedule_time: scheduleTime,
       selected_days: days,
       edit_user: id,
-      backup_active_status: backup_active_status === true ? 1 : 0,
+      backup_active_status: backup_active_status === true ? 1 : 0
     }
   }, [
     backup_slno,
@@ -188,19 +179,19 @@ const BackupMast = () => {
     scheduleTime,
     days,
     id,
-    backup_active_status,
+    backup_active_status
   ])
   const inactivedatas = useMemo(() => {
     return {
       backup_slno: backup_slno,
       status: 0,
-      edit_user: id,
+      edit_user: id
     }
   }, [backup_slno, id])
 
   const deletedata = useMemo(() => {
     return {
-      backup_slno: backup_slno,
+      backup_slno: backup_slno
     }
   }, [backup_slno])
 
@@ -221,7 +212,7 @@ const BackupMast = () => {
         backup_schedule_type,
         selected_days,
         backup_selected_date,
-        backup_active_status,
+        backup_active_status
       } = data
       const frmdata = {
         backup_slno: backup_slno,
@@ -233,7 +224,7 @@ const BackupMast = () => {
         physicalLoc1: backup_device_location,
         physicalLoc2: transferred_device_location,
         backup_selected_date: backup_selected_date,
-        backup_active_status: backup_active_status === 1 ? true : false,
+        backup_active_status: backup_active_status === 1 ? true : false
       }
       setbackupDept(backup_location)
       setBackupstore(frmdata)
@@ -277,7 +268,7 @@ const BackupMast = () => {
                   backup_schedule_type: scheduleType,
                   backup_schedule_time: val,
                   status: 1,
-                  create_user: id,
+                  create_user: id
                 }
               })
 
@@ -296,7 +287,7 @@ const BackupMast = () => {
                         backup_daily_date: moment(new Date()).format('YYYY-MM-DD'),
                         backup_schedule_time: val,
                         verify_status: 0,
-                        create_user: id,
+                        create_user: id
                       }
                     })
                     const InsertBackupDaily = async dailydata => {
@@ -319,7 +310,7 @@ const BackupMast = () => {
                   backup_selected_date: startdate,
                   due_date: moment(addDays(new Date(startdate), days - 1)).format('YYYY-MM-DD'),
                   verify_status: 0,
-                  create_user: id,
+                  create_user: id
                 }
                 const InsertSelectedDays = async insertdata => {
                   const result = await axioslogin.post('/backupdetails/add', insertdata)
@@ -418,14 +409,11 @@ const BackupMast = () => {
                         backup_schedule_type: scheduleType,
                         backup_schedule_time: val,
                         status: 1,
-                        create_user: id,
+                        create_user: id
                       }
                     })
                     const InsertScheduleTime = async patchdatas => {
-                      const result = await axioslogin.post(
-                        '/backupdetails/detailInsert',
-                        patchdatas
-                      )
+                      const result = await axioslogin.post('/backupdetails/detailInsert', patchdatas)
                       return result.data
                     }
                     InsertScheduleTime(patchdatas).then(item => {
@@ -438,14 +426,11 @@ const BackupMast = () => {
                             backup_daily_date: moment(new Date()).format('YYYY-MM-DD'),
                             backup_schedule_time: val,
                             verify_status: 0,
-                            create_user: id,
+                            create_user: id
                           }
                         })
                         const InsertBackupDaily = async dailydata => {
-                          const result = await axioslogin.post(
-                            '/backupdetails/daydetails',
-                            dailydata
-                          )
+                          const result = await axioslogin.post('/backupdetails/daydetails', dailydata)
                           const { message, success } = result.data
                           if (success === 1) {
                             succesNotify(message)
@@ -481,11 +466,9 @@ const BackupMast = () => {
                         backup_slno: backup_slno,
                         selected_days: days,
                         backup_selected_date: startdate,
-                        due_date: moment(addDays(new Date(startdate), days - 1)).format(
-                          'YYYY-MM-DD'
-                        ),
+                        due_date: moment(addDays(new Date(startdate), days - 1)).format('YYYY-MM-DD'),
                         verify_status: 0,
-                        create_user: id,
+                        create_user: id
                       }
                       const InsertSelectedDays = async insertdata => {
                         const result = await axioslogin.post('/backupdetails/add', insertdata)
@@ -503,10 +486,8 @@ const BackupMast = () => {
                   const updatedata = {
                     backup_slno: backup_slno,
                     selected_days: days,
-                    due_date: moment(addDays(new Date(backup_selected_date), days - 1)).format(
-                      'YYYY-MM-DD'
-                    ),
-                    edit_user: id,
+                    due_date: moment(addDays(new Date(backup_selected_date), days - 1)).format('YYYY-MM-DD'),
+                    edit_user: id
                   }
                   const updateSelectedDays = async updatedata => {
                     const result = await axioslogin.patch('/backupdetails/updatedays', updatedata)
@@ -543,14 +524,11 @@ const BackupMast = () => {
                         backup_schedule_type: scheduleType,
                         backup_schedule_time: val,
                         status: 1,
-                        create_user: id,
+                        create_user: id
                       }
                     })
                     const InsertScheduleTime = async patchdatas => {
-                      const result = await axioslogin.post(
-                        '/backupdetails/detailInsert',
-                        patchdatas
-                      )
+                      const result = await axioslogin.post('/backupdetails/detailInsert', patchdatas)
                       const { message, success } = result.data
                       if (success === 1) {
                         succesNotify(message)
@@ -588,18 +566,13 @@ const BackupMast = () => {
       reset,
       deletedata,
       editScheduleType,
-      backup_active_status,
+      backup_active_status
     ]
   )
 
   return (
     <Box>
-      <CardMaster
-        title="Backup Details"
-        submit={BackupChecksDetails}
-        close={backtoSetting}
-        refresh={refreshWindow}
-      >
+      <CardMaster title="Backup Details" submit={BackupChecksDetails} close={backtoSetting} refresh={refreshWindow}>
         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
           <Box sx={{ flex: 0.5 }}> </Box>
           <Box sx={{ flex: 3 }}>
@@ -724,27 +697,15 @@ const BackupMast = () => {
               <Box sx={{ flex: 3, pl: 2 }}>
                 <Box sx={{ display: 'flex', flex: 1 }}>
                   <Box sx={{ flex: 1 }}>
-                    <BackupScheduleSelect
-                      scheduleType={scheduleType}
-                      setScheduleType={setScheduleType}
-                    />
+                    <BackupScheduleSelect scheduleType={scheduleType} setScheduleType={setScheduleType} />
                   </Box>
                   {scheduleType === 5 ? (
                     <Box sx={{ flex: 1, pl: 0.5 }}>
-                      <TextFieldCustom
-                        type="text"
-                        size="sm"
-                        name="days"
-                        value={days}
-                        onchange={Selecteddayschange}
-                      />
+                      <TextFieldCustom type="text" size="sm" name="days" value={days} onchange={Selecteddayschange} />
                     </Box>
                   ) : (
                     <Box sx={{ flex: 1, pl: 0.5, pt: 0.6 }}>
-                      <BackupTimeSelect
-                        scheduleTime={scheduleTime}
-                        setScheduleTime={setScheduleTime}
-                      />
+                      <BackupTimeSelect scheduleTime={scheduleTime} setScheduleTime={setScheduleTime} />
                     </Box>
                   )}
                 </Box>

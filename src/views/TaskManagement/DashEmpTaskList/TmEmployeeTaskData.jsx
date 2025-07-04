@@ -57,7 +57,7 @@ const TmEmployeeTaskData = () => {
           emslno: value.em_id,
           empname: value.em_name,
           TT: empTaskLIst ? empTaskLIst.TT : 0,
-          TC: empTaskLIst ? empTaskLIst.TC : 0,
+          TC: empTaskLIst ? empTaskLIst.TC : 0
         }
       })
       setEmpDetalArry(empList)
@@ -94,7 +94,7 @@ const TmEmployeeTaskData = () => {
           },
           [`& .${accordionSummaryClasses.button}`]: {
             // paddingBlock: '.5rem',
-          },
+          }
         }}
       >
         {EmpDetalArry &&
@@ -112,9 +112,9 @@ const TmEmployeeTaskData = () => {
                   Pb: 0.3,
                   '&:hover': {
                     bgcolor: '#ECF1F2',
-                    borderBottom: '#C3CEDA',
+                    borderBottom: '#C3CEDA'
                   },
-                  cursor: 'grab',
+                  cursor: 'grab'
                 }}
               >
                 <Box
@@ -124,7 +124,7 @@ const TmEmployeeTaskData = () => {
                     borderBottom: 1,
                     Pb: 0.5,
                     borderColor: '#D9E4EC',
-                    boxShadow: ' 1px',
+                    boxShadow: ' 1px'
                   }}
                 >
                   <Box sx={{ flex: 0.2, py: 0.5 }}>
@@ -139,12 +139,7 @@ const TmEmployeeTaskData = () => {
                     <EmployeeProgressBar val={val} />
                   </Box>
                   <Box sx={{ flex: 0.2, pl: 2, cursor: 'pointer' }}>
-                    <Badge
-                      badgeContent={val.TT}
-                      variant="solid"
-                      color="neutral"
-                      onClick={() => openModal(val)}
-                    >
+                    <Badge badgeContent={val.TT} variant="solid" color="neutral" onClick={() => openModal(val)}>
                       <Box
                         sx={{
                           mr: 0.2,
@@ -152,7 +147,7 @@ const TmEmployeeTaskData = () => {
                           borderRadius: 3,
                           pl: 1,
                           flex: 0.1,
-                          display: 'flex',
+                          display: 'flex'
                         }}
                       >
                         <AssignmentOutlinedIcon sx={{ color: '#0B1C47' }} />

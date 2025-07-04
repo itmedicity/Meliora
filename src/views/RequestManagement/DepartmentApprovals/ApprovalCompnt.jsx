@@ -16,16 +16,14 @@ const ApprovalCompnt = ({
   updateRemark,
   detailAnalis,
   updatePending,
-  updatedetailAnalis,
+  updatedetailAnalis
 }) => {
   return (
     <Fragment>
       <Box sx={{ width: '100%' }}>
         <Box sx={{ pt: 0.5 }}>
           <CssVarsProvider>
-            <Typography sx={{ fontSize: 14, fontWeight: 700, color: TypoHeadColor }}>
-              {heading}{' '}
-            </Typography>
+            <Typography sx={{ fontSize: 14, fontWeight: 700, color: TypoHeadColor }}>{heading} </Typography>
           </CssVarsProvider>
         </Box>
 
@@ -35,13 +33,11 @@ const ApprovalCompnt = ({
               display: 'flex',
               width: '100%',
               fontSize: 15,
-              flexDirection: 'column',
+              flexDirection: 'column'
             }}
           >
             <CssVarsProvider>
-              <Typography sx={{ fontSize: 15, fontWeight: 600 }}>
-                Detail Justification for Reject{' '}
-              </Typography>
+              <Typography sx={{ fontSize: 15, fontWeight: 600 }}>Detail Justification for Reject </Typography>
             </CssVarsProvider>
             <CustomTextarea
               required
@@ -51,7 +47,7 @@ const ApprovalCompnt = ({
                 width: '100%',
                 height: 70,
                 boardColor: '#E0E0E0',
-                mt: 5,
+                mt: 5
               }}
               placeholder="Reject Remark"
               value={remark}
@@ -64,13 +60,11 @@ const ApprovalCompnt = ({
               display: 'flex',
               width: '100%',
               fontSize: 15,
-              flexDirection: 'column',
+              flexDirection: 'column'
             }}
           >
             <CssVarsProvider>
-              <Typography sx={{ fontSize: 15, fontWeight: 600 }}>
-                Detail Justification for On-Hold{' '}
-              </Typography>
+              <Typography sx={{ fontSize: 15, fontWeight: 600 }}>Detail Justification for On-Hold </Typography>
             </CssVarsProvider>
             <CustomTextarea
               required
@@ -80,7 +74,7 @@ const ApprovalCompnt = ({
                 width: '100%',
                 height: 70,
                 boardColor: '#E0E0E0',
-                mt: 5,
+                mt: 5
               }}
               placeholder="On-Hold Remarks"
               value={remark}
@@ -93,7 +87,7 @@ const ApprovalCompnt = ({
               display: 'flex',
               width: '100%',
               fontSize: 15,
-              flexDirection: 'column',
+              flexDirection: 'column'
             }}
           >
             <CssVarsProvider>
@@ -108,16 +102,14 @@ const ApprovalCompnt = ({
               style={{
                 width: '100%',
                 height: 70,
-                boardColor: '#E0E0E0',
+                boardColor: '#E0E0E0'
               }}
               placeholder=" Remarks"
               value={remark}
               onchange={updateRemark}
             />
             <CssVarsProvider>
-              <Typography sx={{ fontSize: 15, fontWeight: 600 }}>
-                Detailed Analysis of Requirement{' '}
-              </Typography>
+              <Typography sx={{ fontSize: 15, fontWeight: 600 }}>Detailed Analysis of Requirement </Typography>
             </CssVarsProvider>
             <CustomTextarea
               required
@@ -126,7 +118,7 @@ const ApprovalCompnt = ({
               style={{
                 width: '100%',
                 height: 70,
-                boardColor: '#E0E0E0',
+                boardColor: '#E0E0E0'
               }}
               placeholder="Detail Analysis"
               value={detailAnalis}
@@ -139,7 +131,7 @@ const ApprovalCompnt = ({
             width: '100%',
             display: 'flex',
             flexDirection: 'row',
-            justifyContent: 'center',
+            justifyContent: 'center'
           }}
         >
           <Box sx={{ width: '20%', pr: 1, mt: 1 }}>

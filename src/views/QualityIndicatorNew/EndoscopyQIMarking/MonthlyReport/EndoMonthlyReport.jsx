@@ -13,15 +13,7 @@ import RunningWithErrorsOutlinedIcon from '@mui/icons-material/RunningWithErrors
 import AssessmntBenchmarkModal from '../InitialAssessmentReport/AssessmntBenchmarkModal'
 import MonthlyReportModal from '../Component/MonthlyReportModal'
 
-const EndoMonthlyReport = ({
-  viewData,
-  ipViewReport,
-  dayFlag,
-  searchDate,
-  testCount,
-  equipmentlist,
-  endoDays,
-}) => {
+const EndoMonthlyReport = ({ viewData, ipViewReport, dayFlag, searchDate, testCount, equipmentlist, endoDays }) => {
   const [endoSearch, setEndoSearch] = useState(0)
   const [tableData, setTableData] = useState([])
   // view flag  for other qi details view in modal
@@ -55,7 +47,7 @@ const EndoMonthlyReport = ({
     totIncidentReported: 0,
     totEquipTime: 0,
     totEquipAvailable: 0,
-    equipResult: 0,
+    equipResult: 0
   })
   const {
     totalTest,
@@ -78,12 +70,12 @@ const EndoMonthlyReport = ({
     totIncidentReported,
     totEquipTime,
     totEquipAvailable,
-    equipResult,
+    equipResult
   } = monthReport
 
   const [headerNames, setHeaderNames] = useState({
     header1: '',
-    header2: '',
+    header2: ''
   })
 
   useEffect(() => {
@@ -161,7 +153,7 @@ const EndoMonthlyReport = ({
         nearMissessResult: identtot > 0 ? ((nearmisstot / sumOfInc) * 100).toFixed(2) : 0,
         totEquipTime: equipTimeTot,
         totEquipAvailable: equipAvailable,
-        equipResult: equipAvailable > 0 ? ((equipTimeTot / equipAvailable) * 100).toFixed(2) : 0,
+        equipResult: equipAvailable > 0 ? ((equipTimeTot / equipAvailable) * 100).toFixed(2) : 0
       }
       setMonthReport(formdata)
       setEndoSearch(1)
@@ -191,7 +183,7 @@ const EndoMonthlyReport = ({
           details: val.error_details,
           reason: val.error_reason,
           inctype: val.error_incident_type,
-          type: 'OP',
+          type: 'OP'
           // corrective: val.error_corrective,
           // preventive: val.error_preventive,
         }
@@ -208,7 +200,7 @@ const EndoMonthlyReport = ({
             details: val.error_details,
             reason: val.error_reason,
             inctype: val.error_incident_type,
-            type: 'IP',
+            type: 'IP'
           }
         })
         const finalData = [...errorData, ...ipErrorData].sort(
@@ -220,7 +212,7 @@ const EndoMonthlyReport = ({
       }
       const fromdata = {
         header1: 'Details of Error',
-        header2: 'Reason of Error',
+        header2: 'Reason of Error'
       }
       setHeaderNames(fromdata)
       setViewFlag(1)
@@ -238,13 +230,13 @@ const EndoMonthlyReport = ({
             details: val.error_details,
             reason: val.error_reason,
             inctype: val.error_incident_type,
-            type: 'IP',
+            type: 'IP'
           }
         })
         setTableData(ipErrorData)
         const fromdata = {
           header1: 'Details of Error',
-          header2: 'Reason of Error',
+          header2: 'Reason of Error'
         }
         setHeaderNames(fromdata)
         setViewFlag(1)
@@ -272,7 +264,7 @@ const EndoMonthlyReport = ({
           details: val.redos_details,
           reason: val.redos_reason,
           inctype: val.redos_incident_type,
-          type: 'OP',
+          type: 'OP'
           // corrective: val.redos_corrective,
           //preventive: val.redos_preventive,
         }
@@ -289,7 +281,7 @@ const EndoMonthlyReport = ({
             details: val.redos_details,
             reason: val.redos_reason,
             inctype: val.redos_incident_type,
-            type: 'IP',
+            type: 'IP'
           }
         })
         const finalData = [...errorData, ...ipErrorData].sort(
@@ -301,7 +293,7 @@ const EndoMonthlyReport = ({
       }
       const fromdata = {
         header1: 'Details',
-        header2: 'Reason for Redos',
+        header2: 'Reason for Redos'
       }
       setHeaderNames(fromdata)
       setViewFlag(1)
@@ -319,13 +311,13 @@ const EndoMonthlyReport = ({
             details: val.redos_details,
             reason: val.redos_reason,
             inctype: val.redos_incident_type,
-            type: 'IP',
+            type: 'IP'
           }
         })
         setTableData(ipErrorData)
         const fromdata = {
           header1: 'Details of Error',
-          header2: 'Reason of Error',
+          header2: 'Reason of Error'
         }
         setHeaderNames(fromdata)
         setViewFlag(1)
@@ -352,7 +344,7 @@ const EndoMonthlyReport = ({
           endo_arrival_time: val.endo_arrival_time,
           sumof_service_time: val.sumof_service_time,
           initial_assessment_reason: val.initial_assessment_reason,
-          type: 'OP',
+          type: 'OP'
         }
       })
       if (ipdata.length !== 0) {
@@ -366,7 +358,7 @@ const EndoMonthlyReport = ({
             endo_arrival_time: val.endo_arrival_time,
             sumof_service_time: val.sumof_service_time,
             initial_assessment_reason: val.initial_assessment_reason,
-            type: 'IP',
+            type: 'IP'
           }
         })
         const finalData = [...AssesmentData, ...ipAssesmentData].sort(
@@ -391,7 +383,7 @@ const EndoMonthlyReport = ({
             endo_arrival_time: val.endo_arrival_time,
             sumof_service_time: val.sumof_service_time,
             initial_assessment_reason: val.initial_assessment_reason,
-            type: 'IP',
+            type: 'IP'
           }
         })
         setTableData(ipAssesmentData)
@@ -421,7 +413,7 @@ const EndoMonthlyReport = ({
           details: val.incidence_ident_description,
           reason: val.incidence_ident_reason,
           inctype: val.ident_error_incident_type,
-          type: 'OP',
+          type: 'OP'
           // corrective: val.incidence_ident_action,
         }
       })
@@ -437,7 +429,7 @@ const EndoMonthlyReport = ({
             details: val.incidence_ident_description,
             reason: val.incidence_ident_reason,
             inctype: val.ident_error_incident_type,
-            type: 'IP',
+            type: 'IP'
           }
         })
         const finalData = [...errorData, ...ipErrorData].sort(
@@ -449,7 +441,7 @@ const EndoMonthlyReport = ({
       }
       const fromdata = {
         header1: 'Identification Error Details',
-        header2: 'Reason',
+        header2: 'Reason'
       }
       setHeaderNames(fromdata)
       setViewFlag(1)
@@ -467,13 +459,13 @@ const EndoMonthlyReport = ({
             details: val.incidence_ident_description,
             reason: val.incidence_ident_reason,
             inctype: val.ident_error_incident_type,
-            type: 'IP',
+            type: 'IP'
           }
         })
         setTableData(ipErrorData)
         const fromdata = {
           header1: 'Details of Error',
-          header2: 'Reason of Error',
+          header2: 'Reason of Error'
         }
         setHeaderNames(fromdata)
         setViewFlag(1)
@@ -501,7 +493,7 @@ const EndoMonthlyReport = ({
           details: val.falls_details,
           reason: val.falls_reason,
           inctype: val.falls_incident_type,
-          type: 'OP',
+          type: 'OP'
         }
       })
       if (ipdata.length !== 0) {
@@ -516,7 +508,7 @@ const EndoMonthlyReport = ({
             details: val.falls_details,
             reason: val.falls_reason,
             inctype: val.falls_incident_type,
-            type: 'IP',
+            type: 'IP'
           }
         })
         const finalData = [...errorData, ...ipErrorData].sort(
@@ -528,7 +520,7 @@ const EndoMonthlyReport = ({
       }
       const fromdata = {
         header1: 'Details of Falls',
-        header2: 'Reason for Falls',
+        header2: 'Reason for Falls'
       }
       setHeaderNames(fromdata)
       setViewFlag(1)
@@ -546,13 +538,13 @@ const EndoMonthlyReport = ({
             details: val.falls_details,
             reason: val.falls_reason,
             inctype: val.falls_incident_type,
-            type: 'IP',
+            type: 'IP'
           }
         })
         setTableData(ipErrorData)
         const fromdata = {
           header1: 'Details of Error',
-          header2: 'Reason of Error',
+          header2: 'Reason of Error'
         }
         setHeaderNames(fromdata)
         setViewFlag(1)
@@ -580,7 +572,7 @@ const EndoMonthlyReport = ({
           details: val.sentinel_details,
           reason: val.sentinel_reason,
           inctype: val.sentinel_incident_type,
-          type: 'OP',
+          type: 'OP'
         }
       })
       if (ipdata.length !== 0) {
@@ -595,7 +587,7 @@ const EndoMonthlyReport = ({
             details: val.sentinel_details,
             reason: val.sentinel_reason,
             inctype: val.sentinel_incident_type,
-            type: 'IP',
+            type: 'IP'
           }
         })
         const finalData = [...errorData, ...ipErrorData].sort(
@@ -607,7 +599,7 @@ const EndoMonthlyReport = ({
       }
       const fromdata = {
         header1: 'Details',
-        header2: 'Reason for Sentinel Events Happened',
+        header2: 'Reason for Sentinel Events Happened'
       }
       setHeaderNames(fromdata)
       setViewFlag(1)
@@ -625,13 +617,13 @@ const EndoMonthlyReport = ({
             details: val.sentinel_details,
             reason: val.sentinel_reason,
             inctype: val.sentinel_incident_type,
-            type: 'IP',
+            type: 'IP'
           }
         })
         setTableData(ipErrorData)
         const fromdata = {
           header1: 'Details of Error',
-          header2: 'Reason of Error',
+          header2: 'Reason of Error'
         }
         setHeaderNames(fromdata)
         setViewFlag(1)
@@ -659,7 +651,7 @@ const EndoMonthlyReport = ({
           details: val.nearmisses_details,
           reason: val.nearmisses_reason,
           inctype: val.nearmiss_incident_type,
-          type: 'OP',
+          type: 'OP'
         }
       })
       if (ipdata.length !== 0) {
@@ -674,7 +666,7 @@ const EndoMonthlyReport = ({
             details: val.nearmisses_details,
             reason: val.nearmisses_reason,
             inctype: val.nearmiss_incident_type,
-            type: 'IP',
+            type: 'IP'
           }
         })
         const finalData = [...errorData, ...ipErrorData].sort(
@@ -686,7 +678,7 @@ const EndoMonthlyReport = ({
       }
       const fromdata = {
         header1: 'Details',
-        header2: 'Reason for Near Missess',
+        header2: 'Reason for Near Missess'
       }
       setHeaderNames(fromdata)
       setViewFlag(1)
@@ -704,13 +696,13 @@ const EndoMonthlyReport = ({
             details: val.nearmisses_details,
             reason: val.nearmisses_reason,
             inctype: val.nearmiss_incident_type,
-            type: 'IP',
+            type: 'IP'
           }
         })
         setTableData(ipErrorData)
         const fromdata = {
           header1: 'Details of Error',
-          header2: 'Reason of Error',
+          header2: 'Reason of Error'
         }
         setHeaderNames(fromdata)
         setViewFlag(1)
@@ -756,7 +748,7 @@ const EndoMonthlyReport = ({
           maxHeight: window.innerHeight - heightValue,
           padding: 'none',
           border: '1px solid lightgrey',
-          px: 0.5,
+          px: 0.5
         }}
       >
         {endoSearch === 1 ? (
@@ -771,7 +763,7 @@ const EndoMonthlyReport = ({
                     fontWeight: 650,
                     pl: 1,
                     color: '#555830',
-                    bgcolor: '#E4E5E8',
+                    bgcolor: '#E4E5E8'
                   }}
                 >
                   Number Of Reporting Errors per 1000 Investigations
@@ -781,9 +773,7 @@ const EndoMonthlyReport = ({
                     <Box sx={{ flex: 1 }}>
                       <Box sx={{ display: 'flex', pt: 0.5 }}>
                         <Box sx={{ flex: 1.5, p: 0.2 }}>
-                          <Typography sx={{ fontSize: 13, pl: 2 }}>
-                            Total Number Of Reporting Errors
-                          </Typography>
+                          <Typography sx={{ fontSize: 13, pl: 2 }}>Total Number Of Reporting Errors</Typography>
                         </Box>
                         <Box
                           sx={{
@@ -791,7 +781,7 @@ const EndoMonthlyReport = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -802,9 +792,7 @@ const EndoMonthlyReport = ({
                       </Box>
                       <Box sx={{ display: 'flex' }}>
                         <Box sx={{ flex: 1.5, p: 0.2 }}>
-                          <Typography sx={{ fontSize: 13, pl: 2 }}>
-                            Total Number Of Tests Performed
-                          </Typography>
+                          <Typography sx={{ fontSize: 13, pl: 2 }}>Total Number Of Tests Performed</Typography>
                         </Box>
                         <Box
                           sx={{
@@ -812,7 +800,7 @@ const EndoMonthlyReport = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -831,7 +819,7 @@ const EndoMonthlyReport = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -839,17 +827,11 @@ const EndoMonthlyReport = ({
                         <Box sx={{ flex: 0.3, p: 0.2 }}>
                           <CssVarsProvider>
                             {errorResult > 2.3 ? (
-                              <Typography
-                                size="md"
-                                sx={{ color: '#bf360c', fontSize: 14, pt: 0.1 }}
-                              >
+                              <Typography size="md" sx={{ color: '#bf360c', fontSize: 14, pt: 0.1 }}>
                                 {errorResult}
                               </Typography>
                             ) : (
-                              <Typography
-                                size="md"
-                                sx={{ color: '#32CD30', fontSize: 14, pt: 0.1 }}
-                              >
+                              <Typography size="md" sx={{ color: '#32CD30', fontSize: 14, pt: 0.1 }}>
                                 {errorResult}
                               </Typography>
                             )}
@@ -868,7 +850,7 @@ const EndoMonthlyReport = ({
                             width: 100,
                             display: 'flex',
                             justifyContent: 'flex-start',
-                            borderRadius: 7,
+                            borderRadius: 7
                           }}
                           startDecorator={
                             <ErrorOutlineOutlinedIcon
@@ -884,9 +866,7 @@ const EndoMonthlyReport = ({
                     </Box>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'flex-end', pr: 2 }}>
-                    <Typography sx={{ color: 'darkred', fontSize: 10 }}>
-                      * BenchMark Value is 2.3
-                    </Typography>
+                    <Typography sx={{ color: 'darkred', fontSize: 10 }}>* BenchMark Value is 2.3</Typography>
                   </Box>
                 </Box>
               </Paper>
@@ -901,7 +881,7 @@ const EndoMonthlyReport = ({
                     fontWeight: 650,
                     pl: 1,
                     color: '#555830',
-                    bgcolor: '#E4E5E8',
+                    bgcolor: '#E4E5E8'
                   }}
                 >
                   Percentage Of Re dos
@@ -911,9 +891,7 @@ const EndoMonthlyReport = ({
                     <Box sx={{ flex: 1 }}>
                       <Box sx={{ display: 'flex', pt: 0.5 }}>
                         <Box sx={{ flex: 1.5, p: 0.2 }}>
-                          <Typography sx={{ fontSize: 13, pl: 2 }}>
-                            Total Number Of Re dos
-                          </Typography>
+                          <Typography sx={{ fontSize: 13, pl: 2 }}>Total Number Of Re dos</Typography>
                         </Box>
                         <Box
                           sx={{
@@ -921,7 +899,7 @@ const EndoMonthlyReport = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -932,9 +910,7 @@ const EndoMonthlyReport = ({
                       </Box>
                       <Box sx={{ display: 'flex' }}>
                         <Box sx={{ flex: 1.5, p: 0.2 }}>
-                          <Typography sx={{ fontSize: 13, pl: 2 }}>
-                            Total Number Of Tests Performed
-                          </Typography>
+                          <Typography sx={{ fontSize: 13, pl: 2 }}>Total Number Of Tests Performed</Typography>
                         </Box>
                         <Box
                           sx={{
@@ -942,7 +918,7 @@ const EndoMonthlyReport = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -961,7 +937,7 @@ const EndoMonthlyReport = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -969,17 +945,11 @@ const EndoMonthlyReport = ({
                         <Box sx={{ flex: 0.2, p: 0.2 }}>
                           <CssVarsProvider>
                             {redosResult > 0 ? (
-                              <Typography
-                                size="md"
-                                sx={{ color: '#bf360c', fontSize: 14, pt: 0.1 }}
-                              >
+                              <Typography size="md" sx={{ color: '#bf360c', fontSize: 14, pt: 0.1 }}>
                                 {redosResult}
                               </Typography>
                             ) : (
-                              <Typography
-                                size="md"
-                                sx={{ color: '#32CD30', fontSize: 14, pt: 0.1 }}
-                              >
+                              <Typography size="md" sx={{ color: '#32CD30', fontSize: 14, pt: 0.1 }}>
                                 {redosResult}
                               </Typography>
                             )}
@@ -998,7 +968,7 @@ const EndoMonthlyReport = ({
                             width: 100,
                             display: 'flex',
                             justifyContent: 'flex-start',
-                            borderRadius: 7,
+                            borderRadius: 7
                           }}
                           startDecorator={
                             <VaccinesIcon
@@ -1014,9 +984,7 @@ const EndoMonthlyReport = ({
                     </Box>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'flex-end', pr: 2 }}>
-                    <Typography sx={{ color: 'darkred', fontSize: 10 }}>
-                      * BenchMark Value is 0
-                    </Typography>
+                    <Typography sx={{ color: 'darkred', fontSize: 10 }}>* BenchMark Value is 0</Typography>
                   </Box>
                 </Box>
               </Paper>
@@ -1031,7 +999,7 @@ const EndoMonthlyReport = ({
                     fontWeight: 650,
                     pl: 1,
                     color: '#555830',
-                    bgcolor: '#E4E5E8',
+                    bgcolor: '#E4E5E8'
                   }}
                 >
                   Waiting time for services (a) Diagnostics
@@ -1049,7 +1017,7 @@ const EndoMonthlyReport = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -1060,9 +1028,7 @@ const EndoMonthlyReport = ({
                       </Box>
                       <Box sx={{ display: 'flex' }}>
                         <Box sx={{ flex: 1.5, p: 0.2 }}>
-                          <Typography sx={{ fontSize: 13, pl: 2 }}>
-                            Total Number Of Patients Reported
-                          </Typography>
+                          <Typography sx={{ fontSize: 13, pl: 2 }}>Total Number Of Patients Reported</Typography>
                         </Box>
                         <Box
                           sx={{
@@ -1070,7 +1036,7 @@ const EndoMonthlyReport = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -1089,7 +1055,7 @@ const EndoMonthlyReport = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -1097,17 +1063,11 @@ const EndoMonthlyReport = ({
                         <Box sx={{ flex: 0.2, p: 0.2 }}>
                           <CssVarsProvider>
                             {timeResult > 10 ? (
-                              <Typography
-                                size="md"
-                                sx={{ color: '#bf360c', fontSize: 14, pt: 0.1 }}
-                              >
+                              <Typography size="md" sx={{ color: '#bf360c', fontSize: 14, pt: 0.1 }}>
                                 {timeResult}
                               </Typography>
                             ) : (
-                              <Typography
-                                size="md"
-                                sx={{ color: '#32CD30', fontSize: 14, pt: 0.1 }}
-                              >
+                              <Typography size="md" sx={{ color: '#32CD30', fontSize: 14, pt: 0.1 }}>
                                 {timeResult}
                               </Typography>
                             )}
@@ -1127,7 +1087,7 @@ const EndoMonthlyReport = ({
                               width: 100,
                               display: 'flex',
                               justifyContent: 'flex-start',
-                              borderRadius: 7,
+                              borderRadius: 7
                             }}
                             startDecorator={
                               <TimerOutlinedIcon
@@ -1144,9 +1104,7 @@ const EndoMonthlyReport = ({
                     </Box>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'flex-end', pr: 2 }}>
-                    <Typography sx={{ color: 'darkred', fontSize: 10 }}>
-                      * BenchMark Value is 10 min
-                    </Typography>
+                    <Typography sx={{ color: 'darkred', fontSize: 10 }}>* BenchMark Value is 10 min</Typography>
                   </Box>
                 </Box>
               </Paper>
@@ -1161,7 +1119,7 @@ const EndoMonthlyReport = ({
                     fontWeight: 650,
                     pl: 1,
                     color: '#555830',
-                    bgcolor: '#E4E5E8',
+                    bgcolor: '#E4E5E8'
                   }}
                 >
                   Incidence Of Patient Identification Errors
@@ -1181,7 +1139,7 @@ const EndoMonthlyReport = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -1192,9 +1150,7 @@ const EndoMonthlyReport = ({
                       </Box>
                       <Box sx={{ display: 'flex' }}>
                         <Box sx={{ flex: 1.5, p: 0.2 }}>
-                          <Typography sx={{ fontSize: 13, pl: 2 }}>
-                            Total Number Of Patients
-                          </Typography>
+                          <Typography sx={{ fontSize: 13, pl: 2 }}>Total Number Of Patients</Typography>
                         </Box>
                         <Box
                           sx={{
@@ -1202,7 +1158,7 @@ const EndoMonthlyReport = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -1221,7 +1177,7 @@ const EndoMonthlyReport = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -1229,17 +1185,11 @@ const EndoMonthlyReport = ({
                         <Box sx={{ flex: 0.3, p: 0.2 }}>
                           <CssVarsProvider>
                             {idetifctionResult > 0 ? (
-                              <Typography
-                                size="md"
-                                sx={{ color: '#bf360c', fontSize: 14, pt: 0.1 }}
-                              >
+                              <Typography size="md" sx={{ color: '#bf360c', fontSize: 14, pt: 0.1 }}>
                                 {idetifctionResult}
                               </Typography>
                             ) : (
-                              <Typography
-                                size="md"
-                                sx={{ color: '#32CD30', fontSize: 14, pt: 0.1 }}
-                              >
+                              <Typography size="md" sx={{ color: '#32CD30', fontSize: 14, pt: 0.1 }}>
                                 {idetifctionResult}
                               </Typography>
                             )}
@@ -1258,7 +1208,7 @@ const EndoMonthlyReport = ({
                             width: 100,
                             display: 'flex',
                             justifyContent: 'flex-start',
-                            borderRadius: 7,
+                            borderRadius: 7
                           }}
                           startDecorator={
                             <ReportGmailerrorredOutlinedIcon
@@ -1274,9 +1224,7 @@ const EndoMonthlyReport = ({
                     </Box>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'flex-end', pr: 2 }}>
-                    <Typography sx={{ color: 'darkred', fontSize: 10 }}>
-                      * BenchMark Value is 0
-                    </Typography>
+                    <Typography sx={{ color: 'darkred', fontSize: 10 }}>* BenchMark Value is 0</Typography>
                   </Box>
                 </Box>
               </Paper>
@@ -1291,7 +1239,7 @@ const EndoMonthlyReport = ({
                     fontWeight: 650,
                     pl: 1,
                     color: '#555830',
-                    bgcolor: '#E4E5E8',
+                    bgcolor: '#E4E5E8'
                   }}
                 >
                   Incidence Of Falls
@@ -1301,9 +1249,7 @@ const EndoMonthlyReport = ({
                     <Box sx={{ flex: 1 }}>
                       <Box sx={{ display: 'flex', pt: 0.5 }}>
                         <Box sx={{ flex: 1.5, p: 0.2 }}>
-                          <Typography sx={{ fontSize: 13, pl: 2 }}>
-                            Total Number Of Falls
-                          </Typography>
+                          <Typography sx={{ fontSize: 13, pl: 2 }}>Total Number Of Falls</Typography>
                         </Box>
                         <Box
                           sx={{
@@ -1311,7 +1257,7 @@ const EndoMonthlyReport = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -1322,9 +1268,7 @@ const EndoMonthlyReport = ({
                       </Box>
                       <Box sx={{ display: 'flex' }}>
                         <Box sx={{ flex: 1.5, p: 0.2 }}>
-                          <Typography sx={{ fontSize: 13, pl: 2 }}>
-                            Total Number Of Patient Days
-                          </Typography>
+                          <Typography sx={{ fontSize: 13, pl: 2 }}>Total Number Of Patient Days</Typography>
                         </Box>
                         <Box
                           sx={{
@@ -1332,7 +1276,7 @@ const EndoMonthlyReport = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -1351,7 +1295,7 @@ const EndoMonthlyReport = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -1359,17 +1303,11 @@ const EndoMonthlyReport = ({
                         <Box sx={{ flex: 0.3, p: 0.2 }}>
                           <CssVarsProvider>
                             {fallsResult > 0 ? (
-                              <Typography
-                                size="md"
-                                sx={{ color: '#bf360c', fontSize: 14, pt: 0.1 }}
-                              >
+                              <Typography size="md" sx={{ color: '#bf360c', fontSize: 14, pt: 0.1 }}>
                                 {fallsResult}
                               </Typography>
                             ) : (
-                              <Typography
-                                size="md"
-                                sx={{ color: '#32CD30', fontSize: 14, pt: 0.1 }}
-                              >
+                              <Typography size="md" sx={{ color: '#32CD30', fontSize: 14, pt: 0.1 }}>
                                 {fallsResult}
                               </Typography>
                             )}
@@ -1388,7 +1326,7 @@ const EndoMonthlyReport = ({
                             width: 100,
                             display: 'flex',
                             justifyContent: 'flex-start',
-                            borderRadius: 7,
+                            borderRadius: 7
                           }}
                           startDecorator={
                             <FmdBadOutlinedIcon
@@ -1404,9 +1342,7 @@ const EndoMonthlyReport = ({
                     </Box>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'flex-end', pr: 2 }}>
-                    <Typography sx={{ color: 'darkred', fontSize: 10 }}>
-                      * BenchMark Value is 0
-                    </Typography>
+                    <Typography sx={{ color: 'darkred', fontSize: 10 }}>* BenchMark Value is 0</Typography>
                   </Box>
                 </Box>
               </Paper>
@@ -1421,7 +1357,7 @@ const EndoMonthlyReport = ({
                     fontWeight: 650,
                     pl: 1,
                     color: '#555830',
-                    bgcolor: '#E4E5E8',
+                    bgcolor: '#E4E5E8'
                   }}
                 >
                   Percentage Of Near Misses
@@ -1431,9 +1367,7 @@ const EndoMonthlyReport = ({
                     <Box sx={{ flex: 1 }}>
                       <Box sx={{ display: 'flex', pt: 0.5 }}>
                         <Box sx={{ flex: 1.5, p: 0.2 }}>
-                          <Typography sx={{ fontSize: 13, pl: 2 }}>
-                            Total Number Of Near Misses Reported
-                          </Typography>
+                          <Typography sx={{ fontSize: 13, pl: 2 }}>Total Number Of Near Misses Reported</Typography>
                         </Box>
                         <Box
                           sx={{
@@ -1441,7 +1375,7 @@ const EndoMonthlyReport = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -1452,9 +1386,7 @@ const EndoMonthlyReport = ({
                       </Box>
                       <Box sx={{ display: 'flex' }}>
                         <Box sx={{ flex: 1.5, p: 0.2 }}>
-                          <Typography sx={{ fontSize: 13, pl: 2 }}>
-                            Total Number Of Incidents Reported
-                          </Typography>
+                          <Typography sx={{ fontSize: 13, pl: 2 }}>Total Number Of Incidents Reported</Typography>
                         </Box>
                         <Box
                           sx={{
@@ -1462,15 +1394,13 @@ const EndoMonthlyReport = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
                         </Box>
                         <Box sx={{ flex: 0.2, p: 0.2 }}>
-                          <Typography sx={{ fontSize: 13, pt: 0.1 }}>
-                            {totIncidentReported}
-                          </Typography>
+                          <Typography sx={{ fontSize: 13, pt: 0.1 }}>{totIncidentReported}</Typography>
                         </Box>
                       </Box>
                       <Box sx={{ display: 'flex' }}>
@@ -1483,7 +1413,7 @@ const EndoMonthlyReport = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -1491,17 +1421,11 @@ const EndoMonthlyReport = ({
                         <Box sx={{ flex: 0.2, p: 0.2 }}>
                           <CssVarsProvider>
                             {nearMissessResult > 100 ? (
-                              <Typography
-                                size="md"
-                                sx={{ color: '#bf360c', fontSize: 14, pt: 0.1 }}
-                              >
+                              <Typography size="md" sx={{ color: '#bf360c', fontSize: 14, pt: 0.1 }}>
                                 {nearMissessResult}
                               </Typography>
                             ) : (
-                              <Typography
-                                size="md"
-                                sx={{ color: '#32CD30', fontSize: 14, pt: 0.1 }}
-                              >
+                              <Typography size="md" sx={{ color: '#32CD30', fontSize: 14, pt: 0.1 }}>
                                 {nearMissessResult}
                               </Typography>
                             )}
@@ -1520,7 +1444,7 @@ const EndoMonthlyReport = ({
                             width: 100,
                             display: 'flex',
                             justifyContent: 'flex-start',
-                            borderRadius: 7,
+                            borderRadius: 7
                           }}
                           startDecorator={
                             <NearbyErrorIcon
@@ -1536,9 +1460,7 @@ const EndoMonthlyReport = ({
                     </Box>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'flex-end', pr: 2 }}>
-                    <Typography sx={{ color: 'darkred', fontSize: 10 }}>
-                      * BenchMark Value is 100
-                    </Typography>
+                    <Typography sx={{ color: 'darkred', fontSize: 10 }}>* BenchMark Value is 100</Typography>
                   </Box>
                 </Box>
               </Paper>
@@ -1553,11 +1475,10 @@ const EndoMonthlyReport = ({
                     fontWeight: 650,
                     pl: 1,
                     color: '#555830',
-                    bgcolor: '#E4E5E8',
+                    bgcolor: '#E4E5E8'
                   }}
                 >
-                  Number Of Sentinel events Reported, Collected And Analysed within the defined Time
-                  Frame
+                  Number Of Sentinel events Reported, Collected And Analysed within the defined Time Frame
                 </Box>
                 <Box>
                   <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
@@ -1574,15 +1495,13 @@ const EndoMonthlyReport = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
                         </Box>
                         <Box sx={{ flex: 0.2, p: 0.2 }}>
-                          <Typography sx={{ fontSize: 13, pt: 0.1 }}>
-                            {totalSentinelAnalysed}
-                          </Typography>
+                          <Typography sx={{ fontSize: 13, pt: 0.1 }}>{totalSentinelAnalysed}</Typography>
                         </Box>
                       </Box>
                       <Box sx={{ display: 'flex' }}>
@@ -1597,7 +1516,7 @@ const EndoMonthlyReport = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -1616,7 +1535,7 @@ const EndoMonthlyReport = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -1624,17 +1543,11 @@ const EndoMonthlyReport = ({
                         <Box sx={{ flex: 0.2, p: 0.2 }}>
                           <CssVarsProvider>
                             {sentinelResult > 0 ? (
-                              <Typography
-                                size="md"
-                                sx={{ color: '#bf360c', fontSize: 14, pt: 0.1 }}
-                              >
+                              <Typography size="md" sx={{ color: '#bf360c', fontSize: 14, pt: 0.1 }}>
                                 {sentinelResult}
                               </Typography>
                             ) : (
-                              <Typography
-                                size="md"
-                                sx={{ color: '#32CD30', fontSize: 14, pt: 0.1 }}
-                              >
+                              <Typography size="md" sx={{ color: '#32CD30', fontSize: 14, pt: 0.1 }}>
                                 {sentinelResult}
                               </Typography>
                             )}
@@ -1653,7 +1566,7 @@ const EndoMonthlyReport = ({
                             width: 100,
                             display: 'flex',
                             justifyContent: 'flex-start',
-                            borderRadius: 7,
+                            borderRadius: 7
                           }}
                           startDecorator={
                             <RunningWithErrorsOutlinedIcon
@@ -1669,9 +1582,7 @@ const EndoMonthlyReport = ({
                     </Box>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'flex-end', pr: 2 }}>
-                    <Typography sx={{ color: 'darkred', fontSize: 10 }}>
-                      * BenchMark Value is 0
-                    </Typography>
+                    <Typography sx={{ color: 'darkred', fontSize: 10 }}>* BenchMark Value is 0</Typography>
                   </Box>
                 </Box>
               </Paper>
@@ -1686,7 +1597,7 @@ const EndoMonthlyReport = ({
                     fontWeight: 650,
                     pl: 1,
                     color: '#555830',
-                    bgcolor: '#E4E5E8',
+                    bgcolor: '#E4E5E8'
                   }}
                 >
                   Equipment Utilization
@@ -1696,9 +1607,7 @@ const EndoMonthlyReport = ({
                     <Box sx={{ flex: 1.5 }}>
                       <Box sx={{ display: 'flex', pt: 0.5 }}>
                         <Box sx={{ flex: 1.5, p: 0.2 }}>
-                          <Typography sx={{ fontSize: 13, pl: 2 }}>
-                            Number of Equipment Utilized Days
-                          </Typography>
+                          <Typography sx={{ fontSize: 13, pl: 2 }}>Number of Equipment Utilized Days</Typography>
                         </Box>
                         <Box
                           sx={{
@@ -1706,7 +1615,7 @@ const EndoMonthlyReport = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -1717,9 +1626,7 @@ const EndoMonthlyReport = ({
                       </Box>
                       <Box sx={{ display: 'flex' }}>
                         <Box sx={{ flex: 1.5, p: 0.2 }}>
-                          <Typography sx={{ fontSize: 13, pl: 2 }}>
-                            Equipment Days Available
-                          </Typography>
+                          <Typography sx={{ fontSize: 13, pl: 2 }}>Equipment Days Available</Typography>
                         </Box>
                         <Box
                           sx={{
@@ -1727,15 +1634,13 @@ const EndoMonthlyReport = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
                         </Box>
                         <Box sx={{ flex: 0.3, p: 0.2 }}>
-                          <Typography sx={{ fontSize: 13, pt: 0.1 }}>
-                            {totEquipAvailable}
-                          </Typography>
+                          <Typography sx={{ fontSize: 13, pt: 0.1 }}>{totEquipAvailable}</Typography>
                         </Box>
                       </Box>
                       <Box sx={{ display: 'flex' }}>
@@ -1748,7 +1653,7 @@ const EndoMonthlyReport = ({
                             p: 0.2,
                             fontWeight: 650,
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'flex-end'
                           }}
                         >
                           :
@@ -1777,16 +1682,14 @@ const EndoMonthlyReport = ({
                             height: 30,
                             width: 100,
                             display: 'flex',
-                            justifyContent: 'flex-start',
+                            justifyContent: 'flex-start'
                           }}
                         ></Button>
                       </CssVarsProvider>
                     </Box>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'flex-end', pr: 2 }}>
-                    <Typography sx={{ color: 'darkred', fontSize: 10 }}>
-                      * BenchMark Value is 0
-                    </Typography>
+                    <Typography sx={{ color: 'darkred', fontSize: 10 }}>* BenchMark Value is 0</Typography>
                   </Box>
                 </Box>
               </Paper>

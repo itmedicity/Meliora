@@ -11,19 +11,10 @@ const ApprovalItemView = ({ approveTableData }) => {
             Approved Items
           </Typography>
           <Box sx={{ flexWrap: 'wrap', px: 0.5, pb: 0.5 }}>
-            <Table
-              aria-label="table with sticky header"
-              borderAxis="both"
-              padding={'none'}
-              stickyHeader
-              size="sm"
-            >
+            <Table aria-label="table with sticky header" borderAxis="both" padding={'none'} stickyHeader size="sm">
               <thead style={{ height: 4 }} size="small">
                 <tr style={{ height: 4 }} size="small">
-                  <th
-                    size="sm"
-                    style={{ width: 50, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                  >
+                  <th size="sm" style={{ width: 50, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                     Sl.No
                   </th>
                   <th size="sm" style={{ width: 300, backgroundColor: '#e3f2fd' }}>
@@ -32,34 +23,19 @@ const ApprovalItemView = ({ approveTableData }) => {
                   <th size="sm" style={{ width: 200, backgroundColor: '#e3f2fd' }}>
                     &nbsp;&nbsp;Brand
                   </th>
-                  <th
-                    size="sm"
-                    style={{ width: 80, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                  >
+                  <th size="sm" style={{ width: 80, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                     Qty
                   </th>
-                  <th
-                    size="sm"
-                    style={{ width: 80, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                  >
+                  <th size="sm" style={{ width: 80, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                     UOM
                   </th>
-                  <th
-                    size="sm"
-                    style={{ width: 350, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                  >
+                  <th size="sm" style={{ width: 350, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                     Specification
                   </th>
-                  <th
-                    size="sm"
-                    style={{ width: 80, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                  >
+                  <th size="sm" style={{ width: 80, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                     Price
                   </th>
-                  <th
-                    size="sm"
-                    style={{ width: 80, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                  >
+                  <th size="sm" style={{ width: 80, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                     Approx.Cost
                   </th>
                   <th
@@ -68,7 +44,7 @@ const ApprovalItemView = ({ approveTableData }) => {
                       borderRadius: 0,
                       width: 150,
                       textAlign: 'center',
-                      backgroundColor: '#e3f2fd',
+                      backgroundColor: '#e3f2fd'
                     }}
                   >
                     Status
@@ -119,14 +95,10 @@ const ApprovalItemView = ({ approveTableData }) => {
                         </td>
                         <td>
                           &nbsp;
-                          {item.approve_item_specification === ''
-                            ? 'Not Given'
-                            : item.approve_item_specification}
+                          {item.approve_item_specification === '' ? 'Not Given' : item.approve_item_specification}
                         </td>
                         <td style={{ textAlign: 'center' }}>
-                          {item.approve_item_unit_price === 0
-                            ? 'Not Given'
-                            : item.approve_item_unit_price}
+                          {item.approve_item_unit_price === 0 ? 'Not Given' : item.approve_item_unit_price}
                         </td>
                         <td style={{ textAlign: 'center' }}>
                           {item.approve_aprox_cost === 0 ? 'Not Given' : item.approve_aprox_cost}
@@ -160,7 +132,7 @@ const ApprovalItemView = ({ approveTableData }) => {
             fontSize: 25,
             opacity: 0.5,
             pt: 10,
-            color: 'grey',
+            color: 'grey'
           }}
         >
           No items Approved

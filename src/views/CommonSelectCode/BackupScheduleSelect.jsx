@@ -36,7 +36,7 @@ const BackupScheduleSelect = ({ scheduleType, setScheduleType }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '32px',
+            '--Input-minHeight': '32px'
           }}
           value={scheduleType === 0 ? type : value}
           placeholder="Select Schedule Type"
@@ -51,9 +51,7 @@ const BackupScheduleSelect = ({ scheduleType, setScheduleType }) => {
           loading={true}
           loadingText="Loading..."
           freeSolo
-          isOptionEqualToValue={(option, value) =>
-            option.schedule_type_name === value.schedule_type_name
-          }
+          isOptionEqualToValue={(option, value) => option.schedule_type_name === value.schedule_type_name}
           getOptionLabel={option => option.schedule_type_name || ''}
           options={type}
         />

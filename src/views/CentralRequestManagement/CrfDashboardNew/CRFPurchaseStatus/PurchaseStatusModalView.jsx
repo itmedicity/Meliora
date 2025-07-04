@@ -1,62 +1,27 @@
-import {
-  Box,
-  Chip,
-  CssVarsProvider,
-  Grid,
-  Modal,
-  ModalClose,
-  ModalDialog,
-  Typography,
-} from '@mui/joy'
+import { Box, Chip, CssVarsProvider, Grid, Modal, ModalClose, ModalDialog, Typography } from '@mui/joy'
 import { format } from 'date-fns'
 import React, { Fragment, memo } from 'react'
 import { Paper } from '@mui/material'
 const ApprovedItemListDis = React.lazy(() => import('../../ComonComponent/ApprovedItemListDis'))
-const CommonInchargeReqCmp = React.lazy(() =>
-  import('../../ComonComponent/ApprovalComp/CommonInchargeReqCmp')
-)
-const CommonHodApprvCmp = React.lazy(() =>
-  import('../../ComonComponent/ApprovalComp/CommonHodApprvCmp')
-)
-const CommonDmsApprvCmp = React.lazy(() =>
-  import('../../ComonComponent/ApprovalComp/CommonDmsApprvCmp')
-)
-const CommonMsApprvCmp = React.lazy(() =>
-  import('../../ComonComponent/ApprovalComp/CommonMsApprvCmp')
-)
-const CommonMoApprvlCmp = React.lazy(() =>
-  import('../../ComonComponent/ApprovalComp/CommonMoApprvlCmp')
-)
-const CommonSmoApprvCmp = React.lazy(() =>
-  import('../../ComonComponent/ApprovalComp/CommonSmoApprvCmp')
-)
-const CommonGmapprvCmp = React.lazy(() =>
-  import('../../ComonComponent/ApprovalComp/CommonGmapprvCmp')
-)
-const CommonMdApprvCmp = React.lazy(() =>
-  import('../../ComonComponent/ApprovalComp/CommonMdApprvCmp')
-)
-const CommonEdapprvCmp = React.lazy(() =>
-  import('../../ComonComponent/ApprovalComp/CommonEdapprvCmp')
-)
+const CommonInchargeReqCmp = React.lazy(() => import('../../ComonComponent/ApprovalComp/CommonInchargeReqCmp'))
+const CommonHodApprvCmp = React.lazy(() => import('../../ComonComponent/ApprovalComp/CommonHodApprvCmp'))
+const CommonDmsApprvCmp = React.lazy(() => import('../../ComonComponent/ApprovalComp/CommonDmsApprvCmp'))
+const CommonMsApprvCmp = React.lazy(() => import('../../ComonComponent/ApprovalComp/CommonMsApprvCmp'))
+const CommonMoApprvlCmp = React.lazy(() => import('../../ComonComponent/ApprovalComp/CommonMoApprvlCmp'))
+const CommonSmoApprvCmp = React.lazy(() => import('../../ComonComponent/ApprovalComp/CommonSmoApprvCmp'))
+const CommonGmapprvCmp = React.lazy(() => import('../../ComonComponent/ApprovalComp/CommonGmapprvCmp'))
+const CommonMdApprvCmp = React.lazy(() => import('../../ComonComponent/ApprovalComp/CommonMdApprvCmp'))
+const CommonEdapprvCmp = React.lazy(() => import('../../ComonComponent/ApprovalComp/CommonEdapprvCmp'))
 const ViewOreviousDataCollctnDetails = React.lazy(() =>
   import('../../ComonComponent/DataCollectionComp/ViewOreviousDataCollctnDetails')
 )
 const CrfReqDetailViewCmp = React.lazy(() => import('../../ComonComponent/CrfReqDetailViewCmp'))
 const ReqItemDisplay = React.lazy(() => import('../../ComonComponent/ReqItemDisplay'))
 const PoAcknowComp = React.lazy(() => import('../../ComonComponent/PurchaseComp/PoAcknowComp'))
-const QuotationCallComp = React.lazy(() =>
-  import('../../ComonComponent/PurchaseComp/QuotationCallComp')
-)
-const QuotationNegoComp = React.lazy(() =>
-  import('../../ComonComponent/PurchaseComp/QuotationNegoComp')
-)
-const QuotationFinalComp = React.lazy(() =>
-  import('../../ComonComponent/PurchaseComp/QuotationFinalComp')
-)
-const CrfReqDetailCmpnt = React.lazy(() =>
-  import('../../CRFRequestMaster/Components/CrfReqDetailCmpnt')
-)
+const QuotationCallComp = React.lazy(() => import('../../ComonComponent/PurchaseComp/QuotationCallComp'))
+const QuotationNegoComp = React.lazy(() => import('../../ComonComponent/PurchaseComp/QuotationNegoComp'))
+const QuotationFinalComp = React.lazy(() => import('../../ComonComponent/PurchaseComp/QuotationFinalComp'))
+const CrfReqDetailCmpnt = React.lazy(() => import('../../CRFRequestMaster/Components/CrfReqDetailCmpnt'))
 
 const PurchaseStatusModalView = ({
   modalData,
@@ -67,7 +32,7 @@ const PurchaseStatusModalView = ({
   reqItems,
   approveTableData,
   companyData,
-  poDetails,
+  poDetails
 }) => {
   const {
     incharge_approve,
@@ -95,7 +60,7 @@ const PurchaseStatusModalView = ({
     po_complete,
     po_complete_date,
     pocomplete_user,
-    po_to_supplier,
+    po_to_supplier
   } = modalData
 
   const capitalizeWords = str =>
@@ -130,7 +95,7 @@ const PurchaseStatusModalView = ({
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 35,
-                width: 35,
+                width: 35
               }}
             />
             <Box
@@ -139,7 +104,7 @@ const PurchaseStatusModalView = ({
                 minHeight: '65vh',
                 maxHeight: '85vh',
                 overflowY: 'auto',
-                px: 0.5,
+                px: 0.5
               }}
             >
               <CrfReqDetailViewCmp ApprovalData={modalData} imagearray={imagearray} />
@@ -171,14 +136,8 @@ const PurchaseStatusModalView = ({
               }
               {hod_approve !== null || incharge_approve !== null ? (
                 <>
-                  <Paper
-                    variant="outlined"
-                    square
-                    sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.7, mx: 0.7, pb: 0.5 }}
-                  >
-                    <Typography
-                      sx={{ fontWeight: 'bold', px: 1, py: 0.7, color: '#145DA0', fontSize: 14 }}
-                    >
+                  <Paper variant="outlined" square sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.7, mx: 0.7, pb: 0.5 }}>
+                    <Typography sx={{ fontWeight: 'bold', px: 1, py: 0.7, color: '#145DA0', fontSize: 14 }}>
                       Approval Details
                     </Typography>
                     <Grid container spacing={0.5} sx={{ flexGrow: 1 }}>
@@ -237,14 +196,8 @@ const PurchaseStatusModalView = ({
                 </>
               ) : null}
               {ack_status === 1 ? (
-                <Paper
-                  variant="outlined"
-                  square
-                  sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.7, mx: 0.7 }}
-                >
-                  <Typography
-                    sx={{ fontWeight: 'bold', px: 1, py: 0.7, color: '#145DA0', fontSize: 14 }}
-                  >
+                <Paper variant="outlined" square sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.7, mx: 0.7 }}>
+                  <Typography sx={{ fontWeight: 'bold', px: 1, py: 0.7, color: '#145DA0', fontSize: 14 }}>
                     Procurement Details
                   </Typography>
                   <Grid container spacing={0.5} sx={{ flexGrow: 1 }}>
@@ -271,9 +224,7 @@ const PurchaseStatusModalView = ({
                   </Grid>
                   {poDetails.length !== 0 ? (
                     <>
-                      <Typography
-                        sx={{ fontWeight: 'bold', mx: 1, pt: 0.5, color: '#145DA0', fontSize: 14 }}
-                      >
+                      <Typography sx={{ fontWeight: 'bold', mx: 1, pt: 0.5, color: '#145DA0', fontSize: 14 }}>
                         PO Details
                       </Typography>
                       <Box sx={{ width: '100%', pb: 0.3, flexWrap: 'wrap' }}>
@@ -290,7 +241,7 @@ const PurchaseStatusModalView = ({
                           py: 0.5,
                           color: '#145DA0',
                           fontSize: 14,
-                          flex: 0.4,
+                          flex: 0.4
                         }}
                       >
                         Purchase Order&apos;s Completed
@@ -305,7 +256,7 @@ const PurchaseStatusModalView = ({
                             height: 25,
                             pb: 0.5,
                             fontSize: 12,
-                            fontWeight: 550,
+                            fontWeight: 550
                           }}
                         >
                           Yes
@@ -318,14 +269,12 @@ const PurchaseStatusModalView = ({
                             textTransform: 'capitalize',
                             fontWeight: 550,
                             pl: 2,
-                            pt: 0.4,
+                            pt: 0.4
                           }}
                         >
                           {capitalizeWords(pocomplete_user)}&nbsp; /
                         </Typography>
-                        <Typography
-                          sx={{ height: 30, fontSize: 12, fontWeight: 550, pl: 1, pt: 0.4 }}
-                        >
+                        <Typography sx={{ height: 30, fontSize: 12, fontWeight: 550, pl: 1, pt: 0.4 }}>
                           {format(new Date(po_complete_date), 'dd-MM-yyyy hh:mm:ss a')}
                         </Typography>
                       </Box>

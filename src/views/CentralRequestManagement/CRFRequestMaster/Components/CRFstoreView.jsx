@@ -15,13 +15,12 @@ const CRFstoreView = ({ setList, editRowData }) => {
       if (success === 1) {
         const crsStore = data
           .filter(
-            (val, index, self) =>
-              index === self.findIndex(value => value.main_store_slno === val.main_store_slno)
+            (val, index, self) => index === self.findIndex(value => value.main_store_slno === val.main_store_slno)
           )
           .map(val => ({
             main_store_slno: val.main_store_slno,
             crs_store_code: val.crs_store_code,
-            main_store: val.main_store,
+            main_store: val.main_store
           }))
         setCrsList(crsStore)
         // const subStore = data?.map((val) => ({
@@ -44,9 +43,7 @@ const CRFstoreView = ({ setList, editRowData }) => {
   useEffect(() => {
     if (Object?.entries(editRowData).length > 0 && editRowData?.sub_store?.length > 0) {
       const categoryIds = JSON.parse(editRowData?.store)
-      const matchedCategories = crsList?.filter(item =>
-        categoryIds?.includes(item?.main_store_slno)
-      )
+      const matchedCategories = crsList?.filter(item => categoryIds?.includes(item?.main_store_slno))
       setSelectedValues(matchedCategories)
       setList(prev => (prev.length === 0 ? categoryIds : prev))
     }
@@ -83,7 +80,7 @@ const CRFstoreView = ({ setList, editRowData }) => {
         lineHeight: 1.2,
         width: '100%',
         backgroundColor: 'white',
-        fontSize: 14,
+        fontSize: 14
       }}
       value={selectedValues}
       clearOnBlur
@@ -101,9 +98,7 @@ const CRFstoreView = ({ setList, editRowData }) => {
       getOptionLabel={option => option?.main_store || ''}
       options={itemType}
       getOptionDisabled={option =>
-        itemType?.some(
-          (opt, index) => opt?.main_store === option?.main_store && itemType?.indexOf(opt) !== index
-        )
+        itemType?.some((opt, index) => opt?.main_store === option?.main_store && itemType?.indexOf(opt) !== index)
       }
     />
   )

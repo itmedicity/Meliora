@@ -13,9 +13,7 @@ const ComplaintAttachFiles = ({ complaint_slno }) => {
     if (!complaint_slno) return
     const fetchComplaintFiles = async () => {
       try {
-        const result = await axioslogin.get(
-          `/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`
-        )
+        const result = await axioslogin.get(`/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`)
         const { success } = result.data
         if (success === 1) {
           const fileNames = result.data.data
@@ -75,11 +73,7 @@ const ComplaintAttachFiles = ({ complaint_slno }) => {
     <Box sx={{ flex: 1, mr: 1, my: 0.5, ml: 0.5 }}>
       {imageShowsingleFlag === 1 ? (
         <Box>
-          <FileViewSingle
-            previewFile={uploadedFile}
-            imageShow={imageShowSingle}
-            CloseFile={CloseSingleFile}
-          />
+          <FileViewSingle previewFile={uploadedFile} imageShow={imageShowSingle} CloseFile={CloseSingleFile} />
         </Box>
       ) : null}
       {UploadedFiles.length !== 0 && (
@@ -99,7 +93,7 @@ const ComplaintAttachFiles = ({ complaint_slno }) => {
                     display: 'flex',
                     flexDirection: 'row',
                     flexWrap: 'nowrap',
-                    bgcolor: '#fff',
+                    bgcolor: '#fff'
                   }}
                 >
                   {isImage ? (
@@ -112,7 +106,7 @@ const ComplaintAttachFiles = ({ complaint_slno }) => {
                         objectFit: 'cover',
                         borderRadius: '4px',
                         marginRight: '8px',
-                        cursor: 'pointer',
+                        cursor: 'pointer'
                       }}
                       onClick={() => SingleView({ url })}
                     />
@@ -123,7 +117,7 @@ const ComplaintAttachFiles = ({ complaint_slno }) => {
                         height: '50px',
                         color: '#e53935',
                         marginRight: '8px',
-                        cursor: 'pointer',
+                        cursor: 'pointer'
                       }}
                       onClick={() => SingleView({ url })}
                     />
@@ -134,7 +128,7 @@ const ComplaintAttachFiles = ({ complaint_slno }) => {
                         height: '60px',
                         color: '#9e9e9e',
                         marginRight: '8px',
-                        cursor: 'pointer',
+                        cursor: 'pointer'
                       }}
                       onClick={() => SingleView({ url })}
                     />
@@ -146,7 +140,7 @@ const ComplaintAttachFiles = ({ complaint_slno }) => {
                       flexGrow: 1,
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
+                      whiteSpace: 'nowrap'
                     }}
                   >
                     {url.split('/').pop()}

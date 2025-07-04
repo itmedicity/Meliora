@@ -21,8 +21,8 @@ const DietMenuSettingTable = ({ count, rowSelect }) => {
     { headerName: 'Status', field: 'status1' },
     {
       headerName: 'Action',
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
-    },
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
+    }
   ])
   useEffect(() => {
     const getDietType = async () => {

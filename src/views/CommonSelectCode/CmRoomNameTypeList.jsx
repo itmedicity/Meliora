@@ -5,9 +5,7 @@ import { CssVarsProvider } from '@mui/joy/'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 
 const CmRoomNameTypeList = ({ roomName, setRoomName }) => {
-  const RoomsNameNdTypeList = useSelector(
-    state => state.getRoomsNameNdTypeList?.RoomsNameNdTypeList
-  )
+  const RoomsNameNdTypeList = useSelector(state => state.getRoomsNameNdTypeList?.RoomsNameNdTypeList)
 
   const [roomNameType, setRoomNameType] = useState([])
   const [value, setValue] = useState(null)
@@ -54,7 +52,7 @@ const CmRoomNameTypeList = ({ roomName, setRoomName }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '29px',
+            '--Input-minHeight': '29px'
           }}
           value={value}
           placeholder="Select Location"

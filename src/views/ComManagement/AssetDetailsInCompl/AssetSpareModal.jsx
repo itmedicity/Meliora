@@ -1,15 +1,4 @@
-import {
-  Box,
-  Chip,
-  CssVarsProvider,
-  Modal,
-  Tab,
-  tabClasses,
-  TabList,
-  TabPanel,
-  Tabs,
-  Typography,
-} from '@mui/joy'
+import { Box, Chip, CssVarsProvider, Modal, Tab, tabClasses, TabList, TabPanel, Tabs, Typography } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import CancelIcon from '@mui/icons-material/Cancel'
 import { axioslogin } from 'src/views/Axios/Axios'
@@ -28,13 +17,7 @@ import ServiceAssetUpgrade from 'src/views/AssetManagment/ServiceListSpare/Servi
 import TimelapseIcon from '@mui/icons-material/Timelapse'
 import ServicePmTab from 'src/views/AssetManagment/ServiceListSpare/ServicePmTab'
 
-const AssetSpareModal = ({
-  openSpare,
-  setOpenSpare,
-  setassetSpareFlag,
-  assetSparedetails,
-  complaint_slno,
-}) => {
+const AssetSpareModal = ({ openSpare, setOpenSpare, setassetSpareFlag, assetSparedetails, complaint_slno }) => {
   const {
     item_asset_no,
     item_name,
@@ -43,7 +26,7 @@ const AssetSpareModal = ({
     item_custodian_dept,
     category_name,
     item_asset_no_only,
-    am_category_pm_days,
+    am_category_pm_days
   } = assetSparedetails
 
   const [spareDetails, setSpareDetails] = useState([])
@@ -67,7 +50,7 @@ const AssetSpareModal = ({
     imageViewOpen: false,
     serviceImageViewOpen: false,
     image: 0,
-    imageServiceFlag: 0,
+    imageServiceFlag: 0
   })
 
   const [documentStates, setDocumentStates] = useState({
@@ -75,7 +58,7 @@ const AssetSpareModal = ({
     openDocuments: 0,
     am_bill_mastslno: 0,
     amccmc_slno: 0,
-    am_lease_mast_slno: 0,
+    am_lease_mast_slno: 0
   })
 
   const id = useSelector(state => {
@@ -84,7 +67,7 @@ const AssetSpareModal = ({
 
   const getData = useMemo(() => {
     return {
-      am_item_map_slno: am_item_map_slno,
+      am_item_map_slno: am_item_map_slno
     }
   }, [am_item_map_slno])
 
@@ -100,7 +83,7 @@ const AssetSpareModal = ({
             ...prev,
             am_bill_mastslno,
             amccmc_slno,
-            am_lease_mast_slno,
+            am_lease_mast_slno
           }))
         } else {
           setassetabout({})
@@ -119,9 +102,7 @@ const AssetSpareModal = ({
 
   useEffect(() => {
     const getAllSpare = async am_item_map_slno => {
-      const result = await axioslogin.get(
-        `/complaintreg/SpareDetailsUndercomplaint/${am_item_map_slno}`
-      )
+      const result = await axioslogin.get(`/complaintreg/SpareDetailsUndercomplaint/${am_item_map_slno}`)
       const { success, data } = result.data
       if (success === 1) {
         setSpareDetails(data)
@@ -139,24 +120,21 @@ const AssetSpareModal = ({
       const patchdata = {
         delete_user: id,
         asset_spare_slno: asset_spare_slno,
-        am_spare_item_map_slno: am_spare_item_map_slno,
+        am_spare_item_map_slno: am_spare_item_map_slno
       }
       const postSpareData = {
         cm_complaint_slno: complaint_slno,
         cm_spare_asset_no: spare_asset_no,
         cm_spare_asset_no_only: spare_asset_no_only,
         cm_spare_item_map_slno: am_spare_item_map_slno,
-        create_user: id,
+        create_user: id
       }
       const ServiceUpdate = async patchdata => {
         const result = await axioslogin.patch('/ItemMapDetails/spareService', patchdata)
         return result.data
       }
       const SpareComplaintInsert = async postSpareData => {
-        const result = await axioslogin.post(
-          '/assetSpareDetails/CmSpareComplaintService',
-          postSpareData
-        )
+        const result = await axioslogin.post('/assetSpareDetails/CmSpareComplaintService', postSpareData)
         return result.data
       }
       try {
@@ -184,31 +162,28 @@ const AssetSpareModal = ({
     [id, setCount, count, complaint_slno]
   )
 
-  const AddNewSpare = useCallback(
-    () => {
-      if (sparez === 0) {
-        infoNotify('Please select Spare')
+  const AddNewSpare = useCallback(() => {
+    if (sparez === 0) {
+      infoNotify('Please select Spare')
+    } else {
+      const isAlreadyAdded = spareData.some(item => item.am_spare_item_map_slno === sparez)
+      if (isAlreadyAdded) {
+        infoNotify('Spare already added')
+        setSparez(0)
       } else {
-        const isAlreadyAdded = spareData.some(item => item.am_spare_item_map_slno === sparez)
-        if (isAlreadyAdded) {
-          infoNotify('Spare already added')
-          setSparez(0)
-        } else {
-          const newdata = {
-            am_item_map_slno: am_item_map_slno,
-            am_spare_item_map_slno: sparez,
-            spare_status: 1,
-            name: spareName,
-            create_user: id,
-          }
-          const datass = [...spareData, newdata]
-          setSpareData(datass)
-          setSparez(0)
+        const newdata = {
+          am_item_map_slno: am_item_map_slno,
+          am_spare_item_map_slno: sparez,
+          spare_status: 1,
+          name: spareName,
+          create_user: id
         }
+        const datass = [...spareData, newdata]
+        setSpareData(datass)
+        setSparez(0)
       }
-    },
-    [am_item_map_slno, spareData, sparez, spareName, id]
-  )
+    }
+  }, [am_item_map_slno, spareData, sparez, spareName, id])
   const handleDelete = indexToDelete => {
     setSpareData(prevArray => {
       const updatedArray = prevArray.filter((_, index) => index !== indexToDelete)
@@ -222,36 +197,33 @@ const AssetSpareModal = ({
         am_item_map_slno: val.am_item_map_slno,
         am_spare_item_map_slno: val.am_spare_item_map_slno,
         spare_status: 1,
-        create_user: val.create_user,
+        create_user: val.create_user
       }
     })
 
   const [sparecount, setsparecount] = useState(0)
-  const AddNewSpareUnderAsset = useCallback(
-    () => {
-      const SparedetailInsert = async SparepostData => {
-        const result = await axioslogin.post(`/ItemMapDetails/SpareDetailsInsert`, SparepostData)
-        const { message, success } = result.data
-        if (success === 1) {
-          succesNotify('New Spare Added Under Asset')
-          setsparecount(sparecount + 1)
-          setCount(count + 1)
-          setSpareData([])
-        } else if (success === 0) {
-          infoNotify(message)
-        } else {
-          infoNotify(message)
-        }
+  const AddNewSpareUnderAsset = useCallback(() => {
+    const SparedetailInsert = async SparepostData => {
+      const result = await axioslogin.post(`/ItemMapDetails/SpareDetailsInsert`, SparepostData)
+      const { message, success } = result.data
+      if (success === 1) {
+        succesNotify('New Spare Added Under Asset')
+        setsparecount(sparecount + 1)
+        setCount(count + 1)
+        setSpareData([])
+      } else if (success === 0) {
+        infoNotify(message)
+      } else {
+        infoNotify(message)
       }
-      SparedetailInsert(SparepostData)
-    },
-    [SparepostData, count, sparecount]
-  )
+    }
+    SparedetailInsert(SparepostData)
+  }, [SparepostData, count, sparecount])
 
   const searchData = useMemo(() => {
     return {
       service_item_slno: item_asset_no_only,
-      service_asset_spare: item_asset_no,
+      service_asset_spare: item_asset_no
     }
   }, [item_asset_no_only, item_asset_no])
 
@@ -277,13 +249,11 @@ const AssetSpareModal = ({
     setImageStates(prevState => ({
       ...prevState,
       image: 1,
-      imageViewOpen: true,
+      imageViewOpen: true
     }))
     setfileDetails(val)
     try {
-      const result = await axioslogin.get(
-        `/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`
-      )
+      const result = await axioslogin.get(`/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`)
       const { success } = result.data
       if (success === 1) {
         const data = result.data
@@ -325,7 +295,7 @@ const AssetSpareModal = ({
           setImageStates(prevState => ({
             ...prevState,
             imageServiceFlag: 1,
-            serviceImageViewOpen: true,
+            serviceImageViewOpen: true
           }))
         } else {
           warningNotify('No Files attached')
@@ -344,13 +314,10 @@ const AssetSpareModal = ({
         const updatedServEmployees = {}
         for (let deptServiceemp of alldetailsService) {
           const searchDeptServiceData = {
-            serviced_emp_detail_slno: deptServiceemp.serviced_emp_details_slno,
+            serviced_emp_detail_slno: deptServiceemp.serviced_emp_details_slno
           }
           try {
-            const result = await axioslogin.post(
-              `assetSpareDetails/getDeptServiceDetailsData`,
-              searchDeptServiceData
-            )
+            const result = await axioslogin.post(`assetSpareDetails/getDeptServiceDetailsData`, searchDeptServiceData)
             const { success, data } = result.data
             if (success === 1) {
               updatedServEmployees[deptServiceemp.serviced_emp_details_slno] = data
@@ -373,7 +340,7 @@ const AssetSpareModal = ({
       setDocumentStates(prevState => ({
         ...prevState,
         openDocuments: 1,
-        documentOpenCheck: true,
+        documentOpenCheck: true
       }))
     } else {
       infoNotify('No Bills Attached')
@@ -385,7 +352,7 @@ const AssetSpareModal = ({
       setDocumentStates(prevState => ({
         ...prevState,
         openDocuments: 2,
-        documentOpenCheck: true,
+        documentOpenCheck: true
       }))
     } else {
       infoNotify('No Documents Attached')
@@ -397,7 +364,7 @@ const AssetSpareModal = ({
       setDocumentStates(prevState => ({
         ...prevState,
         openDocuments: 3,
-        documentOpenCheck: true,
+        documentOpenCheck: true
       }))
     } else {
       infoNotify('No Documents Attached')
@@ -435,9 +402,7 @@ const AssetSpareModal = ({
       try {
         const { am_lease_mast_slno } = documentStates
         if (am_lease_mast_slno) {
-          const result = await axioslogin.get(
-            `/AssetFileUpload/LeaseMasterImageView/${am_lease_mast_slno}`
-          )
+          const result = await axioslogin.get(`/AssetFileUpload/LeaseMasterImageView/${am_lease_mast_slno}`)
           const { success, data } = result.data
           if (success === 1 && data && Array.isArray(data)) {
             const fileNames = data
@@ -462,9 +427,7 @@ const AssetSpareModal = ({
       try {
         const { am_bill_mastslno } = documentStates
         if (am_bill_mastslno) {
-          const result = await axioslogin.get(
-            `/AssetFileUpload/BillMasterImageView/${am_bill_mastslno}`
-          )
+          const result = await axioslogin.get(`/AssetFileUpload/BillMasterImageView/${am_bill_mastslno}`)
           const { success, data } = result.data
           if (success === 1 && data && Array.isArray(data)) {
             const fileNames = data
@@ -543,7 +506,7 @@ const AssetSpareModal = ({
             justifyContent: 'center',
             alignItems: 'center',
             pl: 1,
-            borderRadius: 10,
+            borderRadius: 10
           }}
         >
           <Box
@@ -556,19 +519,14 @@ const AssetSpareModal = ({
               display: 'flex',
               flexDirection: 'column',
               py: 2,
-              px: 2,
+              px: 2
             }}
           >
             <Box sx={{ flexShrink: 0 }}>
               <Box sx={{ flex: 1, display: 'flex', p: 1 }}>
-                <Box sx={{ flex: 1, color: 'grey', fontWeight: 500, pl: 1.4, pt: 0.8 }}>
-                  Asset Detail View
-                </Box>
+                <Box sx={{ flex: 1, color: 'grey', fontWeight: 500, pl: 1.4, pt: 0.8 }}>Asset Detail View</Box>
                 <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
-                  <CancelIcon
-                    sx={{ color: 'grey', cursor: 'pointer', height: 30, width: 30 }}
-                    onClick={Close}
-                  />
+                  <CancelIcon sx={{ color: 'grey', cursor: 'pointer', height: 30, width: 30 }} onClick={Close} />
                 </Box>
               </Box>
               <Box
@@ -579,14 +537,14 @@ const AssetSpareModal = ({
                   mx: 1.5,
                   borderRadius: 5,
                   py: 0.5,
-                  borderColor: '#EFEFEF',
+                  borderColor: '#EFEFEF'
                 }}
               >
                 <Typography
                   sx={{
                     pl: 2,
                     fontWeight: 600,
-                    fontSize: 18,
+                    fontSize: 18
                   }}
                 >
                   Asset Details
@@ -602,20 +560,14 @@ const AssetSpareModal = ({
                   </Box>
                 </Box>
                 <Box sx={{ flex: 1, display: 'flex', mt: 0.5 }}>
-                  <Typography sx={{ flex: 0.4, pl: 2, pt: 0.4, fontWeight: 400, fontSize: 14 }}>
-                    Category
-                  </Typography>
+                  <Typography sx={{ flex: 0.4, pl: 2, pt: 0.4, fontWeight: 400, fontSize: 14 }}>Category</Typography>
                   <Box sx={{ flex: 3 }}>
-                    <Chip sx={{ bgcolor: '#EBEFFB', fontWeight: 500, fontSize: 15 }}>
-                      {category_name}
-                    </Chip>
+                    <Chip sx={{ bgcolor: '#EBEFFB', fontWeight: 500, fontSize: 15 }}>{category_name}</Chip>
                   </Box>
                 </Box>
 
                 <Box sx={{ flex: 1, display: 'flex', my: 0.5 }}>
-                  <Typography sx={{ flex: 0.4, pl: 2, fontWeight: 400, pt: 0.4, fontSize: 14 }}>
-                    Asset Name
-                  </Typography>
+                  <Typography sx={{ flex: 0.4, pl: 2, fontWeight: 400, pt: 0.4, fontSize: 14 }}>Asset Name</Typography>
                   <Box sx={{ flex: 3, fontWeight: 500 }}>
                     <Chip sx={{ bgcolor: '#EBEFFB' }}>{item_name}</Chip>
                   </Box>
@@ -628,7 +580,7 @@ const AssetSpareModal = ({
                     display: 'flex',
                     mx: 2,
                     bgcolor: 'white',
-                    mt: 0.5,
+                    mt: 0.5
                   }}
                 >
                   <TabList
@@ -639,7 +591,7 @@ const AssetSpareModal = ({
                         flex: 'initial',
                         bgcolor: 'white',
                         '&:hover': {
-                          bgcolor: 'white',
+                          bgcolor: 'white'
                         },
                         [`&.${tabClasses.selected}`]: {
                           color: 'primary.plainColor',
@@ -649,43 +601,27 @@ const AssetSpareModal = ({
                             height: 20,
                             borderTopLeftRadius: 3,
                             borderTopRightRadius: 3,
-                            bgcolor: 'primary.500',
-                          },
-                        },
-                      },
+                            bgcolor: 'primary.500'
+                          }
+                        }
+                      }
                     }}
                   >
                     <Box sx={{ display: 'flex', flex: 1, mb: 0 }}>
                       <Box sx={{ flex: 1, display: 'flex' }}>
-                        <Tab
-                          value={0}
-                          disableIndicator
-                          sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}
-                        >
+                        <Tab value={0} disableIndicator sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}>
                           <UnarchiveOutlinedIcon />
                           Asset Upgrade&nbsp;&nbsp;
                         </Tab>
-                        <Tab
-                          value={1}
-                          disableIndicator
-                          sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}
-                        >
+                        <Tab value={1} disableIndicator sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}>
                           <TimelapseIcon />
                           PM Details&nbsp;&nbsp;
                         </Tab>
-                        <Tab
-                          value={2}
-                          disableIndicator
-                          sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}
-                        >
+                        <Tab value={2} disableIndicator sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}>
                           <LayersOutlinedIcon />
                           Breakdown Details&nbsp;&nbsp;
                         </Tab>
-                        <Tab
-                          value={3}
-                          disableIndicator
-                          sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}
-                        >
+                        <Tab value={3} disableIndicator sx={{ color: '#5D6268', fontWeight: 600, py: 0, px: 0.5 }}>
                           <TextSnippetOutlinedIcon />
                           Documents&nbsp;&nbsp;
                         </Tab>
@@ -699,7 +635,7 @@ const AssetSpareModal = ({
                       p: 0,
                       flexGrow: 1,
                       overflowY: 'auto',
-                      maxHeight: 'calc(90vh - 230px)',
+                      maxHeight: 'calc(90vh - 230px)'
                     }}
                   >
                     <Box
@@ -707,7 +643,7 @@ const AssetSpareModal = ({
                         flexGrow: 1,
                         overflowY: 'auto',
                         maxHeight: '100%',
-                        m: 0,
+                        m: 0
                       }}
                     >
                       <Box>
@@ -739,7 +675,7 @@ const AssetSpareModal = ({
                       p: 0,
                       flexGrow: 1,
                       overflowY: 'auto',
-                      maxHeight: 'calc(90vh - 230px)',
+                      maxHeight: 'calc(90vh - 230px)'
                     }}
                   >
                     <Box
@@ -748,7 +684,7 @@ const AssetSpareModal = ({
                         overflowY: 'auto',
                         maxHeight: '100%',
                         m: 0,
-                        pt: 0.5,
+                        pt: 0.5
                       }}
                     >
                       <Box>
@@ -768,7 +704,7 @@ const AssetSpareModal = ({
                       p: 0,
                       flexGrow: 1,
                       overflowY: 'auto',
-                      maxHeight: 'calc(90vh - 230px)',
+                      maxHeight: 'calc(90vh - 230px)'
                     }}
                   >
                     <Box
@@ -777,7 +713,7 @@ const AssetSpareModal = ({
                         overflowY: 'auto',
                         maxHeight: '100%',
                         m: 0,
-                        pt: 0.5,
+                        pt: 0.5
                       }}
                     >
                       {alldetailsService.length !== 0 ? (
@@ -789,136 +725,104 @@ const AssetSpareModal = ({
                                   <Box sx={{ px: 1, borderRadius: 10 }}>{index + 1}.</Box>
                                   <Box sx={{ flex: 1 }}>
                                     <Box sx={{ flex: 1, display: 'flex' }}>
-                                      <Typography sx={{ flex: 1, fontSize: 15 }}>
-                                        Ticket No.
-                                      </Typography>
+                                      <Typography sx={{ flex: 1, fontSize: 15 }}>Ticket No.</Typography>
                                       <Typography
                                         sx={{
                                           flex: 4,
                                           fontWeight: 600,
                                           color: 'Black',
-                                          fontSize: 13,
+                                          fontSize: 13
                                         }}
                                       >
-                                        :{' '}
-                                        {val.complaint_slno !== null
-                                          ? val.complaint_slno
-                                          : 'Not Updated'}
+                                        : {val.complaint_slno !== null ? val.complaint_slno : 'Not Updated'}
                                       </Typography>
                                     </Box>
                                     <Box sx={{ flex: 1, display: 'flex' }}>
-                                      <Typography sx={{ flex: 1, fontSize: 15 }}>
-                                        Ticket type.
-                                      </Typography>
+                                      <Typography sx={{ flex: 1, fontSize: 15 }}>Ticket type.</Typography>
                                       <Typography
                                         sx={{
                                           flex: 4,
                                           fontWeight: 600,
                                           color: 'Black',
-                                          fontSize: 13,
+                                          fontSize: 13
                                         }}
                                       >
-                                        :{' '}
-                                        {val.complaint_type_name !== null
-                                          ? val.complaint_type_name
-                                          : 'Not Updated'}
+                                        : {val.complaint_type_name !== null ? val.complaint_type_name : 'Not Updated'}
                                       </Typography>
                                     </Box>
                                     <Box sx={{ flex: 1, display: 'flex' }}>
-                                      <Typography sx={{ flex: 1, fontSize: 15 }}>
-                                        Ticket desc.
-                                      </Typography>
+                                      <Typography sx={{ flex: 1, fontSize: 15 }}>Ticket desc.</Typography>
                                       <Typography
                                         sx={{
                                           flex: 4,
                                           fontWeight: 600,
                                           color: 'Black',
-                                          fontSize: 13,
+                                          fontSize: 13
                                         }}
                                       >
-                                        :{' '}
-                                        {val.complaint_desc !== null
-                                          ? val.complaint_desc
-                                          : 'Not Updated'}
+                                        : {val.complaint_desc !== null ? val.complaint_desc : 'Not Updated'}
                                       </Typography>
                                     </Box>
                                     <Box sx={{ flex: 1, display: 'flex' }}>
-                                      <Typography sx={{ flex: 1, fontSize: 15 }}>
-                                        Section
-                                      </Typography>
+                                      <Typography sx={{ flex: 1, fontSize: 15 }}>Section</Typography>
                                       <Typography
                                         sx={{
                                           flex: 4,
                                           fontWeight: 600,
                                           color: 'Black',
-                                          fontSize: 13,
+                                          fontSize: 13
                                         }}
                                       >
                                         : {val.sec_name !== null ? val.sec_name : 'Not Updated'}
                                       </Typography>
                                     </Box>
                                     <Box sx={{ flex: 1, display: 'flex' }}>
-                                      <Typography sx={{ flex: 1, fontSize: 15 }}>
-                                        Location
-                                      </Typography>
+                                      <Typography sx={{ flex: 1, fontSize: 15 }}>Location</Typography>
                                       <Typography
                                         sx={{
                                           flex: 4,
                                           fontWeight: 600,
                                           color: 'Black',
-                                          fontSize: 13,
+                                          fontSize: 13
                                         }}
                                       >
                                         : {val.rm_room_name}
-                                        {val.rm_roomtype_name ||
-                                          val.rm_insidebuildblock_name ||
-                                          val.rm_floor_name
-                                          ? ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name
-                                            ? ' - '
-                                            : ''
-                                          }
-                                                                ${val.rm_insidebuildblock_name
-                                            ? val.rm_insidebuildblock_name
-                                            : ''
-                                          }${val.rm_insidebuildblock_name && val.rm_floor_name
-                                            ? ' - '
-                                            : ''
-                                          }
-                                                                ${val.rm_floor_name
-                                            ? val.rm_floor_name
-                                            : ''
-                                          })`
+                                        {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name
+                                          ? ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${
+                                              val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
+                                            }
+                                                                ${
+                                                                  val.rm_insidebuildblock_name
+                                                                    ? val.rm_insidebuildblock_name
+                                                                    : ''
+                                                                }${
+                                              val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
+                                            }
+                                                                ${val.rm_floor_name ? val.rm_floor_name : ''})`
                                           : 'Not Updated'}
                                       </Typography>
                                     </Box>
                                     <Box sx={{ flex: 1, display: 'flex' }}>
-                                      <Typography sx={{ flex: 1, fontSize: 15 }}>
-                                        Registered Date
-                                      </Typography>
+                                      <Typography sx={{ flex: 1, fontSize: 15 }}>Registered Date</Typography>
                                       <Typography
                                         sx={{
                                           flex: 4,
                                           fontWeight: 600,
                                           color: 'Black',
-                                          fontSize: 13,
+                                          fontSize: 13
                                         }}
                                       >
-                                        :{' '}
-                                        {val.compalint_date !== null
-                                          ? val.compalint_date
-                                          : 'Not Updated'}
+                                        : {val.compalint_date !== null ? val.compalint_date : 'Not Updated'}
                                       </Typography>
                                     </Box>
                                     <Box sx={{ flex: 1, display: 'flex' }}>
-                                      <Typography sx={{ flex: 1, fontSize: 15 }}>
-                                        Assignees
-                                      </Typography>
+                                      <Typography sx={{ flex: 1, fontSize: 15 }}>Assignees</Typography>
                                       <Box
                                         sx={{
                                           flex: 4,
                                           fontWeight: 600,
                                           color: 'Black',
-                                          fontSize: 13,
+                                          fontSize: 13
                                         }}
                                       >
                                         {val.assigned_employees
@@ -933,7 +837,7 @@ const AssetSpareModal = ({
                                                 bgcolor: '#D3C7A1',
                                                 fontSize: 13,
                                                 px: 0.8,
-                                                marginRight: 0.1,
+                                                marginRight: 0.1
                                               }}
                                             >
                                               {name.trim()}
@@ -942,16 +846,14 @@ const AssetSpareModal = ({
                                       </Box>
                                     </Box>
                                     <Box sx={{ flex: 1, display: 'flex' }}>
-                                      <Typography sx={{ flex: 1, fontSize: 15 }}>
-                                        Ticket Attachments
-                                      </Typography>
+                                      <Typography sx={{ flex: 1, fontSize: 15 }}>Ticket Attachments</Typography>
                                       <Box
                                         sx={{
                                           flex: 4,
                                           fontWeight: 600,
                                           color: 'Black',
                                           fontSize: 13,
-                                          pt: 0.5,
+                                          pt: 0.5
                                         }}
                                       >
                                         <Box
@@ -962,7 +864,7 @@ const AssetSpareModal = ({
                                             width: 85,
                                             pl: 1,
                                             borderRadius: 10,
-                                            cursor: 'pointer',
+                                            cursor: 'pointer'
                                           }}
                                         >
                                           <FilePresentRoundedIcon
@@ -971,7 +873,7 @@ const AssetSpareModal = ({
                                               cursor: 'pointer',
                                               height: 20,
                                               width: 18,
-                                              pb: 0.1,
+                                              pb: 0.1
                                             }}
                                           />
                                           file view
@@ -987,7 +889,7 @@ const AssetSpareModal = ({
                                         fontWeight: 600,
                                         color: 'Black',
                                         fontSize: 13,
-                                        mr: 3,
+                                        mr: 3
                                       }}
                                     >
                                       <Box
@@ -996,7 +898,7 @@ const AssetSpareModal = ({
                                           pl: 0.5,
                                           flex: 1,
                                           mt: 0.5,
-                                          bgcolor: '#EBEFFB',
+                                          bgcolor: '#EBEFFB'
                                         }}
                                       >
                                         <Box sx={{ flex: 0.3 }}>#</Box>
@@ -1005,61 +907,48 @@ const AssetSpareModal = ({
                                         <Box sx={{ flex: 3 }}>Issues Identified</Box>
                                         <Box sx={{ flex: 3 }}>Remarks</Box>
                                       </Box>
-                                      {deptServiceempList[val.serviced_emp_details_slno]?.map(
-                                        (emp, index) => (
-                                          <Box
-                                            key={index}
-                                            sx={{
-                                              display: 'flex',
-                                              pl: 0.5,
-                                              flex: 1,
-                                              mt: 0.5,
-                                              borderBottom: 1,
-                                              borderBottomColor: 'lightgrey',
-                                            }}
-                                          >
-                                            <Box sx={{ flex: 0.3 }}>{index + 1}</Box>
-                                            <Box sx={{ flex: 1 }}>{emp.em_name}</Box>
-                                            <Box sx={{ flex: 2 }}>{emp.serviced_date}</Box>
-                                            <Box sx={{ flex: 3 }}>
-                                              {emp.service_issues_identified}
-                                            </Box>
-                                            <Box sx={{ flex: 3 }}>{emp.serviced_issue_remarks}</Box>
-                                          </Box>
-                                        )
-                                      )}
+                                      {deptServiceempList[val.serviced_emp_details_slno]?.map((emp, index) => (
+                                        <Box
+                                          key={index}
+                                          sx={{
+                                            display: 'flex',
+                                            pl: 0.5,
+                                            flex: 1,
+                                            mt: 0.5,
+                                            borderBottom: 1,
+                                            borderBottomColor: 'lightgrey'
+                                          }}
+                                        >
+                                          <Box sx={{ flex: 0.3 }}>{index + 1}</Box>
+                                          <Box sx={{ flex: 1 }}>{emp.em_name}</Box>
+                                          <Box sx={{ flex: 2 }}>{emp.serviced_date}</Box>
+                                          <Box sx={{ flex: 3 }}>{emp.service_issues_identified}</Box>
+                                          <Box sx={{ flex: 3 }}>{emp.serviced_issue_remarks}</Box>
+                                        </Box>
+                                      ))}
                                     </Box>
-                                    <Typography sx={{ fontWeight: 700, mt: 2 }}>
-                                      Supplier serviced Details
-                                    </Typography>
+                                    <Typography sx={{ fontWeight: 700, mt: 2 }}>Supplier serviced Details</Typography>
                                     <Box sx={{ flex: 1, display: 'flex' }}>
-                                      <Typography sx={{ flex: 1, fontSize: 15 }}>
-                                        Serviced Date
-                                      </Typography>
+                                      <Typography sx={{ flex: 1, fontSize: 15 }}>Serviced Date</Typography>
                                       <Typography
                                         sx={{
                                           flex: 4,
                                           fontWeight: 600,
                                           color: 'Black',
-                                          fontSize: 13,
+                                          fontSize: 13
                                         }}
                                       >
-                                        :{' '}
-                                        {val.suppl_serviced_date !== null
-                                          ? val.suppl_serviced_date
-                                          : 'Not Updated'}
+                                        : {val.suppl_serviced_date !== null ? val.suppl_serviced_date : 'Not Updated'}
                                       </Typography>
                                     </Box>
                                     <Box sx={{ flex: 1, display: 'flex' }}>
-                                      <Typography sx={{ flex: 1, fontSize: 15 }}>
-                                        Services Performed
-                                      </Typography>
+                                      <Typography sx={{ flex: 1, fontSize: 15 }}>Services Performed</Typography>
                                       <Typography
                                         sx={{
                                           flex: 4,
                                           fontWeight: 600,
                                           color: 'Black',
-                                          fontSize: 13,
+                                          fontSize: 13
                                         }}
                                       >
                                         :{' '}
@@ -1069,37 +958,28 @@ const AssetSpareModal = ({
                                       </Typography>
                                     </Box>
 
-                                    <Typography sx={{ fontWeight: 700, mt: 2 }}>
-                                      Restore Details
-                                    </Typography>
+                                    <Typography sx={{ fontWeight: 700, mt: 2 }}>Restore Details</Typography>
                                     <Box sx={{ flex: 1, display: 'flex' }}>
-                                      <Typography sx={{ flex: 1, fontSize: 15 }}>
-                                        Restore Date
-                                      </Typography>
+                                      <Typography sx={{ flex: 1, fontSize: 15 }}>Restore Date</Typography>
                                       <Typography
                                         sx={{
                                           flex: 4,
                                           fontWeight: 600,
                                           color: 'Black',
-                                          fontSize: 13,
+                                          fontSize: 13
                                         }}
                                       >
-                                        :{' '}
-                                        {val.add_to_store_date !== null
-                                          ? val.add_to_store_date
-                                          : 'Not Updated'}
+                                        : {val.add_to_store_date !== null ? val.add_to_store_date : 'Not Updated'}
                                       </Typography>
                                     </Box>
                                     <Box sx={{ flex: 1, display: 'flex' }}>
-                                      <Typography sx={{ flex: 1, fontSize: 15 }}>
-                                        Restored Employee
-                                      </Typography>
+                                      <Typography sx={{ flex: 1, fontSize: 15 }}>Restored Employee</Typography>
                                       <Typography
                                         sx={{
                                           flex: 4,
                                           fontWeight: 600,
                                           color: 'Black',
-                                          fontSize: 13,
+                                          fontSize: 13
                                         }}
                                       >
                                         : {val.em_name !== null ? val.em_name : 'Not Updated'}
@@ -1118,7 +998,7 @@ const AssetSpareModal = ({
                                         flex: 4,
                                         fontSize: 13,
                                         mt: 1,
-                                        display: 'flex',
+                                        display: 'flex'
                                       }}
                                     >
                                       <FilePresentRoundedIcon
@@ -1127,7 +1007,7 @@ const AssetSpareModal = ({
                                           cursor: 'pointer',
                                           height: 20,
                                           width: 18,
-                                          pb: 0.1,
+                                          pb: 0.1
                                         }}
                                       />
                                       Attachments
@@ -1147,7 +1027,7 @@ const AssetSpareModal = ({
                             fontSize: 20,
                             flex: 1,
                             display: 'flex',
-                            justifyContent: 'center',
+                            justifyContent: 'center'
                           }}
                         >
                           No Service Done Yet!
@@ -1161,7 +1041,7 @@ const AssetSpareModal = ({
                       p: 0,
                       flexGrow: 1,
                       overflowY: 'auto',
-                      maxHeight: 'calc(90vh - 230px)',
+                      maxHeight: 'calc(90vh - 230px)'
                     }}
                   >
                     <Box
@@ -1170,7 +1050,7 @@ const AssetSpareModal = ({
                         overflowY: 'auto',
                         maxHeight: '100%',
                         m: 0,
-                        pt: 2,
+                        pt: 2
                       }}
                     >
                       {assetabout &&
@@ -1181,7 +1061,7 @@ const AssetSpareModal = ({
                             sx={{
                               display: 'grid',
                               gridTemplateColumns: 'repeat(2, 1fr)',
-                              gap: 1,
+                              gap: 1
                             }}
                           >
                             <Box
@@ -1190,41 +1070,33 @@ const AssetSpareModal = ({
                                 border: 1,
                                 borderRadius: 3,
                                 borderColor: '#EBEFFB',
-                                p: 1,
+                                p: 1
                               }}
                             >
                               <Typography
                                 sx={{
                                   flex: 1,
                                   fontWeight: 600,
-                                  color: '#394060',
+                                  color: '#394060'
                                 }}
                               >
                                 Purchase Bills
                               </Typography>
                               <Box sx={{ display: 'flex', flex: 1, mt: 1 }}>
                                 <Typography sx={{ width: 110 }}>Bill No.</Typography>
-                                <Typography sx={{ flex: 1 }}>
-                                  {item.am_bill_no || 'Not Updated'}
-                                </Typography>
+                                <Typography sx={{ flex: 1 }}>{item.am_bill_no || 'Not Updated'}</Typography>
                               </Box>
                               <Box sx={{ display: 'flex', flex: 1 }}>
                                 <Typography sx={{ width: 110 }}>Bill Date</Typography>
-                                <Typography sx={{ flex: 1 }}>
-                                  {item.am_bill_date || 'Not Updated'}
-                                </Typography>
+                                <Typography sx={{ flex: 1 }}>{item.am_bill_date || 'Not Updated'}</Typography>
                               </Box>
                               <Box sx={{ display: 'flex', flex: 1 }}>
                                 <Typography sx={{ width: 110 }}>Bill Amount</Typography>
-                                <Typography sx={{ flex: 1 }}>
-                                  {item.am_bill_amount || 'Not Updated'}
-                                </Typography>
+                                <Typography sx={{ flex: 1 }}>{item.am_bill_amount || 'Not Updated'}</Typography>
                               </Box>
                               <Box sx={{ display: 'flex', flex: 1 }}>
                                 <Typography sx={{ width: 110 }}>Supplier</Typography>
-                                <Typography sx={{ flex: 1 }}>
-                                  {item.bill_supplier_name || 'Not Updated'}
-                                </Typography>
+                                <Typography sx={{ flex: 1 }}>{item.bill_supplier_name || 'Not Updated'}</Typography>
                               </Box>
                               <Box
                                 sx={{ flex: 1, height: 40, width: 40, m: 1, cursor: 'pointer' }}
@@ -1244,7 +1116,7 @@ const AssetSpareModal = ({
                                 border: 1,
                                 borderRadius: 3,
                                 borderColor: '#EBEFFB',
-                                p: 1,
+                                p: 1
                               }}
                             >
                               <Typography
@@ -1252,35 +1124,25 @@ const AssetSpareModal = ({
                                   flex: 1,
                                   fontWeight: 600,
                                   color: '#394060',
-                                  pb: 1,
+                                  pb: 1
                                 }}
                               >
                                 AMC/CMC Details
                               </Typography>
                               <Chip sx={{ border: 1, borderColor: '#05445E' }}>
-                                {item.amc_status === 1
-                                  ? 'AMC'
-                                  : item.cmc_status === 1
-                                    ? 'CMC'
-                                    : 'not Updated'}
+                                {item.amc_status === 1 ? 'AMC' : item.cmc_status === 1 ? 'CMC' : 'not Updated'}
                               </Chip>
                               <Box sx={{ display: 'flex', flex: 1 }}>
                                 <Typography sx={{ width: 110 }}>From Date</Typography>
-                                <Typography sx={{ flex: 1 }}>
-                                  {item.from_date || 'Not Updated'}
-                                </Typography>
+                                <Typography sx={{ flex: 1 }}>{item.from_date || 'Not Updated'}</Typography>
                               </Box>
                               <Box sx={{ display: 'flex', flex: 1 }}>
                                 <Typography sx={{ width: 110 }}>To Date</Typography>
-                                <Typography sx={{ flex: 1 }}>
-                                  {item.to_date || 'Not Updated'}
-                                </Typography>
+                                <Typography sx={{ flex: 1 }}>{item.to_date || 'Not Updated'}</Typography>
                               </Box>
                               <Box sx={{ display: 'flex', flex: 1 }}>
                                 <Typography sx={{ width: 110 }}>Supplier</Typography>
-                                <Typography sx={{ flex: 1 }}>
-                                  {item.amc_cmc_suppliername || 'Not Updated'}
-                                </Typography>
+                                <Typography sx={{ flex: 1 }}>{item.amc_cmc_suppliername || 'Not Updated'}</Typography>
                               </Box>
                               <Box
                                 sx={{ flex: 1, height: 40, width: 40, m: 1, cursor: 'pointer' }}
@@ -1300,41 +1162,33 @@ const AssetSpareModal = ({
                                 border: 1,
                                 borderRadius: 3,
                                 borderColor: '#EBEFFB',
-                                p: 1,
+                                p: 1
                               }}
                             >
                               <Typography
                                 sx={{
                                   flex: 1,
                                   fontWeight: 600,
-                                  color: '#394060',
+                                  color: '#394060'
                                 }}
                               >
                                 Lease Details
                               </Typography>
                               <Box sx={{ display: 'flex', flex: 1, mt: 1 }}>
                                 <Typography sx={{ width: 110 }}>From Date</Typography>
-                                <Typography sx={{ flex: 1 }}>
-                                  {item.lease_fromdate || 'Not Updated'}
-                                </Typography>
+                                <Typography sx={{ flex: 1 }}>{item.lease_fromdate || 'Not Updated'}</Typography>
                               </Box>
                               <Box sx={{ display: 'flex', flex: 1 }}>
                                 <Typography sx={{ width: 110 }}>To Date</Typography>
-                                <Typography sx={{ flex: 1 }}>
-                                  {item.lease_todate || 'Not Updated'}
-                                </Typography>
+                                <Typography sx={{ flex: 1 }}>{item.lease_todate || 'Not Updated'}</Typography>
                               </Box>
                               <Box sx={{ display: 'flex', flex: 1 }}>
                                 <Typography sx={{ width: 110 }}>Lease Amount</Typography>
-                                <Typography sx={{ flex: 1 }}>
-                                  {item.lease_amount || 'Not Updated'}
-                                </Typography>
+                                <Typography sx={{ flex: 1 }}>{item.lease_amount || 'Not Updated'}</Typography>
                               </Box>
                               <Box sx={{ display: 'flex', flex: 1 }}>
                                 <Typography sx={{ width: 110 }}>Supplier</Typography>
-                                <Typography sx={{ flex: 1 }}>
-                                  {item.lease_suppliername || 'Not Updated'}
-                                </Typography>
+                                <Typography sx={{ flex: 1 }}>{item.lease_suppliername || 'Not Updated'}</Typography>
                               </Box>
                               <Box
                                 sx={{ flex: 1, height: 40, width: 40, m: 1, cursor: 'pointer' }}
@@ -1354,7 +1208,7 @@ const AssetSpareModal = ({
                                 border: 1,
                                 borderRadius: 3,
                                 borderColor: '#EBEFFB',
-                                p: 1,
+                                p: 1
                               }}
                             >
                               <Typography
@@ -1362,7 +1216,7 @@ const AssetSpareModal = ({
                                   flex: 1,
                                   fontWeight: 600,
                                   color: '#394060',
-                                  pb: 1,
+                                  pb: 1
                                 }}
                               >
                                 Warrenty/Guarantee Details
@@ -1371,44 +1225,32 @@ const AssetSpareModal = ({
                                 {item.warrenty_status === 1
                                   ? 'Warrenty'
                                   : item.guarenty_status === 1
-                                    ? 'Guarentee'
-                                    : 'Not Updated'}
+                                  ? 'Guarentee'
+                                  : 'Not Updated'}
                               </Chip>
                               <Box sx={{ display: 'flex', flex: 1 }}>
                                 <Typography sx={{ width: 110 }}>From Date</Typography>
-                                <Typography sx={{ flex: 1 }}>
-                                  {item.wargar_from_date || 'Not Updated'}
-                                </Typography>
+                                <Typography sx={{ flex: 1 }}>{item.wargar_from_date || 'Not Updated'}</Typography>
                               </Box>
                               <Box sx={{ display: 'flex', flex: 1 }}>
                                 <Typography sx={{ width: 110 }}>To Date</Typography>
-                                <Typography sx={{ flex: 1 }}>
-                                  {item.wargar_to_date || 'Not Updated'}
-                                </Typography>
+                                <Typography sx={{ flex: 1 }}>{item.wargar_to_date || 'Not Updated'}</Typography>
                               </Box>
                               <Box sx={{ display: 'flex', flex: 1 }}>
                                 <Typography sx={{ width: 110 }}>Toll Free No.</Typography>
-                                <Typography sx={{ flex: 1 }}>
-                                  {item.troll_free || 'Not Updated'}
-                                </Typography>
+                                <Typography sx={{ flex: 1 }}>{item.troll_free || 'Not Updated'}</Typography>
                               </Box>
                               <Box sx={{ display: 'flex', flex: 1 }}>
                                 <Typography sx={{ width: 110 }}>Contact No. 1</Typography>
-                                <Typography sx={{ flex: 1 }}>
-                                  {item.ph_one || 'Not Updated'}
-                                </Typography>
+                                <Typography sx={{ flex: 1 }}>{item.ph_one || 'Not Updated'}</Typography>
                               </Box>
                               <Box sx={{ display: 'flex', flex: 1 }}>
                                 <Typography sx={{ width: 110 }}>Contact No. 2</Typography>
-                                <Typography sx={{ flex: 1 }}>
-                                  {item.ph_two || 'Not Updated'}
-                                </Typography>
+                                <Typography sx={{ flex: 1 }}>{item.ph_two || 'Not Updated'}</Typography>
                               </Box>
                               <Box sx={{ display: 'flex', flex: 1 }}>
                                 <Typography sx={{ width: 110 }}>Address</Typography>
-                                <Typography sx={{ flex: 1 }}>
-                                  {item.address || 'Not Updated'}
-                                </Typography>
+                                <Typography sx={{ flex: 1 }}>{item.address || 'Not Updated'}</Typography>
                               </Box>
                             </Box>
                           </Box>

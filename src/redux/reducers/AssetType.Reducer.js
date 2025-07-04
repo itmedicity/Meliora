@@ -3,7 +3,7 @@ const { FETCH_ASSET_TYPE } = ActionTyps
 //intial state
 const assettypename = {
   assettypeList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Complaint Department action type check then payload set to the state and loading status set as true */
 export const getAssetType = (state = assettypename, { type, payload }) => {

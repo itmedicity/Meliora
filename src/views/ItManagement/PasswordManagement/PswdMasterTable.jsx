@@ -51,7 +51,7 @@ const PswdMasterTable = ({ rowSelect, tabledata, setTabledata, searchData }) => 
               pt: 1,
               fontWeight: 500,
               fontSize: 18,
-              color: '#C7C8CB',
+              color: '#C7C8CB'
             }}
           >
             <Box sx={{ flex: 1 }}>
@@ -69,9 +69,7 @@ const PswdMasterTable = ({ rowSelect, tabledata, setTabledata, searchData }) => 
               </Box>
             </Tooltip>
             <Tooltip title="refresh" placement="bottom">
-              <Box
-                sx={{ ml: 0.5, border: 1, borderRadius: 7, color: '#055C9D', cursor: 'pointer' }}
-              >
+              <Box sx={{ ml: 0.5, border: 1, borderRadius: 7, color: '#055C9D', cursor: 'pointer' }}>
                 {' '}
                 <ReplayIcon sx={{ color: '#055C9D' }} onClick={refresh} />
               </Box>
@@ -81,10 +79,7 @@ const PswdMasterTable = ({ rowSelect, tabledata, setTabledata, searchData }) => 
         <Box sx={{ flex: 1 }}></Box>
       </Box>
       {tabledata.length !== 0 ? (
-        <Paper
-          variant="outlined"
-          sx={{ maxHeight: '100%', maxWidth: '100%', overflow: 'auto', m: 1 }}
-        >
+        <Paper variant="outlined" sx={{ maxHeight: '100%', maxWidth: '100%', overflow: 'auto', m: 1 }}>
           <CssVarsProvider>
             <Table padding={'none'} stickyHeader hoverRow>
               <thead>
@@ -110,11 +105,7 @@ const PswdMasterTable = ({ rowSelect, tabledata, setTabledata, searchData }) => 
                       // }}
                     >
                       <td>
-                        <EditIcon
-                          sx={{ cursor: 'pointer' }}
-                          size={6}
-                          onClick={() => rowSelect(val)}
-                        />
+                        <EditIcon sx={{ cursor: 'pointer' }} size={6} onClick={() => rowSelect(val)} />
                       </td>
                       <td> {index + 1}</td>
                       <td> {val.pswd_mast_asset_no || 'not given'}</td>

@@ -21,7 +21,7 @@ const CustomReportOne = ({
   onClick,
   startdate,
   setstartDate,
-  setdayselect,
+  setdayselect
 }) => {
   const history = useNavigate()
   const dispatch = useDispatch()
@@ -48,20 +48,20 @@ const CustomReportOne = ({
         square
         sx={{
           height: { xs: 550, sm: 550, md: 400, lg: 400, xl: 850 },
-          p: 0.5,
+          p: 0.5
         }}
       >
         <Box
           sx={{
             display: 'flex',
-            flexDirection: 'row',
+            flexDirection: 'row'
           }}
         >
           <Paper
             square
             sx={{
               width: { md: '20%', lg: '20%', xl: '15%' },
-              height: { xs: 540, sm: 540, md: 400, lg: 400, xl: 840 },
+              height: { xs: 540, sm: 540, md: 400, lg: 400, xl: 840 }
             }}
           >
             <Paper
@@ -73,7 +73,7 @@ const CustomReportOne = ({
                 flexDirection: 'row',
                 alignItems: 'flex-start',
                 gap: 0.1,
-                p: 0.3,
+                p: 0.3
               }}
             >
               <CusIconButton variant="outlined" size="sm" color="success" onClick={onClick}>
@@ -86,7 +86,7 @@ const CustomReportOne = ({
                 // backgroundColor: 'blue',
                 px: 1,
                 py: 3,
-                alignItems: 'flex-start',
+                alignItems: 'flex-start'
               }}
             >
               <TextFieldCustom
@@ -106,7 +106,7 @@ const CustomReportOne = ({
                 px: 1,
                 py: 3,
                 alignItems: 'flex-start',
-                height: { xs: 350, sm: 350, md: 350, lg: 350, xl: 350 },
+                height: { xs: 350, sm: 350, md: 350, lg: 350, xl: 350 }
               }}
             >
               <CustomReportMenuSelect
@@ -116,7 +116,7 @@ const CustomReportOne = ({
                 sx={{
                   height: { xs: 350, sm: 350, md: 350, lg: 350, xl: 350 },
                   width: '100%',
-                  pt: 3,
+                  pt: 3
                 }}
               />
             </Paper>
@@ -126,7 +126,7 @@ const CustomReportOne = ({
             sx={{
               backgroundColor: 'black',
               width: { md: '80%', lg: '80%', xl: '85%' },
-              height: { xs: 540, sm: 540, md: 540, lg: 548, xl: 840 },
+              height: { xs: 540, sm: 540, md: 540, lg: 548, xl: 840 }
             }}
           >
             {/* Rigth Side Menu  */}
@@ -141,7 +141,7 @@ const CustomReportOne = ({
                 gap: 0.1,
                 p: 0.3,
                 borderLeft: 2,
-                borderColor: '#d3d3d3',
+                borderColor: '#d3d3d3'
               }}
             >
               <CustomeToolTip title="Close" placement="bottom">
@@ -153,12 +153,7 @@ const CustomReportOne = ({
               </CustomeToolTip>
               <CustomeToolTip title="Download" placement="bottom">
                 <Box>
-                  <CusIconButton
-                    variant="outlined"
-                    size="sm"
-                    color="success"
-                    onClick={onExportClick}
-                  >
+                  <CusIconButton variant="outlined" size="sm" color="success" onClick={onExportClick}>
                     <DownloadIcon />
                   </CusIconButton>
                 </Box>
@@ -167,14 +162,11 @@ const CustomReportOne = ({
             <Box
               sx={{
                 borderLeft: 2,
-                borderColor: '#d3d3d3',
+                borderColor: '#d3d3d3'
               }}
             >
               {/* Table Component */}
-              <CustomAGReportDispaly
-                columnDefForTable={columnDefForTable}
-                tableDataForTable={tableDataForTable}
-              />
+              <CustomAGReportDispaly columnDefForTable={columnDefForTable} tableDataForTable={tableDataForTable} />
             </Box>
             {/* Rigth Side Menu  */}
           </Paper>

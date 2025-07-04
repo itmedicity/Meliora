@@ -3,7 +3,7 @@ const { FETCH_STORE_RECEIVE_PENDING, FETCH_STORE_RECEIVE_ALL } = ActionTyps
 
 const CRMStorePending = {
   setCRMStorePendingList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 export const getStoreReceivePendingReducer = (state = CRMStorePending, { type, payload }) => {
   switch (type) {
@@ -16,7 +16,7 @@ export const getStoreReceivePendingReducer = (state = CRMStorePending, { type, p
 
 const CRMStoreAllData = {
   setCRMStoreAllList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 export const getStoreReceiveAllReducer = (state = CRMStoreAllData, { type, payload }) => {
   switch (type) {

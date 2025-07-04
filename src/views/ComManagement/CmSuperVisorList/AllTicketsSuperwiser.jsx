@@ -68,7 +68,7 @@ const AllTicketsSuperwiser = ({ forVerifyList, count, setCount, forverifyLength,
 
   const searchDate = useMemo(() => {
     return {
-      complaint_deptslno: empdept,
+      complaint_deptslno: empdept
     }
   }, [empdept])
 
@@ -79,16 +79,12 @@ const AllTicketsSuperwiser = ({ forVerifyList, count, setCount, forverifyLength,
       if (success === 2) {
         const PendingCompl = data.filter(
           complaint =>
-            complaint.complaint_status !== 2 &&
-            complaint.complaint_status !== 3 &&
-            complaint.cm_rectify_status !== 'O'
+            complaint.complaint_status !== 2 && complaint.complaint_status !== 3 && complaint.cm_rectify_status !== 'O'
         )
 
         const OnholdCompl = data.filter(
           complaint =>
-            complaint.complaint_status !== 2 &&
-            complaint.complaint_status !== 3 &&
-            complaint.cm_rectify_status === 'O'
+            complaint.complaint_status !== 2 && complaint.complaint_status !== 3 && complaint.cm_rectify_status === 'O'
         )
         setpendingCompl(PendingCompl)
         setOnholdCompl(OnholdCompl)
@@ -113,7 +109,7 @@ const AllTicketsSuperwiser = ({ forVerifyList, count, setCount, forverifyLength,
           justifyContent: 'center',
           bgcolor: 'white',
           pt: 4,
-          gap: 3,
+          gap: 3
         }}
       >
         <Badge badgeContent={forverifyLength} color="primary">
@@ -181,12 +177,7 @@ const AllTicketsSuperwiser = ({ forVerifyList, count, setCount, forverifyLength,
         )}
         {holdCheck === 1 ? (
           <Box>
-            <OnholdInAllList
-              onholdCompl={onholdCompl}
-              count={count}
-              setCount={setCount}
-              menurights={menurights}
-            />
+            <OnholdInAllList onholdCompl={onholdCompl} count={count} setCount={setCount} menurights={menurights} />
           </Box>
         ) : (
           <Box></Box>

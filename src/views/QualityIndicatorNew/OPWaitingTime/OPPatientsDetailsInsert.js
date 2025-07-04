@@ -5,7 +5,7 @@ import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 export const OPPatientsDetailsInsert = async (qidept, depCode, searchDate, id) => {
   const patchdata = {
     last_updatedate: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
-    qi_dept_no: qidept,
+    qi_dept_no: qidept
   }
   const getLastDate = async qidept => {
     const result = await axioslogin.get(`/qiendoscopy/getlast/${qidept}`)
@@ -38,7 +38,7 @@ export const OPPatientsDetailsInsert = async (qidept, depCode, searchDate, id) =
       const elliderSearch = {
         from: format(new Date(last_updatedate), 'dd/MM/yyyy HH:mm:ss'),
         to: format(new Date(), 'dd/MM/yyyy 23:59:59'),
-        depCode: depCode,
+        depCode: depCode
       }
       GetElliderData(elliderSearch).then(value => {
         const { success, data } = value
@@ -52,13 +52,9 @@ export const OPPatientsDetailsInsert = async (qidept, depCode, searchDate, id) =
               doctor_name: val.DOC_NAME,
               qi_dept_no: qidept,
               assessment_start:
-                val.ASSESS_START_DATE !== null
-                  ? format(new Date(val.ASSESS_START_DATE), 'yyyy-MM-dd HH:mm:ss')
-                  : null,
+                val.ASSESS_START_DATE !== null ? format(new Date(val.ASSESS_START_DATE), 'yyyy-MM-dd HH:mm:ss') : null,
               assessment_end:
-                val.ASSESS_END_DATE !== null
-                  ? format(new Date(val.ASSESS_END_DATE), 'yyyy-MM-dd HH:mm:ss')
-                  : null,
+                val.ASSESS_END_DATE !== null ? format(new Date(val.ASSESS_END_DATE), 'yyyy-MM-dd HH:mm:ss') : null,
               sumof_service_time: val.SERVICE_TIME === null ? 0 : val.SERVICE_TIME,
               create_user: id,
               consult_start_date:
@@ -66,21 +62,14 @@ export const OPPatientsDetailsInsert = async (qidept, depCode, searchDate, id) =
                   ? null
                   : format(new Date(val.CONSULT_START_DATE), 'yyyy-MM-dd HH:mm:ss'),
               complaint_entry_date:
-                val.COMP_DATE === null
-                  ? null
-                  : format(new Date(val.COMP_DATE), 'yyyy-MM-dd HH:mm:ss'),
+                val.COMP_DATE === null ? null : format(new Date(val.COMP_DATE), 'yyyy-MM-dd HH:mm:ss'),
               investigation_req_date:
                 val.INVESTIGATION_DATE === null
                   ? null
                   : format(new Date(val.INVESTIGATION_DATE), 'yyyy-MM-dd HH:mm:ss'),
               prescription_req_date:
-                val.PRESCRIPTION_DATE === null
-                  ? null
-                  : format(new Date(val.PRESCRIPTION_DATE), 'yyyy-MM-dd HH:mm:ss'),
-              reference_req_date:
-                val.VRD_DATE === null
-                  ? null
-                  : format(new Date(val.VRD_DATE), 'yyyy-MM-dd HH:mm:ss'),
+                val.PRESCRIPTION_DATE === null ? null : format(new Date(val.PRESCRIPTION_DATE), 'yyyy-MM-dd HH:mm:ss'),
+              reference_req_date: val.VRD_DATE === null ? null : format(new Date(val.VRD_DATE), 'yyyy-MM-dd HH:mm:ss')
             }
           })
           InsertData(insertArray).then(val => {
@@ -89,7 +78,7 @@ export const OPPatientsDetailsInsert = async (qidept, depCode, searchDate, id) =
               const updateSearch = {
                 from: format(new Date(searchDate), 'dd/MM/yyyy 00:00:00'),
                 to: format(new Date(searchDate), 'dd/MM/yyyy 23:59:59'),
-                depCode: depCode,
+                depCode: depCode
               }
               GetServiceTimeForUpdate(updateSearch).then(value => {
                 const { success, data } = value
@@ -113,9 +102,7 @@ export const OPPatientsDetailsInsert = async (qidept, depCode, searchDate, id) =
                           ? null
                           : format(new Date(val.CONSULT_START_DATE), 'yyyy-MM-dd HH:mm:ss'),
                       complaint_entry_date:
-                        val.COMP_DATE === null
-                          ? null
-                          : format(new Date(val.COMP_DATE), 'yyyy-MM-dd HH:mm:ss'),
+                        val.COMP_DATE === null ? null : format(new Date(val.COMP_DATE), 'yyyy-MM-dd HH:mm:ss'),
                       investigation_req_date:
                         val.INVESTIGATION_DATE === null
                           ? null
@@ -125,9 +112,7 @@ export const OPPatientsDetailsInsert = async (qidept, depCode, searchDate, id) =
                           ? null
                           : format(new Date(val.PRESCRIPTION_DATE), 'yyyy-MM-dd HH:mm:ss'),
                       reference_req_date:
-                        val.VRD_DATE === null
-                          ? null
-                          : format(new Date(val.VRD_DATE), 'yyyy-MM-dd HH:mm:ss'),
+                        val.VRD_DATE === null ? null : format(new Date(val.VRD_DATE), 'yyyy-MM-dd HH:mm:ss')
                     }
                   })
                   UpdateServiceTime(updateArray).then(value => {
@@ -144,7 +129,7 @@ export const OPPatientsDetailsInsert = async (qidept, depCode, searchDate, id) =
           const updateSearch = {
             from: format(new Date(searchDate), 'dd/MM/yyyy 00:00:00'),
             to: format(new Date(searchDate), 'dd/MM/yyyy 23:59:59'),
-            depCode: depCode,
+            depCode: depCode
           }
           GetServiceTimeForUpdate(updateSearch).then(value => {
             const { success, data } = value
@@ -159,18 +144,14 @@ export const OPPatientsDetailsInsert = async (qidept, depCode, searchDate, id) =
                       ? format(new Date(val.ASSESS_START_DATE), 'yyyy-MM-dd HH:mm:ss')
                       : null,
                   assessment_end:
-                    val.ASSESS_END_DATE !== null
-                      ? format(new Date(val.ASSESS_END_DATE), 'yyyy-MM-dd HH:mm:ss')
-                      : null,
+                    val.ASSESS_END_DATE !== null ? format(new Date(val.ASSESS_END_DATE), 'yyyy-MM-dd HH:mm:ss') : null,
                   sumof_service_time: val.SERVICE_TIME === null ? 0 : val.SERVICE_TIME,
                   consult_start_date:
                     val.CONSULT_START_DATE === null
                       ? null
                       : format(new Date(val.CONSULT_START_DATE), 'yyyy-MM-dd HH:mm:ss'),
                   complaint_entry_date:
-                    val.COMP_DATE === null
-                      ? null
-                      : format(new Date(val.COMP_DATE), 'yyyy-MM-dd HH:mm:ss'),
+                    val.COMP_DATE === null ? null : format(new Date(val.COMP_DATE), 'yyyy-MM-dd HH:mm:ss'),
                   investigation_req_date:
                     val.INVESTIGATION_DATE === null
                       ? null
@@ -180,9 +161,7 @@ export const OPPatientsDetailsInsert = async (qidept, depCode, searchDate, id) =
                       ? null
                       : format(new Date(val.PRESCRIPTION_DATE), 'yyyy-MM-dd HH:mm:ss'),
                   reference_req_date:
-                    val.VRD_DATE === null
-                      ? null
-                      : format(new Date(val.VRD_DATE), 'yyyy-MM-dd HH:mm:ss'),
+                    val.VRD_DATE === null ? null : format(new Date(val.VRD_DATE), 'yyyy-MM-dd HH:mm:ss')
                 }
               })
               UpdateServiceTime(updateArray).then(value => {
@@ -206,7 +185,7 @@ export const OPPatientsDetailsInsert = async (qidept, depCode, searchDate, id) =
       const elliderSearch = {
         from: format(new Date(searchDate), 'dd/MM/yyyy 00:00:00'),
         to: format(new Date(), 'dd/MM/yyyy 23:59:59'),
-        depCode: depCode,
+        depCode: depCode
       }
       GetElliderData(elliderSearch).then(value => {
         const { success, data } = value
@@ -220,13 +199,9 @@ export const OPPatientsDetailsInsert = async (qidept, depCode, searchDate, id) =
               doctor_name: val.DOC_NAME,
               qi_dept_no: qidept,
               assessment_start:
-                val.ASSESS_START_DATE !== null
-                  ? format(new Date(val.ASSESS_START_DATE), 'yyyy-MM-dd HH:mm:ss')
-                  : null,
+                val.ASSESS_START_DATE !== null ? format(new Date(val.ASSESS_START_DATE), 'yyyy-MM-dd HH:mm:ss') : null,
               assessment_end:
-                val.ASSESS_END_DATE !== null
-                  ? format(new Date(val.ASSESS_END_DATE), 'yyyy-MM-dd HH:mm:ss')
-                  : null,
+                val.ASSESS_END_DATE !== null ? format(new Date(val.ASSESS_END_DATE), 'yyyy-MM-dd HH:mm:ss') : null,
               sumof_service_time: val.SERVICE_TIME === null ? 0 : val.SERVICE_TIME,
               create_user: id,
               consult_start_date:
@@ -234,21 +209,14 @@ export const OPPatientsDetailsInsert = async (qidept, depCode, searchDate, id) =
                   ? format(new Date(val.CONSULT_START_DATE), 'yyyy-MM-dd HH:mm:ss')
                   : null,
               complaint_entry_date:
-                val.COMP_DATE === null
-                  ? null
-                  : format(new Date(val.COMP_DATE), 'yyyy-MM-dd HH:mm:ss'),
+                val.COMP_DATE === null ? null : format(new Date(val.COMP_DATE), 'yyyy-MM-dd HH:mm:ss'),
               investigation_req_date:
                 val.INVESTIGATION_DATE === null
                   ? null
                   : format(new Date(val.INVESTIGATION_DATE), 'yyyy-MM-dd HH:mm:ss'),
               prescription_req_date:
-                val.PRESCRIPTION_DATE === null
-                  ? null
-                  : format(new Date(val.PRESCRIPTION_DATE), 'yyyy-MM-dd HH:mm:ss'),
-              reference_req_date:
-                val.VRD_DATE === null
-                  ? null
-                  : format(new Date(val.VRD_DATE), 'yyyy-MM-dd HH:mm:ss'),
+                val.PRESCRIPTION_DATE === null ? null : format(new Date(val.PRESCRIPTION_DATE), 'yyyy-MM-dd HH:mm:ss'),
+              reference_req_date: val.VRD_DATE === null ? null : format(new Date(val.VRD_DATE), 'yyyy-MM-dd HH:mm:ss')
             }
           })
           InsertData(insertArray).then(val => {

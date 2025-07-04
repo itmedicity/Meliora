@@ -15,7 +15,7 @@ const TextFieldCustom = ({
   slotProps,
   defaultValue,
   name,
-  disabled,
+  disabled
 }) => {
   // --- size --> sm,lg,md Default medium Size
 

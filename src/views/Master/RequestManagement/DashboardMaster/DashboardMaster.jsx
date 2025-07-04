@@ -41,7 +41,7 @@ const DashboardMaster = () => {
           selectedValues: selectedValues,
           dept: dept,
           empId: empname,
-          deptsec: deptsec,
+          deptsec: deptsec
         }
         if (UpdateFlag === 1) {
           const result = await axioslogin.post('/newCRFRegister/DashBoardMaster/update', postData)
@@ -77,17 +77,12 @@ const DashboardMaster = () => {
   const dashboards = [
     { id: 1, name: 'CRF Status' },
     { id: 2, name: 'CRF Purchase Status' },
-    { id: 3, name: 'CRF Store Status' },
+    { id: 3, name: 'CRF Store Status' }
   ]
 
   return (
     <CssVarsProvider>
-      <CardMaster
-        title="DashBoard  Master"
-        submit={submitDashBoard}
-        close={backtoSetting}
-        refresh={refreshWindow}
-      >
+      <CardMaster title="DashBoard  Master" submit={submitDashBoard} close={backtoSetting} refresh={refreshWindow}>
         <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
           <Box sx={{ width: '50%', p: 1 }}>
             <Box sx={{}}>
@@ -111,7 +106,7 @@ const DashboardMaster = () => {
                   lineHeight: 1.2,
                   width: '100%',
                   backgroundColor: 'white',
-                  fontSize: 14,
+                  fontSize: 14
                 }}
                 value={dashboards?.filter(d => selectedValues.includes(d.id))}
                 onChange={(_, newValue) => {

@@ -12,7 +12,7 @@ const BillAddingModal = ({ BillArray, rowSelect }) => {
         minHeight: 150,
         maxHeight: 200,
         overflow: 'auto',
-        flex: 1,
+        flex: 1
       }}
     >
       <CssVarsProvider>
@@ -40,11 +40,7 @@ const BillAddingModal = ({ BillArray, rowSelect }) => {
                     <td> {val.it_supplier_name}</td>
                     <td> {val.am_bill_date}</td>
                     <td>
-                      <AddCircleOutlineIcon
-                        size={6}
-                        color="primary"
-                        onClick={() => rowSelect(val)}
-                      />
+                      <AddCircleOutlineIcon size={6} color="primary" onClick={() => rowSelect(val)} />
                     </td>
                   </tr>
                 )

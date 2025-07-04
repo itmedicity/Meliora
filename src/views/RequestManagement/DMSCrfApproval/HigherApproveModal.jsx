@@ -1,9 +1,9 @@
 import React, { Fragment, useCallback, useState, memo, useEffect } from 'react'
-import Slide from '@mui/material/Slide';
+import Slide from '@mui/material/Slide'
 // import { ToastContainer } from 'react-toastify';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import Button from '@mui/material/Button'
 import { Box, Paper } from '@mui/material'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
@@ -90,34 +90,20 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
     ed_approve_remarks,
     ed_detial_analysis,
     ed_approve_date,
-    ed_user,
+    ed_user
   } = datas[0]
   const reqdate = format(new Date(req_date), 'dd-MM-yyyy')
   const expdate = format(new Date(expected_date), 'dd-MM-yyyy')
   const inchargeApprovdate =
-    incharge_apprv_date !== null
-      ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy')
-      : 'Not Updated'
-  const hodApprovdate =
-    hod_approve_date !== null ? format(new Date(hod_approve_date), 'dd-MM-yyyy') : 'Not Updated'
-  const dmsApprovdate =
-    dms_approve_date !== null ? format(new Date(dms_approve_date), 'dd-MM-yyyy') : 'Not Updated'
-  const msApprovdate =
-    ms_approve_date !== null ? format(new Date(ms_approve_date), 'dd-MM-yyyy') : 'Not Updated'
-  const omdate =
-    om_approv_date !== null
-      ? format(new Date(om_approv_date), 'dd-MM-yyyy hh:mm:ss')
-      : 'Not Updated'
-  const smodate =
-    som_aprrov_date !== null
-      ? format(new Date(som_aprrov_date), 'dd-MM-yyyy hh:mm:ss')
-      : 'Not Updated'
-  const caodate =
-    cao_approv_date !== null ? format(new Date(cao_approv_date), 'dd-MM-yyyy hh:mm:ss') : null
-  const mddate =
-    md_approve_date !== null ? format(new Date(md_approve_date), 'dd-MM-yyyy hh:mm:ss') : null
-  const eddate =
-    ed_approve_date !== null ? format(new Date(ed_approve_date), 'dd-MM-yyyy hh:mm:ss') : null
+    incharge_apprv_date !== null ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy') : 'Not Updated'
+  const hodApprovdate = hod_approve_date !== null ? format(new Date(hod_approve_date), 'dd-MM-yyyy') : 'Not Updated'
+  const dmsApprovdate = dms_approve_date !== null ? format(new Date(dms_approve_date), 'dd-MM-yyyy') : 'Not Updated'
+  const msApprovdate = ms_approve_date !== null ? format(new Date(ms_approve_date), 'dd-MM-yyyy') : 'Not Updated'
+  const omdate = om_approv_date !== null ? format(new Date(om_approv_date), 'dd-MM-yyyy hh:mm:ss') : 'Not Updated'
+  const smodate = som_aprrov_date !== null ? format(new Date(som_aprrov_date), 'dd-MM-yyyy hh:mm:ss') : 'Not Updated'
+  const caodate = cao_approv_date !== null ? format(new Date(cao_approv_date), 'dd-MM-yyyy hh:mm:ss') : null
+  const mddate = md_approve_date !== null ? format(new Date(md_approve_date), 'dd-MM-yyyy hh:mm:ss') : null
+  const eddate = ed_approve_date !== null ? format(new Date(ed_approve_date), 'dd-MM-yyyy hh:mm:ss') : null
 
   const [dataPost, setdataPost] = useState([])
   const [tableDis, setTableDis] = useState(0)
@@ -225,7 +211,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
             id="alert-dialog-slide-descriptiona"
             sx={{
               width: '100%',
-              height: 540,
+              height: 540
             }}
           >
             <DialogContentText id="alert-dialog-slide-descriptiona">
@@ -243,8 +229,8 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                       sm: 'column',
                       md: 'column',
                       lg: 'column',
-                      xl: 'column',
-                    },
+                      xl: 'column'
+                    }
                   }}
                 >
                   <Box
@@ -252,14 +238,12 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                       width: '100%',
                       display: 'flex',
                       p: 0.5,
-                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                     }}
                   >
                     <Box sx={{ pr: 1 }}>
                       <CssVarsProvider>
-                        <Typography sx={{ fontSize: 15 }}>
-                          Request No: CRF/TMC/{req_slno}
-                        </Typography>
+                        <Typography sx={{ fontSize: 15 }}>Request No: CRF/TMC/{req_slno}</Typography>
                       </CssVarsProvider>
                     </Box>
                     <Box sx={{ pl: 4 }}>
@@ -274,7 +258,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                         width: '100%',
                         display: 'flex',
                         p: 0.5,
-                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                       }}
                     >
                       <Box sx={{ width: '25%' }}>
@@ -291,7 +275,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                           fontSize: 15,
                           textTransform: 'capitalize',
                           overflow: 'auto',
-                          '::-webkit-scrollbar': { display: 'none' },
+                          '::-webkit-scrollbar': { display: 'none' }
                         }}
                         variant="none"
                       >
@@ -305,7 +289,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                         width: '100%',
                         display: 'flex',
                         p: 0.5,
-                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                       }}
                     >
                       <Box sx={{ width: '25%' }}>
@@ -322,7 +306,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                           fontSize: 15,
                           textTransform: 'capitalize',
                           overflow: 'auto',
-                          '::-webkit-scrollbar': { display: 'none' },
+                          '::-webkit-scrollbar': { display: 'none' }
                         }}
                         variant="none"
                       >
@@ -336,7 +320,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                         width: '100%',
                         display: 'flex',
                         p: 0.5,
-                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                       }}
                     >
                       <Box sx={{ width: '25%' }}>
@@ -353,7 +337,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                           fontSize: 15,
                           textTransform: 'capitalize',
                           overflow: 'auto',
-                          '::-webkit-scrollbar': { display: 'none' },
+                          '::-webkit-scrollbar': { display: 'none' }
                         }}
                         variant="none"
                       >
@@ -367,7 +351,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                         width: '100%',
                         display: 'flex',
                         p: 0.5,
-                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                       }}
                     >
                       <Box sx={{ width: '25%' }}>
@@ -384,7 +368,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                           fontSize: 15,
                           textTransform: 'capitalize',
                           overflow: 'auto',
-                          '::-webkit-scrollbar': { display: 'none' },
+                          '::-webkit-scrollbar': { display: 'none' }
                         }}
                         variant="none"
                       >
@@ -397,7 +381,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                       width: '100%',
                       display: 'flex',
                       p: 0.5,
-                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                     }}
                   >
                     <Box sx={{ width: '25%' }}>
@@ -414,7 +398,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                         fontSize: 15,
                         textTransform: 'capitalize',
                         overflow: 'auto',
-                        '::-webkit-scrollbar': { display: 'none' },
+                        '::-webkit-scrollbar': { display: 'none' }
                       }}
                       variant="none"
                     >
@@ -426,7 +410,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                       width: '100%',
                       display: 'flex',
                       p: 0.5,
-                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                     }}
                   >
                     <Box sx={{ width: '25%' }}>
@@ -443,7 +427,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                         fontSize: 15,
                         textTransform: 'capitalize',
                         overflow: 'auto',
-                        '::-webkit-scrollbar': { display: 'none' },
+                        '::-webkit-scrollbar': { display: 'none' }
                       }}
                       variant="none"
                     >
@@ -457,7 +441,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                       display: 'flex',
                       p: 0.5,
                       pb: 0,
-                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                     }}
                   >
                     <Box sx={{ pr: 9 }}>
@@ -479,13 +463,12 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                       width: '100%',
                       display: 'flex',
                       p: 0.5,
-                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                     }}
                   >
                     <CssVarsProvider>
                       <Typography sx={{ fontSize: 15, textTransform: 'capitalize' }}>
-                        Requested DeptSec:{' '}
-                        {userdeptsec !== null ? userdeptsec.toLowerCase() : 'Not Updated'}
+                        Requested DeptSec: {userdeptsec !== null ? userdeptsec.toLowerCase() : 'Not Updated'}
                       </Typography>
                     </CssVarsProvider>
                     {image_status === 1 ? (
@@ -501,24 +484,20 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                       width: '100%',
                       display: 'flex',
                       p: 0.5,
-                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                     }}
                   >
-                    {tableDis === 1 ? (
-                      <ItemApprovalCmp dataPost={dataPost} setdataPost={setdataPost} />
-                    ) : null}
+                    {tableDis === 1 ? <ItemApprovalCmp dataPost={dataPost} setdataPost={setdataPost} /> : null}
                   </Box>
                   <CssVarsProvider>
-                    <Typography sx={{ fontSize: 15, textTransform: 'capitalize' }}>
-                      After Data Collection
-                    </Typography>
+                    <Typography sx={{ fontSize: 15, textTransform: 'capitalize' }}>After Data Collection</Typography>
                   </CssVarsProvider>
                   <Box
                     sx={{
                       width: '100%',
                       display: 'flex',
                       p: 0.5,
-                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                     }}
                   >
                     {colectDetlCheck === 1 ? (
@@ -541,8 +520,8 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                         sm: 'column',
                         md: 'column',
                         lg: 'column',
-                        xl: 'column',
-                      },
+                        xl: 'column'
+                      }
                     }}
                   >
                     <Box
@@ -551,14 +530,12 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                         display: 'flex',
                         pl: 0.2,
                         pr: 0.5,
-                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                       }}
                     >
                       <Box sx={{ pr: 9 }}>
                         <CssVarsProvider>
-                          <Typography
-                            sx={{ pl: 1, fontWeight: 900, fontSize: 14, color: TypoHeadColor }}
-                          >
+                          <Typography sx={{ pl: 1, fontWeight: 900, fontSize: 14, color: TypoHeadColor }}>
                             Data Collection Details
                           </Typography>
                         </CssVarsProvider>
@@ -577,8 +554,8 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                                   sm: 'column',
                                   md: 'column',
                                   lg: 'column',
-                                  xl: 'column',
-                                },
+                                  xl: 'column'
+                                }
                               }}
                             >
                               <Box
@@ -591,15 +568,13 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                                     sm: 'row',
                                     md: 'row',
                                     lg: 'row',
-                                    xl: 'row',
-                                  },
+                                    xl: 'row'
+                                  }
                                 }}
                               >
                                 <Box sx={{ width: '25%' }}>
                                   <CssVarsProvider>
-                                    <Typography sx={{ pl: 1, fontSize: 15 }}>
-                                      Requested Remarks
-                                    </Typography>
+                                    <Typography sx={{ pl: 1, fontSize: 15 }}>Requested Remarks</Typography>
                                   </CssVarsProvider>
                                 </Box>
                                 <Paper
@@ -611,7 +586,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                                     fontSize: 15,
                                     textTransform: 'capitalize',
                                     overflow: 'auto',
-                                    '::-webkit-scrollbar': { display: 'none' },
+                                    '::-webkit-scrollbar': { display: 'none' }
                                   }}
                                   variant="none"
                                 >
@@ -628,15 +603,13 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                                     sm: 'row',
                                     md: 'row',
                                     lg: 'row',
-                                    xl: 'row',
-                                  },
+                                    xl: 'row'
+                                  }
                                 }}
                               >
                                 <Box sx={{ width: '25%' }}>
                                   <CssVarsProvider>
-                                    <Typography sx={{ pl: 1, fontSize: 15 }}>
-                                      Requested To
-                                    </Typography>
+                                    <Typography sx={{ pl: 1, fontSize: 15 }}>Requested To</Typography>
                                   </CssVarsProvider>
                                 </Box>
                                 <Paper
@@ -648,7 +621,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                                     fontSize: 15,
                                     textTransform: 'capitalize',
                                     overflow: 'auto',
-                                    '::-webkit-scrollbar': { display: 'none' },
+                                    '::-webkit-scrollbar': { display: 'none' }
                                   }}
                                   variant="none"
                                 >
@@ -665,15 +638,13 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                                     sm: 'row',
                                     md: 'row',
                                     lg: 'row',
-                                    xl: 'row',
-                                  },
+                                    xl: 'row'
+                                  }
                                 }}
                               >
                                 <Box sx={{ width: '25%' }}>
                                   <CssVarsProvider>
-                                    <Typography sx={{ pl: 1, fontSize: 15 }}>
-                                      Requested Details
-                                    </Typography>
+                                    <Typography sx={{ pl: 1, fontSize: 15 }}>Requested Details</Typography>
                                   </CssVarsProvider>
                                 </Box>
                                 <Paper
@@ -685,7 +656,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                                     fontSize: 15,
                                     textTransform: 'capitalize',
                                     overflow: 'auto',
-                                    '::-webkit-scrollbar': { display: 'none' },
+                                    '::-webkit-scrollbar': { display: 'none' }
                                   }}
                                   variant="none"
                                 >
@@ -700,7 +671,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                                     fontSize: 15,
                                     textTransform: 'capitalize',
                                     overflow: 'auto',
-                                    '::-webkit-scrollbar': { display: 'none' },
+                                    '::-webkit-scrollbar': { display: 'none' }
                                   }}
                                   variant="none"
                                 >
@@ -718,15 +689,13 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                                     sm: 'row',
                                     md: 'row',
                                     lg: 'row',
-                                    xl: 'row',
-                                  },
+                                    xl: 'row'
+                                  }
                                 }}
                               >
                                 <Box sx={{ width: '25%' }}>
                                   <CssVarsProvider>
-                                    <Typography sx={{ pl: 1, fontSize: 15 }}>
-                                      Data Collection Reply
-                                    </Typography>
+                                    <Typography sx={{ pl: 1, fontSize: 15 }}>Data Collection Reply</Typography>
                                   </CssVarsProvider>
                                 </Box>
                                 <Paper
@@ -738,7 +707,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                                     fontSize: 15,
                                     textTransform: 'capitalize',
                                     overflow: 'auto',
-                                    '::-webkit-scrollbar': { display: 'none' },
+                                    '::-webkit-scrollbar': { display: 'none' }
                                   }}
                                   variant="none"
                                 >
@@ -755,15 +724,13 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                                     sm: 'row',
                                     md: 'row',
                                     lg: 'row',
-                                    xl: 'row',
-                                  },
+                                    xl: 'row'
+                                  }
                                 }}
                               >
                                 <Box sx={{ width: '25%' }}>
                                   <CssVarsProvider>
-                                    <Typography sx={{ pl: 1, fontSize: 15 }}>
-                                      Reply Details
-                                    </Typography>
+                                    <Typography sx={{ pl: 1, fontSize: 15 }}>Reply Details</Typography>
                                   </CssVarsProvider>
                                 </Box>
                                 <Paper
@@ -775,7 +742,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                                     fontSize: 15,
                                     textTransform: 'capitalize',
                                     overflow: 'auto',
-                                    '::-webkit-scrollbar': { display: 'none' },
+                                    '::-webkit-scrollbar': { display: 'none' }
                                   }}
                                   variant="none"
                                 >
@@ -790,7 +757,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                                     fontSize: 15,
                                     textTransform: 'capitalize',
                                     overflow: 'auto',
-                                    '::-webkit-scrollbar': { display: 'none' },
+                                    '::-webkit-scrollbar': { display: 'none' }
                                   }}
                                   variant="none"
                                 >
@@ -817,8 +784,8 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                       sm: 'column',
                       md: 'column',
                       lg: 'column',
-                      xl: 'column',
-                    },
+                      xl: 'column'
+                    }
                   }}
                 >
                   <Box
@@ -827,7 +794,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                       display: 'flex',
                       pl: 0.2,
                       pr: 0.5,
-                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                     }}
                   >
                     <Box sx={{ pr: 9 }}>
@@ -853,15 +820,15 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                                 sm: 'column',
                                 md: 'column',
                                 lg: 'column',
-                                xl: 'column',
-                              },
+                                xl: 'column'
+                              }
                             }}
                           >
                             <Box
                               sx={{
                                 display: 'flex',
                                 flexDirection: 'row',
-                                justifyContent: 'space-between',
+                                justifyContent: 'space-between'
                               }}
                             >
                               <CssVarsProvider>
@@ -906,7 +873,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                                     display: 'flex',
                                     flexDirection: 'row',
                                     justifyContent: 'space-evenly',
-                                    pr: 2,
+                                    pr: 2
                                   }}
                                 >
                                   <CssVarsProvider>
@@ -930,7 +897,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                                         px: 1,
                                         pb: 0.4,
                                         borderRadius: 5,
-                                        textTransform: 'capitalize',
+                                        textTransform: 'capitalize'
                                       }}
                                     >
                                       {incharge_user}{' '}
@@ -1009,8 +976,8 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                             sm: 'column',
                             md: 'column',
                             lg: 'column',
-                            xl: 'column',
-                          },
+                            xl: 'column'
+                          }
                         }}
                       >
                         <Box
@@ -1018,7 +985,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                             // pl: 1,
                             display: 'flex',
                             flexDirection: 'row',
-                            justifyContent: 'space-between',
+                            justifyContent: 'space-between'
                           }}
                         >
                           <CssVarsProvider>
@@ -1063,7 +1030,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                                 display: 'flex',
                                 flexDirection: 'row',
                                 justifyContent: 'space-evenly',
-                                pr: 2,
+                                pr: 2
                               }}
                             >
                               <CssVarsProvider>
@@ -1087,7 +1054,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                                     px: 1,
                                     pb: 0.4,
                                     borderRadius: 5,
-                                    textTransform: 'capitalize',
+                                    textTransform: 'capitalize'
                                   }}
                                 >
                                   {hod_user}{' '}
@@ -1165,8 +1132,8 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                         sm: 'column',
                         md: 'column',
                         lg: 'column',
-                        xl: 'column',
-                      },
+                        xl: 'column'
+                      }
                     }}
                   >
                     <Box
@@ -1175,7 +1142,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                         pr: 1,
                         display: 'flex',
                         flexDirection: 'row',
-                        justifyContent: 'space-between',
+                        justifyContent: 'space-between'
                       }}
                     >
                       <CssVarsProvider>
@@ -1220,7 +1187,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                             display: 'flex',
                             flexDirection: 'row',
                             justifyContent: 'space-evenly',
-                            pr: 2,
+                            pr: 2
                           }}
                         >
                           <CssVarsProvider>
@@ -1244,7 +1211,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                                 px: 1,
                                 pb: 0.4,
                                 borderRadius: 5,
-                                textTransform: 'capitalize',
+                                textTransform: 'capitalize'
                               }}
                             >
                               {dms_user}{' '}
@@ -1320,8 +1287,8 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                         sm: 'column',
                         md: 'column',
                         lg: 'column',
-                        xl: 'column',
-                      },
+                        xl: 'column'
+                      }
                     }}
                   >
                     <Box
@@ -1330,7 +1297,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                         pr: 1,
                         display: 'flex',
                         flexDirection: 'row',
-                        justifyContent: 'space-between',
+                        justifyContent: 'space-between'
                       }}
                     >
                       <CssVarsProvider>
@@ -1375,7 +1342,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                             display: 'flex',
                             flexDirection: 'row',
                             justifyContent: 'space-evenly',
-                            pr: 2,
+                            pr: 2
                           }}
                         >
                           <CssVarsProvider>
@@ -1399,7 +1366,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                                 px: 1,
                                 pb: 0.4,
                                 borderRadius: 5,
-                                textTransform: 'capitalize',
+                                textTransform: 'capitalize'
                               }}
                             >
                               {ms_user}{' '}
@@ -1474,8 +1441,8 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                       sm: 'column',
                       md: 'column',
                       lg: 'column',
-                      xl: 'column',
-                    },
+                      xl: 'column'
+                    }
                   }}
                 >
                   <Box
@@ -1484,7 +1451,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                       pr: 1,
                       display: 'flex',
                       flexDirection: 'row',
-                      justifyContent: 'space-between',
+                      justifyContent: 'space-between'
                     }}
                   >
                     <CssVarsProvider>
@@ -1529,7 +1496,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                           display: 'flex',
                           flexDirection: 'row',
                           justifyContent: 'space-evenly',
-                          pr: 2,
+                          pr: 2
                         }}
                       >
                         <CssVarsProvider>
@@ -1553,7 +1520,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                               px: 1,
                               pb: 0.4,
                               borderRadius: 5,
-                              textTransform: 'capitalize',
+                              textTransform: 'capitalize'
                             }}
                           >
                             {manag_operation_user}{' '}
@@ -1627,8 +1594,8 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                       sm: 'column',
                       md: 'column',
                       lg: 'column',
-                      xl: 'column',
-                    },
+                      xl: 'column'
+                    }
                   }}
                 >
                   <Box
@@ -1637,7 +1604,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                       pr: 1,
                       display: 'flex',
                       flexDirection: 'row',
-                      justifyContent: 'space-between',
+                      justifyContent: 'space-between'
                     }}
                   >
                     <CssVarsProvider>
@@ -1682,7 +1649,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                           display: 'flex',
                           flexDirection: 'row',
                           justifyContent: 'space-evenly',
-                          pr: 2,
+                          pr: 2
                         }}
                       >
                         <CssVarsProvider>
@@ -1706,7 +1673,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                               px: 1,
                               pb: 0.4,
                               borderRadius: 5,
-                              textTransform: 'capitalize',
+                              textTransform: 'capitalize'
                             }}
                           >
                             {senior_manage_user}{' '}
@@ -1780,8 +1747,8 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                       sm: 'column',
                       md: 'column',
                       lg: 'column',
-                      xl: 'column',
-                    },
+                      xl: 'column'
+                    }
                   }}
                 >
                   <Box
@@ -1790,7 +1757,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                       pr: 1,
                       display: 'flex',
                       flexDirection: 'row',
-                      justifyContent: 'space-between',
+                      justifyContent: 'space-between'
                     }}
                   >
                     <CssVarsProvider>
@@ -1835,7 +1802,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                           display: 'flex',
                           flexDirection: 'row',
                           justifyContent: 'space-evenly',
-                          pr: 2,
+                          pr: 2
                         }}
                       >
                         <CssVarsProvider>
@@ -1859,7 +1826,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                               px: 1,
                               pb: 0.4,
                               borderRadius: 5,
-                              textTransform: 'capitalize',
+                              textTransform: 'capitalize'
                             }}
                           >
                             {cao_user}{' '}
@@ -1933,8 +1900,8 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                       sm: 'column',
                       md: 'column',
                       lg: 'column',
-                      xl: 'column',
-                    },
+                      xl: 'column'
+                    }
                   }}
                 >
                   <Box
@@ -1943,7 +1910,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                       pr: 1,
                       display: 'flex',
                       flexDirection: 'row',
-                      justifyContent: 'space-between',
+                      justifyContent: 'space-between'
                     }}
                   >
                     <CssVarsProvider>
@@ -1988,7 +1955,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                           display: 'flex',
                           flexDirection: 'row',
                           justifyContent: 'space-evenly',
-                          pr: 2,
+                          pr: 2
                         }}
                       >
                         <CssVarsProvider>
@@ -2012,7 +1979,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                               px: 1,
                               pb: 0.4,
                               borderRadius: 5,
-                              textTransform: 'capitalize',
+                              textTransform: 'capitalize'
                             }}
                           >
                             {md_user}{' '}
@@ -2086,8 +2053,8 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                       sm: 'column',
                       md: 'column',
                       lg: 'column',
-                      xl: 'column',
-                    },
+                      xl: 'column'
+                    }
                   }}
                 >
                   <Box
@@ -2096,7 +2063,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                       pr: 1,
                       display: 'flex',
                       flexDirection: 'row',
-                      justifyContent: 'space-between',
+                      justifyContent: 'space-between'
                     }}
                   >
                     <CssVarsProvider>
@@ -2141,7 +2108,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                           display: 'flex',
                           flexDirection: 'row',
                           justifyContent: 'space-evenly',
-                          pr: 2,
+                          pr: 2
                         }}
                       >
                         <CssVarsProvider>
@@ -2165,7 +2132,7 @@ const HigherApproveModal = ({ open, setOpen, datas }) => {
                               px: 1,
                               pb: 0.4,
                               borderRadius: 5,
-                              textTransform: 'capitalize',
+                              textTransform: 'capitalize'
                             }}
                           >
                             {ed_user}{' '}

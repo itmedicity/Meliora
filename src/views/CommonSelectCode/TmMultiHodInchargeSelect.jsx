@@ -33,7 +33,7 @@ const TmMultiHodInchargeSelect = ({ setValue }) => {
         borderBottom: '2px solid',
         borderColor: 'neutral.outlinedBorder',
         '&:hover': {
-          borderColor: 'neutral.outlinedHoverBorder',
+          borderColor: 'neutral.outlinedHoverBorder'
         },
         '&::before': {
           border: '1px solid var(--Input-focusedHighlight)',
@@ -43,19 +43,17 @@ const TmMultiHodInchargeSelect = ({ setValue }) => {
           bottom: '-2px',
           top: 'unset',
           transition: 'transform .15s cubic-bezier(0.1,0.9,0.2,1)',
-          borderRadius: 0,
+          borderRadius: 0
         },
         '&:focus-within::before': {
-          transform: 'scaleX(1)',
-        },
+          transform: 'scaleX(1)'
+        }
       }}
       // value={department}
       placeholder="Select Assignees"
       // isOptionEqualToValue={(option, value) => option.em_name === value.em_name}
       // getOptionLabel={option => option.em_name || ''}
-      isOptionEqualToValue={(option, value) =>
-        formatOptionLabel(option) === formatOptionLabel(value)
-      }
+      isOptionEqualToValue={(option, value) => formatOptionLabel(option) === formatOptionLabel(value)}
       getOptionLabel={formatOptionLabel}
       options={HodInchargeList}
       onChange={handleChange}

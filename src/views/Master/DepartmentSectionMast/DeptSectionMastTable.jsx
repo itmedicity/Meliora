@@ -11,7 +11,7 @@ const DeptSectionMastTable = ({ count, rowSelect }) => {
     {
       headerName: 'Action',
       minWidth: 50,
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
     },
     { headerName: 'SlNo', field: 'sec_id', minWidth: 60 },
     {
@@ -20,7 +20,7 @@ const DeptSectionMastTable = ({ count, rowSelect }) => {
       autoHeight: true,
       wrapText: true,
       minWidth: 250,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Department Name',
@@ -28,10 +28,10 @@ const DeptSectionMastTable = ({ count, rowSelect }) => {
       autoHeight: true,
       wrapText: true,
       minWidth: 250,
-      filter: 'true',
+      filter: 'true'
     },
     { headerName: 'Outlet', field: 'ouc_desc', minWidth: 250, filter: 'true' },
-    { headerName: 'Status', field: 'status' },
+    { headerName: 'Status', field: 'status' }
   ])
   //get all data
   useEffect(() => {

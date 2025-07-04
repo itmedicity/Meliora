@@ -3,7 +3,7 @@ const { FETCH_COMPLAINTRIGHTS_DASHBOARD } = ActionTyps
 //intial state
 const complaintsrights = {
   complaintRightsLists: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 
 export const getComplaintRights = (state = complaintsrights, { type, payload }) => {

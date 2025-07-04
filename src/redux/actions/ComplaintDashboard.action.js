@@ -1,11 +1,7 @@
 import { axioslogin } from 'src/views/Axios/Axios'
 import { ActionTyps } from '../constants/action.type'
-const {
-  FETCH_TOTAL_COMPLAINTS,
-  FETCH_ONHOLDCOMPLAINTS_DASH,
-  FETCH_ASSIST_RECTY_EMP,
-  FETCH_PENDING_ONHOLD_EMP,
-} = ActionTyps
+const { FETCH_TOTAL_COMPLAINTS, FETCH_ONHOLDCOMPLAINTS_DASH, FETCH_ASSIST_RECTY_EMP, FETCH_PENDING_ONHOLD_EMP } =
+  ActionTyps
 
 export const getTotalcomplaints = id => async dispatch => {
   const result = await axioslogin.get(`/cmdashboard/totalcomplaints/${id}`)

@@ -7,9 +7,7 @@ import { getTicketOpenWithin } from 'src/api/TicketApi'
 import TextComponent from 'src/views/Components/TextComponent'
 
 const DeptOpenTicketProgressBar = ({ empdept }) => {
-  const [openticketMonthAndYear, setOpenticketMonthAndYear] = useState(
-    format(new Date(), 'yyyy-MM')
-  )
+  const [openticketMonthAndYear, setOpenticketMonthAndYear] = useState(format(new Date(), 'yyyy-MM'))
 
   const monthChangeOpenTimeRange = useCallback(e => {
     const value = e.target.value
@@ -20,7 +18,7 @@ const DeptOpenTicketProgressBar = ({ empdept }) => {
     return {
       from: format(startOfMonth(new Date(openticketMonthAndYear)), 'yyyy-MM-dd 00:00:00'),
       to: format(endOfMonth(new Date(openticketMonthAndYear)), 'yyyy-MM-dd 23:59:59'),
-      empdept: empdept,
+      empdept: empdept
     }
   }, [openticketMonthAndYear, empdept])
 
@@ -31,7 +29,7 @@ const DeptOpenTicketProgressBar = ({ empdept }) => {
       '11 - 20 min': 0,
       '21 - 30 min': 0,
       '31 min - 1 hr': 0,
-      'More than 1 hr': 0,
+      'More than 1 hr': 0
     }
     if (!Array.isArray(tickets) || tickets.length === 0) return groups
     tickets.forEach(({ open_with_in }) => {
@@ -47,7 +45,7 @@ const DeptOpenTicketProgressBar = ({ empdept }) => {
 
   const { data: openTickets } = useQuery({
     queryKey: ['getOpenTickets', searchMonthlyOpenTimeRange],
-    queryFn: () => getTicketOpenWithin(searchMonthlyOpenTimeRange),
+    queryFn: () => getTicketOpenWithin(searchMonthlyOpenTimeRange)
   })
 
   const groupedData = useMemo(() => groupTickets(openTickets), [openTickets])
@@ -57,9 +55,7 @@ const DeptOpenTicketProgressBar = ({ empdept }) => {
   const xLabels = ['EmptyData']
 
   return (
-    <Box
-      sx={{ flex: 1, border: 1, borderColor: 'lightgrey', p: 1, bgcolor: 'white', borderRadius: 5 }}
-    >
+    <Box sx={{ flex: 1, border: 1, borderColor: 'lightgrey', p: 1, bgcolor: 'white', borderRadius: 5 }}>
       <Box sx={{ flex: 1, display: 'flex' }}>
         <TextComponent
           text={'Tickets Response TAT'}
@@ -87,14 +83,14 @@ const DeptOpenTicketProgressBar = ({ empdept }) => {
                 label: 'Opened Tickets',
                 id: 'OpenTickets',
                 stack: 'total',
-                color: '#9A5B13',
-              },
+                color: '#9A5B13'
+              }
             ]}
             xAxis={[
               {
                 data: opentimeRangeLabels,
-                scaleType: 'band',
-              },
+                scaleType: 'band'
+              }
             ]}
             margin={{ left: 40, right: 20, top: 40, bottom: 35 }}
           />
@@ -104,8 +100,8 @@ const DeptOpenTicketProgressBar = ({ empdept }) => {
             xAxis={[
               {
                 data: xLabels,
-                scaleType: 'band',
-              },
+                scaleType: 'band'
+              }
             ]}
             margin={{ left: 40, right: 20, top: 40, bottom: 35 }}
           />

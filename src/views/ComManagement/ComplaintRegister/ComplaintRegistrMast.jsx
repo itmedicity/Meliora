@@ -120,7 +120,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
       complaintdeptdata: state.getComplaintDept.complaintdeptList || 0,
       // requesttypedata: state.getRequesttype.requesttypeList || 0,
       complainttype: state.getComplainttype.complainttypeList || 0,
-      hicpolicy: state.getHicpolicy.hicpolicyList || 0,
+      hicpolicy: state.getHicpolicy.hicpolicyList || 0
     }
   })
   //destructuring redux data
@@ -172,7 +172,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
     const options = {
       maxSizeMB: 1,
       maxWidthOrHeight: 1920,
-      useWebWorker: true,
+      useWebWorker: true
     }
     const compressedFile = await imageCompression(imageFile, options)
     return compressedFile
@@ -205,7 +205,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
       priority: priority === 1 ? 'Priority Ticket' : 'Normal Ticket',
       rm_room_slno: roomName === '' ? null : roomName,
       cm_asset_status: assetArray.length !== 0 ? 1 : 0,
-      cm_complaint_location: locationDetails === '' ? null : locationDetails,
+      cm_complaint_location: locationDetails === '' ? null : locationDetails
     }
   }, [
     desc,
@@ -220,7 +220,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
     roomName,
     checkHic,
     assetArray,
-    locationDetails,
+    locationDetails
   ])
 
   //Data set for edit
@@ -239,7 +239,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
       priority_check,
       rm_room_slno,
       compl_dept,
-      cm_complaint_location,
+      cm_complaint_location
     } = val
     setDepsec(cm_location)
     setComplaint(complaint_slno)
@@ -270,7 +270,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
       complaint_slno: complaint_slno,
       rm_room_slno: roomName === 0 ? null : roomName,
       cm_asset_status: assetArray.length !== 0 ? 1 : 0,
-      cm_complaint_location: locationDetails === null ? '' : locationDetails,
+      cm_complaint_location: locationDetails === null ? '' : locationDetails
     }
   }, [
     desc,
@@ -285,7 +285,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
     roomName,
     checkHic,
     assetArray,
-    locationDetails,
+    locationDetails
   ])
 
   useEffect(() => {
@@ -314,7 +314,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
         cm_asset_dept: val.item_asset_no,
         am_item_map_slno: val.am_item_map_slno,
         asset_status: 1,
-        create_user: id,
+        create_user: id
       }
     })
 
@@ -324,7 +324,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
       return {
         comasset_mapping_slno: val.comasset_mapping_slno,
         asset_status: 0,
-        edit_user: id,
+        edit_user: id
       }
     })
 
@@ -365,10 +365,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
         infoNotify('Please Select Complaint Type')
         return
       }
-      if (
-        (cm_am_assetmap_slno !== '' && assetStatus === 0) ||
-        (selectedAsset !== '' && assetStatus === 0)
-      ) {
+      if ((cm_am_assetmap_slno !== '' && assetStatus === 0) || (selectedAsset !== '' && assetStatus === 0)) {
         infoNotify(
           <>
             Please click on &apos; <AddCircleIcon /> &apos; to add Asset details
@@ -431,15 +428,11 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
               formData.append('files', file, file.name)
             }
           }
-          const uploadResult = await axioslogin.post(
-            '/complaintFileUpload/uploadFile/Complaint',
-            formData,
-            {
-              headers: {
-                'Content-Type': 'multipart/form-data',
-              },
+          const uploadResult = await axioslogin.post('/complaintFileUpload/uploadFile/Complaint', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
             }
-          )
+          })
           return uploadResult.data
         } catch (error) {
           warningNotify('An error occurred during file upload.')
@@ -560,7 +553,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
                   cm_asset_dept: val.item_asset_no,
                   am_item_map_slno: val.am_item_map_slno,
                   asset_status: 1,
-                  create_user: id,
+                  create_user: id
                 }))
                 const assetInsertResponse = await InsertAsset(inserAsset)
                 if (assetInsertResponse.success !== 1) {
@@ -618,7 +611,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
       priority,
       priorreason,
       setCount,
-      verficationPending.length,
+      verficationPending.length
     ]
   )
 
@@ -665,7 +658,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
   const { data: custodianDetailsData, isSuccess } = useQuery({
     queryKey: ['getCustodianDetailz', custodianDept],
     enabled: custodianDept !== 0,
-    queryFn: () => getCustodianDetails(custodianDept),
+    queryFn: () => getCustodianDetails(custodianDept)
   })
 
   const custodianDetails = useMemo(() => custodianDetailsData, [custodianDetailsData])
@@ -687,7 +680,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
         const asset_number = parseInt(cm_am_assetmap_slno)
         const postdata = {
           item_asset_no: starts,
-          item_asset_no_only: asset_number,
+          item_asset_no_only: asset_number
         }
 
         const getAssetdata = async postdata => {
@@ -698,11 +691,8 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
               const { item_deptsec_slno } = data[0]
               if (item_deptsec_slno === empsecid) {
                 setassetData(0)
-                const { item_name, sec_name, am_item_map_slno, item_asset_no, item_asset_no_only } =
-                  data[0]
-                const assetExists = assetArray.some(
-                  asset => asset.item_asset_no_only === item_asset_no_only
-                )
+                const { item_name, sec_name, am_item_map_slno, item_asset_no, item_asset_no_only } = data[0]
+                const assetExists = assetArray.some(asset => asset.item_asset_no_only === item_asset_no_only)
                 if (assetExists) {
                   infoNotify('You already added this asset in complaint')
                 } else {
@@ -711,7 +701,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
                     sec_name,
                     am_item_map_slno,
                     item_asset_no_only,
-                    item_asset_no,
+                    item_asset_no
                   }
                   setAssetArray(prevArray => [...prevArray, newAsset])
                   if (edit === 1) {
@@ -743,7 +733,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
         const asset_number = parseInt(item_slno)
         const postdata = {
           item_asset_no: asset_dept,
-          item_asset_no_only: asset_number,
+          item_asset_no_only: asset_number
         }
         const getAssetdata = async postdata => {
           const result = await axioslogin.post('/PasswordManagementMain/getAssetNo', postdata)
@@ -751,12 +741,9 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
           if (data.length !== 0) {
             if (success === 1) {
               setassetData(0)
-              const { item_name, sec_name, am_item_map_slno, item_asset_no_only, item_asset_no } =
-                data[0]
+              const { item_name, sec_name, am_item_map_slno, item_asset_no_only, item_asset_no } = data[0]
               // Check if the asset already exists in the array
-              const assetExists = assetArray.some(
-                asset => asset.item_asset_no_only === item_asset_no_only
-              )
+              const assetExists = assetArray.some(asset => asset.item_asset_no_only === item_asset_no_only)
               if (assetExists) {
                 infoNotify('You already added this asset in complaint')
               } else {
@@ -765,7 +752,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
                   sec_name,
                   am_item_map_slno,
                   item_asset_no_only,
-                  item_asset_no,
+                  item_asset_no
                 }
                 setAssetArray(prevArray => [...prevArray, newAsset])
                 // Condition to add to newly added assets only if edit is 1
@@ -826,8 +813,8 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
         ? 'pdf'
         : 'image'
       : file.type.includes('application/pdf')
-        ? 'pdf'
-        : 'image'
+      ? 'pdf'
+      : 'image'
 
     const fileUrl = file.url || URL.createObjectURL(file)
     setPreviewFile({ url: fileUrl, type: fileType })
@@ -854,7 +841,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
         contentStyle={{
           p: 0,
           display: 'flex',
-          flexDirection: 'column',
+          flexDirection: 'column'
         }}
       >
         <CustomBackDrop open={open} text="Please Wait" />
@@ -863,7 +850,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
             display: 'flex',
             flexDirection: 'row',
             flex: 1,
-            width: '100%',
+            width: '100%'
           }}
         >
           <Box sx={{ display: 'flex', flex: 1, width: '80%', p: 0.5, flexDirection: 'column' }}>
@@ -879,12 +866,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
                 {complaintdeptdata &&
                   complaintdeptdata.map(val => {
                     return (
-                      <Grid
-                        item
-
-                        key={val.complaint_dept_slno}
-                        sx={{ width: '100%' }}
-                      >
+                      <Grid item key={val.complaint_dept_slno} sx={{ width: '100%' }}>
                         <ComDeptCheckBox
                           label={val.complaint_dept_name}
                           name={val.complaint_dept_name}
@@ -907,14 +889,12 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
               <Paper variant="outlined" sx={{ p: 0.5 }} square>
                 <Box>
                   <CssVarsProvider>
-                    <Typography
-                      sx={{ color: '#9FA6AD', fontWeight: 800, fontSize: 13, pl: 0.3, pb: 0.5 }}
-                    >
+                    <Typography sx={{ color: '#9FA6AD', fontWeight: 800, fontSize: 13, pl: 0.3, pb: 0.5 }}>
                       COMPLAINT TYPE
                     </Typography>
                   </CssVarsProvider>
                 </Box>
-                <Box sx={{ display: 'flex', flex: 1, p: 1, }}>
+                <Box sx={{ display: 'flex', flex: 1, p: 1 }}>
                   <Grid container spacing={{ xs: 1, md: 1 }} columns={{}} sx={{ width: '100%' }}>
                     {complainttype &&
                       complainttype.map(val => {
@@ -949,9 +929,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
               </Paper>
             ) : null}
             <Paper variant="outlined" square>
-              <Typography
-                sx={{ color: '#9FA6AD', fontWeight: 800, fontSize: 12, pl: 0.8, py: 0.5 }}
-              >
+              <Typography sx={{ color: '#9FA6AD', fontWeight: 800, fontSize: 12, pl: 0.8, py: 0.5 }}>
                 COMPLAINT LOCATION
               </Typography>
               <Box sx={{ px: 0.5, pb: 0.5, display: 'flex' }}>
@@ -980,7 +958,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    pt: 0.8,
+                    pt: 0.8
                   }}
                 >
                   <CssVarsProvider>
@@ -1010,9 +988,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
               <Paper variant="outlined" square sx={{ flex: 1 }}>
                 <Box sx={{ flex: 1, flexGrow: 1, p: 0.8 }}>
                   <Box sx={{ flex: 0.8, pr: 0.5 }}>
-                    <Typography
-                      sx={{ color: '#9FA6AD', fontWeight: 800, fontSize: 12, pl: 0.3, pb: 0.5 }}
-                    >
+                    <Typography sx={{ color: '#9FA6AD', fontWeight: 800, fontSize: 12, pl: 0.3, pb: 0.5 }}>
                       ASSET DETAILS
                     </Typography>
                     <Box sx={{ display: 'flex', ml: 0.5 }}>
@@ -1027,22 +1003,18 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
                                 children: (
                                   <>
                                     {isSelect ? (
-                                      <Typography sx={{ ml: '15px', mr: '10px', fontSize: 13 }}>
-                                        Select
-                                      </Typography>
+                                      <Typography sx={{ ml: '15px', mr: '10px', fontSize: 13 }}>Select</Typography>
                                     ) : (
-                                      <Typography sx={{ ml: '30px', mr: '10px', fontSize: 13 }}>
-                                        Search
-                                      </Typography>
+                                      <Typography sx={{ ml: '30px', mr: '10px', fontSize: 13 }}>Search</Typography>
                                     )}
                                   </>
-                                ),
-                              },
+                                )
+                              }
                             }}
                             sx={{
                               '--Switch-thumbSize': '21px',
                               '--Switch-trackWidth': '90px',
-                              '--Switch-trackHeight': '25px',
+                              '--Switch-trackHeight': '25px'
                             }}
                           />
 
@@ -1070,7 +1042,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
                                           cursor: 'pointer',
                                           '&:hover': { color: '#34323E' },
                                           height: 30,
-                                          width: 30,
+                                          width: 30
                                         }}
                                         onClick={searchAssetNoinMenu}
                                       />
@@ -1089,7 +1061,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
                                     placeholder=" Asset Number"
                                     sx={{
                                       borderRadius: 0,
-                                      minHeight: 15,
+                                      minHeight: 15
                                     }}
                                     type="number"
                                     autoComplete="off"
@@ -1106,7 +1078,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
                                               cursor: 'pointer',
                                               fontSize: 13,
                                               fontStyle: 'italic',
-                                              mr: 0.3,
+                                              mr: 0.3
                                             }}
                                             onClick={ClearAssetSelection}
                                           >
@@ -1132,7 +1104,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
                                           cursor: 'pointer',
                                           '&:hover': { color: '#34323E' },
                                           height: 30,
-                                          width: 30,
+                                          width: 30
                                         }}
                                         onClick={searchAssetNo}
                                       />
@@ -1167,7 +1139,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
                           display: 'flex',
                           borderBottom: 1,
                           borderColor: 'lightgrey',
-                          pt: 0.8,
+                          pt: 0.8
                         }}
                       >
                         <Box sx={{ flex: 1, textAlign: 'center', fontSize: 13 }}>{index + 1}</Box>
@@ -1198,7 +1170,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
                     maxRows={10}
                     size="sm"
                     style={{
-                      width: '100%',
+                      width: '100%'
                       // height: "100%",
                     }}
                     value={desc}
@@ -1210,13 +1182,13 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
                     display: 'flex',
                     flexDirection: 'column',
                     px: 1,
-                    flex: 1,
+                    flex: 1
                   }}
                 >
                   <Box
                     sx={{
                       display: 'flex',
-                      pt: 2,
+                      pt: 2
                     }}
                   >
                     <Grid item xs={2} sm={4} md={4} lg={2} xl={3}>
@@ -1258,7 +1230,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
                   mb: 0.5,
                   borderRadius: 1,
                   display: 'flex',
-                  borderColor: 'lightgrey',
+                  borderColor: 'lightgrey'
                 }}
               >
                 <Box sx={{ margin: 'auto' }}>
@@ -1273,13 +1245,11 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
                         px: 1.5,
                         cursor: 'pointer',
                         height: 48,
-                        textAlign: 'center',
+                        textAlign: 'center'
                       }}
                     >
                       <UploadFileRoundedIcon sx={{ color: '#0B6BCB' }} />
-                      <Typography sx={{ color: '#0B6BCB', fontSize: 13, px: 0.5, pt: 0.2 }}>
-                        Attach File
-                      </Typography>
+                      <Typography sx={{ color: '#0B6BCB', fontSize: 13, px: 0.5, pt: 0.2 }}>Attach File</Typography>
                     </Box>
                   </label>
                   <input
@@ -1304,7 +1274,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
                           border: '1px solid #e0e0e0',
                           borderRadius: '4px',
                           p: 0.5,
-                          mr: 0.5,
+                          mr: 0.5
                         }}
                       >
                         {file.type.includes('image') ? (
@@ -1317,7 +1287,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
                               objectFit: 'cover',
                               borderRadius: '4px',
                               marginRight: '8px',
-                              cursor: 'pointer',
+                              cursor: 'pointer'
                             }}
                             onClick={() => ViewImage(file)}
                           />
@@ -1328,7 +1298,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
                               height: '40px',
                               color: '#e53935',
                               marginRight: '8px',
-                              cursor: 'pointer',
+                              cursor: 'pointer'
                             }}
                             onClick={() => ViewImage(file)}
                           />
@@ -1339,7 +1309,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
                               height: '40px',
                               color: '#9e9e9e',
                               marginRight: '8px',
-                              cursor: 'pointer',
+                              cursor: 'pointer'
                             }}
                             onClick={() => ViewImage(file)}
                           />
@@ -1354,7 +1324,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
                             cursor: 'pointer',
                             color: '#4D0011',
                             mx: 0.5,
-                            '&:hover': { color: '#BA0F30' },
+                            '&:hover': { color: '#BA0F30' }
                           }}
                           onClick={() => handleRemoveFile(index)}
                         />
@@ -1371,7 +1341,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
         elevation={0}
         sx={{
           p: 1,
-          pt: 0,
+          pt: 0
         }}
       >
         <ComplaintRegTable
@@ -1387,7 +1357,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
         sx={{
           display: 'flex',
           p: 1,
-          alignItems: 'center',
+          alignItems: 'center'
         }}
       >
         <SquareIcon sx={{ color: '#B7CFDC' }} />

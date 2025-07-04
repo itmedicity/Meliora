@@ -19,7 +19,7 @@ const ItemAddingComp = ({ selectData, rackno, roomNo, count, setCount, subRoomNo
     am_custodian_dept_slno,
     am_custdn_asset_no_first,
     am_custdn_asset_no_second,
-    sec_name,
+    sec_name
   } = custodianAllDetails
 
   const id = useSelector(state => {
@@ -73,7 +73,7 @@ const ItemAddingComp = ({ selectData, rackno, roomNo, count, setCount, subRoomNo
         item_custodian_dept: custoDian,
         item_custodian_dept_sec: am_custodian_deptsec_slno,
         item_asset_no: assetno,
-        create_user: id,
+        create_user: id
       }
     })
   const sparepostData =
@@ -90,7 +90,7 @@ const ItemAddingComp = ({ selectData, rackno, roomNo, count, setCount, subRoomNo
         spare_custodian_dept: custoDian,
         spare_custodian_dept_sec: am_custodian_deptsec_slno,
         spare_asset_no: assetno,
-        create_user: id,
+        create_user: id
       }
     })
 
@@ -98,7 +98,7 @@ const ItemAddingComp = ({ selectData, rackno, roomNo, count, setCount, subRoomNo
     return {
       item_creation_slno: slno,
       item_dept_slno: am_custodian_dept_slno,
-      item_deptsec_slno: am_custodian_deptsec_slno,
+      item_deptsec_slno: am_custodian_deptsec_slno
     }
   }, [slno, am_custodian_dept_slno, am_custodian_deptsec_slno])
 
@@ -106,7 +106,7 @@ const ItemAddingComp = ({ selectData, rackno, roomNo, count, setCount, subRoomNo
     return {
       spare_creation_slno: slno,
       spare_dept_slno: am_custodian_dept_slno,
-      spare_deptsec_slno: am_custodian_deptsec_slno,
+      spare_deptsec_slno: am_custodian_deptsec_slno
     }
   }, [slno, am_custodian_dept_slno, am_custodian_deptsec_slno])
 
@@ -159,7 +159,7 @@ const ItemAddingComp = ({ selectData, rackno, roomNo, count, setCount, subRoomNo
           flex: 1,
           display: 'flex',
           justifyContent: 'center',
-          py: 1.5,
+          py: 1.5
         }}
       >
         <Box sx={{ backgroundColor: '#94b3b1', borderRadius: 1, p: 1, height: 35 }}>
@@ -168,9 +168,7 @@ const ItemAddingComp = ({ selectData, rackno, roomNo, count, setCount, subRoomNo
       </Box>
       <Box sx={{ flex: 1, display: 'flex', px: 2, gap: 1, pb: 1 }}>
         <Box sx={{ flex: 1 }}>
-          <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 650 }}>
-            Custodian Department
-          </Typography>
+          <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 650 }}>Custodian Department</Typography>
           <AssetCustodianDepartment
             custoDian={custoDian}
             setCustodian={setCustodian}
@@ -178,15 +176,11 @@ const ItemAddingComp = ({ selectData, rackno, roomNo, count, setCount, subRoomNo
           />
         </Box>
         <Box sx={{ flex: 1 }}>
-          <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 650 }}>
-            Section
-          </Typography>
+          <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 650 }}>Section</Typography>
           <TextFieldCustom type="text" size="sm" name="sec_name" value={sec_name} disabled={true} />
         </Box>
         <Box sx={{ flex: 0.5 }}>
-          <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 650 }}>
-            Item First Name
-          </Typography>
+          <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 650 }}>Item First Name</Typography>
           {type === 1 ? (
             <TextFieldCustom
               type="text"
@@ -200,9 +194,7 @@ const ItemAddingComp = ({ selectData, rackno, roomNo, count, setCount, subRoomNo
           )}
         </Box>
         <Box sx={{ flex: 0.5 }}>
-          <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 650 }}>
-            Item Second Name
-          </Typography>
+          <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 650 }}>Item Second Name</Typography>
           <TextFieldCustom
             type="text"
             size="sm"
@@ -212,24 +204,14 @@ const ItemAddingComp = ({ selectData, rackno, roomNo, count, setCount, subRoomNo
           />
         </Box>
         <Box sx={{ p: 0.5, flex: 0.1 }}>
-          <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-            Count
-          </Typography>
+          <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Count</Typography>
           <Box>
             {' '}
-            <TextFieldCustom
-              type="text"
-              size="sm"
-              name="count"
-              value={count}
-              onchange={updateItemCount}
-            />
+            <TextFieldCustom type="text" size="sm" name="count" value={count} onchange={updateItemCount} />
           </Box>
         </Box>
         <Box sx={{ pt: 1, pr: 3 }}>
-          <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>
-            Add{' '}
-          </Typography>
+          <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Add </Typography>
           <Box>
             <AddCircleOutlineIcon onClick={() => AddMultiple()} />
           </Box>

@@ -11,7 +11,7 @@ import {
   crm_one,
   crm_two,
   crm_three,
-  dc_one,
+  dc_one
 } from './ReportsMenu'
 import { getMenuSlno } from '../views/Constant/Constant'
 import { Link } from 'react-router-dom'
@@ -81,7 +81,7 @@ const Reports = () => {
         titleTypographyProps={{ variant: 'subtitle1', color: titleTypography }}
         sx={{
           backgroundColor: cardActionBgClr,
-          paddingY: 0.5,
+          paddingY: 0.5
         }}
       />
       <CardContent>
@@ -129,7 +129,7 @@ const Reports = () => {
         titleTypographyProps={{ variant: 'subtitle1', color: titleTypography }}
         sx={{
           backgroundColor: cardActionBgClr,
-          paddingY: 0.5,
+          paddingY: 0.5
         }}
       />
       <CardContent>
@@ -177,7 +177,7 @@ const Reports = () => {
         titleTypographyProps={{ variant: 'subtitle1', color: titleTypography }}
         sx={{
           backgroundColor: cardActionBgClr,
-          paddingY: 0.5,
+          paddingY: 0.5
         }}
       />
       <CardContent>
@@ -202,7 +202,7 @@ const Reports = () => {
         titleTypographyProps={{ variant: 'subtitle1', color: titleTypography }}
         sx={{
           backgroundColor: cardActionBgClr,
-          paddingY: 0.5,
+          paddingY: 0.5
         }}
       />
       <CardContent>
@@ -226,7 +226,7 @@ const Reports = () => {
         titleTypographyProps={{ variant: 'subtitle1', color: titleTypography }}
         sx={{
           backgroundColor: cardActionBgClr,
-          paddingY: 0.5,
+          paddingY: 0.5
         }}
       />
       <CardContent>
@@ -274,7 +274,7 @@ const Reports = () => {
         titleTypographyProps={{ variant: 'subtitle1', color: titleTypography }}
         sx={{
           backgroundColor: cardActionBgClr,
-          paddingY: 0.5,
+          paddingY: 0.5
         }}
       />
       <CardContent>

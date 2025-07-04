@@ -18,18 +18,18 @@ export const CensusReportPdfView = async (tableData, dailyDate, calculateTotal) 
     oraTotDeath,
     oraTotal,
     oraDamaTot,
-    oraLamaTot,
+    oraLamaTot
   } = calculateTotal
   const viewPdf = {
     pageMargins: [15, 15, 17, 30],
     content: [
       {
         text: moment(new Date(dailyDate)).format('DD-MM-YYYY'),
-        style: 'topheader',
+        style: 'topheader'
       },
       {
         text: 'Daily Census Report',
-        style: 'header',
+        style: 'header'
       },
       {
         style: 'tableExample',
@@ -50,8 +50,8 @@ export const CensusReportPdfView = async (tableData, dailyDate, calculateTotal) 
               { text: 'Death', style: 'tableHeader' },
               { text: 'HIS Death', style: 'tableHeader' },
               { text: 'Total', style: 'tableHeader' },
-              { text: 'HIS Total', style: 'tableHeader' },
-            ],
+              { text: 'HIS Total', style: 'tableHeader' }
+            ]
           ].concat(
             tableData?.map((val, index) => [
               { text: index + 1, fontSize: 7, alignment: 'center' },
@@ -64,7 +64,7 @@ export const CensusReportPdfView = async (tableData, dailyDate, calculateTotal) 
                 text: val.ora_discharge + val.ora_dama + val.ora_lama,
                 fontSize: 8,
                 alignment: 'center',
-                fillColor: '#bdbdbd',
+                fillColor: '#bdbdbd'
               },
               { text: val.transfer_in, fontSize: 8, alignment: 'center' },
               { text: val.transfer_out, fontSize: 8, alignment: 'center' },
@@ -75,11 +75,11 @@ export const CensusReportPdfView = async (tableData, dailyDate, calculateTotal) 
                 text: val.ora_census_total,
                 fontSize: 8,
                 alignment: 'center',
-                fillColor: '#bdbdbd',
-              },
+                fillColor: '#bdbdbd'
+              }
             ])
-          ),
-        },
+          )
+        }
       },
       {
         style: 'table2',
@@ -99,21 +99,21 @@ export const CensusReportPdfView = async (tableData, dailyDate, calculateTotal) 
               totDeath,
               oraTotDeath,
               totalcensus,
-              oraTotal,
-            ],
-          ],
+              oraTotal
+            ]
+          ]
         },
         layout: {
           fillColor: function (rowIndex,) {
             return rowIndex % 2 === 0 ? '#bdbdbd' : null
-          },
-        },
-      },
+          }
+        }
+      }
     ],
     styles: {
       topheader: {
         fontSize: 11,
-        alignment: 'right',
+        alignment: 'right'
       },
 
       header: {
@@ -121,23 +121,23 @@ export const CensusReportPdfView = async (tableData, dailyDate, calculateTotal) 
         fontSize: 16,
         fontFamily: 'Calibri',
         bold: true,
-        margin: [0, 3, 0, 5],
+        margin: [0, 3, 0, 5]
       },
       tableExample: {
         alignment: 'center',
-        margin: [0, 2, 2, 0],
+        margin: [0, 2, 2, 0]
       },
       tableHeader: {
         fontSize: 8,
         bold: true,
-        color: 'black',
+        color: 'black'
       },
       table2: {
         alignment: 'center',
         fontSize: 10,
-        margin: [0, 2, 2, 0],
-      },
-    },
+        margin: [0, 2, 2, 0]
+      }
+    }
   }
   pdfMake.createPdf(viewPdf).open()
 }

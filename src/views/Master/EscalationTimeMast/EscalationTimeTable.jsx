@@ -15,7 +15,7 @@ const EscalationTimeTable = ({ rowSelect, count }) => {
       field: 'esc_responsibility',
       wrapText: true,
       filter: 'true',
-      width: 290,
+      width: 290
     },
     { headerName: 'Time Limit', field: 'esc_time_limit1', filter: 'true', width: 250 },
     { headerName: 'Level 1', field: 'lvl1', filter: 'true' },
@@ -26,8 +26,8 @@ const EscalationTimeTable = ({ rowSelect, count }) => {
     { headerName: 'Status', field: 'status', filter: 'true' },
     {
       headerName: 'Action',
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
-    },
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
+    }
   ])
   //get all data
   useEffect(() => {

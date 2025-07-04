@@ -49,7 +49,7 @@ const ApprovalCompnentForMD = ({
   crfRadioValue,
   radiovalue,
   selectedCompany,
-  company,
+  company
 }) => {
   const {
     higher,
@@ -60,7 +60,7 @@ const ApprovalCompnentForMD = ({
     now_who_status,
     dept_type,
     dept_type_name,
-    expected_date,
+    expected_date
   } = val
 
   const [imageshowFlag, setImageShowFlag] = useState(0)
@@ -84,7 +84,7 @@ const ApprovalCompnentForMD = ({
             const fileNamePart = parts[parts.length - 1]
             const obj = {
               imageName: fileNamePart,
-              url: val,
+              url: val
             }
             return obj
           })
@@ -114,7 +114,7 @@ const ApprovalCompnentForMD = ({
                 update_date: val.update_date,
                 crf_req_remark: val.crf_req_remark,
                 data_coll_image_status: val.data_coll_image_status,
-                crf_data_collect_slno: val.crf_data_collect_slno,
+                crf_data_collect_slno: val.crf_data_collect_slno
               }
               return obj
             })
@@ -141,7 +141,7 @@ const ApprovalCompnentForMD = ({
                 update_date: val.update_date,
                 crf_req_remark: val.crf_req_remark,
                 data_coll_image_status: val.data_coll_image_status,
-                crf_data_collect_slno: val.crf_data_collect_slno,
+                crf_data_collect_slno: val.crf_data_collect_slno
               }
               return obj
             })
@@ -171,7 +171,7 @@ const ApprovalCompnentForMD = ({
             const fileNamePart = parts[parts.length - 1]
             const obj = {
               imageName: fileNamePart,
-              url: val,
+              url: val
             }
             return obj
           })
@@ -201,7 +201,7 @@ const ApprovalCompnentForMD = ({
                 update_date: val.update_date,
                 crf_req_remark: val.crf_req_remark,
                 data_coll_image_status: val.data_coll_image_status,
-                crf_data_collect_slno: val.crf_data_collect_slno,
+                crf_data_collect_slno: val.crf_data_collect_slno
               }
               return obj
             })
@@ -228,7 +228,7 @@ const ApprovalCompnentForMD = ({
                 update_date: val.update_date,
                 crf_req_remark: val.crf_req_remark,
                 data_coll_image_status: val.data_coll_image_status,
-                crf_data_collect_slno: val.crf_data_collect_slno,
+                crf_data_collect_slno: val.crf_data_collect_slno
               }
               return obj
             })
@@ -259,7 +259,7 @@ const ApprovalCompnentForMD = ({
     setDataColData,
     setCollectDetailCheck,
     setImageArry,
-    selectedCompany,
+    selectedCompany
   ])
 
   const CloseFnctn = useCallback(() => {
@@ -279,7 +279,7 @@ const ApprovalCompnentForMD = ({
             const fileNamePart = parts[parts.length - 1]
             const obj = {
               imageName: fileNamePart,
-              url: val,
+              url: val
             }
             return obj
           })
@@ -305,7 +305,7 @@ const ApprovalCompnentForMD = ({
             const fileNamePart = parts[parts.length - 1]
             const obj = {
               imageName: fileNamePart,
-              url: val,
+              url: val
             }
             return obj
           })
@@ -330,7 +330,7 @@ const ApprovalCompnentForMD = ({
     setReqItems,
     setImageArry,
     setApproveTableData,
-    selectedCompany,
+    selectedCompany
   ])
 
   const DataViewfnctn = useCallback(() => {
@@ -351,7 +351,7 @@ const ApprovalCompnentForMD = ({
             const fileNamePart = parts[parts.length - 1]
             const obj = {
               imageName: fileNamePart,
-              url: val,
+              url: val
             }
             return obj
           })
@@ -381,7 +381,7 @@ const ApprovalCompnentForMD = ({
                 update_date: val.update_date,
                 crf_req_remark: val.crf_req_remark,
                 data_coll_image_status: val.data_coll_image_status,
-                crf_data_collect_slno: val.crf_data_collect_slno,
+                crf_data_collect_slno: val.crf_data_collect_slno
               }
               return obj
             })
@@ -407,7 +407,7 @@ const ApprovalCompnentForMD = ({
             const fileNamePart = parts[parts.length - 1]
             const obj = {
               imageName: fileNamePart,
-              url: val,
+              url: val
             }
             return obj
           })
@@ -437,7 +437,7 @@ const ApprovalCompnentForMD = ({
                 update_date: val.update_date,
                 crf_req_remark: val.crf_req_remark,
                 data_coll_image_status: val.data_coll_image_status,
-                crf_data_collect_slno: val.crf_data_collect_slno,
+                crf_data_collect_slno: val.crf_data_collect_slno
               }
               return obj
             })
@@ -460,7 +460,7 @@ const ApprovalCompnentForMD = ({
     setDataColData,
     setDataColFlag,
     setApproveTableData,
-    selectedCompany,
+    selectedCompany
   ])
 
   const ViewImage = useCallback(() => {
@@ -516,9 +516,7 @@ const ApprovalCompnentForMD = ({
     return val === 1 ? (
       <CssVarsProvider>
         <Tooltip title="Approved" arrow color="success" size="sm" variant="solid" placement="top">
-          <ThumbUpAltTwoToneIcon
-            sx={{ color: '#18A558', height: 18, width: 18, fontWeight: 650 }}
-          />
+          <ThumbUpAltTwoToneIcon sx={{ color: '#18A558', height: 18, width: 18, fontWeight: 650 }} />
         </Tooltip>
       </CssVarsProvider>
     ) : val === 2 ? (
@@ -535,14 +533,7 @@ const ApprovalCompnentForMD = ({
       </CssVarsProvider>
     ) : val === 4 ? (
       <CssVarsProvider>
-        <Tooltip
-          title="Internally Arranged"
-          arrow
-          color="primary"
-          size="sm"
-          variant="solid"
-          placement="top"
-        >
+        <Tooltip title="Internally Arranged" arrow color="primary" size="sm" variant="solid" placement="top">
           <EventAvailableTwoToneIcon sx={{ color: '#0d47a1', height: 20, width: 20 }} />
         </Tooltip>
       </CssVarsProvider>
@@ -571,9 +562,9 @@ const ApprovalCompnentForMD = ({
     color: '#01579b',
     bgcolor: 'white',
     '&:hover': {
-      bgcolor: '#F0F4F8',
+      bgcolor: '#F0F4F8'
     },
-    borderRadius: 1,
+    borderRadius: 1
   }
   return (
     <Fragment>
@@ -605,7 +596,7 @@ const ApprovalCompnentForMD = ({
           borderTopLeftRadius: 0,
           borderTopRightRadius: 0,
           justifyContent: 'space-between',
-          flexWrap: 'wrap',
+          flexWrap: 'wrap'
         }}
       >
         <Box sx={{ display: 'flex', flexWrap: 'wrap', pl: 1 }}>
@@ -619,7 +610,7 @@ const ApprovalCompnentForMD = ({
                     sx={{
                       height: 19,
                       width: 19,
-                      color: '#0277bd',
+                      color: '#0277bd'
                     }}
                   />
                 }
@@ -638,7 +629,7 @@ const ApprovalCompnentForMD = ({
                         sx={{
                           height: 19,
                           width: 19,
-                          color: '#0277bd',
+                          color: '#0277bd'
                         }}
                       />
                     }
@@ -657,7 +648,7 @@ const ApprovalCompnentForMD = ({
                             sx={{
                               height: 19,
                               width: 19,
-                              color: '#0277bd',
+                              color: '#0277bd'
                             }}
                           />
                         }
@@ -675,7 +666,7 @@ const ApprovalCompnentForMD = ({
                             sx={{
                               height: 19,
                               width: 19,
-                              color: '#0277bd',
+                              color: '#0277bd'
                             }}
                           />
                         }
@@ -697,7 +688,7 @@ const ApprovalCompnentForMD = ({
                       sx={{
                         height: 19,
                         width: 19,
-                        color: '#0277bd',
+                        color: '#0277bd'
                       }}
                     />
                   }
@@ -804,7 +795,7 @@ const ApprovalCompnentForMD = ({
             sx={{
               display: 'flex',
               flexDirection: 'row',
-              alignItems: 'center',
+              alignItems: 'center'
             }}
           >
             <CampaignTwoToneIcon
@@ -814,22 +805,22 @@ const ApprovalCompnentForMD = ({
                 animation: 'blink 2s infinite', // Apply the blink animation
                 '@keyframes blink': {
                   '0%': {
-                    opacity: 1,
+                    opacity: 1
                   },
                   '50%': {
-                    opacity: 0,
+                    opacity: 0
                   },
                   '100%': {
-                    opacity: 1,
-                  },
-                },
+                    opacity: 1
+                  }
+                }
               }}
             />
             <Typography
               sx={{
                 fontFamily: 'var(--font-varient)',
                 color: 'rgba(var(--font-primary-white))',
-                fontWeight: 700,
+                fontWeight: 700
               }}
             ></Typography>
           </Box>
@@ -852,7 +843,7 @@ const ApprovalCompnentForMD = ({
                 bgcolor: 'white',
                 border: '1px solid lightblue',
                 fontWeight: 650,
-                color: dept_type === 1 ? '#EF7C8E' : dept_type === 2 ? '#A16AE8' : '#29A0B1',
+                color: dept_type === 1 ? '#EF7C8E' : dept_type === 2 ? '#A16AE8' : '#29A0B1'
               }}
             >
               {dept_type_name}
@@ -879,8 +870,8 @@ const ApprovalCompnentForMD = ({
                     fontWeight: 550,
                     '&:hover': {
                       color: '#0277bd',
-                      bgcolor: 'white',
-                    },
+                      bgcolor: 'white'
+                    }
                   }}
                 >
                   Internally Arranged
@@ -896,8 +887,8 @@ const ApprovalCompnentForMD = ({
                   bgcolor: '#0277bd',
                   borderRadius: 1,
                   '&:hover': {
-                    bgcolor: '#0277bd',
-                  },
+                    bgcolor: '#0277bd'
+                  }
                 }}
               >
                 {crfRadioValue === '2' ? (
@@ -910,7 +901,7 @@ const ApprovalCompnentForMD = ({
                           pr: 1,
                           color: 'white',
                           textTransform: 'capitalize',
-                          fontWeight: 550,
+                          fontWeight: 550
                         }}
                       >
                         On-Hold Items
@@ -923,7 +914,7 @@ const ApprovalCompnentForMD = ({
                           pr: 1,
                           color: 'white',
                           textTransform: 'capitalize',
-                          fontWeight: 550,
+                          fontWeight: 550
                         }}
                       >
                         Rejected Items
@@ -939,7 +930,7 @@ const ApprovalCompnentForMD = ({
                         pr: 1,
                         color: 'white',
                         textTransform: 'capitalize',
-                        fontWeight: 550,
+                        fontWeight: 550
                       }}
                     >
                       {now_who}
@@ -950,18 +941,18 @@ const ApprovalCompnentForMD = ({
                         pr: 1,
                         color: 'white',
                         textTransform: 'capitalize',
-                        fontWeight: 550,
+                        fontWeight: 550
                       }}
                     >
                       {now_who_status === 1
                         ? 'Approved'
                         : now_who_status === 2
-                          ? 'Rejected'
-                          : now_who_status === 3
-                            ? 'On-Hold'
-                            : now_who_status === 4
-                              ? 'Approved'
-                              : ''}
+                        ? 'Rejected'
+                        : now_who_status === 3
+                        ? 'On-Hold'
+                        : now_who_status === 4
+                        ? 'Approved'
+                        : ''}
                     </Typography>
                   </>
                 )}
@@ -979,18 +970,12 @@ const ApprovalCompnentForMD = ({
                       borderRadius: 5,
                       bgcolor: 'white',
                       '&:hover': {
-                        bgcolor: 'white',
-                      },
+                        bgcolor: 'white'
+                      }
                     }}
                   >
                     {crfRadioValue === '2' ? (
-                      <>
-                        {radiovalue === '6'
-                          ? approveComp(3)
-                          : radiovalue === '7'
-                            ? approveComp(2)
-                            : null}
-                      </>
+                      <>{radiovalue === '6' ? approveComp(3) : radiovalue === '7' ? approveComp(2) : null}</>
                     ) : (
                       approveComp(now_who_status)
                     )}
@@ -1012,10 +997,10 @@ const ApprovalCompnentForMD = ({
                           bgcolor: 'white',
                           width: '15px',
                           '&:hover': {
-                            bgcolor: '#F0F4F8',
+                            bgcolor: '#F0F4F8'
                           },
                           boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.16)',
-                          borderRadius: 5,
+                          borderRadius: 5
                         }}
                         onClick={ViewImage}
                       >
@@ -1038,8 +1023,8 @@ const ApprovalCompnentForMD = ({
                   bgcolor: '#0277bd',
                   borderRadius: 1,
                   '&:hover': {
-                    bgcolor: '#0277bd',
-                  },
+                    bgcolor: '#0277bd'
+                  }
                 }}
               >
                 <Typography
@@ -1049,7 +1034,7 @@ const ApprovalCompnentForMD = ({
                     pr: 1,
                     color: 'white',
                     textTransform: 'capitalize',
-                    fontWeight: 550,
+                    fontWeight: 550
                   }}
                 >
                   {now_who + ' By ' + crf_closed_one}
@@ -1068,19 +1053,12 @@ const ApprovalCompnentForMD = ({
                       borderRadius: 5,
                       bgcolor: 'white',
                       '&:hover': {
-                        bgcolor: 'white',
-                      },
+                        bgcolor: 'white'
+                      }
                     }}
                   >
                     {' '}
-                    <Tooltip
-                      title="Closed"
-                      arrow
-                      color="danger"
-                      size="sm"
-                      variant="solid"
-                      placement="top"
-                    >
+                    <Tooltip title="Closed" arrow color="danger" size="sm" variant="solid" placement="top">
                       <DoDisturbOffTwoToneIcon sx={{ color: 'red', height: 18, width: 18 }} />
                     </Tooltip>
                   </IconButton>

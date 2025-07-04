@@ -3,7 +3,7 @@ const { FETCH_BRANCH } = ActionTyps
 //initial state
 const branchName = {
   branchList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Branch action type check then payload set to the state and loading status set as true */
 export const getBranch = (state = branchName, { type, payload }) => {

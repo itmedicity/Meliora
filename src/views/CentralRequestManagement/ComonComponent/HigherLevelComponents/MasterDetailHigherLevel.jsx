@@ -23,7 +23,7 @@ const MasterDetailHigherLevel = ({ val, selectedCompany }) => {
     emer_type_name,
     emergeny_remarks,
     po_prepartion,
-    company_name,
+    company_name
   } = val
   const expdate =
     expected_date !== null && isValid(new Date(expected_date))
@@ -49,15 +49,13 @@ const MasterDetailHigherLevel = ({ val, selectedCompany }) => {
             borderBottomLeftRadius: 0,
             borderBottomRightRadius: 0,
             borderBottom: '1px solid #9fa8da',
-            flexWrap: 'wrap',
+            flexWrap: 'wrap'
           }}
         >
           <Box sx={{ flex: 0.7, borderRight: '1px solid lightgray', flexWrap: 'wrap' }}>
             <Box sx={{ ml: 1, mt: 0.5 }}>
               <Typography sx={{ fontSize: 15, color: '#003060', fontWeight: 'bold' }}>
-                {selectedCompany === '2'
-                  ? `CRF/KMC/${req_slno}`
-                  : `CRF/${company_name}/${req_slno}`}
+                {selectedCompany === '2' ? `CRF/KMC/${req_slno}` : `CRF/${company_name}/${req_slno}`}
               </Typography>
             </Box>
             <Box sx={{ ml: 1, mt: 0.5 }}>
@@ -71,16 +69,14 @@ const MasterDetailHigherLevel = ({ val, selectedCompany }) => {
                   fontSize: 12,
                   textTransform: 'uppercase',
                   color: '#003060',
-                  fontWeight: 'bold',
+                  fontWeight: 'bold'
                 }}
               >
                 {em_name}
               </Typography>
             </Box>
             <Box sx={{ ml: 1, mt: 0.5 }}>
-              <Typography sx={{ fontSize: 12, textTransform: 'uppercase', color: '#003060' }}>
-                {dept_name}
-              </Typography>
+              <Typography sx={{ fontSize: 12, textTransform: 'uppercase', color: '#003060' }}>{dept_name}</Typography>
             </Box>
             <Box sx={{ ml: 1, mt: 0.5, pb: 0.5 }}>
               <Typography sx={{ fontSize: 12, textTransform: 'capitalize', color: '#003060' }}>
@@ -96,7 +92,7 @@ const MasterDetailHigherLevel = ({ val, selectedCompany }) => {
                   height: 30,
                   width: 30,
                   color: '#d50000',
-                  animation: `${blinkAnimation} 1s infinite`,
+                  animation: `${blinkAnimation} 1s infinite`
                 }}
               />
               <Typography sx={{ fontSize: 13, color: '#b71c1c', pt: 0.2, fontWeight: 550 }}>
@@ -109,27 +105,19 @@ const MasterDetailHigherLevel = ({ val, selectedCompany }) => {
           ) : null}
           <Box sx={{ flex: 3.5, flexWrap: 'wrap' }}>
             <Box sx={{ m: 0.7, borderBottom: '1px solid lightgray', display: 'flex', pb: 0.5 }}>
-              <Typography
-                sx={{ fontSize: 11, color: '#003060', fontWeight: 'bold', flex: 0.1, pt: 0.2 }}
-              >
+              <Typography sx={{ fontSize: 11, color: '#003060', fontWeight: 'bold', flex: 0.1, pt: 0.2 }}>
                 REQUIREMENT{' '}
               </Typography>
-              <Typography sx={{ fontSize: 12, color: '#003060', fontWeight: 'bold' }}>
-                :{' '}
-              </Typography>
+              <Typography sx={{ fontSize: 12, color: '#003060', fontWeight: 'bold' }}>: </Typography>
               <Typography sx={{ fontSize: 13, pl: 1, flex: 1 }}>
                 {actual_requirement !== null ? capitalizeWords(actual_requirement) : 'Not Given'}
               </Typography>
             </Box>
             <Box sx={{ m: 0.7, borderBottom: '1px solid lightgray', display: 'flex', pb: 0.5 }}>
-              <Typography
-                sx={{ fontSize: 11, color: '#003060', fontWeight: 'bold', flex: 0.1, pt: 0.2 }}
-              >
+              <Typography sx={{ fontSize: 11, color: '#003060', fontWeight: 'bold', flex: 0.1, pt: 0.2 }}>
                 JUSTIFICATION
               </Typography>
-              <Typography sx={{ fontSize: 12, color: '#003060', fontWeight: 'bold' }}>
-                :{' '}
-              </Typography>
+              <Typography sx={{ fontSize: 12, color: '#003060', fontWeight: 'bold' }}>: </Typography>
               <Typography sx={{ fontSize: 13, pl: 1, flex: 1 }}>
                 {needed !== null ? capitalizeWords(needed) : 'Not Given'}
               </Typography>
@@ -140,16 +128,12 @@ const MasterDetailHigherLevel = ({ val, selectedCompany }) => {
                 display: 'flex',
                 flexWrap: 'wrap',
                 justifyContent: 'space-between',
-                pr: 0.5,
+                pr: 0.5
               }}
             >
               <Box sx={{ display: 'flex' }}>
-                <Typography sx={{ fontSize: 11, color: '#003060', fontWeight: 'bold', pt: 0.4 }}>
-                  CATEGORY
-                </Typography>
-                <Typography sx={{ fontSize: 12, color: '#003060', fontWeight: 'bold', pl: 1 }}>
-                  :{' '}
-                </Typography>
+                <Typography sx={{ fontSize: 11, color: '#003060', fontWeight: 'bold', pt: 0.4 }}>CATEGORY</Typography>
+                <Typography sx={{ fontSize: 12, color: '#003060', fontWeight: 'bold', pl: 1 }}>: </Typography>
                 <Typography sx={{ fontSize: 13, pl: 1 }}>
                   {category?.toLowerCase().replace(/\b\w/g, char => char.toUpperCase())}
                 </Typography>
@@ -158,44 +142,26 @@ const MasterDetailHigherLevel = ({ val, selectedCompany }) => {
                 <Typography sx={{ fontSize: 11, color: '#003060', fontWeight: 'bold', pt: 0.4 }}>
                   REQ. DEPARTMENT
                 </Typography>
-                <Typography sx={{ fontSize: 12, color: '#003060', fontWeight: 'bold', pl: 1 }}>
-                  :{' '}
-                </Typography>
-                <Typography sx={{ fontSize: 13 }}>
-                  &nbsp;&nbsp;{capitalizeWords(req_deptsec)}
-                </Typography>
+                <Typography sx={{ fontSize: 12, color: '#003060', fontWeight: 'bold', pl: 1 }}>: </Typography>
+                <Typography sx={{ fontSize: 13 }}>&nbsp;&nbsp;{capitalizeWords(req_deptsec)}</Typography>
               </Box>
               <Box sx={{ display: 'flex' }}>
-                <Typography sx={{ fontSize: 11, color: '#003060', fontWeight: 'bold', pt: 0.4 }}>
-                  LOCATION{' '}
-                </Typography>
-                <Typography sx={{ fontSize: 12, color: '#003060', fontWeight: 'bold', pl: 1 }}>
-                  :{' '}
-                </Typography>
-                <Typography sx={{ fontSize: 13 }}>
-                  &nbsp;&nbsp;{capitalizeWords(location)}
-                </Typography>
+                <Typography sx={{ fontSize: 11, color: '#003060', fontWeight: 'bold', pt: 0.4 }}>LOCATION </Typography>
+                <Typography sx={{ fontSize: 12, color: '#003060', fontWeight: 'bold', pl: 1 }}>: </Typography>
+                <Typography sx={{ fontSize: 13 }}>&nbsp;&nbsp;{capitalizeWords(location)}</Typography>
               </Box>
               <Box sx={{ display: 'flex' }}>
                 <Typography sx={{ fontSize: 11, color: '#003060', fontWeight: 'bold', pt: 0.4 }}>
                   EXPECTED DATE
                 </Typography>
-                <Typography sx={{ fontSize: 12, color: '#003060', fontWeight: 'bold', pl: 1 }}>
-                  :{' '}
-                </Typography>
+                <Typography sx={{ fontSize: 12, color: '#003060', fontWeight: 'bold', pl: 1 }}>: </Typography>
                 <Typography sx={{ fontSize: 13 }}>&nbsp;&nbsp;{expdate}</Typography>
               </Box>
               {po_prepartion === 1 ? (
                 <Box sx={{ display: 'flex' }}>
-                  <Typography sx={{ fontSize: 11, color: '#003060', fontWeight: 'bold', pt: 0.4 }}>
-                    #Order
-                  </Typography>
-                  <Typography sx={{ fontSize: 12, color: '#003060', fontWeight: 'bold', pl: 1 }}>
-                    :{' '}
-                  </Typography>
-                  <Typography sx={{ fontSize: 13, color: '#145DA0', pr: 1 }}>
-                    &nbsp;&nbsp;{po_number}
-                  </Typography>
+                  <Typography sx={{ fontSize: 11, color: '#003060', fontWeight: 'bold', pt: 0.4 }}>#Order</Typography>
+                  <Typography sx={{ fontSize: 12, color: '#003060', fontWeight: 'bold', pl: 1 }}>: </Typography>
+                  <Typography sx={{ fontSize: 13, color: '#145DA0', pr: 1 }}>&nbsp;&nbsp;{po_number}</Typography>
                 </Box>
               ) : null}
             </Box>

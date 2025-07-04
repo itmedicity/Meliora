@@ -14,11 +14,7 @@ import CustomIconButtonCmp from '../ComonComponent/Components/CustomIconButtonCm
 import { useQuery, useQueryClient } from 'react-query'
 import { getApprovedCrfItems, getApprovedStatus, getMaxslNoOfCrfItem } from 'src/api/CommonApiCRF'
 import CustomToolTipForCRF from '../ComonComponent/Components/CustomToolTipForCRF'
-import {
-  getApprovedCrfItemskmc,
-  getApprovedStatuskmc,
-  getMaxslNoOfCrfItemkmc,
-} from 'src/api/CommonApiCRFKmc'
+import { getApprovedCrfItemskmc, getApprovedStatuskmc, getMaxslNoOfCrfItemkmc } from 'src/api/CommonApiCRFKmc'
 
 const ItemsApprovalCompnt = ({
   req_slno,
@@ -30,7 +26,7 @@ const ItemsApprovalCompnt = ({
   setEditEnable,
   header,
   apprvLevel,
-  depkmc,
+  depkmc
 }) => {
   const queryClient = useQueryClient()
   const dispatch = useDispatch()
@@ -53,7 +49,7 @@ const ItemsApprovalCompnt = ({
     approx_cost: 0,
     item_desc_actl: '',
     item_qty: 0,
-    po_item_status: '',
+    po_item_status: ''
   })
   //Destructuring
   const {
@@ -65,7 +61,7 @@ const ItemsApprovalCompnt = ({
     unitprice,
     approx_cost,
     item_desc_actl,
-    item_qty,
+    item_qty
   } = itemstate
   const updateItemState = useCallback(
     e => {
@@ -90,7 +86,7 @@ const ItemsApprovalCompnt = ({
       setItemState(prev => ({
         ...prev,
         item_qty: e.target.value,
-        approx_cost: unitprice !== '' || unitprice !== 0 ? unitprice * e.target.value : 0,
+        approx_cost: unitprice !== '' || unitprice !== 0 ? unitprice * e.target.value : 0
       }))
     },
     [unitprice]
@@ -102,7 +98,7 @@ const ItemsApprovalCompnt = ({
         setItemState(prev => ({
           ...prev,
           unitprice: e.target.value,
-          approx_cost: item_qty !== '' ? item_qty * e.target.value : 0,
+          approx_cost: item_qty !== '' ? item_qty * e.target.value : 0
         }))
       } else {
         warningNotify('Provide the quantity before specifying the unit price')
@@ -114,44 +110,44 @@ const ItemsApprovalCompnt = ({
   const {
     data: iteData,
     isLoading: isItemsLoading,
-    error: itemsError,
+    error: itemsError
   } = useQuery({
     queryKey: ['approvedRejholdItemList', req_slno],
     queryFn: () => getApprovedCrfItems(req_slno),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const itemData = useMemo(() => iteData, [iteData])
 
   const {
     data: kmciteData,
     isLoading: isItemskmcLoading,
-    error: kmcitemsError,
+    error: kmcitemsError
   } = useQuery({
     queryKey: ['approvedRejholdItemListkmc', req_slno],
     queryFn: () => getApprovedCrfItemskmc(req_slno),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const kmcitemData = useMemo(() => kmciteData, [kmciteData])
 
   const {
     data: statData,
     isLoading: isStatusLoading,
-    error: statusError,
+    error: statusError
   } = useQuery({
     queryKey: ['itemStatus', req_slno],
     queryFn: () => getApprovedStatus(req_slno),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const statusData = useMemo(() => statData, [statData])
 
   const {
     data: kmcstatData,
     isLoading: kmcisStatusLoading,
-    error: kmcstatusError,
+    error: kmcstatusError
   } = useQuery({
     queryKey: ['itemStatuskmc', req_slno],
     queryFn: () => getApprovedStatuskmc(req_slno),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const statusDatakmc = useMemo(() => kmcstatData, [kmcstatData])
   useEffect(() => {
@@ -178,7 +174,7 @@ const ItemsApprovalCompnt = ({
               val.item_md_approve !== 0 ||
               val.item_ed_approve !== 0
                 ? 1
-                : 0,
+                : 0
             // higher=1 then can't edit else can edit
           }
         })
@@ -197,7 +193,7 @@ const ItemsApprovalCompnt = ({
               val.item_md_approve !== 0 ||
               val.item_ed_approve !== 0
                 ? 1
-                : 0,
+                : 0
           }
         })
         setCheckStatus(newData)
@@ -214,7 +210,7 @@ const ItemsApprovalCompnt = ({
               val.item_md_approve !== 0 ||
               val.item_ed_approve !== 0
                 ? 1
-                : 0,
+                : 0
           }
         })
         setCheckStatus(newData)
@@ -230,7 +226,7 @@ const ItemsApprovalCompnt = ({
               val.item_md_approve !== 0 ||
               val.item_ed_approve !== 0
                 ? 1
-                : 0,
+                : 0
           }
         })
         setCheckStatus(newData)
@@ -245,7 +241,7 @@ const ItemsApprovalCompnt = ({
               val.item_md_approve !== 0 ||
               val.item_ed_approve !== 0
                 ? 1
-                : 0,
+                : 0
           }
         })
         setCheckStatus(newData)
@@ -254,10 +250,7 @@ const ItemsApprovalCompnt = ({
         const newData = Statusdatamain?.map(val => {
           return {
             req_detl_slno: val.req_detl_slno,
-            higher:
-              val.item_gm_approve !== 0 || val.item_md_approve !== 0 || val.item_ed_approve !== 0
-                ? 1
-                : 0,
+            higher: val.item_gm_approve !== 0 || val.item_md_approve !== 0 || val.item_ed_approve !== 0 ? 1 : 0
           }
         })
         setCheckStatus(newData)
@@ -266,7 +259,7 @@ const ItemsApprovalCompnt = ({
         const newData = Statusdatamain?.map(val => {
           return {
             req_detl_slno: val.req_detl_slno,
-            higher: val.item_md_approve !== 0 || val.item_ed_approve !== 0 ? 1 : 0,
+            higher: val.item_md_approve !== 0 || val.item_ed_approve !== 0 ? 1 : 0
           }
         })
         setCheckStatus(newData)
@@ -275,7 +268,7 @@ const ItemsApprovalCompnt = ({
         const newData = Statusdatamain?.map(val => {
           return {
             req_detl_slno: val.req_detl_slno,
-            higher: 0,
+            higher: 0
           }
         })
         setCheckStatus(newData)
@@ -297,7 +290,7 @@ const ItemsApprovalCompnt = ({
           const itstatus = checkStatus?.find(item => item.req_detl_slno === val.req_detl_slno)
           return {
             ...val,
-            higher: itstatus ? itstatus.higher : 0,
+            higher: itstatus ? itstatus.higher : 0
           }
         })
         setApproveTableData(newData)
@@ -306,7 +299,7 @@ const ItemsApprovalCompnt = ({
         const newData = combaineditem?.map(val => {
           return {
             ...val,
-            higher: 1,
+            higher: 1
           }
         })
         setApproveTableData(newData)
@@ -317,20 +310,20 @@ const ItemsApprovalCompnt = ({
   const {
     data: maxSlnoData,
     isLoading: isSlnoLoading,
-    error: slnoError,
+    error: slnoError
   } = useQuery({
     queryKey: ['getmaxSlno', req_slno],
     queryFn: () => getMaxslNoOfCrfItem(req_slno),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const {
     data: kmcmaxSlnoData,
     isLoading: kmcisSlnoLoading,
-    error: kmcslnoError,
+    error: kmcslnoError
   } = useQuery({
     queryKey: ['getmaxSlnokmc', req_slno],
     queryFn: () => getMaxslNoOfCrfItemkmc(req_slno),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
 
   useEffect(() => {
@@ -361,7 +354,7 @@ const ItemsApprovalCompnt = ({
         approve_item_unit_price,
         approve_item_specification,
         item_qnty_approved,
-        po_item_status,
+        po_item_status
       } = val
       setEditEnable(1)
       setItemState(prev => ({
@@ -375,7 +368,7 @@ const ItemsApprovalCompnt = ({
         approx_cost: approve_aprox_cost,
         reqDetailslno: req_detl_slno,
         po_item_status: po_item_status,
-        item_desc_actl: approve_item_desc,
+        item_desc_actl: approve_item_desc
       }))
       setUOM(approve_item_unit !== null ? approve_item_unit : 0)
       setMoreItem(0)
@@ -395,7 +388,7 @@ const ItemsApprovalCompnt = ({
       approx_cost: 0,
       item_desc_actl: '',
       item_qty: 0,
-      po_item_status: '',
+      po_item_status: ''
     }
     setItemState(resetarrray)
     setUOM(0)
@@ -421,7 +414,7 @@ const ItemsApprovalCompnt = ({
         req_detl_slno: reqDetailslno,
         req_slno: req_slno,
         apprv_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
-        apprvLevel: apprvLevel,
+        apprvLevel: apprvLevel
       }
       const approvedatakmc = {
         approve_item_desc: item_desc,
@@ -437,7 +430,7 @@ const ItemsApprovalCompnt = ({
         req_detl_slno: reqDetailslno,
         req_slno: req_slno,
         apprv_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
-        apprvLevel: apprvLevel,
+        apprvLevel: apprvLevel
       }
 
       const updateDetalReqApprov = async approvedata => {
@@ -496,7 +489,7 @@ const ItemsApprovalCompnt = ({
         item_status_approved: 1,
         old_item_slno: item_slno,
         create_user: id,
-        req_detl_slno: reqDetailslno,
+        req_detl_slno: reqDetailslno
       }
 
       const approvedataInsertkmc = {
@@ -521,7 +514,7 @@ const ItemsApprovalCompnt = ({
         item_status_approved: 1,
         old_item_slno: item_slno,
         create_user: depkmc?.kmc_hod,
-        req_detl_slno: reqDetailslno,
+        req_detl_slno: reqDetailslno
       }
       const DetailApprvInsert = async reqDataPost => {
         const result = await axioslogin.post('/CRFRegisterApproval/DetailApprvInsert', reqDataPost)
@@ -537,10 +530,7 @@ const ItemsApprovalCompnt = ({
         }
       }
       const DetailkmcApprvInsert = async approvedataInsertkmc => {
-        const result = await axioskmc.post(
-          '/CRFRegisterApproval/DetailApprvInsert',
-          approvedataInsertkmc
-        )
+        const result = await axioskmc.post('/CRFRegisterApproval/DetailApprvInsert', approvedataInsertkmc)
         const { success, message } = result.data
 
         if (success === 1) {
@@ -580,7 +570,7 @@ const ItemsApprovalCompnt = ({
     queryClient,
     apprvLevel,
     selectedCompany,
-    depkmc,
+    depkmc
   ])
 
   const Rejectfctn = useCallback(() => {
@@ -606,7 +596,7 @@ const ItemsApprovalCompnt = ({
         reject_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
         req_detl_slno: reqDetailslno,
         apprvLevel: apprvLevel,
-        req_slno: req_slno,
+        req_slno: req_slno
       }
 
       const updateDetalReqApprov = async rejectedata => {
@@ -640,7 +630,7 @@ const ItemsApprovalCompnt = ({
     header,
     queryClient,
     apprvLevel,
-    req_slno,
+    req_slno
   ])
 
   const onHoldfctn = useCallback(() => {
@@ -671,7 +661,7 @@ const ItemsApprovalCompnt = ({
         hold_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
         req_detl_slno: reqDetailslno,
         apprvLevel: apprvLevel,
-        req_slno: req_slno,
+        req_slno: req_slno
       }
       const updateDetalReqApprov = async holddata => {
         const result = await axioslogin.patch('/CRFRegisterApproval/DetailItemOnHold', holddata)
@@ -703,7 +693,7 @@ const ItemsApprovalCompnt = ({
     header,
     queryClient,
     apprvLevel,
-    req_slno,
+    req_slno
   ])
 
   const internallyArrangedUpdate = useCallback(() => {
@@ -725,13 +715,10 @@ const ItemsApprovalCompnt = ({
         internal_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
         req_detl_slno: reqDetailslno,
         apprvLevel: apprvLevel,
-        req_slno: req_slno,
+        req_slno: req_slno
       }
       const updateDetalReqApprov = async internaldata => {
-        const result = await axioslogin.patch(
-          '/CRFRegisterApproval/internallyArranged',
-          internaldata
-        )
+        const result = await axioslogin.patch('/CRFRegisterApproval/internallyArranged', internaldata)
         const { success, message } = result.data
         if (success === 1) {
           succesNotify(message)
@@ -760,17 +747,10 @@ const ItemsApprovalCompnt = ({
     header,
     queryClient,
     apprvLevel,
-    req_slno,
+    req_slno
   ])
 
-  if (
-    isItemsLoading ||
-    isSlnoLoading ||
-    isStatusLoading ||
-    kmcisSlnoLoading ||
-    kmcisStatusLoading ||
-    isItemskmcLoading
-  )
+  if (isItemsLoading || isSlnoLoading || isStatusLoading || kmcisSlnoLoading || kmcisStatusLoading || isItemskmcLoading)
     return <p>Loading...</p>
   if (itemsError || slnoError || statusError || kmcslnoError || kmcstatusError || kmcitemsError)
     return <p>Error occurred.</p>
@@ -780,30 +760,16 @@ const ItemsApprovalCompnt = ({
         {apprvdItems.length !== 0 ? (
           <Box sx={{}}>
             <Box sx={{ display: 'flex' }}>
-              <Typography
-                sx={{ fontWeight: 'bold', ml: 1, my: 0.5, color: '#145DA0', fontSize: 14 }}
-              >
+              <Typography sx={{ fontWeight: 'bold', ml: 1, my: 0.5, color: '#145DA0', fontSize: 14 }}>
                 Approved Items
               </Typography>
             </Box>
             <Box sx={{ overflow: 'auto', flexWrap: 'wrap', px: 0.5, pb: 0.5 }}>
-              <Table
-                aria-label="table with sticky header"
-                borderAxis="both"
-                padding={'none'}
-                stickyHeader
-                size="sm"
-              >
+              <Table aria-label="table with sticky header" borderAxis="both" padding={'none'} stickyHeader size="sm">
                 <thead>
                   <tr>
-                    <th
-                      size="sm"
-                      style={{ borderRadius: 0, width: 40, backgroundColor: '#e3f2fd' }}
-                    ></th>
-                    <th
-                      size="sm"
-                      style={{ width: 50, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                    >
+                    <th size="sm" style={{ borderRadius: 0, width: 40, backgroundColor: '#e3f2fd' }}></th>
+                    <th size="sm" style={{ width: 50, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                       Sl.No
                     </th>
                     <th size="sm" style={{ width: 300, backgroundColor: '#e3f2fd' }}>
@@ -812,34 +778,19 @@ const ItemsApprovalCompnt = ({
                     <th size="sm" style={{ width: 200, backgroundColor: '#e3f2fd' }}>
                       &nbsp;&nbsp;Brand
                     </th>
-                    <th
-                      size="sm"
-                      style={{ width: 80, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                    >
+                    <th size="sm" style={{ width: 80, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                       Qty
                     </th>
-                    <th
-                      size="sm"
-                      style={{ width: 80, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                    >
+                    <th size="sm" style={{ width: 80, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                       UOM
                     </th>
-                    <th
-                      size="sm"
-                      style={{ width: 350, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                    >
+                    <th size="sm" style={{ width: 350, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                       Specification
                     </th>
-                    <th
-                      size="sm"
-                      style={{ width: 100, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                    >
+                    <th size="sm" style={{ width: 100, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                       Price
                     </th>
-                    <th
-                      size="sm"
-                      style={{ width: 100, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                    >
+                    <th size="sm" style={{ width: 100, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                       Approx.Cost
                     </th>
                     <th
@@ -848,7 +799,7 @@ const ItemsApprovalCompnt = ({
                         borderRadius: 0,
                         width: 150,
                         textAlign: 'center',
-                        backgroundColor: '#e3f2fd',
+                        backgroundColor: '#e3f2fd'
                       }}
                     >
                       Status
@@ -903,7 +854,7 @@ const ItemsApprovalCompnt = ({
                                     height: 25,
                                     width: 30,
                                     borderRadius: 2,
-                                    cursor: 'pointer',
+                                    cursor: 'pointer'
                                   }}
                                 />
                               </CustomToolTipForCRF>
@@ -919,8 +870,8 @@ const ItemsApprovalCompnt = ({
                                     boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.1)',
                                     cursor: 'pointer',
                                     '&:hover': {
-                                      color: '#A47551',
-                                    },
+                                      color: '#A47551'
+                                    }
                                   }}
                                   onClick={() => editSelect(item)}
                                 />
@@ -939,14 +890,10 @@ const ItemsApprovalCompnt = ({
                           </td>
                           <td style={{ fontSize: 13 }}>
                             &nbsp;
-                            {item.approve_item_specification === ''
-                              ? 'Not Given'
-                              : item.approve_item_specification}
+                            {item.approve_item_specification === '' ? 'Not Given' : item.approve_item_specification}
                           </td>
                           <td style={{ textAlign: 'center' }}>
-                            {item.approve_item_unit_price === 0
-                              ? 'Not Given'
-                              : item.approve_item_unit_price}
+                            {item.approve_item_unit_price === 0 ? 'Not Given' : item.approve_item_unit_price}
                           </td>
                           <td style={{ textAlign: 'center' }}>
                             {item.approve_aprox_cost === 0 ? 'Not Given' : item.approve_aprox_cost}
@@ -980,7 +927,7 @@ const ItemsApprovalCompnt = ({
               fontSize: 25,
               opacity: 0.5,
               pt: 10,
-              color: 'grey',
+              color: 'grey'
             }}
           >
             No items Approved
@@ -988,9 +935,7 @@ const ItemsApprovalCompnt = ({
         )}
         {editEnable === 1 ? (
           <Box sx={{ px: 0.5 }}>
-            <Typography sx={{ fontWeight: 'bold', m: 1, color: '#145DA0', fontSize: 14 }}>
-              Edit Item Details
-            </Typography>
+            <Typography sx={{ fontWeight: 'bold', m: 1, color: '#145DA0', fontSize: 14 }}>Edit Item Details</Typography>
             <Box sx={{ display: 'flex' }}>
               <Box sx={{ flex: 1.5 }}>
                 <CustomPaperTitle heading="Item Description" mandtry={1} />
@@ -1084,8 +1029,8 @@ const ItemsApprovalCompnt = ({
                         width: '100%',
                         '&:hover': {
                           bgcolor: '#59981A',
-                          color: 'white',
-                        },
+                          color: 'white'
+                        }
                       }}
                       onClick={Approvefctn}
                     >
@@ -1105,8 +1050,8 @@ const ItemsApprovalCompnt = ({
                         width: '100%',
                         '&:hover': {
                           bgcolor: '#f44336',
-                          color: 'white',
-                        },
+                          color: 'white'
+                        }
                       }}
                       onClick={Rejectfctn}
                     >
@@ -1126,8 +1071,8 @@ const ItemsApprovalCompnt = ({
                         width: '100%',
                         '&:hover': {
                           bgcolor: '#DBA40E',
-                          color: 'white',
-                        },
+                          color: 'white'
+                        }
                       }}
                       onClick={onHoldfctn}
                     >
@@ -1148,8 +1093,8 @@ const ItemsApprovalCompnt = ({
                           width: '100%',
                           '&:hover': {
                             bgcolor: '#009688',
-                            color: 'white',
-                          },
+                            color: 'white'
+                          }
                         }}
                         onClick={internallyFctn}
                       >
@@ -1171,8 +1116,8 @@ const ItemsApprovalCompnt = ({
                         width: '100%',
                         '&:hover': {
                           bgcolor: 'white',
-                          color: '#43B0F1',
-                        },
+                          color: '#43B0F1'
+                        }
                       }}
                       onClick={cancelEdit}
                     >
@@ -1194,8 +1139,8 @@ const ItemsApprovalCompnt = ({
                       width: '100%',
                       '&:hover': {
                         bgcolor: '#59981A',
-                        color: 'white',
-                      },
+                        color: 'white'
+                      }
                     }}
                     onClick={Approvefctn}
                   >
@@ -1260,9 +1205,7 @@ const ItemsApprovalCompnt = ({
               />
             </Box>
             <Box sx={{ flex: 0.2, m: 0.4 }}>
-              <CustomIconButtonCmp handleChange={internallyArrangedUpdate}>
-                Update
-              </CustomIconButtonCmp>
+              <CustomIconButtonCmp handleChange={internallyArrangedUpdate}>Update</CustomIconButtonCmp>
             </Box>
           </Box>
         ) : null}

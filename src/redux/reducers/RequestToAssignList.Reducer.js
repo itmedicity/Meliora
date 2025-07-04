@@ -3,7 +3,7 @@ const { FETCH_REQUEST_TO_ASSIGN_TAT } = ActionTyps
 
 const RequestToAssign = {
   RequestToAssignList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 
 export const getRequestToAssignList = (state = RequestToAssign, { type, payload }) => {

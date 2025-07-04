@@ -12,7 +12,7 @@ const LeaseAdd = () => {
             flex: 1,
             fontWeight: 500,
             color: 'black',
-            fontSize: 15,
+            fontSize: 15
           }}
         />
       </Box>
@@ -23,7 +23,7 @@ const LeaseAdd = () => {
             flex: 1,
             fontWeight: 500,
             color: 'black',
-            fontSize: 15,
+            fontSize: 15
           }}
         />
         <Box sx={{ flex: 1, pr: 1, pt: 1 }}>
@@ -36,7 +36,7 @@ const LeaseAdd = () => {
               borderColor: 'lightgrey',
               pl: 1,
               py: 0.5,
-              gap: 0.5,
+              gap: 0.5
             }}
           >
             <Box sx={{ flex: 0.1 }}>#</Box>

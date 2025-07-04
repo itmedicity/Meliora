@@ -37,9 +37,7 @@ const YearlyBill = ({ yearlydata, billCount, setbillCount }) => {
   const UndatePending = useCallback(value => {
     const { yearly_slno } = value
     const getbillsFile = async () => {
-      const result = await axioslogin.get(
-        `/ItImageUpload/uploadFile/getYearlyBillImages/${yearly_slno}`
-      )
+      const result = await axioslogin.get(`/ItImageUpload/uploadFile/getYearlyBillImages/${yearly_slno}`)
       const { success } = result.data
       if (success === 1) {
         const data = result.data
@@ -76,8 +74,7 @@ const YearlyBill = ({ yearlydata, billCount, setbillCount }) => {
     if (enterText.length < 3) {
       infoNotify('please enter minimum 3 character to search task name')
     } else {
-      let newTableDataa =
-        yearlydata && yearlydata.filter(val => val.bill_name.toLowerCase().includes(enterText))
+      let newTableDataa = yearlydata && yearlydata.filter(val => val.bill_name.toLowerCase().includes(enterText))
       setsearchBillNameFlag(1)
       setAlphbased(1)
       setAlphbasedData(newTableDataa)
@@ -86,8 +83,7 @@ const YearlyBill = ({ yearlydata, billCount, setbillCount }) => {
 
   useEffect(() => {
     if (alphbased === 1) {
-      let newTableDataa =
-        yearlydata && yearlydata.filter(val => val.bill_name.toLowerCase().includes(enterText))
+      let newTableDataa = yearlydata && yearlydata.filter(val => val.bill_name.toLowerCase().includes(enterText))
       setAlphbasedData(newTableDataa)
     }
   }, [yearlydata, alphbased, enterText])
@@ -153,7 +149,7 @@ const YearlyBill = ({ yearlydata, billCount, setbillCount }) => {
                     height: 29,
                     borderRadius: 2,
                     width: 350,
-                    pl: 1,
+                    pl: 1
                   }}
                   onChange={updateEnterText}
                 />
@@ -169,7 +165,7 @@ const YearlyBill = ({ yearlydata, billCount, setbillCount }) => {
                         borderTop: 1,
                         borderBottom: 1,
                         borderColor: '#B2C4CB',
-                        '&:hover': { bgcolor: '#36454F' },
+                        '&:hover': { bgcolor: '#36454F' }
                       }}
                       onClick={SearchBillName}
                     >
@@ -189,7 +185,7 @@ const YearlyBill = ({ yearlydata, billCount, setbillCount }) => {
                         borderTop: 1,
                         borderBottom: 1,
                         borderColor: '#B2C4CB',
-                        '&:hover': { bgcolor: '#36454F' },
+                        '&:hover': { bgcolor: '#36454F' }
                       }}
                       onClick={closeBillSearch}
                     >
@@ -225,7 +221,7 @@ const YearlyBill = ({ yearlydata, billCount, setbillCount }) => {
                         borderTop: 1,
                         borderBottom: 1,
                         borderColor: '#B2C4CB',
-                        '&:hover': { bgcolor: '#36454F' },
+                        '&:hover': { bgcolor: '#36454F' }
                       }}
                       onClick={SearchBillCate}
                     >
@@ -245,7 +241,7 @@ const YearlyBill = ({ yearlydata, billCount, setbillCount }) => {
                         borderTop: 1,
                         borderBottom: 1,
                         borderColor: '#B2C4CB',
-                        '&:hover': { bgcolor: '#36454F' },
+                        '&:hover': { bgcolor: '#36454F' }
                       }}
                       onClick={closeBillSearch}
                     >
@@ -274,37 +270,28 @@ const YearlyBill = ({ yearlydata, billCount, setbillCount }) => {
                       borderRadius: 0,
                       display: 'flex',
                       mt: 0.5,
-                      color: 'black',
+                      color: 'black'
                     }}
                   >
                     <Box
                       sx={{
                         p: 0.5,
                         cursor: 'pointer',
-                        mx: 1,
+                        mx: 1
                       }}
                     >
                       <Tooltip title="Add Now" placement="bottom">
-                        <AddBoxIcon
-                          sx={{ height: 20, color: '#56382D' }}
-                          onClick={() => UndatePending(val)}
-                        />
+                        <AddBoxIcon sx={{ height: 20, color: '#56382D' }} onClick={() => UndatePending(val)} />
                       </Tooltip>
                     </Box>
                     <Box sx={{ flex: 0.5, pt: 0.5, cursor: 'grab', pl: 1 }}>
-                      <Chip
-                        sx={{ bgcolor: '#F1C83A', fontSize: 14, fontWeight: 700, color: '#670305' }}
-                      >
-                        {years}
-                      </Chip>
+                      <Chip sx={{ bgcolor: '#F1C83A', fontSize: 14, fontWeight: 700, color: '#670305' }}>{years}</Chip>
                     </Box>
                     <Tooltip title="bill name" placement="bottom">
                       <Box sx={{ flex: 5, pt: 0.5, cursor: 'grab' }}>{val.bill_name}</Box>
                     </Tooltip>
                     <Tooltip title="bill Category" placement="bottom">
-                      <Box sx={{ flex: 1, pt: 0.5, cursor: 'grab' }}>
-                        {val.it_bill_category_name}
-                      </Box>
+                      <Box sx={{ flex: 1, pt: 0.5, cursor: 'grab' }}>{val.it_bill_category_name}</Box>
                     </Tooltip>
                   </Paper>
                 )
@@ -325,37 +312,28 @@ const YearlyBill = ({ yearlydata, billCount, setbillCount }) => {
                       borderRadius: 0,
                       display: 'flex',
                       mt: 0.5,
-                      color: 'black',
+                      color: 'black'
                     }}
                   >
                     <Box
                       sx={{
                         p: 0.5,
                         cursor: 'pointer',
-                        mx: 1,
+                        mx: 1
                       }}
                     >
                       <Tooltip title="Add Now" placement="bottom">
-                        <AddBoxIcon
-                          sx={{ height: 20, color: '#56382D' }}
-                          onClick={() => UndatePending(val)}
-                        />
+                        <AddBoxIcon sx={{ height: 20, color: '#56382D' }} onClick={() => UndatePending(val)} />
                       </Tooltip>
                     </Box>
                     <Box sx={{ flex: 0.5, pt: 0.5, cursor: 'grab', pl: 1 }}>
-                      <Chip
-                        sx={{ bgcolor: '#F1C83A', fontSize: 14, fontWeight: 700, color: '#670305' }}
-                      >
-                        {years}
-                      </Chip>
+                      <Chip sx={{ bgcolor: '#F1C83A', fontSize: 14, fontWeight: 700, color: '#670305' }}>{years}</Chip>
                     </Box>
                     <Tooltip title="bill name" placement="bottom">
                       <Box sx={{ flex: 5, pt: 0.5, cursor: 'grab' }}>{val.bill_name}</Box>
                     </Tooltip>
                     <Tooltip title="bill Category" placement="bottom">
-                      <Box sx={{ flex: 1, pt: 0.5, cursor: 'grab' }}>
-                        {val.it_bill_category_name}
-                      </Box>
+                      <Box sx={{ flex: 1, pt: 0.5, cursor: 'grab' }}>{val.it_bill_category_name}</Box>
                     </Tooltip>
                   </Paper>
                 )
@@ -376,29 +354,22 @@ const YearlyBill = ({ yearlydata, billCount, setbillCount }) => {
                       borderRadius: 0,
                       display: 'flex',
                       mt: 0.5,
-                      color: 'black',
+                      color: 'black'
                     }}
                   >
                     <Box
                       sx={{
                         p: 0.5,
                         cursor: 'pointer',
-                        mx: 1,
+                        mx: 1
                       }}
                     >
                       <Tooltip title="Add Now" placement="bottom">
-                        <AddBoxIcon
-                          sx={{ height: 20, color: '#56382D' }}
-                          onClick={() => UndatePending(val)}
-                        />
+                        <AddBoxIcon sx={{ height: 20, color: '#56382D' }} onClick={() => UndatePending(val)} />
                       </Tooltip>
                     </Box>
                     <Box sx={{ flex: 0.5, pt: 0.5, cursor: 'grab', pl: 1 }}>
-                      <Chip
-                        sx={{ bgcolor: '#F1C83A', fontSize: 14, fontWeight: 700, color: '#670305' }}
-                      >
-                        {years}
-                      </Chip>
+                      <Chip sx={{ bgcolor: '#F1C83A', fontSize: 14, fontWeight: 700, color: '#670305' }}>{years}</Chip>
                     </Box>
                     <Box sx={{ flex: 5, pt: 0.5, cursor: 'grab' }}>{val.bill_name}</Box>
                     <Box sx={{ flex: 1, pt: 0.5, cursor: 'grab' }}>{val.it_bill_category_name}</Box>

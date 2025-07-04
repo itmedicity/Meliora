@@ -14,7 +14,7 @@ export const getReqApprovDept = deptsecArry => async dispatch => {
     dispatch({
       type: FETCH_REQ_APPROV_DEPT,
       payload: [],
-      loadingStatus: false,
+      loadingStatus: false
     })
   }
 }

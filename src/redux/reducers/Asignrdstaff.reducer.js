@@ -3,7 +3,7 @@ const { FETCH_ASSIGNED_STAFF } = ActionTyps
 //intial state
 const assignedstaff = {
   assignedstaffList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Complainttype action type check then payload set to the state and loading status set as true */
 export const getAsignedstaffnurse = (state = assignedstaff, { type, payload }) => {

@@ -26,7 +26,7 @@ const DietDetailMast = () => {
   const [dietdetl, setdietdetl] = useState({
     status: false,
     em_id: '',
-    diet_dtslno: 0,
+    diet_dtslno: 0
   })
   //destructuring
   const { status, diet_dtslno } = dietdetl
@@ -63,7 +63,7 @@ const DietDetailMast = () => {
       type_slno: diettype,
       status: status === true ? 1 : 0,
       em_id: id,
-      diet_dtslno: diet_dtslno,
+      diet_dtslno: diet_dtslno
     }
   }, [diet, diettype, status, diet_dtslno, id])
   //data set for edit
@@ -76,7 +76,7 @@ const DietDetailMast = () => {
       end_time: moment(end_time).format('YYYY-MM-DD HH:MM:SS'),
       status: status === 1 ? true : false,
       em_id: em_id,
-      diet_dtslno: diet_dtslno,
+      diet_dtslno: diet_dtslno
     }
     setdietdetl(frmdata)
     setdiet(diet_slno)
@@ -92,7 +92,7 @@ const DietDetailMast = () => {
       type_slno: diettype,
       status: status === true ? 1 : 0,
       em_id: id,
-      diet_dtslno: diet_dtslno,
+      diet_dtslno: diet_dtslno
     }
   }, [diet, diettype, status, diet_dtslno, id])
 
@@ -102,7 +102,7 @@ const DietDetailMast = () => {
       e.preventDefault()
       const formReset = {
         status: false,
-        em_id: '',
+        em_id: ''
       }
       /*** * insert function for use call back     */
       const Insertdietdetl = async postData => {
@@ -159,7 +159,7 @@ const DietDetailMast = () => {
       diet_slno: '',
       type_slno: '',
       em_id: '',
-      status: false,
+      status: false
     }
     setdietdetl(formReset)
     setValue(0)
@@ -170,12 +170,7 @@ const DietDetailMast = () => {
   }, [setdietdetl])
 
   return (
-    <CardMaster
-      title="Item Master"
-      submit={submitDiettype}
-      close={backToSettings}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Item Master" submit={submitDiettype} close={backToSettings} refresh={refreshWindow}>
       <Box sx={{ p: 1 }}>
         <Grid container spacing={1}>
           <Grid item xl={4} lg={4}>

@@ -53,7 +53,7 @@ const PurchaseStoreSlect = ({ substoreSlno, setsubStoreSlno, storeSlno, setsubSt
     <CssVarsProvider>
       <Autocomplete
         sx={{
-          '--Input-minHeight': '32px',
+          '--Input-minHeight': '32px'
         }}
         value={substoreSlno === 0 ? type : value}
         placeholder="Select Store"

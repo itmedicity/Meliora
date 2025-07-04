@@ -13,7 +13,7 @@ const ServiceTicketTab = ({ complDetails }) => {
         overflowY: 'auto',
         maxHeight: '100%',
         m: 0,
-        pt: 0.5,
+        pt: 0.5
       }}
     >
       {complDetails.length !== 0 ? (
@@ -24,7 +24,7 @@ const ServiceTicketTab = ({ complDetails }) => {
               flex: 1,
               fontWeight: 500,
               color: 'black',
-              fontSize: 15,
+              fontSize: 15
             }}
           />
 
@@ -38,13 +38,11 @@ const ServiceTicketTab = ({ complDetails }) => {
                       fontWeight: 600,
                       color: '#727B8C',
                       pt: 1,
-                      width: 150,
+                      width: 150
                     }}
                   />
                   <Box sx={{ flex: 1, pt: 1 }}>
-                    <Chip sx={{ bgcolor: '#C6DCF3', color: 'black', px: 2 }}>
-                      {val.complaint_slno}
-                    </Chip>
+                    <Chip sx={{ bgcolor: '#C6DCF3', color: 'black', px: 2 }}>{val.complaint_slno}</Chip>
                   </Box>
                 </Box>
                 <Box sx={{ display: 'flex' }}>
@@ -54,7 +52,7 @@ const ServiceTicketTab = ({ complDetails }) => {
                       fontWeight: 600,
                       color: '#727B8C',
                       pt: 1,
-                      width: 150,
+                      width: 150
                     }}
                   />
                   <Box sx={{ flex: 1 }}>
@@ -62,7 +60,7 @@ const ServiceTicketTab = ({ complDetails }) => {
                       text={val.complaint_type_name}
                       sx={{
                         color: 'black',
-                        pt: 1,
+                        pt: 1
                       }}
                     />
                   </Box>
@@ -74,7 +72,7 @@ const ServiceTicketTab = ({ complDetails }) => {
                       fontWeight: 600,
                       color: '#727B8C',
                       pt: 1,
-                      width: 150,
+                      width: 150
                     }}
                   />
                   <Box sx={{ flex: 1 }}>
@@ -82,7 +80,7 @@ const ServiceTicketTab = ({ complDetails }) => {
                       text={val.complaint_desc}
                       sx={{
                         color: 'black',
-                        pt: 1,
+                        pt: 1
                       }}
                     />
                   </Box>
@@ -94,7 +92,7 @@ const ServiceTicketTab = ({ complDetails }) => {
                       fontWeight: 600,
                       color: '#727B8C',
                       pt: 1,
-                      width: 150,
+                      width: 150
                     }}
                   />
                   <Box sx={{ flex: 1 }}>
@@ -102,7 +100,7 @@ const ServiceTicketTab = ({ complDetails }) => {
                       text={val.location}
                       sx={{
                         color: 'black',
-                        pt: 1,
+                        pt: 1
                       }}
                     />
                   </Box>
@@ -114,27 +112,21 @@ const ServiceTicketTab = ({ complDetails }) => {
                       fontWeight: 600,
                       color: '#727B8C',
                       pt: 1,
-                      width: 150,
+                      width: 150
                     }}
                   />
                   <Box
                     sx={{
                       flex: 1,
                       color: 'black',
-                      pt: 1,
+                      pt: 1
                     }}
                   >
-                    {val.rm_room_name - val.rm_roomtype_name ||
-                    val.rm_insidebuildblock_name ||
-                    val.rm_floor_name
+                    {val.rm_room_name - val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name
                       ? ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${
                           val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
                         }
-                                    ${
-                                      val.rm_insidebuildblock_name
-                                        ? val.rm_insidebuildblock_name
-                                        : ''
-                                    }${
+                                    ${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${
                           val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
                         }
                                     ${val.rm_floor_name ? val.rm_floor_name : ''})`
@@ -148,7 +140,7 @@ const ServiceTicketTab = ({ complDetails }) => {
                       fontWeight: 600,
                       color: '#727B8C',
                       pt: 1,
-                      width: 150,
+                      width: 150
                     }}
                   />
                   <Box sx={{ flex: 1 }}>
@@ -160,7 +152,7 @@ const ServiceTicketTab = ({ complDetails }) => {
                       }
                       sx={{
                         color: 'black',
-                        pt: 1,
+                        pt: 1
                       }}
                     />
                   </Box>
@@ -172,7 +164,7 @@ const ServiceTicketTab = ({ complDetails }) => {
                       fontWeight: 600,
                       color: '#727B8C',
                       pt: 1,
-                      width: 150,
+                      width: 150
                     }}
                   />
                   <Box sx={{ flex: 1, fontWeight: 400, color: 'Black', fontSize: 13, pt: 1 }}>
@@ -198,7 +190,7 @@ const ServiceTicketTab = ({ complDetails }) => {
                       fontWeight: 600,
                       color: '#727B8C',
                       pt: 1,
-                      width: 150,
+                      width: 150
                     }}
                   />
                   <Box sx={{ flex: 1, mr: 1, mt: 1 }}>

@@ -30,7 +30,7 @@ const CrfRequestMaster = () => {
             item_unitprice: val.item_unit_price,
             uomName: val.uom_name,
             approx_cost: val.aprox_cost,
-            req_detl_slno: val.req_detl_slno,
+            req_detl_slno: val.req_detl_slno
           }
           return obj
         })
@@ -54,7 +54,7 @@ const CrfRequestMaster = () => {
           const fileNamePart = parts[parts.length - 1]
           const obj = {
             imageName: fileNamePart,
-            url: val,
+            url: val
           }
           return obj
         })
@@ -84,8 +84,8 @@ const CrfRequestMaster = () => {
                 [`& .${tabClasses.root}[aria-selected="true"]`]: {
                   boxShadow: 'sm',
                   backgroundColor: '#54A2D2',
-                  color: 'white',
-                },
+                  color: 'white'
+                }
               }}
             >
               <Tab
@@ -101,8 +101,8 @@ const CrfRequestMaster = () => {
                   m: 0.2,
                   '&:hover': {
                     transform: 'scale(1.01)',
-                    bgcolor: 'white',
-                  },
+                    bgcolor: 'white'
+                  }
                 }}
               >
                 Common Request Form (CRF)
@@ -119,8 +119,8 @@ const CrfRequestMaster = () => {
                   m: 0.2,
                   '&:hover': {
                     transform: 'scale(1.01)',
-                    bgcolor: 'white',
-                  },
+                    bgcolor: 'white'
+                  }
                 }}
               >
                 View

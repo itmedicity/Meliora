@@ -18,7 +18,7 @@ const ItemGroupMast = () => {
   const [itemgroup, setItemgrp] = useState({
     group_name: '',
     status: false,
-    grp_slno: '',
+    grp_slno: ''
   })
   //Destructuring
   const { group_name, status, grp_slno } = itemgroup
@@ -38,7 +38,7 @@ const ItemGroupMast = () => {
     return {
       group_name: group_name,
       status: status === true ? 1 : 0,
-      em_id: id,
+      em_id: id
     }
   }, [group_name, status, id])
   //edit data setting on textfields
@@ -49,7 +49,7 @@ const ItemGroupMast = () => {
     const frmdata = {
       group_name: group_name,
       status: status === 1 ? true : false,
-      grp_slno: grp_slno,
+      grp_slno: grp_slno
     }
     setItemgrp(frmdata)
   }, [])
@@ -59,7 +59,7 @@ const ItemGroupMast = () => {
       group_name: group_name,
       status: status === true ? 1 : 0,
       em_id: id,
-      grp_slno: grp_slno,
+      grp_slno: grp_slno
     }
   }, [group_name, status, grp_slno, id])
   /*** usecallback function for form submitting */
@@ -69,7 +69,7 @@ const ItemGroupMast = () => {
       const formreset = {
         group_name: '',
         status: false,
-        grp_slno: '',
+        grp_slno: ''
       }
       /***    * insert function for use call back     */
       const Insertitemgroup = async postdata => {
@@ -121,19 +121,14 @@ const ItemGroupMast = () => {
       group_name: '',
       status: false,
       grp_slno: '',
-      em_id: '',
+      em_id: ''
     }
     setItemgrp(formreset)
     setValue(0)
   }, [setItemgrp])
 
   return (
-    <CardMaster
-      title="Item Group Master"
-      submit={submititemgrp}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Item Group Master" submit={submititemgrp} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ p: 1 }}>
         <Grid container spacing={1}>
           <Grid item xl={4} lg={4}>

@@ -3,7 +3,7 @@ const { FETCH_RECTIFY_TO_VERIFY_TAT } = ActionTyps
 
 const RectifyToVerify = {
   RectifyToVerifyList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 
 export const getRectifyToVerifyList = (state = RectifyToVerify, { type, payload }) => {

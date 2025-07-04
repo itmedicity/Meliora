@@ -12,7 +12,7 @@ const CustomLoadComp = () => {
         zIndex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        pt: 5,
+        pt: 5
       }}
     >
       <CircularProgress color="primary" size="md" thickness={3} variant="soft" />

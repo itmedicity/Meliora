@@ -1,12 +1,4 @@
-import {
-  Box,
-  CssVarsProvider,
-  Modal,
-  ModalClose,
-  ModalDialog,
-  Textarea,
-  Typography,
-} from '@mui/joy'
+import { Box, CssVarsProvider, Modal, ModalClose, ModalDialog, Textarea, Typography } from '@mui/joy'
 import React, { Fragment, memo, useCallback, useEffect, useMemo, useRef } from 'react'
 import CrfReqDetailViewCmp from '../ComonComponent/CrfReqDetailViewCmp'
 import ReqItemDisplay from '../ComonComponent/ReqItemDisplay'
@@ -50,7 +42,7 @@ const ManagingDirectorModal = ({
   datacolflag,
   datacolData,
   imagearray,
-  selectedCompany,
+  selectedCompany
 }) => {
   const {
     req_slno,
@@ -70,7 +62,7 @@ const ManagingDirectorModal = ({
     managing_director_remarks,
     managing_director_analysis,
     managing_director_image,
-    company_slno,
+    company_slno
   } = ApprovalData
   const queryClient = useQueryClient()
   const id = useSelector(state => state.LoginUserData.empid, _.isEqual)
@@ -90,7 +82,7 @@ const ManagingDirectorModal = ({
     detailAnalis: managing_director_analysis !== null ? managing_director_analysis : '',
     datacollFlag: false,
     datacolectremark: '',
-    datacollFlagKMC: false,
+    datacollFlagKMC: false
   })
   const {
     remark,
@@ -101,13 +93,13 @@ const ManagingDirectorModal = ({
     datacollFlag,
     datacolectremark,
     internallyArr,
-    datacollFlagKMC,
+    datacollFlagKMC
   } = apprvlDetails
   const updateOnchangeState = useCallback(e => {
     const { name, type, value, checked } = e.target
     setApprvlDetails(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === 'checkbox' ? checked : value
     }))
   }, [])
 
@@ -117,7 +109,7 @@ const ManagingDirectorModal = ({
       approve: type === 'approve',
       reject: type === 'reject',
       pending: type === 'pending',
-      internallyArr: type === 'internallyArr',
+      internallyArr: type === 'internallyArr'
     }))
   }, [])
 
@@ -142,7 +134,7 @@ const ManagingDirectorModal = ({
         pending: false,
         internallyArr: false,
         datacollFlag: false,
-        datacolectremark: '',
+        datacolectremark: ''
       }))
       setCrfDept(0)
       setApproveTableData([])
@@ -158,7 +150,7 @@ const ManagingDirectorModal = ({
     const options = {
       maxSizeMB: 25,
       maxWidthOrHeight: 1920,
-      useWebWorker: true,
+      useWebWorker: true
     }
     const compressedFile = await imageCompression(imageFile, options)
     return compressedFile
@@ -170,15 +162,7 @@ const ManagingDirectorModal = ({
   const managPatchData = useMemo(() => {
     return {
       managing_director_approve:
-        approve === true
-          ? 1
-          : reject === true
-          ? 2
-          : pending === true
-          ? 3
-          : internallyArr === true
-          ? 4
-          : null,
+        approve === true ? 1 : reject === true ? 2 : pending === true ? 3 : internallyArr === true ? 4 : null,
       managing_director_user: id,
       req_slno: req_slno,
       managing_director_approve_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
@@ -187,21 +171,11 @@ const ManagingDirectorModal = ({
       items: approveTableData?.map(val => {
         return {
           req_detl_slno: val.req_detl_slno,
-          item_status_approved: val.item_status_approved,
+          item_status_approved: val.item_status_approved
         }
-      }),
+      })
     }
-  }, [
-    approve,
-    reject,
-    pending,
-    id,
-    remark,
-    detailAnalis,
-    req_slno,
-    approveTableData,
-    internallyArr,
-  ])
+  }, [approve, reject, pending, id, remark, detailAnalis, req_slno, approveTableData, internallyArr])
   const submit = useCallback(() => {
     if (editEnable === 1) {
       infoNotify('Ensure all other details are entered/completed before submitting')
@@ -249,10 +223,7 @@ const ManagingDirectorModal = ({
       }
       const DataCollRequestFnctntmc = async postData => {
         try {
-          const result = await axioslogin.post(
-            `/CRFRegisterApproval/dataCollect/Insert/tmc`,
-            postData
-          )
+          const result = await axioslogin.post(`/CRFRegisterApproval/dataCollect/Insert/tmc`, postData)
           const { success, message } = result.data
           if (success === 1) {
             succesNotify(message)
@@ -299,15 +270,11 @@ const ManagingDirectorModal = ({
               formData.append('files', file, file.name)
             }
           }
-          const result = await axioskmc.post(
-            '/newCRFRegisterImages/crf/ImageInsertManage',
-            formData,
-            {
-              headers: {
-                'Content-Type': 'multipart/form-data',
-              },
+          const result = await axioskmc.post('/newCRFRegisterImages/crf/ImageInsertManage', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
             }
-          )
+          })
           return result.data
         } catch (error) {
           warningNotify('An error occurred during file upload.')
@@ -328,7 +295,7 @@ const ManagingDirectorModal = ({
           crf_req_collect_dept: val,
           crf_req_remark: datacolectremark,
           reqest_one: 11,
-          req_user: id,
+          req_user: id
         }))
         if (selectedCompany === '1') {
           // DataCollRequestFnctn(postData);
@@ -353,7 +320,7 @@ const ManagingDirectorModal = ({
           crf_req_remark: datacolectremark,
           reqest_one: 3,
           req_user: id,
-          tmc_status: 1,
+          tmc_status: 1
         }))
         DataCollRequestFnctntmc(postData)
         return
@@ -417,7 +384,7 @@ const ManagingDirectorModal = ({
     editEnable,
     selectedCompany,
     detailAnalis,
-    remark,
+    remark
   ])
 
   const closeModal = useCallback(() => {
@@ -440,7 +407,7 @@ const ManagingDirectorModal = ({
             const fileNamePart = parts[parts.length - 1]
             const obj = {
               imageName: fileNamePart,
-              url: val,
+              url: val
             }
             return obj
           })
@@ -464,7 +431,7 @@ const ManagingDirectorModal = ({
             const fileNamePart = parts[parts.length - 1]
             const obj = {
               imageName: fileNamePart,
-              url: val,
+              url: val
             }
             return obj
           })
@@ -502,7 +469,7 @@ const ManagingDirectorModal = ({
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 25,
-                width: 25,
+                width: 25
               }}
             />
             <Box sx={{ minWidth: '80vw', minHeight: '62vh', maxHeight: '85vh', overflowY: 'auto' }}>
@@ -519,9 +486,7 @@ const ManagingDirectorModal = ({
                   ) : (
                     <Paper variant="outlined" sx={{ flexWrap: 'wrap' }}>
                       <Box sx={{ borderBottom: '1px solid lightgrey' }}>
-                        <Typography
-                          sx={{ fontWeight: 'bold', p: 1, color: '#145DA0', fontSize: 14 }}
-                        >
+                        <Typography sx={{ fontWeight: 'bold', p: 1, color: '#145DA0', fontSize: 14 }}>
                           Department Approval
                         </Typography>
                       </Box>
@@ -603,7 +568,7 @@ const ManagingDirectorModal = ({
                           sx={{
                             display: 'flex',
                             flexDirection: 'row',
-                            alignItems: 'center',
+                            alignItems: 'center'
                           }}
                         >
                           <CampaignTwoToneIcon
@@ -613,22 +578,22 @@ const ManagingDirectorModal = ({
                               animation: 'blink 2s infinite', // Apply the blink animation
                               '@keyframes blink': {
                                 '0%': {
-                                  opacity: 1,
+                                  opacity: 1
                                 },
                                 '50%': {
-                                  opacity: 0,
+                                  opacity: 0
                                 },
                                 '100%': {
-                                  opacity: 1,
-                                },
-                              },
+                                  opacity: 1
+                                }
+                              }
                             }}
                           />
                           <Typography
                             sx={{
                               fontFamily: 'var(--font-varient)',
                               color: 'rgba(var(--font-primary-white))',
-                              fontWeight: 700,
+                              fontWeight: 700
                             }}
                           ></Typography>
                           <Typography
@@ -637,7 +602,7 @@ const ManagingDirectorModal = ({
                               color: '#FF6868',
                               fontSize: 14,
                               p: 1,
-                              textTransform: 'capitalize',
+                              textTransform: 'capitalize'
                             }}
                           >
                             Comments From {ApprovalData?.viewDep?.toLowerCase()}
@@ -650,7 +615,7 @@ const ManagingDirectorModal = ({
                             color: '#145DA0',
                             fontSize: 14,
                             p: 1,
-                            textTransform: 'capitalize',
+                            textTransform: 'capitalize'
                           }}
                         >
                           By:{ApprovalData?.viewName?.toLowerCase()}
@@ -668,10 +633,7 @@ const ManagingDirectorModal = ({
                 ) : null}
                 <Box sx={{ py: 0.5, mx: 0.2 }}>
                   {datacolflag === 1 ? (
-                    <DataCollectionViewHigherLevel
-                      datacolData={datacolData}
-                      selectedCompany={selectedCompany}
-                    />
+                    <DataCollectionViewHigherLevel datacolData={datacolData} selectedCompany={selectedCompany} />
                   ) : null}
                 </Box>
                 <Paper variant="outlined" sx={{ pb: 1, flexWrap: 'wrap', mx: 0.3 }}>
@@ -720,9 +682,7 @@ const ManagingDirectorModal = ({
                       </Box>
                     </Box>
                     <Box sx={{ display: 'flex', pt: 0.4 }}>
-                      <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 1 }}>
-                        Remarks
-                      </Typography>
+                      <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 1 }}>Remarks</Typography>
                       <Typography sx={{ pt: 1 }}> :&nbsp;</Typography>
                       <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
                         <Textarea
@@ -753,9 +713,7 @@ const ManagingDirectorModal = ({
                       </Box>
                     </Box>
                     <Box sx={{ display: 'flex', pt: 0.4 }}>
-                      <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 1 }}>
-                        Remarks
-                      </Typography>
+                      <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 1 }}>Remarks</Typography>
                       <Typography sx={{ pt: 1 }}> :&nbsp;</Typography>
                       <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
                         <Textarea
@@ -792,9 +750,7 @@ const ManagingDirectorModal = ({
                           />
                         ) : null}
                         <Box sx={{ pl: 0.5 }}>
-                          <CustomIconButtonCmp handleChange={AddItems}>
-                            Add Items
-                          </CustomIconButtonCmp>
+                          <CustomIconButtonCmp handleChange={AddItems}>Add Items</CustomIconButtonCmp>
                         </Box>
                         {addMoreItems === 1 ? (
                           <AddMoreItemsKMC

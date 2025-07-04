@@ -19,16 +19,13 @@ const DataCollectionViewHigherLevel = ({ datacolData, selectedCompany }) => {
       setCollImageShow(true)
       const postdata = {
         req_slno: req_slno,
-        crf_data_collect_slno: dataClno,
+        crf_data_collect_slno: dataClno
       }
 
       if (selectedCompany === '1') {
         const getImage = async postdata => {
           try {
-            const result = await axioslogin.post(
-              '/newCRFRegisterImages/crf/getDataCollectionImage',
-              postdata
-            )
+            const result = await axioslogin.post('/newCRFRegisterImages/crf/getDataCollectionImage', postdata)
             const { success, data } = result.data
 
             if (success === 1) {
@@ -50,10 +47,7 @@ const DataCollectionViewHigherLevel = ({ datacolData, selectedCompany }) => {
         getImage(postdata)
       } else if (selectedCompany === '2') {
         const getImagekmc = async postdata => {
-          const result = await axioskmc.post(
-            '/newCRFRegisterImages/crf/getDataCollectionImage',
-            postdata
-          )
+          const result = await axioskmc.post('/newCRFRegisterImages/crf/getDataCollectionImage', postdata)
           const { success, data } = result.data
           if (success === 1) {
             const fileNames = data
@@ -108,9 +102,7 @@ const DataCollectionViewHigherLevel = ({ datacolData, selectedCompany }) => {
             <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }} key={index}>
               <Paper variant="outlined">
                 <Box sx={{ display: 'flex' }}>
-                  <Typography sx={{ fontSize: 14, flex: 0.4, pl: 1, pt: 0.5 }}>
-                    Requested To
-                  </Typography>
+                  <Typography sx={{ fontSize: 14, flex: 0.4, pl: 1, pt: 0.5 }}>Requested To</Typography>
                   <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
                   <Typography
                     sx={{
@@ -119,7 +111,7 @@ const DataCollectionViewHigherLevel = ({ datacolData, selectedCompany }) => {
                       fontWeight: 550,
                       flex: 1,
                       pr: 0.5,
-                      pt: 0.3,
+                      pt: 0.3
                     }}
                   >
                     {capitalizeWords(val.data_entered)}
@@ -129,14 +121,10 @@ const DataCollectionViewHigherLevel = ({ datacolData, selectedCompany }) => {
                   <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Requested by</Typography>
                   <Box sx={{ display: 'flex', flex: 1 }}>
                     <Typography> :&nbsp;</Typography>
-                    <Typography
-                      sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pt: 0.3, pl: 0.2 }}
-                    >
+                    <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pt: 0.3, pl: 0.2 }}>
                       {capitalizeWords(val.req_user)}
                     </Typography>
-                    <Typography
-                      sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pl: 3, pt: 0.3 }}
-                    >
+                    <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pl: 3, pt: 0.3 }}>
                       {format(new Date(val.create_date), 'dd-MM-yyyy hh:mm:ss a')}
                     </Typography>
                   </Box>
@@ -151,7 +139,7 @@ const DataCollectionViewHigherLevel = ({ datacolData, selectedCompany }) => {
                       fontWeight: 550,
                       flex: 1,
                       pr: 0.5,
-                      pt: 0.3,
+                      pt: 0.3
                     }}
                   >
                     {val.crf_req_remark}
@@ -167,7 +155,7 @@ const DataCollectionViewHigherLevel = ({ datacolData, selectedCompany }) => {
                       fontWeight: 550,
                       flex: 1,
                       pr: 0.5,
-                      pt: 0.3,
+                      pt: 0.3
                     }}
                   >
                     {val.crf_dept_remarks}
@@ -177,29 +165,19 @@ const DataCollectionViewHigherLevel = ({ datacolData, selectedCompany }) => {
                   <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Replied by</Typography>
                   <Box sx={{ display: 'flex', flex: 1 }}>
                     <Typography> :&nbsp;</Typography>
-                    <Typography
-                      sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pt: 0.3, pl: 0.2 }}
-                    >
+                    <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pt: 0.3, pl: 0.2 }}>
                       {capitalizeWords(val.datagive_user)}
                     </Typography>
-                    <Typography
-                      sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pl: 3, pt: 0.3 }}
-                    >
+                    <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pl: 3, pt: 0.3 }}>
                       {format(new Date(val.update_date), 'dd-MM-yyyy hh:mm:ss a')}
                     </Typography>
                     {val.data_coll_image_status === 1 ? (
                       <Box sx={{ display: 'flex', pl: 2 }}>
-                        <Tooltip
-                          title="File View"
-                          placement="bottom"
-                          sx={{ bgcolor: '#D4F1F4', color: 'darkblue' }}
-                        >
+                        <Tooltip title="File View" placement="bottom" sx={{ bgcolor: '#D4F1F4', color: 'darkblue' }}>
                           <AttachmentTwoToneIcon
                             fontSize="small"
                             sx={{ cursor: 'pointer', color: '#0277bd', width: 35, height: 25 }}
-                            onClick={() =>
-                              ViewImageDataColection(val.crf_data_collect_slno, val.req_slno)
-                            }
+                            onClick={() => ViewImageDataColection(val.crf_data_collect_slno, val.req_slno)}
                           ></AttachmentTwoToneIcon>
                         </Tooltip>
                       </Box>

@@ -41,7 +41,7 @@ const CRFDashboardDptSecSelect = ({ dptSec, setdptSec }) => {
             width: 340,
             border: '1px solid #bbdefb',
             color: '#1565c0',
-            fontSize: 14,
+            fontSize: 14
           }}
           value={dptSec === 0 ? type : value}
           placeholder="Select Department Section"

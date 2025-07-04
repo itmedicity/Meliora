@@ -1,9 +1,9 @@
 import React, { Fragment, useCallback, useState, memo } from 'react'
-import Slide from '@mui/material/Slide';
+import Slide from '@mui/material/Slide'
 // import { ToastContainer } from 'react-toastify';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import Button from '@mui/material/Button'
 import { Box, Paper } from '@mui/material'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
@@ -45,14 +45,12 @@ const CrfHodDashModal = ({ open, setOpen, datas, count, setCount }) => {
     hod_remarks,
     hod_detial_analysis,
     req_approv_slno,
-    category,
+    category
   } = datas[0]
   const reqdate = format(new Date(req_date), 'dd-MM-yyyy')
   const expdate = format(new Date(expected_date), 'dd-MM-yyyy')
   const inchargeApprovdate =
-    incharge_apprv_date !== null
-      ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy')
-      : 'Not Updated'
+    incharge_apprv_date !== null ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy') : 'Not Updated'
 
   //redux for geting login id
   const id = useSelector(state => {
@@ -183,7 +181,7 @@ const CrfHodDashModal = ({ open, setOpen, datas, count, setCount }) => {
         hod_approve_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
         req_approv_slno: req_approv_slno,
         hod_user: id,
-        req_slno: req_slno,
+        req_slno: req_slno
       }
       if (approve !== false || reject !== false || pending !== false) {
         if (approve === true) {
@@ -199,19 +197,7 @@ const CrfHodDashModal = ({ open, setOpen, datas, count, setCount }) => {
         warningNotify('Please Select any status')
       }
     },
-    [
-      approve,
-      reject,
-      pending,
-      remark,
-      detailAnalis,
-      req_slno,
-      id,
-      req_approv_slno,
-      count,
-      setCount,
-      setOpen,
-    ]
+    [approve, reject, pending, remark, detailAnalis, req_slno, id, req_approv_slno, count, setCount, setOpen]
   )
 
   // reset
@@ -255,12 +241,10 @@ const CrfHodDashModal = ({ open, setOpen, datas, count, setCount }) => {
           id="alert-dialog-slide-descriptiona"
           sx={{
             width: '100%',
-            height: 540,
+            height: 540
           }}
         >
-          <DialogContentText id="alert-dialog-slide-descriptiona">
-            Request Approval
-          </DialogContentText>
+          <DialogContentText id="alert-dialog-slide-descriptiona">Request Approval</DialogContentText>
           <Box sx={{ width: '100%', mt: 0 }}>
             <Paper variant="outlined" sx={{ p: 0, mt: 1 }}>
               <Box
@@ -272,8 +256,8 @@ const CrfHodDashModal = ({ open, setOpen, datas, count, setCount }) => {
                     sm: 'column',
                     md: 'column',
                     lg: 'column',
-                    xl: 'column',
-                  },
+                    xl: 'column'
+                  }
                 }}
               >
                 <Box
@@ -281,7 +265,7 @@ const CrfHodDashModal = ({ open, setOpen, datas, count, setCount }) => {
                     width: '100%',
                     display: 'flex',
                     p: 0.5,
-                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                   }}
                 >
                   <Box sx={{ pr: 1 }}>
@@ -301,7 +285,7 @@ const CrfHodDashModal = ({ open, setOpen, datas, count, setCount }) => {
                       width: '100%',
                       display: 'flex',
                       p: 0.5,
-                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                     }}
                   >
                     <Box sx={{ width: '25%' }}>
@@ -318,7 +302,7 @@ const CrfHodDashModal = ({ open, setOpen, datas, count, setCount }) => {
                         fontSize: 15,
                         textTransform: 'capitalize',
                         overflow: 'auto',
-                        '::-webkit-scrollbar': { display: 'none' },
+                        '::-webkit-scrollbar': { display: 'none' }
                       }}
                       variant="none"
                     >
@@ -332,7 +316,7 @@ const CrfHodDashModal = ({ open, setOpen, datas, count, setCount }) => {
                       width: '100%',
                       display: 'flex',
                       p: 0.5,
-                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                     }}
                   >
                     <Box sx={{ width: '25%' }}>
@@ -349,7 +333,7 @@ const CrfHodDashModal = ({ open, setOpen, datas, count, setCount }) => {
                         fontSize: 15,
                         textTransform: 'capitalize',
                         overflow: 'auto',
-                        '::-webkit-scrollbar': { display: 'none' },
+                        '::-webkit-scrollbar': { display: 'none' }
                       }}
                       variant="none"
                     >
@@ -363,7 +347,7 @@ const CrfHodDashModal = ({ open, setOpen, datas, count, setCount }) => {
                       width: '100%',
                       display: 'flex',
                       p: 0.5,
-                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                     }}
                   >
                     <Box sx={{ width: '25%' }}>
@@ -380,7 +364,7 @@ const CrfHodDashModal = ({ open, setOpen, datas, count, setCount }) => {
                         fontSize: 15,
                         textTransform: 'capitalize',
                         overflow: 'auto',
-                        '::-webkit-scrollbar': { display: 'none' },
+                        '::-webkit-scrollbar': { display: 'none' }
                       }}
                       variant="none"
                     >
@@ -394,7 +378,7 @@ const CrfHodDashModal = ({ open, setOpen, datas, count, setCount }) => {
                       width: '100%',
                       display: 'flex',
                       p: 0.5,
-                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                     }}
                   >
                     <Box sx={{ width: '25%' }}>
@@ -411,7 +395,7 @@ const CrfHodDashModal = ({ open, setOpen, datas, count, setCount }) => {
                         fontSize: 15,
                         textTransform: 'capitalize',
                         overflow: 'auto',
-                        '::-webkit-scrollbar': { display: 'none' },
+                        '::-webkit-scrollbar': { display: 'none' }
                       }}
                       variant="none"
                     >
@@ -424,7 +408,7 @@ const CrfHodDashModal = ({ open, setOpen, datas, count, setCount }) => {
                     width: '100%',
                     display: 'flex',
                     p: 0.5,
-                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                   }}
                 >
                   <Box sx={{ width: '25%' }}>
@@ -441,7 +425,7 @@ const CrfHodDashModal = ({ open, setOpen, datas, count, setCount }) => {
                       fontSize: 15,
                       textTransform: 'capitalize',
                       overflow: 'auto',
-                      '::-webkit-scrollbar': { display: 'none' },
+                      '::-webkit-scrollbar': { display: 'none' }
                     }}
                     variant="none"
                   >
@@ -453,7 +437,7 @@ const CrfHodDashModal = ({ open, setOpen, datas, count, setCount }) => {
                     width: '100%',
                     display: 'flex',
                     p: 0.5,
-                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                   }}
                 >
                   <Box sx={{ width: '25%' }}>
@@ -470,7 +454,7 @@ const CrfHodDashModal = ({ open, setOpen, datas, count, setCount }) => {
                       fontSize: 15,
                       textTransform: 'capitalize',
                       overflow: 'auto',
-                      '::-webkit-scrollbar': { display: 'none' },
+                      '::-webkit-scrollbar': { display: 'none' }
                     }}
                     variant="none"
                   >
@@ -484,7 +468,7 @@ const CrfHodDashModal = ({ open, setOpen, datas, count, setCount }) => {
                     display: 'flex',
                     p: 0.5,
                     pb: 0,
-                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                   }}
                 >
                   <Box sx={{ pr: 9 }}>
@@ -505,13 +489,12 @@ const CrfHodDashModal = ({ open, setOpen, datas, count, setCount }) => {
                     width: '100%',
                     display: 'flex',
                     p: 0.5,
-                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                   }}
                 >
                   <CssVarsProvider>
                     <Typography sx={{ fontSize: 15, textTransform: 'capitalize' }}>
-                      Requested DeptSec:{' '}
-                      {userdeptsec !== null ? userdeptsec.toLowerCase() : 'Not Updated'}
+                      Requested DeptSec: {userdeptsec !== null ? userdeptsec.toLowerCase() : 'Not Updated'}
                     </Typography>
                   </CssVarsProvider>
                   {image_status === 1 ? (
@@ -527,12 +510,10 @@ const CrfHodDashModal = ({ open, setOpen, datas, count, setCount }) => {
                     width: '100%',
                     display: 'flex',
                     p: 0.5,
-                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                   }}
                 >
-                  {tableDis === 1 ? (
-                    <ItemApprovalCmp dataPost={dataPost} setdataPost={setdataPost} />
-                  ) : null}
+                  {tableDis === 1 ? <ItemApprovalCmp dataPost={dataPost} setdataPost={setdataPost} /> : null}
                 </Box>
               </Box>
             </Paper>
@@ -545,7 +526,7 @@ const CrfHodDashModal = ({ open, setOpen, datas, count, setCount }) => {
                   p: 1,
                   width: '100%',
                   display: 'flex',
-                  flexDirection: 'column',
+                  flexDirection: 'column'
                 }}
               >
                 <Box
@@ -553,7 +534,7 @@ const CrfHodDashModal = ({ open, setOpen, datas, count, setCount }) => {
                     width: '100%',
                     display: 'flex',
                     p: 1,
-                    flexDirection: 'column',
+                    flexDirection: 'column'
                   }}
                 >
                   <Box sx={{ pr: 9 }}>
@@ -574,15 +555,15 @@ const CrfHodDashModal = ({ open, setOpen, datas, count, setCount }) => {
                         sm: 'column',
                         md: 'column',
                         lg: 'column',
-                        xl: 'column',
-                      },
+                        xl: 'column'
+                      }
                     }}
                   >
                     <Box
                       sx={{
                         display: 'flex',
                         flexDirection: 'row',
-                        justifyContent: 'space-between',
+                        justifyContent: 'space-between'
                       }}
                     >
                       <CssVarsProvider>
@@ -627,7 +608,7 @@ const CrfHodDashModal = ({ open, setOpen, datas, count, setCount }) => {
                             display: 'flex',
                             flexDirection: 'row',
                             justifyContent: 'space-evenly',
-                            pr: 2,
+                            pr: 2
                           }}
                         >
                           <CssVarsProvider>
@@ -651,7 +632,7 @@ const CrfHodDashModal = ({ open, setOpen, datas, count, setCount }) => {
                                 px: 1,
                                 pb: 0.4,
                                 borderRadius: 5,
-                                textTransform: 'capitalize',
+                                textTransform: 'capitalize'
                               }}
                             >
                               {incharge_user}{' '}
@@ -714,7 +695,7 @@ const CrfHodDashModal = ({ open, setOpen, datas, count, setCount }) => {
                 sx={{
                   width: '100%',
                   display: 'flex',
-                  flexDirection: 'column',
+                  flexDirection: 'column'
                 }}
               >
                 <Box
@@ -722,7 +703,7 @@ const CrfHodDashModal = ({ open, setOpen, datas, count, setCount }) => {
                     width: '100%',
                     display: 'flex',
                     p: 1,
-                    flexDirection: 'column',
+                    flexDirection: 'column'
                   }}
                 >
                   <ApprovalCompnt

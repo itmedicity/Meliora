@@ -22,7 +22,7 @@ const PswdSoftWareTable = ({ swTableCount, rowSelectForSw }) => {
             paswd_soft_linkname: val.paswd_soft_linkname,
             paswd_soft_username: val.paswd_soft_username,
             paswd_soft_password: val.paswd_soft_password,
-            paswd_soft_remarks: val.paswd_soft_remarks,
+            paswd_soft_remarks: val.paswd_soft_remarks
           }
           return obj
         })
@@ -70,11 +70,7 @@ const PswdSoftWareTable = ({ swTableCount, rowSelectForSw }) => {
                         // }}
                       >
                         <td>
-                          <EditIcon
-                            sx={{ cursor: 'pointer' }}
-                            size={6}
-                            onClick={() => rowSelectForSw(val)}
-                          />
+                          <EditIcon sx={{ cursor: 'pointer' }} size={6} onClick={() => rowSelectForSw(val)} />
                         </td>
                         <td> {index + 1}</td>
                         <td> {val.paswd_soft_webname || 'not given'}</td>

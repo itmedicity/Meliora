@@ -18,26 +18,17 @@ const CardMasterClose = ({ children, title, close, contentStyle }) => {
             display: 'flex',
             flexGrow: 1,
             borderRadius: 0,
-            flexDirection: 'column',
+            flexDirection: 'column'
           }}
         >
           <CustomCardHeaderOne title={title} onClickClose={close} cardStyle={{}} />
           <CardContent sx={{ ...contentStyle, height: window.innerHeight - 150, overflow: 'auto' }}>
             {children}
           </CardContent>
-          <CardActions
-            sx={{ backgroundColor: cardActionBgClr, py: 0.3, pt: 0.5 }}
-            disableSpacing={false}
-          >
+          <CardActions sx={{ backgroundColor: cardActionBgClr, py: 0.3, pt: 0.5 }} disableSpacing={false}>
             <CustomeToolTip title="Close" placement="left">
               <Box>
-                <CusIconButton
-                  size="sm"
-                  variant="outlined"
-                  color="primary"
-                  clickable="true"
-                  onClick={close}
-                >
+                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={close}>
                   <CloseIcon fontSize="small" />
                 </CusIconButton>
               </Box>

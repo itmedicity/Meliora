@@ -19,7 +19,7 @@ const MonthlyReportModal = ({ open, handleClose, tableData, headerNames }) => {
             sx={{
               // width: '65vw',
               maxWidth: '90%',
-              maxHeight: '80%',
+              maxHeight: '80%'
             }}
           >
             <ModalClose
@@ -32,7 +32,7 @@ const MonthlyReportModal = ({ open, handleClose, tableData, headerNames }) => {
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 35,
-                width: 35,
+                width: 35
               }}
             />
             <Box sx={{ display: 'flex' }}>
@@ -40,10 +40,7 @@ const MonthlyReportModal = ({ open, handleClose, tableData, headerNames }) => {
                 <Typography sx={{ fontWeight: 550, fontSize: 17 }}>QI Details</Typography>
               </Box>
             </Box>
-            <Box
-              variant="outlined"
-              sx={{ overflow: 'auto', padding: 'none', '&::-webkit-scrollbar': { height: 7 } }}
-            >
+            <Box variant="outlined" sx={{ overflow: 'auto', padding: 'none', '&::-webkit-scrollbar': { height: 7 } }}>
               <CssVarsProvider>
                 <Table
                   aria-label="table with sticky header"
@@ -62,7 +59,7 @@ const MonthlyReportModal = ({ open, handleClose, tableData, headerNames }) => {
                           borderRight: '1px solid white',
                           textAlign: 'center',
                           backgroundColor: '#cfd8dc',
-                          fontSize: 15,
+                          fontSize: 15
                         }}
                       >
                         Sl.No
@@ -74,7 +71,7 @@ const MonthlyReportModal = ({ open, handleClose, tableData, headerNames }) => {
                           borderRight: '1px solid white',
                           textAlign: 'center',
                           backgroundColor: '#cfd8dc',
-                          fontSize: 15,
+                          fontSize: 15
                         }}
                       >
                         Type
@@ -86,7 +83,7 @@ const MonthlyReportModal = ({ open, handleClose, tableData, headerNames }) => {
                           borderRight: '1px solid white',
                           textAlign: 'center',
                           backgroundColor: '#cfd8dc',
-                          fontSize: 15,
+                          fontSize: 15
                         }}
                       >
                         Date
@@ -98,7 +95,7 @@ const MonthlyReportModal = ({ open, handleClose, tableData, headerNames }) => {
                           borderRight: '1px solid white',
                           textAlign: 'center',
                           backgroundColor: '#cfd8dc',
-                          fontSize: 15,
+                          fontSize: 15
                         }}
                       >
                         Patient ID
@@ -110,7 +107,7 @@ const MonthlyReportModal = ({ open, handleClose, tableData, headerNames }) => {
                           borderRight: '1px solid white',
                           textAlign: 'center',
                           backgroundColor: '#cfd8dc',
-                          fontSize: 15,
+                          fontSize: 15
                         }}
                       >
                         Patient Name
@@ -122,7 +119,7 @@ const MonthlyReportModal = ({ open, handleClose, tableData, headerNames }) => {
                           borderRight: '1px solid white',
                           textAlign: 'center',
                           backgroundColor: '#cfd8dc',
-                          fontSize: 15,
+                          fontSize: 15
                         }}
                       >
                         Gender
@@ -134,7 +131,7 @@ const MonthlyReportModal = ({ open, handleClose, tableData, headerNames }) => {
                           borderRight: '1px solid white',
                           textAlign: 'center',
                           backgroundColor: '#cfd8dc',
-                          fontSize: 15,
+                          fontSize: 15
                         }}
                       >
                         Age
@@ -146,7 +143,7 @@ const MonthlyReportModal = ({ open, handleClose, tableData, headerNames }) => {
                           borderRight: '1px solid white',
                           textAlign: 'center',
                           backgroundColor: '#cfd8dc',
-                          fontSize: 15,
+                          fontSize: 15
                         }}
                       >
                         Doctor
@@ -158,7 +155,7 @@ const MonthlyReportModal = ({ open, handleClose, tableData, headerNames }) => {
                           borderRight: '1px solid white',
                           textAlign: 'center',
                           backgroundColor: '#cfd8dc',
-                          fontSize: 15,
+                          fontSize: 15
                         }}
                       >
                         {header1}{' '}
@@ -170,7 +167,7 @@ const MonthlyReportModal = ({ open, handleClose, tableData, headerNames }) => {
                           borderRight: '1px solid white',
                           textAlign: 'center',
                           backgroundColor: '#cfd8dc',
-                          fontSize: 15,
+                          fontSize: 15
                         }}
                       >
                         {header2}{' '}
@@ -181,7 +178,7 @@ const MonthlyReportModal = ({ open, handleClose, tableData, headerNames }) => {
                           width: 130,
                           textAlign: 'center',
                           backgroundColor: '#cfd8dc',
-                          fontSize: 15,
+                          fontSize: 15
                         }}
                       >
                         Incident Type

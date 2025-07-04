@@ -8,7 +8,7 @@ import {
   TabPanel,
   Tabs,
   tabsClasses,
-  Typography,
+  Typography
 } from '@mui/joy'
 import { Paper } from '@mui/material'
 import React, { memo, useEffect, useMemo, useState } from 'react'
@@ -83,23 +83,18 @@ const AssignComplaintTable = () => {
 
   const searchEmpDept = useMemo(() => {
     return {
-      complaint_deptslno: empdept,
+      complaint_deptslno: empdept
     }
   }, [empdept])
 
   useEffect(() => {
     const getAllHoldCompalints = async () => {
-      const result = await axioslogin.post(
-        '/Rectifycomplit/getDepartmentPendingList',
-        searchEmpDept
-      )
+      const result = await axioslogin.post('/Rectifycomplit/getDepartmentPendingList', searchEmpDept)
       const { success, data } = result.data
       if (success === 2) {
         const OnholdCompl = data.filter(
           complaint =>
-            complaint.complaint_status !== 2 &&
-            complaint.complaint_status !== 3 &&
-            complaint.cm_rectify_status === 'O'
+            complaint.complaint_status !== 2 && complaint.complaint_status !== 3 && complaint.cm_rectify_status === 'O'
         )
         setOnholdCompl(OnholdCompl)
         setholdLength(OnholdCompl.length === 0 ? 0 : OnholdCompl.length)
@@ -143,20 +138,12 @@ const AssignComplaintTable = () => {
       {
         slno: 248,
         name: 'Ticket List',
-        component: (
-          <PendingTickets allPendingCompl={allPendingCompl} count={count} setCount={setCount} />
-        ),
+        component: <PendingTickets allPendingCompl={allPendingCompl} count={count} setCount={setCount} />
       },
       {
         slno: 249,
         name: 'Ticket List Supervisor',
-        component: (
-          <PendingTicketsSuperwiser
-            allPendingCompl={allPendingCompl}
-            count={count}
-            setCount={setCount}
-          />
-        ),
+        component: <PendingTicketsSuperwiser allPendingCompl={allPendingCompl} count={count} setCount={setCount} />
       },
       {
         slno: 250,
@@ -169,7 +156,7 @@ const AssignComplaintTable = () => {
             setCount={setCount}
             menurights={menurights}
           />
-        ),
+        )
       },
       {
         slno: 251,
@@ -182,32 +169,28 @@ const AssignComplaintTable = () => {
             forverifyLength={forverifyLength}
             menurights={menurights}
           />
-        ),
-      },
+        )
+      }
     ]
   }, [loading, allPendingCompl, count, onholdCompl, forVerifyList, forverifyLength, holdLength])
 
   const postEmp = useMemo(() => ({ empid: id }), [id])
   const { data: menuRightsEmployee = [] } = useQuery({
     queryKey: ['getEmployeeUserRightsMenu', postEmp],
-    queryFn: () => getEmployeeuserrightsMenu(postEmp),
+    queryFn: () => getEmployeeuserrightsMenu(postEmp)
   })
 
   const employeeMenuRight = useMemo(() => menuRightsEmployee, [menuRightsEmployee])
 
   useEffect(() => {
-    let array = menuList.filter(value =>
-      employeeMenuRight.find(val => value.slno === val.menu_slno)
-    )
+    let array = menuList.filter(value => employeeMenuRight.find(val => value.slno === val.menu_slno))
     setMenurights(array)
   }, [menuList, employeeMenuRight])
 
   return (
     <Paper sx={{ flexGrow: 1 }}>
       <CssVarsProvider>
-        <Box
-          sx={{ flex: 1, height: 35, borderBottom: 1, borderColor: 'lightgrey', display: 'flex' }}
-        >
+        <Box sx={{ flex: 1, height: 35, borderBottom: 1, borderColor: 'lightgrey', display: 'flex' }}>
           <Box sx={{ flex: 1, fontWeight: 600, pl: 0.8, color: '#C7C8CB' }}>Ticket Details</Box>
         </Box>
         <Tabs
@@ -224,9 +207,9 @@ const AssignComplaintTable = () => {
               fontWeight: 'md',
               fontSize: 'md',
               [`&:not(.${tabClasses.selected}):not(:hover)`]: {
-                opacity: 1,
-              },
-            },
+                opacity: 1
+              }
+            }
           })}
         >
           <TabList variant="plain" size="sm" disableUnderline sx={{ p: 0, flex: 1 }}>
@@ -243,8 +226,8 @@ const AssignComplaintTable = () => {
                   ...(index === 0 && {
                     bgcolor: '#F5F5F5',
                     border: '2px solid #E7F2F8',
-                    transform: 'translateY(-1px)',
-                  }),
+                    transform: 'translateY(-1px)'
+                  })
                 }}
               >
                 <Badge badgeContent={pendinglength} color="danger" badgeInset="1%">
@@ -265,8 +248,8 @@ const AssignComplaintTable = () => {
                   ...(index === 0 && {
                     bgcolor: '#F5F5F5',
                     border: '2px solid #E7F2F8',
-                    transform: 'translateY(-1px)',
-                  }),
+                    transform: 'translateY(-1px)'
+                  })
                 }}
               >
                 <Badge badgeContent={pendinglength} color="danger" badgeInset="1%">
@@ -286,8 +269,8 @@ const AssignComplaintTable = () => {
                 ...(index === 1 && {
                   bgcolor: '#F5F5F5',
                   border: '2px solid #E7F2F8',
-                  transform: 'translateY(-1px)',
-                }),
+                  transform: 'translateY(-1px)'
+                })
               }}
             >
               <Badge badgeContent={assistreqLength} color="warning" badgeInset="1%">
@@ -308,8 +291,8 @@ const AssignComplaintTable = () => {
                   ...(index === 2 && {
                     bgcolor: '#F5F5F5',
                     border: '2px solid #E7F2F8',
-                    transform: 'translateY(-1px)',
-                  }),
+                    transform: 'translateY(-1px)'
+                  })
                 }}
               >
                 <Badge badgeContent={holdLength} color="neutral" badgeInset="1%">
@@ -330,8 +313,8 @@ const AssignComplaintTable = () => {
                   ...(index === 2 && {
                     bgcolor: '#F5F5F5',
                     border: '2px solid #E7F2F8',
-                    transform: 'translateY(-1px)',
-                  }),
+                    transform: 'translateY(-1px)'
+                  })
                 }}
               >
                 <Badge badgeContent={forverifyLength} color="primary" badgeInset="1%">
@@ -355,7 +338,7 @@ const AssignComplaintTable = () => {
                 mt: 0.3,
                 px: 0.3,
                 pt: 0.3,
-                pb: 0.5,
+                pb: 0.5
               }}
             >
               <MyAllTickets assistReq={assistReq} count={count} setCount={setCount} />

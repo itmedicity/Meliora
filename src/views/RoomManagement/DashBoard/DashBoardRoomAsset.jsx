@@ -5,15 +5,7 @@ import { warningNotify } from 'src/views/Common/CommonCode'
 import CardMasterClose from 'src/views/Components/CardMasterClose'
 import DashRoomAssetList from './DashRoomAssetList'
 
-const DashBoardRoomAsset = ({
-  campusName,
-  buildblockname,
-  floorName,
-  roomName,
-  setAssetList,
-  blockName,
-  RoomNo,
-}) => {
+const DashBoardRoomAsset = ({ campusName, buildblockname, floorName, roomName, setAssetList, blockName, RoomNo }) => {
   const [subroomArry, setSubroomarry] = useState([])
   const [RoomAssetList, setRoomAsset] = useState([])
 
@@ -42,7 +34,7 @@ const DashBoardRoomAsset = ({
             item_name: val.item_name,
             rm_room_name: val.rm_room_name,
             subroom_name: val.subroom_name,
-            item_subroom_slno: val.item_subroom_slno,
+            item_subroom_slno: val.item_subroom_slno
           }
           return obj
         })
@@ -86,7 +78,7 @@ const DashBoardRoomAsset = ({
               pl: 2,
               border: 0.2,
               borderColor: 'transparent',
-              borderBottomColor: 'lightgrey',
+              borderBottomColor: 'lightgrey'
             }}
           >
             Sub Rooms
@@ -108,7 +100,7 @@ const DashBoardRoomAsset = ({
                     borderRadius: 2,
                     borderColor: 'transparent',
                     p: 0.5,
-                    alignContent: 'space-between',
+                    alignContent: 'space-between'
                   }}
                 >
                   <Box
@@ -119,7 +111,7 @@ const DashBoardRoomAsset = ({
                       fontSize: 12.5,
                       fontSmooth: 10,
                       fontWeight: 600,
-                      justifyContent: 'center',
+                      justifyContent: 'center'
                     }}
                   >
                     {val.subroom_name?.toUpperCase()}
@@ -140,7 +132,7 @@ const DashBoardRoomAsset = ({
               pl: 2,
               border: 0.2,
               borderColor: 'transparent',
-              borderBottomColor: 'lightgrey',
+              borderBottomColor: 'lightgrey'
             }}
           >
             Asset Details

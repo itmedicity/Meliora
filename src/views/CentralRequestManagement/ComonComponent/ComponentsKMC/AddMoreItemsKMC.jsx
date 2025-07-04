@@ -24,10 +24,9 @@ const AddMoreItemsKMC = ({ req_slno, setMoreItem, setApproveTableData }) => {
     approx_cost: 0,
     item_desc: '',
     item_brand: '',
-    item_spec: '',
+    item_spec: ''
   })
-  const { item_qty, maxSlno, unitprice, approx_cost, item_desc, item_brand, item_spec } =
-    itemDetails
+  const { item_qty, maxSlno, unitprice, approx_cost, item_desc, item_brand, item_spec } = itemDetails
 
   const updateItemState = useCallback(
     e => {
@@ -46,7 +45,7 @@ const AddMoreItemsKMC = ({ req_slno, setMoreItem, setApproveTableData }) => {
       setItemDetails(prev => ({
         ...prev,
         item_qty: e.target.value,
-        approx_cost: unitprice !== '' || unitprice !== 0 ? unitprice * e.target.value : 0,
+        approx_cost: unitprice !== '' || unitprice !== 0 ? unitprice * e.target.value : 0
       }))
     },
     [unitprice]
@@ -58,7 +57,7 @@ const AddMoreItemsKMC = ({ req_slno, setMoreItem, setApproveTableData }) => {
         setItemDetails(prev => ({
           ...prev,
           unitprice: e.target.value,
-          approx_cost: item_qty !== '' ? item_qty * e.target.value : 0,
+          approx_cost: item_qty !== '' ? item_qty * e.target.value : 0
         }))
       } else {
         warningNotify('Provide the quantity before specifying the unit price')
@@ -69,11 +68,11 @@ const AddMoreItemsKMC = ({ req_slno, setMoreItem, setApproveTableData }) => {
   const {
     data: iteData,
     isLoading: isItemsLoading,
-    error: itemsError,
+    error: itemsError
   } = useQuery({
     queryKey: ['approvedRejholdItemKMC', req_slno],
     queryFn: () => getApprovedItemsKMC(req_slno),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const itemData = useMemo(() => iteData, [iteData])
 
@@ -86,18 +85,18 @@ const AddMoreItemsKMC = ({ req_slno, setMoreItem, setApproveTableData }) => {
   const {
     data: maxSlnoData,
     isLoading: isSlnoLoading,
-    error: slnoError,
+    error: slnoError
   } = useQuery({
     queryKey: ['getmaxSlnoKMC', req_slno],
     queryFn: () => getMaxItemslNoKMC(req_slno),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   useEffect(() => {
     if (maxSlnoData && maxSlnoData.length !== 0) {
       const { maxSlno } = maxSlnoData[0]
       setItemDetails(prev => ({
         ...prev,
-        maxSlno: maxSlno,
+        maxSlno: maxSlno
       }))
     }
   }, [maxSlnoData])
@@ -110,7 +109,7 @@ const AddMoreItemsKMC = ({ req_slno, setMoreItem, setApproveTableData }) => {
       approx_cost: 0,
       item_desc: '',
       item_brand: '',
-      item_spec: '',
+      item_spec: ''
     }
     setItemDetails(frmdata)
     setUOM(0)
@@ -153,13 +152,11 @@ const AddMoreItemsKMC = ({ req_slno, setMoreItem, setApproveTableData }) => {
         approve_item_status: 1,
         item_add_higher: 1,
         create_user: id,
-        approve_aprox_cost: parseInt(approx_cost),
+        approve_aprox_cost: parseInt(approx_cost)
       }
       AddMoreItems(newdata)
     } else {
-      warningNotify(
-        'Item Description and Quantity are mandatory and Quantity and unit price are not negative'
-      )
+      warningNotify('Item Description and Quantity are mandatory and Quantity and unit price are not negative')
     }
   }, [
     maxSlno,
@@ -173,7 +170,7 @@ const AddMoreItemsKMC = ({ req_slno, setMoreItem, setApproveTableData }) => {
     id,
     reset,
     req_slno,
-    queryClient,
+    queryClient
   ])
 
   const cancelEdit = useCallback(() => {
@@ -283,8 +280,8 @@ const AddMoreItemsKMC = ({ req_slno, setMoreItem, setApproveTableData }) => {
                 width: '100%',
                 '&:hover': {
                   bgcolor: 'white',
-                  color: '#43B0F1',
-                },
+                  color: '#43B0F1'
+                }
               }}
               onClick={AddItem}
             >
@@ -305,8 +302,8 @@ const AddMoreItemsKMC = ({ req_slno, setMoreItem, setApproveTableData }) => {
                 width: '100%',
                 '&:hover': {
                   bgcolor: 'white',
-                  color: '#43B0F1',
-                },
+                  color: '#43B0F1'
+                }
               }}
               onClick={cancelEdit}
             >

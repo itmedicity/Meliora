@@ -29,7 +29,7 @@ const ByProjects = () => {
   const toggleProjectOpen = projectId => {
     setOpenProjects(prevOpenProjects => ({
       ...prevOpenProjects,
-      [projectId]: !prevOpenProjects[projectId],
+      [projectId]: !prevOpenProjects[projectId]
     }))
   }
 
@@ -57,7 +57,7 @@ const ByProjects = () => {
                     fontWeight: 600,
                     color: '#5C5359',
                     textTransform: 'capitalize',
-                    bgcolor: '#F0E9DE',
+                    bgcolor: '#F0E9DE'
                   }}
                 >
                   <u>{val.tm_project_name}</u>

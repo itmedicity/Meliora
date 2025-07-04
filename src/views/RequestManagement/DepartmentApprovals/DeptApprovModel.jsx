@@ -1,9 +1,9 @@
 import React, { Fragment, useCallback, useState, memo } from 'react'
-import Slide from '@mui/material/Slide';
+import Slide from '@mui/material/Slide'
 // import { ToastContainer } from 'react-toastify';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import Button from '@mui/material/Button'
 import { Box, Paper } from '@mui/material'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
@@ -46,14 +46,12 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
     hod_remarks,
     hod_detial_analysis,
     req_approv_slno,
-    category,
+    category
   } = datas[0]
   const reqdate = format(new Date(req_date), 'dd-MM-yyyy')
   const expdate = format(new Date(expected_date), 'dd-MM-yyyy')
   const inchargeApprovdate =
-    incharge_apprv_date !== null
-      ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy hh:mm:ss')
-      : 'Not Updated'
+    incharge_apprv_date !== null ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy hh:mm:ss') : 'Not Updated'
 
   useEffect(() => {
     if (hod_approve !== null && ishod === 1) {
@@ -209,7 +207,7 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
             crf_close_user: id,
             crf_closed_one: 'HOD',
             close_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
-            req_slno: req_slno,
+            req_slno: req_slno
           }
           updateClosedCrf(crfClosePatch)
         } else {
@@ -223,7 +221,7 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
           hod_approve_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
           req_approv_slno: req_approv_slno,
           hod_user: id,
-          req_slno: req_slno,
+          req_slno: req_slno
         }
         if (approve !== false || reject !== false || pending !== false) {
           if (approve === true) {
@@ -253,7 +251,7 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
       setOpen,
       id,
       Closeremark,
-      closeCrf,
+      closeCrf
     ]
   )
 
@@ -297,12 +295,10 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
           id="alert-dialog-slide-descriptiona"
           sx={{
             width: '100%',
-            height: 540,
+            height: 540
           }}
         >
-          <DialogContentText id="alert-dialog-slide-descriptiona">
-            Request Approval
-          </DialogContentText>
+          <DialogContentText id="alert-dialog-slide-descriptiona">Request Approval</DialogContentText>
 
           <Box sx={{ width: '100%', mt: 0 }}>
             <Paper variant="outlined" sx={{ p: 0, mt: 1 }}>
@@ -315,8 +311,8 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                     sm: 'column',
                     md: 'column',
                     lg: 'column',
-                    xl: 'column',
-                  },
+                    xl: 'column'
+                  }
                 }}
               >
                 <Box
@@ -324,7 +320,7 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                     width: '100%',
                     display: 'flex',
                     p: 0.5,
-                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                   }}
                 >
                   <Box sx={{ pr: 1 }}>
@@ -344,7 +340,7 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                       width: '100%',
                       display: 'flex',
                       p: 0.5,
-                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                     }}
                   >
                     <Box sx={{ width: '25%' }}>
@@ -361,7 +357,7 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                         fontSize: 15,
                         textTransform: 'capitalize',
                         overflow: 'auto',
-                        '::-webkit-scrollbar': { display: 'none' },
+                        '::-webkit-scrollbar': { display: 'none' }
                       }}
                       variant="none"
                     >
@@ -375,7 +371,7 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                       width: '100%',
                       display: 'flex',
                       p: 0.5,
-                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                     }}
                   >
                     <Box sx={{ width: '25%' }}>
@@ -392,7 +388,7 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                         fontSize: 15,
                         textTransform: 'capitalize',
                         overflow: 'auto',
-                        '::-webkit-scrollbar': { display: 'none' },
+                        '::-webkit-scrollbar': { display: 'none' }
                       }}
                       variant="none"
                     >
@@ -406,7 +402,7 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                       width: '100%',
                       display: 'flex',
                       p: 0.5,
-                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                     }}
                   >
                     <Box sx={{ width: '25%' }}>
@@ -423,7 +419,7 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                         fontSize: 15,
                         textTransform: 'capitalize',
                         overflow: 'auto',
-                        '::-webkit-scrollbar': { display: 'none' },
+                        '::-webkit-scrollbar': { display: 'none' }
                       }}
                       variant="none"
                     >
@@ -437,7 +433,7 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                       width: '100%',
                       display: 'flex',
                       p: 0.5,
-                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                     }}
                   >
                     <Box sx={{ width: '25%' }}>
@@ -454,7 +450,7 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                         fontSize: 15,
                         textTransform: 'capitalize',
                         overflow: 'auto',
-                        '::-webkit-scrollbar': { display: 'none' },
+                        '::-webkit-scrollbar': { display: 'none' }
                       }}
                       variant="none"
                     >
@@ -467,7 +463,7 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                     width: '100%',
                     display: 'flex',
                     p: 0.5,
-                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                   }}
                 >
                   <Box sx={{ width: '25%' }}>
@@ -484,7 +480,7 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                       fontSize: 15,
                       textTransform: 'capitalize',
                       overflow: 'auto',
-                      '::-webkit-scrollbar': { display: 'none' },
+                      '::-webkit-scrollbar': { display: 'none' }
                     }}
                     variant="none"
                   >
@@ -496,7 +492,7 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                     width: '100%',
                     display: 'flex',
                     p: 0.5,
-                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                   }}
                 >
                   <Box sx={{ width: '25%' }}>
@@ -513,7 +509,7 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                       fontSize: 15,
                       textTransform: 'capitalize',
                       overflow: 'auto',
-                      '::-webkit-scrollbar': { display: 'none' },
+                      '::-webkit-scrollbar': { display: 'none' }
                     }}
                     variant="none"
                   >
@@ -527,7 +523,7 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                     display: 'flex',
                     p: 0.5,
                     pb: 0,
-                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                   }}
                 >
                   <Box sx={{ pr: 9 }}>
@@ -548,13 +544,12 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                     width: '100%',
                     display: 'flex',
                     p: 0.5,
-                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                   }}
                 >
                   <CssVarsProvider>
                     <Typography sx={{ fontSize: 15, textTransform: 'capitalize' }}>
-                      Requested DeptSec:{' '}
-                      {userdeptsec !== null ? userdeptsec.toLowerCase() : 'Not Updated'}
+                      Requested DeptSec: {userdeptsec !== null ? userdeptsec.toLowerCase() : 'Not Updated'}
                     </Typography>
                   </CssVarsProvider>
                   {image_status === 1 ? (
@@ -570,12 +565,10 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                     width: '100%',
                     display: 'flex',
                     p: 0.5,
-                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                   }}
                 >
-                  {tableDis === 1 ? (
-                    <ItemApprovalCmp dataPost={dataPost} setdataPost={setdataPost} />
-                  ) : null}
+                  {tableDis === 1 ? <ItemApprovalCmp dataPost={dataPost} setdataPost={setdataPost} /> : null}
                 </Box>
               </Box>
             </Paper>
@@ -588,7 +581,7 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                   p: 1,
                   width: '100%',
                   display: 'flex',
-                  flexDirection: 'column',
+                  flexDirection: 'column'
                 }}
               >
                 <Box
@@ -596,7 +589,7 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                     width: '100%',
                     display: 'flex',
                     p: 1,
-                    flexDirection: 'column',
+                    flexDirection: 'column'
                   }}
                 >
                   <Box sx={{ pr: 9 }}>
@@ -617,15 +610,15 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                         sm: 'column',
                         md: 'column',
                         lg: 'column',
-                        xl: 'column',
-                      },
+                        xl: 'column'
+                      }
                     }}
                   >
                     <Box
                       sx={{
                         display: 'flex',
                         flexDirection: 'row',
-                        justifyContent: 'space-between',
+                        justifyContent: 'space-between'
                       }}
                     >
                       <CssVarsProvider>
@@ -670,7 +663,7 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                             display: 'flex',
                             flexDirection: 'row',
                             justifyContent: 'space-evenly',
-                            pr: 2,
+                            pr: 2
                           }}
                         >
                           <CssVarsProvider>
@@ -694,7 +687,7 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                                 px: 1,
                                 pb: 0.4,
                                 borderRadius: 5,
-                                textTransform: 'capitalize',
+                                textTransform: 'capitalize'
                               }}
                             >
                               {incharge_user}{' '}
@@ -758,7 +751,7 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                   sx={{
                     width: '100%',
                     display: 'flex',
-                    flexDirection: 'column',
+                    flexDirection: 'column'
                   }}
                 >
                   <Box
@@ -766,7 +759,7 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                       width: '100%',
                       display: 'flex',
                       p: 1,
-                      flexDirection: 'column',
+                      flexDirection: 'column'
                     }}
                   >
                     <ApprovalCompnt
@@ -796,7 +789,7 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                 flexDirection: 'row',
                 pl: 2,
                 pt: 0,
-                fontSize: 15,
+                fontSize: 15
               }}
             >
               <Box sx={{ width: '20%', mt: 1 }}>
@@ -819,7 +812,7 @@ const DeptApprovModel = ({ open, setOpen, isIncharge, ishod, datas, count, setCo
                     style={{
                       width: '100%',
                       height: 70,
-                      boardColor: '#E0E0E0',
+                      boardColor: '#E0E0E0'
                     }}
                     placeholder=" Remarks"
                     value={Closeremark}

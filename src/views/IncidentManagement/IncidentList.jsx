@@ -26,7 +26,7 @@ const IncidentList = () => {
   const SearchReport = useCallback(() => {
     const searchData = {
       from: format(new Date(fromDate), 'yyyy-MM-dd 00:00:00'),
-      to: format(new Date(toDate), 'yyyy-MM-dd 23:59:59 '),
+      to: format(new Date(toDate), 'yyyy-MM-dd 23:59:59 ')
     }
     const searchDetails = async () => {
       const result = await axioslogin.post('/incidentMaster/search', searchData)
@@ -51,9 +51,7 @@ const IncidentList = () => {
           <WarningRoundedIcon sx={{ color: '#bf360c', height: 28, width: 28, opacity: 0.8 }} />
         </Box>
         <Box sx={{ flex: 1, pt: 1, pl: 1 }}>
-          <Typography sx={{ color: '#37474f', fontFamily: 'Arial', fontSize: 17 }}>
-            Pre Incident List
-          </Typography>
+          <Typography sx={{ color: '#37474f', fontFamily: 'Arial', fontSize: 17 }}>Pre Incident List</Typography>
         </Box>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 20, pt: 0.4, px: 0.4 }}>
           <CssVarsProvider>
@@ -129,21 +127,14 @@ const IncidentList = () => {
         <Box sx={{ flex: 0.5, pt: 4.5, pl: 1 }}>
           <CssVarsProvider>
             <Tooltip title="Search" placement="right">
-              <SearchIcon
-                sx={{ color: '#555830', cursor: 'pointer', height: 35, width: 35 }}
-                onClick={SearchReport}
-              />
+              <SearchIcon sx={{ color: '#555830', cursor: 'pointer', height: 35, width: 35 }} onClick={SearchReport} />
             </Tooltip>
           </CssVarsProvider>
         </Box>
         <Box sx={{ flex: 0.5 }}></Box>
       </Paper>
       <Box>
-        {tabFlag === 1 ? (
-          <IncidentListTableView tableData={tableData} SearchReport={SearchReport} />
-        ) : (
-          <Box></Box>
-        )}
+        {tabFlag === 1 ? <IncidentListTableView tableData={tableData} SearchReport={SearchReport} /> : <Box></Box>}
       </Box>
     </Box>
   )

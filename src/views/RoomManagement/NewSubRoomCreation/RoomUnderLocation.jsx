@@ -4,9 +4,7 @@ import Autocomplete from '@mui/joy/Autocomplete'
 import { CssVarsProvider } from '@mui/joy/'
 
 const RoomUnderLocation = ({ roomNo, setRoomNo }) => {
-  const RoomListDeptSecBasd = useSelector(
-    state => state.getRoomBasedOnDeptSec?.RoomBasedDeptSectionList
-  )
+  const RoomListDeptSecBasd = useSelector(state => state.getRoomBasedOnDeptSec?.RoomBasedDeptSectionList)
   const [roomList, setRoomList] = useState([{ rm_room_slno: 0, rm_room_name: '' }])
   const [value, setValue] = useState(roomList[0])
   const [inputValue, setInputValue] = useState('')
@@ -36,7 +34,7 @@ const RoomUnderLocation = ({ roomNo, setRoomNo }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '29px',
+            '--Input-minHeight': '29px'
           }}
           value={roomNo === 0 ? roomList : value}
           placeholder="Select Room"

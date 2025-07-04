@@ -38,7 +38,7 @@ const TmProjectListSearch = ({ projectz, setprojectz }) => {
           sx={{
             '--Input-minHeight': '25px',
             borderRadius: 0.2,
-            borderRight: 0,
+            borderRight: 0
           }}
           value={projectz === 0 ? projectx : value}
           placeholder="search project"

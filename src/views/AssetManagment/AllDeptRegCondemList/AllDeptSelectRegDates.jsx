@@ -20,7 +20,7 @@ const AllDeptSelectRegDates = ({ viewForm }) => {
       SatusFrom: SatusFrom,
       StatusTo: SatusTo,
       fromDate: fromDate,
-      toDate: toDate,
+      toDate: toDate
     }
   }, [SatusFrom, SatusTo, fromDate, toDate])
 
@@ -43,10 +43,7 @@ const AllDeptSelectRegDates = ({ viewForm }) => {
     setLoading(true)
     setCondemnationList([])
     try {
-      const result = await axioslogin.post(
-        '/AssetCondemnation/getCondemnationList',
-        postAllDeptcondemList
-      )
+      const result = await axioslogin.post('/AssetCondemnation/getCondemnationList', postAllDeptcondemList)
       const { success, data } = result.data
       const filteredData = success === 1 ? data : []
       setCondemnationList(filteredData)
@@ -77,8 +74,8 @@ const AllDeptSelectRegDates = ({ viewForm }) => {
             value={fromDate}
             slotProps={{
               input: {
-                max: format(new Date(), 'yyyy-MM-dd'),
-              },
+                max: format(new Date(), 'yyyy-MM-dd')
+              }
             }}
             onChange={handleFromDateChange}
           />
@@ -98,38 +95,24 @@ const AllDeptSelectRegDates = ({ viewForm }) => {
             slotProps={{
               input: {
                 min: fromDate,
-                max: format(new Date(), 'yyyy-MM-dd'),
-              },
+                max: format(new Date(), 'yyyy-MM-dd')
+              }
             }}
           />
         </Box>
         <Box sx={{ pt: 3 }}>
-          <Button
-            sx={{ py: 0.2, px: 0.6, ml: 1 }}
-            onClick={Search}
-            size="sm"
-            variant="outlined"
-            color="neutral"
-          >
+          <Button sx={{ py: 0.2, px: 0.6, ml: 1 }} onClick={Search} size="sm" variant="outlined" color="neutral">
             <SearchIcon />
           </Button>
 
-          <Button
-            sx={{ py: 0.2, px: 0.6, ml: 1 }}
-            onClick={Clear}
-            size="sm"
-            variant="outlined"
-            color="neutral"
-          >
+          <Button sx={{ py: 0.2, px: 0.6, ml: 1 }} onClick={Clear} size="sm" variant="outlined" color="neutral">
             <RefreshSharpIcon />
           </Button>
         </Box>
       </Box>
 
       {loading ? (
-        <Box
-          sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh' }}
-        >
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh' }}>
           <CircularProgress />
         </Box>
       ) : condemnationList.length === 0 ? (
@@ -144,7 +127,7 @@ const AllDeptSelectRegDates = ({ viewForm }) => {
             textAlign: 'center',
             color: 'lightgrey',
             border: 1,
-            m: 1,
+            m: 1
           }}
         >
           No Data Available
@@ -165,9 +148,7 @@ const AllDeptSelectRegDates = ({ viewForm }) => {
                     <IconButton sx={{ color: 'black', fontSize: 13 }}>Status</IconButton>
                   </th>
                   <th style={{ textAlign: 'center', width: 22 }}>
-                    <IconButton sx={{ color: 'black', fontSize: 13 }}>
-                      Request Department
-                    </IconButton>
+                    <IconButton sx={{ color: 'black', fontSize: 13 }}>Request Department</IconButton>
                   </th>
                   <th style={{ textAlign: 'center', width: 22 }}>
                     <IconButton sx={{ color: 'black', fontSize: 13 }}>Form Number</IconButton>
@@ -198,7 +179,7 @@ const AllDeptSelectRegDates = ({ viewForm }) => {
                             cursor: 'pointer',
                             fontSize: 13,
                             py: 0.2,
-                            '&:hover': { bgcolor: '#8FA297 ' },
+                            '&:hover': { bgcolor: '#8FA297 ' }
                           }}
                           onClick={() => viewForm(val)}
                         >
@@ -229,11 +210,9 @@ const AllDeptSelectRegDates = ({ viewForm }) => {
                                 ? '#7AC7AD'
                                 : val.condem_status === 6 && val.store_approve_status === 2
                                 ? '#F4A3A3 '
-                                : val.condem_status === 7 &&
-                                  val.material_mangmnt_mangr_apprv_status === 1
+                                : val.condem_status === 7 && val.material_mangmnt_mangr_apprv_status === 1
                                 ? '#7AC7AD'
-                                : val.condem_status === 7 &&
-                                  val.material_mangmnt_mangr_apprv_status === 2
+                                : val.condem_status === 7 && val.material_mangmnt_mangr_apprv_status === 2
                                 ? '#F4A3A3 '
                                 : '#EFF4F0',
                             textAlign: 'center',
@@ -241,7 +220,7 @@ const AllDeptSelectRegDates = ({ viewForm }) => {
                             fontWeight: 700,
                             cursor: 'pointer',
                             fontSize: 13,
-                            py: 0.2,
+                            py: 0.2
                           }}
                         >
                           {val.condem_status === 2 && val.incharge_approve_status === 1
@@ -264,11 +243,9 @@ const AllDeptSelectRegDates = ({ viewForm }) => {
                             ? 'Store Approved'
                             : val.condem_status === 6 && val.store_approve_status === 2
                             ? 'Store Rejected'
-                            : val.condem_status === 7 &&
-                              val.material_mangmnt_mangr_apprv_status === 1
+                            : val.condem_status === 7 && val.material_mangmnt_mangr_apprv_status === 1
                             ? 'Condemnation Approved'
-                            : val.condem_status === 7 &&
-                              val.material_mangmnt_mangr_apprv_status === 2
+                            : val.condem_status === 7 && val.material_mangmnt_mangr_apprv_status === 2
                             ? 'Condemnation Rejected'
                             : 'Pending Approval'}
                         </Box>

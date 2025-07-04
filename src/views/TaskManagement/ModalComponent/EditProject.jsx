@@ -8,7 +8,7 @@ import {
   ModalDialog,
   Textarea,
   Tooltip,
-  Typography,
+  Typography
 } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
@@ -30,7 +30,7 @@ const EditProject = ({
   tableCount,
   setTableCount,
   projectData,
-  setProjectData,
+  setProjectData
 }) => {
   const {
     tm_project_slno,
@@ -40,7 +40,7 @@ const EditProject = ({
     tm_project_name,
     tm_project_status,
     tm_project_cmpltedate,
-    tm_goal_duedate,
+    tm_goal_duedate
   } = projectData
 
   const dispatch = useDispatch()
@@ -88,16 +88,10 @@ const EditProject = ({
     tm_projectDuedate: tm_project_duedate,
     tm_projectDescription: tm_project_description,
     tm_projectStatus: tm_project_status === 1 ? true : false,
-    tm_projectCmpltedate: tm_project_cmpltedate,
+    tm_projectCmpltedate: tm_project_cmpltedate
   })
 
-  const {
-    tm_projectSlno,
-    tm_projectName,
-    tm_projectDuedate,
-    tm_projectDescription,
-    tm_projectStatus,
-  } = projectMast
+  const { tm_projectSlno, tm_projectName, tm_projectDuedate, tm_projectDescription, tm_projectStatus } = projectMast
   const ProjectMastUpdate = useCallback(
     e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -115,7 +109,7 @@ const EditProject = ({
       tm_project_status: tm_projectStatus === true ? 1 : 0,
       tm_project_cmpltedate: tm_projectStatus === true ? newDate : null,
       tm_goal_slno: goaledit === 0 ? null : goaledit,
-      tm_project_edit_user: id,
+      tm_project_edit_user: id
     }
   }, [
     tm_projectSlno,
@@ -125,7 +119,7 @@ const EditProject = ({
     tm_projectStatus,
     goaledit,
     newDate,
-    id,
+    id
   ])
 
   const reset = useCallback(() => {
@@ -135,7 +129,7 @@ const EditProject = ({
       tm_projectDuedate: '',
       tm_projectDescription: '',
       tm_projectStatus: false,
-      tm_projectCmpltedate: '',
+      tm_projectCmpltedate: ''
     }
     setprojectMast(form)
     setgoalsEdit(0)
@@ -194,7 +188,7 @@ const EditProject = ({
             justifyContent: 'center',
             alignItems: 'center',
             pl: 1,
-            borderRadius: 10,
+            borderRadius: 10
           }}
         >
           <ModalDialog variant="outlined" sx={{ width: '43vw', p: 0 }}>
@@ -207,7 +201,7 @@ const EditProject = ({
                     pl: 1,
                     flex: 1,
                     pt: 1.5,
-                    fontWeight: 900,
+                    fontWeight: 900
                   }}
                 >
                   Edit Project
@@ -219,7 +213,7 @@ const EditProject = ({
                     cursor: 'pointer',
                     color: '#52688F',
                     p: 1,
-                    '&:hover': { color: '#BA0F30' },
+                    '&:hover': { color: '#BA0F30' }
                   }}
                   onClick={CloseProject}
                 />
@@ -234,7 +228,7 @@ const EditProject = ({
                   backgroundColor: 'white',
                   borderRadius: 35,
                   position: 'absolute',
-                  fontSize: '0.75em',
+                  fontSize: '0.75em'
                 }}
               >
                 <AccountTreeSharpIcon sx={{ height: 60, width: 60, p: 1.5 }} />
@@ -254,7 +248,7 @@ const EditProject = ({
                       borderColor: 'neutral.outlinedBorder',
                       borderRadius: 0,
                       '&:hover': {
-                        borderColor: 'neutral.outlinedHoverBorder',
+                        borderColor: 'neutral.outlinedHoverBorder'
                       },
                       '&::before': {
                         border: '1px solid var(--Textarea-focusedHighlight)',
@@ -264,11 +258,11 @@ const EditProject = ({
                         bottom: '-2px',
                         top: 'unset',
                         transition: 'transform .15s cubic-bezier(0.1,0.9,0.2,1)',
-                        borderRadius: 0,
+                        borderRadius: 0
                       },
                       '&:focus-within::before': {
-                        transform: 'scaleX(1)',
-                      },
+                        transform: 'scaleX(1)'
+                      }
                     }}
                     name="tm_projectName"
                     value={tm_projectName}
@@ -277,11 +271,7 @@ const EditProject = ({
                 </Box>
 
                 <Box sx={{ flex: 1, display: 'flex', mx: 3, mt: 3 }}>
-                  <TmAllGoalsList
-                    goalz={goaledit}
-                    setgoalz={setgoalsEdit}
-                    setdueDateGoal={setdueDateGoal}
-                  />
+                  <TmAllGoalsList goalz={goaledit} setgoalz={setgoalsEdit} setdueDateGoal={setdueDateGoal} />
                   <Box sx={{ ml: 0.5, mt: 2 }} onClick={CreateGoal}>
                     <Tooltip title="Create New Goal">
                       <Chip
@@ -289,7 +279,7 @@ const EditProject = ({
                           cursor: 'pointer',
                           bgcolor: '#90CDD0 ',
                           color: 'black',
-                          '&:hover': { bgcolor: '#77A7B0' },
+                          '&:hover': { bgcolor: '#77A7B0' }
                         }}
                       >
                         &nbsp;+ create&nbsp;
@@ -304,7 +294,7 @@ const EditProject = ({
                       color: '#003B73',
                       fontWeight: 600,
                       textUnderline: 1,
-                      fontSize: 12,
+                      fontSize: 12
                     }}
                   >
                     Due Date*
@@ -327,8 +317,8 @@ const EditProject = ({
                           slotProps={{
                             input: {
                               min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-                              max: moment(new Date(tm_goal_duedate)).format('YYYY-MM-DD HH:mm:ss'),
-                            },
+                              max: moment(new Date(tm_goal_duedate)).format('YYYY-MM-DD HH:mm:ss')
+                            }
                           }}
                           onchange={ProjectMastUpdate}
                           disabled={isGoalOverdue}
@@ -343,8 +333,8 @@ const EditProject = ({
                       slotProps={{
                         input: {
                           min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-                          max: moment(new Date(dueDateGoal)).format('YYYY-MM-DD HH:mm:ss'),
-                        },
+                          max: moment(new Date(dueDateGoal)).format('YYYY-MM-DD HH:mm:ss')
+                        }
                       }}
                       onchange={ProjectMastUpdate}
                     />
@@ -361,7 +351,7 @@ const EditProject = ({
                       borderColor: 'neutral.outlinedBorder',
                       borderRadius: 0,
                       '&:hover': {
-                        borderColor: 'neutral.outlinedHoverBorder',
+                        borderColor: 'neutral.outlinedHoverBorder'
                       },
                       '&::before': {
                         border: '1px solid var(--Textarea-focusedHighlight)',
@@ -371,11 +361,11 @@ const EditProject = ({
                         bottom: '-2px',
                         top: 'unset',
                         transition: 'transform .15s cubic-bezier(0.1,0.9,0.2,1)',
-                        borderRadius: 0,
+                        borderRadius: 0
                       },
                       '&:focus-within::before': {
-                        transform: 'scaleX(1)',
-                      },
+                        transform: 'scaleX(1)'
+                      }
                     }}
                     name="tm_projectDescription"
                     value={tm_projectDescription}
@@ -409,9 +399,7 @@ const EditProject = ({
                   )}
                   <Typography sx={{ pl: 0.5, fontWeight: 500 }}>Project Completed</Typography>
                 </Box>
-                <Box
-                  sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', pt: 5, pb: 2, mr: 3 }}
-                >
+                <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', pt: 5, pb: 2, mr: 3 }}>
                   <Button variant="plain" sx={{ fontSize: 15 }} onClick={UpdateProject}>
                     Update
                   </Button>

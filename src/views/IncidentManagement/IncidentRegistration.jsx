@@ -8,7 +8,7 @@ import {
   Option,
   Select,
   Textarea,
-  Typography,
+  Typography
 } from '@mui/joy'
 import { subDays } from 'date-fns'
 import React, { Fragment, memo, useCallback, useEffect, useMemo, useState } from 'react'
@@ -18,9 +18,7 @@ import TextFieldCustom from '../Components/TextFieldCustom'
 
 const IncidentRegistration = ({ nsName, open, handleClose, ptDetails }) => {
   const { incident } = ptDetails
-  const [inicidentDate, setInicidentDate] = useState(
-    moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
-  )
+  const [inicidentDate, setInicidentDate] = useState(moment(new Date()).format('YYYY-MM-DD HH:mm:ss'))
   const [details, setDetails] = useState('')
   const [reason, setReason] = useState('')
   const [incType, setIncType] = useState(0)
@@ -29,7 +27,7 @@ const IncidentRegistration = ({ nsName, open, handleClose, ptDetails }) => {
       { id: 1, label: 'GENERAL' },
       { id: 2, label: 'NEAR MISSESS' },
       { id: 3, label: 'HARMFUL' },
-      { id: 4, label: 'SENTINEL' },
+      { id: 4, label: 'SENTINEL' }
     ]
   }, [])
   useEffect(() => {
@@ -68,11 +66,11 @@ const IncidentRegistration = ({ nsName, open, handleClose, ptDetails }) => {
     '&:hover': {
       bgcolor: 'white',
       color: '#003B73',
-      transform: 'scale(1.1)',
+      transform: 'scale(1.1)'
     },
     '&:active': {
-      transform: 'scale(0.95)',
-    },
+      transform: 'scale(0.95)'
+    }
   }
   return (
     <Fragment>
@@ -87,7 +85,7 @@ const IncidentRegistration = ({ nsName, open, handleClose, ptDetails }) => {
           <ModalDialog
             variant="outlined"
             sx={{
-              minWidth: '50vw',
+              minWidth: '50vw'
             }}
           >
             <ModalClose
@@ -100,22 +98,18 @@ const IncidentRegistration = ({ nsName, open, handleClose, ptDetails }) => {
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 35,
-                width: 35,
+                width: 35
               }}
             />
             <Box sx={{ display: 'flex', bgcolor: '#1976D2', flexWrap: 'wrap' }}>
               <Box sx={{ flex: 0.5, m: 1 }}>
-                <Typography
-                  sx={{ fontWeight: 550, fontSize: 35, color: 'white', fontFamily: 'system-ui' }}
-                >
+                <Typography sx={{ fontWeight: 550, fontSize: 35, color: 'white', fontFamily: 'system-ui' }}>
                   Incident Report Form
                 </Typography>
               </Box>
               <Box sx={{ flex: 1, m: 1, flexWrap: 'wrap' }}>
                 <Box sx={{ m: 0.5 }}>
-                  <Typography
-                    sx={{ fontWeight: 550, fontSize: 14, color: 'white', fontFamily: 'system-ui' }}
-                  >
+                  <Typography sx={{ fontWeight: 550, fontSize: 14, color: 'white', fontFamily: 'system-ui' }}>
                     Date & Time of Incident
                   </Typography>
                 </Box>
@@ -124,16 +118,16 @@ const IncidentRegistration = ({ nsName, open, handleClose, ptDetails }) => {
                     slotProps={{
                       input: {
                         min: moment(subDays(new Date(), 10)).format('YYYY-MM-DD HH:mm:ss'),
-                        max: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-                      },
+                        max: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+                      }
                     }}
                     sx={{
                       '@media screen and (max-width: 768px)': {
                         width: 100,
                         fontSize: 10,
                         color: 'white',
-                        fontFamily: 'system-ui',
-                      },
+                        fontFamily: 'system-ui'
+                      }
                     }}
                     type="datetime-local"
                     name="inicidentDate"
@@ -143,23 +137,17 @@ const IncidentRegistration = ({ nsName, open, handleClose, ptDetails }) => {
                   />
                 </Box>
                 <Box sx={{ m: 0.5 }}>
-                  <Typography
-                    sx={{ fontWeight: 550, fontSize: 14, color: 'white', fontFamily: 'system-ui' }}
-                  >
+                  <Typography sx={{ fontWeight: 550, fontSize: 14, color: 'white', fontFamily: 'system-ui' }}>
                     Location of Incident
                   </Typography>
                 </Box>
-                <Box sx={{ color: 'white', fontFamily: 'system-ui', m: 0.5, fontSize: 16 }}>
-                  {nsName}
-                </Box>
+                <Box sx={{ color: 'white', fontFamily: 'system-ui', m: 0.5, fontSize: 16 }}>{nsName}</Box>
               </Box>
             </Box>
 
             <Box sx={{ bgcolor: 'white' }}>
               <Box sx={{ flex: 1 }}>
-                <Box sx={{ pl: 1, color: '#003B73', fontWeight: 550, fontFamily: 'system-ui' }}>
-                  Incident Details
-                </Box>
+                <Box sx={{ pl: 1, color: '#003B73', fontWeight: 550, fontFamily: 'system-ui' }}>Incident Details</Box>
                 <Box sx={{ pl: 0.5, pt: 0.5 }}>
                   <CssVarsProvider>
                     <Textarea
@@ -176,9 +164,7 @@ const IncidentRegistration = ({ nsName, open, handleClose, ptDetails }) => {
                 </Box>
               </Box>
               <Box sx={{ flex: 1, pt: 0.5 }}>
-                <Box sx={{ pl: 1, color: '#003B73', fontWeight: 550, fontFamily: 'system-ui' }}>
-                  Incident Reason
-                </Box>
+                <Box sx={{ pl: 1, color: '#003B73', fontWeight: 550, fontFamily: 'system-ui' }}>Incident Reason</Box>
                 <Box sx={{ pl: 0.5, pt: 0.5 }}>
                   <CssVarsProvider>
                     <Textarea
@@ -195,9 +181,7 @@ const IncidentRegistration = ({ nsName, open, handleClose, ptDetails }) => {
                 </Box>
               </Box>
               <Box sx={{ flex: 1, pt: 0.5 }}>
-                <Box sx={{ pl: 1, color: '#003B73', fontWeight: 550, fontFamily: 'system-ui' }}>
-                  Incident Type
-                </Box>
+                <Box sx={{ pl: 1, color: '#003B73', fontWeight: 550, fontFamily: 'system-ui' }}>Incident Type</Box>
                 <Box sx={{ pl: 0.5, pt: 0.5 }}>
                   <Select
                     placeholder="select"

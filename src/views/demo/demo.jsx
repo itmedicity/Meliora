@@ -28,32 +28,32 @@ const OffrequestCombinePage = () => {
       slno: 285,
       name: 'Credit Off',
       component: <COFFPage />,
-      icon: <AccountBalanceWalletOutlinedIcon color="warning" />,
+      icon: <AccountBalanceWalletOutlinedIcon color="warning" />
     },
     {
       slno: 236,
       name: 'Night Off',
       component: <NightOffPage />,
-      icon: <NightsStayOutlinedIcon color="secondary" />,
+      icon: <NightsStayOutlinedIcon color="secondary" />
     },
     {
       slno: 300,
       name: 'Duty OFF',
       component: <DoffPage />,
-      icon: <PersonOffOutlinedIcon color="info" />,
+      icon: <PersonOffOutlinedIcon color="info" />
     },
     {
       slno: 239,
       name: 'Common Request',
       component: <Commonpage />,
-      icon: <EventNoteOutlinedIcon color="error" />,
+      icon: <EventNoteOutlinedIcon color="error" />
     },
     {
       slno: 31,
       name: 'Over Time',
       component: <OverTimePage />,
-      icon: <UpdateOutlinedIcon color="success" />,
-    },
+      icon: <UpdateOutlinedIcon color="success" />
+    }
   ]
 
   useEffect(() => {
@@ -75,16 +75,11 @@ const OffrequestCombinePage = () => {
           borderRadius: 'md',
           boxShadow: 'lg',
           '@media screen and (max-width: 768px)': {
-            padding: 1,
-          },
+            padding: 1
+          }
         }}
       >
-        <Tabs
-          aria-label="Basic tabs"
-          defaultValue={0}
-          sx={{ bgcolor: 'transparent', px: 1 }}
-          size="sm"
-        >
+        <Tabs aria-label="Basic tabs" defaultValue={0} sx={{ bgcolor: 'transparent', px: 1 }} size="sm">
           <TabList
             tabFlex={1}
             variant="outlined"
@@ -96,8 +91,8 @@ const OffrequestCombinePage = () => {
               bgcolor: 'background.level1',
               [`& .${tabClasses.root}[aria-selected="true"]`]: {
                 boxShadow: 'sm',
-                bgcolor: 'background.surface',
-              },
+                bgcolor: 'background.surface'
+              }
             }}
           >
             {menurights?.map((val, ind) => {

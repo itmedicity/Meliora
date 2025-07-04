@@ -10,13 +10,7 @@ import AssignmentSharpIcon from '@mui/icons-material/AssignmentSharp'
 import ListSharpIcon from '@mui/icons-material/ListSharp'
 import SubTaskUnderTaskModal from './SubTaskUnderTaskModal'
 
-const TaskViewsUnderPorject = ({
-  prjmodalOpen,
-  setprjModalOpen,
-  depmtSec,
-  capEmpName,
-  taskUnderPjt,
-}) => {
+const TaskViewsUnderPorject = ({ prjmodalOpen, setprjModalOpen, depmtSec, capEmpName, taskUnderPjt }) => {
   const { tm_project_name, tm_project_slno, tm_assigne_emp } = taskUnderPjt
   const [SubTaskmodalFlag, setSubTaskmodalFlag] = useState(0)
   const [SubTaskmodalOpen, setSubTaskmodalOpen] = useState(false)
@@ -25,7 +19,7 @@ const TaskViewsUnderPorject = ({
   const [otherempTask, setOtherempTask] = useState([])
   const searchData = useMemo(() => {
     return {
-      tm_project_slno: tm_project_slno,
+      tm_project_slno: tm_project_slno
     }
   }, [tm_project_slno])
 
@@ -86,7 +80,7 @@ const TaskViewsUnderPorject = ({
             bgcolor: 'white',
             borderRadius: 20,
             height: '90vh',
-            overflow: 'auto',
+            overflow: 'auto'
           }}
         >
           <Box>
@@ -99,7 +93,7 @@ const TaskViewsUnderPorject = ({
                     fontFamily: 'Georgia',
                     pt: 0.5,
                     color: 'white',
-                    pl: 1,
+                    pl: 1
                   }}
                 >
                   <AlignHorizontalRightRoundedIcon sx={{ height: 32, width: 32, color: 'white' }} />
@@ -125,7 +119,7 @@ const TaskViewsUnderPorject = ({
                     bgcolor: '#4F687F',
                     borderRadius: 20,
                     pl: 1,
-                    color: 'white',
+                    color: 'white'
                   }}
                 >
                   <AssignmentSharpIcon sx={{ color: 'white' }} /> Task assigned to {capEmpName}
@@ -150,8 +144,8 @@ const TaskViewsUnderPorject = ({
                               borderColor: '#C3E0E5',
                               '&:hover': {
                                 boxShadow: '1px 1px 3px',
-                                bgcolor: '#E9EAEC',
-                              },
+                                bgcolor: '#E9EAEC'
+                              }
                             }}
                             onClick={() => openSubtaskModal(val)}
                           >
@@ -164,7 +158,7 @@ const TaskViewsUnderPorject = ({
                                   sx={{
                                     fontSize: 12,
                                     textTransform: 'capitalize',
-                                    cursor: 'grab',
+                                    cursor: 'grab'
                                   }}
                                 >
                                   {val.tm_task_name}
@@ -175,7 +169,7 @@ const TaskViewsUnderPorject = ({
                                     fontSize: 12,
                                     textTransform: 'capitalize',
                                     cursor: 'grab',
-                                    color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black',
+                                    color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black'
                                   }}
                                 >
                                   {val.tm_task_name}
@@ -192,7 +186,7 @@ const TaskViewsUnderPorject = ({
                                       mb: 0.5,
                                       width: 160,
                                       pl: 1,
-                                      fontSize: 12,
+                                      fontSize: 12
                                     }}
                                   >
                                     <CountDowncomponent DueDates={val.tm_task_due_date} />
@@ -206,7 +200,7 @@ const TaskViewsUnderPorject = ({
                                       width: 160,
                                       pl: 5,
                                       color: 'darkgreen',
-                                      fontSize: 12,
+                                      fontSize: 12
                                     }}
                                   >
                                     Completed
@@ -221,13 +215,10 @@ const TaskViewsUnderPorject = ({
                                     sx={{
                                       fontSize: 12,
                                       textTransform: 'capitalize',
-                                      cursor: 'grab',
+                                      cursor: 'grab'
                                     }}
                                   >
-                                    <EventNoteRoundedIcon
-                                      fontSize="sm"
-                                      sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }}
-                                    />{' '}
+                                    <EventNoteRoundedIcon fontSize="sm" sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }} />{' '}
                                     {val.create_date}
                                   </FormLabel>
                                 ) : (
@@ -236,13 +227,10 @@ const TaskViewsUnderPorject = ({
                                       fontSize: 12,
                                       textTransform: 'capitalize',
                                       cursor: 'grab',
-                                      color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black',
+                                      color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black'
                                     }}
                                   >
-                                    <EventNoteRoundedIcon
-                                      fontSize="sm"
-                                      sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }}
-                                    />{' '}
+                                    <EventNoteRoundedIcon fontSize="sm" sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }} />{' '}
                                     {val.create_date}
                                   </FormLabel>
                                 )}
@@ -256,13 +244,10 @@ const TaskViewsUnderPorject = ({
                                       fontSize: 12,
                                       flex: 1,
                                       textTransform: 'capitalize',
-                                      cursor: 'grab',
+                                      cursor: 'grab'
                                     }}
                                   >
-                                    <EventNoteRoundedIcon
-                                      fontSize="sm"
-                                      sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }}
-                                    />{' '}
+                                    <EventNoteRoundedIcon fontSize="sm" sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }} />{' '}
                                     {val.tm_task_due_date}
                                   </FormLabel>
                                 ) : (
@@ -272,13 +257,10 @@ const TaskViewsUnderPorject = ({
                                       flex: 1,
                                       textTransform: 'capitalize',
                                       cursor: 'grab',
-                                      color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black',
+                                      color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black'
                                     }}
                                   >
-                                    <EventNoteRoundedIcon
-                                      fontSize="sm"
-                                      sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }}
-                                    />{' '}
+                                    <EventNoteRoundedIcon fontSize="sm" sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }} />{' '}
                                     {val.tm_task_due_date}
                                   </FormLabel>
                                 )}
@@ -304,7 +286,7 @@ const TaskViewsUnderPorject = ({
                         textAlign: 'center',
                         fontWeight: 700,
                         fontSize: 30,
-                        color: '#C7C8CB',
+                        color: '#C7C8CB'
                       }}
                     >
                       {' '}
@@ -322,7 +304,7 @@ const TaskViewsUnderPorject = ({
                       bgcolor: '#4F687F',
                       borderRadius: 20,
                       pl: 3,
-                      color: 'white',
+                      color: 'white'
                     }}
                   >
                     <AssignmentSharpIcon sx={{ color: 'white' }} /> Other Task Under this Project
@@ -351,7 +333,7 @@ const TaskViewsUnderPorject = ({
                           display: 'flex',
                           mb: 0.5,
                           borderBottom: 1,
-                          borderColor: '#C3E0E5',
+                          borderColor: '#C3E0E5'
                         }}
                       >
                         <Box sx={{ px: 0.6, pt: 0.5 }}>
@@ -363,7 +345,7 @@ const TaskViewsUnderPorject = ({
                               sx={{
                                 fontSize: 12,
                                 textTransform: 'capitalize',
-                                cursor: 'grab',
+                                cursor: 'grab'
                               }}
                             >
                               {val.tm_task_name}
@@ -374,7 +356,7 @@ const TaskViewsUnderPorject = ({
                                 fontSize: 12,
                                 textTransform: 'capitalize',
                                 cursor: 'grab',
-                                color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black',
+                                color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black'
                               }}
                             >
                               {val.tm_task_name}
@@ -391,7 +373,7 @@ const TaskViewsUnderPorject = ({
                                 display: 'flex',
                                 justifyContent: 'center',
                                 color: '#3B0404',
-                                textTransform: 'capitalize',
+                                textTransform: 'capitalize'
                               }}
                             >
                               {assignedEmp_name}
@@ -408,7 +390,7 @@ const TaskViewsUnderPorject = ({
                                   mb: 0.5,
                                   width: 150,
                                   pl: 1,
-                                  fontSize: 12,
+                                  fontSize: 12
                                 }}
                               >
                                 <CountDowncomponent DueDates={val.tm_task_due_date} />
@@ -422,7 +404,7 @@ const TaskViewsUnderPorject = ({
                                   width: 150,
                                   pl: 5,
                                   color: 'darkgreen',
-                                  fontSize: 12,
+                                  fontSize: 12
                                 }}
                               >
                                 Completed
@@ -438,13 +420,10 @@ const TaskViewsUnderPorject = ({
                                   fontSize: 12,
                                   flex: 1,
                                   textTransform: 'capitalize',
-                                  cursor: 'grab',
+                                  cursor: 'grab'
                                 }}
                               >
-                                <EventNoteRoundedIcon
-                                  fontSize="small"
-                                  sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }}
-                                />
+                                <EventNoteRoundedIcon fontSize="small" sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }} />
                                 {val.create_date}
                               </FormLabel>
                             ) : (
@@ -455,13 +434,10 @@ const TaskViewsUnderPorject = ({
                                   textTransform: 'capitalize',
                                   cursor: 'grab',
                                   color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black',
-                                  display: 'flex',
+                                  display: 'flex'
                                 }}
                               >
-                                <EventNoteRoundedIcon
-                                  fontSize="small"
-                                  sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }}
-                                />
+                                <EventNoteRoundedIcon fontSize="small" sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }} />
                                 {val.create_date}
                               </FormLabel>
                             )}
@@ -475,13 +451,10 @@ const TaskViewsUnderPorject = ({
                                   fontSize: 12,
                                   flex: 1,
                                   textTransform: 'capitalize',
-                                  cursor: 'grab',
+                                  cursor: 'grab'
                                 }}
                               >
-                                <EventNoteRoundedIcon
-                                  fontSize="small"
-                                  sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }}
-                                />
+                                <EventNoteRoundedIcon fontSize="small" sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }} />
                                 {val.tm_task_due_date}
                               </FormLabel>
                             ) : (
@@ -491,13 +464,10 @@ const TaskViewsUnderPorject = ({
                                   flex: 1,
                                   textTransform: 'capitalize',
                                   cursor: 'grab',
-                                  color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black',
+                                  color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'black'
                                 }}
                               >
-                                <EventNoteRoundedIcon
-                                  fontSize="small"
-                                  sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }}
-                                />
+                                <EventNoteRoundedIcon fontSize="small" sx={{ mt: 0.2, mr: 0.2, color: '#435D84' }} />
                                 {val.tm_task_due_date}
                               </FormLabel>
                             )}
@@ -527,7 +497,7 @@ const TaskViewsUnderPorject = ({
                                       ? '#5885AF'
                                       : 'transparent',
                                   minHeight: 5,
-                                  fontWeight: 700,
+                                  fontWeight: 700
                                 }}
                               >
                                 {val.tm_task_status === 0

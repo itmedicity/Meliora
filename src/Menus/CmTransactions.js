@@ -6,33 +6,33 @@ const CmTransactions = [
     men_slno: 148,
     name: 'Dashboard',
     to: '/Home/TicketDashboards',
-    icon: <CiStop1 />,
+    icon: <CiStop1 />
   },
 
   {
     men_slno: 5,
     name: 'Ticket Registration',
     to: '/Home/ComplaintRegister',
-    icon: <CiStop1 />,
+    icon: <CiStop1 />
   },
   {
     men_slno: 66,
     name: ' Direct Ticket',
     to: '/Home/DirectComplaint',
-    icon: <CiStop1 />,
+    icon: <CiStop1 />
   },
   {
     men_slno: 6,
     name: 'Ticket List ',
     to: '/Home/AssignComplaint',
-    icon: <CiStop1 />,
+    icon: <CiStop1 />
   },
   {
     men_slno: 226,
     name: 'Service Request',
     to: '/Home/AssetServiceList',
-    icon: <CiStop1 />,
-  },
+    icon: <CiStop1 />
+  }
 
   // {
   //     men_slno: 235,

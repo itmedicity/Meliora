@@ -3,7 +3,7 @@ const { FETCH_ITEMGROUP } = ActionTyps
 //initial state
 const itemgrpname = {
   itemgrpList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Department action type check then payload set to the state and loading status set as true */
 export const getitemGrpName = (state = itemgrpname, { type, payload }) => {

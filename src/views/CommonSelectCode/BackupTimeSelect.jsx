@@ -12,7 +12,7 @@ const BackupTimeSelect = ({ scheduleTime, setScheduleTime }) => {
   // }, [backupScheduleTime])
   const handleChange = e => {
     const {
-      target: { value },
+      target: { value }
     } = e
     setScheduleTime(typeof value === 'string' ? value.split(',') : value)
   }

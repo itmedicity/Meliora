@@ -11,8 +11,8 @@ const ModuleTable = ({ count, rowSelect }) => {
     { headerName: 'Status', field: 'status' },
     {
       headerName: 'Action',
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
-    },
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
+    }
   ])
 
   /*** get data from module_master table for display */

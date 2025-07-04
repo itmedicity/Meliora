@@ -14,8 +14,8 @@ const ViewCategoryTable = ({ count, rowSelect, setCount }) => {
     { headerName: 'Category', field: 'category_names', width: 200 },
     {
       headerName: 'Action',
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
-    },
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
+    }
   ])
   const dispatch = useDispatch()
 

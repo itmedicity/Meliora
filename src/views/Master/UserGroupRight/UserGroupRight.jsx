@@ -27,7 +27,7 @@ const UserGroupRight = () => {
   const [frmdata, setFrmdaat] = useState({
     group_right_slno: 0,
     menu_view: 0,
-    user_group_slno: 0,
+    user_group_slno: 0
   })
   //Destructuring
   const { group_right_slno, user_group_slno, menu_view } = frmdata
@@ -46,8 +46,8 @@ const UserGroupRight = () => {
             onClick={e => onclickk(dataa.data)}
           />
         )
-      },
-    },
+      }
+    }
   ])
 
   /***When icon click the corresponding feild data get in click function and then destructure it for further update */
@@ -57,21 +57,21 @@ const UserGroupRight = () => {
       menu_slno: menu_slno,
       group_right_slno: group_right_slno,
       menu_view: menu_view,
-      user_group_slno: user_group_slno,
+      user_group_slno: user_group_slno
     }
     setFrmdaat(frm)
     setupdate(1)
   }
   //Enable edit
   const columnTypes = {
-    nonEditableColumn: { editable: false },
+    nonEditableColumn: { editable: false }
   }
   //post data for search
   const postdata = useMemo(() => {
     return {
       user_group_slno: usergp,
       module_slno: modulename,
-      sub_module_slno: subModule,
+      sub_module_slno: subModule
     }
   }, [usergp, modulename, subModule])
 
@@ -115,7 +115,7 @@ const UserGroupRight = () => {
       menu_view: menu_view === 0 ? 1 : 0,
       user_group_slno: usergp,
       sub_module_slno: subModule,
-      module_slno: modulename,
+      module_slno: modulename
     }
   }, [group_right_slno, menu_view, usergp, modulename, subModule])
 
@@ -125,7 +125,7 @@ const UserGroupRight = () => {
       const frmreset = {
         group_right_slno: 0,
         menu_view: 0,
-        user_group_slno: 0,
+        user_group_slno: 0
       }
       const updatefunc = async patchdata => {
         const result = await axioslogin.patch('/usergroup/rights', patchdata)
@@ -168,13 +168,7 @@ const UserGroupRight = () => {
               <Grid item lg={1} xl={1}>
                 <CustomeToolTip title="Search" placement="left">
                   <Box>
-                    <CusIconButton
-                      size="sm"
-                      variant="outlined"
-                      color="primary"
-                      clickable="true"
-                      onClick={search}
-                    >
+                    <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={search}>
                       <SearchOffIcon fontSize="small" />
                     </CusIconButton>
                   </Box>

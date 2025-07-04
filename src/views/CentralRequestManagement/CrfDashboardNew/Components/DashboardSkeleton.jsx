@@ -16,14 +16,14 @@ const DashboardSkeleton = () => {
                 bgcolor: 'white',
                 height: 180,
                 border: '1px solid #bbdefb',
-                borderRadius: 5,
+                borderRadius: 5
               }}
             >
               <Box
                 sx={{
                   marginBottom: 1,
                   display: 'flex',
-                  height: 'calc(100% - 40px)',
+                  height: 'calc(100% - 40px)'
                 }}
               >
                 {/* Left Side Image Skeleton */}
@@ -34,13 +34,10 @@ const DashboardSkeleton = () => {
                     justifyContent: 'center',
                     alignItems: 'center',
                     pl: 1,
-                    py: 1,
+                    py: 1
                   }}
                 >
-                  <Skeleton
-                    variant="rectangular"
-                    sx={{ width: 110, height: 90, borderRadius: 1 }}
-                  />
+                  <Skeleton variant="rectangular" sx={{ width: 110, height: 90, borderRadius: 1 }} />
                 </Box>
 
                 {/* Right Side Content Skeleton */}
@@ -51,7 +48,7 @@ const DashboardSkeleton = () => {
                       display: 'flex',
                       justifyContent: 'flex-end',
                       pr: 2,
-                      py: 2,
+                      py: 2
                     }}
                   >
                     <Skeleton variant="text" sx={{ width: '70%', height: 24 }} />
@@ -60,7 +57,7 @@ const DashboardSkeleton = () => {
                     sx={{
                       display: 'flex',
                       justifyContent: 'flex-end',
-                      pt: 0.5,
+                      pt: 0.5
                     }}
                   >
                     <Skeleton
@@ -68,7 +65,7 @@ const DashboardSkeleton = () => {
                       sx={{
                         width: 100,
                         height: 40,
-                        borderRadius: '20px 0 0 20px',
+                        borderRadius: '20px 0 0 20px'
                       }}
                     />
                   </Box>
@@ -85,7 +82,7 @@ const DashboardSkeleton = () => {
                   display: 'flex',
                   flexGrow: 1,
                   justifyContent: 'space-evenly',
-                  m: 0.5,
+                  m: 0.5
                 }}
               >
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>

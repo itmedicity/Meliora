@@ -12,7 +12,7 @@ const EmpTaskCountUnderProject = ({ val }) => {
   const searchData = useMemo(() => {
     return {
       tm_project_slno: tm_project_slno,
-      tm_assigne_emp: tm_assigne_emp,
+      tm_assigne_emp: tm_assigne_emp
     }
   }, [tm_project_slno, tm_assigne_emp])
   useEffect(() => {
@@ -45,7 +45,7 @@ const EmpTaskCountUnderProject = ({ val }) => {
             '--LinearProgress-thickness': '11px',
             bgcolor: 'white',
             color: '#41729F',
-            height: 17,
+            height: 17
           }}
         >
           <Typography fontSize={12} sx={{ mixBlendMode: 'difference', color: 'white' }}>
@@ -62,7 +62,7 @@ const EmpTaskCountUnderProject = ({ val }) => {
             cursor: 'grab',
             color: 'green',
             display: 'flex',
-            justifyContent: 'flex-end',
+            justifyContent: 'flex-end'
           }}
         >
           ({complete})
@@ -76,7 +76,7 @@ const EmpTaskCountUnderProject = ({ val }) => {
             cursor: 'grab',
             color: '#523A28',
             display: 'flex',
-            justifyContent: 'flex-end',
+            justifyContent: 'flex-end'
           }}
         >
           ({total})

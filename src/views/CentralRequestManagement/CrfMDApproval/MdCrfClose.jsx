@@ -20,7 +20,7 @@ const MdCrfClose = ({
   setCancelFlag,
   approveTableData,
   imagearray,
-  selectedCompany,
+  selectedCompany
 }) => {
   const { req_slno, crf_close, crf_close_remark } = cancelData
   const queryClient = useQueryClient()
@@ -62,7 +62,7 @@ const MdCrfClose = ({
       crf_close_user: id,
       crf_closed_one: 'MD',
       close_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
-      req_slno: req_slno,
+      req_slno: req_slno
     }
   }, [Closeremark, id, req_slno, closeCrf, internally])
 
@@ -92,9 +92,7 @@ const MdCrfClose = ({
           if (success === 2) {
             succesNotify(message)
             reset()
-            queryClient.invalidateQueries(
-              selectedCompany === '1' ? 'getPendingAll' : 'getAllKmcPending'
-            )
+            queryClient.invalidateQueries(selectedCompany === '1' ? 'getPendingAll' : 'getAllKmcPending')
           } else {
             warningNotify(message)
           }
@@ -134,7 +132,7 @@ const MdCrfClose = ({
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 25,
-                width: 25,
+                width: 25
               }}
             />
             <Box sx={{ minWidth: '60vw', minHeight: '50vh', maxHeight: '85vh', overflowY: 'auto' }}>

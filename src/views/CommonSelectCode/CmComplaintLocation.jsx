@@ -48,7 +48,7 @@ const CmComplaintLocation = ({ cmSection, setCmSection, setCmSectionName }) => {
           sx={{
             width: '100%',
             minHeight: 35,
-            borderRadius: 0,
+            borderRadius: 0
           }}
           value={value}
           placeholder="Select Section"

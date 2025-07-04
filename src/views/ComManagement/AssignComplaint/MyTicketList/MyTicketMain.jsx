@@ -10,7 +10,7 @@ const MyTicketMain = ({ assistReq, count, setCount }) => {
         mt: 0.3,
         px: 0.3,
         pt: 0.3,
-        pb: 0.5,
+        pb: 0.5
       }}
     >
       <MyAllTickets assistReq={assistReq} count={count} setCount={setCount} />

@@ -21,7 +21,7 @@ const AddDetailOnItem = ({
   empId,
   condemMastslno,
   count,
-  setcount,
+  setcount
 }) => {
   const {
     category_name,
@@ -32,7 +32,7 @@ const AddDetailOnItem = ({
     spare_asset_no_only,
     am_item_map_slno,
     am_spare_item_map_slno,
-    am_condem_reason,
+    am_condem_reason
   } = itemDetails
 
   const [selectFile, setSelectFile] = useState([])
@@ -46,14 +46,14 @@ const AddDetailOnItem = ({
     return {
       condemMastslno,
       am_item_map_slno: am_item_map_slno !== undefined ? am_item_map_slno : null,
-      am_spare_item_map_slno: am_spare_item_map_slno !== undefined ? am_spare_item_map_slno : null,
+      am_spare_item_map_slno: am_spare_item_map_slno !== undefined ? am_spare_item_map_slno : null
     }
   }, [condemMastslno, am_item_map_slno, am_spare_item_map_slno])
 
   const { data: CondemSlno } = useQuery({
     queryKey: ['getCondemSlnoData'],
     queryFn: () => getCondemSlno(postCondemMast),
-    enabled: condemMastslno !== undefined,
+    enabled: condemMastslno !== undefined
   })
 
   useEffect(() => {
@@ -102,7 +102,7 @@ const AddDetailOnItem = ({
     const options = {
       maxSizeMB: 25,
       maxWidthOrHeight: 1920,
-      useWebWorker: true,
+      useWebWorker: true
     }
     const compressedFile = await imageCompression(imageFile, options)
     return compressedFile
@@ -126,11 +126,11 @@ const AddDetailOnItem = ({
     '&:hover': {
       bgcolor: 'white',
       color: '#523A28',
-      transform: 'scale(1.1)',
+      transform: 'scale(1.1)'
     },
     '&:active': {
-      transform: 'scale(0.95)',
-    },
+      transform: 'scale(0.95)'
+    }
   }
 
   const ChangeCondemReason = event => {
@@ -143,7 +143,7 @@ const AddDetailOnItem = ({
       edit_user: empId,
       am_asset_item_slno: am_item_map_slno === undefined ? null : am_item_map_slno,
       am_spare_item_slno: am_spare_item_map_slno === undefined ? null : am_spare_item_map_slno,
-      am_condem_reason: condemReason,
+      am_condem_reason: condemReason
     }
   }, [condemMastslno, empId, am_item_map_slno, am_spare_item_map_slno, condemReason])
 
@@ -169,15 +169,11 @@ const AddDetailOnItem = ({
             }
           }
 
-          const uploadResult = await axioslogin.post(
-            '/AssetFileUpload/uploadFile/uploadCondemnation',
-            formData,
-            {
-              headers: {
-                'Content-Type': 'multipart/form-data',
-              },
+          const uploadResult = await axioslogin.post('/AssetFileUpload/uploadFile/uploadCondemnation', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
             }
-          )
+          })
           return uploadResult.data
         } catch (error) {
           warningNotify('An error occurred during file upload.')
@@ -186,11 +182,7 @@ const AddDetailOnItem = ({
       const condemDataUpdate = await UpdateItemDetail(patchdata)
       if (condemDataUpdate.success === 2) {
         if (selectFile.length !== 0) {
-          const fileUploadResponse = await InsertFile(
-            selectFile,
-            condemMastslno,
-            amCondemDetailSlno
-          )
+          const fileUploadResponse = await InsertFile(selectFile, condemMastslno, amCondemDetailSlno)
           if (fileUploadResponse.success === 1) {
             succesNotify('Details Added With File Attach Successfully')
             setcount(count + 1)
@@ -207,26 +199,13 @@ const AddDetailOnItem = ({
         infoNotify('Unable to Add Details')
       }
     },
-    [
-      patchdata,
-      selectFile,
-      CloseAddModal,
-      amCondemDetailSlno,
-      condemMastslno,
-      count,
-      handleImageUpload,
-      setcount,
-    ]
+    [patchdata, selectFile, CloseAddModal, amCondemDetailSlno, condemMastslno, count, handleImageUpload, setcount]
   )
 
   return (
     <Box>
       {imageViewFlag === 1 ? (
-        <FileViewSingle
-          imageShow={imageViewSingle}
-          CloseFile={CloseImage}
-          previewFile={previewFile}
-        />
+        <FileViewSingle imageShow={imageViewSingle} CloseFile={CloseImage} previewFile={previewFile} />
       ) : null}
       <Modal
         aria-labelledby="modal-title"
@@ -237,7 +216,7 @@ const AddDetailOnItem = ({
           justifyContent: 'center',
           alignItems: 'center',
           pl: 1,
-          borderRadius: 10,
+          borderRadius: 10
         }}
       >
         <ModalDialog variant="outlined" sx={{ width: '40vw', p: 0, overflow: 'auto' }}>
@@ -281,10 +260,7 @@ const AddDetailOnItem = ({
                   sx={{ fontWeight: 500, color: 'black', pl: 0.8, fontSize: 14, width: 90 }}
                 />
 
-                <TextComponent
-                  text={category_name}
-                  sx={{ fontWeight: 500, color: 'black', pl: 1, fontSize: 14 }}
-                />
+                <TextComponent text={category_name} sx={{ fontWeight: 500, color: 'black', pl: 1, fontSize: 14 }} />
               </Box>
               <Box sx={{ flex: 1, display: 'flex', pb: 0.5 }}>
                 <TextComponent
@@ -292,10 +268,7 @@ const AddDetailOnItem = ({
                   sx={{ fontWeight: 500, color: 'black', pl: 0.8, fontSize: 14, width: 90 }}
                 />
 
-                <TextComponent
-                  text={item_name}
-                  sx={{ fontWeight: 500, color: 'black', pl: 1, fontSize: 14 }}
-                />
+                <TextComponent text={item_name} sx={{ fontWeight: 500, color: 'black', pl: 1, fontSize: 14 }} />
               </Box>
             </Box>
             <Box sx={{ flex: 1, p: 1 }}>
@@ -325,7 +298,7 @@ const AddDetailOnItem = ({
                   justifyContent: 'center',
                   alignItems: 'center',
                   textAlign: 'center',
-                  bgcolor: '#F6F8FA',
+                  bgcolor: '#F6F8FA'
                 }}
               >
                 <Box sx={{}}>
@@ -339,7 +312,7 @@ const AddDetailOnItem = ({
                         pl: 0.8,
                         fontSize: 14,
                         width: 90,
-                        cursor: 'pointer',
+                        cursor: 'pointer'
                       }}
                     />
                   </label>
@@ -363,7 +336,7 @@ const AddDetailOnItem = ({
                   borderColor: 'lightgrey',
                   mx: 1,
                   p: 1,
-                  my: 0.5,
+                  my: 0.5
                 }}
               >
                 <Grid container spacing={1}>
@@ -378,7 +351,7 @@ const AddDetailOnItem = ({
                           borderRadius: '4px',
                           p: 0.5,
                           mr: 0.5,
-                          mb: 0.5,
+                          mb: 0.5
                         }}
                       >
                         {file.type.includes('image') ? (
@@ -391,7 +364,7 @@ const AddDetailOnItem = ({
                               objectFit: 'cover',
                               borderRadius: '4px',
                               marginRight: '8px',
-                              cursor: 'pointer',
+                              cursor: 'pointer'
                             }}
                             onClick={() => ViewImage(file)}
                           />
@@ -402,7 +375,7 @@ const AddDetailOnItem = ({
                               height: '40px',
                               color: '#e53935',
                               marginRight: '8px',
-                              cursor: 'pointer',
+                              cursor: 'pointer'
                             }}
                             onClick={() => ViewImage(file)}
                           />
@@ -413,7 +386,7 @@ const AddDetailOnItem = ({
                               height: '40px',
                               color: '#9e9e9e',
                               marginRight: '8px',
-                              cursor: 'pointer',
+                              cursor: 'pointer'
                             }}
                             onClick={() => ViewImage(file)}
                           />
@@ -428,7 +401,7 @@ const AddDetailOnItem = ({
                             cursor: 'pointer',
                             color: '#4D0011',
                             mx: 0.5,
-                            '&:hover': { color: '#BA0F30' },
+                            '&:hover': { color: '#BA0F30' }
                           }}
                           onClick={() => handleRemoveFile(index)}
                         />

@@ -26,10 +26,9 @@ const QualityDept = () => {
     census_ns_name: '',
     census_ns_code: '',
     census_ou_code: '',
-    nursing_status: false,
+    nursing_status: false
   })
-  const { census_ns_code, census_ns_name, census_ou_code, nursing_status, census_ns_slno } =
-    censusNurs
+  const { census_ns_code, census_ns_name, census_ou_code, nursing_status, census_ns_slno } = censusNurs
   const updateCensusNurs = useCallback(
     e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -42,7 +41,7 @@ const QualityDept = () => {
       census_ns_name: '',
       census_ns_code: '',
       census_ou_code: '',
-      nursing_status: false,
+      nursing_status: false
     }
     setCensusNurs(formreset)
     setCount(0)
@@ -58,7 +57,7 @@ const QualityDept = () => {
       census_ns_code: census_ns_code,
       census_ou_code: census_ou_code,
       nursing_status: nursing_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [census_ns_code, nursing_status, id, census_ou_code, census_ns_name])
 
@@ -69,7 +68,7 @@ const QualityDept = () => {
       census_ns_code: census_ns_code,
       census_ou_code: census_ou_code,
       nursing_status: nursing_status === true ? 1 : 0,
-      edit_user: id,
+      edit_user: id
     }
   }, [census_ns_slno, census_ns_code, census_ou_code, nursing_status, id, census_ns_name])
 
@@ -119,7 +118,7 @@ const QualityDept = () => {
       census_ns_name: census_ns_name,
       census_ns_code: census_ns_code,
       census_ou_code: census_ou_code,
-      nursing_status: status === 'Yes' ? true : false,
+      nursing_status: status === 'Yes' ? true : false
     }
     setCensusNurs(frmdata)
   }, [])

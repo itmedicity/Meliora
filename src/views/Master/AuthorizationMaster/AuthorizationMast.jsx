@@ -54,7 +54,7 @@ const AuthorizationMast = () => {
       auth_post: post,
       dept_section_post: empdeptsec,
       emp_id: empid,
-      create_user: id,
+      create_user: id
     }
   }, [deptsec, empdeptsec, empid, id, post])
 
@@ -108,7 +108,7 @@ const AuthorizationMast = () => {
 
       const patchdata = {
         authorization_slno: authorization_slno,
-        delete_user: id,
+        delete_user: id
       }
 
       const UpdateAuthorization = async patchdata => {
@@ -131,12 +131,7 @@ const AuthorizationMast = () => {
 
   return (
     <Fragment>
-      <CardMaster
-        title="Incharge/HOD Authorization"
-        submit={submit}
-        close={backtoSetting}
-        refresh={refreshWindow}
-      >
+      <CardMaster title="Incharge/HOD Authorization" submit={submit} close={backtoSetting} refresh={refreshWindow}>
         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
           <Box sx={{ pl: 2, width: '25%' }}>
             <DeptSectionSelect value={deptsec} setValue={setDeptSec} />

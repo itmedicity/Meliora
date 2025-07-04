@@ -9,7 +9,7 @@ const MainTaskProgress = ({ val }) => {
   const [MainTaskprogress, setMainTaskProgress] = useState(0)
   const searchData = useMemo(() => {
     return {
-      main_task_slno: tm_task_slno,
+      main_task_slno: tm_task_slno
     }
   }, [tm_task_slno])
 
@@ -34,12 +34,7 @@ const MainTaskProgress = ({ val }) => {
     <Box sx={{ pt: 1 }}>
       <Stack>
         <Tooltip title="Task Status">
-          <CircularProgress
-            size="sm"
-            determinate
-            sx={{ bgcolor: 'white', color: '#145DA0' }}
-            value={MainTaskprogress}
-          >
+          <CircularProgress size="sm" determinate sx={{ bgcolor: 'white', color: '#145DA0' }} value={MainTaskprogress}>
             <Typography sx={{ fontSize: 10 }}>{MainTaskprogress}%</Typography>
           </CircularProgress>
         </Tooltip>

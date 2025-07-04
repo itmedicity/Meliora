@@ -72,7 +72,7 @@ const DetailMain = () => {
                   flex: 1,
                   m: 0.5,
                   pl: 1,
-                  fontFamily: 'Arial',
+                  fontFamily: 'Arial'
                 }}
                 text="Item Detail Entry"
               />
@@ -88,7 +88,7 @@ const DetailMain = () => {
               size="sm"
               sx={{
                 display: 'flex',
-                bgcolor: 'white',
+                bgcolor: 'white'
               }}
             >
               <TabList
@@ -99,7 +99,7 @@ const DetailMain = () => {
                     flex: 'initial',
                     bgcolor: 'white',
                     '&:hover': {
-                      bgcolor: 'white',
+                      bgcolor: 'white'
                     },
                     [`&.Mui-selected`]: {
                       color: 'primary.plainColor',
@@ -108,10 +108,10 @@ const DetailMain = () => {
                         height: 20,
                         borderTopLeftRadius: 3,
                         borderTopRightRadius: 3,
-                        bgcolor: 'primary.500',
-                      },
-                    },
-                  },
+                        bgcolor: 'primary.500'
+                      }
+                    }
+                  }
                 }}
               >
                 <Box sx={{ flex: 1, display: 'flex', gap: 1, mb: 1, ml: 1 }}>
@@ -131,8 +131,8 @@ const DetailMain = () => {
                         color: 'white',
                         backgroundColor: '#5A5F63',
                         boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.2)',
-                        transform: 'scale(1.02)',
-                      },
+                        transform: 'scale(1.02)'
+                      }
                     }}
                   >
                     Pending Detail Entries
@@ -153,8 +153,8 @@ const DetailMain = () => {
                         color: 'white',
                         backgroundColor: '#5A5F63',
                         boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.2)',
-                        transform: 'scale(1.02)',
-                      },
+                        transform: 'scale(1.02)'
+                      }
                     }}
                   >
                     Asset
@@ -175,8 +175,8 @@ const DetailMain = () => {
                         color: 'white',
                         backgroundColor: '#5A5F63',
                         boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.2)',
-                        transform: 'scale(1.02)',
-                      },
+                        transform: 'scale(1.02)'
+                      }
                     }}
                   >
                     Spare

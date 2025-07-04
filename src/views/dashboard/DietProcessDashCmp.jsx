@@ -18,10 +18,7 @@ const DietProcessDashCmp = () => {
 
   const postdata = useMemo(() => {
     return {
-      process_date:
-        dayselect === 0
-          ? format(new Date(), 'yyyy-MM-dd ')
-          : format(new Date(startdate), 'yyyy-MM-dd '),
+      process_date: dayselect === 0 ? format(new Date(), 'yyyy-MM-dd ') : format(new Date(startdate), 'yyyy-MM-dd ')
     }
   }, [startdate, dayselect])
 
@@ -65,7 +62,7 @@ const DietProcessDashCmp = () => {
       sx={{
         gap: 2,
         flexWrap: 'wrap',
-        width: '100%',
+        width: '100%'
       }}
     >
       <Paper
@@ -76,7 +73,7 @@ const DietProcessDashCmp = () => {
           pb: 2,
           display: 'flex',
           flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' },
-          justifyContent: 'space-evenly',
+          justifyContent: 'space-evenly'
         }}
       >
         <Box
@@ -84,7 +81,7 @@ const DietProcessDashCmp = () => {
             gap: 2,
             flexWrap: 'wrap',
             width: { xs: '100%', sm: '100%', md: '50%', lg: '30%', xl: '30%' },
-            mt: { xs: 1, sm: 1, lg: 1, xl: 1 },
+            mt: { xs: 1, sm: 1, lg: 1, xl: 1 }
           }}
         >
           <Paper
@@ -93,12 +90,12 @@ const DietProcessDashCmp = () => {
               width: '100%',
               p: 0.5,
               display: 'flex',
-              direction: 'row',
+              direction: 'row'
             }}
           >
             <Box
               sx={{
-                display: 'flex',
+                display: 'flex'
               }}
             >
               <CssVarsProvider>
@@ -113,15 +110,11 @@ const DietProcessDashCmp = () => {
                   flexDirection: 'row',
                   alignItems: 'center',
                   justifyContent: 'space-around',
-                  px: 0.8,
+                  px: 0.8
                 }}
               >
                 <CssVarsProvider>
-                  <Typography
-                    level="body1"
-                    sx={{ alignItems: 'flex-start', wordBreak: 'break-all' }}
-                    color="success"
-                  >
+                  <Typography level="body1" sx={{ alignItems: 'flex-start', wordBreak: 'break-all' }} color="success">
                     Proccess List
                   </Typography>
                 </CssVarsProvider>
@@ -135,7 +128,7 @@ const DietProcessDashCmp = () => {
             flexWrap: 'wrap',
             width: { xs: '100%', sm: '100%', md: '50%', lg: '30%', xl: '30%' },
             mt: { xs: 1, sm: 1, lg: 1, xl: 1 },
-            pl: { xs: 0, sm: 0, xl: 1, lg: 1, md: 1 },
+            pl: { xs: 0, sm: 0, xl: 1, lg: 1, md: 1 }
           }}
         >
           <Paper
@@ -144,12 +137,12 @@ const DietProcessDashCmp = () => {
               width: '100%',
               p: 0.5,
               display: 'flex',
-              direction: 'row',
+              direction: 'row'
             }}
           >
             <Box
               sx={{
-                display: 'flex',
+                display: 'flex'
               }}
             >
               <CssVarsProvider>
@@ -164,15 +157,11 @@ const DietProcessDashCmp = () => {
                   flexDirection: 'row',
                   alignItems: 'center',
                   justifyContent: 'space-around',
-                  px: 0.8,
+                  px: 0.8
                 }}
               >
                 <CssVarsProvider>
-                  <Typography
-                    level="body1"
-                    sx={{ alignItems: 'flex-start', wordBreak: 'break-all' }}
-                    color="success"
-                  >
+                  <Typography level="body1" sx={{ alignItems: 'flex-start', wordBreak: 'break-all' }} color="success">
                     New Order
                   </Typography>
                 </CssVarsProvider>
@@ -191,7 +180,7 @@ const DietProcessDashCmp = () => {
             mt: 0.5,
             display: 'flex',
             flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' },
-            justifyContent: 'space-evenly',
+            justifyContent: 'space-evenly'
           }}
         >
           <DietprocessTable
@@ -216,7 +205,7 @@ const DietProcessDashCmp = () => {
             mt: 0.5,
             display: 'flex',
             flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' },
-            justifyContent: 'space-evenly',
+            justifyContent: 'space-evenly'
           }}
         >
           <DietprocessTable

@@ -20,7 +20,7 @@ const DashboardTabs = () => {
           size="sm"
           sx={{
             display: 'flex',
-            mt: 0.5,
+            mt: 0.5
           }}
         >
           <TabList
@@ -32,8 +32,8 @@ const DashboardTabs = () => {
               bgcolor: 'background.level1',
               [`& .${tabClasses.root}[aria-selected="true"]`]: {
                 boxShadow: 'sm',
-                bgcolor: 'background.surface',
-              },
+                bgcolor: 'background.surface'
+              }
             }}
           >
             <Box sx={{ display: 'flex' }}>
@@ -42,7 +42,7 @@ const DashboardTabs = () => {
                   display: 'flex',
                   width: 75,
                   justifyContent: 'center',
-                  alignItems: 'center',
+                  alignItems: 'center'
                 }}
               >
                 <Avatar color="neutral" size="lg" variant="outlined">
@@ -58,7 +58,7 @@ const DashboardTabs = () => {
                 </Box>
                 <Box
                   sx={{
-                    display: 'flex',
+                    display: 'flex'
                   }}
                 >
                   <Tab disableIndicator>Employees</Tab>
@@ -73,7 +73,7 @@ const DashboardTabs = () => {
               flex: 1,
               flexGrow: 1,
               mt: 0.5,
-              p: 0,
+              p: 0
             }}
           >
             <Suspense fallback={<LinearProgress variant="plain" />}>

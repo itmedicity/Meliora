@@ -69,20 +69,13 @@ const DeptCompleted = ({ setTableCount, tableCount }) => {
                   : 'Not Started',
               datediff: new Date(val.tm_complete_date) - new Date(val.tm_task_due_date),
               days: Math.floor(
-                (new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) /
-                  (1000 * 60 * 60 * 24)
+                (new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / (1000 * 60 * 60 * 24)
               ),
               hours: Math.floor(
-                ((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) /
-                  (1000 * 60 * 60)) %
-                  24
+                ((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / (1000 * 60 * 60)) % 24
               ),
-              minutes: Math.floor(
-                ((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / 1000 / 60) % 60
-              ),
-              seconds: Math.floor(
-                ((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / 1000) % 60
-              ),
+              minutes: Math.floor(((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / 1000 / 60) % 60),
+              seconds: Math.floor(((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / 1000) % 60)
             }
             return obj
           })
@@ -176,42 +169,20 @@ const DeptCompleted = ({ setTableCount, tableCount }) => {
             borderTop: 1,
             borderColor: 'lightgray',
             pt: 1.5,
-            bgcolor: 'white',
+            bgcolor: 'white'
           }}
         >
           <Box sx={{ width: 40, pl: 1.7, fontWeight: 600, color: '#444444', fontSize: 12 }}>#</Box>
-          <Box
-            sx={{ width: 60, textAlign: 'center', fontWeight: 600, color: '#444444', fontSize: 12 }}
-          >
-            Action
-          </Box>
-          <Box
-            sx={{ width: 60, textAlign: 'center', fontWeight: 600, color: '#444444', fontSize: 12 }}
-          >
-            Files
-          </Box>
-          <Box sx={{ width: 220, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>
-            Completion exceed
-          </Box>
+          <Box sx={{ width: 60, textAlign: 'center', fontWeight: 600, color: '#444444', fontSize: 12 }}>Action</Box>
+          <Box sx={{ width: 60, textAlign: 'center', fontWeight: 600, color: '#444444', fontSize: 12 }}>Files</Box>
+          <Box sx={{ width: 220, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>Completion exceed</Box>
           <Box sx={{ width: 900, fontWeight: 600, color: '#444444', fontSize: 12 }}>Task Name</Box>
-          <Box sx={{ width: 800, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>
-            Project
-          </Box>
-          <Box sx={{ width: 500, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>
-            Assignee
-          </Box>
-          <Box sx={{ width: 250, fontWeight: 600, color: '#444444', fontSize: 12, pl: 2 }}>
-            Created Date
-          </Box>
-          <Box sx={{ width: 250, fontWeight: 600, color: '#444444', fontSize: 12, pl: 2 }}>
-            Due Date
-          </Box>
-          <Box sx={{ width: 250, fontWeight: 600, color: '#444444', fontSize: 12, pl: 2 }}>
-            Completed Date
-          </Box>
-          <Box sx={{ width: 900, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>
-            Description
-          </Box>
+          <Box sx={{ width: 800, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>Project</Box>
+          <Box sx={{ width: 500, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>Assignee</Box>
+          <Box sx={{ width: 250, fontWeight: 600, color: '#444444', fontSize: 12, pl: 2 }}>Created Date</Box>
+          <Box sx={{ width: 250, fontWeight: 600, color: '#444444', fontSize: 12, pl: 2 }}>Due Date</Box>
+          <Box sx={{ width: 250, fontWeight: 600, color: '#444444', fontSize: 12, pl: 2 }}>Completed Date</Box>
+          <Box sx={{ width: 900, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1 }}>Description</Box>
         </Box>
         <Virtuoso
           style={{ height: '60vh' }}
@@ -230,25 +201,18 @@ const DeptCompleted = ({ setTableCount, tableCount }) => {
                   borderColor: 'lightgrey',
                   minHeight: 30,
                   maxHeight: 80,
-                  background:
-                    val.main_task_slno !== null
-                      ? '#EAE7FA'
-                      : val.main_task_slno === 0
-                      ? 'white'
-                      : 'white',
-                  pt: 0.5,
+                  background: val.main_task_slno !== null ? '#EAE7FA' : val.main_task_slno === 0 ? 'white' : 'white',
+                  pt: 0.5
                 }}
               >
-                <Box sx={{ width: 40, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>
-                  {index + 1}
-                </Box>
+                <Box sx={{ width: 40, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>{index + 1}</Box>
                 <Box
                   sx={{
                     width: 60,
                     textAlign: 'center',
                     fontWeight: 600,
                     color: 'grey',
-                    fontSize: 12,
+                    fontSize: 12
                   }}
                 >
                   <EditIcon
@@ -264,7 +228,7 @@ const DeptCompleted = ({ setTableCount, tableCount }) => {
                     fontWeight: 600,
                     color: 'grey',
                     fontSize: 12,
-                    cursor: 'pointer',
+                    cursor: 'pointer'
                   }}
                 >
                   &nbsp;
@@ -272,14 +236,14 @@ const DeptCompleted = ({ setTableCount, tableCount }) => {
                     <FilePresentRoundedIcon
                       sx={{
                         color: '#41729F',
-                        '&:hover': { color: '#274472' },
+                        '&:hover': { color: '#274472' }
                       }}
                       onClick={() => fileView(val)}
                     />
                   ) : (
                     <FilePresentRoundedIcon
                       sx={{
-                        color: 'grey',
+                        color: 'grey'
                       }}
                     />
                   )}
@@ -292,7 +256,7 @@ const DeptCompleted = ({ setTableCount, tableCount }) => {
                         p: 0.5,
                         color: '#3B0404',
                         fontSize: 11,
-                        fontWeight: 600,
+                        fontWeight: 600
                       }}
                     >
                       {val.days} Days - {val.hours}h: {val.minutes}m: {val.seconds}s
@@ -309,7 +273,7 @@ const DeptCompleted = ({ setTableCount, tableCount }) => {
                       color: 'grey',
                       fontSize: 12,
                       textTransform: 'capitalize',
-                      pl: 1,
+                      pl: 1
                     }}
                   >
                     {val.tm_task_name || 'not given'}
@@ -322,7 +286,7 @@ const DeptCompleted = ({ setTableCount, tableCount }) => {
                       color: 'grey',
                       fontSize: 12,
                       textTransform: 'capitalize',
-                      pl: 1,
+                      pl: 1
                     }}
                   >
                     {val.tm_task_name || 'not given'}
@@ -336,7 +300,7 @@ const DeptCompleted = ({ setTableCount, tableCount }) => {
                       color: 'grey',
                       fontSize: 12,
                       textTransform: 'capitalize',
-                      pl: 1,
+                      pl: 1
                     }}
                   >
                     {val.tm_project_name || 'not given'}
@@ -349,7 +313,7 @@ const DeptCompleted = ({ setTableCount, tableCount }) => {
                       color: 'grey',
                       fontSize: 12,
                       textTransform: 'capitalize',
-                      pl: 1,
+                      pl: 1
                     }}
                   >
                     {val.tm_project_name || 'not given'}
@@ -363,7 +327,7 @@ const DeptCompleted = ({ setTableCount, tableCount }) => {
                       color: 'grey',
                       fontSize: 12,
                       textTransform: 'capitalize',
-                      pl: 1,
+                      pl: 1
                     }}
                   >
                     {val.em_name || 'not given'}
@@ -376,7 +340,7 @@ const DeptCompleted = ({ setTableCount, tableCount }) => {
                       color: 'grey',
                       fontSize: 12,
                       textTransform: 'capitalize',
-                      pl: 1,
+                      pl: 1
                     }}
                   >
                     {val.em_name || 'not given'}
@@ -390,7 +354,7 @@ const DeptCompleted = ({ setTableCount, tableCount }) => {
                       color: 'grey',
                       fontSize: 12,
                       textTransform: 'capitalize',
-                      pl: 1,
+                      pl: 1
                     }}
                   >
                     {val.create_date || 'not given'}
@@ -403,7 +367,7 @@ const DeptCompleted = ({ setTableCount, tableCount }) => {
                       color: 'grey',
                       fontSize: 12,
                       textTransform: 'capitalize',
-                      pl: 1,
+                      pl: 1
                     }}
                   >
                     {val.create_date || 'not given'}
@@ -417,7 +381,7 @@ const DeptCompleted = ({ setTableCount, tableCount }) => {
                       color: 'grey',
                       fontSize: 12,
                       textTransform: 'capitalize',
-                      pl: 1,
+                      pl: 1
                     }}
                   >
                     {val.tm_task_due_date || 'not given'}
@@ -430,7 +394,7 @@ const DeptCompleted = ({ setTableCount, tableCount }) => {
                       color: 'grey',
                       fontSize: 12,
                       textTransform: 'capitalize',
-                      pl: 1,
+                      pl: 1
                     }}
                   >
                     {val.tm_task_due_date || 'not given'}
@@ -444,7 +408,7 @@ const DeptCompleted = ({ setTableCount, tableCount }) => {
                       color: 'grey',
                       fontSize: 12,
                       textTransform: 'capitalize',
-                      pl: 1,
+                      pl: 1
                     }}
                   >
                     {val.tm_complete_date || 'not given'}
@@ -457,7 +421,7 @@ const DeptCompleted = ({ setTableCount, tableCount }) => {
                       color: 'grey',
                       fontSize: 12,
                       textTransform: 'capitalize',
-                      pl: 1,
+                      pl: 1
                     }}
                   >
                     {val.tm_complete_date || 'not given'}
@@ -471,7 +435,7 @@ const DeptCompleted = ({ setTableCount, tableCount }) => {
                       color: 'grey',
                       fontSize: 12,
                       textTransform: 'capitalize',
-                      pl: 1,
+                      pl: 1
                     }}
                   >
                     {val.tm_task_description || 'not given'}
@@ -484,7 +448,7 @@ const DeptCompleted = ({ setTableCount, tableCount }) => {
                       color: 'grey',
                       fontSize: 12,
                       textTransform: 'capitalize',
-                      pl: 1,
+                      pl: 1
                     }}
                   >
                     {val.tm_task_description || 'not given'}

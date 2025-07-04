@@ -20,8 +20,8 @@ const NSWiseMappingTable = ({ count, rowSelect }) => {
     { headerName: 'Status', field: 'map_status' },
     {
       headerName: 'Action',
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
-    },
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
+    }
   ])
 
   useEffect(() => {

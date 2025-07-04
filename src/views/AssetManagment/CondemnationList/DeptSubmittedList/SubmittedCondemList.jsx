@@ -17,7 +17,7 @@ const SubmittedCondemList = ({ empdept, empId }) => {
     return {
       empdept: empdept,
       condemStatusFrom: condemStatusFrom,
-      condemstatusTo: condemstatusTo,
+      condemstatusTo: condemstatusTo
     }
   }, [empdept, condemstatusTo, condemStatusFrom])
 
@@ -45,7 +45,7 @@ const SubmittedCondemList = ({ empdept, empId }) => {
   const { data: CondemSubittedData } = useQuery({
     queryKey: ['getCondemPendingData', formCount],
     queryFn: () => getCondemPendingDatas(postCondemDept),
-    enabled: empdept !== undefined,
+    enabled: empdept !== undefined
   })
 
   const [selectedValue, setSelectedValue] = useState('1')
@@ -86,7 +86,7 @@ const SubmittedCondemList = ({ empdept, empId }) => {
             gap: 2,
             justifyContent: 'center',
             mt: 1.5,
-            mb: 2,
+            mb: 2
           }}
         >
           <Radio value="1" label="Pendings" color="neutral" />
@@ -97,29 +97,15 @@ const SubmittedCondemList = ({ empdept, empId }) => {
 
       {selectedValue === '1' ? (
         <Box>
-          <PendingCondems
-            condemStatusPending={CondemSubittedData}
-            editForm={editForm}
-            viewForm={viewForm}
-          />
+          <PendingCondems condemStatusPending={CondemSubittedData} editForm={editForm} viewForm={viewForm} />
         </Box>
       ) : selectedValue === '2' ? (
         <Box>
-          <SelectedDeptRegReqDate
-            SatusFrom={SatusFrom}
-            StatusTo={StatusTo}
-            empdept={empdept}
-            viewForm={viewForm}
-          />
+          <SelectedDeptRegReqDate SatusFrom={SatusFrom} StatusTo={StatusTo} empdept={empdept} viewForm={viewForm} />
         </Box>
       ) : selectedValue === '3' ? (
         <Box>
-          <DepartmentcondemList
-            SatusFrom={SatusFrom}
-            StatusTo={StatusTo}
-            empdept={empdept}
-            viewForm={viewForm}
-          />
+          <DepartmentcondemList SatusFrom={SatusFrom} StatusTo={StatusTo} empdept={empdept} viewForm={viewForm} />
         </Box>
       ) : (
         ''

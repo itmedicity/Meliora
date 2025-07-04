@@ -68,8 +68,8 @@ const BackupMastTable = ({ count, EditBackup }) => {
                         cursor: 'pointer',
                         ':hover': {
                           color: '#ef5350',
-                          boxShadow: 5,
-                        },
+                          boxShadow: 5
+                        }
                       }}
                       onClick={() => EditBackup(val)}
                     />

@@ -10,8 +10,7 @@ import ImageDisplayModal from '../../ComonComponent/ImageUploadCmp/ImageDisplayM
 import CustomToolTipForCRF from '../../ComonComponent/Components/CustomToolTipForCRF'
 
 const CommonHodApprvCmppurchase = ({ DetailViewData, company }) => {
-  const { req_slno, hod_approve, hod, hod_approve_date, hod_remarks, hod_user, hod_image } =
-    DetailViewData
+  const { req_slno, hod_approve, hod, hod_approve_date, hod_remarks, hod_user, hod_image } = DetailViewData
   const [imageshowFlag, setImageShowFlag] = useState(0)
   const [imageshow, setImageShow] = useState(false)
   const [imagearray, setImageArry] = useState([])
@@ -62,13 +61,11 @@ const CommonHodApprvCmppurchase = ({ DetailViewData, company }) => {
           overflow: 'auto',
           flexWrap: 'wrap',
           wordWrap: 'break-word',
-          whiteSpace: 'normal',
+          whiteSpace: 'normal'
         }}
       >
         <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
-          <Typography
-            sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}
-          >
+          <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>
             {company?.hod_status_name}
           </Typography>
           <Box sx={{ flex: 1, py: 0.4, ml: 2 }}>
@@ -87,7 +84,7 @@ const CommonHodApprvCmppurchase = ({ DetailViewData, company }) => {
                 height: 25,
                 pb: 0.5,
                 fontSize: 12,
-                fontWeight: 550,
+                fontWeight: 550
               }}
             >
               {hod}
@@ -99,25 +96,17 @@ const CommonHodApprvCmppurchase = ({ DetailViewData, company }) => {
             <Box sx={{ pt: 0.5 }}></Box>
           ) : hod_approve === 2 && hod_remarks !== null ? (
             <Box sx={{ display: 'flex', pt: 0.5 }}>
-              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                Justification for Reject{' '}
-              </Typography>
+              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Justification for Reject </Typography>
               <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-              <Typography
-                sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}
-              >
+              <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
                 {hod_remarks === null ? 'Not Updated' : hod_remarks}
               </Typography>
             </Box>
           ) : hod_approve === 3 && hod_remarks !== null ? (
             <Box sx={{ display: 'flex', pt: 0.5 }}>
-              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
-                Justification for On-Hold
-              </Typography>
+              <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Justification for On-Hold</Typography>
               <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-              <Typography
-                sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}
-              >
+              <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
                 {hod_remarks === null ? 'Not Updated' : hod_remarks}
               </Typography>
             </Box>
@@ -133,9 +122,7 @@ const CommonHodApprvCmppurchase = ({ DetailViewData, company }) => {
               ) : null}
               <Box sx={{ display: 'flex', flex: 1 }}>
                 <Typography sx={{}}> :&nbsp;</Typography>
-                <Typography
-                  sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pt: 0.3, pl: 0.2 }}
-                >
+                <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pt: 0.3, pl: 0.2 }}>
                   {capitalizeWords(hod_user)}
                 </Typography>
                 <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, pl: 2, pt: 0.3 }}>

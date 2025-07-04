@@ -3,33 +3,15 @@ import { Paper } from '@mui/material'
 import React, { Fragment, memo } from 'react'
 
 const ApprovedItemListDis = React.lazy(() => import('../../ComonComponent/ApprovedItemListDis'))
-const CommonInchargeReqCmp = React.lazy(() =>
-  import('../../ComonComponent/ApprovalComp/CommonInchargeReqCmp')
-)
-const CommonHodApprvCmp = React.lazy(() =>
-  import('../../ComonComponent/ApprovalComp/CommonHodApprvCmp')
-)
-const CommonDmsApprvCmp = React.lazy(() =>
-  import('../../ComonComponent/ApprovalComp/CommonDmsApprvCmp')
-)
-const CommonMsApprvCmp = React.lazy(() =>
-  import('../../ComonComponent/ApprovalComp/CommonMsApprvCmp')
-)
-const CommonMoApprvlCmp = React.lazy(() =>
-  import('../../ComonComponent/ApprovalComp/CommonMoApprvlCmp')
-)
-const CommonSmoApprvCmp = React.lazy(() =>
-  import('../../ComonComponent/ApprovalComp/CommonSmoApprvCmp')
-)
-const CommonGmapprvCmp = React.lazy(() =>
-  import('../../ComonComponent/ApprovalComp/CommonGmapprvCmp')
-)
-const CommonMdApprvCmp = React.lazy(() =>
-  import('../../ComonComponent/ApprovalComp/CommonMdApprvCmp')
-)
-const CommonEdapprvCmp = React.lazy(() =>
-  import('../../ComonComponent/ApprovalComp/CommonEdapprvCmp')
-)
+const CommonInchargeReqCmp = React.lazy(() => import('../../ComonComponent/ApprovalComp/CommonInchargeReqCmp'))
+const CommonHodApprvCmp = React.lazy(() => import('../../ComonComponent/ApprovalComp/CommonHodApprvCmp'))
+const CommonDmsApprvCmp = React.lazy(() => import('../../ComonComponent/ApprovalComp/CommonDmsApprvCmp'))
+const CommonMsApprvCmp = React.lazy(() => import('../../ComonComponent/ApprovalComp/CommonMsApprvCmp'))
+const CommonMoApprvlCmp = React.lazy(() => import('../../ComonComponent/ApprovalComp/CommonMoApprvlCmp'))
+const CommonSmoApprvCmp = React.lazy(() => import('../../ComonComponent/ApprovalComp/CommonSmoApprvCmp'))
+const CommonGmapprvCmp = React.lazy(() => import('../../ComonComponent/ApprovalComp/CommonGmapprvCmp'))
+const CommonMdApprvCmp = React.lazy(() => import('../../ComonComponent/ApprovalComp/CommonMdApprvCmp'))
+const CommonEdapprvCmp = React.lazy(() => import('../../ComonComponent/ApprovalComp/CommonEdapprvCmp'))
 const ViewOreviousDataCollctnDetails = React.lazy(() =>
   import('../../ComonComponent/DataCollectionComp/ViewOreviousDataCollctnDetails')
 )
@@ -44,7 +26,7 @@ const DashboardApprovalView = ({
   imagearray,
   reqItems,
   approveTableData,
-  company,
+  company
 }) => {
   const {
     incharge_approve,
@@ -64,7 +46,7 @@ const DashboardApprovalView = ({
     md_approve_req,
     md_approve,
     ed_approve_req,
-    ed_approve,
+    ed_approve
   } = modalData
 
   return (
@@ -89,13 +71,11 @@ const DashboardApprovalView = ({
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 25,
-                width: 25,
+                width: 25
               }}
             />
             {modalData.length !== 0 ? (
-              <Box
-                sx={{ minWidth: '85vw', minHeight: '65vh', maxHeight: '95vh', overflowY: 'auto' }}
-              >
+              <Box sx={{ minWidth: '85vw', minHeight: '65vh', maxHeight: '95vh', overflowY: 'auto' }}>
                 <CrfReqDetailViewCmp ApprovalData={modalData} imagearray={imagearray} />
                 {
                   reqItems.length !== 0 ? (
@@ -125,14 +105,8 @@ const DashboardApprovalView = ({
                 }
                 {hod_approve !== null || incharge_approve !== null ? (
                   <>
-                    <Paper
-                      variant="outlined"
-                      square
-                      sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.7, mx: 0.7, pb: 0.5 }}
-                    >
-                      <Typography
-                        sx={{ fontWeight: 'bold', px: 1, py: 0.7, color: '#145DA0', fontSize: 14 }}
-                      >
+                    <Paper variant="outlined" square sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.7, mx: 0.7, pb: 0.5 }}>
+                      <Typography sx={{ fontWeight: 'bold', px: 1, py: 0.7, color: '#145DA0', fontSize: 14 }}>
                         Approval Details
                       </Typography>
                       <Grid container spacing={0.5} sx={{ flexGrow: 1 }}>

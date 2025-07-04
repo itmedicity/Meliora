@@ -19,7 +19,7 @@ const FloorMast = () => {
     rm_floor_name: '',
     rm_floor_alias: '',
     rm_floor_no: '',
-    rm_floor_status: false,
+    rm_floor_status: false
   })
   const { rm_floor_slno, rm_floor_name, rm_floor_alias, rm_floor_no, rm_floor_status } = floor
   const updateFloor = useCallback(
@@ -35,7 +35,7 @@ const FloorMast = () => {
       rm_floor_name: '',
       rm_floor_alias: '',
       rm_floor_no: '',
-      rm_floor_status: false,
+      rm_floor_status: false
     }
     setFloor(frmdata)
     setCount(0)
@@ -46,7 +46,7 @@ const FloorMast = () => {
       rm_floor_name: rm_floor_name,
       rm_floor_alias: rm_floor_alias,
       rm_floor_no: rm_floor_no,
-      rm_floor_status: rm_floor_status === true ? 1 : 0,
+      rm_floor_status: rm_floor_status === true ? 1 : 0
     }
   }, [rm_floor_name, rm_floor_alias, rm_floor_no, rm_floor_status])
 
@@ -56,7 +56,7 @@ const FloorMast = () => {
       rm_floor_name: rm_floor_name,
       rm_floor_alias: rm_floor_alias,
       rm_floor_no: rm_floor_no,
-      rm_floor_status: rm_floor_status === true ? 1 : 0,
+      rm_floor_status: rm_floor_status === true ? 1 : 0
     }
   }, [rm_floor_slno, rm_floor_name, rm_floor_alias, rm_floor_no, rm_floor_status])
   const rowSelect = useCallback(params => {
@@ -69,7 +69,7 @@ const FloorMast = () => {
       rm_floor_name: rm_floor_name,
       rm_floor_alias: rm_floor_alias,
       rm_floor_no: rm_floor_no,
-      rm_floor_status: rm_floor_status === 1 ? true : false,
+      rm_floor_status: rm_floor_status === 1 ? true : false
     }
     setFloor(frmdata)
   }, [])
@@ -83,7 +83,7 @@ const FloorMast = () => {
       rm_floor_name: '',
       rm_floor_alias: '',
       rm_floor_no: '',
-      rm_floor_status: false,
+      rm_floor_status: false
     }
     setFloor(frmdata)
     setValue(0)
@@ -126,12 +126,7 @@ const FloorMast = () => {
     [postdata, value, patchdata, count]
   )
   return (
-    <CardMaster
-      title="Floor Master"
-      submit={sumbitFloor}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Floor Master" submit={sumbitFloor} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ p: 1 }}>
         <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
           <Box sx={{ width: '30%', p: 1 }}>

@@ -38,7 +38,7 @@ const DepartmentMaping = () => {
         HodId: HodId,
         InchargeId: InchargeId,
         HodIdkmc: HodIdkmc,
-        InchargeIdkmc: InchargeIdkmc,
+        InchargeIdkmc: InchargeIdkmc
       }
       const result = await axioslogin.post('/newCRFRegister/DepartmentMapping', postData)
       const { success, message } = result.data
@@ -62,20 +62,20 @@ const DepartmentMaping = () => {
   const {
     data: authData,
     isLoading: isAuthLoading,
-    error: authError,
+    error: authError
   } = useQuery({
     queryKey: ['authDepSecListHodbyDep ', crfdept],
     queryFn: () => getDptSecHodbyDep(crfdept),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const {
     data: authDatakmc,
     isLoading: isAuthLoadingkmc,
-    error: authErrorkmc,
+    error: authErrorkmc
   } = useQuery({
     queryKey: ['authDepSecListHodbyDepkmc ', crfdeptKmc],
     queryFn: () => getDptSecHodbyDepkmc(crfdeptKmc),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
 
   useEffect(() => {
@@ -114,12 +114,7 @@ const DepartmentMaping = () => {
   if (authErrorkmc || authError) return <p>Error occurred.</p>
   return (
     <CssVarsProvider>
-      <CardMaster
-        title="Department Mapping KMC"
-        submit={submit}
-        close={backtoSetting}
-        refresh={refreshWindow}
-      >
+      <CardMaster title="Department Mapping KMC" submit={submit} close={backtoSetting} refresh={refreshWindow}>
         <Box sx={{}}>
           <CustomPaperTitle heading="TMC Department" />
         </Box>

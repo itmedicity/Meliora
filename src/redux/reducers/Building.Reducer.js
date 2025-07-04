@@ -3,7 +3,7 @@ const { FETCH_BUILDING } = ActionTyps
 //intial state
 const building = {
   buildingList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Building action type check then payload set to the state and loading status set as true */
 export const getBuilding = (state = building, { type, payload }) => {

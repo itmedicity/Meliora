@@ -12,7 +12,7 @@ const HoldDetails = ({ open, setholdOpen, setholdFlag, holdDetails }) => {
     rectify_pending_hold_remarks,
     pending_onhold_time,
     holduser,
-    cm_hold_reason,
+    cm_hold_reason
   } = holdDetails
 
   const CloseHold = useCallback(() => {
@@ -32,13 +32,11 @@ const HoldDetails = ({ open, setholdOpen, setholdFlag, holdDetails }) => {
             justifyContent: 'center',
             alignItems: 'center',
             pl: 1,
-            borderRadius: 10,
+            borderRadius: 10
           }}
         >
           <ModalDialog variant="outlined" sx={{ width: '43vw', p: 0, overflow: 'auto' }}>
-            <Typography
-              sx={{ flex: 1, fontWeight: 600, pl: 0.5, color: 'white', bgcolor: '#636B74', p: 1 }}
-            >
+            <Typography sx={{ flex: 1, fontWeight: 600, pl: 0.5, color: 'white', bgcolor: '#636B74', p: 1 }}>
               Holding Details
             </Typography>
             <Box sx={{ px: 2, mt: 1 }}>
@@ -57,9 +55,7 @@ const HoldDetails = ({ open, setholdOpen, setholdFlag, holdDetails }) => {
               </Box>
 
               <Box sx={{ flex: 1, mt: 1.3 }}>
-                <Typography sx={{ fontWeight: 600, pb: 0.3, pl: 0.3, color: '#50655B' }}>
-                  Holded Reason
-                </Typography>
+                <Typography sx={{ fontWeight: 600, pb: 0.3, pl: 0.3, color: '#50655B' }}>Holded Reason</Typography>
                 <TextFieldCustom
                   style={{ width: '100%' }}
                   maxRows={1}
@@ -71,15 +67,8 @@ const HoldDetails = ({ open, setholdOpen, setholdFlag, holdDetails }) => {
               </Box>
 
               <Box sx={{ flex: 1, mt: 1, mx: 0.3 }}>
-                <Typography sx={{ fontWeight: 600, pt: 1, pl: 0.3, pb: 0.3 }}>
-                  Hold Remarks
-                </Typography>
-                <Textarea
-                  variant="outlined"
-                  minRows={2}
-                  value={rectify_pending_hold_remarks}
-                  readOnly
-                />
+                <Typography sx={{ fontWeight: 600, pt: 1, pl: 0.3, pb: 0.3 }}>Hold Remarks</Typography>
+                <Textarea variant="outlined" minRows={2} value={rectify_pending_hold_remarks} readOnly />
               </Box>
 
               <Box sx={{ flex: 1, mt: 1.5, textAlign: 'right' }}>
@@ -104,11 +93,11 @@ const HoldDetails = ({ open, setholdOpen, setholdFlag, holdDetails }) => {
                   '&:hover': {
                     bgcolor: 'white',
                     color: '#523A28',
-                    transform: 'scale(1.1)',
+                    transform: 'scale(1.1)'
                   },
                   '&:active': {
-                    transform: 'scale(0.95)',
-                  },
+                    transform: 'scale(0.95)'
+                  }
                 }}
               >
                 Close

@@ -22,10 +22,9 @@ const Protected = props => {
       const authID = atob(JSON.parse(authSlno)?.empid)
       console.log(authID)
 
-      const checkAccessToken = await axioslogin.get(
-        `/validateAuthentication/getEmployeeAuthentication/${authID}`,
-        { withCredentials: true }
-      )
+      const checkAccessToken = await axioslogin.get(`/validateAuthentication/getEmployeeAuthentication/${authID}`, {
+        withCredentials: true
+      })
 
       const { success, data } = checkAccessToken.data
 
@@ -47,7 +46,7 @@ const Protected = props => {
           empdeptname: data[0].dept_name,
           apptoken: data[0].app_token,
           logOut: data[0].login,
-          designation: data[0].desg_name,
+          designation: data[0].desg_name
         }
         dispatch({ type: FETCH_LOGIN, payload: loggedDetl })
       } else {
@@ -109,7 +108,7 @@ const Protected = props => {
             left: '50%',
             transform: 'translate(-50%, -50%)',
             opacity: 0.1, // make it subtle
-            zIndex: 1,
+            zIndex: 1
           }}
         >
           <MLogoIcon width={600} height={600} />
@@ -120,7 +119,7 @@ const Protected = props => {
             flexDirection: 'column',
             alignItems: 'center',
             gap: 1,
-            justifyContent: 'center',
+            justifyContent: 'center'
           }}
         >
           <CircularProgress sx={{ color: 'var(--royal-purple-400)' }} />
@@ -128,7 +127,7 @@ const Protected = props => {
             sx={{
               color: 'var(--royal-purple-400)',
               fontFamily: 'var(--roboto-font)',
-              fontSize: 14,
+              fontSize: 14
             }}
           >
             Validate Login ...

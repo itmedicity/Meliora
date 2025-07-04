@@ -41,8 +41,7 @@ const NewEndosWaitingReport = ({ viewData, ipViewReport, opCheck, ipCheck }) => 
             start_time_diff: startTimeDiff !== null ? formatTimeDifference(startTimeDiff) : null,
             assess_time_diff: assessTimeDiff !== null ? formatTimeDifference(assessTimeDiff) : null,
             proc_time_diff: procTimeDiff !== null ? formatTimeDifference(procTimeDiff) : null,
-            arrival_to_ReportTime:
-              totalTimeDiff !== null ? formatTimeDifference(totalTimeDiff) : null,
+            arrival_to_ReportTime: totalTimeDiff !== null ? formatTimeDifference(totalTimeDiff) : null
           }
         })
         setTableData(newArray)
@@ -81,8 +80,7 @@ const NewEndosWaitingReport = ({ viewData, ipViewReport, opCheck, ipCheck }) => 
             start_time_diff: startTimeDiff !== null ? formatTimeDifference(startTimeDiff) : null,
             assess_time_diff: assessTimeDiff !== null ? formatTimeDifference(assessTimeDiff) : null,
             proc_time_diff: procTimeDiff !== null ? formatTimeDifference(procTimeDiff) : null,
-            arrival_to_ReportTime:
-              totalTimeDiff !== null ? formatTimeDifference(totalTimeDiff) : null,
+            arrival_to_ReportTime: totalTimeDiff !== null ? formatTimeDifference(totalTimeDiff) : null
           }
         })
         setTableData(newArray)
@@ -98,7 +96,7 @@ const NewEndosWaitingReport = ({ viewData, ipViewReport, opCheck, ipCheck }) => 
             overflow: 'auto',
             maxHeight: window.innerHeight - 220,
             padding: 'none',
-            '&::-webkit-scrollbar': { height: 8 },
+            '&::-webkit-scrollbar': { height: 8 }
           }}
         >
           <CssVarsProvider>
@@ -119,7 +117,7 @@ const NewEndosWaitingReport = ({ viewData, ipViewReport, opCheck, ipCheck }) => 
                       width: 50,
                       backgroundColor: '#e0e0e0',
                       textAlign: 'center',
-                      fontSize: 13,
+                      fontSize: 13
                     }}
                   >
                     Sl.No

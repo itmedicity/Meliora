@@ -33,9 +33,7 @@ const DeliveryMarkingTable = ({ setFlag, disData, setDisData }) => {
               po_date: po.po_date,
               main_store: po.main_store,
               expected_delivery:
-                po.expected_delivery === null
-                  ? 'Nil'
-                  : format(new Date(po.expected_delivery), 'dd-MM-yyyy'),
+                po.expected_delivery === null ? 'Nil' : format(new Date(po.expected_delivery), 'dd-MM-yyyy')
             }
           })
           setPoDetails(newData)
@@ -63,9 +61,7 @@ const DeliveryMarkingTable = ({ setFlag, disData, setDisData }) => {
 
   return (
     <Fragment>
-      {modFlag === 1 ? (
-        <DeliveredPoDetails handleClose={handleClose} open={modalopen} poDetails={poDetails} />
-      ) : null}
+      {modFlag === 1 ? <DeliveredPoDetails handleClose={handleClose} open={modalopen} poDetails={poDetails} /> : null}
       <Box sx={{ height: window.innerHeight - 160, flexWrap: 'wrap', bgcolor: 'white' }}>
         <Paper variant="outlined" sx={{ display: 'flex', bgcolor: 'white', height: 40 }}>
           <Box
@@ -75,7 +71,7 @@ const DeliveryMarkingTable = ({ setFlag, disData, setDisData }) => {
               flex: 1,
               fontSize: 20,
               pt: 1,
-              pr: 1,
+              pr: 1
             }}
           >
             <CustomCloseIconCmp handleChange={backtoHome} />
@@ -93,7 +89,7 @@ const DeliveryMarkingTable = ({ setFlag, disData, setDisData }) => {
                   py: 0.5,
                   position: 'sticky',
                   top: 0,
-                  zIndex: 1,
+                  zIndex: 1
                 }}
               >
                 <Typography
@@ -102,7 +98,7 @@ const DeliveryMarkingTable = ({ setFlag, disData, setDisData }) => {
                     textAlign: 'center',
                     fontWeight: 550,
                     fontSize: 12,
-                    color: 'white',
+                    color: 'white'
                   }}
                 >
                   Sl.No
@@ -113,7 +109,7 @@ const DeliveryMarkingTable = ({ setFlag, disData, setDisData }) => {
                     textAlign: 'left',
                     fontWeight: 550,
                     fontSize: 12,
-                    color: 'white',
+                    color: 'white'
                   }}
                 >
                   DC Marking Date
@@ -124,7 +120,7 @@ const DeliveryMarkingTable = ({ setFlag, disData, setDisData }) => {
                     textAlign: 'left',
                     fontWeight: 550,
                     fontSize: 12,
-                    color: 'white',
+                    color: 'white'
                   }}
                 >
                   Supplier
@@ -135,7 +131,7 @@ const DeliveryMarkingTable = ({ setFlag, disData, setDisData }) => {
                     textAlign: 'left',
                     fontWeight: 550,
                     fontSize: 12,
-                    color: 'white',
+                    color: 'white'
                   }}
                 >
                   DC Received Date
@@ -146,7 +142,7 @@ const DeliveryMarkingTable = ({ setFlag, disData, setDisData }) => {
                     textAlign: 'left',
                     fontWeight: 550,
                     fontSize: 12,
-                    color: 'white',
+                    color: 'white'
                   }}
                 >
                   Mode Of Transport
@@ -157,7 +153,7 @@ const DeliveryMarkingTable = ({ setFlag, disData, setDisData }) => {
                     textAlign: 'left',
                     fontWeight: 550,
                     fontSize: 12,
-                    color: 'white',
+                    color: 'white'
                   }}
                 >
                   Bill Details
@@ -168,7 +164,7 @@ const DeliveryMarkingTable = ({ setFlag, disData, setDisData }) => {
                     textAlign: 'left',
                     fontWeight: 550,
                     fontSize: 12,
-                    color: 'white',
+                    color: 'white'
                   }}
                 >
                   Remarks
@@ -179,14 +175,12 @@ const DeliveryMarkingTable = ({ setFlag, disData, setDisData }) => {
                     textAlign: 'left',
                     fontWeight: 550,
                     fontSize: 12,
-                    color: 'white',
+                    color: 'white'
                   }}
                 >
                   Receiver
                 </Typography>
-                <Typography
-                  sx={{ minWidth: 30, textAlign: 'center', fontWeight: 550, fontSize: 12 }}
-                ></Typography>
+                <Typography sx={{ minWidth: 30, textAlign: 'center', fontWeight: 550, fontSize: 12 }}></Typography>
               </Box>
               <Virtuoso
                 style={{ height: window.innerHeight - 282, width: '100%' }}
@@ -195,11 +189,7 @@ const DeliveryMarkingTable = ({ setFlag, disData, setDisData }) => {
                   const billDetails = JSON.parse(val.delivery_bill_details || '[]')
                   const formattedBillDetails = billDetails
                     .map(
-                      bill =>
-                        `${bill.delivered_bill_no} (${format(
-                          new Date(bill.delivered_bill_date),
-                          'dd-MM-yyyy'
-                        )})`
+                      bill => `${bill.delivered_bill_no} (${format(new Date(bill.delivered_bill_date), 'dd-MM-yyyy')})`
                     )
                     .join(', ')
 
@@ -240,9 +230,7 @@ const DeliveryMarkingTable = ({ setFlag, disData, setDisData }) => {
                         <Typography sx={{ width: 120, textAlign: 'left', fontSize: 12, my: 1 }}>
                           {val.received_user}
                         </Typography>
-                        <Box
-                          sx={{ width: 30, textAlign: 'center', pt: 0.5, cursor: 'pointer', mr: 2 }}
-                        >
+                        <Box sx={{ width: 30, textAlign: 'center', pt: 0.5, cursor: 'pointer', mr: 2 }}>
                           <Tooltip title="PO Details" placement="left">
                             <ArrowDropDownCircleTwoToneIcon
                               sx={{
@@ -255,8 +243,8 @@ const DeliveryMarkingTable = ({ setFlag, disData, setDisData }) => {
                                 cursor: 'pointer',
                                 transition: 'transform 0.2s',
                                 '&:hover': {
-                                  transform: 'scale(1.1)',
-                                },
+                                  transform: 'scale(1.1)'
+                                }
                               }}
                               onClick={() => viewPOItemDetails(val)}
                             />

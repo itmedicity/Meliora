@@ -75,8 +75,7 @@ const HodApprovalTable = () => {
       const datas = incharge.map(val => {
         const obj = {
           req_slno: val.req_slno,
-          actual_requirement:
-            val.actual_requirement !== null ? val.actual_requirement : 'Not Updated',
+          actual_requirement: val.actual_requirement !== null ? val.actual_requirement : 'Not Updated',
           needed: val.needed !== null ? val.needed : 'Not Updated',
           request_dept_slno: val.request_dept_slno,
           request_deptsec_slno: val.request_deptsec_slno,
@@ -107,8 +106,7 @@ const HodApprovalTable = () => {
           incharge_remark: val.incharge_remarks !== null ? val.incharge_remarks : 'Not Updated',
           inch_detial_analysis: val.inch_detial_analysis,
           incharge_apprv_date: val.incharge_apprv_date,
-          incharge_user:
-            val.incharge_user !== null ? val.incharge_user.toLowerCase() : 'Not Updated',
+          incharge_user: val.incharge_user !== null ? val.incharge_user.toLowerCase() : 'Not Updated',
           hod_req: val.hod_req,
           hod_approve: val.hod_approve,
           hod:
@@ -152,8 +150,7 @@ const HodApprovalTable = () => {
               : val.manag_operation_approv === 3
               ? 'On-Hold'
               : 'Not Updated',
-          manag_operation_remarks:
-            val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
+          manag_operation_remarks: val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
           senior_manage_approv: val.senior_manage_approv,
           smo:
             val.senior_manage_approv === 1
@@ -163,8 +160,7 @@ const HodApprovalTable = () => {
               : val.senior_manage_approv === 3
               ? 'On-Hold'
               : 'Not Updated',
-          senior_manage_remarks:
-            val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
+          senior_manage_remarks: val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
           cao_approve: val.cao_approve,
           cao:
             val.cao_approve === 1
@@ -174,8 +170,7 @@ const HodApprovalTable = () => {
               : val.cao_approve === 3
               ? 'On-Hold'
               : 'Not Updated',
-          cao_approve_remarks:
-            val.cao_approve_remarks !== null ? val.cao_approve_remarks : 'Not Updated',
+          cao_approve_remarks: val.cao_approve_remarks !== null ? val.cao_approve_remarks : 'Not Updated',
           ed_approve: val.ed_approve,
           ed:
             val.ed_approve === 1
@@ -185,8 +180,7 @@ const HodApprovalTable = () => {
               : val.ed_approve === 3
               ? 'On-Hold'
               : 'Not Updated',
-          ed_approve_remarks:
-            val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
+          ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
           md_approve: val.md_approve,
           md:
             val.md_approve === 1
@@ -201,7 +195,7 @@ const HodApprovalTable = () => {
           crf_close_remark: val.crf_close_remark !== null ? val.crf_close_remark : 'Not Updated',
           crf_closed_one: val.crf_closed_one !== null ? val.crf_closed_one : 'Not Updated',
           close_user: val.close_user !== null ? val.close_user : 'Not Updated',
-          close_date: val.close_date !== null ? val.close_date : 'Not Updated',
+          close_date: val.close_date !== null ? val.close_date : 'Not Updated'
         }
         return obj
       })
@@ -243,7 +237,7 @@ const HodApprovalTable = () => {
             </IconButton>
           )
         }
-      },
+      }
     },
     {
       headerName: 'View',
@@ -260,7 +254,7 @@ const HodApprovalTable = () => {
         } else {
           return <Box></Box>
         }
-      },
+      }
     },
     { headerName: 'Req.Slno', field: 'req_slno', minWidth: 120 },
     {
@@ -269,7 +263,7 @@ const HodApprovalTable = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 250,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Justification',
@@ -277,7 +271,7 @@ const HodApprovalTable = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 250,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Location',
@@ -285,7 +279,7 @@ const HodApprovalTable = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 250,
-      filter: 'true',
+      filter: 'true'
     },
     { headerName: 'Req. Date', field: 'req_date', minWidth: 200 },
     {
@@ -294,7 +288,7 @@ const HodApprovalTable = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 150,
-      filter: 'true',
+      filter: 'true'
     },
     { headerName: 'Inch.Remark', field: 'incharge_remark', minWidth: 250, wrapText: true },
     { headerName: 'Hod.Status', field: 'hod', minWidth: 150, wrapText: true, filter: 'true' },
@@ -310,7 +304,7 @@ const HodApprovalTable = () => {
     { headerName: 'GM Status', field: 'cao', minWidth: 180, wrapText: true, filter: 'true' },
     { headerName: 'GM.Remark', field: 'cao_approve_remarks', minWidth: 250, wrapText: true },
     { headerName: 'ED/MD  Status', field: 'ed', minWidth: 150, wrapText: true, filter: 'true' },
-    { headerName: 'ED/MD.Remark', field: 'ed_approve_remarks', minWidth: 250, wrapText: true },
+    { headerName: 'ED/MD.Remark', field: 'ed_approve_remarks', minWidth: 250, wrapText: true }
   ])
 
   const [model, setmodel] = useState(0)
@@ -382,7 +376,7 @@ const HodApprovalTable = () => {
         sx={{
           width: '100%',
           display: 'flex',
-          flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
+          flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' }
           //   /  justifyContent: "flex-start"
         }}
       >

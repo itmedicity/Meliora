@@ -2,11 +2,7 @@ import { Box, IconButton, Table, Textarea, Typography } from '@mui/joy'
 import React, { Fragment, memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useQuery, useQueryClient } from 'react-query'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  getApprovedItemsKMC,
-  getApprovedStatusKMC,
-  getMaxItemslNoKMC,
-} from 'src/api/CommonApiCRFKmc'
+import { getApprovedItemsKMC, getApprovedStatusKMC, getMaxItemslNoKMC } from 'src/api/CommonApiCRFKmc'
 import { getUOM } from 'src/redux/actions/AmUOMList.action'
 import { axioskmc } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
@@ -26,7 +22,7 @@ const KMCItemApprovalComponent = ({
   editEnable,
   setEditEnable,
   header,
-  apprvLevel,
+  apprvLevel
 }) => {
   const queryClient = useQueryClient()
   const dispatch = useDispatch()
@@ -44,7 +40,7 @@ const KMCItemApprovalComponent = ({
     approx_cost: 0,
     item_desc_actl: '',
     item_qty: 0,
-    po_item_status: '',
+    po_item_status: ''
   })
   //Destructuring
   const {
@@ -56,7 +52,7 @@ const KMCItemApprovalComponent = ({
     unitprice,
     approx_cost,
     item_desc_actl,
-    item_qty,
+    item_qty
   } = itemstate
   const updateItemState = useCallback(
     e => {
@@ -82,7 +78,7 @@ const KMCItemApprovalComponent = ({
       setItemState(prev => ({
         ...prev,
         item_qty: e.target.value,
-        approx_cost: unitprice !== '' || unitprice !== 0 ? unitprice * e.target.value : 0,
+        approx_cost: unitprice !== '' || unitprice !== 0 ? unitprice * e.target.value : 0
       }))
     },
     [unitprice]
@@ -94,7 +90,7 @@ const KMCItemApprovalComponent = ({
         setItemState(prev => ({
           ...prev,
           unitprice: e.target.value,
-          approx_cost: item_qty !== '' ? item_qty * e.target.value : 0,
+          approx_cost: item_qty !== '' ? item_qty * e.target.value : 0
         }))
       } else {
         warningNotify('Provide the quantity before specifying the unit price')
@@ -106,11 +102,11 @@ const KMCItemApprovalComponent = ({
   const {
     data: iteData,
     isLoading: isItemsLoading,
-    error: itemsError,
+    error: itemsError
   } = useQuery({
     queryKey: ['approvedRejholdItemKMC', req_slno],
     queryFn: () => getApprovedItemsKMC(req_slno),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
 
   const itemData = useMemo(() => iteData, [iteData])
@@ -118,11 +114,11 @@ const KMCItemApprovalComponent = ({
   const {
     data: statData,
     isLoading: isStatusLoading,
-    error: statusError,
+    error: statusError
   } = useQuery({
     queryKey: ['itemStatusKMC', req_slno],
     queryFn: () => getApprovedStatusKMC(req_slno),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   const statusData = useMemo(() => statData, [statData])
 
@@ -143,7 +139,7 @@ const KMCItemApprovalComponent = ({
               val.item_md_approve !== 0 ||
               val.item_ed_approve !== 0
                 ? 1
-                : 0,
+                : 0
             // higher=1 then can't edit else can edit
           }
         })
@@ -162,7 +158,7 @@ const KMCItemApprovalComponent = ({
               val.item_md_approve !== 0 ||
               val.item_ed_approve !== 0
                 ? 1
-                : 0,
+                : 0
           }
         })
         setCheckStatus(newData)
@@ -179,7 +175,7 @@ const KMCItemApprovalComponent = ({
               val.item_md_approve !== 0 ||
               val.item_ed_approve !== 0
                 ? 1
-                : 0,
+                : 0
           }
         })
         setCheckStatus(newData)
@@ -195,7 +191,7 @@ const KMCItemApprovalComponent = ({
               val.item_md_approve !== 0 ||
               val.item_ed_approve !== 0
                 ? 1
-                : 0,
+                : 0
           }
         })
         setCheckStatus(newData)
@@ -210,7 +206,7 @@ const KMCItemApprovalComponent = ({
               val.item_md_approve !== 0 ||
               val.item_ed_approve !== 0
                 ? 1
-                : 0,
+                : 0
           }
         })
         setCheckStatus(newData)
@@ -219,10 +215,7 @@ const KMCItemApprovalComponent = ({
         const newData = statusData?.map(val => {
           return {
             req_detl_slno: val.req_detl_slno,
-            higher:
-              val.item_gm_approve !== 0 || val.item_md_approve !== 0 || val.item_ed_approve !== 0
-                ? 1
-                : 0,
+            higher: val.item_gm_approve !== 0 || val.item_md_approve !== 0 || val.item_ed_approve !== 0 ? 1 : 0
           }
         })
         setCheckStatus(newData)
@@ -231,7 +224,7 @@ const KMCItemApprovalComponent = ({
         const newData = statusData?.map(val => {
           return {
             req_detl_slno: val.req_detl_slno,
-            higher: val.item_md_approve !== 0 || val.item_ed_approve !== 0 ? 1 : 0,
+            higher: val.item_md_approve !== 0 || val.item_ed_approve !== 0 ? 1 : 0
           }
         })
         setCheckStatus(newData)
@@ -240,7 +233,7 @@ const KMCItemApprovalComponent = ({
         const newData = statusData?.map(val => {
           return {
             req_detl_slno: val.req_detl_slno,
-            higher: 0,
+            higher: 0
           }
         })
         setCheckStatus(newData)
@@ -255,7 +248,7 @@ const KMCItemApprovalComponent = ({
           const itstatus = checkStatus?.find(item => item.req_detl_slno === val.req_detl_slno)
           return {
             ...val,
-            higher: itstatus ? itstatus.higher : 0,
+            higher: itstatus ? itstatus.higher : 0
           }
         })
         setApproveTableData(newData)
@@ -264,7 +257,7 @@ const KMCItemApprovalComponent = ({
         const newData = itemData?.map(val => {
           return {
             ...val,
-            higher: 1,
+            higher: 1
           }
         })
         setApproveTableData(newData)
@@ -275,11 +268,11 @@ const KMCItemApprovalComponent = ({
   const {
     data: maxSlnoData,
     isLoading: isSlnoLoading,
-    error: slnoError,
+    error: slnoError
   } = useQuery({
     queryKey: ['getmaxSlnoKMC', req_slno],
     queryFn: () => getMaxItemslNoKMC(req_slno),
-    staleTime: Infinity,
+    staleTime: Infinity
   })
   useEffect(() => {
     if (maxSlnoData && maxSlnoData.length !== 0) {
@@ -302,7 +295,7 @@ const KMCItemApprovalComponent = ({
         approve_item_unit_price,
         approve_item_specification,
         item_qnty_approved,
-        po_item_status,
+        po_item_status
       } = val
       setEditEnable(1)
       setItemState(prev => ({
@@ -316,7 +309,7 @@ const KMCItemApprovalComponent = ({
         approx_cost: approve_aprox_cost,
         reqDetailslno: req_detl_slno,
         po_item_status: po_item_status,
-        item_desc_actl: approve_item_desc,
+        item_desc_actl: approve_item_desc
       }))
       setUOM(approve_item_unit !== null ? approve_item_unit : 0)
       setMoreItem(0)
@@ -336,7 +329,7 @@ const KMCItemApprovalComponent = ({
       approx_cost: 0,
       item_desc_actl: '',
       item_qty: 0,
-      po_item_status: '',
+      po_item_status: ''
     }
     setItemState(resetarrray)
     setUOM(0)
@@ -362,7 +355,7 @@ const KMCItemApprovalComponent = ({
         req_detl_slno: reqDetailslno,
         req_slno: req_slno,
         apprv_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
-        apprvLevel: apprvLevel,
+        apprvLevel: apprvLevel
       }
       const updateDetalReqApprov = async approvedata => {
         const result = await axioskmc.patch('/CRFRegisterApproval/itemsApproval', approvedata)
@@ -401,7 +394,7 @@ const KMCItemApprovalComponent = ({
         item_status_approved: 1,
         old_item_slno: item_slno,
         create_user: id,
-        req_detl_slno: reqDetailslno,
+        req_detl_slno: reqDetailslno
       }
       const DetailApprvInsert = async reqDataPost => {
         const result = await axioskmc.post('/CRFRegisterApproval/DetailApprvInsert', reqDataPost)
@@ -434,7 +427,7 @@ const KMCItemApprovalComponent = ({
     reset,
     id,
     queryClient,
-    apprvLevel,
+    apprvLevel
   ])
 
   const Rejectfctn = useCallback(() => {
@@ -460,7 +453,7 @@ const KMCItemApprovalComponent = ({
         reject_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
         req_detl_slno: reqDetailslno,
         apprvLevel: apprvLevel,
-        req_slno: req_slno,
+        req_slno: req_slno
       }
 
       const updateDetalReqApprov = async rejectedata => {
@@ -493,7 +486,7 @@ const KMCItemApprovalComponent = ({
     header,
     queryClient,
     apprvLevel,
-    req_slno,
+    req_slno
   ])
 
   const onHoldfctn = useCallback(() => {
@@ -522,7 +515,7 @@ const KMCItemApprovalComponent = ({
         hold_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
         req_detl_slno: reqDetailslno,
         apprvLevel: apprvLevel,
-        req_slno: req_slno,
+        req_slno: req_slno
       }
       const updateDetalReqApprov = async holddata => {
         const result = await axioskmc.patch('/CRFRegisterApproval/DetailItemOnHold', holddata)
@@ -554,7 +547,7 @@ const KMCItemApprovalComponent = ({
     header,
     queryClient,
     apprvLevel,
-    req_slno,
+    req_slno
   ])
 
   if (isItemsLoading || isSlnoLoading || isStatusLoading) return <p>Loading...</p>
@@ -565,30 +558,16 @@ const KMCItemApprovalComponent = ({
         {apprvdItems.length !== 0 ? (
           <Box sx={{}}>
             <Box sx={{ display: 'flex' }}>
-              <Typography
-                sx={{ fontWeight: 'bold', ml: 1, my: 0.5, color: '#145DA0', fontSize: 14 }}
-              >
+              <Typography sx={{ fontWeight: 'bold', ml: 1, my: 0.5, color: '#145DA0', fontSize: 14 }}>
                 Approved Items
               </Typography>
             </Box>
             <Box sx={{ overflow: 'auto', flexWrap: 'wrap', px: 0.5, pb: 0.5 }}>
-              <Table
-                aria-label="table with sticky header"
-                borderAxis="both"
-                padding={'none'}
-                stickyHeader
-                size="sm"
-              >
+              <Table aria-label="table with sticky header" borderAxis="both" padding={'none'} stickyHeader size="sm">
                 <thead>
                   <tr>
-                    <th
-                      size="sm"
-                      style={{ borderRadius: 0, width: 40, backgroundColor: '#e3f2fd' }}
-                    ></th>
-                    <th
-                      size="sm"
-                      style={{ width: 50, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                    >
+                    <th size="sm" style={{ borderRadius: 0, width: 40, backgroundColor: '#e3f2fd' }}></th>
+                    <th size="sm" style={{ width: 50, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                       Sl.No
                     </th>
                     <th size="sm" style={{ width: 300, backgroundColor: '#e3f2fd' }}>
@@ -597,34 +576,19 @@ const KMCItemApprovalComponent = ({
                     <th size="sm" style={{ width: 200, backgroundColor: '#e3f2fd' }}>
                       &nbsp;&nbsp;Brand
                     </th>
-                    <th
-                      size="sm"
-                      style={{ width: 80, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                    >
+                    <th size="sm" style={{ width: 80, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                       Qty
                     </th>
-                    <th
-                      size="sm"
-                      style={{ width: 80, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                    >
+                    <th size="sm" style={{ width: 80, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                       UOM
                     </th>
-                    <th
-                      size="sm"
-                      style={{ width: 350, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                    >
+                    <th size="sm" style={{ width: 350, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                       Specification
                     </th>
-                    <th
-                      size="sm"
-                      style={{ width: 100, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                    >
+                    <th size="sm" style={{ width: 100, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                       Price
                     </th>
-                    <th
-                      size="sm"
-                      style={{ width: 100, textAlign: 'center', backgroundColor: '#e3f2fd' }}
-                    >
+                    <th size="sm" style={{ width: 100, textAlign: 'center', backgroundColor: '#e3f2fd' }}>
                       Approx.Cost
                     </th>
                     <th
@@ -633,7 +597,7 @@ const KMCItemApprovalComponent = ({
                         borderRadius: 0,
                         width: 100,
                         textAlign: 'center',
-                        backgroundColor: '#e3f2fd',
+                        backgroundColor: '#e3f2fd'
                       }}
                     >
                       Status
@@ -685,7 +649,7 @@ const KMCItemApprovalComponent = ({
                                     height: 25,
                                     width: 30,
                                     borderRadius: 2,
-                                    cursor: 'pointer',
+                                    cursor: 'pointer'
                                   }}
                                 />
                               </CustomToolTipForCRF>
@@ -706,8 +670,8 @@ const KMCItemApprovalComponent = ({
                                     cursor: 'pointer',
                                     transition: 'transform 0.2s',
                                     '&:hover': {
-                                      transform: 'scale(1.1)',
-                                    },
+                                      transform: 'scale(1.1)'
+                                    }
                                   }}
                                   onClick={() => editSelect(item)}
                                 />
@@ -726,14 +690,10 @@ const KMCItemApprovalComponent = ({
                           </td>
                           <td style={{ fontSize: 13 }}>
                             &nbsp;
-                            {item.approve_item_specification === ''
-                              ? 'Not Given'
-                              : item.approve_item_specification}
+                            {item.approve_item_specification === '' ? 'Not Given' : item.approve_item_specification}
                           </td>
                           <td style={{ textAlign: 'center' }}>
-                            {item.approve_item_unit_price === 0
-                              ? 'Not Given'
-                              : item.approve_item_unit_price}
+                            {item.approve_item_unit_price === 0 ? 'Not Given' : item.approve_item_unit_price}
                           </td>
                           <td style={{ textAlign: 'center' }}>
                             {item.approve_aprox_cost === 0 ? 'Not Given' : item.approve_aprox_cost}
@@ -765,7 +725,7 @@ const KMCItemApprovalComponent = ({
               fontSize: 25,
               opacity: 0.5,
               pt: 10,
-              color: 'grey',
+              color: 'grey'
             }}
           >
             No items Approved
@@ -773,9 +733,7 @@ const KMCItemApprovalComponent = ({
         )}
         {editEnable === 1 ? (
           <Box sx={{ px: 0.5 }}>
-            <Typography sx={{ fontWeight: 'bold', m: 1, color: '#145DA0', fontSize: 14 }}>
-              Edit Item Details
-            </Typography>
+            <Typography sx={{ fontWeight: 'bold', m: 1, color: '#145DA0', fontSize: 14 }}>Edit Item Details</Typography>
             <Box sx={{ display: 'flex' }}>
               <Box sx={{ flex: 1.5 }}>
                 <CustomPaperTitle heading="Item Description" mandtry={1} />
@@ -867,8 +825,8 @@ const KMCItemApprovalComponent = ({
                     width: '100%',
                     '&:hover': {
                       bgcolor: '#59981A',
-                      color: 'white',
-                    },
+                      color: 'white'
+                    }
                   }}
                   onClick={Approvefctn}
                 >
@@ -888,8 +846,8 @@ const KMCItemApprovalComponent = ({
                     width: '100%',
                     '&:hover': {
                       bgcolor: '#D13120',
-                      color: 'white',
-                    },
+                      color: 'white'
+                    }
                   }}
                   onClick={Rejectfctn}
                 >
@@ -909,8 +867,8 @@ const KMCItemApprovalComponent = ({
                     width: '100%',
                     '&:hover': {
                       bgcolor: '#DBA40E',
-                      color: 'white',
-                    },
+                      color: 'white'
+                    }
                   }}
                   onClick={onHoldfctn}
                 >
@@ -931,8 +889,8 @@ const KMCItemApprovalComponent = ({
                     width: '100%',
                     '&:hover': {
                       bgcolor: 'white',
-                      color: '#43B0F1',
-                    },
+                      color: '#43B0F1'
+                    }
                   }}
                   onClick={cancelEdit}
                 >

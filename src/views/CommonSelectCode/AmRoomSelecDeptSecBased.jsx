@@ -7,9 +7,7 @@ import { useDispatch } from 'react-redux'
 
 const AmRoomSelecDeptSecBased = ({ roomNo, setRoomNo, setRoomName }) => {
   const dispatch = useDispatch()
-  const RoomListDeptSecBasd = useSelector(
-    state => state.getRoomBasedOnDeptSec?.RoomBasedDeptSectionList
-  )
+  const RoomListDeptSecBasd = useSelector(state => state.getRoomBasedOnDeptSec?.RoomBasedDeptSectionList)
   const [roomList, setRoomList] = useState([{ rm_room_slno: 0, rm_room_name: '' }])
   const [value, setValue] = useState(roomList[0])
   const [inputValue, setInputValue] = useState('')
@@ -38,7 +36,7 @@ const AmRoomSelecDeptSecBased = ({ roomNo, setRoomNo, setRoomName }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '29px',
+            '--Input-minHeight': '29px'
           }}
           value={roomNo === 0 ? roomList : value}
           placeholder="Select Group"

@@ -63,7 +63,7 @@ const SupplierDetails = () => {
     it_supplier_saleperson_second_mob_two: '',
     it_supplier_saleperson_second_email_one: '',
     it_supplier_saleperson_second_email_two: '',
-    supplier_status: false,
+    supplier_status: false
   })
   const {
     it_supplier_slno,
@@ -102,7 +102,7 @@ const SupplierDetails = () => {
     it_supplier_saleperson_second_mob_two,
     it_supplier_saleperson_second_email_one,
     it_supplier_saleperson_second_email_two,
-    supplier_status,
+    supplier_status
   } = supplierDetl
 
   const UpdateSupplierDetl = useCallback(
@@ -156,44 +156,27 @@ const SupplierDetails = () => {
       it_supplier_escl_name: imdCheck === true ? it_supplier_name : it_supplier_escl_name,
       it_supplier_escl_mob_one: imdCheck === true ? it_supplier_mob_one : it_supplier_escl_mob_one,
       it_supplier_escl_mob_two: imdCheck === true ? it_supplier_mob_two : it_supplier_escl_mob_two,
-      it_supplier_escl_land_one:
-        imdCheck === true ? it_supplier_land_one : it_supplier_escl_land_one,
-      it_supplier_escl_land_two:
-        imdCheck === true ? it_supplier_land_two : it_supplier_escl_land_two,
-      it_supplier_escl_email_one:
-        imdCheck === true ? it_supplier_email_one : it_supplier_escl_email_one,
-      it_supplier_escl_email_two:
-        imdCheck === true ? it_supplier_email_two : it_supplier_escl_email_two,
-      it_supplier_servperson_name:
-        serviceCheck === true ? it_supplier_name : it_supplier_servperson_name,
-      it_supplier_servperson_land_one:
-        serviceCheck === true ? it_supplier_land_one : it_supplier_servperson_land_one,
-      it_supplier_servperson_land_two:
-        serviceCheck === true ? it_supplier_land_two : it_supplier_servperson_land_two,
-      it_supplier_servperson_mob_one:
-        serviceCheck === true ? it_supplier_mob_one : it_supplier_servperson_mob_one,
-      it_supplier_servperson_mob_two:
-        serviceCheck === true ? it_supplier_mob_two : it_supplier_servperson_mob_two,
+      it_supplier_escl_land_one: imdCheck === true ? it_supplier_land_one : it_supplier_escl_land_one,
+      it_supplier_escl_land_two: imdCheck === true ? it_supplier_land_two : it_supplier_escl_land_two,
+      it_supplier_escl_email_one: imdCheck === true ? it_supplier_email_one : it_supplier_escl_email_one,
+      it_supplier_escl_email_two: imdCheck === true ? it_supplier_email_two : it_supplier_escl_email_two,
+      it_supplier_servperson_name: serviceCheck === true ? it_supplier_name : it_supplier_servperson_name,
+      it_supplier_servperson_land_one: serviceCheck === true ? it_supplier_land_one : it_supplier_servperson_land_one,
+      it_supplier_servperson_land_two: serviceCheck === true ? it_supplier_land_two : it_supplier_servperson_land_two,
+      it_supplier_servperson_mob_one: serviceCheck === true ? it_supplier_mob_one : it_supplier_servperson_mob_one,
+      it_supplier_servperson_mob_two: serviceCheck === true ? it_supplier_mob_two : it_supplier_servperson_mob_two,
       it_supplier_servperson_email_one:
         serviceCheck === true ? it_supplier_email_one : it_supplier_servperson_email_one,
       it_supplier_servperson_email_two:
         serviceCheck === true ? it_supplier_email_two : it_supplier_servperson_email_two,
-      it_supplier_saleperson_name:
-        saleCheck === true ? it_supplier_name : it_supplier_saleperson_name,
-      it_supplier_saleperson_land_one:
-        saleCheck === true ? it_supplier_land_one : it_supplier_saleperson_land_one,
-      it_supplier_saleperson_land_two:
-        saleCheck === true ? it_supplier_land_two : it_supplier_saleperson_land_two,
-      it_supplier_saleperson_mob_one:
-        saleCheck === true ? it_supplier_mob_one : it_supplier_saleperson_mob_one,
-      it_supplier_saleperson_mob_two:
-        saleCheck === true ? it_supplier_mob_two : it_supplier_saleperson_mob_two,
-      it_supplier_saleperson_email_one:
-        saleCheck === true ? it_supplier_email_one : it_supplier_saleperson_email_one,
-      it_supplier_saleperson_email_two:
-        saleCheck === true ? it_supplier_email_two : it_supplier_saleperson_email_two,
-      it_supplier_saleperson_second_name:
-        saleSecCheck === true ? it_supplier_name : it_supplier_saleperson_second_name,
+      it_supplier_saleperson_name: saleCheck === true ? it_supplier_name : it_supplier_saleperson_name,
+      it_supplier_saleperson_land_one: saleCheck === true ? it_supplier_land_one : it_supplier_saleperson_land_one,
+      it_supplier_saleperson_land_two: saleCheck === true ? it_supplier_land_two : it_supplier_saleperson_land_two,
+      it_supplier_saleperson_mob_one: saleCheck === true ? it_supplier_mob_one : it_supplier_saleperson_mob_one,
+      it_supplier_saleperson_mob_two: saleCheck === true ? it_supplier_mob_two : it_supplier_saleperson_mob_two,
+      it_supplier_saleperson_email_one: saleCheck === true ? it_supplier_email_one : it_supplier_saleperson_email_one,
+      it_supplier_saleperson_email_two: saleCheck === true ? it_supplier_email_two : it_supplier_saleperson_email_two,
+      it_supplier_saleperson_second_name: saleSecCheck === true ? it_supplier_name : it_supplier_saleperson_second_name,
       it_supplier_saleperson_second_land_one:
         saleSecCheck === true ? it_supplier_land_one : it_supplier_saleperson_second_land_one,
       it_supplier_saleperson_second_land_two:
@@ -207,7 +190,7 @@ const SupplierDetails = () => {
       it_supplier_saleperson_second_email_two:
         saleSecCheck === true ? it_supplier_email_two : it_supplier_saleperson_second_email_two,
       supplier_status: supplier_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [
     it_supplier_name,
@@ -250,7 +233,7 @@ const SupplierDetails = () => {
     imdCheck,
     saleCheck,
     saleSecCheck,
-    serviceCheck,
+    serviceCheck
   ])
 
   const patchdata = useMemo(() => {
@@ -266,38 +249,24 @@ const SupplierDetails = () => {
       it_supplier_escl_name: it_supplier_escl_name === null ? '' : it_supplier_escl_name,
       it_supplier_escl_mob_one: it_supplier_escl_mob_one === null ? '' : it_supplier_escl_mob_one,
       it_supplier_escl_mob_two: it_supplier_escl_mob_two === null ? '' : it_supplier_escl_mob_two,
-      it_supplier_escl_land_one:
-        it_supplier_escl_land_one === null ? '' : it_supplier_escl_land_one,
-      it_supplier_escl_land_two:
-        it_supplier_escl_land_two === null ? '' : it_supplier_escl_land_two,
-      it_supplier_escl_email_one:
-        it_supplier_escl_email_one === null ? '' : it_supplier_escl_email_one,
-      it_supplier_escl_email_two:
-        it_supplier_escl_email_two === null ? '' : it_supplier_escl_email_two,
-      it_supplier_servperson_name:
-        it_supplier_servperson_name === null ? '' : it_supplier_servperson_name,
-      it_supplier_servperson_land_one:
-        it_supplier_servperson_land_one === null ? '' : it_supplier_servperson_land_one,
-      it_supplier_servperson_land_two:
-        it_supplier_servperson_land_two === null ? '' : it_supplier_servperson_land_two,
-      it_supplier_servperson_mob_one:
-        it_supplier_servperson_mob_one === null ? '' : it_supplier_servperson_mob_one,
-      it_supplier_servperson_mob_two:
-        it_supplier_servperson_mob_two === null ? '' : it_supplier_servperson_mob_two,
+      it_supplier_escl_land_one: it_supplier_escl_land_one === null ? '' : it_supplier_escl_land_one,
+      it_supplier_escl_land_two: it_supplier_escl_land_two === null ? '' : it_supplier_escl_land_two,
+      it_supplier_escl_email_one: it_supplier_escl_email_one === null ? '' : it_supplier_escl_email_one,
+      it_supplier_escl_email_two: it_supplier_escl_email_two === null ? '' : it_supplier_escl_email_two,
+      it_supplier_servperson_name: it_supplier_servperson_name === null ? '' : it_supplier_servperson_name,
+      it_supplier_servperson_land_one: it_supplier_servperson_land_one === null ? '' : it_supplier_servperson_land_one,
+      it_supplier_servperson_land_two: it_supplier_servperson_land_two === null ? '' : it_supplier_servperson_land_two,
+      it_supplier_servperson_mob_one: it_supplier_servperson_mob_one === null ? '' : it_supplier_servperson_mob_one,
+      it_supplier_servperson_mob_two: it_supplier_servperson_mob_two === null ? '' : it_supplier_servperson_mob_two,
       it_supplier_servperson_email_one:
         it_supplier_servperson_email_one === null ? '' : it_supplier_servperson_email_one,
       it_supplier_servperson_email_two:
         it_supplier_servperson_email_two === null ? '' : it_supplier_servperson_email_two,
-      it_supplier_saleperson_name:
-        it_supplier_saleperson_name === null ? '' : it_supplier_saleperson_name,
-      it_supplier_saleperson_land_one:
-        it_supplier_saleperson_land_one === null ? '' : it_supplier_saleperson_land_one,
-      it_supplier_saleperson_land_two:
-        it_supplier_saleperson_land_two === null ? '' : it_supplier_saleperson_land_two,
-      it_supplier_saleperson_mob_one:
-        it_supplier_saleperson_mob_one === null ? '' : it_supplier_saleperson_mob_one,
-      it_supplier_saleperson_mob_two:
-        it_supplier_saleperson_mob_two === null ? '' : it_supplier_saleperson_mob_two,
+      it_supplier_saleperson_name: it_supplier_saleperson_name === null ? '' : it_supplier_saleperson_name,
+      it_supplier_saleperson_land_one: it_supplier_saleperson_land_one === null ? '' : it_supplier_saleperson_land_one,
+      it_supplier_saleperson_land_two: it_supplier_saleperson_land_two === null ? '' : it_supplier_saleperson_land_two,
+      it_supplier_saleperson_mob_one: it_supplier_saleperson_mob_one === null ? '' : it_supplier_saleperson_mob_one,
+      it_supplier_saleperson_mob_two: it_supplier_saleperson_mob_two === null ? '' : it_supplier_saleperson_mob_two,
       it_supplier_saleperson_email_one:
         it_supplier_saleperson_email_one === null ? '' : it_supplier_saleperson_email_one,
       it_supplier_saleperson_email_two:
@@ -305,27 +274,19 @@ const SupplierDetails = () => {
       it_supplier_saleperson_second_name:
         it_supplier_saleperson_second_name === null ? '' : it_supplier_saleperson_second_name,
       it_supplier_saleperson_second_land_one:
-        it_supplier_saleperson_second_land_one === null
-          ? ''
-          : it_supplier_saleperson_second_land_one,
+        it_supplier_saleperson_second_land_one === null ? '' : it_supplier_saleperson_second_land_one,
       it_supplier_saleperson_second_land_two:
-        it_supplier_saleperson_second_land_two === null
-          ? ''
-          : it_supplier_saleperson_second_land_two,
+        it_supplier_saleperson_second_land_two === null ? '' : it_supplier_saleperson_second_land_two,
       it_supplier_saleperson_second_mob_one:
         it_supplier_saleperson_second_mob_one === null ? '' : it_supplier_saleperson_second_mob_one,
       it_supplier_saleperson_second_mob_two:
         it_supplier_saleperson_second_mob_two === null ? '' : it_supplier_saleperson_second_mob_two,
       it_supplier_saleperson_second_email_one:
-        it_supplier_saleperson_second_email_one === null
-          ? ''
-          : it_supplier_saleperson_second_email_one,
+        it_supplier_saleperson_second_email_one === null ? '' : it_supplier_saleperson_second_email_one,
       it_supplier_saleperson_second_email_two:
-        it_supplier_saleperson_second_email_two === null
-          ? ''
-          : it_supplier_saleperson_second_email_two,
+        it_supplier_saleperson_second_email_two === null ? '' : it_supplier_saleperson_second_email_two,
       supplier_status: supplier_status === true ? 1 : 0,
-      edit_user: id,
+      edit_user: id
     }
   }, [
     it_supplier_slno,
@@ -365,7 +326,7 @@ const SupplierDetails = () => {
     it_supplier_saleperson_second_email_one,
     supplier_status,
     it_supplier_saleperson_second_email_two,
-    id,
+    id
   ])
 
   const rowSelect = useCallback(
@@ -409,7 +370,7 @@ const SupplierDetails = () => {
         it_supplier_saleperson_second_mob_two,
         it_supplier_saleperson_second_email_one,
         it_supplier_saleperson_second_email_two,
-        supplier_status,
+        supplier_status
       } = data
 
       const frmdata = {
@@ -424,38 +385,28 @@ const SupplierDetails = () => {
         it_supplier_escl_name: it_supplier_escl_name === null ? '' : it_supplier_escl_name,
         it_supplier_escl_mob_one: it_supplier_escl_mob_one === null ? '' : it_supplier_escl_mob_one,
         it_supplier_escl_mob_two: it_supplier_escl_mob_two === null ? '' : it_supplier_escl_mob_two,
-        it_supplier_escl_land_one:
-          it_supplier_escl_land_one === null ? '' : it_supplier_escl_land_one,
-        it_supplier_escl_land_two:
-          it_supplier_escl_land_two === null ? '' : it_supplier_escl_land_two,
-        it_supplier_escl_email_one:
-          it_supplier_escl_email_one === null ? '' : it_supplier_escl_email_one,
-        it_supplier_escl_email_two:
-          it_supplier_escl_email_two === null ? '' : it_supplier_escl_email_two,
-        it_supplier_servperson_name:
-          it_supplier_servperson_name === null ? '' : it_supplier_servperson_name,
+        it_supplier_escl_land_one: it_supplier_escl_land_one === null ? '' : it_supplier_escl_land_one,
+        it_supplier_escl_land_two: it_supplier_escl_land_two === null ? '' : it_supplier_escl_land_two,
+        it_supplier_escl_email_one: it_supplier_escl_email_one === null ? '' : it_supplier_escl_email_one,
+        it_supplier_escl_email_two: it_supplier_escl_email_two === null ? '' : it_supplier_escl_email_two,
+        it_supplier_servperson_name: it_supplier_servperson_name === null ? '' : it_supplier_servperson_name,
         it_supplier_servperson_land_one:
           it_supplier_servperson_land_one === null ? '' : it_supplier_servperson_land_one,
         it_supplier_servperson_land_two:
           it_supplier_servperson_land_two === null ? '' : it_supplier_servperson_land_two,
-        it_supplier_servperson_mob_one:
-          it_supplier_servperson_mob_one === null ? '' : it_supplier_servperson_mob_one,
-        it_supplier_servperson_mob_two:
-          it_supplier_servperson_mob_two === null ? '' : it_supplier_servperson_mob_two,
+        it_supplier_servperson_mob_one: it_supplier_servperson_mob_one === null ? '' : it_supplier_servperson_mob_one,
+        it_supplier_servperson_mob_two: it_supplier_servperson_mob_two === null ? '' : it_supplier_servperson_mob_two,
         it_supplier_servperson_email_one:
           it_supplier_servperson_email_one === null ? '' : it_supplier_servperson_email_one,
         it_supplier_servperson_email_two:
           it_supplier_servperson_email_two === null ? '' : it_supplier_servperson_email_two,
-        it_supplier_saleperson_name:
-          it_supplier_saleperson_name === null ? '' : it_supplier_saleperson_name,
+        it_supplier_saleperson_name: it_supplier_saleperson_name === null ? '' : it_supplier_saleperson_name,
         it_supplier_saleperson_land_one:
           it_supplier_saleperson_land_one === null ? '' : it_supplier_saleperson_land_one,
         it_supplier_saleperson_land_two:
           it_supplier_saleperson_land_two === null ? '' : it_supplier_saleperson_land_two,
-        it_supplier_saleperson_mob_one:
-          it_supplier_saleperson_mob_one === null ? '' : it_supplier_saleperson_mob_one,
-        it_supplier_saleperson_mob_two:
-          it_supplier_saleperson_mob_two === null ? '' : it_supplier_saleperson_mob_two,
+        it_supplier_saleperson_mob_one: it_supplier_saleperson_mob_one === null ? '' : it_supplier_saleperson_mob_one,
+        it_supplier_saleperson_mob_two: it_supplier_saleperson_mob_two === null ? '' : it_supplier_saleperson_mob_two,
         it_supplier_saleperson_email_one:
           it_supplier_saleperson_email_one === null ? '' : it_supplier_saleperson_email_one,
         it_supplier_saleperson_email_two:
@@ -463,31 +414,19 @@ const SupplierDetails = () => {
         it_supplier_saleperson_second_name:
           it_supplier_saleperson_second_name === null ? '' : it_supplier_saleperson_second_name,
         it_supplier_saleperson_second_land_one:
-          it_supplier_saleperson_second_land_one === null
-            ? ''
-            : it_supplier_saleperson_second_land_one,
+          it_supplier_saleperson_second_land_one === null ? '' : it_supplier_saleperson_second_land_one,
         it_supplier_saleperson_second_land_two:
-          it_supplier_saleperson_second_land_two === null
-            ? ''
-            : it_supplier_saleperson_second_land_two,
+          it_supplier_saleperson_second_land_two === null ? '' : it_supplier_saleperson_second_land_two,
         it_supplier_saleperson_second_mob_one:
-          it_supplier_saleperson_second_mob_one === null
-            ? ''
-            : it_supplier_saleperson_second_mob_one,
+          it_supplier_saleperson_second_mob_one === null ? '' : it_supplier_saleperson_second_mob_one,
         it_supplier_saleperson_second_mob_two:
-          it_supplier_saleperson_second_mob_two === null
-            ? ''
-            : it_supplier_saleperson_second_mob_two,
+          it_supplier_saleperson_second_mob_two === null ? '' : it_supplier_saleperson_second_mob_two,
         it_supplier_saleperson_second_email_one:
-          it_supplier_saleperson_second_email_one === null
-            ? ''
-            : it_supplier_saleperson_second_email_one,
+          it_supplier_saleperson_second_email_one === null ? '' : it_supplier_saleperson_second_email_one,
         it_supplier_saleperson_second_email_two:
-          it_supplier_saleperson_second_email_two === null
-            ? ''
-            : it_supplier_saleperson_second_email_two,
+          it_supplier_saleperson_second_email_two === null ? '' : it_supplier_saleperson_second_email_two,
         supplier_status: supplier_status === 1 ? true : false,
-        edit_user: id,
+        edit_user: id
       }
       setSupplierDetl(frmdata)
     },
@@ -532,7 +471,7 @@ const SupplierDetails = () => {
       it_supplier_saleperson_second_mob_two: '',
       it_supplier_saleperson_second_email_one: '',
       it_supplier_saleperson_second_email_two: '',
-      supplier_status: false,
+      supplier_status: false
     }
     setSupplierDetl(frmdata)
     setimdCheck(false)
@@ -561,33 +500,25 @@ const SupplierDetails = () => {
       }
       if (it_supplier_escl_mob_one !== '') {
         if (!isValidMobileNumber(it_supplier_escl_mob_one)) {
-          infoNotify(
-            'Please enter a valid 10-digit  mobile number in Immediate Contact Person Details'
-          )
+          infoNotify('Please enter a valid 10-digit  mobile number in Immediate Contact Person Details')
           return
         }
       }
       if (it_supplier_escl_mob_two !== '') {
         if (!isValidMobileNumber(it_supplier_escl_mob_two)) {
-          infoNotify(
-            'Please enter a valid 10-digit  mobile number(additional) in Immediate Contact Person Details'
-          )
+          infoNotify('Please enter a valid 10-digit  mobile number(additional) in Immediate Contact Person Details')
           return
         }
       }
       if (it_supplier_servperson_mob_one !== '') {
         if (!isValidMobileNumber(it_supplier_servperson_mob_one)) {
-          infoNotify(
-            'Please enter a valid 10-digit  mobile number in Service Contact Person Details'
-          )
+          infoNotify('Please enter a valid 10-digit  mobile number in Service Contact Person Details')
           return
         }
       }
       if (it_supplier_servperson_mob_two !== '') {
         if (!isValidMobileNumber(it_supplier_servperson_mob_two)) {
-          infoNotify(
-            'Please enter a valid 10-digit  mobile number (additional) in Service Contact Person Details'
-          )
+          infoNotify('Please enter a valid 10-digit  mobile number (additional) in Service Contact Person Details')
           return
         }
       }
@@ -599,17 +530,13 @@ const SupplierDetails = () => {
       }
       if (it_supplier_saleperson_mob_two !== '') {
         if (!isValidMobileNumber(it_supplier_saleperson_mob_two)) {
-          infoNotify(
-            'Please enter a valid 10-digit  mobile number(additional) in Sales Contact Person Details'
-          )
+          infoNotify('Please enter a valid 10-digit  mobile number(additional) in Sales Contact Person Details')
           return
         }
       }
       if (it_supplier_saleperson_second_mob_one !== '') {
         if (!isValidMobileNumber(it_supplier_saleperson_second_mob_one)) {
-          infoNotify(
-            'Please enter a valid 10-digit  mobile number in Secondary Sales Contact Person Details'
-          )
+          infoNotify('Please enter a valid 10-digit  mobile number in Secondary Sales Contact Person Details')
           return
         }
       }
@@ -641,9 +568,7 @@ const SupplierDetails = () => {
       }
       if (it_supplier_escl_email_two !== '') {
         if (!isEmail(it_supplier_escl_email_two)) {
-          infoNotify(
-            'Please enter a valid email address (additional) in immediate contact person Details'
-          )
+          infoNotify('Please enter a valid email address (additional) in immediate contact person Details')
           return
         }
       }
@@ -655,9 +580,7 @@ const SupplierDetails = () => {
       }
       if (it_supplier_servperson_email_two !== '') {
         if (!isEmail(it_supplier_servperson_email_two)) {
-          infoNotify(
-            'Please enter a valid email address (additional) in immediate contact person Details'
-          )
+          infoNotify('Please enter a valid email address (additional) in immediate contact person Details')
           return
         }
       }
@@ -669,9 +592,7 @@ const SupplierDetails = () => {
       }
       if (it_supplier_saleperson_email_two !== '') {
         if (!isEmail(it_supplier_saleperson_email_two)) {
-          infoNotify(
-            'Please enter a valid email address(additional) in immediate contact person Details'
-          )
+          infoNotify('Please enter a valid email address(additional) in immediate contact person Details')
           return
         }
       }
@@ -683,9 +604,7 @@ const SupplierDetails = () => {
       }
       if (it_supplier_saleperson_email_two !== '') {
         if (!isEmail(it_supplier_saleperson_second_email_two)) {
-          infoNotify(
-            'Please enter a valid email address(additional) in immediate contact person Details'
-          )
+          infoNotify('Please enter a valid email address(additional) in immediate contact person Details')
           return
         }
       }
@@ -717,12 +636,7 @@ const SupplierDetails = () => {
       }
 
       if (value === 0) {
-        if (
-          imdCheck === true ||
-          serviceCheck === true ||
-          saleCheck === true ||
-          saleSecCheck === true
-        ) {
+        if (imdCheck === true || serviceCheck === true || saleCheck === true || saleSecCheck === true) {
           InsertSupplierDetails(postdata)
         } else {
           if (
@@ -753,12 +667,7 @@ const SupplierDetails = () => {
           }
         }
       } else {
-        if (
-          imdCheck === true ||
-          serviceCheck === true ||
-          saleCheck === true ||
-          saleSecCheck === true
-        ) {
+        if (imdCheck === true || serviceCheck === true || saleCheck === true || saleSecCheck === true) {
           UpdateSupplierDetails(patchdata)
         } else {
           if (
@@ -830,7 +739,7 @@ const SupplierDetails = () => {
       it_supplier_escl_mob_one,
       it_supplier_escl_name,
       it_supplier_land_one,
-      saleCheck,
+      saleCheck
     ]
   )
 
@@ -841,20 +750,10 @@ const SupplierDetails = () => {
   return (
     <Box>
       <Paper sx={{ borderRadius: 0 }}>
-        <Box
-          sx={{ flex: 1, height: 35, borderBottom: 1, borderColor: 'lightgrey', display: 'flex' }}
-        >
-          <Box sx={{ flex: 1, fontWeight: 600, pl: 0.8, pt: 0.8, color: '#C7C8CB' }}>
-            Service Supplier Details
-          </Box>
+        <Box sx={{ flex: 1, height: 35, borderBottom: 1, borderColor: 'lightgrey', display: 'flex' }}>
+          <Box sx={{ flex: 1, fontWeight: 600, pl: 0.8, pt: 0.8, color: '#C7C8CB' }}>Service Supplier Details</Box>
           <Box>
-            <CusIconButton
-              size="sm"
-              variant="outlined"
-              color="primary"
-              clickable="true"
-              onClick={backtoHome}
-            >
+            <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={backtoHome}>
               <CloseIcon fontSize="small" />
             </CusIconButton>
           </Box>
@@ -868,7 +767,7 @@ const SupplierDetails = () => {
                     '--Divider-childPosition': `1%`,
                     fontWeight: 600,
                     fontSize: 18,
-                    color: '#54627B',
+                    color: '#54627B'
                   }}
                 >
                   Supplier Details
@@ -1005,7 +904,7 @@ const SupplierDetails = () => {
                       '--Divider-childPosition': `2%`,
                       fontWeight: 600,
                       fontSize: 18,
-                      color: '#54627B',
+                      color: '#54627B'
                     }}
                   >
                     Immediate contact Details
@@ -1076,9 +975,7 @@ const SupplierDetails = () => {
                     </Box>
                   </Box>
                   <Box sx={{ flex: 1, px: 0.5 }}>
-                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: 0.5 }}>
-                      Phone No. 2
-                    </Box>
+                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: 0.5 }}>Phone No. 2</Box>
                     <Box sx={{ fontWeight: 600, fontSize: 12 }}>
                       {imdCheck === true ? (
                         <TextFieldCustom
@@ -1130,9 +1027,7 @@ const SupplierDetails = () => {
                     </Box>
                   </Box>
                   <Box sx={{ flex: 1, px: 0.5 }}>
-                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: 0.5 }}>
-                      Mobile No. 2
-                    </Box>
+                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: 0.5 }}>Mobile No. 2</Box>
                     <Box sx={{ fontWeight: 600, fontSize: 12 }}>
                       {imdCheck === true ? (
                         <TextFieldCustom
@@ -1184,9 +1079,7 @@ const SupplierDetails = () => {
                     </Box>
                   </Box>
                   <Box sx={{ flex: 1, px: 0.5 }}>
-                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: 0.5 }}>
-                      Email Id 2
-                    </Box>
+                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: 0.5 }}>Email Id 2</Box>
                     <Box sx={{ fontWeight: 600, fontSize: 12 }}>
                       {imdCheck === true ? (
                         <TextFieldCustom
@@ -1218,7 +1111,7 @@ const SupplierDetails = () => {
                       '--Divider-childPosition': `2%`,
                       fontWeight: 600,
                       fontSize: 18,
-                      color: '#54627B',
+                      color: '#54627B'
                     }}
                   >
                     Service Contact Details
@@ -1289,9 +1182,7 @@ const SupplierDetails = () => {
                     </Box>
                   </Box>
                   <Box sx={{ flex: 1, px: 0.5 }}>
-                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: 0.5 }}>
-                      Phone No. 2
-                    </Box>
+                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: 0.5 }}>Phone No. 2</Box>
                     <Box sx={{ fontWeight: 600, fontSize: 12 }}>
                       {serviceCheck === true ? (
                         <TextFieldCustom
@@ -1343,9 +1234,7 @@ const SupplierDetails = () => {
                     </Box>
                   </Box>
                   <Box sx={{ flex: 1, px: 0.5 }}>
-                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: 0.5 }}>
-                      Mobile No. 2
-                    </Box>
+                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: 0.5 }}>Mobile No. 2</Box>
                     <Box sx={{ fontWeight: 600, fontSize: 12 }}>
                       {serviceCheck === true ? (
                         <TextFieldCustom
@@ -1397,9 +1286,7 @@ const SupplierDetails = () => {
                     </Box>
                   </Box>
                   <Box sx={{ flex: 1, px: 0.5 }}>
-                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: 0.5 }}>
-                      Email Id 2
-                    </Box>
+                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: 0.5 }}>Email Id 2</Box>
                     <Box sx={{ fontWeight: 600, fontSize: 12 }}>
                       {serviceCheck === true ? (
                         <TextFieldCustom
@@ -1433,7 +1320,7 @@ const SupplierDetails = () => {
                       '--Divider-childPosition': `2%`,
                       fontWeight: 600,
                       fontSize: 18,
-                      color: '#54627B',
+                      color: '#54627B'
                     }}
                   >
                     Sales Contact Details
@@ -1504,9 +1391,7 @@ const SupplierDetails = () => {
                     </Box>
                   </Box>
                   <Box sx={{ flex: 1, px: 0.5 }}>
-                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: 0.5 }}>
-                      Phone No. 2
-                    </Box>
+                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: 0.5 }}>Phone No. 2</Box>
                     <Box sx={{ fontWeight: 600, fontSize: 12 }}>
                       {saleCheck === true ? (
                         <TextFieldCustom
@@ -1558,9 +1443,7 @@ const SupplierDetails = () => {
                     </Box>
                   </Box>
                   <Box sx={{ flex: 1, px: 0.5 }}>
-                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: 0.5 }}>
-                      Mobile No. 2
-                    </Box>
+                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: 0.5 }}>Mobile No. 2</Box>
                     <Box sx={{ fontWeight: 600, fontSize: 12 }}>
                       {saleCheck === true ? (
                         <TextFieldCustom
@@ -1612,9 +1495,7 @@ const SupplierDetails = () => {
                     </Box>
                   </Box>
                   <Box sx={{ flex: 1, px: 0.5 }}>
-                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: 0.5 }}>
-                      Email Id 2
-                    </Box>
+                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: 0.5 }}>Email Id 2</Box>
                     <Box sx={{ fontWeight: 600, fontSize: 12 }}>
                       {saleCheck === true ? (
                         <TextFieldCustom
@@ -1646,7 +1527,7 @@ const SupplierDetails = () => {
                       '--Divider-childPosition': `2%`,
                       fontWeight: 600,
                       fontSize: 18,
-                      color: '#54627B',
+                      color: '#54627B'
                     }}
                   >
                     Secondary Sales Contact Details
@@ -1717,9 +1598,7 @@ const SupplierDetails = () => {
                     </Box>
                   </Box>
                   <Box sx={{ flex: 1, px: 0.5 }}>
-                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: 0.5 }}>
-                      Phone No. 2
-                    </Box>
+                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: 0.5 }}>Phone No. 2</Box>
                     <Box sx={{ fontWeight: 600, fontSize: 12 }}>
                       {saleSecCheck === true ? (
                         <TextFieldCustom
@@ -1771,9 +1650,7 @@ const SupplierDetails = () => {
                     </Box>
                   </Box>
                   <Box sx={{ flex: 1, px: 0.5 }}>
-                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: 0.5 }}>
-                      Mobile No. 2
-                    </Box>
+                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: 0.5 }}>Mobile No. 2</Box>
                     <Box sx={{ fontWeight: 600, fontSize: 12 }}>
                       {saleSecCheck === true ? (
                         <TextFieldCustom
@@ -1825,9 +1702,7 @@ const SupplierDetails = () => {
                     </Box>
                   </Box>
                   <Box sx={{ flex: 1, px: 0.5 }}>
-                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: 0.5 }}>
-                      Email Id 2
-                    </Box>
+                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: 0.5 }}>Email Id 2</Box>
                     <Box sx={{ fontWeight: 600, fontSize: 12 }}>
                       {saleSecCheck === true ? (
                         <TextFieldCustom
@@ -1875,13 +1750,7 @@ const SupplierDetails = () => {
           {/* Refresh Button */}
           <CustomeToolTip title="Refresh" placement="left">
             <Box sx={{ pl: 0.5 }}>
-              <CusIconButton
-                size="sm"
-                variant="outlined"
-                color="primary"
-                clickable="true"
-                onClick={reset}
-              >
+              <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={reset}>
                 <RefreshIcon fontSize="small" />
               </CusIconButton>
             </Box>
@@ -1889,13 +1758,7 @@ const SupplierDetails = () => {
           {/* Close button */}
           <CustomeToolTip title="Close" placement="left">
             <Box sx={{ pl: 0.5 }}>
-              <CusIconButton
-                size="sm"
-                variant="outlined"
-                color="primary"
-                clickable="true"
-                onClick={backtoHome}
-              >
+              <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={backtoHome}>
                 <CloseIcon fontSize="small" />
               </CusIconButton>
             </Box>

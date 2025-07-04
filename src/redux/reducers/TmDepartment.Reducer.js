@@ -4,7 +4,7 @@ const { FETCH_DEPARTMENT_TASKMANAGEMENT } = ActionTyps
 
 const subTaskDepartmentName = {
   subTaskDepartmentList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 
 /*** Department action type check then payload set to the state and loading status set as true */

@@ -15,9 +15,7 @@ const OtherBillViews = ({ billCount, setbillCount }) => {
   const EditModal = useCallback(value => {
     const { other_bill_slno } = value
     const getbillsFile = async () => {
-      const result = await axioslogin.get(
-        `/ItImageUpload/uploadFile/getOtherBillImages/${other_bill_slno}`
-      )
+      const result = await axioslogin.get(`/ItImageUpload/uploadFile/getOtherBillImages/${other_bill_slno}`)
       const { success } = result.data
       if (success === 1) {
         const data = result.data
@@ -58,7 +56,7 @@ const OtherBillViews = ({ billCount, setbillCount }) => {
               am_item_map_slno: val.am_item_map_slno,
               it_supplier_name: val.it_supplier_name,
               supplier_details: val.supplier_details,
-              file_upload_status: val.file_upload_status,
+              file_upload_status: val.file_upload_status
             }
             return obj
           })
@@ -107,7 +105,7 @@ const OtherBillViews = ({ billCount, setbillCount }) => {
                     borderRadius: 0,
                     display: 'flex',
                     mt: 0.5,
-                    color: 'black',
+                    color: 'black'
                   }}
                 >
                   <Box
@@ -115,14 +113,12 @@ const OtherBillViews = ({ billCount, setbillCount }) => {
                       flex: 0.6,
                       px: 1,
                       pt: 0.5,
-                      cursor: 'pointer',
+                      cursor: 'pointer'
                     }}
                   >
                     <EditIcon sx={{ height: 18 }} onClick={() => EditModal(val)} />
                   </Box>
-                  <Box sx={{ flex: 1, pt: 0.5, fontSize: 14, pr: 0.5 }}>
-                    {val.it_bill_category_name}
-                  </Box>
+                  <Box sx={{ flex: 1, pt: 0.5, fontSize: 14, pr: 0.5 }}>{val.it_bill_category_name}</Box>
                   <Box sx={{ flex: 2, pt: 0.5, fontSize: 14, pr: 0.5 }}>{val.it_supplier_name}</Box>
                   <Box sx={{ flex: 3, pt: 0.5, fontSize: 14, pr: 0.5 }}>{val.bill_name}</Box>
                   <Box sx={{ flex: 3, pt: 0.5, fontSize: 14, pr: 0.5 }}>{val.bill_description}</Box>

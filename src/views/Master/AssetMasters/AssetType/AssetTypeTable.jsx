@@ -10,11 +10,11 @@ const AssetTypeTable = ({ count, rowSelect }) => {
     {
       headerName: 'Action',
       minWidth: 10,
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
     },
     { headerName: 'SlNo', field: 'asset_type_slno', minWidth: 20 },
     { headerName: 'Asset Type', field: 'asset_type_name', minWidth: 50 },
-    { headerName: 'Status', field: 'status', minWidth: 50 },
+    { headerName: 'Status', field: 'status', minWidth: 50 }
   ])
   useEffect(() => {
     const getAssetType = async () => {

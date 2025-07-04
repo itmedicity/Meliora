@@ -43,7 +43,7 @@ const ModalEditTask = ({
   statuscount,
   setstatuscount,
   projectcount,
-  setProjectcount,
+  setProjectcount
 }) => {
   const {
     tm_task_slno,
@@ -56,7 +56,7 @@ const ModalEditTask = ({
     tm_project_name,
     tm_task_due_date,
     tm_mast_duedate_count,
-    tm_project_duedate,
+    tm_project_duedate
   } = masterData
 
   const dispatch = useDispatch()
@@ -140,11 +140,10 @@ const ModalEditTask = ({
     description: '',
     pendingRemarks: '',
     onHoldRemaks: '',
-    completedRemarks: '',
+    completedRemarks: ''
   })
 
-  const { taskName, dueDate, description, onHoldRemaks, pendingRemarks, completedRemarks } =
-    taskData
+  const { taskName, dueDate, description, onHoldRemaks, pendingRemarks, completedRemarks } = taskData
   const taskDataUpdate = useCallback(
     e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -218,7 +217,7 @@ const ModalEditTask = ({
     tm_task_status: checkFlag,
     tm_progres_date: '',
     progress_emp: id,
-    tm_task_progress: '',
+    tm_task_progress: ''
   })
   const { progress_slno, tm_progres_date, tm_task_progress } = taskProgress
   const ProgresssUpdate = useCallback(
@@ -235,7 +234,7 @@ const ModalEditTask = ({
       tm_progres_date: tm_progres_date === '' ? null : tm_progres_date,
       progress_emp: id,
       main_task_slno: main_task_slno,
-      tm_task_progress: tm_task_progress === '' ? null : tm_task_progress,
+      tm_task_progress: tm_task_progress === '' ? null : tm_task_progress
     }
   }, [tm_task_slno, checkFlag, tm_progres_date, tm_task_progress, main_task_slno, id])
 
@@ -246,13 +245,13 @@ const ModalEditTask = ({
       tm_task_status: checkFlag,
       tm_progres_date: tm_progres_date === '' ? null : tm_progres_date,
       progress_emp: id,
-      tm_task_progress: tm_task_progress,
+      tm_task_progress: tm_task_progress
     }
   }, [progress_slno, tm_task_slno, checkFlag, tm_progres_date, tm_task_progress, id])
 
   const ProgressData = useMemo(() => {
     return {
-      tm_task_slno: tm_task_slno,
+      tm_task_slno: tm_task_slno
     }
   }, [tm_task_slno])
 
@@ -269,7 +268,7 @@ const ModalEditTask = ({
               tm_task_status: val.tm_task_status,
               tm_progres_date: val.tm_progres_date,
               em_name: val.em_name,
-              tm_task_progress: val.tm_task_progress,
+              tm_task_progress: val.tm_task_progress
             }
             return obj
           })
@@ -341,7 +340,7 @@ const ModalEditTask = ({
     const form = {
       progress_slno: '',
       tm_progres_date: '',
-      tm_task_progress: '',
+      tm_task_progress: ''
     }
     setTaskProgress(form)
   }, [])
@@ -376,21 +375,14 @@ const ModalEditTask = ({
 
   const rowSelect = useCallback(data => {
     setvalue(1)
-    const {
-      progress_slno,
-      tm_task_slno,
-      tm_task_status,
-      tm_progres_date,
-      progress_emp,
-      tm_task_progress,
-    } = data
+    const { progress_slno, tm_task_slno, tm_task_status, tm_progres_date, progress_emp, tm_task_progress } = data
     const frmdata = {
       progress_slno: progress_slno,
       tm_task_slno: tm_task_slno,
       tm_task_status: tm_task_status,
       tm_progres_date: tm_progres_date === '' ? null : tm_progres_date,
       progress_emp: progress_emp,
-      tm_task_progress: tm_task_progress === '' ? null : tm_task_progress,
+      tm_task_progress: tm_task_progress === '' ? null : tm_task_progress
     }
     setTaskProgress(frmdata)
   }, [])
@@ -449,7 +441,7 @@ const ModalEditTask = ({
           tm_task_status,
           tm_pending_remark,
           tm_onhold_remarks,
-          tm_completed_remarks,
+          tm_completed_remarks
         } = data[0]
         const formdata = {
           taskSlno: tm_task_slno,
@@ -458,7 +450,7 @@ const ModalEditTask = ({
           description: tm_task_description ? tm_task_description : '',
           pendingRemarks: tm_pending_remark ? tm_pending_remark : '',
           onHoldRemaks: tm_onhold_remarks ? tm_onhold_remarks : '',
-          completedRemarks: tm_completed_remarks ? tm_completed_remarks : '',
+          completedRemarks: tm_completed_remarks ? tm_completed_remarks : ''
         }
         setTaskData(formdata)
         setdepartmentMast(empdept)
@@ -481,7 +473,7 @@ const ModalEditTask = ({
               return {
                 tm_create_detl_slno: val.tm_create_detl_slno,
                 tm_assigne_emp: val.tm_assigne_emp,
-                tm_detl_edit: id,
+                tm_detl_edit: id
               }
             })
           setEmpArry(setEmpData)
@@ -515,9 +507,8 @@ const ModalEditTask = ({
       tm_completed_remarks: completedRemarks === '' ? null : completedRemarks,
       tm_project_slno: projectz === '' ? null : projectz,
       tm_complete_date: completed === true ? newDate : null,
-      tm_mast_duedate_count:
-        tm_task_due_date !== dueDate ? tm_mast_duedate_count + 1 : tm_mast_duedate_count,
-      edit_user: id,
+      tm_mast_duedate_count: tm_task_due_date !== dueDate ? tm_mast_duedate_count + 1 : tm_mast_duedate_count,
+      edit_user: id
     }
   }, [
     tm_task_slno,
@@ -535,7 +526,7 @@ const ModalEditTask = ({
     newDate,
     tm_mast_duedate_count,
     tm_task_due_date,
-    id,
+    id
   ])
 
   const postEmpDetails =
@@ -545,7 +536,7 @@ const ModalEditTask = ({
         tm_task_slno: tm_task_slno,
         tm_assigne_emp: val,
         tm_detail_status: 1,
-        tm_detl_create: id,
+        tm_detl_create: id
       }
     })
 
@@ -554,7 +545,7 @@ const ModalEditTask = ({
     empArry.map(val => {
       return {
         tm_task_slno: tm_task_slno,
-        tm_assigne_emp: val.tm_assigne_emp,
+        tm_assigne_emp: val.tm_assigne_emp
       }
     })
 
@@ -579,7 +570,7 @@ const ModalEditTask = ({
     const options = {
       maxSizeMB: 1,
       maxWidthOrHeight: 1920,
-      useWebWorker: true,
+      useWebWorker: true
     }
     const compressedFile = await imageCompression(imageFile, options)
     return compressedFile
@@ -616,8 +607,8 @@ const ModalEditTask = ({
           // Use the Axios instance and endpoint that matches your server setup
           const uploadResult = await axioslogin.post('/TmFileUpload/uploadFile/task', formData, {
             headers: {
-              'Content-Type': 'multipart/form-data',
-            },
+              'Content-Type': 'multipart/form-data'
+            }
           })
           return uploadResult.data
         } catch (error) {
@@ -743,7 +734,7 @@ const ModalEditTask = ({
       setstatuscount,
       statuscount,
       setProjectcount,
-      projectcount,
+      projectcount
     ]
   )
 
@@ -773,7 +764,7 @@ const ModalEditTask = ({
             width: '90vw',
             height: '60vw',
             p: 0,
-            overflow: 'auto',
+            overflow: 'auto'
           }}
         >
           {addProjectFlag === 1 ? (
@@ -833,7 +824,7 @@ const ModalEditTask = ({
                     fontWeight: 600,
                     fontSize: 12,
                     display: 'flex',
-                    justifyContent: 'flex-end',
+                    justifyContent: 'flex-end'
                   }}
                 >
                   Project
@@ -852,12 +843,7 @@ const ModalEditTask = ({
                       {tm_project_name === null ? (
                         <Inputcomponent type="text" name="tm_project_name" disabled />
                       ) : (
-                        <Inputcomponent
-                          type="text"
-                          name="tm_project_name"
-                          value={tm_project_name}
-                          disabled
-                        />
+                        <Inputcomponent type="text" name="tm_project_name" value={tm_project_name} disabled />
                       )}
                     </Box>
                   )}
@@ -868,7 +854,7 @@ const ModalEditTask = ({
                           cursor: 'pointer',
                           bgcolor: '#90CDD0',
                           color: 'black',
-                          '&:hover': { bgcolor: '#77A7B0' },
+                          '&:hover': { bgcolor: '#77A7B0' }
                         }}
                       >
                         {' '}
@@ -888,7 +874,7 @@ const ModalEditTask = ({
                     display: 'flex',
                     justifyContent: 'flex-end',
                     pt: 1.5,
-                    pr: 1.5,
+                    pr: 1.5
                   }}
                 >
                   Task <span style={{ color: '#74112F', fontSize: 15 }}>*</span>
@@ -913,7 +899,7 @@ const ModalEditTask = ({
                     display: 'flex',
                     justifyContent: 'flex-end',
                     pt: 2,
-                    pr: 1.5,
+                    pr: 1.5
                   }}
                 >
                   Department
@@ -928,7 +914,7 @@ const ModalEditTask = ({
                     fontWeight: 600,
                     fontSize: 12,
                     pt: 1.8,
-                    pl: 2,
+                    pl: 2
                   }}
                 >
                   Section
@@ -947,7 +933,7 @@ const ModalEditTask = ({
                     display: 'flex',
                     justifyContent: 'flex-end',
                     pt: 1.5,
-                    pr: 1.5,
+                    pr: 1.5
                   }}
                 >
                   Created Date
@@ -963,7 +949,7 @@ const ModalEditTask = ({
                     fontWeight: 600,
                     fontSize: 12,
                     pt: 1.8,
-                    pl: 2.5,
+                    pl: 2.5
                   }}
                 >
                   Duedate <span style={{ color: '#74112F', fontSize: 15 }}>*</span>
@@ -992,13 +978,9 @@ const ModalEditTask = ({
                               min:
                                 completeFlag.length === 0
                                   ? moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
-                                  : moment(new Date(tm_task_due_date)).format(
-                                      'YYYY-MM-DD HH:mm:ss'
-                                    ),
-                              max: moment(new Date(tm_project_duedate)).format(
-                                'YYYY-MM-DD HH:mm:ss'
-                              ),
-                            },
+                                  : moment(new Date(tm_task_due_date)).format('YYYY-MM-DD HH:mm:ss'),
+                              max: moment(new Date(tm_project_duedate)).format('YYYY-MM-DD HH:mm:ss')
+                            }
                           }}
                           onchange={taskDataUpdate}
                           disabled={tm_mast_duedate_count >= countDue || isProjectOverdue}
@@ -1011,8 +993,8 @@ const ModalEditTask = ({
                           slotProps={{
                             input: {
                               min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-                              max: moment(new Date(dueDateProject)).format('YYYY-MM-DD HH:mm:ss'),
-                            },
+                              max: moment(new Date(dueDateProject)).format('YYYY-MM-DD HH:mm:ss')
+                            }
                           }}
                           onchange={taskDataUpdate}
                           disabled={tm_mast_duedate_count >= countDue}
@@ -1025,7 +1007,7 @@ const ModalEditTask = ({
                   <AutoDeleteTwoToneIcon
                     sx={{
                       color: '#92443A',
-                      '&:hover': { color: 'darkred' },
+                      '&:hover': { color: 'darkred' }
                     }}
                     onClick={getAllDueDates}
                   />
@@ -1041,7 +1023,7 @@ const ModalEditTask = ({
                     display: 'flex',
                     justifyContent: 'flex-end',
                     pt: 1.5,
-                    pr: 1.5,
+                    pr: 1.5
                   }}
                 >
                   Assignees<span style={{ color: '#74112F', fontSize: 15 }}>*</span>
@@ -1077,7 +1059,7 @@ const ModalEditTask = ({
                     display: 'flex',
                     justifyContent: 'flex-end',
                     pt: 1.5,
-                    pr: 1.5,
+                    pr: 1.5
                   }}
                 >
                   Task Description
@@ -1111,7 +1093,7 @@ const ModalEditTask = ({
                   flex: 1,
                   ml: 6,
                   mr: 30,
-                  py: 1,
+                  py: 1
                 }}
               >
                 <Box
@@ -1124,13 +1106,11 @@ const ModalEditTask = ({
                     border: 0.1,
                     mx: 0.5,
                     borderRadius: 5,
-                    borderColor: '#E4E5E8',
+                    borderColor: '#E4E5E8'
                   }}
                 >
                   <label htmlFor="file-input">
-                    <AttachmentIcon
-                      sx={{ color: '#0000FF', cursor: 'pointer', '&:hover': { color: '#000C66' } }}
-                    />
+                    <AttachmentIcon sx={{ color: '#0000FF', cursor: 'pointer', '&:hover': { color: '#000C66' } }} />
                     <u>Choose File</u>
                   </label>
                   <input
@@ -1149,7 +1129,7 @@ const ModalEditTask = ({
                     flex: 1,
                     overflowX: 'scroll',
                     overflow: 'hidden',
-                    mx: 0.5,
+                    mx: 0.5
                   }}
                 >
                   {selectTaskfile &&
@@ -1165,7 +1145,7 @@ const ModalEditTask = ({
                               width: 20,
                               cursor: 'pointer',
                               color: '#4D0011',
-                              '&:hover': { color: '#BA0F30' },
+                              '&:hover': { color: '#BA0F30' }
                             }}
                             onClick={() => handleRemoveTaskFile(index)}
                           />
@@ -1179,9 +1159,7 @@ const ModalEditTask = ({
           </Box>
           <Box sx={{ borderRight: 1, borderLeft: 1, borderBottom: 1, borderColor: '#D9E4EC' }}>
             <Box sx={{ m: 2, border: 1, borderColor: '#710019', borderRadius: 3 }}>
-              <Typography
-                sx={{ pl: 1.5, pt: 0.5, fontSize: 20, fontFamily: 'Georgia', color: '#000C66' }}
-              >
+              <Typography sx={{ pl: 1.5, pt: 0.5, fontSize: 20, fontFamily: 'Georgia', color: '#000C66' }}>
                 Task Progress
               </Typography>
               <EmpProgressTable progresstabledata={progresstabledata} rowSelect={rowSelect} />
@@ -1258,18 +1236,10 @@ const ModalEditTask = ({
                 </Box>
               </Box>
               <Box sx={{ flex: 5 }}>
-                <Box sx={{ pl: 0.8, pt: 0.5, color: '#000C66', fontFamily: 'Georgia' }}>
-                  Task Completed
-                </Box>
-                <Box sx={{ pl: 0.8, pt: 1, color: '#000C66', fontFamily: 'Georgia' }}>
-                  Task On Progress
-                </Box>
-                <Box sx={{ pl: 0.8, pt: 1, color: '#000C66', fontFamily: 'Georgia' }}>
-                  Task On Hold
-                </Box>
-                <Box sx={{ pl: 0.8, pt: 1, color: '#000C66', fontFamily: 'Georgia' }}>
-                  Task On Pending
-                </Box>
+                <Box sx={{ pl: 0.8, pt: 0.5, color: '#000C66', fontFamily: 'Georgia' }}>Task Completed</Box>
+                <Box sx={{ pl: 0.8, pt: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task On Progress</Box>
+                <Box sx={{ pl: 0.8, pt: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task On Hold</Box>
+                <Box sx={{ pl: 0.8, pt: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task On Pending</Box>
               </Box>
               <Box sx={{ flex: 10 }}>
                 {onHold === true ? (
@@ -1342,8 +1312,8 @@ const ModalEditTask = ({
                         slotProps={{
                           input: {
                             min: create_date,
-                            max: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-                          },
+                            max: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+                          }
                         }}
                         type="datetime-local"
                         size="sm"
@@ -1387,7 +1357,7 @@ const ModalEditTask = ({
                             fontSize: 30,
                             cursor: 'pointer',
                             color: '#003B73',
-                            '&:hover': { color: '#DBA40E' },
+                            '&:hover': { color: '#DBA40E' }
                           }}
                           onClick={UpdateProgress}
                         />
@@ -1404,7 +1374,7 @@ const ModalEditTask = ({
                   border: 1,
                   borderColor: '#603A70',
                   borderRadius: 3,
-                  boxShadow: '1px 1px 4px #887BB0',
+                  boxShadow: '1px 1px 4px #887BB0'
                 }}
               >
                 {completed === true ? (
@@ -1425,7 +1395,7 @@ const ModalEditTask = ({
                           borderColor: '#D9E4EC',
                           borderRadius: 5,
                           pl: 1,
-                          pt: 0.8,
+                          pt: 0.8
                         }}
                       >
                         Add Subtask&nbsp;
@@ -1446,7 +1416,7 @@ const ModalEditTask = ({
                       borderRadius: 5,
                       pl: 1,
                       pt: 1,
-                      color: '#774A62',
+                      color: '#774A62'
                     }}
                     onClick={openAddSubtask}
                   >
@@ -1518,11 +1488,7 @@ const ModalEditTask = ({
               <Button variant="plain" onClick={SubmitTask} sx={{ color: '#004F76', fontSize: 16 }}>
                 Update
               </Button>
-              <Button
-                variant="plain"
-                sx={{ color: '#004F76', fontSize: 16 }}
-                onClick={handleEditClose}
-              >
+              <Button variant="plain" sx={{ color: '#004F76', fontSize: 16 }} onClick={handleEditClose}>
                 Cancel
               </Button>
             </Box>

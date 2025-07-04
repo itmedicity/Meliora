@@ -24,7 +24,7 @@ const AssetUpgrade = ({ am_item_map_slno, item_custodian_dept, count, setCount }
 
   const { data: allSpareUnderAssetData } = useQuery({
     queryKey: ['getAssetsSpecification', count],
-    queryFn: () => getallSpareUnderAsset(am_item_map_slno),
+    queryFn: () => getallSpareUnderAsset(am_item_map_slno)
   })
 
   const allSpareUnderAsset = useMemo(() => allSpareUnderAssetData, [allSpareUnderAssetData])
@@ -39,7 +39,7 @@ const AssetUpgrade = ({ am_item_map_slno, item_custodian_dept, count, setCount }
       const RemoveSparee = {
         delete_user: id,
         asset_spare_slno: asset_spare_slno,
-        am_spare_item_map_slno: am_spare_item_map_slno,
+        am_spare_item_map_slno: am_spare_item_map_slno
       }
       const RemoveSpareUpdate = async RemoveSparee => {
         const result = await axioslogin.patch('/ItemMapDetails/spareRemoveFromAsset', RemoveSparee)
@@ -63,7 +63,7 @@ const AssetUpgrade = ({ am_item_map_slno, item_custodian_dept, count, setCount }
       const patchdata = {
         delete_user: id,
         asset_spare_slno: asset_spare_slno,
-        am_spare_item_map_slno: am_spare_item_map_slno,
+        am_spare_item_map_slno: am_spare_item_map_slno
       }
       const ServiceSpareUpdate = async patchdata => {
         const result = await axioslogin.patch('/ItemMapDetails/spareService', patchdata)
@@ -81,31 +81,28 @@ const AssetUpgrade = ({ am_item_map_slno, item_custodian_dept, count, setCount }
     [id, setCount, count]
   )
 
-  const AddNewSpare = useCallback(
-    () => {
-      if (sparez === 0) {
-        infoNotify('Please select Spare')
+  const AddNewSpare = useCallback(() => {
+    if (sparez === 0) {
+      infoNotify('Please select Spare')
+    } else {
+      const isAlreadyAdded = spareData.some(item => item.spare_asset_no_only === sparez)
+      if (isAlreadyAdded) {
+        infoNotify('Spare already added')
+        setSparez(0)
       } else {
-        const isAlreadyAdded = spareData.some(item => item.spare_asset_no_only === sparez)
-        if (isAlreadyAdded) {
-          infoNotify('Spare already added')
-          setSparez(0)
-        } else {
-          const newdata = {
-            am_item_map_slno: am_item_map_slno,
-            spare_asset_no_only: sparez,
-            spare_status: 1,
-            name: spareName,
-            create_user: id,
-          }
-          const datass = [...spareData, newdata]
-          setSpareData(datass)
-          setSparez(0)
+        const newdata = {
+          am_item_map_slno: am_item_map_slno,
+          spare_asset_no_only: sparez,
+          spare_status: 1,
+          name: spareName,
+          create_user: id
         }
+        const datass = [...spareData, newdata]
+        setSpareData(datass)
+        setSparez(0)
       }
-    },
-    [am_item_map_slno, spareData, sparez, spareName, id]
-  )
+    }
+  }, [am_item_map_slno, spareData, sparez, spareName, id])
 
   const handleDelete = indexToDelete => {
     setSpareData(prevArray => {
@@ -121,28 +118,25 @@ const AssetUpgrade = ({ am_item_map_slno, item_custodian_dept, count, setCount }
         am_item_map_slno: val.am_item_map_slno,
         am_spare_item_map_slno: val.spare_asset_no_only,
         spare_status: 1,
-        create_user: val.create_user,
+        create_user: val.create_user
       }
     })
-  const AddNewSpareUnderAsset = useCallback(
-    () => {
-      const SparedetailInsert = async SparepostData => {
-        const result = await axioslogin.post(`/ItemMapDetails/SpareDetailsInsert`, SparepostData)
-        const { message, success } = result.data
-        if (success === 1) {
-          succesNotify('New Spare Added Under Asset')
-          setCount(count + 1)
-          setSpareData([])
-        } else if (success === 0) {
-          infoNotify(message)
-        } else {
-          infoNotify(message)
-        }
+  const AddNewSpareUnderAsset = useCallback(() => {
+    const SparedetailInsert = async SparepostData => {
+      const result = await axioslogin.post(`/ItemMapDetails/SpareDetailsInsert`, SparepostData)
+      const { message, success } = result.data
+      if (success === 1) {
+        succesNotify('New Spare Added Under Asset')
+        setCount(count + 1)
+        setSpareData([])
+      } else if (success === 0) {
+        infoNotify(message)
+      } else {
+        infoNotify(message)
       }
-      SparedetailInsert(SparepostData)
-    },
-    [SparepostData, setCount, count]
-  )
+    }
+    SparedetailInsert(SparepostData)
+  }, [SparepostData, setCount, count])
 
   return (
     <Box
@@ -155,7 +149,7 @@ const AssetUpgrade = ({ am_item_map_slno, item_custodian_dept, count, setCount }
         border: 1,
         borderColor: '#E0E1E3',
         py: 1,
-        pl: 2,
+        pl: 2
       }}
     >
       {spareDetails.length !== 0 ? (
@@ -166,7 +160,7 @@ const AssetUpgrade = ({ am_item_map_slno, item_custodian_dept, count, setCount }
               flex: 1,
               fontWeight: 500,
               color: 'black',
-              fontSize: 15,
+              fontSize: 15
             }}
           />
 
@@ -175,19 +169,13 @@ const AssetUpgrade = ({ am_item_map_slno, item_custodian_dept, count, setCount }
               <Box sx={{ width: 50, textAlign: 'center', fontSize: 15, fontWeight: 600 }}>#</Box>
               <Box sx={{ width: 105, fontSize: 14, fontWeight: 600 }}>Spare Number</Box>
               <Box sx={{ flex: 1, fontSize: 14, fontWeight: 600 }}>Spare Name</Box>
-              <Box sx={{ width: 95, textAlign: 'center', fontSize: 14, fontWeight: 600 }}>
-                Remove Spare
-              </Box>
-              <Box sx={{ width: 80, textAlign: 'center', fontSize: 14, fontWeight: 600 }}>
-                Service
-              </Box>
+              <Box sx={{ width: 95, textAlign: 'center', fontSize: 14, fontWeight: 600 }}>Remove Spare</Box>
+              <Box sx={{ width: 80, textAlign: 'center', fontSize: 14, fontWeight: 600 }}>Service</Box>
             </Box>
           )}
           {spareDetails.map((val, index) => {
             const formattedSlno =
-              val.spare_asset_no_only !== undefined
-                ? val.spare_asset_no_only.toString().padStart(6, '0')
-                : 0
+              val.spare_asset_no_only !== undefined ? val.spare_asset_no_only.toString().padStart(6, '0') : 0
             return (
               <Box
                 key={index}
@@ -197,21 +185,17 @@ const AssetUpgrade = ({ am_item_map_slno, item_custodian_dept, count, setCount }
                   borderBottom: 1,
                   borderColor: 'lightgrey',
                   pt: 0.8,
-                  mr: 2,
+                  mr: 2
                 }}
               >
-                <Box sx={{ width: 50, textAlign: 'center', fontSize: 13, fontWeight: 500 }}>
-                  {index + 1}
-                </Box>
+                <Box sx={{ width: 50, textAlign: 'center', fontSize: 13, fontWeight: 500 }}>{index + 1}</Box>
                 <Box sx={{ width: 105, fontSize: 13, fontWeight: 500 }}>
                   {val.spare_asset_no}/{formattedSlno}
                 </Box>
                 <Box sx={{ flex: 1, fontSize: 13, fontWeight: 500 }}>{val.item_name}</Box>
 
                 <Tooltip
-                  title={
-                    'By clicking, the spare will be removed from the asset and add back to the stock'
-                  }
+                  title={'By clicking, the spare will be removed from the asset and add back to the stock'}
                   placement="top"
                   sx={{ width: 200 }}
                 >
@@ -221,13 +205,13 @@ const AssetUpgrade = ({ am_item_map_slno, item_custodian_dept, count, setCount }
                       textAlign: 'center',
                       fontSize: 13,
                       pr: 0.5,
-                      cursor: 'pointer',
+                      cursor: 'pointer'
                     }}
                   >
                     <ChangeCircleSharpIcon
                       sx={{
                         color: 'black',
-                        cursor: 'pointer',
+                        cursor: 'pointer'
                       }}
                       onClick={() => RemoveSpare(val)}
                     />
@@ -245,7 +229,7 @@ const AssetUpgrade = ({ am_item_map_slno, item_custodian_dept, count, setCount }
                       textAlign: 'center',
                       fontSize: 13,
                       pr: 0.5,
-                      cursor: 'pointer',
+                      cursor: 'pointer'
                     }}
                   >
                     <ManageAccountsSharpIcon
@@ -253,7 +237,7 @@ const AssetUpgrade = ({ am_item_map_slno, item_custodian_dept, count, setCount }
                         color: '#603A70',
                         cursor: 'pointer',
                         p: 0.1,
-                        '&:hover': { color: 'black' },
+                        '&:hover': { color: 'black' }
                       }}
                       onClick={() => serviceSparee(val)}
                     />
@@ -273,7 +257,7 @@ const AssetUpgrade = ({ am_item_map_slno, item_custodian_dept, count, setCount }
             fontWeight: 500,
             color: 'black',
             fontSize: 15,
-            pb: 0.5,
+            pb: 0.5
           }}
         />
         <Box sx={{ display: 'flex', flex: 1 }}>
@@ -287,10 +271,7 @@ const AssetUpgrade = ({ am_item_map_slno, item_custodian_dept, count, setCount }
             />
           </Box>
           <Box sx={{ mr: 3, pt: 0.5 }}>
-            <AddCircleIcon
-              sx={{ height: 30, width: 30, cursor: 'pointer' }}
-              onClick={AddNewSpare}
-            />
+            <AddCircleIcon sx={{ height: 30, width: 30, cursor: 'pointer' }} onClick={AddNewSpare} />
           </Box>
         </Box>
         {spareData.length !== 0 ? (
@@ -302,7 +283,7 @@ const AssetUpgrade = ({ am_item_map_slno, item_custodian_dept, count, setCount }
                   textAlign: 'center',
                   fontSize: 15,
                   fontWeight: 600,
-                  color: 'black',
+                  color: 'black'
                 }}
               >
                 #
@@ -315,7 +296,7 @@ const AssetUpgrade = ({ am_item_map_slno, item_custodian_dept, count, setCount }
                   fontSize: 14,
                   fontWeight: 600,
                   pr: 0.3,
-                  color: 'black',
+                  color: 'black'
                 }}
               >
                 Action
@@ -334,23 +315,19 @@ const AssetUpgrade = ({ am_item_map_slno, item_custodian_dept, count, setCount }
                     borderLeft: 1,
                     borderRight: 1,
                     ml: 0.1,
-                    borderColor: 'lightgrey',
+                    borderColor: 'lightgrey'
                   }}
                 >
                   <Box sx={{ flex: 0.5, textAlign: 'center', fontSize: 13 }}>{index + 1}</Box>
                   <Box sx={{ flex: 10, fontSize: 13 }}>{val.name}</Box>
-                  <Tooltip
-                    placement="left"
-                    title={'Spare will be removed  by clicking'}
-                    color="neutral"
-                  >
+                  <Tooltip placement="left" title={'Spare will be removed  by clicking'} color="neutral">
                     <Box
                       sx={{
                         flex: 1,
                         textAlign: 'center',
                         fontSize: 13,
                         pr: 0.5,
-                        cursor: 'pointer',
+                        cursor: 'pointer'
                       }}
                     >
                       <DeleteForeverIcon
@@ -358,7 +335,7 @@ const AssetUpgrade = ({ am_item_map_slno, item_custodian_dept, count, setCount }
                           color: 'darkred',
                           cursor: 'pointer',
                           p: 0.1,
-                          '&:hover': { color: 'red' },
+                          '&:hover': { color: 'red' }
                         }}
                         onClick={() => handleDelete(index)}
                       />
@@ -380,14 +357,12 @@ const AssetUpgrade = ({ am_item_map_slno, item_custodian_dept, count, setCount }
                   cursor: 'pointer',
                   mt: 1,
                   py: 0.3,
-                  boxShadow:
-                    '2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.6)', // Outward shadow effect
+                  boxShadow: '2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.6)', // Outward shadow effect
                   transform: 'translateZ(0)', // For smoother shadow rendering
                   transition: 'transform 0.2s ease', // Smooth transition on hover
                   '&:hover': {
-                    boxShadow:
-                      '3px 3px 6px rgba(0, 0, 0, 0.4), -3px -3px 6px rgba(255, 255, 255, 0.7)', // Increase shadow on hover
-                  },
+                    boxShadow: '3px 3px 6px rgba(0, 0, 0, 0.4), -3px -3px 6px rgba(255, 255, 255, 0.7)' // Increase shadow on hover
+                  }
                 }}
                 onClick={AddNewSpareUnderAsset}
               >

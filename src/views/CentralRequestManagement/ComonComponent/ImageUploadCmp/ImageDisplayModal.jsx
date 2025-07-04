@@ -13,7 +13,7 @@ const ImageDisplayModal = ({ open, handleClose, images }) => {
         const fileNamePart = parts[parts.length - 1]
         const obj = {
           imageName: fileNamePart,
-          url: val,
+          url: val
         }
         return obj
       })
@@ -33,7 +33,7 @@ const ImageDisplayModal = ({ open, handleClose, images }) => {
           justifyContent: 'center',
           alignItems: 'center',
           maxHeight: window.innerHeight - 80,
-          pt: 10,
+          pt: 10
         }}
       >
         <ModalDialog
@@ -43,7 +43,7 @@ const ImageDisplayModal = ({ open, handleClose, images }) => {
             borderRadius: 'sm',
             p: 4,
             boxShadow: 'lg',
-            maxHeight: window.innerHeight - 100,
+            maxHeight: window.innerHeight - 100
           }}
         >
           <ModalClose
@@ -57,7 +57,7 @@ const ImageDisplayModal = ({ open, handleClose, images }) => {
               bgcolor: 'background.body',
               color: '#bf360c',
               height: 25,
-              width: 25,
+              width: 25
             }}
           />
           <Box
@@ -68,7 +68,7 @@ const ImageDisplayModal = ({ open, handleClose, images }) => {
               border: '0.1px solid grey',
               margin: 'auto',
               maxHeight: window.innerHeight - 180,
-              overflow: 'auto',
+              overflow: 'auto'
             }}
           >
             {disArry &&
@@ -77,12 +77,7 @@ const ImageDisplayModal = ({ open, handleClose, images }) => {
                   {value.imageName.endsWith('.pdf') ? (
                     <embed src={value.url} type="application/pdf" height={820} width="100%" />
                   ) : (
-                    <img
-                      alt=""
-                      src={value.url}
-                      height={820}
-                      style={{ maxWidth: '100%', maxHeight: '100%' }}
-                    />
+                    <img alt="" src={value.url} height={820} style={{ maxWidth: '100%', maxHeight: '100%' }} />
                   )}
                 </Box>
               ))}

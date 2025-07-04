@@ -31,16 +31,9 @@ const FloorCreation = () => {
     floor_order: '',
     rm_floor_room_starts: '',
     rm_floor_room_ends: '',
-    rm_floor_status: false,
+    rm_floor_status: false
   })
-  const {
-    rm_floor_slno,
-    rm_floor_name,
-    rm_floor_status,
-    floor_order,
-    rm_floor_room_starts,
-    rm_floor_room_ends,
-  } = floor
+  const { rm_floor_slno, rm_floor_name, rm_floor_status, floor_order, rm_floor_room_starts, rm_floor_room_ends } = floor
 
   const updateFloor = useCallback(
     e => {
@@ -67,7 +60,7 @@ const FloorCreation = () => {
       rm_floor_room_starts: rm_floor_room_starts,
       rm_floor_room_ends: rm_floor_room_ends,
       rm_floor_status: rm_floor_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [
     campus,
@@ -81,7 +74,7 @@ const FloorCreation = () => {
     campusshort,
     buildingShort,
     buildBlockShort,
-    id,
+    id
   ])
 
   const patchdata = useMemo(() => {
@@ -97,7 +90,7 @@ const FloorCreation = () => {
       rm_floor_room_starts: rm_floor_room_starts,
       rm_floor_room_ends: rm_floor_room_ends,
       rm_floor_status: rm_floor_status === true ? 1 : 0,
-      edit_user: id,
+      edit_user: id
     }
   }, [
     rm_floor_slno,
@@ -112,7 +105,7 @@ const FloorCreation = () => {
     campusshort,
     buildingShort,
     buildBlockShort,
-    id,
+    id
   ])
   const reset = async () => {
     const frmdata = {
@@ -121,7 +114,7 @@ const FloorCreation = () => {
       floor_order: '',
       rm_floor_room_starts: '',
       rm_floor_room_ends: '',
-      rm_floor_status: false,
+      rm_floor_status: false
     }
     setFloor(frmdata)
     setValue(0)
@@ -136,7 +129,7 @@ const FloorCreation = () => {
       floor_order: '',
       rm_floor_room_starts: '',
       rm_floor_room_ends: '',
-      rm_floor_status: false,
+      rm_floor_status: false
     }
     setFloor(formreset)
     reset()
@@ -193,7 +186,7 @@ const FloorCreation = () => {
       rm_floor_slno,
       floor_order,
       rm_floor_room_starts,
-      rm_floor_room_ends,
+      rm_floor_room_ends
     } = data[0]
 
     const frmdata = {
@@ -202,7 +195,7 @@ const FloorCreation = () => {
       floor_order: floor_order,
       rm_floor_room_starts: rm_floor_room_starts,
       rm_floor_room_ends: rm_floor_room_ends,
-      rm_floor_status: rm_floor_status === 1 ? true : false,
+      rm_floor_status: rm_floor_status === 1 ? true : false
     }
     setFloor(frmdata)
     setCampus(rm_floor_campus_slno)
@@ -214,12 +207,7 @@ const FloorCreation = () => {
   }, [history])
 
   return (
-    <CardMaster
-      title="Floor Creation"
-      submit={sumbitFloor}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Floor Creation" submit={sumbitFloor} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ p: 1 }}>
         <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
           <Box sx={{ width: '30%', p: 1 }}>
@@ -227,18 +215,10 @@ const FloorCreation = () => {
               <CampusSelect value={campus} setValue={setCampus} setName={setCampusShort} />
             </Box>
             <Box sx={{ pt: 1.5 }}>
-              <BuildingRoomManagement
-                value={building}
-                setValue={setBuilding}
-                setName={setBuildingShort}
-              />
+              <BuildingRoomManagement value={building} setValue={setBuilding} setName={setBuildingShort} />
             </Box>
             <Box sx={{ pt: 1.5 }}>
-              <BuildingBlockSelect
-                value={buildBlock}
-                setValue={setbuildBlock}
-                setName={setbuildBlockShort}
-              />
+              <BuildingBlockSelect value={buildBlock} setValue={setbuildBlock} setName={setbuildBlockShort} />
             </Box>
             <Box sx={{ pt: 1.2 }}>
               <TextFieldCustom
@@ -255,7 +235,7 @@ const FloorCreation = () => {
                 p: 1.5,
                 height: '100px',
                 width: '650px',
-                display: 'flex',
+                display: 'flex'
               }}
             >
               <Box sx={{ pt: 0.5 }}>

@@ -21,7 +21,7 @@ const TatPerComplntAssignee = () => {
   const [exports, setexport] = useState(0)
   const [dateset, SetDate] = useState({
     start_date: format(new Date(), 'dd-MM-yyyy'),
-    end_date: format(new Date(), 'dd-MM-yyyy'),
+    end_date: format(new Date(), 'dd-MM-yyyy')
   })
   const [compdept, setCompDept] = useState(0)
 
@@ -38,7 +38,7 @@ const TatPerComplntAssignee = () => {
     return {
       start_date: start_date,
       end_date: end_date,
-      complaint_deptslno: compdept,
+      complaint_deptslno: compdept
     }
   }, [start_date, end_date, compdept])
 
@@ -70,22 +70,14 @@ const TatPerComplntAssignee = () => {
           category: val.complaint_type_name !== null ? val.complaint_type_name : 'Not Given',
           priority: val.cm_priority_desc !== null ? val.cm_priority_desc : 'Not Given',
           requestdate:
-            val.compalint_date !== null
-              ? format(new Date(val.compalint_date), 'dd-MM-yyyy H:mm:ss')
-              : 'Not Given',
+            val.compalint_date !== null ? format(new Date(val.compalint_date), 'dd-MM-yyyy H:mm:ss') : 'Not Given',
           assigndate:
-            val.assigned_date !== null
-              ? format(new Date(val.assigned_date), 'dd-MM-yyyy H:mm:ss')
-              : 'Not Given',
+            val.assigned_date !== null ? format(new Date(val.assigned_date), 'dd-MM-yyyy H:mm:ss') : 'Not Given',
           assigned_emp: val.assign !== null ? val.assign : 'Not assigned',
           rectifydate:
-            val.cm_rectify_time !== null
-              ? format(new Date(val.cm_rectify_time), 'dd-MM-yyyy H:mm:ss')
-              : 'Not Done',
+            val.cm_rectify_time !== null ? format(new Date(val.cm_rectify_time), 'dd-MM-yyyy H:mm:ss') : 'Not Done',
           verifydate:
-            val.cm_verfy_time !== null
-              ? format(new Date(val.cm_verfy_time), 'dd-MM-yyyy H:mm:ss')
-              : 'Not Done',
+            val.cm_verfy_time !== null ? format(new Date(val.cm_verfy_time), 'dd-MM-yyyy H:mm:ss') : 'Not Done'
         }
         return obj
       })
@@ -100,7 +92,7 @@ const TatPerComplntAssignee = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 150,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Location',
@@ -108,14 +100,14 @@ const TatPerComplntAssignee = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 200,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Complaint Description',
       field: 'desc',
       autoHeight: true,
       wrapText: true,
-      minWidth: 300,
+      minWidth: 300
     },
     {
       headerName: 'Category',
@@ -123,7 +115,7 @@ const TatPerComplntAssignee = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 200,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Priority',
@@ -131,7 +123,7 @@ const TatPerComplntAssignee = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 150,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Req.User',
@@ -139,7 +131,7 @@ const TatPerComplntAssignee = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 150,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Request Time ',
@@ -147,7 +139,7 @@ const TatPerComplntAssignee = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 180,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Assigning Time ',
@@ -155,7 +147,7 @@ const TatPerComplntAssignee = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 180,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Assigned Employee ',
@@ -163,7 +155,7 @@ const TatPerComplntAssignee = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 150,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Rectification Time',
@@ -171,7 +163,7 @@ const TatPerComplntAssignee = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 180,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Veryfyication Time',
@@ -179,8 +171,8 @@ const TatPerComplntAssignee = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 180,
-      filter: 'true',
-    },
+      filter: 'true'
+    }
   ])
 
   const onExportClick = () => {
@@ -210,7 +202,7 @@ const TatPerComplntAssignee = () => {
       <Box
         sx={{
           display: 'flex',
-          flexDirection: 'column',
+          flexDirection: 'column'
         }}
       >
         <Paper square elevation={2} sx={{ p: 2 }}>
@@ -218,21 +210,21 @@ const TatPerComplntAssignee = () => {
             sx={{
               width: '100%',
               display: 'flex',
-              flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
+              flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' }
             }}
           >
             <Box
               sx={{
                 display: 'flex',
                 width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' },
-                mt: 1,
+                mt: 1
               }}
             >
               <Box
                 sx={{
                   width: '100%',
                   ml: 0.5,
-                  mt: 0.5,
+                  mt: 0.5
                 }}
               >
                 <Typography>Start Date</Typography>
@@ -241,23 +233,17 @@ const TatPerComplntAssignee = () => {
                 sx={{
                   width: '100%',
                   height: 15,
-                  mb: 1,
+                  mb: 1
                 }}
               >
-                <TextFieldCustom
-                  type="date"
-                  size="sm"
-                  name="start_date"
-                  value={start_date}
-                  onchange={getDate}
-                />
+                <TextFieldCustom type="date" size="sm" name="start_date" value={start_date} onchange={getDate} />
               </Box>
             </Box>
             <Box
               sx={{
                 display: 'flex',
                 width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' },
-                mt: 1,
+                mt: 1
               }}
             >
               <Box
@@ -265,7 +251,7 @@ const TatPerComplntAssignee = () => {
                   width: '100%',
                   ml: 0.5,
                   mt: 0.5,
-                  pl: 1,
+                  pl: 1
                 }}
               >
                 <Typography>End Date</Typography>
@@ -274,23 +260,17 @@ const TatPerComplntAssignee = () => {
                 sx={{
                   width: '100%',
                   height: 15,
-                  mb: 1,
+                  mb: 1
                 }}
               >
-                <TextFieldCustom
-                  type="date"
-                  size="sm"
-                  name="end_date"
-                  value={end_date}
-                  onchange={getDate}
-                />
+                <TextFieldCustom type="date" size="sm" name="end_date" value={end_date} onchange={getDate} />
               </Box>
             </Box>
             <Box
               sx={{
                 display: 'flex',
                 width: { xs: '100%', sm: '100%', md: '90%', lg: '90%', xl: '90%' },
-                mt: 1,
+                mt: 1
               }}
             >
               <Box
@@ -298,7 +278,7 @@ const TatPerComplntAssignee = () => {
                   width: '100%',
                   ml: 0.5,
                   mt: 0.5,
-                  pl: 1,
+                  pl: 1
                 }}
               >
                 <Typography>Select Complaint Department</Typography>
@@ -307,7 +287,7 @@ const TatPerComplntAssignee = () => {
                 sx={{
                   width: '100%',
                   height: 15,
-                  pt: 1,
+                  pt: 1
                 }}
               >
                 <ComplaintDeptSelect value={compdept} setValue={setCompDept} />
@@ -323,22 +303,16 @@ const TatPerComplntAssignee = () => {
                 display: 'flex',
                 width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' },
                 ml: 1,
-                mt: 0.5,
+                mt: 0.5
               }}
             >
               <Box
                 sx={{
                   width: '20%',
-                  mt: 0.8,
+                  mt: 0.8
                 }}
               >
-                <CusIconButton
-                  size="sm"
-                  variant="outlined"
-                  color="primary"
-                  clickable="true"
-                  onClick={clicksearch}
-                >
+                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={clicksearch}>
                   <SearchOutlinedIcon fontSize="small" />
                 </CusIconButton>
               </Box>
@@ -349,7 +323,7 @@ const TatPerComplntAssignee = () => {
           square
           sx={{
             width: { md: '100%', lg: '100%', xl: '100%' },
-            p: 1,
+            p: 1
           }}
         >
           {/* Rigth Side Menu  */}
@@ -363,7 +337,7 @@ const TatPerComplntAssignee = () => {
               gap: 0.1,
               p: 0.3,
               borderLeft: 2,
-              borderColor: '#d3d3d3',
+              borderColor: '#d3d3d3'
             }}
           >
             <CustomeToolTip title="Download" placement="bottom">

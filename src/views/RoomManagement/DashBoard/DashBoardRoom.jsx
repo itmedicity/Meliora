@@ -22,13 +22,11 @@ const DashBoardRoom = ({ floorNo, setRoomList, campusName, floorName, buildblock
         const a = data.map(val => {
           const obj = {
             blockno: val.rm_insidebuilldblock_slno,
-            blockname: val.rm_insidebuildblock_name,
+            blockname: val.rm_insidebuildblock_name
           }
           return obj
         })
-        const insideBuild = Object.values(
-          a.reduce((acc, cur) => Object.assign(acc, { [cur.blockno]: cur }), {})
-        )
+        const insideBuild = Object.values(a.reduce((acc, cur) => Object.assign(acc, { [cur.blockno]: cur }), {}))
         setRoomMain(insideBuild)
       } else {
         warningNotify('No Room under selected building')
@@ -61,7 +59,7 @@ const DashBoardRoom = ({ floorNo, setRoomList, campusName, floorName, buildblock
           <Box
             sx={{
               width: '100%',
-              margin: 'auto',
+              margin: 'auto'
             }}
           >
             <Paper sx={{ overflow: 'hidden', px: 1 }} variant="outlined">
@@ -75,7 +73,7 @@ const DashBoardRoom = ({ floorNo, setRoomList, campusName, floorName, buildblock
                         margin: 'auto',
                         textAlign: 'center',
                         my: 1,
-                        overflow: 'hidden',
+                        overflow: 'hidden'
                       }}
                     >
                       <Box
@@ -88,7 +86,7 @@ const DashBoardRoom = ({ floorNo, setRoomList, campusName, floorName, buildblock
                           pl: 2,
                           border: 0.2,
                           borderColor: 'transparent',
-                          borderBottomColor: 'lightgrey',
+                          borderBottomColor: 'lightgrey'
                         }}
                       >
                         {val?.blockname?.toLowerCase()}
@@ -101,7 +99,7 @@ const DashBoardRoom = ({ floorNo, setRoomList, campusName, floorName, buildblock
                           width: '100%',
                           flexDirection: 'row',
                           overflow: 'hidden',
-                          flexWrap: 'wrap',
+                          flexWrap: 'wrap'
                         }}
                       >
                         <DashBoardRoomSort

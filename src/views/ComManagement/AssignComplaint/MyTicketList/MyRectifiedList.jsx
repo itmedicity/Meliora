@@ -53,7 +53,7 @@ const MyRectifiedList = () => {
       return {
         from: format(new Date(fromDate), 'yyyy-MM-dd 00:00:00'),
         to: format(new Date(toDate), 'yyyy-MM-dd 23:59:59'),
-        assigned_emp: id,
+        assigned_emp: id
       }
     }
     return null
@@ -70,7 +70,7 @@ const MyRectifiedList = () => {
         setRectifiedList([])
         setState(prevState => ({
           ...prevState,
-          flagz: 0,
+          flagz: 0
         }))
       } else if (value === 2) {
         setselectDateFlag(1)
@@ -79,7 +79,7 @@ const MyRectifiedList = () => {
         setRectifiedList([])
         setState(prevState => ({
           ...prevState,
-          flagz: 0,
+          flagz: 0
         }))
       } else {
         setRectifiedList([])
@@ -96,14 +96,14 @@ const MyRectifiedList = () => {
     image: 0,
     queryOpen: false,
     imageViewOpen: false,
-    detailsOpen: false,
+    detailsOpen: false
   })
 
   const RaiseQuery = useCallback(val => {
     setState(prevState => ({
       ...prevState,
       queryflag: 1,
-      queryOpen: true,
+      queryOpen: true
     }))
     setValuee(val)
   }, [])
@@ -112,7 +112,7 @@ const MyRectifiedList = () => {
     setState(prevState => ({
       ...prevState,
       detailsFlag: 1,
-      detailsOpen: true,
+      detailsOpen: true
     }))
     setDetailsData(val)
   }, [])
@@ -126,13 +126,13 @@ const MyRectifiedList = () => {
           setRectifiedList(data)
           setState(prevState => ({
             ...prevState,
-            flagz: 1,
+            flagz: 1
           }))
         } else {
           setRectifiedList([])
           setState(prevState => ({
             ...prevState,
-            flagz: 1,
+            flagz: 1
           }))
         }
       }
@@ -145,15 +145,13 @@ const MyRectifiedList = () => {
     setState(prevState => ({
       ...prevState,
       image: 1,
-      imageViewOpen: true,
+      imageViewOpen: true
     }))
 
     setfileDetails(val)
 
     try {
-      const result = await axioslogin.get(
-        `/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`
-      )
+      const result = await axioslogin.get(`/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`)
       const { success } = result.data
       if (success === 1) {
         const data = result.data
@@ -185,7 +183,7 @@ const MyRectifiedList = () => {
             flex: 1,
             display: 'flex',
             py: 0.8,
-            pl: 0.5,
+            pl: 0.5
           }}
         >
           <Box sx={{ display: 'flex', py: 0.5 }}>
@@ -194,7 +192,7 @@ const MyRectifiedList = () => {
               sx={{
                 color: '#5A676C',
                 fontWeight: 510,
-                fontFamily: 'Arial',
+                fontFamily: 'Arial'
               }}
               text="filter :"
             />
@@ -238,8 +236,8 @@ const MyRectifiedList = () => {
                 slotProps={{
                   input: {
                     min: fromDate,
-                    max: moment().format('YYYY-MM-DD'),
-                  },
+                    max: moment().format('YYYY-MM-DD')
+                  }
                 }}
               ></TextFieldCustom>
             </Box>
@@ -264,11 +262,11 @@ const MyRectifiedList = () => {
                 boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
                 '&:hover': {
                   backgroundColor: '#C8F0C8', // Lighter green for hover
-                  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.15)',
+                  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.15)'
                 },
                 '&:active': {
-                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.2)',
-                },
+                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.2)'
+                }
               }}
             >
               <SearchSharpIcon sx={{ width: 25, height: 25, color: '#0F4B0F' }} />
@@ -300,9 +298,7 @@ const MyRectifiedList = () => {
             selectedImages={selectedImages}
             fileDetails={fileDetails}
             setimage={value => setState(prevState => ({ ...prevState, image: value }))}
-            setimageViewOpen={value =>
-              setState(prevState => ({ ...prevState, imageViewOpen: value }))
-            }
+            setimageViewOpen={value => setState(prevState => ({ ...prevState, imageViewOpen: value }))}
           />
         ) : null}
         {rectifedList.length !== 0 ? (
@@ -320,7 +316,7 @@ const MyRectifiedList = () => {
                     borderColor: '#59981A',
                     borderRadius: 8,
                     bgcolor: 'white',
-                    m: 0.5,
+                    m: 0.5
                   }}
                 >
                   <Box
@@ -330,7 +326,7 @@ const MyRectifiedList = () => {
                       borderTopRightRadius: 6,
                       borderTopLeftRadius: 6,
                       mx: 0.1,
-                      display: 'flex',
+                      display: 'flex'
                     }}
                   >
                     <CssVarsProvider>
@@ -344,7 +340,7 @@ const MyRectifiedList = () => {
                               fontSize: 15,
                               pl: 1,
                               py: 0.5,
-                              fontFamily: 'Arial',
+                              fontFamily: 'Arial'
                             }}
                             text={
                               val.compalint_date
@@ -363,7 +359,7 @@ const MyRectifiedList = () => {
                           px: 2,
                           fontWeight: 500,
                           fontSize: 14,
-                          cursor: 'pointer',
+                          cursor: 'pointer'
                         }}
                       >
                         Ticket Registered by : {val.comp_reg_emp}
@@ -377,13 +373,10 @@ const MyRectifiedList = () => {
                         mx: 1,
                         pr: 1,
                         borderRight: 1,
-                        borderColor: 'lightgrey',
+                        borderColor: 'lightgrey'
                       }}
                     >
-                      <Typography sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700 }}>
-                        {' '}
-                        Ticket No.{' '}
-                      </Typography>
+                      <Typography sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700 }}> Ticket No. </Typography>
                       <Typography sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700 }}>
                         {val.complaint_slno}
                       </Typography>
@@ -399,7 +392,7 @@ const MyRectifiedList = () => {
                                 border: 1,
                                 borderRadius: 5,
                                 p: 0.1,
-                                '&:hover': { color: '#274472' },
+                                '&:hover': { color: '#274472' }
                               }}
                               onClick={() => fileView(val)}
                             />
@@ -418,7 +411,7 @@ const MyRectifiedList = () => {
                                 mx: 0.5,
                                 borderRadius: 5,
                                 p: 0.1,
-                                '&:hover': { color: '#41729F' },
+                                '&:hover': { color: '#41729F' }
                               }}
                               onClick={() => RaiseQuery(val)}
                             />
@@ -435,7 +428,7 @@ const MyRectifiedList = () => {
                                 mx: 0.5,
                                 borderRadius: 5,
                                 p: 0.1,
-                                '&:hover': { color: '#41729F' },
+                                '&:hover': { color: '#41729F' }
                               }}
                               onClick={() => RaiseQuery(val)}
                             />
@@ -450,7 +443,7 @@ const MyRectifiedList = () => {
                                 cursor: 'pointer',
                                 border: 1,
                                 mx: 0.5,
-                                borderRadius: 5,
+                                borderRadius: 5
                               }}
                             />
                           </Tooltip>
@@ -465,7 +458,7 @@ const MyRectifiedList = () => {
                               border: 1,
                               borderRadius: 5,
                               p: 0.1,
-                              '&:hover': { color: '#41729F' },
+                              '&:hover': { color: '#41729F' }
                             }}
                             onClick={() => MoreDetails(val)}
                           />
@@ -476,33 +469,28 @@ const MyRectifiedList = () => {
                     <Box
                       sx={{
                         pl: 0.5,
-                        maxWidth: 500,
+                        maxWidth: 500
                       }}
                     >
                       <Box
                         sx={{
                           display: 'flex',
-                          mt: 0.5,
+                          mt: 0.5
                         }}
                       >
-                        <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
-                          Department Section
-                        </Typography>
+                        <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>Department Section</Typography>
                         <Typography sx={{ fontSize: 14, flex: 1, textTransform: 'capitalize' }}>
-                          {val.location.charAt(0).toUpperCase() +
-                            val.location.slice(1).toLowerCase()}
+                          {val.location.charAt(0).toUpperCase() + val.location.slice(1).toLowerCase()}
                         </Typography>
                       </Box>
                       <Box
                         sx={{
                           // flex: 1,
                           display: 'flex',
-                          mt: 0.5,
+                          mt: 0.5
                         }}
                       >
-                        <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
-                          Location
-                        </Typography>
+                        <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>Location</Typography>
                         <Typography sx={{ fontSize: 13, flex: 1 }}>
                           {val.rm_room_name}
                           {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name
@@ -518,12 +506,10 @@ const MyRectifiedList = () => {
                         sx={{
                           // flex: 1,
                           display: 'flex',
-                          mt: 0.5,
+                          mt: 0.5
                         }}
                       >
-                        <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
-                          Complaint Type
-                        </Typography>
+                        <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>Complaint Type</Typography>
                         <Typography sx={{ fontSize: 14, flex: 1 }}>
                           {val.complaint_type_name.charAt(0).toUpperCase() +
                             val.complaint_type_name.slice(1).toLowerCase()}
@@ -531,16 +517,14 @@ const MyRectifiedList = () => {
                       </Box>
                     </Box>
                     <Box sx={{ flex: 1, pl: 1.5 }}>
-                      <Typography sx={{ fontSize: 13, fontWeight: 700 }}>
-                        Complaint Describtion
-                      </Typography>
+                      <Typography sx={{ fontSize: 13, fontWeight: 700 }}>Complaint Describtion</Typography>
                       <Typography
                         sx={{
                           pr: 0.5,
                           pt: 0.3,
                           fontSize: 14,
                           maxHeight: 50,
-                          overflow: 'auto',
+                          overflow: 'auto'
                         }}
                       >
                         {val.complaint_desc || 'Not Updated'}
@@ -555,7 +539,7 @@ const MyRectifiedList = () => {
                       borderBottomLeftRadius: 5,
                       mb: 0.1,
                       mx: 0.1,
-                      display: 'flex',
+                      display: 'flex'
                     }}
                   >
                     {val.priority_check === 1 ? (
@@ -565,21 +549,17 @@ const MyRectifiedList = () => {
                             // mt: 3,
                             height: 30,
                             width: 25,
-                            color: val.priority_check === 1 ? '#970C10' : 'lightgrey',
+                            color: val.priority_check === 1 ? '#970C10' : 'lightgrey'
                           }}
                         />
 
-                        <Typography
-                          sx={{ fontWeight: 600, pl: 0.5, fontSize: 14, pt: 0.5, color: 'darkred' }}
-                        >
+                        <Typography sx={{ fontWeight: 600, pl: 0.5, fontSize: 14, pt: 0.5, color: 'darkred' }}>
                           {val.priority_reason}
                         </Typography>
                       </Box>
                     ) : null}
                     <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
-                      <Typography sx={{ fontSize: 13, fontWeight: 700, pt: 0.5 }}>
-                        Assignees :
-                      </Typography>
+                      <Typography sx={{ fontSize: 13, fontWeight: 700, pt: 0.5 }}>Assignees :</Typography>
                       &nbsp;&nbsp;
                       <Box sx={{ fontWeight: 600, display: 'flex', py: 0.4, gap: 0.3 }}>
                         {val.assigned_employees === null ? (
@@ -614,7 +594,7 @@ const MyRectifiedList = () => {
               fontWeight: 700,
               fontSize: 22,
               color: 'lightgray',
-              pt: 10,
+              pt: 10
             }}
           >
             {state.flagz === 1 ? (

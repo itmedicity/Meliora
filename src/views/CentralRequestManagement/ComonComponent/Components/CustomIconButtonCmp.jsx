@@ -16,8 +16,8 @@ const CustomIconButtonCmp = ({ handleChange, children }) => {
         borderRadius: 6,
         '&:hover': {
           bgcolor: 'white',
-          color: '#43B0F1',
-        },
+          color: '#43B0F1'
+        }
       }}
       onClick={handleChange}
     >

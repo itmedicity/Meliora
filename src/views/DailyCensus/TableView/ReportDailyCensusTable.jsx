@@ -16,7 +16,7 @@ const ReportDailyCensusTable = ({ tableData, calculateTotal }) => {
     oraTotDeath,
     oraTotal,
     oraDamaTot,
-    oraLamaTot,
+    oraLamaTot
   } = calculateTotal
   return (
     <Fragment>
@@ -41,7 +41,7 @@ const ReportDailyCensusTable = ({ tableData, calculateTotal }) => {
                     textAlign: 'center',
                     color: 'white',
                     backgroundColor: '#757575',
-                    fontSize: 15,
+                    fontSize: 15
                   }}
                 >
                   Sl.No
@@ -54,7 +54,7 @@ const ReportDailyCensusTable = ({ tableData, calculateTotal }) => {
                     textAlign: 'center',
                     color: 'white',
                     backgroundColor: '#757575',
-                    fontSize: 15,
+                    fontSize: 15
                   }}
                 >
                   Nursing Station
@@ -67,7 +67,7 @@ const ReportDailyCensusTable = ({ tableData, calculateTotal }) => {
                     textAlign: 'center',
                     color: 'white',
                     backgroundColor: '#757575',
-                    fontSize: 15,
+                    fontSize: 15
                   }}
                 >
                   Yesterday Census
@@ -80,7 +80,7 @@ const ReportDailyCensusTable = ({ tableData, calculateTotal }) => {
                     textAlign: 'center',
                     color: 'white',
                     backgroundColor: '#757575',
-                    fontSize: 15,
+                    fontSize: 15
                   }}
                 >
                   Admissions
@@ -93,7 +93,7 @@ const ReportDailyCensusTable = ({ tableData, calculateTotal }) => {
                     textAlign: 'center',
                     color: 'white',
                     backgroundColor: '#757575',
-                    fontSize: 15,
+                    fontSize: 15
                   }}
                 >
                   Discharge
@@ -106,7 +106,7 @@ const ReportDailyCensusTable = ({ tableData, calculateTotal }) => {
                     textAlign: 'center',
                     color: 'white',
                     backgroundColor: '#757575',
-                    fontSize: 15,
+                    fontSize: 15
                   }}
                 >
                   Transfer In
@@ -119,7 +119,7 @@ const ReportDailyCensusTable = ({ tableData, calculateTotal }) => {
                     textAlign: 'center',
                     color: 'white',
                     backgroundColor: '#757575',
-                    fontSize: 15,
+                    fontSize: 15
                   }}
                 >
                   Transfer Out
@@ -132,7 +132,7 @@ const ReportDailyCensusTable = ({ tableData, calculateTotal }) => {
                     textAlign: 'center',
                     color: 'white',
                     backgroundColor: '#757575',
-                    fontSize: 15,
+                    fontSize: 15
                   }}
                 >
                   Death
@@ -145,7 +145,7 @@ const ReportDailyCensusTable = ({ tableData, calculateTotal }) => {
                     textAlign: 'center',
                     color: 'white',
                     backgroundColor: '#757575',
-                    fontSize: 15,
+                    fontSize: 15
                   }}
                 >
                   Total
@@ -158,7 +158,7 @@ const ReportDailyCensusTable = ({ tableData, calculateTotal }) => {
                     textAlign: 'center',
                     color: 'white',
                     backgroundColor: '#757575',
-                    fontSize: 15,
+                    fontSize: 15
                   }}
                 >
                   HIS Yesterday
@@ -171,7 +171,7 @@ const ReportDailyCensusTable = ({ tableData, calculateTotal }) => {
                     textAlign: 'center',
                     color: 'white',
                     backgroundColor: '#757575',
-                    fontSize: 15,
+                    fontSize: 15
                   }}
                 >
                   HIS Admissions
@@ -184,7 +184,7 @@ const ReportDailyCensusTable = ({ tableData, calculateTotal }) => {
                     textAlign: 'center',
                     color: 'white',
                     backgroundColor: '#757575',
-                    fontSize: 15,
+                    fontSize: 15
                   }}
                 >
                   HIS Discharge
@@ -197,7 +197,7 @@ const ReportDailyCensusTable = ({ tableData, calculateTotal }) => {
                     textAlign: 'center',
                     color: 'white',
                     backgroundColor: '#757575',
-                    fontSize: 15,
+                    fontSize: 15
                   }}
                 >
                   HIS Death
@@ -210,7 +210,7 @@ const ReportDailyCensusTable = ({ tableData, calculateTotal }) => {
                     textAlign: 'center',
                     color: 'white',
                     backgroundColor: '#757575',
-                    fontSize: 15,
+                    fontSize: 15
                   }}
                 >
                   HIS DAMA
@@ -223,7 +223,7 @@ const ReportDailyCensusTable = ({ tableData, calculateTotal }) => {
                     textAlign: 'center',
                     color: 'white',
                     backgroundColor: '#757575',
-                    fontSize: 15,
+                    fontSize: 15
                   }}
                 >
                   HIS LAMA
@@ -235,7 +235,7 @@ const ReportDailyCensusTable = ({ tableData, calculateTotal }) => {
                     textAlign: 'center',
                     color: 'white',
                     backgroundColor: '#757575',
-                    fontSize: 15,
+                    fontSize: 15
                   }}
                 >
                   HIS Total
@@ -250,7 +250,7 @@ const ReportDailyCensusTable = ({ tableData, calculateTotal }) => {
                     size="small"
                     style={{
                       maxHeight: 2,
-                      cursor: 'pointer',
+                      cursor: 'pointer'
                     }}
                   >
                     <td size="sm" style={{ textAlign: 'center', fontSize: 14, height: 15 }}>
@@ -312,7 +312,7 @@ const ReportDailyCensusTable = ({ tableData, calculateTotal }) => {
                     textAlign: 'center',
                     fontSize: 15,
                     color: '#424242',
-                    backgroundColor: '#e0e0e0',
+                    backgroundColor: '#e0e0e0'
                   }}
                 ></th>
                 <th
@@ -321,7 +321,7 @@ const ReportDailyCensusTable = ({ tableData, calculateTotal }) => {
                     fontSize: 15,
                     color: '#424242',
                     backgroundColor: '#e0e0e0',
-                    fontWeight: 'bold',
+                    fontWeight: 'bold'
                   }}
                   scope="row"
                 >
@@ -333,7 +333,7 @@ const ReportDailyCensusTable = ({ tableData, calculateTotal }) => {
                     fontSize: 15,
                     color: '#424242',
                     backgroundColor: '#e0e0e0',
-                    fontWeight: 'bold',
+                    fontWeight: 'bold'
                   }}
                 >
                   {totYesterday}
@@ -344,7 +344,7 @@ const ReportDailyCensusTable = ({ tableData, calculateTotal }) => {
                     fontSize: 15,
                     color: '#424242',
                     backgroundColor: '#e0e0e0',
-                    fontWeight: 'bold',
+                    fontWeight: 'bold'
                   }}
                 >
                   {totAdmission}
@@ -355,7 +355,7 @@ const ReportDailyCensusTable = ({ tableData, calculateTotal }) => {
                     fontSize: 15,
                     color: '#424242',
                     backgroundColor: '#e0e0e0',
-                    fontWeight: 'bold',
+                    fontWeight: 'bold'
                   }}
                 >
                   {totDischarge}
@@ -366,7 +366,7 @@ const ReportDailyCensusTable = ({ tableData, calculateTotal }) => {
                     fontSize: 15,
                     color: '#424242',
                     backgroundColor: '#e0e0e0',
-                    fontWeight: 'bold',
+                    fontWeight: 'bold'
                   }}
                 >
                   {totTransIn}
@@ -377,7 +377,7 @@ const ReportDailyCensusTable = ({ tableData, calculateTotal }) => {
                     fontSize: 15,
                     color: '#424242',
                     backgroundColor: '#e0e0e0',
-                    fontWeight: 'bold',
+                    fontWeight: 'bold'
                   }}
                 >
                   {totTransOut}
@@ -388,7 +388,7 @@ const ReportDailyCensusTable = ({ tableData, calculateTotal }) => {
                     fontSize: 15,
                     color: '#424242',
                     backgroundColor: '#e0e0e0',
-                    fontWeight: 'bold',
+                    fontWeight: 'bold'
                   }}
                 >
                   {totDeath}
@@ -399,7 +399,7 @@ const ReportDailyCensusTable = ({ tableData, calculateTotal }) => {
                     fontSize: 15,
                     color: '#424242',
                     backgroundColor: '#e0e0e0',
-                    fontWeight: 'bold',
+                    fontWeight: 'bold'
                   }}
                 >
                   {totalcensus}
@@ -410,7 +410,7 @@ const ReportDailyCensusTable = ({ tableData, calculateTotal }) => {
                     fontSize: 15,
                     color: '#424242',
                     backgroundColor: '#e0e0e0',
-                    fontWeight: 'bold',
+                    fontWeight: 'bold'
                   }}
                 >
                   {oraYesttotal}
@@ -421,7 +421,7 @@ const ReportDailyCensusTable = ({ tableData, calculateTotal }) => {
                     fontSize: 15,
                     color: '#424242',
                     backgroundColor: '#e0e0e0',
-                    fontWeight: 'bold',
+                    fontWeight: 'bold'
                   }}
                 >
                   {oraTotAdm}
@@ -432,7 +432,7 @@ const ReportDailyCensusTable = ({ tableData, calculateTotal }) => {
                     fontSize: 15,
                     color: '#424242',
                     backgroundColor: '#e0e0e0',
-                    fontWeight: 'bold',
+                    fontWeight: 'bold'
                   }}
                 >
                   {oraTotDis}
@@ -443,7 +443,7 @@ const ReportDailyCensusTable = ({ tableData, calculateTotal }) => {
                     fontSize: 15,
                     color: '#424242',
                     backgroundColor: '#e0e0e0',
-                    fontWeight: 'bold',
+                    fontWeight: 'bold'
                   }}
                 >
                   {oraTotDeath}
@@ -454,7 +454,7 @@ const ReportDailyCensusTable = ({ tableData, calculateTotal }) => {
                     fontSize: 15,
                     color: '#424242',
                     backgroundColor: '#e0e0e0',
-                    fontWeight: 'bold',
+                    fontWeight: 'bold'
                   }}
                 >
                   {oraDamaTot}
@@ -465,7 +465,7 @@ const ReportDailyCensusTable = ({ tableData, calculateTotal }) => {
                     fontSize: 15,
                     color: '#424242',
                     backgroundColor: '#e0e0e0',
-                    fontWeight: 'bold',
+                    fontWeight: 'bold'
                   }}
                 >
                   {oraLamaTot}
@@ -476,7 +476,7 @@ const ReportDailyCensusTable = ({ tableData, calculateTotal }) => {
                     fontSize: 15,
                     color: '#424242',
                     backgroundColor: '#e0e0e0',
-                    fontWeight: 'bold',
+                    fontWeight: 'bold'
                   }}
                 >
                   {oraTotal}

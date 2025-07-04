@@ -2,18 +2,7 @@ import React, { Fragment, memo } from 'react'
 import { CssVarsProvider } from '@mui/joy/styles'
 import Checkbox from '@mui/joy/Checkbox'
 
-const CusCheckBox = ({
-  variant,
-  color,
-  size,
-  disabled,
-  label,
-  value,
-  onCheked,
-  checked,
-  name,
-  className,
-}) => {
+const CusCheckBox = ({ variant, color, size, disabled, label, value, onCheked, checked, name, className }) => {
   /*
         // --- varient ---  plain,outlined,soft,solid
         // --- color --- primary,neutral,danger,info,success,warning

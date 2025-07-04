@@ -39,7 +39,7 @@ const CensusReportView = () => {
   const barGraphSearch = useMemo(() => {
     return {
       from: startDate,
-      to: endDate,
+      to: endDate
     }
   }, [startDate, endDate])
   const [calculateTotal, setCalculateTotal] = useState({
@@ -56,11 +56,11 @@ const CensusReportView = () => {
     oraTotal: 0,
     oraYesttotal: 0,
     oraDamaTot: 0,
-    oraLamaTot: 0,
+    oraLamaTot: 0
   })
   const searchdata = useMemo(() => {
     return {
-      census_date: moment(new Date(dailyDate)).format('YYYY-MM-DD'),
+      census_date: moment(new Date(dailyDate)).format('YYYY-MM-DD')
     }
   }, [dailyDate])
 
@@ -80,7 +80,7 @@ const CensusReportView = () => {
       const nsSlno = nursList?.map(val => val.census_ns_slno)
       const getYesterday = {
         census_ns_slno: nsSlno,
-        census_date: moment(subDays(new Date(dailyDate), 1)).format('YYYY-MM-DD'),
+        census_date: moment(subDays(new Date(dailyDate), 1)).format('YYYY-MM-DD')
       }
       const getYesterdayData = async getYesterday => {
         const result = await axioslogin.post('/qidailycensus/yesterday', getYesterday)
@@ -98,7 +98,7 @@ const CensusReportView = () => {
             census_ns_slno: item.census_ns_slno,
             census_ns_name: item.census_ns_name,
             yesterday_census: yest ? yest.census_total : 0,
-            ora_yesterday: yest ? yest.ora_census_total : 0,
+            ora_yesterday: yest ? yest.ora_census_total : 0
           }
         })
         GetCensusDetails(searchdata).then(value => {
@@ -122,7 +122,7 @@ const CensusReportView = () => {
                 ora_death: newArray ? newArray.ora_death : 0,
                 ora_census_total: newArray ? newArray.ora_census_total : 0,
                 ora_dama: newArray ? newArray.ora_dama : 0,
-                ora_lama: newArray ? newArray.ora_lama : 0,
+                ora_lama: newArray ? newArray.ora_lama : 0
               }
             })
             setTableData(resultArray)
@@ -140,48 +140,22 @@ const CensusReportView = () => {
 
   useEffect(() => {
     if (tableData.length !== 0) {
-      const totyes = tableData
-        ?.map(val => val.yesterday_census)
-        .reduce((prev, next) => Number(prev) + Number(next))
-      const totad = tableData
-        ?.map(val => val.total_admission)
-        .reduce((prev, next) => Number(prev) + Number(next))
-      const totdis = tableData
-        ?.map(val => val.total_discharge)
-        .reduce((prev, next) => Number(prev) + Number(next))
-      const totin = tableData
-        ?.map(val => val.transfer_in)
-        .reduce((prev, next) => Number(prev) + Number(next))
-      const totout = tableData
-        ?.map(val => val.transfer_out)
-        .reduce((prev, next) => Number(prev) + Number(next))
-      const totdeath = tableData
-        ?.map(val => val.total_death)
-        .reduce((prev, next) => Number(prev) + Number(next))
-      const tot = tableData
-        ?.map(val => val.census_total)
-        .reduce((prev, next) => Number(prev) + Number(next))
-      const oraadm = tableData
-        ?.map(val => val.ora_admission)
-        .reduce((prev, next) => Number(prev) + Number(next))
-      const oradis = tableData
-        ?.map(val => val.ora_discharge)
-        .reduce((prev, next) => Number(prev) + Number(next))
-      const oradeath = tableData
-        ?.map(val => val.ora_death)
-        .reduce((prev, next) => Number(prev) + Number(next))
+      const totyes = tableData?.map(val => val.yesterday_census).reduce((prev, next) => Number(prev) + Number(next))
+      const totad = tableData?.map(val => val.total_admission).reduce((prev, next) => Number(prev) + Number(next))
+      const totdis = tableData?.map(val => val.total_discharge).reduce((prev, next) => Number(prev) + Number(next))
+      const totin = tableData?.map(val => val.transfer_in).reduce((prev, next) => Number(prev) + Number(next))
+      const totout = tableData?.map(val => val.transfer_out).reduce((prev, next) => Number(prev) + Number(next))
+      const totdeath = tableData?.map(val => val.total_death).reduce((prev, next) => Number(prev) + Number(next))
+      const tot = tableData?.map(val => val.census_total).reduce((prev, next) => Number(prev) + Number(next))
+      const oraadm = tableData?.map(val => val.ora_admission).reduce((prev, next) => Number(prev) + Number(next))
+      const oradis = tableData?.map(val => val.ora_discharge).reduce((prev, next) => Number(prev) + Number(next))
+      const oradeath = tableData?.map(val => val.ora_death).reduce((prev, next) => Number(prev) + Number(next))
       const oraTotalCount = tableData
         ?.map(val => val.ora_census_total)
         .reduce((prev, next) => Number(prev) + Number(next))
-      const oraYesterday = tableData
-        ?.map(val => val.ora_yesterday)
-        .reduce((prev, next) => Number(prev) + Number(next))
-      const damatot = tableData
-        ?.map(val => val.ora_dama)
-        .reduce((prev, next) => Number(prev) + Number(next))
-      const lamatot = tableData
-        ?.map(val => val.ora_lama)
-        .reduce((prev, next) => Number(prev) + Number(next))
+      const oraYesterday = tableData?.map(val => val.ora_yesterday).reduce((prev, next) => Number(prev) + Number(next))
+      const damatot = tableData?.map(val => val.ora_dama).reduce((prev, next) => Number(prev) + Number(next))
+      const lamatot = tableData?.map(val => val.ora_lama).reduce((prev, next) => Number(prev) + Number(next))
       const fromdata = {
         totYesterday: totyes,
         totAdmission: totad,
@@ -196,7 +170,7 @@ const CensusReportView = () => {
         oraTotal: oraTotalCount,
         oraYesttotal: oraYesterday,
         oraDamaTot: damatot,
-        oraLamaTot: lamatot,
+        oraLamaTot: lamatot
       }
       setCalculateTotal(fromdata)
     } else {
@@ -224,13 +198,12 @@ const CensusReportView = () => {
           const tadmis = data
             ?.filter(
               item =>
-                moment(new Date(val)).format('DD-MM-YYYY') ===
-                moment(new Date(item.census_date)).format('DD-MM-YYYY')
+                moment(new Date(val)).format('DD-MM-YYYY') === moment(new Date(item.census_date)).format('DD-MM-YYYY')
             )
             .reduce((acc, curr) => acc + curr.total_admission, 0)
           return {
             day: moment(new Date(val)).format('DD-MMM'),
-            totadmiss: tadmis,
+            totadmiss: tadmis
           }
         })
         setadmissionData(newAdmis)
@@ -239,13 +212,12 @@ const CensusReportView = () => {
           const tdisch = data
             .filter(
               item =>
-                moment(new Date(val)).format('DD-MM-YYYY') ===
-                moment(new Date(item.census_date)).format('DD-MM-YYYY')
+                moment(new Date(val)).format('DD-MM-YYYY') === moment(new Date(item.census_date)).format('DD-MM-YYYY')
             )
             .reduce((acc, curr) => acc + curr.total_discharge, 0)
           return {
             disday: moment(new Date(val)).format('DD-MMM'),
-            totdischrg: tdisch,
+            totdischrg: tdisch
           }
         })
         setDischargeData(newDischrg)
@@ -254,13 +226,12 @@ const CensusReportView = () => {
           const tcensus = data
             ?.filter(
               item =>
-                moment(new Date(val)).format('DD-MM-YYYY') ===
-                moment(new Date(item.census_date)).format('DD-MM-YYYY')
+                moment(new Date(val)).format('DD-MM-YYYY') === moment(new Date(item.census_date)).format('DD-MM-YYYY')
             )
             .reduce((acc, curr) => acc + curr.census_total, 0)
           return {
             totday: moment(new Date(val)).format('DD-MMM'),
-            totalcensus: tcensus,
+            totalcensus: tcensus
           }
         })
         setCensusTotal(newTotal)
@@ -288,15 +259,10 @@ const CensusReportView = () => {
               justifyContent: 'flex-end',
               fontSize: 20,
               opacity: 0.8,
-              py: 0.4,
+              py: 0.4
             }}
           >
-            <CusIconButton
-              size="sm"
-              variant="outlined"
-              color="primary"
-              style={{ bgcolor: '#F7F8F8' }}
-            >
+            <CusIconButton size="sm" variant="outlined" color="primary" style={{ bgcolor: '#F7F8F8' }}>
               <Tooltip title="PDF" placement="bottom">
                 <PictureAsPdfIcon
                   sx={{ cursor: 'pointer', size: 'lg', width: 40, height: 25, color: '#BA0F30' }}
@@ -306,11 +272,7 @@ const CensusReportView = () => {
             </CusIconButton>
           </Box>
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 20, pt: 0.3, px: 0.2 }}>
-            <CusIconButton
-              size="md"
-              variant="outlined"
-              style={{ bgcolor: '#F7F8F8', height: 35, width: 35 }}
-            >
+            <CusIconButton size="md" variant="outlined" style={{ bgcolor: '#F7F8F8', height: 35, width: 35 }}>
               <Tooltip title="Close" placement="bottom">
                 <CloseIcon
                   sx={{ cursor: 'pointer', size: 'lg', fontSize: 30, color: '#424242' }}
@@ -334,9 +296,9 @@ const CensusReportView = () => {
                       tickLabelStyle: {
                         angle: -90,
                         textAnchor: 'end',
-                        fontSize: 11,
-                      },
-                    },
+                        fontSize: 11
+                      }
+                    }
                   ]}
                   yAxis={[{}]}
                   series={[
@@ -344,13 +306,13 @@ const CensusReportView = () => {
                       dataKey: 'totadmiss',
                       label: 'Admission',
                       color: '#0d47a1',
-                      valueFormatter,
-                    },
+                      valueFormatter
+                    }
                   ]}
                   tooltip={{ trigger: 'item' }}
                   axisHighlight={{
                     x: 'none',
-                    y: 'none',
+                    y: 'none'
                   }}
                 />
               </Box>
@@ -366,22 +328,22 @@ const CensusReportView = () => {
                       tickLabelStyle: {
                         angle: -90,
                         textAnchor: 'end',
-                        fontSize: 11,
-                      },
-                    },
+                        fontSize: 11
+                      }
+                    }
                   ]}
                   series={[
                     {
                       dataKey: 'totdischrg',
                       label: 'Discharge',
                       color: '#558b2f',
-                      valueFormatter,
-                    },
+                      valueFormatter
+                    }
                   ]}
                   tooltip={{ trigger: 'item' }}
                   axisHighlight={{
                     x: 'none',
-                    y: 'none',
+                    y: 'none'
                   }}
                 />
               </Box>
@@ -397,22 +359,22 @@ const CensusReportView = () => {
                       tickLabelStyle: {
                         angle: -90,
                         textAnchor: 'end',
-                        fontSize: 11,
-                      },
-                    },
+                        fontSize: 11
+                      }
+                    }
                   ]}
                   series={[
                     {
                       dataKey: 'totalcensus',
                       label: 'Census Total',
                       color: '#8d6e63',
-                      valueFormatter,
-                    },
+                      valueFormatter
+                    }
                   ]}
                   tooltip={{ trigger: 'item' }}
                   axisHighlight={{
                     x: 'none',
-                    y: 'none',
+                    y: 'none'
                   }}
                 />
               </Box>
@@ -431,8 +393,8 @@ const CensusReportView = () => {
                   style={{ height: 40, borderRight: 'none', borderRadius: 0 }}
                   slotProps={{
                     input: {
-                      max: moment(new Date()).format('YYYY-MM-DD'),
-                    },
+                      max: moment(new Date()).format('YYYY-MM-DD')
+                    }
                   }}
                   size="md"
                   type="date"
@@ -457,8 +419,8 @@ const CensusReportView = () => {
                     borderRadius: 0,
                     ':hover': {
                       bgcolor: '#757575',
-                      boxShadow: 2,
-                    },
+                      boxShadow: 2
+                    }
                   }}
                   onClick={SearchDetails}
                 >
@@ -470,9 +432,7 @@ const CensusReportView = () => {
           <Box sx={{ flex: 1 }}></Box>
         </Paper>
         <Box>
-          {searchFlag === 1 ? (
-            <ReportDailyCensusTable tableData={tableData} calculateTotal={calculateTotal} />
-          ) : null}
+          {searchFlag === 1 ? <ReportDailyCensusTable tableData={tableData} calculateTotal={calculateTotal} /> : null}
         </Box>
       </Paper>
     </Fragment>

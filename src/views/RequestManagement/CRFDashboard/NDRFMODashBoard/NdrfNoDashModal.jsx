@@ -1,9 +1,9 @@
 import React, { Fragment, useCallback, useState, memo, useMemo } from 'react'
-import Slide from '@mui/material/Slide';
+import Slide from '@mui/material/Slide'
 // import { ToastContainer } from 'react-toastify';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import Button from '@mui/material/Button'
 import { Box, Paper } from '@mui/material'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
@@ -100,45 +100,23 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
     ed_approve_req,
     md_approve_req,
     ndrf_om_remarks,
-    ndrf_om_approv,
+    ndrf_om_approv
   } = datas[0]
 
   const reqdate = reqcreate !== null ? format(new Date(reqcreate), 'dd-MM-yyyy') : 'Not Updated'
-  const expdate =
-    expected_date !== null ? format(new Date(expected_date), 'dd-MM-yyyy') : 'Not Updated'
+  const expdate = expected_date !== null ? format(new Date(expected_date), 'dd-MM-yyyy') : 'Not Updated'
   const inchargeApprovdate =
-    incharge_apprv_date !== null
-      ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy')
-      : 'Not Updated'
-  const hodApprovdate =
-    hod_approve_date !== null ? format(new Date(hod_approve_date), 'dd-MM-yyyy') : 'Not Updated'
-  const dmsApprovdate =
-    dms_approve_date !== null ? format(new Date(dms_approve_date), 'dd-MM-yyyy') : 'Not Updated'
-  const msApprovdate =
-    ms_approve_date !== null ? format(new Date(ms_approve_date), 'dd-MM-yyyy') : 'Not Updated'
-  const omdate =
-    om_approv_date !== null
-      ? format(new Date(om_approv_date), 'dd-MM-yyyy hh:mm:ss')
-      : 'Not Updated'
-  const smodate =
-    som_aprrov_date !== null
-      ? format(new Date(som_aprrov_date), 'dd-MM-yyyy hh:mm:ss')
-      : 'Not Updated'
-  const caodate =
-    cao_approv_date !== null
-      ? format(new Date(cao_approv_date), 'dd-MM-yyyy hh:mm:ss')
-      : 'Not Updated'
-  const mddate =
-    md_approve_date !== null
-      ? format(new Date(md_approve_date), 'dd-MM-yyyy hh:mm:ss')
-      : 'Not Updated'
-  const eddate =
-    ed_approve_date !== null
-      ? format(new Date(ed_approve_date), 'dd-MM-yyyy hh:mm:ss')
-      : 'Not Updated'
+    incharge_apprv_date !== null ? format(new Date(incharge_apprv_date), 'dd-MM-yyyy') : 'Not Updated'
+  const hodApprovdate = hod_approve_date !== null ? format(new Date(hod_approve_date), 'dd-MM-yyyy') : 'Not Updated'
+  const dmsApprovdate = dms_approve_date !== null ? format(new Date(dms_approve_date), 'dd-MM-yyyy') : 'Not Updated'
+  const msApprovdate = ms_approve_date !== null ? format(new Date(ms_approve_date), 'dd-MM-yyyy') : 'Not Updated'
+  const omdate = om_approv_date !== null ? format(new Date(om_approv_date), 'dd-MM-yyyy hh:mm:ss') : 'Not Updated'
+  const smodate = som_aprrov_date !== null ? format(new Date(som_aprrov_date), 'dd-MM-yyyy hh:mm:ss') : 'Not Updated'
+  const caodate = cao_approv_date !== null ? format(new Date(cao_approv_date), 'dd-MM-yyyy hh:mm:ss') : 'Not Updated'
+  const mddate = md_approve_date !== null ? format(new Date(md_approve_date), 'dd-MM-yyyy hh:mm:ss') : 'Not Updated'
+  const eddate = ed_approve_date !== null ? format(new Date(ed_approve_date), 'dd-MM-yyyy hh:mm:ss') : 'Not Updated'
 
-  const nrdfCreate =
-    ndrfcreate !== null ? format(new Date(ndrfcreate), 'dd-MM-yyyy') : 'Not Updated'
+  const nrdfCreate = ndrfcreate !== null ? format(new Date(ndrfcreate), 'dd-MM-yyyy') : 'Not Updated'
 
   //redux for geting login id
   const id = useSelector(state => state.LoginUserData.empid, _.isEqual)
@@ -286,7 +264,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
       ndrf_om_remarks: remark,
       ndrfom_approv_date: format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
       ndrf_om_user: id,
-      ndrf_mast_slno: ndrf_mast_slno,
+      ndrf_mast_slno: ndrf_mast_slno
     }
   }, [approve, reject, pending, remark, ndrf_mast_slno, id])
 
@@ -337,12 +315,10 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
             id="alert-dialog-slide-descriptiona"
             sx={{
               width: '100%',
-              height: 540,
+              height: 540
             }}
           >
-            <DialogContentText id="alert-dialog-slide-descriptiona">
-              Request Approval
-            </DialogContentText>
+            <DialogContentText id="alert-dialog-slide-descriptiona">Request Approval</DialogContentText>
             <Box sx={{ width: '100%', mt: 0 }}>
               <Paper variant="outlined" sx={{ p: 0, mt: 1 }}>
                 <Box
@@ -354,8 +330,8 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                       sm: 'column',
                       md: 'column',
                       lg: 'column',
-                      xl: 'column',
-                    },
+                      xl: 'column'
+                    }
                   }}
                 >
                   <Box
@@ -363,14 +339,12 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                       width: '100%',
                       display: 'flex',
                       p: 0.5,
-                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                     }}
                   >
                     <Box sx={{ pr: 1 }}>
                       <CssVarsProvider>
-                        <Typography sx={{ fontSize: 15 }}>
-                          Request No: CRF/TMC/{req_slno}
-                        </Typography>
+                        <Typography sx={{ fontSize: 15 }}>Request No: CRF/TMC/{req_slno}</Typography>
                       </CssVarsProvider>
                     </Box>
                     <Box sx={{ pl: 4 }}>
@@ -384,14 +358,12 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                       width: '100%',
                       display: 'flex',
                       p: 0.5,
-                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                     }}
                   >
                     <Box sx={{ pr: 1 }}>
                       <CssVarsProvider>
-                        <Typography sx={{ fontSize: 15 }}>
-                          NDRF No: NDRF/TMC/{ndrf_mast_slno}
-                        </Typography>
+                        <Typography sx={{ fontSize: 15 }}>NDRF No: NDRF/TMC/{ndrf_mast_slno}</Typography>
                       </CssVarsProvider>
                     </Box>
                     <Box sx={{ pl: 4 }}>
@@ -406,7 +378,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                         width: '100%',
                         display: 'flex',
                         p: 0.5,
-                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                       }}
                     >
                       <Box sx={{ width: '25%' }}>
@@ -423,7 +395,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                           fontSize: 15,
                           textTransform: 'capitalize',
                           overflow: 'auto',
-                          '::-webkit-scrollbar': { display: 'none' },
+                          '::-webkit-scrollbar': { display: 'none' }
                         }}
                         variant="none"
                       >
@@ -437,7 +409,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                         width: '100%',
                         display: 'flex',
                         p: 0.5,
-                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                       }}
                     >
                       <Box sx={{ width: '25%' }}>
@@ -454,7 +426,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                           fontSize: 15,
                           textTransform: 'capitalize',
                           overflow: 'auto',
-                          '::-webkit-scrollbar': { display: 'none' },
+                          '::-webkit-scrollbar': { display: 'none' }
                         }}
                         variant="none"
                       >
@@ -468,7 +440,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                         width: '100%',
                         display: 'flex',
                         p: 0.5,
-                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                       }}
                     >
                       <Box sx={{ width: '25%' }}>
@@ -485,7 +457,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                           fontSize: 15,
                           textTransform: 'capitalize',
                           overflow: 'auto',
-                          '::-webkit-scrollbar': { display: 'none' },
+                          '::-webkit-scrollbar': { display: 'none' }
                         }}
                         variant="none"
                       >
@@ -499,7 +471,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                         width: '100%',
                         display: 'flex',
                         p: 0.5,
-                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                        flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                       }}
                     >
                       <Box sx={{ width: '25%' }}>
@@ -516,7 +488,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                           fontSize: 15,
                           textTransform: 'capitalize',
                           overflow: 'auto',
-                          '::-webkit-scrollbar': { display: 'none' },
+                          '::-webkit-scrollbar': { display: 'none' }
                         }}
                         variant="none"
                       >
@@ -529,7 +501,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                       width: '100%',
                       display: 'flex',
                       p: 0.5,
-                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                     }}
                   >
                     <Box sx={{ width: '25%' }}>
@@ -546,7 +518,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                         fontSize: 15,
                         textTransform: 'capitalize',
                         overflow: 'auto',
-                        '::-webkit-scrollbar': { display: 'none' },
+                        '::-webkit-scrollbar': { display: 'none' }
                       }}
                       variant="none"
                     >
@@ -558,7 +530,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                       width: '100%',
                       display: 'flex',
                       p: 0.5,
-                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                     }}
                   >
                     <Box sx={{ width: '25%' }}>
@@ -575,7 +547,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                         fontSize: 15,
                         textTransform: 'capitalize',
                         overflow: 'auto',
-                        '::-webkit-scrollbar': { display: 'none' },
+                        '::-webkit-scrollbar': { display: 'none' }
                       }}
                       variant="none"
                     >
@@ -589,7 +561,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                       display: 'flex',
                       p: 0.5,
                       pb: 0,
-                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                     }}
                   >
                     <Box sx={{ pr: 9 }}>
@@ -611,13 +583,12 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                       width: '100%',
                       display: 'flex',
                       p: 0.5,
-                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                     }}
                   >
                     <CssVarsProvider>
                       <Typography sx={{ fontSize: 15, textTransform: 'capitalize' }}>
-                        Requested DeptSec:{' '}
-                        {userdeptsec !== null ? userdeptsec.toLowerCase() : 'Not Updated'}
+                        Requested DeptSec: {userdeptsec !== null ? userdeptsec.toLowerCase() : 'Not Updated'}
                       </Typography>
                     </CssVarsProvider>
                     {image_status === 1 ? (
@@ -633,27 +604,23 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                       width: '100%',
                       display: 'flex',
                       p: 0.5,
-                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                     }}
                   >
-                    {tableDis === 1 ? (
-                      <ItemApprovalCmp dataPost={dataPost} setdataPost={setdataPost} />
-                    ) : null}
+                    {tableDis === 1 ? <ItemApprovalCmp dataPost={dataPost} setdataPost={setdataPost} /> : null}
                   </Box>
 
                   {colectDetlCheck === 1 ? (
                     <Box>
                       <CssVarsProvider>
-                        <Typography sx={{ fontSize: 15, textTransform: 'capitalize' }}>
-                          NDRF Generated Items
-                        </Typography>
+                        <Typography sx={{ fontSize: 15, textTransform: 'capitalize' }}>NDRF Generated Items</Typography>
                       </CssVarsProvider>
                       <Box
                         sx={{
                           width: '100%',
                           display: 'flex',
                           p: 0.5,
-                          flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                          flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                         }}
                       >
                         <ItemApprovalCmp dataPost={datacollectdata} setdataPost={setdataPost} />
@@ -675,8 +642,8 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                       sm: 'column',
                       md: 'column',
                       lg: 'column',
-                      xl: 'column',
-                    },
+                      xl: 'column'
+                    }
                   }}
                 >
                   <Box
@@ -685,7 +652,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                       display: 'flex',
                       pl: 0.2,
                       pr: 0.5,
-                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                     }}
                   >
                     <Box sx={{ pr: 9 }}>
@@ -709,15 +676,15 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                             sm: 'column',
                             md: 'column',
                             lg: 'column',
-                            xl: 'column',
-                          },
+                            xl: 'column'
+                          }
                         }}
                       >
                         <Box
                           sx={{
                             display: 'flex',
                             flexDirection: 'row',
-                            justifyContent: 'space-between',
+                            justifyContent: 'space-between'
                           }}
                         >
                           <CssVarsProvider>
@@ -762,7 +729,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                                 display: 'flex',
                                 flexDirection: 'row',
                                 justifyContent: 'space-evenly',
-                                pr: 2,
+                                pr: 2
                               }}
                             >
                               <CssVarsProvider>
@@ -786,7 +753,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                                     px: 1,
                                     pb: 0.4,
                                     borderRadius: 5,
-                                    textTransform: 'capitalize',
+                                    textTransform: 'capitalize'
                                   }}
                                 >
                                   {incharge_user}{' '}
@@ -866,8 +833,8 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                         sm: 'column',
                         md: 'column',
                         lg: 'column',
-                        xl: 'column',
-                      },
+                        xl: 'column'
+                      }
                     }}
                   >
                     <Box
@@ -875,7 +842,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                         // pl: 1,
                         display: 'flex',
                         flexDirection: 'row',
-                        justifyContent: 'space-between',
+                        justifyContent: 'space-between'
                       }}
                     >
                       <CssVarsProvider>
@@ -920,7 +887,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                             display: 'flex',
                             flexDirection: 'row',
                             justifyContent: 'space-evenly',
-                            pr: 2,
+                            pr: 2
                           }}
                         >
                           <CssVarsProvider>
@@ -944,7 +911,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                                 px: 1,
                                 pb: 0.4,
                                 borderRadius: 5,
-                                textTransform: 'capitalize',
+                                textTransform: 'capitalize'
                               }}
                             >
                               {hod_user}{' '}
@@ -1012,8 +979,8 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                         sm: 'column',
                         md: 'column',
                         lg: 'column',
-                        xl: 'column',
-                      },
+                        xl: 'column'
+                      }
                     }}
                   >
                     <Box
@@ -1022,7 +989,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                         pr: 1,
                         display: 'flex',
                         flexDirection: 'row',
-                        justifyContent: 'space-between',
+                        justifyContent: 'space-between'
                       }}
                     >
                       <CssVarsProvider>
@@ -1067,7 +1034,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                             display: 'flex',
                             flexDirection: 'row',
                             justifyContent: 'space-evenly',
-                            pr: 2,
+                            pr: 2
                           }}
                         >
                           <CssVarsProvider>
@@ -1091,7 +1058,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                                 px: 1,
                                 pb: 0.4,
                                 borderRadius: 5,
-                                textTransform: 'capitalize',
+                                textTransform: 'capitalize'
                               }}
                             >
                               {dms_user}{' '}
@@ -1167,8 +1134,8 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                         sm: 'column',
                         md: 'column',
                         lg: 'column',
-                        xl: 'column',
-                      },
+                        xl: 'column'
+                      }
                     }}
                   >
                     <Box
@@ -1177,7 +1144,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                         pr: 1,
                         display: 'flex',
                         flexDirection: 'row',
-                        justifyContent: 'space-between',
+                        justifyContent: 'space-between'
                       }}
                     >
                       <CssVarsProvider>
@@ -1222,7 +1189,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                             display: 'flex',
                             flexDirection: 'row',
                             justifyContent: 'space-evenly',
-                            pr: 2,
+                            pr: 2
                           }}
                         >
                           <CssVarsProvider>
@@ -1246,7 +1213,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                                 px: 1,
                                 pb: 0.4,
                                 borderRadius: 5,
-                                textTransform: 'capitalize',
+                                textTransform: 'capitalize'
                               }}
                             >
                               {ms_user}{' '}
@@ -1320,8 +1287,8 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                       sm: 'column',
                       md: 'column',
                       lg: 'column',
-                      xl: 'column',
-                    },
+                      xl: 'column'
+                    }
                   }}
                 >
                   <Box
@@ -1330,7 +1297,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                       pr: 1,
                       display: 'flex',
                       flexDirection: 'row',
-                      justifyContent: 'space-between',
+                      justifyContent: 'space-between'
                     }}
                   >
                     <CssVarsProvider>
@@ -1375,7 +1342,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                           display: 'flex',
                           flexDirection: 'row',
                           justifyContent: 'space-evenly',
-                          pr: 2,
+                          pr: 2
                         }}
                       >
                         <CssVarsProvider>
@@ -1399,7 +1366,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                               px: 1,
                               pb: 0.4,
                               borderRadius: 5,
-                              textTransform: 'capitalize',
+                              textTransform: 'capitalize'
                             }}
                           >
                             {manag_operation_user}{' '}
@@ -1473,8 +1440,8 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                       sm: 'column',
                       md: 'column',
                       lg: 'column',
-                      xl: 'column',
-                    },
+                      xl: 'column'
+                    }
                   }}
                 >
                   <Box
@@ -1483,7 +1450,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                       pr: 1,
                       display: 'flex',
                       flexDirection: 'row',
-                      justifyContent: 'space-between',
+                      justifyContent: 'space-between'
                     }}
                   >
                     <CssVarsProvider>
@@ -1528,7 +1495,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                           display: 'flex',
                           flexDirection: 'row',
                           justifyContent: 'space-evenly',
-                          pr: 2,
+                          pr: 2
                         }}
                       >
                         <CssVarsProvider>
@@ -1552,7 +1519,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                               px: 1,
                               pb: 0.4,
                               borderRadius: 5,
-                              textTransform: 'capitalize',
+                              textTransform: 'capitalize'
                             }}
                           >
                             {senior_manage_user}{' '}
@@ -1626,8 +1593,8 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                       sm: 'column',
                       md: 'column',
                       lg: 'column',
-                      xl: 'column',
-                    },
+                      xl: 'column'
+                    }
                   }}
                 >
                   <Box
@@ -1636,7 +1603,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                       pr: 1,
                       display: 'flex',
                       flexDirection: 'row',
-                      justifyContent: 'space-between',
+                      justifyContent: 'space-between'
                     }}
                   >
                     <CssVarsProvider>
@@ -1681,7 +1648,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                           display: 'flex',
                           flexDirection: 'row',
                           justifyContent: 'space-evenly',
-                          pr: 2,
+                          pr: 2
                         }}
                       >
                         <CssVarsProvider>
@@ -1705,7 +1672,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                               px: 1,
                               pb: 0.4,
                               borderRadius: 5,
-                              textTransform: 'capitalize',
+                              textTransform: 'capitalize'
                             }}
                           >
                             {cao_user}{' '}
@@ -1779,8 +1746,8 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                       sm: 'column',
                       md: 'column',
                       lg: 'column',
-                      xl: 'column',
-                    },
+                      xl: 'column'
+                    }
                   }}
                 >
                   {md_approve_req === 1 ? (
@@ -1791,7 +1758,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                           pr: 1,
                           display: 'flex',
                           flexDirection: 'row',
-                          justifyContent: 'space-between',
+                          justifyContent: 'space-between'
                         }}
                       >
                         <CssVarsProvider>
@@ -1836,7 +1803,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                               display: 'flex',
                               flexDirection: 'row',
                               justifyContent: 'space-evenly',
-                              pr: 2,
+                              pr: 2
                             }}
                           >
                             <CssVarsProvider>
@@ -1860,7 +1827,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                                   px: 1,
                                   pb: 0.4,
                                   borderRadius: 5,
-                                  textTransform: 'capitalize',
+                                  textTransform: 'capitalize'
                                 }}
                               >
                                 {md_user}{' '}
@@ -1922,9 +1889,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                     </Box>
                   ) : (
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15, fontWeight: 600, pl: 1 }}>
-                        MD: Approval Not Needed{' '}
-                      </Typography>
+                      <Typography sx={{ fontSize: 15, fontWeight: 600, pl: 1 }}>MD: Approval Not Needed </Typography>
                     </CssVarsProvider>
                   )}
                 </Box>
@@ -1942,8 +1907,8 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                       sm: 'column',
                       md: 'column',
                       lg: 'column',
-                      xl: 'column',
-                    },
+                      xl: 'column'
+                    }
                   }}
                 >
                   {ed_approve_req === 1 ? (
@@ -1954,7 +1919,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                           pr: 1,
                           display: 'flex',
                           flexDirection: 'row',
-                          justifyContent: 'space-between',
+                          justifyContent: 'space-between'
                         }}
                       >
                         <CssVarsProvider>
@@ -1999,7 +1964,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                               display: 'flex',
                               flexDirection: 'row',
                               justifyContent: 'space-evenly',
-                              pr: 2,
+                              pr: 2
                             }}
                           >
                             <CssVarsProvider>
@@ -2023,7 +1988,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                                   px: 1,
                                   pb: 0.4,
                                   borderRadius: 5,
-                                  textTransform: 'capitalize',
+                                  textTransform: 'capitalize'
                                 }}
                               >
                                 {ed_user}{' '}
@@ -2085,9 +2050,7 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                     </Box>
                   ) : (
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15, fontWeight: 600, pl: 1 }}>
-                        ED: Approval Not Needed{' '}
-                      </Typography>
+                      <Typography sx={{ fontSize: 15, fontWeight: 600, pl: 1 }}>ED: Approval Not Needed </Typography>
                     </CssVarsProvider>
                   )}
                 </Box>
@@ -2105,15 +2068,15 @@ const NdrfNoDashModal = ({ open, setOpen, datas, count, setCount }) => {
                       sm: 'column',
                       md: 'column',
                       lg: 'column',
-                      xl: 'column',
-                    },
+                      xl: 'column'
+                    }
                   }}
                 >
                   <Box
                     sx={{
                       pl: 1,
                       pr: 0.5,
-                      pt: 0.3,
+                      pt: 0.3
                     }}
                   >
                     <NdrfApprovalCompnt

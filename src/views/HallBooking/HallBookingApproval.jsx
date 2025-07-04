@@ -66,7 +66,7 @@ const HallBookingApproval = () => {
       autoHeight: true,
       wrapText: true,
       width: 350,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'No of attendees',
@@ -74,7 +74,7 @@ const HallBookingApproval = () => {
       autoHeight: true,
       wrapText: true,
       width: 250,
-      filter: 'true',
+      filter: 'true'
     },
     { headerName: 'Reason', field: 'h_booking_reason', width: 250 },
     {
@@ -83,7 +83,7 @@ const HallBookingApproval = () => {
       autoHeight: true,
       wrapText: true,
       width: 250,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Incharge Remarks',
@@ -91,12 +91,12 @@ const HallBookingApproval = () => {
       autoHeight: true,
       wrapText: true,
       width: 350,
-      filter: 'true',
+      filter: 'true'
     },
     { headerName: 'Hod.Approve Status', field: 'is_hod_approves', width: 250 },
     { headerName: 'Hod Remarks', field: 'hod_remark', width: 350 },
     { headerName: 'CEO Approve Status', field: 'is_ceo_approved', width: 250 },
-    { headerName: 'CEO Remarks', field: 'ceo_remark', width: 350 },
+    { headerName: 'CEO Remarks', field: 'ceo_remark', width: 350 }
     // { headerName: "SMO Approve Status", field: "senior_manage_approvs", width: 250 },
     // { headerName: "SMO Remarks", field: "senior_manage_remarks", width: 350 },
     // { headerName: "CAO/COO/MD Approve Status", field: "cao_approves", width: 250 },
@@ -127,7 +127,7 @@ const HallBookingApproval = () => {
             </IconButton>
           )
         }
-      },
+      }
     },
     // { headerName: 'Action', cellRenderer: params => <EditButton onClick={() => rowSelect(params)} /> },
     { headerName: 'Slno', field: 'h_approval_slno', minWidth: 100 },
@@ -139,7 +139,7 @@ const HallBookingApproval = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 150,
-      filter: 'true',
+      filter: 'true'
     },
     { headerName: 'Reason', field: 'h_booking_reason', minWidth: 300 },
     {
@@ -148,7 +148,7 @@ const HallBookingApproval = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 200,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'End Time',
@@ -156,7 +156,7 @@ const HallBookingApproval = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 200,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Inch.Appr.Status',
@@ -164,7 +164,7 @@ const HallBookingApproval = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 200,
-      filter: 'true',
+      filter: 'true'
     },
     { headerName: 'InchApprv.Date', field: 'incharge_approved_date', minWidth: 200 },
     {
@@ -173,8 +173,8 @@ const HallBookingApproval = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 350,
-      filter: 'true',
-    },
+      filter: 'true'
+    }
     // { headerName: "CEO Approve Status", field: "is_ceo_approved", width: 250 },
     // { headerName: "CEO Remarks", field: "ceo_remark", width: 350 },
   ])
@@ -201,7 +201,7 @@ const HallBookingApproval = () => {
             </IconButton>
           )
         }
-      },
+      }
     },
     // { headerName: 'Action', minWidth: 80, cellRenderer: params => <EditButton onClick={() => rowSelect(params)} /> },
     { headerName: 'Req.Slno', field: 'h_booking_slno', minWidth: 100 },
@@ -212,7 +212,7 @@ const HallBookingApproval = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 150,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Start Time',
@@ -220,7 +220,7 @@ const HallBookingApproval = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 200,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'End Time',
@@ -228,7 +228,7 @@ const HallBookingApproval = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 200,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'No of attendees',
@@ -236,7 +236,7 @@ const HallBookingApproval = () => {
       autoHeight: true,
       wrapText: true,
       width: 250,
-      filter: 'true',
+      filter: 'true'
     },
     { headerName: 'Reason', field: 'h_booking_reason', minWidth: 150 },
     {
@@ -244,7 +244,7 @@ const HallBookingApproval = () => {
       field: 'is_icharge_approves',
       autoHeight: true,
       wrapText: true,
-      minWidth: 200,
+      minWidth: 200
     },
     { headerName: 'InchApprv.Date', field: 'incharge_approved_date', minWidth: 200 },
     {
@@ -252,7 +252,7 @@ const HallBookingApproval = () => {
       field: 'h_incharge_remark',
       autoHeight: true,
       wrapText: true,
-      minWidth: 200,
+      minWidth: 200
     },
     { headerName: 'Hod.Approve Status', field: 'is_hod_approves', minWidth: 200 },
     {
@@ -260,15 +260,15 @@ const HallBookingApproval = () => {
       field: 'hod_approved_date',
       autoHeight: true,
       wrapText: true,
-      minWidth: 200,
+      minWidth: 200
     },
     {
       headerName: 'Hod Remarks',
       field: 'hod_remark',
       minWidth: 150,
       autoHeight: true,
-      wrapText: true,
-    },
+      wrapText: true
+    }
   ])
   const [model, setmodel] = useState(0)
   const [open, setOpen] = useState(false)

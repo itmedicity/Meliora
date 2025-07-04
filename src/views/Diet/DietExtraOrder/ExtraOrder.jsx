@@ -35,13 +35,13 @@ const ExtraOrder = () => {
   const [food, setFood] = useState({
     item_slno: '',
     rate_hos: '',
-    rate_cant: '',
+    rate_cant: ''
   })
   const { rate_hos, rate_cant } = food
   const [order, setOrder] = useState({
     pt_no: '',
     ptc_ptname: '',
-    process_date: moment(new Date()).format('YYYY-MM-DD'),
+    process_date: moment(new Date()).format('YYYY-MM-DD')
   })
   const { process_date, pt_no, ptc_ptname } = order
   const [process, setProcess] = useState('')
@@ -55,7 +55,7 @@ const ExtraOrder = () => {
 
   const post = useMemo(() => {
     return {
-      item_slno: item,
+      item_slno: item
     }
   }, [item])
   // Refesh function for window refresh and after insert and update data clear
@@ -63,12 +63,12 @@ const ExtraOrder = () => {
     const frmreset = {
       item_slno: '',
       rate_hos: '',
-      rate_cant: '',
+      rate_cant: ''
     }
     const refresh = {
       pt_no: '',
       ptc_ptname: '',
-      process_date: moment(new Date()).format('YYYY-MM-DD'),
+      process_date: moment(new Date()).format('YYYY-MM-DD')
     }
     setOrder(refresh)
     setRoom(0)
@@ -98,7 +98,7 @@ const ExtraOrder = () => {
         const frmdata = {
           item_slno: item_slno,
           rate_hos: rate_hos,
-          rate_cant: rate_cant,
+          rate_cant: rate_cant
         }
         setFood(frmdata)
       } else {
@@ -112,7 +112,7 @@ const ExtraOrder = () => {
   const frmreset = {
     item_slno: '',
     rate_hos: '',
-    rate_cant: '',
+    rate_cant: ''
   }
   const [newfood, setNewdata] = useState([])
   const [sumCanteen, setCanteen] = useState(0)
@@ -129,7 +129,7 @@ const ExtraOrder = () => {
         item_name: itemName,
         count: Count,
         total_hos: rate_hos * Count,
-        total_cat: rate_cant * Count,
+        total_cat: rate_cant * Count
       }
 
       if (newfood.length !== 0) {
@@ -160,7 +160,7 @@ const ExtraOrder = () => {
   const postData = useMemo(() => {
     return {
       rm_code: room,
-      process_date: process_date,
+      process_date: process_date
     }
   }, [room, process_date])
 
@@ -173,7 +173,7 @@ const ExtraOrder = () => {
         const frmdata = {
           pt_no: pt_no,
           ptc_ptname: ptc_ptname,
-          process_date: process_date,
+          process_date: process_date
         }
         setOrder(frmdata)
         setCount(1)
@@ -200,7 +200,7 @@ const ExtraOrder = () => {
       rate_hos: sumHosptial,
       rate_cant: sumCanteen,
       is_extra_billed: 1,
-      extra_bill_date: format(new Date(), 'yyyy-MM-dd hh-mm-ss'),
+      extra_bill_date: format(new Date(), 'yyyy-MM-dd hh-mm-ss')
     }
   }, [process, sumHosptial, sumCanteen, diet, dietold])
   /**ipdate datas */
@@ -212,7 +212,7 @@ const ExtraOrder = () => {
       rate_cant: sumCanteen,
       is_extra_billed: 1,
       extra_bill_date: format(new Date(), 'yyyy-MM-dd hh-mm-ss'),
-      prod_slno: procsdetl_slno,
+      prod_slno: procsdetl_slno
     }
   }, [process, sumHosptial, sumCanteen, diet, dietold, procsdetl_slno])
   /** Model open function */
@@ -260,7 +260,7 @@ const ExtraOrder = () => {
                   cant_rate: val.rate_cant,
                   type_slno: val.type_slno,
                   extra_status: 1,
-                  count: val.count,
+                  count: val.count
                 }
               })
             const timeout = setTimeout(() => {
@@ -285,7 +285,7 @@ const ExtraOrder = () => {
                 cant_rate: val.rate_cant,
                 type_slno: val.type_slno,
                 extra_status: 1,
-                count: val.count,
+                count: val.count
               }
             })
           InsertExtra(extraOrder)
@@ -318,8 +318,7 @@ const ExtraOrder = () => {
     }
 
     const dataa = params.api.getSelectedRows()
-    const { orderdate, rate_hos, rate_cant, co_ora_nurse, pt_no, ptc_ptname, prod_slno, rm_code } =
-      dataa[0]
+    const { orderdate, rate_hos, rate_cant, co_ora_nurse, pt_no, ptc_ptname, prod_slno, rm_code } = dataa[0]
     setProcesDetal(prod_slno)
     getItemArry(prod_slno)
     setNurse(co_ora_nurse)
@@ -329,7 +328,7 @@ const ExtraOrder = () => {
     const frmdata = {
       pt_no: pt_no,
       ptc_ptname: ptc_ptname,
-      process_date: moment(orderdate).format('YYYY-MM-DD'),
+      process_date: moment(orderdate).format('YYYY-MM-DD')
     }
     setOrder(frmdata)
   }, [])
@@ -375,7 +374,7 @@ const ExtraOrder = () => {
         item_name: item_name,
         count: Count,
         total_hos: rate_hos * Count,
-        total_cat: rate_cant * Count,
+        total_cat: rate_cant * Count
       }
       if (newdata.item_slno !== undefined) {
         setNewdata([...newarry, newdata])
@@ -416,20 +415,20 @@ const ExtraOrder = () => {
                 sx={{
                   width: '100%',
                   display: 'flex',
-                  flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
+                  flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' }
                 }}
               >
                 <Box
                   sx={{
                     display: 'flex',
                     width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' },
-                    mt: 1,
+                    mt: 1
                   }}
                 >
                   <Box
                     sx={{
                       width: '100%',
-                      mt: 0.8,
+                      mt: 0.8
                     }}
                   >
                     <Typography>Date</Typography>
@@ -438,7 +437,7 @@ const ExtraOrder = () => {
                     sx={{
                       width: '100%',
                       height: 15,
-                      mb: 1,
+                      mb: 1
                     }}
                   >
                     <TextFieldCustom
@@ -454,13 +453,13 @@ const ExtraOrder = () => {
                   sx={{
                     display: 'flex',
                     width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' },
-                    mt: 1,
+                    mt: 1
                   }}
                 >
                   <Box
                     sx={{
                       width: '100%',
-                      pl: { xl: 1, md: 1 },
+                      pl: { xl: 1, md: 1 }
                     }}
                   >
                     <Typography>Patient Id</Typography>
@@ -469,7 +468,7 @@ const ExtraOrder = () => {
                     sx={{
                       height: 15,
                       mb: 2,
-                      width: '100%',
+                      width: '100%'
                     }}
                   >
                     <TextFieldCustom
@@ -490,20 +489,20 @@ const ExtraOrder = () => {
                 sx={{
                   width: '100%',
                   display: 'flex',
-                  flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
+                  flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' }
                 }}
               >
                 <Box
                   sx={{
                     display: 'flex',
                     width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' },
-                    mt: 0.8,
+                    mt: 0.8
                   }}
                 >
                   <Box
                     sx={{
                       display: 'flex',
-                      width: '100%',
+                      width: '100%'
                     }}
                   >
                     <Typography>Nursing Station</Typography>
@@ -511,7 +510,7 @@ const ExtraOrder = () => {
                   <Box
                     sx={{
                       width: '100%',
-                      mt: { xs: 0.8, sm: 0.8, md: 0.5, xl: 0.5 },
+                      mt: { xs: 0.8, sm: 0.8, md: 0.5, xl: 0.5 }
                     }}
                   >
                     <NursingStationMeliSelect value={nurse} setValue={setNurse} />
@@ -521,21 +520,21 @@ const ExtraOrder = () => {
                   sx={{
                     display: 'flex',
                     width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' },
-                    mt: 0.5,
+                    mt: 0.5
                   }}
                 >
                   <Box
                     sx={{
                       width: '100%',
                       mb: 1.2,
-                      pl: { xl: 1, md: 1 },
+                      pl: { xl: 1, md: 1 }
                     }}
                   >
                     <Typography>Patient Name</Typography>
                   </Box>
                   <Box
                     sx={{
-                      width: '100%',
+                      width: '100%'
                     }}
                   >
                     <TextFieldCustom
@@ -554,20 +553,20 @@ const ExtraOrder = () => {
                 sx={{
                   width: '100%',
                   display: 'flex',
-                  flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
+                  flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' }
                 }}
               >
                 <Box
                   sx={{
                     display: 'flex',
                     width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' },
-                    mt: 0.4,
+                    mt: 0.4
                   }}
                 >
                   <Box
                     sx={{
                       display: 'flex',
-                      width: '100%',
+                      width: '100%'
                     }}
                   >
                     <Typography>Room No</Typography>
@@ -575,7 +574,7 @@ const ExtraOrder = () => {
                   <Box
                     sx={{
                       width: '100%',
-                      mt: { xs: 0.8, sm: 0.8, md: 0.5, xl: 0.5 },
+                      mt: { xs: 0.8, sm: 0.8, md: 0.5, xl: 0.5 }
                     }}
                   >
                     <ExtraRoomMeliSelect value={room} setValue={setRoom} nurse={nurse} />
@@ -585,21 +584,21 @@ const ExtraOrder = () => {
                   sx={{
                     display: 'flex',
                     width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' },
-                    mt: 0.5,
+                    mt: 0.5
                   }}
                 >
                   <Box
                     sx={{
                       width: '100%',
                       mb: 1.2,
-                      pl: { xl: 1, md: 1 },
+                      pl: { xl: 1, md: 1 }
                     }}
                   >
                     <Typography>Process No</Typography>
                   </Box>
                   <Box
                     sx={{
-                      width: '100%',
+                      width: '100%'
                     }}
                   >
                     <TextFieldCustom
@@ -618,18 +617,18 @@ const ExtraOrder = () => {
                 sx={{
                   width: '100%',
                   display: 'flex',
-                  flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
+                  flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' }
                 }}
               >
                 <Box
                   sx={{
                     display: 'flex',
-                    width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' },
+                    width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' }
                   }}
                 >
                   <Box
                     sx={{
-                      width: '100%',
+                      width: '100%'
                     }}
                   >
                     <Typography>Diet Type</Typography>
@@ -637,7 +636,7 @@ const ExtraOrder = () => {
                   <Box
                     sx={{
                       width: '100%',
-                      mt: { xs: 0.8, sm: 0.8, xl: 0.6, md: 0.6 },
+                      mt: { xs: 0.8, sm: 0.8, xl: 0.6, md: 0.6 }
                     }}
                   >
                     <ExtraDietTypeSelect
@@ -651,13 +650,13 @@ const ExtraOrder = () => {
                 <Box
                   sx={{
                     display: 'flex',
-                    width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' },
+                    width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' }
                   }}
                 >
                   <Box
                     sx={{
                       width: '100%',
-                      pl: { xl: 1, md: 1 },
+                      pl: { xl: 1, md: 1 }
                     }}
                   >
                     <Typography>Items</Typography>
@@ -665,7 +664,7 @@ const ExtraOrder = () => {
                   <Box
                     sx={{
                       width: '100%',
-                      mt: 1,
+                      mt: 1
                     }}
                   >
                     <ItemSelectExtra value={item} setValue={setItem} setName={setItemName} />
@@ -677,18 +676,18 @@ const ExtraOrder = () => {
                 sx={{
                   width: '100%',
                   display: 'flex',
-                  flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
+                  flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' }
                 }}
               >
                 <Box
                   sx={{
                     display: 'flex',
-                    width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' },
+                    width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' }
                   }}
                 >
                   <Box
                     sx={{
-                      width: '100%',
+                      width: '100%'
                     }}
                   >
                     <Typography sx={{ mt: 0.4 }}>Hospital Rate</Typography>
@@ -697,7 +696,7 @@ const ExtraOrder = () => {
                     sx={{
                       width: '100%',
                       // mt: { xs: 0.8, sm: 0.8, md: 0.5, xl: 0.5 },
-                      mt: { sm: 0.5, xs: 0.5, xl: 0, lg: 0.5, md: 0.2 },
+                      mt: { sm: 0.5, xs: 0.5, xl: 0, lg: 0.5, md: 0.2 }
                     }}
                   >
                     <TextFieldCustom
@@ -713,13 +712,13 @@ const ExtraOrder = () => {
                 <Box
                   sx={{
                     display: 'flex',
-                    width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' },
+                    width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' }
                   }}
                 >
                   <Box
                     sx={{
                       width: '100%',
-                      pl: { xl: 1, md: 1 },
+                      pl: { xl: 1, md: 1 }
                     }}
                   >
                     <Typography sx={{ mt: 0.4 }}>Count</Typography>
@@ -727,7 +726,7 @@ const ExtraOrder = () => {
                   <Box
                     sx={{
                       width: '100%',
-                      mt: 0.5,
+                      mt: 0.5
                     }}
                   >
                     <TextFieldCustom
@@ -748,18 +747,18 @@ const ExtraOrder = () => {
                 sx={{
                   width: '100%',
                   display: 'flex',
-                  flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
+                  flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' }
                 }}
               >
                 <Box
                   sx={{
                     display: 'flex',
-                    width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' },
+                    width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' }
                   }}
                 >
                   <Box
                     sx={{
-                      width: '100%',
+                      width: '100%'
                     }}
                   >
                     <Typography sx={{ mt: 0.4 }}>Total Rate</Typography>
@@ -768,7 +767,7 @@ const ExtraOrder = () => {
                     sx={{
                       width: '100%',
                       // mt: { xs: 0.8, sm: 0.8, md: 0.5, xl: 0.5 },
-                      mt: { sm: 0.5, xs: 0.5, xl: 0, lg: 0.5, md: 0.2 },
+                      mt: { sm: 0.5, xs: 0.5, xl: 0, lg: 0.5, md: 0.2 }
                     }}
                   >
                     <TextFieldCustom
@@ -784,19 +783,19 @@ const ExtraOrder = () => {
                 <Box
                   sx={{
                     display: 'flex',
-                    width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' },
+                    width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' }
                   }}
                 >
                   <Box
                     sx={{
                       width: '100%',
-                      pl: { xl: 1, md: 1 },
+                      pl: { xl: 1, md: 1 }
                     }}
                   ></Box>
                   <Box
                     sx={{
                       width: '100%',
-                      mt: 0.5,
+                      mt: 0.5
                     }}
                   >
                     <Tooltip title="Add" arrow>
@@ -809,7 +808,7 @@ const ExtraOrder = () => {
               </Box>
               <Box
                 sx={{
-                  mt: 1,
+                  mt: 1
                 }}
               >
                 {add === 1 ? (

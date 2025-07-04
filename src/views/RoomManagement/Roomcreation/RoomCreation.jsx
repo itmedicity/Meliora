@@ -23,7 +23,7 @@ const RoomCreation = () => {
   const [rmcreation, setRmcreation] = useState({
     rmc_name: '',
     rmc_status: false,
-    rmc_slno: '',
+    rmc_slno: ''
   })
   //destructuring
   const { rmc_name, rmc_status, rmc_slno } = rmcreation
@@ -41,7 +41,7 @@ const RoomCreation = () => {
       rmc_type: roomType,
       rm_code: oracleRoom,
       rmc_status: rmc_status === true ? 1 : 0,
-      em_id: 1,
+      em_id: 1
     }
   }, [rmc_name, roomType, oracleRoom, rmc_status])
   //data set for edit
@@ -52,7 +52,7 @@ const RoomCreation = () => {
     const frmdata = {
       rmc_name: rmc_name,
       rmc_status: status === 'Yes' ? true : false,
-      rmc_slno: rmc_slno,
+      rmc_slno: rmc_slno
     }
     setRmcreation(frmdata)
     setRoomType(rmc_type)
@@ -65,7 +65,7 @@ const RoomCreation = () => {
       rmc_type: roomType,
       rm_code: oracleRoom,
       rmc_status: rmc_status === true ? 1 : 0,
-      rmc_slno: rmc_slno,
+      rmc_slno: rmc_slno
     }
   }, [rmc_name, roomType, oracleRoom, rmc_status, rmc_slno])
   //reset select box
@@ -80,7 +80,7 @@ const RoomCreation = () => {
       const formreset = {
         rmc_name: '',
         rmc_status: false,
-        rmc_slno: '',
+        rmc_slno: ''
       }
       /*** * insert function for use call back     */
       const InsertFun = async postdata => {
@@ -129,7 +129,7 @@ const RoomCreation = () => {
     const formreset = {
       rmc_name: '',
       rmc_status: false,
-      rmc_slno: '',
+      rmc_slno: ''
     }
     setRmcreation(formreset)
     reset()
@@ -141,12 +141,7 @@ const RoomCreation = () => {
   }, [history])
 
   return (
-    <CardMaster
-      title="Room Creation"
-      close={backtoSetting}
-      submit={submitRoomcreation}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Room Creation" close={backtoSetting} submit={submitRoomcreation} refresh={refreshWindow}>
       <Box sx={{ p: 1 }}>
         <Grid container spacing={1}>
           <Grid item xl={4} lg={4}>

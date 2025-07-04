@@ -25,7 +25,7 @@ const OnHoldMsgRead = ({ open, setOpen, complaint }) => {
     compalint_priority,
     complaint_hicslno,
     cm_rectify_status,
-    rectify_pending_hold_remarks1,
+    rectify_pending_hold_remarks1
   } = complaint
 
   //Message Send Api, Update complaint Mast Table
@@ -48,12 +48,10 @@ const OnHoldMsgRead = ({ open, setOpen, complaint }) => {
           id="alert-dialog-slide-descriptiona"
           sx={{
             width: '100%',
-            height: '100%',
+            height: '100%'
           }}
         >
-          <DialogContentText id="alert-dialog-slide-descriptiona">
-            Pending/On-Hold Reason
-          </DialogContentText>
+          <DialogContentText id="alert-dialog-slide-descriptiona">Pending/On-Hold Reason</DialogContentText>
           <Box sx={{ width: '100%', mt: 0 }}>
             <Paper variant="outlined" sx={{ p: 0, mt: 1 }}>
               <Box
@@ -65,8 +63,8 @@ const OnHoldMsgRead = ({ open, setOpen, complaint }) => {
                     sm: 'column',
                     md: 'column',
                     lg: 'column',
-                    xl: 'column',
-                  },
+                    xl: 'column'
+                  }
                 }}
               >
                 <Box
@@ -74,7 +72,7 @@ const OnHoldMsgRead = ({ open, setOpen, complaint }) => {
                     width: '100%',
                     display: 'flex',
                     p: 0.5,
-                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                   }}
                 >
                   <Box sx={{ pr: 8 }}>
@@ -100,7 +98,7 @@ const OnHoldMsgRead = ({ open, setOpen, complaint }) => {
                     width: '100%',
                     display: 'flex',
                     p: 0.5,
-                    flexDirection: 'row',
+                    flexDirection: 'row'
                   }}
                 >
                   <CssVarsProvider>
@@ -116,7 +114,7 @@ const OnHoldMsgRead = ({ open, setOpen, complaint }) => {
                     width: '100%',
                     display: 'flex',
                     p: 0.5,
-                    flexDirection: 'row',
+                    flexDirection: 'row'
                   }}
                 >
                   <CssVarsProvider>
@@ -133,7 +131,7 @@ const OnHoldMsgRead = ({ open, setOpen, complaint }) => {
                     width: '100%',
                     display: 'flex',
                     p: 0.5,
-                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                   }}
                 >
                   <Box sx={{ width: '25%' }}>
@@ -149,7 +147,7 @@ const OnHoldMsgRead = ({ open, setOpen, complaint }) => {
                       pl: 0.9,
                       fontSize: 15,
                       overflow: 'auto',
-                      '::-webkit-scrollbar': { display: 'none' },
+                      '::-webkit-scrollbar': { display: 'none' }
                     }}
                     variant="none"
                   >
@@ -162,21 +160,18 @@ const OnHoldMsgRead = ({ open, setOpen, complaint }) => {
                     width: '100%',
                     display: 'flex',
                     p: 0.5,
-                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                    flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                   }}
                 >
                   <Box sx={{ pr: 8 }}>
                     <CssVarsProvider>
-                      <Typography sx={{ fontSize: 15 }}>
-                        Priority: {compalint_priority === 1 ? 'Yes' : 'No'}
-                      </Typography>
+                      <Typography sx={{ fontSize: 15 }}>Priority: {compalint_priority === 1 ? 'Yes' : 'No'}</Typography>
                     </CssVarsProvider>
                   </Box>
                   <Box sx={{ pl: 9.5 }}>
                     <CssVarsProvider>
                       <Typography sx={{ fontSize: 15 }}>
-                        Infection Control Risk Assessment (ICRA) Recommended:{' '}
-                        {complaint_hicslno === 1 ? 'Yes' : 'No'}
+                        Infection Control Risk Assessment (ICRA) Recommended: {complaint_hicslno === 1 ? 'Yes' : 'No'}
                       </Typography>
                     </CssVarsProvider>
                   </Box>
@@ -188,7 +183,7 @@ const OnHoldMsgRead = ({ open, setOpen, complaint }) => {
                       width: '100%',
                       display: 'flex',
                       p: 0.5,
-                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                     }}
                   >
                     <Box sx={{ width: '25%' }}>
@@ -204,7 +199,7 @@ const OnHoldMsgRead = ({ open, setOpen, complaint }) => {
                         pl: 0.9,
                         fontSize: 15,
                         overflow: 'auto',
-                        '::-webkit-scrollbar': { display: 'none' },
+                        '::-webkit-scrollbar': { display: 'none' }
                       }}
                       variant="none"
                     >
@@ -217,7 +212,7 @@ const OnHoldMsgRead = ({ open, setOpen, complaint }) => {
                       width: '100%',
                       display: 'flex',
                       p: 0.5,
-                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' },
+                      flexDirection: { xs: 'row', sm: 'row', md: 'row', lg: 'row', xl: 'row' }
                     }}
                   >
                     <Box sx={{ width: '25%' }}>
@@ -233,7 +228,7 @@ const OnHoldMsgRead = ({ open, setOpen, complaint }) => {
                         pl: 0.9,
                         fontSize: 15,
                         overflow: 'auto',
-                        '::-webkit-scrollbar': { display: 'none' },
+                        '::-webkit-scrollbar': { display: 'none' }
                       }}
                       variant="none"
                     >

@@ -14,7 +14,7 @@ export const getHallbookDeotApprove = () => async dispatch => {
     dispatch({
       type: FETCH_HALLBOOK_APPROVAL,
       payload: [],
-      loadingStatus: false,
+      loadingStatus: false
     })
   }
 }

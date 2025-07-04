@@ -16,8 +16,8 @@ function DietMasterTable({ count, rowSelect }) {
     { headerName: 'Diet Type Choose', field: 'diet_type_choose1' },
     {
       headerName: 'Action',
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
-    },
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
+    }
   ])
   useEffect(() => {
     const getDiet = async () => {

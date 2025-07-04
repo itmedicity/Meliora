@@ -3,7 +3,7 @@ const { FETCH_DIET_TYPE } = ActionTyps
 //intial state
 const diettype = {
   diettypeList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Diettype action type check then payload set to the state and loading status set as true */
 export const getDiettype = (state = diettype, { type, payload }) => {

@@ -12,7 +12,7 @@ const AMCCMCAddingModal = ({ AmcCmcArray, rowSelect }) => {
         maxHeight: 200,
         overflow: 'auto',
         border: 1,
-        borderColor: 'lightgrey',
+        borderColor: 'lightgrey'
       }}
     >
       <CssVarsProvider>
@@ -42,11 +42,7 @@ const AMCCMCAddingModal = ({ AmcCmcArray, rowSelect }) => {
                     <td> {val.from_date}</td>
                     <td> {val.to_date}</td>
                     <td>
-                      <AddCircleOutlineIcon
-                        size={6}
-                        color="primary"
-                        onClick={() => rowSelect(val)}
-                      />
+                      <AddCircleOutlineIcon size={6} color="primary" onClick={() => rowSelect(val)} />
                     </td>
                   </tr>
                 )

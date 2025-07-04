@@ -3,7 +3,7 @@ const { FETCH_ESCALATION_MAPPINGIT } = ActionTyps
 //Intial state
 const escalationmappingIt = {
   escalationMappingIt: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Escalation action type check then payload set to the state and loading status set as true */
 export const getEscalationMappingIt = (state = escalationmappingIt, { type, payload }) => {

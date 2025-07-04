@@ -25,7 +25,7 @@ const PatientWise = () => {
   const [ptname, setPtname] = useState({
     pname: '',
     start_date: new Date(),
-    end_date: new Date(),
+    end_date: new Date()
   })
 
   const { pname, start_date, end_date } = ptname
@@ -46,14 +46,14 @@ const PatientWise = () => {
     { headerName: 'Room/Bed No', field: 'roonno' },
     { headerName: 'Order rate', field: 'hossum' },
     { headerName: 'Extra Order Rate', field: 'extraAmnt' },
-    { headerName: 'Total Rate', field: 'totalsum' },
+    { headerName: 'Total Rate', field: 'totalsum' }
   ])
 
   const cleardata = useCallback(() => {
     const reset = {
       pname: '',
       start_date: new Date(),
-      end_date: new Date(),
+      end_date: new Date()
     }
     setPtname(reset)
     setTableData([])
@@ -71,7 +71,7 @@ const PatientWise = () => {
     return {
       pt_no: pname,
       start_date: start_date,
-      end_date: end_date,
+      end_date: end_date
     }
   }, [pname, start_date, end_date])
 
@@ -109,14 +109,14 @@ const PatientWise = () => {
           const a1 = extra.find(ele => ele.proc_slno === val.proc_slno)
           return {
             ...val,
-            extraAmnt: a1?.exhossum ?? 0,
+            extraAmnt: a1?.exhossum ?? 0
           }
         })
       // actual and extra amount are added and assign in aa field
       const newhos = newarrt.map(val => {
         const obj = {
           ...val,
-          totalsum: val.hossum + val.extraAmnt,
+          totalsum: val.hossum + val.extraAmnt
         }
         return obj
       })
@@ -127,14 +127,14 @@ const PatientWise = () => {
         total.map(val => {
           const obj = {
             ...val,
-            extraAmnt: 0,
+            extraAmnt: 0
           }
           return obj
         })
       const newhos2 = newarrt2.map(val => {
         const obj = {
           ...val,
-          totalsum: val.hossum + val.extraAmnt,
+          totalsum: val.hossum + val.extraAmnt
         }
         return obj
       })
@@ -162,7 +162,7 @@ const PatientWise = () => {
   const headerHeight = 30
   const defaultColDef = {
     sortable: true,
-    filter: 'agTextColumnFilter',
+    filter: 'agTextColumnFilter'
   }
 
   const rowStyle = {
@@ -176,8 +176,8 @@ const PatientWise = () => {
       'sans-serif',
       '"Apple Color Emoji"',
       '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
+      '"Segoe UI Symbol"'
+    ].join(',')
   }
   const onGridReady = params => {
     params.columnApi.autoSizeAllColumns()
@@ -190,13 +190,13 @@ const PatientWise = () => {
           square
           sx={{
             height: { xs: 700, sm: 700, md: 700, lg: 700, xl: 700 },
-            p: 0.5,
+            p: 0.5
           }}
         >
           <Box
             sx={{
               display: 'flex',
-              flexDirection: 'column',
+              flexDirection: 'column'
             }}
           >
             <Paper square elevation={2} sx={{ p: 2 }}>
@@ -204,21 +204,21 @@ const PatientWise = () => {
                 sx={{
                   width: '100%',
                   display: 'flex',
-                  flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' },
+                  flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' }
                 }}
               >
                 <Box
                   sx={{
                     display: 'flex',
                     width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' },
-                    mt: 1,
+                    mt: 1
                   }}
                 >
                   <Box
                     sx={{
                       width: '100%',
                       ml: 0.5,
-                      mt: 0.5,
+                      mt: 0.5
                     }}
                   >
                     <Typography>Pateint Id</Typography>
@@ -227,30 +227,24 @@ const PatientWise = () => {
                     sx={{
                       width: '100%',
                       height: 15,
-                      mb: 1,
+                      mb: 1
                     }}
                   >
-                    <TextFieldCustom
-                      type="text"
-                      size="sm"
-                      name="pname"
-                      value={pname}
-                      onchange={getPtname}
-                    />
+                    <TextFieldCustom type="text" size="sm" name="pname" value={pname} onchange={getPtname} />
                   </Box>
                 </Box>
                 <Box
                   sx={{
                     display: 'flex',
                     width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' },
-                    mt: 1,
+                    mt: 1
                   }}
                 >
                   <Box
                     sx={{
                       width: '100%',
                       ml: 0.5,
-                      mt: 0.5,
+                      mt: 0.5
                     }}
                   >
                     <Typography>Start Date</Typography>
@@ -259,30 +253,24 @@ const PatientWise = () => {
                     sx={{
                       width: '100%',
                       height: 15,
-                      mb: 1,
+                      mb: 1
                     }}
                   >
-                    <TextFieldCustom
-                      type="date"
-                      size="sm"
-                      name="start_date"
-                      value={start_date}
-                      onchange={getPtname}
-                    />
+                    <TextFieldCustom type="date" size="sm" name="start_date" value={start_date} onchange={getPtname} />
                   </Box>
                 </Box>
                 <Box
                   sx={{
                     display: 'flex',
                     width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' },
-                    mt: 1,
+                    mt: 1
                   }}
                 >
                   <Box
                     sx={{
                       width: '100%',
                       ml: 0.5,
-                      mt: 0.5,
+                      mt: 0.5
                     }}
                   >
                     <Typography>End Date</Typography>
@@ -291,16 +279,10 @@ const PatientWise = () => {
                     sx={{
                       width: '100%',
                       height: 15,
-                      mb: 1,
+                      mb: 1
                     }}
                   >
-                    <TextFieldCustom
-                      type="date"
-                      size="sm"
-                      name="end_date"
-                      value={end_date}
-                      onchange={getPtname}
-                    />
+                    <TextFieldCustom type="date" size="sm" name="end_date" value={end_date} onchange={getPtname} />
                   </Box>
                 </Box>
                 <Box
@@ -308,22 +290,16 @@ const PatientWise = () => {
                     display: 'flex',
                     width: { xs: '100%', sm: '100%', md: '50%', lg: '50%', xl: '50%' },
                     ml: 1,
-                    mt: 0.5,
+                    mt: 0.5
                   }}
                 >
                   <Box
                     sx={{
                       width: '20%',
-                      mt: 0.8,
+                      mt: 0.8
                     }}
                   >
-                    <CusIconButton
-                      size="sm"
-                      variant="outlined"
-                      color="primary"
-                      clickable="true"
-                      onClick={clicksearch}
-                    >
+                    <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={clicksearch}>
                       <SearchOutlinedIcon fontSize="small" />
                     </CusIconButton>
                   </Box>
@@ -332,7 +308,7 @@ const PatientWise = () => {
                       width: '100%',
                       height: 15,
                       mb: 1,
-                      mt: 0.6,
+                      mt: 0.6
                     }}
                   >
                     <Button onClick={cleardata} variant="contained" size="small" color="primary">
@@ -346,7 +322,7 @@ const PatientWise = () => {
               square
               sx={{
                 backgroundColor: 'black',
-                width: { md: '100%', lg: '100%', xl: '100%' },
+                width: { md: '100%', lg: '100%', xl: '100%' }
               }}
             >
               {/* Rigth Side Menu  */}
@@ -361,17 +337,12 @@ const PatientWise = () => {
                   gap: 0.1,
                   p: 0.3,
                   borderLeft: 2,
-                  borderColor: '#d3d3d3',
+                  borderColor: '#d3d3d3'
                 }}
               >
                 <CustomeToolTip title="Download" placement="bottom">
                   <Box>
-                    <CusIconButton
-                      variant="outlined"
-                      size="sm"
-                      color="success"
-                      onClick={onExportClick}
-                    >
+                    <CusIconButton variant="outlined" size="sm" color="success" onClick={onExportClick}>
                       <DownloadIcon />
                     </CusIconButton>
                   </Box>
@@ -381,7 +352,7 @@ const PatientWise = () => {
                 className="ag-theme-material ListItemScrol"
                 sx={{
                   height: { xs: 475, sm: 475, md: 565, lg: 582, xl: 582 },
-                  width: '100%',
+                  width: '100%'
                 }}
               >
                 <AgGridReact

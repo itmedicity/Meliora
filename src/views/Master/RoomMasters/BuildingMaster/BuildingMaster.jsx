@@ -21,7 +21,7 @@ const BuildingMaster = () => {
     build_no: '',
     status: false,
     build_code: '',
-    em_id: '',
+    em_id: ''
   })
   //destructuring
   const { build_name, build_alias, build_no, status, build_code } = build
@@ -39,7 +39,7 @@ const BuildingMaster = () => {
       build_alias: build_alias,
       build_no: build_no,
       status: status === true ? 1 : 0,
-      em_id: 1,
+      em_id: 1
     }
   }, [build_name, build_alias, build_no, status])
   //data set for edit
@@ -52,7 +52,7 @@ const BuildingMaster = () => {
       build_alias: build_alias,
       build_no: build_no,
       status: status === 'Yes' ? true : false,
-      build_code: build_code,
+      build_code: build_code
     }
     setBuild(frmdata)
   }, [])
@@ -63,7 +63,7 @@ const BuildingMaster = () => {
       build_alias: build_alias,
       build_no: build_no,
       status: status === true ? 1 : 0,
-      build_code: build_code,
+      build_code: build_code
     }
   }, [build_name, build_alias, build_no, status, build_code])
   const submitBuilding = useCallback(
@@ -74,7 +74,7 @@ const BuildingMaster = () => {
         build_alias: '',
         build_no: '',
         status: false,
-        build_code: '',
+        build_code: ''
       }
       /*** * insert function for use call back */
       const InsertFun = async postdata => {
@@ -127,18 +127,13 @@ const BuildingMaster = () => {
       build_alias: '',
       build_no: '',
       status: false,
-      build_code: '',
+      build_code: ''
     }
     setBuild(formreset)
     setEdit(0)
   }, [setBuild])
   return (
-    <CardMaster
-      title="Building Master"
-      close={backtoSetting}
-      submit={submitBuilding}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Building Master" close={backtoSetting} submit={submitBuilding} refresh={refreshWindow}>
       <Box sx={{ p: 1 }}>
         <Grid container spacing={1}>
           <Grid item xl={4} lg={4}>

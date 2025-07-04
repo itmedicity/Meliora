@@ -3,7 +3,7 @@ const { FETCH_MANUAL_EMP_LIST } = ActionTyps
 //intial state
 const ManualEmpList = {
   ManualEmpListdata: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Deptsection action type check then payload set to the state and loading status set as true */
 export const setManualEmpList = (state = ManualEmpList, { type, payload }) => {

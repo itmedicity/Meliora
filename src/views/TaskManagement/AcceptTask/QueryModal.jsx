@@ -1,14 +1,4 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  CssVarsProvider,
-  DialogActions,
-  Modal,
-  ModalDialog,
-  Textarea,
-  Typography,
-} from '@mui/joy'
+import { Avatar, Box, Button, CssVarsProvider, DialogActions, Modal, ModalDialog, Textarea, Typography } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import CancelIcon from '@mui/icons-material/Cancel'
 import AssignmentSharpIcon from '@mui/icons-material/AssignmentSharp'
@@ -35,7 +25,7 @@ const QueryModal = ({ open, setqueryOpen, setqueryflag, valuee, settaskcount, ta
 
   const getquery = useMemo(() => {
     return {
-      tm_task_slno: tm_task_slno,
+      tm_task_slno: tm_task_slno
     }
   }, [tm_task_slno])
 
@@ -57,7 +47,7 @@ const QueryModal = ({ open, setqueryOpen, setqueryflag, valuee, settaskcount, ta
       tm_task_slno: tm_task_slno,
       tm_query_remark: queries,
       tm_query_remark_date: newDate,
-      tm_query_remark_user: id,
+      tm_query_remark_user: id
     }
   }, [tm_task_slno, queries, newDate, id])
 
@@ -109,7 +99,7 @@ const QueryModal = ({ open, setqueryOpen, setqueryflag, valuee, settaskcount, ta
               width: '55vw',
 
               p: 0,
-              overflow: 'auto',
+              overflow: 'auto'
             }}
           >
             <Box>
@@ -126,9 +116,7 @@ const QueryModal = ({ open, setqueryOpen, setqueryflag, valuee, settaskcount, ta
                     <AssignmentSharpIcon sx={{}} />
                     Task
                   </Typography>
-                  <Typography sx={{ pl: 1, fontSize: 16, color: 'Black' }}>
-                    {tm_task_name}
-                  </Typography>
+                  <Typography sx={{ pl: 1, fontSize: 16, color: 'Black' }}>{tm_task_name}</Typography>
                 </Box>
                 <Box sx={{ flex: 1, textAlign: 'right' }}>
                   <Typography sx={{ pr: 5, fontWeight: 600, color: 'Black' }}>
@@ -146,10 +134,7 @@ const QueryModal = ({ open, setqueryOpen, setqueryflag, valuee, settaskcount, ta
                   <React.Fragment key={val.tm_query_details_slno}>
                     {val.tm_query_reply !== null && (
                       <Box sx={{ display: 'flex', alignItems: 'flex-start', mt: 2 }}>
-                        <Avatar
-                          size="sm"
-                          sx={{ border: 1, borderColor: 'lightgrey', bgcolor: 'white', mt: 0.5 }}
-                        >
+                        <Avatar size="sm" sx={{ border: 1, borderColor: 'lightgrey', bgcolor: 'white', mt: 0.5 }}>
                           <PersonIcon sx={{ p: 0.1, color: '#3B281C' }} />
                         </Avatar>
                         <Box sx={{ ml: 0.5, mr: 10, minWidth: 200 }}>
@@ -159,7 +144,7 @@ const QueryModal = ({ open, setqueryOpen, setqueryflag, valuee, settaskcount, ta
                               borderColor: '#3B281C',
                               bgcolor: '#FFFFFF',
                               p: 1,
-                              borderRadius: 15,
+                              borderRadius: 15
                             }}
                           >
                             {val.tm_query_reply}
@@ -177,7 +162,7 @@ const QueryModal = ({ open, setqueryOpen, setqueryflag, valuee, settaskcount, ta
                           display: 'flex',
                           alignItems: 'flex-start',
                           mt: 2,
-                          justifyContent: 'flex-end',
+                          justifyContent: 'flex-end'
                         }}
                       >
                         <Box sx={{ mr: 0.5, textAlign: 'right', ml: 10, minWidth: 200 }}>
@@ -187,7 +172,7 @@ const QueryModal = ({ open, setqueryOpen, setqueryflag, valuee, settaskcount, ta
                               borderColor: '#466E73',
                               bgcolor: '#FFFFFF',
                               p: 1,
-                              borderRadius: 15,
+                              borderRadius: 15
                             }}
                           >
                             {val.tm_query_remark}
@@ -197,10 +182,7 @@ const QueryModal = ({ open, setqueryOpen, setqueryflag, valuee, settaskcount, ta
                             <Box sx={{ flex: 1, pr: 0.5 }}>{capitalizeWords(val.query_user)}</Box>
                           </Box>
                         </Box>
-                        <Avatar
-                          size="sm"
-                          sx={{ border: 1, borderColor: 'lightgrey', bgcolor: 'white', mt: 0.5 }}
-                        >
+                        <Avatar size="sm" sx={{ border: 1, borderColor: 'lightgrey', bgcolor: 'white', mt: 0.5 }}>
                           <PersonIcon sx={{ p: 0.1, color: '#466E73' }} />
                         </Avatar>
                       </Box>
@@ -231,11 +213,7 @@ const QueryModal = ({ open, setqueryOpen, setqueryflag, valuee, settaskcount, ta
             </Box>
             <DialogActions>
               <Box sx={{ textAlign: 'right', pb: 2, mr: 1 }}>
-                <Button
-                  variant="plain"
-                  sx={{ color: '#92443A', fontSize: 16 }}
-                  onClick={QueryClose}
-                >
+                <Button variant="plain" sx={{ color: '#92443A', fontSize: 16 }} onClick={QueryClose}>
                   close
                 </Button>
               </Box>

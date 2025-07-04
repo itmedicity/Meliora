@@ -8,7 +8,7 @@ import {
   ModalDialog,
   Textarea,
   Tooltip,
-  Typography,
+  Typography
 } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import CancelIcon from '@mui/icons-material/Cancel'
@@ -19,14 +19,7 @@ import { useSelector } from 'react-redux'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import moment from 'moment'
 
-const SupervisorVerifyModal = ({
-  open,
-  setverifyOpen,
-  forVerifyData,
-  setverifyFlag,
-  count,
-  setCount,
-}) => {
+const SupervisorVerifyModal = ({ open, setverifyOpen, forVerifyData, setverifyFlag, count, setCount }) => {
   const {
     complaint_slno,
     complaint_desc,
@@ -43,7 +36,7 @@ const SupervisorVerifyModal = ({
     rectify_pending_hold_remarks,
     cm_rectify_time,
     holduser,
-    assigned_employees,
+    assigned_employees
   } = forVerifyData
 
   const empid = useSelector(state => {
@@ -125,9 +118,7 @@ const SupervisorVerifyModal = ({
     const minutes = Math.floor((diffInSeconds % (60 * 60)) / 60)
     const seconds = diffInSeconds % 60
 
-    return `${
-      days > 0 ? `${days} day${days > 1 ? 's' : ''}, ` : ''
-    }${hours} hr : ${minutes} min : ${seconds} sec`
+    return `${days > 0 ? `${days} day${days > 1 ? 's' : ''}, ` : ''}${hours} hr : ${minutes} min : ${seconds} sec`
   }
 
   const VerifyData = useMemo(() => {
@@ -137,7 +128,7 @@ const SupervisorVerifyModal = ({
       verify_spervsr_remarks: messagee,
       compalint_status: 2,
       verify_spervsr_user: empid,
-      suprvsr_verify_time: newDate,
+      suprvsr_verify_time: newDate
     }
   }, [complaint_slno, messagee, empid, newDate])
 
@@ -147,7 +138,7 @@ const SupervisorVerifyModal = ({
       verify_spervsr: 2,
       verify_spervsr_remarks: messagee,
       compalint_status: 1,
-      verify_spervsr_user: empid,
+      verify_spervsr_user: empid
     }
   }, [complaint_slno, messagee, empid])
 
@@ -196,11 +187,11 @@ const SupervisorVerifyModal = ({
     '&:hover': {
       bgcolor: 'white',
       color: '#523A28',
-      transform: 'scale(1.1)',
+      transform: 'scale(1.1)'
     },
     '&:active': {
-      transform: 'scale(0.95)',
-    },
+      transform: 'scale(0.95)'
+    }
   }
 
   return (
@@ -211,7 +202,7 @@ const SupervisorVerifyModal = ({
             sx={{
               width: '55vw',
               p: 0,
-              overflow: 'auto',
+              overflow: 'auto'
             }}
           >
             <Box>
@@ -223,12 +214,8 @@ const SupervisorVerifyModal = ({
               </Box>
               <Box sx={{ flex: 1, display: 'flex', bgcolor: '#ECEDEF', py: 0.5 }}>
                 <Box sx={{ flex: 1, pl: 0.5 }}>
-                  <Typography sx={{ pl: 0.5, fontWeight: 600, color: 'Black' }}>
-                    Ticket No.{complaint_slno}
-                  </Typography>
-                  <Typography sx={{ pl: 0.5, fontSize: 14, color: 'Black' }}>
-                    {complaint_desc}
-                  </Typography>
+                  <Typography sx={{ pl: 0.5, fontWeight: 600, color: 'Black' }}>Ticket No.{complaint_slno}</Typography>
+                  <Typography sx={{ pl: 0.5, fontSize: 14, color: 'Black' }}>{complaint_desc}</Typography>
                   <Typography sx={{ pl: 0.5, fontSize: 13, color: 'Black', py: 0.5 }}>
                     Complaint Type: {complaint_type_name}
                   </Typography>
@@ -248,17 +235,13 @@ const SupervisorVerifyModal = ({
                     </Typography>
                   ) : null}
                   <Typography sx={{ pl: 0.5, fontSize: 13, color: 'Black' }}>
-                    {compalint_date
-                      ? format(new Date(compalint_date), 'dd MMM yyyy,  hh:mm a')
-                      : 'Invalid Date'}
+                    {compalint_date ? format(new Date(compalint_date), 'dd MMM yyyy,  hh:mm a') : 'Invalid Date'}
                   </Typography>
                 </Box>
               </Box>
               <Box sx={{ flex: 1, pb: 3, pt: 2 }}>
                 <Box sx={{ flex: 1, display: 'flex', mt: 0.5 }}>
-                  <Typography sx={{ flex: 1.8, pl: 3, fontWeight: 500, fontSize: 15 }}>
-                    Priority
-                  </Typography>
+                  <Typography sx={{ flex: 1.8, pl: 3, fontWeight: 500, fontSize: 15 }}>Priority</Typography>
                   <Box sx={{ flex: 3 }}>
                     {compalint_priority === 1 ? (
                       <Chip sx={{ bgcolor: '#FBAA60' }}>Level 1</Chip>
@@ -275,9 +258,7 @@ const SupervisorVerifyModal = ({
                   </Box>
                 </Box>
                 <Box sx={{ flex: 1, display: 'flex', mt: 1 }}>
-                  <Typography sx={{ flex: 1.8, pl: 3, fontWeight: 500, fontSize: 15 }}>
-                    Assigned Employees
-                  </Typography>
+                  <Typography sx={{ flex: 1.8, pl: 3, fontWeight: 500, fontSize: 15 }}>Assigned Employees</Typography>
                   <Box sx={{ flex: 3, display: 'flex', gap: 0.5 }}>
                     {assigned_employees === null ? (
                       <Chip>Not Updated</Chip>
@@ -299,21 +280,15 @@ const SupervisorVerifyModal = ({
                 </Box>
 
                 <Box sx={{ flex: 1, display: 'flex', mt: 0.5 }}>
-                  <Typography sx={{ flex: 1.8, pl: 3, fontWeight: 500, fontSize: 15 }}>
-                    Assigned Date
-                  </Typography>
+                  <Typography sx={{ flex: 1.8, pl: 3, fontWeight: 500, fontSize: 15 }}>Assigned Date</Typography>
                   <Box sx={{ flex: 3, gap: 0.5 }}>
                     <Chip sx={{ bgcolor: '#E3E7F1' }}>
-                      {assigned_date
-                        ? format(new Date(assigned_date), 'dd MMM yyyy,  hh:mm a')
-                        : 'Invalid Date'}
+                      {assigned_date ? format(new Date(assigned_date), 'dd MMM yyyy,  hh:mm a') : 'Invalid Date'}
                     </Chip>
                   </Box>
                 </Box>
                 <Box sx={{ flex: 1, display: 'flex', mt: 0.5 }}>
-                  <Typography sx={{ flex: 1.8, pl: 3, fontWeight: 500, fontSize: 15 }}>
-                    Rectified Remark
-                  </Typography>
+                  <Typography sx={{ flex: 1.8, pl: 3, fontWeight: 500, fontSize: 15 }}>Rectified Remark</Typography>
                   <Typography sx={{ flex: 3, gap: 0.5 }}>{rectify_pending_hold_remarks}</Typography>
                 </Box>
                 <Box sx={{ flex: 1, display: 'flex', mt: 0.5 }}>
@@ -322,9 +297,7 @@ const SupervisorVerifyModal = ({
                   </Typography>
                   <Box sx={{ flex: 3, gap: 0.5 }}>
                     <Chip sx={{ bgcolor: '#C3E0E5' }}>
-                      {cm_rectify_time
-                        ? format(new Date(cm_rectify_time), 'dd MMM yyyy,  hh:mm a')
-                        : 'Invalid Date'}
+                      {cm_rectify_time ? format(new Date(cm_rectify_time), 'dd MMM yyyy,  hh:mm a') : 'Invalid Date'}
                     </Chip>
                   </Box>
                 </Box>
@@ -353,10 +326,7 @@ const SupervisorVerifyModal = ({
                 </Box>
                 {assetDetl.length !== 0 ? (
                   <Box sx={{ py: 2 }}>
-                    <Typography sx={{ fontWeight: 600, color: '#0B6BCB', pl: 3 }}>
-                      {' '}
-                      Asset Detail
-                    </Typography>
+                    <Typography sx={{ fontWeight: 600, color: '#0B6BCB', pl: 3 }}> Asset Detail</Typography>
                     {assetDetl.map((val, index) => {
                       const formattedSlno = val.am_item_map_slno.toString().padStart(6, '0')
                       return (
@@ -368,7 +338,7 @@ const SupervisorVerifyModal = ({
                               pl: 3,
                               pr: 2,
                               fontWeight: 700,
-                              pt: 0.3,
+                              pt: 0.3
                             }}
                           >
                             {index + 1}
@@ -376,22 +346,14 @@ const SupervisorVerifyModal = ({
                           <Chip sx={{ fontSize: 13, bgcolor: '#dad5ed' }}>
                             {val.item_asset_no}/{formattedSlno}
                           </Chip>
-                          <Chip sx={{ fontSize: 13, ml: 1, bgcolor: '#dad5ed' }}>
-                            {val.item_name}
-                          </Chip>
+                          <Chip sx={{ fontSize: 13, ml: 1, bgcolor: '#dad5ed' }}>{val.item_name}</Chip>
                         </Box>
                       )
                     })}
                   </Box>
                 ) : null}
                 <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center', mt: 3.5, gap: 2.5 }}>
-                  <Checkbox
-                    label="Verified"
-                    color="primary"
-                    name="verify"
-                    checked={verify}
-                    onChange={updateVerify}
-                  />
+                  <Checkbox label="Verified" color="primary" name="verify" checked={verify} onChange={updateVerify} />
                   <Checkbox
                     label="Not Verified"
                     color="danger"

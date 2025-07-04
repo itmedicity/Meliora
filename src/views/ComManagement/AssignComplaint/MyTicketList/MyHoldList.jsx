@@ -44,7 +44,7 @@ const MyHoldList = () => {
     rectfyOpen: true,
     queryOpen: false,
     holdOpen: false,
-    assetOpen: false,
+    assetOpen: false
   })
 
   const [flags, setFlags] = useState({
@@ -52,14 +52,14 @@ const MyHoldList = () => {
     assistNeedFlag: 0,
     rectfyFlag: 0,
     queryFlag: 0,
-    holdFlag: 0,
+    holdFlag: 0
   })
 
   const id = useSelector(state => state.LoginUserData.empid, _.isEqual)
 
   const searchData = useMemo(() => {
     return {
-      assigned_emp: id,
+      assigned_emp: id
     }
   }, [id])
 
@@ -72,7 +72,7 @@ const MyHoldList = () => {
       setLoading(true)
       try {
         const result = await axioslogin.post('/Rectifycomplit/getEmplHoldList', searchData, {
-          signal,
+          signal
         })
         const { success, data } = result.data
 
@@ -106,12 +106,12 @@ const MyHoldList = () => {
     value => {
       setFlags(prevFlags => ({
         ...prevFlags,
-        queryFlag: 1,
+        queryFlag: 1
       }))
       setValuee(value)
       setOpenStates(prevState => ({
         ...prevState,
-        queryOpen: true,
+        queryOpen: true
       }))
     },
     [setFlags, setValuee, setOpenStates]
@@ -122,11 +122,11 @@ const MyHoldList = () => {
       setAssistNeed(val)
       setFlags(prevFlags => ({
         ...prevFlags,
-        assistNeedFlag: 1,
+        assistNeedFlag: 1
       }))
       setOpenStates(prevState => ({
         ...prevState,
-        assistOpen: true,
+        assistOpen: true
       }))
     },
     [setAssistNeed, setFlags, setOpenStates]
@@ -137,11 +137,11 @@ const MyHoldList = () => {
       setRectfyDta(val)
       setFlags(prevFlags => ({
         ...prevFlags,
-        rectfyFlag: 1,
+        rectfyFlag: 1
       }))
       setOpenStates(prevState => ({
         ...prevState,
-        rectfyOpen: true,
+        rectfyOpen: true
       }))
     },
     [setRectfyDta, setFlags, setOpenStates]
@@ -152,11 +152,11 @@ const MyHoldList = () => {
       setHoldData(val)
       setFlags(prevFlags => ({
         ...prevFlags,
-        holdFlag: 1,
+        holdFlag: 1
       }))
       setOpenStates(prevState => ({
         ...prevState,
-        holdOpen: true,
+        holdOpen: true
       }))
     },
     [setHoldData, setFlags, setOpenStates]
@@ -167,11 +167,11 @@ const MyHoldList = () => {
       setValuee(value)
       setFlags(prevFlags => ({
         ...prevFlags,
-        assetFlag: 1,
+        assetFlag: 1
       }))
       setOpenStates(prevState => ({
         ...prevState,
-        assetOpen: true,
+        assetOpen: true
       }))
     },
     [setValuee, setFlags, setOpenStates]
@@ -182,13 +182,11 @@ const MyHoldList = () => {
     setimage(1)
     setOpenStates(prevState => ({
       ...prevState,
-      imageViewOpen: true,
+      imageViewOpen: true
     }))
     setfileDetails(val)
     try {
-      const result = await axioslogin.get(
-        `/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`
-      )
+      const result = await axioslogin.get(`/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`)
       const { success } = result.data
       if (success === 1) {
         const data = result.data
@@ -216,7 +214,7 @@ const MyHoldList = () => {
         bgcolor: 'white',
         borderRadius: 0,
         height: '69vh',
-        overflow: 'auto',
+        overflow: 'auto'
       }}
     >
       {flags.queryFlag === 1 ? (
@@ -237,9 +235,7 @@ const MyHoldList = () => {
           selectedImages={selectedImages}
           fileDetails={fileDetails}
           setimage={setimage}
-          setimageViewOpen={value =>
-            setOpenStates(prevState => ({ ...prevState, imageViewOpen: value }))
-          } // Use setOpenStates to modify imageViewOpen
+          setimageViewOpen={value => setOpenStates(prevState => ({ ...prevState, imageViewOpen: value }))} // Use setOpenStates to modify imageViewOpen
         />
       ) : null}
 
@@ -259,9 +255,7 @@ const MyHoldList = () => {
           assistOpen={openStates.assistOpen}
           assistNeedFlag={flags.assistNeedFlag}
           assistNeed={assistNeed}
-          setassistNeedFlag={value =>
-            setFlags(prevFlags => ({ ...prevFlags, assistNeedFlag: value }))
-          }
+          setassistNeedFlag={value => setFlags(prevFlags => ({ ...prevFlags, assistNeedFlag: value }))}
           setAssistOpen={value => setOpenStates(prevState => ({ ...prevState, assistOpen: value }))}
           count={count}
           setCount={setCount}
@@ -297,7 +291,7 @@ const MyHoldList = () => {
             sx={{
               '--CircularProgress-size': '51px',
               '--CircularProgress-trackThickness': '5px',
-              '--CircularProgress-progressThickness': '2px',
+              '--CircularProgress-progressThickness': '2px'
             }}
           />
         </div>
@@ -305,7 +299,7 @@ const MyHoldList = () => {
         <>
           {allPendingCompl.length !== 0 ? (
             <Box sx={{ p: 0.5, mb: 0.8 }}>
-              {allPendingCompl?.map((val,) => {
+              {allPendingCompl?.map(val => {
                 const getBadgeColor = (pending, accepted, rejected) => {
                   if (pending > 0) return '#0458AB'
                   if (pending === 0 && accepted > 0) return 'green'
@@ -324,7 +318,7 @@ const MyHoldList = () => {
                       borderRadius: 8,
                       bgcolor: 'white',
                       // p: .8,
-                      mb: 0.6,
+                      mb: 0.6
                     }}
                   >
                     <Box
@@ -334,7 +328,7 @@ const MyHoldList = () => {
                         borderTopRightRadius: 6,
                         borderTopLeftRadius: 6,
                         mx: 0.1,
-                        display: 'flex',
+                        display: 'flex'
                       }}
                     >
                       <CssVarsProvider>
@@ -348,7 +342,7 @@ const MyHoldList = () => {
                                 fontSize: 15,
                                 pl: 1,
                                 py: 0.5,
-                                fontFamily: 'Arial',
+                                fontFamily: 'Arial'
                               }}
                               text={
                                 val.compalint_date
@@ -370,7 +364,7 @@ const MyHoldList = () => {
                                 fontSize: 15,
                                 pl: 2,
                                 py: 0.5,
-                                fontFamily: 'Arial',
+                                fontFamily: 'Arial'
                               }}
                               text={
                                 val.assigned_date
@@ -389,7 +383,7 @@ const MyHoldList = () => {
                             px: 2,
                             fontWeight: 500,
                             fontSize: 14,
-                            cursor: 'pointer',
+                            cursor: 'pointer'
                           }}
                         >
                           Ticket Registered by : {val.comp_reg_emp}
@@ -402,43 +396,33 @@ const MyHoldList = () => {
                           flex: 1,
                           bgcolor: '#E7D2CC',
                           display: 'flex',
-                          py: 0.3,
+                          py: 0.3
                         }}
                       >
-                        <Typography
-                          sx={{ color: '#026F7E', pl: 1, pt: 0.2, fontWeight: 700, fontSize: 13 }}
-                        >
+                        <Typography sx={{ color: '#026F7E', pl: 1, pt: 0.2, fontWeight: 700, fontSize: 13 }}>
                           DELEGATED BY {val.assinged_user}
                         </Typography>
-                        <Typography
-                          sx={{ color: 'black', pt: 0.2, fontWeight: 500, fontSize: 13, ml: 3 }}
-                        >
+                        <Typography sx={{ color: 'black', pt: 0.2, fontWeight: 500, fontSize: 13, ml: 3 }}>
                           Priority :
                         </Typography>
                         <Chip sx={{ bgcolor: 'white', color: '#391306', border: 1, ml: 1 }}>
                           {val.compalint_priority === 1
                             ? 'Emergency'
                             : val.compalint_priority === 2
-                              ? 'High Priority'
-                              : val.compalint_priority === 3
-                                ? 'Medium Priority'
-                                : val.compalint_priority === 4
-                                  ? 'Normal'
-                                  : 'Normal'}
+                            ? 'High Priority'
+                            : val.compalint_priority === 3
+                            ? 'Medium Priority'
+                            : val.compalint_priority === 4
+                            ? 'Normal'
+                            : 'Normal'}
                         </Chip>
-                        <Typography
-                          sx={{ color: 'black', pt: 0.2, fontWeight: 500, fontSize: 13, ml: 3 }}
-                        >
+                        <Typography sx={{ color: 'black', pt: 0.2, fontWeight: 500, fontSize: 13, ml: 3 }}>
                           Aprox Date :
                         </Typography>
                         <Chip sx={{ bgcolor: 'white', color: '#391306', border: 1, ml: 1 }}>
-                          {val.aprrox_date
-                            ? format(new Date(val.aprrox_date), 'dd MM yyyy,  hh:mm a')
-                            : 'Not Updated'}
+                          {val.aprrox_date ? format(new Date(val.aprrox_date), 'dd MM yyyy,  hh:mm a') : 'Not Updated'}
                         </Chip>
-                        <Typography
-                          sx={{ color: 'black', pt: 0.2, fontWeight: 500, fontSize: 13, ml: 3 }}
-                        >
+                        <Typography sx={{ color: 'black', pt: 0.2, fontWeight: 500, fontSize: 13, ml: 3 }}>
                           Remarks :
                         </Typography>
                         <Typography sx={{ color: 'black', pt: 0.2, fontSize: 13, ml: 3 }}>
@@ -453,7 +437,7 @@ const MyHoldList = () => {
                           bgcolor: '#DFDACD',
                           display: 'flex',
                           py: 0.3,
-                          flexWrap: 'wrap',
+                          flexWrap: 'wrap'
                         }}
                       >
                         <Box sx={{ display: 'flex', pl: 0.5 }}>
@@ -464,9 +448,7 @@ const MyHoldList = () => {
                         </Box>
                         <Box sx={{ display: 'flex' }}>
                           <Box sx={{ pl: 2, fontWeight: 600, color: 'darkred' }}>Remarks:</Box>
-                          <Box sx={{ pl: 1, fontWeight: 600, color: 'darkred' }}>
-                            {val.verify_remarks}
-                          </Box>
+                          <Box sx={{ pl: 1, fontWeight: 600, color: 'darkred' }}>{val.verify_remarks}</Box>
                         </Box>
                       </Box>
                     ) : null}
@@ -478,7 +460,7 @@ const MyHoldList = () => {
                           bgcolor: '#DFDACD      ',
                           display: 'flex',
                           py: 0.3,
-                          flexWrap: 'wrap',
+                          flexWrap: 'wrap'
                         }}
                       >
                         <Box sx={{ display: 'flex', pl: 0.5 }}>
@@ -489,9 +471,7 @@ const MyHoldList = () => {
                         </Box>
                         <Box sx={{ display: 'flex' }}>
                           <Box sx={{ pl: 2, fontWeight: 600, color: 'darkred' }}>Remarks:</Box>
-                          <Box sx={{ pl: 1, fontWeight: 600, color: 'darkred' }}>
-                            {val.verify_spervsr_remarks}
-                          </Box>
+                          <Box sx={{ pl: 1, fontWeight: 600, color: 'darkred' }}>{val.verify_spervsr_remarks}</Box>
                         </Box>
                       </Box>
                     ) : null}
@@ -502,7 +482,7 @@ const MyHoldList = () => {
                           mx: 0.3,
                           pr: 0.5,
                           borderRight: 1,
-                          borderColor: 'lightgrey',
+                          borderColor: 'lightgrey'
                         }}
                       >
                         <Typography sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700 }}>
@@ -517,7 +497,7 @@ const MyHoldList = () => {
                               fontWeight: 600,
                               color: 'black',
                               mr: 0.3,
-                              cursor: 'grab',
+                              cursor: 'grab'
                             }}
                           >
                             {val.compalint_date}
@@ -535,7 +515,7 @@ const MyHoldList = () => {
                                 mr: 0.5,
                                 borderRadius: 5,
                                 p: 0.1,
-                                '&:hover': { color: '#18A558' },
+                                '&:hover': { color: '#18A558' }
                               }}
                               onClick={() => RectifyRequest(val)}
                             />
@@ -547,8 +527,8 @@ const MyHoldList = () => {
                                 '& .MuiBadge-badge': {
                                   backgroundColor: badgeColor,
                                   mr: 0.7,
-                                  cursor: 'pointer',
-                                },
+                                  cursor: 'pointer'
+                                }
                               }}
                             >
                               <Tooltip title="Need Assist" color="warning">
@@ -564,10 +544,7 @@ const MyHoldList = () => {
                                     p: 0.3,
                                     mr: 0.5,
                                     '&:hover': { color: '#D6AD60' },
-                                    animation:
-                                      val.assist_flag === 1
-                                        ? `${blinkAnimation} 1s infinite`
-                                        : 'none',
+                                    animation: val.assist_flag === 1 ? `${blinkAnimation} 1s infinite` : 'none'
                                   }}
                                 />
                               </Tooltip>
@@ -586,10 +563,7 @@ const MyHoldList = () => {
                                   p: 0.3,
                                   mr: 0.5,
                                   '&:hover': { color: '#D6AD60' },
-                                  animation:
-                                    val.assist_flag === 1
-                                      ? `${blinkAnimation} 1s infinite`
-                                      : 'none',
+                                  animation: val.assist_flag === 1 ? `${blinkAnimation} 1s infinite` : 'none'
                                 }}
                               />
                             </Tooltip>
@@ -605,7 +579,7 @@ const MyHoldList = () => {
                                 borderRadius: 5,
                                 p: 0.3,
                                 mr: 0.5,
-                                '&:hover': { color: 'grey' },
+                                '&:hover': { color: 'grey' }
                               }}
                               onClick={() => HoldReason(val)}
                             />
@@ -623,7 +597,7 @@ const MyHoldList = () => {
                                   borderRadius: 5,
                                   p: 0.1,
                                   '&:hover': { color: '#51575C' },
-                                  animation: `${blinkAnimation} 1s infinite`,
+                                  animation: `${blinkAnimation} 1s infinite`
                                 }}
                                 onClick={() => RaiseQuery(val)}
                               />
@@ -641,7 +615,7 @@ const MyHoldList = () => {
                                   borderRadius: 5,
                                   p: 0.1,
                                   '&:hover': { color: '#51575C' },
-                                  animation: `${blinkAnimation} 1s infinite`,
+                                  animation: `${blinkAnimation} 1s infinite`
                                 }}
                                 onClick={() => RaiseQuery(val)}
                               />
@@ -657,7 +631,7 @@ const MyHoldList = () => {
                                   cursor: 'pointer',
                                   border: 1,
                                   borderRadius: 5,
-                                  '&:hover': { color: '#1B84FC' },
+                                  '&:hover': { color: '#1B84FC' }
                                 }}
                                 onClick={() => RaiseQuery(val)}
                               />
@@ -674,7 +648,7 @@ const MyHoldList = () => {
                                 borderRadius: 5,
                                 p: 0.1,
                                 mr: 0.5,
-                                '&:hover': { color: '#274472' },
+                                '&:hover': { color: '#274472' }
                               }}
                               onClick={() => fileView(val)}
                             />
@@ -690,7 +664,7 @@ const MyHoldList = () => {
                                   mr: 0.5,
                                   p: 0.1,
                                   color: '#4C5270',
-                                  cursor: 'pointer',
+                                  cursor: 'pointer'
                                 }}
                                 onClick={() => AssetView(val)}
                               />
@@ -701,52 +675,45 @@ const MyHoldList = () => {
                       <Box
                         sx={{
                           pl: 0.5,
-                          maxWidth: 500,
+                          maxWidth: 500
                         }}
                       >
                         <Box
                           sx={{
                             display: 'flex',
-                            mt: 0.5,
+                            mt: 0.5
                           }}
                         >
-                          <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
-                            Department Section
-                          </Typography>
+                          <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>Department Section</Typography>
                           <Typography sx={{ fontSize: 14, flex: 1, textTransform: 'capitalize' }}>
-                            {val.location.charAt(0).toUpperCase() +
-                              val.location.slice(1).toLowerCase()}
+                            {val.location.charAt(0).toUpperCase() + val.location.slice(1).toLowerCase()}
                           </Typography>
                         </Box>
                         <Box
                           sx={{
                             display: 'flex',
-                            mt: 0.5,
+                            mt: 0.5
                           }}
                         >
-                          <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
-                            Location
-                          </Typography>
+                          <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>Location</Typography>
                           <Typography sx={{ fontSize: 13, flex: 1 }}>
                             {val.rm_room_name}
-                            {val.rm_roomtype_name ||
-                              val.rm_insidebuildblock_name ||
-                              val.rm_floor_name
-                              ? ` (${val.rm_roomtype_name || ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
-                              }${val.rm_insidebuildblock_name || ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
-                              }${val.rm_floor_name || ''})`
+                            {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name
+                              ? ` (${val.rm_roomtype_name || ''}${
+                                  val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
+                                }${val.rm_insidebuildblock_name || ''}${
+                                  val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
+                                }${val.rm_floor_name || ''})`
                               : val.cm_complaint_location || 'Not Updated'}
                           </Typography>
                         </Box>
                         <Box
                           sx={{
                             display: 'flex',
-                            mt: 0.5,
+                            mt: 0.5
                           }}
                         >
-                          <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
-                            Complaint Type
-                          </Typography>
+                          <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>Complaint Type</Typography>
                           <Typography sx={{ fontSize: 14, flex: 1 }}>
                             {val.complaint_type_name.charAt(0).toUpperCase() +
                               val.complaint_type_name.slice(1).toLowerCase()}
@@ -754,16 +721,14 @@ const MyHoldList = () => {
                         </Box>
                       </Box>
                       <Box sx={{ flex: 1, pl: 1.5 }}>
-                        <Typography sx={{ fontSize: 13, fontWeight: 700 }}>
-                          Complaint Describtion
-                        </Typography>
+                        <Typography sx={{ fontSize: 13, fontWeight: 700 }}>Complaint Describtion</Typography>
                         <Typography
                           sx={{
                             pr: 0.5,
                             pt: 0.3,
                             fontSize: 14,
                             maxHeight: 50,
-                            overflow: 'auto',
+                            overflow: 'auto'
                           }}
                         >
                           {val.complaint_desc || 'Not Updated'}
@@ -777,7 +742,7 @@ const MyHoldList = () => {
                         borderBottomRightRadius: 5,
                         borderBottomLeftRadius: 5,
                         mb: 0.1,
-                        display: 'flex',
+                        display: 'flex'
                       }}
                     >
                       <CssVarsProvider>
@@ -800,8 +765,7 @@ const MyHoldList = () => {
                               height: 30,
                               width: 25,
                               color: val.priority_check === 1 ? '#970C10' : 'lightgrey',
-                              animation:
-                                val.priority_check === 1 ? `${blinkAnimation} 1s infinite` : 'none',
+                              animation: val.priority_check === 1 ? `${blinkAnimation} 1s infinite` : 'none'
                             }}
                           />
 
@@ -811,7 +775,7 @@ const MyHoldList = () => {
                               pl: 0.5,
                               fontSize: 14,
                               pt: 0.5,
-                              color: 'darkred',
+                              color: 'darkred'
                             }}
                           >
                             {val.priority_reason}
@@ -819,9 +783,7 @@ const MyHoldList = () => {
                         </Box>
                       ) : null}
                       <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
-                        <Typography sx={{ fontSize: 13, fontWeight: 700, pt: 0.5 }}>
-                          Assignees :
-                        </Typography>
+                        <Typography sx={{ fontSize: 13, fontWeight: 700, pt: 0.5 }}>Assignees :</Typography>
                         &nbsp;&nbsp;
                         <Box sx={{ fontWeight: 600, display: 'flex', py: 0.4, gap: 0.3 }}>
                           {val.assigned_employees === null ? (
@@ -837,7 +799,7 @@ const MyHoldList = () => {
                                     bgcolor: '#D3C7A1',
                                     fontSize: 13,
                                     px: 0.8,
-                                    marginRight: 0.1,
+                                    marginRight: 0.1
                                   }}
                                 >
                                   {name.trim()}
@@ -863,7 +825,7 @@ const MyHoldList = () => {
                 color: 'lightgray',
                 pt: 10,
                 display: 'flex',
-                justifyContent: 'center',
+                justifyContent: 'center'
               }}
             >
               Hold List Empty

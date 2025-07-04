@@ -10,12 +10,12 @@ const NotificationTable = ({ count, rowSelect }) => {
   const [column] = useState([
     {
       headerName: 'Action',
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
     },
     { headerName: 'SlNo', field: 'notification_slno' },
     { headerName: 'Heading', field: 'notification_heading' },
     { headerName: 'Remarks', field: 'notification_remarks' },
-    { headerName: 'Status', field: 'status' },
+    { headerName: 'Status', field: 'status' }
   ])
   useEffect(() => {
     const getAssetType = async () => {

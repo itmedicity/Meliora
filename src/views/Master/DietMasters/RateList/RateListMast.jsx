@@ -22,7 +22,7 @@ const RateListMast = () => {
     type_slno: '',
     hosp_rate: '',
     cant_rate: '',
-    status: false,
+    status: false
   })
   const { drate_slno, hosp_rate, cant_rate, status } = ratelist
   const updateRatelist = useCallback(
@@ -39,7 +39,7 @@ const RateListMast = () => {
       type_slno: value3,
       hosp_rate: hosp_rate,
       cant_rate: cant_rate,
-      status: status,
+      status: status
     }
   }, [hosp_rate, cant_rate, status, value1, value2, value3])
   const rowSelect = useCallback(params => {
@@ -50,7 +50,7 @@ const RateListMast = () => {
       drate_slno: drate_slno,
       hosp_rate: hosp_rate,
       cant_rate: cant_rate,
-      status: status === 1 ? true : false,
+      status: status === 1 ? true : false
     }
     setValue1(diet_slno)
     setValue2(rc_code)
@@ -66,7 +66,7 @@ const RateListMast = () => {
       hosp_rate: hosp_rate,
       cant_rate: cant_rate,
       status: status === true ? 1 : 0,
-      drate_slno: drate_slno,
+      drate_slno: drate_slno
     }
   }, [hosp_rate, cant_rate, status, drate_slno, value1, value2, value3])
   const reset = async () => {
@@ -80,7 +80,7 @@ const RateListMast = () => {
       const frmdata = {
         hosp_rate: '',
         cant_rate: '',
-        status: false,
+        status: false
       }
       const insertData = async postData => {
         const result = await axioslogin.post(`/ratelist`, postData)
@@ -132,19 +132,14 @@ const RateListMast = () => {
       type_slno: value3,
       hosp_rate: '',
       cant_rate: '',
-      status: false,
+      status: false
     }
     setRatelist(frmdata)
     reset()
     setEdit(0)
   }, [setRatelist, value1, value2, value3])
   return (
-    <CardMaster
-      title="Rate List master"
-      submit={submitRatelist}
-      refresh={refreshWindow}
-      close={backToSettings}
-    >
+    <CardMaster title="Rate List master" submit={submitRatelist} refresh={refreshWindow} close={backToSettings}>
       <Box sx={{ padding: 1 }}>
         <Grid container spacing={1}>
           <Grid item xl={4} lg={4}>

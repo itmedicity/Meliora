@@ -19,7 +19,7 @@ const MarkAsHoldModal = ({ holdOpen, setHoldOpen, setHoldflag, holdData, count, 
     rm_insidebuildblock_name,
     rm_floor_name,
     location,
-    complaint_type_name,
+    complaint_type_name
   } = holdData
 
   const [hold, sethold] = useState(true)
@@ -55,7 +55,7 @@ const MarkAsHoldModal = ({ holdOpen, setHoldOpen, setHoldflag, holdData, count, 
       pending_onhold_time: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
       pending_onhold_user: id,
       complaint_slno: complaint_slno,
-      cm_hold_reason_slno: holdReason,
+      cm_hold_reason_slno: holdReason
     }
   }, [pendholdreason, complaint_slno, holdReason, hold, id])
 
@@ -96,11 +96,11 @@ const MarkAsHoldModal = ({ holdOpen, setHoldOpen, setHoldflag, holdData, count, 
     '&:hover': {
       bgcolor: 'white',
       color: '#523A28',
-      transform: 'scale(1.1)',
+      transform: 'scale(1.1)'
     },
     '&:active': {
-      transform: 'scale(0.95)',
-    },
+      transform: 'scale(0.95)'
+    }
   }
   return (
     <CssVarsProvider>
@@ -113,7 +113,7 @@ const MarkAsHoldModal = ({ holdOpen, setHoldOpen, setHoldflag, holdData, count, 
           justifyContent: 'center',
           alignItems: 'center',
           pl: 1,
-          borderRadius: 10,
+          borderRadius: 10
         }}
       >
         <ModalDialog variant="outlined" sx={{ width: '43vw', p: 0, overflow: 'auto' }}>
@@ -126,12 +126,8 @@ const MarkAsHoldModal = ({ holdOpen, setHoldOpen, setHoldflag, holdData, count, 
 
           <Box sx={{ flex: 1, display: 'flex', bgcolor: '#ECEDEF', py: 0.5 }}>
             <Box sx={{ flex: 1, pl: 0.5 }}>
-              <Typography sx={{ pl: 0.5, fontWeight: 600, color: 'Black' }}>
-                Ticket No.{complaint_slno}
-              </Typography>
-              <Typography sx={{ pl: 0.5, fontSize: 14, color: 'Black' }}>
-                {complaint_desc}
-              </Typography>
+              <Typography sx={{ pl: 0.5, fontWeight: 600, color: 'Black' }}>Ticket No.{complaint_slno}</Typography>
+              <Typography sx={{ pl: 0.5, fontSize: 14, color: 'Black' }}>{complaint_desc}</Typography>
               <Typography sx={{ pl: 0.5, fontSize: 13, color: 'Black', py: 0.5 }}>
                 Complaint Type: {complaint_type_name}
               </Typography>
@@ -150,9 +146,7 @@ const MarkAsHoldModal = ({ holdOpen, setHoldOpen, setHoldflag, holdData, count, 
                     : 'Not Updated'}
                 </Typography>
               ) : null}
-              <Typography sx={{ pl: 0.5, fontSize: 13, color: 'Black' }}>
-                {compalint_date}
-              </Typography>
+              <Typography sx={{ pl: 0.5, fontSize: 13, color: 'Black' }}>{compalint_date}</Typography>
             </Box>
           </Box>
 

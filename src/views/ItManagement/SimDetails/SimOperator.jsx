@@ -10,7 +10,7 @@ import { useCallback } from 'react'
 const SimOperator = ({ provider, setProvider }) => {
   const { data: simOperatorList } = useQuery({
     queryKey: ['getsimOperatorList'],
-    queryFn: () => getsimOperatorList(),
+    queryFn: () => getsimOperatorList()
   })
 
   const [providerX, setproviderX] = useState([{ sim_operator_id: 0, sim_operator_name: '' }])
@@ -48,7 +48,7 @@ const SimOperator = ({ provider, setProvider }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '29px',
+            '--Input-minHeight': '29px'
           }}
           value={provider === 0 ? providerX : value}
           placeholder="Select SiM Operator"
@@ -64,9 +64,7 @@ const SimOperator = ({ provider, setProvider }) => {
           loading={true}
           loadingText="Loading..."
           freeSolo
-          isOptionEqualToValue={(option, value) =>
-            option.sim_operator_name === value.sim_operator_name
-          }
+          isOptionEqualToValue={(option, value) => option.sim_operator_name === value.sim_operator_name}
           getOptionLabel={option => option.sim_operator_name || ''}
           options={providerX}
         />

@@ -44,7 +44,7 @@ const CrfBiomedical = () => {
   const searchCrf = useMemo(() => {
     return {
       from: format(new Date(startDate), 'yyyy-MM-dd 00:00:00'),
-      to: format(new Date(endDate), 'yyyy-MM-dd 23:59:59'),
+      to: format(new Date(endDate), 'yyyy-MM-dd 23:59:59')
     }
   }, [startDate, endDate])
   const searchCRFDetails = useCallback(
@@ -77,14 +77,9 @@ const CrfBiomedical = () => {
               dept_name: val.dept_name,
               dept_type: val.dept_type,
               dept_id: val.dept_id,
-              dept_type_name:
-                val.dept_type === 1
-                  ? 'Clinical'
-                  : val.dept_type === 2
-                  ? 'Non Clinical'
-                  : 'Academic',
+              dept_type_name: val.dept_type === 1 ? 'Clinical' : val.dept_type === 2 ? 'Non Clinical' : 'Academic',
               user_deptsec: val.user_deptsec,
-              category: val.category_name,
+              category: val.category_name
             }
             return obj
           })
@@ -111,8 +106,8 @@ const CrfBiomedical = () => {
     borderRadius: 6,
     '&:hover': {
       bgcolor: 'white',
-      color: '#1976d2',
-    },
+      color: '#1976d2'
+    }
   }
 
   return (
@@ -135,13 +130,13 @@ const CrfBiomedical = () => {
             flexWrap: 'wrap',
             py: 2,
             border: '1px solid #B4F5F0',
-            borderTop: 'none',
+            borderTop: 'none'
           }}
         >
           <Box
             sx={{
               display: 'flex',
-              width: { xs: '100%', md: '60vw', lg: '50vw', xl: '50vw', flexWrap: 'wrap' },
+              width: { xs: '100%', md: '60vw', lg: '50vw', xl: '50vw', flexWrap: 'wrap' }
             }}
           >
             <Box sx={{ display: 'flex', flex: 1, gap: 0.5 }}>
@@ -149,9 +144,7 @@ const CrfBiomedical = () => {
                 <CssVarsProvider key={label}>
                   <Input
                     startDecorator={
-                      <Typography sx={{ fontSize: 14, color: '#1D617A', fontWeight: 550, pr: 0.5 }}>
-                        {label}
-                      </Typography>
+                      <Typography sx={{ fontSize: 14, color: '#1D617A', fontWeight: 550, pr: 0.5 }}>{label}</Typography>
                     }
                     sx={{
                       height: 25,
@@ -159,7 +152,7 @@ const CrfBiomedical = () => {
                       border: '1px solid #bbdefb',
                       width: '100%',
                       color: '#0d47a1',
-                      fontSize: 14,
+                      fontSize: 14
                     }}
                     size="md"
                     type="date"
@@ -169,8 +162,8 @@ const CrfBiomedical = () => {
                     slotProps={{
                       input: {
                         min: idx === 1 ? startDate : undefined,
-                        max: moment(new Date()).format('YYYY-MM-DD'),
-                      },
+                        max: moment(new Date()).format('YYYY-MM-DD')
+                      }
                     }}
                   />
                 </CssVarsProvider>
@@ -190,7 +183,7 @@ const CrfBiomedical = () => {
             height: window.innerHeight - 210,
             overflow: 'auto',
             flexWrap: 'wrap',
-            bgcolor: 'white',
+            bgcolor: 'white'
           }}
         >
           {tableData.length !== 0 ? (
@@ -205,7 +198,7 @@ const CrfBiomedical = () => {
                     width: '100%',
                     flexWrap: 'wrap',
                     border: '1px solid #21B6A8',
-                    borderRadius: 2,
+                    borderRadius: 2
                   }}
                 >
                   <MasterComponent val={val} />
@@ -220,7 +213,7 @@ const CrfBiomedical = () => {
                 fontSize: 25,
                 opacity: 0.5,
                 pt: 10,
-                color: 'grey',
+                color: 'grey'
               }}
             >
               No Report Found

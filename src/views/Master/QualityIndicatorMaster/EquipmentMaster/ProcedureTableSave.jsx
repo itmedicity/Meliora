@@ -26,10 +26,7 @@ const ProcedureTableSave = ({ ProcedureArray, setProcedureArray }) => {
         >
           <thead style={{ alignItems: 'center' }}>
             <tr style={{ height: 0.5 }}>
-              <th
-                size="sm"
-                style={{ width: 50, fontWeight: 650, fontSize: 14, textAlign: 'center' }}
-              >
+              <th size="sm" style={{ width: 50, fontWeight: 650, fontSize: 14, textAlign: 'center' }}>
                 &nbsp; Sl.No
               </th>
               <th size="sm" style={{ width: 80, fontWeight: 650, fontSize: 14 }}>
@@ -61,8 +58,8 @@ const ProcedureTableSave = ({ ProcedureArray, setProcedureArray }) => {
                           sx={{
                             color: '#B95C50',
                             ':hover': {
-                              color: '#DC4731',
-                            },
+                              color: '#DC4731'
+                            }
                           }}
                           onClick={() => DeleteProcedures(val)}
                         />

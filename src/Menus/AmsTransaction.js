@@ -7,8 +7,8 @@ const AmsTransaction = [
     // component: CNavItem,
     name: 'Ams Patient Details',
     to: '/Home/AmsPatientDetails',
-    icon: <CiStop1 />,
-  },
+    icon: <CiStop1 />
+  }
 ]
 
 export default AmsTransaction

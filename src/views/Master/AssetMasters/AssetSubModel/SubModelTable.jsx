@@ -12,12 +12,12 @@ const SubModelTable = ({ count, rowSelect }) => {
     {
       headerName: 'Action',
       minWidth: 10,
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
     },
     { headerName: 'SlNo', field: 'submodel_slno', minWidth: 50 },
     { headerName: 'Submodel', field: 'submodel_name', minWidth: 70 },
     { headerName: 'Model', field: 'model_name', minWidth: 70 },
-    { headerName: 'Status', field: 'status', minWidth: 50 },
+    { headerName: 'Status', field: 'status', minWidth: 50 }
   ])
   useEffect(() => {
     const getModel = async () => {

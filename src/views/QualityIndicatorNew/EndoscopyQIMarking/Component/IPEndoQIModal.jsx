@@ -2,16 +2,7 @@ import { Dialog, DialogContent, Paper } from '@mui/material'
 import React, { Fragment, memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker, DateTimePicker } from '@mui/x-date-pickers'
-import {
-  Box,
-  Button,
-  CssVarsProvider,
-  Textarea,
-  Typography,
-  Checkbox,
-  Tooltip,
-  Input,
-} from '@mui/joy'
+import { Box, Button, CssVarsProvider, Textarea, Typography, Checkbox, Tooltip, Input } from '@mui/joy'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import {
   addMinutes,
@@ -20,7 +11,7 @@ import {
   differenceInSeconds,
   format,
   isAfter,
-  isBefore,
+  isBefore
 } from 'date-fns'
 import { useDispatch, useSelector } from 'react-redux'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
@@ -35,16 +26,7 @@ import QIProcedureSelect from 'src/views/CommonSelectCode/QIProcedureSelect'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import ProcedureEquipmentTable from './ProcedureEquipmentTable'
 
-const IPEndoQIModal = ({
-  open,
-  handleClose,
-  rowSelect,
-  count,
-  setCount,
-  depName,
-  qidept,
-  setQiflag,
-}) => {
+const IPEndoQIModal = ({ open, handleClose, rowSelect, count, setCount, depName, qidept, setQiflag }) => {
   const {
     qi_endo_ip_slno,
     ip_no,
@@ -62,7 +44,7 @@ const IPEndoQIModal = ({
     incidence_ident_error_status,
     falls_status,
     near_misses_status,
-    sentinel_events_status,
+    sentinel_events_status
   } = rowSelect
 
   const [errorYes, setErrorYes] = useState(false)
@@ -184,7 +166,7 @@ const IPEndoQIModal = ({
         sentinel_incident_type,
         sentinel_analysed,
         equip_start_time,
-        equip_end_time,
+        equip_end_time
       } = rowSelect
       setErrorYes(error_status === 1 ? true : false)
       setErrorNo(error_status === 0 ? true : false)
@@ -226,13 +208,9 @@ const IPEndoQIModal = ({
       setNearMissessReason(nearmisses_reason === null ? '' : nearmisses_reason)
       setBenchMarkReason(initial_assessment_reason === null ? '' : initial_assessment_reason)
 
-      setTestReqDate(
-        test_req_date === null ? format(new Date(endo_arrival_time), 'yyyy-MM-dd') : test_req_date
-      )
+      setTestReqDate(test_req_date === null ? format(new Date(endo_arrival_time), 'yyyy-MM-dd') : test_req_date)
       setEntryTime(
-        endo_arrival_time === null
-          ? format(new Date(endo_arrival_time), 'yyyy-MM-dd HH:mm:ss')
-          : endo_arrival_time
+        endo_arrival_time === null ? format(new Date(endo_arrival_time), 'yyyy-MM-dd HH:mm:ss') : endo_arrival_time
       )
       setAssessmentTime(
         assessment_time === null
@@ -289,7 +267,7 @@ const IPEndoQIModal = ({
             equip_no: val.equip_no,
             equip_name: val.equip_name,
             PD_CODE: val.PD_CODE,
-            PDC_DESC: newData ? newData.PDC_DESC : 'nil',
+            PDC_DESC: newData ? newData.PDC_DESC : 'nil'
           }
         })
         setProcedureArray(newArray)
@@ -646,7 +624,7 @@ const IPEndoQIModal = ({
       emp_id: id,
       sentinel_analysed: sentinelAnalyse === true ? 1 : 0,
       equip_service_time: equipUsedTime,
-      qi_endo_ip_slno: qi_endo_ip_slno,
+      qi_endo_ip_slno: qi_endo_ip_slno
     }
   }, [
     testReqDate,
@@ -669,7 +647,7 @@ const IPEndoQIModal = ({
     equipStartTime,
     equipEndTime,
     sentinelAnalyse,
-    equipUsedTime,
+    equipUsedTime
   ])
   const SaveDetails = useCallback(() => {
     if (errorYes === true && errorDetails === '' && errorReason === '') {
@@ -710,7 +688,7 @@ const IPEndoQIModal = ({
               qi_endo_ip_slno: qi_endo_ip_slno,
               equip_no: val.equip_no,
               procedure_name: val.PD_CODE,
-              endo_date: format(new Date(equipStartTime), 'yyyy-MM-dd'),
+              endo_date: format(new Date(equipStartTime), 'yyyy-MM-dd')
             }
           })
           if (equipmentExit === 1) {
@@ -768,7 +746,7 @@ const IPEndoQIModal = ({
     ProcedureArray,
     qi_endo_ip_slno,
     equipmentExit,
-    equipStartTime,
+    equipStartTime
   ])
   const ResetDetails = useCallback(() => {
     reset()
@@ -776,7 +754,7 @@ const IPEndoQIModal = ({
 
   useEffect(() => {
     const incidentData = {
-      qi_endo_ip_slno: qi_endo_ip_slno,
+      qi_endo_ip_slno: qi_endo_ip_slno
     }
     const getIncidentDetails = async incidentData => {
       const result = await axioslogin.post('/qiendoscopy/IPIncident', incidentData)
@@ -848,7 +826,7 @@ const IPEndoQIModal = ({
         equip_no: equipment,
         equip_name: equipName,
         PD_CODE: procName,
-        PDC_DESC: procNamedisplay,
+        PDC_DESC: procNamedisplay
       }
       if (ProcedureArray.length === 0) {
         const newArray = [...ProcedureArray, fromdata]
@@ -945,9 +923,7 @@ const IPEndoQIModal = ({
                   <Typography sx={{ fontSize: 14 }}>{ip_no}</Typography>
                 </Box>
                 <Box sx={{ pt: 0.5, pl: 2 }}>
-                  <Typography sx={{ fontSize: 14 }}>
-                    {format(new Date(ipd_date), 'dd-MM-yyyy hh:mm a')}
-                  </Typography>
+                  <Typography sx={{ fontSize: 14 }}>{format(new Date(ipd_date), 'dd-MM-yyyy hh:mm a')}</Typography>
                 </Box>
                 <Box sx={{ pt: 0.5, pl: 2 }}>
                   <Typography sx={{ fontSize: 14 }}>{ptno}</Typography>
@@ -998,9 +974,7 @@ const IPEndoQIModal = ({
                   </Typography>
                 </Box>
               </Box>
-              <Box
-                sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 20, pt: 0.5, pr: 0.2 }}
-              >
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 20, pt: 0.5, pr: 0.2 }}>
                 <CssVarsProvider>
                   <Tooltip title="Close" placement="bottom" cursor="pointer">
                     <HighlightOffIcon
@@ -1028,12 +1002,7 @@ const IPEndoQIModal = ({
                           <Checkbox color="neutral" size="md" checked={errorYes} />
                         </Tooltip>
                       ) : (
-                        <Checkbox
-                          color="primary"
-                          size="md"
-                          checked={errorYes}
-                          onChange={ChangeErrorYes}
-                        />
+                        <Checkbox color="primary" size="md" checked={errorYes} onChange={ChangeErrorYes} />
                       )}
                     </CssVarsProvider>
                   </Box>
@@ -1047,12 +1016,7 @@ const IPEndoQIModal = ({
                           <Checkbox color="neutral" size="md" checked={errorNo} />
                         </Tooltip>
                       ) : (
-                        <Checkbox
-                          color="primary"
-                          size="md"
-                          checked={errorNo}
-                          onChange={ChangeErrorNo}
-                        />
+                        <Checkbox color="primary" size="md" checked={errorNo} onChange={ChangeErrorNo} />
                       )}
                     </CssVarsProvider>
                   </Box>
@@ -1070,7 +1034,7 @@ const IPEndoQIModal = ({
                             height: 20,
                             width: 150,
                             display: 'flex',
-                            justifyContent: 'flex-start',
+                            justifyContent: 'flex-start'
                           }}
                           startDecorator={
                             <AddCircleOutlineIcon
@@ -1139,9 +1103,7 @@ const IPEndoQIModal = ({
                           </Box>
                           <Box sx={{ flex: 1, pl: 0.3 }}>
                             <Box sx={{ pl: 1, pt: 0.5 }}>
-                              <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                                Reason Of Error
-                              </Typography>
+                              <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Reason Of Error</Typography>
                             </Box>
                             <Box>
                               <CssVarsProvider>
@@ -1222,12 +1184,7 @@ const IPEndoQIModal = ({
                           <Checkbox color="neutral" size="md" checked={redosYes} />
                         </Tooltip>
                       ) : (
-                        <Checkbox
-                          color="primary"
-                          size="md"
-                          checked={redosYes}
-                          onChange={ChangeRedosYes}
-                        />
+                        <Checkbox color="primary" size="md" checked={redosYes} onChange={ChangeRedosYes} />
                       )}
                     </CssVarsProvider>
                   </Box>
@@ -1241,12 +1198,7 @@ const IPEndoQIModal = ({
                           <Checkbox color="neutral" size="md" checked={redosNo} />
                         </Tooltip>
                       ) : (
-                        <Checkbox
-                          color="primary"
-                          size="md"
-                          checked={redosNo}
-                          onChange={ChangeRedosNo}
-                        />
+                        <Checkbox color="primary" size="md" checked={redosNo} onChange={ChangeRedosNo} />
                       )}
                     </CssVarsProvider>
                   </Box>
@@ -1264,7 +1216,7 @@ const IPEndoQIModal = ({
                             height: 20,
                             width: 150,
                             display: 'flex',
-                            justifyContent: 'flex-start',
+                            justifyContent: 'flex-start'
                           }}
                           startDecorator={
                             <AddCircleOutlineIcon
@@ -1310,9 +1262,7 @@ const IPEndoQIModal = ({
                         <Box sx={{ display: 'flex', px: 0.5 }}>
                           <Box sx={{ flex: 1 }}>
                             <Box sx={{ pl: 1, pt: 0.5 }}>
-                              <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                                Details
-                              </Typography>
+                              <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Details</Typography>
                             </Box>
                             <Box>
                               <CssVarsProvider>
@@ -1415,12 +1365,7 @@ const IPEndoQIModal = ({
                           <Checkbox color="neutral" size="md" checked={errorIdentyYes} />
                         </Tooltip>
                       ) : (
-                        <Checkbox
-                          color="primary"
-                          size="md"
-                          checked={errorIdentyYes}
-                          onChange={ChangeIdentfyYes}
-                        />
+                        <Checkbox color="primary" size="md" checked={errorIdentyYes} onChange={ChangeIdentfyYes} />
                       )}
                     </CssVarsProvider>
                   </Box>
@@ -1434,12 +1379,7 @@ const IPEndoQIModal = ({
                           <Checkbox color="neutral" size="md" checked={errorIdentyNo} />
                         </Tooltip>
                       ) : (
-                        <Checkbox
-                          color="primary"
-                          size="md"
-                          checked={errorIdentyNo}
-                          onChange={ChangeIdentfyNo}
-                        />
+                        <Checkbox color="primary" size="md" checked={errorIdentyNo} onChange={ChangeIdentfyNo} />
                       )}
                     </CssVarsProvider>
                   </Box>
@@ -1457,7 +1397,7 @@ const IPEndoQIModal = ({
                             height: 20,
                             width: 150,
                             display: 'flex',
-                            justifyContent: 'flex-start',
+                            justifyContent: 'flex-start'
                           }}
                           startDecorator={
                             <AddCircleOutlineIcon
@@ -1547,9 +1487,7 @@ const IPEndoQIModal = ({
                           </Box>
                           <Box sx={{ flex: 1, pl: 0.3 }}>
                             <Box sx={{ pl: 1, pt: 0.5 }}>
-                              <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                                Action Taken
-                              </Typography>
+                              <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Action Taken</Typography>
                             </Box>
                             <Box>
                               <CssVarsProvider>
@@ -1587,12 +1525,7 @@ const IPEndoQIModal = ({
                           <Checkbox color="neutral" size="md" checked={fallsYes} />
                         </Tooltip>
                       ) : (
-                        <Checkbox
-                          color="primary"
-                          size="md"
-                          checked={fallsYes}
-                          onChange={ChangeFallsYes}
-                        />
+                        <Checkbox color="primary" size="md" checked={fallsYes} onChange={ChangeFallsYes} />
                       )}
                     </CssVarsProvider>
                   </Box>
@@ -1606,12 +1539,7 @@ const IPEndoQIModal = ({
                           <Checkbox color="neutral" size="md" checked={fallsNo} />
                         </Tooltip>
                       ) : (
-                        <Checkbox
-                          color="primary"
-                          size="md"
-                          checked={fallsNo}
-                          onChange={ChangeFallsNo}
-                        />
+                        <Checkbox color="primary" size="md" checked={fallsNo} onChange={ChangeFallsNo} />
                       )}
                     </CssVarsProvider>
                   </Box>
@@ -1629,7 +1557,7 @@ const IPEndoQIModal = ({
                             height: 20,
                             width: 150,
                             display: 'flex',
-                            justifyContent: 'flex-start',
+                            justifyContent: 'flex-start'
                           }}
                           startDecorator={
                             <AddCircleOutlineIcon
@@ -1675,9 +1603,7 @@ const IPEndoQIModal = ({
                         <Box sx={{ display: 'flex', px: 0.5 }}>
                           <Box sx={{ flex: 1 }}>
                             <Box sx={{ pl: 1, pt: 0.5 }}>
-                              <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                                Falls Details
-                              </Typography>
+                              <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Falls Details</Typography>
                             </Box>
                             <Box>
                               <CssVarsProvider>
@@ -1697,9 +1623,7 @@ const IPEndoQIModal = ({
                           </Box>
                           <Box sx={{ flex: 1, pl: 0.3 }}>
                             <Box sx={{ pl: 1, pt: 0.5 }}>
-                              <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                                Falls Reason
-                              </Typography>
+                              <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Falls Reason</Typography>
                             </Box>
                             <Box>
                               <CssVarsProvider>
@@ -1738,12 +1662,7 @@ const IPEndoQIModal = ({
                           <Checkbox color="neutral" size="md" checked={sentinelYes} />
                         </Tooltip>
                       ) : (
-                        <Checkbox
-                          color="primary"
-                          size="md"
-                          checked={sentinelYes}
-                          onChange={ChangeSentinelYes}
-                        />
+                        <Checkbox color="primary" size="md" checked={sentinelYes} onChange={ChangeSentinelYes} />
                       )}
                     </CssVarsProvider>
                   </Box>
@@ -1757,12 +1676,7 @@ const IPEndoQIModal = ({
                           <Checkbox color="neutral" size="md" checked={sentinelNo} />
                         </Tooltip>
                       ) : (
-                        <Checkbox
-                          color="primary"
-                          size="md"
-                          checked={sentinelNo}
-                          onChange={ChangeSentinelNo}
-                        />
+                        <Checkbox color="primary" size="md" checked={sentinelNo} onChange={ChangeSentinelNo} />
                       )}
                     </CssVarsProvider>
                   </Box>
@@ -1780,7 +1694,7 @@ const IPEndoQIModal = ({
                             height: 20,
                             width: 150,
                             display: 'flex',
-                            justifyContent: 'flex-start',
+                            justifyContent: 'flex-start'
                           }}
                           startDecorator={
                             <AddCircleOutlineIcon
@@ -1826,9 +1740,7 @@ const IPEndoQIModal = ({
                         <Box sx={{ display: 'flex', px: 0.5 }}>
                           <Box sx={{ flex: 1 }}>
                             <Box sx={{ pl: 1, pt: 0.5 }}>
-                              <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                                Details
-                              </Typography>
+                              <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Details</Typography>
                             </Box>
                             <Box>
                               <CssVarsProvider>
@@ -1848,9 +1760,7 @@ const IPEndoQIModal = ({
                           </Box>
                           <Box sx={{ flex: 1, pl: 0.3 }}>
                             <Box sx={{ pl: 1, pt: 0.5 }}>
-                              <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                                Reason
-                              </Typography>
+                              <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Reason</Typography>
                             </Box>
                             <Box>
                               <CssVarsProvider>
@@ -1871,9 +1781,7 @@ const IPEndoQIModal = ({
                         </Box>
                         <Box sx={{ display: 'flex' }}>
                           <Box sx={{ flex: 2, pl: 1, pt: 1.3 }}>
-                            <Typography
-                              sx={{ fontSize: 12, fontWeight: 550, textTransform: 'uppercase' }}
-                            >
+                            <Typography sx={{ fontSize: 12, fontWeight: 550, textTransform: 'uppercase' }}>
                               Analyzed within the Defined Time Frame{' '}
                             </Typography>
                           </Box>
@@ -1909,12 +1817,7 @@ const IPEndoQIModal = ({
                           <Checkbox color="neutral" size="md" checked={nearYes} />
                         </Tooltip>
                       ) : (
-                        <Checkbox
-                          color="primary"
-                          size="md"
-                          checked={nearYes}
-                          onChange={ChangeNearYes}
-                        />
+                        <Checkbox color="primary" size="md" checked={nearYes} onChange={ChangeNearYes} />
                       )}
                     </CssVarsProvider>
                   </Box>
@@ -1928,12 +1831,7 @@ const IPEndoQIModal = ({
                           <Checkbox color="neutral" size="md" checked={nearNo} />
                         </Tooltip>
                       ) : (
-                        <Checkbox
-                          color="primary"
-                          size="md"
-                          checked={nearNo}
-                          onChange={ChangeNearNo}
-                        />
+                        <Checkbox color="primary" size="md" checked={nearNo} onChange={ChangeNearNo} />
                       )}
                     </CssVarsProvider>
                   </Box>
@@ -1951,7 +1849,7 @@ const IPEndoQIModal = ({
                             height: 20,
                             width: 150,
                             display: 'flex',
-                            justifyContent: 'flex-start',
+                            justifyContent: 'flex-start'
                           }}
                           startDecorator={
                             <AddCircleOutlineIcon
@@ -1997,9 +1895,7 @@ const IPEndoQIModal = ({
                         <Box sx={{ display: 'flex', px: 0.5 }}>
                           <Box sx={{ flex: 1 }}>
                             <Box sx={{ pl: 1, pt: 0.5 }}>
-                              <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                                Details
-                              </Typography>
+                              <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Details</Typography>
                             </Box>
                             <Box>
                               <CssVarsProvider>
@@ -2019,9 +1915,7 @@ const IPEndoQIModal = ({
                           </Box>
                           <Box sx={{ flex: 1, pl: 0.3 }}>
                             <Box sx={{ pl: 1, pt: 0.5 }}>
-                              <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                                Falls Reason
-                              </Typography>
+                              <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Falls Reason</Typography>
                             </Box>
                             <Box>
                               <CssVarsProvider>
@@ -2057,9 +1951,7 @@ const IPEndoQIModal = ({
                 <Box sx={{ display: 'flex', m: 0.5, bgcolor: '#eceff1', flex: 1, pb: 0.5 }}>
                   <Box sx={{ flex: 1 }}>
                     <Box sx={{ pl: 0.5, pt: 0.5 }}>
-                      <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                        Test Requested Date
-                      </Typography>
+                      <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Test Requested Date</Typography>
                     </Box>
                     <Box sx={{ pl: 1 }}>
                       <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -2166,9 +2058,7 @@ const IPEndoQIModal = ({
                 <Box sx={{ display: 'flex', m: 0.5, bgcolor: '#eceff1', flex: 1, pb: 0.5 }}>
                   <Box sx={{ flex: 1 }}>
                     <Box sx={{ pl: 0.5, pt: 0.5 }}>
-                      <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                        Procedure Starting Time
-                      </Typography>
+                      <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Procedure Starting Time</Typography>
                     </Box>
                     <Box sx={{ pl: 1 }}>
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -2202,9 +2092,7 @@ const IPEndoQIModal = ({
                   </Box>
                   <Box sx={{ flex: 1, pl: 1 }}>
                     <Box sx={{ pl: 0.5, pt: 0.5 }}>
-                      <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                        Procedure Ending Time
-                      </Typography>
+                      <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Procedure Ending Time</Typography>
                     </Box>
                     <Box sx={{ pl: 1 }}>
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -2238,9 +2126,7 @@ const IPEndoQIModal = ({
                   </Box>
                   <Box sx={{ flex: 1, pl: 1 }}>
                     <Box sx={{ pl: 0.5, pt: 0.5 }}>
-                      <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                        Report Generating Time
-                      </Typography>
+                      <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Report Generating Time</Typography>
                     </Box>
                     <Box sx={{ pl: 1 }}>
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -2274,9 +2160,7 @@ const IPEndoQIModal = ({
                   </Box>
                   <Box sx={{ flex: 1.2, pl: 1, pr: 0.5 }}>
                     <Box sx={{ pl: 0.5, pt: 0.5 }}>
-                      <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                        Report Despatching Time
-                      </Typography>
+                      <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Report Despatching Time</Typography>
                     </Box>
                     <Box sx={{ pl: 1, pr: 0.5 }}>
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -2328,7 +2212,7 @@ const IPEndoQIModal = ({
                             pt: 0.8,
                             border: '1px solid lightgrey',
                             pl: 2,
-                            borderRadius: 1.5,
+                            borderRadius: 1.5
                           }}
                         >
                           {sumOfAssesment}
@@ -2343,7 +2227,7 @@ const IPEndoQIModal = ({
                             pt: 0.8,
                             border: '1px solid lightgrey',
                             pl: 2,
-                            borderRadius: 1.5,
+                            borderRadius: 1.5
                           }}
                         >
                           {sumOfAssesment}
@@ -2379,9 +2263,7 @@ const IPEndoQIModal = ({
                   </>
                   <Box sx={{ flex: 1 }}>
                     <Box sx={{ pt: 0.5, pl: 0.3 }}>
-                      <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                        Total Time Gap
-                      </Typography>
+                      <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Total Time Gap</Typography>
                     </Box>
                     <Box sx={{ display: 'flex', justifyContent: 'center', pt: 0.1 }}>
                       <Box
@@ -2393,7 +2275,7 @@ const IPEndoQIModal = ({
                           pt: 0.8,
                           border: '1px solid lightgrey',
                           pl: 2,
-                          borderRadius: 1.5,
+                          borderRadius: 1.5
                         }}
                       >
                         {timeGap}
@@ -2402,9 +2284,7 @@ const IPEndoQIModal = ({
                   </Box>
                   <Box sx={{ flex: 1 }}>
                     <Box sx={{ pt: 0.5 }}>
-                      <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                        Turnaround Time
-                      </Typography>
+                      <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Turnaround Time</Typography>
                     </Box>
                     <Box sx={{ display: 'flex', justifyContent: 'center', pt: 0.1 }}>
                       <Box
@@ -2416,7 +2296,7 @@ const IPEndoQIModal = ({
                           pt: 0.8,
                           border: '1px solid lightgrey',
                           pl: 2,
-                          borderRadius: 1.5,
+                          borderRadius: 1.5
                         }}
                       >
                         {turnaroundTime}
@@ -2443,9 +2323,7 @@ const IPEndoQIModal = ({
               <Box sx={{ display: 'flex', mx: 0.5, bgcolor: '#eceff1', flex: 1, pb: 0.5 }}>
                 <Box sx={{ flex: 1 }}>
                   <Box sx={{ pl: 0.7, pt: 0.5 }}>
-                    <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                      Equipment
-                    </Typography>
+                    <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Equipment</Typography>
                   </Box>
                   <Box sx={{ ml: 1, mr: 0.6, pt: 0.8, bgcolor: 'white' }}>
                     <QIEquipmentSelect
@@ -2459,9 +2337,7 @@ const IPEndoQIModal = ({
                 </Box>
                 <Box sx={{ flex: 1 }}>
                   <Box sx={{ pl: 0.7, pt: 0.5 }}>
-                    <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                      Procedures
-                    </Typography>
+                    <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Procedures</Typography>
                   </Box>
                   <Box sx={{ mx: 1, pt: 0.8, bgcolor: 'white' }}>
                     <QIProcedureSelect
@@ -2480,10 +2356,10 @@ const IPEndoQIModal = ({
                           cursor: 'pointer',
                           color: '#0476D0',
                           ':hover': {
-                            color: '#0067B3',
+                            color: '#0067B3'
                           },
                           height: 30,
-                          width: 30,
+                          width: 30
                         }}
                         onClick={AddProcedures}
                       />
@@ -2503,9 +2379,7 @@ const IPEndoQIModal = ({
               <Box sx={{ display: 'flex', mx: 0.5, bgcolor: '#eceff1', flex: 1, pb: 1 }}>
                 <Box sx={{ flex: 1, pl: 0.5 }}>
                   <Box sx={{ pl: 0.4, pt: 0.5 }}>
-                    <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                      Start Time
-                    </Typography>
+                    <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Start Time</Typography>
                   </Box>
                   <Box sx={{ pl: 0.5 }}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -2539,9 +2413,7 @@ const IPEndoQIModal = ({
                 </Box>
                 <Box sx={{ flex: 1, px: 1 }}>
                   <Box sx={{ pl: 0.5, pt: 0.5 }}>
-                    <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                      End Time
-                    </Typography>
+                    <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>End Time</Typography>
                   </Box>
                   <Box sx={{ px: 1 }}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -2603,8 +2475,8 @@ const IPEndoQIModal = ({
                       ':hover': {
                         bgcolor: '#78909c',
                         boxShadow: 2,
-                        color: 'white',
-                      },
+                        color: 'white'
+                      }
                     }}
                     onClick={SaveDetails}
                   >
@@ -2626,8 +2498,8 @@ const IPEndoQIModal = ({
                       ':hover': {
                         bgcolor: '#78909c',
                         boxShadow: 2,
-                        color: 'white',
-                      },
+                        color: 'white'
+                      }
                     }}
                     onClick={ResetDetails}
                   >

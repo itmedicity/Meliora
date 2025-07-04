@@ -35,9 +35,7 @@ const MonthlyBill = ({ monthlydata, billCount, setbillCount }) => {
   const UndatePending = useCallback(value => {
     const { monthly_slno } = value
     const getbillsFile = async () => {
-      const result = await axioslogin.get(
-        `/ItImageUpload/uploadFile/getMonthlyBillImages/${monthly_slno}`
-      )
+      const result = await axioslogin.get(`/ItImageUpload/uploadFile/getMonthlyBillImages/${monthly_slno}`)
       const { success, data } = result.data
       if (success === 1) {
         const fileNames = data
@@ -68,8 +66,7 @@ const MonthlyBill = ({ monthlydata, billCount, setbillCount }) => {
     if (enterText.length < 3) {
       infoNotify('please enter minimum 3 character to search task name')
     } else {
-      let newTableDataa =
-        monthlydata && monthlydata.filter(val => val.bill_name.toLowerCase().includes(enterText))
+      let newTableDataa = monthlydata && monthlydata.filter(val => val.bill_name.toLowerCase().includes(enterText))
       setsearchBillNameFlag(1)
       setAlphbased(1)
       setAlphbasedData(newTableDataa)
@@ -78,8 +75,7 @@ const MonthlyBill = ({ monthlydata, billCount, setbillCount }) => {
 
   useEffect(() => {
     if (alphbased === 1) {
-      let newTableDataa =
-        monthlydata && monthlydata.filter(val => val.bill_name.toLowerCase().includes(enterText))
+      let newTableDataa = monthlydata && monthlydata.filter(val => val.bill_name.toLowerCase().includes(enterText))
       setAlphbasedData(newTableDataa)
     }
   }, [monthlydata, alphbased, enterText])
@@ -92,8 +88,7 @@ const MonthlyBill = ({ monthlydata, billCount, setbillCount }) => {
 
   useEffect(() => {
     if (alphbased === 2) {
-      let newTableDataa =
-        monthlydata && monthlydata.filter(val => val.bill_category === billCategory)
+      let newTableDataa = monthlydata && monthlydata.filter(val => val.bill_category === billCategory)
       setsearchBillCateFlag(1)
       setBillcate(newTableDataa)
     }
@@ -146,7 +141,7 @@ const MonthlyBill = ({ monthlydata, billCount, setbillCount }) => {
                     height: 29,
                     borderRadius: 2,
                     width: 350,
-                    pl: 1,
+                    pl: 1
                   }}
                   onChange={updateEnterText}
                 />
@@ -161,7 +156,7 @@ const MonthlyBill = ({ monthlydata, billCount, setbillCount }) => {
                         borderTop: 1,
                         borderBottom: 1,
                         borderColor: '#B2C4CB',
-                        '&:hover': { bgcolor: '#36454F' },
+                        '&:hover': { bgcolor: '#36454F' }
                       }}
                       onClick={SearchBillName}
                     >
@@ -181,7 +176,7 @@ const MonthlyBill = ({ monthlydata, billCount, setbillCount }) => {
                         borderTop: 1,
                         borderBottom: 1,
                         borderColor: '#B2C4CB',
-                        '&:hover': { bgcolor: '#36454F' },
+                        '&:hover': { bgcolor: '#36454F' }
                       }}
                       onClick={closeBillSearch}
                     >
@@ -216,7 +211,7 @@ const MonthlyBill = ({ monthlydata, billCount, setbillCount }) => {
                         borderTop: 1,
                         borderBottom: 1,
                         borderColor: '#B2C4CB',
-                        '&:hover': { bgcolor: '#36454F' },
+                        '&:hover': { bgcolor: '#36454F' }
                       }}
                       onClick={SearchBillCate}
                     >
@@ -236,7 +231,7 @@ const MonthlyBill = ({ monthlydata, billCount, setbillCount }) => {
                         borderTop: 1,
                         borderBottom: 1,
                         borderColor: '#B2C4CB',
-                        '&:hover': { bgcolor: '#36454F' },
+                        '&:hover': { bgcolor: '#36454F' }
                       }}
                       onClick={closeBillSearch}
                     >
@@ -266,21 +261,18 @@ const MonthlyBill = ({ monthlydata, billCount, setbillCount }) => {
                         borderRadius: 0,
                         display: 'flex',
                         mt: 0.5,
-                        color: 'black',
+                        color: 'black'
                       }}
                     >
                       <Box
                         sx={{
                           p: 0.5,
                           cursor: 'pointer',
-                          mx: 1,
+                          mx: 1
                         }}
                       >
                         <Tooltip title="Add Now" placement="bottom">
-                          <AddBoxIcon
-                            sx={{ height: 20, color: '#56382D' }}
-                            onClick={() => UndatePending(val)}
-                          />
+                          <AddBoxIcon sx={{ height: 20, color: '#56382D' }} onClick={() => UndatePending(val)} />
                         </Tooltip>
                       </Box>
                       <Box sx={{ flex: 0.8, pt: 0.5, cursor: 'grab', pl: 1 }}>
@@ -289,7 +281,7 @@ const MonthlyBill = ({ monthlydata, billCount, setbillCount }) => {
                             bgcolor: '#F1C83A',
                             fontSize: 14,
                             fontWeight: 700,
-                            color: '#670305',
+                            color: '#670305'
                           }}
                         >
                           {Monthly}
@@ -299,9 +291,7 @@ const MonthlyBill = ({ monthlydata, billCount, setbillCount }) => {
                         <Box sx={{ flex: 5, pt: 0.5, cursor: 'grab' }}>{val.bill_name}</Box>
                       </Tooltip>
                       <Tooltip title="bill Category" placement="bottom">
-                        <Box sx={{ flex: 1, pt: 0.5, cursor: 'grab' }}>
-                          {val.it_bill_category_name}
-                        </Box>
+                        <Box sx={{ flex: 1, pt: 0.5, cursor: 'grab' }}>{val.it_bill_category_name}</Box>
                       </Tooltip>
                     </Paper>
                   )
@@ -322,21 +312,18 @@ const MonthlyBill = ({ monthlydata, billCount, setbillCount }) => {
                         borderRadius: 0,
                         display: 'flex',
                         mt: 0.5,
-                        color: 'black',
+                        color: 'black'
                       }}
                     >
                       <Box
                         sx={{
                           p: 0.5,
                           cursor: 'pointer',
-                          mx: 1,
+                          mx: 1
                         }}
                       >
                         <Tooltip title="Add Now" placement="bottom">
-                          <AddBoxIcon
-                            sx={{ height: 20, color: '#56382D' }}
-                            onClick={() => UndatePending(val)}
-                          />
+                          <AddBoxIcon sx={{ height: 20, color: '#56382D' }} onClick={() => UndatePending(val)} />
                         </Tooltip>
                       </Box>
                       <Box sx={{ flex: 0.8, pt: 0.5, cursor: 'grab', pl: 1 }}>
@@ -345,7 +332,7 @@ const MonthlyBill = ({ monthlydata, billCount, setbillCount }) => {
                             bgcolor: '#F1C83A',
                             fontSize: 14,
                             fontWeight: 700,
-                            color: '#670305',
+                            color: '#670305'
                           }}
                         >
                           {Monthly}
@@ -355,9 +342,7 @@ const MonthlyBill = ({ monthlydata, billCount, setbillCount }) => {
                         <Box sx={{ flex: 5, pt: 0.5, cursor: 'grab' }}>{val.bill_name}</Box>
                       </Tooltip>
                       <Tooltip title="bill Category" placement="bottom">
-                        <Box sx={{ flex: 1, pt: 0.5, cursor: 'grab', pl: 2 }}>
-                          {val.it_bill_category_name}
-                        </Box>
+                        <Box sx={{ flex: 1, pt: 0.5, cursor: 'grab', pl: 2 }}>{val.it_bill_category_name}</Box>
                       </Tooltip>
                     </Paper>
                   )
@@ -378,21 +363,18 @@ const MonthlyBill = ({ monthlydata, billCount, setbillCount }) => {
                         borderRadius: 0,
                         display: 'flex',
                         mt: 0.5,
-                        color: 'black',
+                        color: 'black'
                       }}
                     >
                       <Box
                         sx={{
                           p: 0.5,
                           cursor: 'pointer',
-                          mx: 1,
+                          mx: 1
                         }}
                       >
                         <Tooltip title="Add Now" placement="bottom">
-                          <AddBoxIcon
-                            sx={{ height: 20, color: '#56382D' }}
-                            onClick={() => UndatePending(val)}
-                          />
+                          <AddBoxIcon sx={{ height: 20, color: '#56382D' }} onClick={() => UndatePending(val)} />
                         </Tooltip>
                       </Box>
                       <Box sx={{ flex: 0.8, pt: 0.5, cursor: 'grab' }}>
@@ -401,16 +383,14 @@ const MonthlyBill = ({ monthlydata, billCount, setbillCount }) => {
                             bgcolor: '#F1C83A',
                             fontSize: 14,
                             fontWeight: 700,
-                            color: '#670305',
+                            color: '#670305'
                           }}
                         >
                           {Monthly}
                         </Chip>
                       </Box>
                       <Box sx={{ flex: 5, pt: 0.5, cursor: 'grab' }}>{val.bill_name}</Box>
-                      <Box sx={{ flex: 1, pt: 0.5, cursor: 'grab', pl: 2 }}>
-                        {val.it_bill_category_name}
-                      </Box>
+                      <Box sx={{ flex: 1, pt: 0.5, cursor: 'grab', pl: 2 }}>{val.it_bill_category_name}</Box>
                     </Paper>
                   )
                 })}

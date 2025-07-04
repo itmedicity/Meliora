@@ -19,7 +19,7 @@ const ReportDailyCensus = ({ tableData, calculateTotal }) => {
     totTransIn,
     totTransOut,
     totDeath,
-    totalcensus,
+    totalcensus
   } = calculateTotal
 
   const groupedMonthlyData = useMemo(() => {
@@ -43,8 +43,8 @@ const ReportDailyCensus = ({ tableData, calculateTotal }) => {
             total_discharge: 0,
             transfer_in: 0,
             transfer_out: 0,
-            yesterday_census: 0,
-          },
+            yesterday_census: 0
+          }
         }
       }
 
@@ -71,10 +71,7 @@ const ReportDailyCensus = ({ tableData, calculateTotal }) => {
 
   return (
     <Fragment>
-      <Box
-        variant="outlined"
-        sx={{ height: window.innerHeight - 220, overflow: 'auto', padding: 'none' }}
-      >
+      <Box variant="outlined" sx={{ height: window.innerHeight - 220, overflow: 'auto', padding: 'none' }}>
         <CssVarsProvider>
           <Table
             aria-label="table with sticky header"
@@ -95,7 +92,7 @@ const ReportDailyCensus = ({ tableData, calculateTotal }) => {
                     textAlign: 'center',
                     color: 'white',
                     backgroundColor: '#757575',
-                    fontSize: 15,
+                    fontSize: 15
                   }}
                 >
                   Sl.No
@@ -108,7 +105,7 @@ const ReportDailyCensus = ({ tableData, calculateTotal }) => {
                     textAlign: 'center',
                     color: 'white',
                     backgroundColor: '#757575',
-                    fontSize: 15,
+                    fontSize: 15
                   }}
                 >
                   Nursing Station
@@ -121,7 +118,7 @@ const ReportDailyCensus = ({ tableData, calculateTotal }) => {
                     textAlign: 'center',
                     color: 'white',
                     backgroundColor: '#757575',
-                    fontSize: 15,
+                    fontSize: 15
                   }}
                 >
                   Date
@@ -135,7 +132,7 @@ const ReportDailyCensus = ({ tableData, calculateTotal }) => {
                     textAlign: 'center',
                     color: 'white',
                     backgroundColor: '#757575',
-                    fontSize: 15,
+                    fontSize: 15
                   }}
                 >
                   Yesterday Census
@@ -148,7 +145,7 @@ const ReportDailyCensus = ({ tableData, calculateTotal }) => {
                     textAlign: 'center',
                     color: 'white',
                     backgroundColor: '#757575',
-                    fontSize: 15,
+                    fontSize: 15
                   }}
                 >
                   Admissions
@@ -161,7 +158,7 @@ const ReportDailyCensus = ({ tableData, calculateTotal }) => {
                     textAlign: 'center',
                     color: 'white',
                     backgroundColor: '#757575',
-                    fontSize: 15,
+                    fontSize: 15
                   }}
                 >
                   Discharge
@@ -174,7 +171,7 @@ const ReportDailyCensus = ({ tableData, calculateTotal }) => {
                     textAlign: 'center',
                     color: 'white',
                     backgroundColor: '#757575',
-                    fontSize: 15,
+                    fontSize: 15
                   }}
                 >
                   Transfer In
@@ -187,7 +184,7 @@ const ReportDailyCensus = ({ tableData, calculateTotal }) => {
                     textAlign: 'center',
                     color: 'white',
                     backgroundColor: '#757575',
-                    fontSize: 15,
+                    fontSize: 15
                   }}
                 >
                   Transfer Out
@@ -200,7 +197,7 @@ const ReportDailyCensus = ({ tableData, calculateTotal }) => {
                     textAlign: 'center',
                     color: 'white',
                     backgroundColor: '#757575',
-                    fontSize: 15,
+                    fontSize: 15
                   }}
                 >
                   Death
@@ -213,7 +210,7 @@ const ReportDailyCensus = ({ tableData, calculateTotal }) => {
                     textAlign: 'center',
                     color: 'white',
                     backgroundColor: '#757575',
-                    fontSize: 15,
+                    fontSize: 15
                   }}
                 >
                   Total
@@ -226,7 +223,7 @@ const ReportDailyCensus = ({ tableData, calculateTotal }) => {
                     textAlign: 'center',
                     color: 'white',
                     backgroundColor: '#757575',
-                    fontSize: 15,
+                    fontSize: 15
                   }}
                 >
                   HIS Admissions
@@ -239,7 +236,7 @@ const ReportDailyCensus = ({ tableData, calculateTotal }) => {
                     textAlign: 'center',
                     color: 'white',
                     backgroundColor: '#757575',
-                    fontSize: 15,
+                    fontSize: 15
                   }}
                 >
                   HIS Discharge
@@ -252,7 +249,7 @@ const ReportDailyCensus = ({ tableData, calculateTotal }) => {
                     textAlign: 'center',
                     color: 'white',
                     backgroundColor: '#757575',
-                    fontSize: 15,
+                    fontSize: 15
                   }}
                 >
                   HIS Death
@@ -265,7 +262,7 @@ const ReportDailyCensus = ({ tableData, calculateTotal }) => {
                     textAlign: 'center',
                     color: 'white',
                     backgroundColor: '#757575',
-                    fontSize: 15,
+                    fontSize: 15
                   }}
                 >
                   HIS DAMA
@@ -278,7 +275,7 @@ const ReportDailyCensus = ({ tableData, calculateTotal }) => {
                     textAlign: 'center',
                     color: 'white',
                     backgroundColor: '#757575',
-                    fontSize: 15,
+                    fontSize: 15
                   }}
                 >
                   HIS LAMA
@@ -290,7 +287,7 @@ const ReportDailyCensus = ({ tableData, calculateTotal }) => {
                     textAlign: 'center',
                     color: 'white',
                     backgroundColor: '#757575',
-                    fontSize: 15,
+                    fontSize: 15
                   }}
                 >
                   HIS Total
@@ -302,10 +299,7 @@ const ReportDailyCensus = ({ tableData, calculateTotal }) => {
               {Object.entries(groupedMonthlyData).map(([month, { rows, totals }], groupIdx) => (
                 <Fragment key={month}>
                   <tr>
-                    <td
-                      colSpan={16}
-                      style={{ backgroundColor: '#eeeeee', fontWeight: 'bold', textAlign: 'left' }}
-                    >
+                    <td colSpan={16} style={{ backgroundColor: '#eeeeee', fontWeight: 'bold', textAlign: 'left' }}>
                       {dayjs(month).format('D MMMM YYYY')}
                     </td>
                   </tr>
@@ -384,7 +378,7 @@ const ReportDailyCensus = ({ tableData, calculateTotal }) => {
                     textAlign: 'center',
                     fontSize: 15,
                     color: '#424242',
-                    backgroundColor: '#e0e0e0',
+                    backgroundColor: '#e0e0e0'
                   }}
                 ></th>
                 <th
@@ -393,7 +387,7 @@ const ReportDailyCensus = ({ tableData, calculateTotal }) => {
                     fontSize: 15,
                     color: '#424242',
                     backgroundColor: '#e0e0e0',
-                    fontWeight: 'bold',
+                    fontWeight: 'bold'
                   }}
                   scope="row"
                 >
@@ -405,7 +399,7 @@ const ReportDailyCensus = ({ tableData, calculateTotal }) => {
                     fontSize: 15,
                     color: '#424242',
                     backgroundColor: '#e0e0e0',
-                    fontWeight: 'bold',
+                    fontWeight: 'bold'
                   }}
                 ></td>
                 <td
@@ -414,7 +408,7 @@ const ReportDailyCensus = ({ tableData, calculateTotal }) => {
                     fontSize: 15,
                     color: '#424242',
                     backgroundColor: '#e0e0e0',
-                    fontWeight: 'bold',
+                    fontWeight: 'bold'
                   }}
                 >
                   {totYesterday}
@@ -425,7 +419,7 @@ const ReportDailyCensus = ({ tableData, calculateTotal }) => {
                     fontSize: 15,
                     color: '#424242',
                     backgroundColor: '#e0e0e0',
-                    fontWeight: 'bold',
+                    fontWeight: 'bold'
                   }}
                 >
                   {totAdmission}
@@ -436,7 +430,7 @@ const ReportDailyCensus = ({ tableData, calculateTotal }) => {
                     fontSize: 15,
                     color: '#424242',
                     backgroundColor: '#e0e0e0',
-                    fontWeight: 'bold',
+                    fontWeight: 'bold'
                   }}
                 >
                   {totDischarge}
@@ -447,7 +441,7 @@ const ReportDailyCensus = ({ tableData, calculateTotal }) => {
                     fontSize: 15,
                     color: '#424242',
                     backgroundColor: '#e0e0e0',
-                    fontWeight: 'bold',
+                    fontWeight: 'bold'
                   }}
                 >
                   {totTransIn}
@@ -458,7 +452,7 @@ const ReportDailyCensus = ({ tableData, calculateTotal }) => {
                     fontSize: 15,
                     color: '#424242',
                     backgroundColor: '#e0e0e0',
-                    fontWeight: 'bold',
+                    fontWeight: 'bold'
                   }}
                 >
                   {totTransOut}
@@ -469,7 +463,7 @@ const ReportDailyCensus = ({ tableData, calculateTotal }) => {
                     fontSize: 15,
                     color: '#424242',
                     backgroundColor: '#e0e0e0',
-                    fontWeight: 'bold',
+                    fontWeight: 'bold'
                   }}
                 >
                   {totDeath}
@@ -480,7 +474,7 @@ const ReportDailyCensus = ({ tableData, calculateTotal }) => {
                     fontSize: 15,
                     color: '#424242',
                     backgroundColor: '#e0e0e0',
-                    fontWeight: 'bold',
+                    fontWeight: 'bold'
                   }}
                 >
                   {totalcensus}
@@ -492,7 +486,7 @@ const ReportDailyCensus = ({ tableData, calculateTotal }) => {
                     fontSize: 15,
                     color: '#424242',
                     backgroundColor: '#e0e0e0',
-                    fontWeight: 'bold',
+                    fontWeight: 'bold'
                   }}
                 >
                   {oraTotAdm}
@@ -503,7 +497,7 @@ const ReportDailyCensus = ({ tableData, calculateTotal }) => {
                     fontSize: 15,
                     color: '#424242',
                     backgroundColor: '#e0e0e0',
-                    fontWeight: 'bold',
+                    fontWeight: 'bold'
                   }}
                 >
                   {oraTotDis}
@@ -514,7 +508,7 @@ const ReportDailyCensus = ({ tableData, calculateTotal }) => {
                     fontSize: 15,
                     color: '#424242',
                     backgroundColor: '#e0e0e0',
-                    fontWeight: 'bold',
+                    fontWeight: 'bold'
                   }}
                 >
                   {oraTotDeath}
@@ -525,7 +519,7 @@ const ReportDailyCensus = ({ tableData, calculateTotal }) => {
                     fontSize: 15,
                     color: '#424242',
                     backgroundColor: '#e0e0e0',
-                    fontWeight: 'bold',
+                    fontWeight: 'bold'
                   }}
                 >
                   {oraDamaTot}
@@ -536,7 +530,7 @@ const ReportDailyCensus = ({ tableData, calculateTotal }) => {
                     fontSize: 15,
                     color: '#424242',
                     backgroundColor: '#e0e0e0',
-                    fontWeight: 'bold',
+                    fontWeight: 'bold'
                   }}
                 >
                   {oraLamaTot}
@@ -547,7 +541,7 @@ const ReportDailyCensus = ({ tableData, calculateTotal }) => {
                     fontSize: 15,
                     color: '#424242',
                     backgroundColor: '#e0e0e0',
-                    fontWeight: 'bold',
+                    fontWeight: 'bold'
                   }}
                 >
                   {oraTotal}

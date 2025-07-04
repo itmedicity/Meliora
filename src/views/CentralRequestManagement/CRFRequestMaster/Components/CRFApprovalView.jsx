@@ -1,13 +1,4 @@
-import {
-  Box,
-  Chip,
-  CssVarsProvider,
-  Grid,
-  Modal,
-  ModalClose,
-  ModalDialog,
-  Typography,
-} from '@mui/joy'
+import { Box, Chip, CssVarsProvider, Grid, Modal, ModalClose, ModalDialog, Typography } from '@mui/joy'
 import { Paper } from '@mui/material'
 import { format } from 'date-fns'
 import React, { Fragment, memo } from 'react'
@@ -40,7 +31,7 @@ const CRFApprovalView = ({
   poDetails,
   reqItems,
   approveTableData,
-  company,
+  company
 }) => {
   const {
     req_slno,
@@ -87,18 +78,18 @@ const CRFApprovalView = ({
     user_ack_date,
     user_acknldge_remarks,
     approval_level,
-    store_receive,
+    store_receive
   } = modalData
 
   const capitalizeWords = str =>
     str
       ? str
-        .toLowerCase()
-        .trim()
-        .replace(/\s+/g, ' ')
-        .split(' ')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ')
+          .toLowerCase()
+          .trim()
+          .replace(/\s+/g, ' ')
+          .split(' ')
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(' ')
       : ''
 
   return (
@@ -123,15 +114,11 @@ const CRFApprovalView = ({
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 35,
-                width: 35,
+                width: 35
               }}
             />
             <Box sx={{ minWidth: '75vw', minHeight: '25vh', maxHeight: '85vh', overflowY: 'auto' }}>
-              <CrfReqDetailViewCmp
-                ApprovalData={modalData}
-                imagearray={imagearray}
-                company={company}
-              />
+              <CrfReqDetailViewCmp ApprovalData={modalData} imagearray={imagearray} company={company} />
               {reqItems.length !== 0 ? <ReqItemDisplay reqItems={reqItems} /> : null}
               {approveTableData.length !== 0 && (incharge_approve === 1 || hod_approve === 1) ? (
                 <Box sx={{ mt: 0.3 }}>
@@ -141,14 +128,8 @@ const CRFApprovalView = ({
 
               {hod_approve !== null || incharge_approve !== null ? (
                 <>
-                  <Paper
-                    variant="outlined"
-                    square
-                    sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.7, mx: 0.7, pb: 0.7 }}
-                  >
-                    <Typography
-                      sx={{ fontWeight: 'bold', px: 1, py: 0.7, color: '#145DA0', fontSize: 14 }}
-                    >
+                  <Paper variant="outlined" square sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.7, mx: 0.7, pb: 0.7 }}>
+                    <Typography sx={{ fontWeight: 'bold', px: 1, py: 0.7, color: '#145DA0', fontSize: 14 }}>
                       Approval Details
                     </Typography>
                     <Grid container spacing={0.5} sx={{ flexGrow: 1 }}>
@@ -210,14 +191,8 @@ const CRFApprovalView = ({
                     </Grid>
                   </Paper>
                   {ack_status === 1 ? (
-                    <Paper
-                      variant="outlined"
-                      square
-                      sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.7, mx: 0.7 }}
-                    >
-                      <Typography
-                        sx={{ fontWeight: 'bold', px: 1, py: 0.7, color: '#145DA0', fontSize: 14 }}
-                      >
+                    <Paper variant="outlined" square sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.7, mx: 0.7 }}>
+                      <Typography sx={{ fontWeight: 'bold', px: 1, py: 0.7, color: '#145DA0', fontSize: 14 }}>
                         Procurement Details
                       </Typography>
                       <Grid container spacing={0.5} sx={{ flexGrow: 1 }}>
@@ -250,7 +225,7 @@ const CRFApprovalView = ({
                               mx: 1,
                               pt: 0.5,
                               color: '#145DA0',
-                              fontSize: 14,
+                              fontSize: 14
                             }}
                           >
                             PO Details
@@ -269,7 +244,7 @@ const CRFApprovalView = ({
                               py: 0.5,
                               color: '#145DA0',
                               fontSize: 14,
-                              flex: 0.4,
+                              flex: 0.4
                             }}
                           >
                             Purchase Order Preparation Completed
@@ -284,7 +259,7 @@ const CRFApprovalView = ({
                                 height: 25,
                                 pb: 0.5,
                                 fontSize: 12,
-                                fontWeight: 550,
+                                fontWeight: 550
                               }}
                             >
                               Yes
@@ -297,14 +272,12 @@ const CRFApprovalView = ({
                                 textTransform: 'capitalize',
                                 fontWeight: 550,
                                 pl: 2,
-                                pt: 0.4,
+                                pt: 0.4
                               }}
                             >
                               {capitalizeWords(pocomplete_user)}&nbsp; /
                             </Typography>
-                            <Typography
-                              sx={{ height: 30, fontSize: 12, fontWeight: 550, pl: 1, pt: 0.4 }}
-                            >
+                            <Typography sx={{ height: 30, fontSize: 12, fontWeight: 550, pl: 1, pt: 0.4 }}>
                               {format(new Date(po_complete_date), 'dd-MM-yyyy hh:mm:ss a')}
                             </Typography>
                           </Box>
@@ -319,7 +292,7 @@ const CRFApprovalView = ({
                               py: 0.5,
                               color: '#145DA0',
                               fontSize: 14,
-                              flex: 0.4,
+                              flex: 0.4
                             }}
                           >
                             PO Approvals
@@ -333,16 +306,16 @@ const CRFApprovalView = ({
                                 fontWeight: 550,
                                 pl: 0.5,
                                 pt: 0.4,
-                                color: '#1b5e20',
+                                color: '#1b5e20'
                               }}
                             >
                               {approval_level === 1
                                 ? 'Purchase Dpt Approved'
                                 : approval_level === 2
-                                  ? 'Purchase Department Approved, Purchase Manager Approved'
-                                  : approval_level === 3
-                                    ? 'Purchase Department Approved, Purchase Manager Approved, Directors Approved'
-                                    : null}{' '}
+                                ? 'Purchase Department Approved, Purchase Manager Approved'
+                                : approval_level === 3
+                                ? 'Purchase Department Approved, Purchase Manager Approved, Directors Approved'
+                                : null}{' '}
                             </Typography>
                           </Box>
                         </Box>
@@ -355,7 +328,7 @@ const CRFApprovalView = ({
                               py: 0.5,
                               color: '#145DA0',
                               fontSize: 14,
-                              flex: 0.4,
+                              flex: 0.4
                             }}
                           >
                             PO Approvals
@@ -368,7 +341,7 @@ const CRFApprovalView = ({
                                 fontSize: 13,
                                 fontWeight: 550,
                                 pt: 0.4,
-                                color: '#ff8f00',
+                                color: '#ff8f00'
                               }}
                             >
                               Approval Pending
@@ -385,7 +358,7 @@ const CRFApprovalView = ({
                               py: 0.5,
                               color: '#145DA0',
                               fontSize: 14,
-                              flex: 0.4,
+                              flex: 0.4
                             }}
                           >
                             PO-Supplier Acknowledgement
@@ -400,14 +373,12 @@ const CRFApprovalView = ({
                                 height: 25,
                                 pb: 0.5,
                                 fontSize: 12,
-                                fontWeight: 550,
+                                fontWeight: 550
                               }}
                             >
                               Yes
                             </Chip>
-                            <Typography
-                              sx={{ height: 30, fontSize: 12, fontWeight: 550, pl: 2, pt: 0.4 }}
-                            >
+                            <Typography sx={{ height: 30, fontSize: 12, fontWeight: 550, pl: 2, pt: 0.4 }}>
                               {format(new Date(po_to_supplier_date), 'dd-MM-yyyy hh:mm:ss a')}
                             </Typography>
                           </Box>
@@ -422,7 +393,7 @@ const CRFApprovalView = ({
                               py: 0.5,
                               color: '#145DA0',
                               fontSize: 14,
-                              flex: 0.4,
+                              flex: 0.4
                             }}
                           >
                             Received in CRS Store
@@ -437,7 +408,7 @@ const CRFApprovalView = ({
                                 height: 25,
                                 pb: 0.5,
                                 fontSize: 12,
-                                fontWeight: 550,
+                                fontWeight: 550
                               }}
                             >
                               Yes
@@ -452,22 +423,17 @@ const CRFApprovalView = ({
                                     textTransform: 'capitalize',
                                     fontWeight: 550,
                                     pl: 2,
-                                    pt: 0.4,
+                                    pt: 0.4
                                   }}
                                 >
                                   {capitalizeWords(crs_user)}&nbsp; /
                                 </Typography>
-                                <Typography
-                                  sx={{ height: 30, fontSize: 12, fontWeight: 550, pl: 1, pt: 0.4 }}
-                                >
+                                <Typography sx={{ height: 30, fontSize: 12, fontWeight: 550, pl: 1, pt: 0.4 }}>
                                   {format(new Date(store_receive_date), 'dd-MM-yyyy hh:mm:ss a')}
                                 </Typography>
                               </>
-                            ) : store_receive === 0 &&
-                              (store_recieve === 0 || store_recieve === 1) ? (
-                              <Typography
-                                sx={{ height: 30, fontSize: 12, fontWeight: 550, pt: 0.4, pl: 2 }}
-                              >
+                            ) : store_receive === 0 && (store_recieve === 0 || store_recieve === 1) ? (
+                              <Typography sx={{ height: 30, fontSize: 12, fontWeight: 550, pt: 0.4, pl: 2 }}>
                                 Partially Received in CRS Store
                               </Typography>
                             ) : null}
@@ -483,7 +449,7 @@ const CRFApprovalView = ({
                               py: 0.5,
                               color: '#145DA0',
                               fontSize: 14,
-                              flex: 0.4,
+                              flex: 0.4
                             }}
                           >
                             Received in {sub_store_name}
@@ -498,7 +464,7 @@ const CRFApprovalView = ({
                                 height: 25,
                                 pb: 0.5,
                                 fontSize: 12,
-                                fontWeight: 550,
+                                fontWeight: 550
                               }}
                             >
                               Yes
@@ -511,14 +477,12 @@ const CRFApprovalView = ({
                                 textTransform: 'capitalize',
                                 fontWeight: 550,
                                 pl: 2,
-                                pt: 0.4,
+                                pt: 0.4
                               }}
                             >
                               {capitalizeWords(store_user)}&nbsp; /
                             </Typography>
-                            <Typography
-                              sx={{ height: 30, fontSize: 12, fontWeight: 550, pl: 1, pt: 0.4 }}
-                            >
+                            <Typography sx={{ height: 30, fontSize: 12, fontWeight: 550, pl: 1, pt: 0.4 }}>
                               {format(new Date(substore_ack_date), 'dd-MM-yyyy hh:mm:ss a')}
                             </Typography>
                           </Box>
@@ -526,9 +490,7 @@ const CRFApprovalView = ({
                       ) : null}
                       {user_acknldge === 1 ? (
                         <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
-                          <Box
-                            sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}
-                          >
+                          <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                             <Typography
                               sx={{
                                 fontWeight: 'bold',
@@ -536,7 +498,7 @@ const CRFApprovalView = ({
                                 py: 0.5,
                                 color: '#145DA0',
                                 fontSize: 14,
-                                flex: 0.4,
+                                flex: 0.4
                               }}
                             >
                               User Acknowledgement
@@ -547,9 +509,7 @@ const CRFApprovalView = ({
                             <Box sx={{ flex: 1, display: 'flex' }}>
                               <Typography sx={{ fontSize: 13, flex: 1, fontWeight: 550 }}>
                                 : &nbsp;
-                                {user_acknldge_remarks === null
-                                  ? 'Not Updated'
-                                  : user_acknldge_remarks}
+                                {user_acknldge_remarks === null ? 'Not Updated' : user_acknldge_remarks}
                               </Typography>
                               <Typography
                                 sx={{
@@ -559,7 +519,7 @@ const CRFApprovalView = ({
                                   fontSize: 13,
                                   textTransform: 'capitalize',
                                   fontWeight: 550,
-                                  pr: 1,
+                                  pr: 1
                                 }}
                               >
                                 {capitalizeWords(acknowUser)}&nbsp; /
@@ -570,7 +530,7 @@ const CRFApprovalView = ({
                                   display: 'flex',
                                   justifyContent: 'flex-start',
                                   fontSize: 13,
-                                  fontWeight: 550,
+                                  fontWeight: 550
                                 }}
                               >
                                 {format(new Date(user_ack_date), 'dd-MM-yyyy hh:mm:ss a')}
@@ -600,7 +560,7 @@ const CRFApprovalView = ({
                     fontSize: 25,
                     opacity: 0.5,
                     pt: 10,
-                    color: 'grey',
+                    color: 'grey'
                   }}
                 >
                   No Report Found

@@ -56,7 +56,7 @@ const CeoApproval = () => {
             </IconButton>
           )
         }
-      },
+      }
     },
     // { headerName: 'Action', cellRenderer: params => <EditButton onClick={() => rowSelect(params)} /> },
     { headerName: 'slno', field: 'h_approval_slno', minWidth: 100 },
@@ -66,7 +66,7 @@ const CeoApproval = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 300,
-      filter: 'true',
+      filter: 'true'
     },
     { headerName: 'Reason', field: 'h_booking_reason', minWidth: 200 },
     {
@@ -75,7 +75,7 @@ const CeoApproval = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 150,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Start Time',
@@ -83,7 +83,7 @@ const CeoApproval = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 200,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'End Time',
@@ -91,21 +91,21 @@ const CeoApproval = () => {
       autoHeight: true,
       wrapText: true,
       minWidth: 200,
-      filter: 'true',
+      filter: 'true'
     },
     {
       headerName: 'Inch.Appr.Status',
       field: 'is_icharge_approves',
       autoHeight: true,
       wrapText: true,
-      minWidth: 150,
+      minWidth: 150
     },
     {
       headerName: 'Inch.Remarks',
       field: 'h_incharge_remark',
       autoHeight: true,
       wrapText: true,
-      minWidth: 200,
+      minWidth: 200
     },
     { headerName: 'Hod.Appr.Status', field: 'is_hod_approves', minWidth: 150 },
     {
@@ -113,7 +113,7 @@ const CeoApproval = () => {
       field: 'hod_remark',
       autoHeight: true,
       wrapText: true,
-      minWidth: 200,
+      minWidth: 200
     },
     { headerName: 'CEO Appr.Status', field: 'is_ceo_approveds', minWidth: 150 },
     {
@@ -121,8 +121,8 @@ const CeoApproval = () => {
       field: 'ceo_remark',
       autoHeight: true,
       wrapText: true,
-      minWidth: 200,
-    },
+      minWidth: 200
+    }
   ])
 
   //close button function
@@ -133,13 +133,7 @@ const CeoApproval = () => {
   return (
     <CardCloseOnly title="CAO/COO/MS Approval" close={backtoSetting}>
       {model === 1 ? (
-        <CeoApprovModel
-          open={open}
-          setOpen={setOpen}
-          datas={datas}
-          count={count}
-          setCount={setCount}
-        />
+        <CeoApprovModel open={open} setOpen={setOpen} datas={datas} count={count} setCount={setCount} />
       ) : null}
 
       <Box sx={{ p: 1 }}>

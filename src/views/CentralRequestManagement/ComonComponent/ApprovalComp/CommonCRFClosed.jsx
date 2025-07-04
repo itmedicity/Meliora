@@ -19,9 +19,7 @@ const CommonCRFClosed = ({ closedData }) => {
     <Fragment>
       <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap', height: 135 }}>
         <Box sx={{ display: 'flex', py: 0.2, borderBottom: '1px solid lightgrey' }}>
-          <Typography
-            sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}
-          >
+          <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>
             {/* {crf_closed_one === 'MD' ? 'Medical Director' : crf_closed_one === 'ED' ? 'Executive Director' : crf_closed_one} */}
             CRF Closed Details
           </Typography>
@@ -34,7 +32,7 @@ const CommonCRFClosed = ({ closedData }) => {
                 height: 25,
                 fontSize: 12,
                 fontWeight: 550,
-                px: 2,
+                px: 2
               }}
             >
               {/* {crf_close === 1 ? " CRF Closed" : "Interanally Arranged"} */}
@@ -46,27 +44,21 @@ const CommonCRFClosed = ({ closedData }) => {
           <Box sx={{ display: 'flex', pt: 0.5 }}>
             <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Remarks </Typography>
             <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-            <Typography
-              sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}
-            >
+            <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
               {crf_close_remark}
             </Typography>
           </Box>
           <Box sx={{ display: 'flex', pt: 0.5 }}>
             <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Closed By </Typography>
             <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-            <Typography
-              sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}
-            >
+            <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
               {capitalizeWords(closed_user)}
             </Typography>
           </Box>
           <Box sx={{ display: 'flex', pt: 0.5 }}>
             <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>Closed Date </Typography>
             <Typography sx={{ pl: 0.5 }}> :&nbsp;</Typography>
-            <Typography
-              sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}
-            >
+            <Typography sx={{ height: 'auto', fontSize: 13, fontWeight: 550, flex: 1, pr: 0.5, pt: 0.3 }}>
               {format(new Date(close_date), 'dd-MM-yyyy hh:mm:ss a')}
             </Typography>
           </Box>

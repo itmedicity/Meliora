@@ -16,16 +16,14 @@ const AMCustodianDeptSelect = ({ selectedDept, setSelectedDept }) => {
 
   const CustDepartment = useMemo(() => {
     if (!custdnDeptList) return []
-    return custdnDeptList.filter(dept =>
-      dept.am_custodian_name.toLowerCase().includes(inputValue.toLowerCase())
-    )
+    return custdnDeptList.filter(dept => dept.am_custodian_name.toLowerCase().includes(inputValue.toLowerCase()))
   }, [custdnDeptList, inputValue])
 
   return (
     <CssVarsProvider>
       <Autocomplete
         sx={{
-          '--Input-minHeight': '29px',
+          '--Input-minHeight': '29px'
         }}
         value={selectedDept}
         placeholder="Select Custodian Department"
@@ -40,9 +38,7 @@ const AMCustodianDeptSelect = ({ selectedDept, setSelectedDept }) => {
         loading={!custdnDeptList}
         loadingText="Loading..."
         freeSolo
-        isOptionEqualToValue={(option, value) =>
-          option.am_custodian_name === value?.am_custodian_name
-        }
+        isOptionEqualToValue={(option, value) => option.am_custodian_name === value?.am_custodian_name}
         getOptionLabel={option => option.am_custodian_name || ''}
         options={CustDepartment}
       />

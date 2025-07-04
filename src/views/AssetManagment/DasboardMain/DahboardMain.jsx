@@ -6,7 +6,7 @@ import {
   getTotAssetCount,
   getTotAssetValue,
   getTotSpareCount,
-  getTotSpareValue,
+  getTotSpareValue
 } from 'src/api/CommonApi'
 import { useQuery } from 'react-query'
 import EquipmentIcon from '@mui/icons-material/Construction'
@@ -32,31 +32,31 @@ import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates'
 const DahboardMain = () => {
   const { data: totAssetVal } = useQuery({
     queryKey: ['getTotAssetValue'],
-    queryFn: () => getTotAssetValue(),
+    queryFn: () => getTotAssetValue()
   })
 
   const { data: totSpareVal } = useQuery({
     queryKey: ['getTotSpareValue'],
-    queryFn: () => getTotSpareValue(),
+    queryFn: () => getTotSpareValue()
   })
 
   const { data: totAssetCountVal } = useQuery({
     queryKey: ['getTotAssetCount'],
-    queryFn: () => getTotAssetCount(),
+    queryFn: () => getTotAssetCount()
   })
 
   const { data: totspareCountVal } = useQuery({
     queryKey: ['getTotSpareCount'],
-    queryFn: () => getTotSpareCount(),
+    queryFn: () => getTotSpareCount()
   })
 
   const { data: itemTypeVal = [] } = useQuery({
     queryKey: ['getTotalCountItemType'],
-    queryFn: () => getTotalCountItemType(),
+    queryFn: () => getTotalCountItemType()
   })
   const { data: assetTypeVal = [] } = useQuery({
     queryKey: ['getTotalCountAssetType'],
-    queryFn: () => getTotalCountAssetType(),
+    queryFn: () => getTotalCountAssetType()
   })
 
   const totAssetValue = useMemo(() => totAssetVal, [totAssetVal])
@@ -83,13 +83,13 @@ const DahboardMain = () => {
     9: <ApiIcon />,
     10: <PixIcon />,
     11: <ScatterPlotIcon />,
-    12: <TipsAndUpdatesIcon />,
+    12: <TipsAndUpdatesIcon />
   }
 
   const AssetTypeIcon = {
     1: <StarHalfIcon />,
     2: <HiveIcon />,
-    3: <MiscellaneousServicesIcon />,
+    3: <MiscellaneousServicesIcon />
   }
 
   return (
@@ -98,7 +98,7 @@ const DahboardMain = () => {
         minHeight: '88vh',
         bgcolor: '#f4f6f9',
         borderRadius: 1,
-        boxShadow: 2,
+        boxShadow: 2
         // border: 1, borderColor: '#BDC6D9',
       }}
     >
@@ -111,7 +111,7 @@ const DahboardMain = () => {
             fontSize: 14,
             p: 0.5,
             fontWeight: 600,
-            color: '#636b74',
+            color: '#636b74'
           }}
         >
           ASSET & ITEM TYPE
@@ -124,7 +124,7 @@ const DahboardMain = () => {
               borderColor: '#d0d6e5',
               flex: 1,
               bgcolor: 'white',
-              borderRadius: 5,
+              borderRadius: 5
             }}
           >
             <Box
@@ -136,20 +136,18 @@ const DahboardMain = () => {
                 alignItems: 'center',
                 border: 1,
                 borderColor: '#d0d6e5',
-                bgcolor: '#f5fcf5',
+                bgcolor: '#f5fcf5'
               }}
             >
               <CurrencyRupeeIcon sx={{ width: 35, height: 35, color: 'darkgreen' }} />
             </Box>
             <Box sx={{ flex: 1 }}>
-              <Box sx={{ fontSize: 14, fontWeight: 600, color: '#636b74', pl: 0.8, pt: 0.5 }}>
-                Total Asset Value
-              </Box>
+              <Box sx={{ fontSize: 14, fontWeight: 600, color: '#636b74', pl: 0.8, pt: 0.5 }}>Total Asset Value</Box>
               <Box sx={{ fontSize: 20, fontWeight: 600, color: 'darkgreen', pt: 0.1 }}>
                 {new Intl.NumberFormat('en-IN', {
                   style: 'currency',
                   currency: 'INR',
-                  currencyDisplay: 'code',
+                  currencyDisplay: 'code'
                 })
                   .format(TotalAssetValue)
                   .replace('INR', '')}
@@ -163,7 +161,7 @@ const DahboardMain = () => {
               borderColor: '#d0d6e5',
               flex: 1,
               bgcolor: 'white',
-              borderRadius: 5,
+              borderRadius: 5
             }}
           >
             <Box
@@ -175,18 +173,14 @@ const DahboardMain = () => {
                 alignItems: 'center',
                 border: 1,
                 borderColor: '#d0d6e5',
-                bgcolor: '#fafcfe',
+                bgcolor: '#fafcfe'
               }}
             >
               <FitbitIcon sx={{ width: 35, height: 35, color: '#41729F' }} />
             </Box>
             <Box sx={{ flex: 1 }}>
-              <Box sx={{ fontSize: 14, fontWeight: 600, color: '#636b74', pl: 0.8, pt: 0.5 }}>
-                Total Asset Count
-              </Box>
-              <Box sx={{ fontSize: 20, fontWeight: 600, color: '#41729F', pt: 0.1, pl: 1 }}>
-                {assetcount}
-              </Box>
+              <Box sx={{ fontSize: 14, fontWeight: 600, color: '#636b74', pl: 0.8, pt: 0.5 }}>Total Asset Count</Box>
+              <Box sx={{ fontSize: 20, fontWeight: 600, color: '#41729F', pt: 0.1, pl: 1 }}>{assetcount}</Box>
             </Box>
           </Box>
           <Box
@@ -196,7 +190,7 @@ const DahboardMain = () => {
               borderColor: '#d0d6e5',
               flex: 1,
               bgcolor: 'white',
-              borderRadius: 5,
+              borderRadius: 5
             }}
           >
             <Box
@@ -208,28 +202,20 @@ const DahboardMain = () => {
                 alignItems: 'center',
                 border: 1,
                 borderColor: '#d0d6e5',
-                bgcolor: '#fef5f5',
+                bgcolor: '#fef5f5'
               }}
             >
               <MiscellaneousServicesIcon sx={{ width: 35, height: 35, color: '#a31545' }} />
             </Box>
             <Box sx={{ flex: 1 }}>
-              <Box sx={{ fontSize: 14, fontWeight: 600, color: '#636b74', pl: 0.8, pt: 0.5 }}>
-                Total Spare Count
-              </Box>
-              <Box sx={{ fontSize: 20, fontWeight: 600, color: '#a31545', pt: 0.1, pl: 1 }}>
-                {spareCount}
-              </Box>
+              <Box sx={{ fontSize: 14, fontWeight: 600, color: '#636b74', pl: 0.8, pt: 0.5 }}>Total Spare Count</Box>
+              <Box sx={{ fontSize: 20, fontWeight: 600, color: '#a31545', pt: 0.1, pl: 1 }}>{spareCount}</Box>
             </Box>
           </Box>
         </Box>
 
         <Box sx={{ bgcolor: 'white', mx: 1, border: 1, borderColor: '#d0d6e5', borderRadius: 5 }}>
-          <Box
-            sx={{ flex: 1, mx: 1, mt: 1, fontSize: 14, p: 0.5, fontWeight: 600, color: '#636b74' }}
-          >
-            Asset Type
-          </Box>
+          <Box sx={{ flex: 1, mx: 1, mt: 1, fontSize: 14, p: 0.5, fontWeight: 600, color: '#636b74' }}>Asset Type</Box>
           <Box sx={{ flex: 1, mx: 0.5, overflowY: 'auto', overflowX: 'hidden' }}>
             <Box sx={{ pb: 1, px: 0.5 }}>
               <Grid container spacing={0.5} sx={{ flex: 1 }}>
@@ -244,16 +230,14 @@ const DahboardMain = () => {
                           flex: 1,
                           bgcolor: '#fafbfd',
                           borderRadius: 5,
-                          height: 70,
+                          height: 70
                         }}
                       >
                         <Box sx={{ flex: 1, pl: 1.5 }}>
                           <Box sx={{ fontSize: 20, fontWeight: 600, color: '#41729F', pt: 1.5 }}>
                             {val.asset_item_service_0_count + val.asset_item_service_1_count}
                           </Box>
-                          <Box sx={{ fontSize: 13, fontWeight: 600, color: '#636b74' }}>
-                            {val.asset_type_name}
-                          </Box>
+                          <Box sx={{ fontSize: 13, fontWeight: 600, color: '#636b74' }}>{val.asset_type_name}</Box>
                         </Box>
                         <Box
                           sx={{
@@ -261,17 +245,15 @@ const DahboardMain = () => {
                             m: 0.5,
                             display: 'flex',
                             justifyContent: 'center',
-                            alignItems: 'center',
+                            alignItems: 'center'
                           }}
                         >
-                          <Box
-                            sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-                          >
+                          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                             <Avatar
                               size="lg"
                               alt="pics"
                               sx={{
-                                bgcolor: 'white',
+                                bgcolor: 'white'
                                 // boxShadow: '0px 4px 10px rgba(123, 147, 202, 0.25)'
                               }}
                             >
@@ -295,12 +277,10 @@ const DahboardMain = () => {
             border: 1,
             borderColor: '#d0d6e5',
             borderRadius: 5,
-            mt: 0.5,
+            mt: 0.5
           }}
         >
-          <Box sx={{ flex: 1, mx: 1, fontSize: 14, p: 0.5, fontWeight: 600, color: '#636b74' }}>
-            Item Type
-          </Box>
+          <Box sx={{ flex: 1, mx: 1, fontSize: 14, p: 0.5, fontWeight: 600, color: '#636b74' }}>Item Type</Box>
           <Box sx={{ flex: 1, mx: 0.5, pb: 1, px: 0.5 }}>
             <Grid container spacing={0.5} sx={{ flex: 1 }}>
               {itemType?.map(val => {
@@ -314,7 +294,7 @@ const DahboardMain = () => {
                         bgcolor: '#fafbfd',
                         borderRadius: 5,
                         height: 70,
-                        overflow: 'hidden',
+                        overflow: 'hidden'
                       }}
                     >
                       <Box
@@ -325,7 +305,7 @@ const DahboardMain = () => {
                           display: 'flex',
                           flexDirection: 'column',
                           justifyContent: 'center',
-                          overflow: 'hidden',
+                          overflow: 'hidden'
                         }}
                       >
                         <Box
@@ -333,7 +313,7 @@ const DahboardMain = () => {
                             fontSize: 20,
                             fontWeight: 600,
                             color: '#41729F',
-                            lineHeight: 1.2,
+                            lineHeight: 1.2
                           }}
                         >
                           {val.asset_item_service_0_count + val.asset_item_service_1_count}
@@ -348,7 +328,7 @@ const DahboardMain = () => {
                             whiteSpace: 'nowrap',
                             overflow: 'hidden',
                             textOverflow: 'ellipsis',
-                            lineHeight: 1.2,
+                            lineHeight: 1.2
                           }}
                         >
                           {val.item_type_name}
@@ -361,13 +341,13 @@ const DahboardMain = () => {
                           display: 'flex',
                           justifyContent: 'center',
                           alignItems: 'center',
-                          flexShrink: 0,
+                          flexShrink: 0
                         }}
                       >
                         <Avatar
                           alt="pics"
                           sx={{
-                            bgcolor: 'white',
+                            bgcolor: 'white'
                             // boxShadow: '0px 4px 10px rgba(123, 147, 202, 0.25)',
                           }}
                         >

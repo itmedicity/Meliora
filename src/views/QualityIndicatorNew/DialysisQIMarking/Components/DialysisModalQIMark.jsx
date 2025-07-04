@@ -10,17 +10,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { differenceInHours, differenceInMinutes, differenceInSeconds } from 'date-fns'
 
 const DialysisModalQIMark = ({ open, handleClose, rowSelect }) => {
-  const {
-    patient_arrived_date,
-    ptno,
-    ptname,
-    ptsex,
-    ptage,
-    ptaddrs1,
-    ptaddrs3,
-    doctor_name,
-    ptmobile,
-  } = rowSelect
+  const { patient_arrived_date, ptno, ptname, ptsex, ptage, ptaddrs1, ptaddrs3, doctor_name, ptmobile } = rowSelect
   const [enteredTime, setEnteredTime] = useState(new Date())
   const [assesTime, setAssesTime] = useState(new Date())
   const [startTime, setStartTime] = useState(new Date())
@@ -69,7 +59,7 @@ const DialysisModalQIMark = ({ open, handleClose, rowSelect }) => {
           sx={{
             minWidth: '50vw',
             borderRadius: 'md',
-            overflowX: 'auto',
+            overflowX: 'auto'
           }}
         >
           <Paper sx={{ display: 'flex', height: 40 }}>
@@ -111,9 +101,7 @@ const DialysisModalQIMark = ({ open, handleClose, rowSelect }) => {
                     .join(' ')}
               </Box>
             </Box>
-            <Box
-              sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 20, pt: 0.5, pr: 0.2 }}
-            >
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 20, pt: 0.5, pr: 0.2 }}>
               <Tooltip title="Close" placement="bottom" cursor="pointer">
                 <HighlightOffIcon
                   sx={{ cursor: 'pointer', height: 34, width: 34, opacity: 0.7 }}
@@ -271,7 +259,7 @@ const DialysisModalQIMark = ({ open, handleClose, rowSelect }) => {
                         pt: 1,
                         mr: 0.6,
                         pl: 3,
-                        boxShadow: 1,
+                        boxShadow: 1
                       }}
                     >
                       {totAsessTime}
@@ -293,7 +281,7 @@ const DialysisModalQIMark = ({ open, handleClose, rowSelect }) => {
                         pt: 1,
                         mr: 0.6,
                         pl: 3,
-                        boxShadow: 1,
+                        boxShadow: 1
                       }}
                     >
                       {totProceTime}
@@ -316,7 +304,7 @@ const DialysisModalQIMark = ({ open, handleClose, rowSelect }) => {
                         pt: 1,
                         mr: 0.6,
                         pl: 3,
-                        boxShadow: 1,
+                        boxShadow: 1
                       }}
                     >
                       {serviceTime}

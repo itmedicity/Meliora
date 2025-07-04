@@ -34,14 +34,9 @@ const TmOverDueTask = ({ tableCount, setTableCount, tabledata, setDueFlag, overD
   return (
     <Paper sx={{ height: '90vh' }}>
       <Box sx={{ flex: 1, height: 30, display: 'flex' }}>
-        <Typography sx={{ color: 'grey', fontWeight: 500, flex: 1, pt: 0.5, pl: 1 }}>
-          {overDueHeading}
-        </Typography>
+        <Typography sx={{ color: 'grey', fontWeight: 500, flex: 1, pt: 0.5, pl: 1 }}>{overDueHeading}</Typography>
         <Box sx={{ pl: 0.5 }}>
-          <HighlightOffIcon
-            sx={{ color: 'grey', height: 30, width: 30, cursor: 'pointer' }}
-            onClick={backtoDash}
-          />
+          <HighlightOffIcon sx={{ color: 'grey', height: 30, width: 30, cursor: 'pointer' }} onClick={backtoDash} />
         </Box>
       </Box>
       <Box sx={{ bgcolor: '#DFE3ED', p: 0.5 }}>
@@ -86,7 +81,7 @@ const TmOverDueTask = ({ tableCount, setTableCount, tabledata, setDueFlag, overD
                               : val.main_task_slno === 0
                               ? '#EAE7FA'
                               : 'transparent',
-                          minHeight: 5,
+                          minHeight: 5
                         }}
                       >
                         <td> &nbsp;{index + 1}</td>
@@ -94,7 +89,7 @@ const TmOverDueTask = ({ tableCount, setTableCount, tabledata, setDueFlag, overD
                           <CheckCircleOutlineIcon
                             sx={{
                               cursor: 'pointer',
-                              '&:hover': { color: '#DBA40E' },
+                              '&:hover': { color: '#DBA40E' }
                             }}
                             size={6}
                             onClick={() => rowSelectModal(val)}
@@ -119,7 +114,7 @@ const TmOverDueTask = ({ tableCount, setTableCount, tabledata, setDueFlag, overD
                                   ? '#5885AF'
                                   : 'transparent',
                               minHeight: 5,
-                              fontWeight: 700,
+                              fontWeight: 700
                             }}
                           >
                             {val.tm_task_status === 0
@@ -142,7 +137,7 @@ const TmOverDueTask = ({ tableCount, setTableCount, tabledata, setDueFlag, overD
                               borderRadius: 15,
                               mb: 0.5,
                               width: 150,
-                              pl: 1,
+                              pl: 1
                             }}
                           >
                             <CountDowncomponent DueDates={val.tm_task_due_date} />
@@ -151,7 +146,7 @@ const TmOverDueTask = ({ tableCount, setTableCount, tabledata, setDueFlag, overD
                         <td
                           style={{
                             textTransform: 'capitalize',
-                            color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black',
+                            color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black'
                           }}
                         >
                           {' '}
@@ -160,7 +155,7 @@ const TmOverDueTask = ({ tableCount, setTableCount, tabledata, setDueFlag, overD
                         <td
                           style={{
                             textTransform: 'capitalize',
-                            color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black',
+                            color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black'
                           }}
                         >
                           {' '}
@@ -169,28 +164,24 @@ const TmOverDueTask = ({ tableCount, setTableCount, tabledata, setDueFlag, overD
                         <td
                           style={{
                             textTransform: 'capitalize',
-                            color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black',
+                            color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black'
                           }}
                         >
                           {' '}
                           {val.em_name || 'not given'}
                         </td>
-                        <td
-                          style={{ color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black' }}
-                        >
+                        <td style={{ color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black' }}>
                           {' '}
                           {moment(val.create_date).format('DD-MM-YYYY hh:mm') || 'not given'}
                         </td>
-                        <td
-                          style={{ color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black' }}
-                        >
+                        <td style={{ color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black' }}>
                           {' '}
                           {moment(val.tm_task_due_date).format('DD-MM-YYYY hh:mm') || 'not given'}
                         </td>
                         <td
                           style={{
                             textTransform: 'capitalize',
-                            color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black',
+                            color: isPastDue(val.tm_task_due_date) ? '#970C10' : 'black'
                           }}
                         >
                           {' '}

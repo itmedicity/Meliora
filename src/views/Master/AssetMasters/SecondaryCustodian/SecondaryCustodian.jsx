@@ -25,7 +25,7 @@ const SecondaryCustodian = () => {
   const [secondary, setSecondary] = useState({
     secondary_slno: '',
     secondary_name: '',
-    secondary_status: false,
+    secondary_status: false
   })
   const { secondary_slno, secondary_name, secondary_status } = secondary
   const UpdateSecondary = useCallback(
@@ -39,7 +39,7 @@ const SecondaryCustodian = () => {
     const frmdata = {
       secondary_slno: '',
       secondary_name: '',
-      secondary_status: false,
+      secondary_status: false
     }
     setSecondary(frmdata)
     setCount(0)
@@ -49,7 +49,7 @@ const SecondaryCustodian = () => {
     return {
       secondary_name: secondary_name,
       secondary_status: secondary_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [secondary_name, secondary_status, id])
   const patchdata = useMemo(() => {
@@ -57,7 +57,7 @@ const SecondaryCustodian = () => {
       secondary_slno: secondary_slno,
       secondary_name: secondary_name,
       secondary_status: secondary_status === true ? 1 : 0,
-      edit_user: id,
+      edit_user: id
     }
   }, [secondary_slno, secondary_name, secondary_status, id])
   const rowSelect = useCallback(params => {
@@ -67,7 +67,7 @@ const SecondaryCustodian = () => {
     const frmdata = {
       secondary_slno: secondary_slno,
       secondary_name: secondary_name,
-      secondary_status: secondary_status === 1 ? true : false,
+      secondary_status: secondary_status === 1 ? true : false
     }
     setSecondary(frmdata)
   }, [])
@@ -120,18 +120,13 @@ const SecondaryCustodian = () => {
     const frmdata = {
       secondary_slno: '',
       secondary_name: '',
-      secondary_status: false,
+      secondary_status: false
     }
     setSecondary(frmdata)
     setValue(0)
   }, [setSecondary])
   return (
-    <CardMaster
-      title="Secondary Custodian"
-      submit={submitSecondary}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Secondary Custodian" submit={submitSecondary} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
         <Box sx={{ width: '30%', p: 1 }}>
           <Box>

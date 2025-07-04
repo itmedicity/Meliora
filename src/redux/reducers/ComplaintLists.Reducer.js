@@ -3,7 +3,7 @@ const { FETCH_COMPLAINTLISTS } = ActionTyps
 //intial state
 const complaints = {
   complaintLists: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 export const getComplaintLists = (state = complaints, { type, payload }) => {
   switch (type) {

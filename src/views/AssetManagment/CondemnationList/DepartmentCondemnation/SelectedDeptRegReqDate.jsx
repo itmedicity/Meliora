@@ -18,7 +18,7 @@ const SelectedDeptRegReqDate = ({ SatusFrom, SatusTo, viewForm, empdept }) => {
       StatusTo: SatusTo,
       req_dept: empdept,
       fromDate: fromDate,
-      toDate: toDate,
+      toDate: toDate
     }
   }, [SatusFrom, SatusTo, empdept, fromDate, toDate])
 
@@ -41,10 +41,7 @@ const SelectedDeptRegReqDate = ({ SatusFrom, SatusTo, viewForm, empdept }) => {
     setLoading(true)
     setCondemnationList([])
     try {
-      const result = await axioslogin.post(
-        '/AssetCondemnation/getDeptCondemnationList',
-        postDeptcondemList
-      )
+      const result = await axioslogin.post('/AssetCondemnation/getDeptCondemnationList', postDeptcondemList)
       const { success, data } = result.data
       setCondemnationList(success === 1 ? data : [])
     } catch (error) {
@@ -74,8 +71,8 @@ const SelectedDeptRegReqDate = ({ SatusFrom, SatusTo, viewForm, empdept }) => {
             value={fromDate}
             slotProps={{
               input: {
-                max: format(new Date(), 'yyyy-MM-dd'),
-              },
+                max: format(new Date(), 'yyyy-MM-dd')
+              }
             }}
             onChange={handleFromDateChange}
           />
@@ -95,39 +92,25 @@ const SelectedDeptRegReqDate = ({ SatusFrom, SatusTo, viewForm, empdept }) => {
             slotProps={{
               input: {
                 min: fromDate,
-                max: format(new Date(), 'yyyy-MM-dd'),
-              },
+                max: format(new Date(), 'yyyy-MM-dd')
+              }
             }}
           />
         </Box>
 
         <Box sx={{ pt: 3 }}>
-          <Button
-            sx={{ py: 0.2, px: 0.6, ml: 1 }}
-            onClick={Search}
-            size="sm"
-            variant="outlined"
-            color="neutral"
-          >
+          <Button sx={{ py: 0.2, px: 0.6, ml: 1 }} onClick={Search} size="sm" variant="outlined" color="neutral">
             <SearchIcon />
           </Button>
 
-          <Button
-            sx={{ py: 0.2, px: 0.6, ml: 1 }}
-            onClick={Clear}
-            size="sm"
-            variant="outlined"
-            color="neutral"
-          >
+          <Button sx={{ py: 0.2, px: 0.6, ml: 1 }} onClick={Clear} size="sm" variant="outlined" color="neutral">
             <RefreshSharpIcon />
           </Button>
         </Box>
       </Box>
 
       {loading ? (
-        <Box
-          sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh' }}
-        >
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh' }}>
           <CircularProgress />
         </Box>
       ) : condemnationList.length === 0 ? (
@@ -142,7 +125,7 @@ const SelectedDeptRegReqDate = ({ SatusFrom, SatusTo, viewForm, empdept }) => {
             textAlign: 'center',
             color: 'lightgrey',
             border: 1,
-            m: 1,
+            m: 1
           }}
         >
           No Data Available
@@ -191,7 +174,7 @@ const SelectedDeptRegReqDate = ({ SatusFrom, SatusTo, viewForm, empdept }) => {
                             cursor: 'pointer',
                             fontSize: 13,
                             py: 0.2,
-                            '&:hover': { bgcolor: '#8FA297 ' },
+                            '&:hover': { bgcolor: '#8FA297 ' }
                           }}
                           onClick={() => viewForm(val)}
                         >
@@ -222,11 +205,9 @@ const SelectedDeptRegReqDate = ({ SatusFrom, SatusTo, viewForm, empdept }) => {
                                 ? '#7AC7AD'
                                 : val.condem_status === 6 && val.store_approve_status === 2
                                 ? '#F4A3A3 '
-                                : val.condem_status === 7 &&
-                                  val.material_mangmnt_mangr_apprv_status === 1
+                                : val.condem_status === 7 && val.material_mangmnt_mangr_apprv_status === 1
                                 ? '#7AC7AD'
-                                : val.condem_status === 7 &&
-                                  val.material_mangmnt_mangr_apprv_status === 2
+                                : val.condem_status === 7 && val.material_mangmnt_mangr_apprv_status === 2
                                 ? '#F4A3A3 '
                                 : '#EFF4F0',
                             textAlign: 'center',
@@ -234,7 +215,7 @@ const SelectedDeptRegReqDate = ({ SatusFrom, SatusTo, viewForm, empdept }) => {
                             fontWeight: 700,
                             cursor: 'pointer',
                             fontSize: 13,
-                            py: 0.2,
+                            py: 0.2
                           }}
                         >
                           {val.condem_status === 2 && val.incharge_approve_status === 1
@@ -257,11 +238,9 @@ const SelectedDeptRegReqDate = ({ SatusFrom, SatusTo, viewForm, empdept }) => {
                             ? 'Store Approved'
                             : val.condem_status === 6 && val.store_approve_status === 2
                             ? 'Store Rejected'
-                            : val.condem_status === 7 &&
-                              val.material_mangmnt_mangr_apprv_status === 1
+                            : val.condem_status === 7 && val.material_mangmnt_mangr_apprv_status === 1
                             ? 'Condemnation Approved'
-                            : val.condem_status === 7 &&
-                              val.material_mangmnt_mangr_apprv_status === 2
+                            : val.condem_status === 7 && val.material_mangmnt_mangr_apprv_status === 2
                             ? 'Condemnation Rejected'
                             : 'Pending Approval'}
                         </Box>

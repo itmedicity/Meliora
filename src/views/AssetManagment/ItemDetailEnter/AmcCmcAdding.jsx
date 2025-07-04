@@ -50,7 +50,7 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
     fromDate: '',
     toDate: '',
     FileStatus: '',
-    Slno: '',
+    Slno: ''
   })
 
   const { fromDate, toDate, FileStatus, Slno } = amcfrm
@@ -114,7 +114,7 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
     const options = {
       maxSizeMB: 25,
       maxWidthOrHeight: 1920,
-      useWebWorker: true,
+      useWebWorker: true
     }
     const compressedFile = await imageCompression(imageFile, options)
     return compressedFile
@@ -136,7 +136,7 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
       from_date: fromDate,
       to_date: toDate,
       amccmc_status: amcCmcStatus === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [supplier, fromDate, toDate, id, amcStatus, cmcStatus, amcCmcStatus])
 
@@ -149,7 +149,7 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
       to_date: toDate,
       amccmc_status: amcCmcStatus === true ? 1 : 0,
       edit_user: id,
-      amccmc_slno: Slno,
+      amccmc_slno: Slno
     }
   }, [supplier, fromDate, toDate, id, amcStatus, cmcStatus, Slno, amcCmcStatus])
 
@@ -166,7 +166,7 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
       fromDate: '',
       toDate: '',
       FileStatus: '',
-      Slno: '',
+      Slno: ''
     }
     setamcfrm(frmdata)
     setNewAMCFlg(0)
@@ -193,8 +193,8 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
           // Use the Axios instance and endpoint that matches your server setup
           const result = await axioslogin.post('/AssetFileUpload/asset/AmcCmcImage', formData, {
             headers: {
-              'Content-Type': 'multipart/form-data',
-            },
+              'Content-Type': 'multipart/form-data'
+            }
           })
           return result.data
         } catch (error) {
@@ -271,33 +271,12 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
         }
       }
     },
-    [
-      postdata,
-      value,
-      selectFile,
-      Slno,
-      patch,
-      dispatch,
-      amcStatus,
-      cmcStatus,
-      count,
-      reset,
-      handleImageUpload,
-    ]
+    [postdata, value, selectFile, Slno, patch, dispatch, amcStatus, cmcStatus, count, reset, handleImageUpload]
   )
 
   const rowSelect = useCallback(val => {
     setValue(1)
-    const {
-      amccmc_slno,
-      suplier_slno,
-      amc_status,
-      cmc_status,
-      from_date,
-      to_date,
-      image_upload,
-      amccmc_status,
-    } = val
+    const { amccmc_slno, suplier_slno, amc_status, cmc_status, from_date, to_date, image_upload, amccmc_status } = val
     setamcStatus(amc_status === 1 ? true : false)
     setcmcStatus(cmc_status === 1 ? true : false)
     setamcCmcStatus(amccmc_status === 1 ? true : false)
@@ -305,7 +284,7 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
       fromDate: from_date,
       toDate: to_date,
       FileStatus: image_upload,
-      Slno: amccmc_slno,
+      Slno: amccmc_slno
     }
     setamcfrm(frmdata)
     setSupplier(suplier_slno)
@@ -353,7 +332,7 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
 
   const searchdata = useMemo(() => {
     return {
-      SUC_NAME: suppName,
+      SUC_NAME: suppName
     }
   }, [suppName])
 
@@ -384,7 +363,7 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
         it_supplier_email_one: SUC_EMAIL,
         it_supplier_escl_mob_one: parseInt(SUC_PERSON2),
         it_supplier_escl_land_one: parseInt(SUC_PERSON1),
-        supplier_status: 1,
+        supplier_status: 1
       }
       const InsertSupplierInMeli = async postdata => {
         const result = await axioslogin.post('/ItemMapDetails/SupplierAdding', postdata)
@@ -460,20 +439,14 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
       -2px 0px 4px rgba(0, 0, 0, 0.1),    /* Left shadow */
       2px 0px 4px rgba(0, 0, 0, 0.1)      /* Right shadow */
           `,
-        transition: 'all 0.3s ease',
+        transition: 'all 0.3s ease'
       }}
     >
-      {imageshowFlag === 1 ? (
-        <FileView open={imageshow} handleClose={handleClose} images={imagearray} />
-      ) : null}
+      {imageshowFlag === 1 ? <FileView open={imageshow} handleClose={handleClose} images={imagearray} /> : null}
 
       {imageShowsingle === 1 ? (
         <Box>
-          <FileViewSingle
-            previewFile={previewFile}
-            imageShow={imageShowSingle}
-            CloseFile={CloseFile}
-          />
+          <FileViewSingle previewFile={previewFile} imageShow={imageShowSingle} CloseFile={CloseFile} />
         </Box>
       ) : null}
       <TextComponent
@@ -481,7 +454,7 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
         sx={{
           fontWeight: 600,
           color: 'black',
-          py: 1,
+          py: 1
         }}
       />
 
@@ -496,12 +469,12 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
                     fontWeight: 600,
                     color: '#727B8C',
                     pt: 0.5,
-                    width: 100,
+                    width: 100
                   }}
                 />
                 <Box
                   sx={{
-                    flex: 1,
+                    flex: 1
                   }}
                 >
                   {OracleListFlag === 1 ? (
@@ -519,7 +492,7 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
                     fontWeight: 600,
                     color: '#727B8C',
                     pt: 0.5,
-                    width: 100,
+                    width: 100
                   }}
                 />
                 <Box sx={{ flex: 1 }}>
@@ -539,7 +512,7 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
                     fontWeight: 600,
                     color: '#727B8C',
                     pt: 0.5,
-                    width: 100,
+                    width: 100
                   }}
                 />
                 <Box sx={{ flex: 1 }}>
@@ -556,7 +529,7 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
                 <Box sx={{ width: 100 }}></Box>
                 <Box
                   sx={{
-                    flex: 1,
+                    flex: 1
                   }}
                 >
                   <Button
@@ -566,7 +539,7 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
                     startDecorator={<SearchOutlinedIcon />}
                     sx={{
                       '--Button-gap': '8px',
-                      width: '100%',
+                      width: '100%'
                     }}
                   >
                     Search Supplier From Ellider{' '}
@@ -583,7 +556,7 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
                   fontWeight: 600,
                   color: '#0B6BCB',
                   pt: 0.5,
-                  pl: 0.3,
+                  pl: 0.3
                 }}
               />
               <Box sx={{ flex: 1, display: 'flex' }}>
@@ -597,13 +570,7 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
                     placeholder={'Enter Supplier'}
                   ></TextFieldCustom>
                 </Box>
-                <CusIconButton
-                  size="sm"
-                  variant="outlined"
-                  color="primary"
-                  clickable="true"
-                  onClick={SearchSupplOrcle}
-                >
+                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={SearchSupplOrcle}>
                   <ManageSearchIcon fontSize="small" />
                 </CusIconButton>
                 &nbsp;
@@ -630,7 +597,7 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
                     border: 1,
                     borderColor: 'lightgrey',
                     p: 0.4,
-                    mt: 0.5,
+                    mt: 0.5
                   }}
                 >
                   {selectFile.length !== 0 &&
@@ -643,7 +610,7 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
                           border: '1px solid #e0e0e0',
                           borderRadius: '4px',
                           p: 0.5,
-                          mr: 0.5,
+                          mr: 0.5
                         }}
                       >
                         {file.type.includes('image') ? (
@@ -656,7 +623,7 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
                               objectFit: 'cover',
                               borderRadius: '4px',
                               marginRight: '8px',
-                              cursor: 'pointer',
+                              cursor: 'pointer'
                             }}
                             onClick={() => ViewImage(file)}
                           />
@@ -667,7 +634,7 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
                               height: '40px',
                               color: '#e53935',
                               marginRight: '8px',
-                              cursor: 'pointer',
+                              cursor: 'pointer'
                             }}
                             onClick={() => ViewImage(file)}
                           />
@@ -678,7 +645,7 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
                               height: '40px',
                               color: '#9e9e9e',
                               marginRight: '8px',
-                              cursor: 'pointer',
+                              cursor: 'pointer'
                             }}
                             onClick={() => ViewImage(file)}
                           />
@@ -693,7 +660,7 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
                             cursor: 'pointer',
                             color: '#4D0011',
                             mx: 0.5,
-                            '&:hover': { color: '#BA0F30' },
+                            '&:hover': { color: '#BA0F30' }
                           }}
                           onClick={() => handleRemoveFile(index)}
                         />
@@ -716,7 +683,7 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
                 borderColor: '#0B6BCB',
                 bgcolor: '#F3F5F7',
                 pt: 1,
-                cursor: 'pointer',
+                cursor: 'pointer'
               }}
             >
               <label htmlFor="file-input">
@@ -727,7 +694,7 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
                     fontWeight: 600,
                     color: '#0B6BCB',
                     pb: 1,
-                    cursor: 'pointer',
+                    cursor: 'pointer'
                   }}
                 />
               </label>
@@ -779,14 +746,12 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
                       cursor: 'pointer',
                       my: 1,
                       py: 0.3,
-                      boxShadow:
-                        '2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.6)',
+                      boxShadow: '2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.6)',
                       transform: 'translateZ(0)',
                       transition: 'transform 0.2s ease',
                       '&:hover': {
-                        boxShadow:
-                          '3px 3px 6px rgba(0, 0, 0, 0.4), -3px -3px 6px rgba(255, 255, 255, 0.7)',
-                      },
+                        boxShadow: '3px 3px 6px rgba(0, 0, 0, 0.4), -3px -3px 6px rgba(255, 255, 255, 0.7)'
+                      }
                     }}
                   >
                     Attached Bill
@@ -821,24 +786,12 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
                 </CusIconButton>
               </Box>
               <Box>
-                <CusIconButton
-                  size="sm"
-                  variant="outlined"
-                  color="primary"
-                  clickable="true"
-                  onClick={reset}
-                >
+                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={reset}>
                   <RefreshIcon fontSize="small" />
                 </CusIconButton>
               </Box>
               <Box>
-                <CusIconButton
-                  size="sm"
-                  variant="outlined"
-                  color="primary"
-                  clickable="true"
-                  onClick={close}
-                >
+                <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={close}>
                   <CloseIcon fontSize="small" />
                 </CusIconButton>
               </Box>
@@ -854,7 +807,7 @@ const AmcCmcAdding = ({ setNewAMCFlg, setSupplierdetl, setBillDate }) => {
           sx={{
             flex: 1,
             my: 1,
-            mx: 0.2,
+            mx: 0.2
           }}
         >
           <BillSupplerListOracle OracleList={OracleList} SuppAddMeliora={SuppAddMeliora} />

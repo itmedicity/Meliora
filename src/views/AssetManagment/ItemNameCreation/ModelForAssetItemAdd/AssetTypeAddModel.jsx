@@ -25,7 +25,7 @@ const AssetTypeAddModel = ({ open, handleClose }) => {
   })
   const [assetType, setAssetType] = useState({
     asset_type_name: '',
-    asset_type_status: false,
+    asset_type_status: false
   })
   const { asset_type_name, asset_type_status } = assetType
 
@@ -40,7 +40,7 @@ const AssetTypeAddModel = ({ open, handleClose }) => {
   const reset = () => {
     const formdata = {
       asset_type_name: '',
-      asset_type_status: false,
+      asset_type_status: false
     }
     setAssetType(formdata)
   }
@@ -49,7 +49,7 @@ const AssetTypeAddModel = ({ open, handleClose }) => {
     return {
       asset_type_name: asset_type_name,
       asset_type_status: asset_type_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [asset_type_name, asset_type_status, id])
 
@@ -80,7 +80,6 @@ const AssetTypeAddModel = ({ open, handleClose }) => {
     [postdata, handleClose, asset_type_name, dispatch]
   )
 
-
   return (
     <Fragment>
       {/* <ToastContainer /> */}
@@ -94,11 +93,9 @@ const AssetTypeAddModel = ({ open, handleClose }) => {
       >
         <DialogContent
           id="alert-dialog-slide-descriptiona"
-        //    sx={{ border: '5px solid #474b4f' ,borderRadius:.5}}
+          //    sx={{ border: '5px solid #474b4f' ,borderRadius:.5}}
         >
-          <Box
-            sx={{ width: '100%', height: '90%', borderRadius: 1, border: '0.1px solid #454545' }}
-          >
+          <Box sx={{ width: '100%', height: '90%', borderRadius: 1, border: '0.1px solid #454545' }}>
             <Box
               id="alert-dialog-slide-descriptiona"
               sx={{ fontWeight: 'bold', textAlign: 'center', height: '50px', pt: 1 }}
@@ -111,14 +108,14 @@ const AssetTypeAddModel = ({ open, handleClose }) => {
                 width: 500,
                 height: 100,
                 pl: 3,
-                flexDirection: 'column',
+                flexDirection: 'column'
               }}
             >
               <Box
                 sx={{
                   width: '100%',
                   display: 'flex',
-                  flexDirection: 'row',
+                  flexDirection: 'row'
                 }}
               >
                 <Box sx={{ height: 50, width: '40%' }}>
@@ -141,7 +138,7 @@ const AssetTypeAddModel = ({ open, handleClose }) => {
                 sx={{
                   width: '100%',
                   display: 'flex',
-                  flexDirection: 'row',
+                  flexDirection: 'row'
                 }}
               >
                 <Box sx={{ height: 50, width: '40%' }}>

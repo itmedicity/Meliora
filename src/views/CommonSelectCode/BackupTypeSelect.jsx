@@ -11,7 +11,7 @@ import { useCallback } from 'react'
 const BackupTypeSelect = ({ backupType, setBackupType }) => {
   const { data: backupTypeList } = useQuery({
     queryKey: ['getbackupTypeList'],
-    queryFn: () => getbackupTypeList(),
+    queryFn: () => getbackupTypeList()
   })
 
   const [backupTypeX, setbackupTypeX] = useState([{ backup_type_id: 0, backup_type_name: '' }])
@@ -48,7 +48,7 @@ const BackupTypeSelect = ({ backupType, setBackupType }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '29px',
+            '--Input-minHeight': '29px'
           }}
           value={backupType === 0 ? backupTypeX : value}
           placeholder="Select Backup Type"
@@ -64,9 +64,7 @@ const BackupTypeSelect = ({ backupType, setBackupType }) => {
           loading={true}
           loadingText="Loading..."
           freeSolo
-          isOptionEqualToValue={(option, value) =>
-            option.backup_type_name === value.backup_type_name
-          }
+          isOptionEqualToValue={(option, value) => option.backup_type_name === value.backup_type_name}
           getOptionLabel={option => option.backup_type_name || ''}
           options={backupTypeX}
         />

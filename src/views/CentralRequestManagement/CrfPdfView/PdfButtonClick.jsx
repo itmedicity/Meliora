@@ -23,9 +23,7 @@ const PdfButtonClick = ({ val }) => {
     }
 
     const ItemDetailsApproved = async req_slno => {
-      const result = await axioslogin.get(
-        `/CRFRegisterApproval/getFinalItemListApproval/${req_slno}`
-      )
+      const result = await axioslogin.get(`/CRFRegisterApproval/getFinalItemListApproval/${req_slno}`)
       return result.data
     }
 
@@ -73,29 +71,22 @@ const PdfButtonClick = ({ val }) => {
                 req_slno: val.req_slno,
                 aprox_cost: val.aprox_cost,
                 item_status: val.item_status,
-                approved_itemunit:
-                  val.approved_itemunit !== null ? val.approved_itemunit : 'Not Given',
-                approve_item_desc:
-                  val.approve_item_desc !== null ? val.approve_item_desc : 'Not Given',
-                approve_item_brand:
-                  val.approve_item_brand !== '' ? val.approve_item_brand : 'Not Given',
+                approved_itemunit: val.approved_itemunit !== null ? val.approved_itemunit : 'Not Given',
+                approve_item_desc: val.approve_item_desc !== null ? val.approve_item_desc : 'Not Given',
+                approve_item_brand: val.approve_item_brand !== '' ? val.approve_item_brand : 'Not Given',
                 approve_item_unit: val.approve_item_unit,
-                item_qnty_approved:
-                  val.item_qnty_approved !== null ? val.item_qnty_approved : 'Not Given',
+                item_qnty_approved: val.item_qnty_approved !== null ? val.item_qnty_approved : 'Not Given',
                 approve_item_unit_price:
                   val.approve_item_unit_price !== null ? val.approve_item_unit_price : 'Not Given',
-                approve_aprox_cost:
-                  val.approve_aprox_cost !== null ? val.approve_aprox_cost : 'Not Given',
+                approve_aprox_cost: val.approve_aprox_cost !== null ? val.approve_aprox_cost : 'Not Given',
                 item_status_approved: val.item_status_approved,
                 approve_item_status: val.approve_item_status,
                 approve_item_delete_who: val.approve_item_delete_who,
                 uom_name: val.uom_name,
                 approve_item_specification:
-                  val.approve_item_specification !== ''
-                    ? val.approve_item_specification
-                    : 'Not Given',
+                  val.approve_item_specification !== '' ? val.approve_item_specification : 'Not Given',
                 old_item_slno: val.old_item_slno !== null ? val.old_item_slno : '',
-                item_slno: val.item_slno,
+                item_slno: val.item_slno
               }
               return obj
             })
@@ -123,17 +114,11 @@ const PdfButtonClick = ({ val }) => {
         width: '100%',
         flexDirection: 'row',
         pt: 0.5,
-        pb: 0.5,
+        pb: 0.5
       }}
     >
       <Box sx={{ pl: 2 }}>
-        <CusIconButton
-          size="sm"
-          variant="outlined"
-          color="primary"
-          clickable="true"
-          onClick={PdfDownloadFctn}
-        >
+        <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={PdfDownloadFctn}>
           <Typography color="primary" sx={{ fontSize: 15, pl: 1 }}></Typography>
           <FileOpenIcon fontSize="small" />
           <Typography color="primary" sx={{ fontSize: 15, pl: 2, pr: 2 }}>

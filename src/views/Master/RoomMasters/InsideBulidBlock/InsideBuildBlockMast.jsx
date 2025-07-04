@@ -20,14 +20,14 @@ const InsideBuildBlockMast = () => {
     rm_insidebuildblock_name: '',
     rm_insidebuildblock_alias: '',
     rm_insidebuildblock_no: '',
-    rm_insidebuildblock_status: false,
+    rm_insidebuildblock_status: false
   })
   const {
     rm_insidebluidblock_slno,
     rm_insidebuildblock_name,
     rm_insidebuildblock_alias,
     rm_insidebuildblock_no,
-    rm_insidebuildblock_status,
+    rm_insidebuildblock_status
   } = insidebuild
   const updateInsideBuild = useCallback(
     e => {
@@ -42,7 +42,7 @@ const InsideBuildBlockMast = () => {
       rm_insidebuildblock_name: '',
       rm_insidebuildblock_alias: '',
       rm_insidebuildblock_no: '',
-      rm_insidebuildblock_status: false,
+      rm_insidebuildblock_status: false
     }
     setInsideBuild(frmdata)
     setCount(0)
@@ -58,15 +58,9 @@ const InsideBuildBlockMast = () => {
       rm_insidebuildblock_alias: rm_insidebuildblock_alias,
       rm_insidebuildblock_no: rm_insidebuildblock_no,
       rm_insidebuildblock_status: rm_insidebuildblock_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
-  }, [
-    rm_insidebuildblock_name,
-    rm_insidebuildblock_alias,
-    rm_insidebuildblock_no,
-    rm_insidebuildblock_status,
-    id,
-  ])
+  }, [rm_insidebuildblock_name, rm_insidebuildblock_alias, rm_insidebuildblock_no, rm_insidebuildblock_status, id])
   const patchdata = useMemo(() => {
     return {
       rm_insidebuildblock_slno: rm_insidebluidblock_slno,
@@ -74,7 +68,7 @@ const InsideBuildBlockMast = () => {
       rm_insidebuildblock_alias: rm_insidebuildblock_alias,
       rm_insidebuildblock_no: rm_insidebuildblock_no,
       rm_insidebuildblock_status: rm_insidebuildblock_status === true ? 1 : 0,
-      edit_user: id,
+      edit_user: id
     }
   }, [
     rm_insidebluidblock_slno,
@@ -82,7 +76,7 @@ const InsideBuildBlockMast = () => {
     rm_insidebuildblock_alias,
     rm_insidebuildblock_no,
     rm_insidebuildblock_status,
-    id,
+    id
   ])
 
   const backtoSetting = useCallback(() => {
@@ -142,7 +136,7 @@ const InsideBuildBlockMast = () => {
       rm_insidebuildblock_name,
       rm_insidebuildblock_alias,
       rm_insidebuildblock_no,
-      rm_insidebuildblock_status,
+      rm_insidebuildblock_status
     } = data[0]
 
     const frmdata = {
@@ -150,7 +144,7 @@ const InsideBuildBlockMast = () => {
       rm_insidebuildblock_name: rm_insidebuildblock_name,
       rm_insidebuildblock_alias: rm_insidebuildblock_alias,
       rm_insidebuildblock_no: rm_insidebuildblock_no,
-      rm_insidebuildblock_status: rm_insidebuildblock_status === 1 ? true : false,
+      rm_insidebuildblock_status: rm_insidebuildblock_status === 1 ? true : false
     }
     setInsideBuild(frmdata)
   }, [])
@@ -160,18 +154,13 @@ const InsideBuildBlockMast = () => {
       rm_insidebuildblock_name: '',
       rm_insidebuildblock_alias: '',
       rm_insidebuildblock_no: '',
-      rm_insidebuildblock_status: false,
+      rm_insidebuildblock_status: false
     }
     setInsideBuild(frmdata)
     setValue(0)
   }, [setInsideBuild])
   return (
-    <CardMaster
-      title="Inside Building Block"
-      submit={sumbitInsideBuild}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Inside Building Block" submit={sumbitInsideBuild} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ p: 1 }}>
         <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
           <Box sx={{ width: '30%', p: 1 }}>

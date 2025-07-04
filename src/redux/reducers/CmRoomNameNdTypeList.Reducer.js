@@ -4,7 +4,7 @@ const { FETCH_CM_ROOMTYPE_ROOMNAME } = ActionTyps
 
 const RoomsNameNdType = {
   RoomsNameNdTypeList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 
 /*** Department action type check then payload set to the state and loading status set as true */

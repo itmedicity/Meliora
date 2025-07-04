@@ -92,7 +92,7 @@ const CurrentYearTable = ({ yeartabData, setYeartabflag, yearflag, count, setCou
                   display: 'flex',
                   flexDirection: 'row',
                   justifyContent: 'flex-end',
-                  pr: 2,
+                  pr: 2
                 }}
               >
                 <Box
@@ -100,7 +100,7 @@ const CurrentYearTable = ({ yeartabData, setYeartabflag, yearflag, count, setCou
                     height: 20,
                     width: 30,
                     bgcolor: 'lightgrey',
-                    border: '0.1px solid lightgrey',
+                    border: '0.1px solid lightgrey'
                   }}
                 >
                   {' '}
@@ -197,7 +197,7 @@ const CurrentYearTable = ({ yeartabData, setYeartabflag, yearflag, count, setCou
                       size="small"
                       style={{
                         height: 8,
-                        background: val.verify_status === 1 ? 'lightgrey' : 'transparent',
+                        background: val.verify_status === 1 ? 'lightgrey' : 'transparent'
                       }}
                     >
                       <td style={{ textAlign: 'center' }}>
@@ -210,8 +210,8 @@ const CurrentYearTable = ({ yeartabData, setYeartabflag, yearflag, count, setCou
                                 cursor: 'pointer',
                                 ':hover': {
                                   color: '#43a047',
-                                  boxShadow: 10,
-                                },
+                                  boxShadow: 10
+                                }
                               }}
                               onClick={() => VerificationClick(val)}
                             />
@@ -223,8 +223,8 @@ const CurrentYearTable = ({ yeartabData, setYeartabflag, yearflag, count, setCou
                                 cursor: 'pointer',
                                 ':hover': {
                                   color: '#ef5350',
-                                  boxShadow: 10,
-                                },
+                                  boxShadow: 10
+                                }
                               }}
                               onClick={() => VerificationClick(val)}
                             />
@@ -254,9 +254,7 @@ const CurrentYearTable = ({ yeartabData, setYeartabflag, yearflag, count, setCou
                       <td>{val.transferred_device_name}</td>
                       <td>{val.transferred_device_location}</td>
                       <td>{val.schedule_type_name}</td>
-                      {yearflag === 3 ? (
-                        <td>{moment(val.backup_date_time).format('YYYY-MM-DD hh:mm A')}</td>
-                      ) : null}
+                      {yearflag === 3 ? <td>{moment(val.backup_date_time).format('YYYY-MM-DD hh:mm A')}</td> : null}
                       {yearflag === 3 ? <td>{val.em_name}</td> : null}
                       {yearflag === 3 ? (
                         <td>
@@ -267,9 +265,7 @@ const CurrentYearTable = ({ yeartabData, setYeartabflag, yearflag, count, setCou
                               : 'Not Updated'}
                         </td>
                       ) : null}
-                      {yearflag === 3 ? (
-                        <td>{val.remarks === null ? 'Nil' : val.remarks}</td>
-                      ) : null}
+                      {yearflag === 3 ? <td>{val.remarks === null ? 'Nil' : val.remarks}</td> : null}
                     </tr>
                   ))}
                 </tbody>

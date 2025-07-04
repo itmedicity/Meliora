@@ -7,9 +7,7 @@ import { getDepartSecemployee } from 'src/redux/actions/EmpNameDeptSect.action'
 
 const TmDeptSectionSubtask = ({ deptsecSub, setDeptSecSub }) => {
   const dispatch = useDispatch()
-  const subTaskDeptsectionList = useSelector(
-    state => state.getDepartmentSecSubTask?.subTaskDeptsectionList
-  )
+  const subTaskDeptsectionList = useSelector(state => state.getDepartmentSecSubTask?.subTaskDeptsectionList)
   const [deptSections, setdeptSections] = useState([{ sec_id: 0, sec_name: '' }])
   const [value, setValue] = useState(deptSections[0])
   const [inputValue, setInputValue] = useState('')
@@ -43,7 +41,7 @@ const TmDeptSectionSubtask = ({ deptsecSub, setDeptSecSub }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            minHeight: 53,
+            minHeight: 53
           }}
           value={deptsecSub === 0 ? deptSections : value}
           placeholder="Select department section"

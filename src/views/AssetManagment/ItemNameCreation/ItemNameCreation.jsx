@@ -105,7 +105,7 @@ const ItemNameCreation = () => {
     item_name: '',
     item_specific_one: '',
     item_specific_two: '',
-    item_creation_status: true,
+    item_creation_status: true
   })
   const { item_creation_slno, item_specific_one, item_specific_two, item_creation_status } = item
   const [item_base_name, setitem_base_name] = useState('')
@@ -303,7 +303,7 @@ const ItemNameCreation = () => {
     manufct_order: '',
     model_order: '',
     modelNo_order: '',
-    uom_order: '',
+    uom_order: ''
   })
 
   const {
@@ -316,7 +316,7 @@ const ItemNameCreation = () => {
     manufct_order,
     model_order,
     modelNo_order,
-    uom_order,
+    uom_order
   } = order
 
   useEffect(() => {
@@ -372,7 +372,7 @@ const ItemNameCreation = () => {
     modelName,
     submodelName,
     uomName,
-    manufactureName,
+    manufactureName
   ])
 
   const [itemNamee, setItemNamee] = useState('')
@@ -390,7 +390,7 @@ const ItemNameCreation = () => {
       { order: model_order, status: modelStatus, name: modelDis },
       // { order: asset_order, status: submodelStatus, name: submodelDis },
       { order: modelNo_order, status: modelNoStatus, name: modelNoDis },
-      { order: uom_order, status: uomStatus, name: uomDis },
+      { order: uom_order, status: uomStatus, name: uomDis }
       // { order: asset_order, status: baseStatus, name: baseDis }
     ]
     //Remove Unchecked feilds
@@ -434,7 +434,7 @@ const ItemNameCreation = () => {
     manufct_order,
     model_order,
     modelNo_order,
-    uom_order,
+    uom_order
   ])
 
   const postdata = useMemo(() => {
@@ -455,7 +455,7 @@ const ItemNameCreation = () => {
       item_specific_one: item_specific_one,
       item_specific_two: item_specific_two,
       item_creation_status: item_creation_status === true ? 1 : 0,
-      asset_spare: asset === true ? 1 : spare === true ? 2 : 0,
+      asset_spare: asset === true ? 1 : spare === true ? 2 : 0
     }
   }, [
     assettype,
@@ -475,7 +475,7 @@ const ItemNameCreation = () => {
     item_specific_two,
     item_creation_status,
     asset,
-    spare,
+    spare
   ])
 
   const patchdata = useMemo(() => {
@@ -497,7 +497,7 @@ const ItemNameCreation = () => {
       item_specific_one: item_specific_one,
       item_specific_two: item_specific_two,
       item_creation_status: item_creation_status === true ? 1 : 0,
-      asset_spare: asset === true ? 1 : spare === true ? 2 : 0,
+      asset_spare: asset === true ? 1 : spare === true ? 2 : 0
     }
   }, [
     item_creation_slno,
@@ -518,7 +518,7 @@ const ItemNameCreation = () => {
     item_specific_two,
     item_creation_status,
     asset,
-    spare,
+    spare
   ])
 
   const reset = useCallback(() => {
@@ -527,7 +527,7 @@ const ItemNameCreation = () => {
       item_name: '',
       item_specific_one: '',
       item_specific_two: '',
-      item_creation_status: false,
+      item_creation_status: false
     }
 
     setSelectFile(null)
@@ -602,7 +602,7 @@ const ItemNameCreation = () => {
       manufct_order: '',
       model_order: '',
       modelNo_order: '',
-      uom_order: '',
+      uom_order: ''
     }
     setOrder(orderReset)
   }, [
@@ -668,7 +668,7 @@ const ItemNameCreation = () => {
     modelNo,
     dispatch,
     setasset,
-    setSpare,
+    setSpare
   ])
 
   const uploadFile = async event => {
@@ -676,7 +676,7 @@ const ItemNameCreation = () => {
     setSelectFile(file)
     const options = {
       maxSizeMB: 1,
-      maxWidthOrHeight: 1920,
+      maxWidthOrHeight: 1920
     }
     const compressedFile = await imageCompression(file, options)
     setSelectFile(compressedFile)
@@ -769,14 +769,14 @@ const ItemNameCreation = () => {
         item_specific_one,
         item_specific_two,
         item_creation_status,
-        asset_spare,
+        asset_spare
       } = data[0]
 
       const frmdata = {
         item_creation_slno: item_creation_slno,
         item_specific_one: item_specific_one,
         item_specific_two: item_specific_two,
-        item_creation_status: item_creation_status === 1 ? true : false,
+        item_creation_status: item_creation_status === 1 ? true : false
       }
 
       setItem(frmdata)
@@ -947,46 +947,25 @@ const ItemNameCreation = () => {
       manufct_order,
       model_order,
       modelNo_order,
-      uom_order,
+      uom_order
     ]
   )
 
   return (
     <Box>
-      <CardMaster
-        title="Asset Name Creation"
-        submit={sumbitItemCreation}
-        close={backtoSetting}
-        refresh={refreshWindow}
-      >
+      <CardMaster title="Asset Name Creation" submit={sumbitItemCreation} close={backtoSetting} refresh={refreshWindow}>
         {checkExist === 1 ? (
-          <ModelForItemExistOrNot
-            assetOrSpare={assetOrSpare}
-            open={checkExistOpen}
-            handleClose={handleClose}
-          />
+          <ModelForItemExistOrNot assetOrSpare={assetOrSpare} open={checkExistOpen} handleClose={handleClose} />
         ) : null}
-        {AssetTypeFlag === 1 ? (
-          <AssetTypeAddModel open={AssetTypeOpen} handleClose={handleClose} />
-        ) : null}
-        {ItemTypeFlag === 1 ? (
-          <ItemTypeAddModel open={ItemTypeOpen} handleClose={handleClose} />
-        ) : null}
+        {AssetTypeFlag === 1 ? <AssetTypeAddModel open={AssetTypeOpen} handleClose={handleClose} /> : null}
+        {ItemTypeFlag === 1 ? <ItemTypeAddModel open={ItemTypeOpen} handleClose={handleClose} /> : null}
         {UOMflag === 1 ? <UomAddmodal open={UOMopen} handleClose={handleClose} /> : null}
-        {ManufactureFlag === 1 ? (
-          <Manufacture open={ManufactureOpen} handleClose={handleClose} />
-        ) : null}
-        {CategoryFlag === 1 ? (
-          <CategoryModal open={CategoryOpen} handleClose={handleClose} />
-        ) : null}
-        {SubCategoryFlag === 1 ? (
-          <SubcategoryModal open={SubCategoryOpen} handleClose={handleClose} />
-        ) : null}
+        {ManufactureFlag === 1 ? <Manufacture open={ManufactureOpen} handleClose={handleClose} /> : null}
+        {CategoryFlag === 1 ? <CategoryModal open={CategoryOpen} handleClose={handleClose} /> : null}
+        {SubCategoryFlag === 1 ? <SubcategoryModal open={SubCategoryOpen} handleClose={handleClose} /> : null}
         {GroupFlag === 1 ? <GroupModal open={GroupOpen} handleClose={handleClose} /> : null}
         {ModelFlag === 1 ? <ModelModal open={ModelOpen} handleClose={handleClose} /> : null}
-        {SubGroupFlag === 1 ? (
-          <SubGroupModal open={SubGroupOpen} handleClose={handleClose} />
-        ) : null}
+        {SubGroupFlag === 1 ? <SubGroupModal open={SubGroupOpen} handleClose={handleClose} /> : null}
         {/* {SubModelFlag === 1 ? <SubModelModal open={SubModelOpen} handleClose={handleClose} /> : null} */}
 
         <Box
@@ -996,7 +975,7 @@ const ItemNameCreation = () => {
             pt: 2.5,
             margin: 'auto ',
             pl: 13,
-            flexDirection: 'column',
+            flexDirection: 'column'
           }}
         >
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 0 }}>
@@ -1036,7 +1015,7 @@ const ItemNameCreation = () => {
                 width: { sm: '12%', md: '12%', lg: '10%' },
                 height: '1%',
                 pt: 0.1,
-                textAlign: 'center',
+                textAlign: 'center'
               }}
             >
               <TextFieldCustom
@@ -1217,12 +1196,7 @@ const ItemNameCreation = () => {
               <Typography>Group</Typography>
             </Box>
             <Box sx={{ width: '55%', pt: 0.5 }}>
-              <AssetGroupSlect
-                group={group}
-                setGroup={setGroup}
-                groupName={groupName}
-                setName={setGroupName}
-              />
+              <AssetGroupSlect group={group} setGroup={setGroup} groupName={groupName} setName={setGroupName} />
             </Box>
             <Box sx={{ width: '5%', pl: 1, pt: 0.5, cursor: 'pointer' }}>
               <Tooltip title="Add  " placement="top">
@@ -1331,12 +1305,7 @@ const ItemNameCreation = () => {
               <Typography>Model</Typography>
             </Box>
             <Box sx={{ width: '55%', pt: 0.5 }}>
-              <AssetModelSelect
-                model={model}
-                setModel={setModel}
-                setName={setModelName}
-                modelName={modelName}
-              />
+              <AssetModelSelect model={model} setModel={setModel} setName={setModelName} modelName={modelName} />
             </Box>
             <Box sx={{ width: '5%', pl: 1, pt: 0.5, cursor: 'pointer' }}>
               <Tooltip title="Add " placement="top">
@@ -1485,19 +1454,14 @@ const ItemNameCreation = () => {
             width: '85%',
             pl: 19,
             pt: 1,
-            justifyContent: 'space-evenly',
+            justifyContent: 'space-evenly'
           }}
         >
           <Box sx={{ width: '12%' }}>
             <Typography>Asset Name</Typography>
           </Box>
           <Box sx={{ width: '80%', pl: 2.3 }}>
-            <TextFieldCustom
-              type="text"
-              size="sm"
-              name="itemNamee"
-              value={itemNamee}
-            ></TextFieldCustom>
+            <TextFieldCustom type="text" size="sm" name="itemNamee" value={itemNamee}></TextFieldCustom>
           </Box>
         </Box>
 
@@ -1508,7 +1472,7 @@ const ItemNameCreation = () => {
             width: '85%',
             pl: 20,
             pt: 1,
-            justifyContent: 'space-evenly',
+            justifyContent: 'space-evenly'
           }}
         >
           <Box sx={{ width: '15%' }}>
@@ -1537,7 +1501,7 @@ const ItemNameCreation = () => {
             width: '85%',
             pl: 20,
             pt: 1,
-            justifyContent: 'space-evenly',
+            justifyContent: 'space-evenly'
           }}
         >
           <Box sx={{ width: '15%' }}>
@@ -1567,7 +1531,7 @@ const ItemNameCreation = () => {
             width: '70%',
             pl: 15,
             pt: 1,
-            justifyContent: 'space-evenly',
+            justifyContent: 'space-evenly'
           }}
         >
           <Box sx={{ width: '15%', margin: 'auto', pl: 2.3 }}>

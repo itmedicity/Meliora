@@ -34,12 +34,7 @@ const GrnDetailsViewModal = ({ handleCloseGrn, open, grnData, poNumber }) => {
   return (
     <Fragment>
       {modFlags === 1 ? (
-        <GrnViewModal
-          modalDatas={modalDatas}
-          handleClose={handleClose}
-          open={modalopens}
-          itemName={itemName}
-        />
+        <GrnViewModal modalDatas={modalDatas} handleClose={handleClose} open={modalopens} itemName={itemName} />
       ) : null}
       <CssVarsProvider>
         <Modal
@@ -53,7 +48,7 @@ const GrnDetailsViewModal = ({ handleCloseGrn, open, grnData, poNumber }) => {
             variant="outlined"
             sx={{
               py: 4,
-              width: '50vw',
+              width: '50vw'
             }}
           >
             <ModalClose
@@ -66,7 +61,7 @@ const GrnDetailsViewModal = ({ handleCloseGrn, open, grnData, poNumber }) => {
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 25,
-                width: 25,
+                width: 25
               }}
             />
             <Box sx={{ ml: 1, fontWeight: 650, fontSize: 14 }}>Item Details</Box>
@@ -76,15 +71,12 @@ const GrnDetailsViewModal = ({ handleCloseGrn, open, grnData, poNumber }) => {
                 fontWeight: 550,
                 fontSize: 15,
                 color: '#607d8b',
-                fontFamily: 'system-ui',
+                fontFamily: 'system-ui'
               }}
             >
               Order: {poNumber}
             </Box>
-            <Box
-              variant="outlined"
-              sx={{ overflow: 'auto', maxHeight: window.innerHeight - 50, padding: 'none' }}
-            >
+            <Box variant="outlined" sx={{ overflow: 'auto', maxHeight: window.innerHeight - 50, padding: 'none' }}>
               <CssVarsProvider>
                 <Table
                   aria-label="table with sticky header"
@@ -97,10 +89,7 @@ const GrnDetailsViewModal = ({ handleCloseGrn, open, grnData, poNumber }) => {
                 >
                   <thead style={{ alignItems: 'center' }}>
                     <tr style={{ height: 0.5 }}>
-                      <th
-                        size="sm"
-                        style={{ width: 60, fontWeight: 650, fontSize: 14, textAlign: 'center' }}
-                      >
+                      <th size="sm" style={{ width: 60, fontWeight: 650, fontSize: 14, textAlign: 'center' }}>
                         &nbsp; Sl.No
                       </th>
                       <th size="sm" style={{ width: 80, fontWeight: 650, fontSize: 14 }}>
@@ -142,7 +131,7 @@ const GrnDetailsViewModal = ({ handleCloseGrn, open, grnData, poNumber }) => {
                               fontSize: 12,
                               height: 5,
                               color: val.grn_qnty === val.item_qty ? '#59981A' : '#e65100',
-                              fontWeight: 650,
+                              fontWeight: 650
                             }}
                           >
                             &nbsp;{val.grn_qnty}
@@ -162,12 +151,10 @@ const GrnDetailsViewModal = ({ handleCloseGrn, open, grnData, poNumber }) => {
                                     cursor: 'pointer',
                                     transition: 'transform 0.2s',
                                     '&:hover': {
-                                      transform: 'scale(1.1)',
-                                    },
+                                      transform: 'scale(1.1)'
+                                    }
                                   }}
-                                  onClick={() =>
-                                    viewDetails(val.item_code, val.item_name, val.grn_no)
-                                  }
+                                  onClick={() => viewDetails(val.item_code, val.item_name, val.grn_no)}
                                 />
                               </Tooltip>
                             </CssVarsProvider>

@@ -111,12 +111,10 @@ export const getOnholdRejectIemDetails = async (setDisData, setAllData, pData) =
               : val.manag_operation_approv === 4
               ? 'Approved'
               : 'Not Done',
-          manag_operation_remarks:
-            val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
+          manag_operation_remarks: val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
           om_detial_analysis: val.om_detial_analysis,
           om_approv_date: val.om_approv_date,
-          manag_operation_user:
-            val.manag_operation_user !== null ? val.manag_operation_user.toLowerCase() : '',
+          manag_operation_user: val.manag_operation_user !== null ? val.manag_operation_user.toLowerCase() : '',
           senior_manage_req: val.senior_manage_req,
           senior_manage_approv: val.senior_manage_approv,
           smo:
@@ -129,12 +127,10 @@ export const getOnholdRejectIemDetails = async (setDisData, setAllData, pData) =
               : val.senior_manage_approv === 4
               ? 'Approved'
               : 'Not Done',
-          senior_manage_remarks:
-            val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
+          senior_manage_remarks: val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
           smo_detial_analysis: val.smo_detial_analysis,
           som_aprrov_date: val.som_aprrov_date,
-          senior_manage_user:
-            val.senior_manage_user !== null ? val.senior_manage_user.toLowerCase() : '',
+          senior_manage_user: val.senior_manage_user !== null ? val.senior_manage_user.toLowerCase() : '',
           gm_approve_req: val.gm_approve_req,
           gm_approve: val.gm_approve,
           gm:
@@ -147,8 +143,7 @@ export const getOnholdRejectIemDetails = async (setDisData, setAllData, pData) =
               : val.gm_approve === 4
               ? 'Approved'
               : 'Not Done',
-          gm_approve_remarks:
-            val.gm_approve_remarks !== null ? val.gm_approve_remarks : 'Not Updated',
+          gm_approve_remarks: val.gm_approve_remarks !== null ? val.gm_approve_remarks : 'Not Updated',
           gm_detial_analysis: val.gm_detial_analysis,
           gm_approv_date: val.gm_approv_date,
           gm_user: val.gm_user !== null ? val.gm_user.toLowerCase() : '',
@@ -164,8 +159,7 @@ export const getOnholdRejectIemDetails = async (setDisData, setAllData, pData) =
               : val.md_approve === 4
               ? 'Approved'
               : 'Not Done',
-          md_approve_remarks:
-            val.md_approve_remarks !== null ? val.md_approve_remarks : 'Not Updated',
+          md_approve_remarks: val.md_approve_remarks !== null ? val.md_approve_remarks : 'Not Updated',
           md_detial_analysis: val.md_detial_analysis,
           md_approve_date: val.md_approve_date,
           md_user: val.md_user !== null ? val.md_user.toLowerCase() : '',
@@ -181,8 +175,7 @@ export const getOnholdRejectIemDetails = async (setDisData, setAllData, pData) =
               : val.ed_approve === 4
               ? 'Approved'
               : 'Not Done',
-          ed_approve_remarks:
-            val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
+          ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
           ed_detial_analysis: val.ed_detial_analysis,
           ed_approve_date: val.ed_approve_date,
           ed_user: val.ed_user ? val.ed_user.toLowerCase() : '',
@@ -203,15 +196,12 @@ export const getOnholdRejectIemDetails = async (setDisData, setAllData, pData) =
             val.managing_director_remarks !== null ? val.managing_director_remarks : 'Not Updated',
           managing_director_analysis: val.managing_director_analysis,
           managing_director_approve_date: val.managing_director_approve_date,
-          managing_director_user: val.managing_director_username
-            ? val.managing_director_username.toLowerCase()
-            : '',
+          managing_director_user: val.managing_director_username ? val.managing_director_username.toLowerCase() : '',
 
           dept_name: val.dept_name,
           dept_type: val.dept_type,
           dept_id: val.dept_id,
-          dept_type_name:
-            val.dept_type === 1 ? 'Clinical' : val.dept_type === 2 ? 'Non Clinical' : 'Academic',
+          dept_type_name: val.dept_type === 1 ? 'Clinical' : val.dept_type === 2 ? 'Non Clinical' : 'Academic',
           hod_image: val.hod_image,
           dms_image: val.dms_image,
           ms_image: val.ms_image,
@@ -220,7 +210,7 @@ export const getOnholdRejectIemDetails = async (setDisData, setAllData, pData) =
           gm_image: val.gm_image,
           md_image: val.md_image,
           ed_image: val.ed_image,
-          managing_director_image: val.managing_director_image,
+          managing_director_image: val.managing_director_image
         }
         return obj
       })
@@ -409,7 +399,7 @@ export const getAllApprovalPending = async (setDisData, setTableData, data) => {
           : 0,
 
       dept_id: val.dept_id,
-      dept_name: val.dept_name,
+      dept_name: val.dept_name
     }
     return obj
   })
@@ -462,7 +452,7 @@ export const getPurchasePending = async (setDisData, setTableData, data) => {
           ? 'Quotation Calling'
           : val.ack_status === 1
           ? 'Puchase Acknowledged'
-          : 'Not Started Purchase Process',
+          : 'Not Started Purchase Process'
     }
     return obj
   })
@@ -498,7 +488,7 @@ export const getCRSPending = async (setDisData, setTableData, data) => {
           ? 'Partial Goods Received in CRS'
           : val.po_to_supplier === 1
           ? 'Waiting for Goods'
-          : '',
+          : ''
     }
     return obj
   })
@@ -616,12 +606,10 @@ export const getOnholdRejectKMCH = async (setDisData, setAllData, pData) => {
               : val.manag_operation_approv === 4
               ? 'Approved'
               : 'Not Done',
-          manag_operation_remarks:
-            val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
+          manag_operation_remarks: val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
           om_detial_analysis: val.om_detial_analysis,
           om_approv_date: val.om_approv_date,
-          manag_operation_user:
-            val.manag_operation_user !== null ? val.manag_operation_user.toLowerCase() : '',
+          manag_operation_user: val.manag_operation_user !== null ? val.manag_operation_user.toLowerCase() : '',
           senior_manage_req: val.senior_manage_req,
           senior_manage_approv: val.senior_manage_approv,
           smo:
@@ -634,12 +622,10 @@ export const getOnholdRejectKMCH = async (setDisData, setAllData, pData) => {
               : val.senior_manage_approv === 4
               ? 'Approved'
               : 'Not Done',
-          senior_manage_remarks:
-            val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
+          senior_manage_remarks: val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
           smo_detial_analysis: val.smo_detial_analysis,
           som_aprrov_date: val.som_aprrov_date,
-          senior_manage_user:
-            val.senior_manage_user !== null ? val.senior_manage_user.toLowerCase() : '',
+          senior_manage_user: val.senior_manage_user !== null ? val.senior_manage_user.toLowerCase() : '',
           gm_approve_req: val.gm_approve_req,
           gm_approve: val.gm_approve,
           gm:
@@ -652,8 +638,7 @@ export const getOnholdRejectKMCH = async (setDisData, setAllData, pData) => {
               : val.gm_approve === 4
               ? 'Approved'
               : 'Not Done',
-          gm_approve_remarks:
-            val.gm_approve_remarks !== null ? val.gm_approve_remarks : 'Not Updated',
+          gm_approve_remarks: val.gm_approve_remarks !== null ? val.gm_approve_remarks : 'Not Updated',
           gm_detial_analysis: val.gm_detial_analysis,
           gm_approv_date: val.gm_approv_date,
           gm_user: val.gm_user !== null ? val.gm_user.toLowerCase() : '',
@@ -669,8 +654,7 @@ export const getOnholdRejectKMCH = async (setDisData, setAllData, pData) => {
               : val.md_approve === 4
               ? 'Approved'
               : 'Not Done',
-          md_approve_remarks:
-            val.md_approve_remarks !== null ? val.md_approve_remarks : 'Not Updated',
+          md_approve_remarks: val.md_approve_remarks !== null ? val.md_approve_remarks : 'Not Updated',
           md_detial_analysis: val.md_detial_analysis,
           md_approve_date: val.md_approve_date,
           md_user: val.md_user !== null ? val.md_user.toLowerCase() : '',
@@ -686,8 +670,7 @@ export const getOnholdRejectKMCH = async (setDisData, setAllData, pData) => {
               : val.ed_approve === 4
               ? 'Approved'
               : 'Not Done',
-          ed_approve_remarks:
-            val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
+          ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
           ed_detial_analysis: val.ed_detial_analysis,
           ed_approve_date: val.ed_approve_date,
           ed_user: val.ed_user ? val.ed_user.toLowerCase() : '',
@@ -704,19 +687,15 @@ export const getOnholdRejectKMCH = async (setDisData, setAllData, pData) => {
               : val.managing_director_approve === 4
               ? 'Approved'
               : 'Not Done',
-          managing_director_remarks:
-            val.managing_director_remarks !== null ? val.managing_director_remarks : '',
+          managing_director_remarks: val.managing_director_remarks !== null ? val.managing_director_remarks : '',
           managing_director_analysis: val.managing_director_analysis,
           managing_director_approve_date: val.managing_director_approve_date,
-          managing_director_user: val.managing_director_username
-            ? val.managing_director_username.toLowerCase()
-            : '',
+          managing_director_user: val.managing_director_username ? val.managing_director_username.toLowerCase() : '',
 
           dept_name: val.dept_name,
           dept_type: val.dept_type,
           dept_id: val.dept_id,
-          dept_type_name:
-            val.dept_type === 1 ? 'Clinical' : val.dept_type === 2 ? 'Non Clinical' : 'Academic',
+          dept_type_name: val.dept_type === 1 ? 'Clinical' : val.dept_type === 2 ? 'Non Clinical' : 'Academic',
           hod_image: val.hod_image,
           dms_image: val.dms_image,
           ms_image: val.ms_image,
@@ -725,7 +704,7 @@ export const getOnholdRejectKMCH = async (setDisData, setAllData, pData) => {
           gm_image: val.gm_image,
           md_image: val.md_image,
           ed_image: val.ed_image,
-          managing_director_image: val.managing_director_image,
+          managing_director_image: val.managing_director_image
         }
         return obj
       })

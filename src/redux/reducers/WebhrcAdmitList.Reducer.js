@@ -3,7 +3,7 @@ const { FETCH_ADMIT_BHRC } = ActionTyps
 
 const WeBhrcAdmitdetl = {
   WeBhrcAdmitList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 
 export const getWeBhrcAdmitdetl = (state = WeBhrcAdmitdetl, { type, payload }) => {

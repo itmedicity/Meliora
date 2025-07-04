@@ -42,9 +42,7 @@ const MonthlyPaidBills = ({ montBills }) => {
   const OpenBillView = useCallback(value => {
     const { monthly_slno } = value
     const getbillsFile = async () => {
-      const result = await axioslogin.get(
-        `/ItImageUpload/uploadFile/getMonthlyBillImages/${monthly_slno}`
-      )
+      const result = await axioslogin.get(`/ItImageUpload/uploadFile/getMonthlyBillImages/${monthly_slno}`)
       const { success, data } = result.data
       if (success === 1) {
         const fileNames = data
@@ -92,8 +90,7 @@ const MonthlyPaidBills = ({ montBills }) => {
     if (enterText.length < 3) {
       infoNotify('please enter minimum 3 character to search task name')
     } else {
-      let newTableDataa =
-        montBills && montBills.filter(val => val.bill_name.toLowerCase().includes(enterText))
+      let newTableDataa = montBills && montBills.filter(val => val.bill_name.toLowerCase().includes(enterText))
       setsearchBillNameFlag(1)
       setsearchBillDateFlag(0)
       setAlphbased(1)
@@ -103,8 +100,7 @@ const MonthlyPaidBills = ({ montBills }) => {
 
   useEffect(() => {
     if (alphbased === 1) {
-      let newTableDataa =
-        montBills && montBills.filter(val => val.bill_name.toLowerCase().includes(enterText))
+      let newTableDataa = montBills && montBills.filter(val => val.bill_name.toLowerCase().includes(enterText))
       setAlphbasedData(newTableDataa)
     }
   }, [montBills, alphbased, enterText])
@@ -178,7 +174,7 @@ const MonthlyPaidBills = ({ montBills }) => {
                       height: 29,
                       borderRadius: 2,
                       width: 180,
-                      pl: 1,
+                      pl: 1
                     }}
                     onChange={updateBillDate}
                   />
@@ -193,7 +189,7 @@ const MonthlyPaidBills = ({ montBills }) => {
                           borderTop: 1,
                           borderBottom: 1,
                           borderColor: '#B2C4CB',
-                          '&:hover': { bgcolor: '#36454F' },
+                          '&:hover': { bgcolor: '#36454F' }
                         }}
                         onClick={SearchBillDate}
                       >
@@ -213,7 +209,7 @@ const MonthlyPaidBills = ({ montBills }) => {
                           borderTop: 1,
                           borderBottom: 1,
                           borderColor: '#B2C4CB',
-                          '&:hover': { bgcolor: '#36454F' },
+                          '&:hover': { bgcolor: '#36454F' }
                         }}
                         onClick={closeBillSearch}
                       >
@@ -229,7 +225,7 @@ const MonthlyPaidBills = ({ montBills }) => {
               sx={{
                 flex: 6,
                 fontWeight: 600,
-                color: 'white',
+                color: 'white'
               }}
             >
               Bill Name
@@ -248,7 +244,7 @@ const MonthlyPaidBills = ({ montBills }) => {
                       height: 29,
                       borderRadius: 2,
                       width: 350,
-                      pl: 1,
+                      pl: 1
                     }}
                     onChange={updateEnterText}
                   />
@@ -263,7 +259,7 @@ const MonthlyPaidBills = ({ montBills }) => {
                           borderTop: 1,
                           borderBottom: 1,
                           borderColor: '#B2C4CB',
-                          '&:hover': { bgcolor: '#36454F' },
+                          '&:hover': { bgcolor: '#36454F' }
                         }}
                         onClick={SearchBillName}
                       >
@@ -283,7 +279,7 @@ const MonthlyPaidBills = ({ montBills }) => {
                           borderTop: 1,
                           borderBottom: 1,
                           borderColor: '#B2C4CB',
-                          '&:hover': { bgcolor: '#36454F' },
+                          '&:hover': { bgcolor: '#36454F' }
                         }}
                         onClick={closeBillSearch}
                       >
@@ -318,7 +314,7 @@ const MonthlyPaidBills = ({ montBills }) => {
                           borderTop: 1,
                           borderBottom: 1,
                           borderColor: '#B2C4CB',
-                          '&:hover': { bgcolor: '#36454F' },
+                          '&:hover': { bgcolor: '#36454F' }
                         }}
                         onClick={SearchBillCate}
                       >
@@ -338,7 +334,7 @@ const MonthlyPaidBills = ({ montBills }) => {
                           borderTop: 1,
                           borderBottom: 1,
                           borderColor: '#B2C4CB',
-                          '&:hover': { bgcolor: '#36454F' },
+                          '&:hover': { bgcolor: '#36454F' }
                         }}
                         onClick={closeBillSearch}
                       >
@@ -369,7 +365,7 @@ const MonthlyPaidBills = ({ montBills }) => {
                       color: 'black',
                       borderBottom: 1,
                       borderColor: 'white',
-                      mb: 0.5,
+                      mb: 0.5
                     }}
                   >
                     <Box
@@ -377,18 +373,13 @@ const MonthlyPaidBills = ({ montBills }) => {
                         flex: 0.5,
                         py: 0.5,
                         cursor: 'pointer',
-                        textAlign: 'center',
+                        textAlign: 'center'
                       }}
                     >
-                      <ReceiptLongIcon
-                        sx={{ '&:hover': { color: '#274472' } }}
-                        onClick={() => OpenBillView(val)}
-                      />
+                      <ReceiptLongIcon sx={{ '&:hover': { color: '#274472' } }} onClick={() => OpenBillView(val)} />
                     </Box>
                     <Box sx={{ flex: 1.2, pt: 0.5, cursor: 'grab' }}>
-                      <Chip
-                        sx={{ bgcolor: '#F1C83A', fontSize: 14, fontWeight: 700, color: '#670305' }}
-                      >
+                      <Chip sx={{ bgcolor: '#F1C83A', fontSize: 14, fontWeight: 700, color: '#670305' }}>
                         {Monthly}
                       </Chip>
                     </Box>
@@ -430,7 +421,7 @@ const MonthlyPaidBills = ({ montBills }) => {
                       color: 'black',
                       borderBottom: 1,
                       borderColor: 'white',
-                      mb: 0.5,
+                      mb: 0.5
                     }}
                   >
                     <Box
@@ -438,18 +429,13 @@ const MonthlyPaidBills = ({ montBills }) => {
                         flex: 0.5,
                         py: 0.5,
                         cursor: 'pointer',
-                        textAlign: 'center',
+                        textAlign: 'center'
                       }}
                     >
-                      <ReceiptLongIcon
-                        sx={{ '&:hover': { color: '#274472' } }}
-                        onClick={() => OpenBillView(val)}
-                      />
+                      <ReceiptLongIcon sx={{ '&:hover': { color: '#274472' } }} onClick={() => OpenBillView(val)} />
                     </Box>
                     <Box sx={{ flex: 1.2, pt: 0.5, cursor: 'grab' }}>
-                      <Chip
-                        sx={{ bgcolor: '#F1C83A', fontSize: 14, fontWeight: 700, color: '#670305' }}
-                      >
+                      <Chip sx={{ bgcolor: '#F1C83A', fontSize: 14, fontWeight: 700, color: '#670305' }}>
                         {Monthly}
                       </Chip>
                     </Box>
@@ -491,7 +477,7 @@ const MonthlyPaidBills = ({ montBills }) => {
                       color: 'black',
                       borderBottom: 1,
                       borderColor: 'white',
-                      mb: 0.5,
+                      mb: 0.5
                     }}
                   >
                     <Box
@@ -499,18 +485,13 @@ const MonthlyPaidBills = ({ montBills }) => {
                         flex: 0.5,
                         py: 0.5,
                         cursor: 'pointer',
-                        textAlign: 'center',
+                        textAlign: 'center'
                       }}
                     >
-                      <ReceiptLongIcon
-                        sx={{ '&:hover': { color: '#274472' } }}
-                        onClick={() => OpenBillView(val)}
-                      />
+                      <ReceiptLongIcon sx={{ '&:hover': { color: '#274472' } }} onClick={() => OpenBillView(val)} />
                     </Box>
                     <Box sx={{ flex: 1.2, pt: 0.5, cursor: 'grab' }}>
-                      <Chip
-                        sx={{ bgcolor: '#F1C83A', fontSize: 14, fontWeight: 700, color: '#670305' }}
-                      >
+                      <Chip sx={{ bgcolor: '#F1C83A', fontSize: 14, fontWeight: 700, color: '#670305' }}>
                         {Monthly}
                       </Chip>
                     </Box>
@@ -553,7 +534,7 @@ const MonthlyPaidBills = ({ montBills }) => {
                       color: 'black',
                       borderBottom: 1,
                       borderColor: 'white',
-                      mb: 0.5,
+                      mb: 0.5
                     }}
                   >
                     <Box
@@ -561,18 +542,13 @@ const MonthlyPaidBills = ({ montBills }) => {
                         flex: 0.5,
                         py: 0.5,
                         cursor: 'pointer',
-                        textAlign: 'center',
+                        textAlign: 'center'
                       }}
                     >
-                      <ReceiptLongIcon
-                        sx={{ '&:hover': { color: '#274472' } }}
-                        onClick={() => OpenBillView(val)}
-                      />
+                      <ReceiptLongIcon sx={{ '&:hover': { color: '#274472' } }} onClick={() => OpenBillView(val)} />
                     </Box>
                     <Box sx={{ flex: 1.2, pt: 0.5, cursor: 'grab' }}>
-                      <Chip
-                        sx={{ bgcolor: '#F1C83A', fontSize: 14, fontWeight: 700, color: '#670305' }}
-                      >
+                      <Chip sx={{ bgcolor: '#F1C83A', fontSize: 14, fontWeight: 700, color: '#670305' }}>
                         {Monthly}
                       </Chip>
                     </Box>

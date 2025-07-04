@@ -2,16 +2,7 @@ import { Dialog, DialogContent, Paper } from '@mui/material'
 import React, { Fragment, memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker, DateTimePicker } from '@mui/x-date-pickers'
-import {
-  Box,
-  Button,
-  CssVarsProvider,
-  Textarea,
-  Typography,
-  Checkbox,
-  Tooltip,
-  Input,
-} from '@mui/joy'
+import { Box, Button, CssVarsProvider, Textarea, Typography, Checkbox, Tooltip, Input } from '@mui/joy'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import {
   addMinutes,
@@ -20,7 +11,7 @@ import {
   differenceInSeconds,
   format,
   isAfter,
-  isBefore,
+  isBefore
 } from 'date-fns'
 import { useDispatch, useSelector } from 'react-redux'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
@@ -45,7 +36,7 @@ const EndoscopyModalForQI = ({
   qidept,
   RefreshData,
   setQiflag,
-  WaitingTimeData,
+  WaitingTimeData
 }) => {
   const {
     qi_slno,
@@ -63,7 +54,7 @@ const EndoscopyModalForQI = ({
     incidence_ident_error_status,
     falls_status,
     near_misses_status,
-    sentinel_events_status,
+    sentinel_events_status
   } = rowSelect
 
   const [errorYes, setErrorYes] = useState(false)
@@ -280,7 +271,7 @@ const EndoscopyModalForQI = ({
         ident_error_incident_type,
         nearmiss_incident_type,
         sentinel_incident_type,
-        sentinel_analysed,
+        sentinel_analysed
       } = rowSelect
 
       setErrorYes(error_status === 1 ? true : false)
@@ -323,11 +314,7 @@ const EndoscopyModalForQI = ({
       setNearMissessReason(nearmisses_reason === null ? '' : nearmisses_reason)
       setBenchMarkReason(initial_assessment_reason === null ? '' : initial_assessment_reason)
 
-      setTestReqDate(
-        test_req_date === null
-          ? format(new Date(patient_arrived_date), 'yyyy-MM-dd')
-          : test_req_date
-      )
+      setTestReqDate(test_req_date === null ? format(new Date(patient_arrived_date), 'yyyy-MM-dd') : test_req_date)
     }
   }, [rowSelect])
 
@@ -342,21 +329,17 @@ const EndoscopyModalForQI = ({
         report_gene_time,
         report_desp_time,
         equip_start_time,
-        equip_end_time,
+        equip_end_time
       } = rowSelect
       if (WaitingTimeData.length !== 0) {
         const { START_DATE, END_DATE } = WaitingTimeData[0]
         setEntryTime(format(new Date(START_DATE), 'yyyy-MM-dd HH:mm:ss'))
         setAssessmentTime(format(new Date(END_DATE), 'yyyy-MM-dd HH:mm:ss'))
         setStartTime(
-          proc_start_time === null
-            ? format(addMinutes(new Date(END_DATE), 5), 'yyyy-MM-dd HH:mm:ss')
-            : proc_start_time
+          proc_start_time === null ? format(addMinutes(new Date(END_DATE), 5), 'yyyy-MM-dd HH:mm:ss') : proc_start_time
         )
         setEndTime(
-          proc_end_time === null
-            ? format(addMinutes(new Date(END_DATE), 20), 'yyyy-MM-dd HH:mm:ss')
-            : proc_end_time
+          proc_end_time === null ? format(addMinutes(new Date(END_DATE), 20), 'yyyy-MM-dd HH:mm:ss') : proc_end_time
         )
         setReportTime(
           report_gene_time === null
@@ -374,9 +357,7 @@ const EndoscopyModalForQI = ({
             : equip_start_time
         )
         setEquipEndTime(
-          equip_end_time === null
-            ? format(addMinutes(new Date(END_DATE), 20), 'yyyy-MM-dd HH:mm:ss')
-            : equip_end_time
+          equip_end_time === null ? format(addMinutes(new Date(END_DATE), 20), 'yyyy-MM-dd HH:mm:ss') : equip_end_time
         )
       } else {
         setEntryTime(
@@ -439,7 +420,7 @@ const EndoscopyModalForQI = ({
             equip_no: val.equip_no,
             equip_name: val.equip_name,
             PD_CODE: val.PD_CODE,
-            PDC_DESC: newData ? newData.PDC_DESC : 'nil',
+            PDC_DESC: newData ? newData.PDC_DESC : 'nil'
           }
         })
         setProcedureArray(newArray)
@@ -692,7 +673,7 @@ const EndoscopyModalForQI = ({
       emp_id: id,
       sentinel_analysed: sentinelAnalyse === true ? 1 : 0,
       equip_service_time: equipUsedTime,
-      qi_slno: qi_slno,
+      qi_slno: qi_slno
     }
   }, [
     testReqDate,
@@ -715,7 +696,7 @@ const EndoscopyModalForQI = ({
     equipStartTime,
     equipEndTime,
     sentinelAnalyse,
-    equipUsedTime,
+    equipUsedTime
   ])
 
   const SaveDetails = useCallback(() => {
@@ -757,7 +738,7 @@ const EndoscopyModalForQI = ({
               qi_endo_ip_slno: 0,
               equip_no: val.equip_no,
               procedure_name: val.PD_CODE,
-              endo_date: format(new Date(equipStartTime), 'yyyy-MM-dd'),
+              endo_date: format(new Date(equipStartTime), 'yyyy-MM-dd')
             }
           })
           if (equipmentExit === 1) {
@@ -818,7 +799,7 @@ const EndoscopyModalForQI = ({
     qi_slno,
     ProcedureArray,
     equipmentExit,
-    equipStartTime,
+    equipStartTime
   ])
   const ResetDetails = useCallback(() => {
     reset()
@@ -826,7 +807,7 @@ const EndoscopyModalForQI = ({
 
   useEffect(() => {
     const incidentData = {
-      qi_slno: qi_slno,
+      qi_slno: qi_slno
     }
     const getIncidentDetails = async incidentData => {
       const result = await axioslogin.post('/qiendoscopy/getIncident', incidentData)
@@ -898,7 +879,7 @@ const EndoscopyModalForQI = ({
         equip_no: equipment,
         equip_name: equipName,
         PD_CODE: procName,
-        PDC_DESC: procNamedisplay,
+        PDC_DESC: procNamedisplay
       }
       if (ProcedureArray.length === 0) {
         const newArray = [...ProcedureArray, fromdata]
@@ -1040,9 +1021,7 @@ const EndoscopyModalForQI = ({
             <Paper sx={{ display: 'flex', height: 40, bgcolor: '#b0bec5' }}>
               <Box sx={{ display: 'flex', flex: 1, pt: 0.5 }}>
                 <Box sx={{ fontSize: 14, pt: 1, color: 'black', pl: 2 }}>{ptno}</Box>
-                <Box sx={{ fontSize: 14, pt: 1, color: 'black', pl: 2 }}>
-                  {capitalizeWords(ptname)}
-                </Box>
+                <Box sx={{ fontSize: 14, pt: 1, color: 'black', pl: 2 }}>{capitalizeWords(ptname)}</Box>
                 <Box sx={{ fontSize: 14, pt: 1, color: 'black', pl: 2 }}>
                   {ptage}/{ptsex}
                 </Box>
@@ -1051,13 +1030,9 @@ const EndoscopyModalForQI = ({
                   {ptaddrs3 ? `, ${capitalizeWords(ptaddrs3)}` : ''}
                 </Box>
                 <Box sx={{ fontSize: 14, pt: 1, color: 'black', pl: 2 }}>{ptmobile}</Box>
-                <Box sx={{ fontSize: 14, pt: 1, color: 'black', pl: 5 }}>
-                  {'Dr. ' + capitalizeWords(doctor_name)}
-                </Box>
+                <Box sx={{ fontSize: 14, pt: 1, color: 'black', pl: 5 }}>{'Dr. ' + capitalizeWords(doctor_name)}</Box>
               </Box>
-              <Box
-                sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 20, pt: 0.5, pr: 0.2 }}
-              >
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 20, pt: 0.5, pr: 0.2 }}>
                 <CssVarsProvider>
                   <Tooltip title="Close" placement="bottom" cursor="pointer">
                     <HighlightOffIcon
@@ -1084,12 +1059,7 @@ const EndoscopyModalForQI = ({
                           <Checkbox color="neutral" size="md" checked={errorYes} />
                         </Tooltip>
                       ) : (
-                        <Checkbox
-                          color="primary"
-                          size="md"
-                          checked={errorYes}
-                          onChange={ChangeErrorYes}
-                        />
+                        <Checkbox color="primary" size="md" checked={errorYes} onChange={ChangeErrorYes} />
                       )}
                     </CssVarsProvider>
                   </Box>
@@ -1103,12 +1073,7 @@ const EndoscopyModalForQI = ({
                           <Checkbox color="neutral" size="md" checked={errorNo} />
                         </Tooltip>
                       ) : (
-                        <Checkbox
-                          color="primary"
-                          size="md"
-                          checked={errorNo}
-                          onChange={ChangeErrorNo}
-                        />
+                        <Checkbox color="primary" size="md" checked={errorNo} onChange={ChangeErrorNo} />
                       )}
                     </CssVarsProvider>
                   </Box>
@@ -1126,7 +1091,7 @@ const EndoscopyModalForQI = ({
                             height: 20,
                             width: 150,
                             display: 'flex',
-                            justifyContent: 'flex-start',
+                            justifyContent: 'flex-start'
                           }}
                           startDecorator={
                             <AddCircleOutlineIcon
@@ -1195,9 +1160,7 @@ const EndoscopyModalForQI = ({
                           </Box>
                           <Box sx={{ flex: 1, pl: 0.3 }}>
                             <Box sx={{ pl: 1, pt: 0.5 }}>
-                              <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                                Reason Of Error
-                              </Typography>
+                              <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Reason Of Error</Typography>
                             </Box>
                             <Box>
                               <CssVarsProvider>
@@ -1278,12 +1241,7 @@ const EndoscopyModalForQI = ({
                           <Checkbox color="neutral" size="md" checked={redosYes} />
                         </Tooltip>
                       ) : (
-                        <Checkbox
-                          color="primary"
-                          size="md"
-                          checked={redosYes}
-                          onChange={ChangeRedosYes}
-                        />
+                        <Checkbox color="primary" size="md" checked={redosYes} onChange={ChangeRedosYes} />
                       )}
                     </CssVarsProvider>
                   </Box>
@@ -1297,12 +1255,7 @@ const EndoscopyModalForQI = ({
                           <Checkbox color="neutral" size="md" checked={redosNo} />
                         </Tooltip>
                       ) : (
-                        <Checkbox
-                          color="primary"
-                          size="md"
-                          checked={redosNo}
-                          onChange={ChangeRedosNo}
-                        />
+                        <Checkbox color="primary" size="md" checked={redosNo} onChange={ChangeRedosNo} />
                       )}
                     </CssVarsProvider>
                   </Box>
@@ -1320,7 +1273,7 @@ const EndoscopyModalForQI = ({
                             height: 20,
                             width: 150,
                             display: 'flex',
-                            justifyContent: 'flex-start',
+                            justifyContent: 'flex-start'
                           }}
                           startDecorator={
                             <AddCircleOutlineIcon
@@ -1366,9 +1319,7 @@ const EndoscopyModalForQI = ({
                         <Box sx={{ display: 'flex', px: 0.5 }}>
                           <Box sx={{ flex: 1 }}>
                             <Box sx={{ pl: 1, pt: 0.5 }}>
-                              <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                                Details
-                              </Typography>
+                              <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Details</Typography>
                             </Box>
                             <Box>
                               <CssVarsProvider>
@@ -1471,12 +1422,7 @@ const EndoscopyModalForQI = ({
                           <Checkbox color="neutral" size="md" checked={errorIdentyYes} />
                         </Tooltip>
                       ) : (
-                        <Checkbox
-                          color="primary"
-                          size="md"
-                          checked={errorIdentyYes}
-                          onChange={ChangeIdentfyYes}
-                        />
+                        <Checkbox color="primary" size="md" checked={errorIdentyYes} onChange={ChangeIdentfyYes} />
                       )}
                     </CssVarsProvider>
                   </Box>
@@ -1490,12 +1436,7 @@ const EndoscopyModalForQI = ({
                           <Checkbox color="neutral" size="md" checked={errorIdentyNo} />
                         </Tooltip>
                       ) : (
-                        <Checkbox
-                          color="primary"
-                          size="md"
-                          checked={errorIdentyNo}
-                          onChange={ChangeIdentfyNo}
-                        />
+                        <Checkbox color="primary" size="md" checked={errorIdentyNo} onChange={ChangeIdentfyNo} />
                       )}
                     </CssVarsProvider>
                   </Box>
@@ -1513,7 +1454,7 @@ const EndoscopyModalForQI = ({
                             height: 20,
                             width: 150,
                             display: 'flex',
-                            justifyContent: 'flex-start',
+                            justifyContent: 'flex-start'
                           }}
                           startDecorator={
                             <AddCircleOutlineIcon
@@ -1603,9 +1544,7 @@ const EndoscopyModalForQI = ({
                           </Box>
                           <Box sx={{ flex: 1, pl: 0.3 }}>
                             <Box sx={{ pl: 1, pt: 0.5 }}>
-                              <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                                Action Taken
-                              </Typography>
+                              <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Action Taken</Typography>
                             </Box>
                             <Box>
                               <CssVarsProvider>
@@ -1643,12 +1582,7 @@ const EndoscopyModalForQI = ({
                           <Checkbox color="neutral" size="md" checked={fallsYes} />
                         </Tooltip>
                       ) : (
-                        <Checkbox
-                          color="primary"
-                          size="md"
-                          checked={fallsYes}
-                          onChange={ChangeFallsYes}
-                        />
+                        <Checkbox color="primary" size="md" checked={fallsYes} onChange={ChangeFallsYes} />
                       )}
                     </CssVarsProvider>
                   </Box>
@@ -1662,12 +1596,7 @@ const EndoscopyModalForQI = ({
                           <Checkbox color="neutral" size="md" checked={fallsNo} />
                         </Tooltip>
                       ) : (
-                        <Checkbox
-                          color="primary"
-                          size="md"
-                          checked={fallsNo}
-                          onChange={ChangeFallsNo}
-                        />
+                        <Checkbox color="primary" size="md" checked={fallsNo} onChange={ChangeFallsNo} />
                       )}
                     </CssVarsProvider>
                   </Box>
@@ -1685,7 +1614,7 @@ const EndoscopyModalForQI = ({
                             height: 20,
                             width: 150,
                             display: 'flex',
-                            justifyContent: 'flex-start',
+                            justifyContent: 'flex-start'
                           }}
                           startDecorator={
                             <AddCircleOutlineIcon
@@ -1731,9 +1660,7 @@ const EndoscopyModalForQI = ({
                         <Box sx={{ display: 'flex', px: 0.5 }}>
                           <Box sx={{ flex: 1 }}>
                             <Box sx={{ pl: 1, pt: 0.5 }}>
-                              <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                                Falls Details
-                              </Typography>
+                              <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Falls Details</Typography>
                             </Box>
                             <Box>
                               <CssVarsProvider>
@@ -1753,9 +1680,7 @@ const EndoscopyModalForQI = ({
                           </Box>
                           <Box sx={{ flex: 1, pl: 0.3 }}>
                             <Box sx={{ pl: 1, pt: 0.5 }}>
-                              <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                                Falls Reason
-                              </Typography>
+                              <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Falls Reason</Typography>
                             </Box>
                             <Box>
                               <CssVarsProvider>
@@ -1794,12 +1719,7 @@ const EndoscopyModalForQI = ({
                           <Checkbox color="neutral" size="md" checked={sentinelYes} />
                         </Tooltip>
                       ) : (
-                        <Checkbox
-                          color="primary"
-                          size="md"
-                          checked={sentinelYes}
-                          onChange={ChangeSentinelYes}
-                        />
+                        <Checkbox color="primary" size="md" checked={sentinelYes} onChange={ChangeSentinelYes} />
                       )}
                     </CssVarsProvider>
                   </Box>
@@ -1813,12 +1733,7 @@ const EndoscopyModalForQI = ({
                           <Checkbox color="neutral" size="md" checked={sentinelNo} />
                         </Tooltip>
                       ) : (
-                        <Checkbox
-                          color="primary"
-                          size="md"
-                          checked={sentinelNo}
-                          onChange={ChangeSentinelNo}
-                        />
+                        <Checkbox color="primary" size="md" checked={sentinelNo} onChange={ChangeSentinelNo} />
                       )}
                     </CssVarsProvider>
                   </Box>
@@ -1836,7 +1751,7 @@ const EndoscopyModalForQI = ({
                             height: 20,
                             width: 150,
                             display: 'flex',
-                            justifyContent: 'flex-start',
+                            justifyContent: 'flex-start'
                           }}
                           startDecorator={
                             <AddCircleOutlineIcon
@@ -1882,9 +1797,7 @@ const EndoscopyModalForQI = ({
                         <Box sx={{ display: 'flex', px: 0.5 }}>
                           <Box sx={{ flex: 1 }}>
                             <Box sx={{ pl: 1, pt: 0.5 }}>
-                              <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                                Details
-                              </Typography>
+                              <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Details</Typography>
                             </Box>
                             <Box>
                               <CssVarsProvider>
@@ -1904,9 +1817,7 @@ const EndoscopyModalForQI = ({
                           </Box>
                           <Box sx={{ flex: 1, pl: 0.3 }}>
                             <Box sx={{ pl: 1, pt: 0.5 }}>
-                              <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                                Reason
-                              </Typography>
+                              <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Reason</Typography>
                             </Box>
                             <Box>
                               <CssVarsProvider>
@@ -1927,9 +1838,7 @@ const EndoscopyModalForQI = ({
                         </Box>
                         <Box sx={{ display: 'flex' }}>
                           <Box sx={{ flex: 2, pl: 1, pt: 1.3 }}>
-                            <Typography
-                              sx={{ fontSize: 12, fontWeight: 550, textTransform: 'uppercase' }}
-                            >
+                            <Typography sx={{ fontSize: 12, fontWeight: 550, textTransform: 'uppercase' }}>
                               Analyzed within the Defined Time Frame{' '}
                             </Typography>
                           </Box>
@@ -1965,12 +1874,7 @@ const EndoscopyModalForQI = ({
                           <Checkbox color="neutral" size="md" checked={nearYes} />
                         </Tooltip>
                       ) : (
-                        <Checkbox
-                          color="primary"
-                          size="md"
-                          checked={nearYes}
-                          onChange={ChangeNearYes}
-                        />
+                        <Checkbox color="primary" size="md" checked={nearYes} onChange={ChangeNearYes} />
                       )}
                     </CssVarsProvider>
                   </Box>
@@ -1984,12 +1888,7 @@ const EndoscopyModalForQI = ({
                           <Checkbox color="neutral" size="md" checked={nearNo} />
                         </Tooltip>
                       ) : (
-                        <Checkbox
-                          color="primary"
-                          size="md"
-                          checked={nearNo}
-                          onChange={ChangeNearNo}
-                        />
+                        <Checkbox color="primary" size="md" checked={nearNo} onChange={ChangeNearNo} />
                       )}
                     </CssVarsProvider>
                   </Box>
@@ -2007,7 +1906,7 @@ const EndoscopyModalForQI = ({
                             height: 20,
                             width: 150,
                             display: 'flex',
-                            justifyContent: 'flex-start',
+                            justifyContent: 'flex-start'
                           }}
                           startDecorator={
                             <AddCircleOutlineIcon
@@ -2053,9 +1952,7 @@ const EndoscopyModalForQI = ({
                         <Box sx={{ display: 'flex', px: 0.5 }}>
                           <Box sx={{ flex: 1 }}>
                             <Box sx={{ pl: 1, pt: 0.5 }}>
-                              <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                                Details
-                              </Typography>
+                              <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Details</Typography>
                             </Box>
                             <Box>
                               <CssVarsProvider>
@@ -2075,9 +1972,7 @@ const EndoscopyModalForQI = ({
                           </Box>
                           <Box sx={{ flex: 1, pl: 0.3 }}>
                             <Box sx={{ pl: 1, pt: 0.5 }}>
-                              <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                                Falls Reason
-                              </Typography>
+                              <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Falls Reason</Typography>
                             </Box>
                             <Box>
                               <CssVarsProvider>
@@ -2113,9 +2008,7 @@ const EndoscopyModalForQI = ({
                 <Box sx={{ display: 'flex', m: 0.5, bgcolor: '#eceff1', flex: 1, pb: 0.5 }}>
                   <Box sx={{ flex: 1 }}>
                     <Box sx={{ pl: 1.5, pt: 0.5 }}>
-                      <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                        Test Requested Date
-                      </Typography>
+                      <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Test Requested Date</Typography>
                     </Box>
                     <Box sx={{ pl: 1, pt: 0.1 }}>
                       <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -2222,9 +2115,7 @@ const EndoscopyModalForQI = ({
                 <Box sx={{ display: 'flex', m: 0.5, bgcolor: '#eceff1', flex: 1, pb: 0.5 }}>
                   <Box sx={{ flex: 1 }}>
                     <Box sx={{ pl: 1.5, pt: 0.5 }}>
-                      <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                        Procedure Starting Time
-                      </Typography>
+                      <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Procedure Starting Time</Typography>
                     </Box>
                     <Box sx={{ pl: 1, pt: 0.1 }}>
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -2258,9 +2149,7 @@ const EndoscopyModalForQI = ({
                   </Box>
                   <Box sx={{ flex: 1, pl: 1 }}>
                     <Box sx={{ pl: 1.5, pt: 0.5 }}>
-                      <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                        Procedure Ending Time
-                      </Typography>
+                      <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Procedure Ending Time</Typography>
                     </Box>
                     <Box sx={{ pl: 1, pt: 0.1 }}>
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -2294,9 +2183,7 @@ const EndoscopyModalForQI = ({
                   </Box>
                   <Box sx={{ flex: 1, pl: 1 }}>
                     <Box sx={{ pl: 1.5, pt: 0.5 }}>
-                      <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                        Report Generating Time
-                      </Typography>
+                      <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Report Generating Time</Typography>
                     </Box>
                     <Box sx={{ pl: 1, pt: 0.1 }}>
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -2330,9 +2217,7 @@ const EndoscopyModalForQI = ({
                   </Box>
                   <Box sx={{ flex: 1.2, pl: 1, pr: 0.5 }}>
                     <Box sx={{ pl: 1.5, pt: 0.5 }}>
-                      <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                        Report Despatching Time
-                      </Typography>
+                      <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Report Despatching Time</Typography>
                     </Box>
                     <Box sx={{ pl: 1, pr: 0.5, pt: 0.1 }}>
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -2384,7 +2269,7 @@ const EndoscopyModalForQI = ({
                             pt: 0.8,
                             border: '1px solid lightgrey',
                             pl: 2,
-                            borderRadius: 1.5,
+                            borderRadius: 1.5
                           }}
                         >
                           {sumOfAssesment}
@@ -2399,7 +2284,7 @@ const EndoscopyModalForQI = ({
                             pt: 0.8,
                             border: '1px solid lightgrey',
                             pl: 2,
-                            borderRadius: 1.5,
+                            borderRadius: 1.5
                           }}
                         >
                           {sumOfAssesment}
@@ -2435,9 +2320,7 @@ const EndoscopyModalForQI = ({
                   </>
                   <Box sx={{ flex: 1 }}>
                     <Box sx={{ pt: 0.5, pl: 0.5 }}>
-                      <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                        Total Time Gap
-                      </Typography>
+                      <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Total Time Gap</Typography>
                     </Box>
                     <Box sx={{ display: 'flex', justifyContent: 'center', pt: 0.1 }}>
                       <Box
@@ -2449,7 +2332,7 @@ const EndoscopyModalForQI = ({
                           pt: 0.8,
                           border: '1px solid lightgrey',
                           pl: 2,
-                          borderRadius: 1.5,
+                          borderRadius: 1.5
                         }}
                       >
                         {timeGap}
@@ -2458,9 +2341,7 @@ const EndoscopyModalForQI = ({
                   </Box>
                   <Box sx={{ flex: 1 }}>
                     <Box sx={{ pt: 0.5 }}>
-                      <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                        Turnaround Time
-                      </Typography>
+                      <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Turnaround Time</Typography>
                     </Box>
                     <Box sx={{ display: 'flex', justifyContent: 'center', pt: 0.1 }}>
                       <Box
@@ -2472,7 +2353,7 @@ const EndoscopyModalForQI = ({
                           pt: 0.8,
                           border: '1px solid lightgrey',
                           pl: 2,
-                          borderRadius: 1.5,
+                          borderRadius: 1.5
                         }}
                       >
                         {turnaroundTime}
@@ -2500,9 +2381,7 @@ const EndoscopyModalForQI = ({
               <Box sx={{ display: 'flex', mx: 0.5, bgcolor: '#eceff1', flex: 1, pb: 0.5 }}>
                 <Box sx={{ flex: 1 }}>
                   <Box sx={{ pl: 1.5, pt: 0.5 }}>
-                    <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                      Equipment
-                    </Typography>
+                    <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Equipment</Typography>
                   </Box>
                   <Box sx={{ ml: 1, mr: 0.6, pt: 0.8, bgcolor: 'white' }}>
                     <QIEquipmentSelect
@@ -2516,9 +2395,7 @@ const EndoscopyModalForQI = ({
                 </Box>
                 <Box sx={{ flex: 1 }}>
                   <Box sx={{ pl: 1.5, pt: 0.5 }}>
-                    <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                      Procedures
-                    </Typography>
+                    <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Procedures</Typography>
                   </Box>
                   <Box sx={{ mx: 1, pt: 0.8, bgcolor: 'white' }}>
                     <QIProcedureSelect
@@ -2537,10 +2414,10 @@ const EndoscopyModalForQI = ({
                           cursor: 'pointer',
                           color: '#0476D0',
                           ':hover': {
-                            color: '#0067B3',
+                            color: '#0067B3'
                           },
                           height: 30,
-                          width: 30,
+                          width: 30
                         }}
                         onClick={AddProcedures}
                       />
@@ -2560,9 +2437,7 @@ const EndoscopyModalForQI = ({
               <Box sx={{ display: 'flex', mx: 0.5, bgcolor: '#eceff1', flex: 1, pb: 1 }}>
                 <Box sx={{ flex: 1 }}>
                   <Box sx={{ pl: 1.5, pt: 0.5 }}>
-                    <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                      Start Time
-                    </Typography>
+                    <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>Start Time</Typography>
                   </Box>
                   <Box sx={{ pl: 1, pt: 0.1 }}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -2596,9 +2471,7 @@ const EndoscopyModalForQI = ({
                 </Box>
                 <Box sx={{ flex: 1, pl: 3 }}>
                   <Box sx={{ pl: 1.5, pt: 0.5 }}>
-                    <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>
-                      End Time
-                    </Typography>
+                    <Typography sx={{ fontSize: 11, textTransform: 'uppercase' }}>End Time</Typography>
                   </Box>
                   <Box sx={{ px: 1, pt: 0.1 }}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -2662,8 +2535,8 @@ const EndoscopyModalForQI = ({
                       ':hover': {
                         bgcolor: '#78909c',
                         boxShadow: 2,
-                        color: 'white',
-                      },
+                        color: 'white'
+                      }
                     }}
                     onClick={SaveDetails}
                   >
@@ -2685,8 +2558,8 @@ const EndoscopyModalForQI = ({
                       ':hover': {
                         bgcolor: '#78909c',
                         boxShadow: 2,
-                        color: 'white',
-                      },
+                        color: 'white'
+                      }
                     }}
                     onClick={ResetDetails}
                   >

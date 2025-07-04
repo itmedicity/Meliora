@@ -49,7 +49,7 @@ const ItemDetailSearch = ({ assetSpare, AddDetails, count }) => {
   const { data: itemDetails, isSuccess } = useQuery({
     queryKey: ['getCustodianItemDetails', empdept],
     enabled: empdept !== 0,
-    queryFn: () => getCustodianDetails(empdept),
+    queryFn: () => getCustodianDetails(empdept)
   })
 
   const custodianDetails = useMemo(() => itemDetails, [itemDetails])
@@ -59,8 +59,7 @@ const ItemDetailSearch = ({ assetSpare, AddDetails, count }) => {
 
   useEffect(() => {
     if (isSuccess && custodianDetails && custodianDetails.length > 0) {
-      const { am_custdn_asset_no_first, am_custdn_asset_no_second, am_custodian_slno } =
-        custodianDetails[0]
+      const { am_custdn_asset_no_first, am_custdn_asset_no_second, am_custodian_slno } = custodianDetails[0]
       setcustFirstName(am_custdn_asset_no_first)
       setcustSecName(am_custdn_asset_no_second)
       setcustodianSlno(am_custodian_slno)
@@ -75,7 +74,7 @@ const ItemDetailSearch = ({ assetSpare, AddDetails, count }) => {
       item_deptsec_slno: deptsec !== undefined ? deptsec : 0,
       item_creation_slno: item !== undefined ? item : 0,
       am_manufacture_no: serialno !== undefined ? serialno : null,
-      custodianSlno: custodianSlno,
+      custodianSlno: custodianSlno
     }
   }, [department, deptsec, item, itemNo, Assetno, serialno, custodianSlno])
 
@@ -87,7 +86,7 @@ const ItemDetailSearch = ({ assetSpare, AddDetails, count }) => {
       spare_deptsec_slno: deptsec !== undefined ? deptsec : 0,
       spare_creation_slno: item !== undefined ? item : 0,
       am_manufacture_no: serialno !== undefined ? serialno : null,
-      custodianSlno: custodianSlno,
+      custodianSlno: custodianSlno
     }
   }, [department, deptsec, item, spareNo, serialno, custodianSlno, ItemSpare])
 
@@ -120,10 +119,7 @@ const ItemDetailSearch = ({ assetSpare, AddDetails, count }) => {
       }
     }
     const getdataSpareItem = async postdataSpare => {
-      const result = await axioslogin.post(
-        `/itemCreationDeptmap/getSpareItemsFronList`,
-        postdataSpare
-      )
+      const result = await axioslogin.post(`/itemCreationDeptmap/getSpareItemsFronList`, postdataSpare)
       const { success, data } = result.data
       if (success === 1) {
         setDisArry(data)
@@ -151,14 +147,11 @@ const ItemDetailSearch = ({ assetSpare, AddDetails, count }) => {
             flex: 1,
             display: 'grid',
             gridTemplateColumns: 'repeat(4, 1fr)',
-            gap: 1,
+            gap: 1
           }}
         >
           <Box sx={{ flex: 0.5 }}>
-            <TextComponent
-              text={'Serial No.'}
-              sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}
-            ></TextComponent>
+            <TextComponent text={'Serial No.'} sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}></TextComponent>
             <TextFieldCustom
               placeholder={'search serial no.'}
               type="text"
@@ -172,10 +165,7 @@ const ItemDetailSearch = ({ assetSpare, AddDetails, count }) => {
           </Box>
           {assetSpare === 1 ? (
             <Box sx={{ flex: 0.5 }}>
-              <TextComponent
-                text={'Asset No.'}
-                sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}
-              ></TextComponent>
+              <TextComponent text={'Asset No.'} sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}></TextComponent>
               <TextFieldCustom
                 startDecorator={
                   <Button variant="plain" color="neutral" sx={{ borderRadius: 0, p: 0, ml: 0.5 }}>
@@ -193,10 +183,7 @@ const ItemDetailSearch = ({ assetSpare, AddDetails, count }) => {
             </Box>
           ) : (
             <Box sx={{ flex: 0.5 }}>
-              <TextComponent
-                text={'Spare No.'}
-                sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}
-              ></TextComponent>
+              <TextComponent text={'Spare No.'} sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}></TextComponent>
               <TextFieldCustom
                 startDecorator={
                   <Button variant="plain" color="neutral" sx={{ borderRadius: 0, p: 0, ml: 0.5 }}>
@@ -214,17 +201,11 @@ const ItemDetailSearch = ({ assetSpare, AddDetails, count }) => {
             </Box>
           )}
           <Box sx={{ flex: 0.5 }}>
-            <TextComponent
-              text={'Department'}
-              sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}
-            ></TextComponent>
+            <TextComponent text={'Department'} sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}></TextComponent>
             <AmDepartmentSelWOName department={department} setDepartment={setDepartment} />
           </Box>
           <Box sx={{ flex: 0.5 }}>
-            <TextComponent
-              text={'Section'}
-              sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}
-            ></TextComponent>
+            <TextComponent text={'Section'} sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}></TextComponent>
             {assetSpare === 1 ? (
               <AmDeptSecSelectWOName deptsec={deptsec} setDeptSec={setDeptSec} />
             ) : (
@@ -232,10 +213,7 @@ const ItemDetailSearch = ({ assetSpare, AddDetails, count }) => {
             )}
           </Box>
           <Box sx={{ flex: 1 }}>
-            <TextComponent
-              text={'Item Name'}
-              sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}
-            ></TextComponent>
+            <TextComponent text={'Item Name'} sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}></TextComponent>
             {assetSpare === 1 ? (
               <AmItemDeptSecBsedWOName item={item} setItem={setItem} />
             ) : (
@@ -258,12 +236,7 @@ const ItemDetailSearch = ({ assetSpare, AddDetails, count }) => {
       </Box>
       {flag === 1 ? (
         <Box sx={{ m: 1, border: 1, p: 0.5, borderColor: '#D0D0D0' }}>
-          <ItemListViewTable
-            assetSpare={assetSpare}
-            displayarry={displayarry}
-            AddDetails={AddDetails}
-            count={count}
-          />
+          <ItemListViewTable assetSpare={assetSpare} displayarry={displayarry} AddDetails={AddDetails} count={count} />
         </Box>
       ) : null}
     </Box>

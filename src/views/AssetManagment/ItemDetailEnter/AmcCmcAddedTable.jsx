@@ -15,7 +15,7 @@ const AmcCmcAddedTable = ({ count, rowSelect }) => {
     suppplier: '',
     amcmc: '',
     frmDate: '',
-    toDate: '',
+    toDate: ''
   })
 
   useEffect(() => {
@@ -35,7 +35,7 @@ const AmcCmcAddedTable = ({ count, rowSelect }) => {
     const value = e.target.value
     setFilters(prevFilters => ({
       ...prevFilters,
-      [field]: value,
+      [field]: value
     }))
   }
 
@@ -43,7 +43,7 @@ const AmcCmcAddedTable = ({ count, rowSelect }) => {
     suppplier: null,
     amcmc: null,
     frmDate: null,
-    toDate: null,
+    toDate: null
   })
 
   const handleMenuOpen = (event, menuType) => {
@@ -73,7 +73,7 @@ const AmcCmcAddedTable = ({ count, rowSelect }) => {
         maxHeight: 250,
         overflow: 'auto',
         border: 1,
-        borderColor: 'lightgrey',
+        borderColor: 'lightgrey'
       }}
     >
       <CssVarsProvider>
@@ -96,7 +96,7 @@ const AmcCmcAddedTable = ({ count, rowSelect }) => {
                       zIndex: 1301,
                       padding: 2,
                       border: 1,
-                      borderColor: '#055CAA',
+                      borderColor: '#055CAA'
                     }}
                   >
                     <Box sx={{ display: 'flex', cursor: 'pointer', px: 0.5 }}>
@@ -155,11 +155,7 @@ const AmcCmcAddedTable = ({ count, rowSelect }) => {
             {filteredAssetListInstock.map((val, index) => (
               <tr key={index}>
                 <td>
-                  <EditIcon
-                    size={6}
-                    onClick={() => rowSelect(val)}
-                    sx={{ cursor: 'pointer', ml: 1 }}
-                  />
+                  <EditIcon size={6} onClick={() => rowSelect(val)} sx={{ cursor: 'pointer', ml: 1 }} />
                 </td>
                 <td> {val.amccmc_slno}</td>
                 <td style={{ paddingLeft: 11 }}>&nbsp; {val.it_supplier_name}</td>
@@ -167,9 +163,7 @@ const AmcCmcAddedTable = ({ count, rowSelect }) => {
                 <td style={{ paddingLeft: 20 }}>
                   {val.from_date ? format(new Date(val.from_date), 'dd-MM-yyyy') : ''}
                 </td>
-                <td style={{ paddingLeft: 20 }}>
-                  {val.to_date ? format(new Date(val.to_date), 'dd-MM-yyyy') : ''}
-                </td>
+                <td style={{ paddingLeft: 20 }}>{val.to_date ? format(new Date(val.to_date), 'dd-MM-yyyy') : ''}</td>
                 <td style={{ paddingLeft: 20 }}>{val.amccmc_status === 1 ? 'Yes' : 'No'}</td>
               </tr>
             ))}

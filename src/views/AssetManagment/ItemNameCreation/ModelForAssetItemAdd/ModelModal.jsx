@@ -25,7 +25,7 @@ const ModelModal = ({ open, handleClose }) => {
   })
   const [modelModal, setModelModal] = useState({
     model_name: '',
-    model_status: false,
+    model_status: false
   })
   const { model_name, model_status } = modelModal
 
@@ -40,7 +40,7 @@ const ModelModal = ({ open, handleClose }) => {
   const reset = () => {
     const formdata = {
       model_name: '',
-      model_status: false,
+      model_status: false
     }
     setModelModal(formdata)
   }
@@ -49,7 +49,7 @@ const ModelModal = ({ open, handleClose }) => {
     return {
       model_name: model_name,
       model_status: model_status === true ? 1 : 0,
-      create_user: id,
+      create_user: id
     }
   }, [model_name, model_status, id])
 
@@ -92,11 +92,9 @@ const ModelModal = ({ open, handleClose }) => {
       >
         <DialogContent
           id="alert-dialog-slide-descriptiona"
-        //    sx={{ border: '5px solid #0E4C92' ,borderRadius:1}}
+          //    sx={{ border: '5px solid #0E4C92' ,borderRadius:1}}
         >
-          <Box
-            sx={{ width: '100%', height: '90%', borderRadius: 1, border: '0.1px solid #454545' }}
-          >
+          <Box sx={{ width: '100%', height: '90%', borderRadius: 1, border: '0.1px solid #454545' }}>
             <Box
               id="alert-dialog-slide-descriptiona"
               sx={{ fontWeight: 'bold', textAlign: 'center', height: '50px', pt: 1 }}
@@ -108,14 +106,14 @@ const ModelModal = ({ open, handleClose }) => {
                 width: 500,
                 height: 100,
                 pl: 3,
-                flexDirection: 'column',
+                flexDirection: 'column'
               }}
             >
               <Box
                 sx={{
                   width: '100%',
                   display: 'flex',
-                  flexDirection: 'row',
+                  flexDirection: 'row'
                 }}
               >
                 <Box sx={{ height: 50, width: '40%' }}>
@@ -138,7 +136,7 @@ const ModelModal = ({ open, handleClose }) => {
                 sx={{
                   width: '100%',
                   display: 'flex',
-                  flexDirection: 'row',
+                  flexDirection: 'row'
                 }}
               >
                 <Box sx={{ height: 50, width: '40%' }}>

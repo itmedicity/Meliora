@@ -10,13 +10,13 @@ const RateListMastTable = ({ rowSelect, count }) => {
   const [column] = useState([
     {
       headerName: 'slno',
-      field: 'drate_slno',
+      field: 'drate_slno'
     },
     {
       headerName: 'Diet',
       field: 'diet_name',
       minWidth: 150,
-      wrapText: true,
+      wrapText: true
     },
     {
       headerName: 'Room',
@@ -24,28 +24,28 @@ const RateListMastTable = ({ rowSelect, count }) => {
       filter: 'true',
       autoHeight: true,
       wrapText: true,
-      minWidth: 150,
+      minWidth: 150
     },
     {
       headerName: 'type',
-      field: 'type_desc',
+      field: 'type_desc'
     },
     {
       headerName: 'Hospital rate',
-      field: 'hosp_rate',
+      field: 'hosp_rate'
     },
     {
       headerName: 'Canteen rate',
-      field: 'cant_rate',
+      field: 'cant_rate'
     },
     {
       headerName: 'Status',
-      field: 'status1',
+      field: 'status1'
     },
     {
       headerName: 'Actions',
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
-    },
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
+    }
   ])
   useEffect(() => {
     const getDietType = async () => {

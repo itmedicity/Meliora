@@ -50,9 +50,7 @@ const OnholdList = ({ onholdCompl, count, setCount, loading }) => {
     setimageViewOpen(true)
     setfileDetails(val)
     try {
-      const result = await axioslogin.get(
-        `/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`
-      )
+      const result = await axioslogin.get(`/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`)
       const { success } = result.data
       if (success === 1) {
         const data = result.data
@@ -151,44 +149,28 @@ const OnholdList = ({ onholdCompl, count, setCount, loading }) => {
               borderTop: 1,
               borderColor: 'lightgray',
               pt: 1.5,
-              bgcolor: 'white',
+              bgcolor: 'white'
             }}
           >
-            <Box sx={{ width: 95, fontWeight: 600, color: '#444444', fontSize: 12, pl: 2 }}>
-              Ticket No.
-            </Box>
+            <Box sx={{ width: 95, fontWeight: 600, color: '#444444', fontSize: 12, pl: 2 }}>Ticket No.</Box>
             <Box
               sx={{
                 width: 143,
                 fontWeight: 600,
                 color: '#444444',
                 fontSize: 12,
-                textAlign: 'center',
+                textAlign: 'center'
               }}
             >
               Action
             </Box>
-            <Box sx={{ width: 160, fontWeight: 600, color: '#444444', fontSize: 12, pl: 0.5 }}>
-              Complaint Type
-            </Box>
-            <Box sx={{ width: 610, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1.5 }}>
-              Describtion
-            </Box>
-            <Box sx={{ width: 180, fontWeight: 600, color: '#444444', fontSize: 12, pl: 0.5 }}>
-              Complaint To
-            </Box>
-            <Box sx={{ width: 220, fontWeight: 600, color: '#444444', fontSize: 12, pl: 0.5 }}>
-              Complaint From
-            </Box>
-            <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12, pl: 0.5 }}>
-              Location
-            </Box>
-            <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12, pl: 0.5 }}>
-              Location Details
-            </Box>
-            <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-              Complaint Date
-            </Box>
+            <Box sx={{ width: 160, fontWeight: 600, color: '#444444', fontSize: 12, pl: 0.5 }}>Complaint Type</Box>
+            <Box sx={{ width: 610, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1.5 }}>Describtion</Box>
+            <Box sx={{ width: 180, fontWeight: 600, color: '#444444', fontSize: 12, pl: 0.5 }}>Complaint To</Box>
+            <Box sx={{ width: 220, fontWeight: 600, color: '#444444', fontSize: 12, pl: 0.5 }}>Complaint From</Box>
+            <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12, pl: 0.5 }}>Location</Box>
+            <Box sx={{ width: 300, fontWeight: 600, color: '#444444', fontSize: 12, pl: 0.5 }}>Location Details</Box>
+            <Box sx={{ width: 150, fontWeight: 600, color: '#444444', fontSize: 12 }}>Complaint Date</Box>
           </Box>
           <Virtuoso
             style={{ height: '28vh' }}
@@ -205,12 +187,10 @@ const OnholdList = ({ onholdCompl, count, setCount, loading }) => {
                     mx: 1,
                     borderColor: 'lightgrey',
                     minHeight: 35,
-                    pt: 0.5,
+                    pt: 0.5
                   }}
                 >
-                  <Box sx={{ pl: 2, width: 95, fontWeight: 600, fontSize: 14 }}>
-                    {val.complaint_slno}
-                  </Box>
+                  <Box sx={{ pl: 2, width: 95, fontWeight: 600, fontSize: 14 }}>{val.complaint_slno}</Box>
                   <Box sx={{ width: 143, display: 'flex', gap: 0.5, textAlign: 'center' }}>
                     {val.cm_file_status === 1 ? (
                       <CssVarsProvider>
@@ -224,7 +204,7 @@ const OnholdList = ({ onholdCompl, count, setCount, loading }) => {
                               height: 28,
                               color: '#41729F',
                               cursor: 'pointer',
-                              '&:hover': { color: '#274472' },
+                              '&:hover': { color: '#274472' }
                             }}
                             onClick={() => fileView(val)}
                           />
@@ -238,7 +218,7 @@ const OnholdList = ({ onholdCompl, count, setCount, loading }) => {
                           p: 0.4,
                           width: 28,
                           height: 28,
-                          color: 'lightgrey',
+                          color: 'lightgrey'
                         }}
                       />
                     )}
@@ -254,7 +234,7 @@ const OnholdList = ({ onholdCompl, count, setCount, loading }) => {
                                 width: 28,
                                 height: 28,
                                 color: '#BF4A32',
-                                animation: `${blinkAnimation} 1s infinite`,
+                                animation: `${blinkAnimation} 1s infinite`
                               }}
                             />
                           ) : val.cm_query_status === 2 ? (
@@ -266,7 +246,7 @@ const OnholdList = ({ onholdCompl, count, setCount, loading }) => {
                                 width: 28,
                                 height: 28,
                                 color: '#2B82BF',
-                                animation: `${blinkAnimation} 1s infinite`,
+                                animation: `${blinkAnimation} 1s infinite`
                               }}
                             />
                           ) : (
@@ -277,7 +257,7 @@ const OnholdList = ({ onholdCompl, count, setCount, loading }) => {
                                 p: 0.4,
                                 width: 28,
                                 height: 28,
-                                color: '#647C90',
+                                color: '#647C90'
                               }}
                             />
                           )}
@@ -294,7 +274,7 @@ const OnholdList = ({ onholdCompl, count, setCount, loading }) => {
                             width: 28,
                             height: 28,
                             color: '#50655B',
-                            cursor: 'pointer',
+                            cursor: 'pointer'
                           }}
                           onClick={() => HoldDetailsView(val)}
                         />
@@ -311,7 +291,7 @@ const OnholdList = ({ onholdCompl, count, setCount, loading }) => {
                               width: 28,
                               height: 28,
                               color: '#4C5270',
-                              cursor: 'pointer',
+                              cursor: 'pointer'
                             }}
                             onClick={() => AssetView(val)}
                           />
@@ -328,7 +308,7 @@ const OnholdList = ({ onholdCompl, count, setCount, loading }) => {
                               width: 28,
                               height: 28,
                               color: 'lightgrey',
-                              cursor: 'pointer',
+                              cursor: 'pointer'
                             }}
                           />
                         </Tooltip>
@@ -342,14 +322,14 @@ const OnholdList = ({ onholdCompl, count, setCount, loading }) => {
                   <Box sx={{ width: 300, fontSize: 13 }}>
                     {val.rm_room_name}
                     {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name
-                      ? ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
-                      }${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
-                      }${val.rm_floor_name ? val.rm_floor_name : ''})`
+                      ? ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${
+                          val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
+                        }${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${
+                          val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
+                        }${val.rm_floor_name ? val.rm_floor_name : ''})`
                       : 'Not Updated'}
                   </Box>
-                  <Box sx={{ width: 300, fontSize: 13 }}>
-                    {val.cm_complaint_location || 'Not Updated'}
-                  </Box>
+                  <Box sx={{ width: 300, fontSize: 13 }}>{val.cm_complaint_location || 'Not Updated'}</Box>
                   <Box sx={{ width: 150, fontSize: 13 }}>
                     {val.compalint_date
                       ? format(new Date(val.compalint_date), 'dd MMM yyyy,  hh:mm a')
@@ -362,9 +342,7 @@ const OnholdList = ({ onholdCompl, count, setCount, loading }) => {
         </Box>
       ) : (
         <Box>
-          <Typography
-            sx={{ fontWeight: 800, fontSize: 20, color: 'lightgrey', textAlign: 'center', pt: 5 }}
-          >
+          <Typography sx={{ fontWeight: 800, fontSize: 20, color: 'lightgrey', textAlign: 'center', pt: 5 }}>
             Empty Hold List
           </Typography>
         </Box>

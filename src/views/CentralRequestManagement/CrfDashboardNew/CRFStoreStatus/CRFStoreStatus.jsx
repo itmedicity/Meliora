@@ -12,7 +12,7 @@ import {
   getDeliveryMarking,
   getItemChecking,
   getStoreAcknow,
-  getUserAcknow,
+  getUserAcknow
 } from 'src/api/CommonApiCRF'
 import { format } from 'date-fns'
 import { useQuery } from 'react-query'
@@ -44,61 +44,61 @@ const CRFStoreStatus = ({ storeData, companyData }) => {
     fully: { pending: 0, title: '', imageView: [], imName: '', id: 0 },
     storeAck: { pending: 0, title: '', imageView: [], imName: '', id: 0 },
     userAck: { pending: 0, title: '', imageView: [], imName: '', id: 0 },
-    compCRF: { pending: 0, title: '', imageView: [], imName: '', id: 0 },
+    compCRF: { pending: 0, title: '', imageView: [], imName: '', id: 0 }
   })
   const searchData = useMemo(() => {
     return {
       from: format(new Date(), 'yyyy-MM-dd 00:00:00'),
-      to: format(new Date(), 'yyyy-MM-dd 23:59:59'),
+      to: format(new Date(), 'yyyy-MM-dd 23:59:59')
     }
   }, [])
   const {
     data: delData,
     isLoading: isDeliveryLoading,
-    error: deliveryError,
+    error: deliveryError
   } = useQuery({
     queryKey: ['deliverMarking', searchData],
-    queryFn: () => getDeliveryMarking(searchData),
+    queryFn: () => getDeliveryMarking(searchData)
   })
   const deliveryData = useMemo(() => delData, [delData])
 
   const {
     data: checkData,
     isLoading: isItemCheckLoading,
-    error: itemCheckError,
+    error: itemCheckError
   } = useQuery({
     queryKey: ['itemChecking', searchData],
-    queryFn: () => getItemChecking(searchData),
+    queryFn: () => getItemChecking(searchData)
   })
   const itemCheckData = useMemo(() => checkData, [checkData])
 
   const {
     data: storeAck,
     isLoading: isStoreAckLoading,
-    error: storeAckError,
+    error: storeAckError
   } = useQuery({
     queryKey: ['storeAck', searchData],
-    queryFn: () => getStoreAcknow(searchData),
+    queryFn: () => getStoreAcknow(searchData)
   })
   const storeAckData = useMemo(() => storeAck, [storeAck])
 
   const {
     data: userAck,
     isLoading: isUserAckLoading,
-    error: userAckError,
+    error: userAckError
   } = useQuery({
     queryKey: ['userAck', searchData],
-    queryFn: () => getUserAcknow(searchData),
+    queryFn: () => getUserAcknow(searchData)
   })
   const userAckData = useMemo(() => userAck, [userAck])
 
   const {
     data: compCrf,
     isLoading: isComCRFoading,
-    error: comCRFError,
+    error: comCRFError
   } = useQuery({
     queryKey: ['completedCRF', searchData],
-    queryFn: () => getCompletedCRF(searchData),
+    queryFn: () => getCompletedCRF(searchData)
   })
   const completedCRFData = useMemo(() => compCrf, [compCrf])
 
@@ -119,14 +119,14 @@ const CRFStoreStatus = ({ storeData, companyData }) => {
           title: 'Pending PO (CRF)',
           imageView: crsImg,
           imName: 'crs',
-          id: 1,
+          id: 1
         },
         delivery: {
           pending: deliveryData ? deliveryData.length : 0,
           title: 'Today Delivery Marking',
           imageView: delvMarkimg,
           imName: 'dlv',
-          id: 4,
+          id: 4
         },
         itemcheck: {
           pending: itemCheckData
@@ -137,43 +137,43 @@ const CRFStoreStatus = ({ storeData, companyData }) => {
           title: 'Total Item/Bill Checked',
           imageView: itemcheckimg,
           imName: 'check',
-          id: 5,
+          id: 5
         },
         partially: {
           pending: partially.length,
           title: 'Partially Received',
           imageView: partiallyimg,
           imName: 'part',
-          id: 2,
+          id: 2
         },
         fully: {
           pending: fully.length,
           title: 'Fully Received',
           imageView: fullyimg,
           imName: 'full',
-          id: 3,
+          id: 3
         },
         storeAck: {
           pending: storeAckData ? storeAckData.length : 0,
           title: 'Today Store Acknowledged',
           imageView: storeackimg,
           imName: 'store',
-          id: 6,
+          id: 6
         },
         userAck: {
           pending: userAckData ? userAckData.length : 0,
           title: 'Today User Acknowledged',
           imageView: userackimg,
           imName: 'user',
-          id: 7,
+          id: 7
         },
         compCRF: {
           pending: completedCRFData ? completedCRFData.length : 0,
           title: 'Today Completed CRF',
           imageView: crfcomimg,
           imName: 'compl',
-          id: 8,
-        },
+          id: 8
+        }
       })
     } else {
       setStrApprv({
@@ -182,14 +182,14 @@ const CRFStoreStatus = ({ storeData, companyData }) => {
           title: 'Pending PO (CRF)',
           imageView: crsImg,
           imName: 'crs',
-          id: 1,
+          id: 1
         },
         delivery: {
           pending: deliveryData ? deliveryData.length : 0,
           title: 'Today Delivery Marking',
           imageView: delvMarkimg,
           imName: 'dlv',
-          id: 4,
+          id: 4
         },
         itemcheck: {
           pending: itemCheckData
@@ -200,43 +200,43 @@ const CRFStoreStatus = ({ storeData, companyData }) => {
           title: 'Total Item/Bill Checked',
           imageView: itemcheckimg,
           imName: 'check',
-          id: 5,
+          id: 5
         },
         partially: {
           pending: 0,
           title: 'Partially Received',
           imageView: partiallyimg,
           imName: 'part',
-          id: 2,
+          id: 2
         },
         fully: {
           pending: 0,
           title: 'Fully Received',
           imageView: fullyimg,
           imName: 'full',
-          id: 3,
+          id: 3
         },
         storeAck: {
           pending: storeAckData ? storeAckData.length : 0,
           title: 'Today Store Acknowledged',
           imageView: storeackimg,
           imName: 'store',
-          id: 6,
+          id: 6
         },
         userAck: {
           pending: userAckData ? userAckData.length : 0,
           title: 'Today User Acknowledged',
           imageView: userackimg,
           imName: 'user',
-          id: 7,
+          id: 7
         },
         compCRF: {
           pending: completedCRFData ? completedCRFData.length : 0,
           title: 'Today Completed CRF',
           imageView: crfcomimg,
           imName: 'compl',
-          id: 8,
-        },
+          id: 8
+        }
       })
     }
   }, [storeDetails, deliveryData, itemCheckData, storeAckData, userAckData, completedCRFData])
@@ -292,23 +292,14 @@ const CRFStoreStatus = ({ storeData, companyData }) => {
     setModFlag(0)
   }, [setModalOpen])
 
-  if (
-    isDeliveryLoading ||
-    isItemCheckLoading ||
-    isStoreAckLoading ||
-    isUserAckLoading ||
-    isComCRFoading
-  )
+  if (isDeliveryLoading || isItemCheckLoading || isStoreAckLoading || isUserAckLoading || isComCRFoading)
     return <p>Loading...</p>
-  if (deliveryError || itemCheckError || storeAckError || userAckError || comCRFError)
-    return <p>Error occurred.</p>
+  if (deliveryError || itemCheckError || storeAckError || userAckError || comCRFError) return <p>Error occurred.</p>
 
   return (
     <Fragment>
       <Suspense fallback={<CustomLoadComp />}>
-        {modFlag === 1 ? (
-          <ViewItemCheckingList disData={disData} handleClose={handleClose} open={modalopen} />
-        ) : null}
+        {modFlag === 1 ? <ViewItemCheckingList disData={disData} handleClose={handleClose} open={modalopen} /> : null}
       </Suspense>
       {flag === 1 ? (
         <Suspense fallback={<CustomLoadComp />}>
@@ -339,11 +330,7 @@ const CRFStoreStatus = ({ storeData, companyData }) => {
           <CompletedCRFView setFlag={setFlag} disData={disData} companyData={companyData} />
         </Suspense>
       ) : (
-        <PurcahseMainComp
-          purchaseApprv={strApprv}
-          viewPednigDetails={viewPednigDetails}
-          companyData={companyData}
-        />
+        <PurcahseMainComp purchaseApprv={strApprv} viewPednigDetails={viewPednigDetails} companyData={companyData} />
       )}
     </Fragment>
   )

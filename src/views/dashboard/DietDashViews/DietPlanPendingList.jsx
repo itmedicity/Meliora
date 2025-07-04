@@ -28,7 +28,7 @@ const DietPlanPendingList = () => {
       filter: 'true',
       autoHeight: true,
       wrapText: true,
-      width: 250,
+      width: 250
     },
     {
       headerName: 'Pt No',
@@ -36,7 +36,7 @@ const DietPlanPendingList = () => {
       filter: 'true',
       autoHeight: true,
       wrapText: true,
-      width: 280,
+      width: 280
     },
     {
       headerName: 'Pateint Name',
@@ -44,7 +44,7 @@ const DietPlanPendingList = () => {
       filter: 'true',
       autoHeight: true,
       wrapText: true,
-      width: 280,
+      width: 280
     },
     {
       headerName: 'Ip Date',
@@ -52,7 +52,7 @@ const DietPlanPendingList = () => {
       filter: 'true',
       autoHeight: true,
       wrapText: true,
-      width: 280,
+      width: 280
     },
     {
       headerName: 'Sex',
@@ -60,7 +60,7 @@ const DietPlanPendingList = () => {
       filter: 'true',
       width: 200,
       autoHeight: true,
-      wrapText: true,
+      wrapText: true
     },
     {
       headerName: 'Nursing Station',
@@ -68,7 +68,7 @@ const DietPlanPendingList = () => {
       filter: 'true',
       autoHeight: true,
       wrapText: true,
-      width: 200,
+      width: 200
     },
     { headerName: 'Room', field: 'rmc_desc', autoHeight: true, wrapText: true, width: 200 },
     {
@@ -77,8 +77,8 @@ const DietPlanPendingList = () => {
       filter: 'true',
       autoHeight: true,
       wrapText: true,
-      width: 250,
-    },
+      width: 250
+    }
   ])
 
   //Close function

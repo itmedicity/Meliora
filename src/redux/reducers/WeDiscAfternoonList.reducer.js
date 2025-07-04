@@ -3,7 +3,7 @@ const { FETCH_DISCAFTERNOON_LIST } = ActionTyps
 
 const WedischrgeList = {
   DischargeList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 
 export const getDischargeList = (state = WedischrgeList, { type, payload }) => {

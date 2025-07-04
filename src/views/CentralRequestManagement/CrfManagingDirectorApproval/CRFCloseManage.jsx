@@ -19,7 +19,7 @@ const CRFCloseManage = ({
   reqItems,
   setCancelFlag,
   approveTableData,
-  imagearray,
+  imagearray
 }) => {
   const { req_slno, crf_close, crf_close_remark } = cancelData
   const queryClient = useQueryClient()
@@ -62,7 +62,7 @@ const CRFCloseManage = ({
       crf_close_user: id,
       crf_closed_one: 'Managing Director',
       close_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
-      req_slno: req_slno,
+      req_slno: req_slno
     }
   }, [Closeremark, id, req_slno, closeCrf, internally])
 
@@ -123,7 +123,7 @@ const CRFCloseManage = ({
                 bgcolor: 'background.body',
                 color: '#bf360c',
                 height: 25,
-                width: 25,
+                width: 25
               }}
             />
             <Box sx={{ minWidth: '60vw', minHeight: '50vh', maxHeight: '85vh', overflowY: 'auto' }}>

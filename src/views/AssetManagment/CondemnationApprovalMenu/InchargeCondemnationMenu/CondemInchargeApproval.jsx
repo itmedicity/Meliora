@@ -14,7 +14,7 @@ const CondemInchargeApproval = ({ empId, empdept, menurights }) => {
     return {
       empdept,
       condemStatusFrom: condemStatusFrom,
-      condemstatusTo: condemstatusTo,
+      condemstatusTo: condemstatusTo
     }
   }, [empdept, condemStatusFrom, condemstatusTo])
 
@@ -32,7 +32,7 @@ const CondemInchargeApproval = ({ empId, empdept, menurights }) => {
   const { data: CondemSubittedData } = useQuery({
     queryKey: ['getCondemPendingData', formCount],
     queryFn: () => getCondemPendingDatas(postCondemDept),
-    enabled: empdept !== undefined,
+    enabled: empdept !== undefined
   })
   const PendingApproveData = useMemo(() => CondemSubittedData || [], [CondemSubittedData])
 
@@ -91,7 +91,7 @@ const CondemInchargeApproval = ({ empId, empdept, menurights }) => {
                         cursor: 'pointer',
                         fontSize: 13,
                         color: 'white',
-                        '&:hover': { bgcolor: '#11A7BB' },
+                        '&:hover': { bgcolor: '#11A7BB' }
                       }}
                       onClick={() => ApproveForm(val)}
                     >
@@ -123,7 +123,7 @@ const CondemInchargeApproval = ({ empId, empdept, menurights }) => {
               minHeight: '40vh',
               width: '100%',
               textAlign: 'center',
-              color: 'lightgrey',
+              color: 'lightgrey'
             }}
           >
             Empty List

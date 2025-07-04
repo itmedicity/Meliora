@@ -31,7 +31,7 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
   const [userdata, setUserdata] = useState({
     manufacturslno: '',
     asset_no: assetno,
-    asset_noold: '',
+    asset_noold: ''
   })
   const { manufacturslno, asset_no, asset_noold } = userdata
   const updateDeviceDetails = useCallback(
@@ -62,7 +62,7 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
       am_item_map_slno: am_item_map_slno,
       specifications: specific,
       status: 1,
-      create_user: id,
+      create_user: id
     }
   }, [am_item_map_slno, specific, id])
 
@@ -72,7 +72,7 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
       specifications: specific,
       status: 1,
       delete_user: id,
-      am_sec_detal_slno: specSlno,
+      am_sec_detal_slno: specSlno
     }
   }, [am_item_map_slno, specific, id, specSlno])
 
@@ -88,7 +88,7 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
     const frmdata = {
       manufacturslno: '',
       asset_no: '',
-      asset_noold: '',
+      asset_noold: ''
     }
     setUserdata(frmdata)
   }, [setUserdata])
@@ -97,43 +97,40 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
     reset()
   }, [reset])
 
-  const SaveEditSpecDetails = useCallback(
-    () => {
-      const SpecInsert = async () => {
-        const result = await axioslogin.post(`/ItemMapDetails/SpecificationInsert`, postSpec)
-        const { message, success } = result.data
-        if (success === 1) {
-          succesNotify(message)
-          setCount(count + 1)
-          setSpecific('')
-        } else if (success === 0) {
-          infoNotify(message)
-        } else {
-          infoNotify(message)
-        }
-      }
-      const SpecUpdate = async () => {
-        const result = await axioslogin.patch(`/ItemMapDetails/SepcUpdate`, updateSpec)
-        const { success, message } = result.data
-        if (success === 1) {
-          succesNotify('Specification Updated Successfully')
-          setCount(count + 1)
-          setSpecific('')
-          seteditSpec(0)
-        } else if (success === 0) {
-          infoNotify(message)
-        } else {
-          infoNotify(message)
-        }
-      }
-      if (editSpec === 1) {
-        SpecUpdate(updateSpec)
+  const SaveEditSpecDetails = useCallback(() => {
+    const SpecInsert = async () => {
+      const result = await axioslogin.post(`/ItemMapDetails/SpecificationInsert`, postSpec)
+      const { message, success } = result.data
+      if (success === 1) {
+        succesNotify(message)
+        setCount(count + 1)
+        setSpecific('')
+      } else if (success === 0) {
+        infoNotify(message)
       } else {
-        SpecInsert(updateSpec)
+        infoNotify(message)
       }
-    },
-    [postSpec, updateSpec, count, setCount, editSpec]
-  )
+    }
+    const SpecUpdate = async () => {
+      const result = await axioslogin.patch(`/ItemMapDetails/SepcUpdate`, updateSpec)
+      const { success, message } = result.data
+      if (success === 1) {
+        succesNotify('Specification Updated Successfully')
+        setCount(count + 1)
+        setSpecific('')
+        seteditSpec(0)
+      } else if (success === 0) {
+        infoNotify(message)
+      } else {
+        infoNotify(message)
+      }
+    }
+    if (editSpec === 1) {
+      SpecUpdate(updateSpec)
+    } else {
+      SpecInsert(updateSpec)
+    }
+  }, [postSpec, updateSpec, count, setCount, editSpec])
 
   const DeleteSlect = useCallback(
     val => {
@@ -144,7 +141,7 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
         specifications: specifications,
         status: 0,
         delete_user: id,
-        am_sec_detal_slno: am_sec_detal_slno,
+        am_sec_detal_slno: am_sec_detal_slno
       }
 
       const SpecDelete = async () => {
@@ -166,7 +163,7 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
   const { data: specificationDetailsData } = useQuery({
     queryKey: ['getSpecification', count],
     queryFn: () => getSpecification(am_item_map_slno),
-    enabled: am_item_map_slno !== undefined,
+    enabled: am_item_map_slno !== undefined
   })
 
   const specificationDetails = useMemo(() => specificationDetailsData, [specificationDetailsData])
@@ -182,7 +179,7 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
       am_asset_old_no: asset_noold,
       edit_user: id,
       am_item_map_slno: am_item_map_slno,
-      item_rack_slno: rackno !== 0 && rackno !== undefined ? rackno : null,
+      item_rack_slno: rackno !== 0 && rackno !== undefined ? rackno : null
     }
   }, [am_item_map_slno, manufacturslno, asset_no, asset_noold, id, rackno])
 
@@ -193,22 +190,20 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
       am_asset_old_no: asset_noold,
       edit_user: id,
       am_spare_item_map_slno: am_spare_item_map_slno,
-      spare_rack_slno: rackno !== 0 && rackno !== undefined ? rackno : null,
+      spare_rack_slno: rackno !== 0 && rackno !== undefined ? rackno : null
     }
   }, [am_spare_item_map_slno, manufacturslno, asset_no, asset_noold, id, rackno])
 
   useEffect(() => {
     const checkinsertOrNotDetail = async am_item_map_slno => {
-      const result = await axioslogin.get(
-        `/ItemMapDetails/checkDetailInsertOrNot/${am_item_map_slno}`
-      )
+      const result = await axioslogin.get(`/ItemMapDetails/checkDetailInsertOrNot/${am_item_map_slno}`)
       const { success, data } = result.data
       if (success === 1) {
         const { am_manufacture_no, am_asset_old_no, rack } = data[0]
         const frmdata = {
           manufacturslno: am_manufacture_no ?? '',
           asset_no: assetno ?? '',
-          asset_noold: am_asset_old_no ?? '',
+          asset_noold: am_asset_old_no ?? ''
         }
         setUserdata(frmdata)
         setrackNo(rack ?? 0)
@@ -216,16 +211,14 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
     }
 
     const checkinsertOrNotDetailSpare = async am_spare_item_map_slno => {
-      const result = await axioslogin.get(
-        `/ItemMapDetails/checkDetailInsertOrNotSpare/${am_spare_item_map_slno}`
-      )
+      const result = await axioslogin.get(`/ItemMapDetails/checkDetailInsertOrNotSpare/${am_spare_item_map_slno}`)
       const { success, data } = result.data
       if (success === 1) {
         const { am_manufacture_no, am_asset_old_no, rack } = data[0]
         const frmdata = {
           manufacturslno: am_manufacture_no ?? '',
           asset_no: assetno ?? '',
-          asset_noold: am_asset_old_no ?? '',
+          asset_noold: am_asset_old_no ?? ''
         }
         setUserdata(frmdata)
         setrackNo(rack ?? 0)
@@ -255,10 +248,7 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
       }
 
       const updateGRNDetailsSpare = async patchadataSpare => {
-        const result = await axioslogin.patch(
-          '/ItemMapDetails/DeviceDetailsUpdateSpare',
-          patchadataSpare
-        )
+        const result = await axioslogin.patch('/ItemMapDetails/DeviceDetailsUpdateSpare', patchadataSpare)
         const { message, success } = result.data
         if (success === 2) {
           succesNotify(message)
@@ -294,7 +284,7 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
             flex: 1,
             fontWeight: 500,
             color: 'black',
-            fontSize: 15,
+            fontSize: 15
           }}
         />
         <Box sx={{ flex: 1, display: 'flex' }}>
@@ -306,7 +296,7 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
                   fontWeight: 600,
                   color: '#727B8C',
                   pt: 1,
-                  width: 130,
+                  width: 130
                 }}
               />
               <Box sx={{ flex: 1 }}>
@@ -327,7 +317,7 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
                   fontWeight: 600,
                   color: '#727B8C',
                   pt: 1,
-                  width: 130,
+                  width: 130
                 }}
               />
               <Box sx={{ flex: 1 }}>
@@ -347,7 +337,7 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
                   fontWeight: 600,
                   color: '#727B8C',
                   pt: 1,
-                  width: 130,
+                  width: 130
                 }}
               />
               <Box sx={{ flex: 1 }}>
@@ -358,24 +348,12 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
               <Box sx={{ width: 130 }}></Box>
               <Box sx={{ flex: 1, gap: 0.5, display: 'flex' }}>
                 <Box>
-                  <CusIconButton
-                    size="sm"
-                    variant="outlined"
-                    color="primary"
-                    clickable="true"
-                    onClick={EditDetails}
-                  >
+                  <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={EditDetails}>
                     <LibraryAddIcon fontSize="small" />
                   </CusIconButton>
                 </Box>
                 <Box>
-                  <CusIconButton
-                    size="sm"
-                    variant="outlined"
-                    color="primary"
-                    clickable="true"
-                    onClick={DeviceRefresh}
-                  >
+                  <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={DeviceRefresh}>
                     <RefreshIcon fontSize="small" />
                   </CusIconButton>
                 </Box>
@@ -393,7 +371,7 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
               fontWeight: 500,
               color: 'black',
               fontSize: 15,
-              py: 0.5,
+              py: 0.5
             }}
           />
           <Box
@@ -405,7 +383,7 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
               border: 1,
               width: 100,
               borderColor: '#0B6BCB',
-              borderRadius: 5,
+              borderRadius: 5
             }}
             onClick={toggleOpen}
           >
@@ -414,10 +392,9 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
               sx={{
                 color: '#0B6BCB',
                 fontSize: 14,
-                textShadow:
-                  '1px 1px 2px rgba(0, 0, 0, 0.3), -1px -1px 2px rgba(255, 255, 255, 0.7)',
+                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3), -1px -1px 2px rgba(255, 255, 255, 0.7)',
                 transform: 'translateZ(0)',
-                '&:hover': { color: '#263F60' },
+                '&:hover': { color: '#263F60' }
               }}
             />
 
@@ -463,12 +440,12 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
                       return (
                         <tr
                           key={index}
-                        // sx={{
-                        //     '&:last-child td, &:last-child th': { border: 0, },
-                        //     maxHeight: 60,
-                        //     minHeight: 2,
+                          // sx={{
+                          //     '&:last-child td, &:last-child th': { border: 0, },
+                          //     maxHeight: 60,
+                          //     minHeight: 2,
 
-                        // }}
+                          // }}
                         >
                           <td> {index + 1}</td>
                           <td>

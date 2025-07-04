@@ -74,7 +74,7 @@ const PasswordManagement = () => {
     user_name: '',
     password: '',
     port: '',
-    remarks: '',
+    remarks: ''
   })
   const [PasswordMast, setPasswordMast] = useState({
     pswd_mast_slno: '',
@@ -86,7 +86,7 @@ const PasswordManagement = () => {
     pswd_mast_item_name: '',
     pswd_mast_location: '',
     pswd_mast_location_name: '',
-    pswd_mast_description: '',
+    pswd_mast_description: ''
   })
 
   const [tabledata, setTabledata] = useState([])
@@ -110,7 +110,7 @@ const PasswordManagement = () => {
             pswd_mast_location_name: val.sec_name,
             pswd_mast_description: val.pswd_mast_description,
             psw_detail_username: val.psw_detail_username,
-            psw_detail_password: val.psw_detail_password,
+            psw_detail_password: val.psw_detail_password
           }
           return obj
         })
@@ -133,7 +133,7 @@ const PasswordManagement = () => {
         user_name: '',
         password: '',
         port: '',
-        remarks: '',
+        remarks: ''
       }
       setPasswordManagement(resetfrmdata)
       setCredential(0)
@@ -148,7 +148,7 @@ const PasswordManagement = () => {
         pswd_mast_item_name: '',
         pswd_mast_location: '',
         pswd_mast_location_name: '',
-        pswd_mast_description: '',
+        pswd_mast_description: ''
       }
       setPasswordMast(resetMast)
       setPswd_mast_asset_no('')
@@ -185,7 +185,7 @@ const PasswordManagement = () => {
         pswd_mast_group_name,
         pswd_mast_item_name,
         pswd_mast_location_name,
-        pswd_mast_description,
+        pswd_mast_description
       } = data
       const formdata = {
         pswd_mast_slno: pswd_mast_slno === null ? '' : pswd_mast_slno,
@@ -196,14 +196,12 @@ const PasswordManagement = () => {
         pswd_mast_item_no: pswd_mast_item_no === null ? '' : pswd_mast_item_no,
         pswd_mast_item_name: pswd_mast_item_name === null ? '' : pswd_mast_item_name,
         pswd_mast_location_name: pswd_mast_location_name === null ? '' : pswd_mast_location_name,
-        pswd_mast_description: pswd_mast_description === null ? '' : pswd_mast_description,
+        pswd_mast_description: pswd_mast_description === null ? '' : pswd_mast_description
       }
       setPswd_mast_asset_no(pswd_mast_asset_no)
       setPasswordMast(formdata)
       const getdetailtable = async pswd_mast_slno => {
-        const result = await axioslogin.get(
-          `/PasswordManagementMain/viewDetailByid/${pswd_mast_slno}`
-        )
+        const result = await axioslogin.get(`/PasswordManagementMain/viewDetailByid/${pswd_mast_slno}`)
         const { success, data } = result.data
         if (data.length !== 0) {
           if (success === 2) {
@@ -218,7 +216,7 @@ const PasswordManagement = () => {
                   user_name: val.psw_detail_username,
                   password: val.psw_detail_password,
                   port: val.psw_detail_port,
-                  remarks: val.psw_detail_remarks,
+                  remarks: val.psw_detail_remarks
                 }
               })
             setArry(setDetailData)
@@ -237,23 +235,14 @@ const PasswordManagement = () => {
 
   const selectForEdit = useCallback(
     val => {
-      const {
-        pswd_detail_slno,
-        credential,
-        credentialName,
-        description,
-        user_name,
-        password,
-        port,
-        remarks,
-      } = val
+      const { pswd_detail_slno, credential, credentialName, description, user_name, password, port, remarks } = val
       const setDetailData = {
         pswd_detail_slno: pswd_detail_slno,
         description: description,
         user_name: user_name,
         password: password,
         port: port,
-        remarks: remarks,
+        remarks: remarks
       }
       setCredential(credential)
       setCredentialName(credentialName)
@@ -272,7 +261,7 @@ const PasswordManagement = () => {
     pswd_mast_group_no,
     pswd_mast_item_no,
     pswd_mast_location,
-    pswd_mast_description,
+    pswd_mast_description
   } = PasswordMast
   const pswMastUpdate = useCallback(
     e => {
@@ -297,7 +286,7 @@ const PasswordManagement = () => {
         const asset_number = parseInt(assetno)
         const postdata = {
           item_asset_no: starts,
-          item_asset_no_only: asset_number,
+          item_asset_no_only: asset_number
         }
         const getAssetdata = async postdata => {
           const result = await axioslogin.post('/PasswordManagementMain/getAssetNo', postdata)
@@ -312,7 +301,7 @@ const PasswordManagement = () => {
                 item_creation_slno,
                 item_group_slno,
                 item_deptsec_slno,
-                sec_name,
+                sec_name
               } = data[0]
               const formdata = {
                 pswd_mast_categry_name: category_name === null ? '' : category_name,
@@ -322,7 +311,7 @@ const PasswordManagement = () => {
                 pswd_mast_group_no: item_group_slno === null ? '' : item_group_slno,
                 pswd_mast_item_no: item_creation_slno === null ? '' : item_creation_slno,
                 pswd_mast_location: item_deptsec_slno === null ? '' : item_deptsec_slno,
-                pswd_mast_location_name: sec_name === null ? '' : sec_name,
+                pswd_mast_location_name: sec_name === null ? '' : sec_name
               }
               setPswd_mast_asset_no(pswd_mast_asset_no)
               setPasswordMast(formdata)
@@ -347,7 +336,7 @@ const PasswordManagement = () => {
       user_name: user_name,
       password: password,
       port: port,
-      remarks: remarks,
+      remarks: remarks
     }
     if (pswd_mast_item_no !== '') {
       if (user_name !== '' && password !== '' && credentialName !== '') {
@@ -359,7 +348,7 @@ const PasswordManagement = () => {
             user_name: '',
             password: '',
             port: '',
-            remarks: '',
+            remarks: ''
           }
           setPasswordManagement(resetfrmdata)
           setCredential(0)
@@ -374,7 +363,7 @@ const PasswordManagement = () => {
             user_name: '',
             password: '',
             port: '',
-            remarks: '',
+            remarks: ''
           }
           setPasswordManagement(resetfrmdata)
           setCredential(0)
@@ -391,7 +380,7 @@ const PasswordManagement = () => {
         user_name: '',
         password: '',
         port: '',
-        remarks: '',
+        remarks: ''
       }
       setPasswordManagement(resetfrmdata)
       setCredential(0)
@@ -408,7 +397,7 @@ const PasswordManagement = () => {
     user_name,
     password,
     port,
-    remarks,
+    remarks
   ])
   const reset = useCallback(() => {
     const resetMast = {
@@ -421,7 +410,7 @@ const PasswordManagement = () => {
       pswd_mast_item_name: '',
       pswd_mast_location: '',
       pswd_mast_location_name: '',
-      pswd_mast_description: '',
+      pswd_mast_description: ''
     }
     setPasswordMast(resetMast)
     setPswd_mast_asset_no('')
@@ -438,7 +427,7 @@ const PasswordManagement = () => {
       pswd_mast_item_no: pswd_mast_item_no === 0 ? null : pswd_mast_item_no,
       pswd_mast_location: pswd_mast_location === 0 ? null : pswd_mast_location,
       pswd_mast_description: pswd_mast_description === '' ? null : pswd_mast_description,
-      create_user: id,
+      create_user: id
     }
   }, [
     pswd_mast_categry_no,
@@ -447,13 +436,13 @@ const PasswordManagement = () => {
     pswd_mast_asset_no,
     pswd_mast_location,
     pswd_mast_description,
-    id,
+    id
   ])
   const patchdataMast = useMemo(() => {
     return {
       pswd_mast_slno: pswd_mast_slno,
       pswd_mast_description: pswd_mast_description,
-      edit_user: id,
+      edit_user: id
     }
   }, [pswd_mast_slno, pswd_mast_description, id])
   const [SoftwarePswd, setSoftwarePswd] = useState({
@@ -462,7 +451,7 @@ const PasswordManagement = () => {
     paswd_soft_linkname: '',
     paswd_soft_username: '',
     paswd_soft_password: '',
-    paswd_soft_remarks: '',
+    paswd_soft_remarks: ''
   })
   const {
     paswd_soft_slno,
@@ -470,7 +459,7 @@ const PasswordManagement = () => {
     paswd_soft_linkname,
     paswd_soft_username,
     paswd_soft_password,
-    paswd_soft_remarks,
+    paswd_soft_remarks
   } = SoftwarePswd
   const updateSoftware = useCallback(
     e => {
@@ -486,16 +475,9 @@ const PasswordManagement = () => {
       paswd_soft_username: paswd_soft_username,
       paswd_soft_password: paswd_soft_password,
       paswd_soft_remarks: paswd_soft_remarks,
-      create_user: id,
+      create_user: id
     }
-  }, [
-    paswd_soft_webname,
-    paswd_soft_linkname,
-    paswd_soft_username,
-    paswd_soft_password,
-    paswd_soft_remarks,
-    id,
-  ])
+  }, [paswd_soft_webname, paswd_soft_linkname, paswd_soft_username, paswd_soft_password, paswd_soft_remarks, id])
   const patchForSoftware = useMemo(() => {
     return {
       paswd_soft_slno: paswd_soft_slno,
@@ -504,7 +486,7 @@ const PasswordManagement = () => {
       paswd_soft_username: paswd_soft_username,
       paswd_soft_password: paswd_soft_password,
       paswd_soft_remarks: paswd_soft_remarks,
-      edit_user: id,
+      edit_user: id
     }
   }, [
     paswd_soft_slno,
@@ -513,7 +495,7 @@ const PasswordManagement = () => {
     paswd_soft_username,
     paswd_soft_password,
     paswd_soft_remarks,
-    id,
+    id
   ])
 
   const rowSelectForSw = useCallback(
@@ -525,7 +507,7 @@ const PasswordManagement = () => {
         paswd_soft_linkname,
         paswd_soft_username,
         paswd_soft_password,
-        paswd_soft_remarks,
+        paswd_soft_remarks
       } = data
       const formdata = {
         paswd_soft_slno: paswd_soft_slno,
@@ -533,7 +515,7 @@ const PasswordManagement = () => {
         paswd_soft_linkname: paswd_soft_linkname,
         paswd_soft_username: paswd_soft_username,
         paswd_soft_password: paswd_soft_password,
-        paswd_soft_remarks: paswd_soft_remarks,
+        paswd_soft_remarks: paswd_soft_remarks
       }
       setSoftwarePswd(formdata)
     },
@@ -547,7 +529,7 @@ const PasswordManagement = () => {
       paswd_soft_linkname: '',
       paswd_soft_username: '',
       paswd_soft_password: '',
-      paswd_soft_remarks: '',
+      paswd_soft_remarks: ''
     }
     setSoftwarePswd(frmdata)
     setSwTableCount(0)
@@ -564,10 +546,7 @@ const PasswordManagement = () => {
           return result.data
         }
         const InsertDetailMast = async postForDetail => {
-          const result = await axioslogin.post(
-            '/PasswordManagementMain/insertDetail',
-            postForDetail
-          )
+          const result = await axioslogin.post('/PasswordManagementMain/insertDetail', postForDetail)
           const { message, success } = result.data
           if (success === 1) {
             setCount(count + 1)
@@ -581,10 +560,7 @@ const PasswordManagement = () => {
           return result.data
         }
         const UpdatePasswordDetail = async patchdataDetail => {
-          const result = await axioslogin.patch(
-            '/PasswordManagementMain/updateDetail',
-            patchdataDetail
-          )
+          const result = await axioslogin.patch('/PasswordManagementMain/updateDetail', patchdataDetail)
           const { message, success } = result.data
           if (success === 2) {
             setCount(count + 1)
@@ -610,7 +586,7 @@ const PasswordManagement = () => {
                       psw_detail_password: val.password,
                       psw_detail_port: val.port,
                       psw_detail_remarks: val.remarks,
-                      create_user: id,
+                      create_user: id
                     }
                   })
                 InsertDetailMast(postForDetail)
@@ -638,20 +614,15 @@ const PasswordManagement = () => {
                     psw_detail_password: val.password,
                     psw_detail_port: val.port,
                     psw_detail_remarks: val.remarks,
-                    edit_user: id,
+                    edit_user: id
                   }
                 })
               const InsertInUpdate = async newinsert => {
-                const result = await axioslogin.post(
-                  '/PasswordManagementMain/insertDetail',
-                  newinsert
-                )
+                const result = await axioslogin.post('/PasswordManagementMain/insertDetail', newinsert)
                 return result.data
               }
               const passwordnot = patchdataDetail?.filter(val => {
-                return !addNewInUpdate.find(
-                  value => value.pswd_detail_slno === val.pswd_detail_slno
-                )
+                return !addNewInUpdate.find(value => value.pswd_detail_slno === val.pswd_detail_slno)
               })
               if (passwordnot.length !== 0) {
                 const newinsert = passwordnot?.map(val => {
@@ -663,7 +634,7 @@ const PasswordManagement = () => {
                     psw_detail_password: val.psw_detail_password,
                     psw_detail_port: val.psw_detail_port,
                     psw_detail_remarks: val.psw_detail_remarks,
-                    create_user: id,
+                    create_user: id
                   }
                 })
                 InsertInUpdate(newinsert)
@@ -678,10 +649,7 @@ const PasswordManagement = () => {
         }
       } else {
         const InsertSoftwarePswd = async postSoftwarePswd => {
-          const result = await axioslogin.post(
-            '/PasswordManagementMain/insertSoftware',
-            postSoftwarePswd
-          )
+          const result = await axioslogin.post('/PasswordManagementMain/insertSoftware', postSoftwarePswd)
           const { message, success } = result.data
           if (success === 1) {
             succesNotify(message)
@@ -694,10 +662,7 @@ const PasswordManagement = () => {
           }
         }
         const softwarePswdUpdate = async patchForSoftware => {
-          const result = await axioslogin.patch(
-            '/PasswordManagementMain/updateSw',
-            patchForSoftware
-          )
+          const result = await axioslogin.patch('/PasswordManagementMain/updateSw', patchForSoftware)
           const { message, success } = result.data
           if (success === 2) {
             succesNotify(message)
@@ -710,11 +675,7 @@ const PasswordManagement = () => {
           }
         }
         if (swEdit === 0) {
-          if (
-            paswd_soft_webname !== '' &&
-            paswd_soft_username !== '' &&
-            paswd_soft_password !== ''
-          ) {
+          if (paswd_soft_webname !== '' && paswd_soft_username !== '' && paswd_soft_password !== '') {
             InsertSoftwarePswd(postSoftwarePswd)
           } else {
             infoNotify('Please fill the Mandatory Feilds')
@@ -743,7 +704,7 @@ const PasswordManagement = () => {
       resetSoftware,
       swEdit,
       arry,
-      id,
+      id
     ]
   )
   const backtoDash = useCallback(() => {
@@ -755,12 +716,7 @@ const PasswordManagement = () => {
   }, [reset, resetSoftware])
   return (
     <Box>
-      <CardMaster
-        close={backtoDash}
-        submit={submitPasswordData}
-        refresh={refreshWindow}
-        title={'Password Management'}
-      >
+      <CardMaster close={backtoDash} submit={submitPasswordData} refresh={refreshWindow} title={'Password Management'}>
         <Box sx={{ display: 'flex', width: '25vw', height: 40, margin: 'auto', mt: 2 }}>
           <Paper sx={{ flex: 1, textAlign: 'center', mr: 2, pt: 1 }}>
             <CusCheckBox
@@ -806,7 +762,7 @@ const PasswordManagement = () => {
                 sx={{
                   width: '50vw',
                   display: 'flex',
-                  justifyContent: 'flex-end',
+                  justifyContent: 'flex-end'
                 }}
               >
                 <Paper sx={{ height: 75, pt: 0.2, pl: 2, width: '33vw' }}>
@@ -850,7 +806,7 @@ const PasswordManagement = () => {
                         cursor: 'pointer',
                         size: 'lg',
                         width: 30,
-                        height: 30,
+                        height: 30
                       }}
                       onClick={addModal}
                     />
@@ -861,7 +817,7 @@ const PasswordManagement = () => {
             <Box
               sx={{
                 margin: 'auto',
-                width: '47vw',
+                width: '47vw'
               }}
             >
               <Box sx={{ pt: 1, display: 'flex', margin: 'auto' }}>
@@ -1056,10 +1012,7 @@ const PasswordManagement = () => {
               </Box>
               <Box sx={{ pl: 0.5, pt: 3.5 }}>
                 <Tooltip title="add" placement="top">
-                  <AddCircleOutlineIcon
-                    onClick={addData}
-                    sx={{ cursor: 'pointer', color: '#055C9D', fontSize: 26 }}
-                  />
+                  <AddCircleOutlineIcon onClick={addData} sx={{ cursor: 'pointer', color: '#055C9D', fontSize: 26 }} />
                 </Tooltip>
               </Box>
             </Box>

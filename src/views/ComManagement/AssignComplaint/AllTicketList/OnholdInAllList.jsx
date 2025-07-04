@@ -37,7 +37,7 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
     detailAssingFlag: 0,
     empTransferFlag: 0,
     image: 0,
-    holdflag: 0,
+    holdflag: 0
   })
 
   const [dialogs, setDialogs] = useState({
@@ -46,7 +46,7 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
     imageViewOpen: false,
     empTransferOpen: false,
     detailAssingOpen: false,
-    holdOpen: false,
+    holdOpen: false
   })
 
   const blinkAnimation = keyframes`
@@ -85,9 +85,7 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
     setDialogs(prevDialogs => ({ ...prevDialogs, imageViewOpen: true }))
     setfileDetails(val)
     try {
-      const result = await axioslogin.get(
-        `/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`
-      )
+      const result = await axioslogin.get(`/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`)
       const { success } = result.data
       if (success === 1) {
         const data = result.data
@@ -121,7 +119,7 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
         bgcolor: 'white',
         borderRadius: 0,
         height: '67vh',
-        overflow: 'auto',
+        overflow: 'auto'
       }}
     >
       {flags.queryflag === 1 ? (
@@ -192,7 +190,7 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
 
       {onholdCompl.length !== 0 ? (
         <Box sx={{ p: 0.1, mb: 0.8 }}>
-          {onholdCompl?.map((val,) => {
+          {onholdCompl?.map(val => {
             return (
               <Box
                 key={val.complaint_slno}
@@ -202,7 +200,7 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
                   borderColor: '#50655B',
                   borderRadius: 8,
                   bgcolor: 'white',
-                  mb: 0.6,
+                  mb: 0.6
                 }}
               >
                 <Box
@@ -212,7 +210,7 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
                     borderTopRightRadius: 6,
                     borderTopLeftRadius: 6,
                     mx: 0.1,
-                    display: 'flex',
+                    display: 'flex'
                   }}
                 >
                   <CssVarsProvider>
@@ -226,7 +224,7 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
                             fontSize: 15,
                             pl: 1,
                             py: 0.5,
-                            fontFamily: 'Arial',
+                            fontFamily: 'Arial'
                           }}
                           text={
                             val.compalint_date
@@ -248,7 +246,7 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
                             fontSize: 15,
                             pl: 2,
                             py: 0.5,
-                            fontFamily: 'Arial',
+                            fontFamily: 'Arial'
                           }}
                           text={
                             val.assigned_date
@@ -267,7 +265,7 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
                         px: 2,
                         fontWeight: 500,
                         fontSize: 14,
-                        cursor: 'pointer',
+                        cursor: 'pointer'
                       }}
                     >
                       Ticket Registered by : {val.comp_reg_emp}
@@ -281,20 +279,16 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
                       bgcolor: '#DFDACD',
                       display: 'flex',
                       py: 0.3,
-                      flexWrap: 'wrap',
+                      flexWrap: 'wrap'
                     }}
                   >
                     <Box sx={{ display: 'flex', pl: 0.5 }}>
                       <ReportProblemIcon sx={{ color: 'darkred', P: 0.1 }} />
-                      <Box sx={{ pt: 0.3, color: 'darkred', fontWeight: 700, fontSize: 14 }}>
-                        TICKET RESUBMITTED
-                      </Box>
+                      <Box sx={{ pt: 0.3, color: 'darkred', fontWeight: 700, fontSize: 14 }}>TICKET RESUBMITTED</Box>
                     </Box>
                     <Box sx={{ display: 'flex' }}>
                       <Box sx={{ pl: 2, fontWeight: 600, color: 'darkred' }}>Remarks:</Box>
-                      <Box sx={{ pl: 1, fontWeight: 600, color: 'darkred' }}>
-                        {val.verify_remarks}
-                      </Box>
+                      <Box sx={{ pl: 1, fontWeight: 600, color: 'darkred' }}>{val.verify_remarks}</Box>
                     </Box>
                   </Box>
                 ) : null}
@@ -306,7 +300,7 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
                       bgcolor: '#DFDACD      ',
                       display: 'flex',
                       py: 0.3,
-                      flexWrap: 'wrap',
+                      flexWrap: 'wrap'
                     }}
                   >
                     <Box sx={{ display: 'flex', pl: 0.5 }}>
@@ -317,9 +311,7 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
                     </Box>
                     <Box sx={{ display: 'flex' }}>
                       <Box sx={{ pl: 2, fontWeight: 600, color: 'darkred' }}>Remarks:</Box>
-                      <Box sx={{ pl: 1, fontWeight: 600, color: 'darkred' }}>
-                        {val.verify_spervsr_remarks}
-                      </Box>
+                      <Box sx={{ pl: 1, fontWeight: 600, color: 'darkred' }}>{val.verify_spervsr_remarks}</Box>
                     </Box>
                   </Box>
                 ) : null}
@@ -330,43 +322,33 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
                       flex: 1,
                       bgcolor: '#E7D2CC',
                       display: 'flex',
-                      py: 0.3,
+                      py: 0.3
                     }}
                   >
-                    <Typography
-                      sx={{ color: '#026F7E', pl: 1, pt: 0.2, fontWeight: 700, fontSize: 13 }}
-                    >
+                    <Typography sx={{ color: '#026F7E', pl: 1, pt: 0.2, fontWeight: 700, fontSize: 13 }}>
                       DELEGATED BY {val.assinged_user}
                     </Typography>
-                    <Typography
-                      sx={{ color: 'black', pt: 0.2, fontWeight: 500, fontSize: 13, ml: 3 }}
-                    >
+                    <Typography sx={{ color: 'black', pt: 0.2, fontWeight: 500, fontSize: 13, ml: 3 }}>
                       Priority :
                     </Typography>
                     <Chip sx={{ bgcolor: 'white', color: '#391306', border: 1, ml: 1 }}>
                       {val.compalint_priority === 1
                         ? 'Emergency'
                         : val.compalint_priority === 2
-                          ? 'High Priority'
-                          : val.compalint_priority === 3
-                            ? 'Medium Priority'
-                            : val.compalint_priority === 4
-                              ? 'Normal'
-                              : 'Normal'}
+                        ? 'High Priority'
+                        : val.compalint_priority === 3
+                        ? 'Medium Priority'
+                        : val.compalint_priority === 4
+                        ? 'Normal'
+                        : 'Normal'}
                     </Chip>
-                    <Typography
-                      sx={{ color: 'black', pt: 0.2, fontWeight: 500, fontSize: 13, ml: 3 }}
-                    >
+                    <Typography sx={{ color: 'black', pt: 0.2, fontWeight: 500, fontSize: 13, ml: 3 }}>
                       Aprox Date :
                     </Typography>
                     <Chip sx={{ bgcolor: 'white', color: '#391306', border: 1, ml: 1 }}>
-                      {val.aprrox_date
-                        ? format(new Date(val.aprrox_date), 'dd MM yyyy,  hh:mm a')
-                        : 'Invalid Date'}
+                      {val.aprrox_date ? format(new Date(val.aprrox_date), 'dd MM yyyy,  hh:mm a') : 'Invalid Date'}
                     </Chip>
-                    <Typography
-                      sx={{ color: 'black', pt: 0.2, fontWeight: 500, fontSize: 13, ml: 3 }}
-                    >
+                    <Typography sx={{ color: 'black', pt: 0.2, fontWeight: 500, fontSize: 13, ml: 3 }}>
                       Remarks :
                     </Typography>
                     <Typography sx={{ color: 'black', pt: 0.2, fontSize: 13, ml: 3 }}>
@@ -382,13 +364,10 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
                       mx: 0.3,
                       pr: 1,
                       borderRight: 1,
-                      borderColor: 'lightgrey',
+                      borderColor: 'lightgrey'
                     }}
                   >
-                    <Typography sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700 }}>
-                      {' '}
-                      Ticket No.
-                    </Typography>
+                    <Typography sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700 }}> Ticket No.</Typography>
                     <Typography sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700, px: 3 }}>
                       {val.complaint_slno}
                     </Typography>
@@ -405,7 +384,7 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
                               borderRadius: 5,
                               p: 0.1,
                               mr: 0.5,
-                              '&:hover': { color: '#274472' },
+                              '&:hover': { color: '#274472' }
                             }}
                             onClick={() => fileView(val)}
                           />
@@ -423,7 +402,7 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
                               mr: 0.5,
                               borderRadius: 5,
                               p: 0.1,
-                              '&:hover': { color: '#41729F' },
+                              '&:hover': { color: '#41729F' }
                             }}
                             onClick={() => RaiseQuery(val)}
                           />
@@ -440,7 +419,7 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
                               mr: 0.5,
                               borderRadius: 5,
                               p: 0.1,
-                              '&:hover': { color: '#41729F' },
+                              '&:hover': { color: '#41729F' }
                             }}
                             onClick={() => RaiseQuery(val)}
                           />
@@ -460,7 +439,7 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
                                 borderRadius: 5,
                                 p: 0.3,
                                 '&:hover': { color: '#CBAE77' },
-                                mr: 0.5,
+                                mr: 0.5
                               }}
                               onClick={() => DetailAssing(val)}
                             />
@@ -481,7 +460,7 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
                                 borderRadius: 5,
                                 p: 0.3,
                                 mr: 0.5,
-                                '&:hover': { color: '#A16AE8' },
+                                '&:hover': { color: '#A16AE8' }
                               }}
                               onClick={() => EmpTransfer(val)}
                             />
@@ -500,7 +479,7 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
                             borderRadius: 5,
                             p: 0.3,
                             '&:hover': { color: 'grey' },
-                            mr: 0.5,
+                            mr: 0.5
                           }}
                           onClick={() => HoldReason(val)}
                         />
@@ -517,7 +496,7 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
                               p: 0.1,
                               color: '#4C5270',
                               cursor: 'pointer',
-                              mr: 0.5,
+                              mr: 0.5
                             }}
                             onClick={() => AssetView(val)}
                           />
@@ -528,18 +507,16 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
                   <Box
                     sx={{
                       pl: 0.5,
-                      maxWidth: 500,
+                      maxWidth: 500
                     }}
                   >
                     <Box
                       sx={{
                         display: 'flex',
-                        mt: 0.5,
+                        mt: 0.5
                       }}
                     >
-                      <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
-                        Department Section
-                      </Typography>
+                      <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>Department Section</Typography>
                       <Typography sx={{ fontSize: 14, flex: 1, textTransform: 'capitalize' }}>
                         {val.location.charAt(0).toUpperCase() + val.location.slice(1).toLowerCase()}
                       </Typography>
@@ -547,12 +524,10 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
                     <Box
                       sx={{
                         display: 'flex',
-                        mt: 0.5,
+                        mt: 0.5
                       }}
                     >
-                      <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
-                        Location
-                      </Typography>
+                      <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>Location</Typography>
                       <Typography sx={{ fontSize: 13, flex: 1 }}>
                         {/* {val.rm_room_name}
                                                 {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name ?
@@ -560,21 +535,21 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
                                                     : "Not Updated"} */}
                         {val.rm_room_name}
                         {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name
-                          ? ` (${val.rm_roomtype_name || ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
-                          }${val.rm_insidebuildblock_name || ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
-                          }${val.rm_floor_name || ''})`
+                          ? ` (${val.rm_roomtype_name || ''}${
+                              val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
+                            }${val.rm_insidebuildblock_name || ''}${
+                              val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
+                            }${val.rm_floor_name || ''})`
                           : val.cm_complaint_location || 'Not Updated'}
                       </Typography>
                     </Box>
                     <Box
                       sx={{
                         display: 'flex',
-                        mt: 0.5,
+                        mt: 0.5
                       }}
                     >
-                      <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>
-                        Complaint Type
-                      </Typography>
+                      <Typography sx={{ fontSize: 13, fontWeight: 700, width: 140 }}>Complaint Type</Typography>
                       <Typography sx={{ fontSize: 14, flex: 1 }}>
                         {val.complaint_type_name.charAt(0).toUpperCase() +
                           val.complaint_type_name.slice(1).toLowerCase()}
@@ -582,16 +557,14 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
                     </Box>
                   </Box>
                   <Box sx={{ flex: 1, pl: 1.5 }}>
-                    <Typography sx={{ fontSize: 13, fontWeight: 700 }}>
-                      Complaint Describtion
-                    </Typography>
+                    <Typography sx={{ fontSize: 13, fontWeight: 700 }}>Complaint Describtion</Typography>
                     <Typography
                       sx={{
                         pr: 0.5,
                         pt: 0.3,
                         fontSize: 14,
                         maxHeight: 50,
-                        overflow: 'auto',
+                        overflow: 'auto'
                       }}
                     >
                       {val.complaint_desc || 'Not Updated'}
@@ -606,7 +579,7 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
                     borderBottomLeftRadius: 5,
                     mb: 0.1,
                     mx: 0.1,
-                    display: 'flex',
+                    display: 'flex'
                   }}
                 >
                   <CssVarsProvider>
@@ -628,21 +601,16 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
                           height: 30,
                           width: 25,
                           color: val.priority_check === 1 ? '#970C10' : 'lightgrey',
-                          animation:
-                            val.priority_check === 1 ? `${blinkAnimation} 1s infinite` : 'none',
+                          animation: val.priority_check === 1 ? `${blinkAnimation} 1s infinite` : 'none'
                         }}
                       />
-                      <Typography
-                        sx={{ fontWeight: 600, pl: 0.5, fontSize: 14, pt: 0.5, color: 'darkred' }}
-                      >
+                      <Typography sx={{ fontWeight: 600, pl: 0.5, fontSize: 14, pt: 0.5, color: 'darkred' }}>
                         {val.priority_reason}
                       </Typography>
                     </Box>
                   ) : null}
                   <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
-                    <Typography sx={{ fontSize: 13, fontWeight: 700, pt: 0.4 }}>
-                      Assignees :
-                    </Typography>
+                    <Typography sx={{ fontSize: 13, fontWeight: 700, pt: 0.4 }}>Assignees :</Typography>
                     &nbsp;
                     <Box sx={{ fontWeight: 600, display: 'flex', pt: 0.3, gap: 0.3, pb: 0.2 }}>
                       {val.assigned_employees === null ? (
@@ -678,7 +646,7 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
             fontWeight: 700,
             fontSize: 22,
             color: 'lightgray',
-            pt: 10,
+            pt: 10
           }}
         >
           Hold List Empty

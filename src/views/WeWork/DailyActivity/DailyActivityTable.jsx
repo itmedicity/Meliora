@@ -23,15 +23,15 @@ const DailyActivityTable = ({ count, rowSelect, ipno }) => {
       field: 'dr_visit_time',
       wrapText: true,
       autoHeight: true,
-      width: 350,
+      width: 350
     },
     { headerName: 'Dietion Round', field: 'dietian_round', width: 300 },
     { headerName: 'Bill Audit', field: 'bill_audit', width: 300 },
     { headerName: 'Insurence', field: 'insurance_status', width: 300 },
     {
       headerName: 'Actions',
-      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />,
-    },
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
+    }
   ])
   useEffect(() => {
     const getActivity = async ipno => {

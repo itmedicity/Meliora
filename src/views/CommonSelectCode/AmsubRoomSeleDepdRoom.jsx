@@ -6,9 +6,7 @@ import { useDispatch } from 'react-redux'
 
 const AmsubRoomSeleDepdRoom = ({ subRoomNo, setSubRoomNo, setSubRoomName }) => {
   const dispatch = useDispatch()
-  const SubRoomListRoomBasd = useSelector(
-    state => state.getSubRoomBasedOnRoom?.SubRoomBasedRoomList
-  )
+  const SubRoomListRoomBasd = useSelector(state => state.getSubRoomBasedOnRoom?.SubRoomBasedRoomList)
   const [subroomList, setSubRoomList] = useState([{ subroom_slno: 0, subroom_name: '' }])
   const [value, setValue] = useState(subroomList[0])
   const [inputValue, setInputValue] = useState('')
@@ -34,7 +32,7 @@ const AmsubRoomSeleDepdRoom = ({ subRoomNo, setSubRoomNo, setSubRoomName }) => {
       <CssVarsProvider>
         <Autocomplete
           sx={{
-            '--Input-minHeight': '29px',
+            '--Input-minHeight': '29px'
           }}
           value={subRoomNo === 0 ? subroomList : value}
           placeholder="Select Group"

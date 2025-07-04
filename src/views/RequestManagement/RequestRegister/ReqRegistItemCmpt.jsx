@@ -5,14 +5,7 @@ import { AgGridReact } from 'ag-grid-react'
 import 'ag-grid-community/dist/styles/ag-grid.css'
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css'
 
-const ReqRegistItemCmpt = ({
-  columnDefs,
-  tableData,
-  onSelectionChanged,
-  columnTypes,
-  getRowStyle,
-  detldept,
-}) => {
+const ReqRegistItemCmpt = ({ columnDefs, tableData, onSelectionChanged, columnTypes, getRowStyle, detldept }) => {
   const rowHeight = 25
   const headerHeight = 25
   const defaultColDef = {}
@@ -31,8 +24,8 @@ const ReqRegistItemCmpt = ({
       'sans-serif',
       '"Apple Color Emoji"',
       '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
+      '"Segoe UI Symbol"'
+    ].join(',')
   }
 
   return (
@@ -42,7 +35,7 @@ const ReqRegistItemCmpt = ({
           className="ag-theme-alpine ListItemScrol"
           sx={{
             height: 130,
-            width: '100%',
+            width: '100%'
           }}
         >
           <AgGridReact

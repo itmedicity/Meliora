@@ -32,11 +32,7 @@ const PswdDetailMastTable = ({ arry, selectForEdit }) => {
                     // }}
                   >
                     <td>
-                      <EditIcon
-                        sx={{ cursor: 'pointer' }}
-                        size={6}
-                        onClick={() => selectForEdit(val)}
-                      />
+                      <EditIcon sx={{ cursor: 'pointer' }} size={6} onClick={() => selectForEdit(val)} />
                     </td>
                     <td> {index + 1}</td>
                     <td> {val.credentialName || 'not given'}</td>

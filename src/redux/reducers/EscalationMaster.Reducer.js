@@ -3,7 +3,7 @@ const { FETCH_ESCALATION_MASTER } = ActionTyps
 //Intial state
 const escalation = {
   escalationList: [],
-  loadingStatus: false,
+  loadingStatus: false
 }
 /*** Escalation action type check then payload set to the state and loading status set as true */
 export const getEscalationMaster = (state = escalation, { type, payload }) => {

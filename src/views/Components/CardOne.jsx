@@ -8,7 +8,6 @@ import CancelButton from './CancelButton'
 import EditButton from './EditButton'
 import RefreshButton from './RefreshButton'
 
-
 const CardOne = props => {
   return (
     <Fragment>
