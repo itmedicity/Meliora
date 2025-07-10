@@ -245,6 +245,7 @@ const DepartmentMapping = React.lazy(() => import('./views/Master/RequestManagem
 const AmsMaster = React.lazy(() => import('./views/Master/AmsMaster/AmsMaster'))
 const AmsPatientDetails = React.lazy(() => import('./views/Ams/AmsMain'))
 const DcReport = React.lazy(() => import('./views/Report/DailyCensus/DailyCensus'))
+const DeliveryMarking_Report = React.lazy(() => import('./views/Report/CrmReport/DeliveryMarking_Report'))
 
 
 
@@ -498,6 +499,7 @@ const routes = [
   { path: '/Home/AmsMaster', exact: true, name: 'AmsMaster', component: AmsMaster },
   { path: '/Home/AmsPatientDetails', exact: true, name: 'Ams Patient Details', component: AmsPatientDetails },
   { path: '/Home/DcReport', exact: true, name: 'DcReport', component: DcReport },
+  { path: '/Home/DeliveryMarking_Report', exact: true, name: 'DeliveryMarking_Report', component: DeliveryMarking_Report },
 
 
 
