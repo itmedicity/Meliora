@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {
     diet_one, diet_two, diet_three, cms_one, cms_two, cms_three, am_one, tm_one,
-    crm_one, crm_two, crm_three
+    crm_one, crm_two, crm_three,ams_one
 } from './ReportsMenu'
 import { getMenuSlno } from '../views/Constant/Constant'
 import { Link } from 'react-router-dom'
@@ -20,6 +20,8 @@ const Reports = () => {
     const [crm_report_one, setcrm_report_one] = useState();
     const [crm_report_two, setcrm_report_two] = useState();
     const [crm_report_three, setcrm_report_three] = useState();
+    // const [amsReportOne, setamsReportOne] = useState()
+
     const [count, setCount] = useState(0)
     useEffect(() => {
         getMenuSlno().then((val) => {
@@ -57,6 +59,17 @@ const Reports = () => {
             const crm_report_three = crm_three.filter(val => menuSlnoArray.includes(val.slno));
             setcrm_report_three(crm_report_three)
             setCount(1)
+
+            // const ams_report_one = ams_one.filter(val => menuSlnoArray.includes(val.slno));
+            // setamsReportOne(ams_report_one)
+   
+        
+
+            
+
+
+
+
         })
     }, [count])
     return (
@@ -212,6 +225,31 @@ const Reports = () => {
                     </div>
                 </div>
             </CardContent>
+                     <CardHeader title={"Ams Report"}
+                titleTypographyProps={{ variant: "subtitle1", color: titleTypography }}
+                sx={{
+                    backgroundColor: cardActionBgClr,
+                    paddingY: 0.5,
+                }} />
+            {/* <CardContent>
+                <div className="row" >
+                    <div className="col-4">
+                        <ul className="list-group list-group-flush">
+                            {
+                                amsReportOne && amsReportOne.map((val) => {
+                                    return <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}  >{val.name}</Link>;
+                                })
+                            }
+                        </ul>
+                    </div>
+                    <div className="col-4">
+                 
+                    </div>
+                    <div className="col-4">
+                  
+                    </div>
+                </div>
+            </CardContent> */}
         </Card>
     )
 }

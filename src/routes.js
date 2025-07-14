@@ -244,6 +244,8 @@ const DataCollectionMaster = React.lazy(() => import('./views/Master/RequestMana
 const DepartmentMapping = React.lazy(() => import('./views/Master/RequestManagement/DepartmentMapping/DepartmentMaping'))
 const AmsMaster=React.lazy(()=>import('./views/Master/AmsMaster/AmsMaster'))
 const AmsPatientDetails=React.lazy(()=>import('./views/Ams/AmsMain'))
+const AmsPatientDetailsReport =React.lazy(()=>import('./views/Report/AmsReport/AmsPatientDetailsReport'))
+const DashboardMain=React.lazy(()=>import('./views/Ams/AmsDashboard/DashboardMain'))
 
 
 
@@ -496,6 +498,10 @@ const routes = [
   { path: '/Home/DepartmentMapping', exact: true, name: 'DashBoardMaster', component: DepartmentMapping }, 
   { path: '/Home/AmsMaster', exact: true, name: 'AmsMaster', component: AmsMaster },
   { path: '/Home/AmsPatientDetails', exact: true, name: 'Ams Patient Details', component: AmsPatientDetails },
+  { path: '/Home/amsPatientDetailsReport', exact: true, name: 'Ams Patient Details Report', component: AmsPatientDetailsReport },
+  { path: '/Home/amsDashboardMain', exact: true, name: 'Ams Dashboard', component: DashboardMain },
+  
+
   
 
 

@@ -60,3 +60,8 @@ export const crm_three = [
     { to: '/Home/AllCRFReport', name: 'CRF Report', slno: 222 },
     { to: '/Home/AllCRFReportWithPO', name: 'CRF Report With PO', slno: 227 },
 ]
+
+
+// export const ams_one = [
+//     { to: '/Home/amsPatientDetailsReport', name: 'Anti PatientDetailsReport', slno: 278 },
+// ]

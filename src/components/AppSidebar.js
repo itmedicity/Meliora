@@ -239,7 +239,7 @@ const AppSidebar = () => {
         {
       slno: 25,
       component: CNavGroup,
-      name: 'Ams',
+      name: 'Antimicrobial Stewardship',
       items: AmsTransact
     },
   ]
