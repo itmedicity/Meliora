@@ -230,26 +230,7 @@ const Reports = () => {
                 sx={{
                     backgroundColor: cardActionBgClr,
                     paddingY: 0.5,
-                }} />
-            {/* <CardContent>
-                <div className="row" >
-                    <div className="col-4">
-                        <ul className="list-group list-group-flush">
-                            {
-                                amsReportOne && amsReportOne.map((val) => {
-                                    return <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}  >{val.name}</Link>;
-                                })
-                            }
-                        </ul>
-                    </div>
-                    <div className="col-4">
-                 
-                    </div>
-                    <div className="col-4">
-                  
-                    </div>
-                </div>
-            </CardContent> */}
+                }} />      
         </Card>
     )
 }
