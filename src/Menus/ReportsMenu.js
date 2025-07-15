@@ -49,6 +49,8 @@ export const tm_one = [
 export const crm_one = [
     { to: '/Home/userAckldged', name: 'User Acknowledged CRF', slno: 216 },
     { to: '/Home/CrfNoBased', name: 'CRF No Based', slno: 215 },
+    { to: '/Home/DeliveryMarking_Report', name: 'Delivery Marking Report', slno: 281 },
+
 ]
 
 export const crm_two = [
@@ -60,8 +62,7 @@ export const crm_three = [
     { to: '/Home/AllCRFReport', name: 'CRF Report', slno: 222 },
     { to: '/Home/AllCRFReportWithPO', name: 'CRF Report With PO', slno: 227 },
 ]
+export const dc_one = [
+    { to: '/Home/DcReport', name: 'Daily Census Report', slno: 276 },
+]
 
-
-// export const ams_one = [
-//     { to: '/Home/amsPatientDetailsReport', name: 'Anti PatientDetailsReport', slno: 278 },
-// ]

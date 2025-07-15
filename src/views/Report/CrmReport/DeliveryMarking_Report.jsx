@@ -1,6 +1,6 @@
-import { Box, CssVarsProvider, Dropdown, IconButton, Input, Menu, MenuButton, MenuItem, Table, Tooltip, Typography } from '@mui/joy'
+import { Box, CssVarsProvider, Dropdown, Input, Menu, MenuButton, MenuItem, Table, Tooltip, Typography, IconButton } from '@mui/joy'
 import React, { Fragment, memo, useCallback, useEffect, useMemo, useState } from 'react'
-import SupplierSelect from './SupplierSelect'
+import SupplierSelect from '../../CentralRequestManagement/DeliveryMarking/Components/SupplierSelect'
 import { format, isValid } from 'date-fns';
 import { axioslogin } from 'src/views/Axios/Axios';
 import { infoNotify, warningNotify } from 'src/views/Common/CommonCode';
@@ -12,11 +12,12 @@ import CusCheckBox from 'src/views/Components/CusCheckBox';
 import { getDeliveryMarking } from 'src/api/CommonApiCRF';
 import { useQuery } from 'react-query';
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
+import ReqImageDisModal from 'src/views/CentralRequestManagement/ComonComponent/ImageUploadCmp/ReqImageDisModal';
 
 const formatDateForInput = (date) => {
     return date.toISOString().split('T')[0];
 };
-const DeliveryMarkingView = ({ setViewFlag, setimageshowFlag, setimageshow, setPreviewFile }) => {
+const DeliveryMarking_Report = () => {
     const [tableData, setTableData] = useState([])
     const [supCode, setSupCode] = useState(0)
     const [startDate, setStartDate] = useState(formatDateForInput(new Date()));
@@ -25,6 +26,11 @@ const DeliveryMarkingView = ({ setViewFlag, setimageshowFlag, setimageshow, setP
     const [reqCheck, setReqCheck] = useState(false)
     const [imagearray, setImageArry] = useState([])
     const [openDropdown, setOpenDropdown] = useState({ index: null, type: null });
+    const [previewFile, setPreviewFile] = useState({ url: "", type: "" });
+    const [imageshowFlag, setimageshowFlag] = useState(0)
+    const [imageshow, setimageshow] = useState(false)
+    // const [viewFlag, setViewFlag] = useState(0)
+
 
     const searchToday = useMemo(() => {
         return {
@@ -137,9 +143,9 @@ const DeliveryMarkingView = ({ setViewFlag, setimageshowFlag, setimageshow, setP
         getData(searchdata)
     }, [searchdata, reqCheck])
 
-    const backToDeliveryMarking = useCallback(async () => {
-        setViewFlag(0)
-    }, [setViewFlag])
+    // const backToDeliveryMarking = useCallback(async () => {
+    //     setViewFlag(0)
+    // }, [setViewFlag])
 
     const viewBillDetails = useCallback(async (val) => {
         const bill = JSON?.parse(val?.delivery_bill_details)
@@ -233,10 +239,16 @@ const DeliveryMarkingView = ({ setViewFlag, setimageshowFlag, setimageshow, setP
             color: '#1976d2'
         },
     }
+    const handleClose = useCallback(() => {
+        setimageshow(false)
+        setimageshowFlag(0)
+    }, [])
     if (isDeliveryLoading) return <p>Loading...</p>;
     if (deliveryError) return <p>Error occurred.</p>;
     return (
         <Fragment>
+            {imageshowFlag === 1 ? <ReqImageDisModal open={imageshow} handleClose={handleClose}
+                previewFile={previewFile} /> : null}
             <Box sx={{ height: window.innerHeight - 80, flexWrap: 'wrap', bgcolor: 'white', }}>
                 <Box sx={{
                     width: '100%', display: 'flex', justifyContent: 'center', flexWrap: 'wrap', pb: 1,
@@ -299,28 +311,34 @@ const DeliveryMarkingView = ({ setViewFlag, setimageshowFlag, setimageshow, setP
                                 </Box>
                             </Box>
                             <Box sx={{ flex: 0.5, pl: 1.5, pt: 3.2 }}>
-                                <IconButton
-                                    sx={buttonStyle}
-                                    onClick={viewDetails}
-                                >
-                                    View
-                                </IconButton>
+                                <CssVarsProvider>
+                                    <IconButton
+                                        sx={buttonStyle}
+                                        onClick={viewDetails}
+                                    >
+                                        View
+                                    </IconButton>
+                                </CssVarsProvider>
+
                             </Box>
-                            <Box sx={{ flex: 0.5, pt: 3.2, pl: 0.3 }}>
+                            {/* <Box sx={{ flex: 0.5, pt: 3.2, pl: 0.3 }}>
                                 <IconButton
                                     sx={buttonStyle}
                                     onClick={backToDeliveryMarking}
                                 >
                                     Back
                                 </IconButton>
-                            </Box>
+                            </Box> */}
                             <Box sx={{ flex: 0.5, pt: 3.2, pl: 0.3 }}>
-                                <IconButton
-                                    sx={buttonStyle}
-                                    onClick={clearSearch}
-                                >
-                                    Clear
-                                </IconButton>
+                                <CssVarsProvider>
+                                    <IconButton
+                                        sx={buttonStyle}
+                                        onClick={clearSearch}
+                                    >
+                                        Clear
+                                    </IconButton>
+                                </CssVarsProvider>
+
                             </Box>
                         </Box>
                     </Box>
@@ -335,7 +353,7 @@ const DeliveryMarkingView = ({ setViewFlag, setimageshowFlag, setimageshow, setP
                                 top: 0, zIndex: 1, borderBottom: '1px solid lightgrey'
                             }}>
                                 <Typography sx={{ width: 40, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>Sl.No</Typography>
-                                <Typography sx={{ width: 150, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>DC Marking Date</Typography>
+                                {/* <Typography sx={{ width: 150, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>DC Marking Date</Typography> */}
                                 <Typography sx={{ width: 200, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>Supplier</Typography>
                                 <Typography sx={{ width: 150, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>DC Received Date</Typography>
                                 <Typography sx={{ width: 170, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>Mode Of Transport</Typography>
@@ -353,7 +371,7 @@ const DeliveryMarkingView = ({ setViewFlag, setimageshowFlag, setimageshow, setP
                                     <React.Fragment key={val.delivery_mark_slno}>
                                         <Box display="flex" justifyContent="space-between" sx={{ borderBottom: '1px solid lightgrey', flexWrap: 'nowrap' }}>
                                             <Typography sx={{ width: 40, textAlign: 'center', fontSize: 12, my: 1 }}>{index + 1}</Typography>
-                                            <Typography sx={{ width: 150, textAlign: 'left', fontSize: 12, my: 1 }}>{format(new Date(val.dc_mark_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
+                                            {/* <Typography sx={{ width: 150, textAlign: 'left', fontSize: 12, my: 1 }}>{format(new Date(val.dc_mark_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography> */}
                                             <Typography sx={{ width: 200, textAlign: 'left', fontSize: 12, my: 1 }}>{val.supplier_name}</Typography>
                                             <Typography sx={{ width: 150, textAlign: 'left', fontSize: 12, my: 1 }}>{format(new Date(val.dc_receive_date), 'dd-MM-yyyy hh:mm:ss a')}</Typography>
                                             <Typography sx={{ width: 170, textAlign: 'left', fontSize: 12, my: 1 }}>
@@ -362,55 +380,61 @@ const DeliveryMarkingView = ({ setViewFlag, setimageshowFlag, setimageshow, setP
                                             <Typography sx={{ width: 150, textAlign: 'left', fontSize: 12, my: 1 }}>{val.package_count ? val.package_count : 'Not Updated'}</Typography>
                                             < Box sx={{ width: 100, display: 'flex', textAlign: 'center', cursor: 'pointer' }}>
                                                 <Dropdown>
-                                                    <MenuButton sx={{ border: 0, }}>
-                                                        <Tooltip
-                                                            key="unique-key"
-                                                            title={
-                                                                <Box sx={{ bgcolor: 'white', color: '#003060', p: 0.5, textAlign: 'center', textTransform: 'capitalize' }}
-                                                                >View
-                                                                </Box>
-                                                            }
-                                                            placement="top"
-                                                            arrow
-                                                            sx={{
-                                                                bgcolor: '#BFD7ED',
-                                                                [`& .MuiTooltip-arrow`]: {
-                                                                    color: 'blue',
-                                                                },
-                                                            }}
-                                                        >
-                                                            <ReceiptLongSharpIcon sx={{
-                                                                color: '#1976d2', height: 23, width: 23,
-                                                                '&:hover': {
-                                                                    bgcolor: 'white',
-                                                                },
-                                                            }} onClick={() => viewBillDetails(val)} />
-                                                        </Tooltip>
-                                                    </MenuButton>
-                                                    {billList && billList.length > 0 ?
-                                                        <Menu sx={menuIconStyle}>
-                                                            <MenuItem sx={{ width: '20vw' }}>
-                                                                <Table aria-label="table with sticky header" borderAxis='both' padding={"none"} stickyHeader size='sm'>
-                                                                    <thead style={{ alignItems: 'center' }}>
-                                                                        <tr style={{ height: 0.5 }}>
-                                                                            <th size='sm' style={{ width: 60, fontSize: 14, textAlign: 'center', backgroundColor: '#e3f2fd' }}>&nbsp; Sl.No</th>
-                                                                            <th size='sm' style={{ width: 100, fontSize: 14, backgroundColor: '#e3f2fd' }}>&nbsp;Bill No.</th>
-                                                                            <th size='sm' style={{ width: 150, fontSize: 14, backgroundColor: '#e3f2fd' }}>&nbsp;Bill Date</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody size='small'>
-                                                                        {billList?.map((val, index) => (
-                                                                            <tr key={val.bill_slno} size='small' style={{ maxHeight: 2, cursor: 'pointer' }}>
-                                                                                <td size='sm' style={{ fontSize: 12, textAlign: 'center', }}>{index + 1}</td>
-                                                                                <td size='sm' style={{ fontSize: 12, }}>&nbsp;{val.delivered_bill_no}</td>
-                                                                                <td size='sm' style={{ fontSize: 12, }}>&nbsp;{format(new Date(val.delivered_bill_date), 'dd-MM-yyyy')}</td>
+                                                    <CssVarsProvider>
+                                                        <MenuButton sx={{ border: 0, }}>
+                                                            <Tooltip
+                                                                key="unique-key"
+                                                                title={
+                                                                    <Box sx={{ bgcolor: 'white', color: '#003060', p: 0.5, textAlign: 'center', textTransform: 'capitalize' }}
+                                                                    >View
+                                                                    </Box>
+                                                                }
+                                                                placement="top"
+                                                                arrow
+                                                                sx={{
+                                                                    bgcolor: '#BFD7ED',
+                                                                    [`& .MuiTooltip-arrow`]: {
+                                                                        color: 'blue',
+                                                                    },
+                                                                }}
+                                                            >
+                                                                <ReceiptLongSharpIcon sx={{
+                                                                    color: '#1976d2', height: 23, width: 23,
+                                                                    '&:hover': {
+                                                                        bgcolor: 'white',
+                                                                    },
+                                                                }} onClick={() => viewBillDetails(val)} />
+                                                            </Tooltip>
+                                                        </MenuButton>
+                                                    </CssVarsProvider>
 
+                                                    {billList && billList.length > 0 ?
+                                                        <CssVarsProvider>
+                                                            <Menu sx={menuIconStyle}>
+                                                                <MenuItem sx={{ width: '20vw' }}>
+                                                                    <Table aria-label="table with sticky header" borderAxis='both' padding={"none"} stickyHeader size='sm'>
+                                                                        <thead style={{ alignItems: 'center' }}>
+                                                                            <tr style={{ height: 0.5 }}>
+                                                                                <th size='sm' style={{ width: 60, fontSize: 14, textAlign: 'center', backgroundColor: '#e3f2fd' }}>&nbsp; Sl.No</th>
+                                                                                <th size='sm' style={{ width: 100, fontSize: 14, backgroundColor: '#e3f2fd' }}>&nbsp;Bill No.</th>
+                                                                                <th size='sm' style={{ width: 150, fontSize: 14, backgroundColor: '#e3f2fd' }}>&nbsp;Bill Date</th>
                                                                             </tr>
-                                                                        ))}
-                                                                    </tbody>
-                                                                </Table>
-                                                            </MenuItem>
-                                                        </Menu>
+                                                                        </thead>
+                                                                        <tbody size='small'>
+                                                                            {billList?.map((val, index) => (
+                                                                                <tr key={val.bill_slno} size='small' style={{ maxHeight: 2, cursor: 'pointer' }}>
+                                                                                    <td size='sm' style={{ fontSize: 12, textAlign: 'center', }}>{index + 1}</td>
+                                                                                    <td size='sm' style={{ fontSize: 12, }}>&nbsp;{val.delivered_bill_no}</td>
+                                                                                    <td size='sm' style={{ fontSize: 12, }}>&nbsp;{format(new Date(val.delivered_bill_date), 'dd-MM-yyyy')}</td>
+
+                                                                                </tr>
+                                                                            ))}
+                                                                        </tbody>
+                                                                    </Table>
+                                                                </MenuItem>
+                                                            </Menu>
+                                                        </CssVarsProvider>
+
                                                         : null}
                                                 </Dropdown>
                                             </Box>
@@ -425,87 +449,90 @@ const DeliveryMarkingView = ({ setViewFlag, setimageshowFlag, setimageshow, setP
                                                         }
                                                     }}
                                                 >
-                                                    <MenuButton sx={{ border: 0, p: 0 }}>
-                                                        <Tooltip
-                                                            key="unique-key"
-                                                            title={
-                                                                <Box sx={{ bgcolor: 'white', color: '#003060', textAlign: 'center', textTransform: 'capitalize' }}>
-                                                                    View image
-                                                                </Box>
-                                                            }
-                                                            placement="top"
-                                                            arrow
-                                                            sx={{
-                                                                bgcolor: '#BFD7ED',
-                                                                [`& .MuiTooltip-arrow`]: {
-                                                                    color: 'blue',
-                                                                },
-                                                            }}
-                                                        >
-                                                            <ImageOutlinedIcon
+                                                    <CssVarsProvider>
+                                                        <MenuButton sx={{ border: 0, p: 0 }}>
+                                                            <Tooltip
+                                                                key="unique-key"
+                                                                title={
+                                                                    <Box sx={{ bgcolor: 'white', color: '#003060', textAlign: 'center', textTransform: 'capitalize' }}>
+                                                                        View image
+                                                                    </Box>
+                                                                }
+                                                                placement="top"
+                                                                arrow
                                                                 sx={{
-                                                                    color: '#1976d2',
-                                                                    height: 23,
-                                                                    width: 23,
-                                                                    '&:hover': {
-                                                                        bgcolor: 'white',
-                                                                    },
-                                                                }}
-                                                                onClick={() => viewimage(val)}
-                                                            />
-                                                        </Tooltip>
-                                                    </MenuButton>
-
-                                                    {imagearray && imagearray.length > 0 ? (
-                                                        <Menu
-                                                            sx={{
-                                                                width: 500,
-                                                                maxHeight: 300,
-                                                                overflowY: 'auto',
-                                                                borderRadius: 2,
-                                                                boxShadow: 'md',
-                                                                p: 1,
-                                                                bgcolor: 'background.surface',
-                                                            }}
-                                                        >
-                                                            <MenuItem
-                                                                sx={{
-                                                                    display: 'flex',
-                                                                    flexDirection: 'column',
-                                                                    gap: 1,
-                                                                    px: 1,
-                                                                    py: 0.5,
-                                                                    alignItems: 'flex-start',
-                                                                    bgcolor: 'rgba(25, 118, 210, 0.08)',
-                                                                    '&:hover': {
-                                                                        bgcolor: 'transparent', // avoid hover effect on whole item
+                                                                    bgcolor: '#BFD7ED',
+                                                                    [`& .MuiTooltip-arrow`]: {
+                                                                        color: 'blue',
                                                                     },
                                                                 }}
                                                             >
-                                                                {imagearray.map((img, index) => (
-                                                                    <Box
-                                                                        key={index}
-                                                                        onClick={() => ViewImage(img)}
-                                                                        sx={{
-                                                                            width: '100%',
-                                                                            fontSize: 13,
-                                                                            color: '#1976d2',
-                                                                            cursor: 'pointer',
-                                                                            px: 1,
-                                                                            py: 0.5,
-                                                                            borderRadius: 1,
-                                                                            transition: 'background-color 0.2s',
-                                                                            '&:hover': {
-                                                                                color: '#0d47a1',
-                                                                                backgroundColor: 'rgba(25, 118, 210, 0.08)',
-                                                                            },
-                                                                        }}
-                                                                    >
-                                                                        {img.imageName}
-                                                                    </Box>
-                                                                ))}
-                                                            </MenuItem>
-                                                        </Menu>
+                                                                <ImageOutlinedIcon
+                                                                    sx={{
+                                                                        color: '#1976d2',
+                                                                        height: 23,
+                                                                        width: 23,
+                                                                        '&:hover': {
+                                                                            bgcolor: 'white',
+                                                                        },
+                                                                    }}
+                                                                    onClick={() => viewimage(val)}
+                                                                />
+                                                            </Tooltip>
+                                                        </MenuButton>
+                                                    </CssVarsProvider>
+                                                    {imagearray && imagearray.length > 0 ? (
+                                                        <CssVarsProvider>
+                                                            <Menu
+                                                                sx={{
+                                                                    width: 500,
+                                                                    maxHeight: 300,
+                                                                    overflowY: 'auto',
+                                                                    borderRadius: 2,
+                                                                    boxShadow: 'md',
+                                                                    p: 1,
+                                                                    bgcolor: 'background.surface',
+                                                                }}
+                                                            >
+                                                                <MenuItem
+                                                                    sx={{
+                                                                        display: 'flex',
+                                                                        flexDirection: 'column',
+                                                                        gap: 1,
+                                                                        px: 1,
+                                                                        py: 0.5,
+                                                                        alignItems: 'flex-start',
+                                                                        bgcolor: 'rgba(25, 118, 210, 0.08)',
+                                                                        '&:hover': {
+                                                                            bgcolor: 'transparent', // avoid hover effect on whole item
+                                                                        },
+                                                                    }}
+                                                                >
+                                                                    {imagearray.map((img, index) => (
+                                                                        <Box
+                                                                            key={index}
+                                                                            onClick={() => ViewImage(img)}
+                                                                            sx={{
+                                                                                width: '100%',
+                                                                                fontSize: 13,
+                                                                                color: '#1976d2',
+                                                                                cursor: 'pointer',
+                                                                                px: 1,
+                                                                                py: 0.5,
+                                                                                borderRadius: 1,
+                                                                                transition: 'background-color 0.2s',
+                                                                                '&:hover': {
+                                                                                    color: '#0d47a1',
+                                                                                    backgroundColor: 'rgba(25, 118, 210, 0.08)',
+                                                                                },
+                                                                            }}
+                                                                        >
+                                                                            {img.imageName}
+                                                                        </Box>
+                                                                    ))}
+                                                                </MenuItem>
+                                                            </Menu>
+                                                        </CssVarsProvider>
                                                     ) : null}
 
 
@@ -524,8 +551,7 @@ const DeliveryMarkingView = ({ setViewFlag, setimageshowFlag, setimageshow, setP
                         : null}
                 </Box>
             </Box >
-        </Fragment >
-    )
+        </Fragment >)
 }
 
-export default memo(DeliveryMarkingView)
+export default memo(DeliveryMarking_Report)

@@ -5,8 +5,8 @@ import { format } from 'date-fns';
 import ComplaintAttachFiles from 'src/views/ComManagement/AssignComplaint/MyTicketList/ComplaintAttachFiles';
 
 const ServiceTicketTab = ({ complDetails, }) => {
-
     const complaint_slno = complDetails?.[0]?.complaint_slno || null
+
     return (
         <Box
             sx={{

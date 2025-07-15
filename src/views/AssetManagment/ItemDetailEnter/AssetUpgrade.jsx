@@ -3,7 +3,7 @@ import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useQuery } from 'react-query';
 import { getallSpareUnderAsset } from 'src/api/AssetApis';
 import TextComponent from 'src/views/Components/TextComponent';
-import ManageAccountsSharpIcon from '@mui/icons-material/ManageAccountsSharp';
+// import ManageAccountsSharpIcon from '@mui/icons-material/ManageAccountsSharp';
 import { axioslogin } from 'src/views/Axios/Axios';
 import { useSelector } from 'react-redux';
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode';
@@ -55,26 +55,26 @@ const AssetUpgrade = ({ am_item_map_slno, item_custodian_dept, count, setCount }
         RemoveSpareUpdate(RemoveSparee)
     }, [id, setCount, count])
 
-    const serviceSparee = useCallback((val) => {
-        const { am_spare_item_map_slno, asset_spare_slno } = val
-        const patchdata = {
-            delete_user: id,
-            asset_spare_slno: asset_spare_slno,
-            am_spare_item_map_slno: am_spare_item_map_slno
-        }
-        const ServiceSpareUpdate = async (patchdata) => {
-            const result = await axioslogin.patch('/ItemMapDetails/spareService', patchdata);
-            const { success, message } = result.data
-            if (success === 1) {
-                succesNotify(message)
-                setCount(count + 1)
-            } else {
-                warningNotify(message)
-                setCount(count + 1)
-            }
-        }
-        ServiceSpareUpdate(patchdata)
-    }, [id, setCount, count])
+    // const serviceSparee = useCallback((val) => {
+    //     const { am_spare_item_map_slno, asset_spare_slno } = val
+    //     const patchdata = {
+    //         delete_user: id,
+    //         asset_spare_slno: asset_spare_slno,
+    //         am_spare_item_map_slno: am_spare_item_map_slno
+    //     }
+    //     const ServiceSpareUpdate = async (patchdata) => {
+    //         const result = await axioslogin.patch('/ItemMapDetails/spareService', patchdata);
+    //         const { success, message } = result.data
+    //         if (success === 1) {
+    //             succesNotify(message)
+    //             setCount(count + 1)
+    //         } else {
+    //             warningNotify(message)
+    //             setCount(count + 1)
+    //         }
+    //     }
+    //     ServiceSpareUpdate(patchdata)
+    // }, [id, setCount, count])
 
     const AddNewSpare = useCallback((e) => {
         if (sparez === 0) {
@@ -161,7 +161,7 @@ const AssetUpgrade = ({ am_item_map_slno, item_custodian_dept, count, setCount }
                             <Box sx={{ width: 105, fontSize: 14, fontWeight: 600 }}>Spare Number</Box>
                             <Box sx={{ flex: 1, fontSize: 14, fontWeight: 600 }}>Spare Name</Box>
                             <Box sx={{ width: 95, textAlign: 'center', fontSize: 14, fontWeight: 600, }}>Remove Spare</Box>
-                            <Box sx={{ width: 80, textAlign: 'center', fontSize: 14, fontWeight: 600, }}>Service</Box>
+                            {/* <Box sx={{ width: 80, textAlign: 'center', fontSize: 14, fontWeight: 600, }}>Service</Box> */}
                         </Box>
                     )}
                     {spareDetails.map((val, index) => {
@@ -183,7 +183,7 @@ const AssetUpgrade = ({ am_item_map_slno, item_custodian_dept, count, setCount }
                                         />
                                     </Box>
                                 </Tooltip>
-                                <Tooltip title={'Spare will be Transfer to Service List by clicking'}
+                                {/* <Tooltip title={'Spare will be Transfer to Service List by clicking'}
                                     sx={{ width: 200, }} color='neutral' placement='top'>
                                     <Box sx={{ width: 80, textAlign: 'center', fontSize: 13, pr: .5, cursor: 'pointer' }}>
                                         <ManageAccountsSharpIcon sx={{
@@ -193,7 +193,7 @@ const AssetUpgrade = ({ am_item_map_slno, item_custodian_dept, count, setCount }
                                             onClick={() => serviceSparee(val)}
                                         />
                                     </Box>
-                                </Tooltip>
+                                </Tooltip> */}
 
                             </Box>
                         );

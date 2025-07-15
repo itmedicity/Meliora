@@ -9,7 +9,7 @@ import ReqImageDisModal from './ImageUploadCmp/ReqImageDisModal'
 import CustomLoadComp from './Components/CustomLoadComp'
 const CrfReqDetailViewCmp = ({ ApprovalData, imagearray }) => {
 
-    const { req_slno, req_date, actual_requirement, needed, expected_date, image_status, company_name, } = ApprovalData
+    const { req_slno, req_date, actual_requirement, needed, expected_date, image_status, company_name, dept_name, em_name, req_deptsec } = ApprovalData
     const [imageshowFlag, setImageShowFlag] = useState(0)
     const [imageshow, setImageShow] = useState(false)
     const [previewFile, setPreviewFile] = useState({ url: "", type: "" });
@@ -85,8 +85,24 @@ const CrfReqDetailViewCmp = ({ ApprovalData, imagearray }) => {
                                     <Typography sx={{ fontSize: 13 }}>{format(new Date(expected_date), 'dd-MM-yyyy')}</Typography>
                                 </Box>
                             </Box>
-                            <Box sx={{ display: 'flex', flex: 2 }}></Box>
-                        </Box>
+                            <Box sx={{ display: 'flex', pt: 0.4, flex: 0.5 }}>
+                                <Typography sx={{ fontSize: 14, fontWeight: 600, pt: 0.2 }}>Req.By</Typography>
+                                <Typography sx={{ pl: 1 }} >  :&nbsp;</Typography>
+                                <Box sx={{ pl: 0.5, pt: 0.4 }} >
+                                    <Typography sx={{ fontSize: 13 }}>  {em_name === null ? 'nil' : capitalizeWords(em_name)}</Typography>
+                                </Box>
+                            </Box>
+                            <Box sx={{ display: 'flex', pt: 0.4, flex: 0.5 }}>
+                                <Typography sx={{ fontSize: 14, fontWeight: 600, pt: 0.2 }}>Req. Department</Typography>
+                                <Typography sx={{ pl: 1 }} >  :&nbsp;</Typography>
+                                <Box sx={{ pl: 0.5, pt: 0.4 }} >
+                                    <Typography sx={{ fontSize: 13 }}>
+                                        {dept_name === undefined
+                                            ? (req_deptsec === null ? 'nil' : capitalizeWords(req_deptsec))
+                                            : capitalizeWords(dept_name)}
+                                    </Typography>
+                                </Box>
+                            </Box>                        </Box>
                         <Box sx={{ display: 'flex' }}>
                             <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.2, pt: 1 }}>Purpose</Typography>
                             <Typography sx={{ pt: 0.7 }}>  :&nbsp;</Typography>

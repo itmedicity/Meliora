@@ -12,13 +12,7 @@ import CIcon from '@coreui/icons-react'
 import { cilHouse } from '@coreui/icons'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { apsideBgclor } from 'src/color/Color'
-// import DietTransactions from '../Menus/DietTransactions'
 import RmTransactions from '../Menus/RmTransaction'
-// import NurseStation from '../Menus/NurseStation'
-// import WeWorkTransact from '../Menus/WeWorkTransact'
-// import CrmTransactions from '../Menus/CrmTransactions'
-// import TimeEscalations from '../Menus/EscalationUtility'
-// import HallBookingTrans from 'src/Menus/HallBookingTrans'
 import { Box, Typography } from '@mui/material'
 import TaskTransaction from 'src/Menus/TaskTransaction'
 import AmTransactions from 'src/Menus/AmTransaction'
@@ -33,21 +27,21 @@ import { useQuery } from 'react-query'
 import NotificationTransaction from 'src/Menus/NotificationTransaction'
 import AmsTransaction from 'src/Menus/AmsTransaction'
 
+// import DietTransactions from '../Menus/DietTransactions'
+// import NurseStation from '../Menus/NurseStation'
+// import WeWorkTransact from '../Menus/WeWorkTransact'
+// import CrmTransactions from '../Menus/CrmTransactions'
+// import TimeEscalations from '../Menus/EscalationUtility'
+// import HallBookingTrans from 'src/Menus/HallBookingTrans'
 
 const AppSidebar = () => {
   const dispatch = useDispatch()
   const unfoldable = useSelector((state) => state.changeState.sidebarUnfoldable)
   const sidebarShow = useSelector((state) => state.changeState.sidebarShow)
-  // const [nurseStation, setNurseStation] = useState()
   const [cmtransact, setCmTransact] = useState()
-  // const [crmtransact, setCrmTransact] = useState()
   const [crmnewtransact, setCrmNewTransact] = useState()
-  // const [diettransact, setDietTransact] = useState()
   const [rmtransact, setRmTransact] = useState()
   const [amtransact, setAmTransact] = useState()
-  // const [weworktransact, setweworktransact] = useState()
-  // const [escalation, setescalation] = useState()
-  // const [hallbooking, setHallBooking] = useState()
   const [tasktransact, setTaskTransact] = useState()
   const [itmanagement, setItManagement] = useState()
   const [qualityTransact, setQualityTransact] = useState()
@@ -57,6 +51,12 @@ const AppSidebar = () => {
   const [NotificationTransact, setNotificationTransact] = useState()
   const [AmsTransact, setAmsTransact] = useState()
  
+  // const [nurseStation, setNurseStation] = useState()
+  // const [crmtransact, setCrmTransact] = useState()
+  // const [diettransact, setDietTransact] = useState()
+  // const [weworktransact, setweworktransact] = useState()
+  // const [escalation, setescalation] = useState()
+  // const [hallbooking, setHallBooking] = useState()
 
   const [count, setCount] = useState(0)
   const [menu, setMenu] = useState([])
@@ -115,7 +115,6 @@ const AppSidebar = () => {
 
   //Side bar menus array
   const navigation = [
-    //Home Menu
     {
       slno: 1,
       component: CNavItem,
@@ -123,76 +122,30 @@ const AppSidebar = () => {
       to: '/Home',
       icon: <CIcon icon={cilHouse} customClassName="nav-icon" />
     },
-    //Nursing Station Menu
-    // {
-    //   slno: 11,
-    //   component: CNavGroup,
-    //   name: 'Nursing Station',
-    //   items: nurseStation
-    // },
-    //Complaint Management System Menu Start from Here
     {
       slno: 2,
       component: CNavGroup,
       name: 'Ticket Management',
       items: cmtransact
     },
-    //Request Management System Menu Start from Here
-    // {
-    //   slno: 3,
-    //   component: CNavGroup,
-    //   name: 'Request management',
-    //   items: crmtransact
-    // },
-
     {
-      slno: 15,
+      slno: 3,
       component: CNavGroup,
       name: 'Central Request management',
       items: crmnewtransact
     },
-
-    //Room Management System Menu Start from Here
     {
       slno: 5,
       component: CNavGroup,
       name: 'Room Management',
       items: rmtransact
     },
-    //Asset Management System Menu Start from Here
     {
       slno: 4,
       component: CNavGroup,
       name: 'Asset Management',
       items: amtransact
     },
-    // //Diet Management Menus
-    // {
-    //   slno: 7,
-    //   component: CNavGroup,
-    //   name: 'Diet Management',
-    //   items: diettransact
-    // },
-    //We  Work Menu Start from Here
-    // {
-    //   slno: 6,
-    //   component: CNavGroup,
-    //   name: 'We Work',
-    //   items: weworktransact
-    // },
-    // {
-    //   slno: 15,
-    //   component: CNavGroup,
-    //   name: 'Escalation',
-    //   items: escalation
-    // },
-    // {
-    //   slno: 16,
-    //   component: CNavGroup,
-    //   name: 'Hall Booking',
-    //   items: hallbooking
-    // },
-
     {
       slno: 17,
       component: CNavGroup,
@@ -211,7 +164,6 @@ const AppSidebar = () => {
       name: 'Quality Indicator',
       items: qualityTransact
     },
-
     {
       slno: 19,
       component: CNavGroup,
@@ -236,65 +188,112 @@ const AppSidebar = () => {
       name: 'Notification',
       items: NotificationTransact
     },
-        {
+    {
       slno: 25,
       component: CNavGroup,
       name: 'Antimicrobial Stewardship',
       items: AmsTransact
     },
+  
   ]
+
+    // Diet Management Menus
+    // {
+    //   slno: 7,
+    //   component: CNavGroup,
+    //   name: 'Diet Management',
+    //   items: diettransact
+    // },
+
+    //We  Work Menu Start from Here
+    // {
+    //   slno: 6,
+    //   component: CNavGroup,
+    //   name: 'We Work',
+    //   items: weworktransact
+    // },
+    // {
+    //   slno: 15,
+    //   component: CNavGroup,
+    //   name: 'Escalation',
+    //   items: escalation
+    // },
+    // {
+    //   slno: 16,
+    //   component: CNavGroup,
+    //   name: 'Hall Booking',
+    //   items: hallbooking
+    // },   
+    // {
+    //   slno: 11,
+    //   component: CNavGroup,
+    //   name: 'Nursing Station',
+    //   items: nurseStation
+    // },
+
 
   useEffect(() => {
     /*** get menus based on user rights */
     getMenuSlno().then((val) => {
       const resultLength = Object.keys(val[0])?.length ?? 0
       if (resultLength > 0) {
-        const menuRitSlno = val[0];
-        const menuSlnoAry = menuRitSlno.map((menu) => {
+        const menuRitSlno = val[0];         
+        const menuSlnoAry = menuRitSlno.map((menu) => {          
           return menu.menu_slno;
         })
         /*** check menus array and getMenuSlno array and returnuser rights given menus */
-        // const newNurseStation = NurseStation.filter(val => menuSlnoAry.includes(val.men_slno));
-        // setNurseStation(newNurseStation)
+
         const newCmTransaction = CmTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
         setCmTransact(newCmTransaction)
-        // const newCrmTransaction = CrmTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
-        // setCrmTransact(newCrmTransaction)
+
         const newCrmNewTransaction = CrmNewTransaction.filter(val => menuSlnoAry.includes(val.men_slno));
         setCrmNewTransact(newCrmNewTransaction)
-        // const newDietTransaction = DietTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
-        // setDietTransact(newDietTransaction)
+
         const newRmTransaction = RmTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
         setRmTransact(newRmTransaction)
+
         const newAmTransaction = AmTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
         setAmTransact(newAmTransaction)
+
+        const TaskManageTransact = TaskTransaction.filter(val => menuSlnoAry.includes(val.men_slno));
+        setTaskTransact(TaskManageTransact)
+
+        const ItManageTransact = ITTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
+        setItManagement(ItManageTransact)
+
+        const QualityIndTransact = QualityTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
+        setQualityTransact(QualityIndTransact)
+
+        const DailyCensusTransact = DailyCensusTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
+        setCensusTransact(DailyCensusTransact)
+
+        const IncidentTransact = IncidentTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
+        setIncidentTransact(IncidentTransact)
+
+        const FeedbackTransact = FeedbackTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
+        setFeedbackTransact(FeedbackTransact)
+
+        const NotificationTransact = NotificationTransaction.filter(val => menuSlnoAry.includes(val.men_slno));
+        setNotificationTransact(NotificationTransact)  
+
+        const AmsTransacts = AmsTransaction.filter(val => menuSlnoAry.includes(val.men_slno));
+        setAmsTransact(AmsTransacts)  
+
+        setCount(1)
+
+        // const newNurseStation = NurseStation.filter(val => menuSlnoAry.includes(val.men_slno));
+        // setNurseStation(newNurseStation)
         // const weworkTransact = WeWorkTransact.filter(val => menuSlnoAry.includes(val.men_slno));
         // setweworktransact(weworkTransact)
         // const escalationTransact = TimeEscalations.filter(val => menuSlnoAry.includes(val.men_slno));
         // setescalation(escalationTransact)
         // const hallBookingTransact = HallBookingTrans.filter(val => menuSlnoAry.includes(val.men_slno));
         // setHallBooking(hallBookingTransact)
-        const TaskManageTransact = TaskTransaction.filter(val => menuSlnoAry.includes(val.men_slno));
-        setTaskTransact(TaskManageTransact)
-        const ItManageTransact = ITTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
-        setItManagement(ItManageTransact)
-        const QualityIndTransact = QualityTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
-        setQualityTransact(QualityIndTransact)
-        const DailyCensusTransact = DailyCensusTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
-        setCensusTransact(DailyCensusTransact)
-        const IncidentTransact = IncidentTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
-        setIncidentTransact(IncidentTransact)
-        const FeedbackTransact = FeedbackTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
-        setFeedbackTransact(FeedbackTransact)
-        const NotificationTransact = NotificationTransaction.filter(val => menuSlnoAry.includes(val.men_slno));
-        setNotificationTransact(NotificationTransact)    
-        
-        
-        const AmsTransact = AmsTransaction.filter(val => menuSlnoAry.includes(val.men_slno));
-        setAmsTransact(AmsTransact)
-        
+        // const newDietTransaction = DietTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
+        // setDietTransact(newDietTransaction)
+        // const newCrmTransaction = CrmTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
+        // setCrmTransact(newCrmTransaction)
 
-        setCount(1)
       }
     })
 

@@ -307,11 +307,11 @@ const ModalDashboardVerify = ({ open, handleClose, rowSelect, count, setCount })
 
                         <Box sx={{ flex: 1, display: 'flex', pt: 2, pl: .5, gap: 3 }}>
                             <Box sx={{ flex: 1, }}>
-                                <Typography sx={{ pl: .5, fontWeight: 500, fontSize: 14 }} > Backup Date & Time</Typography>
+                                <Typography sx={{ pl: .5, fontWeight: 500, fontSize: 14 }}> Backup Date & Time</Typography>
                                 <TextFieldCustom
                                     slotProps={{
                                         input: {
-                                            min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+                                            // min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
                                             max: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
                                         },
                                     }}

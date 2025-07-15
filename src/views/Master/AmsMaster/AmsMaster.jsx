@@ -14,6 +14,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import CloseIcon from '@mui/icons-material/Close';
 
+
 const AmsMaster = () => {
 
   const id = useSelector((state) => {
@@ -38,7 +39,6 @@ const AmsMaster = () => {
     storageCondition: '',
     mrp: '',
     manufacturer: '',
-
   })
 
   const {
