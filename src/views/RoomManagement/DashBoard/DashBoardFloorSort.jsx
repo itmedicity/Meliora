@@ -1,7 +1,8 @@
 import React from 'react'
 import { useEffect, useState, useCallback } from 'react'
-import { Box, Button, Paper } from '@mui/material'
+import { Paper } from '@mui/material'
 import { memo } from 'react'
+import { Box, Button } from '@mui/joy'
 
 const DashBoardFloorSort = ({ blockno, data, setFloorNo, setFloorNAme, setRoomList, setbuildblockname }) => {
   const [floorArry, setFloorArry] = useState([])
@@ -36,7 +37,7 @@ const DashBoardFloorSort = ({ blockno, data, setFloorNo, setFloorNAme, setRoomLi
                     textAlign: 'center',
                     border: 1,
                     height: 100,
-                    borderColor: 'white',
+                    borderColor: 'var(--royal-purple-300)',
                     borderRadius: 0
                   }}
                   key={val.floor_order}
@@ -44,7 +45,13 @@ const DashBoardFloorSort = ({ blockno, data, setFloorNo, setFloorNAme, setRoomLi
                   <Button
                     onClick={() => ground(val)}
                     value={val.rm_floor_name}
-                    sx={{ height: '100%' }}
+                    sx={{
+                      color: 'var(--royal-purple-300)',
+                      '&:hover': {
+                        backgroundColor: 'var(--royal-purple-50)',
+                      },
+                      height: '100%'
+                    }}
                     fullWidth
                     variant="outlined"
                     color="secondary"

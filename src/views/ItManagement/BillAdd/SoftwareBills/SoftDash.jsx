@@ -11,7 +11,7 @@ import PaidBillsSoftWare from './PaidBillsSoftWare'
 
 const SoftDash = ({ billCount, setbillCount }) => {
   return (
-    <Paper
+    <Box
       sx={{
         mt: 0.5,
         borderRadius: 0,
@@ -21,7 +21,7 @@ const SoftDash = ({ billCount, setbillCount }) => {
         bgcolor: '#E3E7F1'
       }}
     >
-      <Paper sx={{ bgcolor: '#F8F8F8', p: 0.5 }}>
+      <Box sx={{ bgcolor: '#F8F8F8', p: 0.5 }}>
         <Tabs
           defaultValue={0}
           size="sm"
@@ -64,8 +64,8 @@ const SoftDash = ({ billCount, setbillCount }) => {
             <PaidBillsSoftWare billCount={billCount} setbillCount={setbillCount} />
           </TabPanel>
         </Tabs>
-      </Paper>
-    </Paper>
+      </Box>
+    </Box>
   )
 }
 

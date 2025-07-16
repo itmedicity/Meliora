@@ -11,7 +11,7 @@ import PaidBills from './PaidBills'
 
 const TeleDash = ({ billCount, setbillCount }) => {
   return (
-    <Paper
+    <Box
       sx={{
         mt: 0.5,
         borderRadius: 0,
@@ -21,7 +21,7 @@ const TeleDash = ({ billCount, setbillCount }) => {
         bgcolor: '#E3E7F1'
       }}
     >
-      <Paper sx={{ bgcolor: '#F8F8F8', p: 0.5 }}>
+      <Box sx={{ bgcolor: '#F8F8F8', p: 0.5 }}>
         <Tabs
           defaultValue={0}
           size="sm"
@@ -63,8 +63,8 @@ const TeleDash = ({ billCount, setbillCount }) => {
             <PaidBills />
           </TabPanel>
         </Tabs>
-      </Paper>
-    </Paper>
+      </Box>
+    </Box>
   )
 }
 

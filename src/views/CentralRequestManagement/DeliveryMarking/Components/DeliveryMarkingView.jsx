@@ -22,7 +22,7 @@ import ReceiptLongSharpIcon from '@mui/icons-material/ReceiptLongSharp'
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { getDeliveryMarking } from 'src/api/CommonApiCRF'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 
 const formatDateForInput = date => {
@@ -205,8 +205,8 @@ const DeliveryMarkingView = ({ setViewFlag, setimageshowFlag, setimageshow, setP
         ? 'pdf'
         : 'image'
       : file.type.includes('application/pdf')
-      ? 'pdf'
-      : 'image'
+        ? 'pdf'
+        : 'image'
 
     const fileUrl = file.url || URL.createObjectURL(file)
     setPreviewFile({ url: fileUrl, type: fileType })

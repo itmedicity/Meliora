@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useMemo, memo } from 'react'
-import { Box, CssVarsProvider, Textarea, Typography } from '@mui/joy'
+import { Box, CssVarsProvider, Textarea, Tooltip, Typography } from '@mui/joy'
 import { Paper } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { getPasswordCredential } from 'src/redux/actions/ItPasswordCredential.action'
@@ -8,7 +8,6 @@ import CardMaster from 'src/views/Components/CardMaster'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import SearchIcon from '@mui/icons-material/Search'
-import Tooltip from '@mui/material/Tooltip'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 // import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { axioslogin } from 'src/views/Axios/Axios'
@@ -715,7 +714,7 @@ const PasswordManagement = () => {
     resetSoftware()
   }, [reset, resetSoftware])
   return (
-    <Box>
+    <Box sx={{ width: "100%" }}>
       <CardMaster close={backtoDash} submit={submitPasswordData} refresh={refreshWindow} title={'Password Management'}>
         <Box sx={{ display: 'flex', width: '25vw', height: 40, margin: 'auto', mt: 2 }}>
           <Paper sx={{ flex: 1, textAlign: 'center', mr: 2, pt: 1 }}>

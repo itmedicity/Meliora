@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import _ from 'underscore'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { useQueryClient } from 'react-query'
+import { useQueryClient } from '@tanstack/react-query'
 
 const ItemSaveModal = ({ open, handleClose, tableData, reset, supCode }) => {
   const [checkingUser, setCheckingUser] = useState('')

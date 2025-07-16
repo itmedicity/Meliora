@@ -1,19 +1,19 @@
 import React, { Fragment, memo } from 'react'
 import CloseIcon from '@mui/icons-material/Close'
-import { Card, CardActions, CardContent, ThemeProvider } from '@mui/material'
+import { Card, CardActions, CardContent } from '@mui/material'
 import CusIconButton from './CusIconButton'
 import theme from './MuiTheme'
-import { Box } from '@mui/system'
 import CustomeToolTip from './CustomeToolTip'
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
 import RefreshIcon from '@mui/icons-material/Refresh'
 import CustomCardHeaderOne from './CustomCardHeaderOne'
 import { cardActionBgClr } from 'src/color/Color'
+import { Box, ThemeProvider } from '@mui/joy'
 const CardMaster = ({ children, title, close, submit, refresh, contentStyle }) => {
   return (
     <Fragment>
       <ThemeProvider theme={theme}>
-        <Card sx={{ borderRadius: 0, boxShadow: 1 }}>
+        <Card sx={{ borderRadius: 0, boxShadow: 1, width: "100%" }}>
           <CustomCardHeaderOne title={title} onClickClose={close} cardStyle={{}} />
           <CardContent sx={contentStyle}>{children}</CardContent>
           <CardActions sx={{ backgroundColor: cardActionBgClr, py: 0.3, pt: 0.5 }} disableSpacing={false}>

@@ -1,4 +1,4 @@
-import { Box, FormControl, MenuItem, Select } from '@mui/material'
+import { Box, FormControl, Option, Select, } from '@mui/joy'
 import React from 'react'
 import { memo } from 'react'
 import { useEffect } from 'react'
@@ -16,31 +16,43 @@ const InsideBluidBlockSelect = ({ value, setValue, setName }) => {
   }, [dispatch])
   return (
     <Box>
-      <FormControl fullWidth size="small">
+      <FormControl size="small">
         <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
+
           value={value}
-          onChange={(e, { props }) => {
-            setValue(e.target.value)
-            setName(props.name)
+          // onChange={(e, { props }) => {
+          //   setValue(e.target.value)
+          //   setName(props.name)
+          // }}
+          onChange={(e, newValue) => {
+            setValue(newValue);
+            const sel = insideBuilding?.find(c => c.rm_insidebuildblock_slno === newValue);
+            setName(sel?.rm_insidebuildblock_alias || '');
           }}
-          size="small"
-          fullWidth
+          size="md"
           variant="outlined"
           sx={{ height: 24, p: 0, m: 0, lineHeight: 1.2 }}
         >
-          <MenuItem value={0} disabled>
+          <Option value={0} disabled>
             Select Inside Building Block
-          </MenuItem>
-          {insideBuilding &&
+          </Option>
+          {/* {insideBuilding &&
             insideBuilding.map((val, index) => {
               return (
                 <MenuItem key={index} value={val.rm_insidebuildblock_slno} name={val.rm_insidebuildblock_alias}>
                   {val.rm_insidebuildblock_name}
                 </MenuItem>
               )
-            })}
+            })} */}
+          {insideBuilding?.map((val, i) => (
+            <Option
+              key={i}
+              value={val.rm_insidebuildblock_slno}
+              data-alias={val.rm_insidebuildblock_alias}
+            >
+              {val.rm_insidebuildblock_name}
+            </Option>
+          ))}
         </Select>
       </FormControl>
     </Box>

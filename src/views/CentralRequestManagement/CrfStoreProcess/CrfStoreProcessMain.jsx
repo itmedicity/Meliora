@@ -20,7 +20,7 @@ import _ from 'underscore'
 import FeaturedPlayListTwoToneIcon from '@mui/icons-material/FeaturedPlayListTwoTone'
 import CustomCloseIconCmp from '../ComonComponent/Components/CustomCloseIconCmp'
 import { getDefaultCompany } from 'src/api/CommonApiCRF'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 
 const FullyReceiveTableView = React.lazy(() => import('./Component/FullyReceiveTableView'))
 const GrnDetailsViewModal = React.lazy(() => import('./Component/GrnDetailsViewModal'))
@@ -715,10 +715,10 @@ const CrfStoreProcessMain = () => {
   const capitalizeWords = str =>
     str
       ? str
-          .toLowerCase()
-          .split(' ')
-          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(' ')
+        .toLowerCase()
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
       : ''
   return (
     <Fragment>
@@ -734,7 +734,7 @@ const CrfStoreProcessMain = () => {
           poNumber={poNumber}
         />
       ) : null}
-      <Box sx={{ height: window.innerHeight - 100, flexWrap: 'wrap', bgcolor: 'white' }}>
+      <Box sx={{ height: window.innerHeight - 100, flexWrap: 'wrap', bgcolor: 'white', width: "100%" }}>
         <Box sx={{ display: 'flex', backgroundColor: '#f0f3f5', border: '1px solid #B4F5F0' }}>
           <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: 0.5, color: '#385E72' }}>CRS Store</Box>
           <CssVarsProvider>

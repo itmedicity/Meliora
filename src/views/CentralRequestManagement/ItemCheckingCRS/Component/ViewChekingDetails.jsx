@@ -6,7 +6,7 @@ import moment from 'moment'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { Virtuoso } from 'react-virtuoso'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { getItemChecking, getSupplierList } from 'src/api/CommonApiCRF'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 

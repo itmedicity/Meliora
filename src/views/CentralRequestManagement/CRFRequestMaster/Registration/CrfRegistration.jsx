@@ -2,7 +2,7 @@ import { Box, CssVarsProvider, IconButton, Option, Select, Table, Textarea, Tool
 import React, { Fragment, memo, useCallback, useEffect, useMemo, useState } from 'react'
 import CustomCloseIconCmp from '../../ComonComponent/Components/CustomCloseIconCmp'
 import { useNavigate } from 'react-router-dom'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { getAuthorisedDeptsec, getDefaultCompany, getInchHodAuthorization } from 'src/api/CommonApiCRF'
 import _ from 'underscore'
 import { useSelector } from 'react-redux'
@@ -734,8 +734,8 @@ const CrfRegistration = ({
         ? 'pdf'
         : 'image'
       : file.type.includes('application/pdf')
-      ? 'pdf'
-      : 'image'
+        ? 'pdf'
+        : 'image'
 
     const fileUrl = file.url || URL.createObjectURL(file)
     setPreviewFile({ url: fileUrl, type: fileType })
@@ -1263,8 +1263,8 @@ const CrfRegistration = ({
                     }}
                   >
                     {file.imageName.endsWith('.png') ||
-                    file.imageName.endsWith('.jpg') ||
-                    file.imageName.endsWith('.jpeg') ? (
+                      file.imageName.endsWith('.jpg') ||
+                      file.imageName.endsWith('.jpeg') ? (
                       <img
                         src={file.url}
                         alt={file.imageName}

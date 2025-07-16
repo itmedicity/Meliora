@@ -8,7 +8,7 @@ import { CssVarsProvider, IconButton, Option, Select, Typography } from '@mui/jo
 import { Badge, Box, FormControlLabel, Radio, RadioGroup } from '@mui/material'
 import { parse } from 'date-fns'
 import { infoNotify } from 'src/views/Common/CommonCode'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { getDefaultCompany } from 'src/api/CommonApiCRF'
 
 const formatDateForInput = date => {
@@ -394,10 +394,10 @@ const TopDesignComp = ({
             </Box>
           ) : null}
           {searchFlag === '1' ||
-          searchFlag === '2' ||
-          searchFlag === '3' ||
-          searchFlag === '4' ||
-          searchFlag === '5' ? (
+            searchFlag === '2' ||
+            searchFlag === '3' ||
+            searchFlag === '4' ||
+            searchFlag === '5' ? (
             <Box sx={{ pt: 0.9, pl: 0.5, flex: '1 1 auto' }}>
               <CssVarsProvider>
                 <CustomIconButtonCmp handleChange={SearchData}>

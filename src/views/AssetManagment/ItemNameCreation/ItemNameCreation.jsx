@@ -1,4 +1,3 @@
-import { Box, Tooltip, Typography, IconButton, Input, Button } from '@mui/material'
 import React, { useCallback, memo, useEffect, useState, useMemo } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
@@ -39,7 +38,7 @@ import GroupModal from './ModelForAssetItemAdd/GroupModal'
 import ModelModal from './ModelForAssetItemAdd/ModelModal'
 import SubGroupModal from './ModelForAssetItemAdd/SubGroupModal'
 // import SubModelModal from './ModelForAssetItemAdd/SubModelModal'
-import { CssVarsProvider } from '@mui/joy'
+import { Box, Button, CssVarsProvider, IconButton, Input, Tooltip, Typography } from '@mui/joy'
 import Textarea from '@mui/joy/Textarea'
 import ModelForItemExistOrNot from './ModelForItemExistOrNot'
 import { useNavigate } from 'react-router-dom'
@@ -952,7 +951,7 @@ const ItemNameCreation = () => {
   )
 
   return (
-    <Box>
+    <Box sx={{ width: "100%" }}>
       <CardMaster title="Asset Name Creation" submit={sumbitItemCreation} close={backtoSetting} refresh={refreshWindow}>
         {checkExist === 1 ? (
           <ModelForItemExistOrNot assetOrSpare={assetOrSpare} open={checkExistOpen} handleClose={handleClose} />

@@ -9,7 +9,7 @@ import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { useSelector } from 'react-redux'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import EditIcon from '@mui/icons-material/Edit'
 
 const WarrentyGrauntyComp = ({ detailArry, assetSpare }) => {

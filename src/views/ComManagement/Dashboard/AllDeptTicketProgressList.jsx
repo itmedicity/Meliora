@@ -5,7 +5,7 @@ import DateRangeIcon from '@mui/icons-material/DateRange'
 import { BarChart } from '@mui/x-charts'
 import { getAllcomplaintDept } from 'src/api/TicketApi'
 import { format, startOfDay, subDays } from 'date-fns'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 
 const AllDeptTicketProgressList = () => {
   const [currentDateAndTime, setCurrentDateAndTime] = useState('')

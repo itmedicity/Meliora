@@ -1,6 +1,5 @@
 import { Box } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useState } from 'react'
-import { Paper } from '@mui/material'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { Virtuoso } from 'react-virtuoso'
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded'
@@ -90,7 +89,7 @@ const PendingAssingments = ({ tableCount, setTableCount }) => {
   }, [])
 
   return (
-    <Paper sx={{ pb: 0.3, bgcolor: 'white' }}>
+    <Box sx={{ pb: 0.3, bgcolor: 'white' }}>
       {image === 1 ? (
         <ViewTaskImage
           imageUrls={imageUrls}
@@ -122,7 +121,7 @@ const PendingAssingments = ({ tableCount, setTableCount }) => {
 
       <Box sx={{ width: '100%', overflow: 'auto' }}>
         {taskList.length !== 0 ? (
-          <Box sx={{ width: 2700 }}>
+          <Box sx={{ width: "100%" }}>
             <Box
               sx={{
                 height: 45,
@@ -485,7 +484,7 @@ const PendingAssingments = ({ tableCount, setTableCount }) => {
           </Box>
         )}
       </Box>
-    </Paper>
+    </Box>
   )
 }
 

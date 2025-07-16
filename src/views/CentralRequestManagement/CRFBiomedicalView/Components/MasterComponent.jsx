@@ -17,7 +17,7 @@ import { GetKMCItemDetails } from '../../ComonComponent/ComponentsKMC/GetKMCItem
 import ImageDisplayModal from '../../ComonComponent/ImageUploadCmp/ImageDisplayModal'
 import CommentView from '../../ComonComponent/HigherLevelComponents/CommentView'
 
-const MasterComponent = ({ val, selectedCompany, companyData }) => {
+const MasterComponent = ({ val, selectedCompany, companyData, count, setcount }) => {
   const {
     req_slno,
     req_date,
@@ -49,10 +49,10 @@ const MasterComponent = ({ val, selectedCompany, companyData }) => {
   const capitalizeWords = str =>
     str
       ? str
-          .toLowerCase()
-          .split(' ')
-          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(' ')
+        .toLowerCase()
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
       : ''
   const blinkAnimation = keyframes`0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; }`
   const [imageshow, setImageShow] = useState(false)
@@ -275,6 +275,8 @@ const MasterComponent = ({ val, selectedCompany, companyData }) => {
           ViewRemark={ViewRemark}
           setDetailViewModal={setDetailViewModal}
           companyData={companyData}
+          count={count}
+          setcount={setcount}
         />
       ) : null}
 
@@ -512,12 +514,12 @@ const MasterComponent = ({ val, selectedCompany, companyData }) => {
                 {now_who_status === 1
                   ? 'Approved'
                   : now_who_status === 2
-                  ? 'Rejected'
-                  : now_who_status === 3
-                  ? 'On-Hold'
-                  : now_who_status === 4
-                  ? 'Approved'
-                  : ''}
+                    ? 'Rejected'
+                    : now_who_status === 3
+                      ? 'On-Hold'
+                      : now_who_status === 4
+                        ? 'Approved'
+                        : ''}
               </Typography>
             </Button>
             {image_status === 1 ? (

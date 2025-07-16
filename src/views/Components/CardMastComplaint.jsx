@@ -11,9 +11,9 @@ const CardMastComplaint = ({ children, submit, refresh, contentStyle }) => {
   return (
     <Fragment>
       <ThemeProvider theme={theme}>
-        <Card sx={{ borderRadius: 0, boxShadow: 1 }}>
+        <Card sx={{ borderRadius: 0, }}>
           <CardContent sx={contentStyle}>{children}</CardContent>
-          <CardActions sx={{ backgroundColor: cardActionBgClr, py: 0.3, pt: 0.5 }} disableSpacing={false}>
+          <CardActions sx={{ backgroundColor: cardActionBgClr, py: 0.3, pt: 0.5 }} >
             <CustomeToolTip title="Save" placement="left">
               <Box>
                 <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={submit}>

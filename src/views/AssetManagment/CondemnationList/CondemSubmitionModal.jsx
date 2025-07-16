@@ -10,7 +10,7 @@ import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { format } from 'date-fns'
 import { Popover } from '@mui/material'
 import { getCondemAddedDetails } from 'src/api/AssetApis'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import FileViewSingle from 'src/views/Components/FileViewSingle'
@@ -235,8 +235,8 @@ const CondemSubmitionModal = ({
         ? 'pdf'
         : 'image'
       : file.type && file.type.includes('application/pdf')
-      ? 'image'
-      : 'pdf'
+        ? 'image'
+        : 'pdf'
 
     const fileUrl = file.url || URL.createObjectURL(file)
     setUplodedFile({ url: fileUrl, type: fileType })
@@ -707,13 +707,12 @@ const CondemSubmitionModal = ({
                           sx={{ fontWeight: 500, color: '#0C2D48', pl: 0.8, pt: 0.5, fontSize: 14 }}
                         />
                         <TextComponent
-                          text={`(${
-                            val.cat_asset_name !== null
-                              ? val.cat_asset_name
-                              : val.cat_spare_name !== null
+                          text={`(${val.cat_asset_name !== null
+                            ? val.cat_asset_name
+                            : val.cat_spare_name !== null
                               ? val.cat_spare_name
                               : ''
-                          })`}
+                            })`}
                           sx={{ fontWeight: 500, color: '#0C2D48', pl: 0.8, pt: 0.5, fontSize: 14 }}
                         />
                         <TextComponent
@@ -721,8 +720,8 @@ const CondemSubmitionModal = ({
                             val.item_asset_name !== null
                               ? val.item_asset_name
                               : val.item_spare_name !== null
-                              ? val.item_spare_name
-                              : ''
+                                ? val.item_spare_name
+                                : ''
                           }
                           sx={{ fontWeight: 500, color: '#0C2D48', pl: 0.8, pt: 0.5, fontSize: 14 }}
                         />

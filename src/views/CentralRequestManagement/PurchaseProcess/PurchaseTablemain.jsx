@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { Box } from '@mui/material'
 import { CssVarsProvider, IconButton } from '@mui/joy'
 import TopViewDesignPurchase from './Component/TopViewDesignPurchase'
-import { useQuery, useQueryClient } from 'react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import {
   getCompanyDetails,
   getCrfPoApprovals,
@@ -43,12 +43,12 @@ const PurchaseTablemain = () => {
   const capitalizeWords = str =>
     str
       ? str
-          .toLowerCase()
-          .trim()
-          .replace(/\s+/g, ' ')
-          .split(' ')
-          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(' ')
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, ' ')
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
       : ''
 
   const backtoSetting = useCallback(() => {
@@ -195,10 +195,10 @@ const PurchaseTablemain = () => {
               val.md_approve === 1
                 ? 'Approved'
                 : val.md_approve === 2
-                ? 'Rejected'
-                : val.md_approve === 3
-                ? 'On-Hold'
-                : 'Not Done',
+                  ? 'Rejected'
+                  : val.md_approve === 3
+                    ? 'On-Hold'
+                    : 'Not Done',
             md_approve_remarks: val.md_approve_remarks !== null ? val.md_approve_remarks : 'Not Updated',
             md_detial_analysis: val.md_detial_analysis,
             md_approve_date: val.md_approve_date,
@@ -209,10 +209,10 @@ const PurchaseTablemain = () => {
               val.ed_approve === 1
                 ? 'Approved'
                 : val.ed_approve === 2
-                ? 'Rejected'
-                : val.ed_approve === 3
-                ? 'On-Hold'
-                : 'Not Done',
+                  ? 'Rejected'
+                  : val.ed_approve === 3
+                    ? 'On-Hold'
+                    : 'Not Done',
             ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : '',
             ed_detial_analysis: val.ed_detial_analysis,
             ed_approve_date: val.ed_approve_date,
@@ -225,12 +225,12 @@ const PurchaseTablemain = () => {
               val.managing_director_approve === 1
                 ? 'Approved'
                 : val.managing_director_approve === 2
-                ? 'Rejected'
-                : val.managing_director_approve === 3
-                ? 'On-Hold'
-                : val.managing_director_approve === 4
-                ? 'Approved'
-                : 'Not Done',
+                  ? 'Rejected'
+                  : val.managing_director_approve === 3
+                    ? 'On-Hold'
+                    : val.managing_director_approve === 4
+                      ? 'Approved'
+                      : 'Not Done',
             managing_director_remarks: val.managing_director_remarks !== null ? val.managing_director_remarks : '',
             managing_director_analysis: val.managing_director_analysis,
             managing_director_approve_date: val.managing_director_approve_date,
@@ -245,10 +245,10 @@ const PurchaseTablemain = () => {
               val.incharge_approve === 1
                 ? 'Approved'
                 : val.incharge_approve === 2
-                ? 'Rejected'
-                : val.incharge_approve === 3
-                ? 'On-Hold'
-                : 'Not Done',
+                  ? 'Rejected'
+                  : val.incharge_approve === 3
+                    ? 'On-Hold'
+                    : 'Not Done',
             incharge_remarks: val.incharge_remarks !== null ? val.incharge_remarks : 'Not Updated',
             inch_detial_analysis: val.inch_detial_analysis,
             incharge_apprv_date: val.incharge_apprv_date,
@@ -259,10 +259,10 @@ const PurchaseTablemain = () => {
               val.hod_approve === 1
                 ? 'Approved'
                 : val.hod_approve === 2
-                ? 'Rejected'
-                : val.hod_approve === 3
-                ? 'On-Hold'
-                : 'Not Done',
+                  ? 'Rejected'
+                  : val.hod_approve === 3
+                    ? 'On-Hold'
+                    : 'Not Done',
             hod_remarks: val.hod_remarks !== null ? val.hod_remarks : 'Not Updated',
             hod_detial_analysis: val.hod_detial_analysis,
             hod_approve_date: val.hod_approve_date,
@@ -273,10 +273,10 @@ const PurchaseTablemain = () => {
               val.dms_approve === 1
                 ? 'Approved'
                 : val.dms_approve === 2
-                ? 'Rejected'
-                : val.dms_approve === 3
-                ? 'On-Hold'
-                : 'Not Done',
+                  ? 'Rejected'
+                  : val.dms_approve === 3
+                    ? 'On-Hold'
+                    : 'Not Done',
             dms_remarks: val.dms_remarks !== null ? val.dms_remarks : 'Not Updated',
             dms_detail_analysis: val.dms_detail_analysis,
             dms_approve_date: val.dms_approve_date,
@@ -287,10 +287,10 @@ const PurchaseTablemain = () => {
               val.ms_approve === 1
                 ? 'Approved'
                 : val.ms_approve === 2
-                ? 'Rejected'
-                : val.ms_approve === 3
-                ? 'On-Hold'
-                : 'Not Done',
+                  ? 'Rejected'
+                  : val.ms_approve === 3
+                    ? 'On-Hold'
+                    : 'Not Done',
             ms_approve_remark: val.ms_approve_remark !== null ? val.ms_approve_remark : 'Not Updated',
             ms_detail_analysis: val.ms_detail_analysis,
             ms_approve_date: val.ms_approve_date,
@@ -301,10 +301,10 @@ const PurchaseTablemain = () => {
               val.manag_operation_approv === 1
                 ? 'Approved'
                 : val.manag_operation_approv === 2
-                ? 'Rejected'
-                : val.manag_operation_approv === 3
-                ? 'On-Hold'
-                : 'Not Done',
+                  ? 'Rejected'
+                  : val.manag_operation_approv === 3
+                    ? 'On-Hold'
+                    : 'Not Done',
             manag_operation_remarks: val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
             om_detial_analysis: val.om_detial_analysis,
             om_approv_date: val.om_approv_date,
@@ -315,10 +315,10 @@ const PurchaseTablemain = () => {
               val.senior_manage_approv === 1
                 ? 'Approved'
                 : val.senior_manage_approv === 2
-                ? 'Rejected'
-                : val.senior_manage_approv === 3
-                ? 'On-Hold'
-                : 'Not Done',
+                  ? 'Rejected'
+                  : val.senior_manage_approv === 3
+                    ? 'On-Hold'
+                    : 'Not Done',
             senior_manage_remarks: val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
             smo_detial_analysis: val.smo_detial_analysis,
             som_aprrov_date: val.som_aprrov_date,
@@ -329,10 +329,10 @@ const PurchaseTablemain = () => {
               val.gm_approve === 1
                 ? 'Approved'
                 : val.gm_approve === 2
-                ? 'Rejected'
-                : val.gm_approve === 3
-                ? 'On-Hold'
-                : 'Not Done',
+                  ? 'Rejected'
+                  : val.gm_approve === 3
+                    ? 'On-Hold'
+                    : 'Not Done',
             gm_approve_remarks: val.gm_approve_remarks !== null ? val.gm_approve_remarks : 'Not Updated',
             gm_detial_analysis: val.gm_detial_analysis,
             gm_approv_date: val.gm_approv_date,
@@ -382,10 +382,10 @@ const PurchaseTablemain = () => {
               po.approval_level === 1
                 ? 'Purchase Dept Approved'
                 : po.approval_level === 2
-                ? 'Purchase Manager Approved'
-                : po.approval_level === 3
-                ? "Director's Approved"
-                : 'Not Approved',
+                  ? 'Purchase Manager Approved'
+                  : po.approval_level === 3
+                    ? "Director's Approved"
+                    : 'Not Approved',
             aprv_status: po.approval_level,
             company_name: po.company_name
           }))
@@ -511,10 +511,10 @@ const PurchaseTablemain = () => {
               val.md_approve === 1
                 ? 'Approved'
                 : val.md_approve === 2
-                ? 'Rejected'
-                : val.md_approve === 3
-                ? 'On-Hold'
-                : 'Not Done',
+                  ? 'Rejected'
+                  : val.md_approve === 3
+                    ? 'On-Hold'
+                    : 'Not Done',
             md_approve_remarks: val.md_approve_remarks !== null ? val.md_approve_remarks : 'Not Updated',
             md_detial_analysis: val.md_detial_analysis,
             md_approve_date: val.md_approve_date,
@@ -525,10 +525,10 @@ const PurchaseTablemain = () => {
               val.ed_approve === 1
                 ? 'Approved'
                 : val.ed_approve === 2
-                ? 'Rejected'
-                : val.ed_approve === 3
-                ? 'On-Hold'
-                : 'Not Done',
+                  ? 'Rejected'
+                  : val.ed_approve === 3
+                    ? 'On-Hold'
+                    : 'Not Done',
             ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : '',
             ed_detial_analysis: val.ed_detial_analysis,
             ed_approve_date: val.ed_approve_date,
@@ -539,12 +539,12 @@ const PurchaseTablemain = () => {
               val.managing_director_approve === 1
                 ? 'Approved'
                 : val.managing_director_approve === 2
-                ? 'Rejected'
-                : val.managing_director_approve === 3
-                ? 'On-Hold'
-                : val.managing_director_approve === 4
-                ? 'Approved'
-                : 'Not Done',
+                  ? 'Rejected'
+                  : val.managing_director_approve === 3
+                    ? 'On-Hold'
+                    : val.managing_director_approve === 4
+                      ? 'Approved'
+                      : 'Not Done',
             managing_director_remarks: val.managing_director_remarks !== null ? val.managing_director_remarks : '',
             managing_director_analysis: val.managing_director_analysis,
             managing_director_approve_date: val.managing_director_approve_date,
@@ -580,43 +580,43 @@ const PurchaseTablemain = () => {
               val.approval_level === 3
                 ? "Director's Approved"
                 : val.approval_level === 2
-                ? 'Purchase Manager Approved'
-                : val.approval_level === 1
-                ? 'Purchase Dpt Approved'
-                : val.po_complete === 1
-                ? 'PO Completed'
-                : val.po_prepartion === 1
-                ? 'PO Prepairing'
-                : val.quatation_fixing === 1
-                ? 'Quotation Fixed'
-                : val.quatation_negotiation === 1
-                ? 'Quotation Negotiation'
-                : val.quatation_calling_status === 1
-                ? 'Quotation Calling'
-                : val.ack_status === 1
-                ? 'Puchase Acknowledged'
-                : 'Not Started Purchase Process',
+                  ? 'Purchase Manager Approved'
+                  : val.approval_level === 1
+                    ? 'Purchase Dpt Approved'
+                    : val.po_complete === 1
+                      ? 'PO Completed'
+                      : val.po_prepartion === 1
+                        ? 'PO Prepairing'
+                        : val.quatation_fixing === 1
+                          ? 'Quotation Fixed'
+                          : val.quatation_negotiation === 1
+                            ? 'Quotation Negotiation'
+                            : val.quatation_calling_status === 1
+                              ? 'Quotation Calling'
+                              : val.ack_status === 1
+                                ? 'Puchase Acknowledged'
+                                : 'Not Started Purchase Process',
 
             now_who_status:
               val.po_to_supplier === 5
                 ? val.po_to_supplier
                 : val.po_approva_level_two === 5
-                ? val.po_approva_level_two
-                : val.po_approva_level_one === 5
-                ? val.po_approva_level_one
-                : val.po_complete === 5
-                ? val.po_complete
-                : val.po_prepartion === 5
-                ? val.po_prepartion
-                : val.quatation_fixing === 5
-                ? val.quatation_fixing
-                : val.quatation_negotiation === 5
-                ? val.quatation_negotiation
-                : val.quatation_calling_status === 5
-                ? val.quatation_calling_status
-                : val.ack_status === 5
-                ? val.ack_status
-                : 0,
+                  ? val.po_approva_level_two
+                  : val.po_approva_level_one === 5
+                    ? val.po_approva_level_one
+                    : val.po_complete === 5
+                      ? val.po_complete
+                      : val.po_prepartion === 5
+                        ? val.po_prepartion
+                        : val.quatation_fixing === 5
+                          ? val.quatation_fixing
+                          : val.quatation_negotiation === 5
+                            ? val.quatation_negotiation
+                            : val.quatation_calling_status === 5
+                              ? val.quatation_calling_status
+                              : val.ack_status === 5
+                                ? val.ack_status
+                                : 0,
             company_name: val?.company_name,
             incharge_approve: val.incharge_approve,
             incharge_req: val.incharge_req,
@@ -624,10 +624,10 @@ const PurchaseTablemain = () => {
               val.incharge_approve === 1
                 ? 'Approved'
                 : val.incharge_approve === 2
-                ? 'Rejected'
-                : val.incharge_approve === 3
-                ? 'On-Hold'
-                : 'Not Done',
+                  ? 'Rejected'
+                  : val.incharge_approve === 3
+                    ? 'On-Hold'
+                    : 'Not Done',
             incharge_remarks: val.incharge_remarks !== null ? val.incharge_remarks : 'Not Updated',
             inch_detial_analysis: val.inch_detial_analysis,
             incharge_apprv_date: val.incharge_apprv_date,
@@ -638,10 +638,10 @@ const PurchaseTablemain = () => {
               val.hod_approve === 1
                 ? 'Approved'
                 : val.hod_approve === 2
-                ? 'Rejected'
-                : val.hod_approve === 3
-                ? 'On-Hold'
-                : 'Not Done',
+                  ? 'Rejected'
+                  : val.hod_approve === 3
+                    ? 'On-Hold'
+                    : 'Not Done',
             hod_remarks: val.hod_remarks !== null ? val.hod_remarks : 'Not Updated',
             hod_detial_analysis: val.hod_detial_analysis,
             hod_approve_date: val.hod_approve_date,
@@ -652,10 +652,10 @@ const PurchaseTablemain = () => {
               val.dms_approve === 1
                 ? 'Approved'
                 : val.dms_approve === 2
-                ? 'Rejected'
-                : val.dms_approve === 3
-                ? 'On-Hold'
-                : 'Not Done',
+                  ? 'Rejected'
+                  : val.dms_approve === 3
+                    ? 'On-Hold'
+                    : 'Not Done',
             dms_remarks: val.dms_remarks !== null ? val.dms_remarks : 'Not Updated',
             dms_detail_analysis: val.dms_detail_analysis,
             dms_approve_date: val.dms_approve_date,
@@ -666,10 +666,10 @@ const PurchaseTablemain = () => {
               val.ms_approve === 1
                 ? 'Approved'
                 : val.ms_approve === 2
-                ? 'Rejected'
-                : val.ms_approve === 3
-                ? 'On-Hold'
-                : 'Not Done',
+                  ? 'Rejected'
+                  : val.ms_approve === 3
+                    ? 'On-Hold'
+                    : 'Not Done',
             ms_approve_remark: val.ms_approve_remark !== null ? val.ms_approve_remark : 'Not Updated',
             ms_detail_analysis: val.ms_detail_analysis,
             ms_approve_date: val.ms_approve_date,
@@ -680,10 +680,10 @@ const PurchaseTablemain = () => {
               val.manag_operation_approv === 1
                 ? 'Approved'
                 : val.manag_operation_approv === 2
-                ? 'Rejected'
-                : val.manag_operation_approv === 3
-                ? 'On-Hold'
-                : 'Not Done',
+                  ? 'Rejected'
+                  : val.manag_operation_approv === 3
+                    ? 'On-Hold'
+                    : 'Not Done',
             manag_operation_remarks: val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
             om_detial_analysis: val.om_detial_analysis,
             om_approv_date: val.om_approv_date,
@@ -694,10 +694,10 @@ const PurchaseTablemain = () => {
               val.senior_manage_approv === 1
                 ? 'Approved'
                 : val.senior_manage_approv === 2
-                ? 'Rejected'
-                : val.senior_manage_approv === 3
-                ? 'On-Hold'
-                : 'Not Done',
+                  ? 'Rejected'
+                  : val.senior_manage_approv === 3
+                    ? 'On-Hold'
+                    : 'Not Done',
             senior_manage_remarks: val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
             smo_detial_analysis: val.smo_detial_analysis,
             som_aprrov_date: val.som_aprrov_date,
@@ -708,10 +708,10 @@ const PurchaseTablemain = () => {
               val.gm_approve === 1
                 ? 'Approved'
                 : val.gm_approve === 2
-                ? 'Rejected'
-                : val.gm_approve === 3
-                ? 'On-Hold'
-                : 'Not Done',
+                  ? 'Rejected'
+                  : val.gm_approve === 3
+                    ? 'On-Hold'
+                    : 'Not Done',
             gm_approve_remarks: val.gm_approve_remarks !== null ? val.gm_approve_remarks : 'Not Updated',
             gm_detial_analysis: val.gm_detial_analysis,
             gm_approv_date: val.gm_approv_date,
@@ -856,7 +856,7 @@ const PurchaseTablemain = () => {
     return <p>Error occurred.</p>
 
   return (
-    <Box sx={{ height: window.innerHeight - 80, flexWrap: 'wrap', bgcolor: 'white' }}>
+    <Box sx={{ height: window.innerHeight - 80, flexWrap: 'wrap', bgcolor: 'white', width: '100%' }}>
       <Box sx={{ display: 'flex', backgroundColor: '#f0f3f5', border: '1px solid #B4F5F0' }}>
         <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: 0.5, color: '#385E72' }}>CRF Purchase</Box>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, m: 0.5 }}>
@@ -881,7 +881,7 @@ const PurchaseTablemain = () => {
         />
       </Box>
       {radiovalue === '6' ? (
-        <Box sx={{ flexWrap: 'wrap', pt: 0.5, maxHeight: window.innerHeight - 220 }}>
+        <Box sx={{ flexWrap: 'wrap', pt: 0.5, maxHeight: window.innerHeight - 220, }}>
           {combinedPO?.length !== 0 ? (
             <>
               <Box

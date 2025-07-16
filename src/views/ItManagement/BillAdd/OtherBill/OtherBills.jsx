@@ -255,7 +255,7 @@ const OtherBills = ({ otherData, billCount, setbillCount }) => {
             {alphbasedData &&
               alphbasedData.map(val => {
                 return (
-                  <Paper
+                  <Box
                     key={val.other_bill_slno}
                     sx={{
                       minHeight: 33,
@@ -284,7 +284,7 @@ const OtherBills = ({ otherData, billCount, setbillCount }) => {
                     <Tooltip title="bill Category" placement="bottom">
                       <Box sx={{ flex: 1, pt: 0.5, cursor: 'grab', pl: 0.5 }}>{val.it_bill_category_name}</Box>
                     </Tooltip>
-                  </Paper>
+                  </Box>
                 )
               })}
           </Box>
@@ -293,7 +293,7 @@ const OtherBills = ({ otherData, billCount, setbillCount }) => {
             {billcate &&
               billcate.map(val => {
                 return (
-                  <Paper
+                  <Box
                     key={val.other_bill_slno}
                     sx={{
                       minHeight: 33,
@@ -322,7 +322,7 @@ const OtherBills = ({ otherData, billCount, setbillCount }) => {
                     <Tooltip title="bill Category" placement="bottom">
                       <Box sx={{ flex: 1, pt: 0.5, cursor: 'grab', pl: 0.5 }}>{val.it_bill_category_name}</Box>
                     </Tooltip>
-                  </Paper>
+                  </Box>
                 )
               })}
           </Box>
@@ -331,7 +331,7 @@ const OtherBills = ({ otherData, billCount, setbillCount }) => {
             {otherData &&
               otherData.map(val => {
                 return (
-                  <Paper
+                  <Box
                     key={val.other_bill_slno}
                     sx={{
                       minHeight: 33,
@@ -356,7 +356,7 @@ const OtherBills = ({ otherData, billCount, setbillCount }) => {
                     </Box>
                     <Box sx={{ flex: 3, pt: 0.5, cursor: 'grab', pl: 0.5 }}>{val.bill_name}</Box>
                     <Box sx={{ flex: 1, pt: 0.5, cursor: 'grab', pl: 0.5 }}>{val.it_bill_category_name}</Box>
-                  </Paper>
+                  </Box>
                 )
               })}
           </Box>

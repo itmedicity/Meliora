@@ -43,16 +43,16 @@ const SubtaskTableUnderTaskz = ({ tm_task_slno, selectForEditsSubTask, tableRend
                 val.tm_task_status === 1
                   ? 'Completed'
                   : val.tm_task_status === 1
-                  ? 'Completed'
-                  : val.tm_task_status === 2
-                  ? 'On Progress'
-                  : val.tm_task_status === 3
-                  ? 'On Hold'
-                  : val.tm_task_status === 4
-                  ? 'Pending'
-                  : val.tm_task_status === 0
-                  ? 'Not Started'
-                  : 'Not Started'
+                    ? 'Completed'
+                    : val.tm_task_status === 2
+                      ? 'On Progress'
+                      : val.tm_task_status === 3
+                        ? 'On Hold'
+                        : val.tm_task_status === 4
+                          ? 'Pending'
+                          : val.tm_task_status === 0
+                            ? 'Not Started'
+                            : 'Not Started'
             }
           })
         setSubTask(subtaskData)
@@ -130,7 +130,7 @@ const SubtaskTableUnderTaskz = ({ tm_task_slno, selectForEditsSubTask, tableRend
               </Divider>
             </Box>
           ) : null}
-          <Paper
+          <Box
             variant="outlined"
             sx={{
               width: '99%',
@@ -161,10 +161,10 @@ const SubtaskTableUnderTaskz = ({ tm_task_slno, selectForEditsSubTask, tableRend
                     return (
                       <tr
                         key={index}
-                        // sx={{
-                        //     '&:last-child td, &:last-child th': { border: 0 }, maxHeight: 60,
-                        //     minHeight: 5
-                        // }}
+                      // sx={{
+                      //     '&:last-child td, &:last-child th': { border: 0 }, maxHeight: 60,
+                      //     minHeight: 5
+                      // }}
                       >
                         <td> {index + 1}</td>
                         <td>
@@ -191,16 +191,16 @@ const SubtaskTableUnderTaskz = ({ tm_task_slno, selectForEditsSubTask, tableRend
                                 val.tm_task_status === null
                                   ? 'darkred'
                                   : val.tm_task_status === 0
-                                  ? 'darkred'
-                                  : val.tm_task_status === 1
-                                  ? '#94C973'
-                                  : val.tm_task_status === 2
-                                  ? '#EFD593'
-                                  : val.tm_task_status === 3
-                                  ? '#67595E'
-                                  : val.tm_task_status === 4
-                                  ? '#5885AF'
-                                  : 'transparent'
+                                    ? 'darkred'
+                                    : val.tm_task_status === 1
+                                      ? '#94C973'
+                                      : val.tm_task_status === 2
+                                        ? '#EFD593'
+                                        : val.tm_task_status === 3
+                                          ? '#67595E'
+                                          : val.tm_task_status === 4
+                                            ? '#5885AF'
+                                            : 'transparent'
                             }}
                           >
                             {val.TaskStatus}
@@ -219,7 +219,7 @@ const SubtaskTableUnderTaskz = ({ tm_task_slno, selectForEditsSubTask, tableRend
                 </tbody>
               </Table>
             </CssVarsProvider>
-          </Paper>
+          </Box>
         </Box>
       ) : null}
     </Box>

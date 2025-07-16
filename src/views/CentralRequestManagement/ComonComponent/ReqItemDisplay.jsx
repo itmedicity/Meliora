@@ -71,7 +71,7 @@ const ReqItemDisplay = ({ reqItems }) => {
                         <td style={{ textAlign: 'center', fontSize: 13 }}>
                           {item.item_unit === 0 ? 'Not Given' : item.uom_name}
                         </td>
-                        <td style={{ fontSize: 13 }}>
+                        <td style={{ fontSize: 13, overflow: "auto" }}>
                           &nbsp;
                           {item.item_specification === '' ? 'Not Given' : item.item_specification}
                         </td>

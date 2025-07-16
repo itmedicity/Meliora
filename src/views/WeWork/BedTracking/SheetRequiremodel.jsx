@@ -11,7 +11,7 @@ import { useMemo } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 
-const SheetRequiremodel = ({ open, setopen, rmSlno, count, setcount, shift }) => {
+const SheetRequiremodel = ({ open, setopen, rmSlno, count, setcount }) => {
   const [yes, setyes] = useState(false)
   const [no, setno] = useState(false)
 

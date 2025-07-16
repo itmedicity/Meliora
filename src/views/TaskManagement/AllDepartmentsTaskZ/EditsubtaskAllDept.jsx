@@ -39,45 +39,45 @@ const EditsubtaskAllDept = ({
     tm_task_status === 1
       ? true
       : tm_task_status === 2
-      ? false
-      : tm_task_status === 3
-      ? false
-      : tm_task_status === 4
-      ? false
-      : false
+        ? false
+        : tm_task_status === 3
+          ? false
+          : tm_task_status === 4
+            ? false
+            : false
   )
   const [onProgressSub, setOnProgressSub] = useState(
     tm_task_status === 2
       ? true
       : tm_task_status === 1
-      ? false
-      : tm_task_status === 3
-      ? false
-      : tm_task_status === 4
-      ? false
-      : false
+        ? false
+        : tm_task_status === 3
+          ? false
+          : tm_task_status === 4
+            ? false
+            : false
   )
   const [onHoldSub, setOnHoldSub] = useState(
     tm_task_status === 3
       ? true
       : tm_task_status === 1
-      ? false
-      : tm_task_status === 2
-      ? false
-      : tm_task_status === 4
-      ? false
-      : false
+        ? false
+        : tm_task_status === 2
+          ? false
+          : tm_task_status === 4
+            ? false
+            : false
   )
   const [onPendingSub, setOnPendingSub] = useState(
     tm_task_status === 4
       ? true
       : tm_task_status === 1
-      ? false
-      : tm_task_status === 2
-      ? false
-      : tm_task_status === 3
-      ? false
-      : false
+        ? false
+        : tm_task_status === 2
+          ? false
+          : tm_task_status === 3
+            ? false
+            : false
   )
   const [checkFlagSub, setcheckFlagSub] = useState(tm_task_status)
   const [valueSubProgress, setvalueSubProgress] = useState(0)
@@ -548,7 +548,7 @@ const EditsubtaskAllDept = ({
     ]
   )
 
-  const changeEmp = useCallback(e => {
+  const changeEmp = useCallback(() => {
     setchangeAssignee(1)
   }, [])
 

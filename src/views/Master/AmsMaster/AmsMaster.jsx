@@ -10,7 +10,7 @@ import AntibioticFromEllider from './AntibioticFromEllider'
 import { axiosellider, axioslogin } from 'src/views/Axios/Axios'
 import { errorNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { useSelector } from 'react-redux'
-import { useQueryClient } from 'react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 // import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 

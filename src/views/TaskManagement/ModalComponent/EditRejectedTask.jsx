@@ -345,7 +345,7 @@ const EditRejectedTask = ({
     getMastEmployee(tm_task_slno)
   }, [tm_task_slno, dispatch, setEmpArry, id])
 
-  const changeEmp = useCallback(e => {
+  const changeEmp = useCallback(() => {
     setchangeAssignee(1)
   }, [])
 

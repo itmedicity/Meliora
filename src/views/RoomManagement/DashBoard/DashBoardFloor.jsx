@@ -113,6 +113,7 @@ const DashBoardFloor = ({ buildNo, setFoolrList, campusName }) => {
         </CardMasterClose>
       )}
     </>
+
   )
 }
 

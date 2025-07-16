@@ -1,6 +1,6 @@
 import { Box, CssVarsProvider, Table } from '@mui/joy'
 import React, { memo, useEffect, useState } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { axioslogin } from 'src/views/Axios/Axios'
 import TextComponent from 'src/views/Components/TextComponent'
 

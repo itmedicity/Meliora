@@ -244,7 +244,7 @@ const PatientsListTable = ({
                                     color: '#37474f'
                                   }
                                 }}
-                                onClick={e => RemoveFromList(val)}
+                                onClick={() => RemoveFromList(val)}
                               />
                             </Tooltip>
                           )}
@@ -260,7 +260,7 @@ const PatientsListTable = ({
                                   color: '#263238'
                                 }
                               }}
-                              onClick={e => IndicatorsView(val)}
+                              onClick={() => IndicatorsView(val)}
                             />
                           </Tooltip>
                         </CssVarsProvider>

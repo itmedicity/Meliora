@@ -111,14 +111,14 @@ const AddSubtaskAnyDept = ({
     [subTaskMast]
   )
 
-  const changeDepmt = useCallback(e => {
+  const changeDepmt = useCallback(() => {
     setchangeDept(1)
     setchangeDeptSec(1)
     setchangeEmp(1)
   }, [])
 
   const changeDepSec = useCallback(
-    e => {
+    () => {
       dispatch(getDeptSections(deptIds))
       setchangeDeptSec(1)
       setchangeEmp(1)
@@ -127,7 +127,7 @@ const AddSubtaskAnyDept = ({
   )
 
   const changeAssignee = useCallback(
-    e => {
+    () => {
       setchangeEmp(1)
       dispatch(getMultHodInCharge(secIds))
     },
@@ -267,7 +267,7 @@ const AddSubtaskAnyDept = ({
   }, [msgshow])
 
   const SubmitTask = useCallback(
-    e => {
+    () => {
       const InsertTask = async insertArry => {
         const result = await axioslogin.post('/TmAllDeptTask/insertTask', insertArry)
         const { message, success } = result.data

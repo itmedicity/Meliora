@@ -1,6 +1,5 @@
 import { Box, IconButton, Table, Textarea, Typography } from '@mui/joy'
 import React, { Fragment, memo, useCallback, useEffect, useMemo, useState } from 'react'
-import { useQuery, useQueryClient } from 'react-query'
 import { useDispatch, useSelector } from 'react-redux'
 import { getApprovedItemsKMC, getApprovedStatusKMC, getMaxItemslNoKMC } from 'src/api/CommonApiCRFKmc'
 import { getUOM } from 'src/redux/actions/AmUOMList.action'
@@ -14,6 +13,7 @@ import CustomIconButtonCmp from '../Components/CustomIconButtonCmp'
 import _ from 'underscore'
 import { format } from 'date-fns'
 import CustomToolTipForCRF from '../Components/CustomToolTipForCRF'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 
 const KMCItemApprovalComponent = ({
   req_slno,
@@ -131,13 +131,13 @@ const KMCItemApprovalComponent = ({
             req_detl_slno: val.req_detl_slno,
             higher:
               val.item_hod_approve !== 0 ||
-              val.item_dms_approve !== 0 ||
-              val.item_ms_approve !== 0 ||
-              val.item_mo_approve !== 0 ||
-              val.item_smo_approve !== 0 ||
-              val.item_gm_approve !== 0 ||
-              val.item_md_approve !== 0 ||
-              val.item_ed_approve !== 0
+                val.item_dms_approve !== 0 ||
+                val.item_ms_approve !== 0 ||
+                val.item_mo_approve !== 0 ||
+                val.item_smo_approve !== 0 ||
+                val.item_gm_approve !== 0 ||
+                val.item_md_approve !== 0 ||
+                val.item_ed_approve !== 0
                 ? 1
                 : 0
             // higher=1 then can't edit else can edit
@@ -151,12 +151,12 @@ const KMCItemApprovalComponent = ({
             req_detl_slno: val.req_detl_slno,
             higher:
               val.item_dms_approve !== 0 ||
-              val.item_ms_approve !== 0 ||
-              val.item_mo_approve !== 0 ||
-              val.item_smo_approve !== 0 ||
-              val.item_gm_approve !== 0 ||
-              val.item_md_approve !== 0 ||
-              val.item_ed_approve !== 0
+                val.item_ms_approve !== 0 ||
+                val.item_mo_approve !== 0 ||
+                val.item_smo_approve !== 0 ||
+                val.item_gm_approve !== 0 ||
+                val.item_md_approve !== 0 ||
+                val.item_ed_approve !== 0
                 ? 1
                 : 0
           }
@@ -169,11 +169,11 @@ const KMCItemApprovalComponent = ({
             req_detl_slno: val.req_detl_slno,
             higher:
               val.item_ms_approve !== 0 ||
-              val.item_mo_approve !== 0 ||
-              val.item_smo_approve !== 0 ||
-              val.item_gm_approve !== 0 ||
-              val.item_md_approve !== 0 ||
-              val.item_ed_approve !== 0
+                val.item_mo_approve !== 0 ||
+                val.item_smo_approve !== 0 ||
+                val.item_gm_approve !== 0 ||
+                val.item_md_approve !== 0 ||
+                val.item_ed_approve !== 0
                 ? 1
                 : 0
           }
@@ -186,10 +186,10 @@ const KMCItemApprovalComponent = ({
             req_detl_slno: val.req_detl_slno,
             higher:
               val.item_mo_approve !== 0 ||
-              val.item_smo_approve !== 0 ||
-              val.item_gm_approve !== 0 ||
-              val.item_md_approve !== 0 ||
-              val.item_ed_approve !== 0
+                val.item_smo_approve !== 0 ||
+                val.item_gm_approve !== 0 ||
+                val.item_md_approve !== 0 ||
+                val.item_ed_approve !== 0
                 ? 1
                 : 0
           }
@@ -202,9 +202,9 @@ const KMCItemApprovalComponent = ({
             req_detl_slno: val.req_detl_slno,
             higher:
               val.item_smo_approve !== 0 ||
-              val.item_gm_approve !== 0 ||
-              val.item_md_approve !== 0 ||
-              val.item_ed_approve !== 0
+                val.item_gm_approve !== 0 ||
+                val.item_md_approve !== 0 ||
+                val.item_ed_approve !== 0
                 ? 1
                 : 0
           }
@@ -610,12 +610,12 @@ const KMCItemApprovalComponent = ({
                       item.po_item_status === 1
                         ? '#1565c0'
                         : item.item_status_approved === 1
-                        ? '#59981A'
-                        : item.item_status_approved === 2
-                        ? '#D13120'
-                        : item.item_status_approved === 3
-                        ? '#DBA40E'
-                        : null
+                          ? '#59981A'
+                          : item.item_status_approved === 2
+                            ? '#D13120'
+                            : item.item_status_approved === 3
+                              ? '#DBA40E'
+                              : null
 
                     return (
                       <CustomToolTipForCRF
@@ -625,12 +625,12 @@ const KMCItemApprovalComponent = ({
                           item.po_item_status === 1
                             ? 'PO Generated'
                             : item.item_status_approved === 1
-                            ? 'Approved'
-                            : item.item_status_approved === 2
-                            ? `Rejected by ${item.reject_remarks}`
-                            : item.item_status_approved === 3
-                            ? `On-Hold by ${item.hold_remarks}`
-                            : ''
+                              ? 'Approved'
+                              : item.item_status_approved === 2
+                                ? `Rejected by ${item.reject_remarks}`
+                                : item.item_status_approved === 3
+                                  ? `On-Hold by ${item.hold_remarks}`
+                                  : ''
                         }
                       >
                         <tr style={{ cursor: 'pointer' }}>
@@ -702,12 +702,12 @@ const KMCItemApprovalComponent = ({
                             {item.po_item_status === 1
                               ? 'PO Generated'
                               : item.item_status_approved === 1
-                              ? 'Approved'
-                              : item.item_status_approved === 2
-                              ? 'Rejected '
-                              : item.item_status_approved === 3
-                              ? 'On-Hold '
-                              : null}
+                                ? 'Approved'
+                                : item.item_status_approved === 2
+                                  ? 'Rejected '
+                                  : item.item_status_approved === 3
+                                    ? 'On-Hold '
+                                    : null}
                           </td>
                         </tr>
                       </CustomToolTipForCRF>

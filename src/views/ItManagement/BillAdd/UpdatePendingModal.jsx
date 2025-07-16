@@ -689,7 +689,7 @@ const UpdatePendingModal = ({
 
                   {billType === 3 && (bill_tariff !== 1 || bill_tariff !== 2 || bill_tariff !== 3) ? (
                     <Box>
-                      <Paper
+                      <Box
                         sx={{
                           mx: 0.5,
                           borderRadius: 0,
@@ -933,7 +933,7 @@ const UpdatePendingModal = ({
                           </Box>
                         ) : null}
                         <Box sx={{ height: 8 }}></Box>
-                      </Paper>
+                      </Box>
                     </Box>
                   ) : null}
 

@@ -1,6 +1,6 @@
 import { Autocomplete, CssVarsProvider } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useState, useMemo } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { getCustodianDept } from 'src/api/AssetApis'
 
 const AssetCustodianDepartment = ({ custoDian, setCustodian, setcustodianAllDetails }) => {

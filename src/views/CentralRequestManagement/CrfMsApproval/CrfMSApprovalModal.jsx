@@ -13,7 +13,7 @@ import ItemsApprovalCompnt from '../CrfInchargeApproval/ItemsApprovalCompnt'
 import CustomIconButtonCmp from '../ComonComponent/Components/CustomIconButtonCmp'
 import AddMoreItemDtails from '../ComonComponent/AddMoreItemDtails'
 import ApprovalCompntAll from '../ComonComponent/ApprovalCompntAll'
-import { useQueryClient } from 'react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { useSelector } from 'react-redux'
 import imageCompression from 'browser-image-compression'
 import _ from 'underscore'
@@ -356,141 +356,158 @@ const CrfMSApprovalModal = ({
 
   return (
     <Fragment>
-      <CssVarsProvider>
-        <Modal
-          aria-labelledby="modal-title"
-          aria-describedby="modal-desc"
-          open={open}
-          onClose={handleClose}
-          sx={{ display: 'flex', justifyContent: 'center' }}
-        >
-          <ModalDialog variant="outlined">
-            <ModalClose
-              variant="outlined"
-              sx={{
-                m: 1,
-                top: 'calc(-1/4 * var(--IconButton-size))',
-                right: 'calc(-1/4 * var(--IconButton-size))',
-                boxShadow: '0 2px 12px 0 rgba(0 0 0 / 0.2)',
-                borderRadius: '50%',
-                bgcolor: 'background.body',
-                color: '#bf360c',
-                height: 25,
-                width: 25
-              }}
-            />
-            <Box sx={{ minWidth: '80vw', minHeight: '62vh', maxHeight: '85vh', overflowY: 'auto' }}>
-              <CrfReqDetailViewCmp ApprovalData={ApprovalData} imagearray={imagearray} />
-              <Box sx={{ overflow: 'auto', pt: 0.5, mx: 0.3 }}>
-                {
-                  reqItems.length !== 0 ? <ReqItemDisplay reqItems={reqItems} /> : null
-                  // : <Box sx={{
-                  //     display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5, color: 'grey'
-                  // }}>
-                  //     No Item Requested
-                  // </Box>
-                }
-                <Box sx={{ pt: 0.5, mx: 0.3 }}>
-                  {incharge_req === 1 && incharge_remarks !== 'Not Updated' ? (
-                    <CommonInchargeReqCmp DetailViewData={ApprovalData} />
-                  ) : (
-                    <Paper variant="outlined" sx={{ flexWrap: 'wrap' }}>
-                      <Box sx={{ borderBottom: '1px solid lightgrey' }}>
-                        <Typography sx={{ fontWeight: 'bold', p: 1, color: '#145DA0', fontSize: 14 }}>
-                          Department Approval
-                        </Typography>
-                      </Box>
-                      <Typography sx={{ fontSize: 14, fontWeight: 550, p: 1 }}>
-                        Incharge Approval Not Required
+      {/* <CssVarsProvider> */}
+      <Modal
+        aria-labelledby="modal-title"
+        aria-describedby="modal-desc"
+        open={open}
+        onClose={handleClose}
+        sx={{ display: 'flex', justifyContent: 'center' }}
+      >
+        <ModalDialog variant="outlined">
+          <ModalClose
+            variant="outlined"
+            sx={{
+              m: 1,
+              top: 'calc(-1/4 * var(--IconButton-size))',
+              right: 'calc(-1/4 * var(--IconButton-size))',
+              boxShadow: '0 2px 12px 0 rgba(0 0 0 / 0.2)',
+              borderRadius: '50%',
+              bgcolor: 'background.body',
+              color: '#bf360c',
+              height: 25,
+              width: 25
+            }}
+          />
+          <Box sx={{ minWidth: '80vw', minHeight: '62vh', maxHeight: '85vh', overflowY: 'auto' }}>
+            <CrfReqDetailViewCmp ApprovalData={ApprovalData} imagearray={imagearray} />
+            <Box sx={{ overflow: 'auto', pt: 0.5, mx: 0.3 }}>
+              {
+                reqItems.length !== 0 ? <ReqItemDisplay reqItems={reqItems} /> : null
+                // : <Box sx={{
+                //     display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5, color: 'grey'
+                // }}>
+                //     No Item Requested
+                // </Box>
+              }
+              <Box sx={{ pt: 0.5, mx: 0.3 }}>
+                {incharge_req === 1 && incharge_remarks !== 'Not Updated' ? (
+                  <CommonInchargeReqCmp DetailViewData={ApprovalData} />
+                ) : (
+                  <Paper variant="outlined" sx={{ flexWrap: 'wrap' }}>
+                    <Box sx={{ borderBottom: '1px solid lightgrey' }}>
+                      <Typography sx={{ fontWeight: 'bold', p: 1, color: '#145DA0', fontSize: 14 }}>
+                        Department Approval
                       </Typography>
-                    </Paper>
-                  )}
-                  {hod_req === 1 && hod_approve !== null ? (
-                    <Box sx={{ pt: 0.5 }}>
-                      <CommonHodApprvCmp DetailViewData={ApprovalData} company={company} />
                     </Box>
-                  ) : null}
-                  {dms_req === 1 && dms_approve !== null ? (
-                    <Box sx={{ pt: 0.5 }}>
-                      <CommonDmsApprvCmp DetailViewData={ApprovalData} company={company} />
-                    </Box>
-                  ) : null}
-                </Box>
-                {/* remark from the view department  */}
-                {ApprovalData?.crf_view_status === 1 ? (
-                  <Box sx={{ p: 0.4 }}>
-                    <Box sx={{ border: '1px solid lightgrey', mt: 1 }}>
-                      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <Box
+                    <Typography sx={{ fontSize: 14, fontWeight: 550, p: 1 }}>
+                      Incharge Approval Not Required
+                    </Typography>
+                  </Paper>
+                )}
+                {hod_req === 1 && hod_approve !== null ? (
+                  <Box sx={{ pt: 0.5 }}>
+                    <CommonHodApprvCmp DetailViewData={ApprovalData} company={company} />
+                  </Box>
+                ) : null}
+                {dms_req === 1 && dms_approve !== null ? (
+                  <Box sx={{ pt: 0.5 }}>
+                    <CommonDmsApprvCmp DetailViewData={ApprovalData} company={company} />
+                  </Box>
+                ) : null}
+              </Box>
+              {/* remark from the view department  */}
+              {ApprovalData?.crf_view_status === 1 ? (
+                <Box sx={{ p: 0.4 }}>
+                  <Box sx={{ border: '1px solid lightgrey', mt: 1 }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <CampaignTwoToneIcon
                           sx={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            alignItems: 'center'
-                          }}
-                        >
-                          <CampaignTwoToneIcon
-                            sx={{
-                              width: 30,
-                              height: 30,
-                              animation: 'blink 2s infinite', // Apply the blink animation
-                              '@keyframes blink': {
-                                '0%': {
-                                  opacity: 1
-                                },
-                                '50%': {
-                                  opacity: 0
-                                },
-                                '100%': {
-                                  opacity: 1
-                                }
+                            width: 30,
+                            height: 30,
+                            animation: 'blink 2s infinite', // Apply the blink animation
+                            '@keyframes blink': {
+                              '0%': {
+                                opacity: 1
+                              },
+                              '50%': {
+                                opacity: 0
+                              },
+                              '100%': {
+                                opacity: 1
                               }
-                            }}
-                          />
-                          <Typography
-                            sx={{
-                              fontFamily: 'var(--font-varient)',
-                              color: 'rgba(var(--font-primary-white))',
-                              fontWeight: 700
-                            }}
-                          ></Typography>
-                          <Typography
-                            sx={{
-                              fontWeight: 'bold',
-                              color: '#FF6868',
-                              fontSize: 14,
-                              p: 1,
-                              textTransform: 'capitalize'
-                            }}
-                          >
-                            Comments From {ApprovalData?.viewDep?.toLowerCase()}
-                          </Typography>
-                        </Box>
-
+                            }
+                          }}
+                        />
+                        <Typography
+                          sx={{
+                            fontFamily: 'var(--font-varient)',
+                            color: 'rgba(var(--font-primary-white))',
+                            fontWeight: 700
+                          }}
+                        ></Typography>
                         <Typography
                           sx={{
                             fontWeight: 'bold',
-                            color: '#145DA0',
+                            color: '#FF6868',
                             fontSize: 14,
                             p: 1,
                             textTransform: 'capitalize'
                           }}
                         >
-                          By:{ApprovalData?.viewName?.toLowerCase()}
+                          Comments From {ApprovalData?.viewDep?.toLowerCase()}
                         </Typography>
                       </Box>
-                      <Box sx={{ p: 1 }}>
-                        <Box sx={{ border: '1px solid lightgrey', height: 50 }}>
-                          <Typography sx={{ fontSize: 14, fontWeight: 550, p: 1 }}>
-                            {ApprovalData?.crf_view_remark}
-                          </Typography>
-                        </Box>
+
+                      <Typography
+                        sx={{
+                          fontWeight: 'bold',
+                          color: '#145DA0',
+                          fontSize: 14,
+                          p: 1,
+                          textTransform: 'capitalize'
+                        }}
+                      >
+                        By:{ApprovalData?.viewName?.toLowerCase()}
+                      </Typography>
+                    </Box>
+                    <Box sx={{ p: 1 }}>
+                      <Box sx={{ border: '1px solid lightgrey', height: 50 }}>
+                        <Typography sx={{ fontSize: 14, fontWeight: 550, p: 1 }}>
+                          {ApprovalData?.crf_view_remark}
+                        </Typography>
                       </Box>
                     </Box>
                   </Box>
-                ) : null}
-                <Box sx={{ py: 0.5, mx: 0.2 }}>
-                  {datacolflag === 1 ? <ViewOreviousDataCollctnDetails datacolData={datacolData} /> : null}
                 </Box>
+              ) : null}
+              <Box sx={{ py: 0.5, mx: 0.2 }}>
+                {datacolflag === 1 ? <ViewOreviousDataCollctnDetails datacolData={datacolData} /> : null}
+              </Box>
+              <Paper variant="outlined" sx={{ pb: 1, flexWrap: 'wrap', mx: 0.3 }}>
+                <Box sx={{ mx: 1, mt: 1 }}>
+                  <CusCheckBox
+                    className={{ color: '#145DA0', fontSize: 14, fontWeight: 'bold' }}
+                    variant="outlined"
+                    color="primary"
+                    size="md"
+                    name="datacollFlag"
+                    label="Data Collection Required"
+                    value={datacollFlag}
+                    onCheked={updateOnchangeState}
+                    checked={datacollFlag}
+                    disabled={datacollFlagKMC === true}
+                  />
+                </Box>
+              </Paper>
+              {company_slno === 2 ? (
                 <Paper variant="outlined" sx={{ pb: 1, flexWrap: 'wrap', mx: 0.3 }}>
                   <Box sx={{ mx: 1, mt: 1 }}>
                     <CusCheckBox
@@ -498,145 +515,128 @@ const CrfMSApprovalModal = ({
                       variant="outlined"
                       color="primary"
                       size="md"
-                      name="datacollFlag"
-                      label="Data Collection Required"
-                      value={datacollFlag}
+                      name="datacollFlagKMC"
+                      label="TMC Data Collection Required"
+                      value={datacollFlagKMC}
                       onCheked={updateOnchangeState}
-                      checked={datacollFlag}
-                      disabled={datacollFlagKMC === true}
+                      checked={datacollFlagKMC}
+                      disabled={datacollFlag === true}
                     />
                   </Box>
                 </Paper>
-                {company_slno === 2 ? (
-                  <Paper variant="outlined" sx={{ pb: 1, flexWrap: 'wrap', mx: 0.3 }}>
-                    <Box sx={{ mx: 1, mt: 1 }}>
-                      <CusCheckBox
-                        className={{ color: '#145DA0', fontSize: 14, fontWeight: 'bold' }}
-                        variant="outlined"
-                        color="primary"
-                        size="md"
-                        name="datacollFlagKMC"
-                        label="TMC Data Collection Required"
-                        value={datacollFlagKMC}
-                        onCheked={updateOnchangeState}
-                        checked={datacollFlagKMC}
-                        disabled={datacollFlag === true}
-                      />
-                    </Box>
-                  </Paper>
-                ) : null}
+              ) : null}
 
-                {datacollFlagKMC === true ? (
-                  <Box sx={{ border: '1px solid lightgrey', borderTop: 'none', pb: 1, mx: 0.3 }}>
-                    <Box sx={{ display: 'flex', pt: 1 }}>
-                      <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 0.5 }}>
-                        Departments for Data Collection
-                      </Typography>
-                      <Typography sx={{ pt: 0.5 }}> :&nbsp;</Typography>
-                      <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
-                        <DataCollectDepSecSelectTmc SetDeptSec={setCrfDept} />
-                      </Box>
-                    </Box>
-                    <Box sx={{ display: 'flex', pt: 0.4 }}>
-                      <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 1 }}>Remarks</Typography>
-                      <Typography sx={{ pt: 1 }}> :&nbsp;</Typography>
-                      <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
-                        <Textarea
-                          required
-                          type="text"
-                          size="sm"
-                          minRows={2}
-                          maxRows={4}
-                          style={{ width: '90%' }}
-                          placeholder="Remarks"
-                          name="datacolectremark"
-                          value={datacolectremark}
-                          onChange={updateOnchangeState}
-                        />
-                      </Box>
+              {datacollFlagKMC === true ? (
+                <Box sx={{ border: '1px solid lightgrey', borderTop: 'none', pb: 1, mx: 0.3 }}>
+                  <Box sx={{ display: 'flex', pt: 1 }}>
+                    <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 0.5 }}>
+                      Departments for Data Collection
+                    </Typography>
+                    <Typography sx={{ pt: 0.5 }}> :&nbsp;</Typography>
+                    <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
+                      <DataCollectDepSecSelectTmc SetDeptSec={setCrfDept} />
                     </Box>
                   </Box>
-                ) : null}
-                {datacollFlag === true ? (
-                  <Box sx={{ border: '1px solid lightgrey', borderTop: 'none', pb: 1, mx: 0.3 }}>
-                    <Box sx={{ display: 'flex', pt: 1 }}>
-                      <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 0.5 }}>
-                        Departments for Data Collection
-                      </Typography>
-                      <Typography sx={{ pt: 0.5 }}> :&nbsp;</Typography>
-                      <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
-                        <DataCollectDepSecSelect SetDeptSec={setCrfDept} />
-                      </Box>
-                    </Box>
-                    <Box sx={{ display: 'flex', pt: 0.4 }}>
-                      <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 1 }}>Remarks</Typography>
-                      <Typography sx={{ pt: 1 }}> :&nbsp;</Typography>
-                      <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
-                        <Textarea
-                          required
-                          type="text"
-                          size="sm"
-                          minRows={2}
-                          maxRows={4}
-                          style={{ width: '90%' }}
-                          placeholder="Remarks"
-                          name="datacolectremark"
-                          value={datacolectremark}
-                          onChange={updateOnchangeState}
-                        />
-                      </Box>
+                  <Box sx={{ display: 'flex', pt: 0.4 }}>
+                    <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 1 }}>Remarks</Typography>
+                    <Typography sx={{ pt: 1 }}> :&nbsp;</Typography>
+                    <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
+                      <Textarea
+                        required
+                        type="text"
+                        size="sm"
+                        minRows={2}
+                        maxRows={4}
+                        style={{ width: '90%' }}
+                        placeholder="Remarks"
+                        name="datacolectremark"
+                        value={datacolectremark}
+                        onChange={updateOnchangeState}
+                      />
                     </Box>
                   </Box>
-                ) : null}
-                {datacollFlag === false && datacollFlagKMC === false ? (
-                  <Box sx={{ mt: 0.5, pb: 1, flexWrap: 'wrap', mx: 0.3 }}>
-                    {approveTableData.length !== 0 ? (
-                      <ItemsApprovalCompnt
-                        req_slno={req_slno}
-                        setMoreItem={setMoreItem}
-                        editEnable={editEnable}
-                        setEditEnable={setEditEnable}
-                        setApproveTableData={setApproveTableData}
-                        header="MS"
-                        apprvLevel={4}
-                      />
-                    ) : null}
-                    <Box sx={{ pl: 0.5 }}>
-                      <CustomIconButtonCmp handleChange={AddItems}>Add Items</CustomIconButtonCmp>
+                </Box>
+              ) : null}
+              {datacollFlag === true ? (
+                <Box sx={{ border: '1px solid lightgrey', borderTop: 'none', pb: 1, mx: 0.3 }}>
+                  <Box sx={{ display: 'flex', pt: 1 }}>
+                    <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 0.5 }}>
+                      Departments for Data Collection
+                    </Typography>
+                    <Typography sx={{ pt: 0.5 }}> :&nbsp;</Typography>
+                    <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
+                      <DataCollectDepSecSelect SetDeptSec={setCrfDept} />
                     </Box>
-                    {addMoreItems === 1 ? (
-                      <AddMoreItemDtails
-                        req_slno={req_slno}
-                        setApproveTableData={setApproveTableData}
-                        setMoreItem={setMoreItem}
-                        selectedCompany={selectedCompany}
+                  </Box>
+                  <Box sx={{ display: 'flex', pt: 0.4 }}>
+                    <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 1 }}>Remarks</Typography>
+                    <Typography sx={{ pt: 1 }}> :&nbsp;</Typography>
+                    <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
+                      <Textarea
+                        required
+                        type="text"
+                        size="sm"
+                        minRows={2}
+                        maxRows={4}
+                        style={{ width: '90%' }}
+                        placeholder="Remarks"
+                        name="datacolectremark"
+                        value={datacolectremark}
+                        onChange={updateOnchangeState}
                       />
-                    ) : null}
-                    <ApprovalCompntAll
-                      heading={`${company?.ms_status_name} Approval`}
-                      apprvlDetails={apprvlDetails}
-                      updateOnchangeState={updateOnchangeState}
-                      updateApprovalState={updateApprovalState}
-                      imageCheck={ms_image}
-                      selectFile={selectFile}
-                      setSelectFile={setSelectFile}
-                      uploadedImages={uploadedImages}
+                    </Box>
+                  </Box>
+                </Box>
+              ) : null}
+              {datacollFlag === false && datacollFlagKMC === false ? (
+                <Box sx={{ mt: 0.5, pb: 1, flexWrap: 'wrap', mx: 0.3 }}>
+                  {approveTableData.length !== 0 ? (
+                    <ItemsApprovalCompnt
+                      req_slno={req_slno}
+                      setMoreItem={setMoreItem}
+                      editEnable={editEnable}
+                      setEditEnable={setEditEnable}
+                      setApproveTableData={setApproveTableData}
+                      header="MS"
+                      apprvLevel={4}
                     />
+                  ) : null}
+                  <Box sx={{ pl: 0.5 }}>
+                    <CustomIconButtonCmp handleChange={AddItems}>Add Items</CustomIconButtonCmp>
                   </Box>
-                ) : null}
-              </Box>
+                  {addMoreItems === 1 ? (
+                    <AddMoreItemDtails
+                      req_slno={req_slno}
+                      setApproveTableData={setApproveTableData}
+                      setMoreItem={setMoreItem}
+                      selectedCompany={selectedCompany}
+                    />
+                  ) : null}
+                  <ApprovalCompntAll
+                    heading={`${company?.ms_status_name} Approval`}
+                    apprvlDetails={apprvlDetails}
+                    updateOnchangeState={updateOnchangeState}
+                    updateApprovalState={updateApprovalState}
+                    imageCheck={ms_image}
+                    selectFile={selectFile}
+                    setSelectFile={setSelectFile}
+                    uploadedImages={uploadedImages}
+                  />
+                </Box>
+              ) : null}
             </Box>
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <Box sx={{ py: 0.5, pr: 0.5 }}>
-                <ModalButtomCmp handleChange={submit}> Save</ModalButtomCmp>
-              </Box>
-              <Box sx={{ py: 0.5, pr: 2 }}>
-                <ModalButtomCmp handleChange={closeModal}> Cancel</ModalButtomCmp>
-              </Box>
+          </Box>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <Box sx={{ py: 0.5, pr: 0.5 }}>
+              <ModalButtomCmp handleChange={submit}> Save</ModalButtomCmp>
             </Box>
-          </ModalDialog>
-        </Modal>
-      </CssVarsProvider>
+            <Box sx={{ py: 0.5, pr: 2 }}>
+              <ModalButtomCmp handleChange={closeModal}> Cancel</ModalButtomCmp>
+            </Box>
+          </Box>
+        </ModalDialog>
+      </Modal>
+      {/* </CssVarsProvider> */}
     </Fragment>
   )
 }

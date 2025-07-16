@@ -1,6 +1,6 @@
 import { Box, Table } from '@mui/joy'
 import React, { memo, useCallback, useMemo, useState } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded'
 import { getDeptScrapStore } from 'src/api/AssetApis'
 import FileViews from '../../Files/FileViews'
@@ -81,15 +81,15 @@ const DeptScrapstoreMain = ({ empdept }) => {
                 {val.cat_asset_name !== null
                   ? val.cat_asset_name
                   : val.cat_spare_name !== null
-                  ? val.cat_spare_name
-                  : '-'}
+                    ? val.cat_spare_name
+                    : '-'}
               </td>
               <td style={{ textAlign: 'center' }}>
                 {val.item_asset_name !== null
                   ? val.item_asset_name
                   : val.item_spare_name !== null
-                  ? val.item_spare_name
-                  : '-'}
+                    ? val.item_spare_name
+                    : '-'}
               </td>
               <td style={{ textAlign: 'center' }}>{val.keep_in_srap_store_reason || '-'}</td>
               <td style={{ textAlign: 'center' }}>

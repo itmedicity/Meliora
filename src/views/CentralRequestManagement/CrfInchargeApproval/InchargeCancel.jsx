@@ -6,10 +6,10 @@ import _ from 'underscore'
 import { useSelector } from 'react-redux'
 import { format } from 'date-fns'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
-import { useQueryClient } from 'react-query'
 import CrfReqDetailViewCmp from '../ComonComponent/CrfReqDetailViewCmp'
 import ReqItemDisplay from '../ComonComponent/ReqItemDisplay'
 import ModalButtomCmp from '../ComonComponent/Components/ModalButtomCmp'
+import { useQueryClient } from '@tanstack/react-query'
 
 const InchargeCancel = ({
   open,
@@ -89,97 +89,97 @@ const InchargeCancel = ({
   return (
     <Fragment>
       <Box>
-        <CssVarsProvider>
-          <Modal
-            aria-labelledby="modal-title"
-            aria-describedby="modal-desc"
-            open={open}
-            onClose={handleCloseCrfClose}
-            sx={{ display: 'flex', justifyContent: 'center' }}
+        {/* <CssVarsProvider> */}
+        <Modal
+          aria-labelledby="modal-title"
+          aria-describedby="modal-desc"
+          open={open}
+          onClose={handleCloseCrfClose}
+          sx={{ display: 'flex', justifyContent: 'center' }}
+        >
+          <ModalDialog
+            variant="outlined"
+            sx={{
+              minWidth: '60vw',
+              minHeight: '40vh',
+              maxHeight: '75vh',
+              overflowY: 'auto'
+            }}
           >
-            <ModalDialog
+            <ModalClose
               variant="outlined"
               sx={{
-                minWidth: '60vw',
-                minHeight: '40vh',
-                maxHeight: '75vh',
-                overflowY: 'auto'
+                m: 1,
+                top: 'calc(-1/4 * var(--IconButton-size))',
+                right: 'calc(-1/4 * var(--IconButton-size))',
+                boxShadow: '0 2px 12px 0 rgba(0 0 0 / 0.2)',
+                borderRadius: '50%',
+                bgcolor: 'background.body',
+                color: '#bf360c',
+                height: 25,
+                width: 25
               }}
-            >
-              <ModalClose
-                variant="outlined"
-                sx={{
-                  m: 1,
-                  top: 'calc(-1/4 * var(--IconButton-size))',
-                  right: 'calc(-1/4 * var(--IconButton-size))',
-                  boxShadow: '0 2px 12px 0 rgba(0 0 0 / 0.2)',
-                  borderRadius: '50%',
-                  bgcolor: 'background.body',
-                  color: '#bf360c',
-                  height: 25,
-                  width: 25
-                }}
-              />
-              <Box sx={{ overflow: 'auto' }}>
-                <CrfReqDetailViewCmp ApprovalData={cancelData} imagearray={imagearray} />
-                {reqItems.length !== 0 ? (
-                  <ReqItemDisplay reqItems={reqItems} />
-                ) : (
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      fontSize: 25,
-                      opacity: 0.5,
-                      pt: 10,
-                      color: 'grey'
-                    }}
-                  >
-                    No Item Requested
-                  </Box>
-                )}
+            />
+            <Box sx={{ overflow: 'auto' }}>
+              <CrfReqDetailViewCmp ApprovalData={cancelData} imagearray={imagearray} />
+              {reqItems.length !== 0 ? (
+                <ReqItemDisplay reqItems={reqItems} />
+              ) : (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    fontSize: 25,
+                    opacity: 0.5,
+                    pt: 10,
+                    color: 'grey'
+                  }}
+                >
+                  No Item Requested
+                </Box>
+              )}
 
-                <Box sx={{ m: 0.5 }}>
-                  <Box sx={{ my: 1 }}>
-                    <CusCheckBox
-                      label="Close CRF"
-                      color="primary"
-                      size="md"
-                      name="closeCrf"
-                      value={closeCrf}
-                      checked={closeCrf}
-                      onCheked={updateCrf}
+              <Box sx={{ m: 0.5 }}>
+                <Box sx={{ my: 1 }}>
+                  <CusCheckBox
+                    label="Close CRF"
+                    color="primary"
+                    size="md"
+                    name="closeCrf"
+                    value={closeCrf}
+                    checked={closeCrf}
+                    onCheked={updateCrf}
+                  />
+                </Box>
+                {closeCrf === true ? (
+                  <Box sx={{ flex: 1 }}>
+                    <Textarea
+                      required
+                      placeholder="Remarks"
+                      value={Closeremark}
+                      autoComplete="off"
+                      name="remarks"
+                      minRows={2}
+                      maxRows={3}
+                      onChange={updateCloseRemark}
+                      sx={{ fontSize: 14, borderRadius: 7 }}
                     />
                   </Box>
-                  {closeCrf === true ? (
-                    <Box sx={{ flex: 1 }}>
-                      <Textarea
-                        required
-                        placeholder="Remarks"
-                        value={Closeremark}
-                        autoComplete="off"
-                        name="remarks"
-                        minRows={2}
-                        maxRows={3}
-                        onChange={updateCloseRemark}
-                        sx={{ fontSize: 14, borderRadius: 7 }}
-                      />
-                    </Box>
-                  ) : null}
-                </Box>
+                ) : null}
               </Box>
+            </Box>
 
-              <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <Box sx={{ py: 0.5, pr: 0.5 }}>
-                  <ModalButtomCmp handleChange={submit}> Save</ModalButtomCmp>
-                </Box>
-                <Box sx={{ py: 0.5, pr: 2 }}>
-                  <ModalButtomCmp handleChange={closeModal}> Cancel</ModalButtomCmp>
-                </Box>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <Box sx={{ py: 0.5, pr: 0.5 }}>
+                <ModalButtomCmp handleChange={submit}> Save</ModalButtomCmp>
               </Box>
-            </ModalDialog>
-          </Modal>
-        </CssVarsProvider>
+              <Box sx={{ py: 0.5, pr: 2 }}>
+                <ModalButtomCmp handleChange={closeModal}> Cancel</ModalButtomCmp>
+              </Box>
+            </Box>
+          </ModalDialog>
+        </Modal>
+        {/* </CssVarsProvider> */}
       </Box>
     </Fragment>
   )

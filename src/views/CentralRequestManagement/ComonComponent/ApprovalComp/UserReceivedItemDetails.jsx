@@ -1,6 +1,6 @@
 import { Box, Table, Typography } from '@mui/joy'
 import React, { Fragment, memo, useCallback, useEffect, useMemo, useState } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { getStoreReceivedItemDetails, viewItemReturnDetails } from 'src/api/CommonApiCRF'
 import AssignmentReturnedIcon from '@mui/icons-material/AssignmentReturned'
 import ItemReturnViewModal from './ItemReturnViewModal'
@@ -182,15 +182,15 @@ const UserReceivedItemDetails = ({ req_slno }) => {
                         item.item_receive_status === 1
                           ? '#59981A'
                           : item.item_receive_status === 0
-                          ? '#e65100'
-                          : '#0288d1'
+                            ? '#e65100'
+                            : '#0288d1'
                     }}
                   >
                     {item.item_receive_status === 1
                       ? 'Received'
                       : item.item_receive_status === 0
-                      ? 'Partially'
-                      : 'Pending'}
+                        ? 'Partially'
+                        : 'Pending'}
                   </td>
                   <td
                     style={{
@@ -199,15 +199,15 @@ const UserReceivedItemDetails = ({ req_slno }) => {
                         item.user_received_status === 1
                           ? '#59981A'
                           : item.user_received_status === 0
-                          ? '#e65100'
-                          : '#0288d1'
+                            ? '#e65100'
+                            : '#0288d1'
                     }}
                   >
                     {item.user_received_status === 1
                       ? 'Received'
                       : item.user_received_status === 0
-                      ? 'Return'
-                      : 'Not Updated'}
+                        ? 'Return'
+                        : 'Not Updated'}
                   </td>
                   <td style={{ textAlign: 'center', fontSize: 13 }}>
                     {item.returnDetails && item.returnDetails.length > 0 ? (

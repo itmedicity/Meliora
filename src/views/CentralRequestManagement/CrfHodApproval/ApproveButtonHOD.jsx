@@ -1,4 +1,4 @@
-import { Chip, CssVarsProvider, IconButton, Tooltip, Typography } from '@mui/joy'
+import { Box, Chip, CssVarsProvider, IconButton, Tooltip, Typography } from '@mui/joy'
 import React, { Fragment, memo, useCallback, useState } from 'react'
 // import { ToastContainer } from 'react-toastify'
 import ImageDisplayModal from '../ComonComponent/ImageUploadCmp/ImageDisplayModal'
@@ -19,7 +19,7 @@ import DoDisturbOffTwoToneIcon from '@mui/icons-material/DoDisturbOffTwoTone'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { GetItemDetailsOfCRFCmp } from '../ComonComponent/GetItemDetailsOfCRFCmp'
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
-import { Box, Button } from '@mui/material'
+import { Button } from '@mui/material'
 import CustomToolTipForCRF from '../ComonComponent/Components/CustomToolTipForCRF'
 import CampaignTwoToneIcon from '@mui/icons-material/CampaignTwoTone'
 
@@ -500,12 +500,12 @@ const ApproveButtonHOD = ({
                 fontWeight: 650,
                 color: dept_type === 1 ? '#EF7C8E' : dept_type === 2 ? '#A16AE8' : '#29A0B1'
               }}
-              // endDecorator={
-              //     dept_type === 1 ?
-              //         <AddBusinessIcon sx={{ color: '#FB6B90', fontWeight: '650' }} />
-              //         : dept_type === 2 ? <BadgeIcon sx={{ color: '#8155BA' }} /> :
-              //             <SchoolIcon sx={{ color: '#29A0B1' }} />
-              // }
+            // endDecorator={
+            //     dept_type === 1 ?
+            //         <AddBusinessIcon sx={{ color: '#FB6B90', fontWeight: '650' }} />
+            //         : dept_type === 2 ? <BadgeIcon sx={{ color: '#8155BA' }} /> :
+            //             <SchoolIcon sx={{ color: '#29A0B1' }} />
+            // }
             >
               {dept_type_name}
             </Chip>
@@ -552,10 +552,10 @@ const ApproveButtonHOD = ({
                   {now_who_status === 1
                     ? 'Approved'
                     : now_who_status === 2
-                    ? 'Rejected'
-                    : now_who_status === 3
-                    ? 'On-Hold'
-                    : ''}
+                      ? 'Rejected'
+                      : now_who_status === 3
+                        ? 'On-Hold'
+                        : ''}
                 </Typography>
               </Button>
               <Box sx={{ mx: 0.3 }}>

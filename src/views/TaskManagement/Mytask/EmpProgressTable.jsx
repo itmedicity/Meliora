@@ -5,7 +5,7 @@ import moment from 'moment'
 import EditIcon from '@mui/icons-material/Edit'
 const EmpProgressTable = ({ progresstabledata, rowSelect }) => {
   return (
-    <Paper variant="outlined" sx={{ width: '99%', m: 1, overflow: 'auto', maxHeight: 300 }}>
+    <Box variant="outlined" sx={{ width: '99%', m: 1, overflow: 'auto', maxHeight: 300, border: 1, borderColor: "#dddfe2" }}>
       {progresstabledata.length !== 0 ? (
         <Box>
           <CssVarsProvider>
@@ -46,7 +46,7 @@ const EmpProgressTable = ({ progresstabledata, rowSelect }) => {
           No Progress Added Under Task
         </Box>
       )}
-    </Paper>
+    </Box>
   )
 }
 

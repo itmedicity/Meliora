@@ -121,7 +121,7 @@ const AcceptTaskFromDir = () => {
   }
 
   return (
-    <Paper sx={{ pb: 0.3, bgcolor: '#DFE3ED' }}>
+    <Paper sx={{ pb: 0.3, bgcolor: '#DFE3ED', width: '100%' }}>
       {image === 1 ? (
         <ViewTaskImage
           imageUrls={imageUrls}

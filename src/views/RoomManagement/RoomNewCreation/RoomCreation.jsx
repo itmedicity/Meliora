@@ -17,9 +17,11 @@ import BuildBlockSelect from 'src/views/CommonSelectCode/BuildBlockSelect'
 import DeptSectionSelect from 'src/views/CommonSelectCode/DeptSectionSelect'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { useQueryClient } from '@tanstack/react-query'
 
 const RoomCreation = () => {
   const history = useNavigate()
+  const queryClient = useQueryClient()
   const [count, setCount] = useState(0)
   const [value, setValue] = useState(0)
   const [building, setBuilding] = useState(0)
@@ -228,6 +230,7 @@ const RoomCreation = () => {
         if (success === 2) {
           succesNotify(message)
           setCount(count + 1)
+          queryClient.invalidateQueries('GetroomData')
           reset()
         } else if (success === 0) {
           infoNotify(message)
@@ -242,6 +245,7 @@ const RoomCreation = () => {
             if (success === 1) {
               succesNotify('Room created successfully')
               setCount(count + 1)
+              queryClient.invalidateQueries('GetroomData')
               reset()
             } else if (success === 0) {
               infoNotify('Error Occured')
@@ -256,7 +260,7 @@ const RoomCreation = () => {
         UpdateRoom(patchdata)
       }
     },
-    [postdata, value, count, patchdata, start, lastRoom, end]
+    [postdata, value, count, patchdata, start, lastRoom, end, queryClient]
   )
   const rowSelect = useCallback(params => {
     setValue(1)

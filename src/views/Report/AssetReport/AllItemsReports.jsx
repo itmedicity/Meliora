@@ -13,7 +13,7 @@ import { useDispatch } from 'react-redux'
 import CustomBackDrop from 'src/views/Components/CustomBackDrop'
 import { Checkbox, CssVarsProvider } from '@mui/joy'
 import AMCustodianDeptSelect from 'src/views/CommonSelectCode/AMCustodianDeptSelect'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 
 const AllItemsReports = () => {
   const history = useNavigate()

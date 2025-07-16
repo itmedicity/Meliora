@@ -10,7 +10,6 @@ import KMCItemApprovalComponent from '../ComonComponent/ComponentsKMC/KMCItemApp
 import AddMoreItemsKMC from '../ComonComponent/ComponentsKMC/AddMoreItemsKMC'
 import ApprovalCompntAll from '../ComonComponent/ApprovalCompntAll'
 import ModalButtomCmp from '../ComonComponent/Components/ModalButtomCmp'
-import { useQueryClient } from 'react-query'
 import { format } from 'date-fns'
 import { axioskmc, axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
@@ -30,6 +29,7 @@ import DMSApproveViewForHigher from '../ComonComponent/HigherLevelComponents/DMS
 import HODApproveViewHigher from '../ComonComponent/HigherLevelComponents/HODApproveViewHigher'
 import CampaignTwoToneIcon from '@mui/icons-material/CampaignTwoTone'
 import DataCollectDepSecSelectTmc from '../ComonComponent/DataCollectionComp/DataCollectDepSecSelectTmc'
+import { useQueryClient } from '@tanstack/react-query'
 
 const ManagingDirectorModal = ({
   open,

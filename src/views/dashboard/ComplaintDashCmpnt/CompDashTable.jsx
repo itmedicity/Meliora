@@ -25,7 +25,7 @@ const CompDashTable = ({ deptwiseemp }) => {
           </TableHead>
           <TableBody>
             {deptwiseemp &&
-              deptwiseemp.map((val, index) => {
+              deptwiseemp.map((val) => {
                 return (
                   <TableRow key={val.em_id}>
                     <TableCell align="center">{val.em_no}</TableCell>

@@ -891,7 +891,7 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                   }}
                 >
                   {roomcategory &&
-                    roomcategory.map((val, index) => {
+                    roomcategory.map((val,) => {
                       return (
                         <Box
                           sx={{
@@ -945,7 +945,7 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                   }}
                 >
                   {bed &&
-                    bed.map((val, index) => {
+                    bed.map((val,) => {
                       return (
                         <Box
                           sx={{
@@ -1195,7 +1195,7 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                   }}
                 >
                   {payment &&
-                    payment.map((val, index) => {
+                    payment.map((val) => {
                       return (
                         <Box
                           sx={{
@@ -1234,7 +1234,7 @@ const Patientsurvillence = ({ ipno, ptno, name, age, docname, doa, mf, rmno, bed
                   }}
                 >
                   {pack &&
-                    pack.map((val, index) => {
+                    pack.map((val) => {
                       return (
                         <Box
                           sx={{

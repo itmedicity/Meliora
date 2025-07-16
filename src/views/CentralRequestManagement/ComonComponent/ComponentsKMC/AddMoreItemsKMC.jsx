@@ -1,6 +1,5 @@
 import { Box, IconButton } from '@mui/joy'
 import React, { Fragment, memo, useCallback, useEffect, useMemo, useState } from 'react'
-import { useQuery, useQueryClient } from 'react-query'
 import { useDispatch, useSelector } from 'react-redux'
 import { getApprovedItemsKMC, getMaxItemslNoKMC } from 'src/api/CommonApiCRFKmc'
 import { getUOM } from 'src/redux/actions/AmUOMList.action'
@@ -10,6 +9,7 @@ import _ from 'underscore'
 import CustomInputDateCmp from '../Components/CustomInputDateCmp'
 import UomApprvSelect from '../Components/UomApprvSelect'
 import { axioskmc } from 'src/views/Axios/Axios'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 
 const AddMoreItemsKMC = ({ req_slno, setMoreItem, setApproveTableData }) => {
   const dispatch = useDispatch()

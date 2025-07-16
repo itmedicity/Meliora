@@ -3,7 +3,7 @@ import Autocomplete from '@mui/joy/Autocomplete'
 import { CssVarsProvider } from '@mui/joy/'
 import { getSparesInstock } from 'src/api/AssetApis'
 import { useSelector } from 'react-redux'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 
 const CmSpareList = ({ sparez, setSparez, setSpareName, count }) => {
   const [sparex, setSparex] = useState([{ am_spare_item_map_slno: 0, item_name: '', assetno: '' }])

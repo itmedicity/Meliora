@@ -309,7 +309,7 @@ const BillModalTele = ({ modalOpen, setModalFlag, setModalOpen, billDatas, filez
           borderRadius: 10
         }}
       >
-        <ModalDialog variant="outlined" sx={{ width: 650, bgcolor: '#1896A0' }}>
+        <ModalDialog variant="outlined" sx={{ width: 650, bgcolor: '  var(  --royal-purple-200)' }}>
           <Box>
             <Box sx={{ flex: 1, textAlign: 'right' }}>
               {' '}
@@ -380,10 +380,10 @@ const BillModalTele = ({ modalOpen, setModalFlag, setModalOpen, billDatas, filez
                 {bill_tariff === 1
                   ? 'Monthly'
                   : bill_tariff === 2
-                  ? 'Qaurterly'
-                  : bill_tariff === 3
-                  ? 'Yearly'
-                  : 'Others'}
+                    ? 'Qaurterly'
+                    : bill_tariff === 3
+                      ? 'Yearly'
+                      : 'Others'}
               </Box>
             </Box>
             <Box sx={{ flex: 1, mt: 1, pt: 0.5, display: 'flex' }}>
@@ -499,13 +499,13 @@ const BillModalTele = ({ modalOpen, setModalFlag, setModalOpen, billDatas, filez
                   width: 134,
                   pl: 1,
                   fontSize: 13,
-                  bgcolor: '#5F7950',
+                  bgcolor: 'var(--true-blue-800)',
                   color: '#F8F8F0',
                   py: 0.5,
                   cursor: 'pointer',
                   '&:hover': {
                     boxShadow: '1px 2px 10px',
-                    bgcolor: '#5F7950',
+                    bgcolor: 'var(--true-blue-500)',
                     color: '#4C411A'
                   }
                 }}
@@ -514,13 +514,13 @@ const BillModalTele = ({ modalOpen, setModalFlag, setModalOpen, billDatas, filez
                 <FilePresentIcon
                   sx={{
                     cursor: 'pointer',
-                    bgcolor: '#3D5B59',
+                    bgcolor: 'var(--true-blue-800)',
                     height: 22,
                     width: 23,
                     borderRadius: 10,
                     color: 'white',
                     '&:hover': {
-                      color: '#4C411A'
+                      color: 'var(--true-blue-500)'
                     }
                   }}
                 />

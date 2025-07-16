@@ -18,7 +18,6 @@ import DailyCensusTransactions from 'src/Menus/CensusTransaction'
 import IncidentTransactions from 'src/Menus/IncidentTransaction'
 import FeedbackTransactions from 'src/Menus/FeddbackTransaction'
 import { getDefaultCompany } from 'src/api/CommonApiCRF'
-import { useQuery } from 'react-query'
 import NotificationTransaction from 'src/Menus/NotificationTransaction'
 import AmsTransaction from 'src/Menus/AmsTransaction'
 import { CgClose } from 'react-icons/cg'
@@ -77,6 +76,7 @@ import { GiMedicines } from 'react-icons/gi'
 import { VscSignOut } from 'react-icons/vsc'
 
 import TMCHLogo from '../assets/Svg/tmch_logo.svg'
+import { useQuery } from '@tanstack/react-query'
 
 const AppSidebar = ({ collapsed, setCollapsed }) => {
   const navigation = useNavigate()
@@ -623,7 +623,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
           <Stack direction="row" useFlexGap spacing={1} sx={{ justifyContent: 'space-between' }}>
             <Box></Box>
             <Tooltip title="Exit from the Application" arrow placement="right" variant="outlined" color="danger">
-              <IconButton variant="outlined" sx={{ color: 'var(--rose-pink-400)' }} onClick={() => {}}>
+              <IconButton variant="outlined" sx={{ color: 'var(--rose-pink-400)' }} onClick={() => { }}>
                 <VscSignOut size={20} />
               </IconButton>
             </Tooltip>

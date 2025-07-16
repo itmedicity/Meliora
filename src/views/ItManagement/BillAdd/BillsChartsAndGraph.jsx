@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import BarChartIcon from '@mui/icons-material/BarChart'
-import { Paper } from '@mui/material'
-import { Box, Dropdown, Input, ListDivider, Menu, MenuButton, MenuItem, Typography } from '@mui/joy'
+import { createTheme, Paper } from '@mui/material'
+import { Box, CssBaseline, Dropdown, Input, ListDivider, Menu, MenuButton, MenuItem, ThemeProvider, Typography } from '@mui/joy'
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee'
 import { BarChart, PieChart } from '@mui/x-charts'
 import { endOfMonth, endOfYear, format, parse, startOfMonth, startOfYear, subYears } from 'date-fns'
@@ -17,6 +17,8 @@ import { getBillCategory } from 'src/redux/actions/ItBillCategoryList.action'
 import DonutSmallSharpIcon from '@mui/icons-material/DonutSmallSharp'
 import { axioslogin } from 'src/views/Axios/Axios'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
+import { CacheProvider } from '@emotion/react'
+import createCache from '@emotion/cache';
 
 const BillsChartsAndGraph = () => {
   const [searchMonthAndYear, setSearchMonthAndYear] = useState(format(new Date(), 'yyyy-MM'))
@@ -387,9 +389,12 @@ const BillsChartsAndGraph = () => {
     }
     getTotOtherchargedAmount(searchTotOtherCharged)
   }, [searchTotOtherCharged])
+  const emotionCache = createCache({ key: 'css', prepend: true });
 
+  // Create a theme (customize as needed)
+  const theme = createTheme();
   return (
-    <Paper
+    <Box
       sx={{
         mt: 0.5,
         borderRadius: 0,
@@ -404,7 +409,7 @@ const BillsChartsAndGraph = () => {
         Bills Tracker
       </Box>
       <Box sx={{ px: 0.5, flex: 1, display: 'flex' }}>
-        <Paper sx={{ flex: 2.1, borderRadius: 0, bgcolor: 'white', height: 300, mb: 1 }}>
+        <Box sx={{ flex: 2.1, borderRadius: 0, bgcolor: 'white', height: 300, mb: 1 }}>
           <Box sx={{ flex: 1, display: 'flex' }}>
             <Box sx={{ flex: 1 }}>
               <Typography sx={{ fontWeight: 800, fontSize: 18, color: '#52688F', py: 0.5, pl: 2 }}>
@@ -496,86 +501,99 @@ const BillsChartsAndGraph = () => {
               </Box>
             </Box>
           </Box>
-          <Box sx={{ flex: 1, overflow: 'auto', pl: 3 }}>
-            {monthYearFlag === 1 ? (
-              <BarChart
-                height={210}
-                dataset={barChartViewMonthYear}
-                xAxis={[
-                  {
-                    scaleType: 'band',
-                    dataKey: 'category',
-                    tickLabelStyle: {
-                      angle: -26,
-                      textAnchor: 'end',
-                      fontSize: 10
-                    }
-                  }
-                ]}
-                series={[
-                  {
-                    dataKey: 'totBillAmount',
-                    label: 'Amount',
-                    highlightScope: {
-                      faded: 'global',
-                      highlighted: 'item'
-                    },
-                    faded: { innerRadius: 25, additionalRadius: -30, color: 'gray' },
-                    color: '#AB3917',
-                    valueFormatter
-                  }
-                ]}
-                tooltip={{ trigger: 'item' }}
-                axisHighlight={{
-                  x: 'none',
-                  y: 'none'
-                }}
-              />
-            ) : (
-              <Box sx={{ display: 'flex', ml: 4 }}>
-                <Box sx={{ height: 150, pt: 10 }}>0-</Box>
-                <Box sx={{ flex: 1 }}>
-                  <Box
-                    sx={{
-                      mt: 5,
-                      mr: 10,
-                      height: 120,
-                      borderLeft: 1,
-                      borderBottom: 1,
-                      flex: 1,
-                      display: 'flex',
-                      justifyContent: 'center',
-                      pt: 2
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        width: 20,
-                        height: 20,
-                        bgcolor: 'darkred',
-                        textAlign: 'center',
-                        mr: 0.4
+          <CacheProvider value={emotionCache}>
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
+              {Array.isArray(barChartViewMonthYear) && (
+
+                <Box sx={{ flex: 1, overflow: 'auto', pl: 3 }}>
+                  {monthYearFlag === 1 ? (
+
+                    <BarChart
+                      height={210}
+                      dataset={barChartViewMonthYear}
+                      xAxis={[
+                        {
+                          scaleType: 'band',
+                          dataKey: 'category',
+                          tickLabelStyle: {
+                            angle: -26,
+                            textAnchor: 'end',
+                            fontSize: 10
+                          }
+                        }
+                      ]}
+                      series={[
+                        {
+                          dataKey: 'totBillAmount',
+                          label: 'Amount',
+                          highlightScope: {
+                            faded: 'global',
+                            highlighted: 'item'
+                          },
+                          faded: { innerRadius: 25, additionalRadius: -30, color: 'gray' },
+                          color: '#AB3917',
+                          valueFormatter
+                        }
+                      ]}
+                      tooltip={{ trigger: 'item' }}
+                      axisHighlight={{
+                        x: 'none',
+                        y: 'none'
                       }}
-                    ></Box>{' '}
-                    Amount
-                  </Box>
-                  <Box
-                    sx={{
-                      mr: 10,
-                      flex: 1,
-                      textAlign: 'center',
-                      borderLeft: 1,
-                      borderRight: 1,
-                      height: 5
-                    }}
-                  ></Box>
-                  <Box sx={{ ml: 5, mr: 10, flex: 1, textAlign: 'center' }}>-categories-</Box>
+                    />
+
+                  ) : (
+                    <Box sx={{ display: 'flex', ml: 4 }}>
+                      <Box sx={{ height: 150, pt: 10 }}>0-</Box>
+                      <Box sx={{ flex: 1 }}>
+                        <Box
+                          sx={{
+                            mt: 5,
+                            mr: 10,
+                            height: 120,
+                            borderLeft: 1,
+                            borderBottom: 1,
+                            flex: 1,
+                            display: 'flex',
+                            justifyContent: 'center',
+                            pt: 2
+                          }}
+                        >
+                          <Box
+                            sx={{
+                              width: 20,
+                              height: 20,
+                              bgcolor: 'darkred',
+                              textAlign: 'center',
+                              mr: 0.4
+                            }}
+                          ></Box>{' '}
+                          Amount
+                        </Box>
+                        <Box
+                          sx={{
+                            mr: 10,
+                            flex: 1,
+                            textAlign: 'center',
+                            borderLeft: 1,
+                            borderRight: 1,
+                            height: 5
+                          }}
+                        ></Box>
+                        <Box sx={{ ml: 5, mr: 10, flex: 1, textAlign: 'center' }}>-categories-</Box>
+                      </Box>
+                    </Box>
+                  )}
                 </Box>
-              </Box>
-            )}
-          </Box>
-        </Paper>
-        <Paper sx={{ flex: 1.3, borderRadius: 0, bgcolor: 'white', height: 300, mb: 1, ml: 1 }}>
+              )}
+
+            </ThemeProvider>
+          </CacheProvider>
+
+
+        </Box>
+        <Box sx={{ flex: 1.3, borderRadius: 0, bgcolor: 'white', height: 300, mb: 1, ml: 1 }}>
           <Box sx={{ flex: 1, display: 'flex' }}>
             <Box sx={{ flex: 0.6 }}>
               <Typography sx={{ fontWeight: 800, fontSize: 18, color: '#52688F', py: 0.5, pl: 2 }}>
@@ -614,38 +632,48 @@ const BillsChartsAndGraph = () => {
           <Box sx={{ width: 300, margin: 'auto', mt: 2, pl: 0.3 }}>
             <Box>
               {yearFlag === 1 ? (
-                <Box sx={{ ml: 7, width: 250 }}>
-                  <PieChart
-                    height={160}
-                    sx={{ mb: 1 }}
-                    series={[
-                      {
-                        data: barChartViewYear.map(item => ({
-                          x: item.categorys,
-                          y: item.totBillAmounts,
-                          value: item.totBillAmounts,
-                          label: item.categorys
-                        })),
-                        highlightScope: {
-                          faded: 'global',
-                          highlighted: 'item'
-                        },
-                        faded: { innerRadius: 25, additionalRadius: -30, color: 'gray' },
-                        innerRadius: 8,
-                        outerRadius: 80,
-                        paddingAngle: 5,
-                        cornerRadius: 5,
-                        startAngle: -180,
-                        endAngle: 180,
-                        cl: 180,
-                        cb: 0
-                      }
-                    ]}
-                    slotProps={{
-                      legend: { hidden: true }
-                    }}
-                  />
-                </Box>
+                <CacheProvider value={emotionCache}>
+                  <ThemeProvider theme={theme}>
+                    <CssBaseline />
+                    <Box sx={{ ml: 7, width: 250 }}>
+                      {Array.isArray(barChartViewYear) && (
+
+                        <PieChart
+                          height={160}
+                          sx={{ mb: 1 }}
+                          series={[
+                            {
+                              data: barChartViewYear.map(item => ({
+                                x: item.categorys,
+                                y: item.totBillAmounts,
+                                value: item.totBillAmounts,
+                                label: item.categorys
+                              })),
+                              highlightScope: {
+                                faded: 'global',
+                                highlighted: 'item'
+                              },
+                              faded: { innerRadius: 25, additionalRadius: -30, color: 'gray' },
+                              innerRadius: 8,
+                              outerRadius: 80,
+                              paddingAngle: 5,
+                              cornerRadius: 5,
+                              startAngle: -180,
+                              endAngle: 180,
+                              cl: 180,
+                              cb: 0
+                            }
+                          ]}
+                          slotProps={{
+                            legend: { hidden: true }
+                          }}
+                        />
+                      )}
+                    </Box>
+
+                  </ThemeProvider>
+                </CacheProvider>
+
               ) : (
                 <Box sx={{ margin: 'auto', width: 110, pt: 2 }}>
                   <DonutSmallSharpIcon sx={{ height: 110, width: 110, color: '#B1B1B1' }} />
@@ -654,9 +682,9 @@ const BillsChartsAndGraph = () => {
               )}
             </Box>
           </Box>
-        </Paper>
+        </Box>
       </Box>
-      <Paper sx={{ flex: 1.2, borderRadius: 0, bgcolor: 'white', height: 300, mb: 1, mx: 0.5 }}>
+      <Box sx={{ flex: 1.2, borderRadius: 0, bgcolor: 'white', height: 300, mb: 1, mx: 0.5 }}>
         <Box sx={{ flex: 1, mx: 1, pt: 1, display: 'flex' }}>
           <Typography sx={{ fontWeight: 800, fontSize: 18, color: '#52688F', flex: 1 }}>
             &nbsp;Annual Comparison
@@ -684,20 +712,28 @@ const BillsChartsAndGraph = () => {
             onChange={yearChangeCompareTwo}
           />
         </Box>
-        <Box sx={{ flex: 1 }}>
-          <BarChart
-            dataset={combinedDatas}
-            height={200}
-            sx={{ mb: 1 }}
-            xAxis={[{ scaleType: 'band', dataKey: 'month' }]}
-            series={[
-              { dataKey: 'firstamount', label: CompareYearOne, valueFormatter, color: '#214358' },
-              { dataKey: 'secondamount', label: CompareYearTwo, valueFormatter, color: '#B8390E' }
-            ]}
-          />
-        </Box>
-      </Paper>
-    </Paper>
+        <CacheProvider value={emotionCache}>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            {Array.isArray(combinedDatas) && combinedDatas.length > 0 && (
+              <Box sx={{ flex: 1 }}>
+                <BarChart
+                  dataset={combinedDatas}
+                  height={200}
+                  sx={{ mb: 1 }}
+                  xAxis={[{ scaleType: 'band', dataKey: 'month' }]}
+                  series={[
+                    { dataKey: 'firstamount', label: CompareYearOne, valueFormatter, color: '#214358' },
+                    { dataKey: 'secondamount', label: CompareYearTwo, valueFormatter, color: '#B8390E' },
+                  ]}
+                />
+
+              </Box>
+            )}
+          </ThemeProvider>
+        </CacheProvider>
+      </Box>
+    </Box>
   )
 }
 

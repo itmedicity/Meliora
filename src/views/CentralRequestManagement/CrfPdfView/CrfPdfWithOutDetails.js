@@ -2,7 +2,9 @@ import pdfMake from 'pdfmake/build/pdfmake'
 import pdfFonts from 'pdfmake/build/vfs_fonts'
 import { format } from 'date-fns'
 import { edsign, mdsign, snow } from 'src/views/Constant/Static'
-pdfMake.vfs = pdfFonts.pdfMake.vfs
+// pdfMake.vfs = pdfFonts.pdfMake.vfs
+pdfMake.vfs = pdfFonts.vfs
+
 
 export const CrfPdfWithOutDetails = val => {
   const {

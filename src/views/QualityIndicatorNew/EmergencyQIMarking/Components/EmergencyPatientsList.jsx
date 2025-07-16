@@ -128,7 +128,7 @@ const EmergencyPatientsList = ({ setSearchFlag, dailyDate, count, setCount, qide
                       value={searchPat}
                       onChange={ChangePatient}
                       sx={{ width: 250, height: 35 }}
-                      // endDecorator={<Button>Message</Button>}
+                    // endDecorator={<Button>Message</Button>}
                     />
                   </CssVarsProvider>
                 </Box>
@@ -345,7 +345,7 @@ const EmergencyPatientsList = ({ setSearchFlag, dailyDate, count, setCount, qide
                                       color: '#263238'
                                     }
                                   }}
-                                  onClick={e => IndicatorsView(val)}
+                                  onClick={() => IndicatorsView(val)}
                                 />
                               </Tooltip>
                             </CssVarsProvider>

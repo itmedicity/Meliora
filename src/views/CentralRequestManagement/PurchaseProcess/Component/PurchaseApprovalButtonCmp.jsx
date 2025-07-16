@@ -13,7 +13,7 @@ import CountdownTimer from './CountdownTimer'
 import { warningNotify } from 'src/views/Common/CommonCode'
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import { format } from 'date-fns'
-import { useQueryClient } from 'react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import CustomToolTipForCRF from '../../ComonComponent/Components/CustomToolTipForCRF'
 
 const ImageDisplayModal = React.lazy(() => import('../../ComonComponent/ImageUploadCmp/ImageDisplayModal'))
@@ -56,12 +56,12 @@ const PurchaseApprovalButtonCmp = ({ val, company }) => {
     const capitalizeWords = str =>
       str
         ? str
-            .toLowerCase()
-            .trim()
-            .replace(/\s+/g, ' ')
-            .split(' ')
-            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(' ')
+          .toLowerCase()
+          .trim()
+          .replace(/\s+/g, ' ')
+          .split(' ')
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(' ')
         : ''
 
     if (val) {
@@ -520,10 +520,10 @@ const PurchaseApprovalButtonCmp = ({ val, company }) => {
               {now_who_status === 1
                 ? 'Approved'
                 : now_who_status === 2
-                ? 'Rejected'
-                : now_who_status === 3
-                ? 'On-Hold'
-                : ''}
+                  ? 'Rejected'
+                  : now_who_status === 3
+                    ? 'On-Hold'
+                    : ''}
             </Typography>
           </Button>
           <Box sx={{ mx: 0.3 }}>

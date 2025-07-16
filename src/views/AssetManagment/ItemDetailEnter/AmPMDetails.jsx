@@ -5,7 +5,7 @@ import CusIconButton from 'src/views/Components/CusIconButton'
 import TextComponent from 'src/views/Components/TextComponent'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { getAmcCmcPmData, getPMDetailList } from 'src/api/AssetApis'
 import { useSelector } from 'react-redux'
 import { axioslogin } from 'src/views/Axios/Axios'
@@ -423,10 +423,10 @@ const AmPMDetails = ({ detailArry }) => {
                         {val.status === 1
                           ? 'Active *'
                           : val.status === 2
-                          ? 'Inactive'
-                          : val.status === 0
-                          ? 'Expired'
-                          : 'NotUpdated'}
+                            ? 'Inactive'
+                            : val.status === 0
+                              ? 'Expired'
+                              : 'NotUpdated'}
                       </Box>
                     </Box>
                   )

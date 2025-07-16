@@ -74,7 +74,7 @@ const AllBill = ({ billCount, setbillCount }) => {
             {allBillData &&
               allBillData.map(val => {
                 return (
-                  <Paper
+                  <Box
                     key={val.bill_add_slno}
                     sx={{
                       flex: 1,
@@ -105,16 +105,16 @@ const AllBill = ({ billCount, setbillCount }) => {
                       {val.bill_tariff === 0
                         ? 'not given'
                         : val.bill_tariff === 1
-                        ? 'Monthly'
-                        : val.bill_tariff === 2
-                        ? 'Quaterly'
-                        : val.bill_tariff === 3
-                        ? 'Yearly'
-                        : val.bill_tariff === 4
-                        ? 'Others'
-                        : 'not given'}
+                          ? 'Monthly'
+                          : val.bill_tariff === 2
+                            ? 'Quaterly'
+                            : val.bill_tariff === 3
+                              ? 'Yearly'
+                              : val.bill_tariff === 4
+                                ? 'Others'
+                                : 'not given'}
                     </Box>
-                  </Paper>
+                  </Box>
                 )
               })}
           </Box>

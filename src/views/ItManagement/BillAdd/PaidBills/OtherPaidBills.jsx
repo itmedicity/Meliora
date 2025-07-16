@@ -348,7 +348,7 @@ const OtherPaidBills = ({ otherBills }) => {
               alphbasedData.map(val => {
                 const Monthly = format(new Date(val.bill_date), 'MMM yyyy')
                 return (
-                  <Paper
+                  <Box
                     key={val.other_bill_slno}
                     sx={{
                       minHeight: 33,
@@ -389,7 +389,7 @@ const OtherPaidBills = ({ otherBills }) => {
                     </Box>
                     <Box sx={{ flex: 5, pt: 0.5, pl: 0.3 }}>{val.bill_name}</Box>
                     <Box sx={{ flex: 1.5, pt: 0.5 }}>{val.it_bill_category_name}</Box>
-                  </Paper>
+                  </Box>
                 )
               })}
           </Box>
@@ -399,7 +399,7 @@ const OtherPaidBills = ({ otherBills }) => {
               billDateData.map(val => {
                 const Monthly = format(new Date(val.bill_date), 'MMM yyyy')
                 return (
-                  <Paper
+                  <Box
                     key={val.other_bill_slno}
                     sx={{
                       minHeight: 33,
@@ -440,7 +440,7 @@ const OtherPaidBills = ({ otherBills }) => {
                     </Box>
                     <Box sx={{ flex: 5, pt: 0.5, pl: 0.3 }}>{val.bill_name}</Box>
                     <Box sx={{ flex: 1.5, pt: 0.5 }}>{val.it_bill_category_name}</Box>
-                  </Paper>
+                  </Box>
                 )
               })}
           </Box>
@@ -450,7 +450,7 @@ const OtherPaidBills = ({ otherBills }) => {
               billcate.map(val => {
                 const Monthly = format(new Date(val.bill_date), 'MMM yyyy')
                 return (
-                  <Paper
+                  <Box
                     key={val.other_bill_slno}
                     sx={{
                       minHeight: 33,
@@ -491,7 +491,7 @@ const OtherPaidBills = ({ otherBills }) => {
                     </Box>
                     <Box sx={{ flex: 5, pt: 0.5, pl: 0.3 }}>{val.bill_name}</Box>
                     <Box sx={{ flex: 1.5, pt: 0.5 }}>{val.it_bill_category_name}</Box>
-                  </Paper>
+                  </Box>
                 )
               })}
           </Box>
@@ -501,7 +501,7 @@ const OtherPaidBills = ({ otherBills }) => {
               otherBills.map(val => {
                 const Monthly = format(new Date(val.bill_date), 'MMM yyyy')
                 return (
-                  <Paper
+                  <Box
                     key={val.other_bill_slno}
                     sx={{
                       minHeight: 33,
@@ -542,7 +542,7 @@ const OtherPaidBills = ({ otherBills }) => {
                     </Box>
                     <Box sx={{ flex: 5, pt: 0.5, pl: 1 }}>{val.bill_name}</Box>
                     <Box sx={{ flex: 1.5, pt: 0.5 }}>{val.it_bill_category_name}</Box>
-                  </Paper>
+                  </Box>
                 )
               })}
           </Box>

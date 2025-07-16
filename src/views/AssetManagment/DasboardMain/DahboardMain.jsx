@@ -8,7 +8,7 @@ import {
   getTotSpareCount,
   getTotSpareValue
 } from 'src/api/CommonApi'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import EquipmentIcon from '@mui/icons-material/Construction'
 import StarHalfIcon from '@mui/icons-material/StarHalf'
 import KeyboardHideIcon from '@mui/icons-material/KeyboardHide'

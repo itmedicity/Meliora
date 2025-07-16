@@ -1,12 +1,12 @@
 import { Box, Paper, Radio, RadioGroup, FormControlLabel, Tabs, Tab, tabClasses } from '@mui/material'
-import React, { Fragment, memo, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { Fragment, memo, Suspense, useCallback, useEffect, useMemo, useState } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { useNavigate } from 'react-router-dom'
 import { format } from 'date-fns'
 import { CssVarsProvider, IconButton } from '@mui/joy'
 import FilterAltTwoToneIcon from '@mui/icons-material/FilterAltTwoTone'
 import CustomCloseIconCmp from '../ComonComponent/Components/CustomCloseIconCmp'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { getDefaultCompany, getSubStoreCrfDetails } from 'src/api/CommonApiCRF'
 import { warningNotify } from 'src/views/Common/CommonCode'
 import { useSelector } from 'react-redux'
@@ -288,7 +288,7 @@ const CrfSubStoreMain = () => {
   if (subError || compError) return <p>Error occurred.</p>
   return (
     <Fragment>
-      <Box sx={{ height: window.innerHeight - 90 }}>
+      <Box sx={{ height: window.innerHeight - 90, width: '100%' }}>
         <Box sx={{ display: 'flex', backgroundColor: '#f0f3f5', border: '1px solid #B4F5F0' }}>
           <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: 0.5, color: '#385E72' }}>Store</Box>
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, m: 0.5 }}>
@@ -394,7 +394,7 @@ const CrfSubStoreMain = () => {
                   </Box>
                 </Paper>
               )}
-              <React.Suspense fallback={<div>Loading...</div>}>
+              <Suspense fallback={<div>Loading...</div>}>
                 <ReceiveSubStoreView
                   tableData={tableData}
                   selectedRadio={selectedRadio}
@@ -404,7 +404,7 @@ const CrfSubStoreMain = () => {
                   reqSlno={reqSlno}
                   company={company}
                 />
-              </React.Suspense>
+              </Suspense>
               {/* */}
             </Box>
           ))}

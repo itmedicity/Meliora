@@ -174,3 +174,19 @@ export const getExpiredWarGaur = async postData => {
     }
   })
 }
+export const getAllPendingComplaints = async empsecid => {
+  return axioslogin.get(`/complaintreg/loginbysec/${empsecid}`).then(res => {
+    const { success, data } = res.data
+    if (success === 1) {
+      return data
+    }
+  })
+}
+export const getDirectPendingCompalints = async () => {
+  return axioslogin.get('complaintreg/viewAllPendingTicket').then(res => {
+    const { success, data } = res.data
+    if (success === 2) {
+      return data
+    }
+  })
+}

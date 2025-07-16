@@ -217,7 +217,7 @@ const OPAssessmentTimeReport = ({ viewData, searchDate, qidept }) => {
                                       color: '#1E8AD3'
                                     }
                                   }}
-                                  onClick={e => ViewDetails(val)}
+                                  onClick={() => ViewDetails(val)}
                                 />
                               </Tooltip>
                             ) : (

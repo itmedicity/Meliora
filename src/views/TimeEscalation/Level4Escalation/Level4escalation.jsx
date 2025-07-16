@@ -311,7 +311,7 @@ const Level4escalation = () => {
                                     sx={{
                                       mt: 0.8
                                     }}
-                                    onClick={e => getData(val.esc_slno)}
+                                    onClick={() => getData(val.esc_slno)}
                                   >
                                     {val.count}
                                   </IconButton>

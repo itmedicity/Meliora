@@ -3,7 +3,7 @@ import React, { Fragment, memo, useCallback, useEffect, useMemo, useState } from
 import CustomCloseIconCmp from '../ComonComponent/Components/CustomCloseIconCmp'
 import { useNavigate } from 'react-router-dom'
 import { Badge, FormControlLabel, Radio, RadioGroup } from '@mui/material'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import {
   getDataCollectionDetails,
   getDefaultCompany,
@@ -275,7 +275,7 @@ const CrfDataCollectionTable = () => {
   if (dcError || compError || kmcdcError || comError || dataError || kmcdepError) return <p>Error occurred.</p>
   return (
     <Fragment>
-      <Box sx={{ height: window.innerHeight - 80, flexWrap: 'wrap', bgcolor: 'white' }}>
+      <Box sx={{ height: window.innerHeight - 80, flexWrap: 'wrap', bgcolor: 'white', width: '100%' }}>
         <Box sx={{ display: 'flex', backgroundColor: '#f0f3f5', border: '1px solid #B4F5F0' }}>
           <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: 0.5, color: '#385E72' }}>Data Collection For CRF</Box>
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, m: 0.5 }}>

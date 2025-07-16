@@ -19,7 +19,7 @@ import EditIcon from '@mui/icons-material/Edit'
 import { editicon } from 'src/color/Color'
 import DeliveryMarkingView from './Components/DeliveryMarkingView'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
-import { useQueryClient } from 'react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import CloudUploadTwoToneIcon from '@mui/icons-material/CloudUploadTwoTone'
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf'
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile'
@@ -718,8 +718,8 @@ const DeliveryMarkingStore = () => {
         ? 'pdf'
         : 'image'
       : file.type.includes('application/pdf')
-      ? 'pdf'
-      : 'image'
+        ? 'pdf'
+        : 'image'
 
     const fileUrl = file.url || URL.createObjectURL(file)
     setPreviewFile({ url: fileUrl, type: fileType })
@@ -758,7 +758,7 @@ const DeliveryMarkingStore = () => {
       {imageshowFlag === 1 ? (
         <ReqImageDisModal open={imageshow} handleClose={handleClose} previewFile={previewFile} />
       ) : null}
-      <Box sx={{ height: window.innerHeight - 80 }}>
+      <Box sx={{ height: window.innerHeight - 80, width: '100%' }}>
         <CssVarsProvider>
           <Box sx={{ display: 'flex', backgroundColor: '#f0f3f5', border: '1px solid #B4F5F0' }}>
             <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: 0.5, color: '#385E72' }}> Delivery Marking</Box>

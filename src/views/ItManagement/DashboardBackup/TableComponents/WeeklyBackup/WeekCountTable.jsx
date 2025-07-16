@@ -1,5 +1,5 @@
-import { CssVarsProvider, Table } from '@mui/joy'
-import { Box, Paper, Typography } from '@mui/material'
+import { Box, CssVarsProvider, Table, Typography } from '@mui/joy'
+import { Paper } from '@mui/material'
 import React, { useCallback } from 'react'
 import { memo } from 'react'
 import { Fragment } from 'react'

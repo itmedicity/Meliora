@@ -522,7 +522,7 @@ const WifiManageMentMains = () => {
   }, [SetQrModelOpen])
 
   return (
-    <Box>
+    <Box sx={{ width: "100%" }}>
       <Box sx={{ maxHeight: window.innerHeight - 220 }}>
         <Paper variant="outlined" square sx={{ display: 'flex', flex: 1, height: 40 }}>
           <Box sx={{ flex: 1, pl: 1, pt: 1.2 }}>

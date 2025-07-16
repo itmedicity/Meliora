@@ -13,7 +13,7 @@ import AmRoomSelWONameUDepSec from 'src/views/CommonSelectCode/AmRoomSelWONameUD
 import AmSubRmSelWONamURoom from 'src/views/CommonSelectCode/AmSubRmSelWONamURoom'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import { getArrayOfAssetLocationDetails, getcustodianTransferHistory } from 'src/api/AssetApis'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import SwapHorizontalCircleSharpIcon from '@mui/icons-material/SwapHorizontalCircleSharp'
 import FilterAltSharpIcon from '@mui/icons-material/FilterAltSharp'

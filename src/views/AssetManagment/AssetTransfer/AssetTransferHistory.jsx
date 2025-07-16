@@ -8,7 +8,7 @@ import AmDeptSecSelectWOName from 'src/views/CommonSelectCode/AmDeptSecSelectWON
 import TextComponent from 'src/views/Components/TextComponent'
 import AssetCustodianDepartment from 'src/views/CommonSelectCode/AssetCustodianDepartment'
 import { getCustodianDept } from 'src/api/AssetApis'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import AmDeptSecSelectJoy from 'src/views/CommonSelectCode/AmDeptSecSelectJoy'
 import AmDeptSelectJoy from 'src/views/CommonSelectCode/AmDeptSelectJoy'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'

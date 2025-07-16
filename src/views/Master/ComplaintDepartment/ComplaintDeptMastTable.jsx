@@ -2,7 +2,7 @@ import React, { useState, memo } from 'react'
 import { warningNotify } from 'src/views/Common/CommonCode'
 import CusAgGridMast from 'src/views/Components/CusAgGridMast'
 import EditButton from 'src/views/Components/EditButton'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { getComplaintDepartmentData } from 'src/api/CommonApi'
 
 const ComplaintDeptMastTable = ({ rowSelect }) => {

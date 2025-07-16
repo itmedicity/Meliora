@@ -11,7 +11,7 @@ import { Paper } from '@mui/material'
 import ReqItemDisplay from '../../ComonComponent/ReqItemDisplay'
 import ApprovedItemListDis from '../../ComonComponent/ApprovedItemListDis'
 import { getStoreReceivedItemDetails, getUserAckDetails } from 'src/api/CommonApiCRF'
-import { useQuery, useQueryClient } from 'react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import CustomToolTipForCRF from '../../ComonComponent/Components/CustomToolTipForCRF'
 import StoreReceivedItemList from './StoreReceivedItemList'
 
@@ -212,10 +212,10 @@ const UserAckModal = ({ req_slno, handleClose, open, approveTableData, reqItems,
   const capitalizeWords = str =>
     str
       ? str
-          .toLowerCase()
-          .split(' ')
-          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(' ')
+        .toLowerCase()
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
       : ''
 
   if (isUserAckLoading || isStoreLoading) return <p>Loading...</p>
@@ -239,283 +239,283 @@ const UserAckModal = ({ req_slno, handleClose, open, approveTableData, reqItems,
   }
   return (
     <Box>
-      <CssVarsProvider>
-        <Modal
-          aria-labelledby="modal-title"
-          aria-describedby="modal-desc"
-          open={open}
-          onClose={handleClose}
-          sx={{ display: 'flex', justifyContent: 'center' }}
-        >
-          <ModalDialog variant="outlined">
-            <ModalClose
-              variant="outlined"
-              sx={{
-                m: 1,
-                top: 'calc(-1/4 * var(--IconButton-size))',
-                right: 'calc(-1/4 * var(--IconButton-size))',
-                boxShadow: '0 2px 12px 0 rgba(0 0 0 / 0.2)',
-                borderRadius: '50%',
-                bgcolor: 'background.body',
-                color: '#bf360c',
-                height: 25,
-                width: 25
-              }}
-            />
-            <Box
-              sx={{
-                minWidth: '75vw',
-                minHeight: '45vh',
-                maxHeight: '85vh',
-                overflowY: 'auto',
-                px: 0.5
-              }}
-            >
-              <Box sx={{ flex: 0.5, mx: 0.5 }}>
-                <Typography
-                  sx={{
-                    fontWeight: 550,
-                    fontSize: 17,
-                    color: '#145DA0',
-                    fontFamily: 'system-ui',
-                    display: 'flex',
-                    justifyContent: 'center'
-                  }}
-                >
-                  User Acknowledgement
+      {/* <CssVarsProvider> */}
+      <Modal
+        aria-labelledby="modal-title"
+        aria-describedby="modal-desc"
+        open={open}
+        onClose={handleClose}
+        sx={{ display: 'flex', justifyContent: 'center' }}
+      >
+        <ModalDialog variant="outlined">
+          <ModalClose
+            variant="outlined"
+            sx={{
+              m: 1,
+              top: 'calc(-1/4 * var(--IconButton-size))',
+              right: 'calc(-1/4 * var(--IconButton-size))',
+              boxShadow: '0 2px 12px 0 rgba(0 0 0 / 0.2)',
+              borderRadius: '50%',
+              bgcolor: 'background.body',
+              color: '#bf360c',
+              height: 25,
+              width: 25
+            }}
+          />
+          <Box
+            sx={{
+              minWidth: '75vw',
+              minHeight: '45vh',
+              maxHeight: '85vh',
+              overflowY: 'auto',
+              px: 0.5
+            }}
+          >
+            <Box sx={{ flex: 0.5, mx: 0.5 }}>
+              <Typography
+                sx={{
+                  fontWeight: 550,
+                  fontSize: 17,
+                  color: '#145DA0',
+                  fontFamily: 'system-ui',
+                  display: 'flex',
+                  justifyContent: 'center'
+                }}
+              >
+                User Acknowledgement
+              </Typography>
+            </Box>
+            <Box>
+              <Typography sx={{ fontWeight: 550, fontSize: 14, fontFamily: 'system-ui', pl: 1 }}>
+                CRF/{company_name}/{req_slno}
+              </Typography>
+              {reqItems.length !== 0 ? <ReqItemDisplay reqItems={reqItems} /> : null}
+              {approveTableData.length !== 0 ? (
+                <Box sx={{ mt: 0.3 }}>
+                  <ApprovedItemListDis approveTableData={approveTableData} />
+                </Box>
+              ) : null}
+              {storeReceived.length > 0 ? (
+                <StoreReceivedItemList storeReceived={storeReceived} empId={id} req_slno={req_slno} />
+              ) : null}
+            </Box>
+            {ackdata.length !== 0 ? (
+              <Box sx={{ overflow: 'auto', flexWrap: 'wrap', px: 0.5 }}>
+                <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.7, color: '#145DA0', fontSize: 15 }}>
+                  Store Acknowledgement Details
                 </Typography>
-              </Box>
-              <Box>
-                <Typography sx={{ fontWeight: 550, fontSize: 14, fontFamily: 'system-ui', pl: 1 }}>
-                  CRF/{company_name}/{req_slno}
-                </Typography>
-                {reqItems.length !== 0 ? <ReqItemDisplay reqItems={reqItems} /> : null}
-                {approveTableData.length !== 0 ? (
-                  <Box sx={{ mt: 0.3 }}>
-                    <ApprovedItemListDis approveTableData={approveTableData} />
-                  </Box>
-                ) : null}
-                {storeReceived.length > 0 ? (
-                  <StoreReceivedItemList storeReceived={storeReceived} empId={id} req_slno={req_slno} />
-                ) : null}
-              </Box>
-              {ackdata.length !== 0 ? (
-                <Box sx={{ overflow: 'auto', flexWrap: 'wrap', px: 0.5 }}>
-                  <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.7, color: '#145DA0', fontSize: 15 }}>
-                    Store Acknowledgement Details
-                  </Typography>
 
-                  <Paper variant="outlined" square sx={{ width: '100%' }}>
-                    <Box
-                      display="flex"
-                      justifyContent="space-between"
+                <Paper variant="outlined" square sx={{ width: '100%' }}>
+                  <Box
+                    display="flex"
+                    justifyContent="space-between"
+                    sx={{
+                      backgroundColor: '#e3f2fd',
+                      flexWrap: 'nowrap',
+                      py: 0.5,
+                      position: 'sticky',
+                      top: 0,
+                      zIndex: 1,
+                      height: 30,
+                      borderBottom: '1px solid lightgrey',
+                      borderTop: '1px solid lightgrey'
+                    }}
+                  >
+                    <Typography
                       sx={{
-                        backgroundColor: '#e3f2fd',
-                        flexWrap: 'nowrap',
-                        py: 0.5,
-                        position: 'sticky',
-                        top: 0,
-                        zIndex: 1,
-                        height: 30,
-                        borderBottom: '1px solid lightgrey',
-                        borderTop: '1px solid lightgrey'
+                        minWidth: 120,
+                        textAlign: 'left',
+                        fontWeight: 550,
+                        fontSize: 12,
+                        pl: 3
                       }}
                     >
-                      <Typography
-                        sx={{
-                          minWidth: 120,
-                          textAlign: 'left',
-                          fontWeight: 550,
-                          fontSize: 12,
-                          pl: 3
-                        }}
-                      >
-                        CRF No.
-                      </Typography>
-                      <Typography
-                        sx={{
-                          minWidth: 150,
-                          textAlign: 'left',
-                          fontWeight: 550,
-                          fontSize: 12,
-                          pl: 1
-                        }}
-                      >
-                        Date
-                      </Typography>
-                      <Typography sx={{ minWidth: 150, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
-                        Store
-                      </Typography>
-                      <Typography sx={{ minWidth: 250, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
-                        Store Remarks
-                      </Typography>
-                      <Typography sx={{ minWidth: 110, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
-                        User
-                      </Typography>
-                      <Typography sx={{ minWidth: 150, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
-                        Date
-                      </Typography>
-                      <Typography sx={{ minWidth: 110, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
-                        Received User
-                      </Typography>
-                      <Typography sx={{ minWidth: 250, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
-                        Remarks
-                      </Typography>
-                      <Typography sx={{ minWidth: 70, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>
-                        Action
-                      </Typography>
-                    </Box>
-                    <Virtuoso
-                      style={{ height: 200, width: '100%' }}
-                      data={ackdata}
-                      itemContent={(index, val) => (
-                        <React.Fragment key={val.collect_slno}>
-                          <Box
-                            display="flex"
-                            justifyContent="space-between"
-                            sx={{ borderBottom: '1px solid lightgrey', flexWrap: 'nowrap' }}
-                          >
-                            <Typography sx={{ minWidth: 120, textAlign: 'left', fontSize: 12, my: 1, pl: 1 }}>
-                              {'CRF/TMC/' + val.req_slno}
-                            </Typography>
-                            <Typography sx={{ minWidth: 150, textAlign: 'left', fontSize: 12, my: 1 }}>
-                              {format(new Date(val.substore_ack_date), 'dd-MM-yyyy hh:mm:ss a')}
-                            </Typography>
-                            <Typography sx={{ minWidth: 150, textAlign: 'left', fontSize: 12, my: 1 }}>
-                              {val.sub_store_name}
-                            </Typography>
-                            <Typography sx={{ minWidth: 250, textAlign: 'left', fontSize: 12, my: 1 }}>
-                              {val.substore_remarks}
-                            </Typography>
-                            <Typography sx={{ minWidth: 110, textAlign: 'left', fontSize: 12, my: 1 }}>
-                              {capitalizeWords(val.store_user)}
-                            </Typography>
-                            <Typography sx={{ minWidth: 150, textAlign: 'left', fontSize: 12, my: 1 }}>
-                              {val.received_status === 0
-                                ? 'Not Updated'
-                                : format(new Date(val.received_date), 'dd-MM-yyyy hh:mm:ss a')}
-                            </Typography>
-                            <Typography sx={{ minWidth: 110, textAlign: 'left', fontSize: 12, my: 1 }}>
-                              {val.received_status === 0 ? 'Not Received' : capitalizeWords(val.receive_user)}
-                            </Typography>
-                            <Typography sx={{ minWidth: 250, textAlign: 'left', fontSize: 12, my: 1 }}>
-                              {val.received_status === 0 ? 'Not Updated' : val.received_user_remarks}
-                            </Typography>
-                            <Box sx={{ minWidth: 70, textAlign: 'center', pt: 0.5, cursor: 'pointer' }}>
-                              {val.received_status === 1 ? (
+                      CRF No.
+                    </Typography>
+                    <Typography
+                      sx={{
+                        minWidth: 150,
+                        textAlign: 'left',
+                        fontWeight: 550,
+                        fontSize: 12,
+                        pl: 1
+                      }}
+                    >
+                      Date
+                    </Typography>
+                    <Typography sx={{ minWidth: 150, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
+                      Store
+                    </Typography>
+                    <Typography sx={{ minWidth: 250, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
+                      Store Remarks
+                    </Typography>
+                    <Typography sx={{ minWidth: 110, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
+                      User
+                    </Typography>
+                    <Typography sx={{ minWidth: 150, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
+                      Date
+                    </Typography>
+                    <Typography sx={{ minWidth: 110, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
+                      Received User
+                    </Typography>
+                    <Typography sx={{ minWidth: 250, textAlign: 'left', fontWeight: 550, fontSize: 12 }}>
+                      Remarks
+                    </Typography>
+                    <Typography sx={{ minWidth: 70, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>
+                      Action
+                    </Typography>
+                  </Box>
+                  <Virtuoso
+                    style={{ height: 200, width: '100%' }}
+                    data={ackdata}
+                    itemContent={(index, val) => (
+                      <React.Fragment key={val.collect_slno}>
+                        <Box
+                          display="flex"
+                          justifyContent="space-between"
+                          sx={{ borderBottom: '1px solid lightgrey', flexWrap: 'nowrap' }}
+                        >
+                          <Typography sx={{ minWidth: 120, textAlign: 'left', fontSize: 12, my: 1, pl: 1 }}>
+                            {'CRF/TMC/' + val.req_slno}
+                          </Typography>
+                          <Typography sx={{ minWidth: 150, textAlign: 'left', fontSize: 12, my: 1 }}>
+                            {format(new Date(val.substore_ack_date), 'dd-MM-yyyy hh:mm:ss a')}
+                          </Typography>
+                          <Typography sx={{ minWidth: 150, textAlign: 'left', fontSize: 12, my: 1 }}>
+                            {val.sub_store_name}
+                          </Typography>
+                          <Typography sx={{ minWidth: 250, textAlign: 'left', fontSize: 12, my: 1 }}>
+                            {val.substore_remarks}
+                          </Typography>
+                          <Typography sx={{ minWidth: 110, textAlign: 'left', fontSize: 12, my: 1 }}>
+                            {capitalizeWords(val.store_user)}
+                          </Typography>
+                          <Typography sx={{ minWidth: 150, textAlign: 'left', fontSize: 12, my: 1 }}>
+                            {val.received_status === 0
+                              ? 'Not Updated'
+                              : format(new Date(val.received_date), 'dd-MM-yyyy hh:mm:ss a')}
+                          </Typography>
+                          <Typography sx={{ minWidth: 110, textAlign: 'left', fontSize: 12, my: 1 }}>
+                            {val.received_status === 0 ? 'Not Received' : capitalizeWords(val.receive_user)}
+                          </Typography>
+                          <Typography sx={{ minWidth: 250, textAlign: 'left', fontSize: 12, my: 1 }}>
+                            {val.received_status === 0 ? 'Not Updated' : val.received_user_remarks}
+                          </Typography>
+                          <Box sx={{ minWidth: 70, textAlign: 'center', pt: 0.5, cursor: 'pointer' }}>
+                            {val.received_status === 1 ? (
+                              <CheckCircleTwoToneIcon
+                                sx={{
+                                  fontSize: 'lg',
+                                  color: 'grey',
+                                  height: 25,
+                                  width: 30,
+                                  borderRadius: 2,
+                                  boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.1)'
+                                }}
+                              />
+                            ) : (
+                              <CustomToolTipForCRF title="Reply" placement="top">
                                 <CheckCircleTwoToneIcon
                                   sx={{
                                     fontSize: 'lg',
-                                    color: 'grey',
+                                    color: '#01579b',
                                     height: 25,
                                     width: 30,
                                     borderRadius: 2,
-                                    boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.1)'
+                                    boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.1)',
+                                    cursor: 'pointer',
+                                    transition: 'transform 0.2s',
+                                    '&:hover': {
+                                      transform: 'scale(1.1)'
+                                    }
                                   }}
+                                  onClick={() => acknowAction(val, index)}
                                 />
-                              ) : (
-                                <CustomToolTipForCRF title="Reply" placement="top">
-                                  <CheckCircleTwoToneIcon
-                                    sx={{
-                                      fontSize: 'lg',
-                                      color: '#01579b',
-                                      height: 25,
-                                      width: 30,
-                                      borderRadius: 2,
-                                      boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.1)',
-                                      cursor: 'pointer',
-                                      transition: 'transform 0.2s',
-                                      '&:hover': {
-                                        transform: 'scale(1.1)'
-                                      }
-                                    }}
-                                    onClick={() => acknowAction(val, index)}
-                                  />
-                                </CustomToolTipForCRF>
-                              )}
-                            </Box>
+                              </CustomToolTipForCRF>
+                            )}
                           </Box>
-                          {expandedRow === index && (
-                            <Box sx={{ mx: 2, pt: 0.5, boxShadow: '0px 8px 10px rgba(0, 0, 0, 0.16)' }}>
-                              <Box display="flex" justifyContent="space-between" padding={0.5}>
-                                <Box sx={{ flex: 1.5, py: 0.4, pl: 3 }}>
-                                  <CssVarsProvider>
-                                    <Textarea
-                                      required
-                                      placeholder="User Acknowledgement Remarks"
-                                      type="text"
-                                      size="md"
-                                      minRows={1}
-                                      maxRows={2}
-                                      value={userAckReply}
-                                      onChange={onchangeUserAckReply}
-                                    />
-                                  </CssVarsProvider>
+                        </Box>
+                        {expandedRow === index && (
+                          <Box sx={{ mx: 2, pt: 0.5, boxShadow: '0px 8px 10px rgba(0, 0, 0, 0.16)' }}>
+                            <Box display="flex" justifyContent="space-between" padding={0.5}>
+                              <Box sx={{ flex: 1.5, py: 0.4, pl: 3 }}>
+                                <CssVarsProvider>
+                                  <Textarea
+                                    required
+                                    placeholder="User Acknowledgement Remarks"
+                                    type="text"
+                                    size="md"
+                                    minRows={1}
+                                    maxRows={2}
+                                    value={userAckReply}
+                                    onChange={onchangeUserAckReply}
+                                  />
+                                </CssVarsProvider>
+                              </Box>
+                              <Box sx={{ display: 'flex', flex: 0.5 }}>
+                                <Box sx={{ pt: 0.4, pl: 2 }}>
+                                  <Button variant="plain" sx={buttonStyle} onClick={UpdateUserAcknowlegeReply}>
+                                    Save
+                                  </Button>
                                 </Box>
-                                <Box sx={{ display: 'flex', flex: 0.5 }}>
-                                  <Box sx={{ pt: 0.4, pl: 2 }}>
-                                    <Button variant="plain" sx={buttonStyle} onClick={UpdateUserAcknowlegeReply}>
-                                      Save
-                                    </Button>
-                                  </Box>
-                                  <Box sx={{ pr: 0.5, pt: 0.4 }}>
-                                    <Button variant="plain" sx={buttonStyle} onClick={ResetDetails}>
-                                      Cancel
-                                    </Button>
-                                  </Box>
+                                <Box sx={{ pr: 0.5, pt: 0.4 }}>
+                                  <Button variant="plain" sx={buttonStyle} onClick={ResetDetails}>
+                                    Cancel
+                                  </Button>
                                 </Box>
                               </Box>
                             </Box>
-                          )}
-                        </React.Fragment>
-                      )}
-                    />
-                  </Paper>
-                </Box>
-              ) : null}
-              <Box display="flex" justifyContent="space-between" padding={0.5}>
-                <Box sx={{ m: 1, flex: 0.3, display: 'flex', pl: 2 }}>
-                  <CusCheckBox
-                    color="primary"
-                    size="md"
-                    name="acknowledgement"
-                    value={acknowledgement}
-                    checked={acknowledgement}
-                    onCheked={updateAcknowldge}
+                          </Box>
+                        )}
+                      </React.Fragment>
+                    )}
                   />
-                  <Typography sx={{ fontSize: 13, fontWeight: 600, pl: 1 }}>All Item Received</Typography>
+                </Paper>
+              </Box>
+            ) : null}
+            <Box display="flex" justifyContent="space-between" padding={0.5}>
+              <Box sx={{ m: 1, flex: 0.3, display: 'flex', pl: 2 }}>
+                <CusCheckBox
+                  color="primary"
+                  size="md"
+                  name="acknowledgement"
+                  value={acknowledgement}
+                  checked={acknowledgement}
+                  onCheked={updateAcknowldge}
+                />
+                <Typography sx={{ fontSize: 13, fontWeight: 600, pl: 1 }}>All Item Received</Typography>
+              </Box>
+              <Box sx={{ flex: 2, py: 0.4 }}>
+                <CssVarsProvider>
+                  <Textarea
+                    required
+                    placeholder="Remarks"
+                    type="text"
+                    size="md"
+                    minRows={1}
+                    maxRows={2}
+                    value={Ackremark}
+                    onChange={updateAckRemark}
+                  />
+                </CssVarsProvider>
+              </Box>
+              <Box sx={{ display: 'flex', flex: 0.5 }}>
+                <Box sx={{ pt: 0.4, pl: 2 }}>
+                  <Button variant="plain" sx={buttonStyle} onClick={saveUserAck}>
+                    Save
+                  </Button>
                 </Box>
-                <Box sx={{ flex: 2, py: 0.4 }}>
-                  <CssVarsProvider>
-                    <Textarea
-                      required
-                      placeholder="Remarks"
-                      type="text"
-                      size="md"
-                      minRows={1}
-                      maxRows={2}
-                      value={Ackremark}
-                      onChange={updateAckRemark}
-                    />
-                  </CssVarsProvider>
-                </Box>
-                <Box sx={{ display: 'flex', flex: 0.5 }}>
-                  <Box sx={{ pt: 0.4, pl: 2 }}>
-                    <Button variant="plain" sx={buttonStyle} onClick={saveUserAck}>
-                      Save
-                    </Button>
-                  </Box>
-                  <Box sx={{ pr: 0.5, pt: 0.4 }}>
-                    <Button variant="plain" sx={buttonStyle} onClick={cancelData}>
-                      Cancel
-                    </Button>
-                  </Box>
+                <Box sx={{ pr: 0.5, pt: 0.4 }}>
+                  <Button variant="plain" sx={buttonStyle} onClick={cancelData}>
+                    Cancel
+                  </Button>
                 </Box>
               </Box>
             </Box>
-          </ModalDialog>
-        </Modal>
-      </CssVarsProvider>
+          </Box>
+        </ModalDialog>
+      </Modal>
+      {/* </CssVarsProvider> */}
     </Box>
   )
 }

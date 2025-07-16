@@ -1,7 +1,6 @@
 import { Box, CssVarsProvider, Modal, ModalClose, ModalDialog, Textarea } from '@mui/joy'
 import { format } from 'date-fns'
 import React, { Fragment, memo, useCallback, useEffect, useMemo, useState } from 'react'
-import { useQueryClient } from 'react-query'
 import _ from 'underscore'
 import CrfReqDetailViewCmp from '../ComonComponent/CrfReqDetailViewCmp'
 import ReqItemDisplay from '../ComonComponent/ReqItemDisplay'
@@ -11,6 +10,7 @@ import ModalButtomCmp from '../ComonComponent/Components/ModalButtomCmp'
 import { axioskmc } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { useSelector } from 'react-redux'
+import { useQueryClient } from '@tanstack/react-query'
 
 const CRFCloseManage = ({
   open,

@@ -4,7 +4,6 @@ import { useMemo } from 'react'
 import dayjs from 'dayjs'
 
 const ReportDailyCensus = ({ tableData, calculateTotal }) => {
-  console.log(tableData, 'tableData new')
 
   const {
     oraTotAdm,
@@ -296,7 +295,7 @@ const ReportDailyCensus = ({ tableData, calculateTotal }) => {
             </thead>
 
             <tbody>
-              {Object.entries(groupedMonthlyData).map(([month, { rows, totals }], groupIdx) => (
+              {Object.entries(groupedMonthlyData).map(([month, { rows, totals }],) => (
                 <Fragment key={month}>
                   <tr>
                     <td colSpan={16} style={{ backgroundColor: '#eeeeee', fontWeight: 'bold', textAlign: 'left' }}>

@@ -1,6 +1,6 @@
 import { Box } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useSelector } from 'react-redux'
 import { Virtuoso } from 'react-virtuoso'
 import { getPendingDetailentryAsset, getPendingDetailentrySpare } from 'src/api/AssetApis'

@@ -8,7 +8,7 @@ import DeptSectionSelectkmc from 'src/views/CommonSelectCode/DeptSectionSelectkm
 import { axioslogin } from 'src/views/Axios/Axios'
 import { succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { getDptSecHodbyDep, getDptSecHodbyDepkmc } from 'src/api/CommonApiCRF'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import DepMappingTable from './DepMappingTable'
 import { useNavigate } from 'react-router-dom'
 

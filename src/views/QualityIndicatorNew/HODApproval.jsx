@@ -95,7 +95,7 @@ const HODApproval = () => {
     }
   }, [qitype, searchDate, qidept])
   return (
-    <Box sx={{ maxHeight: window.innerHeight - 70 }}>
+    <Box sx={{ maxHeight: window.innerHeight - 70, width: '100%' }}>
       <Paper variant="outlined" square sx={{ display: 'flex', flex: 1, height: 40 }}>
         <Box sx={{ flex: 1, fontSize: 16, pl: 1, pt: 1.2 }}>
           <Typography sx={{ color: '#555830', fontFamily: 'Arial', fontWeight: 550 }}>Level II Approval</Typography>

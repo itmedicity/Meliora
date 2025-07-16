@@ -34,7 +34,7 @@ const DashBoardRoomSort = ({ blockno, data, setRoomNo, setRoomName, setAssetList
               maxHeight: 80,
               width: { md: '30%', sm: '25%', xs: '16%', lg: '12%' },
               border: 0.5,
-              backgroundColor: '#8486F3',
+              backgroundColor: 'var(--royal-purple-200)',
               m: 0.4,
               borderRadius: 2,
               borderColor: 'transparent',

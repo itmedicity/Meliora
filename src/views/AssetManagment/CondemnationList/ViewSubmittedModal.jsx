@@ -1,6 +1,6 @@
 import { Box, Checkbox, CssVarsProvider, Grid, Modal, ModalDialog, Table } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { getCondemAddedDetails, getItemUnderForm } from 'src/api/AssetApis'
 import { axioslogin } from 'src/views/Axios/Axios'
 import TextComponent from 'src/views/Components/TextComponent'
@@ -77,8 +77,8 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
         ? 'pdf'
         : 'image'
       : file.type && file.type.includes('application/pdf')
-      ? 'image'
-      : 'pdf'
+        ? 'image'
+        : 'pdf'
 
     const fileUrl = file.url || URL.createObjectURL(file)
     setUplodedFile({ url: fileUrl, type: fileType })
@@ -281,8 +281,8 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
                         const billamount = val.asset_bill_amount
                           ? val.asset_bill_amount
                           : val.spare_bill_amount
-                          ? val.spare_bill_amount
-                          : ''
+                            ? val.spare_bill_amount
+                            : ''
 
                         return (
                           <Box
@@ -351,8 +351,8 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
                               {val.asset_complaint_slno
                                 ? val.asset_complaint_slno
                                 : val.spare_complaint_slno
-                                ? val.spare_complaint_slno
-                                : ''}
+                                  ? val.spare_complaint_slno
+                                  : ''}
                             </Box>
                             <Box
                               sx={{
@@ -366,8 +366,8 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
                               {val.asset_condm_transf_remarks
                                 ? val.asset_condm_transf_remarks
                                 : val.spare_condm_transf_remarks
-                                ? val.spare_condm_transf_remarks
-                                : ''}
+                                  ? val.spare_condm_transf_remarks
+                                  : ''}
                             </Box>
                             <Box
                               sx={{
@@ -403,191 +403,190 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
               </Box>
               {(CondemData?.some(item => item.am_condem_reason !== null || item.keep_inscarp_status === 1) ||
                 addedCondemFiles.length > 0) && (
-                <Box sx={{ flex: 1, border: 1, borderColor: 'lightgray', mx: 1, mt: 1, pb: 0.5 }}>
-                  <TextComponent
-                    text={'Item Details and Attachments'}
-                    sx={{ fontWeight: 500, color: '#6A5546', pl: 0.8, pt: 0.5, fontSize: 15 }}
-                  />
-                  {CondemData?.filter(
-                    val =>
-                      val.am_condem_reason !== null ||
-                      addedCondemFiles[val.am_condem_detail_slno]?.length > 0 ||
-                      val.keep_inscarp_status === 1
-                  ).map((val, index) => (
-                    <Box
-                      key={index}
-                      sx={{
-                        flex: 1,
-                        mx: 0.5,
-                        border: 1,
-                        borderColor: 'lightgray',
-                        mt: 0.5,
-                        p: 0.5
-                      }}
-                    >
-                      {val.keep_inscarp_status === 1 ? (
-                        <Box sx={{ flex: 1, display: 'flex', bgcolor: '#F7F9A7', pl: 0.5 }}>
-                          <DirectionsIcon sx={{ color: 'black' }} />
-                          <Box sx={{ fontWeight: 600, pl: 0.5, color: 'black' }}>
-                            Keeped In Department Scrap Store :
-                          </Box>
+                  <Box sx={{ flex: 1, border: 1, borderColor: 'lightgray', mx: 1, mt: 1, pb: 0.5 }}>
+                    <TextComponent
+                      text={'Item Details and Attachments'}
+                      sx={{ fontWeight: 500, color: '#6A5546', pl: 0.8, pt: 0.5, fontSize: 15 }}
+                    />
+                    {CondemData?.filter(
+                      val =>
+                        val.am_condem_reason !== null ||
+                        addedCondemFiles[val.am_condem_detail_slno]?.length > 0 ||
+                        val.keep_inscarp_status === 1
+                    ).map((val, index) => (
+                      <Box
+                        key={index}
+                        sx={{
+                          flex: 1,
+                          mx: 0.5,
+                          border: 1,
+                          borderColor: 'lightgray',
+                          mt: 0.5,
+                          p: 0.5
+                        }}
+                      >
+                        {val.keep_inscarp_status === 1 ? (
+                          <Box sx={{ flex: 1, display: 'flex', bgcolor: '#F7F9A7', pl: 0.5 }}>
+                            <DirectionsIcon sx={{ color: 'black' }} />
+                            <Box sx={{ fontWeight: 600, pl: 0.5, color: 'black' }}>
+                              Keeped In Department Scrap Store :
+                            </Box>
 
-                          <Box sx={{ pl: 1, fontWeight: 600, fontsize: 12, color: 'black' }}>
-                            {val.keep_in_srap_store_reason}
+                            <Box sx={{ pl: 1, fontWeight: 600, fontsize: 12, color: 'black' }}>
+                              {val.keep_in_srap_store_reason}
+                            </Box>
                           </Box>
-                        </Box>
-                      ) : null}
-                      <Box sx={{ flex: 1, display: 'flex' }}>
-                        <TextComponent
-                          text={
-                            val.spare_asset_no
-                              ? `${val.spare_asset_no}/${val.spare_asset_no_only.toString().padStart(6, '0')}`
-                              : `${val.item_asset_no}/${val.item_asset_no_only.toString().padStart(6, '0')}`
-                          }
-                          sx={{ fontWeight: 500, color: '#0C2D48', pl: 0.8, pt: 0.5, fontSize: 14 }}
-                        />
-                        <TextComponent
-                          text={`(${
-                            val.cat_asset_name !== null
-                              ? val.cat_asset_name
-                              : val.cat_spare_name !== null
-                              ? val.cat_spare_name
-                              : ''
-                          })`}
-                          sx={{ fontWeight: 500, color: '#0C2D48', pl: 0.8, pt: 0.5, fontSize: 14 }}
-                        />
-                        <TextComponent
-                          text={
-                            val.item_asset_name !== null
-                              ? val.item_asset_name
-                              : val.item_spare_name !== null
-                              ? val.item_spare_name
-                              : ''
-                          }
-                          sx={{ fontWeight: 500, color: '#0C2D48', pl: 0.8, pt: 0.5, fontSize: 14 }}
-                        />
-                      </Box>
-                      {val.am_condem_reason !== null ? (
+                        ) : null}
                         <Box sx={{ flex: 1, display: 'flex' }}>
                           <TextComponent
-                            text={'Reason :'}
-                            sx={{ fontWeight: 500, color: 'black', pl: 0.8, pt: 0.5, fontSize: 14 }}
+                            text={
+                              val.spare_asset_no
+                                ? `${val.spare_asset_no}/${val.spare_asset_no_only.toString().padStart(6, '0')}`
+                                : `${val.item_asset_no}/${val.item_asset_no_only.toString().padStart(6, '0')}`
+                            }
+                            sx={{ fontWeight: 500, color: '#0C2D48', pl: 0.8, pt: 0.5, fontSize: 14 }}
                           />
                           <TextComponent
-                            text={val.am_condem_reason || null}
-                            sx={{ color: 'black', pl: 0.8, pt: 0.5, fontSize: 14 }}
+                            text={`(${val.cat_asset_name !== null
+                              ? val.cat_asset_name
+                              : val.cat_spare_name !== null
+                                ? val.cat_spare_name
+                                : ''
+                              })`}
+                            sx={{ fontWeight: 500, color: '#0C2D48', pl: 0.8, pt: 0.5, fontSize: 14 }}
+                          />
+                          <TextComponent
+                            text={
+                              val.item_asset_name !== null
+                                ? val.item_asset_name
+                                : val.item_spare_name !== null
+                                  ? val.item_spare_name
+                                  : ''
+                            }
+                            sx={{ fontWeight: 500, color: '#0C2D48', pl: 0.8, pt: 0.5, fontSize: 14 }}
                           />
                         </Box>
-                      ) : null}
-                      <Box sx={{ flex: 1, mr: 1, my: 0.5, ml: 0.5 }}>
-                        {imageShowsingleFlag === 1 && (
-                          <Box>
-                            <FileViewSingle
-                              previewFile={uploadedFile}
-                              imageShow={imageShowSingle}
-                              CloseFile={CloseSingleFile}
+                        {val.am_condem_reason !== null ? (
+                          <Box sx={{ flex: 1, display: 'flex' }}>
+                            <TextComponent
+                              text={'Reason :'}
+                              sx={{ fontWeight: 500, color: 'black', pl: 0.8, pt: 0.5, fontSize: 14 }}
+                            />
+                            <TextComponent
+                              text={val.am_condem_reason || null}
+                              sx={{ color: 'black', pl: 0.8, pt: 0.5, fontSize: 14 }}
                             />
                           </Box>
-                        )}
-                        {addedCondemFiles[val.am_condem_detail_slno]?.length > 0 && (
-                          <Grid container spacing={0.5}>
-                            {addedCondemFiles[val.am_condem_detail_slno].map((url, fileIndex) => {
-                              if (!url || typeof url !== 'string') return null
-                              const isPdf = url.toLowerCase().endsWith('.pdf')
-                              const isImage = /\.(jpeg|jpg|png|gif|bmp|webp)$/i.test(url)
+                        ) : null}
+                        <Box sx={{ flex: 1, mr: 1, my: 0.5, ml: 0.5 }}>
+                          {imageShowsingleFlag === 1 && (
+                            <Box>
+                              <FileViewSingle
+                                previewFile={uploadedFile}
+                                imageShow={imageShowSingle}
+                                CloseFile={CloseSingleFile}
+                              />
+                            </Box>
+                          )}
+                          {addedCondemFiles[val.am_condem_detail_slno]?.length > 0 && (
+                            <Grid container spacing={0.5}>
+                              {addedCondemFiles[val.am_condem_detail_slno].map((url, fileIndex) => {
+                                if (!url || typeof url !== 'string') return null
+                                const isPdf = url.toLowerCase().endsWith('.pdf')
+                                const isImage = /\.(jpeg|jpg|png|gif|bmp|webp)$/i.test(url)
 
-                              return (
-                                <Box key={fileIndex} sx={{ display: 'flex' }}>
-                                  {isImage ? (
-                                    <Box
-                                      sx={{
-                                        display: 'flex',
-                                        border: 0.5,
-                                        borderColor: '#E0E1E3',
-                                        mr: 0.5
-                                      }}
-                                    >
-                                      <Box sx={{ p: 0.5 }}>
-                                        <img
-                                          src={url}
-                                          alt={`Complaint file ${fileIndex}`}
-                                          style={{
+                                return (
+                                  <Box key={fileIndex} sx={{ display: 'flex' }}>
+                                    {isImage ? (
+                                      <Box
+                                        sx={{
+                                          display: 'flex',
+                                          border: 0.5,
+                                          borderColor: '#E0E1E3',
+                                          mr: 0.5
+                                        }}
+                                      >
+                                        <Box sx={{ p: 0.5 }}>
+                                          <img
+                                            src={url}
+                                            alt={`Complaint file ${fileIndex}`}
+                                            style={{
+                                              width: 48,
+                                              height: 48,
+                                              color: '#e53935',
+                                              cursor: 'pointer'
+                                            }}
+                                            onClick={() => SingleView({ url })}
+                                          />
+                                        </Box>
+                                        <Box
+                                          sx={{
+                                            fontSize: 12,
+                                            color: '#333',
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis',
+                                            whiteSpace: 'nowrap',
+                                            width: 90,
+                                            pt: 2
+                                          }}
+                                        >
+                                          {url.split('/').pop() || 'N/A'}
+                                        </Box>
+                                      </Box>
+                                    ) : isPdf ? (
+                                      <Box
+                                        sx={{
+                                          display: 'flex',
+                                          border: 0.5,
+                                          borderColor: '#E0E1E3',
+                                          mr: 0.5
+                                        }}
+                                      >
+                                        <PictureAsPdfIcon
+                                          sx={{
                                             width: 48,
                                             height: 48,
                                             color: '#e53935',
-                                            cursor: 'pointer'
+                                            cursor: 'pointer',
+                                            mt: 0.5
                                           }}
                                           onClick={() => SingleView({ url })}
                                         />
+                                        <Box
+                                          sx={{
+                                            fontSize: 12,
+                                            color: '#333',
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis',
+                                            whiteSpace: 'nowrap',
+                                            width: 90,
+                                            pt: 2
+                                          }}
+                                        >
+                                          {url.split('/').pop() || 'N/A'}
+                                        </Box>
                                       </Box>
-                                      <Box
+                                    ) : (
+                                      <InsertDriveFileIcon
                                         sx={{
-                                          fontSize: 12,
-                                          color: '#333',
-                                          overflow: 'hidden',
-                                          textOverflow: 'ellipsis',
-                                          whiteSpace: 'nowrap',
-                                          width: 90,
-                                          pt: 2
-                                        }}
-                                      >
-                                        {url.split('/').pop() || 'N/A'}
-                                      </Box>
-                                    </Box>
-                                  ) : isPdf ? (
-                                    <Box
-                                      sx={{
-                                        display: 'flex',
-                                        border: 0.5,
-                                        borderColor: '#E0E1E3',
-                                        mr: 0.5
-                                      }}
-                                    >
-                                      <PictureAsPdfIcon
-                                        sx={{
-                                          width: 48,
-                                          height: 48,
+                                          width: 50,
+                                          height: 50,
                                           color: '#e53935',
-                                          cursor: 'pointer',
-                                          mt: 0.5
+                                          cursor: 'pointer'
                                         }}
                                         onClick={() => SingleView({ url })}
                                       />
-                                      <Box
-                                        sx={{
-                                          fontSize: 12,
-                                          color: '#333',
-                                          overflow: 'hidden',
-                                          textOverflow: 'ellipsis',
-                                          whiteSpace: 'nowrap',
-                                          width: 90,
-                                          pt: 2
-                                        }}
-                                      >
-                                        {url.split('/').pop() || 'N/A'}
-                                      </Box>
-                                    </Box>
-                                  ) : (
-                                    <InsertDriveFileIcon
-                                      sx={{
-                                        width: 50,
-                                        height: 50,
-                                        color: '#e53935',
-                                        cursor: 'pointer'
-                                      }}
-                                      onClick={() => SingleView({ url })}
-                                    />
-                                  )}
-                                </Box>
-                              )
-                            })}
-                          </Grid>
-                        )}
+                                    )}
+                                  </Box>
+                                )
+                              })}
+                            </Grid>
+                          )}
+                        </Box>
                       </Box>
-                    </Box>
-                  ))}
-                </Box>
-              )}
+                    ))}
+                  </Box>
+                )}
               <Box sx={{ flex: 1, border: 1, borderColor: 'lightgray', mx: 1, mt: 1, pb: 0.5 }}>
                 <TextComponent
                   text={'Verification and Approvals'}
@@ -700,15 +699,15 @@ const ViewSubmittedModal = ({ modalViewOpen, setmodalViewOpen, setmodalViewFlag,
                             material_mangmnt_mangr_apprv_status === 1
                               ? 'green'
                               : material_mangmnt_mangr_apprv_status === 2
-                              ? 'red'
-                              : 'black'
+                                ? 'red'
+                                : 'black'
                         }}
                       >
                         {material_mangmnt_mangr_apprv_status === 1
                           ? 'Approved'
                           : material_mangmnt_mangr_apprv_status === 2
-                          ? 'Rejected'
-                          : '-'}
+                            ? 'Rejected'
+                            : '-'}
                       </td>
                       <td style={{ textAlign: 'center' }}>{material_mangmnt_mangr_apprv_remark || '-'}</td>
                       <td style={{ textAlign: 'center' }}>

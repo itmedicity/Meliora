@@ -3,7 +3,7 @@ import React, { memo, useMemo } from 'react'
 import TextComponent from 'src/views/Components/TextComponent'
 import DateRangeIcon from '@mui/icons-material/DateRange'
 import { getAllDeptemployeeList } from 'src/api/TicketApi'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { BarChart } from '@mui/x-charts'
 
 const TopPerformerList = ({ PostDate }) => {

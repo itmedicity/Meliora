@@ -1,7 +1,7 @@
 import { Box, Radio, RadioGroup } from '@mui/joy'
 import React, { memo, useCallback, useMemo, useState } from 'react'
 import { getAllDeptCondemPendingDatas } from 'src/api/AssetApis'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import ViewSubmittedModal from '../../CondemnationList/ViewSubmittedModal'
 import CondemnationApprovalModal from '../../CondemnationList/CondemnationApprovalModal'
 import AllPendingsAccounts from './AllPendingsAccounts'

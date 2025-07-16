@@ -10,7 +10,7 @@ import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
 import { getLeaseDetailList } from 'src/api/AssetApis'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import LeaseAddMast from './LeaseAddMast'
 import SupplierSelectMaster from './SupplierSelectMaster'
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined'
@@ -627,10 +627,10 @@ const LeaseDetailsAdd = ({ grndetailarry, detailArry }) => {
                       {val.status === 1
                         ? 'Active *'
                         : val.status === 2
-                        ? 'Inactive'
-                        : val.status === 0
-                        ? 'Expired'
-                        : 'NotUpdated'}
+                          ? 'Inactive'
+                          : val.status === 0
+                            ? 'Expired'
+                            : 'NotUpdated'}
                     </Box>
                   </Box>
                 )

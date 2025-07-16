@@ -84,7 +84,7 @@ const TaskViewsUnderPorject = ({ prjmodalOpen, setprjModalOpen, depmtSec, capEmp
           }}
         >
           <Box>
-            <Card sx={{ bgcolor: '#52688F' }}>
+            <Card sx={{ bgcolor: 'var(--royal-purple-300)' }}>
               <Box sx={{ flex: 1, display: 'flex' }}>
                 <Box
                   sx={{
@@ -116,7 +116,7 @@ const TaskViewsUnderPorject = ({ prjmodalOpen, setprjModalOpen, depmtSec, capEmp
                   sx={{
                     flex: 1,
                     height: 30,
-                    bgcolor: '#4F687F',
+                    bgcolor: 'var(--royal-purple-300)',
                     borderRadius: 20,
                     pl: 1,
                     color: 'white'
@@ -301,7 +301,7 @@ const TaskViewsUnderPorject = ({ prjmodalOpen, setprjModalOpen, depmtSec, capEmp
                     sx={{
                       flex: 1,
                       height: 30,
-                      bgcolor: '#4F687F',
+                      bgcolor: 'var(--royal-purple-300)',
                       borderRadius: 20,
                       pl: 3,
                       color: 'white'
@@ -318,10 +318,10 @@ const TaskViewsUnderPorject = ({ prjmodalOpen, setprjModalOpen, depmtSec, capEmp
                     let assignedEmp_name =
                       val.task_empname !== null
                         ? val.task_empname
-                            .toLowerCase()
-                            .split(' ')
-                            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                            .join(' ')
+                          .toLowerCase()
+                          .split(' ')
+                          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                          .join(' ')
                         : ''
                     return (
                       <Box
@@ -486,16 +486,16 @@ const TaskViewsUnderPorject = ({ prjmodalOpen, setprjModalOpen, depmtSec, capEmp
                                     val.tm_task_status === null
                                       ? '#311E26'
                                       : val.tm_task_status === 0
-                                      ? '#311E26'
-                                      : val.tm_task_status === 1
-                                      ? '#116530'
-                                      : val.tm_task_status === 2
-                                      ? '#D37506'
-                                      : val.tm_task_status === 3
-                                      ? '#5E376D'
-                                      : val.tm_task_status === 4
-                                      ? '#5885AF'
-                                      : 'transparent',
+                                        ? '#311E26'
+                                        : val.tm_task_status === 1
+                                          ? '#116530'
+                                          : val.tm_task_status === 2
+                                            ? '#D37506'
+                                            : val.tm_task_status === 3
+                                              ? '#5E376D'
+                                              : val.tm_task_status === 4
+                                                ? '#5885AF'
+                                                : 'transparent',
                                   minHeight: 5,
                                   fontWeight: 700
                                 }}
@@ -503,14 +503,14 @@ const TaskViewsUnderPorject = ({ prjmodalOpen, setprjModalOpen, depmtSec, capEmp
                                 {val.tm_task_status === 0
                                   ? 'Not Started'
                                   : val.tm_task_status === 1
-                                  ? 'Completed'
-                                  : val.tm_task_status === 2
-                                  ? 'On Progress'
-                                  : val.tm_task_status === 3
-                                  ? 'On Hold'
-                                  : val.tm_task_status === 4
-                                  ? 'Pending'
-                                  : 'not given'}
+                                    ? 'Completed'
+                                    : val.tm_task_status === 2
+                                      ? 'On Progress'
+                                      : val.tm_task_status === 3
+                                        ? 'On Hold'
+                                        : val.tm_task_status === 4
+                                          ? 'Pending'
+                                          : 'not given'}
                               </FormLabel>
                             </Tooltip>
                           </Chip>

@@ -4,7 +4,7 @@ import TicketDashTile from './TicketDashTile'
 import TrendingUpIcon from '@mui/icons-material/TrendingUp'
 import TrendingDownIcon from '@mui/icons-material/TrendingDown'
 import TrendingFlatIcon from '@mui/icons-material/TrendingFlat'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import {
   getallDeptPending,
   getAllDepttodaysTickets,
@@ -239,10 +239,10 @@ const AllDeptticketTile = () => {
           AllPendingPrevCount.status === 2
             ? '#DBF5F0'
             : AllPendingPrevCount.status === 1
-            ? '#FEE7E6'
-            : AllPendingPrevCount.status === 3
-            ? '#BFD7ED'
-            : '#BFD7ED'
+              ? '#FEE7E6'
+              : AllPendingPrevCount.status === 3
+                ? '#BFD7ED'
+                : '#BFD7ED'
         }
         percentage={AllPendingPrevCount.percentage}
       />
@@ -264,10 +264,10 @@ const AllDeptticketTile = () => {
           AllDeptRegisterdCount.status === 1
             ? '#FEE7E6'
             : AllDeptRegisterdCount.status === 2
-            ? '#DBF5F0'
-            : AllDeptRegisterdCount.status === 3
-            ? '#BFD7ED'
-            : '#BFD7ED'
+              ? '#DBF5F0'
+              : AllDeptRegisterdCount.status === 3
+                ? '#BFD7ED'
+                : '#BFD7ED'
         }
         percentage={AllDeptRegisterdCount.percentage}
       />
@@ -289,10 +289,10 @@ const AllDeptticketTile = () => {
           AllDeptOpenedCount.status === 1
             ? '#DBF5F0'
             : AllDeptOpenedCount.status === 2
-            ? '#FEE7E6'
-            : AllDeptOpenedCount.status === 3
-            ? '#BFD7ED'
-            : '#BFD7ED'
+              ? '#FEE7E6'
+              : AllDeptOpenedCount.status === 3
+                ? '#BFD7ED'
+                : '#BFD7ED'
         }
         percentage={AllDeptOpenedCount.percentage}
       />
@@ -314,10 +314,10 @@ const AllDeptticketTile = () => {
           AllDeptClosedCount.status === 1
             ? '#FEE7E6'
             : AllDeptClosedCount.status === 2
-            ? '#DBF5F0'
-            : AllDeptClosedCount.status === 3
-            ? '#BFD7ED'
-            : '#BFD7ED'
+              ? '#DBF5F0'
+              : AllDeptClosedCount.status === 3
+                ? '#BFD7ED'
+                : '#BFD7ED'
         }
         percentage={AllDeptClosedCount.percentage}
       />

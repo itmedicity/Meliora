@@ -26,7 +26,7 @@ const AllDepartmentMain = () => {
   }, [])
 
   return (
-    <Paper sx={{ pb: 0.3, bgcolor: '#DFE3ED' }}>
+    <Paper sx={{ pb: 0.3, bgcolor: '#DFE3ED', width: "100%" }}>
       {AddModalFlag === 1 ? (
         <CreateTaskInAllDept
           open={addModalOpen}
@@ -126,28 +126,28 @@ const AllDepartmentMain = () => {
                     borderColor: 'lightgray'
                   }}
                 >
-                  <Box sx={{ flex: 2, display: 'flex', px: 0.5 }}>
-                    <Tab disableIndicator sx={{ color: '#8C5249', fontWeight: 800, width: 140 }}>
+                  <Box sx={{ display: 'flex', px: 0.5, width: "100%", justifyContent: "space-between", flex: 4 }}>
+                    <Tab disableIndicator sx={{ color: '#8C5249', fontWeight: 800, }}>
                       <AccountTreeIcon sx={{ color: '#8C5249' }} />
                       &nbsp;By Projects
                     </Tab>
-                    <Tab disableIndicator sx={{ color: '#52688F', fontWeight: 800, width: 110 }}>
+                    <Tab disableIndicator sx={{ color: '#52688F', fontWeight: 800, }}>
                       <ListAltIcon sx={{ color: '#52688F' }} />
                       &nbsp;All Tasks
                     </Tab>
-                    <Tab disableIndicator sx={{ color: '#613659', fontWeight: 800, width: 200 }}>
+                    <Tab disableIndicator sx={{ color: '#613659', fontWeight: 800, }}>
                       <PendingActionsSharpIcon sx={{ color: '#613659' }} />
                       &nbsp;Pending Acceptance
                     </Tab>
-                    <Tab disableIndicator sx={{ color: '#74112F', fontWeight: 800, width: 200 }}>
+                    <Tab disableIndicator sx={{ color: '#74112F', fontWeight: 800, }}>
                       <AccountTreeTwoToneIcon sx={{ color: '#74112F' }} />
                       &nbsp;Task Under Queries
                     </Tab>
-                    <Tab disableIndicator sx={{ color: '#177DBB', fontWeight: 800, width: 100 }}>
+                    <Tab disableIndicator sx={{ color: '#177DBB', fontWeight: 800, }}>
                       <RadarIcon sx={{ color: '#177DBB' }} />
                       &nbsp;Goals
                     </Tab>
-                    <Tab disableIndicator sx={{ color: '#0AADC7', fontWeight: 800, width: 100 }}>
+                    <Tab disableIndicator sx={{ color: '#0AADC7', fontWeight: 800, }}>
                       <AccountTreeTwoToneIcon sx={{ color: '#0AADC7' }} />
                       &nbsp;Projects
                     </Tab>

@@ -21,7 +21,7 @@ const DataCollectionViewModal = ({
 }) => {
   const { ack_status, quatation_calling_status, quatation_negotiation, quatation_fixing } = reqData
   return (
-    <CssVarsProvider>
+    <>
       <Modal
         aria-labelledby="modal-title"
         aria-describedby="modal-desc"
@@ -92,7 +92,7 @@ const DataCollectionViewModal = ({
           </Box>
         </ModalDialog>
       </Modal>
-    </CssVarsProvider>
+    </>
   )
 }
 export default memo(DataCollectionViewModal)

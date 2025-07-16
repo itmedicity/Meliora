@@ -57,12 +57,12 @@ const ApprovalItemView = ({ approveTableData }) => {
                     item.item_status_approved === 1
                       ? '#59981A'
                       : item.item_status_approved === 2
-                      ? '#D13120'
-                      : item.item_status_approved === 3
-                      ? '#DBA40E'
-                      : item.item_status_approved === 4
-                      ? '#009688'
-                      : null
+                        ? '#D13120'
+                        : item.item_status_approved === 3
+                          ? '#DBA40E'
+                          : item.item_status_approved === 4
+                            ? '#009688'
+                            : null
 
                   return (
                     <CustomToolTipForCRF
@@ -72,14 +72,14 @@ const ApprovalItemView = ({ approveTableData }) => {
                         item.po_item_status === 1
                           ? 'PO Generated'
                           : item.item_status_approved === 1
-                          ? 'Approved'
-                          : item.item_status_approved === 2
-                          ? `Rejected by ${item.reject_remarks}`
-                          : item.item_status_approved === 3
-                          ? `On-Hold by ${item.hold_remarks}`
-                          : item.item_status_approved === 4
-                          ? `Internally Arranged By ${item.internal_remarks}`
-                          : ''
+                            ? 'Approved'
+                            : item.item_status_approved === 2
+                              ? `Rejected by ${item.reject_remarks}`
+                              : item.item_status_approved === 3
+                                ? `On-Hold by ${item.hold_remarks}`
+                                : item.item_status_approved === 4
+                                  ? `Internally Arranged By ${item.internal_remarks}`
+                                  : ''
                       }
                     >
                       <tr style={{ cursor: 'pointer' }}>
@@ -93,7 +93,7 @@ const ApprovalItemView = ({ approveTableData }) => {
                         <td style={{ textAlign: 'center' }}>
                           {item.approve_item_unit === 0 ? 'Not Given' : item.apprv_uom}
                         </td>
-                        <td>
+                        <td style={{ overflow: "auto" }}>
                           &nbsp;
                           {item.approve_item_specification === '' ? 'Not Given' : item.approve_item_specification}
                         </td>
@@ -107,14 +107,14 @@ const ApprovalItemView = ({ approveTableData }) => {
                           {item.po_item_status === 1
                             ? 'PO Generated'
                             : item.item_status_approved === 1
-                            ? 'Approved'
-                            : item.item_status_approved === 2
-                            ? 'Rejected '
-                            : item.item_status_approved === 3
-                            ? 'On-Hold '
-                            : item.item_status_approved === 4
-                            ? 'Internally Arranged'
-                            : null}
+                              ? 'Approved'
+                              : item.item_status_approved === 2
+                                ? 'Rejected '
+                                : item.item_status_approved === 3
+                                  ? 'On-Hold '
+                                  : item.item_status_approved === 4
+                                    ? 'Internally Arranged'
+                                    : null}
                         </td>
                       </tr>
                     </CustomToolTipForCRF>

@@ -5,7 +5,8 @@ import { Box, Table, Typography } from '@mui/joy'
 import CustomToolTipForCRF from '../../ComonComponent/Components/CustomToolTipForCRF'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
-import { useQuery, useQueryClient } from 'react-query'
+import { useQuery, useQueryClient, } from '@tanstack/react-query'
+
 import ReturnModal from './ReturnModal'
 import { viewItemReturnDetails } from 'src/api/CommonApiCRF'
 import NotificationsActiveTwoToneIcon from '@mui/icons-material/NotificationsActiveTwoTone'
@@ -229,15 +230,15 @@ const StoreReceivedItemList = ({ storeReceived, empId, req_slno }) => {
                       item.item_receive_status === 1
                         ? '#59981A'
                         : item.item_receive_status === 0
-                        ? '#e65100'
-                        : '#0288d1'
+                          ? '#e65100'
+                          : '#0288d1'
                   }}
                 >
                   {item.item_receive_status === 1
                     ? 'Received'
                     : item.item_receive_status === 0
-                    ? 'Partially'
-                    : 'Pending'}
+                      ? 'Partially'
+                      : 'Pending'}
                 </td>
                 <td
                   style={{
@@ -245,8 +246,8 @@ const StoreReceivedItemList = ({ storeReceived, empId, req_slno }) => {
                       item.user_received_status === 1
                         ? '#59981A'
                         : item.user_received_status === 0
-                        ? '#e65100'
-                        : '#0288d1'
+                          ? '#e65100'
+                          : '#0288d1'
                   }}
                 >
                   <Box sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -254,8 +255,8 @@ const StoreReceivedItemList = ({ storeReceived, empId, req_slno }) => {
                       {item.user_received_status === 1
                         ? 'Received'
                         : item.user_received_status === 0
-                        ? 'Return'
-                        : 'Not Updated'}
+                          ? 'Return'
+                          : 'Not Updated'}
                     </Typography>
                     {item.returnDetails && item.returnDetails.length > 0 ? (
                       <>

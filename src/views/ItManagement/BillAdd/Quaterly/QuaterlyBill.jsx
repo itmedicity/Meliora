@@ -266,7 +266,7 @@ const QuaterlyBill = ({ quaterlydata, billCount, setbillCount }) => {
                   var monthview =
                     format(new Date(monthnames[0]), 'MMM') + '-' + format(new Date(monthnames[2]), 'MMM yyyy')
                   return (
-                    <Paper
+                    <Box
                       key={val.quaterly_slno}
                       sx={{
                         minHeight: 33,
@@ -307,7 +307,7 @@ const QuaterlyBill = ({ quaterlydata, billCount, setbillCount }) => {
                       <Tooltip title="bill Category" placement="bottom">
                         <Box sx={{ flex: 1, pt: 0.5, cursor: 'grab' }}>{val.it_bill_category_name}</Box>
                       </Tooltip>
-                    </Paper>
+                    </Box>
                   )
                 })}
             </Box>
@@ -322,7 +322,7 @@ const QuaterlyBill = ({ quaterlydata, billCount, setbillCount }) => {
                   var monthview =
                     format(new Date(monthnames[0]), 'MMM') + '-' + format(new Date(monthnames[2]), 'MMM yyyy')
                   return (
-                    <Paper
+                    <Box
                       key={val.quaterly_slno}
                       sx={{
                         minHeight: 33,
@@ -363,7 +363,7 @@ const QuaterlyBill = ({ quaterlydata, billCount, setbillCount }) => {
                       <Tooltip title="bill Category" placement="bottom">
                         <Box sx={{ flex: 1, pt: 0.5, cursor: 'grab' }}>{val.it_bill_category_name}</Box>
                       </Tooltip>
-                    </Paper>
+                    </Box>
                   )
                 })}
             </Box>
@@ -379,7 +379,7 @@ const QuaterlyBill = ({ quaterlydata, billCount, setbillCount }) => {
                     format(new Date(monthnames[0]), 'MMM') + '-' + format(new Date(monthnames[2]), 'MMM yyyy')
 
                   return (
-                    <Paper
+                    <Box
                       key={val.quaterly_slno}
                       sx={{
                         minHeight: 33,
@@ -419,7 +419,7 @@ const QuaterlyBill = ({ quaterlydata, billCount, setbillCount }) => {
                       {/* <Tooltip title="bill type" placement="bottom"><Box sx={{ flex: 1, pt: .5, cursor: 'grab' }}>
                                                 {val.it_bill_type_name}
                                             </Box></Tooltip> */}
-                    </Paper>
+                    </Box>
                   )
                 })}
             </Box>

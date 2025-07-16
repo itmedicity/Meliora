@@ -12,7 +12,7 @@ import { axioskmc, axioslogin } from 'src/views/Axios/Axios'
 import { Virtuoso } from 'react-virtuoso'
 import SearchApprvlComp from './SearchComp/SearchApprvlComp'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { getCompanyDetails, getDefaultCompany } from 'src/api/CommonApiCRF'
 import { FormControlLabel, Radio, RadioGroup } from '@mui/material'
 import MasterDetailHigherLevel from '../ComonComponent/HigherLevelComponents/MasterDetailHigherLevel'
@@ -177,10 +177,10 @@ const CrfDetailsSearch = () => {
                   val.incharge_approve === 1
                     ? 'Approved'
                     : val.incharge_approve === 2
-                    ? 'Rejected'
-                    : val.incharge_approve === 3
-                    ? 'On-Hold'
-                    : 'Not Done',
+                      ? 'Rejected'
+                      : val.incharge_approve === 3
+                        ? 'On-Hold'
+                        : 'Not Done',
                 incharge_remarks: val.incharge_remarks !== null ? val.incharge_remarks : 'Not Updated',
                 inch_detial_analysis: val.inch_detial_analysis,
                 incharge_apprv_date: val.incharge_apprv_date,
@@ -191,10 +191,10 @@ const CrfDetailsSearch = () => {
                   val.hod_approve === 1
                     ? 'Approved'
                     : val.hod_approve === 2
-                    ? 'Rejected'
-                    : val.hod_approve === 3
-                    ? 'On-Hold'
-                    : 'Not Done',
+                      ? 'Rejected'
+                      : val.hod_approve === 3
+                        ? 'On-Hold'
+                        : 'Not Done',
                 hod_remarks: val.hod_remarks !== null ? val.hod_remarks : 'Not Updated',
                 hod_detial_analysis: val.hod_detial_analysis,
                 hod_approve_date: val.hod_approve_date,
@@ -205,10 +205,10 @@ const CrfDetailsSearch = () => {
                   val.dms_approve === 1
                     ? 'Approved'
                     : val.dms_approve === 2
-                    ? 'Rejected'
-                    : val.dms_approve === 3
-                    ? 'On-Hold'
-                    : 'Not Done',
+                      ? 'Rejected'
+                      : val.dms_approve === 3
+                        ? 'On-Hold'
+                        : 'Not Done',
                 dms_remarks: val.dms_remarks !== null ? val.dms_remarks : 'Not Updated',
                 dms_detail_analysis: val.dms_detail_analysis,
                 dms_approve_date: val.dms_approve_date,
@@ -219,10 +219,10 @@ const CrfDetailsSearch = () => {
                   val.ms_approve === 1
                     ? 'Approved'
                     : val.ms_approve === 2
-                    ? 'Rejected'
-                    : val.ms_approve === 3
-                    ? 'On-Hold'
-                    : 'Not Done',
+                      ? 'Rejected'
+                      : val.ms_approve === 3
+                        ? 'On-Hold'
+                        : 'Not Done',
                 ms_approve_remark: val.ms_approve_remark !== null ? val.ms_approve_remark : 'Not Updated',
                 ms_detail_analysis: val.ms_detail_analysis,
                 ms_approve_date: val.ms_approve_date,
@@ -233,10 +233,10 @@ const CrfDetailsSearch = () => {
                   val.manag_operation_approv === 1
                     ? 'Approved'
                     : val.manag_operation_approv === 2
-                    ? 'Rejected'
-                    : val.manag_operation_approv === 3
-                    ? 'On-Hold'
-                    : 'Not Done',
+                      ? 'Rejected'
+                      : val.manag_operation_approv === 3
+                        ? 'On-Hold'
+                        : 'Not Done',
                 manag_operation_remarks:
                   val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
                 om_detial_analysis: val.om_detial_analysis,
@@ -248,10 +248,10 @@ const CrfDetailsSearch = () => {
                   val.senior_manage_approv === 1
                     ? 'Approved'
                     : val.senior_manage_approv === 2
-                    ? 'Rejected'
-                    : val.senior_manage_approv === 3
-                    ? 'On-Hold'
-                    : 'Not Done',
+                      ? 'Rejected'
+                      : val.senior_manage_approv === 3
+                        ? 'On-Hold'
+                        : 'Not Done',
                 senior_manage_remarks: val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
                 smo_detial_analysis: val.smo_detial_analysis,
                 som_aprrov_date: val.som_aprrov_date,
@@ -262,10 +262,10 @@ const CrfDetailsSearch = () => {
                   val.gm_approve === 1
                     ? 'Approved'
                     : val.gm_approve === 2
-                    ? 'Rejected'
-                    : val.gm_approve === 3
-                    ? 'On-Hold'
-                    : 'Not Done',
+                      ? 'Rejected'
+                      : val.gm_approve === 3
+                        ? 'On-Hold'
+                        : 'Not Done',
                 gm_approve_remarks: val.gm_approve_remarks !== null ? val.gm_approve_remarks : 'Not Updated',
                 gm_detial_analysis: val.gm_detial_analysis,
                 gm_approv_date: val.gm_approv_date,
@@ -276,10 +276,10 @@ const CrfDetailsSearch = () => {
                   val.md_approve === 1
                     ? 'Approved'
                     : val.md_approve === 2
-                    ? 'Rejected'
-                    : val.md_approve === 3
-                    ? 'On-Hold'
-                    : 'Not Done',
+                      ? 'Rejected'
+                      : val.md_approve === 3
+                        ? 'On-Hold'
+                        : 'Not Done',
                 md_approve_remarks: val.md_approve_remarks !== null ? val.md_approve_remarks : 'Not Updated',
                 md_detial_analysis: val.md_detial_analysis,
                 md_approve_date: val.md_approve_date,
@@ -290,10 +290,10 @@ const CrfDetailsSearch = () => {
                   val.ed_approve === 1
                     ? 'Approved'
                     : val.ed_approve === 2
-                    ? 'Rejected'
-                    : val.ed_approve === 3
-                    ? 'On-Hold'
-                    : 'Not Done',
+                      ? 'Rejected'
+                      : val.ed_approve === 3
+                        ? 'On-Hold'
+                        : 'Not Done',
                 ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
                 ed_detial_analysis: val.ed_detial_analysis,
                 ed_approve_date: val.ed_approve_date,
@@ -304,12 +304,12 @@ const CrfDetailsSearch = () => {
                   val.managing_director_approve === 1
                     ? 'Approved'
                     : val.managing_director_approve === 2
-                    ? 'Rejected'
-                    : val.managing_director_approve === 3
-                    ? 'On-Hold'
-                    : val.managing_director_approve === 4
-                    ? 'Approved'
-                    : 'Not Done',
+                      ? 'Rejected'
+                      : val.managing_director_approve === 3
+                        ? 'On-Hold'
+                        : val.managing_director_approve === 4
+                          ? 'Approved'
+                          : 'Not Done',
                 managing_director_remarks: val.managing_director_remarks !== null ? val.managing_director_remarks : '',
                 managing_director_analysis: val.managing_director_analysis,
                 managing_director_approve_date: val.managing_director_approve_date,
@@ -320,101 +320,101 @@ const CrfDetailsSearch = () => {
                   val.req_status === 'C'
                     ? 'CRF Closed'
                     : val.sub_store_recieve === 1
-                    ? 'Received in ' + val.sub_store_name
-                    : val.store_recieve === 1
-                    ? 'All Items Received in CRS'
-                    : val.store_recieve === 0
-                    ? 'Partial Goods Received in CRS'
-                    : val.po_to_supplier === 1
-                    ? 'Waiting for Goods'
-                    : val.approval_level === 3
-                    ? "Director's Approved"
-                    : val.approval_level === 2
-                    ? 'Purchase Manager Approved'
-                    : val.approval_level === 1
-                    ? 'Purchase Dpt Approved'
-                    : val.po_complete === 1
-                    ? 'PO Completed'
-                    : val.po_prepartion === 1
-                    ? 'PO Prepairing'
-                    : val.quatation_fixing === 1
-                    ? 'Quotation Fixed'
-                    : val.quatation_negotiation === 1
-                    ? 'Quotation Negotiation'
-                    : val.quatation_calling_status === 1
-                    ? 'Quotation Calling'
-                    : val.ack_status === 1
-                    ? 'Purchase Acknowledged'
-                    : val.managing_director_approve !== null
-                    ? company?.managing_director_name
-                    : val.ed_approve !== null
-                    ? company?.ed_status_name
-                    : val.md_approve !== null
-                    ? company?.md_status_name
-                    : val.gm_approve !== null
-                    ? company?.gmo_status_name
-                    : val.senior_manage_approv !== null
-                    ? company?.smo_status_name
-                    : val.manag_operation_approv !== null
-                    ? company?.mo_status_name
-                    : val.ms_approve !== null
-                    ? company?.ms_status_name
-                    : val.dms_approve !== null
-                    ? company?.dms_status_name
-                    : val.hod_approve !== null
-                    ? company?.hod_status_name
-                    : val.incharge_approve !== null
-                    ? company?.incharge_status_name
-                    : 'Not Started',
+                      ? 'Received in ' + val.sub_store_name
+                      : val.store_recieve === 1
+                        ? 'All Items Received in CRS'
+                        : val.store_recieve === 0
+                          ? 'Partial Goods Received in CRS'
+                          : val.po_to_supplier === 1
+                            ? 'Waiting for Goods'
+                            : val.approval_level === 3
+                              ? "Director's Approved"
+                              : val.approval_level === 2
+                                ? 'Purchase Manager Approved'
+                                : val.approval_level === 1
+                                  ? 'Purchase Dpt Approved'
+                                  : val.po_complete === 1
+                                    ? 'PO Completed'
+                                    : val.po_prepartion === 1
+                                      ? 'PO Prepairing'
+                                      : val.quatation_fixing === 1
+                                        ? 'Quotation Fixed'
+                                        : val.quatation_negotiation === 1
+                                          ? 'Quotation Negotiation'
+                                          : val.quatation_calling_status === 1
+                                            ? 'Quotation Calling'
+                                            : val.ack_status === 1
+                                              ? 'Purchase Acknowledged'
+                                              : val.managing_director_approve !== null
+                                                ? company?.managing_director_name
+                                                : val.ed_approve !== null
+                                                  ? company?.ed_status_name
+                                                  : val.md_approve !== null
+                                                    ? company?.md_status_name
+                                                    : val.gm_approve !== null
+                                                      ? company?.gmo_status_name
+                                                      : val.senior_manage_approv !== null
+                                                        ? company?.smo_status_name
+                                                        : val.manag_operation_approv !== null
+                                                          ? company?.mo_status_name
+                                                          : val.ms_approve !== null
+                                                            ? company?.ms_status_name
+                                                            : val.dms_approve !== null
+                                                              ? company?.dms_status_name
+                                                              : val.hod_approve !== null
+                                                                ? company?.hod_status_name
+                                                                : val.incharge_approve !== null
+                                                                  ? company?.incharge_status_name
+                                                                  : 'Not Started',
                 //  here now_who_status =5 is used to not show approved from purchase level on status
                 now_who_status:
                   val.req_status === 'C'
                     ? ''
                     : val.sub_store_recieve === 1
-                    ? 5
-                    : val.store_receive === 1
-                    ? 5
-                    : val.po_to_supplier === 1
-                    ? 5
-                    : val.approval_level === 3
-                    ? 5
-                    : val.approval_level === 2
-                    ? 5
-                    : val.approval_level === 1
-                    ? 5
-                    : val.po_complete === 1
-                    ? 5
-                    : val.po_prepartion === 1
-                    ? 5
-                    : val.quatation_fixing === 1
-                    ? 5
-                    : val.quatation_negotiation === 1
-                    ? 5
-                    : val.quatation_calling_status === 1
-                    ? 5
-                    : val.ack_status === 1
-                    ? 5
-                    : val.managing_director_approve !== null
-                    ? val.managing_director_approve
-                    : val.ed_approve !== null
-                    ? val.ed_approve
-                    : val.md_approve !== null
-                    ? val.md_approve
-                    : val.gm_approve !== null
-                    ? val.gm_approve
-                    : val.senior_manage_approv !== null
-                    ? val.senior_manage_approv
-                    : val.manag_operation_approv !== null
-                    ? val.manag_operation_approv
-                    : val.ms_approve !== null
-                    ? val.ms_approve
-                    : val.dms_approve !== null
-                    ? val.dms_approve
-                    : val.hod_approve !== null
-                    ? val.hod_approve
-                    : val.incharge_approve !== null
-                    ? val.incharge_approve
-                    : 0,
+                      ? 5
+                      : val.store_receive === 1
+                        ? 5
+                        : val.po_to_supplier === 1
+                          ? 5
+                          : val.approval_level === 3
+                            ? 5
+                            : val.approval_level === 2
+                              ? 5
+                              : val.approval_level === 1
+                                ? 5
+                                : val.po_complete === 1
+                                  ? 5
+                                  : val.po_prepartion === 1
+                                    ? 5
+                                    : val.quatation_fixing === 1
+                                      ? 5
+                                      : val.quatation_negotiation === 1
+                                        ? 5
+                                        : val.quatation_calling_status === 1
+                                          ? 5
+                                          : val.ack_status === 1
+                                            ? 5
+                                            : val.managing_director_approve !== null
+                                              ? val.managing_director_approve
+                                              : val.ed_approve !== null
+                                                ? val.ed_approve
+                                                : val.md_approve !== null
+                                                  ? val.md_approve
+                                                  : val.gm_approve !== null
+                                                    ? val.gm_approve
+                                                    : val.senior_manage_approv !== null
+                                                      ? val.senior_manage_approv
+                                                      : val.manag_operation_approv !== null
+                                                        ? val.manag_operation_approv
+                                                        : val.ms_approve !== null
+                                                          ? val.ms_approve
+                                                          : val.dms_approve !== null
+                                                            ? val.dms_approve
+                                                            : val.hod_approve !== null
+                                                              ? val.hod_approve
+                                                              : val.incharge_approve !== null
+                                                                ? val.incharge_approve
+                                                                : 0,
 
                 hod_image: val.hod_image,
                 dms_image: val.dms_image,
@@ -499,7 +499,7 @@ const CrfDetailsSearch = () => {
   if (compError || compdefError) return <p>Error Occurred.</p>
   return (
     <Fragment>
-      <Box sx={{ height: window.innerHeight - 80, flexWrap: 'wrap', bgcolor: 'white' }}>
+      <Box sx={{ height: window.innerHeight - 80, flexWrap: 'wrap', bgcolor: 'white', width: '100%' }}>
         <Box sx={{ backgroundColor: '#f0f3f5', border: '1px solid #B4F5F0', borderBottom: 'none' }}>
           <Box sx={{ display: 'flex', backgroundColor: '#f0f3f5' }}>
             <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: 0.5, color: '#385E72' }}>CRF Search</Box>

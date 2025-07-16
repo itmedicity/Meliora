@@ -1,5 +1,5 @@
 import React, { Fragment, memo, useCallback, useMemo, useState } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useSelector } from 'react-redux'
 // import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { getCompanyDetails } from 'src/api/CommonApiCRF'

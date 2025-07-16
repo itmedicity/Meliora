@@ -4,7 +4,7 @@ import TicketDashTile from './TicketDashTile'
 import TrendingUpIcon from '@mui/icons-material/TrendingUp'
 import TrendingDownIcon from '@mui/icons-material/TrendingDown'
 import TrendingFlatIcon from '@mui/icons-material/TrendingFlat'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useSelector } from 'react-redux'
 import {
   getClosedTickets,
@@ -244,10 +244,10 @@ const DeptTicketTile = () => {
           Previouspending.status === 2
             ? '#DBF5F0'
             : Previouspending.status === 1
-            ? '#FEE7E6'
-            : Previouspending.status === 3
-            ? '#BFD7ED'
-            : '#BFD7ED'
+              ? '#FEE7E6'
+              : Previouspending.status === 3
+                ? '#BFD7ED'
+                : '#BFD7ED'
         }
         percentage={Previouspending.percentage}
       />
@@ -269,10 +269,10 @@ const DeptTicketTile = () => {
           RegisterdCount.status === 1
             ? '#FEE7E6'
             : RegisterdCount.status === 2
-            ? '#DBF5F0'
-            : RegisterdCount.status === 3
-            ? '#BFD7ED'
-            : '#BFD7ED'
+              ? '#DBF5F0'
+              : RegisterdCount.status === 3
+                ? '#BFD7ED'
+                : '#BFD7ED'
         }
         percentage={RegisterdCount.percentage}
       />
@@ -294,10 +294,10 @@ const DeptTicketTile = () => {
           OpenedWithoutTodayCount.status === 1
             ? '#DBF5F0'
             : OpenedWithoutTodayCount.status === 2
-            ? '#FEE7E6'
-            : OpenedWithoutTodayCount.status === 3
-            ? '#BFD7ED'
-            : '#BFD7ED'
+              ? '#FEE7E6'
+              : OpenedWithoutTodayCount.status === 3
+                ? '#BFD7ED'
+                : '#BFD7ED'
         }
         percentage={OpenedWithoutTodayCount.percentage}
       />
@@ -319,10 +319,10 @@ const DeptTicketTile = () => {
           ClosedCount.status === 1
             ? '#FEE7E6'
             : ClosedCount.status === 2
-            ? '#DBF5F0'
-            : ClosedCount.status === 3
-            ? '#BFD7ED'
-            : '#BFD7ED'
+              ? '#DBF5F0'
+              : ClosedCount.status === 3
+                ? '#BFD7ED'
+                : '#BFD7ED'
         }
         percentage={ClosedCount.percentage}
       />

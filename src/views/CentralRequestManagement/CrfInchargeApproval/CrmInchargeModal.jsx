@@ -2,7 +2,6 @@ import React, { Fragment, memo, useCallback, useMemo, useState } from 'react'
 import { Box, CssVarsProvider, Modal, ModalClose, ModalDialog } from '@mui/joy'
 import CrfReqDetailViewCmp from '../ComonComponent/CrfReqDetailViewCmp'
 import { useSelector } from 'react-redux'
-import { useQueryClient } from 'react-query'
 import _ from 'underscore'
 import ItemsApprovalCompnt from './ItemsApprovalCompnt'
 import { axioslogin } from 'src/views/Axios/Axios'
@@ -14,6 +13,7 @@ import ReqItemDisplay from '../ComonComponent/ReqItemDisplay'
 // import { ToastContainer } from 'react-toastify'
 import InchargeApprvalCmp from './InchargeComp/InchargeApprvalCmp'
 import ModalButtomCmp from '../ComonComponent/Components/ModalButtomCmp'
+import { useQueryClient } from '@tanstack/react-query'
 
 const CrmInchargeModal = ({
   open,

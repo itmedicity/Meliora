@@ -332,7 +332,7 @@ const SimDetails = () => {
   }, [history])
 
   return (
-    <Paper sx={{ height: '60vw' }}>
+    <Paper sx={{ width: '100%', height: `${window.innerHeight}px` }}>
       <CssVarsProvider>
         <Box sx={{ flex: 1, height: 33, bgcolor: '#D9E4EC', display: 'flex' }}>
           <Box sx={{ flex: 1, p: 0.5, fontWeight: 600, color: '#003B73' }}>SiM Details</Box>

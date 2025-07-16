@@ -1,5 +1,5 @@
 import { Badge, Box, CssVarsProvider, Typography } from '@mui/joy'
-import React, { memo, useCallback, useEffect, useState } from 'react'
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked'
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked'
 import { axioslogin } from 'src/views/Axios/Axios'
@@ -7,17 +7,19 @@ import DirectPendingList from './DirectTicketList/DirectPendingList'
 import SectionwiseHoldList from './DirectTicketList/SectionwiseHoldList'
 import SectionWiseVerify from './DirectTicketList/SectionWiseVerify'
 import { errorNotify } from 'src/views/Common/CommonCode'
+import { getDirectPendingCompalints } from 'src/api/CommonApi'
+import { useQuery } from '@tanstack/react-query'
 
 const DirectComplaintTable = ({ count, setCount, rowSelect, verficationPending }) => {
   const [pending, setpending] = useState(1)
   const [verifiedCheck, setVerifiedCheck] = useState(0)
   const [holdCheck, setholdCheck] = useState(0)
-  const [holdLength, setholdLength] = useState(0)
-  const [pendingLength, setpendingLength] = useState(0)
-  const [verifyLength, setverifyLength] = useState(0)
-  const [pendingCompl, setpendingCompl] = useState([])
-  const [onholdCompl, setOnholdCompl] = useState([])
-  const [forVerify, setforVerify] = useState([])
+  // const [holdLength, setholdLength] = useState(0)
+  // const [pendingLength, setpendingLength] = useState(0)
+  // const [verifyLength, setverifyLength] = useState(0)
+  // const [pendingCompl, setpendingCompl] = useState([])
+  // const [onholdCompl, setOnholdCompl] = useState([])
+  // const [forVerify, setforVerify] = useState([])
   const [loading, setLoading] = useState(false)
 
   const PendingCheck = useCallback(() => {
@@ -38,58 +40,100 @@ const DirectComplaintTable = ({ count, setCount, rowSelect, verficationPending }
     setpending(0)
   }, [])
 
-  useEffect(() => {
-    let isMounted = true
-    const getAllPendingCompalints = async () => {
-      setLoading(true)
-      try {
-        const result = await axioslogin.get(`/complaintreg/viewAllPendingTicket`)
-        const { success, data } = result.data
-        if (success === 2 && isMounted) {
-          const PendingCompl = data.filter(
-            complaint =>
-              complaint.compalint_status !== 2 &&
-              complaint.compalint_status !== 3 &&
-              complaint.cm_rectify_status !== 'O'
-          )
-          const OnholdCompl = data.filter(
-            complaint =>
-              complaint.compalint_status !== 2 &&
-              complaint.compalint_status !== 3 &&
-              complaint.cm_rectify_status === 'O'
-          )
-          const ForVerify = data.filter(
-            complaint =>
-              complaint.compalint_status === 2 &&
-              complaint.compalint_status !== 3 &&
-              complaint.cm_rectify_status === 'R'
-          )
-          setpendingCompl(PendingCompl)
-          setOnholdCompl(OnholdCompl)
-          setforVerify(ForVerify)
-          setholdLength(OnholdCompl.length || 0)
-          setpendingLength(PendingCompl.length || 0)
-          setverifyLength(ForVerify.length || 0)
-        } else if (isMounted) {
-          setpendingCompl([])
-        }
-      } catch (error) {
-        if (isMounted) {
-          errorNotify('Error fetching pending complaints:', error)
-          setpendingCompl([])
-        }
-      } finally {
-        if (isMounted) {
-          setLoading(false)
-        }
-      }
-    }
+  const { isLoading, error, data, isSuccess } = useQuery({
+    queryKey: 'GetDirectPendingComplaints',
+    queryFn: () => getDirectPendingCompalints()
+  })
 
-    getAllPendingCompalints()
-    return () => {
-      isMounted = false
-    }
-  }, [count])
+  // Derived values — only filter when isSuccess is true
+  const pendingCompl = useMemo(() => {
+    if (!isSuccess || !Array.isArray(data)) return []
+    return data?.filter(
+      complaint =>
+        complaint.compalint_status !== 2 &&
+        complaint.compalint_status !== 3 &&
+        complaint.cm_rectify_status !== 'O'
+    )
+  }, [data, isSuccess])
+
+  const onholdCompl = useMemo(() => {
+    if (!isSuccess || !Array.isArray(data)) return []
+    return data?.filter(
+      complaint =>
+        complaint.compalint_status !== 2 &&
+        complaint.compalint_status !== 3 &&
+        complaint.cm_rectify_status === 'O'
+    )
+  }, [data, isSuccess])
+
+  const forVerify = useMemo(() => {
+    if (!isSuccess || !Array.isArray(data)) return []
+    return data?.filter(
+      complaint =>
+        complaint.compalint_status === 2 &&
+        complaint.compalint_status !== 3 &&
+        complaint.cm_rectify_status === 'R'
+    )
+  }, [data, isSuccess])
+
+  const pendingLength = pendingCompl?.length
+  const holdLength = onholdCompl?.length
+  const verifyLength = forVerify?.length
+
+  if (isLoading) return <p>Loading...</p>
+  if (error) return <p>Error occurred.</p>
+  // useEffect(() => {
+  //   let isMounted = true
+  //   const getAllPendingCompalints = async () => {
+  //     setLoading(true)
+  //     try {
+  //       const result = await axioslogin.get(`/complaintreg/viewAllPendingTicket`)
+  //       const { success, data } = result.data
+  //       if (success === 2 && isMounted) {
+  //         const PendingCompl = data.filter(
+  //           complaint =>
+  //             complaint.compalint_status !== 2 &&
+  //             complaint.compalint_status !== 3 &&
+  //             complaint.cm_rectify_status !== 'O'
+  //         )
+  //         const OnholdCompl = data.filter(
+  //           complaint =>
+  //             complaint.compalint_status !== 2 &&
+  //             complaint.compalint_status !== 3 &&
+  //             complaint.cm_rectify_status === 'O'
+  //         )
+  //         const ForVerify = data.filter(
+  //           complaint =>
+  //             complaint.compalint_status === 2 &&
+  //             complaint.compalint_status !== 3 &&
+  //             complaint.cm_rectify_status === 'R'
+  //         )
+  //         setpendingCompl(PendingCompl)
+  //         setOnholdCompl(OnholdCompl)
+  //         setforVerify(ForVerify)
+  //         setholdLength(OnholdCompl.length || 0)
+  //         setpendingLength(PendingCompl.length || 0)
+  //         setverifyLength(ForVerify.length || 0)
+  //       } else if (isMounted) {
+  //         setpendingCompl([])
+  //       }
+  //     } catch (error) {
+  //       if (isMounted) {
+  //         errorNotify('Error fetching pending complaints:', error)
+  //         setpendingCompl([])
+  //       }
+  //     } finally {
+  //       if (isMounted) {
+  //         setLoading(false)
+  //       }
+  //     }
+  //   }
+
+  //   getAllPendingCompalints()
+  //   return () => {
+  //     isMounted = false
+  //   }
+  // }, [count])
 
   return (
     <Box sx={{ flex: 1 }}>

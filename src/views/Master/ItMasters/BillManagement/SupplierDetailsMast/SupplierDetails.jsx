@@ -748,7 +748,7 @@ const SupplierDetails = () => {
   }, [history])
 
   return (
-    <Box>
+    <Box sx={{ width: "100%" }}>
       <Paper sx={{ borderRadius: 0 }}>
         <Box sx={{ flex: 1, height: 35, borderBottom: 1, borderColor: 'lightgrey', display: 'flex' }}>
           <Box sx={{ flex: 1, fontWeight: 600, pl: 0.8, pt: 0.8, color: '#C7C8CB' }}>Service Supplier Details</Box>
@@ -1747,7 +1747,7 @@ const SupplierDetails = () => {
               </CusIconButton>
             </Box>
           </CustomeToolTip>
-          {/* Refresh Button */}
+
           <CustomeToolTip title="Refresh" placement="left">
             <Box sx={{ pl: 0.5 }}>
               <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={reset}>
@@ -1755,7 +1755,7 @@ const SupplierDetails = () => {
               </CusIconButton>
             </Box>
           </CustomeToolTip>
-          {/* Close button */}
+
           <CustomeToolTip title="Close" placement="left">
             <Box sx={{ pl: 0.5 }}>
               <CusIconButton size="sm" variant="outlined" color="primary" clickable="true" onClick={backtoHome}>

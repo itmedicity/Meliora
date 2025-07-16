@@ -43,9 +43,9 @@ const PswdSoftWareTable = ({ swTableCount, rowSelectForSw }) => {
   }, [tabledata])
   return (
     <Fragment>
-      <Box>
+      <Box sx={{}}>
         {viewSoftTable === 1 ? (
-          <Paper variant="outlined" sx={{ maxHeight: '90%', maxWidth: '100%', overflow: 'auto' }}>
+          <Paper variant="outlined" sx={{ maxWidth: '100%', overflow: 'auto', height: 400 }}>
             <CssVarsProvider>
               <Table padding={'none'} stickyHeader hoverRow>
                 <thead>
@@ -64,10 +64,10 @@ const PswdSoftWareTable = ({ swTableCount, rowSelectForSw }) => {
                     return (
                       <tr
                         key={index}
-                        // sx={{
-                        //     '&:last-child td, &:last-child th': { border: 0 }, maxHeight: 60,
-                        //     minHeight: 5
-                        // }}
+                      // sx={{
+                      //     '&:last-child td, &:last-child th': { border: 0 }, maxHeight: 60,
+                      //     minHeight: 5
+                      // }}
                       >
                         <td>
                           <EditIcon sx={{ cursor: 'pointer' }} size={6} onClick={() => rowSelectForSw(val)} />

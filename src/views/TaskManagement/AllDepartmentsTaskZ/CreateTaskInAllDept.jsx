@@ -373,7 +373,7 @@ const CreateTaskInAllDept = ({ open, setAddModalFlag, setaddModalOpen, tableCoun
   }, [])
 
   const SubmitTask = useCallback(
-    e => {
+    () => {
       const saveArray = postArray?.map(val => {
         const sectiondata = val.tm_task_dept_sec?.map(value => {
           const empdetails = val.employee?.filter(valemp =>
@@ -459,14 +459,14 @@ const CreateTaskInAllDept = ({ open, setAddModalFlag, setaddModalOpen, tableCoun
     [postArray, id, CloseDept, tableCount, setTableCount, handleImageUpload]
   )
 
-  const changeDepmt = useCallback(e => {
+  const changeDepmt = useCallback(() => {
     setchangeDept(1)
     setchangeDeptSec(1)
     setchangeEmp(1)
   }, [])
 
   const changeDepSec = useCallback(
-    e => {
+    () => {
       dispatch(getDeptSections(deptIds))
       setchangeDeptSec(1)
       setchangeEmp(1)
@@ -475,7 +475,7 @@ const CreateTaskInAllDept = ({ open, setAddModalFlag, setaddModalOpen, tableCoun
   )
 
   const changeAssignee = useCallback(
-    e => {
+    () => {
       setchangeEmp(1)
       dispatch(getMultHodInCharge(secIds))
     },
@@ -535,7 +535,7 @@ const CreateTaskInAllDept = ({ open, setAddModalFlag, setaddModalOpen, tableCoun
                   onClick={handleClose}
                 />
               </Box>
-              <Box sx={{ flex: 1, height: 30, bgcolor: '#0C4160', mt: 1 }}></Box>
+              <Box sx={{ flex: 1, height: 30, bgcolor: ' var(--royal-purple-300)', mt: 1 }}></Box>
               <Box
                 style={{
                   marginLeft: 55,
@@ -572,7 +572,7 @@ const CreateTaskInAllDept = ({ open, setAddModalFlag, setaddModalOpen, tableCoun
                       <Chip
                         sx={{
                           cursor: 'pointer',
-                          bgcolor: '#90CDD0 ',
+                          bgcolor: 'var( --royal-purple-100) ',
                           color: 'black',
                           '&:hover': { bgcolor: '#77A7B0' }
                         }}
@@ -604,7 +604,7 @@ const CreateTaskInAllDept = ({ open, setAddModalFlag, setaddModalOpen, tableCoun
                       <Chip
                         sx={{
                           cursor: 'pointer',
-                          bgcolor: '#90CDD0',
+                          bgcolor: 'var( --royal-purple-100) ',
                           color: 'black',
                           '&:hover': { bgcolor: '#77A7B0' }
                         }}
@@ -950,12 +950,12 @@ const CreateTaskInAllDept = ({ open, setAddModalFlag, setaddModalOpen, tableCoun
                 </Box>
                 <Box sx={{ flex: 0.1, pt: 4, px: 1, mx: 0.5, mt: 3, borderRadius: 5 }}>
                   <Tooltip title={'Add More Task'}>
-                    <Avatar sx={{ bgcolor: '#E4D4C8' }}>
+                    <Avatar sx={{ bgcolor: 'var( --royal-purple-100)' }}>
                       <AddCircleIcon
                         sx={{
-                          color: '#523A28',
+                          color: 'var( --royal-purple-400) ',
                           cursor: 'pointer',
-                          '&:hover': { color: '#5C4E4E' },
+                          '&:hover': { color: 'var( --royal-purple-300)' },
                           height: 30,
                           width: 30
                         }}

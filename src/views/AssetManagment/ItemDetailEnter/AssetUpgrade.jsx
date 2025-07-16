@@ -1,6 +1,6 @@
 import { Box, Tooltip } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { getallSpareUnderAsset } from 'src/api/AssetApis'
 import TextComponent from 'src/views/Components/TextComponent'
 import ManageAccountsSharpIcon from '@mui/icons-material/ManageAccountsSharp'

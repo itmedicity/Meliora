@@ -27,7 +27,6 @@ import MarkUnreadChatAltIcon from '@mui/icons-material/MarkUnreadChatAlt'
 import imageCompression from 'browser-image-compression'
 import CmAssetList from '../CmComponent/CmAssetList'
 import { getCustodianDetails } from 'src/api/AssetApis'
-import { useQuery } from 'react-query'
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf'
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile'
 import ClearSharpIcon from '@mui/icons-material/ClearSharp'
@@ -36,6 +35,7 @@ import UploadFileRoundedIcon from '@mui/icons-material/UploadFileRounded'
 import PersonSharpIcon from '@mui/icons-material/PersonSharp'
 import CardMastComplaint from 'src/views/Components/CardMastComplaint'
 import Switch from '@mui/joy/Switch'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 
 const DirectComplaintReg = ({ verficationPending, count, setCount, depsec, setDepsec, empsecid }) => {
   const dispatch = useDispatch()
@@ -74,6 +74,7 @@ const DirectComplaintReg = ({ verficationPending, count, setCount, depsec, setDe
   const [imageShow, setImageShow] = useState(false)
   const [imageShowFlag, setImageShowFlag] = useState(0)
   const [locationDetails, setlocationDetails] = useState('')
+  const queryClient = useQueryClient()
 
   const id = useSelector(state => {
     return state.LoginUserData.empid
@@ -85,18 +86,18 @@ const DirectComplaintReg = ({ verficationPending, count, setCount, depsec, setDe
     })
   }, [count])
 
-  const logOut_time = useSelector(state => {
-    return state.LoginUserData.logOut
-  })
+  // const logOut_time = useSelector(state => {
+  //   return state.LoginUserData.logOut
+  // })
 
-  useEffect(() => {
-    const now = new Date()
-    if (now.getTime() < new Date(logOut_time).getTime()) {
-      history('/Home/DirectComplaint')
-    } else {
-      history('/')
-    }
-  }, [codept, history, logOut_time])
+  // useEffect(() => {
+  //   const now = new Date()
+  //   if (now.getTime() < new Date(logOut_time).getTime()) {
+  //     history('/Home/DirectComplaint')
+  //   } else {
+  //     history('/')
+  //   }
+  // }, [codept, history, logOut_time])
 
   useEffect(() => {
     dispatch(getHicpolicy())
@@ -456,6 +457,8 @@ const DirectComplaintReg = ({ verficationPending, count, setCount, depsec, setDe
                       if (fileUploadResponse.success === 1) {
                         succesNotify('Complaint Updated Successfully')
                         setCount(count + 1)
+                        queryClient.invalidateQueries('GetDirectPendingComplaints')
+
                         setOpen(false)
                         reset()
                       } else {
@@ -464,6 +467,8 @@ const DirectComplaintReg = ({ verficationPending, count, setCount, depsec, setDe
                     } else {
                       succesNotify('Complaint Updated Successfully')
                       setCount(count + 1)
+                      queryClient.invalidateQueries('GetDirectPendingComplaints')
+
                       setOpen(false)
                       reset()
                     }
@@ -479,6 +484,8 @@ const DirectComplaintReg = ({ verficationPending, count, setCount, depsec, setDe
                     if (fileUploadResponse.success === 1) {
                       succesNotify('Complaint Updated Successfully')
                       setCount(count + 1)
+                      queryClient.invalidateQueries('GetDirectPendingComplaints')
+
                       setOpen(false)
                       reset()
                     } else {
@@ -487,6 +494,8 @@ const DirectComplaintReg = ({ verficationPending, count, setCount, depsec, setDe
                   } else {
                     succesNotify('Complaint Updated Successfully')
                     setCount(count + 1)
+                    queryClient.invalidateQueries('GetDirectPendingComplaints')
+
                     setOpen(false)
                     reset()
                   }
@@ -504,6 +513,8 @@ const DirectComplaintReg = ({ verficationPending, count, setCount, depsec, setDe
                     if (fileUploadResponse.success === 1) {
                       succesNotify('Complaint Updated Successfully')
                       setCount(count + 1)
+                      queryClient.invalidateQueries('GetDirectPendingComplaints')
+
                       setOpen(false)
                       reset()
                     } else {
@@ -512,6 +523,8 @@ const DirectComplaintReg = ({ verficationPending, count, setCount, depsec, setDe
                   } else {
                     succesNotify('Complaint Updated Successfully')
                     setCount(count + 1)
+                    queryClient.invalidateQueries('GetDirectPendingComplaints')
+
                     setOpen(false)
                     reset()
                   }
@@ -524,6 +537,8 @@ const DirectComplaintReg = ({ verficationPending, count, setCount, depsec, setDe
                   if (fileUploadResponse.success === 1) {
                     succesNotify('Complaint Updated Successfully')
                     setCount(count + 1)
+                    queryClient.invalidateQueries('GetDirectPendingComplaints')
+
                     setOpen(false)
                     reset()
                   } else {
@@ -532,6 +547,8 @@ const DirectComplaintReg = ({ verficationPending, count, setCount, depsec, setDe
                 } else {
                   succesNotify('Complaint Updated Successfully')
                   setCount(count + 1)
+                  queryClient.invalidateQueries('GetDirectPendingComplaints')
+
                   setOpen(false)
                   reset()
                 }
@@ -569,6 +586,8 @@ const DirectComplaintReg = ({ verficationPending, count, setCount, depsec, setDe
               }
               succesNotify('Complaint Registered Successfully')
               setCount(count + 1)
+              queryClient.invalidateQueries('GetDirectPendingComplaints')
+
               setOpen(false)
               reset()
             } catch (error) {
@@ -613,7 +632,8 @@ const DirectComplaintReg = ({ verficationPending, count, setCount, depsec, setDe
       priorreason,
       setCount,
       verficationPending.length,
-      empsecid
+      empsecid,
+      queryClient
     ]
   )
 
@@ -833,8 +853,8 @@ const DirectComplaintReg = ({ verficationPending, count, setCount, depsec, setDe
         ? 'pdf'
         : 'image'
       : file.type.includes('application/pdf')
-      ? 'pdf'
-      : 'image'
+        ? 'pdf'
+        : 'image'
 
     const fileUrl = file.url || URL.createObjectURL(file)
     setPreviewFile({ url: fileUrl, type: fileType })
@@ -875,7 +895,7 @@ const DirectComplaintReg = ({ verficationPending, count, setCount, depsec, setDe
           }}
         >
           <Box sx={{ display: 'flex', flex: 1, width: '80%', p: 0.5, flexDirection: 'column' }}>
-            <Paper variant="outlined" sx={{ p: 0.5 }} square>
+            <Paper variant="outlined" sx={{ p: 0.5 }}>
               <Box>
                 <CssVarsProvider>
                   <Typo level="h2" fontSize="sm" sx={{ mb: 0.5, color: 'neutral.400' }}>
@@ -916,7 +936,7 @@ const DirectComplaintReg = ({ verficationPending, count, setCount, depsec, setDe
               </Box>
             </Paper>
             {codept !== null ? (
-              <Paper variant="outlined" sx={{ p: 0.5 }} square>
+              <Paper variant="outlined" sx={{ p: 0.5 }}>
                 <Box>
                   <CssVarsProvider>
                     <Typo level="h2" fontSize="sm" sx={{ mb: 0.5, color: 'neutral.400' }}>
@@ -960,7 +980,7 @@ const DirectComplaintReg = ({ verficationPending, count, setCount, depsec, setDe
               </Paper>
             ) : null}
 
-            <Paper variant="outlined" square>
+            <Paper variant="outlined" >
               <Typography sx={{ color: '#9FA6AD', fontWeight: 800, fontSize: 12, pl: 0.8, py: 0.5 }}>
                 COMPLAINT LOCATION
               </Typography>
@@ -1015,7 +1035,7 @@ const DirectComplaintReg = ({ verficationPending, count, setCount, depsec, setDe
               </Box>
             </Paper>
             <Box>
-              <Paper variant="outlined" square sx={{ flex: 1 }}>
+              <Paper variant="outlined" sx={{ flex: 1 }}>
                 <Box sx={{ flex: 1, flexGrow: 1, p: 0.8 }}>
                   <Box sx={{ flex: 0.8, pr: 0.5 }}>
                     <Typography sx={{ color: '#9FA6AD', fontWeight: 800, fontSize: 12, pl: 0.3, pb: 0.5 }}>
@@ -1189,7 +1209,7 @@ const DirectComplaintReg = ({ verficationPending, count, setCount, depsec, setDe
                 </Box>
               </Paper>
             </Box>
-            <Paper variant="outlined" square>
+            <Paper variant="outlined" >
               <Box sx={{ px: 0.5, pt: 0.5, display: 'flex', flex: 1 }}>
                 <Box sx={{ width: '80%' }}>
                   <CustomTextarea
@@ -1367,7 +1387,6 @@ const DirectComplaintReg = ({ verficationPending, count, setCount, depsec, setDe
         </Box>
       </CardMastComplaint>
       <Box
-        square
         elevation={0}
         sx={{
           p: 1,
@@ -1383,7 +1402,6 @@ const DirectComplaintReg = ({ verficationPending, count, setCount, depsec, setDe
       </Box>
 
       <Box
-        square
         sx={{
           display: 'flex',
           p: 1,

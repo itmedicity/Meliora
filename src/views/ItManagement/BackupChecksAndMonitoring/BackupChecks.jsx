@@ -27,7 +27,7 @@ const BackupChecks = () => {
   }, [dispatch, empDept])
   return (
     <Fragment>
-      <Box>
+      <Box sx={{ width: '100%' }}>
         <CardMasterClose close={backtoHome}>
           <Box>
             <Typography sx={{ fontWeight: 10, fontSize: 18 }}> Backup Checks & Monitoring</Typography>

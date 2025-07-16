@@ -1,4 +1,6 @@
+import { useQuery } from '@tanstack/react-query'
 import React, { memo, useEffect, useState } from 'react'
+import { getSubFloorData } from 'src/api/Roomapi'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { warningNotify } from 'src/views/Common/CommonCode'
 import CusAgGridMast from 'src/views/Components/CusAgGridMast'
@@ -51,20 +53,27 @@ const NewSubRoomTable = ({ count, rowSelect }) => {
     },
     { headerName: 'Status', field: 'status', wrapText: true, minWidth: 100 }
   ])
-  useEffect(() => {
-    const getFloorData = async () => {
-      const result = await axioslogin.get('subRoomMaster/view')
-      const { success, data } = result.data
-      if (success === 2) {
-        setTabledata(data)
-      } else {
-        warningNotify('error occured')
-      }
-    }
-    getFloorData()
-  }, [count])
+  // useEffect(() => {
+  //   const getFloorData = async () => {
+  //     const result = await axioslogin.get('subRoomMaster/view')
+  //     const { success, data } = result.data
+  //     if (success === 2) {
+  //       setTabledata(data)
+  //     } else {
+  //       warningNotify('error occured')
+  //     }
+  //   }
+  //   getFloorData()
+  // }, [count])
 
-  return <CusAgGridMast columnDefs={column} tableData={tabledata} />
+  const { isLoading, error, data } = useQuery({
+    queryKey: 'GetSubroomData',
+    queryFn: getSubFloorData
+  })
+  if (isLoading) return <p>Loading...</p>
+  if (error) return <p>Error occurred.</p>
+
+  return <CusAgGridMast columnDefs={column} tableData={data} />
 }
 
 export default memo(NewSubRoomTable)

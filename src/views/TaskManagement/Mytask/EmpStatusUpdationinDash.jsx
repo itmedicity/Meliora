@@ -66,45 +66,45 @@ const EmpStatusUpdationinDash = ({
     tm_task_status === 1
       ? true
       : tm_task_status === 2
-      ? false
-      : tm_task_status === 3
-      ? false
-      : tm_task_status === 4
-      ? false
-      : false
+        ? false
+        : tm_task_status === 3
+          ? false
+          : tm_task_status === 4
+            ? false
+            : false
   )
   const [onProgress, setOnProgress] = useState(
     tm_task_status === 2
       ? true
       : tm_task_status === 1
-      ? false
-      : tm_task_status === 3
-      ? false
-      : tm_task_status === 4
-      ? false
-      : false
+        ? false
+        : tm_task_status === 3
+          ? false
+          : tm_task_status === 4
+            ? false
+            : false
   )
   const [onHold, setOnHold] = useState(
     tm_task_status === 3
       ? true
       : tm_task_status === 1
-      ? false
-      : tm_task_status === 2
-      ? false
-      : tm_task_status === 4
-      ? false
-      : false
+        ? false
+        : tm_task_status === 2
+          ? false
+          : tm_task_status === 4
+            ? false
+            : false
   )
   const [onPending, setOnPending] = useState(
     tm_task_status === 4
       ? true
       : tm_task_status === 1
-      ? false
-      : tm_task_status === 2
-      ? false
-      : tm_task_status === 3
-      ? false
-      : false
+        ? false
+        : tm_task_status === 2
+          ? false
+          : tm_task_status === 3
+            ? false
+            : false
   )
   const [checkFlag, setcheckFlag] = useState(tm_task_status)
   const [assignedEmp, setAssignedEmp] = useState([])
@@ -514,7 +514,7 @@ const EmpStatusUpdationinDash = ({
   )
 
   const openAddSubtask = useCallback(
-    e => {
+    () => {
       setflag(1)
     },
     [setflag]
@@ -597,7 +597,7 @@ const EmpStatusUpdationinDash = ({
                   onClick={handleEditClose}
                 />
               </Box>
-              <Box sx={{ flex: 1, bgcolor: '#52688F', height: 40, mt: 1 }}></Box>
+              <Box sx={{ flex: 1, bgcolor: 'var(--royal-purple-300)', height: 40, mt: 1 }}></Box>
               <Box
                 style={{
                   marginLeft: 50,

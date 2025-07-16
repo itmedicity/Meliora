@@ -11,10 +11,10 @@ import { Box, IconButton, Table, Textarea, Typography } from '@mui/joy'
 import UomApprvSelect from '../ComonComponent/Components/UomApprvSelect'
 import CustomInputDateCmp from '../ComonComponent/Components/CustomInputDateCmp'
 import CustomIconButtonCmp from '../ComonComponent/Components/CustomIconButtonCmp'
-import { useQuery, useQueryClient } from 'react-query'
 import { getApprovedCrfItems, getApprovedStatus, getMaxslNoOfCrfItem } from 'src/api/CommonApiCRF'
 import CustomToolTipForCRF from '../ComonComponent/Components/CustomToolTipForCRF'
 import { getApprovedCrfItemskmc, getApprovedStatuskmc, getMaxslNoOfCrfItemkmc } from 'src/api/CommonApiCRFKmc'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 
 const ItemsApprovalCompnt = ({
   req_slno,
@@ -166,13 +166,13 @@ const ItemsApprovalCompnt = ({
             req_detl_slno: val.req_detl_slno,
             higher:
               val.item_hod_approve !== 0 ||
-              val.item_dms_approve !== 0 ||
-              val.item_ms_approve !== 0 ||
-              val.item_mo_approve !== 0 ||
-              val.item_smo_approve !== 0 ||
-              val.item_gm_approve !== 0 ||
-              val.item_md_approve !== 0 ||
-              val.item_ed_approve !== 0
+                val.item_dms_approve !== 0 ||
+                val.item_ms_approve !== 0 ||
+                val.item_mo_approve !== 0 ||
+                val.item_smo_approve !== 0 ||
+                val.item_gm_approve !== 0 ||
+                val.item_md_approve !== 0 ||
+                val.item_ed_approve !== 0
                 ? 1
                 : 0
             // higher=1 then can't edit else can edit
@@ -186,12 +186,12 @@ const ItemsApprovalCompnt = ({
             req_detl_slno: val.req_detl_slno,
             higher:
               val.item_dms_approve !== 0 ||
-              val.item_ms_approve !== 0 ||
-              val.item_mo_approve !== 0 ||
-              val.item_smo_approve !== 0 ||
-              val.item_gm_approve !== 0 ||
-              val.item_md_approve !== 0 ||
-              val.item_ed_approve !== 0
+                val.item_ms_approve !== 0 ||
+                val.item_mo_approve !== 0 ||
+                val.item_smo_approve !== 0 ||
+                val.item_gm_approve !== 0 ||
+                val.item_md_approve !== 0 ||
+                val.item_ed_approve !== 0
                 ? 1
                 : 0
           }
@@ -204,11 +204,11 @@ const ItemsApprovalCompnt = ({
             req_detl_slno: val.req_detl_slno,
             higher:
               val.item_ms_approve !== 0 ||
-              val.item_mo_approve !== 0 ||
-              val.item_smo_approve !== 0 ||
-              val.item_gm_approve !== 0 ||
-              val.item_md_approve !== 0 ||
-              val.item_ed_approve !== 0
+                val.item_mo_approve !== 0 ||
+                val.item_smo_approve !== 0 ||
+                val.item_gm_approve !== 0 ||
+                val.item_md_approve !== 0 ||
+                val.item_ed_approve !== 0
                 ? 1
                 : 0
           }
@@ -221,10 +221,10 @@ const ItemsApprovalCompnt = ({
             req_detl_slno: val.req_detl_slno,
             higher:
               val.item_mo_approve !== 0 ||
-              val.item_smo_approve !== 0 ||
-              val.item_gm_approve !== 0 ||
-              val.item_md_approve !== 0 ||
-              val.item_ed_approve !== 0
+                val.item_smo_approve !== 0 ||
+                val.item_gm_approve !== 0 ||
+                val.item_md_approve !== 0 ||
+                val.item_ed_approve !== 0
                 ? 1
                 : 0
           }
@@ -237,9 +237,9 @@ const ItemsApprovalCompnt = ({
             req_detl_slno: val.req_detl_slno,
             higher:
               val.item_smo_approve !== 0 ||
-              val.item_gm_approve !== 0 ||
-              val.item_md_approve !== 0 ||
-              val.item_ed_approve !== 0
+                val.item_gm_approve !== 0 ||
+                val.item_md_approve !== 0 ||
+                val.item_ed_approve !== 0
                 ? 1
                 : 0
           }
@@ -812,14 +812,14 @@ const ItemsApprovalCompnt = ({
                       item.po_item_status === 1
                         ? '#1565c0'
                         : item.item_status_approved === 1
-                        ? '#59981A'
-                        : item.item_status_approved === 2
-                        ? '#D13120'
-                        : item.item_status_approved === 3
-                        ? '#DBA40E'
-                        : item.item_status_approved === 4
-                        ? '#009688'
-                        : null
+                          ? '#59981A'
+                          : item.item_status_approved === 2
+                            ? '#D13120'
+                            : item.item_status_approved === 3
+                              ? '#DBA40E'
+                              : item.item_status_approved === 4
+                                ? '#009688'
+                                : null
 
                     return (
                       <CustomToolTipForCRF
@@ -829,14 +829,14 @@ const ItemsApprovalCompnt = ({
                           item.po_item_status === 1
                             ? 'PO Generated'
                             : item.item_status_approved === 1
-                            ? 'Approved'
-                            : item.item_status_approved === 2
-                            ? `Rejected by ${item.reject_remarks}`
-                            : item.item_status_approved === 3
-                            ? `On-Hold by ${item.hold_remarks}`
-                            : item.item_status_approved === 4
-                            ? `Internally Arranged By ${item.internal_remarks}`
-                            : ''
+                              ? 'Approved'
+                              : item.item_status_approved === 2
+                                ? `Rejected by ${item.reject_remarks}`
+                                : item.item_status_approved === 3
+                                  ? `On-Hold by ${item.hold_remarks}`
+                                  : item.item_status_approved === 4
+                                    ? `Internally Arranged By ${item.internal_remarks}`
+                                    : ''
                         }
                       >
                         <tr style={{ cursor: 'pointer' }}>
@@ -902,14 +902,14 @@ const ItemsApprovalCompnt = ({
                             {item.po_item_status === 1
                               ? 'PO Generated'
                               : item.item_status_approved === 1
-                              ? 'Approved'
-                              : item.item_status_approved === 2
-                              ? 'Rejected '
-                              : item.item_status_approved === 3
-                              ? 'On-Hold '
-                              : item.item_status_approved === 4
-                              ? 'Internally Arranged'
-                              : null}
+                                ? 'Approved'
+                                : item.item_status_approved === 2
+                                  ? 'Rejected '
+                                  : item.item_status_approved === 3
+                                    ? 'On-Hold '
+                                    : item.item_status_approved === 4
+                                      ? 'Internally Arranged'
+                                      : null}
                           </td>
                         </tr>
                       </CustomToolTipForCRF>

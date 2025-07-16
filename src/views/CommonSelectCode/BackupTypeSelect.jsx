@@ -5,7 +5,7 @@ import { Fragment } from 'react'
 import { CssVarsProvider } from '@mui/joy'
 import { useState } from 'react'
 import { useEffect } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { getbackupTypeList } from 'src/api/masterApi'
 import { useCallback } from 'react'
 const BackupTypeSelect = ({ backupType, setBackupType }) => {

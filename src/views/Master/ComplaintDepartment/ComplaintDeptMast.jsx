@@ -10,7 +10,7 @@ import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import DepartmentSelect from 'src/views/CommonSelectCode/DepartmentSelect'
 import { useSelector } from 'react-redux'
-import { useQueryClient } from 'react-query'
+import { useQueryClient } from '@tanstack/react-query'
 const ComplaintDeptMast = () => {
   //for routing to settings
   const history = useNavigate()

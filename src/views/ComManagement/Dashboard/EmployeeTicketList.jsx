@@ -4,7 +4,7 @@ import StarHalfIcon from '@mui/icons-material/StarHalf'
 import CallMadeOutlinedIcon from '@mui/icons-material/CallMadeOutlined'
 import CallReceivedOutlinedIcon from '@mui/icons-material/CallReceivedOutlined'
 import TextComponent from 'src/views/Components/TextComponent'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { getAllemployeesUnderDepartment } from 'src/api/TicketApi'
 import { format, startOfDay, subDays } from 'date-fns'
 

@@ -1,7 +1,7 @@
 import { Box } from '@mui/joy'
 import { format } from 'date-fns'
 import React, { memo, useEffect, useState } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { Virtuoso } from 'react-virtuoso'
 import { getPMDetailList } from 'src/api/AssetApis'
 import TextComponent from 'src/views/Components/TextComponent'
@@ -105,10 +105,10 @@ const PmDetails = ({ AssetDetails }) => {
                       {val.status === 1
                         ? 'Active *'
                         : val.status === 2
-                        ? 'Inactive'
-                        : val.status === 0
-                        ? 'Expired'
-                        : 'NotUpdated'}
+                          ? 'Inactive'
+                          : val.status === 0
+                            ? 'Expired'
+                            : 'NotUpdated'}
                     </Box>
                   </Box>
                 )

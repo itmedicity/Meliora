@@ -69,7 +69,7 @@ const InitialAssessmentTimeReport = () => {
   }, [qitype, searchDate, qidept])
   return (
     <Fragment>
-      <Box sx={{ display: 'flex' }}>
+      <Box sx={{ display: 'flex', width: '100%' }}>
         <Box sx={{ flex: 0.3 }}></Box>
         <Paper square variant="outlined" sx={{ flex: 1 }}>
           <Box sx={{ display: 'flex', flex: 1, borderColor: 'lightgrey', flexWrap: 'wrap' }}>

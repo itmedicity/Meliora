@@ -1,6 +1,5 @@
-import { Box } from '@mui/material'
-import React, { Fragment, useState, useCallback, memo } from 'react'
-import DashBoardFloor from './DashBoardFloor'
+import React, { Fragment, useState, useCallback, memo, lazy } from 'react'
+// import DashBoardFloor from './DashBoardFloor'
 import CardMasterClose from 'src/views/Components/CardMasterClose'
 import tmc from '../../../../src/assets/images/tmc.jpg'
 import tmch from '../../../../src/assets/images/tmch.jpg'
@@ -13,64 +12,64 @@ import mbbsm from '../../../../src/assets/images/mbbsboys.jpg'
 import mbbsg from '../../../../src/assets/images/mbbsgirls.jpg'
 import nurse_staff from '../../../../src/assets/images/nuse_staff.jpg'
 // import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
-import { AspectRatio, CssVarsProvider } from '@mui/joy'
+import { AspectRatio, Box, CssVarsProvider } from '@mui/joy'
 import { useNavigate } from 'react-router-dom'
+const Floordatas = lazy(() => import('../DashBoard/DashBoardFloor'))
 
 const DashBoardMain = () => {
-  const Floordatas = React.lazy(() => import('../DashBoard/DashBoardFloor'))
   const history = useNavigate()
   const [floorList, setFoolrList] = useState(0)
   const [buildNo, setBuildNo] = useState(0)
   const [campusName, setCampusName] = useState('')
 
-  const floorTMCH = useCallback(e => {
+  const floorTMCH = useCallback(() => {
     setBuildNo(1)
     setCampusName(' Travancore Medicity')
     setFoolrList(1)
   }, [])
 
-  const floorTMC = useCallback(e => {
+  const floorTMC = useCallback(() => {
     setBuildNo(2)
     setCampusName('  Travancore Medical College ')
     setFoolrList(1)
   }, [])
-  const floorTNC = useCallback(e => {
+  const floorTNC = useCallback(() => {
     setBuildNo(3)
     setCampusName('   Travancore Nursing College ')
     setFoolrList(1)
   }, [])
-  const floorDNTL = useCallback(e => {
+  const floorDNTL = useCallback(() => {
     setBuildNo(4)
     setCampusName('  Travancore Dental College ')
     setFoolrList(1)
   }, [])
 
-  const floorSTFC = useCallback(e => {
+  const floorSTFC = useCallback(() => {
     setBuildNo(5)
     setCampusName('Staff cotters')
     setFoolrList(1)
   }, [])
-  const floorDC = useCallback(e => {
+  const floorDC = useCallback(() => {
     setBuildNo(6)
     setCampusName('  Doctors cotters ')
     setFoolrList(1)
   }, [])
-  const floorPG = useCallback(e => {
+  const floorPG = useCallback(() => {
     setBuildNo(7)
     setCampusName('  PG Cottage ')
     setFoolrList(1)
   }, [])
-  const floorMBBSM = useCallback(e => {
+  const floorMBBSM = useCallback(() => {
     setBuildNo(8)
     setCampusName('  MBBS Boys Hostel ')
     setFoolrList(1)
   }, [])
-  const floorMBBSL = useCallback(e => {
+  const floorMBBSL = useCallback(() => {
     setBuildNo(9)
     setCampusName('  MBBs Girls Hostel ')
     setFoolrList(1)
   }, [])
-  const floorNS = useCallback(e => {
+  const floorNS = useCallback(() => {
     setBuildNo(10)
     setCampusName('  Bsc Nursing and Staff Hostel ')
     setFoolrList(1)
@@ -100,7 +99,7 @@ const DashBoardMain = () => {
                   borderRadius: 3,
                   resize: 'horizontal',
                   overflow: 'auto',
-                  pr: 2
+                  pr: 2,
                 }}
               >
                 <CssVarsProvider>

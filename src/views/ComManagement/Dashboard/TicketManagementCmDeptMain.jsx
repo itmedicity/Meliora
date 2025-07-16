@@ -4,7 +4,7 @@ import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined'
 import { useSelector } from 'react-redux'
 import { format, startOfDay, subDays } from 'date-fns'
 import { getEmployeeuserrightsMenu } from 'src/api/TicketApi'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { errorNotify } from 'src/views/Common/CommonCode'
 const DeptTicketTile = React.lazy(() => import('./DeptTicketTile'))
 const TicketTypeListProgressChart = React.lazy(() => import('./TicketTypeListProgressChart'))

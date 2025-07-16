@@ -151,7 +151,7 @@ const PatientsListView = ({
   }, [dailyDate, searchPat, count])
 
   return (
-    <Box>
+    <Box sx={{ width: "100%" }}>
       <Paper variant="outlined" square sx={{ display: 'flex', flexDirection: 'column' }}>
         {opCheck === true ? (
           <>
@@ -416,7 +416,7 @@ const PatientsListView = ({
                                           color: '#37474f'
                                         }
                                       }}
-                                      onClick={e => UpdateDetails(val)}
+                                      onClick={() => UpdateDetails(val)}
                                     />
                                   </Tooltip>
                                 </CssVarsProvider>

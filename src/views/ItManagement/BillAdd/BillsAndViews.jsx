@@ -16,7 +16,7 @@ const BillsAndViews = ({ billCount, setbillCount }) => {
   }, [])
 
   return (
-    <Paper
+    <Box
       sx={{
         mt: 0.5,
         borderRadius: 0,
@@ -37,7 +37,7 @@ const BillsAndViews = ({ billCount, setbillCount }) => {
           />
         ) : null}
       </CssVarsProvider>
-      <Paper sx={{ bgcolor: '#F8F8F8', p: 1, maxHeight: '79vh', flex: 1 }}>
+      <Box sx={{ bgcolor: '#F8F8F8', p: 1, maxHeight: '79vh', flex: 1 }}>
         <Box sx={{ display: 'flex' }}>
           <CssVarsProvider>
             <Button sx={{ borderRadius: 0, bgcolor: '#52688F', height: 8, boxShadow: 10 }} onClick={addModal}>
@@ -69,8 +69,8 @@ const BillsAndViews = ({ billCount, setbillCount }) => {
             <OtherBillViews billCount={billCount} setbillCount={setbillCount} />
           </TabPanel>
         </Tabs>
-      </Paper>
-    </Paper>
+      </Box>
+    </Box>
   )
 }
 

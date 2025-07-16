@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import TelegramIcon from '@mui/icons-material/Telegram'
 import { format } from 'date-fns'
-import { useQueryClient } from 'react-query'
+import { useQueryClient } from '@tanstack/react-query'
 
 const POPendingDetailTable = ({ pendingPOList }) => {
   const queryClient = useQueryClient()
@@ -67,10 +67,10 @@ const POPendingDetailTable = ({ pendingPOList }) => {
               maxHeight: window.innerHeight - 200,
               width: '100%',
               overflow: 'auto',
-              '&::-webkit-scrollbar': { height: 8 }
+              '&::-webkit-scrollbar': { height: 8 },
             }}
           >
-            <Paper sx={{ width: 1640 }}>
+            <Paper sx={{ width: '100%' }}>
               {/* <Box display="flex" flexDirection="column" sx={{ width: '100%', bgcolor: 'yellow' }}> */}
               <Box
                 display="flex"
@@ -83,7 +83,8 @@ const POPendingDetailTable = ({ pendingPOList }) => {
                   top: 0,
                   zIndex: 1,
                   px: 1,
-                  borderBottom: '1px solid lightgrey'
+                  borderBottom: '1px solid lightgrey',
+
                 }}
               >
                 <Typography sx={{ width: 50, textAlign: 'center', fontWeight: 550, fontSize: 12 }}>Sl.No</Typography>
@@ -146,10 +147,10 @@ const POPendingDetailTable = ({ pendingPOList }) => {
                                 val.aprv_status === 1
                                   ? '#5CACEE'
                                   : val.aprv_status === 2
-                                  ? '#0277bd'
-                                  : val.aprv_status === 3 || val.aprv_status === 4
-                                  ? '#32CD32'
-                                  : '#ADD8E6',
+                                    ? '#0277bd'
+                                    : val.aprv_status === 3 || val.aprv_status === 4
+                                      ? '#32CD32'
+                                      : '#ADD8E6',
                               color: val.aprv_status === null ? 'black' : 'white',
                               width: '100%',
                               fontSize: 12,
@@ -158,10 +159,10 @@ const POPendingDetailTable = ({ pendingPOList }) => {
                                   val.aprv_status === 1
                                     ? '#5CACEE'
                                     : val.aprv_status === 2
-                                    ? '#0277bd'
-                                    : val.aprv_status === 3 || val.aprv_status === 4
-                                    ? '#32CD32'
-                                    : '#ADD8E6',
+                                      ? '#0277bd'
+                                      : val.aprv_status === 3 || val.aprv_status === 4
+                                        ? '#32CD32'
+                                        : '#ADD8E6',
                                 color: val.aprv_status === null ? 'black' : 'white'
                               },
                               boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.16)',

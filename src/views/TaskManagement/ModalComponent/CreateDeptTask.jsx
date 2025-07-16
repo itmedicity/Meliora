@@ -329,7 +329,7 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
                   onClick={handleClose}
                 />
               </Box>
-              <Box sx={{ flex: 1, bgcolor: '#52688F', height: 40, mt: 1 }}></Box>
+              <Box sx={{ flex: 1, bgcolor: 'var(--royal-purple-300)', height: 40, mt: 1 }}></Box>
               <Box
                 style={{
                   marginLeft: 50,
@@ -344,7 +344,7 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
               >
                 <AssignmentSharpIcon sx={{ height: 60, width: 60, p: 1.5 }} />
               </Box>
-              <Typography sx={{ fontWeight: 800, color: 'grey', fontSize: 15, pt: 5, pl: 5.8 }}>Create Task</Typography>
+              <Typography sx={{ fontWeight: 800, color: 'grey', fontSize: 15, pt: 5, pl: 5.8, mt: 1 }}>Create Task</Typography>
               <Box sx={{ overflow: 'auto', mx: 3 }}>
                 <Box sx={{ flex: 1, mx: 3, mt: 2.5 }}>
                   <Typography sx={{ pl: 1.5, color: '#003B73', fontWeight: 600, fontSize: 12 }}>
@@ -372,9 +372,9 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
                         <Chip
                           sx={{
                             cursor: 'pointer',
-                            bgcolor: '#90CDD0',
+                            bgcolor: 'var(--royal-purple-200)',
                             color: 'black',
-                            '&:hover': { bgcolor: '#77A7B0' }
+                            '&:hover': { bgcolor: 'var(--royal-purple-100)' }
                           }}
                         >
                           {' '}

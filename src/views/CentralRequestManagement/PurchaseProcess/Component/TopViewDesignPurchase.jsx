@@ -12,7 +12,7 @@ import AlignHorizontalLeftTwoToneIcon from '@mui/icons-material/AlignHorizontalL
 import CustomIconButtonCmp from '../../ComonComponent/Components/CustomIconButtonCmp'
 import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone'
 import { getDefaultCompany } from 'src/api/CommonApiCRF'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 
 const formatDateForInput = date => {
   return date.toISOString().split('T')[0]
@@ -536,10 +536,10 @@ const TopViewDesignPurchase = ({
             </Box>
           ) : null}
           {searchFlag === '1' ||
-          searchFlag === '2' ||
-          searchFlag === '3' ||
-          searchFlag === '4' ||
-          searchFlag === '5' ? (
+            searchFlag === '2' ||
+            searchFlag === '3' ||
+            searchFlag === '4' ||
+            searchFlag === '5' ? (
             <Box sx={{ pt: 0.5 }}>
               <CssVarsProvider>
                 <CustomIconButtonCmp handleChange={SearchData}>

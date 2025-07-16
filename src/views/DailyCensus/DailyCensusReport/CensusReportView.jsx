@@ -245,7 +245,7 @@ const CensusReportView = () => {
   const valueFormatter = value => `${value}`
   return (
     <Fragment>
-      <Paper variant="outlined" square>
+      <Paper variant="outlined" square sx={{ width: '100%' }}>
         <Box sx={{ display: 'flex', flex: 1, height: 42 }}>
           <Box sx={{ pt: 0.5, pl: 0.7 }}>
             <AssessmentIcon fontSize="large" sx={{ color: '#757575' }} />

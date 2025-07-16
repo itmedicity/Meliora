@@ -261,7 +261,7 @@ const YearlyBill = ({ yearlydata, billCount, setbillCount }) => {
               alphbasedData.map(val => {
                 const years = format(new Date(val.yearly_bill_generate), 'yyyy')
                 return (
-                  <Paper
+                  <Box
                     key={val.yearly_slno}
                     sx={{
                       minHeight: 33,
@@ -293,7 +293,7 @@ const YearlyBill = ({ yearlydata, billCount, setbillCount }) => {
                     <Tooltip title="bill Category" placement="bottom">
                       <Box sx={{ flex: 1, pt: 0.5, cursor: 'grab' }}>{val.it_bill_category_name}</Box>
                     </Tooltip>
-                  </Paper>
+                  </Box>
                 )
               })}
           </Box>
@@ -303,7 +303,7 @@ const YearlyBill = ({ yearlydata, billCount, setbillCount }) => {
               billcate.map(val => {
                 const years = format(new Date(val.yearly_bill_generate), 'yyyy')
                 return (
-                  <Paper
+                  <Box
                     key={val.yearly_slno}
                     sx={{
                       minHeight: 33,
@@ -335,7 +335,7 @@ const YearlyBill = ({ yearlydata, billCount, setbillCount }) => {
                     <Tooltip title="bill Category" placement="bottom">
                       <Box sx={{ flex: 1, pt: 0.5, cursor: 'grab' }}>{val.it_bill_category_name}</Box>
                     </Tooltip>
-                  </Paper>
+                  </Box>
                 )
               })}
           </Box>
@@ -345,7 +345,7 @@ const YearlyBill = ({ yearlydata, billCount, setbillCount }) => {
               yearlydata.map(val => {
                 const years = format(new Date(val.yearly_bill_generate), 'yyyy')
                 return (
-                  <Paper
+                  <Box
                     key={val.yearly_slno}
                     sx={{
                       minHeight: 33,
@@ -373,7 +373,7 @@ const YearlyBill = ({ yearlydata, billCount, setbillCount }) => {
                     </Box>
                     <Box sx={{ flex: 5, pt: 0.5, cursor: 'grab' }}>{val.bill_name}</Box>
                     <Box sx={{ flex: 1, pt: 0.5, cursor: 'grab' }}>{val.it_bill_category_name}</Box>
-                  </Paper>
+                  </Box>
                 )
               })}
           </Box>

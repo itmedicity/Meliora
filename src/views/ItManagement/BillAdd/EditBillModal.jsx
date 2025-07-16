@@ -121,133 +121,133 @@ const EditBillModal = ({ openEditModal, seteditModalFlag, seteditModalOpen, bill
 
   return (
     <Box>
-      <CssVarsProvider>
-        <Modal
-          aria-labelledby="modal-title"
-          aria-describedby="modal-desc"
-          open={openEditModal}
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            pl: 1,
-            borderRadius: 10
-          }}
-        >
-          <ModalDialog variant="outlined" sx={{ width: 550 }}>
-            <Box sx={{ display: 'flex', pl: 1, fontSize: 28, fontWeight: 500, color: '#183A53' }}>
-              <ReceiptLongOutlinedIcon sx={{ pt: 0.5, fontSize: 40, color: '#183A53' }} />
-              Add Bill
-              <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', mt: 0.5, pt: 0.5 }}>
-                <Tooltip title="Close">
-                  <HighlightOffSharpIcon
-                    sx={{
-                      cursor: 'pointer',
-                      color: '#183A53',
-                      height: 25,
-                      width: 25,
-                      '&:hover': {
-                        color: '#5C97B8'
-                      }
-                    }}
-                    onClick={handleClose}
-                  />
-                </Tooltip>
-              </Box>
-            </Box>
-            <Box
-              sx={{
-                overflow: 'auto'
-              }}
-            >
-              <Box sx={{ flex: 1, mt: 3, ml: 2, fontWeight: 600 }}>
-                <SpaceDashboardSharpIcon sx={{ pb: 0.5, fontSize: 20 }} />
-                Bill Category<span style={{ color: '#74112F' }}>*</span>
-              </Box>
-              <Box sx={{ flex: 1, mx: 2 }}>
-                <ItBillCategoryList
-                  billCategory={billCategory}
-                  setBillCategory={setBillCategory}
-                  setName={setBillCategoryName}
+      {/* <CssVarsProvider> */}
+      <Modal
+        aria-labelledby="modal-title"
+        aria-describedby="modal-desc"
+        open={openEditModal}
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          pl: 1,
+          borderRadius: 10
+        }}
+      >
+        <ModalDialog variant="outlined" sx={{ width: 550 }}>
+          <Box sx={{ display: 'flex', pl: 1, fontSize: 28, fontWeight: 500, color: '#183A53' }}>
+            <ReceiptLongOutlinedIcon sx={{ pt: 0.5, fontSize: 40, color: '#183A53' }} />
+            Add Bill
+            <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', mt: 0.5, pt: 0.5 }}>
+              <Tooltip title="Close">
+                <HighlightOffSharpIcon
+                  sx={{
+                    cursor: 'pointer',
+                    color: '#183A53',
+                    height: 25,
+                    width: 25,
+                    '&:hover': {
+                      color: '#5C97B8'
+                    }
+                  }}
+                  onClick={handleClose}
                 />
-              </Box>
-              <Box sx={{ flex: 1, mt: 1.5, ml: 2, fontWeight: 600 }}>
-                <PaidIcon sx={{ pb: 0.5, fontSize: 20 }} />
-                Tariff<span style={{ color: '#74112F' }}>*</span>
-              </Box>
-              <Box sx={{ flex: 1, mx: 2 }}>
-                <TariffSelect tarrif={tarrif} setTarrif={setTarrif} />
-              </Box>
-
-              <Box sx={{ flex: 1, mt: 1.5, ml: 2, fontWeight: 600 }}>
-                <ReceiptLongIcon sx={{ pb: 0.5, fontSize: 20 }} />
-                Bill Name<span style={{ color: '#74112F' }}>*</span>
-              </Box>
-              <Box sx={{ flex: 1, mx: 2 }}>
-                <CssVarsProvider>
-                  <Textarea
-                    type="text"
-                    size="sm"
-                    placeholder="Bill Name"
-                    variant="outlined"
-                    minRows={2}
-                    maxRows={4}
-                    name="billName"
-                    value={billName}
-                    onChange={e => BillOnChange(e)}
-                  ></Textarea>
-                </CssVarsProvider>
-              </Box>
-
-              <>
-                {billCategoryName === 'CUG' || it_bill_category_name === 'CUG' ? (
-                  <Box>
-                    <Box sx={{ flex: 1, mt: 1, ml: 2.5 }}>
-                      <Checkbox
-                        label="CUG Type"
-                        color="primary"
-                        onChange={e => CheckBoxChange(e)}
-                        checked={cugStatus}
-                      />
-                    </Box>
-                    {checkFlag === 1 ? (
-                      <>
-                        <Box sx={{ flex: 1, mt: 1, ml: 2, fontWeight: 600 }}>
-                          <SimCardSharpIcon sx={{ pb: 0.5, fontSize: 20 }} />
-                          Sim Type<span style={{ color: '#74112F' }}>*</span>
-                        </Box>
-                        <Box sx={{ flex: 1, mx: 2 }}>
-                          <ItSimTypeSelect simType={simType} setSimType={setSimType} />
-                        </Box>
-                      </>
-                    ) : null}
-                  </Box>
-                ) : null}
-              </>
+              </Tooltip>
             </Box>
-            <Box sx={{ flex: 1, mx: 2, pl: 0.5 }}>
-              <Checkbox
-                label="Bill Active Status"
-                color="success"
-                onChange={e => BillActiveChange(e)}
-                checked={billActive}
+          </Box>
+          <Box
+            sx={{
+              overflow: 'auto'
+            }}
+          >
+            <Box sx={{ flex: 1, mt: 3, ml: 2, fontWeight: 600 }}>
+              <SpaceDashboardSharpIcon sx={{ pb: 0.5, fontSize: 20 }} />
+              Bill Category<span style={{ color: '#74112F' }}>*</span>
+            </Box>
+            <Box sx={{ flex: 1, mx: 2 }}>
+              <ItBillCategoryList
+                billCategory={billCategory}
+                setBillCategory={setBillCategory}
+                setName={setBillCategoryName}
               />
             </Box>
-            <Box sx={{ flex: 1, mx: 2, mt: 1.5 }}>
+            <Box sx={{ flex: 1, mt: 1.5, ml: 2, fontWeight: 600 }}>
+              <PaidIcon sx={{ pb: 0.5, fontSize: 20 }} />
+              Tariff<span style={{ color: '#74112F' }}>*</span>
+            </Box>
+            <Box sx={{ flex: 1, mx: 2 }}>
+              <TariffSelect tarrif={tarrif} setTarrif={setTarrif} />
+            </Box>
+
+            <Box sx={{ flex: 1, mt: 1.5, ml: 2, fontWeight: 600 }}>
+              <ReceiptLongIcon sx={{ pb: 0.5, fontSize: 20 }} />
+              Bill Name<span style={{ color: '#74112F' }}>*</span>
+            </Box>
+            <Box sx={{ flex: 1, mx: 2 }}>
               <CssVarsProvider>
-                <Button
-                  variant="solid"
-                  style={{ borderRadius: 2, color: 'white', width: '100%' }}
-                  onClick={addBill}
-                  sx={{ fontSize: 16, color: '#004F76' }}
-                >
-                  Update
-                </Button>
+                <Textarea
+                  type="text"
+                  size="sm"
+                  placeholder="Bill Name"
+                  variant="outlined"
+                  minRows={2}
+                  maxRows={4}
+                  name="billName"
+                  value={billName}
+                  onChange={e => BillOnChange(e)}
+                ></Textarea>
               </CssVarsProvider>
             </Box>
-          </ModalDialog>
-        </Modal>
-      </CssVarsProvider>
+
+            <>
+              {billCategoryName === 'CUG' || it_bill_category_name === 'CUG' ? (
+                <Box>
+                  <Box sx={{ flex: 1, mt: 1, ml: 2.5 }}>
+                    <Checkbox
+                      label="CUG Type"
+                      color="primary"
+                      onChange={e => CheckBoxChange(e)}
+                      checked={cugStatus}
+                    />
+                  </Box>
+                  {checkFlag === 1 ? (
+                    <>
+                      <Box sx={{ flex: 1, mt: 1, ml: 2, fontWeight: 600 }}>
+                        <SimCardSharpIcon sx={{ pb: 0.5, fontSize: 20 }} />
+                        Sim Type<span style={{ color: '#74112F' }}>*</span>
+                      </Box>
+                      <Box sx={{ flex: 1, mx: 2 }}>
+                        <ItSimTypeSelect simType={simType} setSimType={setSimType} />
+                      </Box>
+                    </>
+                  ) : null}
+                </Box>
+              ) : null}
+            </>
+          </Box>
+          <Box sx={{ flex: 1, mx: 2, pl: 0.5 }}>
+            <Checkbox
+              label="Bill Active Status"
+              color="success"
+              onChange={e => BillActiveChange(e)}
+              checked={billActive}
+            />
+          </Box>
+          <Box sx={{ flex: 1, mx: 2, mt: 1.5 }}>
+            <CssVarsProvider>
+              <Button
+                variant="solid"
+                style={{ borderRadius: 2, color: 'white', width: '100%' }}
+                onClick={addBill}
+                sx={{ fontSize: 16, color: '#004F76' }}
+              >
+                Update
+              </Button>
+            </CssVarsProvider>
+          </Box>
+        </ModalDialog>
+      </Modal>
+      {/* </CssVarsProvider> */}
     </Box>
   )
 }

@@ -7,7 +7,7 @@ import Table from '@mui/joy/Table'
 import { getEmployeeBackup } from 'src/redux/actions/BackupDetails.action'
 import { useEffect } from 'react'
 import { getDeptwiseBackUp } from 'src/api/CommonApi'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 const BackupChecksTable = () => {
   // const backup = useSelector((state) => state?.getBackupDetails.backupList)
   const dispatch = useDispatch()

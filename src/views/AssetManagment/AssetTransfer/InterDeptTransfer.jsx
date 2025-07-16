@@ -1,6 +1,6 @@
 import { Box, CircularProgress, IconButton, Radio, RadioGroup, Sheet, Table, Tooltip } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useDispatch, useSelector } from 'react-redux'
 import { getArrayOfAssetLocationDetails, getcustodianTransferHistory } from 'src/api/AssetApis'
 import { getRoomBasedOnDeptSec } from 'src/redux/actions/AmRoomDeptSecBased.action'

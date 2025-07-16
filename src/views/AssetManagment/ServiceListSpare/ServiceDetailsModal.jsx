@@ -40,7 +40,7 @@ import moment from 'moment'
 import BreakDownDetails from './BreakDownDetails'
 import DocumentsList from './DocumentsList'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import EmailIcon from '@mui/icons-material/Email'
 
 const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, setCount }) => {
@@ -1843,8 +1843,8 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
         ? 'pdf'
         : 'image'
       : file.type && file.type.includes('application/pdf')
-      ? 'image'
-      : 'pdf'
+        ? 'image'
+        : 'pdf'
 
     const fileUrl = file.url || URL.createObjectURL(file)
     setPreviewFile({ url: fileUrl, type: fileType })
@@ -1866,8 +1866,8 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
         ? 'pdf'
         : 'image'
       : file.type.includes('application/pdf')
-      ? 'pdf'
-      : 'image'
+        ? 'pdf'
+        : 'image'
 
     const fileUrl = file.url || URL.createObjectURL(file)
     setPreviewFile({ url: fileUrl, type: fileType })

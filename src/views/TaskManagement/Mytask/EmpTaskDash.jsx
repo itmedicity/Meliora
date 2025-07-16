@@ -48,7 +48,7 @@ const EmpTaskDash = () => {
   const [taskcount, settaskcount] = useState(0)
 
   const ViewEmpCompletedTask = useCallback(
-    e => {
+    () => {
       if (employeeeCompleted.length === 0) {
         infoNotify('No Data')
       } else {
@@ -60,7 +60,7 @@ const EmpTaskDash = () => {
     [employeeeCompleted]
   )
   const ViewEmpInCompletedTask = useCallback(
-    e => {
+    () => {
       if (employeeInComplete.length === 0) {
         infoNotify('No Data')
       } else {
@@ -73,7 +73,7 @@ const EmpTaskDash = () => {
     [employeeInComplete]
   )
   const ViewEmpOnProgressTask = useCallback(
-    e => {
+    () => {
       if (employeeOnProgress.length === 0) {
         infoNotify('No Data')
       } else {
@@ -85,7 +85,7 @@ const EmpTaskDash = () => {
     [employeeOnProgress]
   )
   const ViewEmpOverDueTask = useCallback(
-    e => {
+    () => {
       if (employeeOverDue.length === 0) {
         infoNotify('No Data')
       } else {
@@ -97,7 +97,7 @@ const EmpTaskDash = () => {
     [employeeOverDue]
   )
   const ViewOnHoldTask = useCallback(
-    e => {
+    () => {
       if (employeeOnHold.length === 0) {
         infoNotify('No Data')
       } else {
@@ -109,7 +109,7 @@ const EmpTaskDash = () => {
     [employeeOnHold]
   )
   const ViewOnPendingTask = useCallback(
-    e => {
+    () => {
       if (employeeOnPending.length === 0) {
         infoNotify('No Data')
       } else {
@@ -160,16 +160,16 @@ const EmpTaskDash = () => {
               val.tm_task_status === 1
                 ? 'Completed'
                 : val.tm_task_status === 1
-                ? 'Completed'
-                : val.tm_task_status === 2
-                ? 'On Progress'
-                : val.tm_task_status === 3
-                ? 'On Hold'
-                : val.tm_task_status === 4
-                ? 'Pending'
-                : val.tm_task_status === 0
-                ? 'Not Started'
-                : 'Not Started',
+                  ? 'Completed'
+                  : val.tm_task_status === 2
+                    ? 'On Progress'
+                    : val.tm_task_status === 3
+                      ? 'On Hold'
+                      : val.tm_task_status === 4
+                        ? 'Pending'
+                        : val.tm_task_status === 0
+                          ? 'Not Started'
+                          : 'Not Started',
             datediff: new Date(val.tm_complete_date) - new Date(val.tm_task_due_date),
             days: Math.floor((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / (1000 * 60 * 60 * 24)),
             hours: Math.floor(
@@ -237,22 +237,22 @@ const EmpTaskDash = () => {
         employeeTaskFlag === 1
           ? employeeeCompleted
           : employeeTaskFlag === 2
-          ? employeeInComplete
-          : employeeTaskFlag === 3
-          ? employeeOnProgress
-          : employeeTaskFlag === 4
-          ? employeeOverDue
-          : employeeTaskFlag === 5
-          ? employeeOnHold
-          : employeeTaskFlag === 6
-          ? employeeOnPending
-          : []
+            ? employeeInComplete
+            : employeeTaskFlag === 3
+              ? employeeOnProgress
+              : employeeTaskFlag === 4
+                ? employeeOverDue
+                : employeeTaskFlag === 5
+                  ? employeeOnHold
+                  : employeeTaskFlag === 6
+                    ? employeeOnPending
+                    : []
       }
       tableCount={tableCount}
       setTableCount={setTableCount}
     />
   ) : (
-    <Paper sx={{ minHeight: '90vh', p: 0.5 }}>
+    <Paper sx={{ minHeight: '90vh', p: 0.5, width: "100%" }}>
       <Box sx={{ display: 'flex', borderBottom: 0.1, borderColor: 'lightgrey', height: 40 }}>
         <Box sx={{ p: 1 }}>
           <DashboardOutlinedIcon fontSize="medium" sx={{ color: '#C7C8CB' }} />
@@ -551,24 +551,24 @@ const EmpTaskDash = () => {
                         borderColor: 'lightgray'
                       }}
                     >
-                      <Box sx={{ flex: 2, display: 'flex', px: 0.5 }}>
-                        <Tab disableIndicator sx={{ color: '#52688F', fontWeight: 800, width: 110 }}>
+                      <Box sx={{ flex: 3, display: 'flex', px: 0.5, justifyContent: "space-between" }}>
+                        <Tab disableIndicator sx={{ color: '#52688F', fontWeight: 800 }}>
                           <ListAltIcon sx={{ color: '#52688F' }} />
                           &nbsp;All Tasks
                         </Tab>
-                        <Tab disableIndicator sx={{ color: '#710117', fontWeight: 800, width: 115 }}>
+                        <Tab disableIndicator sx={{ color: '#710117', fontWeight: 800, }}>
                           <HistorySharpIcon sx={{ color: '#710117' }} />
                           &nbsp;Over Due
                         </Tab>
-                        <Tab disableIndicator sx={{ color: '#478C5C', fontWeight: 800, width: 120 }}>
+                        <Tab disableIndicator sx={{ color: '#478C5C', fontWeight: 800, }}>
                           <TaskAltSharpIcon sx={{ color: '#478C5C' }} />
                           &nbsp;Completed
                         </Tab>
-                        <Tab disableIndicator sx={{ color: '#67595E', fontWeight: 800, width: 120 }}>
+                        <Tab disableIndicator sx={{ color: '#67595E', fontWeight: 800, }}>
                           <SignalCellularAltOutlinedIcon sx={{ color: '#67595E' }} />
                           &nbsp;MyProgress
                         </Tab>
-                        <Tab disableIndicator sx={{ fontWeight: 800, width: 200, color: '#3374A0' }}>
+                        <Tab disableIndicator sx={{ fontWeight: 800, color: '#3374A0' }}>
                           <AutoGraphSharpIcon sx={{ color: '#3374A0' }} />
                           &nbsp;Performance Sheet
                         </Tab>

@@ -1,6 +1,6 @@
 import React, { Fragment, memo } from 'react'
 import CloseIcon from '@mui/icons-material/Close'
-import { Card, CardActions, CardContent, ThemeProvider } from '@mui/material'
+// import { Card, CardActions, CardContent, ThemeProvider } from '@mui/material'
 import CusIconButton from './CusIconButton'
 import theme from './MuiTheme'
 import { Box } from '@mui/system'
@@ -8,6 +8,8 @@ import CustomeToolTip from './CustomeToolTip'
 
 import CustomCardHeaderOne from './CustomCardHeaderOne'
 import { cardActionBgClr } from 'src/color/Color'
+import { ThemeProvider } from '@mui/joy'
+import { Card, CardActions, CardContent } from '@mui/material'
 
 const CardMasterClose = ({ children, title, close, contentStyle }) => {
   return (

@@ -101,7 +101,7 @@ const AddSubTaskEmp = ({
   ])
 
   const closeSubTask = useCallback(
-    e => {
+    () => {
       setflag(0)
     },
     [setflag]

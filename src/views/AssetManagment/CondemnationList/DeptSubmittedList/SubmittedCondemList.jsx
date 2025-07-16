@@ -1,6 +1,6 @@
 import { Box } from '@mui/joy'
 import React, { memo, useCallback, useMemo, useState } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { getCondemPendingDatas } from 'src/api/AssetApis'
 import EditCondemSubmitionModal from '../EditCondemSubmitionModal'
 import Radio from '@mui/joy/Radio'

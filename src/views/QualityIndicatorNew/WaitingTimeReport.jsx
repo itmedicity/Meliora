@@ -154,7 +154,7 @@ const WaitingTimeReport = () => {
   }, [qitype, qidept, searchDate])
 
   return (
-    <Paper sx={{ height: '90vh' }}>
+    <Paper sx={{ height: '90vh', width: '100%' }}>
       <Box sx={{ display: 'flex', flex: 1, borderColor: 'lightgrey', flexWrap: 'wrap' }}>
         <Box sx={{ pl: 0.7, pt: 0.8 }}>
           <TimerOutlinedIcon sx={{ height: 25, width: 25 }} />

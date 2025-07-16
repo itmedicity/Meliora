@@ -6,7 +6,7 @@ import _ from 'underscore'
 import { useSelector } from 'react-redux'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { axiosellider, axioslogin } from 'src/views/Axios/Axios'
-import { useQueryClient } from 'react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { addDays, format } from 'date-fns'
 import DataCollectDepSecSelect from '../ComonComponent/DataCollectionComp/DataCollectDepSecSelect'
 import CustomPaperTitle from 'src/views/Components/CustomPaperTitle'
@@ -152,10 +152,10 @@ const PurchaseModal = ({
       ...(isChecked
         ? {}
         : {
-            po_number: '',
-            po_date: '',
-            poDetlDis: 0
-          })
+          po_number: '',
+          po_date: '',
+          poDetlDis: 0
+        })
     }))
 
     if (!isChecked) {
@@ -217,10 +217,10 @@ const PurchaseModal = ({
       const capitalizeWords = str =>
         str
           ? str
-              .toLowerCase()
-              .split(' ')
-              .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-              .join(' ')
+            .toLowerCase()
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ')
           : ''
       let pattern = /^[0-9]{6}$/
       if (pattern.test(po_number) === true) {
@@ -715,471 +715,471 @@ const PurchaseModal = ({
         />
       ) : null}
 
-      <CssVarsProvider>
-        <Modal
-          aria-labelledby="modal-title"
-          aria-describedby="modal-desc"
-          open={open}
-          onClose={closeModal}
-          sx={{ display: 'flex', justifyContent: 'center' }}
-        >
-          <ModalDialog variant="outlined">
-            <ModalClose
-              variant="outlined"
-              sx={{
-                m: 1,
-                top: 'calc(-1/4 * var(--IconButton-size))',
-                right: 'calc(-1/4 * var(--IconButton-size))',
-                boxShadow: '0 2px 12px 0 rgba(0 0 0 / 0.2)',
-                borderRadius: '50%',
-                bgcolor: 'background.body',
-                color: '#bf360c',
-                height: 25,
-                width: 25
-              }}
-            />
-            <Box sx={{ minWidth: '80vw', minHeight: '62vh', maxHeight: '85vh', overflowY: 'auto' }}>
-              <CrfReqDetailViewCmp ApprovalData={puchaseData} imagearray={imagearray} />
-              <Box sx={{ overflow: 'auto', pt: 0.1, mx: 0.3 }}>
-                {
-                  reqItems.length !== 0 ? <ReqItemDisplay reqItems={reqItems} /> : null
-                  // : <Box sx={{
-                  //     display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5, color: 'grey'
-                  // }}>
-                  //     No Item Requested
-                  // </Box>
-                }
-                {
-                  approveTableData.length !== 0 ? (
-                    <Box sx={{ mt: 0.3 }}>
-                      <ApprovedItemListDis approveTableData={approveTableData} />
+      {/* <CssVarsProvider> */}
+      <Modal
+        aria-labelledby="modal-title"
+        aria-describedby="modal-desc"
+        open={open}
+        onClose={closeModal}
+        sx={{ display: 'flex', justifyContent: 'center' }}
+      >
+        <ModalDialog variant="outlined">
+          <ModalClose
+            variant="outlined"
+            sx={{
+              m: 1,
+              top: 'calc(-1/4 * var(--IconButton-size))',
+              right: 'calc(-1/4 * var(--IconButton-size))',
+              boxShadow: '0 2px 12px 0 rgba(0 0 0 / 0.2)',
+              borderRadius: '50%',
+              bgcolor: 'background.body',
+              color: '#bf360c',
+              height: 25,
+              width: 25
+            }}
+          />
+          <Box sx={{ minWidth: '80vw', minHeight: '62vh', maxHeight: '85vh', overflowY: 'auto' }}>
+            <CrfReqDetailViewCmp ApprovalData={puchaseData} imagearray={imagearray} />
+            <Box sx={{ overflow: 'auto', pt: 0.1, mx: 0.3 }}>
+              {
+                reqItems.length !== 0 ? <ReqItemDisplay reqItems={reqItems} /> : null
+                // : <Box sx={{
+                //     display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5, color: 'grey'
+                // }}>
+                //     No Item Requested
+                // </Box>
+              }
+              {
+                approveTableData.length !== 0 ? (
+                  <Box sx={{ mt: 0.3 }}>
+                    <ApprovedItemListDis approveTableData={approveTableData} />
+                  </Box>
+                ) : null
+                // : <Box sx={{
+                //     display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5,
+                //     pt: 10, color: 'grey'
+                // }}>
+                //     No items Approved
+                // </Box>
+              }
+
+              {
+                newlyApprvdItems.length !== 0 ? (
+                  <Box sx={{ mt: 0.3 }}>
+                    <PoItemDetailsTable newlyApprvdItems={newlyApprvdItems} />
+                  </Box>
+                ) : null
+                // : <Box sx={{
+                //     display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5,
+                //     pt: 10, color: 'grey'
+                // }}>
+                //     No items Approved
+                // </Box>
+              }
+              <Box sx={{ px: 0.4 }}>
+                <Box sx={{ flex: 1 }}>
+                  {hod_req === 1 && hod_approve !== null ? (
+                    <Box sx={{ pt: 0.5 }}>
+                      <CommonHodApprvCmppurchase DetailViewData={puchaseData} company={company} />
                     </Box>
-                  ) : null
-                  // : <Box sx={{
-                  //     display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5,
-                  //     pt: 10, color: 'grey'
-                  // }}>
-                  //     No items Approved
-                  // </Box>
-                }
-
-                {
-                  newlyApprvdItems.length !== 0 ? (
-                    <Box sx={{ mt: 0.3 }}>
-                      <PoItemDetailsTable newlyApprvdItems={newlyApprvdItems} />
-                    </Box>
-                  ) : null
-                  // : <Box sx={{
-                  //     display: 'flex', justifyContent: 'center', fontSize: 25, opacity: 0.5,
-                  //     pt: 10, color: 'grey'
-                  // }}>
-                  //     No items Approved
-                  // </Box>
-                }
-                <Box sx={{ px: 0.4 }}>
-                  <Box sx={{ flex: 1 }}>
-                    {hod_req === 1 && hod_approve !== null ? (
-                      <Box sx={{ pt: 0.5 }}>
-                        <CommonHodApprvCmppurchase DetailViewData={puchaseData} company={company} />
-                      </Box>
-                    ) : null}
-                  </Box>
-                  <Box sx={{ flex: 1 }}>
-                    {dms_req === 1 && dms_approve !== null ? (
-                      <Box sx={{ pt: 0.5 }}>
-                        <CommonDmsApprvCmpPurchase DetailViewData={puchaseData} company={company} />
-                      </Box>
-                    ) : null}
-                  </Box>
-                  <Box sx={{ flex: 1 }}>
-                    {ms_approve_req === 1 && ms_approve !== null ? (
-                      <Box sx={{ pt: 0.5 }}>
-                        <CommonMsApprvCmpPurchase DetailViewData={puchaseData} company={company} />
-                      </Box>
-                    ) : null}
-                  </Box>
-                  <Box sx={{ flex: 1 }}>
-                    {manag_operation_req === 1 && manag_operation_approv !== null ? (
-                      <Box sx={{ pt: 0.5 }}>
-                        <CommonMoApprvlCmpPurchase DetailViewData={puchaseData} company={company} />
-                      </Box>
-                    ) : null}
-                  </Box>
-                  <Box sx={{ flex: 1 }}>
-                    {senior_manage_req === 1 && senior_manage_approv !== null ? (
-                      <Box sx={{ pt: 0.5 }}>
-                        <CommonSmoApprvCmpPurchase DetailViewData={puchaseData} company={company} />
-                      </Box>
-                    ) : null}
-                  </Box>
-
-                  <Box sx={{ flex: 1 }}>
-                    {gm_approve_req === 1 && gm_approve !== null ? (
-                      <Box sx={{ pt: 0.5 }}>
-                        <CommonGmapprvCmpPurchase DetailViewData={puchaseData} company={company} />
-                      </Box>
-                    ) : null}
-                  </Box>
-
-                  <Box sx={{ flex: 1 }}>
-                    {md_approve !== null ? (
-                      <Box sx={{ pt: 0.5 }}>
-                        <CommonMdApprvCmp DetailViewData={puchaseData} company={company} />
-                      </Box>
-                    ) : null}
-                  </Box>
-                  <Box sx={{}}>
-                    {ed_approve !== null ? (
-                      <Box sx={{ pt: 0.5 }}>
-                        <CommonEdapprvCmp DetailViewData={puchaseData} company={company} />
-                      </Box>
-                    ) : null}
-                  </Box>
-                  <Box sx={{}}>
-                    {managing_director_req === 1 && managing_director_approve !== null ? (
-                      <Box sx={{ pt: 0.5 }}>
-                        <CommonMangingApprvComp DetailViewData={puchaseData} company={company} />
-                      </Box>
-                    ) : null}
-                  </Box>
-                </Box>
-                <Box sx={{ py: 0.5, mx: 0.2 }}>
-                  {datacolflag === 1 ? (
-                    <ViewOreviousDataCollctnDetails datacolData={datacolData} company={company} />
                   ) : null}
                 </Box>
-                {ack_status === 1 ? (
-                  <PoAcknowComp poData={puchaseData} />
-                ) : (
-                  <Paper variant="outlined" sx={{ pb: 1, flexWrap: 'wrap', mx: 0.3 }}>
-                    <Box sx={{ mx: 1, mt: 1 }}>
-                      <CusCheckBox
-                        className={{ color: '#145DA0', fontSize: 14, fontWeight: 'bold' }}
-                        variant="outlined"
-                        color="primary"
-                        size="md"
-                        label="Acknowledgement"
-                        name="acknowledgemnet"
-                        value={acknowledgemnet}
-                        checked={purchaseState.acknowledgemnet}
-                        onCheked={handleCheckboxChange('acknowledgemnet')}
-                      />
+                <Box sx={{ flex: 1 }}>
+                  {dms_req === 1 && dms_approve !== null ? (
+                    <Box sx={{ pt: 0.5 }}>
+                      <CommonDmsApprvCmpPurchase DetailViewData={puchaseData} company={company} />
                     </Box>
-                    {acknowledgemnet === true ? (
-                      <Box sx={{ display: 'flex', pt: 0.4, borderTop: '1px solid lightgrey' }}>
-                        <Typography sx={{ fontSize: 14, fontWeight: 600, pl: 3, pt: 2 }}>Remarks</Typography>
-                        <Typography sx={{ pt: 1.8, pl: 1 }}> :&nbsp;</Typography>
-                        <Box sx={{ px: 1, pt: 0.2, flex: 1 }}>
-                          <Textarea
-                            required
-                            type="text"
-                            size="sm"
-                            minRows={2}
-                            maxRows={3}
-                            style={{ width: '90%' }}
-                            placeholder="type here ..."
-                            name="ackRemark"
-                            value={ackRemark}
-                            onChange={updatePoDetails}
-                          />
-                        </Box>
+                  ) : null}
+                </Box>
+                <Box sx={{ flex: 1 }}>
+                  {ms_approve_req === 1 && ms_approve !== null ? (
+                    <Box sx={{ pt: 0.5 }}>
+                      <CommonMsApprvCmpPurchase DetailViewData={puchaseData} company={company} />
+                    </Box>
+                  ) : null}
+                </Box>
+                <Box sx={{ flex: 1 }}>
+                  {manag_operation_req === 1 && manag_operation_approv !== null ? (
+                    <Box sx={{ pt: 0.5 }}>
+                      <CommonMoApprvlCmpPurchase DetailViewData={puchaseData} company={company} />
+                    </Box>
+                  ) : null}
+                </Box>
+                <Box sx={{ flex: 1 }}>
+                  {senior_manage_req === 1 && senior_manage_approv !== null ? (
+                    <Box sx={{ pt: 0.5 }}>
+                      <CommonSmoApprvCmpPurchase DetailViewData={puchaseData} company={company} />
+                    </Box>
+                  ) : null}
+                </Box>
+
+                <Box sx={{ flex: 1 }}>
+                  {gm_approve_req === 1 && gm_approve !== null ? (
+                    <Box sx={{ pt: 0.5 }}>
+                      <CommonGmapprvCmpPurchase DetailViewData={puchaseData} company={company} />
+                    </Box>
+                  ) : null}
+                </Box>
+
+                <Box sx={{ flex: 1 }}>
+                  {md_approve !== null ? (
+                    <Box sx={{ pt: 0.5 }}>
+                      <CommonMdApprvCmp DetailViewData={puchaseData} company={company} />
+                    </Box>
+                  ) : null}
+                </Box>
+                <Box sx={{}}>
+                  {ed_approve !== null ? (
+                    <Box sx={{ pt: 0.5 }}>
+                      <CommonEdapprvCmp DetailViewData={puchaseData} company={company} />
+                    </Box>
+                  ) : null}
+                </Box>
+                <Box sx={{}}>
+                  {managing_director_req === 1 && managing_director_approve !== null ? (
+                    <Box sx={{ pt: 0.5 }}>
+                      <CommonMangingApprvComp DetailViewData={puchaseData} company={company} />
+                    </Box>
+                  ) : null}
+                </Box>
+              </Box>
+              <Box sx={{ py: 0.5, mx: 0.2 }}>
+                {datacolflag === 1 ? (
+                  <ViewOreviousDataCollctnDetails datacolData={datacolData} company={company} />
+                ) : null}
+              </Box>
+              {ack_status === 1 ? (
+                <PoAcknowComp poData={puchaseData} />
+              ) : (
+                <Paper variant="outlined" sx={{ pb: 1, flexWrap: 'wrap', mx: 0.3 }}>
+                  <Box sx={{ mx: 1, mt: 1 }}>
+                    <CusCheckBox
+                      className={{ color: '#145DA0', fontSize: 14, fontWeight: 'bold' }}
+                      variant="outlined"
+                      color="primary"
+                      size="md"
+                      label="Acknowledgement"
+                      name="acknowledgemnet"
+                      value={acknowledgemnet}
+                      checked={purchaseState.acknowledgemnet}
+                      onCheked={handleCheckboxChange('acknowledgemnet')}
+                    />
+                  </Box>
+                  {acknowledgemnet === true ? (
+                    <Box sx={{ display: 'flex', pt: 0.4, borderTop: '1px solid lightgrey' }}>
+                      <Typography sx={{ fontSize: 14, fontWeight: 600, pl: 3, pt: 2 }}>Remarks</Typography>
+                      <Typography sx={{ pt: 1.8, pl: 1 }}> :&nbsp;</Typography>
+                      <Box sx={{ px: 1, pt: 0.2, flex: 1 }}>
+                        <Textarea
+                          required
+                          type="text"
+                          size="sm"
+                          minRows={2}
+                          maxRows={3}
+                          style={{ width: '90%' }}
+                          placeholder="type here ..."
+                          name="ackRemark"
+                          value={ackRemark}
+                          onChange={updatePoDetails}
+                        />
                       </Box>
-                    ) : null}
-                  </Paper>
-                )}
-                {ack_status === 1 && po_prepartion !== 1 && po_complete !== 1 ? (
-                  <Paper variant="outlined" sx={{ pb: 1, flexWrap: 'wrap', mx: 0.2, mt: 0.3 }}>
-                    <Box sx={{ mx: 1, mt: 1 }}>
-                      <CusCheckBox
-                        className={{ color: '#145DA0', fontSize: 14, fontWeight: 'bold' }}
-                        variant="outlined"
-                        color="primary"
-                        size="md"
-                        name="datacollFlag"
-                        label="Data Collection Required"
-                        value={datacollFlag}
-                        onCheked={updateDataCollFlag}
-                        checked={datacollFlag}
-                        disabled={
-                          quotationCall === true ||
+                    </Box>
+                  ) : null}
+                </Paper>
+              )}
+              {ack_status === 1 && po_prepartion !== 1 && po_complete !== 1 ? (
+                <Paper variant="outlined" sx={{ pb: 1, flexWrap: 'wrap', mx: 0.2, mt: 0.3 }}>
+                  <Box sx={{ mx: 1, mt: 1 }}>
+                    <CusCheckBox
+                      className={{ color: '#145DA0', fontSize: 14, fontWeight: 'bold' }}
+                      variant="outlined"
+                      color="primary"
+                      size="md"
+                      name="datacollFlag"
+                      label="Data Collection Required"
+                      value={datacollFlag}
+                      onCheked={updateDataCollFlag}
+                      checked={datacollFlag}
+                      disabled={
+                        quotationCall === true ||
                           poadding === true ||
                           datacollFlagKMC === true ||
                           quotationNego === true ||
                           quotationFix === true
-                            ? true
-                            : false
-                        }
-                      />
-                    </Box>
-                  </Paper>
-                ) : null}
+                          ? true
+                          : false
+                      }
+                    />
+                  </Box>
+                </Paper>
+              ) : null}
 
-                {company_slno === 2 && ack_status === 1 && po_prepartion !== 1 && po_complete !== 1 ? (
-                  <Paper variant="outlined" sx={{ pb: 1, flexWrap: 'wrap', mx: 0.3 }}>
-                    <Box sx={{ mx: 1, mt: 1 }}>
-                      <CusCheckBox
-                        className={{ color: '#145DA0', fontSize: 14, fontWeight: 'bold' }}
-                        variant="outlined"
-                        color="primary"
-                        size="md"
-                        name="datacollFlagKMC"
-                        label="TMC Data Collection Required"
-                        value={datacollFlagKMC}
-                        onCheked={handleCheckboxChange('datacollFlagKMC')}
-                        checked={purchaseState.datacollFlagKMC}
-                        disabled={
-                          quotationCall === true ||
+              {company_slno === 2 && ack_status === 1 && po_prepartion !== 1 && po_complete !== 1 ? (
+                <Paper variant="outlined" sx={{ pb: 1, flexWrap: 'wrap', mx: 0.3 }}>
+                  <Box sx={{ mx: 1, mt: 1 }}>
+                    <CusCheckBox
+                      className={{ color: '#145DA0', fontSize: 14, fontWeight: 'bold' }}
+                      variant="outlined"
+                      color="primary"
+                      size="md"
+                      name="datacollFlagKMC"
+                      label="TMC Data Collection Required"
+                      value={datacollFlagKMC}
+                      onCheked={handleCheckboxChange('datacollFlagKMC')}
+                      checked={purchaseState.datacollFlagKMC}
+                      disabled={
+                        quotationCall === true ||
                           poadding === true ||
                           datacollFlag === true ||
                           quotationNego === true ||
                           quotationFix === true
-                            ? true
-                            : false
-                        }
-                      />
-                    </Box>
-                  </Paper>
-                ) : null}
-                {datacollFlagKMC === true ? (
-                  <Box sx={{ border: '1px solid lightgrey', borderTop: 'none', pb: 1, mx: 0.3 }}>
-                    <Box sx={{ display: 'flex', pt: 1 }}>
-                      <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 0.5 }}>
-                        Departments for Data Collection
-                      </Typography>
-                      <Typography sx={{ pt: 0.5 }}> :&nbsp;</Typography>
-                      <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
-                        <DataCollectDepSecSelectTmc SetDeptSec={serCrfDept} />
-                      </Box>
-                    </Box>
-                    <Box sx={{ display: 'flex', pt: 0.4 }}>
-                      <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 1 }}>Remarks</Typography>
-                      <Typography sx={{ pt: 1 }}> :&nbsp;</Typography>
-                      <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
-                        <Textarea
-                          required
-                          type="text"
-                          size="sm"
-                          minRows={2}
-                          maxRows={4}
-                          style={{ width: '90%' }}
-                          placeholder="Remarks"
-                          name="datacolectremark"
-                          value={datacolectremark}
-                          onChange={updatePoDetails}
-                        />
-                      </Box>
-                    </Box>
+                          ? true
+                          : false
+                      }
+                    />
                   </Box>
-                ) : null}
-                {/* datacollection */}
-                {datacollFlag === true ? (
-                  <Box sx={{ border: '1px solid lightgrey', borderTop: 'none', pb: 1, mx: 0.2 }}>
-                    <Box sx={{ display: 'flex', pt: 1 }}>
-                      <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.5, pl: 1, pt: 0.5 }}>
-                        Departments for Data Collection
-                      </Typography>
-                      <Typography sx={{ pt: 0.5 }}> :&nbsp;</Typography>
-                      <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
-                        <DataCollectDepSecSelect SetDeptSec={serCrfDept} />
-                      </Box>
-                    </Box>
-                    <Box sx={{ display: 'flex', pt: 0.4 }}>
-                      <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.5, pl: 1, pt: 1 }}>Remarks</Typography>
-                      <Typography sx={{ pt: 1 }}> :&nbsp;</Typography>
-                      <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
-                        <Textarea
-                          required
-                          type="text"
-                          size="sm"
-                          minRows={2}
-                          maxRows={4}
-                          style={{ width: '90%' }}
-                          placeholder="Remarks"
-                          name="datacolectremark"
-                          value={datacolectremark}
-                          onChange={updatePoDetails}
-                        />
-                      </Box>
-                    </Box>
-                  </Box>
-                ) : null}
-                {/*     Quotation Calling */}
-                {ack_status === 1 && quatation_calling_status !== 1 && po_prepartion !== 1 && po_complete !== 1 ? (
-                  <Paper variant="outlined" sx={{ pb: 1, flexWrap: 'wrap', mx: 0.2, mt: 0.3 }}>
-                    <Box sx={{ mx: 1, mt: 1 }}>
-                      <CusCheckBox
-                        className={{ color: '#145DA0', fontSize: 14, fontWeight: 'bold' }}
-                        variant="outlined"
-                        color="primary"
-                        size="md"
-                        label="Quotation Call"
-                        name="quotationCall"
-                        value={quotationCall}
-                        checked={purchaseState.quotationCall}
-                        onCheked={handleCheckboxChange('quotationCall')}
-                        disabled={datacollFlag === true || poadding === true || datacollFlagKMC === true ? true : false}
-                      />
-                    </Box>
-                    {quotationCall === true ? (
-                      <Box sx={{ display: 'flex', pt: 0.4, borderTop: '1px solid lightgrey' }}>
-                        <Typography sx={{ fontSize: 14, fontWeight: 600, pl: 3, pt: 2 }}>Remarks</Typography>
-                        <Typography sx={{ pt: 1.8, pl: 1 }}> :&nbsp;</Typography>
-                        <Box sx={{ px: 1, pt: 0.2, flex: 1 }}>
-                          <Textarea
-                            required
-                            type="text"
-                            size="sm"
-                            minRows={2}
-                            maxRows={3}
-                            style={{ width: '90%' }}
-                            placeholder="type here ..."
-                            name="quotationCallRemark"
-                            value={quotationCallRemark}
-                            onChange={updatePoDetails}
-                          />
-                        </Box>
-                      </Box>
-                    ) : null}
-                  </Paper>
-                ) : (
-                  <>{quatation_calling_status === 1 ? <QuotationCallComp poData={puchaseData} /> : null}</>
-                )}
-                {quatation_calling_status === 1 && quatation_negotiation !== 1 ? (
-                  <Paper variant="outlined" sx={{ pb: 1, flexWrap: 'wrap', mx: 0.2, mt: 0.3 }}>
-                    <Box sx={{ mx: 1, mt: 1 }}>
-                      <CusCheckBox
-                        className={{ color: '#145DA0', fontSize: 14, fontWeight: 'bold' }}
-                        variant="outlined"
-                        color="primary"
-                        size="md"
-                        label="Quotation Negotiation"
-                        name="quotationNego"
-                        value={quotationNego}
-                        checked={purchaseState.quotationNego}
-                        onCheked={handleCheckboxChange('quotationNego')}
-                        disabled={datacollFlag === true || datacollFlagKMC === true ? true : false}
-                      />
-                    </Box>
-                    {quotationNego === true ? (
-                      <Box sx={{ display: 'flex', pt: 0.4, borderTop: '1px solid lightgrey' }}>
-                        <Typography sx={{ fontSize: 14, fontWeight: 600, pl: 3, pt: 2 }}>Remarks</Typography>
-                        <Typography sx={{ pt: 1.8, pl: 1 }}> :&nbsp;</Typography>
-                        <Box sx={{ px: 1, pt: 0.2, flex: 1 }}>
-                          <Textarea
-                            required
-                            type="text"
-                            size="sm"
-                            minRows={2}
-                            maxRows={3}
-                            style={{ width: '90%' }}
-                            placeholder="type here ..."
-                            name="quotationNegoRemark"
-                            value={quotationNegoRemark}
-                            onChange={updatePoDetails}
-                          />
-                        </Box>
-                      </Box>
-                    ) : null}
-                  </Paper>
-                ) : (
-                  <> {quatation_negotiation === 1 ? <QuotationNegoComp poData={puchaseData} /> : null}</>
-                )}
-                {quatation_calling_status === 1 && quatation_negotiation === 1 && quatation_fixing !== 1 ? (
-                  <Paper variant="outlined" sx={{ pb: 1, flexWrap: 'wrap', mx: 0.2, mt: 0.3 }}>
-                    <Box sx={{ mx: 1, mt: 1 }}>
-                      <CusCheckBox
-                        className={{ color: '#145DA0', fontSize: 14, fontWeight: 'bold' }}
-                        variant="outlined"
-                        color="primary"
-                        size="md"
-                        label="Quotation Fix"
-                        name="quotationFix"
-                        value={quotationFix}
-                        checked={purchaseState.quotationFix}
-                        onCheked={handleCheckboxChange('quotationFix')}
-                        disabled={datacollFlag === true ? true : false}
-                      />
-                    </Box>
-                    {quotationFix === true ? (
-                      <Box sx={{ display: 'flex', pt: 0.4, borderTop: '1px solid lightgrey' }}>
-                        <Typography sx={{ fontSize: 14, fontWeight: 600, pl: 3, pt: 2 }}>Remarks</Typography>
-                        <Typography sx={{ pt: 1.8, pl: 1 }}> :&nbsp;</Typography>
-                        <Box sx={{ px: 1, pt: 0.2, flex: 1 }}>
-                          <Textarea
-                            required
-                            type="text"
-                            size="sm"
-                            minRows={2}
-                            maxRows={3}
-                            style={{ width: '90%' }}
-                            placeholder="type here ..."
-                            name="quotationFixRemark"
-                            value={quotationFixRemark}
-                            onChange={updatePoDetails}
-                          />
-                        </Box>
-                      </Box>
-                    ) : null}
-                  </Paper>
-                ) : (
-                  <>{quatation_fixing === 1 ? <QuotationFinalComp poData={puchaseData} /> : null}</>
-                )}
-                {/* {podetailFlag === 1 ? */}
-                {po_prepartion === 1 ? (
-                  <Box sx={{ width: '100%' }}>
-                    <Typography
-                      sx={{
-                        fontWeight: 'bold',
-                        px: 1,
-                        py: 0.5,
-                        color: '#145DA0',
-                        fontSize: 14,
-                        flex: 0.5
-                      }}
-                    >
-                      Added PO
+                </Paper>
+              ) : null}
+              {datacollFlagKMC === true ? (
+                <Box sx={{ border: '1px solid lightgrey', borderTop: 'none', pb: 1, mx: 0.3 }}>
+                  <Box sx={{ display: 'flex', pt: 1 }}>
+                    <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 0.5 }}>
+                      Departments for Data Collection
                     </Typography>
-                    <Box sx={{ px: 0.5, pb: 0.3, flexWrap: 'wrap' }}>
-                      <CrfReqDetailCmpnt poDetails={poDetails} />
+                    <Typography sx={{ pt: 0.5 }}> :&nbsp;</Typography>
+                    <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
+                      <DataCollectDepSecSelectTmc SetDeptSec={serCrfDept} />
                     </Box>
                   </Box>
-                ) : null}
-                {ack_status === 1 &&
+                  <Box sx={{ display: 'flex', pt: 0.4 }}>
+                    <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.7, pl: 1, pt: 1 }}>Remarks</Typography>
+                    <Typography sx={{ pt: 1 }}> :&nbsp;</Typography>
+                    <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
+                      <Textarea
+                        required
+                        type="text"
+                        size="sm"
+                        minRows={2}
+                        maxRows={4}
+                        style={{ width: '90%' }}
+                        placeholder="Remarks"
+                        name="datacolectremark"
+                        value={datacolectremark}
+                        onChange={updatePoDetails}
+                      />
+                    </Box>
+                  </Box>
+                </Box>
+              ) : null}
+              {/* datacollection */}
+              {datacollFlag === true ? (
+                <Box sx={{ border: '1px solid lightgrey', borderTop: 'none', pb: 1, mx: 0.2 }}>
+                  <Box sx={{ display: 'flex', pt: 1 }}>
+                    <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.5, pl: 1, pt: 0.5 }}>
+                      Departments for Data Collection
+                    </Typography>
+                    <Typography sx={{ pt: 0.5 }}> :&nbsp;</Typography>
+                    <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
+                      <DataCollectDepSecSelect SetDeptSec={serCrfDept} />
+                    </Box>
+                  </Box>
+                  <Box sx={{ display: 'flex', pt: 0.4 }}>
+                    <Typography sx={{ fontSize: 14, fontWeight: 600, flex: 0.5, pl: 1, pt: 1 }}>Remarks</Typography>
+                    <Typography sx={{ pt: 1 }}> :&nbsp;</Typography>
+                    <Box sx={{ px: 1, pt: 0.2, flex: 1.5 }}>
+                      <Textarea
+                        required
+                        type="text"
+                        size="sm"
+                        minRows={2}
+                        maxRows={4}
+                        style={{ width: '90%' }}
+                        placeholder="Remarks"
+                        name="datacolectremark"
+                        value={datacolectremark}
+                        onChange={updatePoDetails}
+                      />
+                    </Box>
+                  </Box>
+                </Box>
+              ) : null}
+              {/*     Quotation Calling */}
+              {ack_status === 1 && quatation_calling_status !== 1 && po_prepartion !== 1 && po_complete !== 1 ? (
+                <Paper variant="outlined" sx={{ pb: 1, flexWrap: 'wrap', mx: 0.2, mt: 0.3 }}>
+                  <Box sx={{ mx: 1, mt: 1 }}>
+                    <CusCheckBox
+                      className={{ color: '#145DA0', fontSize: 14, fontWeight: 'bold' }}
+                      variant="outlined"
+                      color="primary"
+                      size="md"
+                      label="Quotation Call"
+                      name="quotationCall"
+                      value={quotationCall}
+                      checked={purchaseState.quotationCall}
+                      onCheked={handleCheckboxChange('quotationCall')}
+                      disabled={datacollFlag === true || poadding === true || datacollFlagKMC === true ? true : false}
+                    />
+                  </Box>
+                  {quotationCall === true ? (
+                    <Box sx={{ display: 'flex', pt: 0.4, borderTop: '1px solid lightgrey' }}>
+                      <Typography sx={{ fontSize: 14, fontWeight: 600, pl: 3, pt: 2 }}>Remarks</Typography>
+                      <Typography sx={{ pt: 1.8, pl: 1 }}> :&nbsp;</Typography>
+                      <Box sx={{ px: 1, pt: 0.2, flex: 1 }}>
+                        <Textarea
+                          required
+                          type="text"
+                          size="sm"
+                          minRows={2}
+                          maxRows={3}
+                          style={{ width: '90%' }}
+                          placeholder="type here ..."
+                          name="quotationCallRemark"
+                          value={quotationCallRemark}
+                          onChange={updatePoDetails}
+                        />
+                      </Box>
+                    </Box>
+                  ) : null}
+                </Paper>
+              ) : (
+                <>{quatation_calling_status === 1 ? <QuotationCallComp poData={puchaseData} /> : null}</>
+              )}
+              {quatation_calling_status === 1 && quatation_negotiation !== 1 ? (
+                <Paper variant="outlined" sx={{ pb: 1, flexWrap: 'wrap', mx: 0.2, mt: 0.3 }}>
+                  <Box sx={{ mx: 1, mt: 1 }}>
+                    <CusCheckBox
+                      className={{ color: '#145DA0', fontSize: 14, fontWeight: 'bold' }}
+                      variant="outlined"
+                      color="primary"
+                      size="md"
+                      label="Quotation Negotiation"
+                      name="quotationNego"
+                      value={quotationNego}
+                      checked={purchaseState.quotationNego}
+                      onCheked={handleCheckboxChange('quotationNego')}
+                      disabled={datacollFlag === true || datacollFlagKMC === true ? true : false}
+                    />
+                  </Box>
+                  {quotationNego === true ? (
+                    <Box sx={{ display: 'flex', pt: 0.4, borderTop: '1px solid lightgrey' }}>
+                      <Typography sx={{ fontSize: 14, fontWeight: 600, pl: 3, pt: 2 }}>Remarks</Typography>
+                      <Typography sx={{ pt: 1.8, pl: 1 }}> :&nbsp;</Typography>
+                      <Box sx={{ px: 1, pt: 0.2, flex: 1 }}>
+                        <Textarea
+                          required
+                          type="text"
+                          size="sm"
+                          minRows={2}
+                          maxRows={3}
+                          style={{ width: '90%' }}
+                          placeholder="type here ..."
+                          name="quotationNegoRemark"
+                          value={quotationNegoRemark}
+                          onChange={updatePoDetails}
+                        />
+                      </Box>
+                    </Box>
+                  ) : null}
+                </Paper>
+              ) : (
+                <> {quatation_negotiation === 1 ? <QuotationNegoComp poData={puchaseData} /> : null}</>
+              )}
+              {quatation_calling_status === 1 && quatation_negotiation === 1 && quatation_fixing !== 1 ? (
+                <Paper variant="outlined" sx={{ pb: 1, flexWrap: 'wrap', mx: 0.2, mt: 0.3 }}>
+                  <Box sx={{ mx: 1, mt: 1 }}>
+                    <CusCheckBox
+                      className={{ color: '#145DA0', fontSize: 14, fontWeight: 'bold' }}
+                      variant="outlined"
+                      color="primary"
+                      size="md"
+                      label="Quotation Fix"
+                      name="quotationFix"
+                      value={quotationFix}
+                      checked={purchaseState.quotationFix}
+                      onCheked={handleCheckboxChange('quotationFix')}
+                      disabled={datacollFlag === true ? true : false}
+                    />
+                  </Box>
+                  {quotationFix === true ? (
+                    <Box sx={{ display: 'flex', pt: 0.4, borderTop: '1px solid lightgrey' }}>
+                      <Typography sx={{ fontSize: 14, fontWeight: 600, pl: 3, pt: 2 }}>Remarks</Typography>
+                      <Typography sx={{ pt: 1.8, pl: 1 }}> :&nbsp;</Typography>
+                      <Box sx={{ px: 1, pt: 0.2, flex: 1 }}>
+                        <Textarea
+                          required
+                          type="text"
+                          size="sm"
+                          minRows={2}
+                          maxRows={3}
+                          style={{ width: '90%' }}
+                          placeholder="type here ..."
+                          name="quotationFixRemark"
+                          value={quotationFixRemark}
+                          onChange={updatePoDetails}
+                        />
+                      </Box>
+                    </Box>
+                  ) : null}
+                </Paper>
+              ) : (
+                <>{quatation_fixing === 1 ? <QuotationFinalComp poData={puchaseData} /> : null}</>
+              )}
+              {/* {podetailFlag === 1 ? */}
+              {po_prepartion === 1 ? (
+                <Box sx={{ width: '100%' }}>
+                  <Typography
+                    sx={{
+                      fontWeight: 'bold',
+                      px: 1,
+                      py: 0.5,
+                      color: '#145DA0',
+                      fontSize: 14,
+                      flex: 0.5
+                    }}
+                  >
+                    Added PO
+                  </Typography>
+                  <Box sx={{ px: 0.5, pb: 0.3, flexWrap: 'wrap' }}>
+                    <CrfReqDetailCmpnt poDetails={poDetails} />
+                  </Box>
+                </Box>
+              ) : null}
+              {ack_status === 1 &&
                 po_complete !== 1 &&
                 ((quatation_calling_status !== 1 && quatation_fixing !== 1) ||
                   (quatation_calling_status === 1 && quatation_fixing === 1)) ? (
-                  <Paper variant="outlined" sx={{ flexWrap: 'wrap', mx: 0.2, mt: 0.3 }}>
-                    <Box sx={{ p: 0.8, mt: 0.3 }}>
-                      <CusCheckBox
-                        className={{ color: '#145DA0', fontSize: 14, fontWeight: 'bold' }}
-                        variant="outlined"
-                        color="primary"
-                        size="md"
-                        label="Get PO Information From Ellider (HIMS)"
-                        name="poadding"
-                        value={poadding}
-                        checked={poadding}
-                        onCheked={checkNewPo}
-                        disabled={
-                          quotationCall === true ||
+                <Paper variant="outlined" sx={{ flexWrap: 'wrap', mx: 0.2, mt: 0.3 }}>
+                  <Box sx={{ p: 0.8, mt: 0.3 }}>
+                    <CusCheckBox
+                      className={{ color: '#145DA0', fontSize: 14, fontWeight: 'bold' }}
+                      variant="outlined"
+                      color="primary"
+                      size="md"
+                      label="Get PO Information From Ellider (HIMS)"
+                      name="poadding"
+                      value={poadding}
+                      checked={poadding}
+                      onCheked={checkNewPo}
+                      disabled={
+                        quotationCall === true ||
                           datacollFlag === true ||
                           WorkOrder === true ||
                           datacollFlagKMC === true ||
                           poComplete === true
-                            ? true
-                            : false
-                        }
-                      />
-                    </Box>
-                  </Paper>
-                ) : null}
+                          ? true
+                          : false
+                      }
+                    />
+                  </Box>
+                </Paper>
+              ) : null}
 
-                {ack_status === 1 &&
+              {ack_status === 1 &&
                 po_complete !== 1 &&
                 (quatation_calling_status !== 1 || (quatation_calling_status === 1 && quatation_fixing === 1)) ? (
-                  <Paper variant="outlined" sx={{ flexWrap: 'wrap', mx: 0.2, mt: 0.3 }}>
-                    <Box sx={{ p: 0.8, mt: 0.3 }}>
-                      {/* <CusCheckBox
+                <Paper variant="outlined" sx={{ flexWrap: 'wrap', mx: 0.2, mt: 0.3 }}>
+                  <Box sx={{ p: 0.8, mt: 0.3 }}>
+                    {/* <CusCheckBox
                                                 className={{ color: '#145DA0', fontSize: 14, fontWeight: 'bold' }}
                                                 variant="outlined"
                                                 color="primary"
@@ -1192,91 +1192,45 @@ const PurchaseModal = ({
                                                 disabled={(quotationCall === true || datacollFlag === true
                                                     || poComplete === true) ? true : false}
                                             /> */}
-                      <Checkbox
-                        sx={{ color: '#145DA0', fontSize: 14, fontWeight: 'bold' }}
-                        variant="outlined"
-                        color="primary"
-                        size="md"
-                        label="Work Order Details"
-                        name="WorkOrder"
-                        // value={WorkOrder}
-                        checked={WorkOrder}
-                        onChange={e => setWorkOrder(e.target.checked)}
-                        disabled={quotationCall || datacollFlag || poComplete || poadding || datacollFlagKMC === true}
-                      />
-                    </Box>
-                  </Paper>
-                ) : null}
-                {/* work order details */}
-                {WorkOrder === true ? (
-                  <Box>
-                    <Box sx={{ flex: 1, display: 'flex', pt: 0.5 }}>
-                      <Box sx={{ flex: 1 }}>
-                        <CustomPaperTitle heading="Work Order No" mandtry={1} />
-                        <CustomInputDateCmp
-                          className={{ ml: 1 }}
-                          autoComplete="off"
-                          size={'sm'}
-                          type={'number'}
-                          name={'work_orderNo'}
-                          value={work_orderNo}
-                          handleChange={updatePoDetails}
-                        />
-                      </Box>
-                      <Box sx={{ flex: 1 }}>
-                        <CustomPaperTitle heading="Work Order Date" mandtry={1} />
-                        <CustomInputDateCmp
-                          className={{ ml: 0.5 }}
-                          size={'sm'}
-                          type="date"
-                          name={'order_date'}
-                          value={order_date}
-                          handleChange={updatePoDetails}
-                          slotProps={{
-                            input: { max: moment(new Date()).format('YYYY-MM-DD') }
-                          }}
-                        />
-                      </Box>
-                      <Box sx={{ flex: 1 }}>
-                        <CustomPaperTitle heading="Remark" mandtry={1} />
-                        <CustomInputDateCmp
-                          className={{ ml: 1 }}
-                          autoComplete="off"
-                          size={'sm'}
-                          type={'text'}
-                          name={'order_remark'}
-                          value={order_remark}
-                          handleChange={updatePoDetails}
-                        />
-                      </Box>
-                    </Box>
-                    {/* purchase modal image upload */}
-                    <PurchaseWoImg selectFile={selectFile} setSelectFile={setSelectFile} />
+                    <Checkbox
+                      sx={{ color: '#145DA0', fontSize: 14, fontWeight: 'bold' }}
+                      variant="outlined"
+                      color="primary"
+                      size="md"
+                      label="Work Order Details"
+                      name="WorkOrder"
+                      // value={WorkOrder}
+                      checked={WorkOrder}
+                      onChange={e => setWorkOrder(e.target.checked)}
+                      disabled={quotationCall || datacollFlag || poComplete || poadding || datacollFlagKMC === true}
+                    />
                   </Box>
-                ) : null}
-
-                {poadding === true ? (
+                </Paper>
+              ) : null}
+              {/* work order details */}
+              {WorkOrder === true ? (
+                <Box>
                   <Box sx={{ flex: 1, display: 'flex', pt: 0.5 }}>
                     <Box sx={{ flex: 1 }}>
-                      <CustomPaperTitle heading="PO No" mandtry={1} />
+                      <CustomPaperTitle heading="Work Order No" mandtry={1} />
                       <CustomInputDateCmp
                         className={{ ml: 1 }}
                         autoComplete="off"
                         size={'sm'}
                         type={'number'}
-                        name={'po_number'}
-                        value={po_number}
+                        name={'work_orderNo'}
+                        value={work_orderNo}
                         handleChange={updatePoDetails}
                       />
                     </Box>
                     <Box sx={{ flex: 1 }}>
-                      <CustomPaperTitle heading="PO Date" mandtry={1} />
+                      <CustomPaperTitle heading="Work Order Date" mandtry={1} />
                       <CustomInputDateCmp
                         className={{ ml: 0.5 }}
                         size={'sm'}
                         type="date"
-                        name={'po_date'}
-                        value={po_date}
+                        name={'order_date'}
+                        value={order_date}
                         handleChange={updatePoDetails}
                         slotProps={{
                           input: { max: moment(new Date()).format('YYYY-MM-DD') }
@@ -1284,97 +1238,143 @@ const PurchaseModal = ({
                       />
                     </Box>
                     <Box sx={{ flex: 1 }}>
-                      <CustomPaperTitle heading="CRS Store" mandtry={1} />
-                      <Box sx={{ ml: 0.5 }}>
-                        <CrfStoreSelect
-                          storeSlno={storeSlno}
-                          setStoreSlno={setStoreSlno}
-                          setStoreCode={setStoreCode}
-                          setStoreName={setStoreName}
-                          setsubStoreSlno={setsubStoreSlno}
-                        />
-                      </Box>
+                      <CustomPaperTitle heading="Remark" mandtry={1} />
+                      <CustomInputDateCmp
+                        className={{ ml: 1 }}
+                        autoComplete="off"
+                        size={'sm'}
+                        type={'text'}
+                        name={'order_remark'}
+                        value={order_remark}
+                        handleChange={updatePoDetails}
+                      />
                     </Box>
-                    <Box sx={{ flex: 1 }}>
-                      <CustomPaperTitle heading=" Store" mandtry={1} />
-                      <Box sx={{ ml: 0.5 }}>
-                        <PurchaseStoreSlect
-                          storeSlno={storeSlno}
-                          setsubStoreSlno={setsubStoreSlno}
-                          substoreSlno={substoreSlno}
-                          setsubStoreName={setsubStoreName}
-                        />
-                      </Box>
+                  </Box>
+                  {/* purchase modal image upload */}
+                  <PurchaseWoImg selectFile={selectFile} setSelectFile={setSelectFile} />
+                </Box>
+              ) : null}
+
+              {poadding === true ? (
+                <Box sx={{ flex: 1, display: 'flex', pt: 0.5 }}>
+                  <Box sx={{ flex: 1 }}>
+                    <CustomPaperTitle heading="PO No" mandtry={1} />
+                    <CustomInputDateCmp
+                      className={{ ml: 1 }}
+                      autoComplete="off"
+                      size={'sm'}
+                      type={'number'}
+                      name={'po_number'}
+                      value={po_number}
+                      handleChange={updatePoDetails}
+                    />
+                  </Box>
+                  <Box sx={{ flex: 1 }}>
+                    <CustomPaperTitle heading="PO Date" mandtry={1} />
+                    <CustomInputDateCmp
+                      className={{ ml: 0.5 }}
+                      size={'sm'}
+                      type="date"
+                      name={'po_date'}
+                      value={po_date}
+                      handleChange={updatePoDetails}
+                      slotProps={{
+                        input: { max: moment(new Date()).format('YYYY-MM-DD') }
+                      }}
+                    />
+                  </Box>
+                  <Box sx={{ flex: 1 }}>
+                    <CustomPaperTitle heading="CRS Store" mandtry={1} />
+                    <Box sx={{ ml: 0.5 }}>
+                      <CrfStoreSelect
+                        storeSlno={storeSlno}
+                        setStoreSlno={setStoreSlno}
+                        setStoreCode={setStoreCode}
+                        setStoreName={setStoreName}
+                        setsubStoreSlno={setsubStoreSlno}
+                      />
                     </Box>
-                    <Box sx={{ pl: 0.7, pt: 3.2, flex: 0.5, display: 'flex' }}>
-                      <Tooltip title="Add PO Details" placement="bottom">
-                        <AddCircleTwoToneIcon
+                  </Box>
+                  <Box sx={{ flex: 1 }}>
+                    <CustomPaperTitle heading=" Store" mandtry={1} />
+                    <Box sx={{ ml: 0.5 }}>
+                      <PurchaseStoreSlect
+                        storeSlno={storeSlno}
+                        setsubStoreSlno={setsubStoreSlno}
+                        substoreSlno={substoreSlno}
+                        setsubStoreName={setsubStoreName}
+                      />
+                    </Box>
+                  </Box>
+                  <Box sx={{ pl: 0.7, pt: 3.2, flex: 0.5, display: 'flex' }}>
+                    <Tooltip title="Add PO Details" placement="bottom">
+                      <AddCircleTwoToneIcon
+                        sx={{
+                          height: 28,
+                          width: 28,
+                          color: '#0070E0',
+                          cursor: 'pointer',
+                          ':hover': {
+                            color: '#1e88e5'
+                          }
+                        }}
+                        onClick={AddItem}
+                      />
+                    </Tooltip>
+                    <Box sx={{ pl: 0.7 }}>
+                      <Tooltip title="Clear All" placement="bottom">
+                        <ClearIcon
                           sx={{
                             height: 28,
                             width: 28,
-                            color: '#0070E0',
+                            color: '#ef9a9a',
                             cursor: 'pointer',
                             ':hover': {
-                              color: '#1e88e5'
+                              color: '#e57373'
                             }
                           }}
-                          onClick={AddItem}
+                          onClick={clearData}
                         />
                       </Tooltip>
-                      <Box sx={{ pl: 0.7 }}>
-                        <Tooltip title="Clear All" placement="bottom">
-                          <ClearIcon
-                            sx={{
-                              height: 28,
-                              width: 28,
-                              color: '#ef9a9a',
-                              cursor: 'pointer',
-                              ':hover': {
-                                color: '#e57373'
-                              }
-                            }}
-                            onClick={clearData}
-                          />
-                        </Tooltip>
-                      </Box>
                     </Box>
                   </Box>
-                ) : null}
-                {poDetlDis === 1 && poadding === true ? (
-                  <Box sx={{ width: '100%', pl: 1, pb: 0.3, pr: 0.5, flexWrap: 'wrap' }}>
-                    <CrfReqDetailCmpnt poDetails={podetailData} />
+                </Box>
+              ) : null}
+              {poDetlDis === 1 && poadding === true ? (
+                <Box sx={{ width: '100%', pl: 1, pb: 0.3, pr: 0.5, flexWrap: 'wrap' }}>
+                  <CrfReqDetailCmpnt poDetails={podetailData} />
+                </Box>
+              ) : null}
+              {po_prepartion === 1 && poadding === false ? (
+                <Paper variant="outlined" sx={{ mt: 0.4, flexWrap: 'wrap' }}>
+                  <Box sx={{ display: 'flex', m: 1.5 }}>
+                    <CusCheckBox
+                      className={{ color: '#145DA0', fontSize: 14, fontWeight: 'bold' }}
+                      variant="outlined"
+                      color="primary"
+                      size="md"
+                      label="PO Process Completed"
+                      name="poComplete"
+                      value={poComplete}
+                      checked={poComplete}
+                      onCheked={checkPoComplete}
+                    />
                   </Box>
-                ) : null}
-                {po_prepartion === 1 && poadding === false ? (
-                  <Paper variant="outlined" sx={{ mt: 0.4, flexWrap: 'wrap' }}>
-                    <Box sx={{ display: 'flex', m: 1.5 }}>
-                      <CusCheckBox
-                        className={{ color: '#145DA0', fontSize: 14, fontWeight: 'bold' }}
-                        variant="outlined"
-                        color="primary"
-                        size="md"
-                        label="PO Process Completed"
-                        name="poComplete"
-                        value={poComplete}
-                        checked={poComplete}
-                        onCheked={checkPoComplete}
-                      />
-                    </Box>
-                  </Paper>
-                ) : null}
-              </Box>
+                </Paper>
+              ) : null}
             </Box>
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <Box sx={{ py: 0.5, pr: 0.5 }}>
-                <ModalButtomCmp handleChange={submit}> Save</ModalButtomCmp>
-              </Box>
-              <Box sx={{ py: 0.5, pr: 2 }}>
-                <ModalButtomCmp handleChange={closeModal}> Cancel</ModalButtomCmp>
-              </Box>
+          </Box>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <Box sx={{ py: 0.5, pr: 0.5 }}>
+              <ModalButtomCmp handleChange={submit}> Save</ModalButtomCmp>
             </Box>
-          </ModalDialog>
-        </Modal>
-      </CssVarsProvider>
+            <Box sx={{ py: 0.5, pr: 2 }}>
+              <ModalButtomCmp handleChange={closeModal}> Cancel</ModalButtomCmp>
+            </Box>
+          </Box>
+        </ModalDialog>
+      </Modal>
+      {/* </CssVarsProvider> */}
     </Fragment>
   )
 }

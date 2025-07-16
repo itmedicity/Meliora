@@ -4,7 +4,7 @@ import { Fragment } from 'react'
 import { CssVarsProvider } from '@mui/joy'
 import { useState, useEffect, memo } from 'react'
 import { getsimOperatorList } from 'src/api/masterApi'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useCallback } from 'react'
 
 const SimOperator = ({ provider, setProvider }) => {

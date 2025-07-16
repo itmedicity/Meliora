@@ -42,7 +42,7 @@ const DetailMain = () => {
   }, [])
 
   return (
-    <Paper sx={{ borderRadius: 0, height: '90vh' }}>
+    <Paper sx={{ borderRadius: 0, height: '90vh', width: '100%' }}>
       {detailflag === 1 ? (
         <ItemDetailAdd
           detailArry={detailArry}

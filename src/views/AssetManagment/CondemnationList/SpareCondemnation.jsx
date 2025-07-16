@@ -1,6 +1,6 @@
 import React, { memo, useMemo, useState, useEffect, useCallback } from 'react'
 import { Box, Checkbox } from '@mui/joy'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { Virtuoso } from 'react-virtuoso'
 import { getSpareUnderCondmnation } from 'src/api/AssetApis'
 import CusIconButton from 'src/views/Components/CusIconButton'

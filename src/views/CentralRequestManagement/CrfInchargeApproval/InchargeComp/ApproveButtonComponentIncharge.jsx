@@ -17,11 +17,11 @@ import ThumbUpAltTwoToneIcon from '@mui/icons-material/ThumbUpAltTwoTone'
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import { axioslogin } from 'src/views/Axios/Axios'
 import DoDisturbOffTwoToneIcon from '@mui/icons-material/DoDisturbOffTwoTone'
-import { useQueryClient } from 'react-query'
 import { GetItemDetailsOfCRFCmp } from '../../ComonComponent/GetItemDetailsOfCRFCmp'
 import HigherAppDoneModal from '../../ComonComponent/HigherAppDoneModal'
 import ImageDisplayModal from '../../ComonComponent/ImageUploadCmp/ImageDisplayModal'
 import CustomToolTipForCRF from '../../ComonComponent/Components/CustomToolTipForCRF'
+import { useQueryClient } from '@tanstack/react-query'
 
 const ApproveButtonComponentIncharge = ({
   setApprovalFlag,
@@ -461,10 +461,10 @@ const ApproveButtonComponentIncharge = ({
                   {now_who_status === 1
                     ? 'Approved'
                     : now_who_status === 2
-                    ? 'Rejected'
-                    : now_who_status === 3
-                    ? 'On-Hold'
-                    : ''}
+                      ? 'Rejected'
+                      : now_who_status === 3
+                        ? 'On-Hold'
+                        : ''}
                 </Typography>
               </Button>
               <Box sx={{ mx: 0.3 }}>

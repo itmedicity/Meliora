@@ -305,159 +305,159 @@ const CRFStatusView = ({ crfData, companyData }) => {
                   val.incharge_approve === 1
                     ? 'Approved'
                     : val.incharge_approve === 2
-                    ? 'Rejected'
-                    : val.incharge_approve === 3
-                    ? 'On-Hold'
-                    : 'Not Done',
+                      ? 'Rejected'
+                      : val.incharge_approve === 3
+                        ? 'On-Hold'
+                        : 'Not Done',
                 hod_req: val.hod_req,
                 hod_approve: val.hod_approve,
                 hod:
                   val.hod_approve === 1
                     ? 'Approved'
                     : val.hod_approve === 2
-                    ? 'Rejected'
-                    : val.hod_approve === 3
-                    ? 'On-Hold'
-                    : 'Not Done',
+                      ? 'Rejected'
+                      : val.hod_approve === 3
+                        ? 'On-Hold'
+                        : 'Not Done',
                 dms_req: val.dms_req,
                 dms_approve: val.dms_approve,
                 dms:
                   val.dms_approve === 1
                     ? 'Approved'
                     : val.dms_approve === 2
-                    ? 'Rejected'
-                    : val.dms_approve === 3
-                    ? 'On-Hold'
-                    : val.dms_approve === 4
-                    ? 'Approved'
-                    : 'Not Done',
+                      ? 'Rejected'
+                      : val.dms_approve === 3
+                        ? 'On-Hold'
+                        : val.dms_approve === 4
+                          ? 'Approved'
+                          : 'Not Done',
                 ms_approve_req: val.ms_approve_req,
                 ms_approve: val.ms_approve,
                 ms:
                   val.ms_approve === 1
                     ? 'Approved'
                     : val.ms_approve === 2
-                    ? 'Rejected'
-                    : val.ms_approve === 3
-                    ? 'On-Hold'
-                    : val.ms_approve === 4
-                    ? 'Approved'
-                    : 'Not Done',
+                      ? 'Rejected'
+                      : val.ms_approve === 3
+                        ? 'On-Hold'
+                        : val.ms_approve === 4
+                          ? 'Approved'
+                          : 'Not Done',
                 manag_operation_req: val.manag_operation_req,
                 manag_operation_approv: val.manag_operation_approv,
                 om:
                   val.manag_operation_approv === 1
                     ? 'Approved'
                     : val.manag_operation_approv === 2
-                    ? 'Rejected'
-                    : val.manag_operation_approv === 3
-                    ? 'On-Hold'
-                    : val.manag_operation_approv === 4
-                    ? 'Approved'
-                    : 'Not Done',
+                      ? 'Rejected'
+                      : val.manag_operation_approv === 3
+                        ? 'On-Hold'
+                        : val.manag_operation_approv === 4
+                          ? 'Approved'
+                          : 'Not Done',
                 senior_manage_req: val.senior_manage_req,
                 senior_manage_approv: val.senior_manage_approv,
                 smo:
                   val.senior_manage_approv === 1
                     ? 'Approved'
                     : val.senior_manage_approv === 2
-                    ? 'Rejected'
-                    : val.senior_manage_approv === 3
-                    ? 'On-Hold'
-                    : val.senior_manage_approv === 4
-                    ? 'Approved'
-                    : 'Not Done',
+                      ? 'Rejected'
+                      : val.senior_manage_approv === 3
+                        ? 'On-Hold'
+                        : val.senior_manage_approv === 4
+                          ? 'Approved'
+                          : 'Not Done',
                 gm_approve_req: val.gm_approve_req,
                 gm_approve: val.gm_approve,
                 gm:
                   val.gm_approve === 1
                     ? 'Approved'
                     : val.gm_approve === 2
-                    ? 'Rejected'
-                    : val.gm_approve === 3
-                    ? 'On-Hold'
-                    : val.gm_approve === 4
-                    ? 'Approved'
-                    : 'Not Done',
+                      ? 'Rejected'
+                      : val.gm_approve === 3
+                        ? 'On-Hold'
+                        : val.gm_approve === 4
+                          ? 'Approved'
+                          : 'Not Done',
                 md_approve_req: val.md_approve_req,
                 md_approve: val.md_approve,
                 md:
                   val.md_approve === 1
                     ? 'Approved'
                     : val.md_approve === 2
-                    ? 'Rejected'
-                    : val.md_approve === 3
-                    ? 'On-Hold'
-                    : val.md_approve === 4
-                    ? 'Approved'
-                    : 'Not Done',
+                      ? 'Rejected'
+                      : val.md_approve === 3
+                        ? 'On-Hold'
+                        : val.md_approve === 4
+                          ? 'Approved'
+                          : 'Not Done',
                 ed_approve_req: val.ed_approve_req,
                 ed_approve: val.ed_approve,
                 ed:
                   val.ed_approve === 1
                     ? 'Approved'
                     : val.ed_approve === 2
-                    ? 'Rejected'
-                    : val.ed_approve === 3
-                    ? 'On-Hold'
-                    : val.ed_approve === 4
-                    ? 'Approved'
-                    : 'Not Done',
+                      ? 'Rejected'
+                      : val.ed_approve === 3
+                        ? 'On-Hold'
+                        : val.ed_approve === 4
+                          ? 'Approved'
+                          : 'Not Done',
                 managing:
                   val.managing_director_approve === 1
                     ? 'Approved'
                     : val.managing_director_approve === 2
-                    ? 'Rejected'
-                    : val.managing_director_approve === 3
-                    ? 'On-Hold'
-                    : val.managing_director_approve === 4
-                    ? 'Approved'
-                    : 'Not Done',
+                      ? 'Rejected'
+                      : val.managing_director_approve === 3
+                        ? 'On-Hold'
+                        : val.managing_director_approve === 4
+                          ? 'Approved'
+                          : 'Not Done',
 
                 now_who:
                   val.managing_director_approve !== null
                     ? companyData?.managing_director_name
                     : val.ed_approve !== null
-                    ? companyData?.ed_status_name
-                    : val.md_approve !== null
-                    ? companyData?.md_status_name
-                    : val.gm_approve !== null
-                    ? companyData?.gmo_status_name
-                    : val.senior_manage_approv !== null
-                    ? companyData?.smo_status_name
-                    : val.manag_operation_approv !== null
-                    ? companyData?.mo_status_name
-                    : val.ms_approve !== null
-                    ? companyData?.ms_status_name
-                    : val.dms_approve !== null
-                    ? companyData?.dms_status_name
-                    : val.hod_approve !== null
-                    ? companyData?.hod_status_name
-                    : val.incharge_approve !== null
-                    ? companyData?.incharge_status_name
-                    : 'Not Started',
+                      ? companyData?.ed_status_name
+                      : val.md_approve !== null
+                        ? companyData?.md_status_name
+                        : val.gm_approve !== null
+                          ? companyData?.gmo_status_name
+                          : val.senior_manage_approv !== null
+                            ? companyData?.smo_status_name
+                            : val.manag_operation_approv !== null
+                              ? companyData?.mo_status_name
+                              : val.ms_approve !== null
+                                ? companyData?.ms_status_name
+                                : val.dms_approve !== null
+                                  ? companyData?.dms_status_name
+                                  : val.hod_approve !== null
+                                    ? companyData?.hod_status_name
+                                    : val.incharge_approve !== null
+                                      ? companyData?.incharge_status_name
+                                      : 'Not Started',
                 now_who_status:
                   val.managing_director_approve !== null
                     ? val.managing_director_approve
                     : val.ed_approve !== null
-                    ? val.ed_approve
-                    : val.md_approve !== null
-                    ? val.md_approve
-                    : val.gm_approve !== null
-                    ? val.gm_approve
-                    : val.senior_manage_approv !== null
-                    ? val.senior_manage_approv
-                    : val.manag_operation_approv !== null
-                    ? val.manag_operation_approv
-                    : val.ms_approve !== null
-                    ? val.ms_approve
-                    : val.dms_approve !== null
-                    ? val.dms_approve
-                    : val.hod_approve !== null
-                    ? val.hod_approve
-                    : val.incharge_approve !== null
-                    ? val.incharge_approve
-                    : 0,
+                      ? val.ed_approve
+                      : val.md_approve !== null
+                        ? val.md_approve
+                        : val.gm_approve !== null
+                          ? val.gm_approve
+                          : val.senior_manage_approv !== null
+                            ? val.senior_manage_approv
+                            : val.manag_operation_approv !== null
+                              ? val.manag_operation_approv
+                              : val.ms_approve !== null
+                                ? val.ms_approve
+                                : val.dms_approve !== null
+                                  ? val.dms_approve
+                                  : val.hod_approve !== null
+                                    ? val.hod_approve
+                                    : val.incharge_approve !== null
+                                      ? val.incharge_approve
+                                      : 0,
 
                 dept_id: val.dept_id,
                 dept_name: val.dept_name

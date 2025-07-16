@@ -15,7 +15,7 @@ import {
   getUserAcknow
 } from 'src/api/CommonApiCRF'
 import { format } from 'date-fns'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import CrfStoreDetailedView from './Components/CrfStoreDetailedView'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { getCRSPending } from '../../ComonComponent/CommonApiCallFuctn'
@@ -130,9 +130,8 @@ const CRFStoreStatus = ({ storeData, companyData }) => {
         },
         itemcheck: {
           pending: itemCheckData
-            ? `${new Set(itemCheckData?.map(item => item.checking_item_slno)).size}/${
-                new Set(itemCheckData?.map(item => item.checking_slno)).size
-              }`
+            ? `${new Set(itemCheckData?.map(item => item.checking_item_slno)).size}/${new Set(itemCheckData?.map(item => item.checking_slno)).size
+            }`
             : 0,
           title: 'Total Item/Bill Checked',
           imageView: itemcheckimg,
@@ -193,9 +192,8 @@ const CRFStoreStatus = ({ storeData, companyData }) => {
         },
         itemcheck: {
           pending: itemCheckData
-            ? `${new Set(itemCheckData?.map(item => item.checking_item_slno)).size}/${
-                new Set(itemCheckData?.map(item => item.checking_slno)).size
-              }`
+            ? `${new Set(itemCheckData?.map(item => item.checking_item_slno)).size}/${new Set(itemCheckData?.map(item => item.checking_slno)).size
+            }`
             : 0,
           title: 'Total Item/Bill Checked',
           imageView: itemcheckimg,

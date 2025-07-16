@@ -11,7 +11,7 @@ import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile'
 import ClearSharpIcon from '@mui/icons-material/ClearSharp'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { getCondemSlno } from 'src/api/AssetApis'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 
 const AddDetailOnItem = ({
   addModalOpen,
@@ -70,8 +70,8 @@ const AddDetailOnItem = ({
         ? 'pdf'
         : 'image'
       : file.type.includes('application/pdf')
-      ? 'pdf'
-      : 'image'
+        ? 'pdf'
+        : 'image'
 
     const fileUrl = file.url || URL.createObjectURL(file)
     setPreviewFile({ url: fileUrl, type: fileType })

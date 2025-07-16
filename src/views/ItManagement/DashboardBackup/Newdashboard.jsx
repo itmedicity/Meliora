@@ -611,7 +611,7 @@ const Newdashboard = () => {
 
   return (
     <Fragment>
-      <Paper>
+      <Paper sx={{ width: '100%' }}>
         {
           // alternativedays
           altflag === 1 ? (
@@ -627,747 +627,747 @@ const Newdashboard = () => {
           ) : daysflag === 5 ? (
             <VerificationDaysTable setdaysflag={setdaysflag} />
           ) : // daily
-          daytabflag === 1 ? (
-            <DayCountTable
-              dayTabledata={dayflag === 1 ? daydata : dayflag === 2 ? dueData : dayflag === 3 ? errorData : []}
-              setDaytabflag={setDaytabflag}
-              dayflag={dayflag}
-              count={count}
-              setCount={setCount}
-            />
-          ) : dayflag === 4 ? (
-            <NextDayBackupTable dailycount={dailycount} setDayFlag={setDayFlag} />
-          ) : dayflag === 5 ? (
-            <VerificationDetailTable setDayFlag={setDayFlag} />
-          ) : weektabflag === 1 ? (
-            <WeekCountTable
-              weektableData={
-                weekflag === 1 ? weeklydata : weekflag === 2 ? weekduedata : weekflag === 3 ? weekerrordata : []
-              }
-              setWeektabflag={setWeektabflag}
-              weekflag={weekflag}
-              count={count}
-              setCount={setCount}
-            />
-          ) : weekflag === 4 ? (
-            <NextWeekTable weeklycount={weeklycount} setWeekflag={setWeekflag} />
-          ) : weekflag === 5 ? (
-            <WeekVerificationTable setWeekflag={setWeekflag} />
-          ) : monthtabflag === 1 ? (
-            <CurrentMonthTable
-              monthtabdata={
-                monthflag === 1 ? monthdata : monthflag === 2 ? dueMonthdata : monthflag === 3 ? ErrorMonthdata : []
-              }
-              setMonthtabflag={setMonthtabflag}
-              monthflag={monthflag}
-              count={count}
-              setCount={setCount}
-            />
-          ) : monthflag === 4 ? (
-            <NextMonthTable nextmonthdata={monthlycount} setMonthflag={setMonthflag} />
-          ) : monthflag === 5 ? (
-            <MonthVerificationTAble setMonthflag={setMonthflag} />
-          ) : yeartabflag === 1 ? (
-            <CurrentYearTable
-              yeartabData={
-                yearflag === 1 ? yeardata : yearflag === 2 ? dueYearData : yearflag === 3 ? errorYearData : []
-              }
-              setYeartabflag={setYeartabflag}
-              yearflag={yearflag}
-              count={count}
-              setCount={setCount}
-            />
-          ) : yearflag === 4 ? (
-            <NexrYearTable nextyeardata={yearlycounts} setYearflag={setYearflag} />
-          ) : yearflag === 5 ? (
-            <YearlyVerificationTable setYearflag={setYearflag} />
-          ) : (
-            <CardMasterClose close={backtoHome}>
-              <Box sx={{ px: 1 }}>
-                <Typography sx={{ pl: 1, fontSize: 20 }}> Backup Checks & Monitoring</Typography>
-              </Box>
-              <Paper variant="outlined" sx={{ py: 0.5, height: 100 }}>
-                <Box sx={{ pl: 0.2 }}>
-                  <Typography sx={{ pl: 1 }}>Daily</Typography>
+            daytabflag === 1 ? (
+              <DayCountTable
+                dayTabledata={dayflag === 1 ? daydata : dayflag === 2 ? dueData : dayflag === 3 ? errorData : []}
+                setDaytabflag={setDaytabflag}
+                dayflag={dayflag}
+                count={count}
+                setCount={setCount}
+              />
+            ) : dayflag === 4 ? (
+              <NextDayBackupTable dailycount={dailycount} setDayFlag={setDayFlag} />
+            ) : dayflag === 5 ? (
+              <VerificationDetailTable setDayFlag={setDayFlag} />
+            ) : weektabflag === 1 ? (
+              <WeekCountTable
+                weektableData={
+                  weekflag === 1 ? weeklydata : weekflag === 2 ? weekduedata : weekflag === 3 ? weekerrordata : []
+                }
+                setWeektabflag={setWeektabflag}
+                weekflag={weekflag}
+                count={count}
+                setCount={setCount}
+              />
+            ) : weekflag === 4 ? (
+              <NextWeekTable weeklycount={weeklycount} setWeekflag={setWeekflag} />
+            ) : weekflag === 5 ? (
+              <WeekVerificationTable setWeekflag={setWeekflag} />
+            ) : monthtabflag === 1 ? (
+              <CurrentMonthTable
+                monthtabdata={
+                  monthflag === 1 ? monthdata : monthflag === 2 ? dueMonthdata : monthflag === 3 ? ErrorMonthdata : []
+                }
+                setMonthtabflag={setMonthtabflag}
+                monthflag={monthflag}
+                count={count}
+                setCount={setCount}
+              />
+            ) : monthflag === 4 ? (
+              <NextMonthTable nextmonthdata={monthlycount} setMonthflag={setMonthflag} />
+            ) : monthflag === 5 ? (
+              <MonthVerificationTAble setMonthflag={setMonthflag} />
+            ) : yeartabflag === 1 ? (
+              <CurrentYearTable
+                yeartabData={
+                  yearflag === 1 ? yeardata : yearflag === 2 ? dueYearData : yearflag === 3 ? errorYearData : []
+                }
+                setYeartabflag={setYeartabflag}
+                yearflag={yearflag}
+                count={count}
+                setCount={setCount}
+              />
+            ) : yearflag === 4 ? (
+              <NexrYearTable nextyeardata={yearlycounts} setYearflag={setYearflag} />
+            ) : yearflag === 5 ? (
+              <YearlyVerificationTable setYearflag={setYearflag} />
+            ) : (
+              <CardMasterClose close={backtoHome}>
+                <Box sx={{ px: 1 }}>
+                  <Typography sx={{ pl: 1, fontSize: 20 }}> Backup Checks & Monitoring</Typography>
                 </Box>
-                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                  <Paper
-                    variant="outlined"
-                    sx={{
-                      flex: 1,
-                      mx: 1.5,
-                      width: 300,
-                      height: 60,
-                      display: 'flex',
-                      borderRadius: 2
-                    }}
-                  >
-                    <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
-                      <Typography sx={{ fontSize: 15 }}>Today&apos;s Backup</Typography>
-                    </Box>
-                    <Box sx={{ flex: 1, pt: 1 }}>
-                      <CssVarsProvider>
-                        <Button
-                          variant="outlined"
-                          sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                          onClick={DailyCountDetails}
-                        >
-                          {dayscount}
-                        </Button>
-                      </CssVarsProvider>
-                    </Box>
-                  </Paper>
-                  <Paper
-                    variant="outlined"
-                    sx={{
-                      flex: 1,
-                      mx: 1.5,
-                      width: 300,
-                      height: 60,
-                      display: 'flex',
-                      borderRadius: 2
-                    }}
-                  >
-                    <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
-                      <Typography sx={{ fontSize: 15 }}>Backup Dues</Typography>
-                    </Box>
-                    <Box sx={{ flex: 1, pt: 1 }}>
-                      <CssVarsProvider>
-                        <Button
-                          variant="outlined"
-                          sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                          onClick={DueCountDetails}
-                        >
-                          {dueData.length}
-                        </Button>
-                      </CssVarsProvider>
-                    </Box>
-                  </Paper>
-                  <Paper
-                    variant="outlined"
-                    sx={{
-                      flex: 1,
-                      mx: 1.5,
-                      width: 300,
-                      height: 60,
-                      display: 'flex',
-                      borderRadius: 2
-                    }}
-                  >
-                    <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
-                      <Typography sx={{ fontSize: 15 }}>Backup Errors</Typography>
-                    </Box>
-                    <Box sx={{ flex: 1, pt: 1 }}>
-                      <CssVarsProvider>
-                        <Button
-                          variant="outlined"
-                          sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                          onClick={BackupError}
-                        >
-                          {errorData.length}
-                        </Button>
-                      </CssVarsProvider>
-                    </Box>
-                  </Paper>
-                  <Paper
-                    variant="outlined"
-                    sx={{
-                      flex: 1,
-                      mx: 1.5,
-                      width: 300,
-                      height: 60,
-                      display: 'flex',
-                      borderRadius: 2
-                    }}
-                  >
-                    <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
-                      <Typography sx={{ fontSize: 15 }}>Upcoming Backup</Typography>
-                    </Box>
-                    <Box sx={{ flex: 1, pt: 1 }}>
-                      <CssVarsProvider>
-                        <Button
-                          variant="outlined"
-                          sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                          onClick={BackupTomorrow}
-                        >
-                          {dailycount.length}
-                        </Button>
-                      </CssVarsProvider>
-                    </Box>
-                  </Paper>
-                  <Paper
-                    variant="outlined"
-                    sx={{
-                      flex: 1,
-                      mx: 1.5,
-                      width: 300,
-                      height: 60,
-                      display: 'flex',
-                      borderRadius: 2,
-                      justifyContent: 'center'
-                    }}
-                  >
-                    <Box sx={{ flex: 1, pt: 1, px: 6 }}>
-                      <CssVarsProvider>
-                        <Button
-                          variant="outlined"
-                          sx={{ width: 200, height: 40, borderRadius: 10, fontSize: 14 }}
-                          onClick={ViewVerificationReport}
-                        >
-                          Verification Report
-                        </Button>
-                      </CssVarsProvider>
-                    </Box>
-                  </Paper>
-                </Box>
-              </Paper>
-              {/* weekly */}
-              <Paper variant="outlined" sx={{ py: 0.5, height: 100 }}>
-                <Box sx={{ pl: 0.2 }}>
-                  <Typography sx={{ pl: 1 }}>Weekly</Typography>
-                </Box>
-                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                  <Paper
-                    variant="outlined"
-                    sx={{
-                      flex: 1,
-                      mx: 1.5,
-                      width: 300,
-                      height: 60,
-                      display: 'flex',
-                      borderRadius: 2
-                    }}
-                  >
-                    <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
-                      <Typography sx={{ fontSize: 15 }}>Current week</Typography>
-                    </Box>
-                    <Box sx={{ flex: 1, pt: 1 }}>
-                      <CssVarsProvider>
-                        <Button
-                          variant="outlined"
-                          sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                          onClick={WeeklyCountDetails}
-                        >
-                          {weekcount}
-                        </Button>
-                      </CssVarsProvider>
-                    </Box>
-                  </Paper>
-                  <Paper
-                    variant="outlined"
-                    sx={{
-                      flex: 1,
-                      mx: 1.5,
-                      width: 300,
-                      height: 60,
-                      display: 'flex',
-                      borderRadius: 2
-                    }}
-                  >
-                    <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
-                      <Typography sx={{ fontSize: 15 }}>Backup Dues</Typography>
-                    </Box>
-                    <Box sx={{ flex: 1, pt: 1 }}>
-                      <CssVarsProvider>
-                        <Button
-                          variant="outlined"
-                          sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                          onClick={DueWeekDetails}
-                        >
-                          {weekduedata.length}
-                        </Button>
-                      </CssVarsProvider>
-                    </Box>
-                  </Paper>
-                  <Paper
-                    variant="outlined"
-                    sx={{
-                      flex: 1,
-                      mx: 1.5,
-                      width: 300,
-                      height: 60,
-                      display: 'flex',
-                      borderRadius: 2
-                    }}
-                  >
-                    <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
-                      <Typography sx={{ fontSize: 15 }}>Backup Errors</Typography>
-                    </Box>
-                    <Box sx={{ flex: 1, pt: 1 }}>
-                      <CssVarsProvider>
-                        <Button
-                          variant="outlined"
-                          sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                          onClick={WeekBackupError}
-                        >
-                          {weekerrordata.length}
-                        </Button>
-                      </CssVarsProvider>
-                    </Box>
-                  </Paper>
-                  <Paper
-                    variant="outlined"
-                    sx={{
-                      flex: 1,
-                      mx: 1.5,
-                      width: 300,
-                      height: 60,
-                      display: 'flex',
-                      borderRadius: 2
-                    }}
-                  >
-                    <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
-                      <Typography sx={{ fontSize: 15 }}>Upcoming Backup</Typography>
-                    </Box>
-                    <Box sx={{ flex: 1, pt: 1 }}>
-                      <CssVarsProvider>
-                        <Button
-                          variant="outlined"
-                          sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                          onClick={BackupWeekTomorrow}
-                        >
-                          {weeklycount.length}
-                        </Button>
-                      </CssVarsProvider>
-                    </Box>
-                  </Paper>
-                  <Paper
-                    variant="outlined"
-                    sx={{
-                      flex: 1,
-                      mx: 1.5,
-                      width: 300,
-                      height: 60,
-                      display: 'flex',
-                      borderRadius: 2,
-                      justifyContent: 'center'
-                    }}
-                  >
-                    <Box sx={{ flex: 1, pt: 1, px: 6 }}>
-                      <CssVarsProvider>
-                        <Button
-                          variant="outlined"
-                          sx={{ width: 200, height: 40, borderRadius: 10, fontSize: 14 }}
-                          onClick={WeekVerificationReport}
-                        >
-                          Verification Report
-                        </Button>
-                      </CssVarsProvider>
-                    </Box>
-                  </Paper>
-                </Box>
-              </Paper>
+                <Paper variant="outlined" sx={{ py: 0.5, height: 100 }}>
+                  <Box sx={{ pl: 0.2 }}>
+                    <Typography sx={{ pl: 1 }}>Daily</Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                    <Paper
+                      variant="outlined"
+                      sx={{
+                        flex: 1,
+                        mx: 1.5,
+                        width: 300,
+                        height: 60,
+                        display: 'flex',
+                        borderRadius: 2
+                      }}
+                    >
+                      <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                        <Typography sx={{ fontSize: 15 }}>Today&apos;s Backup</Typography>
+                      </Box>
+                      <Box sx={{ flex: 1, pt: 1 }}>
+                        <CssVarsProvider>
+                          <Button
+                            variant="outlined"
+                            sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                            onClick={DailyCountDetails}
+                          >
+                            {dayscount}
+                          </Button>
+                        </CssVarsProvider>
+                      </Box>
+                    </Paper>
+                    <Paper
+                      variant="outlined"
+                      sx={{
+                        flex: 1,
+                        mx: 1.5,
+                        width: 300,
+                        height: 60,
+                        display: 'flex',
+                        borderRadius: 2
+                      }}
+                    >
+                      <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                        <Typography sx={{ fontSize: 15 }}>Backup Dues</Typography>
+                      </Box>
+                      <Box sx={{ flex: 1, pt: 1 }}>
+                        <CssVarsProvider>
+                          <Button
+                            variant="outlined"
+                            sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                            onClick={DueCountDetails}
+                          >
+                            {dueData.length}
+                          </Button>
+                        </CssVarsProvider>
+                      </Box>
+                    </Paper>
+                    <Paper
+                      variant="outlined"
+                      sx={{
+                        flex: 1,
+                        mx: 1.5,
+                        width: 300,
+                        height: 60,
+                        display: 'flex',
+                        borderRadius: 2
+                      }}
+                    >
+                      <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                        <Typography sx={{ fontSize: 15 }}>Backup Errors</Typography>
+                      </Box>
+                      <Box sx={{ flex: 1, pt: 1 }}>
+                        <CssVarsProvider>
+                          <Button
+                            variant="outlined"
+                            sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                            onClick={BackupError}
+                          >
+                            {errorData.length}
+                          </Button>
+                        </CssVarsProvider>
+                      </Box>
+                    </Paper>
+                    <Paper
+                      variant="outlined"
+                      sx={{
+                        flex: 1,
+                        mx: 1.5,
+                        width: 300,
+                        height: 60,
+                        display: 'flex',
+                        borderRadius: 2
+                      }}
+                    >
+                      <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                        <Typography sx={{ fontSize: 15 }}>Upcoming Backup</Typography>
+                      </Box>
+                      <Box sx={{ flex: 1, pt: 1 }}>
+                        <CssVarsProvider>
+                          <Button
+                            variant="outlined"
+                            sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                            onClick={BackupTomorrow}
+                          >
+                            {dailycount.length}
+                          </Button>
+                        </CssVarsProvider>
+                      </Box>
+                    </Paper>
+                    <Paper
+                      variant="outlined"
+                      sx={{
+                        flex: 1,
+                        mx: 1.5,
+                        width: 300,
+                        height: 60,
+                        display: 'flex',
+                        borderRadius: 2,
+                        justifyContent: 'center'
+                      }}
+                    >
+                      <Box sx={{ flex: 1, pt: 1, px: 6 }}>
+                        <CssVarsProvider>
+                          <Button
+                            variant="outlined"
+                            sx={{ width: 200, height: 40, borderRadius: 10, fontSize: 14 }}
+                            onClick={ViewVerificationReport}
+                          >
+                            Verification Report
+                          </Button>
+                        </CssVarsProvider>
+                      </Box>
+                    </Paper>
+                  </Box>
+                </Paper>
+                {/* weekly */}
+                <Paper variant="outlined" sx={{ py: 0.5, height: 100 }}>
+                  <Box sx={{ pl: 0.2 }}>
+                    <Typography sx={{ pl: 1 }}>Weekly</Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                    <Paper
+                      variant="outlined"
+                      sx={{
+                        flex: 1,
+                        mx: 1.5,
+                        width: 300,
+                        height: 60,
+                        display: 'flex',
+                        borderRadius: 2
+                      }}
+                    >
+                      <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                        <Typography sx={{ fontSize: 15 }}>Current week</Typography>
+                      </Box>
+                      <Box sx={{ flex: 1, pt: 1 }}>
+                        <CssVarsProvider>
+                          <Button
+                            variant="outlined"
+                            sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                            onClick={WeeklyCountDetails}
+                          >
+                            {weekcount}
+                          </Button>
+                        </CssVarsProvider>
+                      </Box>
+                    </Paper>
+                    <Paper
+                      variant="outlined"
+                      sx={{
+                        flex: 1,
+                        mx: 1.5,
+                        width: 300,
+                        height: 60,
+                        display: 'flex',
+                        borderRadius: 2
+                      }}
+                    >
+                      <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                        <Typography sx={{ fontSize: 15 }}>Backup Dues</Typography>
+                      </Box>
+                      <Box sx={{ flex: 1, pt: 1 }}>
+                        <CssVarsProvider>
+                          <Button
+                            variant="outlined"
+                            sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                            onClick={DueWeekDetails}
+                          >
+                            {weekduedata.length}
+                          </Button>
+                        </CssVarsProvider>
+                      </Box>
+                    </Paper>
+                    <Paper
+                      variant="outlined"
+                      sx={{
+                        flex: 1,
+                        mx: 1.5,
+                        width: 300,
+                        height: 60,
+                        display: 'flex',
+                        borderRadius: 2
+                      }}
+                    >
+                      <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                        <Typography sx={{ fontSize: 15 }}>Backup Errors</Typography>
+                      </Box>
+                      <Box sx={{ flex: 1, pt: 1 }}>
+                        <CssVarsProvider>
+                          <Button
+                            variant="outlined"
+                            sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                            onClick={WeekBackupError}
+                          >
+                            {weekerrordata.length}
+                          </Button>
+                        </CssVarsProvider>
+                      </Box>
+                    </Paper>
+                    <Paper
+                      variant="outlined"
+                      sx={{
+                        flex: 1,
+                        mx: 1.5,
+                        width: 300,
+                        height: 60,
+                        display: 'flex',
+                        borderRadius: 2
+                      }}
+                    >
+                      <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                        <Typography sx={{ fontSize: 15 }}>Upcoming Backup</Typography>
+                      </Box>
+                      <Box sx={{ flex: 1, pt: 1 }}>
+                        <CssVarsProvider>
+                          <Button
+                            variant="outlined"
+                            sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                            onClick={BackupWeekTomorrow}
+                          >
+                            {weeklycount.length}
+                          </Button>
+                        </CssVarsProvider>
+                      </Box>
+                    </Paper>
+                    <Paper
+                      variant="outlined"
+                      sx={{
+                        flex: 1,
+                        mx: 1.5,
+                        width: 300,
+                        height: 60,
+                        display: 'flex',
+                        borderRadius: 2,
+                        justifyContent: 'center'
+                      }}
+                    >
+                      <Box sx={{ flex: 1, pt: 1, px: 6 }}>
+                        <CssVarsProvider>
+                          <Button
+                            variant="outlined"
+                            sx={{ width: 200, height: 40, borderRadius: 10, fontSize: 14 }}
+                            onClick={WeekVerificationReport}
+                          >
+                            Verification Report
+                          </Button>
+                        </CssVarsProvider>
+                      </Box>
+                    </Paper>
+                  </Box>
+                </Paper>
 
-              {/* Monthly */}
-              <Paper variant="outlined" sx={{ py: 0.5, height: 100 }}>
-                <Box sx={{ pl: 0.2 }}>
-                  <Typography sx={{ pl: 1 }}>Monthly</Typography>
-                </Box>
-                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                  <Paper
-                    variant="outlined"
-                    sx={{
-                      flex: 1,
-                      mx: 1.5,
-                      width: 300,
-                      height: 60,
-                      display: 'flex',
-                      borderRadius: 2
-                    }}
-                  >
-                    <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
-                      <Typography sx={{ fontSize: 15 }}>Current Month</Typography>
-                    </Box>
-                    <Box sx={{ flex: 1, pt: 1 }}>
-                      <CssVarsProvider>
-                        <Button
-                          variant="outlined"
-                          sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                          onClick={MonthlyDetails}
-                        >
-                          {monthcount}
-                        </Button>
-                      </CssVarsProvider>
-                    </Box>
-                  </Paper>
-                  <Paper
-                    variant="outlined"
-                    sx={{
-                      flex: 1,
-                      mx: 1.5,
-                      width: 300,
-                      height: 60,
-                      display: 'flex',
-                      borderRadius: 2
-                    }}
-                  >
-                    <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
-                      <Typography sx={{ fontSize: 15 }}>Backup Dues</Typography>
-                    </Box>
-                    <Box sx={{ flex: 1, pt: 1 }}>
-                      <CssVarsProvider>
-                        <Button
-                          variant="outlined"
-                          sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                          onClick={DueMonthDetails}
-                        >
-                          {dueMonthdata.length}
-                        </Button>
-                      </CssVarsProvider>
-                    </Box>
-                  </Paper>
-                  <Paper
-                    variant="outlined"
-                    sx={{
-                      flex: 1,
-                      mx: 1.5,
-                      width: 300,
-                      height: 60,
-                      display: 'flex',
-                      borderRadius: 2
-                    }}
-                  >
-                    <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
-                      <Typography sx={{ fontSize: 15 }}>Backup Errors</Typography>
-                    </Box>
-                    <Box sx={{ flex: 1, pt: 1 }}>
-                      <CssVarsProvider>
-                        <Button
-                          variant="outlined"
-                          sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                          onClick={MonthBackupError}
-                        >
-                          {ErrorMonthdata.length}
-                        </Button>
-                      </CssVarsProvider>
-                    </Box>
-                  </Paper>
-                  <Paper
-                    variant="outlined"
-                    sx={{
-                      flex: 1,
-                      mx: 1.5,
-                      width: 300,
-                      height: 60,
-                      display: 'flex',
-                      borderRadius: 2
-                    }}
-                  >
-                    <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
-                      <Typography sx={{ fontSize: 15 }}>Upcoming Backup</Typography>
-                    </Box>
-                    <Box sx={{ flex: 1, pt: 1 }}>
-                      <CssVarsProvider>
-                        <Button
-                          variant="outlined"
-                          sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                          onClick={NextMonthBackupDetails}
-                        >
-                          {monthlycount.length}
-                        </Button>
-                      </CssVarsProvider>
-                    </Box>
-                  </Paper>
-                  <Paper
-                    variant="outlined"
-                    sx={{
-                      flex: 1,
-                      mx: 1.5,
-                      width: 300,
-                      height: 60,
-                      display: 'flex',
-                      borderRadius: 2,
-                      justifyContent: 'center'
-                    }}
-                  >
-                    <Box sx={{ flex: 1, pt: 1, px: 6 }}>
-                      <CssVarsProvider>
-                        <Button
-                          variant="outlined"
-                          sx={{ width: 200, height: 40, borderRadius: 10, fontSize: 14 }}
-                          onClick={MonthVerificationReport}
-                        >
-                          Verification Report
-                        </Button>
-                      </CssVarsProvider>
-                    </Box>
-                  </Paper>
-                </Box>
-              </Paper>
-              {/* Yearly */}
-              <Paper variant="outlined" sx={{ py: 0.5, height: 100 }}>
-                <Box sx={{ pl: 0.2 }}>
-                  <Typography sx={{ pl: 1 }}>Yearly</Typography>
-                </Box>
-                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                  <Paper
-                    variant="outlined"
-                    sx={{
-                      flex: 1,
-                      mx: 1.5,
-                      width: 300,
-                      height: 60,
-                      display: 'flex',
-                      borderRadius: 2
-                    }}
-                  >
-                    <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
-                      <Typography sx={{ fontSize: 15 }}>Current Year</Typography>
-                    </Box>
-                    <Box sx={{ flex: 1, pt: 1 }}>
-                      <CssVarsProvider>
-                        <Button
-                          variant="outlined"
-                          sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                          onClick={YearlyDetails}
-                        >
-                          {yearcount}
-                        </Button>
-                      </CssVarsProvider>
-                    </Box>
-                  </Paper>
-                  <Paper
-                    variant="outlined"
-                    sx={{
-                      flex: 1,
-                      mx: 1.5,
-                      width: 300,
-                      height: 60,
-                      display: 'flex',
-                      borderRadius: 2
-                    }}
-                  >
-                    <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
-                      <Typography sx={{ fontSize: 15 }}>Backup Dues</Typography>
-                    </Box>
-                    <Box sx={{ flex: 1, pt: 1 }}>
-                      <CssVarsProvider>
-                        <Button
-                          variant="outlined"
-                          sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                          onClick={DueYearDetails}
-                        >
-                          {dueYearData.length}
-                        </Button>
-                      </CssVarsProvider>
-                    </Box>
-                  </Paper>
-                  <Paper
-                    variant="outlined"
-                    sx={{
-                      flex: 1,
-                      mx: 1.5,
-                      width: 300,
-                      height: 60,
-                      display: 'flex',
-                      borderRadius: 2
-                    }}
-                  >
-                    <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
-                      <Typography sx={{ fontSize: 15 }}>Backup Errors</Typography>
-                    </Box>
-                    <Box sx={{ flex: 1, pt: 1 }}>
-                      <CssVarsProvider>
-                        <Button
-                          variant="outlined"
-                          sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                          onClick={YearBackupErrorDetails}
-                        >
-                          {errorYearData.length}
-                        </Button>
-                      </CssVarsProvider>
-                    </Box>
-                  </Paper>
-                  <Paper
-                    variant="outlined"
-                    sx={{
-                      flex: 1,
-                      mx: 1.5,
-                      width: 300,
-                      height: 60,
-                      display: 'flex',
-                      borderRadius: 2
-                    }}
-                  >
-                    <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
-                      <Typography sx={{ fontSize: 15 }}>Upcoming Backup</Typography>
-                    </Box>
-                    <Box sx={{ flex: 1, pt: 1 }}>
-                      <CssVarsProvider>
-                        <Button
-                          variant="outlined"
-                          sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                          onClick={NextYearBackupDetails}
-                        >
-                          {yearlycounts.length}
-                        </Button>
-                      </CssVarsProvider>
-                    </Box>
-                  </Paper>
-                  <Paper
-                    variant="outlined"
-                    sx={{
-                      flex: 1,
-                      mx: 1.5,
-                      width: 300,
-                      height: 60,
-                      display: 'flex',
-                      borderRadius: 2,
-                      justifyContent: 'center'
-                    }}
-                  >
-                    <Box sx={{ flex: 1, pt: 1, px: 6 }}>
-                      <CssVarsProvider>
-                        <Button
-                          variant="outlined"
-                          sx={{ width: 200, height: 40, borderRadius: 10, fontSize: 14 }}
-                          onClick={YearlyVerificationReport}
-                        >
-                          Verification Report
-                        </Button>
-                      </CssVarsProvider>
-                    </Box>
-                  </Paper>
-                </Box>
-              </Paper>
-              {/* Selected days */}
-              <Paper variant="outlined" sx={{ py: 0.5, height: 100 }}>
-                <Box sx={{ pl: 0.2 }}>
-                  <Typography sx={{ pl: 1 }}>Alternative Days</Typography>
-                </Box>
-                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                  <Paper
-                    variant="outlined"
-                    sx={{
-                      flex: 1,
-                      mx: 1.5,
-                      width: 300,
-                      height: 60,
-                      display: 'flex',
-                      borderRadius: 2
-                    }}
-                  >
-                    <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
-                      <Typography sx={{ fontSize: 15 }}>Today&apos;s Backup</Typography>
-                    </Box>
-                    <Box sx={{ flex: 1, pt: 1 }}>
-                      <CssVarsProvider>
-                        <Button
-                          variant="outlined"
-                          sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                          onClick={SelectedDaysDetails}
-                        >
-                          {altcount}
-                        </Button>
-                      </CssVarsProvider>
-                    </Box>
-                  </Paper>
-                  <Paper
-                    variant="outlined"
-                    sx={{
-                      flex: 1,
-                      mx: 1.5,
-                      width: 300,
-                      height: 60,
-                      display: 'flex',
-                      borderRadius: 2
-                    }}
-                  >
-                    <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
-                      <Typography sx={{ fontSize: 15 }}>Backup Dues</Typography>
-                    </Box>
-                    <Box sx={{ flex: 1, pt: 1 }}>
-                      <CssVarsProvider>
-                        <Button
-                          variant="outlined"
-                          sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                          onClick={DueSelectedDays}
-                        >
-                          {daysdue.length}
-                        </Button>
-                      </CssVarsProvider>
-                    </Box>
-                  </Paper>
-                  <Paper
-                    variant="outlined"
-                    sx={{
-                      flex: 1,
-                      mx: 1.5,
-                      width: 300,
-                      height: 60,
-                      display: 'flex',
-                      borderRadius: 2
-                    }}
-                  >
-                    <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
-                      <Typography sx={{ fontSize: 15 }}>Backup Errors</Typography>
-                    </Box>
-                    <Box sx={{ flex: 1, pt: 1 }}>
-                      <CssVarsProvider>
-                        <Button
-                          variant="outlined"
-                          sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                          onClick={ErrorSelectedDays}
-                        >
-                          {dayserror.length}
-                        </Button>
-                      </CssVarsProvider>
-                    </Box>
-                  </Paper>
-                  <Paper
-                    variant="outlined"
-                    sx={{
-                      flex: 1,
-                      mx: 1.5,
-                      width: 300,
-                      height: 60,
-                      display: 'flex',
-                      borderRadius: 2
-                    }}
-                  >
-                    <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
-                      <Typography sx={{ fontSize: 15 }}>Upcoming Backup</Typography>
-                    </Box>
-                    <Box sx={{ flex: 1, pt: 1 }}>
-                      <CssVarsProvider>
-                        <Button
-                          variant="outlined"
-                          sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
-                          onClick={NextSelectedDays}
-                        >
-                          {daysnext.length}
-                        </Button>
-                      </CssVarsProvider>
-                    </Box>
-                  </Paper>
-                  <Paper
-                    variant="outlined"
-                    sx={{
-                      flex: 1,
-                      mx: 1.5,
-                      width: 300,
-                      height: 60,
-                      display: 'flex',
-                      borderRadius: 2,
-                      justifyContent: 'center'
-                    }}
-                  >
-                    <Box sx={{ flex: 1, pt: 1, px: 6 }}>
-                      <CssVarsProvider>
-                        <Button
-                          variant="outlined"
-                          sx={{ width: 200, height: 40, borderRadius: 10, fontSize: 14 }}
-                          onClick={getVerificationReport}
-                        >
-                          Verification Report
-                        </Button>
-                      </CssVarsProvider>
-                    </Box>
-                  </Paper>
-                </Box>
-              </Paper>
-            </CardMasterClose>
-          )
+                {/* Monthly */}
+                <Paper variant="outlined" sx={{ py: 0.5, height: 100 }}>
+                  <Box sx={{ pl: 0.2 }}>
+                    <Typography sx={{ pl: 1 }}>Monthly</Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                    <Paper
+                      variant="outlined"
+                      sx={{
+                        flex: 1,
+                        mx: 1.5,
+                        width: 300,
+                        height: 60,
+                        display: 'flex',
+                        borderRadius: 2
+                      }}
+                    >
+                      <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                        <Typography sx={{ fontSize: 15 }}>Current Month</Typography>
+                      </Box>
+                      <Box sx={{ flex: 1, pt: 1 }}>
+                        <CssVarsProvider>
+                          <Button
+                            variant="outlined"
+                            sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                            onClick={MonthlyDetails}
+                          >
+                            {monthcount}
+                          </Button>
+                        </CssVarsProvider>
+                      </Box>
+                    </Paper>
+                    <Paper
+                      variant="outlined"
+                      sx={{
+                        flex: 1,
+                        mx: 1.5,
+                        width: 300,
+                        height: 60,
+                        display: 'flex',
+                        borderRadius: 2
+                      }}
+                    >
+                      <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                        <Typography sx={{ fontSize: 15 }}>Backup Dues</Typography>
+                      </Box>
+                      <Box sx={{ flex: 1, pt: 1 }}>
+                        <CssVarsProvider>
+                          <Button
+                            variant="outlined"
+                            sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                            onClick={DueMonthDetails}
+                          >
+                            {dueMonthdata.length}
+                          </Button>
+                        </CssVarsProvider>
+                      </Box>
+                    </Paper>
+                    <Paper
+                      variant="outlined"
+                      sx={{
+                        flex: 1,
+                        mx: 1.5,
+                        width: 300,
+                        height: 60,
+                        display: 'flex',
+                        borderRadius: 2
+                      }}
+                    >
+                      <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                        <Typography sx={{ fontSize: 15 }}>Backup Errors</Typography>
+                      </Box>
+                      <Box sx={{ flex: 1, pt: 1 }}>
+                        <CssVarsProvider>
+                          <Button
+                            variant="outlined"
+                            sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                            onClick={MonthBackupError}
+                          >
+                            {ErrorMonthdata.length}
+                          </Button>
+                        </CssVarsProvider>
+                      </Box>
+                    </Paper>
+                    <Paper
+                      variant="outlined"
+                      sx={{
+                        flex: 1,
+                        mx: 1.5,
+                        width: 300,
+                        height: 60,
+                        display: 'flex',
+                        borderRadius: 2
+                      }}
+                    >
+                      <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                        <Typography sx={{ fontSize: 15 }}>Upcoming Backup</Typography>
+                      </Box>
+                      <Box sx={{ flex: 1, pt: 1 }}>
+                        <CssVarsProvider>
+                          <Button
+                            variant="outlined"
+                            sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                            onClick={NextMonthBackupDetails}
+                          >
+                            {monthlycount.length}
+                          </Button>
+                        </CssVarsProvider>
+                      </Box>
+                    </Paper>
+                    <Paper
+                      variant="outlined"
+                      sx={{
+                        flex: 1,
+                        mx: 1.5,
+                        width: 300,
+                        height: 60,
+                        display: 'flex',
+                        borderRadius: 2,
+                        justifyContent: 'center'
+                      }}
+                    >
+                      <Box sx={{ flex: 1, pt: 1, px: 6 }}>
+                        <CssVarsProvider>
+                          <Button
+                            variant="outlined"
+                            sx={{ width: 200, height: 40, borderRadius: 10, fontSize: 14 }}
+                            onClick={MonthVerificationReport}
+                          >
+                            Verification Report
+                          </Button>
+                        </CssVarsProvider>
+                      </Box>
+                    </Paper>
+                  </Box>
+                </Paper>
+                {/* Yearly */}
+                <Paper variant="outlined" sx={{ py: 0.5, height: 100 }}>
+                  <Box sx={{ pl: 0.2 }}>
+                    <Typography sx={{ pl: 1 }}>Yearly</Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                    <Paper
+                      variant="outlined"
+                      sx={{
+                        flex: 1,
+                        mx: 1.5,
+                        width: 300,
+                        height: 60,
+                        display: 'flex',
+                        borderRadius: 2
+                      }}
+                    >
+                      <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                        <Typography sx={{ fontSize: 15 }}>Current Year</Typography>
+                      </Box>
+                      <Box sx={{ flex: 1, pt: 1 }}>
+                        <CssVarsProvider>
+                          <Button
+                            variant="outlined"
+                            sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                            onClick={YearlyDetails}
+                          >
+                            {yearcount}
+                          </Button>
+                        </CssVarsProvider>
+                      </Box>
+                    </Paper>
+                    <Paper
+                      variant="outlined"
+                      sx={{
+                        flex: 1,
+                        mx: 1.5,
+                        width: 300,
+                        height: 60,
+                        display: 'flex',
+                        borderRadius: 2
+                      }}
+                    >
+                      <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                        <Typography sx={{ fontSize: 15 }}>Backup Dues</Typography>
+                      </Box>
+                      <Box sx={{ flex: 1, pt: 1 }}>
+                        <CssVarsProvider>
+                          <Button
+                            variant="outlined"
+                            sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                            onClick={DueYearDetails}
+                          >
+                            {dueYearData.length}
+                          </Button>
+                        </CssVarsProvider>
+                      </Box>
+                    </Paper>
+                    <Paper
+                      variant="outlined"
+                      sx={{
+                        flex: 1,
+                        mx: 1.5,
+                        width: 300,
+                        height: 60,
+                        display: 'flex',
+                        borderRadius: 2
+                      }}
+                    >
+                      <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                        <Typography sx={{ fontSize: 15 }}>Backup Errors</Typography>
+                      </Box>
+                      <Box sx={{ flex: 1, pt: 1 }}>
+                        <CssVarsProvider>
+                          <Button
+                            variant="outlined"
+                            sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                            onClick={YearBackupErrorDetails}
+                          >
+                            {errorYearData.length}
+                          </Button>
+                        </CssVarsProvider>
+                      </Box>
+                    </Paper>
+                    <Paper
+                      variant="outlined"
+                      sx={{
+                        flex: 1,
+                        mx: 1.5,
+                        width: 300,
+                        height: 60,
+                        display: 'flex',
+                        borderRadius: 2
+                      }}
+                    >
+                      <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                        <Typography sx={{ fontSize: 15 }}>Upcoming Backup</Typography>
+                      </Box>
+                      <Box sx={{ flex: 1, pt: 1 }}>
+                        <CssVarsProvider>
+                          <Button
+                            variant="outlined"
+                            sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                            onClick={NextYearBackupDetails}
+                          >
+                            {yearlycounts.length}
+                          </Button>
+                        </CssVarsProvider>
+                      </Box>
+                    </Paper>
+                    <Paper
+                      variant="outlined"
+                      sx={{
+                        flex: 1,
+                        mx: 1.5,
+                        width: 300,
+                        height: 60,
+                        display: 'flex',
+                        borderRadius: 2,
+                        justifyContent: 'center'
+                      }}
+                    >
+                      <Box sx={{ flex: 1, pt: 1, px: 6 }}>
+                        <CssVarsProvider>
+                          <Button
+                            variant="outlined"
+                            sx={{ width: 200, height: 40, borderRadius: 10, fontSize: 14 }}
+                            onClick={YearlyVerificationReport}
+                          >
+                            Verification Report
+                          </Button>
+                        </CssVarsProvider>
+                      </Box>
+                    </Paper>
+                  </Box>
+                </Paper>
+                {/* Selected days */}
+                <Paper variant="outlined" sx={{ py: 0.5, height: 100 }}>
+                  <Box sx={{ pl: 0.2 }}>
+                    <Typography sx={{ pl: 1 }}>Alternative Days</Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                    <Paper
+                      variant="outlined"
+                      sx={{
+                        flex: 1,
+                        mx: 1.5,
+                        width: 300,
+                        height: 60,
+                        display: 'flex',
+                        borderRadius: 2
+                      }}
+                    >
+                      <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                        <Typography sx={{ fontSize: 15 }}>Today&apos;s Backup</Typography>
+                      </Box>
+                      <Box sx={{ flex: 1, pt: 1 }}>
+                        <CssVarsProvider>
+                          <Button
+                            variant="outlined"
+                            sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                            onClick={SelectedDaysDetails}
+                          >
+                            {altcount}
+                          </Button>
+                        </CssVarsProvider>
+                      </Box>
+                    </Paper>
+                    <Paper
+                      variant="outlined"
+                      sx={{
+                        flex: 1,
+                        mx: 1.5,
+                        width: 300,
+                        height: 60,
+                        display: 'flex',
+                        borderRadius: 2
+                      }}
+                    >
+                      <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                        <Typography sx={{ fontSize: 15 }}>Backup Dues</Typography>
+                      </Box>
+                      <Box sx={{ flex: 1, pt: 1 }}>
+                        <CssVarsProvider>
+                          <Button
+                            variant="outlined"
+                            sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                            onClick={DueSelectedDays}
+                          >
+                            {daysdue.length}
+                          </Button>
+                        </CssVarsProvider>
+                      </Box>
+                    </Paper>
+                    <Paper
+                      variant="outlined"
+                      sx={{
+                        flex: 1,
+                        mx: 1.5,
+                        width: 300,
+                        height: 60,
+                        display: 'flex',
+                        borderRadius: 2
+                      }}
+                    >
+                      <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                        <Typography sx={{ fontSize: 15 }}>Backup Errors</Typography>
+                      </Box>
+                      <Box sx={{ flex: 1, pt: 1 }}>
+                        <CssVarsProvider>
+                          <Button
+                            variant="outlined"
+                            sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                            onClick={ErrorSelectedDays}
+                          >
+                            {dayserror.length}
+                          </Button>
+                        </CssVarsProvider>
+                      </Box>
+                    </Paper>
+                    <Paper
+                      variant="outlined"
+                      sx={{
+                        flex: 1,
+                        mx: 1.5,
+                        width: 300,
+                        height: 60,
+                        display: 'flex',
+                        borderRadius: 2
+                      }}
+                    >
+                      <Box sx={{ flex: 3, pt: 2, pl: 2 }}>
+                        <Typography sx={{ fontSize: 15 }}>Upcoming Backup</Typography>
+                      </Box>
+                      <Box sx={{ flex: 1, pt: 1 }}>
+                        <CssVarsProvider>
+                          <Button
+                            variant="outlined"
+                            sx={{ width: 40, height: 40, borderRadius: 10, fontSize: 20 }}
+                            onClick={NextSelectedDays}
+                          >
+                            {daysnext.length}
+                          </Button>
+                        </CssVarsProvider>
+                      </Box>
+                    </Paper>
+                    <Paper
+                      variant="outlined"
+                      sx={{
+                        flex: 1,
+                        mx: 1.5,
+                        width: 300,
+                        height: 60,
+                        display: 'flex',
+                        borderRadius: 2,
+                        justifyContent: 'center'
+                      }}
+                    >
+                      <Box sx={{ flex: 1, pt: 1, px: 6 }}>
+                        <CssVarsProvider>
+                          <Button
+                            variant="outlined"
+                            sx={{ width: 200, height: 40, borderRadius: 10, fontSize: 14 }}
+                            onClick={getVerificationReport}
+                          >
+                            Verification Report
+                          </Button>
+                        </CssVarsProvider>
+                      </Box>
+                    </Paper>
+                  </Box>
+                </Paper>
+              </CardMasterClose>
+            )
         }
       </Paper>
     </Fragment>

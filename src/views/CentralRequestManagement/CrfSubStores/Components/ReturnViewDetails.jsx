@@ -1,7 +1,7 @@
 import { Box, Button, CssVarsProvider, Modal, ModalClose, ModalDialog, Textarea, Typography } from '@mui/joy'
 import { format } from 'date-fns'
 import React, { memo, useCallback, useEffect, useState } from 'react'
-import { useQueryClient } from 'react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { useSelector } from 'react-redux'
 import { Virtuoso } from 'react-virtuoso'
 import { axioslogin } from 'src/views/Axios/Axios'

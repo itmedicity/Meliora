@@ -4,7 +4,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './scss/style.scss'
 import BackDrop from './views/Components/BackDrop'
 import Protected from './views/Protected/Protected'
-import { QueryClientProvider, QueryClient } from 'react-query'
+// import { QueryClientProvider, QueryClient } from 'react-query'
+
 import NotFound from './NotFound/NotFound'
 
 import '@fontsource/roboto' // Defaults to weight 400
@@ -19,6 +20,7 @@ import '@fontsource/roboto/800.css' // Bold
 import '@fontsource/roboto/900.css' // Bold
 import { ToastContainer } from 'react-toastify'
 import ErrorPage from './NotFound/ErrorPage'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 const queryClient = new QueryClient()
 

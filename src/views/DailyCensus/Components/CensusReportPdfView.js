@@ -2,7 +2,9 @@ import moment from 'moment'
 import pdfMake from 'pdfmake/build/pdfmake'
 import pdfFonts from 'pdfmake/build/vfs_fonts'
 
-pdfMake.vfs = pdfFonts.pdfMake.vfs
+// pdfMake.vfs = pdfFonts.pdfMake.vfs
+pdfMake.vfs = pdfFonts.vfs
+
 
 export const CensusReportPdfView = async (tableData, dailyDate, calculateTotal) => {
   const {

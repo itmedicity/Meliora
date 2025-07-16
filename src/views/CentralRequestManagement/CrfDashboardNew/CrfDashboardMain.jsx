@@ -9,7 +9,7 @@ import {
 } from 'src/redux/actions/CrmDashBoardList.action'
 import DashboardSkeleton from './Components/DashboardSkeleton'
 import { getDefaultCompany } from 'src/api/CommonApiCRF'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { axioslogin } from 'src/views/Axios/Axios'
 
 const CRFStatusView = React.lazy(() => import('./CRFStatus/CRFStatusView'))
@@ -111,57 +111,57 @@ const CrfDashboardMain = () => {
   const firstTabKey = availableTabs[0]?.key
 
   return (
-    <Paper variant="outlined" sx={{ bgcolor: '#F8F8F8' }}>
-      <CssVarsProvider>
-        {availableTabs?.length > 0 && (
-          <Tabs aria-label="CRF Dashboard Tabs" defaultValue={firstTabKey} sx={{ bgcolor: '#F0F4F8' }}>
-            <TabList
-              disableUnderline
-              sx={{
-                m: 0.6,
-                gap: 0.5,
-                pb: 0.3,
-                borderRadius: 'xl',
-                [`& .${tabClasses.root}[aria-selected="true"]`]: {
-                  boxShadow: 'sm',
-                  backgroundColor: '#0277bd',
-                  color: 'white'
-                }
-              }}
-            >
-              {availableTabs?.map(tab => (
-                <Tab
-                  key={tab.key}
-                  value={tab.key}
-                  disableIndicator
-                  sx={{
-                    ml: 0.5,
-                    height: 50,
-                    borderTopLeftRadius: 200,
-                    bgcolor: 'white',
-                    border: '1px solid #c5cae9',
-                    transition: 'transform 0.2s',
-                    boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.1)',
-                    width: 250,
-                    '&:hover': {
-                      transform: 'scale(1.01)',
-                      bgcolor: 'white'
-                    }
-                  }}
-                >
-                  {tab.label}
-                </Tab>
-              ))}
-            </TabList>
-
+    <Paper variant="outlined" sx={{ bgcolor: '#F8F8F8', width: "100%" }}>
+      {/* <CssVarsProvider> */}
+      {availableTabs?.length > 0 && (
+        <Tabs aria-label="CRF Dashboard Tabs" defaultValue={firstTabKey} sx={{ bgcolor: '#F0F4F8' }}>
+          <TabList
+            disableUnderline
+            sx={{
+              m: 0.6,
+              gap: 0.5,
+              pb: 0.3,
+              borderRadius: 'xl',
+              [`& .${tabClasses.root}[aria-selected="true"]`]: {
+                boxShadow: 'sm',
+                backgroundColor: 'var(--royal-purple-300)',
+                color: 'white'
+              }
+            }}
+          >
             {availableTabs?.map(tab => (
-              <TabPanel key={tab.key} value={tab.key} sx={{ p: 0 }}>
-                <Suspense fallback={<DashboardSkeleton />}>{tab.component}</Suspense>
-              </TabPanel>
+              <Tab
+                key={tab.key}
+                value={tab.key}
+                disableIndicator
+                sx={{
+                  ml: 0.5,
+                  height: 50,
+                  borderTopLeftRadius: 200,
+                  bgcolor: 'white',
+                  border: '1px solid #c5cae9',
+                  transition: 'transform 0.2s',
+                  boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.1)',
+                  width: 250,
+                  '&:hover': {
+                    transform: 'scale(1.01)',
+                    bgcolor: 'white'
+                  }
+                }}
+              >
+                {tab.label}
+              </Tab>
             ))}
-          </Tabs>
-        )}
-      </CssVarsProvider>
+          </TabList>
+
+          {availableTabs?.map(tab => (
+            <TabPanel key={tab.key} value={tab.key} sx={{ p: 0 }}>
+              <Suspense fallback={<DashboardSkeleton />}>{tab.component}</Suspense>
+            </TabPanel>
+          ))}
+        </Tabs>
+      )}
+      {/* </CssVarsProvider> */}
     </Paper>
   )
 }

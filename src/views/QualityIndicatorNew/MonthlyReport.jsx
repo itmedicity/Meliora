@@ -104,7 +104,7 @@ const MonthlyReport = () => {
   }, [searchDate, qitype, qidept])
 
   return (
-    <Box sx={{ maxHeight: window.innerHeight - 70 }}>
+    <Box sx={{ maxHeight: window.innerHeight - 70, width: '100%' }}>
       <Paper variant="outlined" square sx={{ display: 'flex', flex: 1, height: 40 }}>
         <Box sx={{ pl: 0.7, pt: 1 }}>
           <AssessmentOutlinedIcon sx={{ color: 'lightslategray', height: 26, width: 26 }} />

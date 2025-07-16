@@ -2,7 +2,8 @@ import pdfMake from 'pdfmake/build/pdfmake'
 import pdfFonts from 'pdfmake/build/vfs_fonts'
 import { format } from 'date-fns'
 import { edsign, mdsign, snow } from 'src/views/Constant/Static'
-pdfMake.vfs = pdfFonts.pdfMake.vfs
+// pdfMake.vfs = pdfFonts.pdfMake.vfs
+pdfMake.vfs = pdfFonts.vfs
 
 export const CrfPdfWithDetails = (val, reqDetails, dataa) => {
   const {
@@ -181,15 +182,15 @@ export const CrfPdfWithDetails = (val, reqDetails, dataa) => {
             ]
           ].concat(
             reqDetails &&
-              reqDetails.map(val => [
-                { text: val.item_slno, fontSize: 8 },
-                { text: val.item_desc, fontSize: 8 },
-                { text: val.item_brand, fontSize: 8 },
-                { text: val.uom_name, fontSize: 8 },
-                { text: val.item_qnty, fontSize: 8 },
-                { text: val.item_specification, fontSize: 8 },
-                { text: val.aprox_cost, fontSize: 8 }
-              ])
+            reqDetails.map(val => [
+              { text: val.item_slno, fontSize: 8 },
+              { text: val.item_desc, fontSize: 8 },
+              { text: val.item_brand, fontSize: 8 },
+              { text: val.uom_name, fontSize: 8 },
+              { text: val.item_qnty, fontSize: 8 },
+              { text: val.item_specification, fontSize: 8 },
+              { text: val.aprox_cost, fontSize: 8 }
+            ])
           )
         }
       },
@@ -271,15 +272,15 @@ export const CrfPdfWithDetails = (val, reqDetails, dataa) => {
             ]
           ].concat(
             dataa &&
-              dataa.map((val, index) => [
-                { text: index + 1, fontSize: 8 },
-                { text: val.approve_item_desc, fontSize: 8 },
-                { text: val.approve_item_brand, fontSize: 8 },
-                { text: val.apprv_uom, fontSize: 8 },
-                { text: val.item_qnty_approved, fontSize: 8 },
-                { text: val.approve_item_specification, fontSize: 8 },
-                { text: val.approve_aprox_cost, fontSize: 8 }
-              ])
+            dataa.map((val, index) => [
+              { text: index + 1, fontSize: 8 },
+              { text: val.approve_item_desc, fontSize: 8 },
+              { text: val.approve_item_brand, fontSize: 8 },
+              { text: val.apprv_uom, fontSize: 8 },
+              { text: val.item_qnty_approved, fontSize: 8 },
+              { text: val.approve_item_specification, fontSize: 8 },
+              { text: val.approve_aprox_cost, fontSize: 8 }
+            ])
           )
         }
       },

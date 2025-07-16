@@ -6,7 +6,7 @@ import CusIconButton from 'src/views/Components/CusIconButton'
 import TextComponent from 'src/views/Components/TextComponent'
 import CloseIcon from '@mui/icons-material/Close'
 import { getCustodianDept, getDeptSecAssetList } from 'src/api/AssetApis'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useDispatch, useSelector } from 'react-redux'
 import { getRoomsNameNdTypeList } from 'src/redux/actions/CmRoomNameNdTypeList.action'
 import KeyboardHideIcon from '@mui/icons-material/KeyboardHide'
@@ -77,7 +77,7 @@ const DepartmentAssetMain = () => {
   }, [history])
 
   return (
-    <Paper sx={{ borderRadius: 0, height: '90vh' }}>
+    <Paper sx={{ borderRadius: 0, height: '90vh', width: '100%' }}>
       <CssVarsProvider>
         <Box sx={{ flex: 1, display: 'flex', borderBottom: 1, borderColor: '#D0D0D0' }}>
           <TextComponent

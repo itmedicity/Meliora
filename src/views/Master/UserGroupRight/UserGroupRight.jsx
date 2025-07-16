@@ -43,7 +43,7 @@ const UserGroupRight = () => {
           <CheckCircleOutlinedIcon
             size="small"
             color={dataa.data.menu_view === 1 ? 'primary' : 'secondary'}
-            onClick={e => onclickk(dataa.data)}
+            onClick={() => onclickk(dataa.data)}
           />
         )
       }

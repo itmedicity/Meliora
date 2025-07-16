@@ -79,45 +79,45 @@ const EditTaskInDir = ({
     tm_task_status === 1
       ? true
       : tm_task_status === 2
-      ? false
-      : tm_task_status === 3
-      ? false
-      : tm_task_status === 4
-      ? false
-      : false
+        ? false
+        : tm_task_status === 3
+          ? false
+          : tm_task_status === 4
+            ? false
+            : false
   )
   const [onProgress, setOnProgress] = useState(
     tm_task_status === 2
       ? true
       : tm_task_status === 1
-      ? false
-      : tm_task_status === 3
-      ? false
-      : tm_task_status === 4
-      ? false
-      : false
+        ? false
+        : tm_task_status === 3
+          ? false
+          : tm_task_status === 4
+            ? false
+            : false
   )
   const [onHold, setOnHold] = useState(
     tm_task_status === 3
       ? true
       : tm_task_status === 1
-      ? false
-      : tm_task_status === 2
-      ? false
-      : tm_task_status === 4
-      ? false
-      : false
+        ? false
+        : tm_task_status === 2
+          ? false
+          : tm_task_status === 4
+            ? false
+            : false
   )
   const [onPending, setOnPending] = useState(
     tm_task_status === 4
       ? true
       : tm_task_status === 1
-      ? false
-      : tm_task_status === 2
-      ? false
-      : tm_task_status === 3
-      ? false
-      : false
+        ? false
+        : tm_task_status === 2
+          ? false
+          : tm_task_status === 3
+            ? false
+            : false
   )
   const [checkFlag, setcheckFlag] = useState(tm_task_status)
   const [progresstabledata, setProgressTableData] = useState([])
@@ -339,7 +339,7 @@ const EditTaskInDir = ({
     setEditModalOpen(false)
   }, [setEditModalOpen, setEditModalFlag])
 
-  const resetProgress = useCallback(e => {
+  const resetProgress = useCallback(() => {
     const form = {
       progress_slno: '',
       tm_progres_date: '',
@@ -478,7 +478,7 @@ const EditTaskInDir = ({
   }, [tm_task_slno, dispatch, empsecid, tm_project_slno, setEmpArry, id])
 
   const openAddSubtask = useCallback(
-    e => {
+    () => {
       setflag(1)
     },
     [setflag]
@@ -739,7 +739,7 @@ const EditTaskInDir = ({
     })
   }
 
-  const changeEmp = useCallback(e => {
+  const changeEmp = useCallback(() => {
     setchangeAssignee(1)
   }, [])
 
@@ -786,7 +786,7 @@ const EditTaskInDir = ({
               <CancelIcon sx={{ color: 'darkred', cursor: 'pointer' }} onClick={handleEditClose} />
             </Box>
           </Box>
-          <Box sx={{ flex: 1, bgcolor: '#52688F', height: 60, py: 1, pl: 1 }}>
+          <Box sx={{ flex: 1, bgcolor: 'var( --royal-purple-300)', height: 60, py: 1, pl: 1 }}>
             <Typography sx={{ color: 'white' }}>
               <ModeEditIcon sx={{ height: '20px', color: 'white' }} />
               Task Status
@@ -845,9 +845,9 @@ const EditTaskInDir = ({
                       <Chip
                         sx={{
                           cursor: 'pointer',
-                          bgcolor: '#90CDD0',
+                          bgcolor: 'var(--royal-purple-200)',
                           color: 'black',
-                          '&:hover': { bgcolor: '#77A7B0' }
+                          '&:hover': { bgcolor: 'var(--royal-purple-100)' }
                         }}
                       >
                         {' '}

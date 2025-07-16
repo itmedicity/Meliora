@@ -363,7 +363,7 @@ const QuarterlyPaidBills = ({ quarBills }) => {
                 var monthview =
                   format(new Date(monthnames[0]), 'MMM') + '-' + format(new Date(monthnames[2]), 'MMM yyyy')
                 return (
-                  <Paper
+                  <Box
                     key={val.quaterly_slno}
                     sx={{
                       minHeight: 33,
@@ -412,7 +412,7 @@ const QuarterlyPaidBills = ({ quarBills }) => {
                       &nbsp;
                       {val.it_bill_category_name}
                     </Box>
-                  </Paper>
+                  </Box>
                 )
               })}
           </Box>
@@ -427,7 +427,7 @@ const QuarterlyPaidBills = ({ quarBills }) => {
                 var monthview =
                   format(new Date(monthnames[0]), 'MMM') + '-' + format(new Date(monthnames[2]), 'MMM yyyy')
                 return (
-                  <Paper
+                  <Box
                     key={val.quaterly_slno}
                     sx={{
                       minHeight: 33,
@@ -476,7 +476,7 @@ const QuarterlyPaidBills = ({ quarBills }) => {
                       &nbsp;
                       {val.it_bill_category_name}
                     </Box>
-                  </Paper>
+                  </Box>
                 )
               })}
           </Box>
@@ -492,7 +492,7 @@ const QuarterlyPaidBills = ({ quarBills }) => {
                   format(new Date(monthnames[0]), 'MMM') + '-' + format(new Date(monthnames[2]), 'MMM yyyy')
 
                 return (
-                  <Paper
+                  <Box
                     key={val.quaterly_slno}
                     sx={{
                       minHeight: 33,
@@ -541,7 +541,7 @@ const QuarterlyPaidBills = ({ quarBills }) => {
                       &nbsp;
                       {val.it_bill_category_name}
                     </Box>
-                  </Paper>
+                  </Box>
                 )
               })}
           </Box>
@@ -557,7 +557,7 @@ const QuarterlyPaidBills = ({ quarBills }) => {
                   format(new Date(monthnames[0]), 'MMM') + '-' + format(new Date(monthnames[2]), 'MMM yyyy')
 
                 return (
-                  <Paper
+                  <Box
                     key={val.quaterly_slno}
                     sx={{
                       minHeight: 33,
@@ -606,7 +606,7 @@ const QuarterlyPaidBills = ({ quarBills }) => {
                       &nbsp;
                       {val.it_bill_category_name}
                     </Box>
-                  </Paper>
+                  </Box>
                 )
               })}
           </Box>

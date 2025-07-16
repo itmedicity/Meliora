@@ -164,7 +164,7 @@ const EditGoalCreation = ({
                   onClick={CloseGoal}
                 />
               </Box>
-              <Box sx={{ flex: 1, bgcolor: '#52688F', height: 100, mt: 1 }}></Box>
+              <Box sx={{ flex: 1, bgcolor: 'var(--royal-purple-300)', height: 50, mt: 1 }}></Box>
               <Box
                 style={{
                   marginLeft: 50,

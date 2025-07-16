@@ -588,16 +588,16 @@ const AlllTask = ({ setTableCount, tableCount }) => {
                             val.tm_task_status === null
                               ? '#311E26'
                               : val.tm_task_status === 0
-                              ? '#311E26'
-                              : val.tm_task_status === 1
-                              ? '#94C973'
-                              : val.tm_task_status === 2
-                              ? '#D37506'
-                              : val.tm_task_status === 3
-                              ? '#56382D'
-                              : val.tm_task_status === 4
-                              ? '#5885AF'
-                              : 'transparent',
+                                ? '#311E26'
+                                : val.tm_task_status === 1
+                                  ? '#94C973'
+                                  : val.tm_task_status === 2
+                                    ? '#D37506'
+                                    : val.tm_task_status === 3
+                                      ? '#56382D'
+                                      : val.tm_task_status === 4
+                                        ? '#5885AF'
+                                        : 'transparent',
                           minHeight: 5,
                           fontWeight: 700
                         }}
@@ -605,14 +605,14 @@ const AlllTask = ({ setTableCount, tableCount }) => {
                         {val.tm_task_status === 0
                           ? 'Not Started'
                           : val.tm_task_status === 1
-                          ? 'Completed'
-                          : val.tm_task_status === 2
-                          ? 'On Progress'
-                          : val.tm_task_status === 3
-                          ? 'On Hold'
-                          : val.tm_task_status === 4
-                          ? 'Pending'
-                          : 'not given'}
+                            ? 'Completed'
+                            : val.tm_task_status === 2
+                              ? 'On Progress'
+                              : val.tm_task_status === 3
+                                ? 'On Hold'
+                                : val.tm_task_status === 4
+                                  ? 'Pending'
+                                  : 'not given'}
                       </Chip>
                     </Box>
                     <Box sx={{ width: 160, fontWeight: 600, color: 'grey', fontSize: 12 }}>
@@ -875,16 +875,16 @@ const AlllTask = ({ setTableCount, tableCount }) => {
                             val.tm_task_status === null
                               ? '#311E26'
                               : val.tm_task_status === 0
-                              ? '#311E26'
-                              : val.tm_task_status === 1
-                              ? '#94C973'
-                              : val.tm_task_status === 2
-                              ? '#D37506'
-                              : val.tm_task_status === 3
-                              ? '#56382D'
-                              : val.tm_task_status === 4
-                              ? '#5885AF'
-                              : 'transparent',
+                                ? '#311E26'
+                                : val.tm_task_status === 1
+                                  ? '#94C973'
+                                  : val.tm_task_status === 2
+                                    ? '#D37506'
+                                    : val.tm_task_status === 3
+                                      ? '#56382D'
+                                      : val.tm_task_status === 4
+                                        ? '#5885AF'
+                                        : 'transparent',
                           minHeight: 5,
                           fontWeight: 700
                         }}
@@ -892,14 +892,14 @@ const AlllTask = ({ setTableCount, tableCount }) => {
                         {val.tm_task_status === 0
                           ? 'Not Started'
                           : val.tm_task_status === 1
-                          ? 'Completed'
-                          : val.tm_task_status === 2
-                          ? 'On Progress'
-                          : val.tm_task_status === 3
-                          ? 'On Hold'
-                          : val.tm_task_status === 4
-                          ? 'Pending'
-                          : 'not given'}
+                            ? 'Completed'
+                            : val.tm_task_status === 2
+                              ? 'On Progress'
+                              : val.tm_task_status === 3
+                                ? 'On Hold'
+                                : val.tm_task_status === 4
+                                  ? 'Pending'
+                                  : 'not given'}
                       </Chip>
                     </Box>
                     <Box sx={{ width: 160, fontWeight: 600, color: 'grey', fontSize: 12 }}>
@@ -1162,16 +1162,16 @@ const AlllTask = ({ setTableCount, tableCount }) => {
                             val.tm_task_status === null
                               ? '#311E26'
                               : val.tm_task_status === 0
-                              ? '#311E26'
-                              : val.tm_task_status === 1
-                              ? '#94C973'
-                              : val.tm_task_status === 2
-                              ? '#D37506'
-                              : val.tm_task_status === 3
-                              ? '#56382D'
-                              : val.tm_task_status === 4
-                              ? '#5885AF'
-                              : 'transparent',
+                                ? '#311E26'
+                                : val.tm_task_status === 1
+                                  ? '#94C973'
+                                  : val.tm_task_status === 2
+                                    ? '#D37506'
+                                    : val.tm_task_status === 3
+                                      ? '#56382D'
+                                      : val.tm_task_status === 4
+                                        ? '#5885AF'
+                                        : 'transparent',
                           minHeight: 5,
                           fontWeight: 700
                         }}
@@ -1179,14 +1179,14 @@ const AlllTask = ({ setTableCount, tableCount }) => {
                         {val.tm_task_status === 0
                           ? 'Not Started'
                           : val.tm_task_status === 1
-                          ? 'Completed'
-                          : val.tm_task_status === 2
-                          ? 'On Progress'
-                          : val.tm_task_status === 3
-                          ? 'On Hold'
-                          : val.tm_task_status === 4
-                          ? 'Pending'
-                          : 'not given'}
+                            ? 'Completed'
+                            : val.tm_task_status === 2
+                              ? 'On Progress'
+                              : val.tm_task_status === 3
+                                ? 'On Hold'
+                                : val.tm_task_status === 4
+                                  ? 'Pending'
+                                  : 'not given'}
                       </Chip>
                     </Box>
                     <Box sx={{ width: 160, fontWeight: 600, color: 'grey', fontSize: 12 }}>
@@ -1449,16 +1449,16 @@ const AlllTask = ({ setTableCount, tableCount }) => {
                             val.tm_task_status === null
                               ? '#311E26'
                               : val.tm_task_status === 0
-                              ? '#311E26'
-                              : val.tm_task_status === 1
-                              ? '#94C973'
-                              : val.tm_task_status === 2
-                              ? '#D37506'
-                              : val.tm_task_status === 3
-                              ? '#56382D'
-                              : val.tm_task_status === 4
-                              ? '#5885AF'
-                              : 'transparent',
+                                ? '#311E26'
+                                : val.tm_task_status === 1
+                                  ? '#94C973'
+                                  : val.tm_task_status === 2
+                                    ? '#D37506'
+                                    : val.tm_task_status === 3
+                                      ? '#56382D'
+                                      : val.tm_task_status === 4
+                                        ? '#5885AF'
+                                        : 'transparent',
                           minHeight: 5,
                           fontWeight: 700
                         }}
@@ -1466,14 +1466,14 @@ const AlllTask = ({ setTableCount, tableCount }) => {
                         {val.tm_task_status === 0
                           ? 'Not Started'
                           : val.tm_task_status === 1
-                          ? 'Completed'
-                          : val.tm_task_status === 2
-                          ? 'On Progress'
-                          : val.tm_task_status === 3
-                          ? 'On Hold'
-                          : val.tm_task_status === 4
-                          ? 'Pending'
-                          : 'not given'}
+                            ? 'Completed'
+                            : val.tm_task_status === 2
+                              ? 'On Progress'
+                              : val.tm_task_status === 3
+                                ? 'On Hold'
+                                : val.tm_task_status === 4
+                                  ? 'Pending'
+                                  : 'not given'}
                       </Chip>
                     </Box>
                     <Box sx={{ width: 160, fontWeight: 600, color: 'grey', fontSize: 12 }}>

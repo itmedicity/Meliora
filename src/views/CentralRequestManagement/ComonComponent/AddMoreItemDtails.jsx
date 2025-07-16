@@ -8,9 +8,9 @@ import _ from 'underscore'
 import CustomInputDateCmp from './Components/CustomInputDateCmp'
 import { Box, IconButton } from '@mui/joy'
 import UomApprvSelect from './Components/UomApprvSelect'
-import { useQuery, useQueryClient } from 'react-query'
 import { getApprovedCrfItems, getMaxslNoOfCrfItem } from 'src/api/CommonApiCRF'
 import { getApprovedCrfItemskmc, getMaxslNoOfCrfItemkmc } from 'src/api/CommonApiCRFKmc'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 
 const AddMoreItemDtails = ({ req_slno, setMoreItem, setApproveTableData, selectedCompany, depkmc }) => {
   const dispatch = useDispatch()

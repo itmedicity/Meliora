@@ -1,5 +1,5 @@
-import { Box, CssVarsProvider, ListItemDecorator, Tab, TabList, TabPanel, Tabs, tabClasses } from '@mui/joy'
-import { Paper, tabsClasses } from '@mui/material'
+import { Box, CssVarsProvider, ListItemDecorator, Tab, TabList, TabPanel, Tabs, tabClasses, tabsClasses } from '@mui/joy'
+import { Paper } from '@mui/material'
 import React from 'react'
 // import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { useState } from 'react'
@@ -27,7 +27,7 @@ const BillDashBoardMain = () => {
   }, [history])
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, width: '100%' }}>
       <Box sx={{ flex: 1, height: 35, borderBottom: 1, borderColor: 'lightgrey', display: 'flex' }}>
         <Box sx={{ flex: 1, fontWeight: 600, pl: 0.8, pt: 0.8, color: '#C7C8CB' }}> Bills & Pays</Box>
         <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>

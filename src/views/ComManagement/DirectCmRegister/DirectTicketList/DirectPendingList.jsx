@@ -471,11 +471,9 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
                     <Box sx={{ width: 295, fontSize: 13, pl: 0.5 }}>
                       {val.rm_room_name}
                       {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name
-                        ? ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${
-                            val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
-                          }${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${
-                            val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
-                          }${val.rm_floor_name ? val.rm_floor_name : ''})`
+                        ? ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
+                        }${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
+                        }${val.rm_floor_name ? val.rm_floor_name : ''})`
                         : 'Not Updated'}
                     </Box>
                     <Box sx={{ width: 300, fontSize: 13, pl: 1 }}>{val.cm_complaint_location || 'Not Updated'}</Box>

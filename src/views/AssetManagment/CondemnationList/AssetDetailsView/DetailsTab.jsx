@@ -1,6 +1,6 @@
 import { Box, Input, Table } from '@mui/joy'
 import React, { memo, useEffect, useMemo, useState } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { getallSpareUnderAsset, getSpecification } from 'src/api/AssetApis'
 import TextComponent from 'src/views/Components/TextComponent'
 
@@ -122,10 +122,10 @@ const DetailsTab = ({ AssetDetails }) => {
                       return (
                         <tr
                           key={index}
-                          // sx={{
-                          //     maxHeight: 60,
-                          //     minHeight: 2,
-                          // }}
+                        // sx={{
+                        //     maxHeight: 60,
+                        //     minHeight: 2,
+                        // }}
                         >
                           <td> {index + 1}</td>
                           <td> {val.specifications}</td>
@@ -167,10 +167,10 @@ const DetailsTab = ({ AssetDetails }) => {
                     return (
                       <tr
                         key={index}
-                        // sx={{
-                        //   maxHeight: 60,
-                        //   minHeight: 2,
-                        // }}
+                      // sx={{
+                      //   maxHeight: 60,
+                      //   minHeight: 2,
+                      // }}
                       >
                         <td> {index + 1}</td>
                         <td>

@@ -7,7 +7,7 @@ import GmOprTab from './GmOprationMenu/GmOprTab'
 import AccountsTab from './AccountsMenu/AccountsTab'
 import MaterialManagementTab from './MaterialMangementMenu/MaterialManagementTab'
 import { useSelector } from 'react-redux'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { getEmployeeuserrightsMenu } from 'src/api/TicketApi'
 
 const CondemnationApprovalRights = () => {

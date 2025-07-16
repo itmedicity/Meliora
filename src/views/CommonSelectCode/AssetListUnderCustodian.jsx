@@ -3,7 +3,7 @@ import { CssVarsProvider } from '@mui/joy/'
 import Autocomplete from '@mui/joy/Autocomplete'
 import { useSelector } from 'react-redux'
 import { getAssetInstock } from 'src/api/AssetApis'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 
 const AssetListUnderCustodian = ({ custAsset, setcustAsset, setassetData }) => {
   const [AssetListt, setAssetListt] = useState([])
@@ -82,9 +82,8 @@ const AssetListUnderCustodian = ({ custAsset, setcustAsset, setassetData }) => {
         isOptionEqualToValue={(option, value) => option.am_item_map_slno === value?.am_item_map_slno}
         getOptionLabel={option =>
           option && option.item_name
-            ? `${option.item_asset_no || ''}/${(option.item_asset_no_only || '').toString().padStart(6, '0')} - ${
-                option.item_name || ''
-              }`
+            ? `${option.item_asset_no || ''}/${(option.item_asset_no_only || '').toString().padStart(6, '0')} - ${option.item_name || ''
+            }`
             : ''
         }
         options={AssetListt}

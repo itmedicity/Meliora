@@ -76,7 +76,7 @@ const TmDashboardMain = () => {
   })
 
   const ViewOverDueTask = useCallback(
-    e => {
+    () => {
       if (overdues.length === 0) {
         infoNotify('No Dues')
       } else {
@@ -92,7 +92,7 @@ const TmDashboardMain = () => {
   )
 
   const ViewOverDueTodayTask = useCallback(
-    e => {
+    () => {
       if (overdueToday.length === 0) {
         infoNotify('No Dues Today')
       } else {
@@ -108,7 +108,7 @@ const TmDashboardMain = () => {
     [overdueToday]
   )
   const ViewOverDueWeekTask = useCallback(
-    e => {
+    () => {
       if (overDueNextWeek.length === 0) {
         infoNotify('No Dues for Next Week')
       } else {
@@ -124,7 +124,7 @@ const TmDashboardMain = () => {
     [overDueNextWeek]
   )
   const ViewOverDueMonthTask = useCallback(
-    e => {
+    () => {
       if (overdueMonth.length === 0) {
         infoNotify('No Dues in Next Month')
       } else {
@@ -141,7 +141,7 @@ const TmDashboardMain = () => {
   )
 
   const ViewEmpCompletedTask = useCallback(
-    e => {
+    () => {
       if (employeeeCompleted.length === 0) {
         infoNotify('No Data')
       } else {
@@ -157,7 +157,7 @@ const TmDashboardMain = () => {
     [employeeeCompleted]
   )
   const ViewEmpInCompletedTask = useCallback(
-    e => {
+    () => {
       if (employeeInComplete.length === 0) {
         infoNotify('No Data')
       } else {
@@ -173,7 +173,7 @@ const TmDashboardMain = () => {
     [employeeInComplete]
   )
   const ViewEmpOnProgressTask = useCallback(
-    e => {
+    () => {
       if (employeeOnProgress.length === 0) {
         infoNotify('No Data')
       } else {
@@ -189,7 +189,7 @@ const TmDashboardMain = () => {
     [employeeOnProgress]
   )
   const ViewOnHoldTask = useCallback(
-    e => {
+    () => {
       if (employeeOnHold.length === 0) {
         infoNotify('No Data')
       } else {
@@ -206,7 +206,7 @@ const TmDashboardMain = () => {
   )
 
   const ViewEmpPendingTask = useCallback(
-    e => {
+    () => {
       if (employeeOnPending.length === 0) {
         infoNotify('No Data')
       } else {
@@ -223,7 +223,7 @@ const TmDashboardMain = () => {
   )
 
   const ViewEmpOverDueTask = useCallback(
-    e => {
+    () => {
       if (employeeOverDue.length === 0) {
         infoNotify('No Data')
       } else {
@@ -240,7 +240,7 @@ const TmDashboardMain = () => {
   )
 
   const ViewDeptOnProgressTask = useCallback(
-    e => {
+    () => {
       if (deptOnProgress.length === 0) {
         infoNotify('No Data')
       } else {
@@ -257,7 +257,7 @@ const TmDashboardMain = () => {
   )
 
   const ViewDeptOnHold = useCallback(
-    e => {
+    () => {
       if (deptOnHold.length === 0) {
         infoNotify('No Data')
       } else {
@@ -273,7 +273,7 @@ const TmDashboardMain = () => {
     [deptOnHold]
   )
   const ViewDeptPending = useCallback(
-    e => {
+    () => {
       if (deptOnPending.length === 0) {
         infoNotify('No Data')
       } else {
@@ -289,7 +289,7 @@ const TmDashboardMain = () => {
     [deptOnPending]
   )
   const ViewDeptCompltTask = useCallback(
-    e => {
+    () => {
       if (deptCompleted.length === 0) {
         infoNotify('No Data')
       } else {
@@ -305,7 +305,7 @@ const TmDashboardMain = () => {
     [deptCompleted]
   )
   const ViewDeptInCompltTask = useCallback(
-    e => {
+    () => {
       if (deptInComplete.length === 0) {
         infoNotify('No Data')
       } else {
@@ -322,7 +322,7 @@ const TmDashboardMain = () => {
   )
 
   const ViewProjectComplete = useCallback(
-    e => {
+    () => {
       if (projCompleted.length === 0) {
         infoNotify('No Data')
       } else {
@@ -338,7 +338,7 @@ const TmDashboardMain = () => {
     [projCompleted]
   )
   const ViewProjectInComplete = useCallback(
-    e => {
+    () => {
       if (projInCompleted.length === 0) {
         infoNotify('No Data')
       } else {
@@ -354,7 +354,7 @@ const TmDashboardMain = () => {
     [projInCompleted]
   )
   const ViewProjectOverDue = useCallback(
-    e => {
+    () => {
       if (projOverDue.length === 0) {
         infoNotify('No Data')
       } else {
@@ -371,7 +371,7 @@ const TmDashboardMain = () => {
   )
 
   const ViewGoalsComplete = useCallback(
-    e => {
+    () => {
       if (goalsCompleted.length === 0) {
         infoNotify('No Data')
       } else {
@@ -387,7 +387,7 @@ const TmDashboardMain = () => {
     [goalsCompleted]
   )
   const ViewGoalsInComplete = useCallback(
-    e => {
+    () => {
       if (goalsInCompleted.length === 0) {
         infoNotify('No Data')
       } else {
@@ -403,7 +403,7 @@ const TmDashboardMain = () => {
     [goalsInCompleted]
   )
   const ViewGoalsOverdue = useCallback(
-    e => {
+    () => {
       if (goalsOverDue.length === 0) {
         infoNotify('No Data')
       } else {
@@ -495,16 +495,16 @@ const TmDashboardMain = () => {
               val.tm_task_status === 1
                 ? 'Completed'
                 : val.tm_task_status === 1
-                ? 'Completed'
-                : val.tm_task_status === 2
-                ? 'On Progress'
-                : val.tm_task_status === 3
-                ? 'On Hold'
-                : val.tm_task_status === 4
-                ? 'Pending'
-                : val.tm_task_status === 0
-                ? 'Not Started'
-                : 'Not Started',
+                  ? 'Completed'
+                  : val.tm_task_status === 2
+                    ? 'On Progress'
+                    : val.tm_task_status === 3
+                      ? 'On Hold'
+                      : val.tm_task_status === 4
+                        ? 'Pending'
+                        : val.tm_task_status === 0
+                          ? 'Not Started'
+                          : 'Not Started',
             datediff: new Date(val.tm_complete_date) - new Date(val.tm_task_due_date),
             days: Math.floor((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / (1000 * 60 * 60 * 24)),
             hours: Math.floor(
@@ -587,16 +587,16 @@ const TmDashboardMain = () => {
               val.tm_task_status === 1
                 ? 'Completed'
                 : val.tm_task_status === 1
-                ? 'Completed'
-                : val.tm_task_status === 2
-                ? 'On Progress'
-                : val.tm_task_status === 3
-                ? 'On Hold'
-                : val.tm_task_status === 4
-                ? 'Pending'
-                : val.tm_task_status === 0
-                ? 'Not Started'
-                : 'Not Started',
+                  ? 'Completed'
+                  : val.tm_task_status === 2
+                    ? 'On Progress'
+                    : val.tm_task_status === 3
+                      ? 'On Hold'
+                      : val.tm_task_status === 4
+                        ? 'Pending'
+                        : val.tm_task_status === 0
+                          ? 'Not Started'
+                          : 'Not Started',
             datediff: new Date(val.tm_complete_date) - new Date(val.tm_task_due_date),
             days: Math.floor((new Date(val.tm_complete_date) - new Date(val.tm_task_due_date)) / (1000 * 60 * 60 * 24)),
             hours: Math.floor(
@@ -751,12 +751,12 @@ const TmDashboardMain = () => {
         overdueTaskFlag === 1
           ? overdues
           : overdueTaskFlag === 2
-          ? overdueToday
-          : overdueTaskFlag === 3
-          ? overDueNextWeek
-          : overdueTaskFlag === 4
-          ? overdueMonth
-          : []
+            ? overdueToday
+            : overdueTaskFlag === 3
+              ? overDueNextWeek
+              : overdueTaskFlag === 4
+                ? overdueMonth
+                : []
       }
       overDueHeading={overDueHeading}
       empsecid={empsecid}
@@ -770,16 +770,16 @@ const TmDashboardMain = () => {
         employeeTaskFlag === 1
           ? employeeeCompleted
           : employeeTaskFlag === 2
-          ? employeeInComplete
-          : employeeTaskFlag === 3
-          ? employeeOnProgress
-          : employeeTaskFlag === 4
-          ? employeeOnHold
-          : employeeTaskFlag === 5
-          ? employeeOnPending
-          : employeeTaskFlag === 6
-          ? employeeOverDue
-          : []
+            ? employeeInComplete
+            : employeeTaskFlag === 3
+              ? employeeOnProgress
+              : employeeTaskFlag === 4
+                ? employeeOnHold
+                : employeeTaskFlag === 5
+                  ? employeeOnPending
+                  : employeeTaskFlag === 6
+                    ? employeeOverDue
+                    : []
       }
       tableCount={tableCount}
       setTableCount={setTableCount}
@@ -793,14 +793,14 @@ const TmDashboardMain = () => {
         departmentTaskFlag === 1
           ? deptOnProgress
           : departmentTaskFlag === 2
-          ? deptOnHold
-          : departmentTaskFlag === 3
-          ? deptOnPending
-          : departmentTaskFlag === 4
-          ? deptCompleted
-          : departmentTaskFlag === 5
-          ? deptInComplete
-          : []
+            ? deptOnHold
+            : departmentTaskFlag === 3
+              ? deptOnPending
+              : departmentTaskFlag === 4
+                ? deptCompleted
+                : departmentTaskFlag === 5
+                  ? deptInComplete
+                  : []
       }
       deptTaskHeading={deptTaskHeading}
       setdeptFlag={setdeptFlag}
@@ -813,12 +813,12 @@ const TmDashboardMain = () => {
         projectFlag === 1
           ? projOnProgress
           : projectFlag === 2
-          ? projCompleted
-          : projectFlag === 3
-          ? projInCompleted
-          : projectFlag === 4
-          ? projOverDue
-          : []
+            ? projCompleted
+            : projectFlag === 3
+              ? projInCompleted
+              : projectFlag === 4
+                ? projOverDue
+                : []
       }
       projectHead={projectHead}
       setprjFlag={setprjFlag}
@@ -831,12 +831,12 @@ const TmDashboardMain = () => {
         goalsFlag === 1
           ? goalsOnProgress
           : goalsFlag === 2
-          ? goalsCompleted
-          : goalsFlag === 3
-          ? goalsInCompleted
-          : goalsFlag === 4
-          ? goalsOverDue
-          : []
+            ? goalsCompleted
+            : goalsFlag === 3
+              ? goalsInCompleted
+              : goalsFlag === 4
+                ? goalsOverDue
+                : []
       }
       goalsHead={goalsHead}
       setflagGoal={setflagGoal}
@@ -848,7 +848,8 @@ const TmDashboardMain = () => {
       sx={{
         height: '100%',
         borderRadius: 1,
-        boxShadow: 2
+        boxShadow: 2,
+        width: '100%'
       }}
     >
       <Box sx={{ display: 'flex', borderBottom: 0.1, borderColor: '#C5C5C5' }}>

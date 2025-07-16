@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useMemo, useState } from 'react'
 import { Box, CssVarsProvider, IconButton, Table } from '@mui/joy'
 import { format } from 'date-fns'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import VerifiedIcon from '@mui/icons-material/Verified'
 import { getAllDeptCondemPendingDatas } from 'src/api/AssetApis'
 import CondemnationApprovalModal from '../../CondemnationList/CondemnationApprovalModal'

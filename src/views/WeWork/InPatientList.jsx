@@ -34,7 +34,7 @@ const PatientIntractionLazy = React.lazy(() => import('./PatirntIntraction/Patie
 const PatientsurvillenceLazy = React.lazy(() => import('./Patienntsurvillence/Patientsurvillence'))
 const PatSurvillenceViewLazy = React.lazy(() => import('./Patienntsurvillence/PatSurvillenceView'))
 
-const InPatientList = ({ close, refresh, submit }) => {
+const InPatientList = () => {
   const [tabledata, setTabledata] = useState([])
   const [nurse, setNurse] = useState(0)
   const [table, setTable] = useState(0)
@@ -148,29 +148,29 @@ const InPatientList = ({ close, refresh, submit }) => {
     history('/Home/WeWork/InpatientList')
   }
 
-  const patient = e => {
+  const patient = () => {
     setcheckIcon(1)
   }
 
-  const Activity = e => {
+  const Activity = () => {
     setcheckIcon(2)
   }
 
-  const Interaction = e => {
+  const Interaction = () => {
     setcheckIcon(3)
   }
 
-  const bedTracking = e => {
+  const bedTracking = () => {
     setcheckIcon(4)
   }
 
-  const discharge = e => {
+  const discharge = () => {
     setcheckIcon(5)
   }
 
   const submited = useCallback(
     insertdata => {
-      const insert = insertdata => {}
+      const insert = () => { }
       if (checkIcon === 1 || checkIcon === 0) {
         insert(insertdata)
       }

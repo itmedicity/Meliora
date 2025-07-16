@@ -62,7 +62,7 @@ const ProcedureEquipmentTable = ({ ProcedureArray, setProcedureArray, equipRepor
                                 color: '#DC4731'
                               }
                             }}
-                            onClick={e => DeleteProcedures(val)}
+                            onClick={() => DeleteProcedures(val)}
                           />
                         </Tooltip>
                       </CssVarsProvider>

@@ -319,7 +319,7 @@ const EndoscopyIPPatients = ({ ChangeOPList, ChangeIPList, opCheck, ipCheck, set
                                   color: '#263238'
                                 }
                               }}
-                              onClick={e => IndicatorsView(val)}
+                              onClick={() => IndicatorsView(val)}
                             />
                           </Tooltip>
                         </CssVarsProvider>

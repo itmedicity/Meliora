@@ -130,7 +130,7 @@ const DialysisPatientListTable = ({ setSearchFlag, dailyDate, count, setCount, q
                       value={searchPat}
                       onChange={ChangePatient}
                       sx={{ width: 250, height: 35 }}
-                      // endDecorator={<Button>Message</Button>}
+                    // endDecorator={<Button>Message</Button>}
                     />
                   </CssVarsProvider>
                 </Box>
@@ -347,7 +347,7 @@ const DialysisPatientListTable = ({ setSearchFlag, dailyDate, count, setCount, q
                                       color: '#263238'
                                     }
                                   }}
-                                  onClick={e => IndicatorsView(val)}
+                                  onClick={() => IndicatorsView(val)}
                                 />
                               </Tooltip>
                             </CssVarsProvider>

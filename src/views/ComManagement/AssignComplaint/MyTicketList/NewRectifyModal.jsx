@@ -21,7 +21,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined'
 import ArrowDropUpOutlinedIcon from '@mui/icons-material/ArrowDropUpOutlined'
 import { getArrayOfAssetLocationDetails, getCustodianDetails } from 'src/api/AssetApis'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf'
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile'
 import ClearSharpIcon from '@mui/icons-material/ClearSharp'
@@ -859,8 +859,8 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
         ? 'pdf'
         : 'image'
       : file.type.includes('application/pdf')
-      ? 'pdf'
-      : 'image'
+        ? 'pdf'
+        : 'image'
 
     const fileUrl = file.url || URL.createObjectURL(file)
     setPreviewFile({ url: fileUrl, type: fileType })
@@ -950,11 +950,9 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                     <Typography sx={{ pl: 0.5, fontSize: 13, color: 'Black' }}>
                       {rm_room_name}
                       {rm_roomtype_name || rm_insidebuildblock_name || rm_floor_name
-                        ? ` (${rm_roomtype_name ? rm_roomtype_name : ''}${
-                            rm_roomtype_name && rm_insidebuildblock_name ? ' - ' : ''
-                          }${rm_insidebuildblock_name ? rm_insidebuildblock_name : ''}${
-                            rm_insidebuildblock_name && rm_floor_name ? ' - ' : ''
-                          }${rm_floor_name ? rm_floor_name : ''})`
+                        ? ` (${rm_roomtype_name ? rm_roomtype_name : ''}${rm_roomtype_name && rm_insidebuildblock_name ? ' - ' : ''
+                        }${rm_insidebuildblock_name ? rm_insidebuildblock_name : ''}${rm_insidebuildblock_name && rm_floor_name ? ' - ' : ''
+                        }${rm_floor_name ? rm_floor_name : ''})`
                         : 'Not Updated'}
                     </Typography>
                   ) : null}
@@ -1155,10 +1153,10 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                       val.item_asset_no_only === 0
                         ? 0
                         : val.item_asset_no_only === undefined
-                        ? 0
-                        : val.item_asset_no_only === null
-                        ? 0
-                        : val.item_asset_no_only.toString().padStart(6, '0')
+                          ? 0
+                          : val.item_asset_no_only === null
+                            ? 0
+                            : val.item_asset_no_only.toString().padStart(6, '0')
                     return (
                       <Box
                         key={index}

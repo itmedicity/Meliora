@@ -382,7 +382,7 @@ const ItemCheckingMain = () => {
         />
       ) : null}
       <CustomBackDrop open={open} text="Please Wait" />
-      <Box sx={{ height: window.innerHeight - 80 }}>
+      <Box sx={{ height: window.innerHeight - 80, width: "100%" }}>
         <CssVarsProvider>
           <Box sx={{ display: 'flex', backgroundColor: '#f0f3f5', border: '1px solid #B4F5F0' }}>
             <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: 0.5, color: '#385E72' }}>Item Checking</Box>

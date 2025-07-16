@@ -1,6 +1,6 @@
 import { Box, Checkbox } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { Virtuoso } from 'react-virtuoso'
 import { getAssetUnderCondmnation } from 'src/api/AssetApis'
 import { infoNotify } from 'src/views/Common/CommonCode'

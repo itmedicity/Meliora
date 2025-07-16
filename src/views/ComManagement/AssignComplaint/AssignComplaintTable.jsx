@@ -20,7 +20,7 @@ import PendingTicketsSuperwiser from '../CmSuperVisorList/PendingTicketsSuperwis
 import AllTicketsSuperwiser from '../CmSuperVisorList/AllTicketsSuperwiser'
 import MyAllTickets from './MyTicketList/MyAllTickets'
 import { getEmployeeuserrightsMenu } from 'src/api/TicketApi'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { errorNotify } from 'src/views/Common/CommonCode'
 
 const AssignComplaintTable = () => {

@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { Box, CssVarsProvider, Grid } from '@mui/joy'
 import { useSelector } from 'react-redux'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import {
   getActiveItemsWarrentyGaurentee,
   getAllAmcCmcUnderCustodian,
@@ -780,7 +780,7 @@ const DashboardMainAsset = () => {
                             Name={val.category_name}
                             totalCount={
                               val.asset_item_service_0_count !== undefined ||
-                              val.asset_item_service_1_count !== undefined
+                                val.asset_item_service_1_count !== undefined
                                 ? val.asset_item_service_0_count + val.asset_item_service_1_count
                                 : val.spare_service_0_count + val.spare_service_1_count
                             }

@@ -348,7 +348,7 @@ const InpatientTableView = ({ setSearchFlag, dailyDate, count, setCount, qidept,
                                       color: '#263238'
                                     }
                                   }}
-                                  onClick={e => IndicatorsView(val)}
+                                  onClick={() => IndicatorsView(val)}
                                 />
                               </Tooltip>
                             </CssVarsProvider>

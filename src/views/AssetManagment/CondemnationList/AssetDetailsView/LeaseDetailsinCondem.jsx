@@ -3,7 +3,7 @@ import { Virtuoso } from 'react-virtuoso'
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded'
 import { getLeaseDetailList } from 'src/api/AssetApis'
 import FileView from '../../AssetFileView/FileView'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import TextComponent from 'src/views/Components/TextComponent'
 import { Box } from '@mui/joy'
 import { axioslogin } from 'src/views/Axios/Axios'
@@ -159,10 +159,10 @@ const LeaseDetailsinCondem = ({ AssetDetails }) => {
                     {val.status === 1
                       ? 'Active *'
                       : val.status === 2
-                      ? 'Inactive'
-                      : val.status === 0
-                      ? 'Expired'
-                      : 'NotUpdated'}
+                        ? 'Inactive'
+                        : val.status === 0
+                          ? 'Expired'
+                          : 'NotUpdated'}
                   </Box>
                 </Box>
               )

@@ -352,7 +352,7 @@ const YearlyPaidBills = ({ yearBills }) => {
               alphbasedData.map(val => {
                 const years = format(new Date(val.yearly_bill_generate), 'yyyy')
                 return (
-                  <Paper
+                  <Box
                     key={val.yearly_slno}
                     sx={{
                       minHeight: 33,
@@ -396,7 +396,7 @@ const YearlyPaidBills = ({ yearBills }) => {
                       &nbsp;
                       {val.it_bill_category_name}
                     </Box>
-                  </Paper>
+                  </Box>
                 )
               })}
           </Box>
@@ -406,7 +406,7 @@ const YearlyPaidBills = ({ yearBills }) => {
               billDateData.map(val => {
                 const years = format(new Date(val.yearly_bill_generate), 'yyyy')
                 return (
-                  <Paper
+                  <Box
                     key={val.yearly_slno}
                     sx={{
                       minHeight: 33,
@@ -451,7 +451,7 @@ const YearlyPaidBills = ({ yearBills }) => {
                       &nbsp;
                       {val.it_bill_category_name}
                     </Box>
-                  </Paper>
+                  </Box>
                 )
               })}
           </Box>
@@ -461,7 +461,7 @@ const YearlyPaidBills = ({ yearBills }) => {
               billcate.map(val => {
                 const years = format(new Date(val.yearly_bill_generate), 'yyyy')
                 return (
-                  <Paper
+                  <Box
                     key={val.yearly_slno}
                     sx={{
                       minHeight: 33,
@@ -505,7 +505,7 @@ const YearlyPaidBills = ({ yearBills }) => {
                       &nbsp;
                       {val.it_bill_category_name}
                     </Box>
-                  </Paper>
+                  </Box>
                 )
               })}
           </Box>
@@ -515,7 +515,7 @@ const YearlyPaidBills = ({ yearBills }) => {
               yearBills.map(val => {
                 const years = format(new Date(val.yearly_bill_generate), 'yyyy')
                 return (
-                  <Paper
+                  <Box
                     key={val.yearly_slno}
                     sx={{
                       minHeight: 33,
@@ -559,7 +559,7 @@ const YearlyPaidBills = ({ yearBills }) => {
                       &nbsp;
                       {val.it_bill_category_name}
                     </Box>
-                  </Paper>
+                  </Box>
                 )
               })}
           </Box>

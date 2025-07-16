@@ -400,7 +400,7 @@ const EditingOtherBillModal = ({
               </Box>
               {billType === 3 ? (
                 <Box>
-                  <Paper sx={{ mx: 2, borderRadius: 0, bgcolor: '#F0F2F3', boxShadow: '0px 0px 3px' }}>
+                  <Box sx={{ mx: 2, borderRadius: 0, bgcolor: '#F0F2F3', boxShadow: '0px 0px 3px' }}>
                     <Box
                       sx={{
                         flex: 1,
@@ -627,7 +627,7 @@ const EditingOtherBillModal = ({
                       </Box>
                     ) : null}
                     <Box sx={{ height: 8 }}></Box>
-                  </Paper>
+                  </Box>
                   <Box sx={{ flex: 1, mt: 1.5, ml: 2, fontWeight: 600 }}>
                     <LocalShippingIcon sx={{ pb: 0.5, fontSize: 20 }} />
                     Supplier Name<span style={{ color: '#74112F' }}>*</span>

@@ -60,7 +60,7 @@ const SubTaskUnderTaskModal = ({ SubTaskmodalOpen, setSubTaskmodalOpen, subtaskv
             borderRadius: 20
           }}
         >
-          <Card sx={{ bgcolor: '#52688F' }}>
+          <Card sx={{ bgcolor: 'var(--royal-purple-300)' }}>
             {tm_project_slno !== null ? (
               <Box sx={{ flex: 1 }}>
                 <Box sx={{ display: 'flex', flex: 1 }}>
@@ -132,7 +132,7 @@ const SubTaskUnderTaskModal = ({ SubTaskmodalOpen, setSubTaskmodalOpen, subtaskv
                   sx={{
                     flex: 1,
                     height: 30,
-                    bgcolor: '#4F687F',
+                    bgcolor: 'var(--royal-purple-300)',
                     borderRadius: 20,
                     pl: 1,
                     color: 'white',
@@ -326,7 +326,7 @@ const SubTaskUnderTaskModal = ({ SubTaskmodalOpen, setSubTaskmodalOpen, subtaskv
                     sx={{
                       flex: 1,
                       height: 30,
-                      bgcolor: '#4F687F',
+                      bgcolor: 'var(--royal-purple-300)',
                       borderRadius: 20,
                       pl: 3,
                       color: 'white'

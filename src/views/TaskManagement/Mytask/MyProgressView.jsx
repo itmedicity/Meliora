@@ -269,7 +269,7 @@ const MyProgressView = () => {
           <Box sx={{ flex: 1, borderBottom: 1, borderBottomColor: '#BDC6D9', mx: 3 }}></Box>
           <Box sx={{ minHeight: 250 }}>
             {taskList &&
-              taskList.map((val, index) => {
+              taskList.map((val,) => {
                 return (
                   <Box
                     key={val.tm_task_slno}

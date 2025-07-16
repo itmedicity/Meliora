@@ -96,7 +96,7 @@ const OtherBillViews = ({ billCount, setbillCount }) => {
           {OtherBillData &&
             OtherBillData.map(val => {
               return (
-                <Paper
+                <Box
                   key={val.other_bill_slno}
                   sx={{
                     minHeight: 33,
@@ -122,7 +122,7 @@ const OtherBillViews = ({ billCount, setbillCount }) => {
                   <Box sx={{ flex: 2, pt: 0.5, fontSize: 14, pr: 0.5 }}>{val.it_supplier_name}</Box>
                   <Box sx={{ flex: 3, pt: 0.5, fontSize: 14, pr: 0.5 }}>{val.bill_name}</Box>
                   <Box sx={{ flex: 3, pt: 0.5, fontSize: 14, pr: 0.5 }}>{val.bill_description}</Box>
-                </Paper>
+                </Box>
               )
             })}
         </Box>

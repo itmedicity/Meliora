@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { useNavigate } from 'react-router-dom'
+import { useQueryClient } from '@tanstack/react-query'
 
 const NewSubRoomMast = () => {
   const history = useNavigate()
@@ -25,6 +26,7 @@ const NewSubRoomMast = () => {
   const [roomNo, setRoomNo] = useState(0)
   const [roomType, setRoomType] = useState(0)
   const [roomCategory, setCategory] = useState(0)
+  const queryClient = useQueryClient()
 
   const [subroom, setSubRoom] = useState({
     subRoom_slno: 0,
@@ -91,7 +93,7 @@ const NewSubRoomMast = () => {
     location
   ])
 
-  const reset = useCallback(e => {
+  const reset = useCallback(() => {
     setValue(0)
     setCount(0)
     setLocation(0)
@@ -109,13 +111,14 @@ const NewSubRoomMast = () => {
   }, [])
 
   const sumbitsubRoom = useCallback(
-    e => {
+    () => {
       const InsertRoom = async postdata => {
         const result = await axioslogin.post('/subRoomMaster/insert', postdata)
         const { message, success } = result.data
         if (success === 1) {
           succesNotify(message)
           setCount(count + 1)
+          queryClient.invalidateQueries('GetSubroomData')
           reset()
         } else if (success === 0) {
           infoNotify(message)
@@ -129,6 +132,7 @@ const NewSubRoomMast = () => {
         if (success === 2) {
           succesNotify(message)
           setCount(count + 1)
+          queryClient.invalidateQueries('GetSubroomData')
           reset()
         } else if (success === 0) {
           infoNotify(message)
@@ -143,7 +147,7 @@ const NewSubRoomMast = () => {
         UpdateRoom(PatchData)
       }
     },
-    [value, PostData, PatchData, setCount, count, reset]
+    [value, PostData, PatchData, setCount, count, reset, queryClient]
   )
 
   const rowSelect = useCallback(params => {

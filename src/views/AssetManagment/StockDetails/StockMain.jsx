@@ -15,7 +15,7 @@ const StockMain = () => {
   }, [history])
 
   return (
-    <Paper sx={{ borderRadius: 0, height: '90vh' }}>
+    <Paper sx={{ borderRadius: 0, height: '90vh', width: '100%' }}>
       <Box>
         <CssVarsProvider>
           <Box sx={{ flex: 1, display: 'flex', borderBottom: 1, borderColor: '#D0D0D0' }}>

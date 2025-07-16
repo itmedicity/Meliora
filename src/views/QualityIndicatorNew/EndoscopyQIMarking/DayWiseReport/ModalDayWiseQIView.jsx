@@ -176,62 +176,62 @@ const ModalDayWiseQIView = ({ open, handleClose, rowSelect }) => {
           error_incident_type === 1
             ? 'GENERAL'
             : error_incident_type === 2
-            ? 'NEAR MISSESS'
-            : error_incident_type === 3
-            ? 'HARMFUL'
-            : error_incident_type === 4
-            ? 'SENTINEL'
-            : 'Nil',
+              ? 'NEAR MISSESS'
+              : error_incident_type === 3
+                ? 'HARMFUL'
+                : error_incident_type === 4
+                  ? 'SENTINEL'
+                  : 'Nil',
         redosType:
           redos_incident_type === 1
             ? 'GENERAL'
             : redos_incident_type === 2
-            ? 'NEAR MISSESS'
-            : redos_incident_type === 3
-            ? 'HARMFUL'
-            : redos_incident_type === 4
-            ? 'SENTINEL'
-            : 'Nil',
+              ? 'NEAR MISSESS'
+              : redos_incident_type === 3
+                ? 'HARMFUL'
+                : redos_incident_type === 4
+                  ? 'SENTINEL'
+                  : 'Nil',
         fallsType:
           falls_incident_type === 1
             ? 'GENERAL'
             : falls_incident_type === 2
-            ? 'NEAR MISSESS'
-            : falls_incident_type === 3
-            ? 'HARMFUL'
-            : falls_incident_type === 4
-            ? 'SENTINEL'
-            : 'Nil',
+              ? 'NEAR MISSESS'
+              : falls_incident_type === 3
+                ? 'HARMFUL'
+                : falls_incident_type === 4
+                  ? 'SENTINEL'
+                  : 'Nil',
         identType:
           ident_error_incident_type === 1
             ? 'GENERAL'
             : ident_error_incident_type === 2
-            ? 'NEAR MISSESS'
-            : ident_error_incident_type === 3
-            ? 'HARMFUL'
-            : ident_error_incident_type === 4
-            ? 'SENTINEL'
-            : 'Nil',
+              ? 'NEAR MISSESS'
+              : ident_error_incident_type === 3
+                ? 'HARMFUL'
+                : ident_error_incident_type === 4
+                  ? 'SENTINEL'
+                  : 'Nil',
         nearType:
           nearmiss_incident_type === 1
             ? 'GENERAL'
             : nearmiss_incident_type === 2
-            ? 'NEAR MISSESS'
-            : nearmiss_incident_type === 3
-            ? 'HARMFUL'
-            : nearmiss_incident_type === 4
-            ? 'SENTINEL'
-            : 'Nil',
+              ? 'NEAR MISSESS'
+              : nearmiss_incident_type === 3
+                ? 'HARMFUL'
+                : nearmiss_incident_type === 4
+                  ? 'SENTINEL'
+                  : 'Nil',
         sentinelType:
           sentinel_incident_type === 1
             ? 'GENERAL'
             : sentinel_incident_type === 2
-            ? 'NEAR MISSESS'
-            : sentinel_incident_type === 3
-            ? 'HARMFUL'
-            : sentinel_incident_type === 4
-            ? 'SENTINEL'
-            : 'Nil'
+              ? 'NEAR MISSESS'
+              : sentinel_incident_type === 3
+                ? 'HARMFUL'
+                : sentinel_incident_type === 4
+                  ? 'SENTINEL'
+                  : 'Nil'
       }
       setQualityIndicators(formdata)
       setTestReqDate(format(new Date(test_req_date), 'yyyy-MM-dd'))
@@ -333,7 +333,7 @@ const ModalDayWiseQIView = ({ open, handleClose, rowSelect }) => {
                 width: 35
               }}
             />
-            <Paper sx={{ display: 'flex', minHeight: 40, bgcolor: '#E3E8F0' }}>
+            <Box sx={{ display: 'flex', minHeight: 40, bgcolor: '#E3E8F0' }}>
               <Box sx={{ display: 'flex', flex: 1 }}>
                 <Box sx={{ fontSize: 15, pt: 1, pl: 2, fontWeight: 500 }}>{ptno}</Box>
                 <Box sx={{ fontSize: 15, pt: 1, pl: 2, fontWeight: 500 }}>
@@ -356,11 +356,11 @@ const ModalDayWiseQIView = ({ open, handleClose, rowSelect }) => {
                   {ptaddrs3 === null
                     ? ''
                     : ',' +
-                      ptaddrs3
-                        .toLowerCase()
-                        .split(' ')
-                        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                        .join(' ')}
+                    ptaddrs3
+                      .toLowerCase()
+                      .split(' ')
+                      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                      .join(' ')}
                 </Box>
                 <Box sx={{ fontSize: 15, pt: 1, pl: 2, fontWeight: 500 }}>{ptmobile}</Box>
                 <Box sx={{ fontSize: 15, pt: 1, pl: 5, fontWeight: 500 }}>
@@ -372,7 +372,7 @@ const ModalDayWiseQIView = ({ open, handleClose, rowSelect }) => {
                       .join(' ')}
                 </Box>
               </Box>
-            </Paper>
+            </Box>
             <Box sx={{ overflow: 'auto' }}>
               <Box sx={{ display: 'flex', pt: 1 }}>
                 <Box sx={{ flex: 2, pl: 1, pt: 0.5 }}>

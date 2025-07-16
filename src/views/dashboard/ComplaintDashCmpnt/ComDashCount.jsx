@@ -22,7 +22,7 @@ const ComDashCount = ({ empid }) => {
     <Fragment>
       <Suspense fallback={<LinearProgress />}>
         {counts &&
-          counts.map((val, index) => {
+          counts.map((val) => {
             return (
               <TableCell
                 align="center"

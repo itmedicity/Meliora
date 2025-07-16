@@ -18,7 +18,7 @@ import TextComponent from 'src/views/Components/TextComponent'
 import { Box } from '@mui/joy'
 import CloseIcon from '@mui/icons-material/Close'
 import { getAmcCmcPmData } from 'src/api/AssetApis'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import AddIcon from '@mui/icons-material/Add'
 import { Virtuoso } from 'react-virtuoso'
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded'
@@ -828,10 +828,10 @@ const AMCCMCDetailAdding = ({ detailArry }) => {
                         {val.status === 1
                           ? 'Active *'
                           : val.status === 2
-                          ? 'Inactive'
-                          : val.status === 0
-                          ? 'Expired'
-                          : 'NotUpdated'}
+                            ? 'Inactive'
+                            : val.status === 0
+                              ? 'Expired'
+                              : 'NotUpdated'}
                       </Box>
                     </Box>
                   )

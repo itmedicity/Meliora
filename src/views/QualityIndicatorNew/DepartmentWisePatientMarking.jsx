@@ -42,7 +42,7 @@ const DepartmentWisePatientMarking = () => {
   }, [dispatch, id])
 
   const SearchDetails = useCallback(
-    e => {
+    () => {
       if (qitype === 0) {
         infoNotify('Select Department')
         setSearchFlag(0)

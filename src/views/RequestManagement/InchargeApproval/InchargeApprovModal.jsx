@@ -23,7 +23,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="left" ref={ref} {...props} />
 })
 
-const InchargeApprovModal = ({ open, setOpen, isIncharge, ishod, datas, count, setCount, id }) => {
+const InchargeApprovModal = ({ open, setOpen, isIncharge, datas, count, setCount, id }) => {
   const {
     req_slno,
     req_date,

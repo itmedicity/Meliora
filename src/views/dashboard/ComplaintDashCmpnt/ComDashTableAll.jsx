@@ -28,7 +28,7 @@ const ComDashTableAll = ({ compdept }) => {
           </TableHead>
           <TableBody>
             {compdept &&
-              compdept.map((val, index) => {
+              compdept.map((val) => {
                 return (
                   <TableRow key={val.complaint_dept_slno}>
                     <TableCell align="center">{val.complaint_dept_slno}</TableCell>

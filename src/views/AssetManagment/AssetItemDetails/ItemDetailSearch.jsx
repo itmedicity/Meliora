@@ -14,7 +14,7 @@ import TextComponent from 'src/views/Components/TextComponent'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined'
 import { getCustodianDetails } from 'src/api/AssetApis'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import RefreshIcon from '@mui/icons-material/Refresh'
 const ItemListViewTable = React.lazy(() => import('../ItemListView/ItemListViewTable'))
 

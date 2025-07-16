@@ -754,7 +754,7 @@ const EndoMonthlyReport = ({ viewData, ipViewReport, dayFlag, searchDate, testCo
         {endoSearch === 1 ? (
           <Grid container spacing={0.5} sx={{ flexGrow: 1, py: 0.5 }}>
             <Grid xs={5}>
-              <Paper sx={{ bgcolor: 'white' }}>
+              <Box sx={{ bgcolor: 'white' }}>
                 <Box
                   sx={{
                     fontSize: 12,
@@ -869,10 +869,10 @@ const EndoMonthlyReport = ({ viewData, ipViewReport, dayFlag, searchDate, testCo
                     <Typography sx={{ color: 'darkred', fontSize: 10 }}>* BenchMark Value is 2.3</Typography>
                   </Box>
                 </Box>
-              </Paper>
+              </Box>
             </Grid>
             <Grid xs={7}>
-              <Paper sx={{ bgcolor: 'white' }}>
+              <Box sx={{ bgcolor: 'white' }}>
                 <Box
                   sx={{
                     fontSize: 12,
@@ -987,10 +987,10 @@ const EndoMonthlyReport = ({ viewData, ipViewReport, dayFlag, searchDate, testCo
                     <Typography sx={{ color: 'darkred', fontSize: 10 }}>* BenchMark Value is 0</Typography>
                   </Box>
                 </Box>
-              </Paper>
+              </Box>
             </Grid>
             <Grid xs={7}>
-              <Paper sx={{ bgcolor: 'white' }}>
+              <Box sx={{ bgcolor: 'white' }}>
                 <Box
                   sx={{
                     fontSize: 12,
@@ -1107,10 +1107,10 @@ const EndoMonthlyReport = ({ viewData, ipViewReport, dayFlag, searchDate, testCo
                     <Typography sx={{ color: 'darkred', fontSize: 10 }}>* BenchMark Value is 10 min</Typography>
                   </Box>
                 </Box>
-              </Paper>
+              </Box>
             </Grid>
             <Grid xs={5}>
-              <Paper sx={{ bgcolor: 'white' }}>
+              <Box sx={{ bgcolor: 'white' }}>
                 <Box
                   sx={{
                     fontSize: 12,
@@ -1227,10 +1227,10 @@ const EndoMonthlyReport = ({ viewData, ipViewReport, dayFlag, searchDate, testCo
                     <Typography sx={{ color: 'darkred', fontSize: 10 }}>* BenchMark Value is 0</Typography>
                   </Box>
                 </Box>
-              </Paper>
+              </Box>
             </Grid>
             <Grid xs={5}>
-              <Paper sx={{ bgcolor: 'white' }}>
+              <Box sx={{ bgcolor: 'white' }}>
                 <Box
                   sx={{
                     fontSize: 12,
@@ -1345,10 +1345,10 @@ const EndoMonthlyReport = ({ viewData, ipViewReport, dayFlag, searchDate, testCo
                     <Typography sx={{ color: 'darkred', fontSize: 10 }}>* BenchMark Value is 0</Typography>
                   </Box>
                 </Box>
-              </Paper>
+              </Box>
             </Grid>
             <Grid xs={7}>
-              <Paper sx={{ bgcolor: 'white' }}>
+              <Box sx={{ bgcolor: 'white' }}>
                 <Box
                   sx={{
                     fontSize: 12,
@@ -1463,10 +1463,10 @@ const EndoMonthlyReport = ({ viewData, ipViewReport, dayFlag, searchDate, testCo
                     <Typography sx={{ color: 'darkred', fontSize: 10 }}>* BenchMark Value is 100</Typography>
                   </Box>
                 </Box>
-              </Paper>
+              </Box>
             </Grid>
             <Grid xs={7}>
-              <Paper sx={{ bgcolor: 'white' }}>
+              <Box sx={{ bgcolor: 'white' }}>
                 <Box
                   sx={{
                     fontSize: 12,
@@ -1585,10 +1585,10 @@ const EndoMonthlyReport = ({ viewData, ipViewReport, dayFlag, searchDate, testCo
                     <Typography sx={{ color: 'darkred', fontSize: 10 }}>* BenchMark Value is 0</Typography>
                   </Box>
                 </Box>
-              </Paper>
+              </Box>
             </Grid>
             <Grid xs={5}>
-              <Paper sx={{ bgcolor: 'white' }}>
+              <Box sx={{ bgcolor: 'white' }}>
                 <Box
                   sx={{
                     fontSize: 12,
@@ -1692,7 +1692,7 @@ const EndoMonthlyReport = ({ viewData, ipViewReport, dayFlag, searchDate, testCo
                     <Typography sx={{ color: 'darkred', fontSize: 10 }}>* BenchMark Value is 0</Typography>
                   </Box>
                 </Box>
-              </Paper>
+              </Box>
             </Grid>
           </Grid>
         ) : (

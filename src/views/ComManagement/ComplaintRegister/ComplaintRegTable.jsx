@@ -1,5 +1,5 @@
 import { Badge, Box, CssVarsProvider, Typography } from '@mui/joy'
-import React, { memo, useCallback, useEffect, useState } from 'react'
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked'
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked'
 import PendingList from './TicketLists/PendingList'
@@ -8,17 +8,19 @@ import { axioslogin } from 'src/views/Axios/Axios'
 import OnholdList from './TicketLists/OnholdList'
 import ForVerify from './TicketLists/ForVerify'
 import { errorNotify } from 'src/views/Common/CommonCode'
+import { getAllPendingComplaints } from 'src/api/CommonApi'
+import { useQuery } from '@tanstack/react-query'
 
 const ComplaintRegTable = ({ count, setCount, rowSelect, verficationPending }) => {
   const [pending, setpending] = useState(1)
   const [verifiedCheck, setVerifiedCheck] = useState(0)
   const [holdCheck, setholdCheck] = useState(0)
-  const [pendingCompl, setpendingCompl] = useState([])
-  const [onholdCompl, setOnholdCompl] = useState([])
-  const [holdLength, setholdLength] = useState(0)
-  const [pendingLength, setpendingLength] = useState(0)
-  const [forVerify, setforVerify] = useState([])
-  const [verifyLength, setverifyLength] = useState(0)
+  // const [pendingCompl, setpendingCompl] = useState([])
+  // const [onholdCompl, setOnholdCompl] = useState([])
+  // const [holdLength, setholdLength] = useState(0)
+  // const [pendingLength, setpendingLength] = useState(0)
+  // const [forVerify, setforVerify] = useState([])
+  // const [verifyLength, setverifyLength] = useState(0)
   const [loading, setLoading] = useState(false)
   const empsecid = useSelector(state => {
     return state.LoginUserData.empsecid
@@ -42,55 +44,99 @@ const ComplaintRegTable = ({ count, setCount, rowSelect, verficationPending }) =
     setpending(0)
   }, [])
 
-  useEffect(() => {
-    const getAllPendingComplaints = async () => {
-      setLoading(true)
-      try {
-        const result = await axioslogin.get(`/complaintreg/loginbysec/${empsecid}`)
-        const { success, data } = result.data
-        if (success === 1) {
-          const PendingCompl = data.filter(
-            complaint =>
-              complaint.compalint_status !== 2 &&
-              complaint.compalint_status !== 3 &&
-              complaint.cm_rectify_status !== 'O'
-          )
 
-          const OnholdCompl = data.filter(
-            complaint =>
-              complaint.compalint_status !== 2 &&
-              complaint.compalint_status !== 3 &&
-              complaint.cm_rectify_status === 'O'
-          )
+  const { isLoading, error, data, isSuccess } = useQuery({
+    queryKey: ['GetAllPendingComplaints', empsecid],
+    queryFn: () => getAllPendingComplaints(empsecid)
+  })
 
-          const ForVerify = data.filter(
-            complaint =>
-              complaint.compalint_status === 2 &&
-              complaint.compalint_status !== 3 &&
-              complaint.cm_rectify_status === 'R'
-          )
+  // Derived values — only filter when isSuccess is true
+  const pendingCompl = useMemo(() => {
+    if (!isSuccess || !Array.isArray(data)) return []
+    return data?.filter(
+      complaint =>
+        complaint.compalint_status !== 2 &&
+        complaint.compalint_status !== 3 &&
+        complaint.cm_rectify_status !== 'O'
+    )
+  }, [data, isSuccess])
 
-          setpendingCompl(PendingCompl)
-          setOnholdCompl(OnholdCompl)
-          setforVerify(ForVerify)
-          setholdLength(OnholdCompl.length)
-          setpendingLength(PendingCompl.length)
-          setverifyLength(ForVerify.length)
-        } else {
-          setpendingCompl([])
-          setOnholdCompl([])
-          setforVerify([])
-        }
-      } catch (error) {
-        errorNotify('Error fetching complaints:', error)
-      } finally {
-        setLoading(false)
-      }
-    }
+  const onholdCompl = useMemo(() => {
+    if (!isSuccess || !Array.isArray(data)) return []
+    return data?.filter(
+      complaint =>
+        complaint.compalint_status !== 2 &&
+        complaint.compalint_status !== 3 &&
+        complaint.cm_rectify_status === 'O'
+    )
+  }, [data, isSuccess])
 
-    getAllPendingComplaints()
-  }, [empsecid, count])
+  const forVerify = useMemo(() => {
+    if (!isSuccess || !Array.isArray(data)) return []
+    return data?.filter(
+      complaint =>
+        complaint.compalint_status === 2 &&
+        complaint.compalint_status !== 3 &&
+        complaint.cm_rectify_status === 'R'
+    )
+  }, [data, isSuccess])
 
+  const pendingLength = pendingCompl?.length
+  const holdLength = onholdCompl?.length
+  const verifyLength = forVerify?.length
+
+
+
+  // useEffect(() => {
+  //   const getAllPendingComplaints = async () => {
+  //     setLoading(true)
+  //     try {
+  //       const result = await axioslogin.get(`/complaintreg/loginbysec/${empsecid}`)
+  //       const { success, data } = result.data
+  //       if (success === 1) {
+  //         const PendingCompl = data.filter(
+  //           complaint =>
+  //             complaint.compalint_status !== 2 &&
+  //             complaint.compalint_status !== 3 &&
+  //             complaint.cm_rectify_status !== 'O'
+  //         )
+
+  //         const OnholdCompl = data.filter(
+  //           complaint =>
+  //             complaint.compalint_status !== 2 &&
+  //             complaint.compalint_status !== 3 &&
+  //             complaint.cm_rectify_status === 'O'
+  //         )
+
+  //         const ForVerify = data.filter(
+  //           complaint =>
+  //             complaint.compalint_status === 2 &&
+  //             complaint.compalint_status !== 3 &&
+  //             complaint.cm_rectify_status === 'R'
+  //         )
+
+  //         setpendingCompl(PendingCompl)
+  //         setOnholdCompl(OnholdCompl)
+  //         setforVerify(ForVerify)
+  //         setholdLength(OnholdCompl.length)
+  //         setpendingLength(PendingCompl.length)
+  //         setverifyLength(ForVerify.length)
+  //       } else {
+  //         setpendingCompl([])
+  //         setOnholdCompl([])
+  //         setforVerify([])
+  //       }
+  //     } catch (error) {
+  //       errorNotify('Error fetching complaints:', error)
+  //     } finally {
+  //       setLoading(false)
+  //     }
+  //   }
+
+  //   getAllPendingComplaints()
+  // }, [empsecid, count])
+  if (isLoading) return <p>Loading...</p>
+  if (error) return <p>Error occurred.</p>
   return (
     <Box sx={{ flex: 1 }}>
       <Box sx={{ flex: 1, display: 'flex', px: 3, pt: 2.5, pb: 0.5, justifyContent: 'center', gap: 3 }}>

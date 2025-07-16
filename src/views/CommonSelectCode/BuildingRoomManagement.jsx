@@ -1,4 +1,4 @@
-import { Box, FormControl, MenuItem, Select } from '@mui/material'
+import { Box, FormControl, Option, Select, } from '@mui/joy'
 import React, { useEffect } from 'react'
 import { memo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -15,31 +15,35 @@ const BuildingRoomManagement = ({ value, setValue, setName }) => {
   }, [dispatch])
   return (
     <Box>
-      <FormControl fullWidth size="small">
+      <FormControl size="small">
         <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
           value={value}
-          onChange={(e, { props }) => {
-            setValue(e.target.value)
-            setName(props.name)
+          // onChange={(e, { props }) => {
+          //   setValue(e.target.value)
+          //   setName(props.name)
+          // }}
+          onChange={(e, newValue) => {
+            setValue(newValue);
+            const sel = buildingdata?.find(c => c.rm_building_slno === newValue);
+            setName(sel?.rm_building_alias || '');
           }}
-          size="small"
-          fullWidth
+          size="md"
           variant="outlined"
           sx={{ height: 24, p: 0, m: 0, lineHeight: 1.2 }}
         >
-          <MenuItem value={0} disabled>
+          <Option value={0} disabled>
             Select Building
-          </MenuItem>
-          {buildingdata &&
-            buildingdata.map((val, index) => {
-              return (
-                <MenuItem key={index} value={val.rm_building_slno} name={val.rm_building_alias}>
-                  {val.rm_building_name}
-                </MenuItem>
-              )
-            })}
+          </Option>
+
+          {buildingdata?.map((val, i) => (
+            <Option
+              key={i}
+              value={val.rm_building_slno}
+              data-alias={val.rm_building_alias}
+            >
+              {val.rm_building_name}
+            </Option>
+          ))}
         </Select>
       </FormControl>
     </Box>

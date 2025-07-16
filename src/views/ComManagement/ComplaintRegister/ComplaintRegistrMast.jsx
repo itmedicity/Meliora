@@ -27,7 +27,7 @@ import CommentIcon from '@mui/icons-material/Comment'
 import MarkUnreadChatAltIcon from '@mui/icons-material/MarkUnreadChatAlt'
 import imageCompression from 'browser-image-compression'
 import CmAssetList from '../CmComponent/CmAssetList'
-import { useQuery } from 'react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { getCustodianDetails } from 'src/api/AssetApis'
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf'
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile'
@@ -69,6 +69,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
   const [imageShow, setImageShow] = useState(false)
   const [imageShowFlag, setImageShowFlag] = useState(0)
   const [locationDetails, setlocationDetails] = useState('')
+  const queryClient = useQueryClient()
 
   useEffect(() => {
     getComplaintSlno().then(val => {
@@ -76,18 +77,18 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
     })
   }, [count])
 
-  const logOut_time = useSelector(state => {
-    return state.LoginUserData.logOut
-  })
+  // const logOut_time = useSelector(state => {
+  //   return state.LoginUserData.logOut
+  // })
 
-  useEffect(() => {
-    const now = new Date()
-    if (now.getTime() < new Date(logOut_time).getTime()) {
-      history('/Home/ComplaintRegister')
-    } else {
-      history('/')
-    }
-  }, [codept, history, logOut_time])
+  // useEffect(() => {
+  //   const now = new Date()
+  //   if (now.getTime() < new Date(logOut_time).getTime()) {
+  //     history('/Home/ComplaintRegister')
+  //   } else {
+  //     history('/')
+  //   }
+  // }, [codept, history, logOut_time])
 
   const id = useSelector(state => {
     return state.LoginUserData.empid
@@ -456,6 +457,8 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
                       if (fileUploadResponse.success === 1) {
                         succesNotify('Complaint Updated Successfully')
                         setCount(count + 1)
+                        queryClient.invalidateQueries('GetAllPendingComplaints')
+
                         setOpen(false)
                         reset()
                       } else {
@@ -464,6 +467,8 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
                     } else {
                       succesNotify('Complaint Updated Successfully')
                       setCount(count + 1)
+                      queryClient.invalidateQueries('GetAllPendingComplaints')
+
                       setOpen(false)
                       reset()
                     }
@@ -479,6 +484,8 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
                     if (fileUploadResponse.success === 1) {
                       succesNotify('Complaint Updated Successfully')
                       setCount(count + 1)
+                      queryClient.invalidateQueries('GetAllPendingComplaints')
+
                       setOpen(false)
                       reset()
                     } else {
@@ -487,6 +494,8 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
                   } else {
                     succesNotify('Complaint Updated Successfully')
                     setCount(count + 1)
+                    queryClient.invalidateQueries('GetAllPendingComplaints')
+
                     setOpen(false)
                     reset()
                   }
@@ -504,6 +513,8 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
                     if (fileUploadResponse.success === 1) {
                       succesNotify('Complaint Updated Successfully')
                       setCount(count + 1)
+                      queryClient.invalidateQueries('GetAllPendingComplaints')
+
                       setOpen(false)
                       reset()
                     } else {
@@ -512,6 +523,8 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
                   } else {
                     succesNotify('Complaint Updated Successfully')
                     setCount(count + 1)
+                    queryClient.invalidateQueries('GetAllPendingComplaints')
+
                     setOpen(false)
                     reset()
                   }
@@ -524,6 +537,8 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
                   if (fileUploadResponse.success === 1) {
                     succesNotify('Complaint Updated Successfully')
                     setCount(count + 1)
+                    queryClient.invalidateQueries('GetAllPendingComplaints')
+
                     setOpen(false)
                     reset()
                   } else {
@@ -532,6 +547,8 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
                 } else {
                   succesNotify('Complaint Updated Successfully')
                   setCount(count + 1)
+                  queryClient.invalidateQueries('GetAllPendingComplaints')
+
                   setOpen(false)
                   reset()
                 }
@@ -569,6 +586,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
               }
               succesNotify('Complaint Registered Successfully')
               setCount(count + 1)
+              queryClient.invalidateQueries('GetAllPendingComplaints')
               setOpen(false)
               reset()
             } catch (error) {
@@ -611,7 +629,8 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
       priority,
       priorreason,
       setCount,
-      verficationPending.length
+      verficationPending.length,
+      queryClient
     ]
   )
 
@@ -813,8 +832,8 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
         ? 'pdf'
         : 'image'
       : file.type.includes('application/pdf')
-      ? 'pdf'
-      : 'image'
+        ? 'pdf'
+        : 'image'
 
     const fileUrl = file.url || URL.createObjectURL(file)
     setPreviewFile({ url: fileUrl, type: fileType })
@@ -850,11 +869,11 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
             display: 'flex',
             flexDirection: 'row',
             flex: 1,
-            width: '100%'
+            width: '100%',
           }}
         >
           <Box sx={{ display: 'flex', flex: 1, width: '80%', p: 0.5, flexDirection: 'column' }}>
-            <Paper variant="outlined" sx={{ p: 0.5 }} square>
+            <Paper variant="outlined" sx={{ p: 0.5, }} >
               <Box>
                 <CssVarsProvider>
                   <Typography sx={{ color: '#9FA6AD', fontWeight: 800, fontSize: 13, pl: 0.3, pb: 0.5 }}>
@@ -866,7 +885,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
                 {complaintdeptdata &&
                   complaintdeptdata.map(val => {
                     return (
-                      <Grid item key={val.complaint_dept_slno} sx={{ width: '100%' }}>
+                      <Grid key={val.complaint_dept_slno} sx={{ width: '100%' }}>
                         <ComDeptCheckBox
                           label={val.complaint_dept_name}
                           name={val.complaint_dept_name}
@@ -886,7 +905,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
               </Box>
             </Paper>
             {codept !== null ? (
-              <Paper variant="outlined" sx={{ p: 0.5 }} square>
+              <Paper variant="outlined" sx={{ p: 0.5 }} >
                 <Box>
                   <CssVarsProvider>
                     <Typography sx={{ color: '#9FA6AD', fontWeight: 800, fontSize: 13, pl: 0.3, pb: 0.5 }}>
@@ -928,7 +947,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
                 </Box>
               </Paper>
             ) : null}
-            <Paper variant="outlined" square>
+            <Paper variant="outlined" >
               <Typography sx={{ color: '#9FA6AD', fontWeight: 800, fontSize: 12, pl: 0.8, py: 0.5 }}>
                 COMPLAINT LOCATION
               </Typography>
@@ -968,7 +987,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
                       variant="outlined"
                       placement="top"
                     >
-                      <Grid item xs={2} sm={4} md={4} lg={2} xl={3}>
+                      <Grid xs={2} sm={4} md={4} lg={2} xl={3}>
                         <CusCheckBox
                           color="danger"
                           size="lg"
@@ -985,7 +1004,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
               </Box>
             </Paper>
             <Box>
-              <Paper variant="outlined" square sx={{ flex: 1 }}>
+              <Paper variant="outlined" sx={{ flex: 1 }}>
                 <Box sx={{ flex: 1, flexGrow: 1, p: 0.8 }}>
                   <Box sx={{ flex: 0.8, pr: 0.5 }}>
                     <Typography sx={{ color: '#9FA6AD', fontWeight: 800, fontSize: 12, pl: 0.3, pb: 0.5 }}>
@@ -1159,7 +1178,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
                 </Box>
               </Paper>
             </Box>
-            <Paper variant="outlined" square>
+            <Paper variant="outlined" >
               <Box sx={{ px: 0.5, pt: 0.5, display: 'flex', flex: 1 }}>
                 <Box sx={{ width: '80%' }}>
                   <CustomTextarea
@@ -1191,7 +1210,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
                       pt: 2
                     }}
                   >
-                    <Grid item xs={2} sm={4} md={4} lg={2} xl={3}>
+                    <Grid xs={2} sm={4} md={4} lg={2} xl={3}>
                       <CusCheckBox
                         // variant="outlined"
                         color="danger"
@@ -1337,7 +1356,6 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
         </Box>
       </CardMastComplaint>
       <Box
-        square
         elevation={0}
         sx={{
           p: 1,
@@ -1353,7 +1371,6 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
         />
       </Box>
       <Box
-        square
         sx={{
           display: 'flex',
           p: 1,

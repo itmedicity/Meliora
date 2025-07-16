@@ -1,6 +1,6 @@
 import { Box, CssVarsProvider, Table } from '@mui/joy'
 import React, { useCallback } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { axioslogin } from 'src/views/Axios/Axios'
 import DownloadIcon from '@mui/icons-material/Download'
 import CusIconButton from 'src/views/Components/CusIconButton'

@@ -10,7 +10,7 @@ import { useCallback } from 'react'
 import SheetRequiremodel from './SheetRequiremodel'
 import CustomeToolTip from 'src/views/Components/CustomeToolTip'
 
-const BedTrackingTable = ({ ipno, count, rowSelect, setTabledata, tabledata, rmSlno, setrmSlno, rmNo, setcount }) => {
+const BedTrackingTable = ({ count, rowSelect, tabledata, rmSlno, setrmSlno, rmNo, setcount }) => {
   const [sheet, setsheet] = useState(0)
   const [open, setopen] = useState(true)
   const [dataa, setdataa] = useState()

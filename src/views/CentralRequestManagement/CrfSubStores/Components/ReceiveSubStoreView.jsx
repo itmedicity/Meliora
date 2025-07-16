@@ -7,7 +7,7 @@ import BallotTwoToneIcon from '@mui/icons-material/BallotTwoTone'
 import ListAltTwoToneIcon from '@mui/icons-material/ListAltTwoTone'
 import VerifiedTwoToneIcon from '@mui/icons-material/VerifiedTwoTone'
 import { Virtuoso } from 'react-virtuoso'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import NotificationsActiveTwoToneIcon from '@mui/icons-material/NotificationsActiveTwoTone'
 import AssignmentReturnedOutlinedIcon from '@mui/icons-material/AssignmentReturnedOutlined'
 import { itemReturnDetailsForViewStore } from 'src/api/CommonApiCRF'
@@ -250,10 +250,10 @@ const ReceiveSubStoreView = ({
   const capitalizeWords = str =>
     str
       ? str
-          .toLowerCase()
-          .split(' ')
-          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(' ')
+        .toLowerCase()
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
       : ''
   if (isReturnLoading) return <p>Loading...</p>
   if (returnError) return <p>Error occurred.</p>

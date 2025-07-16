@@ -16,7 +16,7 @@ import { useSelector } from 'react-redux'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
-import { useQueryClient } from 'react-query'
+import { useQueryClient } from '@tanstack/react-query'
 
 const InfoModal = ({ handleClose, open, selectedRadio, storeName, infoData }) => {
   const queryClient = useQueryClient()
@@ -159,10 +159,10 @@ const InfoModal = ({ handleClose, open, selectedRadio, storeName, infoData }) =>
   const capitalizeWords = str =>
     str
       ? str
-          .toLowerCase()
-          .split(' ')
-          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(' ')
+        .toLowerCase()
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
       : ''
   return (
     <Box>

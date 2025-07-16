@@ -2,7 +2,7 @@ import { Box, Input } from '@mui/joy'
 import { BarChart } from '@mui/x-charts'
 import { endOfMonth, format, startOfMonth } from 'date-fns'
 import React, { memo, useCallback, useMemo, useState } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { getAllDeptopenWithIn } from 'src/api/TicketApi'
 import TextComponent from 'src/views/Components/TextComponent'
 

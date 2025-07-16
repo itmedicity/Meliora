@@ -98,7 +98,7 @@ const RejectedTasks = () => {
   }, [])
 
   return (
-    <Paper sx={{ pb: 0.3, bgcolor: 'white' }}>
+    <Box sx={{ pb: 0.3, bgcolor: 'white' }}>
       {image === 1 ? (
         <ViewTaskImage
           imageUrls={imageUrls}
@@ -574,7 +574,7 @@ const RejectedTasks = () => {
           </Box>
         )}
       </Box>
-    </Paper>
+    </Box>
   )
 }
 

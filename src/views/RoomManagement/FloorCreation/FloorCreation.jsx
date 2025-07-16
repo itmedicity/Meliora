@@ -1,4 +1,3 @@
-import { Box } from '@mui/material'
 import React, { useCallback, useState, memo } from 'react'
 import CardMaster from 'src/views/Components/CardMaster'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
@@ -13,6 +12,7 @@ import { axioslogin } from 'src/views/Axios/Axios'
 // import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { Box } from '@mui/joy'
 
 const FloorCreation = () => {
   const history = useNavigate()
@@ -208,8 +208,8 @@ const FloorCreation = () => {
 
   return (
     <CardMaster title="Floor Creation" submit={sumbitFloor} close={backtoSetting} refresh={refreshWindow}>
-      <Box sx={{ p: 1 }}>
-        <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
+      <Box sx={{ p: 1, width: "100%" }}>
+        <Box sx={{ height: '100%', width: '100%', display: 'flex', }}>
           <Box sx={{ width: '30%', p: 1 }}>
             <Box>
               <CampusSelect value={campus} setValue={setCampus} setName={setCampusShort} />

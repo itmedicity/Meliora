@@ -8,7 +8,7 @@ import AddIcon from '@mui/icons-material/Add'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { getSpecification } from 'src/api/AssetApis'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import CusIconButton from 'src/views/Components/CusIconButton'
@@ -440,12 +440,12 @@ const SpecDetailsComp = ({ detailArry, assetSpare }) => {
                       return (
                         <tr
                           key={index}
-                          // sx={{
-                          //     '&:last-child td, &:last-child th': { border: 0, },
-                          //     maxHeight: 60,
-                          //     minHeight: 2,
+                        // sx={{
+                        //     '&:last-child td, &:last-child th': { border: 0, },
+                        //     maxHeight: 60,
+                        //     minHeight: 2,
 
-                          // }}
+                        // }}
                         >
                           <td> {index + 1}</td>
                           <td>

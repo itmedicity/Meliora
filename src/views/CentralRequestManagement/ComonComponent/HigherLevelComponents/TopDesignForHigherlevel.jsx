@@ -12,7 +12,7 @@ import moment from 'moment'
 import CustomIconButtonCmp from '../Components/CustomIconButtonCmp'
 import CustomInputDateCmp from '../Components/CustomInputDateCmp'
 import { getDefaultCompany } from 'src/api/CommonApiCRF'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 
 const formatDateForInput = date => {
   return date.toISOString().split('T')[0]
@@ -564,10 +564,10 @@ const TopDesignForHigherlevel = ({
                 </Box>
               ) : null}
               {searchFlag === '1' ||
-              searchFlag === '2' ||
-              searchFlag === '3' ||
-              searchFlag === '4' ||
-              searchFlag === '5' ? (
+                searchFlag === '2' ||
+                searchFlag === '3' ||
+                searchFlag === '4' ||
+                searchFlag === '5' ? (
                 <Box sx={{ pt: 0.5 }}>
                   <CssVarsProvider>
                     <CustomIconButtonCmp handleChange={SearchData}>

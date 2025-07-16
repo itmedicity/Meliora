@@ -101,7 +101,7 @@ const DaywiseQiReport = () => {
   }, [fromDate, toDate, qitype, qidept])
 
   return (
-    <Box sx={{ maxHeight: window.innerHeight - 70 }}>
+    <Box sx={{ maxHeight: window.innerHeight - 70, width: '100%' }}>
       <Paper variant="outlined" square sx={{ display: 'flex', flex: 1, height: 40 }}>
         {/* <Box sx={{ pl: 0.7, pt: 1 }} >
                         <AssessmentIcon sx={{ bgcolor: '#555830', color: 'white', height: 23, width: 23 }} />

@@ -229,7 +229,7 @@ const CensusCreate = () => {
   return (
     <Fragment>
       {loading && <CustomCircularProgress />}
-      <Paper variant="outlined" square>
+      <Paper variant="outlined" square sx={{ width: "100%" }}>
         <Box sx={{ display: 'flex', flex: 1, height: 42 }}>
           <Box sx={{ pl: 0.7, pt: 0.2 }}>
             <RecentActorsIcon sx={{ color: '#424242', height: 40, width: 40 }} />

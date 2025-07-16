@@ -370,7 +370,7 @@ const MainPerformane = () => {
     })
 
   return (
-    <Paper sx={{ p: 0.5, borderRadius: 2, height: '90vh' }}>
+    <Paper sx={{ p: 0.5, borderRadius: 2, height: '90vh', width: '100%' }}>
       <Box sx={{ bgcolor: ' #DFE3ED', height: '100%', p: 0.5, borderRadius: 2 }}>
         <Box
           sx={{
@@ -402,14 +402,14 @@ const MainPerformane = () => {
                       overAllPerformance > 85
                         ? 'success'
                         : overAllPerformance > 70
-                        ? 'primary'
-                        : overAllPerformance > 60
-                        ? 'neutral'
-                        : overAllPerformance > 55
-                        ? 'neutral'
-                        : overAllPerformance > 30
-                        ? 'warning'
-                        : 'danger'
+                          ? 'primary'
+                          : overAllPerformance > 60
+                            ? 'neutral'
+                            : overAllPerformance > 55
+                              ? 'neutral'
+                              : overAllPerformance > 30
+                                ? 'warning'
+                                : 'danger'
                     }
                     sx={{
                       '--CircularProgress-size': '255px',
@@ -443,14 +443,14 @@ const MainPerformane = () => {
                         overAllPerformance > 85
                           ? 'darkgreen'
                           : overAllPerformance > 70
-                          ? '#12467B'
-                          : overAllPerformance > 60
-                          ? '#4C5270'
-                          : overAllPerformance > 55
-                          ? '#4C5270'
-                          : overAllPerformance > 30
-                          ? '#492B08'
-                          : 'darkred',
+                            ? '#12467B'
+                            : overAllPerformance > 60
+                              ? '#4C5270'
+                              : overAllPerformance > 55
+                                ? '#4C5270'
+                                : overAllPerformance > 30
+                                  ? '#492B08'
+                                  : 'darkred',
                       fontWeight: 600,
                       fontSize: 35
                     }}
@@ -463,14 +463,14 @@ const MainPerformane = () => {
                         overAllPerformance > 85
                           ? 'darkgreen'
                           : overAllPerformance > 70
-                          ? '#12467B'
-                          : overAllPerformance > 60
-                          ? '#4C5270'
-                          : overAllPerformance > 55
-                          ? '#4C5270'
-                          : overAllPerformance > 30
-                          ? '#492B08'
-                          : 'darkred',
+                            ? '#12467B'
+                            : overAllPerformance > 60
+                              ? '#4C5270'
+                              : overAllPerformance > 55
+                                ? '#4C5270'
+                                : overAllPerformance > 30
+                                  ? '#492B08'
+                                  : 'darkred',
                       fontWeight: 600,
                       fontSize: 40,
                       pl: 3
@@ -506,7 +506,7 @@ const MainPerformane = () => {
               <Box
                 sx={{
                   flex: 0.5,
-                  bgcolor: '#394457',
+                  bgcolor: 'var(--royal-purple-200)',
                   textAlign: 'right',
                   pr: 2,
                   pt: 2.5,
@@ -888,7 +888,7 @@ const MainPerformane = () => {
                 width: 180,
                 height: 33,
                 margin: 'auto',
-                bgcolor: '#394457',
+                bgcolor: 'var(--royal-purple-300)',
                 mr: 0.1,
                 borderRadius: 1,
                 px: 2.5,

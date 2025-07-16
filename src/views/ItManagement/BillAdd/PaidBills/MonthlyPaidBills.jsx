@@ -353,7 +353,7 @@ const MonthlyPaidBills = ({ montBills }) => {
               alphbasedData.map(val => {
                 const Monthly = format(new Date(val.monthly_bill_generate), 'MMM yyyy')
                 return (
-                  <Paper
+                  <Box
                     key={val.monthly_slno}
                     sx={{
                       minHeight: 33,
@@ -399,7 +399,7 @@ const MonthlyPaidBills = ({ montBills }) => {
                       &nbsp;
                       {val.it_bill_category_name}
                     </Box>
-                  </Paper>
+                  </Box>
                 )
               })}
           </Box>
@@ -409,7 +409,7 @@ const MonthlyPaidBills = ({ montBills }) => {
               billDateData.map(val => {
                 const Monthly = format(new Date(val.monthly_bill_generate), 'MMM yyyy')
                 return (
-                  <Paper
+                  <Box
                     key={val.monthly_slno}
                     sx={{
                       minHeight: 33,
@@ -455,7 +455,7 @@ const MonthlyPaidBills = ({ montBills }) => {
                       &nbsp;
                       {val.it_bill_category_name}
                     </Box>
-                  </Paper>
+                  </Box>
                 )
               })}
           </Box>
@@ -465,7 +465,7 @@ const MonthlyPaidBills = ({ montBills }) => {
               billcate.map(val => {
                 const Monthly = format(new Date(val.monthly_bill_generate), 'MMM yyyy')
                 return (
-                  <Paper
+                  <Box
                     key={val.monthly_slno}
                     sx={{
                       minHeight: 33,
@@ -512,7 +512,7 @@ const MonthlyPaidBills = ({ montBills }) => {
                       &nbsp;
                       {val.it_bill_category_name}
                     </Box>
-                  </Paper>
+                  </Box>
                 )
               })}
           </Box>
@@ -522,7 +522,7 @@ const MonthlyPaidBills = ({ montBills }) => {
               montBills.map(val => {
                 const Monthly = format(new Date(val.monthly_bill_generate), 'MMM yyyy')
                 return (
-                  <Paper
+                  <Box
                     key={val.monthly_slno}
                     sx={{
                       minHeight: 33,
@@ -568,7 +568,7 @@ const MonthlyPaidBills = ({ montBills }) => {
                       &nbsp;
                       {val.it_bill_category_name}
                     </Box>
-                  </Paper>
+                  </Box>
                 )
               })}
           </Box>

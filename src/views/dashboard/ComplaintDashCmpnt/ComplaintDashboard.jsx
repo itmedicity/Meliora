@@ -79,7 +79,7 @@ const ComplaintDashboard = ({ widgetName, count, status, slno }) => {
             }}
           >
             <CssVarsProvider>
-              <IconButton variant="outlined" size="lg" color="primary" onClick={e => DashboardClick(slno)}>
+              <IconButton variant="outlined" size="lg" color="primary" onClick={() => DashboardClick(slno)}>
                 {status === false ? <CircularProgress sx={{ color: 'pink' }} /> : count}
               </IconButton>
             </CssVarsProvider>

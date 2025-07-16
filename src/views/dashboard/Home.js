@@ -114,7 +114,7 @@ const Home = () => {
   useEffect(() => {
     const socket = io()
     socket.connect(WS_URL)
-    socket.on('message', data => {})
+    socket.on('message', () => { })
 
     return () => {
       socket.disconnect()

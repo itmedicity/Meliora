@@ -57,61 +57,61 @@ const PaidBills = () => {
 
   return (
     <Box>
-      <CssVarsProvider>
-        <Tabs
-          aria-label="Basic tabs"
-          defaultValue={0}
-          size="sm"
+      {/* <CssVarsProvider> */}
+      <Tabs
+        aria-label="Basic tabs"
+        defaultValue={0}
+        size="sm"
+        sx={{
+          display: 'flex'
+        }}
+      >
+        <TabList
+          disableUnderline
           sx={{
-            display: 'flex'
+            bgcolor: 'background.level1',
+            borderBottom: 0,
+            [`& .${tabClasses.root}[aria-selected="true"]`]: {
+              boxShadow: 'sm',
+              borderBottom: 0,
+              borderColor: 'white',
+              color: 'white',
+              borderRadius: 20,
+              bgcolor: '#3D5B59'
+            }
           }}
         >
-          <TabList
-            disableUnderline
-            sx={{
-              bgcolor: 'background.level1',
-              borderBottom: 0,
-              [`& .${tabClasses.root}[aria-selected="true"]`]: {
-                boxShadow: 'sm',
-                borderBottom: 0,
-                borderColor: 'white',
-                color: 'white',
-                borderRadius: 20,
-                bgcolor: '#3D5B59'
-              }
-            }}
-          >
-            <Box sx={{ display: 'flex' }}>
-              <Tab sx={{ flexGrow: 1 }} disableIndicator>
-                {' '}
-                Monthly
-              </Tab>
-              <Tab sx={{ flexGrow: 1 }} disableIndicator>
-                Quarterly
-              </Tab>
-              <Tab sx={{ flexGrow: 1 }} disableIndicator>
-                {' '}
-                Yearly
-              </Tab>
-              <Tab sx={{ flexGrow: 1 }} disableIndicator>
-                Other Bills
-              </Tab>
-            </Box>
-          </TabList>
-          <TabPanel value={0} sx={{ p: 0, borderRadius: 0 }}>
-            <MonthlyPaidBills montBills={montBills} />
-          </TabPanel>
-          <TabPanel value={1} sx={{ p: 0 }}>
-            <QuarterlyPaidBills quarBills={quarBills} />
-          </TabPanel>
-          <TabPanel value={2} sx={{ p: 0 }}>
-            <YearlyPaidBills yearBills={yearBills} />
-          </TabPanel>
-          <TabPanel value={3} sx={{ p: 0 }}>
-            <OtherPaidBills otherBills={otherBills} />
-          </TabPanel>
-        </Tabs>
-      </CssVarsProvider>
+          <Box sx={{ display: 'flex' }}>
+            <Tab sx={{ flexGrow: 1 }} disableIndicator>
+              {' '}
+              Monthly
+            </Tab>
+            <Tab sx={{ flexGrow: 1 }} disableIndicator>
+              Quarterly
+            </Tab>
+            <Tab sx={{ flexGrow: 1 }} disableIndicator>
+              {' '}
+              Yearly
+            </Tab>
+            <Tab sx={{ flexGrow: 1 }} disableIndicator>
+              Other Bills
+            </Tab>
+          </Box>
+        </TabList>
+        <TabPanel value={0} sx={{ p: 0, borderRadius: 0 }}>
+          <MonthlyPaidBills montBills={montBills} />
+        </TabPanel>
+        <TabPanel value={1} sx={{ p: 0 }}>
+          <QuarterlyPaidBills quarBills={quarBills} />
+        </TabPanel>
+        <TabPanel value={2} sx={{ p: 0 }}>
+          <YearlyPaidBills yearBills={yearBills} />
+        </TabPanel>
+        <TabPanel value={3} sx={{ p: 0 }}>
+          <OtherPaidBills otherBills={otherBills} />
+        </TabPanel>
+      </Tabs>
+      {/* </CssVarsProvider> */}
     </Box>
   )
 }

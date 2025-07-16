@@ -1,6 +1,6 @@
 import { CircularProgress, Paper } from '@mui/material'
 import React, { memo, useEffect, useMemo, useState } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useSelector } from 'react-redux'
 import { getCondemnationApprovalRights } from 'src/api/AssetApis'
 import CondemnationListTab from './CondemnationListTab'
