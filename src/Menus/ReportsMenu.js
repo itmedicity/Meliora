@@ -62,7 +62,7 @@ export const crm_three = [
     { to: '/Home/AllCRFReport', name: 'CRF Report', slno: 222 },
     { to: '/Home/AllCRFReportWithPO', name: 'CRF Report With PO', slno: 227 },
 ]
-
 export const dc_one = [
     { to: '/Home/DcReport', name: 'Daily Census Report', slno: 276 },
 ]
+

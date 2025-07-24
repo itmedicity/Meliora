@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import {
-    diet_one, diet_two, diet_three, cms_one, cms_two, cms_three, am_one, tm_one,
-    crm_one, crm_two, crm_three, dc_one
+import {   
+        diet_one, diet_two, diet_three, cms_one, cms_two, cms_three, am_one, tm_one,
+    crm_one, crm_two, crm_three, dc_one,
 } from './ReportsMenu'
 import { getMenuSlno } from '../views/Constant/Constant'
 import { Link } from 'react-router-dom'
@@ -20,6 +20,8 @@ const Reports = () => {
     const [crm_report_one, setcrm_report_one] = useState();
     const [crm_report_two, setcrm_report_two] = useState();
     const [crm_report_three, setcrm_report_three] = useState();
+    // const [amsReportOne, setamsReportOne] = useState()
+
     const [count, setCount] = useState(0)
     const [dc_report_one, setdc_report_one] = useState();
 
@@ -62,6 +64,17 @@ const Reports = () => {
             const dc_report_one = dc_one.filter(val => menuSlnoArray.includes(val.slno));
             setdc_report_one(dc_report_one)
             setCount(1)
+
+            // const ams_report_one = ams_one.filter(val => menuSlnoArray.includes(val.slno));
+            // setamsReportOne(ams_report_one)
+   
+        
+
+            
+
+
+
+
         })
     }, [count])
     return (
@@ -217,6 +230,7 @@ const Reports = () => {
                     </div>
                 </div>
             </CardContent>
+
             <CardHeader title={"Daily Census Report"}
                 titleTypographyProps={{ variant: "subtitle1", color: titleTypography }}
                 sx={{
@@ -238,6 +252,7 @@ const Reports = () => {
 
                 </div>
             </CardContent>
+
         </Card>
     )
 }

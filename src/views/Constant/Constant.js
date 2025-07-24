@@ -1,4 +1,8 @@
 import { axioslogin } from "../Axios/Axios"
+// import DOMPurify from "dompurify";
+
+
+
 
 //Get login employee No
 export const employeeNumber = () => {
@@ -88,3 +92,8 @@ export const urlExist = (url, callBack) => {
 
 export const innerHeight = window.innerHeight;
 export const innerWidth = window.innerWidth;
+
+
+// export const sanitizeInput = (input) => {
+//     return DOMPurify.sanitize(input);
+// };

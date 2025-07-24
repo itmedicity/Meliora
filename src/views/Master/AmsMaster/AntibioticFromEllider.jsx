@@ -10,7 +10,7 @@ const AntibioticFromEllider = ({ antibioticList, antibioticData }) => {
           <thead>
             <tr>
               <th style={{ width: 80, textAlign: 'center' }}>Item Code</th>
-              <th style={{ width: 'auto', textAlign: 'center' }}>Item Describtion</th>
+              <th style={{ width: 'auto', }}>Item Describtion</th>
               <th style={{ width: 60, textAlign: 'center' }}>Add</th>
             </tr>
 
@@ -19,7 +19,7 @@ const AntibioticFromEllider = ({ antibioticList, antibioticData }) => {
             {antibioticList.map((val, index) => (
               <tr key={index}>
                 <td style={{ width: 80, textAlign: 'center' }}>{val.IT_CODE}</td>
-                <td style={{ width: 'auto', textAlign: 'center' }}>{val.ITC_DESC}</td>
+                <td style={{ width: 'auto', }}>{val.ITC_DESC}</td>
                 <td style={{ width: 60, textAlign: 'center' }}>
                   <AddCircleOutlineIcon
                     sx={{ color: '#255a94', cursor: 'pointer' }}

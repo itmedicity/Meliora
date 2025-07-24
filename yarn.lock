@@ -2741,6 +2741,11 @@
   "resolved" "https://registry.npmjs.org/@types/tapable/-/tapable-1.0.8.tgz"
   "version" "1.0.8"
 
+"@types/trusted-types@^2.0.7":
+  "integrity" "sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw=="
+  "resolved" "https://registry.npmjs.org/@types/trusted-types/-/trusted-types-2.0.7.tgz"
+  "version" "2.0.7"
+
 "@types/uglify-js@*":
   "integrity" "sha512-O3MmRAk6ZuAKa9CHgg0Pr0+lUOqoMLpc9AS4R8ano2auvsg7IE8syF3Xh/NPr26TWklxYcqoEEFdzLLs1fV9PQ=="
   "resolved" "https://registry.npmjs.org/@types/uglify-js/-/uglify-js-3.13.1.tgz"
@@ -5697,9 +5702,16 @@
     "domelementtype" "^2.2.0"
 
 "dompurify@^2.0.12":
-  "integrity" "sha512-eVhaWoVibIzqdGYjwsBWodIQIaXFSB+cKDf4cfxLMsK0xiud6SE+/WCVx/Xw/UwQsa4cS3T2eITcdtmTg2UKcw=="
-  "resolved" "https://registry.npmjs.org/dompurify/-/dompurify-2.3.8.tgz"
-  "version" "2.3.8"
+  "integrity" "sha512-o1vSNgrmYMQObbSSvF/1brBYEQPHhV1+gsmrusO7/GXtp1T9rCS8cXFqVxK/9crT1jA6Ccv+5MTSjBNqr7Sovw=="
+  "resolved" "https://registry.npmjs.org/dompurify/-/dompurify-2.5.8.tgz"
+  "version" "2.5.8"
+
+"dompurify@^3.2.2":
+  "integrity" "sha512-YMM+erhdZ2nkZ4fTNRTSI94mb7VG7uVF5vj5Zde7tImgnhZE3R6YW/IACGIHb2ux+QkEXMhe591N+5jWOmL4Zw=="
+  "resolved" "https://registry.npmjs.org/dompurify/-/dompurify-3.2.2.tgz"
+  "version" "3.2.2"
+  optionalDependencies:
+    "@types/trusted-types" "^2.0.7"
 
 "domutils@^1.7.0":
   "integrity" "sha512-Lgd2XcJ/NjEw+7tFvfKxOzCYKZsdct5lczQ2ZaQY8Djz7pfAD3Gbp8ySJWtreII/vDlMVmxwa6pHmdxIYgttDg=="

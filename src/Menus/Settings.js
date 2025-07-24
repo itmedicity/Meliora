@@ -247,7 +247,7 @@ const Settings = () => {
                     <div className="col-4">
                         <ul className="list-group list-group-flush">
                             {
-                                ams_one && ams_one.map((val) => {
+                                ams_secone && ams_secone.map((val) => {
                                     return <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}  >{val.name}</Link>;
                                 })
                             }
