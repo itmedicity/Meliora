@@ -159,6 +159,7 @@ const AmsMain = () => {
                   <th style={{ width: 300, textAlign: 'center' }}>Growth Remark 1</th>
                   <th style={{ width: 300, textAlign: 'center' }}>Growth Remark 2</th>
                   <th style={{ width: 300, textAlign: 'center' }}>Growth Remark 3</th>
+                  <th style={{ width: 300, textAlign: 'center' }}>Result Verified Date</th>
                   <th style={{ width: 300, textAlign: 'center' }}>Cultural Details Remark</th>
                   <th style={{ width: 300, textAlign: 'center' }}>Physician And Ams Comments</th>
                   <th style={{ width: 200, textAlign: 'center' }}>Patient Out Come</th>
@@ -203,6 +204,7 @@ const AmsMain = () => {
                     <td style={{ textAlign: 'center' }}>{val.growth_remark_one}</td>
                     <td style={{ textAlign: 'center' }}>{val.growth_remark_two}</td>
                     <td style={{ textAlign: 'center' }}>{val.growth_remark_three}</td>
+                    <td style={{ textAlign: 'center' }}>{val.result_verified_date}</td>
                     <td style={{ textAlign: 'center' }}>{val.culture_details_remarks}</td>
                     <td style={{ textAlign: 'center' }}>{val.physician_ams_comments}</td>
                     <td style={{ textAlign: 'center' }}>{val.patient_outcome}</td>

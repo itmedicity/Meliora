@@ -25,7 +25,6 @@ const AmsAddPatientDetailsModal = ({ setaddDetailsFlag, addDetailsOpen, setaddDe
     const targetDate = new Date();
     const currentDate = format(targetDate, 'yyyy-MM-dd HH:mm:ss');
 
-
     const [details, setDetails] = useState({
         clinicalAssesment: '',
         sampleID: '',
@@ -43,6 +42,7 @@ const AmsAddPatientDetailsModal = ({ setaddDetailsFlag, addDetailsOpen, setaddDe
         Specimen: '',
         FluidType: '',
         SampleType: '',
+        ResultVerifyDate: '',
         Investigation: '',
         Growth: '',
         growthRemarkOne: '',
@@ -57,7 +57,7 @@ const AmsAddPatientDetailsModal = ({ setaddDetailsFlag, addDetailsOpen, setaddDe
     });
 
     const { clinicalAssesment, sampleID, dateOfCollection, dateOfIssueOfReport, abstCultureReport, empricalAntibiotic, empricalAntibioDateOfStart,
-        escalDescalIVOralSwitich, physicianAmsComments, patientOutcome, labNo, Specimen, FluidType, SampleType, Investigation, Growth, growthRemarkOne,
+        escalDescalIVOralSwitich, physicianAmsComments, patientOutcome, labNo, Specimen, FluidType, SampleType, ResultVerifyDate, Investigation, Growth, growthRemarkOne,
         growthRemarkTwo, growthRemarkThree, cultureDetailsRemarks, cultureDetailsAddedDate, organismOne, organismTwo } = details
 
     const [formState, setFormState] = useState({
@@ -78,7 +78,7 @@ const AmsAddPatientDetailsModal = ({ setaddDetailsFlag, addDetailsOpen, setaddDe
                 compliance_pathogen_directed_therapy, physician_ams_comments, patient_outcome,
                 lab_no, specimen, fluid_type, sample_type, investigation, growth,
                 growth_remark_one, growth_remark_two, growth_remark_three, culture_details_remarks,
-                samp_collect_for_antibiotic,
+                samp_collect_for_antibiotic, result_verified_date,
                 culture_details_added_date, organism_one, organism_two, ams_patient_detail_slno,
             } = patientDetail;
 
@@ -97,6 +97,7 @@ const AmsAddPatientDetailsModal = ({ setaddDetailsFlag, addDetailsOpen, setaddDe
                 Specimen: specimen || '',
                 FluidType: fluid_type || '',
                 SampleType: sample_type || '',
+                ResultVerifyDate: result_verified_date || '',
                 Investigation: investigation || '',
                 Growth: growth || '',
                 growthRemarkOne: growth_remark_one || '',
@@ -126,6 +127,7 @@ const AmsAddPatientDetailsModal = ({ setaddDetailsFlag, addDetailsOpen, setaddDe
         enabled: mrd_no !== undefined,
         queryFn: () => getPatientMicrobiologyResult(mrd_no),
     });
+
 
     const MicroBiologyResultData = useMemo(() =>
         MicroBiologyResult, [MicroBiologyResult]);
@@ -163,7 +165,26 @@ const AmsAddPatientDetailsModal = ({ setaddDetailsFlag, addDetailsOpen, setaddDe
 
     const AddCultureDetails = useCallback((val) => {
         if (!val) return;
-        const { FLUIDTYPE, GROWTH, GROWTH_REMARKS_1, GROWTH_REMARKS_2, GROWTH_REMARKS_3, INVESTIGATION, LABNO, ORGANISM_1, ORGANISM_2, REMARKS, SAMPLE_TYPE, SPECIMEN, } = val
+
+        const { FLUIDTYPE, GROWTH, GROWTH_REMARKS_1, GROWTH_REMARKS_2, GROWTH_REMARKS_3, INVESTIGATION,
+            LABNO, ORGANISM_1, ORGANISM_2, REMARKS, SAMPLE_TYPE, SPECIMEN, VERIFY_DATE } = val
+
+        const formatDate = (dateStr) => {
+            if (!dateStr) return '';
+            const istDate = new Date(
+                new Date(dateStr).toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })
+            );
+            const pad = (n) => n.toString().padStart(2, '0');
+            const year = istDate.getFullYear();
+            const month = pad(istDate.getMonth() + 1);
+            const day = pad(istDate.getDate());
+            const hours = pad(istDate.getHours());
+            const minutes = pad(istDate.getMinutes());
+            const seconds = pad(istDate.getSeconds());
+            return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
+        };
+
         setDetails(prev => ({
             ...prev,
             labNo: LABNO || '',
@@ -171,6 +192,7 @@ const AmsAddPatientDetailsModal = ({ setaddDetailsFlag, addDetailsOpen, setaddDe
             FluidType: FLUIDTYPE || '',
             SampleType: SAMPLE_TYPE || '',
             Investigation: INVESTIGATION || '',
+            ResultVerifyDate: formatDate(VERIFY_DATE) || '',
             organismOne: ORGANISM_1 || '',
             organismTwo: ORGANISM_2 || '',
             Growth: GROWTH || '',
@@ -202,6 +224,7 @@ const AmsAddPatientDetailsModal = ({ setaddDetailsFlag, addDetailsOpen, setaddDe
             Specimen: '',
             FluidType: '',
             SampleType: '',
+            ResultVerifyDate: '',
             Investigation: '',
             Growth: '',
             growthRemarkOne: '',
@@ -262,6 +285,7 @@ const AmsAddPatientDetailsModal = ({ setaddDetailsFlag, addDetailsOpen, setaddDe
             FluidType: FluidType || null,
             SampleType: SampleType || null,
             Investigation: Investigation || null,
+            ResultVerifyDate: ResultVerifyDate || null,
             Growth: Growth || null,
             growthRemarkOne: growthRemarkOne || null,
             growthRemarkTwo: growthRemarkTwo || null,
@@ -278,8 +302,7 @@ const AmsAddPatientDetailsModal = ({ setaddDetailsFlag, addDetailsOpen, setaddDe
     }, [ams_patient_detail_slno, clinicalAssesment, sampleID, dateOfCollection, dateOfIssueOfReport, abstCultureReport, empricalAntibiotic,
         empricalAntibioDateOfStart, escalDescalIVOralSwitich, physicianAmsComments, patientOutcome, sampleCollected, empiricalPolicy, pathogenDirectedTherapy,
         reportSubmitted, organismOne, organismTwo, labNo, Specimen, FluidType, SampleType, Investigation, Growth, growthRemarkOne, growthRemarkTwo, growthRemarkThree,
-        cultureDetailsRemarks, cultureDetailsAddedDate, currentDate, empid,
-
+        cultureDetailsRemarks, cultureDetailsAddedDate, currentDate, empid, ResultVerifyDate
     ])
 
 
@@ -434,76 +457,82 @@ const AmsAddPatientDetailsModal = ({ setaddDetailsFlag, addDetailsOpen, setaddDe
                                         </Box>
                                     </Box>
                                 </Box>
-                                <Divider sx={{ mt: 2, '--Divider-childPosition': `3%` }}>Prescribed Antibiotics</Divider>
-                                <Box sx={{ flex: 1 }}>
-                                    {Loadingantibiotics ? (
-                                        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 200 }}>
-                                            <CircularProgress
-                                                sx={{
-                                                    "--CircularProgress-size": "47px",
-                                                    "--CircularProgress-trackThickness": "2px",
-                                                    "--CircularProgress-progressThickness": "3px"
-                                                }}
-                                            />
-                                        </Box>
-                                    ) : (
-                                        <Table stickyHeader size="sm" sx={{ mb: .5, }} borderAxis='none'>
-                                            <thead >
-                                                <tr>
-                                                    <th style={{ width: 80, backgroundColor: 'white', fontSize: 13, fontWeight: 700, }}>Item code</th>
-                                                    <th style={{ width: 110, backgroundColor: 'white', fontSize: 13, fontWeight: 700, textAlign: 'center' }}>Antibiotic</th>
-                                                    <th style={{ width: 'auto', backgroundColor: 'white', fontSize: 13, fontWeight: 700, }}> Item Describtion</th>
-                                                    <th style={{ width: 120, backgroundColor: 'white', fontSize: 13, fontWeight: 700, }}> VED Analysis</th>
-                                                    <th style={{ width: 'auto', backgroundColor: 'white', fontSize: 13, fontWeight: 700, }}>Composition/Volume</th>
-                                                    <th style={{ width: 150, backgroundColor: 'white', fontSize: 13, fontWeight: 700, }}>Bill Date</th>
-                                                    <th style={{ width: 60, backgroundColor: 'white', fontSize: 13, fontWeight: 700, }}>Priority</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-
-                                                {priorityList.map((val, index) => (
-                                                    <tr key={index}>
-                                                        <td style={{}}>{val.item_code}</td>
-                                                        <td style={{}}>
-                                                            <Chip
-                                                                sx={{
-                                                                    bgcolor: val.restricted === 1 ? "darkred" : "#c1c8e4",
-                                                                    color: val.restricted === 1 ? "white" : "black",
-                                                                    fontWeight: 500,
-                                                                }}                      >
-                                                                {val.restricted === 1 ? "Restricted" : "Unrestricted"}
-                                                            </Chip>
-                                                        </td>
-                                                        <td style={{}}>{val.itc_desc}</td>
-                                                        <td style={{}}>{val.vital_essential}</td>
-                                                        <td style={{}}>{val.composition_volume}</td>
-                                                        <td style={{}}>
-                                                            {val.bill_date
-                                                                ? format(new Date(val.bill_date), 'dd MMM yyyy,  hh:mm a')
-                                                                : 'Invalid Date'}
-                                                        </td>
-                                                        <td style={{ textAlign: 'center' }}>
-                                                            <Checkbox
-                                                                variant="outlined"
-                                                                checked={val.item_priority === 1}
-                                                                onChange={(e) => handlePriorityToggle(e.target.checked, index)}
-                                                            />
-                                                        </td>
-                                                    </tr>
-                                                ))}
-                                            </tbody>
-                                        </Table>
-                                    )}
-                                </Box>
                             </Box>
                         </Box>
+                        <Card variant="outlined" sx={{ mx: 2, mt: 1 }}>
+                            <Typography sx={{ color: '#14344bff', }}>
+                                Prescribed Antibiotics
+                            </Typography>
+                            <Box sx={{ flex: 1 }}>
+                                {Loadingantibiotics ? (
+                                    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 200 }}>
+                                        <CircularProgress
+                                            sx={{
+                                                "--CircularProgress-size": "47px",
+                                                "--CircularProgress-trackThickness": "2px",
+                                                "--CircularProgress-progressThickness": "3px"
+                                            }}
+                                        />
+                                    </Box>
+                                ) : (
+
+                                    <Table stickyHeader size="sm" sx={{ mb: .5, }} borderAxis='both' >
+                                        <thead >
+                                            <tr>
+                                                <th style={{ width: 80, backgroundColor: 'white', fontSize: 13, fontWeight: 700, }}>Item code</th>
+                                                <th style={{ width: 110, backgroundColor: 'white', fontSize: 13, fontWeight: 700, textAlign: 'center' }}>Antibiotic</th>
+                                                <th style={{ width: 'auto', backgroundColor: 'white', fontSize: 13, fontWeight: 700, }}> Item Describtion</th>
+                                                <th style={{ width: 120, backgroundColor: 'white', fontSize: 13, fontWeight: 700, }}> VED Analysis</th>
+                                                <th style={{ width: 'auto', backgroundColor: 'white', fontSize: 13, fontWeight: 700, }}>Composition/Volume</th>
+                                                <th style={{ width: 150, backgroundColor: 'white', fontSize: 13, fontWeight: 700, }}>Bill Date</th>
+                                                <th style={{ width: 60, backgroundColor: 'white', fontSize: 13, fontWeight: 700, }}>Priority</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            {priorityList.map((val, index) => (
+                                                <tr key={index}>
+                                                    <td >{val.item_code}</td>
+                                                    <td >
+                                                        <Chip
+                                                            sx={{
+                                                                bgcolor: val.restricted === 1 ? "darkred" : "#c1c8e4",
+                                                                color: val.restricted === 1 ? "white" : "black",
+                                                                fontWeight: 500,
+                                                            }}                      >
+                                                            {val.restricted === 1 ? "Restricted" : "Unrestricted"}
+                                                        </Chip>
+                                                    </td>
+                                                    <td >{val.itc_desc}</td>
+                                                    <td >{val.vital_essential}</td>
+                                                    <td >{val.composition_volume}</td>
+                                                    <td >
+                                                        {val.bill_date
+                                                            ? format(new Date(val.bill_date), 'dd MMM yyyy,  hh:mm a')
+                                                            : 'Invalid Date'}
+                                                    </td>
+                                                    <td style={{ textAlign: 'center' }}>
+                                                        <Checkbox
+                                                            variant="outlined"
+                                                            checked={val.item_priority === 1}
+                                                            onChange={(e) => handlePriorityToggle(e.target.checked, index)}
+                                                        />
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </Table>
+                                )}
+                            </Box>
+                        </Card>
                         <Box sx={{
-                            // overflow: 'auto', height: '50vh',
                             px: 1
                         }}>
                             <Card variant="outlined" sx={{ m: 1 }}>
+                                <Typography sx={{ color: '#14344bff', pl: 1 }}>
+                                    Antibiotic Assessment
+                                </Typography>
                                 <Box sx={{ flex: 1, display: 'flex', gap: 2, }}>
-
                                     <Box sx={{ width: 585, pl: 1 }} >
                                         <Box sx={{ flex: 1, display: 'flex', gap: 1, mt: .5 }}>
                                             <Box sx={{ flex: 1 }}>
@@ -687,7 +716,7 @@ const AmsAddPatientDetailsModal = ({ setaddDetailsFlag, addDetailsOpen, setaddDe
                             <Box sx={{ m: 1 }}>
                                 <Card variant="outlined">
                                     <CardContent>
-                                        <Typography sx={{}}>
+                                        <Typography sx={{ color: '#14344bff', pl: 1 }} >
                                             Patient Culture Details
                                         </Typography>
 
@@ -705,55 +734,123 @@ const AmsAddPatientDetailsModal = ({ setaddDetailsFlag, addDetailsOpen, setaddDe
                                                 />
                                             </Box>
                                         ) : (
-                                            <Table stickyHeader size="sm" borderAxis="both" sx={{ borderRadius: 8 }}>
-                                                <thead>
-                                                    <tr>
-                                                        <th style={{ textAlign: 'center', width: 30 }}>#</th>
-                                                        <th style={{ textAlign: 'center', width: 80 }}>Lab No.</th>
-                                                        <th style={{ textAlign: 'center', width: 'auto' }}>Specimen</th>
-                                                        <th style={{ textAlign: 'center', width: 'auto' }}>Fluid Type</th>
-                                                        <th style={{ textAlign: 'center', width: 'auto' }}>Sample Type</th>
-                                                        <th style={{ textAlign: 'center', width: 'auto' }}>Investigation</th>
-                                                        <th style={{ textAlign: 'center', width: 'auto' }}>Growth</th>
-                                                        <th style={{ textAlign: 'center', width: 'auto' }}>Growth Remark 1</th>
-                                                        <th style={{ textAlign: 'center', width: 'auto' }}>Growth Remark 2</th>
-                                                        <th style={{ textAlign: 'center', width: 'auto' }}>Growth Remark 3</th>
-                                                        <th style={{ textAlign: 'center', width: 'auto' }}>Remarks</th>
-                                                        <th style={{ textAlign: 'center', width: 50 }}>Add</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {MicroBiologyResultData.length === 0 ? (
+                                            <Box
+                                                sx={{
+                                                    m: 1,
+                                                    overflow: 'auto',
+                                                    border: 1,
+                                                    borderColor: 'lightgrey',
+                                                    '&::-webkit-scrollbar': {
+                                                        height: '6px',
+                                                        width: '5px',
+                                                    },
+                                                    '&::-webkit-scrollbar-thumb': {
+                                                        backgroundColor: '#256192ff',
+                                                        borderRadius: '4px',
+                                                    },
+                                                    '&::-webkit-scrollbar-thumb:hover': {
+                                                        backgroundColor: '#48667cff',
+                                                    },
+                                                    '&::-webkit-scrollbar-track': {
+                                                        backgroundColor: '#ffffffff',
+                                                    },
+                                                }}
+                                            >
+                                                <Table
+                                                    borderAxis="bothBetween"
+                                                    sx={{
+                                                        '& thead th': {
+                                                            position: 'sticky',
+                                                            top: 0,
+                                                            zIndex: 3,
+                                                            backgroundColor: 'background.surface',
+                                                        },
+                                                        '& thead th:last-of-type': {
+                                                            position: 'sticky',
+                                                            right: 0,
+                                                            zIndex: 4,
+                                                            backgroundColor: 'background.surface',
+                                                            boxShadow: '-1px 0 var(--TableCell-borderColor)',
+                                                        },
+                                                        '& tbody td:last-of-type': {
+                                                            position: 'sticky',
+                                                            right: 0,
+                                                            zIndex: 2,
+                                                            backgroundColor: 'background.surface',
+                                                            boxShadow: '-1px 0 var(--TableCell-borderColor)',
+                                                        },
+                                                        '& tr.selected': {
+                                                            backgroundColor: '#eff3f6',
+                                                        },
+                                                    }}
+                                                >
+                                                    <thead>
                                                         <tr>
-                                                            <td colSpan={12} style={{ textAlign: 'center', padding: 16 }}>
-                                                                No data available
-                                                            </td>
+                                                            <th style={{ textAlign: 'center', width: 30 }}>#</th>
+                                                            <th style={{ textAlign: 'center', width: 80 }}>Lab No.</th>
+                                                            <th style={{ textAlign: 'center', width: 200 }}>Specimen</th>
+                                                            <th style={{ textAlign: 'center', width: 200 }}>Fluid Type</th>
+                                                            <th style={{ textAlign: 'center', width: 200 }}>Sample Type</th>
+                                                            <th style={{ textAlign: 'center', width: 250 }}>Investigation</th>
+                                                            <th style={{ textAlign: 'center', width: 200 }}>Result Verified Date</th>
+                                                            <th style={{ textAlign: 'center', width: 350 }}>Growth</th>
+                                                            <th style={{ textAlign: 'center', width: 350 }}>Growth Remark 1</th>
+                                                            <th style={{ textAlign: 'center', width: 350 }}>Growth Remark 2</th>
+                                                            <th style={{ textAlign: 'center', width: 350 }}>Growth Remark 3</th>
+                                                            <th style={{ textAlign: 'center', width: 350 }}>Remarks</th>
+                                                            <th style={{ textAlign: 'center', width: 80 }}>Add</th>
                                                         </tr>
-                                                    ) : (
-                                                        MicroBiologyResultData.map((val, index) => (
-                                                            <tr key={index}>
-                                                                <td style={{ textAlign: 'center' }}>{index + 1}</td>
-                                                                <td style={{ textAlign: 'center' }}>{val.LABNO}</td>
-                                                                <td style={{ textAlign: 'center' }}>{val.SPECIMEN}</td>
-                                                                <td style={{ textAlign: 'center' }}>{val.FLUIDTYPE}</td>
-                                                                <td style={{ textAlign: 'center' }}>{val.SAMPLE_TYPE}</td>
-                                                                <td style={{ textAlign: 'center' }}>{val.INVESTIGATION}</td>
-                                                                <td style={{ textAlign: 'center' }}>{val.GROWTH}</td>
-                                                                <td style={{ textAlign: 'center' }}>{val.GROWTH_REMARKS_1}</td>
-                                                                <td style={{ textAlign: 'center' }}>{val.GROWTH_REMARKS_2}</td>
-                                                                <td style={{ textAlign: 'center' }}>{val.GROWTH_REMARKS_3}</td>
-                                                                <td style={{ textAlign: 'center' }}>{val.REMARKS}</td>
-                                                                <td style={{ textAlign: 'center' }}>
-                                                                    <AddCircleOutlineIcon
-                                                                        sx={{ color: '#1167bc', cursor: 'pointer' }}
-                                                                        onClick={() => AddCultureDetails(val)}
-                                                                    />
+                                                    </thead>
+                                                    <tbody>
+                                                        {MicroBiologyResultData.length === 0 ? (
+                                                            <tr>
+                                                                <td colSpan={5} style={{ textAlign: 'center', padding: 16 }}>
                                                                 </td>
                                                             </tr>
-                                                        ))
-                                                    )}
-                                                </tbody>
-                                            </Table>
+                                                        ) : (
+                                                            MicroBiologyResultData?.map((val, index) => (
+                                                                <tr key={index}>
+                                                                    <td style={{ textAlign: 'center' }}>{index + 1}</td>
+                                                                    <td style={{ textAlign: 'center' }}>{val.LABNO}</td>
+                                                                    <td style={{ textAlign: 'center' }}>{val.SPECIMEN}</td>
+                                                                    <td style={{ textAlign: 'center' }}>{val.FLUIDTYPE}</td>
+                                                                    <td style={{ textAlign: 'center' }}>{val.SAMPLE_TYPE}</td>
+                                                                    <td style={{ textAlign: 'center' }}>{val.INVESTIGATION}</td>
+
+                                                                    {val.VERIFY_DATE === null ?
+                                                                        <td style={{ textAlign: 'center' }}>
+
+                                                                        </td> :
+                                                                        <td style={{ textAlign: 'center' }}>
+                                                                            {new Date(val.VERIFY_DATE).toLocaleString('en-GB', {
+                                                                                timeZone: 'Asia/Kolkata',
+                                                                                day: '2-digit',
+                                                                                month: 'short',
+                                                                                year: 'numeric',
+                                                                                hour: 'numeric',
+                                                                                minute: '2-digit',
+                                                                                hour12: true,
+                                                                            }).replace(',', '')}
+                                                                        </td>}
+
+
+                                                                    <td style={{ textAlign: 'center' }}>{val.GROWTH}</td>
+                                                                    <td style={{ textAlign: 'center' }}>{val.GROWTH_REMARKS_1}</td>
+                                                                    <td style={{ textAlign: 'center' }}>{val.GROWTH_REMARKS_2}</td>
+                                                                    <td style={{ textAlign: 'center' }}>{val.GROWTH_REMARKS_3}</td>
+                                                                    <td style={{ textAlign: 'center' }}>{val.REMARKS}</td>
+                                                                    <td style={{ textAlign: 'center' }}>
+                                                                        <AddCircleOutlineIcon
+                                                                            sx={{ color: '#1167bc', cursor: 'pointer' }}
+                                                                            onClick={() => AddCultureDetails(val)}
+                                                                        />
+                                                                    </td>
+                                                                </tr>
+                                                            ))
+                                                        )}
+                                                    </tbody>
+                                                </Table>
+                                            </Box>
                                         )}
 
                                         <Box sx={{ mt: 3 }}>
@@ -766,8 +863,9 @@ const AmsAddPatientDetailsModal = ({ setaddDetailsFlag, addDetailsOpen, setaddDe
                                                         { label: "Specimen", value: Specimen },
                                                         { label: "Fluid Type", value: FluidType },
                                                         { label: "Sample Type", value: SampleType },
+                                                        { label: "Result Verified Date", value: ResultVerifyDate },
                                                     ].map((field, i) => (
-                                                        <Box key={i} sx={{ mb: 1 }}>
+                                                        <Box key={i} sx={{ mb: 1.5 }}>
                                                             <Typography level="body-sm" fontWeight={500} sx={{ pl: .3 }}>{field.label}</Typography>
                                                             <Input size="sm" variant="outlined" value={field.value} readOnly />
                                                         </Box>
@@ -777,6 +875,7 @@ const AmsAddPatientDetailsModal = ({ setaddDetailsFlag, addDetailsOpen, setaddDe
                                                 {/* Column 2: Organisms & Growth */}
                                                 <Box sx={{ flex: 1, minWidth: 240 }}>
                                                     {[
+                                                        { label: "Investigation", value: Investigation },
                                                         { label: "Organism 1", value: organismOne },
                                                         { label: "Organism 2", value: organismTwo },
                                                         { label: "Growth", value: Growth },
@@ -794,6 +893,7 @@ const AmsAddPatientDetailsModal = ({ setaddDetailsFlag, addDetailsOpen, setaddDe
                                                         { label: "Growth Remark 1", value: growthRemarkOne },
                                                         { label: "Growth Remark 2", value: growthRemarkTwo },
                                                         { label: "Growth Remark 3", value: growthRemarkThree },
+                                                        { label: "Remarks", value: cultureDetailsRemarks },
                                                     ].map((field, i) => (
                                                         <Box key={i} sx={{ mb: 1 }}>
                                                             <Typography level="body-sm" fontWeight={500} sx={{ pl: .3 }}>{field.label}</Typography>
@@ -802,7 +902,7 @@ const AmsAddPatientDetailsModal = ({ setaddDetailsFlag, addDetailsOpen, setaddDe
                                                     ))}
                                                 </Box>
                                             </Box>
-
+                                            {/* 
                                             <Box sx={{ flex: 1, display: 'flex', }}>
                                                 <Box sx={{ flex: 1, minWidth: 230, pr: 1 }}>
                                                     <Typography level="body-sm" fontWeight={500} sx={{ pl: .3 }}>Investigation</Typography>
@@ -827,7 +927,7 @@ const AmsAddPatientDetailsModal = ({ setaddDetailsFlag, addDetailsOpen, setaddDe
                                                         sx={{ width: '100%' }}
                                                     />
                                                 </Box>
-                                            </Box>
+                                            </Box> */}
                                         </Box>
 
                                     </CardContent>

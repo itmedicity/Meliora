@@ -443,7 +443,7 @@ const AmsMaster = () => {
               </Box>
 
               <Box sx={{ width: 170 }}>
-                <Box sx={{ fontSize: 15, pl: .5 }}>Pegnancy Category</Box>
+                <Box sx={{ fontSize: 15, pl: .5 }}>Pregnancy Category</Box>
                 <TextFieldCustom
                   type="text"
                   size="sm"

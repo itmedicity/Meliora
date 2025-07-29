@@ -143,6 +143,7 @@ const AmsPatientDetailsReport = () => {
         { headerName: "Growth Remark 1", field: "growth_remark_one", autoHeight: true, wrapText: true, minWidth: 400 },
         { headerName: "Growth Remark 2", field: "growth_remark_two", autoHeight: true, wrapText: true, minWidth: 400, filter: "true" },
         { headerName: "Growth Remark 3", field: "growth_remark_three", autoHeight: true, wrapText: true, minWidth: 400, filter: "true" },
+        { headerName: "Result Verified Date", field: "result_verified_date", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
         { headerName: "Cultural Details Remark", field: "culture_details_remarks", autoHeight: true, wrapText: true, minWidth: 400, filter: "true" },
         { headerName: "Physician And Ams Comments", field: "physician_ams_comments", autoHeight: true, wrapText: true, minWidth: 400, filter: "true" },
         { headerName: "Patient Out Come", field: "patient_outcome", autoHeight: true, wrapText: true, minWidth: 400 },
