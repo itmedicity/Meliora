@@ -272,6 +272,14 @@ const AmsMaster = React.lazy(() => import('./views/Master/AmsMaster/AmsMaster'))
 const AmsPatientDetails = React.lazy(() => import('./views/Ams/AmsMain'))
 const DcReport = React.lazy(() => import('./views/Report/DailyCensus/DailyCensus'))
 
+// Incident Management ( rohith krishna)
+// const IncidentRegistration = React.lazy(() => import('./views/IncidentManagement/NewIncidentRegistration'));
+const IncidentDashboard = React.lazy(() => import('./views/IncidentManagement/IncidentDashboard'));
+const IncidentRegistrationFinal = React.lazy(() => import('./views/IncidentManagement/IncidentRegistrationFinal'));
+const IncidentApprovals = React.lazy(() => import('./views/IncidentManagement/IncidentApprovals'))
+
+
+
 // const routes = [
 //   { path: '/', exact: true, name: 'Home' },
 //   { path: '/NotCorect', exact: true, name: 'NotCorect', component: NotCorect },
@@ -921,7 +929,10 @@ const routes = [
   { path: 'DepartmentMapping', name: 'DashBoardMaster', element: <DepartmentMapping /> },
   { path: 'AmsMaster', name: 'AmsMaster', element: <AmsMaster /> },
   { path: 'AmsPatientDetails', name: 'Ams Patient Details', element: <AmsPatientDetails /> },
-  { path: 'DcReport', name: 'DcReport', element: <DcReport /> }
+  { path: 'DcReport', name: 'DcReport', element: <DcReport /> },
+  { path: 'IncidentReg', name: 'Incident Registration', element: <IncidentRegistrationFinal /> },
+  { path: 'IncidentDashboard', name: 'Incident Dashboard', element: <IncidentDashboard /> },
+  { path: 'IncidentApprovals', name: 'Incident Approvals', element: <IncidentApprovals /> },
 ]
 
 export default routes
