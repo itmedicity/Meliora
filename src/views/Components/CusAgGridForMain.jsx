@@ -1,9 +1,9 @@
 import { Paper } from '@mui/material'
-import { Box } from '@mui/system'
 import React, { Fragment, memo } from 'react'
 import { AgGridReact } from 'ag-grid-react'
 import 'ag-grid-community/dist/styles/ag-grid.css'
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css'
+import { Box } from '@mui/joy'
 
 const CusAgGridForMain = ({ columnDefs, tableData, onSelectionChanged, columnTypes, getRowStyle }) => {
   const rowHeight = 35

@@ -19,7 +19,7 @@ import { Paper } from '@mui/material'
 const Feedback = () => {
   return (
     <Fragment>
-      <Paper variant="outlined" sx={{ bgcolor: '#F8F8F8' }}>
+      <Box sx={{ bgcolor: '#F8F8F8', width: '100%' }}>
         <Box sx={{}}>
           <Typography sx={{ fontSize: 20, pl: 1, color: '#9e9e9e', fontFamily: 'Monospace' }}>Feedback</Typography>
           {/* <CssVarsProvider>
@@ -142,7 +142,7 @@ const Feedback = () => {
             </Tabs>
           </CssVarsProvider>
         </Box>
-      </Paper>
+      </Box>
     </Fragment>
   )
 }

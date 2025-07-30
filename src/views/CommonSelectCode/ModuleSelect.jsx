@@ -1,10 +1,8 @@
 import React, { useEffect, memo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getmodule } from 'src/redux/actions/Module.action'
-import Box from '@mui/material/Box'
-import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
-import Select from '@mui/material/Select'
+import { Box, Option, Select } from '@mui/joy'
 const ModuleSelect = ({ value, setValue }) => {
   const dispatch = useDispatch()
   /*** getModuleName -state update function of reducer
@@ -22,24 +20,24 @@ const ModuleSelect = ({ value, setValue }) => {
     <Box>
       <FormControl fullWidth size="small">
         <Select
-          labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={value}
-          onChange={e => setValue(e.target.value)}
+          onChange={(e, newValue) => {
+            setValue(newValue);
+          }}
           size="small"
-          fullWidth
           variant="outlined"
           sx={{ height: 25, p: 0, m: 0, lineHeight: 1.2 }}
         >
-          <MenuItem value={0} disabled>
+          <Option value={0} disabled>
             Select Module
-          </MenuItem>
+          </Option>
           {moduledata &&
             moduledata.map((val, index) => {
               return (
-                <MenuItem key={index} value={val.module_slno}>
+                <Option key={index} value={val.module_slno}>
                   {val.module_name}
-                </MenuItem>
+                </Option>
               )
             })}
         </Select>

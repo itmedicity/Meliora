@@ -1,10 +1,8 @@
 import React, { useEffect, memo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setNurseStation } from 'src/redux/actions/NursingStation.action'
-import Box from '@mui/material/Box'
-import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
-import Select from '@mui/material/Select'
+import { Box, Option, Select } from '@mui/joy'
 
 const NursingStationSelect = ({ value, setValue }) => {
   const dispatch = useDispatch()
@@ -24,24 +22,22 @@ const NursingStationSelect = ({ value, setValue }) => {
     <Box>
       <FormControl fullWidth size="small">
         <Select
-          labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={value}
-          onChange={e => setValue(e.target.value)}
+          onChange={(e, newValue) => setValue(newValue)}
           size="small"
-          fullWidth
           variant="outlined"
           sx={{ height: 25, p: 0, m: 0, lineHeight: 1.2 }}
         >
-          <MenuItem value={0} disabled>
+          <Option value={0} disabled>
             Select Nursing Station
-          </MenuItem>
+          </Option>
           {nursestationdata &&
             nursestationdata.map((val, index) => {
               return (
-                <MenuItem key={index} value={val.ns_code}>
+                <Option key={index} value={val.ns_code}>
                   {val.nsc_desc}
-                </MenuItem>
+                </Option>
               )
             })}
         </Select>

@@ -20,6 +20,7 @@ const Protected = props => {
   
   const validteToken = async () => {
     try {
+
       const authSlno = localStorage.getItem('app_auth')
       const authID = atob(JSON.parse(authSlno)?.empid)
 
@@ -98,7 +99,7 @@ const Protected = props => {
   //   }
   // }, [history, FETCH_LOGIN, dispatch])
 
-  console.log(validLogin, validUser)
+  // console.log(validLogin, validUser)
   if (loading)
     return (
       <Backdrop open sx={{ backgroundColor: 'var(--royal-purple-50)', justifyContent: 'center' }}>

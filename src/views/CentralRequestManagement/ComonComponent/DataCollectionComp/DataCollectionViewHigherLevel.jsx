@@ -74,12 +74,12 @@ const DataCollectionViewHigherLevel = ({ datacolData, selectedCompany }) => {
   const capitalizeWords = str =>
     str
       ? str
-          .toLowerCase()
-          .trim()
-          .replace(/\s+/g, ' ')
-          .split(' ')
-          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(' ')
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, ' ')
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
       : ''
   return (
     <Fragment>
@@ -91,7 +91,7 @@ const DataCollectionViewHigherLevel = ({ datacolData, selectedCompany }) => {
           imagearray={imagearray}
         />
       ) : null}
-      <Paper variant="outlined" sx={{ mx: 0.5 }}>
+      <Box variant="outlined" sx={{ mx: 0.5 }}>
         <Box sx={{ display: 'flex', borderBottom: '1px solid lightgrey' }}>
           <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14 }}>
             Data Collection Details
@@ -188,7 +188,7 @@ const DataCollectionViewHigherLevel = ({ datacolData, selectedCompany }) => {
             </Grid>
           ))}
         </Grid>
-      </Paper>
+      </Box>
     </Fragment>
   )
 }

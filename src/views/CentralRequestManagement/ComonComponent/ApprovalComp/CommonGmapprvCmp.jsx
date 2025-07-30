@@ -23,12 +23,12 @@ const CommonGmapprvCmp = ({ DetailViewData, company }) => {
   const capitalizeWords = str =>
     str
       ? str
-          .toLowerCase()
-          .trim()
-          .replace(/\s+/g, ' ')
-          .split(' ')
-          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(' ')
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, ' ')
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
       : ''
 
   const ViewGMUploadImage = useCallback(() => {
@@ -57,7 +57,7 @@ const CommonGmapprvCmp = ({ DetailViewData, company }) => {
       {imageshowFlag === 1 ? (
         <ImageDisplayModal open={imageshow} handleClose={handleClose} images={imagearray} />
       ) : null}
-      <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
+      <Box variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
         <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
           <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 13, flex: 0.4 }}>
             {company?.gmo_status_name}
@@ -71,12 +71,12 @@ const CommonGmapprvCmp = ({ DetailViewData, company }) => {
                   gm_approve === 1
                     ? '#2e7d32'
                     : gm_approve === 2
-                    ? '#bf360c'
-                    : gm_approve === 3
-                    ? '#FF9800'
-                    : gm_approve === 4
-                    ? '#009688'
-                    : '#607D8B',
+                      ? '#bf360c'
+                      : gm_approve === 3
+                        ? '#FF9800'
+                        : gm_approve === 4
+                          ? '#009688'
+                          : '#607D8B',
                 height: 25,
                 pb: 0.5,
                 fontSize: 12,
@@ -162,7 +162,7 @@ const CommonGmapprvCmp = ({ DetailViewData, company }) => {
             </Box>
           ) : null}
         </Box>
-      </Paper>
+      </Box>
     </Fragment>
   )
 }

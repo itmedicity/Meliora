@@ -6,10 +6,11 @@ import CardHeader from './Components/CardHeader';
 
 const IncidentList = () => {
   return (
+
     <Box sx={{ width: '100%' }}>
       <CardHeader icon={TfiViewListAlt} text="Incident View" size={28} textsize={30} />
       <TabComponent />
-    </Box>
+</Box>
   )
 }
 

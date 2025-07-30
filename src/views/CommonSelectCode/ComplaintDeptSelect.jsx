@@ -1,10 +1,8 @@
 import React, { useEffect, memo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import Box from '@mui/material/Box'
-import MenuItem from '@mui/material/MenuItem'
-import Select from '@mui/material/Select'
 import FormControl from '@mui/material/FormControl'
 import { getComplaintDept } from 'src/redux/actions/ComplaintDept.action'
+import { Box, Option, Select } from '@mui/joy'
 const ComplaintDeptSelect = ({ value, setValue }) => {
   const dispatch = useDispatch()
   /**getComplaintdept -state update function of reducer
@@ -22,24 +20,22 @@ const ComplaintDeptSelect = ({ value, setValue }) => {
     <Box>
       <FormControl fullWidth size="small">
         <Select
-          labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={value}
-          onChange={e => setValue(e.target.value)}
+          onChange={(e, newValue) => setValue(newValue)}
           size="small"
-          fullWidth
           variant="outlined"
           sx={{ height: 24, p: 0, m: 0, lineHeight: 1.2 }}
         >
-          <MenuItem value={0} disabled>
+          <Option value={0} disabled>
             Select Complaint Department
-          </MenuItem>
+          </Option>
           {complaintdeptdata &&
             complaintdeptdata.map((val, index) => {
               return (
-                <MenuItem key={index} value={val.complaint_dept_slno}>
+                <Option key={index} value={val.complaint_dept_slno}>
                   {val.complaint_dept_name}
-                </MenuItem>
+                </Option>
               )
             })}
         </Select>

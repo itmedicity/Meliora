@@ -213,10 +213,10 @@ const CrfNoBasedReport = () => {
                   val.incharge_approve === 1
                     ? 'Approved'
                     : val.incharge_approve === 2
-                    ? 'Rejected'
-                    : val.incharge_approve === 3
-                    ? 'On-Hold'
-                    : 'Not Done',
+                      ? 'Rejected'
+                      : val.incharge_approve === 3
+                        ? 'On-Hold'
+                        : 'Not Done',
                 incharge_remarks: val.incharge_remarks !== null ? val.incharge_remarks : 'Not Updated',
                 inch_detial_analysis: val.inch_detial_analysis,
                 incharge_apprv_date:
@@ -230,10 +230,10 @@ const CrfNoBasedReport = () => {
                   val.hod_approve === 1
                     ? 'Approved'
                     : val.hod_approve === 2
-                    ? 'Rejected'
-                    : val.hod_approve === 3
-                    ? 'On-Hold'
-                    : 'Not Done',
+                      ? 'Rejected'
+                      : val.hod_approve === 3
+                        ? 'On-Hold'
+                        : 'Not Done',
                 hod_remarks: val.hod_remarks !== null ? val.hod_remarks : 'Not Updated',
                 hod_detial_analysis: val.hod_detial_analysis,
                 hod_approve_date:
@@ -247,12 +247,12 @@ const CrfNoBasedReport = () => {
                   val.dms_approve === 1
                     ? 'Approved'
                     : val.dms_approve === 2
-                    ? 'Rejected'
-                    : val.dms_approve === 3
-                    ? 'On-Hold'
-                    : val.dms_approve === 4
-                    ? 'Approved'
-                    : 'Not Done',
+                      ? 'Rejected'
+                      : val.dms_approve === 3
+                        ? 'On-Hold'
+                        : val.dms_approve === 4
+                          ? 'Approved'
+                          : 'Not Done',
                 dms_remarks: val.dms_remarks !== null ? val.dms_remarks : 'Not Updated',
                 dms_detail_analysis: val.dms_detail_analysis,
                 dms_approve_date:
@@ -266,12 +266,12 @@ const CrfNoBasedReport = () => {
                   val.ms_approve === 1
                     ? 'Approved'
                     : val.ms_approve === 2
-                    ? 'Rejected'
-                    : val.ms_approve === 3
-                    ? 'On-Hold'
-                    : val.ms_approve === 4
-                    ? 'Approved'
-                    : 'Not Done',
+                      ? 'Rejected'
+                      : val.ms_approve === 3
+                        ? 'On-Hold'
+                        : val.ms_approve === 4
+                          ? 'Approved'
+                          : 'Not Done',
                 ms_approve_remark: val.ms_approve_remark !== null ? val.ms_approve_remark : 'Not Updated',
                 ms_detail_analysis: val.ms_detail_analysis,
                 ms_approve_date:
@@ -285,12 +285,12 @@ const CrfNoBasedReport = () => {
                   val.manag_operation_approv === 1
                     ? 'Approved'
                     : val.manag_operation_approv === 2
-                    ? 'Rejected'
-                    : val.manag_operation_approv === 3
-                    ? 'On-Hold'
-                    : val.manag_operation_approv === 4
-                    ? 'Approved'
-                    : 'Not Done',
+                      ? 'Rejected'
+                      : val.manag_operation_approv === 3
+                        ? 'On-Hold'
+                        : val.manag_operation_approv === 4
+                          ? 'Approved'
+                          : 'Not Done',
                 manag_operation_remarks:
                   val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
                 om_detial_analysis: val.om_detial_analysis,
@@ -305,12 +305,12 @@ const CrfNoBasedReport = () => {
                   val.senior_manage_approv === 1
                     ? 'Approved'
                     : val.senior_manage_approv === 2
-                    ? 'Rejected'
-                    : val.senior_manage_approv === 3
-                    ? 'On-Hold'
-                    : val.senior_manage_approv === 4
-                    ? 'Approved'
-                    : 'Not Done',
+                      ? 'Rejected'
+                      : val.senior_manage_approv === 3
+                        ? 'On-Hold'
+                        : val.senior_manage_approv === 4
+                          ? 'Approved'
+                          : 'Not Done',
                 senior_manage_remarks: val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
                 smo_detial_analysis: val.smo_detial_analysis,
                 som_aprrov_date:
@@ -324,12 +324,12 @@ const CrfNoBasedReport = () => {
                   val.gm_approve === 1
                     ? 'Approved'
                     : val.gm_approve === 2
-                    ? 'Rejected'
-                    : val.gm_approve === 3
-                    ? 'On-Hold'
-                    : val.gm_approve === 4
-                    ? 'Approved'
-                    : 'Not Done',
+                      ? 'Rejected'
+                      : val.gm_approve === 3
+                        ? 'On-Hold'
+                        : val.gm_approve === 4
+                          ? 'Approved'
+                          : 'Not Done',
                 gm_approve_remarks: val.gm_approve_remarks !== null ? val.gm_approve_remarks : 'Not Updated',
                 gm_detial_analysis: val.gm_detial_analysis,
                 gm_approv_date:
@@ -343,12 +343,12 @@ const CrfNoBasedReport = () => {
                   val.md_approve === 1
                     ? 'Approved'
                     : val.md_approve === 2
-                    ? 'Rejected'
-                    : val.md_approve === 3
-                    ? 'On-Hold'
-                    : val.md_approve === 4
-                    ? 'Approved'
-                    : 'Not Done',
+                      ? 'Rejected'
+                      : val.md_approve === 3
+                        ? 'On-Hold'
+                        : val.md_approve === 4
+                          ? 'Approved'
+                          : 'Not Done',
                 md_approve_remarks: val.md_approve_remarks !== null ? val.md_approve_remarks : 'Not Updated',
                 md_detial_analysis: val.md_detial_analysis,
                 md_approve_date:
@@ -362,12 +362,12 @@ const CrfNoBasedReport = () => {
                   val.ed_approve === 1
                     ? 'Approved'
                     : val.ed_approve === 2
-                    ? 'Rejected'
-                    : val.ed_approve === 3
-                    ? 'On-Hold'
-                    : val.ed_approve === 4
-                    ? 'Approved'
-                    : 'Not Done',
+                      ? 'Rejected'
+                      : val.ed_approve === 3
+                        ? 'On-Hold'
+                        : val.ed_approve === 4
+                          ? 'Approved'
+                          : 'Not Done',
                 ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
                 ed_detial_analysis: val.ed_detial_analysis,
                 ed_approve_date:
@@ -382,12 +382,12 @@ const CrfNoBasedReport = () => {
                   val.managing_director_approve === 1
                     ? 'Approved'
                     : val.managing_director_approve === 2
-                    ? 'Rejected'
-                    : val.managing_director_approve === 3
-                    ? 'On-Hold'
-                    : val.managing_director_approve === 4
-                    ? 'Approved'
-                    : 'Not Done',
+                      ? 'Rejected'
+                      : val.managing_director_approve === 3
+                        ? 'On-Hold'
+                        : val.managing_director_approve === 4
+                          ? 'Approved'
+                          : 'Not Done',
                 managing_director_remarks: val.managing_director_remarks !== null ? val.managing_director_remarks : '',
                 managing_director_analysis: val.managing_director_analysis,
                 managing_director_approve_date:
@@ -402,100 +402,100 @@ const CrfNoBasedReport = () => {
                   val.req_status === 'C'
                     ? 'CRF Closed'
                     : val.sub_store_recieve === 1
-                    ? 'Received in ' + val.sub_store_name
-                    : // val.sub_store_recieve === 0 ? "Partial Goods Received in " + val.sub_store_name :
-                    val.store_recieve === 1
-                    ? 'Item Received in CRS'
-                    : // val.store_recieve === 0 && val.store_recieve === 1 ? "Partial Goods Received in CRS" :
-                    val.po_to_supplier === 1
-                    ? 'Waiting for Goods'
-                    : val.approval_level === 3
-                    ? "Director's Approved"
-                    : val.approval_level === 2
-                    ? 'Purchase Manager Approved'
-                    : val.approval_level === 1
-                    ? 'Purchase Dpt Approved'
-                    : val.po_complete === 1
-                    ? 'PO Completed'
-                    : val.po_prepartion === 1
-                    ? 'PO Prepairing'
-                    : val.quatation_fixing === 1
-                    ? 'Quotation Fixed'
-                    : val.quatation_negotiation === 1
-                    ? 'Quotation Negotiation'
-                    : val.quatation_calling_status === 1
-                    ? 'Quotation Calling'
-                    : val.ack_status === 1
-                    ? 'Puchase Acknowledged'
-                    : val.managing_director_approve !== null
-                    ? 'Managing Director'
-                    : val.ed_approve !== null
-                    ? 'ED'
-                    : val.md_approve !== null
-                    ? 'MD'
-                    : val.gm_approve !== null
-                    ? 'GM'
-                    : val.senior_manage_approv !== null
-                    ? 'SMO'
-                    : val.manag_operation_approv !== null
-                    ? 'MO'
-                    : val.ms_approve !== null
-                    ? 'MS'
-                    : val.dms_approve !== null
-                    ? 'DMS'
-                    : val.hod_approve !== null
-                    ? 'HOD'
-                    : val.incharge_approve !== null
-                    ? 'Incharge'
-                    : 'Not Started',
+                      ? 'Received in ' + val.sub_store_name
+                      : // val.sub_store_recieve === 0 ? "Partial Goods Received in " + val.sub_store_name :
+                      val.store_recieve === 1
+                        ? 'Item Received in CRS'
+                        : // val.store_recieve === 0 && val.store_recieve === 1 ? "Partial Goods Received in CRS" :
+                        val.po_to_supplier === 1
+                          ? 'Waiting for Goods'
+                          : val.approval_level === 3
+                            ? "Director's Approved"
+                            : val.approval_level === 2
+                              ? 'Purchase Manager Approved'
+                              : val.approval_level === 1
+                                ? 'Purchase Dpt Approved'
+                                : val.po_complete === 1
+                                  ? 'PO Completed'
+                                  : val.po_prepartion === 1
+                                    ? 'PO Prepairing'
+                                    : val.quatation_fixing === 1
+                                      ? 'Quotation Fixed'
+                                      : val.quatation_negotiation === 1
+                                        ? 'Quotation Negotiation'
+                                        : val.quatation_calling_status === 1
+                                          ? 'Quotation Calling'
+                                          : val.ack_status === 1
+                                            ? 'Puchase Acknowledged'
+                                            : val.managing_director_approve !== null
+                                              ? 'Managing Director'
+                                              : val.ed_approve !== null
+                                                ? 'ED'
+                                                : val.md_approve !== null
+                                                  ? 'MD'
+                                                  : val.gm_approve !== null
+                                                    ? 'GM'
+                                                    : val.senior_manage_approv !== null
+                                                      ? 'SMO'
+                                                      : val.manag_operation_approv !== null
+                                                        ? 'MO'
+                                                        : val.ms_approve !== null
+                                                          ? 'MS'
+                                                          : val.dms_approve !== null
+                                                            ? 'DMS'
+                                                            : val.hod_approve !== null
+                                                              ? 'HOD'
+                                                              : val.incharge_approve !== null
+                                                                ? 'Incharge'
+                                                                : 'Not Started',
                 now_who_status:
                   val.req_status === 'C'
                     ? ''
                     : val.sub_store_recieve === 1
-                    ? 5
-                    : val.store_receive === 1
-                    ? 5
-                    : val.po_to_supplier === 1
-                    ? 5
-                    : val.approval_level === 3
-                    ? 5
-                    : val.approval_level === 2
-                    ? 5
-                    : val.approval_level === 1
-                    ? 5
-                    : val.po_complete === 1
-                    ? 5
-                    : val.po_prepartion === 1
-                    ? 5
-                    : val.quatation_fixing === 1
-                    ? 5
-                    : val.quatation_negotiation === 1
-                    ? 5
-                    : val.quatation_calling_status === 1
-                    ? 5
-                    : val.ack_status === 1
-                    ? 5
-                    : val.managing_director_approve !== null
-                    ? val.managing_director_approve
-                    : val.ed_approve !== null
-                    ? val.ed_approve
-                    : val.md_approve !== null
-                    ? val.md_approve
-                    : val.gm_approve !== null
-                    ? val.gm_approve
-                    : val.senior_manage_approv !== null
-                    ? val.senior_manage_approv
-                    : val.manag_operation_approv !== null
-                    ? val.manag_operation_approv
-                    : val.ms_approve !== null
-                    ? val.ms_approve
-                    : val.dms_approve !== null
-                    ? val.dms_approve
-                    : val.hod_approve !== null
-                    ? val.hod_approve
-                    : val.incharge_approve !== null
-                    ? val.incharge_approve
-                    : 0,
+                      ? 5
+                      : val.store_receive === 1
+                        ? 5
+                        : val.po_to_supplier === 1
+                          ? 5
+                          : val.approval_level === 3
+                            ? 5
+                            : val.approval_level === 2
+                              ? 5
+                              : val.approval_level === 1
+                                ? 5
+                                : val.po_complete === 1
+                                  ? 5
+                                  : val.po_prepartion === 1
+                                    ? 5
+                                    : val.quatation_fixing === 1
+                                      ? 5
+                                      : val.quatation_negotiation === 1
+                                        ? 5
+                                        : val.quatation_calling_status === 1
+                                          ? 5
+                                          : val.ack_status === 1
+                                            ? 5
+                                            : val.managing_director_approve !== null
+                                              ? val.managing_director_approve
+                                              : val.ed_approve !== null
+                                                ? val.ed_approve
+                                                : val.md_approve !== null
+                                                  ? val.md_approve
+                                                  : val.gm_approve !== null
+                                                    ? val.gm_approve
+                                                    : val.senior_manage_approv !== null
+                                                      ? val.senior_manage_approv
+                                                      : val.manag_operation_approv !== null
+                                                        ? val.manag_operation_approv
+                                                        : val.ms_approve !== null
+                                                          ? val.ms_approve
+                                                          : val.dms_approve !== null
+                                                            ? val.dms_approve
+                                                            : val.hod_approve !== null
+                                                              ? val.hod_approve
+                                                              : val.incharge_approve !== null
+                                                                ? val.incharge_approve
+                                                                : 0,
 
                 hod_image: val.hod_image,
                 dms_image: val.dms_image,
@@ -613,8 +613,8 @@ const CrfNoBasedReport = () => {
         ? 'pdf'
         : 'image'
       : file.type.includes('application/pdf')
-      ? 'pdf'
-      : 'image'
+        ? 'pdf'
+        : 'image'
 
     const fileUrl = file.url || URL.createObjectURL(file)
     setPreviewFile({ url: fileUrl, type: fileType })
@@ -626,12 +626,12 @@ const CrfNoBasedReport = () => {
     str
       ? str
 
-          .toLowerCase()
-          .trim()
-          .replace(/\s+/g, ' ')
-          .split(' ')
-          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(' ')
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, ' ')
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
       : ''
   return (
     <Fragment>
@@ -642,7 +642,7 @@ const CrfNoBasedReport = () => {
         ) : null}
       </Suspense>
       <CustomBackDrop open={open} text="Please Wait" />
-      <Box sx={{ height: window.innerHeight - 80, flexWrap: 'wrap', bgcolor: 'white' }}>
+      <Box sx={{ height: window.innerHeight - 80, flexWrap: 'wrap', bgcolor: 'white', width: '100%' }}>
         <Box sx={{ border: '1px solid #B4F5F0' }}>
           <Box sx={{ display: 'flex' }}>
             <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: 0.5, color: '#385E72' }}>All CRF Report</Box>
@@ -714,7 +714,7 @@ const CrfNoBasedReport = () => {
               overflow: 'auto'
             }}
           >
-            <Paper variant="outlined" sx={{ flexWrap: 'wrap' }}>
+            <Box variant="outlined" sx={{ flexWrap: 'wrap' }}>
               <Box sx={{ padding: 1, borderRadius: 2 }}>
                 <Typography sx={{ fontWeight: 'bold', marginBottom: 0.5, color: '#145DA0', fontSize: 14 }}>
                   CRF/TMC/{tableData.req_slno}
@@ -756,9 +756,8 @@ const CrfNoBasedReport = () => {
                 </Box>
               </Box>
               {tableData.image_status === 1 && fileLIst.length > 0 ? (
-                <Paper
+                <Box
                   variant="outlined"
-                  square
                   sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.2, width: '100%', p: 0.5 }}
                 >
                   {fileLIst.length > 0 &&
@@ -775,8 +774,8 @@ const CrfNoBasedReport = () => {
                         }}
                       >
                         {file.imageName.endsWith('.png') ||
-                        file.imageName.endsWith('.jpg') ||
-                        file.imageName.endsWith('.jpeg') ? (
+                          file.imageName.endsWith('.jpg') ||
+                          file.imageName.endsWith('.jpeg') ? (
                           <img
                             src={file.url}
                             alt={file.imageName}
@@ -816,9 +815,9 @@ const CrfNoBasedReport = () => {
                         <Box sx={{ fontSize: 14, cursor: 'pointer', flexGrow: 1, pr: 0.5 }}>{file.imageName}</Box>
                       </Box>
                     ))}
-                </Paper>
+                </Box>
               ) : null}
-            </Paper>
+            </Box>
             {reqItems && reqItems.length !== 0 ? (
               <CssVarsProvider>
                 <ReqItemDisplay reqItems={reqItems} />
@@ -833,7 +832,7 @@ const CrfNoBasedReport = () => {
             ) : null}
             {tableData.hod_approve !== null || tableData.incharge_approve !== null ? (
               <>
-                <Paper variant="outlined" square sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.7, mx: 0.7, pb: 0.7 }}>
+                <Box variant="outlined" sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.7, mx: 0.7, pb: 0.7 }}>
                   <Typography sx={{ fontWeight: 'bold', px: 1, py: 0.7, color: '#145DA0', fontSize: 14 }}>
                     Approval Details
                   </Typography>
@@ -841,7 +840,7 @@ const CrfNoBasedReport = () => {
                     <Grid container spacing={0.5} sx={{ flexGrow: 1 }}>
                       {tableData.incharge_req === 1 && tableData.incharge_remarks !== null ? (
                         <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                          <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
+                          <Box variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
                             <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                               <Typography
                                 sx={{
@@ -876,10 +875,10 @@ const CrfNoBasedReport = () => {
                                         tableData.incharge_approve === 1
                                           ? '#2e7d32'
                                           : tableData.incharge_approve === 2
-                                          ? '#bf360c'
-                                          : tableData.incharge_approve === 3
-                                          ? '#FF9800'
-                                          : '#607D8B',
+                                            ? '#bf360c'
+                                            : tableData.incharge_approve === 3
+                                              ? '#FF9800'
+                                              : '#607D8B',
                                       height: 25,
                                       pb: 0.5,
                                       fontSize: 12,
@@ -1009,13 +1008,13 @@ const CrfNoBasedReport = () => {
                                 </Box>
                               ) : null}
                             </Box>
-                          </Paper>
+                          </Box>
                         </Grid>
                       ) : null}
                     </Grid>
                     {tableData.hod_req === 1 && tableData.hod_approve !== null ? (
                       <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                        <Paper
+                        <Box
                           variant="outlined"
                           sx={{
                             overflow: 'auto',
@@ -1046,10 +1045,10 @@ const CrfNoBasedReport = () => {
                                     tableData.hod_approve === 1
                                       ? '#2e7d32'
                                       : tableData.hod_approve === 2
-                                      ? '#bf360c'
-                                      : tableData.hod_approve === 3
-                                      ? '#FF9800'
-                                      : '#607D8B',
+                                        ? '#bf360c'
+                                        : tableData.hod_approve === 3
+                                          ? '#FF9800'
+                                          : '#607D8B',
                                   height: 25,
                                   pb: 0.5,
                                   fontSize: 12,
@@ -1178,12 +1177,12 @@ const CrfNoBasedReport = () => {
                               </Box>
                             ) : null}
                           </Box>
-                        </Paper>
+                        </Box>
                       </Grid>
                     ) : null}
                     {tableData.dms_req === 1 && tableData.dms_approve !== null ? (
                       <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                        <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
+                        <Box variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
                           <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                             <Typography
                               sx={{
@@ -1206,12 +1205,12 @@ const CrfNoBasedReport = () => {
                                     tableData.dms_approve === 1
                                       ? '#2e7d32'
                                       : tableData.dms_approve === 2
-                                      ? '#bf360c'
-                                      : tableData.dms_approve === 3
-                                      ? '#FF9800'
-                                      : tableData.dms_approve === 4
-                                      ? '#009688'
-                                      : '#607D8B',
+                                        ? '#bf360c'
+                                        : tableData.dms_approve === 3
+                                          ? '#FF9800'
+                                          : tableData.dms_approve === 4
+                                            ? '#009688'
+                                            : '#607D8B',
                                   height: 25,
                                   pb: 0.5,
                                   fontSize: 12,
@@ -1357,12 +1356,12 @@ const CrfNoBasedReport = () => {
                               </Box>
                             ) : null}
                           </Box>
-                        </Paper>
+                        </Box>
                       </Grid>
                     ) : null}
                     {tableData.ms_approve_req === 1 && tableData.ms_approve !== null ? (
                       <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                        <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
+                        <Box variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
                           <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                             <Typography
                               sx={{
@@ -1385,12 +1384,12 @@ const CrfNoBasedReport = () => {
                                     tableData.ms_approve === 1
                                       ? '#2e7d32'
                                       : tableData.ms_approve === 2
-                                      ? '#bf360c'
-                                      : tableData.ms_approve === 3
-                                      ? '#FF9800'
-                                      : tableData.ms_approve === 4
-                                      ? '#009688'
-                                      : '#607D8B',
+                                        ? '#bf360c'
+                                        : tableData.ms_approve === 3
+                                          ? '#FF9800'
+                                          : tableData.ms_approve === 4
+                                            ? '#009688'
+                                            : '#607D8B',
                                   height: 25,
                                   pb: 0.5,
                                   fontSize: 12,
@@ -1537,12 +1536,12 @@ const CrfNoBasedReport = () => {
                               </Box>
                             ) : null}
                           </Box>
-                        </Paper>
+                        </Box>
                       </Grid>
                     ) : null}
                     {tableData.manag_operation_req === 1 && tableData.manag_operation_approv !== null ? (
                       <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                        <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
+                        <Box variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
                           <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                             <Typography
                               sx={{
@@ -1565,12 +1564,12 @@ const CrfNoBasedReport = () => {
                                     tableData.manag_operation_approv === 1
                                       ? '#2e7d32'
                                       : tableData.manag_operation_approv === 2
-                                      ? '#bf360c'
-                                      : tableData.manag_operation_approv === 3
-                                      ? '#FF9800'
-                                      : tableData.manag_operation_approv === 4
-                                      ? '#009688'
-                                      : '#607D8B',
+                                        ? '#bf360c'
+                                        : tableData.manag_operation_approv === 3
+                                          ? '#FF9800'
+                                          : tableData.manag_operation_approv === 4
+                                            ? '#009688'
+                                            : '#607D8B',
                                   height: 25,
                                   pb: 0.5,
                                   fontSize: 12,
@@ -1725,12 +1724,12 @@ const CrfNoBasedReport = () => {
                               </Box>
                             ) : null}
                           </Box>
-                        </Paper>
+                        </Box>
                       </Grid>
                     ) : null}
                     {tableData.senior_manage_req === 1 && tableData.senior_manage_approv !== null ? (
                       <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                        <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
+                        <Box variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
                           <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                             <Typography
                               sx={{
@@ -1753,12 +1752,12 @@ const CrfNoBasedReport = () => {
                                     tableData.senior_manage_approv === 1
                                       ? '#2e7d32'
                                       : tableData.senior_manage_approv === 2
-                                      ? '#bf360c'
-                                      : tableData.senior_manage_approv === 3
-                                      ? '#FF9800'
-                                      : tableData.senior_manage_approv === 4
-                                      ? '#009688'
-                                      : '#607D8B',
+                                        ? '#bf360c'
+                                        : tableData.senior_manage_approv === 3
+                                          ? '#FF9800'
+                                          : tableData.senior_manage_approv === 4
+                                            ? '#009688'
+                                            : '#607D8B',
                                   height: 25,
                                   pb: 0.5,
                                   fontSize: 12,
@@ -1912,12 +1911,12 @@ const CrfNoBasedReport = () => {
                               </Box>
                             ) : null}
                           </Box>
-                        </Paper>
+                        </Box>
                       </Grid>
                     ) : null}
                     {tableData.gm_approve_req === 1 && tableData.gm_approve !== null ? (
                       <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                        <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
+                        <Box variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
                           <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                             <Typography
                               sx={{
@@ -1940,12 +1939,12 @@ const CrfNoBasedReport = () => {
                                     tableData.gm_approve === 1
                                       ? '#2e7d32'
                                       : tableData.gm_approve === 2
-                                      ? '#bf360c'
-                                      : tableData.gm_approve === 3
-                                      ? '#FF9800'
-                                      : tableData.gm_approve === 4
-                                      ? '#009688'
-                                      : '#607D8B',
+                                        ? '#bf360c'
+                                        : tableData.gm_approve === 3
+                                          ? '#FF9800'
+                                          : tableData.gm_approve === 4
+                                            ? '#009688'
+                                            : '#607D8B',
                                   height: 25,
                                   pb: 0.5,
                                   fontSize: 12,
@@ -2093,12 +2092,12 @@ const CrfNoBasedReport = () => {
                               </Box>
                             ) : null}
                           </Box>
-                        </Paper>
+                        </Box>
                       </Grid>
                     ) : null}
                     {tableData.md_approve_req === 1 && tableData.md_approve !== null ? (
                       <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                        <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
+                        <Box variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
                           <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                             <Typography
                               sx={{
@@ -2121,12 +2120,12 @@ const CrfNoBasedReport = () => {
                                     tableData.md_approve === 1
                                       ? '#2e7d32'
                                       : tableData.md_approve === 2
-                                      ? '#bf360c'
-                                      : tableData.md_approve === 3
-                                      ? '#FF9800'
-                                      : tableData.md_approve === 4
-                                      ? '#009688'
-                                      : '#607D8B',
+                                        ? '#bf360c'
+                                        : tableData.md_approve === 3
+                                          ? '#FF9800'
+                                          : tableData.md_approve === 4
+                                            ? '#009688'
+                                            : '#607D8B',
                                   height: 25,
                                   pb: 0.5,
                                   fontSize: 12,
@@ -2274,12 +2273,12 @@ const CrfNoBasedReport = () => {
                               </Box>
                             ) : null}
                           </Box>
-                        </Paper>
+                        </Box>
                       </Grid>
                     ) : null}
                     {tableData.ed_approve_req === 1 && tableData.ed_approve !== null ? (
                       <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                        <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
+                        <Box variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
                           <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                             <Typography
                               sx={{
@@ -2302,12 +2301,12 @@ const CrfNoBasedReport = () => {
                                     tableData.ed_approve === 1
                                       ? '#2e7d32'
                                       : tableData.ed_approve === 2
-                                      ? '#bf360c'
-                                      : tableData.ed_approve === 3
-                                      ? '#FF9800'
-                                      : tableData.ed_approve === 4
-                                      ? '#009688'
-                                      : '#607D8B',
+                                        ? '#bf360c'
+                                        : tableData.ed_approve === 3
+                                          ? '#FF9800'
+                                          : tableData.ed_approve === 4
+                                            ? '#009688'
+                                            : '#607D8B',
                                   height: 25,
                                   pb: 0.5,
                                   fontSize: 12,
@@ -2457,12 +2456,12 @@ const CrfNoBasedReport = () => {
                               </Box>
                             ) : null}
                           </Box>
-                        </Paper>
+                        </Box>
                       </Grid>
                     ) : null}
                     {tableData.managing_director_req === 1 && tableData.managing_director_approve !== null ? (
                       <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                        <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
+                        <Box variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
                           <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                             <Typography
                               sx={{
@@ -2485,12 +2484,12 @@ const CrfNoBasedReport = () => {
                                     tableData.managing_director_approve === 1
                                       ? '#2e7d32'
                                       : tableData.managing_director_approve === 2
-                                      ? '#bf360c'
-                                      : tableData.managing_director_approve === 3
-                                      ? '#FF9800'
-                                      : tableData.managing_director_approve === 4
-                                      ? '#009688'
-                                      : '#607D8B',
+                                        ? '#bf360c'
+                                        : tableData.managing_director_approve === 3
+                                          ? '#FF9800'
+                                          : tableData.managing_director_approve === 4
+                                            ? '#009688'
+                                            : '#607D8B',
                                   height: 25,
                                   pb: 0.5,
                                   fontSize: 12,
@@ -2503,7 +2502,7 @@ const CrfNoBasedReport = () => {
                           </Box>
                           <Box sx={{ pt: 0.1 }}>
                             {tableData.managing_director_approve === 1 &&
-                            tableData.managing_director_remarks !== null ? (
+                              tableData.managing_director_remarks !== null ? (
                               <Box sx={{ pt: 0.5 }}>
                                 <Box sx={{ display: 'flex' }}>
                                   <Typography sx={{ pl: 1, fontSize: 14, flex: 0.4 }}>
@@ -2615,7 +2614,7 @@ const CrfNoBasedReport = () => {
                             {tableData.managing_director_approve_date !== null ? (
                               <Box sx={{ display: 'flex', py: 1 }}>
                                 {tableData.managing_director_approve === 1 ||
-                                tableData.managing_director_approve === 4 ? (
+                                  tableData.managing_director_approve === 4 ? (
                                   <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>Approved by </Typography>
                                 ) : tableData.managing_director_approve === 2 ? (
                                   <Typography sx={{ pl: 1, fontSize: 13, flex: 0.4 }}>Rejected by </Typography>
@@ -2650,12 +2649,12 @@ const CrfNoBasedReport = () => {
                               </Box>
                             ) : null}
                           </Box>
-                        </Paper>
+                        </Box>
                       </Grid>
                     ) : null}
                     {tableData.crf_close === 1 || tableData.crf_close === 2 ? (
                       <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                        <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap', height: 135 }}>
+                        <Box variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap', height: 135 }}>
                           <Box sx={{ display: 'flex', py: 0.2, borderBottom: '1px solid lightgrey' }}>
                             <Typography
                               sx={{
@@ -2735,20 +2734,20 @@ const CrfNoBasedReport = () => {
                               </Typography>
                             </Box>
                           </Box>
-                        </Paper>
+                        </Box>
                       </Grid>
                     ) : null}
                   </CssVarsProvider>
-                </Paper>
+                </Box>
                 {tableData.ack_status === 1 ? (
-                  <Paper variant="outlined" square sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.7, mx: 0.7 }}>
+                  <Box variant="outlined" sx={{ flexWrap: 'wrap', p: 0.3, mt: 0.7, mx: 0.7 }}>
                     <Typography sx={{ fontWeight: 'bold', px: 1, py: 0.7, color: '#145DA0', fontSize: 14 }}>
                       Procurement Details
                     </Typography>
                     <Grid container spacing={0.5} sx={{ flexGrow: 1 }}>
                       {tableData.ack_status === 1 ? (
                         <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                          <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
+                          <Box variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
                             <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                               <Typography
                                 sx={{
@@ -2815,12 +2814,12 @@ const CrfNoBasedReport = () => {
                                 </Typography>
                               </Box>
                             </Box>
-                          </Paper>
+                          </Box>
                         </Grid>
                       ) : null}
                       {tableData.quatation_calling_status === 1 ? (
                         <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                          <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
+                          <Box variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
                             <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                               <Typography
                                 sx={{
@@ -2889,12 +2888,12 @@ const CrfNoBasedReport = () => {
                                 </Typography>
                               </Box>
                             </Box>
-                          </Paper>
+                          </Box>
                         </Grid>
                       ) : null}
                       {tableData.quatation_negotiation === 1 ? (
                         <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                          <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
+                          <Box variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
                             <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                               <Typography
                                 sx={{
@@ -2963,12 +2962,12 @@ const CrfNoBasedReport = () => {
                                 </Typography>
                               </Box>
                             </Box>
-                          </Paper>
+                          </Box>
                         </Grid>
                       ) : null}
                       {tableData.quatation_fixing === 1 ? (
                         <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                          <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
+                          <Box variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
                             <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                               <Typography
                                 sx={{
@@ -3037,7 +3036,7 @@ const CrfNoBasedReport = () => {
                                 </Typography>
                               </Box>
                             </Box>
-                          </Paper>
+                          </Box>
                         </Grid>
                       ) : null}
                     </Grid>
@@ -3138,10 +3137,10 @@ const CrfNoBasedReport = () => {
                             {tableData.approval_level === 1
                               ? 'Purchase Dpt Approved'
                               : tableData.approval_level === 2
-                              ? 'Purchase Department Approved, Purchase Manager Approved'
-                              : tableData.approval_level === 3
-                              ? 'Purchase Department Approved, Purchase Manager Approved, Directors Approved'
-                              : null}{' '}
+                                ? 'Purchase Department Approved, Purchase Manager Approved'
+                                : tableData.approval_level === 3
+                                  ? 'Purchase Department Approved, Purchase Manager Approved, Directors Approved'
+                                  : null}{' '}
                           </Typography>
                         </Box>
                       </Box>
@@ -3322,7 +3321,7 @@ const CrfNoBasedReport = () => {
                       </Box>
                     ) : null}
                     {tableData.user_acknldge === 1 ? (
-                      <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
+                      <Box variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
                         <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
                           <Typography
                             sx={{
@@ -3372,7 +3371,7 @@ const CrfNoBasedReport = () => {
                             </Typography>
                           </Box>
                         </Box>
-                      </Paper>
+                      </Box>
                     ) : null}
                     {tableData.user_acknldge === 1 ? (
                       <CssVarsProvider>
@@ -3380,14 +3379,14 @@ const CrfNoBasedReport = () => {
                       </CssVarsProvider>
                     ) : null}
                     <Box sx={{ height: 15 }}></Box>
-                  </Paper>
+                  </Box>
                 ) : null}
               </>
             ) : tableData.hod_approve === null || tableData.incharge_approve == null ? (
               <>
                 {tableData.crf_close === 1 || tableData.crf_close === 2 ? (
                   <Grid xs={12} sm={12} md={12} lg={12} xl={12} sx={{ pl: 0.5 }}>
-                    <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap', height: 135 }}>
+                    <Box variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap', height: 135 }}>
                       <Box sx={{ display: 'flex', py: 0.2, borderBottom: '1px solid lightgrey' }}>
                         <Typography
                           sx={{
@@ -3467,7 +3466,7 @@ const CrfNoBasedReport = () => {
                           </Typography>
                         </Box>
                       </Box>
-                    </Paper>
+                    </Box>
                   </Grid>
                 ) : null}
               </>

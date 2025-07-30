@@ -1,9 +1,7 @@
-import { Box } from '@mui/system'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import CardMaster from 'src/views/Components/CardMaster'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
-import { Grid } from '@mui/material'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import DepartmentMastTable from './DepartmentMastTable'
 import { axioslogin } from 'src/views/Axios/Axios'
@@ -11,8 +9,8 @@ import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { useSelector } from 'react-redux'
 import { getDepartmentId } from 'src/views/Constant/Constant'
 import FormControl from '@mui/material/FormControl'
-import Select from '@mui/material/Select'
-import MenuItem from '@mui/material/MenuItem'
+import { Box, Option, Select } from '@mui/joy'
+import { Grid } from '@mui/material'
 
 const DepartmentMast = () => {
   //for routing
@@ -183,22 +181,20 @@ const DepartmentMast = () => {
               <Grid item xl={12} lg={12}>
                 <FormControl fullWidth size="small">
                   <Select
-                    labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={type}
-                    onChange={e => setType(e.target.value)}
+                    onChange={(e, newValue) => setType(newValue)}
                     size="small"
-                    fullWidth
                     variant="outlined"
                     sx={{ height: 24, p: 0, m: 0, lineHeight: 1.2 }}
                   >
-                    <MenuItem value={0} disabled>
+                    <Option value={0} disabled>
                       {' '}
                       Select Type
-                    </MenuItem>
-                    <MenuItem value={1}> Clinical</MenuItem>
-                    <MenuItem value={2}> Non Clinical</MenuItem>
-                    <MenuItem value={3}> Academic</MenuItem>
+                    </Option>
+                    <Option value={1}> Clinical</Option>
+                    <Option value={2}> Non Clinical</Option>
+                    <Option value={3}> Academic</Option>
                   </Select>
                 </FormControl>
               </Grid>

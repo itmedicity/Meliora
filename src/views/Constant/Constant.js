@@ -18,10 +18,10 @@ export const getMenuSlno = async () => {
   //   const { em_id } = data[0]
   const userinfo = localStorage.getItem('app_auth')
   const empID = userinfo ? atob(JSON.parse(localStorage.getItem('app_auth'))?.empid) : 0
-  console.log(empID)
+  // console.log(empID)
   const results = await axioslogin.get(`/common/getMenu/${empID}`)
   const { resdata } = await results.data
-  console.log(results.data)
+  // console.log(results.data)
   return resdata
   // }
 }

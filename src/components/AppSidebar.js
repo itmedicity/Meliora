@@ -109,7 +109,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
   const [AmsTransact, setAmsTransact] = useState()
 
   const [count, setCount] = useState(0)
-  const [setMenu] = useState([])
+  const [menu, setMenu] = useState([])
 
   const {
     data: companyData,
@@ -570,7 +570,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
             </Box>
             {/* Menu list content here */}
             {/* <MLogoIcon width={50} height={50} /> */}
-            {navigationMenus.map((item, index) => (
+            {menu.map((item, index) => (
               <Fragment key={index}>
                 {/* <CssVarsProvider> */}
                 <MenuItem onClick={() => handleMenuClick(index)}>

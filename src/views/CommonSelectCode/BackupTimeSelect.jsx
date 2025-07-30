@@ -1,24 +1,22 @@
 import React, { memo, Fragment } from 'react'
 import { useSelector } from 'react-redux'
-import Box from '@mui/material/Box'
-import MenuItem from '@mui/material/MenuItem'
-import Select from '@mui/material/Select'
 import FormControl from '@mui/material/FormControl'
+import { Box, Option, Select } from '@mui/joy'
 const BackupTimeSelect = ({ scheduleTime, setScheduleTime }) => {
   const backupScheduleTime = useSelector(state => state?.getScheduleTime.scheduleTimeList)
   // const [timelist, settimelist] = useState(0)
   // useEffect(() => {
   //     settimelist(backupScheduleTime)
   // }, [backupScheduleTime])
-  const handleChange = e => {
-    const {
-      target: { value }
-    } = e
-    setScheduleTime(typeof value === 'string' ? value.split(',') : value)
-  }
+  // const handleChange = e => {
+  //   const {
+  //     target: { value }
+  //   } = e
+  //   setScheduleTime(typeof value === 'string' ? value.split(',') : value)
+  // }
   return (
     <Fragment>
-      <Box>
+      <Box >
         {/* <CustomeToolTip title="Select Schedule Time"> */}
         <FormControl fullWidth>
           <Select
@@ -29,18 +27,21 @@ const BackupTimeSelect = ({ scheduleTime, setScheduleTime }) => {
             size="small"
             multiple
             value={scheduleTime}
-            onChange={handleChange}
+            // onChange={(e, newValue) => handleChange(newValue)}
+            onChange={(e, newValue) => {
+              setScheduleTime(newValue);
+            }}
             variant="outlined"
           >
-            <MenuItem value={0} disabled>
+            <Option value={0} disabled>
               Select Schedule Time
-            </MenuItem>
+            </Option>
             {backupScheduleTime &&
               backupScheduleTime.map(val => {
                 return (
-                  <MenuItem key={val.schedule_time_id} value={val.schedule_time_id}>
+                  <Option key={val.schedule_time_id} value={val.schedule_time_id}>
                     {val.schedule_time_name}
-                  </MenuItem>
+                  </Option>
                 )
               })}
           </Select>

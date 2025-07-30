@@ -8,16 +8,16 @@ const CommonCRFClosed = ({ closedData }) => {
   const capitalizeWords = str =>
     str
       ? str
-          .toLowerCase()
-          .trim()
-          .replace(/\s+/g, ' ')
-          .split(' ')
-          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(' ')
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, ' ')
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
       : ''
   return (
     <Fragment>
-      <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap', height: 135 }}>
+      <Box variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap', height: 135 }}>
         <Box sx={{ display: 'flex', py: 0.2, borderBottom: '1px solid lightgrey' }}>
           <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>
             {/* {crf_closed_one === 'MD' ? 'Medical Director' : crf_closed_one === 'ED' ? 'Executive Director' : crf_closed_one} */}
@@ -63,7 +63,7 @@ const CommonCRFClosed = ({ closedData }) => {
             </Typography>
           </Box>
         </Box>
-      </Paper>
+      </Box>
     </Fragment>
   )
 }

@@ -17,6 +17,7 @@ import { getMenuSlno } from '../views/Constant/Constant'
 import { Link } from 'react-router-dom'
 import { Card, CardContent, CardHeader } from '@mui/material'
 import { titleTypography, cardActionBgClr } from 'src/color/Color'
+import { Box } from '@mui/joy'
 
 const Reports = () => {
   const [diet_report_one, setdiet_report_one] = useState()
@@ -75,7 +76,7 @@ const Reports = () => {
     })
   }, [count])
   return (
-    <Card>
+    <Card sx={{ width: '100%' }}>
       <CardHeader
         title={'Diet Report'}
         titleTypographyProps={{ variant: 'subtitle1', color: titleTypography }}
@@ -85,44 +86,50 @@ const Reports = () => {
         }}
       />
       <CardContent>
-        <div className="row">
-          <div className="col-4">
-            <ul className="list-group list-group-flush">
-              {diet_report_one &&
-                diet_report_one.map(val => {
-                  return (
-                    <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}>
-                      {val.name}
-                    </Link>
-                  )
-                })}
-            </ul>
-          </div>
-          <div className="col-4">
-            <ul className="list-group list-group-flush">
-              {diet_report_two &&
-                diet_report_two.map(val => {
-                  return (
-                    <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}>
-                      {val.name}
-                    </Link>
-                  )
-                })}
-            </ul>
-          </div>
-          <div className="col-4">
-            <ul className="list-group list-group-flush">
-              {diet_report_three &&
-                diet_report_three.map(val => {
-                  return (
-                    <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}>
-                      {val.name}
-                    </Link>
-                  )
-                })}
-            </ul>
-          </div>
-        </div>
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: "space-around"
+          }}
+        >
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+
+            {diet_report_one &&
+              diet_report_one.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)', }}
+                  >
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+
+            {diet_report_two &&
+              diet_report_two.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)', }}
+                  >
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+
+            {diet_report_three &&
+              diet_report_three.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)', }}
+                  >
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+        </Box>
       </CardContent>
       <CardHeader
         title={'Complaint Management Report'}
@@ -133,44 +140,48 @@ const Reports = () => {
         }}
       />
       <CardContent>
-        <div className="row">
-          <div className="col-4">
-            <ul className="list-group list-group-flush">
-              {cms_report_one &&
-                cms_report_one.map(val => {
-                  return (
-                    <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}>
-                      {val.name}
-                    </Link>
-                  )
-                })}
-            </ul>
-          </div>
-          <div className="col-4">
-            <ul className="list-group list-group-flush">
-              {cms_report_two &&
-                cms_report_two.map(val => {
-                  return (
-                    <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}>
-                      {val.name}
-                    </Link>
-                  )
-                })}
-            </ul>
-          </div>
-          <div className="col-4">
-            <ul className="list-group list-group-flush">
-              {cms_report_three &&
-                cms_report_three.map(val => {
-                  return (
-                    <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}>
-                      {val.name}
-                    </Link>
-                  )
-                })}
-            </ul>
-          </div>
-        </div>
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: "space-around"
+          }}
+        >              <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+
+            {cms_report_one &&
+              cms_report_one.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)', }}>
+                    {val.name}
+                  </Link>
+                )
+              })}        </Box>
+
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+
+            {cms_report_two &&
+              cms_report_two.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)', }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+
+            {cms_report_three &&
+              cms_report_three.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)', }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+
+        </Box>
       </CardContent>
       <CardHeader
         title={'Asset Management Report'}
@@ -181,20 +192,28 @@ const Reports = () => {
         }}
       />
       <CardContent>
-        <div className="row">
-          <div className="col-4">
-            <ul className="list-group list-group-flush">
-              {am_report_one &&
-                am_report_one.map(val => {
-                  return (
-                    <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}>
-                      {val.name}
-                    </Link>
-                  )
-                })}
-            </ul>
-          </div>
-        </div>
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: "space-around"
+          }}
+        >                <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+
+            {am_report_one &&
+              am_report_one.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)', }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+          </Box>
+        </Box>
       </CardContent>
 
       <CardHeader
@@ -206,20 +225,28 @@ const Reports = () => {
         }}
       />
       <CardContent>
-        <div className="row">
-          <div className="col-4">
-            <ul className="list-group list-group-flush">
-              {tm_report_one &&
-                tm_report_one.map(val => {
-                  return (
-                    <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}>
-                      {val.name}
-                    </Link>
-                  )
-                })}
-            </ul>
-          </div>
-        </div>
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: "space-around"
+          }}
+        >              <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+
+            {tm_report_one &&
+              tm_report_one.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)', }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+          </Box>
+        </Box>
       </CardContent>
       <CardHeader
         title={'Central Request Management Report'}
@@ -230,44 +257,47 @@ const Reports = () => {
         }}
       />
       <CardContent>
-        <div className="row">
-          <div className="col-4">
-            <ul className="list-group list-group-flush">
-              {crm_report_one &&
-                crm_report_one.map(val => {
-                  return (
-                    <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}>
-                      {val.name}
-                    </Link>
-                  )
-                })}
-            </ul>
-          </div>
-          <div className="col-4">
-            <ul className="list-group list-group-flush">
-              {crm_report_two &&
-                crm_report_two.map(val => {
-                  return (
-                    <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}>
-                      {val.name}
-                    </Link>
-                  )
-                })}
-            </ul>
-          </div>
-          <div className="col-4">
-            <ul className="list-group list-group-flush">
-              {crm_report_three &&
-                crm_report_three.map(val => {
-                  return (
-                    <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}>
-                      {val.name}
-                    </Link>
-                  )
-                })}
-            </ul>
-          </div>
-        </div>
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: "space-around"
+          }}
+        >            <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+
+            {crm_report_one &&
+              crm_report_one.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)', }}>
+                    {val.name}
+                  </Link>
+                )
+              })}        </Box>
+
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+
+            {crm_report_two &&
+              crm_report_two.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)', }}>
+                    {val.name}
+                  </Link>
+                )
+              })}        </Box>
+
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+
+            {crm_report_three &&
+              crm_report_three.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)', }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+
+        </Box>
       </CardContent>
       <CardHeader
         title={'Daily Census Report'}
@@ -278,20 +308,28 @@ const Reports = () => {
         }}
       />
       <CardContent>
-        <div className="row">
-          <div className="col-4">
-            <ul className="list-group list-group-flush">
-              {dc_report_one &&
-                dc_report_one.map(val => {
-                  return (
-                    <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}>
-                      {val.name}
-                    </Link>
-                  )
-                })}
-            </ul>
-          </div>
-        </div>
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: "space-around"
+          }}
+        >                  <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+
+            {dc_report_one &&
+              dc_report_one.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)', }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+          </Box>
+        </Box>
       </CardContent>
     </Card>
   )

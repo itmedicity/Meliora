@@ -1,4 +1,5 @@
-import { Box, FormControl, MenuItem, Select } from '@mui/material'
+import { Box, Option, Select } from '@mui/joy'
+import { FormControl } from '@mui/material'
 import React, { useEffect, memo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAmModel } from 'src/redux/actions/AmModelList.action'
@@ -18,21 +19,21 @@ function AssetModelSelWithoutName({ value, setValue }) {
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={value}
-          onChange={e => setValue(e.target.value)}
+          onChange={(e, newValue) => setValue(newValue)}
           size="small"
           fullWidth
           variant="outlined"
           sx={{ height: 24, p: 0, m: 0, lineHeight: 1.2 }}
         >
-          <MenuItem value={0} disabled>
+          <Option value={0} disabled>
             Select Model
-          </MenuItem>
+          </Option>
           {model &&
             model.map((val, index) => {
               return (
-                <MenuItem key={index} value={val.model_slno}>
+                <Option key={index} value={val.model_slno}>
                   {val.model_name}
-                </MenuItem>
+                </Option>
               )
             })}
         </Select>

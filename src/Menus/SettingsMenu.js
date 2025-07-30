@@ -1,33 +1,40 @@
 //Common Master Menu
 export const co_setting_one = [
   { to: '/Home/Department', name: 'Department', slno: 1 },
-  { to: '/Home/NursingStation', name: 'Nursing Station', slno: 34 }
+  { to: '/Home/NursingStation', name: 'Nursing Station', slno: 34 },
+  { to: '/Home/StaticUrl', name: 'StaticUrl', slno: 274 },
 ]
 
 export const co_setting_two = [
   { to: '/Home/DepartmentSection', name: 'Department Section', slno: 2 },
-  { to: '/Home/EscalationTime', name: 'Escalation Time', slno: 82 }
+  { to: '/Home/EscalationTime', name: 'Escalation Time', slno: 82 },
+  { to: '/Home/MelioraDepMaster', name: 'Meliora Department Master', slno: 285 },
+
 ]
 
 export const co_setting_three = [
   { to: '/Home/RequestType', name: 'Request Type', slno: 12 },
-  { to: '/Home/EscalationMapping', name: 'Escalation Mapping', slno: 93 }
+  { to: '/Home/EscalationMapping', name: 'Escalation Mapping', slno: 93 },
+  { to: '/Home/MelioraDepSecMaster', name: 'Meliora Department Section Master', slno: 286 },
+
 ]
 
 //Compliant Master Menu
 export const cm_setting_one = [
   { to: '/Home/ComplaintDepartment', name: 'Complaint Department', slno: 3 },
-  { to: '/Home/ComplaintEmpMap', name: 'Complaint-EMP Mapping', slno: 109 }
+  // { to: '/Home/ComplaintEmpMap', name: 'Complaint-EMP Mapping', slno: 109 }
+  { to: '/Home/CompPriority', name: 'Complaint Priority', slno: 111 }
+
 ]
 
 export const cm_setting_two = [
   { to: '/Home/ComplaintType', name: 'Complaint Type', slno: 13 },
-  { to: '/Home/CompPriority', name: 'Complaint Priority', slno: 111 }
+  { to: '/Home/holdReasonsinTicket', name: 'Hold Reason', slno: 14 }
+
 ]
 
 export const cm_setting_three = [
   { to: '/Home/HicPolicy', name: 'Hic Policy', slno: 254 },
-  { to: '/Home/holdReasonsinTicket', name: 'Hold Reason', slno: 14 }
 
   // { to: '/Home/HicPolicy', name: 'Hic Policy', slno: 14 },
 ]

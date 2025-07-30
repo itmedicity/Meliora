@@ -34,9 +34,14 @@ const TicketTypeListProgressChart = ({ empdept }) => {
     }
   }, [empdept, sevenDaysbefore, currentDateAndTime])
 
-  const { data: AllTicketType } = useQuery({
-    queryKey: ['getAllTicketypes', postdata],
-    queryFn: () => allTicketTypes(postdata)
+  const {
+    data: AllTicketType,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ['getAllTicketTypes', postdata],
+    queryFn: () => allTicketTypes(postdata),
+    enabled: !!postdata
   })
 
   const ticketTypeList = useMemo(() => {
@@ -65,7 +70,8 @@ const TicketTypeListProgressChart = ({ empdept }) => {
   })
   const rectifiedData = combinedData.map(item => item.rectified)
   const unrectifiedData = combinedData.map(item => item.unrectified)
-
+  if (isLoading) return <div>Loading ticket types...</div>;
+  if (isError) return <div>Error.</div>;
   return (
     <Box
       sx={{

@@ -55,6 +55,8 @@ export const getSpareValue = async postData => {
     const { success, data } = res.data
     if (success === 2) {
       return data
+    } else {
+      return [];
     }
   })
 }
@@ -154,6 +156,8 @@ export const getExpiredAmcCmc = async postData => {
     const { success, data } = res.data
     if (success === 2) {
       return data
+    } else {
+      return []
     }
   })
 }

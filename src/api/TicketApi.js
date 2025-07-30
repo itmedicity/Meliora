@@ -5,6 +5,8 @@ export const getAllemployeesUnderDepartment = async postdata => {
     const { success, data } = res.data
     if (success === 2) {
       return data
+    } else {
+      return [];
     }
   })
 }
@@ -21,6 +23,8 @@ export const allTicketTypes = async postdata => {
     const { success, data } = res.data
     if (success === 2) {
       return data
+    } else {
+      return [];
     }
   })
 }
@@ -72,6 +76,8 @@ export const getTicketcloseWithin = async searchMonthlycloseTimeRange => {
     const { success, data } = res.data
     if (success === 2) {
       return data
+    } else {
+      return []
     }
   })
 }

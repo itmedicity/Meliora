@@ -31,6 +31,7 @@ import {
 } from './SettingsMenu'
 import { Card, CardContent, CardHeader } from '@mui/material'
 import { titleTypography, cardActionBgClr } from 'src/color/Color'
+import { Box } from '@mui/joy'
 
 const Settings = () => {
   const [commonMast_secOne, setcommonMast_secOne] = useState()
@@ -66,7 +67,7 @@ const Settings = () => {
   // const [qiMast_secThree, setqiMast_secThree] = useState();
   const [dcMast_secOne, setdcMast_secOne] = useState()
   const [taskManagment_secOne, setTaskManagment_secOne] = useState()
-  const [setams_secOne] = useState()
+  const [setams_secone, setams_secOne] = useState()
 
   const [count, setCount] = useState(0)
   useEffect(() => {
@@ -175,7 +176,7 @@ const Settings = () => {
   }, [count])
 
   return (
-    <Card>
+    <Card sx={{ width: "100%" }}>
       <CardHeader
         title={'Common Master'}
         titleTypographyProps={{ variant: 'subtitle1', color: titleTypography }}
@@ -184,45 +185,47 @@ const Settings = () => {
           paddingY: 0.5
         }}
       />
-      <CardContent>
-        <div className="row">
-          <div className="col-4">
-            <ul className="list-group list-group-flush">
-              {commonMast_secOne &&
-                commonMast_secOne.map(val => {
-                  return (
-                    <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}>
-                      {val.name}
-                    </Link>
-                  )
-                })}
-            </ul>
-          </div>
-          <div className="col-4">
-            <ul className="list-group list-group-flush">
-              {commonMast_secTwo &&
-                commonMast_secTwo.map(val => {
-                  return (
-                    <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}>
-                      {val.name}
-                    </Link>
-                  )
-                })}
-            </ul>
-          </div>
-          <div className="col-4">
-            <ul className="list-group list-group-flush">
-              {commonMast_secThree &&
-                commonMast_secThree.map(val => {
-                  return (
-                    <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}>
-                      {val.name}
-                    </Link>
-                  )
-                })}
-            </ul>
-          </div>
-        </div>
+      <CardContent sx={{}}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: "space-around"
+          }}
+        >
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+            {commonMast_secOne &&
+              commonMast_secOne.map(val => (
+                <Link
+                  to={val.to}
+                  key={val.slno}
+                  className="list-group-item pt-1 pb-1 "
+                  style={{ textDecoration: 'none', color: 'var( --true-blue-600)', }}
+                >
+                  {val.name}
+                </Link>
+              ))}
+          </Box>
+
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+            {commonMast_secTwo &&
+              commonMast_secTwo.map(val => (
+                <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
+                  {val.name}
+                </Link>
+              ))}
+
+          </Box>
+
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+            {commonMast_secThree &&
+              commonMast_secThree.map(val => (
+                <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
+                  {val.name}
+                </Link>
+              ))}
+          </Box>
+        </Box>
       </CardContent>
 
       <CardHeader
@@ -233,46 +236,52 @@ const Settings = () => {
           paddingY: 0.5
         }}
       />
-      <CardContent>
-        <div className="row">
-          <div className="col-4">
-            <ul className="list-group list-group-flush">
-              {coMast_secOne &&
-                coMast_secOne.map(val => {
-                  return (
-                    <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}>
-                      {val.name}
-                    </Link>
-                  )
-                })}
-            </ul>
-          </div>
-          <div className="col-4">
-            <ul className="list-group list-group-flush">
-              {coMast_secTwo &&
-                coMast_secTwo.map(val => {
-                  return (
-                    <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}>
-                      {val.name}
-                    </Link>
-                  )
-                })}
-            </ul>
-          </div>
-          <div className="col-4">
-            <ul className="list-group list-group-flush">
-              {coMast_secThree &&
-                coMast_secThree.map(val => {
-                  return (
-                    <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}>
-                      {val.name}
-                    </Link>
-                  )
-                })}
-            </ul>
-          </div>
-        </div>
+      <CardContent sx={{}}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: "space-around"
+          }}
+        >
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+
+            {coMast_secOne &&
+              coMast_secOne.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+
+            {coMast_secTwo &&
+              coMast_secTwo.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+
+            {coMast_secThree &&
+              coMast_secThree.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+        </Box>
       </CardContent>
+
+
+
       <CardHeader
         title={'AMS '}
         titleTypographyProps={{ variant: 'subtitle1', color: titleTypography }}
@@ -281,27 +290,30 @@ const Settings = () => {
           paddingY: 0.5
         }}
       />
-      <CardContent>
-        <div className="row">
-          <div className="col-4">
-            <ul className="list-group list-group-flush">
-              {ams_one &&
-                ams_one.map(val => {
-                  return (
-                    <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}>
-                      {val.name}
-                    </Link>
-                  )
-                })}
-            </ul>
-          </div>
-          <div className="col-4">
-            <ul className="list-group list-group-flush">{}</ul>
-          </div>
-          <div className="col-4">
-            <ul className="list-group list-group-flush">{}</ul>
-          </div>
-        </div>
+      <CardContent sx={{}}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: "space-around"
+          }}
+        >
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+            {setams_secone &&
+              setams_secone.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+          </Box>
+
+        </Box>
       </CardContent>
 
       <CardHeader
@@ -314,44 +326,48 @@ const Settings = () => {
       />
 
       <CardContent>
-        <div className="row">
-          <div className="col-4">
-            <ul className="list-group list-group-flush">
-              {crmMast_secOne &&
-                crmMast_secOne.map(val => {
-                  return (
-                    <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}>
-                      {val.name}
-                    </Link>
-                  )
-                })}
-            </ul>
-          </div>
-          <div className="col-4">
-            <ul className="list-group list-group-flush">
-              {crmMast_secTwo &&
-                crmMast_secTwo.map(val => {
-                  return (
-                    <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}>
-                      {val.name}
-                    </Link>
-                  )
-                })}
-            </ul>
-          </div>
-          <div className="col-4">
-            <ul className="list-group list-group-flush">
-              {crmMast_secThree &&
-                crmMast_secThree.map(val => {
-                  return (
-                    <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}>
-                      {val.name}
-                    </Link>
-                  )
-                })}
-            </ul>
-          </div>
-        </div>
+
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: "space-around"
+          }}
+        >
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+
+            {crmMast_secOne &&
+              crmMast_secOne.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+
+            {crmMast_secTwo &&
+              crmMast_secTwo.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+
+            {crmMast_secThree &&
+              crmMast_secThree.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+        </Box>
       </CardContent>
       <CardHeader
         title={'Asset Management'}
@@ -362,44 +378,44 @@ const Settings = () => {
         }}
       />
       <CardContent>
-        <div className="row">
-          <div className="col-4">
-            <ul className="list-group list-group-flush">
-              {amMast_secOne &&
-                amMast_secOne.map(val => {
-                  return (
-                    <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}>
-                      {val.name}
-                    </Link>
-                  )
-                })}
-            </ul>
-          </div>
-          <div className="col-4">
-            <ul className="list-group list-group-flush">
-              {amMast_secTwo &&
-                amMast_secTwo.map(val => {
-                  return (
-                    <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}>
-                      {val.name}
-                    </Link>
-                  )
-                })}
-            </ul>
-          </div>
-          <div className="col-4">
-            <ul className="list-group list-group-flush">
-              {amMast_secThree &&
-                amMast_secThree.map(val => {
-                  return (
-                    <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}>
-                      {val.name}
-                    </Link>
-                  )
-                })}
-            </ul>
-          </div>
-        </div>
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: "space-around"
+          }}
+        >
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+            {amMast_secOne &&
+              amMast_secOne.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+            {amMast_secTwo &&
+              amMast_secTwo.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+            {amMast_secThree &&
+              amMast_secThree.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+        </Box>
       </CardContent>
       <CardHeader
         title={'Room Management'}
@@ -410,44 +426,47 @@ const Settings = () => {
         }}
       />
       <CardContent>
-        <div className="row">
-          <div className="col-4">
-            <ul className="list-group list-group-flush">
-              {rmMast_secOne &&
-                rmMast_secOne.map(val => {
-                  return (
-                    <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}>
-                      {val.name}
-                    </Link>
-                  )
-                })}
-            </ul>
-          </div>
-          <div className="col-4">
-            <ul className="list-group list-group-flush">
-              {rmMast_secTwo &&
-                rmMast_secTwo.map(val => {
-                  return (
-                    <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}>
-                      {val.name}
-                    </Link>
-                  )
-                })}
-            </ul>
-          </div>
-          <div className="col-4">
-            <ul className="list-group list-group-flush">
-              {rmMast_secThree &&
-                rmMast_secThree.map(val => {
-                  return (
-                    <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}>
-                      {val.name}
-                    </Link>
-                  )
-                })}
-            </ul>
-          </div>
-        </div>
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: "space-around"
+          }}
+        >
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+
+            {rmMast_secOne &&
+              rmMast_secOne.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+
+            {rmMast_secTwo &&
+              rmMast_secTwo.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+
+            {rmMast_secThree &&
+              rmMast_secThree.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+        </Box>
       </CardContent>
       <CardHeader
         title={'Task Management'}
@@ -458,20 +477,29 @@ const Settings = () => {
         }}
       />
       <CardContent>
-        <div className="row">
-          <div className="col-4">
-            <ul className="list-group list-group-flush">
-              {taskManagment_secOne &&
-                taskManagment_secOne.map(val => {
-                  return (
-                    <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}>
-                      {val.name}
-                    </Link>
-                  )
-                })}
-            </ul>
-          </div>
-        </div>
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: "space-around"
+          }}
+        >
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+
+            {taskManagment_secOne &&
+              taskManagment_secOne.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+          </Box>
+        </Box>
       </CardContent>
 
       <CardHeader
@@ -483,44 +511,47 @@ const Settings = () => {
         }}
       />
       <CardContent>
-        <div className="row">
-          <div className="col-4">
-            <ul className="list-group list-group-flush">
-              {itMast_secOne &&
-                itMast_secOne.map(val => {
-                  return (
-                    <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}>
-                      {val.name}
-                    </Link>
-                  )
-                })}
-            </ul>
-          </div>
-          <div className="col-4">
-            <ul className="list-group list-group-flush">
-              {itMast_secTwo &&
-                itMast_secTwo.map(val => {
-                  return (
-                    <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}>
-                      {val.name}
-                    </Link>
-                  )
-                })}
-            </ul>
-          </div>
-          <div className="col-4">
-            <ul className="list-group list-group-flush">
-              {itMast_secThree &&
-                itMast_secThree.map(val => {
-                  return (
-                    <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}>
-                      {val.name}
-                    </Link>
-                  )
-                })}
-            </ul>
-          </div>
-        </div>
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: "space-around"
+          }}
+        >
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+
+            {itMast_secOne &&
+              itMast_secOne.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+
+            {itMast_secTwo &&
+              itMast_secTwo.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+
+            {itMast_secThree &&
+              itMast_secThree.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+        </Box>
       </CardContent>
 
       <CardHeader
@@ -532,32 +563,39 @@ const Settings = () => {
         }}
       />
       <CardContent>
-        <div className="row">
-          <div className="col-4">
-            <ul className="list-group list-group-flush">
-              {qiMast_secOne &&
-                qiMast_secOne.map(val => {
-                  return (
-                    <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}>
-                      {val.name}
-                    </Link>
-                  )
-                })}
-            </ul>
-          </div>
-          <div className="col-4">
-            <ul className="list-group list-group-flush">
-              {qiMast_secTwo &&
-                qiMast_secTwo.map(val => {
-                  return (
-                    <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}>
-                      {val.name}
-                    </Link>
-                  )
-                })}
-            </ul>
-          </div>
-        </div>
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: "space-around"
+          }}
+        >
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+
+            {qiMast_secOne &&
+              qiMast_secOne.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+
+            {qiMast_secTwo &&
+              qiMast_secTwo.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+          </Box>
+
+        </Box>
       </CardContent>
       <CardHeader
         title={'Daily Census'}
@@ -568,20 +606,28 @@ const Settings = () => {
         }}
       />
       <CardContent>
-        <div className="row">
-          <div className="col-4">
-            <ul className="list-group list-group-flush">
-              {dcMast_secOne &&
-                dcMast_secOne.map(val => {
-                  return (
-                    <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}>
-                      {val.name}
-                    </Link>
-                  )
-                })}
-            </ul>
-          </div>
-        </div>
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: "space-around"
+          }}
+        >
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+            {dcMast_secOne &&
+              dcMast_secOne.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+          </Box>
+        </Box>
       </CardContent>
 
       <CardHeader
@@ -593,44 +639,50 @@ const Settings = () => {
         }}
       />
       <CardContent>
-        <div className="row">
-          <div className="col-4">
-            <ul className="list-group list-group-flush">
-              {userManagment_secOne &&
-                userManagment_secOne.map(val => {
-                  return (
-                    <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}>
-                      {val.name}
-                    </Link>
-                  )
-                })}
-            </ul>
-          </div>
-          <div className="col-4">
-            <ul className="list-group list-group-flush">
-              {userManagment_secTwo &&
-                userManagment_secTwo.map(val => {
-                  return (
-                    <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}>
-                      {val.name}
-                    </Link>
-                  )
-                })}
-            </ul>
-          </div>
-          <div className="col-4">
-            <ul className="list-group list-group-flush">
-              {userManagment_secThree &&
-                userManagment_secThree.map(val => {
-                  return (
-                    <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno}>
-                      {val.name}
-                    </Link>
-                  )
-                })}
-            </ul>
-          </div>
-        </div>
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: "space-around"
+          }}
+        >
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+
+            {userManagment_secOne &&
+              userManagment_secOne.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+
+            {userManagment_secTwo &&
+              userManagment_secTwo.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+
+            {userManagment_secThree &&
+              userManagment_secThree.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{
+                    textDecoration: 'none', color: 'var( --true-blue-600)',
+
+                  }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+        </Box>
       </CardContent>
 
       {/* <CardHeader title={"Task Management Master"}

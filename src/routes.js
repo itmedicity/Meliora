@@ -5,9 +5,9 @@ const Home = React.lazy(() => import('./views/ComManagement/Dashboard/TicketMana
 const Settings = React.lazy(() => import('../src/Menus/Settings'))
 const Administrtion = React.lazy(() => import('../src/views/Administration/Test'))
 const DepartmentMast = React.lazy(() => import('./views/Master/Department/DepartmentMast'))
-// const DepartmentSectionMast = React.lazy(() =>
-//   import('./views/Master/DepartmentSectionMast/DeptSectionMast')
-// )
+const DepartmentSectionMast = React.lazy(() =>
+  import('./views/Master/DepartmentSectionMast/DeptSectionMast')
+)
 const ComplaintDepartment = React.lazy(() => import('./views/Master/ComplaintDepartment/ComplaintDeptMast'))
 const ComplaintRegister = React.lazy(() => import('./views/ComManagement/ComplaintRegisterMain/TicketRegisterMain'))
 const UserGroupMast = React.lazy(() => import('./views/Master/UserGroupMaster/UserGroupMast'))
@@ -271,6 +271,9 @@ const DepartmentMapping = React.lazy(() =>
 const AmsMaster = React.lazy(() => import('./views/Master/AmsMaster/AmsMaster'))
 const AmsPatientDetails = React.lazy(() => import('./views/Ams/AmsMain'))
 const DcReport = React.lazy(() => import('./views/Report/DailyCensus/DailyCensus'))
+const StaticUrl = React.lazy(() => import('./views/Master/StaticUrl/StaticUrl'))
+const MelioraDepMaster = React.lazy(() => import('./views/Master/MelioraDepMaster/MelioraDepMaster'))
+const MelioraDepSecMaster = React.lazy(() => import('./views/Master/MelioraDepSecMaster/MelioraDepSecMaster'))
 
 // Incident Management ( rohith krishna)
 // const IncidentRegistration = React.lazy(() => import('./views/IncidentManagement/NewIncidentRegistration'));
@@ -933,6 +936,11 @@ const routes = [
   { path: 'IncidentReg', name: 'Incident Registration', element: <IncidentRegistrationFinal /> },
   { path: 'IncidentDashboard', name: 'Incident Dashboard', element: <IncidentDashboard /> },
   { path: 'IncidentApprovals', name: 'Incident Approvals', element: <IncidentApprovals /> },
+  { path: 'DepartmentSection', name: 'Department Mast', element: <DepartmentSectionMast /> },
+  { path: 'StaticUrl', name: 'StaticUrl', element: <StaticUrl /> },
+  { path: 'MelioraDepMaster', name: 'MelioraDepMaster', element: <MelioraDepMaster /> },
+  { path: 'MelioraDepSecMaster', name: 'MelioraDepSecMaster', element: <MelioraDepSecMaster /> },
+
 ]
 
 export default routes

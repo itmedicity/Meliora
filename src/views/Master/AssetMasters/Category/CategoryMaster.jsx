@@ -1,7 +1,6 @@
 import React, { memo, useMemo, useCallback, useState } from 'react'
 import CategoryTable from './CategoryTable'
 import CardMaster from 'src/views/Components/CardMaster'
-import { Box, Input } from '@mui/material'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { axioslogin } from 'src/views/Axios/Axios'
@@ -12,6 +11,7 @@ import { useSelector } from 'react-redux'
 import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import AttachmentIcon from '@mui/icons-material/Attachment'
 import { useNavigate } from 'react-router-dom'
+import { Box, Input } from '@mui/joy'
 
 const CategoryMaster = () => {
   const history = useNavigate()
