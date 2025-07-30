@@ -33,7 +33,7 @@ const TmProjectView = ({ setprjFlag, projectHead, ProjTable, tableCount, setTabl
   }
 
   return (
-    <Paper sx={{ height: '90vh' }}>
+    <Paper sx={{ height: '90vh', width: '100%' }}>
       <Box sx={{ flex: 1, height: 30, display: 'flex' }}>
         <Typography sx={{ color: 'grey', fontWeight: 500, flex: 1, pt: 0.5, pl: 1 }}>{projectHead}</Typography>
         <Box sx={{ pl: 0.5 }}>
@@ -72,11 +72,11 @@ const TmProjectView = ({ setprjFlag, projectHead, ProjTable, tableCount, setTabl
                     return (
                       <tr
                         key={index}
-                        // sx={{
-                        //   '&:last-child td, &:last-child th': { border: 0 },
-                        //   maxHeight: 60,
-                        //   minHeight: 5,
-                        // }}
+                      // sx={{
+                      //   '&:last-child td, &:last-child th': { border: 0 },
+                      //   maxHeight: 60,
+                      //   minHeight: 5,
+                      // }}
                       >
                         <td> {index + 1}</td>
                         <td>
@@ -96,8 +96,8 @@ const TmProjectView = ({ setprjFlag, projectHead, ProjTable, tableCount, setTabl
                                 val.tm_project_status === 0
                                   ? '#311E26'
                                   : val.tm_project_status === 1
-                                  ? '#94C973'
-                                  : 'transparent',
+                                    ? '#94C973'
+                                    : 'transparent',
                               minHeight: 5,
                               fontWeight: 700
                             }}
@@ -105,8 +105,8 @@ const TmProjectView = ({ setprjFlag, projectHead, ProjTable, tableCount, setTabl
                             {val.tm_project_status === 0
                               ? 'Incompleted'
                               : val.tm_project_status === 1
-                              ? 'Completed'
-                              : 'not given'}
+                                ? 'Completed'
+                                : 'not given'}
                           </Chip>
                         </td>
                         <td>

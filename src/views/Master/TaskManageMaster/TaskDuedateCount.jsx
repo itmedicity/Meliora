@@ -132,7 +132,7 @@ const TaskDuedateCount = () => {
   }
 
   return (
-    <Box>
+    <Box sx={{ width: "100%" }}>
       <CssVarsProvider>
         <Card sx={{ borderRadius: 0, p: 0 }}>
           <Box sx={{ flex: 1, display: 'flex', bgcolor: '#F0F3F5' }}>

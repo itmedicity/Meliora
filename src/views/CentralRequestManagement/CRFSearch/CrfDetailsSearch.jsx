@@ -493,7 +493,9 @@ const CrfDetailsSearch = () => {
     selectedCompany,
     company
   ])
-  const { company_name } = company
+  // const { company_name } = company
+  const { company_name } = company || {};
+
 
   if (isCompLoading || isdefCompLoading) return <p>Loading...</p>
   if (compError || compdefError) return <p>Error Occurred.</p>
@@ -525,7 +527,7 @@ const CrfDetailsSearch = () => {
                   key={val.company_slno}
                   value={val.company_slno}
                   control={<Radio />}
-                  label={val.company_name}
+                  label={val?.company_name}
                 />
               ))}
             </RadioGroup>

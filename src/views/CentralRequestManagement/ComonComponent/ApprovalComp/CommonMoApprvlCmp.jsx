@@ -30,12 +30,12 @@ const CommonMoApprvlCmp = ({ DetailViewData, company }) => {
   const capitalizeWords = str =>
     str
       ? str
-          .toLowerCase()
-          .trim()
-          .replace(/\s+/g, ' ')
-          .split(' ')
-          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(' ')
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, ' ')
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
       : ''
 
   const ViewMOUploadImage = useCallback(() => {
@@ -64,7 +64,7 @@ const CommonMoApprvlCmp = ({ DetailViewData, company }) => {
       {imageshowFlag === 1 ? (
         <ImageDisplayModal open={imageshow} handleClose={handleClose} images={imagearray} />
       ) : null}
-      <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
+      <Box variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
         <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
           <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>
             {company?.mo_status_name}{' '}
@@ -78,12 +78,12 @@ const CommonMoApprvlCmp = ({ DetailViewData, company }) => {
                   manag_operation_approv === 1
                     ? '#2e7d32'
                     : manag_operation_approv === 2
-                    ? '#bf360c'
-                    : manag_operation_approv === 3
-                    ? '#FF9800'
-                    : manag_operation_approv === 4
-                    ? '#009688'
-                    : '#607D8B',
+                      ? '#bf360c'
+                      : manag_operation_approv === 3
+                        ? '#FF9800'
+                        : manag_operation_approv === 4
+                          ? '#009688'
+                          : '#607D8B',
                 height: 25,
                 pb: 0.5,
                 fontSize: 12,
@@ -169,7 +169,7 @@ const CommonMoApprvlCmp = ({ DetailViewData, company }) => {
             </Box>
           ) : null}
         </Box>
-      </Paper>
+      </Box>
     </Fragment>
   )
 }

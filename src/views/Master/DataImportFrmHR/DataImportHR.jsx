@@ -132,7 +132,7 @@ const DataImportHR = () => {
   }, [history])
 
   return (
-    <Fragment>
+    <Box sx={{ width: '100%' }}>
       {/* <ToastContainer /> */}
       <CustomBackDrop open={open} text="Please Wait" />
       <Box sx={{ height: 35, backgroundColor: '#f0f3f5', display: 'flex' }}>
@@ -384,7 +384,7 @@ const DataImportHR = () => {
           </Box>
         </Paper>
       </Box>
-    </Fragment>
+    </Box>
   )
 }
 

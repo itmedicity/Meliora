@@ -22,12 +22,12 @@ const CommonHodApprvCmp = ({ DetailViewData, company }) => {
   const capitalizeWords = str =>
     str
       ? str
-          .toLowerCase()
-          .trim()
-          .replace(/\s+/g, ' ')
-          .split(' ')
-          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(' ')
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, ' ')
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
       : ''
 
   const ViewHODUploadImage = useCallback(() => {
@@ -57,7 +57,7 @@ const CommonHodApprvCmp = ({ DetailViewData, company }) => {
       {imageshowFlag === 1 ? (
         <ImageDisplayModal open={imageshow} handleClose={handleClose} images={imagearray} />
       ) : null}
-      <Paper
+      <Box
         variant="outlined"
         sx={{
           overflow: 'auto',
@@ -79,10 +79,10 @@ const CommonHodApprvCmp = ({ DetailViewData, company }) => {
                   hod_approve === 1
                     ? '#2e7d32'
                     : hod_approve === 2
-                    ? '#bf360c'
-                    : hod_approve === 3
-                    ? '#FF9800'
-                    : '#607D8B',
+                      ? '#bf360c'
+                      : hod_approve === 3
+                        ? '#FF9800'
+                        : '#607D8B',
                 height: 25,
                 pb: 0.5,
                 fontSize: 12,
@@ -164,7 +164,7 @@ const CommonHodApprvCmp = ({ DetailViewData, company }) => {
             </Box>
           ) : null}
         </Box>
-      </Paper>
+      </Box>
     </Fragment>
   )
 }

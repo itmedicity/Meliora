@@ -16,7 +16,7 @@ const CardCloseOnly = ({ children, title, close }) => {
         <Card sx={{ borderRadius: 0, boxShadow: 1, width: '100%' }}>
           <CustomCardHeaderOne title={title} onClickClose={close} cardStyle={{}} />
           <CardContent sx={{ p: 0 }}>{children}</CardContent>
-          <CardActions sx={{ backgroundColor: cardActionBgClr, py: 0.3, pt: 0.5 }} disableSpacing={false}>
+          <CardActions sx={{ backgroundColor: cardActionBgClr, py: 0.3, pt: 0.5 }} >
             {/* Close button */}
             <CustomeToolTip title="Close" placement="left">
               <Box>

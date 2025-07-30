@@ -126,7 +126,7 @@ const AllDepartmentMain = () => {
                     borderColor: 'lightgray'
                   }}
                 >
-                  <Box sx={{ display: 'flex', px: 0.5, width: "100%", justifyContent: "space-between", flex: 4 }}>
+                  <Box sx={{ display: 'flex', px: 0.5, width: "100%", justifyContent: "normal", }}>
                     <Tab disableIndicator sx={{ color: '#8C5249', fontWeight: 800, }}>
                       <AccountTreeIcon sx={{ color: '#8C5249' }} />
                       &nbsp;By Projects

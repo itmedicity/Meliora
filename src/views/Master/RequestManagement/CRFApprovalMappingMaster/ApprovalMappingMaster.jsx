@@ -306,202 +306,202 @@ const ApprovalMappingMaster = () => {
   if (isCompLoading) return <p>Loading...</p>
   if (compError) return <p>Error Occurred.</p>
   return (
-    <Fragment>
-      <CssVarsProvider>
-        <Box sx={{ backgroundColor: '#f0f3f5', border: '1px solid #B4F5F0' }}>
-          <Box sx={{ display: 'flex' }}>
-            <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: 0.5, color: '#385E72' }}>CRF Approval Mapping</Box>
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, m: 0.5 }}>
-              <CustomCloseIconCmp handleChange={backtoSetting} />
-            </Box>
+    <Box sx={{ width: "100%" }}>
+      {/* <CssVarsProvider> */}
+      <Box sx={{ backgroundColor: '#f0f3f5', border: '1px solid #B4F5F0' }}>
+        <Box sx={{ display: 'flex' }}>
+          <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: 0.5, color: '#385E72' }}>CRF Approval Mapping</Box>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', flex: 1, fontSize: 20, m: 0.5 }}>
+            <CustomCloseIconCmp handleChange={backtoSetting} />
           </Box>
         </Box>
+      </Box>
 
-        <Box sx={{ display: 'flex', p: 1 }}>
-          <Box sx={{ flex: 1 }}>
+      <Box sx={{ display: 'flex', p: 1 }}>
+        <Box sx={{ flex: 1 }}>
+          <Box sx={{ display: 'flex' }}>
+            <Box sx={{ width: 600 }}>
+              <CustomPaperTitle heading="Company" />
+              <Box sx={{ pt: 0.5 }}>
+                <CompanySelect
+                  selectedCompany={selectedCompany}
+                  setSelectedCompany={setSelectedCompany}
+                  companyData={companyData}
+                />
+              </Box>
+            </Box>
+          </Box>
+          <Box sx={{ border: '1px solid lightgrey', p: 3, mt: 0.5 }}>
             <Box sx={{ display: 'flex' }}>
-              <Box sx={{ width: 600 }}>
-                <CustomPaperTitle heading="Company" />
-                <Box sx={{ pt: 0.5 }}>
-                  <CompanySelect
-                    selectedCompany={selectedCompany}
-                    setSelectedCompany={setSelectedCompany}
-                    companyData={companyData}
-                  />
-                </Box>
+              <Typography sx={{ fontSize: 18, width: 200, pt: 0.5 }}>Medical Director</Typography>
+              <Box sx={{ pt: 1, width: 10 }}>
+                <CusCheckBox
+                  color="primary"
+                  size="md"
+                  name="mdStatus"
+                  value={mdStatus}
+                  checked={mdStatus}
+                  onCheked={updateApproval}
+                ></CusCheckBox>
               </Box>
+              {mdStatus === true ? (
+                <>
+                  <Box sx={{ width: 300, pl: 5 }}>
+                    <TextFieldCustom
+                      disabled={mdStatus === false}
+                      placeholder="Employee No."
+                      type="text"
+                      size="md"
+                      name="mdNo"
+                      value={mdNo}
+                      onchange={updateApproval}
+                    />
+                  </Box>
+                  <Box sx={{ pt: 0.8, pl: 1, width: 50 }}>
+                    <CssVarsProvider>
+                      <CustomToolTipForCRF title="Search" placement="right">
+                        <SearchIcon
+                          sx={{ color: '#555830', cursor: 'pointer', height: 30, width: 30 }}
+                          fontSize="large"
+                          onClick={searchMD}
+                        />
+                      </CustomToolTipForCRF>
+                    </CssVarsProvider>
+                  </Box>
+                  {mdFlag === 1 ? (
+                    <Box sx={{ pt: 0.3, width: 300 }}>
+                      <CssVarsProvider>
+                        <Input
+                          readOnly
+                          size="sm"
+                          name="mdName"
+                          value={mdName}
+                          sx={{ height: 35, fontWeight: 550, fontSize: 16 }}
+                        />
+                      </CssVarsProvider>
+                    </Box>
+                  ) : null}
+                </>
+              ) : null}
             </Box>
-            <Box sx={{ border: '1px solid lightgrey', p: 3, mt: 0.5 }}>
-              <Box sx={{ display: 'flex' }}>
-                <Typography sx={{ fontSize: 18, width: 200, pt: 0.5 }}>Medical Director</Typography>
-                <Box sx={{ pt: 1, width: 10 }}>
-                  <CusCheckBox
-                    color="primary"
-                    size="md"
-                    name="mdStatus"
-                    value={mdStatus}
-                    checked={mdStatus}
-                    onCheked={updateApproval}
-                  ></CusCheckBox>
-                </Box>
-                {mdStatus === true ? (
-                  <>
-                    <Box sx={{ width: 300, pl: 5 }}>
-                      <TextFieldCustom
-                        disabled={mdStatus === false}
-                        placeholder="Employee No."
-                        type="text"
-                        size="md"
-                        name="mdNo"
-                        value={mdNo}
-                        onchange={updateApproval}
-                      />
-                    </Box>
-                    <Box sx={{ pt: 0.8, pl: 1, width: 50 }}>
+            <Box sx={{ display: 'flex', pt: 1 }}>
+              <Typography sx={{ fontSize: 18, width: 200, pt: 0.5 }}>Executive Director</Typography>
+              <Box sx={{ pt: 1, width: 10 }}>
+                <CusCheckBox
+                  color="primary"
+                  size="md"
+                  name="edStatus"
+                  value={edStatus}
+                  checked={edStatus}
+                  onCheked={updateApproval}
+                ></CusCheckBox>
+              </Box>
+              {edStatus === true ? (
+                <>
+                  <Box sx={{ width: 300, pl: 5 }}>
+                    <TextFieldCustom
+                      disabled={edStatus === false}
+                      placeholder="Employee No."
+                      type="text"
+                      size="md"
+                      name="edNo"
+                      value={edNo}
+                      onchange={updateApproval}
+                    />
+                  </Box>
+                  <Box sx={{ pt: 0.8, pl: 1, width: 50 }}>
+                    <CssVarsProvider>
+                      <CustomToolTipForCRF title="Search" placement="right">
+                        <SearchIcon
+                          sx={{ color: '#555830', cursor: 'pointer', height: 30, width: 30 }}
+                          fontSize="large"
+                          onClick={searchED}
+                        />
+                      </CustomToolTipForCRF>
+                    </CssVarsProvider>
+                  </Box>
+                  {edFlag === 1 ? (
+                    <Box sx={{ pt: 0.3, width: 300 }}>
                       <CssVarsProvider>
-                        <CustomToolTipForCRF title="Search" placement="right">
-                          <SearchIcon
-                            sx={{ color: '#555830', cursor: 'pointer', height: 30, width: 30 }}
-                            fontSize="large"
-                            onClick={searchMD}
-                          />
-                        </CustomToolTipForCRF>
+                        <Input
+                          readOnly
+                          size="sm"
+                          name="edName"
+                          value={edName}
+                          sx={{ height: 35, fontWeight: 550, fontSize: 16 }}
+                        />
                       </CssVarsProvider>
                     </Box>
-                    {mdFlag === 1 ? (
-                      <Box sx={{ pt: 0.3, width: 300 }}>
-                        <CssVarsProvider>
-                          <Input
-                            readOnly
-                            size="sm"
-                            name="mdName"
-                            value={mdName}
-                            sx={{ height: 35, fontWeight: 550, fontSize: 16 }}
-                          />
-                        </CssVarsProvider>
-                      </Box>
-                    ) : null}
-                  </>
-                ) : null}
+                  ) : null}
+                </>
+              ) : null}
+            </Box>
+            <Box sx={{ display: 'flex', pt: 1 }}>
+              <Typography sx={{ fontSize: 18, width: 200, pt: 0.5 }}>Managing Director</Typography>
+              <Box sx={{ pt: 1, width: 10 }}>
+                <CusCheckBox
+                  color="primary"
+                  size="md"
+                  name="manageStatus"
+                  value={manageStatus}
+                  checked={manageStatus}
+                  onCheked={updateApproval}
+                ></CusCheckBox>
               </Box>
-              <Box sx={{ display: 'flex', pt: 1 }}>
-                <Typography sx={{ fontSize: 18, width: 200, pt: 0.5 }}>Executive Director</Typography>
-                <Box sx={{ pt: 1, width: 10 }}>
-                  <CusCheckBox
-                    color="primary"
-                    size="md"
-                    name="edStatus"
-                    value={edStatus}
-                    checked={edStatus}
-                    onCheked={updateApproval}
-                  ></CusCheckBox>
-                </Box>
-                {edStatus === true ? (
-                  <>
-                    <Box sx={{ width: 300, pl: 5 }}>
-                      <TextFieldCustom
-                        disabled={edStatus === false}
-                        placeholder="Employee No."
-                        type="text"
-                        size="md"
-                        name="edNo"
-                        value={edNo}
-                        onchange={updateApproval}
-                      />
-                    </Box>
-                    <Box sx={{ pt: 0.8, pl: 1, width: 50 }}>
+              {manageStatus === true ? (
+                <>
+                  <Box sx={{ width: 300, pl: 5 }}>
+                    <TextFieldCustom
+                      disabled={manageStatus === false}
+                      placeholder="Employee No."
+                      type="text"
+                      size="md"
+                      name="manageNo"
+                      value={manageNo}
+                      onchange={updateApproval}
+                    />
+                  </Box>
+                  <Box sx={{ pt: 0.8, pl: 1, width: 50 }}>
+                    <CssVarsProvider>
+                      <CustomToolTipForCRF title="Search" placement="right">
+                        <SearchIcon
+                          sx={{ color: '#555830', cursor: 'pointer', height: 30, width: 30 }}
+                          fontSize="large"
+                          onClick={searchManage}
+                        />
+                      </CustomToolTipForCRF>
+                    </CssVarsProvider>
+                  </Box>
+                  {manageFlag === 1 ? (
+                    <Box sx={{ pt: 0.3, width: 300 }}>
                       <CssVarsProvider>
-                        <CustomToolTipForCRF title="Search" placement="right">
-                          <SearchIcon
-                            sx={{ color: '#555830', cursor: 'pointer', height: 30, width: 30 }}
-                            fontSize="large"
-                            onClick={searchED}
-                          />
-                        </CustomToolTipForCRF>
+                        <Input
+                          readOnly
+                          size="sm"
+                          name="manageName"
+                          value={manageName}
+                          sx={{ height: 35, fontWeight: 550, fontSize: 16 }}
+                        />
                       </CssVarsProvider>
                     </Box>
-                    {edFlag === 1 ? (
-                      <Box sx={{ pt: 0.3, width: 300 }}>
-                        <CssVarsProvider>
-                          <Input
-                            readOnly
-                            size="sm"
-                            name="edName"
-                            value={edName}
-                            sx={{ height: 35, fontWeight: 550, fontSize: 16 }}
-                          />
-                        </CssVarsProvider>
-                      </Box>
-                    ) : null}
-                  </>
-                ) : null}
-              </Box>
-              <Box sx={{ display: 'flex', pt: 1 }}>
-                <Typography sx={{ fontSize: 18, width: 200, pt: 0.5 }}>Managing Director</Typography>
-                <Box sx={{ pt: 1, width: 10 }}>
-                  <CusCheckBox
-                    color="primary"
-                    size="md"
-                    name="manageStatus"
-                    value={manageStatus}
-                    checked={manageStatus}
-                    onCheked={updateApproval}
-                  ></CusCheckBox>
-                </Box>
-                {manageStatus === true ? (
-                  <>
-                    <Box sx={{ width: 300, pl: 5 }}>
-                      <TextFieldCustom
-                        disabled={manageStatus === false}
-                        placeholder="Employee No."
-                        type="text"
-                        size="md"
-                        name="manageNo"
-                        value={manageNo}
-                        onchange={updateApproval}
-                      />
-                    </Box>
-                    <Box sx={{ pt: 0.8, pl: 1, width: 50 }}>
-                      <CssVarsProvider>
-                        <CustomToolTipForCRF title="Search" placement="right">
-                          <SearchIcon
-                            sx={{ color: '#555830', cursor: 'pointer', height: 30, width: 30 }}
-                            fontSize="large"
-                            onClick={searchManage}
-                          />
-                        </CustomToolTipForCRF>
-                      </CssVarsProvider>
-                    </Box>
-                    {manageFlag === 1 ? (
-                      <Box sx={{ pt: 0.3, width: 300 }}>
-                        <CssVarsProvider>
-                          <Input
-                            readOnly
-                            size="sm"
-                            name="manageName"
-                            value={manageName}
-                            sx={{ height: 35, fontWeight: 550, fontSize: 16 }}
-                          />
-                        </CssVarsProvider>
-                      </Box>
-                    ) : null}
-                  </>
-                ) : null}
-              </Box>
+                  ) : null}
+                </>
+              ) : null}
             </Box>
           </Box>
         </Box>
-        <Box sx={{ display: 'flex', justifyContent: 'flex-start', py: 0.2, pl: 1 }}>
-          <Box sx={{ pr: 0.5 }}>
-            <ModalButtomCmp handleChange={submitCompanyName}> Save</ModalButtomCmp>
-          </Box>
-          <Box sx={{ pr: 0.5 }}>
-            <ModalButtomCmp handleChange={refreshWindow}> Refresh</ModalButtomCmp>
-          </Box>
+      </Box>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-start', py: 0.2, pl: 1 }}>
+        <Box sx={{ pr: 0.5 }}>
+          <ModalButtomCmp handleChange={submitCompanyName}> Save</ModalButtomCmp>
         </Box>
-        <ApprovalMappingTable count={count} rowSelect={rowSelect} />
-      </CssVarsProvider>
-    </Fragment>
+        <Box sx={{ pr: 0.5 }}>
+          <ModalButtomCmp handleChange={refreshWindow}> Refresh</ModalButtomCmp>
+        </Box>
+      </Box>
+      <ApprovalMappingTable count={count} rowSelect={rowSelect} />
+      {/* </CssVarsProvider> */}
+    </Box>
   )
 }
 

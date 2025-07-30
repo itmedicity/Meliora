@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import { Box, Paper } from '@mui/material'
+import { Paper } from '@mui/material'
 import CusIconButton from '../Components/CusIconButton'
 import SearchIcon from '@mui/icons-material/Search'
 import CloseIcon from '@mui/icons-material/Close'
@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { ActionTyps } from 'src/redux/constants/action.type'
 import { warningNotify } from '../Common/CommonCode'
+import { Box } from '@mui/joy'
 const CustomReportOne = ({
   columnDefs,
   tableData,

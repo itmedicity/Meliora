@@ -681,6 +681,7 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
   })
 
   const custodianDetails = useMemo(() => custodianDetailsData, [custodianDetailsData])
+  console.log(custodianDetails, "custodianDetails");
 
   useEffect(() => {
     if (isSuccess && custodianDetails?.length > 0) {
@@ -919,7 +920,6 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
                       complainttype.map(val => {
                         return (
                           <Grid
-                            item
                             xs={2}
                             sm={4}
                             md={4}

@@ -60,7 +60,7 @@ const NursingStationsFeedback = () => {
               <Grid container spacing={2}>
                 {nurstation.map((val, index) => (
                   <Grid key={index} xs={12} sm={4} md={3} lg={2}>
-                    <Paper
+                    <Box
                       sx={{
                         padding: 2,
                         bgcolor: '#E3F2FD',
@@ -102,7 +102,7 @@ const NursingStationsFeedback = () => {
                           {val.census_ns_slno}
                         </Button>
                       </Box>
-                    </Paper>
+                    </Box>
                   </Grid>
                 ))}
               </Grid>

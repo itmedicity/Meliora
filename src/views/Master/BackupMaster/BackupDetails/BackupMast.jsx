@@ -571,7 +571,7 @@ const BackupMast = () => {
   )
 
   return (
-    <Box>
+    <Box sx={{ width: '100%' }}>
       <CardMaster title="Backup Details" submit={BackupChecksDetails} close={backtoSetting} refresh={refreshWindow}>
         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
           <Box sx={{ flex: 0.5 }}> </Box>

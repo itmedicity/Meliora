@@ -201,53 +201,61 @@ const Login = () => {
             flexDirection: 'column'
           }}
         >
-          <TextField
-            fullWidth
-            size="small"
-            name="email"
-            label="user name/code"
-            autoComplete="off"
-            defaultValue=""
-            sx={{ mb: 3 }}
-            onChange={e => {
-              setUsername(e.target.value)
-            }}
-            InputLabelProps={{ shrink: true }}
-          />
+          <form style={{
+            width: "340px",
 
-          <TextField
-            fullWidth
-            name="password"
-            label="Passcode"
-            size="small"
-            defaultValue=""
-            autoComplete="off"
-            onChange={e => {
-              setPassword(e.target.value)
-            }}
-            type={val ? 'text' : 'password'}
-            InputLabelProps={{ shrink: true }} // ✅ For shrinking label
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton onClick={() => {}} edge="start">
-                    <RemoveRedEyeOutlinedIcon fontSize="small" />
-                  </IconButton>
-                </InputAdornment>
-              )
-            }}
-            sx={{ mb: 3 }}
-          />
+          }} onSubmit={(e) => {
+            e.preventDefault();
+          }}>
+            <TextField
+              fullWidth
+              size="small"
+              name="email"
+              label="user name/code"
+              autoComplete="off"
+              defaultValue=""
+              sx={{ mb: 3 }}
+              onChange={e => {
+                setUsername(e.target.value)
+              }}
+              InputLabelProps={{ shrink: true }}
+            />
 
-          <Button
-            fullWidth
-            size="large"
-            // color="inherit"
-            variant="outlined"
-            onClick={submitLoginDetl}
-          >
-            <Typography>Sign in</Typography>
-          </Button>
+            <TextField
+              fullWidth
+              name="password"
+              label="Passcode"
+              size="small"
+              defaultValue=""
+              autoComplete="off"
+              onChange={e => {
+                setPassword(e.target.value)
+              }}
+              type={val ? 'text' : 'password'}
+              InputLabelProps={{ shrink: true }} // ✅ For shrinking label
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={() => { }} edge="start">
+                      <RemoveRedEyeOutlinedIcon fontSize="small" />
+                    </IconButton>
+                  </InputAdornment>
+                )
+              }}
+              sx={{ mb: 3 }}
+            />
+
+            <Button
+              type="submit"
+              fullWidth
+              size="large"
+              // color="inherit"
+              variant="outlined"
+              onClick={submitLoginDetl}
+            >
+              <Typography>Sign in</Typography>
+            </Button>
+          </form>
         </Box>
 
         <Divider sx={{ my: 3, '&::before, &::after': { borderTopStyle: 'dashed' }, color: 'transparent' }}>

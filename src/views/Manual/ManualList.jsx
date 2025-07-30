@@ -1,12 +1,11 @@
-import { Box, Typography } from '@mui/material'
 import React, { useState, memo, useCallback } from 'react'
 // import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import CardCloseOnly from 'src/views/Components/CardCloseOnly'
-import Button from '@mui/material/Button'
 import PdfviewNas from './PdfviewNas'
 import { axioslogin } from '../Axios/Axios'
 import { PUBLIC_NAS_FOLDER } from '../Constant/Static'
 import { useNavigate } from 'react-router-dom'
+import { Box, Button, Typography } from '@mui/joy'
 
 const ManualList = () => {
   const history = useNavigate()
@@ -110,306 +109,55 @@ const ManualList = () => {
   return (
     <CardCloseOnly title="Documents" close={backToSettings}>
       {pdfDis === 0 ? (
-        <Box sx={{ width: '100%', p: 1 }}>
-          <Typography sx={{ fontSize: 15, font: 'Roboto', textTransform: 'capitalize' }}>NABH GuideLines</Typography>
-          <Box
-            sx={{
-              display: 'flex',
-              width: '100%',
-              flex: 1
-            }}
+        <Box sx={{ width: '100%', p: 2, maxHeight: '75vh', overflowY: 'auto' }}>
+          <Typography
+            variant="h6"
+            sx={{ fontFamily: 'Roboto', mb: 2, textTransform: 'capitalize' }}
           >
-            <Box
-              sx={{
-                display: 'flex',
-                width: '30%',
-                flex: 1
-              }}
-            >
-              <Button
-                size="small"
-                sx={{
-                  pt: 1.5,
-                  pl: 2,
-                  pb: 1,
-                  fontSize: 15,
-                  font: 'Roboto',
-                  textTransform: 'capitalize'
-                }}
-                onClick={() => employeeGuide()}
-              >
-                {' '}
-                Employee Guide
-              </Button>
-            </Box>
+            NABH Guidelines
+          </Typography>
 
-            <Box
-              sx={{
-                display: 'flex',
-                width: '30%',
-                flex: 1
-              }}
-            >
-              {/* <Button size="small" sx={{ pt: 1.5, pl: 2, pb: 1, fontSize: 15, font: 'Roboto', textTransform: "capitalize" }}
-                                    onClick={() => lasa2023()}> LASA </Button> */}
+          {/* Button Helper to keep design consistent */}
+          {[
+            { label: 'Employee Guide', action: employeeGuide },
+            { label: 'Sound Alike Drugs', action: Sound },
+            { label: 'Sradha Antibiotic Policy', action: sradhapolicy },
+            { label: 'MSDS Handbook_E1', action: safety },
+            { label: 'MEDF', action: meddef },
+            { label: 'Abbreviation', action: Abbreviation },
+            { label: 'Fridge Medicines', action: Fridge },
+            { label: 'High Risk Drugs', action: High },
+            { label: 'Look Alike', action: Alike },
+            { label: 'Psychotropic Drugs', action: Psychotropic },
+            { label: 'Hospital Manual', action: Hospital },
+            { label: 'Standard Treatment Guideline', action: Standard },
+          ].map((item, index) => (
+            <Box key={index} sx={{ mb: 1 }}>
               <Button
-                size="small"
+                fullWidth
+                variant="outlined"
+                color="primary"
                 sx={{
-                  pt: 1.5,
-                  pl: 2,
-                  pb: 1,
-                  fontSize: 15,
-                  font: 'Roboto',
-                  textTransform: 'capitalize'
+                  textTransform: 'capitalize',
+                  fontSize: 14,
+                  fontFamily: 'Roboto',
+                  justifyContent: 'flex-start',
+                  px: 2,
+                  py: 1.2,
+                  borderRadius: 2,
                 }}
-                onClick={() => Sound()}
+                onClick={item.action}
               >
-                Sound Alike Drugs
+                <Typography level="body-sm" sx={{ color: 'var( --true-blue-600)' }}>{item.label}</Typography>
               </Button>
             </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                width: '30%',
-                flex: 1
-              }}
-            >
-              <Button
-                size="small"
-                sx={{
-                  pt: 1.5,
-                  pl: 2,
-                  pb: 1,
-                  fontSize: 15,
-                  font: 'Roboto',
-                  textTransform: 'capitalize'
-                }}
-                onClick={() => sradhapolicy()}
-              >
-                Sradha Antibiotic Policy{' '}
-              </Button>
-            </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                width: '30%',
-                flex: 1
-              }}
-            >
-              <Button
-                size="small"
-                sx={{
-                  pt: 1.5,
-                  pl: 2,
-                  pb: 1,
-                  fontSize: 15,
-                  font: 'Roboto',
-                  textTransform: 'capitalize'
-                }}
-                onClick={() => safety()}
-              >
-                MSDS Handbook_E1{' '}
-              </Button>
-            </Box>
-          </Box>
-          <Box
-            sx={{
-              display: 'flex',
-              width: '100%',
-              flex: 1
-            }}
-          >
-            <Box
-              sx={{
-                display: 'flex',
-                width: '30%',
-                flex: 1
-              }}
-            >
-              <Button
-                size="small"
-                sx={{
-                  pt: 1.5,
-                  pl: 2,
-                  pb: 1,
-                  fontSize: 15,
-                  font: 'Roboto',
-                  textTransform: 'capitalize'
-                }}
-                onClick={() => meddef()}
-              >
-                MEDF
-              </Button>
-            </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                width: '30%',
-                flex: 1
-              }}
-            >
-              <Button
-                size="small"
-                sx={{
-                  pt: 1.5,
-                  pl: 2,
-                  pb: 1,
-                  fontSize: 15,
-                  font: 'Roboto',
-                  textTransform: 'capitalize'
-                }}
-                onClick={() => Abbreviation()}
-              >
-                Abbreviation
-              </Button>
-            </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                width: '30%',
-                flex: 1
-              }}
-            >
-              <Button
-                size="small"
-                sx={{
-                  pt: 1.5,
-                  pl: 2,
-                  pb: 1,
-                  fontSize: 15,
-                  font: 'Roboto',
-                  textTransform: 'capitalize'
-                }}
-                onClick={() => Fridge()}
-              >
-                Fridge Medicines
-              </Button>
-            </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                width: '30%',
-                flex: 1
-              }}
-            >
-              <Button
-                size="small"
-                sx={{
-                  pt: 1.5,
-                  pl: 2,
-                  pb: 1,
-                  fontSize: 15,
-                  font: 'Roboto',
-                  textTransform: 'capitalize'
-                }}
-                onClick={() => High()}
-              >
-                High Risk Drugs
-              </Button>
-            </Box>
-          </Box>
-
-          <Box
-            sx={{
-              display: 'flex',
-              width: '100%',
-              flex: 1
-            }}
-          >
-            <Box
-              sx={{
-                display: 'flex',
-                width: '30%',
-                flex: 1
-              }}
-            >
-              <Button
-                size="small"
-                sx={{
-                  pt: 1.5,
-                  pl: 2,
-                  pb: 1,
-                  fontSize: 15,
-                  font: 'Roboto',
-                  textTransform: 'capitalize'
-                }}
-                onClick={() => Alike()}
-              >
-                Look Alike
-              </Button>
-            </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                width: '30%',
-                flex: 1
-              }}
-            >
-              <Button
-                size="small"
-                sx={{
-                  pt: 1.5,
-                  pl: 2,
-                  pb: 1,
-                  fontSize: 15,
-                  font: 'Roboto',
-                  textTransform: 'capitalize'
-                }}
-                onClick={() => Psychotropic()}
-              >
-                Psychotropic Drugs
-              </Button>
-            </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                width: '30%',
-                flex: 1
-              }}
-            >
-              <Button
-                size="small"
-                sx={{
-                  pt: 1.5,
-                  pl: 2,
-                  pb: 1,
-                  fontSize: 15,
-                  font: 'Roboto',
-                  textTransform: 'capitalize'
-                }}
-                onClick={() => Hospital()}
-              >
-                Hospital Manual
-              </Button>
-            </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                width: '30%',
-                flex: 1
-              }}
-            >
-              <Button
-                size="small"
-                sx={{
-                  pt: 1.5,
-                  pl: 2,
-                  pb: 1,
-                  fontSize: 15,
-                  font: 'Roboto',
-                  textTransform: 'capitalize'
-                }}
-                onClick={() => Standard()}
-              >
-                Standard Treatment Guidline
-              </Button>
-            </Box>
-          </Box>
+          ))}
         </Box>
       ) : (
         <PdfviewNas pdfDis={pdfDis} uploadedImages={uploadedImages} />
       )}
     </CardCloseOnly>
+
   )
 }
 

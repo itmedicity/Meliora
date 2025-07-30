@@ -1,4 +1,3 @@
-import { Box } from '@mui/system'
 import React, { useCallback, useMemo, useState, memo, Fragment } from 'react'
 import { useNavigate } from 'react-router-dom'
 import CardMaster from 'src/views/Components/CardMaster'
@@ -8,6 +7,7 @@ import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/Common
 import { useSelector } from 'react-redux'
 import DeptSectionSelect from 'src/views/CommonSelectCode/DeptSectionSelect'
 import EmpNameDeptSecSelect from 'src/views/CommonSelectCode/EmpNameDeptSecSelect'
+import { Box } from '@mui/joy'
 import AuthorizationMastTable from './AuthorizationMastTable'
 
 const AuthorizationMast = () => {
@@ -167,10 +167,11 @@ const AuthorizationMast = () => {
             <EmpNameDeptSecSelect value={empid} setValue={setEmpid} deptsec={empdeptsec} />
           </Box>
         </Box>
+        <Box>
+          <AuthorizationMastTable count={count} rowSelect={rowSelect} />
+        </Box>
       </CardMaster>
-      <Box>
-        <AuthorizationMastTable count={count} rowSelect={rowSelect} />
-      </Box>
+
     </Fragment>
   )
 }

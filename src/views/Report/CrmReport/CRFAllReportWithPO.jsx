@@ -9,11 +9,11 @@ import CusIconButton from 'src/views/Components/CusIconButton'
 import CustomBackDrop from 'src/views/Components/CustomBackDrop'
 import CustomeToolTip from 'src/views/Components/CustomeToolTip'
 import DownloadIcon from '@mui/icons-material/Download'
-import { AgGridReact } from 'ag-grid-react'
 import { useDispatch, useSelector } from 'react-redux'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { ActionTyps } from 'src/redux/constants/action.type'
 import CustomCloseIconCmp from 'src/views/CentralRequestManagement/ComonComponent/Components/CustomCloseIconCmp'
+import CusAgGridForReport from 'src/views/Components/CusAgGridForReport'
 
 const CRFAllReportWithPO = () => {
   const dispatch = useDispatch()
@@ -222,7 +222,7 @@ const CRFAllReportWithPO = () => {
   return (
     <Fragment>
       <CustomBackDrop open={open} text="Please Wait" />
-      <Box sx={{ height: window.innerHeight - 80, flexWrap: 'wrap', bgcolor: 'white' }}>
+      <Box sx={{ height: window.innerHeight - 80, flexWrap: 'wrap', bgcolor: 'white', width: "100%" }}>
         <Box sx={{ border: '1px solid #B4F5F0' }}>
           <Box sx={{ display: 'flex' }}>
             <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: 0.5, color: '#385E72' }}>CRF PO Report</Box>
@@ -337,32 +337,16 @@ const CRFAllReportWithPO = () => {
             className="ag-theme-material ListItemScrol"
             sx={{
               height: window.innerHeight - 200,
-              flexWrap: 'wrap',
+              display: "flex",
+              flexDirection: 'column',
               bgcolor: 'white',
-              width: '100%',
+              width: '2100',
               '&::-webkit-scrollbar': { height: 10 }
             }}
           >
-            <AgGridReact
-              ref={apiRef}
-              columnDefs={columnDefForTable}
-              rowData={TableData}
-              defaultColDef={defaultColDef}
-              rowHeight={rowHeight}
-              headerHeight={headerHeight}
-              rowDragManaged={true}
-              animateRows={true}
-              onGridReady={onGridReady}
-              rowSelection="multiple"
-              rowStyle={rowStyle}
-              suppressColumnVirtualisation={true}
-              suppressRowVirtualisation={true}
-              suppressRowClickSelection={true}
-              groupSelectsChildren={true}
-              rowGroupPanelShow={'always'}
-              pivotPanelShow={'always'}
-              enableRangeSelection={true}
-            ></AgGridReact>
+
+            <CusAgGridForReport columnDefs={columnDefForTable} tableData={TableData} />
+
           </Box>
         ) : null}
       </Box>

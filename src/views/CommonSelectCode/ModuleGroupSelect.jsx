@@ -1,10 +1,8 @@
 import React, { useEffect, memo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setModuleGroup } from 'src/redux/actions/ModuleGroup.action'
-import Box from '@mui/material/Box'
-import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
-import Select from '@mui/material/Select'
+import { Box, Option, Select } from '@mui/joy'
 
 const ModuleGroupSelect = ({ value, setValue }) => {
   const dispatch = useDispatch()
@@ -24,24 +22,24 @@ const ModuleGroupSelect = ({ value, setValue }) => {
     <Box>
       <FormControl fullWidth size="small">
         <Select
-          labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={value}
-          onChange={e => setValue(e.target.value)}
+          onChange={(e, newValue) => {
+            setValue(newValue);
+          }}
           size="small"
-          fullWidth
           variant="outlined"
           sx={{ height: 25, p: 0, m: 0, lineHeight: 1.2 }}
         >
-          <MenuItem value={0} disabled>
+          <Option value={0} disabled>
             Select Module Group Name
-          </MenuItem>
+          </Option>
           {moduleGroupName &&
             moduleGroupName.map((val, index) => {
               return (
-                <MenuItem key={index} value={val.mod_grp_slno}>
+                <Option key={index} value={val.mod_grp_slno}>
                   {val.mod_grp_name}
-                </MenuItem>
+                </Option>
               )
             })}
         </Select>

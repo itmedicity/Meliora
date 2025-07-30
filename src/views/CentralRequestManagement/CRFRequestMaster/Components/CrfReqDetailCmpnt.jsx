@@ -17,7 +17,7 @@ const CrfReqDetailCmpnt = ({ poDetails }) => {
   return (
     <Fragment>
       {poDetails.length !== 0 ? (
-        <Paper variant="outlined" sx={{ p: 1, mt: 0.5 }}>
+        <Box variant="outlined" sx={{ p: 1, mt: 0.5 }}>
           <Box
             display="flex"
             justifyContent="space-between"
@@ -133,7 +133,7 @@ const CrfReqDetailCmpnt = ({ poDetails }) => {
               </React.Fragment>
             )}
           />
-        </Paper>
+        </Box>
       ) : null}
     </Fragment>
   )

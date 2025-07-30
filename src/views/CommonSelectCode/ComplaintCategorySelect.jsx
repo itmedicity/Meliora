@@ -1,9 +1,7 @@
 import React, { useEffect, memo, useState } from 'react'
-import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
-import Select from '@mui/material/Select'
-import MenuItem from '@mui/material/MenuItem'
 import { axioslogin } from '../Axios/Axios'
+import { Box, Option, Select } from '@mui/joy'
 
 const ComplaintCategorySelect = ({ value, setValue }) => {
   const [category, setcategory] = useState([])
@@ -24,24 +22,22 @@ const ComplaintCategorySelect = ({ value, setValue }) => {
     <Box sx={{ pt: 1 }}>
       <FormControl fullWidth size="small">
         <Select
-          labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={value}
-          onChange={e => setValue(e.target.value)}
+          onChange={(e, newValue) => setValue(newValue)}
           size="small"
-          fullWidth
           variant="outlined"
           sx={{ height: 24, p: 0, m: 0, lineHeight: 1.2 }}
         >
-          <MenuItem value={0} disabled>
+          <Option value={0} disabled>
             Select Category
-          </MenuItem>
+          </Option>
           {category &&
             category.map((val, index) => {
               return (
-                <MenuItem key={index} value={val.complaint_type_slno}>
+                <Option key={index} value={val.complaint_type_slno}>
                   {val.complaint_type_name}
-                </MenuItem>
+                </Option>
               )
             })}
         </Select>

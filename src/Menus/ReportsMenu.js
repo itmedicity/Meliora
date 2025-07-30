@@ -1,5 +1,5 @@
 export const diet_one = [
-  { to: '/Home/Report/Diet', name: 'Diet List Diet Wise', slno: 63 },
+  { to: '/Home/', name: 'Diet List Diet Wise', slno: 63 },
   { to: '/Home/Report/Monthly', name: 'Monthly Report', slno: 73 }
 ]
 export const diet_two = [{ to: '/Home/Report/NurseStation', name: 'Diet List Nursing Station Wise', slno: 64 }]

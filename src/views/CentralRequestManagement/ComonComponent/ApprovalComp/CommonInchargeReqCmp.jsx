@@ -10,16 +10,16 @@ const CommonInchargeReqCmp = ({ DetailViewData }) => {
   const capitalizeWords = str =>
     str
       ? str
-          .toLowerCase()
-          .trim()
-          .replace(/\s+/g, ' ')
-          .split(' ')
-          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(' ')
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, ' ')
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
       : ''
   return (
     <Fragment>
-      <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
+      <Box variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
         <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
           <Typography sx={{ fontWeight: 'bold', ml: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.33 }}>
             Department Approval
@@ -37,10 +37,10 @@ const CommonInchargeReqCmp = ({ DetailViewData }) => {
                     incharge_approve === 1
                       ? '#2e7d32'
                       : incharge_approve === 2
-                      ? '#bf360c'
-                      : incharge_approve === 3
-                      ? '#FF9800'
-                      : '#607D8B',
+                        ? '#bf360c'
+                        : incharge_approve === 3
+                          ? '#FF9800'
+                          : '#607D8B',
                   height: 25,
                   pb: 0.5,
                   fontSize: 12,
@@ -108,7 +108,7 @@ const CommonInchargeReqCmp = ({ DetailViewData }) => {
             </Box>
           ) : null}
         </Box>
-      </Paper>
+      </Box>
     </Fragment>
   )
 }

@@ -198,7 +198,7 @@ const UserNotAckldgedList = () => {
   return (
     <Fragment>
       <CustomBackDrop open={open} text="Please Wait" />
-      <Box sx={{ height: window.innerHeight - 80, flexWrap: 'wrap', bgcolor: 'white' }}>
+      <Box sx={{ height: window.innerHeight - 80, flexWrap: 'wrap', bgcolor: 'white', width: '100%' }}>
         <Box sx={{ border: '1px solid #B4F5F0' }}>
           <Box sx={{ display: 'flex' }}>
             <Box sx={{ fontWeight: 550, flex: 1, pl: 1, pt: 0.5, color: '#385E72' }}>User Not Acknowledged CRF</Box>

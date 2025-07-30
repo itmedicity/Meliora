@@ -33,8 +33,8 @@ const CrfReqDetailViewCmp = ({ ApprovalData, imagearray }) => {
         ? 'pdf'
         : 'image'
       : file.type.includes('application/pdf')
-      ? 'pdf'
-      : 'image'
+        ? 'pdf'
+        : 'image'
 
     const fileUrl = file.url || URL.createObjectURL(file)
     setPreviewFile({ url: fileUrl, type: fileType })
@@ -45,12 +45,12 @@ const CrfReqDetailViewCmp = ({ ApprovalData, imagearray }) => {
   const capitalizeWords = str =>
     str
       ? str
-          .toLowerCase()
-          .trim()
-          .replace(/\s+/g, ' ')
-          .split(' ')
-          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(' ')
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, ' ')
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
       : ''
   return (
     <Fragment>
@@ -66,7 +66,7 @@ const CrfReqDetailViewCmp = ({ ApprovalData, imagearray }) => {
                     CRF Details</Typography>
             </Box> */}
       {ApprovalData.length !== 0 ? (
-        <Paper variant="outlined" sx={{ flexWrap: 'wrap', mx: 0.6 }}>
+        <Box variant="outlined" sx={{ flexWrap: 'wrap', mx: 0.6 }}>
           <Box sx={{ padding: 1, borderRadius: 2 }}>
             <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: 0.5, color: '#145DA0', fontSize: 14 }}>
               CRF/{company_name || 'KMCH'}/{req_slno}
@@ -107,9 +107,8 @@ const CrfReqDetailViewCmp = ({ ApprovalData, imagearray }) => {
               </Box>
             </Box>
             {image_status === 1 && fileLIst.length > 0 ? (
-              <Paper
+              <Box
                 variant="outlined"
-                square
                 sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.2, width: '100%', p: 0.5 }}
               >
                 {fileLIst.length > 0 &&
@@ -126,8 +125,8 @@ const CrfReqDetailViewCmp = ({ ApprovalData, imagearray }) => {
                       }}
                     >
                       {file.imageName.endsWith('.png') ||
-                      file.imageName.endsWith('.jpg') ||
-                      file.imageName.endsWith('.jpeg') ? (
+                        file.imageName.endsWith('.jpg') ||
+                        file.imageName.endsWith('.jpeg') ? (
                         <img
                           src={file.url}
                           alt={file.imageName}
@@ -167,10 +166,10 @@ const CrfReqDetailViewCmp = ({ ApprovalData, imagearray }) => {
                       <Box sx={{ fontSize: 14, cursor: 'pointer', flexGrow: 1, pr: 0.5 }}>{file.imageName}</Box>
                     </Box>
                   ))}
-              </Paper>
+              </Box>
             ) : null}
           </Box>
-        </Paper>
+        </Box>
       ) : null}
     </Fragment>
   )

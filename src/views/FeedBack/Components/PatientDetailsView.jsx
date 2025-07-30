@@ -331,7 +331,7 @@ const PatientDetailsView = ({ nsName, setListFlag }) => {
               {ipList.map((val, index) => (
                 <Grid item key={index} xs={12} sm={5} md={4} lg={3}>
                   <Box sx={{ m: 0.5 }}>
-                    <Paper sx={{ bgcolor: '#F0F4F8', borderRadius: 2, boxShadow: 3, pb: 1 }}>
+                    <Box sx={{ bgcolor: '#F0F4F8', borderRadius: 2, boxShadow: 3, pb: 1 }}>
                       <Box
                         sx={{
                           display: 'flex',
@@ -421,7 +421,7 @@ const PatientDetailsView = ({ nsName, setListFlag }) => {
                           </Dropdown>
                         </CssVarsProvider>
                       </Box>
-                    </Paper>
+                    </Box>
                   </Box>
                 </Grid>
               ))}

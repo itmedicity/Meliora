@@ -45,7 +45,7 @@ const IncidentList = () => {
     })
   }, [fromDate, toDate])
   return (
-    <Box sx={{ maxHeight: window.innerHeight - 70 }}>
+    <Box sx={{ maxHeight: window.innerHeight - 70, width: '100%' }}>
       <Paper variant="outlined" square sx={{ display: 'flex', flex: 1, height: 40 }}>
         <Box sx={{ pl: 0.7, pt: 0.5 }}>
           <WarningRoundedIcon sx={{ color: '#bf360c', height: 28, width: 28, opacity: 0.8 }} />

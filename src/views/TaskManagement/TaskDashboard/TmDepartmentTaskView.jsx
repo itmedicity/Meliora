@@ -42,7 +42,7 @@ const TmDepartmentTaskView = ({ tableCount, setTableCount, setdeptFlag, deptTabl
   }
   const { tm_task_status } = deptTableData[0]
   return (
-    <Paper sx={{ height: '90vh' }}>
+    <Paper sx={{ height: '90vh', width: '100%' }}>
       <Box sx={{ flex: 1, height: 30, display: 'flex' }}>
         <Typography sx={{ color: 'grey', fontWeight: 500, flex: 1, pt: 0.5, pl: 1 }}>{deptTaskHeading}</Typography>
         <Box sx={{ pl: 0.5 }}>
@@ -93,8 +93,8 @@ const TmDepartmentTaskView = ({ tableCount, setTableCount, setdeptFlag, deptTabl
                             val.main_task_slno !== null
                               ? '#EAE7FA'
                               : val.main_task_slno === 0
-                              ? '#EAE7FA'
-                              : 'transparent',
+                                ? '#EAE7FA'
+                                : 'transparent',
                           minHeight: 5
                         }}
                       >
@@ -117,16 +117,16 @@ const TmDepartmentTaskView = ({ tableCount, setTableCount, setdeptFlag, deptTabl
                                 val.tm_task_status === null
                                   ? '#311E26'
                                   : val.tm_task_status === 0
-                                  ? '#311E26'
-                                  : val.tm_task_status === 1
-                                  ? '#94C973'
-                                  : val.tm_task_status === 2
-                                  ? '#D37506'
-                                  : val.tm_task_status === 3
-                                  ? '#67595E'
-                                  : val.tm_task_status === 4
-                                  ? '#5885AF'
-                                  : 'transparent',
+                                    ? '#311E26'
+                                    : val.tm_task_status === 1
+                                      ? '#94C973'
+                                      : val.tm_task_status === 2
+                                        ? '#D37506'
+                                        : val.tm_task_status === 3
+                                          ? '#67595E'
+                                          : val.tm_task_status === 4
+                                            ? '#5885AF'
+                                            : 'transparent',
                               minHeight: 5,
                               fontWeight: 700
                             }}
@@ -134,14 +134,14 @@ const TmDepartmentTaskView = ({ tableCount, setTableCount, setdeptFlag, deptTabl
                             {val.tm_task_status === 0
                               ? 'Not Started'
                               : val.tm_task_status === 1
-                              ? 'Completed'
-                              : val.tm_task_status === 2
-                              ? 'On Progress'
-                              : val.tm_task_status === 3
-                              ? 'On Hold'
-                              : val.tm_task_status === 4
-                              ? 'Pending'
-                              : 'not given'}
+                                ? 'Completed'
+                                : val.tm_task_status === 2
+                                  ? 'On Progress'
+                                  : val.tm_task_status === 3
+                                    ? 'On Hold'
+                                    : val.tm_task_status === 4
+                                      ? 'Pending'
+                                      : 'not given'}
                           </Chip>
                         </td>
                         {val.tm_task_status !== 1 ? (

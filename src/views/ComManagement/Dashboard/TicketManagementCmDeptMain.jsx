@@ -27,7 +27,7 @@ const TicketManagementCmDeptMain = () => {
     return state.LoginUserData.empid
   })
 
-  console.log(empid)
+  // console.log(empid)
   const [sevenDaysbefore, setSevenDaysbefore] = useState('')
   const [currentDateAndTime, setCurrentDateAndTime] = useState('')
   const [yesterdayEndTime, setYesterdayEndTime] = useState('')
@@ -141,8 +141,8 @@ const TicketManagementCmDeptMain = () => {
   })
   const employeeMenuRights = useMemo(() => menuRightsEmployee, [menuRightsEmployee])
   useEffect(() => {
-    console.log(menuList)
-    console.log(employeeMenuRights)
+    // console.log(menuList)
+    // console.log(employeeMenuRights)
 
     if (isSuccess && employeeMenuRights?.length > 0) {
       let array = menuList.filter(value => employeeMenuRights.find(val => value.slno === val.menu_slno))

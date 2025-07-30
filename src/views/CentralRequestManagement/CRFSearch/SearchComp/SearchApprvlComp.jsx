@@ -461,12 +461,12 @@ const SearchApprvlComp = ({ val, selectedCompany, company }) => {
                   {now_who_status === 1
                     ? 'Approved'
                     : now_who_status === 2
-                    ? 'Rejected'
-                    : now_who_status === 3
-                    ? 'On-Hold'
-                    : now_who_status === 4
-                    ? 'Approved'
-                    : ''}
+                      ? 'Rejected'
+                      : now_who_status === 3
+                        ? 'On-Hold'
+                        : now_who_status === 4
+                          ? 'Approved'
+                          : ''}
                 </Typography>
               </Button>
               <Box sx={{ mx: 0.3 }}>

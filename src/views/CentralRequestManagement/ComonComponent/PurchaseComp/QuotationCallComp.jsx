@@ -7,16 +7,16 @@ const QuotationCallComp = ({ poData }) => {
   const capitalizeWords = str =>
     str
       ? str
-          .toLowerCase()
-          .trim()
-          .replace(/\s+/g, ' ')
-          .split(' ')
-          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(' ')
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, ' ')
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
       : ''
   return (
     <Fragment>
-      <Paper variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
+      <Box variant="outlined" sx={{ overflow: 'auto', flexWrap: 'wrap' }}>
         <Box sx={{ display: 'flex', pt: 0.5, borderBottom: '1px solid lightgrey' }}>
           <Typography sx={{ fontWeight: 'bold', mx: 1, py: 0.5, color: '#145DA0', fontSize: 14, flex: 0.4 }}>
             Quotation Process Started
@@ -72,7 +72,7 @@ const QuotationCallComp = ({ poData }) => {
             </Typography>
           </Box>
         </Box>
-      </Paper>
+      </Box>
     </Fragment>
   )
 }

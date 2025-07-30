@@ -85,6 +85,8 @@ export const getCustodianDetails = async custodianDept => {
     const { success, data } = res.data
     if (success === 1) {
       return data
+    } else {
+      return []
     }
   })
 }

@@ -888,7 +888,7 @@ const ItemsApprovalCompnt = ({
                           <td style={{ textAlign: 'center' }}>
                             {item.approve_item_unit === 0 ? 'Not Given' : item.apprv_uom}
                           </td>
-                          <td style={{ fontSize: 13 }}>
+                          <td style={{ fontSize: 13, overflow: "auto" }}>
                             &nbsp;
                             {item.approve_item_specification === '' ? 'Not Given' : item.approve_item_specification}
                           </td>

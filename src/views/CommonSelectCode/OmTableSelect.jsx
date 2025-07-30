@@ -1,10 +1,8 @@
 import React, { useEffect, memo } from 'react'
-import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
-import MenuItem from '@mui/material/MenuItem'
-import Select from '@mui/material/Select'
 import { useDispatch, useSelector } from 'react-redux'
 import { getOMTable } from 'src/redux/actions/OmTableSelect.action'
+import { Box, Option, Select } from '@mui/joy'
 
 const OmTableSelect = ({ value, setValue }) => {
   const dispatch = useDispatch()
@@ -24,24 +22,22 @@ const OmTableSelect = ({ value, setValue }) => {
     <Box>
       <FormControl fullWidth size="small">
         <Select
-          labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={value}
-          onChange={e => setValue(e.target.value)}
+          onChange={(e, newValue) => setValue(newValue)}
           size="small"
-          fullWidth
           variant="outlined"
           sx={{ height: 24, p: 0, m: 0, lineHeight: 1.2 }}
         >
-          <MenuItem value={0} disabled>
+          <Option value={0} disabled>
             Select OM Table
-          </MenuItem>
+          </Option>
           {omTableata &&
             omTableata.map((val, index) => {
               return (
-                <MenuItem key={index} value={val.omtable_no}>
+                <Option key={index} value={val.omtable_no}>
                   {val.omtable_name}
-                </MenuItem>
+                </Option>
               )
             })}
         </Select>

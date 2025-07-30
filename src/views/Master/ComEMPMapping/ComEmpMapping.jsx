@@ -49,7 +49,7 @@ const ComEmpMapping = () => {
       com_dept: comdept,
       co_emp_dept: dept !== 0 ? dept : null,
       co_emp_deptsec: deptsec !== 0 ? deptsec : null,
-      co_emp_empid: employe !== [] ? employe : null,
+      // co_emp_empid: employe !== [] ? employe : null,
       co_emp_status: co_emp_status === true ? 1 : 0,
       create_user: id
     }
@@ -61,7 +61,7 @@ const ComEmpMapping = () => {
       com_dept: comdept,
       co_emp_dept: dept !== 0 ? dept : null,
       co_emp_deptsec: deptsec !== 0 ? deptsec : null,
-      co_emp_empid: employe !== [] ? employe : null,
+      // co_emp_empid: employe !== [] ? employe : null,
       co_emp_status: co_emp_status === true ? 1 : 0,
       edit_user: id,
       emp_map_slno: co_emp_slno

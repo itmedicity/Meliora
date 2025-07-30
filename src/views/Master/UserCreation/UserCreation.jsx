@@ -10,8 +10,6 @@ import SalutationSelect from 'src/views/CommonSelectCode/SalutationSelect'
 import { getempid, getEmpSlno } from 'src/views/Constant/Constant'
 import DeptSecUnderDept from 'src/views/CommonSelectCode/DeptSecUnderDept'
 import FormControl from '@mui/material/FormControl'
-import Select from '@mui/material/Select'
-import MenuItem from '@mui/material/MenuItem'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import UserCreationTable from './UserCreationTable'
@@ -21,6 +19,7 @@ import CustomeToolTip from '../../Components/CustomeToolTip'
 import CardMaster from 'src/views/Components/CardMaster'
 import ModuleGroupSelect from 'src/views/CommonSelectCode/ModuleGroupSelect'
 import UserGroupSelect from 'src/views/CommonSelectCode/UserGroupSelect'
+import { Option, Select } from '@mui/joy'
 // import SelectComTypeUser from 'src/views/CommonSelectCode/SelectComTypeUser'
 const UserCreation = () => {
   //*** Initializing */
@@ -405,21 +404,19 @@ const UserCreation = () => {
               <Box sx={{ width: '15%', pr: 1, pt: 1 }}>
                 <FormControl fullWidth size="small">
                   <Select
-                    labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     name="gender"
                     value={gender}
-                    onChange={e => setGender(e.target.value)}
+                    onChange={(e, newValue) => setGender(newValue)}
                     size="small"
-                    fullWidth
                     variant="outlined"
                     sx={{ height: 24, p: 0, m: 0, lineHeight: 1.2 }}
                   >
-                    <MenuItem value="0" disabled>
+                    <Option value="0" disabled>
                       Select Gender
-                    </MenuItem>
-                    <MenuItem value="1">Male</MenuItem>
-                    <MenuItem value="2">Female</MenuItem>
+                    </Option>
+                    <Option value="1">Male</Option>
+                    <Option value="2">Female</Option>
                   </Select>
                 </FormControl>
               </Box>

@@ -2,7 +2,6 @@ import React, { Fragment, useEffect, useState } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import CustomToolTipForCRF from 'src/views/CentralRequestManagement/ComonComponent/Components/CustomToolTipForCRF'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
-import { Paper } from '@mui/material'
 import { Box, CssVarsProvider, Table } from '@mui/joy'
 const ApprovalMappingTable = ({ count, rowSelect }) => {
   const [tabledata, setTabledata] = useState([])
@@ -21,7 +20,7 @@ const ApprovalMappingTable = ({ count, rowSelect }) => {
   return (
     <Fragment>
       {tabledata.length !== 0 ? (
-        <Paper
+        <Box
           variant="outlined"
           sx={{
             overflow: 'auto',
@@ -91,7 +90,7 @@ const ApprovalMappingTable = ({ count, rowSelect }) => {
               </tbody>
             </Table>
           </CssVarsProvider>
-        </Paper>
+        </Box>
       ) : (
         <Box
           sx={{
