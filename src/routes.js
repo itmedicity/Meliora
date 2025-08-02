@@ -507,6 +507,8 @@ const routes = [
   { path: '/Home/DeliveryMarking_Report', exact: true, name: 'DeliveryMarking_Report', component: DeliveryMarking_Report },
 
 
+  
+
 
 ]
 
