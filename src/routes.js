@@ -500,6 +500,8 @@ const routes = [
   { path: '/Home/DcReport', exact: true, name: 'DcReport', component: DcReport },
 
 
+  
+
 
 ]
 
